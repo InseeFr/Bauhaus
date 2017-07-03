@@ -1,3 +1,6 @@
+import { getCollection, getCollectionMembers } from '../utils/remote-api';
+import { transformArrayToKeepValues } from '../utils/array-utils';
+
 export const LOAD_COLLECTION_GENERAL = 'LOAD_COLLECTION_GENERAL';
 export const LOAD_COLLECTION_GENERAL_SUCCESS =
   'LOAD_COLLECTION_GENERAL_SUCCESS';
@@ -8,15 +11,13 @@ export const LOAD_COLLECTION_MEMBERS_SUCCESS =
   'LOAD_COLLECTION_MEMBERS_SUCCESS';
 export const LOAD_COLLECTION_MEMBERS_FAILURE =
   'LOAD_COLLECTION_MEMBERS_FAILURE';
-import { getCollection, getCollectionMembers } from '../utils/remote-api';
-import { transformArrayToKeepValues } from '../utils/array-utils';
 
 export const loadCollectionGeneral = id => (dispatch, getState) => {
   dispatch({
     type: LOAD_COLLECTION_GENERAL,
     payload: {
-      id,
-    },
+      id
+    }
   });
   return getCollection(id)
     .then(collectionGeneral =>
@@ -35,8 +36,8 @@ export function loadCollectionGeneralSuccess(id, collectionGeneral) {
     type: LOAD_COLLECTION_GENERAL_SUCCESS,
     payload: {
       id,
-      results: collectionGeneral,
-    },
+      results: collectionGeneral
+    }
   };
 }
 
@@ -45,8 +46,8 @@ export function loadCollectionGeneralFailure(id, err) {
     type: LOAD_COLLECTION_GENERAL_FAILURE,
     payload: {
       id,
-      err,
-    },
+      err
+    }
   };
 }
 
@@ -54,8 +55,8 @@ export const loadCollectionMembers = id => (dispatch, getState) => {
   dispatch({
     type: LOAD_COLLECTION_MEMBERS,
     payload: {
-      id,
-    },
+      id
+    }
   });
   return getCollectionMembers(id)
     .then(collectionMembers =>
@@ -74,8 +75,8 @@ export function loadCollectionMembersSuccess(id, collectionMembers) {
     type: LOAD_COLLECTION_MEMBERS_SUCCESS,
     payload: {
       id,
-      results: collectionMembers,
-    },
+      results: collectionMembers
+    }
   };
 }
 
@@ -84,7 +85,7 @@ export function loadCollectionMembersFailure(id, err) {
     type: LOAD_COLLECTION_MEMBERS_FAILURE,
     payload: {
       id,
-      err,
-    },
+      err
+    }
   };
 }

@@ -1,3 +1,10 @@
+import {
+  getConceptGeneral,
+  getConceptNotes,
+  getConceptLinks
+} from '../utils/remote-api';
+import { transformArrayToKeepValues } from '../utils/array-utils';
+
 export const LOAD_CONCEPT_GENERAL = 'LOAD_CONCEPT_GENERAL';
 export const LOAD_CONCEPT_GENERAL_SUCCESS = 'LOAD_CONCEPT_GENERAL_SUCCESS';
 export const LOAD_CONCEPT_GENERAL_FAILURE = 'LOAD_CONCEPT_GENERAL_FAILURE';
@@ -7,19 +14,13 @@ export const LOAD_CONCEPT_LINKS_FAILURE = 'LOAD_CONCEPT_LINKS_FAILURE';
 export const LOAD_CONCEPT_NOTES = 'LOAD_CONCEPT_NOTES';
 export const LOAD_CONCEPT_NOTES_SUCCESS = 'LOAD_CONCEPT_NOTES_SUCCESS';
 export const LOAD_CONCEPT_NOTES_FAILURE = 'LOAD_CONCEPT_NOTES_FAILURE';
-import {
-  getConceptGeneral,
-  getConceptNotes,
-  getConceptLinks,
-} from '../utils/remote-api';
-import { transformArrayToKeepValues } from '../utils/array-utils';
 
 export const loadConceptGeneral = id => (dispatch, getState) => {
   dispatch({
     type: LOAD_CONCEPT_GENERAL,
     payload: {
-      id,
-    },
+      id
+    }
   });
   return getConceptGeneral(id)
     .then(conceptGeneral => {
@@ -40,8 +41,8 @@ export function loadConceptGeneralSuccess(id, conceptGeneral) {
     type: LOAD_CONCEPT_GENERAL_SUCCESS,
     payload: {
       id,
-      results: conceptGeneral,
-    },
+      results: conceptGeneral
+    }
   };
 }
 
@@ -50,8 +51,8 @@ export function loadConceptGeneralFailure(id, err) {
     type: LOAD_CONCEPT_GENERAL_FAILURE,
     payload: {
       id,
-      err,
-    },
+      err
+    }
   };
 }
 
@@ -59,8 +60,8 @@ export const loadConceptLinks = id => (dispatch, getState) => {
   dispatch({
     type: LOAD_CONCEPT_LINKS,
     payload: {
-      id,
-    },
+      id
+    }
   });
   return getConceptLinks(id)
     .then(conceptLinks => {
@@ -79,8 +80,8 @@ export function loadConceptLinksSuccess(id, conceptGeneral) {
     type: LOAD_CONCEPT_LINKS_SUCCESS,
     payload: {
       id,
-      results: conceptGeneral,
-    },
+      results: conceptGeneral
+    }
   };
 }
 
@@ -89,8 +90,8 @@ export function loadConceptLinksFailure(id, err) {
     type: LOAD_CONCEPT_LINKS_FAILURE,
     payload: {
       id,
-      err,
-    },
+      err
+    }
   };
 }
 
@@ -102,8 +103,8 @@ export const loadConceptNotes = (id, conceptVersion) => (
     type: LOAD_CONCEPT_NOTES,
     payload: {
       id,
-      conceptVersion,
-    },
+      conceptVersion
+    }
   });
   return getConceptNotes(id, conceptVersion)
     .then(conceptNotes =>
@@ -126,8 +127,8 @@ export function loadConceptNotesSuccess(id, conceptVersion, conceptNotes) {
     payload: {
       id,
       conceptVersion,
-      results: conceptNotes,
-    },
+      results: conceptNotes
+    }
   };
 }
 
@@ -137,8 +138,8 @@ export function loadConceptNotesFailure(id, conceptVersion, err) {
     payload: {
       id,
       conceptVersion,
-      err,
-    },
+      err
+    }
   };
 }
 
