@@ -6,6 +6,9 @@
   "devDependencies": {
     "file-loader": "^0.11.1",
     "html-loader": "^0.4.5",
+    "husky": "^0.14.2",
+    "lint-staged": "^4.0.0",
+    "prettier": "^1.5.2",
     "react-scripts": "0.9.0"
   },
   "dependencies": {
@@ -41,6 +44,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build --minify=false",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --trailing-comma es5 --single-quote --write 'src/**/*.js'"
+  },
+  "lint-staged": {
+    "*.js": ["prettier --trailing-comma es5 --single-quote --write", "git add"]
   }
 }

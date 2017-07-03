@@ -1,16 +1,16 @@
-import { LOAD_CONCEPT_LINKS_SUCCESS } from '../actions/concept-by-id'
+import { LOAD_CONCEPT_LINKS_SUCCESS } from '../actions/concept-by-id';
 
-export default function (state={}, action) {
-  const { type, payload } = action
+export default function(state = {}, action) {
+  const { type, payload } = action;
   switch (type) {
     case LOAD_CONCEPT_LINKS_SUCCESS: {
-      const { id, results } = payload
+      const { id, results } = payload;
       return {
         ...state,
-        [id]: results
-      }
+        [id]: results,
+      };
     }
     default:
-      return state
+      return state;
   }
 }

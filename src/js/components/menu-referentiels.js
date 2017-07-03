@@ -8,7 +8,6 @@ import sourcesLogo from '../../img/sources.jpg';
 import '../../css/menu-referentiels.css';
 
 function MenuReferentiels() {
-
   return (
     <div>
       <header>
@@ -18,22 +17,42 @@ function MenuReferentiels() {
               <ul className="nav navbar-nav navbar-nav-ref">
                 <li>
                   <Link to="/">
-                    <img src={homeLogo} alt='Accueil' className='img-menu' /> {dictionary.navbar.referenciels.home}
+                    <img
+                      src={homeLogo}
+                      alt="Accueil"
+                      className="img-menu"
+                    />{' '}
+                    {dictionary.navbar.referenciels.home}
                   </Link>
                 </li>
                 <li>
                   <Link to="/concepts">
-                    <img src={conceptsLogo} alt='Concepts' className='img-menu' /> {dictionary.navbar.referenciels.concepts}
+                    <img
+                      src={conceptsLogo}
+                      alt="Concepts"
+                      className="img-menu"
+                    />{' '}
+                    {dictionary.navbar.referenciels.concepts}
                   </Link>
                 </li>
                 <li>
                   <Link to="/classifications">
-                    <img src={nomenclaturesLogo} alt='Nomenclatures' className='img-menu' /> {dictionary.navbar.referenciels.classifications}
+                    <img
+                      src={nomenclaturesLogo}
+                      alt="Nomenclatures"
+                      className="img-menu"
+                    />{' '}
+                    {dictionary.navbar.referenciels.classifications}
                   </Link>
                 </li>
                 <li>
                   <Link to="/sources">
-                    <img src={sourcesLogo} alt='Sources' className='img-menu' /> {dictionary.navbar.referenciels.sources}
+                    <img
+                      src={sourcesLogo}
+                      alt="Sources"
+                      className="img-menu"
+                    />{' '}
+                    {dictionary.navbar.referenciels.sources}
                   </Link>
                 </li>
               </ul>
@@ -42,6 +61,7 @@ function MenuReferentiels() {
         </nav>
       </header>
     </div>
-)}
+  );
+}
 
-export default MenuReferentiels
+export default MenuReferentiels;

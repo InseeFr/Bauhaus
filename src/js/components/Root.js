@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import "babel-polyfill";
-import { Provider } from 'react-redux'
-import configureStore from '../store/configure-store'
-import { Router, Route, hashHistory } from 'react-router'
+import 'babel-polyfill';
+import { Provider } from 'react-redux';
+import configureStore from '../store/configure-store';
+import { Router, Route, hashHistory } from 'react-router';
 import App from './app';
 import Concepts from './concepts';
 import ConceptsSearchList from './concepts-search-list';
@@ -21,7 +21,7 @@ import CollectionModify from './collection-modify';
 import CollectionsToValidate from './collections-to-validate';
 import CollectionsToExport from './collections-to-export';
 
-const store = configureStore()
+const store = configureStore();
 
 export default class Root extends Component {
   render() {
@@ -44,11 +44,14 @@ export default class Root extends Component {
             <Route path="/create/collection" component={CollectionCreate} />
             <Route path="/collection/:id/send" component={CollectionSend} />
             <Route path="/collection/:id/modify" component={CollectionModify} />
-            <Route path="/collections/validation" component={CollectionsToValidate} />
+            <Route
+              path="/collections/validation"
+              component={CollectionsToValidate}
+            />
             <Route path="/collections/export" component={CollectionsToExport} />
           </Router>
         </Provider>
-        <div className="centered" style={{'margin-top': '50px'}}>
+        <div className="centered" style={{ 'margin-top': '50px' }}>
           <label>Gncs - Version 0.1</label>
         </div>
       </div>

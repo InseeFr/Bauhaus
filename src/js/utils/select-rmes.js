@@ -1,16 +1,15 @@
-import React, { Component } from 'react'
-import Select from 'react-select'
+import React, { Component } from 'react';
+import Select from 'react-select';
 import { dictionary } from '../utils/dictionary';
 import 'react-select/dist/react-select.css';
 
 class SelectRmes extends Component {
-
   render() {
-
-    const opts = this.props.options.map((opt) => {
-      if (this.props.field) return { value: opt[this.props.field], label: opt[this.props.field] }
-      else return { value: opt, label: opt }
-    })
+    const opts = this.props.options.map(opt => {
+      if (this.props.field)
+        return { value: opt[this.props.field], label: opt[this.props.field] };
+      else return { value: opt, label: opt };
+    });
 
     return (
       <Select
@@ -21,15 +20,16 @@ class SelectRmes extends Component {
         clearable={true}
         searchable={this.props.searchable}
         noResultsText={dictionary.noResult}
-      />)
+      />
+    );
   }
 }
 
 SelectRmes.defaultProps = {
   multi: false,
   clearable: false,
-  searchable: true
-}
+  searchable: true,
+};
 
 SelectRmes.propTypes = {
   options: React.PropTypes.any,
@@ -37,6 +37,6 @@ SelectRmes.propTypes = {
   clearable: React.PropTypes.bool,
   searchable: React.PropTypes.bool,
   creatable: React.PropTypes.bool,
-}
+};
 
-export default SelectRmes
+export default SelectRmes;

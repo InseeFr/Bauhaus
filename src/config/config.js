@@ -6,7 +6,6 @@ export const baseHost = 'http://localhost:8080/gncs-core/ws/rmes/';
 // export const appHost = 'http://dvrmspogbolht01.ad.insee.intra/gncs/#/';
 // export const baseHost = 'http://dvrmspogbolht01.ad.insee.intra/gncs/ws/rmes/';
 
-
 // App langages
 export const lang1 = 'fr';
 export const lang2 = 'en';

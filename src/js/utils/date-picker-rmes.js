@@ -2,10 +2,9 @@ import React from 'react';
 import DatePicker from 'react-bootstrap-date-picker';
 import { dictionary } from '../utils/dictionary';
 
-function DatePickerRmes ({value, onChange, placement}) {
-
-  const days = dictionary.calendar.days
-  const months = dictionary.calendar.months
+function DatePickerRmes({ value, onChange, placement }) {
+  const days = dictionary.calendar.days;
+  const months = dictionary.calendar.months;
 
   return (
     <DatePicker
@@ -15,8 +14,9 @@ function DatePickerRmes ({value, onChange, placement}) {
       onChange={onChange}
       weekStartsOnMonday={true}
       dayLabels={days}
-      monthLabels={months} />
-  )
+      monthLabels={months}
+    />
+  );
 }
 
-export default DatePickerRmes
+export default DatePickerRmes;
