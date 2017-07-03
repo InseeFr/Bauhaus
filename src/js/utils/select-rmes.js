@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import { dictionary } from '../utils/dictionary';
 import 'react-select/dist/react-select.css';
+import PropTypes from 'prop-types';
 
 class SelectRmes extends Component {
   render() {
@@ -28,15 +29,15 @@ class SelectRmes extends Component {
 SelectRmes.defaultProps = {
   multi: false,
   clearable: false,
-  searchable: true,
+  searchable: true
 };
 
 SelectRmes.propTypes = {
-  options: React.PropTypes.any,
-  onChange: React.PropTypes.func,
-  clearable: React.PropTypes.bool,
-  searchable: React.PropTypes.bool,
-  creatable: React.PropTypes.bool,
+  options: PropTypes.any,
+  onChange: PropTypes.func,
+  clearable: PropTypes.bool,
+  searchable: PropTypes.bool,
+  creatable: PropTypes.bool
 };
 
 export default SelectRmes;

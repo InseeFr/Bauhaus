@@ -1,7 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { dictionary } from '../utils/dictionary';
 import { ExplanatoryNote } from '../utils/explanatory-note';
 import '../../css/concept-notes.css';
+import PropTypes from 'prop-types';
 
 function ConceptNotes({ english, attr }) {
   return (
@@ -76,6 +77,6 @@ function ConceptNotes({ english, attr }) {
 
 ConceptNotes.propTypes = {
   english: PropTypes.bool.isRequired,
-  attr: PropTypes.object.isRequired,
+  attr: PropTypes.object.isRequired
 };
 export default ConceptNotes;

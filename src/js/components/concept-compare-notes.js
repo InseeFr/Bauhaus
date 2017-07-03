@@ -1,8 +1,9 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { dictionary } from '../utils/dictionary';
 import { ExplanatoryNote } from '../utils/explanatory-note';
 import { loadConceptNotes } from '../actions/concept-by-id';
+import PropTypes from 'prop-types';
 import '../../css/concept-notes.css';
 
 class ConceptCompareNotes extends Component {
@@ -18,7 +19,7 @@ class ConceptCompareNotes extends Component {
       conceptGeneral,
       english,
       version1,
-      version2,
+      version2
     } = this.props;
     const notes1 = conceptNotes[conceptGeneral.id][version1];
     const notes2 = conceptNotes[conceptGeneral.id][version2];
@@ -152,15 +153,15 @@ class ConceptCompareNotes extends Component {
 }
 
 ConceptCompareNotes.propTypes = {
-  english: PropTypes.bool.isRequired,
+  english: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  conceptNotes: state.conceptNotes,
+  conceptNotes: state.conceptNotes
 });
 
 const mapDispatchToProps = {
-  loadConceptNotes,
+  loadConceptNotes
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
