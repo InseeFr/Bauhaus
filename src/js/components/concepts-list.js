@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import Loadable from 'react-loading-overlay';
 import { dictionary } from '../utils/dictionary';
@@ -8,16 +8,15 @@ import Pagination from '../utils/pagination';
 import { sortArray, filterByPrefLabelFr } from '../utils/array-utils';
 import {
   loadConceptsList,
-  loadConceptsToValidateList,
+  loadConceptsToValidateList
 } from '../actions/concepts-list';
 
 const sortByLabel = sortArray('prefLabelFr');
-
 class ConceptsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchLabel: '',
+      searchLabel: ''
     };
     this.handleChangeSearchLabel = searchLabel => {
       this.setState({ searchLabel });
@@ -99,12 +98,12 @@ function singOrPluralResult(list) {
 
 const mapStateToProps = state => ({
   conceptsList: state.conceptsList,
-  conceptsToValid: state.conceptsToValid,
+  conceptsToValid: state.conceptsToValid
 });
 
 const mapDispatchToProps = {
   loadConceptsList,
-  loadConceptsToValidateList,
+  loadConceptsToValidateList
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConceptsList);

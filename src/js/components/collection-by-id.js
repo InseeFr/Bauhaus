@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { hashHistory } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import _ from 'lodash';
 import MenuConcepts from './menu-concepts';
 import Loadable from 'react-loading-overlay';
@@ -11,7 +10,7 @@ import { Note } from '../utils/note';
 import { sortArray } from '../utils/array-utils';
 import {
   loadCollectionGeneral,
-  loadCollectionMembers,
+  loadCollectionMembers
 } from '../actions/collection';
 import { postCollectionsToValidate } from '../utils/remote-api';
 
@@ -24,31 +23,33 @@ class CollectionByID extends Component {
     this.state = {
       english: false,
       collectionsToValid: [{ id: this.props.params.id }],
-      validation: 'WAITING',
+      validation: 'WAITING'
     };
 
     this.toggleEnglish = () =>
       this.setState({
-        english: !this.state.english,
+        english: !this.state.english
       });
 
     this.handleClickSend = e => {
       e.preventDefault();
-      hashHistory.push('/collection/' + this.props.params.id + '/send');
+      this.props.history.push('/collection/' + this.props.params.id + '/send');
     };
 
     this.handleClickModif = e => {
       e.preventDefault();
-      hashHistory.push('/collection/' + this.props.params.id + '/modify');
+      this.props.history.push(
+        '/collection/' + this.props.params.id + '/modify'
+      );
     };
 
     this.handleClickValid = e => {
       e.preventDefault();
       const data = {
-        collectionsToValid: this.state.collectionsToValid,
+        collectionsToValid: this.state.collectionsToValid
       };
       this.setState({
-        validation: 'PENDING',
+        validation: 'PENDING'
       });
       postCollectionsToValidate(data)
         .then(() => {
@@ -56,9 +57,9 @@ class CollectionByID extends Component {
         })
         .then(() => {
           this.setState({
-            validation: 'DONE',
+            validation: 'DONE'
           });
-          hashHistory.push('/collection/' + this.props.params.id);
+          this.props.history.push('/collection/' + this.props.params.id);
         });
     };
   }
@@ -132,16 +133,14 @@ class CollectionByID extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickSend}
-                >
+                  onClick={this.handleClickSend}>
                   {dictionary.buttons.send}
                 </button>
               </div>
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickModif}
-                >
+                  onClick={this.handleClickModif}>
                   {dictionary.buttons.modify}
                 </button>
               </div>
@@ -157,24 +156,21 @@ class CollectionByID extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickSend}
-                >
+                  onClick={this.handleClickSend}>
                   {dictionary.buttons.send}
                 </button>
               </div>
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickModif}
-                >
+                  onClick={this.handleClickModif}>
                   {dictionary.buttons.modify}
                 </button>
               </div>
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickValid}
-                >
+                  onClick={this.handleClickValid}>
                   {dictionary.buttons.validate}
                 </button>
               </div>
@@ -225,12 +221,14 @@ class CollectionByID extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   collectionGeneral: state.collectionGeneral[ownProps.params.id],
-  collectionMembers: state.collectionMembers[ownProps.params.id],
+  collectionMembers: state.collectionMembers[ownProps.params.id]
 });
 
 const mapDispatchToProps = {
   loadCollectionGeneral,
-  loadCollectionMembers,
+  loadCollectionMembers
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionByID);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withRouter(CollectionByID)
+);

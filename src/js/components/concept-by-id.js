@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { hashHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import MenuConcepts from './menu-concepts';
 import Loadable from 'react-loading-overlay';
@@ -9,7 +9,7 @@ import ConceptLinks from './concept-links';
 import ConceptNotes from './concept-notes';
 import {
   loadConceptGeneralAndNotes,
-  loadConceptLinks,
+  loadConceptLinks
 } from '../actions/concept-by-id';
 import { dictionary } from '../utils/dictionary';
 import { postConceptsToValidate } from '../utils/remote-api';
@@ -20,41 +20,41 @@ class ConceptsByID extends Component {
     this.state = {
       english: false,
       conceptsToValid: [{ id: this.props.params.id }],
-      validation: 'WAITING',
+      validation: 'WAITING'
     };
 
     this.toggleEnglish = () =>
       this.setState({
-        english: !this.state.english,
+        english: !this.state.english
       });
 
     this.handleClickReturn = e => {
       e.preventDefault();
-      hashHistory.push('/concepts');
+      this.props.history.push('/concepts');
     };
 
     this.handleClickSend = e => {
       e.preventDefault();
-      hashHistory.push('/concept/' + this.props.params.id + '/send');
+      this.props.history.push('/concept/' + this.props.params.id + '/send');
     };
 
     this.handleClickCompare = e => {
       e.preventDefault();
-      hashHistory.push('/concept/' + this.props.params.id + '/compare');
+      this.props.history.push('/concept/' + this.props.params.id + '/compare');
     };
 
     this.handleClickModif = e => {
       e.preventDefault();
-      hashHistory.push('/concept/' + this.props.params.id + '/modify');
+      this.props.history.push('/concept/' + this.props.params.id + '/modify');
     };
 
     this.handleClickValid = e => {
       e.preventDefault();
       const data = {
-        conceptsToValid: this.state.conceptsToValid,
+        conceptsToValid: this.state.conceptsToValid
       };
       this.setState({
-        validation: 'PENDING',
+        validation: 'PENDING'
       });
       postConceptsToValidate(data)
         .then(() => {
@@ -62,9 +62,9 @@ class ConceptsByID extends Component {
         })
         .then(() => {
           this.setState({
-            validation: 'DONE',
+            validation: 'DONE'
           });
-          hashHistory.push('/concept/' + this.props.params.id);
+          this.props.history.push('/concept/' + this.props.params.id);
         });
     };
   }
@@ -160,12 +160,14 @@ class ConceptsByID extends Component {
 const mapStateToProps = (state, ownProps) => ({
   conceptGeneral: state.conceptGeneral[ownProps.params.id],
   conceptNotes: state.conceptNotes[ownProps.params.id],
-  conceptLinks: state.conceptLinks[ownProps.params.id],
+  conceptLinks: state.conceptLinks[ownProps.params.id]
 });
 
 const mapDispatchToProps = {
   loadConceptGeneralAndNotes,
-  loadConceptLinks,
+  loadConceptLinks
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConceptsByID);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withRouter(ConceptsByID)
+);

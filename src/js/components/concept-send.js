@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { hashHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import Loadable from 'react-loading-overlay';
 import MenuConcepts from './menu-concepts';
 import SendControl from './send-control';
@@ -19,7 +19,7 @@ class ConceptSend extends Component {
 
     var params = [
       this.props.conceptGeneral.prefLabelFr,
-      this.props.conceptGeneral.id,
+      this.props.conceptGeneral.id
     ];
     if (this.props.conceptGeneral.isValidated === 'Provisoire') {
       params.push('Provisoire');
@@ -32,11 +32,11 @@ class ConceptSend extends Component {
       isRecipientInsee: false,
       sender: defaultMailSender,
       object: dictionary.concept.send.object.value([
-        this.props.conceptGeneral.prefLabelFr,
+        this.props.conceptGeneral.prefLabelFr
       ]),
       message: EditorState.createWithContent(stateFromHTML(message)),
       isMessage: true,
-      creation: 'EDITION',
+      creation: 'EDITION'
     };
 
     this.handleChangeRec = recipient => {
@@ -45,14 +45,14 @@ class ConceptSend extends Component {
         params.push('Insee');
         message = dictionary.concept.send.message.value(params);
         this.setState({
-          message: EditorState.createWithContent(stateFromHTML(message)),
+          message: EditorState.createWithContent(stateFromHTML(message))
         });
       }
       if (!recipient.endsWith('@insee.fr') && params.includes('Insee')) {
         params.pop();
         message = dictionary.concept.send.message.value(params);
         this.setState({
-          message: EditorState.createWithContent(stateFromHTML(message)),
+          message: EditorState.createWithContent(stateFromHTML(message))
         });
       }
       if (regexValidMail.test(recipient) === true) {
@@ -69,7 +69,7 @@ class ConceptSend extends Component {
     this.changeMessage = message => {
       this.setState({
         message,
-        isMessage: message.getCurrentContent().hasText(),
+        isMessage: message.getCurrentContent().hasText()
       });
     };
 
@@ -83,33 +83,33 @@ class ConceptSend extends Component {
         conceptsToExport: [
           {
             id: this.props.conceptGeneral.id,
-            prefLabelFr: this.props.conceptGeneral.prefLabelFr,
-          },
+            prefLabelFr: this.props.conceptGeneral.prefLabelFr
+          }
         ],
-        prefLabelFr: this.props.conceptGeneral.prefLabelFr,
+        prefLabelFr: this.props.conceptGeneral.prefLabelFr
       };
       this.setState({
-        creation: 'PENDING',
+        creation: 'PENDING'
       });
       postConceptSend(data).then(isSent => isSent.text()).then(isSent => {
         if (isSent === 'true') {
           this.setState({
-            creation: 'DONE',
+            creation: 'DONE'
           });
         } else {
           this.setState({
-            creation: 'FAILED',
+            creation: 'FAILED'
           });
         }
       });
     };
     this.handleClickReturn = e => {
       e.preventDefault();
-      hashHistory.push('/concepts');
+      this.props.history.push('/concepts');
     };
     this.handleClickReturnFailed = e => {
       e.preventDefault();
-      hashHistory.push('/concept/' + this.props.params.id);
+      this.props.history.push('/concept/' + this.props.params.id);
     };
   }
 
@@ -147,13 +147,13 @@ class ConceptSend extends Component {
                 {creation === 'DONE' &&
                   <h2>
                     {dictionary.concept.send.success([
-                      conceptGeneral.prefLabelFr,
+                      conceptGeneral.prefLabelFr
                     ])}
                   </h2>}
                 {creation === 'FAILED' &&
                   <h2>
                     {dictionary.concept.send.failed([
-                      conceptGeneral.prefLabelFr,
+                      conceptGeneral.prefLabelFr
                     ])}
                   </h2>}
               </div>
@@ -162,8 +162,7 @@ class ConceptSend extends Component {
               <div className="col-md-12">
                 <button
                   className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
-                  onClick={onClick}
-                >
+                  onClick={onClick}>
                   {dictionary.buttons.return}
                 </button>
               </div>
@@ -237,7 +236,7 @@ class ConceptSend extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  conceptGeneral: state.conceptGeneral[ownProps.params.id],
+  conceptGeneral: state.conceptGeneral[ownProps.params.id]
 });
 
-export default connect(mapStateToProps)(ConceptSend);
+export default connect(mapStateToProps)(withRouter(ConceptSend));

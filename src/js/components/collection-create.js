@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { hashHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import $ from 'jquery';
 import Loadable from 'react-loading-overlay';
@@ -14,7 +14,7 @@ import CollectionCreateControl from './collection-create-control';
 import {
   sortArray,
   filterByPrefLabelFr,
-  arrayKeepUniqueField,
+  arrayKeepUniqueField
 } from '../utils/array-utils';
 import { postCollections } from '../utils/remote-api';
 import { loadConceptsList } from '../actions/concepts-list';
@@ -43,7 +43,7 @@ class CollectionCreate extends Component {
       searchLabel: '',
       members: [],
       potentialMembers: this.props.conceptsList,
-      creation: 'EDITION',
+      creation: 'EDITION'
     };
     this.handleChangeId = idCollection => {
       this.setState({ idCollection });
@@ -54,11 +54,11 @@ class CollectionCreate extends Component {
         ) !== -1
       )
         this.setState({
-          isIDExisting: true,
+          isIDExisting: true
         });
       else
         this.setState({
-          isIDExisting: false,
+          isIDExisting: false
         });
     };
     this.handleChange1 = prefLabelFr => {
@@ -70,11 +70,11 @@ class CollectionCreate extends Component {
         ) !== -1
       )
         this.setState({
-          isLabelExisting: true,
+          isLabelExisting: true
         });
       else
         this.setState({
-          isLabelExisting: false,
+          isLabelExisting: false
         });
     };
     this.handleChange2 = prefLabelEn => {
@@ -82,7 +82,7 @@ class CollectionCreate extends Component {
     };
     this.changeSelectCreator = e => {
       this.setState({
-        creator: e ? e.value : '',
+        creator: e ? e.value : ''
       });
     };
     this.handleChange3 = descriptionFr => {
@@ -97,17 +97,17 @@ class CollectionCreate extends Component {
     this.OnClickAddMember = e => {
       this.setState({
         members: [...this.state.members, e],
-        potentialMembers: _.pull(this.state.potentialMembers, e),
+        potentialMembers: _.pull(this.state.potentialMembers, e)
       });
     };
     this.OnClickDelMember = e => {
       this.setState({
         members: _.pull(this.state.members, e),
-        potentialMembers: [...this.state.potentialMembers, e],
+        potentialMembers: [...this.state.potentialMembers, e]
       });
     };
     this.return = () => {
-      hashHistory.push('/collections');
+      this.props.history.push('/collections');
     };
     this.editCollectionData = () => {
       const data = {
@@ -118,7 +118,7 @@ class CollectionCreate extends Component {
         contributor: this.state.contributor,
         descriptionFr: this.state.descriptionFr,
         descriptionEn: this.state.descriptionEn,
-        members: this.state.members,
+        members: this.state.members
       };
       if (
         this.state.idCollection &&
@@ -127,10 +127,10 @@ class CollectionCreate extends Component {
         !this.state.isLabelExisting
       ) {
         this.setState({
-          creation: 'PENDING',
+          creation: 'PENDING'
         });
         postCollections(data).then(() => {
-          hashHistory.push(
+          this.props.history.push(
             '/collection/' +
               this.state.idCollection.split(' ').join('').toLowerCase()
           );
@@ -156,7 +156,7 @@ class CollectionCreate extends Component {
       creation,
       idCollection,
       prefLabelFr,
-      contributor,
+      contributor
     } = this.state;
     const flagFr = <img src={fr} alt="fr" className="img-flag" />;
     const flagEn = <img src={en} alt="fr" className="img-flag" />;
@@ -169,8 +169,7 @@ class CollectionCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickAddMember(item)}
-      >
+        onClick={e => this.OnClickAddMember(item)}>
         {logoAdd} {item.prefLabelFr}
       </li>
     );
@@ -179,8 +178,7 @@ class CollectionCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMember(item)}
-      >
+        onClick={e => this.OnClickDelMember(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -331,12 +329,14 @@ class CollectionCreate extends Component {
 const mapStateToProps = state => ({
   conceptsList: state.conceptsList,
   collectionsList: state.collectionsList,
-  stampsList: state.stampsList,
+  stampsList: state.stampsList
 });
 
 const mapDispatchToProps = {
   loadConceptsList,
-  loadStampsList,
+  loadStampsList
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withRouter(CollectionCreate)
+);

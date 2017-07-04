@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { hashHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import $ from 'jquery';
 import { Tabs, Tab } from 'react-bootstrap';
@@ -21,7 +21,7 @@ import { postConcepts } from '../utils/remote-api';
 import {
   sortArray,
   filterByPrefLabelFr,
-  arrayKeepUniqueField,
+  arrayKeepUniqueField
 } from '../utils/array-utils';
 import fr from '../../img/fr.png';
 import en from '../../img/en.png';
@@ -78,7 +78,7 @@ class ConceptCreate extends Component {
       changeNoteFr: EditorState.createEmpty(),
       isChangeNoteFr: EditorState.createEmpty().getCurrentContent().hasText(),
       changeNoteEn: EditorState.createEmpty(),
-      isChangeNoteEn: EditorState.createEmpty().getCurrentContent().hasText(),
+      isChangeNoteEn: EditorState.createEmpty().getCurrentContent().hasText()
     };
     this.handleChangePrefLabelFr = prefLabelFr => {
       this.setState({ prefLabelFr });
@@ -89,11 +89,11 @@ class ConceptCreate extends Component {
         ) !== -1
       )
         this.setState({
-          isLabelFrExisting: true,
+          isLabelFrExisting: true
         });
       else
         this.setState({
-          isLabelFrExisting: false,
+          isLabelFrExisting: false
         });
     };
     this.handleChangePrefLabelEn = prefLabelEn => {
@@ -107,12 +107,12 @@ class ConceptCreate extends Component {
     };
     this.changeSelectCreator = e => {
       this.setState({
-        creator: e ? e.value : '',
+        creator: e ? e.value : ''
       });
     };
     this.changeSelectDisseminationStatus = e => {
       this.setState({
-        disseminationStatus: e ? e.value : '',
+        disseminationStatus: e ? e.value : ''
       });
     };
     this.handleChangeAdditionnalMaterial = additionnalMaterial => {
@@ -120,7 +120,7 @@ class ConceptCreate extends Component {
     };
     this.handleChangeDateEnd = dateEnd => {
       this.setState({
-        dateEnd,
+        dateEnd
       });
     };
 
@@ -130,37 +130,37 @@ class ConceptCreate extends Component {
 
     this.handleSelectTab = e => {
       this.setState({
-        activeTabLink: e,
+        activeTabLink: e
       });
     };
 
     this.OnClickAddMember = e => {
       this.setState({
-        potentialMembers: _.pull(this.state.potentialMembers, e),
+        potentialMembers: _.pull(this.state.potentialMembers, e)
       });
       if (this.state.activeTabLink === 1) {
         this.setState({
-          memberParent: [...this.state.memberParent, e],
+          memberParent: [...this.state.memberParent, e]
         });
       }
       if (this.state.activeTabLink === 2) {
         this.setState({
-          memberEnfants: [...this.state.memberEnfants, e],
+          memberEnfants: [...this.state.memberEnfants, e]
         });
       }
       if (this.state.activeTabLink === 3) {
         this.setState({
-          memberRef: [...this.state.memberRef, e],
+          memberRef: [...this.state.memberRef, e]
         });
       }
       if (this.state.activeTabLink === 4) {
         this.setState({
-          memberSucceed: [...this.state.memberSucceed, e],
+          memberSucceed: [...this.state.memberSucceed, e]
         });
       }
       if (this.state.activeTabLink === 5) {
         this.setState({
-          memberLink: [...this.state.memberLink, e],
+          memberLink: [...this.state.memberLink, e]
         });
       }
     };
@@ -168,84 +168,84 @@ class ConceptCreate extends Component {
     this.OnClickDelMemberParent = e => {
       this.setState({
         memberParent: _.pull(this.state.memberParent, e),
-        potentialMembers: [...this.state.potentialMembers, e],
+        potentialMembers: [...this.state.potentialMembers, e]
       });
     };
     this.OnClickDelMemberEnfants = e => {
       this.setState({
         memberEnfants: _.pull(this.state.memberEnfants, e),
-        potentialMembers: [...this.state.potentialMembers, e],
+        potentialMembers: [...this.state.potentialMembers, e]
       });
     };
     this.OnClickDelMemberRef = e => {
       this.setState({
         memberRef: _.pull(this.state.memberRef, e),
-        potentialMembers: [...this.state.potentialMembers, e],
+        potentialMembers: [...this.state.potentialMembers, e]
       });
     };
     this.OnClickDelMemberSucceed = e => {
       this.setState({
         memberSucceed: _.pull(this.state.memberSucceed, e),
-        potentialMembers: [...this.state.potentialMembers, e],
+        potentialMembers: [...this.state.potentialMembers, e]
       });
     };
     this.OnClickDelMemberLink = e => {
       this.setState({
         memberLink: _.pull(this.state.memberLink, e),
-        potentialMembers: [...this.state.potentialMembers, e],
+        potentialMembers: [...this.state.potentialMembers, e]
       });
     };
 
     this.changeDefinitionCourteFr = definitionCourteFr => {
       this.setState({
         definitionCourteFr,
-        isDefinitionCourteFr: definitionCourteFr.getCurrentContent().hasText(),
+        isDefinitionCourteFr: definitionCourteFr.getCurrentContent().hasText()
       });
     };
     this.changeDefinitionCourteEn = definitionCourteEn => {
       this.setState({
         definitionCourteEn,
-        isDefinitionCourteEn: definitionCourteEn.getCurrentContent().hasText(),
+        isDefinitionCourteEn: definitionCourteEn.getCurrentContent().hasText()
       });
     };
     this.changeDefinitionFr = definitionFr => {
       this.setState({
         definitionFr,
-        isDefinitionFr: definitionFr.getCurrentContent().hasText(),
+        isDefinitionFr: definitionFr.getCurrentContent().hasText()
       });
     };
     this.changeDefinitionEn = definitionEn => {
       this.setState({
         definitionEn,
-        isDefinitionEn: definitionEn.getCurrentContent().hasText(),
+        isDefinitionEn: definitionEn.getCurrentContent().hasText()
       });
     };
     this.changeNoteEditorialeFr = noteEditorialeFr => {
       this.setState({
         noteEditorialeFr,
-        isNoteEditorialeFr: noteEditorialeFr.getCurrentContent().hasText(),
+        isNoteEditorialeFr: noteEditorialeFr.getCurrentContent().hasText()
       });
     };
     this.changeNoteEditorialeEn = noteEditorialeEn => {
       this.setState({
         noteEditorialeEn,
-        isNoteEditorialeEn: noteEditorialeEn.getCurrentContent().hasText(),
+        isNoteEditorialeEn: noteEditorialeEn.getCurrentContent().hasText()
       });
     };
     this.changeChangeNoteFr = changeNoteFr => {
       this.setState({
         changeNoteFr,
-        isChangeNoteFr: changeNoteFr.getCurrentContent().hasText(),
+        isChangeNoteFr: changeNoteFr.getCurrentContent().hasText()
       });
     };
     this.changeChangeNoteEn = changeNoteEn => {
       this.setState({
         changeNoteEn,
-        isChangeNoteEn: changeNoteEn.getCurrentContent().hasText(),
+        isChangeNoteEn: changeNoteEn.getCurrentContent().hasText()
       });
     };
     this.return = () => {
-      hashHistory.push('/concepts');
+      this.props.history.push('/concepts');
     };
     this.editConceptData = () => {
       const data = {
@@ -288,16 +288,16 @@ class ConceptCreate extends Component {
         isChangeNoteFr: this.state.isChangeNoteFr,
         isChangeNoteEn: this.state.isChangeNoteEn,
         changeNoteFr: stateToHTML(this.state.changeNoteFr.getCurrentContent()),
-        changeNoteEn: stateToHTML(this.state.changeNoteEn.getCurrentContent()),
+        changeNoteEn: stateToHTML(this.state.changeNoteEn.getCurrentContent())
       };
       if (this.state.prefLabelFr && !this.state.isLabelFrExisting) {
         this.setState({
-          creation: 'PENDING',
+          creation: 'PENDING'
         });
         postConcepts(data)
           .then(newConceptID => newConceptID.text())
           .then(newConceptID => {
-            hashHistory.push('/concept/' + newConceptID);
+            this.props.history.push('/concept/' + newConceptID);
           });
       }
     };
@@ -332,7 +332,7 @@ class ConceptCreate extends Component {
       noteEditorialeFr,
       noteEditorialeEn,
       changeNoteFr,
-      changeNoteEn,
+      changeNoteEn
     } = this.state;
     const flagFr = <img src={fr} alt="fr" className="img-flag" />;
     const flagEn = <img src={en} alt="fr" className="img-flag" />;
@@ -346,8 +346,7 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickAddMember(item)}
-      >
+        onClick={e => this.OnClickAddMember(item)}>
         {logoAdd} {item.prefLabelFr}
       </li>
     );
@@ -363,8 +362,7 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberParent(item)}
-      >
+        onClick={e => this.OnClickDelMemberParent(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -372,8 +370,7 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberEnfants(item)}
-      >
+        onClick={e => this.OnClickDelMemberEnfants(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -381,8 +378,7 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberRef(item)}
-      >
+        onClick={e => this.OnClickDelMemberRef(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -390,8 +386,7 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberSucceed(item)}
-      >
+        onClick={e => this.OnClickDelMemberSucceed(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -399,8 +394,7 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberLink(item)}
-      >
+        onClick={e => this.OnClickDelMemberLink(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -581,13 +575,11 @@ class ConceptCreate extends Component {
                     defaultActiveKey={1}
                     activeKey={this.state.activeTab}
                     id="tab2"
-                    onSelect={this.handleSelectTab}
-                  >
+                    onSelect={this.handleSelectTab}>
                     <Tab
                       eventKey={1}
                       title={scopeNoteTabLabel}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ 'margin-top': '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
@@ -635,8 +627,7 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={2}
                       title={definitionTabLabel}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ 'margin-top': '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
@@ -665,8 +656,7 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={3}
                       title={dictionary.notes.editorialeNote}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ 'margin-top': '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
@@ -697,8 +687,7 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={4}
                       title={dictionary.notes.changeNote}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ 'margin-top': '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
@@ -733,13 +722,11 @@ class ConceptCreate extends Component {
                     defaultActiveKey={1}
                     activeKey={this.state.activeTab}
                     id="tab2"
-                    onSelect={this.handleSelectTab}
-                  >
+                    onSelect={this.handleSelectTab}>
                     <Tab
                       eventKey={1}
                       title={dictionary.links.narrower}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ 'margin-top': '20px' }}>
                       {memberParentList.length === 0 &&
                         <ConceptToLink
                           panelTitle={dictionary.links.narrower}
@@ -762,8 +749,7 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={2}
                       title={dictionary.links.broader}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ 'margin-top': '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.broader}
                         memberList={memberEnfantsList}
@@ -775,8 +761,7 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={3}
                       title={dictionary.links.references}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ 'margin-top': '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.references}
                         memberList={memberRefList}
@@ -788,8 +773,7 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={4}
                       title={dictionary.links.replaces}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ 'margin-top': '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.replaces}
                         memberList={memberSucceedList}
@@ -801,8 +785,7 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={5}
                       title={dictionary.links.related}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ 'margin-top': '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.related}
                         memberList={memberLinkList}
@@ -826,12 +809,14 @@ const mapStateToProps = state => ({
   conceptsList: state.conceptsList,
   collectionsList: state.collectionsList,
   stampsList: state.stampsList,
-  disseminationStatusList: state.disseminationStatusList,
+  disseminationStatusList: state.disseminationStatusList
 });
 
 const mapDispatchToProps = {
   loadStampsList,
-  loadDisseminationStatusList,
+  loadDisseminationStatusList
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConceptCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withRouter(ConceptCreate)
+);

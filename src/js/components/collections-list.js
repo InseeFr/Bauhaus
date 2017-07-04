@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import Loadable from 'react-loading-overlay';
 import { dictionary } from '../utils/dictionary';
@@ -8,7 +8,7 @@ import Pagination from '../utils/pagination';
 import { sortArray, filterByPrefLabelFr } from '../utils/array-utils';
 import {
   loadCollectionsList,
-  loadCollectionsToValidateList,
+  loadCollectionsToValidateList
 } from '../actions/collections-list';
 
 const sortByLabel = sortArray('prefLabelFr');
@@ -17,7 +17,7 @@ class CollectionsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchLabel: '',
+      searchLabel: ''
     };
     this.handleChange = searchLabel => {
       this.setState({ searchLabel });
@@ -84,12 +84,12 @@ function singOrPluralResult(list) {
 }
 
 const mapStateToProps = state => ({
-  collectionsList: state.collectionsList,
+  collectionsList: state.collectionsList
 });
 
 const mapDispatchToProps = {
   loadCollectionsList,
-  loadCollectionsToValidateList,
+  loadCollectionsToValidateList
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionsList);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { hashHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import $ from 'jquery';
 import { Tabs, Tab } from 'react-bootstrap';
@@ -21,7 +21,7 @@ import { loadStampsList } from '../actions/stamps';
 import { loadDisseminationStatusList } from '../actions/dissemination-status';
 import {
   loadConceptGeneralAndNotes,
-  loadConceptLinks,
+  loadConceptLinks
 } from '../actions/concept-by-id';
 import { dictionary } from '../utils/dictionary';
 import { maxLengthScopeNote } from '../../config/config';
@@ -31,7 +31,7 @@ import {
   filterByPrefLabelFr,
   arrayKeepUniqueField,
   getMembers,
-  getPotentialMembers,
+  getPotentialMembers
 } from '../utils/array-utils';
 import { objectSize, isEmpty, isChanged } from '../utils/utils';
 import fr from '../../img/fr.png';
@@ -97,7 +97,7 @@ class ConceptModify extends Component {
       isChangeNoteFrChanged: false,
       changeNoteEn: EditorState.createEmpty(),
       isChangeNoteEn: EditorState.createEmpty().getCurrentContent().hasText(),
-      isChangeNoteEnChanged: false,
+      isChangeNoteEnChanged: false
     };
 
     // ConceptGeneral
@@ -111,11 +111,11 @@ class ConceptModify extends Component {
         prefLabelFr !== this.props.conceptGeneral.prefLabelFr
       )
         this.setState({
-          isLabelFrExisting: true,
+          isLabelFrExisting: true
         });
       else
         this.setState({
-          isLabelFrExisting: false,
+          isLabelFrExisting: false
         });
     };
     this.handleChangePrefLabelEn = prefLabelEn => {
@@ -129,12 +129,12 @@ class ConceptModify extends Component {
     };
     this.changeSelectCreator = e => {
       this.setState({
-        creator: e ? e.value : '',
+        creator: e ? e.value : ''
       });
     };
     this.changeSelectDisseminationStatus = e => {
       this.setState({
-        disseminationStatus: e ? e.value : '',
+        disseminationStatus: e ? e.value : ''
       });
     };
     this.handleChangeAdditionnalMaterial = additionnalMaterial => {
@@ -144,7 +144,7 @@ class ConceptModify extends Component {
       this.setState({
         value,
         formattedValue,
-        dateEnd: value,
+        dateEnd: value
       });
     };
 
@@ -154,67 +154,67 @@ class ConceptModify extends Component {
     };
     this.handleSelectTab = e => {
       this.setState({
-        activeTabLink: e,
+        activeTabLink: e
       });
     };
     this.OnClickAddMember = e => {
       this.setState({
-        potentialMembers: _.pull(this.state.potentialMembers, e),
+        potentialMembers: _.pull(this.state.potentialMembers, e)
       });
       if (this.state.activeTabLink === 1) {
         this.setState({
-          memberParent: [...this.state.memberParent, e],
+          memberParent: [...this.state.memberParent, e]
         });
       }
       if (this.state.activeTabLink === 2) {
         this.setState({
-          memberEnfants: [...this.state.memberEnfants, e],
+          memberEnfants: [...this.state.memberEnfants, e]
         });
       }
       if (this.state.activeTabLink === 3) {
         this.setState({
-          memberRef: [...this.state.memberRef, e],
+          memberRef: [...this.state.memberRef, e]
         });
       }
       if (this.state.activeTabLink === 4) {
         this.setState({
-          memberSucceed: [...this.state.memberSucceed, e],
+          memberSucceed: [...this.state.memberSucceed, e]
         });
       }
       if (this.state.activeTabLink === 5) {
         this.setState({
-          memberLink: [...this.state.memberLink, e],
+          memberLink: [...this.state.memberLink, e]
         });
       }
     };
     this.OnClickDelMemberParent = e => {
       this.setState({
         memberParent: _.pull(this.state.memberParent, e),
-        potentialMembers: [...this.state.potentialMembers, e],
+        potentialMembers: [...this.state.potentialMembers, e]
       });
     };
     this.OnClickDelMemberEnfants = e => {
       this.setState({
         memberEnfants: _.pull(this.state.memberEnfants, e),
-        potentialMembers: [...this.state.potentialMembers, e],
+        potentialMembers: [...this.state.potentialMembers, e]
       });
     };
     this.OnClickDelMemberRef = e => {
       this.setState({
         memberRef: _.pull(this.state.memberRef, e),
-        potentialMembers: [...this.state.potentialMembers, e],
+        potentialMembers: [...this.state.potentialMembers, e]
       });
     };
     this.OnClickDelMemberSucceed = e => {
       this.setState({
         memberSucceed: _.pull(this.state.memberSucceed, e),
-        potentialMembers: [...this.state.potentialMembers, e],
+        potentialMembers: [...this.state.potentialMembers, e]
       });
     };
     this.OnClickDelMemberLink = e => {
       this.setState({
         memberLink: _.pull(this.state.memberLink, e),
-        potentialMembers: [...this.state.potentialMembers, e],
+        potentialMembers: [...this.state.potentialMembers, e]
       });
     };
 
@@ -226,7 +226,7 @@ class ConceptModify extends Component {
         isDefinitionCourteFrChanged: isChanged(
           this.props.conceptNotes.definitionCourteFr,
           stateToHTML(definitionCourteFr.getCurrentContent())
-        ),
+        )
       });
     };
     this.changeDefinitionCourteEn = definitionCourteEn => {
@@ -236,7 +236,7 @@ class ConceptModify extends Component {
         isDefinitionCourteEnChanged: isChanged(
           this.props.conceptNotes.definitionCourteEn,
           stateToHTML(definitionCourteEn.getCurrentContent())
-        ),
+        )
       });
     };
     this.changeDefinitionFr = definitionFr => {
@@ -246,7 +246,7 @@ class ConceptModify extends Component {
         isDefinitionFrChanged: isChanged(
           this.props.conceptNotes.definitionFr,
           stateToHTML(definitionFr.getCurrentContent())
-        ),
+        )
       });
     };
     this.changeDefinitionEn = definitionEn => {
@@ -256,7 +256,7 @@ class ConceptModify extends Component {
         isDefinitionEnChanged: isChanged(
           this.props.conceptNotes.definitionEn,
           stateToHTML(definitionEn.getCurrentContent())
-        ),
+        )
       });
     };
     this.changeNoteEditorialeFr = noteEditorialeFr => {
@@ -266,7 +266,7 @@ class ConceptModify extends Component {
         isNoteEditorialeFrChanged: isChanged(
           this.props.conceptNotes.noteEditorialeFr,
           stateToHTML(noteEditorialeFr.getCurrentContent())
-        ),
+        )
       });
     };
     this.changeNoteEditorialeEn = noteEditorialeEn => {
@@ -276,7 +276,7 @@ class ConceptModify extends Component {
         isNoteEditorialeEnChanged: isChanged(
           this.props.conceptNotes.noteEditorialeEn,
           stateToHTML(noteEditorialeEn.getCurrentContent())
-        ),
+        )
       });
     };
     this.changeChangeNoteFr = changeNoteFr => {
@@ -286,7 +286,7 @@ class ConceptModify extends Component {
         isChangeNoteFrChanged: isChanged(
           this.props.conceptNotes.changeNoteFr,
           stateToHTML(changeNoteFr.getCurrentContent())
-        ),
+        )
       });
     };
     this.changeChangeNoteEn = changeNoteEn => {
@@ -296,11 +296,11 @@ class ConceptModify extends Component {
         isChangeNoteEnChanged: isChanged(
           this.props.conceptNotes.changeNoteEn,
           stateToHTML(changeNoteEn.getCurrentContent())
-        ),
+        )
       });
     };
     this.return = () => {
-      hashHistory.push('/concept/' + this.props.conceptGeneral.id);
+      this.props.history.push('/concept/' + this.props.conceptGeneral.id);
     };
 
     // Save
@@ -327,13 +327,13 @@ class ConceptModify extends Component {
     };
     this.closeAndMinor = () => {
       this.setState({
-        showModal: false,
+        showModal: false
       });
       this.editConceptData(false);
     };
     this.closeAndMajor = () => {
       this.setState({
-        showModal: false,
+        showModal: false
       });
       this.editConceptData(true);
     };
@@ -400,17 +400,17 @@ class ConceptModify extends Component {
         isChangeNoteFr: this.state.isChangeNoteFr,
         isChangeNoteEn: this.state.isChangeNoteEn,
         changeNoteFr: stateToHTML(this.state.changeNoteFr.getCurrentContent()),
-        changeNoteEn: stateToHTML(this.state.changeNoteEn.getCurrentContent()),
+        changeNoteEn: stateToHTML(this.state.changeNoteEn.getCurrentContent())
       };
       this.setState({
-        creation: 'PENDING',
+        creation: 'PENDING'
       });
       postModifiedConcepts(this.props.conceptGeneral.id, data)
         .then(() => {
           this.props.loadConceptGeneralAndNotes(this.props.params.id);
         })
         .then(() => {
-          hashHistory.push('/concept/' + this.props.conceptGeneral.id);
+          this.props.history.push('/concept/' + this.props.conceptGeneral.id);
         });
     };
   }
@@ -472,7 +472,7 @@ class ConceptModify extends Component {
       isChangeNoteEn: !isEmpty(nextProps.conceptNotes.changeNoteEn),
       changeNoteEn: EditorState.createWithContent(
         stateFromHTML(nextProps.conceptNotes.changeNoteEn)
-      ),
+      )
     });
   }
 
@@ -501,7 +501,7 @@ class ConceptModify extends Component {
       noteEditorialeFr,
       noteEditorialeEn,
       changeNoteFr,
-      changeNoteEn,
+      changeNoteEn
     } = this.state;
 
     const flagFr = <img src={fr} alt="fr" className="img-flag" />;
@@ -516,8 +516,7 @@ class ConceptModify extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickAddMember(item)}
-      >
+        onClick={e => this.OnClickAddMember(item)}>
         {logoAdd} {item.prefLabelFr}
       </li>
     );
@@ -532,8 +531,7 @@ class ConceptModify extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberParent(item)}
-      >
+        onClick={e => this.OnClickDelMemberParent(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -541,8 +539,7 @@ class ConceptModify extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberEnfants(item)}
-      >
+        onClick={e => this.OnClickDelMemberEnfants(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -550,8 +547,7 @@ class ConceptModify extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberRef(item)}
-      >
+        onClick={e => this.OnClickDelMemberRef(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -559,8 +555,7 @@ class ConceptModify extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberSucceed(item)}
-      >
+        onClick={e => this.OnClickDelMemberSucceed(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -568,8 +563,7 @@ class ConceptModify extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberLink(item)}
-      >
+        onClick={e => this.OnClickDelMemberLink(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -769,13 +763,11 @@ class ConceptModify extends Component {
                     defaultActiveKey={1}
                     activeKey={this.state.activeTab}
                     id="tab2"
-                    onSelect={this.handleSelectTab}
-                  >
+                    onSelect={this.handleSelectTab}>
                     <Tab
                       eventKey={1}
                       title={scopeNoteTabLabel}
-                      style={{ marginTop: '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
@@ -821,8 +813,7 @@ class ConceptModify extends Component {
                     <Tab
                       eventKey={2}
                       title={definitionTabLabel}
-                      style={{ marginTop: '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
@@ -851,8 +842,7 @@ class ConceptModify extends Component {
                     <Tab
                       eventKey={3}
                       title={dictionary.notes.editorialeNote}
-                      style={{ marginTop: '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
@@ -881,8 +871,7 @@ class ConceptModify extends Component {
                     <Tab
                       eventKey={4}
                       title={dictionary.notes.changeNote}
-                      style={{ marginTop: '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
@@ -917,13 +906,11 @@ class ConceptModify extends Component {
                     defaultActiveKey={1}
                     activeKey={this.state.activeTab}
                     id="tab2"
-                    onSelect={this.handleSelectTab}
-                  >
+                    onSelect={this.handleSelectTab}>
                     <Tab
                       eventKey={1}
                       title={dictionary.links.narrower}
-                      style={{ marginTop: '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       {memberParentList.length === 0 &&
                         <ConceptToLink
                           panelTitle={dictionary.links.narrower}
@@ -946,8 +933,7 @@ class ConceptModify extends Component {
                     <Tab
                       eventKey={2}
                       title={dictionary.links.broader}
-                      style={{ marginTop: '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.broader}
                         memberList={memberEnfantsList}
@@ -959,8 +945,7 @@ class ConceptModify extends Component {
                     <Tab
                       eventKey={3}
                       title={dictionary.links.references}
-                      style={{ marginTop: '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.references}
                         memberList={memberRefList}
@@ -972,8 +957,7 @@ class ConceptModify extends Component {
                     <Tab
                       eventKey={4}
                       title={dictionary.links.replaces}
-                      style={{ marginTop: '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.replaces}
                         memberList={memberSucceedList}
@@ -985,8 +969,7 @@ class ConceptModify extends Component {
                     <Tab
                       eventKey={5}
                       title={dictionary.links.related}
-                      style={{ marginTop: '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.related}
                         memberList={memberLinkList}
@@ -1005,8 +988,7 @@ class ConceptModify extends Component {
           <Modal
             className="Modal__Bootstrap modal-dialog"
             isOpen={this.state.showModal}
-            onRequestClose={this.close}
-          >
+            onRequestClose={this.close}>
             <div className="modal-content">
               <div className="modal-header">
                 <button type="button" className="close" onClick={this.close}>
@@ -1024,9 +1006,9 @@ class ConceptModify extends Component {
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(
                       dictionary.concept.versionning.body([
-                        conceptGeneral.prefLabelFr,
+                        conceptGeneral.prefLabelFr
                       ])
-                    ),
+                    )
                   }}
                 />
               </div>
@@ -1035,23 +1017,20 @@ class ConceptModify extends Component {
                   <button
                     type="button"
                     className="btn btn-primary btn-lg"
-                    onClick={this.closeAndMinor}
-                  >
+                    onClick={this.closeAndMinor}>
                     {dictionary.buttons.minorVersion}
                   </button>
                   <button
                     type="button"
                     className="btn btn-default btn-lg"
-                    onClick={this.close}
-                  >
+                    onClick={this.close}>
                     {dictionary.buttons.cancel}
                   </button>
                   <button
                     type="button"
                     className="btn btn-primary btn-lg"
                     onClick={this.closeAndMajor}
-                    disabled={disabledVersionningButton}
-                  >
+                    disabled={disabledVersionningButton}>
                     {dictionary.buttons.majorVersion}
                   </button>
                 </div>
@@ -1062,7 +1041,7 @@ class ConceptModify extends Component {
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(
                         dictionary.concept.versionning.footer
-                      ),
+                      )
                     }}
                   />}
               </div>
@@ -1083,14 +1062,16 @@ const mapStateToProps = (state, ownProps) => ({
   conceptLinks: state.conceptLinks[ownProps.params.id],
   stampsList: state.stampsList,
   disseminationStatusList: state.disseminationStatusList,
-  conceptsList: state.conceptsList,
+  conceptsList: state.conceptsList
 });
 
 const mapDispatchToProps = {
   loadStampsList,
   loadDisseminationStatusList,
   loadConceptGeneralAndNotes,
-  loadConceptLinks,
+  loadConceptLinks
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConceptModify);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withRouter(ConceptModify)
+);
