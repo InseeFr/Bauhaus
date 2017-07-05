@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'babel-polyfill';
 import { Provider } from 'react-redux';
 import configureStore from '../store/configure-store';
-import { Router, Route, hashHistory } from 'react-router';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import App from './app';
 import Concepts from './concepts';
 import ConceptsSearchList from './concepts-search-list';
@@ -28,27 +28,66 @@ export default class Root extends Component {
     return (
       <div>
         <Provider store={store}>
-          <Router history={hashHistory}>
-            <Route path="/" component={App} />
-            <Route path="/concepts" component={Concepts} />
-            <Route path="/concepts/search" component={ConceptsSearchList} />
-            <Route path="/concept/:id" component={ConceptByID} />
-            <Route path="/concept/:id/compare" component={ConceptCompare} />
-            <Route path="/create/concept" component={ConceptCreate} />
-            <Route path="/concept/:id/send" component={ConceptSend} />
-            <Route path="/concept/:id/modify" component={ConceptModify} />
-            <Route path="/concepts/validation" component={ConceptsToValidate} />
-            <Route path="/concepts/export" component={ConceptsToExport} />
-            <Route path="/collections" component={Collections} />
-            <Route path="/collection/:id" component={CollectionByID} />
-            <Route path="/create/collection" component={CollectionCreate} />
-            <Route path="/collection/:id/send" component={CollectionSend} />
-            <Route path="/collection/:id/modify" component={CollectionModify} />
-            <Route
-              path="/collections/validation"
-              component={CollectionsToValidate}
-            />
-            <Route path="/collections/export" component={CollectionsToExport} />
+          <Router>
+            <Switch>
+              <Route exact path="/" component={App} />
+              <Route exact path="/concepts" component={Concepts} />
+              <Route
+                exact
+                path="/concepts/search"
+                component={ConceptsSearchList}
+              />
+              <Route exact path="/concept/:id" component={ConceptByID} />
+              <Route
+                exact
+                path="/concept/:id/compare"
+                component={ConceptCompare}
+              />
+              <Route exact path="/create/concept" component={ConceptCreate} />
+              <Route exact path="/concept/:id/send" component={ConceptSend} />
+              <Route
+                exact
+                path="/concept/:id/modify"
+                component={ConceptModify}
+              />
+              <Route
+                exact
+                path="/concepts/validation"
+                component={ConceptsToValidate}
+              />
+              <Route
+                exact
+                path="/concepts/export"
+                component={ConceptsToExport}
+              />
+              <Route exact path="/collections" component={Collections} />
+              <Route exact path="/collection/:id" component={CollectionByID} />
+              <Route
+                exact
+                path="/create/collection"
+                component={CollectionCreate}
+              />
+              <Route
+                exact
+                path="/collection/:id/send"
+                component={CollectionSend}
+              />
+              <Route
+                exact
+                path="/collection/:id/modify"
+                component={CollectionModify}
+              />
+              <Route
+                exact
+                path="/collections/validation"
+                component={CollectionsToValidate}
+              />
+              <Route
+                exact
+                path="/collections/export"
+                component={CollectionsToExport}
+              />
+            </Switch>
           </Router>
         </Provider>
         <div className="centered" style={{ 'margin-top': '50px' }}>

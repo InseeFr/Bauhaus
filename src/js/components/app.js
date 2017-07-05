@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import conceptsLogo from '../../img/concepts.jpg';
 import nomenclaturesLogo from '../../img/nomenclatures.jpg';
 import sourcesLogo from '../../img/sources.jpg';

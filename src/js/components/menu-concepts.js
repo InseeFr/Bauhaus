@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import MenuReferentiels from './menu-referentiels';
 import { dictionary } from '../utils/dictionary';
 import '../../css/menu-concepts.css';
@@ -8,11 +8,11 @@ class MenuConcepts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menuRef: false,
+      menuRef: false
     };
     this.onChangeMenu = () => {
       this.setState({
-        menuRef: !this.state.menuRef,
+        menuRef: !this.state.menuRef
       });
     };
   }
@@ -29,12 +29,12 @@ class MenuConcepts extends Component {
               <div className="collapse navbar-collapse">
                 <ul className="nav navbar-nav navbar-nav-concepts">
                   <li onClick={this.onChangeMenu}>
-                    <Link>
+                    <a>
                       <div className="glyphicon glyphicon-th navbar-icon inline" />
                       <div className="inline">
                         {' '}{dictionary.navbar.concepts.home}
                       </div>
-                    </Link>
+                    </a>
                   </li>
                   <li>
                     <Link to="/concepts">

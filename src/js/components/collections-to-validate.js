@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { hashHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import MenuConcepts from './menu-concepts';
 import { dictionary } from '../utils/dictionary';
@@ -21,7 +21,7 @@ class CollectionsToValidate extends Component {
       searchLabel: '',
       potentialCollectionsToValid: this.props.collectionsToValidateList,
       collectionsToValid: [],
-      validation: 'WAITING',
+      validation: 'WAITING'
     };
     this.handleChange = searchLabel => {
       this.setState({ searchLabel });
@@ -32,7 +32,7 @@ class CollectionsToValidate extends Component {
         potentialCollectionsToValid: _.pull(
           this.state.potentialCollectionsToValid,
           e
-        ),
+        )
       });
     };
     this.OnClickDelMember = e => {
@@ -40,27 +40,27 @@ class CollectionsToValidate extends Component {
         collectionsToValid: _.pull(this.state.collectionsToValid, e),
         potentialCollectionsToValid: [
           ...this.state.potentialCollectionsToValid,
-          e,
-        ],
+          e
+        ]
       });
     };
     this.handleClickReturn = e => {
       e.preventDefault();
-      hashHistory.push('/collections');
+      this.props.history.push('/collections');
     };
     this.handleClickValid = e => {
       e.preventDefault();
       const data = {
-        collectionsToValid: this.state.collectionsToValid,
+        collectionsToValid: this.state.collectionsToValid
       };
       this.setState({
-        validation: 'PENDING',
+        validation: 'PENDING'
       });
       postCollectionsToValidate(data).then(() => {
         this.setState({
-          validation: 'DONE',
+          validation: 'DONE'
         });
-        hashHistory.push('/collections');
+        this.props.history.push('/collections');
       });
     };
   }
@@ -70,7 +70,7 @@ class CollectionsToValidate extends Component {
       searchLabel,
       potentialCollectionsToValid,
       collectionsToValid,
-      validation,
+      validation
     } = this.state;
 
     const logoAdd = <img src={add} alt="add" className="img-flag" />;
@@ -84,8 +84,7 @@ class CollectionsToValidate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickAddMember(item)}
-      >
+        onClick={e => this.OnClickAddMember(item)}>
         {logoAdd} {item.prefLabelFr}
       </li>
     );
@@ -94,8 +93,7 @@ class CollectionsToValidate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMember(item)}
-      >
+        onClick={e => this.OnClickDelMember(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -132,16 +130,14 @@ class CollectionsToValidate extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickReturn}
-                >
+                  onClick={this.handleClickReturn}>
                   {dictionary.buttons.return}
                 </button>
               </div>
               <div className="col-md-2 pull-right">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickValid}
-                >
+                  onClick={this.handleClickValid}>
                   {dictionary.buttons.validate}
                 </button>
               </div>
@@ -151,8 +147,7 @@ class CollectionsToValidate extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickReturn}
-                >
+                  onClick={this.handleClickReturn}>
                   {dictionary.buttons.return}
                 </button>
               </div>
@@ -165,8 +160,7 @@ class CollectionsToValidate extends Component {
                 <button
                   className="btn btn-primary btn-lg col-md-12 pull-right"
                   onClick={this.handleClickModif}
-                  disabled
-                >
+                  disabled>
                   {dictionary.buttons.validate}
                 </button>
               </div>
@@ -195,7 +189,7 @@ class CollectionsToValidate extends Component {
 }
 
 const mapStateToProps = state => ({
-  collectionsToValidateList: state.collectionsToValidateList,
+  collectionsToValidateList: state.collectionsToValidateList
 });
 
-export default connect(mapStateToProps)(CollectionsToValidate);
+export default connect(mapStateToProps)(withRouter(CollectionsToValidate));

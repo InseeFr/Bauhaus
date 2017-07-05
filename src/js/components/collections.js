@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { hashHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import CollectionsList from './collections-list';
 import MenuConcepts from './menu-concepts';
 import { dictionary } from '../utils/dictionary';
@@ -11,15 +11,15 @@ class Collections extends Component {
 
     this.handleClickNew = e => {
       e.preventDefault();
-      hashHistory.push('/create/collection');
+      this.props.history.push('/create/collection');
     };
     this.handleClickExport = e => {
       e.preventDefault();
-      hashHistory.push('/collections/export');
+      this.props.history.push('/collections/export');
     };
     this.handleClickValid = e => {
       e.preventDefault();
-      hashHistory.push('/collections/validation');
+      this.props.history.push('/collections/validation');
     };
   }
 
@@ -33,8 +33,7 @@ class Collections extends Component {
               <div className="row">
                 <button
                   className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-                  onClick={this.handleClickNew}
-                >
+                  onClick={this.handleClickNew}>
                   <span
                     className="glyphicon glyphicon-plus"
                     aria-hidden="true"
@@ -45,8 +44,7 @@ class Collections extends Component {
               <div className="row">
                 <button
                   className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-                  disabled
-                >
+                  disabled>
                   <span
                     className="glyphicon glyphicon-import"
                     aria-hidden="true"
@@ -57,8 +55,7 @@ class Collections extends Component {
               <div className="row">
                 <button
                   className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-                  onClick={this.handleClickExport}
-                >
+                  onClick={this.handleClickExport}>
                   <span
                     className="glyphicon glyphicon-export"
                     aria-hidden="true"
@@ -69,8 +66,7 @@ class Collections extends Component {
               <div className="row">
                 <button
                   className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-                  onClick={this.handleClickValid}
-                >
+                  onClick={this.handleClickValid}>
                   <span
                     className="glyphicon glyphicon-ok"
                     aria-hidden="true"
@@ -92,4 +88,4 @@ class Collections extends Component {
   }
 }
 
-export default Collections;
+export default withRouter(Collections);

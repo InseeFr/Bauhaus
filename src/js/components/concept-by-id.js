@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { hashHistory } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import MenuConcepts from './menu-concepts';
 import Loadable from 'react-loading-overlay';
@@ -9,7 +9,7 @@ import ConceptLinks from './concept-links';
 import ConceptNotes from './concept-notes';
 import {
   loadConceptGeneralAndNotes,
-  loadConceptLinks,
+  loadConceptLinks
 } from '../actions/concept-by-id';
 import { dictionary } from '../utils/dictionary';
 import { postConceptsToValidate } from '../utils/remote-api';
@@ -17,67 +17,73 @@ import { postConceptsToValidate } from '../utils/remote-api';
 class ConceptsByID extends Component {
   constructor(props) {
     super(props);
+    const { match: { params: { id } } } = this.props;
     this.state = {
       english: false,
-      conceptsToValid: [{ id: this.props.params.id }],
+      conceptsToValid: [{ id }],
       validation: 'WAITING',
+      id
     };
 
     this.toggleEnglish = () =>
       this.setState({
-        english: !this.state.english,
+        english: !this.state.english
       });
 
     this.handleClickReturn = e => {
       e.preventDefault();
-      hashHistory.push('/concepts');
+      this.props.history.push('/concepts');
     };
 
     this.handleClickSend = e => {
       e.preventDefault();
-      hashHistory.push('/concept/' + this.props.params.id + '/send');
+      this.props.history.push('/concept/' + this.state.id + '/send');
     };
 
     this.handleClickCompare = e => {
       e.preventDefault();
-      hashHistory.push('/concept/' + this.props.params.id + '/compare');
+      this.props.history.push('/concept/' + this.state.id + '/compare');
     };
 
     this.handleClickModif = e => {
       e.preventDefault();
-      hashHistory.push('/concept/' + this.props.params.id + '/modify');
+      this.props.history.push('/concept/' + this.state.id + '/modify');
     };
 
     this.handleClickValid = e => {
       e.preventDefault();
       const data = {
-        conceptsToValid: this.state.conceptsToValid,
+        conceptsToValid: this.state.conceptsToValid
       };
       this.setState({
-        validation: 'PENDING',
+        validation: 'PENDING'
       });
       postConceptsToValidate(data)
         .then(() => {
-          this.props.loadConceptGeneralAndNotes(this.props.params.id);
+          this.props.loadConceptGeneralAndNotes(this.state.id);
         })
         .then(() => {
           this.setState({
-            validation: 'DONE',
+            validation: 'DONE'
           });
-          hashHistory.push('/concept/' + this.props.params.id);
+          this.props.history.push('/concept/' + this.state.id);
         });
     };
   }
 
   componentWillMount() {
-    this.props.loadConceptGeneralAndNotes(this.props.params.id);
-    this.props.loadConceptLinks(this.props.params.id);
+    const { id } = this.state;
+    this.props.loadConceptGeneralAndNotes(id);
+    this.props.loadConceptLinks(id);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.params.id !== nextProps.params.id) {
-      this.props.loadConceptGeneralAndNotes(nextProps.params.id);
-      this.props.loadConceptLinks(nextProps.params.id);
+    const { match: { params: { id: nextId } } } = nextProps;
+    const { id } = this.state;
+    this.setState();
+    if (id !== nextId) {
+      this.props.loadConceptGeneralAndNotes(nextId);
+      this.props.loadConceptLinks(nextId);
     }
   }
 
@@ -85,7 +91,6 @@ class ConceptsByID extends Component {
     const { conceptGeneral, conceptLinks, conceptNotes } = this.props;
     const { english, validation } = this.state;
     if (!conceptGeneral || !conceptLinks || !conceptNotes) return null;
-
     if (validation === 'PENDING') {
       return (
         <div>
@@ -101,7 +106,6 @@ class ConceptsByID extends Component {
         </div>
       );
     }
-
     return (
       <div>
         <MenuConcepts />
@@ -157,15 +161,20 @@ class ConceptsByID extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  conceptGeneral: state.conceptGeneral[ownProps.params.id],
-  conceptNotes: state.conceptNotes[ownProps.params.id],
-  conceptLinks: state.conceptLinks[ownProps.params.id],
-});
+const mapStateToProps = (state, ownProps) => {
+  const { match: { params: { id } } } = ownProps;
+  return {
+    conceptGeneral: state.conceptGeneral[id],
+    conceptNotes: state.conceptNotes[id],
+    conceptLinks: state.conceptLinks[id]
+  };
+};
 
 const mapDispatchToProps = {
   loadConceptGeneralAndNotes,
-  loadConceptLinks,
+  loadConceptLinks
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConceptsByID);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withRouter(ConceptsByID)
+);
