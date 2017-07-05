@@ -4,16 +4,17 @@ import { stateToHTML } from 'draft-js-export-html';
 import EditorHtml from './editor-html';
 
 function ConceptModifyNotes({ note, onChange }) {
+
   if (stateToHTML(note.getCurrentContent()) !== '<p>undefined</p>') {
-    return <EditorHtml editor={note} onEditorChange={onChange} />;
-  } else {
     return (
-      <EditorHtml
-        editor={EditorState.createEmpty()}
-        onEditorChange={onChange}
-      />
-    );
+      <EditorHtml editor={note} onEditorChange={onChange} />
+    )
+  }
+  else {
+    return (
+      <EditorHtml editor={EditorState.createEmpty()} onEditorChange={onChange} />
+    )
   }
 }
 
-export default ConceptModifyNotes;
+export default ConceptModifyNotes

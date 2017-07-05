@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import MenuReferentiels from './menu-referentiels';
 import { dictionary } from '../utils/dictionary';
 import '../../css/menu-concepts.css';
@@ -9,18 +9,16 @@ class MenuConcepts extends Component {
     super(props);
     this.state = {
       menuRef: false
-    };
+    }
     this.onChangeMenu = () => {
       this.setState({
         menuRef: !this.state.menuRef
-      });
-    };
+      })
+    }
   }
 
   render() {
-    const navbar = this.props.pink
-      ? 'navbar navbar-default navbar-default-concepts-pink'
-      : 'navbar navbar-default navbar-default-concepts';
+    const navbar = this.props.pink ? "navbar navbar-default navbar-default-concepts-pink" : "navbar navbar-default navbar-default-concepts"
     return (
       <div>
         <header>
@@ -29,11 +27,9 @@ class MenuConcepts extends Component {
               <div className="collapse navbar-collapse">
                 <ul className="nav navbar-nav navbar-nav-concepts">
                   <li onClick={this.onChangeMenu}>
-                    <Link to="/">
-                      <div className="glyphicon glyphicon-th navbar-icon inline" />
-                      <div className="inline">
-                        {' '}{dictionary.navbar.concepts.home}
-                      </div>
+                    <Link>
+                      <div className="glyphicon glyphicon-th navbar-icon inline"></div>
+                      <div className="inline"> {dictionary.navbar.concepts.home}</div>
                     </Link>
                   </li>
                   <li>
@@ -65,8 +61,7 @@ class MenuConcepts extends Component {
         </header>
         {this.state.menuRef && <MenuReferentiels />}
       </div>
-    );
-  }
+  )}
 }
 
-export default MenuConcepts;
+export default MenuConcepts
