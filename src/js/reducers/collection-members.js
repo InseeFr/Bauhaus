@@ -1,16 +1,16 @@
-import { LOAD_COLLECTION_MEMBERS_SUCCESS } from '../actions/collection'
+import { LOAD_COLLECTION_MEMBERS_SUCCESS } from '../actions/collection';
 
-export default function (state=[], action) {
-  const { type, payload } = action
+export default function(state = [], action) {
+  const { type, payload } = action;
   switch (type) {
     case LOAD_COLLECTION_MEMBERS_SUCCESS: {
-      const { id, results } = payload
+      const { id, results } = payload;
       return {
         ...state,
-        [id]: results
-      }
+        [id]: results,
+      };
     }
     default:
-      return state
+      return state;
   }
 }

@@ -24,37 +24,37 @@ import CollectionsToExport from './collections-to-export';
 const store = configureStore();
 
 export default class Root extends Component {
-	render() {
-		return (
-			<div>
-				<Provider store={store}>
-					<Router history={hashHistory}>
-						<Route path="/" component={App} />
-						<Route path="/concepts" component={Concepts} />
-						<Route path="/concepts/search" component={ConceptsSearchList} />
-						<Route path="/concept/:id" component={ConceptByID} />
-						<Route path="/concept/:id/compare" component={ConceptCompare} />
-						<Route path="/create/concept" component={ConceptCreate} />
-						<Route path="/concept/:id/send" component={ConceptSend} />
-						<Route path="/concept/:id/modify" component={ConceptModify} />
-						<Route path="/concepts/validation" component={ConceptsToValidate} />
-						<Route path="/concepts/export" component={ConceptsToExport} />
-						<Route path="/collections" component={Collections} />
-						<Route path="/collection/:id" component={CollectionByID} />
-						<Route path="/create/collection" component={CollectionCreate} />
-						<Route path="/collection/:id/send" component={CollectionSend} />
-						<Route path="/collection/:id/modify" component={CollectionModify} />
-						<Route
-							path="/collections/validation"
-							component={CollectionsToValidate}
-						/>
-						<Route path="/collections/export" component={CollectionsToExport} />
-					</Router>
-				</Provider>
-				<div className="centered" style={{ 'margin-top': '50px' }}>
-					<label>Gncs - Version 0.1</label>
-				</div>
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div>
+        <Provider store={store}>
+          <Router history={hashHistory}>
+            <Route path="/" component={App} />
+            <Route path="/concepts" component={Concepts} />
+            <Route path="/concepts/search" component={ConceptsSearchList} />
+            <Route path="/concept/:id" component={ConceptByID} />
+            <Route path="/concept/:id/compare" component={ConceptCompare} />
+            <Route path="/create/concept" component={ConceptCreate} />
+            <Route path="/concept/:id/send" component={ConceptSend} />
+            <Route path="/concept/:id/modify" component={ConceptModify} />
+            <Route path="/concepts/validation" component={ConceptsToValidate} />
+            <Route path="/concepts/export" component={ConceptsToExport} />
+            <Route path="/collections" component={Collections} />
+            <Route path="/collection/:id" component={CollectionByID} />
+            <Route path="/create/collection" component={CollectionCreate} />
+            <Route path="/collection/:id/send" component={CollectionSend} />
+            <Route path="/collection/:id/modify" component={CollectionModify} />
+            <Route
+              path="/collections/validation"
+              component={CollectionsToValidate}
+            />
+            <Route path="/collections/export" component={CollectionsToExport} />
+          </Router>
+        </Provider>
+        <div className="centered" style={{ 'margin-top': '50px' }}>
+          <label>Gncs - Version 0.1</label>
+        </div>
+      </div>
+    );
+  }
 }
