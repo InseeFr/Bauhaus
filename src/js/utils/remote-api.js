@@ -25,168 +25,178 @@ const urlPostCollectionSend = baseHost + 'private/collection/send';
 const urlPostConceptSend = baseHost + 'private/concept/send';
 
 export const getDisseminationStatusList = () =>
-  fetch(urlGetDisseminationStatusList, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
+	fetch(urlGetDisseminationStatusList, {
+		headers: {
+			Accept: 'application/json',
+		},
+	}).then(res => res.json());
+
+// TODO value body response for errors
+// TODO apply this pattern to all remote calls and modify actions accordingly (
+// we return a string and not an error object)
 
 export const getConceptsList = () =>
-  fetch(urlGetConceptsList, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
+	fetch(urlGetConceptsList, {
+		headers: {
+			Accept: 'application/json',
+		},
+	}).then(
+		res => {
+			if (res.ok) return res.json();
+			else return Promise.reject(res.statusText);
+		},
+		err => err.toString()
+	);
 
 export const getConceptsSearchList = () =>
-  fetch(urlGetConceptsSearchList, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
+	fetch(urlGetConceptsSearchList, {
+		headers: {
+			Accept: 'application/json',
+		},
+	}).then(res => res.json());
 
 export const getConceptsToValidateList = () =>
-  fetch(urlGetConceptsToValidateList, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
+	fetch(urlGetConceptsToValidateList, {
+		headers: {
+			Accept: 'application/json',
+		},
+	}).then(res => res.json());
 
 export const getConceptGeneral = id =>
-  fetch(urlGetConceptGeneral + '/' + id, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
+	fetch(urlGetConceptGeneral + '/' + id, {
+		headers: {
+			Accept: 'application/json',
+		},
+	}).then(res => res.json());
 
 export const getConceptLinks = id =>
-  fetch(urlGetConceptLinks + '/' + id + '/links', {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
+	fetch(urlGetConceptLinks + '/' + id + '/links', {
+		headers: {
+			Accept: 'application/json',
+		},
+	}).then(res => res.json());
 
 export const getConceptNotes = (id, conceptVersion) =>
-  fetch(urlGetConceptNotes + '/' + id + '/notes/' + conceptVersion, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
+	fetch(urlGetConceptNotes + '/' + id + '/notes/' + conceptVersion, {
+		headers: {
+			Accept: 'application/json',
+		},
+	}).then(res => res.json());
 
 export const postConcepts = concept =>
-  fetch(urlPostConcepts, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(concept),
-  });
+	fetch(urlPostConcepts, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: 'POST',
+		body: JSON.stringify(concept),
+	});
 
 export const postModifiedConcepts = (id, concept) =>
-  fetch(urlPostModifiedConcepts + '/' + id, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(concept),
-  });
+	fetch(urlPostModifiedConcepts + '/' + id, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: 'POST',
+		body: JSON.stringify(concept),
+	});
 
 export const postConceptsToValidate = concepts =>
-  fetch(urlPostConceptsToValidate, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(concepts),
-  });
+	fetch(urlPostConceptsToValidate, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: 'POST',
+		body: JSON.stringify(concepts),
+	});
 
 export const postConceptsToExport = concepts =>
-  fetch(urlPostConceptsToExport, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(concepts),
-  });
+	fetch(urlPostConceptsToExport, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: 'POST',
+		body: JSON.stringify(concepts),
+	});
 
 export const postConceptSend = concept =>
-  fetch(urlPostConceptSend, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(concept),
-  });
+	fetch(urlPostConceptSend, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: 'POST',
+		body: JSON.stringify(concept),
+	});
 
 export const getCollectionsList = () =>
-  fetch(urlGetCollectionsList, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
+	fetch(urlGetCollectionsList, {
+		headers: {
+			Accept: 'application/json',
+		},
+	}).then(res => res.json());
 
 export const getCollectionsToValidateList = () =>
-  fetch(urlGetCollectionsToValidateList, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
+	fetch(urlGetCollectionsToValidateList, {
+		headers: {
+			Accept: 'application/json',
+		},
+	}).then(res => res.json());
 
 export const getCollection = id =>
-  fetch(urlGetCollection + '/' + id, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
+	fetch(urlGetCollection + '/' + id, {
+		headers: {
+			Accept: 'application/json',
+		},
+	}).then(res => res.json());
 
 export const getCollectionMembers = id =>
-  fetch(urlGetCollection + '/' + id + '/members', {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
+	fetch(urlGetCollection + '/' + id + '/members', {
+		headers: {
+			Accept: 'application/json',
+		},
+	}).then(res => res.json());
 
 export const postCollections = collection =>
-  fetch(urlPostCollections, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(collection),
-  });
+	fetch(urlPostCollections, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: 'POST',
+		body: JSON.stringify(collection),
+	});
 
 export const postModifiedCollections = (id, collection) =>
-  fetch(urlPostModifiedCollections + '/' + id, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(collection),
-  });
+	fetch(urlPostModifiedCollections + '/' + id, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: 'POST',
+		body: JSON.stringify(collection),
+	});
 
 export const postCollectionsToValidate = collection =>
-  fetch(urlPostCollectionsToValidate, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(collection),
-  });
+	fetch(urlPostCollectionsToValidate, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: 'POST',
+		body: JSON.stringify(collection),
+	});
 
 export const postCollectionsToExport = collection =>
-  fetch(urlPostCollectionsToExport, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(collection),
-  });
+	fetch(urlPostCollectionsToExport, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: 'POST',
+		body: JSON.stringify(collection),
+	});
 
 export const postCollectionSend = collection =>
-  fetch(urlPostCollectionSend, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(collection),
-  });
+	fetch(urlPostCollectionSend, {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		method: 'POST',
+		body: JSON.stringify(collection),
+	});

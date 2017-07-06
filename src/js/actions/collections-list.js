@@ -20,7 +20,7 @@ export const loadCollectionsList = () => (dispatch, getState) => {
 	});
 	return getCollectionsList().then(
 		collectionsList => dispatch(loadCollectionsListSuccess(collectionsList)),
-		err => dispatch(loadCollectionsListFailure(err.toString()))
+		err => dispatch(loadCollectionsListFailure({ err: err.toString() }))
 	);
 };
 

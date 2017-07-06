@@ -5,6 +5,7 @@ import _ from 'lodash';
 import Loadable from 'react-loading-overlay';
 import { dictionary } from '../utils/dictionary';
 import Pagination from './utils/pagination';
+import { LOADING, FAILURE } from 'js/constants';
 import { sortArray, filterByPrefLabelFr } from '../utils/array-utils';
 import {
 	loadConceptsList,
@@ -25,16 +26,17 @@ class ConceptsList extends Component {
 	}
 
 	componentWillMount() {
-		this.props.loadConceptsList();
+		if (!this.props.conceptsList) {
+			this.props.loadConceptsList();
+		}
 		this.props.loadConceptsToValidateList();
 	}
 
 	render() {
 		const { conceptsList } = this.props;
 		const { searchLabel } = this.state;
-		console.log(this.state);
 
-		if (conceptsList.length === 0)
+		if (!conceptsList || conceptsList.status === LOADING) {
 			return (
 				<div>
 					<Loadable
@@ -47,8 +49,19 @@ class ConceptsList extends Component {
 					/>
 				</div>
 			);
+		}
+
+		if (conceptsList.status === FAILURE) {
+			return (
+				<div>
+					Error : {conceptsList.err}
+				</div>
+			);
+		}
+
+		const conceptsListArr = conceptsList.results;
 		const itemsList = sortByLabel(
-			conceptsList.filter(filterByPrefLabelFr(_.deburr(searchLabel)))
+			conceptsListArr.filter(filterByPrefLabelFr(_.deburr(searchLabel)))
 		).map(item =>
 			<li key={item.id} className="list-group-item">
 				<Link to={'/concept/' + item.id}>
