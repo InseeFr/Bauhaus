@@ -127,7 +127,7 @@ class ConceptCompare extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-	conceptGeneral: state.conceptGeneral[ownProps.params.id],
+	conceptGeneral: state.conceptGeneral[extractId(ownProps).id],
 });
 
 const mapDispatchToProps = {

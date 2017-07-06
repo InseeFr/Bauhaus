@@ -1075,17 +1075,18 @@ class ConceptModify extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => ({
-	conceptGeneral: state.conceptGeneral[ownProps.params.id],
-	conceptNotes:
-		state.conceptNotes[ownProps.params.id][
-			state.conceptGeneral[ownProps.params.id].conceptVersion
-		],
-	conceptLinks: state.conceptLinks[ownProps.params.id],
-	stampsList: state.stampsList,
-	disseminationStatusList: state.disseminationStatusList,
-	conceptsList: state.conceptsList,
-});
+const mapStateToProps = (state, ownProps) => {
+	const id = extractId(ownProps);
+	return {
+		conceptGeneral: state.conceptGeneral[id],
+		conceptNotes:
+			state.conceptNotes[id][state.conceptGeneral[id].conceptVersion],
+		conceptLinks: state.conceptLinks[id],
+		stampsList: state.stampsList,
+		disseminationStatusList: state.disseminationStatusList,
+		conceptsList: state.conceptsList,
+	};
+};
 
 const mapDispatchToProps = {
 	loadStampsList,
