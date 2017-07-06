@@ -12,19 +12,20 @@ import {
 	loadCollectionMembers,
 } from '../actions/collection';
 import { postCollectionsToValidate } from '../utils/remote-api';
+import buildExtract from 'js/utils/build-extract';
 
+const extractId = buildExtract('id');
 const sortByLabelFr = sortArray('prefLabelFr');
 const sortByLabelEn = sortArray('prefLabelEn');
 
 class CollectionByID extends Component {
 	constructor(props) {
 		super(props);
-		const { match: { params: { id } } } = props;
+
 		this.state = {
 			english: false,
-			collectionsToValid: [{ id }],
+			collectionsToValid: [{ id: extractId(props) }],
 			validation: 'WAITING',
-			id,
 		};
 
 		this.toggleEnglish = () =>
@@ -34,12 +35,14 @@ class CollectionByID extends Component {
 
 		this.handleClickSend = e => {
 			e.preventDefault();
-			this.props.history.push('/collection/' + this.state.id + '/send');
+			this.props.history.push('/collection/' + extractId(this.props) + '/send');
 		};
 
 		this.handleClickModif = e => {
 			e.preventDefault();
-			this.props.history.push('/collection/' + this.state.id + '/modify');
+			this.props.history.push(
+				'/collection/' + extractId(this.props) + '/modify'
+			);
 		};
 
 		this.handleClickValid = e => {
@@ -52,20 +55,20 @@ class CollectionByID extends Component {
 			});
 			postCollectionsToValidate(data)
 				.then(() => {
-					this.props.loadCollectionGeneral(this.state.id);
+					this.props.loadCollectionGeneral(extractId(this.props));
 				})
 				.then(() => {
 					this.setState({
 						validation: 'DONE',
 					});
-					this.props.history.push('/collection/' + this.state.id);
+					this.props.history.push('/collection/' + extractId(this.props));
 				});
 		};
 	}
 
 	componentWillMount() {
-		this.props.loadCollectionGeneral(this.state.id);
-		this.props.loadCollectionMembers(this.state.id);
+		this.props.loadCollectionGeneral(extractId(this.props));
+		this.props.loadCollectionMembers(extractId(this.props));
 	}
 
 	render() {
@@ -224,7 +227,7 @@ class CollectionByID extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-	const { match: { params: { id } } } = ownProps;
+	const id = extractId(ownProps);
 	return {
 		collectionGeneral: state.collectionGeneral[id],
 		collectionMembers: state.collectionMembers[id],
