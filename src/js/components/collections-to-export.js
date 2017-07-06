@@ -22,7 +22,7 @@ class CollectionsToExport extends Component {
       searchLabel: '',
       potentialCollectionsToExport: this.props.collectionsList,
       collectionsToExport: [],
-      validation: 'WAITING'
+      validation: 'WAITING',
     };
     this.handleChange = searchLabel => {
       this.setState({ searchLabel });
@@ -33,7 +33,7 @@ class CollectionsToExport extends Component {
         potentialCollectionsToExport: _.pull(
           this.state.potentialCollectionsToExport,
           e
-        )
+        ),
       });
     };
     this.OnClickDelMember = e => {
@@ -41,8 +41,8 @@ class CollectionsToExport extends Component {
         collectionsToExport: _.pull(this.state.collectionsToExport, e),
         potentialCollectionsToExport: [
           ...this.state.potentialCollectionsToExport,
-          e
-        ]
+          e,
+        ],
       });
     };
     this.handleClickReturn = e => {
@@ -52,10 +52,10 @@ class CollectionsToExport extends Component {
     this.handleClickExport = e => {
       e.preventDefault();
       const data = {
-        collectionsToExport: this.state.collectionsToExport
+        collectionsToExport: this.state.collectionsToExport,
       };
       this.setState({
-        validation: 'PENDING'
+        validation: 'PENDING',
       });
       postCollectionsToExport(data)
         .then(res => res.blob())
@@ -64,7 +64,7 @@ class CollectionsToExport extends Component {
         })
         .then(() => {
           this.setState({
-            validation: 'DONE'
+            validation: 'DONE',
           });
           this.props.history.push('/collections');
         });
@@ -76,7 +76,7 @@ class CollectionsToExport extends Component {
       searchLabel,
       potentialCollectionsToExport,
       collectionsToExport,
-      validation
+      validation,
     } = this.state;
 
     const logoAdd = <img src={add} alt="add" className="img-flag" />;
@@ -90,7 +90,8 @@ class CollectionsToExport extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickAddMember(item)}>
+        onClick={e => this.OnClickAddMember(item)}
+      >
         {logoAdd} {item.prefLabelFr}
       </li>
     );
@@ -99,7 +100,8 @@ class CollectionsToExport extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMember(item)}>
+        onClick={e => this.OnClickDelMember(item)}
+      >
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -136,14 +138,16 @@ class CollectionsToExport extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickReturn}>
+                  onClick={this.handleClickReturn}
+                >
                   {dictionary.buttons.return}
                 </button>
               </div>
               <div className="col-md-2 pull-right">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickExport}>
+                  onClick={this.handleClickExport}
+                >
                   {dictionary.buttons.export}
                 </button>
               </div>
@@ -153,7 +157,8 @@ class CollectionsToExport extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickReturn}>
+                  onClick={this.handleClickReturn}
+                >
                   {dictionary.buttons.return}
                 </button>
               </div>
@@ -192,7 +197,7 @@ class CollectionsToExport extends Component {
 }
 
 const mapStateToProps = state => ({
-  collectionsList: state.collectionsList
+  collectionsList: state.collectionsList,
 });
 
 export default connect(mapStateToProps)(withRouter(CollectionsToExport));

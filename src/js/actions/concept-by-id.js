@@ -1,7 +1,7 @@
 import {
   getConceptGeneral,
   getConceptNotes,
-  getConceptLinks
+  getConceptLinks,
 } from '../utils/remote-api';
 
 export const LOAD_CONCEPT_GENERAL = 'LOAD_CONCEPT_GENERAL';
@@ -18,8 +18,8 @@ export const loadConceptGeneral = id => (dispatch, getState) => {
   dispatch({
     type: LOAD_CONCEPT_GENERAL,
     payload: {
-      id
-    }
+      id,
+    },
   });
   return getConceptGeneral(id).then(
     conceptGeneral => {
@@ -35,8 +35,8 @@ export function loadConceptGeneralSuccess(id, conceptGeneral) {
     type: LOAD_CONCEPT_GENERAL_SUCCESS,
     payload: {
       id,
-      results: conceptGeneral
-    }
+      results: conceptGeneral,
+    },
   };
 }
 
@@ -45,8 +45,8 @@ export function loadConceptGeneralFailure(id, err) {
     type: LOAD_CONCEPT_GENERAL_FAILURE,
     payload: {
       id,
-      err
-    }
+      err,
+    },
   };
 }
 
@@ -54,8 +54,8 @@ export const loadConceptLinks = id => (dispatch, getState) => {
   dispatch({
     type: LOAD_CONCEPT_LINKS,
     payload: {
-      id
-    }
+      id,
+    },
   });
   return getConceptLinks(id).then(
     conceptLinks => dispatch(loadConceptLinksSuccess(id, conceptLinks)),
@@ -68,8 +68,8 @@ export function loadConceptLinksSuccess(id, conceptGeneral) {
     type: LOAD_CONCEPT_LINKS_SUCCESS,
     payload: {
       id,
-      results: conceptGeneral
-    }
+      results: conceptGeneral,
+    },
   };
 }
 
@@ -78,8 +78,8 @@ export function loadConceptLinksFailure(id, err) {
     type: LOAD_CONCEPT_LINKS_FAILURE,
     payload: {
       id,
-      err
-    }
+      err,
+    },
   };
 }
 
@@ -91,8 +91,8 @@ export const loadConceptNotes = (id, conceptVersion) => (
     type: LOAD_CONCEPT_NOTES,
     payload: {
       id,
-      conceptVersion
-    }
+      conceptVersion,
+    },
   });
   return getConceptNotes(id, conceptVersion).then(
     conceptNotes =>
@@ -107,8 +107,8 @@ export function loadConceptNotesSuccess(id, conceptVersion, conceptNotes) {
     payload: {
       id,
       conceptVersion,
-      results: conceptNotes
-    }
+      results: conceptNotes,
+    },
   };
 }
 
@@ -118,8 +118,8 @@ export function loadConceptNotesFailure(id, conceptVersion, err) {
     payload: {
       id,
       conceptVersion,
-      err
-    }
+      err,
+    },
   };
 }
 

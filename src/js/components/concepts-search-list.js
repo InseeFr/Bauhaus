@@ -17,7 +17,7 @@ import {
   filterByDisseminationStatus,
   filterByValidationStatus,
   filterByCreatedDate,
-  filterByModifiedDate
+  filterByModifiedDate,
 } from '../utils/array-utils';
 import { loadStampsList } from '../actions/stamps';
 import { loadDisseminationStatusList } from '../actions/dissemination-status';
@@ -38,7 +38,7 @@ class ConceptsSearchList extends Component {
       dateStartModify: '',
       dateEndModify: '',
       disseminationStatus: '',
-      validationStatus: ''
+      validationStatus: '',
     };
     this.onClickReturn = () => {
       this.props.history.push('/concepts');
@@ -53,7 +53,7 @@ class ConceptsSearchList extends Component {
         dateStartModify: '',
         dateEndModify: '',
         disseminationStatus: '',
-        validationStatus: ''
+        validationStatus: '',
       });
     };
     this.handleChangeSearchLabel = searchLabel => {
@@ -64,37 +64,37 @@ class ConceptsSearchList extends Component {
     };
     this.changeSelectCreator = e => {
       this.setState({
-        creator: e ? e.value : ''
+        creator: e ? e.value : '',
       });
     };
     this.changeSelectValidationStatus = e => {
       this.setState({
-        validationStatus: e ? e.value : ''
+        validationStatus: e ? e.value : '',
       });
     };
     this.changeSelectDisseminationStatus = e => {
       this.setState({
-        disseminationStatus: e ? e.value : ''
+        disseminationStatus: e ? e.value : '',
       });
     };
     this.handleChangeStartCreate = dateStartCreate => {
       this.setState({
-        dateStartCreate
+        dateStartCreate,
       });
     };
     this.handleChangeEndCreate = dateEndCreate => {
       this.setState({
-        dateEndCreate
+        dateEndCreate,
       });
     };
     this.handleChangeStartModify = dateStartModify => {
       this.setState({
-        dateStartModify
+        dateStartModify,
       });
     };
     this.handleChangeEndModify = dateEndModify => {
       this.setState({
-        dateEndModify
+        dateEndModify,
       });
     };
   }
@@ -109,7 +109,7 @@ class ConceptsSearchList extends Component {
     const {
       conceptsSearchList,
       stampsList,
-      disseminationStatusList
+      disseminationStatusList,
     } = this.props;
     const {
       searchLabel,
@@ -120,7 +120,7 @@ class ConceptsSearchList extends Component {
       dateStartCreate,
       dateEndCreate,
       dateStartModify,
-      dateEndModify
+      dateEndModify,
     } = this.state;
 
     console.log(this.state);
@@ -172,7 +172,8 @@ class ConceptsSearchList extends Component {
               <button
                 type="button"
                 className="btn btn-primary btn-lg col-md-12"
-                onClick={this.onClickReturn}>
+                onClick={this.onClickReturn}
+              >
                 <span
                   className="glyphicon glyphicon-menu-left"
                   aria-hidden="true"
@@ -184,7 +185,8 @@ class ConceptsSearchList extends Component {
               <button
                 type="button"
                 className="btn btn-primary btn-lg col-md-12"
-                onClick={this.onClickInitialize}>
+                onClick={this.onClickInitialize}
+              >
                 <span
                   className="glyphicon glyphicon-flash"
                   aria-hidden="true"
@@ -323,13 +325,13 @@ function singOrPluralResult(list) {
 const mapStateToProps = state => ({
   conceptsSearchList: state.conceptsSearchList,
   stampsList: state.stampsList,
-  disseminationStatusList: state.disseminationStatusList
+  disseminationStatusList: state.disseminationStatusList,
 });
 
 const mapDispatchToProps = {
   loadConceptsSearchList,
   loadStampsList,
-  loadDisseminationStatusList
+  loadDisseminationStatusList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

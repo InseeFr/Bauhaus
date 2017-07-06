@@ -19,7 +19,7 @@ class CollectionSend extends Component {
 
     var params = [
       this.props.collectionGeneral.prefLabelFr,
-      this.props.collectionGeneral.id
+      this.props.collectionGeneral.id,
     ];
     if (this.props.collectionGeneral.isValidated === 'Provisoire') {
       params.push('Provisoire');
@@ -32,11 +32,11 @@ class CollectionSend extends Component {
       isRecipientInsee: false,
       sender: defaultMailSender,
       object: dictionary.collection.send.object.value([
-        this.props.collectionGeneral.prefLabelFr
+        this.props.collectionGeneral.prefLabelFr,
       ]),
       message: EditorState.createWithContent(stateFromHTML(message)),
       isMessage: true,
-      creation: 'EDITION'
+      creation: 'EDITION',
     };
 
     this.handleChangeRec = recipient => {
@@ -45,14 +45,14 @@ class CollectionSend extends Component {
         params.push('Insee');
         message = dictionary.collection.send.message.value(params);
         this.setState({
-          message: EditorState.createWithContent(stateFromHTML(message))
+          message: EditorState.createWithContent(stateFromHTML(message)),
         });
       }
       if (!recipient.endsWith('@insee.fr') && params.includes('Insee')) {
         params.pop();
         message = dictionary.collection.send.message.value(params);
         this.setState({
-          message: EditorState.createWithContent(stateFromHTML(message))
+          message: EditorState.createWithContent(stateFromHTML(message)),
         });
       }
       if (regexValidMail.test(recipient) === true) {
@@ -69,7 +69,7 @@ class CollectionSend extends Component {
     this.changeMessage = message => {
       this.setState({
         message,
-        isMessage: message.getCurrentContent().hasText()
+        isMessage: message.getCurrentContent().hasText(),
       });
     };
 
@@ -82,19 +82,19 @@ class CollectionSend extends Component {
         message: stateToHTML(this.state.message.getCurrentContent()),
         prefLabelFr: this.props.collectionGeneral.prefLabelFr,
         creator: this.props.collectionGeneral.creator,
-        contributor: this.props.collectionGeneral.contributor
+        contributor: this.props.collectionGeneral.contributor,
       };
       this.setState({
-        creation: 'PENDING'
+        creation: 'PENDING',
       });
       postCollectionSend(data).then(isSent => isSent.text()).then(isSent => {
         if (isSent === 'true') {
           this.setState({
-            creation: 'DONE'
+            creation: 'DONE',
           });
         } else {
           this.setState({
-            creation: 'FAILED'
+            creation: 'FAILED',
           });
         }
       });
@@ -143,13 +143,13 @@ class CollectionSend extends Component {
                 {creation === 'DONE' &&
                   <h2>
                     {dictionary.collection.send.success([
-                      collectionGeneral.prefLabelFr
+                      collectionGeneral.prefLabelFr,
                     ])}
                   </h2>}
                 {creation === 'FAILED' &&
                   <h2>
                     {dictionary.collection.send.failed([
-                      collectionGeneral.prefLabelFr
+                      collectionGeneral.prefLabelFr,
                     ])}
                   </h2>}
               </div>
@@ -158,7 +158,8 @@ class CollectionSend extends Component {
               <div className="col-md-12">
                 <button
                   className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
-                  onClick={onClick}>
+                  onClick={onClick}
+                >
                   {dictionary.buttons.return}
                 </button>
               </div>
@@ -176,7 +177,7 @@ class CollectionSend extends Component {
             <div className="col-md-10 centered col-md-offset-1">
               <h2 className="page-title">
                 {dictionary.collection.send.title([
-                  collectionGeneral.prefLabelFr
+                  collectionGeneral.prefLabelFr,
                 ])}
               </h2>
             </div>
@@ -234,7 +235,7 @@ class CollectionSend extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  collectionGeneral: state.collectionGeneral[ownProps.params.id]
+  collectionGeneral: state.collectionGeneral[ownProps.params.id],
 });
 
 export default connect(mapStateToProps)(withRouter(CollectionSend));

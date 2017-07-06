@@ -9,7 +9,7 @@ import ConceptLinks from './concept-links';
 import ConceptNotes from './concept-notes';
 import {
   loadConceptGeneralAndNotes,
-  loadConceptLinks
+  loadConceptLinks,
 } from '../actions/concept-by-id';
 import { dictionary } from '../utils/dictionary';
 import { postConceptsToValidate } from '../utils/remote-api';
@@ -22,12 +22,12 @@ class ConceptsByID extends Component {
       english: false,
       conceptsToValid: [{ id }],
       validation: 'WAITING',
-      id
+      id,
     };
 
     this.toggleEnglish = () =>
       this.setState({
-        english: !this.state.english
+        english: !this.state.english,
       });
 
     this.handleClickReturn = e => {
@@ -53,10 +53,10 @@ class ConceptsByID extends Component {
     this.handleClickValid = e => {
       e.preventDefault();
       const data = {
-        conceptsToValid: this.state.conceptsToValid
+        conceptsToValid: this.state.conceptsToValid,
       };
       this.setState({
-        validation: 'PENDING'
+        validation: 'PENDING',
       });
       postConceptsToValidate(data)
         .then(() => {
@@ -64,7 +64,7 @@ class ConceptsByID extends Component {
         })
         .then(() => {
           this.setState({
-            validation: 'DONE'
+            validation: 'DONE',
           });
           this.props.history.push('/concept/' + this.state.id);
         });
@@ -166,13 +166,13 @@ const mapStateToProps = (state, ownProps) => {
   return {
     conceptGeneral: state.conceptGeneral[id],
     conceptNotes: state.conceptNotes[id],
-    conceptLinks: state.conceptLinks[id]
+    conceptLinks: state.conceptLinks[id],
   };
 };
 
 const mapDispatchToProps = {
   loadConceptGeneralAndNotes,
-  loadConceptLinks
+  loadConceptLinks,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

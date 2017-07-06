@@ -9,7 +9,7 @@ export const LOAD_CONCEPTS_SEARCH_LIST_FAILURE =
 export const loadConceptsSearchList = () => (dispatch, getState) => {
   dispatch({
     type: LOAD_CONCEPTS_SEARCH_LIST,
-    payload: null
+    payload: null,
   });
   return getConceptsSearchList().then(
     conceptsSearchList =>
@@ -22,14 +22,14 @@ export function loadConceptsSearchListSuccess(conceptsSearchList) {
   return {
     type: LOAD_CONCEPTS_SEARCH_LIST_SUCCESS,
     payload: {
-      results: conceptsSearchList
-    }
+      results: conceptsSearchList,
+    },
   };
 }
 
 export function loadConceptsSearchListFailure(err) {
   return {
     type: LOAD_CONCEPTS_SEARCH_LIST_FAILURE,
-    payload: err
+    payload: err,
   };
 }

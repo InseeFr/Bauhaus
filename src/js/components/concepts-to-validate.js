@@ -21,7 +21,7 @@ class ConceptsToValidate extends Component {
       searchLabel: '',
       potentialConceptsToValid: this.props.conceptsToValidateList,
       conceptsToValid: [],
-      validation: 'WAITING'
+      validation: 'WAITING',
     };
     this.handleChange = searchLabel => {
       this.setState({ searchLabel });
@@ -29,13 +29,16 @@ class ConceptsToValidate extends Component {
     this.OnClickAddMember = e => {
       this.setState({
         conceptsToValid: [...this.state.conceptsToValid, e],
-        potentialConceptsToValid: _.pull(this.state.potentialConceptsToValid, e)
+        potentialConceptsToValid: _.pull(
+          this.state.potentialConceptsToValid,
+          e
+        ),
       });
     };
     this.OnClickDelMember = e => {
       this.setState({
         conceptsToValid: _.pull(this.state.conceptsToValid, e),
-        potentialConceptsToValid: [...this.state.potentialConceptsToValid, e]
+        potentialConceptsToValid: [...this.state.potentialConceptsToValid, e],
       });
     };
     this.handleClickReturn = e => {
@@ -45,14 +48,14 @@ class ConceptsToValidate extends Component {
     this.handleClickValid = e => {
       e.preventDefault();
       const data = {
-        conceptsToValid: this.state.conceptsToValid
+        conceptsToValid: this.state.conceptsToValid,
       };
       this.setState({
-        validation: 'PENDING'
+        validation: 'PENDING',
       });
       postConceptsToValidate(data).then(() => {
         this.setState({
-          validation: 'DONE'
+          validation: 'DONE',
         });
         this.props.history.push('/concepts');
       });
@@ -64,7 +67,7 @@ class ConceptsToValidate extends Component {
       searchLabel,
       potentialConceptsToValid,
       conceptsToValid,
-      validation
+      validation,
     } = this.state;
 
     const logoAdd = <img src={add} alt="add" className="img-flag" />;
@@ -78,7 +81,8 @@ class ConceptsToValidate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickAddMember(item)}>
+        onClick={e => this.OnClickAddMember(item)}
+      >
         {logoAdd} {item.prefLabelFr}
       </li>
     );
@@ -87,7 +91,8 @@ class ConceptsToValidate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMember(item)}>
+        onClick={e => this.OnClickDelMember(item)}
+      >
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -124,14 +129,16 @@ class ConceptsToValidate extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickReturn}>
+                  onClick={this.handleClickReturn}
+                >
                   {dictionary.buttons.return}
                 </button>
               </div>
               <div className="col-md-2 pull-right">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickValid}>
+                  onClick={this.handleClickValid}
+                >
                   {dictionary.buttons.validate}
                 </button>
               </div>
@@ -141,7 +148,8 @@ class ConceptsToValidate extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickReturn}>
+                  onClick={this.handleClickReturn}
+                >
                   {dictionary.buttons.return}
                 </button>
               </div>
@@ -154,7 +162,8 @@ class ConceptsToValidate extends Component {
                 <button
                   className="btn btn-primary btn-lg col-md-12"
                   onClick={this.handleClickModif}
-                  disabled>
+                  disabled
+                >
                   {dictionary.buttons.validate}
                 </button>
               </div>
@@ -183,7 +192,7 @@ class ConceptsToValidate extends Component {
 }
 
 const mapStateToProps = state => ({
-  conceptsToValidateList: state.conceptsToValidateList
+  conceptsToValidateList: state.conceptsToValidateList,
 });
 
 export default connect(mapStateToProps)(withRouter(ConceptsToValidate));

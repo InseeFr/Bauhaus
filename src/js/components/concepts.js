@@ -9,7 +9,7 @@ class Concepts extends Component {
   constructor() {
     super();
     this.state = {
-      pink: false
+      pink: false,
     };
 
     this.handleClick = e => {
@@ -26,7 +26,7 @@ class Concepts extends Component {
     };
     this.tooglePink = () =>
       this.setState({
-        pink: !this.state.pink
+        pink: !this.state.pink,
       });
   }
 
@@ -47,7 +47,8 @@ class Concepts extends Component {
               <div className="row">
                 <button
                   className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-                  onClick={this.handleClick}>
+                  onClick={this.handleClick}
+                >
                   <span
                     className="glyphicon glyphicon-plus"
                     aria-hidden="true"
@@ -58,7 +59,8 @@ class Concepts extends Component {
               <div className="row">
                 <button
                   className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-                  disabled>
+                  disabled
+                >
                   <span
                     className="glyphicon glyphicon-import"
                     aria-hidden="true"
@@ -69,7 +71,8 @@ class Concepts extends Component {
               <div className="row">
                 <button
                   className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-                  onClick={this.handleClickExport}>
+                  onClick={this.handleClickExport}
+                >
                   <span
                     className="glyphicon glyphicon-export"
                     aria-hidden="true"
@@ -80,7 +83,8 @@ class Concepts extends Component {
               <div className="row">
                 <button
                   className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-                  onClick={this.handleClickValidate}>
+                  onClick={this.handleClickValidate}
+                >
                   <span
                     className="glyphicon glyphicon-ok"
                     aria-hidden="true"

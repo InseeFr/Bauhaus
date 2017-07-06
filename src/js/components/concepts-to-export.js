@@ -22,7 +22,7 @@ class ConceptsToExport extends Component {
       searchLabel: '',
       potentialConceptsToExport: this.props.conceptsList,
       conceptsToExport: [],
-      validation: 'WAITING'
+      validation: 'WAITING',
     };
     this.handleChange = searchLabel => {
       this.setState({ searchLabel });
@@ -33,13 +33,13 @@ class ConceptsToExport extends Component {
         potentialConceptsToExport: _.pull(
           this.state.potentialConceptsToExport,
           e
-        )
+        ),
       });
     };
     this.OnClickDelMember = e => {
       this.setState({
         conceptsToExport: _.pull(this.state.conceptsToExport, e),
-        potentialConceptsToExport: [...this.state.potentialConceptsToExport, e]
+        potentialConceptsToExport: [...this.state.potentialConceptsToExport, e],
       });
     };
     this.handleClickReturn = e => {
@@ -49,10 +49,10 @@ class ConceptsToExport extends Component {
     this.handleClickExport = e => {
       e.preventDefault();
       const data = {
-        conceptsToExport: this.state.conceptsToExport
+        conceptsToExport: this.state.conceptsToExport,
       };
       this.setState({
-        validation: 'PENDING'
+        validation: 'PENDING',
       });
       postConceptsToExport(data)
         .then(res => res.blob())
@@ -61,7 +61,7 @@ class ConceptsToExport extends Component {
         })
         .then(() => {
           this.setState({
-            validation: 'DONE'
+            validation: 'DONE',
           });
           this.props.history.push('/concepts');
         });
@@ -73,7 +73,7 @@ class ConceptsToExport extends Component {
       searchLabel,
       potentialConceptsToExport,
       conceptsToExport,
-      validation
+      validation,
     } = this.state;
 
     const logoAdd = <img src={add} alt="add" className="img-flag" />;
@@ -87,7 +87,8 @@ class ConceptsToExport extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickAddMember(item)}>
+        onClick={e => this.OnClickAddMember(item)}
+      >
         {logoAdd} {item.prefLabelFr}
       </li>
     );
@@ -96,7 +97,8 @@ class ConceptsToExport extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMember(item)}>
+        onClick={e => this.OnClickDelMember(item)}
+      >
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -133,14 +135,16 @@ class ConceptsToExport extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickReturn}>
+                  onClick={this.handleClickReturn}
+                >
                   {dictionary.buttons.return}
                 </button>
               </div>
               <div className="col-md-2 pull-right">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickExport}>
+                  onClick={this.handleClickExport}
+                >
                   {dictionary.buttons.export}
                 </button>
               </div>
@@ -150,7 +154,8 @@ class ConceptsToExport extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickReturn}>
+                  onClick={this.handleClickReturn}
+                >
                   {dictionary.buttons.return}
                 </button>
               </div>
@@ -189,7 +194,7 @@ class ConceptsToExport extends Component {
 }
 
 const mapStateToProps = state => ({
-  conceptsList: state.conceptsList
+  conceptsList: state.conceptsList,
 });
 
 export default connect(mapStateToProps)(withRouter(ConceptsToExport));

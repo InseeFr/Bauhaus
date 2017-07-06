@@ -17,7 +17,7 @@ import {
   filterByPrefLabelFr,
   arrayKeepUniqueField,
   arrayDropUniqueField,
-  arrayDifferenceByID
+  arrayDifferenceByID,
 } from '../utils/array-utils';
 import fr from '../../img/fr.png';
 import en from '../../img/en.png';
@@ -41,7 +41,7 @@ class CollectionModify extends Component {
       descriptionFr: '',
       descriptionEn: '',
       members: [],
-      creation: 'EDITION'
+      creation: 'EDITION',
     };
 
     this.handleChange = searchLabel => {
@@ -57,11 +57,11 @@ class CollectionModify extends Component {
         prefLabelFr !== this.props.collectionGeneral.prefLabelFr
       )
         this.setState({
-          isLabelExisting: true
+          isLabelExisting: true,
         });
       else
         this.setState({
-          isLabelExisting: false
+          isLabelExisting: false,
         });
     };
     this.handleChange2 = prefLabelEn => {
@@ -69,7 +69,7 @@ class CollectionModify extends Component {
     };
     this.changeSelectCreator = e => {
       this.setState({
-        creator: e ? e.value : ''
+        creator: e ? e.value : '',
       });
     };
     this.handleChange3 = descriptionFr => {
@@ -81,12 +81,12 @@ class CollectionModify extends Component {
 
     this.OnClickAddMember = e => {
       this.setState({
-        members: [...this.state.members, e]
+        members: [...this.state.members, e],
       });
     };
     this.OnClickDelMember = e => {
       this.setState({
-        members: _.pull(this.state.members, e)
+        members: _.pull(this.state.members, e),
       });
     };
     this.return = () => {
@@ -102,11 +102,11 @@ class CollectionModify extends Component {
         contributor: this.state.contributor,
         descriptionFr: this.state.descriptionFr,
         descriptionEn: this.state.descriptionEn,
-        members: this.state.members
+        members: this.state.members,
       };
       if (this.state.prefLabelFr && !this.state.isLabelExisting) {
         this.setState({
-          creation: 'PENDING'
+          creation: 'PENDING',
         });
         postModifiedCollections(data.idCollection, data).then(() => {
           this.props.history.push('/collection/' + this.state.idCollection);
@@ -130,7 +130,7 @@ class CollectionModify extends Component {
       contributor: nextProps.collectionGeneral.contributor,
       descriptionFr: nextProps.collectionGeneral.descriptionFr,
       descriptionEn: nextProps.collectionGeneral.descriptionEn,
-      members: arrayDropUniqueField(nextProps.collectionMembers, 'prefLabelEn')
+      members: arrayDropUniqueField(nextProps.collectionMembers, 'prefLabelEn'),
     });
   }
 
@@ -142,7 +142,7 @@ class CollectionModify extends Component {
       members,
       creation,
       prefLabelFr,
-      isLabelExisting
+      isLabelExisting,
     } = this.state;
 
     const flagFr = <img src={fr} alt="fr" className="img-flag" />;
@@ -160,7 +160,8 @@ class CollectionModify extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickAddMember(item)}>
+        onClick={e => this.OnClickAddMember(item)}
+      >
         {logoAdd} {item.prefLabelFr}
       </li>
     );
@@ -169,7 +170,8 @@ class CollectionModify extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMember(item)}>
+        onClick={e => this.OnClickDelMember(item)}
+      >
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -325,12 +327,12 @@ const mapStateToProps = (state, ownProps) => ({
   collectionMembers: state.collectionMembers[ownProps.params.id],
   conceptsList: state.conceptsList,
   collectionsList: state.collectionsList,
-  stampsList: state.stampsList
+  stampsList: state.stampsList,
 });
 
 const mapDispatchToProps = {
   loadConceptsList,
-  loadStampsList
+  loadStampsList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
