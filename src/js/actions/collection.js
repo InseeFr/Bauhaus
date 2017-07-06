@@ -1,4 +1,4 @@
-import { getCollection, getCollectionMembers } from '../utils/remote-api';
+import { getCollection, getCollectionMembers } from 'js/utils/remote-api';
 
 export const LOAD_COLLECTION_GENERAL = 'LOAD_COLLECTION_GENERAL';
 export const LOAD_COLLECTION_GENERAL_SUCCESS =

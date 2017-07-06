@@ -8,9 +8,8 @@ import Concepts from './concepts';
 import ConceptsSearchList from './concepts-search-list';
 import ConceptByID from './concept-by-id';
 import ConceptCompare from './concept-compare';
-import ConceptCreate from './concept-create';
 import ConceptSend from './concept-send';
-import ConceptModify from './concept-modify';
+import { ConceptCreation, ConceptEdition } from './concept-edition';
 import ConceptsToValidate from './concepts-to-validate';
 import ConceptsToExport from './concepts-to-export';
 import Collections from './collections';
@@ -43,12 +42,12 @@ export default class Root extends Component {
                 path="/concept/:id/compare"
                 component={ConceptCompare}
               />
-              <Route exact path="/create/concept" component={ConceptCreate} />
+              <Route exact path="/create/concept" component={ConceptCreation} />
               <Route exact path="/concept/:id/send" component={ConceptSend} />
               <Route
                 exact
                 path="/concept/:id/modify"
-                component={ConceptModify}
+                component={ConceptEdition}
               />
               <Route
                 exact

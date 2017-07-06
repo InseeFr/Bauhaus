@@ -4,12 +4,12 @@ import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import FileSaver from 'file-saver';
 import MenuConcepts from './menu-concepts';
-import { dictionary } from '../utils/dictionary';
-import Panel from '../utils/panel';
-import Pagination from './utils/pagination';
+import { dictionary } from 'js/utils/dictionary';
+import Panel from 'js/utils/panel';
+import Pagination from 'js/components/shared/pagination';
 import Loadable from 'react-loading-overlay';
-import { sortArray, filterByPrefLabelFr } from '../utils/array-utils';
-import { postCollectionsToExport } from '../utils/remote-api';
+import { sortArray, filterByPrefLabelFr } from 'js/utils/array-utils';
+import { postCollectionsToExport } from 'js/utils/remote-api';
 import add from '../../img/add.png';
 import del from '../../img/del.png';
 
@@ -90,8 +90,7 @@ class CollectionsToExport extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickAddMember(item)}
-      >
+        onClick={e => this.OnClickAddMember(item)}>
         {logoAdd} {item.prefLabelFr}
       </li>
     );
@@ -100,8 +99,7 @@ class CollectionsToExport extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMember(item)}
-      >
+        onClick={e => this.OnClickDelMember(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -138,16 +136,14 @@ class CollectionsToExport extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickReturn}
-                >
+                  onClick={this.handleClickReturn}>
                   {dictionary.buttons.return}
                 </button>
               </div>
               <div className="col-md-2 pull-right">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickExport}
-                >
+                  onClick={this.handleClickExport}>
                   {dictionary.buttons.export}
                 </button>
               </div>
@@ -157,8 +153,7 @@ class CollectionsToExport extends Component {
               <div className="col-md-2">
                 <button
                   className="btn btn-primary btn-lg col-md-12"
-                  onClick={this.handleClickReturn}
-                >
+                  onClick={this.handleClickReturn}>
                   {dictionary.buttons.return}
                 </button>
               </div>

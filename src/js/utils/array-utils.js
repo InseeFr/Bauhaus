@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { isDateIn } from '../utils/moment';
+import { isDateIn } from 'js/utils/moment';
 
 export const arrayKeepUniqueField = (array, field) =>
   array.map(function(item) {

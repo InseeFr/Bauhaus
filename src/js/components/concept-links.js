@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { dictionary } from '../utils/dictionary';
-import Panel from '../utils/panel';
-import { sortArray } from '../utils/array-utils';
+import { dictionary } from 'js/utils/dictionary';
+import Panel from 'js/utils/panel';
+import { sortArray } from 'js/utils/array-utils';
 
 const sortByLabelFr = sortArray('prefLabelFr');
 const sortByLabelEn = sortArray('prefLabelEn');

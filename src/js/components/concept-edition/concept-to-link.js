@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { dictionary } from '../utils/dictionary';
-import Panel from '../utils/panel';
-import Pagination from './utils/pagination';
+import { dictionary } from 'js/utils/dictionary';
+import Panel from 'js/utils/panel';
+import Pagination from 'js/components/shared/pagination';
 
 class ConceptToLink extends Component {
   render() {

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import Loadable from 'react-loading-overlay';
-import { dictionary } from '../utils/dictionary';
-import Pagination from './utils/pagination';
-import { sortArray, filterByPrefLabelFr } from '../utils/array-utils';
+import { dictionary } from 'js/utils/dictionary';
+import Pagination from 'js/components/shared/pagination';
+import { sortArray, filterByPrefLabelFr } from 'js/utils/array-utils';
 import {
   loadCollectionsList,
   loadCollectionsToValidateList,

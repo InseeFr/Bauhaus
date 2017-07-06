@@ -1,7 +1,7 @@
 import React from 'react';
 import { EditorState } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
-import EditorHtml from './editor-html';
+import EditorHtml from 'js/components/shared/editor-html';
 
 function ConceptModifyNotes({ note, onChange }) {
   if (stateToHTML(note.getCurrentContent()) !== '<p>undefined</p>') {

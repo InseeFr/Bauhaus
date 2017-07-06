@@ -4,11 +4,11 @@ import { withRouter } from 'react-router-dom';
 import MenuConcepts from './menu-concepts';
 import ConceptGeneral from './concept-general';
 import ConceptCompareNotes from './concept-compare-notes';
-import { dictionary } from '../utils/dictionary';
+import { dictionary } from 'js/utils/dictionary';
 import {
 	creatSelectList,
 	creatSelectListSelectedLast,
-} from '../utils/array-utils';
+} from 'js/utils/array-utils';
 import { loadConceptNotes } from '../actions/concept-by-id';
 import buildExtract from 'js/utils/build-extract';
 

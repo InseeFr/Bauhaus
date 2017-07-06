@@ -1,7 +1,7 @@
 import React from 'react';
-import { dictionary } from '../utils/dictionary';
-import Panel from '../utils/panel';
-import { dateTimeToDateString } from '../utils/utils';
+import { dictionary } from 'js/utils/dictionary';
+import Panel from 'js/utils/panel';
+import { dateTimeToDateString } from 'js/utils/utils';
 
 function CollectionGeneral({ attr }) {
   const mapping = {

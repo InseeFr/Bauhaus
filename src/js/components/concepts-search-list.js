@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import SelectRmes from '../utils/select-rmes';
-import DatePickerRmes from '../utils/date-picker-rmes';
+import SelectRmes from 'js/utils/select-rmes';
+import DatePickerRmes from 'js/utils/date-picker-rmes';
 import Loadable from 'react-loading-overlay';
 import MenuConcepts from './menu-concepts';
-import { dictionary } from '../utils/dictionary';
-import Pagination from './utils/pagination';
+import { dictionary } from 'js/utils/dictionary';
+import Pagination from 'js/components/shared/pagination';
 import {
   sortArray,
   filterByPrefLabelFr,
@@ -18,11 +18,11 @@ import {
   filterByValidationStatus,
   filterByCreatedDate,
   filterByModifiedDate,
-} from '../utils/array-utils';
+} from 'js/utils/array-utils';
 import { loadStampsList } from '../actions/stamps';
 import { loadDisseminationStatusList } from '../actions/dissemination-status';
 import { loadConceptsSearchList } from '../actions/concepts-search-list';
-import '../../css/app.css';
+import 'css/app.css';
 
 const sortByLabel = sortArray('prefLabelFr');
 
@@ -172,8 +172,7 @@ class ConceptsSearchList extends Component {
               <button
                 type="button"
                 className="btn btn-primary btn-lg col-md-12"
-                onClick={this.onClickReturn}
-              >
+                onClick={this.onClickReturn}>
                 <span
                   className="glyphicon glyphicon-menu-left"
                   aria-hidden="true"
@@ -185,8 +184,7 @@ class ConceptsSearchList extends Component {
               <button
                 type="button"
                 className="btn btn-primary btn-lg col-md-12"
-                onClick={this.onClickInitialize}
-              >
+                onClick={this.onClickInitialize}>
                 <span
                   className="glyphicon glyphicon-flash"
                   aria-hidden="true"

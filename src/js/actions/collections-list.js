@@ -1,7 +1,7 @@
 import {
 	getCollectionsList,
 	getCollectionsToValidateList,
-} from '../utils/remote-api';
+} from 'js/utils/remote-api';
 
 export const LOAD_COLLECTIONS_LIST = 'LOAD_COLLECTIONS_LIST';
 export const LOAD_COLLECTIONS_LIST_SUCCESS = 'LOAD_COLLECTIONS_LIST_SUCCESS';

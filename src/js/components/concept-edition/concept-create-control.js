@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { maxLengthScopeNote } from '../../config/config';
-import { editorLength } from './editor-html';
-import { dictionary } from '../utils/dictionary';
+import { maxLengthScopeNote } from 'config/config';
+import { editorLength } from 'js/components/shared/editor-html';
+import { dictionary } from 'js/utils/dictionary';
 
 class ConceptCreateControl extends Component {
   render() {
@@ -15,8 +15,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -33,8 +32,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
+              disabled>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
@@ -52,8 +50,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -70,8 +67,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
+              disabled>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
@@ -89,8 +85,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -107,8 +102,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
+              disabled>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
@@ -129,8 +123,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -147,8 +140,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
+              disabled>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
@@ -166,8 +158,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -184,8 +175,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
+              disabled>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
@@ -207,8 +197,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -225,8 +214,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
+              disabled>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
@@ -245,8 +233,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -263,8 +250,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
+              disabled>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
@@ -283,8 +269,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -301,8 +286,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
+              disabled>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
@@ -327,8 +311,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -340,8 +323,7 @@ class ConceptCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeSave}
-            >
+              onClick={onChangeSave}>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"

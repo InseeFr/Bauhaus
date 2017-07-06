@@ -1,4 +1,4 @@
-import { getStamps } from '../utils/igesa-api';
+import { getStamps } from 'js/utils/igesa-api';
 
 export const LOAD_STAMPS_LIST = 'LOAD_STAMPS_LIST';
 export const LOAD_STAMPS_LIST_SUCCESS = 'LOAD_STAMPS_LIST_SUCCESS';

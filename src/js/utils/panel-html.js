@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DOMPurify from 'dompurify';
-import '../../css/panel.css';
+import 'css/panel.css';
 
 class PanelHtml extends Component {
   render() {

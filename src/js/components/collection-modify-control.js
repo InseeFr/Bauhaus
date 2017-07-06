@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { dictionary } from '../utils/dictionary';
+import { dictionary } from 'js/utils/dictionary';
 
 class CollectionModifyControl extends Component {
   render() {

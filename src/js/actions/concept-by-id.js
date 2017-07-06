@@ -2,7 +2,7 @@ import {
   getConceptGeneral,
   getConceptNotes,
   getConceptLinks,
-} from '../utils/remote-api';
+} from 'js/utils/remote-api';
 
 export const LOAD_CONCEPT_GENERAL = 'LOAD_CONCEPT_GENERAL';
 export const LOAD_CONCEPT_GENERAL_SUCCESS = 'LOAD_CONCEPT_GENERAL_SUCCESS';

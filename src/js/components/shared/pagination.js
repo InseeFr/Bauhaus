@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { dictionary } from '../../utils/dictionary';
-import '../../../css/pagination.css';
+import { dictionary } from 'js/utils/dictionary';
+import 'css/pagination.css';
 
 class Pagination extends Component {
   constructor() {
@@ -46,8 +46,7 @@ class Pagination extends Component {
             key={number}
             id={number}
             onClick={this.handleClick}
-            className={activePage(number)}
-          >
+            className={activePage(number)}>
             {number}
           </li>
         );
@@ -68,8 +67,7 @@ class Pagination extends Component {
             <li
               key="100000"
               id={pageNumbers[pageNumbers.length - 1]}
-              onClick={this.handleClick}
-            >
+              onClick={this.handleClick}>
               {dictionary.pagination.last} ({pageNumbers[pageNumbers.length - 1]})
             </li>
           </ul>}

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import conceptsLogo from '../../img/concepts.jpg';
 import nomenclaturesLogo from '../../img/nomenclatures.jpg';
 import sourcesLogo from '../../img/sources.jpg';
-import { dictionary } from '../utils/dictionary';
-import '../../css/app.css';
+import { dictionary } from 'js/utils/dictionary';
+import 'css/app.css';
 
 function App() {
   return (

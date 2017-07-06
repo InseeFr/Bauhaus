@@ -4,14 +4,14 @@ import { withRouter, Link } from 'react-router-dom';
 import MenuConcepts from './menu-concepts';
 import Loadable from 'react-loading-overlay';
 import CollectionGeneral from './collection-general';
-import { dictionary } from '../utils/dictionary';
-import { Note } from '../utils/note';
-import { sortArray } from '../utils/array-utils';
+import { dictionary } from 'js/utils/dictionary';
+import { Note } from 'js/utils/note';
+import { sortArray } from 'js/utils/array-utils';
 import {
 	loadCollectionGeneral,
 	loadCollectionMembers,
 } from '../actions/collection';
-import { postCollectionsToValidate } from '../utils/remote-api';
+import { postCollectionsToValidate } from 'js/utils/remote-api';
 import buildExtract from 'js/utils/build-extract';
 
 const extractId = buildExtract('id');

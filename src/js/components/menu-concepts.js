@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import MenuReferentiels from './menu-referentiels';
-import { dictionary } from '../utils/dictionary';
-import '../../css/menu-concepts.css';
+import { dictionary } from 'js/utils/dictionary';
+import 'css/menu-concepts.css';
 
 class MenuConcepts extends Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { dictionary } from '../utils/dictionary';
+import { dictionary } from 'js/utils/dictionary';
 
 function ConceptByIDButtons({
   attr,

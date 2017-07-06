@@ -1,7 +1,7 @@
 import {
 	getConceptsList,
 	getConceptsToValidateList,
-} from '../utils/remote-api';
+} from 'js/utils/remote-api';
 
 export const LOAD_CONCEPTS_LIST = 'LOAD_CONCEPTS_LIST';
 export const LOAD_CONCEPTS_LIST_SUCCESS = 'LOAD_CONCEPTS_LIST_SUCCESS';

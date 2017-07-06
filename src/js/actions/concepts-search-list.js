@@ -1,4 +1,4 @@
-import { getConceptsSearchList } from '../utils/remote-api';
+import { getConceptsSearchList } from 'js/utils/remote-api';
 
 export const LOAD_CONCEPTS_SEARCH_LIST = 'LOAD_CONCEPTS_SEARCH_LIST';
 export const LOAD_CONCEPTS_SEARCH_LIST_SUCCESS =

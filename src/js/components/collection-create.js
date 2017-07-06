@@ -4,25 +4,25 @@ import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import Loadable from 'react-loading-overlay';
 import MenuConcepts from './menu-concepts';
-import SelectRmes from '../utils/select-rmes';
-import { dictionary } from '../utils/dictionary';
-import { defaultContributor } from '../../config/config';
-import Panel from '../utils/panel';
-import Pagination from './utils/pagination';
+import SelectRmes from 'js/utils/select-rmes';
+import { dictionary } from 'js/utils/dictionary';
+import { defaultContributor } from 'config/config';
+import Panel from 'js/utils/panel';
+import Pagination from 'js/components/shared/pagination';
 import CollectionCreateControl from './collection-create-control';
 import {
   sortArray,
   filterByPrefLabelFr,
   arrayKeepUniqueField,
-} from '../utils/array-utils';
-import { postCollections } from '../utils/remote-api';
+} from 'js/utils/array-utils';
+import { postCollections } from 'js/utils/remote-api';
 import { loadConceptsList } from '../actions/concepts-list';
 import { loadStampsList } from '../actions/stamps';
 import fr from '../../img/fr.png';
 import en from '../../img/en.png';
 import add from '../../img/add.png';
 import del from '../../img/del.png';
-import '../../css/app.css';
+import 'css/app.css';
 
 const sortByLabel = sortArray('prefLabelFr');
 
@@ -166,8 +166,7 @@ class CollectionCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickAddMember(item)}
-      >
+        onClick={e => this.OnClickAddMember(item)}>
         {logoAdd} {item.prefLabelFr}
       </li>
     );
@@ -176,8 +175,7 @@ class CollectionCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMember(item)}
-      >
+        onClick={e => this.OnClickDelMember(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );

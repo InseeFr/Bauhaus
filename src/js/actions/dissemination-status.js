@@ -1,4 +1,4 @@
-import { getDisseminationStatusList } from '../utils/remote-api';
+import { getDisseminationStatusList } from 'js/utils/remote-api';
 
 export const LOAD_DISSEMINATION_STATUS_LIST = 'LOAD_DISSEMINATION_STATUS_LIST';
 export const LOAD_DISSEMINATION_STATUS_LIST_SUCCESS =

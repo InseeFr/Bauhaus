@@ -11,8 +11,8 @@ import {
 	loadConceptGeneralAndNotes,
 	loadConceptLinks,
 } from '../actions/concept-by-id';
-import { dictionary } from '../utils/dictionary';
-import { postConceptsToValidate } from '../utils/remote-api';
+import { dictionary } from 'js/utils/dictionary';
+import { postConceptsToValidate } from 'js/utils/remote-api';
 import buildExtract from 'js/utils/build-extract';
 
 const extractId = buildExtract('id');

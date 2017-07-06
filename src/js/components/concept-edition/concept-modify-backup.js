@@ -3,88 +3,116 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import { Tabs, Tab } from 'react-bootstrap';
-import SelectRmes from '../utils/select-rmes';
-import DatePickerRmes from '../utils/date-picker-rmes';
+import Modal from 'react-modal';
+import DOMPurify from 'dompurify';
+import SelectRmes from 'js/utils/select-rmes';
+import DatePickerRmes from 'js/utils/date-picker-rmes';
 import Loadable from 'react-loading-overlay';
-import MenuConcepts from './menu-concepts';
-import EditorHtml, { editorLength, editorLengthText } from './editor-html';
-import { EditorState } from 'draft-js';
-import { stateToHTML } from 'draft-js-export-html';
-import ConceptToLink from './concept-to-link';
 import ConceptCreateControl from './concept-create-control';
+import ConceptModifyNotes from './concept-modify-notes';
+import { EditorState } from 'draft-js';
+import {
+  editorLength,
+  editorLengthText,
+} from 'js/components/shared/editor-html';
+import { stateToHTML } from 'draft-js-export-html';
+import { stateFromHTML } from 'draft-js-import-html';
+import MenuConcepts from './menu-concepts';
+import ConceptToLink from './concept-to-link';
 import { loadStampsList } from '../actions/stamps';
 import { loadDisseminationStatusList } from '../actions/dissemination-status';
-import { dictionary } from '../utils/dictionary';
-import { defaultContributor, maxLengthScopeNote } from '../../config/config';
-import { postConcepts } from '../utils/remote-api';
+import {
+  loadConceptGeneralAndNotes,
+  loadConceptLinks,
+} from '../actions/concept-by-id';
+import { dictionary } from 'js/utils/dictionary';
+import { maxLengthScopeNote } from 'config/config';
+import { postModifiedConcepts } from 'js/utils/remote-api';
 import {
   sortArray,
   filterByPrefLabelFr,
   arrayKeepUniqueField,
-} from '../utils/array-utils';
+  getMembers,
+  getPotentialMembers,
+} from 'js/utils/array-utils';
+import { objectSize, isEmpty, isChanged } from 'js/utils/utils';
 import fr from '../../img/fr.png';
 import en from '../../img/en.png';
 import add from '../../img/add.png';
 import del from '../../img/del.png';
 import warning from '../../img/warning.jpg';
-import '../../css/app.css';
+import buildExtract from 'js/utils/build-extract';
+
+const extractId = buildExtract('id');
 
 const sortByLabel = sortArray('prefLabelFr');
 
-class ConceptCreate extends Component {
+class ConceptModify extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showModal: false,
+      creation: 'WAITING',
       prefLabelFr: '',
       isLabelFrExisting: false,
       prefLabelEn: '',
       altLabelFr: '',
       altLabelEn: '',
       creator: '',
-      contributor: defaultContributor,
+      contributor: '',
       disseminationStatus: '',
       additionnalMaterial: '',
-      dateEnd: null,
+      dateEnd: '',
       searchLabel: '',
       memberParent: [],
       memberEnfants: [],
       memberRef: [],
       memberSucceed: [],
       memberLink: [],
-      potentialMembers: this.props.conceptsList,
+      potentialMembers: [],
       activeTabLink: 1,
-      creation: 'EDITION',
       definitionCourteFr: EditorState.createEmpty(),
       isDefinitionCourteFr: EditorState.createEmpty()
         .getCurrentContent()
         .hasText(),
+      isDefinitionCourteFrChanged: false,
       definitionCourteEn: EditorState.createEmpty(),
       isDefinitionCourteEn: EditorState.createEmpty()
         .getCurrentContent()
         .hasText(),
+      isDefinitionCourteEnChanged: false,
       definitionFr: EditorState.createEmpty(),
       isDefinitionFr: EditorState.createEmpty().getCurrentContent().hasText(),
+      isDefinitionFrChanged: false,
       definitionEn: EditorState.createEmpty(),
       isDefinitionEn: EditorState.createEmpty().getCurrentContent().hasText(),
+      isDefinitionEnChanged: false,
       noteEditorialeFr: EditorState.createEmpty(),
       isNoteEditorialeFr: EditorState.createEmpty()
         .getCurrentContent()
         .hasText(),
+      isNoteEditorialeFrChanged: false,
       noteEditorialeEn: EditorState.createEmpty(),
       isNoteEditorialeEn: EditorState.createEmpty()
         .getCurrentContent()
         .hasText(),
+      isNoteEditorialeEnChanged: false,
       changeNoteFr: EditorState.createEmpty(),
       isChangeNoteFr: EditorState.createEmpty().getCurrentContent().hasText(),
+      isChangeNoteFrChanged: false,
       changeNoteEn: EditorState.createEmpty(),
       isChangeNoteEn: EditorState.createEmpty().getCurrentContent().hasText(),
+      isChangeNoteEnChanged: false,
     };
+
+    // ConceptGeneral
     this.handleChangePrefLabelFr = prefLabelFr => {
       this.setState({ prefLabelFr });
       if (
         arrayKeepUniqueField(this.props.conceptsList, 'prefLabelFr').indexOf(
           _.deburr(prefLabelFr.toLowerCase())
-        ) !== -1
+        ) !== -1 &&
+        prefLabelFr !== this.props.conceptGeneral.prefLabelFr
       )
         this.setState({
           isLabelFrExisting: true,
@@ -116,22 +144,23 @@ class ConceptCreate extends Component {
     this.handleChangeAdditionnalMaterial = additionnalMaterial => {
       this.setState({ additionnalMaterial });
     };
-    this.handleChangeDateEnd = dateEnd => {
+    this.handleChangeDateEnd = (value, formattedValue) => {
       this.setState({
-        dateEnd,
+        value,
+        formattedValue,
+        dateEnd: value,
       });
     };
 
+    //ConceptLinks
     this.handleChangeSearch = searchLabel => {
       this.setState({ searchLabel });
     };
-
     this.handleSelectTab = e => {
       this.setState({
         activeTabLink: e,
       });
     };
-
     this.OnClickAddMember = e => {
       this.setState({
         potentialMembers: _.pull(this.state.potentialMembers, e),
@@ -162,7 +191,6 @@ class ConceptCreate extends Component {
         });
       }
     };
-
     this.OnClickDelMemberParent = e => {
       this.setState({
         memberParent: _.pull(this.state.memberParent, e),
@@ -194,59 +222,130 @@ class ConceptCreate extends Component {
       });
     };
 
+    //ConceptNotes
     this.changeDefinitionCourteFr = definitionCourteFr => {
       this.setState({
         definitionCourteFr,
         isDefinitionCourteFr: definitionCourteFr.getCurrentContent().hasText(),
+        isDefinitionCourteFrChanged: isChanged(
+          this.props.conceptNotes.definitionCourteFr,
+          stateToHTML(definitionCourteFr.getCurrentContent())
+        ),
       });
     };
     this.changeDefinitionCourteEn = definitionCourteEn => {
       this.setState({
         definitionCourteEn,
         isDefinitionCourteEn: definitionCourteEn.getCurrentContent().hasText(),
+        isDefinitionCourteEnChanged: isChanged(
+          this.props.conceptNotes.definitionCourteEn,
+          stateToHTML(definitionCourteEn.getCurrentContent())
+        ),
       });
     };
     this.changeDefinitionFr = definitionFr => {
       this.setState({
         definitionFr,
         isDefinitionFr: definitionFr.getCurrentContent().hasText(),
+        isDefinitionFrChanged: isChanged(
+          this.props.conceptNotes.definitionFr,
+          stateToHTML(definitionFr.getCurrentContent())
+        ),
       });
     };
     this.changeDefinitionEn = definitionEn => {
       this.setState({
         definitionEn,
         isDefinitionEn: definitionEn.getCurrentContent().hasText(),
+        isDefinitionEnChanged: isChanged(
+          this.props.conceptNotes.definitionEn,
+          stateToHTML(definitionEn.getCurrentContent())
+        ),
       });
     };
     this.changeNoteEditorialeFr = noteEditorialeFr => {
       this.setState({
         noteEditorialeFr,
         isNoteEditorialeFr: noteEditorialeFr.getCurrentContent().hasText(),
+        isNoteEditorialeFrChanged: isChanged(
+          this.props.conceptNotes.noteEditorialeFr,
+          stateToHTML(noteEditorialeFr.getCurrentContent())
+        ),
       });
     };
     this.changeNoteEditorialeEn = noteEditorialeEn => {
       this.setState({
         noteEditorialeEn,
         isNoteEditorialeEn: noteEditorialeEn.getCurrentContent().hasText(),
+        isNoteEditorialeEnChanged: isChanged(
+          this.props.conceptNotes.noteEditorialeEn,
+          stateToHTML(noteEditorialeEn.getCurrentContent())
+        ),
       });
     };
     this.changeChangeNoteFr = changeNoteFr => {
       this.setState({
         changeNoteFr,
         isChangeNoteFr: changeNoteFr.getCurrentContent().hasText(),
+        isChangeNoteFrChanged: isChanged(
+          this.props.conceptNotes.changeNoteFr,
+          stateToHTML(changeNoteFr.getCurrentContent())
+        ),
       });
     };
     this.changeChangeNoteEn = changeNoteEn => {
       this.setState({
         changeNoteEn,
         isChangeNoteEn: changeNoteEn.getCurrentContent().hasText(),
+        isChangeNoteEnChanged: isChanged(
+          this.props.conceptNotes.changeNoteEn,
+          stateToHTML(changeNoteEn.getCurrentContent())
+        ),
       });
     };
     this.return = () => {
-      this.props.history.push('/concepts');
+      this.props.history.push('/concept/' + this.props.conceptGeneral.id);
     };
-    this.editConceptData = () => {
+
+    // Save
+    this.open = () => {
+      this.setState({ showModal: true });
+    };
+
+    this.close = () => {
+      this.setState({ showModal: false });
+    };
+    this.askToConfirm = () => {
+      if (
+        this.props.conceptGeneral.isValidated ===
+          dictionary.status.concept.valid &&
+        (this.state.isDefinitionCourteFrChanged ||
+          this.state.isDefinitionFrChanged ||
+          this.state.isNoteEditorialeFrChanged) &&
+        objectSize(this.props.conceptNotes) > 1
+      ) {
+        this.open();
+      } else {
+        this.editConceptData(false);
+      }
+    };
+    this.closeAndMinor = () => {
+      this.setState({
+        showModal: false,
+      });
+      this.editConceptData(false);
+    };
+    this.closeAndMajor = () => {
+      this.setState({
+        showModal: false,
+      });
+      this.editConceptData(true);
+    };
+    this.editConceptData = wantToVersionning => {
       const data = {
+        wantToVersionning,
+        isValidated: this.props.conceptGeneral.isValidated,
+        conceptVersion: this.props.conceptGeneral.conceptVersion,
         prefLabelFr: this.state.prefLabelFr,
         prefLabelEn: this.state.prefLabelEn,
         altLabelFr: this.state.altLabelFr,
@@ -257,47 +356,66 @@ class ConceptCreate extends Component {
         additionnalMaterial: this.state.additionnalMaterial
           ? 'http://' + this.state.additionnalMaterial.replace('http://', '')
           : '',
+        created: this.props.conceptGeneral.created,
         dateEnd: this.state.dateEnd,
         memberParent: this.state.memberParent,
         memberEnfants: this.state.memberEnfants,
         memberRef: this.state.memberRef,
         memberSucceed: this.state.memberSucceed,
         memberLink: this.state.memberLink,
+        isDefinitionCourteFrChanged: this.state.isDefinitionCourteFrChanged,
+        isDefinitionCourteEnChanged: this.state.isDefinitionCourteEnChanged,
         isDefinitionCourteFr: this.state.isDefinitionCourteFr,
         isDefinitionCourteEn: this.state.isDefinitionCourteEn,
+        definitionCourteFrVersion: this.props.conceptNotes
+          .definitionCourteFrVersion,
         definitionCourteFr: stateToHTML(
           this.state.definitionCourteFr.getCurrentContent()
         ),
+        definitionCourteEnVersion: this.props.conceptNotes
+          .definitionCourteEnVersion,
         definitionCourteEn: stateToHTML(
           this.state.definitionCourteEn.getCurrentContent()
         ),
+        isDefinitionFrChanged: this.state.isDefinitionFrChanged,
+        isDefinitionEnChanged: this.state.isDefinitionEnChanged,
         isDefinitionFr: this.state.isDefinitionFr,
         isDefinitionEn: this.state.isDefinitionEn,
+        definitionFrVersion: this.props.conceptNotes.definitionFrVersion,
         definitionFr: stateToHTML(this.state.definitionFr.getCurrentContent()),
+        definitionEnVersion: this.props.conceptNotes.definitionEnVersion,
         definitionEn: stateToHTML(this.state.definitionEn.getCurrentContent()),
+        isNoteEditorialeFrChanged: this.state.isNoteEditorialeFrChanged,
+        isNoteEditorialeEnChanged: this.state.isNoteEditorialeEnChanged,
         isNoteEditorialeFr: this.state.isNoteEditorialeFr,
         isNoteEditorialeEn: this.state.isNoteEditorialeEn,
+        noteEditorialeFrVersion: this.props.conceptNotes
+          .noteEditorialeFrVersion,
         noteEditorialeFr: stateToHTML(
           this.state.noteEditorialeFr.getCurrentContent()
         ),
+        noteEditorialeEnVersion: this.props.conceptNotes
+          .noteEditorialeEnVersion,
         noteEditorialeEn: stateToHTML(
           this.state.noteEditorialeEn.getCurrentContent()
         ),
+        isChangeNoteFrChanged: this.state.isChangeNoteFrChanged,
+        isChangeNoteEnChanged: this.state.isChangeNoteEnChanged,
         isChangeNoteFr: this.state.isChangeNoteFr,
         isChangeNoteEn: this.state.isChangeNoteEn,
         changeNoteFr: stateToHTML(this.state.changeNoteFr.getCurrentContent()),
         changeNoteEn: stateToHTML(this.state.changeNoteEn.getCurrentContent()),
       };
-      if (this.state.prefLabelFr && !this.state.isLabelFrExisting) {
-        this.setState({
-          creation: 'PENDING',
+      this.setState({
+        creation: 'PENDING',
+      });
+      postModifiedConcepts(this.props.conceptGeneral.id, data)
+        .then(() => {
+          this.props.loadConceptGeneralAndNotes(extractId(this.props));
+        })
+        .then(() => {
+          this.props.history.push('/concept/' + this.props.conceptGeneral.id);
         });
-        postConcepts(data)
-          .then(newConceptID => newConceptID.text())
-          .then(newConceptID => {
-            this.props.history.push('/concept/' + newConceptID);
-          });
-      }
     };
   }
 
@@ -306,32 +424,90 @@ class ConceptCreate extends Component {
     this.props.loadDisseminationStatusList();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      prefLabelFr: nextProps.conceptGeneral.prefLabelFr,
+      prefLabelEn: nextProps.conceptGeneral.prefLabelEn,
+      altLabelFr: nextProps.conceptGeneral.altLabelFr,
+      altLabelEn: nextProps.conceptGeneral.altLabelEn,
+      creator: nextProps.conceptGeneral.creator,
+      contributor: nextProps.conceptGeneral.contributor,
+      disseminationStatus: nextProps.conceptGeneral.disseminationStatus,
+      additionnalMaterial: nextProps.conceptGeneral.additionnalMaterial,
+      dateEnd: nextProps.conceptGeneral.dateEnd,
+      memberParent: getMembers(nextProps.conceptLinks, 'memberParent'),
+      memberEnfants: getMembers(nextProps.conceptLinks, 'memberEnfants'),
+      memberRef: getMembers(nextProps.conceptLinks, 'memberRef'),
+      memberSucceed: getMembers(nextProps.conceptLinks, 'memberSucceed'),
+      memberLink: getMembers(nextProps.conceptLinks, 'memberLink'),
+      potentialMembers: getPotentialMembers(
+        nextProps.conceptsList,
+        nextProps.conceptLinks,
+        nextProps.conceptGeneral.id
+      ),
+      isDefinitionCourteFr: !isEmpty(nextProps.conceptNotes.definitionCourteFr),
+      definitionCourteFr: EditorState.createWithContent(
+        stateFromHTML(nextProps.conceptNotes.definitionCourteFr)
+      ),
+      isDefinitionCourteEn: !isEmpty(nextProps.conceptNotes.definitionCourteEn),
+      definitionCourteEn: EditorState.createWithContent(
+        stateFromHTML(nextProps.conceptNotes.definitionCourteEn)
+      ),
+      isDefinitionFr: !isEmpty(nextProps.conceptNotes.definitionFr),
+      definitionFr: EditorState.createWithContent(
+        stateFromHTML(nextProps.conceptNotes.definitionFr)
+      ),
+      isDefinitionEn: !isEmpty(nextProps.conceptNotes.definitionEn),
+      definitionEn: EditorState.createWithContent(
+        stateFromHTML(nextProps.conceptNotes.definitionEn)
+      ),
+      isNoteEditorialeFr: !isEmpty(nextProps.conceptNotes.noteEditorialeFr),
+      noteEditorialeFr: EditorState.createWithContent(
+        stateFromHTML(nextProps.conceptNotes.noteEditorialeFr)
+      ),
+      isNoteEditorialeEn: !isEmpty(nextProps.conceptNotes.noteEditorialeEn),
+      noteEditorialeEn: EditorState.createWithContent(
+        stateFromHTML(nextProps.conceptNotes.noteEditorialeEn)
+      ),
+      isChangeNoteFr: !isEmpty(nextProps.conceptNotes.changeNoteFr),
+      changeNoteFr: EditorState.createWithContent(
+        stateFromHTML(nextProps.conceptNotes.changeNoteFr)
+      ),
+      isChangeNoteEn: !isEmpty(nextProps.conceptNotes.changeNoteEn),
+      changeNoteEn: EditorState.createWithContent(
+        stateFromHTML(nextProps.conceptNotes.changeNoteEn)
+      ),
+    });
+  }
+
   render() {
-    const { stampsList, disseminationStatusList } = this.props;
+    const { conceptGeneral, stampsList, disseminationStatusList } = this.props;
     const {
-      contributor,
-      creator,
-      potentialMembers,
+      creation,
       searchLabel,
+      potentialMembers,
       dateEnd,
+      creator,
       disseminationStatus,
       memberParent,
       memberEnfants,
       memberRef,
       memberSucceed,
       memberLink,
-      creation,
       definitionCourteFr,
       definitionCourteEn,
       definitionFr,
       definitionEn,
       isDefinitionCourteFr,
       isDefinitionFr,
+      isChangeNoteFr,
+      isChangeNoteFrChanged,
       noteEditorialeFr,
       noteEditorialeEn,
       changeNoteFr,
       changeNoteEn,
     } = this.state;
+
     const flagFr = <img src={fr} alt="fr" className="img-flag" />;
     const flagEn = <img src={en} alt="fr" className="img-flag" />;
     const logoAdd = <img src={add} alt="add" className="img-flag" />;
@@ -344,12 +520,10 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickAddMember(item)}
-      >
+        onClick={e => this.OnClickAddMember(item)}>
         {logoAdd} {item.prefLabelFr}
       </li>
     );
-
     const potentialMembersListNoLinks = sortByLabel(
       potentialMembers.filter(filterByPrefLabelFr(_.deburr(searchLabel)))
     ).map(item =>
@@ -361,8 +535,7 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberParent(item)}
-      >
+        onClick={e => this.OnClickDelMemberParent(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -370,8 +543,7 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberEnfants(item)}
-      >
+        onClick={e => this.OnClickDelMemberEnfants(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -379,8 +551,7 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberRef(item)}
-      >
+        onClick={e => this.OnClickDelMemberRef(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -388,8 +559,7 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberSucceed(item)}
-      >
+        onClick={e => this.OnClickDelMemberSucceed(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
@@ -397,12 +567,10 @@ class ConceptCreate extends Component {
       <li
         key={item.id}
         className="list-group-item"
-        onClick={e => this.OnClickDelMemberLink(item)}
-      >
+        onClick={e => this.OnClickDelMemberLink(item)}>
         {logoDel} {item.prefLabelFr}
       </li>
     );
-
     const scopeNoteTabLabel =
       !isDefinitionCourteFr && disseminationStatus.includes('Public')
         ? <div className="red">
@@ -414,6 +582,10 @@ class ConceptCreate extends Component {
           {dictionary.notes.definition}
         </div>
       : dictionary.notes.definition;
+
+    const versionningIsPossible =
+      isChangeNoteFr && isChangeNoteFrChanged ? true : false;
+    const disabledVersionningButton = !versionningIsPossible;
 
     if (creation === 'PENDING') {
       return (
@@ -431,6 +603,8 @@ class ConceptCreate extends Component {
       );
     }
 
+    if (!stampsList) return null;
+
     return (
       <div>
         <MenuConcepts />
@@ -438,15 +612,17 @@ class ConceptCreate extends Component {
           <div className="row">
             <div className="col-md-10 centered col-md-offset-1">
               <h2 className="page-title">
-                {dictionary.concept.create}
+                {dictionary.concept.modify}
+                <br />&quot; {conceptGeneral.prefLabelFr} &quot;
               </h2>
             </div>
           </div>
-          <ConceptCreateControl
-            attr={this.state}
-            onChangeSave={this.editConceptData}
-            onChangeReturn={this.return}
-          />
+          {this.state.contributor &&
+            <ConceptCreateControl
+              attr={this.state}
+              onChangeSave={this.askToConfirm}
+              onChangeReturn={this.return}
+            />}
           <ul className="nav nav-tabs nav-justified">
             <Tabs activeKey={this.state.activeTab} id="tab">
               <Tab eventKey={1} title={dictionary.concept.general}>
@@ -462,6 +638,7 @@ class ConceptCreate extends Component {
                     </label>
                     <input
                       type="text"
+                      defaultValue={conceptGeneral.prefLabelFr}
                       className="form-control"
                       onChange={e =>
                         this.handleChangePrefLabelFr(e.target.value)}
@@ -474,6 +651,7 @@ class ConceptCreate extends Component {
                     </label>
                     <input
                       type="text"
+                      defaultValue={conceptGeneral.prefLabelEn}
                       className="form-control"
                       onChange={e =>
                         this.handleChangePrefLabelEn(e.target.value)}
@@ -487,6 +665,7 @@ class ConceptCreate extends Component {
                     </label>
                     <input
                       type="text"
+                      defaultValue={conceptGeneral.altLabelFr}
                       className="form-control"
                       onChange={e =>
                         this.handleChangeAltLabelFr(e.target.value)}
@@ -498,6 +677,7 @@ class ConceptCreate extends Component {
                     </label>
                     <input
                       type="text"
+                      defaultValue={conceptGeneral.altLabelEn}
                       className="form-control"
                       onChange={e =>
                         this.handleChangeAltLabelEn(e.target.value)}
@@ -526,7 +706,7 @@ class ConceptCreate extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    defaultValue={contributor}
+                    defaultValue={conceptGeneral.contributor}
                     disabled
                   />
                 </div>
@@ -557,6 +737,14 @@ class ConceptCreate extends Component {
                     <input
                       type="text"
                       className="form-control"
+                      defaultValue={
+                        conceptGeneral.additionnalMaterial
+                          ? conceptGeneral.additionnalMaterial.replace(
+                              'http://',
+                              ''
+                            )
+                          : ''
+                      }
                       onChange={e =>
                         this.handleChangeAdditionnalMaterial(e.target.value)}
                     />
@@ -579,23 +767,20 @@ class ConceptCreate extends Component {
                     defaultActiveKey={1}
                     activeKey={this.state.activeTab}
                     id="tab2"
-                    onSelect={this.handleSelectTab}
-                  >
+                    onSelect={this.handleSelectTab}>
                     <Tab
                       eventKey={1}
                       title={scopeNoteTabLabel}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
                             <label>
                               {flagFr}
                             </label>
-                            <EditorHtml
-                              editor={definitionCourteFr}
-                              onEditorChange={e =>
-                                this.changeDefinitionCourteFr(e)}
+                            <ConceptModifyNotes
+                              note={definitionCourteFr}
+                              onChange={e => this.changeDefinitionCourteFr(e)}
                             />
                             <div>
                               {editorLengthText(definitionCourteFr)}
@@ -611,10 +796,9 @@ class ConceptCreate extends Component {
                             <label>
                               {flagEn}
                             </label>
-                            <EditorHtml
-                              editor={definitionCourteEn}
-                              onEditorChange={e =>
-                                this.changeDefinitionCourteEn(e)}
+                            <ConceptModifyNotes
+                              note={definitionCourteEn}
+                              onChange={e => this.changeDefinitionCourteEn(e)}
                             />
                             <div>
                               {editorLengthText(definitionCourteEn)}
@@ -633,17 +817,16 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={2}
                       title={definitionTabLabel}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
                             <label>
                               {flagFr}
                             </label>
-                            <EditorHtml
-                              editor={definitionFr}
-                              onEditorChange={e => this.changeDefinitionFr(e)}
+                            <ConceptModifyNotes
+                              note={definitionFr}
+                              onChange={e => this.changeDefinitionFr(e)}
                             />
                           </div>
                         </div>
@@ -652,9 +835,9 @@ class ConceptCreate extends Component {
                             <label>
                               {flagEn}
                             </label>
-                            <EditorHtml
-                              editor={definitionEn}
-                              onEditorChange={e => this.changeDefinitionEn(e)}
+                            <ConceptModifyNotes
+                              note={definitionEn}
+                              onChange={e => this.changeDefinitionEn(e)}
                             />
                           </div>
                         </div>
@@ -663,18 +846,16 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={3}
                       title={dictionary.notes.editorialeNote}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
                             <label>
                               {flagFr}
                             </label>
-                            <EditorHtml
-                              editor={noteEditorialeFr}
-                              onEditorChange={e =>
-                                this.changeNoteEditorialeFr(e)}
+                            <ConceptModifyNotes
+                              note={noteEditorialeFr}
+                              onChange={e => this.changeNoteEditorialeFr(e)}
                             />
                           </div>
                         </div>
@@ -683,10 +864,9 @@ class ConceptCreate extends Component {
                             <label>
                               {flagEn}
                             </label>
-                            <EditorHtml
-                              editor={noteEditorialeEn}
-                              onEditorChange={e =>
-                                this.changeNoteEditorialeEn(e)}
+                            <ConceptModifyNotes
+                              note={noteEditorialeEn}
+                              onChange={e => this.changeNoteEditorialeEn(e)}
                             />
                           </div>
                         </div>
@@ -695,17 +875,16 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={4}
                       title={dictionary.notes.changeNote}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group centered">
                             <label>
                               {flagFr}
                             </label>
-                            <EditorHtml
-                              editor={changeNoteFr}
-                              onEditorChange={e => this.changeChangeNoteFr(e)}
+                            <ConceptModifyNotes
+                              note={changeNoteFr}
+                              onChange={e => this.changeChangeNoteFr(e)}
                             />
                           </div>
                         </div>
@@ -714,9 +893,9 @@ class ConceptCreate extends Component {
                             <label>
                               {flagEn}
                             </label>
-                            <EditorHtml
-                              editor={changeNoteEn}
-                              onEditorChange={e => this.changeChangeNoteEn(e)}
+                            <ConceptModifyNotes
+                              note={changeNoteEn}
+                              onChange={e => this.changeChangeNoteEn(e)}
                             />
                           </div>
                         </div>
@@ -731,13 +910,11 @@ class ConceptCreate extends Component {
                     defaultActiveKey={1}
                     activeKey={this.state.activeTab}
                     id="tab2"
-                    onSelect={this.handleSelectTab}
-                  >
+                    onSelect={this.handleSelectTab}>
                     <Tab
                       eventKey={1}
                       title={dictionary.links.narrower}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       {memberParentList.length === 0 &&
                         <ConceptToLink
                           panelTitle={dictionary.links.narrower}
@@ -760,8 +937,7 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={2}
                       title={dictionary.links.broader}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.broader}
                         memberList={memberEnfantsList}
@@ -773,8 +949,7 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={3}
                       title={dictionary.links.references}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.references}
                         memberList={memberRefList}
@@ -786,8 +961,7 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={4}
                       title={dictionary.links.replaces}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.replaces}
                         memberList={memberSucceedList}
@@ -799,8 +973,7 @@ class ConceptCreate extends Component {
                     <Tab
                       eventKey={5}
                       title={dictionary.links.related}
-                      style={{ 'margin-top': '20px' }}
-                    >
+                      style={{ marginTop: '20px' }}>
                       <ConceptToLink
                         panelTitle={dictionary.links.related}
                         memberList={memberLinkList}
@@ -815,23 +988,95 @@ class ConceptCreate extends Component {
             </Tabs>
           </ul>
         </div>
+        <div>
+          <Modal
+            className="Modal__Bootstrap modal-dialog"
+            isOpen={this.state.showModal}
+            onRequestClose={this.close}>
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close" onClick={this.close}>
+                  <span aria-hidden="true">&times;</span>
+                  <span className="sr-only">
+                    {dictionary.buttons.close}
+                  </span>
+                </button>
+                <h4 className="modal-title">
+                  {dictionary.concept.versionning.title}
+                </h4>
+              </div>
+              <div className="modal-body">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      dictionary.concept.versionning.body([
+                        conceptGeneral.prefLabelFr,
+                      ])
+                    ),
+                  }}
+                />
+              </div>
+              <div className="modal-footer">
+                <div className="centered">
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-lg"
+                    onClick={this.closeAndMinor}>
+                    {dictionary.buttons.minorVersion}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-default btn-lg"
+                    onClick={this.close}>
+                    {dictionary.buttons.cancel}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-lg"
+                    onClick={this.closeAndMajor}
+                    disabled={disabledVersionningButton}>
+                    {dictionary.buttons.majorVersion}
+                  </button>
+                </div>
+                {!versionningIsPossible &&
+                  <div
+                    style={{ 'text-align': 'left', marginTop: '20px' }}
+                    className="red"
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        dictionary.concept.versionning.footer
+                      ),
+                    }}
+                  />}
+              </div>
+            </div>
+          </Modal>
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  conceptsList: state.conceptsList,
-  collectionsList: state.collectionsList,
-  stampsList: state.stampsList,
-  disseminationStatusList: state.disseminationStatusList,
-});
+const mapStateToProps = (state, ownProps) => {
+  const id = extractId(ownProps);
+  return {
+    conceptGeneral: state.conceptGeneral[id],
+    conceptNotes:
+      state.conceptNotes[id][state.conceptGeneral[id].conceptVersion],
+    conceptLinks: state.conceptLinks[id],
+    stampsList: state.stampsList,
+    disseminationStatusList: state.disseminationStatusList,
+    conceptsList: state.conceptsList,
+  };
+};
 
 const mapDispatchToProps = {
   loadStampsList,
   loadDisseminationStatusList,
+  loadConceptGeneralAndNotes,
+  loadConceptLinks,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  withRouter(ConceptCreate)
+  withRouter(ConceptModify)
 );

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import { dictionary } from '../utils/dictionary';
+import { dictionary } from 'js/utils/dictionary';
 import 'react-select/dist/react-select.css';
 import './select-rmes.css';
 

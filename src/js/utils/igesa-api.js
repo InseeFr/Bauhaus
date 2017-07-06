@@ -1,4 +1,4 @@
-import { baseHost } from '../../config/config';
+import { baseHost } from 'config/config';
 
 const urlGetStamps = baseHost + 'stamps';
 
