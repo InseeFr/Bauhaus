@@ -37,7 +37,7 @@
 		"style-loader": "^0.16.1"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"start": "cross-env NODE_PATH=src/  react-scripts start",
 		"build": "react-scripts build --minify=false",
 		"test": "react-scripts test --env=jsdom",
 		"eject": "react-scripts eject",
