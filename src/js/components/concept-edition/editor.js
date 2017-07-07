@@ -140,10 +140,8 @@ class ConceptModify extends Component {
     this.handleChangeAdditionnalMaterial = additionnalMaterial => {
       this.setState({ additionnalMaterial });
     };
-    this.handleChangeDateEnd = (value, formattedValue) => {
+    this.handleChangeDateEnd = value => {
       this.setState({
-        value,
-        formattedValue,
         dateEnd: value,
       });
     };

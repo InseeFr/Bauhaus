@@ -179,10 +179,5 @@ export const getPotentialMembers = (conceptsArray, linksArray, currentID) => {
   const result = [];
   const idLinks = arrayKeepUniqueField(linksArray, 'idLinked');
   idLinks.push(currentID);
-  for (var i = 0; i < conceptsArray.length; i++) {
-    if (idLinks.indexOf(conceptsArray[i].id) === -1) {
-      result.push(conceptsArray[i]);
-    }
-  }
-  return result;
+  return conceptsArray.filter(({ id }) => idLinks.indexOf(id) === -1);
 };
