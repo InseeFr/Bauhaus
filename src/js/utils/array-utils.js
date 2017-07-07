@@ -169,16 +169,9 @@ export const creatSelectListFromArrayWithInitText = (array, initText, attr) => {
 
 //Get members of concept
 export const getMembers = (linksArray, typeOfLink) => {
-  const result = [];
-  for (var i = 0; i < linksArray.length; i++) {
-    if (linksArray[i].conceptLink === typeOfLink) {
-      result.push({
-        id: linksArray[i].idLinked,
-        prefLabelFr: linksArray[i].prefLabelFr,
-      });
-    }
-  }
-  return result;
+  return linksArray
+    .filter(link => link.conceptLink === typeOfLink)
+    .map(({ idLinked, prefLabelFr }) => ({ id: idLinked, prefLabelFr }));
 };
 
 //Get potentialMembers of concept

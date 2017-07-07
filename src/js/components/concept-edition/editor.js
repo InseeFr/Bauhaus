@@ -111,19 +111,12 @@ class ConceptModify extends Component {
     // ConceptGeneral
     this.handleChangePrefLabelFr = prefLabelFr => {
       this.setState({ prefLabelFr });
-      if (
-        arrayKeepUniqueField(this.props.conceptsList, 'prefLabelFr').indexOf(
-          _.deburr(prefLabelFr.toLowerCase())
-        ) !== -1 &&
-        prefLabelFr !== this.props.conceptGeneral.prefLabelFr
-      )
-        this.setState({
-          isLabelFrExisting: true,
-        });
-      else
-        this.setState({
-          isLabelFrExisting: false,
-        });
+      this.setState({
+        isLabelFrExisting:
+          arrayKeepUniqueField(this.props.conceptsList, 'prefLabelFr').indexOf(
+            _.deburr(prefLabelFr.toLowerCase())
+          ) !== -1 && prefLabelFr !== this.props.conceptGeneral.prefLabelFr,
+      });
     };
     this.handleChangePrefLabelEn = prefLabelEn => {
       this.setState({ prefLabelEn });
