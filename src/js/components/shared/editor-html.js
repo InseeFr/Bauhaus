@@ -5,17 +5,17 @@ import { maxLengthScopeNote } from 'config/config';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import 'css/app.css';
 
+const toolbar = {
+  options: ['list'],
+  list: {
+    inDropdown: false,
+    className: undefined,
+    options: ['unordered', 'ordered'],
+  },
+};
+
 class EditorHtml extends Component {
   render() {
-    const toolbar = {
-      options: ['list'],
-      list: {
-        inDropdown: false,
-        className: undefined,
-        options: ['unordered', 'ordered'],
-      },
-    };
-
     return (
       <div>
         <Editor
