@@ -23,11 +23,4 @@ export const isChanged = (str1, str2) => {
   else return true;
 };
 
-export const objectSize = function(obj) {
-  var size = 0,
-    key;
-  for (key in obj) {
-    if (obj.hasOwnProperty(key)) size++;
-  }
-  return size;
-};
+export const objectSize = obj => Object.keys(obj).length;

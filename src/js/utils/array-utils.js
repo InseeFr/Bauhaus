@@ -176,7 +176,6 @@ export const getMembers = (linksArray, typeOfLink) => {
 
 //Get potentialMembers of concept
 export const getPotentialMembers = (conceptsArray, linksArray, currentID) => {
-  const result = [];
   const idLinks = arrayKeepUniqueField(linksArray, 'idLinked');
   idLinks.push(currentID);
   return conceptsArray.filter(({ id }) => idLinks.indexOf(id) === -1);
