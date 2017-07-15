@@ -45,7 +45,7 @@ export const getConceptsList = () =>
       if (res.ok) return res.json();
       else return Promise.reject(res.statusText);
     },
-    err => err.toString()
+    err => Promise.reject(err.toString())
   );
 
 export const getConceptsSearchList = () =>
