@@ -89,7 +89,7 @@ export default class Root extends Component {
             </Switch>
           </Router>
         </Provider>
-        <div className="centered" style={{ 'margin-top': '50px' }}>
+        <div className="centered" style={{ marginTop: '50px' }}>
           <label>Gncs - Version 0.1</label>
         </div>
       </div>
