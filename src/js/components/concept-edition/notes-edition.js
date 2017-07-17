@@ -5,33 +5,32 @@ import NoteEdition from './note-edition';
 import { dictionary } from 'js/utils/dictionary';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { maxLengthScopeNote } from 'config/config';
+import isEmpty from 'js/utils/is-empty-html';
 
 const noteTypes = [
   {
-    title: dictionary.notes.scopeNote,
-    //TODO should be highlighted only if
+    rawTitle: dictionary.notes.scopeNote,
+    // should be highlighted only if `definitionCourteFr` is empty and
     //`disseminationStatus.includes('Public')`
-    highlightIfFrEmpty: true,
+    redFrEmpty: disseminationStatus => disseminationStatus.includes('Public'),
     noteFrName: 'definitionCourteFr',
     noteEnName: 'definitionCourteEn',
     maxLength: maxLengthScopeNote,
   },
   {
-    title: dictionary.notes.definition,
-    highlightIfFrEmpty: true,
+    rawTitle: dictionary.notes.definition,
+    redFrEmpty: () => true,
     noteFrName: 'definitionFr',
     noteEnName: 'definitionEn',
   },
 
   {
-    title: dictionary.notes.editorialeNote,
-    highlightIfFrEmpty: false,
+    rawTitle: dictionary.notes.editorialeNote,
     noteFrName: 'noteEditorialeFr',
     noteEnName: 'noteEditorialeEn',
   },
   {
-    title: dictionary.notes.changeNote,
-    highlightIfFrEmpty: false,
+    rawTitle: dictionary.notes.changeNote,
     noteFrName: 'changeNoteFr',
     noteEnName: 'changeNoteEn',
   },
@@ -66,25 +65,40 @@ const handleFieldChange = handleChange =>
     return handlers;
   }, {});
 
-function NotesEdition({ notes, handleChange }) {
+function NotesEdition({ notes, disseminationStatus, handleChange }) {
   const handlers = handleFieldChange(handleChange);
   return (
     <ul className="nav nav-tabs nav-justified">
       <Tabs defaultActiveKey={0} id="kindOfNote">
-        {noteTypes.map(({ title, noteFrName, noteEnName, maxLength }, i) =>
-          <Tab
-            key={noteFrName}
-            eventKey={i}
-            title={title}
-            style={{ marginTop: '20px' }}>
-            <NoteEdition
-              noteFr={notes[noteFrName]}
-              noteEn={notes[noteEnName]}
-              handleChangeFr={handlers[noteFrName]}
-              handleChangeEn={handlers[noteEnName]}
-              maxLength={maxLength}
-            />
-          </Tab>
+        {noteTypes.map(
+          ({ rawTitle, noteFrName, noteEnName, redFrEmpty, maxLength }, i) => {
+            const noteFr = notes[noteFrName];
+            const noteEn = notes[noteEnName];
+            //note fr empty and we value the `redFrEmptpy` function to know if
+            //given the dissemination status, it should be highlighted or not
+            const highlight =
+              redFrEmpty && isEmpty(noteFr) && redFrEmpty(disseminationStatus);
+            const title = highlight
+              ? <div className="red">
+                  {rawTitle}
+                </div>
+              : rawTitle;
+            return (
+              <Tab
+                key={noteFrName}
+                eventKey={i}
+                title={title}
+                style={{ marginTop: '20px' }}>
+                <NoteEdition
+                  noteFr={noteFr}
+                  noteEn={noteEn}
+                  handleChangeFr={handlers[noteFrName]}
+                  handleChangeEn={handlers[noteEnName]}
+                  maxLength={maxLength}
+                />
+              </Tab>
+            );
+          }
         )}
       </Tabs>
     </ul>
@@ -93,6 +107,7 @@ function NotesEdition({ notes, handleChange }) {
 
 NotesEdition.propTypes = {
   conceptGeneral: notePropTypes,
+  disseminationStatus: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
 };
 

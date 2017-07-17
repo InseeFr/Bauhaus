@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function PageTitle({ title, subTitle }) {
+function PageTitle({ title, subtitle }) {
   return (
     <div className="row">
       <div className="col-md-10 centered col-md-offset-1">
         <h2 className="page-title">
           {title}
-          {subTitle &&
+          {subtitle &&
             <div>
-              &quot; {subTitle} &quot;
+              &quot; {subtitle} &quot;
             </div>}
         </h2>
       </div>
@@ -19,7 +19,7 @@ function PageTitle({ title, subTitle }) {
 
 PageTitle.proptTypes = {
   title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string,
+  subtitle: PropTypes.string,
 };
 
 export default PageTitle;

@@ -17,6 +17,7 @@ import buildExtract from 'js/utils/build-extract';
 
 const extractId = buildExtract('id');
 
+//TODO introduce a container component
 class ConceptByID extends Component {
   constructor(props) {
     super(props);
@@ -164,10 +165,29 @@ class ConceptByID extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const id = extractId(ownProps);
+  let conceptGeneral, conceptNotes, conceptLinks;
+  const conceptGeneralResource = state.conceptGeneral[id];
+  if (conceptGeneralResource && conceptGeneralResource.results) {
+    conceptGeneral = conceptGeneralResource.results;
+  }
+  if (conceptGeneral) {
+    const notesAllVersions = state.conceptNotes[id];
+    if (notesAllVersions) {
+      const notesResource = notesAllVersions[conceptGeneral.conceptVersion];
+      if (notesResource && notesResource.results) {
+        conceptNotes = notesResource.results;
+      }
+    }
+  }
+  const conceptLinksResource = state.conceptLinks[id];
+  if (conceptLinksResource && conceptLinksResource.results) {
+    conceptLinks = conceptLinksResource.results;
+  }
+
   return {
-    conceptGeneral: state.conceptGeneral[id],
-    conceptNotes: state.conceptNotes[id],
-    conceptLinks: state.conceptLinks[id],
+    conceptGeneral,
+    conceptNotes,
+    conceptLinks,
   };
 };
 

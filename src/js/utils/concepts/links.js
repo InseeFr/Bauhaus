@@ -16,14 +16,19 @@ export const propTypes = PropTypes.arrayOf(
   })
 );
 export function extractLinks(conceptsWithLinks) {
-  return conceptsWithLinks.reducer(
+  return conceptsWithLinks.reduce(
     (links, { id, typeOfLink }) => {
-      links[constantsMapping[typeOfLink]] = {
-        //TODO check remote api expectations: does it need additional information
-        // (like `prefLabelFr`) ? does it expect an object with an entry by `id` ?
-        // is the value significant ? or does it expect an array ?
-        id,
-      };
+      const typeOfLinkFinal = constantsMapping[typeOfLink];
+      //ignore `NONE`
+      if (typeOfLinkFinal) {
+        links[typeOfLinkFinal] = {
+          //TODO check remote api expectations: does it need additional information
+          // (like `prefLabelFr`) ? does it expect an object with an entry by `id` ?
+          // is the value significant ? or does it expect an array ?
+          id,
+        };
+      }
+      return links;
     },
     {
       //`memberParent` should not be an array

@@ -9,7 +9,6 @@ import NotesEdition from './notes-edition';
 import LinksEdition from './links-edition';
 import Confirm from './confirm-modal';
 import { withRouter } from 'react-router-dom';
-
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import {
   propTypes as notePropTypes,
@@ -27,11 +26,11 @@ class ConceptEdition extends Component {
     const { general, notes, conceptsWithLinks } = props;
     this.state = {
       showModal: false,
-      creation: 'WAITING',
+      status: 'WAITING',
       data: {
-        general,
-        notes,
-        conceptsWithLinks,
+        general: { ...general },
+        notes: { ...notes },
+        conceptsWithLinks: [...conceptsWithLinks],
       },
     };
 
@@ -77,24 +76,40 @@ class ConceptEdition extends Component {
       });
 
     //TODO does not work for creation (no id available)
-    this.goBackToConceptPage = id => {
+    this.goToConcept = id => {
       //TODO use <Navigate />
       this.props.history.push(`/concept/${id}`);
+    };
+
+    this.handleSave = () => {
+      if (this.props.creation) {
+        this.saveConcept().then(this.goToConcept);
+      } else {
+        //show modal if needed
+        this.askToConfirmOrSave();
+      }
     };
 
     //TODO does not work for edition (value id)
     this.handleCancel = () => {
       //TODO use <Navigate />
       //this.props.history.push(`/concept/${this.props.id}`);
-      this.props.history.push(`/concept`);
+      if (props.creation) {
+        this.props.history.push(`/concept`);
+      } else {
+        this.props.history.push(`/concept/${this.props.id}`);
+      }
     };
 
-    this.askToConfirm = () => {
-      //TODO check against a constant instead
+    this.askToConfirmOrSave = () => {
+      //TODO check against a constant instead==
       const isValidated =
-        this.general.isValidated === dictionary.status.concept.valid;
+        this.props.general.isValidated === dictionary.status.concept.valid;
+      //If notes have changed, we need to open the modal to confirm version
+      //change.
       if (isValidated) {
-        if (this.areNotesChanged()) return this.save(NO_VERSIONING);
+        if (!this.areNotesChanged())
+          return this.save(NO_VERSIONING).then(this.goToConcept);
       }
       this.openModal();
     };
@@ -103,19 +118,19 @@ class ConceptEdition extends Component {
       this.setState({ showModal: true });
     };
 
-    this.saveConcept = versionType => {
+    this.saveConcept = versioningType => {
       return this.props.save(
-        versionType,
+        versioningType,
         this.getOriginalData(),
         this.state.data
       );
     };
 
-    this.closeModal = submitVersioningType => {
+    this.closeModal = versioningType => {
       this.setState({ showModal: false });
-      if (submitVersioningType) {
-        this.setState({ creation: 'PENDING' });
-        this.saveConcept().then(this.goBackToConceptPage);
+      if (versioningType) {
+        this.setState({ status: 'PENDING' });
+        this.saveConcept(versioningType).then(this.goToConcept);
       }
     };
 
@@ -140,9 +155,11 @@ class ConceptEdition extends Component {
     const {
       showModal,
       creation,
+      status,
       data: { general, notes, conceptsWithLinks },
     } = this.state;
-    if (creation === 'PENDING') {
+    const { disseminationStatus } = general;
+    if (status === 'PENDING') {
       return (
         <div>
           <MenuConcepts />
@@ -169,7 +186,7 @@ class ConceptEdition extends Component {
               general={general}
               notes={notes}
               conceptsWithLinks={conceptsWithLinks}
-              handleSave={this.askToConfirm}
+              handleSave={this.handleSave}
               handleCancel={this.handleCancel}
             />}
           <ul className="nav nav-tabs nav-justified">
@@ -186,6 +203,7 @@ class ConceptEdition extends Component {
                 <NotesEdition
                   notes={notes}
                   handleChange={this.handleChangeNotes}
+                  disseminationStatus={disseminationStatus}
                 />
               </Tab>
               <Tab eventKey={2} title={dictionary.links.title}>
@@ -198,14 +216,15 @@ class ConceptEdition extends Component {
           </ul>
         </div>
         <div>
-          <Confirm
-            isOpen={showModal}
-            label={''}
-            versioningIsPossible={this.isVersioningPossible()}
-            closeCancel={() => this.close()}
-            closeMinor={() => this.close(NO_VERSIONING)}
-            closeMajor={() => this.close(VERSIONING)}
-          />
+          {!creation &&
+            <Confirm
+              isOpen={showModal}
+              label={this.props.general.prefLabelFr}
+              versioningIsPossible={this.isVersioningPossible()}
+              closeCancel={() => this.closeModal()}
+              closeMinor={() => this.closeModal(NO_VERSIONING)}
+              closeMajor={() => this.closeModal(VERSIONING)}
+            />}
         </div>
       </div>
     );
@@ -214,6 +233,7 @@ class ConceptEdition extends Component {
 
 ConceptEdition.propTypes = {
   id: PropTypes.string, // not available for creation
+  creation: PropTypes.bool,
   pageTitle: PropTypes.element.isRequired,
   general: generalPropTypes.isRequired,
   notes: notePropTypes.isRequired,

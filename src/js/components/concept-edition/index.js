@@ -2,13 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ConceptEditionContainer from './concept-edition-container';
 import { updateConcept, createConcept } from 'js/actions/concept';
+import buildExtract from 'js/utils/build-extract';
 
-export const ConceptEdit = () =>
-  <ConceptEditionContainer save={updateConcept} />;
+const extractId = buildExtract('id');
 
+export const ConceptEdit = props =>
+  <ConceptEditionContainer id={extractId(props)} save={updateConcept} />;
+
+//should be called with route knowledge
 ConceptEdit.propTypes = {
-  id: PropTypes.string.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+  }),
 };
 
 export const ConceptCreate = () =>
-  <ConceptEditionContainer save={createConcept} />;
+  <ConceptEditionContainer creation save={createConcept} />;

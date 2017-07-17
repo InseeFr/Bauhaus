@@ -31,7 +31,7 @@ class ConceptEditionContainer extends Component {
       disseminationStatusList,
     } = this.props;
     if (!(general && notes)) this.props.loadConceptGeneralAndNotes(id);
-    if (!conceptsWithLinks) this.props.loadConceptLinks();
+    if (!conceptsWithLinks) this.props.loadConceptLinks(id);
     if (!conceptsList) this.props.loadConceptsList();
     if (!stampsList) this.props.loadStampsList();
     if (!disseminationStatusList) this.props.loadDisseminationStatusList();
@@ -55,15 +55,28 @@ class ConceptEditionContainer extends Component {
       stampsList &&
       disseminationStatusList
     ) {
-      return <ConceptEdition {...props} />;
+      return (
+        <ConceptEdition
+          id={props.id}
+          creation={props.creation}
+          pageTitle={props.pageTitle}
+          general={props.general}
+          notes={props.notes}
+          conceptsWithLinks={props.conceptsWithLinks}
+          stampsList={props.stampsList}
+          disseminationStatusList={props.disseminationStatusList}
+          save={props.save}
+        />
+      );
     }
     return <div>Information is loading...</div>;
   }
 }
 
 ConceptEditionContainer.propTypes = {
-  //TODO generate prop types from fields description
-  pageTitle: PropTypes.element.isRequired,
+  id: PropTypes.string,
+  creation: PropTypes.bool,
+  pageTitle: PropTypes.element,
   general: PropTypes.object,
   links: PropTypes.object,
   notes: PropTypes.object,
@@ -93,19 +106,38 @@ const getType = typeOfLink => {
 };
 
 //TODO refactor (differentiate creation and update)
+//TODO find a better way to organize the code, too much complexity exposed here,
+//plus some redundancy (abstract extracting results from resource).
 const mapStateToProps = (state, ownProps) => {
-  const { id } = ownProps;
-  let general, conceptsWithLinks, notes, rawLinks, pageTitle;
-  let conceptsList = state.conceptsList.results;
-  if (conceptsList) {
-    conceptsList = sortByLabel(conceptsList);
+  const { creation } = ownProps;
+  let general, conceptsList, conceptsWithLinks, notes, rawLinks, pageTitle;
+  //loading concepts list
+  const conceptsListResource = state.conceptsList;
+  if (conceptsListResource && conceptsListResource.results) {
+    conceptsList = sortByLabel(conceptsListResource.results);
   }
   //If `id` is provided, we are modifying an existing concept. It it's not, we
   //are creating a new concept
-  if (id) {
-    general = state.conceptGeneral[id];
+  if (creation) {
+    const concept = emptyConcept();
+    general = concept.general;
+    rawLinks = concept.links;
+    notes = concept.notes.results;
+    pageTitle = <PageTitle title={dictionary.concept.create} />;
+  } else {
+    const { id } = ownProps;
+    const generalResource = state.conceptGeneral[id];
+    if (generalResource && generalResource.results) {
+      general = generalResource.results;
+    }
     if (general) {
-      notes = state.conceptNotes[id][general.conceptVersion];
+      const notesAllVersions = state.conceptNotes[id];
+      if (notesAllVersions) {
+        const notesResource = notesAllVersions[general.conceptVersion];
+        if (notesResource && notesResource.results) {
+          notes = notesResource.results;
+        }
+      }
       pageTitle = (
         <PageTitle
           title={dictionary.concept.modify}
@@ -113,13 +145,10 @@ const mapStateToProps = (state, ownProps) => {
         />
       );
     }
-    rawLinks = state.conceptLinks[id];
-  } else {
-    const concept = emptyConcept();
-    general = concept.general;
-    rawLinks = concept.links;
-    notes = concept.notes;
-    pageTitle = <PageTitle title={dictionary.concept.create} />;
+    const rawLinksResource = state.conceptLinks[id];
+    if (rawLinksResource && rawLinksResource.results) {
+      rawLinks = rawLinksResource.results;
+    }
   }
   //we need both `conceptsLits` and `rawLinks` to compute `conceptsWithLinkks``
   //we keep an entry for each concept in `coneptsList` and we add the additional
@@ -157,9 +186,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     loadDisseminationStatusList,
     loadConceptGeneralAndNotes,
     loadConceptLinks,
-    //If an `id` is provided, we are modifying and existing concept. If not,
-    //we are creating a new concept.
-    save: ownProps.id ? updateConcept : createConcept,
+    save: ownProps.creation ? createConcept : updateConcept,
   };
   return Object.keys(actions).reduce((wrapActions, actionName) => {
     wrapActions[actionName] = (...args) =>

@@ -60,8 +60,9 @@ function ConceptCreateControl({
   //TODO check how to deal with notes like `<p></p>`: is it empty ?
   const isMissingConcept = !(prefLabelFr && creator && disseminationStatus);
   const isDefinitionFrMissing = isEmpty(definitionFr);
-  //TODO add status public check
-  const isStatusPublicAndDefinitionMissing = isEmpty(definitionCourteFr);
+  //TODO verify check on `disseminationStatus` works as expected
+  const isStatusPublicAndDefinitionMissing =
+    disseminationStatus.includes('Public') && isEmpty(definitionCourteFr);
   const hasDefCourteEnNotFr = onlyFirst(definitionCourteEn, definitionCourteFr);
   const isDefCourteTooLong =
     htmlLength(definitionCourteFr) > maxLengthScopeNote ||

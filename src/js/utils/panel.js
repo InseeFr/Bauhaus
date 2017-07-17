@@ -19,7 +19,7 @@ function Panel({ title, children }) {
 
 Panel.propTypes = {
   title: PropTypes.string.isRequired,
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Panel;

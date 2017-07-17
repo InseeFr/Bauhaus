@@ -98,6 +98,7 @@ export const loadConceptNotes = (id, conceptVersion) => (
     },
   });
   return getConceptNotes(id, conceptVersion).then(
+    //TODO why `conceptNotes[0]`
     conceptNotes =>
       dispatch(loadConceptNotesSuccess(id, conceptVersion, conceptNotes[0])),
     err => dispatch(loadConceptNotesFailure(id, conceptVersion, err.toString()))
@@ -138,14 +139,16 @@ export function updateConcept(versioning, oldData, newData) {
   //TODO handle the status in the store (for now, we only handle the remote
   //call, and a `then` handler in the component take care of adjusting the
   //status)
-  const { id } = oldData;
-  const payload = processUpdatePayload(versioning, oldData, newData);
-  //TODO should not need to return the id (it should be read from the store)
-  return postModifiedConcepts(id, payload).then(res => id);
+  return dispatch => {
+    const { general: { id } } = oldData;
+    const payload = processUpdatePayload(versioning, oldData, newData);
+    //TODO should not need to return the id (it should be read from the store)
+    return postModifiedConcepts(id, payload).then(res => id);
+  };
 }
 
 export function createConcept(data) {
-  return postConcepts(data).then(() => {
-    throw new Error('Not implemented yet');
-  });
+  return dispatch => {
+    return postConcepts(data);
+  };
 }
