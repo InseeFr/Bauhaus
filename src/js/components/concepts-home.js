@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import ConceptsList from './concepts-list';
+import ConceptsListSearch from './concepts-list-search';
 import MenuConcepts from './menu-concepts';
+import { propTypes as overviewPropTypes } from 'js/utils/concepts/concept-overview';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/app.css';
 
-class Concepts extends Component {
+class ConceptsHome extends Component {
   constructor() {
     super();
     this.state = {
@@ -31,6 +33,7 @@ class Concepts extends Component {
   }
 
   render() {
+    const { concepts } = this.props;
     const borderButtons = this.state.pink
       ? 'col-md-3 btn-group-vertical-pink'
       : 'col-md-3 btn-group-vertical';
@@ -93,7 +96,7 @@ class Concepts extends Component {
               <h2 className={pageTitle}>
                 {dictionary.concepts.title}
               </h2>
-              <ConceptsList />
+              <ConceptsListSearch concepts={concepts} />
             </div>
           </div>
         </div>
@@ -102,4 +105,9 @@ class Concepts extends Component {
   }
 }
 
-export default withRouter(Concepts);
+ConceptsHome.propTypes = {
+  concepts: PropTypes.arrayOf(overviewPropTypes.isRequired),
+};
+
+//TODO use <Navigate /> so we don't need `withRouter`
+export default withRouter(ConceptsHome);

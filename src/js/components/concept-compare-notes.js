@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { dictionary } from 'js/utils/dictionary';
 import { ExplanatoryNote } from 'js/utils/explanatory-note';
-import { loadConceptNotes } from '../actions/concept-by-id';
+import { loadConceptNotes } from '../actions/concept';
 import 'css/concept-notes.css';
 
 class ConceptCompareNotes extends Component {

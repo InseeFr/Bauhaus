@@ -1,21 +1,13 @@
 import React from 'react';
-import { EditorState } from 'draft-js';
-import { stateToHTML } from 'draft-js-export-html';
+import PropTypes from 'prop-types';
 import EditorHtml from 'js/components/shared/editor-html';
 
-//TODO in the previous version, we used `stateToHTML(note.getCurrentContent()) !== '<p>undefined</p>'`
-// see if it is still necessary.
-function ConceptModifyNotes({ note, onChange }) {
-  if (stateToHTML(note.getCurrentContent()) !== '<p>undefined</p>') {
-    return <EditorHtml editor={note} onEditorChange={onChange} />;
-  } else {
-    return (
-      <EditorHtml
-        editor={EditorState.createEmpty()}
-        onEditorChange={onChange}
-      />
-    );
-  }
+function ConceptModifyNotes({ note, handleChange }) {
+  return <EditorHtml text={note} handleChange={handleChange} />;
 }
 
+ConceptModifyNotes.propTypes = {
+  note: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+};
 export default ConceptModifyNotes;

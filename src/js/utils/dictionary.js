@@ -237,7 +237,7 @@ const dictionaryMulti = {
           return `Le concept " ${params} " n'a pas été envoyé`;
         },
       },
-      versionning: {
+      versioning: {
         title: 'Veuillez sélectionner le type de version',
         body: function(params) {
           return `<p>Les notes du concept « <b>${params}</b> » ont été modifiées.</p>
@@ -517,7 +517,7 @@ const dictionaryMulti = {
           return `Concept " ${params} " has been sent`;
         },
       },
-      versionning: {
+      versioning: {
         title: 'Veuillez sélectionner le type de version',
         body: function(params) {
           return `<p>Les notes du concept « <b>${params}</b> » ont été modifiées.</p>

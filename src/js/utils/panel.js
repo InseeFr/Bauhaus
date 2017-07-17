@@ -1,21 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import 'css/panel.css';
 
-class Panel extends Component {
-  render() {
-    return (
-      <div className="panel panel-concepts">
-        <div className="panel-heading">
-          <h3 className="panel-title">
-            {this.props.title}
-          </h3>
-        </div>
-        <div className="panel-body">
-          {this.props.children}
-        </div>
+function Panel({ title, children }) {
+  return (
+    <div className="panel panel-concepts">
+      <div className="panel-heading">
+        <h3 className="panel-title">
+          {title}
+        </h3>
       </div>
-    );
-  }
+      <div className="panel-body">
+        {children}
+      </div>
+    </div>
+  );
 }
+
+Panel.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+};
 
 export default Panel;

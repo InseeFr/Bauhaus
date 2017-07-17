@@ -4,12 +4,12 @@ import { Provider } from 'react-redux';
 import configureStore from '../store/configure-store';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import App from './app';
-import Concepts from './concepts';
+import ConceptsHomeContainer from './concepts-home-container';
 import ConceptsSearchList from './concepts-search-list';
 import ConceptByID from './concept-by-id';
 import ConceptCompare from './concept-compare';
 import ConceptSend from './concept-send';
-import { ConceptCreation, ConceptEdition } from './concept-edition';
+import { ConceptCreate, ConceptEdit } from './concept-edition';
 import ConceptsToValidate from './concepts-to-validate';
 import ConceptsToExport from './concepts-to-export';
 import Collections from './collections';
@@ -30,7 +30,7 @@ export default class Root extends Component {
           <Router>
             <Switch>
               <Route exact path="/" component={App} />
-              <Route exact path="/concepts" component={Concepts} />
+              <Route exact path="/concepts" component={ConceptsHomeContainer} />
               <Route
                 exact
                 path="/concepts/search"
@@ -42,13 +42,9 @@ export default class Root extends Component {
                 path="/concept/:id/compare"
                 component={ConceptCompare}
               />
-              <Route exact path="/create/concept" component={ConceptCreation} />
+              <Route exact path="/create/concept" component={ConceptCreate} />
               <Route exact path="/concept/:id/send" component={ConceptSend} />
-              <Route
-                exact
-                path="/concept/:id/modify"
-                component={ConceptEdition}
-              />
+              <Route exact path="/concept/:id/modify" component={ConceptEdit} />
               <Route
                 exact
                 path="/concepts/validation"

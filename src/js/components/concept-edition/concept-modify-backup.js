@@ -341,9 +341,9 @@ class ConceptModify extends Component {
       });
       this.editConceptData(true);
     };
-    this.editConceptData = wantToVersionning => {
+    this.editConceptData = wantToVersioning => {
       const data = {
-        wantToVersionning,
+        wantToVersioning,
         isValidated: this.props.conceptGeneral.isValidated,
         conceptVersion: this.props.conceptGeneral.conceptVersion,
         prefLabelFr: this.state.prefLabelFr,
@@ -583,9 +583,9 @@ class ConceptModify extends Component {
         </div>
       : dictionary.notes.definition;
 
-    const versionningIsPossible =
+    const versioningIsPossible =
       isChangeNoteFr && isChangeNoteFrChanged ? true : false;
-    const disabledVersionningButton = !versionningIsPossible;
+    const disabledVersioningButton = !versioningIsPossible;
 
     if (creation === 'PENDING') {
       return (
@@ -1002,14 +1002,14 @@ class ConceptModify extends Component {
                   </span>
                 </button>
                 <h4 className="modal-title">
-                  {dictionary.concept.versionning.title}
+                  {dictionary.concept.versioning.title}
                 </h4>
               </div>
               <div className="modal-body">
                 <div
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(
-                      dictionary.concept.versionning.body([
+                      dictionary.concept.versioning.body([
                         conceptGeneral.prefLabelFr,
                       ])
                     ),
@@ -1034,17 +1034,17 @@ class ConceptModify extends Component {
                     type="button"
                     className="btn btn-primary btn-lg"
                     onClick={this.closeAndMajor}
-                    disabled={disabledVersionningButton}>
+                    disabled={disabledVersioningButton}>
                     {dictionary.buttons.majorVersion}
                   </button>
                 </div>
-                {!versionningIsPossible &&
+                {!versioningIsPossible &&
                   <div
                     style={{ 'text-align': 'left', marginTop: '20px' }}
                     className="red"
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(
-                        dictionary.concept.versionning.footer
+                        dictionary.concept.versioning.footer
                       ),
                     }}
                   />}

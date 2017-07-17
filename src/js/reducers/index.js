@@ -26,3 +26,5 @@ export default combineReducers({
   collectionGeneral,
   collectionMembers,
 });
+
+export function getPotentialMembers(conceptId) {}

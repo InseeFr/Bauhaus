@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/pagination.css';
 
@@ -23,15 +24,15 @@ class Pagination extends Component {
 
   render() {
     const { currentPage } = this.state;
-    const { items, itemsPerPage } = this.props;
+    const { itemEls, itemsPerPage } = this.props;
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = itemEls.slice(indexOfFirstItem, indexOfLastItem);
 
     // Logic for displaying page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(items.length / itemsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(itemEls.length / itemsPerPage); i++) {
       pageNumbers.push(i);
     }
 
@@ -76,4 +77,7 @@ class Pagination extends Component {
   }
 }
 
+Pagination.propTypes = {
+  itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
+};
 export default Pagination;

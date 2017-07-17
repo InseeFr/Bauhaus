@@ -90,7 +90,7 @@ export const postConcepts = concept =>
     },
     method: 'POST',
     body: JSON.stringify(concept),
-  });
+  }).then(res => res.text()); // concept id
 
 export const postModifiedConcepts = (id, concept) =>
   fetch(urlPostModifiedConcepts + '/' + id, {
@@ -99,7 +99,7 @@ export const postModifiedConcepts = (id, concept) =>
     },
     method: 'POST',
     body: JSON.stringify(concept),
-  });
+  }).then(res => id); // normalize `postConcepts` and `postModifiedConcepts`
 
 export const postConceptsToValidate = concepts =>
   fetch(urlPostConceptsToValidate, {

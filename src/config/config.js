@@ -4,7 +4,7 @@ export const appHost = 'http://localhost:3000/#/';
 
 // Server config
 // export const appHost = 'http://dvrmspogbolht01.ad.insee.intra/gncs/#/';
-export const baseHost = 'http://dvrmspogbolht01.ad.insee.intra/gncs/ws/rmes/';
+export const baseHost = 'http://private-93ab8-concepts.apiary-mock.com/';
 
 // App langages
 export const lang1 = 'fr';

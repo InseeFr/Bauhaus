@@ -49,6 +49,17 @@ export function filterByPrefLabelFr(filter) {
   return item =>
     _.deburr(item.prefLabelFr).toLowerCase().includes(filter.toLowerCase());
 }
+
+export const filterKeyDeburr = key => (arr, rawStr) => {
+  const str = _.deburr(rawStr).toLocaleLowerCase();
+  return arr.filter(item => _.deburr(item[key]).includes(str));
+};
+
+export function filterByLabel(filter) {
+  return item =>
+    _.deburr(item.label).toLowerCase().includes(filter.toLowerCase());
+}
+
 export function filterByDefinitionFr(filter) {
   return item =>
     _.deburr(item.definitionFr).toLowerCase().includes(filter.toLowerCase());
@@ -114,8 +125,7 @@ export const creatSelectListFromArrayWithInit = (array, init, attr) => {
           <option
             value={array[i][attr]}
             key={array[i][attr]}
-            selected="selected"
-          >
+            selected="selected">
             {array[i][attr]}
           </option>
         );

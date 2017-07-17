@@ -2,7 +2,10 @@ import {
   getConceptGeneral,
   getConceptNotes,
   getConceptLinks,
+  postModifiedConcepts,
+  postConcepts,
 } from 'js/utils/remote-api';
+import processUpdatePayload from './utils/process-update-concept-payload';
 
 export const LOAD_CONCEPT_GENERAL = 'LOAD_CONCEPT_GENERAL';
 export const LOAD_CONCEPT_GENERAL_SUCCESS = 'LOAD_CONCEPT_GENERAL_SUCCESS';
@@ -129,4 +132,20 @@ export function loadConceptGeneralAndNotes(conceptId) {
       dispatch(loadConceptNotes(conceptId, conceptGeneral[0].conceptVersion));
     });
   };
+}
+
+export function updateConcept(versioning, oldData, newData) {
+  //TODO handle the status in the store (for now, we only handle the remote
+  //call, and a `then` handler in the component take care of adjusting the
+  //status)
+  const { id } = oldData;
+  const payload = processUpdatePayload(versioning, oldData, newData);
+  //TODO should not need to return the id (it should be read from the store)
+  return postModifiedConcepts(id, payload).then(res => id);
+}
+
+export function createConcept(data) {
+  return postConcepts(data).then(() => {
+    throw new Error('Not implemented yet');
+  });
 }

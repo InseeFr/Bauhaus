@@ -1,4 +1,4 @@
-import { LOAD_CONCEPT_GENERAL_SUCCESS } from '../actions/concept-by-id';
+import { LOAD_CONCEPT_GENERAL_SUCCESS } from '../actions/concept';
 
 export default function(state = {}, action) {
   const { type, payload } = action;
