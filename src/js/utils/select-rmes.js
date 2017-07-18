@@ -9,23 +9,19 @@ function SelectRmes({
   value,
   placeholder,
   options,
-  field,
-  handleChange,
+  onChange,
   clearable,
   searchable,
   multi,
 }) {
-  const opts = options.map(opt => {
-    if (field) return { value: opt[field], label: opt[field] };
-    else return { value: opt, label: opt };
-  });
+  const opts = options.map(opt => ({ value: opt, label: opt }));
 
   return (
     <Select
       value={value}
       placeholder={placeholder}
       options={opts}
-      onChange={e => handleChange(e.value)}
+      onChange={e => onChange(e ? e.value : '')}
       clearable={true}
       searchable={searchable}
       noResultsText={dictionary.noResult}
@@ -42,11 +38,8 @@ SelectRmes.defaultProps = {
 SelectRmes.propTypes = {
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  options: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string).isRequired,
-    PropTypes.arrayOf(PropTypes.object).isRequired,
-  ]).isRequired,
-  handleChange: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onChange: PropTypes.func.isRequired,
   clearable: PropTypes.bool,
   searchable: PropTypes.bool,
   creatable: PropTypes.bool,

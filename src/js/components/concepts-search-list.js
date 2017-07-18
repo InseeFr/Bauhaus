@@ -236,7 +236,6 @@ class ConceptsSearchList extends Component {
                   }
                   value={disseminationStatus}
                   options={disseminationStatusList}
-                  field="label"
                   onChange={e => this.changeSelectDisseminationStatus(e)}
                   searchable={true}
                 />}
