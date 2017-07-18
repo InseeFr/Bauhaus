@@ -20,7 +20,8 @@ class ConceptsListSearch extends Component {
     };
     this.handleSearch = label => {
       this.setState({
-        hits: filter(this.props.concepts, this.state.searchLabel),
+        searchLabel: label,
+        hits: filter(this.props.concepts, label),
       });
     };
   }
