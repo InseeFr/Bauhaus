@@ -95,7 +95,7 @@ class ConceptEdition extends Component {
       //TODO use <Navigate />
       //this.props.history.push(`/concept/${this.props.id}`);
       if (props.creation) {
-        this.props.history.push(`/concept`);
+        this.props.history.push(`/concepts`);
       } else {
         this.props.history.push(`/concept/${this.props.id}`);
       }
