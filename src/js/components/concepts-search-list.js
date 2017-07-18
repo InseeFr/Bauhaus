@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import SelectRmes from 'js/utils/select-rmes';
 import DatePickerRmes from 'js/utils/date-picker-rmes';
 import MenuConcepts from './menu-concepts';
@@ -53,11 +53,16 @@ class ConceptsSearchList extends Component {
       validationStatus: '',
     });
 
-    this.state = this.getEmptyState();
+    this.state = {
+      askForReturn: false,
+      ...this.getEmptyState(),
+    };
 
     this.initializeState = () => this.setState(this.getEmptyState());
     this.onClickReturn = () => {
-      this.props.history.push('/concepts');
+      this.setState({
+        askForReturn: true,
+      });
     };
 
     //stateChange: { label: 'new label' }
@@ -92,6 +97,7 @@ class ConceptsSearchList extends Component {
   }
 
   render() {
+    if (this.state.askForReturn) return <Redirect to="/concepts" push />;
     const { stampsList, disseminationStatusList } = this.props;
     const {
       label,
