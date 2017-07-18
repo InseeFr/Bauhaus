@@ -1,157 +1,115 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
 import SelectRmes from 'js/utils/select-rmes';
 import DatePickerRmes from 'js/utils/date-picker-rmes';
-import Loadable from 'react-loading-overlay';
 import MenuConcepts from './menu-concepts';
 import { dictionary } from 'js/utils/dictionary';
 import Pagination from 'js/components/shared/pagination';
-import {
-  sortArray,
-  filterByPrefLabelFr,
-  filterByDefinitionFr,
-  filterByCreator,
-  filterByDisseminationStatus,
-  filterByValidationStatus,
-  filterByCreatedDate,
-  filterByModifiedDate,
-} from 'js/utils/array-utils';
-import { loadStampsList } from '../actions/stamps';
-import { loadDisseminationStatusList } from '../actions/dissemination-status';
-import { loadConceptsSearchList } from '../actions/concepts-search-list';
+import { filterKeyDeburr, filterKeyDate } from 'js/utils/array-utils';
 import 'css/app.css';
 
-const sortByLabel = sortArray('prefLabelFr');
+const filterLabel = filterKeyDeburr('label');
+const filterDefinition = filterKeyDeburr('definition');
+const filterCreator = filterKeyDeburr('creator');
+const filterDisseminationStatus = filterKeyDeburr('disseminationStatus');
+const filterValidationStatus = filterKeyDeburr('validationStatus');
+const filterCreatedDate = filterKeyDate('createdDate');
+const filterModifiedDate = filterKeyDate('modifiedDate');
 
+const fields = [
+  'label',
+  'definition',
+  'creator',
+  'disseminationStatus',
+  'validationStatus',
+  'dateCreatedStart',
+  'dateCreatedEnd',
+  'dateModifiedStart',
+  'dateModifiedEnd',
+];
+
+const handleFieldChange = handleChange =>
+  fields.reduce((handlers, field) => {
+    handlers[field] = value => handleChange({ [field]: value });
+    return handlers;
+  }, {});
+
+//TODO fix confusion about naming between `ConceptsSearchList`,
+//`ConceptsListSearch` and `SearchConceptsList`
 class ConceptsSearchList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      searchLabel: '',
-      searchDef: '',
+    this.getEmptyState = () => ({
+      hits: this.props.conceptsSearchList,
+      label: '',
+      definition: '',
       creator: '',
-      dateStartCreate: '',
-      dateEndCreate: '',
-      dateStartModify: '',
-      dateEndModify: '',
+      dateCreatedStart: '',
+      dateCreatedEnd: '',
+      dateModifiedStart: '',
+      dateModifiedEnd: '',
       disseminationStatus: '',
       validationStatus: '',
-    };
+    });
+
+    this.state = this.getEmptyState();
+
+    this.initializeState = () => this.setState(this.getEmptyState());
     this.onClickReturn = () => {
       this.props.history.push('/concepts');
     };
-    this.onClickInitialize = () => {
-      this.setState({
-        searchLabel: '',
-        searchDef: '',
-        creator: '',
-        dateStartCreate: '',
-        dateEndCreate: '',
-        dateStartModify: '',
-        dateEndModify: '',
-        disseminationStatus: '',
-        validationStatus: '',
-      });
-    };
-    this.handleChangeSearchLabel = searchLabel => {
-      this.setState({ searchLabel });
-    };
-    this.handleChangeSearchDef = searchDef => {
-      this.setState({ searchDef });
-    };
-    this.changeSelectCreator = e => {
-      this.setState({
-        creator: e ? e.value : '',
-      });
-    };
-    this.changeSelectValidationStatus = e => {
-      this.setState({
-        validationStatus: e ? e.value : '',
-      });
-    };
-    this.changeSelectDisseminationStatus = e => {
-      this.setState({
-        disseminationStatus: e ? e.value : '',
-      });
-    };
-    this.handleChangeStartCreate = dateStartCreate => {
-      this.setState({
-        dateStartCreate,
-      });
-    };
-    this.handleChangeEndCreate = dateEndCreate => {
-      this.setState({
-        dateEndCreate,
-      });
-    };
-    this.handleChangeStartModify = dateStartModify => {
-      this.setState({
-        dateStartModify,
-      });
-    };
-    this.handleChangeEndModify = dateEndModify => {
-      this.setState({
-        dateEndModify,
-      });
-    };
-  }
 
-  componentWillMount() {
-    this.props.loadConceptsSearchList();
-    this.props.loadStampsList();
-    this.props.loadDisseminationStatusList();
+    //stateChange: { label: 'new label' }
+    this.handleChange = stateChange => {
+      const newState = Object.assign(this.state, stateChange);
+      const {
+        label,
+        definition,
+        creator,
+        disseminationStatus,
+        validationStatus,
+        dateCreatedStart,
+        dateCreatedEnd,
+        dateModifiedStart,
+        dateModifiedEnd,
+      } = newState;
+      const hits = this.props.conceptsSearchList
+        .filter(filterLabel(label))
+        .filter(filterDefinition(definition))
+        .filter(filterCreator(creator))
+        .filter(filterDisseminationStatus(disseminationStatus))
+        .filter(filterValidationStatus(validationStatus))
+        .filter(filterCreatedDate(dateCreatedStart, dateCreatedEnd))
+        .filter(filterModifiedDate(dateModifiedStart, dateModifiedEnd));
+      //TODO might need further thinking. For now, I think it's the best way of
+      //updating the state. We could also have used a callback to process hits,
+      //or passing `newState` to `setState`.
+      this.setState(Object.assign(stateChange, { hits }));
+    };
+
+    this.handlers = handleFieldChange(this.handleChange);
   }
 
   render() {
+    const { stampsList, disseminationStatusList } = this.props;
     const {
-      conceptsSearchList,
-      stampsList,
-      disseminationStatusList,
-    } = this.props;
-    const {
-      searchLabel,
-      searchDef,
+      label,
+      definition,
       creator,
       disseminationStatus,
       validationStatus,
-      dateStartCreate,
-      dateEndCreate,
-      dateStartModify,
-      dateEndModify,
+      dateCreatedStart,
+      dateCreatedEnd,
+      dateModifiedStart,
+      dateModifiedEnd,
+      hits,
     } = this.state;
 
-    console.log(this.state);
-
-    if (conceptsSearchList.length === 0)
-      return (
-        <div>
-          <MenuConcepts />
-          <Loadable
-            active={true}
-            spinner
-            text={dictionary.loadable.loading}
-            color="#457DBB"
-            background="grey"
-            spinnerSize="400px"
-          />
-        </div>
-      );
-    const itemsList = sortByLabel(
-      conceptsSearchList
-        .filter(filterByPrefLabelFr(_.deburr(searchLabel)))
-        .filter(filterByDefinitionFr(_.deburr(searchDef)))
-        .filter(filterByCreator(_.deburr(creator)))
-        .filter(filterByDisseminationStatus(_.deburr(disseminationStatus)))
-        .filter(filterByValidationStatus(_.deburr(validationStatus)))
-        .filter(filterByCreatedDate(dateStartCreate, dateEndCreate))
-        .filter(filterByModifiedDate(dateStartModify, dateEndModify))
-    ).map(item =>
-      <li key={item.id} className="list-group-item">
-        <Link to={'/concept/' + item.id}>
-          {item.prefLabelFr}
+    const hitEls = hits.map(({ id, label }) =>
+      <li key={id} className="list-group-item">
+        <Link to={`/concept/${id}`}>
+          {label}
         </Link>
       </li>
     );
@@ -184,7 +142,7 @@ class ConceptsSearchList extends Component {
               <button
                 type="button"
                 className="btn btn-primary btn-lg col-md-12"
-                onClick={this.onClickInitialize}>
+                onClick={this.initializeState}>
                 <span
                   className="glyphicon glyphicon-flash"
                   aria-hidden="true"
@@ -196,8 +154,8 @@ class ConceptsSearchList extends Component {
           <div className="row form-group">
             <div className="col-md-12">
               <input
-                value={searchLabel}
-                onChange={e => this.handleChangeSearchLabel(e.target.value)}
+                value={label}
+                onChange={e => this.handlers.label(e.target.value)}
                 type="text"
                 placeholder={dictionary.concepts.search.label}
                 className="form-control"
@@ -207,8 +165,8 @@ class ConceptsSearchList extends Component {
           <div className="row form-group">
             <div className="col-md-12">
               <input
-                value={searchDef}
-                onChange={e => this.handleChangeSearchDef(e.target.value)}
+                value={definition}
+                onChange={e => this.handlers.definition(e.target.value)}
                 type="text"
                 placeholder={dictionary.concepts.search.definition}
                 className="form-control"
@@ -217,41 +175,38 @@ class ConceptsSearchList extends Component {
           </div>
           <div className="row form-group">
             <div className="col-md-4">
-              {stampsList.length > 0 &&
-                <SelectRmes
-                  className="form-control"
-                  placeholder={dictionary.concept.stamps.defaultValue}
-                  value={creator}
-                  options={stampsList}
-                  onChange={e => this.changeSelectCreator(e)}
-                  searchable={true}
-                />}
+              <SelectRmes
+                className="form-control"
+                placeholder={dictionary.concept.stamps.defaultValue}
+                value={creator}
+                options={stampsList}
+                onChange={this.handlers.creator}
+                searchable={true}
+              />
             </div>
             <div className="col-md-4">
-              {disseminationStatusList.length > 0 &&
-                <SelectRmes
-                  className="form-control"
-                  placeholder={
-                    dictionary.concept.disseminationStatus.defaultValue
-                  }
-                  value={disseminationStatus}
-                  options={disseminationStatusList}
-                  onChange={e => this.changeSelectDisseminationStatus(e)}
-                  searchable={true}
-                />}
+              <SelectRmes
+                className="form-control"
+                placeholder={
+                  dictionary.concept.disseminationStatus.defaultValue
+                }
+                value={disseminationStatus}
+                options={disseminationStatusList}
+                onChange={this.handlers.disseminationStatus}
+                searchable={true}
+              />
             </div>
             <div className="col-md-4">
-              {disseminationStatusList.length > 0 &&
-                <SelectRmes
-                  className="form-control"
-                  placeholder={
-                    dictionary.status.concept.validationStatus.defaultValue
-                  }
-                  value={validationStatus}
-                  options={['Validé', 'Provisoire']}
-                  onChange={e => this.changeSelectValidationStatus(e)}
-                  searchable={true}
-                />}
+              <SelectRmes
+                className="form-control"
+                placeholder={
+                  dictionary.status.concept.validationStatus.defaultValue
+                }
+                value={validationStatus}
+                options={['Validé', 'Provisoire']}
+                onChange={this.handlers.validationStatus}
+                searchable={true}
+              />
             </div>
           </div>
           <div className="row vertical-center">
@@ -260,8 +215,8 @@ class ConceptsSearchList extends Component {
             </div>
             <div className="col-md-4">
               <DatePickerRmes
-                value={dateStartCreate}
-                onChange={this.handleChangeStartCreate}
+                value={dateCreatedStart}
+                onChange={this.handlers.dateCreatedStart}
                 placement="bottom"
               />
             </div>
@@ -270,8 +225,8 @@ class ConceptsSearchList extends Component {
             </div>
             <div className="col-md-4">
               <DatePickerRmes
-                value={dateEndCreate}
-                onChange={this.handleChangeEndCreate}
+                value={dateCreatedEnd}
+                onChange={this.handlers.dateCreatedEnd}
                 placement="bottom"
               />
             </div>
@@ -282,8 +237,8 @@ class ConceptsSearchList extends Component {
             </div>
             <div className="col-md-4">
               <DatePickerRmes
-                value={dateStartModify}
-                onChange={this.handleChangeStartModify}
+                value={dateModifiedStart}
+                onChange={this.handlers.dateModifiedStart}
                 placement="bottom"
               />
             </div>
@@ -292,8 +247,8 @@ class ConceptsSearchList extends Component {
             </div>
             <div className="col-md-4">
               <DatePickerRmes
-                value={dateEndModify}
-                onChange={this.handleChangeEndModify}
+                value={dateModifiedEnd}
+                onChange={this.handlers.dateModifiedEnd}
                 placement="bottom"
               />
             </div>
@@ -301,11 +256,11 @@ class ConceptsSearchList extends Component {
           <div className="centered">
             <div>
               <h4>
-                {singOrPluralResult(itemsList)}
+                {singOrPluralResult(hitEls)}
               </h4>
             </div>
             <div>
-              <Pagination items={itemsList} itemsPerPage="10" />
+              <Pagination itemEls={hitEls} itemsPerPage="10" />
             </div>
           </div>
         </div>
@@ -314,23 +269,29 @@ class ConceptsSearchList extends Component {
   }
 }
 
+//TODO check if it works as
 function singOrPluralResult(list) {
-  if (list.length > 1) return list.length + dictionary.concepts.results;
-  else return list.length + dictionary.concepts.result;
+  const word =
+    list.length > 1 ? dictionary.concepts.results : dictionary.concepts.result;
+  return `${list.length} ${word}`;
 }
 
-const mapStateToProps = state => ({
-  conceptsSearchList: state.conceptsSearchList,
-  stampsList: state.stampsList,
-  disseminationStatusList: state.disseminationStatusList,
+const propTypesGeneralForSearch = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  definition: PropTypes.string.isRequired,
+  createdDate: PropTypes.string.isRequired,
+  modifiedDate: PropTypes.string.isRequired,
+  creator: PropTypes.string.isRequired,
+  disseminationStatus: PropTypes.string.isRequired,
+  validationStatus: PropTypes.string.isRequired,
 });
 
-const mapDispatchToProps = {
-  loadConceptsSearchList,
-  loadStampsList,
-  loadDisseminationStatusList,
+ConceptsSearchList.propTypes = {
+  conceptsSearchList: PropTypes.arrayOf(propTypesGeneralForSearch).isRequired,
+  //TODO create generic prop types for stamps and dissemintation statuses
+  stampsList: PropTypes.array.isRequired,
+  disseminationStatusList: PropTypes.array.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  withRouter(ConceptsSearchList)
-);
+export default ConceptsSearchList;

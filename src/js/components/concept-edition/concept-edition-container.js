@@ -122,7 +122,7 @@ const mapStateToProps = (state, ownProps) => {
     const concept = emptyConcept();
     general = concept.general;
     rawLinks = concept.links;
-    notes = concept.notes.results;
+    notes = concept.notes;
     pageTitle = <PageTitle title={dictionary.concept.create} />;
   } else {
     const { id } = ownProps;

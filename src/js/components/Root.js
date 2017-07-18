@@ -5,7 +5,7 @@ import configureStore from '../store/configure-store';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import App from './app';
 import ConceptsHomeContainer from './concepts-home-container';
-import ConceptsSearchList from './concepts-search-list';
+import ConceptsSearchListContainer from './concepts-search-list-container';
 import ConceptByID from './concept-by-id';
 import ConceptCompare from './concept-compare';
 import ConceptSend from './concept-send';
@@ -34,7 +34,7 @@ export default class Root extends Component {
               <Route
                 exact
                 path="/concepts/search"
-                component={ConceptsSearchList}
+                component={ConceptsSearchListContainer}
               />
               <Route exact path="/concept/:id" component={ConceptByID} />
               <Route

@@ -86,7 +86,7 @@ function ConceptGeneralEdition({
           placeholder={dictionary.concept.stamps.defaultValue}
           value={creator}
           options={stampsList}
-          handleChange={handlers.creator}
+          onChange={handlers.creator}
           searchable={true}
         />
       </div>
@@ -111,8 +111,7 @@ function ConceptGeneralEdition({
           placeholder={dictionary.concept.disseminationStatus.defaultValue}
           value={disseminationStatus}
           options={disseminationStatusList}
-          field="label"
-          handleChange={handlers.disseminationStatus}
+          onChange={handlers.disseminationStatus}
           searchable={true}
         />
       </div>

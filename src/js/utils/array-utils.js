@@ -50,10 +50,13 @@ export function filterByPrefLabelFr(filter) {
     _.deburr(item.prefLabelFr).toLowerCase().includes(filter.toLowerCase());
 }
 
-export const filterKeyDeburr = key => (arr, rawStr) => {
+export const filterKeyDeburr = key => rawStr => {
   const str = _.deburr(rawStr).toLocaleLowerCase();
-  return arr.filter(item => _.deburr(item[key]).includes(str));
+  return item => _.deburr(item[key].toLocaleLowerCase()).includes(str);
 };
+
+export const filterKeyDate = key => (start, end) => item =>
+  isDateIn(item[key], start, end);
 
 export function filterByLabel(filter) {
   return item =>
