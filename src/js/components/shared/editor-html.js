@@ -5,7 +5,7 @@ import { EditorState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import 'css/app.css';
+import './editor-html.css';
 
 const toolbar = {
   options: ['list'],
