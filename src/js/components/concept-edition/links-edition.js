@@ -86,6 +86,8 @@ class LinksEdition extends Component {
     };
 
     this.updateConceptsWithLinks = conceptsWithLinks => {
+      //TODO we do not need to update the current state, we should handle
+      //this with `commponentWillReceiveProps`
       this.setState({ conceptsWithLinks });
       this.props.handleChange(conceptsWithLinks);
     };
