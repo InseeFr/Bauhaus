@@ -36,8 +36,9 @@ class EditorHtml extends Component {
       this.setState({
         editorState,
       });
-      this.props.handleChange(htmlFromEditorState(editorState));
     };
+    this.handleLeave = () =>
+      this.props.handleChange(htmlFromEditorState(this.state.editorState));
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -53,6 +54,7 @@ class EditorHtml extends Component {
         wrapperClassName="home-wrapper"
         editorClassName="home-editor"
         onEditorStateChange={this.handleChange}
+        onBlur={this.handleLeave}
       />
     );
   }
