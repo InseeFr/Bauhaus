@@ -6,6 +6,7 @@ import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './editor-html.css';
+import { htmlToRawText } from 'js/utils/html';
 
 const toolbar = {
   options: ['list'],
@@ -20,8 +21,17 @@ function editorStateFromHtml(html) {
   return EditorState.createWithContent(stateFromHTML(html));
 }
 
+const rNewLine = /\n/g;
+//HACK avoid new lines in the html. Not safe: some new lines might impact the
+//rendered html (as a whitespace does). For notes edited with the html editor,
+//new lines seem to appear only in list (between `<li>`), so it seems
+//acceptable. If we edited some notes which were not firstly written with this
+//editor, it would not be safe anymore.
 function htmlFromEditorState(editorState) {
-  return stateToHTML(editorState.getCurrentContent());
+  const html = stateToHTML(editorState.getCurrentContent());
+  const rawText = htmlToRawText(html);
+  if (rawText === '') return '';
+  return html.replace(rNewLine, '');
 }
 //TODO in the previous version, we used `stateToHTML(note.getCurrentContent()) !== '<p>undefined</p>'`
 // see if it is still necessary.

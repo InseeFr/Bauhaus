@@ -4,8 +4,7 @@ import deburr from 'lodash/deburr';
 import ConceptCreateControlLayout from './concept-create-control-layout';
 import { maxLengthScopeNote } from 'config/config';
 import { dictionary } from 'js/utils/dictionary';
-import htmlLength from 'js/utils/html-length';
-import isEmpty from 'js/utils/is-empty-html';
+import { htmlLength, htmlIsEmpty } from 'js/utils/html';
 
 import { arrayKeepUniqueField } from 'js/utils/array-utils';
 import { propTypes as notesPropTypes } from 'js/utils/concepts/notes';
@@ -28,7 +27,7 @@ const checkPrefLabelFrExisting = (
   );
 };
 
-const onlyFirst = (first, second) => !isEmpty(first) && isEmpty(second);
+const onlyFirst = (first, second) => !htmlIsEmpty(first) && htmlIsEmpty(second);
 
 function ConceptCreateControl({
   oldGeneral,
@@ -59,10 +58,10 @@ function ConceptCreateControl({
   );
   //TODO check how to deal with notes like `<p></p>`: is it empty ?
   const isMissingConcept = !(prefLabelFr && creator && disseminationStatus);
-  const isDefinitionFrMissing = isEmpty(definitionFr);
+  const isDefinitionFrMissing = htmlIsEmpty(definitionFr);
   //TODO verify check on `disseminationStatus` works as expected
   const isStatusPublicAndDefinitionMissing =
-    disseminationStatus.includes('Public') && isEmpty(definitionCourteFr);
+    disseminationStatus.includes('Public') && htmlIsEmpty(definitionCourteFr);
   const hasDefCourteEnNotFr = onlyFirst(definitionCourteEn, definitionCourteFr);
   const isDefCourteTooLong =
     htmlLength(definitionCourteFr) > maxLengthScopeNote ||

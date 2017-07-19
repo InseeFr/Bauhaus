@@ -5,7 +5,7 @@ import NoteEdition from './note-edition';
 import { dictionary } from 'js/utils/dictionary';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { maxLengthScopeNote } from 'config/config';
-import isEmpty from 'js/utils/is-empty-html';
+import { htmlIsEmpty } from 'js/utils/html';
 
 const noteTypes = [
   {
@@ -95,7 +95,7 @@ class NotesEdition extends Component {
               let noteEdition;
               const highlight =
                 redFrEmpty &&
-                isEmpty(noteFr) &&
+                htmlIsEmpty(noteFr) &&
                 redFrEmpty(disseminationStatus);
               const title = highlight
                 ? <div className="red">
