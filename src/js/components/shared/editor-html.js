@@ -40,6 +40,10 @@ class EditorHtml extends Component {
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state;
+  }
+
   render() {
     return (
       <Editor
