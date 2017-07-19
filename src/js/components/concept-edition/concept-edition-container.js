@@ -186,7 +186,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     loadDisseminationStatusList,
     loadConceptGeneralAndNotes,
     loadConceptLinks,
-    save: ownProps.creation ? createConcept : updateConcept,
+    save: ownProps.save,
   };
   return Object.keys(actions).reduce((wrapActions, actionName) => {
     wrapActions[actionName] = (...args) =>
