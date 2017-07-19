@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
 import NoteEdition from './note-edition';
@@ -65,46 +65,72 @@ const handleFieldChange = handleChange =>
     return handlers;
   }, {});
 
-function NotesEdition({ notes, disseminationStatus, handleChange }) {
-  const handlers = handleFieldChange(handleChange);
-  return (
-    <ul className="nav nav-tabs nav-justified">
-      <Tabs defaultActiveKey={0} id="kindOfNote">
-        {noteTypes.map(
-          ({ rawTitle, noteFrName, noteEnName, redFrEmpty, maxLength }, i) => {
-            const noteFr = notes[noteFrName];
-            const noteEn = notes[noteEnName];
-            //note fr empty and we value the `redFrEmptpy` function to know if
-            //given the dissemination status, it should be highlighted or not
-            const highlight =
-              redFrEmpty && isEmpty(noteFr) && redFrEmpty(disseminationStatus);
-            const title = highlight
-              ? <div className="red">
-                  {rawTitle}
-                </div>
-              : rawTitle;
-            return (
-              <Tab
-                key={noteFrName}
-                eventKey={i}
-                title={title}
-                style={{ marginTop: '20px' }}>
-                <NoteEdition
-                  noteFr={noteFr}
-                  noteEn={noteEn}
-                  handleChangeFr={handlers[noteFrName]}
-                  handleChangeEn={handlers[noteEnName]}
-                  maxLength={maxLength}
-                />
-              </Tab>
-            );
-          }
-        )}
-      </Tabs>
-    </ul>
-  );
-}
+class NotesEdition extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: 0,
+    };
+    this.handlers = handleFieldChange(this.props.handleChange);
+    this.selectTab = tabIndex =>
+      this.setState({
+        activeTab: tabIndex,
+      });
+  }
+  render() {
+    const { notes, disseminationStatus } = this.props;
+    const { activeTab } = this.state;
+    return (
+      <ul className="nav nav-tabs nav-justified">
+        <Tabs defaultActiveKey={0} id="kindOfNote" onSelect={this.selectTab}>
+          {noteTypes.map(
+            (
+              { rawTitle, noteFrName, noteEnName, redFrEmpty, maxLength },
+              i
+            ) => {
+              const noteFr = notes[noteFrName];
+              const noteEn = notes[noteEnName];
+              //note fr empty and we value the `redFrEmptpy` function to know if
+              //given the dissemination status, it should be highlighted or not
+              let noteEdition;
+              const highlight =
+                redFrEmpty &&
+                isEmpty(noteFr) &&
+                redFrEmpty(disseminationStatus);
+              const title = highlight
+                ? <div className="red">
+                    {rawTitle}
+                  </div>
+                : rawTitle;
+              if (activeTab === i) {
+                noteEdition = (
+                  <NoteEdition
+                    noteFr={noteFr}
+                    noteEn={noteEn}
+                    handleChangeFr={this.handlers[noteFrName]}
+                    handleChangeEn={this.handlers[noteEnName]}
+                    maxLength={maxLength}
+                  />
+                );
+              }
 
+              return (
+                <Tab
+                  key={noteFrName}
+                  eventKey={i}
+                  title={title}
+                  style={{ marginTop: '20px' }}>
+                  {noteEdition}
+                  />
+                </Tab>
+              );
+            }
+          )}
+        </Tabs>
+      </ul>
+    );
+  }
+}
 NotesEdition.propTypes = {
   conceptGeneral: notePropTypes,
   disseminationStatus: PropTypes.string.isRequired,

@@ -25,6 +25,7 @@ class ConceptEdition extends Component {
     super(props);
     const { general, notes, conceptsWithLinks } = props;
     this.state = {
+      activeTab: 0,
       showModal: false,
       status: 'WAITING',
       data: {
@@ -34,6 +35,10 @@ class ConceptEdition extends Component {
       },
     };
 
+    this.selectTab = tabIndex =>
+      this.setState({
+        activeTab: tabIndex,
+      });
     //update should look like `{ prefLabelEn: 'something new' }` (we can
     //set mutliple properties at the same time)
     this.handleChangeGeneral = update => {
@@ -153,6 +158,7 @@ class ConceptEdition extends Component {
   render() {
     const { stampsList, disseminationStatusList, pageTitle } = this.props;
     const {
+      activeTab,
       showModal,
       creation,
       status,
@@ -190,27 +196,33 @@ class ConceptEdition extends Component {
               handleCancel={this.handleCancel}
             />}
           <ul className="nav nav-tabs nav-justified">
-            <Tabs defaultActiveKey={0} id="informationToManage">
+            <Tabs
+              defaultActiveKey={0}
+              id="informationToManage"
+              onSelect={this.selectTab}>
               <Tab eventKey={0} title={dictionary.concept.general}>
-                <GeneralEdition
-                  general={general}
-                  handleChange={this.handleChangeGeneral}
-                  stampsList={stampsList}
-                  disseminationStatusList={disseminationStatusList}
-                />
+                {activeTab === 0 &&
+                  <GeneralEdition
+                    general={general}
+                    handleChange={this.handleChangeGeneral}
+                    stampsList={stampsList}
+                    disseminationStatusList={disseminationStatusList}
+                  />}
               </Tab>
               <Tab eventKey={1} title={dictionary.notes.title}>
-                <NotesEdition
-                  notes={notes}
-                  handleChange={this.handleChangeNotes}
-                  disseminationStatus={disseminationStatus}
-                />
+                {activeTab === 1 &&
+                  <NotesEdition
+                    notes={notes}
+                    handleChange={this.handleChangeNotes}
+                    disseminationStatus={disseminationStatus}
+                  />}
               </Tab>
               <Tab eventKey={2} title={dictionary.links.title}>
-                <LinksEdition
-                  conceptsWithLinks={conceptsWithLinks}
-                  handleChange={this.handleChangeLinks}
-                />
+                {activeTab === 2 &&
+                  <LinksEdition
+                    conceptsWithLinks={conceptsWithLinks}
+                    handleChange={this.handleChangeLinks}
+                  />}
               </Tab>
             </Tabs>
           </ul>
