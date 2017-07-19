@@ -1,10 +1,10 @@
 // Dev config
 export const appHost = 'http://localhost:3000/#/';
-//export const baseHost = 'http://localhost:8080/gncs-core/ws/rmes/';
+export const baseHost = 'http://localhost:8080/gncs-core/ws/rmes/';
 
 // Server config
 // export const appHost = 'http://dvrmspogbolht01.ad.insee.intra/gncs/#/';
-export const baseHost = 'http://private-93ab8-concepts.apiary-mock.com/';
+// export const baseHost = 'http://private-93ab8-concepts.apiary-mock.com/';
 
 // App langages
 export const lang1 = 'fr';
