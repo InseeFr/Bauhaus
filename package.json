@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "cross-env": "^5.0.1",
     "css-loader": "^0.28.0",
     "dompurify": "^0.8.7",
     "draft-js": "^0.10.0",
