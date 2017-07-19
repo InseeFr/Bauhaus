@@ -43,8 +43,8 @@ function NoteEdition({
 }
 
 NoteEdition.propTypes = {
-  noteFr: PropTypes.string.isRequired,
-  noteEn: PropTypes.string.isRequired,
+  noteFr: PropTypes.string,
+  noteEn: PropTypes.string,
   handleChangeFr: PropTypes.func.isRequired,
   handleChangeEn: PropTypes.func.isRequired,
   maxLength: PropTypes.number, // if not set, unbounded

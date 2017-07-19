@@ -13,7 +13,8 @@ import {
 
 //TODO make an utility function (see `notes-edition.js` for another usage)
 const handleFieldChange = handleChange =>
-  generalFields.reduce((handlers, fieldName) => {
+  //TODO rewrite fields (required should be handled elsewhere)
+  generalFields.reduce((handlers, [fieldName]) => {
     handlers[fieldName] = value => handleChange({ [fieldName]: value });
     return handlers;
   }, {});

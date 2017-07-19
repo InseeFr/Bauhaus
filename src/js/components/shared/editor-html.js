@@ -30,7 +30,7 @@ class EditorHtml extends Component {
     super(props);
     const { text } = props;
     this.state = {
-      editorState: editorStateFromHtml(text),
+      editorState: editorStateFromHtml(text || ''),
     };
     this.handleChange = editorState => {
       this.setState({
@@ -55,7 +55,7 @@ class EditorHtml extends Component {
 }
 
 EditorHtml.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
 };
 

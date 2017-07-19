@@ -7,7 +7,7 @@ function ConceptModifyNotes({ note, handleChange }) {
 }
 
 ConceptModifyNotes.propTypes = {
-  note: PropTypes.string.isRequired,
+  note: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
 };
 export default ConceptModifyNotes;

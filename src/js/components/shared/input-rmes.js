@@ -11,7 +11,7 @@ function InputRmes({ colMd, value, label, flag, star, handleChange }) {
       </label>
       <input
         type="text"
-        value={value}
+        value={value || ''}
         className="form-control"
         onChange={e => handleChange(e.target.value)}
       />
@@ -24,7 +24,7 @@ InputRmes.propTypes = {
   label: PropTypes.string.isRequired,
   flag: PropTypes.element,
   star: PropTypes.bool,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string, //might be undefined
   handleChange: PropTypes.func.isRequired,
 };
 

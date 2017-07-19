@@ -30,7 +30,7 @@ function NoteOneLangEdition({ flag, note, handleChange, maxLength }) {
 
 NoteOneLangEdition.propTypes = {
   flag: PropTypes.element.isRequired,
-  note: PropTypes.string.isRequired,
+  note: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
   maxLength: PropTypes.number,
 };
