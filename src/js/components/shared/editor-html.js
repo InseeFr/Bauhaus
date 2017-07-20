@@ -22,16 +22,17 @@ function editorStateFromHtml(html) {
 }
 
 const rNewLine = /\n/g;
+const rUselessSpace = /(>)\s*(<)/g;
 //HACK avoid new lines in the html. Not safe: some new lines might impact the
 //rendered html (as a whitespace does). For notes edited with the html editor,
 //new lines seem to appear only in list (between `<li>`), so it seems
 //acceptable. If we edited some notes which were not firstly written with this
-//editor, it would not be safe anymore.
+//editor, it would not safe anymore.
 function htmlFromEditorState(editorState) {
   const html = stateToHTML(editorState.getCurrentContent());
   const rawText = htmlToRawText(html);
   if (rawText === '') return '';
-  return html.replace(rNewLine, '');
+  return html.replace(rNewLine, '').replace(rUselessSpace, '$1$2');
 }
 //TODO in the previous version, we used `stateToHTML(note.getCurrentContent()) !== '<p>undefined</p>'`
 // see if it is still necessary.
