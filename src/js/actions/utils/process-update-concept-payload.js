@@ -1,6 +1,7 @@
 import prefixWithHttp from 'js/utils/prefix-with-http';
 import { extractLinks } from 'js/utils/concepts/links';
 import { processChanges } from 'js/utils/concepts/notes';
+import { VERSIONING } from 'js/constants';
 
 export default function updateConceptPayload(
   versioning,
@@ -17,13 +18,15 @@ export default function updateConceptPayload(
 
   const newLinks = extractLinks(newConceptsWithLinks);
   //`additionalMaterial` is supposed to be an URL
-  newGeneral.additionalMaterial = prefixWithHttp(
+  //TODO Fix type here and there with `additionnal` and `versionning` (should be fix on the
+  //server first)
+  newGeneral.additionnalMaterial = prefixWithHttp(
     newGeneral.additionnalMaterial
   );
 
-  const notesChanges = processChanges(oldNotes, newNotes);
+  const notesChanges = processChanges(oldNotes, newNotes, true);
   return {
-    wantToVersioning: versioning,
+    wantToVersionning: versioning === VERSIONING ? true : false,
     ...newGeneral, //prefLabelFr, prefLabelEn...
     ...newLinks,
     ...newNotes, //definitionFr, definitionFrVersion, definitionEn...

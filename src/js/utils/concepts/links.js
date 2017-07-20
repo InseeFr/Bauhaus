@@ -21,12 +21,12 @@ export function extractLinks(conceptsWithLinks) {
       const typeOfLinkFinal = constantsMapping[typeOfLink];
       //ignore `NONE`
       if (typeOfLinkFinal) {
-        links[typeOfLinkFinal] = {
+        links[typeOfLinkFinal].push({
           //TODO check remote api expectations: does it need additional information
           // (like `prefLabelFr`) ? does it expect an object with an entry by `id` ?
           // is the value significant ? or does it expect an array ?
           id,
-        };
+        });
       }
       return links;
     },

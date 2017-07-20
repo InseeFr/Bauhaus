@@ -114,7 +114,7 @@ class ConceptEdition extends Component {
       //change.
       if (isValidated) {
         if (!this.areNotesChanged())
-          return this.save(NO_VERSIONING).then(this.goToConcept);
+          return this.saveConcept(NO_VERSIONING).then(this.goToConcept);
       }
       this.openModal();
     };
