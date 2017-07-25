@@ -11,6 +11,7 @@ import collectionsList from './collections-list';
 import collectionsToValidateList from './collections-to-validate-list';
 import collectionGeneral from './collection-general';
 import collectionMembers from './collection-members';
+import remoteCalls from './remote-calls';
 
 export default combineReducers({
   stampsList,
@@ -25,6 +26,7 @@ export default combineReducers({
   collectionsToValidateList,
   collectionGeneral,
   collectionMembers,
+  remoteCalls,
 });
 
 export function getConceptGeneral(state, conceptId) {}

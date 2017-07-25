@@ -9,7 +9,7 @@ const urlGetConceptLinks = baseHost + 'concept';
 const urlGetConceptNotes = baseHost + 'concept';
 const urlPostConcepts = baseHost + 'private/concepts';
 const urlPostModifiedConcepts = baseHost + 'private/concept';
-const urlGetConceptsToValidateList = baseHost + 'concepts/toValidate';
+const urlGetConceptsToValidate = baseHost + 'concepts/toValidate';
 const urlPostConceptsToValidate = baseHost + 'private/concepts/validate';
 const urlPostConceptsToExport = baseHost + 'private/concepts/export';
 
@@ -55,8 +55,8 @@ export const getConceptsSearchList = () =>
     },
   }).then(res => res.json());
 
-export const getConceptsToValidateList = () =>
-  fetch(urlGetConceptsToValidateList, {
+export const getConceptsToValidate = () =>
+  fetch(urlGetConceptsToValidate, {
     headers: {
       Accept: 'application/json',
     },

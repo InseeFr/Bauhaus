@@ -50,6 +50,13 @@ export function filterByPrefLabelFr(filter) {
     _.deburr(item.prefLabelFr).toLowerCase().includes(filter.toLowerCase());
 }
 
+export const filterDeburr = rawStr => {
+  const str = _.deburr(rawStr).toLocaleLowerCase();
+  return item => _.deburr(item).toLocaleLowerCase().includes(str);
+};
+
+//TODO remove other filters that should be built inline when needed with
+//`filterKeyDeburr`
 export const filterKeyDeburr = key => rawStr => {
   const str = _.deburr(rawStr).toLocaleLowerCase();
   return item => _.deburr(item[key].toLocaleLowerCase()).includes(str);
