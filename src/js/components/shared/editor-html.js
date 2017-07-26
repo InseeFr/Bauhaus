@@ -48,6 +48,9 @@ class EditorHtml extends Component {
         editorState,
       });
     };
+    //TODO for now, since we only update the props when we leave the editor,
+    //some controls appear as disabled even if the editor has some contente.
+    //use a debounce like approach instead
     this.handleLeave = () =>
       this.props.handleChange(htmlFromEditorState(this.state.editorState));
   }

@@ -16,6 +16,12 @@ export const LOAD_CONCEPT_LINKS_FAILURE = 'LOAD_CONCEPT_LINKS_FAILURE';
 export const LOAD_CONCEPT_NOTES = 'LOAD_CONCEPT_NOTES';
 export const LOAD_CONCEPT_NOTES_SUCCESS = 'LOAD_CONCEPT_NOTES_SUCCESS';
 export const LOAD_CONCEPT_NOTES_FAILURE = 'LOAD_CONCEPT_NOTES_FAILURE';
+export const CREATE_CONCEPT = 'CREATE_CONCEPT';
+export const CREATE_CONCEPT_SUCCESS = 'CREATE_CONCEPT_SUCCESS';
+export const CREATE_CONCEPT_FAILURE = 'CREATE_CONCEPT_FAILURE';
+export const UPDATE_CONCEPT = 'UPDATE_CONCEPT';
+export const UPDATE_CONCEPT_SUCCESS = 'UPDATE_CONCEPT_SUCCESS';
+export const UPDATE_CONCEPT_FAILURE = 'UPDATE_CONCEPT_FAILURE';
 
 export const loadConceptGeneral = id => (dispatch, getState) => {
   dispatch({
@@ -110,7 +116,7 @@ export function loadConceptNotesSuccess(id, conceptVersion, conceptNotes) {
     payload: {
       id,
       conceptVersion,
-      results: conceptNotes,
+      results: conceptNotes[0],
     },
   };
 }
@@ -129,7 +135,7 @@ export function loadConceptNotesFailure(id, conceptVersion, err) {
 export function loadConceptGeneralAndNotes(conceptId) {
   return (dispatch, getState) => {
     return dispatch(loadConceptGeneral(conceptId)).then(conceptGeneral => {
-      dispatch(loadConceptNotes(conceptId, conceptGeneral.conceptVersion));
+      dispatch(loadConceptNotes(conceptId, conceptGeneral[0].conceptVersion));
     });
   };
 }
@@ -142,12 +148,53 @@ export function updateConcept(versioning, oldData, newData) {
     const { general: { id } } = oldData;
     const payload = processUpdatePayload(versioning, oldData, newData);
     //TODO should not need to return the id (it should be read from the store)
-    return postModifiedConcepts(id, payload).then(res => id);
+    dispatch({
+      type: UPDATE_CONCEPT,
+      payload,
+    });
+    //TODO rename in remote api
+    return postModifiedConcepts(id, payload).then(
+      res => {
+        dispatch({
+          type: UPDATE_CONCEPT_SUCCESS,
+          payload,
+        });
+      },
+      err =>
+        dispatch({
+          type: UPDATE_CONCEPT_FAILURE,
+          payload: {
+            payload,
+            err,
+          },
+        })
+    );
   };
 }
 
 export function createConcept(data) {
   return dispatch => {
-    return postConcepts(data);
+    dispatch({
+      type: CREATE_CONCEPT,
+      payload: {
+        data,
+      },
+    });
+    //TODO rename in remote api
+    return postConcepts(data).then(
+      res => {
+        dispatch({
+          type: CREATE_CONCEPT_SUCCESS,
+          payload: data,
+        });
+      },
+      err =>
+        dispatch({
+          type: CREATE_CONCEPT_FAILURE,
+          payload: {
+            err,
+          },
+        })
+    );
   };
 }

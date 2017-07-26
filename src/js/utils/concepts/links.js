@@ -8,6 +8,7 @@ const constantsMapping = {
   [SUCCEED]: 'memberSucceed',
   [RELATED]: 'memberLink',
 };
+//TODO Fix me, prop types should be only the shape, not the array
 export const propTypes = PropTypes.arrayOf(
   PropTypes.shape({
     id: PropTypes.string.isRequired,

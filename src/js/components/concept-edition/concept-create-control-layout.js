@@ -1,25 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
 
 function ConceptCreatecontrolLayout({
   message,
-  handleCancel,
+  redirectCancel,
   handleSave,
   saveEnabled,
 }) {
   return (
     <div className="row btn-line">
       <div className="col-md-2">
-        <button
-          type="button"
-          className="btn btn-primary btn-lg col-md-12"
-          onClick={handleCancel}>
-          <span
-            className="glyphicon glyphicon-floppy-remove"
-            aria-hidden="true"
-          />{' '}
-          {dictionary.buttons.cancel}
+        <button type="button" className="btn btn-primary btn-lg col-md-12">
+          <Link to={redirectCancel}>
+            <span
+              className="glyphicon glyphicon-floppy-remove"
+              aria-hidden="true"
+            />{' '}
+            {dictionary.buttons.cancel}
+          </Link>
         </button>
       </div>
       {message &&
@@ -48,7 +48,7 @@ function ConceptCreatecontrolLayout({
 ConceptCreatecontrolLayout.propTypes = {
   message: PropTypes.string,
   saveEnabled: PropTypes.bool.isRequired,
-  handleCancel: PropTypes.func.isRequired,
+  redirectCancel: PropTypes.string.isRequired,
   handleSave: PropTypes.func.isRequired,
 };
 

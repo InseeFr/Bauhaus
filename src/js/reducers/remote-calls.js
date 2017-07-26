@@ -9,7 +9,16 @@ import {
   EXPORT_CONCEPTS_SUCCESS,
 } from 'js/actions/concepts-to-export';
 
-export default function(state = { validation: OK, export: OK }, action) {
+import {
+  CREATE_CONCEPT,
+  CREATE_CONCEPT_SUCCESS,
+  UPDATE_CONCEPT,
+  UPDATE_CONCEPT_SUCCESS,
+} from 'js/actions/concept';
+export default function(
+  state = { validation: OK, export: OK, creation: OK, update: OK },
+  action
+) {
   switch (action.type) {
     case VALIDATE_CONCEPTS:
       return {
@@ -30,6 +39,26 @@ export default function(state = { validation: OK, export: OK }, action) {
       return {
         ...state,
         export: OK,
+      };
+    case CREATE_CONCEPT:
+      return {
+        ...state,
+        creation: PENDING,
+      };
+    case CREATE_CONCEPT_SUCCESS:
+      return {
+        ...state,
+        creation: OK,
+      };
+    case UPDATE_CONCEPT:
+      return {
+        ...state,
+        update: PENDING,
+      };
+    case UPDATE_CONCEPT_SUCCESS:
+      return {
+        ...state,
+        update: OK,
       };
     default:
       return state;

@@ -42,6 +42,8 @@ export function loadConceptsToValidateFailure(err) {
   };
 }
 
+//TODO should be rename to `validateConcept` and take a string with a unique
+//concept id as an argument
 export const validateConcepts = concepts => (dispatch, getState) => {
   dispatch({
     type: VALIDATE_CONCEPTS,

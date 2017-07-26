@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 import Loadable from 'react-loading-overlay';
 import ConceptCreateControl from './concept-create-control';
 import MenuConcepts from '../menu-concepts';
+import PageTitle from 'js/components/shared/page-title';
 import GeneralEdition from './concept-general-edition';
 import NotesEdition from './notes-edition';
 import LinksEdition from './links-edition';
 import Confirm from './confirm-modal';
-import { withRouter } from 'react-router-dom';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import {
   propTypes as notePropTypes,
@@ -17,6 +18,7 @@ import {
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
 import { dictionary } from 'js/utils/dictionary';
 import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
+import { OK, PENDING } from 'js/constants';
 
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
 
@@ -27,7 +29,7 @@ class ConceptEditionCreation extends Component {
     this.state = {
       activeTab: 0,
       showModal: false,
-      status: 'WAITING',
+      redirect: null,
       data: {
         general: { ...general },
         notes: { ...notes },
@@ -74,6 +76,7 @@ class ConceptEditionCreation extends Component {
     //the UI does not expose this scenario (we can only remove or add).
     this.handleChangeLinks = newLinks =>
       this.setState({
+        actionRequested: false,
         data: {
           ...this.state.data,
           conceptsWithLinks: newLinks,
@@ -83,12 +86,14 @@ class ConceptEditionCreation extends Component {
     //TODO does not work for creation (no id available)
     this.goToConcept = id => {
       //TODO use <Navigate />
-      this.props.history.push(`/concept/${id}`);
+      this.setState({
+        redirect: `/concept/${id}`,
+      });
     };
 
     this.handleSave = () => {
       if (this.props.creation) {
-        this.saveConcept().then(this.goToConcept);
+        this.saveConcept();
       } else {
         //show modal if needed
         this.askToConfirmOrSave();
@@ -113,8 +118,7 @@ class ConceptEditionCreation extends Component {
       //If notes have changed, we need to open the modal to confirm version
       //change.
       if (isValidated) {
-        if (!this.areNotesChanged())
-          return this.saveConcept(NO_VERSIONING).then(this.goToConcept);
+        if (!this.areNotesChanged()) return this.saveConcept(NO_VERSIONING);
       }
       this.openModal();
     };
@@ -124,18 +128,17 @@ class ConceptEditionCreation extends Component {
     };
 
     this.saveConcept = versioningType => {
-      return this.props.save(
-        versioningType,
-        this.getOriginalData(),
-        this.state.data
-      );
+      this.setState({
+        actionRequested: true,
+      });
+      this.props.save(versioningType, this.getOriginalData(), this.state.data);
     };
 
     this.closeModal = versioningType => {
       this.setState({ showModal: false });
       if (versioningType) {
-        this.setState({ status: 'PENDING' });
-        this.saveConcept(versioningType).then(this.goToConcept);
+        this.setState({ actionRequested: true });
+        this.saveConcept(versioningType);
       }
     };
 
@@ -156,29 +159,46 @@ class ConceptEditionCreation extends Component {
   }
 
   render() {
-    const { stampsList, disseminationStatusList, pageTitle } = this.props;
+    const {
+      isActionProcessed,
+      stampsList,
+      disseminationStatusList,
+    } = this.props;
     const {
       activeTab,
       showModal,
       creation,
-      status,
+      actionRequested,
       data: { general, notes, conceptsWithLinks },
     } = this.state;
+    const pageTitle = creation
+      ? <PageTitle title={dictionary.concept.create} />
+      : <PageTitle
+          title={dictionary.concept.modify}
+          subtitle={general.prefLabelFr}
+        />;
+
     const { disseminationStatus } = general;
-    if (status === 'PENDING') {
-      return (
-        <div>
-          <MenuConcepts />
-          <Loadable
-            active={true}
-            spinner
-            text={dictionary.loadable.saving}
-            color="#457DBB"
-            background="grey"
-            spinnerSize="400px"
-          />
-        </div>
-      );
+    if (actionRequested) {
+      if (isActionProcessed === OK) {
+        //TODO should redirect to the concept page, but we need to find
+        //a clean way to get the id of the created concept (easy for update)
+        return <Redirect to={`/concepts`} />;
+      } else {
+        return (
+          <div>
+            <MenuConcepts />
+            <Loadable
+              active={true}
+              spinner
+              text={dictionary.loadable.saving}
+              color="#457DBB"
+              background="grey"
+              spinnerSize="400px"
+            />
+          </div>
+        );
+      }
     }
 
     return (
@@ -193,7 +213,9 @@ class ConceptEditionCreation extends Component {
               notes={notes}
               conceptsWithLinks={conceptsWithLinks}
               handleSave={this.handleSave}
-              handleCancel={this.handleCancel}
+              //TODO should redirect to the page concept when updating an
+              //existing concept
+              redirectCancel={`/concepts`}
             />}
           <ul className="nav nav-tabs nav-justified">
             <Tabs
@@ -252,8 +274,8 @@ ConceptEditionCreation.propTypes = {
   conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
   stampsList: PropTypes.array.isRequired,
   disseminationStatusList: PropTypes.array.isRequired,
+  isActionProcessed: PropTypes.oneOf([OK, PENDING]).isRequired,
   save: PropTypes.func.isRequired,
 };
 
-//TODO remove `withRouter` -> <Navigate />
-export default withRouter(ConceptEditionCreation);
+export default ConceptEditionCreation;

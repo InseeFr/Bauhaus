@@ -4,68 +4,78 @@ import { dictionary } from 'js/utils/dictionary';
 import { ExplanatoryNote } from 'js/utils/explanatory-note';
 import 'css/concept-notes.css';
 
-function ConceptNotes({ english, attr }) {
+function ConceptNotes({ english, notes }) {
+  const {
+    definitionCourteFr,
+    definitionCourteEn,
+    definitionFr,
+    definitionEn,
+    noteEditorialeFr,
+    noteEditorialeEn,
+    changeNoteFr,
+    changeNoteEn,
+  } = notes;
   return (
     <div>
-      {attr.definitionCourteFr &&
+      {definitionCourteFr &&
         <div className="row">
           <ExplanatoryNote
-            text={attr.definitionCourteFr}
+            text={definitionCourteFr}
             title={dictionary.notes.scopeNote}
             lang="fr"
             alone={!english}
           />
           {english &&
             <ExplanatoryNote
-              text={attr.definitionCourteEn}
+              text={definitionCourteEn}
               title={dictionary.notes.scopeNote}
               lang="en"
               alone={false}
             />}
         </div>}
-      {attr.definitionFr &&
+      {definitionFr &&
         <div className="row">
           <ExplanatoryNote
-            text={attr.definitionFr}
+            text={definitionFr}
             title={dictionary.notes.definition}
             lang="fr"
             alone={!english}
           />
           {english &&
             <ExplanatoryNote
-              text={attr.definitionEn}
+              text={definitionEn}
               title={dictionary.notes.definition}
               lang="en"
               alone={false}
             />}
         </div>}
-      {attr.noteEditorialeFr &&
+      {noteEditorialeFr &&
         <div className="row">
           <ExplanatoryNote
-            text={attr.noteEditorialeFr}
+            text={noteEditorialeFr}
             title={dictionary.notes.editorialeNote}
             lang="fr"
             alone={!english}
           />
           {english &&
             <ExplanatoryNote
-              text={attr.noteEditorialeEn}
+              text={noteEditorialeEn}
               title={dictionary.notes.editorialeNote}
               lang="en"
               alone={false}
             />}
         </div>}
-      {attr.changeNoteFr &&
+      {changeNoteFr &&
         <div className="row">
           <ExplanatoryNote
-            text={attr.changeNoteFr}
+            text={changeNoteFr}
             title={dictionary.notes.changeNote}
             lang="fr"
             alone={!english}
           />
           {english &&
             <ExplanatoryNote
-              text={attr.changeNoteEn}
+              text={changeNoteEn}
               title={dictionary.notes.changeNote}
               lang="en"
               alone={false}
@@ -77,6 +87,6 @@ function ConceptNotes({ english, attr }) {
 
 ConceptNotes.propTypes = {
   english: PropTypes.bool.isRequired,
-  attr: PropTypes.object.isRequired,
+  notes: PropTypes.object.isRequired,
 };
 export default ConceptNotes;
