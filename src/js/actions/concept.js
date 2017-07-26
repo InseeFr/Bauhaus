@@ -98,9 +98,8 @@ export const loadConceptNotes = (id, conceptVersion) => (
     },
   });
   return getConceptNotes(id, conceptVersion).then(
-    //TODO why `conceptNotes[0]`
     conceptNotes =>
-      dispatch(loadConceptNotesSuccess(id, conceptVersion, conceptNotes[0])),
+      dispatch(loadConceptNotesSuccess(id, conceptVersion, conceptNotes)),
     err => dispatch(loadConceptNotesFailure(id, conceptVersion, err.toString()))
   );
 };
@@ -130,7 +129,7 @@ export function loadConceptNotesFailure(id, conceptVersion, err) {
 export function loadConceptGeneralAndNotes(conceptId) {
   return (dispatch, getState) => {
     return dispatch(loadConceptGeneral(conceptId)).then(conceptGeneral => {
-      dispatch(loadConceptNotes(conceptId, conceptGeneral[0].conceptVersion));
+      dispatch(loadConceptNotes(conceptId, conceptGeneral.conceptVersion));
     });
   };
 }
