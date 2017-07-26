@@ -13,4 +13,6 @@ export const OK = 'OK';
 
 export const VERSIONING = 'VERSIONING';
 export const NO_VERSIONING = 'NO_VERSIONING';
+
+export const EXPORT_CONCEPTS = 'EXPORT_CONCEPTS';
 export const VALIDATE_CONCEPTS = 'VALIDATE_CONCEPTS';
