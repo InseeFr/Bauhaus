@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ConceptsPicker from './concepts-picker';
 import { sortArray } from 'js/utils/array-utils';
-import { exportConcept } from 'js/actions/concepts-to-export';
+import { exportMultipleConcepts } from 'js/actions/concepts-to-export';
 import {
   loadConceptsToValidate,
   validateConcepts,
@@ -78,7 +78,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   switch (what) {
     case EXPORT_CONCEPTS:
       loadConcepts = loadConceptsList;
-      handleAction = ids => exportConcept(ids[0]);
+      handleAction = ids => exportMultipleConcepts(ids);
       break;
     case VALIDATE_CONCEPTS:
       loadConcepts = loadConceptsToValidate;

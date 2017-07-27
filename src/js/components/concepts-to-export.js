@@ -3,6 +3,7 @@ import ConceptsPickerContainer from './concepts-picker-container';
 import { dictionary } from 'js/utils/dictionary';
 import { EXPORT_CONCEPTS } from 'js/constants';
 
+//TODO FIX ME does not wait until remote calls completion
 function ConceptsToExport() {
   return (
     <ConceptsPickerContainer

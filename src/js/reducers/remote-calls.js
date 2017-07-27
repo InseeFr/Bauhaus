@@ -15,6 +15,17 @@ import {
   UPDATE_CONCEPT,
   UPDATE_CONCEPT_SUCCESS,
 } from 'js/actions/concept';
+/**
+ * Reducer to keep track of POST and PUT calls
+ * 
+ * Handles a status variable which can be valued to wait until the action
+ * has been processed to rediret the user.
+ * 
+ * @export
+ * @param {object} state
+ * @param {object} action 
+ * @returns {object}
+ */
 export default function(
   state = { validation: OK, export: OK, creation: OK, update: OK },
   action
