@@ -27,6 +27,7 @@ class ConceptEditionCreation extends Component {
     super(props);
     const { general, notes, conceptsWithLinks } = props;
     this.state = {
+      id: this.props.id,
       activeTab: 0,
       showModal: false,
       redirect: null,
@@ -132,7 +133,9 @@ class ConceptEditionCreation extends Component {
         actionRequested: true,
       });
       if (this.props.creation) {
-        this.props.save(buildPayloadCreation(this.state.data));
+        this.props
+          .save(buildPayloadCreation(this.state.data))
+          .then(id => this.setState({ id }));
       } else {
         //update
         this.props.save(
@@ -174,6 +177,7 @@ class ConceptEditionCreation extends Component {
       disseminationStatusList,
     } = this.props;
     const {
+      id,
       activeTab,
       showModal,
       creation,
@@ -189,10 +193,12 @@ class ConceptEditionCreation extends Component {
 
     const { disseminationStatus } = general;
     if (actionRequested) {
-      if (isActionProcessed === OK) {
+      //if we create a new concept, `id` will be set only after the creation
+      //has been completed.
+      if (isActionProcessed === OK && id) {
         //TODO should redirect to the concept page, but we need to find
         //a clean way to get the id of the created concept (easy for update)
-        return <Redirect to={`/concepts`} />;
+        return <Redirect to={`/concepts/${id}`} />;
       } else {
         return (
           <div>

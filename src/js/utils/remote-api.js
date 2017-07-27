@@ -7,10 +7,10 @@ const urlGetConceptsSearchList = baseHost + 'concepts/search';
 const urlGetConceptGeneral = baseHost + 'concept';
 const urlGetConceptLinks = baseHost + 'concept';
 const urlGetConceptNotes = baseHost + 'concept';
-const urlPostConcepts = baseHost + 'private/concepts';
+const urlPostConcept = baseHost + 'private/concepts';
 const urlPostModifiedConcepts = baseHost + 'private/concept';
 const urlGetConceptsToValidate = baseHost + 'concepts/toValidate';
-const urlPostConceptsToValidate = baseHost + 'private/concepts/validate';
+const urlPostConceptToValidate = baseHost + 'private/concepts/validate';
 const urlPostConceptToExport = baseHost + 'concept/export';
 
 const urlGetCollectionsList = baseHost + 'collections';
@@ -83,8 +83,8 @@ export const getConceptNotes = (id, conceptVersion) =>
     },
   }).then(res => res.json());
 
-export const postConcepts = concept =>
-  fetch(urlPostConcepts, {
+export const postConcept = concept =>
+  fetch(urlPostConcept, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -99,10 +99,10 @@ export const postModifiedConcepts = (id, concept) =>
     },
     method: 'POST',
     body: JSON.stringify(concept),
-  }).then(res => id); // normalize `postConcepts` and `postModifiedConcepts`
+  }).then(res => id); // normalize `postConcept` and `postModifiedConcepts`
 
 export const putConceptsToValidate = concepts =>
-  fetch(urlPostConceptsToValidate, {
+  fetch(urlPostConceptToValidate, {
     headers: {
       'Content-Type': 'application/json',
     },

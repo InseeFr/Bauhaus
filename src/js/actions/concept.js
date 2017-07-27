@@ -3,7 +3,7 @@ import {
   getConceptNotes,
   getConceptLinks,
   postModifiedConcepts,
-  postConcepts,
+  postConcept,
 } from 'js/utils/remote-api';
 import processUpdatePayload from './utils/process-update-concept-payload';
 
@@ -181,12 +181,19 @@ export function createConcept(data) {
       },
     });
     //TODO rename in remote api
-    return postConcepts(data).then(
-      res => {
+    return postConcept(data).then(
+      id => {
         dispatch({
           type: CREATE_CONCEPT_SUCCESS,
-          payload: data,
+          payload: {
+            id,
+            data,
+          },
         });
+        //HACK the `id` should be handled in the `remoteCalls` reducer,
+        //alongside the status of the creation process.
+        //return the `id` of the newly created concept
+        return id;
       },
       err =>
         dispatch({
