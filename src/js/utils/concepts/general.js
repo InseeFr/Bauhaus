@@ -27,8 +27,13 @@ export const propTypes = PropTypes.shape(
   }, {})
 );
 
-export const empty = () => {
+export const emptyWithContributor = () => {
   const general = objectFromKeys(fields, '');
   general.contributor = defaultContributor;
+  return general;
+};
+
+export const empty = () => {
+  const general = objectFromKeys(fields, '');
   return general;
 };

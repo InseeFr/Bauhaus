@@ -1,5 +1,6 @@
 import { LOAD_CONCEPT_GENERAL_SUCCESS } from '../actions/concept';
 import { LOADED } from 'js/constants';
+import { empty } from 'js/utils/concepts/general';
 export default function(state = {}, action) {
   const { type, payload } = action;
   switch (type) {
@@ -9,7 +10,9 @@ export default function(state = {}, action) {
         ...state,
         [id]: {
           status: LOADED,
-          results,
+          //ensure that all the fields are present (the server
+          //does not return the fields not defined)
+          results: Object.assign(empty(), results),
         },
       };
     }
