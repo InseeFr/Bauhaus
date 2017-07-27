@@ -47,10 +47,13 @@ class EditorHtml extends Component {
       this.setState({
         editorState,
       });
+      this.props.handleChange(htmlFromEditorState(editorState));
     };
-    //TODO for now, since we only update the props when we leave the editor,
-    //some controls appear as disabled even if the editor has some contente.
-    //use a debounce like approach instead
+    //If we only update the parent props when we leave the editor,
+    //some controls appear as disabled even if the editor has some content.
+    //Hence this approach (with `onBlur`) has been desactivated and we give
+    //back the `html` to the parent component every time a key is pressed.
+    //TODO check if there is no performance issue
     this.handleLeave = () =>
       this.props.handleChange(htmlFromEditorState(this.state.editorState));
   }
@@ -68,7 +71,7 @@ class EditorHtml extends Component {
         wrapperClassName="home-wrapper"
         editorClassName="home-editor"
         onEditorStateChange={this.handleChange}
-        onBlur={this.handleLeave}
+        // onBlur={this.handleLeave}
       />
     );
   }
