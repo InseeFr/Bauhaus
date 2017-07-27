@@ -27,6 +27,9 @@ const Button = ({ action, label }) => {
     </div>
   );
 };
+
+const PlaceHolder = () => <div className="col-md-2" />;
+
 Button.propTypes = {
   //handler or url
   action: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
@@ -58,8 +61,8 @@ function ConceptVisualizationControls({
   }
   return (
     <div className="row btn-line">
-      {btns.map(btn => {
-        if (!btn) return null;
+      {btns.map((btn, i) => {
+        if (!btn) return <PlaceHolder key={i} />;
         const [action, label] = btn;
         return btn && <Button key={label} action={action} label={label} />;
       })}
