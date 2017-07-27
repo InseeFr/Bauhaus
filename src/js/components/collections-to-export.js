@@ -13,7 +13,7 @@ import { postCollectionsToExport } from 'js/utils/remote-api';
 import add from '../../img/add.png';
 import del from '../../img/del.png';
 
-const sortByLabel = sortArray('prefLabelFr');
+const sortByLabel = sortArray('prefLabelLg1');
 
 class CollectionsToExport extends Component {
   constructor(props) {
@@ -91,7 +91,7 @@ class CollectionsToExport extends Component {
         key={item.id}
         className="list-group-item"
         onClick={e => this.OnClickAddMember(item)}>
-        {logoAdd} {item.prefLabelFr}
+        {logoAdd} {item.prefLabelLg1}
       </li>
     );
 
@@ -100,7 +100,7 @@ class CollectionsToExport extends Component {
         key={item.id}
         className="list-group-item"
         onClick={e => this.OnClickDelMember(item)}>
-        {logoDel} {item.prefLabelFr}
+        {logoDel} {item.prefLabelLg1}
       </li>
     );
 

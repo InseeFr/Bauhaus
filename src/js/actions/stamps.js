@@ -10,7 +10,7 @@ export const loadStampsList = () => (dispatch, getState) => {
     payload: null,
   });
   return getStamps().then(
-    stampsList => dispatch(loadStampsListSuccess(stampsList.stamps)),
+    stampsList => dispatch(loadStampsListSuccess(stampsList)),
     err => dispatch(loadStampsListFailure(err.toString()))
   );
 };

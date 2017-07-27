@@ -62,12 +62,12 @@ class ConceptCompare extends Component {
 						<div className="col-md-10 centered col-md-offset-1">
 							{!english &&
 								<h2 className="page-title">
-									{conceptGeneral.prefLabelFr}
+									{conceptGeneral.prefLabelLg1}
 								</h2>}
 							{english &&
 								<h2 className="page-title">
 									<em>
-										{conceptGeneral.prefLabelEn}{' '}
+										{conceptGeneral.prefLabelLg2}{' '}
 									</em>
 								</h2>}
 						</div>
@@ -121,7 +121,7 @@ class ConceptCompare extends Component {
 
 ConceptCompare.propTypes = {
 	conceptGeneral: generalPropTypes,
-	// conceptNotes : {0:{definitionFr:'XXX'}}
+	// conceptNotes : {0:{definitionLg1:'XXX'}}
 	conceptNotes: PropTypes.object.isRequired,
 };
 

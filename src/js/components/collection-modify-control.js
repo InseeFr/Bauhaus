@@ -41,7 +41,7 @@ class CollectionModifyControl extends Component {
           </div>
         </div>
       );
-    } else if (attr.prefLabelFr && !attr.isLabelExisting && attr.creator) {
+    } else if (attr.prefLabelLg1 && !attr.isLabelExisting && attr.creator) {
       return (
         <div className="row btn-line">
           <div className="col-md-2">

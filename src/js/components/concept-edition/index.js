@@ -30,7 +30,7 @@ export const ConceptEdition = props =>
       const pageTitle = (
         <PageTitle
           title={dictionary.concept.modify}
-          subtitle={general.prefLabelFr}
+          subtitle={general.prefLabelLg1}
         />
       );
 
@@ -59,6 +59,8 @@ ConceptEdition.propTypes = {
   }),
 };
 
+//TODO does not seem to work when the creation page is requestion without
+//visiting first the concepts page
 //TODO creation, validation and update should be constants
 export const ConceptCreation = () =>
   <ConceptDetailsContainer

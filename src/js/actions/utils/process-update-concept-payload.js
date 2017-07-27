@@ -18,18 +18,16 @@ export default function updateConceptPayload(
 
   const newLinks = extractLinks(newConceptsWithLinks);
   //`additionalMaterial` is supposed to be an URL
-  //TODO Fix type here and there with `additionnal` and `versionning` (should be fix on the
+  //TODO Fix type here and there with `additional` and `versionning` (should be fix on the
   //server first)
-  newGeneral.additionnalMaterial = prefixWithHttp(
-    newGeneral.additionnalMaterial
-  );
+  newGeneral.additionalMaterial = prefixWithHttp(newGeneral.additionalMaterial);
 
   const notesChanges = processChanges(oldNotes, newNotes, true);
   return {
     wantToVersionning: versioning === VERSIONING ? true : false,
-    ...newGeneral, //prefLabelFr, prefLabelEn...
+    ...newGeneral, //prefLabelLg1, prefLabelLg2...
     ...newLinks,
-    ...newNotes, //definitionFr, definitionFrVersion, definitionEn...
-    ...notesChanges, //definitionFrChanged, definitionEnChanged...
+    ...newNotes, //definitionLg1, definitionLg1Version, definitionLg2...
+    ...notesChanges, //definitionLg1Changed, definitionLg2Changed...
   };
 }

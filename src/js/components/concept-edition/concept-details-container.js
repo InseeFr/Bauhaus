@@ -4,7 +4,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadConceptsList } from 'js/actions/concepts-list';
 import { loadStampsList } from 'js/actions/stamps';
-import { PARENT, CHILD, REF, SUCCEED, RELATED, NONE } from 'js/constants';
+import {
+  BROADER,
+  NARROWER,
+  REFERENCES,
+  SUCCEED,
+  RELATED,
+  NONE,
+} from 'js/constants';
 import { loadDisseminationStatusList } from 'js/actions/dissemination-status';
 import { loadConceptLinks } from 'js/actions/concept';
 import { loadConceptGeneralAndNotes } from 'js/actions/concept';
@@ -92,15 +99,13 @@ ConceptDetailsContainer.propTypes = {
   trackAction: PropTypes.oneOf([PENDING, OK]).isRequired, // track action progress before redirecting
 };
 
-//TODO this formatting should be made earlier. It was introduced to solve
-//inconsistencies in type names, but we should not need that kind of mapping,
-//we could use the inital constants.
+//TODO this mapping should be defined only once
 const linkTypes = {
-  memberParent: PARENT,
-  memberEnfants: CHILD,
-  memberRef: REF,
-  memberSucceed: SUCCEED,
-  memberLink: RELATED,
+  [BROADER]: BROADER,
+  [NARROWER]: NARROWER,
+  [REFERENCES]: REFERENCES,
+  [SUCCEED]: SUCCEED,
+  [RELATED]: RELATED,
 };
 
 const getType = typeOfLink => {
@@ -153,17 +158,21 @@ const mapStateToProps = (state, ownProps) => {
   //we keep an entry for each concept in `coneptsList` and we add the additional
   //`typeOfLink` property.
   if (conceptsList && rawLinks) {
-    conceptsWithLinks = conceptsList.map(({ id, prefLabelFr: label }) => {
+    conceptsWithLinks = conceptsList.map(({ id, label }) => {
       //TODO check if there is no performance issue here (it there are, we
       //could probably solve them by maintaining a dictionary of concepts).
       // check if the concept is linked to the actual concept
-      const link = rawLinks.find(({ idLinked }) => idLinked === id);
+      const link = rawLinks.find(({ id: idLinked }) => idLinked === id);
       // and set `typeOfLink` accordingly
-      const typeOfLink = link ? getType(link.conceptLink) : NONE;
+      const typeOfLink = link ? getType(link.typeOfLink) : NONE;
+      //TODO we do not have `prefLabelLg1` and `prefLabelLg2` for concepts
+      //not present in the links. Find a better way to do this.
       return {
         id,
         label,
         typeOfLink,
+        prefLabelLg1: link && link.prefLabelLg1,
+        prefLabelLg2: link && link.prefLabelLg2,
       };
     });
   }

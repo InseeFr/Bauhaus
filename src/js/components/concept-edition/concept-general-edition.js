@@ -26,15 +26,15 @@ function ConceptGeneralEdition({
   handleChange,
 }) {
   const {
-    prefLabelFr,
-    prefLabelEn,
-    altLabelFr,
-    altLabelEn,
+    prefLabelLg1,
+    prefLabelLg2,
+    altLabelLg1,
+    altLabelLg2,
     disseminationStatus,
     creator,
     contributor,
-    additionnalMaterial,
-    dateEnd,
+    additionalMaterial,
+    valid,
   } = general;
 
   const handlers = handleFieldChange(handleChange);
@@ -51,15 +51,15 @@ function ConceptGeneralEdition({
           label={dictionary.concept.label}
           flag={flagFr}
           star
-          value={prefLabelFr}
-          handleChange={handlers.prefLabelFr}
+          value={prefLabelLg1}
+          handleChange={handlers.prefLabelLg1}
         />
         <InputRmes
           colMd={6}
           label={dictionary.concept.label}
           flag={flagEn}
-          value={prefLabelEn}
-          handleChange={handlers.prefLabelEn}
+          value={prefLabelLg2}
+          handleChange={handlers.prefLabelLg2}
         />
       </div>
       <div className="row">
@@ -67,15 +67,15 @@ function ConceptGeneralEdition({
           colMd={6}
           label={dictionary.concept.altLabel}
           flag={flagFr}
-          value={altLabelFr}
-          handleChange={handlers.altLabelFr}
+          value={altLabelLg1}
+          handleChange={handlers.altLabelLg1}
         />
         <InputRmes
           colMd={6}
           label={dictionary.concept.altLabel}
           flag={flagFr}
-          value={altLabelEn}
-          handleChange={handlers.altLabelEn}
+          value={altLabelLg2}
+          handleChange={handlers.altLabelLg2}
         />
       </div>
       <div className="form-group">
@@ -118,7 +118,7 @@ function ConceptGeneralEdition({
       </div>
       <div className="form-group">
         <label>
-          {dictionary.concept.additionnalMaterial}
+          {dictionary.concept.additionalMaterial}
         </label>
         <div className="input-group">
           <span className="input-group-addon">http://</span>
@@ -127,8 +127,8 @@ function ConceptGeneralEdition({
           <input
             type="text"
             className="form-control"
-            value={additionnalMaterial.replace('http://', '')}
-            onChange={e => handlers.additionnalMaterial(e.target.value)}
+            value={additionalMaterial.replace('http://', '')}
+            onChange={e => handlers.additionalMaterial(e.target.value)}
           />
         </div>
       </div>
@@ -137,8 +137,8 @@ function ConceptGeneralEdition({
           {dictionary.concept.valid}
         </label>
         <DatePickerRmes
-          value={dateEnd}
-          onChange={handlers.dateEnd}
+          value={valid}
+          onChange={handlers.valid}
           placement="top"
         />
       </div>

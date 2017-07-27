@@ -15,8 +15,8 @@ import { postCollectionsToValidate } from 'js/utils/remote-api';
 import buildExtract from 'js/utils/build-extract';
 
 const extractId = buildExtract('id');
-const sortByLabelFr = sortArray('prefLabelFr');
-const sortByLabelEn = sortArray('prefLabelEn');
+const sortByLabelFr = sortArray('prefLabelLg1');
+const sortByLabelEn = sortArray('prefLabelLg2');
 
 class CollectionByID extends Component {
 	constructor(props) {
@@ -80,14 +80,14 @@ class CollectionByID extends Component {
 		const memberListFr = sortByLabelFr(collectionMembers).map(item =>
 			<li key={item.id}>
 				<Link to={'/concept/' + item.id}>
-					{item.prefLabelFr}
+					{item.prefLabelLg1}
 				</Link>
 			</li>
 		);
 		const memberListEn = sortByLabelEn(collectionMembers).map(item =>
 			<li key={item.id}>
 				<Link to={'/concept/' + item.id}>
-					{item.prefLabelEn}
+					{item.prefLabelLg2}
 				</Link>
 			</li>
 		);
@@ -129,7 +129,7 @@ class CollectionByID extends Component {
 						<div className="row">
 							<div className="col-md-8">
 								<h2>
-									{collectionGeneral.prefLabelFr}
+									{collectionGeneral.prefLabelLg1}
 								</h2>
 							</div>
 							<div className="col-md-2">
@@ -154,7 +154,7 @@ class CollectionByID extends Component {
 						<div className="row">
 							<div className="col-md-6">
 								<h2>
-									{collectionGeneral.prefLabelFr}
+									{collectionGeneral.prefLabelLg1}
 								</h2>
 							</div>
 							<div className="col-md-2">
@@ -185,7 +185,7 @@ class CollectionByID extends Component {
 					<h2>
 						{english &&
 							<em>
-								{collectionGeneral.prefLabelEn}{' '}
+								{collectionGeneral.prefLabelLg2}{' '}
 							</em>}
 					</h2>
 					<CollectionGeneral attr={collectionGeneral} />

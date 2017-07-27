@@ -2,25 +2,25 @@ import PropTypes from 'prop-types';
 import objectFromKeys from 'js/utils/object-from-keys';
 
 const fieldsToTrack = [
-  'definitionCourteFr',
-  'definitionCourteEn',
-  'definitionFr',
-  'definitionEn',
-  'noteEditorialeFr',
-  'noteEditorialeEn',
-  'changeNoteFr',
-  'changeNoteEn',
+  'scopeNoteLg1',
+  'scopeNoteLg2',
+  'definitionLg1',
+  'definitionLg2',
+  'editorialNoteLg1',
+  'editorialNoteLg2',
+  'changeNoteLg1',
+  'changeNoteLg2',
 ];
 
 const fieldsVersion = [
-  'definitionCourteFrVersion',
-  'definitionCourteEnVersion',
-  'definitionFrVersion',
-  'definitionEnVersion',
-  'noteEditorialeFrVersion',
-  'noteEditorialeEnVersion',
-  'changeNoteFrVersion',
-  'changeNoteEnVersion',
+  'scopeNoteLg1Version',
+  'scopeNoteLg2Version',
+  'definitionLg1Version',
+  'definitionLg2Version',
+  'editorialNoteLg1Version',
+  'editorialNoteLg2Version',
+  'changeNoteLg1Version',
+  'changeNoteLg2Version',
 ];
 
 export const fields = [...fieldsToTrack, ...fieldsVersion];

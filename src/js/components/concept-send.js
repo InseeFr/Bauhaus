@@ -21,7 +21,7 @@ class ConceptSend extends Component {
     super(props);
 
     var params = [
-      this.props.conceptGeneral.prefLabelFr,
+      this.props.conceptGeneral.prefLabelLg1,
       this.props.conceptGeneral.id,
     ];
     if (this.props.conceptGeneral.isValidated === 'Provisoire') {
@@ -35,7 +35,7 @@ class ConceptSend extends Component {
       isRecipientInsee: false,
       sender: defaultMailSender,
       object: dictionary.concept.send.object.value([
-        this.props.conceptGeneral.prefLabelFr,
+        this.props.conceptGeneral.prefLabelLg1,
       ]),
       message: EditorState.createWithContent(stateFromHTML(message)),
       isMessage: true,
@@ -80,7 +80,7 @@ class ConceptSend extends Component {
       e.preventDefault();
       const data = {
         id: this.props.conceptGeneral.id,
-        prefLabelFr: this.props.conceptGeneral.prefLabelFr,
+        prefLabelLg1: this.props.conceptGeneral.prefLabelLg1,
         recipient: this.state.recipient,
         sender: this.state.sender,
         object: this.state.object,
@@ -145,13 +145,13 @@ class ConceptSend extends Component {
                 {creation === 'DONE' &&
                   <h2>
                     {dictionary.concept.send.success([
-                      conceptGeneral.prefLabelFr,
+                      conceptGeneral.prefLabelLg1,
                     ])}
                   </h2>}
                 {creation === 'FAILED' &&
                   <h2>
                     {dictionary.concept.send.failed([
-                      conceptGeneral.prefLabelFr,
+                      conceptGeneral.prefLabelLg1,
                     ])}
                   </h2>}
               </div>
@@ -177,7 +177,7 @@ class ConceptSend extends Component {
           <div className="row">
             <div className="col-md-10 centered col-md-offset-1">
               <h2 className="page-title">
-                {dictionary.concept.send.title([conceptGeneral.prefLabelFr])}
+                {dictionary.concept.send.title([conceptGeneral.prefLabelLg1])}
               </h2>
             </div>
           </div>

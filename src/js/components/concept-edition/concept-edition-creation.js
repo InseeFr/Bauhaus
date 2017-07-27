@@ -19,7 +19,7 @@ import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links
 import { dictionary } from 'js/utils/dictionary';
 import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
 import { OK, PENDING } from 'js/constants';
-
+import buildPayloadCreation from 'js/utils/concepts/build-payload-creation';
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
 
 class ConceptEditionCreation extends Component {
@@ -41,7 +41,7 @@ class ConceptEditionCreation extends Component {
       this.setState({
         activeTab: tabIndex,
       });
-    //update should look like `{ prefLabelEn: 'something new' }` (we can
+    //update should look like `{ prefLabelLg2: 'something new' }` (we can
     //set mutliple properties at the same time)
     this.handleChangeGeneral = update => {
       const data = this.state.data;
@@ -54,7 +54,7 @@ class ConceptEditionCreation extends Component {
       });
     };
 
-    //update should look like `{ noteEditorialeFr: '...' }`
+    //update should look like `{ editorialNoteLg1: '...' }`
     this.handleChangeNotes = update => {
       const data = this.state.data;
       const notes = data.notes;
@@ -131,7 +131,16 @@ class ConceptEditionCreation extends Component {
       this.setState({
         actionRequested: true,
       });
-      this.props.save(versioningType, this.getOriginalData(), this.state.data);
+      if (this.props.creation) {
+        this.props.save(buildPayloadCreation(this.state.data));
+      } else {
+        //update
+        this.props.save(
+          versioningType,
+          this.getOriginalData(),
+          this.state.data
+        );
+      }
     };
 
     this.closeModal = versioningType => {
@@ -175,7 +184,7 @@ class ConceptEditionCreation extends Component {
       ? <PageTitle title={dictionary.concept.create} />
       : <PageTitle
           title={dictionary.concept.modify}
-          subtitle={general.prefLabelFr}
+          subtitle={general.prefLabelLg1}
         />;
 
     const { disseminationStatus } = general;
@@ -253,7 +262,7 @@ class ConceptEditionCreation extends Component {
           {!creation &&
             <Confirm
               isOpen={showModal}
-              label={this.props.general.prefLabelFr}
+              label={this.props.general.prefLabelLg1}
               versioningIsPossible={this.isVersioningPossible()}
               closeCancel={() => this.closeModal()}
               closeMinor={() => this.closeModal(NO_VERSIONING)}

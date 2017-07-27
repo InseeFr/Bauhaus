@@ -1,30 +1,38 @@
+import FileSaver from 'file-saver';
 import { postConceptsToExport } from 'js/utils/remote-api';
 
-import { PENDING, OK } from 'js/constants';
+export const EXPORT_CONCEPT = 'EXPORT_CONCEPTS';
+export const EXPORT_CONCEPT_SUCCESS = 'EXPORT_CONCEPTS_SUCCESS';
+export const EXPORT_CONCEPT_FAILURE = 'EXPORT_CONCEPTS_FAILURE';
 
-export const EXPORT_CONCEPTS = 'EXPORT_CONCEPTS';
-export const EXPORT_CONCEPTS_SUCCESS = 'EXPORT_CONCEPTS_SUCCESS';
-export const EXPORT_CONCEPTS_FAILURE = 'EXPORT_CONCEPTS_FAILURE';
-
-export const exportConcepts = concepts => (dispatch, getState) => {
+export const exportConcept = id => dispatch => {
   dispatch({
-    type: EXPORT_CONCEPTS,
-    status: PENDING,
-    concepts,
+    type: EXPORT_CONCEPT,
+    payload: { id },
   });
-  return postConceptsToExport(concepts).then(concepts =>
-    dispatch(
-      {
-        type: EXPORT_CONCEPTS_SUCCESS,
-        status: OK,
-        concepts,
-      },
-      err =>
-        dispatch({
-          type: EXPORT_CONCEPTS_FAILURE,
-          concepts,
-          err,
-        })
-    )
-  );
+  //TODO FIX ME, we should iterate over the concepts
+  const concept = id;
+  postConceptsToExport(concept)
+    .then(res => res.blob())
+    .then(blob => {
+      return FileSaver.saveAs(blob, `${id}.pdf`);
+    })
+    .then(() => {
+      dispatch(
+        {
+          type: EXPORT_CONCEPT_SUCCESS,
+          payload: {
+            id,
+          },
+        },
+        err =>
+          dispatch({
+            type: EXPORT_CONCEPT_FAILURE,
+            payload: {
+              err,
+              id,
+            },
+          })
+      );
+    });
 };

@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import objectFromKeys from 'js/utils/object-from-keys';
 import { defaultContributor } from 'config/config';
 export const fieldsWithRequired = [
-  ['prefLabelFr', false],
-  ['prefLabelEn', false],
-  ['altLabelFr', false],
-  ['altLabelEn', false],
+  ['prefLabelLg1', false],
+  ['prefLabelLg2', false],
+  ['altLabelLg1', false],
+  ['altLabelLg2', false],
   ['disseminationStatus', false],
-  ['additionnalMaterial', false],
-  ['dateEnd', false],
+  ['additionalMaterial', false],
+  ['valid', false],
   ['creator', false],
   ['contributor', false],
   ['isValidated', false],

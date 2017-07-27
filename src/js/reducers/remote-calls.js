@@ -5,8 +5,8 @@ import {
 } from 'js/actions/concepts-to-validate';
 
 import {
-  EXPORT_CONCEPTS,
-  EXPORT_CONCEPTS_SUCCESS,
+  EXPORT_CONCEPT,
+  EXPORT_CONCEPT_SUCCESS,
 } from 'js/actions/concepts-to-export';
 
 import {
@@ -30,12 +30,12 @@ export default function(
         ...state,
         validation: OK,
       };
-    case EXPORT_CONCEPTS:
+    case EXPORT_CONCEPT:
       return {
         ...state,
         export: PENDING,
       };
-    case EXPORT_CONCEPTS_SUCCESS:
+    case EXPORT_CONCEPT_SUCCESS:
       return {
         ...state,
         export: OK,

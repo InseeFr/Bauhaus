@@ -86,7 +86,7 @@ class ConceptVisualizationPres extends Component {
           <div className="row">
             <div className="col-md-10 centered col-md-offset-1">
               <h2 className="page-title">
-                {general.prefLabelFr}
+                {general.prefLabelLg1}
               </h2>
             </div>
           </div>
@@ -102,7 +102,7 @@ class ConceptVisualizationPres extends Component {
               <div className="col-md-10 centered col-md-offset-1">
                 <h2>
                   <em>
-                    {general.prefLabelEn}
+                    {general.prefLabelLg2}
                   </em>
                 </h2>
               </div>

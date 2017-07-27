@@ -24,7 +24,7 @@ import add from '../../img/add.png';
 import del from '../../img/del.png';
 import 'css/app.css';
 
-const sortByLabel = sortArray('prefLabelFr');
+const sortByLabel = sortArray('prefLabelLg1');
 
 class CollectionCreate extends Component {
   constructor(props) {
@@ -33,8 +33,8 @@ class CollectionCreate extends Component {
       idCollection: '',
       isIDExisting: false,
       isLabelExisting: false,
-      prefLabelFr: '',
-      prefLabelEn: '',
+      prefLabelLg1: '',
+      prefLabelLg2: '',
       creator: '',
       contributor: defaultContributor,
       descriptionFr: '',
@@ -59,11 +59,11 @@ class CollectionCreate extends Component {
           isIDExisting: false,
         });
     };
-    this.handleChange1 = prefLabelFr => {
-      this.setState({ prefLabelFr });
+    this.handleChange1 = prefLabelLg1 => {
+      this.setState({ prefLabelLg1 });
       if (
-        arrayKeepUniqueField(this.props.collectionsList, 'prefLabelFr').indexOf(
-          _.deburr(prefLabelFr.toLowerCase())
+        arrayKeepUniqueField(this.props.collectionsList, 'prefLabelLg1').indexOf(
+          _.deburr(prefLabelLg1.toLowerCase())
         ) !== -1
       )
         this.setState({
@@ -74,8 +74,8 @@ class CollectionCreate extends Component {
           isLabelExisting: false,
         });
     };
-    this.handleChange2 = prefLabelEn => {
-      this.setState({ prefLabelEn });
+    this.handleChange2 = prefLabelLg2 => {
+      this.setState({ prefLabelLg2 });
     };
     this.changeSelectCreator = e => {
       this.setState({
@@ -109,8 +109,8 @@ class CollectionCreate extends Component {
     this.editCollectionData = () => {
       const data = {
         idCollection: this.state.idCollection,
-        prefLabelFr: this.state.prefLabelFr,
-        prefLabelEn: this.state.prefLabelEn,
+        prefLabelLg1: this.state.prefLabelLg1,
+        prefLabelLg2: this.state.prefLabelLg2,
         creator: this.state.creator,
         contributor: this.state.contributor,
         descriptionFr: this.state.descriptionFr,
@@ -119,7 +119,7 @@ class CollectionCreate extends Component {
       };
       if (
         this.state.idCollection &&
-        this.state.prefLabelFr &&
+        this.state.prefLabelLg1 &&
         !this.state.isIDExisting &&
         !this.state.isLabelExisting
       ) {
@@ -152,7 +152,7 @@ class CollectionCreate extends Component {
       isLabelExisting,
       creation,
       idCollection,
-      prefLabelFr,
+      prefLabelLg1,
       contributor,
     } = this.state;
     const flagFr = <img src={fr} alt="fr" className="img-flag" />;
@@ -167,7 +167,7 @@ class CollectionCreate extends Component {
         key={item.id}
         className="list-group-item"
         onClick={e => this.OnClickAddMember(item)}>
-        {logoAdd} {item.prefLabelFr}
+        {logoAdd} {item.prefLabelLg1}
       </li>
     );
 
@@ -176,14 +176,14 @@ class CollectionCreate extends Component {
         key={item.id}
         className="list-group-item"
         onClick={e => this.OnClickDelMember(item)}>
-        {logoDel} {item.prefLabelFr}
+        {logoDel} {item.prefLabelLg1}
       </li>
     );
 
     if (
       creation === 'PENDING' &&
       idCollection &&
-      prefLabelFr &&
+      prefLabelLg1 &&
       !isIDExisting &&
       !isLabelExisting
     ) {

@@ -15,13 +15,13 @@ class ConceptCompareNotes extends Component {
 				{!english &&
 					<div className="row">
 						<ExplanatoryNote
-							text={notesVersion1.definitionCourteFr}
+							text={notesVersion1.scopeNoteLg1}
 							title={dictionary.notes.scopeNote}
 							lang="fr"
 							alone={false}
 						/>
 						<ExplanatoryNote
-							text={notesVersion2.definitionCourteFr}
+							text={notesVersion2.scopeNoteLg1}
 							title={dictionary.notes.scopeNote}
 							lang="fr"
 							alone={false}
@@ -30,13 +30,13 @@ class ConceptCompareNotes extends Component {
 				{english &&
 					<div className="row">
 						<ExplanatoryNote
-							text={notesVersion1.definitionCourteEn}
+							text={notesVersion1.scopeNoteLg2}
 							title={dictionary.notes.scopeNote}
 							lang="en"
 							alone={false}
 						/>
 						<ExplanatoryNote
-							text={notesVersion2.definitionCourteEn}
+							text={notesVersion2.scopeNoteLg2}
 							title={dictionary.notes.scopeNote}
 							lang="en"
 							alone={false}
@@ -45,13 +45,13 @@ class ConceptCompareNotes extends Component {
 				{!english &&
 					<div className="row">
 						<ExplanatoryNote
-							text={notesVersion1.definitionFr}
+							text={notesVersion1.definitionLg1}
 							title={dictionary.notes.definition}
 							lang="fr"
 							alone={false}
 						/>
 						<ExplanatoryNote
-							text={notesVersion2.definitionFr}
+							text={notesVersion2.definitionLg1}
 							title={dictionary.notes.definition}
 							lang="fr"
 							alone={false}
@@ -60,13 +60,13 @@ class ConceptCompareNotes extends Component {
 				{english &&
 					<div className="row">
 						<ExplanatoryNote
-							text={notesVersion1.definitionEn}
+							text={notesVersion1.definitionLg2}
 							title={dictionary.notes.definition}
 							lang="en"
 							alone={false}
 						/>
 						<ExplanatoryNote
-							text={notesVersion2.definitionEn}
+							text={notesVersion2.definitionLg2}
 							title={dictionary.notes.definition}
 							lang="en"
 							alone={false}
@@ -75,13 +75,13 @@ class ConceptCompareNotes extends Component {
 				{!english &&
 					<div className="row">
 						<ExplanatoryNote
-							text={notesVersion1.noteEditorialeFr}
+							text={notesVersion1.editorialNoteLg1}
 							title={dictionary.notes.editorialeNote}
 							lang="fr"
 							alone={false}
 						/>
 						<ExplanatoryNote
-							text={notesVersion2.noteEditorialeFr}
+							text={notesVersion2.editorialNoteLg1}
 							title={dictionary.notes.editorialeNote}
 							lang="fr"
 							alone={false}
@@ -90,13 +90,13 @@ class ConceptCompareNotes extends Component {
 				{english &&
 					<div className="row">
 						<ExplanatoryNote
-							text={notesVersion1.noteEditorialeEn}
+							text={notesVersion1.editorialNoteLg2}
 							title={dictionary.notes.editorialeNote}
 							lang="en"
 							alone={false}
 						/>
 						<ExplanatoryNote
-							text={notesVersion2.noteEditorialeEn}
+							text={notesVersion2.editorialNoteLg2}
 							title={dictionary.notes.editorialeNote}
 							lang="en"
 							alone={false}
@@ -105,13 +105,13 @@ class ConceptCompareNotes extends Component {
 				{!english &&
 					<div className="row">
 						<ExplanatoryNote
-							text={notesVersion1.changeNoteFr}
+							text={notesVersion1.changeNoteLg1}
 							title={dictionary.notes.changeNote}
 							lang="fr"
 							alone={false}
 						/>
 						<ExplanatoryNote
-							text={notesVersion2.changeNoteFr}
+							text={notesVersion2.changeNoteLg1}
 							title={dictionary.notes.changeNote}
 							lang="fr"
 							alone={false}
@@ -120,13 +120,13 @@ class ConceptCompareNotes extends Component {
 				{english &&
 					<div className="row">
 						<ExplanatoryNote
-							text={notesVersion1.changeNoteEn}
+							text={notesVersion1.changeNoteLg2}
 							title={dictionary.notes.changeNote}
 							lang="en"
 							alone={false}
 						/>
 						<ExplanatoryNote
-							text={notesVersion2.changeNoteEn}
+							text={notesVersion2.changeNoteLg2}
 							title={dictionary.notes.changeNote}
 							lang="en"
 							alone={false}

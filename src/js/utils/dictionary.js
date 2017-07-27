@@ -90,7 +90,7 @@ const dictionaryMulti = {
         collections: 'Ajouter au moins une collection à valider',
       },
       notes: {
-        definitionFr:
+        definitionLg1:
           'Le concept doit nécessairement comporter une définition française',
         scopeNoteFr:
           'Le statut de diffusion étant public, la définition courte française doit être renseignée',
@@ -187,7 +187,7 @@ const dictionaryMulti = {
         title: 'Statut de diffusion',
         defaultValue: 'Sélectionnez un statut de diffusion ...',
       },
-      additionnalMaterial: 'Document lié',
+      additionalMaterial: 'Document lié',
       isValidated: 'Etat du concept',
       version: 'Version',
       create: 'Créer un nouveau concept',
@@ -204,7 +204,7 @@ const dictionaryMulti = {
         message: {
           title: 'Message',
           value: function(params) {
-            var prefLabelFr = params[0],
+            var prefLabelLg1 = params[0],
               id = '',
               validText = '',
               inseeText = '';
@@ -218,7 +218,7 @@ const dictionaryMulti = {
 
             return `<p>Bonjour,</p>
               <p>Vous trouverez ci-joint la description du concept « <b>
-              ${prefLabelFr}
+              ${prefLabelLg1}
               </b> »${inseeText} extraite de la base RMéS-Concepts.</p>
               ${validText}
               <p>Pour toute demande concernant ce concept merci de répondre via la boîte fonctionnelle :DG75 RMéS-Concepts et définitions.</p>
@@ -297,7 +297,7 @@ const dictionaryMulti = {
         message: {
           title: 'Message',
           value: function(params) {
-            var prefLabelFr = params[0],
+            var prefLabelLg1 = params[0],
               id = '',
               validText = '',
               inseeText = '';
@@ -311,7 +311,7 @@ const dictionaryMulti = {
 
             return `<p>Bonjour,</p>
               <p>Vous trouverez ci-joint la composition de la collection de concepts « <b>
-              ${prefLabelFr}
+              ${prefLabelLg1}
               </b> »${inseeText} extraite de la base RMéS-Concepts.</p>
               ${validText}
               <p>Pour toute demande concernant cette collection merci de répondre via la boîte fonctionnelle :DG75 RMéS-Concepts et définitions.</p>
@@ -472,7 +472,7 @@ const dictionaryMulti = {
         title: 'Dissemination status',
         defaultValue: 'Select a dissemination status ...',
       },
-      additionnalMaterial: 'Additional material',
+      additionalMaterial: 'Additional material',
       isValidated: 'State of concept',
       version: 'Version',
       create: 'Create new concept',

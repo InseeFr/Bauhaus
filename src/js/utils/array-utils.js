@@ -47,7 +47,7 @@ export const sortArray = key =>
 
 export function filterByPrefLabelFr(filter) {
   return item =>
-    _.deburr(item.prefLabelFr).toLowerCase().includes(filter.toLowerCase());
+    _.deburr(item.prefLabelLg1).toLowerCase().includes(filter.toLowerCase());
 }
 
 export const filterDeburr = rawStr => {
@@ -72,7 +72,7 @@ export function filterByLabel(filter) {
 
 export function filterByDefinitionFr(filter) {
   return item =>
-    _.deburr(item.definitionFr).toLowerCase().includes(filter.toLowerCase());
+    _.deburr(item.definitionLg1).toLowerCase().includes(filter.toLowerCase());
 }
 export function filterByCreator(filter) {
   return item =>
@@ -90,11 +90,11 @@ export function filterByValidationStatus(filter) {
       .toLowerCase()
       .includes(filter.toLowerCase());
 }
-export function filterByCreatedDate(dateStartCreate, dateEndCreate) {
-  return item => isDateIn(item.created, dateStartCreate, dateEndCreate);
+export function filterByCreatedDate(dateStartCreate, validCreate) {
+  return item => isDateIn(item.created, dateStartCreate, validCreate);
 }
-export function filterByModifiedDate(dateStartModify, dateEndModify) {
-  return item => isDateIn(item.modified, dateStartModify, dateEndModify);
+export function filterByModifiedDate(dateStartModify, validModify) {
+  return item => isDateIn(item.modified, dateStartModify, validModify);
 }
 
 export const creatSelectList = max => {
@@ -191,7 +191,7 @@ export const creatSelectListFromArrayWithInitText = (array, initText, attr) => {
 export const getMembers = (linksArray, typeOfLink) => {
   return linksArray
     .filter(link => link.conceptLink === typeOfLink)
-    .map(({ idLinked, prefLabelFr }) => ({ id: idLinked, prefLabelFr }));
+    .map(({ idLinked, prefLabelLg1 }) => ({ id: idLinked, prefLabelLg1 }));
 };
 
 //Get potentialMembers of concept

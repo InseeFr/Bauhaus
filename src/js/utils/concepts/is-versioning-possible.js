@@ -1,6 +1,6 @@
 export default (oldNotes, newNotes) => {
-  const isChangeNote = Boolean(oldNotes.changeNoteFr);
+  const isChangeNote = Boolean(oldNotes.changeNoteLg1);
   const isChangeNoteHasChanged =
-    oldNotes.changeNotFer !== newNotes.changeNoteFr;
+    oldNotes.changeNotFer !== newNotes.changeNoteLg1;
   return isChangeNote && isChangeNoteHasChanged;
 };

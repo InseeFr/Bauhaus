@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ConceptsPicker from './concepts-picker';
 import { sortArray } from 'js/utils/array-utils';
-import { exportConcepts } from 'js/actions/concepts-list';
+import { exportConcept } from 'js/actions/concepts-to-export';
 import {
   loadConceptsToValidate,
   validateConcepts,
@@ -14,7 +14,7 @@ import { loadConceptsList } from '../actions/concepts-list';
 import { PropTypes } from 'prop-types';
 import { EXPORT_CONCEPTS, VALIDATE_CONCEPTS } from 'js/constants';
 
-const sortByLabel = sortArray('prefLabelFr');
+const sortByLabel = sortArray('prefLabelLg1');
 
 class ConceptsPickerContainer extends Component {
   componentWillMount() {
@@ -50,12 +50,7 @@ const mapStateToProps = (state, ownProps) => {
       if (state.conceptsList && state.conceptsList.results) {
         //TODO use a `compareLabel` function instead of `sortByLabel`
         //conceptsList.sort(compareLabel)
-        concepts = sortByLabel(
-          state.conceptsList.results.map(({ id, prefLabelFr: label }) => ({
-            id,
-            label,
-          }))
-        );
+        concepts = sortByLabel(state.conceptsList.results);
       }
       status = state.remoteCalls.export;
       break;
@@ -64,11 +59,7 @@ const mapStateToProps = (state, ownProps) => {
         state.conceptsToValidateList &&
         state.conceptsToValidateList.results
       ) {
-        concepts = sortByLabel(
-          state.conceptsToValidateList.results.map(
-            ({ id, prefLabelFr: label }) => ({ id, label })
-          )
-        );
+        concepts = sortByLabel(state.conceptsToValidateList.results);
       }
       status = state.remoteCalls.validation;
       break;
@@ -87,7 +78,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   switch (what) {
     case EXPORT_CONCEPTS:
       loadConcepts = loadConceptsList;
-      handleAction = exportConcepts;
+      handleAction = ids => exportConcept(ids[0]);
       break;
     case VALIDATE_CONCEPTS:
       loadConcepts = loadConceptsToValidate;

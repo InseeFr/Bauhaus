@@ -39,7 +39,7 @@ class ConceptEditionCreation extends Component {
       this.setState({
         activeTab: tabIndex,
       });
-    //update should look like `{ prefLabelEn: 'something new' }` (we can
+    //update should look like `{ prefLabelLg2: 'something new' }` (we can
     //set mutliple properties at the same time)
     this.handleChangeGeneral = update => {
       const data = this.state.data;
@@ -52,7 +52,7 @@ class ConceptEditionCreation extends Component {
       });
     };
 
-    //update should look like `{ noteEditorialeFr: '...' }`
+    //update should look like `{ editorialNoteLg1: '...' }`
     this.handleChangeNotes = update => {
       const data = this.state.data;
       const notes = data.notes;
@@ -231,7 +231,7 @@ class ConceptEditionCreation extends Component {
           {!creation &&
             <Confirm
               isOpen={showModal}
-              label={this.props.general.prefLabelFr}
+              label={this.props.general.prefLabelLg1}
               versioningIsPossible={this.isVersioningPossible()}
               closeCancel={() => this.closeModal()}
               closeMinor={() => this.closeModal(NO_VERSIONING)}

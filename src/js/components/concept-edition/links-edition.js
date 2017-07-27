@@ -10,19 +10,26 @@ import logoAdd from 'js/components/shared/logo-add';
 import logoDel from 'js/components/shared/logo-del';
 import ConceptItem from '../concept-item';
 
-import { PARENT, CHILD, REF, SUCCEED, RELATED, NONE } from 'js/constants';
+import {
+  BROADER,
+  NARROWER,
+  REFERENCES,
+  SUCCEED,
+  RELATED,
+  NONE,
+} from 'js/constants';
 const linkTypes = [
   {
     title: dictionary.links.narrower,
-    memberType: PARENT,
+    memberType: BROADER,
   },
   {
     title: dictionary.links.broader,
-    memberType: CHILD,
+    memberType: NARROWER,
   },
   {
     title: dictionary.links.references,
-    memberType: REF,
+    memberType: REFERENCES,
   },
   {
     title: dictionary.links.replaces,
@@ -108,7 +115,7 @@ class LinksEdition extends Component {
       };
     };
     this.getActualType = () => linkTypes[this.state.activeTab].memberType;
-    this.isPanelParent = () => this.getActualType() === PARENT;
+    this.isPanelParent = () => this.getActualType() === BROADER;
     //if the concept already has a parent, we cannot add a parent
     //TODO check if the previous assertion is right
     this.isAddDisabled = members => this.isPanelParent() && members.length > 0;

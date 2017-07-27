@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
 import Panel from 'js/utils/panel';
 import { sortArray } from 'js/utils/array-utils';
-
-const sortByLabelFr = sortArray('prefLabelFr');
-const sortByLabelEn = sortArray('prefLabelEn');
+import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED } from 'js/constants';
+const sortByLabelFr = sortArray('prefLabelLg1');
+const sortByLabelEn = sortArray('prefLabelLg2');
 
 function ConceptLinks({ english, links }) {
   const cl = english ? 'col-md-6' : 'col-md-12';
@@ -17,90 +17,90 @@ function ConceptLinks({ english, links }) {
   const conceptLink = [];
 
   for (var i = 0; i < links.length; i++) {
-    if (links[i].conceptLink === 'memberParent') {
+    if (links[i].typeOfLink === BROADER) {
       conceptParent.push(links[i]);
     }
-    if (links[i].conceptLink === 'memberEnfants') {
+    if (links[i].typeOfLink === NARROWER) {
       conceptEnfants.push(links[i]);
     }
-    if (links[i].conceptLink === 'memberRef') {
+    if (links[i].typeOfLink === REFERENCES) {
       conceptRef.push(links[i]);
     }
-    if (links[i].conceptLink === 'memberSucceed') {
+    if (links[i].typeOfLink === SUCCEED) {
       conceptSucceed.push(links[i]);
     }
-    if (links[i].conceptLink === 'memberLink') {
+    if (links[i].typeOfLink === RELATED) {
       conceptLink.push(links[i]);
     }
   }
 
   const conceptParentListFr = sortByLabelFr(conceptParent).map(item =>
-    <li key={item.idLinked}>
-      <Link to={'/concept/' + item.idLinked}>
-        {item.prefLabelFr}
+    <li key={item.id}>
+      <Link to={'/concept/' + item.id}>
+        {item.prefLabelLg1}
       </Link>
     </li>
   );
   const conceptParentListEn = sortByLabelEn(conceptParent).map(item =>
-    <li key={item.idLinked}>
-      <Link to={'/concept/' + item.idLinked}>
-        {item.prefLabelEn}
+    <li key={item.id}>
+      <Link to={'/concept/' + item.id}>
+        {item.prefLabelLg2}
       </Link>
     </li>
   );
   const conceptEnfantsListFr = sortByLabelFr(conceptEnfants).map(item =>
-    <li key={item.idLinked}>
-      <Link to={'/concept/' + item.idLinked}>
-        {item.prefLabelFr}
+    <li key={item.id}>
+      <Link to={'/concept/' + item.id}>
+        {item.prefLabelLg1}
       </Link>
     </li>
   );
   const conceptEnfantsListEn = sortByLabelEn(conceptEnfants).map(item =>
-    <li key={item.idLinked}>
-      <Link to={'/concept/' + item.idLinked}>
-        {item.prefLabelEn}
+    <li key={item.id}>
+      <Link to={'/concept/' + item.id}>
+        {item.prefLabelLg2}
       </Link>
     </li>
   );
   const conceptRefListFr = sortByLabelFr(conceptRef).map(item =>
-    <li key={item.idLinked}>
-      <Link to={'/concept/' + item.idLinked}>
-        {item.prefLabelFr}
+    <li key={item.id}>
+      <Link to={'/concept/' + item.id}>
+        {item.prefLabelLg1}
       </Link>
     </li>
   );
   const conceptRefListEn = sortByLabelEn(conceptRef).map(item =>
-    <li key={item.idLinked}>
-      <Link to={'/concept/' + item.idLinked}>
-        {item.prefLabelEn}
+    <li key={item.id}>
+      <Link to={'/concept/' + item.id}>
+        {item.prefLabelLg2}
       </Link>
     </li>
   );
   const conceptSucceedListFr = sortByLabelFr(conceptSucceed).map(item =>
-    <li key={item.idLinked}>
-      <Link to={'/concept/' + item.idLinked}>
-        {item.prefLabelFr}
+    <li key={item.id}>
+      <Link to={'/concept/' + item.id}>
+        {item.prefLabelLg1}
       </Link>
     </li>
   );
   const conceptSucceedListEn = sortByLabelEn(conceptSucceed).map(item =>
-    <li key={item.idLinked}>
-      <Link to={'/concept/' + item.idLinked}>
-        {item.prefLabelEn}
+    <li key={item.id}>
+      <Link to={'/concept/' + item.id}>
+        {item.prefLabelLg2}
       </Link>
     </li>
   );
   const conceptLinkListFr = sortByLabelFr(conceptLink).map(item =>
-    <li key={item.idLinked}>
-      <Link to={'/concept/' + item.idLinked}>
-        {item.prefLabelFr}
+    <li key={item.id}>
+      <Link to={'/concept/' + item.id}>
+        {item.prefLabelLg1}
       </Link>
     </li>
   );
   const conceptLinkListEn = sortByLabelEn(conceptLink).map(item =>
     <li key={item.idLinked}>
       <Link to={'/concept/' + item.idLinked}>
-        {item.prefLabelEn}
+        {item.prefLabelLg2}
       </Link>
     </li>
   );

@@ -27,7 +27,7 @@ import buildExtract from 'js/utils/build-extract';
 
 const extractId = buildExtract('id');
 
-const sortByLabel = sortArray('prefLabelFr');
+const sortByLabel = sortArray('prefLabelLg1');
 
 class CollectionModify extends Component {
   constructor(props) {
@@ -37,8 +37,8 @@ class CollectionModify extends Component {
       isLabelExisting: false,
       idCollection: '',
       created: '',
-      prefLabelFr: '',
-      prefLabelEn: '',
+      prefLabelLg1: '',
+      prefLabelLg2: '',
       creator: '',
       contributor: '',
       descriptionFr: '',
@@ -51,13 +51,13 @@ class CollectionModify extends Component {
       this.setState({ searchLabel });
     };
 
-    this.handleChange1 = prefLabelFr => {
-      this.setState({ prefLabelFr });
+    this.handleChange1 = prefLabelLg1 => {
+      this.setState({ prefLabelLg1 });
       if (
-        arrayKeepUniqueField(this.props.collectionsList, 'prefLabelFr').indexOf(
-          _.deburr(prefLabelFr.toLowerCase())
+        arrayKeepUniqueField(this.props.collectionsList, 'prefLabelLg1').indexOf(
+          _.deburr(prefLabelLg1.toLowerCase())
         ) !== -1 &&
-        prefLabelFr !== this.props.collectionGeneral.prefLabelFr
+        prefLabelLg1 !== this.props.collectionGeneral.prefLabelLg1
       )
         this.setState({
           isLabelExisting: true,
@@ -67,8 +67,8 @@ class CollectionModify extends Component {
           isLabelExisting: false,
         });
     };
-    this.handleChange2 = prefLabelEn => {
-      this.setState({ prefLabelEn });
+    this.handleChange2 = prefLabelLg2 => {
+      this.setState({ prefLabelLg2 });
     };
     this.changeSelectCreator = e => {
       this.setState({
@@ -99,15 +99,15 @@ class CollectionModify extends Component {
       const data = {
         idCollection: this.state.idCollection,
         created: this.state.created,
-        prefLabelFr: this.state.prefLabelFr,
-        prefLabelEn: this.state.prefLabelEn,
+        prefLabelLg1: this.state.prefLabelLg1,
+        prefLabelLg2: this.state.prefLabelLg2,
         creator: this.state.creator,
         contributor: this.state.contributor,
         descriptionFr: this.state.descriptionFr,
         descriptionEn: this.state.descriptionEn,
         members: this.state.members,
       };
-      if (this.state.prefLabelFr && !this.state.isLabelExisting) {
+      if (this.state.prefLabelLg1 && !this.state.isLabelExisting) {
         this.setState({
           creation: 'PENDING',
         });
@@ -127,13 +127,13 @@ class CollectionModify extends Component {
     this.setState({
       idCollection: nextProps.collectionGeneral.id,
       created: nextProps.collectionGeneral.created,
-      prefLabelFr: nextProps.collectionGeneral.prefLabelFr,
-      prefLabelEn: nextProps.collectionGeneral.prefLabelEn,
+      prefLabelLg1: nextProps.collectionGeneral.prefLabelLg1,
+      prefLabelLg2: nextProps.collectionGeneral.prefLabelLg2,
       creator: nextProps.collectionGeneral.creator,
       contributor: nextProps.collectionGeneral.contributor,
       descriptionFr: nextProps.collectionGeneral.descriptionFr,
       descriptionEn: nextProps.collectionGeneral.descriptionEn,
-      members: arrayDropUniqueField(nextProps.collectionMembers, 'prefLabelEn'),
+      members: arrayDropUniqueField(nextProps.collectionMembers, 'prefLabelLg2'),
     });
   }
 
@@ -144,7 +144,7 @@ class CollectionModify extends Component {
       searchLabel,
       members,
       creation,
-      prefLabelFr,
+      prefLabelLg1,
       isLabelExisting,
     } = this.state;
 
@@ -164,7 +164,7 @@ class CollectionModify extends Component {
         key={item.id}
         className="list-group-item"
         onClick={e => this.OnClickAddMember(item)}>
-        {logoAdd} {item.prefLabelFr}
+        {logoAdd} {item.prefLabelLg1}
       </li>
     );
 
@@ -173,13 +173,13 @@ class CollectionModify extends Component {
         key={item.id}
         className="list-group-item"
         onClick={e => this.OnClickDelMember(item)}>
-        {logoDel} {item.prefLabelFr}
+        {logoDel} {item.prefLabelLg1}
       </li>
     );
 
     console.log(creator);
 
-    if (creation === 'PENDING' && prefLabelFr && !isLabelExisting) {
+    if (creation === 'PENDING' && prefLabelLg1 && !isLabelExisting) {
       return (
         <div>
           <MenuConcepts />
@@ -203,7 +203,7 @@ class CollectionModify extends Component {
             <div className="col-md-10 centered col-md-offset-1">
               <h2 className="page-title">
                 {dictionary.collection.modify}
-                <br />&quot; {collectionGeneral.prefLabelFr} &quot;
+                <br />&quot; {collectionGeneral.prefLabelLg1} &quot;
               </h2>
             </div>
           </div>
@@ -238,7 +238,7 @@ class CollectionModify extends Component {
             <input
               type="text"
               className="form-control"
-              defaultValue={collectionGeneral.prefLabelFr}
+              defaultValue={collectionGeneral.prefLabelLg1}
               onChange={e => this.handleChange1(e.target.value)}
             />
           </div>
@@ -249,7 +249,7 @@ class CollectionModify extends Component {
             <input
               type="text"
               className="form-control"
-              defaultValue={collectionGeneral.prefLabelEn}
+              defaultValue={collectionGeneral.prefLabelLg2}
               onChange={e => this.handleChange2(e.target.value)}
             />
           </div>

@@ -11,7 +11,7 @@ import {
   loadCollectionsToValidateList,
 } from '../actions/collections-list';
 
-const sortByLabel = sortArray('prefLabelFr');
+const sortByLabel = sortArray('prefLabelLg1');
 
 class CollectionsList extends Component {
   constructor(props) {
@@ -52,7 +52,7 @@ class CollectionsList extends Component {
     ).map(item =>
       <li key={item.id} className="list-group-item">
         <Link to={'/collection/' + item.id}>
-          {item.prefLabelFr}
+          {item.prefLabelLg1}
         </Link>
       </li>
     );

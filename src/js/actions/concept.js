@@ -32,7 +32,7 @@ export const loadConceptGeneral = id => (dispatch, getState) => {
   });
   return getConceptGeneral(id).then(
     conceptGeneral => {
-      dispatch(loadConceptGeneralSuccess(id, conceptGeneral[0]));
+      dispatch(loadConceptGeneralSuccess(id, conceptGeneral));
       return conceptGeneral;
     },
     err => dispatch(loadConceptGeneralFailure(id, err.toString()))
@@ -116,7 +116,7 @@ export function loadConceptNotesSuccess(id, conceptVersion, conceptNotes) {
     payload: {
       id,
       conceptVersion,
-      results: conceptNotes[0],
+      results: conceptNotes,
     },
   };
 }
@@ -135,7 +135,7 @@ export function loadConceptNotesFailure(id, conceptVersion, err) {
 export function loadConceptGeneralAndNotes(conceptId) {
   return (dispatch, getState) => {
     return dispatch(loadConceptGeneral(conceptId)).then(conceptGeneral => {
-      dispatch(loadConceptNotes(conceptId, conceptGeneral[0].conceptVersion));
+      dispatch(loadConceptNotes(conceptId, conceptGeneral.conceptVersion));
     });
   };
 }

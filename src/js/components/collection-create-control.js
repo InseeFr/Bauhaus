@@ -81,7 +81,7 @@ class CollectionCreateControl extends Component {
       );
     } else if (
       attr.idCollection &&
-      attr.prefLabelFr &&
+      attr.prefLabelLg1 &&
       !attr.isIDExisting &&
       !attr.isLabelExisting &&
       attr.creator.length !== 0

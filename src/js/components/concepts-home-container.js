@@ -55,9 +55,7 @@ const mapStateToProps = state => {
   //TODO should be sorted in the state, shouldn't they ?
   let { results: concepts, status, err } = state.conceptsList;
   if (status === LOADED) {
-    concepts = sortByLabel(
-      concepts.map(({ id, prefLabelFr: label }) => ({ id, label }))
-    );
+    concepts = sortByLabel(concepts);
   }
 
   return {

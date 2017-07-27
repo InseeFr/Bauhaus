@@ -62,8 +62,8 @@ const mapStateToProps = state => {
     conceptsSearchList = sortByLabel(
       conceptsResource.results.map(concept => ({
         id: concept.id,
-        label: concept.prefLabelFr,
-        definition: concept.definitionFr,
+        label: concept.prefLabelLg1,
+        definition: concept.definitionLg1,
         createdDate: concept.createdDate,
         modifiedDate: concept.modifiedDate,
         creator: concept.creator,

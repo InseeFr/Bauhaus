@@ -13,11 +13,7 @@ export const loadDisseminationStatusList = () => (dispatch, getState) => {
   });
   return getDisseminationStatusList().then(
     disseminationStatusList =>
-      dispatch(
-        loadDisseminationStatusListSuccess(
-          disseminationStatusList.disseminationStatus
-        )
-      ),
+      dispatch(loadDisseminationStatusListSuccess(disseminationStatusList)),
     err => dispatch(loadDisseminationStatusListFailure(err.toString()))
   );
 };

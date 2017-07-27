@@ -5,21 +5,24 @@ import { dateTimeToDateString } from 'js/utils/utils';
 
 function ConceptGeneral({ attr, english }) {
   var mapping = {
-    altLabelFr: dictionary.concept.altLabel + ' (fr)',
+    altLabelLg1: dictionary.concept.altLabel + ' (fr)',
   };
-  if (attr.altLabelEn) {
-    mapping = { ...mapping, altLabelEn: dictionary.concept.altLabel + ' (en)' };
+  if (attr.altLabelLg2) {
+    mapping = {
+      ...mapping,
+      altLabelLg2: dictionary.concept.altLabel + ' (en)',
+    };
   }
   mapping = {
     ...mapping,
     created: dictionary.concept.created,
     modified: dictionary.concept.modified,
-    dateEnd: dictionary.concept.valid,
+    valid: dictionary.concept.valid,
     conceptVersion: dictionary.concept.conceptVersion,
     creator: dictionary.concept.creator,
     contributor: dictionary.concept.contributor,
     disseminationStatus: dictionary.concept.disseminationStatus.title,
-    additionnalMaterial: dictionary.concept.additionnalMaterial,
+    additionalMaterial: dictionary.concept.additionalMaterial,
     isValidated: dictionary.concept.isValidated,
   };
 
@@ -30,13 +33,13 @@ function ConceptGeneral({ attr, english }) {
           <ul>
             {Object.keys(mapping).map(fieldName => {
               if (attr.hasOwnProperty(fieldName)) {
-                if (fieldName === 'altLabelEn' && !english) {
+                if (fieldName === 'altLabelLg2' && !english) {
                   return null;
                 }
                 if (
                   fieldName === 'created' ||
                   fieldName === 'modified' ||
-                  fieldName === 'dateEnd'
+                  fieldName === 'valid'
                 ) {
                   return (
                     <li key={fieldName}>{`${mapping[
@@ -44,7 +47,7 @@ function ConceptGeneral({ attr, english }) {
                     ]} : ${dateTimeToDateString(attr[fieldName])}`}</li>
                   );
                 }
-                if (fieldName === 'additionnalMaterial') {
+                if (fieldName === 'additionalMaterial') {
                   return (
                     <li key={fieldName}>
                       {`${mapping[fieldName]} : `}

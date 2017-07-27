@@ -6,76 +6,76 @@ import 'css/concept-notes.css';
 
 function ConceptNotes({ english, notes }) {
   const {
-    definitionCourteFr,
-    definitionCourteEn,
-    definitionFr,
-    definitionEn,
-    noteEditorialeFr,
-    noteEditorialeEn,
-    changeNoteFr,
-    changeNoteEn,
+    scopeNoteLg1,
+    scopeNoteLg2,
+    definitionLg1,
+    definitionLg2,
+    editorialNoteLg1,
+    editorialNoteLg2,
+    changeNoteLg1,
+    changeNoteLg2,
   } = notes;
   return (
     <div>
-      {definitionCourteFr &&
+      {scopeNoteLg1 &&
         <div className="row">
           <ExplanatoryNote
-            text={definitionCourteFr}
+            text={scopeNoteLg1}
             title={dictionary.notes.scopeNote}
             lang="fr"
             alone={!english}
           />
           {english &&
             <ExplanatoryNote
-              text={definitionCourteEn}
+              text={scopeNoteLg2}
               title={dictionary.notes.scopeNote}
               lang="en"
               alone={false}
             />}
         </div>}
-      {definitionFr &&
+      {definitionLg1 &&
         <div className="row">
           <ExplanatoryNote
-            text={definitionFr}
+            text={definitionLg1}
             title={dictionary.notes.definition}
             lang="fr"
             alone={!english}
           />
           {english &&
             <ExplanatoryNote
-              text={definitionEn}
+              text={definitionLg2}
               title={dictionary.notes.definition}
               lang="en"
               alone={false}
             />}
         </div>}
-      {noteEditorialeFr &&
+      {editorialNoteLg1 &&
         <div className="row">
           <ExplanatoryNote
-            text={noteEditorialeFr}
+            text={editorialNoteLg1}
             title={dictionary.notes.editorialeNote}
             lang="fr"
             alone={!english}
           />
           {english &&
             <ExplanatoryNote
-              text={noteEditorialeEn}
+              text={editorialNoteLg2}
               title={dictionary.notes.editorialeNote}
               lang="en"
               alone={false}
             />}
         </div>}
-      {changeNoteFr &&
+      {changeNoteLg1 &&
         <div className="row">
           <ExplanatoryNote
-            text={changeNoteFr}
+            text={changeNoteLg1}
             title={dictionary.notes.changeNote}
             lang="fr"
             alone={!english}
           />
           {english &&
             <ExplanatoryNote
-              text={changeNoteEn}
+              text={changeNoteLg2}
               title={dictionary.notes.changeNote}
               lang="en"
               alone={false}

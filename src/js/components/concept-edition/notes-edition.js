@@ -10,29 +10,29 @@ import { htmlIsEmpty } from 'js/utils/html';
 const noteTypes = [
   {
     rawTitle: dictionary.notes.scopeNote,
-    // should be highlighted only if `definitionCourteFr` is empty and
+    // should be highlighted only if `scopeNoteLg1` is empty and
     //`disseminationStatus.includes('Public')`
     redFrEmpty: disseminationStatus => disseminationStatus.includes('Public'),
-    noteFrName: 'definitionCourteFr',
-    noteEnName: 'definitionCourteEn',
+    noteFrName: 'scopeNoteLg1',
+    noteEnName: 'scopeNoteLg2',
     maxLength: maxLengthScopeNote,
   },
   {
     rawTitle: dictionary.notes.definition,
     redFrEmpty: () => true,
-    noteFrName: 'definitionFr',
-    noteEnName: 'definitionEn',
+    noteFrName: 'definitionLg1',
+    noteEnName: 'definitionLg2',
   },
 
   {
     rawTitle: dictionary.notes.editorialeNote,
-    noteFrName: 'noteEditorialeFr',
-    noteEnName: 'noteEditorialeEn',
+    noteFrName: 'editorialNoteLg1',
+    noteEnName: 'editorialNoteLg2',
   },
   {
     rawTitle: dictionary.notes.changeNote,
-    noteFrName: 'changeNoteFr',
-    noteEnName: 'changeNoteEn',
+    noteFrName: 'changeNoteLg1',
+    noteEnName: 'changeNoteLg2',
   },
 ];
 

@@ -21,7 +21,7 @@ class CollectionSend extends Component {
     super(props);
 
     var params = [
-      this.props.collectionGeneral.prefLabelFr,
+      this.props.collectionGeneral.prefLabelLg1,
       this.props.collectionGeneral.id,
     ];
     if (this.props.collectionGeneral.isValidated === 'Provisoire') {
@@ -35,7 +35,7 @@ class CollectionSend extends Component {
       isRecipientInsee: false,
       sender: defaultMailSender,
       object: dictionary.collection.send.object.value([
-        this.props.collectionGeneral.prefLabelFr,
+        this.props.collectionGeneral.prefLabelLg1,
       ]),
       message: EditorState.createWithContent(stateFromHTML(message)),
       isMessage: true,
@@ -83,7 +83,7 @@ class CollectionSend extends Component {
         sender: this.state.sender,
         object: this.state.object,
         message: stateToHTML(this.state.message.getCurrentContent()),
-        prefLabelFr: this.props.collectionGeneral.prefLabelFr,
+        prefLabelLg1: this.props.collectionGeneral.prefLabelLg1,
         creator: this.props.collectionGeneral.creator,
         contributor: this.props.collectionGeneral.contributor,
       };
@@ -146,13 +146,13 @@ class CollectionSend extends Component {
                 {creation === 'DONE' &&
                   <h2>
                     {dictionary.collection.send.success([
-                      collectionGeneral.prefLabelFr,
+                      collectionGeneral.prefLabelLg1,
                     ])}
                   </h2>}
                 {creation === 'FAILED' &&
                   <h2>
                     {dictionary.collection.send.failed([
-                      collectionGeneral.prefLabelFr,
+                      collectionGeneral.prefLabelLg1,
                     ])}
                   </h2>}
               </div>
@@ -179,7 +179,7 @@ class CollectionSend extends Component {
             <div className="col-md-10 centered col-md-offset-1">
               <h2 className="page-title">
                 {dictionary.collection.send.title([
-                  collectionGeneral.prefLabelFr,
+                  collectionGeneral.prefLabelLg1,
                 ])}
               </h2>
             </div>

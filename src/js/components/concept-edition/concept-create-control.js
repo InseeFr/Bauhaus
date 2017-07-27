@@ -15,14 +15,14 @@ import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links
 //TODO check if we need to call deburr on concept labels
 const checkPrefLabelFrExisting = (
   concepts,
-  prefLabelFr,
+  prefLabelLg1,
   initialPrefLabelFr
 ) => {
   return (
     //if it has not changed, it's ok
-    prefLabelFr !== initialPrefLabelFr &&
+    prefLabelLg1 !== initialPrefLabelFr &&
     arrayKeepUniqueField(concepts, 'label').indexOf(
-      deburr(prefLabelFr.toLowerCase())
+      deburr(prefLabelLg1.toLowerCase())
     ) !== -1
   );
 };
@@ -39,38 +39,38 @@ function ConceptCreateControl({
 }) {
   let message;
   let saveEnabled = false;
-  const { prefLabelFr: initialPrefLabelFr } = oldGeneral;
-  const { prefLabelFr, creator, disseminationStatus } = general;
+  const { prefLabelLg1: initialPrefLabelFr } = oldGeneral;
+  const { prefLabelLg1, creator, disseminationStatus } = general;
   const {
-    definitionFr,
-    definitionCourteFr,
-    definitionCourteEn,
-    noteEditorialeFr,
-    noteEditorialeEn,
-    changeNoteFr,
-    changeNoteEn,
+    definitionLg1,
+    scopeNoteLg1,
+    scopeNoteLg2,
+    editorialNoteLg1,
+    editorialNoteLg2,
+    changeNoteLg1,
+    changeNoteLg2,
   } = notes;
 
   const isPrefLabelFrExisting = checkPrefLabelFrExisting(
     conceptsWithLinks,
-    prefLabelFr,
+    prefLabelLg1,
     initialPrefLabelFr
   );
   //TODO check how to deal with notes like `<p></p>`: is it empty ?
-  const isMissingConcept = !(prefLabelFr && creator && disseminationStatus);
-  const isDefinitionFrMissing = htmlIsEmpty(definitionFr);
+  const isMissingConcept = !(prefLabelLg1 && creator && disseminationStatus);
+  const isDefinitionFrMissing = htmlIsEmpty(definitionLg1);
   //TODO verify check on `disseminationStatus` works as expected
   const isStatusPublicAndDefinitionMissing =
-    disseminationStatus.includes('Public') && htmlIsEmpty(definitionCourteFr);
-  const hasDefCourteEnNotFr = onlyFirst(definitionCourteEn, definitionCourteFr);
+    disseminationStatus.includes('Public') && htmlIsEmpty(scopeNoteLg1);
+  const hasDefCourteEnNotFr = onlyFirst(scopeNoteLg2, scopeNoteLg1);
   const isDefCourteTooLong =
-    htmlLength(definitionCourteFr) > maxLengthScopeNote ||
-    htmlLength(definitionCourteEn) > maxLengthScopeNote;
+    htmlLength(scopeNoteLg1) > maxLengthScopeNote ||
+    htmlLength(scopeNoteLg2) > maxLengthScopeNote;
   const hasNoteEditorialeEnNotFr = onlyFirst(
-    noteEditorialeEn,
-    noteEditorialeFr
+    editorialNoteLg2,
+    editorialNoteLg1
   );
-  const hasChangeNoteEnNotFr = onlyFirst(changeNoteEn, changeNoteFr);
+  const hasChangeNoteEnNotFr = onlyFirst(changeNoteLg2, changeNoteLg1);
 
   if (isPrefLabelFrExisting) {
     message = dictionary.warning.duplicated.label;
@@ -78,7 +78,7 @@ function ConceptCreateControl({
   } else if (isMissingConcept) {
     message = dictionary.warning.missing.concept;
   } else if (isDefinitionFrMissing) {
-    message = dictionary.warning.notes.definitionFr;
+    message = dictionary.warning.notes.definitionLg1;
   } else if (isStatusPublicAndDefinitionMissing) {
     message = dictionary.warning.notes.scopeNoteFr;
   } else if (hasDefCourteEnNotFr) {
@@ -91,7 +91,7 @@ function ConceptCreateControl({
     message = dictionary.warning.notes.changeNote;
   } else {
     //TODO missing else statement ? for instance if no creator ?
-    //prefLabelFr && creator &&  disseminationStatus && !isLabelFrExisting &&
+    //prefLabelLg1 && creator &&  disseminationStatus && !isLabelFrExisting &&
     //isDefinitionFr
     //no message
     saveEnabled = true;
