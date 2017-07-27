@@ -30,27 +30,3 @@ export const propTypes = PropTypes.arrayOf(
     ]),
   })
 );
-export function extractLinks(conceptsWithLinks) {
-  return conceptsWithLinks.reduce(
-    (links, { id, typeOfLink }) => {
-      const typeOfLinkFinal = constantsMapping[typeOfLink];
-      //ignore `NONE`
-      if (typeOfLinkFinal) {
-        links[typeOfLinkFinal].push({
-          //TODO check remote api expectations: does it need additional information
-          // (like `prefLabelLg1`) ? does it expect an object with an entry by `id` ?
-          // is the value significant ? or does it expect an array ?
-          id,
-        });
-      }
-      return links;
-    },
-    {
-      [BROADER]: [],
-      [NARROWER]: [],
-      [REFERENCES]: [],
-      [SUCCEED]: [],
-      [RELATED]: [],
-    }
-  );
-}

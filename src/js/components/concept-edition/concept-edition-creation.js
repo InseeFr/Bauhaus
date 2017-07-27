@@ -13,13 +13,16 @@ import Confirm from './confirm-modal';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import {
   propTypes as notePropTypes,
-  areNotesChanged,
+  areNotesImpactingVersionChanged,
 } from 'js/utils/concepts/notes';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
 import { dictionary } from 'js/utils/dictionary';
-import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
 import { OK, PENDING } from 'js/constants';
-import buildPayloadCreation from 'js/utils/concepts/build-payload-creation';
+import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
+//TODO reorganize files and exports
+import buildPayloadCreation from 'js/utils/concepts/build-payload-creation-update/build-payload-creation';
+import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/build-payload-update';
+//TODO check if we can use a boolean for versioning
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
 
 class ConceptEditionCreation extends Component {
@@ -139,9 +142,12 @@ class ConceptEditionCreation extends Component {
       } else {
         //update
         this.props.save(
-          versioningType,
-          this.getOriginalData(),
-          this.state.data
+          this.props.id,
+          buildPayloadUpdate(
+            versioningType,
+            this.getOriginalData(),
+            this.state.data
+          )
         );
       }
     };
@@ -166,7 +172,7 @@ class ConceptEditionCreation extends Component {
     this.areNotesChanged = () => {
       const oldNotes = this.getOriginalData().notes;
       const newNotes = this.state.data.notes;
-      return areNotesChanged(oldNotes, newNotes);
+      return areNotesImpactingVersionChanged(oldNotes, newNotes);
     };
   }
 

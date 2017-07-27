@@ -5,7 +5,6 @@ import {
   postModifiedConcepts,
   postConcept,
 } from 'js/utils/remote-api';
-import processUpdatePayload from './utils/process-update-concept-payload';
 
 export const LOAD_CONCEPT_GENERAL = 'LOAD_CONCEPT_GENERAL';
 export const LOAD_CONCEPT_GENERAL_SUCCESS = 'LOAD_CONCEPT_GENERAL_SUCCESS';
@@ -140,32 +139,37 @@ export function loadConceptGeneralAndNotes(conceptId) {
   };
 }
 
-export function updateConcept(versioning, oldData, newData) {
+export function updateConcept(id, data) {
   //TODO handle the status in the store (for now, we only handle the remote
   //call, and a `then` handler in the component take care of adjusting the
   //status)
   return dispatch => {
-    const { general: { id } } = oldData;
-    const payload = processUpdatePayload(versioning, oldData, newData);
     //TODO should not need to return the id (it should be read from the store)
     dispatch({
       type: UPDATE_CONCEPT,
-      payload,
+      payload: {
+        id,
+        ...data,
+      },
     });
     //TODO rename in remote api
-    return postModifiedConcepts(id, payload).then(
+    return postModifiedConcepts(id, data).then(
       res => {
         dispatch({
           type: UPDATE_CONCEPT_SUCCESS,
-          payload,
+          payload: {
+            id,
+            ...data,
+          },
         });
       },
       err =>
         dispatch({
           type: UPDATE_CONCEPT_FAILURE,
           payload: {
-            payload,
+            id,
             err,
+            ...data,
           },
         })
     );
