@@ -1,6 +1,6 @@
 import {
   getConceptsToValidate,
-  postConceptsToValidate,
+  putConceptsToValidate,
 } from 'js/utils/remote-api';
 
 import { PENDING, OK } from 'js/constants';
@@ -50,7 +50,7 @@ export const validateConcepts = concepts => (dispatch, getState) => {
     status: PENDING,
     concepts,
   });
-  return postConceptsToValidate(concepts).then(concepts =>
+  return putConceptsToValidate(concepts).then(concepts =>
     dispatch(
       {
         type: VALIDATE_CONCEPTS_SUCCESS,

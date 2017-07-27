@@ -11,7 +11,7 @@ const urlPostConcepts = baseHost + 'private/concepts';
 const urlPostModifiedConcepts = baseHost + 'private/concept';
 const urlGetConceptsToValidate = baseHost + 'concepts/toValidate';
 const urlPostConceptsToValidate = baseHost + 'private/concepts/validate';
-const urlPostConceptsToExport = baseHost + 'concept/export';
+const urlPostConceptToExport = baseHost + 'concept/export';
 
 const urlGetCollectionsList = baseHost + 'collections';
 const urlGetCollection = baseHost + 'collection';
@@ -101,17 +101,17 @@ export const postModifiedConcepts = (id, concept) =>
     body: JSON.stringify(concept),
   }).then(res => id); // normalize `postConcepts` and `postModifiedConcepts`
 
-export const postConceptsToValidate = concepts =>
+export const putConceptsToValidate = concepts =>
   fetch(urlPostConceptsToValidate, {
     headers: {
       'Content-Type': 'application/json',
     },
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify(concepts),
   });
 
-export const postConceptsToExport = id =>
-  fetch(urlPostConceptsToExport, {
+export const postConceptToExport = id =>
+  fetch(urlPostConceptToExport, {
     headers: {
       'Content-Type': 'text/plain',
     },
