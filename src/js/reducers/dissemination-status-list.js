@@ -5,7 +5,7 @@ export default function(state = { status: NOT_LOADED }, action) {
   if (action.type === LOAD_DISSEMINATION_STATUS_LIST_SUCCESS)
     return {
       status: LOADED,
-      results: action.payload.results.map(({ label }) => label),
+      results: action.payload.results,
     };
   return state;
 }

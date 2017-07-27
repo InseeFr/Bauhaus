@@ -14,13 +14,11 @@ function SelectRmes({
   searchable,
   multi,
 }) {
-  const opts = options.map(opt => ({ value: opt, label: opt }));
-
   return (
     <Select
       value={value}
       placeholder={placeholder}
-      options={opts}
+      options={options}
       onChange={e => onChange(e ? e.value : '')}
       clearable={true}
       searchable={searchable}
@@ -38,7 +36,12 @@ SelectRmes.defaultProps = {
 SelectRmes.propTypes = {
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   onChange: PropTypes.func.isRequired,
   clearable: PropTypes.bool,
   searchable: PropTypes.bool,

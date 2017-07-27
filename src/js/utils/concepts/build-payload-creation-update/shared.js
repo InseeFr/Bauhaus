@@ -15,8 +15,7 @@ export function processLinks(conceptsWithLinks) {
       // if there is no concept for a type of link, we do not create an entry
       //in tthe array
     ]
-      
-      //no entry if there no links of a given type
+    //no entry if there no links of a given type
     }
   */
   //First we represent the information as an object to allow iterating over

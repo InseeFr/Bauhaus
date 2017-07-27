@@ -86,7 +86,7 @@ function ConceptGeneralEdition({
           className="form-control"
           placeholder={dictionary.concept.stamps.defaultValue}
           value={creator}
-          options={stampsList}
+          options={stampsList.map(stamp => ({ label: stamp, value: stamp }))}
           onChange={handlers.creator}
           searchable={true}
         />
@@ -111,7 +111,10 @@ function ConceptGeneralEdition({
           className="form-control"
           placeholder={dictionary.concept.disseminationStatus.defaultValue}
           value={disseminationStatus}
-          options={disseminationStatusList}
+          options={disseminationStatusList.map(({ url: value, label }) => ({
+            label,
+            value,
+          }))}
           onChange={handlers.disseminationStatus}
           searchable={true}
         />
