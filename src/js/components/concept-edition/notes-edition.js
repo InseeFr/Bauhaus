@@ -121,7 +121,6 @@ class NotesEdition extends Component {
                   title={title}
                   style={{ marginTop: '20px' }}>
                   {noteEdition}
-                  />
                 </Tab>
               );
             }
