@@ -1,129 +1,110 @@
 .inline {
-  display: inline;
+	display: inline;
 }
 
-.items{
-  display: inline-block;
-  width: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 15%;
+.items {
+	display: inline-block;
+	width: 15%;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 15%;
 }
 
-.img-block{
-    display: block;
-    width: 100%;
-    text-align: center;
+.img-block {
+	display: block;
+	width: 100%;
+	text-align: center;
 }
 
-.img{
-  width: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 2%;
+.img {
+	width: 15%;
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 2%;
 }
 
 .btn-group-vertical {
-  border: 2px solid #457DBB;
-  border-radius: 6px;
-  margin-top: 200px;
+	border: 2px solid #457dbb;
+	border-radius: 6px;
+	margin-top: 200px;
 }
-.btn-group-vertical-pink {
-  border: 2px solid #cc0066;
-  border-radius: 6px;
-  margin-top: 200px;
-}
-.btn-group-vertical .btn{
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-.btn-group-vertical-pink .btn{
-  margin-top: 15px;
-  margin-bottom: 15px;
+.btn-group-vertical .btn {
+	margin-top: 15px;
+	margin-bottom: 15px;
 }
 .btn-line {
-  margin-top: 15px;
-  margin-bottom: 15px;
+	margin-top: 15px;
+	margin-bottom: 15px;
 }
 
 .page-title {
-  border: 2px solid #044173;/*457DBB*/
-  background-color: #044173;
-  color: white;
-  border-radius: 6px;
-  padding: 10px;
-  margin-bottom: 30px;
+	border: 2px solid #044173; /*457DBB*/
+	background-color: #044173;
+	color: white;
+	border-radius: 6px;
+	padding: 10px;
+	margin-bottom: 30px;
 }
-.page-title-pink {
-  border: 2px solid #cc0066;/*457DBB*/
-  background-color: #cc0066;
-  color: white;
-  border-radius: 6px;
-  padding: 10px;
-  margin-bottom: 30px;
-}
-
 
 .list-group-item {
-  text-align: left;
+	text-align: left;
 }
 
 Link {
-  color: #ffffff;
+	color: #ffffff;
 }
 
 .centered {
-  text-align: center;
+	text-align: center;
 }
 
 .vertical-center {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .red {
-  color: red;
+	color: red;
 }
 
-
-.nav-tabs > li > a{
-  border: medium none;
+.nav-tabs > li > a {
+	border: medium none;
 }
-.nav-tabs > li > a:hover{
-  background-color: #234CA5 !important;
-    color: #ffffff !important;
+.nav-tabs > li > a:hover {
+	background-color: #234ca5 !important;
+	color: #ffffff !important;
 }
-.nav-tabs > li.active > a{
-  background-color: #457DBB !important;
-    color: #ffffff !important;
+.nav-tabs > li.active > a {
+	background-color: #457dbb !important;
+	color: #ffffff !important;
 }
-.nav-tabs > li > a:focus{
-  background-color: #457DBB !important;
-    color: #ffffff;
+.nav-tabs > li > a:focus {
+	background-color: #457dbb !important;
+	color: #ffffff;
 }
 
 .boldRed {
-  color: red;
-  font-weight: bold;
-  font-size: 25px;
+	color: red;
+	font-weight: bold;
+	font-size: 25px;
 }
 .boldWhite {
-  color: white;
-  font-weight: bold;
-  font-size: 25px;
+	color: white;
+	font-weight: bold;
+	font-size: 25px;
 }
 
 .bold {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 .rdw-editor-toolbar {
-  border-style: none;
+	border-style: none;
 }
 
 .DraftEditor-root {
-  border: 2px solid #457DBB;
-  border-radius: 6px;
-  margin-top: 10px;
-  min-height: 200px;
+	border: 2px solid #457dbb;
+	border-radius: 6px;
+	margin-top: 10px;
+	min-height: 200px;
 }
