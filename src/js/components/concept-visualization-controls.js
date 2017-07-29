@@ -7,11 +7,9 @@ const Button = ({ action, label }) => {
   let button;
   if (typeof action === 'string') {
     button = (
-      <button className="btn btn-primary btn-lg col-md-12">
-        <Link to={action}>
-          {label}
-        </Link>
-      </button>
+      <Link className="btn btn-primary btn-lg col-md-12" to={action}>
+        {label}
+      </Link>
     );
   } else {
     //if action is a function, it means a handler was passed in instead of an URL
