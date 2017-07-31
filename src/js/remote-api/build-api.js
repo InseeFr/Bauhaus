@@ -27,20 +27,20 @@ export const computeDscr = (fn, [...args]) => {
   //We don't deep merge: all nested properties in default options (ie.
   //headers.Accept) are lost. Hence, if a prop option is overriden (ie.
   //headers), all relevant options should be present.
-  options = Object.assign(defaultOptions, options);
+  options = Object.assign({}, defaultOptions, options);
   thenHandler = thenHandler || defaultThenHandler;
   return [url, options, thenHandler];
 };
 
 export const buildCall = (baseHost, resource, fn) => {
   return (...args) => {
-    let [path, option, thenHandler] = computeDscr(fn, args);
-    if (option.method) {
-      option.method = guessMethod(resource);
+    let [path, options, thenHandler] = computeDscr(fn, args);
+    if (!options.method) {
+      options.method = guessMethod(resource);
     }
     baseHost = removeTrailingSlash(baseHost);
     const url = `${baseHost}/${path}`;
-    return fetch(url, defaultOptions)
+    return fetch(url, options)
       .then(
         res => {
           if (res.ok) return res;
