@@ -8,7 +8,7 @@ import { VERSIONING } from 'js/constants';
 import takeKeys from 'js/utils/take-keys';
 
 //only `isValidated` is not sent
-const generalFieldsToKeep = takeKeys([
+const generalFieldsToKeep = [
   'prefLabelLg1',
   'prefLabelLg2',
   'altLabelLg1',
@@ -19,7 +19,7 @@ const generalFieldsToKeep = takeKeys([
   'disseminationStatus',
   'additionalMaterial',
   'valid',
-]);
+];
 
 export default function buildPayloadUpdate(versioning, oldConcept, concept) {
   const { notes: oldNotes } = oldConcept;
