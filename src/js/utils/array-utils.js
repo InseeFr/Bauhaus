@@ -200,3 +200,6 @@ export const getPotentialMembers = (conceptsArray, linksArray, currentID) => {
   idLinks.push(currentID);
   return conceptsArray.filter(({ id }) => idLinks.indexOf(id) === -1);
 };
+
+export const range = (start, end) =>
+  Array(end - start).fill().map((_, i) => i + start);

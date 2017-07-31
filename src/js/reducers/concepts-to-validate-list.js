@@ -1,16 +1,16 @@
 import {
-  LOAD_CONCEPTS_TO_VALIDATE,
-  LOAD_CONCEPTS_TO_VALIDATE_SUCCESS,
-} from '../actions/concepts-to-validate';
+  LOAD_CONCEPT_VALIDATE_LIST,
+  LOAD_CONCEPT_VALIDATE_LIST_SUCCESS,
+} from '../actions/constants';
 import { LOADING, NOT_LOADED } from 'js/constants';
 export default function(state = { status: NOT_LOADED }, action) {
   switch (action.type) {
-    case LOAD_CONCEPTS_TO_VALIDATE:
+    case LOAD_CONCEPT_VALIDATE_LIST:
       return {
         ...state,
         status: LOADING,
       };
-    case LOAD_CONCEPTS_TO_VALIDATE_SUCCESS:
+    case LOAD_CONCEPT_VALIDATE_LIST_SUCCESS:
       return {
         ...state,
         results: action.payload.results,

@@ -4,13 +4,13 @@ import Loadable from 'react-loading-overlay';
 import ConceptsHome from './concepts-home';
 import { dictionary } from 'js/utils/dictionary';
 import { NOT_LOADED, LOADED, LOADING, FAILURE } from 'js/constants';
-import { loadConceptsList } from '../actions/concepts-list';
+import loadConceptList from '../actions/concepts/list';
 import { sortArray } from 'js/utils/array-utils';
 
 class ConceptsHomeContainer extends Component {
   componentWillMount() {
     if (!this.props.conceptsList) {
-      this.props.loadConceptsList();
+      this.props.loadConceptList();
     }
   }
 
@@ -66,7 +66,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  loadConceptsList,
+  loadConceptList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

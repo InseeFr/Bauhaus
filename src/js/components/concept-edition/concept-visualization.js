@@ -9,7 +9,7 @@ import ConceptGeneral from '../concept-general';
 import ConceptLinks from '../concept-links';
 import ConceptNotes from '../concept-notes';
 import { dictionary } from 'js/utils/dictionary';
-import { validateConcepts } from 'js/actions/concepts-to-validate';
+import validateConcepts from 'js/actions/concepts/validate';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';

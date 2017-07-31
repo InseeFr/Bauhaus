@@ -3,13 +3,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ConceptsPicker from './concepts-picker';
 import { sortArray } from 'js/utils/array-utils';
-import { exportMultipleConcepts } from 'js/actions/concepts-to-export';
-import {
-  loadConceptsToValidate,
-  validateConcepts,
-} from 'js/actions/concepts-to-validate';
+import exportMultipleConcepts from 'js/actions/concepts/export-multi';
+import validateConcepts from 'js/actions/concepts/validate';
+import loadConceptValidateList from 'js/actions/concepts/validate-list';
 
-import { loadConceptsList } from '../actions/concepts-list';
+import loadConceptList from '../actions/concepts/list';
 
 import { PropTypes } from 'prop-types';
 import { EXPORT_CONCEPTS, VALIDATE_CONCEPTS } from 'js/constants';
@@ -77,11 +75,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   let loadConcepts, handleAction;
   switch (what) {
     case EXPORT_CONCEPTS:
-      loadConcepts = loadConceptsList;
+      loadConcepts = loadConceptList;
+      //TODO update component to use something like
+      //`ids.forEach(id => FileSaver.saveAs(blob, `${id}.pdf`)`)
+      // to process the response
       handleAction = ids => exportMultipleConcepts(ids);
       break;
     case VALIDATE_CONCEPTS:
-      loadConcepts = loadConceptsToValidate;
+      loadConcepts = loadConceptValidateList;
       handleAction = validateConcepts;
       break;
     default:

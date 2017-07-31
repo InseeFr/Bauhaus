@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadConceptsList } from 'js/actions/concepts-list';
-import { loadStampsList } from 'js/actions/stamps';
+import loadConceptList from 'js/actions/concepts/list';
+import loadConceptLinks from 'js/actions/concepts/links';
+import loadConceptGeneralAndNotes from 'js/actions/concepts/general-and-notes';
+import loadDisseminationStatusList from 'js/actions/dissemination-status';
+import loadStampList from 'js/actions/stamp';
+
 import {
   BROADER,
   NARROWER,
@@ -12,9 +16,6 @@ import {
   RELATED,
   NONE,
 } from 'js/constants';
-import { loadDisseminationStatusList } from 'js/actions/dissemination-status';
-import { loadConceptLinks } from 'js/actions/concept';
-import { loadConceptGeneralAndNotes } from 'js/actions/concept';
 import emptyConcept from 'js/utils/concepts/empty-concept';
 import { sortArray } from 'js/utils/array-utils';
 import { PENDING, OK } from 'js/constants';
@@ -42,8 +43,8 @@ class ConceptDetailsContainer extends Component {
       if (!(general && notes)) this.props.loadConceptGeneralAndNotes(id);
       if (!conceptsWithLinks) this.props.loadConceptLinks(id);
     }
-    if (!conceptsList) this.props.loadConceptsList();
-    if (!stampsList) this.props.loadStampsList();
+    if (!conceptsList) this.props.loadConceptList();
+    if (!stampsList) this.props.loadStampList();
     if (!disseminationStatusList) this.props.loadDisseminationStatusList();
   }
 
@@ -189,8 +190,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const actions = {
-    loadConceptsList,
-    loadStampsList,
+    loadConceptList,
+    loadStampList,
     loadDisseminationStatusList,
     loadConceptGeneralAndNotes,
     loadConceptLinks,

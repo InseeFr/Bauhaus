@@ -1,4 +1,4 @@
-import { LOAD_CONCEPT_GENERAL_SUCCESS } from '../actions/concept';
+import { LOAD_CONCEPT_GENERAL_SUCCESS } from '../actions/constants';
 import { LOADED } from 'js/constants';
 import { empty } from 'js/utils/concepts/general';
 export default function(state = {}, action) {

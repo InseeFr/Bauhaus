@@ -1,42 +1,42 @@
 import {
-	LOAD_CONCEPT_NOTES,
-	LOAD_CONCEPT_NOTES_SUCCESS,
-} from '../actions/concept';
+  LOAD_NOTES_VERSION,
+  LOAD_NOTES_VERSION_SUCCESS,
+} from '../actions/constants';
 
 import { LOADING, LOADED } from 'js/constants';
 export default function(state = {}, action) {
-	const { type, payload } = action;
-	switch (type) {
-		//TODO don't load twice the same resource
-		case LOAD_CONCEPT_NOTES:
-			const { id, conceptVersion } = payload;
-			const conceptVersions = state[id];
-			return {
-				...state,
-				[id]: {
-					...conceptVersions,
-					[conceptVersion]: {
-						status: LOADING,
-					},
-				},
-			};
-		case LOAD_CONCEPT_NOTES_SUCCESS: {
-			const { id, conceptVersion, results } = payload;
-			const conceptVersions = state[id];
-			return {
-				...state,
-				[id]: {
-					//on conserve les versions déjà chargées
-					...conceptVersions,
-					//on ajoute la nouvelle version
-					[conceptVersion]: {
-						status: LOADED,
-						results,
-					},
-				},
-			};
-		}
-		default:
-			return state;
-	}
+  const { type, payload } = action;
+  switch (type) {
+    //TODO don't load twice the same resource
+    case LOAD_NOTES_VERSION:
+      const { id, version } = payload;
+      const otherVersions = state[id];
+      return {
+        ...state,
+        [id]: {
+          ...otherVersions,
+          [version]: {
+            status: LOADING,
+          },
+        },
+      };
+    case LOAD_NOTES_VERSION_SUCCESS: {
+      const { id, version, results } = payload;
+      const otherVersions = state[id];
+      return {
+        ...state,
+        [id]: {
+          //on conserve les versions déjà chargées
+          ...otherVersions,
+          //on ajoute la nouvelle version
+          [version]: {
+            status: LOADED,
+            results,
+          },
+        },
+      };
+    }
+    default:
+      return state;
+  }
 }

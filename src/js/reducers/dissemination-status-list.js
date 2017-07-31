@@ -1,4 +1,4 @@
-import { LOAD_DISSEMINATION_STATUS_LIST_SUCCESS } from '../actions/dissemination-status';
+import { LOAD_DISSEMINATION_STATUS_LIST_SUCCESS } from '../actions/constants';
 import { NOT_LOADED, LOADED } from 'js/constants';
 
 export default function(state = { status: NOT_LOADED }, action) {

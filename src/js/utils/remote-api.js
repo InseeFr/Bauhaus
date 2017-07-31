@@ -1,18 +1,5 @@
 import { baseHost } from 'config/config';
 
-const urlGetDisseminationStatusList = baseHost + 'disseminationStatus';
-
-const urlGetConceptsList = baseHost + 'concepts';
-const urlGetConceptsSearchList = baseHost + 'concepts/search';
-const urlGetConceptGeneral = baseHost + 'concept';
-const urlGetConceptLinks = baseHost + 'concept';
-const urlGetConceptNotes = baseHost + 'concept';
-const urlPostConcept = baseHost + 'private/concepts';
-const urlPostModifiedConcepts = baseHost + 'private/concept';
-const urlGetConceptsToValidate = baseHost + 'concepts/toValidate';
-const urlPostConceptToValidate = baseHost + 'private/concepts/validate';
-const urlPostConceptToExport = baseHost + 'concept/export';
-
 const urlGetCollectionsList = baseHost + 'collections';
 const urlGetCollection = baseHost + 'collection';
 const urlPostCollections = baseHost + 'private/collections';
@@ -20,114 +7,7 @@ const urlPostModifiedCollections = baseHost + 'private/collection';
 const urlGetCollectionsToValidateList = baseHost + 'collections/toValidate';
 const urlPostCollectionsToValidate = baseHost + 'private/collections/validate';
 const urlPostCollectionsToExport = baseHost + 'private/collections/export';
-
 const urlPostCollectionSend = baseHost + 'private/collection/send';
-const urlPostConceptSend = baseHost + 'private/concept/send';
-
-export const getDisseminationStatusList = () =>
-  fetch(urlGetDisseminationStatusList, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
-
-// TODO value body response for errors
-// TODO apply this pattern to all remote calls and modify actions accordingly (
-// we return a string and not an error object)
-
-export const getConceptsList = () =>
-  fetch(urlGetConceptsList, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(
-    res => {
-      if (res.ok) return res.json();
-      else return Promise.reject(res.statusText);
-    },
-    err => Promise.reject(err.toString())
-  );
-
-export const getConceptsSearchList = () =>
-  fetch(urlGetConceptsSearchList, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
-
-export const getConceptsToValidate = () =>
-  fetch(urlGetConceptsToValidate, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
-
-export const getConceptGeneral = id =>
-  fetch(urlGetConceptGeneral + '/' + id, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
-
-export const getConceptLinks = id =>
-  fetch(urlGetConceptLinks + '/' + id + '/links', {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
-
-export const getConceptNotes = (id, conceptVersion) =>
-  fetch(urlGetConceptNotes + '/' + id + '/notes/' + conceptVersion, {
-    headers: {
-      Accept: 'application/json',
-    },
-  }).then(res => res.json());
-
-export const postConcept = concept =>
-  fetch(urlPostConcept, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(concept),
-  }).then(res => res.text()); // concept id
-
-export const postModifiedConcepts = (id, concept) =>
-  fetch(urlPostModifiedConcepts + '/' + id, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(concept),
-  }).then(res => id); // normalize `postConcept` and `postModifiedConcepts`
-
-export const putConceptsToValidate = concepts =>
-  fetch(urlPostConceptToValidate, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'PUT',
-    body: JSON.stringify(concepts),
-  });
-
-export const postConceptToExport = id =>
-  fetch(urlPostConceptToExport, {
-    headers: {
-      'Content-Type': 'text/plain',
-    },
-    responseType: 'arraybuffer',
-    method: 'POST',
-    body: id,
-  });
-
-export const postConceptSend = concept =>
-  fetch(urlPostConceptSend, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(concept),
-  });
 
 export const getCollectionsList = () =>
   fetch(urlGetCollectionsList, {

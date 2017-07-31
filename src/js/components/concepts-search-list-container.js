@@ -5,9 +5,9 @@ import Loadable from 'react-loading-overlay';
 import MenuConcepts from 'js/components/menus/menu-concepts';
 import { dictionary } from 'js/utils/dictionary';
 import ConceptsSearchList from './concepts-search-list';
-import { loadStampsList } from '../actions/stamps';
-import { loadDisseminationStatusList } from '../actions/dissemination-status';
-import { loadConceptsSearchList } from '../actions/concepts-search-list';
+import loadStampList from '../actions/stamp';
+import loadDisseminationStatusList from '../actions/dissemination-status';
+import loadConceptSearchList from '../actions/concepts/search-list';
 import { sortArray } from 'js/utils/array-utils';
 import 'css/app.css';
 
@@ -15,8 +15,8 @@ const sortByLabel = sortArray('label');
 
 class ConceptsSearchListContainer extends Component {
   componentWillMount() {
-    this.props.loadConceptsSearchList();
-    this.props.loadStampsList();
+    this.props.loadConceptSearchList();
+    this.props.loadStampList();
     this.props.loadDisseminationStatusList();
   }
 
@@ -87,8 +87,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  loadConceptsSearchList,
-  loadStampsList,
+  loadConceptSearchList,
+  loadStampList,
   loadDisseminationStatusList,
 };
 

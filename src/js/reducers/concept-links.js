@@ -1,4 +1,4 @@
-import { LOAD_CONCEPT_LINKS_SUCCESS } from '../actions/concept';
+import { LOAD_CONCEPT_LINKS_SUCCESS } from '../actions/constants';
 import { LOADED } from 'js/constants';
 
 export default function(state = {}, action) {

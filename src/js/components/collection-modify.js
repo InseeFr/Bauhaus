@@ -9,8 +9,8 @@ import CollectionModifyControl from './collection-modify-control';
 import { dictionary } from 'js/utils/dictionary';
 import Panel from 'js/utils/panel';
 import Pagination from 'js/components/shared/pagination';
-import { loadConceptsList } from '../actions/concepts-list';
-import { loadStampsList } from '../actions/stamps';
+import loadConceptList from '../actions/concepts/list';
+import loadStampList from '../actions/stamp';
 import { postModifiedCollections } from 'js/utils/remote-api';
 import {
   sortArray,
@@ -54,9 +54,10 @@ class CollectionModify extends Component {
     this.handleChange1 = prefLabelLg1 => {
       this.setState({ prefLabelLg1 });
       if (
-        arrayKeepUniqueField(this.props.collectionsList, 'prefLabelLg1').indexOf(
-          _.deburr(prefLabelLg1.toLowerCase())
-        ) !== -1 &&
+        arrayKeepUniqueField(
+          this.props.collectionsList,
+          'prefLabelLg1'
+        ).indexOf(_.deburr(prefLabelLg1.toLowerCase())) !== -1 &&
         prefLabelLg1 !== this.props.collectionGeneral.prefLabelLg1
       )
         this.setState({
@@ -119,8 +120,8 @@ class CollectionModify extends Component {
   }
 
   componentWillMount() {
-    this.props.loadConceptsList();
-    this.props.loadStampsList();
+    this.props.loadConceptList();
+    this.props.loadStampList();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -133,7 +134,10 @@ class CollectionModify extends Component {
       contributor: nextProps.collectionGeneral.contributor,
       descriptionFr: nextProps.collectionGeneral.descriptionFr,
       descriptionEn: nextProps.collectionGeneral.descriptionEn,
-      members: arrayDropUniqueField(nextProps.collectionMembers, 'prefLabelLg2'),
+      members: arrayDropUniqueField(
+        nextProps.collectionMembers,
+        'prefLabelLg2'
+      ),
     });
   }
 
@@ -335,8 +339,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-  loadConceptsList,
-  loadStampsList,
+  loadConceptList,
+  loadStampList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

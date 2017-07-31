@@ -1,20 +1,15 @@
 import { PENDING, OK } from 'js/constants';
 import {
-  VALIDATE_CONCEPTS,
-  VALIDATE_CONCEPTS_SUCCESS,
-} from 'js/actions/concepts-to-validate';
-
-import {
+  VALIDATE_CONCEPT_LIST,
+  VALIDATE_CONCEPT_LIST_SUCCESS,
   EXPORT_CONCEPT,
   EXPORT_CONCEPT_SUCCESS,
-} from 'js/actions/concepts-to-export';
-
-import {
   CREATE_CONCEPT,
   CREATE_CONCEPT_SUCCESS,
   UPDATE_CONCEPT,
   UPDATE_CONCEPT_SUCCESS,
-} from 'js/actions/concept';
+} from 'js/actions/constants';
+
 /**
  * Reducer to keep track of POST and PUT calls
  * 
@@ -31,12 +26,12 @@ export default function(
   action
 ) {
   switch (action.type) {
-    case VALIDATE_CONCEPTS:
+    case VALIDATE_CONCEPT_LIST:
       return {
         ...state,
         validation: PENDING,
       };
-    case VALIDATE_CONCEPTS_SUCCESS:
+    case VALIDATE_CONCEPT_LIST_SUCCESS:
       return {
         ...state,
         validation: OK,

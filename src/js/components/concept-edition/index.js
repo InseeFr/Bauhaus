@@ -4,7 +4,8 @@ import ConceptDetailsContainer from './concept-details-container';
 import ConceptEditionCreation from './concept-edition-creation';
 import ConceptVisualization from './concept-visualization';
 import PageTitle from 'js/components/shared/page-title';
-import { updateConcept, createConcept } from 'js/actions/concept';
+import createConcept from 'js/actions/concepts/create';
+import updateConcept from 'js/actions/concepts/update';
 import buildExtract from 'js/utils/build-extract';
 import { dictionary } from 'js/utils/dictionary';
 

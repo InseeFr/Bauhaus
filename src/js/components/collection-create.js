@@ -16,8 +16,8 @@ import {
   arrayKeepUniqueField,
 } from 'js/utils/array-utils';
 import { postCollections } from 'js/utils/remote-api';
-import { loadConceptsList } from '../actions/concepts-list';
-import { loadStampsList } from '../actions/stamps';
+import loadConceptList from '../actions/concepts/list';
+import loadStampList from '../actions/stamp';
 import fr from '../../img/fr.png';
 import en from '../../img/en.png';
 import add from '../../img/add.png';
@@ -62,9 +62,10 @@ class CollectionCreate extends Component {
     this.handleChange1 = prefLabelLg1 => {
       this.setState({ prefLabelLg1 });
       if (
-        arrayKeepUniqueField(this.props.collectionsList, 'prefLabelLg1').indexOf(
-          _.deburr(prefLabelLg1.toLowerCase())
-        ) !== -1
+        arrayKeepUniqueField(
+          this.props.collectionsList,
+          'prefLabelLg1'
+        ).indexOf(_.deburr(prefLabelLg1.toLowerCase())) !== -1
       )
         this.setState({
           isLabelExisting: true,
@@ -137,8 +138,8 @@ class CollectionCreate extends Component {
   }
 
   componentWillMount() {
-    this.props.loadConceptsList();
-    this.props.loadStampsList();
+    this.props.loadConceptList();
+    this.props.loadStampList();
   }
 
   render() {
@@ -330,8 +331,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  loadConceptsList,
-  loadStampsList,
+  loadConceptList,
+  loadStampList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
