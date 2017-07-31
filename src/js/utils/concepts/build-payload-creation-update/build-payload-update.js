@@ -5,7 +5,6 @@ import {
   processDatableChanges,
 } from 'js/utils/concepts/notes';
 import { VERSIONING } from 'js/constants';
-import takeKeys from 'js/utils/take-keys';
 
 //only `isValidated` is not sent
 const generalFieldsToKeep = [

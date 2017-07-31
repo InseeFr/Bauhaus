@@ -26,6 +26,7 @@ class EditionContainer extends Component {
       stampList,
       disseminationStatusList,
       creationStatus,
+      createConcept,
     } = this.props;
     if (conceptList && stampList && disseminationStatusList) {
       const { general, notes, links } = concept;

@@ -35,6 +35,7 @@ const api = {
     },
     res => res.blob(),
   ],
+  //TODO check swagger documentation
   postConceptSend: id => [
     'private/concept/send',
     {
