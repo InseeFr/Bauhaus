@@ -204,7 +204,7 @@ class ConceptEditionCreation extends Component {
 			if (isActionProcessed === OK && id) {
 				//TODO should redirect to the concept page, but we need to find
 				//a clean way to get the id of the created concept (easy for update)
-				return <Redirect to={`/concepts/${id}`} />;
+				return <Redirect to={`/concept/${id}`} />;
 			} else {
 				return (
 					<div>
