@@ -10,7 +10,7 @@ import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
 import { dictionary } from 'js/utils/dictionary';
 import { defaultMailSender } from 'config/config';
-import { postConceptSend } from 'js/utils/remote-api';
+import api from 'js/remote-api/api';
 import { regexValidMail } from 'js/utils/regex';
 import buildExtract from 'js/utils/build-extract';
 
@@ -89,7 +89,7 @@ class ConceptSend extends Component {
       this.setState({
         creation: 'PENDING',
       });
-      postConceptSend(data).then(isSent => isSent.text()).then(isSent => {
+      api.postConceptSend(data).then(isSent => isSent.text()).then(isSent => {
         if (isSent === 'true') {
           this.setState({
             creation: 'DONE',

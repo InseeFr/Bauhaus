@@ -1,4 +1,4 @@
-import { getDisseminationStatusList } from 'js/utils/remote-api';
+import api from 'js/remote-api/api';
 
 export const LOAD_DISSEMINATION_STATUS_LIST = 'LOAD_DISSEMINATION_STATUS_LIST';
 export const LOAD_DISSEMINATION_STATUS_LIST_SUCCESS =
@@ -11,11 +11,13 @@ export const loadDisseminationStatusList = () => (dispatch, getState) => {
     type: LOAD_DISSEMINATION_STATUS_LIST,
     payload: null,
   });
-  return getDisseminationStatusList().then(
-    disseminationStatusList =>
-      dispatch(loadDisseminationStatusListSuccess(disseminationStatusList)),
-    err => dispatch(loadDisseminationStatusListFailure(err.toString()))
-  );
+  return api
+    .getDissStatusList()
+    .then(
+      disseminationStatusList =>
+        dispatch(loadDisseminationStatusListSuccess(disseminationStatusList)),
+      err => dispatch(loadDisseminationStatusListFailure(err.toString()))
+    );
 };
 
 export function loadDisseminationStatusListSuccess(disseminationStatusList) {

@@ -1,7 +1,4 @@
-import {
-  getConceptsToValidate,
-  putConceptsToValidate,
-} from 'js/utils/remote-api';
+import api from 'js/remote-api/api';
 
 import { PENDING, OK } from 'js/constants';
 
@@ -19,11 +16,13 @@ export const loadConceptsToValidate = () => (dispatch, getState) => {
     type: LOAD_CONCEPTS_TO_VALIDATE,
     payload: null,
   });
-  return getConceptsToValidate().then(
-    conceptsToValidate =>
-      dispatch(loadConceptsToValidateSuccess(conceptsToValidate)),
-    err => dispatch(loadConceptsToValidateFailure(err.toString()))
-  );
+  return api
+    .getConceptValidList()
+    .then(
+      conceptsToValidate =>
+        dispatch(loadConceptsToValidateSuccess(conceptsToValidate)),
+      err => dispatch(loadConceptsToValidateFailure(err.toString()))
+    );
 };
 
 export function loadConceptsToValidateSuccess(conceptsToValidate) {
@@ -50,7 +49,7 @@ export const validateConcepts = concepts => (dispatch, getState) => {
     status: PENDING,
     concepts,
   });
-  return putConceptsToValidate(concepts).then(concepts =>
+  return api.putConceptValidList(concepts).then(concepts =>
     dispatch(
       {
         type: VALIDATE_CONCEPTS_SUCCESS,

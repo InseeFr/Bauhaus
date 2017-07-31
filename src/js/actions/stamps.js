@@ -1,4 +1,4 @@
-import { getStamps } from 'js/utils/igesa-api';
+import api from 'js/remote-api/api';
 
 export const LOAD_STAMPS_LIST = 'LOAD_STAMPS_LIST';
 export const LOAD_STAMPS_LIST_SUCCESS = 'LOAD_STAMPS_LIST_SUCCESS';
@@ -9,10 +9,12 @@ export const loadStampsList = () => (dispatch, getState) => {
     type: LOAD_STAMPS_LIST,
     payload: null,
   });
-  return getStamps().then(
-    stampsList => dispatch(loadStampsListSuccess(stampsList)),
-    err => dispatch(loadStampsListFailure(err.toString()))
-  );
+  return api
+    .getStampList()
+    .then(
+      stampsList => dispatch(loadStampsListSuccess(stampsList)),
+      err => dispatch(loadStampsListFailure(err.toString()))
+    );
 };
 
 export function loadStampsListSuccess(stampsList) {

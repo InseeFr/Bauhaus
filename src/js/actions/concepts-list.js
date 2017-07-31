@@ -1,4 +1,4 @@
-import { getConceptsList } from 'js/utils/remote-api';
+import api from 'js/remote-api/api';
 
 export const LOAD_CONCEPTS_LIST = 'LOAD_CONCEPTS_LIST';
 export const LOAD_CONCEPTS_LIST_SUCCESS = 'LOAD_CONCEPTS_LIST_SUCCESS';
@@ -8,10 +8,12 @@ export const loadConceptsList = () => (dispatch, getState) => {
     type: LOAD_CONCEPTS_LIST,
     payload: null,
   });
-  return getConceptsList().then(
-    conceptsList => dispatch(loadConceptsListSuccess(conceptsList)),
-    err => dispatch(loadConceptsListFailure({ err: err.toString() }))
-  );
+  return api
+    .getConceptList()
+    .then(
+      conceptsList => dispatch(loadConceptsListSuccess(conceptsList)),
+      err => dispatch(loadConceptsListFailure({ err: err.toString() }))
+    );
 };
 
 export function loadConceptsListSuccess(conceptsList) {

@@ -1,4 +1,4 @@
-import { getConceptsSearchList } from 'js/utils/remote-api';
+import api from 'js/remote-api/api';
 
 export const LOAD_CONCEPTS_SEARCH_LIST = 'LOAD_CONCEPTS_SEARCH_LIST';
 export const LOAD_CONCEPTS_SEARCH_LIST_SUCCESS =
@@ -11,11 +11,13 @@ export const loadConceptsSearchList = () => (dispatch, getState) => {
     type: LOAD_CONCEPTS_SEARCH_LIST,
     payload: null,
   });
-  return getConceptsSearchList().then(
-    conceptsSearchList =>
-      dispatch(loadConceptsSearchListSuccess(conceptsSearchList)),
-    err => dispatch(loadConceptsSearchListFailure(err.toString()))
-  );
+  return api
+    .getConceptSearchList()
+    .then(
+      conceptsSearchList =>
+        dispatch(loadConceptsSearchListSuccess(conceptsSearchList)),
+      err => dispatch(loadConceptsSearchListFailure(err.toString()))
+    );
 };
 
 export function loadConceptsSearchListSuccess(conceptsSearchList) {

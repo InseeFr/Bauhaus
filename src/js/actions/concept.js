@@ -1,10 +1,4 @@
-import {
-  getConceptGeneral,
-  getConceptNotes,
-  getConceptLinks,
-  postModifiedConcepts,
-  postConcept,
-} from 'js/utils/remote-api';
+import api from 'js/remote-api/api';
 
 export const LOAD_CONCEPT_GENERAL = 'LOAD_CONCEPT_GENERAL';
 export const LOAD_CONCEPT_GENERAL_SUCCESS = 'LOAD_CONCEPT_GENERAL_SUCCESS';
@@ -29,7 +23,7 @@ export const loadConceptGeneral = id => (dispatch, getState) => {
       id,
     },
   });
-  return getConceptGeneral(id).then(
+  return api.getConceptGeneral(id).then(
     conceptGeneral => {
       dispatch(loadConceptGeneralSuccess(id, conceptGeneral));
       return conceptGeneral;
@@ -65,10 +59,12 @@ export const loadConceptLinks = id => (dispatch, getState) => {
       id,
     },
   });
-  return getConceptLinks(id).then(
-    conceptLinks => dispatch(loadConceptLinksSuccess(id, conceptLinks)),
-    err => dispatch(loadConceptLinksFailure(id, err.toString()))
-  );
+  return api
+    .getConceptLinkList(id)
+    .then(
+      conceptLinks => dispatch(loadConceptLinksSuccess(id, conceptLinks)),
+      err => dispatch(loadConceptLinksFailure(id, err.toString()))
+    );
 };
 
 export function loadConceptLinksSuccess(id, conceptGeneral) {
@@ -102,11 +98,14 @@ export const loadConceptNotes = (id, conceptVersion) => (
       conceptVersion,
     },
   });
-  return getConceptNotes(id, conceptVersion).then(
-    conceptNotes =>
-      dispatch(loadConceptNotesSuccess(id, conceptVersion, conceptNotes)),
-    err => dispatch(loadConceptNotesFailure(id, conceptVersion, err.toString()))
-  );
+  return api
+    .getConceptVersionNoteList(id, conceptVersion)
+    .then(
+      conceptNotes =>
+        dispatch(loadConceptNotesSuccess(id, conceptVersion, conceptNotes)),
+      err =>
+        dispatch(loadConceptNotesFailure(id, conceptVersion, err.toString()))
+    );
 };
 
 export function loadConceptNotesSuccess(id, conceptVersion, conceptNotes) {
@@ -153,7 +152,7 @@ export function updateConcept(id, data) {
       },
     });
     //TODO rename in remote api
-    return postModifiedConcepts(id, data).then(
+    return api.putConcept(id, data).then(
       res => {
         dispatch({
           type: UPDATE_CONCEPT_SUCCESS,
@@ -185,7 +184,7 @@ export function createConcept(data) {
       },
     });
     //TODO rename in remote api
-    return postConcept(data).then(
+    return api.postConcept(data).then(
       id => {
         dispatch({
           type: CREATE_CONCEPT_SUCCESS,

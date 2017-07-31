@@ -1,5 +1,5 @@
 import FileSaver from 'file-saver';
-import { postConceptToExport } from 'js/utils/remote-api';
+import api from 'js/remote-api/api';
 
 export const EXPORT_CONCEPT = 'EXPORT_CONCEPT';
 export const EXPORT_CONCEPT_SUCCESS = 'EXPORT_CONCEPT_SUCCESS';
@@ -18,7 +18,8 @@ export const exportOneConcept = id => dispatch => {
   });
   //TODO FIX ME, we should iterate over the concepts
   const concept = id;
-  return postConceptToExport(concept)
+  return api
+    .postConceptExport(concept)
     .then(res => res.blob())
     .then(blob => {
       return FileSaver.saveAs(blob, `${id}.pdf`);
