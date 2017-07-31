@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
-import ConceptCreateControlLayout from './concept-create-control-layout';
+import ConceptCreateControlLayout from './create-controls-layout';
 import { maxLengthScopeNote } from 'config/config';
 import { dictionary } from 'js/utils/dictionary';
 import { htmlLength, htmlIsEmpty } from 'js/utils/html';

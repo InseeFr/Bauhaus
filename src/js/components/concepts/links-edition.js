@@ -8,7 +8,7 @@ import { filterByLabel } from 'js/utils/array-utils';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
 import logoAdd from 'js/components/shared/logo-add';
 import logoDel from 'js/components/shared/logo-del';
-import ConceptItem from '../concept-item';
+import ConceptItem from './list-item';
 
 import {
   BROADER,

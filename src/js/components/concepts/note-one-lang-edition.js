@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import logoWarning from 'js/components/shared/logo-warning';
-import ConceptModifyNotes from './concept-modify-notes';
+import ConceptModifyNotes from './modify-notes';
 import { htmlLength } from 'js/utils/html';
 
 function NoteOneLangEdition({ flag, note, handleChange, maxLength }) {

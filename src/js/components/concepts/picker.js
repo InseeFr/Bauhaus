@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
-import MenuConcepts from 'js/components/menus/menu-concepts';
+import MenuConcepts from './menu';
 import { dictionary } from 'js/utils/dictionary';
 import Panel from 'js/utils/panel';
 import Pagination from 'js/components/shared/pagination';
-import ConceptItem from 'js/components/concept-item';
+import ConceptItem from './list-item';
 import Loadable from 'react-loading-overlay';
 import { filterDeburr } from 'js/utils/array-utils';
 import addLogo from 'js/components/shared/logo-add';
 import delLogo from 'js/components/shared/logo-del';
 import { PENDING } from 'js/constants';
-import './concepts-picker.css';
+import './picker.css';
 
 class ConceptsPicker extends Component {
   constructor(props) {

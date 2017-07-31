@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import ConceptsPicker from './concepts-picker';
+import ConceptsPicker from './picker';
 import { sortArray } from 'js/utils/array-utils';
 import exportMultipleConcepts from 'js/actions/concepts/export-multi';
 import validateConcepts from 'js/actions/concepts/validate';
 import loadConceptValidateList from 'js/actions/concepts/validate-list';
 
-import loadConceptList from '../actions/concepts/list';
+import loadConceptList from 'js/actions/concepts/list';
 
 import { PropTypes } from 'prop-types';
 import { EXPORT_CONCEPTS, VALIDATE_CONCEPTS } from 'js/constants';

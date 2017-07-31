@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import SelectRmes from 'js/utils/select-rmes';
 import DatePickerRmes from 'js/utils/date-picker-rmes';
-import MenuConcepts from 'js/components/menus/menu-concepts';
 import { dictionary } from 'js/utils/dictionary';
 import Pagination from 'js/components/shared/pagination';
 import { filterKeyDeburr, filterKeyDate } from 'js/utils/array-utils';
@@ -37,11 +36,11 @@ const handleFieldChange = handleChange =>
 
 //TODO fix confusion about naming between `ConceptsSearchList`,
 //`ConceptsListSearch` and `SearchConceptsList`
-class ConceptsSearchList extends Component {
+class ConceptSearchList extends Component {
   constructor(props) {
     super(props);
     this.getEmptyState = () => ({
-      hits: this.props.conceptsSearchList,
+      hits: this.props.conceptSearchList,
       label: '',
       definition: '',
       creator: '',
@@ -79,7 +78,7 @@ class ConceptsSearchList extends Component {
         dateModifiedStart,
         dateModifiedEnd,
       } = newState;
-      const hits = this.props.conceptsSearchList
+      const hits = this.props.conceptSearchList
         .filter(filterLabel(label))
         .filter(filterDefinition(definition))
         .filter(filterCreator(creator))
@@ -122,7 +121,6 @@ class ConceptsSearchList extends Component {
 
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-10 centered col-md-offset-1">
@@ -185,7 +183,10 @@ class ConceptsSearchList extends Component {
                 className="form-control"
                 placeholder={dictionary.concept.stamps.defaultValue}
                 value={creator}
-                options={stampList}
+                options={stampList.map(stamp => ({
+                  label: stamp,
+                  value: stamp,
+                }))}
                 onChange={this.handlers.creator}
                 searchable={true}
               />
@@ -197,7 +198,9 @@ class ConceptsSearchList extends Component {
                   dictionary.concept.disseminationStatus.defaultValue
                 }
                 value={disseminationStatus}
-                options={disseminationStatusList}
+                options={disseminationStatusList.map(
+                  ({ label, url: value }) => ({ label, value })
+                )}
                 onChange={this.handlers.disseminationStatus}
                 searchable={true}
               />
@@ -209,7 +212,10 @@ class ConceptsSearchList extends Component {
                   dictionary.status.concept.validationStatus.defaultValue
                 }
                 value={validationStatus}
-                options={['Validé', 'Provisoire']}
+                options={[
+                  { label: 'Validé', value: 'Validé' },
+                  { label: 'Provisoire', value: 'Provisoire' },
+                ]}
                 onChange={this.handlers.validationStatus}
                 searchable={true}
               />
@@ -286,18 +292,18 @@ const propTypesGeneralForSearch = PropTypes.shape({
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   definition: PropTypes.string.isRequired,
-  createdDate: PropTypes.string.isRequired,
-  modifiedDate: PropTypes.string.isRequired,
+  created: PropTypes.string.isRequired,
+  modified: PropTypes.string.isRequired,
   creator: PropTypes.string.isRequired,
   disseminationStatus: PropTypes.string.isRequired,
   validationStatus: PropTypes.string.isRequired,
 });
 
-ConceptsSearchList.propTypes = {
-  conceptsSearchList: PropTypes.arrayOf(propTypesGeneralForSearch).isRequired,
+ConceptSearchList.propTypes = {
+  conceptSearchList: PropTypes.arrayOf(propTypesGeneralForSearch).isRequired,
   //TODO create generic prop types for stamps and dissemintation statuses
   stampList: PropTypes.array.isRequired,
   disseminationStatusList: PropTypes.array.isRequired,
 };
 
-export default ConceptsSearchList;
+export default ConceptSearchList;

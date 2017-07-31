@@ -16,19 +16,30 @@ const linkTypes = {
   [RELATED]: RELATED,
 };
 
+const propTypesKindOfLink = PropTypes.oneOf([
+  BROADER,
+  NARROWER,
+  REFERENCES,
+  SUCCEED,
+  RELATED,
+  NONE,
+]);
+
 //TODO Fix me, prop types should be only the shape, not the array
 export const propTypes = PropTypes.arrayOf(
   PropTypes.shape({
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    typeOfLink: PropTypes.oneOf([
-      BROADER,
-      NARROWER,
-      REFERENCES,
-      SUCCEED,
-      RELATED,
-      NONE,
-    ]),
+    typeOfLink: propTypesKindOfLink,
+  })
+);
+
+export const propTypesBilingual = PropTypes.arrayOf(
+  PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    prefLabelLg1: PropTypes.string.isRequired,
+    prefLabelLg2: PropTypes.string.isRequired,
+    typeOfLink: propTypesKindOfLink,
   })
 );
 

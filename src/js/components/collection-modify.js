@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import Loadable from 'react-loading-overlay';
-import MenuConcepts from 'js/components/menus/menu-concepts';
+import MenuConcepts from './concepts/menu';
 import SelectRmes from 'js/utils/select-rmes';
 import CollectionModifyControl from './collection-modify-control';
 import { dictionary } from 'js/utils/dictionary';

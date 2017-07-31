@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loading-overlay';
-import ConceptsHome from './concepts-home';
+import ConceptsHome from './home';
 import { dictionary } from 'js/utils/dictionary';
-import { NOT_LOADED, LOADED, LOADING, FAILURE } from 'js/constants';
-import loadConceptList from '../actions/concepts/list';
+import { NOT_LOADED, LOADED } from 'js/constants';
+import loadConceptList from 'js/actions/concepts/list';
 import { sortArray } from 'js/utils/array-utils';
 
 class ConceptsHomeContainer extends Component {

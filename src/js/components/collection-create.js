@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import Loadable from 'react-loading-overlay';
-import MenuConcepts from 'js/components/menus/menu-concepts';
+import MenuConcepts from './concepts/menu';
 import SelectRmes from 'js/utils/select-rmes';
 import { dictionary } from 'js/utils/dictionary';
 import { defaultContributor } from 'config/config';
 import Panel from 'js/utils/panel';
 import Pagination from 'js/components/shared/pagination';
-import CollectionCreateControl from './collection-create-control';
+import CollectionCreateControl from './collection-create-controls';
 import {
   sortArray,
   filterByPrefLabelFr,

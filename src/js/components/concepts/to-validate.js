@@ -1,5 +1,5 @@
 import React from 'react';
-import ConceptsPickerContainer from './concepts-picker-container';
+import ConceptsPickerContainer from './picker-container';
 import { dictionary } from 'js/utils/dictionary';
 import { VALIDATE_CONCEPTS } from 'js/constants';
 

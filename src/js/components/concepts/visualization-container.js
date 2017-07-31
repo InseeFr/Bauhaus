@@ -5,24 +5,15 @@ import validateConcepts from 'js/actions/concepts/validate';
 import * as select from 'js/reducers';
 import buildExtract from 'js/utils/build-extract';
 import loadConcept from 'js/actions/concepts/concept';
-import loadConceptList from 'js/actions/concepts/list';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
-import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import ConceptVisualization from './visualization';
 const extractId = buildExtract('id');
 
 class ConceptVisualizationContainer extends Component {
   componentWillMount() {
-    const {
-      id,
-      concept,
-      conceptList,
-      stampList,
-      disseminationStatusList,
-    } = this.props;
+    const { id, concept, stampList, disseminationStatusList } = this.props;
     if (!concept) this.props.loadConcept(id);
-    if (!conceptList) this.props.loadConceptList();
     if (!stampList) this.props.loadStampList();
     if (!disseminationStatusList) this.props.loadDisseminationStatusList();
   }
@@ -31,22 +22,19 @@ class ConceptVisualizationContainer extends Component {
     const {
       id,
       concept,
-      conceptList,
       stampList,
       disseminationStatusList,
       validationStatus,
       validateConcept,
     } = this.props;
-    if (concept && conceptList && stampList && disseminationStatusList) {
+    if (concept && stampList && disseminationStatusList) {
       const { general, notes, links } = concept;
-      //TODO should not stay here (part of the reducer ? in links edition ?)
-      const conceptsWithLinks = mergeWithAllConcepts(conceptList, links);
       return (
         <ConceptVisualization
           id={id}
           general={general}
           notes={notes}
-          conceptsWithLinks={conceptsWithLinks}
+          links={links}
           stampList={stampList}
           disseminationStatusList={disseminationStatusList}
           validateConcept={validateConcept}
@@ -63,7 +51,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     id,
     concept: select.getConcept(state, id),
-    conceptList: select.getConceptList(state),
     stampList: select.getStampList(state),
     disseminationStatusList: select.getDisseminationStatusList(state),
     //TODO build appropriate selector
@@ -73,7 +60,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   loadConcept,
-  loadConceptList,
   loadDisseminationStatusList,
   loadStampList,
   validateConcept: id => validateConcepts([id]),

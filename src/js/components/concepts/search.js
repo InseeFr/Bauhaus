@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
 import Pagination from 'js/components/shared/pagination';
-import ConceptItem from './concept-item';
+import ConceptItem from './list-item';
 import { propTypes as overviewTypes } from 'js/utils/concepts/concept-overview';
 import { filterKeyDeburr } from 'js/utils/array-utils';
 

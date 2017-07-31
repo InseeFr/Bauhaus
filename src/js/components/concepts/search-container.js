@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loadable from 'react-loading-overlay';
-import MenuConcepts from 'js/components/menus/menu-concepts';
+import MenuConcepts from './menu';
 import { dictionary } from 'js/utils/dictionary';
-import ConceptsSearchList from './concepts-search-list';
-import loadStampList from '../actions/stamp';
-import loadDisseminationStatusList from '../actions/dissemination-status';
-import loadConceptSearchList from '../actions/concepts/search-list';
+import ConceptsSearchList from './search';
+import loadStampList from 'js/actions/stamp';
+import loadDisseminationStatusList from 'js/actions/dissemination-status';
+import loadConceptSearchList from 'js/actions/concepts/search-list';
 import { sortArray } from 'js/utils/array-utils';
 import 'css/app.css';
 

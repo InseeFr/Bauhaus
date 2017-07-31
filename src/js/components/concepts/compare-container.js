@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import ConceptCompare from './concept-compare';
+import ConceptCompare from './compare';
 import loadConceptGeneral from 'js/actions/concepts/general';
 import loadConceptNotes from 'js/actions/concepts/notes-version';
 import buildExtract from 'js/utils/build-extract';

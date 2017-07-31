@@ -7,7 +7,7 @@ import loadConceptList from 'js/actions/concepts/list';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
 import updateConcept from 'js/actions/concepts/update';
-import ConceptEditionCreation from './concept-edition-creation';
+import ConceptEditionCreation from './edition-creation';
 import buildExtract from 'js/utils/build-extract';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import { dictionary } from 'js/utils/dictionary';

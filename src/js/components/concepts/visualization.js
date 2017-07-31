@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Redirect } from 'react-router-dom';
-<<<<<<< 2469eef4da15187bfb7b056234fb1c2019f0e2d8:src/js/components/concept-edition/concept-visualization.js
-import MenuConcepts from 'js/components/menus/menu-concepts';
-import Loadable from 'react-loading-overlay';
-import ConceptDetailsContainer from './concept-details-container';
-=======
-import MenuConcepts from '../menu-concepts';
->>>>>>> Refactor reducers and components for concepts:src/js/components/concepts/visualization.js
-import ConceptVisualizationControls from '../concept-visualization-controls';
-import ConceptGeneral from '../concept-general';
-import ConceptLinks from '../concept-links';
-import ConceptNotes from '../concept-notes';
+import MenuConcepts from './menu';
+import ConceptVisualizationControls from './visualization-controls';
+import ConceptGeneral from './general';
+import ConceptLinks from './links';
+import ConceptNotes from './notes';
 import { dictionary } from 'js/utils/dictionary';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
-import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
+import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
 import { PENDING, OK } from 'js/constants';
 import Loadable from 'react-loading-overlay';
 
@@ -40,13 +34,7 @@ class ConceptVisualization extends Component {
   }
 
   render() {
-    const {
-      id,
-      validationStatus,
-      general,
-      conceptsWithLinks,
-      notes,
-    } = this.props;
+    const { id, validationStatus, general, links, notes } = this.props;
     const { english, validationRequested } = this.state;
     if (validationRequested) {
       if (validationStatus === OK) {
@@ -109,7 +97,7 @@ class ConceptVisualization extends Component {
               </div>
             </div>}
           <ConceptGeneral attr={general} english={english} />
-          <ConceptLinks english={english} links={conceptsWithLinks} />
+          <ConceptLinks english={english} links={links} />
           <ConceptNotes english={english} notes={notes} />
         </div>
       </div>
@@ -121,7 +109,7 @@ ConceptVisualization.propTypes = {
   id: PropTypes.string, // not available for creation
   general: generalPropTypes.isRequired,
   notes: notePropTypes.isRequired,
-  conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
+  links: linksPropTypes.isRequired,
   stampList: PropTypes.array.isRequired,
   disseminationStatusList: PropTypes.array.isRequired,
   validateConcept: PropTypes.func.isRequired,

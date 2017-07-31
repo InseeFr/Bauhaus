@@ -1,29 +1,32 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import CollectionsList from './collections-list';
-import MenuConcepts from './concepts/menu';
+import ConceptsListSearch from './search';
+import MenuConcepts from './menu';
+import { propTypes as overviewPropTypes } from 'js/utils/concepts/concept-overview';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/app.css';
 
-class Collections extends Component {
+class ConceptsHome extends Component {
   constructor() {
     super();
 
-    this.handleClickNew = e => {
+    this.handleClick = e => {
       e.preventDefault();
-      this.props.history.push('/create/collection');
+      this.props.history.push('/create/concept');
     };
     this.handleClickExport = e => {
       e.preventDefault();
-      this.props.history.push('/collections/export');
+      this.props.history.push('/concepts/export');
     };
-    this.handleClickValid = e => {
+    this.handleClickValidate = e => {
       e.preventDefault();
-      this.props.history.push('/collections/validation');
+      this.props.history.push('/concepts/validation');
     };
   }
 
   render() {
+    const { concepts } = this.props;
     return (
       <div>
         <MenuConcepts />
@@ -33,12 +36,12 @@ class Collections extends Component {
               <div className="row">
                 <button
                   className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-                  onClick={this.handleClickNew}>
+                  onClick={this.handleClick}>
                   <span
                     className="glyphicon glyphicon-plus"
                     aria-hidden="true"
                   />{' '}
-                  {dictionary.buttons.new.collection}
+                  {dictionary.buttons.new.concept}
                 </button>
               </div>
               <div className="row">
@@ -66,7 +69,7 @@ class Collections extends Component {
               <div className="row">
                 <button
                   className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-                  onClick={this.handleClickValid}>
+                  onClick={this.handleClickValidate}>
                   <span
                     className="glyphicon glyphicon-ok"
                     aria-hidden="true"
@@ -77,9 +80,9 @@ class Collections extends Component {
             </div>
             <div className="col-md-8 centered pull-right">
               <h2 className="page-title">
-                {dictionary.collections.title}
+                {dictionary.concepts.title}
               </h2>
-              <CollectionsList />
+              <ConceptsListSearch concepts={concepts} />
             </div>
           </div>
         </div>
@@ -88,4 +91,9 @@ class Collections extends Component {
   }
 }
 
-export default withRouter(Collections);
+ConceptsHome.propTypes = {
+  concepts: PropTypes.arrayOf(overviewPropTypes.isRequired),
+};
+
+//TODO use <Navigate /> so we don't need `withRouter`
+export default withRouter(ConceptsHome);

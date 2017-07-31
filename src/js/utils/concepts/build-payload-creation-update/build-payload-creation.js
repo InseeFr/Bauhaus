@@ -51,6 +51,7 @@ export default function buildPayloadCreation(concept) {
           noteType,
           content,
         };
+      return null;
     })
     //remove empty notes
     .filter(note => note);
