@@ -1,190 +1,113 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
+import { Link } from 'react-router-dom';
 import Loadable from 'react-loading-overlay';
 import MenuConcepts from './menu';
-import SendControl from './send-controls';
-import { EditorState } from 'draft-js';
+import SendControls from './send-controls';
 import EditorHtml from 'js/components/shared/editor-html';
-import { stateFromHTML } from 'draft-js-import-html';
-import { stateToHTML } from 'draft-js-export-html';
 import { dictionary } from 'js/utils/dictionary';
 import { defaultMailSender } from 'config/config';
-import api from 'js/remote-api/api';
 import { regexValidMail } from 'js/utils/regex';
-import buildExtract from 'js/utils/build-extract';
+import { PENDING, OK, ERROR } from 'js/constants';
 
-const extractId = buildExtract('id');
+const getDefaultMessage = (id, label, isValidated, recipient) => {
+  //TODO fix me
+  const params = [label, id];
+  if (isValidated === 'Provisoire') {
+    params.push('Provisoire');
+  }
+  if (isRecipientInsee(recipient)) {
+    params.push('Insee');
+  }
+  return dictionary.concept.send.message.value(params);
+};
 
+const isRecipientInsee = recipient => recipient.endsWith('@insee.fr');
 class ConceptSend extends Component {
   constructor(props) {
     super(props);
 
-    var params = [
-      this.props.conceptGeneral.prefLabelLg1,
-      this.props.conceptGeneral.id,
-    ];
-    if (this.props.conceptGeneral.isValidated === 'Provisoire') {
-      params.push('Provisoire');
-    }
-    var message = dictionary.concept.send.message.value(params);
-
+    const { id, prefLabelLg1, isValidated } = props;
+    const recipient = '';
     this.state = {
-      recipient: '',
-      isRecipientValid: false,
-      isRecipientInsee: false,
+      recipient,
+      showDefaultMessage: true,
+      message: getDefaultMessage(id, prefLabelLg1, isValidated, recipient),
       sender: defaultMailSender,
-      object: dictionary.concept.send.object.value([
-        this.props.conceptGeneral.prefLabelLg1,
-      ]),
-      message: EditorState.createWithContent(stateFromHTML(message)),
-      isMessage: true,
+      subject: dictionary.concept.send.subject.value([prefLabelLg1]),
       creation: 'EDITION',
+      sent: false,
     };
 
-    this.handleChangeRec = recipient => {
-      this.setState({ recipient });
-      if (recipient.endsWith('@insee.fr')) {
-        params.push('Insee');
-        message = dictionary.concept.send.message.value(params);
-        this.setState({
-          message: EditorState.createWithContent(stateFromHTML(message)),
-        });
-      }
-      if (!recipient.endsWith('@insee.fr') && params.includes('Insee')) {
-        params.pop();
-        message = dictionary.concept.send.message.value(params);
-        this.setState({
-          message: EditorState.createWithContent(stateFromHTML(message)),
-        });
-      }
-      if (regexValidMail.test(recipient) === true) {
-        this.setState({ isRecipientValid: true });
-      } else {
-        this.setState({ isRecipientValid: false });
-      }
-    };
+    this.isRecipientValid = () => regexValidMail.test(this.state.recipient);
 
-    this.handleChangeObj = object => {
-      this.setState({ object });
-    };
-
-    this.changeMessage = message => {
-      this.setState({
-        message,
-        isMessage: message.getCurrentContent().hasText(),
+    this.handleRecipientChange = recipient => {
+      this.setState({ recipient }, () => {
+        if (this.state.showDefaultMessage) {
+          const { id, prefLabelLg1, isValidated } = props;
+          const { recipient } = this.state;
+          this.setState({
+            message: getDefaultMessage(
+              id,
+              prefLabelLg1,
+              isValidated,
+              recipient
+            ),
+          });
+        }
       });
     };
 
-    this.handleClickSend = e => {
-      e.preventDefault();
+    this.handleSubjectChange = subject => {
+      this.setState({ subject });
+    };
+
+    this.handleMessageChange = message => {
+      this.setState({
+        hasMessageBeenChanged: true,
+        message,
+      });
+    };
+
+    this.handleClickSend = () => {
       const data = {
         id: this.props.conceptGeneral.id,
         prefLabelLg1: this.props.conceptGeneral.prefLabelLg1,
         recipient: this.state.recipient,
         sender: this.state.sender,
-        object: this.state.object,
-        message: stateToHTML(this.state.message.getCurrentContent()),
+        subject: this.state.subject,
+        message: this.state.message,
       };
+      this.props.sendConcept(data);
       this.setState({
-        creation: 'PENDING',
+        sent: true,
       });
-      api.postConceptSend(data).then(isSent => isSent.text()).then(isSent => {
-        if (isSent === 'true') {
-          this.setState({
-            creation: 'DONE',
-          });
-        } else {
-          this.setState({
-            creation: 'FAILED',
-          });
-        }
-      });
-    };
-    this.handleClickReturn = e => {
-      e.preventDefault();
-      this.props.history.push('/concepts');
-    };
-    this.handleClickReturnFailed = e => {
-      e.preventDefault();
-      this.props.history.push('/concept/' + extractId(this.props));
     };
   }
 
   render() {
-    const { conceptGeneral } = this.props;
-    const { sender, object, creation, message } = this.state;
+    const { id, prefLabelLg1, statusSend } = this.props;
+    const { sent, sender, subject, message } = this.state;
+    let mainEl;
+    //TODO why do we not return to the same page ?
+    const urlBack = statusSend === OK ? '/concepts' : `concept/${id}`;
 
-    if (creation === 'PENDING') {
-      return (
-        <div>
-          <MenuConcepts />
-          <Loadable
-            active={true}
-            spinner
-            text={dictionary.loadable.sending}
-            color="#457DBB"
-            background="grey"
-            spinnerSize="400px"
-          />
-        </div>
-      );
-    }
-
-    if (creation === 'DONE' || creation === 'FAILED') {
-      const onClick =
-        creation === 'DONE'
-          ? this.handleClickReturn
-          : this.handleClickReturnFailed;
-      return (
-        <div>
-          <MenuConcepts />
-          <div className="container">
-            <div className="row centered">
-              <div className="col-md-12">
-                {creation === 'DONE' &&
-                  <h2>
-                    {dictionary.concept.send.success([
-                      conceptGeneral.prefLabelLg1,
-                    ])}
-                  </h2>}
-                {creation === 'FAILED' &&
-                  <h2>
-                    {dictionary.concept.send.failed([
-                      conceptGeneral.prefLabelLg1,
-                    ])}
-                  </h2>}
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-12">
-                <button
-                  className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
-                  onClick={onClick}>
-                  {dictionary.buttons.return}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        <MenuConcepts />
+    if (!sent) {
+      mainEl = (
         <div className="container">
           <div className="row">
             <div className="col-md-10 centered col-md-offset-1">
               <h2 className="page-title">
-                {dictionary.concept.send.title([conceptGeneral.prefLabelLg1])}
+                {dictionary.concept.send.title([prefLabelLg1])}
               </h2>
             </div>
           </div>
-          <SendControl
-            attr={this.state}
-            onChange={this.handleClickSend}
-            onChangeReturn={this.handleClickReturn}
+          <SendControls
+            isRecipientValid={this.isRecipientValid()}
+            subject={subject}
+            message={message}
+            sendMessage={this.handleClickSend}
+            urlBack={urlBack}
           />
           <div className="form-group">
             <label>
@@ -193,7 +116,7 @@ class ConceptSend extends Component {
             <input
               type="email"
               className="form-control"
-              onChange={e => this.handleChangeRec(e.target.value)}
+              onChange={e => this.handleRecipientChange(e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -209,13 +132,13 @@ class ConceptSend extends Component {
           </div>
           <div className="form-group">
             <label>
-              {dictionary.concept.send.object.title}
+              {dictionary.concept.send.subject.title}
             </label>
             <input
               type="text"
               className="form-control"
-              defaultValue={object}
-              onChange={e => this.handleChangeObj(e.target.value)}
+              defaultValue={subject}
+              onChange={e => this.handleSubjectChange(e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -223,18 +146,77 @@ class ConceptSend extends Component {
               {dictionary.concept.send.message.title}
             </label>
             <EditorHtml
-              editor={message}
-              onEditorChange={e => this.changeMessage(e)}
+              text={message}
+              handleChange={this.handleMessageChange}
             />
           </div>
         </div>
+      );
+    } else {
+      //message was sent
+      const { sendStatus } = this.pops;
+
+      if (sendStatus === PENDING) {
+        mainEl = (
+          <Loadable
+            active={true}
+            spinner
+            text={dictionary.loadable.sending}
+            color="#457DBB"
+            background="grey"
+            spinnerSize="400px"
+          />
+        );
+      } else {
+        //send status OK or ERROR
+
+        const title =
+          statusSend === OK
+            ? dictionary.concept.send.success([prefLabelLg1])
+            : dictionary.concept.send.failed([prefLabelLg1]);
+
+        mainEl = (
+          <div>
+            <MenuConcepts />
+            <div className="container">
+              <div className="row centered">
+                <div className="col-md-12">
+                  <h2>
+                    {title}
+                  </h2>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-12">
+                  <Link
+                    className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
+                    to={urlBack}>
+                    {dictionary.buttons.return}
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+    }
+
+    return (
+      <div>
+        <MenuConcepts />
+        {mainEl}
       </div>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  conceptGeneral: state.conceptGeneral[extractId(ownProps)],
-});
+ConceptSend.propTypes = {
+  id: PropTypes.string.isRequired,
+  prefLabelLg1: PropTypes.string,
+  //TODO use constants
+  isValidated: PropTypes.oneOf(['Provisoire', 'Validé']).isRequired,
+  sendConcept: PropTypes.func.isRequired,
+  sendStatus: PropTypes.oneOf([PENDING, OK, ERROR]).isRequired,
+};
 
-export default connect(mapStateToProps)(withRouter(ConceptSend));
+export default ConceptSend;

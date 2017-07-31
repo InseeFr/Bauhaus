@@ -1,124 +1,64 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
+import { Link } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
 
-class SendControl extends Component {
-  render() {
-    const { attr, onChange, onChangeReturn } = this.props;
-
-    if (!attr.isRecipientValid) {
-      return (
-        <div className="row btn-line">
-          <div className="col-md-2">
-            <button
-              type="button"
-              className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
-              {dictionary.buttons.return}
-            </button>
-          </div>
-          <div className="col-md-8 centered">
-            <div className="alert alert-danger bold" role="alert">
-              {dictionary.warning.send.mail}
-            </div>
-          </div>
-          <div className="col-md-2">
-            <button
-              type="button"
-              className="btn btn-primary btn-lg col-md-12 pull-right"
-              disabled
-            >
-              {dictionary.buttons.send}
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    if (!attr.object) {
-      return (
-        <div className="row btn-line">
-          <div className="col-md-2">
-            <button
-              type="button"
-              className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
-              {dictionary.buttons.return}
-            </button>
-          </div>
-          <div className="col-md-8 centered">
-            <div className="alert alert-danger bold" role="alert">
-              {dictionary.warning.send.object}
-            </div>
-          </div>
-          <div className="col-md-2">
-            <button
-              type="button"
-              className="btn btn-primary btn-lg col-md-12 pull-right"
-              disabled
-            >
-              {dictionary.buttons.send}
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    if (!attr.isMessage) {
-      return (
-        <div className="row btn-line">
-          <div className="col-md-2">
-            <button
-              type="button"
-              className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
-              {dictionary.buttons.return}
-            </button>
-          </div>
-          <div className="col-md-8 centered">
-            <div className="alert alert-danger bold" role="alert">
-              {dictionary.warning.send.body}
-            </div>
-          </div>
-          <div className="col-md-2">
-            <button
-              type="button"
-              className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
-              {dictionary.buttons.send}
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    if (attr.isRecipientValid && attr.object && attr.isMessage) {
-      return (
-        <div className="row btn-line">
-          <div className="col-md-2">
-            <button
-              type="button"
-              className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
-              {dictionary.buttons.return}
-            </button>
-          </div>
-          <div className="col-md-2 pull-right">
-            <button
-              type="button"
-              className="btn btn-primary btn-lg col-md-12"
-              onClick={onChange}
-            >
-              {dictionary.buttons.send}
-            </button>
-          </div>
-        </div>
-      );
-    }
+function SendControls({
+  isRecipientValid,
+  subject,
+  message,
+  sendMessage,
+  urlBack,
+}) {
+  const hasSubject = Boolean(subject);
+  const hasMessage = Boolean(message);
+  let warning;
+  let disabled;
+  const { send: sendWarnings } = dictionary.warning;
+  if (!isRecipientValid) {
+    warning = sendWarnings.mail;
+    disabled = true;
+  } else if (!hasSubject) {
+    warning = sendWarnings.subject;
+    disabled = true;
+  } else if (!hasMessage) {
+    warning = sendWarnings.body;
   }
+  return (
+    <div className="row btn-line">
+      <div className="col-md-2">
+        <Link
+          type="button"
+          className="btn btn-primary btn-lg col-md-12"
+          to={urlBack}>
+          {dictionary.buttons.return}
+        </Link>
+      </div>
+      <div className="col-md-8 centered">
+        {warning &&
+          <div className="alert alert-danger bold" role="alert">
+            {warning}
+          </div>}
+      </div>
+      <div className="col-md-2">
+        <button
+          type="button"
+          className="btn btn-primary btn-lg col-md-12 pull-right"
+          onClick={sendMessage}
+          disabled={disabled}>
+          {dictionary.buttons.send}
+        </button>
+      </div>
+    </div>
+  );
 }
-export default SendControl;
+
+SendControls.propTypes = {
+  isRecipientValid: PropTypes.bool.isRequired,
+  subject: PropTypes.string,
+  message: PropTypes.string,
+  urlBack: PropTypes.string,
+  sendMessage: PropTypes.func.isRequired,
+};
+
+export default SendControls;

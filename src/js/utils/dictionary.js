@@ -112,7 +112,7 @@ const dictionaryMulti = {
       },
       send: {
         mail: 'Saisir une adresse mail valide pour le destinataire',
-        object: "L'objet du message est vide",
+        subject: "L'objet du message est vide",
         body: 'Le corps du message est vide',
       },
     },
@@ -195,7 +195,7 @@ const dictionaryMulti = {
       send: {
         recipient: 'Destinataire',
         sender: 'Emetteur',
-        object: {
+        subject: {
           title: 'Objet',
           value: function(params) {
             return `RMéS - Envoi du descriptif du concept « ${params} »`;
@@ -288,7 +288,7 @@ const dictionaryMulti = {
       send: {
         recipient: 'Destinataire',
         sender: 'Emetteur',
-        object: {
+        subject: {
           title: 'Objet',
           value: function(params) {
             return `RMéS - Envoi de la composition de la collection « ${params} »`;
@@ -403,7 +403,7 @@ const dictionaryMulti = {
       },
       send: {
         mail: 'Mail of recipient is not valid',
-        object: 'Object of message is empty',
+        subject: 'Object of message is empty',
         body: 'Body of message is empty',
       },
     },
@@ -480,7 +480,7 @@ const dictionaryMulti = {
       send: {
         recipient: 'Recipient',
         sender: 'Sender',
-        object: {
+        subject: {
           title: 'Object',
           value: function(params) {
             return `RMéS - Envoi du descriptif du concept « ${params} »`;
@@ -558,7 +558,7 @@ const dictionaryMulti = {
       send: {
         recipient: 'Recipient',
         sender: 'Sender',
-        object: {
+        subject: {
           title: 'Object',
           value: function(params) {
             return `RMéS - Envoi de la composition de la collection « ${params} »`;

@@ -7,7 +7,7 @@ import App from './app';
 import ConceptsHomeContainer from './concepts/home-container';
 import ConceptsSearchListContainer from './concepts/search-container';
 import ConceptCompareContainer from './concepts/compare-container';
-import ConceptSend from './concepts/send';
+import ConceptSendContainer from './concepts/send-container';
 import ConceptCreationContainer from './concepts/creation-container';
 import ConceptEditionContainer from './concepts/edition-container';
 import ConceptVisualizationContainer from './concepts/visualization-container';
@@ -54,7 +54,11 @@ export default class Root extends Component {
                 path="/create/concept"
                 component={ConceptCreationContainer}
               />
-              <Route exact path="/concept/:id/send" component={ConceptSend} />
+              <Route
+                exact
+                path="/concept/:id/send"
+                component={ConceptSendContainer}
+              />
               <Route
                 exact
                 path="/concept/:id/modify"

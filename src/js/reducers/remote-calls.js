@@ -1,4 +1,4 @@
-import { PENDING, OK } from 'js/constants';
+import { PENDING, OK, ERROR } from 'js/constants';
 import {
   VALIDATE_CONCEPT_LIST,
   VALIDATE_CONCEPT_LIST_SUCCESS,
@@ -8,6 +8,9 @@ import {
   CREATE_CONCEPT_SUCCESS,
   UPDATE_CONCEPT,
   UPDATE_CONCEPT_SUCCESS,
+  SEND_CONCEPT,
+  SEND_CONCEPT_SUCCESS,
+  SEND_CONCEPT_FAILURE,
 } from 'js/actions/constants';
 
 /**
@@ -22,7 +25,7 @@ import {
  * @returns {object}
  */
 export default function(
-  state = { validation: OK, export: OK, creation: OK, update: OK },
+  state = { validation: OK, export: OK, creation: OK, update: OK, send: OK },
   action
 ) {
   switch (action.type) {
@@ -65,6 +68,21 @@ export default function(
       return {
         ...state,
         update: OK,
+      };
+    case SEND_CONCEPT:
+      return {
+        ...state,
+        send: PENDING,
+      };
+    case SEND_CONCEPT_SUCCESS:
+      return {
+        ...state,
+        send: OK,
+      };
+    case SEND_CONCEPT_FAILURE:
+      return {
+        ...state,
+        send: ERROR,
       };
     default:
       return state;
