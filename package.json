@@ -42,7 +42,7 @@
   "scripts": {
     "start": "cross-env NODE_PATH=src/  react-scripts start",
     "build": "react-scripts build --minify=false",
-    "test": "react-scripts test --env=jsdom",
+    "test": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "format": "prettier --trailing-comma es5 --single-quote --write 'src/**/*.js'"
   }
