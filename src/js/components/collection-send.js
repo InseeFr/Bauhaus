@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loadable from 'react-loading-overlay';
-import MenuConcepts from './menu-concepts';
+import MenuConcepts from 'js/components/menus/menu-concepts';
 import SendControl from './send-control';
 import { EditorState } from 'draft-js';
 import EditorHtml from 'js/components/shared/editor-html';

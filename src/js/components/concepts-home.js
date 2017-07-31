@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import ConceptsListSearch from './concepts-list-search';
-import MenuConcepts from './menu-concepts';
+import MenuConcepts from 'js/components/menus/menu-concepts';
 import { propTypes as overviewPropTypes } from 'js/utils/concepts/concept-overview';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/app.css';

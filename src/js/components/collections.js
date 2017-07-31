@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import CollectionsList from './collections-list';
-import MenuConcepts from './menu-concepts';
+import MenuConcepts from 'js/components/menus/menu-concepts';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/app.css';
 

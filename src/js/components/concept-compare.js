@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
-import MenuConcepts from './menu-concepts';
+import MenuConcepts from 'js/components/menus/menu-concepts';
 import ConceptGeneral from './concept-general';
 import ConceptCompareNotes from './concept-compare-notes';
 import { dictionary } from 'js/utils/dictionary';

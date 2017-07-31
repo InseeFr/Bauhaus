@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-import MenuConcepts from './menu-concepts';
+import MenuConcepts from 'js/components/menus/menu-concepts';
 import Loadable from 'react-loading-overlay';
 import CollectionGeneral from './collection-general';
 import { dictionary } from 'js/utils/dictionary';

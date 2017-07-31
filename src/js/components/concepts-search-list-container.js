@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loadable from 'react-loading-overlay';
-import MenuConcepts from './menu-concepts';
+import MenuConcepts from 'js/components/menus/menu-concepts';
 import { dictionary } from 'js/utils/dictionary';
 import ConceptsSearchList from './concepts-search-list';
 import { loadStampsList } from '../actions/stamps';

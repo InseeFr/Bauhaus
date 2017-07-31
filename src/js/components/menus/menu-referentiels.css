@@ -1,0 +1,32 @@
+.img-menu {
+  height: 60px;
+  padding: 0px;
+  width: auto;
+}
+.navbar-default-ref {
+	background: #484747;
+  font-size: 20px;
+  font-family: arial;
+	color: #ffffff;
+	margin-bottom: 0;
+	border-top: 0;
+	border-bottom: 0;
+}
+
+.navbar-default-ref .navbar-nav-ref > li > a {
+  color: #ffffff;
+  width: 250px;
+}
+
+.navbar-default-ref .navbar-nav-ref > li > a:hover {
+	text-decoration: none;
+	background-color: #808080;
+  color: #ffffff;
+}
+
+.navbar-default-ref .navbar-nav-ref > .active > a,
+.navbar-default-ref .navbar-nav-ref > .active > a:hover,
+.navbar-default-ref .navbar-nav-ref > .active > a:focus, {
+	background: #484747;
+  color: #ffffff;
+}
