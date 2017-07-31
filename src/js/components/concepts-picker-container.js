@@ -45,19 +45,16 @@ const mapStateToProps = (state, ownProps) => {
   const { what } = ownProps;
   switch (what) {
     case EXPORT_CONCEPTS:
-      if (state.conceptsList && state.conceptsList.results) {
+      if (state.conceptList && state.conceptList.results) {
         //TODO use a `compareLabel` function instead of `sortByLabel`
-        //conceptsList.sort(compareLabel)
-        concepts = sortByLabel(state.conceptsList.results);
+        //conceptList.sort(compareLabel)
+        concepts = sortByLabel(state.conceptList.results);
       }
       status = state.remoteCalls.export;
       break;
     case VALIDATE_CONCEPTS:
-      if (
-        state.conceptsToValidateList &&
-        state.conceptsToValidateList.results
-      ) {
-        concepts = sortByLabel(state.conceptsToValidateList.results);
+      if (state.conceptToValidateList && state.conceptToValidateList.results) {
+        concepts = sortByLabel(state.conceptToValidateList.results);
       }
       status = state.remoteCalls.validation;
       break;

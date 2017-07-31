@@ -176,6 +176,7 @@ class ConceptEditionCreation extends Component {
 		};
 	}
 
+<<<<<<< 2469eef4da15187bfb7b056234fb1c2019f0e2d8:src/js/components/concept-edition/concept-edition-creation.js
 	render() {
 		const {
 			isActionProcessed,
@@ -196,6 +197,28 @@ class ConceptEditionCreation extends Component {
 					title={dictionary.concept.modify}
 					subtitle={general.prefLabelLg1}
 				/>;
+=======
+  render() {
+    const {
+      isActionProcessed,
+      stampList,
+      disseminationStatusList,
+    } = this.props;
+    const {
+      id,
+      activeTab,
+      showModal,
+      creation,
+      actionRequested,
+      data: { general, notes, conceptsWithLinks },
+    } = this.state;
+    const pageTitle = creation
+      ? <PageTitle title={dictionary.concept.create} />
+      : <PageTitle
+          title={dictionary.concept.modify}
+          subtitle={general.prefLabelLg1}
+        />;
+>>>>>>> Refactor reducers and components for concepts:src/js/components/concepts/concept-edition-creation.js
 
 		const { disseminationStatus } = general;
 		if (actionRequested) {
@@ -222,82 +245,81 @@ class ConceptEditionCreation extends Component {
 			}
 		}
 
-		return (
-			<div>
-				<MenuConcepts />
-				<div className="container">
-					{pageTitle}
-					{this.props.general.contributor &&
-						<ConceptCreateControl
-							oldGeneral={this.getOriginalData().general}
-							general={general}
-							notes={notes}
-							conceptsWithLinks={conceptsWithLinks}
-							handleSave={this.handleSave}
-							//TODO should redirect to the page concept when updating an
-							//existing concept
-							redirectCancel={`/concepts`}
-						/>}
-					<ul className="nav nav-tabs nav-justified">
-						<Tabs
-							defaultActiveKey={0}
-							id="informationToManage"
-							onSelect={this.selectTab}
-						>
-							<Tab eventKey={0} title={dictionary.concept.general}>
-								{activeTab === 0 &&
-									<GeneralEdition
-										general={general}
-										handleChange={this.handleChangeGeneral}
-										stampsList={stampsList}
-										disseminationStatusList={disseminationStatusList}
-									/>}
-							</Tab>
-							<Tab eventKey={1} title={dictionary.notes.title}>
-								{activeTab === 1 &&
-									<NotesEdition
-										notes={notes}
-										handleChange={this.handleChangeNotes}
-										disseminationStatus={disseminationStatus}
-									/>}
-							</Tab>
-							<Tab eventKey={2} title={dictionary.links.title}>
-								{activeTab === 2 &&
-									<LinksEdition
-										conceptsWithLinks={conceptsWithLinks}
-										handleChange={this.handleChangeLinks}
-									/>}
-							</Tab>
-						</Tabs>
-					</ul>
-				</div>
-				<div>
-					{!creation &&
-						<Confirm
-							isOpen={showModal}
-							label={this.props.general.prefLabelLg1}
-							versioningIsPossible={this.isVersioningPossible()}
-							closeCancel={() => this.closeModal()}
-							closeMinor={() => this.closeModal(NO_VERSIONING)}
-							closeMajor={() => this.closeModal(VERSIONING)}
-						/>}
-				</div>
-			</div>
-		);
-	}
+    return (
+      <div>
+        <MenuConcepts />
+        <div className="container">
+          {pageTitle}
+          {this.props.general.contributor &&
+            <ConceptCreateControl
+              oldGeneral={this.getOriginalData().general}
+              general={general}
+              notes={notes}
+              conceptsWithLinks={conceptsWithLinks}
+              handleSave={this.handleSave}
+              //TODO should redirect to the page concept when updating an
+              //existing concept
+              redirectCancel={`/concepts`}
+            />}
+          <ul className="nav nav-tabs nav-justified">
+            <Tabs
+              defaultActiveKey={0}
+              id="informationToManage"
+              onSelect={this.selectTab}>
+              <Tab eventKey={0} title={dictionary.concept.general}>
+                {activeTab === 0 &&
+                  <GeneralEdition
+                    general={general}
+                    handleChange={this.handleChangeGeneral}
+                    stampList={stampList}
+                    disseminationStatusList={disseminationStatusList}
+                  />}
+              </Tab>
+              <Tab eventKey={1} title={dictionary.notes.title}>
+                {activeTab === 1 &&
+                  <NotesEdition
+                    notes={notes}
+                    handleChange={this.handleChangeNotes}
+                    disseminationStatus={disseminationStatus}
+                  />}
+              </Tab>
+              <Tab eventKey={2} title={dictionary.links.title}>
+                {activeTab === 2 &&
+                  <LinksEdition
+                    conceptsWithLinks={conceptsWithLinks}
+                    handleChange={this.handleChangeLinks}
+                  />}
+              </Tab>
+            </Tabs>
+          </ul>
+        </div>
+        <div>
+          {!creation &&
+            <Confirm
+              isOpen={showModal}
+              label={this.props.general.prefLabelLg1}
+              versioningIsPossible={this.isVersioningPossible()}
+              closeCancel={() => this.closeModal()}
+              closeMinor={() => this.closeModal(NO_VERSIONING)}
+              closeMajor={() => this.closeModal(VERSIONING)}
+            />}
+        </div>
+      </div>
+    );
+  }
 }
 
 ConceptEditionCreation.propTypes = {
-	id: PropTypes.string, // not available for creation
-	creation: PropTypes.bool,
-	pageTitle: PropTypes.element.isRequired,
-	general: generalPropTypes.isRequired,
-	notes: notePropTypes.isRequired,
-	conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
-	stampsList: PropTypes.array.isRequired,
-	disseminationStatusList: PropTypes.array.isRequired,
-	isActionProcessed: PropTypes.oneOf([OK, PENDING]).isRequired,
-	save: PropTypes.func.isRequired,
+  id: PropTypes.string, // not available for creation
+  creation: PropTypes.bool,
+  pageTitle: PropTypes.element.isRequired,
+  general: generalPropTypes.isRequired,
+  notes: notePropTypes.isRequired,
+  conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
+  stampList: PropTypes.array.isRequired,
+  disseminationStatusList: PropTypes.array.isRequired,
+  isActionProcessed: PropTypes.oneOf([OK, PENDING]).isRequired,
+  save: PropTypes.func.isRequired,
 };
 
 export default ConceptEditionCreation;

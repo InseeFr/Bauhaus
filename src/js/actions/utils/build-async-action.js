@@ -1,5 +1,12 @@
-//TODO add tests
-export default function buildLoadAction(remoteCall, actions, buildPayload) {
+//TODO add tests and documentation
+//TODO examine relevance of handling `loadIfNeeded` like behavior here
+
+export default function buildLoadAction(
+  remoteCall,
+  actions,
+  buildPayload,
+  checkIfNeeded
+) {
   if (
     !(
       Array.isArray(actions) &&
@@ -17,7 +24,9 @@ export default function buildLoadAction(remoteCall, actions, buildPayload) {
     );
   }
   const [load, success, failure] = actions;
-  return (...args) => dispatch => {
+  return (...args) => (dispatch, getState) => {
+    const existingEntry = checkIfNeeded && checkIfNeeded(getState(), ...args);
+    if (existingEntry) return Promise.resolve(existingEntry);
     const payload = buildPayload && buildPayload(...args);
     dispatch({
       type: load,

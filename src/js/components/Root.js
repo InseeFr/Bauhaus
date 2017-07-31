@@ -8,11 +8,9 @@ import ConceptsHomeContainer from './concepts-home-container';
 import ConceptsSearchListContainer from './concepts-search-list-container';
 import ConceptCompareContainer from './concept-compare-container';
 import ConceptSend from './concept-send';
-import {
-  ConceptCreation,
-  ConceptEdition,
-  ConceptVisualization,
-} from './concept-edition';
+import ConceptCreationContainer from './concepts/creation-container';
+import ConceptEditionContainer from './concepts/edition-container';
+import ConceptVisualizationContainer from './concepts/visualization-container';
 import ConceptsToValidate from './concepts-to-validate';
 import ConceptsToExport from './concepts-to-export';
 import Collections from './collections';
@@ -44,19 +42,23 @@ export default class Root extends Component {
               <Route
                 exact
                 path="/concept/:id"
-                component={ConceptVisualization}
+                component={ConceptVisualizationContainer}
               />
               <Route
                 exact
                 path="/concept/:id/compare"
                 component={ConceptCompareContainer}
               />
-              <Route exact path="/create/concept" component={ConceptCreation} />
+              <Route
+                exact
+                path="/create/concept"
+                component={ConceptCreationContainer}
+              />
               <Route exact path="/concept/:id/send" component={ConceptSend} />
               <Route
                 exact
                 path="/concept/:id/modify"
-                component={ConceptEdition}
+                component={ConceptEditionContainer}
               />
               <Route
                 exact

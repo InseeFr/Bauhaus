@@ -11,55 +11,6 @@ import { dictionary } from 'js/utils/dictionary';
 
 const extractId = buildExtract('id');
 
-//TODO share some code between creation and edition
-export const ConceptEdition = props =>
-  <ConceptDetailsContainer
-    id={extractId(props)}
-    handleAction={updateConcept}
-    statusPropName="update">
-    {({
-      general,
-      notes,
-      conceptsWithLinks,
-      stampsList,
-      disseminationStatusList,
-      id,
-      handleAction,
-      trackAction,
-    }) => {
-      //TODO fix me
-      const pageTitle = (
-        <PageTitle
-          title={dictionary.concept.modify}
-          subtitle={general.prefLabelLg1}
-        />
-      );
-
-      return (
-        <ConceptEditionCreation
-          id={id}
-          pageTitle={pageTitle}
-          general={general}
-          notes={notes}
-          conceptsWithLinks={conceptsWithLinks}
-          disseminationStatusList={disseminationStatusList}
-          stampsList={stampsList}
-          isActionProcessed={trackAction}
-          save={handleAction}
-        />
-      );
-    }}
-  </ConceptDetailsContainer>;
-
-//should be called with route knowledge
-ConceptEdition.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }),
-  }),
-};
-
 //TODO does not seem to work when the creation page is requestion without
 //visiting first the concepts page
 //TODO creation, validation and update should be constants
@@ -71,7 +22,7 @@ export const ConceptCreation = () =>
       general,
       notes,
       conceptsWithLinks,
-      stampsList,
+      stampList,
       disseminationStatusList,
       id,
       handleAction,
@@ -88,7 +39,7 @@ export const ConceptCreation = () =>
           notes={notes}
           conceptsWithLinks={conceptsWithLinks}
           disseminationStatusList={disseminationStatusList}
-          stampsList={stampsList}
+          stampList={stampList}
           isActionProcessed={trackAction}
           save={handleAction}
         />

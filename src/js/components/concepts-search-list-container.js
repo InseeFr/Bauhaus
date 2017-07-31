@@ -23,11 +23,11 @@ class ConceptsSearchListContainer extends Component {
   render() {
     const {
       conceptsSearchList,
-      stampsList,
+      stampList,
       disseminationStatusList,
     } = this.props;
 
-    if (!(conceptsSearchList && stampsList && disseminationStatusList))
+    if (!(conceptsSearchList && stampList && disseminationStatusList))
       return (
         <div>
           <MenuConcepts />
@@ -45,7 +45,7 @@ class ConceptsSearchListContainer extends Component {
     return (
       <ConceptsSearchList
         conceptsSearchList={conceptsSearchList}
-        stampsList={stampsList}
+        stampList={stampList}
         disseminationStatusList={disseminationStatusList}
       />
     );
@@ -53,9 +53,9 @@ class ConceptsSearchListContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  let conceptsSearchList, stampsList, disseminationStatusList;
+  let conceptsSearchList, stampList, disseminationStatusList;
   const conceptsResource = state.conceptsSearchList;
-  const stampsResource = state.stampsList;
+  const stampsResource = state.stampList;
   const disseminationResource = state.disseminationStatusList;
   //TODO work on performance (selector)
   if (conceptsResource && conceptsResource.results) {
@@ -73,7 +73,7 @@ const mapStateToProps = state => {
     );
   }
   if (stampsResource && stampsResource.results) {
-    stampsList = stampsResource.results;
+    stampList = stampsResource.results;
   }
   if (disseminationResource && disseminationResource.results) {
     disseminationStatusList = disseminationResource.results;
@@ -81,7 +81,7 @@ const mapStateToProps = state => {
 
   return {
     conceptsSearchList,
-    stampsList,
+    stampList,
     disseminationStatusList,
   };
 };

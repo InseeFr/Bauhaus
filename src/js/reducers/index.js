@@ -1,27 +1,32 @@
+import listReducer, { getItems } from './utils/list-reducer';
+import * as A from 'js/actions/constants';
 import { combineReducers } from 'redux';
-import stampsList from './stamps-list';
-import disseminationStatusList from './dissemination-status-list';
-import conceptsList from './concepts-list';
-import conceptsSearchList from './concepts-search-list';
-import conceptsToValidateList from './concepts-to-validate-list';
-import conceptGeneral from './concept-general';
-import conceptLinks from './concept-links';
-import conceptNotes from './concept-notes';
+import conceptReducers from './concepts/';
+import * as general from './concepts/by-id/general';
+import * as notes from './concepts/by-id/notes';
+import * as links from './concepts//by-id/links';
 import collectionsList from './collections-list';
 import collectionsToValidateList from './collections-to-validate-list';
 import collectionGeneral from './collection-general';
 import collectionMembers from './collection-members';
 import remoteCalls from './remote-calls';
 
+const disseminationStatusList = listReducer([
+  A.LOAD_DISSEMINATION_STATUS_LIST,
+  A.LOAD_DISSEMINATION_STATUS_LIST_SUCCESS,
+  A.LOAD_DISSEMINATION_STATUS_LIST_FAILURE,
+]);
+
+const stampList = listReducer([
+  A.LOAD_STAMP_LIST,
+  A.LOAD_STAMP_LIST_SUCCESS,
+  A.LOAD_STAMP_LIST_FAILURE,
+]);
+
 export default combineReducers({
-  stampsList,
+  stampList,
   disseminationStatusList,
-  conceptsList,
-  conceptsSearchList,
-  conceptsToValidateList,
-  conceptGeneral,
-  conceptLinks,
-  conceptNotes,
+  ...conceptReducers,
   collectionsList,
   collectionsToValidateList,
   collectionGeneral,
@@ -29,4 +34,37 @@ export default combineReducers({
   remoteCalls,
 });
 
-export function getConceptGeneral(state, conceptId) {}
+export const getConceptList = state => getItems(state.conceptList);
+export const getConceptSearchList = state => getItems(state.conceptSearchList);
+export const getConceptValidateList = state =>
+  getItems(state.conceptValidateList);
+export const getDisseminationStatusList = state =>
+  getItems(state.disseminationStatusList);
+export const getStampList = state => getItems(state.stampList);
+
+export const getGeneral = (state, id) =>
+  general.getGeneral(state.conceptGeneral, id);
+export const getNotes = (state, id, version) =>
+  notes.getNotes(state.conceptNotes, id, version);
+export const getLinks = (state, id) => links.getLinks(state.conceptLinks, id);
+
+export function getConceptNotesAll(state, id) {}
+
+export function getConcept(state, id) {
+  const general = getGeneral(state, id);
+  const links = getLinks(state, id);
+  let notes;
+  if (general) {
+    notes = getNotes(state, id, general.conceptVersion);
+  }
+
+  if (!(general && notes && links)) return;
+
+  return {
+    general,
+    notes,
+    links,
+  };
+}
+
+export const getStatus = (state, op) => state.remoteCalls[op];

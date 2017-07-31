@@ -15,9 +15,9 @@ class ConceptsHomeContainer extends Component {
   }
 
   render() {
-    const { concepts, status, err } = this.props;
+    const { concepts } = this.props;
 
-    if (status === NOT_LOADED || status === LOADING) {
+    if (!concepts) {
       return (
         <div>
           <Loadable
@@ -31,29 +31,20 @@ class ConceptsHomeContainer extends Component {
         </div>
       );
     }
-
-    if (status === FAILURE) {
-      return (
-        <div>
-          Error : {err}
-        </div>
-      );
-    }
-
     return <ConceptsHome concepts={concepts} />;
   }
 }
 
 const sortByLabel = sortArray('label');
 const mapStateToProps = state => {
-  if (!state.conceptsList) {
+  if (!state.conceptList) {
     return {
       status: NOT_LOADED,
       concepts: [],
     };
   }
   //TODO should be sorted in the state, shouldn't they ?
-  let { results: concepts, status, err } = state.conceptsList;
+  let { results: concepts, status, err } = state.conceptList;
   if (status === LOADED) {
     concepts = sortByLabel(concepts);
   }

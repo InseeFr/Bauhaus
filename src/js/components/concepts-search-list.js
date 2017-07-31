@@ -98,7 +98,7 @@ class ConceptsSearchList extends Component {
 
   render() {
     if (this.state.askForReturn) return <Redirect to="/concepts" push />;
-    const { stampsList, disseminationStatusList } = this.props;
+    const { stampList, disseminationStatusList } = this.props;
     const {
       label,
       definition,
@@ -185,7 +185,7 @@ class ConceptsSearchList extends Component {
                 className="form-control"
                 placeholder={dictionary.concept.stamps.defaultValue}
                 value={creator}
-                options={stampsList}
+                options={stampList}
                 onChange={this.handlers.creator}
                 searchable={true}
               />
@@ -296,7 +296,7 @@ const propTypesGeneralForSearch = PropTypes.shape({
 ConceptsSearchList.propTypes = {
   conceptsSearchList: PropTypes.arrayOf(propTypesGeneralForSearch).isRequired,
   //TODO create generic prop types for stamps and dissemintation statuses
-  stampsList: PropTypes.array.isRequired,
+  stampList: PropTypes.array.isRequired,
   disseminationStatusList: PropTypes.array.isRequired,
 };
 

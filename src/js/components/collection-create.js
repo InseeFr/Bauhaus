@@ -143,7 +143,7 @@ class CollectionCreate extends Component {
   }
 
   render() {
-    const { stampsList } = this.props;
+    const { stampList } = this.props;
     const {
       creator,
       members,
@@ -260,12 +260,12 @@ class CollectionCreate extends Component {
             <label>
               {dictionary.collection.creator} <span className="boldRed">*</span>
             </label>
-            {stampsList.length > 0 &&
+            {stampList.length > 0 &&
               <SelectRmes
                 className="form-control"
                 placeholder={dictionary.collection.stamps.defaultValue}
                 value={creator}
-                options={stampsList}
+                options={stampList}
                 onChange={e => this.changeSelectCreator(e)}
                 searchable={true}
               />}
@@ -327,7 +327,7 @@ class CollectionCreate extends Component {
 const mapStateToProps = state => ({
   conceptsList: state.conceptsList,
   collectionsList: state.collectionsList,
-  stampsList: state.stampsList,
+  stampList: state.stampList,
 });
 
 const mapDispatchToProps = {
