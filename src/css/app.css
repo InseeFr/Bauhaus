@@ -46,6 +46,11 @@
 	margin-bottom: 30px;
 }
 
+.page-title-link:hover {
+	color: #044173;
+	text-decoration: none;
+	background-color: white;
+}
 .list-group-item {
 	text-align: left;
 }
