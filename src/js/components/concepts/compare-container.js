@@ -1,73 +1,52 @@
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ConceptCompare from './compare';
-import loadConceptGeneral from 'js/actions/concepts/general';
-import loadConceptNotes from 'js/actions/concepts/notes-version';
+import loadGeneralAndAllNotes from 'js/actions/concepts/general-and-all-notes';
 import buildExtract from 'js/utils/build-extract';
+import * as select from 'js/reducers';
 
 const extractId = buildExtract('id');
 
 class ConceptCompareContainer extends Component {
   componentWillMount() {
-    const { conceptGeneral } = this.props;
-    const id = extractId(this.props);
-    if (!conceptGeneral) {
-      this.props.loadConceptGeneral(id);
+    const { id, general, notes } = this.props;
+    if (!(general && notes)) {
+      this.props.loadGeneralAndAllNotes(id);
     }
-    this.loadNotes(this.props);
-  }
-
-  loadNotes(props) {
-    const { conceptGeneral, conceptNotes } = props;
-    if (!conceptGeneral) return;
-    const id = extractId(props);
-    const { conceptVersion: version } = conceptGeneral;
-    Array(Number(version)).fill().forEach((_, i) => {
-      if (!conceptNotes || !conceptNotes[i + 1]) {
-        props.loadConceptNotes(id, i + 1);
-      }
-    });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.loadNotes(nextProps);
   }
 
   render() {
-    let { conceptGeneral, conceptNotes } = this.props;
-    if (!conceptNotes || !conceptGeneral) return <div>Loading</div>;
-    let allNotesNotLoaded = false;
-    const notes = Object.keys(conceptNotes).reduce((notes, version) => {
-      const results = conceptNotes[version].results;
-      if (!results) {
-        allNotesNotLoaded = true;
-      } else notes[version] = results;
-      return notes;
-    }, {});
-
-    if (allNotesNotLoaded) return <div>Loading</div>;
+    let { id, general, notes } = this.props;
+    if (!(notes && general)) return <div>Loading</div>;
     return (
-      <ConceptCompare conceptGeneral={conceptGeneral} conceptNotes={notes} />
+      <ConceptCompare id={id} conceptGeneral={general} conceptNotes={notes} />
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  let conceptGeneral;
-  const id = extractId(ownProps);
-  const generalResource = state.conceptGeneral[id];
-  if (generalResource && generalResource.results) {
-    conceptGeneral = generalResource.results;
-  }
-  const conceptNotes = state.conceptNotes[id];
+ConceptCompareContainer.propTypes = {
+  id: PropTypes.string.isRequired,
+};
 
-  return { conceptGeneral, conceptNotes };
+const mapStateToProps = (state, ownProps) => {
+  const id = extractId(ownProps);
+  let notes;
+  const general = select.getGeneral(state, id);
+  //TODO create selector `getGeneralAndNotes`
+  if (general) {
+    notes = select.getAllNotes(state, id, general.conceptVersion);
+  }
+  return {
+    id,
+    general,
+    notes,
+  };
 };
 
 const mapDispatchToProps = {
-  loadConceptGeneral,
-  loadConceptNotes,
+  loadGeneralAndAllNotes,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

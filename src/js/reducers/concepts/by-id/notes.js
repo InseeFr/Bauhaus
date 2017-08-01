@@ -1,5 +1,6 @@
 import * as A from 'js/actions/constants';
 import { LOADING, LOADED } from 'js/constants';
+import { range } from 'js/utils/array-utils';
 
 export default function(state = {}, action) {
   const { type, payload } = action;
@@ -43,4 +44,20 @@ export const getNotes = (state, conceptId, conceptVersion) => {
   if (!allNotes) return null;
   const versionNotes = allNotes[conceptVersion];
   return versionNotes && versionNotes.results;
+};
+
+export const getAllNotes = (state, conceptId, lastVersion) => {
+  const allNotes = state[conceptId];
+  if (!allNotes) return null;
+  const notes = Object.keys(allNotes).reduce((notes, version) => {
+    const notesVersion = allNotes[version];
+    if (notesVersion && notesVersion.results)
+      notes[version] = notesVersion.results;
+    return notes;
+  }, {});
+  const versions = range(1, Number(lastVersion) + 1);
+  //return notes only if each expected version is present
+  if (versions.every(version => version in notes)) {
+    return notes;
+  }
 };

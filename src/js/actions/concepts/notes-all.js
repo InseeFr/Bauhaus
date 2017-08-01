@@ -2,14 +2,16 @@ import { range } from 'js/utils/array-utils';
 import * as A from '../constants';
 import loadNotesVersion from './notes-version';
 
-export const loadlNotesAll = (id, lastVersion) => dispatch => {
+export default (id, lastVersion) => dispatch => {
   dispatch({
     type: A.LOAD_NOTES_ALL,
     id,
     lastVersion,
   });
   return Promise.all(
-    range(1, lastVersion).map(version => loadNotesVersion(id, version))
+    range(1, lastVersion).map(version =>
+      dispatch(loadNotesVersion(id, version))
+    )
   ).then(
     results =>
       dispatch({

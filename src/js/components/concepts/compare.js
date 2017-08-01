@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import MenuConcepts from './menu';
 import ConceptGeneral from './general';
@@ -20,11 +21,6 @@ class ConceptCompare extends Component {
         english: !this.state.english,
       });
 
-    this.handleClick = e => {
-      e.preventDefault();
-      this.props.history.push('/concept/' + props.id);
-    };
-
     this.changeSelect1 = e => {
       this.setState({
         select1: e.target.value,
@@ -38,7 +34,7 @@ class ConceptCompare extends Component {
   }
 
   render() {
-    const { conceptGeneral, conceptNotes } = this.props;
+    const { id, conceptGeneral, conceptNotes } = this.props;
     const { english, select1, select2 } = this.state;
     const conceptVersion = Number(conceptGeneral.conceptVersion);
 
@@ -74,11 +70,11 @@ class ConceptCompare extends Component {
           </div>
           <div className="row btn-line">
             <div className="col-md-3">
-              <button
+              <Link
                 className="btn btn-primary btn-lg col-md-12"
-                onClick={this.handleClick}>
+                to={`/concept/${id}`}>
                 {dictionary.buttons.returnCurrent}
-              </button>
+              </Link>
             </div>
           </div>
           <ConceptGeneral attr={conceptGeneral} />
@@ -117,6 +113,7 @@ class ConceptCompare extends Component {
 }
 
 ConceptCompare.propTypes = {
+  id: PropTypes.string.isRequired,
   conceptGeneral: generalPropTypes,
   // conceptNotes : {0:{definitionLg1:'XXX'}}
   conceptNotes: PropTypes.object.isRequired,

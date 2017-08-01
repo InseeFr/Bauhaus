@@ -48,7 +48,9 @@ export const getNotes = (state, id, version) =>
   notes.getNotes(state.conceptNotes, id, version);
 export const getLinks = (state, id) => links.getLinks(state.conceptLinks, id);
 
-export function getConceptNotesAll(state, id) {}
+export function getAllNotes(state, id, lastVersion) {
+  return notes.getAllNotes(state.conceptNotes, id, lastVersion);
+}
 
 export function getConcept(state, id) {
   const general = getGeneral(state, id);
