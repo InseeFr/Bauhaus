@@ -21,6 +21,7 @@ export const capitalizeFirst = str =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
 export const createNotes = notes => {};
+
 export const processChanges = (oldNotes, notes, fields) =>
   fields.reduce((changes, noteType) => {
     const oldContent = oldNotes[noteType];
@@ -43,7 +44,7 @@ export const processAllChanges = (oldNotes, notes) =>
   processChanges(oldNotes, notes, allNotes);
 
 const versionImpactingNotes = [
-  'definitionCourteLg1',
+  'scopeNoteLg1',
   'definitionLg1',
   'noteEditorialeLg1',
 ];
