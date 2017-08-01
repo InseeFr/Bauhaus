@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { Link } from 'react-router-dom';
-import Loadable from 'react-loading-overlay';
 import MenuConcepts from './menu';
 import SendControls from './send-controls';
+import SendStatus from './send-status';
 import EditorHtml from 'js/components/shared/editor-html';
 import { dictionary } from 'js/utils/dictionary';
 import { defaultMailSender } from 'config/config';
@@ -156,47 +155,14 @@ class ConceptSend extends Component {
     } else {
       //message was sent
       const { sendStatus } = this.props;
-
-      if (sendStatus === PENDING) {
-        mainEl = (
-          <Loadable
-            active={true}
-            spinner
-            text={dictionary.loadable.sending}
-            color="#457DBB"
-            background="grey"
-            spinnerSize="400px"
-          />
-        );
-      } else {
-        //send status OK or ERROR
-
-        const title =
-          statusSend === OK
-            ? dictionary.concept.send.success([prefLabelLg1])
-            : dictionary.concept.send.failed([prefLabelLg1]);
-
-        mainEl = (
-          <div className="container">
-            <div className="row centered">
-              <div className="col-md-12">
-                <h2>
-                  {title}
-                </h2>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-12">
-                <Link
-                  className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
-                  to={'urlBack'}>
-                  {dictionary.buttons.return}
-                </Link>
-              </div>
-            </div>
-          </div>
-        );
-      }
+      //TODO should redirect to send status instead ?
+      mainEl = (
+        <SendStatus
+          label={prefLabelLg1}
+          status={sendStatus}
+          urlBack={urlBack}
+        />
+      );
     }
 
     return (
