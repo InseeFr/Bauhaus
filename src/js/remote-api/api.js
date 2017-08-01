@@ -17,6 +17,10 @@ const api = {
   postConcept: concept => [
     'private/concept',
     {
+      headers: {
+        Accept: 'text/plain',
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(concept),
     },
     res =>

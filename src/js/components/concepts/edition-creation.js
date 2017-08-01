@@ -107,7 +107,7 @@ class ConceptEditionCreation extends Component {
     this.handleCancel = () => {
       //TODO use <Navigate />
       //this.props.history.push(`/concept/${this.props.id}`);
-      if (props.creation) {
+      if (this.props.creation) {
         this.props.history.push(`/concepts`);
       } else {
         this.props.history.push(`/concept/${this.props.id}`);
@@ -137,7 +137,7 @@ class ConceptEditionCreation extends Component {
       if (this.props.creation) {
         this.props
           .save(buildPayloadCreation(this.state.data))
-          .then(id => this.setState({ id }));
+          .then(({ id }) => this.setState({ id }));
       } else {
         //update
         this.props.save(
@@ -198,7 +198,7 @@ class ConceptEditionCreation extends Component {
       if (isActionProcessed === OK && id) {
         //TODO should redirect to the concept page, but we need to find
         //a clean way to get the id of the created concept (easy for update)
-        return <Redirect to={`/concepts/${id}`} />;
+        return <Redirect to={`/concept/${id}`} />;
       } else {
         return (
           <div>

@@ -6,7 +6,13 @@ import * as A from '../constants';
 //call, and a `then` handler in the component take care of adjusting the
 //status)
 export default buildAsyncAction(
-  api.getConceptGeneral,
+  api.postConcept,
   [A.CREATE_CONCEPT, A.CREATE_CONCEPT_SUCCESS, A.CREATE_CONCEPT_FAILURE],
-  (id, concept) => ({ id, concept })
+  //build the payload
+  concept => ({ concept }),
+  //process the response
+  concept => id => ({
+    id,
+    concept,
+  })
 );

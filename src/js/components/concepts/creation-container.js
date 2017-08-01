@@ -11,7 +11,7 @@ import { dictionary } from 'js/utils/dictionary';
 import emptyConcept from 'js/utils/concepts/empty-concept';
 import PageTitle from 'js/components/shared/page-title';
 
-class EditionContainer extends Component {
+class CreationContainer extends Component {
   componentWillMount() {
     const { conceptList, stampList, disseminationStatusList } = this.props;
     if (!conceptList) this.props.loadConceptList();
@@ -34,6 +34,7 @@ class EditionContainer extends Component {
       const pageTitle = <PageTitle title={dictionary.concept.create} />;
       return (
         <ConceptEditionCreation
+          creation
           pageTitle={pageTitle}
           general={general}
           notes={notes}
@@ -67,8 +68,8 @@ const mapDispatchToProps = {
   createConcept,
 };
 
-EditionContainer = connect(mapStateToProps, mapDispatchToProps)(
-  EditionContainer
+CreationContainer = connect(mapStateToProps, mapDispatchToProps)(
+  CreationContainer
 );
 
-export default EditionContainer;
+export default CreationContainer;

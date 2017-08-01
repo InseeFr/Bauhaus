@@ -12,7 +12,7 @@ export default buildAsyncAction(
   ],
   (id, version) => ({ id, version }),
   //process response (json)
-  notes =>
+  (id, version) => notes =>
     Object.keys(notes).reduce((formatted, noteName) => {
       formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
       return formatted;

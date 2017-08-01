@@ -36,7 +36,7 @@ export default function buildLoadAction(
     return remoteCall(...args).then(
       rawResults => {
         const results = processResponse
-          ? processResponse(rawResults)
+          ? processResponse(...args)(rawResults)
           : rawResults;
         dispatch({
           type: success,
