@@ -31,7 +31,7 @@ export default function buildPayloadUpdate(versioning, oldConcept, concept) {
   return {
     wantToVersionning: versioning === VERSIONING ? true : false,
     ...general, //prefLabelLg1, prefLabelLg2...
-    ...links,
+    links,
     //[{ noteType: 'scopeNoteLg2', content: 'new note'} ...]
     datableNotes: processDatableChanges(oldNotes, notes),
     versionableNotes: processVersionableChanges(oldNotes, notes),
