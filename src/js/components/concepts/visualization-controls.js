@@ -71,7 +71,7 @@ function ConceptVisualizationControls({
 ConceptVisualizationControls.propTypes = {
   id: PropTypes.string.isRequired,
   isValidated: PropTypes.bool.isRequired,
-  conceptVersion: PropTypes.string,
+  conceptVersion: PropTypes.string.isRequired,
   handleValidation: PropTypes.func.isRequired,
 };
 

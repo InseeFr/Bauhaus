@@ -83,7 +83,7 @@ class ConceptVisualization extends Component {
             id={id}
             //TODO FIX ME
             isValidated={isValidated === 'Validé'}
-            conceptVerions={conceptVersion}
+            conceptVersion={conceptVersion}
             handleValidation={this.handleClickValid}
           />
           {english &&
