@@ -28,7 +28,7 @@ class ConceptSend extends Component {
     super(props);
 
     const { id, prefLabelLg1, isValidated } = props;
-    const recipient = 'jb@noknot.fr';
+    const recipient = '';
     this.state = {
       recipient,
       showDefaultMessage: true,
