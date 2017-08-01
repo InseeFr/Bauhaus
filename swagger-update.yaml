@@ -1,0 +1,802 @@
+swagger: '2.0'
+info:
+  description: This is an API spcification for Concepts API
+  version: 1.0.0
+  title: Swagger Concepts API
+  contact:
+    email: nicolas.laval@insee.fr
+host: 'localhost:6969'
+basePath: /gncs-core-refactor/ws/rmes
+tags:
+  - name: stamps
+  - name: disseminationStatus
+  - name: concepts
+    description: Everything about Concepts
+  - name: collections
+    description: Everything about Collections
+schemes:
+  - http
+paths:
+  /stamps:
+    get:
+      tags:
+        - stamps
+      summary: List of stamps
+      description: ''
+      operationId: getStamps
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: string
+  /disseminationStatus:
+    get:
+      tags:
+        - disseminationStatus
+      summary: List of dissemination status
+      description: ''
+      operationId: getDisseminationStatus
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                label:
+                  type: string
+                url:
+                  type: string
+  /concepts:
+    get:
+      tags:
+        - concepts
+      summary: List of concepts
+      description: ''
+      operationId: getConcepts
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                label:
+                  type: string
+  /concepts/search:
+    get:
+      tags:
+        - concepts
+      summary: List of concepts for advanced search
+      description: ''
+      operationId: getConceptsSearch
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                label:
+                  type: string
+                created:
+                  type: string
+                  format: dateTime
+                modified:
+                  type: string
+                  format: dateTime
+                disseminationStatus:
+                  type: string
+                validationStatus:
+                  type: string
+                definition:
+                  type: string
+                creator:
+                  type: string
+  /concepts/toValidate:
+    get:
+      tags:
+        - concepts
+      summary: List of concepts to validate
+      description: ''
+      operationId: getConceptsToValidate
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                label:
+                  type: string
+  '/concept/{id}':
+    get:
+      tags:
+        - concepts
+      summary: Generals attributs of concept
+      description: ''
+      operationId: getConceptByID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of concept to fetch
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              prefLabelLg1:
+                type: string
+              prefLabelLg2:
+                type: string
+              altLabelLg1:
+                type: string
+              altLabelLg2:
+                type: string
+              creator:
+                type: string
+              contributor:
+                type: string
+              disseminationStatus:
+                type: string
+              additionnalMaterial:
+                type: string
+              created:
+                type: string
+                format: dateTime
+              modified:
+                type: string
+                format: dateTime
+              valid:
+                type: string
+                format: dateTime
+              conceptVersion:
+                type: string
+              isValidated:
+                type: string
+                enum:
+                  - Validé
+                  - Provisoire
+  '/concept/{id}/links':
+    get:
+      tags:
+        - concepts
+      summary: Linked concepts of concept
+      description: ''
+      operationId: getConceptLinksByID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of concept to fetch
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                typeOfLink:
+                  type: string
+                  enum:
+                    - broader
+                    - narrower
+                    - references
+                    - succeed
+                    - related
+                prefLabelLg1:
+                  type: string
+                prefLabelLg2:
+                  type: string
+  '/concept/{id}/notes/{conceptVersion}':
+    get:
+      tags:
+        - concepts
+      summary: Concept notes by version
+      description: ''
+      operationId: getConceptNotesByID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of concept to fetch
+          required: true
+          type: string
+        - name: conceptVersion
+          in: path
+          description: Concept version of concept to fetch
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              definitionLg1:
+                type: string
+              definitionLg2:
+                type: string
+              scopeNoteLg1:
+                type: string
+              scopeNoteLg2:
+                type: string
+              editorialNoteLg1:
+                type: string
+              editorialNoteLg2:
+                type: string
+              changeNoteLg1:
+                type: string
+              changeNoteLg2:
+                type: string
+  /private/concept:
+    post:
+      tags:
+        - concepts
+      summary: Create new concept
+      description: Create new concept
+      operationId: setConcept
+      consumes:
+        - application/json
+      produces:
+        - text/plain
+      parameters:
+        - name: concept
+          in: body
+          description: Concept attributes
+          required: true
+          schema:
+            type: object
+            properties:
+              prefLabelLg1:
+                type: string
+              prefLabelLg2:
+                type: string
+              altLabelLg1:
+                type: string
+              altLabelLg2:
+                type: string
+              creator:
+                type: string
+              contributor:
+                type: string
+              disseminationStatus:
+                type: string
+              additionalMaterial:
+                type: string
+              valid:
+                type: string
+                format: dateTime
+              versionableNotes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    noteType:
+                      type: string
+                      enum:
+                        - scopeNoteLg1
+                        - scopeNoteLg2
+                        - definitionLg1
+                        - definitionLg2
+                        - editorialNoteLg1
+                        - editorialNoteLg2
+                    content:
+                      type: string
+              datableNotes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    noteType:
+                      type: string
+                      enum:
+                        - changeNoteLg1
+                        - changeNoteLg2
+                    content:
+                      type: string
+              links:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    typeOfLink:
+                      type: string
+                      enum:
+                        - broader
+                        - narrower
+                        - references
+                        - succeed
+                        - related
+                    ids:
+                      type: array
+                      items:
+                        type: string
+      responses:
+        '204':
+          description: 'Concept created, returns concept ID'
+          schema:
+            type: string
+  '/private/concept/{id}':
+    put:
+      tags:
+        - concepts
+      summary: Modify concept
+      description: Modify new concept
+      operationId: modifyConcept
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of concept to fetch
+          required: true
+          type: string
+        - name: concept
+          in: body
+          description: Concept attributes
+          required: true
+          schema:
+            type: object
+            properties:
+              prefLabelLg1:
+                type: string
+              prefLabelLg2:
+                type: string
+              altLabelLg1:
+                type: string
+              altLabelLg2:
+                type: string
+              creator:
+                type: string
+              contributor:
+                type: string
+              disseminationStatus:
+                type: string
+              additionalMaterial:
+                type: string
+              created: 
+                type: string
+                format: dateTime
+              valid:
+                type: string
+                format: dateTime
+              versioning:
+                type: boolean
+              versionableNotes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    noteType:
+                      type: string
+                      enum:
+                        - scopeNoteLg1
+                        - scopeNoteLg2
+                        - definitionLg1
+                        - definitionLg2
+                        - editorialNoteLg1
+                        - editorialNoteLg2
+                    content:
+                      type: string
+              datableNotes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    noteType:
+                      type: string
+                      enum:
+                        - changeNoteLg1
+                        - changeNoteLg2
+                    content:
+                      type: string
+              links:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    typeOfLink:
+                      type: string
+                      enum:
+                        - broader
+                        - narrower
+                        - references
+                        - succeed
+                        - related
+                    ids:
+                      type: array
+                      items:
+                        type: string
+      responses:
+        '204':
+          description: Concept modified
+  /private/concepts/validate:
+    put:
+      tags:
+        - concepts
+      description: Validate concepts
+      operationId: setConceptsValidation
+      consumes:
+        - application/json
+      parameters:
+        - name: concepts
+          in: body
+          description: Concepts ID to validate
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '204':
+          description: Concepts validated
+  /concept/export:
+    post:
+      tags:
+        - concepts
+      description: Export concept
+      operationId: setConceptExport
+      consumes:
+        - text/plain
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: concepts
+          in: body
+          description: Concept ID to export
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Concept exported
+          schema:
+            type: file
+  /private/concept/send:
+    post:
+      tags:
+        - concepts
+      description: Send concept
+      operationId: setConceptSend
+      consumes:
+        - application/json
+      produces:
+        - text/plain
+      parameters:
+        - name: concepts
+          in: body
+          description: Concept ID to send
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              sender:
+                type: string
+              recipient:
+                type: string
+              object:
+                type: string
+              message:
+                type: string
+      responses:
+        '204':
+          description: Concept sent
+          schema:
+            type: boolean
+  /collections:
+    get:
+      tags:
+        - collections
+      summary: List of collections
+      description: ''
+      operationId: getCollections
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                label:
+                  type: string
+  /collections/toValidate:
+    get:
+      tags:
+        - collections
+      summary: List of collections to validate
+      description: ''
+      operationId: getCollectionsToValidate
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                label:
+                  type: string
+  '/collection/{id}':
+    get:
+      tags:
+        - collections
+      summary: Generals attributs of collection
+      description: ''
+      operationId: getCollectionByID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of collection to fetch
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              prefLabelLg1:
+                type: string
+              prefLabelLg2:
+                type: string
+              created:
+                type: string
+                format: dateTime
+              modified:
+                type: string
+                format: dateTime
+              descriptionLg1:
+                type: string
+              descriptionLg2:
+                type: string
+              isValidated:
+                type: string
+                enum:
+                  - Validée
+                  - Provisoire
+              creator:
+                type: string
+              contributor:
+                type: string
+  '/collection/{id}/members':
+    get:
+      tags:
+        - collections
+      summary: Concepts members of collection
+      description: ''
+      operationId: getCollectionMembersByID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of collection to fetch
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              properties:
+                prefLabelLg1:
+                  type: string
+                prefLabelLg2:
+                  type: string
+  /private/collection:
+    post:
+      tags:
+        - collections
+      summary: Create new collection
+      description: Create new collection
+      operationId: setCollection
+      consumes:
+        - application/json
+      parameters:
+        - name: collection
+          in: body
+          description: Collection attributes
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              prefLabelLg1:
+                type: string
+              prefLabelLg2:
+                type: string
+              descriptionLg1:
+                type: string
+              descriptionLg2:
+                type: string
+              creator:
+                type: string
+              contributor:
+                type: string
+              members:
+                type: array
+                items:
+                  type: string
+      responses:
+        '204':
+          description: Collection created
+  '/private/collection/{id}':
+    put:
+      tags:
+        - collections
+      summary: Modify collection
+      description: Modify collection
+      operationId: modifyCollection
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of collection to fetch
+          required: true
+          type: string
+        - name: collection
+          in: body
+          description: Collection attributes
+          required: true
+          schema:
+            type: object
+            properties:
+              prefLabelLg1:
+                type: string
+              prefLabelLg2:
+                type: string
+              descriptionLg1:
+                type: string
+              descriptionLg2:
+                type: string
+              creator:
+                type: string
+              contributor:
+                type: string
+              created:
+                type: string
+                format: dateTime
+              members:
+                type: array
+                items:
+                  type: string
+      responses:
+        '204':
+          description: Collection modified
+  /private/collections/validate:
+    put:
+      tags:
+        - collections
+      description: Validate collections
+      operationId: setCollectionsValidation
+      consumes:
+        - application/json
+      parameters:
+        - name: collections
+          in: body
+          description: Collections ID to validate
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '204':
+          description: Collections validated
+  /collection/export:
+    post:
+      tags:
+        - collections
+      description: Export collection
+      operationId: setCollectionExport
+      consumes:
+        - text/plain
+      produces:
+        - application/octet-stream
+      parameters:
+        - name: collections
+          in: body
+          description: Collection ID to export
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Collection exported
+          schema:
+            type: file
+  /private/collection/send:
+    post:
+      tags:
+        - collections
+      description: Send collection
+      operationId: setCollectionSend
+      consumes:
+        - application/json
+      produces:
+        - text/plain
+      parameters:
+        - name: collections
+          in: body
+          description: Collection ID to send
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              sender:
+                type: string
+              recipient:
+                type: string
+              object:
+                type: string
+              message:
+                type: string
+      responses:
+        '204':
+          description: Collection sent
+          schema:
+            type: boolean

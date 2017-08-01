@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import FileSaver from 'file-saver';
 import ConceptsPicker from './picker';
 import { sortArray } from 'js/utils/array-utils';
 import exportMultipleConcepts from 'js/actions/concepts/export-multi';
@@ -14,6 +15,7 @@ import { EXPORT_CONCEPTS, VALIDATE_CONCEPTS } from 'js/constants';
 
 const sortByLabel = sortArray('prefLabelLg1');
 
+//TODO refactor (unecessary and complex abstraction)
 class ConceptsPickerContainer extends Component {
   componentWillMount() {
     if (!this.props.concepts) this.props.loadConcepts();
@@ -72,15 +74,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   let loadConcepts, handleAction;
   switch (what) {
     case EXPORT_CONCEPTS:
-      loadConcepts = loadConceptList;
-      //TODO update component to use something like
-      //`ids.forEach(id => FileSaver.saveAs(blob, `${id}.pdf`)`)
-      // to process the response
-      handleAction = ids => exportMultipleConcepts(ids);
+      loadConcepts = (...args) => dispatch(loadConceptList(...args));
+      //TODO might not be the best place to call `FileSaver` but we didn't find a cleaner
+      //way to do this. The problem comes maybe from `PickerContainer` to be too generic.
+      handleAction = ids =>
+        dispatch(exportMultipleConcepts(ids)).then(({ ids, blobs }) =>
+          ids.forEach((id, i) => FileSaver.saveAs(blobs[i], `${id}.pdf`))
+        );
       break;
     case VALIDATE_CONCEPTS:
-      loadConcepts = loadConceptValidateList;
-      handleAction = validateConcepts;
+      loadConcepts = (...args) => dispatch(loadConceptValidateList(...args));
+      handleAction = (...args) => dispatch(validateConcepts(...args));
       break;
     default:
       //there should be warging from prop types check
@@ -88,13 +92,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         `Invalid \`what\` ${what} prop passed to \`ConceptsPickerContainer\``
       );
   }
-  return bindActionCreators(
-    {
-      loadConcepts,
-      handleAction,
-    },
-    dispatch
-  );
+  return {
+    loadConcepts,
+    handleAction,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(

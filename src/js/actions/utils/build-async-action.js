@@ -5,6 +5,7 @@ export default function buildLoadAction(
   remoteCall,
   actions,
   buildPayload,
+  processResponse,
   checkIfNeeded
 ) {
   if (
@@ -33,7 +34,10 @@ export default function buildLoadAction(
       payload,
     });
     return remoteCall(...args).then(
-      results => {
+      rawResults => {
+        const results = processResponse
+          ? processResponse(rawResults)
+          : rawResults;
         dispatch({
           type: success,
           payload: {

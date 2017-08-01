@@ -8,22 +8,27 @@ export default ids => dispatch => {
       ids,
     },
   });
-  return Promise.all(ids.map(id => dispatch(exportOne(id)))).then(_ =>
-    dispatch(
-      {
+  return Promise.all(ids.map(id => dispatch(exportOne(id)))).then(
+    ([...blobs]) => {
+      dispatch({
         type: A.EXPORT_CONCEPT_LIST_SUCCESS,
         payload: {
           ids,
+          blobs,
         },
-      },
-      err =>
-        dispatch({
-          type: A.EXPORT_CONCEPT_LIST_FAILURE,
-          payload: {
-            err,
-            ids,
-          },
-        })
-    )
+      });
+      return Promise.resolve({
+        ids,
+        blobs,
+      });
+    },
+    err =>
+      dispatch({
+        type: A.EXPORT_CONCEPT_LIST_FAILURE,
+        payload: {
+          err,
+          ids,
+        },
+      })
   );
 };

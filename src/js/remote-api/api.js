@@ -28,18 +28,25 @@ const api = {
   putConcept: (id, concept) => [`private/concept/${id}`],
   putConceptValidList: concepts => [`private/concepts/validate`],
   //TODO weird api
-  postConceptExport: id => [
-    'concept/export',
+  getConceptExport: id => [
+    `concept/export/${id}`,
     {
-      body: id,
+      headers: {
+        Accept: 'application/octet-stream',
+        'Content-Type': 'text/plain',
+      },
+      responseType: 'arraybuffer',
     },
     res => res.blob(),
   ],
-  //TODO check swagger documentation
-  postConceptSend: id => [
-    'private/concept/send',
+  postConceptSend: (id, mailInfo) => [
+    `private/concept/send/${id}`,
     {
-      body: id,
+      headers: {
+        Accept: 'text/plain',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(mailInfo),
     },
   ],
   getDissStatusList: () => ['disseminationStatus'],

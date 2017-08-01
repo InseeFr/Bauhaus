@@ -19,9 +19,7 @@ const getDefaultMessage = (id, label, isValidated, recipient) => {
   if (isRecipientInsee(recipient)) {
     params.push('Insee');
   }
-  const r = dictionary.concept.send.message.value(params);
-  console.log(r);
-  return r;
+  return dictionary.concept.send.message.value(params);
 };
 
 const isRecipientInsee = recipient => recipient.endsWith('@insee.fr');
@@ -30,7 +28,7 @@ class ConceptSend extends Component {
     super(props);
 
     const { id, prefLabelLg1, isValidated } = props;
-    const recipient = '';
+    const recipient = 'jb@noknot.fr';
     this.state = {
       recipient,
       showDefaultMessage: true,
@@ -72,15 +70,15 @@ class ConceptSend extends Component {
     };
 
     this.handleClickSend = () => {
+      const { id } = this.props;
+      const { recipient, sender, subject, message } = this.state;
       const data = {
-        id: this.props.conceptGeneral.id,
-        prefLabelLg1: this.props.conceptGeneral.prefLabelLg1,
-        recipient: this.state.recipient,
-        sender: this.state.sender,
-        subject: this.state.subject,
-        message: this.state.message,
+        sender,
+        recipient,
+        object: subject,
+        message,
       };
-      this.props.sendConcept(data);
+      this.props.sendConcept(id, data);
       this.setState({
         sent: true,
       });
@@ -89,7 +87,7 @@ class ConceptSend extends Component {
 
   render() {
     const { id, prefLabelLg1, statusSend } = this.props;
-    const { sent, sender, subject, message } = this.state;
+    const { recipient, sent, sender, subject, message } = this.state;
     let mainEl;
     //TODO why do we not return to the same page ?
     const urlBack = statusSend === OK ? '/concepts' : `/concept/${id}`;
@@ -118,6 +116,7 @@ class ConceptSend extends Component {
             <input
               type="email"
               className="form-control"
+              value={recipient}
               onChange={e => this.handleRecipientChange(e.target.value)}
             />
           </div>
@@ -156,7 +155,7 @@ class ConceptSend extends Component {
       );
     } else {
       //message was sent
-      const { sendStatus } = this.pops;
+      const { sendStatus } = this.props;
 
       if (sendStatus === PENDING) {
         mainEl = (
@@ -178,24 +177,21 @@ class ConceptSend extends Component {
             : dictionary.concept.send.failed([prefLabelLg1]);
 
         mainEl = (
-          <div>
-            <MenuConcepts />
-            <div className="container">
-              <div className="row centered">
-                <div className="col-md-12">
-                  <h2>
-                    {title}
-                  </h2>
-                </div>
+          <div className="container">
+            <div className="row centered">
+              <div className="col-md-12">
+                <h2>
+                  {title}
+                </h2>
               </div>
-              <div className="row">
-                <div className="col-md-12">
-                  <Link
-                    className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
-                    to={'urlBack'}>
-                    {dictionary.buttons.return}
-                  </Link>
-                </div>
+            </div>
+            <div className="row">
+              <div className="col-md-12">
+                <Link
+                  className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
+                  to={'urlBack'}>
+                  {dictionary.buttons.return}
+                </Link>
               </div>
             </div>
           </div>
