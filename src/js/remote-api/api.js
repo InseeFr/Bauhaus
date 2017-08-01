@@ -29,14 +29,23 @@ const api = {
         concept,
       })),
   ],
-  putConcept: (id, concept) => [`private/concept/${id}`],
+  putConcept: (id, concept) => [
+    `private/concept/${id}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(concept),
+    },
+    () => {},
+  ],
   putConceptValidList: ids => [
     `private/concepts/validate`,
     {
       body: JSON.stringify(ids),
     },
     //do not process resspoonse
-    () => {}, //TODO upgrade build api
+    () => {}, //TODO upgrade build apri
   ],
   getConceptExport: id => [
     `concept/export/${id}`,

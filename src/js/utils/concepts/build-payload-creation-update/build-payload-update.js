@@ -29,7 +29,7 @@ export default function buildPayloadUpdate(versioning, oldConcept, concept) {
 
   //TODO check if there is no `isValidated` property within general
   return {
-    wantToVersionning: versioning === VERSIONING ? true : false,
+    versioning: versioning === VERSIONING ? true : false,
     ...general, //prefLabelLg1, prefLabelLg2...
     links,
     //[{ noteType: 'scopeNoteLg2', content: 'new note'} ...]

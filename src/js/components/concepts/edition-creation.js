@@ -122,8 +122,12 @@ class ConceptEditionCreation extends Component {
       //change.
       if (isValidated) {
         if (!this.areNotesChanged()) return this.saveConcept(NO_VERSIONING);
+        else {
+          //notes are changed
+          this.openModal();
+        }
       }
-      this.openModal();
+      this.saveConcept(NO_VERSIONING);
     };
 
     this.openModal = () => {
