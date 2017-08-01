@@ -17,7 +17,11 @@ class ConceptVisualizationContainer extends Component {
     if (!stampList) this.props.loadStampList();
     if (!disseminationStatusList) this.props.loadDisseminationStatusList();
   }
-
+  componentWillReceiveProps({ id }) {
+    if (id !== this.props.id) {
+      this.props.loadConcept(id);
+    }
+  }
   render() {
     const {
       id,
