@@ -6,6 +6,15 @@ import { sortArray } from 'js/utils/array-utils';
 
 const sortByLabel = sortArray('label');
 
+const emptyItem = {
+  label: '',
+  creator: '',
+  created: '',
+  modifed: '',
+  disseminationStatus: '',
+  definition: '',
+  validationStatus: '',
+};
 export default buildAsyncAction(
   api.getConceptSearchList,
   [
@@ -16,6 +25,8 @@ export default buildAsyncAction(
   null,
   //process response
   () => results => {
-    return sortByLabel(results);
+    return sortByLabel(results).map(concept =>
+      Object.assign({}, emptyItem, concept)
+    );
   }
 );

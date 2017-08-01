@@ -290,13 +290,13 @@ function singOrPluralResult(list) {
 
 const propTypesGeneralForSearch = PropTypes.shape({
   id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  definition: PropTypes.string.isRequired,
-  created: PropTypes.string.isRequired,
-  modified: PropTypes.string.isRequired,
-  creator: PropTypes.string.isRequired,
-  disseminationStatus: PropTypes.string.isRequired,
-  validationStatus: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  definition: PropTypes.string,
+  created: PropTypes.string,
+  modified: PropTypes.string,
+  creator: PropTypes.string,
+  disseminationStatus: PropTypes.string,
+  validationStatus: PropTypes.string,
 });
 
 ConceptSearchList.propTypes = {

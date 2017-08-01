@@ -1,29 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import Loadable from 'react-loading-overlay';
 import { dictionary } from 'js/utils/dictionary';
-import ConceptsSearchList from './search';
+import * as select from 'js/reducers';
+import ConceptSearchList from './search-list';
 import loadStampList from 'js/actions/stamp';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadConceptSearchList from 'js/actions/concepts/search-list';
 import 'css/app.css';
 
-class ConceptsSearchListContainer extends Component {
+class ConceptSearchListContainer extends Component {
   componentWillMount() {
-    this.props.loadConceptSearchList();
-    this.props.loadStampList();
-    this.props.loadDisseminationStatusList();
+    const {
+      conceptSearchList,
+      stampList,
+      disseminationStatusList,
+    } = this.props;
+    if (!conceptSearchList) this.props.loadConceptSearchList();
+    if (!stampList) this.props.loadStampList();
+    if (!disseminationStatusList) this.props.loadDisseminationStatusList();
   }
 
   render() {
     const {
-      conceptsSearchList,
+      conceptSearchList,
       stampList,
       disseminationStatusList,
     } = this.props;
 
-    if (!(conceptsSearchList && stampList && disseminationStatusList))
+    if (!(conceptSearchList && stampList && disseminationStatusList))
       return (
         <div>
           <Loadable
@@ -38,8 +43,8 @@ class ConceptsSearchListContainer extends Component {
       );
 
     return (
-      <ConceptsSearchList
-        conceptsSearchList={conceptsSearchList}
+      <ConceptSearchList
+        conceptSearchList={conceptSearchList}
         stampList={stampList}
         disseminationStatusList={disseminationStatusList}
       />
@@ -47,38 +52,11 @@ class ConceptsSearchListContainer extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  let conceptsSearchList, stampList, disseminationStatusList;
-  const conceptsResource = state.conceptsSearchList;
-  const stampsResource = state.stampList;
-  const disseminationResource = state.disseminationStatusList;
-  //TODO work on performance (selector)
-  if (conceptsResource && conceptsResource.results) {
-    conceptsSearchList = conceptsResource.results.map(concept => ({
-      id: concept.id,
-      label: concept.prefLabelLg1,
-      definition: concept.definitionLg1,
-      createdDate: concept.createdDate,
-      modifiedDate: concept.modifiedDate,
-      creator: concept.creator,
-      disseminationStatus: concept.disseminationStatus,
-      validationStatus: concept.validationStatus,
-    }));
-  }
-  if (stampsResource && stampsResource.results) {
-    stampList = stampsResource.results;
-  }
-  if (disseminationResource && disseminationResource.results) {
-    disseminationStatusList = disseminationResource.results;
-  }
-
-  return {
-    conceptsSearchList,
-    stampList,
-    disseminationStatusList,
-  };
-};
-
+const mapStateToProps = state => ({
+  conceptSearchList: select.getConceptSearchList(state),
+  stampList: select.getStampList(state),
+  disseminationStatusList: select.getDisseminationStatusList(state),
+});
 const mapDispatchToProps = {
   loadConceptSearchList,
   loadStampList,
@@ -86,5 +64,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  withRouter(ConceptsSearchListContainer)
+  ConceptSearchListContainer
 );

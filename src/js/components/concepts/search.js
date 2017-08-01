@@ -11,7 +11,7 @@ const filter = filterKeyDeburr('label');
 
 //TODO refactor to try to share some logic with `SearchConceptsByLabel`
 //TODO search facility should not be handled by this component
-class ConceptsListSearch extends Component {
+class ConceptListSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -72,8 +72,8 @@ function nbResults(list) {
   else return list.length + dictionary.concepts.result;
 }
 
-ConceptsListSearch.propTypes = {
+ConceptListSearch.propTypes = {
   concepts: PropTypes.arrayOf(overviewTypes).isRequired,
 };
 
-export default ConceptsListSearch;
+export default ConceptListSearch;
