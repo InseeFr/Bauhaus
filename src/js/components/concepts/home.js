@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import ConceptsListSearch from './search';
-import MenuConcepts from './menu';
+
 import { propTypes as overviewPropTypes } from 'js/utils/concepts/concept-overview';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/app.css';
@@ -29,7 +29,6 @@ class ConceptsHome extends Component {
     const { concepts } = this.props;
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-3 btn-group-vertical">

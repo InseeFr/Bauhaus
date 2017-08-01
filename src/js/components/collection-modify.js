@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import Loadable from 'react-loading-overlay';
-import MenuConcepts from './concepts/menu';
 import SelectRmes from 'js/utils/select-rmes';
 import CollectionModifyControl from './collection-modify-control';
 import { dictionary } from 'js/utils/dictionary';
@@ -186,7 +185,6 @@ class CollectionModify extends Component {
     if (creation === 'PENDING' && prefLabelLg1 && !isLabelExisting) {
       return (
         <div>
-          <MenuConcepts />
           <Loadable
             active={true}
             spinner
@@ -201,7 +199,6 @@ class CollectionModify extends Component {
 
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-10 centered col-md-offset-1">

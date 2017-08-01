@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import CollectionsList from './collections-list';
-import MenuConcepts from './concepts/menu';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/app.css';
 
@@ -26,7 +25,6 @@ class Collections extends Component {
   render() {
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-3 btn-group-vertical">

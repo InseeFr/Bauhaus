@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
-import MenuConcepts from './menu';
+
 import { dictionary } from 'js/utils/dictionary';
 import Panel from 'js/utils/panel';
 import Pagination from 'js/components/shared/pagination';
@@ -88,7 +88,6 @@ class ConceptsPicker extends Component {
     if (status === PENDING) {
       return (
         <div>
-          <MenuConcepts />
           <Loadable
             active={true}
             spinner
@@ -156,7 +155,6 @@ class ConceptsPicker extends Component {
 
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-10 centered col-md-offset-1">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import MenuConcepts from './menu';
+
 import SendControls from './send-controls';
 import SendStatus from './send-status';
 import EditorHtml from 'js/components/shared/editor-html';
@@ -167,7 +167,6 @@ class ConceptSend extends Component {
 
     return (
       <div>
-        <MenuConcepts />
         {mainEl}
       </div>
     );

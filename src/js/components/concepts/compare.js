@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
-import MenuConcepts from './menu';
 import ConceptGeneral from './general';
 import ConceptCompareNotes from './compare-notes';
 import { dictionary } from 'js/utils/dictionary';
@@ -40,7 +39,6 @@ class ConceptCompare extends Component {
 
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-12">

@@ -20,6 +20,7 @@ import CollectionSend from './collection-send';
 import CollectionModify from './collection-modify';
 import CollectionsToValidate from './collections-to-validate';
 import CollectionsToExport from './collections-to-export';
+import MenuConcepts from './menu/';
 
 const store = configureStore();
 
@@ -33,74 +34,87 @@ export default class Root extends Component {
           <Router>
             <Switch>
               <Route exact path="/" component={App} />
-              <Route exact path="/concepts" component={ConceptsHomeContainer} />
-              <Route
-                exact
-                path="/concepts/search"
-                component={ConceptsSearchListContainer}
-              />
-              <Route
-                exact
-                path="/concept/:id"
-                component={ConceptVisualizationContainer}
-              />
-              <Route
-                exact
-                path="/concept/:id/compare"
-                component={ConceptCompareContainer}
-              />
-              <Route
-                exact
-                path="/create/concept"
-                component={ConceptCreationContainer}
-              />
-              <Route
-                exact
-                path="/concept/:id/send"
-                component={ConceptSendContainer}
-              />
-              <Route
-                exact
-                path="/concept/:id/modify"
-                component={ConceptEditionContainer}
-              />
-              <Route
-                exact
-                path="/concepts/validation"
-                component={ConceptsToValidate}
-              />
-              <Route
-                exact
-                path="/concepts/export"
-                component={ConceptsToExport}
-              />
-              <Route exact path="/collections" component={Collections} />
-              <Route exact path="/collection/:id" component={CollectionByID} />
-              <Route
-                exact
-                path="/create/collection"
-                component={CollectionCreate}
-              />
-              <Route
-                exact
-                path="/collection/:id/send"
-                component={CollectionSend}
-              />
-              <Route
-                exact
-                path="/collection/:id/modify"
-                component={CollectionModify}
-              />
-              <Route
-                exact
-                path="/collections/validation"
-                component={CollectionsToValidate}
-              />
-              <Route
-                exact
-                path="/collections/export"
-                component={CollectionsToExport}
-              />
+              <div>
+                <MenuConcepts />
+                <div>
+                  <Route
+                    exact
+                    path="/concepts"
+                    component={ConceptsHomeContainer}
+                  />
+                  <Route
+                    exact
+                    path="/concepts/search"
+                    component={ConceptsSearchListContainer}
+                  />
+                  <Route
+                    exact
+                    path="/concept/:id"
+                    component={ConceptVisualizationContainer}
+                  />
+                  <Route
+                    exact
+                    path="/concept/:id/compare"
+                    component={ConceptCompareContainer}
+                  />
+                  <Route
+                    exact
+                    path="/create/concept"
+                    component={ConceptCreationContainer}
+                  />
+                  <Route
+                    exact
+                    path="/concept/:id/send"
+                    component={ConceptSendContainer}
+                  />
+                  <Route
+                    exact
+                    path="/concept/:id/modify"
+                    component={ConceptEditionContainer}
+                  />
+                  <Route
+                    exact
+                    path="/concepts/validation"
+                    component={ConceptsToValidate}
+                  />
+                  <Route
+                    exact
+                    path="/concepts/export"
+                    component={ConceptsToExport}
+                  />
+                  <Route exact path="/collections" component={Collections} />
+                  <Route
+                    exact
+                    path="/collection/:id"
+                    component={CollectionByID}
+                  />
+                  <Route
+                    exact
+                    path="/create/collection"
+                    component={CollectionCreate}
+                  />
+                  <Route
+                    exact
+                    path="/collection/:id/send"
+                    component={CollectionSend}
+                  />
+                  <Route
+                    exact
+                    path="/collection/:id/modify"
+                    component={CollectionModify}
+                  />
+                  <Route
+                    exact
+                    path="/collections/validation"
+                    component={CollectionsToValidate}
+                  />
+                  <Route
+                    exact
+                    path="/collections/export"
+                    component={CollectionsToExport}
+                  />
+                </div>
+              </div>
             </Switch>
           </Router>
         </Provider>

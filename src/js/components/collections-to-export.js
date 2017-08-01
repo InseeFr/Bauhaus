@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import FileSaver from 'file-saver';
-import MenuConcepts from './concepts/menu';
 import { dictionary } from 'js/utils/dictionary';
 import Panel from 'js/utils/panel';
 import Pagination from 'js/components/shared/pagination';
@@ -107,7 +106,6 @@ class CollectionsToExport extends Component {
     if (validation === 'PENDING') {
       return (
         <div>
-          <MenuConcepts />
           <Loadable
             active={true}
             spinner
@@ -122,7 +120,6 @@ class CollectionsToExport extends Component {
 
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-10 centered col-md-offset-1">

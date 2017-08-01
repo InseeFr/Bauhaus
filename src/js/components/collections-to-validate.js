@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
-import MenuConcepts from './concepts/menu';
 import { dictionary } from 'js/utils/dictionary';
 import Panel from 'js/utils/panel';
 import Pagination from 'js/components/shared/pagination';
@@ -101,7 +100,6 @@ class CollectionsToValidate extends Component {
     if (validation === 'PENDING') {
       return (
         <div>
-          <MenuConcepts />
           <Loadable
             active={true}
             spinner
@@ -116,7 +114,6 @@ class CollectionsToValidate extends Component {
 
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-10 centered col-md-offset-1">

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import MenuConcepts from './menu';
+
 import ConceptVisualizationControls from './visualization-controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
@@ -42,7 +42,6 @@ class ConceptVisualization extends Component {
       } else {
         return (
           <div>
-            <MenuConcepts />
             <Loadable
               active={true}
               spinner
@@ -58,7 +57,6 @@ class ConceptVisualization extends Component {
     const { conceptVersion, isValidated } = general;
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-12">

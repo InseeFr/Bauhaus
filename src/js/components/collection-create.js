@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import Loadable from 'react-loading-overlay';
-import MenuConcepts from './concepts/menu';
 import SelectRmes from 'js/utils/select-rmes';
 import { dictionary } from 'js/utils/dictionary';
 import { defaultContributor } from 'config/config';
@@ -190,7 +189,6 @@ class CollectionCreate extends Component {
     ) {
       return (
         <div>
-          <MenuConcepts />
           <Loadable
             active={true}
             spinner
@@ -205,7 +203,6 @@ class CollectionCreate extends Component {
 
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-10 centered col-md-offset-1">

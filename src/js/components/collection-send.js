@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loadable from 'react-loading-overlay';
-import MenuConcepts from './concepts/menu';
 import SendControl from './concepts/send-controls';
 import { EditorState } from 'draft-js';
 import EditorHtml from 'js/components/shared/editor-html';
@@ -119,7 +118,6 @@ class CollectionSend extends Component {
     if (creation === 'PENDING') {
       return (
         <div>
-          <MenuConcepts />
           <Loadable
             active={true}
             spinner
@@ -139,7 +137,6 @@ class CollectionSend extends Component {
           : this.handleClickReturnFailed;
       return (
         <div>
-          <MenuConcepts />
           <div className="container">
             <div className="row centered">
               <div className="col-md-12">
@@ -173,7 +170,6 @@ class CollectionSend extends Component {
 
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-10 centered col-md-offset-1">

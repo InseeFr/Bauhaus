@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 import Loadable from 'react-loading-overlay';
 import ConceptCreateControl from './create-controls';
-import MenuConcepts from './menu';
+
 import GeneralEdition from './general-edition';
 import NotesEdition from './notes-edition';
 import LinksEdition from './links-edition';
@@ -202,7 +202,6 @@ class ConceptEditionCreation extends Component {
       } else {
         return (
           <div>
-            <MenuConcepts />
             <Loadable
               active={true}
               spinner
@@ -218,7 +217,6 @@ class ConceptEditionCreation extends Component {
 
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           {pageTitle}
           {this.props.general.contributor &&

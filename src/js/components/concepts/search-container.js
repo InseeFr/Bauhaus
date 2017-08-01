@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loadable from 'react-loading-overlay';
-import MenuConcepts from './menu';
 import { dictionary } from 'js/utils/dictionary';
 import ConceptsSearchList from './search';
 import loadStampList from 'js/actions/stamp';
@@ -30,7 +29,6 @@ class ConceptsSearchListContainer extends Component {
     if (!(conceptsSearchList && stampList && disseminationStatusList))
       return (
         <div>
-          <MenuConcepts />
           <Loadable
             active={true}
             spinner

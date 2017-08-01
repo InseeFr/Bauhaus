@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-import MenuConcepts from './concepts/menu';
 import Loadable from 'react-loading-overlay';
 import CollectionGeneral from './collection-general';
 import { dictionary } from 'js/utils/dictionary';
@@ -95,7 +94,6 @@ class CollectionByID extends Component {
     if (validation === 'PENDING') {
       return (
         <div>
-          <MenuConcepts />
           <Loadable
             active={true}
             spinner
@@ -110,7 +108,6 @@ class CollectionByID extends Component {
 
     return (
       <div>
-        <MenuConcepts />
         <div className="container">
           <div className="row">
             <div className="col-md-12">

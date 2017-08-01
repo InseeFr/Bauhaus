@@ -12,8 +12,7 @@ class CollectionCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -30,8 +29,7 @@ class CollectionCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
+              disabled>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
@@ -50,8 +48,7 @@ class CollectionCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -68,8 +65,7 @@ class CollectionCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
+              disabled>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
@@ -92,8 +88,7 @@ class CollectionCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -105,8 +100,7 @@ class CollectionCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeSave}
-            >
+              onClick={onChangeSave}>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
@@ -123,8 +117,7 @@ class CollectionCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              onClick={onChangeReturn}
-            >
+              onClick={onChangeReturn}>
               <span
                 className="glyphicon glyphicon-floppy-remove"
                 aria-hidden="true"
@@ -141,8 +134,7 @@ class CollectionCreateControl extends Component {
             <button
               type="button"
               className="btn btn-primary btn-lg col-md-12"
-              disabled
-            >
+              disabled>
               <span
                 className="glyphicon glyphicon-floppy-disk"
                 aria-hidden="true"
