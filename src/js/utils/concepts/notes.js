@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import objectFromKeys from 'js/utils/object-from-keys';
+import { rawHtmlToRmesHtml } from 'js/utils/html';
 
 export const versionableNotes = [
   'scopeNoteLg1',
@@ -19,6 +20,7 @@ export const fields = allNotes;
 export const capitalizeFirst = str =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
+export const createNotes = notes => {};
 export const processChanges = (oldNotes, notes, fields) =>
   fields.reduce((changes, noteType) => {
     const oldContent = oldNotes[noteType];
@@ -26,7 +28,9 @@ export const processChanges = (oldNotes, notes, fields) =>
     if (oldContent !== content)
       changes.push({
         noteType,
-        content,
+        //format the note the `rmes` way (with a wrapping div and a
+        //namespace attribte).
+        content: rawHtmlToRmesHtml(content),
       });
     return changes;
   }, []);

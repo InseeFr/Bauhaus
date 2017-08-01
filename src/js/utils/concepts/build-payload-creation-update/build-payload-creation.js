@@ -31,6 +31,8 @@ export default function buildPayloadCreation(concept) {
   const links = processLinks(conceptsWithLinks);
 
   const versNotesObj = extractVersNotes(notes);
+
+  //TODO transform to rmes like html
   //ATTENTION we expect the properties used in the UI (and enumerated above)
   //to match exactly the type attribute used to build the array of notes
   const versionableNotes = Object.keys(versNotesObj).reduce((arr, noteType) => {
