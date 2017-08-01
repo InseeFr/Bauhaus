@@ -19,7 +19,9 @@ const getDefaultMessage = (id, label, isValidated, recipient) => {
   if (isRecipientInsee(recipient)) {
     params.push('Insee');
   }
-  return dictionary.concept.send.message.value(params);
+  const r = dictionary.concept.send.message.value(params);
+  console.log(r);
+  return r;
 };
 
 const isRecipientInsee = recipient => recipient.endsWith('@insee.fr');
@@ -90,7 +92,7 @@ class ConceptSend extends Component {
     const { sent, sender, subject, message } = this.state;
     let mainEl;
     //TODO why do we not return to the same page ?
-    const urlBack = statusSend === OK ? '/concepts' : `concept/${id}`;
+    const urlBack = statusSend === OK ? '/concepts' : `/concept/${id}`;
 
     if (!sent) {
       mainEl = (
@@ -190,7 +192,7 @@ class ConceptSend extends Component {
                 <div className="col-md-12">
                   <Link
                     className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
-                    to={urlBack}>
+                    to={'urlBack'}>
                     {dictionary.buttons.return}
                   </Link>
                 </div>
