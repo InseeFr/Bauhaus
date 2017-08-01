@@ -7,10 +7,7 @@ import ConceptsSearchList from './search';
 import loadStampList from 'js/actions/stamp';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadConceptSearchList from 'js/actions/concepts/search-list';
-import { sortArray } from 'js/utils/array-utils';
 import 'css/app.css';
-
-const sortByLabel = sortArray('label');
 
 class ConceptsSearchListContainer extends Component {
   componentWillMount() {
@@ -57,18 +54,16 @@ const mapStateToProps = state => {
   const disseminationResource = state.disseminationStatusList;
   //TODO work on performance (selector)
   if (conceptsResource && conceptsResource.results) {
-    conceptsSearchList = sortByLabel(
-      conceptsResource.results.map(concept => ({
-        id: concept.id,
-        label: concept.prefLabelLg1,
-        definition: concept.definitionLg1,
-        createdDate: concept.createdDate,
-        modifiedDate: concept.modifiedDate,
-        creator: concept.creator,
-        disseminationStatus: concept.disseminationStatus,
-        validationStatus: concept.validationStatus,
-      }))
-    );
+    conceptsSearchList = conceptsResource.results.map(concept => ({
+      id: concept.id,
+      label: concept.prefLabelLg1,
+      definition: concept.definitionLg1,
+      createdDate: concept.createdDate,
+      modifiedDate: concept.modifiedDate,
+      creator: concept.creator,
+      disseminationStatus: concept.disseminationStatus,
+      validationStatus: concept.validationStatus,
+    }));
   }
   if (stampsResource && stampsResource.results) {
     stampList = stampsResource.results;

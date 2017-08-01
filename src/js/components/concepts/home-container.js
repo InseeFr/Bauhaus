@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loading-overlay';
 import ConceptsHome from './home';
 import { dictionary } from 'js/utils/dictionary';
-import { NOT_LOADED, LOADED } from 'js/constants';
+import { NOT_LOADED } from 'js/constants';
 import loadConceptList from 'js/actions/concepts/list';
-import { sortArray } from 'js/utils/array-utils';
 
 class ConceptsHomeContainer extends Component {
   componentWillMount() {
@@ -35,7 +34,6 @@ class ConceptsHomeContainer extends Component {
   }
 }
 
-const sortByLabel = sortArray('label');
 const mapStateToProps = state => {
   if (!state.conceptList) {
     return {
@@ -45,9 +43,6 @@ const mapStateToProps = state => {
   }
   //TODO should be sorted in the state, shouldn't they ?
   let { results: concepts, status, err } = state.conceptList;
-  if (status === LOADED) {
-    concepts = sortByLabel(concepts);
-  }
 
   return {
     concepts,
