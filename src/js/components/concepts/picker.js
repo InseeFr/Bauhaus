@@ -10,21 +10,31 @@ import Loadable from 'react-loading-overlay';
 import { filterDeburr } from 'js/utils/array-utils';
 import addLogo from 'js/components/shared/logo-add';
 import delLogo from 'js/components/shared/logo-del';
-import { PENDING } from 'js/constants';
+import { PENDING, OK } from 'js/constants';
 import './picker.css';
 
 class ConceptsPicker extends Component {
   constructor(props) {
     super(props);
+
+    this.trackConcepts = concepts => {
+      return (
+        concepts &&
+        concepts.map(({ id, label }) => ({
+          id,
+          label,
+          isAdded: false,
+        }))
+      );
+    };
+
     this.state = {
       searchLabel: '',
       goBackToConcepts: false,
-      concepts: props.concepts.map(({ id, label }) => ({
-        id,
-        label,
-        isAdded: false,
-      })),
+      concepts: this.trackConcepts(this.props.concepts),
+      waitingRemote: false,
     };
+
     this.handleChange = searchLabel => {
       this.setState({ searchLabel });
     };
@@ -56,7 +66,7 @@ class ConceptsPicker extends Component {
       const addedIds = added.map(({ id }) => id);
       this.props.handleAction(addedIds);
       this.setState({
-        goBackToConcepts: true,
+        waitingRemote: true,
       });
     };
 
@@ -74,33 +84,62 @@ class ConceptsPicker extends Component {
     };
   }
 
-  render() {
-    const { searchLabel, goBackToConcepts } = this.state;
-    const {
-      status,
-      title,
-      panelTitle,
-      labelLoadable,
-      labelWarning,
-      labelValidateButton,
-    } = this.props;
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.concepts !== this.props.concepts)
+      this.setState({
+        concepts: this.trackConcepts(nextProps.concepts),
+      });
+  }
 
-    if (status === PENDING) {
-      return (
-        <div>
+  render() {
+    const { searchLabel, waitingRemote } = this.state;
+    const { status } = this.props;
+
+    if (waitingRemote) {
+      //remote call pending for this action
+      //TODO we could use componentWillUnmout` to dispatch an action saying we are not
+      //tracking this action anymore (for now, the `remoteCalls` reducer will
+      //keep track of the last action performed).
+      if (status === PENDING) {
+        return (
           <Loadable
             active={true}
             spinner
-            text={labelLoadable}
+            text={this.props.labelLoadable}
             color="#457DBB"
             background="grey"
             spinnerSize="400px"
           />
-        </div>
+        );
+      }
+      if (status === OK) return <Redirect to="/concepts" />;
+      //TODO customize error message
+      return <div>Error while performing an action</div>;
+    }
+
+    const {
+      concepts,
+      title,
+      panelTitle,
+      labelWarning,
+      labelValidateButton,
+    } = this.props;
+
+    if (!concepts) {
+      return (
+        <Loadable
+          active={true}
+          spinner
+          //TODO use dictionary
+          text="Loading concepts"
+          color="#457DBB"
+          background="grey"
+          spinnerSize="400px"
+        />
       );
     }
-    if (goBackToConcepts) return <Redirect to="/concepts" />;
 
+    //validation has not been asked yet
     const { toAdd, added } = this.getConceptsByStatus();
 
     const toAddEls = toAdd.map(({ id, label }) =>
@@ -199,7 +238,8 @@ ConceptsPicker.propTypes = {
       id: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
     })
-  ).isRequired,
+  ), //not required since this component can be created before the concepts are
+  //loaded
   handleAction: PropTypes.func.isRequired,
 };
 

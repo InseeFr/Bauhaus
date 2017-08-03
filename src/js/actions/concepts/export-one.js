@@ -1,9 +1,15 @@
 import api from 'js/remote-api/api';
-import buildAsyncAction from '../utils/build-async-action';
 import * as A from '../constants';
 
-export default buildAsyncAction(api.getConceptExport, [
-  A.EXPORT_CONCEPT,
-  A.EXPORT_CONCEPT_SUCCESS,
-  A.EXPORT_CONCEPT_FAILURE,
-]);
+export default id => dispatch => {
+  dispatch({
+    type: A.CREATE_CONCEPT,
+    payload: id,
+  });
+  return api
+    .getConceptExport(id)
+    .then(
+      blob => dispatch({ type: A.CREATE_CONCEPT_SUCCESS }),
+      err => dispatch({ type: A.EXPORT_CONCEPT_FAILURE, payload: { err } })
+    );
+};
