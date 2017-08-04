@@ -37,7 +37,7 @@ export default combineReducers({
 export const getConceptList = state => getItems(state.conceptList);
 export const getConceptSearchList = state => getItems(state.conceptSearchList);
 export const getConceptValidateList = state =>
-  getItems(state.conceptValidateList);
+  getItems(state.conceptToValidateList);
 export const getDisseminationStatusList = state =>
   getItems(state.disseminationStatusList);
 export const getStampList = state => getItems(state.stampList);
