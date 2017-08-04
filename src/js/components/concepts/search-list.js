@@ -13,8 +13,8 @@ const filterDefinition = filterKeyDeburr('definition');
 const filterCreator = filterKeyDeburr('creator');
 const filterDisseminationStatus = filterKeyDeburr('disseminationStatus');
 const filterValidationStatus = filterKeyDeburr('validationStatus');
-const filterCreatedDate = filterKeyDate('createdDate');
-const filterModifiedDate = filterKeyDate('modifiedDate');
+const filterCreatedDate = filterKeyDate('created');
+const filterModifiedDate = filterKeyDate('modified');
 
 const fields = [
   'label',
