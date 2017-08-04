@@ -8,20 +8,20 @@ import loadConceptList from 'js/actions/concepts/list';
 
 class ConceptsToExport extends Component {
   componentWillMount() {
-    if (!this.props.concepts) this.props.loadConceptExportList();
+    if (!this.props.concepts) this.props.loadConceptList();
   }
   render() {
-    const { concepts, validateConcepts } = this.props;
-    if (!concepts) return <div>Concepts are loading...</div>;
+    const { concepts, exportConcepts, status } = this.props;
     return (
       <ConceptsPicker
         concepts={concepts}
+        status={status}
         title={dictionary.concepts.export.title}
         panelTitle={dictionary.concepts.export.panel}
         labelLoadable={dictionary.loadable.exporting}
         labelWarning={dictionary.warning.export.concepts}
         labelValidateButton={dictionary.buttons.export}
-        handleAction={validateConcepts}
+        handleAction={exportConcepts}
       />
     );
   }
