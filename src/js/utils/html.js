@@ -4,8 +4,8 @@ import { stateToHTML } from 'draft-js-export-html';
 
 export const htmlToRawText = html => {
   const el = document.createElement('div');
-  el.innerHTML = html;
-  return el.innerText;
+  el.innerHTML = html || '';
+  return el.textContent;
 };
 
 export const htmlLength = html => htmlToRawText(html).trim().length;

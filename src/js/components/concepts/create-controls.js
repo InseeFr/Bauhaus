@@ -27,7 +27,9 @@ const checkPrefLabelFrExisting = (
   );
 };
 
-const onlyFirst = (first, second) => !htmlIsEmpty(first) && htmlIsEmpty(second);
+export const scndWithoutFirst = (first, second) => {
+  return !htmlIsEmpty(second) && htmlIsEmpty(first);
+};
 
 function ConceptCreateControl({
   oldGeneral,
@@ -51,43 +53,42 @@ function ConceptCreateControl({
     changeNoteLg2,
   } = notes;
 
-  const isPrefLabelFrExisting = checkPrefLabelFrExisting(
+  const isPrefLabelLg1Existing = checkPrefLabelFrExisting(
     conceptsWithLinks,
     prefLabelLg1,
     initialPrefLabelFr
   );
   //TODO check how to deal with notes like `<p></p>`: is it empty ?
   const isMissingConcept = !(prefLabelLg1 && creator && disseminationStatus);
-  const isDefinitionFrMissing = htmlIsEmpty(definitionLg1);
+  const isDefinitionLg1Missing = htmlIsEmpty(definitionLg1);
   //TODO verify check on `disseminationStatus` works as expected
   const isStatusPublicAndDefinitionMissing =
     disseminationStatus.includes('Public') && htmlIsEmpty(scopeNoteLg1);
-  const hasDefCourteEnNotFr = onlyFirst(scopeNoteLg2, scopeNoteLg1);
-  const isDefCourteTooLong =
+  const hasScopeNoteLg2NotLg1 = scndWithoutFirst(scopeNoteLg1, scopeNoteLg2);
+  const isScopeNoteTooLong =
     htmlLength(scopeNoteLg1) > maxLengthScopeNote ||
     htmlLength(scopeNoteLg2) > maxLengthScopeNote;
-  const hasNoteEditorialeEnNotFr = onlyFirst(
-    editorialNoteLg2,
-    editorialNoteLg1
+  const hasNoteEditorialeLg2NotLg1 = scndWithoutFirst(
+    editorialNoteLg1,
+    editorialNoteLg2
   );
-  const hasChangeNoteEnNotFr = onlyFirst(changeNoteLg2, changeNoteLg1);
-
-  if (isPrefLabelFrExisting) {
+  const hasChangeNoteLg2NotLg1 = scndWithoutFirst(changeNoteLg1, changeNoteLg2);
+  if (isPrefLabelLg1Existing) {
     message = dictionary.warning.duplicated.label;
     //save disabled
   } else if (isMissingConcept) {
     message = dictionary.warning.missing.concept;
-  } else if (isDefinitionFrMissing) {
+  } else if (isDefinitionLg1Missing) {
     message = dictionary.warning.notes.definitionLg1;
   } else if (isStatusPublicAndDefinitionMissing) {
-    message = dictionary.warning.notes.scopeNoteFr;
-  } else if (hasDefCourteEnNotFr) {
+    message = dictionary.warning.notes.scopeNoteLg1;
+  } else if (hasScopeNoteLg2NotLg1) {
     message = dictionary.warning.notes.scopeNote;
-  } else if (isDefCourteTooLong) {
+  } else if (isScopeNoteTooLong) {
     message = dictionary.warning.notes.maxLengthScopeNote(maxLengthScopeNote);
-  } else if (hasNoteEditorialeEnNotFr) {
+  } else if (hasNoteEditorialeLg2NotLg1) {
     message = dictionary.warning.notes.editorialeNote;
-  } else if (hasChangeNoteEnNotFr) {
+  } else if (hasChangeNoteLg2NotLg1) {
     message = dictionary.warning.notes.changeNote;
   } else {
     //TODO missing else statement ? for instance if no creator ?
