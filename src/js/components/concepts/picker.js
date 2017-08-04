@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
-
 import { dictionary } from 'js/utils/dictionary';
 import Panel from 'js/utils/panel';
 import Pagination from 'js/components/shared/pagination';
@@ -87,7 +86,6 @@ class ConceptsPicker extends Component {
 
   render() {
     const { searchLabel } = this.state;
-
     const { title, panelTitle, labelWarning, labelValidateButton } = this.props;
 
     //validation has not been asked yet
