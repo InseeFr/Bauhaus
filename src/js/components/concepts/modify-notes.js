@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import EditorHtml from 'js/components/shared/editor-html';
 
 function ConceptModifyNotes({ note, handleChange }) {
-  return <EditorHtml text={note} handleChange={handleChange} />;
+  return <EditorHtml smart text={note} handleChange={handleChange} />;
 }
 
 ConceptModifyNotes.propTypes = {

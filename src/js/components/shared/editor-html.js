@@ -38,8 +38,15 @@ class EditorHtml extends Component {
       this.props.handleChange(htmlFromEditorState(this.state.editorState));
   }
 
+  componentWillReceiveProps({ text }) {
+    if (this.props.smart) return;
+    this.setState({
+      editorState: editorStateFromHtml(text || ''),
+    });
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
-    return nextState !== this.state;
+    return this.props.smart ? nextState !== this.state : true;
   }
 
   render() {
@@ -60,6 +67,8 @@ class EditorHtml extends Component {
 EditorHtml.propTypes = {
   text: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
+  //if smart is set to true, the editor will not react when receiving new props
+  smart: PropTypes.bool,
 };
 
 export default EditorHtml;

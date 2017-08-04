@@ -12,15 +12,13 @@ function ConceptCreateControlLayout({
   return (
     <div className="row btn-line">
       <div className="col-md-2">
-        <button type="button" className="btn btn-primary btn-lg col-md-12">
-          <Link to={redirectCancel}>
-            <span
-              className="glyphicon glyphicon-floppy-remove"
-              aria-hidden="true"
-            />{' '}
-            {dictionary.buttons.cancel}
-          </Link>
-        </button>
+        <Link to={redirectCancel} className="btn btn-primary btn-lg col-md-12">
+          <span
+            className="glyphicon glyphicon-floppy-remove"
+            aria-hidden="true"
+          />{' '}
+          {dictionary.buttons.cancel}
+        </Link>
       </div>
       <div className="col-md-8 centered">
         <div

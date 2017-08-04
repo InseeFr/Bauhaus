@@ -81,7 +81,7 @@ class ConceptSend extends Component {
   }
 
   render() {
-    const { id, prefLabelLg1, statusSend } = this.props;
+    const { prefLabelLg1 } = this.props;
     const { recipient, sender, subject, message } = this.state;
 
     return (
