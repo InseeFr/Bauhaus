@@ -1,12 +1,28 @@
 import api from 'js/remote-api/api';
-import buildAsyncAction from '../utils/build-async-action';
 import * as A from '../constants';
 
 //TODO handle the status in the store (for now, we only handle the remote
 //call, and a `then` handler in the component take care of adjusting the
 //status)
-export default buildAsyncAction(
-  api.putConcept,
-  [A.UPDATE_CONCEPT, A.UPDATE_CONCEPT_SUCCESS, A.UPDATE_CONCEPT_FAILURE],
-  (id, concept) => ({ id, concept })
-);
+export default (id, concept) => dispatch => {
+  dispatch({
+    type: A.UPDATE_CONCEPT,
+    payload: {
+      id,
+      concept,
+    },
+  });
+  return api.putConcept(id, concept).then(
+    res => {
+      dispatch({
+        type: A.UPDATE_CONCEPT_SUCCESS,
+        payload: { id, concept },
+      });
+    },
+    err =>
+      dispatch({
+        type: A.UPDATE_CONCEPT_FAILURE,
+        payload: { err, id, concept },
+      })
+  );
+};

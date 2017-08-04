@@ -1,9 +1,22 @@
 import api from 'js/remote-api/api';
-import buildAsyncAction from './utils/build-async-action';
 import * as A from './constants';
 
-export default buildAsyncAction(api.getDissStatusList, [
-  A.LOAD_DISSEMINATION_STATUS_LIST,
-  A.LOAD_DISSEMINATION_STATUS_LIST_SUCCESS,
-  A.LOAD_DISSEMINATION_STATUS_LIST_FAILURE,
-]);
+export default () => dispatch => {
+  dispatch({
+    type: A.LOAD_DISSEMINATION_STATUS_LIST,
+    payload: {},
+  });
+  return api.getDissStatusList().then(
+    results => {
+      dispatch({
+        type: A.LOAD_DISSEMINATION_STATUS_LIST_SUCCESS,
+        payload: { results },
+      });
+    },
+    err =>
+      dispatch({
+        type: A.LOAD_DISSEMINATION_STATUS_LIST_FAILURE,
+        payload: { err },
+      })
+  );
+};

@@ -1,12 +1,19 @@
 import api from 'js/remote-api/api';
-import buildAsyncAction from '../utils/build-async-action';
 import * as A from '../constants';
 
-export default buildAsyncAction(
-  api.postConceptSend,
-  [A.SEND_CONCEPT, A.SEND_CONCEPT_SUCCESS, A.SEND_CONCEPT_FAILURE],
-  (id, mailInfo) => ({
-    id,
-    mailInfo,
-  })
-);
+export default (id, mailInfo) => dispatch => {
+  dispatch({
+    type: A.SEND_CONCEPT,
+    payload: {
+      mailInfo,
+    },
+  });
+  return api.postConceptSend(id, mailInfo).then(
+    id => dispatch({ type: A.SEND_CONCEPT_SUCCESS, payload: { id, mailInfo } }),
+    err =>
+      dispatch({
+        type: A.SEND_CONCEPT_FAILURE,
+        payload: { err, id, mailInfo },
+      })
+  );
+};

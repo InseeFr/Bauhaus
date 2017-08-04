@@ -1,5 +1,4 @@
 import api from 'js/remote-api/api';
-import buildAsyncAction from '../utils/build-async-action';
 import * as A from '../constants';
 
 import { sortArray } from 'js/utils/array-utils';
@@ -15,18 +14,23 @@ const emptyItem = {
   definition: '',
   validationStatus: '',
 };
-export default buildAsyncAction(
-  api.getConceptSearchList,
-  [
-    A.LOAD_CONCEPT_SEARCH_LIST,
-    A.LOAD_CONCEPT_SEARCH_LIST_SUCCESS,
-    A.LOAD_CONCEPT_SEARCH_LIST_FAILURE,
-  ],
-  null,
-  //process response
-  () => results => {
-    return sortByLabel(results).map(concept =>
-      Object.assign({}, emptyItem, concept)
-    );
-  }
-);
+
+export default () => dispatch => {
+  dispatch({
+    type: A.LOAD_CONCEPT_SEARCH_LIST,
+    payload: {},
+  });
+  return api.getConceptSearchList().then(
+    results =>
+      dispatch({
+        type: A.LOAD_CONCEPT_SEARCH_LIST_SUCCESS,
+        payload: {
+          results: sortByLabel(results).map(concept =>
+            Object.assign({}, emptyItem, concept)
+          ),
+        },
+      }),
+    err =>
+      dispatch({ type: A.LOAD_CONCEPT_SEARCH_LIST_FAILURE, payload: { err } })
+  );
+};
