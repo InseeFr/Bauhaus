@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { Redirect } from 'react-router-dom';
-
 import ConceptVisualizationControls from './visualization-controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
@@ -10,8 +8,6 @@ import { dictionary } from 'js/utils/dictionary';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
-import { PENDING, OK } from 'js/constants';
-import Loadable from 'react-loading-overlay';
 
 //TODO introduce a container component
 class ConceptVisualization extends Component {
@@ -19,41 +15,20 @@ class ConceptVisualization extends Component {
     super(props);
     this.state = {
       english: false,
-      validationRequested: false,
     };
     this.toggleEnglish = () =>
       this.setState({
         english: !this.state.english,
       });
     this.handleClickValid = () => {
-      this.setState({
-        validationRequested: true,
-      });
       this.props.validateConcept(this.props.id);
     };
   }
 
   render() {
-    const { id, validationStatus, general, links, notes } = this.props;
-    const { english, validationRequested } = this.state;
-    if (validationRequested) {
-      if (validationStatus === OK) {
-        return <Redirect to={`/concept/${id}`} />;
-      } else {
-        return (
-          <div>
-            <Loadable
-              active={true}
-              spinner
-              text={dictionary.loadable.validation}
-              color="#457DBB"
-              background="grey"
-              spinnerSize="400px"
-            />
-          </div>
-        );
-      }
-    }
+    const { id, general, links, notes } = this.props;
+    const { english } = this.state;
+
     const { conceptVersion, isValidated } = general;
     return (
       <div>
@@ -111,8 +86,6 @@ ConceptVisualization.propTypes = {
   stampList: PropTypes.array.isRequired,
   disseminationStatusList: PropTypes.array.isRequired,
   validateConcept: PropTypes.func.isRequired,
-  // PENDNG if a validation has been sent and is not done yet, OK otherwise
-  validationStatus: PropTypes.oneOf([PENDING, OK]).isRequired,
 };
 
 export default ConceptVisualization;

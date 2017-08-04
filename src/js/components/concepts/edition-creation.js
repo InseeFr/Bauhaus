@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 import { Tabs, Tab } from 'react-bootstrap';
-import Loadable from 'react-loading-overlay';
 import ConceptCreateControl from './create-controls';
 
 import GeneralEdition from './general-edition';
@@ -16,11 +14,8 @@ import {
 } from 'js/utils/concepts/notes';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
 import { dictionary } from 'js/utils/dictionary';
-import { OK, PENDING } from 'js/constants';
 import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
 //TODO reorganize files and exports
-import buildPayloadCreation from 'js/utils/concepts/build-payload-creation-update/build-payload-creation';
-import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/build-payload-update';
 //TODO check if we can use a boolean for versioning
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
 
@@ -32,7 +27,6 @@ class ConceptEditionCreation extends Component {
       id: this.props.id,
       activeTab: 0,
       showModal: false,
-      redirect: null,
       data: {
         general: { ...general },
         notes: { ...notes },
@@ -79,20 +73,11 @@ class ConceptEditionCreation extends Component {
     //the UI does not expose this scenario (we can only remove or add).
     this.handleChangeLinks = newLinks =>
       this.setState({
-        actionRequested: false,
         data: {
           ...this.state.data,
           conceptsWithLinks: newLinks,
         },
       });
-
-    //TODO does not work for creation (no id available)
-    this.goToConcept = id => {
-      //TODO use <Navigate />
-      this.setState({
-        redirect: `/concept/${id}`,
-      });
-    };
 
     this.handleSave = () => {
       if (this.props.creation) {
@@ -135,22 +120,15 @@ class ConceptEditionCreation extends Component {
     };
 
     this.saveConcept = versioningType => {
-      this.setState({
-        actionRequested: true,
-      });
       if (this.props.creation) {
-        this.props
-          .save(buildPayloadCreation(this.state.data))
-          .then(({ id }) => this.setState({ id }));
+        this.props.save(this.state.data);
       } else {
         //update
         this.props.save(
           this.props.id,
-          buildPayloadUpdate(
-            versioningType,
-            this.getOriginalData(),
-            this.state.data
-          )
+          versioningType,
+          this.getOriginalData(),
+          this.state.data
         );
       }
     };
@@ -180,44 +158,15 @@ class ConceptEditionCreation extends Component {
   }
 
   render() {
+    const { stampList, disseminationStatusList, pageTitle } = this.props;
     const {
-      isActionProcessed,
-      stampList,
-      disseminationStatusList,
-      pageTitle,
-    } = this.props;
-    const {
-      id,
       activeTab,
       showModal,
       creation,
-      actionRequested,
       data: { general, notes, conceptsWithLinks },
     } = this.state;
 
     const { disseminationStatus } = general;
-    if (actionRequested) {
-      //if we create a new concept, `id` will be set only after the creation
-      //has been completed.
-      if (isActionProcessed === OK && id) {
-        //TODO should redirect to the concept page, but we need to find
-        //a clean way to get the id of the created concept (easy for update)
-        return <Redirect to={`/concept/${id}`} />;
-      } else {
-        return (
-          <div>
-            <Loadable
-              active={true}
-              spinner
-              text={dictionary.loadable.saving}
-              color="#457DBB"
-              background="grey"
-              spinnerSize="400px"
-            />
-          </div>
-        );
-      }
-    }
 
     return (
       <div>
@@ -291,7 +240,6 @@ ConceptEditionCreation.propTypes = {
   conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
   stampList: PropTypes.array.isRequired,
   disseminationStatusList: PropTypes.array.isRequired,
-  isActionProcessed: PropTypes.oneOf([OK, PENDING]).isRequired,
   save: PropTypes.func.isRequired,
 };
 

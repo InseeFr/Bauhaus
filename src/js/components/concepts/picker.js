@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { dictionary } from 'js/utils/dictionary';
 import Panel from 'js/utils/panel';
 import Pagination from 'js/components/shared/pagination';
 import ConceptItem from './list-item';
-import Loadable from 'react-loading-overlay';
 import { filterDeburr } from 'js/utils/array-utils';
 import addLogo from 'js/components/shared/logo-add';
 import delLogo from 'js/components/shared/logo-del';
-import { PENDING, OK } from 'js/constants';
 import './picker.css';
 
 class ConceptsPicker extends Component {
@@ -32,7 +30,6 @@ class ConceptsPicker extends Component {
       searchLabel: '',
       goBackToConcepts: false,
       concepts: this.trackConcepts(this.props.concepts),
-      waitingRemote: false,
     };
 
     this.handleChange = searchLabel => {
@@ -65,9 +62,6 @@ class ConceptsPicker extends Component {
       const added = this.state.concepts.filter(({ isAdded }) => isAdded);
       const addedIds = added.map(({ id }) => id);
       this.props.handleAction(addedIds);
-      this.setState({
-        waitingRemote: true,
-      });
     };
 
     this.getConceptsByStatus = () => {
@@ -92,52 +86,9 @@ class ConceptsPicker extends Component {
   }
 
   render() {
-    const { searchLabel, waitingRemote } = this.state;
-    const { status } = this.props;
+    const { searchLabel } = this.state;
 
-    if (waitingRemote) {
-      //remote call pending for this action
-      //TODO we could use componentWillUnmout` to dispatch an action saying we are not
-      //tracking this action anymore (for now, the `remoteCalls` reducer will
-      //keep track of the last action performed).
-      if (status === PENDING) {
-        return (
-          <Loadable
-            active={true}
-            spinner
-            text={this.props.labelLoadable}
-            color="#457DBB"
-            background="grey"
-            spinnerSize="400px"
-          />
-        );
-      }
-      if (status === OK) return <Redirect to="/concepts" />;
-      //TODO customize error message
-      return <div>Error while performing an action</div>;
-    }
-
-    const {
-      concepts,
-      title,
-      panelTitle,
-      labelWarning,
-      labelValidateButton,
-    } = this.props;
-
-    if (!concepts) {
-      return (
-        <Loadable
-          active={true}
-          spinner
-          //TODO use dictionary
-          text="Loading concepts"
-          color="#457DBB"
-          background="grey"
-          spinnerSize="400px"
-        />
-      );
-    }
+    const { title, panelTitle, labelWarning, labelValidateButton } = this.props;
 
     //validation has not been asked yet
     const { toAdd, added } = this.getConceptsByStatus();
@@ -232,7 +183,6 @@ ConceptsPicker.propTypes = {
   labelLoadable: PropTypes.string.isRequired,
   labelWarning: PropTypes.string.isRequired,
   labelValidateButton: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
   concepts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,

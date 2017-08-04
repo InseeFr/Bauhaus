@@ -9,7 +9,7 @@ import collectionsList from './collections-list';
 import collectionsToValidateList from './collections-to-validate-list';
 import collectionGeneral from './collection-general';
 import collectionMembers from './collection-members';
-import remoteCalls from './remote-calls';
+import remoteCalls, * as remoteCallsSelectors from './remote-calls';
 
 const disseminationStatusList = listReducer([
   A.LOAD_DISSEMINATION_STATUS_LIST,
@@ -69,4 +69,8 @@ export function getConcept(state, id) {
   };
 }
 
-export const getStatus = (state, op) => state.remoteCalls[op];
+export const getStatus = (state, op) =>
+  remoteCallsSelectors.getStatus(state.remoteCalls, op);
+
+export const getNewlyCreatedId = state =>
+  remoteCallsSelectors.getNewlyCreatedId(state.remoteCalls);

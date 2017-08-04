@@ -1,17 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { CREATE_CONCEPT } from 'js/actions/constants';
 import * as select from 'js/reducers';
 import loadConceptList from 'js/actions/concepts/list';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
 import createConcept from 'js/actions/concepts/create';
+import buildPayloadCreation from 'js/utils/concepts/build-payload-creation-update/build-payload-creation';
 import ConceptEditionCreation from './edition-creation';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import { dictionary } from 'js/utils/dictionary';
 import emptyConcept from 'js/utils/concepts/empty-concept';
 import PageTitle from 'js/components/shared/page-title';
+import Loadable from 'react-loading-overlay';
+import { OK } from 'js/constants';
 
 class CreationContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      creationRequested: false,
+      id: '',
+    };
+
+    this.handleCreation = data => {
+      this.props.createConcept(buildPayloadCreation(data));
+      this.setState({
+        creationRequested: true,
+      });
+    };
+  }
+
   componentWillMount() {
     const { conceptList, stampList, disseminationStatusList } = this.props;
     if (!conceptList) this.props.loadConceptList();
@@ -26,8 +46,23 @@ class CreationContainer extends Component {
       stampList,
       disseminationStatusList,
       creationStatus,
-      createConcept,
     } = this.props;
+
+    if (this.state.creationRequested) {
+      if (creationStatus === OK) {
+        return <Redirect to={`/concept/${this.props.id}`} />;
+      } else
+        return (
+          <Loadable
+            active={true}
+            spinner
+            text={dictionary.loadable.saving}
+            color="#457DBB"
+            background="grey"
+            spinnerSize="400px"
+          />
+        );
+    }
     if (conceptList && stampList && disseminationStatusList) {
       const { general, notes, links } = concept;
       const conceptsWithLinks = mergeWithAllConcepts(conceptList, links);
@@ -42,7 +77,7 @@ class CreationContainer extends Component {
           disseminationStatusList={disseminationStatusList}
           stampList={stampList}
           isActionProcessed={creationStatus}
-          save={createConcept}
+          save={this.handleCreation}
         />
       );
     }
@@ -57,7 +92,8 @@ const mapStateToProps = (state, ownProps) => {
     stampList: select.getStampList(state),
     disseminationStatusList: select.getDisseminationStatusList(state),
     //TODO build appropriate selector
-    creationStatus: select.getStatus(state, 'creation'),
+    id: select.getNewlyCreatedId(state),
+    creationStatus: select.getStatus(state, CREATE_CONCEPT),
   };
 };
 
