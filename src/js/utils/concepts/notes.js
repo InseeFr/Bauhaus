@@ -17,6 +17,11 @@ const allNotes = [...versionableNotes, ...datableNotes];
 
 export const fields = allNotes;
 
+export const emptyNotes = fields.reduce((notes, typeOfNote) => {
+  notes[typeOfNote] = '';
+  return notes;
+}, {});
+
 export const capitalizeFirst = str =>
   str.charAt(0).toUpperCase() + str.slice(1);
 

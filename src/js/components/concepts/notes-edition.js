@@ -35,26 +35,6 @@ const noteTypes = [
     noteEnName: 'changeNoteLg2',
   },
 ];
-
-//TODO handle red warnings for note tabs (see below)
-//TODO handle `scopeNoteTabLabel`
-
-// const scopeNoteTabLabel =
-//   !isDefinitionCourteFr && disseminationStatus.includes('Public')
-//     ? <div className="red">
-//         {dictionary.notes.scopeNote}
-//       </div>
-//     : dictionary.notes.scopeNote;
-// const definitionTabLabel = !isDefinitionFr
-//   ? <div className="red">
-//       {dictionary.notes.definition}
-//     </div>
-//   : dictionary.notes.definition;
-
-// const versioningIsPossible =
-//   isChangeNoteFr && isChangeNoteFrChanged ? true : false;
-// const disabledVersioningButton = !versioningIsPossible;
-
 //TODO structuring data in the state to make `fr` and `en` two attributes of an
 //object might be a better option to organize the code efficiently.
 
