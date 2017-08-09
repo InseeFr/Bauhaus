@@ -17,95 +17,106 @@ import Loadable from 'react-loading-overlay';
 import { OK } from 'js/constants';
 
 class CreationContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      creationRequested: false,
-      id: '',
-    };
+	constructor(props) {
+		super(props);
+		this.state = {
+			creationRequested: false,
+			id: '',
+		};
 
-    this.handleCreation = data => {
-      this.props.createConcept(buildPayloadCreation(data));
-      this.setState({
-        creationRequested: true,
-      });
-    };
-  }
+		this.handleCreation = data => {
+			this.props.createConcept(buildPayloadCreation(data));
+			this.setState({
+				creationRequested: true,
+			});
+		};
+	}
 
-  componentWillMount() {
-    const { conceptList, stampList, disseminationStatusList } = this.props;
-    if (!conceptList) this.props.loadConceptList();
-    if (!stampList) this.props.loadStampList();
-    if (!disseminationStatusList) this.props.loadDisseminationStatusList();
-  }
+	componentWillMount() {
+		const { conceptList, stampList, disseminationStatusList } = this.props;
+		if (!conceptList) this.props.loadConceptList();
+		if (!stampList) this.props.loadStampList();
+		if (!disseminationStatusList) this.props.loadDisseminationStatusList();
+	}
 
-  render() {
-    const {
-      concept,
-      conceptList,
-      stampList,
-      disseminationStatusList,
-      creationStatus,
-    } = this.props;
+	render() {
+		const {
+			concept,
+			conceptList,
+			stampList,
+			disseminationStatusList,
+			creationStatus,
+		} = this.props;
 
-    if (this.state.creationRequested) {
-      if (creationStatus === OK) {
-        return <Redirect to={`/concept/${this.props.id}`} />;
-      } else
-        return (
-          <Loadable
-            active={true}
-            spinner
-            text={dictionary.loadable.saving}
-            color="#457DBB"
-            background="grey"
-            spinnerSize="400px"
-          />
-        );
-    }
-    if (conceptList && stampList && disseminationStatusList) {
-      const { general, notes, links } = concept;
-      const conceptsWithLinks = mergeWithAllConcepts(conceptList, links);
-      const pageTitle = <PageTitle title={dictionary.concept.create} />;
-      return (
-        <ConceptEditionCreation
-          creation
-          pageTitle={pageTitle}
-          general={general}
-          notes={notes}
-          conceptsWithLinks={conceptsWithLinks}
-          disseminationStatusList={disseminationStatusList}
-          stampList={stampList}
-          isActionProcessed={creationStatus}
-          save={this.handleCreation}
-        />
-      );
-    }
-    return <div>data is loading...</div>;
-  }
+		if (this.state.creationRequested) {
+			if (creationStatus === OK) {
+				return <Redirect to={`/concept/${this.props.id}`} />;
+			} else
+				return (
+					<Loadable
+						active={true}
+						spinner
+						text={dictionary.loadable.saving}
+						color="#457DBB"
+						background="grey"
+						spinnerSize="400px"
+					/>
+				);
+		}
+		if (conceptList && stampList && disseminationStatusList) {
+			const { general, notes, links } = concept;
+			const conceptsWithLinks = mergeWithAllConcepts(conceptList, links);
+			const pageTitle = <PageTitle title={dictionary.concept.create} />;
+			return (
+				<ConceptEditionCreation
+					creation
+					pageTitle={pageTitle}
+					general={general}
+					notes={notes}
+					conceptsWithLinks={conceptsWithLinks}
+					disseminationStatusList={disseminationStatusList}
+					stampList={stampList}
+					isActionProcessed={creationStatus}
+					save={this.handleCreation}
+				/>
+			);
+		}
+		return (
+			<div>
+				<Loadable
+					active={true}
+					spinner
+					text={dictionary.loadable.loading}
+					color="#457DBB"
+					background="grey"
+					spinnerSize="400px"
+				/>
+			</div>
+		);
+	}
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    concept: emptyConcept(),
-    conceptList: select.getConceptList(state),
-    stampList: select.getStampList(state),
-    disseminationStatusList: select.getDisseminationStatusList(state),
-    //TODO build appropriate selector
-    id: select.getNewlyCreatedId(state),
-    creationStatus: select.getStatus(state, CREATE_CONCEPT),
-  };
+	return {
+		concept: emptyConcept(),
+		conceptList: select.getConceptList(state),
+		stampList: select.getStampList(state),
+		disseminationStatusList: select.getDisseminationStatusList(state),
+		//TODO build appropriate selector
+		id: select.getNewlyCreatedId(state),
+		creationStatus: select.getStatus(state, CREATE_CONCEPT),
+	};
 };
 
 const mapDispatchToProps = {
-  loadConceptList,
-  loadDisseminationStatusList,
-  loadStampList,
-  createConcept,
+	loadConceptList,
+	loadDisseminationStatusList,
+	loadStampList,
+	createConcept,
 };
 
 CreationContainer = connect(mapStateToProps, mapDispatchToProps)(
-  CreationContainer
+	CreationContainer
 );
 
 export default CreationContainer;
