@@ -65,7 +65,7 @@ export const keepDatableNotes = notes => processNotes(notes, datableNotes);
 const versionImpactingNotes = [
 	'scopeNoteLg1',
 	'definitionLg1',
-	'noteEditorialeLg1',
+	'editorialNoteLg1',
 ];
 
 export const areNotesImpactingVersionChanged = (oldNotes, notes) => {
