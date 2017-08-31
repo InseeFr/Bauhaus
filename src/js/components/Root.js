@@ -19,7 +19,7 @@ import CollectionCreate from './collection-create';
 import CollectionSend from './collection-send';
 import CollectionModify from './collection-modify';
 import CollectionsToValidate from './collections-to-validate';
-import CollectionsToExport from './collections-to-export';
+import CollectionsToExport from './collections/to-export';
 import MenuConcepts from './menu/';
 
 const store = configureStore();

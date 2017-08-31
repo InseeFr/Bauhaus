@@ -11,76 +11,75 @@ import loadConceptList from 'js/actions/concepts/list';
 import { OK } from 'js/constants';
 
 class ConceptsToExport extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      exportRequested: false,
-    };
-    this.handleExportConceptList = ids => {
-      this.props.exportConceptList(ids);
-      this.setState({
-        exportRequested: true,
-      });
-    };
-  }
-  componentWillMount() {
-    if (!this.props.concepts) this.props.loadConceptList();
-  }
-  render() {
-    const { concepts, exportStatus } = this.props;
-    const { exportRequested } = this.state;
-    if (exportRequested) {
-      if (exportStatus === OK) {
-        return <Redirect to="/concepts" />;
-      }
-      return (
-        <Loadable
-          active={true}
-          spinner
-          text={this.props.labelLoadable}
-          color="#457DBB"
-          background="grey"
-          spinnerSize="400px"
-        />
-      );
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			exportRequested: false,
+		};
+		this.handleExportConceptList = ids => {
+			this.props.exportConceptList(ids);
+			this.setState({
+				exportRequested: true,
+			});
+		};
+	}
+	componentWillMount() {
+		if (!this.props.concepts) this.props.loadConceptList();
+	}
+	render() {
+		const { concepts, exportStatus } = this.props;
+		const { exportRequested } = this.state;
+		if (exportRequested) {
+			if (exportStatus === OK) {
+				return <Redirect to="/concepts" />;
+			}
+			return (
+				<Loadable
+					active={true}
+					spinner
+					text={dictionary.loadable.exporting}
+					color="#457DBB"
+					background="grey"
+					spinnerSize="400px"
+				/>
+			);
+		}
 
-    if (!concepts) {
-      return (
-        <Loadable
-          active={true}
-          spinner
-          //TODO use dictionary
-          text="Loading concepts"
-          color="#457DBB"
-          background="grey"
-          spinnerSize="400px"
-        />
-      );
-    }
+		if (!concepts) {
+			return (
+				<Loadable
+					active={true}
+					spinner
+					text={dictionary.loadable.loading}
+					color="#457DBB"
+					background="grey"
+					spinnerSize="400px"
+				/>
+			);
+		}
 
-    return (
-      <ConceptsPicker
-        concepts={concepts}
-        title={dictionary.concepts.export.title}
-        panelTitle={dictionary.concepts.export.panel}
-        labelLoadable={dictionary.loadable.exporting}
-        labelWarning={dictionary.warning.export.concepts}
-        labelValidateButton={dictionary.buttons.export}
-        handleAction={this.handleExportConceptList}
-      />
-    );
-  }
+		return (
+			<ConceptsPicker
+				concepts={concepts}
+				title={dictionary.concepts.export.title}
+				panelTitle={dictionary.concepts.export.panel}
+				labelLoadable={dictionary.loadable.exporting}
+				labelWarning={dictionary.warning.export.concepts}
+				labelValidateButton={dictionary.buttons.export}
+				handleAction={this.handleExportConceptList}
+			/>
+		);
+	}
 }
 
 const mapStateToProps = state => ({
-  concepts: select.getConceptList(state),
-  exportStatus: select.getStatus(state, EXPORT_CONCEPT_LIST),
+	concepts: select.getConceptList(state),
+	exportStatus: select.getStatus(state, EXPORT_CONCEPT_LIST),
 });
 
 const mapDispatchToProps = {
-  loadConceptList,
-  exportConceptList,
+	loadConceptList,
+	exportConceptList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConceptsToExport);

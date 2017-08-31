@@ -70,7 +70,19 @@ const api = {
 	],
 	getDissStatusList: () => ['disseminationStatus'],
 	getStampList: () => ['stamps'],
+	// Collections
 	getCollectionList: () => ['collections'],
+	getCollectionExport: id => [
+		`collection/export/${id}`,
+		{
+			headers: {
+				Accept: 'application/octet-stream',
+				'Content-Type': 'text/plain',
+			},
+			responseType: 'arraybuffer',
+		},
+		res => res.blob(),
+	],
 };
 
 //TODO wrap api in a proxy for developement to catch error when accessing
