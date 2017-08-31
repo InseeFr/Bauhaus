@@ -124,11 +124,9 @@ class CollectionsPicker extends Component {
 		const controls = (
 			<div className="row btn-line">
 				<div className="col-md-2">
-					<button className="btn btn-primary btn-lg col-md-12">
-						<Link to="/collection">
-							{dictionary.buttons.return}
-						</Link>
-					</button>
+					<Link className="btn btn-primary btn-lg col-md-12" to="/collections">
+						{dictionary.buttons.return}
+					</Link>
 				</div>
 				{message}
 				<div className="col-md-2 pull-right">
