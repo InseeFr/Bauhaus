@@ -13,7 +13,7 @@ class CollectionsHome extends Component {
 
 		this.handleClick = e => {
 			e.preventDefault();
-			this.props.history.push('/create/collection');
+			this.props.history.push('/collection/create');
 		};
 		this.handleClickExport = e => {
 			e.preventDefault();

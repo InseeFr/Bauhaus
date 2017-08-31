@@ -13,7 +13,7 @@ class ConceptsHome extends Component {
 
     this.handleClick = e => {
       e.preventDefault();
-      this.props.history.push('/create/concept');
+      this.props.history.push('/concept/create');
     };
     this.handleClickExport = e => {
       e.preventDefault();

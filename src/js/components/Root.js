@@ -49,6 +49,11 @@ export default class Root extends Component {
 									/>
 									<Route
 										exact
+										path="/concept/create"
+										component={ConceptCreationContainer}
+									/>
+									<Route
+										exact
 										path="/concept/:id"
 										component={ConceptVisualizationContainer}
 									/>
@@ -56,11 +61,6 @@ export default class Root extends Component {
 										exact
 										path="/concept/:id/compare"
 										component={ConceptCompareContainer}
-									/>
-									<Route
-										exact
-										path="/create/concept"
-										component={ConceptCreationContainer}
 									/>
 									<Route
 										exact
@@ -94,7 +94,7 @@ export default class Root extends Component {
 									/>
 									<Route
 										exact
-										path="/create/collection"
+										path="/collection/create"
 										component={CollectionCreate}
 									/>
 									<Route
