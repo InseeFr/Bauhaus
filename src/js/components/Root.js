@@ -16,9 +16,9 @@ import ConceptsToExport from './concepts/to-export';
 import CollectionsHomeContainer from './collections/home-container';
 import CollectionByID from './collection-by-id';
 import CollectionCreate from './collection-create';
-import CollectionSend from './collection-send';
+import CollectionSendContainer from './collections/send-container';
 import CollectionModify from './collection-modify';
-import CollectionsToValidate from './collections-to-validate';
+import CollectionsToValidate from './collections/to-validate';
 import CollectionsToExport from './collections/to-export';
 import MenuConcepts from './menu/';
 
@@ -100,7 +100,7 @@ export default class Root extends Component {
 									<Route
 										exact
 										path="/collection/:id/send"
-										component={CollectionSend}
+										component={CollectionSendContainer}
 									/>
 									<Route
 										exact

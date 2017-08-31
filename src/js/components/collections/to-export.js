@@ -29,10 +29,6 @@ class CollectionsToExport extends Component {
 	render() {
 		const { collections, exportStatus } = this.props;
 		const { exportRequested } = this.state;
-		console.log('requested ?');
-		console.log(exportRequested);
-		console.log('status ?');
-		console.log(exportStatus);
 		if (exportRequested) {
 			if (exportStatus === OK) {
 				return <Redirect to="/collections" />;
