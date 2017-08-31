@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 /**
- * A concept entry with a list of concepts
+ * A collection entry with a list of collections
  *
  * If `handleClick` is not provided, no icon will be shown and no action will be
  * performed on click.

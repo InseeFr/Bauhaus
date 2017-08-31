@@ -112,7 +112,7 @@ class CollectionsPicker extends Component {
 			/>
 		);
 
-		//The user has to add at least one concept
+		//The user has to add at least one collection
 		const message =
 			added.length === 0 &&
 			<div className="col-md-8 centered">
@@ -125,7 +125,7 @@ class CollectionsPicker extends Component {
 			<div className="row btn-line">
 				<div className="col-md-2">
 					<button className="btn btn-primary btn-lg col-md-12">
-						<Link to="/concepts">
+						<Link to="/collection">
 							{dictionary.buttons.return}
 						</Link>
 					</button>
@@ -183,8 +183,8 @@ CollectionsPicker.propTypes = {
 	labelLoadable: PropTypes.string.isRequired,
 	labelWarning: PropTypes.string.isRequired,
 	labelValidateButton: PropTypes.string.isRequired,
-	concepts: PropTypes.arrayOf(overviewPropTypes),
-	//not required since this component can be created before the concepts are
+	collection: PropTypes.arrayOf(overviewPropTypes),
+	//not required since this component can be created before the collections are
 	//loaded
 	handleAction: PropTypes.func.isRequired,
 };

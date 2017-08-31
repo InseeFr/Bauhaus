@@ -3,36 +3,36 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import Loadable from 'react-loading-overlay';
 import CollectionsPicker from './picker';
-import { VALIDATE_CONCEPT_LIST } from 'js/actions/constants';
+import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
 import { dictionary } from 'js/utils/dictionary';
 import * as select from 'js/reducers';
-import validateConceptList from 'js/actions/concepts/validate';
-import loadConceptValidateList from 'js/actions/concepts/validate-list';
+import validateCollectionList from 'js/actions/collections/validate';
+import loadCollectionValidateList from 'js/actions/collections/validate-list';
 import { OK } from 'js/constants';
 
-class ConceptsToValidate extends Component {
+class CollectionsToValidate extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			validationRequested: false,
 		};
 
-		this.handleValidateConceptList = ids => {
-			this.props.validateConceptList(ids);
+		this.handleValidateCollectionList = ids => {
+			this.props.validateCollectionList(ids);
 			this.setState({
 				validationRequested: true,
 			});
 		};
 	}
 	componentWillMount() {
-		if (!this.props.concepts) this.props.loadConceptValidateList();
+		if (!this.props.collections) this.props.loadCollectionValidateList();
 	}
 	render() {
 		const { validationRequested } = this.state;
 		const { validationStatus } = this.props;
 		if (validationRequested) {
 			if (validationStatus === OK) {
-				return <Redirect to="/concepts" />;
+				return <Redirect to="/collections" />;
 			} else {
 				return (
 					<Loadable
@@ -46,8 +46,8 @@ class ConceptsToValidate extends Component {
 				);
 			}
 		}
-		const { concepts } = this.props;
-		if (!concepts)
+		const { collections } = this.props;
+		if (!collections)
 			return (
 				<Loadable
 					active={true}
@@ -60,26 +60,28 @@ class ConceptsToValidate extends Component {
 			);
 		return (
 			<CollectionsPicker
-				concepts={concepts}
-				title={dictionary.concepts.validation.title}
-				panelTitle={dictionary.concepts.validation.panel}
+				collections={collections}
+				title={dictionary.collections.validation.title}
+				panelTitle={dictionary.collections.validation.panel}
 				labelLoadable={dictionary.loadable.validation}
-				labelWarning={dictionary.warning.validation.concepts}
+				labelWarning={dictionary.warning.validation.collections}
 				labelValidateButton={dictionary.buttons.validate}
-				handleAction={this.handleValidateConceptList}
+				handleAction={this.handleValidateCollectionList}
 			/>
 		);
 	}
 }
 
 const mapStateToProps = state => ({
-	concepts: select.getConceptValidateList(state),
-	validationStatus: select.getStatus(state, VALIDATE_CONCEPT_LIST),
+	collections: select.getCollectionValidateList(state),
+	validationStatus: select.getStatus(state, VALIDATE_COLLECTION_LIST),
 });
 
 const mapDispatchToProps = {
-	loadConceptValidateList,
-	validateConceptList,
+	loadCollectionValidateList,
+	validateCollectionList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConceptsToValidate);
+export default connect(mapStateToProps, mapDispatchToProps)(
+	CollectionsToValidate
+);

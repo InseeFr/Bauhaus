@@ -64,6 +64,8 @@ export function getConcept(state, id) {
 }
 
 export const getCollectionList = state => getItems(state.collectionList);
+export const getCollectionValidateList = state =>
+	getItems(state.collectionToValidateList);
 
 export const getStatus = (state, op) =>
 	remoteCallsSelectors.getStatus(state.remoteCalls, op);

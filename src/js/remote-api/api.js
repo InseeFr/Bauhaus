@@ -72,6 +72,15 @@ const api = {
 	getStampList: () => ['stamps'],
 	// Collections
 	getCollectionList: () => ['collections'],
+	getCollectionValidateList: () => ['collections/toValidate'],
+	putCollectionValidList: ids => [
+		`private/collections/validate`,
+		{
+			body: JSON.stringify(ids),
+		},
+		//do not process resspoonse
+		() => {}, //TODO upgrade build apri
+	],
 	getCollectionExport: id => [
 		`collection/export/${id}`,
 		{
