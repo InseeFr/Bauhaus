@@ -7,54 +7,54 @@ import { NOT_LOADED } from 'js/constants';
 import loadConceptList from 'js/actions/concepts/list';
 
 class ConceptsHomeContainer extends Component {
-  componentWillMount() {
-    if (!this.props.conceptsList) {
-      this.props.loadConceptList();
-    }
-  }
+	componentWillMount() {
+		if (!this.props.conceptList) {
+			this.props.loadConceptList();
+		}
+	}
 
-  render() {
-    const { concepts } = this.props;
+	render() {
+		const { concepts } = this.props;
 
-    if (!concepts) {
-      return (
-        <div>
-          <Loadable
-            active={true}
-            spinner
-            text={dictionary.loadable.loading}
-            color="#457DBB"
-            background="grey"
-            spinnerSize="400px"
-          />
-        </div>
-      );
-    }
-    return <ConceptsHome concepts={concepts} />;
-  }
+		if (!concepts) {
+			return (
+				<div>
+					<Loadable
+						active={true}
+						spinner
+						text={dictionary.loadable.loading}
+						color="#457DBB"
+						background="grey"
+						spinnerSize="400px"
+					/>
+				</div>
+			);
+		}
+		return <ConceptsHome concepts={concepts} />;
+	}
 }
 
 const mapStateToProps = state => {
-  if (!state.conceptList) {
-    return {
-      status: NOT_LOADED,
-      concepts: [],
-    };
-  }
-  //TODO should be sorted in the state, shouldn't they ?
-  let { results: concepts, status, err } = state.conceptList;
+	if (!state.conceptList) {
+		return {
+			status: NOT_LOADED,
+			concepts: [],
+		};
+	}
+	//TODO should be sorted in the state, shouldn't they ?
+	let { results: concepts, status, err } = state.conceptList;
 
-  return {
-    concepts,
-    status,
-    err,
-  };
+	return {
+		concepts,
+		status,
+		err,
+	};
 };
 
 const mapDispatchToProps = {
-  loadConceptList,
+	loadConceptList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  ConceptsHomeContainer
+	ConceptsHomeContainer
 );
