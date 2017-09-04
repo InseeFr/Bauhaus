@@ -49,7 +49,6 @@ class MenuConcepts extends Component {
 									</li>
 									<li className={clsConcepts}>
 										<Link
-											id="concepts"
 											to="/concepts"
 											onClick={() => this.changeActiveItem('concepts')}
 										>
@@ -58,7 +57,6 @@ class MenuConcepts extends Component {
 									</li>
 									<li className={clsCollections}>
 										<Link
-											id="collections"
 											to="/collections"
 											onClick={() => this.changeActiveItem('collections')}
 										>
