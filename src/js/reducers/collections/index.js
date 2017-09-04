@@ -1,4 +1,6 @@
 import listReducer from '../utils/list-reducer';
+import collectionGeneral from './by-id/general';
+import collectionMembers from './by-id/members';
 import * as A from 'js/actions/constants';
 
 export const handleReset = (reducer, actions) => (state, action) => {
@@ -29,4 +31,6 @@ const collectionToValidateList = handleReset(
 export default {
 	collectionList,
 	collectionToValidateList,
+	collectionGeneral,
+	collectionMembers,
 };

@@ -81,6 +81,8 @@ const api = {
 		//do not process resspoonse
 		() => {}, //TODO upgrade build apri
 	],
+	getCollectionGeneral: id => [`collection/${id}`],
+	getCollectionMembersList: id => [`collection/${id}/members`],
 	getCollectionExport: id => [
 		`collection/export/${id}`,
 		{

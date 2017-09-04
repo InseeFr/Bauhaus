@@ -4,7 +4,6 @@ import Panel from 'js/utils/panel';
 import { dateTimeToDateString } from 'js/utils/utils';
 
 function ConceptGeneral({ attr, english }) {
-	console.log(attr);
 	var mapping = {};
 	if (attr.altLabelLg1) {
 		mapping = {

@@ -14,7 +14,7 @@ import ConceptVisualizationContainer from './concepts/visualization-container';
 import ConceptsToValidate from './concepts/to-validate';
 import ConceptsToExport from './concepts/to-export';
 import CollectionsHomeContainer from './collections/home-container';
-import CollectionByID from './collection-by-id';
+import CollectionVisualizationContainer from './collections/visualization-container';
 import CollectionCreate from './collection-create';
 import CollectionSendContainer from './collections/send-container';
 import CollectionModify from './collection-modify';
@@ -90,7 +90,7 @@ export default class Root extends Component {
 									<Route
 										exact
 										path="/collection/:id"
-										component={CollectionByID}
+										component={CollectionVisualizationContainer}
 									/>
 									<Route
 										exact

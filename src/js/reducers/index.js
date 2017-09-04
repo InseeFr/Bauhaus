@@ -2,9 +2,11 @@ import listReducer, { getItems } from './utils/list-reducer';
 import * as A from 'js/actions/constants';
 import { combineReducers } from 'redux';
 import conceptReducers from './concepts/';
-import * as general from './concepts/by-id/general';
+import * as conceptGeneral from './concepts/by-id/general';
 import * as notes from './concepts/by-id/notes';
-import * as links from './concepts//by-id/links';
+import * as links from './concepts/by-id/links';
+import * as collectionGeneral from './collections/by-id/general';
+import * as members from './collections/by-id/members';
 import collectionReducers from './collections/';
 import remoteCalls, * as remoteCallsSelectors from './remote-calls';
 
@@ -36,8 +38,8 @@ export const getDisseminationStatusList = state =>
 	getItems(state.disseminationStatusList);
 export const getStampList = state => getItems(state.stampList);
 
-export const getGeneral = (state, id) =>
-	general.getGeneral(state.conceptGeneral, id);
+export const getConceptGeneral = (state, id) =>
+	conceptGeneral.getGeneral(state.conceptGeneral, id);
 export const getNotes = (state, id, version) =>
 	notes.getNotes(state.conceptNotes, id, version);
 export const getLinks = (state, id) => links.getLinks(state.conceptLinks, id);
@@ -47,7 +49,7 @@ export function getAllNotes(state, id, lastVersion) {
 }
 
 export function getConcept(state, id) {
-	const general = getGeneral(state, id);
+	const general = getConceptGeneral(state, id);
 	const links = getLinks(state, id);
 	let notes;
 	if (general) {
@@ -66,6 +68,23 @@ export function getConcept(state, id) {
 export const getCollectionList = state => getItems(state.collectionList);
 export const getCollectionValidateList = state =>
 	getItems(state.collectionToValidateList);
+
+export const getCollectionGeneral = (state, id) =>
+	collectionGeneral.getGeneral(state.collectionGeneral, id);
+export const getMembers = (state, id) =>
+	members.getMembers(state.collectionMembers, id);
+
+export function getCollection(state, id) {
+	const general = getCollectionGeneral(state, id);
+	const members = getMembers(state, id);
+
+	if (!(general && members)) return;
+
+	return {
+		general,
+		members,
+	};
+}
 
 export const getStatus = (state, op) =>
 	remoteCallsSelectors.getStatus(state.remoteCalls, op);
