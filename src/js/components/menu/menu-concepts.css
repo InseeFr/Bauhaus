@@ -29,9 +29,11 @@
 	color: #ffffff;
 }
 
-.navbar-default-concepts .navbar-nav-concepts > .active > a,
-.navbar-default-concepts .navbar-nav-concepts > .active > a:hover,
-.navbar-default-concepts .navbar-nav-concepts > .active > a:focus {
-	background: #457dbb;
-	color: #ffffff;
+.navbar-default-concepts .navbar-nav-concepts > li > a:focus {
+	background: #ffffff;
+	color: #457dbb;
+	border: 2px solid #044173;
+	border-bottom: none;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
 }
