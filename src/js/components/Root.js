@@ -90,13 +90,13 @@ export default class Root extends Component {
 										/>
 										<Route
 											exact
-											path="/collection/:id"
-											component={CollectionVisualizationContainer}
+											path="/collection/create"
+											component={CollectionCreate}
 										/>
 										<Route
 											exact
-											path="/collection/create"
-											component={CollectionCreate}
+											path="/collection/:id"
+											component={CollectionVisualizationContainer}
 										/>
 										<Route
 											exact
