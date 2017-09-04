@@ -20,6 +20,7 @@ import CollectionSendContainer from './collections/send-container';
 import CollectionModify from './collection-modify';
 import CollectionsToValidate from './collections/to-validate';
 import CollectionsToExport from './collections/to-export';
+import Help from './help/help';
 import MenuConcepts from './menu/';
 
 const store = configureStore();
@@ -118,6 +119,7 @@ export default class Root extends Component {
 											path="/collections/export"
 											component={CollectionsToExport}
 										/>
+										<Route exact path="/help" component={Help} />
 									</Switch>
 								</div>
 							</div>
