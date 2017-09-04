@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Loadable from 'react-loading-overlay';
 import ConceptCompare from './compare';
 import loadGeneralAndAllNotes from 'js/actions/concepts/general-and-all-notes';
+import { dictionary } from 'js/utils/dictionary';
 import buildExtract from 'js/utils/build-extract';
 import * as select from 'js/reducers';
 
@@ -19,7 +21,17 @@ class ConceptCompareContainer extends Component {
 
 	render() {
 		let { id, general, notes } = this.props;
-		if (!(notes && general)) return <div>Loading</div>;
+		if (!(notes && general))
+			return (
+				<Loadable
+					active={true}
+					spinner
+					text={dictionary.loadable.loading}
+					color="#457DBB"
+					background="grey"
+					spinnerSize="400px"
+				/>
+			);
 		return (
 			<ConceptCompare id={id} conceptGeneral={general} conceptNotes={notes} />
 		);
