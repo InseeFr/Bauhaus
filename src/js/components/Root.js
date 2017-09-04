@@ -20,7 +20,7 @@ import CollectionSendContainer from './collections/send-container';
 import CollectionModify from './collection-modify';
 import CollectionsToValidate from './collections/to-validate';
 import CollectionsToExport from './collections/to-export';
-import Help from './help/help';
+import Help from './help/home';
 import MenuConcepts from './menu/';
 
 const store = configureStore();
