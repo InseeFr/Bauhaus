@@ -5,65 +5,93 @@ import { dictionary } from 'js/utils/dictionary';
 import './menu-concepts.css';
 
 class MenuConcepts extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      menuRef: false,
-    };
-    this.onChangeMenu = () => {
-      this.setState({
-        menuRef: !this.state.menuRef,
-      });
-    };
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			menuRef: false,
+			activeItem: 'concepts',
+		};
+		this.onChangeMenu = () => {
+			this.setState({
+				menuRef: !this.state.menuRef,
+			});
+		};
+		this.changeActiveItem = activeItem => {
+			this.setState({
+				activeItem,
+			});
+		};
+	}
 
-  render() {
-    return (
-      <div>
-        <header>
-          <nav className="navbar navbar-default navbar-default-concepts">
-            <div className="container-fluid">
-              <div className="collapse navbar-collapse">
-                <ul className="nav navbar-nav navbar-nav-concepts">
-                  <li onClick={this.onChangeMenu}>
-                    <a>
-                      <div className="glyphicon glyphicon-th navbar-icon inline" />
-                      <div className="inline">
-                        {' '}{dictionary.navbar.concepts.home}
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <Link to="/concepts">
-                      {dictionary.navbar.concepts.concepts}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/collections">
-                      {dictionary.navbar.concepts.collections}
-                    </Link>
-                  </li>
-                </ul>
-                <ul className="nav navbar-nav navbar-nav-concepts navbar-right">
-                  <li>
-                    <Link to="/help">
-                      {dictionary.navbar.concepts.help}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/administration">
-                      {dictionary.navbar.concepts.administration}
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-        </header>
-        {this.state.menuRef && <MenuReferentiels />}
-      </div>
-    );
-  }
+	render() {
+		const { menuRef, activeItem } = this.state;
+
+		const clsConcepts = activeItem === 'concepts' ? 'active' : null;
+		const clsCollections = activeItem === 'collections' ? 'active' : null;
+		const clsHelp = activeItem === 'help' ? 'active' : null;
+		const clsAdministration = activeItem === 'administration' ? 'active' : null;
+
+		console.log(activeItem);
+		return (
+			<div>
+				<header>
+					<nav className="navbar navbar-default-concepts">
+						<div className="container-fluid">
+							<div className="collapse navbar-collapse">
+								<ul className="nav navbar-nav navbar-nav-concepts">
+									<li onClick={this.onChangeMenu}>
+										<a>
+											<div className="glyphicon glyphicon-th navbar-icon inline" />
+											<div className="inline">
+												{' '}{dictionary.navbar.concepts.home}
+											</div>
+										</a>
+									</li>
+									<li className={clsConcepts}>
+										<Link
+											id="concepts"
+											to="/concepts"
+											onClick={() => this.changeActiveItem('concepts')}
+										>
+											{dictionary.navbar.concepts.concepts}
+										</Link>
+									</li>
+									<li className={clsCollections}>
+										<Link
+											id="collections"
+											to="/collections"
+											onClick={() => this.changeActiveItem('collections')}
+										>
+											{dictionary.navbar.concepts.collections}
+										</Link>
+									</li>
+								</ul>
+								<ul className="nav navbar-nav navbar-nav-concepts navbar-right">
+									<li className={clsHelp}>
+										<Link
+											to="/help"
+											onClick={() => this.changeActiveItem('help')}
+										>
+											{dictionary.navbar.concepts.help}
+										</Link>
+									</li>
+									<li className={clsAdministration}>
+										<Link
+											to="/administration"
+											onClick={() => this.changeActiveItem('administration')}
+										>
+											{dictionary.navbar.concepts.administration}
+										</Link>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+				</header>
+				{menuRef && <MenuReferentiels />}
+			</div>
+		);
+	}
 }
 
 export default MenuConcepts;

@@ -27,9 +27,14 @@
 	text-decoration: none;
 	background-color: #234ca5;
 	color: #ffffff;
+	border: 2px solid #044173;
+	border-bottom: none;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
 }
 
-.navbar-default-concepts .navbar-nav-concepts > li > a:focus {
+.navbar-default-concepts .navbar-nav-concepts > li > a:focus,
+.navbar-default-concepts .navbar-nav-concepts > .active > a {
 	background: #ffffff;
 	color: #457dbb;
 	border: 2px solid #044173;
