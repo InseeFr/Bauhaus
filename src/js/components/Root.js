@@ -21,6 +21,7 @@ import CollectionModify from './collection-modify';
 import CollectionsToValidate from './collections/to-validate';
 import CollectionsToExport from './collections/to-export';
 import Help from './help/home';
+import AdministrationHome from './administration/home';
 import MenuConcepts from './menu/';
 
 const store = configureStore();
@@ -120,6 +121,11 @@ export default class Root extends Component {
 											component={CollectionsToExport}
 										/>
 										<Route exact path="/help" component={Help} />
+										<Route
+											exact
+											path="/administration"
+											component={AdministrationHome}
+										/>
 									</Switch>
 								</div>
 							</div>
