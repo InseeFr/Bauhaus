@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Panel from 'js/utils/panel';
+import Panel from 'js/components/shared/panel';
 
 function ConceptToLink({ title, memberEls, removeMember, searchComponent }) {
   return (

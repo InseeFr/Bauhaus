@@ -1,7 +1,7 @@
 import React from 'react';
 import { dictionary } from 'js/utils/dictionary';
-import Panel from 'js/utils/panel';
-import { Note } from 'js/utils/note';
+import Panel from 'js/components/shared/panel';
+import { Note } from 'js/components/shared/note';
 import { dateTimeToDateString } from 'js/utils/utils';
 
 function CollectionGeneral({ attr, english }) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
-import Panel from 'js/utils/panel';
+import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import ConceptItem from './list-item';
 import { filterDeburr } from 'js/utils/array-utils';

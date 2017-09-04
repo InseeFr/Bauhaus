@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as notesPropTypes } from 'js/utils/concepts/notes';
 import { dictionary } from 'js/utils/dictionary';
-import { ExplanatoryNote } from 'js/utils/explanatory-note';
+import { ExplanatoryNote } from 'js/components/shared/explanatory-note';
 import 'css/concept-notes.css';
 
 class ConceptCompareNotes extends Component {

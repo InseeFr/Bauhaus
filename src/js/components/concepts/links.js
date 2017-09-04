@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
-import Panel from 'js/utils/panel';
+import Panel from 'js/components/shared/panel';
 import { sortArray } from 'js/utils/array-utils';
 import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED } from 'js/constants';
 const sortByLabelFr = sortArray('prefLabelLg1');

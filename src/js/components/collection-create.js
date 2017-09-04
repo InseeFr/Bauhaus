@@ -6,7 +6,7 @@ import Loadable from 'react-loading-overlay';
 import SelectRmes from 'js/utils/select-rmes';
 import { dictionary } from 'js/utils/dictionary';
 import { defaultContributor } from 'config/config';
-import Panel from 'js/utils/panel';
+import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import CollectionCreateControl from './collection-create-controls';
 import {

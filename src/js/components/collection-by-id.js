@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 import Loadable from 'react-loading-overlay';
 import CollectionGeneral from './collection-general';
 import { dictionary } from 'js/utils/dictionary';
-import { Note } from 'js/utils/note';
+import { Note } from 'js/components/shared/note';
 import { sortArray } from 'js/utils/array-utils';
 import { postCollectionsToValidate } from 'js/utils/remote-api';
 import buildExtract from 'js/utils/build-extract';

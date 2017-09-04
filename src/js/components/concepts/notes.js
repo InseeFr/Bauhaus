@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dictionary } from 'js/utils/dictionary';
-import { ExplanatoryNote } from 'js/utils/explanatory-note';
+import { ExplanatoryNote } from 'js/components/shared/explanatory-note';
 import 'css/concept-notes.css';
 
 function ConceptNotes({ english, notes }) {

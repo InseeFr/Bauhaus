@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Note } from 'js/utils/note';
+import { Note } from 'js/components/shared/note';
 import { dictionary } from 'js/utils/dictionary';
 import { sortArray } from 'js/utils/array-utils';
 

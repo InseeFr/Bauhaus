@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { propTypes as overviewPropTypes } from 'js/utils/collections/collection-overview';
 import { Link } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
-import Panel from 'js/utils/panel';
+import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import CollectionItem from './list-item';
 import { filterDeburr } from 'js/utils/array-utils';
