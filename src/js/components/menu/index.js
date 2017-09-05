@@ -7,9 +7,10 @@ import './menu-concepts.css';
 class MenuConcepts extends Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			menuRef: false,
-			activeItem: 'concepts',
+			activeItem: props.defaultActiveItem,
 		};
 		this.onChangeMenu = () => {
 			this.setState({
@@ -31,7 +32,6 @@ class MenuConcepts extends Component {
 		const clsHelp = activeItem === 'help' ? 'active' : null;
 		const clsAdministration = activeItem === 'administration' ? 'active' : null;
 
-		console.log(activeItem);
 		return (
 			<div>
 				<header>
