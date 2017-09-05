@@ -34,118 +34,115 @@ export default class Root extends Component {
 			<div>
 				<Provider store={store}>
 					<Router>
-						<Switch>
+						<div>
 							<Route exact path="/" component={App} />
-							<div>
+							<Route
+								path="/concepts"
+								component={() => <MenuConcepts defaultActiveItem="concepts" />}
+							/>
+							<Route
+								path="/collections"
+								component={() =>
+									<MenuConcepts defaultActiveItem="collections" />}
+							/>
+							<Route
+								path="/help"
+								component={() => <MenuConcepts defaultActiveItem="help" />}
+							/>
+							<Route
+								path="/administration"
+								component={() =>
+									<MenuConcepts defaultActiveItem="administration" />}
+							/>
+							<Switch>
 								<Route
+									exact
 									path="/concepts"
-									component={() =>
-										<MenuConcepts defaultActiveItem="concepts" />}
+									component={ConceptsHomeContainer}
 								/>
 								<Route
+									exact
+									path="/concepts/search"
+									component={ConceptsSearchListContainer}
+								/>
+								<Route
+									exact
+									path="/concept/create"
+									component={ConceptCreationContainer}
+								/>
+								<Route
+									exact
+									path="/concept/:id"
+									component={ConceptVisualizationContainer}
+								/>
+								<Route
+									exact
+									path="/concept/:id/compare"
+									component={ConceptCompareContainer}
+								/>
+								<Route
+									exact
+									path="/concept/:id/send"
+									component={ConceptSendContainer}
+								/>
+								<Route
+									exact
+									path="/concept/:id/modify"
+									component={ConceptEditionContainer}
+								/>
+								<Route
+									exact
+									path="/concepts/validation"
+									component={ConceptsToValidate}
+								/>
+								<Route
+									exact
+									path="/concepts/export"
+									component={ConceptsToExport}
+								/>
+								<Route
+									exact
 									path="/collections"
-									component={() =>
-										<MenuConcepts defaultActiveItem="collections" />}
+									component={CollectionsHomeContainer}
 								/>
 								<Route
-									path="/help"
-									component={() => <MenuConcepts defaultActiveItem="help" />}
+									exact
+									path="/collection/create"
+									component={CollectionCreate}
 								/>
 								<Route
+									exact
+									path="/collection/:id"
+									component={CollectionVisualizationContainer}
+								/>
+								<Route
+									exact
+									path="/collection/:id/send"
+									component={CollectionSendContainer}
+								/>
+								<Route
+									exact
+									path="/collection/:id/modify"
+									component={CollectionModify}
+								/>
+								<Route
+									exact
+									path="/collections/validation"
+									component={CollectionsToValidate}
+								/>
+								<Route
+									exact
+									path="/collections/export"
+									component={CollectionsToExport}
+								/>
+								<Route exact path="/help" component={Help} />
+								<Route
+									exact
 									path="/administration"
-									component={() =>
-										<MenuConcepts defaultActiveItem="administration" />}
+									component={AdministrationHome}
 								/>
-								<Switch>
-									<Route
-										exact
-										path="/concepts"
-										component={ConceptsHomeContainer}
-									/>
-									<Route
-										exact
-										path="/concepts/search"
-										component={ConceptsSearchListContainer}
-									/>
-									<Route
-										exact
-										path="/concept/create"
-										component={ConceptCreationContainer}
-									/>
-									<Route
-										exact
-										path="/concept/:id"
-										component={ConceptVisualizationContainer}
-									/>
-									<Route
-										exact
-										path="/concept/:id/compare"
-										component={ConceptCompareContainer}
-									/>
-									<Route
-										exact
-										path="/concept/:id/send"
-										component={ConceptSendContainer}
-									/>
-									<Route
-										exact
-										path="/concept/:id/modify"
-										component={ConceptEditionContainer}
-									/>
-									<Route
-										exact
-										path="/concepts/validation"
-										component={ConceptsToValidate}
-									/>
-									<Route
-										exact
-										path="/concepts/export"
-										component={ConceptsToExport}
-									/>
-									<Route
-										exact
-										path="/collections"
-										component={CollectionsHomeContainer}
-									/>
-									<Route
-										exact
-										path="/collection/create"
-										component={CollectionCreate}
-									/>
-									<Route
-										exact
-										path="/collection/:id"
-										component={CollectionVisualizationContainer}
-									/>
-									<Route
-										exact
-										path="/collection/:id/send"
-										component={CollectionSendContainer}
-									/>
-									<Route
-										exact
-										path="/collection/:id/modify"
-										component={CollectionModify}
-									/>
-									<Route
-										exact
-										path="/collections/validation"
-										component={CollectionsToValidate}
-									/>
-									<Route
-										exact
-										path="/collections/export"
-										component={CollectionsToExport}
-									/>
-									<Route exact path="/help" component={Help} />
-									<Route
-										exact
-										path="/administration"
-										component={AdministrationHome}
-									/>
-								</Switch>
-							</div>
-						</Switch>
+							</Switch>
+						</div>
 					</Router>
 				</Provider>
 				<div className="centered" style={{ marginTop: '50px' }}>
