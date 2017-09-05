@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import dashBoardLogo from 'img/dashboard.png';
 import adminLogo from 'img/admin.png';
 import PageTitle from '../shared/page-title';
-import 'css/app.css';
+import './home.css';
 
 function AdministrationHome() {
 	return (
