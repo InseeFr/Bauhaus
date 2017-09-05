@@ -7,7 +7,7 @@ import './home.css';
 
 function AdministrationHome() {
 	return (
-		<div className="container">
+		<div className="container admin-home">
 			<PageTitle title="Administration" />
 			<div className="img-block">
 				<Link to="/administration">
