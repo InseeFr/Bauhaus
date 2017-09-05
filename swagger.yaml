@@ -396,7 +396,7 @@ paths:
                 type: string
               additionalMaterial:
                 type: string
-              created: 
+              created:
                 type: string
                 format: dateTime
               valid:
@@ -472,29 +472,26 @@ paths:
       responses:
         '204':
           description: Concepts validated
-  /concept/export:
-    post:
+  '/concept/export/{id}':
+    get:
       tags:
         - concepts
       description: Export concept
       operationId: setConceptExport
-      consumes:
-        - text/plain
       produces:
         - application/octet-stream
       parameters:
-        - name: concepts
-          in: body
+        - name: id
+          in: path
           description: Concept ID to export
           required: true
-          schema:
-            type: string
+          type: string
       responses:
         '204':
           description: Concept exported
           schema:
             type: file
-  /private/concept/send:
+  '/private/concept/send/{id}':
     post:
       tags:
         - concepts
@@ -505,15 +502,18 @@ paths:
       produces:
         - text/plain
       parameters:
+        - name: id
+          in: path
+          description: Concept ID to send
+          required: true
+          type: string
         - name: concepts
           in: body
-          description: Concept ID to send
+          description: Mail informations
           required: true
           schema:
             type: object
             properties:
-              id:
-                type: string
               sender:
                 type: string
               recipient:
@@ -639,6 +639,8 @@ paths:
             type: array
             items:
               properties:
+                id:
+                  type: string
                 prefLabelLg1:
                   type: string
                 prefLabelLg2:
@@ -745,29 +747,26 @@ paths:
       responses:
         '204':
           description: Collections validated
-  /collection/export:
-    post:
+  '/collection/export/{id}':
+    get:
       tags:
         - collections
       description: Export collection
       operationId: setCollectionExport
-      consumes:
-        - text/plain
       produces:
         - application/octet-stream
       parameters:
-        - name: collections
-          in: body
+        - name: id
+          in: path
           description: Collection ID to export
           required: true
-          schema:
-            type: string
+          type: string
       responses:
         '204':
           description: Collection exported
           schema:
             type: file
-  /private/collection/send:
+  '/private/collection/send/{id}':
     post:
       tags:
         - collections
@@ -778,15 +777,18 @@ paths:
       produces:
         - text/plain
       parameters:
-        - name: collections
-          in: body
+        - name: id
+          in: path
           description: Collection ID to send
+          required: true
+          type: string
+        - name: Mail
+          in: body
+          description: Mail informations
           required: true
           schema:
             type: object
             properties:
-              id:
-                type: string
               sender:
                 type: string
               recipient:
