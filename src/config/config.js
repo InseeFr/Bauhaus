@@ -3,9 +3,8 @@ export const appHost = 'http://localhost:3000/#/';
 export const baseHost = 'http://localhost:6969/gncs-core-refactor/ws/rmes/';
 
 // Server config
-//export const appHost = 'http://dvrmspogbolht01.ad.insee.intra/gncs/#/';
-//export const baseHost = 'http://private-93ab8-concepts.apiary-mock.com/';
-//export const baseHost = 'http://dvrmspogbolht01.ad.insee.intra/gncs/ws/rmes/';
+//export const appHost = 'http://dvrmesgncslht01.ad.insee.intra/gncs/#/';
+//export const baseHost = 'http://dvrmesgncslht01.ad.insee.intra/gncs/ws/rmes/';
 // App langages
 export const lang1 = 'fr';
 export const lang2 = 'en';
