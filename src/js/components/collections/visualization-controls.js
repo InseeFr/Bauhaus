@@ -3,9 +3,15 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
 
-const Button = ({ action, label }) => {
+const Button = ({ action, label, disabled }) => {
 	let button;
-	if (typeof action === 'string') {
+	if (disabled) {
+		button = (
+			<Link className="btn btn-primary btn-lg col-md-12" to={action} disabled>
+				{label}
+			</Link>
+		);
+	} else if (typeof action === 'string') {
 		button = (
 			<Link className="btn btn-primary btn-lg col-md-12" to={action}>
 				{label}
@@ -43,7 +49,7 @@ function CollectionVisualizationControls({
 	const cancel = ['/collections', dictionary.buttons.return];
 	const send = [`/collection/${id}/send`, dictionary.buttons.send];
 	const validate = [handleValidation, dictionary.buttons.validate];
-	const update = [`/collection/${id}/modify`, dictionary.buttons.modify];
+	const update = [`/collection/${id}/modify`, dictionary.buttons.modify, true];
 
 	btns = isValidated
 		? [cancel, null, null, null, send, update]
@@ -53,8 +59,20 @@ function CollectionVisualizationControls({
 		<div className="row btn-line">
 			{btns.map((btn, i) => {
 				if (!btn) return <PlaceHolder key={i} />;
-				const [action, label] = btn;
-				return btn && <Button key={label} action={action} label={label} />;
+				const [action, label, disabled] = btn;
+				if (disabled) {
+					console.log(label);
+					return (
+						btn &&
+						<Button
+							key={label}
+							action={action}
+							label={label}
+							disabled={disabled}
+						/>
+					);
+				} else
+					return btn && <Button key={label} action={action} label={label} />;
 			})}
 		</div>
 	);
