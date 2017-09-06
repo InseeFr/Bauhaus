@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { SEND_CONCEPT } from 'js/actions/constants';
-import loadGeneral from 'js/actions/concepts/general';
-import sendConcept from 'js/actions/concepts/send';
+import { SEND_COLLECTION } from 'js/actions/constants';
+import loadGeneral from 'js/actions/collections/general';
+import sendCollection from 'js/actions/collections/send';
 import * as select from 'js/reducers';
 import buildExtract from 'js/utils/build-extract';
 import { OK } from 'js/constants';
 import SendStatus from './send-status';
-import ConceptSend from './send';
+import CollectionSend from './send';
 
 const extractId = buildExtract('id');
 
-class ConceptSendContainer extends Component {
+class CollectionSendContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			sendRequested: false,
 		};
-		this.handleConceptSend = (id, data) => {
-			this.props.sendConcept(id, data);
+		this.handleCollectionSend = (id, data) => {
+			this.props.sendCollection(id, data);
 			this.setState({
 				sendRequested: true,
 			});
@@ -36,7 +36,7 @@ class ConceptSendContainer extends Component {
 		const { id, prefLabelLg1, isValidated, loaded, sendStatus } = this.props;
 		const { sendRequested } = this.state;
 		if (sendRequested) {
-			const urlBack = sendStatus === OK ? '/concepts' : `/concept/${id}`;
+			const urlBack = sendStatus === OK ? '/collections' : `/collection/${id}`;
 			return (
 				<SendStatus
 					label={prefLabelLg1}
@@ -47,12 +47,12 @@ class ConceptSendContainer extends Component {
 		}
 		if (!loaded) return <div>data loading</div>;
 		return (
-			<ConceptSend
+			<CollectionSend
 				id={id}
 				prefLabelLg1={prefLabelLg1}
 				isValidated={isValidated}
 				sendStatus={sendStatus}
-				sendConcept={this.handleConceptSend}
+				sendCollection={this.handleCollectionSend}
 			/>
 		);
 	}
@@ -67,7 +67,7 @@ const mapStateToProps = (state, ownProps) => {
 	}
 	return {
 		id,
-		sendStatus: select.getStatus(state, SEND_CONCEPT),
+		sendStatus: select.getStatus(state, SEND_COLLECTION),
 		loaded: Boolean(general),
 		prefLabelLg1,
 		isValidated,
@@ -76,14 +76,14 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
 	loadGeneral,
-	sendConcept,
+	sendCollection,
 };
 
-ConceptSendContainer = connect(mapStateToProps, mapDispatchToProps)(
-	ConceptSendContainer
+CollectionSendContainer = connect(mapStateToProps, mapDispatchToProps)(
+	CollectionSendContainer
 );
 
-ConceptSendContainer.propTypes = {
+CollectionSendContainer.propTypes = {
 	match: PropTypes.shape({
 		params: PropTypes.shape({
 			id: PropTypes.string.isRequired,
@@ -91,4 +91,4 @@ ConceptSendContainer.propTypes = {
 	}),
 };
 
-export default ConceptSendContainer;
+export default CollectionSendContainer;

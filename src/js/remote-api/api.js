@@ -94,6 +94,16 @@ const api = {
 		},
 		res => res.blob(),
 	],
+	postCollectionSend: (id, mailInfo) => [
+		`private/collection/send/${id}`,
+		{
+			headers: {
+				Accept: 'text/plain',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(mailInfo),
+		},
+	],
 };
 
 //TODO wrap api in a proxy for developement to catch error when accessing
