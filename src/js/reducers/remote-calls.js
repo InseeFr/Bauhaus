@@ -58,4 +58,4 @@ export default trackActionReducer([
 export const getStatus = (state, actionType) =>
 	state[actionType] && state[actionType].status;
 export const getNewlyCreatedId = state =>
-	state[A.CREATE_COLLECTION] && state[A.CREATE_CONCEPT].id;
+	state[A.CREATE_CONCEPT] && state[A.CREATE_CONCEPT].id;
