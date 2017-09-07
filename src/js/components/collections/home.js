@@ -36,7 +36,6 @@ class CollectionsHome extends Component {
 								<button
 									className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
 									onClick={this.handleClick}
-									disabled
 								>
 									<span
 										className="glyphicon glyphicon-plus"
