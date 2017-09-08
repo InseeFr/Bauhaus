@@ -18,7 +18,7 @@ function CollectionGeneral({ attr, english }) {
 			<Panel title={dictionary.collection.general}>
 				<ul>
 					{Object.keys(mapping).map(fieldName => {
-						if (attr.hasOwnProperty(fieldName)) {
+						if (attr.hasOwnProperty(fieldName) && attr[fieldName] !== '') {
 							if (fieldName === 'created' || fieldName === 'modified') {
 								return (
 									<li key={fieldName}>{`${mapping[

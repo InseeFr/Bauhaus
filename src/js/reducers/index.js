@@ -79,7 +79,6 @@ export function getCollection(state, id) {
 	const members = getMembers(state, id);
 
 	if (!(general && members)) return;
-
 	return {
 		general,
 		members,

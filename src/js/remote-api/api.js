@@ -73,6 +73,27 @@ const api = {
 	// Collections
 	getCollectionList: () => ['collections'],
 	getCollectionValidateList: () => ['collections/toValidate'],
+	postCollection: collection => [
+		'private/collection',
+		{
+			headers: {
+				Accept: 'text/plain',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(collection),
+		},
+		() => {},
+	],
+	putCollection: (id, collection) => [
+		`private/collection/${id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(collection),
+		},
+		() => {},
+	],
 	putCollectionValidList: ids => [
 		`private/collections/validate`,
 		{

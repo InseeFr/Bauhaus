@@ -15,9 +15,9 @@ import ConceptsToValidate from './concepts/to-validate';
 import ConceptsToExport from './concepts/to-export';
 import CollectionsHomeContainer from './collections/home-container';
 import CollectionVisualizationContainer from './collections/visualization-container';
-import CollectionCreate from './collection-create';
 import CollectionSendContainer from './collections/send-container';
-import CollectionModify from './collection-modify';
+import CollectionCreationContainer from './collections/creation-container';
+import CollectionEditionContainer from './collections/edition-container';
 import CollectionsToValidate from './collections/to-validate';
 import CollectionsToExport from './collections/to-export';
 import Help from './help/home';
@@ -109,7 +109,7 @@ export default class Root extends Component {
 								<Route
 									exact
 									path="/collection/create"
-									component={CollectionCreate}
+									component={CollectionCreationContainer}
 								/>
 								<Route
 									exact
@@ -124,7 +124,7 @@ export default class Root extends Component {
 								<Route
 									exact
 									path="/collection/:id/modify"
-									component={CollectionModify}
+									component={CollectionEditionContainer}
 								/>
 								<Route
 									exact

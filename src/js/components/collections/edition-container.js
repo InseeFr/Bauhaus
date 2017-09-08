@@ -3,21 +3,20 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as select from 'js/reducers';
-import { UPDATE_CONCEPT } from 'js/actions/constants';
-import loadConcept from 'js/actions/concepts/concept';
+import { UPDATE_COLLECTION } from 'js/actions/constants';
+import loadCollection from 'js/actions/collections/collection';
+import loadCollectionList from 'js/actions/collections/list';
 import loadConceptList from 'js/actions/concepts/list';
-import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
-import updateConcept from 'js/actions/concepts/update';
-import ConceptEditionCreation from './edition-creation';
-import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/build-payload-update';
+import updateCollection from 'js/actions/collections/update';
+import CollectionEditionCreation from './edition-creation';
+import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import buildExtract from 'js/utils/build-extract';
-import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import { dictionary } from 'js/utils/dictionary';
 import Loadable from 'react-loading-overlay';
 import { OK } from 'js/constants';
-import PageTitle from 'js/components/shared/page-title';
 
+import PageTitle from 'js/components/shared/page-title';
 const extractId = buildExtract('id');
 
 class EditionContainer extends Component {
@@ -25,15 +24,17 @@ class EditionContainer extends Component {
 		super(props);
 		this.state = {
 			updateRequested: false,
+			id: '',
 		};
 
-		this.handleUpdate = (id, versioning, oldData, data) => {
-			this.props.updateConcept(
-				id,
-				buildPayloadUpdate(versioning, oldData, data)
+		this.handleUpdate = data => {
+			this.props.updateCollection(
+				data.general.id,
+				buildPayload(data, 'UPDATE')
 			);
 			this.setState({
 				updateRequested: true,
+				id: data.general.id,
 			});
 		};
 	}
@@ -41,21 +42,29 @@ class EditionContainer extends Component {
 	componentWillMount() {
 		const {
 			id,
-			concept,
+			collection,
+			collectionList,
 			conceptList,
 			stampList,
-			disseminationStatusList,
 		} = this.props;
-		if (!concept) this.props.loadConcept(id);
+		if (!collection) this.props.loadCollection(id);
+		if (!collectionList) this.props.loadCollectionList();
 		if (!conceptList) this.props.loadConceptList();
 		if (!stampList) this.props.loadStampList();
-		if (!disseminationStatusList) this.props.loadDisseminationStatusList();
 	}
 
 	render() {
+		const {
+			collection,
+			collectionList,
+			conceptList,
+			stampList,
+			updateStatus,
+		} = this.props;
+
 		if (this.state.updateRequested) {
 			if (this.props.updateStatus === OK) {
-				return <Redirect to={`/concept/${this.props.id}`} />;
+				return <Redirect to={`/collection/${this.state.id}`} />;
 			} else {
 				return (
 					<Loadable
@@ -70,31 +79,23 @@ class EditionContainer extends Component {
 				);
 			}
 		}
-		const {
-			id,
-			concept,
-			conceptList,
-			stampList,
-			disseminationStatusList,
-			updateStatus,
-		} = this.props;
-		if (concept && conceptList && stampList && disseminationStatusList) {
-			const { general, notes, links } = concept;
-			const conceptsWithLinks = mergeWithAllConcepts(conceptList, links);
+		if (collection && collectionList && conceptList && stampList) {
+			const { general, members } = collection;
+
 			const pageTitle = (
 				<PageTitle
-					title={dictionary.concept.modify}
+					title={dictionary.collection.modify}
 					subtitle={general.prefLabelLg1}
 				/>
 			);
+
 			return (
-				<ConceptEditionCreation
-					id={id}
+				<CollectionEditionCreation
 					pageTitle={pageTitle}
 					general={general}
-					notes={notes}
-					conceptsWithLinks={conceptsWithLinks}
-					disseminationStatusList={disseminationStatusList}
+					members={members}
+					collectionList={collectionList}
+					conceptList={conceptList}
 					stampList={stampList}
 					isActionProcessed={updateStatus}
 					save={this.handleUpdate}
@@ -120,20 +121,20 @@ const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	return {
 		id,
-		concept: select.getConcept(state, id),
+		collection: select.getCollection(state, id),
+		collectionList: select.getCollectionList(state),
 		conceptList: select.getConceptList(state),
 		stampList: select.getStampList(state),
-		disseminationStatusList: select.getDisseminationStatusList(state),
-		updateStatus: select.getStatus(state, UPDATE_CONCEPT),
+		updateStatus: select.getStatus(state, UPDATE_COLLECTION),
 	};
 };
 
 const mapDispatchToProps = {
-	loadConcept,
+	loadCollection,
+	loadCollectionList,
 	loadConceptList,
-	loadDisseminationStatusList,
 	loadStampList,
-	updateConcept,
+	updateCollection,
 };
 
 EditionContainer = connect(mapStateToProps, mapDispatchToProps)(
