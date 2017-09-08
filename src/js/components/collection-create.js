@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import Loadable from 'react-loading-overlay';
-import SelectRmes from 'js/utils/select-rmes';
+import SelectRmes from 'js/components/shared/select-rmes';
 import { dictionary } from 'js/utils/dictionary';
 import { defaultContributor } from 'config/config';
 import Panel from 'js/components/shared/panel';
