@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dictionary } from 'js/utils/dictionary';
-import DatePickerRmes from 'js/utils/date-picker-rmes';
+import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import SelectRmes from 'js/components/shared/select-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
 import flagFr from 'js/components/shared/flag-fr';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import SelectRmes from 'js/components/shared/select-rmes';
-import DatePickerRmes from 'js/utils/date-picker-rmes';
+import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import { dictionary } from 'js/utils/dictionary';
 import Pagination from 'js/components/shared/pagination';
 import { filterKeyDeburr, filterKeyDate } from 'js/utils/array-utils';
