@@ -147,7 +147,7 @@ export default class Root extends Component {
 					</Router>
 				</Provider>
 				<div className="centered" style={{ marginTop: '50px' }}>
-					<label>Gncs - Version 0.1</label>
+					<label>Gncs - Version 0.2-beta</label>
 				</div>
 			</div>
 		);

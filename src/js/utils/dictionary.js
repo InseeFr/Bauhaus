@@ -91,7 +91,7 @@ const dictionaryMulti = {
 			notes: {
 				definitionLg1:
 					'Le concept doit nécessairement comporter une définition française',
-				scopeNoteFr:
+				scopeNoteLg1:
 					'Le statut de diffusion étant public, la définition courte française doit être renseignée',
 				maxLengthScopeNote: function(maxLengthScopeNote) {
 					return `La définition courte est limitée à ${maxLengthScopeNote} caractères`;
@@ -386,6 +386,12 @@ const dictionaryMulti = {
 				collections: 'Add a collection at least',
 			},
 			notes: {
+				definitionLg1: 'Concept necessary has a definition',
+				scopeNoteLg1:
+					'As dissemination status is public, short definition has to be completed',
+				maxLengthScopeNote: function(maxLengthScopeNote) {
+					return `La définition courte est limitée à ${maxLengthScopeNote} caractères`;
+				},
 				definition:
 					"French definition can't be completed if the english is not",
 				scopeNote:
