@@ -1,7 +1,7 @@
 import React from 'react';
 import { dictionary } from 'js/utils/dictionary';
 import Panel from 'js/components/shared/panel';
-import { dateTimeToDateString } from 'js/utils/utils';
+import { dateTimeToDateString, DSURLToLabel } from 'js/utils/utils';
 
 function ConceptGeneral({ attr, english }) {
 	var mapping = {};
@@ -64,9 +64,11 @@ function ConceptGeneral({ attr, english }) {
 									fieldName === 'valid'
 								) {
 									return (
-										<li key={fieldName}>{`${mapping[
-											fieldName
-										]} : ${dateTimeToDateString(attr[fieldName])}`}</li>
+										<li key={fieldName}>
+											{`${mapping[fieldName]} : ${dateTimeToDateString(
+												attr[fieldName]
+											)}`}
+										</li>
 									);
 								}
 								if (fieldName === 'additionalMaterial') {
@@ -76,6 +78,15 @@ function ConceptGeneral({ attr, english }) {
 											<a href={attr[fieldName]} target="_blank">{`${attr[
 												fieldName
 											]}`}</a>
+										</li>
+									);
+								}
+								if (fieldName === 'disseminationStatus') {
+									return (
+										<li key={fieldName}>
+											{`${mapping[fieldName]} : ${DSURLToLabel(
+												attr[fieldName]
+											)}`}
 										</li>
 									);
 								} else {
