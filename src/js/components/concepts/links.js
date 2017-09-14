@@ -18,11 +18,11 @@ function ConceptLinks({ english, links }) {
 	const conceptLink = [];
 
 	for (var i = 0; i < links.length; i++) {
-		if (links[i].typeOfLink === BROADER) {
+		if (links[i].typeOfLink === NARROWER) {
 			conceptParent.push(links[i]);
 			nbLinks++;
 		}
-		if (links[i].typeOfLink === NARROWER) {
+		if (links[i].typeOfLink === BROADER) {
 			conceptEnfants.push(links[i]);
 			nbLinks++;
 		}
