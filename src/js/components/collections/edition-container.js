@@ -12,6 +12,7 @@ import updateCollection from 'js/actions/collections/update';
 import CollectionEditionCreation from './edition-creation';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import buildExtract from 'js/utils/build-extract';
+import { bindToCollectionId } from 'js/utils/utils';
 import { dictionary } from 'js/utils/dictionary';
 import Loadable from 'react-loading-overlay';
 import { OK } from 'js/constants';
@@ -64,7 +65,9 @@ class EditionContainer extends Component {
 
 		if (this.state.updateRequested) {
 			if (this.props.updateStatus === OK) {
-				return <Redirect to={`/collection/${this.state.id}`} />;
+				return (
+					<Redirect to={`/collection/${bindToCollectionId(this.state.id)}`} />
+				);
 			} else {
 				return (
 					<Loadable

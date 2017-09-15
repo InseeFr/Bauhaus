@@ -11,6 +11,7 @@ import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import CollectionEditionCreation from './edition-creation';
 import { dictionary } from 'js/utils/dictionary';
 import emptyCollection from 'js/utils/collections/empty-collection';
+import { bindToCollectionId } from 'js/utils/utils';
 import PageTitle from 'js/components/shared/page-title';
 import Loadable from 'react-loading-overlay';
 import { OK } from 'js/constants';
@@ -50,7 +51,9 @@ class CreationContainer extends Component {
 
 		if (this.state.creationRequested) {
 			if (creationStatus === OK) {
-				return <Redirect to={`/collection/${this.state.id}`} />;
+				return (
+					<Redirect to={`/collection/${bindToCollectionId(this.state.id)}`} />
+				);
 			} else
 				return (
 					<Loadable

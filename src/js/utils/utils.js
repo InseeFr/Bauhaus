@@ -1,3 +1,7 @@
+export const bindToCollectionId = id => {
+	return id.replace(' ', '-').toLowerCase();
+};
+
 export const dateTimeToDateString = dateTime => {
 	// TODO
 	// Date english
