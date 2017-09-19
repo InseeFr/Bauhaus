@@ -1,4 +1,4 @@
-import api from 'js/remote-api/api';
+import api from 'js/remote-api/concepts-api';
 import * as A from '../constants';
 
 //TODO handle the status in the store (for now, we only handle the remote

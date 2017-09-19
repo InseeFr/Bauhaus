@@ -1,4 +1,4 @@
-import api from 'js/remote-api/api';
+import api from 'js/remote-api/concepts-api';
 import { rmesHtmlToRawHtml } from 'js/utils/html';
 import { emptyNotes } from 'js/utils/concepts/notes';
 import * as A from '../constants';

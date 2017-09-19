@@ -1,4 +1,4 @@
-import api from 'js/remote-api/api';
+import api from 'js/remote-api/concepts-api';
 import * as A from '../constants';
 import { sortArray } from 'js/utils/array-utils';
 
