@@ -194,6 +194,7 @@ class ConceptEditionCreation extends Component {
 							defaultActiveKey={0}
 							id="informationToManage"
 							onSelect={this.selectTab}
+							justified
 						>
 							<Tab eventKey={0} title={dictionary.concept.general}>
 								{activeTab === 0 &&
