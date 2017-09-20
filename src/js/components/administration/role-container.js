@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loading-overlay';
 import * as select from 'js/reducers';
-import RolesHome from './role';
+import Role from './role';
 import { dictionary } from 'js/utils/dictionary';
 import loadRoleList from 'js/actions/role';
 import loadAgentList from 'js/actions/agent';
@@ -34,7 +34,7 @@ class RolesContainer extends Component {
 				</div>
 			);
 		}
-		return <div>Coucou</div>;
+		return <Role roles={roles} agents={agents} />;
 	}
 }
 

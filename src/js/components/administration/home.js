@@ -20,7 +20,7 @@ function AdministrationHome() {
 				</Link>
 			</div>
 			<div className="img-block">
-				<Link to="/administration">
+				<Link to="/administration/roles">
 					<img src={dashBoardLogo} alt="DashBoard" className="img" />
 				</Link>
 				<Link to="/administration/roles">
