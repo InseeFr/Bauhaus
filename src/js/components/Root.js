@@ -22,6 +22,7 @@ import CollectionsToValidate from './collections/to-validate';
 import CollectionsToExport from './collections/to-export';
 import Help from './help/home';
 import AdministrationHome from './administration/home';
+import Role from './administration/role-container';
 import MenuConcepts from './menu/';
 
 const store = configureStore();
@@ -142,6 +143,7 @@ export default class Root extends Component {
 									path="/administration"
 									component={AdministrationHome}
 								/>
+								<Route exact path="/administration/roles" component={Role} />
 							</Switch>
 						</div>
 					</Router>

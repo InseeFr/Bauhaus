@@ -22,9 +22,23 @@ const stampList = listReducer([
 	A.LOAD_STAMP_LIST_FAILURE,
 ]);
 
+const roleList = listReducer([
+	A.LOAD_ROLE_LIST,
+	A.LOAD_ROLE_LIST_SUCCESS,
+	A.LOAD_ROLE_LIST_FAILURE,
+]);
+
+const agentList = listReducer([
+	A.LOAD_AGENT_LIST,
+	A.LOAD_AGENT_LIST_SUCCESS,
+	A.LOAD_AGENT_LIST_FAILURE,
+]);
+
 export default combineReducers({
 	stampList,
 	disseminationStatusList,
+	roleList,
+	agentList,
 	...conceptReducers,
 	...collectionReducers,
 	remoteCalls,
@@ -34,9 +48,6 @@ export const getConceptList = state => getItems(state.conceptList);
 export const getConceptSearchList = state => getItems(state.conceptSearchList);
 export const getConceptValidateList = state =>
 	getItems(state.conceptToValidateList);
-export const getDisseminationStatusList = state =>
-	getItems(state.disseminationStatusList);
-export const getStampList = state => getItems(state.stampList);
 
 export const getConceptGeneral = (state, id) =>
 	conceptGeneral.getGeneral(state.conceptGeneral, id);
@@ -84,6 +95,12 @@ export function getCollection(state, id) {
 		members,
 	};
 }
+
+export const getDisseminationStatusList = state =>
+	getItems(state.disseminationStatusList);
+export const getStampList = state => getItems(state.stampList);
+export const getRoleList = state => getItems(state.roleList);
+export const getAgentList = state => getItems(state.agentList);
 
 export const getStatus = (state, op) =>
 	remoteCallsSelectors.getStatus(state.remoteCalls, op);

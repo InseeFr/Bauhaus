@@ -23,7 +23,7 @@ function AdministrationHome() {
 				<Link to="/administration">
 					<img src={dashBoardLogo} alt="DashBoard" className="img" />
 				</Link>
-				<Link to="/administration">
+				<Link to="/administration/roles">
 					<img src={adminLogo} alt="Roles" className="img" />
 				</Link>
 			</div>
