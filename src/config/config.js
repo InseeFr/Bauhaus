@@ -1,12 +1,13 @@
 // Dev config
-export const appHost = 'http://localhost:3000/#/';
-export const baseHost = 'http://localhost:6969/gncs-core-refactor/ws/';
-export const baseHostConcepts =
-	'http://localhost:6969/gncs-core-refactor/ws/concepts/';
+// export const appHost = 'http://localhost:3000/#/';
+// export const baseHost = 'http://localhost:6969/gncs-core-refactor/ws/';
+// export const baseHostConcepts =
+// 	'http://localhost:6969/gncs-core-refactor/ws/concepts/';
 
 // Server config
-//export const appHost = 'http://dvrmesgncslht01.ad.insee.intra/gncs/#/';
-//export const baseHost = 'http://dvrmesgncslht01.ad.insee.intra/gncs/ws/rmes/';
+export const appHost = 'http://qfrmesgncslht01.ad.insee.intra/gncs/#/';
+export const baseHost = './ws/';
+export const baseHostConcepts = './ws/concepts/';
 // App langages
 export const lang1 = 'fr';
 export const lang2 = 'en';
