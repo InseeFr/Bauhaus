@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import CollectionListSearch from './search';
-
 import { propTypes as overviewPropTypes } from 'js/utils/collections/collection-overview';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/app.css';

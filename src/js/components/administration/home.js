@@ -13,14 +13,14 @@ function AdministrationHome() {
 				<Link to="/administration">
 					<h2 className="items page-title page-title-link">Tableau de bord</h2>
 				</Link>
-				<Link to="/administration">
+				<Link to="/administration/roles">
 					<h2 className="items page-title page-title-link">
 						Gestion des rôles
 					</h2>
 				</Link>
 			</div>
 			<div className="img-block">
-				<Link to="/administration/roles">
+				<Link to="/administration">
 					<img src={dashBoardLogo} alt="DashBoard" className="img" />
 				</Link>
 				<Link to="/administration/roles">

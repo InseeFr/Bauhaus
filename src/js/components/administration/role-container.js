@@ -8,6 +8,35 @@ import loadRoleList from 'js/actions/role';
 import loadAgentList from 'js/actions/agent';
 
 class RolesContainer extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = { role: '', modal: false, personToDelete: '' };
+
+		this.onSelect = role => {
+			this.setState({
+				role,
+			});
+		};
+		this.handleDelete = person => {
+			const { img, ...personToDelete } = person;
+			this.setState({
+				modal: true,
+				personToDelete,
+			});
+		};
+		this.closeCancel = modal => {
+			this.setState({
+				modal: false,
+			});
+		};
+		this.closeValid = modal => {
+			this.setState({
+				modal: false,
+			});
+			// action delete
+		};
+	}
 	componentWillMount() {
 		if (!this.props.roleList) {
 			this.props.loadRoleList();
@@ -18,6 +47,7 @@ class RolesContainer extends Component {
 	}
 
 	render() {
+		const { role, modal, personToDelete } = this.state;
 		const { roles, agents } = this.props;
 
 		if (!roles || !agents) {
@@ -34,7 +64,19 @@ class RolesContainer extends Component {
 				</div>
 			);
 		}
-		return <Role roles={roles} agents={agents} />;
+		return (
+			<Role
+				roles={roles}
+				role={role}
+				agents={agents}
+				personToDelete={personToDelete}
+				onSelect={this.onSelect}
+				modal={modal}
+				handleDelete={this.handleDelete}
+				closeCancel={this.closeCancel}
+				closeValid={this.closeValid}
+			/>
+		);
 	}
 }
 
