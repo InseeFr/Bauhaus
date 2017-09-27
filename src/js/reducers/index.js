@@ -8,6 +8,7 @@ import * as links from './concepts/by-id/links';
 import * as collectionGeneral from './collections/by-id/general';
 import * as members from './collections/by-id/members';
 import collectionReducers from './collections/';
+import roleReducers from './roles/';
 import remoteCalls, * as remoteCallsSelectors from './remote-calls';
 
 const disseminationStatusList = listReducer([
@@ -41,6 +42,7 @@ export default combineReducers({
 	agentList,
 	...conceptReducers,
 	...collectionReducers,
+	...roleReducers,
 	remoteCalls,
 });
 

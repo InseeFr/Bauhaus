@@ -57,6 +57,7 @@ const dictionaryMulti = {
 			returnCurrent: 'Retour à la version courante',
 			minorVersion: 'Ecraser la version',
 			majorVersion: 'Nouvelle version',
+			add: 'Ajouter',
 		},
 		navbar: {
 			referenciels: {

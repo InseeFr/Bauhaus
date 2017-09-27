@@ -53,9 +53,13 @@ export default trackActionReducer([
 	[A.EXPORT_COLLECTION_LIST, A.EXPORT_COLLECTION_LIST_SUCCESS],
 	[A.SEND_COLLECTION, A.SEND_COLLECTION_SUCCESS],
 	[A.VALIDATE_COLLECTION_LIST, A.VALIDATE_COLLECTION_LIST_SUCCESS],
+	[A.ADD_ROLE, A.ADD_ROLE_SUCCESS],
+	[A.DELETE_ROLE, A.DELETE_ROLE_SUCCESS],
 ]);
 
-export const getStatus = (state, actionType) =>
-	state[actionType] && state[actionType].status;
+export const getStatus = (state, actionType) => {
+	return state[actionType] && state[actionType].status;
+};
+
 export const getNewlyCreatedId = state =>
 	state[A.CREATE_CONCEPT] && state[A.CREATE_CONCEPT].id;

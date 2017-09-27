@@ -15,7 +15,7 @@ function AdministrationHome() {
 				</Link>
 				<Link to="/administration/roles">
 					<h2 className="items page-title page-title-link">
-						Gestion des rôles
+						Gestion des habilitations
 					</h2>
 				</Link>
 			</div>

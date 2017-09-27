@@ -1,5 +1,5 @@
 import api from 'js/remote-api/api';
-import * as A from './constants';
+import * as A from 'js/actions/constants';
 import { sortArray } from 'js/utils/array-utils';
 
 const sortByLabel = sortArray('label');

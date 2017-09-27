@@ -6,6 +6,26 @@ const api = {
 	getStampList: () => ['stamps'],
 	getRoleList: () => ['roles'],
 	getAgentList: () => ['agents'],
+	postAddRole: data => [
+		`private/role/add`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		},
+		() => {},
+	],
+	postDeleteRole: data => [
+		`private/role/delete`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		},
+		() => {},
+	],
 };
 
 //TODO wrap api in a proxy for developement to catch error when accessing

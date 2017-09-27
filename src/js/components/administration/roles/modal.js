@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import { dictionary } from 'js/utils/dictionary';
 
-function ModalDelete({ title, text, isOpen, closeCancel, closeValid }) {
+function ModalDelete({ title, text, isOpen, closeModal, confirmModal }) {
 	return (
 		<Modal
 			className="Modal__Bootstrap modal-dialog"
 			isOpen={isOpen}
-			onRequestClose={closeCancel}
+			onRequestClose={closeModal}
 			contentLabel=""
 		>
 			<div className="modal-content">
 				<div className="modal-header">
-					<button type="button" className="close" onClick={closeCancel}>
+					<button type="button" className="close" onClick={closeModal}>
 						<span aria-hidden="true">&times;</span>
 						<span className="sr-only">
 							{dictionary.buttons.close}
@@ -31,14 +31,14 @@ function ModalDelete({ title, text, isOpen, closeCancel, closeValid }) {
 						<button
 							type="button"
 							className="btn btn-primary btn-lg"
-							onClick={closeCancel}
+							onClick={closeModal}
 						>
 							{dictionary.buttons.cancel}
 						</button>
 						<button
 							type="button"
 							className="btn btn-primary btn-lg"
-							onClick={closeValid}
+							onClick={confirmModal}
 						>
 							{dictionary.buttons.validate}
 						</button>
@@ -50,11 +50,11 @@ function ModalDelete({ title, text, isOpen, closeCancel, closeValid }) {
 }
 
 ModalDelete.propTypes = {
+	title: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
-	label: PropTypes.string.isRequired,
 	text: PropTypes.string.isRequired,
-	closeCancel: PropTypes.func.isRequired,
-	closeValid: PropTypes.func.isRequired,
+	closeModal: PropTypes.func.isRequired,
+	confirmModal: PropTypes.func.isRequired,
 };
 
 export default ModalDelete;
