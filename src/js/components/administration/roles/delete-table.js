@@ -21,17 +21,24 @@ function DeleteTable({ roles, selectedRole, openModal }) {
 	};
 
 	const rowsParams = [
-		{ dataField: 'label', label: 'Nom', width: '50%', isKey: true },
-		{ dataField: 'stamp', label: 'Timbre', width: '40%' },
+		{
+			dataField: 'label',
+			label: 'Nom',
+			width: '50%',
+			isKey: true,
+			dataSort: true,
+		},
+		{ dataField: 'stamp', label: 'Timbre', width: '40%', dataSort: true },
 		{
 			dataField: 'del',
 			label: '',
 			width: '30%',
 			dataFormat: imageFormatter,
+			dataSort: false,
 		},
 	];
 	const rows = rowsParams.map(
-		({ dataField, label, width, isKey, dataFormat }) =>
+		({ dataField, label, width, isKey, dataFormat, dataSort }) =>
 			<TableHeaderColumn
 				key={label}
 				width={width}
@@ -39,7 +46,7 @@ function DeleteTable({ roles, selectedRole, openModal }) {
 				isKey={isKey}
 				dataAlign="center"
 				dataFormat={dataFormat}
-				dataSort={true}
+				dataSort={dataSort}
 			>
 				{label}
 			</TableHeaderColumn>
