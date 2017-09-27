@@ -112,8 +112,6 @@ class Edition extends Component {
 			const persons = this.props.roles
 				.find(p => p.id === this.state.selectedRole)
 				.persons.map(p => p.id);
-			console.log(persons);
-			console.log(agents);
 			return agents.filter(a => !persons.includes(a.id));
 		};
 	}
