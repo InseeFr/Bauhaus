@@ -131,7 +131,7 @@ paths:
               properties:
                 id:
                   type: string
-                role:
+                roles:
                   type: array
                   items:
                     type: string

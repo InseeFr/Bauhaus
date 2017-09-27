@@ -87,7 +87,7 @@ class Edition extends Component {
 		this.updateAgentsToAdd = agentsToAdd => {
 			const added = agentsToAdd.filter(({ role }) => role.length > 0);
 			const addData = added.map(({ id, role }) => {
-				return { id, role };
+				return { id, roles: role };
 			});
 			this.setState({
 				addData,
