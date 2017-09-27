@@ -6,10 +6,9 @@ info:
   contact:
     email: nicolas.laval@insee.fr
 host: 'localhost:6969'
-basePath: /gncs-core-refactor/ws/rmes
+basePath: /gncs-core-refactor/ws
 tags:
-  - name: stamps
-  - name: disseminationStatus
+  - name: management
   - name: concepts
     description: Everything about Concepts
   - name: collections
@@ -20,7 +19,7 @@ paths:
   /stamps:
     get:
       tags:
-        - stamps
+        - management
       summary: List of stamps
       description: ''
       operationId: getStamps
@@ -37,7 +36,7 @@ paths:
   /disseminationStatus:
     get:
       tags:
-        - disseminationStatus
+        - management
       summary: List of dissemination status
       description: ''
       operationId: getDisseminationStatus
@@ -54,9 +53,120 @@ paths:
               properties:
                 label:
                   type: string
+                id:
+                  type: string
+  /roles:
+    get:
+      tags:
+        - management
+      summary: List of roles
+      description: ''
+      operationId: getRoles
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                persons:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      stamp:
+                        type: string
+                      id:
+                        type: string
+                      label:
+                        type: string
+                id:
+                  type: string
+                label:
+                  type: string
+  /agents:
+    get:
+      tags:
+        - management
+      summary: List of agents
+      description: ''
+      operationId: getAgents
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                label:
+                  type: string
                 url:
                   type: string
-  /concepts:
+  /private/role/add:
+    post:
+      tags:
+        - management
+      summary: Add agents to user roles
+      description: ''
+      operationId: setAddRole
+      consumes:
+        - application/json
+      parameters:
+        - name: Agents to add
+          in: body
+          description: Add agents to user roles
+          required: true
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                role:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '204':
+          description: 'Agents added'
+          schema:
+            type: string
+  /private/role/delete:
+    post:
+      tags:
+        - management
+      summary: Delete agent from role
+      description: ''
+      operationId: setDeleteRole
+      consumes:
+        - application/json
+      parameters:
+        - name: Agent to delete
+          in: body
+          description: Delete agent from role
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              role:
+                type: string
+      responses:
+        '204':
+          description: 'Agent deleted from role'
+          schema:
+            type: string
+  /concepts/concepts:
     get:
       tags:
         - concepts
@@ -78,7 +188,7 @@ paths:
                   type: string
                 label:
                   type: string
-  /concepts/search:
+  /concepts/concepts/search:
     get:
       tags:
         - concepts
@@ -114,7 +224,7 @@ paths:
                   type: string
                 creator:
                   type: string
-  /concepts/toValidate:
+  /concepts/concepts/toValidate:
     get:
       tags:
         - concepts
@@ -136,7 +246,7 @@ paths:
                   type: string
                 label:
                   type: string
-  '/concept/{id}':
+  '/concepts/concept/{id}':
     get:
       tags:
         - concepts
@@ -191,7 +301,7 @@ paths:
                 enum:
                   - Validé
                   - Provisoire
-  '/concept/{id}/links':
+  '/concepts/concept/{id}/links':
     get:
       tags:
         - concepts
@@ -228,7 +338,7 @@ paths:
                   type: string
                 prefLabelLg2:
                   type: string
-  '/concept/{id}/notes/{conceptVersion}':
+  '/concepts/concept/{id}/notes/{conceptVersion}':
     get:
       tags:
         - concepts
@@ -270,7 +380,7 @@ paths:
                 type: string
               changeNoteLg2:
                 type: string
-  /private/concept:
+  /concepts/private/concept:
     post:
       tags:
         - concepts
@@ -358,7 +468,7 @@ paths:
           description: 'Concept created, returns concept ID'
           schema:
             type: string
-  '/private/concept/{id}':
+  '/concepts/private/concept/{id}':
     put:
       tags:
         - concepts
@@ -452,7 +562,7 @@ paths:
       responses:
         '204':
           description: Concept modified
-  /private/concepts/validate:
+  /concepts/private/concepts/validate:
     put:
       tags:
         - concepts
@@ -472,7 +582,7 @@ paths:
       responses:
         '204':
           description: Concepts validated
-  '/concept/export/{id}':
+  '/concepts/concept/export/{id}':
     get:
       tags:
         - concepts
@@ -491,7 +601,7 @@ paths:
           description: Concept exported
           schema:
             type: file
-  '/private/concept/send/{id}':
+  '/concepts/private/concept/send/{id}':
     post:
       tags:
         - concepts
@@ -549,7 +659,7 @@ paths:
                   type: string
                 label:
                   type: string
-  /collections/toValidate:
+  /concepts/collections/toValidate:
     get:
       tags:
         - collections
@@ -571,7 +681,7 @@ paths:
                   type: string
                 label:
                   type: string
-  '/collection/{id}':
+  '/concepts/collection/{id}':
     get:
       tags:
         - collections
@@ -617,7 +727,7 @@ paths:
                 type: string
               contributor:
                 type: string
-  '/collection/{id}/members':
+  '/concepts/collection/{id}/members':
     get:
       tags:
         - collections
@@ -645,7 +755,7 @@ paths:
                   type: string
                 prefLabelLg2:
                   type: string
-  /private/collection:
+  /concepts/private/collection:
     post:
       tags:
         - collections
@@ -683,7 +793,7 @@ paths:
       responses:
         '204':
           description: Collection created
-  '/private/collection/{id}':
+  '/concepts/private/collection/{id}':
     put:
       tags:
         - collections
@@ -727,7 +837,7 @@ paths:
       responses:
         '204':
           description: Collection modified
-  /private/collections/validate:
+  /concepts/private/collections/validate:
     put:
       tags:
         - collections
@@ -747,7 +857,7 @@ paths:
       responses:
         '204':
           description: Collections validated
-  '/collection/export/{id}':
+  '/concepts/collection/export/{id}':
     get:
       tags:
         - collections
@@ -766,7 +876,7 @@ paths:
           description: Collection exported
           schema:
             type: file
-  '/private/collection/send/{id}':
+  '/concepts/private/collection/send/{id}':
     post:
       tags:
         - collections
