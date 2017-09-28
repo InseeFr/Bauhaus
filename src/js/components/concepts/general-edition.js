@@ -37,8 +37,8 @@ function ConceptGeneralEdition({
 		additionalMaterial,
 		valid,
 	} = general;
-	const altLabelArrayLg1 = altLabelLg1.split('||');
-	const altLabelArrayLg2 = altLabelLg2.split('||');
+	const altLabelArrayLg1 = altLabelLg1.split(' || ');
+	const altLabelArrayLg2 = altLabelLg2.split(' || ');
 	const handlers = handleFieldChange(handleChange);
 
 	return (

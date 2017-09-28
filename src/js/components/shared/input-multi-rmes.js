@@ -77,11 +77,11 @@ class InputMultiRmes extends Component {
 			const { handleChangeLg1, handleChangeLg2 } = this.props;
 			const { arrayLg1, arrayLg2 } = this.state;
 			if (arrayName === 'arrayLg1') {
-				handleChangeLg1(newArray.join('||'));
-				handleChangeLg2(arrayLg2.join('||'));
+				handleChangeLg1(newArray.join(' || '));
+				handleChangeLg2(arrayLg2.join(' || '));
 			} else {
-				handleChangeLg1(arrayLg1.join('||'));
-				handleChangeLg2(newArray.join('||'));
+				handleChangeLg1(arrayLg1.join(' || '));
+				handleChangeLg2(newArray.join(' || '));
 			}
 		};
 	}

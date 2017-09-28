@@ -62,7 +62,7 @@ function ConceptGeneral({ attr, english }) {
 									return (
 										<li key={fieldName}>
 											{`${mapping[fieldName]} : ${attr[fieldName]
-												.split('||')
+												.split(' || ')
 												.join(' - ')}`}
 										</li>
 									);
