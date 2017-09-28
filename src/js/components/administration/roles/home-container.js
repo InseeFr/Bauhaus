@@ -29,6 +29,7 @@ class RolesContainer extends Component {
 		this.addAgent = data => {
 			this.setState({
 				addRequested: true,
+				edition: false,
 			});
 			this.props.addRole(data);
 		};
