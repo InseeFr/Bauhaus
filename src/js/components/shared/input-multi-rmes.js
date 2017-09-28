@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Modal from './input-multi-modal-rmes';
 import flagFr from 'js/components/shared/flag-fr';
 import flagEn from 'js/components/shared/flag-en';
 
@@ -9,46 +10,46 @@ class InputMultiRmes extends Component {
 		const { arrayLg1, arrayLg2 } = this.props;
 
 		this.state = {
-			nbFieldsLg1: arrayLg1.length,
-			nbFieldsLg2: arrayLg2.length,
 			arrayLg1: arrayLg1,
 			arrayLg2: arrayLg2,
+			modalAdd: false,
+			modalDelete: false,
+			modalLast: false,
 		};
 
-		this.updateCount = (lang, type) => {
-			const { nbFieldsLg1, nbFieldsLg2, arrayLg1, arrayLg2 } = this.state;
-			if (lang === 'Lg1' && type === 'plus')
+		this.close = () => {
+			this.setState({
+				modalAdd: false,
+				modalDelete: false,
+				modalLast: false,
+			});
+		};
+
+		this.update = (lang, type) => {
+			const { arrayLg1, arrayLg2 } = this.state;
+			const arrayName = `array${lang}`;
+			const array = this.state[arrayName];
+			const arrayLength = array.length;
+			if (array[arrayLength - 1] === '' && type === 'plus')
 				this.setState({
-					nbFieldsLg1: nbFieldsLg1 + 1,
-					arrayLg1: arrayLg1.concat(['']),
+					modalAdd: true,
 				});
-			if (
-				lang === 'Lg1' &&
-				type === 'minus' &&
-				nbFieldsLg1 > 1 &&
-				arrayLg1[arrayLg1.length - 1] === ''
-			) {
-				arrayLg1.pop();
+			else if (array[arrayLength - 1] !== '' && type === 'minus')
 				this.setState({
-					nbFieldsLg1: nbFieldsLg1 - 1,
-					arrayLg1: arrayLg1,
+					modalDelete: true,
 				});
-			}
-			if (lang === 'Lg2' && type === 'plus')
+			else if (type === 'plus')
 				this.setState({
-					nbFieldsLg2: nbFieldsLg2 + 1,
-					arrayLg2: arrayLg2.concat(['']),
+					[arrayName]: array.concat(['']),
 				});
-			if (
-				lang === 'Lg2' &&
-				type === 'minus' &&
-				nbFieldsLg2 > 1 &&
-				arrayLg2[arrayLg2.length - 1] === ''
-			) {
-				arrayLg2.pop();
+			else if (type === 'minus' && arrayLength > 1) {
+				array.pop();
 				this.setState({
-					nbFieldsLg2: nbFieldsLg2 - 1,
-					arrayLg2: arrayLg2,
+					[arrayName]: array,
+				});
+			} else if (type === 'minus' && arrayLength === 1) {
+				this.setState({
+					modalLast: true,
 				});
 			}
 		};
@@ -86,7 +87,7 @@ class InputMultiRmes extends Component {
 	}
 	render() {
 		const { label } = this.props;
-		const { arrayLg1, arrayLg2 } = this.state;
+		const { arrayLg1, arrayLg2, modalAdd, modalDelete, modalLast } = this.state;
 
 		const altLg1 = this.initInput(arrayLg1, 'arrayLg1');
 		const altLg2 = this.initInput(arrayLg2, 'arrayLg2');
@@ -94,8 +95,9 @@ class InputMultiRmes extends Component {
 		const button = (lang, type) =>
 			<span
 				className={`glyphicon glyphicon-${type}`}
-				onClick={() => this.updateCount(`${lang}`, `${type}`)}
+				onClick={() => this.update(`${lang}`, `${type}`)}
 			/>;
+
 		return (
 			<div className="row">
 				<div className={`form-group col-md-6`}>
@@ -112,6 +114,21 @@ class InputMultiRmes extends Component {
 					</label>
 					{altLg2}
 				</div>
+				{modalAdd &&
+					<Modal
+						body="Remplissez le champ précédent pour en ajouter un nouveau"
+						close={this.close}
+					/>}
+				{modalDelete &&
+					<Modal
+						body="Impossible de supprimer un champ rempli"
+						close={this.close}
+					/>}
+				{modalLast &&
+					<Modal
+						body="Impossible de supprimer le dernier champ"
+						close={this.close}
+					/>}
 			</div>
 		);
 	}
