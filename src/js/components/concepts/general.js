@@ -58,6 +58,15 @@ function ConceptGeneral({ attr, english }) {
 								if (fieldName === 'altLabelLg2' && !english) {
 									return null;
 								}
+								if (fieldName.includes('altLabel')) {
+									return (
+										<li key={fieldName}>
+											{`${mapping[fieldName]} : ${attr[fieldName]
+												.split('||')
+												.join(' - ')}`}
+										</li>
+									);
+								}
 								if (
 									fieldName === 'created' ||
 									fieldName === 'modified' ||

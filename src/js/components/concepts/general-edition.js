@@ -4,6 +4,7 @@ import { dictionary } from 'js/utils/dictionary';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import SelectRmes from 'js/components/shared/select-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
+import InputMultiRmes from 'js/components/shared/input-multi-rmes';
 import flagFr from 'js/components/shared/flag-fr';
 import flagEn from 'js/components/shared/flag-en';
 import {
@@ -36,8 +37,10 @@ function ConceptGeneralEdition({
 		additionalMaterial,
 		valid,
 	} = general;
-
+	const altLabelArrayLg1 = altLabelLg1.split('||');
+	const altLabelArrayLg2 = altLabelLg2.split('||');
 	const handlers = handleFieldChange(handleChange);
+
 	return (
 		<div>
 			<h4 className="centered">
@@ -63,22 +66,13 @@ function ConceptGeneralEdition({
 					handleChange={handlers.prefLabelLg2}
 				/>
 			</div>
-			<div className="row">
-				<InputRmes
-					colMd={6}
-					label={dictionary.concept.altLabel}
-					flag={flagFr}
-					value={altLabelLg1}
-					handleChange={handlers.altLabelLg1}
-				/>
-				<InputRmes
-					colMd={6}
-					label={dictionary.concept.altLabel}
-					flag={flagEn}
-					value={altLabelLg2}
-					handleChange={handlers.altLabelLg2}
-				/>
-			</div>
+			<InputMultiRmes
+				arrayLg1={altLabelArrayLg1}
+				arrayLg2={altLabelArrayLg2}
+				label={dictionary.concept.altLabel}
+				handleChangeLg1={handlers.altLabelLg1}
+				handleChangeLg2={handlers.altLabelLg2}
+			/>
 			<div className="form-group">
 				<label>
 					{dictionary.concept.creator} <span className="boldRed">*</span>
