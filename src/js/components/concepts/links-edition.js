@@ -21,11 +21,11 @@ import {
 const linkTypes = [
 	{
 		title: dictionary.links.narrower,
-		memberType: BROADER,
+		memberType: NARROWER,
 	},
 	{
 		title: dictionary.links.broader,
-		memberType: NARROWER,
+		memberType: BROADER,
 	},
 	{
 		title: dictionary.links.references,
@@ -126,7 +126,7 @@ class LinksEdition extends Component {
 		const { members, hits } = this.getMembersAndHits();
 		const { addMember, removeMember } = this;
 
-		const memberEls = members.map(({ id, label }) =>
+		const memberEls = members.map(({ id, label }) => (
 			<ConceptItem
 				key={id}
 				id={id}
@@ -134,11 +134,11 @@ class LinksEdition extends Component {
 				logo={logoDel}
 				handleClick={removeMember}
 			/>
-		);
+		));
 		//if a concept already has a parent, no other parent can be added.
 		//TODO check if the previous assertion is right
 		const handleClickAdd = !this.isAddDisabled(members) ? addMember : undefined;
-		const hitEls = hits.map(({ id, label }) =>
+		const hitEls = hits.map(({ id, label }) => (
 			<ConceptItem
 				key={id}
 				id={id}
@@ -146,7 +146,7 @@ class LinksEdition extends Component {
 				logo={logoAdd}
 				handleClick={handleClickAdd}
 			/>
-		);
+		));
 
 		const searchComponent = (
 			<SearchConceptsByLabel
@@ -156,7 +156,7 @@ class LinksEdition extends Component {
 			/>
 		);
 
-		const tabs = linkTypes.map(({ title, memberType }, i) =>
+		const tabs = linkTypes.map(({ title, memberType }, i) => (
 			<Tab key={title} eventKey={i} title={title} style={{ marginTop: '20px' }}>
 				<ConceptToLink
 					title={title}
@@ -164,7 +164,7 @@ class LinksEdition extends Component {
 					searchComponent={searchComponent}
 				/>
 			</Tab>
-		);
+		));
 
 		return (
 			<ul className="nav nav-tabs nav-justified">
