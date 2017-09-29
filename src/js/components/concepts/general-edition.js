@@ -37,8 +37,7 @@ function ConceptGeneralEdition({
 		additionalMaterial,
 		valid,
 	} = general;
-	const altLabelArrayLg1 = altLabelLg1.split(' || ');
-	const altLabelArrayLg2 = altLabelLg2.split(' || ');
+
 	const handlers = handleFieldChange(handleChange);
 
 	return (
@@ -67,8 +66,8 @@ function ConceptGeneralEdition({
 				/>
 			</div>
 			<InputMultiRmes
-				arrayLg1={altLabelArrayLg1}
-				arrayLg2={altLabelArrayLg2}
+				inputLg1={altLabelLg1}
+				inputLg2={altLabelLg2}
 				label={dictionary.concept.altLabel}
 				handleChangeLg1={handlers.altLabelLg1}
 				handleChangeLg2={handlers.altLabelLg2}
@@ -87,9 +86,7 @@ function ConceptGeneralEdition({
 				/>
 			</div>
 			<div className="form-group">
-				<label>
-					{dictionary.concept.contributor}
-				</label>
+				<label>{dictionary.concept.contributor}</label>
 				<input
 					type="text"
 					className="form-control"
@@ -115,9 +112,7 @@ function ConceptGeneralEdition({
 				/>
 			</div>
 			<div className="form-group">
-				<label>
-					{dictionary.concept.additionalMaterial}
-				</label>
+				<label>{dictionary.concept.additionalMaterial}</label>
 				<div className="input-group">
 					<span className="input-group-addon">http://</span>
 					{/* TODO previous version worked with `defaultValue`
@@ -131,9 +126,7 @@ function ConceptGeneralEdition({
 				</div>
 			</div>
 			<div className="form-group">
-				<label>
-					{dictionary.concept.valid}
-				</label>
+				<label>{dictionary.concept.valid}</label>
 				<DatePickerRmes
 					value={valid}
 					onChange={handlers.valid}

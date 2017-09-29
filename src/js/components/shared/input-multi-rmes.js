@@ -7,11 +7,12 @@ import flagEn from 'js/components/shared/flag-en';
 class InputMultiRmes extends Component {
 	constructor(props) {
 		super(props);
-		const { arrayLg1, arrayLg2 } = this.props;
+
+		const { inputLg1, inputLg2 } = this.props;
 
 		this.state = {
-			arrayLg1: arrayLg1,
-			arrayLg2: arrayLg2,
+			arrayLg1: inputLg1.split(' || '),
+			arrayLg2: inputLg2.split(' || '),
 			modalAdd: false,
 			modalDelete: false,
 			modalLast: false,
@@ -26,7 +27,6 @@ class InputMultiRmes extends Component {
 		};
 
 		this.update = (lang, type) => {
-			const { arrayLg1, arrayLg2 } = this.state;
 			const arrayName = `array${lang}`;
 			const array = this.state[arrayName];
 			const arrayLength = array.length;
@@ -55,7 +55,7 @@ class InputMultiRmes extends Component {
 		};
 
 		this.initInput = (array, arrayName) => {
-			return array.map((alt, i) =>
+			return array.map((alt, i) => (
 				<input
 					key={i}
 					type="text"
@@ -63,7 +63,7 @@ class InputMultiRmes extends Component {
 					className="form-control form-group"
 					onChange={e => this.handleChange(e.target.value, arrayName, i)}
 				/>
-			);
+			));
 		};
 
 		this.handleChange = (value, arrayName, i) => {
@@ -92,11 +92,12 @@ class InputMultiRmes extends Component {
 		const altLg1 = this.initInput(arrayLg1, 'arrayLg1');
 		const altLg2 = this.initInput(arrayLg2, 'arrayLg2');
 
-		const button = (lang, type) =>
+		const button = (lang, type) => (
 			<span
 				className={`glyphicon glyphicon-${type}`}
 				onClick={() => this.update(`${lang}`, `${type}`)}
-			/>;
+			/>
+		);
 
 		return (
 			<div className="row">
@@ -114,29 +115,32 @@ class InputMultiRmes extends Component {
 					</label>
 					{altLg2}
 				</div>
-				{modalAdd &&
+				{modalAdd && (
 					<Modal
 						body="Remplissez le champ précédent pour en ajouter un nouveau"
 						close={this.close}
-					/>}
-				{modalDelete &&
+					/>
+				)}
+				{modalDelete && (
 					<Modal
 						body="Impossible de supprimer un champ rempli"
 						close={this.close}
-					/>}
-				{modalLast &&
+					/>
+				)}
+				{modalLast && (
 					<Modal
 						body="Impossible de supprimer le dernier champ"
 						close={this.close}
-					/>}
+					/>
+				)}
 			</div>
 		);
 	}
 }
 
 InputMultiRmes.propTypes = {
-	arrayLg1: PropTypes.array.isRequired,
-	arrayLg2: PropTypes.array.isRequired,
+	inputLg1: PropTypes.string.isRequired,
+	inputLg2: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	handleChangeLg1: PropTypes.func.isRequired,
 	handleChangeLg2: PropTypes.func.isRequired,
