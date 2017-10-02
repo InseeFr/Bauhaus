@@ -115,7 +115,7 @@ class LinksEdition extends Component {
 			};
 		};
 		this.getActualType = () => linkTypes[this.state.activeTab].memberType;
-		this.isPanelParent = () => this.getActualType() === BROADER;
+		this.isPanelParent = () => this.getActualType() === NARROWER;
 		//if the concept already has a parent, we cannot add a parent
 		//TODO check if the previous assertion is right
 		this.isAddDisabled = members => this.isPanelParent() && members.length > 0;
