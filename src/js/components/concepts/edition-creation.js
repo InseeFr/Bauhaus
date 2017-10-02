@@ -178,7 +178,7 @@ class ConceptEditionCreation extends Component {
 			<div>
 				<div className="container">
 					{pageTitle}
-					{this.props.general.contributor &&
+					{this.props.general.contributor && (
 						<ConceptCreateControl
 							oldGeneral={this.getOriginalData().general}
 							general={general}
@@ -188,7 +188,8 @@ class ConceptEditionCreation extends Component {
 							//TODO should redirect to the page concept when updating an
 							//existing concept
 							redirectCancel={`/concepts`}
-						/>}
+						/>
+					)}
 					<ul className="nav nav-tabs nav-justified">
 						<Tabs
 							defaultActiveKey={0}
@@ -197,34 +198,38 @@ class ConceptEditionCreation extends Component {
 							justified
 						>
 							<Tab eventKey={0} title={dictionary.concept.general}>
-								{activeTab === 0 &&
+								{activeTab === 0 && (
 									<GeneralEdition
 										general={general}
 										handleChange={this.handleChangeGeneral}
 										stampList={stampList}
 										disseminationStatusList={disseminationStatusList}
-									/>}
+									/>
+								)}
 							</Tab>
 							<Tab eventKey={1} title={dictionary.notes.title}>
-								{activeTab === 1 &&
+								{activeTab === 1 && (
 									<NotesEdition
 										notes={notes}
 										handleChange={this.handleChangeNotes}
 										disseminationStatus={disseminationStatus}
-									/>}
+									/>
+								)}
 							</Tab>
 							<Tab eventKey={2} title={dictionary.links.title}>
-								{activeTab === 2 &&
+								{activeTab === 2 && (
 									<LinksEdition
 										conceptsWithLinks={conceptsWithLinks}
+										currentId={this.state.id}
 										handleChange={this.handleChangeLinks}
-									/>}
+									/>
+								)}
 							</Tab>
 						</Tabs>
 					</ul>
 				</div>
 				<div>
-					{!creation &&
+					{!creation && (
 						<Confirm
 							isOpen={showModal}
 							label={this.props.general.prefLabelLg1}
@@ -232,7 +237,8 @@ class ConceptEditionCreation extends Component {
 							closeCancel={() => this.closeModal()}
 							closeMinor={() => this.closeModal(NO_VERSIONING)}
 							closeMajor={() => this.closeModal(VERSIONING)}
-						/>}
+						/>
+					)}
 				</div>
 			</div>
 		);

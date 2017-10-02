@@ -44,15 +44,17 @@ const linkTypes = [
 class LinksEdition extends Component {
 	constructor(props) {
 		super(props);
-		const { conceptsWithLinks } = props;
+		const { conceptsWithLinks, currentId } = props;
 		this.state = {
 			searchLabel: '',
 			activeTab: 0,
-			conceptsWithLinks: conceptsWithLinks.map(({ id, label, typeOfLink }) => ({
-				id,
-				label,
-				typeOfLink,
-			})),
+			conceptsWithLinks: conceptsWithLinks
+				.filter(c => c.id !== currentId)
+				.map(({ id, label, typeOfLink }) => ({
+					id,
+					label,
+					typeOfLink,
+				})),
 		};
 
 		this.handleSearch = label => {
