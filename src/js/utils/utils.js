@@ -1,5 +1,5 @@
 export const bindToCollectionId = id => {
-	return id.replace(' ', '-').toLowerCase();
+	return id.replace(/ /g, '-').toLowerCase();
 };
 
 export const dateTimeToDateString = dateTime => {
