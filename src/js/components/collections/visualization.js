@@ -44,27 +44,23 @@ class CollectionVisualization extends Component {
 					</div>
 					<div className="row">
 						<div className="col-md-10 centered col-md-offset-1">
-							<h2 className="page-title">
-								{general.prefLabelLg1}
-							</h2>
+							<h2 className="page-title">{general.prefLabelLg1}</h2>
 						</div>
 					</div>
+					{english &&
+						general.prefLabelLg2 && (
+							<div className="row">
+								<div className="col-md-8 centered col-md-offset-2">
+									<h3 className="page-sub-title">{general.prefLabelLg2}</h3>
+								</div>
+							</div>
+						)}
 					<CollectionVisualizationControls
 						id={id}
 						//TODO FIX ME
 						isValidated={isValidated === 'Validée'}
 						handleValidation={this.handleClickValid}
 					/>
-					{english &&
-						<div className="row">
-							<div className="col-md-10 centered col-md-offset-1">
-								<h2>
-									<em>
-										{general.prefLabelLg2}
-									</em>
-								</h2>
-							</div>
-						</div>}
 					<CollectionGeneral attr={general} english={english} />
 					<CollectionMembers members={members} english={english} />
 				</div>
