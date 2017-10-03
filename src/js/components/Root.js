@@ -44,8 +44,9 @@ export default class Root extends Component {
 
 							<Route
 								path={/(collection|collections)/}
-								component={() =>
-									<MenuConcepts defaultActiveItem="collections" />}
+								component={() => (
+									<MenuConcepts defaultActiveItem="collections" />
+								)}
 							/>
 							<Route
 								path="/help"
@@ -53,8 +54,9 @@ export default class Root extends Component {
 							/>
 							<Route
 								path="/administration"
-								component={() =>
-									<MenuConcepts defaultActiveItem="administration" />}
+								component={() => (
+									<MenuConcepts defaultActiveItem="administration" />
+								)}
 							/>
 							<Switch>
 								<Route
@@ -153,7 +155,7 @@ export default class Root extends Component {
 					</Router>
 				</Provider>
 				<div className="centered" style={{ marginTop: '50px' }}>
-					<label>Gncs - Version 0.2-beta</label>
+					<label>Gncs - Version 0.2</label>
 				</div>
 			</div>
 		);
