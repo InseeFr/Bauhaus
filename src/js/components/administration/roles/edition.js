@@ -132,7 +132,7 @@ class Edition extends Component {
 		const selectedRoleLabel = roles.filter(role => role.id === selectedRole)[0]
 			.label;
 
-		const toAddEls = this.excludeAffectedAgents(toAdd).map(({ id, label }) =>
+		const toAddEls = this.excludeAffectedAgents(toAdd).map(({ id, label }) => (
 			<AgentItem
 				key={id}
 				id={id}
@@ -140,9 +140,9 @@ class Edition extends Component {
 				logo={addLogo}
 				handleClick={this.addAgent}
 			/>
-		);
+		));
 
-		const addedEls = added.map(({ id, label }) =>
+		const addedEls = added.map(({ id, label }) => (
 			<AgentItem
 				key={id}
 				id={id}
@@ -150,7 +150,7 @@ class Edition extends Component {
 				logo={delLogo}
 				handleClick={this.removeAgent}
 			/>
-		);
+		));
 
 		return (
 			<div className="container">
@@ -172,11 +172,12 @@ class Edition extends Component {
 								}))}
 								onChange={this.onSelect}
 								searchable={true}
+								unclearable={true}
 							/>
 						</div>
 					</div>
 				</div>
-				{selectedRole &&
+				{selectedRole && (
 					<div>
 						<DeleteTable
 							roles={roles}
@@ -185,9 +186,7 @@ class Edition extends Component {
 						/>
 						<div className="row picker-agent">
 							<div className="col-md-6">
-								<Panel title="Agents à ajouter">
-									{addedEls}
-								</Panel>
+								<Panel title="Agents à ajouter">{addedEls}</Panel>
 							</div>
 							<div className="col-md-6 centered">
 								<input
@@ -200,7 +199,8 @@ class Edition extends Component {
 								<Pagination itemEls={toAddEls} itemsPerPage="10" />
 							</div>
 						</div>
-					</div>}
+					</div>
+				)}
 				<Modal
 					title="Confirmation"
 					text={`Voulez-vous supprimer le rôle ' ${selectedRoleLabel} ' à ${deleteData.label} ?`}
