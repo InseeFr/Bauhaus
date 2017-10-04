@@ -17,7 +17,8 @@ function VisualisationTable({ roles, handleDelete, setEdition }) {
 		{ dataField: 'label', label: 'Nom', width: '40%', isKey: true },
 		{ dataField: 'stamp', label: 'Timbre', width: '30%' },
 	];
-	const rows = rowsParams.map(({ dataField, label, width, isKey }) =>
+
+	const rows = rowsParams.map(({ dataField, label, width, isKey }) => (
 		<TableHeaderColumn
 			key={label}
 			width={width}
@@ -28,7 +29,7 @@ function VisualisationTable({ roles, handleDelete, setEdition }) {
 		>
 			{label}
 		</TableHeaderColumn>
-	);
+	));
 
 	return (
 		<div>
