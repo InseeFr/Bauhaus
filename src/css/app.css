@@ -81,8 +81,11 @@ link {
 	color: red;
 }
 
-.nav-tabs > li > a {
-	border: medium none;
+.nav-tabs > li {
+	border: 1px solid #457dbb;
+}
+.nav-tabs.nav-justified > li > a {
+	border-bottom: none;
 }
 .nav-tabs > li > a:hover {
 	background-color: #234ca5 !important;
