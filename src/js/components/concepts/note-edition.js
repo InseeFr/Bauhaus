@@ -6,48 +6,49 @@ import flagEn from 'js/components/shared/flag-en';
 import { dictionary } from 'js/utils/dictionary';
 
 function NoteEdition({
-  noteFr,
-  handleChangeFr,
-  noteEn,
-  handleChangeEn,
-  maxLength,
+	noteLg1,
+	handleChangeLg1,
+	noteLg2,
+	handleChangeLg2,
+	maxLength,
 }) {
-  return (
-    <div>
-      <div className="row">
-        <div className="col-md-6">
-          <NoteOneLangEdition
-            flag={flagFr}
-            note={noteFr}
-            handleChange={handleChangeFr}
-            maxLength={maxLength}
-          />
-        </div>
-        <div className="col-md-6">
-          <NoteOneLangEdition
-            flag={flagEn}
-            note={noteEn}
-            handleChange={handleChangeEn}
-            maxLength={maxLength}
-          />
-        </div>
-      </div>
-      {maxLength &&
-        <div className="row">
-          <div className="row centered boldRed">
-            {maxLength} {dictionary.maxLengthScopeNote}
-          </div>
-        </div>}
-    </div>
-  );
+	return (
+		<div>
+			<div className="row">
+				<div className="col-md-6">
+					<NoteOneLangEdition
+						flag={flagFr}
+						note={noteLg1}
+						handleChange={handleChangeLg1}
+						maxLength={maxLength}
+					/>
+				</div>
+				<div className="col-md-6">
+					<NoteOneLangEdition
+						flag={flagEn}
+						note={noteLg2}
+						handleChange={handleChangeLg2}
+						maxLength={maxLength}
+					/>
+				</div>
+			</div>
+			{maxLength && (
+				<div className="row">
+					<div className="row centered boldRed">
+						{maxLength} {dictionary.maxLengthScopeNote}
+					</div>
+				</div>
+			)}
+		</div>
+	);
 }
 
 NoteEdition.propTypes = {
-  noteFr: PropTypes.string,
-  noteEn: PropTypes.string,
-  handleChangeFr: PropTypes.func.isRequired,
-  handleChangeEn: PropTypes.func.isRequired,
-  maxLength: PropTypes.number, // if not set, unbounded
+	noteLg1: PropTypes.string,
+	noteLg2: PropTypes.string,
+	handleChangeLg1: PropTypes.func.isRequired,
+	handleChangeLg2: PropTypes.func.isRequired,
+	maxLength: PropTypes.number, // if not set, unbounded
 };
 
 export default NoteEdition;

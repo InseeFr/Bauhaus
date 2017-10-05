@@ -12,36 +12,36 @@ const noteTypes = [
 		rawTitle: dictionary.notes.scopeNote,
 		// should be highlighted only if `scopeNoteLg1` is empty and
 		//`disseminationStatus.includes('Public')`
-		redFrEmpty: disseminationStatus => disseminationStatus.includes('Public'),
-		noteFrName: 'scopeNoteLg1',
-		noteEnName: 'scopeNoteLg2',
+		redLg1Empty: disseminationStatus => disseminationStatus.includes('Public'),
+		noteLg1Name: 'scopeNoteLg1',
+		noteLg2Name: 'scopeNoteLg2',
 		maxLength: maxLengthScopeNote,
 	},
 	{
 		rawTitle: dictionary.notes.definition,
-		redFrEmpty: () => true,
-		noteFrName: 'definitionLg1',
-		noteEnName: 'definitionLg2',
+		redLg1Empty: () => true,
+		noteLg1Name: 'definitionLg1',
+		noteLg2Name: 'definitionLg2',
 	},
 
 	{
 		rawTitle: dictionary.notes.editorialeNote,
-		noteFrName: 'editorialNoteLg1',
-		noteEnName: 'editorialNoteLg2',
+		noteLg1Name: 'editorialNoteLg1',
+		noteLg2Name: 'editorialNoteLg2',
 	},
 	{
 		rawTitle: dictionary.notes.changeNote,
-		noteFrName: 'changeNoteLg1',
-		noteEnName: 'changeNoteLg2',
+		noteLg1Name: 'changeNoteLg1',
+		noteLg2Name: 'changeNoteLg2',
 	},
 ];
 //TODO structuring data in the state to make `fr` and `en` two attributes of an
 //object might be a better option to organize the code efficiently.
 
 const handleFieldChange = handleChange =>
-	noteTypes.reduce((handlers, { noteFrName, noteEnName }) => {
-		handlers[noteFrName] = value => handleChange({ [noteFrName]: value });
-		handlers[noteEnName] = value => handleChange({ [noteEnName]: value });
+	noteTypes.reduce((handlers, { noteLg1Name, noteLg2Name }) => {
+		handlers[noteLg1Name] = value => handleChange({ [noteLg1Name]: value });
+		handlers[noteLg2Name] = value => handleChange({ [noteLg2Name]: value });
 		return handlers;
 	}, {});
 
@@ -70,30 +70,30 @@ class NotesEdition extends Component {
 				>
 					{noteTypes.map(
 						(
-							{ rawTitle, noteFrName, noteEnName, redFrEmpty, maxLength },
+							{ rawTitle, noteLg1Name, noteLg2Name, redLg1Empty, maxLength },
 							i
 						) => {
-							const noteFr = notes[noteFrName];
-							const noteEn = notes[noteEnName];
+							const noteLg1 = notes[noteLg1Name];
+							const noteLg2 = notes[noteLg2Name];
 							//note fr empty and we value the `redFrEmptpy` function to know if
 							//given the dissemination status, it should be highlighted or not
 							let noteEdition;
 							const highlight =
-								redFrEmpty &&
-								htmlIsEmpty(noteFr) &&
-								redFrEmpty(disseminationStatus);
-							const title = highlight
-								? <div className="red">
-										{rawTitle}
-									</div>
-								: rawTitle;
+								redLg1Empty &&
+								htmlIsEmpty(noteLg1) &&
+								redLg1Empty(disseminationStatus);
+							const title = highlight ? (
+								<div className="red">{rawTitle}</div>
+							) : (
+								rawTitle
+							);
 							if (activeTab === i) {
 								noteEdition = (
 									<NoteEdition
-										noteFr={noteFr}
-										noteEn={noteEn}
-										handleChangeFr={this.handlers[noteFrName]}
-										handleChangeEn={this.handlers[noteEnName]}
+										noteLg1={noteLg1}
+										noteLg2={noteLg2}
+										handleChangeLg1={this.handlers[noteLg1Name]}
+										handleChangeLg2={this.handlers[noteLg2Name]}
 										maxLength={maxLength}
 									/>
 								);
@@ -101,7 +101,7 @@ class NotesEdition extends Component {
 
 							return (
 								<Tab
-									key={noteFrName}
+									key={noteLg1Name}
 									eventKey={i}
 									title={title}
 									style={{ marginTop: '20px' }}
