@@ -8,7 +8,7 @@ import loadCollectionList from 'js/actions/collections/list';
 
 class CollectionsHomeContainer extends Component {
 	componentWillMount() {
-		if (!this.props.collectionList) {
+		if (!this.props.collections) {
 			this.props.loadCollectionList();
 		}
 	}

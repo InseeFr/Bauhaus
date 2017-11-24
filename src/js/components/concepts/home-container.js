@@ -8,7 +8,7 @@ import loadConceptList from 'js/actions/concepts/list';
 
 class ConceptsHomeContainer extends Component {
 	componentWillMount() {
-		if (!this.props.conceptList) {
+		if (!this.props.concepts) {
 			this.props.loadConceptList();
 		}
 	}

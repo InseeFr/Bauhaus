@@ -41,10 +41,10 @@ class RolesContainer extends Component {
 		};
 	}
 	componentWillMount() {
-		if (!this.props.roleList) {
+		if (!this.props.roles) {
 			this.props.loadRoleList();
 		}
-		if (!this.props.agentList) {
+		if (!this.props.agents) {
 			this.props.loadAgentList();
 		}
 	}
