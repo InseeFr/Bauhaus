@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import MenuReferentiels from './menu-referentiels';
 import { dictionary } from 'js/utils/dictionary';
 import './menu-concepts.css';
@@ -7,30 +7,36 @@ import './menu-concepts.css';
 class MenuConcepts extends Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			menuRef: false,
-			activeItem: props.defaultActiveItem,
+			activePath: props.location.pathname,
 		};
 		this.onChangeMenu = () => {
 			this.setState({
 				menuRef: !this.state.menuRef,
 			});
 		};
-		this.changeActiveItem = activeItem => {
+		this.changeActivePath = activePath => {
 			this.setState({
-				activeItem,
+				activePath,
 			});
 		};
 	}
 
 	render() {
-		const { menuRef, activeItem } = this.state;
+		const { menuRef, activePath } = this.state;
+		var paths = {
+			concepts: { path: '/concepts' },
+			collections: { path: '/collections' },
+			help: { path: '/help' },
+			administration: { path: '/administration' },
+		};
 
-		const clsConcepts = activeItem === 'concepts' ? 'active' : null;
-		const clsCollections = activeItem === 'collections' ? 'active' : null;
-		const clsHelp = activeItem === 'help' ? 'active' : null;
-		const clsAdministration = activeItem === 'administration' ? 'active' : null;
+		paths = Object.keys(paths).reduce((_, p) => {
+			var className = activePath.includes(paths[p].path) ? 'active' : null;
+			_[p] = { ...paths[p], className };
+			return _;
+		}, {});
 
 		return (
 			<div>
@@ -43,40 +49,43 @@ class MenuConcepts extends Component {
 										<a>
 											<div className="glyphicon glyphicon-th navbar-icon inline" />
 											<div className="inline">
-												{' '}{dictionary.navbar.concepts.home}
+												{' '}
+												{dictionary.navbar.concepts.home}
 											</div>
 										</a>
 									</li>
-									<li className={clsConcepts}>
+									<li className={paths.concepts.className}>
 										<Link
-											to="/concepts"
-											onClick={() => this.changeActiveItem('concepts')}
+											to={paths.concepts.path}
+											onClick={() => this.changeActivePath(paths.concepts.path)}
 										>
 											{dictionary.navbar.concepts.concepts}
 										</Link>
 									</li>
-									<li className={clsCollections}>
+									<li className={paths.collections.className}>
 										<Link
-											to="/collections"
-											onClick={() => this.changeActiveItem('collections')}
+											to={paths.collections.path}
+											onClick={() =>
+												this.changeActivePath(paths.collections.path)}
 										>
 											{dictionary.navbar.concepts.collections}
 										</Link>
 									</li>
 								</ul>
 								<ul className="nav navbar-nav navbar-nav-concepts navbar-right">
-									<li className={clsHelp}>
+									<li className={paths.help.className}>
 										<Link
-											to="/help"
-											onClick={() => this.changeActiveItem('help')}
+											to={paths.help.path}
+											onClick={() => this.changeActivePath(paths.help.path)}
 										>
 											{dictionary.navbar.concepts.help}
 										</Link>
 									</li>
-									<li className={clsAdministration}>
+									<li className={paths.administration.className}>
 										<Link
-											to="/administration"
-											onClick={() => this.changeActiveItem('administration')}
+											to={paths.administration.path}
+											onClick={() =>
+												this.changeActivePath(paths.administration.path)}
 										>
 											{dictionary.navbar.concepts.administration}
 										</Link>
@@ -92,4 +101,4 @@ class MenuConcepts extends Component {
 	}
 }
 
-export default MenuConcepts;
+export default withRouter(MenuConcepts);

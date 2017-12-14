@@ -37,27 +37,7 @@ export default class Root extends Component {
 					<Router>
 						<div>
 							<Route exact path="/" component={App} />
-							<Route
-								path={/(concept|concepts)/}
-								component={() => <MenuConcepts defaultActiveItem="concepts" />}
-							/>
-
-							<Route
-								path={/(collection|collections)/}
-								component={() => (
-									<MenuConcepts defaultActiveItem="collections" />
-								)}
-							/>
-							<Route
-								path="/help"
-								component={() => <MenuConcepts defaultActiveItem="help" />}
-							/>
-							<Route
-								path="/administration"
-								component={() => (
-									<MenuConcepts defaultActiveItem="administration" />
-								)}
-							/>
+							<Route path="/" component={MenuConcepts} />
 							<Switch>
 								<Route
 									exact
