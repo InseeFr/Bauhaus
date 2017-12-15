@@ -8,11 +8,11 @@ import 'css/concept-notes.css';
 
 class ConceptCompareNotes extends Component {
 	render() {
-		const { english, notesVersion1, notesVersion2 } = this.props;
+		const { secondLang, notesVersion1, notesVersion2 } = this.props;
 
 		return (
 			<div className="container">
-				{!english && (
+				{!secondLang && (
 					<div className="row">
 						<ExplanatoryNote
 							text={notesVersion1.scopeNoteLg1}
@@ -28,7 +28,7 @@ class ConceptCompareNotes extends Component {
 						/>
 					</div>
 				)}
-				{english && (
+				{secondLang && (
 					<div className="row">
 						<ExplanatoryNote
 							text={notesVersion1.scopeNoteLg2}
@@ -44,7 +44,7 @@ class ConceptCompareNotes extends Component {
 						/>
 					</div>
 				)}
-				{!english && (
+				{!secondLang && (
 					<div className="row">
 						<ExplanatoryNote
 							text={notesVersion1.definitionLg1}
@@ -60,7 +60,7 @@ class ConceptCompareNotes extends Component {
 						/>
 					</div>
 				)}
-				{english && (
+				{secondLang && (
 					<div className="row">
 						<ExplanatoryNote
 							text={notesVersion1.definitionLg2}
@@ -76,7 +76,7 @@ class ConceptCompareNotes extends Component {
 						/>
 					</div>
 				)}
-				{!english && (
+				{!secondLang && (
 					<div className="row">
 						<ExplanatoryNote
 							text={notesVersion1.editorialNoteLg1}
@@ -92,7 +92,7 @@ class ConceptCompareNotes extends Component {
 						/>
 					</div>
 				)}
-				{english && (
+				{secondLang && (
 					<div className="row">
 						<ExplanatoryNote
 							text={notesVersion1.editorialNoteLg2}
@@ -108,7 +108,7 @@ class ConceptCompareNotes extends Component {
 						/>
 					</div>
 				)}
-				{!english && (
+				{!secondLang && (
 					<div className="row">
 						<ExplanatoryNote
 							text={notesVersion1.changeNoteLg1}
@@ -124,7 +124,7 @@ class ConceptCompareNotes extends Component {
 						/>
 					</div>
 				)}
-				{english && (
+				{secondLang && (
 					<div className="row">
 						<ExplanatoryNote
 							text={notesVersion1.changeNoteLg2}
@@ -146,7 +146,7 @@ class ConceptCompareNotes extends Component {
 }
 
 ConceptCompareNotes.propTypes = {
-	english: PropTypes.bool.isRequired,
+	secondLang: PropTypes.bool.isRequired,
 	conceptGeneral: generalPropTypes,
 	notesVersion1: notesPropTypes,
 	notesVersion2: notesPropTypes,

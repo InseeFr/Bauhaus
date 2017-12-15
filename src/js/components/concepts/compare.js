@@ -14,11 +14,7 @@ class ConceptCompare extends Component {
 	constructor(props) {
 		super(props);
 		const version = Number(this.props.conceptGeneral.conceptVersion);
-		this.state = { english: false, select1: version - 1, select2: version };
-		this.toggleEnglish = () =>
-			this.setState({
-				english: !this.state.english,
-			});
+		this.state = { select1: version - 1, select2: version };
 
 		this.changeSelect1 = e => {
 			this.setState({
@@ -33,8 +29,8 @@ class ConceptCompare extends Component {
 	}
 
 	render() {
-		const { id, conceptGeneral, conceptNotes } = this.props;
-		const { english, select1, select2 } = this.state;
+		const { id, conceptGeneral, conceptNotes, secondLang } = this.props;
+		const { select1, select2 } = this.state;
 		const conceptVersion = Number(conceptGeneral.conceptVersion);
 
 		return (
@@ -45,8 +41,8 @@ class ConceptCompare extends Component {
 							<label className="pull-right">
 								<input
 									type="checkbox"
-									checked={english}
-									onChange={this.toggleEnglish}
+									checked={secondLang}
+									onChange={this.props.saveSecondLang}
 								/>{' '}
 								{dictionary.displayLg2}
 							</label>
@@ -54,10 +50,10 @@ class ConceptCompare extends Component {
 					</div>
 					<div className="row">
 						<div className="col-md-10 centered col-md-offset-1">
-							{!english && (
+							{!secondLang && (
 								<h2 className="page-title">{conceptGeneral.prefLabelLg1}</h2>
 							)}
-							{english && (
+							{secondLang && (
 								<h2 className="page-title">
 									<em>{conceptGeneral.prefLabelLg2} </em>
 								</h2>
@@ -101,7 +97,7 @@ class ConceptCompare extends Component {
 							</h3>
 						</div>
 						<ConceptCompareNotes
-							english={english}
+							secondLang={secondLang}
 							conceptGeneral={conceptGeneral}
 							notesVersion1={conceptNotes[select1]}
 							notesVersion2={conceptNotes[select2]}
@@ -118,6 +114,7 @@ ConceptCompare.propTypes = {
 	conceptGeneral: generalPropTypes,
 	// conceptNotes : {0:{definitionLg1:'XXX'}}
 	conceptNotes: PropTypes.object.isRequired,
+	secondLang: PropTypes.bool.isRequired,
 };
 
 export default ConceptCompare;

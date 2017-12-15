@@ -5,6 +5,7 @@ import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
 import validateCollection from 'js/actions/collections/validate';
 import * as select from 'js/reducers';
 import buildExtract from 'js/utils/build-extract';
+import { saveSecondLang } from 'js/actions/app';
 import loadCollections from 'js/actions/collections/collection';
 import loadStampList from 'js/actions/stamp';
 import { dictionary } from 'js/utils/dictionary';
@@ -68,7 +69,7 @@ class CollectionVisualizationContainer extends Component {
 				);
 			}
 		}
-		const { id, collection, stampList } = this.props;
+		const { id, collection, stampList, secondLang } = this.props;
 		if (collection && stampList) {
 			const { general, members } = collection;
 			return (
@@ -79,6 +80,8 @@ class CollectionVisualizationContainer extends Component {
 					stampList={stampList}
 					validateCollection={this.handleCollectionValidation}
 					validationStatus={validationStatus}
+					secondLang={secondLang}
+					saveSecondLang={this.props.saveSecondLang}
 				/>
 			);
 		}
@@ -101,6 +104,7 @@ const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	return {
 		id,
+		secondLang: state.app.secondLang,
 		collection: select.getCollection(state, id),
 		stampList: select.getStampList(state),
 		//TODO should check if the collection which has been validated are the same
@@ -110,6 +114,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
+	saveSecondLang,
 	loadCollections,
 	loadStampList,
 	validateCollection: id => validateCollection([id]),

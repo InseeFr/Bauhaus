@@ -10,21 +10,13 @@ import { propTypes as membersPropTypes } from 'js/utils/collections/members';
 class CollectionVisualization extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			english: false,
-		};
-		this.toggleEnglish = () =>
-			this.setState({
-				english: !this.state.english,
-			});
 		this.handleClickValid = () => {
 			this.props.validateCollection(this.props.id);
 		};
 	}
 
 	render() {
-		const { id, general, members } = this.props;
-		const { english } = this.state;
+		const { id, general, members, secondLang } = this.props;
 
 		const { isValidated } = general;
 		return (
@@ -35,8 +27,8 @@ class CollectionVisualization extends Component {
 							<label className="pull-right">
 								<input
 									type="checkbox"
-									checked={english}
-									onChange={this.toggleEnglish}
+									checked={secondLang}
+									onChange={this.props.saveSecondLang}
 								/>{' '}
 								{dictionary.displayLg2}
 							</label>
@@ -47,7 +39,7 @@ class CollectionVisualization extends Component {
 							<h2 className="page-title">{general.prefLabelLg1}</h2>
 						</div>
 					</div>
-					{english &&
+					{secondLang &&
 						general.prefLabelLg2 && (
 							<div className="row">
 								<div className="col-md-8 centered col-md-offset-2">
@@ -61,8 +53,8 @@ class CollectionVisualization extends Component {
 						isValidated={isValidated === 'Validée'}
 						handleValidation={this.handleClickValid}
 					/>
-					<CollectionGeneral attr={general} english={english} />
-					<CollectionMembers members={members} english={english} />
+					<CollectionGeneral attr={general} secondLang={secondLang} />
+					<CollectionMembers members={members} secondLang={secondLang} />
 				</div>
 			</div>
 		);
@@ -71,6 +63,7 @@ class CollectionVisualization extends Component {
 
 CollectionVisualization.propTypes = {
 	id: PropTypes.string, // not available for creation
+	secondLang: PropTypes.bool.isRequired,
 	general: generalPropTypes.isRequired,
 	members: membersPropTypes.isRequired,
 	stampList: PropTypes.array.isRequired,

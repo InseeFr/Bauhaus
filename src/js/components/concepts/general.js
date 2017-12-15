@@ -3,7 +3,7 @@ import { dictionary } from 'js/utils/dictionary';
 import Panel from 'js/components/shared/panel';
 import { dateTimeToDateString, DSURLToLabel } from 'js/utils/utils';
 
-function ConceptGeneral({ attr, english }) {
+function ConceptGeneral({ attr, secondLang }) {
 	var mapping = {};
 	if (attr.altLabelLg1) {
 		mapping = {
@@ -55,7 +55,7 @@ function ConceptGeneral({ attr, english }) {
 					<ul>
 						{Object.keys(mapping).map(fieldName => {
 							if (attr.hasOwnProperty(fieldName)) {
-								if (fieldName === 'altLabelLg2' && !english) {
+								if (fieldName === 'altLabelLg2' && !secondLang) {
 									return null;
 								}
 								if (fieldName.includes('altLabel')) {

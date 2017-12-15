@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loadable from 'react-loading-overlay';
 import ConceptCompare from './compare';
+import { saveSecondLang } from 'js/actions/app';
 import loadGeneralAndAllNotes from 'js/actions/concepts/general-and-all-notes';
 import { dictionary } from 'js/utils/dictionary';
 import buildExtract from 'js/utils/build-extract';
@@ -20,7 +21,7 @@ class ConceptCompareContainer extends Component {
 	}
 
 	render() {
-		let { id, general, notes } = this.props;
+		let { id, general, notes, secondLang } = this.props;
 		if (!(notes && general))
 			return (
 				<Loadable
@@ -33,7 +34,13 @@ class ConceptCompareContainer extends Component {
 				/>
 			);
 		return (
-			<ConceptCompare id={id} conceptGeneral={general} conceptNotes={notes} />
+			<ConceptCompare
+				id={id}
+				conceptGeneral={general}
+				conceptNotes={notes}
+				secondLang={secondLang}
+				saveSecondLang={this.props.saveSecondLang}
+			/>
 		);
 	}
 }
@@ -52,12 +59,14 @@ const mapStateToProps = (state, ownProps) => {
 	}
 	return {
 		id,
+		secondLang: state.app.secondLang,
 		general,
 		notes,
 	};
 };
 
 const mapDispatchToProps = {
+	saveSecondLang,
 	loadGeneralAndAllNotes,
 };
 

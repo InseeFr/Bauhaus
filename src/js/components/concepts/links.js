@@ -7,9 +7,9 @@ import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED } from 'js/constants';
 const sortByLabelFr = sortArray('prefLabelLg1');
 const sortByLabelEn = sortArray('prefLabelLg2');
 
-function ConceptLinks({ english, links }) {
+function ConceptLinks({ secondLang, links }) {
 	var nbLinks = 0;
-	const cl = english ? 'col-md-6' : 'col-md-12';
+	const cl = secondLang ? 'col-md-6' : 'col-md-12';
 
 	const conceptParent = [];
 	const conceptEnfants = [];
@@ -137,7 +137,7 @@ function ConceptLinks({ english, links }) {
 					</ul>
 				</Panel>
 			</div>
-			{english && (
+			{secondLang && (
 				<div className={cl}>
 					<Panel title={dictionary.links.title}>
 						<ul>

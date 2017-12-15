@@ -4,7 +4,7 @@ import Panel from 'js/components/shared/panel';
 import { Note } from 'js/components/shared/note';
 import { dateTimeToDateString } from 'js/utils/utils';
 
-function CollectionGeneral({ attr, english }) {
+function CollectionGeneral({ attr, secondLang }) {
 	const mapping = {
 		created: dictionary.collection.created,
 		modified: dictionary.collection.modified,
@@ -42,9 +42,9 @@ function CollectionGeneral({ attr, english }) {
 						text={attr.descriptionLg1}
 						title={dictionary.collection.description}
 						lang="fr"
-						alone={!english}
+						alone={!secondLang}
 					/>
-					{english && (
+					{secondLang && (
 						<Note
 							text={attr.descriptionLg2}
 							title={dictionary.collection.description}

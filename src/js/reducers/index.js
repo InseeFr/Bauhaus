@@ -1,6 +1,7 @@
 import listReducer, { getItems } from './utils/list-reducer';
 import * as A from 'js/actions/constants';
 import { combineReducers } from 'redux';
+import app from './app';
 import conceptReducers from './concepts/';
 import * as conceptGeneral from './concepts/by-id/general';
 import * as notes from './concepts/by-id/notes';
@@ -36,6 +37,7 @@ const agentList = listReducer([
 ]);
 
 export default combineReducers({
+	app,
 	stampList,
 	disseminationStatusList,
 	roleList,

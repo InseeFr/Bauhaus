@@ -5,6 +5,7 @@ import { VALIDATE_CONCEPT_LIST } from 'js/actions/constants';
 import validateConcepts from 'js/actions/concepts/validate';
 import * as select from 'js/reducers';
 import buildExtract from 'js/utils/build-extract';
+import { saveSecondLang } from 'js/actions/app';
 import loadConcept from 'js/actions/concepts/concept';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
@@ -70,7 +71,13 @@ class ConceptVisualizationContainer extends Component {
 				);
 			}
 		}
-		const { id, concept, stampList, disseminationStatusList } = this.props;
+		const {
+			id,
+			concept,
+			stampList,
+			disseminationStatusList,
+			secondLang,
+		} = this.props;
 		if (concept && stampList && disseminationStatusList) {
 			const { general, notes, links } = concept;
 			return (
@@ -83,6 +90,8 @@ class ConceptVisualizationContainer extends Component {
 					disseminationStatusList={disseminationStatusList}
 					validateConcept={this.handleConceptValidation}
 					validationStatus={validationStatus}
+					secondLang={secondLang}
+					saveSecondLang={this.props.saveSecondLang}
 				/>
 			);
 		}
@@ -105,6 +114,7 @@ const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	return {
 		id,
+		secondLang: state.app.secondLang,
 		concept: select.getConcept(state, id),
 		stampList: select.getStampList(state),
 		disseminationStatusList: select.getDisseminationStatusList(state),
@@ -115,6 +125,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
+	saveSecondLang,
 	loadConcept,
 	loadDisseminationStatusList,
 	loadStampList,

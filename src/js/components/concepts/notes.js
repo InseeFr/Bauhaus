@@ -4,7 +4,7 @@ import { dictionary } from 'js/utils/dictionary';
 import { ExplanatoryNote } from 'js/components/shared/explanatory-note';
 import 'css/concept-notes.css';
 
-function ConceptNotes({ english, notes }) {
+function ConceptNotes({ secondLang, notes }) {
 	const {
 		scopeNoteLg1,
 		scopeNoteLg2,
@@ -23,9 +23,9 @@ function ConceptNotes({ english, notes }) {
 						text={scopeNoteLg1}
 						title={dictionary.notes.scopeNote}
 						lang="fr"
-						alone={!english}
+						alone={!secondLang}
 					/>
-					{english && (
+					{secondLang && (
 						<ExplanatoryNote
 							text={scopeNoteLg2}
 							title={dictionary.notes.scopeNote}
@@ -41,9 +41,9 @@ function ConceptNotes({ english, notes }) {
 						text={definitionLg1}
 						title={dictionary.notes.definition}
 						lang="fr"
-						alone={!english}
+						alone={!secondLang}
 					/>
-					{english && (
+					{secondLang && (
 						<ExplanatoryNote
 							text={definitionLg2}
 							title={dictionary.notes.definition}
@@ -59,9 +59,9 @@ function ConceptNotes({ english, notes }) {
 						text={editorialNoteLg1}
 						title={dictionary.notes.editorialeNote}
 						lang="fr"
-						alone={!english}
+						alone={!secondLang}
 					/>
-					{english && (
+					{secondLang && (
 						<ExplanatoryNote
 							text={editorialNoteLg2}
 							title={dictionary.notes.editorialeNote}
@@ -77,9 +77,9 @@ function ConceptNotes({ english, notes }) {
 						text={changeNoteLg1}
 						title={dictionary.notes.changeNote}
 						lang="fr"
-						alone={!english}
+						alone={!secondLang}
 					/>
-					{english && (
+					{secondLang && (
 						<ExplanatoryNote
 							text={changeNoteLg2}
 							title={dictionary.notes.changeNote}
@@ -94,7 +94,7 @@ function ConceptNotes({ english, notes }) {
 }
 
 ConceptNotes.propTypes = {
-	english: PropTypes.bool.isRequired,
+	secondLang: PropTypes.bool.isRequired,
 	notes: PropTypes.object.isRequired,
 };
 export default ConceptNotes;

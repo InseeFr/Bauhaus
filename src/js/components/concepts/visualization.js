@@ -13,21 +13,13 @@ import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
 class ConceptVisualization extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			english: false,
-		};
-		this.toggleEnglish = () =>
-			this.setState({
-				english: !this.state.english,
-			});
 		this.handleClickValid = () => {
 			this.props.validateConcept(this.props.id);
 		};
 	}
 
 	render() {
-		const { id, general, links, notes } = this.props;
-		const { english } = this.state;
+		const { id, general, links, notes, secondLang } = this.props;
 
 		const { conceptVersion, isValidated } = general;
 		return (
@@ -38,8 +30,8 @@ class ConceptVisualization extends Component {
 							<label className="pull-right">
 								<input
 									type="checkbox"
-									checked={english}
-									onChange={this.toggleEnglish}
+									checked={secondLang}
+									onChange={this.props.saveSecondLang}
 								/>{' '}
 								{dictionary.displayLg2}
 							</label>
@@ -50,7 +42,7 @@ class ConceptVisualization extends Component {
 							<h2 className="page-title">{general.prefLabelLg1}</h2>
 						</div>
 					</div>
-					{english &&
+					{secondLang &&
 						general.prefLabelLg2 && (
 							<div className="row">
 								<div className="col-md-8 centered col-md-offset-2">
@@ -65,9 +57,9 @@ class ConceptVisualization extends Component {
 						conceptVersion={conceptVersion}
 						handleValidation={this.handleClickValid}
 					/>
-					<ConceptGeneral attr={general} english={english} />
-					<ConceptLinks english={english} links={links} />
-					<ConceptNotes english={english} notes={notes} />
+					<ConceptGeneral secondLang={secondLang} attr={general} />
+					<ConceptLinks secondLang={secondLang} links={links} />
+					<ConceptNotes secondLang={secondLang} notes={notes} />
 				</div>
 			</div>
 		);

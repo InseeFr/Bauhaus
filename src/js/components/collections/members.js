@@ -7,7 +7,7 @@ import { sortArray } from 'js/utils/array-utils';
 const sortByLabelLg1 = sortArray('prefLabelLg1');
 const sortByLabelLg2 = sortArray('prefLabelLg2');
 
-function CollectionMembers({ members, english }) {
+function CollectionMembers({ members, secondLang }) {
 	const memberListLg1 = sortByLabelLg1(members).map(item => (
 		<li key={item.id}>
 			<Link to={'/concept/' + item.id}>{item.prefLabelLg1}</Link>
@@ -25,9 +25,9 @@ function CollectionMembers({ members, english }) {
 				text={memberListLg1}
 				title={dictionary.collection.members}
 				lang="fr"
-				alone={!english}
+				alone={!secondLang}
 			/>
-			{english && (
+			{secondLang && (
 				<Note
 					text={memberListLg2}
 					title={dictionary.collection.members}
