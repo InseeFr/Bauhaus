@@ -101,9 +101,7 @@ class CollectionSend extends Component {
 					urlBack={'/collections'}
 				/>
 				<div className="form-group">
-					<label>
-						{dictionary.collection.send.recipient}
-					</label>
+					<label>{dictionary.collection.send.recipient}</label>
 					<input
 						type="email"
 						className="form-control"
@@ -112,9 +110,7 @@ class CollectionSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>
-						{dictionary.collection.send.sender}
-					</label>
+					<label>{dictionary.collection.send.sender}</label>
 					<input
 						type="text"
 						className="form-control"
@@ -123,9 +119,7 @@ class CollectionSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>
-						{dictionary.collection.send.subject.title}
-					</label>
+					<label>{dictionary.collection.send.subject.title}</label>
 					<input
 						type="text"
 						className="form-control"
@@ -134,9 +128,7 @@ class CollectionSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>
-						{dictionary.collection.send.message.title}
-					</label>
+					<label>{dictionary.collection.send.message.title}</label>
 					<EditorHtml text={message} handleChange={this.handleMessageChange} />
 				</div>
 			</div>

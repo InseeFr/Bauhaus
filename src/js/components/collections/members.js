@@ -8,20 +8,16 @@ const sortByLabelLg1 = sortArray('prefLabelLg1');
 const sortByLabelLg2 = sortArray('prefLabelLg2');
 
 function CollectionMembers({ members, english }) {
-	const memberListLg1 = sortByLabelLg1(members).map(item =>
+	const memberListLg1 = sortByLabelLg1(members).map(item => (
 		<li key={item.id}>
-			<Link to={'/concept/' + item.id}>
-				{item.prefLabelLg1}
-			</Link>
+			<Link to={'/concept/' + item.id}>{item.prefLabelLg1}</Link>
 		</li>
-	);
-	const memberListLg2 = sortByLabelLg2(members).map(item =>
+	));
+	const memberListLg2 = sortByLabelLg2(members).map(item => (
 		<li key={item.id}>
-			<Link to={'/concept/' + item.id}>
-				{item.prefLabelLg2}
-			</Link>
+			<Link to={'/concept/' + item.id}>{item.prefLabelLg2}</Link>
 		</li>
-	);
+	));
 
 	return (
 		<div className="row">
@@ -31,13 +27,14 @@ function CollectionMembers({ members, english }) {
 				lang="fr"
 				alone={!english}
 			/>
-			{english &&
+			{english && (
 				<Note
 					text={memberListLg2}
 					title={dictionary.collection.members}
 					lang="en"
 					alone={false}
-				/>}
+				/>
+			)}
 		</div>
 	);
 }

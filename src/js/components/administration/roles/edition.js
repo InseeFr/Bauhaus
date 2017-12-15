@@ -203,7 +203,9 @@ class Edition extends Component {
 				)}
 				<Modal
 					title="Confirmation"
-					text={`Voulez-vous supprimer le rôle ' ${selectedRoleLabel} ' à ${deleteData.label} ?`}
+					text={`Voulez-vous supprimer le rôle ' ${selectedRoleLabel} ' à ${
+						deleteData.label
+					} ?`}
 					isOpen={modal}
 					closeModal={this.closeModal}
 					confirmModal={this.confirmModal}

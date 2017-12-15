@@ -21,22 +21,22 @@ function CollectionGeneral({ attr, english }) {
 						if (attr.hasOwnProperty(fieldName) && attr[fieldName] !== '') {
 							if (fieldName === 'created' || fieldName === 'modified') {
 								return (
-									<li key={fieldName}>{`${mapping[
-										fieldName
-									]} : ${dateTimeToDateString(attr[fieldName])}`}</li>
+									<li key={fieldName}>{`${
+										mapping[fieldName]
+									} : ${dateTimeToDateString(attr[fieldName])}`}</li>
 								);
 							} else {
 								return (
-									<li key={fieldName}>{`${mapping[fieldName]} : ${attr[
-										fieldName
-									]}`}</li>
+									<li key={fieldName}>{`${mapping[fieldName]} : ${
+										attr[fieldName]
+									}`}</li>
 								);
 							}
 						} else return null;
 					})}
 				</ul>
 			</Panel>
-			{attr.descriptionLg1 &&
+			{attr.descriptionLg1 && (
 				<div className="row">
 					<Note
 						text={attr.descriptionLg1}
@@ -44,14 +44,16 @@ function CollectionGeneral({ attr, english }) {
 						lang="fr"
 						alone={!english}
 					/>
-					{english &&
+					{english && (
 						<Note
 							text={attr.descriptionLg2}
 							title={dictionary.collection.description}
 							lang="en"
 							alone={false}
-						/>}
-				</div>}
+						/>
+					)}
+				</div>
+			)}
 		</div>
 	);
 }

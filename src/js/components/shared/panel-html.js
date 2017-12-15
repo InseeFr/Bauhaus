@@ -7,9 +7,7 @@ class PanelHtml extends Component {
 		return (
 			<div className="panel panel-concepts">
 				<div className="panel-heading">
-					<h3 className="panel-title">
-						{this.props.title}
-					</h3>
+					<h3 className="panel-title">{this.props.title}</h3>
 				</div>
 				<div className="panel-body">
 					<div

@@ -91,7 +91,7 @@ class ConceptsPicker extends Component {
 		//validation has not been asked yet
 		const { toAdd, added } = this.getConceptsByStatus();
 
-		const toAddEls = toAdd.map(({ id, label }) =>
+		const toAddEls = toAdd.map(({ id, label }) => (
 			<ConceptItem
 				key={id}
 				id={id}
@@ -99,9 +99,9 @@ class ConceptsPicker extends Component {
 				logo={addLogo}
 				handleClick={this.addConcept}
 			/>
-		);
+		));
 
-		const addedEls = added.map(({ id, label }) =>
+		const addedEls = added.map(({ id, label }) => (
 			<ConceptItem
 				key={id}
 				id={id}
@@ -109,16 +109,16 @@ class ConceptsPicker extends Component {
 				logo={delLogo}
 				handleClick={this.removeConcept}
 			/>
-		);
+		));
 
 		//The user has to add at least one concept
-		const message =
-			added.length === 0 &&
+		const message = added.length === 0 && (
 			<div className="col-md-8 centered">
 				<div className="alert alert-danger bold" role="alert">
 					{labelWarning}
 				</div>
-			</div>;
+			</div>
+		);
 
 		const controls = (
 			<div className="row btn-line">
@@ -145,17 +145,13 @@ class ConceptsPicker extends Component {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-10 centered col-md-offset-1">
-							<h2 className="page-title">
-								{title}
-							</h2>
+							<h2 className="page-title">{title}</h2>
 						</div>
 					</div>
 					{controls}
 					<div className="row">
 						<div className="col-md-6">
-							<Panel title={panelTitle}>
-								{addedEls}
-							</Panel>
+							<Panel title={panelTitle}>{addedEls}</Panel>
 						</div>
 						<div className="col-md-6 centered">
 							<input

@@ -19,11 +19,7 @@ const Button = ({ action, label, disabled }) => {
 			</button>
 		);
 	}
-	return (
-		<div className="col-md-2">
-			{button}
-		</div>
-	);
+	return <div className="col-md-2">{button}</div>;
 };
 
 const PlaceHolder = () => <div className="col-md-2" />;

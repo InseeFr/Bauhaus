@@ -41,7 +41,7 @@ function CollectionGeneralEdition({
 				( <span className="boldRed">*</span> : {dictionary.requiredFields})
 			</h4>
 			<div className="row">
-				{creation &&
+				{creation && (
 					<InputRmes
 						colMd={12}
 						label={dictionary.collection.id}
@@ -49,8 +49,9 @@ function CollectionGeneralEdition({
 						star
 						value={id}
 						handleChange={handlers.id}
-					/>}
-				{!creation &&
+					/>
+				)}
+				{!creation && (
 					<InputRmes
 						colMd={12}
 						label={dictionary.collection.id}
@@ -59,7 +60,8 @@ function CollectionGeneralEdition({
 						value={id}
 						disabled
 						handleChange={handlers.id}
-					/>}
+					/>
+				)}
 			</div>
 			<div className="row">
 				<InputRmes
@@ -95,9 +97,7 @@ function CollectionGeneralEdition({
 				/>
 			</div>
 			<div className="form-group">
-				<label>
-					{dictionary.collection.contributor}
-				</label>
+				<label>{dictionary.collection.contributor}</label>
 				<input
 					type="text"
 					className="form-control"

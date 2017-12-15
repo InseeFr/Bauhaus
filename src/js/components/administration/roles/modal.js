@@ -15,17 +15,11 @@ function ModalDelete({ title, text, isOpen, closeModal, confirmModal }) {
 				<div className="modal-header">
 					<button type="button" className="close" onClick={closeModal}>
 						<span aria-hidden="true">&times;</span>
-						<span className="sr-only">
-							{dictionary.buttons.close}
-						</span>
+						<span className="sr-only">{dictionary.buttons.close}</span>
 					</button>
-					<h4 className="modal-title">
-						{title}
-					</h4>
+					<h4 className="modal-title">{title}</h4>
 				</div>
-				<div className="modal-body">
-					{text}
-				</div>
+				<div className="modal-body">{text}</div>
 				<div className="modal-footer">
 					<div className="centered">
 						<button

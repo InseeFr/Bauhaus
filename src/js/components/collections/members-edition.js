@@ -101,7 +101,7 @@ class CollectionMembersEdition extends Component {
 		const { searchLabel } = this.state;
 		const { toAdd, added } = this.getConceptsByStatus();
 
-		const toAddEls = toAdd.map(({ id, label }) =>
+		const toAddEls = toAdd.map(({ id, label }) => (
 			<ConceptItem
 				key={id}
 				id={id}
@@ -109,9 +109,9 @@ class CollectionMembersEdition extends Component {
 				logo={logoAdd}
 				handleClick={this.addConcept}
 			/>
-		);
+		));
 
-		const addedEls = added.map(({ id, label }) =>
+		const addedEls = added.map(({ id, label }) => (
 			<ConceptItem
 				key={id}
 				id={id}
@@ -119,14 +119,12 @@ class CollectionMembersEdition extends Component {
 				logo={logoDel}
 				handleClick={this.removeConcept}
 			/>
-		);
+		));
 
 		return (
 			<div className="row">
 				<div className="col-md-6">
-					<Panel title={dictionary.collection.members}>
-						{addedEls}
-					</Panel>
+					<Panel title={dictionary.collection.members}>{addedEls}</Panel>
 				</div>
 				<div className="col-md-6 centered">
 					<input

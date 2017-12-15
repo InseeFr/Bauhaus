@@ -27,9 +27,9 @@ class CollectionListSearch extends Component {
 
 	render() {
 		const { searchLabel, hits } = this.state;
-		const hitEls = hits.map(({ id, label }) =>
+		const hitEls = hits.map(({ id, label }) => (
 			<CollectionItem key={id} id={id} label={label} to={`/collection/${id}`} />
-		);
+		));
 		return (
 			<div>
 				<div className="row form-group">
@@ -44,9 +44,7 @@ class CollectionListSearch extends Component {
 					</div>
 				</div>
 				<div className="row">
-					<h4>
-						{nbResults(hits)}
-					</h4>
+					<h4>{nbResults(hits)}</h4>
 				</div>
 				<div>
 					<Pagination itemEls={hitEls} itemsPerPage="10" />

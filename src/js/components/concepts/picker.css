@@ -1,4 +1,4 @@
 /* Discard bootstrap styling on <a> created by <Link /> elements within a button */
 .btn.btn-primary a {
-  color: white;
+	color: white;
 }

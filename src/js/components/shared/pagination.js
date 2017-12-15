@@ -57,10 +57,8 @@ class Pagination extends Component {
 
 		return (
 			<div>
-				<ul className="list-group">
-					{currentItems}
-				</ul>
-				{pageNumbers.length > 1 &&
+				<ul className="list-group">{currentItems}</ul>
+				{pageNumbers.length > 1 && (
 					<ul className="pagination pagination-rmes">
 						<li key="-1" id="1" onClick={this.handleClick}>
 							{dictionary.pagination.first}
@@ -71,9 +69,12 @@ class Pagination extends Component {
 							id={pageNumbers[pageNumbers.length - 1]}
 							onClick={this.handleClick}
 						>
-							{dictionary.pagination.last} ({pageNumbers[pageNumbers.length - 1]})
+							{dictionary.pagination.last} ({
+								pageNumbers[pageNumbers.length - 1]
+							})
 						</li>
-					</ul>}
+					</ul>
+				)}
 			</div>
 		);
 	}

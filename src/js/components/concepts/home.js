@@ -61,18 +61,13 @@ class ConceptsHome extends Component {
 									className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
 									onClick={this.handleClickValidate}
 								>
-									<span
-										className="glyphicon glyphicon-ok"
-										aria-hidden="true"
-									/>{' '}
+									<span className="glyphicon glyphicon-ok" aria-hidden="true" />{' '}
 									{dictionary.buttons.validate}
 								</button>
 							</div>
 						</div>
 						<div className="col-md-8 centered pull-right">
-							<h2 className="page-title">
-								{dictionary.concepts.title}
-							</h2>
+							<h2 className="page-title">{dictionary.concepts.title}</h2>
 							<ConceptsListSearch concepts={concepts} />
 						</div>
 					</div>

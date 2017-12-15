@@ -5,24 +5,24 @@ import * as A from '../constants';
 //call, and a `then` handler in the component take care of adjusting the
 //status)
 export default (id, concept) => dispatch => {
-  dispatch({
-    type: A.UPDATE_CONCEPT,
-    payload: {
-      id,
-      concept,
-    },
-  });
-  return api.putConcept(id, concept).then(
-    res => {
-      dispatch({
-        type: A.UPDATE_CONCEPT_SUCCESS,
-        payload: { id, concept },
-      });
-    },
-    err =>
-      dispatch({
-        type: A.UPDATE_CONCEPT_FAILURE,
-        payload: { err, id, concept },
-      })
-  );
+	dispatch({
+		type: A.UPDATE_CONCEPT,
+		payload: {
+			id,
+			concept,
+		},
+	});
+	return api.putConcept(id, concept).then(
+		res => {
+			dispatch({
+				type: A.UPDATE_CONCEPT_SUCCESS,
+				payload: { id, concept },
+			});
+		},
+		err =>
+			dispatch({
+				type: A.UPDATE_CONCEPT_FAILURE,
+				payload: { err, id, concept },
+			})
+	);
 };

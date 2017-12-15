@@ -40,76 +40,56 @@ function ConceptLinks({ english, links }) {
 		}
 	}
 
-	const conceptParentListFr = sortByLabelFr(conceptParent).map(item =>
+	const conceptParentListFr = sortByLabelFr(conceptParent).map(item => (
 		<li key={item.id}>
-			<Link to={'/concept/' + item.id}>
-				{item.prefLabelLg1}
-			</Link>
+			<Link to={'/concept/' + item.id}>{item.prefLabelLg1}</Link>
 		</li>
-	);
-	const conceptParentListEn = sortByLabelEn(conceptParent).map(item =>
+	));
+	const conceptParentListEn = sortByLabelEn(conceptParent).map(item => (
 		<li key={item.id}>
-			<Link to={'/concept/' + item.id}>
-				{item.prefLabelLg2}
-			</Link>
+			<Link to={'/concept/' + item.id}>{item.prefLabelLg2}</Link>
 		</li>
-	);
-	const conceptEnfantsListFr = sortByLabelFr(conceptEnfants).map(item =>
+	));
+	const conceptEnfantsListFr = sortByLabelFr(conceptEnfants).map(item => (
 		<li key={item.id}>
-			<Link to={'/concept/' + item.id}>
-				{item.prefLabelLg1}
-			</Link>
+			<Link to={'/concept/' + item.id}>{item.prefLabelLg1}</Link>
 		</li>
-	);
-	const conceptEnfantsListEn = sortByLabelEn(conceptEnfants).map(item =>
+	));
+	const conceptEnfantsListEn = sortByLabelEn(conceptEnfants).map(item => (
 		<li key={item.id}>
-			<Link to={'/concept/' + item.id}>
-				{item.prefLabelLg2}
-			</Link>
+			<Link to={'/concept/' + item.id}>{item.prefLabelLg2}</Link>
 		</li>
-	);
-	const conceptRefListFr = sortByLabelFr(conceptRef).map(item =>
+	));
+	const conceptRefListFr = sortByLabelFr(conceptRef).map(item => (
 		<li key={item.id}>
-			<Link to={'/concept/' + item.id}>
-				{item.prefLabelLg1}
-			</Link>
+			<Link to={'/concept/' + item.id}>{item.prefLabelLg1}</Link>
 		</li>
-	);
-	const conceptRefListEn = sortByLabelEn(conceptRef).map(item =>
+	));
+	const conceptRefListEn = sortByLabelEn(conceptRef).map(item => (
 		<li key={item.id}>
-			<Link to={'/concept/' + item.id}>
-				{item.prefLabelLg2}
-			</Link>
+			<Link to={'/concept/' + item.id}>{item.prefLabelLg2}</Link>
 		</li>
-	);
-	const conceptSucceedListFr = sortByLabelFr(conceptSucceed).map(item =>
+	));
+	const conceptSucceedListFr = sortByLabelFr(conceptSucceed).map(item => (
 		<li key={item.id}>
-			<Link to={'/concept/' + item.id}>
-				{item.prefLabelLg1}
-			</Link>
+			<Link to={'/concept/' + item.id}>{item.prefLabelLg1}</Link>
 		</li>
-	);
-	const conceptSucceedListEn = sortByLabelEn(conceptSucceed).map(item =>
+	));
+	const conceptSucceedListEn = sortByLabelEn(conceptSucceed).map(item => (
 		<li key={item.id}>
-			<Link to={'/concept/' + item.id}>
-				{item.prefLabelLg2}
-			</Link>
+			<Link to={'/concept/' + item.id}>{item.prefLabelLg2}</Link>
 		</li>
-	);
-	const conceptLinkListFr = sortByLabelFr(conceptLink).map(item =>
+	));
+	const conceptLinkListFr = sortByLabelFr(conceptLink).map(item => (
 		<li key={item.id}>
-			<Link to={'/concept/' + item.id}>
-				{item.prefLabelLg1}
-			</Link>
+			<Link to={'/concept/' + item.id}>{item.prefLabelLg1}</Link>
 		</li>
-	);
-	const conceptLinkListEn = sortByLabelEn(conceptLink).map(item =>
+	));
+	const conceptLinkListEn = sortByLabelEn(conceptLink).map(item => (
 		<li key={item.idLinked}>
-			<Link to={'/concept/' + item.idLinked}>
-				{item.prefLabelLg2}
-			</Link>
+			<Link to={'/concept/' + item.idLinked}>{item.prefLabelLg2}</Link>
 		</li>
-	);
+	));
 
 	const isEmpty = array => {
 		if (array.length === 0) return false;
@@ -124,66 +104,77 @@ function ConceptLinks({ english, links }) {
 			<div className={cl}>
 				<Panel title={dictionary.links.title}>
 					<ul>
-						{isEmpty(conceptParent) &&
+						{isEmpty(conceptParent) && (
 							<li>
 								{dictionary.links.narrower} :
 								<ul>{conceptParentListFr}</ul>
-							</li>}
-						{isEmpty(conceptEnfants) &&
+							</li>
+						)}
+						{isEmpty(conceptEnfants) && (
 							<li>
 								{dictionary.links.broader} :
 								<ul>{conceptEnfantsListFr}</ul>
-							</li>}
-						{isEmpty(conceptRef) &&
+							</li>
+						)}
+						{isEmpty(conceptRef) && (
 							<li>
 								{dictionary.links.references} :
 								<ul>{conceptRefListFr}</ul>
-							</li>}
-						{isEmpty(conceptSucceed) &&
+							</li>
+						)}
+						{isEmpty(conceptSucceed) && (
 							<li>
 								{dictionary.links.replaces} :
 								<ul>{conceptSucceedListFr}</ul>
-							</li>}
-						{isEmpty(conceptLink) &&
+							</li>
+						)}
+						{isEmpty(conceptLink) && (
 							<li>
 								{dictionary.links.related} :
 								<ul>{conceptLinkListFr}</ul>
-							</li>}
+							</li>
+						)}
 					</ul>
 				</Panel>
 			</div>
-			{english &&
+			{english && (
 				<div className={cl}>
 					<Panel title={dictionary.links.title}>
 						<ul>
-							{isEmpty(conceptParent) &&
+							{isEmpty(conceptParent) && (
 								<li>
 									{dictionary.links.narrower} :
 									<ul>{conceptParentListEn}</ul>
-								</li>}
-							{isEmpty(conceptEnfants) &&
+								</li>
+							)}
+							{isEmpty(conceptEnfants) && (
 								<li>
 									{dictionary.links.broader} :
 									<ul>{conceptEnfantsListEn}</ul>
-								</li>}
-							{isEmpty(conceptRef) &&
+								</li>
+							)}
+							{isEmpty(conceptRef) && (
 								<li>
 									{dictionary.links.references} :
 									<ul>{conceptRefListEn}</ul>
-								</li>}
-							{isEmpty(conceptSucceed) &&
+								</li>
+							)}
+							{isEmpty(conceptSucceed) && (
 								<li>
 									{dictionary.links.replaces} :
 									<ul>{conceptSucceedListEn}</ul>
-								</li>}
-							{isEmpty(conceptLink) &&
+								</li>
+							)}
+							{isEmpty(conceptLink) && (
 								<li>
 									{dictionary.links.related} :
 									<ul>{conceptLinkListEn}</ul>
-								</li>}
+								</li>
+							)}
 						</ul>
 					</Panel>
-				</div>}
+				</div>
+			)}
 		</div>
 	);
 }

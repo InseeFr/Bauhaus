@@ -19,21 +19,23 @@ function InputRmes({
 				{star && <span className="boldRed">*</span>}
 				{hiddenStar && <span className="boldWhite">*</span>}
 			</label>
-			{disabled &&
+			{disabled && (
 				<input
 					type="text"
 					value={value || ''}
 					className="form-control"
 					disabled
 					onChange={e => handleChange(e.target.value)}
-				/>}
-			{!disabled &&
+				/>
+			)}
+			{!disabled && (
 				<input
 					type="text"
 					value={value || ''}
 					className="form-control"
 					onChange={e => handleChange(e.target.value)}
-				/>}
+				/>
+			)}
 		</div>
 	);
 }

@@ -10,9 +10,7 @@ function App() {
 	return (
 		<div>
 			<div className="centered page-title">
-				<h1>
-					{dictionary.app.title}
-				</h1>
+				<h1>{dictionary.app.title}</h1>
 			</div>
 			<div className="img-block">
 				<Link to="/concepts">

@@ -19,17 +19,11 @@ function CollectionItem({ id, label, logo, to, handleClick }) {
 	if (to) {
 		return (
 			<li className="list-group-item">
-				<Link to={to}>
-					{label}
-				</Link>
+				<Link to={to}>{label}</Link>
 			</li>
 		);
 	}
-	return (
-		<li className="list-group-item">
-			{label}
-		</li>
-	);
+	return <li className="list-group-item">{label}</li>;
 }
 
 CollectionItem.propTypes = {

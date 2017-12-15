@@ -28,9 +28,9 @@ class ConceptListSearch extends Component {
 
 	render() {
 		const { searchLabel, hits } = this.state;
-		const hitEls = hits.map(({ id, label }) =>
+		const hitEls = hits.map(({ id, label }) => (
 			<ConceptItem key={id} id={id} label={label} to={`/concept/${id}`} />
-		);
+		));
 		return (
 			<div>
 				<div className="row form-group">
@@ -48,16 +48,12 @@ class ConceptListSearch extends Component {
 					<div className="col-md-12">
 						<Link to={'/concepts/search'}>
 							<h3 className="glyphicon glyphicon-zoom-in inline"> </h3>
-							<h3 className="inline">
-								{dictionary.concepts.advancedSearch}
-							</h3>
+							<h3 className="inline">{dictionary.concepts.advancedSearch}</h3>
 						</Link>
 					</div>
 				</div>
 				<div className="row">
-					<h4>
-						{nbResults(hits)}
-					</h4>
+					<h4>{nbResults(hits)}</h4>
 				</div>
 				<div>
 					<Pagination itemEls={hitEls} itemsPerPage="10" />

@@ -86,15 +86,16 @@ class CollectionEditionCreation extends Component {
 			<div>
 				<div className="container">
 					{pageTitle}
-					{creation &&
+					{creation && (
 						<CollectionEditionCreationControls
 							general={general}
 							collectionList={collectionList}
 							creation
 							handleSave={this.handleSave}
 							redirectCancel={this.redirectCancel}
-						/>}
-					{!creation &&
+						/>
+					)}
+					{!creation && (
 						<CollectionEditionCreationControls
 							general={general}
 							collectionList={collectionList}
@@ -102,7 +103,8 @@ class CollectionEditionCreation extends Component {
 							initialPrefLabelLg1={initialPrefLabelLg1}
 							handleSave={this.handleSave}
 							redirectCancel={this.redirectCancel}
-						/>}
+						/>
+					)}
 					<GeneralEdition
 						general={general}
 						creation={creation}

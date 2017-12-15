@@ -8,9 +8,7 @@ export function Note({ text, title, lang, alone }) {
 	if (!{ text }) return null;
 	return (
 		<div className={cl}>
-			<Panel title={<NoteFlag text={title} lang={lang} />}>
-				{text}
-			</Panel>
+			<Panel title={<NoteFlag text={title} lang={lang} />}>{text}</Panel>
 		</div>
 	);
 }

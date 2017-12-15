@@ -84,9 +84,9 @@ function ConceptGeneral({ attr, english }) {
 									return (
 										<li key={fieldName}>
 											{`${mapping[fieldName]} : `}
-											<a href={attr[fieldName]} target="_blank">{`${attr[
-												fieldName
-											]}`}</a>
+											<a href={attr[fieldName]} target="_blank">{`${
+												attr[fieldName]
+											}`}</a>
 										</li>
 									);
 								}
@@ -100,9 +100,9 @@ function ConceptGeneral({ attr, english }) {
 									);
 								} else {
 									return (
-										<li key={fieldName}>{`${mapping[fieldName]} : ${attr[
-											fieldName
-										]}`}</li>
+										<li key={fieldName}>{`${mapping[fieldName]} : ${
+											attr[fieldName]
+										}`}</li>
 									);
 								}
 							} else return null;

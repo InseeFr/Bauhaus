@@ -38,7 +38,7 @@ function DeleteTable({ roles, selectedRole, openModal }) {
 		},
 	];
 	const rows = rowsParams.map(
-		({ dataField, label, width, isKey, dataFormat, dataSort }) =>
+		({ dataField, label, width, isKey, dataFormat, dataSort }) => (
 			<TableHeaderColumn
 				key={label}
 				width={width}
@@ -50,6 +50,7 @@ function DeleteTable({ roles, selectedRole, openModal }) {
 			>
 				{label}
 			</TableHeaderColumn>
+		)
 	);
 
 	return <TableRmes data={persons} rows={rows} />;

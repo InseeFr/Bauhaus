@@ -17,14 +17,14 @@ export const arrayDifferenceByID = (array1, array2) => {
 
 export const sortArray = key =>
 	/**
-   * Sort an array by a given key
-   *
-   * If `desc` is set to true, descending order will be used
-   *
-   * @param   {array}      arr  array of objects with the key given key
-   * @param   {boolean}    desc true if descending order required
-   * @returns {array}           the array sorted by the given key
-   */
+	 * Sort an array by a given key
+	 *
+	 * If `desc` is set to true, descending order will be used
+	 *
+	 * @param   {array}      arr  array of objects with the key given key
+	 * @param   {boolean}    desc true if descending order required
+	 * @returns {array}           the array sorted by the given key
+	 */
 
 	(arr, desc = false) => {
 		const order = desc ? 1 : -1;
@@ -37,7 +37,10 @@ export const sortArray = key =>
 
 export const filterDeburr = rawStr => {
 	const str = _.deburr(rawStr).toLocaleLowerCase();
-	return item => _.deburr(item).toLocaleLowerCase().includes(str);
+	return item =>
+		_.deburr(item)
+			.toLocaleLowerCase()
+			.includes(str);
 };
 
 //TODO remove other filters that should be built inline when needed with
@@ -52,7 +55,9 @@ export const filterKeyDate = key => (start, end) => item =>
 
 export function filterByLabel(filter) {
 	return item =>
-		_.deburr(item.label).toLowerCase().includes(filter.toLowerCase());
+		_.deburr(item.label)
+			.toLowerCase()
+			.includes(filter.toLowerCase());
 }
 
 export const creatSelectList = max => {
@@ -92,4 +97,6 @@ export const getMembers = (linksArray, typeOfLink) => {
 };
 
 export const range = (start, end) =>
-	Array(end - start).fill().map((_, i) => i + start);
+	Array(end - start)
+		.fill()
+		.map((_, i) => i + start);

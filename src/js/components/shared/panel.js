@@ -6,13 +6,9 @@ function Panel({ title, children }) {
 	return (
 		<div className="panel panel-concepts">
 			<div className="panel-heading">
-				<h3 className="panel-title">
-					{title}
-				</h3>
+				<h3 className="panel-title">{title}</h3>
 			</div>
-			<div className="panel-body">
-				{children}
-			</div>
+			<div className="panel-body">{children}</div>
 		</div>
 	);
 }

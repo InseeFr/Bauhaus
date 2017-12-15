@@ -9,13 +9,14 @@ function Home({ roles, agents, addAgent, deleteAgent, setEdition, edition }) {
 	return (
 		<div className="container">
 			<PageTitle title={title} />
-			{!edition &&
+			{!edition && (
 				<Visualisation
 					roles={roles}
 					deleteAgent={deleteAgent}
 					setEdition={setEdition}
-				/>}
-			{edition &&
+				/>
+			)}
+			{edition && (
 				<div>
 					<Edition
 						roles={roles}
@@ -24,7 +25,8 @@ function Home({ roles, agents, addAgent, deleteAgent, setEdition, edition }) {
 						deleteAgent={deleteAgent}
 						setEdition={setEdition}
 					/>
-				</div>}
+				</div>
+			)}
 		</div>
 	);
 }
