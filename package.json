@@ -4,11 +4,15 @@
 	"private": true,
 	"homepage": "./",
 	"devDependencies": {
+		"babel-eslint": "^7.2.3",
 		"cross-env": "^5.0.1",
-		"eslint": "^4.3.0",
-		"file-loader": "^0.11.1",
-		"html-loader": "^0.4.5",
-		"prettier": "^1.5.2"
+		"eslint": "^4.1.1",
+		"eslint-config-react-app": "^2.0.1",
+		"eslint-plugin-flowtype": "^2.34.1",
+		"eslint-plugin-import": "^2.6.0",
+		"eslint-plugin-jsx-a11y": "^5.1.1",
+		"eslint-plugin-react": "^7.1.0",
+		"prettier": "^1.9.2"
 	},
 	"dependencies": {
 		"babel-polyfill": "^6.23.0",
