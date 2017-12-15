@@ -88,14 +88,11 @@ class ConceptEditionCreation extends Component {
 			}
 		};
 
-		//TODO does not work for edition (value id)
-		this.handleCancel = () => {
-			//TODO use <Navigate />
-			//this.props.history.push(`/concept/${this.props.id}`);
+		this.redirectCancel = () => {
 			if (this.props.creation) {
-				this.props.history.push(`/concepts`);
+				return `/concepts`;
 			} else {
-				this.props.history.push(`/concept/${this.props.id}`);
+				return `/concept/${this.props.id}`;
 			}
 		};
 
@@ -185,9 +182,7 @@ class ConceptEditionCreation extends Component {
 							notes={notes}
 							conceptsWithLinks={conceptsWithLinks}
 							handleSave={this.handleSave}
-							//TODO should redirect to the page concept when updating an
-							//existing concept
-							redirectCancel={`/concepts`}
+							redirectCancel={this.redirectCancel}
 						/>
 					)}
 					<ul className="nav nav-tabs nav-justified">

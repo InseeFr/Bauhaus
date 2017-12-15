@@ -12,7 +12,10 @@ function ConceptCreateControlLayout({
 	return (
 		<div className="row btn-line">
 			<div className="col-md-2">
-				<Link to={redirectCancel} className="btn btn-primary btn-lg col-md-12">
+				<Link
+					to={redirectCancel()}
+					className="btn btn-primary btn-lg col-md-12"
+				>
 					<span
 						className="glyphicon glyphicon-floppy-remove"
 						aria-hidden="true"
@@ -52,7 +55,7 @@ function ConceptCreateControlLayout({
 ConceptCreateControlLayout.propTypes = {
 	message: PropTypes.string,
 	saveEnabled: PropTypes.bool.isRequired,
-	redirectCancel: PropTypes.string.isRequired,
+	redirectCancel: PropTypes.func.isRequired,
 	handleSave: PropTypes.func.isRequired,
 };
 

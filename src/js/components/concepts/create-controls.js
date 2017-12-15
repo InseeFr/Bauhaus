@@ -5,7 +5,6 @@ import ConceptCreateControlLayout from './create-controls-layout';
 import { maxLengthScopeNote } from 'config/config';
 import { dictionary } from 'js/utils/dictionary';
 import { htmlLength, htmlIsEmpty } from 'js/utils/html';
-
 import { arrayKeepUniqueField } from 'js/utils/array-utils';
 import { propTypes as notesPropTypes } from 'js/utils/concepts/notes';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
@@ -112,7 +111,7 @@ ConceptCreateControl.propTypes = {
 	general: generalPropTypes.isRequired,
 	notes: notesPropTypes.isRequired,
 	conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
-	redirectCancel: PropTypes.string.isRequired,
+	redirectCancel: PropTypes.func.isRequired,
 	handleSave: PropTypes.func.isRequired,
 };
 export default ConceptCreateControl;
