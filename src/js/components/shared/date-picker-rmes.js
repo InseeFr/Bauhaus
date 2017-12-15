@@ -12,7 +12,7 @@ function DatePickerRmes({ value, onChange, placement }) {
 			value={value}
 			calendarPlacement={placement}
 			onChange={onChange}
-			weekStartsOnMonday={true}
+			weekStartsOn={1}
 			dayLabels={days}
 			monthLabels={months}
 		/>
