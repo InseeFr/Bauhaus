@@ -260,7 +260,7 @@ const dictionaryMulti = {
 			},
 			validation: {
 				title: 'Validation des collections provisoires',
-				toValid: 'Collections à valider',
+				panel: 'Collections à valider',
 			},
 		},
 		collection: {
