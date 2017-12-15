@@ -18,6 +18,7 @@ function ConfirmModal({
 			isOpen={isOpen}
 			onRequestClose={closeCancel}
 			contentLabel={label}
+			ariaHideApp={false}
 		>
 			<div className="modal-content">
 				<div className="modal-header">
