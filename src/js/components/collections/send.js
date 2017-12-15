@@ -81,7 +81,7 @@ class CollectionSend extends Component {
 	}
 
 	render() {
-		const { prefLabelLg1 } = this.props;
+		const { prefLabelLg1, id } = this.props;
 		const { recipient, sender, subject, message } = this.state;
 
 		return (
@@ -98,7 +98,7 @@ class CollectionSend extends Component {
 					subject={subject}
 					message={message}
 					sendMessage={this.handleClickSend}
-					urlBack={'/collections'}
+					urlBack={`/collection/${id}`}
 				/>
 				<div className="form-group">
 					<label>{dictionary.collection.send.recipient}</label>

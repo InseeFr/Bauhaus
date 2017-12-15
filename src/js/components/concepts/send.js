@@ -81,7 +81,7 @@ class ConceptSend extends Component {
 	}
 
 	render() {
-		const { prefLabelLg1 } = this.props;
+		const { prefLabelLg1, id } = this.props;
 		const { recipient, sender, subject, message } = this.state;
 
 		return (
@@ -98,7 +98,7 @@ class ConceptSend extends Component {
 					subject={subject}
 					message={message}
 					sendMessage={this.handleClickSend}
-					urlBack={'/concepts'}
+					urlBack={`/concept/${id}`}
 				/>
 				<div className="form-group">
 					<label>{dictionary.concept.send.recipient}</label>
