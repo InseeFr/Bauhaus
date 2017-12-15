@@ -23,7 +23,7 @@ import CollectionsToExport from './collections/to-export';
 import Help from './help/home';
 import AdministrationHome from './administration/home';
 import RoleHome from './administration/roles/home-container';
-import MenuConcepts from './menu/';
+import MenuDispatcher from './menu/';
 
 const store = configureStore();
 
@@ -37,7 +37,7 @@ export default class Root extends Component {
 					<Router>
 						<div>
 							<Route exact path="/" component={App} />
-							<Route path="/" component={MenuConcepts} />
+							<Route path="/" component={MenuDispatcher} />
 							<Switch>
 								<Route
 									exact
