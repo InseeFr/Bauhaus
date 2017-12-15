@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import ConceptGeneral from './general';
 import ConceptCompareNotes from './compare-notes';
@@ -29,7 +29,7 @@ class ConceptCompare extends Component {
 	}
 
 	render() {
-		const { id, conceptGeneral, conceptNotes, secondLang } = this.props;
+		const { conceptGeneral, conceptNotes, secondLang } = this.props;
 		const { select1, select2 } = this.state;
 		const conceptVersion = Number(conceptGeneral.conceptVersion);
 
@@ -62,12 +62,12 @@ class ConceptCompare extends Component {
 					</div>
 					<div className="row btn-line">
 						<div className="col-md-3">
-							<Link
+							<button
 								className="btn btn-primary btn-lg col-md-12"
-								to={`/concept/${id}`}
+								onClick={() => this.props.history.goBack()}
 							>
 								{dictionary.buttons.returnCurrent}
-							</Link>
+							</button>
 						</div>
 					</div>
 					<ConceptGeneral attr={conceptGeneral} />
@@ -117,4 +117,4 @@ ConceptCompare.propTypes = {
 	secondLang: PropTypes.bool.isRequired,
 };
 
-export default ConceptCompare;
+export default withRouter(ConceptCompare);

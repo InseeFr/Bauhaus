@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
 import ConceptCreateControl from './create-controls';
-
 import GeneralEdition from './general-edition';
 import NotesEdition from './notes-edition';
 import LinksEdition from './links-edition';

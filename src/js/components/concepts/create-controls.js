@@ -36,7 +36,6 @@ function ConceptCreateControl({
 	notes,
 	conceptsWithLinks,
 	handleSave,
-	redirectCancel,
 }) {
 	let message;
 	let saveEnabled = false;
@@ -98,7 +97,6 @@ function ConceptCreateControl({
 	}
 	return (
 		<ConceptCreateControlLayout
-			redirectCancel={redirectCancel}
 			handleSave={handleSave}
 			message={message}
 			saveEnabled={saveEnabled}
@@ -111,7 +109,6 @@ ConceptCreateControl.propTypes = {
 	general: generalPropTypes.isRequired,
 	notes: notesPropTypes.isRequired,
 	conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
-	redirectCancel: PropTypes.func.isRequired,
 	handleSave: PropTypes.func.isRequired,
 };
 export default ConceptCreateControl;
