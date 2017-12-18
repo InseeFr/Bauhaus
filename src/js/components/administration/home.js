@@ -10,7 +10,7 @@ function AdministrationHome() {
 		<div className="container admin-home">
 			<PageTitle title="Administration" />
 			<div className="img-block">
-				<Link to="/administration">
+				<Link to="/administration/dashboard">
 					<h2 className="items page-title page-title-link">Tableau de bord</h2>
 				</Link>
 				<Link to="/administration/roles">
@@ -20,8 +20,8 @@ function AdministrationHome() {
 				</Link>
 			</div>
 			<div className="img-block">
-				<Link to="/administration">
-					<img src={dashBoardLogo} alt="DashBoard" className="img" />
+				<Link to="/administration/dashboard">
+					<img src={dashBoardLogo} alt="Dashboard" className="img" />
 				</Link>
 				<Link to="/administration/roles">
 					<img src={adminLogo} alt="Roles" className="img" />

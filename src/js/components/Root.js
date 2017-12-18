@@ -23,6 +23,7 @@ import CollectionsToExport from './collections/to-export';
 import Help from './help/home';
 import AdministrationHome from './administration/home';
 import RoleHome from './administration/roles/home-container';
+import DashBoardHome from './administration/dashboard/home-container';
 import MenuDispatcher from './menu/';
 
 const store = configureStore();
@@ -129,6 +130,11 @@ export default class Root extends Component {
 									exact
 									path="/administration/roles"
 									component={RoleHome}
+								/>
+								<Route
+									exact
+									path="/administration/dashboard"
+									component={DashBoardHome}
 								/>
 							</Switch>
 						</div>
