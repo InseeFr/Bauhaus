@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import TableRmes from 'js/components/shared/table-rmes';
-import { TableHeaderColumn } from 'react-bootstrap-table';
 import { dictionary } from 'js/utils/dictionary';
 
 function VisualisationTable({ roles, handleDelete, setEdition }) {
@@ -12,24 +11,11 @@ function VisualisationTable({ roles, handleDelete, setEdition }) {
 		return _;
 	}, []);
 
-	const rowsParams = [
+	const rowParams = [
 		{ dataField: 'role', label: 'Rôle', width: '30%' },
 		{ dataField: 'label', label: 'Nom', width: '40%', isKey: true },
 		{ dataField: 'stamp', label: 'Timbre', width: '30%' },
 	];
-
-	const rows = rowsParams.map(({ dataField, label, width, isKey }) => (
-		<TableHeaderColumn
-			key={label}
-			width={width}
-			dataField={dataField}
-			isKey={isKey}
-			dataAlign="center"
-			dataSort={true}
-		>
-			{label}
-		</TableHeaderColumn>
-	));
 
 	return (
 		<div>
@@ -51,7 +37,7 @@ function VisualisationTable({ roles, handleDelete, setEdition }) {
 					</div>
 				</div>
 			</div>
-			<TableRmes data={persons} rows={rows} />
+			<TableRmes rowParams={rowParams} data={persons} />
 		</div>
 	);
 }

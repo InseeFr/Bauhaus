@@ -1,10 +1,10 @@
 import React from 'react';
-import { BootstrapTable } from 'react-bootstrap-table';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-function TableRmes({ rows, data }) {
+function TableRmes({ rowParams, data }) {
 	const options = {
 		sizePerPage: 5,
-		noDataText: 'Aucun agent habilité',
+		noDataText: 'Aucunes données',
 		sizePerPageList: [
 			{
 				text: '5',
@@ -20,6 +20,21 @@ function TableRmes({ rows, data }) {
 			},
 		],
 	};
+	const rows = rowParams.map(
+		({ dataField, label, width, isKey, dataFormat, dataSort }) => (
+			<TableHeaderColumn
+				key={label}
+				width={width}
+				dataField={dataField}
+				isKey={isKey}
+				dataAlign="center"
+				dataFormat={dataFormat}
+				dataSort={dataSort}
+			>
+				{label}
+			</TableHeaderColumn>
+		)
+	);
 	return (
 		<div className="row">
 			<div className="col-md-10 col-md-offset-1">

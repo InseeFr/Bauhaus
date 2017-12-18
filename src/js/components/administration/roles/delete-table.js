@@ -1,5 +1,4 @@
 import React from 'react';
-import { TableHeaderColumn } from 'react-bootstrap-table';
 import TableRmes from 'js/components/shared/table-rmes';
 import del from 'img/del.png';
 
@@ -20,7 +19,7 @@ function DeleteTable({ roles, selectedRole, openModal }) {
 		);
 	};
 
-	const rowsParams = [
+	const rowParams = [
 		{
 			dataField: 'label',
 			label: 'Nom',
@@ -37,23 +36,8 @@ function DeleteTable({ roles, selectedRole, openModal }) {
 			dataSort: false,
 		},
 	];
-	const rows = rowsParams.map(
-		({ dataField, label, width, isKey, dataFormat, dataSort }) => (
-			<TableHeaderColumn
-				key={label}
-				width={width}
-				dataField={dataField}
-				isKey={isKey}
-				dataAlign="center"
-				dataFormat={dataFormat}
-				dataSort={dataSort}
-			>
-				{label}
-			</TableHeaderColumn>
-		)
-	);
 
-	return <TableRmes data={persons} rows={rows} />;
+	return <TableRmes rowParams={rowParams} data={persons} />;
 }
 
 export default DeleteTable;
