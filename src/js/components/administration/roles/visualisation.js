@@ -37,7 +37,11 @@ function VisualisationTable({ roles, handleDelete, setEdition }) {
 					</div>
 				</div>
 			</div>
-			<TableRmes rowParams={rowParams} data={persons} />
+			<TableRmes
+				rowParams={rowParams}
+				data={persons}
+				cssClass="col-md-10 col-md-offset-1"
+			/>
 		</div>
 	);
 }

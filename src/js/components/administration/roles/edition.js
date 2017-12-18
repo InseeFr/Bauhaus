@@ -184,7 +184,7 @@ class Edition extends Component {
 							selectedRole={selectedRole}
 							openModal={this.openModal}
 						/>
-						<div className="row picker-agent">
+						<div className="row">
 							<div className="col-md-6">
 								<Panel title="Agents à ajouter">{addedEls}</Panel>
 							</div>

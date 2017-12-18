@@ -37,7 +37,13 @@ function DeleteTable({ roles, selectedRole, openModal }) {
 		},
 	];
 
-	return <TableRmes rowParams={rowParams} data={persons} />;
+	return (
+		<TableRmes
+			rowParams={rowParams}
+			data={persons}
+			cssClass="col-md-10 col-md-offset-1"
+		/>
+	);
 }
 
 export default DeleteTable;
