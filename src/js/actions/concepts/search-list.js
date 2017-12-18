@@ -6,13 +6,14 @@ import { sortArray } from 'js/utils/array-utils';
 const sortByLabel = sortArray('label');
 
 const emptyItem = {
+	id: '',
 	label: '',
-	creator: '',
 	created: '',
-	modifed: '',
+	modified: '',
 	disseminationStatus: '',
-	definition: '',
 	validationStatus: '',
+	definition: '',
+	creator: '',
 };
 
 export default () => dispatch => {
