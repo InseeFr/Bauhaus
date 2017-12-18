@@ -1,7 +1,7 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-function TableRmes({ rowParams, data, cssClass }) {
+function TableRmes({ rowParams, data, search, pagination, cssClass }) {
 	const options = {
 		sizePerPage: 5,
 		noDataText: 'Aucunes données',
@@ -42,9 +42,9 @@ function TableRmes({ rowParams, data, cssClass }) {
 				striped={true}
 				hover={true}
 				headerStyle={{ background: '#457DBB', color: 'white' }}
-				search
+				search={search}
 				searchPlaceholder="Rechercher dans le tableau"
-				pagination
+				pagination={pagination}
 				options={options}
 			>
 				{rows}

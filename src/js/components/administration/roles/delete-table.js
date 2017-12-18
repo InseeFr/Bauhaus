@@ -40,6 +40,8 @@ function DeleteTable({ roles, selectedRole, openModal }) {
 	return (
 		<TableRmes
 			rowParams={rowParams}
+			search={true}
+			pagination={true}
 			data={persons}
 			cssClass="col-md-10 col-md-offset-1"
 		/>

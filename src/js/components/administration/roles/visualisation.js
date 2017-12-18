@@ -40,6 +40,8 @@ function VisualisationTable({ roles, handleDelete, setEdition }) {
 			<TableRmes
 				rowParams={rowParams}
 				data={persons}
+				search={true}
+				pagination={true}
 				cssClass="col-md-10 col-md-offset-1"
 			/>
 		</div>
