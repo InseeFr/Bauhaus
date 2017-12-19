@@ -1,7 +1,14 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-function TableRmes({ rowParams, data, search, pagination, cssClass }) {
+function TableRmes({
+	rowParams,
+	data,
+	search,
+	pagination,
+	cssClass,
+	csvFileName,
+}) {
 	const options = {
 		sizePerPage: 5,
 		noDataText: 'Aucunes données',
@@ -19,6 +26,7 @@ function TableRmes({ rowParams, data, search, pagination, cssClass }) {
 				value: data.length,
 			},
 		],
+		exportCSVText: 'Exporter en CSV',
 	};
 	const rows = rowParams.map(
 		({ dataField, label, width, isKey, dataFormat, dataSort }) => (
@@ -38,6 +46,8 @@ function TableRmes({ rowParams, data, search, pagination, cssClass }) {
 	return (
 		<div className={cssClass} style={{ marginTop: '2%' }}>
 			<BootstrapTable
+				exportCSV={csvFileName}
+				csvFileName={csvFileName}
 				data={data}
 				striped={true}
 				hover={true}
