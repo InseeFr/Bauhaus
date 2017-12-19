@@ -15,7 +15,6 @@ class DashboardContainer extends Component {
 
 	render() {
 		const { conceptSearchList } = this.props;
-
 		if (!conceptSearchList)
 			return (
 				<div>
@@ -30,7 +29,7 @@ class DashboardContainer extends Component {
 				</div>
 			);
 
-		return <Dashboard conceptSearchList={conceptSearchList} />;
+		return <Dashboard conceptsData={conceptSearchList} />;
 	}
 }
 

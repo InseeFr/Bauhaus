@@ -1,8 +1,7 @@
 import React from 'react';
 import TabsRmes from 'js/components/shared/tabs-rmes';
 import ConceptsSummary from './concepts/summary';
-import ConceptsCreations from './concepts/creations';
-import ConceptsModifications from './concepts/modifications';
+import ConceptsCreationsModifications from './concepts/creations-modifications';
 import CollectionsSummary from './collections/summary';
 import CollectionsCreations from './collections/creations';
 import CollectionsModifications from './collections/modifications';
@@ -15,11 +14,21 @@ function ConceptsDashboard({ conceptsData }) {
 		},
 		{
 			title: 'Liste des créations',
-			content: <ConceptsCreations conceptsData={conceptsData} />,
+			content: (
+				<ConceptsCreationsModifications
+					conceptsData={conceptsData}
+					type="creations"
+				/>
+			),
 		},
 		{
 			title: 'Liste des modifications',
-			content: <ConceptsModifications conceptsData={conceptsData} />,
+			content: (
+				<ConceptsCreationsModifications
+					conceptsData={conceptsData}
+					type="modifications"
+				/>
+			),
 		},
 	];
 	const tabsCollections = [
