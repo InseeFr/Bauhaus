@@ -14,6 +14,8 @@ const emptyItem = {
 	validationStatus: '',
 	definition: '',
 	creator: '',
+	isTopConceptOf: '',
+	valid: '',
 };
 
 export default () => dispatch => {
