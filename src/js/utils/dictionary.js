@@ -64,7 +64,7 @@ const dictionaryMulti = {
 				home: 'Accueil',
 				concepts: 'Concepts',
 				classifications: 'Nomenclatures',
-				sources: 'Sources',
+				sources: 'Operations',
 			},
 			concepts: {
 				home: 'Naviguer dans les référentiels',
@@ -146,7 +146,7 @@ const dictionaryMulti = {
 			title: 'Application de gestion des métadonnées de référence',
 			conceptsTitle: 'Concepts',
 			classificationsTitle: 'Nomenclatures',
-			sourcesTitle: 'Sources',
+			sourcesTitle: 'Operations',
 		},
 		concepts: {
 			title: 'Concepts - Recherche',
@@ -442,7 +442,7 @@ const dictionaryMulti = {
 			title: 'Metadata management application',
 			conceptsTitle: 'Concepts',
 			classificationsTitle: 'Nomenclatures',
-			sourcesTitle: 'Sources',
+			sourcesTitle: 'Operations',
 		},
 		concepts: {
 			title: 'Concepts - Research',
