@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loading-overlay';
 import { dictionary } from 'js/utils/dictionary';
 import * as select from 'js/reducers';
-import Dashboard from './home';
+import Dashboard from './';
 import loadConceptSearchList from 'js/actions/concepts/search-list';
 import loadCollectionDashboardList from 'js/actions/dashboard/collections';
 import 'css/app.css';
