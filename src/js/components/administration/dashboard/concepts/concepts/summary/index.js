@@ -8,17 +8,12 @@ function ConceptsSummary({ conceptsData }) {
 	const dataStamps = buildDataStamps(conceptsData);
 	return (
 		<div>
-			<TableRmes
-				rowParams={rowParams}
-				data={data}
-				csvFileName="export_concepts_recap.csv"
-			/>
+			<TableRmes rowParams={rowParams} data={data} />
 			<TableRmes
 				rowParams={rowParamsStamps}
 				data={dataStamps}
 				search={true}
 				pagination={true}
-				csvFileName="export_concepts_par_timbre.csv"
 			/>
 		</div>
 	);

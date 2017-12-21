@@ -34,7 +34,6 @@ class ConceptsCreationsModifications extends Component {
 					data={data}
 					search={true}
 					pagination={true}
-					csvFileName={`export_concepts_${type}.csv`}
 				/>
 			</div>
 		);
