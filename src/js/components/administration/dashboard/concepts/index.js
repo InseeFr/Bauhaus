@@ -3,10 +3,9 @@ import TabsRmes from 'js/components/shared/tabs-rmes';
 import ConceptsSummary from './concepts/summary';
 import ConceptsCreationsModifications from './concepts/creations-modifications';
 import CollectionsSummary from './collections/summary';
-import CollectionsCreations from './collections/creations';
-import CollectionsModifications from './collections/modifications';
+import CollectionsCreationsModifications from './collections/creations-modifications';
 
-function ConceptsDashboard({ conceptsData }) {
+function ConceptsDashboard({ conceptsData, collectionsData }) {
 	const tabsConcepts = [
 		{
 			title: 'Récapitulatif',
@@ -32,9 +31,28 @@ function ConceptsDashboard({ conceptsData }) {
 		},
 	];
 	const tabsCollections = [
-		{ title: 'Récapitulatif', content: <CollectionsSummary /> },
-		{ title: 'Liste des créations', content: <CollectionsCreations /> },
-		{ title: 'Liste des modifications', content: <CollectionsModifications /> },
+		{
+			title: 'Récapitulatif',
+			content: <CollectionsSummary collectionsData={collectionsData} />,
+		},
+		{
+			title: 'Liste des créations',
+			content: (
+				<CollectionsCreationsModifications
+					collectionsData={collectionsData}
+					type="creations"
+				/>
+			),
+		},
+		{
+			title: 'Liste des modifications',
+			content: (
+				<CollectionsCreationsModifications
+					collectionsData={collectionsData}
+					type="modifications"
+				/>
+			),
+		},
 	];
 	const tabs = [
 		{ title: 'Concepts', content: <TabsRmes tabs={tabsConcepts} /> },

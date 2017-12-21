@@ -7,11 +7,16 @@ import ClassificationsDashboard from './classifications';
 import SourcesDashboard from './sources';
 import { dictionary } from 'js/utils/dictionary';
 
-function Dashboard({ conceptsData }) {
+function Dashboard({ conceptsData, collectionsData }) {
 	const tabs = [
 		{
 			title: dictionary.navbar.referenciels.concepts,
-			content: <ConceptsDashboard conceptsData={conceptsData} />,
+			content: (
+				<ConceptsDashboard
+					conceptsData={conceptsData}
+					collectionsData={collectionsData}
+				/>
+			),
 		},
 		{
 			title: dictionary.navbar.referenciels.classifications,
