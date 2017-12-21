@@ -33,17 +33,26 @@ class MenuConcepts extends Component {
 	render() {
 		const { menuRef, activePath } = this.state;
 		var paths = {
-			concepts: { path: '/concepts', rootPath: '/concept' },
-			collections: { path: '/collections', rootPath: '/collection' },
-			help: { path: '/help', rootPath: '/help' },
-			administration: { path: '/administration', rootPath: '/administration' },
+			administration: {
+				path: '/concepts/administration',
+				pathKey: 'administration',
+				className: null,
+			},
+			help: { path: '/concepts/help', pathKey: 'help', className: null },
+			concepts: { path: '/concepts', pathKey: 'concept', className: null },
+			collections: {
+				path: '/collections',
+				pathKey: 'collection',
+				className: null,
+			},
 		};
 
-		paths = Object.keys(paths).reduce((_, p) => {
-			var className = activePath.includes(paths[p].rootPath) ? 'active' : null;
-			_[p] = { ...paths[p], className };
-			return _;
-		}, {});
+		for (var key in paths) {
+			if (this.props.location.pathname.includes(paths[key]['pathKey'])) {
+				paths[key]['className'] = 'active';
+				break;
+			}
+		}
 
 		if (activePath === '/') return null;
 
