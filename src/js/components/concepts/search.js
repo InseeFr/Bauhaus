@@ -5,7 +5,7 @@ import { dictionary } from 'js/utils/dictionary';
 import Pagination from 'js/components/shared/pagination';
 import ConceptItem from './list-item';
 import { propTypes as overviewTypes } from 'js/utils/concepts/concept-overview';
-import { filterKeyDeburr } from 'js/utils/array-utils';
+import { filterKeyDeburr, nbResults } from 'js/utils/array-utils';
 
 const filter = filterKeyDeburr('label');
 
@@ -61,11 +61,6 @@ class ConceptListSearch extends Component {
 			</div>
 		);
 	}
-}
-
-function nbResults(list) {
-	if (list.length > 1) return list.length + dictionary.concepts.results;
-	else return list.length + dictionary.concepts.result;
 }
 
 ConceptListSearch.propTypes = {
