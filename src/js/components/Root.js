@@ -21,9 +21,9 @@ import CollectionEditionContainer from './collections/edition-container';
 import CollectionsToValidate from './collections/to-validate';
 import CollectionsToExport from './collections/to-export';
 import Help from './help/home';
-import AdministrationHome from './administration/home';
+import ConceptsAdministrationHome from './administration/home';
 import RoleHome from './administration/roles/home-container';
-import DashBoardHome from './administration/dashboard/home-container';
+import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
 import MenuDispatcher from './menu/';
 
 const store = configureStore();
@@ -120,11 +120,11 @@ export default class Root extends Component {
 									path="/collections/export"
 									component={CollectionsToExport}
 								/>
-								<Route exact path="/help" component={Help} />
+								<Route exact path="/concepts/help" component={Help} />
 								<Route
 									exact
-									path="/administration"
-									component={AdministrationHome}
+									path="/concepts/administration"
+									component={ConceptsAdministrationHome}
 								/>
 								<Route
 									exact
@@ -133,8 +133,8 @@ export default class Root extends Component {
 								/>
 								<Route
 									exact
-									path="/administration/dashboard"
-									component={DashBoardHome}
+									path="/concepts/administration/dashboard"
+									component={ConceptsDashboardHome}
 								/>
 							</Switch>
 						</div>

@@ -22,7 +22,7 @@ function VisualisationTable({ roles, handleDelete, setEdition }) {
 			<div className="row btn-line">
 				<div className="col-md-2">
 					<Link
-						to={`/administration`}
+						to={`/concepts/administration`}
 						className="btn btn-primary btn-lg col-md-12"
 					>
 						{dictionary.buttons.return}

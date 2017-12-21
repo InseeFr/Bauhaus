@@ -8,7 +8,7 @@ function Controls() {
 			<div className="col-md-2">
 				<Link
 					className="btn btn-primary btn-lg col-md-12"
-					to={'/administration'}
+					to={'/concepts/administration'}
 				>
 					{dictionary.buttons.return}
 				</Link>
