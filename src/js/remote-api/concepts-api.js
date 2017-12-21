@@ -70,6 +70,7 @@ const api = {
 	],
 	// Collections
 	getCollectionList: () => ['collections'],
+	getCollectionDashboardList: () => ['collections/dashboard'],
 	getCollectionValidateList: () => ['collections/toValidate'],
 	postCollection: collection => [
 		'private/collection',

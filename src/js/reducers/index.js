@@ -10,6 +10,7 @@ import * as collectionGeneral from './collections/by-id/general';
 import * as members from './collections/by-id/members';
 import collectionReducers from './collections/';
 import roleReducers from './roles/';
+import dashboardReducers from './dashboard/';
 import remoteCalls, * as remoteCallsSelectors from './remote-calls';
 
 const disseminationStatusList = listReducer([
@@ -45,6 +46,7 @@ export default combineReducers({
 	...conceptReducers,
 	...collectionReducers,
 	...roleReducers,
+	...dashboardReducers,
 	remoteCalls,
 });
 
@@ -81,6 +83,8 @@ export function getConcept(state, id) {
 }
 
 export const getCollectionList = state => getItems(state.collectionList);
+export const getCollectionDashboardList = state =>
+	getItems(state.collectionDashboardList);
 export const getCollectionValidateList = state =>
 	getItems(state.collectionToValidateList);
 
