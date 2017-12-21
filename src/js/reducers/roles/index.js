@@ -17,6 +17,13 @@ const roleList = handleReset(
 	[A.ADD_ROLE, A.DELETE_ROLE]
 );
 
+const agentList = listReducer([
+	A.LOAD_AGENT_LIST,
+	A.LOAD_AGENT_LIST_SUCCESS,
+	A.LOAD_AGENT_LIST_FAILURE,
+]);
+
 export default {
 	roleList,
+	agentList,
 };

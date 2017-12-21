@@ -1,7 +1,7 @@
-import listReducer, { getItems } from './utils/list-reducer';
-import * as A from 'js/actions/constants';
+import { getItems } from './utils/list-reducer';
 import { combineReducers } from 'redux';
 import app from './app';
+import sharedReducers from './shared';
 import conceptReducers from './concepts/';
 import * as conceptGeneral from './concepts/by-id/general';
 import * as notes from './concepts/by-id/notes';
@@ -13,36 +13,9 @@ import roleReducers from './roles/';
 import dashboardReducers from './dashboard/';
 import remoteCalls, * as remoteCallsSelectors from './remote-calls';
 
-const disseminationStatusList = listReducer([
-	A.LOAD_DISSEMINATION_STATUS_LIST,
-	A.LOAD_DISSEMINATION_STATUS_LIST_SUCCESS,
-	A.LOAD_DISSEMINATION_STATUS_LIST_FAILURE,
-]);
-
-const stampList = listReducer([
-	A.LOAD_STAMP_LIST,
-	A.LOAD_STAMP_LIST_SUCCESS,
-	A.LOAD_STAMP_LIST_FAILURE,
-]);
-
-const roleList = listReducer([
-	A.LOAD_ROLE_LIST,
-	A.LOAD_ROLE_LIST_SUCCESS,
-	A.LOAD_ROLE_LIST_FAILURE,
-]);
-
-const agentList = listReducer([
-	A.LOAD_AGENT_LIST,
-	A.LOAD_AGENT_LIST_SUCCESS,
-	A.LOAD_AGENT_LIST_FAILURE,
-]);
-
 export default combineReducers({
 	app,
-	stampList,
-	disseminationStatusList,
-	roleList,
-	agentList,
+	...sharedReducers,
 	...conceptReducers,
 	...collectionReducers,
 	...roleReducers,
