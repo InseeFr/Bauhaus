@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TableRmes from 'js/components/shared/table-rmes';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import { rowParams } from './data';
-import { filterKeyDate } from 'js/utils/array-utils';
+import { filterKeyDate, nbResults } from 'js/utils/array-utils';
 
 class CollectionsCreationsModifications extends Component {
 	constructor(props) {
@@ -28,6 +28,9 @@ class CollectionsCreationsModifications extends Component {
 							placement="top"
 						/>
 					</div>
+				</div>
+				<div className="row centered">
+					<h4>{nbResults(data)}</h4>
 				</div>
 				<TableRmes
 					rowParams={rowParams[type]}

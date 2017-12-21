@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import TableRmes from 'js/components/shared/table-rmes';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import { rowParams } from './data';
-import { filterKeyDate } from 'js/utils/array-utils';
+import { filterKeyDate, nbResults } from 'js/utils/array-utils';
 
 class ConceptsCreationsModifications extends Component {
 	constructor(props) {
@@ -33,8 +33,10 @@ class ConceptsCreationsModifications extends Component {
 							onChange={this.changeDateCreatedStart}
 							placement="top"
 						/>
-						<label>{data.length}</label>
 					</div>
+				</div>
+				<div className="row centered">
+					<h4>{nbResults(data)}</h4>
 				</div>
 				<TableRmes
 					rowParams={rowParams[type]}
