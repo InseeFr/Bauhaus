@@ -1,5 +1,6 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import './table-rmes.css';
 
 function TableRmes({
 	rowParams,
@@ -8,6 +9,7 @@ function TableRmes({
 	pagination,
 	cssClass,
 	csvFileName,
+	onRowClick,
 }) {
 	const options = {
 		sizePerPage: 5,
@@ -27,6 +29,7 @@ function TableRmes({
 			},
 		],
 		exportCSVText: 'Exporter en CSV',
+		onRowClick: onRowClick,
 	};
 	const rows = rowParams.map(
 		({ dataField, label, width, isKey, dataFormat, dataSort }) => (
