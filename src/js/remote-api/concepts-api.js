@@ -51,7 +51,9 @@ const api = {
 		`concept/export/${id}`,
 		{
 			headers: {
-				Accept: 'application/octet-stream',
+				// TODO : Fix issue with good MIME Types
+				//Accept: 'application/octet-stream',
+				Accept: 'application/vnd.oasis.opendocument.text',
 				'Content-Type': 'text/plain',
 			},
 			responseType: 'arraybuffer',

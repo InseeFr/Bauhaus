@@ -22,7 +22,8 @@ export default id => dispatch => {
 			//within the reducer. Another option could be to define the `then`
 			//handler in the component which calls the action, but it is not clean.
 			.then(blob => {
-				return FileSaver.saveAs(blob, `concept-${id}.pdf`);
+				// TODO Make the fileName dynamic thanks to the header
+				return FileSaver.saveAs(blob, `concept-${id}.odt`);
 			})
 	);
 };
