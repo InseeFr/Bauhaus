@@ -1,7 +1,10 @@
 import api from 'js/remote-api/concepts-api';
 import * as A from '../constants';
+import { getContentDisposition } from 'js/utils/regex';
 import FileSaver from 'file-saver';
+
 export default id => dispatch => {
+	var fileName = '';
 	dispatch({
 		type: A.EXPORT_CONCEPT,
 		payload: id,
@@ -10,20 +13,27 @@ export default id => dispatch => {
 		api
 			.getConceptExport(id)
 			.then(
-				blob => {
+				res => {
 					dispatch({ type: A.EXPORT_CONCEPT_SUCCESS });
 					//we do not want to save the pdf within the reducer, so we return
 					//it in order to process it later
-					return blob;
+					return res;
 				},
 				err => dispatch({ type: A.EXPORT_CONCEPT_FAILURE, payload: { err } })
 			)
 			//TODO Is it the best place ? We do not want to keep track of the blobs
 			//within the reducer. Another option could be to define the `then`
 			//handler in the component which calls the action, but it is not clean.
+			.then(res => {
+				fileName = getContentDisposition(
+					res.headers.get('Content-Disposition')
+				)[1];
+				return res;
+			})
+			.then(res => res.blob())
 			.then(blob => {
 				// TODO Make the fileName dynamic thanks to the header
-				return FileSaver.saveAs(blob, `concept-${id}.odt`);
+				return FileSaver.saveAs(blob, fileName);
 			})
 	);
 };

@@ -56,9 +56,8 @@ const api = {
 				Accept: 'application/vnd.oasis.opendocument.text',
 				'Content-Type': 'text/plain',
 			},
-			responseType: 'arraybuffer',
 		},
-		res => res.blob(),
+		res => res,
 	],
 	postConceptSend: (id, mailInfo) => [
 		`private/concept/send/${id}`,
