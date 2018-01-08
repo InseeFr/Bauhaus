@@ -47,13 +47,11 @@ const api = {
 		//do not process resspoonse
 		() => {}, //TODO upgrade build apri
 	],
-	getConceptExport: id => [
+	getConceptExport: (id, MimeType) => [
 		`concept/export/${id}`,
 		{
 			headers: {
-				// TODO : Fix issue with good MIME Types
-				//Accept: 'application/octet-stream',
-				Accept: 'application/vnd.oasis.opendocument.text',
+				Accept: MimeType,
 				'Content-Type': 'text/plain',
 			},
 		},
