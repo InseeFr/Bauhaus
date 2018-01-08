@@ -1,28 +1,24 @@
 import exportOne from './export-one';
 import * as A from '../constants';
 
-export default (ids, MimeType) => dispatch => {
+export default ids => dispatch => {
 	dispatch({
 		type: A.EXPORT_CONCEPT_LIST,
-		payload: {
+		paylaod: {
 			ids,
-			MimeType,
 		},
 	});
-	console.log(MimeType);
-	return Promise.all(ids.map(id => dispatch(exportOne(id, MimeType)))).then(
+	return Promise.all(ids.map(id => dispatch(exportOne(id)))).then(
 		([...blobs]) => {
 			dispatch({
 				type: A.EXPORT_CONCEPT_LIST_SUCCESS,
 				payload: {
 					ids,
-					MimeType,
 					blobs,
 				},
 			});
 			return Promise.resolve({
 				ids,
-				MimeType,
 				blobs,
 			});
 		},
@@ -32,7 +28,6 @@ export default (ids, MimeType) => dispatch => {
 				payload: {
 					err,
 					ids,
-					MimeType,
 				},
 			})
 	);
