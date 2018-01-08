@@ -102,16 +102,15 @@ const api = {
 	],
 	getCollectionGeneral: id => [`collection/${id}`],
 	getCollectionMembersList: id => [`collection/${id}/members`],
-	getCollectionExport: id => [
+	getCollectionExport: (id, MimeType) => [
 		`collection/export/${id}`,
 		{
 			headers: {
-				Accept: 'application/octet-stream',
+				Accept: MimeType,
 				'Content-Type': 'text/plain',
 			},
-			responseType: 'arraybuffer',
 		},
-		res => res.blob(),
+		res => res,
 	],
 	postCollectionSend: (id, mailInfo) => [
 		`private/collection/send/${id}`,

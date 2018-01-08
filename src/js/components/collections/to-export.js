@@ -6,6 +6,7 @@ import { dictionary } from 'js/utils/dictionary';
 import * as select from 'js/reducers';
 import { EXPORT_COLLECTION_LIST } from 'js/actions/constants';
 import Loadable from 'react-loading-overlay';
+import ExportModal from 'js/components/shared/export-modal';
 import exportCollectionList from 'js/actions/collections/export-multi';
 import loadCollectionList from 'js/actions/collections/list';
 import { OK } from 'js/constants';
@@ -14,10 +15,32 @@ class CollectionsToExport extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			displayModal: false,
+			ids: [],
 			exportRequested: false,
 		};
-		this.handleExportCollectionList = ids => {
-			this.props.exportCollectionList(ids);
+		this.openModal = ids =>
+			this.setState({
+				displayModal: true,
+				ids,
+			});
+		this.closeModal = () =>
+			this.setState({
+				displayModal: false,
+				ids: [],
+			});
+		this.closePdf = () => {
+			this.handleExportCollectionList('application/octet-stream');
+			this.closeModal();
+		};
+		this.closeOdt = () => {
+			this.handleExportCollectionList(
+				'application/vnd.oasis.opendocument.text'
+			);
+			this.closeModal();
+		};
+		this.handleExportCollectionList = MimeType => {
+			this.props.exportCollectionList(this.state.ids, MimeType);
 			this.setState({
 				exportRequested: true,
 			});
@@ -28,7 +51,7 @@ class CollectionsToExport extends Component {
 	}
 	render() {
 		const { collections, exportStatus } = this.props;
-		const { exportRequested } = this.state;
+		const { displayModal, exportRequested } = this.state;
 		if (exportRequested) {
 			if (exportStatus === OK) {
 				return <Redirect to="/collections" />;
@@ -59,15 +82,26 @@ class CollectionsToExport extends Component {
 		}
 
 		return (
-			<CollectionsPicker
-				collections={collections}
-				title={dictionary.collections.export.title}
-				panelTitle={dictionary.collections.export.panel}
-				labelLoadable={dictionary.loadable.exporting}
-				labelWarning={dictionary.warning.export.collections}
-				labelValidateButton={dictionary.buttons.export}
-				handleAction={this.handleExportCollectionList}
-			/>
+			<div>
+				{displayModal && (
+					<ExportModal
+						label={dictionary.concept.exporting.title}
+						isOpen={displayModal}
+						closeCancel={this.closeModal}
+						closePdf={this.closePdf}
+						closeOdt={this.closeOdt}
+					/>
+				)}
+				<CollectionsPicker
+					collections={collections}
+					title={dictionary.collections.export.title}
+					panelTitle={dictionary.collections.export.panel}
+					labelLoadable={dictionary.loadable.exporting}
+					labelWarning={dictionary.warning.export.collections}
+					labelValidateButton={dictionary.buttons.export}
+					handleAction={this.openModal}
+				/>
+			</div>
 		);
 	}
 }
