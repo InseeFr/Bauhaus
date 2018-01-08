@@ -32,7 +32,6 @@ export default (id, MimeType) => dispatch => {
 			})
 			.then(res => res.blob())
 			.then(blob => {
-				// TODO Make the fileName dynamic thanks to the header
 				return FileSaver.saveAs(blob, fileName);
 			})
 	);
