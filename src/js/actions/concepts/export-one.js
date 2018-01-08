@@ -3,15 +3,15 @@ import * as A from '../constants';
 import { getContentDisposition } from 'js/utils/regex';
 import FileSaver from 'file-saver';
 
-export default id => dispatch => {
+export default (id, MimeType) => dispatch => {
 	var fileName = '';
 	dispatch({
 		type: A.EXPORT_CONCEPT,
-		payload: id,
+		payload: { id, MimeType },
 	});
 	return (
 		api
-			.getConceptExport(id)
+			.getConceptExport(id, MimeType)
 			.then(
 				res => {
 					dispatch({ type: A.EXPORT_CONCEPT_SUCCESS });

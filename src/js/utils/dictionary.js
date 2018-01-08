@@ -57,6 +57,8 @@ const dictionaryMulti = {
 			returnCurrent: 'Retour à la version courante',
 			minorVersion: 'Ecraser la version',
 			majorVersion: 'Nouvelle version',
+			pdfButton: 'Exporter en PDF',
+			odtButton: 'Exporter en ODT',
 			add: 'Ajouter',
 		},
 		navbar: {
@@ -241,11 +243,18 @@ const dictionaryMulti = {
 				title: 'Veuillez sélectionner le type de version',
 				body: function(params) {
 					return `<p>Les notes du concept « <b>${params}</b> » ont été modifiées.</p>
-                  <p>Voulez-vous créer une nouvelle version, ou écraser les données précédentes?</p>`;
+                  <p>Voulez-vous créer une nouvelle version, ou écraser les données précédentes ?</p>`;
 				},
 				footer: `<p>Pour créer une nouvelle version, la note de changement doit être documentée :</p>
                   <ul><li><p>La note ne peut être vide</p></li>
                   <li><p>La note doit être différente de celle de la version précédente</p></li></ul>`,
+			},
+			exporting: {
+				title: "Veuillez sélectionner le type d'export",
+				body: function(params) {
+					return `<p>Les PDF ne sont pas modifiables.</p>
+									<p>Les ODT sont modifiables sous Libre Office.</p>`;
+				},
 			},
 		},
 		collections: {
