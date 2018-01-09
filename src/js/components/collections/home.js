@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import CollectionListSearch from './search';
+import SearchRmes from 'js/components/shared/search-rmes';
 import { propTypes as overviewPropTypes } from 'js/utils/collections/collection-overview';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/app.css';
@@ -67,7 +67,7 @@ class CollectionsHome extends Component {
 						</div>
 						<div className="col-md-8 centered pull-right">
 							<h2 className="page-title">{dictionary.collections.title}</h2>
-							<CollectionListSearch collections={collections} />
+							<SearchRmes items={collections} childPath="collection" />
 						</div>
 					</div>
 				</div>
