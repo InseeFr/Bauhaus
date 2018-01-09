@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import TableRmes from 'js/components/shared/table-rmes';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import { rowParams } from './data';
@@ -11,14 +11,12 @@ class ConceptsCreationsModifications extends Component {
 		this.state = { dateStart: '', redirect: '' };
 		this.changeDateCreatedStart = dateStart => this.setState({ dateStart });
 		this.onRowClick = concept =>
-			this.setState({ redirect: `/concept/${concept.id}` });
+			this.props.history.push(`/concept/${concept.id}`);
 	}
 
 	render() {
-		const { dateStart, redirect } = this.state;
+		const { dateStart } = this.state;
 		const { conceptsData, type } = this.props;
-
-		if (redirect) return <Redirect to={redirect} />;
 
 		const variable = type === 'creations' ? 'created' : 'modified';
 		const filterCreatedDate = filterKeyDate(variable);
@@ -50,4 +48,4 @@ class ConceptsCreationsModifications extends Component {
 	}
 }
 
-export default ConceptsCreationsModifications;
+export default withRouter(ConceptsCreationsModifications);
