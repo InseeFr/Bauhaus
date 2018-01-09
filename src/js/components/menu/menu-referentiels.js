@@ -4,7 +4,7 @@ import { dictionary } from 'js/utils/dictionary';
 import homeLogo from 'img/accueil.png';
 import conceptsLogo from 'img/concepts.jpg';
 import nomenclaturesLogo from 'img/nomenclatures.jpg';
-import sourcesLogo from 'img/sources.jpg';
+import operationsLogo from 'img/operations.jpg';
 import './menu-referentiels.css';
 
 function MenuReferentiels() {
@@ -43,7 +43,11 @@ function MenuReferentiels() {
 								</li>
 								<li>
 									<Link to="/sources">
-										<img src={sourcesLogo} alt="Sources" className="img-menu" />{' '}
+										<img
+											src={operationsLogo}
+											alt="Operations"
+											className="img-menu"
+										/>{' '}
 										{dictionary.navbar.referenciels.sources}
 									</Link>
 								</li>
