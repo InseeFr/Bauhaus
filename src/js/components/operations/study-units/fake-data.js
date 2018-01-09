@@ -1,0 +1,15 @@
+export const studyUnits = [
+	{ id: '1', label: 'Opération 1' },
+	{ id: '2', label: 'Opération 2' },
+	{ id: '3', label: 'Opération 3' },
+	{ id: '4', label: 'Opération 4' },
+	{ id: '5', label: 'Opération 5' },
+	{ id: '6', label: 'Opération 6' },
+	{ id: '7', label: 'Opération 7' },
+	{ id: '8', label: 'Opération 8' },
+	{ id: '9', label: 'Opération 9' },
+	{ id: '10', label: 'Opération 10' },
+	{ id: '11', label: 'Opération 11' },
+	{ id: '12', label: 'Opération 12' },
+	{ id: '13', label: 'Opération 13' },
+];

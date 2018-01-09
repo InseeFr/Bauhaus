@@ -25,8 +25,12 @@ import ConceptsAdministrationHome from './administration/home';
 import RoleHome from './administration/roles/home-container';
 import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
 import MenuDispatcher from './menu/';
-import GroupsHome from './operations/groups/home-container';
+import GroupsHomeContainer from './operations/groups/home-container';
+import SubGroupsHomeContainer from './operations/sub-groups/home-container';
+import StudyUnitsHomeContainer from './operations/study-units/home-container';
 import GroupsVisualizationContainer from './operations/groups/visualization-container';
+import SubGroupsVisualizationContainer from './operations/sub-groups/visualization-container';
+import StudyUnitsVisualizationContainer from './operations/study-units/visualization-container';
 
 const store = configureStore();
 
@@ -138,18 +142,38 @@ export default class Root extends Component {
 									path="/concepts/administration/dashboard"
 									component={ConceptsDashboardHome}
 								/>
-								<Route exact path="/groups" component={GroupsHome} />
+								<Route exact path="/groups" component={GroupsHomeContainer} />
+								<Route
+									exact
+									path="/sub-groups"
+									component={SubGroupsHomeContainer}
+								/>
+								<Route
+									exact
+									path="/study-units"
+									component={StudyUnitsHomeContainer}
+								/>
 								<Route
 									exact
 									path="/group/:id"
 									component={GroupsVisualizationContainer}
+								/>
+								<Route
+									exact
+									path="/sub-group/:id"
+									component={SubGroupsVisualizationContainer}
+								/>
+								<Route
+									exact
+									path="/study-unit/:id"
+									component={StudyUnitsVisualizationContainer}
 								/>
 							</Switch>
 						</div>
 					</Router>
 				</Provider>
 				<div className="centered" style={{ marginTop: '50px' }}>
-					<label>Gncs - Version 0.2.1</label>
+					<label>Gncs - Version 0.3</label>
 				</div>
 			</div>
 		);
