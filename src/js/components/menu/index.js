@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import MenuConcepts from './concepts';
+import MenuOperations from './operations';
 
 class MenuDispatcher extends Component {
 	render() {
@@ -14,7 +15,19 @@ class MenuDispatcher extends Component {
 			if (path.includes(p)) _ = true;
 			return _;
 		}, false);
-		return <div>{isConceptPath && <MenuConcepts />}</div>;
+		const isOperationPath = ['/group', '/sub-group', '/study-unit'].reduce(
+			(_, p) => {
+				if (path.includes(p)) _ = true;
+				return _;
+			},
+			false
+		);
+		return (
+			<div>
+				{isConceptPath && <MenuConcepts />}
+				{isOperationPath && <MenuOperations />}
+			</div>
+		);
 	}
 }
 

@@ -75,6 +75,12 @@ const dictionaryMulti = {
 				help: 'Aide',
 				administration: 'Administration',
 			},
+			operations: {
+				home: 'Naviguer dans les référentiels',
+				groups: 'Familles',
+				subGroups: 'Séries',
+				studyUnits: 'Opérations',
+			},
 		},
 		warning: {
 			missing: {
