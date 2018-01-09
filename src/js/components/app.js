@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import conceptsLogo from '../../img/concepts.jpg';
-import nomenclaturesLogo from '../../img/nomenclatures.jpg';
-import sourcesLogo from '../../img/sources.jpg';
+import classificationsLogo from '../../img/classifications-temp.png';
+import operationsLogo from '../../img/operations.jpg';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/app.css';
 
@@ -18,11 +18,11 @@ function App() {
 						{dictionary.app.conceptsTitle}
 					</h2>
 				</Link>
-				<Link to="/">
-					<h2 className="items page-title page-title-link">
-						{dictionary.app.classificationsTitle}
-					</h2>
-				</Link>
+				{/*<Link to="/">*/}
+				<h2 className="items page-title-temp" disabled>
+					{dictionary.app.classificationsTitle}
+				</h2>
+				{/*</Link>*/}
 				<Link to="/">
 					<h2 className="items page-title page-title-link">
 						{dictionary.app.sourcesTitle}
@@ -33,11 +33,11 @@ function App() {
 				<Link to="/concepts">
 					<img src={conceptsLogo} alt="Concepts" className="img" />
 				</Link>
+				{/*<Link to="/">*/}
+				<img src={classificationsLogo} alt="Classifications" className="img" />
+				{/*</Link>*/}
 				<Link to="/">
-					<img src={nomenclaturesLogo} alt="Nomenclatures" className="img" />
-				</Link>
-				<Link to="/">
-					<img src={sourcesLogo} alt="Sources" className="img" />
+					<img src={operationsLogo} alt="Operations" className="img" />
 				</Link>
 			</div>
 		</div>

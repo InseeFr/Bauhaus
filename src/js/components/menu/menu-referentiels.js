@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
 import homeLogo from 'img/accueil.png';
 import conceptsLogo from 'img/concepts.jpg';
-import nomenclaturesLogo from 'img/nomenclatures.jpg';
+//import nomenclaturesLogo from 'img/nomenclatures.jpg';
 import operationsLogo from 'img/operations.jpg';
 import './menu-referentiels.css';
 
@@ -31,7 +31,7 @@ function MenuReferentiels() {
 										{dictionary.navbar.referenciels.concepts}
 									</Link>
 								</li>
-								<li>
+								{/*<li>
 									<Link to="/classifications">
 										<img
 											src={nomenclaturesLogo}
@@ -40,7 +40,7 @@ function MenuReferentiels() {
 										/>{' '}
 										{dictionary.navbar.referenciels.classifications}
 									</Link>
-								</li>
+								</li>*/}
 								<li>
 									<Link to="/sources">
 										<img
