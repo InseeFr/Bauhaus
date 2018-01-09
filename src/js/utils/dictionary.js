@@ -346,6 +346,17 @@ const dictionaryMulti = {
 				},
 			},
 		},
+		operations: {
+			groups: {
+				title: 'Familles',
+			},
+			subGroups: {
+				title: 'Séries',
+			},
+			studyUnits: {
+				title: 'Opérations',
+			},
+		},
 	},
 	en: {
 		displayLg2: 'Display french version',

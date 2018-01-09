@@ -25,6 +25,8 @@ import ConceptsAdministrationHome from './administration/home';
 import RoleHome from './administration/roles/home-container';
 import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
 import MenuDispatcher from './menu/';
+import GroupsHome from './operations/groups/home-container';
+import GroupsVisualizationContainer from './operations/groups/visualization-container';
 
 const store = configureStore();
 
@@ -135,6 +137,12 @@ export default class Root extends Component {
 									exact
 									path="/concepts/administration/dashboard"
 									component={ConceptsDashboardHome}
+								/>
+								<Route exact path="/groups" component={GroupsHome} />
+								<Route
+									exact
+									path="/group/:id"
+									component={GroupsVisualizationContainer}
 								/>
 							</Switch>
 						</div>
