@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import TableRmes from 'js/components/shared/table-rmes';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import { rowParams } from './data';
@@ -9,11 +10,14 @@ class CollectionsCreationsModifications extends Component {
 		super();
 		this.state = { dateStart: '' };
 		this.changeDateCreatedStart = dateStart => this.setState({ dateStart });
+		this.onRowClick = collection =>
+			this.props.history.push(`/collection/${collection.id}`);
 	}
 
 	render() {
 		const { dateStart } = this.state;
 		const { collectionsData, type } = this.props;
+
 		const variable = type === 'creations' ? 'created' : 'modified';
 		const filterCreatedDate = filterKeyDate(variable);
 		const data = collectionsData.filter(filterCreatedDate(dateStart));
@@ -37,10 +41,11 @@ class CollectionsCreationsModifications extends Component {
 					data={data}
 					search={true}
 					pagination={true}
+					onRowClick={this.onRowClick}
 				/>
 			</div>
 		);
 	}
 }
 
-export default CollectionsCreationsModifications;
+export default withRouter(CollectionsCreationsModifications);
