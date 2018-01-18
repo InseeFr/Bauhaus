@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import EditionControls from './edition-controls';
 import DeleteTable from './delete-table';
-import Modal from './modal';
+import Modal from 'js/components/shared/modal/role-modal';
 import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import SelectRmes from 'js/components/shared/select-rmes';

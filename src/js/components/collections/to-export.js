@@ -6,7 +6,7 @@ import { dictionary } from 'js/utils/dictionary';
 import * as select from 'js/reducers';
 import { EXPORT_COLLECTION_LIST } from 'js/actions/constants';
 import Loadable from 'react-loading-overlay';
-import ExportModal from 'js/components/shared/export-modal';
+import ExportModal from 'js/components/shared/modal/export-modal';
 import exportCollectionList from 'js/actions/collections/export-multi';
 import loadCollectionList from 'js/actions/collections/list';
 import { OK } from 'js/constants';

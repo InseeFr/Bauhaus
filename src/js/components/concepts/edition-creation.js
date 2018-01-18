@@ -5,7 +5,7 @@ import ConceptCreateControl from './create-controls';
 import GeneralEdition from './general-edition';
 import NotesEdition from './notes-edition';
 import LinksEdition from './links-edition';
-import Confirm from './confirm-modal';
+import Confirm from 'js/components/shared/modal/confirm-modal';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import {
 	propTypes as notePropTypes,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import ExportModal from 'js/components/shared/export-modal';
+import ExportModal from 'js/components/shared/modal/export-modal';
 import ConceptsPicker from './picker';
 import { dictionary } from 'js/utils/dictionary';
 import * as select from 'js/reducers';
