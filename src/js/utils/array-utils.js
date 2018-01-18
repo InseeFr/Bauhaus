@@ -54,13 +54,6 @@ export const filterKeyDeburr = key => rawStr => {
 export const filterKeyDate = key => (start, end) => item =>
 	isDateIn(item[key], start, end);
 
-export function filterByLabel(filter) {
-	return item =>
-		_.deburr(item.label)
-			.toLowerCase()
-			.includes(filter.toLowerCase());
-}
-
 export const creatSelectList = max => {
 	const result = [];
 	for (var i = 1; i <= max; i++) {

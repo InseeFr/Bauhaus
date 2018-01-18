@@ -4,7 +4,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import { dictionary } from 'js/utils/dictionary';
 import ConceptToLink from './concept-to-link';
 import SearchConceptsByLabel from './search-concepts-by-label';
-import { filterByLabel } from 'js/utils/array-utils';
+import { filterDeburr } from 'js/utils/array-utils';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
 import logoAdd from 'js/components/shared/logo-add';
 import logoDel from 'js/components/shared/logo-del';
@@ -105,11 +105,11 @@ class LinksEdition extends Component {
 			const members = [];
 			const hits = [];
 			const actualType = this.getActualType();
-			const check = filterByLabel(this.state.searchLabel);
+			const check = filterDeburr(this.state.searchLabel);
 			this.state.conceptsWithLinks.forEach(concept => {
-				const { typeOfLink } = concept;
+				const { typeOfLink, label } = concept;
 				if (typeOfLink === actualType) members.push(concept);
-				else if (typeOfLink === NONE && check(concept)) hits.push(concept);
+				else if (typeOfLink === NONE && check(label)) hits.push(concept);
 			});
 			return {
 				members,
