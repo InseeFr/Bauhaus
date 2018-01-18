@@ -3,6 +3,6 @@
  */
 export default keys => obj =>
 	keys.reduce((extract, key) => {
-		extract[key] = obj[key];
+		extract[key] = obj[key] !== null ? obj[key] : "";
 		return extract;
 	}, {});
