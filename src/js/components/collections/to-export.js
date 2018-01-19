@@ -6,7 +6,7 @@ import { dictionary } from 'js/utils/dictionary';
 import * as select from 'js/reducers';
 import { EXPORT_COLLECTION_LIST } from 'js/actions/constants';
 import Loadable from 'react-loading-overlay';
-import ExportModal from 'js/components/shared/modal/export-modal';
+import ModalRmes from 'js/components/shared/modal-rmes';
 import exportCollectionList from 'js/actions/collections/export-multi';
 import loadCollectionList from 'js/actions/collections/list';
 import { OK } from 'js/constants';
@@ -46,12 +46,33 @@ class CollectionsToExport extends Component {
 			});
 		};
 	}
+
 	componentWillMount() {
 		if (!this.props.collections) this.props.loadCollectionList();
 	}
+
 	render() {
 		const { collections, exportStatus } = this.props;
 		const { displayModal, exportRequested } = this.state;
+
+		const modalButtons = [
+			{
+				label: dictionary.buttons.cancel,
+				action: this.closeModal,
+				style: 'default',
+			},
+			{
+				label: dictionary.buttons.pdfButton,
+				action: this.closePdf,
+				style: 'primary',
+			},
+			{
+				label: dictionary.buttons.odtButton,
+				action: this.closeOdt,
+				style: 'primary',
+			},
+		];
+
 		if (exportRequested) {
 			if (exportStatus === OK) {
 				return <Redirect to="/collections" />;
@@ -83,15 +104,14 @@ class CollectionsToExport extends Component {
 
 		return (
 			<div>
-				{displayModal && (
-					<ExportModal
-						label={dictionary.concept.exporting.title}
-						isOpen={displayModal}
-						closeCancel={this.closeModal}
-						closePdf={this.closePdf}
-						closeOdt={this.closeOdt}
-					/>
-				)}
+				<ModalRmes
+					id="export-concept-modal"
+					isOpen={displayModal}
+					title={dictionary.concept.exporting.title}
+					body={dictionary.concept.exporting.body}
+					modalButtons={modalButtons}
+					closeCancel={this.closeModal}
+				/>
 				<CollectionsPicker
 					collections={collections}
 					title={dictionary.collections.export.title}

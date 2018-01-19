@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import ExportModal from 'js/components/shared/modal/export-modal';
+import ModalRmes from 'js/components/shared/modal-rmes';
 import ConceptsPicker from './picker';
 import { dictionary } from 'js/utils/dictionary';
 import * as select from 'js/reducers';
@@ -44,12 +44,33 @@ class ConceptsToExport extends Component {
 			});
 		};
 	}
+
 	componentWillMount() {
 		if (!this.props.concepts) this.props.loadConceptList();
 	}
+
 	render() {
 		const { concepts, exportStatus } = this.props;
 		const { displayModal, exportRequested } = this.state;
+
+		const modalButtons = [
+			{
+				label: dictionary.buttons.cancel,
+				action: this.closeModal,
+				style: 'default',
+			},
+			{
+				label: dictionary.buttons.pdfButton,
+				action: this.closePdf,
+				style: 'primary',
+			},
+			{
+				label: dictionary.buttons.odtButton,
+				action: this.closeOdt,
+				style: 'primary',
+			},
+		];
+
 		if (exportRequested) {
 			if (exportStatus === OK) {
 				return <Redirect to="/concepts" />;
@@ -81,15 +102,14 @@ class ConceptsToExport extends Component {
 
 		return (
 			<div>
-				{displayModal && (
-					<ExportModal
-						label={dictionary.concept.exporting.title}
-						isOpen={displayModal}
-						closeCancel={this.closeModal}
-						closePdf={this.closePdf}
-						closeOdt={this.closeOdt}
-					/>
-				)}
+				<ModalRmes
+					id="export-concept-modal"
+					isOpen={displayModal}
+					title={dictionary.concept.exporting.title}
+					body={dictionary.concept.exporting.body}
+					modalButtons={modalButtons}
+					closeCancel={this.closeModal}
+				/>
 				<ConceptsPicker
 					concepts={concepts}
 					title={dictionary.concepts.export.title}

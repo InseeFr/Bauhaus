@@ -5,7 +5,7 @@ import ConceptCreateControl from './create-controls';
 import GeneralEdition from './general-edition';
 import NotesEdition from './notes-edition';
 import LinksEdition from './links-edition';
-import Confirm from 'js/components/shared/modal/confirm-modal';
+import ModalRmes from 'js/components/shared/modal-rmes';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import {
 	propTypes as notePropTypes,
@@ -168,7 +168,24 @@ class ConceptEditionCreation extends Component {
 			data: { general, notes, conceptsWithLinks },
 		} = this.state;
 
-		const { disseminationStatus } = general;
+		const modalButtons = [
+			{
+				label: dictionary.buttons.minorVersion,
+				action: () => this.closeModal(NO_VERSIONING),
+				style: 'primary',
+			},
+			{
+				label: dictionary.buttons.cancel,
+				action: () => this.closeModal(),
+				style: 'default',
+			},
+			{
+				label: dictionary.buttons.majorVersion,
+				action: () => this.closeModal(VERSIONING),
+				style: 'primary',
+				disabled: !this.isVersioningPossible(),
+			},
+		];
 
 		return (
 			<div>
@@ -206,7 +223,7 @@ class ConceptEditionCreation extends Component {
 									<NotesEdition
 										notes={notes}
 										handleChange={this.handleChangeNotes}
-										disseminationStatus={disseminationStatus}
+										disseminationStatus={general.disseminationStatus}
 									/>
 								)}
 							</Tab>
@@ -224,13 +241,18 @@ class ConceptEditionCreation extends Component {
 				</div>
 				<div>
 					{!creation && (
-						<Confirm
+						<ModalRmes
+							id="versioning-modal"
 							isOpen={showModal}
-							label={this.props.general.prefLabelLg1}
-							versioningIsPossible={this.isVersioningPossible()}
+							title={dictionary.concept.versioning.title}
+							body={dictionary.concept.versioning.body([general.prefLabelLg1])}
+							footer={
+								this.isVersioningPossible()
+									? ''
+									: dictionary.concept.versioning.footer
+							}
+							modalButtons={modalButtons}
 							closeCancel={() => this.closeModal()}
-							closeMinor={() => this.closeModal(NO_VERSIONING)}
-							closeMajor={() => this.closeModal(VERSIONING)}
 						/>
 					)}
 				</div>

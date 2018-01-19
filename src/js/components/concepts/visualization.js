@@ -4,7 +4,7 @@ import ConceptVisualizationControls from './visualization-controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
 import ConceptNotes from './notes';
-import Modal from 'js/components/shared/modal/validation-modal';
+import ModalRmes from 'js/components/shared/modal-rmes';
 import { dictionary } from 'js/utils/dictionary';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
@@ -35,6 +35,20 @@ class ConceptVisualization extends Component {
 		const { id, general, links, notes, secondLang } = this.props;
 		const { modalValid } = this.state;
 		const { conceptVersion, isValidated, valid } = general;
+
+		const modalButtons = [
+			{
+				label: dictionary.buttons.cancel,
+				action: this.handleCancelValidation,
+				style: 'primary',
+			},
+			{
+				label: dictionary.buttons.validate,
+				action: this.handleConfirmValidation,
+				style: 'primary',
+			},
+		];
+
 		let modalMessage = `<p>Ce concept ayant une date de fin de validité au <b>${dateTimeToDateString(
 			valid
 		)}</b>, vous ne pourrez plus le modifier`;
@@ -80,12 +94,13 @@ class ConceptVisualization extends Component {
 					<ConceptLinks secondLang={secondLang} links={links} />
 					<ConceptNotes secondLang={secondLang} notes={notes} />
 				</div>
-				<Modal
-					title="Confirmation de la validation"
-					text={modalMessage}
+				<ModalRmes
+					id="validation-concept-modal"
 					isOpen={modalValid}
-					closeModal={this.handleCancelValidation}
-					confirmModal={this.handleConfirmValidation}
+					title="Confirmation de la validation"
+					body={modalMessage}
+					modalButtons={modalButtons}
+					closeCancel={this.handleCancelValidation}
 				/>
 			</div>
 		);

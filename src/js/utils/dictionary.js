@@ -257,10 +257,8 @@ const dictionaryMulti = {
 			},
 			exporting: {
 				title: "Veuillez sélectionner le type d'export",
-				body: function(params) {
-					return `<p>Les PDF ne sont pas modifiables.</p>
-									<p>Les ODT sont modifiables sous Libre Office.</p>`;
-				},
+				body: `<p>Les PDF ne sont pas modifiables.</p>
+					<p>Les ODT sont modifiables sous Libre Office.</p>`,
 			},
 		},
 		collections: {

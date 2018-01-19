@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import EditionControls from './edition-controls';
 import DeleteTable from './delete-table';
-import Modal from 'js/components/shared/modal/role-modal';
+import ModalRmes from 'js/components/shared/modal-rmes';
 import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import SelectRmes from 'js/components/shared/select-rmes';
@@ -152,6 +152,19 @@ class Edition extends Component {
 			/>
 		));
 
+		const modalButtons = [
+			{
+				label: dictionary.buttons.cancel,
+				action: this.closeModal,
+				style: 'primary',
+			},
+			{
+				label: dictionary.buttons.validate,
+				action: this.confirmModal,
+				style: 'primary',
+			},
+		];
+
 		return (
 			<div className="container">
 				<EditionControls
@@ -201,14 +214,15 @@ class Edition extends Component {
 						</div>
 					</div>
 				)}
-				<Modal
+				<ModalRmes
+					id="delete-agent-modal"
+					isOpen={modal}
 					title="Confirmation"
-					text={`Voulez-vous supprimer le rôle ' ${selectedRoleLabel} ' à ${
+					body={`Voulez-vous supprimer le rôle ' ${selectedRoleLabel} ' à ${
 						deleteData.label
 					} ?`}
-					isOpen={modal}
-					closeModal={this.closeModal}
-					confirmModal={this.confirmModal}
+					modalButtons={modalButtons}
+					closeCancel={this.closeModal}
 				/>
 			</div>
 		);
