@@ -4,24 +4,42 @@ import ConceptVisualizationControls from './visualization-controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
 import ConceptNotes from './notes';
+import Modal from 'js/components/shared/modal/validation-modal';
 import { dictionary } from 'js/utils/dictionary';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
+import { isOutOfDate } from 'js/utils/moment';
+import { dateTimeToDateString } from 'js/utils/utils';
 
 //TODO introduce a container component
 class ConceptVisualization extends Component {
 	constructor(props) {
 		super(props);
-		this.handleClickValid = () => {
+		this.state = {
+			modalValid: false,
+		};
+		this.handleClickValidation = () => {
+			const { id, general: { valid } } = this.props;
+			if (valid) this.setState({ modalValid: true });
+			else this.props.validateConcept(id);
+		};
+		this.handleCancelValidation = () => this.setState({ modalValid: false });
+		this.handleConfirmValidation = () => {
+			this.handleCancelValidation();
 			this.props.validateConcept(this.props.id);
 		};
 	}
 
 	render() {
 		const { id, general, links, notes, secondLang } = this.props;
+		const { modalValid } = this.state;
+		const { conceptVersion, isValidated, valid } = general;
+		let modalMessage = `<p>Ce concept ayant une date de fin de validité au <b>${dateTimeToDateString(
+			valid
+		)}</b>, vous ne pourrez plus le modifier`;
+		modalMessage += isOutOfDate(valid) ? `.</p>` : ` après cette date.</p>`;
 
-		const { conceptVersion, isValidated } = general;
 		return (
 			<div>
 				<div className="container">
@@ -54,13 +72,21 @@ class ConceptVisualization extends Component {
 						id={id}
 						//TODO FIX ME
 						isValidated={isValidated === 'Validé'}
+						isValidOutOfDate={isOutOfDate(valid)}
 						conceptVersion={conceptVersion}
-						handleValidation={this.handleClickValid}
+						handleValidation={this.handleClickValidation}
 					/>
 					<ConceptGeneral secondLang={secondLang} attr={general} />
 					<ConceptLinks secondLang={secondLang} links={links} />
 					<ConceptNotes secondLang={secondLang} notes={notes} />
 				</div>
+				<Modal
+					title="Confirmation de la validation"
+					text={modalMessage}
+					isOpen={modalValid}
+					closeModal={this.handleCancelValidation}
+					confirmModal={this.handleConfirmValidation}
+				/>
 			</div>
 		);
 	}

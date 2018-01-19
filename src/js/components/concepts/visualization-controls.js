@@ -32,7 +32,13 @@ Button.propTypes = {
 
 class ConceptVisualizationControls extends Component {
 	render() {
-		const { isValidated, conceptVersion, id, handleValidation } = this.props;
+		const {
+			isValidated,
+			isValidOutOfDate,
+			conceptVersion,
+			id,
+			handleValidation,
+		} = this.props;
 
 		let btns;
 		const cancel = [
@@ -42,14 +48,16 @@ class ConceptVisualizationControls extends Component {
 		const send = [`/concept/${id}/send`, dictionary.buttons.send];
 		const validate = [handleValidation, dictionary.buttons.validate];
 		const update = [`/concept/${id}/modify`, dictionary.buttons.modify];
-		const compare = [`/concept/${id}/compare`, dictionary.buttons.compare];
+		const compare =
+			!conceptVersion || conceptVersion <= 1
+				? null
+				: [`/concept/${id}/compare`, dictionary.buttons.compare];
 
-		if (!conceptVersion || conceptVersion <= 1) {
+		if (isValidOutOfDate) {
 			btns = isValidated
-				? [cancel, null, null, null, send, update]
-				: [cancel, null, null, send, update, validate];
+				? [cancel, null, null, null, compare, send]
+				: [cancel, null, compare, send, update, validate];
 		} else {
-			// conceptVersion > 1
 			btns = isValidated
 				? [cancel, null, null, compare, send, update]
 				: [cancel, null, compare, send, update, validate];

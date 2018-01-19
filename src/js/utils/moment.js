@@ -11,4 +11,6 @@ export const isDateIn = (date, start, end) => {
 	return range.contains(moment(date));
 };
 
+export const isOutOfDate = end => !isDateIn(moment(), null, end);
+
 export const isDateInDumb = (date, start, end) => start <= date && date <= end;
