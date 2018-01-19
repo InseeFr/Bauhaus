@@ -52,7 +52,7 @@ export const filterKeyDeburr = key => rawStr => {
 };
 
 export const filterKeyDate = key => (start, end) => item =>
-	isDateIn(item[key], start, end);
+	item[key] && isDateIn(item[key], start, end);
 
 export const creatSelectList = max => {
 	const result = [];
