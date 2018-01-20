@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import Loadable from 'react-loading-overlay';
+import ModalRmes from 'js/components/shared/modal-rmes';
 import ConceptsPicker from './picker';
 import { VALIDATE_CONCEPT_LIST } from 'js/actions/constants';
 import { dictionary } from 'js/utils/dictionary';
 import * as select from 'js/reducers';
 import validateConceptList from 'js/actions/concepts/validate';
 import loadConceptValidateList from 'js/actions/concepts/validate-list';
+import { getModalMessage } from 'js/utils/concepts/build-validation-message';
 import { OK } from 'js/constants';
 
 class ConceptsToValidate extends Component {
@@ -15,6 +17,8 @@ class ConceptsToValidate extends Component {
 		super(props);
 		this.state = {
 			validationRequested: false,
+			modalValid: false,
+			idWithValid: [],
 		};
 
 		this.handleValidateConceptList = ids => {
@@ -23,13 +27,50 @@ class ConceptsToValidate extends Component {
 				validationRequested: true,
 			});
 		};
+		this.handleClickValidation = ids => {
+			this.setState({ ids });
+			const idWithValid = ids.reduce((_, id) => {
+				const { label: prefLabelLg1, valid } = this.props.concepts.find(
+					c => c.id === id
+				);
+				if (valid) _.push({ prefLabelLg1, valid });
+				return _;
+			}, []);
+			idWithValid.length === 0
+				? this.handleValidateConceptList(ids)
+				: this.setState({ idWithValid, modalValid: true });
+		};
+		this.handleCancelValidation = () => this.setState({ modalValid: false });
+		this.handleConfirmValidation = () => {
+			this.handleCancelValidation();
+			this.handleValidateConceptList(this.state.ids);
+		};
 	}
 	componentWillMount() {
 		if (!this.props.concepts) this.props.loadConceptValidateList();
 	}
 	render() {
-		const { validationRequested } = this.state;
+		const { validationRequested, modalValid, idWithValid } = this.state;
 		const { validationStatus } = this.props;
+
+		const modalButtons = [
+			{
+				label: dictionary.buttons.cancel,
+				action: this.handleCancelValidation,
+				style: 'primary',
+			},
+			{
+				label: dictionary.buttons.validate,
+				action: this.handleConfirmValidation,
+				style: 'primary',
+			},
+		];
+		//
+		// let modalMessage = `<p>Ce concept ayant une date de fin de validité au <b>${dateTimeToDateString(
+		// 	valid
+		// )}</b>, vous ne pourrez plus le modifier`;
+		// modalMessage += isOutOfDate(valid) ? `.</p>` : ` après cette date.</p>`;
+
 		if (validationRequested) {
 			if (validationStatus === OK) {
 				return <Redirect to="/concepts" />;
@@ -59,15 +100,25 @@ class ConceptsToValidate extends Component {
 				/>
 			);
 		return (
-			<ConceptsPicker
-				concepts={concepts}
-				title={dictionary.concepts.validation.title}
-				panelTitle={dictionary.concepts.validation.panel}
-				labelLoadable={dictionary.loadable.validation}
-				labelWarning={dictionary.warning.validation.concepts}
-				labelValidateButton={dictionary.buttons.validate}
-				handleAction={this.handleValidateConceptList}
-			/>
+			<div>
+				<ConceptsPicker
+					concepts={concepts}
+					title={dictionary.concepts.validation.title}
+					panelTitle={dictionary.concepts.validation.panel}
+					labelLoadable={dictionary.loadable.validation}
+					labelWarning={dictionary.warning.validation.concepts}
+					labelValidateButton={dictionary.buttons.validate}
+					handleAction={this.handleClickValidation}
+				/>
+				<ModalRmes
+					id="validation-concept-modal"
+					isOpen={modalValid}
+					title="Confirmation de la validation"
+					body={getModalMessage(idWithValid)}
+					modalButtons={modalButtons}
+					closeCancel={this.handleCancelValidation}
+				/>
+			</div>
 		);
 	}
 }
