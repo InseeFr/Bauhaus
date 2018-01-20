@@ -10,9 +10,8 @@ import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
 import { isOutOfDate } from 'js/utils/moment';
-import { dateTimeToDateString } from 'js/utils/utils';
+import { getModalMessage } from 'js/utils/concepts/build-validation-message';
 
-//TODO introduce a container component
 class ConceptVisualization extends Component {
 	constructor(props) {
 		super(props);
@@ -34,7 +33,13 @@ class ConceptVisualization extends Component {
 	render() {
 		const { id, general, links, notes, secondLang } = this.props;
 		const { modalValid } = this.state;
-		const { conceptVersion, isValidated, valid } = general;
+		const {
+			conceptVersion,
+			isValidated,
+			prefLabelLg1,
+			prefLabelLg2,
+			valid,
+		} = general;
 
 		const modalButtons = [
 			{
@@ -48,11 +53,6 @@ class ConceptVisualization extends Component {
 				style: 'primary',
 			},
 		];
-
-		let modalMessage = `<p>Ce concept ayant une date de fin de validité au <b>${dateTimeToDateString(
-			valid
-		)}</b>, vous ne pourrez plus le modifier`;
-		modalMessage += isOutOfDate(valid) ? `.</p>` : ` après cette date.</p>`;
 
 		return (
 			<div>
@@ -71,14 +71,14 @@ class ConceptVisualization extends Component {
 					</div>
 					<div className="row">
 						<div className="col-md-10 centered col-md-offset-1">
-							<h2 className="page-title">{general.prefLabelLg1}</h2>
+							<h2 className="page-title">{prefLabelLg1}</h2>
 						</div>
 					</div>
 					{secondLang &&
-						general.prefLabelLg2 && (
+						prefLabelLg2 && (
 							<div className="row">
 								<div className="col-md-8 centered col-md-offset-2">
-									<h3 className="page-sub-title">{general.prefLabelLg2}</h3>
+									<h3 className="page-sub-title">{prefLabelLg2}</h3>
 								</div>
 							</div>
 						)}
@@ -98,7 +98,7 @@ class ConceptVisualization extends Component {
 					id="validation-concept-modal"
 					isOpen={modalValid}
 					title="Confirmation de la validation"
-					body={modalMessage}
+					body={getModalMessage([{ prefLabelLg1, valid }])}
 					modalButtons={modalButtons}
 					closeCancel={this.handleCancelValidation}
 				/>
