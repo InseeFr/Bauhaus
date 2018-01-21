@@ -43,7 +43,7 @@ class SearchRmes extends Component {
 							value={search}
 							onChange={e => this.handleSearch(e.target.value)}
 							type="text"
-							placeholder={dictionary.concepts.searchLabel}
+							placeholder={dictionary.concepts.searchLabelHome}
 							className="form-control"
 						/>
 					</div>

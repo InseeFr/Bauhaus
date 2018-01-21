@@ -9,6 +9,7 @@ import { filterKeyDeburr, filterKeyDate } from 'js/utils/array-utils';
 import 'css/app.css';
 
 const filterLabel = filterKeyDeburr(['label']);
+const filterAltLabel = filterKeyDeburr(['altLabel']);
 const filterDefinition = filterKeyDeburr(['definition']);
 const filterCreator = filterKeyDeburr(['creator']);
 const filterDisseminationStatus = filterKeyDeburr(['disseminationStatus']);
@@ -18,6 +19,7 @@ const filterModifiedDate = filterKeyDate(['modified']);
 
 const fields = [
 	'label',
+	'altLabel',
 	'definition',
 	'creator',
 	'disseminationStatus',
@@ -42,6 +44,7 @@ class ConceptSearchList extends Component {
 		this.getEmptyState = () => ({
 			hits: this.props.conceptSearchList,
 			label: '',
+			altLabel: '',
 			definition: '',
 			creator: '',
 			dateCreatedStart: '',
@@ -64,11 +67,11 @@ class ConceptSearchList extends Component {
 			});
 		};
 
-		//stateChange: { label: 'new label' }
 		this.handleChange = stateChange => {
 			const newState = Object.assign(this.state, stateChange);
 			const {
 				label,
+				altLabel,
 				definition,
 				creator,
 				disseminationStatus,
@@ -80,6 +83,7 @@ class ConceptSearchList extends Component {
 			} = newState;
 			const hits = this.props.conceptSearchList
 				.filter(filterLabel(label))
+				.filter(filterAltLabel(altLabel))
 				.filter(filterDefinition(definition))
 				.filter(filterCreator(creator))
 				.filter(filterDisseminationStatus(disseminationStatus))
@@ -100,6 +104,7 @@ class ConceptSearchList extends Component {
 		const { stampList, disseminationStatusList } = this.props;
 		const {
 			label,
+			altLabel,
 			definition,
 			creator,
 			disseminationStatus,
@@ -160,6 +165,17 @@ class ConceptSearchList extends Component {
 								onChange={e => this.handlers.label(e.target.value)}
 								type="text"
 								placeholder={dictionary.concepts.search.label}
+								className="form-control"
+							/>
+						</div>
+					</div>
+					<div className="row form-group">
+						<div className="col-md-12">
+							<input
+								value={altLabel}
+								onChange={e => this.handlers.altLabel(e.target.value)}
+								type="text"
+								placeholder={dictionary.concepts.search.altLabel}
 								className="form-control"
 							/>
 						</div>
@@ -287,6 +303,7 @@ function singOrPluralResult(list) {
 const propTypesGeneralForSearch = PropTypes.shape({
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string,
+	altLabel: PropTypes.string,
 	definition: PropTypes.string,
 	created: PropTypes.string,
 	modified: PropTypes.string,

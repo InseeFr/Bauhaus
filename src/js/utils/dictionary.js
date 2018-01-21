@@ -161,9 +161,11 @@ const dictionaryMulti = {
 			advancedSearch: 'Recherche avancée',
 			label: 'Libellé',
 			searchLabel: 'Libellé ...',
+			searchLabelHome: 'Libellé du concept (ou synonyme) ...',
 			search: {
 				title: 'Concepts - Recherche avancée',
 				label: 'Libellé du concept ...',
+				altLabel: 'Synonyme du concept ...',
 				definition: 'Rechercher dans la définition du concept ...',
 			},
 			result: ' résultat',
