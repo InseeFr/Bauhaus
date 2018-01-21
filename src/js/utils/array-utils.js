@@ -46,9 +46,18 @@ export const filterDeburr = rawStr => {
 
 //TODO remove other filters that should be built inline when needed with
 //`filterKeyDeburr`
-export const filterKeyDeburr = key => rawStr => {
+export const filterKeyDeburr = keys => rawStr => {
 	const str = _.deburr(rawStr).toLocaleLowerCase();
-	return item => _.deburr(item[key].toLocaleLowerCase()).includes(str);
+	return item => {
+		let isIn = false;
+		for (var i = 0; i < keys.length; i++) {
+			if (_.deburr(item[keys[i]].toLocaleLowerCase()).includes(str)) {
+				isIn = true;
+				break;
+			}
+		}
+		return isIn;
+	};
 };
 
 export const filterKeyDate = key => (start, end) => item =>

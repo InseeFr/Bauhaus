@@ -5,7 +5,7 @@ import { dictionary } from 'js/utils/dictionary';
 import Pagination from 'js/components/shared/pagination';
 import { filterKeyDeburr, nbResults } from 'js/utils/array-utils';
 
-const filter = filterKeyDeburr('label');
+const filter = filterKeyDeburr(['label', 'altLabel']);
 
 class SearchRmes extends Component {
 	constructor(props) {

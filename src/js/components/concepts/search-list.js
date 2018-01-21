@@ -8,13 +8,13 @@ import Pagination from 'js/components/shared/pagination';
 import { filterKeyDeburr, filterKeyDate } from 'js/utils/array-utils';
 import 'css/app.css';
 
-const filterLabel = filterKeyDeburr('label');
-const filterDefinition = filterKeyDeburr('definition');
-const filterCreator = filterKeyDeburr('creator');
-const filterDisseminationStatus = filterKeyDeburr('disseminationStatus');
-const filterValidationStatus = filterKeyDeburr('validationStatus');
-const filterCreatedDate = filterKeyDate('created');
-const filterModifiedDate = filterKeyDate('modified');
+const filterLabel = filterKeyDeburr(['label']);
+const filterDefinition = filterKeyDeburr(['definition']);
+const filterCreator = filterKeyDeburr(['creator']);
+const filterDisseminationStatus = filterKeyDeburr(['disseminationStatus']);
+const filterValidationStatus = filterKeyDeburr(['validationStatus']);
+const filterCreatedDate = filterKeyDate(['created']);
+const filterModifiedDate = filterKeyDate(['modified']);
 
 const fields = [
 	'label',
