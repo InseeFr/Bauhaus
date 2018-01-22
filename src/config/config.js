@@ -11,6 +11,7 @@ export const baseHostConcepts =
 // App langages
 export const lang1 = 'fr';
 export const lang2 = 'en';
+export const auth = true;
 // export const lang1 = 'en';
 // export const lang2 = 'fr';
 
