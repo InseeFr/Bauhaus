@@ -1,6 +1,6 @@
 import * as A from 'js/actions/constants';
 
-const initialState = { secondLang: false };
+const initialState = { auth: false, secondLang: false };
 
 export default function(state = initialState, action) {
 	const { type, payload } = action;
@@ -9,6 +9,12 @@ export default function(state = initialState, action) {
 			return {
 				...state,
 				secondLang: payload,
+			};
+		}
+		case A.CHECK_AUTH_SUCCESS: {
+			return {
+				...state,
+				auth: payload,
 			};
 		}
 		default:

@@ -2,6 +2,16 @@ import { baseHost } from 'config/config';
 import buildApi from './build-api';
 
 const api = {
+	postAuth: mdp => [
+		`auth`,
+		{
+			headers: {
+				Accept: 'text/plain',
+				'Content-Type': 'text/plain',
+			},
+			body: mdp,
+		},
+	],
 	getDissStatusList: () => ['disseminationStatus'],
 	getStampList: () => ['stamps'],
 	getRoleList: () => ['roles'],
