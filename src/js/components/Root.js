@@ -186,7 +186,7 @@ class Root extends Component {
 			<div>
 				<Provider store={store}>{content}</Provider>
 				<div className="centered" style={{ marginTop: '50px' }}>
-					<label>Gncs - Version 0.3</label>
+					<label>Gncs - Version 0.3.1</label>
 				</div>
 			</div>
 		);
