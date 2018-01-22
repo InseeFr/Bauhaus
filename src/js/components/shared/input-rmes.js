@@ -12,9 +12,9 @@ function InputRmes({
 	handleChange,
 }) {
 	return (
-		<div className={`form-group col-md-${colMd}`}>
+		<div className={`form-group col-md-${colMd || 12}`}>
 			<label>
-				{label} ( {flag} )
+				{label} {flag && `( ${flag} )`}
 				{/* TODO handle visibility */}
 				{star && <span className="boldRed">*</span>}
 				{hiddenStar && <span className="boldWhite">*</span>}
@@ -41,8 +41,8 @@ function InputRmes({
 }
 
 InputRmes.propTypes = {
-	colMd: PropTypes.number.isRequired,
-	label: PropTypes.string.isRequired,
+	colMd: PropTypes.number,
+	label: PropTypes.string,
 	flag: PropTypes.element,
 	star: PropTypes.bool,
 	value: PropTypes.string, //might be undefined
