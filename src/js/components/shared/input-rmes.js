@@ -14,7 +14,7 @@ function InputRmes({
 	return (
 		<div className={`form-group col-md-${colMd || 12}`}>
 			<label>
-				{label} {flag && `( ${flag} )`}
+				{label} {flag ? '( ' : null} {flag} {flag ? ' )' : null}
 				{/* TODO handle visibility */}
 				{star && <span className="boldRed">*</span>}
 				{hiddenStar && <span className="boldWhite">*</span>}
