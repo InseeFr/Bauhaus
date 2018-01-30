@@ -2,6 +2,7 @@ import { baseHost } from 'config/config';
 import buildApi from './build-api';
 
 const api = {
+	getProperties: () => ['properties'],
 	postAuth: mdp => [
 		`auth`,
 		{

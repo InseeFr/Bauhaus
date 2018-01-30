@@ -17,6 +17,12 @@ export default function(state = initialState, action) {
 				auth: payload,
 			};
 		}
+		case A.LOAD_PROPERTIES_SUCCESS: {
+			return {
+				...state,
+				properties: payload,
+			};
+		}
 		default:
 			return state;
 	}

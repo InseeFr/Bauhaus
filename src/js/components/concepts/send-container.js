@@ -35,7 +35,14 @@ class ConceptSendContainer extends Component {
 	}
 
 	render() {
-		const { id, prefLabelLg1, isValidated, loaded, sendStatus } = this.props;
+		const {
+			id,
+			prefLabelLg1,
+			isValidated,
+			appHost,
+			loaded,
+			sendStatus,
+		} = this.props;
 		const { sendRequested } = this.state;
 		if (sendRequested) {
 			const urlBack = sendStatus === OK ? '/concepts' : `/concept/${id}`;
@@ -63,6 +70,7 @@ class ConceptSendContainer extends Component {
 				id={id}
 				prefLabelLg1={prefLabelLg1}
 				isValidated={isValidated}
+				appHost={appHost}
 				sendStatus={sendStatus}
 				sendConcept={this.handleConceptSend}
 			/>
@@ -83,6 +91,7 @@ const mapStateToProps = (state, ownProps) => {
 		loaded: Boolean(general),
 		prefLabelLg1,
 		isValidated,
+		appHost: state.app.properties.appHost,
 	};
 };
 

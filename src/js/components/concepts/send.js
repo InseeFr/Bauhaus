@@ -6,9 +6,9 @@ import { dictionary } from 'js/utils/dictionary';
 import { defaultMailSender } from 'config/config';
 import { regexValidMail } from 'js/utils/regex';
 
-const getDefaultMessage = (id, label, isValidated, recipient) => {
+const getDefaultMessage = (appHost, id, label, isValidated, recipient) => {
 	//TODO fix me
-	const params = [label, id];
+	const params = [appHost, label, id];
 	if (isValidated === 'Provisoire') {
 		params.push('Provisoire');
 	}
@@ -23,12 +23,18 @@ class ConceptSend extends Component {
 	constructor(props) {
 		super(props);
 
-		const { id, prefLabelLg1, isValidated } = props;
+		const { id, prefLabelLg1, isValidated, appHost } = props;
 		const recipient = '';
 		this.state = {
 			recipient,
 			showDefaultMessage: true,
-			message: getDefaultMessage(id, prefLabelLg1, isValidated, recipient),
+			message: getDefaultMessage(
+				appHost,
+				id,
+				prefLabelLg1,
+				isValidated,
+				recipient
+			),
 			sender: defaultMailSender,
 			subject: dictionary.concept.send.subject.value([prefLabelLg1]),
 		};
@@ -38,10 +44,11 @@ class ConceptSend extends Component {
 		this.handleRecipientChange = recipient => {
 			this.setState({ recipient }, () => {
 				if (this.state.showDefaultMessage) {
-					const { id, prefLabelLg1, isValidated } = props;
+					const { id, prefLabelLg1, isValidated, appHost } = props;
 					const { recipient } = this.state;
 					this.setState({
 						message: getDefaultMessage(
+							appHost,
 							id,
 							prefLabelLg1,
 							isValidated,

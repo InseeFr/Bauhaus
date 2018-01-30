@@ -1,4 +1,4 @@
-import { lang1, appHost } from 'config/config';
+import { lang1 } from 'config/config';
 
 const dictionaryMulti = {
 	fr: {
@@ -214,13 +214,13 @@ const dictionaryMulti = {
 				message: {
 					title: 'Message',
 					value: function(params) {
-						var prefLabelLg1 = params[0],
+						var prefLabelLg1 = params[1],
 							id = '',
 							validText = '',
 							inseeText = '';
 						if (params.includes('Insee')) {
-							id = params[1];
-							var href = appHost + 'concept/' + id;
+							id = params[2];
+							var href = params[0] + 'concept/' + id;
 							inseeText = ` (<a href=${href}>Lien vers le concept</a>)`;
 						}
 						if (params.includes('Provisoire'))
@@ -312,13 +312,13 @@ const dictionaryMulti = {
 				message: {
 					title: 'Message',
 					value: function(params) {
-						var prefLabelLg1 = params[0],
+						var prefLabelLg1 = params[1],
 							id = '',
 							validText = '',
 							inseeText = '';
 						if (params.includes('Insee')) {
-							id = params[1];
-							var href = appHost + 'collection/' + id;
+							id = params[2];
+							var href = params[0] + 'collection/' + id;
 							inseeText = ` (<a href=${href}>Lien vers la collection</a>)`;
 						}
 						if (params.includes('Provisoire'))

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { checkAuth } from 'js/actions/app';
+import { checkAuth, getProperties } from 'js/actions/app';
 import { connect } from 'react-redux';
 import InputRmes from 'js/components/shared/input-rmes';
 import { dictionary } from 'js/utils/dictionary';
@@ -11,8 +11,12 @@ class Auth extends Component {
 		this.handlePassword = password => this.setState({ password });
 		this.onClickValidate = e => {
 			this.props
-				.checkAuth(this.state.password)
-				.then(res => this.props.updateLogin(res.payload));
+				.getProperties()
+				.then(
+					this.props
+						.checkAuth(this.state.password)
+						.then(res => this.props.updateLogin(res.payload))
+				);
 			this.setState({ password: '' });
 		};
 	}
@@ -58,6 +62,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
 	checkAuth,
+	getProperties,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

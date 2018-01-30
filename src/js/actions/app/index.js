@@ -22,3 +22,18 @@ export const checkAuth = mdp => dispatch => {
 		err => dispatch({ type: A.CHECK_AUTH_FAILURE, payload: { err } })
 	);
 };
+
+export const getProperties = () => dispatch => {
+	dispatch({
+		type: A.LOAD_PROPERTIES,
+		payload: {},
+	});
+	return api.getProperties().then(
+		result =>
+			dispatch({
+				type: A.LOAD_PROPERTIES_SUCCESS,
+				payload: result,
+			}),
+		err => dispatch({ type: A.LOAD_PROPERTIES_FAILURE, payload: { err } })
+	);
+};
