@@ -54,7 +54,7 @@ class CollectionSendContainer extends Component {
 				/>
 			);
 		}
-		if (!loaded)
+		if (!loaded || !appHost)
 			return (
 				<Loadable
 					active={true}
@@ -82,6 +82,7 @@ const mapStateToProps = (state, ownProps) => {
 	let prefLabelLg1, isValidated;
 	const id = extractId(ownProps);
 	const general = select.getCollectionGeneral(state, id);
+	const appHost = state.app.properties.appHost;
 	if (general) {
 		({ prefLabelLg1, isValidated } = general);
 	}
@@ -91,7 +92,7 @@ const mapStateToProps = (state, ownProps) => {
 		loaded: Boolean(general),
 		prefLabelLg1,
 		isValidated,
-		appHost: state.app.properties.appHost,
+		appHost,
 	};
 };
 

@@ -11,14 +11,14 @@ class Auth extends Component {
 		this.handlePassword = password => this.setState({ password });
 		this.onClickValidate = e => {
 			this.props
-				.getProperties()
-				.then(
-					this.props
-						.checkAuth(this.state.password)
-						.then(res => this.props.updateLogin(res.payload))
-				);
+				.checkAuth(this.state.password)
+				.then(res => this.props.updateLogin(res.payload));
 			this.setState({ password: '' });
 		};
+	}
+
+	componentWillMount() {
+		this.props.getProperties();
 	}
 
 	render() {
