@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'babel-polyfill';
 import { Provider } from 'react-redux';
 import configureStore from '../store/configure-store';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import App from './app';
 import Auth from 'js/components/auth';
 import { auth } from 'config/config';
