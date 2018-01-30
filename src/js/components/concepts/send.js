@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import SendControls from './send-controls';
 import EditorHtml from 'js/components/shared/editor-html';
 import { dictionary } from 'js/utils/dictionary';
-import { defaultMailSender } from 'config/config';
+import { defaultMailSender } from 'config';
 import { regexValidMail } from 'js/utils/regex';
 
 const getDefaultMessage = (appHost, id, label, isValidated, recipient) => {

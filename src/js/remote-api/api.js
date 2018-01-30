@@ -1,4 +1,4 @@
-import { baseHost } from 'config/config';
+import { baseHost } from 'config';
 import buildApi from './build-api';
 
 const api = {

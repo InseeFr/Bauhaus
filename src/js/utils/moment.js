@@ -1,7 +1,7 @@
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import 'moment/min/locales';
-import { lang1 } from 'config/config';
+import { lang1 } from 'config';
 
 const moment = extendMoment(Moment);
 

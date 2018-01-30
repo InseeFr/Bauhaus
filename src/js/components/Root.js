@@ -5,7 +5,7 @@ import configureStore from '../store/configure-store';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import App from './app';
 import Auth from 'js/components/auth';
-import { auth } from 'config/config';
+import { auth } from 'config';
 import ConceptsHomeContainer from './concepts/home-container';
 import ConceptsSearchListContainer from './concepts/search-container';
 import ConceptCompareContainer from './concepts/compare-container';

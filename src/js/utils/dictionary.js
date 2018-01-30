@@ -1,4 +1,4 @@
-import { lang1 } from 'config/config';
+import { lang1 } from 'config';
 
 const dictionaryMulti = {
 	fr: {

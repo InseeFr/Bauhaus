@@ -1,4 +1,4 @@
-import { baseHostConcepts } from 'config/config';
+import { baseHostConcepts } from 'config';
 import buildApi from './build-api';
 
 //TODO then handler should not default to res => res.json() when no response

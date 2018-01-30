@@ -4,7 +4,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import NoteEdition from './note-edition';
 import { dictionary } from 'js/utils/dictionary';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
-import { maxLengthScopeNote } from 'config/config';
+import { maxLengthScopeNote } from 'config';
 import { htmlIsEmpty } from 'js/utils/html';
 
 const noteTypes = [
