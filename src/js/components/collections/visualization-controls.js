@@ -33,10 +33,11 @@ Button.propTypes = {
 class CollectionVisualizationControls extends Component {
 	render() {
 		const { isValidated, id, handleValidation } = this.props;
-
 		let btns;
 		const cancel = [
-			() => this.props.history.goBack(),
+			this.props.history.length === 1
+				? `/collections`
+				: () => this.props.history.goBack(),
 			dictionary.buttons.return,
 		];
 		const send = [`/collection/${id}/send`, dictionary.buttons.send];

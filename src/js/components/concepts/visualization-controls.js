@@ -42,7 +42,9 @@ class ConceptVisualizationControls extends Component {
 
 		let btns;
 		const cancel = [
-			() => this.props.history.goBack(),
+			this.props.history.length === 1
+				? `/concepts`
+				: () => this.props.history.goBack(),
 			dictionary.buttons.return,
 		];
 		const send = [`/concept/${id}/send`, dictionary.buttons.send];
