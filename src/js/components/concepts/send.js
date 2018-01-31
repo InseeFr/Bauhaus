@@ -4,21 +4,22 @@ import SendControls from './send-controls';
 import EditorHtml from 'js/components/shared/editor-html';
 import { dictionary } from 'js/utils/dictionary';
 import { defaultMailSender } from 'config';
-import { regexValidMail } from 'js/utils/regex';
+import { regexValidMail, tagA } from 'js/utils/regex';
 
-const getDefaultMessage = (appHost, id, label, isValidated, recipient) => {
-	//TODO fix me
+const getDefaultMessage = (appHost, id, label, isValidated) => {
 	const params = [appHost, label, id];
 	if (isValidated === 'Provisoire') {
 		params.push('Provisoire');
-	}
-	if (isRecipientInsee(recipient)) {
-		params.push('Insee');
 	}
 	return dictionary.concept.send.message.value(params);
 };
 
 const isRecipientInsee = recipient => recipient.endsWith('@insee.fr');
+
+const deleteRef = message => {
+	return message.replace(tagA, '');
+};
+
 class ConceptSend extends Component {
 	constructor(props) {
 		super(props);
@@ -27,48 +28,18 @@ class ConceptSend extends Component {
 		const recipient = '';
 		this.state = {
 			recipient,
-			showDefaultMessage: true,
-			message: getDefaultMessage(
-				appHost,
-				id,
-				prefLabelLg1,
-				isValidated,
-				recipient
-			),
+			message: getDefaultMessage(appHost, id, prefLabelLg1, isValidated),
 			sender: defaultMailSender,
 			subject: dictionary.concept.send.subject.value([prefLabelLg1]),
 		};
 
 		this.isRecipientValid = () => regexValidMail.test(this.state.recipient);
 
-		this.handleRecipientChange = recipient => {
-			this.setState({ recipient }, () => {
-				if (this.state.showDefaultMessage) {
-					const { id, prefLabelLg1, isValidated, appHost } = props;
-					const { recipient } = this.state;
-					this.setState({
-						message: getDefaultMessage(
-							appHost,
-							id,
-							prefLabelLg1,
-							isValidated,
-							recipient
-						),
-					});
-				}
-			});
-		};
+		this.handleRecipientChange = recipient => this.setState({ recipient });
 
-		this.handleSubjectChange = subject => {
-			this.setState({ subject });
-		};
+		this.handleSubjectChange = subject => this.setState({ subject });
 
-		this.handleMessageChange = message => {
-			this.setState({
-				hasMessageBeenChanged: true,
-				message,
-			});
-		};
+		this.handleMessageChange = message => this.setState({ message });
 
 		this.handleClickSend = () => {
 			const { id } = this.props;
@@ -77,7 +48,7 @@ class ConceptSend extends Component {
 				sender,
 				recipient,
 				object: subject,
-				message,
+				message: isRecipientInsee(recipient) ? message : deleteRef(message),
 			};
 			this.props.sendConcept(id, data);
 			this.setState({
@@ -134,7 +105,11 @@ class ConceptSend extends Component {
 				</div>
 				<div className="form-group">
 					<label>{dictionary.concept.send.message.title}</label>
-					<EditorHtml text={message} handleChange={this.handleMessageChange} />
+					<EditorHtml
+						smart
+						text={message}
+						handleChange={this.handleMessageChange}
+					/>
 				</div>
 			</div>
 		);

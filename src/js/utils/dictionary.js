@@ -215,14 +215,10 @@ const dictionaryMulti = {
 					title: 'Message',
 					value: function(params) {
 						var prefLabelLg1 = params[1],
-							id = '',
+							id = params[2],
 							validText = '',
-							inseeText = '';
-						if (params.includes('Insee')) {
-							id = params[2];
-							var href = params[0] + 'concept/' + id;
+							href = params[0] + 'concept/' + id,
 							inseeText = ` (<a href=${href}>Lien vers le concept</a>)`;
-						}
 						if (params.includes('Provisoire'))
 							validText = `<p><b>Ce concept est en attente de validation.</b></p>`;
 
@@ -313,14 +309,11 @@ const dictionaryMulti = {
 					title: 'Message',
 					value: function(params) {
 						var prefLabelLg1 = params[1],
-							id = '',
 							validText = '',
-							inseeText = '';
-						if (params.includes('Insee')) {
-							id = params[2];
-							var href = params[0] + 'collection/' + id;
+							id = params[2],
+							href = params[0] + 'collection/' + id,
 							inseeText = ` (<a href=${href}>Lien vers la collection</a>)`;
-						}
+
 						if (params.includes('Provisoire'))
 							validText = `<p><b>Cette collection est en attente de validation.</b></p>`;
 
