@@ -12,6 +12,7 @@ const api = {
 			},
 			body: mdp,
 		},
+		res => res.text(),
 	],
 	getDissStatusList: () => ['disseminationStatus'],
 	getStampList: () => ['stamps'],

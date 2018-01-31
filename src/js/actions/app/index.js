@@ -11,7 +11,7 @@ export const saveSecondLang = secondLang => {
 export const checkAuth = mdp => dispatch => {
 	dispatch({
 		type: A.CHECK_AUTH,
-		payload: false,
+		payload: '',
 	});
 	return api.postAuth(mdp).then(
 		result =>

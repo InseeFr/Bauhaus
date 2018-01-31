@@ -1,3 +1,8 @@
+// TEMP roles
+export const NOT_AUTH = 'NONE';
+export const GESTIONNAIRE = 'GESTIONNAIRE';
+export const PRODUCTEUR = 'PRODUCTEUR';
+
 export const LOADING = 'LOADING';
 export const LOADED = 'LOADED';
 export const ERROR = 'ERROR';

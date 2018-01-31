@@ -6,6 +6,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import App from './app';
 import Auth from 'js/components/auth';
 import { auth } from 'config';
+import { NOT_AUTH } from 'js/constants';
 import ConceptsHomeContainer from './concepts/home-container';
 import ConceptsSearchListContainer from './concepts/search-container';
 import ConceptCompareContainer from './concepts/compare-container';
@@ -45,10 +46,8 @@ class Root extends Component {
 		this.state = {
 			loggedIn: false,
 		};
-		this.updateLogin = loggedIn => {
-			this.setState({
-				loggedIn,
-			});
+		this.updateLogin = auth => {
+			if (auth !== NOT_AUTH) this.setState({ loggedIn: true });
 		};
 	}
 
