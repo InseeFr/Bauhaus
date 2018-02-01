@@ -16,9 +16,9 @@ class CollectionVisualization extends Component {
 	}
 
 	render() {
-		const { id, general, members, secondLang } = this.props;
-
+		const { id, role, general, members, secondLang } = this.props;
 		const { isValidated } = general;
+
 		return (
 			<div>
 				<div className="container">
@@ -49,6 +49,7 @@ class CollectionVisualization extends Component {
 						)}
 					<CollectionVisualizationControls
 						id={id}
+						role={role}
 						//TODO FIX ME
 						isValidated={isValidated === 'Validée'}
 						handleValidation={this.handleClickValid}

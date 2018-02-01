@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
+import { GESTIONNAIRE } from 'js/constants';
 import { dictionary } from 'js/utils/dictionary';
 
 const Button = ({ action, label }) => {
@@ -32,12 +33,20 @@ Button.propTypes = {
 
 class CollectionVisualizationControls extends Component {
 	render() {
-		const { isValidated, id, handleValidation } = this.props;
+		const { isValidated, role, id, handleValidation } = this.props;
 		let btns;
+		const isGestionnaire = role === GESTIONNAIRE;
+
 		const cancel = [`/collections`, dictionary.buttons.return];
-		const send = [`/collection/${id}/send`, dictionary.buttons.send];
-		const validate = [handleValidation, dictionary.buttons.validate];
-		const update = [`/collection/${id}/modify`, dictionary.buttons.modify];
+		const send = isGestionnaire
+			? [`/collection/${id}/send`, dictionary.buttons.send]
+			: null;
+		const validate = isGestionnaire
+			? [handleValidation, dictionary.buttons.validate]
+			: null;
+		const update = isGestionnaire
+			? [`/collection/${id}/modify`, dictionary.buttons.modify]
+			: null;
 
 		btns = isValidated
 			? [cancel, null, null, null, send, update]
@@ -57,6 +66,7 @@ class CollectionVisualizationControls extends Component {
 
 CollectionVisualizationControls.propTypes = {
 	id: PropTypes.string.isRequired,
+	role: PropTypes.string.isRequired,
 	isValidated: PropTypes.bool.isRequired,
 	handleValidation: PropTypes.func.isRequired,
 };

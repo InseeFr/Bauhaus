@@ -69,12 +69,13 @@ class CollectionVisualizationContainer extends Component {
 				);
 			}
 		}
-		const { id, collection, stampList, secondLang } = this.props;
+		const { id, role, collection, stampList, secondLang } = this.props;
 		if (collection && stampList) {
 			const { general, members } = collection;
 			return (
 				<CollectionVisualization
 					id={id}
+					role={role}
 					general={general}
 					members={members}
 					stampList={stampList}
@@ -101,9 +102,11 @@ class CollectionVisualizationContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+	const role = state.app.auth;
 	const id = extractId(ownProps);
 	return {
 		id,
+		role,
 		secondLang: state.app.secondLang,
 		collection: select.getCollection(state, id),
 		stampList: select.getStampList(state),
