@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import SendControls from './send-controls';
 import EditorHtml from 'js/components/shared/editor-html';
 import { dictionary } from 'js/utils/dictionary';
-import { regexValidMail, tagA } from 'js/utils/regex';
+import { regexValidMail, allTagA } from 'js/utils/regex';
 
 const getDefaultMessage = (appHost, id, label, isValidated) => {
 	//TODO fix me
@@ -17,7 +17,7 @@ const getDefaultMessage = (appHost, id, label, isValidated) => {
 const isRecipientInsee = recipient => recipient.endsWith('@insee.fr');
 
 const deleteRef = message => {
-	return message.replace(tagA, '');
+	return message.replace(allTagA, '');
 };
 
 class CollectionSend extends Component {

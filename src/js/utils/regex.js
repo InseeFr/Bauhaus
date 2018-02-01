@@ -3,4 +3,4 @@ export const getContentDisposition = disposition => {
 	const regex = /filename[^;\n=]*="((['"]).*?\2|[^;\n]*)"/;
 	return disposition.match(regex);
 };
-export const tagA = /(\(<a\b[^>]*>)[^<>]*(<\/a>\))/;
+export const allTagA = /(\(<a\b[^>]*>)[^<>]*(<\/a>\))/g;
