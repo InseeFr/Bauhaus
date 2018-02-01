@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import objectFromKeys from 'js/utils/object-from-keys';
-import { defaultContributor } from 'config';
+
 export const fieldsWithRequired = [
 	['id', false],
 	['prefLabelLg1', false],
@@ -25,7 +25,7 @@ export const propTypes = PropTypes.shape(
 	}, {})
 );
 
-export const emptyWithContributor = () => {
+export const emptyWithContributor = defaultContributor => {
 	const general = objectFromKeys(fields, '');
 	general.contributor = defaultContributor;
 	return general;

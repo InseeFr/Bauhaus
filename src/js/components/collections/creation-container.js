@@ -100,7 +100,7 @@ class CreationContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		collection: emptyCollection(),
+		collection: emptyCollection(state.app.properties.defaultContributor),
 		collectionList: select.getCollectionList(state),
 		conceptList: select.getConceptList(state),
 		stampList: select.getStampList(state),

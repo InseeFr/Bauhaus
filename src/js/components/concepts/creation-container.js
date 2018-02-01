@@ -98,7 +98,7 @@ class CreationContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		concept: emptyConcept(),
+		concept: emptyConcept(state.app.properties.defaultContributor),
 		conceptList: select.getConceptList(state),
 		stampList: select.getStampList(state),
 		disseminationStatusList: select.getDisseminationStatusList(state),
