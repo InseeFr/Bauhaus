@@ -3,7 +3,6 @@ import { PropTypes } from 'prop-types';
 import SendControls from './send-controls';
 import EditorHtml from 'js/components/shared/editor-html';
 import { dictionary } from 'js/utils/dictionary';
-import { defaultMailSender } from 'config';
 import { regexValidMail, tagA } from 'js/utils/regex';
 
 const getDefaultMessage = (appHost, id, label, isValidated) => {
@@ -25,7 +24,12 @@ class CollectionSend extends Component {
 	constructor(props) {
 		super(props);
 
-		const { id, prefLabelLg1, isValidated, appHost } = props;
+		const {
+			id,
+			prefLabelLg1,
+			isValidated,
+			properties: { appHost, defaultMailSender },
+		} = props;
 		const recipient = '';
 		this.state = {
 			recipient,
@@ -121,6 +125,7 @@ class CollectionSend extends Component {
 CollectionSend.propTypes = {
 	id: PropTypes.string.isRequired,
 	prefLabelLg1: PropTypes.string,
+	properties: PropTypes.object.isRequired,
 	//TODO use constants
 	isValidated: PropTypes.oneOf(['Provisoire', 'Validée']).isRequired,
 	sendCollection: PropTypes.func.isRequired,

@@ -39,7 +39,7 @@ class CollectionSendContainer extends Component {
 			id,
 			prefLabelLg1,
 			isValidated,
-			appHost,
+			properties,
 			loaded,
 			sendStatus,
 		} = this.props;
@@ -54,7 +54,7 @@ class CollectionSendContainer extends Component {
 				/>
 			);
 		}
-		if (!loaded || !appHost)
+		if (!loaded || !properties)
 			return (
 				<Loadable
 					active={true}
@@ -70,8 +70,7 @@ class CollectionSendContainer extends Component {
 				id={id}
 				prefLabelLg1={prefLabelLg1}
 				isValidated={isValidated}
-				appHost={appHost}
-				sendStatus={sendStatus}
+				properties={properties}
 				sendCollection={this.handleCollectionSend}
 			/>
 		);
@@ -82,7 +81,6 @@ const mapStateToProps = (state, ownProps) => {
 	let prefLabelLg1, isValidated;
 	const id = extractId(ownProps);
 	const general = select.getCollectionGeneral(state, id);
-	const appHost = state.app.properties.appHost;
 	if (general) {
 		({ prefLabelLg1, isValidated } = general);
 	}
@@ -92,7 +90,7 @@ const mapStateToProps = (state, ownProps) => {
 		loaded: Boolean(general),
 		prefLabelLg1,
 		isValidated,
-		appHost,
+		properties: state.app.properties,
 	};
 };
 
