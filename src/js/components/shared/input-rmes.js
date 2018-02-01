@@ -9,6 +9,7 @@ function InputRmes({
 	star,
 	hiddenStar,
 	disabled,
+	password,
 	handleChange,
 }) {
 	return (
@@ -19,23 +20,13 @@ function InputRmes({
 				{star && <span className="boldRed">*</span>}
 				{hiddenStar && <span className="boldWhite">*</span>}
 			</label>
-			{disabled && (
-				<input
-					type="text"
-					value={value || ''}
-					className="form-control"
-					disabled
-					onChange={e => handleChange(e.target.value)}
-				/>
-			)}
-			{!disabled && (
-				<input
-					type="text"
-					value={value || ''}
-					className="form-control"
-					onChange={e => handleChange(e.target.value)}
-				/>
-			)}
+			<input
+				type={password ? 'password' : 'text'}
+				value={value || ''}
+				className="form-control"
+				disabled={disabled}
+				onChange={e => handleChange(e.target.value)}
+			/>
 		</div>
 	);
 }
@@ -45,7 +36,10 @@ InputRmes.propTypes = {
 	label: PropTypes.string,
 	flag: PropTypes.element,
 	star: PropTypes.bool,
+	hiddenStar: PropTypes.bool,
 	value: PropTypes.string, //might be undefined
+	disabled: PropTypes.bool,
+	password: PropTypes.bool,
 	handleChange: PropTypes.func.isRequired,
 };
 

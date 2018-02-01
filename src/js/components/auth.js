@@ -36,6 +36,7 @@ class Auth extends Component {
 							<InputRmes
 								value={this.state.password}
 								handleChange={this.handlePassword}
+								password
 							/>
 						</div>
 					</div>
