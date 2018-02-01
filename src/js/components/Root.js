@@ -3,6 +3,7 @@ import 'babel-polyfill';
 import { Provider } from 'react-redux';
 import configureStore from '../store/configure-store';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { version } from 'config';
 import App from './app';
 import Auth from 'js/components/auth';
 import { auth } from 'config';
@@ -185,7 +186,7 @@ class Root extends Component {
 			<div>
 				<Provider store={store}>{content}</Provider>
 				<div className="centered" style={{ marginTop: '50px' }}>
-					<label>Gncs - Version 1.0.0</label>
+					<label>Gncs - Version {version}</label>
 				</div>
 			</div>
 		);

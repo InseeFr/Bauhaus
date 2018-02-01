@@ -6,6 +6,7 @@ export const baseHostConcepts = `${baseHost}concepts/`;
 // export const baseHost = './ws/';
 // export const baseHostConcepts = './ws/concepts/';
 // App langages
+export const version = '1.1.0';
 export const lang1 = 'fr';
 export const lang2 = 'en';
 export const auth = true;
