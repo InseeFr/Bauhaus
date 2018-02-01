@@ -45,6 +45,7 @@ class CreationContainer extends Component {
 			conceptList,
 			stampList,
 			disseminationStatusList,
+			maxLengthScopeNote,
 			creationStatus,
 		} = this.props;
 
@@ -75,6 +76,7 @@ class CreationContainer extends Component {
 					notes={notes}
 					conceptsWithLinks={conceptsWithLinks}
 					disseminationStatusList={disseminationStatusList}
+					maxLengthScopeNote={maxLengthScopeNote}
 					stampList={stampList}
 					isActionProcessed={creationStatus}
 					save={this.handleCreation}
@@ -102,6 +104,7 @@ const mapStateToProps = (state, ownProps) => {
 		conceptList: select.getConceptList(state),
 		stampList: select.getStampList(state),
 		disseminationStatusList: select.getDisseminationStatusList(state),
+		maxLengthScopeNote: Number(state.app.properties.maxLengthScopeNote),
 		//TODO build appropriate selector
 		id: select.getNewlyCreatedId(state),
 		creationStatus: select.getStatus(state, CREATE_CONCEPT),

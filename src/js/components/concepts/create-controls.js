@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import ConceptCreateControlLayout from './create-controls-layout';
-import { maxLengthScopeNote } from 'config';
 import { dictionary } from 'js/utils/dictionary';
 import { htmlLength, htmlIsEmpty } from 'js/utils/html';
 import { arrayKeepUniqueField } from 'js/utils/array-utils';
@@ -35,6 +34,7 @@ function ConceptCreateControl({
 	general,
 	notes,
 	conceptsWithLinks,
+	maxLengthScopeNote,
 	handleSave,
 }) {
 	let message;

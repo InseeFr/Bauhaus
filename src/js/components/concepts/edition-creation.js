@@ -158,6 +158,7 @@ class ConceptEditionCreation extends Component {
 		const {
 			stampList,
 			disseminationStatusList,
+			maxLengthScopeNote,
 			pageTitle,
 			creation,
 		} = this.props;
@@ -197,6 +198,7 @@ class ConceptEditionCreation extends Component {
 							general={general}
 							notes={notes}
 							conceptsWithLinks={conceptsWithLinks}
+							maxLengthScopeNote={maxLengthScopeNote}
 							handleSave={this.handleSave}
 							redirectCancel={this.redirectCancel}
 						/>
@@ -223,6 +225,7 @@ class ConceptEditionCreation extends Component {
 									<NotesEdition
 										notes={notes}
 										handleChange={this.handleChangeNotes}
+										maxLengthScopeNote={maxLengthScopeNote}
 										disseminationStatus={general.disseminationStatus}
 									/>
 								)}

@@ -4,10 +4,9 @@ import { Tabs, Tab } from 'react-bootstrap';
 import NoteEdition from './note-edition';
 import { dictionary } from 'js/utils/dictionary';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
-import { maxLengthScopeNote } from 'config';
 import { htmlIsEmpty } from 'js/utils/html';
 
-const noteTypes = [
+const noteTypes = maxLengthScopeNote => [
 	{
 		rawTitle: dictionary.notes.scopeNote,
 		// should be highlighted only if `scopeNoteLg1` is empty and
@@ -38,12 +37,15 @@ const noteTypes = [
 //TODO structuring data in the state to make `fr` and `en` two attributes of an
 //object might be a better option to organize the code efficiently.
 
-const handleFieldChange = handleChange =>
-	noteTypes.reduce((handlers, { noteLg1Name, noteLg2Name }) => {
-		handlers[noteLg1Name] = value => handleChange({ [noteLg1Name]: value });
-		handlers[noteLg2Name] = value => handleChange({ [noteLg2Name]: value });
-		return handlers;
-	}, {});
+const handleFieldChange = (handleChange, maxLengthScopeNote) =>
+	noteTypes(maxLengthScopeNote).reduce(
+		(handlers, { noteLg1Name, noteLg2Name }) => {
+			handlers[noteLg1Name] = value => handleChange({ [noteLg1Name]: value });
+			handlers[noteLg2Name] = value => handleChange({ [noteLg2Name]: value });
+			return handlers;
+		},
+		{}
+	);
 
 class NotesEdition extends Component {
 	constructor(props) {
@@ -51,14 +53,15 @@ class NotesEdition extends Component {
 		this.state = {
 			activeTab: 0,
 		};
-		this.handlers = handleFieldChange(this.props.handleChange);
+		const { handleChange, maxLengthScopeNote } = this.props;
+		this.handlers = handleFieldChange(handleChange, maxLengthScopeNote);
 		this.selectTab = tabIndex =>
 			this.setState({
 				activeTab: tabIndex,
 			});
 	}
 	render() {
-		const { notes, disseminationStatus } = this.props;
+		const { notes, disseminationStatus, maxLengthScopeNote } = this.props;
 		const { activeTab } = this.state;
 		return (
 			<ul className="nav nav-tabs nav-justified">
@@ -68,7 +71,7 @@ class NotesEdition extends Component {
 					onSelect={this.selectTab}
 					justified
 				>
-					{noteTypes.map(
+					{noteTypes(maxLengthScopeNote).map(
 						(
 							{ rawTitle, noteLg1Name, noteLg2Name, redLg1Empty, maxLength },
 							i
