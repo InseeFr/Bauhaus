@@ -14,7 +14,7 @@ class ConceptsHomeContainer extends Component {
 	}
 
 	render() {
-		const { concepts } = this.props;
+		const { concepts, role } = this.props;
 
 		if (!concepts) {
 			return (
@@ -30,15 +30,17 @@ class ConceptsHomeContainer extends Component {
 				</div>
 			);
 		}
-		return <ConceptsHome concepts={concepts} />;
+		return <ConceptsHome concepts={concepts} role={role} />;
 	}
 }
 
 const mapStateToProps = state => {
+	const role = state.app.auth;
 	if (!state.conceptList) {
 		return {
 			status: NOT_LOADED,
 			concepts: [],
+			role,
 		};
 	}
 	//TODO should be sorted in the state, shouldn't they ?
@@ -46,6 +48,7 @@ const mapStateToProps = state => {
 
 	return {
 		concepts,
+		role,
 		status,
 		err,
 	};

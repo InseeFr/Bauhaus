@@ -14,7 +14,7 @@ class CollectionsHomeContainer extends Component {
 	}
 
 	render() {
-		const { collections } = this.props;
+		const { collections, role } = this.props;
 
 		if (!collections) {
 			return (
@@ -30,15 +30,17 @@ class CollectionsHomeContainer extends Component {
 				</div>
 			);
 		}
-		return <CollectionsHome collections={collections} />;
+		return <CollectionsHome collections={collections} role={role} />;
 	}
 }
 
 const mapStateToProps = state => {
+	const role = state.app.auth;
 	if (!state.collectionList) {
 		return {
 			status: NOT_LOADED,
 			collections: [],
+			role,
 		};
 	}
 	//TODO should be sorted in the state, shouldn't they ?
@@ -46,6 +48,7 @@ const mapStateToProps = state => {
 
 	return {
 		collections,
+		role,
 		status,
 		err,
 	};
