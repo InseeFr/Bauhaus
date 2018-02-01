@@ -31,7 +31,7 @@ class ConceptVisualization extends Component {
 	}
 
 	render() {
-		const { id, general, links, notes, secondLang } = this.props;
+		const { id, role, general, links, notes, secondLang } = this.props;
 		const { modalValid } = this.state;
 		const {
 			conceptVersion,
@@ -84,6 +84,7 @@ class ConceptVisualization extends Component {
 						)}
 					<ConceptVisualizationControls
 						id={id}
+						role={role}
 						//TODO FIX ME
 						isValidated={isValidated === 'Validé'}
 						isValidOutOfDate={isOutOfDate(valid)}
@@ -109,6 +110,7 @@ class ConceptVisualization extends Component {
 
 ConceptVisualization.propTypes = {
 	id: PropTypes.string, // not available for creation
+	role: PropTypes.string.isRequired,
 	general: generalPropTypes.isRequired,
 	notes: notePropTypes.isRequired,
 	links: linksPropTypes.isRequired,

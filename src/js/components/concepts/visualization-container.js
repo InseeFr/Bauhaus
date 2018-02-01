@@ -73,6 +73,7 @@ class ConceptVisualizationContainer extends Component {
 		}
 		const {
 			id,
+			role,
 			concept,
 			stampList,
 			disseminationStatusList,
@@ -83,6 +84,7 @@ class ConceptVisualizationContainer extends Component {
 			return (
 				<ConceptVisualization
 					id={id}
+					role={role}
 					general={general}
 					notes={notes}
 					links={links}
@@ -111,9 +113,11 @@ class ConceptVisualizationContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+	const role = state.app.auth;
 	const id = extractId(ownProps);
 	return {
 		id,
+		role,
 		secondLang: state.app.secondLang,
 		concept: select.getConcept(state, id),
 		stampList: select.getStampList(state),

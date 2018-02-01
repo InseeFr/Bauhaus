@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
+import { GESTIONNAIRE } from 'js/constants';
 import { dictionary } from 'js/utils/dictionary';
 
 const Button = ({ action, label }) => {
@@ -37,10 +38,13 @@ class ConceptVisualizationControls extends Component {
 			isValidOutOfDate,
 			conceptVersion,
 			id,
+			role,
 			handleValidation,
 		} = this.props;
 
 		let btns;
+		const isGestionnaire = role === GESTIONNAIRE;
+
 		const cancel = [
 			this.props.history.length === 1
 				? `/concepts`
@@ -55,7 +59,8 @@ class ConceptVisualizationControls extends Component {
 				? null
 				: [`/concept/${id}/compare`, dictionary.buttons.compare];
 
-		if (isValidOutOfDate) {
+		if (!isGestionnaire) btns = [cancel, null, null, null, null, compare];
+		else if (isValidOutOfDate) {
 			btns = isValidated
 				? [cancel, null, null, null, compare, send]
 				: [cancel, null, compare, send, update, validate];
