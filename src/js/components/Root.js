@@ -27,7 +27,7 @@ import Help from './help/home';
 import ConceptsAdministrationHome from './administration/home';
 import RoleHome from './administration/roles/home-container';
 import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
-import MenuDispatcher from './menu/';
+import MenuDispatcher from './menu/menu-container';
 import GroupsHomeContainer from './operations/groups/home-container';
 import SubGroupsHomeContainer from './operations/sub-groups/home-container';
 import StudyUnitsHomeContainer from './operations/study-units/home-container';

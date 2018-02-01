@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import MenuReferentiels from './menu-referentiels';
+import { GESTIONNAIRE } from 'js/constants';
 import { dictionary } from 'js/utils/dictionary';
 import './concepts.css';
 
@@ -31,7 +32,9 @@ class MenuConcepts extends Component {
 	}
 
 	render() {
+		const { role } = this.props;
 		const { menuRef, activePath } = this.state;
+
 		var paths = {
 			administration: {
 				path: '/concepts/administration',
@@ -91,26 +94,28 @@ class MenuConcepts extends Component {
 										</Link>
 									</li>
 								</ul>
-								<ul className="nav navbar-nav navbar-nav-concepts navbar-right">
-									<li className={paths.help.className}>
-										<Link
-											to={paths.help.path}
-											onClick={() => this.changeActivePath(paths.help.path)}
-										>
-											{dictionary.navbar.concepts.help}
-										</Link>
-									</li>
-									<li className={paths.administration.className}>
-										<Link
-											to={paths.administration.path}
-											onClick={() =>
-												this.changeActivePath(paths.administration.path)
-											}
-										>
-											{dictionary.navbar.concepts.administration}
-										</Link>
-									</li>
-								</ul>
+								{role === GESTIONNAIRE && (
+									<ul className="nav navbar-nav navbar-nav-concepts navbar-right">
+										<li className={paths.help.className}>
+											<Link
+												to={paths.help.path}
+												onClick={() => this.changeActivePath(paths.help.path)}
+											>
+												{dictionary.navbar.concepts.help}
+											</Link>
+										</li>
+										<li className={paths.administration.className}>
+											<Link
+												to={paths.administration.path}
+												onClick={() =>
+													this.changeActivePath(paths.administration.path)
+												}
+											>
+												{dictionary.navbar.concepts.administration}
+											</Link>
+										</li>
+									</ul>
+								)}
 							</div>
 						</div>
 					</nav>
