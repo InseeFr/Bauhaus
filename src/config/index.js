@@ -1,10 +1,10 @@
 // Dev config
-export const baseHost = 'http://localhost:6969/Gncs-Back-Office/ws/';
-export const baseHostConcepts = `${baseHost}concepts/`;
-
+export const baseHost = 'http://localhost:6969/Gncs-Back-Office/api';
 // Server config
-// export const baseHost = './ws/';
-// export const baseHostConcepts = './ws/concepts/';
+// export const baseHost = './api';
+
+export const baseHostConcepts = `${baseHost}/concepts`;
+
 // App langages
 export const version = '1.1.0';
 export const lang1 = 'fr';

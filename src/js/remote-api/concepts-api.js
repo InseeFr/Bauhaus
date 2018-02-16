@@ -8,14 +8,14 @@ import buildApi from './build-api';
 //const json = res => res.json()
 //getConcepteList: () => ['concepts', json]
 const api = {
-	getConceptList: () => ['concepts'],
-	getConceptSearchList: () => ['concepts/search'],
-	getConceptValidateList: () => ['concepts/toValidate'],
+	getConceptList: () => [''],
+	getConceptSearchList: () => ['advanced-search'],
+	getConceptValidateList: () => ['toValidate'],
 	getConceptGeneral: id => [`concept/${id}`],
 	getConceptLinkList: id => [`concept/${id}/links`],
 	getNoteVersionList: (id, version) => [`concept/${id}/notes/${version}`],
 	postConcept: concept => [
-		'private/concept',
+		'concept',
 		{
 			headers: {
 				Accept: 'text/plain',
@@ -30,7 +30,7 @@ const api = {
 			})),
 	],
 	putConcept: (id, concept) => [
-		`private/concept/${id}`,
+		`concept/${id}`,
 		{
 			headers: {
 				'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ const api = {
 		() => {},
 	],
 	putConceptValidList: ids => [
-		`private/concepts/validate`,
+		`validate`,
 		{
 			body: JSON.stringify(ids),
 		},
@@ -58,7 +58,7 @@ const api = {
 		res => res,
 	],
 	postConceptSend: (id, mailInfo) => [
-		`private/concept/send/${id}`,
+		`concept/send/${id}`,
 		{
 			headers: {
 				Accept: 'text/plain',
@@ -72,7 +72,7 @@ const api = {
 	getCollectionDashboardList: () => ['collections/dashboard'],
 	getCollectionValidateList: () => ['collections/toValidate'],
 	postCollection: collection => [
-		'private/collection',
+		'collection',
 		{
 			headers: {
 				Accept: 'text/plain',
@@ -83,7 +83,7 @@ const api = {
 		() => {},
 	],
 	putCollection: (id, collection) => [
-		`private/collection/${id}`,
+		`collection/${id}`,
 		{
 			headers: {
 				'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ const api = {
 		() => {},
 	],
 	putCollectionValidList: ids => [
-		`private/collections/validate`,
+		`collections/validate`,
 		{
 			body: JSON.stringify(ids),
 		},
@@ -113,7 +113,7 @@ const api = {
 		res => res,
 	],
 	postCollectionSend: (id, mailInfo) => [
-		`private/collection/send/${id}`,
+		`collection/send/${id}`,
 		{
 			headers: {
 				Accept: 'text/plain',
