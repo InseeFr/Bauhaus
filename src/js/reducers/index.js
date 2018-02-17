@@ -2,15 +2,16 @@ import { getItems } from './utils/list-reducer';
 import { combineReducers } from 'redux';
 import app from './app';
 import sharedReducers from './shared';
-import conceptReducers from './concepts/';
+import conceptReducers from './concepts';
 import * as conceptGeneral from './concepts/by-id/general';
 import * as notes from './concepts/by-id/notes';
 import * as links from './concepts/by-id/links';
 import * as collectionGeneral from './collections/by-id/general';
 import * as members from './collections/by-id/members';
-import collectionReducers from './collections/';
-import roleReducers from './roles/';
-import dashboardReducers from './dashboard/';
+import collectionReducers from './collections';
+import roleReducers from './roles';
+import dashboardReducers from './dashboard';
+import operationsReducers from './operations';
 import remoteCalls, * as remoteCallsSelectors from './remote-calls';
 
 export default combineReducers({
@@ -20,6 +21,7 @@ export default combineReducers({
 	...collectionReducers,
 	...roleReducers,
 	...dashboardReducers,
+	...operationsReducers,
 	remoteCalls,
 });
 

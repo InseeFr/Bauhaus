@@ -1,16 +1,11 @@
 // TODO Not really container yet, fix with real data
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
-import buildExtract from 'js/utils/build-extract';
-import { subGroups } from './fake-data';
 import '../operations.css';
-
-const extractId = buildExtract('id');
 
 class SubGroupVisualizationContainer extends Component {
 	render() {
-		const label = subGroups.find(g => g.id === extractId(this.props)).label;
+		const label = 'toto';
 		return (
 			<div className="container">
 				<div className="row">
@@ -38,4 +33,4 @@ class SubGroupVisualizationContainer extends Component {
 	}
 }
 
-export default withRouter(SubGroupVisualizationContainer);
+export default SubGroupVisualizationContainer;

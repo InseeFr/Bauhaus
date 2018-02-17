@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Loadable from 'react-loading-overlay';
 import SubGroupsHome from './home';
 import { dictionary } from 'js/utils/dictionary';
-import { subGroups } from './fake-data';
+import { NOT_LOADED } from 'js/constants';
+import loadSeriesList from 'js/actions/operations/series/list';
 
 class SubGroupsHomeContainer extends Component {
+	componentWillMount() {
+		if (!this.props.concepts) {
+			this.props.loadSeriesList();
+		}
+	}
 	render() {
-		if (!subGroups) {
+		const { series } = this.props;
+		if (!series) {
 			return (
 				<div>
 					<Loadable
@@ -20,8 +28,31 @@ class SubGroupsHomeContainer extends Component {
 				</div>
 			);
 		}
-		return <SubGroupsHome subGroups={subGroups} />;
+		return <SubGroupsHome subGroups={series} />;
 	}
 }
 
-export default SubGroupsHomeContainer;
+const mapStateToProps = state => {
+	if (!state.seriesList) {
+		return {
+			status: NOT_LOADED,
+			series: [],
+		};
+	}
+	//TODO should be sorted in the state, shouldn't they ?
+	let { results: series, status, err } = state.seriesList;
+
+	return {
+		series,
+		status,
+		err,
+	};
+};
+
+const mapDispatchToProps = {
+	loadSeriesList,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+	SubGroupsHomeContainer
+);

@@ -4,6 +4,7 @@ export const baseHost = 'http://localhost:6969/Gncs-Back-Office/api';
 // export const baseHost = './api';
 
 export const baseHostConcepts = `${baseHost}/concepts`;
+export const baseHostOperations = `${baseHost}/operations`;
 
 // App langages
 export const version = '1.1.0';
