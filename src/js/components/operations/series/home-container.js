@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loading-overlay';
-import SubGroupsHome from './home';
+import SeriesHome from './home';
 import { dictionary } from 'js/utils/dictionary';
 import { NOT_LOADED } from 'js/constants';
 import loadSeriesList from 'js/actions/operations/series/list';
 
-class SubGroupsHomeContainer extends Component {
+class SeriesHomeContainer extends Component {
 	componentWillMount() {
 		if (!this.props.concepts) {
 			this.props.loadSeriesList();
@@ -28,7 +28,7 @@ class SubGroupsHomeContainer extends Component {
 				</div>
 			);
 		}
-		return <SubGroupsHome subGroups={series} />;
+		return <SeriesHome series={series} />;
 	}
 }
 
@@ -54,5 +54,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-	SubGroupsHomeContainer
+	SeriesHomeContainer
 );

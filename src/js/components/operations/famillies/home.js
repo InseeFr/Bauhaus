@@ -4,18 +4,18 @@ import SearchRmes from 'js/components/shared/search-rmes';
 import { dictionary } from 'js/utils/dictionary';
 import '../operations.css';
 
-class GroupsHome extends Component {
+class FamilliesHome extends Component {
 	render() {
-		const { groups } = this.props;
+		const { famillies } = this.props;
 		return (
 			<div>
 				<div className="container">
 					<div className="row">
 						<div className="col-md-8 col-md-offset-2 centered">
 							<h2 className="page-title-operations">
-								{dictionary.operations.groups.title} - Recherche
+								{dictionary.operations.famillies.title} - Recherche
 							</h2>
-							<SearchRmes items={groups} childPath="group" />
+							<SearchRmes items={famillies} childPath="family" />
 						</div>
 					</div>
 				</div>
@@ -24,7 +24,7 @@ class GroupsHome extends Component {
 	}
 }
 
-GroupsHome.propTypes = {
+FamilliesHome.propTypes = {
 	items: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,
@@ -33,4 +33,4 @@ GroupsHome.propTypes = {
 	),
 };
 
-export default GroupsHome;
+export default FamilliesHome;

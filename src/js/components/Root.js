@@ -29,12 +29,12 @@ import ConceptsAdministrationHome from './administration/home';
 import RoleHome from './administration/roles/home-container';
 import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
 import MenuDispatcher from './menu/menu-container';
-import GroupsHomeContainer from './operations/groups/home-container';
-import SubGroupsHomeContainer from './operations/sub-groups/home-container';
-import StudyUnitsHomeContainer from './operations/study-units/home-container';
-import GroupsVisualizationContainer from './operations/groups/visualization-container';
-import SubGroupsVisualizationContainer from './operations/sub-groups/visualization-container';
-import StudyUnitsVisualizationContainer from './operations/study-units/visualization-container';
+import FamilliesHomeContainer from './operations/famillies/home-container';
+import SeriesHomeContainer from './operations/series/home-container';
+import OperationsHomeContainer from './operations/operations/home-container';
+import FamilyVisualizationContainer from './operations/famillies/visualization-container';
+import SeriesVisualizationContainer from './operations/series/visualization-container';
+import OperationVisualizationContainer from './operations/operations/visualization-container';
 
 const store = configureStore();
 
@@ -151,31 +151,31 @@ class Root extends Component {
 								path="/concepts/administration/dashboard"
 								component={ConceptsDashboardHome}
 							/>
-							<Route exact path="/groups" component={GroupsHomeContainer} />
 							<Route
 								exact
-								path="/sub-groups"
-								component={SubGroupsHomeContainer}
+								path="/famillies"
+								component={FamilliesHomeContainer}
+							/>
+							<Route exact path="/series" component={SeriesHomeContainer} />
+							<Route
+								exact
+								path="/operations"
+								component={OperationsHomeContainer}
 							/>
 							<Route
 								exact
-								path="/study-units"
-								component={StudyUnitsHomeContainer}
+								path="/family/:id"
+								component={FamilyVisualizationContainer}
 							/>
 							<Route
 								exact
-								path="/group/:id"
-								component={GroupsVisualizationContainer}
+								path="/series/:id"
+								component={SeriesVisualizationContainer}
 							/>
 							<Route
 								exact
-								path="/sub-group/:id"
-								component={SubGroupsVisualizationContainer}
-							/>
-							<Route
-								exact
-								path="/study-unit/:id"
-								component={StudyUnitsVisualizationContainer}
+								path="/operation/:id"
+								component={OperationVisualizationContainer}
 							/>
 						</Switch>
 					</div>

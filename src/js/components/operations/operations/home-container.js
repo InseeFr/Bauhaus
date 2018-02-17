@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Loadable from 'react-loading-overlay';
-import GroupsHome from './home';
+import OperationsHome from './home';
 import { dictionary } from 'js/utils/dictionary';
-import { groups } from './fake-data';
+import { operations } from './fake-data';
 
-class GroupsHomeContainer extends Component {
+class OperationsHomeContainer extends Component {
 	render() {
-		if (!groups) {
+		if (!operations) {
 			return (
 				<div>
 					<Loadable
@@ -20,8 +20,8 @@ class GroupsHomeContainer extends Component {
 				</div>
 			);
 		}
-		return <GroupsHome groups={groups} />;
+		return <OperationsHome operations={operations} />;
 	}
 }
 
-export default GroupsHomeContainer;
+export default OperationsHomeContainer;

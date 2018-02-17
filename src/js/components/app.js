@@ -23,7 +23,7 @@ function App() {
 					{dictionary.app.classificationsTitle}
 				</h2>
 				{/*</Link>*/}
-				<Link to="/groups">
+				<Link to="/famillies">
 					<h2 className="items page-title page-title-link">
 						{dictionary.app.sourcesTitle}
 					</h2>
@@ -36,7 +36,7 @@ function App() {
 				{/*<Link to="/">*/}
 				<img src={classificationsLogo} alt="Classifications" className="img" />
 				{/*</Link>*/}
-				<Link to="/groups">
+				<Link to="/famillies">
 					<img src={operationsLogo} alt="Operations" className="img" />
 				</Link>
 			</div>

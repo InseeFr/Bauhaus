@@ -1,11 +1,16 @@
 // TODO Not really container yet, fix with real data
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
+import buildExtract from 'js/utils/build-extract';
+import { famillies } from './fake-data';
 import '../operations.css';
 
-class SubGroupVisualizationContainer extends Component {
+const extractId = buildExtract('id');
+
+class FamilyVisualizationContainer extends Component {
 	render() {
-		const label = 'toto';
+		const label = famillies.find(g => g.id === extractId(this.props)).label;
 		return (
 			<div className="container">
 				<div className="row">
@@ -33,4 +38,4 @@ class SubGroupVisualizationContainer extends Component {
 	}
 }
 
-export default SubGroupVisualizationContainer;
+export default withRouter(FamilyVisualizationContainer);

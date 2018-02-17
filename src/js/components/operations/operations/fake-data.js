@@ -1,0 +1,15 @@
+export const operations = [
+	{ id: '1', label: 'Fake Opération 1' },
+	{ id: '2', label: 'Fake Opération 2' },
+	{ id: '3', label: 'Fake Opération 3' },
+	{ id: '4', label: 'Fake Opération 4' },
+	{ id: '5', label: 'Fake Opération 5' },
+	{ id: '6', label: 'Fake Opération 6' },
+	{ id: '7', label: 'Fake Opération 7' },
+	{ id: '8', label: 'Fake Opération 8' },
+	{ id: '9', label: 'Fake Opération 9' },
+	{ id: '10', label: 'Fake Opération 10' },
+	{ id: '11', label: 'Fake Opération 11' },
+	{ id: '12', label: 'Fake Opération 12' },
+	{ id: '13', label: 'Fake Opération 13' },
+];

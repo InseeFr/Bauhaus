@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { dictionary } from 'js/utils/dictionary';
 import buildExtract from 'js/utils/build-extract';
-import { studyUnits } from './fake-data';
+import { operations } from './fake-data';
 import '../operations.css';
 
 const extractId = buildExtract('id');
 
-class StudyUnitsVisualizationContainer extends Component {
+class OperationVisualizationContainer extends Component {
 	render() {
-		const label = studyUnits.find(g => g.id === extractId(this.props)).label;
+		const label = operations.find(g => g.id === extractId(this.props)).label;
 		return (
 			<div className="container">
 				<div className="row">
@@ -38,4 +38,4 @@ class StudyUnitsVisualizationContainer extends Component {
 	}
 }
 
-export default withRouter(StudyUnitsVisualizationContainer);
+export default withRouter(OperationVisualizationContainer);

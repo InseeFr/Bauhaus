@@ -77,9 +77,9 @@ const dictionaryMulti = {
 			},
 			operations: {
 				home: 'Naviguer dans les référentiels',
-				groups: 'Familles',
-				subGroups: 'Séries',
-				studyUnits: 'Opérations',
+				famillies: 'Familles',
+				series: 'Séries',
+				operations: 'Opérations',
 			},
 		},
 		warning: {
@@ -340,13 +340,13 @@ const dictionaryMulti = {
 			},
 		},
 		operations: {
-			groups: {
+			famillies: {
 				title: 'Familles',
 			},
-			subGroups: {
+			series: {
 				title: 'Séries',
 			},
-			studyUnits: {
+			operations: {
 				title: 'Opérations',
 			},
 		},

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Loadable from 'react-loading-overlay';
-import StudyUnitsHome from './home';
+import FamilliesHome from './home';
 import { dictionary } from 'js/utils/dictionary';
-import { studyUnits } from './fake-data';
+import { famillies } from './fake-data';
 
-class StudyUnitsHomeContainer extends Component {
+class FamilliesHomeContainer extends Component {
 	render() {
-		if (!studyUnits) {
+		if (!famillies) {
 			return (
 				<div>
 					<Loadable
@@ -20,8 +20,8 @@ class StudyUnitsHomeContainer extends Component {
 				</div>
 			);
 		}
-		return <StudyUnitsHome studyUnits={studyUnits} />;
+		return <FamilliesHome famillies={famillies} />;
 	}
 }
 
-export default StudyUnitsHomeContainer;
+export default FamilliesHomeContainer;

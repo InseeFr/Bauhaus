@@ -33,15 +33,15 @@ class MenuOperations extends Component {
 	render() {
 		const { menuRef, activePath } = this.state;
 		var paths = {
-			subGroups: {
-				path: '/sub-groups',
-				pathKey: 'sub-group',
+			famillies: {
+				path: '/famillies',
+				pathKey: 'famil',
 				className: null,
 			},
-			groups: { path: '/groups', pathKey: 'group', className: null },
-			studyUnits: {
-				path: '/study-units',
-				pathKey: 'study-unit',
+			series: { path: '/series', pathKey: 'series', className: null },
+			operations: {
+				path: '/operations',
+				pathKey: 'operation',
 				className: null,
 			},
 		};
@@ -71,32 +71,32 @@ class MenuOperations extends Component {
 											</div>
 										</a>
 									</li>
-									<li className={paths.groups.className}>
+									<li className={paths.famillies.className}>
 										<Link
-											to={paths.groups.path}
-											onClick={() => this.changeActivePath(paths.groups.path)}
-										>
-											{dictionary.navbar.operations.groups}
-										</Link>
-									</li>
-									<li className={paths.subGroups.className}>
-										<Link
-											to={paths.subGroups.path}
+											to={paths.famillies.path}
 											onClick={() =>
-												this.changeActivePath(paths.subGroups.path)
+												this.changeActivePath(paths.famillies.path)
 											}
 										>
-											{dictionary.navbar.operations.subGroups}
+											{dictionary.navbar.operations.famillies}
 										</Link>
 									</li>
-									<li className={paths.studyUnits.className}>
+									<li className={paths.series.className}>
 										<Link
-											to={paths.studyUnits.path}
+											to={paths.series.path}
+											onClick={() => this.changeActivePath(paths.series.path)}
+										>
+											{dictionary.navbar.operations.series}
+										</Link>
+									</li>
+									<li className={paths.operations.className}>
+										<Link
+											to={paths.operations.path}
 											onClick={() =>
-												this.changeActivePath(paths.studyUnits.path)
+												this.changeActivePath(paths.operations.path)
 											}
 										>
-											{dictionary.navbar.operations.studyUnits}
+											{dictionary.navbar.operations.operations}
 										</Link>
 									</li>
 								</ul>
