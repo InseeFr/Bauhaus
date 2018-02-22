@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import 'babel-polyfill';
-import { Provider } from 'react-redux';
-import configureStore from '../store/configure-store';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { version } from 'config';
 import App from './app';
@@ -35,8 +33,6 @@ import OperationsHomeContainer from './operations/operations/home-container';
 import FamilyVisualizationContainer from './operations/famillies/visualization-container';
 import SeriesVisualizationContainer from './operations/series/visualization-container';
 import OperationVisualizationContainer from './operations/operations/visualization-container';
-
-const store = configureStore();
 
 class Root extends Component {
 	//TODO refactor routes (use nested routes, take advantage of react router 4
@@ -184,7 +180,7 @@ class Root extends Component {
 
 		return (
 			<div>
-				<Provider store={store}>{content}</Provider>
+				{content}
 				<div className="centered" style={{ marginTop: '50px' }}>
 					<label>Gncs - Version {version}</label>
 				</div>

@@ -1,8 +1,6 @@
 import * as A from 'js/actions/constants';
 
-const initialState = { auth: false, secondLang: false };
-
-export default function(state = initialState, action) {
+export default function(state = {}, action) {
 	const { type, payload } = action;
 	switch (type) {
 		case A.SAVE_SECOND_LANG: {
@@ -14,7 +12,7 @@ export default function(state = initialState, action) {
 		case A.CHECK_AUTH_SUCCESS: {
 			return {
 				...state,
-				auth: payload,
+				auth: { ...state.auth, payload },
 			};
 		}
 		case A.LOAD_PROPERTIES_SUCCESS: {

@@ -3,6 +3,15 @@ import buildApi from './build-api';
 
 const api = {
 	getProperties: () => ['properties'],
+	getAuthType: () => [
+		`auth/type`,
+		{
+			headers: {
+				Accept: 'text/plain',
+			},
+		},
+		res => res,
+	],
 	postAuth: mdp => [
 		`auth`,
 		{

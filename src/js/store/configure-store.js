@@ -5,10 +5,10 @@ import rootReducer from '../reducers';
 
 const loggerMiddleware = createLogger();
 
-export default function configureStore() {
+export default function configureStore(initState) {
 	return createStore(
 		rootReducer,
-		undefined,
+		initState,
 		compose(
 			applyMiddleware(thunkMiddleware, loggerMiddleware),
 			window.devToolsExtension ? window.devToolsExtension() : f => f
