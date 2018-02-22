@@ -10,4 +10,4 @@ export const baseHostOperations = `${baseHost}/operations`;
 export const version = '1.1.1';
 export const lang1 = 'fr';
 export const lang2 = 'en';
-export const auth = true;
+export const authConfig = true;

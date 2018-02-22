@@ -8,32 +8,17 @@ export const saveSecondLang = secondLang => {
 	};
 };
 
-export const checkAuth = mdp => dispatch => {
+export const checkAuth = body => dispatch => {
 	dispatch({
 		type: A.CHECK_AUTH,
-		payload: '',
+		payload: body,
 	});
-	return api.postAuth(mdp).then(
+	return api.postAuth(body).then(
 		result =>
 			dispatch({
 				type: A.CHECK_AUTH_SUCCESS,
 				payload: result,
 			}),
 		err => dispatch({ type: A.CHECK_AUTH_FAILURE, payload: { err } })
-	);
-};
-
-export const getProperties = () => dispatch => {
-	dispatch({
-		type: A.LOAD_PROPERTIES,
-		payload: {},
-	});
-	return api.getProperties().then(
-		result =>
-			dispatch({
-				type: A.LOAD_PROPERTIES_SUCCESS,
-				payload: result,
-			}),
-		err => dispatch({ type: A.LOAD_PROPERTIES_FAILURE, payload: { err } })
 	);
 };

@@ -12,13 +12,7 @@ export default function(state = {}, action) {
 		case A.CHECK_AUTH_SUCCESS: {
 			return {
 				...state,
-				auth: { ...state.auth, payload },
-			};
-		}
-		case A.LOAD_PROPERTIES_SUCCESS: {
-			return {
-				...state,
-				properties: payload,
+				auth: { ...state.auth, user: payload },
 			};
 		}
 		default:

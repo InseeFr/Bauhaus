@@ -2,12 +2,11 @@ import { baseHost } from 'config';
 import buildApi from './build-api';
 
 const api = {
-	getProperties: () => ['properties'],
-	getAuthType: () => [
-		`auth/type`,
+	getInit: () => [
+		`init`,
 		{
 			headers: {
-				Accept: 'text/plain',
+				Accept: 'application/json',
 			},
 		},
 		res => res,
@@ -16,12 +15,12 @@ const api = {
 		`auth`,
 		{
 			headers: {
-				Accept: 'text/plain',
+				Accept: 'application/json',
 				'Content-Type': 'text/plain',
 			},
 			body: mdp,
 		},
-		res => res.text(),
+		res => res.json(),
 	],
 	getDissStatusList: () => ['disseminationStatus'],
 	getStampList: () => ['stamps'],

@@ -6,11 +6,11 @@ import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
 import './css/index.css';
 
-Api.getAuthType()
+Api.getInit()
 	.then(
 		res => {
 			if (res.ok) {
-				return res.text();
+				return res.json();
 			} else return Promise.reject(res.statusText);
 		},
 		err => Promise.reject(err.toString())
@@ -18,8 +18,9 @@ Api.getAuthType()
 	.then(res => {
 		const initState = res;
 		const renderApp = (Component, initState) => {
+			const { authType: type, ...properties } = initState;
 			const store = configureStore({
-				app: { auth: { type: initState } },
+				app: { auth: { type }, properties },
 			});
 			ReactDOM.render(
 				<Provider store={store}>
