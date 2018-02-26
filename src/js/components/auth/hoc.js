@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Login from 'js/components/auth/fake-auth/login';
-import * as Impl from 'js/components/auth/auth-impl';
+import LoginNoAuth from 'js/components/auth/no-auth/login';
+import LoginFake from 'js/components/auth/fake-auth/login';
+import LoginBasic from 'js/components/auth/basic-auth/login';
+import LoginOpenIDConnect from 'js/components/auth/open-id-connect-auth/login';
+import * as Impl from 'js/utils/auth/auth-impl';
 
 const auth = WrappedComponent => {
 	class AuthComponent extends Component {
-		componentDidUpdate(nextProps) {
-			return nextProps !== this.props;
-		}
 		render() {
 			const { authType, role } = this.props;
 			if (role) return <WrappedComponent {...this.props} />;
 			switch (authType) {
 				case Impl.NO_AUTH:
-					return <WrappedComponent {...this.props} />;
+					return <LoginNoAuth />;
 				case Impl.FAKE_AUTH:
-					return <Login />;
+					return <LoginFake />;
 				case Impl.BASIC_AUTH:
+					return <LoginBasic />;
 				case Impl.OPEN_ID_CONNECT_AUTH:
+					return <LoginOpenIDConnect />;
 				default:
 					return <div>Error</div>;
 			}

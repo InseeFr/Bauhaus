@@ -5,6 +5,7 @@ import CollectionsHome from './home';
 import { dictionary } from 'js/utils/dictionary';
 import { NOT_LOADED } from 'js/constants';
 import loadCollectionList from 'js/actions/collections/list';
+import * as select from 'js/reducers';
 
 class CollectionsHomeContainer extends Component {
 	componentWillMount() {
@@ -14,7 +15,7 @@ class CollectionsHomeContainer extends Component {
 	}
 
 	render() {
-		const { collections, role } = this.props;
+		const { collections, permission } = this.props;
 
 		if (!collections) {
 			return (
@@ -30,17 +31,16 @@ class CollectionsHomeContainer extends Component {
 				</div>
 			);
 		}
-		return <CollectionsHome collections={collections} role={role} />;
+		return <CollectionsHome collections={collections} permission={permission} />;
 	}
 }
 
 const mapStateToProps = state => {
-	const role = state.app.auth;
+	const permission = select.getPermission(state)
 	if (!state.collectionList) {
 		return {
 			status: NOT_LOADED,
 			collections: [],
-			role,
 		};
 	}
 	//TODO should be sorted in the state, shouldn't they ?
@@ -48,7 +48,7 @@ const mapStateToProps = state => {
 
 	return {
 		collections,
-		role,
+		permission,
 		status,
 		err,
 	};

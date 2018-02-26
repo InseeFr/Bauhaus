@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
-import { GESTIONNAIRE } from 'js/constants';
+import check from 'js/utils/auth/utils';
+import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { dictionary } from 'js/utils/dictionary';
 
 const Button = ({ action, label }) => {
@@ -38,12 +39,18 @@ class ConceptVisualizationControls extends Component {
 			isValidOutOfDate,
 			conceptVersion,
 			id,
-			role,
+			permission: { authType, role },
 			handleValidation,
 		} = this.props;
 
+		const authImpl = check(authType);
+		const admin = authImpl.isAdmin(role);
+		const contributor = authImpl.isContributor(role);
+		const creator = authImpl.isConceptCreator(role);
+		const adminOrCreator = admin || creator;
+
+		// TODO : Fix buttons logic with CREATOR role (comparing to stamps)
 		let btns;
-		const isGestionnaire = role === GESTIONNAIRE;
 
 		const cancel = [
 			this.props.history.length === 1
@@ -52,23 +59,48 @@ class ConceptVisualizationControls extends Component {
 			dictionary.buttons.return,
 		];
 		const send = [`/concept/${id}/send`, dictionary.buttons.send];
-		const validate = [handleValidation, dictionary.buttons.validate];
+		const validate = adminOrCreator && [
+			handleValidation,
+			dictionary.buttons.validate,
+		];
 		const update = [`/concept/${id}/modify`, dictionary.buttons.modify];
 		const compare =
 			!conceptVersion || conceptVersion <= 1
 				? null
 				: [`/concept/${id}/compare`, dictionary.buttons.compare];
 
-		if (!isGestionnaire) btns = [cancel, null, null, null, null, compare];
-		else if (isValidOutOfDate) {
-			btns = isValidated
-				? [cancel, null, null, null, compare, send]
-				: [cancel, null, compare, send, update, validate];
+		if (admin) {
+			if (isValidOutOfDate) {
+				btns = isValidated
+					? [cancel, null, null, null, compare, send]
+					: [cancel, null, compare, send, update, validate];
+			} else {
+				btns = isValidated
+					? [cancel, null, null, compare, send, update]
+					: [cancel, null, compare, send, update, validate];
+			}
+		} else if (contributor) {
+			if (isValidOutOfDate) {
+				btns = isValidated
+					? [cancel, null, null, null, compare, send]
+					: [cancel, null, null, compare, send, update];
+			} else {
+				btns = [cancel, null, null, compare, send, update];
+			}
+		} else if (creator) {
+			if (isValidOutOfDate) {
+				btns = isValidated
+					? [cancel, null, null, null, compare, send]
+					: [cancel, null, null, compare, send, validate];
+			} else {
+				btns = isValidated
+					? [cancel, null, null, null, compare, send]
+					: [cancel, null, null, compare, send, validate];
+			}
 		} else {
-			btns = isValidated
-				? [cancel, null, null, compare, send, update]
-				: [cancel, null, compare, send, update, validate];
+			btns = [cancel, null, null, null, null, compare];
 		}
+
 		return (
 			<div className="row btn-line">
 				{btns.map((btn, i) => {
@@ -83,6 +115,7 @@ class ConceptVisualizationControls extends Component {
 
 ConceptVisualizationControls.propTypes = {
 	id: PropTypes.string.isRequired,
+	permission: permissionOverviewPropTypes,
 	isValidated: PropTypes.bool.isRequired,
 	conceptVersion: PropTypes.string.isRequired,
 	handleValidation: PropTypes.func.isRequired,

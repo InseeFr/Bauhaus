@@ -6,6 +6,7 @@ import CollectionMembers from './members';
 import { dictionary } from 'js/utils/dictionary';
 import { propTypes as generalPropTypes } from 'js/utils/collections/general';
 import { propTypes as membersPropTypes } from 'js/utils/collections/members';
+import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 
 class CollectionVisualization extends Component {
 	constructor(props) {
@@ -16,7 +17,7 @@ class CollectionVisualization extends Component {
 	}
 
 	render() {
-		const { id, role, general, members, secondLang } = this.props;
+		const { id, permission, general, members, secondLang } = this.props;
 		const { isValidated } = general;
 
 		return (
@@ -49,7 +50,7 @@ class CollectionVisualization extends Component {
 						)}
 					<CollectionVisualizationControls
 						id={id}
-						role={role}
+						permission={permission}
 						//TODO FIX ME
 						isValidated={isValidated === 'Validée'}
 						handleValidation={this.handleClickValid}
@@ -64,6 +65,7 @@ class CollectionVisualization extends Component {
 
 CollectionVisualization.propTypes = {
 	id: PropTypes.string, // not available for creation
+	permission: permissionOverviewPropTypes.isRequired,
 	secondLang: PropTypes.bool.isRequired,
 	general: generalPropTypes.isRequired,
 	members: membersPropTypes.isRequired,

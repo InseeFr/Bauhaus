@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import MenuReferentiels from './menu-referentiels';
-import { GESTIONNAIRE } from 'js/constants';
+import check from 'js/utils/auth/utils';
+import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { dictionary } from 'js/utils/dictionary';
 import './concepts.css';
 
@@ -32,8 +33,12 @@ class MenuConcepts extends Component {
 	}
 
 	render() {
-		const { role } = this.props;
+		const { permission: { authType, role } } = this.props;
 		const { menuRef, activePath } = this.state;
+
+		// TODO Fix with accuracy role adaptation
+		const authImpl = check(authType);
+		const adminOrContributor = authImpl.isAdminOrContributor(role);
 
 		var paths = {
 			administration: {
@@ -94,7 +99,7 @@ class MenuConcepts extends Component {
 										</Link>
 									</li>
 								</ul>
-								{role === GESTIONNAIRE && (
+								{adminOrContributor && (
 									<ul className="nav navbar-nav navbar-nav-concepts navbar-right">
 										<li className={paths.help.className}>
 											<Link
@@ -125,5 +130,9 @@ class MenuConcepts extends Component {
 		);
 	}
 }
+
+MenuConcepts.propTypes = {
+	permission: permissionOverviewPropTypes.isRequired,
+};
 
 export default withRouter(MenuConcepts);

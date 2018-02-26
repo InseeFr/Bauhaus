@@ -84,6 +84,10 @@ export const getDisseminationStatusList = state =>
 export const getStampList = state => getItems(state.stampList);
 export const getRoleList = state => getItems(state.roleList);
 export const getAgentList = state => getItems(state.agentList);
+export const getPermission = state => {
+	const { type: authType, user: { role } } = state.app.auth;
+	return { authType, role };
+};
 
 export const getStatus = (state, op) =>
 	remoteCallsSelectors.getStatus(state.remoteCalls, op);

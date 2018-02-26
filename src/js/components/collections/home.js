@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import SearchRmes from 'js/components/shared/search-rmes';
-import { GESTIONNAIRE } from 'js/constants';
-import { propTypes as overviewPropTypes } from 'js/utils/collections/collection-overview';
+import check from 'js/utils/auth/utils';
+import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
+import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/app.css';
 
@@ -26,13 +27,16 @@ class CollectionsHome extends Component {
 	}
 
 	render() {
-		const { collections, role } = this.props;
+		const { collections, permission: { authType, role } } = this.props;
+		const authImpl = check(authType);
+		const adminOrCreator = authImpl.isAdminOrCollectionCreator(role);
+		const adminOrContributor = authImpl.isAdminOrContributor(role);
 		return (
 			<div>
 				<div className="container">
 					<div className="row">
 						<div className="col-md-3 btn-group-vertical">
-							{role === GESTIONNAIRE && (
+							{adminOrContributor && (
 								<div className="row">
 									<button
 										className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
@@ -58,7 +62,7 @@ class CollectionsHome extends Component {
 									{dictionary.buttons.export}
 								</button>
 							</div>
-							{role === GESTIONNAIRE && (
+							{adminOrCreator && (
 								<div className="row">
 									<button
 										className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
@@ -85,8 +89,8 @@ class CollectionsHome extends Component {
 }
 
 CollectionsHome.propTypes = {
-	collections: PropTypes.arrayOf(overviewPropTypes.isRequired),
-	role: PropTypes.string.isRequired,
+	collections: PropTypes.arrayOf(collectionOverviewPropTypes.isRequired),
+	permission: permissionOverviewPropTypes.isRequired,
 };
 
 //TODO use <Navigate /> so we don't need `withRouter`

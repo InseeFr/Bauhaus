@@ -9,6 +9,7 @@ import { dictionary } from 'js/utils/dictionary';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
+import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { isOutOfDate } from 'js/utils/moment';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
 
@@ -31,7 +32,7 @@ class ConceptVisualization extends Component {
 	}
 
 	render() {
-		const { id, role, general, links, notes, secondLang } = this.props;
+		const { id, permission, general, links, notes, secondLang } = this.props;
 		const { modalValid } = this.state;
 		const {
 			conceptVersion,
@@ -84,7 +85,7 @@ class ConceptVisualization extends Component {
 						)}
 					<ConceptVisualizationControls
 						id={id}
-						role={role}
+						permission={permission}
 						//TODO FIX ME
 						isValidated={isValidated === 'Validé'}
 						isValidOutOfDate={isOutOfDate(valid)}
@@ -110,7 +111,7 @@ class ConceptVisualization extends Component {
 
 ConceptVisualization.propTypes = {
 	id: PropTypes.string, // not available for creation
-	role: PropTypes.string.isRequired,
+	permission: permissionOverviewPropTypes.isRequired,
 	general: generalPropTypes.isRequired,
 	notes: notePropTypes.isRequired,
 	links: linksPropTypes.isRequired,

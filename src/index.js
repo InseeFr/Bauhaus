@@ -6,6 +6,7 @@ import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
 import './css/index.css';
 
+// TODO Loading spinner ??
 Api.getInit()
 	.then(
 		res => {
@@ -20,7 +21,7 @@ Api.getInit()
 		const renderApp = (Component, initState) => {
 			const { authType: type, ...properties } = initState;
 			const store = configureStore({
-				app: { auth: { type }, properties },
+				app: { auth: { type }, properties, secondLang: false },
 			});
 			ReactDOM.render(
 				<Provider store={store}>

@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Menu from './menu';
+import * as select from 'js/reducers';
 
 class MenuContainer extends Component {
 	render() {
-		const { role } = this.props;
-		return <Menu role={role} />;
+		const { permission } = this.props;
+		return <Menu permission={permission} />;
 	}
 }
 
-const mapStateToProps = state => ({ role: state.app.auth });
+const mapStateToProps = state => {
+	const permission = select.getPermission(state);
+	return { permission };
+};
 
 export default connect(mapStateToProps)(MenuContainer);

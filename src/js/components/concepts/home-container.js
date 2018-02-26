@@ -5,6 +5,7 @@ import ConceptsHome from './home';
 import { dictionary } from 'js/utils/dictionary';
 import { NOT_LOADED } from 'js/constants';
 import loadConceptList from 'js/actions/concepts/list';
+import * as select from 'js/reducers';
 
 class ConceptsHomeContainer extends Component {
 	componentWillMount() {
@@ -14,7 +15,7 @@ class ConceptsHomeContainer extends Component {
 	}
 
 	render() {
-		const { concepts, role } = this.props;
+		const { concepts, permission } = this.props;
 
 		if (!concepts) {
 			return (
@@ -30,17 +31,17 @@ class ConceptsHomeContainer extends Component {
 				</div>
 			);
 		}
-		return <ConceptsHome concepts={concepts} role={role} />;
+		return <ConceptsHome concepts={concepts} permission={permission} />;
 	}
 }
 
 const mapStateToProps = state => {
-	const role = state.app.auth;
+	const permission = select.getPermission(state);
+
 	if (!state.conceptList) {
 		return {
 			status: NOT_LOADED,
 			concepts: [],
-			role,
 		};
 	}
 	//TODO should be sorted in the state, shouldn't they ?
@@ -48,9 +49,9 @@ const mapStateToProps = state => {
 
 	return {
 		concepts,
-		role,
 		status,
 		err,
+		permission,
 	};
 };
 
