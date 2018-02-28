@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LoginNoAuth from 'js/components/auth/no-auth/login';
 import LoginFake from 'js/components/auth/fake-auth/login';
-import LoginBasic from 'js/components/auth/basic-auth/login';
+import LoginBasic from 'js/components/auth/basic-auth/login-container';
 import LoginOpenIDConnect from 'js/components/auth/open-id-connect-auth/login';
 import * as Impl from 'js/utils/auth/auth-impl';
 

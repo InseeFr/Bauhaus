@@ -5,6 +5,7 @@ import Loadable from 'react-loading-overlay';
 import CollectionsPicker from './picker';
 import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
 import { dictionary } from 'js/utils/dictionary';
+import check from 'js/utils/auth/utils';
 import * as select from 'js/reducers';
 import validateCollectionList from 'js/actions/collections/validate';
 import loadCollectionValidateList from 'js/actions/collections/validate-list';
@@ -29,7 +30,12 @@ class CollectionsToValidate extends Component {
 	}
 	render() {
 		const { validationRequested } = this.state;
-		const { validationStatus } = this.props;
+		const {
+			validationStatus,
+			permission: { authType, role, stamp },
+		} = this.props;
+		const authImpl = check(authType);
+
 		if (validationRequested) {
 			if (validationStatus === OK) {
 				return <Redirect to="/collections" />;
@@ -58,9 +64,15 @@ class CollectionsToValidate extends Component {
 					spinnerSize="400px"
 				/>
 			);
+
+		const filteredCollections = authImpl.filterCollectionsToValidate(
+			collections,
+			role,
+			stamp
+		);
 		return (
 			<CollectionsPicker
-				collections={collections}
+				collections={filteredCollections}
 				title={dictionary.collections.validation.title}
 				panelTitle={dictionary.collections.validation.panel}
 				labelLoadable={dictionary.loadable.validation}
@@ -74,6 +86,7 @@ class CollectionsToValidate extends Component {
 
 const mapStateToProps = state => ({
 	collections: select.getCollectionValidateList(state),
+	permission: select.getPermission(state),
 	validationStatus: select.getStatus(state, VALIDATE_COLLECTION_LIST),
 });
 

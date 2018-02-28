@@ -11,14 +11,14 @@ const api = {
 		},
 		res => res,
 	],
-	postAuth: mdp => [
+	postAuth: body => [
 		`auth`,
 		{
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'text/plain',
 			},
-			body: mdp,
+			body: typeof body === 'string' ? body : JSON.stringify(body),
 		},
 		res => res.json(),
 	],

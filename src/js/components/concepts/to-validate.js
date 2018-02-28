@@ -6,6 +6,7 @@ import ModalRmes from 'js/components/shared/modal-rmes';
 import ConceptsPicker from './picker';
 import { VALIDATE_CONCEPT_LIST } from 'js/actions/constants';
 import { dictionary } from 'js/utils/dictionary';
+import check from 'js/utils/auth/utils';
 import * as select from 'js/reducers';
 import validateConceptList from 'js/actions/concepts/validate';
 import loadConceptValidateList from 'js/actions/concepts/validate-list';
@@ -51,7 +52,11 @@ class ConceptsToValidate extends Component {
 	}
 	render() {
 		const { validationRequested, modalValid, idWithValid } = this.state;
-		const { validationStatus } = this.props;
+		const {
+			validationStatus,
+			permission: { authType, role, stamp },
+		} = this.props;
+		const authImpl = check(authType);
 
 		const modalButtons = [
 			{
@@ -99,10 +104,16 @@ class ConceptsToValidate extends Component {
 					spinnerSize="400px"
 				/>
 			);
+
+		const filteredConcepts = authImpl.filterConceptsToValidate(
+			concepts,
+			role,
+			stamp
+		);
 		return (
 			<div>
 				<ConceptsPicker
-					concepts={concepts}
+					concepts={filteredConcepts}
 					title={dictionary.concepts.validation.title}
 					panelTitle={dictionary.concepts.validation.panel}
 					labelLoadable={dictionary.loadable.validation}
@@ -125,6 +136,7 @@ class ConceptsToValidate extends Component {
 
 const mapStateToProps = state => ({
 	concepts: select.getConceptValidateList(state),
+	permission: select.getPermission(state),
 	validationStatus: select.getStatus(state, VALIDATE_CONCEPT_LIST),
 });
 

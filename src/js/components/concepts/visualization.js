@@ -36,6 +36,7 @@ class ConceptVisualization extends Component {
 		const { modalValid } = this.state;
 		const {
 			conceptVersion,
+			creator,
 			isValidated,
 			prefLabelLg1,
 			prefLabelLg2,
@@ -86,6 +87,7 @@ class ConceptVisualization extends Component {
 					<ConceptVisualizationControls
 						id={id}
 						permission={permission}
+						creator={creator}
 						//TODO FIX ME
 						isValidated={isValidated === 'Validé'}
 						isValidOutOfDate={isOutOfDate(valid)}
