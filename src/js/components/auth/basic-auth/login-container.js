@@ -45,7 +45,8 @@ class LoginBasicContainer extends Component {
 					spinnerSize="400px"
 				/>
 			);
-		if (roleList && stampList)
+		if (roleList && stampList) {
+			roleList.push({ id: 'GUEST', label: 'Guest' });
 			return (
 				<Auth
 					roleList={roleList}
@@ -53,6 +54,7 @@ class LoginBasicContainer extends Component {
 					checkAuth={this.onClickValidate}
 				/>
 			);
+		}
 
 		return (
 			<Loadable
