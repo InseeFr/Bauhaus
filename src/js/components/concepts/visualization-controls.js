@@ -23,6 +23,7 @@ class ConceptVisualizationControls extends Component {
 		const admin = authImpl.isAdmin(role);
 		const contributor = authImpl.isContributor(role);
 		const creator = authImpl.isConceptCreator(role, stamp, conceptCreator);
+		const adminOrContributor = admin || contributor;
 		const adminOrCreator = admin || creator;
 
 		// TODO : Fix buttons logic with CREATOR role (comparing to stamps)
@@ -41,9 +42,10 @@ class ConceptVisualizationControls extends Component {
 		];
 		const update = [`/concept/${id}/modify`, dictionary.buttons.modify];
 		const compare =
-			!conceptVersion || conceptVersion <= 1
+			adminOrContributor &&
+			(!conceptVersion || conceptVersion <= 1
 				? null
-				: [`/concept/${id}/compare`, dictionary.buttons.compare];
+				: [`/concept/${id}/compare`, dictionary.buttons.compare]);
 
 		if (admin) {
 			if (isValidOutOfDate) {
