@@ -26,5 +26,12 @@ export const isAdminOrContributor = role =>
 export const isAdminOrConceptCreator = role =>
 	role === roles.ADMIN || role === roles.CONCEPTS_CREATOR;
 
+export const isAdminOrContributorOrConceptCreator = (
+	role,
+	stamp,
+	conceptCreator
+) =>
+	isAdminOrContributor(role) || isConceptCreator(role, stamp, conceptCreator);
+
 export const isAdminOrCollectionCreator = role =>
 	role === roles.COLLECTIONS_CREATOR;

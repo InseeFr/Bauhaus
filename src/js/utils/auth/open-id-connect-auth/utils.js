@@ -8,4 +8,9 @@ export const filterCollectionsToValidate = (collections, role, stamp) =>
 	collections;
 export const isAdminOrContributor = role => true;
 export const isAdminOrConceptCreator = role => true;
+export const isAdminOrContributorOrConceptCreator = (
+	role,
+	stamp,
+	conceptCreator
+) => true;
 export const isAdminOrCollectionCreator = role => true;

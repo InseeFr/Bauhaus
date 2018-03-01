@@ -9,9 +9,11 @@ import { saveSecondLang } from 'js/actions/app';
 import loadConcept from 'js/actions/concepts/concept';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
+import check from 'js/utils/auth/utils';
 import { dictionary } from 'js/utils/dictionary';
 import Loadable from 'react-loading-overlay';
 import ConceptVisualization from './visualization';
+import ConceptVisualizationStandBy from './visualization-stand-by';
 import { OK } from 'js/constants';
 const extractId = buildExtract('id');
 
@@ -81,6 +83,20 @@ class ConceptVisualizationContainer extends Component {
 		} = this.props;
 		if (concept && stampList && disseminationStatusList) {
 			const { general, notes, links } = concept;
+			const { conceptVersion, isValidated, creator } = general;
+			const { authType, role, stamp } = permission;
+			const authImpl = check(authType);
+			const adminOrContributor = authImpl.isAdminOrContributorOrConceptCreator(
+				role,
+				stamp,
+				creator
+			);
+			if (
+				!adminOrContributor &&
+				isValidated === 'Provisoire' &&
+				conceptVersion === '1'
+			)
+				return <ConceptVisualizationStandBy general={general} />;
 			return (
 				<ConceptVisualization
 					id={id}
