@@ -20,13 +20,16 @@ export const rmesHtmlToRawHtml = html =>
 	cleanHtml(stateToHTML(stateFromHTML(html)));
 
 /**
+ * We need to transform Draft Html to Xhtml
+ */
+export const draftHtmlToXhtml = html =>
+	html.replace(/&nbsp;/g, ' ').replace(/<br>/g, '<br/>');
+
+/**
  * We need to transform back the html to comply with the repository rules
  */
 export const rawHtmlToRmesHtml = html =>
-	`<div xmlns="http://www.w3.org/1999/xhtml">${html.replace(
-		/&nbsp;/g,
-		' '
-	)}</div>`;
+	`<div xmlns="http://www.w3.org/1999/xhtml">${draftHtmlToXhtml(html)}</div>`;
 
 const rNewLine = /\n/g;
 const rUselessSpace = /(>)\s*(<)/g;

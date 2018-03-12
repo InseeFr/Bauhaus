@@ -9,6 +9,15 @@ describe('build raw html from rmes version of html', () => {
 	});
 });
 
+describe('transform Draft Html to Xhtml', () => {
+	it('transform <br> into <br/>', () => {
+		const html = `<p>a</p><p><br></p><p>b</p>`;
+		expect(htmlUtils.draftHtmlToXhtml(html)).toEqual(
+			'<p>a</p><p><br/></p><p>b</p>'
+		);
+	});
+});
+
 describe('build rmes version of html from raw html', () => {
 	it('removes insecable spaces (&nbsp;)', () => {
 		const html = `<p>Html 1&nbsp;Html 2&nbsp;Html 3</p>`;
