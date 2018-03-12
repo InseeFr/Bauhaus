@@ -9,6 +9,7 @@ import { saveSecondLang } from 'js/actions/app';
 import loadConcept from 'js/actions/concepts/concept';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
+import loadGeneralAndAllNotes from 'js/actions/concepts/general-and-all-notes';
 import check from 'js/utils/auth/utils';
 import { dictionary } from 'js/utils/dictionary';
 import Loadable from 'react-loading-overlay';
@@ -31,10 +32,19 @@ class ConceptVisualizationContainer extends Component {
 		};
 	}
 	componentWillMount() {
-		const { id, concept, stampList, disseminationStatusList } = this.props;
+		const {
+			id,
+			concept,
+			allNotes,
+			stampList,
+			disseminationStatusList,
+		} = this.props;
 		if (!concept) this.props.loadConcept(id);
 		if (!stampList) this.props.loadStampList();
 		if (!disseminationStatusList) this.props.loadDisseminationStatusList();
+		if (!allNotes) {
+			this.props.loadGeneralAndAllNotes(id);
+		}
 	}
 
 	componentWillReceiveProps({ id, validationStatus }) {
@@ -77,26 +87,38 @@ class ConceptVisualizationContainer extends Component {
 			id,
 			permission,
 			concept,
+			allNotes,
 			stampList,
 			disseminationStatusList,
 			secondLang,
 		} = this.props;
-		if (concept && stampList && disseminationStatusList) {
-			const { general, notes, links } = concept;
+		if (concept && stampList && disseminationStatusList && allNotes) {
+			const { general, links } = concept;
+			let { notes } = concept;
 			const { conceptVersion, isValidated, creator } = general;
 			const { authType, role, stamp } = permission;
 			const authImpl = check(authType);
-			const adminOrContributor = authImpl.isAdminOrContributorOrConceptCreator(
+			const adminOrContributorOrConceptCreator = authImpl.isAdminOrContributorOrConceptCreator(
 				role,
 				stamp,
 				creator
 			);
 			if (
-				!adminOrContributor &&
+				!adminOrContributorOrConceptCreator &&
 				isValidated === 'Provisoire' &&
 				conceptVersion === '1'
 			)
 				return <ConceptVisualizationStandBy general={general} />;
+			if (
+				conceptVersion !== '1' &&
+				isValidated === 'Provisoire' &&
+				!adminOrContributorOrConceptCreator
+			) {
+				general.isValidated = 'Validé';
+				general.conceptVersion = (general.conceptVersion - 1).toString();
+				notes = allNotes[general.conceptVersion];
+			}
+
 			return (
 				<ConceptVisualization
 					id={id}
@@ -130,11 +152,17 @@ class ConceptVisualizationContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
+	let allNotes;
+	const general = select.getConceptGeneral(state, id);
+	if (general) {
+		allNotes = select.getAllNotes(state, id, general.conceptVersion);
+	}
 	return {
 		id,
 		permission: select.getPermission(state),
 		secondLang: state.app.secondLang,
 		concept: select.getConcept(state, id),
+		allNotes,
 		stampList: select.getStampList(state),
 		disseminationStatusList: select.getDisseminationStatusList(state),
 		//TODO should check if the concept which has been validated are the same
@@ -148,6 +176,7 @@ const mapDispatchToProps = {
 	loadConcept,
 	loadDisseminationStatusList,
 	loadStampList,
+	loadGeneralAndAllNotes,
 	validateConcept: id => validateConcepts([id]),
 };
 
