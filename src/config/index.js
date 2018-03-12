@@ -1,7 +1,7 @@
-// Dev config
-export const baseHost = 'http://localhost:6969/Gncs-Back-Office/api';
-// Server config
-// export const baseHost = './api';
+export const baseHost =
+	process.env.NODE_ENV === 'production'
+		? './api'
+		: 'http://localhost:6969/Gncs-Back-Office/api';
 
 export const baseHostConcepts = `${baseHost}/concepts`;
 export const baseHostOperations = `${baseHost}/operations`;
