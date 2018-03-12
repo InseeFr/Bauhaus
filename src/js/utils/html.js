@@ -23,7 +23,10 @@ export const rmesHtmlToRawHtml = html =>
  * We need to transform back the html to comply with the repository rules
  */
 export const rawHtmlToRmesHtml = html =>
-	`<div xmlns="http://www.w3.org/1999/xhtml">${html}</div>`;
+	`<div xmlns="http://www.w3.org/1999/xhtml">${html.replace(
+		/&nbsp;/g,
+		' '
+	)}</div>`;
 
 const rNewLine = /\n/g;
 const rUselessSpace = /(>)\s*(<)/g;
