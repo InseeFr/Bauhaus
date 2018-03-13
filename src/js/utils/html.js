@@ -23,7 +23,10 @@ export const rmesHtmlToRawHtml = html =>
  * We need to transform Draft Html to Xhtml
  */
 export const draftHtmlToXhtml = html =>
-	html.replace(/&nbsp;/g, ' ').replace(/<br>/g, '<br/>');
+	html
+		.replace(/&nbsp;/g, ' ')
+		.replace(/<br>/g, '<br/>')
+		.replace(/<p><\/p>/g, '<br/>');
 
 /**
  * We need to transform back the html to comply with the repository rules
