@@ -21,10 +21,10 @@ export const filterCollectionsToValidate = (collections, role, stamp) =>
 		: collections.filter(c => c.creator === stamp);
 
 export const isAdminOrContributor = role =>
-	role === roles.ADMIN || role === roles.CONCEPTS_CONTRIBUTOR;
+	isAdmin(role) || role === roles.CONCEPTS_CONTRIBUTOR;
 
-export const isAdminOrConceptCreator = role =>
-	role === roles.ADMIN || role === roles.CONCEPTS_CREATOR;
+export const isAdminOrConceptCreator = (role, stamp, conceptCreator) =>
+	isAdmin(role) || isConceptCreator(role, stamp, conceptCreator);
 
 export const isAdminOrContributorOrConceptCreator = (
 	role,
@@ -33,5 +33,5 @@ export const isAdminOrContributorOrConceptCreator = (
 ) =>
 	isAdminOrContributor(role) || isConceptCreator(role, stamp, conceptCreator);
 
-export const isAdminOrCollectionCreator = role =>
-	role === roles.COLLECTIONS_CREATOR;
+export const isAdminOrCollectionCreator = (role, stamp, collectionCreator) =>
+	isAdmin(role) || isCollectionCreator(role, stamp, collectionCreator);
