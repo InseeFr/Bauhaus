@@ -4,6 +4,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import auth from 'js/components/auth/hoc';
 import { version } from 'config';
 
+import NotFound from 'js/components/shared/not-found';
 import App from './app';
 import ConceptsHomeContainer from './concepts/home-container';
 import ConceptsSearchListContainer from './concepts/search-container';
@@ -38,9 +39,9 @@ class Root extends Component {
 		const routes = (
 			<Router>
 				<span>
-					<Route exact path="/" component={App} />
 					<Route path="/" component={MenuDispatcher} />
 					<Switch>
+						<Route exact path="/" component={App} />
 						<Route exact path="/concepts" component={ConceptsHomeContainer} />
 						<Route
 							exact
@@ -147,6 +148,7 @@ class Root extends Component {
 							path="/operation/:id"
 							component={OperationVisualizationContainer}
 						/>
+						<Route path="*" component={NotFound} />
 					</Switch>
 				</span>
 			</Router>
