@@ -20,7 +20,7 @@ Api.getInit()
 const renderApp = (Component, initState, props) => {
 	const { authType: type, ...properties } = initState;
 	const store = configureStore({
-		app: { auth: { type }, properties, secondLang: false },
+		app: { auth: { type }, properties, secondLang: false, error: false },
 	});
 	ReactDOM.render(
 		<Provider store={store}>
