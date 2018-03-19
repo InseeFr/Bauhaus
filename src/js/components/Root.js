@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import 'babel-polyfill';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import auth from 'js/components/auth/hoc';
 import { version } from 'config';
+import Error from 'js/components/shared/error';
 
 import NotFound from 'js/components/shared/not-found';
 import App from './app';
@@ -36,11 +38,13 @@ import OperationVisualizationContainer from './operations/operations/visualizati
 
 class Root extends Component {
 	render() {
+		const { error } = this.props;
 		const routes = (
 			<Router>
 				<span>
 					<Route path="/" component={MenuDispatcher} />
 					<Switch>
+						{error && <Route path="/" component={Error} />}
 						<Route exact path="/" component={App} />
 						<Route exact path="/concepts" component={ConceptsHomeContainer} />
 						<Route
@@ -164,4 +168,9 @@ class Root extends Component {
 	}
 }
 
-export default auth(Root);
+const mapStateToProps = state => {
+	const error = state.app.error;
+	return { error };
+};
+
+export default auth(connect(mapStateToProps)(Root));
