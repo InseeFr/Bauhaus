@@ -46,10 +46,13 @@ class LoginBasicContainer extends Component {
 				/>
 			);
 		if (roleList && stampList) {
-			roleList.push({ id: 'GUEST', label: 'Guest' });
+			const roleListBasic = [
+				...roleList,
+				{ persons: [], id: 'GUEST', label: 'Guest' },
+			];
 			return (
 				<Auth
-					roleList={roleList}
+					roleList={roleListBasic}
 					stampList={stampList}
 					checkAuth={this.onClickValidate}
 				/>
