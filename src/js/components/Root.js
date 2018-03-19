@@ -23,7 +23,7 @@ import CollectionEditionContainer from './collections/edition-container';
 import CollectionsToValidate from './collections/to-validate';
 import CollectionsToExport from './collections/to-export';
 import Help from './help/home';
-import ConceptsAdministrationHome from './administration/home';
+import AdministrationHome from './administration/home-container';
 import RoleHome from './administration/roles/home-container';
 import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
 import MenuDispatcher from './menu/menu-container';
@@ -118,7 +118,7 @@ class Root extends Component {
 						<Route
 							exact
 							path="/concepts/administration"
-							component={ConceptsAdministrationHome}
+							component={AdministrationHome}
 						/>
 						<Route exact path="/administration/roles" component={RoleHome} />
 						<Route
