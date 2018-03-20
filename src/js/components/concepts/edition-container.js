@@ -14,7 +14,7 @@ import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/
 import buildExtract from 'js/utils/build-extract';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import { dictionary } from 'js/utils/dictionary';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
 import PageTitle from 'js/components/shared/page-title';
 
@@ -56,19 +56,7 @@ class EditionContainer extends Component {
 		if (this.state.updateRequested) {
 			if (this.props.updateStatus === OK) {
 				return <Redirect to={`/concept/${this.props.id}`} />;
-			} else {
-				return (
-					<Loadable
-						active={true}
-						spinner
-						//TODO check if right message used here
-						text={dictionary.loadable.saving}
-						color="#457DBB"
-						background="grey"
-						spinnerSize="400px"
-					/>
-				);
-			}
+			} else return <Loading textType="saving" context="concepts" />;
 		}
 		const {
 			id,
@@ -105,18 +93,7 @@ class EditionContainer extends Component {
 				/>
 			);
 		}
-		return (
-			<div>
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			</div>
-		);
+		return <Loading textType="loading" context="concepts" />;
 	}
 }
 

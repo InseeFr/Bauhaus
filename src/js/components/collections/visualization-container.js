@@ -8,8 +8,7 @@ import buildExtract from 'js/utils/build-extract';
 import { saveSecondLang } from 'js/actions/app';
 import loadCollections from 'js/actions/collections/collection';
 import loadStampList from 'js/actions/stamp';
-import { dictionary } from 'js/utils/dictionary';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import CollectionVisualization from './visualization';
 import { OK } from 'js/constants';
 const extractId = buildExtract('id');
@@ -54,20 +53,8 @@ class CollectionVisualizationContainer extends Component {
 			//if validation is OK: nothing to do. We stay on this page and the collection will
 			//be loaded automatically (since the entries for the given collection in the store will
 			//be deleted).
-			if (validationStatus !== OK) {
-				return (
-					<div>
-						<Loadable
-							active={true}
-							spinner
-							text={dictionary.loadable.validation}
-							color="#457DBB"
-							background="grey"
-							spinnerSize="400px"
-						/>
-					</div>
-				);
-			}
+			if (validationStatus !== OK)
+				return <Loading textType="validating" context="concepts" />;
 		}
 		const { id, permission, collection, stampList, secondLang } = this.props;
 		if (collection && stampList) {
@@ -87,18 +74,7 @@ class CollectionVisualizationContainer extends Component {
 				/>
 			);
 		}
-		return (
-			<div>
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			</div>
-		);
+		return <Loading textType="loading" context="concepts" />;
 	}
 }
 

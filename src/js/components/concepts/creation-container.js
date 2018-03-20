@@ -13,7 +13,7 @@ import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import { dictionary } from 'js/utils/dictionary';
 import emptyConcept from 'js/utils/concepts/empty-concept';
 import PageTitle from 'js/components/shared/page-title';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
 
 class CreationContainer extends Component {
@@ -53,17 +53,7 @@ class CreationContainer extends Component {
 		if (this.state.creationRequested) {
 			if (creationStatus === OK) {
 				return <Redirect to={`/concept/${this.props.id}`} />;
-			} else
-				return (
-					<Loadable
-						active={true}
-						spinner
-						text={dictionary.loadable.saving}
-						color="#457DBB"
-						background="grey"
-						spinnerSize="400px"
-					/>
-				);
+			} else return <Loading textType="saving" context="concepts" />;
 		}
 		if (conceptList && stampList && disseminationStatusList) {
 			const { general, notes, links } = concept;
@@ -85,18 +75,7 @@ class CreationContainer extends Component {
 				/>
 			);
 		}
-		return (
-			<div>
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			</div>
-		);
+		return <Loading textType="loading" context="concepts" />;
 	}
 }
 

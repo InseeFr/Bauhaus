@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import * as select from 'js/reducers';
 import Home from './home';
-import { dictionary } from 'js/utils/dictionary';
 import { ADD_ROLE, DELETE_ROLE } from 'js/actions/constants';
 import loadRoleList from 'js/actions/roles/role';
 import loadAgentList from 'js/actions/roles/agent';
@@ -72,18 +71,8 @@ class RolesContainer extends Component {
 		if (
 			(deleteRequested && deleteStatus !== OK) ||
 			(addRequested && addStatus !== OK)
-		) {
-			return (
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.saving}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			);
-		}
+		)
+			return <Loading textType="saving" />;
 
 		if (roles && agents) {
 			return (
@@ -97,19 +86,7 @@ class RolesContainer extends Component {
 				/>
 			);
 		}
-
-		return (
-			<div>
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			</div>
-		);
+		return <Loading textType="loading" />;
 	}
 }
 

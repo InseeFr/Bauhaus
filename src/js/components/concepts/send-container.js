@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import { SEND_CONCEPT } from 'js/actions/constants';
 import loadGeneral from 'js/actions/concepts/general';
 import sendConcept from 'js/actions/concepts/send';
 import * as select from 'js/reducers';
-import { dictionary } from 'js/utils/dictionary';
 import buildExtract from 'js/utils/build-extract';
 import { OK } from 'js/constants';
 import SendStatus from './send-status';
@@ -55,16 +54,7 @@ class ConceptSendContainer extends Component {
 			);
 		}
 		if (!loaded || !properties)
-			return (
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			);
+			return <Loading textType="loading" context="concepts" />;
 		return (
 			<ConceptSend
 				id={id}

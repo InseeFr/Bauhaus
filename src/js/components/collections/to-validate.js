@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import CollectionsPicker from './picker';
 import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
 import { dictionary } from 'js/utils/dictionary';
@@ -39,31 +39,10 @@ class CollectionsToValidate extends Component {
 		if (validationRequested) {
 			if (validationStatus === OK) {
 				return <Redirect to="/collections" />;
-			} else {
-				return (
-					<Loadable
-						active={true}
-						spinner
-						text={dictionary.loadable.loading}
-						color="#457DBB"
-						background="grey"
-						spinnerSize="400px"
-					/>
-				);
-			}
+			} else return <Loading textType="validating" context="concepts" />;
 		}
 		const { collections } = this.props;
-		if (!collections)
-			return (
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			);
+		if (!collections) return <Loading textType="loading" context="concepts" />;
 
 		const filteredCollections = authImpl.filterCollectionsToValidate(
 			collections,

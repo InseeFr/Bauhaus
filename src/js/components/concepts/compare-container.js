@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import ConceptCompare from './compare';
 import { saveSecondLang } from 'js/actions/app';
 import loadGeneralAndAllNotes from 'js/actions/concepts/general-and-all-notes';
-import { dictionary } from 'js/utils/dictionary';
 import buildExtract from 'js/utils/build-extract';
 import * as select from 'js/reducers';
 
@@ -23,16 +22,7 @@ class ConceptCompareContainer extends Component {
 	render() {
 		let { id, general, notes, secondLang, langs } = this.props;
 		if (!(notes && general))
-			return (
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			);
+			return <Loading textType="loading" context="concepts" />;
 		return (
 			<ConceptCompare
 				id={id}
@@ -55,7 +45,6 @@ const mapStateToProps = (state, ownProps) => {
 	let notes;
 	const general = select.getConceptGeneral(state, id);
 	const langs = select.getLangs(state);
-	//TODO create selector `getGeneralAndNotes`
 	if (general) {
 		notes = select.getAllNotes(state, id, general.conceptVersion);
 	}

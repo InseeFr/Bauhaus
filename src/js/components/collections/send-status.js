@@ -1,24 +1,13 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import { dictionary } from 'js/utils/dictionary';
 import { PENDING, OK, ERROR } from 'js/constants';
 
 function CollectionSendStatus({ label, status, urlBack }) {
 	if (status === PENDING)
-		return (
-			<Loadable
-				active={true}
-				spinner
-				text={dictionary.loadable.sending}
-				color="#457DBB"
-				background="grey"
-				spinnerSize="400px"
-			/>
-		);
-
-	//send status OK or ERROR
+		return <Loading textType="sending" context="concepts" />;
 
 	const title =
 		status === OK

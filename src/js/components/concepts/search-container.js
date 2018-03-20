@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loadable from 'react-loading-overlay';
-import { dictionary } from 'js/utils/dictionary';
+import Loading from 'js/components/shared/loading';
 import * as select from 'js/reducers';
 import ConceptSearchList from './search-list';
 import loadStampList from 'js/actions/stamp';
@@ -29,18 +28,7 @@ class ConceptSearchListContainer extends Component {
 		} = this.props;
 
 		if (!(conceptSearchList && stampList && disseminationStatusList))
-			return (
-				<div>
-					<Loadable
-						active={true}
-						spinner
-						text={dictionary.loadable.loading}
-						color="#457DBB"
-						background="grey"
-						spinnerSize="400px"
-					/>
-				</div>
-			);
+			return <Loading textType="loading" context="concepts" />;
 
 		return (
 			<ConceptSearchList

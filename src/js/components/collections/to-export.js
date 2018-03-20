@@ -5,7 +5,7 @@ import CollectionsPicker from './picker';
 import { dictionary } from 'js/utils/dictionary';
 import * as select from 'js/reducers';
 import { EXPORT_COLLECTION_LIST } from 'js/actions/constants';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import ModalRmes from 'js/components/shared/modal-rmes';
 import exportCollectionList from 'js/actions/collections/export-multi';
 import loadCollectionList from 'js/actions/collections/list';
@@ -77,30 +77,10 @@ class CollectionsToExport extends Component {
 			if (exportStatus === OK) {
 				return <Redirect to="/collections" />;
 			}
-			return (
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.exporting}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			);
+			return <Loading textType="exporting" context="concepts" />;
 		}
 
-		if (!collections) {
-			return (
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			);
-		}
+		if (!collections) return <Loading textType="loading" context="concepts" />;
 
 		return (
 			<div>

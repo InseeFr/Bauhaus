@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Auth from 'js/components/auth/basic-auth/login';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import { checkAuth } from 'js/actions/app';
 import loadRoleList from 'js/actions/roles/role';
 import loadStampList from 'js/actions/stamp';
 import * as select from 'js/reducers';
-import { dictionary } from 'js/utils/dictionary';
 
 class LoginBasicContainer extends Component {
 	constructor(props) {
@@ -34,17 +33,7 @@ class LoginBasicContainer extends Component {
 		const { roleList, stampList } = this.props;
 		const { updateRequested } = this.state;
 
-		if (updateRequested)
-			return (
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.saving}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			);
+		if (updateRequested) return <Loading textType="authentification" />;
 		if (roleList && stampList) {
 			const roleListBasic = [
 				...roleList,
@@ -58,17 +47,7 @@ class LoginBasicContainer extends Component {
 				/>
 			);
 		}
-
-		return (
-			<Loadable
-				active={true}
-				spinner
-				text={dictionary.loadable.loading}
-				color="#457DBB"
-				background="grey"
-				spinnerSize="400px"
-			/>
-		);
+		return <Loading textType="loading" />;
 	}
 }
 

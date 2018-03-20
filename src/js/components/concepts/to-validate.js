@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import ModalRmes from 'js/components/shared/modal-rmes';
 import ConceptsPicker from './picker';
 import { VALIDATE_CONCEPT_LIST } from 'js/actions/constants';
@@ -70,40 +70,16 @@ class ConceptsToValidate extends Component {
 				style: 'primary',
 			},
 		];
-		//
-		// let modalMessage = `<p>Ce concept ayant une date de fin de validité au <b>${dateTimeToDateString(
-		// 	valid
-		// )}</b>, vous ne pourrez plus le modifier`;
-		// modalMessage += isOutOfDate(valid) ? `.</p>` : ` après cette date.</p>`;
 
 		if (validationRequested) {
 			if (validationStatus === OK) {
 				return <Redirect to="/concepts" />;
 			} else {
-				return (
-					<Loadable
-						active={true}
-						spinner
-						text={dictionary.loadable.loading}
-						color="#457DBB"
-						background="grey"
-						spinnerSize="400px"
-					/>
-				);
+				return <Loading textType="validating" context="concepts" />;
 			}
 		}
 		const { concepts } = this.props;
-		if (!concepts)
-			return (
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			);
+		if (!concepts) return <Loading textType="loading" context="concepts" />;
 
 		const filteredConcepts = authImpl.filterConceptsToValidate(
 			concepts,

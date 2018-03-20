@@ -14,7 +14,7 @@ import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import buildExtract from 'js/utils/build-extract';
 import { bindToCollectionId } from 'js/utils/utils';
 import { dictionary } from 'js/utils/dictionary';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
 
 import PageTitle from 'js/components/shared/page-title';
@@ -70,17 +70,7 @@ class EditionContainer extends Component {
 					<Redirect to={`/collection/${bindToCollectionId(this.state.id)}`} />
 				);
 			} else {
-				return (
-					<Loadable
-						active={true}
-						spinner
-						//TODO check if right message used here
-						text={dictionary.loadable.saving}
-						color="#457DBB"
-						background="grey"
-						spinnerSize="400px"
-					/>
-				);
+				return <Loading textType="saving" context="concepts" />;
 			}
 		}
 		if (collection && collectionList && conceptList && stampList) {
@@ -107,18 +97,7 @@ class EditionContainer extends Component {
 				/>
 			);
 		}
-		return (
-			<div>
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			</div>
-		);
+		return <Loading textType="loading" context="concepts" />;
 	}
 }
 

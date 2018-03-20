@@ -13,7 +13,7 @@ import { dictionary } from 'js/utils/dictionary';
 import emptyCollection from 'js/utils/collections/empty-collection';
 import { bindToCollectionId } from 'js/utils/utils';
 import PageTitle from 'js/components/shared/page-title';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
 
 class CreationContainer extends Component {
@@ -55,17 +55,7 @@ class CreationContainer extends Component {
 				return (
 					<Redirect to={`/collection/${bindToCollectionId(this.state.id)}`} />
 				);
-			} else
-				return (
-					<Loadable
-						active={true}
-						spinner
-						text={dictionary.loadable.saving}
-						color="#457DBB"
-						background="grey"
-						spinnerSize="400px"
-					/>
-				);
+			} else return <Loading textType="saving" context="concepts" />;
 		}
 		if (conceptList && stampList) {
 			const { general, members } = collection;
@@ -85,18 +75,7 @@ class CreationContainer extends Component {
 				/>
 			);
 		}
-		return (
-			<div>
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			</div>
-		);
+		return <Loading textType="loading" context="concepts" />;
 	}
 }
 

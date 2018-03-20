@@ -11,8 +11,7 @@ import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
 import loadGeneralAndAllNotes from 'js/actions/concepts/general-and-all-notes';
 import check from 'js/utils/auth/utils';
-import { dictionary } from 'js/utils/dictionary';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import ConceptVisualization from './visualization';
 import ConceptVisualizationStandBy from './visualization-stand-by';
 import { OK } from 'js/constants';
@@ -69,18 +68,7 @@ class ConceptVisualizationContainer extends Component {
 			//be loaded automatically (since the entries for the given concept in the store will
 			//be deleted).
 			if (validationStatus !== OK) {
-				return (
-					<div>
-						<Loadable
-							active={true}
-							spinner
-							text={dictionary.loadable.validation}
-							color="#457DBB"
-							background="grey"
-							spinnerSize="400px"
-						/>
-					</div>
-				);
+				return <Loading textType="validating" context="concepts" />;
 			}
 		}
 		const {
@@ -137,18 +125,7 @@ class ConceptVisualizationContainer extends Component {
 				/>
 			);
 		}
-		return (
-			<div>
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			</div>
-		);
+		return <Loading textType="loading" context="concepts" />;
 	}
 }
 

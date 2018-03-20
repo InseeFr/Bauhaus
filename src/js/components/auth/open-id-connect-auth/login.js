@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loadable from 'react-loading-overlay';
-import { dictionary } from 'js/utils/dictionary';
+import Loading from 'js/components/shared/loading';
 import { checkAuth } from 'js/actions/app';
 
 // TODO
@@ -10,16 +9,7 @@ class LoginOpenIDConnect extends Component {
 		this.props.checkAuth();
 	}
 	render() {
-		return (
-			<Loadable
-				active={true}
-				spinner
-				text={dictionary.loadable.loading}
-				color="#457DBB"
-				background="grey"
-				spinnerSize="400px"
-			/>
-		);
+		return <Loading textType="authentification" />;
 	}
 }
 

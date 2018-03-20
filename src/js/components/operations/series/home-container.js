@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import SeriesHome from './home';
-import { dictionary } from 'js/utils/dictionary';
 import { NOT_LOADED } from 'js/constants';
 import loadSeriesList from 'js/actions/operations/series/list';
 
@@ -14,20 +13,7 @@ class SeriesHomeContainer extends Component {
 	}
 	render() {
 		const { series } = this.props;
-		if (!series) {
-			return (
-				<div>
-					<Loadable
-						active={true}
-						spinner
-						text={dictionary.loadable.loading}
-						color="#457DBB"
-						background="grey"
-						spinnerSize="400px"
-					/>
-				</div>
-			);
-		}
+		if (!series) return <Loading textType="loading" context="operations" />;
 		return <SeriesHome series={series} />;
 	}
 }

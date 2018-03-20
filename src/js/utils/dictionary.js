@@ -134,6 +134,7 @@ const dictionaryMulti = {
 			validation: 'Validation en cours ...',
 			sending: 'Envoi en cours ...',
 			exporting: 'Export en cours ...',
+			authentification: 'Authentification en cours ...',
 		},
 		links: {
 			title: 'Liens',

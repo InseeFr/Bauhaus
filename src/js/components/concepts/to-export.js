@@ -6,7 +6,7 @@ import ConceptsPicker from './picker';
 import { dictionary } from 'js/utils/dictionary';
 import * as select from 'js/reducers';
 import { EXPORT_CONCEPT_LIST } from 'js/actions/constants';
-import Loadable from 'react-loading-overlay';
+import Loading from 'js/components/shared/loading';
 import exportConceptList from 'js/actions/concepts/export-multi';
 import loadConceptList from 'js/actions/concepts/list';
 import { OK } from 'js/constants';
@@ -75,29 +75,11 @@ class ConceptsToExport extends Component {
 			if (exportStatus === OK) {
 				return <Redirect to="/concepts" />;
 			}
-			return (
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.exporting}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			);
+			return <Loading textType="exporting" context="concepts" />;
 		}
 
 		if (!concepts) {
-			return (
-				<Loadable
-					active={true}
-					spinner
-					text={dictionary.loadable.loading}
-					color="#457DBB"
-					background="grey"
-					spinnerSize="400px"
-				/>
-			);
+			return <Loading textType="loading" context="concepts" />;
 		}
 
 		return (
