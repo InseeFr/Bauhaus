@@ -9,5 +9,3 @@ export const baseHostOperations = `${baseHost}/operations`;
 // App langages
 export const version = '1.1.2';
 export const lang1 = 'fr';
-export const lang2 = 'en';
-export const authConfig = true;

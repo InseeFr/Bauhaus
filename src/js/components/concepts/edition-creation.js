@@ -161,6 +161,7 @@ class ConceptEditionCreation extends Component {
 			maxLengthScopeNote,
 			pageTitle,
 			creation,
+			langs,
 		} = this.props;
 
 		const {
@@ -217,6 +218,7 @@ class ConceptEditionCreation extends Component {
 										handleChange={this.handleChangeGeneral}
 										stampList={stampList}
 										disseminationStatusList={disseminationStatusList}
+										langs={langs}
 									/>
 								)}
 							</Tab>
@@ -227,6 +229,7 @@ class ConceptEditionCreation extends Component {
 										handleChange={this.handleChangeNotes}
 										maxLengthScopeNote={maxLengthScopeNote}
 										disseminationStatus={general.disseminationStatus}
+										langs={langs}
 									/>
 								)}
 							</Tab>
@@ -274,6 +277,7 @@ ConceptEditionCreation.propTypes = {
 	stampList: PropTypes.array.isRequired,
 	disseminationStatusList: PropTypes.array.isRequired,
 	save: PropTypes.func.isRequired,
+	langs: PropTypes.object.isRequired,
 };
 
 export default ConceptEditionCreation;

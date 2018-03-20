@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import NoteOneLangEdition from './note-one-lang-edition';
-import flagFr from 'js/components/shared/flag-fr';
-import flagEn from 'js/components/shared/flag-en';
 import { dictionary } from 'js/utils/dictionary';
 
 function NoteEdition({
@@ -11,13 +9,15 @@ function NoteEdition({
 	noteLg2,
 	handleChangeLg2,
 	maxLength,
+	langs,
 }) {
+	const { lg1, lg2 } = langs;
 	return (
 		<div>
 			<div className="row">
 				<div className="col-md-6">
 					<NoteOneLangEdition
-						flag={flagFr}
+						lang={lg1}
 						note={noteLg1}
 						handleChange={handleChangeLg1}
 						maxLength={maxLength}
@@ -25,7 +25,7 @@ function NoteEdition({
 				</div>
 				<div className="col-md-6">
 					<NoteOneLangEdition
-						flag={flagEn}
+						lang={lg2}
 						note={noteLg2}
 						handleChange={handleChangeLg2}
 						maxLength={maxLength}
@@ -49,6 +49,7 @@ NoteEdition.propTypes = {
 	handleChangeLg1: PropTypes.func.isRequired,
 	handleChangeLg2: PropTypes.func.isRequired,
 	maxLength: PropTypes.number, // if not set, unbounded
+	langs: PropTypes.object.isRequired,
 };
 
 export default NoteEdition;

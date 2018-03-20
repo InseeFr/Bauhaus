@@ -47,6 +47,7 @@ class CreationContainer extends Component {
 			conceptList,
 			stampList,
 			creationStatus,
+			langs,
 		} = this.props;
 
 		if (this.state.creationRequested) {
@@ -80,6 +81,7 @@ class CreationContainer extends Component {
 					stampList={stampList}
 					isActionProcessed={creationStatus}
 					save={this.handleCreation}
+					langs={langs}
 				/>
 			);
 		}
@@ -106,6 +108,7 @@ const mapStateToProps = (state, ownProps) => {
 		stampList: select.getStampList(state),
 		//TODO build appropriate selector
 		creationStatus: select.getStatus(state, CREATE_COLLECTION),
+		langs: select.getLangs(state),
 	};
 };
 

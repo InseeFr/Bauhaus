@@ -61,7 +61,12 @@ class NotesEdition extends Component {
 			});
 	}
 	render() {
-		const { notes, disseminationStatus, maxLengthScopeNote } = this.props;
+		const {
+			notes,
+			disseminationStatus,
+			maxLengthScopeNote,
+			langs,
+		} = this.props;
 		const { activeTab } = this.state;
 		return (
 			<ul className="nav nav-tabs nav-justified">
@@ -98,6 +103,7 @@ class NotesEdition extends Component {
 										handleChangeLg1={this.handlers[noteLg1Name]}
 										handleChangeLg2={this.handlers[noteLg2Name]}
 										maxLength={maxLength}
+										langs={langs}
 									/>
 								);
 							}
@@ -123,6 +129,7 @@ NotesEdition.propTypes = {
 	conceptGeneral: notePropTypes,
 	disseminationStatus: PropTypes.string.isRequired,
 	handleChange: PropTypes.func.isRequired,
+	langs: PropTypes.object.isRequired,
 };
 
 export default NotesEdition;

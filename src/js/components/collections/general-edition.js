@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { dictionary } from 'js/utils/dictionary';
 import SelectRmes from 'js/components/shared/select-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
-import flagFr from 'js/components/shared/flag-fr';
-import flagEn from 'js/components/shared/flag-en';
 import {
 	propTypes as generalPropTypes,
 	fields as generalFields,
@@ -23,6 +21,7 @@ function CollectionGeneralEdition({
 	creation,
 	stampList,
 	handleChange,
+	langs,
 }) {
 	const {
 		id,
@@ -33,6 +32,7 @@ function CollectionGeneralEdition({
 		descriptionLg1,
 		descriptionLg2,
 	} = general;
+	const { lg1, lg2 } = langs;
 
 	const handlers = handleFieldChange(handleChange);
 	return (
@@ -45,7 +45,7 @@ function CollectionGeneralEdition({
 					<InputRmes
 						colMd={12}
 						label={dictionary.collection.id}
-						flag={flagFr}
+						lang={lg1}
 						star
 						value={id}
 						handleChange={handlers.id}
@@ -55,7 +55,7 @@ function CollectionGeneralEdition({
 					<InputRmes
 						colMd={12}
 						label={dictionary.collection.id}
-						flag={flagFr}
+						lang={lg1}
 						star
 						value={id}
 						disabled
@@ -67,7 +67,7 @@ function CollectionGeneralEdition({
 				<InputRmes
 					colMd={12}
 					label={dictionary.collection.label}
-					flag={flagFr}
+					lang={lg1}
 					star
 					value={prefLabelLg1}
 					handleChange={handlers.prefLabelLg1}
@@ -77,7 +77,7 @@ function CollectionGeneralEdition({
 				<InputRmes
 					colMd={12}
 					label={dictionary.collection.label}
-					flag={flagEn}
+					lang={lg2}
 					hiddenStar
 					value={prefLabelLg2}
 					handleChange={handlers.prefLabelLg2}
@@ -109,7 +109,7 @@ function CollectionGeneralEdition({
 				<InputRmes
 					colMd={12}
 					label={dictionary.collection.description}
-					flag={flagFr}
+					lang={lg1}
 					value={descriptionLg1}
 					handleChange={handlers.descriptionLg1}
 				/>
@@ -118,7 +118,7 @@ function CollectionGeneralEdition({
 				<InputRmes
 					colMd={12}
 					label={dictionary.collection.description}
-					flag={flagEn}
+					lang={lg2}
 					value={descriptionLg2}
 					handleChange={handlers.descriptionLg2}
 				/>
@@ -132,6 +132,7 @@ CollectionGeneralEdition.propTypes = {
 	creation: PropTypes.bool,
 	handleChange: PropTypes.func.isRequired,
 	stampList: PropTypes.array.isRequired,
+	langs: PropTypes.object.isRequired,
 };
 
 export default CollectionGeneralEdition;

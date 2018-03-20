@@ -88,6 +88,10 @@ export const getPermission = state => {
 	const { type: authType, user: { role, stamp } } = state.app.auth;
 	return { authType, role, stamp };
 };
+export const getLangs = state => {
+	const { lg1, lg2 } = state.app.properties;
+	return { lg1, lg2 };
+};
 
 export const getStatus = (state, op) =>
 	remoteCallsSelectors.getStatus(state.remoteCalls, op);

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import flag from 'js/components/shared/flag';
 
 function InputRmes({
 	colMd,
 	value,
 	label,
-	flag,
+	lang,
 	star,
 	hiddenStar,
 	disabled,
@@ -15,7 +16,8 @@ function InputRmes({
 	return (
 		<div className={`form-group col-md-${colMd || 12}`}>
 			<label>
-				{label} {flag ? '( ' : null} {flag} {flag ? ' )' : null}
+				{label} {flag(lang) ? '( ' : null} {flag(lang)}{' '}
+				{flag(lang) ? ' )' : null}
 				{/* TODO handle visibility */}
 				{star && <span className="boldRed">*</span>}
 				{hiddenStar && <span className="boldWhite">*</span>}
@@ -34,7 +36,7 @@ function InputRmes({
 InputRmes.propTypes = {
 	colMd: PropTypes.number,
 	label: PropTypes.string,
-	flag: PropTypes.element,
+	lang: PropTypes.string,
 	star: PropTypes.bool,
 	hiddenStar: PropTypes.bool,
 	value: PropTypes.string, //might be undefined

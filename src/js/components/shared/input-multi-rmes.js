@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from './input-multi-modal-rmes';
-import flagFr from 'js/components/shared/flag-fr';
-import flagEn from 'js/components/shared/flag-en';
+import flag from 'js/components/shared/flag';
 
 class InputMultiRmes extends Component {
 	constructor(props) {
@@ -86,7 +85,7 @@ class InputMultiRmes extends Component {
 		};
 	}
 	render() {
-		const { label } = this.props;
+		const { label, langs: { lg1, lg2 } } = this.props;
 		const { arrayLg1, arrayLg2, modalAdd, modalDelete, modalLast } = this.state;
 
 		const altLg1 = this.initInput(arrayLg1, 'arrayLg1');
@@ -103,14 +102,14 @@ class InputMultiRmes extends Component {
 			<div className="row">
 				<div className={`form-group col-md-6`}>
 					<label>
-						{label} ( {flagFr} ) {button('Lg1', 'minus')}{' '}
+						{label} ( {flag(lg1)} ) {button('Lg1', 'minus')}{' '}
 						{button('Lg1', 'plus')}
 					</label>
 					{altLg1}
 				</div>
 				<div className={`form-group col-md-6`}>
 					<label>
-						{label} ( {flagEn} ) {button('Lg2', 'minus')}{' '}
+						{label} ( {flag(lg2)} ) {button('Lg2', 'minus')}{' '}
 						{button('Lg2', 'plus')}
 					</label>
 					{altLg2}
@@ -144,6 +143,7 @@ InputMultiRmes.propTypes = {
 	label: PropTypes.string.isRequired,
 	handleChangeLg1: PropTypes.func.isRequired,
 	handleChangeLg2: PropTypes.func.isRequired,
+	langs: PropTypes.object.isRequired,
 };
 
 export default InputMultiRmes;

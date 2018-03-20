@@ -32,7 +32,15 @@ class ConceptVisualization extends Component {
 	}
 
 	render() {
-		const { id, permission, general, links, notes, secondLang } = this.props;
+		const {
+			id,
+			permission,
+			general,
+			links,
+			notes,
+			secondLang,
+			langs,
+		} = this.props;
 		const { modalValid } = this.state;
 		const {
 			conceptVersion,
@@ -94,9 +102,13 @@ class ConceptVisualization extends Component {
 						conceptVersion={conceptVersion}
 						handleValidation={this.handleClickValidation}
 					/>
-					<ConceptGeneral secondLang={secondLang} attr={general} />
+					<ConceptGeneral
+						secondLang={secondLang}
+						attr={general}
+						langs={langs}
+					/>
 					<ConceptLinks secondLang={secondLang} links={links} />
-					<ConceptNotes secondLang={secondLang} notes={notes} />
+					<ConceptNotes secondLang={secondLang} notes={notes} langs={langs} />
 				</div>
 				<ModalRmes
 					id="validation-concept-modal"
@@ -120,6 +132,7 @@ ConceptVisualization.propTypes = {
 	stampList: PropTypes.array.isRequired,
 	disseminationStatusList: PropTypes.array.isRequired,
 	validateConcept: PropTypes.func.isRequired,
+	langs: PropTypes.object.isRequired,
 };
 
 export default ConceptVisualization;

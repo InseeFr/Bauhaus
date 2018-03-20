@@ -4,7 +4,7 @@ import { dictionary } from 'js/utils/dictionary';
 import { ExplanatoryNote } from 'js/components/shared/explanatory-note';
 import 'css/concept-notes.css';
 
-function ConceptNotes({ secondLang, notes }) {
+function ConceptNotes({ secondLang, notes, langs }) {
 	const {
 		scopeNoteLg1,
 		scopeNoteLg2,
@@ -15,6 +15,7 @@ function ConceptNotes({ secondLang, notes }) {
 		changeNoteLg1,
 		changeNoteLg2,
 	} = notes;
+	const { lg1, lg2 } = langs;
 	return (
 		<div>
 			{scopeNoteLg1 && (
@@ -22,14 +23,14 @@ function ConceptNotes({ secondLang, notes }) {
 					<ExplanatoryNote
 						text={scopeNoteLg1}
 						title={dictionary.notes.scopeNote}
-						lang="fr"
+						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
 						<ExplanatoryNote
 							text={scopeNoteLg2}
 							title={dictionary.notes.scopeNote}
-							lang="en"
+							lang={lg2}
 							alone={false}
 						/>
 					)}
@@ -40,14 +41,14 @@ function ConceptNotes({ secondLang, notes }) {
 					<ExplanatoryNote
 						text={definitionLg1}
 						title={dictionary.notes.definition}
-						lang="fr"
+						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
 						<ExplanatoryNote
 							text={definitionLg2}
 							title={dictionary.notes.definition}
-							lang="en"
+							lang={lg2}
 							alone={false}
 						/>
 					)}
@@ -58,14 +59,14 @@ function ConceptNotes({ secondLang, notes }) {
 					<ExplanatoryNote
 						text={editorialNoteLg1}
 						title={dictionary.notes.editorialeNote}
-						lang="fr"
+						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
 						<ExplanatoryNote
 							text={editorialNoteLg2}
 							title={dictionary.notes.editorialeNote}
-							lang="en"
+							lang={lg2}
 							alone={false}
 						/>
 					)}
@@ -76,14 +77,14 @@ function ConceptNotes({ secondLang, notes }) {
 					<ExplanatoryNote
 						text={changeNoteLg1}
 						title={dictionary.notes.changeNote}
-						lang="fr"
+						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
 						<ExplanatoryNote
 							text={changeNoteLg2}
 							title={dictionary.notes.changeNote}
-							lang="en"
+							lang={lg2}
 							alone={false}
 						/>
 					)}

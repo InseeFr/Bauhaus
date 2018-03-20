@@ -5,8 +5,6 @@ import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import SelectRmes from 'js/components/shared/select-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
 import InputMultiRmes from 'js/components/shared/input-multi-rmes';
-import flagFr from 'js/components/shared/flag-fr';
-import flagEn from 'js/components/shared/flag-en';
 import {
 	propTypes as generalPropTypes,
 	fields as generalFields,
@@ -25,6 +23,7 @@ function ConceptGeneralEdition({
 	stampList,
 	disseminationStatusList,
 	handleChange,
+	langs,
 }) {
 	const {
 		prefLabelLg1,
@@ -51,7 +50,7 @@ function ConceptGeneralEdition({
 				<InputRmes
 					colMd={6}
 					label={dictionary.concept.label}
-					flag={flagFr}
+					lang={langs.lg1}
 					star
 					value={prefLabelLg1}
 					handleChange={handlers.prefLabelLg1}
@@ -59,7 +58,7 @@ function ConceptGeneralEdition({
 				<InputRmes
 					colMd={6}
 					label={dictionary.concept.label}
-					flag={flagEn}
+					lang={langs.lg2}
 					hiddenStar
 					value={prefLabelLg2}
 					handleChange={handlers.prefLabelLg2}
@@ -71,6 +70,7 @@ function ConceptGeneralEdition({
 				label={dictionary.concept.altLabel}
 				handleChangeLg1={handlers.altLabelLg1}
 				handleChangeLg2={handlers.altLabelLg2}
+				langs={langs}
 			/>
 			<div className="form-group">
 				<label>
@@ -142,6 +142,7 @@ ConceptGeneralEdition.propTypes = {
 	handleChange: PropTypes.func.isRequired,
 	stampList: PropTypes.array.isRequired,
 	disseminationStatusList: PropTypes.array.isRequired,
+	langs: PropTypes.object.isRequired,
 };
 
 export default ConceptGeneralEdition;

@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import logoWarning from 'js/components/shared/logo-warning';
 import ConceptModifyNotes from './modify-notes';
+import flag from 'js/components/shared/flag';
 import { htmlLength } from 'js/utils/html';
 
-function NoteOneLangEdition({ flag, note, handleChange, maxLength }) {
+function NoteOneLangEdition({ lang, note, handleChange, maxLength }) {
 	const noteLength = htmlLength(note);
 	const checkLength = maxLength && (
 		<div>
@@ -17,7 +18,7 @@ function NoteOneLangEdition({ flag, note, handleChange, maxLength }) {
 
 	return (
 		<div className="form-group centered">
-			<label>{flag}</label>
+			<label>{flag(lang)}</label>
 			<ConceptModifyNotes note={note} handleChange={handleChange} />
 			{checkLength}
 		</div>
@@ -25,7 +26,7 @@ function NoteOneLangEdition({ flag, note, handleChange, maxLength }) {
 }
 
 NoteOneLangEdition.propTypes = {
-	flag: PropTypes.element.isRequired,
+	lang: PropTypes.string.isRequired,
 	note: PropTypes.string,
 	handleChange: PropTypes.func.isRequired,
 	maxLength: PropTypes.number,

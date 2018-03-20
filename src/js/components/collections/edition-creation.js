@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CollectionEditionCreationControls from './edition-creation-controls';
-
 import GeneralEdition from './general-edition';
 import MembersEdition from './members-edition';
 import { propTypes as generalPropTypes } from 'js/utils/collections/general';
@@ -75,6 +74,7 @@ class CollectionEditionCreation extends Component {
 			collectionList,
 			conceptList,
 			creation,
+			langs,
 		} = this.props;
 		const { data: { general, members } } = this.state;
 		const {
@@ -110,6 +110,7 @@ class CollectionEditionCreation extends Component {
 						creation={creation}
 						handleChange={this.handleChangeGeneral}
 						stampList={stampList}
+						langs={langs}
 					/>
 					<MembersEdition
 						members={members}
@@ -131,6 +132,7 @@ CollectionEditionCreation.propTypes = {
 	conceptList: PropTypes.array.isRequired,
 	stampList: PropTypes.array.isRequired,
 	save: PropTypes.func.isRequired,
+	langs: PropTypes.object.isRequired,
 };
 
 export default CollectionEditionCreation;

@@ -3,18 +3,19 @@ import { dictionary } from 'js/utils/dictionary';
 import Panel from 'js/components/shared/panel';
 import { dateTimeToDateString, DSURLToLabel } from 'js/utils/utils';
 
-function ConceptGeneral({ attr, secondLang }) {
-	var mapping = {};
+function ConceptGeneral({ attr, secondLang, langs }) {
+	const { lg1, lg2 } = langs;
+	let mapping = {};
 	if (attr.altLabelLg1) {
 		mapping = {
 			...mapping,
-			altLabelLg1: dictionary.concept.altLabel + ' (fr)',
+			altLabelLg1: `${dictionary.concept.altLabel} (${lg1})`,
 		};
 	}
 	if (attr.altLabelLg2) {
 		mapping = {
 			...mapping,
-			altLabelLg2: dictionary.concept.altLabel + ' (en)',
+			altLabelLg2: `${dictionary.concept.altLabel} (${lg2})`,
 		};
 	}
 	mapping = {

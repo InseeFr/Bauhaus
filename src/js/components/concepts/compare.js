@@ -29,7 +29,7 @@ class ConceptCompare extends Component {
 	}
 
 	render() {
-		const { conceptGeneral, conceptNotes, secondLang } = this.props;
+		const { conceptGeneral, conceptNotes, secondLang, langs } = this.props;
 		const { select1, select2 } = this.state;
 		const conceptVersion = Number(conceptGeneral.conceptVersion);
 
@@ -70,7 +70,11 @@ class ConceptCompare extends Component {
 							</button>
 						</div>
 					</div>
-					<ConceptGeneral attr={conceptGeneral} />
+					<ConceptGeneral
+						attr={conceptGeneral}
+						secondLang={secondLang}
+						langs={langs}
+					/>
 					<div className="row">
 						<div className="col-md-6 centered">
 							<h3>
@@ -98,9 +102,9 @@ class ConceptCompare extends Component {
 						</div>
 						<ConceptCompareNotes
 							secondLang={secondLang}
-							conceptGeneral={conceptGeneral}
 							notesVersion1={conceptNotes[select1]}
 							notesVersion2={conceptNotes[select2]}
+							langs={langs}
 						/>
 					</div>
 				</div>
@@ -115,6 +119,7 @@ ConceptCompare.propTypes = {
 	// conceptNotes : {0:{definitionLg1:'XXX'}}
 	conceptNotes: PropTypes.object.isRequired,
 	secondLang: PropTypes.bool.isRequired,
+	langs: PropTypes.object.isRequired,
 };
 
 export default withRouter(ConceptCompare);

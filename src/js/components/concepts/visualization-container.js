@@ -91,6 +91,7 @@ class ConceptVisualizationContainer extends Component {
 			stampList,
 			disseminationStatusList,
 			secondLang,
+			langs,
 		} = this.props;
 		if (concept && stampList && disseminationStatusList && allNotes) {
 			const { general, links } = concept;
@@ -132,6 +133,7 @@ class ConceptVisualizationContainer extends Component {
 					validationStatus={validationStatus}
 					secondLang={secondLang}
 					saveSecondLang={this.props.saveSecondLang}
+					langs={langs}
 				/>
 			);
 		}
@@ -168,6 +170,7 @@ const mapStateToProps = (state, ownProps) => {
 		//TODO should check if the concept which has been validated are the same
 		//a validation has been requested for.
 		validationStatus: select.getStatus(state, VALIDATE_CONCEPT_LIST),
+		langs: select.getLangs(state),
 	};
 };
 

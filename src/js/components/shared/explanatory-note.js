@@ -1,7 +1,6 @@
 import React from 'react';
 import PanelHtml from 'js/components/shared/panel-html';
-import fr from 'img/fr.png';
-import en from 'img/en.png';
+import flag from 'js/components/shared/flag';
 
 export function ExplanatoryNote({ text, title, lang, alone }) {
 	const cl = alone ? 'col-md-12' : 'col-md-6';
@@ -16,11 +15,10 @@ export function ExplanatoryNote({ text, title, lang, alone }) {
 }
 
 function NoteFlag({ text, lang }) {
-	const img = lang === 'fr' ? fr : en;
 	return (
 		<div>
 			{text + '  ( '}
-			<img src={img} alt="fr" className="img-flag" /> )
+			{flag(lang)} )
 		</div>
 	);
 }

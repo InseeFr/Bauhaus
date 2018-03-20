@@ -49,7 +49,7 @@ class CollectionVisualizationContainer extends Component {
 	}
 	render() {
 		const { validationRequested } = this.state;
-		const { validationStatus } = this.props;
+		const { validationStatus, langs } = this.props;
 		if (validationRequested && validationStatus !== OK) {
 			//if validation is OK: nothing to do. We stay on this page and the collection will
 			//be loaded automatically (since the entries for the given collection in the store will
@@ -83,6 +83,7 @@ class CollectionVisualizationContainer extends Component {
 					validationStatus={validationStatus}
 					secondLang={secondLang}
 					saveSecondLang={this.props.saveSecondLang}
+					langs={langs}
 				/>
 			);
 		}
@@ -112,6 +113,7 @@ const mapStateToProps = (state, ownProps) => {
 		//TODO should check if the collection which has been validated are the same
 		//a validation has been requested for.
 		validationStatus: select.getStatus(state, VALIDATE_COLLECTION_LIST),
+		langs: select.getLangs(state),
 	};
 };
 

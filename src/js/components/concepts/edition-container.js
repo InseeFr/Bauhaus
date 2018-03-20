@@ -78,6 +78,7 @@ class EditionContainer extends Component {
 			disseminationStatusList,
 			maxLengthScopeNote,
 			updateStatus,
+			langs,
 		} = this.props;
 		if (concept && conceptList && stampList && disseminationStatusList) {
 			const { general, notes, links } = concept;
@@ -100,6 +101,7 @@ class EditionContainer extends Component {
 					stampList={stampList}
 					isActionProcessed={updateStatus}
 					save={this.handleUpdate}
+					langs={langs}
 				/>
 			);
 		}
@@ -128,6 +130,7 @@ const mapStateToProps = (state, ownProps) => {
 		disseminationStatusList: select.getDisseminationStatusList(state),
 		maxLengthScopeNote: Number(state.app.properties.maxLengthScopeNote),
 		updateStatus: select.getStatus(state, UPDATE_CONCEPT),
+		langs: select.getLangs(state),
 	};
 };
 

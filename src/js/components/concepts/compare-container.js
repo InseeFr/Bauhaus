@@ -21,7 +21,7 @@ class ConceptCompareContainer extends Component {
 	}
 
 	render() {
-		let { id, general, notes, secondLang } = this.props;
+		let { id, general, notes, secondLang, langs } = this.props;
 		if (!(notes && general))
 			return (
 				<Loadable
@@ -40,6 +40,7 @@ class ConceptCompareContainer extends Component {
 				conceptNotes={notes}
 				secondLang={secondLang}
 				saveSecondLang={this.props.saveSecondLang}
+				langs={langs}
 			/>
 		);
 	}
@@ -53,6 +54,7 @@ const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	let notes;
 	const general = select.getConceptGeneral(state, id);
+	const langs = select.getLangs(state);
 	//TODO create selector `getGeneralAndNotes`
 	if (general) {
 		notes = select.getAllNotes(state, id, general.conceptVersion);
@@ -62,6 +64,7 @@ const mapStateToProps = (state, ownProps) => {
 		secondLang: state.app.secondLang,
 		general,
 		notes,
+		langs,
 	};
 };
 

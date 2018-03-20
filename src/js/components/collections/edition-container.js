@@ -61,6 +61,7 @@ class EditionContainer extends Component {
 			conceptList,
 			stampList,
 			updateStatus,
+			langs,
 		} = this.props;
 
 		if (this.state.updateRequested) {
@@ -102,6 +103,7 @@ class EditionContainer extends Component {
 					stampList={stampList}
 					isActionProcessed={updateStatus}
 					save={this.handleUpdate}
+					langs={langs}
 				/>
 			);
 		}
@@ -129,6 +131,7 @@ const mapStateToProps = (state, ownProps) => {
 		conceptList: select.getConceptList(state),
 		stampList: select.getStampList(state),
 		updateStatus: select.getStatus(state, UPDATE_COLLECTION),
+		langs: select.getLangs(state),
 	};
 };
 

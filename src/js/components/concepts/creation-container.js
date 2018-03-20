@@ -47,6 +47,7 @@ class CreationContainer extends Component {
 			disseminationStatusList,
 			maxLengthScopeNote,
 			creationStatus,
+			langs,
 		} = this.props;
 
 		if (this.state.creationRequested) {
@@ -80,6 +81,7 @@ class CreationContainer extends Component {
 					stampList={stampList}
 					isActionProcessed={creationStatus}
 					save={this.handleCreation}
+					langs={langs}
 				/>
 			);
 		}
@@ -108,6 +110,7 @@ const mapStateToProps = (state, ownProps) => {
 		//TODO build appropriate selector
 		id: select.getNewlyCreatedId(state),
 		creationStatus: select.getStatus(state, CREATE_CONCEPT),
+		langs: select.getLangs(state),
 	};
 };
 

@@ -17,7 +17,7 @@ class CollectionVisualization extends Component {
 	}
 
 	render() {
-		const { id, permission, general, members, secondLang } = this.props;
+		const { id, permission, general, members, secondLang, langs } = this.props;
 		const { isValidated, creator } = general;
 
 		return (
@@ -56,8 +56,16 @@ class CollectionVisualization extends Component {
 						isValidated={isValidated === 'Validée'}
 						handleValidation={this.handleClickValid}
 					/>
-					<CollectionGeneral attr={general} secondLang={secondLang} />
-					<CollectionMembers members={members} secondLang={secondLang} />
+					<CollectionGeneral
+						attr={general}
+						secondLang={secondLang}
+						langs={langs}
+					/>
+					<CollectionMembers
+						members={members}
+						secondLang={secondLang}
+						langs={langs}
+					/>
 				</div>
 			</div>
 		);
@@ -72,6 +80,7 @@ CollectionVisualization.propTypes = {
 	members: membersPropTypes.isRequired,
 	stampList: PropTypes.array.isRequired,
 	validateCollection: PropTypes.func.isRequired,
+	langs: PropTypes.object.isRequired,
 };
 
 export default CollectionVisualization;
