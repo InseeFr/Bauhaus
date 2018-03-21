@@ -1,6 +1,6 @@
 import React from 'react';
 import PanelHtml from 'js/components/shared/panel-html';
-import flag from 'js/components/shared/flag';
+import NoteFlag from 'js/components/shared/note-flag';
 
 export const ExplanatoryNote = ({ text, title, lang, alone }) => {
 	const cl = alone ? 'col-md-12' : 'col-md-6';
@@ -13,10 +13,3 @@ export const ExplanatoryNote = ({ text, title, lang, alone }) => {
 		</div>
 	);
 };
-
-export const NoteFlag = ({ text, lang }) => (
-	<div>
-		{text + '  ( '}
-		{flag(lang)} )
-	</div>
-);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { ExplanatoryNote, NoteFlag } from './explanatory-note';
+import { ExplanatoryNote } from './explanatory-note';
 
 describe('explanatory-note', () => {
 	it('renders without crashing', () => {
@@ -15,11 +15,5 @@ describe('explanatory-note', () => {
 	it('renders not null component', () => {
 		const wrapper = shallow(<ExplanatoryNote text="text" />);
 		expect(wrapper.html()).not.toBeNull();
-	});
-});
-
-describe('note-flag', () => {
-	it('renders without crashing', () => {
-		shallow(<NoteFlag />);
 	});
 });
