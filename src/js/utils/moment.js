@@ -15,8 +15,6 @@ export const isDateIn = (date, start, end) => {
 
 export const isOutOfDate = end => !isDateIn(moment(), null, end);
 
-export const isDateInDumb = (date, start, end) => start <= date && date <= end;
-
 export const today = () =>
 	moment()
 		.locale(lang1)

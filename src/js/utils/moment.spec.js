@@ -1,6 +1,11 @@
-import { isDateIn, isDateInDumb } from './moment';
+import { isDateIn, isOutOfDate } from './moment';
 
 describe('is date in', () => {
+	it('returns true if the start and end dates are null', () => {
+		const toTest = '2017-06-25T10:51:47.812';
+		expect(isDateIn(toTest, null, null)).toBe(true);
+	});
+
 	it('returns true if the dates match', () => {
 		const toTest = '2017-07-15T10:51:47.812';
 		const start = '2017-07-01T10:51:47.812';
@@ -16,18 +21,18 @@ describe('is date in', () => {
 	});
 });
 
-describe('is date in dumb', () => {
-	it('returns true if the dates match', () => {
-		const toTest = '2017-07-15T10:51:47.812';
-		const start = '2017-07-01T10:51:47.812';
-		const end = '2017-07-31T10:51:47.812';
-		expect(isDateInDumb(toTest, start, end)).toBe(true);
+describe('has date passed', () => {
+	it('returns false if the end date is null', () => {
+		expect(isOutOfDate(null)).toBe(false);
 	});
 
-	it('returns false if the dates do not match', () => {
-		const toTest = '2017-06-25T10:51:47.812';
-		const start = '2017-07-01T10:51:47.812';
-		const end = '2017-07-31T10:51:47.812';
-		expect(isDateInDumb(toTest, start, end)).toBe(false);
+	it('returns false if the date has not passed', () => {
+		const end = '2099-07-31T10:51:47.812';
+		expect(isOutOfDate(end)).toBe(false);
+	});
+
+	it('returns true if the date has passed', () => {
+		const end = '2000-07-31T10:51:47.812';
+		expect(isOutOfDate(end)).toBe(true);
 	});
 });
