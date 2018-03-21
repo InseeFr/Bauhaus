@@ -79,7 +79,12 @@ class ConceptsHome extends Component {
 						</div>
 						<div className="col-md-8 centered pull-right">
 							<h2 className="page-title">{dictionary.concepts.title}</h2>
-							<SearchRmes items={concepts} childPath="concept" concepts />
+							<SearchRmes
+								items={concepts}
+								childPath="concept"
+								concepts
+								context="concepts"
+							/>
 						</div>
 					</div>
 				</div>

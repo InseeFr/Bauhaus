@@ -134,7 +134,7 @@ class CollectionMembersEdition extends Component {
 						placeholder={dictionary.concepts.searchLabel}
 						className="form-control"
 					/>
-					<Pagination itemEls={toAddEls} itemsPerPage="10" />
+					<Pagination itemEls={toAddEls} itemsPerPage="10" context="concepts" />
 				</div>
 			</div>
 		);

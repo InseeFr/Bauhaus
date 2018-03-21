@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { dictionary } from 'js/utils/dictionary';
-import 'css/pagination.css';
+import './pagination.css';
 
 class Pagination extends Component {
 	constructor() {
@@ -24,7 +24,7 @@ class Pagination extends Component {
 
 	render() {
 		const { currentPage } = this.state;
-		const { itemEls, itemsPerPage } = this.props;
+		const { itemEls, itemsPerPage, context } = this.props;
 
 		const indexOfLastItem = currentPage * itemsPerPage;
 		const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -55,11 +55,12 @@ class Pagination extends Component {
 			} else return null;
 		});
 
+		const contextCSS = context ? `pg-rmes-${context}` : '';
 		return (
 			<div>
 				<ul className="list-group">{currentItems}</ul>
 				{pageNumbers.length > 1 && (
-					<ul className="pagination pagination-rmes">
+					<ul className={`pagination pg-rmes ${contextCSS}`}>
 						<li key="-1" id="1" onClick={this.handleClick}>
 							{dictionary.pagination.first}
 						</li>

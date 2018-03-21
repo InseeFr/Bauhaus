@@ -15,7 +15,11 @@ class FamilliesHome extends Component {
 							<h2 className="page-title-operations">
 								{dictionary.operations.famillies.title} - Recherche
 							</h2>
-							<SearchRmes items={famillies} childPath="family" />
+							<SearchRmes
+								items={famillies}
+								childPath="family"
+								context="operations"
+							/>
 						</div>
 					</div>
 				</div>

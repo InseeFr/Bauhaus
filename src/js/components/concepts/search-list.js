@@ -284,7 +284,11 @@ class ConceptSearchList extends Component {
 							<h4>{singOrPluralResult(hitEls)}</h4>
 						</div>
 						<div>
-							<Pagination itemEls={hitEls} itemsPerPage="10" />
+							<Pagination
+								itemEls={hitEls}
+								itemsPerPage="10"
+								context="concepts"
+							/>
 						</div>
 					</div>
 				</div>

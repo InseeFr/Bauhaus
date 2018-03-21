@@ -162,7 +162,11 @@ class CollectionsPicker extends Component {
 								placeholder={dictionary.collections.searchLabel}
 								className="form-control"
 							/>
-							<Pagination itemEls={toAddEls} itemsPerPage="10" />
+							<Pagination
+								itemEls={toAddEls}
+								itemsPerPage="10"
+								context="concepts"
+							/>
 						</div>
 					</div>
 				</div>

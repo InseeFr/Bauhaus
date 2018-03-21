@@ -24,7 +24,7 @@ class SearchRmes extends Component {
 
 	render() {
 		const { search, hits } = this.state;
-		const { concepts, childPath, col, colOff } = this.props;
+		const { concepts, childPath, col, colOff, context } = this.props;
 		//{`col-md-${col ? col : 12} col-md-offset-${	colOff ? colOff : 0}`}
 		const hitEls = hits.map(({ id, label }) => (
 			<li key={id} className="list-group-item">
@@ -66,7 +66,7 @@ class SearchRmes extends Component {
 					<h4>{nbResults(hits)}</h4>
 				</div>
 				<div>
-					<Pagination itemEls={hitEls} itemsPerPage="10" />
+					<Pagination itemEls={hitEls} itemsPerPage="10" context={context} />
 				</div>
 			</div>
 		);
@@ -84,6 +84,7 @@ SearchRmes.propTypes = {
 	concepts: PropTypes.bool,
 	col: PropTypes.number,
 	colOff: PropTypes.number,
+	context: PropTypes.string.isRequired,
 };
 
 export default SearchRmes;

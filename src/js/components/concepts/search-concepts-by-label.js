@@ -15,7 +15,7 @@ class SearchConceptsByLabel extends Component {
 					placeholder={dictionary.concept.searchLabel}
 					className="form-control"
 				/>
-				<Pagination itemEls={hitEls} itemsPerPage="10" />
+				<Pagination itemEls={hitEls} itemsPerPage="10" context="concepts" />
 			</div>
 		);
 	}
