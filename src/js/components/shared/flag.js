@@ -1,7 +1,7 @@
 import React from 'react';
 import defaultFlag from 'img/flags/default.png';
 
-const isFlag = lang => {
+export const isFlag = lang => {
 	try {
 		require(`img/flags/${lang}.png`);
 	} catch (e) {
