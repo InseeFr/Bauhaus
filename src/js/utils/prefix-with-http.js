@@ -1,2 +1,2 @@
 export default str =>
-	str ? (str.startsWith('http://') ? str : `http://${str}`) : '';
+	str ? (/^http(s?):\/\//.test(str) ? str : `http://${str}`) : '';
