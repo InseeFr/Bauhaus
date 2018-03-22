@@ -12,7 +12,6 @@ import ConceptEditionCreation from './edition-creation';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import { dictionary } from 'js/utils/dictionary';
 import emptyConcept from 'js/utils/concepts/empty-concept';
-import PageTitle from 'js/components/shared/page-title';
 import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
 
@@ -58,11 +57,10 @@ class CreationContainer extends Component {
 		if (conceptList && stampList && disseminationStatusList) {
 			const { general, notes, links } = concept;
 			const conceptsWithLinks = mergeWithAllConcepts(conceptList, links);
-			const pageTitle = <PageTitle title={dictionary.concept.create} />;
 			return (
 				<ConceptEditionCreation
 					creation
-					pageTitle={pageTitle}
+					title={dictionary.concept.create}
 					general={general}
 					notes={notes}
 					conceptsWithLinks={conceptsWithLinks}

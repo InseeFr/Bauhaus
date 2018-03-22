@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
+import PageTitle from 'js/components/shared/page-title';
 import ConceptCreateControl from './create-controls';
 import GeneralEdition from './general-edition';
 import NotesEdition from './notes-edition';
@@ -62,14 +63,6 @@ class ConceptEditionCreation extends Component {
 			});
 		};
 
-		//`newLinks` looks like
-		//`[{ id: '...',  label: '...', typeOfLink: '...' }, { ... }, { ... }]
-		//This new array has the same length as the initial `conceptsWithLinks`
-		//array, `typeOfLink` is the only property updated. It can switch from:
-		// - something (PARENT, CHILD...) to NONE if it has been removed
-		// - NONE to something (PARENT, CHILD...) if it has been added.
-		//It should not be switched directle from something to something else since
-		//the UI does not expose this scenario (we can only remove or add).
 		this.handleChangeLinks = newLinks =>
 			this.setState({
 				data: {
@@ -159,7 +152,8 @@ class ConceptEditionCreation extends Component {
 			stampList,
 			disseminationStatusList,
 			maxLengthScopeNote,
-			pageTitle,
+			title,
+			subtitle,
 			creation,
 			langs,
 		} = this.props;
@@ -192,7 +186,7 @@ class ConceptEditionCreation extends Component {
 		return (
 			<div>
 				<div className="container">
-					{pageTitle}
+					<PageTitle title={title} subtitle={subtitle} />;
 					{this.props.general.contributor && (
 						<ConceptCreateControl
 							oldGeneral={this.getOriginalData().general}
@@ -270,7 +264,8 @@ class ConceptEditionCreation extends Component {
 ConceptEditionCreation.propTypes = {
 	id: PropTypes.string, // not available for creation
 	creation: PropTypes.bool,
-	pageTitle: PropTypes.element.isRequired,
+	title: PropTypes.string.isRequired,
+	subtitle: PropTypes.string,
 	general: generalPropTypes.isRequired,
 	notes: notePropTypes.isRequired,
 	conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
