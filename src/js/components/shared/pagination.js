@@ -26,6 +26,8 @@ class Pagination extends Component {
 		const { currentPage } = this.state;
 		const { itemEls, itemsPerPage, context } = this.props;
 
+		if (!itemsPerPage) return null;
+
 		const indexOfLastItem = currentPage * itemsPerPage;
 		const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 		const currentItems = itemEls.slice(indexOfFirstItem, indexOfLastItem);
@@ -83,5 +85,7 @@ class Pagination extends Component {
 
 Pagination.propTypes = {
 	itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
+	itemsPerPage: PropTypes.string.isRequired,
+	context: PropTypes.string.isRequired,
 };
 export default Pagination;
