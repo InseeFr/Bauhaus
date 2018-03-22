@@ -18,7 +18,6 @@ describe('panel-html', () => {
 		const wrapper = shallow(
 			<PanelHtml title="title">{'<div>Text<div>'}</PanelHtml>
 		);
-		console.log(wrapper.find('.panel-body').html());
 		expect(wrapper.find('.panel-body').exists()).toBeTruthy();
 	});
 });

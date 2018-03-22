@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import conceptsLogo from '../../img/concepts.jpg';
-import classificationsLogo from '../../img/classifications-temp.png';
-import operationsLogo from '../../img/operations.jpg';
+import conceptsLogo from 'img/concepts.jpg';
+import classificationsLogo from 'img/classifications-temp.png';
+import operationsLogo from 'img/operations.jpg';
 import { dictionary } from 'js/utils/dictionary';
 import 'css/app.css';
 
