@@ -89,7 +89,7 @@ export const creatSelectListSelectedLast = max => {
 			{max}
 		</option>
 	);
-	return result;
+	return max === 0 ? null : result;
 };
 
 //Get members of concept
