@@ -12,7 +12,6 @@ import CollectionEditionCreation from './edition-creation';
 import { dictionary } from 'js/utils/dictionary';
 import emptyCollection from 'js/utils/collections/empty-collection';
 import { bindToCollectionId } from 'js/utils/utils';
-import PageTitle from 'js/components/shared/page-title';
 import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
 
@@ -59,11 +58,10 @@ class CreationContainer extends Component {
 		}
 		if (conceptList && stampList) {
 			const { general, members } = collection;
-			const pageTitle = <PageTitle title={dictionary.collection.create} />;
 			return (
 				<CollectionEditionCreation
 					creation
-					pageTitle={pageTitle}
+					title={dictionary.collection.create}
 					general={general}
 					members={members}
 					collectionList={collectionList}

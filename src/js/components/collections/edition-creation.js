@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import PageTitle from 'js/components/shared/page-title';
 import CollectionEditionCreationControls from './edition-creation-controls';
 import GeneralEdition from './general-edition';
 import MembersEdition from './members-edition';
@@ -70,7 +71,8 @@ class CollectionEditionCreation extends Component {
 	render() {
 		const {
 			stampList,
-			pageTitle,
+			title,
+			subtitle,
 			collectionList,
 			conceptList,
 			creation,
@@ -85,7 +87,7 @@ class CollectionEditionCreation extends Component {
 		return (
 			<div>
 				<div className="container">
-					{pageTitle}
+					<PageTitle title={title} subtitle={subtitle} />;
 					{creation && (
 						<CollectionEditionCreationControls
 							general={general}
@@ -125,7 +127,8 @@ class CollectionEditionCreation extends Component {
 
 CollectionEditionCreation.propTypes = {
 	creation: PropTypes.bool,
-	pageTitle: PropTypes.element.isRequired,
+	title: PropTypes.string.isRequired,
+	subtitle: PropTypes.string,
 	general: generalPropTypes.isRequired,
 	members: PropTypes.array.isRequired,
 	collectionList: PropTypes.array.isRequired,

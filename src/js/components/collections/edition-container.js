@@ -17,7 +17,6 @@ import { dictionary } from 'js/utils/dictionary';
 import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
 
-import PageTitle from 'js/components/shared/page-title';
 const extractId = buildExtract('id');
 
 class EditionContainer extends Component {
@@ -76,16 +75,10 @@ class EditionContainer extends Component {
 		if (collection && collectionList && conceptList && stampList) {
 			const { general, members } = collection;
 
-			const pageTitle = (
-				<PageTitle
-					title={dictionary.collection.modify}
-					subtitle={general.prefLabelLg1}
-				/>
-			);
-
 			return (
 				<CollectionEditionCreation
-					pageTitle={pageTitle}
+					title={dictionary.collection.modify}
+					subtitle={general.prefLabelLg1}
 					general={general}
 					members={members}
 					collectionList={collectionList}
