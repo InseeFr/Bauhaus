@@ -2,17 +2,14 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import Loading from 'js/components/shared/loading';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { PENDING, OK, ERROR } from 'js/constants';
 
 function ConceptSendStatus({ label, status, urlBack }) {
 	if (status === PENDING)
 		return <Loading textType="sending" context="concepts" />;
 
-	const title =
-		status === OK
-			? dictionary.concept.send.success([label])
-			: dictionary.concept.send.failed([label]);
+	const title = status === OK ? D.sendConceptSuccess(label) : D.sendConceptFailure(label);
 
 	return (
 		<div className="container">
@@ -27,7 +24,7 @@ function ConceptSendStatus({ label, status, urlBack }) {
 						className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
 						to={urlBack}
 					>
-						{dictionary.buttons.return}
+						{D.btnReturn}
 					</Link>
 				</div>
 			</div>

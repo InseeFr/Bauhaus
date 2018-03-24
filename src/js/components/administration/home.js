@@ -4,6 +4,7 @@ import check from 'js/utils/auth/utils';
 import dashBoardLogo from 'img/dashboard.png';
 import adminLogo from 'img/admin.png';
 import PageTitle from '../shared/page-title';
+import D from 'js/i18n';
 import './home.css';
 
 function AdministrationHome({ permission }) {
@@ -15,12 +16,14 @@ function AdministrationHome({ permission }) {
 			<PageTitle title="Administration" />
 			<div className="img-block">
 				<Link to="/concepts/administration/dashboard">
-					<h2 className="items page-title page-title-link">Tableau de bord</h2>
+					<h2 className="items page-title page-title-link">
+						{D.dashboardTitle}
+					</h2>
 				</Link>
 				{isAdmin && (
 					<Link to="/administration/roles">
 						<h2 className="items page-title page-title-link">
-							Gestion des habilitations
+							{D.authorizationManagementTitle}
 						</h2>
 					</Link>
 				)}

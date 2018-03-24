@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import DOMPurify from 'dompurify';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 function ModalRmes({
 	id,
@@ -36,7 +36,7 @@ function ModalRmes({
 				<div className="modal-header">
 					<button type="button" className="close" onClick={closeCancel}>
 						<span aria-hidden="true">&times;</span>
-						<span className="sr-only">{dictionary.buttons.close}</span>
+						<span className="sr-only">{D.btnClose}</span>
 					</button>
 					<h4 className="modal-title">{title}</h4>
 				</div>

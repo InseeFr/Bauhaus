@@ -5,7 +5,7 @@ import Button from 'js/components/shared/button';
 import PlaceHolder from 'js/components/shared/placeholder';
 import check from 'js/utils/auth/utils';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 class CollectionVisualizationControls extends Component {
 	render() {
@@ -28,10 +28,10 @@ class CollectionVisualizationControls extends Component {
 
 		let btns;
 
-		const cancel = [`/collections`, dictionary.buttons.return];
-		const send = [`/collection/${id}/send`, dictionary.buttons.send];
-		const validate = [handleValidation, dictionary.buttons.validate];
-		const update = [`/collection/${id}/modify`, dictionary.buttons.modify];
+		const cancel = [`/collections`, D.btnReturn];
+		const send = [`/collection/${id}/send`, D.btnSend];
+		const validate = [handleValidation, D.btnValid];
+		const update = [`/collection/${id}/modify`, D.btnUpdate];
 
 		if (admin || creator) {
 			btns = isValidated

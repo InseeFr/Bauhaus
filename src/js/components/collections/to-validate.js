@@ -4,7 +4,7 @@ import { Redirect } from 'react-router';
 import Loading from 'js/components/shared/loading';
 import CollectionsPicker from './picker';
 import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import check from 'js/utils/auth/utils';
 import * as select from 'js/reducers';
 import validateCollectionList from 'js/actions/collections/validate';
@@ -52,11 +52,10 @@ class CollectionsToValidate extends Component {
 		return (
 			<CollectionsPicker
 				collections={filteredCollections}
-				title={dictionary.collections.validation.title}
-				panelTitle={dictionary.collections.validation.panel}
-				labelLoadable={dictionary.loadable.validation}
-				labelWarning={dictionary.warning.validation.collections}
-				labelValidateButton={dictionary.buttons.validate}
+				title={D.collectionsToValidTitle}
+				panelTitle={D.collectionsToValidPanelTitle}
+				labelWarning={D.hasNotCollectionToValid}
+				labelValidateButton={D.btnValid}
 				handleAction={this.handleValidateCollectionList}
 			/>
 		);

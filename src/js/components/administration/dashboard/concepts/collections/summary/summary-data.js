@@ -1,3 +1,5 @@
+import D from 'js/i18n';
+
 export const rowParams = [
 	{
 		dataField: 'type',
@@ -5,16 +7,16 @@ export const rowParams = [
 		width: '66%',
 		isKey: true,
 	},
-	{ dataField: 'total', label: 'Total', width: '34%' },
+	{ dataField: 'total', label: D.totalTitle, width: '34%' },
 ];
 
 export const buildData = d => [
 	{
-		type: 'Nombre de collections',
+		type: D.collectionsNumberTitle,
 		total: d.length,
 	},
 	{
-		type: 'dont « provisoires »',
+		type: D.provisionalConceptsNumberTitle,
 		total: d.filter(c => c.isValidated === 'Provisoire').length,
 	},
 ];

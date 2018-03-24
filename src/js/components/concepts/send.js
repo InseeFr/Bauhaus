@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import SendControls from './send-controls';
 import EditorHtml from 'js/components/shared/editor-html';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { regexValidMail, allTagA } from 'js/utils/regex';
 
 const getDefaultMessage = (appHost, id, label, isValidated) => {
@@ -10,7 +10,7 @@ const getDefaultMessage = (appHost, id, label, isValidated) => {
 	if (isValidated === 'Provisoire') {
 		params.push('Provisoire');
 	}
-	return dictionary.concept.send.message.value(params);
+	return D.conceptMailDefault(params);
 };
 
 const isRecipientInsee = recipient => recipient.endsWith('@insee.fr');
@@ -34,7 +34,7 @@ class ConceptSend extends Component {
 			recipient,
 			message: getDefaultMessage(appHost, id, prefLabelLg1, isValidated),
 			sender: defaultMailSender,
-			subject: dictionary.concept.send.subject.value([prefLabelLg1]),
+			subject: D.conceptMailObjectDefault(prefLabelLg1),
 		};
 
 		this.isRecipientValid = () => regexValidMail.test(this.state.recipient);
@@ -69,9 +69,7 @@ class ConceptSend extends Component {
 			<div className="container">
 				<div className="row">
 					<div className="col-md-10 centered col-md-offset-1">
-						<h2 className="page-title">
-							{dictionary.concept.send.title([prefLabelLg1])}
-						</h2>
+						<h2 className="page-title">{D.sendConceptTitle(prefLabelLg1)}</h2>
 					</div>
 				</div>
 				<SendControls
@@ -81,7 +79,7 @@ class ConceptSend extends Component {
 					sendMessage={this.handleClickSend}
 				/>
 				<div className="form-group">
-					<label>{dictionary.concept.send.recipient}</label>
+					<label>{D.mailRecipientTitle}</label>
 					<input
 						type="email"
 						className="form-control"
@@ -90,7 +88,7 @@ class ConceptSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{dictionary.concept.send.sender}</label>
+					<label>{D.mailSenderTitle}</label>
 					<input
 						type="text"
 						className="form-control"
@@ -99,7 +97,7 @@ class ConceptSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{dictionary.concept.send.subject.title}</label>
+					<label>{D.mailObjectTitle}</label>
 					<input
 						type="text"
 						className="form-control"
@@ -108,7 +106,7 @@ class ConceptSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{dictionary.concept.send.message.title}</label>
+					<label>{D.mailTitle}</label>
 					<EditorHtml
 						smart
 						text={message}

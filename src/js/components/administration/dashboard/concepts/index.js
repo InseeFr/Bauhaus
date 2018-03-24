@@ -6,63 +6,64 @@ import ConceptsSummary from './concepts/summary';
 import ConceptsCreationsModifications from './concepts/creations-modifications';
 import CollectionsSummary from './collections/summary';
 import CollectionsCreationsModifications from './collections/creations-modifications';
+import D from 'js/i18n';
 
 function ConceptsDashboard({ conceptsData, collectionsData }) {
 	const tabsConcepts = [
 		{
-			title: 'Récapitulatif',
+			title: D.dashboardSummaryTitle,
 			content: <ConceptsSummary conceptsData={conceptsData} />,
 		},
 		{
-			title: 'Liste des créations',
+			title: D.dashboardCreationListTitle,
 			content: (
 				<ConceptsCreationsModifications
 					conceptsData={conceptsData}
-					type="creations"
+					type={D.creationsTitle}
 				/>
 			),
 		},
 		{
-			title: 'Liste des modifications',
+			title: D.dashboardModificationListTitle,
 			content: (
 				<ConceptsCreationsModifications
 					conceptsData={conceptsData}
-					type="modifications"
+					type={D.modificationsTitle}
 				/>
 			),
 		},
 	];
 	const tabsCollections = [
 		{
-			title: 'Récapitulatif',
+			title: D.dashboardSummaryTitle,
 			content: <CollectionsSummary collectionsData={collectionsData} />,
 		},
 		{
-			title: 'Liste des créations',
+			title: D.dashboardCreationListTitle,
 			content: (
 				<CollectionsCreationsModifications
 					collectionsData={collectionsData}
-					type="creations"
+					type={D.creationsTitle}
 				/>
 			),
 		},
 		{
-			title: 'Liste des modifications',
+			title: D.dashboardModificationListTitle,
 			content: (
 				<CollectionsCreationsModifications
 					collectionsData={collectionsData}
-					type="modifications"
+					type={D.modificationsTitle}
 				/>
 			),
 		},
 	];
 	const tabs = [
-		{ title: 'Concepts', content: <TabsRmes tabs={tabsConcepts} /> },
-		{ title: 'Collections', content: <TabsRmes tabs={tabsCollections} /> },
+		{ title: D.conceptsTitle, content: <TabsRmes tabs={tabsConcepts} /> },
+		{ title: D.collectionsTitle, content: <TabsRmes tabs={tabsCollections} /> },
 	];
 	return (
 		<div className="container">
-			<PageTitle title="Tableau de bord des concepts" />
+			<PageTitle title={D.dashboardConceptsTitle} />
 			<Controls />
 			<TabsRmes tabs={tabs} />
 		</div>

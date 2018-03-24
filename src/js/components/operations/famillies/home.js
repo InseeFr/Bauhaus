@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SearchRmes from 'js/components/shared/search-rmes';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import '../operations.css';
 
 class FamilliesHome extends Component {
@@ -13,7 +13,7 @@ class FamilliesHome extends Component {
 					<div className="row">
 						<div className="col-md-8 col-md-offset-2 centered">
 							<h2 className="page-title-operations">
-								{dictionary.operations.famillies.title} - Recherche
+								{D.familliesSearchTitle}
 							</h2>
 							<SearchRmes
 								items={famillies}

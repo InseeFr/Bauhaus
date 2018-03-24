@@ -1,4 +1,4 @@
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 export const getColor = context => {
 	switch (context) {
@@ -14,17 +14,17 @@ export const getColor = context => {
 export const getText = textType => {
 	switch (textType) {
 		case 'authentification':
-			return dictionary.loadable.authentification;
+			return D.loadableAuth;
 		case 'saving':
-			return dictionary.loadable.saving;
+			return D.loadableSaving;
 		case 'sending':
-			return dictionary.loadable.sending;
+			return D.loadableSending;
 		case 'exporting':
-			return dictionary.loadable.exporting;
+			return D.loadableExporting;
 		case 'validating':
-			return dictionary.loadable.validation;
+			return D.loadableValidating;
 		case 'loading':
 		default:
-			return dictionary.loadable.loading;
+			return D.loadableLoading;
 	}
 };

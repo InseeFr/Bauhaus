@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 class ConceptCreateControlLayout extends Component {
 	render() {
@@ -18,7 +18,7 @@ class ConceptCreateControlLayout extends Component {
 							className="glyphicon glyphicon-floppy-remove"
 							aria-hidden="true"
 						/>{' '}
-						{dictionary.buttons.cancel}
+						{D.btnCancel}
 					</button>
 				</div>
 				<div className="col-md-8 centered">
@@ -43,7 +43,7 @@ class ConceptCreateControlLayout extends Component {
 							className="glyphicon glyphicon-floppy-disk"
 							aria-hidden="true"
 						/>{' '}
-						{dictionary.buttons.save}
+						{D.btnSave}
 					</button>
 				</div>
 			</div>

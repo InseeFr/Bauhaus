@@ -1,14 +1,16 @@
+import D from 'js/i18n';
+
 export const rowParamsStamps = [
 	{
 		dataField: 'stamp',
-		label: 'Nombre de collections par propriétaire',
+		label: D.dashboardCollectionsByCreatorTitle,
 		width: '66%',
 		isKey: true,
 		dataSort: true,
 	},
 	{
 		dataField: 'total',
-		label: 'Total',
+		label: D.totalTitle,
 		width: '34%',
 		dataSort: true,
 	},

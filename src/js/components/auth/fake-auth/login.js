@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkAuth } from 'js/actions/app';
 import InputRmes from 'js/components/shared/input-rmes';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 class Auth extends Component {
 	constructor(props) {
@@ -19,11 +19,11 @@ class Auth extends Component {
 		return (
 			<div>
 				<div className="centered page-title">
-					<h1>{dictionary.app.title}</h1>
+					<h1>{D.welcome}</h1>
 				</div>
 				<div className="container" style={{ marginTop: '10%' }}>
 					<div className="row centered">
-						<h3>Mot de passe :</h3>
+						<h3>{D.passwordTitle}</h3>
 					</div>
 					<div className="row">
 						<div className="col-md-6 col-md-offset-3">
@@ -42,7 +42,7 @@ class Auth extends Component {
 							className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
 							onClick={this.onClickValidate}
 						>
-							{dictionary.buttons.validate}
+							{D.btnValid}
 						</button>
 					</div>
 				</div>

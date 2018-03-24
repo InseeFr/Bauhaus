@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 class SendControls extends Component {
 	render() {
@@ -11,15 +11,14 @@ class SendControls extends Component {
 		const hasMessage = Boolean(message);
 		let warning;
 		let disabled;
-		const { send: sendWarnings } = dictionary.warning;
 		if (!isRecipientValid) {
-			warning = sendWarnings.mail;
+			warning = D.invalidMailAdress;
 			disabled = true;
 		} else if (!hasSubject) {
-			warning = sendWarnings.subject;
+			warning = D.emptyMailObject;
 			disabled = true;
 		} else if (!hasMessage) {
-			warning = sendWarnings.body;
+			warning = D.emptyMailBody;
 		}
 		return (
 			<div className="row btn-line">
@@ -29,7 +28,7 @@ class SendControls extends Component {
 						className="btn btn-primary btn-lg col-md-12"
 						onClick={() => this.props.history.goBack()}
 					>
-						{dictionary.buttons.return}
+						{D.btnReturn}
 					</button>
 				</div>
 				<div className="col-md-8 centered">
@@ -46,7 +45,7 @@ class SendControls extends Component {
 						onClick={sendMessage}
 						disabled={disabled}
 					>
-						{dictionary.buttons.send}
+						{D.btnSend}
 					</button>
 				</div>
 			</div>

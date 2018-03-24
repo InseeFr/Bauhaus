@@ -5,7 +5,7 @@ import Button from 'js/components/shared/button';
 import PlaceHolder from 'js/components/shared/placeholder';
 import check from 'js/utils/auth/utils';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 class ConceptVisualizationControls extends Component {
 	render() {
@@ -33,19 +33,16 @@ class ConceptVisualizationControls extends Component {
 			this.props.history.length === 1
 				? `/concepts`
 				: () => this.props.history.goBack(),
-			dictionary.buttons.return,
+			D.btnReturn,
 		];
-		const send = [`/concept/${id}/send`, dictionary.buttons.send];
-		const validate = adminOrCreator && [
-			handleValidation,
-			dictionary.buttons.validate,
-		];
-		const update = [`/concept/${id}/modify`, dictionary.buttons.modify];
+		const send = [`/concept/${id}/send`, D.btnSend];
+		const validate = adminOrCreator && [handleValidation, D.btnValid];
+		const update = [`/concept/${id}/modify`, D.btnUpdate];
 		const compare =
 			adminOrContributorOrCreator &&
 			(!conceptVersion || conceptVersion <= 1
 				? null
-				: [`/concept/${id}/compare`, dictionary.buttons.compare]);
+				: [`/concept/${id}/compare`, D.btnCompare]);
 
 		if (admin) {
 			if (isValidOutOfDate) {

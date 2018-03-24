@@ -13,7 +13,7 @@ import CollectionEditionCreation from './edition-creation';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import buildExtract from 'js/utils/build-extract';
 import { bindToCollectionId } from 'js/utils/utils';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
 
@@ -77,7 +77,7 @@ class EditionContainer extends Component {
 
 			return (
 				<CollectionEditionCreation
-					title={dictionary.collection.modify}
+					title={D.updateCollectionTitle}
 					subtitle={general.prefLabelLg1}
 					general={general}
 					members={members}

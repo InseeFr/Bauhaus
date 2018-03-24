@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import MenuReferentiels from './menu-referentiels';
 import check from 'js/utils/auth/utils';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import './concepts.css';
 
 class MenuConcepts extends Component {
@@ -74,10 +74,7 @@ class MenuConcepts extends Component {
 									<li onClick={this.onChangeMenu}>
 										<a>
 											<div className="glyphicon glyphicon-th navbar-icon inline" />
-											<div className="inline">
-												{' '}
-												{dictionary.navbar.concepts.home}
-											</div>
+											<div className="inline"> {D.repositoryNavigation}</div>
 										</a>
 									</li>
 									<li className={paths.concepts.className}>
@@ -85,7 +82,7 @@ class MenuConcepts extends Component {
 											to={paths.concepts.path}
 											onClick={() => this.changeActivePath(paths.concepts.path)}
 										>
-											{dictionary.navbar.concepts.concepts}
+											{D.conceptsTitle}
 										</Link>
 									</li>
 									<li className={paths.collections.className}>
@@ -95,7 +92,7 @@ class MenuConcepts extends Component {
 												this.changeActivePath(paths.collections.path)
 											}
 										>
-											{dictionary.navbar.concepts.collections}
+											{D.collectionsTitle}
 										</Link>
 									</li>
 								</ul>
@@ -106,7 +103,7 @@ class MenuConcepts extends Component {
 												to={paths.help.path}
 												onClick={() => this.changeActivePath(paths.help.path)}
 											>
-												{dictionary.navbar.concepts.help}
+												{D.help}
 											</Link>
 										</li>
 										<li className={paths.administration.className}>
@@ -116,7 +113,7 @@ class MenuConcepts extends Component {
 													this.changeActivePath(paths.administration.path)
 												}
 											>
-												{dictionary.navbar.concepts.administration}
+												{D.administrationTitle}
 											</Link>
 										</li>
 									</ul>

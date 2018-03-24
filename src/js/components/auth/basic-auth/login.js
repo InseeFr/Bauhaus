@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SelectRmes from 'js/components/shared/select-rmes';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 class LoginBasic extends Component {
 	constructor(props) {
@@ -21,17 +21,17 @@ class LoginBasic extends Component {
 		return (
 			<div>
 				<div className="centered page-title">
-					<h1>{dictionary.app.title}</h1>
+					<h1>{D.welcome}</h1>
 				</div>
 				<div className="container" style={{ marginTop: '10%' }}>
 					<div className="row centered">
-						<h3>Choisir un profil utilisateur :</h3>
+						<h3>{D.pickedUserProfil}</h3>
 					</div>
 					<div className="row" style={{ marginTop: '2%' }}>
 						<div className="col-md-6 col-md-offset-3">
 							<SelectRmes
 								value={role}
-								placeholder="Choisir un rôle ..."
+								placeholder={D.pickedRolePlaceholder}
 								options={roleList.map(role => ({
 									label: role.label,
 									value: role.id,
@@ -45,7 +45,7 @@ class LoginBasic extends Component {
 						<div className="col-md-6 col-md-offset-3">
 							<SelectRmes
 								value={stamp}
-								placeholder="Choisir un timbre ..."
+								placeholder={D.stampsPlaceholder}
 								options={stampList.map(stamp => ({
 									label: stamp,
 									value: stamp,
@@ -64,7 +64,7 @@ class LoginBasic extends Component {
 							onClick={this.onClickValidate}
 							disabled={!role || !stamp}
 						>
-							{dictionary.buttons.validate}
+							{D.btnValid}
 						</button>
 					</div>
 				</div>

@@ -3,29 +3,29 @@ import { Link } from 'react-router-dom';
 import conceptsLogo from 'img/concepts.jpg';
 import classificationsLogo from 'img/classifications-temp.png';
 import operationsLogo from 'img/operations.jpg';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import 'css/app.css';
 
 function App() {
 	return (
 		<div>
 			<div className="centered page-title">
-				<h1>{dictionary.app.title}</h1>
+				<h1>{D.welcome}</h1>
 			</div>
 			<div className="img-block">
 				<Link to="/concepts">
 					<h2 className="items page-title page-title-link">
-						{dictionary.app.conceptsTitle}
+						{D.conceptsTitle}
 					</h2>
 				</Link>
 				{/*<Link to="/">*/}
 				<h2 className="items page-title-temp" disabled>
-					{dictionary.app.classificationsTitle}
+					{D.classificationsTitle}
 				</h2>
 				{/*</Link>*/}
 				<Link to="/famillies">
 					<h2 className="items page-title page-title-link">
-						{dictionary.app.sourcesTitle}
+						{D.operationsTitle}
 					</h2>
 				</Link>
 			</div>

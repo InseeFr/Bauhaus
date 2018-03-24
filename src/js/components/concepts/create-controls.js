@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import ConceptCreateControlLayout from './create-controls-layout';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { htmlLength, htmlIsEmpty } from 'js/utils/html';
 import { arrayKeepUniqueField } from 'js/utils/array-utils';
 import { propTypes as notesPropTypes } from 'js/utils/concepts/notes';
@@ -58,36 +58,36 @@ function ConceptCreateControl({
 	);
 	//TODO check how to deal with notes like `<p></p>`: is it empty ?
 	const isMissingConcept = !(prefLabelLg1 && creator && disseminationStatus);
-	const isDefinitionLg1Missing = htmlIsEmpty(definitionLg1);
+	const isDefinitionLg1Empty = htmlIsEmpty(definitionLg1);
 	//TODO verify check on `disseminationStatus` works as expected
-	const isStatusPublicAndDefinitionMissing =
+	const isStatusPublicAndEmptyScopeNote =
 		disseminationStatus.includes('Public') && htmlIsEmpty(scopeNoteLg1);
 	const hasScopeNoteLg2NotLg1 = scndWithoutFirst(scopeNoteLg1, scopeNoteLg2);
 	const isScopeNoteTooLong =
 		htmlLength(scopeNoteLg1) > maxLengthScopeNote ||
 		htmlLength(scopeNoteLg2) > maxLengthScopeNote;
-	const hasNoteEditorialeLg2NotLg1 = scndWithoutFirst(
+	const hasEditorialNoteLg2NotLg1 = scndWithoutFirst(
 		editorialNoteLg1,
 		editorialNoteLg2
 	);
 	const hasChangeNoteLg2NotLg1 = scndWithoutFirst(changeNoteLg1, changeNoteLg2);
 	if (isPrefLabelLg1Existing) {
-		message = dictionary.warning.duplicated.label;
+		message = D.duplicatedLabel;
 		//save disabled
 	} else if (isMissingConcept) {
-		message = dictionary.warning.missing.concept;
-	} else if (isDefinitionLg1Missing) {
-		message = dictionary.warning.notes.definitionLg1;
-	} else if (isStatusPublicAndDefinitionMissing) {
-		message = dictionary.warning.notes.scopeNoteLg1;
+		message = D.incompleteConcept;
+	} else if (isDefinitionLg1Empty) {
+		message = D.emptyDefinitionLg1;
+	} else if (isStatusPublicAndEmptyScopeNote) {
+		message = D.emptyScopeNoteLg1;
 	} else if (hasScopeNoteLg2NotLg1) {
-		message = dictionary.warning.notes.scopeNote;
+		message = D.hasScopeNoteLg2NotLg1;
 	} else if (isScopeNoteTooLong) {
-		message = dictionary.warning.notes.maxLengthScopeNote(maxLengthScopeNote);
-	} else if (hasNoteEditorialeLg2NotLg1) {
-		message = dictionary.warning.notes.editorialeNote;
+		message = D.tooLongScopeNote(maxLengthScopeNote);
+	} else if (hasEditorialNoteLg2NotLg1) {
+		message = D.hasEditorialNoteLg2NotLg1;
 	} else if (hasChangeNoteLg2NotLg1) {
-		message = dictionary.warning.notes.changeNote;
+		message = D.hasChangeNoteLg2NotLg1;
 	} else {
 		//TODO missing else statement ? for instance if no creator ?
 		//prefLabelLg1 && creator &&  disseminationStatus && !isLabelFrExisting &&

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import homeLogo from 'img/accueil.png';
 import conceptsLogo from 'img/concepts.jpg';
 //import nomenclaturesLogo from 'img/nomenclatures.jpg';
@@ -18,7 +18,7 @@ function MenuReferentiels() {
 								<li>
 									<Link to="/">
 										<img src={homeLogo} alt="Accueil" className="img-menu" />{' '}
-										{dictionary.navbar.referenciels.home}
+										{D.home}
 									</Link>
 								</li>
 								<li>
@@ -28,17 +28,17 @@ function MenuReferentiels() {
 											alt="Concepts"
 											className="img-menu"
 										/>{' '}
-										{dictionary.navbar.referenciels.concepts}
+										{D.conceptsTitle}
 									</Link>
 								</li>
 								{/*<li>
 									<Link to="/classifications">
 										<img
 											src={nomenclaturesLogo}
-											alt="Nomenclatures"
+											alt="Classifications"
 											className="img-menu"
 										/>{' '}
-										{dictionary.navbar.referenciels.classifications}
+										{D.classificationsTitle}
 									</Link>
 								</li>*/}
 								<li>
@@ -48,7 +48,7 @@ function MenuReferentiels() {
 											alt="Operations"
 											className="img-menu"
 										/>{' '}
-										{dictionary.navbar.referenciels.sources}
+										{D.operationsTitle}
 									</Link>
 								</li>
 							</ul>

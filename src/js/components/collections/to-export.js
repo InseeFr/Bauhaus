@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import CollectionsPicker from './picker';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { EXPORT_COLLECTION_LIST } from 'js/actions/constants';
 import Loading from 'js/components/shared/loading';
@@ -57,17 +57,17 @@ class CollectionsToExport extends Component {
 
 		const modalButtons = [
 			{
-				label: dictionary.buttons.cancel,
+				label: D.btnCancel,
 				action: this.closeModal,
 				style: 'default',
 			},
 			{
-				label: dictionary.buttons.pdfButton,
+				label: D.btnPdf,
 				action: this.closePdf,
 				style: 'primary',
 			},
 			{
-				label: dictionary.buttons.odtButton,
+				label: D.btnOdt,
 				action: this.closeOdt,
 				style: 'primary',
 			},
@@ -87,18 +87,17 @@ class CollectionsToExport extends Component {
 				<ModalRmes
 					id="export-concept-modal"
 					isOpen={displayModal}
-					title={dictionary.concept.exporting.title}
-					body={dictionary.concept.exporting.body}
+					title={D.exportModalTitle}
+					body={D.exportModalBody}
 					modalButtons={modalButtons}
 					closeCancel={this.closeModal}
 				/>
 				<CollectionsPicker
 					collections={collections}
-					title={dictionary.collections.export.title}
-					panelTitle={dictionary.collections.export.panel}
-					labelLoadable={dictionary.loadable.exporting}
-					labelWarning={dictionary.warning.export.collections}
-					labelValidateButton={dictionary.buttons.export}
+					title={D.exportTitle}
+					panelTitle={D.collectionsExportPanelTitle}
+					labelWarning={D.hasNotCollectionToExport}
+					labelValidateButton={D.btnExport}
 					handleAction={this.openModal}
 				/>
 			</div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import SelectRmes from 'js/components/shared/select-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
@@ -42,14 +42,14 @@ function ConceptGeneralEdition({
 	return (
 		<div>
 			<h4 className="centered">
-				( <span className="boldRed">*</span> : {dictionary.requiredFields})
+				( <span className="boldRed">*</span> : {D.requiredFields})
 			</h4>
 			<div className="row">
 				{/* TODO Work on consistency between different Rmes fields markup (for
            instance, `InputRmes` includes the label and the star). */}
 				<InputRmes
 					colMd={6}
-					label={dictionary.concept.label}
+					label={D.labelTitle}
 					lang={langs.lg1}
 					star
 					value={prefLabelLg1}
@@ -57,7 +57,7 @@ function ConceptGeneralEdition({
 				/>
 				<InputRmes
 					colMd={6}
-					label={dictionary.concept.label}
+					label={D.labelTitle}
 					lang={langs.lg2}
 					hiddenStar
 					value={prefLabelLg2}
@@ -67,18 +67,18 @@ function ConceptGeneralEdition({
 			<InputMultiRmes
 				inputLg1={altLabelLg1}
 				inputLg2={altLabelLg2}
-				label={dictionary.concept.altLabel}
+				label={D.altLabelTitle}
 				handleChangeLg1={handlers.altLabelLg1}
 				handleChangeLg2={handlers.altLabelLg2}
 				langs={langs}
 			/>
 			<div className="form-group">
 				<label>
-					{dictionary.concept.creator} <span className="boldRed">*</span>
+					{D.creatorTitle} <span className="boldRed">*</span>
 				</label>
 				<SelectRmes
 					className="form-control"
-					placeholder={dictionary.concept.stamps.defaultValue}
+					placeholder={D.stampsPlaceholder}
 					value={creator}
 					options={stampList.map(stamp => ({ label: stamp, value: stamp }))}
 					onChange={handlers.creator}
@@ -86,7 +86,7 @@ function ConceptGeneralEdition({
 				/>
 			</div>
 			<div className="form-group">
-				<label>{dictionary.concept.contributor}</label>
+				<label>{D.contributorTitle}</label>
 				<input
 					type="text"
 					className="form-control"
@@ -96,12 +96,11 @@ function ConceptGeneralEdition({
 			</div>
 			<div className="form-group">
 				<label>
-					{dictionary.concept.disseminationStatus.title}{' '}
-					<span className="boldRed">*</span>
+					{D.disseminationStatusTitle} <span className="boldRed">*</span>
 				</label>
 				<SelectRmes
 					className="form-control"
-					placeholder={dictionary.concept.disseminationStatus.defaultValue}
+					placeholder={D.disseminationStatusPlaceholder}
 					value={disseminationStatus}
 					options={disseminationStatusList.map(({ url: value, label }) => ({
 						label,
@@ -112,7 +111,7 @@ function ConceptGeneralEdition({
 				/>
 			</div>
 			<div className="form-group">
-				<label>{dictionary.concept.additionalMaterial}</label>
+				<label>{D.additionalMaterialTitle}</label>
 				<div className="input-group">
 					<span className="input-group-addon">http://</span>
 					{/* TODO previous version worked with `defaultValue`
@@ -126,7 +125,7 @@ function ConceptGeneralEdition({
 				</div>
 			</div>
 			<div className="form-group">
-				<label>{dictionary.concept.valid}</label>
+				<label>{D.validDateTitle}</label>
 				<DatePickerRmes
 					value={valid}
 					onChange={handlers.valid}

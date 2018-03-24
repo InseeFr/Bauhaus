@@ -9,7 +9,7 @@ import loadStampList from 'js/actions/stamp';
 import createCollection from 'js/actions/collections/create';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import CollectionEditionCreation from './edition-creation';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
 import { bindToCollectionId } from 'js/utils/utils';
 import Loading from 'js/components/shared/loading';
@@ -61,7 +61,7 @@ class CreationContainer extends Component {
 			return (
 				<CollectionEditionCreation
 					creation
-					title={dictionary.collection.create}
+					title={D.createCollectionTitle}
 					general={general}
 					members={members}
 					collectionList={collectionList}

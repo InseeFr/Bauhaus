@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import ConceptGeneral from './general';
 import ConceptCompareNotes from './compare-notes';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import {
 	creatSelectList,
 	creatSelectListSelectedLast,
@@ -44,7 +44,7 @@ class ConceptCompare extends Component {
 									checked={secondLang}
 									onChange={this.props.saveSecondLang}
 								/>{' '}
-								{dictionary.displayLg2}
+								{D.displayLg2}
 							</label>
 						</div>
 					</div>
@@ -66,7 +66,7 @@ class ConceptCompare extends Component {
 								className="btn btn-primary btn-lg col-md-12"
 								onClick={() => this.props.history.goBack()}
 							>
-								{dictionary.buttons.returnCurrent}
+								{D.btnReturnCurrent}
 							</button>
 						</div>
 					</div>
@@ -79,7 +79,7 @@ class ConceptCompare extends Component {
 						<div className="col-md-6 centered">
 							<h3>
 								{' '}
-								{dictionary.concept.version} :{' '}
+								{D.version} :{' '}
 								<select
 									value={this.state.select1}
 									onChange={e => this.changeSelect1(e)}
@@ -91,7 +91,7 @@ class ConceptCompare extends Component {
 						<div className="col-md-6 centered">
 							<h3>
 								{' '}
-								{dictionary.concept.version} :{' '}
+								{D.version} :{' '}
 								<select
 									value={this.state.select2}
 									onChange={e => this.changeSelect2(e)}

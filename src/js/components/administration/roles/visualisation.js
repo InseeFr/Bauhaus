@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import TableRmes from 'js/components/shared/table-rmes';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 function VisualisationTable({ roles, handleDelete, setEdition }) {
 	const persons = roles.reduce(function(_, role) {
@@ -12,9 +12,9 @@ function VisualisationTable({ roles, handleDelete, setEdition }) {
 	}, []);
 
 	const rowParams = [
-		{ dataField: 'role', label: 'Rôle', width: '30%' },
-		{ dataField: 'label', label: 'Nom', width: '40%', isKey: true },
-		{ dataField: 'stamp', label: 'Timbre', width: '30%' },
+		{ dataField: 'role', label: D.roleTitle, width: '30%' },
+		{ dataField: 'label', label: D.nameTitle, width: '40%', isKey: true },
+		{ dataField: 'stamp', label: D.stampTitle, width: '30%' },
 	];
 
 	return (
@@ -25,7 +25,7 @@ function VisualisationTable({ roles, handleDelete, setEdition }) {
 						to={`/concepts/administration`}
 						className="btn btn-primary btn-lg col-md-12"
 					>
-						{dictionary.buttons.return}
+						{D.btnReturn}
 					</Link>
 				</div>
 				<div className="col-md-2 pull-right">
@@ -33,7 +33,7 @@ function VisualisationTable({ roles, handleDelete, setEdition }) {
 						className="btn btn-primary btn-lg col-md-12"
 						onClick={() => setEdition(true)}
 					>
-						{dictionary.buttons.modify}
+						{D.btnUpdate}
 					</div>
 				</div>
 			</div>

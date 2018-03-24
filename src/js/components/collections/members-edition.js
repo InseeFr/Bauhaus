@@ -4,7 +4,7 @@ import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import ConceptItem from '../concepts/list-item';
 import { filterDeburr } from 'js/utils/array-utils';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import logoAdd from 'js/components/shared/logo-add';
 import logoDel from 'js/components/shared/logo-del';
 import { arrayDifferenceByID } from 'js/utils/array-utils';
@@ -124,14 +124,14 @@ class CollectionMembersEdition extends Component {
 		return (
 			<div className="row">
 				<div className="col-md-6">
-					<Panel title={dictionary.collection.members}>{addedEls}</Panel>
+					<Panel title={D.collectionMembersPanelTitle}>{addedEls}</Panel>
 				</div>
 				<div className="col-md-6 centered">
 					<input
 						value={searchLabel}
 						onChange={e => this.handleChange(e.target.value)}
 						type="text"
-						placeholder={dictionary.concepts.searchLabel}
+						placeholder={D.searchLabelPlaceholder}
 						className="form-control"
 					/>
 					<Pagination itemEls={toAddEls} itemsPerPage="10" context="concepts" />

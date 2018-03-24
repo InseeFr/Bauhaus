@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { propTypes as overviewPropTypes } from 'js/utils/collections/collection-overview';
 import { Link } from 'react-router-dom';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import CollectionItem from './list-item';
@@ -125,7 +125,7 @@ class CollectionsPicker extends Component {
 			<div className="row btn-line">
 				<div className="col-md-2">
 					<Link className="btn btn-primary btn-lg col-md-12" to="/collections">
-						{dictionary.buttons.return}
+						{D.btnReturn}
 					</Link>
 				</div>
 				{message}
@@ -159,7 +159,7 @@ class CollectionsPicker extends Component {
 								value={searchLabel}
 								onChange={e => this.handleChange(e.target.value)}
 								type="text"
-								placeholder={dictionary.collections.searchLabel}
+								placeholder={D.searchLabelPlaceholder}
 								className="form-control"
 							/>
 							<Pagination
@@ -178,12 +178,9 @@ class CollectionsPicker extends Component {
 CollectionsPicker.propTypes = {
 	title: PropTypes.string.isRequired,
 	panelTitle: PropTypes.string.isRequired,
-	labelLoadable: PropTypes.string.isRequired,
 	labelWarning: PropTypes.string.isRequired,
 	labelValidateButton: PropTypes.string.isRequired,
 	collection: PropTypes.arrayOf(overviewPropTypes),
-	//not required since this component can be created before the collections are
-	//loaded
 	handleAction: PropTypes.func.isRequired,
 };
 

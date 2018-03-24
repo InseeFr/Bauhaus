@@ -13,7 +13,7 @@ import ConceptEditionCreation from './edition-creation';
 import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/build-payload-update';
 import buildExtract from 'js/utils/build-extract';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
 
@@ -70,10 +70,11 @@ class EditionContainer extends Component {
 		if (concept && conceptList && stampList && disseminationStatusList) {
 			const { general, notes, links } = concept;
 			const conceptsWithLinks = mergeWithAllConcepts(conceptList, links);
+
 			return (
 				<ConceptEditionCreation
 					id={id}
-					title={dictionary.concept.modify}
+					title={D.updateConceptTitle}
 					subtitle={general.prefLabelLg1}
 					general={general}
 					notes={notes}

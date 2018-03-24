@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { arrayKeepUniqueField } from 'js/utils/array-utils';
 import { propTypes as generalPropTypes } from 'js/utils/collections/general';
 
@@ -18,8 +18,7 @@ function CollectionEditionCreationControls({
 	const { id, prefLabelLg1, creator } = general;
 
 	let message;
-	if (!id || !prefLabelLg1 || !creator)
-		message = dictionary.warning.missing.collection;
+	if (!id || !prefLabelLg1 || !creator) message = D.incompleteCollection;
 
 	if (
 		prefLabelLg1 !== initialPrefLabelLg1 &&
@@ -27,14 +26,14 @@ function CollectionEditionCreationControls({
 			deburr(prefLabelLg1.toLowerCase())
 		) !== -1
 	)
-		message = dictionary.warning.duplicated.label;
+		message = D.duplicatedLabel;
 	if (
 		id !== initialId &&
 		arrayKeepUniqueField(collectionList, 'id').indexOf(
 			deburr(id.toLowerCase())
 		) !== -1
 	)
-		message = dictionary.warning.duplicated.id;
+		message = D.duplicatedId;
 
 	return (
 		<div className="row btn-line">
@@ -47,7 +46,7 @@ function CollectionEditionCreationControls({
 						className="glyphicon glyphicon-floppy-remove"
 						aria-hidden="true"
 					/>{' '}
-					{dictionary.buttons.cancel}
+					{D.btnCancel}
 				</Link>
 			</div>
 			<div className="col-md-8 centered">
@@ -72,7 +71,7 @@ function CollectionEditionCreationControls({
 						className="glyphicon glyphicon-floppy-disk"
 						aria-hidden="true"
 					/>{' '}
-					{dictionary.buttons.save}
+					{D.btnSave}
 				</button>
 			</div>
 		</div>

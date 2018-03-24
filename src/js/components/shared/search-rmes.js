@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import Pagination from 'js/components/shared/pagination';
 import { filterKeyDeburr, nbResults } from 'js/utils/array-utils';
 
@@ -45,8 +45,8 @@ class SearchRmes extends Component {
 							type="text"
 							placeholder={
 								concepts
-									? dictionary.concepts.searchLabelHome
-									: dictionary.concepts.searchLabel
+									? D.searchLabelHomePlaceholder
+									: D.searchLabelPlaceholder
 							}
 							className="form-control"
 						/>
@@ -57,7 +57,7 @@ class SearchRmes extends Component {
 						<div className="col-md-12">
 							<Link to={'/concepts/search'}>
 								<h3 className="glyphicon glyphicon-zoom-in inline"> </h3>
-								<h3 className="inline">{dictionary.concepts.advancedSearch}</h3>
+								<h3 className="inline">{D.conceptAdvancedSearchTitle}</h3>
 							</Link>
 						</div>
 					</div>

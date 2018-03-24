@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import MenuReferentiels from './menu-referentiels';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import './operations.css';
 
 class MenuOperations extends Component {
@@ -65,10 +65,7 @@ class MenuOperations extends Component {
 									<li onClick={this.onChangeMenu}>
 										<a>
 											<div className="glyphicon glyphicon-th navbar-icon inline" />
-											<div className="inline">
-												{' '}
-												{dictionary.navbar.operations.home}
-											</div>
+											<div className="inline"> {D.repositoryNavigation}</div>
 										</a>
 									</li>
 									<li className={paths.famillies.className}>
@@ -78,7 +75,7 @@ class MenuOperations extends Component {
 												this.changeActivePath(paths.famillies.path)
 											}
 										>
-											{dictionary.navbar.operations.famillies}
+											{D.familliesTitle}
 										</Link>
 									</li>
 									<li className={paths.series.className}>
@@ -86,7 +83,7 @@ class MenuOperations extends Component {
 											to={paths.series.path}
 											onClick={() => this.changeActivePath(paths.series.path)}
 										>
-											{dictionary.navbar.operations.series}
+											{D.seriesTitle}
 										</Link>
 									</li>
 									<li className={paths.operations.className}>
@@ -96,7 +93,7 @@ class MenuOperations extends Component {
 												this.changeActivePath(paths.operations.path)
 											}
 										>
-											{dictionary.navbar.operations.operations}
+											{D.operationsTitle}
 										</Link>
 									</li>
 								</ul>

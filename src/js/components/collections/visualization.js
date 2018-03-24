@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import CollectionVisualizationControls from './visualization-controls';
 import CollectionGeneral from './general';
 import CollectionMembers from './members';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/collections/general';
 import { propTypes as membersPropTypes } from 'js/utils/collections/members';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
@@ -31,7 +31,7 @@ class CollectionVisualization extends Component {
 									checked={secondLang}
 									onChange={this.props.saveSecondLang}
 								/>{' '}
-								{dictionary.displayLg2}
+								{D.displayLg2}
 							</label>
 						</div>
 					</div>

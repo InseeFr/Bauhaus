@@ -6,7 +6,7 @@ import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import SelectRmes from 'js/components/shared/select-rmes';
 import AgentItem from './list-item';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { filterDeburr } from 'js/utils/array-utils';
 import addLogo from 'js/components/shared/logo-add';
 import delLogo from 'js/components/shared/logo-del';
@@ -154,12 +154,12 @@ class Edition extends Component {
 
 		const modalButtons = [
 			{
-				label: dictionary.buttons.cancel,
+				label: D.btnCancel,
 				action: this.closeModal,
 				style: 'primary',
 			},
 			{
-				label: dictionary.buttons.validate,
+				label: D.btnValid,
 				action: this.confirmModal,
 				style: 'primary',
 			},
@@ -177,7 +177,7 @@ class Edition extends Component {
 						<div className="form-group">
 							<SelectRmes
 								className="form-control"
-								placeholder="Sélectionner un rôle ..."
+								placeholder={D.pickedRolePlaceholder}
 								value={selectedRole}
 								options={roles.map(role => ({
 									label: role.label,
@@ -199,14 +199,14 @@ class Edition extends Component {
 						/>
 						<div className="row">
 							<div className="col-md-6">
-								<Panel title="Agents à ajouter">{addedEls}</Panel>
+								<Panel title={D.pickedUserAddTitle}>{addedEls}</Panel>
 							</div>
 							<div className="col-md-6 centered">
 								<input
 									value={searchLabel}
 									onChange={e => this.handleChange(e.target.value)}
 									type="text"
-									placeholder={dictionary.collections.searchLabel}
+									placeholder={D.searchLabelPlaceholder}
 									className="form-control"
 								/>
 								<Pagination itemEls={toAddEls} itemsPerPage="10" />
@@ -217,10 +217,8 @@ class Edition extends Component {
 				<ModalRmes
 					id="delete-agent-modal"
 					isOpen={modal}
-					title="Confirmation"
-					body={`Voulez-vous supprimer le rôle ' ${selectedRoleLabel} ' à ${
-						deleteData.label
-					} ?`}
+					title={D.modalRemoveRoleTitle}
+					body={D.modalRemoveRoleBody(selectedRoleLabel, deleteData.label)}
 					modalButtons={modalButtons}
 					closeCancel={this.closeModal}
 				/>

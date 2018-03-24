@@ -1,15 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ConceptDetailsContainer from './concept-details-container';
 import ConceptEditionCreation from './edition-creation';
 import ConceptVisualization from './concept-visualization';
-import PageTitle from 'js/components/shared/page-title';
 import createConcept from 'js/actions/concepts/create';
-import updateConcept from 'js/actions/concepts/update';
-import buildExtract from 'js/utils/build-extract';
-import { dictionary } from 'js/utils/dictionary';
-
-const extractId = buildExtract('id');
+import D from 'js/i18n';
 
 //TODO does not seem to work when the creation page is requestion without
 //visiting first the concepts page
@@ -30,12 +24,11 @@ export const ConceptCreation = () => (
 			trackAction,
 		}) => {
 			//TODO fix me
-			const pageTitle = <PageTitle title={dictionary.concept.create} />;
 			return (
 				<ConceptEditionCreation
 					id={id}
 					creation
-					pageTitle={pageTitle}
+					title={D.createConceptTitle}
 					general={general}
 					notes={notes}
 					conceptsWithLinks={conceptsWithLinks}

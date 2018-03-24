@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Button from 'js/components/shared/button';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 
 class ConceptVisualizationStandBy extends Component {
@@ -21,14 +21,14 @@ class ConceptVisualizationStandBy extends Component {
 								? `/concepts`
 								: () => this.props.history.goBack()
 						}
-						label={dictionary.buttons.return}
+						label={D.btnReturn}
 					/>
 				</div>
 				<div className="row">
 					<div className="col-md-10 centered col-md-offset-1">
-						<h2>{`Le concept est en cours de la validation par ${
-							general.creator
-						}`}</h2>
+						<h2>
+							{D.conceptStandBy} {general.creator}
+						</h2>
 					</div>
 				</div>
 			</div>

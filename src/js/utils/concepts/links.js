@@ -53,14 +53,8 @@ const getType = typeOfLink => {
 
 export const mergeWithAllConcepts = (concepts, links) =>
 	concepts.map(({ id, label }) => {
-		//TODO check if there is no performance issue here (it there are, we
-		//could probably solve them by maintaining a dictionary of concepts).
-		// check if the concept is linked to the actual concept
 		const link = links.find(({ id: idLinked }) => idLinked === id);
-		// and set `typeOfLink` accordingly
 		const typeOfLink = link ? getType(link.typeOfLink) : NONE;
-		//TODO we do not have `prefLabelLg1` and `prefLabelLg2` for concepts
-		//not present in the links. Find a better way to do this.
 		return {
 			id,
 			label,

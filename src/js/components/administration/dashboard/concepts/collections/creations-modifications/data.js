@@ -1,36 +1,37 @@
+import D from 'js/i18n';
 import { dateTimeToDateString } from 'js/utils/utils';
 
 export const rowParams = {
 	creations: [
 		{
 			dataField: 'label',
-			label: 'Collections',
+			label: D.collectionsTitle,
 			width: '32%',
 			isKey: true,
 			dataSort: true,
 		},
 		{
 			dataField: 'nbMembers',
-			label: 'Nombre de concepts',
+			label: D.conceptsNumberTitle,
 			width: '17%',
 			dataSort: true,
 		},
 		{
 			dataField: 'creator',
-			label: 'Propriétaire',
+			label: D.creatorTitle,
 			width: '17%',
 			dataSort: true,
 		},
 		{
 			dataField: 'created',
-			label: 'Date de création',
+			label: D.createdDateTitle,
 			width: '17%',
 			dataSort: true,
 			dataFormat: dateTimeToDateString,
 		},
 		{
 			dataField: 'isValidated',
-			label: 'Etat',
+			label: D.isCollectionValidTitle,
 			width: '17%',
 			dataSort: true,
 		},
@@ -38,33 +39,33 @@ export const rowParams = {
 	modifications: [
 		{
 			dataField: 'label',
-			label: 'Collections',
+			label: D.collectionsTitle,
 			width: '32%',
 			isKey: true,
 			dataSort: true,
 		},
 		{
 			dataField: 'nbMembers',
-			label: 'Nombre de concepts',
+			label: D.conceptsNumberTitle,
 			width: '17%',
 			dataSort: true,
 		},
 		{
 			dataField: 'creator',
-			label: 'Propriétaire',
+			label: D.creatorTitle,
 			width: '17%',
 			dataSort: true,
 		},
 		{
 			dataField: 'modified',
-			label: 'Date de modification',
+			label: D.createdDateTitle,
 			width: '17%',
 			dataSort: true,
 			dataFormat: dateTimeToDateString,
 		},
 		{
 			dataField: 'isValidated',
-			label: 'Etat',
+			label: D.isCollectionValidTitle,
 			width: '17%',
 			dataSort: true,
 		},

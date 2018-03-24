@@ -1,36 +1,37 @@
+import D from 'js/i18n';
 import { DSURLToLabel, dateTimeToDateString } from 'js/utils/utils';
 
 export const rowParams = {
 	creations: [
 		{
 			dataField: 'label',
-			label: 'Concepts',
+			label: D.conceptsTitle,
 			width: '32%',
 			isKey: true,
 			dataSort: true,
 		},
 		{
 			dataField: 'creator',
-			label: 'Propriétaire',
+			label: D.creatorTitle,
 			width: '17%',
 			dataSort: true,
 		},
 		{
 			dataField: 'disseminationStatus',
-			label: 'Statut de diffusion',
+			label: D.disseminationStatusTitle,
 			width: '17%',
 			dataSort: true,
 			dataFormat: DSURLToLabel,
 		},
 		{
 			dataField: 'created',
-			label: 'Date de création',
+			label: D.createdDateTitle,
 			width: '17%',
 			dataSort: true,
 			dataFormat: dateTimeToDateString,
 		},
 		{
-			dataField: 'validationStatus',
+			dataField: D.isConceptValidTitle,
 			label: 'Etat',
 			width: '17%',
 			dataSort: true,
@@ -39,34 +40,34 @@ export const rowParams = {
 	modifications: [
 		{
 			dataField: 'label',
-			label: 'Concepts',
+			label: D.conceptsTitle,
 			width: '32%',
 			isKey: true,
 			dataSort: true,
 		},
 		{
 			dataField: 'creator',
-			label: 'Propriétaire',
+			label: D.creatorTitle,
 			width: '17%',
 			dataSort: true,
 		},
 		{
 			dataField: 'disseminationStatus',
-			label: 'Statut de diffusion',
+			label: D.disseminationStatusTitle,
 			width: '17%',
 			dataSort: true,
 			dataFormat: DSURLToLabel,
 		},
 		{
 			dataField: 'modified',
-			label: 'Date de modification',
+			label: D.modifiedDateTitle,
 			width: '17%',
 			dataSort: true,
 			dataFormat: dateTimeToDateString,
 		},
 		{
 			dataField: 'validationStatus',
-			label: 'Etat',
+			label: D.isConceptValidTitle,
 			width: '17%',
 			dataSort: true,
 		},

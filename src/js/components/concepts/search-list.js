@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import SelectRmes from 'js/components/shared/select-rmes';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import Pagination from 'js/components/shared/pagination';
-import { filterKeyDeburr, filterKeyDate } from 'js/utils/array-utils';
+import {
+	filterKeyDeburr,
+	filterKeyDate,
+	nbResults,
+} from 'js/utils/array-utils';
 import 'css/app.css';
 
 const filterLabel = filterKeyDeburr(['label']);
@@ -127,7 +131,7 @@ class ConceptSearchList extends Component {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-10 centered col-md-offset-1">
-							<h2 className="page-title">{dictionary.concepts.search.title}</h2>
+							<h2 className="page-title">{D.conceptSearchTitle}</h2>
 						</div>
 					</div>
 					<div className="row btn-line">
@@ -141,7 +145,7 @@ class ConceptSearchList extends Component {
 									className="glyphicon glyphicon-menu-left"
 									aria-hidden="true"
 								/>{' '}
-								{dictionary.buttons.return}
+								{D.btnReturn}
 							</button>
 						</div>
 						<div className="col-md-2 pull-right">
@@ -154,7 +158,7 @@ class ConceptSearchList extends Component {
 									className="glyphicon glyphicon-flash"
 									aria-hidden="true"
 								/>{' '}
-								{dictionary.buttons.initialize}
+								{D.btnReinitialize}
 							</button>
 						</div>
 					</div>
@@ -164,7 +168,7 @@ class ConceptSearchList extends Component {
 								value={label}
 								onChange={e => this.handlers.label(e.target.value)}
 								type="text"
-								placeholder={dictionary.concepts.search.label}
+								placeholder={D.searchLabelPlaceholder}
 								className="form-control"
 							/>
 						</div>
@@ -175,7 +179,7 @@ class ConceptSearchList extends Component {
 								value={altLabel}
 								onChange={e => this.handlers.altLabel(e.target.value)}
 								type="text"
-								placeholder={dictionary.concepts.search.altLabel}
+								placeholder={D.searchAltLabelPlaceholder}
 								className="form-control"
 							/>
 						</div>
@@ -186,7 +190,7 @@ class ConceptSearchList extends Component {
 								value={definition}
 								onChange={e => this.handlers.definition(e.target.value)}
 								type="text"
-								placeholder={dictionary.concepts.search.definition}
+								placeholder={D.searchDefinitionPlaceholder}
 								className="form-control"
 							/>
 						</div>
@@ -195,7 +199,7 @@ class ConceptSearchList extends Component {
 						<div className="col-md-4">
 							<SelectRmes
 								className="form-control"
-								placeholder={dictionary.concept.stamps.defaultValue}
+								placeholder={D.stampsPlaceholder}
 								value={creator}
 								options={stampList.map(stamp => ({
 									label: stamp,
@@ -208,9 +212,7 @@ class ConceptSearchList extends Component {
 						<div className="col-md-4">
 							<SelectRmes
 								className="form-control"
-								placeholder={
-									dictionary.concept.disseminationStatus.defaultValue
-								}
+								placeholder={D.disseminationStatusPlaceholder}
 								value={disseminationStatus}
 								options={disseminationStatusList.map(
 									({ label, url: value }) => ({ label, value })
@@ -222,9 +224,7 @@ class ConceptSearchList extends Component {
 						<div className="col-md-4">
 							<SelectRmes
 								className="form-control"
-								placeholder={
-									dictionary.status.concept.validationStatus.defaultValue
-								}
+								placeholder={D.validationStatusPlaceholder}
 								value={validationStatus}
 								options={[
 									{ label: 'Validé', value: 'Validé' },
@@ -237,7 +237,7 @@ class ConceptSearchList extends Component {
 					</div>
 					<div className="row vertical-center">
 						<div className="col-md-3 centered">
-							<label>Concept créé entre le </label>
+							<label>{D.conceptsCreationDateMessage}</label>
 						</div>
 						<div className="col-md-4">
 							<DatePickerRmes
@@ -247,7 +247,7 @@ class ConceptSearchList extends Component {
 							/>
 						</div>
 						<div className="col-md-1 centered">
-							<label> et le </label>
+							<label>{D.conceptsTransitionDateMessage}</label>
 						</div>
 						<div className="col-md-4">
 							<DatePickerRmes
@@ -259,7 +259,7 @@ class ConceptSearchList extends Component {
 					</div>
 					<div className="row vertical-center">
 						<div className="col-md-3 centered">
-							<label>Concept modifié entre le </label>
+							<label>{D.conceptsUpdateDateMessage}</label>
 						</div>
 						<div className="col-md-4">
 							<DatePickerRmes
@@ -269,7 +269,7 @@ class ConceptSearchList extends Component {
 							/>
 						</div>
 						<div className="col-md-1 centered">
-							<label> et le </label>
+							<label>{D.conceptsTransitionDateMessage}</label>
 						</div>
 						<div className="col-md-4">
 							<DatePickerRmes
@@ -281,7 +281,7 @@ class ConceptSearchList extends Component {
 					</div>
 					<div className="centered">
 						<div>
-							<h4>{singOrPluralResult(hitEls)}</h4>
+							<h4>{nbResults(hitEls)}</h4>
 						</div>
 						<div>
 							<Pagination
@@ -295,13 +295,6 @@ class ConceptSearchList extends Component {
 			</div>
 		);
 	}
-}
-
-//TODO check if it works as
-function singOrPluralResult(list) {
-	const word =
-		list.length > 1 ? dictionary.concepts.results : dictionary.concepts.result;
-	return `${list.length} ${word}`;
 }
 
 const propTypesGeneralForSearch = PropTypes.shape({

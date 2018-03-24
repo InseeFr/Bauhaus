@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Note } from 'js/components/shared/note';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { sortArray } from 'js/utils/array-utils';
 
 const sortByLabelLg1 = sortArray('prefLabelLg1');
@@ -23,14 +23,14 @@ function CollectionMembers({ members, secondLang, langs }) {
 		<div className="row">
 			<Note
 				text={memberListLg1}
-				title={dictionary.collection.members}
+				title={D.collectionMembersPanelTitle}
 				lang={lg1}
 				alone={!secondLang}
 			/>
 			{secondLang && (
 				<Note
 					text={memberListLg2}
-					title={dictionary.collection.members}
+					title={D.collectionMembersPanelTitle}
 					lang={lg2}
 					alone={false}
 				/>

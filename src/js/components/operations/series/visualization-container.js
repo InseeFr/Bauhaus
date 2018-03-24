@@ -1,6 +1,6 @@
 // TODO Not really container yet, fix with real data
 import React, { Component } from 'react';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import '../operations.css';
 
 class SeriesVisualizationContainer extends Component {
@@ -19,7 +19,7 @@ class SeriesVisualizationContainer extends Component {
 							className="btn btn-primary btn-lg col-md-12"
 							onClick={() => this.props.history.goBack()}
 						>
-							{dictionary.buttons.return}
+							{D.btnReturn}
 						</button>
 					</div>
 				</div>

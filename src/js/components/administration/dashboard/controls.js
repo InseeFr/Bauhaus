@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 function Controls() {
 	return (
@@ -10,7 +10,7 @@ function Controls() {
 					className="btn btn-primary btn-lg col-md-12"
 					to={'/concepts/administration'}
 				>
-					{dictionary.buttons.return}
+					{D.btnReturn}
 				</Link>
 			</div>
 		</div>

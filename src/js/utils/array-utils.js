@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { isDateIn } from 'js/utils/moment';
 
 export const arrayKeepUniqueField = (array, field) =>
@@ -104,7 +104,5 @@ export const range = (start, end) =>
 		.fill()
 		.map((_, i) => i + start);
 
-export const nbResults = array => {
-	if (array.length > 1) return array.length + dictionary.concepts.results;
-	else return array.length + dictionary.concepts.result;
-};
+export const nbResults = array =>
+	`${array.length} ${array.length > 1 ? D.results : D.result}`;

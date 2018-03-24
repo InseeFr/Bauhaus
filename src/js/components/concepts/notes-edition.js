@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
 import NoteEdition from './note-edition';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n'
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { htmlIsEmpty } from 'js/utils/html';
 
 const noteTypes = maxLengthScopeNote => [
 	{
-		rawTitle: dictionary.notes.scopeNote,
+		rawTitle: D.conceptsScopeNote,
 		// should be highlighted only if `scopeNoteLg1` is empty and
 		//`disseminationStatus.includes('Public')`
 		redLg1Empty: disseminationStatus => disseminationStatus.includes('Public'),
@@ -17,19 +17,19 @@ const noteTypes = maxLengthScopeNote => [
 		maxLength: maxLengthScopeNote,
 	},
 	{
-		rawTitle: dictionary.notes.definition,
+		rawTitle: D.conceptsDefinition,
 		redLg1Empty: () => true,
 		noteLg1Name: 'definitionLg1',
 		noteLg2Name: 'definitionLg2',
 	},
 
 	{
-		rawTitle: dictionary.notes.editorialeNote,
+		rawTitle: D.conceptsEditorialNote,
 		noteLg1Name: 'editorialNoteLg1',
 		noteLg2Name: 'editorialNoteLg2',
 	},
 	{
-		rawTitle: dictionary.notes.changeNote,
+		rawTitle: D.conceptsChangeNote,
 		noteLg1Name: 'changeNoteLg1',
 		noteLg2Name: 'changeNoteLg2',
 	},

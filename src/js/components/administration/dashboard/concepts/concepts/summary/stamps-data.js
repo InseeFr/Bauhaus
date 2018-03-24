@@ -1,32 +1,34 @@
+import D from 'js/i18n';
+
 export const rowParamsStamps = [
 	{
 		dataField: 'stamp',
-		label: 'Nombre de concepts par propriétaire',
+		label: D.dashboardConceptsByCreatorTitle,
 		width: '32%',
 		isKey: true,
 		dataSort: true,
 	},
 	{
 		dataField: 'total',
-		label: 'Total',
+		label: D.totalTitle,
 		width: '17%',
 		dataSort: true,
 	},
 	{
 		dataField: 'generic',
-		label: 'Public générique',
+		label: D.DSPublicGeneriqueTitle,
 		width: '17%',
 		dataSort: true,
 	},
 	{
 		dataField: 'specific',
-		label: 'Public spécifique',
+		label: D.DSPublicSpecifiqueTitle,
 		width: '17%',
 		dataSort: true,
 	},
 	{
 		dataField: 'private',
-		label: 'Privé',
+		label: D.DSPrivateTitle,
 		width: '17%',
 		dataSort: true,
 	},

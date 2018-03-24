@@ -1,21 +1,21 @@
 import React from 'react';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import Panel from 'js/components/shared/panel';
 import { Note } from 'js/components/shared/note';
 import { dateTimeToDateString } from 'js/utils/utils';
 
 function CollectionGeneral({ attr, secondLang, langs }) {
 	const mapping = {
-		created: dictionary.collection.created,
-		modified: dictionary.collection.modified,
-		creator: dictionary.collection.creator,
-		contributor: dictionary.collection.contributor,
-		isValidated: dictionary.collection.isValidated,
+		created: D.createdDateTitle,
+		modified: D.modifiedDateTitle,
+		creator: D.creatorTitle,
+		contributor: D.contributorTitle,
+		isValidated: D.isCollectionValidTitle,
 	};
 	const { lg1, lg2 } = langs;
 	return (
 		<div>
-			<Panel title={dictionary.collection.general}>
+			<Panel title={D.globalInformationsTitle}>
 				<ul>
 					{Object.keys(mapping).map(fieldName => {
 						if (attr.hasOwnProperty(fieldName) && attr[fieldName] !== '') {
@@ -40,14 +40,14 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 				<div className="row">
 					<Note
 						text={attr.descriptionLg1}
-						title={dictionary.collection.description}
+						title={D.descriptionTitle}
 						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
 						<Note
 							text={attr.descriptionLg2}
-							title={dictionary.collection.description}
+							title={D.descriptionTitle}
 							lang={lg2}
 							alone={false}
 						/>

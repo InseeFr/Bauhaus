@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import SelectRmes from 'js/components/shared/select-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
 import {
@@ -38,13 +38,13 @@ function CollectionGeneralEdition({
 	return (
 		<div>
 			<h4 className="centered">
-				( <span className="boldRed">*</span> : {dictionary.requiredFields})
+				( <span className="boldRed">*</span> : {D.requiredFields})
 			</h4>
 			<div className="row">
 				{creation && (
 					<InputRmes
 						colMd={12}
-						label={dictionary.collection.id}
+						label={D.idTitle}
 						lang={lg1}
 						star
 						value={id}
@@ -54,7 +54,7 @@ function CollectionGeneralEdition({
 				{!creation && (
 					<InputRmes
 						colMd={12}
-						label={dictionary.collection.id}
+						label={D.idTitle}
 						lang={lg1}
 						star
 						value={id}
@@ -66,7 +66,7 @@ function CollectionGeneralEdition({
 			<div className="row">
 				<InputRmes
 					colMd={12}
-					label={dictionary.collection.label}
+					label={D.labelTitle}
 					lang={lg1}
 					star
 					value={prefLabelLg1}
@@ -76,7 +76,7 @@ function CollectionGeneralEdition({
 			<div className="row">
 				<InputRmes
 					colMd={12}
-					label={dictionary.collection.label}
+					label={D.labelTitle}
 					lang={lg2}
 					hiddenStar
 					value={prefLabelLg2}
@@ -85,11 +85,11 @@ function CollectionGeneralEdition({
 			</div>
 			<div className="form-group">
 				<label>
-					{dictionary.collection.creator} <span className="boldRed">*</span>
+					{D.creatorTitle} <span className="boldRed">*</span>
 				</label>
 				<SelectRmes
 					className="form-control"
-					placeholder={dictionary.collection.stamps.defaultValue}
+					placeholder={D.stampsPlaceholder}
 					value={creator}
 					options={stampList.map(stamp => ({ label: stamp, value: stamp }))}
 					onChange={handlers.creator}
@@ -97,7 +97,7 @@ function CollectionGeneralEdition({
 				/>
 			</div>
 			<div className="form-group">
-				<label>{dictionary.collection.contributor}</label>
+				<label>{D.contributorTitle}</label>
 				<input
 					type="text"
 					className="form-control"
@@ -108,7 +108,7 @@ function CollectionGeneralEdition({
 			<div className="row">
 				<InputRmes
 					colMd={12}
-					label={dictionary.collection.description}
+					label={D.descriptionTitle}
 					lang={lg1}
 					value={descriptionLg1}
 					handleChange={handlers.descriptionLg1}
@@ -117,7 +117,7 @@ function CollectionGeneralEdition({
 			<div className="row">
 				<InputRmes
 					colMd={12}
-					label={dictionary.collection.description}
+					label={D.descriptionTitle}
 					lang={lg2}
 					value={descriptionLg2}
 					handleChange={handlers.descriptionLg2}

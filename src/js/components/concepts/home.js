@@ -5,7 +5,7 @@ import SearchRmes from 'js/components/shared/search-rmes';
 import check from 'js/utils/auth/utils';
 import { propTypes as conceptOverviewPropTypes } from 'js/utils/concepts/concept-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import 'css/app.css';
 
 class ConceptsHome extends Component {
@@ -46,7 +46,7 @@ class ConceptsHome extends Component {
 											className="glyphicon glyphicon-plus"
 											aria-hidden="true"
 										/>{' '}
-										{dictionary.buttons.new.concept}
+										{D.btnNewMale}
 									</button>
 								</div>
 							)}
@@ -59,7 +59,7 @@ class ConceptsHome extends Component {
 										className="glyphicon glyphicon-export"
 										aria-hidden="true"
 									/>{' '}
-									{dictionary.buttons.export}
+									{D.btnExport}
 								</button>
 							</div>
 							{adminOrCreator && (
@@ -72,13 +72,13 @@ class ConceptsHome extends Component {
 											className="glyphicon glyphicon-ok"
 											aria-hidden="true"
 										/>{' '}
-										{dictionary.buttons.validate}
+										{D.btnValid}
 									</button>
 								</div>
 							)}
 						</div>
 						<div className="col-md-8 centered pull-right">
-							<h2 className="page-title">{dictionary.concepts.title}</h2>
+							<h2 className="page-title">{D.conceptSearchTitle}</h2>
 							<SearchRmes
 								items={concepts}
 								childPath="concept"

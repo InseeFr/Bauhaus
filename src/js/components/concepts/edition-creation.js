@@ -13,7 +13,7 @@ import {
 	areNotesImpactingVersionChanged,
 } from 'js/utils/concepts/notes';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
 //TODO reorganize files and exports
 //TODO check if we can use a boolean for versioning
@@ -90,8 +90,7 @@ class ConceptEditionCreation extends Component {
 
 		this.askToConfirmOrSave = () => {
 			//TODO check against a constant instead==
-			const isValidated =
-				this.props.general.isValidated === dictionary.status.concept.valid;
+			const isValidated = this.props.general.isValidated === 'Validé';
 			//If notes have changed, we need to open the modal to confirm version
 			//change.
 			if (isValidated) {
@@ -166,17 +165,17 @@ class ConceptEditionCreation extends Component {
 
 		const modalButtons = [
 			{
-				label: dictionary.buttons.minorVersion,
+				label: D.btnMinorVersion,
 				action: () => this.closeModal(NO_VERSIONING),
 				style: 'primary',
 			},
 			{
-				label: dictionary.buttons.cancel,
+				label: D.btnCancel,
 				action: () => this.closeModal(),
 				style: 'default',
 			},
 			{
-				label: dictionary.buttons.majorVersion,
+				label: D.btnMajorVersion,
 				action: () => this.closeModal(VERSIONING),
 				style: 'primary',
 				disabled: !this.isVersioningPossible(),
@@ -205,7 +204,7 @@ class ConceptEditionCreation extends Component {
 							onSelect={this.selectTab}
 							justified
 						>
-							<Tab eventKey={0} title={dictionary.concept.general}>
+							<Tab eventKey={0} title={D.globalInformationsTitle}>
 								{activeTab === 0 && (
 									<GeneralEdition
 										general={general}
@@ -216,7 +215,7 @@ class ConceptEditionCreation extends Component {
 									/>
 								)}
 							</Tab>
-							<Tab eventKey={1} title={dictionary.notes.title}>
+							<Tab eventKey={1} title={D.notesTitle}>
 								{activeTab === 1 && (
 									<NotesEdition
 										notes={notes}
@@ -227,7 +226,7 @@ class ConceptEditionCreation extends Component {
 									/>
 								)}
 							</Tab>
-							<Tab eventKey={2} title={dictionary.links.title}>
+							<Tab eventKey={2} title={D.linksTitle}>
 								{activeTab === 2 && (
 									<LinksEdition
 										conceptsWithLinks={conceptsWithLinks}
@@ -244,12 +243,10 @@ class ConceptEditionCreation extends Component {
 						<ModalRmes
 							id="versioning-modal"
 							isOpen={showModal}
-							title={dictionary.concept.versioning.title}
-							body={dictionary.concept.versioning.body([general.prefLabelLg1])}
+							title={D.conceptVersioningTitle}
+							body={D.conceptVersioningBody(general.prefLabelLg1)}
 							footer={
-								this.isVersioningPossible()
-									? ''
-									: dictionary.concept.versioning.footer
+								this.isVersioningPossible() ? '' : D.conceptVersioningFooter
 							}
 							modalButtons={modalButtons}
 							closeCancel={() => this.closeModal()}

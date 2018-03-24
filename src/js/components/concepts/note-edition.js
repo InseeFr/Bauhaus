@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import NoteOneLangEdition from './note-one-lang-edition';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 function NoteEdition({
 	noteLg1,
@@ -35,7 +35,7 @@ function NoteEdition({
 			{maxLength && (
 				<div className="row">
 					<div className="row centered boldRed">
-						{maxLength} {dictionary.maxLengthScopeNote}
+						{maxLength} {D.scopeNoteChar}
 					</div>
 				</div>
 			)}

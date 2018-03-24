@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 function EditionControls({ setEdition, addAgent, addData }) {
 	const disabled = addData.length === 0;
@@ -11,7 +11,7 @@ function EditionControls({ setEdition, addAgent, addData }) {
 					className="btn btn-primary btn-lg col-md-12"
 					onClick={() => setEdition(false)}
 				>
-					{dictionary.buttons.return}
+					{D.btnReturn}
 				</div>
 			</div>
 			<div className="col-md-2 pull-right">
@@ -20,7 +20,7 @@ function EditionControls({ setEdition, addAgent, addData }) {
 					onClick={() => addAgent(addData)}
 					disabled={disabled}
 				>
-					{dictionary.buttons.add}
+					{D.btnAdd}
 				</button>
 			</div>
 		</div>

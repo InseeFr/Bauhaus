@@ -1,3 +1,5 @@
+import D from 'js/i18n';
+
 export const rowParams = [
 	{
 		dataField: 'type',
@@ -5,19 +7,19 @@ export const rowParams = [
 		width: '32%',
 		isKey: true,
 	},
-	{ dataField: 'total', label: 'Total', width: '17%' },
-	{ dataField: 'generic', label: 'Public générique', width: '17%' },
+	{ dataField: 'total', label: D.total, width: '17%' },
+	{ dataField: 'generic', label: D.DSPublicGeneriqueTitle, width: '17%' },
 	{
 		dataField: 'specific',
-		label: 'Public spécifique',
+		label: D.DSPublicSpecifiqueTitle,
 		width: '17%',
 	},
-	{ dataField: 'private', label: 'Privé', width: '17%' },
+	{ dataField: 'private', label: D.DSPrivateTitle, width: '17%' },
 ];
 
 export const buildData = d => [
 	{
-		type: 'Nombre de concepts',
+		type: D.conceptsNumberTitle,
 		total: d.length,
 		generic: d.filter(c => c.disseminationStatus.endsWith('PublicGenerique'))
 			.length,
@@ -26,7 +28,7 @@ export const buildData = d => [
 		private: d.filter(c => c.disseminationStatus.endsWith('Prive')).length,
 	},
 	{
-		type: 'dont « top concepts »',
+		type: D.topConceptsNumberTitle,
 		total: d.filter(c => c.isTopConceptOf === 'true').length,
 		generic: d.filter(
 			c =>
@@ -44,7 +46,7 @@ export const buildData = d => [
 		).length,
 	},
 	{
-		type: 'dont « provisoires »',
+		type: D.provisionalConceptsNumberTitle,
 		total: d.filter(c => c.validationStatus === 'Provisoire').length,
 		generic: d.filter(
 			c =>
@@ -63,7 +65,7 @@ export const buildData = d => [
 		).length,
 	},
 	{
-		type: 'dont « ayant une date de fin de validité »',
+		type: D.validDateConceptsNumberTitle,
 		total: d.filter(c => c.valid).length,
 		generic: d.filter(
 			c => c.disseminationStatus.endsWith('PublicGenerique') && c.valid

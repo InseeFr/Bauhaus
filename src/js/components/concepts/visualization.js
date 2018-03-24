@@ -5,7 +5,7 @@ import ConceptGeneral from './general';
 import ConceptLinks from './links';
 import ConceptNotes from './notes';
 import ModalRmes from 'js/components/shared/modal-rmes';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
@@ -53,12 +53,12 @@ class ConceptVisualization extends Component {
 
 		const modalButtons = [
 			{
-				label: dictionary.buttons.cancel,
+				label: D.btnCancel,
 				action: this.handleCancelValidation,
 				style: 'primary',
 			},
 			{
-				label: dictionary.buttons.validate,
+				label: D.btnValid,
 				action: this.handleConfirmValidation,
 				style: 'primary',
 			},
@@ -75,7 +75,7 @@ class ConceptVisualization extends Component {
 									checked={secondLang}
 									onChange={this.props.saveSecondLang}
 								/>{' '}
-								{dictionary.displayLg2}
+								{D.displayLg2}
 							</label>
 						</div>
 					</div>

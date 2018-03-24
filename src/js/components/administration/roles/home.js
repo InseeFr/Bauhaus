@@ -2,9 +2,10 @@ import React from 'react';
 import PageTitle from 'js/components/shared/page-title';
 import Visualisation from './visualisation';
 import Edition from './edition';
+import D from 'js/i18n';
 
 function Home({ roles, agents, addAgent, deleteAgent, setEdition, edition }) {
-	const title = edition ? 'Gestion des habilitations' : 'Habilitations';
+	const title = edition ? D.authorizationManagementTitle : D.authorizationTitle;
 
 	return (
 		<div className="container">

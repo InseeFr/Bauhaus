@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import Loading from 'js/components/shared/loading';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { PENDING, OK, ERROR } from 'js/constants';
 
 function CollectionSendStatus({ label, status, urlBack }) {
@@ -11,8 +11,8 @@ function CollectionSendStatus({ label, status, urlBack }) {
 
 	const title =
 		status === OK
-			? dictionary.collection.send.success([label])
-			: dictionary.collection.send.failed([label]);
+			? D.sendCollectionSuccess(label)
+			: D.sendCollectionFailure(label);
 
 	return (
 		<div className="container">
@@ -27,7 +27,7 @@ function CollectionSendStatus({ label, status, urlBack }) {
 						className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
 						to={urlBack}
 					>
-						{dictionary.buttons.return}
+						{D.btnReturn}
 					</Link>
 				</div>
 			</div>

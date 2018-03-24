@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import 'react-select/dist/react-select.css';
 import './select-rmes.css';
 
@@ -23,7 +23,7 @@ function SelectRmes({
 			onChange={e => onChange(e ? e.value : '')}
 			clearable={isClearable}
 			searchable={searchable}
-			noResultsText={dictionary.noResult}
+			noResultsText={D.noResult}
 		/>
 	);
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import TableRmes from 'js/components/shared/table-rmes';
+import D from 'js/i18n';
 import del from 'img/del.png';
 
 function DeleteTable({ roles, selectedRole, openModal }) {
@@ -27,7 +28,7 @@ function DeleteTable({ roles, selectedRole, openModal }) {
 			isKey: true,
 			dataSort: true,
 		},
-		{ dataField: 'stamp', label: 'Timbre', width: '40%', dataSort: true },
+		{ dataField: 'stamp', label: D.stampTitle, width: '40%', dataSort: true },
 		{
 			dataField: 'del',
 			label: '',

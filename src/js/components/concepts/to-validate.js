@@ -5,7 +5,7 @@ import Loading from 'js/components/shared/loading';
 import ModalRmes from 'js/components/shared/modal-rmes';
 import ConceptsPicker from './picker';
 import { VALIDATE_CONCEPT_LIST } from 'js/actions/constants';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import check from 'js/utils/auth/utils';
 import * as select from 'js/reducers';
 import validateConceptList from 'js/actions/concepts/validate';
@@ -60,12 +60,12 @@ class ConceptsToValidate extends Component {
 
 		const modalButtons = [
 			{
-				label: dictionary.buttons.cancel,
+				label: D.btnCancel,
 				action: this.handleCancelValidation,
 				style: 'primary',
 			},
 			{
-				label: dictionary.buttons.validate,
+				label: D.btnValid,
 				action: this.handleConfirmValidation,
 				style: 'primary',
 			},
@@ -90,11 +90,10 @@ class ConceptsToValidate extends Component {
 			<div>
 				<ConceptsPicker
 					concepts={filteredConcepts}
-					title={dictionary.concepts.validation.title}
-					panelTitle={dictionary.concepts.validation.panel}
-					labelLoadable={dictionary.loadable.validation}
-					labelWarning={dictionary.warning.validation.concepts}
-					labelValidateButton={dictionary.buttons.validate}
+					title={D.conceptsToValidTitle}
+					panelTitle={D.conceptsToValidPanelTitle}
+					labelWarning={D.hasNotConceptToValid}
+					labelValidateButton={D.btnValid}
 					handleAction={this.handleClickValidation}
 				/>
 				<ModalRmes

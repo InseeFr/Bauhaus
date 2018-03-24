@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import TableRmes from 'js/components/shared/table-rmes';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
+import D from 'js/i18n';
 import { rowParams } from './data';
 import { filterKeyDate, nbResults } from 'js/utils/array-utils';
 
@@ -18,14 +19,14 @@ class ConceptsCreationsModifications extends Component {
 		const { dateStart } = this.state;
 		const { conceptsData, type } = this.props;
 
-		const variable = type === 'creations' ? 'created' : 'modified';
+		const variable = type === D.creationsTitle ? 'created' : 'modified';
 		const filterCreatedDate = filterKeyDate(variable);
 		const data = conceptsData.filter(filterCreatedDate(dateStart));
 		return (
 			<div>
 				<div className="row" style={{ marginTop: '2%' }}>
 					<div className="form-group col-md-4 col-md-offset-4 centered">
-						<label>Liste des {type} de concepts depuis le :</label>
+						<label>{D.dashboardConceptsListPickerTitle(type)}</label>
 						<DatePickerRmes
 							value={dateStart}
 							onChange={this.changeDateCreatedStart}

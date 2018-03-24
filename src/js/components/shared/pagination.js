@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import './pagination.css';
 
 class Pagination extends Component {
@@ -64,7 +64,7 @@ class Pagination extends Component {
 				{pageNumbers.length > 1 && (
 					<ul className={`pagination pg-rmes ${contextCSS}`}>
 						<li key="-1" id="1" onClick={this.handleClick}>
-							{dictionary.pagination.first}
+							{D.paginationFirst}
 						</li>
 						{renderPageNumbers}
 						<li
@@ -72,9 +72,7 @@ class Pagination extends Component {
 							id={pageNumbers[pageNumbers.length - 1]}
 							onClick={this.handleClick}
 						>
-							{dictionary.pagination.last} ({
-								pageNumbers[pageNumbers.length - 1]
-							})
+							{D.paginationLast} ({pageNumbers[pageNumbers.length - 1]})
 						</li>
 					</ul>
 				)}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import SendControls from './send-controls';
 import EditorHtml from 'js/components/shared/editor-html';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import { regexValidMail, allTagA } from 'js/utils/regex';
 
 const getDefaultMessage = (appHost, id, label, isValidated) => {
@@ -11,7 +11,7 @@ const getDefaultMessage = (appHost, id, label, isValidated) => {
 	if (isValidated === 'Provisoire') {
 		params.push('Provisoire');
 	}
-	return dictionary.collection.send.message.value(params);
+	return D.collectionMailDefault(params);
 };
 
 const isRecipientInsee = recipient => recipient.endsWith('@insee.fr');
@@ -35,7 +35,7 @@ class CollectionSend extends Component {
 			recipient,
 			message: getDefaultMessage(appHost, id, prefLabelLg1, isValidated),
 			sender: defaultMailSender,
-			subject: dictionary.collection.send.subject.value([prefLabelLg1]),
+			subject: D.collectionMailObjectDefault(prefLabelLg1),
 		};
 
 		this.isRecipientValid = () => regexValidMail.test(this.state.recipient);
@@ -71,7 +71,7 @@ class CollectionSend extends Component {
 				<div className="row">
 					<div className="col-md-10 centered col-md-offset-1">
 						<h2 className="page-title">
-							{dictionary.collection.send.title([prefLabelLg1])}
+							{D.sendCollectionTitle(prefLabelLg1)}
 						</h2>
 					</div>
 				</div>
@@ -83,7 +83,7 @@ class CollectionSend extends Component {
 					urlBack={`/collection/${id}`}
 				/>
 				<div className="form-group">
-					<label>{dictionary.collection.send.recipient}</label>
+					<label>{D.mailRecipientTitle}</label>
 					<input
 						type="email"
 						className="form-control"
@@ -92,7 +92,7 @@ class CollectionSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{dictionary.collection.send.sender}</label>
+					<label>{D.mailSenderTitle}</label>
 					<input
 						type="text"
 						className="form-control"
@@ -101,7 +101,7 @@ class CollectionSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{dictionary.collection.send.subject.title}</label>
+					<label>{D.mailObjectTitle}</label>
 					<input
 						type="text"
 						className="form-control"
@@ -110,7 +110,7 @@ class CollectionSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{dictionary.collection.send.message.title}</label>
+					<label>{D.mailTitle}</label>
 					<EditorHtml
 						smart
 						text={message}

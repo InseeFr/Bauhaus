@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 function InputMultiModal({ body, close }) {
 	return (
@@ -15,9 +15,9 @@ function InputMultiModal({ body, close }) {
 				<div className="modal-header">
 					<button type="button" className="close" onClick={close}>
 						<span aria-hidden="true">&times;</span>
-						<span className="sr-only">{dictionary.buttons.close}</span>
+						<span className="sr-only">{D.btnClose}</span>
 					</button>
-					<h4 className="modal-title centered">Libellé alternatif</h4>
+					<h4 className="modal-title centered">{D.altLabelTitle}</h4>
 				</div>
 				<div className="modal-body centered">{body}</div>
 				<div className="modal-footer">
@@ -27,7 +27,7 @@ function InputMultiModal({ body, close }) {
 							className="btn btn-default btn-lg"
 							onClick={close}
 						>
-							Fermer
+							{D.btnClose}
 						</button>
 					</div>
 				</div>

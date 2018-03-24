@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Pagination from 'js/components/shared/pagination';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 
 class SearchConceptsByLabel extends Component {
 	render() {
@@ -12,7 +12,7 @@ class SearchConceptsByLabel extends Component {
 					value={searchLabel}
 					onChange={e => handleSearch(e.target.value)}
 					type="text"
-					placeholder={dictionary.concept.searchLabel}
+					placeholder={D.searchLabelPlaceholder}
 					className="form-control"
 				/>
 				<Pagination itemEls={hitEls} itemsPerPage="10" context="concepts" />

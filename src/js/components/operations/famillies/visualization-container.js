@@ -1,7 +1,7 @@
 // TODO Not really container yet, fix with real data
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { dictionary } from 'js/utils/dictionary';
+import D from 'js/i18n';
 import buildExtract from 'js/utils/build-extract';
 import { famillies } from './fake-data';
 import '../operations.css';
@@ -24,7 +24,7 @@ class FamilyVisualizationContainer extends Component {
 							className="btn btn-primary btn-lg col-md-12"
 							onClick={() => this.props.history.goBack()}
 						>
-							{dictionary.buttons.return}
+							{D.btnReturn}
 						</button>
 					</div>
 				</div>
