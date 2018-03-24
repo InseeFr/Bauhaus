@@ -6,6 +6,4 @@ export const baseHost =
 export const baseHostConcepts = `${baseHost}/concepts`;
 export const baseHostOperations = `${baseHost}/operations`;
 
-// App langages
 export const version = '1.1.2';
-export const lang1 = 'fr';

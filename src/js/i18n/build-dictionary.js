@@ -28,8 +28,9 @@ export const createDictionary = lang =>
  * If the lang is not fr, will return en
  * @param {string} lang the lang of the user
  */
-export const getLang = locale => (locale.split('-')[0] === 'fr' ? 'fr' : 'en');
+export const getLang = () =>
+	(navigator.language || navigator.browserLanguage).split('-')[0] === 'fr'
+		? 'fr'
+		: 'en';
 
-export default createDictionary(
-	getLang(navigator.language || navigator.browserLanguage)
-);
+export default createDictionary(getLang());
