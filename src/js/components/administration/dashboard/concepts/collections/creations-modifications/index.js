@@ -19,14 +19,16 @@ class CollectionsCreationsModifications extends Component {
 		const { dateStart } = this.state;
 		const { collectionsData, type } = this.props;
 
-		const variable = type === D.creationsTitle ? 'created' : 'modified';
+		const variable = type === 'creations' ? 'created' : 'modified';
+		const typeByLang =
+			type === 'creations' ? D.creationsTitle : D.modificationsTitle;
 		const filterCreatedDate = filterKeyDate(variable);
 		const data = collectionsData.filter(filterCreatedDate(dateStart));
 		return (
 			<div>
 				<div className="row" style={{ marginTop: '2%' }}>
 					<div className="form-group col-md-4 col-md-offset-4 centered">
-						<label>{D.dashboardCollectionsListPickerTitle(type)}</label>
+						<label>{D.dashboardCollectionsListPickerTitle(typeByLang)}</label>
 						<DatePickerRmes
 							value={dateStart}
 							onChange={this.changeDateCreatedStart}

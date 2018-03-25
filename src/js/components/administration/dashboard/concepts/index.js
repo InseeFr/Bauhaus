@@ -19,7 +19,7 @@ function ConceptsDashboard({ conceptsData, collectionsData }) {
 			content: (
 				<ConceptsCreationsModifications
 					conceptsData={conceptsData}
-					type={D.creationsTitle}
+					type="creations"
 				/>
 			),
 		},
@@ -28,7 +28,7 @@ function ConceptsDashboard({ conceptsData, collectionsData }) {
 			content: (
 				<ConceptsCreationsModifications
 					conceptsData={conceptsData}
-					type={D.modificationsTitle}
+					type="modifications"
 				/>
 			),
 		},
@@ -43,7 +43,7 @@ function ConceptsDashboard({ conceptsData, collectionsData }) {
 			content: (
 				<CollectionsCreationsModifications
 					collectionsData={collectionsData}
-					type={D.creationsTitle}
+					type="creations"
 				/>
 			),
 		},
@@ -52,7 +52,7 @@ function ConceptsDashboard({ conceptsData, collectionsData }) {
 			content: (
 				<CollectionsCreationsModifications
 					collectionsData={collectionsData}
-					type={D.modificationsTitle}
+					type="modifications"
 				/>
 			),
 		},
