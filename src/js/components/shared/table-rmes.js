@@ -1,5 +1,6 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import D from 'js/i18n';
 import './table-rmes.css';
 
 function TableRmes({
@@ -13,7 +14,7 @@ function TableRmes({
 }) {
 	const options = {
 		sizePerPage: 5,
-		noDataText: 'Aucunes données',
+		noDataText: D.noDataTitle,
 		sizePerPageList: [
 			{
 				text: '5',
@@ -24,11 +25,11 @@ function TableRmes({
 				value: 10,
 			},
 			{
-				text: 'Tous',
+				text: D.allTitle,
 				value: data.length,
 			},
 		],
-		exportCSVText: 'Exporter en CSV',
+		exportCSVText: D.exportCSV,
 		onRowClick: onRowClick,
 	};
 	const rows = rowParams.map(
@@ -56,7 +57,7 @@ function TableRmes({
 				hover={true}
 				headerStyle={{ background: '#457DBB', color: 'white' }}
 				search={search}
-				searchPlaceholder="Rechercher dans le tableau"
+				searchPlaceholder={D.searchTablePlaceholder}
 				pagination={pagination}
 				options={options}
 			>

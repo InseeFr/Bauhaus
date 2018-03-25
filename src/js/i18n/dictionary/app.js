@@ -43,6 +43,30 @@ const dictionary = {
 		fr: 'Version',
 		en: 'Version',
 	},
+	allTitle: {
+		fr: 'Tous',
+		en: 'All',
+	},
+	notFoundTitle: {
+		fr: 'Page introuvable',
+		en: 'Page not-found',
+	},
+	multiModalNoNewBody: {
+		fr: 'Remplissez le champ précédent pour en ajouter un nouveau',
+		en: 'Complete previous field to add an other',
+	},
+	multiModalRemoveCompleteBody: {
+		fr: 'Impossible de supprimer un champ rempli',
+		en: 'Impossible to remove completed field',
+	},
+	multiModalRemoveLastBody: {
+		fr: 'Impossible de supprimer le dernier champ',
+		en: 'Impossible to remove last field',
+	},
+	noDataTitle: {
+		fr: 'Aucune donnée',
+		en: 'No data',
+	},
 	errorTitle: {
 		fr: 'Erreur',
 		en: 'Error',
@@ -54,6 +78,10 @@ const dictionary = {
 	exportTitle: {
 		fr: 'Export',
 		en: 'Export',
+	},
+	exportCSV: {
+		fr: 'Exporter en CSV',
+		en: 'CSV export',
 	},
 	idTitle: {
 		fr: 'Identifiant',
@@ -70,6 +98,10 @@ const dictionary = {
 	searchLabelHomePlaceholder: {
 		fr: 'Libellé (ou libellé alternatif) ...',
 		en: 'Label (or alternative label) ...',
+	},
+	searchTablePlaceholder: {
+		fr: 'Rechercher dans le tableau ...',
+		en: 'Search in table ...',
 	},
 	altLabelTitle: {
 		fr: 'Libellé alternatif',

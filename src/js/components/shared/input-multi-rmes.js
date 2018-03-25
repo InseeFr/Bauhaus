@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from './input-multi-modal-rmes';
 import flag from 'js/components/shared/flag';
+import D from 'js/i18n';
 
 class InputMultiRmes extends Component {
 	constructor(props) {
@@ -114,23 +115,12 @@ class InputMultiRmes extends Component {
 					</label>
 					{altLg2}
 				</div>
-				{modalAdd && (
-					<Modal
-						body="Remplissez le champ précédent pour en ajouter un nouveau"
-						close={this.close}
-					/>
-				)}
+				{modalAdd && <Modal body={D.multiModalNoNewBody} close={this.close} />}
 				{modalDelete && (
-					<Modal
-						body="Impossible de supprimer un champ rempli"
-						close={this.close}
-					/>
+					<Modal body={D.multiModalRemoveCompleteBody} close={this.close} />
 				)}
 				{modalLast && (
-					<Modal
-						body="Impossible de supprimer le dernier champ"
-						close={this.close}
-					/>
+					<Modal body={D.multiModalRemoveLastBody} close={this.close} />
 				)}
 			</div>
 		);
