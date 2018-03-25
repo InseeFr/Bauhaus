@@ -38,7 +38,6 @@ import OperationVisualizationContainer from './operations/operations/visualizati
 
 class Root extends Component {
 	render() {
-		console.log(process.env);
 		const { error } = this.props;
 		const routes = (
 			<Router>

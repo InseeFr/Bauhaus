@@ -48,9 +48,9 @@
 	},
 	"scripts": {
 		"start":
-			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version  react-scripts start",
+			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
 		"build":
-			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version react-scripts build",
+			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
 		"test": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom",
 		"eject": "react-scripts eject",
 		"format":
