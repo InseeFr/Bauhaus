@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import 'babel-polyfill';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import auth from 'js/components/auth/hoc';
-import { version } from 'config';
+import { footer } from 'config';
 import Error from 'js/components/shared/error';
 
 import NotFound from 'js/components/shared/not-found';
@@ -38,6 +38,7 @@ import OperationVisualizationContainer from './operations/operations/visualizati
 
 class Root extends Component {
 	render() {
+		console.log(process.env);
 		const { error } = this.props;
 		const routes = (
 			<Router>
@@ -161,7 +162,7 @@ class Root extends Component {
 			<div>
 				{routes}
 				<div className="centered" style={{ marginTop: '50px' }}>
-					<label>Gncs - Version {version}</label>
+					<label>{footer}</label>
 				</div>
 			</div>
 		);
