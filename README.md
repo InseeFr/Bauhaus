@@ -1,3 +1,3 @@
-# Gncs
+# Bauhaus
 
-Metadata management application
+Upcoming documentation ...
