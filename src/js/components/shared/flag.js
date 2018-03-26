@@ -11,6 +11,7 @@ export const isFlag = lang => {
 };
 
 export default lang => {
+	if (!lang) return null;
 	return (
 		<img
 			src={isFlag(lang) ? require(`img/flags/${lang}.png`) : defaultFlag}
