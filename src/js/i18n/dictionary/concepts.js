@@ -21,15 +21,15 @@ const dictionary = {
 	},
 	topConceptsNumberTitle: {
 		fr: 'dont « top concepts »',
-		en: 'whose « top concepts »',
+		en: 'of which “top concepts”',
 	},
 	provisionalConceptsNumberTitle: {
 		fr: 'dont « provisoires »',
-		en: 'whose « provisionals »',
+		en: 'of which “provisional”',
 	},
 	validDateConceptsNumberTitle: {
 		fr: 'dont « ayant une date de fin de validité »',
-		en: 'whose « had an expiration date »',
+		en: 'of which “having an expiration date”',
 	},
 	collectionsTitle: {
 		fr: 'Collections',
@@ -57,7 +57,7 @@ const dictionary = {
 	},
 	hasNotConceptToExport: {
 		fr: 'Ajouter au moins un concept à exporter',
-		en: 'Add a concept at least to export',
+		en: 'Add at least one concept to export',
 	},
 	collectionsExportPanelTitle: {
 		fr: 'Collections à exporter',
@@ -65,50 +65,50 @@ const dictionary = {
 	},
 	hasNotCollectionToExport: {
 		fr: 'Ajouter au moins une collection à exporter',
-		en: 'Add a collection at least to export',
+		en: 'Add at least one collection to export',
 	},
 	conceptsToValidTitle: {
 		fr: 'Validation des concepts provisoires',
-		en: 'Provisional concepts to valid',
+		en: 'Validation of the provisional concepts',
 	},
 	conceptsToValidPanelTitle: {
 		fr: 'Concepts à valider',
-		en: 'Concepts to valid',
+		en: 'Concepts to validate',
 	},
 	hasNotConceptToValid: {
 		fr: 'Ajouter au moins un concept à valider',
-		en: 'Add a concept at least to valid',
+		en: 'Add at least one concept to validate',
 	},
 	collectionMembersPanelTitle: {
 		fr: 'Concepts membres de la collection',
-		en: 'Collection concepts members',
+		en: 'Collection concept members',
 	},
 	conceptStandBy: {
 		fr: 'Le concept est en cours de la validation par',
-		en: 'Concept is being validated by',
+		en: 'The concept is being validated by',
 	},
 	collectionsToValidTitle: {
 		fr: 'Validation des collections provisoires',
-		en: 'Provisional collections to valid',
+		en: 'Validation of the provisional collections',
 	},
 	collectionsToValidPanelTitle: {
 		fr: 'Collections à valider',
-		en: 'Collections to valid',
+		en: 'Collections to validate',
 	},
 	hasNotCollectionToValid: {
 		fr: 'Ajouter au moins une collection à valider',
-		en: 'Add a collection at least to valid',
+		en: 'Add at least one collection to validate',
 	},
 	collectionStandBy: {
 		fr: 'La collection est en cours de la validation par',
-		en: 'Collection is being validated by',
+		en: 'The collection is being validated by',
 	},
 	isConceptValidTitle: {
-		fr: 'Etat du concept',
+		fr: 'État du concept',
 		en: 'State of the concept',
 	},
 	isCollectionValidTitle: {
-		fr: 'Etat de la collection',
+		fr: 'État de la collection',
 		en: 'State of the collection',
 	},
 	conceptsDefinition: {
@@ -129,36 +129,31 @@ const dictionary = {
 	},
 	incompleteConcept: {
 		fr: 'Remplissez les champs requis pour pouvoir sauvegarder ce concept',
-		en: 'Complete required fields to save this concept',
+		en: 'Complete required fields in order to save this concept',
 	},
 	incompleteCollection: {
-		fr:
-			'Remplissez les champs requis pour pouvoir sauvegarder cette collection',
-		en: 'Complete required fields to save this collection',
+		fr: 'Remplissez les champs requis pour pouvoir sauvegarder cette collection',
+		en: 'Complete required fields in order to save this collection',
 	},
 	emptyDefinitionLg1: {
 		fr: 'Le concept doit nécessairement comporter une définition',
-		en: 'Concept necessary has a definition',
+		en: 'The concept must have a definition',
 	},
 	emptyScopeNoteLg1: {
-		fr:
-			'Le statut de diffusion étant public, la définition courte française doit être renseignée',
-		en:
-			'As dissemination status is public, short definition has to be completed',
+		fr: 'Le statut de diffusion étant public, la définition courte française doit être renseignée',
+		en: 'As dissemination status is public, short definition has to be completed',
 	},
 	hasScopeNoteLg2NotLg1: {
-		fr:
-			'La définition courte ne peut être renseignée que dans la seconde langue',
-		en: "Short definition can't be only completed in second lang",
+		fr: 'La définition courte ne peut être renseignée que dans la seconde langue',
+		en: 'The short definition can only be completed in the second language',
 	},
 	hasEditorialNoteLg2NotLg1: {
 		fr: 'La note éditoriale ne peut être renseignée que dans la seconde langue',
-		en: "Editorial note can't be only completed in second lang",
+		en: 'The editorial note can only be completed in the second language',
 	},
 	hasChangeNoteLg2NotLg1: {
-		fr:
-			'La note de changement ne peut être renseignée que dans la seconde langue',
-		en: "Change note can't be only completed in second lang",
+		fr: 'La note de changement ne peut être renseignée que dans la seconde langue',
+		en: 'The change note can only be completed in the second language',
 	},
 	tooLongScopeNote: {
 		fr: max => `La définition courte est limitée à ${max} caractères`,
@@ -186,7 +181,7 @@ const dictionary = {
 	},
 	conceptStatusValid: {
 		fr: 'Validé',
-		en: 'Valid',
+		en: 'Validated',
 	},
 	conceptStatusProvisional: {
 		fr: 'Provisoire',
@@ -194,7 +189,7 @@ const dictionary = {
 	},
 	collectionStatusValid: {
 		fr: 'Validée',
-		en: 'Valid',
+		en: 'Validated',
 	},
 	collectionStatusProvisional: {
 		fr: 'Provisoire',
@@ -219,20 +214,20 @@ const dictionary = {
 	conceptVersioningBody: {
 		fr: label => `<p>Les notes du concept « <b>${label}</b> » ont été modifiées.</p>
             <p>Voulez-vous créer une nouvelle version, ou écraser les données précédentes ?</p>`,
-		en: label => `<p>Concept « <b>${label}</b> » notes have been updated.</p>
-            <p>Would you like to create new version, or update previous one ?</p>`,
+		en: label => `<p>Concept “<b>${label}</b>” notes have been modified.</p>
+            <p>Would you like to create a new version, or update the previous one?</p>`,
 	},
 	conceptVersioningFooter: {
 		fr: `<p>Pour créer une nouvelle version, la note de changement doit être documentée :</p>
           <ul><li><p>La note ne peut être vide</p></li>
           <li><p>La note doit être différente de celle de la version précédente</p></li></ul>`,
-		en: `<p>To create new version, change note has to be documented :</p>
+		en: `<p>To create new version, a change note has to be documented:</p>
           <ul><li><p>Note can't be empty</p></li>
-          <li><p>Note has to be differente from the previous one</p></li></ul>`,
+          <li><p>Note has to be different from the previous one</p></li></ul>`,
 	},
 	conceptMailObjectDefault: {
 		fr: label => `RMéS - Envoi du descriptif du concept « ${label} »`,
-		en: label => `RMéS - Sending the concept « ${label} » description`,
+		en: label => `RMéS - Sending the concept “${label}” description`,
 	},
 	conceptMailDefault: {
 		fr: params => {
@@ -246,7 +241,7 @@ const dictionary = {
 			return `<p>Bonjour,</p>
           <p>Vous trouverez ci-joint la description du concept « <b>
           ${prefLabelLg1}
-          </b> »${inseeText} extraite de la base RMéS-Concepts.</p>
+          </b> » ${inseeText} extraite de la base RMéS-Concepts.</p>
           ${validText}
           <p>Pour toute demande concernant ce concept merci de répondre via la boîte fonctionnelle :DG75 RMéS-Concepts et définitions.</p>
           <p>L'équipe RMéS<br/>
@@ -262,27 +257,27 @@ const dictionary = {
 			if (params.includes('Provisoire'))
 				validText = `<p><b>This concept is waiting for validation.</b></p>`;
 			return `<p>Hi,</p>
-          <p>You will find attached the description of the concept « <b>
+          <p>You will find attached the description of the concept “<b>
           ${prefLabelLg1}
-          </b> »${inseeText} extract from RMéS-Concepts repository.</p>
+          </b>” ${inseeText} extracted from the RMéS-Concepts repository.</p>
           ${validText}
           <p>For any request concerning this concept please answer via the functional mail box :DG75 RMéS-Concepts et définitions.</p>
-          <p>RMeS Team<br/>
+          <p>The RMéS team<br/>
           Insee - DG<br/>
           DMCSI - Quality Unit</p>`;
 		},
 	},
 	sendConceptSuccess: {
-		fr: label => `Le concept " ${label} " a bien été envoyé`,
-		en: label => `Concept " ${label} " has been sent`,
+		fr: label => `Le concept « ${label} » a bien été envoyé`,
+		en: label => `Concept “${label}” has been sent`,
 	},
 	sendConceptFailure: {
-		fr: label => `Le concept " ${label} " n'a pas été envoyé`,
-		en: label => `Concept " ${label} " was not sent`,
+		fr: label => `Le concept « ${label} » n'a pas été envoyé`,
+		en: label => `Concept “${label}” was not sent`,
 	},
 	collectionMailObjectDefault: {
 		fr: label => `RMéS - Envoi de la composition de la collection « ${label} »`,
-		en: label => `RMéS - Sending the collection « ${label} » composition`,
+		en: label => `RMéS - Sending the composition of collection “${label}”`,
 	},
 	collectionMailDefault: {
 		fr: params => {
@@ -296,7 +291,7 @@ const dictionary = {
 			return `<p>Bonjour,</p>
 	          <p>Vous trouverez ci-joint la composition de la collection de concepts « <b>
 	          ${prefLabelLg1}
-	          </b> »${inseeText} extraite de la base RMéS-Concepts.</p>
+	          </b> » ${inseeText} extraite de la base RMéS-Concepts.</p>
 	          ${validText}
 	          <p>Pour toute demande concernant cette collection merci de répondre via la boîte fonctionnelle :DG75 RMéS-Concepts et définitions.</p>
 	          <p>L'équipe RMéS<br/>
@@ -312,23 +307,23 @@ const dictionary = {
 			if (params.includes('Provisoire'))
 				validText = `<p><b>This collection is waiting for validation.</b></p>`;
 			return `<p>Hi,</p>
-	          <p>You will find attached the composition of the collection « <b>
+	          <p>You will find attached the composition of the collection “<b>
 	          ${prefLabelLg1}
-	          </b> »${inseeText} extract from RMéS-Concepts repository.</p>
+	          </b>” ${inseeText} extracted from the RMéS-Concepts repository.</p>
 	          ${validText}
 	          <p>For any request concerning this collection please answer via the functional mail box :DG75 RMéS-Concepts et définitions.</p>
-	          <p>RMeS Team<br/>
+	          <p>The RMéS team<br/>
 	          Insee - DG<br/>
 	          DMCSI - Quality Unit</p>`;
 		},
 	},
 	sendCollectionSuccess: {
-		fr: label => `La collection " ${label} " a bien été envoyée`,
-		en: label => `Collection " ${label} " has been sent`,
+		fr: label => `La collection « ${label} » a bien été envoyée`,
+		en: label => `Collection “${label}” has been sent`,
 	},
 	sendCollectionFailure: {
-		fr: label => `La collection " ${label} " n'a pas été envoyée`,
-		en: label => `Collection " ${label} " was not sent`,
+		fr: label => `La collection « ${label} » n'a pas été envoyée`,
+		en: label => `Collection “${label}” was not sent`,
 	},
 	dashboardConceptsTitle: {
 		fr: 'Tableau de bord des concepts',
@@ -344,19 +339,19 @@ const dictionary = {
 	},
 	dashboardConceptsListPickerTitle: {
 		fr: type => `Liste des ${type} de concepts depuis le :`,
-		en: type => `Concepts ${type} list since :`,
+		en: type => `Concepts ${type} list since:`,
 	},
 	dashboardCollectionsListPickerTitle: {
 		fr: type => `Liste des ${type} de collections depuis le :`,
-		en: type => `Collections ${type} list since :`,
+		en: type => `Collections ${type} list since:`,
 	},
 	dashboardConceptsByCreatorTitle: {
 		fr: 'Nombre de concepts par propriétaire',
-		en: 'Concepts by owner',
+		en: 'Number of concepts by owner',
 	},
 	dashboardCollectionsByCreatorTitle: {
 		fr: 'Nombre de collections par propriétaire',
-		en: 'Collections by owner',
+		en: 'Number of collections by owner',
 	},
 };
 
