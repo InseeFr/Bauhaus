@@ -12,9 +12,7 @@ class SeriesHome extends Component {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-8 col-md-offset-2 centered">
-							<h2 className="page-title-operations">
-								{D.seriesSearchTitle} - Recherche
-							</h2>
+							<h2 className="page-title-operations">{D.seriesSearchTitle}</h2>
 							<SearchRmes
 								items={series}
 								childPath="series"

@@ -42,7 +42,7 @@ function MenuReferentiels() {
 									</Link>
 								</li>*/}
 								<li>
-									<Link to="/famillies">
+									<Link to="/series">
 										<img
 											src={operationsLogo}
 											alt="Operations"

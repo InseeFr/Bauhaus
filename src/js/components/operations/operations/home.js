@@ -13,7 +13,7 @@ class OperationsHome extends Component {
 					<div className="row">
 						<div className="col-md-8 col-md-offset-2 centered">
 							<h2 className="page-title-operations">
-								{D.operationsSearchTitle} - Recherche
+								{D.operationsSearchTitle}
 							</h2>
 							<SearchRmes
 								items={operations}
