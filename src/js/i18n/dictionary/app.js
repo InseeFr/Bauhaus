@@ -9,7 +9,7 @@ const dictionary = {
 	},
 	repositoryNavigation: {
 		fr: 'Naviguer dans les référentiels',
-		en: 'Browse into repositories',
+		en: 'Browse the repositories',
 	},
 	help: {
 		fr: 'Aide',
@@ -21,11 +21,11 @@ const dictionary = {
 	},
 	displayLg2: {
 		fr: 'Afficher la seconde langue',
-		en: 'Display second lang',
+		en: 'Display second language',
 	},
 	noResult: {
 		fr: 'Aucun résultat',
-		en: 'No result',
+		en: 'No results',
 	},
 	result: {
 		fr: 'résultat',
@@ -49,19 +49,19 @@ const dictionary = {
 	},
 	notFoundTitle: {
 		fr: 'Page introuvable',
-		en: 'Page not-found',
+		en: 'Page not found',
 	},
 	multiModalNoNewBody: {
 		fr: 'Remplissez le champ précédent pour en ajouter un nouveau',
-		en: 'Complete previous field to add an other',
+		en: 'Complete the previous field before adding another',
 	},
 	multiModalRemoveCompleteBody: {
 		fr: 'Impossible de supprimer un champ rempli',
-		en: 'Impossible to remove completed field',
+		en: 'Impossible to remove a completed field',
 	},
 	multiModalRemoveLastBody: {
 		fr: 'Impossible de supprimer le dernier champ',
-		en: 'Impossible to remove last field',
+		en: 'Impossible to remove the last field',
 	},
 	noDataTitle: {
 		fr: 'Aucune donnée',
@@ -81,7 +81,7 @@ const dictionary = {
 	},
 	exportCSV: {
 		fr: 'Exporter en CSV',
-		en: 'CSV export',
+		en: 'Export as CSV',
 	},
 	idTitle: {
 		fr: 'Identifiant',
@@ -92,36 +92,36 @@ const dictionary = {
 		en: 'Label',
 	},
 	searchLabelPlaceholder: {
-		fr: 'Libellé ...',
-		en: 'Label ...',
+		fr: 'Libellé...',
+		en: 'Label...',
 	},
 	searchLabelHomePlaceholder: {
-		fr: 'Libellé (ou libellé alternatif) ...',
-		en: 'Label (or alternative label) ...',
+		fr: 'Libellé (ou libellé alternatif)...',
+		en: 'Label (or alternative label)...',
 	},
 	searchTablePlaceholder: {
-		fr: 'Rechercher dans le tableau ...',
-		en: 'Search in table ...',
+		fr: 'Rechercher dans le tableau...',
+		en: 'Search in the table...',
 	},
 	altLabelTitle: {
 		fr: 'Libellé alternatif',
 		en: 'Alternative label',
 	},
 	searchAltLabelPlaceholder: {
-		fr: 'Libellé alternatif ...',
-		en: 'Alternative label ...',
+		fr: 'Libellé alternatif...',
+		en: 'Alternative label...',
 	},
 	descriptionTitle: {
 		fr: 'Description',
 		en: 'Description',
 	},
 	searchDefinitionPlaceholder: {
-		fr: 'Rechercher dans la définition ...',
-		en: 'Search in definition ...',
+		fr: 'Rechercher dans la définition...',
+		en: 'Search in the definition ...',
 	},
 	validationStatusPlaceholder: {
-		fr: 'Sélectionnez le statut de validation ...',
-		en: 'Select validation status ...',
+		fr: 'Sélectionnez le statut de validation...',
+		en: 'Select validation status...',
 	},
 	creatorTitle: {
 		fr: 'Propriétaire',
@@ -136,16 +136,16 @@ const dictionary = {
 		en: 'Stamp',
 	},
 	stampsPlaceholder: {
-		fr: 'Sélectionnez un timbre ...',
-		en: 'Select stamp ...',
+		fr: 'Sélectionnez un timbre...',
+		en: 'Select stamp...',
 	},
 	disseminationStatusTitle: {
 		fr: 'Statut de diffusion',
 		en: 'Dissemination status',
 	},
 	disseminationStatusPlaceholder: {
-		fr: 'Sélectionnez un statut de diffusion ...',
-		en: 'Select dissemination status ...',
+		fr: 'Sélectionnez un statut de diffusion...',
+		en: 'Select dissemination status...',
 	},
 	additionalMaterialTitle: {
 		fr: 'Document lié',
@@ -173,15 +173,15 @@ const dictionary = {
 	},
 	duplicatedId: {
 		fr: "L'identifiant choisi existe déjà",
-		en: 'Label has already been selected',
+		en: 'This identifier already exists',
 	},
 	duplicatedLabel: {
 		fr: 'Le libellé choisi existe déjà',
-		en: 'Label has already been selected',
+		en: 'This label already exists',
 	},
 	globalInformationsTitle: {
 		fr: 'Informations générales',
-		en: 'Global informations',
+		en: 'General informations',
 	},
 	notesTitle: {
 		fr: 'Notes',
@@ -246,11 +246,11 @@ const dictionary = {
 	},
 	btnPdf: {
 		fr: 'Exporter en PDF',
-		en: 'Export PDF',
+		en: 'Export as PDF',
 	},
 	btnOdt: {
 		fr: 'Exporter en ODT',
-		en: 'Export ODT',
+		en: 'Export as ODT',
 	},
 	btnSend: {
 		fr: 'Envoyer',
@@ -258,7 +258,7 @@ const dictionary = {
 	},
 	btnValid: {
 		fr: 'Valider',
-		en: 'Valid',
+		en: 'Validate',
 	},
 	btnReinitialize: {
 		fr: 'Réinitialiser',
@@ -271,7 +271,7 @@ const dictionary = {
 	},
 	broaderTitle: {
 		fr: 'Enfant',
-		en: 'Children',
+		en: 'Child',
 	},
 	referencesTitle: {
 		fr: 'Référence',
@@ -304,15 +304,15 @@ const dictionary = {
 	},
 	invalidMailAdress: {
 		fr: 'Saisir une adresse mail valide pour le destinataire',
-		en: 'Insert a valid email address for the recipient',
+		en: 'Insert a valid e-mail address for the recipient',
 	},
 	emptyMailObject: {
 		fr: "L'objet du message est vide",
-		en: 'Mail object is empty',
+		en: 'The mail subject is empty',
 	},
 	emptyMailBody: {
 		fr: 'Le corps du message est vide',
-		en: 'Mail body is empty',
+		en: 'The mail body is empty',
 	},
 	// Export
 	exportModalTitle: {
@@ -321,9 +321,9 @@ const dictionary = {
 	},
 	exportModalBody: {
 		fr: `<p>Les PDF ne sont pas modifiables.</p>
-			<p>Les ODT sont modifiables sous Libre Office.</p>`,
-		en: `<p>PDF are not alterable.</p>
-			<p>ODT are alterable with text editor.</p>`,
+			<p>Les ODT sont modifiables sous LibreOffice.</p>`,
+		en: `<p>PDF files can not be modified.</p>
+			<p>ODT files can be modified with LibreOffice.</p>`,
 	},
 	// Calendar
 	calendarDays: {
@@ -353,7 +353,7 @@ const dictionary = {
 			'May',
 			'June',
 			'July',
-			'Auguste',
+			'August',
 			'September',
 			'October',
 			'November',
@@ -376,41 +376,41 @@ const dictionary = {
 	},
 	pickedUserProfil: {
 		fr: 'Choisir un profil utilisateur',
-		en: 'Picked user profil',
+		en: 'Pick a user profil',
 	},
 	pickedRolePlaceholder: {
-		fr: 'Sélectionner un rôle ...',
-		en: 'Select role ...',
+		fr: 'Sélectionner un rôle...',
+		en: 'Select a role...',
 	},
 	// Loadable
 	loadableAuth: {
-		fr: 'Authentification en cours ...',
-		en: 'Authentication in progress ...',
+		fr: 'Authentification en cours...',
+		en: 'Authentication in progress...',
 	},
 	loadableSaving: {
-		fr: 'Sauvegarde en cours ...',
-		en: 'Saving in progress ...',
+		fr: 'Sauvegarde en cours...',
+		en: 'Saving in progress...',
 	},
 	loadableSending: {
-		fr: 'Envoi en cours ...',
-		en: 'Sending in progress ...',
+		fr: 'Envoi en cours...',
+		en: 'Sending in progress...',
 	},
 	loadableExporting: {
-		fr: 'Export en cours ...',
-		en: 'Export in progress ...',
+		fr: 'Export en cours...',
+		en: 'Export in progress...',
 	},
 	loadableValidating: {
 		fr: 'Validation en cours ...',
 		en: 'Validation in progress ...',
 	},
 	loadableLoading: {
-		fr: 'Chargement en cours ...',
-		en: 'Loading in progress ...',
+		fr: 'Chargement en cours...',
+		en: 'Loading in progress...',
 	},
 	// Admin & dashboard
 	authorizationTitle: {
 		fr: 'Habilitations',
-		en: 'Clearances',
+		en: 'Authorizations',
 	},
 	authorizationManagementTitle: {
 		fr: 'Gestion des habilitations',
@@ -434,7 +434,7 @@ const dictionary = {
 	},
 	modalRemoveRoleBody: {
 		fr: (role, user) => `Voulez-vous supprimer le rôle ' ${role} ' à ${user} ?`,
-		en: (role, user) => `Would you remove ' ${role} ' role to ${user} ?`,
+		en: (role, user) => `Do you want to remove ' ${role} ' role from ${user} ?`,
 	},
 	dashboardTitle: {
 		fr: 'Tableau de bord',
@@ -458,11 +458,11 @@ const dictionary = {
 	},
 	DSPublicGeneriqueTitle: {
 		fr: 'Public générique',
-		en: 'Generic public',
+		en: 'Public generic',
 	},
 	DSPublicSpecifiqueTitle: {
 		fr: 'Public spécifique',
-		en: 'Specific public',
+		en: 'Public specific',
 	},
 	DSPrivateTitle: {
 		fr: 'Privé',
