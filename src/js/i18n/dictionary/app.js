@@ -181,7 +181,7 @@ const dictionary = {
 	},
 	globalInformationsTitle: {
 		fr: 'Informations générales',
-		en: 'General informations',
+		en: 'General information',
 	},
 	notesTitle: {
 		fr: 'Notes',

@@ -5,7 +5,7 @@ const dictionary = {
 	},
 	familliesTitle: {
 		fr: 'Familles',
-		en: 'Famillies',
+		en: 'Families',
 	},
 	seriesTitle: {
 		fr: 'Séries',
@@ -17,7 +17,7 @@ const dictionary = {
 	},
 	familliesSearchTitle: {
 		fr: 'Familles - Recherche',
-		en: 'Famillies - Search',
+		en: 'Families - Search',
 	},
 	seriesSearchTitle: {
 		fr: 'Séries - Recherche',
