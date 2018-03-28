@@ -18,6 +18,7 @@
 	"homepage": "./",
 	"devDependencies": {
 		"babel-eslint": "^7.2.3",
+		"coveralls": "^3.0.0",
 		"cross-env": "^5.0.1",
 		"eslint": "^4.1.1",
 		"eslint-config-react-app": "^2.0.1",
@@ -66,6 +67,7 @@
 		"build":
 			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
 		"test": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom",
+		"test:coverage": "yarn test --coverage -i",
 		"eject": "react-scripts eject",
 		"format":
 			"prettier --trailing-comma es5 --single-quote --write 'src/**/*.js'"
