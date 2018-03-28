@@ -15,3 +15,4 @@ script:
 
 after_script:
   - "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  - bash scripts/gitbook.sh
