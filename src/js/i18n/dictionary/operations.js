@@ -3,7 +3,7 @@ const dictionary = {
 		fr: 'Opérations',
 		en: 'Operations',
 	},
-	familliesTitle: {
+	familiesTitle: {
 		fr: 'Familles',
 		en: 'Families',
 	},
@@ -15,7 +15,7 @@ const dictionary = {
 		fr: 'Opérations - Recherche',
 		en: 'Operations - Search',
 	},
-	familliesSearchTitle: {
+	familiesSearchTitle: {
 		fr: 'Familles - Recherche',
 		en: 'Families - Search',
 	},

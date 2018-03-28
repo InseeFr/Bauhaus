@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import D from 'js/i18n';
 import buildExtract from 'js/utils/build-extract';
-import { famillies } from './fake-data';
+import { families } from './fake-data';
 import '../operations.css';
 
 const extractId = buildExtract('id');
 
 class FamilyVisualizationContainer extends Component {
 	render() {
-		const label = famillies.find(g => g.id === extractId(this.props)).label;
+		const label = families.find(g => g.id === extractId(this.props)).label;
 		return (
 			<div className="container">
 				<div className="row">

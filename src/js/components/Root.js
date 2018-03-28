@@ -29,10 +29,10 @@ import AdministrationHome from './administration/home-container';
 import RoleHome from './administration/roles/home-container';
 import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
 import MenuDispatcher from './menu/menu-container';
-import FamilliesHomeContainer from './operations/famillies/home-container';
+import FamiliesHomeContainer from './operations/families/home-container';
 import SeriesHomeContainer from './operations/series/home-container';
 import OperationsHomeContainer from './operations/operations/home-container';
-import FamilyVisualizationContainer from './operations/famillies/visualization-container';
+import FamilyVisualizationContainer from './operations/families/visualization-container';
 import SeriesVisualizationContainer from './operations/series/visualization-container';
 import OperationVisualizationContainer from './operations/operations/visualization-container';
 
@@ -130,7 +130,7 @@ class Root extends Component {
 							path="/concepts/administration/dashboard"
 							component={ConceptsDashboardHome}
 						/>
-						<Route exact path="/famillies" component={FamilliesHomeContainer} />
+						<Route exact path="/families" component={FamiliesHomeContainer} />
 						<Route exact path="/series" component={SeriesHomeContainer} />
 						<Route
 							exact

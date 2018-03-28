@@ -4,19 +4,19 @@ import SearchRmes from 'js/components/shared/search-rmes';
 import D from 'js/i18n';
 import '../operations.css';
 
-class FamilliesHome extends Component {
+class FamiliesHome extends Component {
 	render() {
-		const { famillies } = this.props;
+		const { families } = this.props;
 		return (
 			<div>
 				<div className="container">
 					<div className="row">
 						<div className="col-md-8 col-md-offset-2 centered">
 							<h2 className="page-title-operations">
-								{D.familliesSearchTitle}
+								{D.familiesSearchTitle}
 							</h2>
 							<SearchRmes
-								items={famillies}
+								items={families}
 								childPath="family"
 								context="operations"
 							/>
@@ -28,7 +28,7 @@ class FamilliesHome extends Component {
 	}
 }
 
-FamilliesHome.propTypes = {
+FamiliesHome.propTypes = {
 	items: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,
@@ -37,4 +37,4 @@ FamilliesHome.propTypes = {
 	),
 };
 
-export default FamilliesHome;
+export default FamiliesHome;

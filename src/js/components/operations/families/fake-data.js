@@ -1,4 +1,4 @@
-export const famillies = [
+export const families = [
 	{ id: '1', label: 'Fake Famille 1' },
 	{ id: '2', label: 'Fake Famille 2' },
 	{ id: '3', label: 'Fake Famille 3' },

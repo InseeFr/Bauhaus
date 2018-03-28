@@ -33,8 +33,8 @@ class MenuOperations extends Component {
 	render() {
 		const { menuRef, activePath } = this.state;
 		var paths = {
-			famillies: {
-				path: '/famillies',
+			families: {
+				path: '/families',
 				pathKey: 'famil',
 				className: null,
 			},
@@ -68,14 +68,14 @@ class MenuOperations extends Component {
 											<div className="inline"> {D.repositoryNavigation}</div>
 										</a>
 									</li>
-									<li className={paths.famillies.className}>
+									<li className={paths.families.className}>
 										<Link
-											to={paths.famillies.path}
+											to={paths.families.path}
 											onClick={() =>
-												this.changeActivePath(paths.famillies.path)
+												this.changeActivePath(paths.families.path)
 											}
 										>
-											{D.familliesTitle}
+											{D.familiesTitle}
 										</Link>
 									</li>
 									<li className={paths.series.className}>
