@@ -1,3 +1,3 @@
 # Introduction
 
-Bauhaus est une application web de gestion des concepts, des nomenclatures and d'autres objets statistiques.
+Bauhaus est une application web de gestion des concepts, des nomenclatures et d'autres objets statistiques.

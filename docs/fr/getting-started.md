@@ -26,6 +26,6 @@ Si vous débutez avec ces technologies, vous aurez vraisemblablement besoin d'in
 
 `yarn` est un gestionnaire de modules pour `Node.js`. `yarn install` téléchargera toutes les dépendances du projet, décrites dans la section `dependencies` et `devDepedencies` du fichier [package.json](https://github.com/InseeFr/Bauhaus/blob/master/package.json).
 
-`yarn start` démarre un serveur de développement qui sert la page d'accueil de l'application ([src/js/index.html](https://github.com/InseeFr/Bauhaus/blob/master/src/index.html)) et toutes les ressources nécessaires.
+`yarn start` démarre un serveur de développement qui sert la page d'accueil de l'application ([src/js/index.html](https://github.com/InseeFr/Bauhaus/blob/master/public/index.html)) et toutes les ressources nécessaires.
 
 `yarn build` lance la compilation du code avec des optimisations pour la mise en production. Elle copie toutes les ressources statiques et le fichier `JavaScript` compilé dans le dossier `dist`.

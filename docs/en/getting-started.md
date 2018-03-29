@@ -26,6 +26,6 @@ If you're new to JavaScript, you might need to first install [node](https://node
 
 `yarn` is the `Node.js` package manager. `yarn install` will download all the dependencies needed by the project, as described in the `dependencies` and `devDepedencies` sections of the [package.json](https://github.com/InseeFr/Bauhaus/blob/master/package.json) file.
 
-`yarn start` will launch the `dev` command defined in the `scripts` section of the same `package.json` file. This command will launch a local web server serving the main HTML file ([src/js/index.html](https://github.com/InseeFr/Bauhaus/blob/master/src/index.html)) and all the relevant assets.
+`yarn start` will launch the `dev` command defined in the `scripts` section of the same `package.json` file. This command will launch a local web server serving the main HTML file ([src/js/index.html](https://github.com/InseeFr/Bauhaus/blob/master/public/index.html)) and all the relevant assets.
 
 `yarn build` will launch the compilation with some optimizations for production. It copies all the static assets and the resulting bundle file in the `dist` folder.
