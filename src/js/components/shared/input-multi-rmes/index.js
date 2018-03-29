@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from './input-multi-modal-rmes';
+import Modal from 'js/components/shared/input-multi-modal-rmes';
 import flag from 'js/components/shared/flag';
 import D from 'js/i18n';
 

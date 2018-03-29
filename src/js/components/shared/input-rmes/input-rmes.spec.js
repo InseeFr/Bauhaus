@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import InputRmes from './input-rmes';
+import InputRmes from './';
 
 describe('inputMulti', () => {
 	it('renders without crashing', () => {

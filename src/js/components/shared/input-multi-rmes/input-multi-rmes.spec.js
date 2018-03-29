@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import InputMultiRmes from './input-multi-rmes';
+import InputMultiRmes from './';
 
 const handleChangeLg1 = () => '';
 const handleChangeLg2 = () => '';
