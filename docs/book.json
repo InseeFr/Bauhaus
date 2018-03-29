@@ -13,7 +13,7 @@
 	"root": "./",
 	"pluginsConfig": {
 		"edit-link": {
-			"base": "https://github.com/InseeFr/Bauhaus/tree/master/doc",
+			"base": "https://github.com/InseeFr/Bauhaus/tree/master/docs",
 			"label": "Edit This Page"
 		},
 		"github": {
