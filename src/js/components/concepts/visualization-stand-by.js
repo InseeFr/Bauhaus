@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import PageTitle from 'js/components/shared/page-title';
 import Button from 'js/components/shared/button';
 import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 
 class ConceptVisualizationStandBy extends Component {
 	render() {
-		const { general } = this.props;
+		const { general: { prefLabelLg1, creator } } = this.props;
 		return (
 			<div className="container">
-				<div className="row">
-					<div className="col-md-10 centered col-md-offset-1">
-						<h2 className="page-title">{general.prefLabelLg1}</h2>
-					</div>
-				</div>
+				<PageTitle title={prefLabelLg1} />
 				<div className="row">
 					<Button
 						action={
@@ -27,7 +24,7 @@ class ConceptVisualizationStandBy extends Component {
 				<div className="row">
 					<div className="col-md-10 centered col-md-offset-1">
 						<h2>
-							{D.conceptStandBy} {general.creator}
+							{D.conceptStandBy} {creator}
 						</h2>
 					</div>
 				</div>

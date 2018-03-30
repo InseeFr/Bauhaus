@@ -45,15 +45,6 @@
 	padding: 10px;
 	margin-bottom: 20px;
 }
-.page-title-temp {
-	border: 2px solid #044173; /*457DBB*/
-	background-color: #044173;
-	color: white;
-	border-radius: 6px;
-	padding: 10px;
-	margin-bottom: 20px;
-	opacity: 0.3;
-}
 
 .page-sub-title {
 	border: 2px solid #5d87e8; /*457DBB*/

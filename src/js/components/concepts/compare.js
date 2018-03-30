@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
+import PageTitle from 'js/components/shared/page-title';
 import ConceptGeneral from './general';
 import ConceptCompareNotes from './compare-notes';
 import D from 'js/i18n';
@@ -30,6 +31,7 @@ class ConceptCompare extends Component {
 
 	render() {
 		const { conceptGeneral, conceptNotes, secondLang, langs } = this.props;
+		const { prefLabelLg1, prefLabelLg2 } = conceptGeneral;
 		const { select1, select2 } = this.state;
 		const conceptVersion = Number(conceptGeneral.conceptVersion);
 
@@ -48,18 +50,7 @@ class ConceptCompare extends Component {
 							</label>
 						</div>
 					</div>
-					<div className="row">
-						<div className="col-md-10 centered col-md-offset-1">
-							{!secondLang && (
-								<h2 className="page-title">{conceptGeneral.prefLabelLg1}</h2>
-							)}
-							{secondLang && (
-								<h2 className="page-title">
-									<em>{conceptGeneral.prefLabelLg2} </em>
-								</h2>
-							)}
-						</div>
-					</div>
+					<PageTitle title={secondLang ? prefLabelLg2 : prefLabelLg1} />
 					<div className="row btn-line">
 						<div className="col-md-3">
 							<button

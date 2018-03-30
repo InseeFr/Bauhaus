@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import { propTypes as overviewPropTypes } from 'js/utils/collections/collection-overview';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
+import PageTitle from 'js/components/shared/page-title';
 import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import CollectionItem from './list-item';
@@ -144,11 +145,7 @@ class CollectionsPicker extends Component {
 		return (
 			<div>
 				<div className="container">
-					<div className="row">
-						<div className="col-md-10 centered col-md-offset-1">
-							<h2 className="page-title">{title}</h2>
-						</div>
-					</div>
+					<PageTitle title={title} />
 					{controls}
 					<div className="row">
 						<div className="col-md-6">

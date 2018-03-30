@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
+import PageTitle from 'js/components/shared/page-title';
 import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import ConceptItem from './list-item';
@@ -143,11 +144,7 @@ class ConceptsPicker extends Component {
 		return (
 			<div>
 				<div className="container">
-					<div className="row">
-						<div className="col-md-10 centered col-md-offset-1">
-							<h2 className="page-title">{title}</h2>
-						</div>
-					</div>
+					<PageTitle title={title} />
 					{controls}
 					<div className="row">
 						<div className="col-md-6">

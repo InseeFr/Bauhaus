@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import PageTitle from 'js/components/shared/page-title';
 import SearchRmes from 'js/components/shared/search-rmes';
 import check from 'js/utils/auth/utils';
 import { propTypes as conceptOverviewPropTypes } from 'js/utils/concepts/concept-overview';
@@ -78,7 +79,7 @@ class ConceptsHome extends Component {
 							)}
 						</div>
 						<div className="col-md-8 centered pull-right">
-							<h2 className="page-title">{D.conceptSearchTitle}</h2>
+							<PageTitle title={D.conceptSearchTitle} col={12} offset={0} />
 							<SearchRmes
 								items={concepts}
 								childPath="concept"

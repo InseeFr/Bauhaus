@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
+import PageTitle from 'js/components/shared/page-title';
 import SelectRmes from 'js/components/shared/select-rmes';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import D from 'js/i18n';
@@ -129,11 +130,7 @@ class ConceptSearchList extends Component {
 		return (
 			<div>
 				<div className="container">
-					<div className="row">
-						<div className="col-md-10 centered col-md-offset-1">
-							<h2 className="page-title">{D.conceptSearchTitle}</h2>
-						</div>
-					</div>
+					<PageTitle title={D.conceptSearchTitle} />
 					<div className="row btn-line">
 						<div className="col-md-2">
 							<button

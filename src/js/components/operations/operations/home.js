@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import PageTitle from 'js/components/shared/page-title';
 import SearchRmes from 'js/components/shared/search-rmes';
 import D from 'js/i18n';
 import '../operations.css';
@@ -12,9 +13,12 @@ class OperationsHome extends Component {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-8 col-md-offset-2 centered">
-							<h2 className="page-title-operations">
-								{D.operationsSearchTitle}
-							</h2>
+							<PageTitle
+								title={D.operationsSearchTitle}
+								col={12}
+								offset={0}
+								context="operations"
+							/>
 							<SearchRmes
 								items={operations}
 								childPath="operation"

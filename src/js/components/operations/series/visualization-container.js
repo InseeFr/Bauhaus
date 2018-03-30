@@ -1,5 +1,6 @@
 // TODO Not really container yet, fix with real data
 import React, { Component } from 'react';
+import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import '../operations.css';
 
@@ -8,11 +9,7 @@ class SeriesVisualizationContainer extends Component {
 		const label = 'toto';
 		return (
 			<div className="container">
-				<div className="row">
-					<div className="col-md-10 centered col-md-offset-1">
-						<h2 className="page-title-operations">{label}</h2>
-					</div>
-				</div>
+				<PageTitle title={label} context="operations" />
 				<div className="row">
 					<div className="col-md-2">
 						<button

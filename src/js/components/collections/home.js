@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import PageTitle from 'js/components/shared/page-title';
 import SearchRmes from 'js/components/shared/search-rmes';
 import check from 'js/utils/auth/utils';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
@@ -78,7 +79,7 @@ class CollectionsHome extends Component {
 							)}
 						</div>
 						<div className="col-md-8 centered pull-right">
-							<h2 className="page-title">{D.collectionSearchTitle}</h2>
+							<PageTitle title={D.collectionSearchTitle} col={12} offset={0} />
 							<SearchRmes
 								items={collections}
 								childPath="collection"

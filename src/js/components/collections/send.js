@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import PageTitle from 'js/components/shared/page-title';
 import SendControls from './send-controls';
 import EditorHtml from 'js/components/shared/editor-html';
 import D from 'js/i18n';
@@ -68,13 +69,7 @@ class CollectionSend extends Component {
 
 		return (
 			<div className="container">
-				<div className="row">
-					<div className="col-md-10 centered col-md-offset-1">
-						<h2 className="page-title">
-							{D.sendCollectionTitle(prefLabelLg1)}
-						</h2>
-					</div>
-				</div>
+				<PageTitle title={D.sendCollectionTitle(prefLabelLg1)} />
 				<SendControls
 					isRecipientValid={this.isRecipientValid()}
 					subject={subject}

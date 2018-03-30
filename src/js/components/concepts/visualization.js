@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import PageTitle from 'js/components/shared/page-title';
 import ConceptVisualizationControls from './visualization-controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
@@ -79,11 +80,7 @@ class ConceptVisualization extends Component {
 							</label>
 						</div>
 					</div>
-					<div className="row">
-						<div className="col-md-10 centered col-md-offset-1">
-							<h2 className="page-title">{prefLabelLg1}</h2>
-						</div>
-					</div>
+					<PageTitle title={prefLabelLg1} />
 					{secondLang &&
 						prefLabelLg2 && (
 							<div className="row">

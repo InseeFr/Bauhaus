@@ -1,6 +1,7 @@
 // TODO Not really container yet, fix with real data
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import buildExtract from 'js/utils/build-extract';
 import { families } from './fake-data';
@@ -13,11 +14,7 @@ class FamilyVisualizationContainer extends Component {
 		const label = families.find(g => g.id === extractId(this.props)).label;
 		return (
 			<div className="container">
-				<div className="row">
-					<div className="col-md-10 centered col-md-offset-1">
-						<h2 className="page-title-operations">{label}</h2>
-					</div>
-				</div>
+				<PageTitle title={label} context="operations" />
 				<div className="row">
 					<div className="col-md-2">
 						<button
