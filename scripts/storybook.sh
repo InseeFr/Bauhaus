@@ -3,8 +3,9 @@
 set -e
 
 function main() {
-  cp -r storybook-static docs/fr/storybook
-  cp -r storybook-static docs/en/storybook
+  mv storybook-static storybook
+  cp -r storybook docs/fr/
+  cp -r storybook docs/en/
 }
 
 main

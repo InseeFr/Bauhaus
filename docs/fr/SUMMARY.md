@@ -3,4 +3,4 @@
 ## Guide du développeur
 
 * [Démarrage](getting-started.md)
-* [Storybook](storybook)
+* [Storybook](storybook/index.html)
