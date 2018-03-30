@@ -15,4 +15,6 @@ script:
 
 after_script:
   - "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  - yarn build-storybook
+  - bash scripts/storybook.sh
   - bash scripts/gitbook.sh

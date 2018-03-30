@@ -73,6 +73,7 @@
 		"test:coverage": "yarn test --coverage -i",
 		"start-storybook":
 			"cross-env NODE_PATH=src/ start-storybook -p 9999 -c .storybook",
+		"build-storybook": "cross-env NODE_PATH=src/ build-storybook -c .storybook",
 		"eject": "react-scripts eject",
 		"format":
 			"prettier --trailing-comma es5 --single-quote --write 'src/**/*.js'"
