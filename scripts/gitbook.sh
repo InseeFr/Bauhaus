@@ -31,8 +31,8 @@ function build() {
 
 function addStorybook() {
   mv storybook-static storybook
-  cp -r storybook docs/fr/
-  cp -r storybook docs/en/
+  cp -r storybook docs/_book/fr/
+  cp -r storybook docs/_book/en/
 }
 
 function publish() {
