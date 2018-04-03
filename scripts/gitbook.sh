@@ -29,11 +29,6 @@ function build() {
   popd
 }
 
-function addStorybook() {
-  cp -r storybook-static docs/_book/fr/storybook/
-  cp -r storybook-static docs/_book/en/storybook/
-}
-
 function publish() {
   pushd "$DOC_FOLDER"/_book
   git init
@@ -48,7 +43,7 @@ function publish() {
 }
 
 function main() {
-  setup && build && addStorybook && publish
+  setup && build && publish
 }
 
 main
