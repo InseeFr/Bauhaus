@@ -43,11 +43,10 @@ function publish() {
 }
 
 function publishStorybook() {
-  mv storybook-static storybook
   git init
   git remote add upstream "$UPSTREAM"
-  git checkout master -- storybook
-  git add storybook
+  git checkout master -- storybook-static
+  git add storybook-static
   git commit -m "Adding 'storybook' directory from 'master' branch"
   git push --quiet upstream HEAD:gh-pages
 }
