@@ -42,8 +42,17 @@ function publish() {
   popd
 }
 
+function publishStorybook() {
+  mv storybook-static storybook
+  git checkout gh-pages
+  git checkout master -- storybook
+  git add storybook
+  git commit -m "Adding 'storybook' directory from 'master' branch"
+  git push gh-pages
+}
+
 function main() {
-  setup && build && publish
+  setup && build && publish && publishStorybook
 }
 
 main
