@@ -44,11 +44,11 @@ function publish() {
 
 function publishStorybook() {
   mv storybook-static storybook
-  git checkout gh-pages
+  git checkout upstream/gh-pages
   git checkout master -- storybook
   git add storybook
   git commit -m "Adding 'storybook' directory from 'master' branch"
-  git push gh-pages
+  git push --quiet upstream HEAD:gh-pages
 }
 
 function main() {
