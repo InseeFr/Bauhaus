@@ -39,6 +39,7 @@ function publish() {
   if git commit --message "$MESSAGE" --author "$AUTHOR" ; then
     git push --quiet upstream HEAD:gh-pages
   fi
+  yarn deploy-storybook -- --remote=upstream
   popd
 }
 
