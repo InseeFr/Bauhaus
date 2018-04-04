@@ -42,17 +42,8 @@ function publish() {
   popd
 }
 
-function publishStorybook() {
-  git init
-  git remote add upstream "$UPSTREAM"
-  git checkout master -- storybook-static
-  git add storybook-static
-  git commit -m "Adding 'storybook' directory from 'master' branch"
-  git push --quiet upstream HEAD:gh-pages
-}
-
 function main() {
-  setup && build && publish && publishStorybook
+  setup && build && publish
 }
 
 main
