@@ -7,13 +7,13 @@ function build() {
 }
 
 function publish() {
-  git fetch
-  git checkout gh-pages
-  git checkout master -- storybook-static
+  git remote -v
+  git checkout origin/gh-pages
+  git checkout origin/master -- storybook-static
   git add .
   git commit -m "Deploy Storybook to GitHub Pages"
   git push
-  git checkout master
+  git checkout origin/master
   git rm -rf storybook-static
   git commit -m "Delete storybook-static from master"
   git push
