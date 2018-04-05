@@ -7,6 +7,7 @@ function build() {
 }
 
 function publish() {
+  git fetch
   git checkout gh-pages
   git checkout master -- storybook-static
   git add .
