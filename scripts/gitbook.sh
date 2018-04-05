@@ -42,12 +42,8 @@ function publish() {
   popd
 }
 
-function publishStorybook() {
-  yarn deploy-storybook --ci --host-token-env-variable=GITHUB_TOKEN
-}
-
 function main() {
-  setup && build && publish && publishStorybook
+  setup && build && publish
 }
 
 main
