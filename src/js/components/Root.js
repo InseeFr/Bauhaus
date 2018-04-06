@@ -29,6 +29,9 @@ import AdministrationHome from './administration/home-container';
 import RoleHome from './administration/roles/home-container';
 import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
 import MenuDispatcher from './menu/menu-container';
+// Classifications
+import ClassificationsFamiliesHomeContainer from './classifications/families/home-container';
+// Operations
 import OperationsFamiliesHomeContainer from './operations/families/home-container';
 import OperationsSeriesHomeContainer from './operations/series/home-container';
 import OperationsHomeContainer from './operations/operations/home-container';
@@ -129,6 +132,11 @@ class Root extends Component {
 							exact
 							path="/concepts/administration/dashboard"
 							component={ConceptsDashboardHome}
+						/>
+						<Route
+							exact
+							path="/classifications/families"
+							component={ClassificationsFamiliesHomeContainer}
 						/>
 						<Route
 							exact
