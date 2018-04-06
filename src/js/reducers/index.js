@@ -12,6 +12,8 @@ import collectionReducers from './collections';
 import roleReducers from './roles';
 import dashboardReducers from './dashboard';
 import classificationsReducers from './classifications';
+import * as classificationFamilyGeneral from './classifications/family/general';
+import * as classificationFamilyMembers from './classifications/family/members';
 import operationsReducers from './operations';
 import remoteCalls, * as remoteCallsSelectors from './remote-calls';
 
@@ -80,6 +82,18 @@ export function getCollection(state, id) {
 		members,
 	};
 }
+
+// Classifications
+export const getClassificationFamilyGeneral = (state, id) =>
+	classificationFamilyGeneral.getGeneral(
+		state.classificationFamilyGeneral,
+		id
+	);
+export const getClassificationFamilyMembers = (state, id) =>
+	classificationFamilyMembers.getMembers(
+		state.classificationFamilyMembers,
+		id
+	);
 
 export const getDisseminationStatusList = state =>
 	getItems(state.disseminationStatusList);

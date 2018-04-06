@@ -468,6 +468,10 @@ const dictionary = {
 		fr: 'Privé',
 		en: 'Private',
 	},
+	childrenSeries: {
+		fr: 'Séries filles',
+		en: 'Daugther series',
+	},
 };
 
 export default dictionary;
