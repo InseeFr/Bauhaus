@@ -15,6 +15,12 @@ const classificationsSeriesList = listReducer([
 	A.LOAD_CLASSIFICATIONS_SERIES_LIST_FAILURE,
 ]);
 
+const classificationsList = listReducer([
+	A.LOAD_CLASSIFICATIONS_LIST,
+	A.LOAD_CLASSIFICATIONS_LIST_SUCCESS,
+	A.LOAD_CLASSIFICATIONS_LIST_FAILURE,
+]);
+
 export default {
 	classificationsFamiliesList,
 	classificationsSeriesList,
