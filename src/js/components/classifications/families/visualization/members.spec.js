@@ -4,7 +4,7 @@ import Members from './members';
 
 const members = [{ id: '1', label: 'Member 1' }];
 
-describe('error', () => {
+describe('classification-family-members', () => {
 	it('renders without crashing', () => {
 		shallow(<Members members={members} />);
 	});
