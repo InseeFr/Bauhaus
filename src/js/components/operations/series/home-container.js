@@ -19,14 +19,14 @@ class SeriesHomeContainer extends Component {
 }
 
 const mapStateToProps = state => {
-	if (!state.seriesList) {
+	if (!state.operationsSeriesList) {
 		return {
 			status: NOT_LOADED,
 			series: [],
 		};
 	}
 	//TODO should be sorted in the state, shouldn't they ?
-	let { results: series, status, err } = state.seriesList;
+	let { results: series, status, err } = state.operationsSeriesList;
 
 	return {
 		series,
