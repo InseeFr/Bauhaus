@@ -18,7 +18,7 @@ class MenuDispatcher extends Component {
 			if (path.includes(p)) _ = true;
 			return _;
 		}, false);
-		const isClassificationPath = ['/classifications'].reduce((_, p) => {
+		const isClassificationPath = ['/classification'].reduce((_, p) => {
 			if (path.includes(p)) _ = true;
 			return _;
 		}, false);

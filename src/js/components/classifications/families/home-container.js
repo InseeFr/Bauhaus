@@ -7,7 +7,7 @@ import loadFamiliesList from 'js/actions/classifications/families/list';
 
 class FamiliesHomeContainer extends Component {
 	componentWillMount() {
-		if (!this.props.series) {
+		if (!this.props.families) {
 			this.props.loadFamiliesList();
 		}
 	}
