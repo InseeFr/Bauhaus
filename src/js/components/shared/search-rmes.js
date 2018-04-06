@@ -5,14 +5,16 @@ import D from 'js/i18n';
 import Pagination from 'js/components/shared/pagination';
 import { filterKeyDeburr, nbResults } from 'js/utils/array-utils';
 
-const filter = filterKeyDeburr(['label', 'altLabel']);
-
 class SearchRmes extends Component {
 	constructor(props) {
 		super(props);
+		const { items: hits } = props;
+		const filter = filterKeyDeburr(
+			Object.keys(hits[0]).filter(k => k !== 'id')
+		);
 		this.state = {
 			search: '',
-			hits: props.items,
+			hits,
 		};
 		this.handleSearch = search => {
 			this.setState({
