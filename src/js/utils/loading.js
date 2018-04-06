@@ -5,6 +5,7 @@ export const getColor = context => {
 		case 'operations':
 			return '#6f1417';
 		case 'classifications':
+			return '#006600';
 		case 'concepts':
 		default:
 			return '#457DBB';
