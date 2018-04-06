@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './panel-concepts.css';
+import './panel.css';
 
-function Panel({ title, children }) {
+function Panel({ title, children, context }) {
 	return (
-		<div className="panel panel-concepts">
+		<div className={`panel panel-${context ? context : 'concepts'}`}>
 			<div className="panel-heading">
 				<h3 className="panel-title">{title}</h3>
 			</div>
