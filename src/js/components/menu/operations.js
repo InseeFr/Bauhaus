@@ -33,6 +33,7 @@ class MenuOperations extends Component {
 	render() {
 		const { menuRef, activePath } = this.state;
 		var paths = {
+			help: { path: '/operations/help', pathKey: 'help', className: null },
 			families: {
 				path: '/operations/families',
 				pathKey: 'operations/famil',
@@ -96,6 +97,16 @@ class MenuOperations extends Component {
 											}
 										>
 											{D.operationsTitle}
+										</Link>
+									</li>
+								</ul>
+								<ul className="nav navbar-nav navbar-nav-operations navbar-right">
+									<li className={paths.help.className}>
+										<Link
+											to={paths.help.path}
+											onClick={() => this.changeActivePath(paths.help.path)}
+										>
+											{D.help}
 										</Link>
 									</li>
 								</ul>

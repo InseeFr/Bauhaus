@@ -24,7 +24,9 @@ import CollectionCreationContainer from './collections/creation-container';
 import CollectionEditionContainer from './collections/edition-container';
 import CollectionsToValidate from './collections/to-validate';
 import CollectionsToExport from './collections/to-export';
-import Help from './help/home';
+import HelpConcepts from './help/concepts/home';
+import HelpClassifications from './help/classifications/home';
+import HelpOperations from './help/operations/home';
 import AdministrationHome from './administration/home-container';
 import RoleHome from './administration/roles/home-container';
 import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
@@ -124,7 +126,13 @@ class Root extends Component {
 							path="/collections/export"
 							component={CollectionsToExport}
 						/>
-						<Route exact path="/concepts/help" component={Help} />
+						<Route exact path="/concepts/help" component={HelpConcepts} />
+						<Route
+							exact
+							path="/classifications/help"
+							component={HelpClassifications}
+						/>
+						<Route exact path="/operations/help" component={HelpOperations} />
 						<Route
 							exact
 							path="/concepts/administration"

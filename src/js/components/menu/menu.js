@@ -12,20 +12,26 @@ class MenuDispatcher extends Component {
 		let isConceptPath = [
 			'/concept',
 			'/collection',
-			'/help',
+			'/concepts/help',
 			'/administration',
 		].reduce((_, p) => {
 			if (path.includes(p)) _ = true;
 			return _;
 		}, false);
-		const isClassificationPath = ['/classification'].reduce((_, p) => {
+		const isClassificationPath = [
+			'/classification',
+			'/classifications/help',
+		].reduce((_, p) => {
 			if (path.includes(p)) _ = true;
 			return _;
 		}, false);
-		const isOperationPath = ['/operations'].reduce((_, p) => {
-			if (path.includes(p)) _ = true;
-			return _;
-		}, false);
+		const isOperationPath = ['/operations', '/operations/help'].reduce(
+			(_, p) => {
+				if (path.includes(p)) _ = true;
+				return _;
+			},
+			false
+		);
 		return (
 			<div>
 				{isConceptPath && <MenuConcepts permission={permission} />}

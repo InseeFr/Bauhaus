@@ -1,10 +1,10 @@
 import React from 'react';
-import PageTitle from '../shared/page-title';
+import PageTitle from 'js/components/shared/page-title';
 
 function Help() {
 	return (
 		<div className="container">
-			<PageTitle title="Can I help YoU ?" />
+			<PageTitle title="Can I help YoU ?" context="operations" />
 			<div className="row">
 				<div className="col-md-12">
 					<ul>
