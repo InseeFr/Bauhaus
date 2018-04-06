@@ -34,11 +34,15 @@ class MenuOperations extends Component {
 		const { menuRef, activePath } = this.state;
 		var paths = {
 			families: {
-				path: '/families',
-				pathKey: 'famil',
+				path: '/operations/families',
+				pathKey: 'operations/famil',
 				className: null,
 			},
-			series: { path: '/series', pathKey: 'series', className: null },
+			series: {
+				path: '/operations/series',
+				pathKey: 'operations/series',
+				className: null,
+			},
 			operations: {
 				path: '/operations',
 				pathKey: 'operation',
@@ -71,9 +75,7 @@ class MenuOperations extends Component {
 									<li className={paths.families.className}>
 										<Link
 											to={paths.families.path}
-											onClick={() =>
-												this.changeActivePath(paths.families.path)
-											}
+											onClick={() => this.changeActivePath(paths.families.path)}
 										>
 											{D.familiesTitle}
 										</Link>

@@ -29,11 +29,11 @@ import AdministrationHome from './administration/home-container';
 import RoleHome from './administration/roles/home-container';
 import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
 import MenuDispatcher from './menu/menu-container';
-import FamiliesHomeContainer from './operations/families/home-container';
-import SeriesHomeContainer from './operations/series/home-container';
+import OperationsFamiliesHomeContainer from './operations/families/home-container';
+import OperationsSeriesHomeContainer from './operations/series/home-container';
 import OperationsHomeContainer from './operations/operations/home-container';
-import FamilyVisualizationContainer from './operations/families/visualization-container';
-import SeriesVisualizationContainer from './operations/series/visualization-container';
+import OperationsFamilyVisualizationContainer from './operations/families/visualization-container';
+import OperationsSeriesVisualizationContainer from './operations/series/visualization-container';
 import OperationVisualizationContainer from './operations/operations/visualization-container';
 
 class Root extends Component {
@@ -130,8 +130,16 @@ class Root extends Component {
 							path="/concepts/administration/dashboard"
 							component={ConceptsDashboardHome}
 						/>
-						<Route exact path="/families" component={FamiliesHomeContainer} />
-						<Route exact path="/series" component={SeriesHomeContainer} />
+						<Route
+							exact
+							path="/operations/families"
+							component={OperationsFamiliesHomeContainer}
+						/>
+						<Route
+							exact
+							path="/operations/series"
+							component={OperationsSeriesHomeContainer}
+						/>
 						<Route
 							exact
 							path="/operations"
@@ -139,17 +147,17 @@ class Root extends Component {
 						/>
 						<Route
 							exact
-							path="/family/:id"
-							component={FamilyVisualizationContainer}
+							path="/operations/family/:id"
+							component={OperationsFamilyVisualizationContainer}
 						/>
 						<Route
 							exact
-							path="/series/:id"
-							component={SeriesVisualizationContainer}
+							path="/operations/series/:id"
+							component={OperationsSeriesVisualizationContainer}
 						/>
 						<Route
 							exact
-							path="/operation/:id"
+							path="/operations/operation/:id"
 							component={OperationVisualizationContainer}
 						/>
 						<Route path="*" component={NotFound} />

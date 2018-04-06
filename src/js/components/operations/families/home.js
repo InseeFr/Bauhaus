@@ -21,7 +21,7 @@ class FamiliesHome extends Component {
 							/>
 							<SearchRmes
 								items={families}
-								childPath="family"
+								childPath="operations/family"
 								context="operations"
 							/>
 						</div>

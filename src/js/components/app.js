@@ -23,7 +23,7 @@ function App() {
 					{D.classificationsTitle}
 				</h2>
 				{/*</Link>*/}
-				<Link to="/series">
+				<Link to="/operations/series">
 					<h2 className="items page-title page-title-link">
 						{D.operationsTitle}
 					</h2>
@@ -36,7 +36,7 @@ function App() {
 				{/*<Link to="/">*/}
 				<img src={classificationsLogo} alt="Classifications" className="img" />
 				{/*</Link>*/}
-				<Link to="/series">
+				<Link to="/operations/series">
 					<img src={operationsLogo} alt="Operations" className="img" />
 				</Link>
 			</div>

@@ -21,7 +21,7 @@ class SeriesHome extends Component {
 							/>
 							<SearchRmes
 								items={series}
-								childPath="series"
+								childPath="operations/series"
 								context="operations"
 							/>
 						</div>

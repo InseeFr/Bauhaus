@@ -17,13 +17,10 @@ class MenuDispatcher extends Component {
 			if (path.includes(p)) _ = true;
 			return _;
 		}, false);
-		const isOperationPath = ['/famil', '/series', '/operation'].reduce(
-			(_, p) => {
-				if (path.includes(p)) _ = true;
-				return _;
-			},
-			false
-		);
+		const isOperationPath = ['/operations'].reduce((_, p) => {
+			if (path.includes(p)) _ = true;
+			return _;
+		}, false);
 		return (
 			<div>
 				{isConceptPath && <MenuConcepts permission={permission} />}
