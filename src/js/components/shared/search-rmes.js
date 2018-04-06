@@ -10,7 +10,7 @@ class SearchRmes extends Component {
 		super(props);
 		const { items: hits } = props;
 		const filter = filterKeyDeburr(
-			Object.keys(hits[0]).filter(k => k !== 'id')
+			Object.keys(hits[0] || {}).filter(k => k !== 'id')
 		);
 		this.state = {
 			search: '',
@@ -27,6 +27,7 @@ class SearchRmes extends Component {
 	render() {
 		const { search, hits } = this.state;
 		const { concepts, childPath, col, colOff, context } = this.props;
+
 		//{`col-md-${col ? col : 12} col-md-offset-${	colOff ? colOff : 0}`}
 		const hitEls = hits.map(({ id, label }) => (
 			<li key={id} className="list-group-item">
