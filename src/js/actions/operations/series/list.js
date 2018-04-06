@@ -6,15 +6,15 @@ const sortByLabel = sortArray('label');
 
 export default () => dispatch => {
 	dispatch({
-		type: A.LOAD_SERIES_LIST,
+		type: A.LOAD_OPERATIONS_SERIES_LIST,
 		payload: {},
 	});
 	return api.getSeriesList().then(
 		results =>
 			dispatch({
-				type: A.LOAD_SERIES_LIST_SUCCESS,
+				type: A.LOAD_OPERATIONS_SERIES_LIST_SUCCESS,
 				payload: { results: sortByLabel(results) },
 			}),
-		err => dispatch({ type: A.LOAD_SERIES_LIST_FAILURE, payload: { err } })
+		err => dispatch({ type: A.LOAD_OPERATIONS_SERIES_LIST_FAILURE, payload: { err } })
 	);
 };
