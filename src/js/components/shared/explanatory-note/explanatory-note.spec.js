@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { ExplanatoryNote } from './explanatory-note';
+import { ExplanatoryNote } from './';
 
 describe('explanatory-note', () => {
 	it('renders without crashing', () => {
