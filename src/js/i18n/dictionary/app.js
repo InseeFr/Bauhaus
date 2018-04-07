@@ -470,7 +470,7 @@ const dictionary = {
 	},
 	childrenSeries: {
 		fr: 'Séries filles',
-		en: 'Daugther series',
+		en: 'Daughter series',
 	},
 };
 
