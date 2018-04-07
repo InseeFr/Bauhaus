@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import PageTitle from 'js/components/shared/page-title';
+import PageSubtitle from 'js/components/shared/page-subtitle';
 import CollectionVisualizationControls from './visualization-controls';
 import CollectionGeneral from './general';
 import CollectionMembers from './members';
@@ -39,11 +40,7 @@ class CollectionVisualization extends Component {
 					<PageTitle title={general.prefLabelLg1} />
 					{secondLang &&
 						general.prefLabelLg2 && (
-							<div className="row">
-								<div className="col-md-8 centered col-md-offset-2">
-									<h3 className="page-sub-title">{general.prefLabelLg2}</h3>
-								</div>
-							</div>
+							<PageSubtitle subTitle={general.prefLabelLg2} />
 						)}
 					<CollectionVisualizationControls
 						id={id}
