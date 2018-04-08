@@ -171,6 +171,26 @@ const dictionary = {
 		fr: 'Date de fin de validité',
 		en: 'Expiration date',
 	},
+	issuedDateTitle: {
+		fr: "Date légale d'entrée en vigueur",
+		en: 'Legal start date',
+	},
+	lastRefreshedOnDateTitle: {
+		fr: 'Date de dernière mise à jour',
+		en: 'Last update',
+	},
+	rightsTitle: {
+		fr: "Droit d'auteur",
+		en: 'Copyright',
+	},
+	legalMaterialTitle: {
+		fr: 'Textes légaux',
+		en: 'Legal material',
+	},
+	homepageTitle: {
+		fr: 'Url de diffusion de la nomenclature',
+		en: 'Classification diffusion Url',
+	},
 	duplicatedId: {
 		fr: "L'identifiant choisi existe déjà",
 		en: 'This identifier already exists',

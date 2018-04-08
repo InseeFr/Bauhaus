@@ -9,6 +9,8 @@ const api = {
 	getFamilyMembers: id => [`family/${id}/members`],
 	getSeriesGeneral: id => [`series/${id}`],
 	getSeriesMembers: id => [`series/${id}/members`],
+	getClassificationGeneral: id => [`classification/${id}`],
+	getClassificationLevels: id => [`classification/${id}/levels`],
 };
 
 export default buildApi(baseHostClassification, api);

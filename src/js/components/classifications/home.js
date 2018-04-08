@@ -21,7 +21,7 @@ class ClassificationsHome extends Component {
 							/>
 							<SearchRmes
 								items={classifications}
-								childPath="classification"
+								childPath="classifications/classification"
 								context="classifications"
 							/>
 						</div>
