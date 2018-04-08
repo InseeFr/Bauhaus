@@ -11,6 +11,10 @@ const dictionary = {
 		fr: 'Remarque',
 		en: 'Remark',
 	},
+	childrenSeries: {
+		fr: 'Séries filles',
+		en: 'Daughter series',
+	},
 	childrenClassifications: {
 		fr: 'Nomenclatures filles',
 		en: 'Daughter classifications',

@@ -26,11 +26,9 @@ class FamilyVisualization extends Component {
 				</div>
 				<PageTitle title={prefLabelLg1} context="classifications" />
 				<Controls />
-				<div className="row">
-					<div className="col-md-12">
-						<Members members={members} />
-					</div>
-				</div>
+				{members.length !== 0 && (
+					<Members members={members} secondLang={secondLang} />
+				)}
 			</div>
 		);
 	}
