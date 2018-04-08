@@ -35,6 +35,7 @@ import MenuDispatcher from './menu/menu-container';
 import ClassificationsFamiliesHomeContainer from './classifications/families/home-container';
 import ClassificationsFamilyHomeContainer from './classifications/families/visualization/home-container';
 import ClassificationsSeriesHomeContainer from './classifications/series/home-container';
+import ClassificationsOneSeriesHomeContainer from './classifications/series/visualization/home-container';
 import ClassificationsHomeContainer from './classifications/home-container';
 // Operations
 import OperationsFamiliesHomeContainer from './operations/families/home-container';
@@ -158,6 +159,11 @@ class Root extends Component {
 							exact
 							path="/classifications/series"
 							component={ClassificationsSeriesHomeContainer}
+						/>
+						<Route
+							exact
+							path="/classifications/series/:id"
+							component={ClassificationsOneSeriesHomeContainer}
 						/>
 						<Route
 							exact

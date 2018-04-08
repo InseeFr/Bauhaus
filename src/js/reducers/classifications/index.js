@@ -2,6 +2,8 @@ import listReducer from '../utils/list-reducer';
 import * as A from 'js/actions/constants';
 import classificationFamilyGeneral from './family/general';
 import classificationFamilyMembers from './family/members';
+import classificationSeriesGeneral from './series/general';
+import classificationSeriesMembers from './series/members';
 
 const classificationsFamiliesList = listReducer([
 	A.LOAD_CLASSIFICATIONS_FAMILIES_LIST,
@@ -27,4 +29,6 @@ export default {
 	classificationsList,
 	classificationFamilyGeneral,
 	classificationFamilyMembers,
+	classificationSeriesGeneral,
+	classificationSeriesMembers,
 };
