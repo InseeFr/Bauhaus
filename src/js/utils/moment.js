@@ -19,3 +19,8 @@ export const today = () =>
 	moment()
 		.locale(getLang())
 		.format('L');
+
+export const stringToDate = (string, lang) =>
+	moment(string)
+		.locale(lang || getLang())
+		.format('L');
