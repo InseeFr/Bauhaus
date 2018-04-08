@@ -1,4 +1,4 @@
-import reducerFamilyMembers, { getMembers } from './members';
+import reducerSeriesMembers, { getMembers } from './members';
 import * as A from 'js/actions/constants';
 import { LOADED } from 'js/constants';
 
@@ -8,7 +8,7 @@ describe('reducerSeriesMembers', () => {
 			type: A.LOAD_CLASSIFICATIONS_SERIES_MEMBERS_SUCCESS,
 			payload: { id: 'id1', results: 'members' },
 		};
-		const result = reducerFamilyMembers(
+		const result = reducerSeriesMembers(
 			{ id1: 'previous', id2: 'previous' },
 			action
 		);

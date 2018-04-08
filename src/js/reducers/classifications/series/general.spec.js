@@ -1,4 +1,4 @@
-import reducerFamilyGeneral, { getGeneral } from './general';
+import reducerSeriesGeneral, { getGeneral } from './general';
 import * as A from 'js/actions/constants';
 import { LOADED } from 'js/constants';
 import * as generalUtils from 'js/utils/classifications/series/general';
@@ -9,7 +9,7 @@ describe('reducerSeriesGeneral', () => {
 			type: A.UPDATE_CLASSIFICATIONS_SERIES_SUCCESS,
 			payload: { id: 'id1' },
 		};
-		const result = reducerFamilyGeneral(
+		const result = reducerSeriesGeneral(
 			{ id1: 'previous', id2: 'previous' },
 			action
 		);
@@ -20,7 +20,7 @@ describe('reducerSeriesGeneral', () => {
 			type: A.LOAD_CLASSIFICATIONS_SERIES_GENERAL_SUCCESS,
 			payload: { id: 'id1', results: { prefLabelLg1: 'My family' } },
 		};
-		const result = reducerFamilyGeneral({}, action);
+		const result = reducerSeriesGeneral({}, action);
 		expect(result).toEqual({
 			id1: {
 				status: LOADED,
