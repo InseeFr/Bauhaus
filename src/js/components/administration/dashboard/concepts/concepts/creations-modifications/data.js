@@ -1,5 +1,5 @@
 import D from 'js/i18n';
-import { DSURLToLabel } from 'js/utils/utils';
+import { DSURLToLabel } from 'js/utils/dissemination-status-convertor';
 import { stringToDate } from 'js/utils/moment';
 
 export const rowParams = {

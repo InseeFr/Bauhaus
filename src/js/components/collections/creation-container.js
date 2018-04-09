@@ -11,7 +11,7 @@ import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import CollectionEditionCreation from './edition-creation';
 import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
-import { bindToCollectionId } from 'js/utils/utils';
+import { bindToCollectionId } from 'js/utils/string-utils';
 import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
 

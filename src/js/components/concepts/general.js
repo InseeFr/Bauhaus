@@ -1,7 +1,7 @@
 import React from 'react';
 import D from 'js/i18n';
 import Panel from 'js/components/shared/panel';
-import { DSURLToLabel } from 'js/utils/utils';
+import { DSURLToLabel } from 'js/utils/dissemination-status-convertor';
 import { stringToDate } from 'js/utils/moment';
 
 function ConceptGeneral({ attr, secondLang, langs }) {

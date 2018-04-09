@@ -12,7 +12,7 @@ import updateCollection from 'js/actions/collections/update';
 import CollectionEditionCreation from './edition-creation';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import buildExtract from 'js/utils/build-extract';
-import { bindToCollectionId } from 'js/utils/utils';
+import { bindToCollectionId } from 'js/utils/string-utils';
 import D from 'js/i18n';
 import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
