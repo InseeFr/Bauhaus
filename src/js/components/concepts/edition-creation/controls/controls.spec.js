@@ -1,4 +1,22 @@
+import React from 'react';
+import Controls from './';
+import { shallow } from 'enzyme';
+import { empty } from 'js/utils/concepts/general';
 import { scndWithoutFirst } from './';
+
+describe('concept-edition-creation-controls', () => {
+	it('renders without crashing', () => {
+		shallow(
+			<Controls
+				oldGeneral={empty()}
+				general={empty()}
+				notes={{}}
+				conceptsWithLinks={[]}
+				handleSave={() => console.log('validate')}
+			/>
+		);
+	});
+});
 
 describe('second without first', () => {
 	it('returns true if the first argument is empty but the second one is not empty', () => {
