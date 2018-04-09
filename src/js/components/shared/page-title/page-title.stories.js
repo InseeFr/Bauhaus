@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import PageTitle from './';
 import 'js/components/operations/operations.css';
+import 'js/components/classifications/classifications.css';
 
 import { withKnobs, text, number } from '@storybook/addon-knobs/react';
 

@@ -110,7 +110,7 @@ export default ({ general, secondLang, langs }) => {
 												{general[fieldName]}
 											</Link>
 											{secondLang &&
-												general.beforeLg1 && (
+												general.beforeLg2 && (
 													<span>
 														{' ('}
 														<Link
