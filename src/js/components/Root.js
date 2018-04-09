@@ -15,7 +15,7 @@ import ConceptSendContainer from './concepts/send-container';
 import ConceptCreationContainer from './concepts/creation-container';
 import ConceptEditionContainer from './concepts/edition-container';
 import ConceptVisualizationContainer from './concepts/visualization-container';
-import ConceptsToValidate from './concepts/to-validate';
+import ConceptsToValidate from './concepts/validation/home';
 import ConceptsToExport from './concepts/export/home';
 import CollectionsHomeContainer from './collections/home-container';
 import CollectionVisualizationContainer from './collections/visualization-container';
