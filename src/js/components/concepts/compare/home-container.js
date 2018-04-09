@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loading from 'js/components/shared/loading';
-import ConceptCompare from './compare';
+import ConceptCompare from './home';
 import { saveSecondLang } from 'js/actions/app';
 import loadGeneralAndAllNotes from 'js/actions/concepts/general-and-all-notes';
 import buildExtract from 'js/utils/build-extract';
