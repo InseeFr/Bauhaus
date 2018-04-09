@@ -8,7 +8,7 @@ import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
 import createConcept from 'js/actions/concepts/create';
 import buildPayloadCreation from 'js/utils/concepts/build-payload-creation-update/build-payload-creation';
-import ConceptEditionCreation from './edition-creation';
+import ConceptEditionCreation from './home';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import emptyConcept from 'js/utils/concepts/empty-concept';

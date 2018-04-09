@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
-import NoteEdition from './note-edition';
-import D from 'js/i18n'
+import NoteEdition from 'js/components/shared/note-edition';
+import D from 'js/i18n';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { htmlIsEmpty } from 'js/utils/html';
 

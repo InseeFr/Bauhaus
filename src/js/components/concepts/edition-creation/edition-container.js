@@ -9,7 +9,7 @@ import loadConceptList from 'js/actions/concepts/list';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
 import updateConcept from 'js/actions/concepts/update';
-import ConceptEditionCreation from './edition-creation';
+import ConceptEditionCreation from './home';
 import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/build-payload-update';
 import buildExtract from 'js/utils/build-extract';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';

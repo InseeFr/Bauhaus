@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
 import PageTitle from 'js/components/shared/page-title';
-import ConceptCreateControl from './create-controls';
-import GeneralEdition from './general-edition';
-import NotesEdition from './notes-edition';
-import LinksEdition from './links-edition';
+import ConceptCreateControl from './controls';
+import GeneralEdition from './general';
+import NotesEdition from './notes';
+import LinksEdition from './links';
 import ModalRmes from 'js/components/shared/modal-rmes';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import {
@@ -185,7 +185,7 @@ class ConceptEditionCreation extends Component {
 		return (
 			<div>
 				<div className="container">
-					<PageTitle title={title} subtitle={subtitle} />;
+					<PageTitle title={title} subtitle={subtitle} />
 					{this.props.general.contributor && (
 						<ConceptCreateControl
 							oldGeneral={this.getOriginalData().general}
