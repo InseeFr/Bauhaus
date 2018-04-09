@@ -9,7 +9,7 @@ import Error from 'js/components/shared/error';
 import NotFound from 'js/components/shared/not-found';
 import App from './app';
 import ConceptsHomeContainer from './concepts/home-container';
-import ConceptsSearchListContainer from './concepts/search-container';
+import ConceptsSearchListContainer from './concepts/advanced-search/home-container';
 import ConceptCompareContainer from './concepts/compare/home-container';
 import ConceptSendContainer from './concepts/send/home-container';
 import ConceptCreationContainer from './concepts/creation-container';
