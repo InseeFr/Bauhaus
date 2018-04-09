@@ -8,7 +8,7 @@ import { filterDeburr } from 'js/utils/array-utils';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
 import logoAdd from 'js/components/shared/logo-add';
 import logoDel from 'js/components/shared/logo-del';
-import ConceptItem from './list-item';
+import Item from 'js/components/shared/page-picker/item';
 
 import {
 	BROADER,
@@ -129,7 +129,7 @@ class LinksEdition extends Component {
 		const { addMember, removeMember } = this;
 
 		const memberEls = members.map(({ id, label }) => (
-			<ConceptItem
+			<Item
 				key={id}
 				id={id}
 				label={label}
@@ -141,7 +141,7 @@ class LinksEdition extends Component {
 		//TODO check if the previous assertion is right
 		const handleClickAdd = !this.isAddDisabled(members) ? addMember : undefined;
 		const hitEls = hits.map(({ id, label }) => (
-			<ConceptItem
+			<Item
 				key={id}
 				id={id}
 				label={label}

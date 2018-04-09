@@ -23,6 +23,12 @@
 	margin-top: 2%;
 }
 
+.img-flag {
+	height: 20px;
+	width: auto;
+	margin: 0;
+}
+
 .btn-group-vertical {
 	border: 2px solid #457dbb;
 	border-radius: 6px;

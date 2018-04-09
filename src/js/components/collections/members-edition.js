@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
-import ConceptItem from '../concepts/list-item';
+import Item from 'js/components/shared/page-picker/item';
 import { filterDeburr } from 'js/utils/array-utils';
 import D from 'js/i18n';
 import logoAdd from 'js/components/shared/logo-add';
@@ -102,7 +102,7 @@ class CollectionMembersEdition extends Component {
 		const { toAdd, added } = this.getConceptsByStatus();
 
 		const toAddEls = toAdd.map(({ id, label }) => (
-			<ConceptItem
+			<Item
 				key={id}
 				id={id}
 				label={label}
@@ -112,7 +112,7 @@ class CollectionMembersEdition extends Component {
 		));
 
 		const addedEls = added.map(({ id, label }) => (
-			<ConceptItem
+			<Item
 				key={id}
 				id={id}
 				label={label}
