@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import PageTitle from 'js/components/shared/page-title';
-import ConceptGeneral from '../general';
+import ConceptGeneral from '../visualization/general';
 import ConceptCompareNotes from './notes';
 import D from 'js/i18n';
 import {
