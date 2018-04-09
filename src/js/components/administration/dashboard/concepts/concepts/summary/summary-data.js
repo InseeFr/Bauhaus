@@ -7,7 +7,7 @@ export const rowParams = [
 		width: '32%',
 		isKey: true,
 	},
-	{ dataField: 'total', label: D.total, width: '17%' },
+	{ dataField: 'total', label: D.totalTitle, width: '17%' },
 	{ dataField: 'generic', label: D.DSPublicGeneriqueTitle, width: '17%' },
 	{
 		dataField: 'specific',

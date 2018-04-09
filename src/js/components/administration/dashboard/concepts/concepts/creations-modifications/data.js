@@ -31,8 +31,8 @@ export const rowParams = {
 			dataFormat: dateTimeToDateString,
 		},
 		{
-			dataField: D.isConceptValidTitle,
-			label: 'Etat',
+			dataField: 'validationStatus',
+			label: D.isConceptValidTitle,
 			width: '17%',
 			dataSort: true,
 		},
