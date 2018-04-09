@@ -30,7 +30,7 @@ import HelpOperations from './help/operations/home';
 import AdministrationHome from './administration/home-container';
 import RoleHome from './administration/roles/home-container';
 import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
-import MenuDispatcher from './menu/menu-container';
+import MenuDispatcher from './menu/home-container';
 // Classifications
 import ClassificationsFamiliesHomeContainer from './classifications/families/home-container';
 import ClassificationsFamilyHomeContainer from './classifications/families/visualization/home-container';

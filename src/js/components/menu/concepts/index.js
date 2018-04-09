@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import MenuReferentiels from './menu-referentiels';
+import MenuReferentiels from '../referentiels';
 import check from 'js/utils/auth/utils';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import MenuReferentiels from './menu-referentiels';
+import MenuReferentiels from '../referentiels';
 import D from 'js/i18n';
-import './operations.css';
+import './classifications.css';
 
-class MenuOperations extends Component {
+class MenuClassifications extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -33,20 +33,20 @@ class MenuOperations extends Component {
 	render() {
 		const { menuRef, activePath } = this.state;
 		var paths = {
-			help: { path: '/operations/help', pathKey: 'help', className: null },
+			help: { path: '/classifications/help', pathKey: 'help', className: null },
 			families: {
-				path: '/operations/families',
-				pathKey: 'operations/famil',
+				path: '/classifications/families',
+				pathKey: 'classifications/famil',
 				className: null,
 			},
 			series: {
-				path: '/operations/series',
-				pathKey: 'operations/series',
+				path: '/classifications/series',
+				pathKey: 'classifications/series',
 				className: null,
 			},
-			operations: {
-				path: '/operations',
-				pathKey: 'operation',
+			classifications: {
+				path: '/classifications',
+				pathKey: 'classification',
 				className: null,
 			},
 		};
@@ -63,10 +63,10 @@ class MenuOperations extends Component {
 		return (
 			<div>
 				<header>
-					<nav className="navbar navbar-default-operations">
+					<nav className="navbar navbar-default-classifications">
 						<div className="container-fluid">
 							<div className="collapse navbar-collapse">
-								<ul className="nav navbar-nav navbar-nav-operations">
+								<ul className="nav navbar-nav navbar-nav-classifications">
 									<li onClick={this.onChangeMenu}>
 										<a>
 											<div className="glyphicon glyphicon-th navbar-icon inline" />
@@ -89,18 +89,18 @@ class MenuOperations extends Component {
 											{D.seriesTitle}
 										</Link>
 									</li>
-									<li className={paths.operations.className}>
+									<li className={paths.classifications.className}>
 										<Link
-											to={paths.operations.path}
+											to={paths.classifications.path}
 											onClick={() =>
-												this.changeActivePath(paths.operations.path)
+												this.changeActivePath(paths.classifications.path)
 											}
 										>
-											{D.operationsTitle}
+											{D.classificationsTitle}
 										</Link>
 									</li>
 								</ul>
-								<ul className="nav navbar-nav navbar-nav-operations navbar-right">
+								<ul className="nav navbar-nav navbar-nav-classifications navbar-right">
 									<li className={paths.help.className}>
 										<Link
 											to={paths.help.path}
@@ -120,4 +120,4 @@ class MenuOperations extends Component {
 	}
 }
 
-export default withRouter(MenuOperations);
+export default withRouter(MenuClassifications);

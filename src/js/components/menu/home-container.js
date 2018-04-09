@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Menu from './menu';
+import Menu from './home';
 import * as select from 'js/reducers';
 
 class MenuContainer extends Component {
