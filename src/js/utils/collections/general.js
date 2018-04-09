@@ -1,5 +1,9 @@
-import PropTypes from 'prop-types';
-import objectFromKeys from 'js/utils/object-from-keys';
+import {
+	buildFields,
+	buildPropTypes,
+	buildEmpty,
+	buildEmptyWithContributor,
+} from 'js/utils/build-general-proptypes';
 
 export const fieldsWithRequired = [
 	['id', false],
@@ -14,24 +18,11 @@ export const fieldsWithRequired = [
 	['isValidated', false],
 ];
 
-export const fields = fieldsWithRequired.map(([fieldName]) => fieldName);
+export const fields = buildFields(fieldsWithRequired);
 
-export const propTypes = PropTypes.shape(
-	fieldsWithRequired.reduce((propTypes, [fieldName, isRequired]) => {
-		propTypes[fieldName] = isRequired
-			? PropTypes.string.isRequired
-			: PropTypes.string;
-		return propTypes;
-	}, {})
-);
+export const propTypes = buildPropTypes(fieldsWithRequired);
 
-export const emptyWithContributor = defaultContributor => {
-	const general = objectFromKeys(fields, '');
-	general.contributor = defaultContributor;
-	return general;
-};
+export const empty = () => buildEmpty(fieldsWithRequired);
 
-export const empty = () => {
-	const general = objectFromKeys(fields, '');
-	return general;
-};
+export const emptyWithContributor = defaultContributor =>
+	buildEmptyWithContributor(fieldsWithRequired, defaultContributor);
