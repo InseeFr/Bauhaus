@@ -2,7 +2,7 @@ import React from 'react';
 import D from 'js/i18n';
 import Panel from 'js/components/shared/panel';
 import { Note } from 'js/components/shared/note';
-import { dateTimeToDateString } from 'js/utils/utils';
+import { stringToDate } from 'js/utils/moment';
 
 function CollectionGeneral({ attr, secondLang, langs }) {
 	const mapping = {
@@ -21,9 +21,9 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 						if (attr.hasOwnProperty(fieldName) && attr[fieldName] !== '') {
 							if (fieldName === 'created' || fieldName === 'modified') {
 								return (
-									<li key={fieldName}>{`${
-										mapping[fieldName]
-									} : ${dateTimeToDateString(attr[fieldName])}`}</li>
+									<li key={fieldName}>{`${mapping[fieldName]} : ${stringToDate(
+										attr[fieldName]
+									)}`}</li>
 								);
 							} else {
 								return (

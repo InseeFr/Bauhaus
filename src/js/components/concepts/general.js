@@ -1,7 +1,8 @@
 import React from 'react';
 import D from 'js/i18n';
 import Panel from 'js/components/shared/panel';
-import { dateTimeToDateString, DSURLToLabel } from 'js/utils/utils';
+import { DSURLToLabel } from 'js/utils/utils';
+import { stringToDate } from 'js/utils/moment';
 
 function ConceptGeneral({ attr, secondLang, langs }) {
 	const { lg1, lg2 } = langs;
@@ -63,14 +64,10 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 										</li>
 									);
 								}
-								if (
-									fieldName === 'created' ||
-									fieldName === 'modified' ||
-									fieldName === 'valid'
-								) {
+								if (['created', 'modified', 'valid'].includes(fieldName)) {
 									return (
 										<li key={fieldName}>
-											{`${mapping[fieldName]} : ${dateTimeToDateString(
+											{`${mapping[fieldName]} : ${stringToDate(
 												attr[fieldName]
 											)}`}
 										</li>

@@ -1,5 +1,5 @@
 import D from 'js/i18n';
-import { dateTimeToDateString } from 'js/utils/utils';
+import { stringToDate } from 'js/utils/moment';
 
 export const rowParams = {
 	creations: [
@@ -27,7 +27,7 @@ export const rowParams = {
 			label: D.createdDateTitle,
 			width: '17%',
 			dataSort: true,
-			dataFormat: dateTimeToDateString,
+			dataFormat: d => stringToDate(d),
 		},
 		{
 			dataField: 'isValidated',
@@ -61,7 +61,7 @@ export const rowParams = {
 			label: D.createdDateTitle,
 			width: '17%',
 			dataSort: true,
-			dataFormat: dateTimeToDateString,
+			dataFormat: d => stringToDate(d),
 		},
 		{
 			dataField: 'isValidated',
