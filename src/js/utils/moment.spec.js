@@ -37,14 +37,12 @@ describe('has date passed', () => {
 	});
 });
 
-describe('convert stringDateTime to formatted date', () => {
-	it('returns false if the date has not passed', () => {
-		const date = '1988-02-28T10:51:47.812';
-		expect(stringToDate(date, 'fr')).toEqual('28/02/1988');
+['browserLanguage', 'language'].forEach(property => {
+	test(`should return the french version when the navigator.${property} is FR`, () => {
+		expect(stringToDate('1988-02-28T10:51:47.812', 'fr')).toEqual('28/02/1988');
 	});
 
-	it('returns true if the date has passed', () => {
-		const date = '1988-02-28T10:51:47.812';
-		expect(stringToDate(date, 'en')).toEqual('02/28/1988');
+	test(`should return the english version when the navigator.${property} is EN`, () => {
+		expect(stringToDate('1988-02-28T10:51:47.812'), 'en').toEqual('02/28/1988');
 	});
 });
