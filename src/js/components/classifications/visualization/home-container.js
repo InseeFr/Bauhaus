@@ -19,6 +19,11 @@ class ClassificationVisualizationContainer extends Component {
 		const { classification, id } = this.props;
 		if (!classification) this.props.loadClassification(id);
 	}
+	componentWillReceiveProps({ id }) {
+		if (id !== this.props.id) {
+			this.props.loadClassification(id);
+		}
+	}
 	render() {
 		const { classification, secondLang, langs } = this.props;
 		if (!classification)
