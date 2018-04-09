@@ -16,11 +16,9 @@ const storeDecorator = story => (
 );
 stories.addDecorator(storeDecorator);
 
-const items = [
-	{ id: '1', label: 'Item 1' },
-	{ id: '2', label: 'Item 2' },
-	{ id: '3', label: 'Item 3' },
-];
+const items = Array(99)
+	.fill()
+	.map((a, i) => ({ id: `${i}`, label: `Item ${i + 1}` }));
 
 stories.add('Default', () => (
 	<Picker
