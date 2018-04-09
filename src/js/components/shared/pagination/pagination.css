@@ -27,9 +27,9 @@
 }
 
 .pg-rmes-classifications li.active {
-	background-color: #457dbb;
+	background-color: #006600;
 	color: white;
-	border: 1px solid #457dbb;
+	border: 1px solid #006600;
 }
 
 .pg-rmes-operations li.active {
