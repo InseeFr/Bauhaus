@@ -9,7 +9,7 @@ import loadCollectionList from 'js/actions/collections/list';
 import loadConceptList from 'js/actions/concepts/list';
 import loadStampList from 'js/actions/stamp';
 import updateCollection from 'js/actions/collections/update';
-import CollectionEditionCreation from './edition-creation';
+import CollectionEditionCreation from './home';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import buildExtract from 'js/utils/build-extract';
 import { bindToCollectionId } from 'js/utils/string-utils';

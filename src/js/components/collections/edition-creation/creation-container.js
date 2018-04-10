@@ -8,7 +8,7 @@ import loadCollectionList from 'js/actions/collections/list';
 import loadStampList from 'js/actions/stamp';
 import createCollection from 'js/actions/collections/create';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
-import CollectionEditionCreation from './edition-creation';
+import CollectionEditionCreation from './home';
 import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
 import { bindToCollectionId } from 'js/utils/string-utils';

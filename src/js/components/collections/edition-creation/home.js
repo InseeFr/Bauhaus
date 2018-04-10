@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PageTitle from 'js/components/shared/page-title';
-import CollectionEditionCreationControls from './edition-creation-controls';
-import GeneralEdition from './general-edition';
-import MembersEdition from './members-edition';
+import CollectionEditionCreationControls from './controls';
+import GeneralEdition from './general';
+import MembersEdition from './members';
 import { propTypes as generalPropTypes } from 'js/utils/collections/general';
 
 class CollectionEditionCreation extends Component {
