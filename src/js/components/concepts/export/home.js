@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import ModalRmes from 'js/components/shared/modal-rmes';
 import Picker from 'js/components/shared/page-picker';
 import D from 'js/i18n';
-import * as select from 'js/reducers';
-import { EXPORT_CONCEPT_LIST } from 'js/actions/constants';
-import Loading from 'js/components/shared/loading';
-import exportConceptList from 'js/actions/concepts/export-multi';
-import loadConceptList from 'js/actions/concepts/list';
-import { OK } from 'js/constants';
 
 class ConceptsToExport extends Component {
 	constructor(props) {
@@ -17,7 +9,6 @@ class ConceptsToExport extends Component {
 		this.state = {
 			displayModal: false,
 			ids: [],
-			exportRequested: false,
 		};
 		this.openModal = ids =>
 			this.setState({
@@ -38,20 +29,13 @@ class ConceptsToExport extends Component {
 			this.closeModal();
 		};
 		this.handleExportConceptList = MimeType => {
-			this.props.exportConceptList(this.state.ids, MimeType);
-			this.setState({
-				exportRequested: true,
-			});
+			this.props.handleExportConceptList(this.state.ids, MimeType);
 		};
 	}
 
-	componentWillMount() {
-		if (!this.props.concepts) this.props.loadConceptList();
-	}
-
 	render() {
-		const { concepts, exportStatus } = this.props;
-		const { displayModal, exportRequested } = this.state;
+		const { concepts } = this.props;
+		const { displayModal } = this.state;
 
 		const modalButtons = [
 			{
@@ -70,17 +54,6 @@ class ConceptsToExport extends Component {
 				style: 'primary',
 			},
 		];
-
-		if (exportRequested) {
-			if (exportStatus === OK) {
-				return <Redirect to="/concepts" />;
-			}
-			return <Loading textType="exporting" context="concepts" />;
-		}
-
-		if (!concepts) {
-			return <Loading textType="loading" context="concepts" />;
-		}
 
 		return (
 			<div>
@@ -106,14 +79,4 @@ class ConceptsToExport extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	concepts: select.getConceptList(state),
-	exportStatus: select.getStatus(state, EXPORT_CONCEPT_LIST),
-});
-
-const mapDispatchToProps = {
-	loadConceptList,
-	exportConceptList,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ConceptsToExport);
+export default ConceptsToExport;
