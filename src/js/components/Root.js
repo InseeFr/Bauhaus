@@ -22,8 +22,8 @@ import CollectionVisualizationContainer from './collections/visualization-contai
 import CollectionSendContainer from './collections/send-container';
 import CollectionCreationContainer from './collections/creation-container';
 import CollectionEditionContainer from './collections/edition-container';
-import CollectionsToValidate from './collections/to-validate';
-import CollectionsToExport from './collections/to-export';
+import CollectionsToValidate from './collections/validation/home';
+import CollectionsToExport from './collections/export/home';
 import HelpConcepts from './help/concepts/home';
 import HelpClassifications from './help/classifications/home';
 import HelpOperations from './help/operations/home';

@@ -20,7 +20,8 @@
 	border-bottom-right-radius: 5px;
 }
 
-.pg-rmes-concepts li.active {
+.pg-rmes-concepts li.active,
+.pg-rmes-collections li.active {
 	background-color: #457dbb;
 	color: white;
 	border: 1px solid #457dbb;

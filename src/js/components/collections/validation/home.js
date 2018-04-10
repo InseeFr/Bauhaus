@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import Loading from 'js/components/shared/loading';
-import CollectionsPicker from './picker';
+import Picker from 'js/components/shared/page-picker';
 import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
 import D from 'js/i18n';
 import check from 'js/utils/auth/utils';
@@ -50,13 +50,14 @@ class CollectionsToValidate extends Component {
 			stamp
 		);
 		return (
-			<CollectionsPicker
-				collections={filteredCollections}
+			<Picker
+				items={filteredCollections}
 				title={D.collectionsToValidTitle}
 				panelTitle={D.collectionsToValidPanelTitle}
 				labelWarning={D.hasNotCollectionToValid}
 				labelValidateButton={D.btnValid}
 				handleAction={this.handleValidateCollectionList}
+				context="collections"
 			/>
 		);
 	}

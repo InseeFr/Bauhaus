@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import CollectionsPicker from './picker';
+import Picker from 'js/components/shared/page-picker';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { EXPORT_COLLECTION_LIST } from 'js/actions/constants';
@@ -92,13 +92,14 @@ class CollectionsToExport extends Component {
 					modalButtons={modalButtons}
 					closeCancel={this.closeModal}
 				/>
-				<CollectionsPicker
-					collections={collections}
+				<Picker
+					items={collections}
 					title={D.exportTitle}
 					panelTitle={D.collectionsExportPanelTitle}
 					labelWarning={D.hasNotCollectionToExport}
 					labelValidateButton={D.btnExport}
 					handleAction={this.openModal}
+					context="collections"
 				/>
 			</div>
 		);
