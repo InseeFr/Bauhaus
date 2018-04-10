@@ -87,7 +87,7 @@ class CollectionEditionCreation extends Component {
 		return (
 			<div>
 				<div className="container">
-					<PageTitle title={title} subtitle={subtitle} />;
+					<PageTitle title={title} subtitle={subtitle} />
 					{creation && (
 						<CollectionEditionCreationControls
 							general={general}
