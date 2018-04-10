@@ -12,16 +12,14 @@ function build() {
 }
 
 function publish() {
-  pushd "$TEMP_FOLDER"
   git init
   git remote add upstream "$UPSTREAM"
   git fetch --prune upstream
-  git pull upstream/gh-pages cp -r "$STORY_BOOK_FOLDER".
+  git pull upstream/gh-pages cp -r ./"$STORY_BOOK_FOLDER".
   git add --all .
   if git commit --message "$MESSAGE" --author "$AUTHOR" ; then
   git push --quiet upstream HEAD:gh-pages
   fi
-  popd
 }
 
 function main() {
