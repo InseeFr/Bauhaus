@@ -22,7 +22,7 @@ import CollectionVisualizationContainer from './collections/visualization/home-c
 import CollectionSendContainer from './collections/send/home-container';
 import CollectionCreationContainer from './collections/edition-creation/creation-container';
 import CollectionEditionContainer from './collections/edition-creation/edition-container';
-import CollectionsToValidate from './collections/validation/home';
+import CollectionsToValidateContainer from './collections/validation/home-container';
 import CollectionsToExportContainer from './collections/export/home-container';
 import HelpConcepts from './help/concepts/home';
 import HelpClassifications from './help/classifications/home';
@@ -121,7 +121,7 @@ class Root extends Component {
 						<Route
 							exact
 							path="/collections/validation"
-							component={CollectionsToValidate}
+							component={CollectionsToValidateContainer}
 						/>
 						<Route
 							exact
