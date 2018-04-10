@@ -18,7 +18,7 @@ import ConceptVisualizationContainer from './concepts/visualization/home-contain
 import ConceptsToValidate from './concepts/validation/home';
 import ConceptsToExport from './concepts/export/home';
 import CollectionsHomeContainer from './collections/home-container';
-import CollectionVisualizationContainer from './collections/visualization-container';
+import CollectionVisualizationContainer from './collections/visualization/home-container';
 import CollectionSendContainer from './collections/send/home-container';
 import CollectionCreationContainer from './collections/creation-container';
 import CollectionEditionContainer from './collections/edition-container';

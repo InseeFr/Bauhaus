@@ -9,7 +9,7 @@ import { saveSecondLang } from 'js/actions/app';
 import loadCollections from 'js/actions/collections/collection';
 import loadStampList from 'js/actions/stamp';
 import Loading from 'js/components/shared/loading';
-import CollectionVisualization from './visualization';
+import CollectionVisualization from './home';
 import { OK } from 'js/constants';
 const extractId = buildExtract('id');
 
