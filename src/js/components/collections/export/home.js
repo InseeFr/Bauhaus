@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import Picker from 'js/components/shared/page-picker';
 import D from 'js/i18n';
-import * as select from 'js/reducers';
-import { EXPORT_COLLECTION_LIST } from 'js/actions/constants';
-import Loading from 'js/components/shared/loading';
 import ModalRmes from 'js/components/shared/modal-rmes';
-import exportCollectionList from 'js/actions/collections/export-multi';
-import loadCollectionList from 'js/actions/collections/list';
-import { OK } from 'js/constants';
 
 class CollectionsToExport extends Component {
 	constructor(props) {
@@ -17,7 +9,6 @@ class CollectionsToExport extends Component {
 		this.state = {
 			displayModal: false,
 			ids: [],
-			exportRequested: false,
 		};
 		this.openModal = ids =>
 			this.setState({
@@ -40,20 +31,13 @@ class CollectionsToExport extends Component {
 			this.closeModal();
 		};
 		this.handleExportCollectionList = MimeType => {
-			this.props.exportCollectionList(this.state.ids, MimeType);
-			this.setState({
-				exportRequested: true,
-			});
+			this.props.handleExportCollectionList(this.state.ids, MimeType);
 		};
 	}
 
-	componentWillMount() {
-		if (!this.props.collections) this.props.loadCollectionList();
-	}
-
 	render() {
-		const { collections, exportStatus } = this.props;
-		const { displayModal, exportRequested } = this.state;
+		const { collections } = this.props;
+		const { displayModal } = this.state;
 
 		const modalButtons = [
 			{
@@ -72,15 +56,6 @@ class CollectionsToExport extends Component {
 				style: 'primary',
 			},
 		];
-
-		if (exportRequested) {
-			if (exportStatus === OK) {
-				return <Redirect to="/collections" />;
-			}
-			return <Loading textType="exporting" context="concepts" />;
-		}
-
-		if (!collections) return <Loading textType="loading" context="concepts" />;
 
 		return (
 			<div>
@@ -106,16 +81,4 @@ class CollectionsToExport extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	collections: select.getCollectionList(state),
-	exportStatus: select.getStatus(state, EXPORT_COLLECTION_LIST),
-});
-
-const mapDispatchToProps = {
-	loadCollectionList,
-	exportCollectionList,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(
-	CollectionsToExport
-);
+export default CollectionsToExport;

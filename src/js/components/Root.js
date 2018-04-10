@@ -23,7 +23,7 @@ import CollectionSendContainer from './collections/send/home-container';
 import CollectionCreationContainer from './collections/edition-creation/creation-container';
 import CollectionEditionContainer from './collections/edition-creation/edition-container';
 import CollectionsToValidate from './collections/validation/home';
-import CollectionsToExport from './collections/export/home';
+import CollectionsToExportContainer from './collections/export/home-container';
 import HelpConcepts from './help/concepts/home';
 import HelpClassifications from './help/classifications/home';
 import HelpOperations from './help/operations/home';
@@ -126,7 +126,7 @@ class Root extends Component {
 						<Route
 							exact
 							path="/collections/export"
-							component={CollectionsToExport}
+							component={CollectionsToExportContainer}
 						/>
 						<Route exact path="/concepts/help" component={HelpConcepts} />
 						<Route
