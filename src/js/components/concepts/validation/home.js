@@ -1,32 +1,20 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
-import Loading from 'js/components/shared/loading';
 import ModalRmes from 'js/components/shared/modal-rmes';
 import Picker from 'js/components/shared/page-picker';
-import { VALIDATE_CONCEPT_LIST } from 'js/actions/constants';
-import D from 'js/i18n';
 import check from 'js/utils/auth/utils';
-import * as select from 'js/reducers';
-import validateConceptList from 'js/actions/concepts/validate';
-import loadConceptValidateList from 'js/actions/concepts/validate-list';
+import D from 'js/i18n';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
-import { OK } from 'js/constants';
 
 class ConceptsToValidate extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			validationRequested: false,
 			modalValid: false,
 			idWithValid: [],
 		};
 
 		this.handleValidateConceptList = ids => {
-			this.props.validateConceptList(ids);
-			this.setState({
-				validationRequested: true,
-			});
+			this.props.handleValidateConceptList(ids);
 		};
 		this.handleClickValidation = ids => {
 			this.setState({ ids });
@@ -47,15 +35,10 @@ class ConceptsToValidate extends Component {
 			this.handleValidateConceptList(this.state.ids);
 		};
 	}
-	componentWillMount() {
-		if (!this.props.concepts) this.props.loadConceptValidateList();
-	}
+
 	render() {
-		const { validationRequested, modalValid, idWithValid } = this.state;
-		const {
-			validationStatus,
-			permission: { authType, role, stamp },
-		} = this.props;
+		const { modalValid, idWithValid } = this.state;
+		const { concepts, permission: { authType, role, stamp } } = this.props;
 		const authImpl = check(authType);
 
 		const modalButtons = [
@@ -70,16 +53,6 @@ class ConceptsToValidate extends Component {
 				style: 'primary',
 			},
 		];
-
-		if (validationRequested) {
-			if (validationStatus === OK) {
-				return <Redirect to="/concepts" />;
-			} else {
-				return <Loading textType="validating" context="concepts" />;
-			}
-		}
-		const { concepts } = this.props;
-		if (!concepts) return <Loading textType="loading" context="concepts" />;
 
 		const filteredConcepts = authImpl.filterConceptsToValidate(
 			concepts,
@@ -110,15 +83,4 @@ class ConceptsToValidate extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	concepts: select.getConceptValidateList(state),
-	permission: select.getPermission(state),
-	validationStatus: select.getStatus(state, VALIDATE_CONCEPT_LIST),
-});
-
-const mapDispatchToProps = {
-	loadConceptValidateList,
-	validateConceptList,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ConceptsToValidate);
+export default ConceptsToValidate;

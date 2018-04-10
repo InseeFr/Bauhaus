@@ -15,7 +15,7 @@ import ConceptSendContainer from './concepts/send/home-container';
 import ConceptCreationContainer from './concepts/edition-creation/creation-container';
 import ConceptEditionContainer from './concepts/edition-creation/edition-container';
 import ConceptVisualizationContainer from './concepts/visualization/home-container';
-import ConceptsToValidate from './concepts/validation/home';
+import ConceptsToValidateContainer from './concepts/validation/home-container';
 import ConceptsToExportContainer from './concepts/export/home-container';
 import CollectionsHomeContainer from './collections/home-container';
 import CollectionVisualizationContainer from './collections/visualization/home-container';
@@ -90,7 +90,7 @@ class Root extends Component {
 						<Route
 							exact
 							path="/concepts/validation"
-							component={ConceptsToValidate}
+							component={ConceptsToValidateContainer}
 						/>
 						<Route
 							exact
