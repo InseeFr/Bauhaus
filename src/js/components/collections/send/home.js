@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import PageTitle from 'js/components/shared/page-title';
-import SendControls from './send-controls';
+import SendControls from './controls';
 import EditorHtml from 'js/components/shared/editor-html';
 import D from 'js/i18n';
 import { regexValidMail, allTagA } from 'js/utils/regex';

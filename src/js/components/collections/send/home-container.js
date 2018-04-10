@@ -8,8 +8,8 @@ import sendCollection from 'js/actions/collections/send';
 import * as select from 'js/reducers';
 import buildExtract from 'js/utils/build-extract';
 import { OK } from 'js/constants';
-import SendStatus from './send-status';
-import CollectionSend from './send';
+import SendStatus from './status';
+import CollectionSend from './home';
 
 const extractId = buildExtract('id');
 

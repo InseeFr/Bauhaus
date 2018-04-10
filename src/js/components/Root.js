@@ -19,7 +19,7 @@ import ConceptsToValidate from './concepts/validation/home';
 import ConceptsToExport from './concepts/export/home';
 import CollectionsHomeContainer from './collections/home-container';
 import CollectionVisualizationContainer from './collections/visualization-container';
-import CollectionSendContainer from './collections/send-container';
+import CollectionSendContainer from './collections/send/home-container';
 import CollectionCreationContainer from './collections/creation-container';
 import CollectionEditionContainer from './collections/edition-container';
 import CollectionsToValidate from './collections/validation/home';
