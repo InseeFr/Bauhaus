@@ -31,7 +31,7 @@ class LevelVisualization extends Component {
 						context="classifications"
 					/>
 				)}
-				<Controls />
+				<Controls id={classificationId} />
 				<General
 					general={general}
 					classificationId={classificationId}

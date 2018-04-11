@@ -1,34 +1,73 @@
-import reducerSeriesMembers, { getMembers } from './members';
+import reducerLevelMembers, { getMembers } from './members';
 import * as A from 'js/actions/constants';
-import { LOADED } from 'js/constants';
+import { LOADING, LOADED } from 'js/constants';
 
-describe('reducerSeriesMembers', () => {
-	test('action LOAD_CLASSIFICATIONS_SERIES_MEMBERS_SUCCESS', () => {
+describe('reducerLevelMembers', () => {
+	test('action LOAD_CLASSIFICATION_LEVEL_MEMBERS', () => {
 		const action = {
-			type: A.LOAD_CLASSIFICATIONS_SERIES_MEMBERS_SUCCESS,
-			payload: { id: 'id1', results: 'members' },
+			type: A.LOAD_CLASSIFICATION_LEVEL_MEMBERS,
+			payload: { classificationId: 'nafr2', levelId: 'divisions' },
 		};
-		const result = reducerSeriesMembers(
-			{ id1: 'previous', id2: 'previous' },
+		const result = reducerLevelMembers(
+			{
+				nafr2: {
+					sections: 'previous',
+				},
+			},
 			action
 		);
 		expect(result).toEqual({
-			id1: {
-				status: LOADED,
-				results: 'members',
+			nafr2: {
+				sections: 'previous',
+				divisions: { status: LOADING },
 			},
-			id2: 'previous',
+		});
+	});
+	test('action LOAD_CLASSIFICATION_LEVEL_MEMBERS_SUCCESS', () => {
+		const action = {
+			type: A.LOAD_CLASSIFICATION_LEVEL_MEMBERS_SUCCESS,
+			payload: { classificationId: 'nafr2', levelId: 'divisions', results: [] },
+		};
+		const result = reducerLevelMembers(
+			{
+				nafr2: {
+					sections: 'previous',
+				},
+			},
+			action
+		);
+		expect(result).toEqual({
+			nafr2: {
+				sections: 'previous',
+				divisions: { status: LOADED, results: [] },
+			},
 		});
 	});
 });
 
 describe('getMembers', () => {
 	test('getMembers selector should extract nothing', () => {
-		const result = getMembers({ id1: { results: 'members' } }, 'id2');
-		expect(result).toEqual();
+		const result = getMembers(
+			{
+				nafr2: {
+					sections: { status: LOADED, results: 'members' },
+				},
+			},
+			'nafr2',
+			'divisions'
+		);
+		expect(result).toBe();
 	});
 	test('getMembers selector should extract results', () => {
-		const result = getMembers({ id1: { results: 'members' } }, 'id1');
+		const result = getMembers(
+			{
+				nafr2: {
+					sections: { status: LOADED, results: 'members' },
+				},
+			},
+			'nafr2',
+			'sections'
+		);
 		expect(result).toEqual('members');
 	});
 });

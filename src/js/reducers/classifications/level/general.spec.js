@@ -1,32 +1,59 @@
-import reducerSeriesGeneral, { getGeneral } from './general';
+import reducerLevelGeneral, { getGeneral } from './general';
 import * as A from 'js/actions/constants';
-import { LOADED } from 'js/constants';
-import * as generalUtils from 'js/utils/classifications/series/general';
+import { LOADING, LOADED } from 'js/constants';
+import * as generalUtils from 'js/utils/classifications/level/general';
 
-describe('reducerSeriesGeneral', () => {
-	test('action UPDATE_CLASSIFICATIONS_SERIES_SUCCESS', () => {
+describe('reducerLevelGeneral', () => {
+	test('action LOAD_CLASSIFICATION_LEVEL_GENERAL', () => {
 		const action = {
-			type: A.UPDATE_CLASSIFICATIONS_SERIES_SUCCESS,
-			payload: { id: 'id1' },
+			type: A.LOAD_CLASSIFICATION_LEVEL_GENERAL,
+			payload: { classificationId: 'nafr2', levelId: 'sections' },
 		};
-		const result = reducerSeriesGeneral(
-			{ id1: 'previous', id2: 'previous' },
+		const result = reducerLevelGeneral(
+			{
+				nafr2: {
+					sections: 'previous',
+					divisions: 'previous',
+				},
+			},
 			action
 		);
-		expect(result).toEqual({ id1: {}, id2: 'previous' });
-	});
-	test('action LOAD_CLASSIFICATIONS_SERIES_GENERAL_SUCCESS', () => {
-		const action = {
-			type: A.LOAD_CLASSIFICATIONS_SERIES_GENERAL_SUCCESS,
-			payload: { id: 'id1', results: { prefLabelLg1: 'My family' } },
-		};
-		const result = reducerSeriesGeneral({}, action);
 		expect(result).toEqual({
-			id1: {
-				status: LOADED,
-				results: Object.assign(generalUtils.empty(), {
-					prefLabelLg1: 'My family',
-				}),
+			nafr2: {
+				sections: {
+					status: LOADING,
+				},
+				divisions: 'previous',
+			},
+		});
+	});
+	test('action LOAD_CLASSIFICATION_LEVEL_GENERAL_SUCCESS', () => {
+		const action = {
+			type: A.LOAD_CLASSIFICATION_LEVEL_GENERAL_SUCCESS,
+			payload: {
+				classificationId: 'nafr2',
+				levelId: 'sections',
+				results: { prefLabelLg1: 'Label' },
+			},
+		};
+		const result = reducerLevelGeneral(
+			{
+				nafr2: {
+					sections: 'previous',
+					divisions: 'previous',
+				},
+			},
+			action
+		);
+		expect(result).toEqual({
+			nafr2: {
+				sections: {
+					status: LOADED,
+					results: Object.assign(generalUtils.empty(), {
+						prefLabelLg1: 'Label',
+					}),
+				},
+				divisions: 'previous',
 			},
 		});
 	});
@@ -34,11 +61,27 @@ describe('reducerSeriesGeneral', () => {
 
 describe('getGeneral', () => {
 	test('getGeneral selector should extract nothing', () => {
-		const result = getGeneral({ id1: { results: 'results' } }, 'id2');
+		const result = getGeneral(
+			{
+				nafr2: {
+					sections: { status: LOADED, results: 'data' },
+				},
+			},
+			'nafr2',
+			'divisions'
+		);
 		expect(result).toEqual();
 	});
 	test('getGeneral selector should extract results', () => {
-		const result = getGeneral({ id1: { results: 'results' } }, 'id1');
-		expect(result).toEqual('results');
+		const result = getGeneral(
+			{
+				nafr2: {
+					sections: { status: LOADED, results: 'data' },
+				},
+			},
+			'nafr2',
+			'sections'
+		);
+		expect(result).toEqual('data');
 	});
 });
