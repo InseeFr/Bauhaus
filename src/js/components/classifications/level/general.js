@@ -22,7 +22,11 @@ export default ({ general, classificationId, secondLang }) => {
 									return (
 										<li key={fieldName}>
 											{mapping[fieldName]} :{' '}
-											<Link to={`/classifications/series/${general.idBroader}`}>
+											<Link
+												to={`/classifications/classification/${classificationId}/level/${
+													general.idBroader
+												}`}
+											>
 												{general[fieldName]}
 											</Link>
 											{secondLang &&
@@ -30,7 +34,7 @@ export default ({ general, classificationId, secondLang }) => {
 													<span>
 														{' ('}
 														<Link
-															to={`/classifications/series/${
+															to={`/classifications/classification/${classificationId}/level/${
 																general.idBroader
 															}`}
 														>

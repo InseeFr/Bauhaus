@@ -19,6 +19,11 @@ class LevelVisualizationContainer extends Component {
 		const { classificationId, levelId, level } = this.props;
 		if (!level) this.props.loadLevel(classificationId, levelId);
 	}
+	componentWillReceiveProps({ levelId }) {
+		if (levelId !== this.props.levelId) {
+			this.props.loadLevel(this.props.classificationId, levelId);
+		}
+	}
 	render() {
 		const { level, secondLang } = this.props;
 		if (!level) return <Loading textType="loading" context="classifications" />;
@@ -57,8 +62,8 @@ LevelVisualizationContainer = connect(mapStateToProps, mapDispatchToProps)(
 LevelVisualizationContainer.propTypes = {
 	match: PropTypes.shape({
 		params: PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			depth: PropTypes.string.isRequired,
+			classificationId: PropTypes.string.isRequired,
+			levelId: PropTypes.string.isRequired,
 		}),
 	}),
 };
