@@ -27,6 +27,10 @@ const dictionary = {
 		fr: 'Nomenclatures filles',
 		en: 'Daughter classifications',
 	},
+	childrenClassificationItems: {
+		fr: 'Postes du niveau',
+		en: 'Level items',
+	},
 	motherFamily: {
 		fr: 'Famille mère',
 		en: 'Mother family',
@@ -62,6 +66,26 @@ const dictionary = {
 	classificationsVariantTitle: {
 		fr: 'Variante',
 		en: 'Variant',
+	},
+	classificationsBroaderLevel: {
+		fr: 'Niveau supérieur',
+		en: 'Broader level',
+	},
+	classificationsNarrowerLevel: {
+		fr: 'Niveau inférieur',
+		en: 'Narrower level',
+	},
+	classificationsNotationTitle: {
+		fr: 'Code',
+		en: 'Code',
+	},
+	classificationsDepthTitle: {
+		fr: 'Profondeur',
+		en: 'Depth',
+	},
+	classificationsNotationPatternTitle: {
+		fr: 'Structure des codes du niveau',
+		en: 'Level item codes pattern',
 	},
 };
 
