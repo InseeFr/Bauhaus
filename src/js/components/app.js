@@ -18,11 +18,11 @@ function App() {
 						{D.conceptsTitle}
 					</h2>
 				</Link>
-				<Link to="/classifications">
-					<h2 className="items page-title-temp" disabled>
-						{D.classificationsTitle}
-					</h2>
-				</Link>
+				{/*<Link to="/">*/}
+				<h2 className="items page-title-temp" disabled>
+					{D.classificationsTitle}
+				</h2>
+				{/*</Link>*/}
 				<Link to="/operations/series">
 					<h2 className="items page-title page-title-link">
 						{D.operationsTitle}
@@ -33,7 +33,7 @@ function App() {
 				<Link to="/concepts">
 					<img src={conceptsLogo} alt="Concepts" className="img" />
 				</Link>
-				{/*<Link to="/classifications">*/}
+				{/*<Link to="/">*/}
 				<img src={classificationsLogo} alt="Classifications" className="img" />
 				{/*</Link>*/}
 				<Link to="/operations/series">
