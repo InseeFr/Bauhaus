@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Panel from 'js/components/shared/panel';
 import SearchRmes from 'js/components/shared/search-rmes';
 import D from 'js/i18n';
