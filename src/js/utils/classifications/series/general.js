@@ -1,6 +1,7 @@
 import { buildPropTypes, buildEmpty } from 'js/utils/build-general-proptypes';
 
 export const fieldsWithRequired = [
+	['id', true],
 	['prefLabelLg1', true],
 	['prefLabelLg2', false],
 	['altLabelLg1', false],
@@ -11,7 +12,8 @@ export const fieldsWithRequired = [
 	['publisher', false],
 	['covers', false],
 	['familyLg1', false],
-	['familyLg1', false],
+	['familyLg2', false],
+	['idFamily', false],
 ];
 
 export const propTypes = buildPropTypes(fieldsWithRequired);
