@@ -19,7 +19,6 @@
 	"devDependencies": {
 		"@storybook/addon-knobs": "^3.3.15",
 		"@storybook/react": "^3.3.15",
-		"@storybook/storybook-deployer": "^2.3.0",
 		"babel-eslint": "^7.2.3",
 		"coveralls": "^3.0.0",
 		"cross-env": "^5.0.1",
@@ -29,6 +28,7 @@
 		"eslint-plugin-import": "^2.6.0",
 		"eslint-plugin-jsx-a11y": "^5.1.1",
 		"eslint-plugin-react": "^7.1.0",
+		"gh-pages": "^1.1.0",
 		"prettier": "^1.9.2"
 	},
 	"dependencies": {
@@ -72,10 +72,10 @@
 			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
 		"test": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom",
 		"test:coverage": "yarn test --coverage -i",
-		"start-storybook":
-			"cross-env NODE_PATH=src/ start-storybook -p 9999 -c .storybook",
-		"build-storybook": "cross-env NODE_PATH=src/ build-storybook -c .storybook",
-		"deploy-storybook": "storybook-to-ghpages",
+		"start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
+		"build-storybook":
+			"cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
+		"deploy-storybook": "gh-pages -d built-storybook",
 		"eject": "react-scripts eject",
 		"format":
 			"prettier --trailing-comma es5 --single-quote --write 'src/**/*.js'"

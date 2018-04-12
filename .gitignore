@@ -7,7 +7,7 @@
 /coverage
 
 # storybook building files
-/storybook-static
+/built-storybook
 
 # production
 /build
