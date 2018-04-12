@@ -24,7 +24,6 @@ function publish() {
   git remote add upstream "$UPSTREAM"
   git fetch --prune upstream
   git add --all .
-  git merge upstream gh-pages
   if git commit --message "$MESSAGE" --author "$AUTHOR" ; then
     git push --quiet upstream gh-pages
   fi
