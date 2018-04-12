@@ -9,7 +9,7 @@ install:
 
 before_script:
   - yarn test:coverage
-  
+
 script:
   - yarn build
   - yarn build-storybook
@@ -17,4 +17,4 @@ script:
 after_script:
   - "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   - bash scripts/gitbook.sh
-  - yarn deploy-storybook
+  - bash scripts/storybook.sh

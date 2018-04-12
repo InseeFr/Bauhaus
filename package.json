@@ -28,7 +28,6 @@
 		"eslint-plugin-import": "^2.6.0",
 		"eslint-plugin-jsx-a11y": "^5.1.1",
 		"eslint-plugin-react": "^7.1.0",
-		"gh-pages": "^1.1.0",
 		"prettier": "^1.9.2"
 	},
 	"dependencies": {
@@ -75,7 +74,6 @@
 		"start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
 		"build-storybook":
 			"cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
-		"deploy-storybook": "gh-pages -d built-storybook",
 		"eject": "react-scripts eject",
 		"format":
 			"prettier --trailing-comma es5 --single-quote --write 'src/**/*.js'"
