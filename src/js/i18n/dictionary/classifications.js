@@ -11,6 +11,22 @@ const dictionary = {
 		fr: 'Remarque',
 		en: 'Remark',
 	},
+	classificationsDefinition: {
+		fr: 'Note générale',
+		en: 'General note',
+	},
+	classificationsCoreContentNote: {
+		fr: 'Contenu central',
+		en: 'Main content',
+	},
+	classificationsAdditionalContentNote: {
+		fr: 'Contenu limite',
+		en: 'Additional content',
+	},
+	classificationsExclusionNote: {
+		fr: "Note d'exclusions",
+		en: 'Exclusion note',
+	},
 	classificationsChangeNote: {
 		fr: 'Note de changement',
 		en: 'Change note',
@@ -86,6 +102,26 @@ const dictionary = {
 	classificationsNotationPatternTitle: {
 		fr: 'Structure des codes du niveau',
 		en: 'Level item codes pattern',
+	},
+	classificationsNarrowerItems: {
+		fr: 'Niveaux inférieurs',
+		en: 'Narrower items',
+	},
+	classificationItemAltLabels: {
+		fr: length => `Titre abrégé (${length})`,
+		en: length => `Short title (${length})`,
+	},
+	classificationConceptVersionTitle: {
+		fr: 'Version du poste',
+		en: 'Item version',
+	},
+	isClassificationItemValidTitle: {
+		fr: 'État du poste',
+		en: 'State of the item',
+	},
+	classificationItemIsValidated: {
+		fr: bool => `${bool ? 'Validé' : 'Provisoire'}`,
+		en: bool => `${bool ? 'Validated' : 'Provisional'}`,
 	},
 };
 

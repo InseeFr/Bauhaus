@@ -8,7 +8,7 @@ import Error from 'js/components/shared/error';
 
 import NotFound from 'js/components/shared/not-found';
 import App from './app';
-import ConceptsHomeContainer from './concepts/home-container';
+import ConceptsContainer from './concepts/home-container';
 import ConceptsSearchListContainer from './concepts/advanced-search/home-container';
 import ConceptCompareContainer from './concepts/compare/home-container';
 import ConceptSendContainer from './concepts/send/home-container';
@@ -17,7 +17,7 @@ import ConceptEditionContainer from './concepts/edition-creation/edition-contain
 import ConceptVisualizationContainer from './concepts/visualization/home-container';
 import ConceptsToValidateContainer from './concepts/validation/home-container';
 import ConceptsToExportContainer from './concepts/export/home-container';
-import CollectionsHomeContainer from './collections/home-container';
+import CollectionsContainer from './collections/home-container';
 import CollectionVisualizationContainer from './collections/visualization/home-container';
 import CollectionSendContainer from './collections/send/home-container';
 import CollectionCreationContainer from './collections/edition-creation/creation-container';
@@ -27,22 +27,23 @@ import CollectionsToExportContainer from './collections/export/home-container';
 import HelpConcepts from './help/concepts/home';
 import HelpClassifications from './help/classifications/home';
 import HelpOperations from './help/operations/home';
-import AdministrationHome from './administration/home-container';
-import RoleHome from './administration/roles/home-container';
-import ConceptsDashboardHome from './administration/dashboard/concepts/home-container';
+import Administration from './administration/home-container';
+import Role from './administration/roles/home-container';
+import ConceptsDashboard from './administration/dashboard/concepts/home-container';
 import MenuDispatcher from './menu/home-container';
 // Classifications
-import ClassificationsFamiliesHomeContainer from './classifications/families/home-container';
-import ClassificationsFamilyHomeContainer from './classifications/families/visualization/home-container';
-import ClassificationsSeriesHomeContainer from './classifications/series/home-container';
-import ClassificationsOneSeriesHomeContainer from './classifications/series/visualization/home-container';
-import ClassificationsHomeContainer from './classifications/home-container';
-import ClassificationHomeContainer from './classifications/visualization/home-container';
+import ClassificationsFamiliesContainer from './classifications/families/home-container';
+import ClassificationsFamilyContainer from './classifications/families/visualization/home-container';
+import ClassificationsSeriesContainer from './classifications/series/home-container';
+import ClassificationsOneSeriesContainer from './classifications/series/visualization/home-container';
+import ClassificationsContainer from './classifications/home-container';
+import ClassificationContainer from './classifications/visualization/home-container';
 import ClassificationLevelContainer from './classifications/level/home-container';
+import ClassificationItemContainer from './classifications/item/home-container';
 // Operations
-import OperationsFamiliesHomeContainer from './operations/families/home-container';
-import OperationsSeriesHomeContainer from './operations/series/home-container';
-import OperationsHomeContainer from './operations/operations/home-container';
+import OperationsFamiliesContainer from './operations/families/home-container';
+import OperationsSeriesContainer from './operations/series/home-container';
+import OperationsContainer from './operations/operations/home-container';
 import OperationsFamilyVisualizationContainer from './operations/families/visualization-container';
 import OperationsSeriesVisualizationContainer from './operations/series/visualization-container';
 import OperationVisualizationContainer from './operations/operations/visualization-container';
@@ -57,7 +58,7 @@ class Root extends Component {
 					<Switch>
 						{error && <Route path="/" component={Error} />}
 						<Route exact path="/" component={App} />
-						<Route exact path="/concepts" component={ConceptsHomeContainer} />
+						<Route exact path="/concepts" component={ConceptsContainer} />
 						<Route
 							exact
 							path="/concepts/search"
@@ -98,11 +99,7 @@ class Root extends Component {
 							path="/concepts/export"
 							component={ConceptsToExportContainer}
 						/>
-						<Route
-							exact
-							path="/collections"
-							component={CollectionsHomeContainer}
-						/>
+						<Route exact path="/collections" component={CollectionsContainer} />
 						<Route
 							exact
 							path="/collection/create"
@@ -143,43 +140,43 @@ class Root extends Component {
 						<Route
 							exact
 							path="/concepts/administration"
-							component={AdministrationHome}
+							component={Administration}
 						/>
-						<Route exact path="/administration/roles" component={RoleHome} />
+						<Route exact path="/administration/roles" component={Role} />
 						<Route
 							exact
 							path="/concepts/administration/dashboard"
-							component={ConceptsDashboardHome}
+							component={ConceptsDashboard}
 						/>
 						<Route
 							exact
 							path="/classifications/families"
-							component={ClassificationsFamiliesHomeContainer}
+							component={ClassificationsFamiliesContainer}
 						/>
 						<Route
 							exact
 							path="/classifications/family/:id"
-							component={ClassificationsFamilyHomeContainer}
+							component={ClassificationsFamilyContainer}
 						/>
 						<Route
 							exact
 							path="/classifications/series"
-							component={ClassificationsSeriesHomeContainer}
+							component={ClassificationsSeriesContainer}
 						/>
 						<Route
 							exact
 							path="/classifications/series/:id"
-							component={ClassificationsOneSeriesHomeContainer}
+							component={ClassificationsOneSeriesContainer}
 						/>
 						<Route
 							exact
 							path="/classifications"
-							component={ClassificationsHomeContainer}
+							component={ClassificationsContainer}
 						/>
 						<Route
 							exact
 							path="/classifications/classification/:id"
-							component={ClassificationHomeContainer}
+							component={ClassificationContainer}
 						/>
 						<Route
 							exact
@@ -188,19 +185,20 @@ class Root extends Component {
 						/>
 						<Route
 							exact
+							path="/classifications/classification/:classificationId/item/:itemId"
+							component={ClassificationItemContainer}
+						/>
+						<Route
+							exact
 							path="/operations/families"
-							component={OperationsFamiliesHomeContainer}
+							component={OperationsFamiliesContainer}
 						/>
 						<Route
 							exact
 							path="/operations/series"
-							component={OperationsSeriesHomeContainer}
+							component={OperationsSeriesContainer}
 						/>
-						<Route
-							exact
-							path="/operations"
-							component={OperationsHomeContainer}
-						/>
+						<Route exact path="/operations" component={OperationsContainer} />
 						<Route
 							exact
 							path="/operations/family/:id"

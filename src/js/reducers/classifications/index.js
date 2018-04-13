@@ -8,6 +8,9 @@ import classificationGeneral from './classification/general';
 import classificationLevels from './classification/levels';
 import classificationLevelGeneral from './level/general';
 import classificationLevelMembers from './level/members';
+import classificationItemGeneral from './item/general';
+import classificationItemNotes from './item/notes';
+import classificationItemNarrowers from './item/narrowers';
 
 const classificationsFamiliesList = listReducer([
 	A.LOAD_CLASSIFICATIONS_FAMILIES_LIST,
@@ -39,4 +42,7 @@ export default {
 	classificationLevels,
 	classificationLevelGeneral,
 	classificationLevelMembers,
+	classificationItemGeneral,
+	classificationItemNotes,
+	classificationItemNarrowers,
 };

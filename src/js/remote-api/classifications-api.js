@@ -17,6 +17,15 @@ const api = {
 	getClassificationLevelMembers: (classificationId, levelId) => [
 		`classification/${classificationId}/level/${levelId}/members`,
 	],
+	getClassificationItemGeneral: (classificationId, itemId) => [
+		`classification/${classificationId}/item/${itemId}`,
+	],
+	getClassificationItemNotes: (classificationId, itemId, conceptVersion) => [
+		`classification/${classificationId}/item/${itemId}/notes/${conceptVersion}`,
+	],
+	getClassificationItemNarrowers: (classificationId, itemId) => [
+		`classification/${classificationId}/item/${itemId}/narrowers`,
+	],
 };
 
 export default buildApi(baseHostClassification, api);
