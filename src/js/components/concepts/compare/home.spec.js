@@ -7,7 +7,8 @@ describe('concepts-compare', () => {
 		shallow(
 			<Compare
 				id={'id'}
-				conceptNotes={[]}
+				conceptGeneral={{ conceptVersion: '2' }}
+				notes={{}}
 				secondLang={false}
 				saveSecondLang={() => console.log('save second lang')}
 				langs={{ lg1: 'fr', lg2: 'en' }}

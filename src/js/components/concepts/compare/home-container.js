@@ -27,7 +27,7 @@ class ConceptCompareContainer extends Component {
 			<ConceptCompare
 				id={id}
 				conceptGeneral={general}
-				conceptNotes={notes}
+				notes={notes}
 				secondLang={secondLang}
 				saveSecondLang={this.props.saveSecondLang}
 				langs={langs}

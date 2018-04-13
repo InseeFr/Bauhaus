@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageTitle from 'js/components/shared/page-title';
+import Controls from './controls';
 import ConceptGeneral from '../visualization/general';
 import ConceptCompareNotes from './notes';
 import D from 'js/i18n';
@@ -31,11 +31,10 @@ class ConceptCompare extends Component {
 	}
 
 	render() {
-		const { conceptGeneral, conceptNotes, secondLang, langs } = this.props;
+		const { conceptGeneral, notes, secondLang, langs } = this.props;
 		const { prefLabelLg1, prefLabelLg2 } = conceptGeneral;
 		const { select1, select2 } = this.state;
 		const conceptVersion = Number(conceptGeneral.conceptVersion);
-
 		return (
 			<div>
 				<div className="container">
@@ -44,16 +43,7 @@ class ConceptCompare extends Component {
 						onChange={this.props.saveSecondLang}
 					/>
 					<PageTitle title={secondLang ? prefLabelLg2 : prefLabelLg1} />
-					<div className="row btn-line">
-						<div className="col-md-3">
-							<button
-								className="btn btn-primary btn-lg col-md-12"
-								onClick={() => this.props.history.goBack()}
-							>
-								{D.btnReturnCurrent}
-							</button>
-						</div>
-					</div>
+					<Controls />
 					<ConceptGeneral
 						attr={conceptGeneral}
 						secondLang={secondLang}
@@ -86,8 +76,8 @@ class ConceptCompare extends Component {
 						</div>
 						<ConceptCompareNotes
 							secondLang={secondLang}
-							notesVersion1={conceptNotes[select1]}
-							notesVersion2={conceptNotes[select2]}
+							notesVersion1={notes[select1]}
+							notesVersion2={notes[select2]}
 							langs={langs}
 						/>
 					</div>
@@ -100,10 +90,9 @@ class ConceptCompare extends Component {
 ConceptCompare.propTypes = {
 	id: PropTypes.string.isRequired,
 	conceptGeneral: generalPropTypes,
-	// conceptNotes : {0:{definitionLg1:'XXX'}}
-	conceptNotes: PropTypes.object.isRequired,
+	notes: PropTypes.object.isRequired,
 	secondLang: PropTypes.bool.isRequired,
 	langs: PropTypes.object.isRequired,
 };
 
-export default withRouter(ConceptCompare);
+export default ConceptCompare;
