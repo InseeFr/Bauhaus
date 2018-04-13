@@ -6,8 +6,6 @@ const langs = { lg1: 'fr', lg2: 'en' };
 
 describe('note-visualization', () => {
 	it('renders without crashing', () => {
-		shallow(
-			<NoteVisualization params={[]} langs={langs} secondeLang={false} />
-		);
+		shallow(<NoteVisualization params={[]} langs={langs} secondLang={false} />);
 	});
 });

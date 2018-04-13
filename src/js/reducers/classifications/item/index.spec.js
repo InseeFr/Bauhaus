@@ -45,7 +45,7 @@ describe('getItem', () => {
 		expect(result).toEqual({
 			general: { prefLabelLg1: 'label', conceptVersion: 2 },
 			notes: 'nafr2 - A - notes v2',
-			members: 'narrowers',
+			narrowers: 'narrowers',
 		});
 	});
 	test('getConcept selector should extract results', () => {
@@ -79,7 +79,7 @@ describe('getItem', () => {
 		expect(result).toEqual({
 			general: { prefLabelLg1: 'label', conceptVersion: 2 },
 			notes: 'nafr2 - A - notes v2',
-			members: 'narrowers',
+			narrowers: 'narrowers',
 		});
 	});
 });
