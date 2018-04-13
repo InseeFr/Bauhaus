@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
+import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageTitle from 'js/components/shared/page-title';
 import ConceptGeneral from '../visualization/general';
 import ConceptCompareNotes from './notes';
@@ -38,18 +39,10 @@ class ConceptCompare extends Component {
 		return (
 			<div>
 				<div className="container">
-					<div className="row">
-						<div className="col-md-12">
-							<label className="pull-right">
-								<input
-									type="checkbox"
-									checked={secondLang}
-									onChange={this.props.saveSecondLang}
-								/>{' '}
-								{D.displayLg2}
-							</label>
-						</div>
-					</div>
+					<CheckSecondLang
+						secondLang={secondLang}
+						onChange={this.props.saveSecondLang}
+					/>
 					<PageTitle title={secondLang ? prefLabelLg2 : prefLabelLg1} />
 					<div className="row btn-line">
 						<div className="col-md-3">
