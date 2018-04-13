@@ -17,6 +17,13 @@ const langs = { lg1: 'fr', lg2: 'en' };
 
 describe('classification-home', () => {
 	it('renders without crashing', () => {
-		shallow(<Home classification={classification} langs={langs} />);
+		shallow(
+			<Home
+				classification={classification}
+				langs={langs}
+				secondLang={false}
+				saveSecondLang={() => console.log('save second lang')}
+			/>
+		);
 	});
 });

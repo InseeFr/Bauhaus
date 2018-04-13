@@ -6,6 +6,12 @@ const series = [{ id: '1', label: 'Series 1' }];
 
 describe('classification-series-home', () => {
 	it('renders without crashing', () => {
-		shallow(<Home series={series} />);
+		shallow(
+			<Home
+				series={series}
+				secondLang={true}
+				saveSecondLang={() => console.log('save second lang')}
+			/>
+		);
 	});
 });

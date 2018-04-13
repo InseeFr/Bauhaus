@@ -9,6 +9,7 @@ describe('concepts-compare', () => {
 				id={'id'}
 				conceptNotes={[]}
 				secondLang={false}
+				saveSecondLang={() => console.log('save second lang')}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 			/>
 		);

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
+import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageTitle from 'js/components/shared/page-title';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 import CollectionMembers from './members';
-import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/collections/general';
 import { propTypes as membersPropTypes } from 'js/utils/collections/members';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
@@ -25,18 +25,10 @@ class CollectionVisualization extends Component {
 		return (
 			<div>
 				<div className="container">
-					<div className="row">
-						<div className="col-md-12">
-							<label className="pull-right">
-								<input
-									type="checkbox"
-									checked={secondLang}
-									onChange={this.props.saveSecondLang}
-								/>{' '}
-								{D.displayLg2}
-							</label>
-						</div>
-					</div>
+					<CheckSecondLang
+						secondLang={secondLang}
+						onChange={this.props.saveSecondLang}
+					/>
 					<PageTitle title={general.prefLabelLg1} />
 					{secondLang &&
 						general.prefLabelLg2 && (

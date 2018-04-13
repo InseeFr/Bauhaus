@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageTitle from 'js/components/shared/page-title';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Narrowers from './narrowers';
-import D from 'js/i18n';
 
 class ItemVisualization extends Component {
 	render() {
@@ -17,18 +17,10 @@ class ItemVisualization extends Component {
 		const { classificationId, itemId } = general;
 		return (
 			<div className="container">
-				<div className="row">
-					<div className="col-md-12">
-						<label className="pull-right">
-							<input
-								type="checkbox"
-								checked={secondLang}
-								onChange={this.props.saveSecondLang}
-							/>{' '}
-							{D.displayLg2}
-						</label>
-					</div>
-				</div>
+				<CheckSecondLang
+					secondLang={secondLang}
+					onChange={this.props.saveSecondLang}
+				/>
 				<PageTitle title={general.prefLabelLg1} context="classifications" />
 				{secondLang &&
 					general.prefLabelLg2 && (

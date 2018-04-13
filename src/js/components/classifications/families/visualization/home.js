@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageTitle from 'js/components/shared/page-title';
 import Controls from './controls';
 import Members from './members';
-import D from 'js/i18n';
 
 class FamilyVisualization extends Component {
 	render() {
@@ -12,18 +12,10 @@ class FamilyVisualization extends Component {
 		} = this.props;
 		return (
 			<div className="container">
-				<div className="row">
-					<div className="col-md-12">
-						<label className="pull-right">
-							<input
-								type="checkbox"
-								checked={secondLang}
-								onChange={this.props.saveSecondLang}
-							/>{' '}
-							{D.displayLg2}
-						</label>
-					</div>
-				</div>
+				<CheckSecondLang
+					secondLang={secondLang}
+					onChange={this.props.saveSecondLang}
+				/>
 				<PageTitle title={prefLabelLg1} context="classifications" />
 				<Controls />
 				{members.length !== 0 && (
