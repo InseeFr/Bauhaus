@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import D from 'js/i18n'
-import { ExplanatoryNote } from 'js/components/shared/explanatory-note';
-import 'css/concept-notes.css';
+import NoteVisualization from 'js/components/shared/note-visualization';
+import D from 'js/i18n';
 
 function ConceptNotes({ secondLang, notes, langs }) {
 	const {
@@ -15,82 +14,18 @@ function ConceptNotes({ secondLang, notes, langs }) {
 		changeNoteLg1,
 		changeNoteLg2,
 	} = notes;
-	const { lg1, lg2 } = langs;
+	const params = [
+		{ lg1: scopeNoteLg1, lg2: scopeNoteLg2, title: D.conceptsScopeNote },
+		{ lg1: definitionLg1, lg2: definitionLg2, title: D.conceptsDefinition },
+		{
+			lg1: editorialNoteLg1,
+			lg2: editorialNoteLg2,
+			title: D.conceptsEditorialNote,
+		},
+		{ lg1: changeNoteLg1, lg2: changeNoteLg2, title: D.conceptsChangeNote },
+	];
 	return (
-		<div>
-			{scopeNoteLg1 && (
-				<div className="row">
-					<ExplanatoryNote
-						text={scopeNoteLg1}
-						title={D.conceptsScopeNote}
-						lang={lg1}
-						alone={!secondLang}
-					/>
-					{secondLang && (
-						<ExplanatoryNote
-							text={scopeNoteLg2}
-							title={D.conceptsScopeNote}
-							lang={lg2}
-							alone={false}
-						/>
-					)}
-				</div>
-			)}
-			{definitionLg1 && (
-				<div className="row">
-					<ExplanatoryNote
-						text={definitionLg1}
-						title={D.conceptsDefinition}
-						lang={lg1}
-						alone={!secondLang}
-					/>
-					{secondLang && (
-						<ExplanatoryNote
-							text={definitionLg2}
-							title={D.conceptsDefinition}
-							lang={lg2}
-							alone={false}
-						/>
-					)}
-				</div>
-			)}
-			{editorialNoteLg1 && (
-				<div className="row">
-					<ExplanatoryNote
-						text={editorialNoteLg1}
-						title={D.conceptsEditorialNote}
-						lang={lg1}
-						alone={!secondLang}
-					/>
-					{secondLang && (
-						<ExplanatoryNote
-							text={editorialNoteLg2}
-							title={D.conceptsEditorialNote}
-							lang={lg2}
-							alone={false}
-						/>
-					)}
-				</div>
-			)}
-			{changeNoteLg1 && (
-				<div className="row">
-					<ExplanatoryNote
-						text={changeNoteLg1}
-						title={D.conceptsChangeNote}
-						lang={lg1}
-						alone={!secondLang}
-					/>
-					{secondLang && (
-						<ExplanatoryNote
-							text={changeNoteLg2}
-							title={D.conceptsChangeNote}
-							lang={lg2}
-							alone={false}
-						/>
-					)}
-				</div>
-			)}
-		</div>
+		<NoteVisualization params={params} langs={langs} secondLang={secondLang} />
 	);
 }
 
