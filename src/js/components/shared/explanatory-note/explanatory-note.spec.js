@@ -9,7 +9,8 @@ describe('explanatory-note', () => {
 
 	it('renders null component', () => {
 		const wrapper = shallow(<ExplanatoryNote />);
-		expect(wrapper.html()).toBeNull();
+		const result = shallow(<div className="col-md-6" />);
+		expect(wrapper.html()).toEqual(result.html());
 	});
 
 	it('renders not null component', () => {

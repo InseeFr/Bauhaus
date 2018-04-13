@@ -4,7 +4,7 @@ import NoteFlag from 'js/components/shared/note-flag';
 
 export const ExplanatoryNote = ({ text, title, lang, alone, context }) => {
 	const cl = alone ? 'col-md-12' : 'col-md-6';
-	if (!text) return null;
+	if (!text) return <div className={cl} />;
 	return (
 		<div className={cl}>
 			<PanelHtml
