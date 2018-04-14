@@ -7,14 +7,21 @@ import D from 'js/i18n';
 
 class ItemControls extends Component {
 	render() {
-		const { classificationId, itemId } = this.props;
+		const { classificationId, itemId, version } = this.props;
 		const cancel = [
 			this.props.history.length === 1
 				? `/classifications/classification/${classificationId}/item/${itemId}`
 				: () => this.props.history.goBack(),
 			D.btnReturn,
 		];
-		const btns = [cancel, null, null, null, null, null];
+		const compare =
+			!version || version <= 1
+				? null
+				: [
+						`/classifications/classification/${classificationId}/item/${itemId}/compare`,
+						D.btnCompare,
+					];
+		const btns = [cancel, null, null, null, null, compare];
 
 		return (
 			<div className="row btn-line">
@@ -31,6 +38,7 @@ class ItemControls extends Component {
 ItemControls.propTypes = {
 	classificationId: PropTypes.string.isRequired,
 	itemId: PropTypes.string.isRequired,
+	version: PropTypes.string.isRequired,
 };
 
 export default withRouter(ItemControls);

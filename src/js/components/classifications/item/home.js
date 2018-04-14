@@ -14,7 +14,7 @@ class ItemVisualization extends Component {
 			secondLang,
 			langs,
 		} = this.props;
-		const { classificationId, itemId } = general;
+		const { classificationId, itemId, conceptVersion: version } = general;
 		return (
 			<div className="container">
 				<CheckSecondLang
@@ -29,10 +29,15 @@ class ItemVisualization extends Component {
 							context="classifications"
 						/>
 					)}
-				<Controls classificationId={classificationId} itemId={itemId} />
+				<Controls
+					classificationId={classificationId}
+					itemId={itemId}
+					version={version}
+				/>
 				<General
 					general={general}
 					classificationId={classificationId}
+					itemId={itemId}
 					secondLang={secondLang}
 				/>
 				{notes && <Notes secondLang={secondLang} notes={notes} langs={langs} />}
