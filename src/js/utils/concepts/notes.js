@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import objectFromKeys from 'js/utils/object-from-keys';
+import D from 'js/i18n';
 import { rawHtmlToRmesHtml } from 'js/utils/html';
 
 export const versionableNotes = [
@@ -21,6 +22,17 @@ export const emptyNotes = fields.reduce((notes, typeOfNote) => {
 	notes[typeOfNote] = '';
 	return notes;
 }, {});
+
+export const buildNotes = n => [
+	{ lg1: n.scopeNoteLg1, lg2: n.scopeNoteLg2, title: D.conceptsScopeNote },
+	{ lg1: n.definitionLg1, lg2: n.definitionLg2, title: D.conceptsDefinition },
+	{
+		lg1: n.editorialNoteLg1,
+		lg2: n.editorialNoteLg2,
+		title: D.conceptsEditorialNote,
+	},
+	{ lg1: n.changeNoteLg1, lg2: n.changeNoteLg2, title: D.conceptsChangeNote },
+];
 
 export const capitalizeFirst = str =>
 	str.charAt(0).toUpperCase() + str.slice(1);
