@@ -27,7 +27,7 @@ class ConceptsToValidateContainer extends Component {
 	}
 	render() {
 		const { validationRequested } = this.state;
-		const { concepts, permissions, validationStatus } = this.props;
+		const { concepts, permission, validationStatus } = this.props;
 		if (validationRequested) {
 			if (validationStatus === OK) {
 				return <Redirect to="/concepts" />;
@@ -39,7 +39,7 @@ class ConceptsToValidateContainer extends Component {
 		return (
 			<ConceptsToValidate
 				concepts={concepts}
-				permissions={permissions}
+				permission={permission}
 				handleValidateConceptList={this.handleValidateConceptList}
 			/>
 		);
