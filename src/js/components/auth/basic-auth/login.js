@@ -31,6 +31,7 @@ class LoginBasic extends Component {
 						<div className="col-md-6 col-md-offset-3">
 							<SelectRmes
 								value={role}
+								multi={true}
 								placeholder={D.pickedRolePlaceholder}
 								options={roleList.map(role => ({
 									label: role.label,

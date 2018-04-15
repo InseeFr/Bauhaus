@@ -14,7 +14,7 @@ class LoginBasicContainer extends Component {
 			updateRequested: false,
 		};
 		this.onClickValidate = data => {
-			this.props.checkAuth(data);
+			this.props.checkAuth({ ...data, roles: data.role.map(r => r.value) });
 			this.setState({
 				updateRequested: true,
 			});
