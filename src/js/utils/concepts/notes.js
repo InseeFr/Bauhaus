@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import objectFromKeys from 'js/utils/object-from-keys';
 import D from 'js/i18n';
+import { buildEmptyNotes } from 'js/utils/build-empty-notes';
 import { rawHtmlToRmesHtml } from 'js/utils/html';
 
 export const versionableNotes = [
@@ -18,10 +19,7 @@ const allNotes = [...versionableNotes, ...datableNotes];
 
 export const fields = allNotes;
 
-export const emptyNotes = fields.reduce((notes, typeOfNote) => {
-	notes[typeOfNote] = '';
-	return notes;
-}, {});
+export const emptyNotes = buildEmptyNotes(fields);
 
 export const buildNotes = n => [
 	{ lg1: n.scopeNoteLg1, lg2: n.scopeNoteLg2, title: D.conceptsScopeNote },

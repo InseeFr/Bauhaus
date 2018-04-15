@@ -1,3 +1,5 @@
+import { buildEmptyNotes } from 'js/utils/build-empty-notes';
+
 export const versionableNotes = [
 	'scopeNoteLg1',
 	'scopeNoteLg2',
@@ -17,7 +19,4 @@ const allNotes = [...versionableNotes, ...datableNotes];
 
 export const fields = allNotes;
 
-export const emptyNotes = fields.reduce((notes, typeOfNote) => {
-	notes[typeOfNote] = '';
-	return notes;
-}, {});
+export const emptyNotes = buildEmptyNotes(fields);
