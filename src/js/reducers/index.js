@@ -87,8 +87,8 @@ export const getStampList = state => getItems(state.stampList);
 export const getRoleList = state => getItems(state.roleList);
 export const getAgentList = state => getItems(state.agentList);
 export const getPermission = state => {
-	const { type: authType, user: { role, stamp } } = state.app.auth;
-	return { authType, role, stamp };
+	const { type: authType, user: { roles, stamp } } = state.app.auth;
+	return { authType, roles, stamp };
 };
 export const getLangs = state => {
 	const { lg1, lg2 } = state.app.properties;

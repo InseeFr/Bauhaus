@@ -7,7 +7,7 @@ describe('collection-validation', () => {
 		shallow(
 			<CollectionValidation
 				collections={[]}
-				permission={{ authType: '', role: '' }}
+				permission={{ authType: '', roles: [''] }}
 				handleValidateCollectionList={() => console.log('validation')}
 			/>
 		);

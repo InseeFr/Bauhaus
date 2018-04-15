@@ -28,10 +28,10 @@ class CollectionsHome extends Component {
 	}
 
 	render() {
-		const { collections, permission: { authType, role } } = this.props;
+		const { collections, permission: { authType, roles } } = this.props;
 		const authImpl = check(authType);
-		const adminOrCreator = authImpl.isAdminOrCollectionCreator(role);
-		const adminOrContributor = authImpl.isAdminOrContributor(role);
+		const adminOrCreator = authImpl.isAdminOrCollectionCreator(roles);
+		const adminOrContributor = authImpl.isAdminOrContributor(roles);
 		return (
 			<div>
 				<div className="container">

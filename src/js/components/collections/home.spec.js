@@ -5,7 +5,10 @@ import Collections from './home';
 describe('collections', () => {
 	it('renders without crashing', () => {
 		shallow(
-			<Collections collections={[]} permission={{ authType: '', role: '' }} />
+			<Collections
+				collections={[]}
+				permission={{ authType: '', roles: [''] }}
+			/>
 		);
 	});
 });

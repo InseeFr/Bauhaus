@@ -33,12 +33,11 @@ class MenuConcepts extends Component {
 	}
 
 	render() {
-		const { permission: { authType, role } } = this.props;
+		const { permission: { authType, roles } } = this.props;
 		const { menuRef, activePath } = this.state;
 
-		// TODO Fix with accuracy role adaptation
 		const authImpl = check(authType);
-		const adminOrContributor = authImpl.isAdminOrContributor(role);
+		const adminOrContributor = authImpl.isAdminOrContributor(roles);
 
 		var paths = {
 			administration: {

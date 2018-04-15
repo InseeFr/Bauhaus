@@ -15,7 +15,7 @@ describe('collection-visualization', () => {
 				secondLang={true}
 				saveSecondLang={() => console.log('save second lang')}
 				langs={{ lg1: 'fr', lg2: 'en' }}
-				permission={{ authType: '', role: '' }}
+				permission={{ authType: '', roles: [''] }}
 			/>
 		);
 	});

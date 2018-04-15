@@ -28,10 +28,10 @@ class ConceptsHome extends Component {
 	}
 
 	render() {
-		const { concepts, permission: { authType, role } } = this.props;
+		const { concepts, permission: { authType, roles } } = this.props;
 		const authImpl = check(authType);
-		const adminOrContributor = authImpl.isAdminOrContributor(role);
-		const adminOrCreator = authImpl.isAdminOrConceptCreator(role);
+		const adminOrContributor = authImpl.isAdminOrContributor(roles);
+		const adminOrCreator = authImpl.isAdminOrConceptCreator(roles);
 		return (
 			<div>
 				<div className="container">

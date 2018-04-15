@@ -85,10 +85,10 @@ class ConceptVisualizationContainer extends Component {
 			const { general, links } = concept;
 			let { notes } = concept;
 			const { conceptVersion, isValidated, creator } = general;
-			const { authType, role, stamp } = permission;
+			const { authType, roles, stamp } = permission;
 			const authImpl = check(authType);
 			const adminOrContributorOrConceptCreator = authImpl.isAdminOrContributorOrConceptCreator(
-				role,
+				roles,
 				stamp,
 				creator
 			);

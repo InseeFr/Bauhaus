@@ -1,15 +1,15 @@
-export const isAdmin = role => true;
-export const isContributor = role => true;
-export const isConceptCreator = role => true;
-export const filterConceptsToValidate = (concepts, role, stamp) => concepts;
-export const isCollectionCreator = role => true;
-export const filterCollectionsToValidate = (collections, role, stamp) =>
+export const isAdmin = roles => true;
+export const isContributor = roles => true;
+export const isConceptCreator = roles => true;
+export const filterConceptsToValidate = (concepts, roles, stamp) => concepts;
+export const isCollectionCreator = roles => true;
+export const filterCollectionsToValidate = (collections, roles, stamp) =>
 	collections;
-export const isAdminOrContributor = role => true;
-export const isAdminOrConceptCreator = role => true;
+export const isAdminOrContributor = roles => true;
+export const isAdminOrConceptCreator = roles => true;
 export const isAdminOrContributorOrConceptCreator = (
-	role,
+	roles,
 	stamp,
 	conceptCreator
 ) => true;
-export const isAdminOrCollectionCreator = role => true;
+export const isAdminOrCollectionCreator = roles => true;

@@ -8,12 +8,12 @@ const CollectionsToValidate = ({
 	permission,
 	handleValidateCollectionList,
 }) => {
-	const { authType, role, stamp } = permission;
+	const { authType, roles, stamp } = permission;
 	const authImpl = check(authType);
 
 	const filteredCollections = authImpl.filterCollectionsToValidate(
 		collections,
-		role,
+		roles,
 		stamp
 	);
 	return (

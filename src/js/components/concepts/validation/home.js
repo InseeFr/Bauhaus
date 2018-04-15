@@ -38,7 +38,7 @@ class ConceptsToValidate extends Component {
 
 	render() {
 		const { modalValid, idWithValid } = this.state;
-		const { concepts, permission: { authType, role, stamp } } = this.props;
+		const { concepts, permission: { authType, roles, stamp } } = this.props;
 		const authImpl = check(authType);
 
 		const modalButtons = [
@@ -56,7 +56,7 @@ class ConceptsToValidate extends Component {
 
 		const filteredConcepts = authImpl.filterConceptsToValidate(
 			concepts,
-			role,
+			roles,
 			stamp
 		);
 		return (

@@ -11,17 +11,17 @@ class CollectionVisualizationControls extends Component {
 	render() {
 		const {
 			isValidated,
-			permission: { authType, role, stamp },
+			permission: { authType, roles, stamp },
 			creator: collectionCreator,
 			id,
 			handleValidation,
 		} = this.props;
 
 		const authImpl = check(authType);
-		const admin = authImpl.isAdmin(role);
-		const contributor = authImpl.isContributor(role);
+		const admin = authImpl.isAdmin(roles);
+		const contributor = authImpl.isContributor(roles);
 		const creator = authImpl.isCollectionCreator(
-			role,
+			roles,
 			stamp,
 			collectionCreator
 		);

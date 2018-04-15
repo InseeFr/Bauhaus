@@ -1,37 +1,37 @@
-import * as roles from 'js/utils/auth/roles';
+import * as R from 'js/utils/auth/roles';
 
-export const isAdmin = role => role === roles.ADMIN;
+export const isAdmin = roles => roles.includes(R.ADMIN);
 
-export const isContributor = role => role === roles.CONCEPTS_CONTRIBUTOR;
+export const isContributor = roles => roles.includes(R.CONCEPTS_CONTRIBUTOR);
 
-export const isConceptCreator = (role, stamp, conceptCreator) =>
-	role === roles.CONCEPTS_CREATOR && stamp === conceptCreator;
+export const isConceptCreator = (roles, stamp, conceptCreator) =>
+	roles.includes(R.CONCEPTS_CREATOR) && stamp === conceptCreator;
 
-export const filterConceptsToValidate = (concepts, role, stamp) =>
-	role !== roles.CONCEPTS_CREATOR
+export const filterConceptsToValidate = (concepts, roles, stamp) =>
+	!roles.includes(R.CONCEPTS_CREATOR)
 		? concepts
 		: concepts.filter(c => c.creator === stamp);
 
-export const isCollectionCreator = (role, stamp, collectionCreator) =>
-	role === roles.COLLECTIONS_CREATOR && stamp === collectionCreator;
+export const isCollectionCreator = (roles, stamp, collectionCreator) =>
+	roles.includes(R.COLLECTIONS_CREATOR) && stamp === collectionCreator;
 
-export const filterCollectionsToValidate = (collections, role, stamp) =>
-	role !== roles.COLLECTIONS_CREATOR
+export const filterCollectionsToValidate = (collections, roles, stamp) =>
+	!roles.includes(R.COLLECTIONS_CREATOR)
 		? collections
 		: collections.filter(c => c.creator === stamp);
 
-export const isAdminOrContributor = role =>
-	isAdmin(role) || role === roles.CONCEPTS_CONTRIBUTOR;
+export const isAdminOrContributor = roles =>
+	isAdmin(roles) || roles.includes(R.CONCEPTS_CONTRIBUTOR);
 
-export const isAdminOrConceptCreator = (role, stamp, conceptCreator) =>
-	isAdmin(role) || isConceptCreator(role, stamp, conceptCreator);
+export const isAdminOrConceptCreator = (roles, stamp, conceptCreator) =>
+	isAdmin(roles) || isConceptCreator(roles, stamp, conceptCreator);
 
 export const isAdminOrContributorOrConceptCreator = (
-	role,
+	roles,
 	stamp,
 	conceptCreator
 ) =>
-	isAdminOrContributor(role) || isConceptCreator(role, stamp, conceptCreator);
+	isAdminOrContributor(roles) || isConceptCreator(roles, stamp, conceptCreator);
 
-export const isAdminOrCollectionCreator = (role, stamp, collectionCreator) =>
-	isAdmin(role) || isCollectionCreator(role, stamp, collectionCreator);
+export const isAdminOrCollectionCreator = (roles, stamp, collectionCreator) =>
+	isAdmin(roles) || isCollectionCreator(roles, stamp, collectionCreator);

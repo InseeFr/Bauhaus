@@ -8,9 +8,9 @@ import D from 'js/i18n';
 import './home.css';
 
 function AdministrationHome({ permission }) {
-	const { authType, role } = permission;
+	const { authType, roles } = permission;
 	const authImpl = check(authType);
-	const isAdmin = authImpl.isAdmin(role);
+	const isAdmin = authImpl.isAdmin(roles);
 	return (
 		<div className="container admin-home">
 			<PageTitle title="Administration" />

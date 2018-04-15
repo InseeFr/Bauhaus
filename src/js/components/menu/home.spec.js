@@ -4,6 +4,6 @@ import MenuHome from './home';
 
 describe('menu-home', () => {
 	it('renders without crashing', () => {
-		shallow(<MenuHome permission={{ authType: '', role: '' }} />);
+		shallow(<MenuHome permission={{ authType: '', roles: [''] }} />);
 	});
 });

@@ -7,7 +7,7 @@ describe('concept-validation', () => {
 		shallow(
 			<ConceptValidation
 				concepts={[]}
-				permission={{ authType: '', role: '' }}
+				permission={{ authType: '', roles: [''] }}
 				handleValidateConceptList={() => console.log('validation')}
 			/>
 		);

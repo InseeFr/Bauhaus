@@ -11,7 +11,7 @@ describe('concept-visualization-controls', () => {
 				isValidated="Provisoire"
 				conceptVersion="1"
 				handleValidation={() => console.log('validate')}
-				permission={{ authType: '', role: '' }}
+				permission={{ authType: '', roles: [''] }}
 			/>
 		);
 	});

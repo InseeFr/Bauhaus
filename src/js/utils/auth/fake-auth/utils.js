@@ -1,30 +1,31 @@
-import * as roles from 'js/utils/auth/roles';
+import * as R from 'js/utils/auth/roles';
 
-export const isAdmin = role => role === roles.ADMIN;
+export const isAdmin = roles => roles.includes(R.ADMIN);
 
-export const isContributor = role => role === roles.CONCEPTS_CONTRIBUTOR;
+export const isContributor = roles => roles.includes(R.CONCEPTS_CONTRIBUTOR);
 
-export const isConceptCreator = role => role === roles.CONCEPTS_CREATOR;
+export const isConceptCreator = roles => roles.includes(R.CONCEPTS_CREATOR);
 
-export const filterConceptsToValidate = (concepts, role, stamp) => concepts;
+export const filterConceptsToValidate = (concepts, roles, stamp) => concepts;
 
-export const isCollectionCreator = role => role === roles.COLLECTIONS_CREATOR;
+export const isCollectionCreator = roles =>
+	roles.includes(R.COLLECTIONS_CREATOR);
 
-export const filterCollectionsToValidate = (collections, role, stamp) =>
+export const filterCollectionsToValidate = (collections, roles, stamp) =>
 	collections;
 
-export const isAdminOrContributor = role =>
-	role === roles.ADMIN || role === roles.CONCEPTS_CONTRIBUTOR;
+export const isAdminOrContributor = roles =>
+	roles.includes(R.ADMIN) || roles.includes(R.CONCEPTS_CONTRIBUTOR);
 
-export const isAdminOrConceptCreator = role =>
-	role === roles.ADMIN || role === roles.CONCEPTS_CREATOR;
+export const isAdminOrConceptCreator = roles =>
+	roles.includes(R.ADMIN) || roles.includes(R.CONCEPTS_CREATOR);
 
 export const isAdminOrContributorOrConceptCreator = (
-	role,
+	roles,
 	stamp,
 	conceptCreator
 ) =>
-	isAdminOrContributor(role) || isConceptCreator(role, stamp, conceptCreator);
+	isAdminOrContributor(roles) || isConceptCreator(roles, stamp, conceptCreator);
 
-export const isAdminOrCollectionCreator = role =>
-	role === roles.COLLECTIONS_CREATOR;
+export const isAdminOrCollectionCreator = roles =>
+	roles.includes(R.COLLECTIONS_CREATOR);

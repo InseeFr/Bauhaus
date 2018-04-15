@@ -4,6 +4,8 @@ import Concepts from './home';
 
 describe('concept', () => {
 	it('renders without crashing', () => {
-		shallow(<Concepts concepts={[]} permission={{ authType: '', role: '' }} />);
+		shallow(
+			<Concepts concepts={[]} permission={{ authType: '', roles: [''] }} />
+		);
 	});
 });

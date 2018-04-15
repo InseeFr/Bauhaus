@@ -9,8 +9,8 @@ import * as Impl from 'js/utils/auth/auth-impl';
 const auth = WrappedComponent => {
 	class AuthComponent extends Component {
 		render() {
-			const { authType, role } = this.props;
-			if (role) return <WrappedComponent {...this.props} />;
+			const { authType, roles } = this.props;
+			if (roles) return <WrappedComponent {...this.props} />;
 			switch (authType) {
 				case Impl.NO_AUTH:
 					return <LoginNoAuth />;
@@ -32,8 +32,8 @@ const auth = WrappedComponent => {
 const mapStateToProps = state => {
 	const auth = state.app.auth;
 	const authType = auth.type;
-	if (auth.user) return { authType, role: auth.user.role };
-	return { authType, role: null };
+	if (auth.user) return { authType, roles: auth.user.roles };
+	return { authType, roles: null };
 };
 
 export default auth;

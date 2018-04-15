@@ -14,19 +14,18 @@ class ConceptVisualizationControls extends Component {
 			isValidOutOfDate,
 			conceptVersion,
 			id,
-			permission: { authType, role, stamp },
+			permission: { authType, roles, stamp },
 			creator: conceptCreator,
 			handleValidation,
 		} = this.props;
 
 		const authImpl = check(authType);
-		const admin = authImpl.isAdmin(role);
-		const contributor = authImpl.isContributor(role);
-		const creator = authImpl.isConceptCreator(role, stamp, conceptCreator);
+		const admin = authImpl.isAdmin(roles);
+		const contributor = authImpl.isContributor(roles);
+		const creator = authImpl.isConceptCreator(roles, stamp, conceptCreator);
 		const adminOrCreator = admin || creator;
 		const adminOrContributorOrCreator = admin || contributor || creator;
 
-		// TODO : Fix buttons logic with CREATOR role (comparing to stamps)
 		let btns;
 
 		const cancel = [

@@ -9,7 +9,7 @@ describe('collection-visualization-controls', () => {
 				id="id"
 				isValidated="Provisoire"
 				handleValidation={() => console.log('validate')}
-				permission={{ authType: '', role: '' }}
+				permission={{ authType: '', roles: [''] }}
 			/>
 		);
 	});
