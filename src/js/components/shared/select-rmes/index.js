@@ -15,15 +15,19 @@ function SelectRmes({
 	multi,
 }) {
 	const isClearable = unclearable ? false : true;
+	const onChangeSelect = multi
+		? e => onChange(e)
+		: e => onChange(e ? e.value : '');
 	return (
 		<Select
 			value={value}
 			placeholder={placeholder}
 			options={options}
-			onChange={e => onChange(e ? e.value : '')}
+			onChange={onChangeSelect}
 			clearable={isClearable}
 			searchable={searchable}
 			noResultsText={D.noResult}
+			multi={multi}
 		/>
 	);
 }
@@ -35,7 +39,7 @@ SelectRmes.defaultProps = {
 };
 
 SelectRmes.propTypes = {
-	value: PropTypes.string.isRequired,
+	value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
 	placeholder: PropTypes.string.isRequired,
 	options: PropTypes.arrayOf(
 		PropTypes.shape({
