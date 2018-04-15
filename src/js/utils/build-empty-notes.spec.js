@@ -1,6 +1,6 @@
 import { buildEmptyNotes } from './build-empty-notes';
 
-describe('classification-notes-utils', () => {
+describe('build-empty-notes-utils', () => {
 	it('should return an empty object', () => {
 		expect(buildEmptyNotes([])).toEqual({});
 	});

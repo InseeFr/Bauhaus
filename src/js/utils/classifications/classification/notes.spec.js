@@ -1,7 +1,7 @@
 import { buildNotes } from './notes';
 import D from 'js/i18n';
 
-describe('classification-item-notes-utils', () => {
+describe('classification-notes-utils', () => {
 	it('should return an array', () => {
 		const notes = { scopeNoteLg1: 'scopeNoteLg1' };
 		const result = [
