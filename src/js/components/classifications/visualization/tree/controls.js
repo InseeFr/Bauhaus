@@ -7,18 +7,15 @@ import D from 'js/i18n';
 
 class ClassificationControls extends Component {
 	render() {
+		const location = this.props.history.location.pathname;
+		const nextLocation = location.replace('/tree', '');
 		const cancel = [
 			this.props.history.length === 1
-				? `/classifications/families`
+				? nextLocation
 				: () => this.props.history.goBack(),
 			D.btnReturn,
 		];
-		const location = this.props.history.location.pathname;
-		const treeLocation = `${location}/tree`;
-
-		const tree = [treeLocation, D.btnTree];
-
-		const btns = [cancel, null, null, null, null, tree];
+		const btns = [cancel, null, null, null, null, null];
 
 		return (
 			<div className="row btn-line">

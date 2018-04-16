@@ -284,6 +284,10 @@ const dictionary = {
 		fr: 'Réinitialiser',
 		en: 'Reinitialize',
 	},
+	btnTree: {
+		fr: 'Visualiser',
+		en: 'Tree view',
+	},
 	// Links
 	narrowerTitle: {
 		fr: 'Parent',

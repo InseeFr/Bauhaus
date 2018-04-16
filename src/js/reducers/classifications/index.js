@@ -5,6 +5,7 @@ import classificationFamilyMembers from './family/members';
 import classificationSeriesGeneral from './series/general';
 import classificationSeriesMembers from './series/members';
 import classificationGeneral from './classification/general';
+import classificationTree from './tree';
 import classificationLevels from './classification/levels';
 import classificationLevelGeneral from './level/general';
 import classificationLevelMembers from './level/members';
@@ -39,6 +40,7 @@ export default {
 	classificationSeriesGeneral,
 	classificationSeriesMembers,
 	classificationGeneral,
+	classificationTree,
 	classificationLevels,
 	classificationLevelGeneral,
 	classificationLevelMembers,

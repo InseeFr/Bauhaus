@@ -10,6 +10,7 @@ const api = {
 	getSeriesGeneral: id => [`series/${id}`],
 	getSeriesMembers: id => [`series/${id}/members`],
 	getClassificationGeneral: id => [`classification/${id}`],
+	getClassificationTree: id => [`classification/${id}/tree`],
 	getClassificationLevels: id => [`classification/${id}/levels`],
 	getClassificationLevelGeneral: (classificationId, levelId) => [
 		`classification/${classificationId}/level/${levelId}`,

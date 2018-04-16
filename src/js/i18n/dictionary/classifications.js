@@ -123,6 +123,10 @@ const dictionary = {
 		fr: bool => `${bool ? 'Validé' : 'Provisoire'}`,
 		en: bool => `${bool ? 'Validated' : 'Provisional'}`,
 	},
+	classificationTreeTitle: {
+		fr: 'Arbre de la nomenclature',
+		en: 'Classification tree',
+	},
 };
 
 export default dictionary;
