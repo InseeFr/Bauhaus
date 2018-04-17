@@ -44,6 +44,11 @@ class MenuClassifications extends Component {
 				pathKey: 'classifications/series',
 				className: null,
 			},
+			correspondences: {
+				path: '/classifications/correspondences',
+				pathKey: 'classifications/correspondence',
+				className: null,
+			},
 			classifications: {
 				path: '/classifications',
 				pathKey: 'classification',
@@ -97,6 +102,16 @@ class MenuClassifications extends Component {
 											}
 										>
 											{D.classificationsTitle}
+										</Link>
+									</li>
+									<li className={paths.correspondences.className}>
+										<Link
+											to={paths.correspondences.path}
+											onClick={() =>
+												this.changeActivePath(paths.correspondences.path)
+											}
+										>
+											{D.correspondencesTitle}
 										</Link>
 									</li>
 								</ul>

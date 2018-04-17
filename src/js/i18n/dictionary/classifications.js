@@ -3,6 +3,10 @@ const dictionary = {
 		fr: 'Nomenclatures',
 		en: 'Classifications',
 	},
+	correspondencesTitle: {
+		fr: 'Tables de correspondances',
+		en: 'Correspondences',
+	},
 	classificationsSearchTitle: {
 		fr: 'Nomenclatures - Recherche',
 		en: 'Classifications - Search',
