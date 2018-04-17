@@ -11,6 +11,10 @@ const dictionary = {
 		fr: 'Nomenclatures - Recherche',
 		en: 'Classifications - Search',
 	},
+	correspondencesSearchTitle: {
+		fr: 'Tables de correspondances - Recherche',
+		en: 'Correspondences - Search',
+	},
 	classificationsScopeNote: {
 		fr: 'Remarque',
 		en: 'Remark',

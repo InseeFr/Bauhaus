@@ -31,10 +31,17 @@ const classificationsList = listReducer([
 	A.LOAD_CLASSIFICATIONS_LIST_FAILURE,
 ]);
 
+const classificationsCorrespondencesList = listReducer([
+	A.LOAD_CLASSIFICATIONS_CORRESPONDENCES_LIST,
+	A.LOAD_CLASSIFICATIONS_CORRESPONDENCES_LIST_SUCCESS,
+	A.LOAD_CLASSIFICATIONS_CORRESPONDENCES_LIST_FAILURE,
+]);
+
 export default {
 	classificationsFamiliesList,
 	classificationsSeriesList,
 	classificationsList,
+	classificationsCorrespondencesList,
 	classificationFamilyGeneral,
 	classificationFamilyMembers,
 	classificationSeriesGeneral,

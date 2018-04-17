@@ -5,6 +5,7 @@ const api = {
 	getFamiliesList: () => ['families'],
 	getSeriesList: () => ['series'],
 	getList: () => [''],
+	getCorrespondencesList: () => ['correspondences'],
 	getFamilyGeneral: id => [`family/${id}`],
 	getFamilyMembers: id => [`family/${id}/members`],
 	getSeriesGeneral: id => [`series/${id}`],

@@ -43,6 +43,7 @@ import ClassificationTreeContainer from './classifications/visualization/tree/ho
 import ClassificationLevelContainer from './classifications/level/home-container';
 import ClassificationItemContainer from './classifications/item/home-container';
 import ClassificationItemCompareContainer from './classifications/item/compare/home-container';
+import ClassificationsCorrespondencesContainer from './classifications/correspondences/home-container';
 // Operations
 import OperationsFamiliesContainer from './operations/families/home-container';
 import OperationsSeriesContainer from './operations/series/home-container';
@@ -205,6 +206,11 @@ class Root extends Component {
 							exact
 							path="/classifications/classification/:classificationId/item/:itemId/compare"
 							component={ClassificationItemCompareContainer}
+						/>
+						<Route
+							exact
+							path="/classifications/correspondences"
+							component={ClassificationsCorrespondencesContainer}
 						/>
 						<Route
 							exact
