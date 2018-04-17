@@ -25,12 +25,13 @@ class ClassificationVisualizationContainer extends Component {
 		}
 	}
 	render() {
-		const { classification, secondLang, langs } = this.props;
+		const { classification, id, secondLang, langs } = this.props;
 		if (!classification)
 			return <Loading textType="loading" context="classifications" />;
 		return (
 			<ClassificationVisualization
 				classification={classification}
+				classificationId={id}
 				secondLang={secondLang}
 				saveSecondLang={this.props.saveSecondLang}
 				langs={langs}

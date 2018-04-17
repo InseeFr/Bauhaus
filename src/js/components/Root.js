@@ -38,6 +38,7 @@ import ClassificationsSeriesContainer from './classifications/series/home-contai
 import ClassificationsOneSeriesContainer from './classifications/series/visualization/home-container';
 import ClassificationsContainer from './classifications/home-container';
 import ClassificationContainer from './classifications/visualization/home-container';
+import ClassificationItemsContainer from './classifications/visualization/items/home-container';
 import ClassificationTreeContainer from './classifications/visualization/tree/home-container';
 import ClassificationLevelContainer from './classifications/level/home-container';
 import ClassificationItemContainer from './classifications/item/home-container';
@@ -179,6 +180,11 @@ class Root extends Component {
 							exact
 							path="/classifications/classification/:id"
 							component={ClassificationContainer}
+						/>
+						<Route
+							exact
+							path="/classifications/classification/:id/items"
+							component={ClassificationItemsContainer}
 						/>
 						<Route
 							exact

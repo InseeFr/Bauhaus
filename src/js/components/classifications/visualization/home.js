@@ -13,6 +13,7 @@ class ClassificationVisualization extends Component {
 	render() {
 		const {
 			classification: { general, levels },
+			classificationId,
 			secondLang,
 			langs,
 		} = this.props;
@@ -39,7 +40,9 @@ class ClassificationVisualization extends Component {
 				)}
 				<div className="row">
 					<div className="col-md-12 centered">
-						<Link to={'/concepts/search'}>
+						<Link
+							to={`/classifications/classification/${classificationId}/items`}
+						>
 							<h3 className="glyphicon glyphicon-zoom-in inline"> </h3>
 							<h3 className="inline">{D.classificationAllItemsTitle}</h3>
 						</Link>
