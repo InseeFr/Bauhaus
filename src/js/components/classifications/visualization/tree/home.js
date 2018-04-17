@@ -16,17 +16,11 @@ const ClassificationTree = ({
 		<div>
 			<div className="container">
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
-				<div className="row">
-					<div className="col-md-8 col-md-offset-2 centered">
-						<PageTitle
-							title={D.classificationTreeTitle}
-							subtitle={prefLabel}
-							col={12}
-							offset={0}
-							context="classifications"
-						/>
-					</div>
-				</div>
+				<PageTitle
+					title={D.classificationTreeTitle}
+					subtitle={prefLabel}
+					context="classifications"
+				/>
 				<Controls />
 				<div className="row">
 					<div className="col-md-12">
