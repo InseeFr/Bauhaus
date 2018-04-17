@@ -24,7 +24,7 @@ export default ({ narrowers, classificationId, secondLang }) => {
 								n.id
 							}`}
 						>
-							{`${n.id} - ${n.labelLg1}`}
+							{`${n.id} - ${n.labelLg2}`}
 						</Link>
 					</li>
 				) : null
