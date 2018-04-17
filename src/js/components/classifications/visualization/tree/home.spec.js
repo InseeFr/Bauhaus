@@ -4,6 +4,13 @@ import ClassificationTree from './home';
 
 describe('classification-tree-home', () => {
 	it('renders without crashing', () => {
-		shallow(<ClassificationTree flatTree={[]} prefLabelLg1={'prefLabelLg1'} />);
+		shallow(
+			<ClassificationTree
+				flatTree={[]}
+				prefLabel={'prefLabel'}
+				secondLang={true}
+				saveSecondLang={() => console.log('save')}
+			/>
+		);
 	});
 });

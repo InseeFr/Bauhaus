@@ -16,7 +16,7 @@ export default class RmesTree extends Component {
 	render() {
 		const { treeData } = this.state;
 		const { canDrag, linkPath } = this.props;
-		console.log(treeData);
+
 		return (
 			<div style={{ width: '100%', height: '80vh' }}>
 				<SortableTree
