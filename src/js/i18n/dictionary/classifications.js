@@ -55,6 +55,10 @@ const dictionary = {
 		fr: 'Série mère',
 		en: 'Mother series',
 	},
+	classificationAllItemsTitle: {
+		fr: 'Ensemble des postes',
+		en: 'All items',
+	},
 	classificationLevelsTitle: {
 		fr: 'Niveaux de la nomenclature',
 		en: 'Classification levels',

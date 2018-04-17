@@ -4,14 +4,14 @@ import { LOADING, LOADED } from 'js/constants';
 export default function(state = {}, action) {
 	const { type, payload } = action;
 	switch (type) {
-		case A.LOAD_CLASSIFICATION_TREE: {
+		case A.LOAD_CLASSIFICATION_ITEMS: {
 			const { id } = payload;
 			return {
 				...state,
 				[id]: { status: LOADING },
 			};
 		}
-		case A.LOAD_CLASSIFICATION_TREE_SUCCESS: {
+		case A.LOAD_CLASSIFICATION_ITEMS_SUCCESS: {
 			const { id, results } = payload;
 			return {
 				...state,
@@ -26,6 +26,6 @@ export default function(state = {}, action) {
 	}
 }
 
-export function getTree(state, id) {
-	return state.classificationTree[id] && state.classificationTree[id].results;
+export function getItems(state, id) {
+	return state.classificationItems[id] && state.classificationItems[id].results;
 }

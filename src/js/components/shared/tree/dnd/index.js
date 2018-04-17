@@ -9,9 +9,14 @@ export default class RmesTree extends Component {
 		this.state = { treeData: props.treeData };
 	}
 
+	componentWillReceiveProps({ treeData }) {
+		if (treeData !== this.props.treeData) this.setState({ treeData });
+	}
+
 	render() {
 		const { treeData } = this.state;
 		const { canDrag, linkPath } = this.props;
+		console.log(treeData);
 		return (
 			<div style={{ width: '100%', height: '80vh' }}>
 				<SortableTree
@@ -20,7 +25,6 @@ export default class RmesTree extends Component {
 					canDrag={canDrag || false}
 					canDrop={() => false}
 					generateNodeProps={rowInfo => ({
-						onClick: () => console.log(rowInfo),
 						buttons: [
 							<Link to={linkPath(rowInfo.node.id)}>{rowInfo.node.label}</Link>,
 						],

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageTitle from 'js/components/shared/page-title';
 import PageSubtitle from 'js/components/shared/page-subtitle';
@@ -6,6 +7,7 @@ import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Levels from './levels';
+import D from 'js/i18n';
 
 class ClassificationVisualization extends Component {
 	render() {
@@ -35,6 +37,14 @@ class ClassificationVisualization extends Component {
 						context="classifications"
 					/>
 				)}
+				<div className="row">
+					<div className="col-md-12 centered">
+						<Link to={'/concepts/search'}>
+							<h3 className="glyphicon glyphicon-zoom-in inline"> </h3>
+							<h3 className="inline">{D.classificationAllItemsTitle}</h3>
+						</Link>
+					</div>
+				</div>
 				<Controls />
 				<General general={general} secondLang={secondLang} langs={langs} />
 				{notes.scopeNoteLg1 && (

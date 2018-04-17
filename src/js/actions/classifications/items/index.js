@@ -3,22 +3,22 @@ import * as A from 'js/actions/constants';
 
 export default id => dispatch => {
 	dispatch({
-		type: A.LOAD_CLASSIFICATION_TREE,
+		type: A.LOAD_CLASSIFICATION_ITEMS,
 		payload: {
 			id,
 		},
 	});
-	return api.getClassificationTree(id).then(
+	return api.getClassificationItems(id).then(
 		results => {
 			dispatch({
-				type: A.LOAD_CLASSIFICATION_TREE_SUCCESS,
+				type: A.LOAD_CLASSIFICATION_ITEMS_SUCCESS,
 				payload: { id, results },
 			});
 			return results;
 		},
 		err =>
 			dispatch({
-				type: A.LOAD_CLASSIFICATION_TREE_FAILURE,
+				type: A.LOAD_CLASSIFICATION_ITEMS_FAILURE,
 				payload: { err, id },
 			})
 	);

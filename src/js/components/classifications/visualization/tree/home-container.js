@@ -3,11 +3,13 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import ClassificationTree from './home';
 import Loading from 'js/components/shared/loading';
-import loadClassificationTree from 'js/actions/classifications/tree';
+import loadClassificationItems from 'js/actions/classifications/items';
 import loadClassificationGeneral from 'js/actions/classifications/general';
-import * as selectT from 'js/reducers/classifications/tree';
+import { saveSecondLang } from 'js/actions/app';
+import * as selectT from 'js/reducers/classifications/items';
 import * as selectG from 'js/reducers/classifications/classification/general';
 import buildExtract from 'js/utils/build-extract';
+import { getTreeFromFlatData } from 'react-sortable-tree';
 
 const extractId = buildExtract('id');
 
@@ -17,42 +19,60 @@ class ClassificationTreeContainer extends Component {
 	}
 	componentWillMount() {
 		const { flatTree, general, id } = this.props;
-		if (!flatTree) this.props.loadClassificationTree(id);
+		if (!flatTree) this.props.loadClassificationItems(id);
 		if (!general) this.props.loadClassificationGeneral(id);
 	}
 	componentWillReceiveProps({ id }) {
 		if (id !== this.props.id) {
-			this.props.loadClassificationTree(id);
+			this.props.loadClassificationItems(id);
 			this.props.loadClassificationGeneral(id);
 		}
 	}
 	render() {
-		const { flatTree, general } = this.props;
-		console.log(flatTree);
-		console.log(general);
+		const { flatTree, general, secondLang } = this.props;
 		if (!(flatTree && general))
 			return <Loading textType="loading" context="classifications" />;
-		const { prefLabelLg1 } = general;
+		const { prefLabelLg1, prefLabelLg2 } = general;
+		const label = secondLang ? 'labelLg2' : 'labelLg1';
+		const data = getTreeFromFlatData({
+			flatData: flatTree.map(n => ({
+				id: n.id,
+				//title: '',
+				label: n[label] ? `${n.id} - ${n[label]}` : n.id,
+				parent: n.parent || null,
+			})),
+			getKey: node => node.id,
+			getParentKey: node => node.parent,
+			rootKey: null,
+		});
 		return (
-			<ClassificationTree prefLabelLg1={prefLabelLg1} flatTree={flatTree} />
+			<ClassificationTree
+				prefLabel={secondLang ? prefLabelLg2 : prefLabelLg1}
+				data={data}
+				secondLang={secondLang}
+				saveSecondLang={this.props.saveSecondLang}
+			/>
 		);
 	}
 }
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const flatTree = selectT.getTree(state, id);
+	const flatTree = selectT.getItems(state, id);
 	const general = selectG.getGeneral(state.classificationGeneral, id);
+	const secondLang = state.app.secondLang;
 	return {
 		id,
 		flatTree,
 		general,
+		secondLang,
 	};
 };
 
 const mapDispatchToProps = {
-	loadClassificationTree,
+	loadClassificationItems,
 	loadClassificationGeneral,
+	saveSecondLang,
 };
 
 ClassificationTreeContainer = connect(mapStateToProps, mapDispatchToProps)(
