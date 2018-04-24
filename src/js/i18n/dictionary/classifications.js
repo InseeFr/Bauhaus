@@ -36,8 +36,8 @@ const dictionary = {
 		en: 'Exclusion note',
 	},
 	classificationsChangeNote: {
-		fr: 'Note de changement',
-		en: 'Change note',
+		fr: d => `Note de changement - ${d}`,
+		en: d => `Change note - ${d}`,
 	},
 	classificationsDescription: {
 		fr: 'Texte descriptif court',

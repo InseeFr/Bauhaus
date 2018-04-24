@@ -61,6 +61,16 @@ describe('clean html', () => {
 	});
 });
 
+describe('delete p tags', () => {
+	it('returns an empty string for empty html', () => {
+		expect(htmlUtils.delPTags('')).toEqual('');
+	});
+
+	it('returns the text without tags', () => {
+		expect(htmlUtils.delPTags('<p>bonjour</p>')).toEqual('bonjour');
+	});
+});
+
 describe('is empty', () => {
 	it('returns true if there is not text content', () => {
 		expect(htmlUtils.htmlIsEmpty('')).toBe(true);

@@ -1,4 +1,6 @@
 import D from 'js/i18n';
+import { stringToDate } from 'js/utils/moment';
+import { delPTags } from 'js/utils/html';
 
 export const buildNotes = n => [
 	{
@@ -29,6 +31,8 @@ export const buildNotes = n => [
 	{
 		lg1: n.changeNoteLg1,
 		lg2: n.changeNoteLg2,
-		title: D.classificationsChangeNote,
+		title: D.classificationsChangeNote(
+			stringToDate(delPTags(n.changeNoteDate))
+		),
 	},
 ];

@@ -42,6 +42,8 @@ export const cleanHtml = html => {
 	return html.replace(rNewLine, '').replace(rUselessSpace, '$1$2');
 };
 
+export const delPTags = s => s && s.replace(/<p>/g, '').replace(/<\/p>/g, '');
+
 //HACK avoid new lines and unecesseray whitespaces in the html. Not safe: some
 //of these whitespaces might impact the rendered html. But for notes edited with
 //the html editor, it should be ok.

@@ -70,7 +70,7 @@ class CompareNotes extends Component {
 							text={
 								secondLang ? notesVersion1[i]['lg2'] : notesVersion1[i]['lg1']
 							}
-							title={n.title}
+							title={notesVersion1[i].title}
 							lang={secondLang ? lg2 : lg1}
 							alone={false}
 							context={context}
