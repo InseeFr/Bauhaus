@@ -1,4 +1,4 @@
-import * as R from 'js/utils/auth/roles';
+import * as R from 'js/utils/auth/fake-roles';
 
 export const isAdmin = roles => roles.includes(R.ADMIN);
 
