@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import React from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import auth from 'js/components/auth/hoc';
-import Error from 'js/components/shared/error';
 
+import Error from 'js/components/shared/error';
 import NotFound from 'js/components/shared/not-found';
+// Concepts
 import App from 'js/components/app';
 import ConceptsContainer from 'js/components/concepts/home-container';
 import ConceptsSearchListContainer from 'js/components/concepts/advanced-search/home-container';
@@ -50,201 +50,191 @@ import OperationsFamilyVisualizationContainer from 'js/components/operations/fam
 import OperationsSeriesVisualizationContainer from 'js/components/operations/series/visualization-container';
 import OperationVisualizationContainer from 'js/components/operations/operations/visualization-container';
 
-class Routes extends Component {
-	render() {
-		const { error } = this.props;
-		return (
-			<span>
-				<Route path="/" component={MenuDispatcher} />
-				<Switch>
-					{error && <Route path="/" component={Error} />}
-					<Route exact path="/" component={App} />
-					<Route exact path="/concepts" component={ConceptsContainer} />
-					<Route
-						exact
-						path="/concepts/search"
-						component={ConceptsSearchListContainer}
-					/>
-					<Route
-						exact
-						path="/concept/create"
-						component={ConceptCreationContainer}
-					/>
-					<Route
-						exact
-						path="/concept/:id"
-						component={ConceptVisualizationContainer}
-					/>
-					<Route
-						exact
-						path="/concept/:id/compare"
-						component={ConceptCompareContainer}
-					/>
-					<Route
-						exact
-						path="/concept/:id/send"
-						component={ConceptSendContainer}
-					/>
-					<Route
-						exact
-						path="/concept/:id/modify"
-						component={ConceptEditionContainer}
-					/>
-					<Route
-						exact
-						path="/concepts/validation"
-						component={ConceptsToValidateContainer}
-					/>
-					<Route
-						exact
-						path="/concepts/export"
-						component={ConceptsToExportContainer}
-					/>
-					<Route exact path="/collections" component={CollectionsContainer} />
-					<Route
-						exact
-						path="/collection/create"
-						component={CollectionCreationContainer}
-					/>
-					<Route
-						exact
-						path="/collection/:id"
-						component={CollectionVisualizationContainer}
-					/>
-					<Route
-						exact
-						path="/collection/:id/send"
-						component={CollectionSendContainer}
-					/>
-					<Route
-						exact
-						path="/collection/:id/modify"
-						component={CollectionEditionContainer}
-					/>
-					<Route
-						exact
-						path="/collections/validation"
-						component={CollectionsToValidateContainer}
-					/>
-					<Route
-						exact
-						path="/collections/export"
-						component={CollectionsToExportContainer}
-					/>
-					<Route exact path="/concepts/help" component={HelpConcepts} />
-					<Route
-						exact
-						path="/classifications/help"
-						component={HelpClassifications}
-					/>
-					<Route exact path="/operations/help" component={HelpOperations} />
-					<Route
-						exact
-						path="/concepts/administration"
-						component={Administration}
-					/>
-					<Route exact path="/administration/roles" component={Role} />
-					<Route
-						exact
-						path="/concepts/administration/dashboard"
-						component={ConceptsDashboard}
-					/>
-					<Route
-						exact
-						path="/classifications/families"
-						component={ClassificationsFamiliesContainer}
-					/>
-					<Route
-						exact
-						path="/classifications/family/:id"
-						component={ClassificationsFamilyContainer}
-					/>
-					<Route
-						exact
-						path="/classifications/series"
-						component={ClassificationsSeriesContainer}
-					/>
-					<Route
-						exact
-						path="/classifications/series/:id"
-						component={ClassificationsOneSeriesContainer}
-					/>
-					<Route
-						exact
-						path="/classifications"
-						component={ClassificationsContainer}
-					/>
-					<Route
-						exact
-						path="/classifications/classification/:id"
-						component={ClassificationContainer}
-					/>
-					<Route
-						exact
-						path="/classifications/classification/:id/items"
-						component={ClassificationItemsContainer}
-					/>
-					<Route
-						exact
-						path="/classifications/classification/:id/tree"
-						component={ClassificationTreeContainer}
-					/>
-					<Route
-						exact
-						path="/classifications/classification/:classificationId/level/:levelId"
-						component={ClassificationLevelContainer}
-					/>
-					<Route
-						exact
-						path="/classifications/classification/:classificationId/item/:itemId"
-						component={ClassificationItemContainer}
-					/>
-					<Route
-						exact
-						path="/classifications/classification/:classificationId/item/:itemId/compare"
-						component={ClassificationItemCompareContainer}
-					/>
-					<Route
-						exact
-						path="/classifications/correspondences"
-						component={ClassificationsCorrespondencesContainer}
-					/>
-					<Route
-						exact
-						path="/operations/families"
-						component={OperationsFamiliesContainer}
-					/>
-					<Route
-						exact
-						path="/operations/series"
-						component={OperationsSeriesContainer}
-					/>
-					<Route exact path="/operations" component={OperationsContainer} />
-					<Route
-						exact
-						path="/operations/family/:id"
-						component={OperationsFamilyVisualizationContainer}
-					/>
-					<Route
-						exact
-						path="/operations/series/:id"
-						component={OperationsSeriesVisualizationContainer}
-					/>
-					<Route
-						exact
-						path="/operations/operation/:id"
-						component={OperationVisualizationContainer}
-					/>
-					<Route path="*" component={NotFound} />
-				</Switch>
-			</span>
-		);
-	}
-}
-
-const mapStateToProps = state => {
-	const error = state.app.error;
-	return { error };
-};
-
-export default auth(connect(mapStateToProps)(Routes));
+export default withRouter(
+	auth(({ error }) => (
+		<span>
+			<Route path="/" component={MenuDispatcher} />
+			<Switch>
+				{error && <Route path="/" component={Error} />}
+				<Route exact path="/" component={App} />
+				<Route exact path="/concepts" component={ConceptsContainer} />
+				<Route
+					exact
+					path="/concepts/search"
+					component={ConceptsSearchListContainer}
+				/>
+				<Route
+					exact
+					path="/concept/create"
+					component={ConceptCreationContainer}
+				/>
+				<Route
+					exact
+					path="/concept/:id"
+					component={ConceptVisualizationContainer}
+				/>
+				<Route
+					exact
+					path="/concept/:id/compare"
+					component={ConceptCompareContainer}
+				/>
+				<Route
+					exact
+					path="/concept/:id/send"
+					component={ConceptSendContainer}
+				/>
+				<Route
+					exact
+					path="/concept/:id/modify"
+					component={ConceptEditionContainer}
+				/>
+				<Route
+					exact
+					path="/concepts/validation"
+					component={ConceptsToValidateContainer}
+				/>
+				<Route
+					exact
+					path="/concepts/export"
+					component={ConceptsToExportContainer}
+				/>
+				<Route exact path="/collections" component={CollectionsContainer} />
+				<Route
+					exact
+					path="/collection/create"
+					component={CollectionCreationContainer}
+				/>
+				<Route
+					exact
+					path="/collection/:id"
+					component={CollectionVisualizationContainer}
+				/>
+				<Route
+					exact
+					path="/collection/:id/send"
+					component={CollectionSendContainer}
+				/>
+				<Route
+					exact
+					path="/collection/:id/modify"
+					component={CollectionEditionContainer}
+				/>
+				<Route
+					exact
+					path="/collections/validation"
+					component={CollectionsToValidateContainer}
+				/>
+				<Route
+					exact
+					path="/collections/export"
+					component={CollectionsToExportContainer}
+				/>
+				<Route exact path="/concepts/help" component={HelpConcepts} />
+				<Route
+					exact
+					path="/classifications/help"
+					component={HelpClassifications}
+				/>
+				<Route exact path="/operations/help" component={HelpOperations} />
+				<Route
+					exact
+					path="/concepts/administration"
+					component={Administration}
+				/>
+				<Route exact path="/administration/roles" component={Role} />
+				<Route
+					exact
+					path="/concepts/administration/dashboard"
+					component={ConceptsDashboard}
+				/>
+				<Route
+					exact
+					path="/classifications/families"
+					component={ClassificationsFamiliesContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/family/:id"
+					component={ClassificationsFamilyContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/series"
+					component={ClassificationsSeriesContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/series/:id"
+					component={ClassificationsOneSeriesContainer}
+				/>
+				<Route
+					exact
+					path="/classifications"
+					component={ClassificationsContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/classification/:id"
+					component={ClassificationContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/classification/:id/items"
+					component={ClassificationItemsContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/classification/:id/tree"
+					component={ClassificationTreeContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/classification/:classificationId/level/:levelId"
+					component={ClassificationLevelContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/classification/:classificationId/item/:itemId"
+					component={ClassificationItemContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/classification/:classificationId/item/:itemId/compare"
+					component={ClassificationItemCompareContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/correspondences"
+					component={ClassificationsCorrespondencesContainer}
+				/>
+				<Route
+					exact
+					path="/operations/families"
+					component={OperationsFamiliesContainer}
+				/>
+				<Route
+					exact
+					path="/operations/series"
+					component={OperationsSeriesContainer}
+				/>
+				<Route exact path="/operations" component={OperationsContainer} />
+				<Route
+					exact
+					path="/operations/family/:id"
+					component={OperationsFamilyVisualizationContainer}
+				/>
+				<Route
+					exact
+					path="/operations/series/:id"
+					component={OperationsSeriesVisualizationContainer}
+				/>
+				<Route
+					exact
+					path="/operations/operation/:id"
+					component={OperationVisualizationContainer}
+				/>
+				<Route path="*" component={NotFound} />
+			</Switch>
+		</span>
+	))
+);
