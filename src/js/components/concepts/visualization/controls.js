@@ -43,7 +43,7 @@ class ConceptVisualizationControls extends Component {
 				? null
 				: [`/concept/${id}/compare`, D.btnCompare]);
 
-		if (admin) {
+		if (admin || (creator && contributor)) {
 			if (isValidOutOfDate) {
 				btns = isValidated
 					? [cancel, null, null, null, compare, send]
