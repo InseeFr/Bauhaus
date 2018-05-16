@@ -15,6 +15,12 @@ export default function(state = {}, action) {
 				secondLang: payload,
 			};
 		}
+		case A.SAVE_USER_PROPS: {
+			return {
+				...state,
+				auth: { ...state.auth, user: payload },
+			};
+		}
 		case A.CHECK_AUTH_SUCCESS: {
 			return {
 				...state,

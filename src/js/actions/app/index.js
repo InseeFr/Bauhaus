@@ -8,6 +8,13 @@ export const saveSecondLang = secondLang => {
 	};
 };
 
+export const saveUserProps = props => {
+	return {
+		type: A.SAVE_USER_PROPS,
+		payload: props,
+	};
+};
+
 export const checkAuth = body => dispatch => {
 	dispatch({
 		type: A.CHECK_AUTH,
