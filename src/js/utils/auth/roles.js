@@ -1,4 +1,4 @@
-export const ADMIN = 'ADMIN';
-export const CONCEPTS_CONTRIBUTOR = 'CONCEPTS_CONTRIBUTOR';
-export const CONCEPTS_CREATOR = 'CONCEPTS_CREATOR';
-export const COLLECTIONS_CREATOR = 'COLLECTIONS_CREATOR';
+export const ADMIN = 'Administrateur_RMESGNCS';
+export const CONCEPTS_CONTRIBUTOR = 'Gestionnaire_ensemble_concepts_RMESGNCS';
+export const CONCEPTS_CREATOR = 'Proprietaire_concept_RMESGNCS';
+export const COLLECTIONS_CREATOR = 'Proprietaire_collection_concepts_RMESGNCS';
