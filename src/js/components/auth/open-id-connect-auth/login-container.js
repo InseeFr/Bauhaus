@@ -6,6 +6,7 @@ import Loading from 'js/components/shared/loading';
 import { baseHost } from 'config';
 import { saveUserProps } from 'js/actions/app';
 import {
+	getToken,
 	setToken,
 	getAuthPropsFromToken,
 } from 'js/utils/auth/open-id-connect-auth/token-utils';
@@ -13,7 +14,6 @@ import {
 class LoginOpenIDConnect extends Component {
 	constructor() {
 		super();
-		//this.state = { authenticated: false, keycloak: {} };
 		this.kc = Keycloak(`${baseHost}/keycloak`);
 		this.initLogin = this.initLogin.bind(this);
 	}
@@ -31,7 +31,6 @@ class LoginOpenIDConnect extends Component {
 				checkLoginIframe: false,
 			})
 			.success(() => {
-				//this.setState({ authenticated: true });
 				this.props.saveUserProps(getAuthPropsFromToken(this.kc.tokenParsed));
 				this.kc.token && setToken(this.kc.token);
 				setInterval(() => this.refreshToken(), 20000);
@@ -61,7 +60,7 @@ class LoginOpenIDConnect extends Component {
 		const { authenticated } = this.props;
 		const { WrappedComponent } = this.props;
 
-		if (authenticated) return <WrappedComponent />;
+		if (authenticated && getToken()) return <WrappedComponent />;
 		return <Loading textType="authentification" />;
 	}
 }
