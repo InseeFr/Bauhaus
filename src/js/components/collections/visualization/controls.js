@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Button from 'js/components/shared/button';
 import PlaceHolder from 'js/components/shared/placeholder';
-import check from 'js/utils/auth/utils';
+import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
 

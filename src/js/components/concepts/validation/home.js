@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ModalRmes from 'js/components/shared/modal-rmes';
 import Picker from 'js/components/shared/page-picker';
-import check from 'js/utils/auth/utils';
+import check from 'js/utils/auth';
 import D from 'js/i18n';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
 

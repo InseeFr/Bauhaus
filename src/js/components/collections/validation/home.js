@@ -1,7 +1,7 @@
 import React from 'react';
 import Picker from 'js/components/shared/page-picker';
 import D from 'js/i18n';
-import check from 'js/utils/auth/utils';
+import check from 'js/utils/auth';
 
 const CollectionsToValidate = ({
 	collections,

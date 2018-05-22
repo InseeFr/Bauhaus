@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import check from 'js/utils/auth/utils';
+import check from 'js/utils/auth';
 import dashBoardLogo from 'img/dashboard.png';
 import adminLogo from 'img/admin.png';
 import PageTitle from '../shared/page-title';

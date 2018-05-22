@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import PageTitle from 'js/components/shared/page-title';
 import SearchRmes from 'js/components/shared/search-rmes';
-import check from 'js/utils/auth/utils';
+import check from 'js/utils/auth';
 import { propTypes as conceptOverviewPropTypes } from 'js/utils/concepts/concept-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';

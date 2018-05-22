@@ -10,7 +10,7 @@ import loadConcept from 'js/actions/concepts/concept';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
 import loadGeneralAndAllNotes from 'js/actions/concepts/general-and-all-notes';
-import check from 'js/utils/auth/utils';
+import check from 'js/utils/auth';
 import Loading from 'js/components/shared/loading';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';
