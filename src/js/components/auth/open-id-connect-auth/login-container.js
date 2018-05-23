@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Keycloak from 'keycloak';
 import Loading from 'js/components/shared/loading';
-import { baseHost } from 'config';
 import { saveUserProps } from 'js/actions/app';
 import {
 	getToken,
 	setToken,
 	getAuthPropsFromToken,
 } from 'js/utils/auth/open-id-connect-auth/token-utils';
+const kcConfig = 'keycloak/keycloak-front.json';
 
 class LoginOpenIDConnect extends Component {
 	constructor() {
 		super();
-		this.kc = Keycloak(`${baseHost}/keycloak`);
+		this.kc = Keycloak(kcConfig);
 		this.initLogin = this.initLogin.bind(this);
 	}
 
