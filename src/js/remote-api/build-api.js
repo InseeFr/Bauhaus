@@ -34,7 +34,7 @@ export const computeDscr = (fn, [...args]) => {
 	//headers), all relevant options should be present.
 	options = Object.assign({}, defaultOptions, options);
 	const token = getToken();
-	if (isTokenValid(token)) {
+	if (token && isTokenValid(token)) {
 		options = {
 			...options,
 			headers: { ...options.headers, Authorization: `Bearer ${token}` },
