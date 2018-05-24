@@ -8,6 +8,7 @@ import {
 	getToken,
 	setToken,
 	getAuthPropsFromToken,
+	isTokenValid,
 } from 'js/utils/auth/open-id-connect-auth/token-utils';
 const kcConfig = `${window.location.origin}/keycloak/keycloak-front.json`;
 
@@ -59,8 +60,9 @@ class LoginOpenIDConnect extends Component {
 	render() {
 		const { authenticated } = this.props;
 		const { WrappedComponent } = this.props;
-
-		if (authenticated && getToken()) return <WrappedComponent />;
+		const token = getToken();
+		if (authenticated && token && isTokenValid(token))
+			return <WrappedComponent />;
 		return <Loading textType="authentification" />;
 	}
 }

@@ -1,5 +1,8 @@
 import { removeTrailingSlash } from 'js/utils/string-utils';
-import { getToken } from 'js/utils/auth/open-id-connect-auth/token-utils';
+import {
+	getToken,
+	isTokenValid,
+} from 'js/utils/auth/open-id-connect-auth/token-utils';
 
 export default (baseHost, api) => {
 	return Object.keys(api).reduce((apiFns, resource) => {
@@ -31,7 +34,7 @@ export const computeDscr = (fn, [...args]) => {
 	//headers), all relevant options should be present.
 	options = Object.assign({}, defaultOptions, options);
 	const token = getToken();
-	if (token) {
+	if (isTokenValid(token)) {
 		options = {
 			...options,
 			headers: { ...options.headers, Authorization: `Bearer ${token}` },
