@@ -48,7 +48,7 @@ import OperationsSeriesContainer from 'js/components/operations/series/home-cont
 import OperationsContainer from 'js/components/operations/operations/home-container';
 import OperationsFamilyVisualizationContainer from 'js/components/operations/families/visualization-container';
 import OperationsSeriesVisualizationContainer from 'js/components/operations/series/visualization-container';
-import OperationVisualizationContainer from 'js/components/operations/operations/visualization-container';
+import OperationVisualizationContainer from 'js/components/operations/operations/visualization/home-container';
 
 export default withRouter(
 	auth(({ error }) => (

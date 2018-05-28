@@ -55,6 +55,7 @@ export default trackActionReducer([
 	[A.VALIDATE_COLLECTION_LIST, A.VALIDATE_COLLECTION_LIST_SUCCESS],
 	[A.ADD_ROLE, A.ADD_ROLE_SUCCESS],
 	[A.DELETE_ROLE, A.DELETE_ROLE_SUCCESS],
+	[A.EXPORT_VARBOOK, A.EXPORT_VARBOOK_SUCCESS],
 ]);
 
 export const getStatus = (state, actionType) => {
