@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import homeLogo from 'img/accueil.png';
 import conceptsLogo from 'img/concepts.jpg';
-//import nomenclaturesLogo from 'img/nomenclatures.jpg';
+import classificationsLogo from 'img/classifications.jpg';
 import operationsLogo from 'img/operations.jpg';
 import './referentiels.css';
 
@@ -31,16 +31,16 @@ function MenuReferentiels() {
 										{D.conceptsTitle}
 									</Link>
 								</li>
-								{/*<li>
+								<li>
 									<Link to="/classifications">
 										<img
-											src={nomenclaturesLogo}
+											src={classificationsLogo}
 											alt="Classifications"
 											className="img-menu"
 										/>{' '}
 										{D.classificationsTitle}
 									</Link>
-								</li>*/}
+								</li>
 								<li>
 									<Link to="/operations/series">
 										<img
