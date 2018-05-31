@@ -5,6 +5,7 @@ import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import buildExtract from 'js/utils/build-extract';
 import { families } from './fake-data';
+import { goBack } from 'js/utils/redirection';
 import '../operations.css';
 
 const extractId = buildExtract('id');
@@ -19,7 +20,7 @@ class FamilyVisualizationContainer extends Component {
 					<div className="col-md-2">
 						<button
 							className="btn btn-primary btn-lg col-md-12"
-							onClick={() => this.props.history.goBack()}
+							onClick={goBack(this.props, '/operations/families')}
 						>
 							{D.btnReturn}
 						</button>

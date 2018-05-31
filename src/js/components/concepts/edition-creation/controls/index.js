@@ -36,6 +36,7 @@ function ConceptCreateControl({
 	conceptsWithLinks,
 	maxLengthScopeNote,
 	handleSave,
+	redirectCancel,
 }) {
 	let message;
 	let saveEnabled = false;
@@ -100,6 +101,7 @@ function ConceptCreateControl({
 			handleSave={handleSave}
 			message={message}
 			saveEnabled={saveEnabled}
+			redirectCancel={redirectCancel}
 		/>
 	);
 }
@@ -110,5 +112,6 @@ ConceptCreateControl.propTypes = {
 	notes: notesPropTypes.isRequired,
 	conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
 	handleSave: PropTypes.func.isRequired,
+	redirectCancel: PropTypes.func.isRequired,
 };
 export default ConceptCreateControl;

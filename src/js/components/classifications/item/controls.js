@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Button from 'js/components/shared/button';
 import PlaceHolder from 'js/components/shared/placeholder';
+import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
 class ItemControls extends Component {
 	render() {
 		const { classificationId, itemId, version } = this.props;
 		const cancel = [
-			this.props.history.length === 1
-				? `/classifications/classification/${classificationId}/item/${itemId}`
-				: () => this.props.history.goBack(),
+			goBack(
+				this.props,
+				`/classifications/classification/${classificationId}/items`
+			),
 			D.btnReturn,
 		];
 		const compare =

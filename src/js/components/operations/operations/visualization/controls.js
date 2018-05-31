@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Button from 'js/components/shared/button';
-
 import PlaceHolder from 'js/components/shared/placeholder';
+import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 import 'js/components/operations/operations.css';
 
@@ -10,12 +10,7 @@ class OperationsControls extends Component {
 	render() {
 		const { openModal } = this.props;
 
-		const cancel = [
-			this.props.history.length === 1
-				? `/operations/series`
-				: () => this.props.history.goBack(),
-			D.btnReturn,
-		];
+		const cancel = [goBack(this.props, `/operations/series`), D.btnReturn];
 
 		const exportVarBook = [openModal, D.btnExport];
 

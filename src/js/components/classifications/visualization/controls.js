@@ -3,16 +3,12 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Button from 'js/components/shared/button';
 import PlaceHolder from 'js/components/shared/placeholder';
+import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
 class ClassificationControls extends Component {
 	render() {
-		const cancel = [
-			this.props.history.length === 1
-				? `/classifications/families`
-				: () => this.props.history.goBack(),
-			D.btnReturn,
-		];
+		const cancel = [goBack(this.props, `/classifications`), D.btnReturn];
 		const location = this.props.history.location.pathname;
 		const treeLocation = `${location}/tree`;
 

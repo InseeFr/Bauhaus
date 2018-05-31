@@ -1,6 +1,7 @@
 // TODO Not really container yet, fix with real data
 import React, { Component } from 'react';
 import PageTitle from 'js/components/shared/page-title';
+import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 import '../operations.css';
 
@@ -14,7 +15,7 @@ class SeriesVisualizationContainer extends Component {
 					<div className="col-md-2">
 						<button
 							className="btn btn-primary btn-lg col-md-12"
-							onClick={() => this.props.history.goBack()}
+							onClick={goBack(this.props, '/operations/series')}
 						>
 							{D.btnReturn}
 						</button>

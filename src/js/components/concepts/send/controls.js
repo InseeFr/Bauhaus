@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
 class SendControls extends Component {
@@ -20,13 +21,16 @@ class SendControls extends Component {
 		} else if (!hasMessage) {
 			warning = D.emptyMailBody;
 		}
+		const location = this.props.history.location.pathname;
+		const nextLocation = location.replace('/send', '');
+
 		return (
 			<div className="row btn-line">
 				<div className="col-md-2">
 					<button
 						type="button"
 						className="btn btn-primary btn-lg col-md-12"
-						onClick={() => this.props.history.goBack()}
+						onClick={goBack(this.props, nextLocation)}
 					>
 						{D.btnReturn}
 					</button>

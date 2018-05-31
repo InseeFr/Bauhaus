@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PageTitle from 'js/components/shared/page-title';
 import Button from 'js/components/shared/button';
+import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 
@@ -13,11 +14,7 @@ class ConceptVisualizationStandBy extends Component {
 				<PageTitle title={prefLabelLg1} />
 				<div className="row">
 					<Button
-						action={
-							this.props.history.length === 1
-								? `/concepts`
-								: () => this.props.history.goBack()
-						}
+						action={goBack(this.props, '/concepts')}
 						label={D.btnReturn}
 					/>
 				</div>

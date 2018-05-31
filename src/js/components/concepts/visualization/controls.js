@@ -5,6 +5,7 @@ import Button from 'js/components/shared/button';
 import PlaceHolder from 'js/components/shared/placeholder';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
+import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
 class ConceptVisualizationControls extends Component {
@@ -28,12 +29,7 @@ class ConceptVisualizationControls extends Component {
 
 		let btns;
 
-		const cancel = [
-			this.props.history.length === 1
-				? `/concepts`
-				: () => this.props.history.goBack(),
-			D.btnReturn,
-		];
+		const cancel = [goBack(this.props, `/concepts`), D.btnReturn];
 		const send = [`/concept/${id}/send`, D.btnSend];
 		const validate = adminOrCreator && [handleValidation, D.btnValid];
 		const update = [`/concept/${id}/modify`, D.btnUpdate];

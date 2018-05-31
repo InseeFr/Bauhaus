@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Button from 'js/components/shared/button';
 import PlaceHolder from 'js/components/shared/placeholder';
+import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
 class LevelControls extends Component {
 	render() {
 		const { id } = this.props;
 		const cancel = [
-			this.props.history.length === 1
-				? `/classifications/classification/${id}`
-				: () => this.props.history.goBack(),
+			goBack(this.props, `/classifications/classification/${id}`),
 			D.btnReturn,
 		];
 		const btns = [cancel, null, null, null, null, null];

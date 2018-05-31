@@ -36,7 +36,7 @@ class LoginOpenIDConnect extends Component {
 				this.kc.token && setToken(this.kc.token);
 				setInterval(() => this.refreshToken(), 20000);
 				const { history } = this.props;
-				history.push(history.location.pathname);
+				history.push({ pathname: history.location.pathname, state: 'init' });
 			})
 			.error(e => console.log('erreur initLogin', e));
 	}
