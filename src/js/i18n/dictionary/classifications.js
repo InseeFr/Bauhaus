@@ -119,6 +119,18 @@ const dictionary = {
 		fr: 'Niveaux inférieurs',
 		en: 'Narrower items',
 	},
+	sourceClassificationTitle: {
+		fr: 'Nomenclature source',
+		en: 'Source classification',
+	},
+	targetClassificationTitle: {
+		fr: 'Nomenclature cible',
+		en: 'Target classification',
+	},
+	associationsTitle: {
+		fr: 'Liste des associations',
+		en: 'Association list',
+	},
 	classificationItemAltLabels: {
 		fr: length => `Titre abrégé (${length})`,
 		en: length => `Short title (${length})`,

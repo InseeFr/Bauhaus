@@ -28,6 +28,12 @@ const api = {
 	getClassificationItemNarrowers: (classificationId, itemId) => [
 		`classification/${classificationId}/item/${itemId}/narrowers`,
 	],
+	getCorrespondenceGeneral: correspondenceId => [
+		`correspondence/${correspondenceId}`,
+	],
+	getCorrespondenceAssociations: correspondenceId => [
+		`correspondence/${correspondenceId}/associations`,
+	],
 };
 
 export default buildApi(baseHostClassification, api);

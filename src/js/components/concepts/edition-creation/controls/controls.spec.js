@@ -13,6 +13,7 @@ describe('concept-edition-creation-controls', () => {
 				notes={{}}
 				conceptsWithLinks={[]}
 				handleSave={() => console.log('validate')}
+				redirectCancel={() => console.log('cancel')}
 			/>
 		);
 	});

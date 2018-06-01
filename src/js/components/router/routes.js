@@ -42,6 +42,7 @@ import ClassificationLevelContainer from 'js/components/classifications/level/ho
 import ClassificationItemContainer from 'js/components/classifications/item/home-container';
 import ClassificationItemCompareContainer from 'js/components/classifications/item/compare/home-container';
 import ClassificationsCorrespondencesContainer from 'js/components/classifications/correspondences/home-container';
+import ClassificationsCorrespondenceContainer from 'js/components/classifications/correspondences/visualization/home-container';
 // Operations
 import OperationsFamiliesContainer from 'js/components/operations/families/home-container';
 import OperationsSeriesContainer from 'js/components/operations/series/home-container';
@@ -206,6 +207,11 @@ export default withRouter(
 					exact
 					path="/classifications/correspondences"
 					component={ClassificationsCorrespondencesContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/correspondence/:id"
+					component={ClassificationsCorrespondenceContainer}
 				/>
 				<Route
 					exact
