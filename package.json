@@ -85,9 +85,11 @@
 		"build": "npm-run-all -p build-css build-js",
 		"test": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom",
 		"test:coverage": "yarn test --coverage -i",
-		"start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
-		"build-storybook":
+		"start-storybook-js": "cross-env NODE_PATH=src/ start-storybook -p 9999",
+		"start-storybook": "npm-run-all -p watch-css start-storybook-js",
+		"build-storybook-js":
 			"cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
+		"build-storybook": "npm-run-all -p build-css build-storybook-js",
 		"eject": "react-scripts eject",
 		"format":
 			"prettier --trailing-comma es5 --single-quote --write 'src/**/*.js'"
