@@ -19,13 +19,13 @@ class HomeAssociations extends Component {
 		const rowParams = [
 			{
 				dataField: 'source',
-				label: 'source',
+				label: D.sourceClassificationTitle,
 				width: '50%',
 				isKey: true,
 			},
 			{
 				dataField: 'target',
-				label: 'target',
+				label: D.targetClassificationTitle,
 				width: '50%',
 			},
 		];
@@ -39,6 +39,7 @@ class HomeAssociations extends Component {
 					onRowClick={row =>
 						this.props.history.push(`${id}/association/${row.id}`)
 					}
+					context="classifications"
 				/>
 			</Panel>
 		);
