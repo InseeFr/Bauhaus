@@ -5,7 +5,7 @@ import Root from 'js/components/router';
 import Error from 'js/components/shared/error';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
-import 'css/app.css';
+import 'app.css';
 
 Api.getInit()
 	.then(
