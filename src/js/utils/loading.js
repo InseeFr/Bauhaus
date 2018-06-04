@@ -1,17 +1,5 @@
 import D from 'js/i18n';
 
-export const getColor = context => {
-	switch (context) {
-		case 'operations':
-			return '#6f1417';
-		case 'classifications':
-			return '#006600';
-		case 'concepts':
-		default:
-			return '#457DBB';
-	}
-};
-
 export const getText = textType => {
 	switch (textType) {
 		case 'authentification':

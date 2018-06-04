@@ -1,3 +1,26 @@
+@import 'src/app.scss';
+
 .loading-row {
 	margin-top: 5%;
+}
+
+.loading-concepts > div {
+	fill: $color_concepts_3 !important;
+}
+.loading-text-concepts {
+	color: $color_concepts_3;
+}
+
+.loading-classifications > div {
+	fill: $color_classifications_3 !important;
+}
+.loading-text-classifications {
+	color: $color_classifications_3;
+}
+
+.loading-operations > div {
+	fill: $color_operations_3 !important;
+}
+.loading-text-operations {
+	color: $color_operations_3;
 }
