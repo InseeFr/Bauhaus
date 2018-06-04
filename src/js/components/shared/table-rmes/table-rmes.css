@@ -1,0 +1,26 @@
+.table-concepts .table-hover tbody tr:hover td {
+	background-color: #457dbb;
+}
+
+.table-classifications .table-hover tbody tr:hover td {
+	background-color: #006600;
+}
+
+.table-header-concepts {
+	background-color: #457dbb;
+	color: white;
+}
+
+.table-header-classifications {
+	background-color: #006600;
+	color: white;
+}
+
+/* .table-header-operations {
+	background-color: #006600;
+	color: white;
+} */
+
+.marginTop {
+	margin-top: 2%;
+}

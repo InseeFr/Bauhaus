@@ -11,6 +11,8 @@ function TableRmes({
 	cssClass,
 	csvFileName,
 	onRowClick,
+	dataAlign,
+	context,
 }) {
 	const options = {
 		sizePerPage: 5,
@@ -32,6 +34,8 @@ function TableRmes({
 		exportCSVText: D.exportCSV,
 		onRowClick: onRowClick,
 	};
+	dataAlign = dataAlign || 'center';
+	context = context || 'concepts';
 	const rows = rowParams.map(
 		({ dataField, label, width, isKey, dataFormat, dataSort }) => (
 			<TableHeaderColumn
@@ -39,7 +43,7 @@ function TableRmes({
 				width={width}
 				dataField={dataField}
 				isKey={isKey}
-				dataAlign="center"
+				dataAlign={dataAlign}
 				dataFormat={dataFormat}
 				dataSort={dataSort}
 			>
@@ -48,14 +52,15 @@ function TableRmes({
 		)
 	);
 	return (
-		<div className={cssClass} style={{ marginTop: '2%' }}>
+		<div className={`${cssClass} table-${context} marginTop`}>
 			<BootstrapTable
 				exportCSV={csvFileName}
 				csvFileName={csvFileName}
 				data={data}
 				striped={true}
 				hover={true}
-				headerStyle={{ background: '#457DBB', color: 'white' }}
+				tableBodyClass="hover"
+				tableHeaderClass={`table-header-${context}`}
 				search={search}
 				searchPlaceholder={D.searchTablePlaceholder}
 				pagination={pagination}
