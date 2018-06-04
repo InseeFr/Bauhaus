@@ -1,0 +1,44 @@
+.pg-rmes {
+	display: inline-block;
+}
+
+.pg-rmes li {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	border: 1px solid #ddd;
+}
+
+.pg-rmes li:first-child {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.pg-rmes li:last-child {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.pg-rmes-concepts li.active,
+.pg-rmes-collections li.active {
+	background-color: #457dbb;
+	color: white;
+	border: 1px solid #457dbb;
+}
+
+.pg-rmes-classifications li.active {
+	background-color: #006600;
+	color: white;
+	border: 1px solid #006600;
+}
+
+.pg-rmes-operations li.active {
+	background-color: #6f1417;
+	color: white;
+	border: 1px solid #6f1417;
+}
+
+.pg-rmes li:hover:not(.active) {
+	background-color: #ddd;
+}

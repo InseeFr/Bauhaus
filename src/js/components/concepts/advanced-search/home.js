@@ -11,7 +11,6 @@ import {
 	filterKeyDate,
 	nbResults,
 } from 'js/utils/array-utils';
-import 'css/app.css';
 
 const filterLabel = filterKeyDeburr(['label']);
 const filterAltLabel = filterKeyDeburr(['altLabel']);

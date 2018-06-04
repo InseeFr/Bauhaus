@@ -1,44 +1,41 @@
 .navbar-icon {
-	color: #ffffff;
-	font-size: 17px;
-}
+  color: #ffffff;
+  font-size: 17px; }
+
 .inline {
-	display: inline;
-}
+  display: inline; }
+
 .img-menu {
-	height: 60px;
-	padding: 0px;
-	width: auto;
-}
+  height: 60px;
+  padding: 0px;
+  width: auto; }
+
 .navbar-default-classifications {
-	background: #006600;
-	font-size: 20px;
-	font-family: arial;
-	color: #ffffff;
-	margin-bottom: 0;
-	border-top: 0;
-	border-bottom: 0;
-}
+  background: #006600;
+  font-size: 20px;
+  font-family: arial;
+  color: #ffffff;
+  margin-bottom: 0;
+  border-top: 0;
+  border-bottom: 0; }
+
 .navbar-default-classifications .navbar-nav-classifications > li > a {
-	color: #ffffff;
-}
+  color: #ffffff; }
 
 .navbar-default-classifications .navbar-nav-classifications > li > a:hover {
-	text-decoration: none;
-	background-color: #00b300;
-	color: #ffffff;
-	border: 2px solid #003300;
-	border-bottom: none;
-	border-top-left-radius: 6px;
-	border-top-right-radius: 6px;
-}
+  text-decoration: none;
+  background-color: #00b300;
+  color: #ffffff;
+  border: 2px solid #003300;
+  border-bottom: none;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px; }
 
 .navbar-default-classifications .navbar-nav-classifications > li > a:focus,
 .navbar-default-classifications .navbar-nav-classifications > .active > a {
-	background: #ffffff;
-	color: #006600;
-	border: 2px solid #003300;
-	border-bottom: none;
-	border-top-left-radius: 6px;
-	border-top-right-radius: 6px;
-}
+  background: #ffffff;
+  color: #006600;
+  border: 2px solid #003300;
+  border-bottom: none;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px; }

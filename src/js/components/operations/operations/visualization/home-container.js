@@ -4,14 +4,10 @@ import { withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { EXPORT_VARBOOK } from 'js/actions/constants';
 import { OK } from 'js/constants';
-
 import Loading from 'js/components/shared/loading';
 import OperationVisualization from './home';
-
 import buildExtract from 'js/utils/build-extract';
 import exportVariableBook from 'js/actions/operations/export-varBook';
-
-//import '../operations.css';
 
 const extractId = buildExtract('id');
 
@@ -61,6 +57,7 @@ class OperationVisualizationContainer extends Component {
 							id,
 							'application/vnd.oasis.opendocument.text'
 						)
+
 
 					//application/octet-stream
 				}

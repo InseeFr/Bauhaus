@@ -6,7 +6,6 @@ import ConceptSearchList from './home';
 import loadStampList from 'js/actions/stamp';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadConceptSearchList from 'js/actions/concepts/search-list';
-import 'css/app.css';
 
 class ConceptSearchListContainer extends Component {
 	componentWillMount() {

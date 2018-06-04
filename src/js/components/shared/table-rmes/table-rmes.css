@@ -1,28 +1,24 @@
 .table-concepts .table-hover tbody tr:hover td {
-	background-color: #457dbb;
-}
+  background-color: #457dbb; }
+
 .table-classifications .table-hover tbody tr:hover td {
-	background-color: #006600;
-}
+  background-color: #006600; }
 
 .table-header-concepts {
-	background-color: #457dbb;
-	color: white;
-}
+  background-color: #457dbb;
+  color: white; }
+
 .table-header-classifications {
-	background-color: #006600;
-	color: white;
-}
+  background-color: #006600;
+  color: white; }
 
 .pagination-concepts .pagination > .active > a {
-	background-color: #457dbb;
-	border-color: #457dbb;
-}
+  background-color: #457dbb;
+  border-color: #457dbb; }
+
 .pagination-classifications .pagination > .active > a {
-	background-color: #006600;
-	border-color: #006600;
-}
+  background-color: #006600;
+  border-color: #006600; }
 
 .marginTop {
-	margin-top: 2%;
-}
+  margin-top: 2%; }

@@ -1,27 +1,23 @@
 .panel-concepts {
-	border-color: #457dbb;
-}
+  border-color: #457dbb; }
+
 .panel-concepts > .panel-heading {
-	background: #457dbb;
-	color: #ffffff;
-	border-color: #457dbb;
-}
+  background: #457dbb;
+  color: #ffffff;
+  border-color: #457dbb; }
 
 .panel-concepts > .panel-body {
-	background: #f3f3f3;
-	border-color: #457dbb;
-}
+  background: #f3f3f3;
+  border-color: #457dbb; }
 
 .panel-classifications {
-	border-color: #006600;
-}
+  border-color: #006600; }
+
 .panel-classifications > .panel-heading {
-	background: #006600;
-	color: #ffffff;
-	border-color: #006600;
-}
+  background: #006600;
+  color: #ffffff;
+  border-color: #006600; }
 
 .panel-classifications > .panel-body {
-	background: #f3f3f3;
-	border-color: #006600;
-}
+  background: #f3f3f3;
+  border-color: #006600; }

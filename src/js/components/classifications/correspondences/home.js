@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import PageTitle from 'js/components/shared/page-title';
 import SearchRmes from 'js/components/shared/search-rmes';
 import D from 'js/i18n';
-import '../classifications.css';
 
 class CorrespondencesHome extends Component {
 	render() {

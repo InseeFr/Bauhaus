@@ -4,7 +4,6 @@ import Button from 'js/components/shared/button';
 import PlaceHolder from 'js/components/shared/placeholder';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
-import 'js/components/operations/operations.css';
 
 class OperationsControls extends Component {
 	render() {

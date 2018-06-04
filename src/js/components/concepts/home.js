@@ -7,7 +7,6 @@ import check from 'js/utils/auth';
 import { propTypes as conceptOverviewPropTypes } from 'js/utils/concepts/concept-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
-import 'css/app.css';
 
 class ConceptsHome extends Component {
 	constructor() {

@@ -5,7 +5,6 @@ import * as select from 'js/reducers';
 import Dashboard from './';
 import loadConceptSearchList from 'js/actions/concepts/search-list';
 import loadCollectionDashboardList from 'js/actions/dashboard/collections';
-import 'css/app.css';
 
 class DashboardContainer extends Component {
 	componentWillMount() {

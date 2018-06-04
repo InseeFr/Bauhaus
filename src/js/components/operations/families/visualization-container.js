@@ -6,7 +6,6 @@ import D from 'js/i18n';
 import buildExtract from 'js/utils/build-extract';
 import { families } from './fake-data';
 import { goBack } from 'js/utils/redirection';
-import '../operations.css';
 
 const extractId = buildExtract('id');
 

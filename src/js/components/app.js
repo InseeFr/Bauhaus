@@ -4,7 +4,6 @@ import conceptsLogo from 'img/concepts.jpg';
 import classificationsLogo from 'img/classifications.jpg';
 import operationsLogo from 'img/operations.jpg';
 import D from 'js/i18n';
-import 'css/app.css';
 
 function App() {
 	return (

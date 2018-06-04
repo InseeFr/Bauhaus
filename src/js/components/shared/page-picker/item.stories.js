@@ -3,7 +3,6 @@ import { storiesOf } from '@storybook/react';
 import PickerItem from './item';
 import addLogo from 'js/components/shared/logo-add';
 import delLogo from 'js/components/shared/logo-del';
-import 'css/app.css';
 
 import { withKnobs, text } from '@storybook/addon-knobs/react';
 
