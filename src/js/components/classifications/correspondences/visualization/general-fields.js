@@ -4,11 +4,11 @@ import D from 'js/i18n';
 
 export const generalFields = (correspondence, secondLang) => {
 	let mapping = {
-		firstClasslabelLg1: D.sourceClassificationTitle,
+		firstClassLabelLg1: D.sourceClassificationTitle,
 		secondClasslabelLg1: D.targetClassificationTitle,
 	};
 	const content = Object.keys(mapping).map(fieldName => {
-		if (fieldName === 'firstClasslabelLg1' && correspondence[fieldName]) {
+		if (fieldName === 'firstClassLabelLg1' && correspondence[fieldName]) {
 			return (
 				<li key={fieldName}>
 					{mapping[fieldName]} :{' '}
@@ -17,7 +17,7 @@ export const generalFields = (correspondence, secondLang) => {
 							correspondence.idFirstClass
 						}`}
 					>
-						{correspondence.firstClasslabelLg1}
+						{correspondence.firstClassLabelLg1}
 					</Link>
 					{secondLang &&
 						correspondence.firstClasslabelLg2 && (
