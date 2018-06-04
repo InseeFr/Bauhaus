@@ -1,3 +1,5 @@
+@import 'src/app.scss';
+
 .pg-rmes {
 	display: inline-block;
 }
@@ -22,21 +24,21 @@
 
 .pg-rmes-concepts li.active,
 .pg-rmes-collections li.active {
-	background-color: #457dbb;
+	background-color: $color_concepts_3;
 	color: white;
-	border: 1px solid #457dbb;
+	border: 1px solid $color_concepts_3;
 }
 
 .pg-rmes-classifications li.active {
-	background-color: #006600;
+	background-color: $color_classifications_3;
 	color: white;
-	border: 1px solid #006600;
+	border: 1px solid $color_classifications_3;
 }
 
 .pg-rmes-operations li.active {
-	background-color: #6f1417;
+	background-color: $color_operations_3;
 	color: white;
-	border: 1px solid #6f1417;
+	border: 1px solid $color_operations_3;
 }
 
 .pg-rmes li:hover:not(.active) {

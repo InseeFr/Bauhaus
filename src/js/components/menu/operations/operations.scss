@@ -1,3 +1,5 @@
+@import 'src/app.scss';
+
 .navbar-icon {
 	color: #ffffff;
 	font-size: 17px;
@@ -11,7 +13,7 @@
 	width: auto;
 }
 .navbar-default-operations {
-	background: #a31c20;
+	background: $color_operations_3;
 	font-size: 20px;
 	font-family: arial;
 	color: #ffffff;
@@ -25,9 +27,9 @@
 
 .navbar-default-operations .navbar-nav-operations > li > a:hover {
 	text-decoration: none;
-	background-color: #6f1417;
+	background-color: $color_operations_2;
 	color: #ffffff;
-	border: 2px solid #83191c;
+	border: 2px solid $color_operations_1;
 	border-bottom: none;
 	border-top-left-radius: 6px;
 	border-top-right-radius: 6px;
@@ -36,8 +38,8 @@
 .navbar-default-operations .navbar-nav-operations > li > a:focus,
 .navbar-default-operations .navbar-nav-operations > .active > a {
 	background: #ffffff;
-	color: #a31c20;
-	border: 2px solid #83191c;
+	color: $color_operations_3;
+	border: 2px solid $color_operations_1;
 	border-bottom: none;
 	border-top-left-radius: 6px;
 	border-top-right-radius: 6px;

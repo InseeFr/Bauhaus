@@ -1,26 +1,28 @@
+@import 'src/app.scss';
+
 .table-concepts .table-hover tbody tr:hover td {
-	background-color: #457dbb;
+	background-color: $color_concepts_3;
 }
 .table-classifications .table-hover tbody tr:hover td {
-	background-color: #006600;
+	background-color: $color_classifications_3;
 }
 
 .table-header-concepts {
-	background-color: #457dbb;
+	background-color: $color_concepts_3;
 	color: white;
 }
 .table-header-classifications {
-	background-color: #006600;
+	background-color: $color_classifications_3;
 	color: white;
 }
 
 .pagination-concepts .pagination > .active > a {
-	background-color: #457dbb;
-	border-color: #457dbb;
+	background-color: $color_concepts_3;
+	border-color: $color_concepts_3;
 }
 .pagination-classifications .pagination > .active > a {
-	background-color: #006600;
-	border-color: #006600;
+	background-color: $color_classifications_3;
+	border-color: $color_classifications_3;
 }
 
 .marginTop {

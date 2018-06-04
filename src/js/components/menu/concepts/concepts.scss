@@ -1,3 +1,5 @@
+@import 'src/app.scss';
+
 .navbar-icon {
 	color: #ffffff;
 	font-size: 17px;
@@ -11,7 +13,7 @@
 	width: auto;
 }
 .navbar-default-concepts {
-	background: #457dbb;
+	background: $color_concepts_3;
 	font-size: 20px;
 	font-family: arial;
 	color: #ffffff;
@@ -25,9 +27,9 @@
 
 .navbar-default-concepts .navbar-nav-concepts > li > a:hover {
 	text-decoration: none;
-	background-color: #234ca5;
+	background-color: $color_concepts_2;
 	color: #ffffff;
-	border: 2px solid #044173;
+	border: 2px solid $color_concepts_1;
 	border-bottom: none;
 	border-top-left-radius: 6px;
 	border-top-right-radius: 6px;
@@ -36,8 +38,8 @@
 .navbar-default-concepts .navbar-nav-concepts > li > a:focus,
 .navbar-default-concepts .navbar-nav-concepts > .active > a {
 	background: #ffffff;
-	color: #457dbb;
-	border: 2px solid #044173;
+	color: $color_concepts_3;
+	border: 2px solid $color_concepts_1;
 	border-bottom: none;
 	border-top-left-radius: 6px;
 	border-top-right-radius: 6px;

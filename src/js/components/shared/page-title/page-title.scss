@@ -1,6 +1,8 @@
+@import 'src/app.scss';
+
 .page-title {
-	border: 2px solid #044173;
-	background-color: #044173;
+	border: 2px solid $color_concepts_1;
+	background-color: $color_concepts_1;
 	color: white;
 	border-radius: 6px;
 	padding: 10px;
@@ -8,8 +10,8 @@
 }
 
 .page-title-classifications {
-	border: 2px solid #003300;
-	background-color: #003300;
+	border: 2px solid $color_classifications_1;
+	background-color: $color_classifications_1;
 	color: white;
 	border-radius: 6px;
 	padding: 10px;
@@ -17,8 +19,8 @@
 }
 
 .page-title-operations {
-	border: 2px solid #6f1417;
-	background-color: #6f1417;
+	border: 2px solid $color_operations_1;
+	background-color: $color_operations_1;
 	color: white;
 	border-radius: 6px;
 	padding: 10px;

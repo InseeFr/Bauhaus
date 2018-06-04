@@ -1,27 +1,29 @@
+@import 'src/app.scss';
+
 .panel-concepts {
-	border-color: #457dbb;
+	border-color: $color_concepts_3;
 }
 .panel-concepts > .panel-heading {
-	background: #457dbb;
+	background: $color_concepts_3;
 	color: #ffffff;
-	border-color: #457dbb;
+	border-color: $color_concepts_3;
 }
 
 .panel-concepts > .panel-body {
 	background: #f3f3f3;
-	border-color: #457dbb;
+	border-color: $color_concepts_3;
 }
 
 .panel-classifications {
-	border-color: #006600;
+	border-color: $color_classifications_3;
 }
 .panel-classifications > .panel-heading {
-	background: #006600;
+	background: $color_classifications_3;
 	color: #ffffff;
-	border-color: #006600;
+	border-color: $color_classifications_3;
 }
 
 .panel-classifications > .panel-body {
 	background: #f3f3f3;
-	border-color: #006600;
+	border-color: $color_classifications_3;
 }

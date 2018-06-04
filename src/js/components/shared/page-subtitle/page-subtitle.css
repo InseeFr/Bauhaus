@@ -1,3 +1,113 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; }
+
+.inline {
+  display: inline; }
+
+.items {
+  display: inline-block;
+  width: 15%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 10%; }
+
+.img-block {
+  display: block;
+  width: 100%;
+  text-align: center; }
+
+.img {
+  width: 15%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 2%; }
+
+.img-flag {
+  height: 20px;
+  width: auto;
+  margin: 0; }
+
+.btn-group-vertical {
+  border: 2px solid #457dbb;
+  border-radius: 6px;
+  margin-top: 200px; }
+
+.btn-group-vertical .btn {
+  margin-top: 15px;
+  margin-bottom: 15px; }
+
+.btn-line {
+  margin-top: 15px;
+  margin-bottom: 15px; }
+
+.page-title-link:hover {
+  color: #044173;
+  text-decoration: none;
+  background-color: white; }
+
+.list-group-item {
+  text-align: left; }
+
+.img-flag {
+  height: 20px;
+  width: auto;
+  margin: 0; }
+
+link {
+  color: #ffffff; }
+
+.centered {
+  text-align: center; }
+
+.vertical-center {
+  display: flex;
+  align-items: center; }
+
+.red {
+  color: red; }
+
+.nav-tabs > li {
+  border: 1px solid #457dbb; }
+
+.nav-tabs.nav-justified > li > a {
+  border-bottom: none; }
+
+.nav-tabs > li > a:hover {
+  background-color: #234ca5 !important;
+  color: #ffffff !important; }
+
+.nav-tabs > li.active > a {
+  background-color: #457dbb !important;
+  color: #ffffff !important; }
+
+.nav-tabs > li > a:focus {
+  background-color: #457dbb !important;
+  color: #ffffff; }
+
+.boldRed {
+  color: red;
+  font-weight: bold;
+  font-size: 25px; }
+
+.boldWhite {
+  color: white;
+  font-weight: bold;
+  font-size: 25px; }
+
+.bold {
+  font-weight: bold; }
+
+.rdw-editor-toolbar {
+  border-style: none; }
+
+.DraftEditor-root {
+  border: 2px solid #457dbb;
+  border-radius: 6px;
+  margin-top: 10px;
+  min-height: 200px; }
+
 .page-subtitle-concepts {
   border: 2px solid #5d87e8;
   background-color: #5d87e8;
@@ -7,8 +117,8 @@
   margin-bottom: 20px; }
 
 .page-subtitle-classifications {
-  border: 2px solid #00b300;
-  background-color: #00b300;
+  border: 2px solid #2ed94d;
+  background-color: #2ed94d;
   color: white;
   border-radius: 6px;
   padding: 10px;

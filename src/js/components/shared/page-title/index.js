@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './page-title.css';
 
 function PageTitle({ title, subtitle, col, offset, context }) {
 	const className = context ? `page-title-${context}` : 'page-title';

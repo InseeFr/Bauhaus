@@ -1,6 +1,8 @@
+@import 'src/app.scss';
+
 .page-subtitle-concepts {
-	border: 2px solid #5d87e8;
-	background-color: #5d87e8;
+	border: 2px solid $color_concepts_4;
+	background-color: $color_concepts_4;
 	color: white;
 	border-radius: 6px;
 	padding: 10px;
@@ -8,8 +10,8 @@
 }
 
 .page-subtitle-classifications {
-	border: 2px solid #00b300;
-	background-color: #00b300;
+	border: 2px solid $color_classifications_4;
+	background-color: $color_classifications_4;
 	color: white;
 	border-radius: 6px;
 	padding: 10px;
