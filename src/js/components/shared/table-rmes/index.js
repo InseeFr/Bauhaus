@@ -52,7 +52,9 @@ function TableRmes({
 		)
 	);
 	return (
-		<div className={`${cssClass} table-${context} marginTop`}>
+		<div
+			className={`${cssClass} table-${context} pagination-${context} marginTop`}
+		>
 			<BootstrapTable
 				exportCSV={csvFileName}
 				csvFileName={csvFileName}

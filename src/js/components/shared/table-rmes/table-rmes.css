@@ -1,7 +1,6 @@
 .table-concepts .table-hover tbody tr:hover td {
 	background-color: #457dbb;
 }
-
 .table-classifications .table-hover tbody tr:hover td {
 	background-color: #006600;
 }
@@ -10,16 +9,19 @@
 	background-color: #457dbb;
 	color: white;
 }
-
 .table-header-classifications {
 	background-color: #006600;
 	color: white;
 }
 
-/* .table-header-operations {
+.pagination-concepts .pagination > .active > a {
+	background-color: #457dbb;
+	border-color: #457dbb;
+}
+.pagination-classifications .pagination > .active > a {
 	background-color: #006600;
-	color: white;
-} */
+	border-color: #006600;
+}
 
 .marginTop {
 	margin-top: 2%;
