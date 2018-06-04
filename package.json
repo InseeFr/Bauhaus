@@ -81,10 +81,10 @@
 		"start-https": "npm-run-all -p watch-css start-https-js",
 		"build-js":
 			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
-		"build": "npm run build-css && build-js",
+		"build": "npm-run-all build-css build-js",
 		"build-insee-js":
 			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build",
-		"build-insee": "npm run build-css && build-insee-js",
+		"build-insee": "npm-run-all build-css build-insee-js",
 		"test-css": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom",
 		"test": "npm-run-all -p watch-css test-css",
 		"test:coverage-css":
@@ -94,7 +94,7 @@
 		"start-storybook": "npm-run-all -p watch-css start-storybook-js",
 		"build-storybook-js":
 			"cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
-		"build-storybook": "npm run build-css && build-storybook-js",
+		"build-storybook": "npm-run-all build-css build-storybook-js",
 		"eject": "react-scripts eject",
 		"format":
 			"prettier --trailing-comma es5 --single-quote --write 'src/**/*.js'"
