@@ -5,7 +5,7 @@ import D from 'js/i18n';
 export const generalFields = (correspondence, secondLang) => {
 	let mapping = {
 		firstClassLabelLg1: D.sourceClassificationTitle,
-		secondClasslabelLg1: D.targetClassificationTitle,
+		secondClassLabelLg1: D.targetClassificationTitle,
 	};
 	const content = Object.keys(mapping).map(fieldName => {
 		if (fieldName === 'firstClassLabelLg1' && correspondence[fieldName]) {
@@ -36,7 +36,7 @@ export const generalFields = (correspondence, secondLang) => {
 				</li>
 			);
 		}
-		if (fieldName === 'secondClasslabelLg1' && correspondence[fieldName]) {
+		if (fieldName === 'secondClassLabelLg1' && correspondence[fieldName]) {
 			return (
 				<li key={fieldName}>
 					{mapping[fieldName]} :{' '}
@@ -45,7 +45,7 @@ export const generalFields = (correspondence, secondLang) => {
 							correspondence.idSecondClass
 						}`}
 					>
-						{correspondence.secondClasslabelLg1}
+						{correspondence.secondClassLabelLg1}
 					</Link>
 					{secondLang &&
 						correspondence.secondClasslabelLg2 && (
