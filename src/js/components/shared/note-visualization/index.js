@@ -18,7 +18,7 @@ const NoteVisualization = ({ params, langs, secondLang, context }) => (
 						{secondLang && (
 							<ExplanatoryNote
 								text={note.lg2}
-								title={langs.lg2}
+								title={note.title}
 								lang={langs.lg2}
 								alone={false}
 								context={context}
