@@ -17,7 +17,7 @@ describe('reducerClassificationCorrespondenceGeneral', () => {
 					idFirstClass: 'idF',
 					firstClassLabelLg1: 'Label class 1',
 					idSecondClass: 'idS',
-					secondClasslabelLg1: 'Label class 2',
+					secondClassLabelLg1: 'Label class 2',
 				},
 			},
 		};
@@ -31,7 +31,7 @@ describe('reducerClassificationCorrespondenceGeneral', () => {
 					idFirstClass: 'idF',
 					firstClassLabelLg1: 'Label class 1',
 					idSecondClass: 'idS',
-					secondClasslabelLg1: 'Label class 2',
+					secondClassLabelLg1: 'Label class 2',
 				}),
 			},
 		});

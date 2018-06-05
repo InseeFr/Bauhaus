@@ -10,8 +10,8 @@ export const fieldsWithRequired = [
 	['firstClassLabelLg1', true],
 	['firstClassLabelLg2', false],
 	['idSecondClass', true],
-	['secondClasslabelLg1', true],
-	['secondClasslabelLg2', false],
+	['secondClassLabelLg1', true],
+	['secondClassLabelLg2', false],
 ];
 
 export const propTypes = buildPropTypes(fieldsWithRequired);

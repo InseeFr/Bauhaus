@@ -48,7 +48,7 @@ export const generalFields = (correspondence, secondLang) => {
 						{correspondence.secondClassLabelLg1}
 					</Link>
 					{secondLang &&
-						correspondence.secondClasslabelLg2 && (
+						correspondence.secondClassLabelLg2 && (
 							<span>
 								{' ('}
 								<Link
@@ -56,7 +56,7 @@ export const generalFields = (correspondence, secondLang) => {
 										correspondence.idSecondClass
 									}`}
 								>
-									{correspondence.secondClasslabelLg2}
+									{correspondence.secondClassLabelLg2}
 								</Link>
 								{')'}
 							</span>
