@@ -25,6 +25,11 @@
 	border-color: $color_classifications_3;
 }
 
+.table-header-concepts thead tr th,
+.table-header-classifications thead tr th {
+	text-align: center !important;
+}
+
 .marginTop {
 	margin-top: 2%;
 }
