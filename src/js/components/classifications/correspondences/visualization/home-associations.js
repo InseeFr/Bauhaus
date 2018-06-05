@@ -40,6 +40,7 @@ class HomeAssociations extends Component {
 						this.props.history.push(`${id}/association/${row.id}`)
 					}
 					context="classifications"
+					dataAlign="left"
 				/>
 			</Panel>
 		);
