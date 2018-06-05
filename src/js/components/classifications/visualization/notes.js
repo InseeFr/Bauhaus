@@ -64,7 +64,7 @@ export default ({
 				<div className="row">
 					<ExplanatoryNote
 						text={changeNoteLg1}
-						title={D.classificationsChangeNote}
+						title={D.classificationsChangeNote()}
 						lang={lg1}
 						alone={!secondLang}
 						context="classifications"
@@ -72,7 +72,7 @@ export default ({
 					{secondLang && (
 						<ExplanatoryNote
 							text={changeNoteLg2}
-							title={D.classificationsChangeNote}
+							title={D.classificationsChangeNote()}
 							lang={lg2}
 							alone={false}
 							context="classifications"
