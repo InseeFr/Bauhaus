@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './routes';
 import 'babel-polyfill';
-import { footer } from 'config';
 
 class Root extends Component {
 	render() {
 		const { error } = this.props;
+		const footer = `${process.env.REACT_APP_NAME} - ${
+			process.env.REACT_APP_VERSION
+		}`;
 		return (
 			<div>
 				<Router>
