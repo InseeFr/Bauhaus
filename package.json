@@ -89,7 +89,7 @@
 		"test": "npm-run-all -p watch-css test-css",
 		"test:coverage-css":
 			"cross-env NODE_PATH=src/  react-scripts test --env=jsdom --coverage -i",
-		"test:coverage": "npm-run-all -p watch-css test:coverage-css",
+		"test:coverage": "npm-run-all -p build-css test:coverage-css",
 		"start-storybook-js": "cross-env NODE_PATH=src/ start-storybook -p 9999",
 		"start-storybook": "npm-run-all -p watch-css start-storybook-js",
 		"build-storybook-js":
