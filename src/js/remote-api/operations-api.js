@@ -1,4 +1,3 @@
-import { baseHostOperations } from 'config';
 import buildApi from './build-api';
 
 const api = {
@@ -16,4 +15,4 @@ const api = {
 	],
 };
 
-export default buildApi(baseHostOperations, api);
+export default buildApi('operations', api);

@@ -1,4 +1,3 @@
-import { baseHostConcepts } from 'config';
 import buildApi from './build-api';
 
 //TODO then handler should not default to res => res.json() when no response
@@ -127,4 +126,4 @@ const api = {
 //TODO wrap api in a proxy for developement to catch error when accessing
 //an unknown function (the kind of check performed when we import something
 //that has not been exported)
-export default buildApi(baseHostConcepts, api);
+export default buildApi('concepts', api);

@@ -1,4 +1,3 @@
-import { baseHostClassification } from 'config';
 import buildApi from './build-api';
 
 const api = {
@@ -36,4 +35,4 @@ const api = {
 	],
 };
 
-export default buildApi(baseHostClassification, api);
+export default buildApi('classifications', api);

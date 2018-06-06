@@ -4,9 +4,19 @@ import {
 	isTokenValid,
 } from 'js/utils/auth/open-id-connect-auth/token-utils';
 
-export default (baseHost, api) => {
+const apiUrl = `${window.location.origin}/api-url.json`;
+
+const getBaseURI = context => {
+	const baseHost = process.env.REACT_APP_INSEE
+		? apiUrl.bauhaus
+		: process.env.REACT_APP_API_BASE_HOST;
+	return baseHost + (context ? `/${context}` : '');
+};
+
+export default (context, api) => {
+	const baseURI = getBaseURI(context);
 	return Object.keys(api).reduce((apiFns, resource) => {
-		apiFns[resource] = buildCall(baseHost, resource, api[resource]);
+		apiFns[resource] = buildCall(baseURI, resource, api[resource]);
 		return apiFns;
 	}, {});
 };
@@ -44,14 +54,14 @@ export const computeDscr = (fn, [...args]) => {
 	return [url, options, thenHandler];
 };
 
-export const buildCall = (baseHost, resource, fn) => {
+export const buildCall = (baseURI, resource, fn) => {
 	return (...args) => {
 		let [path, options, thenHandler] = computeDscr(fn, args);
 		if (!options.method) {
 			options.method = guessMethod(resource);
 		}
-		baseHost = removeTrailingSlash(baseHost);
-		const url = `${baseHost}/${path}`;
+		baseURI = removeTrailingSlash(baseURI);
+		const url = `${baseURI}/${path}`;
 		return fetch(url, options)
 			.then(
 				res => {
