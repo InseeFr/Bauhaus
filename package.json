@@ -1,8 +1,7 @@
 {
 	"name": "Bauhaus",
 	"version": "1.1.2",
-	"description":
-		"Web application for the management of concepts, classifications and other statistical objects",
+	"description": "Web application for the management of concepts, classifications and other statistical objects",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/InseeFr/Bauhaus"
@@ -20,9 +19,11 @@
 		"@storybook/addon-knobs": "^3.3.15",
 		"@storybook/react": "^3.3.15",
 		"babel-eslint": "^7.2.3",
+		"concurrently": "^3.5.1",
 		"coveralls": "^3.0.0",
 		"cross-env": "^5.0.1",
 		"eslint": "^4.1.1",
+		"eslint-config-prettier": "2.9.0",
 		"eslint-config-react-app": "^2.0.1",
 		"eslint-plugin-flowtype": "^2.34.1",
 		"eslint-plugin-import": "^2.6.0",
@@ -73,30 +74,32 @@
 	"scripts": {
 		"build-css": "node-sass-chokidar src/ -o src/",
 		"watch-css": "node-sass-chokidar src/ -o src/ --watch --recursive",
-		"start-js":
-			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
+		"start-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
 		"start": "npm-run-all -p watch-css start-js",
-		"start-https-js":
-			"cross-env NODE_PATH=src/ HTTPS=true REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
+		"start-https-js": "cross-env NODE_PATH=src/ HTTPS=true REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
 		"start-https": "npm-run-all -p watch-css start-https-js",
-		"build-js":
-			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
+		"start-dev": "concurrently \"yarn server\" \"yarn start\"",
+		"build-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
 		"build": "npm-run-all build-css build-js",
-		"build-insee-js":
-			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build",
+		"build-insee-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build",
 		"build-insee": "npm-run-all build-css build-insee-js",
 		"test-css": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom",
 		"test": "npm-run-all -p watch-css test-css",
-		"test:coverage-css":
-			"cross-env NODE_PATH=src/  react-scripts test --env=jsdom --coverage -i",
+		"test:coverage-css": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom --coverage -i",
 		"test:coverage": "npm-run-all -p build-css test:coverage-css",
 		"start-storybook-js": "cross-env NODE_PATH=src/ start-storybook -p 9999",
 		"start-storybook": "npm-run-all -p watch-css start-storybook-js",
-		"build-storybook-js":
-			"cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
+		"build-storybook-js": "cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
 		"build-storybook": "npm-run-all build-css build-storybook-js",
 		"eject": "react-scripts eject",
-		"format":
-			"prettier --trailing-comma es5 --single-quote --write 'src/**/*.js'"
+		"format": "prettier --trailing-comma es5 --single-quote --write 'src/**/*.js'",
+		"server": "node ./fake-backend/index.js"
+	},
+	"prettier": {
+		"singleQuote": true,
+		"semi": true,
+		"useTabs": true,
+		"bracketSpacing": true,
+		"trailingComma": "es5"
 	}
 }
