@@ -35,7 +35,7 @@ describe('inputMulti', () => {
 		expect(wrapper.state('arrayLg1')).toEqual(['altLg1', 'altLg1Bis', '']);
 	});
 
-	fit('should display the modal when clicking on the Lg1/plminusus button', () => {
+	fit('should display the modal when clicking on the Lg1/minus button', () => {
 		const wrapper = shallow(component);
 		wrapper
 			.find('.glyphicon-minus')

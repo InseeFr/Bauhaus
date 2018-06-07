@@ -33,8 +33,8 @@ describe('inputMulti', () => {
 		const wrapper = shallow(<InputRmes handleChange={handleChange} />);
 		wrapper.find('input').simulate('change', {
 			target: {
-				value: 'value'
-			}
+				value: 'value',
+			},
 		});
 		expect(handleChange).toHaveBeenCalledWith('value');
 	});
