@@ -22,31 +22,29 @@ stories.addDecorator(styleDecorator);
 
 const data = [
 	{
-		title: 'A',
+		label: 'A',
 		children: [
 			{
-				title: 'AA',
-				children: [{ title: 'AA1' }, { title: 'AA2' }],
+				label: 'AA',
+				children: [{ label: 'AA1' }, { label: 'AA2' }],
 			},
 		],
 	},
 	{
-		title: 'B',
+		label: 'B',
 		children: [
 			{
-				title: 'BB',
+				label: 'BB',
 				children: [
-					{ title: 'BB1' },
-					{ title: 'BB2', children: { title: 'BB21' } },
+					{ label: 'BB1' },
+					{ label: 'BB2', children: { label: 'BB21' } },
 				],
 			},
 		],
 	},
 	{
-		title: 'C',
+		label: 'C',
 	},
 ];
 
-stories.add('Default', () => <RmesTree treeData={data} />);
-
-stories.add('Drag and Drop', () => <RmesTree treeData={data} canDrag={true} />);
+stories.add('Default', () => <RmesTree treeData={data} linkPath={() => ''} />);
