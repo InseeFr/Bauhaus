@@ -4,7 +4,7 @@ import {
 	isTokenValid,
 } from 'js/utils/auth/open-id-connect-auth/token-utils';
 
-const apiUrl = `${window.location.origin}/api-url.json`;
+const apiURL = `${window.location.origin}/api-url.json`;
 
 export default (context, api) => {
 	return Object.keys(api).reduce((apiFns, resource) => {
@@ -46,10 +46,16 @@ export const computeDscr = (fn, [...args]) => {
 	return [url, options, thenHandler];
 };
 
-const getBaseURI = context =>
-	process.env.REACT_APP_INSEE
-		? fetch(apiUrl).then(res => res.json())
+let saveApiURL;
+const getBaseURI = context => {
+	return process.env.REACT_APP_INSEE
+		? saveApiURL ||
+				fetch(apiURL).then(res => {
+					saveApiURL = res.json();
+					return saveApiURL;
+				})
 		: Promise.resolve(process.env.REACT_APP_API_BASE_HOST);
+};
 
 export const buildCall = (context, resource, fn) => {
 	return async (...args) => {
