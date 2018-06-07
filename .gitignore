@@ -11,6 +11,8 @@ node_modules
 
 # storybook building files
 /built-storybook
+/website
+_book
 
 # production
 /build

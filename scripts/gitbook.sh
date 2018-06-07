@@ -3,6 +3,9 @@
 set -e
 
 DOC_FOLDER="docs"
+STORYBOOK_FOLDER="built-storybook"
+SITE_FOLDER="website"
+
 MAIN_BRANCH="master"
 UPSTREAM="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git"
 MESSAGE="Rebuild doc for revision $TRAVIS_COMMIT: $TRAVIS_COMMIT_MESSAGE"
@@ -22,15 +25,26 @@ function setup() {
   npm install -g gitbook-cli
 }
 
-function build() {
+function buildDocumentation() {
   pushd "$DOC_FOLDER"
   gitbook install
   gitbook build
   popd
 }
 
+function buildStoryBook(){
+  npm run build-storybook
+}
+
 function publish() {
-  pushd "$DOC_FOLDER"/_book
+  if [ -d "$SITE_FOLDER" ]; then rm -Rf $SITE_FOLDER; fi
+
+  mkdir $SITE_FOLDER
+  pushd "$SITE_FOLDER"
+
+  cp -a "../$DOC_FOLDER/_book/." .
+  cp -R "../$STORYBOOK_FOLDER/" .
+
   git init
   git remote add upstream "$UPSTREAM"
   git fetch --prune upstream
@@ -43,7 +57,7 @@ function publish() {
 }
 
 function main() {
-  setup && build && publish
+  setup && buildDocumentation && buildStoryBook && publish
 }
 
 main
