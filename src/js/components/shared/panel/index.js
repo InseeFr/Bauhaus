@@ -16,6 +16,7 @@ function Panel({ title, children, context }) {
 Panel.propTypes = {
 	title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
 	children: PropTypes.node.isRequired,
+	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
 };
 
 export default Panel;

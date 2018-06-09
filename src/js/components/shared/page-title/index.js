@@ -23,6 +23,7 @@ function PageTitle({ title, subtitle, col, offset, context }) {
 PageTitle.proptTypes = {
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.string,
+	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
 };
 
 export default PageTitle;

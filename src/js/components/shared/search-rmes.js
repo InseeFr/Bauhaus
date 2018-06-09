@@ -87,7 +87,7 @@ SearchRmes.propTypes = {
 	concepts: PropTypes.bool,
 	col: PropTypes.number,
 	colOff: PropTypes.number,
-	context: PropTypes.string.isRequired,
+	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
 };
 
 export default SearchRmes;

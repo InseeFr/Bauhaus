@@ -35,7 +35,7 @@ NoteVisualization.propTypes = {
 	params: PropTypes.array.isRequired,
 	langs: PropTypes.object.isRequired,
 	secondLang: PropTypes.bool.isRequired,
-	context: PropTypes.string,
+	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
 };
 
 export default NoteVisualization;

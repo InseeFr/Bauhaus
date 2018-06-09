@@ -189,7 +189,8 @@ Picker.propTypes = {
 	), //not required since this component can be created before the items are
 	//loaded
 	handleAction: PropTypes.func.isRequired,
-	context: PropTypes.string.isRequired,
+	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations'])
+		.isRequired,
 };
 
 export default Picker;

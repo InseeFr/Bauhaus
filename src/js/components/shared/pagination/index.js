@@ -84,6 +84,6 @@ class Pagination extends Component {
 Pagination.propTypes = {
 	itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
 	itemsPerPage: PropTypes.string.isRequired,
-	context: PropTypes.string.isRequired,
+	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
 };
 export default Pagination;
