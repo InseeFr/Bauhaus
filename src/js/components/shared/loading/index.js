@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactLoading from 'react-loading';
+import PropTypes from 'prop-types';
 import { getText } from 'js/utils/loading';
 import './loading.css';
 
-export default ({ textType, context }) => {
+const Loading = ({ textType, context }) => {
 	const text = getText(textType);
+	context = context ? context : 'concepts';
 	return (
 		<div className="container centered">
 			<div className="row loading-row">
@@ -12,7 +14,6 @@ export default ({ textType, context }) => {
 					<ReactLoading
 						type="spinningBubbles"
 						delay={0}
-						color="pink"
 						height="100%"
 						width="100%"
 					/>
@@ -21,4 +22,11 @@ export default ({ textType, context }) => {
 			<h3 className={`loading-text-${context}`}>{text}</h3>
 		</div>
 	);
+};
+
+export default Loading;
+
+Loading.propTypes = {
+	textType: PropTypes.string,
+	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
 };
