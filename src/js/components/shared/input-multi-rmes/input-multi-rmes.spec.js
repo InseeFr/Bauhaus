@@ -7,8 +7,8 @@ const handleChangeLg2 = () => '';
 const langs = { lg1: 'fr', lg2: 'en' };
 const component = (
 	<InputMultiRmes
-		inputLg1="altLg1 || altLg1Bis"
-		inputLg2="altLg2"
+		inputLg1={['altLg1', 'altLg1Bis']}
+		inputLg2={['altLg2']}
 		label="Input Label"
 		handleChangeLg1={handleChangeLg1}
 		handleChangeLg2={handleChangeLg2}

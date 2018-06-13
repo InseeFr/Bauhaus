@@ -11,8 +11,8 @@ class InputMultiRmes extends Component {
 		const { inputLg1, inputLg2 } = this.props;
 
 		this.state = {
-			arrayLg1: inputLg1.split(' || '),
-			arrayLg2: inputLg2.split(' || '),
+			arrayLg1: inputLg1 || [],
+			arrayLg2: inputLg2 || [],
 			modalAdd: false,
 			modalDelete: false,
 			modalLast: false,
@@ -77,11 +77,11 @@ class InputMultiRmes extends Component {
 			const { handleChangeLg1, handleChangeLg2 } = this.props;
 			const { arrayLg1, arrayLg2 } = this.state;
 			if (arrayName === 'arrayLg1') {
-				handleChangeLg1(newArray.join(' || '));
-				handleChangeLg2(arrayLg2.join(' || '));
+				handleChangeLg1(newArray);
+				handleChangeLg2(arrayLg2);
 			} else {
-				handleChangeLg1(arrayLg1.join(' || '));
-				handleChangeLg2(newArray.join(' || '));
+				handleChangeLg1(arrayLg1);
+				handleChangeLg2(newArray);
 			}
 		};
 	}
@@ -128,8 +128,8 @@ class InputMultiRmes extends Component {
 }
 
 InputMultiRmes.propTypes = {
-	inputLg1: PropTypes.string.isRequired,
-	inputLg2: PropTypes.string.isRequired,
+	inputLg1: PropTypes.array.isRequired,
+	inputLg2: PropTypes.array.isRequired,
 	label: PropTypes.string.isRequired,
 	handleChangeLg1: PropTypes.func.isRequired,
 	handleChangeLg2: PropTypes.func.isRequired,

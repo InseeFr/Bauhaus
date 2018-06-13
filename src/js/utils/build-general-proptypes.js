@@ -6,16 +6,20 @@ export const buildFields = fieldsWithRequired =>
 
 export const buildPropTypes = fieldsWithRequired =>
 	PropTypes.shape(
-		fieldsWithRequired.reduce((propTypes, [fieldName, isRequired]) => {
+		fieldsWithRequired.reduce((propTypes, [fieldName, isRequired, type]) => {
+			const t = type ? type : 'string';
 			propTypes[fieldName] = isRequired
-				? PropTypes.string.isRequired
-				: PropTypes.string;
+				? PropTypes[t].isRequired
+				: PropTypes[t];
 			return propTypes;
 		}, {})
 	);
 
 export const buildEmpty = fieldsWithRequired => {
 	const general = objectFromKeys(buildFields(fieldsWithRequired), '');
+	fieldsWithRequired.map(
+		([field, req, type]) => (type === 'array' ? (general[field] = []) : null)
+	);
 	return general;
 };
 
@@ -25,5 +29,8 @@ export const buildEmptyWithContributor = (
 ) => {
 	const general = objectFromKeys(buildFields(fieldsWithRequired), '');
 	general.contributor = defaultContributor;
+	fieldsWithRequired.map(
+		([field, req, type]) => (type === 'array' ? (general[field] = []) : null)
+	);
 	return general;
 };

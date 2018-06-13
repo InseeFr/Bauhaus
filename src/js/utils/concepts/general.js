@@ -8,8 +8,8 @@ import {
 export const fieldsWithRequired = [
 	['prefLabelLg1', false],
 	['prefLabelLg2', false],
-	['altLabelLg1', false],
-	['altLabelLg2', false],
+	['altLabelLg1', false, 'array'],
+	['altLabelLg2', false, 'array'],
 	['disseminationStatus', false],
 	['additionalMaterial', false],
 	['valid', false],

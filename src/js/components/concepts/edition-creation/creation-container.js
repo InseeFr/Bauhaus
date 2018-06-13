@@ -48,7 +48,7 @@ class CreationContainer extends Component {
 			creationStatus,
 			langs,
 		} = this.props;
-
+		console.log(concept);
 		if (this.state.creationRequested) {
 			if (creationStatus === OK) {
 				return <Redirect to={`/concept/${this.props.id}`} />;

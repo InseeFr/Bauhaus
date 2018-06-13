@@ -18,8 +18,8 @@ stories.addDecorator(styleDecorator);
 stories.add('Default', () => (
 	<InputMulti
 		label={text('Label', 'Label')}
-		inputLg1=""
-		inputLg2=""
+		inputLg1={[]}
+		inputLg2={[]}
 		handleChangeLg1={action('update lang1')}
 		handleChangeLg2={action('update lang2')}
 		langs={{ lg1: 'fr', lg2: 'en' }}
