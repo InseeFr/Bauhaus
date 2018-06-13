@@ -1,6 +1,7 @@
 import React from 'react';
 import D from 'js/i18n';
 import Panel from 'js/components/shared/panel';
+import { arrayToString } from 'js/utils/array-utils';
 import { DSURLToLabel } from 'js/utils/dissemination-status-convertor';
 import { stringToDate } from 'js/utils/moment';
 
@@ -58,9 +59,9 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 								if (fieldName.includes('altLabel')) {
 									return (
 										<li key={fieldName}>
-											{`${mapping[fieldName]} : ${attr[fieldName]
-												.split(' || ')
-												.join(' - ')}`}
+											{`${mapping[fieldName]} : ${arrayToString(
+												attr[fieldName]
+											)}`}
 										</li>
 									);
 								}

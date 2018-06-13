@@ -1,6 +1,16 @@
 import * as A from './array-utils';
 
 describe('array utils', () => {
+	describe('arrayToString', () => {
+		it('should return an empty string', () => {
+			expect(A.arrayToString([])).toEqual('');
+		});
+		it('should return a string containing array elements', () => {
+			const array = ['aaa', 'bbb', 'ccc'];
+			expect(A.arrayToString(array)).toEqual('aaa - bbb - ccc');
+		});
+	});
+
 	describe('arrayKeepUniqueField', () => {
 		it('should return an array of id objects', () => {
 			const array = [{ id: '1', label: 'A' }, { id: '2', label: 'B' }];

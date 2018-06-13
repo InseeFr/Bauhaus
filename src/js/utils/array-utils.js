@@ -3,6 +3,12 @@ import _ from 'lodash';
 import D from 'js/i18n';
 import { isDateIn } from 'js/utils/moment';
 
+export const arrayToString = array =>
+	array.reduce((_, a, i) => {
+		if (i === 0) return a;
+		return _ + ` - ${a}`;
+	}, '');
+
 export const arrayKeepUniqueField = (array, field) =>
 	array.map(function(item) {
 		return _.deburr(item[field].toLowerCase());
