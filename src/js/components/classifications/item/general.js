@@ -27,7 +27,7 @@ export default ({ general, classificationId, itemId, secondLang }) => {
 													general.idBroader
 												}`}
 											>
-												{general[fieldName]}
+												{general.idBroader} - {general[fieldName]}
 											</Link>
 											{secondLang &&
 												general.broaderLg2 && (
@@ -38,7 +38,7 @@ export default ({ general, classificationId, itemId, secondLang }) => {
 																general.idBroader
 															}`}
 														>
-															{general.broaderLg2}
+															{general.idBroader} - {general.broaderLg2}
 														</Link>
 														{')'}
 													</span>
