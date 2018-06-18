@@ -10,7 +10,7 @@ import {
 	getAuthPropsFromToken,
 	isTokenValid,
 } from 'js/utils/auth/open-id-connect-auth/token-utils';
-const kcConfig = `${window.location.origin}/keycloak/keycloak-front.json`;
+const kcConfig = `${window.location.origin}/keycloak.json`;
 
 class LoginOpenIDConnect extends Component {
 	constructor() {

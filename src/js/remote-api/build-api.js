@@ -4,7 +4,7 @@ import {
 	isTokenValid,
 } from 'js/utils/auth/open-id-connect-auth/token-utils';
 
-const apiURL = `${window.location.origin}/api-url.json`;
+const apiURL = `${window.location.origin}/configuration.json`;
 
 export default (context, api) => {
 	return Object.keys(api).reduce((apiFns, resource) => {
