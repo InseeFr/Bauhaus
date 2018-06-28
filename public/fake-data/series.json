@@ -1,0 +1,225 @@
+[
+	{
+		"motherFamilyLabelLg1": "Cadre de vie et sécurité",
+		"motherFamilyLabelLg2": "Living environment and security",
+		"operations": [
+			{
+				"labelLg1": "Enquête de victimation - Cadre de vie et sécurité 2015",
+				"labelLg2": "Victimisation survey - Living environment and security",
+				"id": "http://gncs/datalift/operations/operation/s1285"
+			},
+			{
+				"labelLg1": "Enquête de victimation  - Cadre de vie et sécurité 2014",
+				"labelLg2": "Victimisation survey - Living environment and security",
+				"id": "http://gncs/datalift/operations/operation/s1286"
+			},
+			{
+				"labelLg1": "Enquête de victimation - Cadre de vie et sécurité 2010",
+				"labelLg2": "Victimisation survey - Living environment and security",
+				"id": "http://gncs/datalift/operations/operation/s1287"
+			},
+			{
+				"labelLg1": "Enquête de victimation  - Cadre de vie et sécurité 2009",
+				"labelLg2": "Victimisation survey - Living environment and security",
+				"id": "http://gncs/datalift/operations/operation/s1337"
+			},
+			{
+				"labelLg1": "Enquête de victimation  - Cadre de vie et sécurité 2012",
+				"labelLg2": "Victimisation survey - Living environment and security",
+				"id": "http://gncs/datalift/operations/operation/s1338"
+			},
+			{
+				"labelLg1": "Enquête de victimation - Cadre de vie et sécurité 2011",
+				"labelLg2": "Victimisation survey - Living environment and security",
+				"id": "http://gncs/datalift/operations/operation/s1391"
+			},
+			{
+				"labelLg1": "Enquête de victimation - Cadre de vie et sécurité 2013",
+				"labelLg2": "Victimisation survey - Living environment and security",
+				"id": "http://gncs/datalift/operations/operation/s1392"
+			},
+			{
+				"labelLg1": "Enquête de victimation - Cadre de vie et sécurité 2017",
+				"labelLg2": "Victimisation survey - Living environment and security",
+				"id": "http://gncs/datalift/operations/operation/s1432"
+			},
+			{
+				"labelLg1": "Enquête de victimation - Cadre de vie et sécurité 2016",
+				"labelLg2": "Victimisation survey - Living environment and security",
+				"id": "http://gncs/datalift/operations/operation/s1442"
+			}
+		],
+		"abstractLg1":
+			"L'objectif de l'enquête dite de \"victimation\" - Cadre de vie et sécurité (CVS) - est de connaître les faits de délinquance dont les ménages et leurs membres ont pu être victimes dans les mois précédant le passage de l'enquêteur.\n\nCette enquête permet donc de mesurer la prévalence et l'incidence de certaines atteintes aux personnes et aux biens, la fréquence des plaintes déposées auprès des services de police et de gendarmerie pour chaque type d'atteinte mais elle s'intéresse également aux délits ne faisant pas l'objet d'une plainte.\n\nL'enquête s'intéresse en outre aux opinions de l'ensemble de la population (victimes et non victimes) en matière de cadre de vie et de sécurité.",
+		"prefLabelLg1": "Enquête de victimation  - Cadre de vie et sécurité",
+		"abstractLg2":
+			"The objective of the \"victimisation\" survey - Living environment and security (CVS) - is to take account of any criminal acts of which households and their members have been victim in the two years preceding the survey.\n\nThis survey is therefore used to measure the prevalence and incidence of certain attacks on people and property as well as the frequency of complaints filed with the police force and gendarmerie for each type of crimes but it also focuses on crimes which were not the subject of complaint.\n\nThe survey also examines the opinions of the whole population (victims and non-victims) in terms of living environment and safety.",
+		"prefLabelLg2": "Victimisation survey - Living environment and security",
+		"id": "s1278",
+		"motherFamily": "http://gncs/datalift/operations/famille/s39",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"history1": "history1",
+		"history2": "history2",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"summary1": "summary1",
+		"summary2": "summary2"
+	},
+	{
+		"id": "2",
+		"prefLabelLg1": "Fake Serie 2",
+		"prefLabelLg2": "Fake Serie 2",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	},
+	{
+		"id": "3",
+		"prefLabelLg1": "Fake Serie 3",
+		"prefLabelLg2": "Fake Serie 3",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	},
+	{
+		"id": "4",
+		"prefLabelLg1": "Fake Serie 4",
+		"prefLabelLg2": "Fake Serie 4",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	},
+	{
+		"id": "5",
+		"prefLabelLg1": "Fake Serie 5",
+		"prefLabelLg2": "Fake Serie 5",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	},
+	{
+		"id": "6",
+		"prefLabelLg1": "Fake Serie 6",
+		"prefLabelLg2": "Fake Serie 6",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	},
+	{
+		"id": "7",
+		"prefLabelLg1": "Fake Serie 7",
+		"prefLabelLg2": "Fake Serie 7",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	},
+	{
+		"id": "8",
+		"prefLabelLg1": "Fake Serie 8",
+		"prefLabelLg2": "Fake Serie 8",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	},
+	{
+		"id": "9",
+		"prefLabelLg1": "Fake Serie 9",
+		"prefLabelLg2": "Fake Serie 9",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	},
+	{
+		"id": "10",
+		"prefLabelLg1": "Fake Serie 10",
+		"prefLabelLg2": "Fake Serie 10",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	},
+	{
+		"id": "11",
+		"prefLabelLg1": "Fake Serie 11",
+		"prefLabelLg2": "Fake Serie 11",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	},
+	{
+		"id": "12",
+		"prefLabelLg1": "Fake Serie 12",
+		"prefLabelLg2": "Fake Serie 12",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	},
+	{
+		"id": "13",
+		"prefLabelLg1": "Fake Serie 13",
+		"prefLabelLg2": "Fake Serie 13",
+		"intitule1": "intitule1",
+		"intitule2": "intitule2",
+		"altLabel1": "altLabel1",
+		"altLabel2": "altLabel2",
+		"summary1": "summary1",
+		"summary2": "summary2",
+		"history1": "history1",
+		"history2": "history2"
+	}
+]
