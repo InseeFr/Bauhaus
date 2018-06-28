@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import D from 'js/i18n';
 import './pagination.css';
 
+function checkInvalidPage(targetPage, listSize) {
+	return targetPage === 0 || targetPage > listSize;
+}
+/**
+ * Component used to display a pagination block for a list.
+ *	itemEls: The list of item we want to paginate
+ *	itemsPerPage: The number of element per page
+ *	context: The context of the page. Used for theming
+ */
 class Pagination extends Component {
 	constructor() {
 		super();
 		this.state = {
 			currentPage: 1,
 		};
-		this.handleClick = event => {
-			this.setState({
-				currentPage: Number(event.target.id),
-			});
-		};
 	}
-
-	componentWillReceiveProps(nextProps) {
+	goToPage(targetPage, e) {
+		if (e) e.preventDefault();
 		this.setState({
-			currentPage: 1,
+			currentPage: Number(targetPage),
 		});
+	}
+	componentWillReceiveProps() {
+		this.goToPage(1);
 	}
 
 	render() {
@@ -39,23 +45,29 @@ class Pagination extends Component {
 		}
 
 		function activePage(page) {
-			if (page === currentPage) return 'active';
+			return page === currentPage ? 'page-item active' : 'page-item';
+		}
+		function isDisabled(targetPage) {
+			return checkInvalidPage(targetPage, pageNumbers.length)
+				? 'page-item disabled'
+				: 'page-item';
 		}
 
-		const renderPageNumbers = pageNumbers.map(number => {
-			if (number - 3 < currentPage && number + 3 > currentPage) {
+		const renderPageNumbers = pageNumbers
+			.filter(number => number - 3 < currentPage && number + 3 > currentPage)
+			.map(number => {
 				return (
-					<li
-						key={number}
-						id={number}
-						onClick={this.handleClick}
-						className={activePage(number)}
-					>
-						{number}
+					<li className={activePage(number)} key={number} id={number}>
+						<a
+							href="#"
+							onClick={e => this.goToPage(number, e)}
+							className="page-link"
+						>
+							{number}
+						</a>
 					</li>
 				);
-			} else return null;
-		});
+			});
 
 		const contextCSS = context ? `pg-rmes-${context}` : '';
 		return (
@@ -63,16 +75,47 @@ class Pagination extends Component {
 				<ul className="list-group">{currentItems}</ul>
 				{pageNumbers.length > 1 && (
 					<ul className={`pagination pg-rmes ${contextCSS}`}>
-						<li key="-1" id="1" onClick={this.handleClick}>
-							{D.paginationFirst}
+						<li className="page-item">
+							<a href="#" onClick={e => this.goToPage(1, e)} aria-label="First">
+								<span aria-hidden="true">&laquo;</span>
+								<span className="sr-only">First</span>
+							</a>
+						</li>
+						<li className={isDisabled(currentPage - 1)}>
+							<a
+								href="#"
+								onClick={e =>
+									!isDisabled(currentPage - 1) &&
+									this.goToPage(currentPage - 1, e)
+								}
+								aria-label="Previous"
+							>
+								<span aria-hidden="true">&lt;</span>
+								<span className="sr-only">Previous</span>
+							</a>
 						</li>
 						{renderPageNumbers}
-						<li
-							key="100000"
-							id={pageNumbers[pageNumbers.length - 1]}
-							onClick={this.handleClick}
-						>
-							{D.paginationLast} ({pageNumbers[pageNumbers.length - 1]})
+						<li className={isDisabled(currentPage + 1)}>
+							<a
+								href="#"
+								onClick={e => this.goToPage(currentPage + 1, e)}
+								aria-label="Next"
+							>
+								<span aria-hidden="true">&gt;</span>
+								<span className="sr-only">Next</span>
+							</a>
+						</li>
+						<li className="page-item">
+							<a
+								aria-label="Last"
+								href="#"
+								onClick={e =>
+									this.goToPage(pageNumbers[pageNumbers.length - 1], e)
+								}
+							>
+								<span aria-hidden="true">&raquo;</span>
+								<span className="sr-only">Last</span>
+							</a>
 						</li>
 					</ul>
 				)}

@@ -2,24 +2,34 @@
 
 .pg-rmes {
 	display: inline-block;
-}
 
-.pg-rmes li {
-	color: black;
-	float: left;
-	padding: 8px 16px;
-	text-decoration: none;
-	border: 1px solid #ddd;
-}
+	li {
+		color: black;
+		float: left;
+		padding: 8px 16px;
+		text-decoration: none;
+		border: 1px solid #ddd;
 
-.pg-rmes li:first-child {
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
-}
+		&:first-child {
+			border-top-left-radius: 5px;
+			border-bottom-left-radius: 5px;
+		}
 
-.pg-rmes li:last-child {
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
+		&:last-child {
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+		}
+
+		&:hover:not(.active) {
+			background-color: #ddd;
+		}
+
+		a {
+			padding: 0;
+			border: 0;
+			background-color: rgba(0, 0, 0, 0) !important;
+		}
+	}
 }
 
 .pg-rmes-concepts li.active,
@@ -39,8 +49,4 @@
 	background-color: $color_operations_3;
 	color: white;
 	border: 1px solid $color_operations_3;
-}
-
-.pg-rmes li:hover:not(.active) {
-	background-color: #ddd;
 }
