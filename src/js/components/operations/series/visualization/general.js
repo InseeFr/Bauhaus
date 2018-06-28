@@ -3,7 +3,7 @@ import React from 'react';
 import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
 
-function FamilyInformation(props) {
+function SerieInformation(props) {
 	const {
 		attr,
 		langs: { lg1, lg2 },
@@ -88,4 +88,4 @@ function FamilyInformation(props) {
 	);
 }
 
-export default FamilyInformation;
+export default SerieInformation;
