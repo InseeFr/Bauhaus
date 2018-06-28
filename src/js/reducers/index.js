@@ -87,7 +87,10 @@ export const getStampList = state => getItems(state.stampList);
 export const getRoleList = state => getItems(state.roleList);
 export const getAgentList = state => getItems(state.agentList);
 export const getPermission = state => {
-	const { type: authType, user: { roles, stamp } } = state.app.auth;
+	const {
+		type: authType,
+		user: { roles, stamp },
+	} = state.app.auth;
 	return { authType, roles, stamp };
 };
 export const getLangs = state => {
@@ -100,3 +103,18 @@ export const getStatus = (state, op) =>
 
 export const getNewlyCreatedId = state =>
 	remoteCallsSelectors.getNewlyCreatedId(state.remoteCalls);
+
+export const getFamily = (state, id) => {
+	const familyList = state.operationsFamiliesList.results || [];
+	return familyList.find(familly => familly.id === id) || {};
+};
+
+export const getSerie = (state, id) => {
+	const serieList = state.operationsSeriesList.results || [];
+	return serieList.find(serie => serie.id === id) || {};
+};
+
+export const getOperation = (state, id) => {
+	const operationList = state.operationsOperationsList.results || [];
+	return operationList.find(operation => operation.id === id) || {};
+};

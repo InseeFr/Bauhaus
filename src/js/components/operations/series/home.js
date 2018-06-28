@@ -22,6 +22,7 @@ class SeriesHome extends Component {
 								items={series}
 								childPath="operations/series"
 								context="operations"
+								label="prefLabelLg1"
 							/>
 						</div>
 					</div>

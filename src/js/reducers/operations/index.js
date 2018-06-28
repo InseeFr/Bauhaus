@@ -12,7 +12,15 @@ const operationsOperationsList = listReducer([
 	A.LOAD_OPERATIONS_OPERATIONS_LIST_SUCCESS,
 	A.LOAD_OPERATIONS_OPERATIONS_LIST_FAILURE,
 ]);
+
+const operationsFamiliesList = listReducer([
+	A.LOAD_OPERATIONS_FAMILIES_LIST,
+	A.LOAD_OPERATIONS_FAMILIES_LIST_SUCCESS,
+	A.LOAD_OPERATIONS_FAMILIES_LIST_FAILURE,
+]);
+
 export default {
 	operationsSeriesList,
 	operationsOperationsList,
+	operationsFamiliesList,
 };

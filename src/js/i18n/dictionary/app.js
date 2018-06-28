@@ -496,6 +496,26 @@ const dictionary = {
 		fr: 'Séries filles',
 		en: 'Daughter series',
 	},
+	title: {
+		fr: 'Intitulé',
+		en: 'Title',
+	},
+	theme: {
+		fr: 'Thème',
+		en: 'Theme',
+	},
+	summary: {
+		fr: 'Résumé',
+		en: 'Summary',
+	},
+	history: {
+		fr: 'Historique',
+		en: 'History',
+	},
+	year: {
+		fr: 'Millésime',
+		en: 'Year',
+	},
 };
 
 export default dictionary;

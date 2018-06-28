@@ -7,6 +7,9 @@ import {
 const apiUrl = `${window.location.origin}/api-url.json`;
 
 const getBaseURI = context => {
+	if (context === 'fake-data') {
+		return context ? `/${context}` : '/';
+	}
 	const baseHost = process.env.REACT_APP_INSEE
 		? apiUrl.bauhaus
 		: process.env.REACT_APP_API_BASE_HOST;
@@ -15,6 +18,7 @@ const getBaseURI = context => {
 
 export default (context, api) => {
 	const baseURI = getBaseURI(context);
+
 	return Object.keys(api).reduce((apiFns, resource) => {
 		apiFns[resource] = buildCall(baseURI, resource, api[resource]);
 		return apiFns;

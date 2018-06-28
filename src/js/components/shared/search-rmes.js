@@ -26,12 +26,12 @@ class SearchRmes extends Component {
 
 	render() {
 		const { search, hits } = this.state;
-		const { concepts, childPath, col, colOff, context } = this.props;
+		const { concepts, childPath, col, colOff, context, label } = this.props;
 
 		//{`col-md-${col ? col : 12} col-md-offset-${	colOff ? colOff : 0}`}
-		const hitEls = hits.map(({ id, label }) => (
+		const hitEls = hits.map(({ id, [label]: labelValue }) => (
 			<li key={id} className="list-group-item">
-				<Link to={`/${childPath}/${id}`}>{label}</Link>
+				<Link to={`/${childPath}/${id}`}>{labelValue}</Link>
 			</li>
 		));
 
@@ -75,6 +75,9 @@ class SearchRmes extends Component {
 		);
 	}
 }
+SearchRmes.defaultProps = {
+	label: 'label',
+};
 
 SearchRmes.propTypes = {
 	items: PropTypes.arrayOf(
@@ -88,6 +91,7 @@ SearchRmes.propTypes = {
 	col: PropTypes.number,
 	colOff: PropTypes.number,
 	context: PropTypes.string.isRequired,
+	label: PropTypes.string,
 };
 
 export default SearchRmes;

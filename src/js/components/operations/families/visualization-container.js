@@ -4,17 +4,37 @@ import { withRouter } from 'react-router-dom';
 import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import buildExtract from 'js/utils/build-extract';
-import { families } from './fake-data';
 import { goBack } from 'js/utils/redirection';
+import { connect } from 'react-redux';
+import * as select from 'js/reducers';
+import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { saveSecondLang } from 'js/actions/app';
+import PageSubtitle from 'js/components/shared/page-subtitle';
+import FamilyInformation from 'js/components/operations/families/visualization/general';
+import Loading from 'js/components/shared/loading';
+import loadFamily from 'js/actions/operations/families/item';
 
 const extractId = buildExtract('id');
 
 class FamilyVisualizationContainer extends Component {
+	componentWillMount() {
+		if (!this.props.family.id) {
+			this.props.loadFamily(this.props.id);
+		}
+	}
 	render() {
-		const label = families.find(g => g.id === extractId(this.props)).label;
+		const {
+			secondLang,
+			langs,
+			family: { ...attr },
+		} = this.props;
+		if (!attr.id) return <Loading textType="loading" context="operations" />;
 		return (
 			<div className="container">
-				<PageTitle title={label} context="operations" />
+				<CheckSecondLang
+					secondLang={secondLang}
+					onChange={this.props.saveSecondLang}
+				/>
 				<div className="row">
 					<div className="col-md-2">
 						<button
@@ -25,14 +45,31 @@ class FamilyVisualizationContainer extends Component {
 						</button>
 					</div>
 				</div>
-				<div className="row">
-					<h3 className="col-md-10 centered col-md-offset-1">
-						{"Qu'affiche-t-on ?"}
-					</h3>
-				</div>
+				<PageTitle title={attr.prefLabelLg1} context="operations" />
+				{secondLang &&
+					attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
+				<FamilyInformation secondLang={secondLang} attr={attr} langs={langs} />
 			</div>
 		);
 	}
 }
 
-export default withRouter(FamilyVisualizationContainer);
+const mapStateToProps = (state, ownProps) => {
+	const id = extractId(ownProps);
+	return {
+		id,
+		family: select.getFamily(state, id),
+		langs: select.getLangs(state),
+		secondLang: state.app.secondLang,
+	};
+};
+const mapDispatchToProps = {
+	saveSecondLang,
+	loadFamily,
+};
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(FamilyVisualizationContainer)
+);

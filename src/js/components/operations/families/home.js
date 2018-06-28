@@ -22,6 +22,7 @@ class FamiliesHome extends Component {
 								items={families}
 								childPath="operations/family"
 								context="operations"
+								label="prefLabelLg1"
 							/>
 						</div>
 					</div>

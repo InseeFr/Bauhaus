@@ -1,8 +1,12 @@
 import buildApi from './build-api';
 
 const api = {
-	getSeriesList: () => ['series'],
-	getOperationsList: () => ['operations'],
+	getSeriesList: () => ['series.json'],
+	getOperationsList: () => ['operations.json'],
+	getFamiliesList: () => ['families.json'],
+	getFamily: id => ['family.json'],
+	getOperation: id => ['operation.json'],
+	getSerie: id => ['serie.json'],
 	getVarBookExport: (id, MimeType) => [
 		`operation/${id}/variableBook`,
 		{
@@ -15,4 +19,4 @@ const api = {
 	],
 };
 
-export default buildApi('operations', api);
+export default buildApi('fake-data', api);
