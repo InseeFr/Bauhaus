@@ -15,7 +15,6 @@
 		}
 	],
 	"license": "MIT",
-	"homepage": "./",
 	"devDependencies": {
 		"@storybook/addon-knobs": "^3.3.15",
 		"@storybook/react": "^3.3.15",
