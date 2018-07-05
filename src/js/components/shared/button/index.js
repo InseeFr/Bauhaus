@@ -5,6 +5,7 @@ import './button.css';
 
 const Button = ({ action, label, disabled, context, col, offset }) => {
 	const btnClass = context ? `btn-${context}` : 'btn-concepts';
+	console.log(btnClass);
 	let button;
 	if (typeof action === 'string') {
 		button = (

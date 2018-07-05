@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import Button from 'js/components/shared/button';
 import D from 'js/i18n';
 
 class Controls extends Component {
@@ -8,14 +9,12 @@ class Controls extends Component {
 		const nexLocation = location.replace('/compare', '');
 		return (
 			<div className="row btn-line">
-				<div className="col-md-3">
-					<button
-						className="btn btn-primary btn-lg col-md-12"
-						onClick={() => this.props.history.push(nexLocation)}
-					>
-						{D.btnReturnCurrent}
-					</button>
-				</div>
+				<Button
+					label={D.btnReturnCurrent}
+					action={nexLocation}
+					context="classifications"
+					col={3}
+				/>
 			</div>
 		);
 	}

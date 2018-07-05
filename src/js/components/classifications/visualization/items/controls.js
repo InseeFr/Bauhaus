@@ -18,7 +18,16 @@ class ClassificationControls extends Component {
 				{btns.map((btn, i) => {
 					if (!btn) return <PlaceHolder key={i} />;
 					const [action, label] = btn;
-					return btn && <Button key={label} action={action} label={label} />;
+					return (
+						btn && (
+							<Button
+								key={label}
+								action={action}
+								label={label}
+								context="classifications"
+							/>
+						)
+					);
 				})}
 			</div>
 		);

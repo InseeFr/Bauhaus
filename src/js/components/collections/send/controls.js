@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Link } from 'react-router-dom';
+import Button from 'js/components/shared/button';
 import D from 'js/i18n';
 
 function SendControls({
@@ -25,15 +25,7 @@ function SendControls({
 	}
 	return (
 		<div className="row btn-line">
-			<div className="col-md-2">
-				<Link
-					type="button"
-					className="btn btn-primary btn-lg col-md-12"
-					to={urlBack}
-				>
-					{D.btnReturn}
-				</Link>
-			</div>
+			<Button label={D.btnReturn} action={urlBack} />
 			<div className="col-md-8 centered">
 				{warning && (
 					<div className="alert alert-danger bold" role="alert">
@@ -41,16 +33,7 @@ function SendControls({
 					</div>
 				)}
 			</div>
-			<div className="col-md-2">
-				<button
-					type="button"
-					className="btn btn-primary btn-lg col-md-12 pull-right"
-					onClick={sendMessage}
-					disabled={disabled}
-				>
-					{D.btnSend}
-				</button>
-			</div>
+			<Button label={D.btnSend} action={sendMessage} disabled={disabled} />
 		</div>
 	);
 }

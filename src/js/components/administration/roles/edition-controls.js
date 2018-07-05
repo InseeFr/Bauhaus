@@ -1,28 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from 'js/components/shared/button';
 import D from 'js/i18n';
 
 function EditionControls({ setEdition, addAgent, addData }) {
 	const disabled = addData.length === 0;
 	return (
 		<div className="row btn-line">
-			<div className="col-md-2">
-				<div
-					className="btn btn-primary btn-lg col-md-12"
-					onClick={() => setEdition(false)}
-				>
-					{D.btnReturn}
-				</div>
-			</div>
-			<div className="col-md-2 pull-right">
-				<button
-					className="btn btn-primary btn-lg col-md-12"
-					onClick={() => addAgent(addData)}
-					disabled={disabled}
-				>
-					{D.btnAdd}
-				</button>
-			</div>
+			<Button label={D.btnReturn} action={() => setEdition(false)} />
+			<Button
+				label={D.btnAdd}
+				action={() => addAgent(addData)}
+				disabled={disabled}
+				offset={8}
+			/>
 		</div>
 	);
 }

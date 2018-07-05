@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import Button from 'js/components/shared/button';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
@@ -26,15 +27,7 @@ class SendControls extends Component {
 
 		return (
 			<div className="row btn-line">
-				<div className="col-md-2">
-					<button
-						type="button"
-						className="btn btn-primary btn-lg col-md-12"
-						onClick={goBack(this.props, nextLocation)}
-					>
-						{D.btnReturn}
-					</button>
-				</div>
+				<Button label={D.btnReturn} action={goBack(this.props, nextLocation)} />
 				<div className="col-md-8 centered">
 					{warning && (
 						<div className="alert alert-danger bold" role="alert">
@@ -42,16 +35,7 @@ class SendControls extends Component {
 						</div>
 					)}
 				</div>
-				<div className="col-md-2">
-					<button
-						type="button"
-						className="btn btn-primary btn-lg col-md-12 pull-right"
-						onClick={sendMessage}
-						disabled={disabled}
-					>
-						{D.btnSend}
-					</button>
-				</div>
+				<Button label={D.btnSend} action={sendMessage} disabled={disabled} />
 			</div>
 		);
 	}

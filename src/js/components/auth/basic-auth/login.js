@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SelectRmes from 'js/components/shared/select-rmes';
+import Button from 'js/components/shared/button';
 import D from 'js/i18n';
 
 class LoginBasic extends Component {
@@ -60,13 +61,13 @@ class LoginBasic extends Component {
 						className="row centered"
 						style={{ marginTop: '5%', marginBottom: '5%' }}
 					>
-						<button
-							className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
-							onClick={this.onClickValidate}
+						<Button
+							label={D.btnValid}
+							action={this.onClickValidate}
 							disabled={!role || !stamp}
-						>
-							{D.btnValid}
-						</button>
+							col={2}
+							offset={5}
+						/>
 					</div>
 				</div>
 			</div>

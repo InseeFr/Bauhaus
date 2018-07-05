@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Button from 'js/components/shared/button';
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import D from 'js/i18n';
@@ -37,18 +37,18 @@ function CollectionEditionCreationControls({
 
 	return (
 		<div className="row btn-line">
-			<div className="col-md-2">
-				<Link
-					to={redirectCancel()}
-					className="btn btn-primary btn-lg col-md-12"
-				>
-					<span
-						className="glyphicon glyphicon-floppy-remove"
-						aria-hidden="true"
-					/>{' '}
-					{D.btnCancel}
-				</Link>
-			</div>
+			<Button
+				label={
+					<React.Fragment>
+						<span
+							className="glyphicon glyphicon-floppy-remove"
+							aria-hidden="true"
+						/>
+						<span> {D.btnCancel}</span>
+					</React.Fragment>
+				}
+				action={redirectCancel()}
+			/>
 			<div className="col-md-8 centered">
 				<div
 					style={{ visibility: message ? 'visible' : 'hidden' }}
@@ -60,20 +60,19 @@ function CollectionEditionCreationControls({
 					{message || <span style={{ whiteSpace: 'pre-wrap' }}> </span>}
 				</div>
 			</div>
-			<div className="col-md-2 pull-right">
-				<button
-					type="button"
-					className="btn btn-primary btn-lg col-md-12"
-					disabled={message}
-					onClick={handleSave}
-				>
-					<span
-						className="glyphicon glyphicon-floppy-disk"
-						aria-hidden="true"
-					/>{' '}
-					{D.btnSave}
-				</button>
-			</div>
+			<Button
+				label={
+					<React.Fragment>
+						<span
+							className="glyphicon glyphicon-floppy-disk"
+							aria-hidden="true"
+						/>
+						<span> {D.btnSave}</span>
+					</React.Fragment>
+				}
+				action={handleSave}
+				disabled={message}
+			/>
 		</div>
 	);
 }

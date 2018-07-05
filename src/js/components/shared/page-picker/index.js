@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import PageTitle from 'js/components/shared/page-title';
+import Button from 'js/components/shared/button';
 import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import Item from './item';
@@ -128,21 +128,14 @@ class Picker extends Component {
 
 		const controls = (
 			<div className="row btn-line">
-				<div className="col-md-2">
-					<Link className="btn btn-primary btn-lg col-md-12" to={`/${context}`}>
-						{D.btnReturn}
-					</Link>
-				</div>
+				<Button label={D.btnReturn} action={`/${context}`} />
 				{message}
-				<div className="col-md-2 pull-right">
-					<button
-						className="btn btn-primary btn-lg col-md-12"
-						onClick={this.handleClickValid}
-						disabled={added.length === 0}
-					>
-						{labelValidateButton}
-					</button>
-				</div>
+				<Button
+					label={labelValidateButton}
+					action={this.handleClickValid}
+					disabled={added.length === 0}
+					offset={message ? 0 : 8}
+				/>
 			</div>
 		);
 

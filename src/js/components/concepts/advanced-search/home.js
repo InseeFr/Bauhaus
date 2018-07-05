@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import PageTitle from 'js/components/shared/page-title';
+import Controls from './controls';
 import SelectRmes from 'js/components/shared/select-rmes';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import D from 'js/i18n';
@@ -130,34 +131,10 @@ class ConceptSearchList extends Component {
 			<div>
 				<div className="container">
 					<PageTitle title={D.conceptSearchTitle} />
-					<div className="row btn-line">
-						<div className="col-md-2">
-							<button
-								type="button"
-								className="btn btn-primary btn-lg col-md-12"
-								onClick={this.onClickReturn}
-							>
-								<span
-									className="glyphicon glyphicon-menu-left"
-									aria-hidden="true"
-								/>{' '}
-								{D.btnReturn}
-							</button>
-						</div>
-						<div className="col-md-2 pull-right">
-							<button
-								type="button"
-								className="btn btn-primary btn-lg col-md-12"
-								onClick={this.initializeState}
-							>
-								<span
-									className="glyphicon glyphicon-flash"
-									aria-hidden="true"
-								/>{' '}
-								{D.btnReinitialize}
-							</button>
-						</div>
-					</div>
+					<Controls
+						onClickReturn={this.onClickReturn}
+						initializeState={this.initializeState}
+					/>
 					<div className="row form-group">
 						<div className="col-md-12">
 							<input

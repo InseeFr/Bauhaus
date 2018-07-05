@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import PageTitle from 'js/components/shared/page-title';
+import Button from 'js/components/shared/button';
 import SearchRmes from 'js/components/shared/search-rmes';
 import check from 'js/utils/auth';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
@@ -38,42 +39,54 @@ class CollectionsHome extends Component {
 						<div className="col-md-3 btn-group-vertical">
 							{adminOrContributor && (
 								<div className="row">
-									<button
-										className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-										onClick={this.handleClick}
-									>
-										<span
-											className="glyphicon glyphicon-plus"
-											aria-hidden="true"
-										/>{' '}
-										{D.btnNewFemale}
-									</button>
+									<Button
+										label={
+											<React.Fragment>
+												<span
+													className="glyphicon glyphicon-plus"
+													aria-hidden="true"
+												/>
+												<span> {D.btnNewFemale}</span>
+											</React.Fragment>
+										}
+										action={this.handleClick}
+										col={8}
+										offset={2}
+									/>
 								</div>
 							)}
 							<div className="row">
-								<button
-									className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-									onClick={this.handleClickExport}
-								>
-									<span
-										className="glyphicon glyphicon-export"
-										aria-hidden="true"
-									/>{' '}
-									{D.btnExport}
-								</button>
+								<Button
+									label={
+										<React.Fragment>
+											<span
+												className="glyphicon glyphicon-export"
+												aria-hidden="true"
+											/>
+											<span> {D.btnExport}</span>
+										</React.Fragment>
+									}
+									action={this.handleClickExport}
+									col={8}
+									offset={2}
+								/>
 							</div>
 							{adminOrCreator && (
 								<div className="row">
-									<button
-										className="btn btn-primary btn-lg col-md-offset-3 col-md-6"
-										onClick={this.handleClickValidate}
-									>
-										<span
-											className="glyphicon glyphicon-ok"
-											aria-hidden="true"
-										/>{' '}
-										{D.btnValid}
-									</button>
+									<Button
+										label={
+											<React.Fragment>
+												<span
+													className="glyphicon glyphicon-ok"
+													aria-hidden="true"
+												/>
+												<span> {D.btnValid}</span>
+											</React.Fragment>
+										}
+										action={this.handleClickValidate}
+										col={8}
+										offset={2}
+									/>
 								</div>
 							)}
 						</div>
