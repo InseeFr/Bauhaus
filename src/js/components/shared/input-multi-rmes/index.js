@@ -11,8 +11,8 @@ class InputMultiRmes extends Component {
 		const { inputLg1, inputLg2 } = this.props;
 
 		this.state = {
-			arrayLg1: inputLg1 || [],
-			arrayLg2: inputLg2 || [],
+			arrayLg1: inputLg1.length === 0 ? [''] : inputLg1,
+			arrayLg2: inputLg2.length === 0 ? [''] : inputLg2,
 			modalAdd: false,
 			modalDelete: false,
 			modalLast: false,
