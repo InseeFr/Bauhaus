@@ -4,7 +4,7 @@ import D from 'js/i18n';
 import homeLogo from 'img/accueil.png';
 import conceptsLogo from 'img/concepts.jpg';
 import classificationsLogo from 'img/classifications.jpg';
-import operationsLogo from 'img/operations.jpg';
+//import operationsLogo from 'img/operations.jpg';
 import './referentiels.css';
 
 function MenuReferentiels() {
@@ -41,7 +41,7 @@ function MenuReferentiels() {
 										{D.classificationsTitle}
 									</Link>
 								</li>
-								<li>
+								{/*<li>
 									<Link to="/operations/series">
 										<img
 											src={operationsLogo}
@@ -50,7 +50,7 @@ function MenuReferentiels() {
 										/>{' '}
 										{D.operationsTitle}
 									</Link>
-								</li>
+								</li>*/}
 							</ul>
 						</div>
 					</div>
