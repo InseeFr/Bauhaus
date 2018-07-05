@@ -46,7 +46,12 @@ class CorrespondencesHomeContainer extends Component {
 					saveSecondLang={this.props.saveSecondLang}
 					langs={langs}
 				/>
-				<HomeAssociations id={id} associations={associations} />
+				<HomeAssociations
+					id={id}
+					associations={associations}
+					correspondence={correspondence}
+					secondLang={secondLang}
+				/>
 			</div>
 		);
 	}
