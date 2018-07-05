@@ -8,13 +8,13 @@ import { stringToDate } from 'js/utils/moment';
 function ConceptGeneral({ attr, secondLang, langs }) {
 	const { lg1, lg2 } = langs;
 	let mapping = {};
-	if (attr.altLabelLg1) {
+	if (attr.altLabelLg1 && attr.altLabelLg1.length !== 0) {
 		mapping = {
 			...mapping,
 			altLabelLg1: `${D.altLabelTitle} (${lg1})`,
 		};
 	}
-	if (attr.altLabelLg2) {
+	if (attr.altLabelLg2 && attr.altLabelLg2.length !== 0) {
 		mapping = {
 			...mapping,
 			altLabelLg2: `${D.altLabelTitle} (${lg2})`,
