@@ -1,0 +1,61 @@
+import React from 'react';
+import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import PageTitle from 'js/components/shared/page-title';
+import CorrespondenceControls from './controls';
+import Panel from 'js/components/shared/panel';
+import { generalFields } from './general-fields';
+import { ExplanatoryNote } from 'js/components/shared/explanatory-note';
+import D from 'js/i18n';
+
+export default ({ association, secondLang, saveSecondLang, langs }) => {
+	const {
+		labelLg1,
+		labelLg2,
+		correspondenceId,
+		associationId,
+		scopeNoteLg1,
+		scopeNoteLg2,
+	} = association;
+	const { lg1, lg2 } = langs;
+	const title = secondLang && labelLg2 ? labelLg2 : labelLg1;
+	return (
+		<div className="container">
+			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+			<PageTitle
+				title={title}
+				subtitle={associationId}
+				context="classifications"
+			/>
+			<CorrespondenceControls correspondenceId={correspondenceId} />
+			<div className="row">
+				<div className="col-md-12">
+					<Panel title={D.globalInformationsTitle} context="classifications">
+						{generalFields(association, secondLang)}
+					</Panel>
+				</div>
+			</div>
+			<span>
+				{scopeNoteLg1 && (
+					<div className="row">
+						<ExplanatoryNote
+							text={scopeNoteLg1}
+							title={D.classificationsDescription}
+							lang={lg1}
+							alone={!secondLang}
+							context="classifications"
+						/>
+						{secondLang && (
+							<ExplanatoryNote
+								text={scopeNoteLg2}
+								title={D.classificationsDescription}
+								lang={lg2}
+								alone={false}
+								context="classifications"
+							/>
+						)}
+					</div>
+				)}
+			</span>
+		</div>
+	);
+};

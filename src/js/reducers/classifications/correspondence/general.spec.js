@@ -6,9 +6,9 @@ import { LOADED } from 'js/constants';
 import * as generalUtils from 'js/utils/classifications/correspondence/general';
 
 describe('reducerClassificationCorrespondenceGeneral', () => {
-	test('action LOAD_CLASSIFICATIONS_CORRESPONDENCE_GENERAL_SUCCESS', () => {
+	test('action LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS', () => {
 		const action = {
-			type: A.LOAD_CLASSIFICATIONS_CORRESPONDENCE_GENERAL_SUCCESS,
+			type: A.LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS,
 			payload: {
 				id: 'id1',
 				results: {

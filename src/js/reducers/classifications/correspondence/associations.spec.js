@@ -5,9 +5,9 @@ import * as A from 'js/actions/constants';
 import { LOADED } from 'js/constants';
 
 describe('reducerSeriesMembers', () => {
-	test('action LOAD_CLASSIFICATIONS_CORRESPONDENCE_ASSOCIATIONS_SUCCESS', () => {
+	test('action LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATIONS_SUCCESS', () => {
 		const action = {
-			type: A.LOAD_CLASSIFICATIONS_CORRESPONDENCE_ASSOCIATIONS_SUCCESS,
+			type: A.LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATIONS_SUCCESS,
 			payload: { id: 'id1', results: 'associations' },
 		};
 		const result = reducerClassificationCorrespondenceAssociations(

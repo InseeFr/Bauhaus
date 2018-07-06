@@ -4,7 +4,7 @@ import { LOADED } from 'js/constants';
 export default function(state = {}, action) {
 	const { type, payload } = action;
 	switch (type) {
-		case A.LOAD_CLASSIFICATIONS_CORRESPONDENCE_ASSOCIATIONS_SUCCESS: {
+		case A.LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATIONS_SUCCESS: {
 			const { id, results } = payload;
 			return {
 				...state,

@@ -127,6 +127,14 @@ const dictionary = {
 		fr: 'Nomenclature cible',
 		en: 'Target classification',
 	},
+	sourceItemTitle: {
+		fr: 'Poste source',
+		en: 'Source item',
+	},
+	targetItemTitle: {
+		fr: 'Poste cible',
+		en: 'Target item',
+	},
 	associationsTitle: {
 		fr: 'Liste des associations',
 		en: 'Association list',

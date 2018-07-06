@@ -14,6 +14,7 @@ import classificationItemNotes from './item/notes';
 import classificationItemNarrowers from './item/narrowers';
 import classificationsCorrespondenceGeneral from './correspondence/general';
 import classificationsCorrespondenceAssociations from './correspondence/associations';
+import classificationsCorrespondenceAssociation from './correspondence/association';
 
 const classificationsFamiliesList = listReducer([
 	A.LOAD_CLASSIFICATIONS_FAMILIES_LIST,
@@ -34,9 +35,9 @@ const classificationsList = listReducer([
 ]);
 
 const classificationsCorrespondencesList = listReducer([
-	A.LOAD_CLASSIFICATIONS_CORRESPONDENCES_LIST,
-	A.LOAD_CLASSIFICATIONS_CORRESPONDENCES_LIST_SUCCESS,
-	A.LOAD_CLASSIFICATIONS_CORRESPONDENCES_LIST_FAILURE,
+	A.LOAD_CLASSIFICATION_CORRESPONDENCE_LIST,
+	A.LOAD_CLASSIFICATION_CORRESPONDENCE_LIST_SUCCESS,
+	A.LOAD_CLASSIFICATION_CORRESPONDENCE_LIST_FAILURE,
 ]);
 
 export default {
@@ -58,4 +59,5 @@ export default {
 	classificationItemNarrowers,
 	classificationsCorrespondenceGeneral,
 	classificationsCorrespondenceAssociations,
+	classificationsCorrespondenceAssociation,
 };

@@ -33,6 +33,9 @@ const api = {
 	getCorrespondenceAssociations: correspondenceId => [
 		`correspondence/${correspondenceId}/associations`,
 	],
+	getCorrespondenceAssociation: (correspondenceId, associationId) => [
+		`correspondence/${correspondenceId}/association/${associationId}`,
+	],
 };
 
 export default buildApi('classifications', api);

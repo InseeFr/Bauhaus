@@ -6,18 +6,18 @@ const sortByLabel = sortArray('label');
 
 export default () => dispatch => {
 	dispatch({
-		type: A.LOAD_CLASSIFICATIONS_CORRESPONDENCES_LIST,
+		type: A.LOAD_CLASSIFICATION_CORRESPONDENCE_LIST,
 		payload: {},
 	});
 	return api.getCorrespondencesList().then(
 		results =>
 			dispatch({
-				type: A.LOAD_CLASSIFICATIONS_CORRESPONDENCES_LIST_SUCCESS,
+				type: A.LOAD_CLASSIFICATION_CORRESPONDENCE_LIST_SUCCESS,
 				payload: { results: sortByLabel(results) },
 			}),
 		err =>
 			dispatch({
-				type: A.LOAD_CLASSIFICATIONS_CORRESPONDENCES_LIST_FAILURE,
+				type: A.LOAD_CLASSIFICATION_CORRESPONDENCE_LIST_FAILURE,
 				payload: { err },
 			})
 	);

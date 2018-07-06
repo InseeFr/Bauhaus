@@ -5,7 +5,7 @@ import * as generalUtils from 'js/utils/classifications/correspondence/general';
 export default function(state = {}, action) {
 	const { type, payload } = action;
 	switch (type) {
-		case A.LOAD_CLASSIFICATIONS_CORRESPONDENCE_GENERAL_SUCCESS: {
+		case A.LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS: {
 			const { id, results } = payload;
 			return {
 				...state,

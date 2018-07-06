@@ -3,7 +3,7 @@ import * as A from 'js/actions/constants';
 
 export default id => dispatch => {
 	dispatch({
-		type: A.LOAD_CLASSIFICATIONS_CORRESPONDENCE_ASSOCIATIONS,
+		type: A.LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATIONS,
 		payload: {
 			id,
 		},
@@ -11,14 +11,14 @@ export default id => dispatch => {
 	return api.getCorrespondenceAssociations(id).then(
 		results => {
 			dispatch({
-				type: A.LOAD_CLASSIFICATIONS_CORRESPONDENCE_ASSOCIATIONS_SUCCESS,
+				type: A.LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATIONS_SUCCESS,
 				payload: { id, results },
 			});
 			return results;
 		},
 		err =>
 			dispatch({
-				type: A.LOAD_CLASSIFICATIONS_CORRESPONDENCE_ASSOCIATIONS_FAILURE,
+				type: A.LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATIONS_FAILURE,
 				payload: { err, id },
 			})
 	);
