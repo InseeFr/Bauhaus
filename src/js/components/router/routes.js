@@ -23,8 +23,6 @@ import CollectionEditionContainer from 'js/components/collections/edition-creati
 import CollectionsToValidateContainer from 'js/components/collections/validation/home-container';
 import CollectionsToExportContainer from 'js/components/collections/export/home-container';
 import HelpConcepts from 'js/components/help/concepts/home';
-import HelpClassifications from 'js/components/help/classifications/home';
-import HelpOperations from 'js/components/help/operations/home';
 import Administration from 'js/components/administration/home-container';
 import Role from 'js/components/administration/roles/home-container';
 import ConceptsDashboard from 'js/components/administration/dashboard/concepts/home-container';
@@ -132,12 +130,6 @@ export default withRouter(
 					component={CollectionsToExportContainer}
 				/>
 				<Route exact path="/concepts/help" component={HelpConcepts} />
-				<Route
-					exact
-					path="/classifications/help"
-					component={HelpClassifications}
-				/>
-				<Route exact path="/operations/help" component={HelpOperations} />
 				<Route
 					exact
 					path="/concepts/administration"

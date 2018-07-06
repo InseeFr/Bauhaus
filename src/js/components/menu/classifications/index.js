@@ -33,7 +33,6 @@ class MenuClassifications extends Component {
 	render() {
 		const { menuRef, activePath } = this.state;
 		var paths = {
-			help: { path: '/classifications/help', pathKey: 'help', className: null },
 			families: {
 				path: '/classifications/families',
 				pathKey: 'classifications/famil',
@@ -112,16 +111,6 @@ class MenuClassifications extends Component {
 											}
 										>
 											{D.correspondencesTitle}
-										</Link>
-									</li>
-								</ul>
-								<ul className="nav navbar-nav navbar-nav-classifications navbar-right">
-									<li className={paths.help.className}>
-										<Link
-											to={paths.help.path}
-											onClick={() => this.changeActivePath(paths.help.path)}
-										>
-											{D.help}
 										</Link>
 									</li>
 								</ul>
