@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
+import './tabs.css';
 
 class TabsRmes extends Component {
 	constructor() {
@@ -21,7 +22,7 @@ class TabsRmes extends Component {
 				justified
 			>
 				{tabs.map(({ id, title, content }) => (
-					<Tab eventKey={id} key={id} title={title}>
+					<Tab eventKey={id} key={id} title={title} className="tabs-items">
 						{content}
 					</Tab>
 				))}
