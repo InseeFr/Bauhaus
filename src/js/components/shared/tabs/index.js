@@ -1,0 +1,33 @@
+import React, { Component } from 'react';
+import { Tabs, Tab } from 'react-bootstrap';
+
+class TabsRmes extends Component {
+	constructor() {
+		super();
+		this.state = { activeTab: 1 };
+		this.selectTab = tabIndex =>
+			this.setState({
+				activeTab: tabIndex,
+			});
+	}
+
+	render() {
+		const { tabs } = this.props;
+		return (
+			<Tabs
+				defaultActiveKey={1}
+				id="informationToManage"
+				onSelect={this.selectTab}
+				justified
+			>
+				{tabs.map(({ id, title, content }) => (
+					<Tab eventKey={id} key={id} title={title}>
+						{content}
+					</Tab>
+				))}
+			</Tabs>
+		);
+	}
+}
+
+export default TabsRmes;
