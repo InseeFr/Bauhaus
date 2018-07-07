@@ -1,0 +1,40 @@
+@import 'src/app.scss';
+
+.help-menu {
+	margin-top: 100px;
+}
+
+.help-menu-item {
+	font-size: 18px;
+	margin-bottom: 10px;
+	color: $color_concepts_3;
+	&:hover {
+		text-decoration: none;
+	}
+	&:focus {
+		text-decoration: none;
+	}
+}
+.help-menu-item-selected > p {
+	background-color: $color_concepts_3;
+	color: white;
+	padding: 10px;
+	border: 2px solid $color_concepts_3;
+	border-radius: 6px;
+}
+
+.help-footer {
+	margin-top: 50px;
+	font-size: 16px;
+}
+
+.content-link {
+	background-color: $color_concepts_3;
+	color: white;
+	padding: 2px;
+	border: 1px solid $color_concepts_3;
+	border-radius: 3px;
+	&:hover {
+		text-decoration: none;
+	}
+}

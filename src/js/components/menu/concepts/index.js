@@ -45,7 +45,7 @@ class MenuConcepts extends Component {
 				pathKey: 'administration',
 				className: null,
 			},
-			help: { path: '/concepts/help', pathKey: 'help', className: null },
+			help: { path: '/concepts/help/1', pathKey: 'help', className: null },
 			concepts: { path: '/concepts', pathKey: 'concept', className: null },
 			collections: {
 				path: '/collections',
