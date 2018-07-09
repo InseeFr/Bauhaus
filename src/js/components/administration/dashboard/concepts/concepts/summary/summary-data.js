@@ -47,21 +47,21 @@ export const buildData = d => [
 	},
 	{
 		type: D.provisionalConceptsNumberTitle,
-		total: d.filter(c => c.validationStatus === 'Provisoire').length,
+		total: d.filter(c => c.validationStatus === 'false').length,
 		generic: d.filter(
 			c =>
 				c.disseminationStatus.endsWith('PublicGenerique') &&
-				c.validationStatus === 'Provisoire'
+				c.validationStatus === 'false'
 		).length,
 		specific: d.filter(
 			c =>
 				c.disseminationStatus.endsWith('PublicSpecifique') &&
-				c.validationStatus === 'Provisoire'
+				c.validationStatus === 'false'
 		).length,
 		private: d.filter(
 			c =>
 				c.disseminationStatus.endsWith('Prive') &&
-				c.validationStatus === 'Provisoire'
+				c.validationStatus === 'false'
 		).length,
 	},
 	{

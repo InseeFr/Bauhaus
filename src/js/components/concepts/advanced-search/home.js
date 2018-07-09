@@ -200,8 +200,8 @@ class ConceptSearchList extends Component {
 								placeholder={D.validationStatusPlaceholder}
 								value={validationStatus}
 								options={[
-									{ label: 'Validé', value: 'Validé' },
-									{ label: 'Provisoire', value: 'Provisoire' },
+									{ label: D.conceptStatusValid, value: 'true' },
+									{ label: D.conceptStatusProvisional, value: 'false' },
 								]}
 								onChange={this.handlers.validationStatus}
 								searchable={true}

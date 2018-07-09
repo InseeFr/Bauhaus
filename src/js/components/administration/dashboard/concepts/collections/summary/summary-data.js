@@ -17,6 +17,6 @@ export const buildData = d => [
 	},
 	{
 		type: D.provisionalConceptsNumberTitle,
-		total: d.filter(c => c.isValidated === 'Provisoire').length,
+		total: d.filter(c => c.isValidated === 'false').length,
 	},
 ];

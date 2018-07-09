@@ -9,7 +9,7 @@ describe('concept-send', () => {
 				id="id"
 				prefLabelLg1="prefLabelLg1"
 				properties={{}}
-				isValidated="Provisoire"
+				isValidated="false"
 				sendConcept={() => console.log('send')}
 			/>
 		);

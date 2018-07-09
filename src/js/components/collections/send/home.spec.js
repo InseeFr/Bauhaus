@@ -9,7 +9,7 @@ describe('collection-send', () => {
 				id="id"
 				prefLabelLg1="prefLabelLg1"
 				properties={{}}
-				isValidated="Provisoire"
+				isValidated="false"
 				sendCollection={() => console.log('send')}
 			/>
 		);

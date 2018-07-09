@@ -7,7 +7,7 @@ describe('collection-visualization-controls', () => {
 		shallow(
 			<CollectionVisualizationControls
 				id="id"
-				isValidated="Provisoire"
+				isValidated="false"
 				handleValidation={() => console.log('validate')}
 				permission={{ authType: '', roles: [''] }}
 			/>

@@ -94,16 +94,16 @@ class ConceptVisualizationContainer extends Component {
 			);
 			if (
 				!adminOrContributorOrConceptCreator &&
-				isValidated === 'Provisoire' &&
+				isValidated === 'false' &&
 				conceptVersion === '1'
 			)
 				return <ConceptVisualizationStandBy general={general} />;
 			if (
 				conceptVersion !== '1' &&
-				isValidated === 'Provisoire' &&
+				isValidated === 'false' &&
 				!adminOrContributorOrConceptCreator
 			) {
-				general.isValidated = 'Validé';
+				general.isValidated = 'true';
 				general.conceptVersion = (general.conceptVersion - 1).toString();
 				notes = allNotes[general.conceptVersion];
 			}

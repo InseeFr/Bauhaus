@@ -92,6 +92,14 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 											)}`}
 										</li>
 									);
+								} else if (fieldName === 'isValidated') {
+									return (
+										<li key={fieldName}>{`${mapping[fieldName]} : ${
+											attr[fieldName] === 'false'
+												? D.conceptStatusProvisional
+												: D.conceptStatusValid
+										}`}</li>
+									);
 								} else {
 									return (
 										<li key={fieldName}>{`${mapping[fieldName]} : ${

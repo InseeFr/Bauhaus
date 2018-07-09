@@ -132,7 +132,8 @@ const dictionary = {
 		en: 'Complete required fields in order to save this concept',
 	},
 	incompleteCollection: {
-		fr: 'Remplissez les champs requis pour pouvoir sauvegarder cette collection',
+		fr:
+			'Remplissez les champs requis pour pouvoir sauvegarder cette collection',
 		en: 'Complete required fields in order to save this collection',
 	},
 	emptyDefinitionLg1: {
@@ -140,11 +141,14 @@ const dictionary = {
 		en: 'The concept must have a definition',
 	},
 	emptyScopeNoteLg1: {
-		fr: 'Le statut de diffusion étant public, la définition courte française doit être renseignée',
-		en: 'As dissemination status is public, short definition has to be completed',
+		fr:
+			'Le statut de diffusion étant public, la définition courte française doit être renseignée',
+		en:
+			'As dissemination status is public, short definition has to be completed',
 	},
 	hasScopeNoteLg2NotLg1: {
-		fr: 'La définition courte ne peut être renseignée que dans la seconde langue',
+		fr:
+			'La définition courte ne peut être renseignée que dans la seconde langue',
 		en: 'The short definition can only be completed in the second language',
 	},
 	hasEditorialNoteLg2NotLg1: {
@@ -152,7 +156,8 @@ const dictionary = {
 		en: 'The editorial note can only be completed in the second language',
 	},
 	hasChangeNoteLg2NotLg1: {
-		fr: 'La note de changement ne peut être renseignée que dans la seconde langue',
+		fr:
+			'La note de changement ne peut être renseignée que dans la seconde langue',
 		en: 'The change note can only be completed in the second language',
 	},
 	tooLongScopeNote: {
@@ -236,7 +241,7 @@ const dictionary = {
 				validText = '',
 				href = params[0] + 'concept/' + id,
 				inseeText = ` (<a href=${href}>Lien vers le concept</a>)`;
-			if (params.includes('Provisoire'))
+			if (params.includes('false'))
 				validText = `<p><b>Ce concept est en attente de validation.</b></p>`;
 			return `<p>Bonjour,</p>
           <p>Vous trouverez ci-joint la description du concept « <b>
@@ -254,7 +259,7 @@ const dictionary = {
 				validText = '',
 				href = params[0] + 'concept/' + id,
 				inseeText = ` (<a href=${href}>Concept link</a>)`;
-			if (params.includes('Provisoire'))
+			if (params.includes('false'))
 				validText = `<p><b>This concept is waiting for validation.</b></p>`;
 			return `<p>Hi,</p>
           <p>You will find attached the description of the concept “<b>
@@ -286,7 +291,7 @@ const dictionary = {
 				validText = '',
 				href = params[0] + 'collection/' + id,
 				inseeText = ` (<a href=${href}>Lien vers la collection</a>)`;
-			if (params.includes('Provisoire'))
+			if (params.includes('false'))
 				validText = `<p><b>Cette collection est en attente de validation.</b></p>`;
 			return `<p>Bonjour,</p>
 	          <p>Vous trouverez ci-joint la composition de la collection de concepts « <b>
@@ -304,7 +309,7 @@ const dictionary = {
 				validText = '',
 				href = params[0] + 'collection/' + id,
 				inseeText = ` (<a href=${href}>Collection link</a>)`;
-			if (params.includes('Provisoire'))
+			if (params.includes('false'))
 				validText = `<p><b>This collection is waiting for validation.</b></p>`;
 			return `<p>Hi,</p>
 	          <p>You will find attached the composition of the collection “<b>

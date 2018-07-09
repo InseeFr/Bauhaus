@@ -8,7 +8,7 @@ describe('concept-visualization-controls', () => {
 			<ConceptVisualizationControls
 				id="id"
 				creator="creator"
-				isValidated="Provisoire"
+				isValidated="false"
 				conceptVersion="1"
 				handleValidation={() => console.log('validate')}
 				permission={{ authType: '', roles: [''] }}

@@ -82,7 +82,7 @@ class ConceptVisualization extends Component {
 						permission={permission}
 						creator={creator}
 						//TODO FIX ME
-						isValidated={isValidated === 'Validé'}
+						isValidated={isValidated === 'true'}
 						isValidOutOfDate={isOutOfDate(valid)}
 						conceptVersion={conceptVersion}
 						handleValidation={this.handleClickValidation}

@@ -25,6 +25,14 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 										attr[fieldName]
 									)}`}</li>
 								);
+							} else if (fieldName === 'isValidated') {
+								return (
+									<li key={fieldName}>{`${mapping[fieldName]} : ${
+										attr[fieldName] === 'false'
+											? D.collectionStatusProvisional
+											: D.collectionStatusValid
+									}`}</li>
+								);
 							} else {
 								return (
 									<li key={fieldName}>{`${mapping[fieldName]} : ${

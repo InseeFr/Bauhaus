@@ -39,7 +39,7 @@ class CollectionVisualization extends Component {
 						permission={permission}
 						creator={creator}
 						//TODO FIX ME
-						isValidated={isValidated === 'Validée'}
+						isValidated={isValidated === 'true'}
 						handleValidation={this.handleClickValid}
 					/>
 					<CollectionGeneral

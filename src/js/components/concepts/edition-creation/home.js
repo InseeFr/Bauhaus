@@ -90,7 +90,7 @@ class ConceptEditionCreation extends Component {
 
 		this.askToConfirmOrSave = () => {
 			//TODO check against a constant instead==
-			const isValidated = this.props.general.isValidated === 'Validé';
+			const isValidated = this.props.general.isValidated === 'true';
 			//If notes have changed, we need to open the modal to confirm version
 			//change.
 			if (isValidated) {

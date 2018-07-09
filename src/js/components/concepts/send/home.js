@@ -8,8 +8,8 @@ import { regexValidMail, allTagA } from 'js/utils/regex';
 
 const getDefaultMessage = (appHost, id, label, isValidated) => {
 	const params = [appHost, label, id];
-	if (isValidated === 'Provisoire') {
-		params.push('Provisoire');
+	if (isValidated === 'false') {
+		params.push('false');
 	}
 	return D.conceptMailDefault(params);
 };
@@ -120,7 +120,7 @@ ConceptSend.propTypes = {
 	prefLabelLg1: PropTypes.string,
 	properties: PropTypes.object.isRequired,
 	//TODO use constants
-	isValidated: PropTypes.oneOf(['Provisoire', 'Validé']).isRequired,
+	isValidated: PropTypes.oneOf(['false', 'true']).isRequired,
 	sendConcept: PropTypes.func.isRequired,
 };
 
