@@ -23,7 +23,13 @@ class ConceptsCreationsModifications extends Component {
 		const typeByLang =
 			type === 'creations' ? D.creationsTitle : D.modificationsTitle;
 		const filterCreatedDate = filterKeyDate(variable);
-		const data = conceptsData.filter(filterCreatedDate(dateStart));
+		const data = conceptsData.filter(filterCreatedDate(dateStart)).map(d => ({
+			...d,
+			validationStatus:
+				d.validationStatus === 'true'
+					? D.conceptStatusValid
+					: D.conceptStatusProvisional,
+		}));
 		return (
 			<div>
 				<div className="row" style={{ marginTop: '2%' }}>

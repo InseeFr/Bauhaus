@@ -23,7 +23,15 @@ class CollectionsCreationsModifications extends Component {
 		const typeByLang =
 			type === 'creations' ? D.creationsTitle : D.modificationsTitle;
 		const filterCreatedDate = filterKeyDate(variable);
-		const data = collectionsData.filter(filterCreatedDate(dateStart));
+		const data = collectionsData
+			.filter(filterCreatedDate(dateStart))
+			.map(d => ({
+				...d,
+				isValidated:
+					d.isValidated === 'true'
+						? D.collectionStatusValid
+						: D.collectionStatusProvisional,
+			}));
 		return (
 			<div>
 				<div className="row" style={{ marginTop: '2%' }}>
