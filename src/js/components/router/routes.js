@@ -43,14 +43,7 @@ import ClassificationItemContainer from 'js/components/classifications/item/home
 import ClassificationItemCompareContainer from 'js/components/classifications/item/compare/home-container';
 import ClassificationsCorrespondencesContainer from 'js/components/classifications/correspondences/home-container';
 import ClassificationsCorrespondenceContainer from 'js/components/classifications/correspondences/visualization/home-container';
-// Operations
-import OperationsFamiliesContainer from 'js/components/operations/families/home-container';
-import OperationsSeriesContainer from 'js/components/operations/series/home-container';
-import OperationsContainer from 'js/components/operations/operations/home-container';
-import OperationsFamilyVisualizationContainer from 'js/components/operations/families/visualization-container';
-import OperationsSeriesVisualizationContainer from 'js/components/operations/series/visualization-container';
-import OperationVisualizationContainer from 'js/components/operations/operations/visualization/home-container';
-
+import OperationsRoutes from 'js/components/router/operations.js';
 export default withRouter(
 	auth(({ error }) => (
 		<span>
@@ -213,32 +206,8 @@ export default withRouter(
 					path="/classifications/correspondence/:id"
 					component={ClassificationsCorrespondenceContainer}
 				/>
-				<Route
-					exact
-					path="/operations/families"
-					component={OperationsFamiliesContainer}
-				/>
-				<Route
-					exact
-					path="/operations/series"
-					component={OperationsSeriesContainer}
-				/>
-				<Route exact path="/operations" component={OperationsContainer} />
-				<Route
-					exact
-					path="/operations/family/:id"
-					component={OperationsFamilyVisualizationContainer}
-				/>
-				<Route
-					exact
-					path="/operations/series/:id"
-					component={OperationsSeriesVisualizationContainer}
-				/>
-				<Route
-					exact
-					path="/operations/operation/:id"
-					component={OperationVisualizationContainer}
-				/>
+
+				{OperationsRoutes}
 				<Route path="*" component={NotFound} />
 			</Switch>
 		</span>
