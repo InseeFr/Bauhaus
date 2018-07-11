@@ -13,9 +13,9 @@ import PageSubtitle from 'js/components/shared/page-subtitle';
 import FamilyInformation from 'js/components/operations/families/visualization/general';
 import Loading from 'js/components/shared/loading';
 import loadFamily from 'js/actions/operations/families/item';
+import { Link } from 'react-router-dom';
 
 const extractId = buildExtract('id');
-
 class FamilyVisualizationContainer extends Component {
 	componentWillMount() {
 		if (!this.props.family.id) {
@@ -35,6 +35,12 @@ class FamilyVisualizationContainer extends Component {
 					secondLang={secondLang}
 					onChange={this.props.saveSecondLang}
 				/>
+				<Link
+					className="btn btn-primary btn-lg pull-right"
+					to={`/operations/family/${attr.id}/modify`}
+				>
+					{D.btnUpdate}
+				</Link>
 				<div className="row">
 					<div className="col-md-2">
 						<button
@@ -45,7 +51,12 @@ class FamilyVisualizationContainer extends Component {
 						</button>
 					</div>
 				</div>
-				<PageTitle title={attr.prefLabelLg1} context="operations" />
+				<PageTitle
+					title={attr.prefLabelLg1}
+					context="operations"
+					col="12"
+					offset="0"
+				/>
 				{secondLang &&
 					attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
 				<FamilyInformation secondLang={secondLang} attr={attr} langs={langs} />

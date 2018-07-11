@@ -10,8 +10,8 @@ const langs = {
 describe('FamilyInformation', () => {
 	it('should renderer all informations for the main lang', () => {
 		const attr = {
-			intitule1: 'intitule1',
-			theme1: 'theme1',
+			prefLabelLg1: 'prefLabelLg1',
+			themeLg1: 'themeLg1',
 			descriptionLg1: 'descriptionLg1',
 		};
 		const general = shallow(<FamilyInformation attr={attr} langs={langs} />);
@@ -20,11 +20,11 @@ describe('FamilyInformation', () => {
 
 	it('should renderer all informations for the second lang', () => {
 		const attr = {
-			intitule1: 'intitule1',
-			theme1: 'theme1',
+			prefLabelLg1: 'prefLabelLg1',
+			themeLg1: 'themeLg1',
 			descriptionLg1: 'descriptionLg1',
-			intitule2: 'intitule2',
-			theme2: 'theme2',
+			prefLabelLg2: 'prefLabelLg2',
+			themeLg2: 'themeLg2',
 			descriptionLg2: 'descriptionLg2',
 		};
 		const general = shallow(

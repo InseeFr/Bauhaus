@@ -12,17 +12,17 @@ function FamilyInformation(props) {
 
 	return (
 		<div>
-			{attr.intitule1 && (
+			{attr.prefLabelLg1 && (
 				<div className="row">
 					<Note
-						text={attr.intitule1}
+						text={attr.prefLabelLg1}
 						title={D.title}
 						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
 						<Note
-							text={attr.intitule2}
+							text={attr.prefLabelLg2}
 							title={D.title}
 							lang={lg2}
 							alone={false}
@@ -30,16 +30,21 @@ function FamilyInformation(props) {
 					)}
 				</div>
 			)}
-			{attr.theme1 && (
+			{attr.themeLg1 && (
 				<div className="row">
 					<Note
-						text={attr.theme1}
+						text={attr.themeLg1}
 						title={D.theme}
 						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
-						<Note text={attr.theme2} title={D.theme} lang={lg2} alone={false} />
+						<Note
+							text={attr.themeLg2}
+							title={D.theme}
+							lang={lg2}
+							alone={false}
+						/>
 					)}
 				</div>
 			)}

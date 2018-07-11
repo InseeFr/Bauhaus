@@ -12,7 +12,6 @@ describe('OperationVisualization', () => {
 		const attr = {
 			prefLabelLg1: 'prefLabelLg1',
 			prefLabelLg2: 'prefLabelLg2',
-			intitule1: 'intitule1',
 			altLabel1: 'altLabel1',
 			millesime: 'millesime',
 		};
@@ -34,10 +33,8 @@ describe('OperationVisualization', () => {
 		const attr = {
 			prefLabelLg1: 'prefLabelLg1',
 			prefLabelLg2: 'prefLabelLg2',
-			intitule1: 'intitule1',
 			altLabel1: 'altLabel1',
 			millesime: 'millesime',
-			intitule2: 'intitule2',
 			altLabel2: 'altLabel2',
 		};
 		const general = shallow(

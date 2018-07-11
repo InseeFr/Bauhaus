@@ -7,7 +7,7 @@ import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageSubtitle from 'js/components/shared/page-subtitle';
-
+import { Link } from 'react-router-dom';
 function OperationVisualization(props) {
 	const {
 		attr,
@@ -37,6 +37,12 @@ function OperationVisualization(props) {
 				secondLang={secondLang}
 				onChange={props.saveSecondLang}
 			/>
+			<Link
+				className="btn btn-primary btn-lg pull-right"
+				to={`/operations/operation/${attr.id}/modify`}
+			>
+				{D.btnUpdate}
+			</Link>
 			<Controls openModal={openModal} />
 			<ModalRmes
 				id="modal"
@@ -47,20 +53,25 @@ function OperationVisualization(props) {
 				modalButtons={modalButtons}
 			/>
 
-			<PageTitle title={attr.prefLabelLg1} context="operations" />
+			<PageTitle
+				title={attr.prefLabelLg1}
+				context="operations"
+				col="12"
+				offset="0"
+			/>
 			{secondLang &&
 				attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
-			{attr.intitule1 && (
+			{attr.prefLabelLg1 && (
 				<div className="row">
 					<Note
-						text={attr.intitule1}
+						text={attr.prefLabelLg1}
 						title={D.title}
 						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
 						<Note
-							text={attr.intitule2}
+							text={attr.prefLabelLg2}
 							title={D.title}
 							lang={lg2}
 							alone={false}

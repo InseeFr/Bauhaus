@@ -13,7 +13,7 @@ import buildExtract from 'js/utils/build-extract';
 import SerieInformation from 'js/components/operations/series/visualization/general';
 import Loading from 'js/components/shared/loading';
 import loadSerie from 'js/actions/operations/series/item';
-
+import { Link } from 'react-router-dom';
 const extractId = buildExtract('id');
 
 class SeriesVisualizationContainer extends Component {
@@ -35,6 +35,12 @@ class SeriesVisualizationContainer extends Component {
 					secondLang={secondLang}
 					onChange={this.props.saveSecondLang}
 				/>
+				<Link
+					className="btn btn-primary btn-lg pull-right"
+					to={`/operations/series/${attr.id}/modify`}
+				>
+					{D.btnUpdate}
+				</Link>
 				<div className="row">
 					<div className="col-md-2">
 						<button
@@ -45,7 +51,12 @@ class SeriesVisualizationContainer extends Component {
 						</button>
 					</div>
 				</div>
-				<PageTitle title={attr.prefLabelLg1} context="operations" />
+				<PageTitle
+					title={attr.prefLabelLg1}
+					context="operations"
+					col="12"
+					offset="0"
+				/>
 				{secondLang &&
 					attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
 
