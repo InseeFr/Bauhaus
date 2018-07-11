@@ -74,11 +74,13 @@ describe('pagination', () => {
 			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
 		);
 		wrapper.setState({ currentPage: 2 });
+
 		wrapper
 			.find('.pagination')
 			.find('a')
 			.at(1)
 			.simulate('click', e);
+
 		expect(wrapper.state(['currentPage'])).toBe(1);
 	});
 	it('return the right currentPage when we click to the next page', () => {

@@ -85,7 +85,7 @@ class Pagination extends Component {
 							<a
 								href="#"
 								onClick={e =>
-									!isDisabled(currentPage - 1) &&
+									!checkInvalidPage(currentPage - 1) &&
 									this.goToPage(currentPage - 1, e)
 								}
 								aria-label="Previous"
@@ -98,7 +98,10 @@ class Pagination extends Component {
 						<li className={isDisabled(currentPage + 1)}>
 							<a
 								href="#"
-								onClick={e => this.goToPage(currentPage + 1, e)}
+								onClick={e =>
+									!checkInvalidPage(currentPage + 1) &&
+									this.goToPage(currentPage + 1, e)
+								}
 								aria-label="Next"
 							>
 								<span aria-hidden="true">&gt;</span>
