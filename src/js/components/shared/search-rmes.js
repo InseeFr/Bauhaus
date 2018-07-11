@@ -80,12 +80,7 @@ SearchRmes.defaultProps = {
 };
 
 SearchRmes.propTypes = {
-	items: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		}).isRequired
-	).isRequired,
+	items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
 	childPath: PropTypes.string.isRequired,
 	concepts: PropTypes.bool,
 	col: PropTypes.number,
