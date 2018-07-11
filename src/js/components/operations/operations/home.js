@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import PageTitle from 'js/components/shared/page-title';
 import SearchRmes from 'js/components/shared/search-rmes';
