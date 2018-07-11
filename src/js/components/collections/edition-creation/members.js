@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
-import Item from 'js/components/shared/page-picker/item';
+import Item from 'js/components/shared/picker-item';
 import { filterDeburr } from 'js/utils/array-utils';
 import D from 'js/i18n';
 import logoAdd from 'js/components/shared/logo-add';

@@ -9,7 +9,6 @@ import Item from 'js/components/shared/picker-item';
 import { filterDeburr } from 'js/utils/array-utils';
 import addLogo from 'js/components/shared/logo-add';
 import delLogo from 'js/components/shared/logo-del';
-import './picker.css';
 
 class Picker extends Component {
 	constructor(props) {

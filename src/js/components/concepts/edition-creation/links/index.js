@@ -8,7 +8,7 @@ import { filterDeburr } from 'js/utils/array-utils';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
 import logoAdd from 'js/components/shared/logo-add';
 import logoDel from 'js/components/shared/logo-del';
-import Item from 'js/components/shared/page-picker/item';
+import Item from 'js/components/shared/picker-item';
 
 import {
 	BROADER,
