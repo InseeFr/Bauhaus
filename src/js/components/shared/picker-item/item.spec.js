@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Item from './item';
+import Item from './';
 import addLogo from 'js/components/shared/logo-add';
 
-describe('page-picker', () => {
+describe('picker-page', () => {
 	it('renders without crashing', () => {
 		shallow(
 			<Item

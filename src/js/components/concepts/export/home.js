@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ModalRmes from 'js/components/shared/modal-rmes';
-import Picker from 'js/components/shared/page-picker';
+import Picker from 'js/components/shared/picker-page';
 import D from 'js/i18n';
 
 class ConceptsToExport extends Component {

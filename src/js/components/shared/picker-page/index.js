@@ -5,7 +5,7 @@ import PageTitle from 'js/components/shared/page-title';
 import Button from 'js/components/shared/button';
 import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
-import Item from './item';
+import Item from 'js/components/shared/picker-item';
 import { filterDeburr } from 'js/utils/array-utils';
 import addLogo from 'js/components/shared/logo-add';
 import delLogo from 'js/components/shared/logo-del';

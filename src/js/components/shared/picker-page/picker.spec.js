@@ -4,7 +4,7 @@ import PagePicker from './';
 
 const items = [{ id: '1', label: 'Item 1' }];
 
-describe('page-picker', () => {
+describe('picker-page', () => {
 	it('renders without crashing', () => {
 		shallow(
 			<PagePicker

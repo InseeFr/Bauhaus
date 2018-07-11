@@ -135,7 +135,7 @@ export default withRouter(
 					path="/concepts/administration"
 					component={Administration}
 				/>
-				<Route exact path="/administration/roles" component={Role} />
+				<Route path="/administration/roles" component={Role} />
 				<Route
 					exact
 					path="/concepts/administration/dashboard"
