@@ -12,24 +12,6 @@ function FamilyInformation(props) {
 
 	return (
 		<div>
-			{attr.prefLabelLg1 && (
-				<div className="row">
-					<Note
-						text={attr.prefLabelLg1}
-						title={D.title}
-						lang={lg1}
-						alone={!secondLang}
-					/>
-					{secondLang && (
-						<Note
-							text={attr.prefLabelLg2}
-							title={D.title}
-							lang={lg2}
-							alone={false}
-						/>
-					)}
-				</div>
-			)}
 			{attr.themeLg1 && (
 				<div className="row">
 					<Note

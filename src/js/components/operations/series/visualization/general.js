@@ -30,17 +30,17 @@ function SerieInformation(props) {
 					)}
 				</div>
 			)}
-			{attr.altLabel1 && (
+			{attr.altLabelLg1 && (
 				<div className="row">
 					<Note
-						text={attr.altLabel1}
+						text={attr.altLabelLg1}
 						title={D.altLabelTitle}
 						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
 						<Note
-							text={attr.altLabel2}
+							text={attr.altLabelLg2}
 							title={D.altLabelTitle}
 							lang={lg2}
 							alone={false}
@@ -66,6 +66,7 @@ function SerieInformation(props) {
 					)}
 				</div>
 			)}
+
 			{attr.historyNoteLg1 && (
 				<div className="row">
 					<Note

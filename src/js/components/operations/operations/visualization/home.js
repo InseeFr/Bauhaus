@@ -61,24 +61,7 @@ function OperationVisualization(props) {
 			/>
 			{secondLang &&
 				attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
-			{attr.prefLabelLg1 && (
-				<div className="row">
-					<Note
-						text={attr.prefLabelLg1}
-						title={D.title}
-						lang={lg1}
-						alone={!secondLang}
-					/>
-					{secondLang && (
-						<Note
-							text={attr.prefLabelLg2}
-							title={D.title}
-							lang={lg2}
-							alone={false}
-						/>
-					)}
-				</div>
-			)}
+
 			{attr.altLabel1 && (
 				<div className="row">
 					<Note
