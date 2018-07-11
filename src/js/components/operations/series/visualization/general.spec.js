@@ -12,8 +12,8 @@ describe('SerieInformation', () => {
 		const attr = {
 			intitule1: 'intitule1',
 			altLabel1: 'altLabel1',
-			summary1: 'summary1',
-			history1: 'history1',
+			abstractLg1: 'abstractLg1',
+			historyNoteLg1: 'historyNoteLg1',
 		};
 		const general = shallow(<SerieInformation attr={attr} langs={langs} />);
 		expect(general.find(Note).length).toBe(4);
@@ -23,12 +23,12 @@ describe('SerieInformation', () => {
 		const attr = {
 			intitule1: 'intitule1',
 			altLabel1: 'altLabel1',
-			summary1: 'summary1',
-			history1: 'history1',
+			abstractLg1: 'abstractLg2',
+			historyNoteLg1: 'historyNoteLg1',
 			intitule2: 'intitule2',
 			altLabel2: 'altLabel2',
-			summary2: 'summary2',
-			history2: 'history2',
+			abstractLg2: 'abstractLg2',
+			historyNoteLg2: 'historyNoteLg2',
 		};
 		const general = shallow(
 			<SerieInformation attr={attr} secondLang={true} langs={langs} />

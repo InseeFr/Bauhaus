@@ -2,18 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loading from 'js/components/shared/loading';
 import SeriesHome from './home';
-import { NOT_LOADED } from 'js/constants';
+import { NOT_LOADED, LOADED } from 'js/constants';
 import loadSeriesList from 'js/actions/operations/series/list';
 
 class SeriesHomeContainer extends Component {
 	componentWillMount() {
-		if (!this.props.concepts) {
+		if (this.props.status !== LOADED) {
 			this.props.loadSeriesList();
 		}
 	}
 	render() {
-		const { series } = this.props;
-		if (!series) return <Loading textType="loading" context="operations" />;
+		const { series, status } = this.props;
+		if (status !== LOADED)
+			return <Loading textType="loading" context="operations" />;
 		return <SeriesHome series={series} />;
 	}
 }
@@ -39,6 +40,7 @@ const mapDispatchToProps = {
 	loadSeriesList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	SeriesHomeContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SeriesHomeContainer);

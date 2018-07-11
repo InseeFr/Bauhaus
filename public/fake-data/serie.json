@@ -2,12 +2,10 @@
 	"id": "2",
 	"prefLabelLg1": "Fake Serie 2",
 	"prefLabelLg2": "Fake Serie 2",
-	"intitule1": "intitule1",
-	"intitule2": "intitule2",
-	"altLabel1": "altLabel1",
-	"altLabel2": "altLabel2",
-	"summary1": "summary1",
-	"summary2": "summary2",
-	"history1": "history1",
-	"history2": "history2"
+	"altLabelLg1": "altLabel1",
+	"altLabelLg2": "altLabel2",
+	"abstractLg1": "abstractLg1",
+	"abstractLg2": "abstractLg2",
+	"historyNoteLg1": "historyNoteLg1",
+	"historyNoteLg2": "historyNoteLg2"
 }

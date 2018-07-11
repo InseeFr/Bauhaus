@@ -48,17 +48,17 @@ function SerieInformation(props) {
 					)}
 				</div>
 			)}
-			{attr.summary1 && (
+			{attr.abstractLg1 && (
 				<div className="row">
 					<Note
-						text={attr.summary1}
+						text={attr.abstractLg1}
 						title={D.summary}
 						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
 						<Note
-							text={attr.summary2}
+							text={attr.abstractLg2}
 							title={D.summary}
 							lang={lg2}
 							alone={false}
@@ -66,17 +66,17 @@ function SerieInformation(props) {
 					)}
 				</div>
 			)}
-			{attr.history1 && (
+			{attr.historyNoteLg1 && (
 				<div className="row">
 					<Note
-						text={attr.history1}
+						text={attr.historyNoteLg1}
 						title={D.history}
 						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
 						<Note
-							text={attr.history2}
+							text={attr.historyNoteLg2}
 							title={D.history}
 							lang={lg2}
 							alone={false}

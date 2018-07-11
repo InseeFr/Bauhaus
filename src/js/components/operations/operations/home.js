@@ -33,7 +33,7 @@ OperationsHome.propTypes = {
 	operations: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
+			prefLabelLg1: PropTypes.string.isRequired,
 		}).isRequired
 	),
 };
