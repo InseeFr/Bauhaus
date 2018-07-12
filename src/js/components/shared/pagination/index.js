@@ -58,13 +58,13 @@ class Pagination extends Component {
 			.map(number => {
 				return (
 					<li className={activePage(number)} key={number} id={number}>
-						<a
+						<button
 							href="#"
 							onClick={e => this.goToPage(number, e)}
 							className="page-link"
 						>
 							{number}
-						</a>
+						</button>
 					</li>
 				);
 			});
@@ -76,13 +76,13 @@ class Pagination extends Component {
 				{pageNumbers.length > 1 && (
 					<ul className={`pagination pg-rmes ${contextCSS}`}>
 						<li className="page-item">
-							<a href="#" onClick={e => this.goToPage(1, e)} aria-label="First">
+							<button onClick={e => this.goToPage(1, e)} aria-label="First">
 								<span aria-hidden="true">&laquo;</span>
 								<span className="sr-only">First</span>
-							</a>
+							</button>
 						</li>
 						<li className={isDisabled(currentPage - 1)}>
-							<a
+							<button
 								href="#"
 								onClick={e =>
 									!checkInvalidPage(currentPage - 1) &&
@@ -92,11 +92,11 @@ class Pagination extends Component {
 							>
 								<span aria-hidden="true">&lt;</span>
 								<span className="sr-only">Previous</span>
-							</a>
+							</button>
 						</li>
 						{renderPageNumbers}
 						<li className={isDisabled(currentPage + 1)}>
-							<a
+							<button
 								href="#"
 								onClick={e =>
 									!checkInvalidPage(currentPage + 1) &&
@@ -106,10 +106,10 @@ class Pagination extends Component {
 							>
 								<span aria-hidden="true">&gt;</span>
 								<span className="sr-only">Next</span>
-							</a>
+							</button>
 						</li>
 						<li className="page-item">
-							<a
+							<button
 								aria-label="Last"
 								href="#"
 								onClick={e =>
@@ -118,7 +118,7 @@ class Pagination extends Component {
 							>
 								<span aria-hidden="true">&raquo;</span>
 								<span className="sr-only">Last</span>
-							</a>
+							</button>
 						</li>
 					</ul>
 				)}

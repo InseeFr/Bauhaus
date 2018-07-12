@@ -63,7 +63,7 @@ describe('pagination', () => {
 		expect(wrapper.state(['currentPage'])).toBe(1);
 		wrapper
 			.find('.pagination')
-			.find('[id=2] a')
+			.find('[id=2] button')
 			.first()
 			.simulate('click', e);
 		expect(wrapper.state(['currentPage'])).toBe(2);
@@ -77,7 +77,7 @@ describe('pagination', () => {
 
 		wrapper
 			.find('.pagination')
-			.find('a')
+			.find('button')
 			.at(1)
 			.simulate('click', e);
 
@@ -91,7 +91,7 @@ describe('pagination', () => {
 
 		wrapper
 			.find('.pagination')
-			.find('a')
+			.find('button')
 			.at(6)
 			.simulate('click', e);
 		expect(wrapper.state(['currentPage'])).toBe(3);
@@ -104,7 +104,7 @@ describe('pagination', () => {
 		expect(wrapper.state(['currentPage'])).toBe(1);
 		wrapper
 			.find('.pagination')
-			.find('a')
+			.find('button')
 			.first()
 			.simulate('click', e);
 		expect(wrapper.state(['currentPage'])).toBe(1);
@@ -116,7 +116,7 @@ describe('pagination', () => {
 		expect(wrapper.state(['currentPage'])).toBe(1);
 		wrapper
 			.find('.pagination')
-			.find('a')
+			.find('button')
 			.last()
 			.simulate('click', e);
 		expect(wrapper.state(['currentPage'])).toBe(5);
