@@ -95,16 +95,16 @@ class MenuConcepts extends Component {
 										</Link>
 									</li>
 								</ul>
-								{adminOrContributor && (
-									<ul className="nav navbar-nav navbar-nav-concepts navbar-right">
-										<li className={paths.help.className}>
-											<Link
-												to={paths.help.path}
-												onClick={() => this.changeActivePath(paths.help.path)}
-											>
-												{D.help}
-											</Link>
-										</li>
+								<ul className="nav navbar-nav navbar-nav-concepts navbar-right">
+									<li className={paths.help.className}>
+										<Link
+											to={paths.help.path}
+											onClick={() => this.changeActivePath(paths.help.path)}
+										>
+											{D.help}
+										</Link>
+									</li>
+									{adminOrContributor && (
 										<li className={paths.administration.className}>
 											<Link
 												to={paths.administration.path}
@@ -115,8 +115,8 @@ class MenuConcepts extends Component {
 												{D.administrationTitle}
 											</Link>
 										</li>
-									</ul>
-								)}
+									)}
+								</ul>
 							</div>
 						</div>
 					</nav>
