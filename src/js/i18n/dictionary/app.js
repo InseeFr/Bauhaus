@@ -91,6 +91,10 @@ const dictionary = {
 		fr: 'Libellé',
 		en: 'Label',
 	},
+	search: {
+		fr: 'Recherchez...',
+		en: 'Search...',
+	},
 	searchLabelPlaceholder: {
 		fr: 'Libellé...',
 		en: 'Label...',

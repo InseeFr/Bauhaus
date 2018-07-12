@@ -52,6 +52,7 @@ class SearchRmes extends Component {
 									: D.searchLabelPlaceholder
 							}
 							className="form-control"
+							aria-label={D.search}
 						/>
 					</div>
 				</div>
