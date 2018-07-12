@@ -26,7 +26,7 @@ describe('OperationVisualization', () => {
 				closeModal={() => {}}
 			/>
 		);
-		expect(general.find(Note).length).toBe(3);
+		expect(general.find(Note).length).toBe(2);
 	});
 
 	it('should renderer all informations for the second lang', () => {
@@ -49,6 +49,6 @@ describe('OperationVisualization', () => {
 				closeModal={() => {}}
 			/>
 		);
-		expect(general.find(Note).length).toBe(5);
+		expect(general.find(Note).length).toBe(3);
 	});
 });

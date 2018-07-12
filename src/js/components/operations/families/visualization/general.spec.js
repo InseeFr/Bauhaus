@@ -15,7 +15,7 @@ describe('FamilyInformation', () => {
 			descriptionLg1: 'descriptionLg1',
 		};
 		const general = shallow(<FamilyInformation attr={attr} langs={langs} />);
-		expect(general.find(Note).length).toBe(3);
+		expect(general.find(Note).length).toBe(2);
 	});
 
 	it('should renderer all informations for the second lang', () => {
@@ -30,6 +30,6 @@ describe('FamilyInformation', () => {
 		const general = shallow(
 			<FamilyInformation attr={attr} secondLang={true} langs={langs} />
 		);
-		expect(general.find(Note).length).toBe(6);
+		expect(general.find(Note).length).toBe(4);
 	});
 });
