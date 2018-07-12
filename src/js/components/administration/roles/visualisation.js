@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PageTitle from 'js/components/shared/page-title';
+import Button from 'js/components/shared/button';
 import TableRmes from 'js/components/shared/table-rmes';
 import D from 'js/i18n';
 
-function VisualisationTable({ roles, handleDelete, setEdition }) {
+function VisualisationTable({ roles }) {
 	const persons = roles.reduce(function(_, role) {
 		role.persons.map(p =>
 			_.push({ role: role.label, label: p.label, stamp: p.stamp })
@@ -12,30 +13,27 @@ function VisualisationTable({ roles, handleDelete, setEdition }) {
 	}, []);
 
 	const rowParams = [
-		{ dataField: 'role', label: D.roleTitle, width: '30%' },
-		{ dataField: 'label', label: D.nameTitle, width: '40%', isKey: true },
-		{ dataField: 'stamp', label: D.stampTitle, width: '30%' },
+		{ dataField: 'role', label: D.roleTitle, width: '30%', dataSort: true },
+		{
+			dataField: 'label',
+			label: D.nameTitle,
+			width: '40%',
+			isKey: true,
+			dataSort: true,
+		},
+		{ dataField: 'stamp', label: D.stampTitle, width: '30%', dataSort: true },
 	];
 
 	return (
-		<div>
+		<div className="container">
+			<PageTitle title={D.authorizationTitle} />
 			<div className="row btn-line">
-				<div className="col-md-2">
-					<Link
-						to={`/concepts/administration`}
-						className="btn btn-primary btn-lg col-md-12"
-					>
-						{D.btnReturn}
-					</Link>
-				</div>
-				<div className="col-md-2 pull-right">
-					<div
-						className="btn btn-primary btn-lg col-md-12"
-						onClick={() => setEdition(true)}
-					>
-						{D.btnUpdate}
-					</div>
-				</div>
+				<Button label={D.btnReturn} action="/concepts/administration" />
+				<Button
+					label={D.btnUpdate}
+					action="/administration/roles/update"
+					offset={8}
+				/>
 			</div>
 			<TableRmes
 				rowParams={rowParams}

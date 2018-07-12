@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Loading from 'js/components/shared/loading';
 import * as select from 'js/reducers';
-import Home from './home';
+import Visualisation from './visualisation';
+import Update from './update';
 import { ADD_ROLE, DELETE_ROLE } from 'js/actions/constants';
 import loadRoleList from 'js/actions/roles/role';
 import loadAgentList from 'js/actions/roles/agent';
@@ -10,25 +12,19 @@ import addRole from 'js/actions/roles/add';
 import deleteRole from 'js/actions/roles/delete';
 import { OK } from 'js/constants';
 
+const initState = {
+	deleteRequested: false,
+	addRequested: false,
+};
+
 class RolesContainer extends Component {
 	constructor(props) {
 		super(props);
+		this.state = { ...initState };
 
-		this.state = {
-			deleteRequested: false,
-			addRequested: false,
-			edition: false,
-		};
-
-		this.setEdition = edition => {
-			this.setState({
-				edition,
-			});
-		};
 		this.addAgent = data => {
 			this.setState({
 				addRequested: true,
-				edition: false,
 			});
 			this.props.addRole(data);
 		};
@@ -38,7 +34,13 @@ class RolesContainer extends Component {
 			});
 			this.props.deleteRole(data);
 		};
+		this.handleSave = data => {
+			const { toAdd, toDelete } = data;
+			if (toAdd.length !== 0) this.addAgent(toAdd);
+			if (toDelete.length !== 0) this.deleteAgent(toDelete);
+		};
 	}
+
 	componentWillMount() {
 		if (!this.props.roles) {
 			this.props.loadRoleList();
@@ -48,25 +50,23 @@ class RolesContainer extends Component {
 		}
 	}
 
-	componentWillReceiveProps({ addStatus, deleteStatus }) {
-		const { addRequested, deleteRequested } = this.state;
-		if (deleteRequested || addRequested) {
-			if (deleteStatus === OK)
-				this.setState({
-					deleteRequested: false,
-				});
-			if (addStatus === OK)
-				this.setState({
-					addRequested: false,
-				});
+	componentWillReceiveProps(nextProps) {
+		if (this.props.location.pathname !== nextProps.location.pathname) {
+			this.setState({ ...initState });
 			this.props.loadRoleList();
 		}
 	}
 
 	render() {
-		const { edition, addRequested, deleteRequested } = this.state;
+		const { addRequested, deleteRequested } = this.state;
 
-		const { roles, agents, addStatus, deleteStatus } = this.props;
+		const {
+			roles,
+			agents,
+			addStatus,
+			deleteStatus,
+			location: { pathname },
+		} = this.props;
 
 		if (
 			(deleteRequested && deleteStatus !== OK) ||
@@ -74,16 +74,18 @@ class RolesContainer extends Component {
 		)
 			return <Loading textType="saving" />;
 
+		if (
+			(!deleteRequested && addRequested && addStatus) ||
+			(!addRequested && deleteRequested && deleteStatus) ||
+			(deleteRequested && deleteStatus && addRequested && addStatus)
+		)
+			return <Redirect to="/administration/roles" />;
+
 		if (roles && agents) {
-			return (
-				<Home
-					roles={roles}
-					agents={agents}
-					addAgent={this.addAgent}
-					deleteAgent={this.deleteAgent}
-					edition={edition}
-					setEdition={this.setEdition}
-				/>
+			return pathname.endsWith('update') ? (
+				<Update roles={roles} agents={agents} handleSave={this.handleSave} />
+			) : (
+				<Visualisation roles={roles} />
 			);
 		}
 		return <Loading textType="loading" />;
