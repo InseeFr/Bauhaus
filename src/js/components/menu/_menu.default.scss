@@ -1,0 +1,49 @@
+
+.navbar-icon {
+	color: #ffffff;
+	font-size: 17px;
+}
+.inline {
+	display: inline;
+}
+.img-menu {
+	height: 60px;
+	padding: 0px;
+	width: auto;
+}
+@mixin set-menu($context, $color_1, $color_2, $color_3) {
+    background: $color_3;
+	font-size: 20px;
+	font-family: arial;
+	color: #fff;
+	margin-bottom: 0;
+	border-top: 0;
+	border-bottom: 0;
+
+	.navbar-nav-#{$context} {
+		> li > a:focus,
+		> .active > a {
+			background: #fff;
+			color: $color_3;
+			border: 2px solid $color_1;
+			border-bottom: none;
+			border-top-left-radius: 6px;
+			border-top-right-radius: 6px;
+		}
+
+		> li > a {
+			color: #fff;
+	
+			&:hover {
+				text-decoration: none;
+				background-color: $color_2;
+				color: #fff;
+				border: 2px solid $color_1;
+				border-bottom: none;
+				border-top-left-radius: 6px;
+				border-top-right-radius: 6px;
+			}
+		}
+	}
+}
+

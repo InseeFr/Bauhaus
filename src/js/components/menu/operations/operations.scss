@@ -1,46 +1,6 @@
 @import 'src/app.scss';
+@import 'src/js/components/menu/_menu.default.scss';
 
-.navbar-icon {
-	color: #ffffff;
-	font-size: 17px;
-}
-.inline {
-	display: inline;
-}
-.img-menu {
-	height: 60px;
-	padding: 0px;
-	width: auto;
-}
 .navbar-default-operations {
-	background: $color_operations_3;
-	font-size: 20px;
-	font-family: arial;
-	color: #ffffff;
-	margin-bottom: 0;
-	border-top: 0;
-	border-bottom: 0;
-}
-.navbar-default-operations .navbar-nav-operations > li > a {
-	color: #ffffff;
-}
-
-.navbar-default-operations .navbar-nav-operations > li > a:hover {
-	text-decoration: none;
-	background-color: $color_operations_2;
-	color: #ffffff;
-	border: 2px solid $color_operations_1;
-	border-bottom: none;
-	border-top-left-radius: 6px;
-	border-top-right-radius: 6px;
-}
-
-.navbar-default-operations .navbar-nav-operations > li > a:focus,
-.navbar-default-operations .navbar-nav-operations > .active > a {
-	background: #ffffff;
-	color: $color_operations_3;
-	border: 2px solid $color_operations_1;
-	border-bottom: none;
-	border-top-left-radius: 6px;
-	border-top-right-radius: 6px;
+	@include set-menu("operations", $color_operations_1, $color_operations_2, $color_operations_3);
 }
