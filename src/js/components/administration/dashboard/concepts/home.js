@@ -1,6 +1,6 @@
 import React from 'react';
 import PageTitle from 'js/components/shared/page-title';
-import Controls from '../controls';
+import Controls from './controls';
 import TabsRmes from 'js/components/shared/tabs-rmes';
 import ConceptsSummary from './concepts/summary';
 import ConceptsCreationsModifications from './concepts/creations-modifications';

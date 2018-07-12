@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loading from 'js/components/shared/loading';
 import * as select from 'js/reducers';
-import Dashboard from './';
+import Dashboard from './home';
 import loadConceptSearchList from 'js/actions/concepts/search-list';
 import loadCollectionDashboardList from 'js/actions/dashboard/collections';
 
