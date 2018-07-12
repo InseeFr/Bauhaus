@@ -27,8 +27,10 @@ class Update extends Component {
 		};
 		this.handleSave = () => {
 			const { toAdd, toDelete } = this.state;
+			console.log(toAdd);
+			console.log(toDelete);
 			const data = U.buildDataToSave(toAdd, toDelete);
-			this.props.handleSave(data);
+			//	this.props.handleSave(data);
 		};
 		this.onChangePicker = agents => {
 			const { oldAgents, selectedRole, toAdd, toDelete } = this.state;
