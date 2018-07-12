@@ -8,7 +8,9 @@ import { withKnobs, text } from '@storybook/addon-knobs/react';
 const stories = storiesOf('Picker', module);
 stories.addDecorator(withKnobs);
 
-const styleDecorator = storyFn => <div className="col-md-12">{storyFn()}</div>;
+const styleDecorator = storyFn => (
+	<div className="col-md-10 col-md-offset-1">{storyFn()}</div>
+);
 stories.addDecorator(styleDecorator);
 
 const storeDecorator = story => (
@@ -23,11 +25,7 @@ const items = Array(99)
 stories.add('Default', () => (
 	<Picker
 		items={items}
-		title={text('Title', 'Title')}
 		panelTitle={text('Panel title', 'Panel title')}
-		labelWarning={text('Warning', 'Warning')}
-		labelValidateButton={text('Button label', 'Valid')}
-		handleAction={() => console.log('action')}
 		context="concepts"
 	/>
 ));

@@ -12,20 +12,9 @@ class Picker extends Component {
 	constructor(props) {
 		super(props);
 
-		this.trackItems = items => {
-			return (
-				items &&
-				items.map(({ id, label }) => ({
-					id,
-					label,
-					isAdded: false,
-				}))
-			);
-		};
-
 		this.state = {
 			searchLabel: '',
-			items: this.trackItems(this.props.items),
+			items: props.items,
 		};
 
 		this.handleChange = searchLabel => {
@@ -41,6 +30,7 @@ class Picker extends Component {
 			this.setState({
 				itemsToAdd,
 			});
+			this.props.onChange(this.state.items);
 		};
 
 		this.removeItem = id => {
@@ -52,6 +42,7 @@ class Picker extends Component {
 			this.setState({
 				itemsToAdd,
 			});
+			this.props.onChange(this.state.items);
 		};
 
 		this.getItemsByStatus = () => {
@@ -71,7 +62,7 @@ class Picker extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.items !== this.props.items)
 			this.setState({
-				items: this.trackItems(nextProps.items),
+				items: nextProps.items,
 			});
 	}
 
@@ -104,25 +95,23 @@ class Picker extends Component {
 
 		return (
 			<div>
-				<div className="container">
-					<div className="row">
-						<div className="col-md-6">
-							<Panel title={panelTitle}>{addedEls}</Panel>
-						</div>
-						<div className="col-md-6 centered">
-							<input
-								value={searchLabel}
-								onChange={e => this.handleChange(e.target.value)}
-								type="text"
-								placeholder={D.searchLabelPlaceholder}
-								className="form-control"
-							/>
-							<Pagination
-								itemEls={toAddEls}
-								itemsPerPage="10"
-								context={context}
-							/>
-						</div>
+				<div className="row">
+					<div className="col-md-6">
+						<Panel title={panelTitle}>{addedEls}</Panel>
+					</div>
+					<div className="col-md-6 centered">
+						<input
+							value={searchLabel}
+							onChange={e => this.handleChange(e.target.value)}
+							type="text"
+							placeholder={D.searchLabelPlaceholder}
+							className="form-control"
+						/>
+						<Pagination
+							itemEls={toAddEls}
+							itemsPerPage="10"
+							context={context}
+						/>
 					</div>
 				</div>
 			</div>
@@ -132,7 +121,6 @@ class Picker extends Component {
 
 Picker.propTypes = {
 	panelTitle: PropTypes.string.isRequired,
-	labelWarning: PropTypes.string.isRequired,
 	items: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,
