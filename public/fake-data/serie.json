@@ -1,5 +1,18 @@
 {
 	"id": "2",
+	"motherFamilyLabelLg1": "Cadre de vie et sécurité",
+	"motherFamilyLabelLg2": "Living environment and security",
+	"motherFamily": "http://gncs/datalift/operations/famille/s39",
+	"typeOperation": "typeOperation",
+	"accrualPeriodicity": "accrualPeriodicity",
+	"creator": "creator",
+	"contributor": "contributor",
+	"serviceCollector": "serviceCollector",
+	"replaces": "replaces",
+	"replacedBy": "replacedBy",
+	"indicators": "indicators",
+	"seeAlso": "seeAlso",
+
 	"prefLabelLg1": "Fake Serie 2",
 	"prefLabelLg2": "Fake Serie 2",
 	"altLabelLg1": "altLabel1",

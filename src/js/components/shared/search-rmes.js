@@ -10,7 +10,9 @@ class SearchRmes extends Component {
 		super(props);
 		const { items: hits } = props;
 		const filter = filterKeyDeburr(
-			Object.keys(hits[0] || {}).filter(k => k !== 'id')
+			Object.keys(hits[0] || {}).filter(
+				k => k !== 'id' && !Array.isArray(hits[0][k])
+			)
 		);
 		this.state = {
 			search: '',

@@ -520,6 +520,42 @@ const dictionary = {
 		fr: 'Millésime',
 		en: 'Year',
 	},
+	dataCollector: {
+		fr: 'Service collecteur',
+		en: 'Data collector',
+	},
+	stackeholders: {
+		fr: 'Partenaires',
+		en: 'Stackeholders',
+	},
+	organisation: {
+		fr: 'Organisme responsable',
+		en: 'Organisation',
+	},
+	dataCollectFrequency: {
+		fr: 'Fréquence de collecte des donnees',
+		en: 'Data collection frequency',
+	},
+	operationType: {
+		fr: "Type d'opération",
+		en: 'Operation type',
+	},
+	replaces: {
+		fr: 'Succède à',
+		en: 'Replace',
+	},
+	replacedBy: {
+		fr: 'Remplacée par',
+		en: 'Replaced by',
+	},
+	indicators: {
+		fr: 'Indicateurs Produits',
+		en: 'Product Indicators',
+	},
+	seeAlso: {
+		fr: 'Series ou Indicateurs liés',
+		en: 'Related series or indicators',
+	},
 };
 
 export default dictionary;

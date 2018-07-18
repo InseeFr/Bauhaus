@@ -52,11 +52,7 @@ class OperationsSerieEdition extends Component {
 	}
 
 	render() {
-		const {
-			secondLang,
-			langs: { lg1, lg2 },
-			saveSecondLang,
-		} = this.props;
+		const { secondLang, langs: { lg1, lg2 }, saveSecondLang } = this.props;
 
 		const { serie } = this.state;
 		const cl = secondLang ? 'col-md-6' : 'col-md-12';
@@ -103,6 +99,7 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg1"
 								value={serie.prefLabelLg1}
 								onChange={this.onChange}
+								disabled
 							/>
 						</div>
 						<div className="form-group">
@@ -154,6 +151,7 @@ class OperationsSerieEdition extends Component {
 									id="prefLabelLg2"
 									value={serie.prefLabelLg2}
 									onChange={this.onChange}
+									disabled
 								/>
 							</div>
 							<div className="form-group">
@@ -164,13 +162,13 @@ class OperationsSerieEdition extends Component {
 									type="text"
 									className="form-control input-lg"
 									id="altLabel2"
-									value={serie.altLabel2}
+									value={serie.altLabelLg2}
 									onChange={this.onChange}
 								/>
 							</div>
 							<div className="form-group">
 								<label htmlFor="abstractLg2">
-									<NoteFlag text={D.summary} lang={lg1} />
+									<NoteFlag text={D.summary} lang={lg2} />
 								</label>
 								<input
 									type="text"
@@ -194,6 +192,102 @@ class OperationsSerieEdition extends Component {
 							</div>
 						</div>
 					)}
+					<div className="col-md-12">
+						<div className="form-group">
+							<label htmlFor="typeOperation">{D.operationType}</label>
+							<input
+								type="text"
+								className="form-control input-lg"
+								id="typeOperation"
+								value={serie.typeOperation}
+								onChange={this.onChange}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="accrualPeriodicity">
+								{D.dataCollectFrequency}
+							</label>
+							<input
+								type="text"
+								className="form-control input-lg"
+								id="accrualPeriodicity"
+								value={serie.accrualPeriodicity}
+								onChange={this.onChange}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="creator">{D.organisation}</label>
+							<input
+								type="text"
+								className="form-control input-lg"
+								id="creator"
+								value={serie.creator}
+								onChange={this.onChange}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="contributor">{D.stackeholders}</label>
+							<textarea
+								value={serie.contributor}
+								className="form-control"
+								id="contributor"
+								rows="10"
+								onChange={this.onChange}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="serviceCollector">{D.dataCollector}</label>
+							<textarea
+								value={serie.serviceCollector}
+								className="form-control"
+								id="serviceCollector"
+								rows="10"
+								onChange={this.onChange}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="replaces">{D.replaces}</label>
+							<textarea
+								value={serie.replaces}
+								className="form-control"
+								id="replaces"
+								rows="10"
+								onChange={this.onChange}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="replacedBy">{D.replacedBy}</label>
+							<textarea
+								value={serie.replacedBy}
+								className="form-control"
+								id="replacedBy"
+								rows="10"
+								onChange={this.onChange}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="indicators">{D.indicators}</label>
+							<textarea
+								value={serie.indicators}
+								className="form-control"
+								id="indicators"
+								rows="10"
+								onChange={this.onChange}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="seeAlso">
+								{D.seeAlso} lang={lg2}
+							</label>
+							<textarea
+								value={serie.seeAlso}
+								className="form-control"
+								id="seeAlso"
+								rows="10"
+								onChange={this.onChange}
+							/>
+						</div>
+					</div>
 				</form>
 			</div>
 		);

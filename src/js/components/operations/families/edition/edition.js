@@ -49,11 +49,7 @@ class OperationsFamilyEdition extends Component {
 	}
 
 	render() {
-		const {
-			secondLang,
-			langs: { lg1, lg2 },
-			saveSecondLang,
-		} = this.props;
+		const { secondLang, langs: { lg1, lg2 }, saveSecondLang } = this.props;
 
 		const { family } = this.state;
 		const cl = secondLang ? 'col-md-6' : 'col-md-12';
@@ -100,6 +96,7 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg1"
 								value={this.state.family.prefLabelLg1}
 								onChange={this.onChange}
+								disabled
 							/>
 						</div>
 						<div className="form-group">
@@ -139,6 +136,7 @@ class OperationsFamilyEdition extends Component {
 									id="prefLabelLg2"
 									value={family.prefLabelLg2}
 									onChange={this.onChange}
+									disabled
 								/>
 							</div>
 							<div className="form-group">

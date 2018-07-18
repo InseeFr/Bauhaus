@@ -48,11 +48,7 @@ class OperationsOperationEdition extends Component {
 	}
 
 	render() {
-		const {
-			secondLang,
-			langs: { lg1, lg2 },
-			saveSecondLang,
-		} = this.props;
+		const { secondLang, langs: { lg1, lg2 }, saveSecondLang } = this.props;
 
 		const { operation } = this.state;
 		const cl = secondLang ? 'col-md-6' : 'col-md-12';
@@ -99,6 +95,7 @@ class OperationsOperationEdition extends Component {
 								id="prefLabelLg1"
 								value={this.state.operation.prefLabelLg1}
 								onChange={this.onChange}
+								disabled
 							/>
 						</div>
 						<div className="form-group">
@@ -110,18 +107,6 @@ class OperationsOperationEdition extends Component {
 								className="form-control input-lg"
 								id="altLabel1"
 								value={operation.altLabel1}
-								onChange={this.onChange}
-							/>
-						</div>
-						<div className="form-group">
-							<label htmlFor="millesime">
-								<NoteFlag text={D.year} lang={lg1} />
-							</label>
-							<textarea
-								value={operation.millesime}
-								className="form-control"
-								id="millesime"
-								rows="10"
 								onChange={this.onChange}
 							/>
 						</div>
@@ -138,6 +123,7 @@ class OperationsOperationEdition extends Component {
 									id="prefLabelLg2"
 									value={operation.prefLabelLg2}
 									onChange={this.onChange}
+									disabled
 								/>
 							</div>
 							<div className="form-group">
@@ -154,6 +140,20 @@ class OperationsOperationEdition extends Component {
 							</div>
 						</div>
 					)}
+					<div className="col-md-12">
+						<div className="form-group">
+							<label htmlFor="millesime">
+								<NoteFlag text={D.year} lang={lg1} />
+							</label>
+							<textarea
+								value={operation.millesime}
+								className="form-control"
+								id="millesime"
+								rows="10"
+								onChange={this.onChange}
+							/>
+						</div>
+					</div>
 				</form>
 			</div>
 		);
