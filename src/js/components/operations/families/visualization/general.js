@@ -4,11 +4,7 @@ import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
 
 function FamilyInformation(props) {
-	const {
-		attr,
-		langs: { lg1, lg2 },
-		secondLang,
-	} = props;
+	const { attr, langs: { lg1, lg2 }, secondLang } = props;
 
 	return (
 		<div>
@@ -30,17 +26,17 @@ function FamilyInformation(props) {
 					)}
 				</div>
 			)}
-			{attr.descriptionLg1 && (
+			{attr.abstractLg1 && (
 				<div className="row">
 					<Note
-						text={attr.descriptionLg1}
+						text={attr.abstractLg1}
 						title={D.descriptionTitle}
 						lang={lg1}
-						alone={!secondLang}
+						alone={!secondLang || !attr.abstractLg2}
 					/>
 					{secondLang && (
 						<Note
-							text={attr.descriptionLg2}
+							text={attr.abstractLg2}
 							title={D.descriptionTitle}
 							lang={lg2}
 							alone={false}

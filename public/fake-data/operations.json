@@ -1,106 +1,661 @@
 [
 	{
-		"id": "1",
-		"prefLabelLg1": "Fake Operation 1",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "CAM-PME 2016",
+		"id": "s1375",
+		"label": "Chaînes d’activité mondiales des PME 2016"
 	},
 	{
-		"id": "2",
-		"prefLabelLg1": "Fake Operation 2",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "EPCV 2008",
+		"id": "s1447",
+		"label": "Dispositif d'enquêtes permanentes des conditions de vie 2008"
 	},
 	{
-		"id": "3",
-		"prefLabelLg1": "Fake Operation 3",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "FiLoSoFi 2014",
+		"id": "s1451",
+		"label": "Dispositif sur les revenus localisés sociaux et fiscaux 2014"
 	},
 	{
-		"id": "4",
-		"prefLabelLg1": "Fake Operation 4",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "FiLoSoFi 2015",
+		"id": "s1452",
+		"label": "Dispositif sur les revenus localisés sociaux et fiscaux 2015"
 	},
 	{
-		"id": "5",
-		"prefLabelLg1": "Fake Operation 5",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "BDF 2006",
+		"id": "s1339",
+		"label": "Enquête Budget de famille 2006"
 	},
 	{
-		"id": "6",
-		"prefLabelLg1": "Fake Operation 6",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "BDF 2011",
+		"id": "s1340",
+		"label": "Enquête Budget de famille 2011"
 	},
 	{
-		"id": "7",
-		"prefLabelLg1": "Fake Operation 7",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "BDF 2017",
+		"id": "s1341",
+		"label": "Enquête Budget de famille 2017"
 	},
 	{
-		"id": "8",
-		"prefLabelLg1": "Fake Operation 8",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "EDT 1975",
+		"id": "s1366",
+		"label": "Enquête Emploi du temps 1974/1975"
 	},
 	{
-		"id": "9",
-		"prefLabelLg1": "Fake Operation 9",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "EDT 1986",
+		"id": "s1365",
+		"label": "Enquête Emploi du temps 1985/1986"
 	},
 	{
-		"id": "10",
-		"prefLabelLg1": "Fake Operation 10",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "EDT 1999",
+		"id": "s1364",
+		"label": "Enquête Emploi du temps 1998/1999"
 	},
 	{
-		"id": "11",
-		"prefLabelLg1": "Fake Operation 11",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "EDT 2010",
+		"id": "s1362",
+		"label": "Enquête Emploi du temps 2009-2010"
 	},
 	{
-		"id": "12",
-		"prefLabelLg1": "Fake Operation 12",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "FQP 2003",
+		"id": "s1377",
+		"label": "Enquête Formation et qualification professionnelle 2003"
 	},
 	{
-		"id": "13",
-		"prefLabelLg1": "Fake Operation 13",
-		"prefLabelLg2": "prefLabelLg2",
-		"altLabel1": "altLabel1",
-		"altLabel2": "altLabel2",
-		"millesime": "millesime"
+		"altLabel": "HSI 2009",
+		"id": "s1386",
+		"label": "Enquête Handicap-Santé - volet institutions 2009"
+	},
+	{
+		"altLabel": "HSM 2008",
+		"id": "s1387",
+		"label": "Enquête Handicap-Santé - volet ménages 2008"
+	},
+	{
+		"altLabel": "HDV  2003",
+		"id": "s1384",
+		"label": "Enquête Histoire de vie en 2003"
+	},
+	{
+		"altLabel": "Patrimoine 2017",
+		"id": "s1370",
+		"label": "Enquête Histoire de vie et patrimoine 2017-2018"
+	},
+	{
+		"altLabel": "IVQ 2004",
+		"id": "s1388",
+		"label": "Enquête Information et vie quotidienne en 2004"
+	},
+	{
+		"altLabel": "IVQ 2011",
+		"id": "s1450",
+		"label": "Enquête Information et vie quotidienne en 2011"
+	},
+	{
+		"altLabel": "",
+		"id": "s1448",
+		"label": "Enquête Logement Mayotte 2013"
+	},
+	{
+		"altLabel": "",
+		"id": "s1250",
+		"label": "Enquête Logement en 2006"
+	},
+	{
+		"altLabel": "",
+		"id": "s1251",
+		"label": "Enquête Logement en 2013"
+	},
+	{
+		"altLabel": "",
+		"id": "s1343",
+		"label": "Enquête Loyers et charges 2010"
+	},
+	{
+		"altLabel": "",
+		"id": "s1394",
+		"label": "Enquête Loyers et charges 2011"
+	},
+	{
+		"altLabel": "",
+		"id": "s1395",
+		"label": "Enquête Loyers et charges 2012"
+	},
+	{
+		"altLabel": "",
+		"id": "s1347",
+		"label": "Enquête Loyers et charges 2013"
+	},
+	{
+		"altLabel": "",
+		"id": "s1349",
+		"label": "Enquête Loyers et charges 2014"
+	},
+	{
+		"altLabel": "",
+		"id": "s1351",
+		"label": "Enquête Loyers et charges 2015"
+	},
+	{
+		"altLabel": "",
+		"id": "s1414",
+		"label": "Enquête Loyers et charges 2016"
+	},
+	{
+		"altLabel": "",
+		"id": "s1419",
+		"label": "Enquête Loyers et charges 2017"
+	},
+	{
+		"altLabel": "",
+		"id": "s1363",
+		"label": "Enquête Patrimoine 2009-2010"
+	},
+	{
+		"altLabel": "",
+		"id": "s1282",
+		"label": "Enquête Patrimoine 2014-2015"
+	},
+	{
+		"altLabel": "RECME 2014",
+		"id": "s1060",
+		"label":
+			"Enquête Répertoire des entreprises contrôlées majoritairement par l'État 2014"
+	},
+	{
+		"altLabel": "RECME 2015",
+		"id": "s1059",
+		"label":
+			"Enquête Répertoire des entreprises contrôlées majoritairement par l'État 2015"
+	},
+	{
+		"altLabel": "",
+		"id": "s1381",
+		"label": "Enquête Santé en 2002-2003"
+	},
+	{
+		"altLabel": "SIP 2010",
+		"id": "s1382",
+		"label": "Enquête Santé et Itinéraire Professionnel 2010"
+	},
+	{
+		"altLabel": "TeO  2008",
+		"id": "s1276",
+		"label": "Enquête Trajectoires et Origines en 2008"
+	},
+	{
+		"altLabel": "",
+		"id": "s1446",
+		"label": "Enquête Vacances (dispositif EPCV) 2003"
+	},
+	{
+		"altLabel": "VQS 1999",
+		"id": "s1312",
+		"label": "Enquête Vie quotidienne et santé 1999"
+	},
+	{
+		"altLabel": "VQS 2007",
+		"id": "s1311",
+		"label": "Enquête Vie quotidienne et santé 2007"
+	},
+	{
+		"altLabel": "VQS 2014",
+		"id": "s1310",
+		"label": "Enquête Vie quotidienne et santé 2014"
+	},
+	{
+		"altLabel": "TIC Ménages 2017",
+		"id": "s1436",
+		"label":
+			"Enquête annuelle auprès des ménages sur les technologies de l'information et de la communication 2017"
+	},
+	{
+		"altLabel": "EAP 2008",
+		"id": "s1328",
+		"label": "Enquête annuelle de production 2008"
+	},
+	{
+		"altLabel": "EAP 2009",
+		"id": "s1329",
+		"label": "Enquête annuelle de production 2009"
+	},
+	{
+		"altLabel": "EAP 2010",
+		"id": "s1330",
+		"label": "Enquête annuelle de production 2010"
+	},
+	{
+		"altLabel": "EAP 2011",
+		"id": "s1331",
+		"label": "Enquête annuelle de production 2011"
+	},
+	{
+		"altLabel": "EAP 2012",
+		"id": "s1332",
+		"label": "Enquête annuelle de production 2012"
+	},
+	{
+		"altLabel": "EAP 2013",
+		"id": "s1333",
+		"label": "Enquête annuelle de production 2013"
+	},
+	{
+		"altLabel": "EAP 2014",
+		"id": "s1334",
+		"label": "Enquête annuelle de production 2014"
+	},
+	{
+		"altLabel": "EAP 2015",
+		"id": "s1335",
+		"label": "Enquête annuelle de production 2015"
+	},
+	{
+		"altLabel": "EAP 2016",
+		"id": "s1336",
+		"label": "Enquête annuelle de production 2016"
+	},
+	{
+		"altLabel": "",
+		"id": "s1357",
+		"label": "Enquête associations 2014"
+	},
+	{
+		"altLabel": "",
+		"id": "s1267",
+		"label":
+			"Enquête auprès des personnes fréquentant les lieux d'hébergement ou de restauration gratuite - 2001"
+	},
+	{
+		"altLabel": "",
+		"id": "s1268",
+		"label":
+			"Enquête auprès des personnes fréquentant les services d’hébergement ou de distribution de repas - 2012"
+	},
+	{
+		"altLabel": "FPE 2014",
+		"id": "s1380",
+		"label": "Enquête auprès des salariés de l’État 2014"
+	},
+	{
+		"altLabel": "",
+		"id": "s1132",
+		"label": "Enquête bimestrielle de conjoncture dans le commerce de gros 2007"
+	},
+	{
+		"altLabel": "",
+		"id": "s1131",
+		"label": "Enquête bimestrielle de conjoncture dans le commerce de gros 2008"
+	},
+	{
+		"altLabel": "",
+		"id": "s1412",
+		"label": "Enquête bimestrielle de conjoncture dans le commerce de gros 2009"
+	},
+	{
+		"altLabel": "",
+		"id": "s1130",
+		"label": "Enquête bimestrielle de conjoncture dans le commerce de gros 2010"
+	},
+	{
+		"altLabel": "",
+		"id": "s1413",
+		"label": "Enquête bimestrielle de conjoncture dans le commerce de gros 2011"
+	},
+	{
+		"altLabel": "",
+		"id": "s1129",
+		"label": "Enquête bimestrielle de conjoncture dans le commerce de gros 2012"
+	},
+	{
+		"altLabel": "",
+		"id": "s1128",
+		"label": "Enquête bimestrielle de conjoncture dans le commerce de gros 2013"
+	},
+	{
+		"altLabel": "",
+		"id": "s1127",
+		"label": "Enquête bimestrielle de conjoncture dans le commerce de gros 2014"
+	},
+	{
+		"altLabel": "",
+		"id": "s1126",
+		"label": "Enquête bimestrielle de conjoncture dans le commerce de gros 2015"
+	},
+	{
+		"altLabel": "CIS 2010",
+		"id": "s1197",
+		"label": "Enquête communautaire sur l'innovation 2010"
+	},
+	{
+		"altLabel": "CIS 2012",
+		"id": "s1198",
+		"label": "Enquête communautaire sur l'innovation 2012"
+	},
+	{
+		"altLabel": "CIS 2014",
+		"id": "s1199",
+		"label": "Enquête communautaire sur l'innovation 2014"
+	},
+	{
+		"altLabel": "CIS 2016",
+		"id": "s1361",
+		"label": "Enquête communautaire sur l'innovation 2016"
+	},
+	{
+		"altLabel": "",
+		"id": "s1378",
+		"label":
+			"Enquête de comparaison spatiale des niveaux de prix à la consommation entre territoires 2010"
+	},
+	{
+		"altLabel": "",
+		"id": "s1090",
+		"label": "Enquête de fréquentation dans l'hôtellerie 2012"
+	},
+	{
+		"altLabel": "",
+		"id": "s1089",
+		"label": "Enquête de fréquentation dans l'hôtellerie 2013"
+	},
+	{
+		"altLabel": "",
+		"id": "s1088",
+		"label": "Enquête de fréquentation dans l'hôtellerie 2014"
+	},
+	{
+		"altLabel": "",
+		"id": "s1087",
+		"label": "Enquête de fréquentation dans l'hôtellerie 2015"
+	},
+	{
+		"altLabel": "",
+		"id": "s1325",
+		"label": "Enquête de fréquentation dans l'hôtellerie 2016"
+	},
+	{
+		"altLabel": "",
+		"id": "s1093",
+		"label": "Enquête de fréquentation dans l'hôtellerie de plein air 2013"
+	},
+	{
+		"altLabel": "",
+		"id": "s1092",
+		"label": "Enquête de fréquentation dans l'hôtellerie de plein air 2014"
+	},
+	{
+		"altLabel": "",
+		"id": "s1091",
+		"label": "Enquête de fréquentation dans l'hôtellerie de plein air 2015"
+	},
+	{
+		"altLabel": "",
+		"id": "s1327",
+		"label": "Enquête de fréquentation dans l'hôtellerie de plein air 2016"
+	},
+	{
+		"altLabel": "",
+		"id": "s1314",
+		"label":
+			"Enquête de fréquentation dans les autres hébergements collectifs touristiques 2013"
+	},
+	{
+		"altLabel": "",
+		"id": "s1323",
+		"label":
+			"Enquête de fréquentation dans les autres hébergements collectifs touristiques 2014"
+	},
+	{
+		"altLabel": "",
+		"id": "s1094",
+		"label":
+			"Enquête de fréquentation dans les autres hébergements collectifs touristiques 2015"
+	},
+	{
+		"altLabel": "",
+		"id": "s1324",
+		"label":
+			"Enquête de fréquentation dans les autres hébergements collectifs touristiques 2016"
+	},
+	{
+		"altLabel": "CVS 2009",
+		"id": "s1338",
+		"label": "Enquête de victimation  - cadre de vie et sécurité 2009"
+	},
+	{
+		"altLabel": "CVS 2012",
+		"id": "s1342",
+		"label": "Enquête de victimation  - cadre de vie et sécurité 2012"
+	},
+	{
+		"altLabel": "CVS 2014",
+		"id": "s1287",
+		"label": "Enquête de victimation  - cadre de vie et sécurité 2014"
+	},
+	{
+		"altLabel": "CVS 2010",
+		"id": "s1288",
+		"label": "Enquête de victimation - cadre de vie et sécurité 2010"
+	},
+	{
+		"altLabel": "CVS 2011",
+		"id": "s1392",
+		"label": "Enquête de victimation - cadre de vie et sécurité 2011"
+	},
+	{
+		"altLabel": "CVS 2013",
+		"id": "s1393",
+		"label": "Enquête de victimation - cadre de vie et sécurité 2013"
+	},
+	{
+		"altLabel": "CVS 2015",
+		"id": "s1286",
+		"label": "Enquête de victimation - cadre de vie et sécurité 2015"
+	},
+	{
+		"altLabel": "CVS 2016",
+		"id": "s1443",
+		"label": "Enquête de victimation - cadre de vie et sécurité 2016"
+	},
+	{
+		"altLabel": "CVS 2017",
+		"id": "s1433",
+		"label": "Enquête de victimation - cadre de vie et sécurité 2017"
+	},
+	{
+		"altLabel": "EEC 2011",
+		"id": "s1086",
+		"label": "Enquête emploi en continu 2011"
+	},
+	{
+		"altLabel": "EEC 2012",
+		"id": "s1085",
+		"label": "Enquête emploi en continu 2012"
+	},
+	{
+		"altLabel": "EEC 2013",
+		"id": "s1084",
+		"label": "Enquête emploi en continu 2013"
+	},
+	{
+		"altLabel": "EEC 2014",
+		"id": "s1083",
+		"label": "Enquête emploi en continu 2014"
+	},
+	{
+		"altLabel": "EEC 2015",
+		"id": "s1082",
+		"label": "Enquête emploi en continu 2015"
+	},
+	{
+		"altLabel": "EEC 2016",
+		"id": "s1415",
+		"label": "Enquête emploi en continu 2016"
+	},
+	{
+		"altLabel": "EEC 2017",
+		"id": "s1432",
+		"label": "Enquête emploi en continu 2017"
+	},
+	{
+		"altLabel": "EEC 2018",
+		"id": "s1449",
+		"label": "Enquête emploi en continu 2018"
+	},
+	{
+		"altLabel": "OFATS 2009",
+		"id": "s1058",
+		"label":
+			"Enquête européenne sur l'activité des filiales étrangères des groupes français 2009"
+	},
+	{
+		"altLabel": "OFATS 2010",
+		"id": "s1057",
+		"label":
+			"Enquête européenne sur l'activité des filiales étrangères des groupes français 2010"
+	},
+	{
+		"altLabel": "OFATS 2011",
+		"id": "s1056",
+		"label":
+			"Enquête européenne sur l'activité des filiales étrangères des groupes français 2011"
+	},
+	{
+		"altLabel": "OFATS 2012",
+		"id": "s1055",
+		"label":
+			"Enquête européenne sur l'activité des filiales étrangères des groupes français 2012"
+	},
+	{
+		"altLabel": "OFATS 2013",
+		"id": "s1054",
+		"label":
+			"Enquête européenne sur l'activité des filiales étrangères des groupes français 2013"
+	},
+	{
+		"altLabel": "OFATS 2014",
+		"id": "s1053",
+		"label":
+			"Enquête européenne sur l'activité des filiales étrangères des groupes français 2014"
+	},
+	{
+		"altLabel": "OFATS 2015",
+		"id": "s1052",
+		"label":
+			"Enquête européenne sur l'activité des filiales étrangères des groupes français 2015"
+	},
+	{
+		"altLabel": "OFATS 2016",
+		"id": "s1051",
+		"label":
+			"Enquête européenne sur l'activité des filiales étrangères des groupes français 2016"
+	},
+	{
+		"altLabel": "OFATS 2017",
+		"id": "s1435",
+		"label":
+			"Enquête européenne sur l'activité des filiales étrangères des groupes français 2017"
+	},
+	{
+		"altLabel": "PIAAC 2012",
+		"id": "s1389",
+		"label":
+			"Enquête internationale sur l'usage de l'information par les adultes 2012"
+	},
+	{
+		"altLabel": "",
+		"id": "s1139",
+		"label": "Enquête mensuelle de conjoncture dans l'industrie 2007"
+	},
+	{
+		"altLabel": "",
+		"id": "s1138",
+		"label": "Enquête mensuelle de conjoncture dans l'industrie 2008"
+	},
+	{
+		"altLabel": "",
+		"id": "s1396",
+		"label": "Enquête mensuelle de conjoncture dans l'industrie 2009"
+	},
+	{
+		"altLabel": "",
+		"id": "s1137",
+		"label": "Enquête mensuelle de conjoncture dans l'industrie 2010"
+	},
+	{
+		"altLabel": "",
+		"id": "s1397",
+		"label": "Enquête mensuelle de conjoncture dans l'industrie 2011"
+	},
+	{
+		"altLabel": "",
+		"id": "s1136",
+		"label": "Enquête mensuelle de conjoncture dans l'industrie 2012"
+	},
+	{
+		"altLabel": "",
+		"id": "s1135",
+		"label": "Enquête mensuelle de conjoncture dans l'industrie 2013"
+	},
+	{
+		"altLabel": "",
+		"id": "s1134",
+		"label": "Enquête mensuelle de conjoncture dans l'industrie 2014"
+	},
+	{
+		"altLabel": "",
+		"id": "s1133",
+		"label": "Enquête mensuelle de conjoncture dans l'industrie 2015"
+	},
+	{
+		"altLabel": "",
+		"id": "s1147",
+		"label":
+			"Enquête mensuelle de conjoncture dans l'industrie du bâtiment 2007"
+	},
+	{
+		"altLabel": "",
+		"id": "s1146",
+		"label":
+			"Enquête mensuelle de conjoncture dans l'industrie du bâtiment 2008"
+	},
+	{
+		"altLabel": "",
+		"id": "s1145",
+		"label":
+			"Enquête mensuelle de conjoncture dans l'industrie du bâtiment 2009"
+	},
+	{
+		"altLabel": "",
+		"id": "s1144",
+		"label":
+			"Enquête mensuelle de conjoncture dans l'industrie du bâtiment 2010"
+	},
+	{
+		"altLabel": "",
+		"id": "s1398",
+		"label":
+			"Enquête mensuelle de conjoncture dans l'industrie du bâtiment 2011"
+	},
+	{
+		"altLabel": "",
+		"id": "s1143",
+		"label":
+			"Enquête mensuelle de conjoncture dans l'industrie du bâtiment 2012"
+	},
+	{
+		"altLabel": "",
+		"id": "s1142",
+		"label":
+			"Enquête mensuelle de conjoncture dans l'industrie du bâtiment 2013"
+	},
+	{
+		"altLabel": "",
+		"id": "s1141",
+		"label":
+			"Enquête mensuelle de conjoncture dans l'industrie du bâtiment 2014"
+	},
+	{
+		"altLabel": "",
+		"id": "s1140",
+		"label":
+			"Enquête mensuelle de conjoncture dans l'industrie du bâtiment 2015"
 	}
 ]

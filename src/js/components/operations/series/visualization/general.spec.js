@@ -10,8 +10,7 @@ const langs = {
 describe('SerieInformation', () => {
 	it('should renderer all informations for the main lang', () => {
 		const attr = {
-			intitule1: 'intitule1',
-			altLabel1: 'altLabel1',
+			altLabelLg1: 'altLabel1',
 			abstractLg1: 'abstractLg1',
 			historyNoteLg1: 'historyNoteLg1',
 		};
@@ -21,12 +20,10 @@ describe('SerieInformation', () => {
 
 	it('should renderer all informations for the second lang', () => {
 		const attr = {
-			intitule1: 'intitule1',
-			altLabel1: 'altLabel1',
+			altLabelLg1: 'altLabel1',
 			abstractLg1: 'abstractLg2',
 			historyNoteLg1: 'historyNoteLg1',
-			intitule2: 'intitule2',
-			altLabel2: 'altLabel2',
+			altLabelLg2: 'altLabel2',
 			abstractLg2: 'abstractLg2',
 			historyNoteLg2: 'historyNoteLg2',
 		};

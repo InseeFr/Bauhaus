@@ -4,35 +4,23 @@ import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
 
 function SerieInformation(props) {
-	const { attr, langs: { lg1, lg2 }, secondLang } = props;
+	const {
+		attr,
+		langs: { lg1, lg2 },
+		secondLang,
+		frequency = {},
+		category = {},
+	} = props;
 
 	return (
 		<div>
-			{attr.intitule1 && (
-				<div className="row">
-					<Note
-						text={attr.intitule1}
-						title={D.title}
-						lang={lg1}
-						alone={!secondLang}
-					/>
-					{secondLang && (
-						<Note
-							text={attr.intitule2}
-							title={D.title}
-							lang={lg2}
-							alone={false}
-						/>
-					)}
-				</div>
-			)}
 			{attr.altLabelLg1 && (
 				<div className="row">
 					<Note
 						text={attr.altLabelLg1}
 						title={D.altLabelTitle}
 						lang={lg1}
-						alone={!secondLang}
+						alone={!secondLang || !attr.altLabelLg2}
 					/>
 					{secondLang && (
 						<Note
@@ -50,7 +38,7 @@ function SerieInformation(props) {
 						text={attr.abstractLg1}
 						title={D.summary}
 						lang={lg1}
-						alone={!secondLang}
+						alone={!secondLang || !attr.abstractLg2}
 					/>
 					{secondLang && (
 						<Note
@@ -69,7 +57,7 @@ function SerieInformation(props) {
 						text={attr.historyNoteLg1}
 						title={D.history}
 						lang={lg1}
-						alone={!secondLang}
+						alone={!secondLang || !attr.historyNoteLg2}
 					/>
 					{secondLang && (
 						<Note
@@ -82,25 +70,41 @@ function SerieInformation(props) {
 				</div>
 			)}
 
-			{attr.typeOperation && (
+			{attr.typeList && (
 				<div className="row">
 					<Note
-						text={attr.typeOperation}
+						text={category.labelLg1}
 						title={D.operationType}
 						lang={lg1}
-						alone={true}
+						alone={!secondLang}
 					/>
+					{secondLang && (
+						<Note
+							text={category.labelLg2}
+							title={D.operationType}
+							lang={lg2}
+							alone={false}
+						/>
+					)}
 				</div>
 			)}
 
-			{attr.accrualPeriodicity && (
+			{attr.accrualPeriodicityList && (
 				<div className="row">
 					<Note
-						text={attr.accrualPeriodicity}
+						text={frequency.labelLg1}
 						title={D.dataCollectFrequency}
 						lang={lg1}
-						alone={true}
+						alone={!secondLang}
 					/>
+					{secondLang && (
+						<Note
+							text={frequency.labelLg2}
+							title={D.dataCollectFrequency}
+							lang={lg2}
+							alone={false}
+						/>
+					)}
 				</div>
 			)}
 			{attr.creator && (

@@ -12,7 +12,7 @@ describe('FamilyInformation', () => {
 		const attr = {
 			prefLabelLg1: 'prefLabelLg1',
 			themeLg1: 'themeLg1',
-			descriptionLg1: 'descriptionLg1',
+			abstractLg1: 'descriptionLg1',
 		};
 		const general = shallow(<FamilyInformation attr={attr} langs={langs} />);
 		expect(general.find(Note).length).toBe(2);
@@ -22,10 +22,10 @@ describe('FamilyInformation', () => {
 		const attr = {
 			prefLabelLg1: 'prefLabelLg1',
 			themeLg1: 'themeLg1',
-			descriptionLg1: 'descriptionLg1',
+			abstractLg1: 'descriptionLg1',
 			prefLabelLg2: 'prefLabelLg2',
 			themeLg2: 'themeLg2',
-			descriptionLg2: 'descriptionLg2',
+			abstractLg2: 'descriptionLg2',
 		};
 		const general = shallow(
 			<FamilyInformation attr={attr} secondLang={true} langs={langs} />

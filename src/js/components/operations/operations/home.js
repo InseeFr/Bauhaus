@@ -20,7 +20,7 @@ function OperationsHome({ operations }) {
 							items={operations}
 							childPath="operations/operation"
 							context="operations"
-							label="prefLabelLg1"
+							label="label"
 						/>
 					</div>
 				</div>
@@ -33,7 +33,7 @@ OperationsHome.propTypes = {
 	operations: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,
-			prefLabelLg1: PropTypes.string.isRequired,
+			label: PropTypes.string.isRequired,
 		}).isRequired
 	),
 };

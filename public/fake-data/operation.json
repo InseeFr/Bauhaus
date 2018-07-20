@@ -1,8 +1,10 @@
 {
-	"id": "11",
-	"prefLabelLg1": "Fake Operation 11",
-	"prefLabelLg2": "prefLabelLg2",
-	"altLabel1": "altLabel1",
-	"altLabel2": "altLabel2",
-	"millesime": "millesime"
+	"prefLabelLg1": "Chaînes d’activité mondiales des PME 2016",
+	"prefLabelLg2":
+		"Survey on global value chains for the small and medium-sized enterprises 2016",
+	"altLabel": ["CAM-PME 2016"],
+	"id": "s1375",
+	"motherSeriesLabelLg2": "Global value chains of SME",
+	"motherSeries": "http://bauhaus/operations/serie/s1371",
+	"motherSeriesLabelLg1": "Enquête sur les chaînes d’activité mondiales des PME"
 }

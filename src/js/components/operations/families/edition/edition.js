@@ -112,13 +112,13 @@ class OperationsFamilyEdition extends Component {
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="descriptionLg1">
+							<label htmlFor="abstractLg1">
 								<NoteFlag text={D.descriptionTitle} lang={lg1} />
 							</label>
 							<textarea
-								value={family.descriptionLg1}
+								value={family.abstractLg1}
 								className="form-control"
-								id="descriptionLg1"
+								id="abstractLg1"
 								rows="10"
 								onChange={this.onChange}
 							/>
@@ -152,13 +152,13 @@ class OperationsFamilyEdition extends Component {
 								/>
 							</div>
 							<div className="form-group">
-								<label htmlFor="descriptionLg2">
+								<label htmlFor="abstractLg2">
 									<NoteFlag text={D.descriptionTitle} lang={lg2} />
 								</label>
 								<textarea
-									value={family.descriptionLg2}
+									value={family.abstractLg2}
 									className="form-control"
-									id="descriptionLg2"
+									id="abstractLg2"
 									rows="10"
 									onChange={this.onChange}
 								/>

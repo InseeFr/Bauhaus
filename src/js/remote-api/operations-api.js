@@ -1,12 +1,18 @@
 import buildApi from './build-api';
 
 const api = {
-	getSeriesList: () => ['series.json'],
-	getOperationsList: () => ['operations.json'],
-	getFamiliesList: () => ['families.json'],
-	getFamily: id => ['family.json'],
-	getOperation: id => ['operation.json'],
-	getSerie: id => ['serie.json'],
+	getSeriesList: () => ['series.json'], //TODO Change to series
+	getOperationsList: () => ['operations.json'], //TODO Change to operations
+	getFamiliesList: () => ['families.json'], //TODO Change to families
+	getFamily: id => ['family.json'], //TODO Change to family/:id
+	getOperation: id => ['operation.json'], //TODO Change to operation/:id
+	getSerie: id => ['serie.json'], //TODO Change to series/:id
+	getCodesList: notation => [
+		notation === 'CL_FREQ' ? 'frequencies.json' : 'categories.json',
+	], //TODO Change to codeList/:notation
+	getCode: (notation, code) => [
+		notation === 'CL_FREQ' ? 'frequency.json' : 'category.json',
+	], //TODO Change to codeList/:notation/code/:code
 	getVarBookExport: (id, MimeType) => [
 		`operation/${id}/variableBook`,
 		{
@@ -19,4 +25,5 @@ const api = {
 	],
 };
 
+//TODO change to operations
 export default buildApi('fake-data', api);

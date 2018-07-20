@@ -68,7 +68,7 @@ function OperationVisualization(props) {
 						text={attr.altLabel1}
 						title={D.altLabelTitle}
 						lang={lg1}
-						alone={!secondLang}
+						alone={!secondLang || !attr.altLabel2}
 					/>
 					{secondLang && (
 						<Note

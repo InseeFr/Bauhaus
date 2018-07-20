@@ -13,6 +13,8 @@ import roleReducers from './roles';
 import dashboardReducers from './dashboard';
 import classificationsReducers from './classifications';
 import operationsReducers from './operations';
+import codesListReducers from './operations/codesList';
+
 import remoteCalls, * as remoteCallsSelectors from './remote-calls';
 
 export default combineReducers({
@@ -24,6 +26,7 @@ export default combineReducers({
 	...dashboardReducers,
 	...classificationsReducers,
 	...operationsReducers,
+	...codesListReducers,
 	remoteCalls,
 });
 
@@ -87,10 +90,7 @@ export const getStampList = state => getItems(state.stampList);
 export const getRoleList = state => getItems(state.roleList);
 export const getAgentList = state => getItems(state.agentList);
 export const getPermission = state => {
-	const {
-		type: authType,
-		user: { roles, stamp },
-	} = state.app.auth;
+	const { type: authType, user: { roles, stamp } } = state.app.auth;
 	return { authType, roles, stamp };
 };
 export const getLangs = state => {
@@ -105,16 +105,13 @@ export const getNewlyCreatedId = state =>
 	remoteCallsSelectors.getNewlyCreatedId(state.remoteCalls);
 
 export const getFamily = (state, id) => {
-	const familyList = state.operationsFamiliesList.results || [];
-	return familyList.find(familly => familly.id === id) || {};
+	return state.operationsFamiliesCurrent || {};
 };
 
 export const getSerie = (state, id) => {
-	const serieList = state.operationsSeriesList.results || [];
-	return serieList.find(serie => serie.id === id) || {};
+	return state.operationsSeriesCurrent || {};
 };
 
 export const getOperation = (state, id) => {
-	const operationList = state.operationsOperationsList.results || [];
-	return operationList.find(operation => operation.id === id) || {};
+	return state.operationsOperationsCurrent || {};
 };

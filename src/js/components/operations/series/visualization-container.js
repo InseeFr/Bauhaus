@@ -14,12 +14,17 @@ import SerieInformation from 'js/components/operations/series/visualization/gene
 import Loading from 'js/components/shared/loading';
 import loadSerie from 'js/actions/operations/series/item';
 import { Link } from 'react-router-dom';
+import loadCodesList from 'js/actions/operations/series/codesList';
+import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
+
 const extractId = buildExtract('id');
 
 class SeriesVisualizationContainer extends Component {
 	componentWillMount() {
 		if (!this.props.serie.id) {
 			this.props.loadSerie(this.props.id);
+			this.props.loadCodesList(CL_FREQ);
+			this.props.loadCodesList(CL_SOURCE_CATEGORY);
 		}
 	}
 	render() {
@@ -27,6 +32,8 @@ class SeriesVisualizationContainer extends Component {
 			secondLang,
 			langs,
 			serie: { ...attr },
+			frequency,
+			category,
 		} = this.props;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
 		return (
@@ -60,7 +67,13 @@ class SeriesVisualizationContainer extends Component {
 				{secondLang &&
 					attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
 
-				<SerieInformation secondLang={secondLang} attr={attr} langs={langs} />
+				<SerieInformation
+					secondLang={secondLang}
+					attr={attr}
+					langs={langs}
+					frequency={frequency}
+					category={category}
+				/>
 			</div>
 		);
 	}
@@ -68,20 +81,27 @@ class SeriesVisualizationContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
+	const serie = select.getSerie(state, id);
+	const categories =
+		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
+	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
 	return {
 		id,
-		serie: select.getSerie(state, id),
+		serie,
 		langs: select.getLangs(state),
 		secondLang: state.app.secondLang,
+		frequency: frequencies.codes.find(
+			c => c.code === serie.accrualPeriodicityCode
+		),
+		category: categories.codes.find(c => c.code === serie.typeCode),
 	};
 };
 const mapDispatchToProps = {
 	saveSecondLang,
 	loadSerie,
+	loadCodesList,
 };
+
 export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(SeriesVisualizationContainer)
+	connect(mapStateToProps, mapDispatchToProps)(SeriesVisualizationContainer)
 );

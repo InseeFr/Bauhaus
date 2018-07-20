@@ -52,7 +52,13 @@ class OperationsSerieEdition extends Component {
 	}
 
 	render() {
-		const { secondLang, langs: { lg1, lg2 }, saveSecondLang } = this.props;
+		const {
+			secondLang,
+			langs: { lg1, lg2 },
+			saveSecondLang,
+			frequencies,
+			categories,
+		} = this.props;
 
 		const { serie } = this.state;
 		const cl = secondLang ? 'col-md-6' : 'col-md-12';
@@ -195,25 +201,33 @@ class OperationsSerieEdition extends Component {
 					<div className="col-md-12">
 						<div className="form-group">
 							<label htmlFor="typeOperation">{D.operationType}</label>
-							<input
-								type="text"
+							<select
 								className="form-control input-lg"
-								id="typeOperation"
-								value={serie.typeOperation}
+								id="typeCode"
+								value={serie.typeCode}
 								onChange={this.onChange}
-							/>
+							>
+								{categories.codes.map(category => (
+									<option value={category.code}>{category.labelLg1}</option>
+								))}
+							</select>
 						</div>
 						<div className="form-group">
 							<label htmlFor="accrualPeriodicity">
 								{D.dataCollectFrequency}
 							</label>
-							<input
-								type="text"
-								className="form-control input-lg"
-								id="accrualPeriodicity"
-								value={serie.accrualPeriodicity}
-								onChange={this.onChange}
-							/>
+							{
+								<select
+									className="form-control input-lg"
+									id="accrualPeriodicityCode"
+									value={serie.accrualPeriodicityCode}
+									onChange={this.onChange}
+								>
+									{frequencies.codes.map(category => (
+										<option value={category.code}>{category.labelLg1}</option>
+									))}
+								</select>
+							}
 						</div>
 						<div className="form-group">
 							<label htmlFor="creator">{D.organisation}</label>
@@ -299,6 +313,8 @@ OperationsSerieEdition.propTypes = {
 	langs: PropTypes.object.isRequired,
 	saveSecondLang: PropTypes.func.isRequired,
 	saveSerie: PropTypes.func.isRequired,
+	categories: PropTypes.object.isRequired,
+	frequencies: PropTypes.object.isRequired,
 };
 
 export default OperationsSerieEdition;

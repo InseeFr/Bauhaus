@@ -47,9 +47,38 @@ const operationsSeriesList = makeReducers([
 	A.LOAD_OPERATIONS_SERIES_LIST,
 	A.LOAD_OPERATIONS_SERIES_LIST_SUCCESS,
 	A.LOAD_OPERATIONS_SERIES_LIST_FAILURE,
-	A.LOAD_OPERATIONS_SERIE_SUCCESS,
-	A.SAVE_OPERATIONS_SERIE_SUCCESS,
 ]);
+
+const operationsSeriesCurrent = function(state = {}, action) {
+	switch (action.type) {
+		case A.LOAD_OPERATIONS_SERIE_SUCCESS:
+		case A.SAVE_OPERATIONS_SERIE_SUCCESS:
+			return action.payload;
+
+		default:
+			return state;
+	}
+};
+const operationsFamiliesCurrent = function(state = {}, action) {
+	switch (action.type) {
+		case A.LOAD_OPERATIONS_FAMILY_SUCCESS:
+		case A.SAVE_OPERATIONS_FAMILY_SUCCESS:
+			return action.payload;
+
+		default:
+			return state;
+	}
+};
+const operationsOperationsCurrent = function(state = {}, action) {
+	switch (action.type) {
+		case A.LOAD_OPERATIONS_OPERATION_SUCCESS:
+		case A.SAVE_OPERATIONS_OPERATION_SUCCESS:
+			return action.payload;
+
+		default:
+			return state;
+	}
+};
 
 const operationsOperationsList = makeReducers([
 	A.LOAD_OPERATIONS_OPERATIONS_LIST,
@@ -71,4 +100,7 @@ export default {
 	operationsSeriesList,
 	operationsOperationsList,
 	operationsFamiliesList,
+	operationsSeriesCurrent,
+	operationsFamiliesCurrent,
+	operationsOperationsCurrent,
 };
