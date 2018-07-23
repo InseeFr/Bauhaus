@@ -285,8 +285,8 @@ const dictionary = {
 		en: 'Reinitialize',
 	},
 	btnTree: {
-		fr: 'Visualiser',
-		en: 'Tree view',
+		fr: "Voir l'arborescence",
+		en: 'See the tree',
 	},
 	// Links
 	narrowerTitle: {
