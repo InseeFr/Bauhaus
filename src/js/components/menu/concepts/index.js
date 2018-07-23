@@ -100,6 +100,7 @@ class MenuConcepts extends Component {
 										<Link
 											to={paths.help.path}
 											onClick={() => this.changeActivePath(paths.help.path)}
+											target="_blank"
 										>
 											{D.help}
 										</Link>
