@@ -9,12 +9,12 @@ export default ({ members, classificationId, secondLang }) => {
 		label: `${id} - ${labelLg1}`,
 	}));
 	let membersLg2 = [];
-	if (secondLang)
+	if (secondLang && members[0].labelLg2 !== undefined) {
 		membersLg2 = members.map(({ id, labelLg2 }, i) => ({
 			id,
 			label: `${id} - ${labelLg2}`,
 		}));
-	const isMembersLg2 = membersLg2.filter(m => m !== null).length !== 0;
+	}
 	return (
 		<div className="row">
 			<div className={`col-md-${secondLang ? 6 : 12}`}>
@@ -31,7 +31,7 @@ export default ({ members, classificationId, secondLang }) => {
 				</Panel>
 			</div>
 			{secondLang &&
-				isMembersLg2 && (
+				membersLg2.length !== 0 && (
 					<div className="col-md-6">
 						<Panel
 							title={D.childrenClassificationItems}
