@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Tabs from 'js/components/shared/tabs';
 import D from 'js/i18n';
+import addLogo from 'js/components/shared/logo-add';
+import delLogo from 'js/components/shared/logo-del';
 
 export const content = [
 	{
@@ -16,9 +18,11 @@ export const content = [
 					<p>La navigation se fait par la barre de menu en haut des pages.</p>
 					<p>
 						Pour arriver sur la page d’accueil cliquer sur{' '}
-						<span className="content-link">Naviguer dans les référentiels</span>,
-						puis sur le pavé <span className="content-link">Concepts</span> ou{' '}
-						<span className="content-link">Collections</span>
+						<span className="content-back-color">
+							Naviguer dans les référentiels
+						</span>, puis sur le pavé{' '}
+						<span className="content-back-color">Concepts</span> ou{' '}
+						<span className="content-back-color">Collections</span>
 					</p>
 					<p>
 						<i>
@@ -115,9 +119,10 @@ export const content = [
 				<React.Fragment>
 					<p>
 						La recherche d’un concept peut se faire à partir de la page
-						d’accueil (onglet <span className="content-link">Concept</span> dans
-						la barre horizontale de menu) ou à partir de la page de recherche
-						avancée, qui permet de rechercher sur des critères.
+						d’accueil (onglet{' '}
+						<span className="content-back-color">Concept</span> dans la barre
+						horizontale de menu) ou à partir de la page de recherche avancée,
+						qui permet de rechercher sur des critères.
 					</p>
 					<p>La page d’accueil propose :</p>
 					<ul>
@@ -225,21 +230,22 @@ export const content = [
 					</p>
 					<p>
 						La création d’un concept se faire à partir de la page d’accueil
-						(onglet <span className="content-link">Concept</span> dans la barre
-						horizontale de menu)
+						(onglet <span className="content-back-color">Concept</span> dans la
+						barre horizontale de menu)
 					</p>
 					<p>
 						Pour accéder à l’écran de création, cliquer sur l’option{' '}
-						<span className="content-link">Nouveau</span> du menu à gauche.
+						<span className="content-back-color">Nouveau</span> du menu à
+						gauche.
 					</p>
 					<p>La première page de création du concept s’affiche.</p>
 					<p>
-						Le bouton <span className="content-link">Annuler</span> permet de
-						revenir à la page d’accueil de l’onglet Concept.
+						Le bouton <span className="content-back-color">Annuler</span> permet
+						de revenir à la page d’accueil de l’onglet Concept.
 					</p>
 					<p>
-						Le bouton <span className="content-link">Sauvegarder</span> permet
-						d’enregistrer les données dans la base de gestion.
+						Le bouton <span className="content-back-color">Sauvegarder</span>{' '}
+						permet d’enregistrer les données dans la base de gestion.
 					</p>
 					<p>
 						<b>
@@ -317,8 +323,8 @@ export const content = [
 										</ul>
 										<p>
 											Le bouton{' '}
-											<span className="content-link">Sauvegarder</span> devient
-											actif après la saisie des champs obligatoires.
+											<span className="content-back-color">Sauvegarder</span>{' '}
+											devient actif après la saisie des champs obligatoires.
 										</p>
 									</React.Fragment>
 								),
@@ -351,7 +357,7 @@ export const content = [
 				<React.Fragment>
 					<p>
 						Cliquer en haut à droite de l’écran de description du concept sur le
-						bouton <span className="content-link">Envoyer</span>
+						bouton <span className="content-back-color">Envoyer</span>
 					</p>
 					<p>
 						Un écran s’affiche, permettant d’envoyer à un destinataire un
@@ -366,7 +372,7 @@ export const content = [
 					<p>
 						Lorsque l’adresse mail du destinataire est renseignée et le texte
 						prêt, cliquer en haut à droite sur le bouton{' '}
-						<span className="content-link">Envoyer</span>
+						<span className="content-back-color">Envoyer</span>
 					</p>
 				</React.Fragment>
 			),
@@ -385,8 +391,8 @@ export const content = [
 					<p>
 						Pour valider un concept, se positionner sur l’écran de description
 						du concept à valider et cliquer en haut à droite sur{' '}
-						<span className="content-link">Valider</span> après avoir vérifié
-						les informations saisies.
+						<span className="content-back-color">Valider</span> après avoir
+						vérifié les informations saisies.
 					</p>
 					<p>
 						Pour rechercher les concepts à valider, utiliser la recherche
@@ -411,7 +417,53 @@ export const content = [
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						Pour modifier un concept, rechercher le concept puis une fois sur
+						l’écran de description, cliquer en haut à droite sur le bouton
+						<span className="content-back-color">Modifier</span>
+					</p>
+					<p>Les différents champs peuvent alors être modifiés.</p>
+					<p>Pour modifier les liens :</p>
+					<ul>
+						<li>
+							pour ajouter des concepts liés, utiliser les boutons {addLogo}
+						</li>
+					</ul>
+					<p>
+						Pour trouver un concept dans la liste taper une chaîne de caractères
+						contenue dans le libellé du concept recherché dans la boite de
+						saisie au-dessus de la liste.
+					</p>
+					<ul>
+						<li>
+							pour enlever des concepts liés, utiliser les boutons {delLogo}
+						</li>
+					</ul>
+					<p>
+						Penser à <span className="content-back-color">Sauvegarder</span> la
+						saisie avant de changer d’écran.
+					</p>
+					<p>
+						NB : La définition courte est obligatoire pour pouvoir sauvegarder
+						les modifications des concepts ayant un statut de diffusion « Public
+						générique » ou « Public spécifique ».
+					</p>
+					<p>
+						Une fois le concept modifié, son statut de validation devient
+						<b>« provisoire », jusqu’à sa validation</b>. Tant qu’il n’est pas
+						validé, c’est l’ancienne version qui est mise à disposition des
+						applications clientes, et notamment publiée sur insee.fr.
+					</p>
+					<p>
+						Pour valider, cliquer en haut à droite sur le bouton{' '}
+						<span className="content-back-color">Valider</span>
+					</p>
+					<p>
+						La modification des propriétés Définition courte, Définition et note
+						éditoriale peuvent donner lieu à la création de nouvelles versions
+						de ces notes, et donc du concept (voir{' '}
+						<Link to={`/concepts/help/7`}>créer une nouvelle version</Link>).
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -426,7 +478,44 @@ export const content = [
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						Lorsque l’on modifie une définition, courte ou longue, ou la note
+						éditoriale, au moment où l’on clique sur{' '}
+						<span className="content-back-color">Sauvegarder</span> une boite de
+						dialogue s’ouvre pour demander de choisir entre créer une nouvelle
+						version ou écraser la version courante.
+					</p>
+					<p>
+						Créer une nouvelle version permet de garder trace des définitions
+						précédentes, de comparer ensuite les versions successives.{' '}
+						<b>
+							Dès lors que le changement de définition ou de note éditoriale
+							n’est pas une simple correction de syntaxe ou d’orthographe, il
+							faut créer une nouvelle version
+						</b>{' '}
+						pour permettre aux propriétaires successifs du concept de comprendre
+						le cheminement qui a conduit à la définition courante.
+					</p>
+					<p>
+						<b>
+							La note de changement est obligatoire pour créer une nouvelle
+							version de la définition
+						</b>. C’est une note à usage interne : elle est destinée à garder
+						trace de l’origine et du contexte des modifications.
+					</p>
+					<p>
+						Pour continuer, renseigner la note de changement puis procéder aux
+						modifications comme indiqué à la rubrique « <b>
+							Modifier un concept
+						</b> ».
+					</p>
+					<p>
+						NB : le processus de versionnement ne s’active que lorsque l’on veut
+						modifier un concept validé. Si le concept est en attente de
+						validation (c’est-à-dire si son statut de validation est provisoire)
+						les modifications successives ne donnent pas lieu à versionnement.
+						Les nouvelles définitions et notes écrasent les anciennes.
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -441,7 +530,20 @@ export const content = [
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						Lorsque plusieurs versions d’un concept existent, on peut les
+						comparer en cliquant en haut à droite sur le bouton{' '}
+						<span className="content-back-color">Comparer</span> de l’écran de
+						description d’un concept. Un menu déroulant permet de sélectionner
+						les versions que l’on souhaite comparer.
+					</p>
+					<p>Les deux versions sélectionnées s’affichent alors en vis à vis.</p>
+					<p>
+						Pour revenir à la version courante, cliquer en haut à gauche sur{' '}
+						<span className="content-back-color">
+							Revenir à la version courante
+						</span>
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -456,7 +558,43 @@ export const content = [
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						L’export de la description d’un ou plusieurs concepts se fait à
+						partir de la page d’accueil des concepts : onglet{' '}
+						<span className="content-back-color">Concepts</span> dans la barre
+						horizontale de menu.
+					</p>
+					<p>
+						Cliquer sur le bouton{' '}
+						<span className="content-back-color">Exporter</span> à gauche de la
+						page.
+					</p>
+					<p>
+						Pour sélectionner les concepts à exporter, les faire glisser à
+						l’aide du {addLogo} dans le bloc de gauche. Pour trouver un concept
+						dans la liste taper une chaîne de caractères contenue dans le
+						libellé du concept recherché dans la boite de saisie au-dessus de la
+						liste.
+					</p>
+					<p>
+						Une fois les concepts sélectionnés, cliquer sur{' '}
+						<span className="content-back-color">Exporter</span> en haut à
+						droite.
+					</p>
+					<p>
+						Une boite de dialogue s’ouvre : choisir le format souhaité, PDF ou
+						ODT. La fenêtre de téléchargement s’ouvre alors avec les options
+						« ouvrir » et « enregistrer ». En cas d’export de plusieurs
+						concepts, il y a autant de fichiers et de fenêtres de téléchargement
+						que de concepts exportés.
+					</p>
+					<p>
+						<i>
+							NB : le format ODT permet d’échanger avec des interlocuteurs pour
+							la mise au point d’une définition, le format PDF est à usage
+							d’information.
+						</i>
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -478,7 +616,26 @@ export const content = [
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						La recherche d’une collection se faire à partir de la page d’accueil
+						(onglet <span className="content-back-color">Collections</span> de
+						la barre horizontale de menu).
+					</p>
+					<p>
+						<b>
+							Saisir une suite de caractères (pas forcément les premiers) du
+							libellé de la collection.
+						</b>
+					</p>
+					<p>
+						Cliquer sur la collection recherchée pour accéder à la page de
+						description.
+					</p>
+					<p>
+						Pour voir la version anglaise, cocher la case en haut à gauche « <b>
+							Afficher la seconde langue
+						</b> ».
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -493,7 +650,56 @@ export const content = [
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						La création d’une collection de concepts se fait à partir de la page
+						d’accueil (onglet{' '}
+						<span className="content-back-color">Collections</span> dans la
+						barre horizontale de menu).
+					</p>
+					<p>
+						Pour accéder à l’écran de création, cliquer sur l’option{' '}
+						<span className="content-back-color">Nouvelle</span> du menu à
+						gauche. La page de création de la collection s’affiche.
+					</p>
+					<p>
+						Le bouton <span className="content-back-color">Annuler</span> permet
+						de revenir à la page d’accueil de l’onglet Collections .
+					</p>
+					<p>
+						Le bouton <span className="content-back-color">Sauvegarder</span>{' '}
+						permet d’enregistrer les données dans la base de gestion.
+					</p>
+					<p>
+						<b>
+							La sauvegarde n’est pas possible tant que les champs obligatoires
+							ne sont pas remplis
+						</b>{' '}
+						(champs marqués d’une <span className="boldRed">*</span>).
+					</p>
+					<p>
+						Pour sélectionner les concepts à inclure dans la collection les
+						faire glisser à l’aide du {addLogo} du bloc de droite vers le bloc
+						de gauche. Pour trouver un concept dans la liste taper une chaîne de
+						caractères contenue dans le libellé du concept recherché dans la
+						boite de saisie au-dessus de la liste.
+					</p>
+					<p>
+						Penser à <span className="content-back-color">Sauvegarder</span> les
+						informations saisies en cliquant sur le bouton en haut à gauche
+						avant de changer d’écran.
+					</p>
+					<p>
+						La sauvegarde n’entraîne pas la publication de la collection. La
+						collection doit au préalable avoir été validé par son propriétaire
+						ou par délégation (après échanges de mails) par l’unité Qualité . Il
+						est donc possible de créer la collection en plusieurs étapes si
+						c’est nécessaire : par exemple compléter la liste des concepts à
+						inclure dans un deuxième temps.
+					</p>
+					<p>
+						Le statut de la collection est alors{' '}
+						<b>« provisoire », jusqu’à sa validation</b>.
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -508,7 +714,26 @@ export const content = [
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						Cliquer en haut à gauche de l’écran de description de la collection
+						sur le bouton <span className="content-back-color">Envoyer</span>
+					</p>
+					<p>
+						Un écran s’affiche, permettant d’envoyer à un destinataire un
+						message avec en pièce jointe la liste des concepts de la collection
+						au format odt, ainsi qu’un lien vers l’application. L’objet du
+						message ainsi que le texte peuvent être modifiés pour personnaliser
+						l’envoi.
+					</p>
+					<p>
+						NB : le service n’est pas branché sur l’annuaire interne : il faut
+						donc saisir l’adresse mail complète pour tous les destinataires.
+					</p>
+					<p>
+						Lorsque l’adresse mail du destinataire est renseignée et le texte
+						prêt, cliquer sur le bouton{' '}
+						<span className="content-back-color">Envoyer</span>
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -517,13 +742,18 @@ export const content = [
 	{
 		id: 13,
 		title: {
-			fr: 'Modifier une collection de concepts',
-			en: 'Modify a collection of concepts',
+			fr: 'Valider une collection de concepts',
+			en: 'Valid a collection of concepts',
 		},
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						Pour valider une collection de concepts, se positionner sur l’écran
+						de description de la collection à valider et cliquer en haut à
+						droite sur <span className="content-back-color">Valider</span> après
+						avoir vérifié les informations saisies.
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -532,13 +762,33 @@ export const content = [
 	{
 		id: 14,
 		title: {
-			fr: 'Valider une collection de concepts',
-			en: 'Valid a collection of concepts',
+			fr: 'Modifier une collection de concepts',
+			en: 'Modify a collection of concepts',
 		},
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						Pour modifier une collection de concepts, rechercher la collection
+						puis une fois sur l’écran de description de la collection , cliquer
+						sur le bouton <span className="content-back-color">Modifier</span>
+					</p>
+					<p>Les différents champs peuvent alors être modifiés.</p>
+					<p>Pour modifier la composition de la collection :</p>
+					<ul>
+						<li>pour ajouter des concepts, utiliser les boutons {addLogo}</li>
+						<li>pour enlever des concepts, utiliser les boutons {delLogo}</li>
+					</ul>
+					<p>
+						Penser à <span className="content-back-color">Sauvegarder</span> la
+						saisie avant de changer d’écran.
+					</p>
+					<p>
+						Une fois la collection modifiée, son statut de validation devient
+						<b>« provisoire » jusqu’à sa validation</b>. Tant qu’il n’est pas
+						validé, c’est l’ancienne version qui est mise à disposition des
+						éventuelles applications clientes.
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -553,7 +803,36 @@ export const content = [
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						L’export de la liste des concepts d’une collection se fait à partir
+						de la page d'accueil Collection : onglet{' '}
+						<span className="content-back-color">Collections</span> dans la
+						barre horizontale de menu.
+					</p>
+					<p>
+						Cliquer sur le bouton{' '}
+						<span className="content-back-color">Exporter</span> à gauche de la
+						page.
+					</p>
+					<p>
+						Pour sélectionner la ou les collections à exporter les faire glisser
+						à l’aide du {addLogo} dans le bloc de gauche. Pour trouver une
+						collection dans la liste taper une chaîne de caractères contenue
+						dans le libellé du concept recherché dans la boite de saisie
+						au-dessus de la liste.
+					</p>
+					<p>
+						Une fois la ou les collections sélectionnées, cliquer sur{' '}
+						<span className="content-back-color">Exporter</span>
+						en haut à droite.
+					</p>
+					<p>
+						Une boite de dialogue s’ouvre : choisir le format souhaité, PDF ou
+						ODT. La fenêtre de téléchargement s’ouvre alors avec les options
+						« ouvrir » et « enregistrer ». En cas d’export de plusieurs
+						collections, il y a autant de fichiers et de fenêtres de
+						téléchargement que de collections exportées.
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -575,7 +854,35 @@ export const content = [
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						Pour suivre l’activité du référentiel cliquer sur le pavé{' '}
+						<b>Tableau de bord</b> dans l’onglet{' '}
+						<span className="content-back-color">Administration</span> de la
+						barre de menus horizontale.
+					</p>
+					<p>
+						En cliquant sur l’onglet{' '}
+						<span className="content-color">Concepts</span> de la page, deux
+						tableaux récapitulatif des concepts contenus de la base à la date du
+						jour s’affichent, dont l’un par propriétaire.
+					</p>
+					<p>
+						En cliquant sur l’onglet{' '}
+						<span className="content-color">Collections</span> de la page, ce
+						sont deux tableaux récapitulatifs des collections à la date du jour
+						qui s’affichent.
+					</p>
+					<p>
+						Les onglets{' '}
+						<span className="content-color">Liste des créations</span> et{' '}
+						<span className="content-color">Liste des modifications</span>{' '}
+						permettent de lister les créations et modifications à partir d’une
+						date à saisir dans la zone prévue à cet effet.
+					</p>
+					<p>
+						Les listes peuvent être triées en cliquant sur les titres des
+						colonnes.
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -590,7 +897,43 @@ export const content = [
 		body: {
 			fr: (
 				<React.Fragment>
-					<p>Body fr</p>
+					<p>
+						La gestion des habilitations se fait en cliquant sur le pavé{' '}
+						<b>Gestion des habilitations</b> dans l’onglet{' '}
+						<span className="content-back-color">Administration</span> de la
+						barre de menus horizontale.
+					</p>
+					<p>
+						La liste des utilisateurs -ayant un rôle autre qu’invité- avec leur
+						rôle s’affiche. Pour rechercher une personne, taper une suite de
+						caractères de son nom ou prénom dans la boite à droite au-dessus du
+						tableau.
+					</p>
+					<p>
+						Pour modifier cette liste, cliquer sur le bouton{' '}
+						<span className="content-back-color">Modifier</span> en haut à
+						droite de la page.
+					</p>
+					<ul>
+						<li>pour ajouter des personnes, utiliser les boutons {addLogo}</li>
+					</ul>
+					<p>
+						Pour trouver une personne dans liste taper une chaîne de caractères
+						contenue dans le nom ou prénom de la personne recherchée dans la
+						boite de saisie au-dessus de la liste.
+					</p>
+					<ul>
+						<li>pour enlever des personnes, utiliser les boutons {delLogo}</li>
+						<li>
+							pour attribuer un rôle à une personne ajoutée, choisir dans la
+							liste déroulante au-dessus.
+						</li>
+						<li>
+							pour modifier le rôle d’une personne, la supprimer de la liste,
+							puis l’ajouter en choisissant son nouveau rôle dans la liste
+							déroulante.
+						</li>
+					</ul>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,

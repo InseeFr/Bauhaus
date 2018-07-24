@@ -37,7 +37,7 @@
 	font-size: 16px;
 }
 
-.content-link {
+.content-back-color {
 	background-color: $color_concepts_3;
 	color: white;
 	padding: 2px;
@@ -46,4 +46,9 @@
 	&:hover {
 		text-decoration: none;
 	}
+}
+
+.content-color {
+	color: $color_concepts_3;
+	font-weight: bold;
 }
