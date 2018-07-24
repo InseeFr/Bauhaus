@@ -5,8 +5,7 @@
 }
 
 .help-menu-item {
-	font-size: 18px;
-	margin-bottom: 10px;
+	font-size: 14px;
 	color: $color_concepts_3;
 	&:hover {
 		text-decoration: none;
@@ -21,6 +20,16 @@
 	padding: 10px;
 	border: 2px solid $color_concepts_3;
 	border-radius: 6px;
+}
+.help-menu-sub {
+	font-size: 20px;
+	margin-bottom: 10px;
+	//background-color: $color_concepts_2;
+	color: $color_concepts_2;
+	border: 2px solid $color_concepts_2;
+	border-radius: 3px;
+	padding: 5px;
+	text-align: center;
 }
 
 .help-footer {

@@ -13,74 +13,113 @@ export const content = [
 		body: {
 			fr: (
 				<React.Fragment>
+					<p>La navigation se fait par la barre de menu en haut des pages.</p>
 					<p>
-						4 profils d’utilisateurs ont été définis quant à l’accès aux onglets
-						et aux opérations du menu principal :
+						Pour arriver sur la page d’accueil cliquer sur{' '}
+						<span className="content-link">Naviguer dans les référentiels</span>,
+						puis sur le pavé <span className="content-link">Concepts</span> ou{' '}
+						<span className="content-link">Collections</span>
+					</p>
+					<p>
+						<i>
+							Toute unité en ayant l’utilité peut demander la création d’un
+							concept, mais afin de garantir l’intégrité et la qualité de la
+							base, la création et la modification des concepts, ainsi que
+							l’identification du propriétaire sont réservés à l’unité Qualité.
+							La validation est de la responsabilité du propriétaire identifié
+							et renseigné dans l’application, charge à lui éventuellement
+							d’organiser la consultation avec d’autres utilisateurs. Dans
+							l’application le propriétaire ou par délégation l’unité Qualité
+							sont habilités à valider un concept.
+						</i>
+					</p>
+					<p>
+						<i>
+							La création d’une collection de concepts peut être demandée à
+							l’unité Qualité par toute unité ayant l’utilité de rassembler
+							plusieurs concepts pour un usage particulier (par exemple
+							documenter un ’nsee-Résultats). L’unité ayant fait la demande est
+							l’unité propriétaire de la collection, qui peut regrouper des
+							concepts dont elle n’est pas propriétaire. Un concept peut
+							appartenir à plusieurs collections et être utilisé par plusieurs
+							utilisateurs dans différentes collections. Le propriétaire d’une
+							collection peut la modifier à tout moment. Dans l’application le
+							propriétaire ou par délégation l’unité Qualité sont habilités à
+							valider une collection.
+						</i>
+					</p>
+					<p>
+						Dans l’application, les habilitations sont attribuées en fonction
+						des profils des utilisateurs.
+					</p>
+					<p>
+						Quatre profils d’utilisateurs ont été définis quant à l’accès aux
+						onglets et aux opérations du menu principal :
 					</p>
 					<ul>
-						<li>Administrateur de l’application</li>
-						<li>Propriétaire de collection de concepts</li>
-						<li>Propriétaire de concepts</li>
-						<li>Guest</li>
-					</ul>
-					<p>Onglets accessibles suivant les profils utilisateur (rôle) :</p>
-					<ul>
 						<li>
-							Administrateur de l’application : Naviguer dans les référentiels,
-							Concepts, Collections, Aide, Administration
+							<b>Administrateur de l’application</b> : accès à toutes les
+							fonctionnalités ;
 						</li>
 						<li>
-							Propriétaire de collection de concepts : Naviguer dans les
-							référentiels, Concepts, Collections, Aide
+							<b>Propriétaire de collection de concepts</b> : consulter,
+							modifier, valider et exporter une collection de concepts ;
 						</li>
 						<li>
-							Propriétaire de concepts : Naviguer dans les référentiels,
-							Concepts, Collections, Aide
+							<b>Propriétaire de concepts</b> : consulter, valider et exporter
+							un concept ;
 						</li>
 						<li>
-							Guest : Naviguer dans les référentiels, Concepts, Collections,
-							Aide
+							<b>Gestionnaire de l’ensemble des concepts</b> : créer et modifier
+							un concept ou une collection, exporter un concept ou une
+							collection ;
+						</li>
+						<li>
+							<b>Invité</b> : consulter et exporter un concept ou une
+							collection ;
 						</li>
 					</ul>
 					<p>
-						Opérations sur les concepts accessibles par le menu principal
-						suivant les profils utilisateur (rôle) :
+						<b>
+							Les boutons correspondant aux différentes fonctionnalités
+							s’affichent en fonction du profil utilisateur.
+						</b>
 					</p>
-					<ul>
-						<li>
-							Administrateur de l’application : Nouveau ; Exporter ; Valider
-						</li>
-						<li>Propriétaire de collection de concepts : Exporter ; Valider</li>
-						<li>Propriétaire de concepts : Exporter ; Valider</li>
-						<li>Guest : Exporter</li>
-					</ul>
+					<p>
+						Pour toute demande ou question, adresser un message à la boite
+						fonctionnelle :
+					</p>
+					<p className="centered">
+						<b>:DG75-Définitions et sources statistiques</b>
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
 		},
 	},
 	{
+		id: 'sub1',
+		title: {
+			fr: 'Concepts',
+			en: 'Concepts',
+		},
+	},
+	{
 		id: 2,
 		title: {
 			fr: 'Rechercher un concept',
-			en: 'Search concept',
+			en: 'Search a concept',
 		},
 		body: {
 			fr: (
 				<React.Fragment>
 					<p>
 						La recherche d’un concept peut se faire à partir de la page
-						d’accueil (onglet{' '}
-						<Link to={`/concepts`} className="content-link">
-							Concept
-						</Link>{' '}
-						dans la barre horizontale de menu) ou à partir de la page de
-						recherche avancée, qui permet de rechercher sur des critères.
+						d’accueil (onglet <span className="content-link">Concept</span> dans
+						la barre horizontale de menu) ou à partir de la page de recherche
+						avancée, qui permet de rechercher sur des critères.
 					</p>
-					<p>
-						<b>Concepts/ Accueil / recherche</b>
-					</p>
-					<p>Cette page présente :</p>
+					<p>La page d’accueil propose :</p>
 					<ul>
 						<li>
 							un menu principal encadré à gauche de la page pour des opérations
@@ -88,7 +127,7 @@ export const content = [
 						</li>
 						<li>
 							un moteur de recherche sur la totalité des concepts de
-							l’application situé :{' '}
+							l’application :{' '}
 							<b>
 								saisir une suite de caractères (pas forcément les premiers) du
 								libellé ou du sigle ou nom court, ou synonyme.
@@ -103,9 +142,6 @@ export const content = [
 					<p>
 						Cliquer sur le concept recherché pour accéder à la page de
 						description.
-					</p>
-					<p>
-						<b>Concepts / recherche avancée</b>
 					</p>
 					<p>
 						En cliquant sur{' '}
@@ -161,6 +197,15 @@ export const content = [
 							modification du concept recherché
 						</li>
 					</ul>
+					<p>
+						Cliquer sur le concept recherché pour accéder à la page de
+						description.
+					</p>
+					<p>
+						Pour voir la version anglaise, cocher la case en haut à gauche « <b>
+							Afficher la seconde langue
+						</b> ».
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
@@ -173,34 +218,28 @@ export const content = [
 			fr: (
 				<React.Fragment>
 					<p>
+						<b>
+							Avant de créer un concept, vérifier qu’il n’existe pas déjà en
+							utilisant les fonctionnalités de recherche.
+						</b>
+					</p>
+					<p>
 						La création d’un concept se faire à partir de la page d’accueil
-						(onglet{' '}
-						<Link to={`/concepts`} className="content-link">
-							Concept
-						</Link>{' '}
-						dans la barre horizontale de menu)
+						(onglet <span className="content-link">Concept</span> dans la barre
+						horizontale de menu)
 					</p>
 					<p>
 						Pour accéder à l’écran de création, cliquer sur l’option{' '}
-						<Link to={`/concepts`} className="content-link">
-							Nouveau
-						</Link>{' '}
-						du menu à gauche.
+						<span className="content-link">Nouveau</span> du menu à gauche.
 					</p>
 					<p>La première page de création du concept s’affiche.</p>
 					<p>
-						Le bouton{' '}
-						<Link to={`/concept/create`} className="content-link">
-							Annuler
-						</Link>{' '}
-						permet de revenir à la page d’accueil de l’onglet Concept.
+						Le bouton <span className="content-link">Annuler</span> permet de
+						revenir à la page d’accueil de l’onglet Concept.
 					</p>
 					<p>
-						Le bouton{' '}
-						<Link to={`/concept/create`} className="content-link">
-							Sauvegarder
-						</Link>{' '}
-						permet d’enregistrer les données dans la base de gestion.
+						Le bouton <span className="content-link">Sauvegarder</span> permet
+						d’enregistrer les données dans la base de gestion.
 					</p>
 					<p>
 						<b>
@@ -269,7 +308,7 @@ export const content = [
 											<li>
 												<b>
 													« Date de fin de validité » : ne doit pas être
-													renseigné à la création
+													renseignée à la création
 												</b>{' '}
 												(une fois la date renseignée, dès lors que la date
 												renseignée est atteinte, le concept ne peut plus être
@@ -278,10 +317,8 @@ export const content = [
 										</ul>
 										<p>
 											Le bouton{' '}
-											<Link to={`/concept/create`} className="content-link">
-												Sauvegarder
-											</Link>{' '}
-											devient actif après la saisie des champs obligatoires.
+											<span className="content-link">Sauvegarder</span> devient
+											actif après la saisie des champs obligatoires.
 										</p>
 									</React.Fragment>
 								),
@@ -298,6 +335,262 @@ export const content = [
 							},
 						]}
 					/>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 4,
+		title: {
+			fr: 'Envoyer un concept',
+			en: 'Send a concept',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>
+						Cliquer en haut à droite de l’écran de description du concept sur le
+						bouton <span className="content-link">Envoyer</span>
+					</p>
+					<p>
+						Un écran s’affiche, permettant d’envoyer à un destinataire un
+						message avec en pièce jointe la description du concept en odt ainsi
+						qu’un lien vers l’application. L’objet du message ainsi que le texte
+						peuvent être modifiés pour personnaliser l’envoi.
+					</p>
+					<p>
+						NB : le service n’est pas branché sur l’annuaire interne : il faut
+						donc saisir l’adresse mail complète pour tous les destinataires.
+					</p>
+					<p>
+						Lorsque l’adresse mail du destinataire est renseignée et le texte
+						prêt, cliquer en haut à droite sur le bouton{' '}
+						<span className="content-link">Envoyer</span>
+					</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 5,
+		title: {
+			fr: 'Valider un concept',
+			en: 'Valid a concept',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>
+						Pour valider un concept, se positionner sur l’écran de description
+						du concept à valider et cliquer en haut à droite sur{' '}
+						<span className="content-link">Valider</span> après avoir vérifié
+						les informations saisies.
+					</p>
+					<p>
+						Pour rechercher les concepts à valider, utiliser la recherche
+						avancée en sélectionnant{' '}
+						<b>le statut de validation « Provisoire »</b> et éventuellement{' '}
+						<b>le timbre</b>. La liste des concepts à valider s'affiche. Le
+						concept ne peut être validé que par son propriétaire (i.e la
+						personne désignée dans l’application comme ayant ce rôle pour un
+						timbre donné) et par l’unité Qualité par délégation.{' '}
+					</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 6,
+		title: {
+			fr: 'Modifier un concept',
+			en: 'Modify a concept',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 7,
+		title: {
+			fr: 'Créer une nouvelle version',
+			en: 'Create new version',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 8,
+		title: {
+			fr: 'Comparer les versions ',
+			en: 'Compare versions',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 9,
+		title: {
+			fr: 'Exporter un ou plusieurs concepts',
+			en: 'Export one or more concepts',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 'sub2',
+		title: {
+			fr: 'Collections de concepts',
+			en: 'Collections of concepts',
+		},
+	},
+	{
+		id: 10,
+		title: {
+			fr: 'Rechercher une collection de concepts',
+			en: 'Search a collection of concepts',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 11,
+		title: {
+			fr: 'Créer une collection de concepts',
+			en: 'Create a collection of concepts',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 12,
+		title: {
+			fr: 'Envoyer une collection de concepts',
+			en: 'Send a collection of concepts',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 13,
+		title: {
+			fr: 'Modifier une collection de concepts',
+			en: 'Modify a collection of concepts',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 14,
+		title: {
+			fr: 'Valider une collection de concepts',
+			en: 'Valid a collection of concepts',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 15,
+		title: {
+			fr: 'Exporter une collection de concepts',
+			en: 'Export one or more collections of concepts',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 'sub3',
+		title: {
+			fr: 'Administration',
+			en: 'Administration',
+		},
+	},
+	{
+		id: 16,
+		title: {
+			fr: 'Suivre l’activité du référentiel',
+			en: 'Track repository activity',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
+				</React.Fragment>
+			),
+			en: <p>Work in progress</p>,
+		},
+	},
+	{
+		id: 17,
+		title: {
+			fr: 'Attribuer les rôles aux utilisateurs',
+			en: 'Assign roles to users',
+		},
+		body: {
+			fr: (
+				<React.Fragment>
+					<p>Body fr</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,
