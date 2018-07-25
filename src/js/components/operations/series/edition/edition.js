@@ -110,7 +110,7 @@ class OperationsSerieEdition extends Component {
 						</div>
 						<div className="form-group">
 							<label htmlFor="altLabelLg1">
-								<NoteFlag text={D.altLabelTitle} lang={lg1} />
+								<NoteFlag text={D.altLabel} lang={lg1} />
 							</label>
 							<input
 								type="text"
@@ -124,11 +124,12 @@ class OperationsSerieEdition extends Component {
 							<label htmlFor="abstractLg1">
 								<NoteFlag text={D.summary} lang={lg1} />
 							</label>
-							<input
-								type="text"
-								className="form-control input-lg"
-								id="abstractLg1"
+
+							<textarea
 								value={serie.abstractLg1}
+								className="form-control"
+								id="abstractLg1"
+								rows="10"
 								onChange={this.onChange}
 							/>
 						</div>
@@ -162,7 +163,7 @@ class OperationsSerieEdition extends Component {
 							</div>
 							<div className="form-group">
 								<label htmlFor="altLabel2">
-									<NoteFlag text={D.altLabelTitle} lang={lg2} />
+									<NoteFlag text={D.altLabel} lang={lg2} />
 								</label>
 								<input
 									type="text"
@@ -290,9 +291,7 @@ class OperationsSerieEdition extends Component {
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="seeAlso">
-								{D.seeAlso} lang={lg2}
-							</label>
+							<label htmlFor="seeAlso">{D.seeAlso}</label>
 							<textarea
 								value={serie.seeAlso}
 								className="form-control"

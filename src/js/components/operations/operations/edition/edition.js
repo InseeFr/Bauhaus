@@ -100,7 +100,7 @@ class OperationsOperationEdition extends Component {
 						</div>
 						<div className="form-group">
 							<label htmlFor="altLabel1">
-								<NoteFlag text={D.altLabelTitle} lang={lg1} />
+								<NoteFlag text={D.altLabel} lang={lg1} />
 							</label>
 							<input
 								type="text"
@@ -128,7 +128,7 @@ class OperationsOperationEdition extends Component {
 							</div>
 							<div className="form-group">
 								<label htmlFor="altLabel2">
-									<NoteFlag text={D.altLabelTitle} lang={lg2} />
+									<NoteFlag text={D.altLabel} lang={lg2} />
 								</label>
 								<input
 									type="text"

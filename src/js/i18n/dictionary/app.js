@@ -111,6 +111,10 @@ const dictionary = {
 		fr: 'Libellé alternatif',
 		en: 'Alternative label',
 	},
+	altLabel: {
+		fr: 'Nom court',
+		en: 'Short name',
+	},
 	searchAltLabelPlaceholder: {
 		fr: 'Libellé alternatif...',
 		en: 'Alternative label...',

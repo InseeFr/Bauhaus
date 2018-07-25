@@ -62,29 +62,33 @@ function OperationVisualization(props) {
 			{secondLang &&
 				attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
 
-			{attr.altLabel1 && (
-				<div className="row">
+			<div className="row">
+				<Note
+					text={attr.altLabel1}
+					title={D.altLabel}
+					lang={lg1}
+					alone={!secondLang}
+					allowEmpty={true}
+				/>
+				{secondLang && (
 					<Note
-						text={attr.altLabel1}
-						title={D.altLabelTitle}
-						lang={lg1}
-						alone={!secondLang || !attr.altLabel2}
+						text={attr.altLabel2}
+						title={D.altLabel}
+						lang={lg2}
+						alone={false}
+						allowEmpty={true}
 					/>
-					{secondLang && (
-						<Note
-							text={attr.altLabel2}
-							title={D.altLabelTitle}
-							lang={lg2}
-							alone={false}
-						/>
-					)}
-				</div>
-			)}
-			{attr.millesime && (
-				<div className="row">
-					<Note text={attr.millesime} title={D.year} lang={lg1} alone={true} />
-				</div>
-			)}
+				)}
+			</div>
+			<div className="row">
+				<Note
+					text={attr.millesime}
+					title={D.year}
+					lang={lg1}
+					alone={true}
+					allowEmpty={true}
+				/>
+			</div>
 		</div>
 	);
 }
