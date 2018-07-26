@@ -6,6 +6,9 @@ import TableRmes from 'js/components/shared/table-rmes';
 import D from 'js/i18n';
 import { propTypes as associationsPropTypes } from 'js/utils/classifications/correspondence/associations';
 import { propTypes as correspondencePropTypes } from 'js/utils/classifications/correspondence/general';
+import { sortArray } from 'js/utils/array-utils';
+
+const sortById = sortArray('id');
 
 class HomeAssociations extends Component {
 	render() {
@@ -16,7 +19,7 @@ class HomeAssociations extends Component {
 			secondAltLabelLg1,
 			secondAltLabelLg2,
 		} = correspondence;
-		const data = associations.map(a => {
+		const data = sortById(associations).map(a => {
 			const [idS, idT] = a.id.split('-');
 			return {
 				source: `${idS} - ${a.sourceLabelLg1}`,
