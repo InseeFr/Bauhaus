@@ -14,9 +14,7 @@ export const saveUserProps = props => {
 	};
 };
 
-export const checkAuth = body => dispatch => {
-	dispatch({
-		type: A.CHECK_AUTH,
-		payload: body,
-	});
-};
+export const checkAuth = body => ({
+	type: A.CHECK_AUTH,
+	payload: body,
+});

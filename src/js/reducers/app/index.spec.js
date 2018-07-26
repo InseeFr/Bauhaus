@@ -14,8 +14,8 @@ describe('reducerApp', () => {
 		expect(result).toEqual({ state: 'previous', secondLang: false });
 	});
 
-	test('action CHECK_AUTH_SUCCESS', () => {
-		const action = { type: A.CHECK_AUTH_SUCCESS, payload: 'toto' };
+	test('action CHECK_AUTH', () => {
+		const action = { type: A.CHECK_AUTH, payload: 'toto' };
 		const result = reducerApp(
 			{ branch: 'previous', auth: { type: 'Oauth2' } },
 			action
