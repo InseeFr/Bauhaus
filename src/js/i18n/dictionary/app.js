@@ -528,13 +528,13 @@ const dictionary = {
 		fr: 'Service collecteur',
 		en: 'Data collector',
 	},
-	stackeholders: {
+	stakeholders: {
 		fr: 'Partenaires',
 		en: 'Stackeholders',
 	},
 	organisation: {
 		fr: 'Organisme responsable',
-		en: 'Organisation',
+		en: 'Legal owner',
 	},
 	dataCollectFrequency: {
 		fr: 'Fréquence de collecte des donnees',

@@ -6,6 +6,7 @@ import D from 'js/i18n';
 import { goBack } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag';
 import PropTypes from 'prop-types';
+import EditorMarkdown from 'js/components/shared/editor-markdown';
 
 const defaultSerie = {
 	id: '',
@@ -124,25 +125,22 @@ class OperationsSerieEdition extends Component {
 							<label htmlFor="abstractLg1">
 								<NoteFlag text={D.summary} lang={lg1} />
 							</label>
-
-							<textarea
-								value={serie.abstractLg1}
-								className="form-control"
-								id="abstractLg1"
-								rows="10"
-								onChange={this.onChange}
+							<EditorMarkdown
+								text={serie.abstractLg1}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'abstractLg1' } })
+								}
 							/>
 						</div>
 						<div className="form-group">
 							<label htmlFor="historyNoteLg1">
 								<NoteFlag text={D.history} lang={lg1} />
 							</label>
-							<textarea
-								value={serie.historyNoteLg1}
-								className="form-control"
-								id="historyNoteLg1"
-								rows="10"
-								onChange={this.onChange}
+							<EditorMarkdown
+								text={serie.historyNoteLg1}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'historyNoteLg1' } })
+								}
 							/>
 						</div>
 					</div>
@@ -177,11 +175,11 @@ class OperationsSerieEdition extends Component {
 								<label htmlFor="abstractLg2">
 									<NoteFlag text={D.summary} lang={lg2} />
 								</label>
-								<input
-									type="text"
-									className="form-control input-lg"
-									id="abstractLg2"
+								<textarea
 									value={serie.abstractLg2}
+									className="form-control"
+									id="abstractLg1"
+									rows="10"
 									onChange={this.onChange}
 								/>
 							</div>
@@ -241,22 +239,29 @@ class OperationsSerieEdition extends Component {
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="contributor">{D.stackeholders}</label>
-							<textarea
-								value={serie.contributor}
-								className="form-control"
+							<label htmlFor="contributor">{D.stakeholders}</label>
+							<input
+								value={serie.stakeHolder}
+								className="form-control input-lg"
 								id="contributor"
-								rows="10"
 								onChange={this.onChange}
 							/>
 						</div>
 						<div className="form-group">
 							<label htmlFor="serviceCollector">{D.dataCollector}</label>
-							<textarea
-								value={serie.serviceCollector}
-								className="form-control"
+							<input
+								value={serie.dataCollector}
+								className="form-control input-lg"
 								id="serviceCollector"
-								rows="10"
+								onChange={this.onChange}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="serviceCollector">{D.contributorTitle}</label>
+							<input
+								value={serie.contributor}
+								className="form-control input-lg"
+								id="serviceCollector"
 								onChange={this.onChange}
 							/>
 						</div>

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
-
 function FamilyInformation(props) {
 	const { attr, langs: { lg1, lg2 }, secondLang } = props;
 
@@ -26,6 +25,7 @@ function FamilyInformation(props) {
 					/>
 				)}
 			</div>
+
 			<div className="row">
 				<Note
 					text={attr.abstractLg1}
@@ -33,6 +33,7 @@ function FamilyInformation(props) {
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
+					md
 				/>
 				{secondLang && (
 					<Note
@@ -41,6 +42,7 @@ function FamilyInformation(props) {
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
+						md
 					/>
 				)}
 			</div>

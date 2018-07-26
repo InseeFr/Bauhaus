@@ -6,6 +6,7 @@ import D from 'js/i18n';
 import { goBack } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag';
 import PropTypes from 'prop-types';
+import EditorMarkdown from 'js/components/shared/editor-markdown';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -115,12 +116,11 @@ class OperationsFamilyEdition extends Component {
 							<label htmlFor="abstractLg1">
 								<NoteFlag text={D.descriptionTitle} lang={lg1} />
 							</label>
-							<textarea
-								value={family.abstractLg1}
-								className="form-control"
-								id="abstractLg1"
-								rows="10"
-								onChange={this.onChange}
+							<EditorMarkdown
+								text={family.abstractLg1}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'abstractLg1' } })
+								}
 							/>
 						</div>
 					</div>

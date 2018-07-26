@@ -39,6 +39,7 @@ function SerieInformation(props) {
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
+					md
 				/>
 				{secondLang && (
 					<Note
@@ -47,6 +48,7 @@ function SerieInformation(props) {
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
+						md
 					/>
 				)}
 			</div>
@@ -58,6 +60,7 @@ function SerieInformation(props) {
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
+					md
 				/>
 				{secondLang && (
 					<Note
@@ -66,6 +69,7 @@ function SerieInformation(props) {
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
+						md
 					/>
 				)}
 			</div>
@@ -118,8 +122,8 @@ function SerieInformation(props) {
 			</div>
 			<div className="row">
 				<Note
-					text={attr.contributor}
-					title={D.stackeholders}
+					text={attr.stakeHolder}
+					title={D.stakeholders}
 					lang={lg1}
 					alone={true}
 					allowEmpty={true}
@@ -128,13 +132,24 @@ function SerieInformation(props) {
 
 			<div className="row">
 				<Note
-					text={attr.serviceCollector}
+					text={attr.dataCollector}
 					title={D.dataCollector}
 					lang={lg1}
 					alone={true}
 					allowEmpty={true}
 				/>
 			</div>
+
+			<div className="row">
+				<Note
+					text={attr.contributor}
+					title={D.contributorTitle}
+					lang={lg1}
+					alone={true}
+					allowEmpty={true}
+				/>
+			</div>
+
 			<div className="row">
 				<Note
 					text={attr.replaces}
