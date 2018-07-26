@@ -34,17 +34,20 @@ class ClassificationTreeContainer extends Component {
 			return <Loading textType="loading" context="classifications" />;
 		const { prefLabelLg1, prefLabelLg2 } = general;
 		const label = secondLang ? 'labelLg2' : 'labelLg1';
-		const data = getTreeFromFlatData({
-			flatData: flatTree.map(n => ({
-				id: n.id,
-				//title: '',
-				label: n[label] ? `${n.id} - ${n[label]}` : n.id,
-				parent: n.parent || null,
-			})),
-			getKey: node => node.id,
-			getParentKey: node => node.parent,
-			rootKey: null,
-		});
+		const data =
+			(flatTree[0][label] &&
+				getTreeFromFlatData({
+					flatData: flatTree.map(n => ({
+						id: n.id,
+						//title: '',
+						label: n[label] ? `${n.id} - ${n[label]}` : n.id,
+						parent: n.parent || null,
+					})),
+					getKey: node => node.id,
+					getParentKey: node => node.parent,
+					rootKey: null,
+				})) ||
+			[];
 		return (
 			<ClassificationTree
 				prefLabel={secondLang ? prefLabelLg2 : prefLabelLg1}

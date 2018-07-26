@@ -22,11 +22,13 @@ const ClassificationTree = ({
 					context="classifications"
 				/>
 				<Controls />
-				<div className="row">
-					<div className="col-md-12">
-						<DnDTree treeData={data} linkPath={id => `item/${id}`} />
+				{data.length !== 0 && (
+					<div className="row">
+						<div className="col-md-12">
+							<DnDTree treeData={data} linkPath={id => `item/${id}`} />
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</div>
 	);
