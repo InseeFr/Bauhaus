@@ -321,26 +321,174 @@ export const content = [
 												modifié).
 											</li>
 										</ul>
-										<p>
-											Le bouton{' '}
-											<span className="content-back-color">Sauvegarder</span>{' '}
-											devient actif après la saisie des champs obligatoires.
-										</p>
 									</React.Fragment>
 								),
 							},
 							{
 								id: 2,
 								title: D.notesTitle,
-								content: <React.Fragment>notes ...</React.Fragment>,
+								content: (
+									<React.Fragment>
+										<p>
+											L’onglet Notes permet de renseigner 4 sous-rubriques :
+											Définition courte, Définition, Note éditoriale, Note de
+											changement :
+										</p>
+										<ul>
+											<li>
+												<b>Définition courte</b> : la définition courte reprend
+												en règle générale la première phrase de la définition.
+												Elle ne doit pas comporter plus de 300 caractères.
+											</li>
+										</ul>
+										<p>
+											<b>
+												La définition courte est obligatoire pour tous les
+												concepts hormis ceux dont le statut de diffusion est
+												« Privé »
+											</b>
+										</p>
+										<ul>
+											<li>
+												<b>Définition</b> : la saisie peut être mise en forme
+												avec des puces ou des numéros en cliquant sur les icônes
+												correspondantes.
+											</li>
+											<li>
+												<b>Note éditoriale</b> : correspond à la rubrique
+												« Remarque » des définitions sur Insee.fr. Ne pas saisir
+												le mot « Remarque » dans la « Note éditoriale »,
+												l’intitulé du cadre est déjà prévu sur Insee.fr.
+											</li>
+											<li>
+												<b>Note de changement</b> : Il s’agit d’une courte
+												notification à usage interne permettant de commenter la
+												création ou modification de la définition.
+											</li>
+										</ul>
+										<p>
+											Cette « Note de changement » peut être renseignée à tout
+											moment, y compris à la création pour documenter le
+											contexte de la création par exemple.
+										</p>
+									</React.Fragment>
+								),
 							},
 							{
 								id: 3,
 								title: D.linksTitle,
-								content: <React.Fragment>liens ...</React.Fragment>,
+								content: (
+									<React.Fragment>
+										<p>
+											Plusieurs types de lien permettent de renvoyer d’un
+											concept vers un autre. Ces liens sont porteurs de sens et
+											fournir une information complémentaire à la définition.
+											Ils doivent être validés avec la définition.
+										</p>
+										<p>
+											Pour poser un lien choisir l’onglet correspondant au lien
+											à poser et ajouter à l’aide du {addLogo} les concepts à
+											lier dans le bloc de gauche. Pour trouver un concept dans
+											la liste taper une chaîne de caractères contenue dans le
+											libellé du concept recherché dans la boite de saisie
+											au-dessus de la liste.
+										</p>
+										<ul>
+											<li>
+												Onglets <span className="content-color">Parent</span> et{' '}
+												<span className="content-color">Enfant</span> : il
+												s’agit des liens hiérarchiques qui permettent de relier
+												un concept général à des concepts plus spécifiques et
+												inversement :
+											</li>
+										</ul>
+										<p>
+											<i>
+												Exemple : « Vacances » est le concept parent de
+												« Vacances d’été » et « Vacances d’hiver »
+											</i>
+										</p>
+										<p>
+											NB : la pose d’un lien{' '}
+											<span className="content-color">Parent</span> d’un concept
+											A vers un concept B entraîne automatiquement la pose d’un
+											lien <span className="content-color">Enfant</span> du
+											concept B vers le concept A ; Un concept parent peut avoir
+											plusieurs concepts enfants, mais un concept enfant ne peut
+											avoir qu’un concept parent.
+										</p>
+										<ul>
+											<li>
+												Onglet :{' '}
+												<span className="content-color">Référence</span> : il
+												s’agit de poser des liens vers les concepts cités dans
+												le texte de la définition, qui permettront de mettre en
+												place des hyperliens vers les concepts cités. Un concept
+												peut référencer plusieurs concepts.
+											</li>
+											<li>
+												Onglet : <span className="content-color">Remplace</span>{' '}
+												: ces liens permettent de reconstituer l’historique du
+												concept :
+											</li>
+										</ul>
+										<p>
+											<i>
+												Exemple : le RSA remplace le RMI, le microentrepreneur
+												remplace l’autoentrepreneur.
+											</i>
+										</p>
+										<p>
+											NB : un concept peut être remplacé par un ou plusieurs
+											concepts, et inversement.
+										</p>
+										<p>
+											La pose d’un lien{' '}
+											<span className="content-color">Remplace</span> du concept
+											A vers le concept B entraîne un lien « est remplacé par du
+											concept B vers le concept A.
+										</p>
+										<ul>
+											<li>
+												Onglet : <span className="content-color">Lié</span> :
+												ces liens sont de type « voir aussi » et permettent de
+												renvoyer vers des concepts connexes.
+											</li>
+										</ul>
+									</React.Fragment>
+								),
 							},
 						]}
 					/>
+					<div className="separator" />
+					<p>
+						Le bouton <span className="content-back-color">Sauvegarder</span>{' '}
+						devient actif après la saisie des champs obligatoires.
+					</p>
+					<p>
+						Penser à sauvegarder les informations saisies en cliquant sur le
+						bouton en haut à gauche avant de changer d’écran.
+					</p>
+					<p>
+						La sauvegarde n’entraîne pas la publication du concept. Il doit au
+						préalable avoir été validé par son propriétaire ou par délégation
+						(après échanges de mails) par l’unité Qualité . Il est donc possible
+						de créer le concept en plusieurs étapes si c’est nécessaire.
+					</p>
+					<p>
+						Le statut de validation du concept est alors{' '}
+						<b>« provisoire », jusqu’à sa validation</b>.
+					</p>
+					<p>
+						Pour envoyer la description du concept par mail à un interlocuteur
+						(en particulier à son propriétaire) cliquer en haut à droite sur le
+						bouton <span className="content-back-color">Envoyer</span>
+					</p>
+					<p>
+						Pour valider, cliquer en haut à gauche de l’écran de description du
+						concept sur le bouton{' '}
+						<span className="content-back-color">Valider</span>
+					</p>
 				</React.Fragment>
 			),
 			en: <p>Work in progress</p>,

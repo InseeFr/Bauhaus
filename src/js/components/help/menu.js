@@ -18,7 +18,9 @@ export default ({ content, selectedId }) => (
 						<p>{c.title[getLang()]}</p>
 					</Link>
 				) : (
-					<p className="help-menu-sub">{c.title[getLang()]}</p>
+					<p className="help-menu-sub" key={c.id}>
+						{c.title[getLang()]}
+					</p>
 				)
 		)}
 	</div>
