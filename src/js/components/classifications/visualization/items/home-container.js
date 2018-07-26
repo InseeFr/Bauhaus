@@ -5,6 +5,7 @@ import ClassificationItems from './home';
 import Loading from 'js/components/shared/loading';
 import loadClassificationItems from 'js/actions/classifications/items';
 import loadClassificationGeneral from 'js/actions/classifications/general';
+import { saveSecondLang } from 'js/actions/app';
 import * as selectT from 'js/reducers/classifications/items';
 import * as selectG from 'js/reducers/classifications/classification/general';
 import buildExtract from 'js/utils/build-extract';
@@ -27,19 +28,28 @@ class ClassificationItemsContainer extends Component {
 		}
 	}
 	render() {
-		const { items, general, id } = this.props;
+		const { items, general, id, secondLang } = this.props;
+
 		if (!(items && general))
 			return <Loading textType="loading" context="classifications" />;
 
-		const data = items.map(n => ({
-			id: n.id,
-			label: `${n.id} - ${n['labelLg1']}`,
-		}));
+		const { prefLabelLg1, prefLabelLg2 } = general;
+		const label = secondLang ? 'labelLg2' : 'labelLg1';
+		const data =
+			(items[0][label] &&
+				items.map(n => ({
+					id: n.id,
+					label: `${n.id} - ${n[label]}`,
+				}))) ||
+			[];
+
 		return (
 			<ClassificationItems
 				items={data}
-				subtitle={general.prefLabelLg1}
+				subtitle={secondLang ? prefLabelLg2 : prefLabelLg1}
 				classificationId={id}
+				secondLang={secondLang}
+				saveSecondLang={this.props.saveSecondLang}
 			/>
 		);
 	}
@@ -49,16 +59,19 @@ const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const items = selectT.getItems(state, id);
 	const general = selectG.getGeneral(state.classificationGeneral, id);
+	const secondLang = state.app.secondLang;
 	return {
 		id,
 		items,
 		general,
+		secondLang,
 	};
 };
 
 const mapDispatchToProps = {
 	loadClassificationItems,
 	loadClassificationGeneral,
+	saveSecondLang,
 };
 
 ClassificationItemsContainer = connect(mapStateToProps, mapDispatchToProps)(
