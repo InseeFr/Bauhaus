@@ -21,7 +21,7 @@ export default function(state = {}, action) {
 				auth: { ...state.auth, user: payload },
 			};
 		}
-		case A.CHECK_AUTH_SUCCESS: {
+		case A.CHECK_AUTH: {
 			return {
 				...state,
 				auth: { ...state.auth, user: payload },

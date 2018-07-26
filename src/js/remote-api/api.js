@@ -10,17 +10,6 @@ const api = {
 		},
 		res => res,
 	],
-	postAuth: body => [
-		`auth`,
-		{
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'text/plain',
-			},
-			body: typeof body === 'string' ? body : JSON.stringify(body),
-		},
-		res => res.json(),
-	],
 	getDissStatusList: () => ['disseminationStatus'],
 	getStampList: () => ['stamps'],
 	getRoleList: () => ['roles'],
