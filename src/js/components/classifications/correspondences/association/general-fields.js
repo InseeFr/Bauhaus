@@ -30,12 +30,10 @@ export const generalFields = (association, secondLang) => {
 						to={`/classifications/classification/${sourceClassId}/item/${sourceItemId}`}
 					>
 						{`${sourceItemId} - `}
-						{!secondLang || !sourceItemLabelLg2
-							? sourceItemLabelLg1
-							: sourceItemLabelLg2}
+						{!secondLang ? sourceItemLabelLg1 : sourceItemLabelLg2}
 					</Link>
 					<Link to={`/classifications/classification/${sourceClassId}`}>
-						{!secondLang || !sourceClassAltLabelLg2
+						{!secondLang
 							? sourceClassAltLabelLg1 && ` (${sourceClassAltLabelLg1})`
 							: sourceClassAltLabelLg2 && ` (${sourceClassAltLabelLg2})`}
 					</Link>
@@ -50,12 +48,10 @@ export const generalFields = (association, secondLang) => {
 						to={`/classifications/classification/${targetClassId}/item/${targetItemId}`}
 					>
 						{`${targetItemId} - `}
-						{!secondLang || !targetItemLabelLg2
-							? targetItemLabelLg1
-							: targetItemLabelLg2}
+						{!secondLang ? targetItemLabelLg1 : targetItemLabelLg2}
 					</Link>
 					<Link to={`/classifications/classification/${targetClassId}`}>
-						{!secondLang || !targetClassAltLabelLg2
+						{!secondLang
 							? targetClassAltLabelLg1 && ` (${targetClassAltLabelLg1})`
 							: targetClassAltLabelLg2 && ` (${targetClassAltLabelLg2})`}
 					</Link>

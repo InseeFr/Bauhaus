@@ -17,7 +17,8 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 		scopeNoteLg2,
 	} = association;
 	const { lg1, lg2 } = langs;
-	const title = secondLang && labelLg2 ? labelLg2 : labelLg1;
+	const title = secondLang ? labelLg2 : labelLg1;
+	const { sourceItemLabelLg2, targetItemLabelLg2 } = association;
 	return (
 		<div className="container">
 			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
@@ -29,9 +30,12 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 			<CorrespondenceControls correspondenceId={correspondenceId} />
 			<div className="row">
 				<div className="col-md-12">
-					<Panel title={D.globalInformationsTitle} context="classifications">
-						{generalFields(association, secondLang)}
-					</Panel>
+					{(!secondLang ||
+						(secondLang && sourceItemLabelLg2 && targetItemLabelLg2)) && (
+						<Panel title={D.globalInformationsTitle} context="classifications">
+							{generalFields(association, secondLang)}
+						</Panel>
+					)}
 				</div>
 			</div>
 			<span>
