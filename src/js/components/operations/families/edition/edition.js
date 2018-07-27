@@ -6,6 +6,7 @@ import { goBack } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-markdown';
+import Button from 'js/components/shared/button';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -62,31 +63,34 @@ class OperationsFamilyEdition extends Component {
 					<PageSubtitle subTitle={this.props.family.prefLabelLg2} />
 				)}
 				<div className="row btn-line">
-					<div className="col-md-2">
-						<button
-							className="btn btn-primary btn-lg col-md-12"
-							onClick={goBack(this.props, '/operations/families')}
-						>
-							<span
-								className="glyphicon glyphicon-floppy-remove"
-								aria-hidden="true"
-							/>{' '}
-							{D.btnCancel}
-						</button>
-					</div>
+					<Button
+						action={goBack(this.props, '/operations/families')}
+						label={
+							<React.Fragment>
+								<span
+									className="glyphicon glyphicon-floppy-remove"
+									aria-hidden="true"
+								/>
+								<span> {D.btnCancel}</span>
+							</React.Fragment>
+						}
+						context="operations"
+					/>
+
 					<div className="col-md-8 centered" />
-					<div className="col-md-2 pull-right">
-						<button
-							className="btn btn-primary btn-lg col-md-12"
-							onClick={this.onSubmit}
-						>
-							<span
-								className="glyphicon glyphicon-floppy-disk"
-								aria-hidden="true"
-							/>{' '}
-							{D.btnSave}
-						</button>
-					</div>
+					<Button
+						action={this.onSubmit}
+						label={
+							<React.Fragment>
+								<span
+									className="glyphicon glyphicon-floppy-disk"
+									aria-hidden="true"
+								/>
+								<span> {D.btnSave}</span>
+							</React.Fragment>
+						}
+						context="operations"
+					/>
 				</div>
 				<form className="row">
 					<div className="col-md-6">

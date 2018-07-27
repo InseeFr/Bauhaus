@@ -16,6 +16,7 @@ import loadSerie from 'js/actions/operations/series/item';
 import { Link } from 'react-router-dom';
 import loadCodesList from 'js/actions/operations/series/codesList';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
+import Button from 'js/components/shared/button';
 
 const extractId = buildExtract('id');
 
@@ -48,28 +49,19 @@ class SeriesVisualizationContainer extends Component {
 					attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
 
 				<div className="row btn-line">
-					<div className="col-md-2">
-						<button
-							className="btn btn-primary btn-lg col-md-12"
-							onClick={goBack(this.props, '/operations/series')}
-						>
-							{D.btnReturn}
-						</button>
-					</div>
+					<Button
+						action={goBack(this.props, '/operations/series')}
+						label={D.btnReturn}
+						context="operations"
+					/>
+
 					<div className="col-md-6 centered" />
-					<div className="col-md-2">
-						<button className="btn btn-primary btn-lg pull-right col-md-12">
-							{D.btnSend}
-						</button>
-					</div>
-					<div className="col-md-2">
-						<Link
-							className="btn btn-primary btn-lg pull-right col-md-12"
-							to={`/operations/series/${attr.id}/modify`}
-						>
-							{D.btnUpdate}
-						</Link>
-					</div>
+					<Button label={D.btnSend} context="operations" />
+					<Button
+						action={`/operations/series/${attr.id}/modify`}
+						label={D.btnUpdate}
+						context="operations"
+					/>
 				</div>
 				<SerieInformation
 					secondLang={secondLang}

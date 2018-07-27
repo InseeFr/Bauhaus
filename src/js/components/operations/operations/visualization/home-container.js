@@ -17,6 +17,7 @@ import PageTitle from 'js/components/shared/page-title';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import { goBack } from 'js/utils/redirection';
+import Button from 'js/components/shared/button';
 
 const extractId = buildExtract('id');
 
@@ -107,28 +108,20 @@ class OperationVisualizationContainer extends Component {
 					)}
 
 				<div className="row btn-line">
-					<div className="col-md-2">
-						<button
-							className="btn btn-primary btn-lg col-md-12"
-							onClick={goBack(this.props, '/operations/operations')}
-						>
-							{D.btnReturn}
-						</button>
-					</div>
+					<Button
+						action={goBack(this.props, '/operations/operations')}
+						label={D.btnReturn}
+						context="operations"
+					/>
+
 					<div className="col-md-6 centered" />
-					<div className="col-md-2">
-						<button className="btn btn-primary btn-lg pull-right col-md-12">
-							{D.btnSend}
-						</button>
-					</div>
-					<div className="col-md-2">
-						<Link
-							className="btn btn-primary btn-lg pull-right col-md-12"
-							to={`/operations/operation/${operation.id}/modify`}
-						>
-							{D.btnUpdate}
-						</Link>
-					</div>
+
+					<Button label={D.btnSend} context="operations" />
+					<Button
+						action={`/operations/operation/${operation.id}/modify`}
+						label={D.btnUpdate}
+						context="operations"
+					/>
 				</div>
 				<OperationVisualization
 					id={id}

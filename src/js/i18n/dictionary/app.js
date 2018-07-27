@@ -136,7 +136,7 @@ const dictionary = {
 		en: 'Owner',
 	},
 	contributorTitle: {
-		fr: 'Contributeur',
+		fr: 'Gestionnaire',
 		en: 'Contributor',
 	},
 	stampTitle: {
@@ -525,8 +525,8 @@ const dictionary = {
 		en: 'Year',
 	},
 	dataCollector: {
-		fr: 'Service collecteur',
-		en: 'Data collector',
+		fr: 'Services collecteurs',
+		en: 'Datas collectors',
 	},
 	stakeholders: {
 		fr: 'Partenaires',
@@ -553,7 +553,7 @@ const dictionary = {
 		en: 'Replaced by',
 	},
 	indicators: {
-		fr: 'Indicateurs Produits',
+		fr: 'Indicateurs produits',
 		en: 'Product Indicators',
 	},
 	seeAlso: {

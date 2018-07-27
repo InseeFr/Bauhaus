@@ -4,6 +4,7 @@ const api = {
 	getSeriesList: () => ['series.json'], //TODO Change to series
 	getOperationsList: () => ['operations.json'], //TODO Change to operations
 	getFamiliesList: () => ['families.json'], //TODO Change to families
+	getIndicatorsList: () => ['indicators.json'], //TODO Change to indicators
 	getFamily: id => ['family.json'], //TODO Change to family/:id
 	getOperation: id => ['operation.json'], //TODO Change to operation/:id
 	getSerie: id => ['serie.json'], //TODO Change to series/:id

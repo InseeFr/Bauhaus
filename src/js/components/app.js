@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import conceptsLogo from 'img/concepts.jpg';
 import classificationsLogo from 'img/classifications.jpg';
-import operationsLogo from 'img/work-in-progress.png';
+import operationsLogo from 'img/operations.jpg';
 import D from 'js/i18n';
 
 function App() {
@@ -22,9 +22,11 @@ function App() {
 						{D.classificationsTitle}
 					</h2>
 				</Link>
-				{/*<Link to="/operations/series">*/}
-				<h2 className="items page-title-temp">{D.operationsTitle}</h2>
-				{/*</Link>*/}
+				<Link to="/operations/series">
+					<h2 className="items page-title page-title-link">
+						{D.operationsTitle}
+					</h2>
+				</Link>
 			</div>
 			<div className="img-block">
 				<Link to="/concepts">
@@ -37,9 +39,9 @@ function App() {
 						className="img"
 					/>
 				</Link>
-				{/*<Link to="/operations/series">*/}
-				<img src={operationsLogo} alt="Operations" className="img" />
-				{/*</Link>*/}
+				<Link to="/operations/series">
+					<img src={operationsLogo} alt="Operations" className="img" />
+				</Link>
 			</div>
 		</div>
 	);

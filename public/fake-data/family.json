@@ -9,30 +9,30 @@
 		{
 			"labelLg2": "Price collection index computation",
 			"labelLg1": "Élaboration de l'indice des prix à la consommation",
-			"id": "http://bauhaus/operations/serie/s1007"
+			"id": "s1007"
 		},
 		{
 			"labelLg2":
 				"Spatial comparison survey on consumer price levels between territories",
 			"labelLg1":
 				"Enquête de comparaison spatiale des niveaux de prix à la consommation entre territoires",
-			"id": "http://bauhaus/operations/serie/s1200"
+			"id": "s1200"
 		},
 		{
 			"labelLg2": "Quarterly outlook survey on the rents of the social sector",
 			"labelLg1":
 				"Enquête conjoncturelle sur les loyers auprès des bailleurs sociaux",
-			"id": "http://bauhaus/operations/serie/s1252"
+			"id": "s1252"
 		},
 		{
 			"labelLg2": "Rents and Charges Survey",
 			"labelLg1": "Enquête  Loyers et charges",
-			"id": "http://bauhaus/operations/serie/s1253"
+			"id": "s1253"
 		},
 		{
 			"labelLg2": "Telecommunications Services Survey",
 			"labelLg1": "Enquête sur les services de télécommunications",
-			"id": "http://bauhaus/operations/serie/s1270"
+			"id": "s1270"
 		}
 	],
 	"id": "s37"

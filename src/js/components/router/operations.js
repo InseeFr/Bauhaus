@@ -4,6 +4,8 @@ import { Route } from 'react-router-dom';
 import OperationsFamiliesContainer from 'js/components/operations/families/home-container';
 import OperationsSeriesContainer from 'js/components/operations/series/home-container';
 import OperationsContainer from 'js/components/operations/operations/home-container';
+import OperationsIndicatorsContainer from 'js/components/operations/indicators/home-container';
+
 import OperationsFamilyVisualizationContainer from 'js/components/operations/families/visualization-container';
 import OperationsSeriesVisualizationContainer from 'js/components/operations/series/visualization-container';
 import OperationVisualizationContainer from 'js/components/operations/operations/visualization/home-container';
@@ -28,6 +30,11 @@ export default [
 		exact
 		path="/operations/family/:id"
 		component={OperationsFamilyVisualizationContainer}
+	/>,
+	<Route
+		exact
+		path="/operations/indicators"
+		component={OperationsIndicatorsContainer}
 	/>,
 	<Route
 		exact

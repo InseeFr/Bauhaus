@@ -14,6 +14,7 @@ import FamilyInformation from 'js/components/operations/families/visualization/g
 import Loading from 'js/components/shared/loading';
 import loadFamily from 'js/actions/operations/families/item';
 import { Link } from 'react-router-dom';
+import Button from 'js/components/shared/button';
 
 const extractId = buildExtract('id');
 class FamilyVisualizationContainer extends Component {
@@ -37,28 +38,19 @@ class FamilyVisualizationContainer extends Component {
 					attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
 
 				<div className="row btn-line">
-					<div className="col-md-2">
-						<button
-							className="btn btn-primary btn-lg col-md-12"
-							onClick={goBack(this.props, '/operations/families')}
-						>
-							{D.btnReturn}
-						</button>
-					</div>
+					<Button
+						action={goBack(this.props, '/operations/families')}
+						label={D.btnReturn}
+						context="operations"
+					/>
+
 					<div className="col-md-6 centered" />
-					<div className="col-md-2">
-						<button className="btn btn-primary btn-lg pull-right col-md-12">
-							{D.btnSend}
-						</button>
-					</div>
-					<div className="col-md-2">
-						<Link
-							className="btn btn-primary btn-lg pull-right col-md-12"
-							to={`/operations/family/${attr.id}/modify`}
-						>
-							{D.btnUpdate}
-						</Link>
-					</div>
+					<Button label={D.btnSend} context="operations" />
+					<Button
+						action={`/operations/family/${attr.id}/modify`}
+						label={D.btnUpdate}
+						context="operations"
+					/>
 				</div>
 				<FamilyInformation secondLang={secondLang} attr={attr} langs={langs} />
 			</div>

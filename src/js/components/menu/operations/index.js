@@ -48,6 +48,11 @@ class MenuOperations extends Component {
 				pathKey: 'operation',
 				className: null,
 			},
+			indicators: {
+				path: '/operations/indicators',
+				pathKey: 'operations/indicator',
+				className: null,
+			},
 		};
 
 		for (var key in paths) {
@@ -96,6 +101,16 @@ class MenuOperations extends Component {
 											}
 										>
 											{D.operationsTitle}
+										</Link>
+									</li>
+									<li className={paths.indicators.className}>
+										<Link
+											to={paths.indicators.path}
+											onClick={() =>
+												this.changeActivePath(paths.indicators.path)
+											}
+										>
+											{D.indicatorsTitle}
 										</Link>
 									</li>
 								</ul>
