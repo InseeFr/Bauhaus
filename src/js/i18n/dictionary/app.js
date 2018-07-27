@@ -91,6 +91,10 @@ const dictionary = {
 		fr: 'Libellé',
 		en: 'Label',
 	},
+	search: {
+		fr: 'Recherchez...',
+		en: 'Search...',
+	},
 	searchLabelPlaceholder: {
 		fr: 'Libellé...',
 		en: 'Label...',
@@ -106,6 +110,10 @@ const dictionary = {
 	altLabelTitle: {
 		fr: 'Libellé alternatif',
 		en: 'Alternative label',
+	},
+	altLabel: {
+		fr: 'Nom court',
+		en: 'Short name',
 	},
 	searchAltLabelPlaceholder: {
 		fr: 'Libellé alternatif...',
@@ -495,6 +503,62 @@ const dictionary = {
 	childrenSeries: {
 		fr: 'Séries filles',
 		en: 'Daughter series',
+	},
+	title: {
+		fr: 'Intitulé',
+		en: 'Title',
+	},
+	theme: {
+		fr: 'Thème',
+		en: 'Theme',
+	},
+	summary: {
+		fr: 'Résumé',
+		en: 'Summary',
+	},
+	history: {
+		fr: 'Historique',
+		en: 'History',
+	},
+	year: {
+		fr: 'Millésime',
+		en: 'Year',
+	},
+	dataCollector: {
+		fr: 'Service collecteur',
+		en: 'Data collector',
+	},
+	stakeholders: {
+		fr: 'Partenaires',
+		en: 'Stackeholders',
+	},
+	organisation: {
+		fr: 'Organisme responsable',
+		en: 'Legal owner',
+	},
+	dataCollectFrequency: {
+		fr: 'Fréquence de collecte des données',
+		en: 'Data collection frequency',
+	},
+	operationType: {
+		fr: "Type d'opération",
+		en: 'Operation type',
+	},
+	replaces: {
+		fr: 'Succède à',
+		en: 'Replace',
+	},
+	replacedBy: {
+		fr: 'Remplacée par',
+		en: 'Replaced by',
+	},
+	indicators: {
+		fr: 'Indicateurs Produits',
+		en: 'Product Indicators',
+	},
+	seeAlso: {
+		fr: 'Séries ou Indicateurs liés',
+		en: 'Related series or indicators',
 	},
 };
 

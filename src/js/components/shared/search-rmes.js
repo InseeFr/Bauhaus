@@ -10,7 +10,9 @@ class SearchRmes extends Component {
 		super(props);
 		const { items: hits } = props;
 		const filter = filterKeyDeburr(
-			Object.keys(hits[0] || {}).filter(k => k !== 'id')
+			Object.keys(hits[0] || {}).filter(
+				k => k !== 'id' && !Array.isArray(hits[0][k])
+			)
 		);
 		this.state = {
 			search: '',
@@ -26,12 +28,12 @@ class SearchRmes extends Component {
 
 	render() {
 		const { search, hits } = this.state;
-		const { concepts, childPath, col, colOff, context } = this.props;
+		const { concepts, childPath, col, colOff, context, label } = this.props;
 
 		//{`col-md-${col ? col : 12} col-md-offset-${	colOff ? colOff : 0}`}
-		const hitEls = hits.map(({ id, label }) => (
+		const hitEls = hits.map(({ id, [label]: labelValue }) => (
 			<li key={id} className="list-group-item">
-				<Link to={`/${childPath}/${id}`}>{label}</Link>
+				<Link to={`/${childPath}/${id}`}>{labelValue}</Link>
 			</li>
 		));
 
@@ -52,6 +54,7 @@ class SearchRmes extends Component {
 									: D.searchLabelPlaceholder
 							}
 							className="form-control"
+							aria-label={D.search}
 						/>
 					</div>
 				</div>
@@ -75,19 +78,18 @@ class SearchRmes extends Component {
 		);
 	}
 }
+SearchRmes.defaultProps = {
+	label: 'label',
+};
 
 SearchRmes.propTypes = {
-	items: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		}).isRequired
-	).isRequired,
+	items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
 	childPath: PropTypes.string.isRequired,
 	concepts: PropTypes.bool,
 	col: PropTypes.number,
 	colOff: PropTypes.number,
 	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
+	label: PropTypes.string,
 };
 
 export default SearchRmes;

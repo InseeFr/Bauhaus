@@ -13,6 +13,8 @@ import roleReducers from './roles';
 import dashboardReducers from './dashboard';
 import classificationsReducers from './classifications';
 import operationsReducers from './operations';
+import codesListReducers from './operations/codesList';
+
 import remoteCalls, * as remoteCallsSelectors from './remote-calls';
 
 export default combineReducers({
@@ -24,6 +26,7 @@ export default combineReducers({
 	...dashboardReducers,
 	...classificationsReducers,
 	...operationsReducers,
+	...codesListReducers,
 	remoteCalls,
 });
 
@@ -100,3 +103,15 @@ export const getStatus = (state, op) =>
 
 export const getNewlyCreatedId = state =>
 	remoteCallsSelectors.getNewlyCreatedId(state.remoteCalls);
+
+export const getFamily = (state, id) => {
+	return state.operationsFamiliesCurrent || {};
+};
+
+export const getSerie = (state, id) => {
+	return state.operationsSeriesCurrent || {};
+};
+
+export const getOperation = (state, id) => {
+	return state.operationsOperationsCurrent || {};
+};

@@ -8,10 +8,24 @@ import Loading from 'js/components/shared/loading';
 import OperationVisualization from './home';
 import buildExtract from 'js/utils/build-extract';
 import exportVariableBook from 'js/actions/operations/export-varBook';
+import { saveSecondLang } from 'js/actions/app';
+import loadOperation from 'js/actions/operations/operations/item';
+import D from 'js/i18n';
+import { Link } from 'react-router-dom';
+import ModalRmes from 'js/components/shared/modal-rmes';
+import PageTitle from 'js/components/shared/page-title';
+import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import PageSubtitle from 'js/components/shared/page-subtitle';
+import { goBack } from 'js/utils/redirection';
 
 const extractId = buildExtract('id');
 
 class OperationVisualizationContainer extends Component {
+	componentWillMount() {
+		if (!this.props.operation.id) {
+			this.props.loadOperation(this.props.id);
+		}
+	}
 	constructor(props) {
 		super();
 
@@ -44,38 +58,107 @@ class OperationVisualizationContainer extends Component {
 		};
 	}
 	render() {
-		const { id, exportStatus } = this.props;
+		const {
+			id,
+			exportStatus,
+			operation,
+			langs,
+			secondLang,
+			saveSecondLang,
+		} = this.props;
+
+		if (!operation.id)
+			return <Loading textType="loading" context="operations" />;
 		if (this.state.isLoading && exportStatus !== OK) {
 			return <Loading textType="exporting" context="operations" />;
 		}
+
+		const modalButtons = [
+			{
+				label: D.btnCancel,
+				action: this.closeModal,
+				style: 'primary',
+			},
+			{
+				label: D.btnValid,
+				action: () =>
+					this.handleBookRequest(id, 'application/vnd.oasis.opendocument.text'),
+				style: 'primary',
+			},
+		];
+
 		return (
-			<OperationVisualization
-				id={id}
-				exportVarBook={
-					() =>
-						this.handleBookRequest(
-							id,
-							'application/vnd.oasis.opendocument.text'
-						)
+			<div className="container">
+				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
+				<ModalRmes
+					id="modal"
+					isOpen={this.state.isModalOpen}
+					title="Choix du type d'export du dictionnaire de variables"
+					body="TODO"
+					closeCancel={this.closeModal}
+					modalButtons={modalButtons}
+				/>
 
-					//application/octet-stream
-				}
-				isModalOpen={this.state.isModalOpen}
-				openModal={this.openModal}
-				closeModal={this.closeModal}
-			/>
+				<PageTitle title={operation.prefLabelLg1} context="operations" />
+				{secondLang &&
+					operation.prefLabelLg2 && (
+						<PageSubtitle subTitle={operation.prefLabelLg2} />
+					)}
+
+				<div className="row btn-line">
+					<div className="col-md-2">
+						<button
+							className="btn btn-primary btn-lg col-md-12"
+							onClick={goBack(this.props, '/operations/operations')}
+						>
+							{D.btnReturn}
+						</button>
+					</div>
+					<div className="col-md-6 centered" />
+					<div className="col-md-2">
+						<button className="btn btn-primary btn-lg pull-right col-md-12">
+							{D.btnSend}
+						</button>
+					</div>
+					<div className="col-md-2">
+						<Link
+							className="btn btn-primary btn-lg pull-right col-md-12"
+							to={`/operations/operation/${operation.id}/modify`}
+						>
+							{D.btnUpdate}
+						</Link>
+					</div>
+				</div>
+				<OperationVisualization
+					id={id}
+					isModalOpen={this.state.isModalOpen}
+					openModal={this.openModal}
+					attr={operation}
+					langs={langs}
+					secondLang={secondLang}
+					saveSecondLang={saveSecondLang}
+				/>
+			</div>
 		);
 	}
 }
 
-const mapStateToProps = (state, ownProps) => ({
-	id: extractId(ownProps),
-	exportStatus: select.getStatus(state, EXPORT_VARBOOK),
-});
+const mapStateToProps = (state, ownProps) => {
+	const id = extractId(ownProps);
+	return {
+		id,
+		operation: select.getOperation(state, id),
+		exportStatus: select.getStatus(state, EXPORT_VARBOOK),
+		langs: select.getLangs(state),
+		secondLang: state.app.secondLang,
+	};
+};
 
 const mapDispatchToProps = {
 	exportVariableBook,
+	saveSecondLang,
+	loadOperation,
 };
 
 OperationVisualizationContainer = connect(mapStateToProps, mapDispatchToProps)(

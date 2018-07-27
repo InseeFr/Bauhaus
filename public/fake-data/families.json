@@ -1,0 +1,222 @@
+[
+	{
+		"id": "s82",
+		"label": "Activité, production et chiffre d'affaires"
+	},
+	{
+		"id": "s8",
+		"label": "Associations"
+	},
+	{
+		"id": "s14",
+		"label": "Budget de famille"
+	},
+	{
+		"id": "s39",
+		"label": "Cadre de vie et sécurité"
+	},
+	{
+		"id": "s19",
+		"label": "Comptabilité démographique"
+	},
+	{
+		"id": "s30",
+		"label": "Comptes nationaux"
+	},
+	{
+		"id": "s32",
+		"label": "Comptes régionaux"
+	},
+	{
+		"id": "s58",
+		"label": "Compétences"
+	},
+	{
+		"id": "s79",
+		"label": "Conditions de vie des seniors"
+	},
+	{
+		"id": "s33",
+		"label": "Connaissance locale de l'appareil productif"
+	},
+	{
+		"id": "s5",
+		"label": "Contour des groupes"
+	},
+	{
+		"id": "s17",
+		"label": "Création d'entreprises"
+	},
+	{
+		"id": "s18",
+		"label": "Données démographiques longitudinales"
+	},
+	{
+		"id": "s77",
+		"label": "Données fiscales et sociales sur les logements et les individus"
+	},
+	{
+		"id": "s62",
+		"label": "Déplacements"
+	},
+	{
+		"id": "s54",
+		"label": "Emploi du temps"
+	},
+	{
+		"id": "s12",
+		"label": "Employeurs, salariés et indépendants"
+	},
+	{
+		"id": "s23",
+		"label": "Enquête Emploi"
+	},
+	{
+		"id": "s25",
+		"label": "Enquêtes qualitatives de conjoncture"
+	},
+	{
+		"id": "s51",
+		"label": "Entreprises et développement durable"
+	},
+	{
+		"id": "s26",
+		"label": "Estimations d'emploi"
+	},
+	{
+		"id": "s6",
+		"label": "Filières industrielles régionales"
+	},
+	{
+		"id": "s3",
+		"label": "Financement des PME"
+	},
+	{
+		"id": "s2",
+		"label": "Flux touristiques dans les DOM"
+	},
+	{
+		"id": "s55",
+		"label": "Formation des adultes"
+	},
+	{
+		"id": "s24",
+		"label": "Fréquentation touristique"
+	},
+	{
+		"id": "s78",
+		"label": "Handicap-Santé"
+	},
+	{
+		"id": "s83",
+		"label": "Indices de référence des loyers"
+	},
+	{
+		"id": "s15",
+		"label": "Innovation"
+	},
+	{
+		"id": "s86",
+		"label": "Insertion professionnelle"
+	},
+	{
+		"id": "s60",
+		"label": "Logement"
+	},
+	{
+		"id": "s9",
+		"label": "Mondialisation"
+	},
+	{
+		"id": "s34",
+		"label": "Mouvements de main-d'œuvre"
+	},
+	{
+		"id": "s67",
+		"label": "Participation électorale"
+	},
+	{
+		"id": "s64",
+		"label": "Patrimoine"
+	},
+	{
+		"id": "s29",
+		"label": "Prix et coûts dans l'industrie, la construction et les services"
+	},
+	{
+		"id": "s37",
+		"label": "Prix à la consommation"
+	},
+	{
+		"id": "s22",
+		"label": "Projections démographiques"
+	},
+	{
+		"id": "s63",
+		"label": "Qualité de vie"
+	},
+	{
+		"id": "s21",
+		"label": "Recensement de la population"
+	},
+	{
+		"id": "s1",
+		"label": "Recensement des équipements"
+	},
+	{
+		"id": "s56",
+		"label": "Relations familiales"
+	},
+	{
+		"id": "s11",
+		"label": "Ressources et conditions de vie"
+	},
+	{
+		"id": "s65",
+		"label": "Revenus fiscaux et sociaux"
+	},
+	{
+		"id": "s66",
+		"label": "Revenus localisés"
+	},
+	{
+		"id": "s35",
+		"label": "Répertoire d'entreprises"
+	},
+	{
+		"id": "s53",
+		"label": "Réseaux d'entreprises"
+	},
+	{
+		"id": "s13",
+		"label": "Salaires, coût du travail"
+	},
+	{
+		"id": "s81",
+		"label": "Sans-Domicile"
+	},
+	{
+		"id": "s84",
+		"label": "Santé"
+	},
+	{
+		"id": "s85",
+		"label": "Services pour l'industrie"
+	},
+	{
+		"id": "s36",
+		"label": "Statistique annuelle d'entreprises"
+	},
+	{
+		"id": "s10",
+		"label": "Technologies de l'information et de la communication"
+	},
+	{
+		"id": "s59",
+		"label": "Trajectoires et origines"
+	},
+	{
+		"id": "s88",
+		"label": "Voir également"
+	}
+]
