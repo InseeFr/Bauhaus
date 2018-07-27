@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import loadSerie, { saveSerie } from 'js/actions/operations/series/item';
-import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
 import buildExtract from 'js/utils/build-extract';
@@ -28,7 +27,6 @@ class OperationsSeriesEditionContainer extends Component {
 }
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadSerie,
 	saveSerie,
 	loadCodesList,
@@ -37,7 +35,6 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const serie = select.getSerie(state, id);
-	const secondLang = state.app.secondLang;
 	const langs = select.getLangs(state);
 	const categories =
 		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
@@ -45,7 +42,6 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		id,
 		serie,
-		secondLang,
 		langs,
 		categories,
 		frequencies,

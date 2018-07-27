@@ -537,7 +537,7 @@ const dictionary = {
 		en: 'Legal owner',
 	},
 	dataCollectFrequency: {
-		fr: 'Fréquence de collecte des donnees',
+		fr: 'Fréquence de collecte des données',
 		en: 'Data collection frequency',
 	},
 	operationType: {
@@ -557,7 +557,7 @@ const dictionary = {
 		en: 'Product Indicators',
 	},
 	seeAlso: {
-		fr: 'Series ou Indicateurs liés',
+		fr: 'Séries ou Indicateurs liés',
 		en: 'Related series or indicators',
 	},
 };

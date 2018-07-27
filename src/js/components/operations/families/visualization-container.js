@@ -23,11 +23,7 @@ class FamilyVisualizationContainer extends Component {
 		}
 	}
 	render() {
-		const {
-			secondLang,
-			langs,
-			family: { ...attr },
-		} = this.props;
+		const { secondLang, langs, family: { ...attr } } = this.props;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
 		return (
 			<div className="container">
@@ -35,13 +31,12 @@ class FamilyVisualizationContainer extends Component {
 					secondLang={secondLang}
 					onChange={this.props.saveSecondLang}
 				/>
-				<Link
-					className="btn btn-primary btn-lg pull-right"
-					to={`/operations/family/${attr.id}/modify`}
-				>
-					{D.btnUpdate}
-				</Link>
-				<div className="row">
+
+				<PageTitle title={attr.prefLabelLg1} context="operations" />
+				{secondLang &&
+					attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
+
+				<div className="row btn-line">
 					<div className="col-md-2">
 						<button
 							className="btn btn-primary btn-lg col-md-12"
@@ -50,15 +45,21 @@ class FamilyVisualizationContainer extends Component {
 							{D.btnReturn}
 						</button>
 					</div>
+					<div className="col-md-6 centered" />
+					<div className="col-md-2">
+						<button className="btn btn-primary btn-lg pull-right col-md-12">
+							{D.btnSend}
+						</button>
+					</div>
+					<div className="col-md-2">
+						<Link
+							className="btn btn-primary btn-lg pull-right col-md-12"
+							to={`/operations/family/${attr.id}/modify`}
+						>
+							{D.btnUpdate}
+						</Link>
+					</div>
 				</div>
-				<PageTitle
-					title={attr.prefLabelLg1}
-					context="operations"
-					col="12"
-					offset="0"
-				/>
-				{secondLang &&
-					attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
 				<FamilyInformation secondLang={secondLang} attr={attr} langs={langs} />
 			</div>
 		);
@@ -79,8 +80,5 @@ const mapDispatchToProps = {
 	loadFamily,
 };
 export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(FamilyVisualizationContainer)
+	connect(mapStateToProps, mapDispatchToProps)(FamilyVisualizationContainer)
 );

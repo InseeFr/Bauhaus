@@ -10,6 +10,13 @@ import buildExtract from 'js/utils/build-extract';
 import exportVariableBook from 'js/actions/operations/export-varBook';
 import { saveSecondLang } from 'js/actions/app';
 import loadOperation from 'js/actions/operations/operations/item';
+import D from 'js/i18n';
+import { Link } from 'react-router-dom';
+import ModalRmes from 'js/components/shared/modal-rmes';
+import PageTitle from 'js/components/shared/page-title';
+import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import PageSubtitle from 'js/components/shared/page-subtitle';
+import { goBack } from 'js/utils/redirection';
 
 const extractId = buildExtract('id');
 
@@ -65,20 +72,74 @@ class OperationVisualizationContainer extends Component {
 		if (this.state.isLoading && exportStatus !== OK) {
 			return <Loading textType="exporting" context="operations" />;
 		}
+
+		const modalButtons = [
+			{
+				label: D.btnCancel,
+				action: this.closeModal,
+				style: 'primary',
+			},
+			{
+				label: D.btnValid,
+				action: () =>
+					this.handleBookRequest(id, 'application/vnd.oasis.opendocument.text'),
+				style: 'primary',
+			},
+		];
+
 		return (
-			<OperationVisualization
-				id={id}
-				exportVarBook={() =>
-					this.handleBookRequest(id, 'application/vnd.oasis.opendocument.text')
-				}
-				isModalOpen={this.state.isModalOpen}
-				openModal={this.openModal}
-				closeModal={this.closeModal}
-				attr={operation}
-				langs={langs}
-				secondLang={secondLang}
-				saveSecondLang={saveSecondLang}
-			/>
+			<div className="container">
+				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+
+				<ModalRmes
+					id="modal"
+					isOpen={this.state.isModalOpen}
+					title="Choix du type d'export du dictionnaire de variables"
+					body="TODO"
+					closeCancel={this.closeModal}
+					modalButtons={modalButtons}
+				/>
+
+				<PageTitle title={operation.prefLabelLg1} context="operations" />
+				{secondLang &&
+					operation.prefLabelLg2 && (
+						<PageSubtitle subTitle={operation.prefLabelLg2} />
+					)}
+
+				<div className="row btn-line">
+					<div className="col-md-2">
+						<button
+							className="btn btn-primary btn-lg col-md-12"
+							onClick={goBack(this.props, '/operations/operations')}
+						>
+							{D.btnReturn}
+						</button>
+					</div>
+					<div className="col-md-6 centered" />
+					<div className="col-md-2">
+						<button className="btn btn-primary btn-lg pull-right col-md-12">
+							{D.btnSend}
+						</button>
+					</div>
+					<div className="col-md-2">
+						<Link
+							className="btn btn-primary btn-lg pull-right col-md-12"
+							to={`/operations/operation/${operation.id}/modify`}
+						>
+							{D.btnUpdate}
+						</Link>
+					</div>
+				</div>
+				<OperationVisualization
+					id={id}
+					isModalOpen={this.state.isModalOpen}
+					openModal={this.openModal}
+					attr={operation}
+					langs={langs}
+					secondLang={secondLang}
+					saveSecondLang={saveSecondLang}
+				/>
+			</div>
 		);
 	}
 }
@@ -100,9 +161,8 @@ const mapDispatchToProps = {
 	loadOperation,
 };
 
-OperationVisualizationContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(OperationVisualizationContainer);
+OperationVisualizationContainer = connect(mapStateToProps, mapDispatchToProps)(
+	OperationVisualizationContainer
+);
 
 export default withRouter(OperationVisualizationContainer);

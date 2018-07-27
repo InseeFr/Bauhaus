@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
@@ -53,56 +52,52 @@ class OperationsSerieEdition extends Component {
 	}
 
 	render() {
-		const {
-			secondLang,
-			langs: { lg1, lg2 },
-			saveSecondLang,
-			frequencies,
-			categories,
-		} = this.props;
+		const { langs: { lg1, lg2 }, frequencies, categories } = this.props;
 
 		const { serie } = this.state;
-		const cl = secondLang ? 'col-md-6' : 'col-md-12';
-		return (
-			<div className="container">
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
-				<button
-					onClick={this.onSubmit}
-					type="button"
-					className="btn btn-success btn-lg pull-right"
-				>
-					{D.btnValid}
-				</button>
 
-				<div className="row">
+		return (
+			<div className="container editor-container">
+				<PageTitle title={this.props.serie.prefLabelLg1} context="operations" />
+				{serie.prefLabelLg2 && (
+					<PageSubtitle subTitle={this.props.serie.prefLabelLg2} />
+				)}
+				<div className="row btn-line">
 					<div className="col-md-2">
 						<button
 							className="btn btn-primary btn-lg col-md-12"
-							onClick={goBack(this.props, '/operations/families')}
+							onClick={goBack(this.props, '/operations/series')}
 						>
-							{D.btnReturn}
+							<span
+								className="glyphicon glyphicon-floppy-remove"
+								aria-hidden="true"
+							/>{' '}
+							{D.btnCancel}
+						</button>
+					</div>
+					<div className="col-md-8 centered" />
+					<div className="col-md-2 pull-right">
+						<button
+							className="btn btn-primary btn-lg col-md-12"
+							onClick={this.onSubmit}
+						>
+							<span
+								className="glyphicon glyphicon-floppy-disk"
+								aria-hidden="true"
+							/>{' '}
+							{D.btnSave}
 						</button>
 					</div>
 				</div>
-				<PageTitle
-					title={this.props.serie.prefLabelLg1}
-					context="operations"
-					col="12"
-					offset="0"
-				/>
-				{secondLang &&
-					serie.prefLabelLg2 && (
-						<PageSubtitle subTitle={this.props.serie.prefLabelLg2} />
-					)}
-				<form>
-					<div className={cl}>
+				<form className="row">
+					<div className="col-md-6">
 						<div className="form-group">
 							<label htmlFor="prefLabelLg1">
 								<NoteFlag text={D.title} lang={lg1} />
 							</label>
 							<input
 								type="text"
-								className="form-control input-lg"
+								className="form-control"
 								id="prefLabelLg1"
 								value={serie.prefLabelLg1}
 								onChange={this.onChange}
@@ -115,7 +110,7 @@ class OperationsSerieEdition extends Component {
 							</label>
 							<input
 								type="text"
-								className="form-control input-lg"
+								className="form-control"
 								id="altLabelLg1"
 								value={serie.altLabelLg1}
 								onChange={this.onChange}
@@ -144,64 +139,60 @@ class OperationsSerieEdition extends Component {
 							/>
 						</div>
 					</div>
-					{secondLang && (
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="prefLabelLg2">
-									<NoteFlag text={D.title} lang={lg2} />
-								</label>
-								<input
-									type="text"
-									className="form-control input-lg"
-									id="prefLabelLg2"
-									value={serie.prefLabelLg2}
-									onChange={this.onChange}
-									disabled
-								/>
-							</div>
-							<div className="form-group">
-								<label htmlFor="altLabel2">
-									<NoteFlag text={D.altLabel} lang={lg2} />
-								</label>
-								<input
-									type="text"
-									className="form-control input-lg"
-									id="altLabel2"
-									value={serie.altLabelLg2}
-									onChange={this.onChange}
-								/>
-							</div>
-							<div className="form-group">
-								<label htmlFor="abstractLg2">
-									<NoteFlag text={D.summary} lang={lg2} />
-								</label>
-								<textarea
-									value={serie.abstractLg2}
-									className="form-control"
-									id="abstractLg1"
-									rows="10"
-									onChange={this.onChange}
-								/>
-							</div>
-							<div className="form-group">
-								<label htmlFor="historyNoteLg2">
-									<NoteFlag text={D.history} lang={lg2} />
-								</label>
-								<textarea
-									value={serie.historyNoteLg2}
-									className="form-control"
-									id="historyNoteLg2"
-									rows="10"
-									onChange={this.onChange}
-								/>
-							</div>
+					<div className="col-md-6">
+						<div className="form-group">
+							<label htmlFor="prefLabelLg2">
+								<NoteFlag text={D.title} lang={lg2} />
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								id="prefLabelLg2"
+								value={serie.prefLabelLg2}
+								onChange={this.onChange}
+								disabled
+							/>
 						</div>
-					)}
+						<div className="form-group">
+							<label htmlFor="altLabel2">
+								<NoteFlag text={D.altLabel} lang={lg2} />
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								id="altLabelLg2"
+								value={serie.altLabelLg2}
+								onChange={this.onChange}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="abstractLg2">
+								<NoteFlag text={D.summary} lang={lg2} />
+							</label>
+							<EditorMarkdown
+								text={serie.abstractLg2}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'abstractLg2' } })
+								}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="historyNoteLg2">
+								<NoteFlag text={D.history} lang={lg2} />
+							</label>
+							<EditorMarkdown
+								text={serie.historyNoteLg2}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'historyNoteLg2' } })
+								}
+							/>
+						</div>
+					</div>
 					<div className="col-md-12">
 						<div className="form-group">
 							<label htmlFor="typeOperation">{D.operationType}</label>
 							<select
-								className="form-control input-lg"
+								className="form-control"
 								id="typeCode"
 								value={serie.typeCode}
 								onChange={this.onChange}
@@ -217,7 +208,7 @@ class OperationsSerieEdition extends Component {
 							</label>
 							{
 								<select
-									className="form-control input-lg"
+									className="form-control"
 									id="accrualPeriodicityCode"
 									value={serie.accrualPeriodicityCode}
 									onChange={this.onChange}
@@ -232,36 +223,36 @@ class OperationsSerieEdition extends Component {
 							<label htmlFor="creator">{D.organisation}</label>
 							<input
 								type="text"
-								className="form-control input-lg"
+								className="form-control"
 								id="creator"
 								value={serie.creator}
 								onChange={this.onChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="contributor">{D.stakeholders}</label>
+							<label htmlFor="stakeHolder">{D.stakeholders}</label>
 							<input
 								value={serie.stakeHolder}
-								className="form-control input-lg"
-								id="contributor"
+								className="form-control"
+								id="stakeHolder"
 								onChange={this.onChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="serviceCollector">{D.dataCollector}</label>
+							<label htmlFor="dataCollector">{D.dataCollector}</label>
 							<input
 								value={serie.dataCollector}
-								className="form-control input-lg"
-								id="serviceCollector"
+								className="form-control"
+								id="dataCollector\"
 								onChange={this.onChange}
 							/>
 						</div>
 						<div className="form-group">
-							<label htmlFor="serviceCollector">{D.contributorTitle}</label>
+							<label htmlFor="contributor">{D.contributorTitle}</label>
 							<input
 								value={serie.contributor}
-								className="form-control input-lg"
-								id="serviceCollector"
+								className="form-control"
+								id="contributor"
 								onChange={this.onChange}
 							/>
 						</div>
@@ -315,7 +306,6 @@ class OperationsSerieEdition extends Component {
 OperationsSerieEdition.propTypes = {
 	serie: PropTypes.object.isRequired,
 	langs: PropTypes.object.isRequired,
-	saveSecondLang: PropTypes.func.isRequired,
 	saveSerie: PropTypes.func.isRequired,
 	categories: PropTypes.object.isRequired,
 	frequencies: PropTypes.object.isRequired,

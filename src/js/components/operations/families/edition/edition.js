@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
@@ -50,50 +49,54 @@ class OperationsFamilyEdition extends Component {
 	}
 
 	render() {
-		const { secondLang, langs: { lg1, lg2 }, saveSecondLang } = this.props;
-
+		const { langs: { lg1, lg2 } } = this.props;
 		const { family } = this.state;
-		const cl = secondLang ? 'col-md-6' : 'col-md-12';
-		return (
-			<div className="container">
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
-				<button
-					onClick={this.onSubmit}
-					type="button"
-					className="btn btn-success btn-lg pull-right"
-				>
-					{D.btnValid}
-				</button>
 
-				<div className="row">
+		return (
+			<div className="container editor-container">
+				<PageTitle
+					title={this.props.family.prefLabelLg1}
+					context="operations"
+				/>
+				{family.prefLabelLg2 && (
+					<PageSubtitle subTitle={this.props.family.prefLabelLg2} />
+				)}
+				<div className="row btn-line">
 					<div className="col-md-2">
 						<button
 							className="btn btn-primary btn-lg col-md-12"
 							onClick={goBack(this.props, '/operations/families')}
 						>
-							{D.btnReturn}
+							<span
+								className="glyphicon glyphicon-floppy-remove"
+								aria-hidden="true"
+							/>{' '}
+							{D.btnCancel}
+						</button>
+					</div>
+					<div className="col-md-8 centered" />
+					<div className="col-md-2 pull-right">
+						<button
+							className="btn btn-primary btn-lg col-md-12"
+							onClick={this.onSubmit}
+						>
+							<span
+								className="glyphicon glyphicon-floppy-disk"
+								aria-hidden="true"
+							/>{' '}
+							{D.btnSave}
 						</button>
 					</div>
 				</div>
-				<PageTitle
-					title={this.props.family.prefLabelLg1}
-					context="operations"
-					col="12"
-					offset="0"
-				/>
-				{secondLang &&
-					family.prefLabelLg2 && (
-						<PageSubtitle subTitle={this.props.family.prefLabelLg2} />
-					)}
-				<form>
-					<div className={cl}>
+				<form className="row">
+					<div className="col-md-6">
 						<div className="form-group">
 							<label htmlFor="prefLabelLg1">
 								<NoteFlag text={D.title} lang={lg1} />
 							</label>
 							<input
 								type="text"
-								className="form-control input-lg"
+								className="form-control"
 								id="prefLabelLg1"
 								value={this.state.family.prefLabelLg1}
 								onChange={this.onChange}
@@ -106,7 +109,7 @@ class OperationsFamilyEdition extends Component {
 							</label>
 							<input
 								type="text"
-								className="form-control input-lg"
+								className="form-control"
 								id="themeLg1"
 								value={family.themeLg1}
 								onChange={this.onChange}
@@ -124,47 +127,44 @@ class OperationsFamilyEdition extends Component {
 							/>
 						</div>
 					</div>
-					{secondLang && (
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="prefLabelLg2">
-									<NoteFlag text={D.title} lang={lg2} />
-								</label>
-								<input
-									type="text"
-									className="form-control input-lg"
-									id="prefLabelLg2"
-									value={family.prefLabelLg2}
-									onChange={this.onChange}
-									disabled
-								/>
-							</div>
-							<div className="form-group">
-								<label htmlFor="themeLg2">
-									<NoteFlag text={D.theme} lang={lg2} />
-								</label>
-								<input
-									type="text"
-									className="form-control input-lg"
-									id="themeLg2"
-									value={family.themeLg2}
-									onChange={this.onChange}
-								/>
-							</div>
-							<div className="form-group">
-								<label htmlFor="abstractLg2">
-									<NoteFlag text={D.descriptionTitle} lang={lg2} />
-								</label>
-								<textarea
-									value={family.abstractLg2}
-									className="form-control"
-									id="abstractLg2"
-									rows="10"
-									onChange={this.onChange}
-								/>
-							</div>
+					<div className="col-md-6">
+						<div className="form-group">
+							<label htmlFor="prefLabelLg2">
+								<NoteFlag text={D.title} lang={lg2} />
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								id="prefLabelLg2"
+								value={family.prefLabelLg2}
+								onChange={this.onChange}
+								disabled
+							/>
 						</div>
-					)}
+						<div className="form-group">
+							<label htmlFor="themeLg2">
+								<NoteFlag text={D.theme} lang={lg2} />
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								id="themeLg2"
+								value={family.themeLg2}
+								onChange={this.onChange}
+							/>
+						</div>
+						<div className="form-group">
+							<label htmlFor="abstractLg2">
+								<NoteFlag text={D.descriptionTitle} lang={lg2} />
+							</label>
+							<EditorMarkdown
+								text={family.abstractLg2}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'abstractLg2' } })
+								}
+							/>
+						</div>
+					</div>
 				</form>
 			</div>
 		);
@@ -174,7 +174,6 @@ class OperationsFamilyEdition extends Component {
 OperationsFamilyEdition.propTypes = {
 	family: PropTypes.object.isRequired,
 	langs: PropTypes.object.isRequired,
-	saveSecondLang: PropTypes.func.isRequired,
 	saveFamily: PropTypes.func.isRequired,
 };
 

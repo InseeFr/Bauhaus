@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import loadFamily, { saveFamily } from 'js/actions/operations/families/item';
-import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
 import buildExtract from 'js/utils/build-extract';
@@ -24,7 +23,6 @@ class OperationsFamilyEditionContainer extends Component {
 }
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadFamily,
 	saveFamily,
 };
@@ -32,19 +30,14 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const family = select.getFamily(state, id);
-	const secondLang = state.app.secondLang;
 	const langs = select.getLangs(state);
 	return {
 		id,
 		family,
-		secondLang,
 		langs,
 	};
 };
 
 export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(OperationsFamilyEditionContainer)
+	connect(mapStateToProps, mapDispatchToProps)(OperationsFamilyEditionContainer)
 );

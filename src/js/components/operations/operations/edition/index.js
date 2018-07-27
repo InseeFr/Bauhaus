@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import loadOperation, {
 	saveOperation,
 } from 'js/actions/operations/operations/item';
-import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
 import buildExtract from 'js/utils/build-extract';
@@ -26,7 +25,6 @@ class OperationEditionContainer extends Component {
 }
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadOperation,
 	saveOperation,
 };
@@ -34,19 +32,14 @@ const mapDispatchToProps = {
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const operation = select.getOperation(state, id);
-	const secondLang = state.app.secondLang;
 	const langs = select.getLangs(state);
 	return {
 		id,
 		operation,
-		secondLang,
 		langs,
 	};
 };
 
 export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(OperationEditionContainer)
+	connect(mapStateToProps, mapDispatchToProps)(OperationEditionContainer)
 );
