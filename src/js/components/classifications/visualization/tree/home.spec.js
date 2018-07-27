@@ -6,8 +6,8 @@ describe('classification-tree-home', () => {
 	it('renders without crashing', () => {
 		shallow(
 			<ClassificationTree
-				flatTree={[]}
-				prefLabel={'prefLabel'}
+				data={[]}
+				prefLabel="prefLabel"
 				secondLang={true}
 				saveSecondLang={() => console.log('save')}
 			/>

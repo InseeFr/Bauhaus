@@ -35,7 +35,8 @@ class ClassificationTreeContainer extends Component {
 		const { prefLabelLg1, prefLabelLg2 } = general;
 		const label = secondLang ? 'labelLg2' : 'labelLg1';
 		const data =
-			(flatTree[0][label] &&
+			(flatTree.length !== 0 &&
+				flatTree[0][label] &&
 				getTreeFromFlatData({
 					flatData: flatTree.map(n => ({
 						id: n.id,

@@ -36,7 +36,8 @@ class ClassificationItemsContainer extends Component {
 		const { prefLabelLg1, prefLabelLg2 } = general;
 		const label = secondLang ? 'labelLg2' : 'labelLg1';
 		const data =
-			(items[0][label] &&
+			(items.length !== 0 &&
+				items[0][label] &&
 				items.map(n => ({
 					id: n.id,
 					label: `${n.id} - ${n[label]}`,
