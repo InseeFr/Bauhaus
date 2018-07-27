@@ -8,6 +8,12 @@ export const generalFields = (correspondence, secondLang) => {
 		secondClassLabelLg1: D.targetClassificationTitle,
 	};
 	const content = Object.keys(mapping).map(fieldName => {
+		const {
+			firstClassLabelLg1,
+			firstClassLabelLg2,
+			secondClassLabelLg1,
+			secondClassLabelLg2,
+		} = correspondence;
 		if (fieldName === 'firstClassLabelLg1' && correspondence[fieldName]) {
 			return (
 				<li key={fieldName}>
@@ -17,22 +23,8 @@ export const generalFields = (correspondence, secondLang) => {
 							correspondence.idFirstClass
 						}`}
 					>
-						{correspondence.firstClassLabelLg1}
+						{secondLang ? firstClassLabelLg2 : firstClassLabelLg1}
 					</Link>
-					{secondLang &&
-						correspondence.firstClasslabelLg2 && (
-							<span>
-								{' ('}
-								<Link
-									to={`/classifications/classification/${
-										correspondence.idFirstClass
-									}`}
-								>
-									{correspondence.firstClasslabelLg2}
-								</Link>
-								{')'}
-							</span>
-						)}
 				</li>
 			);
 		}
@@ -45,22 +37,8 @@ export const generalFields = (correspondence, secondLang) => {
 							correspondence.idSecondClass
 						}`}
 					>
-						{correspondence.secondClassLabelLg1}
+						{secondLang ? secondClassLabelLg2 : secondClassLabelLg1}
 					</Link>
-					{secondLang &&
-						correspondence.secondClassLabelLg2 && (
-							<span>
-								{' ('}
-								<Link
-									to={`/classifications/classification/${
-										correspondence.idSecondClass
-									}`}
-								>
-									{correspondence.secondClassLabelLg2}
-								</Link>
-								{')'}
-							</span>
-						)}
 				</li>
 			);
 		} else return null;

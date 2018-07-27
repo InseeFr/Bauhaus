@@ -19,11 +19,19 @@ class HomeAssociations extends Component {
 			secondAltLabelLg1,
 			secondAltLabelLg2,
 		} = correspondence;
+
+		const { sourceLabelLg2, targetLabelLg2 } = associations[0];
+		if (secondLang && !sourceLabelLg2 && !targetLabelLg2) return null;
+
 		const data = sortById(associations).map(a => {
 			const [idS, idT] = a.id.split('-');
 			return {
-				source: `${idS} - ${a.sourceLabelLg1}`,
-				target: `${idT} - ${a.targetLabelLg1}`,
+				source: `${idS} - ${
+					secondLang ? a['sourceLabelLg2'] : a['sourceLabelLg1']
+				}`,
+				target: `${idT} - ${
+					secondLang ? a['targetLabelLg2'] : a['targetLabelLg1']
+				}`,
 				id: a.id,
 			};
 		});

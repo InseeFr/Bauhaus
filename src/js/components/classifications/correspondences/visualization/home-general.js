@@ -11,19 +11,32 @@ import { propTypes as correspondencePropTypes } from 'js/utils/classifications/c
 class HomeGeneral extends Component {
 	render() {
 		const { correspondence, secondLang, langs: { lg1, lg2 } } = this.props;
+		const {
+			labelLg1,
+			labelLg2,
+			firstClassLabelLg2,
+			secondClassLabelLg2,
+		} = correspondence;
+		const title = secondLang ? labelLg2 : labelLg1;
 		return (
 			<div>
 				<CheckSecondLang
 					secondLang={secondLang}
 					onChange={this.props.saveSecondLang}
 				/>
-				<PageTitle title={correspondence.labelLg1} context="classifications" />
+				{title && <PageTitle title={title} context="classifications" />}
 				<CorrespondenceControls />
 				<div className="row">
 					<div className="col-md-12">
-						<Panel title={D.globalInformationsTitle} context="classifications">
-							{generalFields(correspondence, secondLang)}
-						</Panel>
+						{(!secondLang ||
+							(secondLang && (firstClassLabelLg2 || secondClassLabelLg2))) && (
+							<Panel
+								title={D.globalInformationsTitle}
+								context="classifications"
+							>
+								{generalFields(correspondence, secondLang)}
+							</Panel>
+						)}
 					</div>
 				</div>
 				<span>
