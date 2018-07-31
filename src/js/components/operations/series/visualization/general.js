@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
+import LinksView from 'js/components/operations/shared/links';
 
 function SerieInformation(props) {
 	const {
@@ -186,6 +187,17 @@ function SerieInformation(props) {
 					allowEmpty={true}
 				/>
 			</div>
+			<LinksView
+				children={attr.operations}
+				childrenTitle={D.childrenOperations}
+				childrenPath="operation"
+				parent={attr.family}
+				parentTitle={D.parentFamilly}
+				parentPath="family"
+				title={D.linksTitle}
+				langs={{ lg1, lg2 }}
+				secondLang={secondLang}
+			/>
 		</div>
 	);
 }

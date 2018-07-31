@@ -504,6 +504,18 @@ const dictionary = {
 		fr: 'Séries filles',
 		en: 'Daughter series',
 	},
+	childrenOperations: {
+		fr: 'Opérations filles',
+		en: 'Daughter operations',
+	},
+	parentFamilly: {
+		fr: 'Famille parente',
+		en: 'Parent family',
+	},
+	parentSeries: {
+		fr: 'Série parente',
+		en: 'Parent series',
+	},
 	title: {
 		fr: 'Intitulé',
 		en: 'Title',
