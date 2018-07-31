@@ -68,9 +68,7 @@ export const buildCall = (context, resource, fn) => {
 		baseURI = process.env.REACT_APP_INSEE ? baseURI.bauhaus : baseURI;
 		let baseHost = `${baseURI}${context ? `/${context}` : ''}`;
 		baseHost = removeTrailingSlash(baseHost);
-		if (context === 'fake-data') {
-			baseHost = context ? `/${context}` : '/';
-		}
+
 		const url = `${baseHost}/${path}`;
 
 		return fetch(url, options)

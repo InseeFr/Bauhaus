@@ -13,7 +13,6 @@ import PageSubtitle from 'js/components/shared/page-subtitle';
 import FamilyInformation from 'js/components/operations/families/visualization/general';
 import Loading from 'js/components/shared/loading';
 import loadFamily from 'js/actions/operations/families/item';
-import { Link } from 'react-router-dom';
 import Button from 'js/components/shared/button';
 
 const extractId = buildExtract('id');
@@ -59,10 +58,11 @@ class FamilyVisualizationContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+	const family = select.getFamily(state, id);
 	const id = extractId(ownProps);
 	return {
 		id,
-		family: select.getFamily(state, id),
+		family: family.id === id ? family : {},
 		langs: select.getLangs(state),
 		secondLang: state.app.secondLang,
 	};

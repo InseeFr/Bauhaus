@@ -1,4 +1,4 @@
-import api from 'js/remote-api/operations-api';
+import api from 'js/remote-api/codelist-api';
 import * as A from 'js/actions/constants';
 
 export default notation => dispatch => {

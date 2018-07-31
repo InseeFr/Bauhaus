@@ -6,7 +6,7 @@ const dispatch = jest.fn();
 jest.mock('js/remote-api/operations-api');
 
 describe('Families actions', () => {
-	describe('get a familly', () => {
+	describe('get a family', () => {
 		it('should call dispatch LOAD_OPERATIONS_FAMILY_SUCCESS action with the right family', async () => {
 			api.getFamily = function(id) {
 				return Promise.resolve({ label: 'bbb' });
@@ -38,7 +38,7 @@ describe('Families actions', () => {
 			});
 		});
 	});
-	describe('save a familly', () => {
+	describe('save a family', () => {
 		it('should call dispatch SAVE_OPERATIONS_FAMILY_SUCCESS action with the udpated family', async () => {
 			const family = { label: 'aaa' };
 			await saveFamily(family)(dispatch);

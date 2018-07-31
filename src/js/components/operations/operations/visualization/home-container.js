@@ -11,7 +11,6 @@ import exportVariableBook from 'js/actions/operations/export-varBook';
 import { saveSecondLang } from 'js/actions/app';
 import loadOperation from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
-import { Link } from 'react-router-dom';
 import ModalRmes from 'js/components/shared/modal-rmes';
 import PageTitle from 'js/components/shared/page-title';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
@@ -139,9 +138,10 @@ class OperationVisualizationContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
+	const operation = select.getOperation(state, id);
 	return {
 		id,
-		operation: select.getOperation(state, id),
+		operation: id === operation.id ? operation : {},
 		exportStatus: select.getStatus(state, EXPORT_VARBOOK),
 		langs: select.getLangs(state),
 		secondLang: state.app.secondLang,

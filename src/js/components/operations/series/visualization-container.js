@@ -13,7 +13,6 @@ import buildExtract from 'js/utils/build-extract';
 import SerieInformation from 'js/components/operations/series/visualization/general';
 import Loading from 'js/components/shared/loading';
 import loadSerie from 'js/actions/operations/series/item';
-import { Link } from 'react-router-dom';
 import loadCodesList from 'js/actions/operations/series/codesList';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import Button from 'js/components/shared/button';
@@ -81,9 +80,10 @@ const mapStateToProps = (state, ownProps) => {
 	const categories =
 		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
 	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
+
 	return {
 		id,
-		serie,
+		serie: serie.id === id ? serie : {},
 		langs: select.getLangs(state),
 		secondLang: state.app.secondLang,
 		frequency: frequencies.codes.find(
