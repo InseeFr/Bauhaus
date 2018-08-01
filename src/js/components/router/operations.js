@@ -6,9 +6,10 @@ import OperationsSeriesContainer from 'js/components/operations/series/home-cont
 import OperationsContainer from 'js/components/operations/operations/home-container';
 import OperationsIndicatorsContainer from 'js/components/operations/indicators/home-container';
 
-import OperationsFamilyVisualizationContainer from 'js/components/operations/families/visualization-container';
-import OperationsSeriesVisualizationContainer from 'js/components/operations/series/visualization-container';
-import OperationVisualizationContainer from 'js/components/operations/operations/visualization/home-container';
+import OperationsFamilyVisualizationContainer from 'js/components/operations/families/visualization/visualization-container';
+import OperationsSeriesVisualizationContainer from 'js/components/operations/series/visualization/visualization-container';
+import OperationVisualizationContainer from 'js/components/operations/operations/visualization/visualization-container';
+import OperationIndicatorContainer from 'js/components/operations/indicators/visualization/visualization-container';
 
 import OperationsFamilyEditionContainer from 'js/components/operations/families/edition';
 import OperationsSeriesEditionContainer from 'js/components/operations/series/edition';
@@ -35,6 +36,11 @@ export default [
 		exact
 		path="/operations/indicators"
 		component={OperationsIndicatorsContainer}
+	/>,
+	<Route
+		exact
+		path="/operations/indicator/:id"
+		component={OperationIndicatorContainer}
 	/>,
 	<Route
 		exact

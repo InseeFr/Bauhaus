@@ -115,3 +115,7 @@ export const getSerie = (state, id) => {
 export const getOperation = (state, id) => {
 	return state.operationsOperationsCurrent || {};
 };
+
+export const getIndicator = (state, id) => {
+	return state.operationsIndicatorsCurrent || {};
+};

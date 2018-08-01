@@ -2,16 +2,31 @@ import React from 'react';
 
 import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
-import LinksView from 'js/components/operations/shared/links';
+import RelationsView from 'js/components/operations/shared/relations';
+import DisplayLinks from 'js/components/operations/shared/links/';
+import SeeAlso from 'js/components/operations/shared/seeAlso';
+import {
+	getLinksByCategory,
+	getSeeAlsoByType,
+} from 'js/components/operations/shared/links/utils';
 
 function SerieInformation(props) {
 	const {
 		attr,
 		langs: { lg1, lg2 },
+		langs,
 		secondLang,
 		frequency = {},
 		category = {},
 	} = props;
+
+	const seeAlso = getSeeAlsoByType(attr.links);
+	const creator = getLinksByCategory(attr.links, 'creator');
+	const stakeHolder = getLinksByCategory(attr.links, 'stakeHolder');
+	const dataCollector = getLinksByCategory(attr.links, 'dataCollector');
+	const contributor = getLinksByCategory(attr.links, 'contributor');
+	const replaces = getLinksByCategory(attr.links, 'replaces');
+	const replacedBy = getLinksByCategory(attr.links, 'isReplacedBy');
 
 	return (
 		<div>
@@ -112,63 +127,49 @@ function SerieInformation(props) {
 					/>
 				)}
 			</div>
-			<div className="row">
-				<Note
-					text={attr.creator}
-					title={D.organisation}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
-			<div className="row">
-				<Note
-					text={attr.stakeHolder}
-					title={D.stakeholders}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
+			<DisplayLinks
+				links={creator}
+				title={D.organisation}
+				langs={langs}
+				secondLang={secondLang}
+				displayLink={false}
+			/>
+			<DisplayLinks
+				links={stakeHolder}
+				title={D.stakeholders}
+				langs={langs}
+				secondLang={secondLang}
+				displayLink={false}
+			/>
+			<DisplayLinks
+				links={dataCollector}
+				title={D.dataCollector}
+				langs={langs}
+				secondLang={secondLang}
+				displayLink={false}
+			/>
+			<DisplayLinks
+				links={contributor}
+				title={D.contributorTitle}
+				langs={langs}
+				secondLang={secondLang}
+				displayLink={false}
+			/>
+			<DisplayLinks
+				links={replaces}
+				path={'/operations/series/'}
+				title={D.replaces}
+				langs={langs}
+				secondLang={secondLang}
+			/>
+			<DisplayLinks
+				links={replacedBy}
+				path={'/operations/series/'}
+				title={D.replacedBy}
+				langs={langs}
+				secondLang={secondLang}
+			/>
 
-			<div className="row">
-				<Note
-					text={attr.dataCollector}
-					title={D.dataCollector}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
-
-			<div className="row">
-				<Note
-					text={attr.contributor}
-					title={D.contributorTitle}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
-
-			<div className="row">
-				<Note
-					text={attr.replaces}
-					title={D.replaces}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
-			<div className="row">
-				<Note
-					text={attr.replacedBy}
-					title={D.replacedBy}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
 			<div className="row">
 				<Note
 					text={attr.indicators}
@@ -178,16 +179,10 @@ function SerieInformation(props) {
 					allowEmpty={true}
 				/>
 			</div>
-			<div className="row">
-				<Note
-					text={attr.seeAlso}
-					title={D.seeAlso}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
-			<LinksView
+
+			<SeeAlso links={seeAlso} langs={langs} secondLang={secondLang} />
+
+			<RelationsView
 				children={attr.operations}
 				childrenTitle={D.childrenOperations}
 				childrenPath="operation"

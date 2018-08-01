@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
-import LinksView from 'js/components/operations/shared/links';
+import RelationsView from 'js/components/operations/shared/relations';
 
 function FamilyInformation(props) {
 	const { attr, langs: { lg1, lg2 }, secondLang } = props;
@@ -48,7 +48,7 @@ function FamilyInformation(props) {
 					/>
 				)}
 			</div>
-			<LinksView
+			<RelationsView
 				children={attr.series}
 				childrenTitle={D.childrenSeries}
 				childrenPath="series"

@@ -10,20 +10,26 @@ import * as select from 'js/reducers';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { saveSecondLang } from 'js/actions/app';
 import PageSubtitle from 'js/components/shared/page-subtitle';
-import FamilyInformation from 'js/components/operations/families/visualization/general';
+import IndicatorInformation from 'js/components/operations/indicators/visualization/general';
 import Loading from 'js/components/shared/loading';
-import loadFamily from 'js/actions/operations/families/item';
+import loadIndicator from 'js/actions/operations/indicators/item';
 import Button from 'js/components/shared/button';
+import { CL_FREQ } from 'js/actions/constants/codeList';
 
 const extractId = buildExtract('id');
-class FamilyVisualizationContainer extends Component {
+class IndicatorVisualizationContainer extends Component {
 	componentWillMount() {
-		if (!this.props.family.id) {
-			this.props.loadFamily(this.props.id);
+		if (!this.props.indicator.id) {
+			this.props.loadIndicator(this.props.id);
+		}
+	}
+	componentWillReceiveProps(nextProps) {
+		if (this.props.id !== nextProps.id) {
+			this.props.loadIndicator(nextProps.id);
 		}
 	}
 	render() {
-		const { secondLang, langs, family: { ...attr } } = this.props;
+		const { secondLang, langs, indicator: { ...attr } } = this.props;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
 		return (
 			<div className="container">
@@ -38,7 +44,7 @@ class FamilyVisualizationContainer extends Component {
 
 				<div className="row btn-line">
 					<Button
-						action={goBack(this.props, '/operations/families')}
+						action={goBack(this.props, '/operations/indicators')}
 						label={D.btnReturn}
 						context="operations"
 					/>
@@ -46,31 +52,39 @@ class FamilyVisualizationContainer extends Component {
 					<div className="col-md-6 centered" />
 					<Button label={D.btnSend} context="operations" />
 					<Button
-						action={`/operations/family/${attr.id}/modify`}
+						action={`/operations/indicator/${attr.id}/modify`}
 						label={D.btnUpdate}
 						context="operations"
 					/>
 				</div>
-				<FamilyInformation secondLang={secondLang} attr={attr} langs={langs} />
+				<IndicatorInformation
+					secondLang={secondLang}
+					attr={attr}
+					langs={langs}
+				/>
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = (state, ownProps) => {
-	const family = select.getFamily(state, id);
 	const id = extractId(ownProps);
+	const indicator = select.getIndicator(state, id);
+	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
 	return {
 		id,
-		family: family.id === id ? family : {},
+		indicator: indicator.id === id ? indicator : {},
 		langs: select.getLangs(state),
 		secondLang: state.app.secondLang,
+		frequency: frequencies.codes.find(
+			c => c.code === indicator.accrualPeriodicityCode
+		),
 	};
 };
 const mapDispatchToProps = {
 	saveSecondLang,
-	loadFamily,
+	loadIndicator,
 };
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(FamilyVisualizationContainer)
+	connect(mapStateToProps, mapDispatchToProps)(IndicatorVisualizationContainer)
 );

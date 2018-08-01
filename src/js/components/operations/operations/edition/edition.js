@@ -92,73 +92,83 @@ class OperationsOperationEdition extends Component {
 						context="operations"
 					/>
 				</div>
-				<form className="row">
-					<div className="col-md-6">
-						<div className="form-group">
-							<label htmlFor="prefLabelLg1">
-								<NoteFlag text={D.title} lang={lg1} />
-							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="prefLabelLg1"
-								value={this.state.operation.prefLabelLg1}
-								onChange={this.onChange}
-								disabled
-							/>
+				<form>
+					<div className="row">
+						<div className="col-md-6">
+							<div className="form-group">
+								<label htmlFor="prefLabelLg1">
+									<NoteFlag text={D.title} lang={lg1} />
+								</label>
+								<input
+									type="text"
+									className="form-control"
+									id="prefLabelLg1"
+									value={this.state.operation.prefLabelLg1}
+									onChange={this.onChange}
+									disabled
+								/>
+							</div>
 						</div>
-						<div className="form-group">
-							<label htmlFor="altLabel1">
-								<NoteFlag text={D.altLabel} lang={lg1} />
-							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="altLabel1"
-								value={operation.altLabel1}
-								onChange={this.onChange}
-							/>
-						</div>
-					</div>
-					<div className="col-md-6">
-						<div className="form-group">
-							<label htmlFor="prefLabelLg2">
-								<NoteFlag text={D.title} lang={lg2} />
-							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="prefLabelLg2"
-								value={operation.prefLabelLg2}
-								onChange={this.onChange}
-								disabled
-							/>
-						</div>
-						<div className="form-group">
-							<label htmlFor="altLabel2">
-								<NoteFlag text={D.altLabel} lang={lg2} />
-							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="altLabel2"
-								value={operation.altLabel2}
-								onChange={this.onChange}
-							/>
+						<div className="col-md-6">
+							<div className="form-group">
+								<label htmlFor="prefLabelLg2">
+									<NoteFlag text={D.title} lang={lg2} />
+								</label>
+								<input
+									type="text"
+									className="form-control"
+									id="prefLabelLg2"
+									value={operation.prefLabelLg2}
+									onChange={this.onChange}
+									disabled
+								/>
+							</div>
 						</div>
 					</div>
-					<div className="col-md-12">
-						<div className="form-group">
-							<label htmlFor="millesime">
-								<NoteFlag text={D.year} lang={lg1} />
-							</label>
-							<textarea
-								value={operation.millesime}
-								className="form-control"
-								id="millesime"
-								rows="10"
-								onChange={this.onChange}
-							/>
+					<div className="row">
+						<div className="col-md-6">
+							<div className="form-group">
+								<label htmlFor="altLabel1">
+									<NoteFlag text={D.altLabel} lang={lg1} />
+								</label>
+								<input
+									type="text"
+									className="form-control"
+									id="altLabel1"
+									value={operation.altLabel1}
+									onChange={this.onChange}
+								/>
+							</div>
+						</div>
+						<div className="col-md-6">
+							<div className="form-group">
+								<label htmlFor="altLabel2">
+									<NoteFlag text={D.altLabel} lang={lg2} />
+								</label>
+								<input
+									type="text"
+									className="form-control"
+									id="altLabel2"
+									value={operation.altLabel2}
+									onChange={this.onChange}
+								/>
+							</div>
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-md-12">
+							<div className="form-group">
+								<label htmlFor="millesime">
+									<NoteFlag text={D.year} lang={lg1} />
+								</label>
+								<textarea
+									value={operation.millesime}
+									className="form-control"
+									id="millesime"
+									rows="10"
+									onChange={this.onChange}
+								/>
+							</div>
 						</div>
 					</div>
 				</form>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
-import LinksView from 'js/components/operations/shared/links';
+import RelationsView from 'js/components/operations/shared/relations';
 
 function OperationVisualization(props) {
 	const { attr, secondLang, langs: { lg1, lg2 } } = props;
@@ -11,7 +11,7 @@ function OperationVisualization(props) {
 		<div>
 			<div className="row">
 				<Note
-					text={attr.altLabel1}
+					text={attr.altLabelLg1}
 					title={D.altLabel}
 					lang={lg1}
 					alone={!secondLang}
@@ -19,7 +19,7 @@ function OperationVisualization(props) {
 				/>
 				{secondLang && (
 					<Note
-						text={attr.altLabel2}
+						text={attr.altLabelLg2}
 						title={D.altLabel}
 						lang={lg2}
 						alone={false}
@@ -36,7 +36,7 @@ function OperationVisualization(props) {
 					allowEmpty={true}
 				/>
 			</div>
-			<LinksView
+			<RelationsView
 				parent={attr.series}
 				parentTitle={D.parentSeries}
 				parentPath="series"

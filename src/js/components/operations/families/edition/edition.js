@@ -92,81 +92,95 @@ class OperationsFamilyEdition extends Component {
 						context="operations"
 					/>
 				</div>
-				<form className="row">
-					<div className="col-md-6">
-						<div className="form-group">
-							<label htmlFor="prefLabelLg1">
-								<NoteFlag text={D.title} lang={lg1} />
-							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="prefLabelLg1"
-								value={this.state.family.prefLabelLg1}
-								onChange={this.onChange}
-								disabled
-							/>
+				<form>
+					<div className="row">
+						<div className="col-md-6">
+							<div className="form-group">
+								<label htmlFor="prefLabelLg1">
+									<NoteFlag text={D.title} lang={lg1} />
+								</label>
+								<input
+									type="text"
+									className="form-control"
+									id="prefLabelLg1"
+									value={this.state.family.prefLabelLg1}
+									onChange={this.onChange}
+									disabled
+								/>
+							</div>
 						</div>
-						<div className="form-group">
-							<label htmlFor="themeLg1">
-								<NoteFlag text={D.theme} lang={lg1} />
-							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="themeLg1"
-								value={family.themeLg1}
-								onChange={this.onChange}
-							/>
-						</div>
-						<div className="form-group">
-							<label htmlFor="abstractLg1">
-								<NoteFlag text={D.descriptionTitle} lang={lg1} />
-							</label>
-							<EditorMarkdown
-								text={family.abstractLg1}
-								handleChange={value =>
-									this.onChange({ target: { value, id: 'abstractLg1' } })
-								}
-							/>
+						<div className="col-md-6">
+							<div className="form-group">
+								<label htmlFor="prefLabelLg2">
+									<NoteFlag text={D.title} lang={lg2} />
+								</label>
+								<input
+									type="text"
+									className="form-control"
+									id="prefLabelLg2"
+									value={family.prefLabelLg2}
+									onChange={this.onChange}
+									disabled
+								/>
+							</div>
 						</div>
 					</div>
-					<div className="col-md-6">
-						<div className="form-group">
-							<label htmlFor="prefLabelLg2">
-								<NoteFlag text={D.title} lang={lg2} />
-							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="prefLabelLg2"
-								value={family.prefLabelLg2}
-								onChange={this.onChange}
-								disabled
-							/>
+					<div className="row">
+						<div className="col-md-6">
+							<div className="form-group">
+								<label htmlFor="themeLg1">
+									<NoteFlag text={D.theme} lang={lg1} />
+								</label>
+								<input
+									type="text"
+									className="form-control"
+									id="themeLg1"
+									value={family.themeLg1}
+									onChange={this.onChange}
+								/>
+							</div>
 						</div>
-						<div className="form-group">
-							<label htmlFor="themeLg2">
-								<NoteFlag text={D.theme} lang={lg2} />
-							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="themeLg2"
-								value={family.themeLg2}
-								onChange={this.onChange}
-							/>
+						<div className="col-md-6">
+							<div className="form-group">
+								<label htmlFor="themeLg2">
+									<NoteFlag text={D.theme} lang={lg2} />
+								</label>
+								<input
+									type="text"
+									className="form-control"
+									id="themeLg2"
+									value={family.themeLg2}
+									onChange={this.onChange}
+								/>
+							</div>
 						</div>
-						<div className="form-group">
-							<label htmlFor="abstractLg2">
-								<NoteFlag text={D.descriptionTitle} lang={lg2} />
-							</label>
-							<EditorMarkdown
-								text={family.abstractLg2}
-								handleChange={value =>
-									this.onChange({ target: { value, id: 'abstractLg2' } })
-								}
-							/>
+					</div>
+					<div className="row">
+						<div className="col-md-6">
+							<div className="form-group">
+								<label htmlFor="abstractLg1">
+									<NoteFlag text={D.descriptionTitle} lang={lg1} />
+								</label>
+								<EditorMarkdown
+									text={family.abstractLg1}
+									handleChange={value =>
+										this.onChange({ target: { value, id: 'abstractLg1' } })
+									}
+								/>
+							</div>
+						</div>
+						<div className="col-md-6">
+							<div className="form-group">
+								<label htmlFor="abstractLg2">
+									<NoteFlag text={D.descriptionTitle} lang={lg2} />
+								</label>
+								<EditorMarkdown
+									text={family.abstractLg2}
+									handleChange={value =>
+										this.onChange({ target: { value, id: 'abstractLg2' } })
+									}
+								/>
+							</div>
 						</div>
 					</div>
 				</form>

@@ -1,65 +1,54 @@
 import React from 'react';
 import { Note } from 'js/components/shared/note';
-import './links.css';
 import { Link } from 'react-router-dom';
 
-function LinksViewPerLg({
-	children,
-	childrenTitle,
-	childrenPath,
-	parent,
-	parentTitle,
-	parentPath,
+function DisplayLinks({
+	links,
+	path,
 	title,
 	langs: { lg1, lg2 },
 	secondLang,
-	currentLang,
+	displayLink = true,
 }) {
-	return (
-		<Note
-			text={
-				<React.Fragment>
-					{parent && (
-						<p>
-							<span className="linksTitle">{parentTitle}:</span>
-							<Link to={`/operations/${parentPath}/${parent.id}`}>
-								{parent[`label${currentLang}`]}
-							</Link>
-						</p>
-					)}
-					{children && (
-						<div>
-							<p>
-								<span className="linksTitle">{childrenTitle}:</span>
-							</p>
-							<ul>
-								{children.map(item => (
-									<li>
-										<Link to={`/operations/${childrenPath}/${item.id}`}>
-											{item[`label${currentLang}`]}
-										</Link>
-									</li>
-								))}
-							</ul>
-						</div>
-					)}
-				</React.Fragment>
-			}
-			title={title}
-			lang={lg1}
-			alone={!secondLang}
-			allowEmpty={true}
-		/>
-	);
-}
+	function displayBlock(link, label) {
+		if (displayLink) {
+			return <Link to={`${path}${link.id}`}>{link[label]}</Link>;
+		}
+		return <p>{link[label]}</p>;
+	}
 
-function LinksView(props) {
+	function displayList(label) {
+		return <ul>{links.map(link => <li>{displayBlock(link, label)}</li>)}</ul>;
+	}
+	function displayItem(label) {
+		return displayBlock(links[0], label);
+	}
 	return (
 		<div className="row">
-			<LinksViewPerLg {...props} currentLang="Lg1" />
-			{props.secondLang && <LinksViewPerLg {...props} currentLang="Lg2" />}
+			<Note
+				text={
+					links.length === 1 ? displayItem('labelLg1') : displayList('labelLg1')
+				}
+				title={title}
+				lang={lg1}
+				alone={!secondLang}
+				allowEmpty={true}
+			/>
+			{secondLang && (
+				<Note
+					text={
+						links.length === 1
+							? displayItem('labelLg2')
+							: displayList('labelLg2')
+					}
+					title={title}
+					lang={lg2}
+					alone={false}
+					allowEmpty={true}
+				/>
+			)}
 		</div>
 	);
 }
 
-export default LinksView;
+export default DisplayLinks;
