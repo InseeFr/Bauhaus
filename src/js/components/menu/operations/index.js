@@ -43,14 +43,14 @@ class MenuOperations extends Component {
 				pathKey: 'operations/series',
 				className: null,
 			},
-			operations: {
-				path: '/operations',
-				pathKey: 'operation',
-				className: null,
-			},
 			indicators: {
 				path: '/operations/indicators',
 				pathKey: 'operations/indicator',
+				className: null,
+			},
+			operations: {
+				path: '/operations',
+				pathKey: 'operation',
 				className: null,
 			},
 		};
