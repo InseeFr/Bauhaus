@@ -17,7 +17,7 @@ export const saveOperation = operation => dispatch => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_OPERATION_SUCCESS,
 				payload: {
-					family,
+					operation,
 				},
 			}),
 		err =>
