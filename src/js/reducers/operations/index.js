@@ -80,6 +80,17 @@ const operationsOperationsCurrent = function(state = {}, action) {
 	}
 };
 
+const operationsIndicatorsCurrent = function(state = {}, action) {
+	switch (action.type) {
+		case A.LOAD_OPERATIONS_INDICATOR_SUCCESS:
+		case A.SAVE_OPERATIONS_INDICATOR_SUCCESS:
+			return action.payload;
+
+		default:
+			return state;
+	}
+};
+
 const operationsOperationsList = makeReducers([
 	A.LOAD_OPERATIONS_OPERATIONS_LIST,
 	A.LOAD_OPERATIONS_OPERATIONS_LIST_SUCCESS,
@@ -105,5 +116,6 @@ export default {
 	operationsSeriesCurrent,
 	operationsFamiliesCurrent,
 	operationsOperationsCurrent,
+	operationsIndicatorsCurrent,
 	operationsIndicatorsList,
 };
