@@ -11,6 +11,10 @@ const dictionary = {
 		fr: 'Séries',
 		en: 'Series',
 	},
+	indicatorsTitle: {
+		fr: 'Indicateurs',
+		en: 'Indicators',
+	},
 	operationsSearchTitle: {
 		fr: 'Opérations - Recherche',
 		en: 'Operations - Search',
@@ -22,6 +26,10 @@ const dictionary = {
 	seriesSearchTitle: {
 		fr: 'Séries - Recherche',
 		en: 'Series - Search',
+	},
+	indicatorsSearchTitle: {
+		fr: 'Indicateurs - Recherche',
+		en: 'Indicators - Search',
 	},
 };
 

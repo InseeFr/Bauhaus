@@ -1,7 +1,7 @@
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
-
+import { mdToDraftjs, draftjsToMd } from 'draftjs-md-converter';
 export const htmlToRawText = html => {
 	const el = document.createElement('div');
 	el.innerHTML = html || '';
@@ -54,4 +54,16 @@ export function htmlFromEditorState(editorState) {
 
 export function editorStateFromHtml(html) {
 	return EditorState.createWithContent(stateFromHTML(html));
+}
+
+export function mdFromEditorState(editorState) {
+	return draftjsToMd(convertToRaw(editorState.getCurrentContent()));
+}
+
+export function editorStateFromMd(md = '') {
+	return EditorState.createWithContent(convertFromRaw(mdToDraftjs(md)));
+}
+
+export function markdownToHtml(md) {
+	return htmlFromEditorState(editorStateFromMd(md));
 }

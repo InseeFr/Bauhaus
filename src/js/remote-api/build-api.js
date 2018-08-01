@@ -63,11 +63,14 @@ export const buildCall = (context, resource, fn) => {
 		if (!options.method) {
 			options.method = guessMethod(resource);
 		}
+
 		let baseURI = await getBaseURI();
 		baseURI = process.env.REACT_APP_INSEE ? baseURI.bauhaus : baseURI;
 		let baseHost = `${baseURI}${context ? `/${context}` : ''}`;
 		baseHost = removeTrailingSlash(baseHost);
+
 		const url = `${baseHost}/${path}`;
+
 		return fetch(url, options)
 			.then(
 				res => {

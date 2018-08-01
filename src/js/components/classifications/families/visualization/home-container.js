@@ -48,9 +48,10 @@ const mapDispatchToProps = {
 	loadFamily,
 };
 
-FamilyVisualizationContainer = connect(mapStateToProps, mapDispatchToProps)(
-	FamilyVisualizationContainer
-);
+FamilyVisualizationContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(FamilyVisualizationContainer);
 
 FamilyVisualizationContainer.propTypes = {
 	match: PropTypes.shape({

@@ -1,51 +1,55 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import PageTitle from 'js/components/shared/page-title';
-import Controls from './controls';
-import ModalRmes from 'js/components/shared/modal-rmes';
+import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
+import RelationsView from 'js/components/operations/shared/relations';
 
-class OperationVisualization extends Component {
-	render() {
-		const {
-			id,
-			exportVarBook,
-			isModalOpen,
-			openModal,
-			closeModal,
-		} = this.props;
-		const modalButtons = [
-			{
-				label: D.btnCancel,
-				action: closeModal,
-				style: 'primary',
-			},
-			{
-				label: D.btnValid,
-				action: exportVarBook,
-				style: 'primary',
-			},
-		];
+function OperationVisualization(props) {
+	const { attr, secondLang, langs: { lg1, lg2 } } = props;
 
-		return (
-			<div className="container">
-				<PageTitle title={id} context="operations" />
-				<Controls openModal={openModal} />
-				<ModalRmes
-					id="modal"
-					isOpen={isModalOpen}
-					title="Choix du type d'export du dictionnaire de variables"
-					body="TODO"
-					closeCancel={closeModal}
-					modalButtons={modalButtons}
+	return (
+		<div>
+			<div className="row">
+				<Note
+					text={attr.altLabelLg1}
+					title={D.altLabel}
+					lang={lg1}
+					alone={!secondLang}
+					allowEmpty={true}
+				/>
+				{secondLang && (
+					<Note
+						text={attr.altLabelLg2}
+						title={D.altLabel}
+						lang={lg2}
+						alone={false}
+						allowEmpty={true}
+					/>
+				)}
+			</div>
+			<div className="row">
+				<Note
+					text={attr.millesime}
+					title={D.year}
+					lang={lg1}
+					alone={true}
+					allowEmpty={true}
 				/>
 			</div>
-		);
-	}
+			<RelationsView
+				parent={attr.series}
+				parentTitle={D.parentSeries}
+				parentPath="series"
+				title={D.linksTitle}
+				langs={{ lg1, lg2 }}
+				secondLang={secondLang}
+			/>
+		</div>
+	);
 }
 
 OperationVisualization.propTypes = {
-	exportVarBook: PropTypes.func.isRequired,
+	attr: PropTypes.object.isRequired,
 };
 
 export default OperationVisualization;
