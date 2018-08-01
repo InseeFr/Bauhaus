@@ -8,6 +8,7 @@ const api = {
 	getFamily: id => [`family/${id}`],
 	getOperation: id => [`operation/${id}`],
 	getSerie: id => [`series/${id}`],
+	getIndicator: id => [`indicator/${id}`],
 	getVarBookExport: (id, MimeType) => [
 		`operation/${id}/variableBook`,
 		{
