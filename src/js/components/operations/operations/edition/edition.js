@@ -12,7 +12,6 @@ const defaultOperation = {
 	prefLabelLg2: '',
 	altLabel1: '',
 	altLabel2: '',
-	millesime: '',
 };
 class OperationsOperationEdition extends Component {
 	constructor(props) {
@@ -150,22 +149,6 @@ class OperationsOperationEdition extends Component {
 									className="form-control"
 									id="altLabelLg2"
 									value={operation.altLabelLg2}
-									onChange={this.onChange}
-								/>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="millesime">
-									<NoteFlag text={D.year} lang={lg1} />
-								</label>
-								<textarea
-									value={operation.millesime}
-									className="form-control"
-									id="millesime"
-									rows="10"
 									onChange={this.onChange}
 								/>
 							</div>
