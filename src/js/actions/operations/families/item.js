@@ -38,10 +38,7 @@ export default id => dispatch => {
 		results =>
 			dispatch({
 				type: A.LOAD_OPERATIONS_FAMILY_SUCCESS,
-				payload: {
-					...results,
-					id, //TO BE DELETED WHEN WE WILL USE THE RIGHT BACKEND
-				},
+				payload: results,
 			}),
 		err =>
 			dispatch({

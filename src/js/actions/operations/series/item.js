@@ -39,10 +39,7 @@ export default id => dispatch => {
 		results =>
 			dispatch({
 				type: A.LOAD_OPERATIONS_SERIE_SUCCESS,
-				payload: {
-					...results,
-					id,
-				},
+				payload: results,
 			}),
 		err =>
 			dispatch({
