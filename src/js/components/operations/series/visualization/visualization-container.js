@@ -27,6 +27,12 @@ class SeriesVisualizationContainer extends Component {
 			this.props.loadCodesList(CL_SOURCE_CATEGORY);
 		}
 	}
+
+	componentWillReceiveProps(nextProps) {
+		if (this.props.id !== nextProps.id) {
+			this.props.loadSerie(nextProps.id);
+		}
+	}
 	render() {
 		const {
 			secondLang,

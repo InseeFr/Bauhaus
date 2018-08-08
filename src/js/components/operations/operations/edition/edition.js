@@ -10,9 +10,8 @@ import Button from 'js/components/shared/button';
 const defaultOperation = {
 	prefLabelLg1: '',
 	prefLabelLg2: '',
-	altLabel1: '',
-	altLabel2: '',
-	millesime: '',
+	altLabelLg1: '',
+	altLabelLg2: '',
 };
 class OperationsOperationEdition extends Component {
 	constructor(props) {
@@ -128,44 +127,28 @@ class OperationsOperationEdition extends Component {
 					<div className="row">
 						<div className="col-md-6">
 							<div className="form-group">
-								<label htmlFor="altLabel1">
+								<label htmlFor="altLabelLg1">
 									<NoteFlag text={D.altLabel} lang={lg1} />
 								</label>
 								<input
 									type="text"
 									className="form-control"
-									id="altLabel1"
-									value={operation.altLabel1}
+									id="altLabelLg1"
+									value={operation.altLabelLg1}
 									onChange={this.onChange}
 								/>
 							</div>
 						</div>
 						<div className="col-md-6">
 							<div className="form-group">
-								<label htmlFor="altLabel2">
+								<label htmlFor="altLabelLg2">
 									<NoteFlag text={D.altLabel} lang={lg2} />
 								</label>
 								<input
 									type="text"
 									className="form-control"
-									id="altLabel2"
-									value={operation.altLabel2}
-									onChange={this.onChange}
-								/>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="millesime">
-									<NoteFlag text={D.year} lang={lg1} />
-								</label>
-								<textarea
-									value={operation.millesime}
-									className="form-control"
-									id="millesime"
-									rows="10"
+									id="altLabelLg2"
+									value={operation.altLabelLg2}
 									onChange={this.onChange}
 								/>
 							</div>

@@ -12,8 +12,7 @@ describe('OperationVisualization', () => {
 		const attr = {
 			prefLabelLg1: 'prefLabelLg1',
 			prefLabelLg2: 'prefLabelLg2',
-			altLabel1: 'altLabel1',
-			millesime: 'millesime',
+			altLabelLg1: 'altLabel1',
 		};
 		const general = shallow(
 			<OperationVisualization
@@ -26,16 +25,15 @@ describe('OperationVisualization', () => {
 				closeModal={() => {}}
 			/>
 		);
-		expect(general.find(Note).length).toBe(2);
+		expect(general.find(Note).length).toBe(1);
 	});
 
 	it('should renderer all informations for the second lang', () => {
 		const attr = {
 			prefLabelLg1: 'prefLabelLg1',
 			prefLabelLg2: 'prefLabelLg2',
-			altLabel1: 'altLabel1',
-			millesime: 'millesime',
-			altLabel2: 'altLabel2',
+			altLabelLg1: 'altLabel1',
+			altLabelLg2: 'altLabel2',
 		};
 		const general = shallow(
 			<OperationVisualization
@@ -49,6 +47,6 @@ describe('OperationVisualization', () => {
 				closeModal={() => {}}
 			/>
 		);
-		expect(general.find(Note).length).toBe(3);
+		expect(general.find(Note).length).toBe(2);
 	});
 });

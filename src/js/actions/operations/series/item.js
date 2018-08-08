@@ -4,28 +4,21 @@ import * as A from 'js/actions/constants';
 export const saveSerie = serie => dispatch => {
 	dispatch({
 		type: A.SAVE_OPERATIONS_SERIE,
-		payload: {
-			serie,
-		},
-	});
-	dispatch({
-		type: A.SAVE_OPERATIONS_SERIE_SUCCESS,
 		payload: serie,
 	});
-	/*return api.saveSerie(serie).then(
+
+	return api.postSeries(serie).then(
 		results =>
 			dispatch({
 				type: A.SAVE_OPERATIONS_SERIE_SUCCESS,
-				payload: {
-					serie,
-				},
+				payload: serie,
 			}),
 		err =>
 			dispatch({
-				type: A.LOAD_OPERATIONS_SERIES_LIST_FAILURE,
+				type: A.SAVE_OPERATIONS_SERIE_FAILURE,
 				payload: { err },
 			})
-	);*/
+	);
 };
 
 export default id => dispatch => {
@@ -39,10 +32,7 @@ export default id => dispatch => {
 		results =>
 			dispatch({
 				type: A.LOAD_OPERATIONS_SERIE_SUCCESS,
-				payload: {
-					...results,
-					id,
-				},
+				payload: results,
 			}),
 		err =>
 			dispatch({

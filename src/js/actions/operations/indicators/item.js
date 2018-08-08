@@ -4,28 +4,21 @@ import * as A from 'js/actions/constants';
 export const saveIndicator = indicator => dispatch => {
 	dispatch({
 		type: A.SAVE_OPERATIONS_INDICATOR,
-		payload: {
-			indicator,
-		},
-	});
-	dispatch({
-		type: A.SAVE_OPERATIONS_INDICATOR_SUCCESS,
 		payload: indicator,
 	});
-	/*return api.saveIndicator(indicator).then(
+
+	return api.postIndicator(indicator).then(
 		results =>
 			dispatch({
 				type: A.SAVE_OPERATIONS_INDICATOR_SUCCESS,
-				payload: {
-					indicator,
-				},
+				payload: indicator,
 			}),
 		err =>
 			dispatch({
-				type: A.LOAD_OPERATIONS_INDICATOR_LIST_FAILURE,
+				type: A.SAVE_OPERATIONS_INDICATOR_FAILURE,
 				payload: { err },
 			})
-	);*/
+	);
 };
 
 export default id => dispatch => {
@@ -39,10 +32,7 @@ export default id => dispatch => {
 		results =>
 			dispatch({
 				type: A.LOAD_OPERATIONS_INDICATOR_SUCCESS,
-				payload: {
-					...results,
-					id, //TO BE DELETED WHEN WE WILL USE THE RIGHT BACKEND
-				},
+				payload: results,
 			}),
 		err =>
 			dispatch({

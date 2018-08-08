@@ -6,10 +6,12 @@ const dispatch = jest.fn();
 jest.mock('js/remote-api/operations-api');
 
 describe('Serie actions', () => {
+	beforeEach(() => dispatch.mockClear());
+
 	describe('get a serie', () => {
 		it('should call dispatch LOAD_OPERATIONS_SERIE_SUCCESS action with the right serie', async () => {
 			api.getSerie = function(id) {
-				return Promise.resolve({ label: 'bbb' });
+				return Promise.resolve({ label: 'bbb', id });
 			};
 			const id = 1;
 			await get(id)(dispatch);
@@ -40,11 +42,14 @@ describe('Serie actions', () => {
 	});
 	describe('save a serie', () => {
 		it('should call dispatch SAVE_OPERATIONS_SERIE_SUCCESS action with the udpated serie', async () => {
+			api.postSeries = function(id) {
+				return Promise.resolve('');
+			};
 			const serie = { label: 'aaa' };
 			await saveSerie(serie)(dispatch);
 			expect(dispatch).toHaveBeenCalledWith({
 				type: A.SAVE_OPERATIONS_SERIE,
-				payload: { serie },
+				payload: serie,
 			});
 			expect(dispatch).toHaveBeenLastCalledWith({
 				type: A.SAVE_OPERATIONS_SERIE_SUCCESS,

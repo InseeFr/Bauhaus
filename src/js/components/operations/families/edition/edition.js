@@ -13,8 +13,8 @@ const defaultFamily = {
 	prefLabelLg2: '',
 	themeLg1: '',
 	themeLg2: '',
-	descriptionLg1: '',
-	descriptionLg2: '',
+	abstractLg1: '',
+	abstractLg2: '',
 };
 class OperationsFamilyEdition extends Component {
 	constructor(props) {
@@ -132,6 +132,7 @@ class OperationsFamilyEdition extends Component {
 									<NoteFlag text={D.theme} lang={lg1} />
 								</label>
 								<input
+									disabled
 									type="text"
 									className="form-control"
 									id="themeLg1"
@@ -146,6 +147,7 @@ class OperationsFamilyEdition extends Component {
 									<NoteFlag text={D.theme} lang={lg2} />
 								</label>
 								<input
+									disabled
 									type="text"
 									className="form-control"
 									id="themeLg2"

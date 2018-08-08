@@ -27,15 +27,6 @@ function OperationVisualization(props) {
 					/>
 				)}
 			</div>
-			<div className="row">
-				<Note
-					text={attr.millesime}
-					title={D.year}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
 			<RelationsView
 				parent={attr.series}
 				parentTitle={D.parentSeries}

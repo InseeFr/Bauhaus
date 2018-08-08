@@ -3,7 +3,7 @@ import { Note } from 'js/components/shared/note';
 import { Link } from 'react-router-dom';
 
 function DisplayLinks({
-	links,
+	links = [],
 	path,
 	title,
 	langs: { lg1, lg2 },
@@ -18,7 +18,9 @@ function DisplayLinks({
 	}
 
 	function displayList(label) {
-		return <ul>{links.map(link => <li>{displayBlock(link, label)}</li>)}</ul>;
+		return (
+			<ul>{links.sort().map(link => <li>{displayBlock(link, label)}</li>)}</ul>
+		);
 	}
 	function displayItem(label) {
 		return displayBlock(links[0], label);

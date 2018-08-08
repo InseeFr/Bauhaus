@@ -6,10 +6,11 @@ const dispatch = jest.fn();
 jest.mock('js/remote-api/operations-api');
 
 describe('Families actions', () => {
+	beforeEach(() => dispatch.mockClear());
 	describe('get a family', () => {
 		it('should call dispatch LOAD_OPERATIONS_FAMILY_SUCCESS action with the right family', async () => {
 			api.getFamily = function(id) {
-				return Promise.resolve({ label: 'bbb' });
+				return Promise.resolve({ label: 'bbb', id });
 			};
 			const id = 1;
 			await get(id)(dispatch);
@@ -40,11 +41,14 @@ describe('Families actions', () => {
 	});
 	describe('save a family', () => {
 		it('should call dispatch SAVE_OPERATIONS_FAMILY_SUCCESS action with the udpated family', async () => {
+			api.postFamily = function(id) {
+				return Promise.resolve('');
+			};
 			const family = { label: 'aaa' };
 			await saveFamily(family)(dispatch);
 			expect(dispatch).toHaveBeenCalledWith({
 				type: A.SAVE_OPERATIONS_FAMILY,
-				payload: { family },
+				payload: family,
 			});
 			expect(dispatch).toHaveBeenLastCalledWith({
 				type: A.SAVE_OPERATIONS_FAMILY_SUCCESS,

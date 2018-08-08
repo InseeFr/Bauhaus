@@ -538,7 +538,7 @@ const dictionary = {
 	},
 	dataCollector: {
 		fr: 'Services collecteurs',
-		en: 'Datas collectors',
+		en: 'Data collectors',
 	},
 	stakeholders: {
 		fr: 'Partenaires',
