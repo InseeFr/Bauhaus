@@ -10,8 +10,8 @@ import Button from 'js/components/shared/button';
 const defaultOperation = {
 	prefLabelLg1: '',
 	prefLabelLg2: '',
-	altLabel1: '',
-	altLabel2: '',
+	altLabelLg1: '',
+	altLabelLg2: '',
 };
 class OperationsOperationEdition extends Component {
 	constructor(props) {
