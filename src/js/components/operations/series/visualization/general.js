@@ -5,10 +5,7 @@ import D from 'js/i18n';
 import RelationsView from 'js/components/operations/shared/relations';
 import DisplayLinks from 'js/components/operations/shared/links/';
 import SeeAlso from 'js/components/operations/shared/seeAlso';
-import {
-	getLinksByCategory,
-	getSeeAlsoByType,
-} from 'js/components/operations/shared/links/utils';
+import { getSeeAlsoByType } from 'js/components/operations/shared/links/utils';
 
 function SerieInformation(props) {
 	const {
@@ -20,13 +17,13 @@ function SerieInformation(props) {
 		category = {},
 	} = props;
 
-	const seeAlso = getSeeAlsoByType(attr.links);
-	const creator = getLinksByCategory(attr.links, 'creator');
-	const stakeHolder = getLinksByCategory(attr.links, 'stakeHolder');
-	const dataCollector = getLinksByCategory(attr.links, 'dataCollector');
-	const contributor = getLinksByCategory(attr.links, 'contributor');
-	const replaces = getLinksByCategory(attr.links, 'replaces');
-	const replacedBy = getLinksByCategory(attr.links, 'isReplacedBy');
+	const seeAlso = getSeeAlsoByType(attr.seeAlso);
+	const stakeHolder = attr.stakeHolder;
+	const dataCollector = attr.dataCollector;
+	const contributor = attr.contributor;
+	const replaces = attr.replaces;
+	const replacedBy = attr.isReplacedBy;
+	const generate = attr.generate;
 
 	return (
 		<div>
@@ -127,13 +124,17 @@ function SerieInformation(props) {
 					/>
 				)}
 			</div>
-			<DisplayLinks
-				links={creator}
-				title={D.organisation}
-				langs={langs}
-				secondLang={secondLang}
-				displayLink={false}
-			/>
+
+			<div className="row">
+				<Note
+					text={attr.creator}
+					title={D.organisation}
+					lang={lg1}
+					alone={true}
+					allowEmpty={true}
+				/>
+			</div>
+
 			<DisplayLinks
 				links={stakeHolder}
 				title={D.stakeholders}
@@ -169,16 +170,13 @@ function SerieInformation(props) {
 				langs={langs}
 				secondLang={secondLang}
 			/>
-
-			<div className="row">
-				<Note
-					text={attr.indicators}
-					title={D.indicators}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
+			<DisplayLinks
+				links={generate}
+				path={'/operations/series/'}
+				title={D.indicators}
+				langs={langs}
+				secondLang={secondLang}
+			/>
 
 			<SeeAlso links={seeAlso} langs={langs} secondLang={secondLang} />
 

@@ -7,14 +7,13 @@ import NoteFlag from 'js/components/shared/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-markdown';
 import Button from 'js/components/shared/button';
-import { getLinksByCategory } from 'js/components/operations/shared/links/utils';
 
 const defaultSerie = {
 	id: '',
 	prefLabelLg1: '',
 	prefLabelLg2: '',
-	altLabel1: '',
-	altLabel2: '',
+	altLabelLg1: '',
+	altLabelLg2: '',
 	abstractLg1: '',
 	abstractLg2: '',
 	historyNoteLg1: '',
@@ -59,25 +58,23 @@ class OperationsSerieEdition extends Component {
 		//TODO To be changed when the edition of links will be enabled
 		const serie = {
 			...this.state.serie,
-			seeAlso: getLinksByCategory(this.state.serie.links, 'seeAlso')
+			seeAlso: (this.state.serie.seeAlso || []).map(link => link.id).join(','),
+			stakeHolder: (this.state.serie.stakeHolder || [])
 				.map(link => link.id)
 				.join(','),
-			creator: getLinksByCategory(this.state.serie.links, 'creator')
+			dataCollector: (this.state.serie.dataCollector || [])
 				.map(link => link.id)
 				.join(','),
-			stakeHolder: getLinksByCategory(this.state.serie.links, 'stakeHolder')
+			contributor: (this.state.serie.contributor || [])
 				.map(link => link.id)
 				.join(','),
-			dataCollector: getLinksByCategory(this.state.serie.links, 'dataCollector')
+			replaces: (this.state.serie.replaces || [])
 				.map(link => link.id)
 				.join(','),
-			contributor: getLinksByCategory(this.state.serie.links, 'contributor')
+			replacedBy: (this.state.serie.isReplacedBy || [])
 				.map(link => link.id)
 				.join(','),
-			replaces: getLinksByCategory(this.state.serie.links, 'replaces')
-				.map(link => link.id)
-				.join(','),
-			replacedBy: getLinksByCategory(this.state.serie.links, 'isReplacedBy')
+			generate: (this.state.serie.generate || [])
 				.map(link => link.id)
 				.join(','),
 		};
@@ -279,7 +276,6 @@ class OperationsSerieEdition extends Component {
 							<div className="form-group">
 								<label htmlFor="creator">{D.organisation}</label>
 								<input
-									disabled
 									type="text"
 									className="form-control"
 									id="creator"
@@ -364,7 +360,8 @@ class OperationsSerieEdition extends Component {
 							<div className="form-group">
 								<label htmlFor="indicators">{D.indicators}</label>
 								<input
-									value={serie.indicators}
+									disabled
+									value={serie.generate}
 									className="form-control"
 									id="indicators"
 									onChange={this.onChange}

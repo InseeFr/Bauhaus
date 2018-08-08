@@ -2,10 +2,7 @@ import React from 'react';
 
 import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
-import {
-	getLinksByCategory,
-	getSeeAlsoByType,
-} from 'js/components/operations/shared/links/utils';
+import { getSeeAlsoByType } from 'js/components/operations/shared/links/utils';
 import DisplayLinks from 'js/components/operations/shared/links/';
 import SeeAlso from 'js/components/operations/shared/seeAlso';
 
@@ -41,10 +38,10 @@ function DisplayMultiLangNote({
 function IndicatorInformation(props) {
 	const { attr, langs, secondLang, frequency = {} } = props;
 
-	const seeAlso = getSeeAlsoByType(attr.links);
-	const replaces = getLinksByCategory(attr.links, 'replaces');
-	const replacedBy = getLinksByCategory(attr.links, 'isReplacedBy');
-	const wasGeneratedBy = getLinksByCategory(attr.links, 'wasGeneratedBy');
+	const seeAlso = getSeeAlsoByType(attr.seeAlso);
+	const replaces = attr.replaces;
+	const replacedBy = attr.isReplacedBy;
+	const wasGeneratedBy = attr.wasGeneratedBy;
 
 	return (
 		<div>

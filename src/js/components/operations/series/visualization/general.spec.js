@@ -15,7 +15,7 @@ describe('SerieInformation', () => {
 			historyNoteLg1: 'historyNoteLg1',
 		};
 		const general = shallow(<SerieInformation attr={attr} langs={langs} />);
-		expect(general.find(Note).length).toBe(5);
+		expect(general.find(Note).length).toBe(6);
 	});
 
 	it('should renderer all informations for the second lang', () => {
@@ -30,6 +30,6 @@ describe('SerieInformation', () => {
 		const general = shallow(
 			<SerieInformation attr={attr} secondLang={true} langs={langs} />
 		);
-		expect(general.find(Note).length).toBe(10);
+		expect(general.find(Note).length).toBe(11);
 	});
 });
