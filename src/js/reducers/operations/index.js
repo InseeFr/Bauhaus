@@ -52,7 +52,7 @@ const operationsSeriesList = makeReducers([
 const operationsSeriesCurrent = function(state = {}, action) {
 	switch (action.type) {
 		case A.LOAD_OPERATIONS_SERIE_SUCCESS:
-		case A.SAVE_OPERATIONS_SERIE_SUCCESS:
+		case A.SAVE_OPERATIONS_SERIE:
 			return action.payload;
 
 		default:
@@ -62,7 +62,7 @@ const operationsSeriesCurrent = function(state = {}, action) {
 const operationsFamiliesCurrent = function(state = {}, action) {
 	switch (action.type) {
 		case A.LOAD_OPERATIONS_FAMILY_SUCCESS:
-		case A.SAVE_OPERATIONS_FAMILY_SUCCESS:
+		case A.SAVE_OPERATIONS_FAMILY:
 			return action.payload;
 
 		default:
@@ -72,7 +72,7 @@ const operationsFamiliesCurrent = function(state = {}, action) {
 const operationsOperationsCurrent = function(state = {}, action) {
 	switch (action.type) {
 		case A.LOAD_OPERATIONS_OPERATION_SUCCESS:
-		case A.SAVE_OPERATIONS_OPERATION_SUCCESS:
+		case A.SAVE_OPERATIONS_OPERATION:
 			return action.payload;
 
 		default:
@@ -83,7 +83,7 @@ const operationsOperationsCurrent = function(state = {}, action) {
 const operationsIndicatorsCurrent = function(state = {}, action) {
 	switch (action.type) {
 		case A.LOAD_OPERATIONS_INDICATOR_SUCCESS:
-		case A.SAVE_OPERATIONS_INDICATOR_SUCCESS:
+		case A.SAVE_OPERATIONS_INDICATOR:
 			return action.payload;
 
 		default:
