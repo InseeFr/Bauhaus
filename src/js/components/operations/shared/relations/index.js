@@ -33,13 +33,19 @@ function RelationsViewPerLg({
 								<span className="linksTitle">{childrenTitle}:</span>
 							</p>
 							<ul>
-								{children.map(item => (
-									<li>
-										<Link to={`/operations/${childrenPath}/${item.id}`}>
-											{item[`label${currentLang}`]}
-										</Link>
-									</li>
-								))}
+								{children
+									.sort(function(a, b) {
+										return a[`label${currentLang}`].localeCompare(
+											b[`label${currentLang}`]
+										);
+									})
+									.map(item => (
+										<li>
+											<Link to={`/operations/${childrenPath}/${item.id}`}>
+												{item[`label${currentLang}`]}
+											</Link>
+										</li>
+									))}
 							</ul>
 						</div>
 					)}
