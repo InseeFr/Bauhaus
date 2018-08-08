@@ -19,7 +19,7 @@ function IndicatorsHome({ indicators }) {
 						<SearchRmes
 							items={indicators}
 							childPath="operations/indicator"
-							context="indicators"
+							context="operations"
 							label="label"
 						/>
 					</div>
