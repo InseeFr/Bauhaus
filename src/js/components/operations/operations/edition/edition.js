@@ -128,28 +128,28 @@ class OperationsOperationEdition extends Component {
 					<div className="row">
 						<div className="col-md-6">
 							<div className="form-group">
-								<label htmlFor="altLabel1">
+								<label htmlFor="altLabelLg1">
 									<NoteFlag text={D.altLabel} lang={lg1} />
 								</label>
 								<input
 									type="text"
 									className="form-control"
-									id="altLabel1"
-									value={operation.altLabel1}
+									id="altLabelLg1"
+									value={operation.altLabelLg1}
 									onChange={this.onChange}
 								/>
 							</div>
 						</div>
 						<div className="col-md-6">
 							<div className="form-group">
-								<label htmlFor="altLabel2">
+								<label htmlFor="altLabelLg2">
 									<NoteFlag text={D.altLabel} lang={lg2} />
 								</label>
 								<input
 									type="text"
 									className="form-control"
-									id="altLabel2"
-									value={operation.altLabel2}
+									id="altLabelLg2"
+									value={operation.altLabelLg2}
 									onChange={this.onChange}
 								/>
 							</div>
