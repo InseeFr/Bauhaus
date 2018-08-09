@@ -172,7 +172,7 @@ function SerieInformation(props) {
 			/>
 			<DisplayLinks
 				links={generate}
-				path={'/operations/series/'}
+				path={'/operations/indicator/'}
 				title={D.indicators}
 				langs={langs}
 				secondLang={secondLang}
