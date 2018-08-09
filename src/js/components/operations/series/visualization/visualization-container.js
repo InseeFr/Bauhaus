@@ -13,7 +13,6 @@ import buildExtract from 'js/utils/build-extract';
 import SerieInformation from 'js/components/operations/series/visualization/general';
 import Loading from 'js/components/shared/loading';
 import loadSerie from 'js/actions/operations/series/item';
-import loadCodesList from 'js/actions/operations/series/codesList';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import Button from 'js/components/shared/button';
 
@@ -23,8 +22,6 @@ class SeriesVisualizationContainer extends Component {
 	componentWillMount() {
 		if (!this.props.serie.id) {
 			this.props.loadSerie(this.props.id);
-			this.props.loadCodesList(CL_FREQ);
-			this.props.loadCodesList(CL_SOURCE_CATEGORY);
 		}
 	}
 
@@ -101,7 +98,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	saveSecondLang,
 	loadSerie,
-	loadCodesList,
 };
 
 export default withRouter(

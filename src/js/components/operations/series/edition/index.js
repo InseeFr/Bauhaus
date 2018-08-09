@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import buildExtract from 'js/utils/build-extract';
 import Loading from 'js/components/shared/loading';
 import OperationsSerieEdition from 'js/components/operations/series/edition/edition';
-import loadCodesList from 'js/actions/operations/series/codesList';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 
 const extractId = buildExtract('id');
@@ -15,8 +14,6 @@ class OperationsSeriesEditionContainer extends Component {
 	componentWillMount() {
 		if (!this.props.serie.id) {
 			this.props.loadSerie(this.props.id);
-			this.props.loadCodesList(CL_SOURCE_CATEGORY);
-			this.props.loadCodesList(CL_FREQ);
 		}
 	}
 	render() {
@@ -29,7 +26,6 @@ class OperationsSeriesEditionContainer extends Component {
 const mapDispatchToProps = {
 	loadSerie,
 	saveSerie,
-	loadCodesList,
 };
 
 const mapStateToProps = (state, ownProps) => {
