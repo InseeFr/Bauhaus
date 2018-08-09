@@ -33,7 +33,7 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 					D.operationsTitle,
 					'/operations/operation'
 				)}
-				{displaySeeAlso(links.serie, D.seriesTitle, '/operations/series')}
+				{displaySeeAlso(links.series, D.seriesTitle, '/operations/series')}
 				{displaySeeAlso(links.famille, D.familiesTitle, '/operations/family')}
 			</ul>
 		);
