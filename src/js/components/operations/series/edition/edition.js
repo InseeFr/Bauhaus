@@ -7,7 +7,7 @@ import NoteFlag from 'js/components/shared/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-markdown';
 import Button from 'js/components/shared/button';
-
+import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 const defaultSerie = {
 	id: '',
 	prefLabelLg1: '',
@@ -18,6 +18,8 @@ const defaultSerie = {
 	abstractLg2: '',
 	historyNoteLg1: '',
 	historyNoteLg2: '',
+	accrualPeriodicityList: CL_FREQ,
+	typeList: CL_SOURCE_CATEGORY,
 };
 class OperationsSerieEdition extends Component {
 	constructor(props) {
