@@ -6,7 +6,7 @@ export const saveFamily = family => dispatch => {
 		type: A.SAVE_OPERATIONS_FAMILY,
 		payload: family,
 	});
-	return api.postFamily(family).then(
+	return api.putFamily(family).then(
 		results =>
 			dispatch({
 				type: A.SAVE_OPERATIONS_FAMILY_SUCCESS,

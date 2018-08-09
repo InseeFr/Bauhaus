@@ -42,7 +42,7 @@ describe('Operation actions', () => {
 	});
 	describe('save a operation', () => {
 		it('should call dispatch SAVE_OPERATIONS_OPERATION_SUCCESS action with the udpated operation', async () => {
-			api.postOperation = function(id) {
+			api.putOperation = function(id) {
 				return Promise.resolve('');
 			};
 

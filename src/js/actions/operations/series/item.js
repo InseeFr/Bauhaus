@@ -7,7 +7,7 @@ export const saveSerie = serie => dispatch => {
 		payload: serie,
 	});
 
-	return api.postSeries(serie).then(
+	return api.putSeries(serie).then(
 		results =>
 			dispatch({
 				type: A.SAVE_OPERATIONS_SERIE_SUCCESS,

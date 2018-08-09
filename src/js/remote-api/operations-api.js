@@ -19,7 +19,7 @@ const api = {
 		},
 		res => res,
 	],
-	postFamily: family => [
+	putFamily: family => [
 		`family/${family.id}`,
 		{
 			headers: {
@@ -29,7 +29,7 @@ const api = {
 		},
 		() => {},
 	],
-	postSeries: series => [
+	putSeries: series => [
 		`series/${series.id}`,
 		{
 			headers: {
@@ -39,7 +39,7 @@ const api = {
 		},
 		() => {},
 	],
-	postOperation: operation => [
+	putOperation: operation => [
 		`operation/${operation.id}`,
 		{
 			headers: {
@@ -49,7 +49,7 @@ const api = {
 		},
 		() => {},
 	],
-	postIndicator: indicator => [
+	putIndicator: indicator => [
 		`indicator/${indicator.id}`,
 		{
 			headers: {
