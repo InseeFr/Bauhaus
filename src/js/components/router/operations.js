@@ -14,6 +14,7 @@ import OperationIndicatorContainer from 'js/components/operations/indicators/vis
 import OperationsFamilyEditionContainer from 'js/components/operations/families/edition';
 import OperationsSeriesEditionContainer from 'js/components/operations/series/edition';
 import OperationEditionContainer from 'js/components/operations/operations/edition';
+import OperationsIndicatorEditionContainer from 'js/components/operations/indicators/edition';
 
 export default [
 	<Route
@@ -41,6 +42,11 @@ export default [
 		exact
 		path="/operations/indicator/:id"
 		component={OperationIndicatorContainer}
+	/>,
+	<Route
+		exact
+		path="/operations/indicator/:id/modify"
+		component={OperationsIndicatorEditionContainer}
 	/>,
 	<Route
 		exact
