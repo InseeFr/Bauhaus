@@ -37,7 +37,6 @@ function DisplayMultiLangNote({
 
 function IndicatorInformation(props) {
 	const { attr, langs, secondLang, frequency = {} } = props;
-
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 	const { replaces, replacedBy, wasGeneratedBy, stakeHolder } = attr;
 
@@ -53,7 +52,7 @@ function IndicatorInformation(props) {
 			<DisplayMultiLangNote
 				value1={attr.abstractLg1}
 				value2={attr.abstractLg2}
-				title={D.descriptionTitle}
+				title={D.summary}
 				langs={langs}
 				secondLang={secondLang}
 			/>

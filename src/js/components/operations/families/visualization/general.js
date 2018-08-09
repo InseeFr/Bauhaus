@@ -31,7 +31,7 @@ function FamilyInformation(props) {
 			<div className="row">
 				<Note
 					text={attr.abstractLg1}
-					title={D.descriptionTitle}
+					title={D.summary}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
@@ -40,7 +40,7 @@ function FamilyInformation(props) {
 				{secondLang && (
 					<Note
 						text={attr.abstractLg2}
-						title={D.descriptionTitle}
+						title={D.summary}
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}

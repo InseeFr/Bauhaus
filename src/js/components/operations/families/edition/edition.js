@@ -161,7 +161,7 @@ class OperationsFamilyEdition extends Component {
 						<div className="col-md-6">
 							<div className="form-group">
 								<label htmlFor="abstractLg1">
-									<NoteFlag text={D.descriptionTitle} lang={lg1} />
+									<NoteFlag text={D.summary} lang={lg1} />
 								</label>
 								<EditorMarkdown
 									text={family.abstractLg1}
@@ -174,7 +174,7 @@ class OperationsFamilyEdition extends Component {
 						<div className="col-md-6">
 							<div className="form-group">
 								<label htmlFor="abstractLg2">
-									<NoteFlag text={D.descriptionTitle} lang={lg2} />
+									<NoteFlag text={D.summary} lang={lg2} />
 								</label>
 								<EditorMarkdown
 									text={family.abstractLg2}
