@@ -46,15 +46,15 @@ describe('Indicators actions', () => {
 				return Promise.resolve('');
 			};
 
-			const operation = { label: 'aaa' };
-			await saveIndicator(operation)(dispatch);
+			const indicator = { id: '1', altLabelLg1: 'aaa', prefLabelLg1: 'aaa' };
+			await saveIndicator(indicator, () => {})(dispatch);
 			expect(dispatch).toHaveBeenCalledWith({
 				type: A.SAVE_OPERATIONS_INDICATOR,
-				payload: operation,
+				payload: { altLabelLg1: 'aaa', id: '1', prefLabelLg1: 'aaa' },
 			});
 			expect(dispatch).toHaveBeenLastCalledWith({
 				type: A.SAVE_OPERATIONS_INDICATOR_SUCCESS,
-				payload: operation,
+				payload: { altLabel: 'aaa', id: '', label: 'aaa' },
 			});
 		});
 	});
