@@ -1,11 +1,10 @@
 import * as A from 'js/actions/constants';
-import { LOADED, LOADING, ERROR, PARTIAL_LOADED } from 'js/constants';
+import { LOADED, LOADING, ERROR } from 'js/constants';
 
 function makeReducers([
 	GET_ITEMS,
 	GET_ITEMS_SUCCESS,
 	GET_ITEMS_FAILURE,
-	GET_ITEM_SUCCESS,
 	SAVE_ITEM_SUCCESS,
 ]) {
 	return function(state = {}, action) {
@@ -24,18 +23,11 @@ function makeReducers([
 					status: ERROR,
 					err: action.payload.err,
 				};
-			case GET_ITEM_SUCCESS:
-				return {
-					status: PARTIAL_LOADED,
-					results: [action.payload],
-				};
 			case SAVE_ITEM_SUCCESS:
+				if (!state.results) return state;
 				return {
 					status: state.status,
-					results: state.results.map(f => {
-						if (f.id === action.payload.id) return action.payload;
-						return f;
-					}),
+					results: [...state.results, action.payload],
 				};
 			default:
 				return state;
@@ -91,6 +83,18 @@ const operationsIndicatorsCurrent = function(state = {}, action) {
 	}
 };
 
+const operationsAsyncTask = function(state = false, action) {
+	switch (action.type) {
+		case A.SAVE_OPERATIONS_INDICATOR:
+			return true;
+		case A.SAVE_OPERATIONS_INDICATOR_SUCCESS:
+		case A.SAVE_OPERATIONS_INDICATOR_FAILURE:
+			return false;
+
+		default:
+			return state;
+	}
+};
 const operationsOperationsList = makeReducers([
 	A.LOAD_OPERATIONS_OPERATIONS_LIST,
 	A.LOAD_OPERATIONS_OPERATIONS_LIST_SUCCESS,
@@ -107,6 +111,7 @@ const operationsIndicatorsList = makeReducers([
 	A.LOAD_OPERATIONS_INDICATORS_LIST,
 	A.LOAD_OPERATIONS_INDICATORS_LIST_SUCCESS,
 	A.LOAD_OPERATIONS_INDICATORS_LIST_FAILURE,
+	A.SAVE_OPERATIONS_INDICATOR_SUCCESS,
 ]);
 
 export default {
@@ -118,4 +123,5 @@ export default {
 	operationsOperationsCurrent,
 	operationsIndicatorsCurrent,
 	operationsIndicatorsList,
+	operationsAsyncTask,
 };

@@ -14,13 +14,15 @@ const extractId = buildExtract('id');
 
 class OperationsIndicatorsEditionContainer extends Component {
 	componentWillMount() {
-		if (!this.props.indicator.id) {
+		if (!this.props.indicator.id && this.props.id) {
 			this.props.loadIndicator(this.props.id);
 		}
 	}
 	render() {
 		if (!this.props.indicator)
 			return <Loading textType="loading" context="operations" />;
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
 		return <OperationsIndicatorEdition {...this.props} />;
 	}
 }
@@ -31,8 +33,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	const indicator = select.getIndicator(state, id);
+	const id = extractId(ownProps) || '';
+	const indicator = id ? select.getIndicator(state, id) : {};
 	const langs = select.getLangs(state);
 	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
 	return {
@@ -40,6 +42,7 @@ const mapStateToProps = (state, ownProps) => {
 		indicator,
 		langs,
 		frequencies,
+		operationsAsyncTask: state.operationsAsyncTask,
 	};
 };
 

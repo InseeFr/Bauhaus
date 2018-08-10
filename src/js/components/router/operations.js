@@ -40,6 +40,11 @@ export default [
 	/>,
 	<Route
 		exact
+		path="/operations/indicator/create"
+		component={OperationsIndicatorEditionContainer}
+	/>,
+	<Route
+		exact
 		path="/operations/indicator/:id"
 		component={OperationIndicatorContainer}
 	/>,
@@ -48,6 +53,7 @@ export default [
 		path="/operations/indicator/:id/modify"
 		component={OperationsIndicatorEditionContainer}
 	/>,
+
 	<Route
 		exact
 		path="/operations/family/:id/modify"

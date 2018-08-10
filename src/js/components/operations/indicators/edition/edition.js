@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
-import { goBack } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-markdown';
@@ -10,7 +9,6 @@ import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/components/shared/input-rmes';
 import Control from 'js/components/operations/indicators/edition/control';
 const defaultIndicator = {
-	id: '',
 	prefLabelLg1: '',
 	prefLabelLg2: '',
 	altLabelLg1: '',
@@ -51,13 +49,18 @@ class OperationsIndicatorEdition extends Component {
 	}
 
 	onSubmit() {
-		this.props.saveIndicator(this.state.indicator);
-		goBack(this.props, '/operations/indicators/' + this.state.indicator.id)();
+		this.props.saveIndicator(
+			this.state.indicator,
+			(id = this.state.indicator.id) => {
+				this.props.history.push(`/operations/indicator/${id}`);
+			}
+		);
 	}
 
 	render() {
 		const { langs: { lg1, lg2 }, frequencies } = this.props;
-
+		const isUpdate = !!this.state.indicator.id;
+		console.log(this.state.indicator);
 		//TODO To be changed when the edition of links will be enabled
 		const indicator = {
 			...this.state.indicator,
@@ -82,12 +85,16 @@ class OperationsIndicatorEdition extends Component {
 		};
 		return (
 			<div className="container editor-container">
-				<PageTitle
-					title={this.props.indicator.prefLabelLg1}
-					context="operations"
-				/>
-				{indicator.prefLabelLg2 && (
-					<PageSubtitle subTitle={this.props.indicator.prefLabelLg2} />
+				{isUpdate && (
+					<div>
+						<PageTitle
+							title={this.props.indicator.prefLabelLg1}
+							context="operations"
+						/>
+						{indicator.prefLabelLg2 && (
+							<PageSubtitle subTitle={this.props.indicator.prefLabelLg2} />
+						)}
+					</div>
 				)}
 				<Control indicator={this.state.indicator} onSubmit={this.onSubmit} />
 
@@ -198,7 +205,9 @@ class OperationsIndicatorEdition extends Component {
 									onChange={this.onChange}
 								>
 									{frequencies.codes.map(category => (
-										<option value={category.code}>{category.labelLg1}</option>
+										<option key={category.code} value={category.code}>
+											{category.labelLg1}
+										</option>
 									))}
 								</select>
 							}

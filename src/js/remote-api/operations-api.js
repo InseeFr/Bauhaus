@@ -59,6 +59,16 @@ const api = {
 		},
 		() => {},
 	],
+	postIndicator: indicator => [
+		`indicator`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(indicator),
+		},
+		res => res.text().then(id => id),
+	],
 };
 
 //TODO change to operations

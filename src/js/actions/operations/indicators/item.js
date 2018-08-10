@@ -1,23 +1,31 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
 
-export const saveIndicator = indicator => dispatch => {
+export const saveIndicator = (indicator, callback) => dispatch => {
 	dispatch({
 		type: A.SAVE_OPERATIONS_INDICATOR,
 		payload: indicator,
 	});
-
-	return api.putIndicator(indicator).then(
-		results =>
+	const method = indicator.id ? 'putIndicator' : 'postIndicator';
+	return api[method](indicator).then(
+		results => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_INDICATOR_SUCCESS,
-				payload: indicator,
-			}),
-		err =>
+				payload: {
+					id: results,
+					label: indicator.prefLabelLg1,
+					altLabel: indicator.altLabelLg1,
+				},
+			});
+			callback(results);
+		},
+		err => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_INDICATOR_FAILURE,
 				payload: { err },
-			})
+			});
+			callback();
+		}
 	);
 };
 
