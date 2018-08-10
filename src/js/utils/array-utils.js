@@ -57,7 +57,7 @@ export const filterKeyDeburr = keys => rawStr => {
 	return item => {
 		let isIn = false;
 		for (var i = 0; i < keys.length; i++) {
-			if (_.deburr(item[keys[i]].toLocaleLowerCase()).includes(str)) {
+			if (_.deburr((item[keys[i]] || '').toLocaleLowerCase()).includes(str)) {
 				isIn = true;
 				break;
 			}

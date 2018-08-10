@@ -52,7 +52,7 @@ describe('pagination', () => {
 		wrapper.setState({ currentPage: 2 });
 		expect(wrapper.state(['currentPage'])).toBe(2);
 		wrapper.setProps({ itemsPerPage: '5' });
-		expect(wrapper.state(['currentPage'])).toBe(1);
+		expect(wrapper.state(['currentPage'])).toBe(2);
 	});
 
 	it('return the right currentPage when we click to the page 2', () => {

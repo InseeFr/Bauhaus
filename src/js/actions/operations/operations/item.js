@@ -6,7 +6,7 @@ export const saveOperation = operation => dispatch => {
 		type: A.SAVE_OPERATIONS_OPERATION,
 		payload: operation,
 	});
-	return api.postOperation(operation).then(
+	return api.putOperation(operation).then(
 		results =>
 			dispatch({
 				type: A.SAVE_OPERATIONS_OPERATION_SUCCESS,

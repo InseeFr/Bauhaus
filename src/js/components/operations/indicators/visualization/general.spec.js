@@ -16,7 +16,7 @@ describe('IndicatorInformation', () => {
 			abstractLg1: 'descriptionLg1',
 		};
 		const general = shallow(<IndicatorInformation attr={attr} langs={langs} />);
-		expect(general.find(DisplayLinks).length).toBe(3);
+		expect(general.find(DisplayLinks).length).toBe(4);
 		expect(general.find(SeeAlso).length).toBe(1);
 	});
 });

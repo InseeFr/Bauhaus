@@ -29,7 +29,7 @@ class IndicatorVisualizationContainer extends Component {
 		}
 	}
 	render() {
-		const { secondLang, langs, indicator: { ...attr } } = this.props;
+		const { secondLang, langs, indicator: { ...attr }, frequency } = this.props;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
 		return (
 			<div className="container">
@@ -61,6 +61,7 @@ class IndicatorVisualizationContainer extends Component {
 					secondLang={secondLang}
 					attr={attr}
 					langs={langs}
+					frequency={frequency}
 				/>
 			</div>
 		);

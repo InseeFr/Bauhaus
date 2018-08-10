@@ -24,7 +24,7 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 		return (
 			<ul>
 				{displaySeeAlso(
-					links.indicateur,
+					links.indicator,
 					D.indicatorsTitle,
 					'/operations/indicator'
 				)}
@@ -33,8 +33,8 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 					D.operationsTitle,
 					'/operations/operation'
 				)}
-				{displaySeeAlso(links.serie, D.seriesTitle, '/operations/series')}
-				{displaySeeAlso(links.famille, D.familiesTitle, '/operations/family')}
+				{displaySeeAlso(links.series, D.seriesTitle, '/operations/series')}
+				{displaySeeAlso(links.family, D.familiesTitle, '/operations/family')}
 			</ul>
 		);
 	}

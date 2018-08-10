@@ -37,11 +37,8 @@ function DisplayMultiLangNote({
 
 function IndicatorInformation(props) {
 	const { attr, langs, secondLang, frequency = {} } = props;
-
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
-	const replaces = attr.replaces;
-	const replacedBy = attr.isReplacedBy;
-	const wasGeneratedBy = attr.wasGeneratedBy;
+	const { replaces, replacedBy, wasGeneratedBy, stakeHolder } = attr;
 
 	return (
 		<div>
@@ -55,7 +52,7 @@ function IndicatorInformation(props) {
 			<DisplayMultiLangNote
 				value1={attr.abstractLg1}
 				value2={attr.abstractLg2}
-				title={D.descriptionTitle}
+				title={D.summary}
 				langs={langs}
 				secondLang={secondLang}
 			/>
@@ -73,7 +70,23 @@ function IndicatorInformation(props) {
 				langs={langs}
 				secondLang={secondLang}
 			/>
+			<div className="row">
+				<Note
+					text={attr.creator}
+					title={D.organisation}
+					lang={langs.lg1}
+					alone={true}
+					allowEmpty={true}
+				/>
+			</div>
 
+			<DisplayLinks
+				links={stakeHolder}
+				title={D.stakeholders}
+				langs={langs}
+				secondLang={secondLang}
+				displayLink={false}
+			/>
 			<DisplayLinks
 				links={replaces}
 				path={'/operations/indicator/'}

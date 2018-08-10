@@ -41,7 +41,7 @@ describe('Families actions', () => {
 	});
 	describe('save a family', () => {
 		it('should call dispatch SAVE_OPERATIONS_FAMILY_SUCCESS action with the udpated family', async () => {
-			api.postFamily = function(id) {
+			api.putFamily = function(id) {
 				return Promise.resolve('');
 			};
 			const family = { label: 'aaa' };

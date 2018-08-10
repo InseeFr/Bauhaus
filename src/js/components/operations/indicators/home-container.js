@@ -4,6 +4,7 @@ import IndicatorsHome from './home';
 import loadIndicatorsList from 'js/actions/operations/indicators/list';
 import { connect } from 'react-redux';
 import { NOT_LOADED, LOADED } from 'js/constants';
+import * as select from 'js/reducers';
 
 class IndicatorsHomeContainer extends Component {
 	componentWillMount() {
@@ -12,10 +13,10 @@ class IndicatorsHomeContainer extends Component {
 		}
 	}
 	render() {
-		const { indicators, status } = this.props;
+		const { indicators, status, permission } = this.props;
 		if (status !== LOADED)
 			return <Loading textType="loading" context="operations" />;
-		return <IndicatorsHome indicators={indicators} />;
+		return <IndicatorsHome indicators={indicators} permission={permission} />;
 	}
 }
 const mapStateToProps = state => {
@@ -26,11 +27,12 @@ const mapStateToProps = state => {
 		};
 	}
 	//TODO should be sorted in the state, shouldn't they ?
-	let { results: indicators, status, err } = state.operationsIndicatorsList;
-
+	const { results: indicators, status, err } = state.operationsIndicatorsList;
+	const permission = select.getPermission(state);
 	return {
 		indicators,
 		status,
+		permission,
 		err,
 	};
 };
