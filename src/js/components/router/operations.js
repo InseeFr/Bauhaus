@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import OperationsFamiliesContainer from 'js/components/operations/families/home-container';
 import OperationsSeriesContainer from 'js/components/operations/series/home-container';
@@ -16,67 +16,69 @@ import OperationsSeriesEditionContainer from 'js/components/operations/series/ed
 import OperationEditionContainer from 'js/components/operations/operations/edition';
 import OperationsIndicatorEditionContainer from 'js/components/operations/indicators/edition';
 
-export default [
-	<Route
-		exact
-		path="/operations/families"
-		component={OperationsFamiliesContainer}
-	/>,
-	<Route
-		exact
-		path="/operations/series"
-		component={OperationsSeriesContainer}
-	/>,
-	<Route exact path="/operations" component={OperationsContainer} />,
-	<Route
-		exact
-		path="/operations/family/:id"
-		component={OperationsFamilyVisualizationContainer}
-	/>,
-	<Route
-		exact
-		path="/operations/indicators"
-		component={OperationsIndicatorsContainer}
-	/>,
-	<Route
-		exact
-		path="/operations/indicator/create"
-		component={OperationsIndicatorEditionContainer}
-	/>,
-	<Route
-		exact
-		path="/operations/indicator/:id"
-		component={OperationIndicatorContainer}
-	/>,
-	<Route
-		exact
-		path="/operations/indicator/:id/modify"
-		component={OperationsIndicatorEditionContainer}
-	/>,
+export default () => (
+	<Switch>
+		<Route
+			exact
+			path="/operations/families"
+			component={OperationsFamiliesContainer}
+		/>
+		<Route
+			exact
+			path="/operations/series"
+			component={OperationsSeriesContainer}
+		/>
+		<Route exact path="/operations" component={OperationsContainer} />
+		<Route
+			exact
+			path="/operations/family/:id"
+			component={OperationsFamilyVisualizationContainer}
+		/>
+		<Route
+			exact
+			path="/operations/indicators"
+			component={OperationsIndicatorsContainer}
+		/>
+		<Route
+			exact
+			path="/operations/indicator/create"
+			component={OperationsIndicatorEditionContainer}
+		/>
+		<Route
+			exact
+			path="/operations/indicator/:id"
+			component={OperationIndicatorContainer}
+		/>
+		<Route
+			exact
+			path="/operations/indicator/:id/modify"
+			component={OperationsIndicatorEditionContainer}
+		/>
 
-	<Route
-		exact
-		path="/operations/family/:id/modify"
-		component={OperationsFamilyEditionContainer}
-	/>,
-	<Route
-		exact
-		path="/operations/series/:id"
-		component={OperationsSeriesVisualizationContainer}
-	/>,
-	<Route
-		exact
-		path="/operations/series/:id/modify"
-		component={OperationsSeriesEditionContainer}
-	/>,
-	<Route
-		exact
-		path="/operations/operation/:id"
-		component={OperationVisualizationContainer}
-	/>,
-	<Route
-		exact
-		path="/operations/operation/:id/modify"
-		component={OperationEditionContainer}
-	/>,
-];
+		<Route
+			exact
+			path="/operations/family/:id/modify"
+			component={OperationsFamilyEditionContainer}
+		/>
+		<Route
+			exact
+			path="/operations/series/:id"
+			component={OperationsSeriesVisualizationContainer}
+		/>
+		<Route
+			exact
+			path="/operations/series/:id/modify"
+			component={OperationsSeriesEditionContainer}
+		/>
+		<Route
+			exact
+			path="/operations/operation/:id"
+			component={OperationVisualizationContainer}
+		/>
+		<Route
+			exact
+			path="/operations/operation/:id/modify"
+			component={OperationEditionContainer}
+		/>
+	</Switch>
+);
