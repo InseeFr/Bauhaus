@@ -2,6 +2,11 @@ import { sortArray } from 'js/utils/array-utils';
 
 const sortByLabel = sortArray('label');
 
+/**
+ * Return the representation needed by the react-select model
+ * The type is used later when we need to merge indicators and series for the same
+ * select input
+ */
 export function toSelectModel(items, type) {
 	return items.map(item => {
 		return {
@@ -13,6 +18,10 @@ export function toSelectModel(items, type) {
 	});
 }
 
+/**
+ * Return the merge of two react-select models, after sorting by label
+ * In order to see the type of the item, the label is prepend by the type
+ */
 export function mergedItemsToSelectModels(...items) {
 	return sortByLabel(
 		items.reduce((acc, values) => [...acc, ...values], [])
