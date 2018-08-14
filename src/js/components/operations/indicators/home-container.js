@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Loading from 'js/components/shared/loading';
 import IndicatorsHome from './home';
 import loadIndicatorsList from 'js/actions/operations/indicators/list';
@@ -6,18 +6,10 @@ import { connect } from 'react-redux';
 import { NOT_LOADED, LOADED } from 'js/constants';
 import * as select from 'js/reducers';
 
-class IndicatorsHomeContainer extends Component {
-	componentWillMount() {
-		if (this.props.status !== LOADED) {
-			this.props.loadIndicatorsList();
-		}
-	}
-	render() {
-		const { indicators, status, permission } = this.props;
-		if (status !== LOADED)
-			return <Loading textType="loading" context="operations" />;
-		return <IndicatorsHome indicators={indicators} permission={permission} />;
-	}
+function IndicatorsHomeContainer({ indicators, status, permission }) {
+	if (status !== LOADED)
+		return <Loading textType="loading" context="operations" />;
+	return <IndicatorsHome indicators={indicators} permission={permission} />;
 }
 const mapStateToProps = state => {
 	if (!state.operationsIndicatorsList) {

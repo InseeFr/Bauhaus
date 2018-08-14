@@ -36,10 +36,13 @@ function DisplayMultiLangNote({
 }
 
 function IndicatorInformation(props) {
-	const { attr, langs, secondLang, frequency = {} } = props;
+	const { attr, langs, secondLang, frequency = {}, organisations = [] } = props;
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
-	const { replaces, replacedBy, wasGeneratedBy, stakeHolder } = attr;
-
+	const creator = (organisations.find(orga => orga.id === attr.creator) || {})
+		.label;
+	const stakeHolder = (attr.stakeHolder || []).map(
+		d => organisations.find(orga => orga.id === d.id) || {}
+	);
 	return (
 		<div>
 			<DisplayMultiLangNote
@@ -66,13 +69,13 @@ function IndicatorInformation(props) {
 			<DisplayMultiLangNote
 				value1={frequency.labelLg1}
 				value2={frequency.labelLg2}
-				title={D.dataCollectFrequency}
+				title={D.indicatorDataCollectFrequency}
 				langs={langs}
 				secondLang={secondLang}
 			/>
 			<div className="row">
 				<Note
-					text={attr.creator}
+					text={creator}
 					title={D.organisation}
 					lang={langs.lg1}
 					alone={true}
@@ -84,25 +87,27 @@ function IndicatorInformation(props) {
 				links={stakeHolder}
 				title={D.stakeholders}
 				langs={langs}
-				secondLang={secondLang}
+				secondLang={false}
 				displayLink={false}
+				labelLg1="label"
 			/>
+
 			<DisplayLinks
-				links={replaces}
+				links={attr.replaces}
 				path={'/operations/indicator/'}
 				title={D.replaces}
 				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
-				links={replacedBy}
+				links={attr.isReplacedBy}
 				path={'/operations/indicator/'}
 				title={D.replacedBy}
 				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
-				links={wasGeneratedBy}
+				links={attr.wasGeneratedBy}
 				path={'/operations/series/'}
 				title={D.generatedBy}
 				langs={langs}

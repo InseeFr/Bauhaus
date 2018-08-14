@@ -14,6 +14,7 @@ import dashboardReducers from './dashboard';
 import classificationsReducers from './classifications';
 import operationsReducers from './operations';
 import codesListReducers from './operations/codesList';
+import organisationsReducers from './operations/organisations';
 
 import remoteCalls, * as remoteCallsSelectors from './remote-calls';
 
@@ -27,6 +28,8 @@ export default combineReducers({
 	...classificationsReducers,
 	...operationsReducers,
 	...codesListReducers,
+	...organisationsReducers,
+
 	remoteCalls,
 });
 

@@ -46,7 +46,7 @@ describe('Serie actions', () => {
 				return Promise.resolve('');
 			};
 			const serie = { label: 'aaa' };
-			await saveSerie(serie)(dispatch);
+			await saveSerie(serie, () => {})(dispatch);
 			expect(dispatch).toHaveBeenCalledWith({
 				type: A.SAVE_OPERATIONS_SERIE,
 				payload: serie,

@@ -8,3 +8,4 @@ export * from './operations/indicators';
 export * from './operations/operations';
 export * from './operations/series';
 export * from './operations/codeList';
+export * from './operations/organisations';

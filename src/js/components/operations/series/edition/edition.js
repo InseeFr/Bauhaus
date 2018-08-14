@@ -8,6 +8,12 @@ import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-markdown';
 import Button from 'js/components/shared/button';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
+import SelectRmes from 'js/components/shared/select-rmes';
+import {
+	toSelectModel,
+	mergedItemsToSelectModels,
+} from 'js/components/operations/shared/utils/itemToSelectModel';
+
 const defaultSerie = {
 	id: '',
 	prefLabelLg1: '',
@@ -50,36 +56,43 @@ class OperationsSerieEdition extends Component {
 		});
 	}
 	onSubmit() {
-		this.props.saveSerie(this.state.serie);
-		goBack(this.props, '/operations/series/' + this.state.serie.id)();
+		this.props.saveSerie(this.state.serie, () => {
+			goBack(this.props, '/operations/series/' + this.state.serie.id)();
+		});
 	}
 
 	render() {
-		const { langs: { lg1, lg2 }, frequencies, categories } = this.props;
+		const {
+			langs: { lg1, lg2 },
+			frequencies,
+			categories,
+			organisations,
+			indicators,
+			series,
+		} = this.props;
 
-		//TODO To be changed when the edition of links will be enabled
 		const serie = {
 			...this.state.serie,
-			seeAlso: (this.state.serie.seeAlso || []).map(link => link.id).join(','),
-			stakeHolder: (this.state.serie.stakeHolder || [])
-				.map(link => link.id)
-				.join(','),
-			dataCollector: (this.state.serie.dataCollector || [])
-				.map(link => link.id)
-				.join(','),
-			contributor: (this.state.serie.contributor || [])
-				.map(link => link.id)
-				.join(','),
-			replaces: (this.state.serie.replaces || [])
-				.map(link => link.id)
-				.join(','),
-			replacedBy: (this.state.serie.isReplacedBy || [])
-				.map(link => link.id)
-				.join(','),
-			generate: (this.state.serie.generate || [])
-				.map(link => link.id)
-				.join(','),
+			seeAlso: (this.state.serie.seeAlso || []).map(link => link.id),
+			stakeHolder: (this.state.serie.stakeHolder || []).map(link => link.id),
+			dataCollector: (this.state.serie.dataCollector || []).map(
+				link => link.id
+			),
+			replaces: (this.state.serie.replaces || []).map(link => link.id),
+			replacedBy: (this.state.serie.isReplacedBy || []).map(link => link.id),
+			generate: (this.state.serie.generate || []).map(link => link.id),
 		};
+
+		const organisationsOptions = toSelectModel(organisations);
+		const seriesOptions = toSelectModel(
+			series.filter(s => s.id !== serie.id),
+			'series'
+		);
+		const indicatorsOptions = toSelectModel(indicators, 'indicator');
+		const seriesAndIndicatorsOptions = mergedItemsToSelectModels(
+			indicatorsOptions,
+			seriesOptions
+		);
 		return (
 			<div className="container editor-container">
 				<PageTitle title={this.props.serie.prefLabelLg1} context="operations" />
@@ -118,271 +131,312 @@ class OperationsSerieEdition extends Component {
 				</div>
 				<form>
 					<div className="row">
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="prefLabelLg1">
-									<NoteFlag text={D.title} lang={lg1} />
-								</label>
-								<input
-									type="text"
-									className="form-control"
-									id="prefLabelLg1"
-									value={serie.prefLabelLg1}
-									onChange={this.onChange}
-									disabled
-								/>
-							</div>
+						<div className="form-group col-md-6">
+							<label htmlFor="prefLabelLg1">
+								<NoteFlag text={D.title} lang={lg1} />
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								id="prefLabelLg1"
+								value={serie.prefLabelLg1}
+								onChange={this.onChange}
+								disabled
+							/>
 						</div>
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="prefLabelLg2">
-									<NoteFlag text={D.title} lang={lg2} />
-								</label>
-								<input
-									type="text"
-									className="form-control"
-									id="prefLabelLg2"
-									value={serie.prefLabelLg2}
-									onChange={this.onChange}
-									disabled
-								/>
-							</div>
+						<div className="form-group col-md-6">
+							<label htmlFor="prefLabelLg2">
+								<NoteFlag text={D.title} lang={lg2} />
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								id="prefLabelLg2"
+								value={serie.prefLabelLg2}
+								onChange={this.onChange}
+								disabled
+							/>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="altLabelLg1">
-									<NoteFlag text={D.altLabel} lang={lg1} />
-								</label>
-								<input
-									type="text"
-									className="form-control"
-									id="altLabelLg1"
-									value={serie.altLabelLg1}
-									onChange={this.onChange}
-								/>
-							</div>
+						<div className="form-group col-md-6">
+							<label htmlFor="altLabelLg1">
+								<NoteFlag text={D.altLabel} lang={lg1} />
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								id="altLabelLg1"
+								value={serie.altLabelLg1}
+								onChange={this.onChange}
+							/>
 						</div>
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="altLabel2">
-									<NoteFlag text={D.altLabel} lang={lg2} />
-								</label>
-								<input
-									type="text"
-									className="form-control"
-									id="altLabelLg2"
-									value={serie.altLabelLg2}
-									onChange={this.onChange}
-								/>
-							</div>
+						<div className="form-group col-md-6">
+							<label htmlFor="altLabel2">
+								<NoteFlag text={D.altLabel} lang={lg2} />
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								id="altLabelLg2"
+								value={serie.altLabelLg2}
+								onChange={this.onChange}
+							/>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="abstractLg1">
-									<NoteFlag text={D.summary} lang={lg1} />
-								</label>
-								<EditorMarkdown
-									text={serie.abstractLg1}
-									handleChange={value =>
-										this.onChange({ target: { value, id: 'abstractLg1' } })
-									}
-								/>
-							</div>
-						</div>
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="abstractLg2">
-									<NoteFlag text={D.summary} lang={lg2} />
-								</label>
-								<EditorMarkdown
-									text={serie.abstractLg2}
-									handleChange={value =>
-										this.onChange({ target: { value, id: 'abstractLg2' } })
-									}
-								/>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="historyNoteLg1">
-									<NoteFlag text={D.history} lang={lg1} />
-								</label>
-								<EditorMarkdown
-									text={serie.historyNoteLg1}
-									handleChange={value =>
-										this.onChange({ target: { value, id: 'historyNoteLg1' } })
-									}
-								/>
-							</div>
-						</div>
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="historyNoteLg2">
-									<NoteFlag text={D.history} lang={lg2} />
-								</label>
-								<EditorMarkdown
-									text={serie.historyNoteLg2}
-									handleChange={value =>
-										this.onChange({ target: { value, id: 'historyNoteLg2' } })
-									}
-								/>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="typeOperation">{D.operationType}</label>
-								<select
-									className="form-control"
-									id="typeCode"
-									value={serie.typeCode}
-									onChange={this.onChange}
-								>
-									{categories.codes.map(category => (
-										<option value={category.code}>{category.labelLg1}</option>
-									))}
-								</select>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="accrualPeriodicity">
-									{D.dataCollectFrequency}
-								</label>
-								{
-									<select
-										className="form-control"
-										id="accrualPeriodicityCode"
-										value={serie.accrualPeriodicityCode}
-										onChange={this.onChange}
-									>
-										{frequencies.codes.map(category => (
-											<option value={category.code}>{category.labelLg1}</option>
-										))}
-									</select>
+						<div className="form-group col-md-6">
+							<label htmlFor="abstractLg1">
+								<NoteFlag text={D.summary} lang={lg1} />
+							</label>
+							<EditorMarkdown
+								text={serie.abstractLg1}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'abstractLg1' } })
 								}
-							</div>
+							/>
+						</div>
+						<div className="form-group col-md-6">
+							<label htmlFor="abstractLg2">
+								<NoteFlag text={D.summary} lang={lg2} />
+							</label>
+							<EditorMarkdown
+								text={serie.abstractLg2}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'abstractLg2' } })
+								}
+							/>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="creator">{D.organisation}</label>
-								<input
-									type="text"
-									className="form-control"
-									id="creator"
+						<div className="form-group col-md-6">
+							<label htmlFor="historyNoteLg1">
+								<NoteFlag text={D.history} lang={lg1} />
+							</label>
+							<EditorMarkdown
+								text={serie.historyNoteLg1}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'historyNoteLg1' } })
+								}
+							/>
+						</div>
+						<div className="form-group col-md-6">
+							<label htmlFor="historyNoteLg2">
+								<NoteFlag text={D.history} lang={lg2} />
+							</label>
+							<EditorMarkdown
+								text={serie.historyNoteLg2}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'historyNoteLg2' } })
+								}
+							/>
+						</div>
+					</div>
+					<div className="row">
+						<div className="form-group col-md-12">
+							<label htmlFor="typeOperation" className="full-label">
+								{D.operationType}
+								<SelectRmes
+									placeholder=""
+									unclearable
+									value={serie.typeCode}
+									options={categories.codes.map(cat => {
+										return { value: cat.code, label: cat.labelLg1 };
+									})}
+									onChange={value =>
+										this.onChange({ target: { value, id: 'typeCode' } })
+									}
+								/>
+							</label>
+						</div>
+					</div>
+					<div className="row">
+						<div className="form-group col-md-12">
+							<label htmlFor="accrualPeriodicity" className="full-label">
+								{D.dataCollectFrequency}
+								<SelectRmes
+									placeholder=""
+									unclearable
+									value={serie.accrualPeriodicityCode}
+									options={frequencies.codes.map(cat => {
+										return { value: cat.code, label: cat.labelLg1 };
+									})}
+									onChange={value =>
+										this.onChange({
+											target: { value, id: 'accrualPeriodicityCode' },
+										})
+									}
+								/>
+							</label>
+						</div>
+					</div>
+					<div className="row">
+						<div className="form-group col-md-12">
+							<label htmlFor="creator" className="full-label">
+								{D.organisation}
+								<SelectRmes
+									placeholder=""
+									unclearable
 									value={serie.creator}
-									onChange={this.onChange}
+									options={organisationsOptions}
+									onChange={value =>
+										this.onChange({ target: { value, id: 'creator' } })
+									}
 								/>
-							</div>
+							</label>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="stakeHolder">{D.stakeholders}</label>
-								<input
-									disabled
+						<div className="form-group col-md-12">
+							<label htmlFor="stakeHolder" className="full-label">
+								{D.stakeholders}
+								<SelectRmes
+									placeholder=""
+									unclearable
 									value={serie.stakeHolder}
-									className="form-control"
-									id="stakeHolder"
-									onChange={this.onChange}
+									options={organisationsOptions}
+									onChange={value =>
+										this.onChange({
+											target: {
+												value: value.map(v => {
+													return { id: v.value };
+												}),
+												id: 'stakeHolder',
+											},
+										})
+									}
+									multi
 								/>
-							</div>
+							</label>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="dataCollector">{D.dataCollector}</label>
-								<input
-									disabled
+						<div className="form-group col-md-12">
+							<label htmlFor="dataCollector" className="full-label">
+								{D.dataCollector}
+								<SelectRmes
+									placeholder=""
+									unclearable
 									value={serie.dataCollector}
-									className="form-control"
-									id="dataCollector\"
-									onChange={this.onChange}
+									options={organisationsOptions}
+									onChange={value =>
+										this.onChange({
+											target: {
+												value: value.map(v => {
+													return { id: v.value };
+												}),
+												id: 'dataCollector',
+											},
+										})
+									}
+									multi
 								/>
-							</div>
+							</label>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="contributor">{D.contributorTitle}</label>
-								<input
-									disabled
+						<div className="form-group col-md-12">
+							<label htmlFor="contributor" className="full-label">
+								{D.contributorTitle}
+								<SelectRmes
+									placeholder=""
+									unclearable
 									value={serie.contributor}
-									className="form-control"
-									id="contributor"
-									onChange={this.onChange}
+									options={organisationsOptions}
+									onChange={value =>
+										this.onChange({ target: { value, id: 'contributor' } })
+									}
 								/>
-							</div>
+							</label>
 						</div>
 					</div>
+
 					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="replaces">{D.replaces}</label>
-								<input
-									disabled
+						<div className="form-group col-md-12">
+							<label htmlFor="replaces" className="full-label">
+								{D.replaces}
+								<SelectRmes
+									placeholder=""
+									unclearable
 									value={serie.replaces}
-									className="form-control"
-									id="replaces"
-									onChange={this.onChange}
+									options={seriesOptions}
+									onChange={value =>
+										this.onChange({
+											target: {
+												value: value.map(v => {
+													return { id: v.value, type: v.type };
+												}),
+												id: 'replaces',
+											},
+										})
+									}
+									multi
 								/>
-							</div>
+							</label>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="replacedBy">{D.replacedBy}</label>
-								<input
-									disabled
+						<div className="form-group col-md-12">
+							<label htmlFor="replacedBy" className="full-label">
+								{D.replacedBy}
+								<SelectRmes
+									placeholder=""
+									unclearable
 									value={serie.replacedBy}
-									className="form-control"
-									id="replacedBy"
-									onChange={this.onChange}
+									options={seriesOptions}
+									onChange={value =>
+										this.onChange({
+											target: {
+												value: value.map(v => {
+													return { id: v.value, type: v.type };
+												}),
+												id: 'isReplacedBy',
+											},
+										})
+									}
+									multi
 								/>
-							</div>
+							</label>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="indicators">{D.indicators}</label>
-								<input
-									disabled
+						<div className="form-group col-md-12">
+							<label htmlFor="indicators" className="full-label">
+								{D.indicators}
+								<SelectRmes
+									placeholder=""
+									unclearable
 									value={serie.generate}
-									className="form-control"
-									id="indicators"
-									onChange={this.onChange}
+									options={indicatorsOptions}
+									disabled
+									multi
+									onChange={() => {}}
 								/>
-							</div>
+							</label>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="seeAlso">{D.seeAlso}</label>
-								<input
-									disabled
+						<div className="form-group col-md-12">
+							<label htmlFor="seeAlso" className="full-label">
+								{D.seeAlso}
+								<SelectRmes
+									unclearable
+									placeholder=""
 									value={serie.seeAlso}
-									className="form-control"
-									id="seeAlso"
-									onChange={this.onChange}
+									options={seriesAndIndicatorsOptions}
+									onChange={value =>
+										this.onChange({
+											target: {
+												value: value.map(v => {
+													return { id: v.value, type: v.type };
+												}),
+												id: 'seeAlso',
+											},
+										})
+									}
+									multi
 								/>
-							</div>
+							</label>
 						</div>
 					</div>
 				</form>
@@ -391,12 +445,21 @@ class OperationsSerieEdition extends Component {
 	}
 }
 
+OperationsSerieEdition.defaultProps = {
+	organisation: [],
+	indicators: [],
+	series: [],
+};
 OperationsSerieEdition.propTypes = {
 	serie: PropTypes.object.isRequired,
 	langs: PropTypes.object.isRequired,
 	saveSerie: PropTypes.func.isRequired,
 	categories: PropTypes.object.isRequired,
 	frequencies: PropTypes.object.isRequired,
+
+	organisation: PropTypes.array.isRequired,
+	indicators: PropTypes.array.isRequired,
+	series: PropTypes.array.isRequired,
 };
 
 export default OperationsSerieEdition;

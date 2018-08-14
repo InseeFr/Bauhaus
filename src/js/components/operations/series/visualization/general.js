@@ -7,24 +7,28 @@ import DisplayLinks from 'js/components/operations/shared/links/';
 import SeeAlso from 'js/components/operations/shared/seeAlso';
 import { getSeeAlsoByType } from 'js/components/operations/shared/links/utils';
 
-function SerieInformation(props) {
-	const {
-		attr,
-		langs: { lg1, lg2 },
-		langs,
-		secondLang,
-		frequency = {},
-		category = {},
-	} = props;
-
+function SerieInformation({
+	attr,
+	langs: { lg1, lg2 },
+	langs,
+	secondLang,
+	frequency = {},
+	category = {},
+	organisations = [],
+}) {
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
-	const stakeHolder = attr.stakeHolder;
-	const dataCollector = attr.dataCollector;
-	const contributor = attr.contributor;
-	const replaces = attr.replaces;
-	const replacedBy = attr.isReplacedBy;
-	const generate = attr.generate;
 
+	const creator = (organisations.find(orga => orga.id === attr.creator) || {})
+		.label;
+	const contributor = (
+		organisations.find(orga => orga.id === attr.contributor) || {}
+	).label;
+	const dataCollector = (attr.dataCollector || []).map(
+		d => organisations.find(orga => orga.id === d.id) || {}
+	);
+	const stakeHolder = (attr.stakeHolder || []).map(
+		d => organisations.find(orga => orga.id === d.id) || {}
+	);
 	return (
 		<div>
 			<div className="row">
@@ -127,7 +131,7 @@ function SerieInformation(props) {
 
 			<div className="row">
 				<Note
-					text={attr.creator}
+					text={creator}
 					title={D.organisation}
 					lang={lg1}
 					alone={true}
@@ -139,39 +143,44 @@ function SerieInformation(props) {
 				links={stakeHolder}
 				title={D.stakeholders}
 				langs={langs}
-				secondLang={secondLang}
+				secondLang={false}
 				displayLink={false}
+				labelLg1="label"
 			/>
 			<DisplayLinks
 				links={dataCollector}
 				title={D.dataCollector}
 				langs={langs}
-				secondLang={secondLang}
+				secondLang={false}
 				displayLink={false}
+				labelLg1="label"
 			/>
+
+			<div className="row">
+				<Note
+					text={contributor}
+					title={D.contributorTitle}
+					lang={lg1}
+					alone={true}
+					allowEmpty={true}
+				/>
+			</div>
 			<DisplayLinks
-				links={contributor}
-				title={D.contributorTitle}
-				langs={langs}
-				secondLang={secondLang}
-				displayLink={false}
-			/>
-			<DisplayLinks
-				links={replaces}
+				links={attr.replaces}
 				path={'/operations/series/'}
 				title={D.replaces}
 				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
-				links={replacedBy}
+				links={attr.isReplacedBy}
 				path={'/operations/series/'}
 				title={D.replacedBy}
 				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
-				links={generate}
+				links={attr.generate}
 				path={'/operations/indicator/'}
 				title={D.indicators}
 				langs={langs}

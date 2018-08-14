@@ -7,6 +7,7 @@ export const saveIndicator = (indicator, callback) => dispatch => {
 		payload: indicator,
 	});
 	const method = indicator.id ? 'putIndicator' : 'postIndicator';
+
 	return api[method](indicator).then(
 		results => {
 			dispatch({

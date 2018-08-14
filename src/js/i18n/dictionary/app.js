@@ -548,9 +548,13 @@ const dictionary = {
 		fr: 'Organisme responsable',
 		en: 'Legal owner',
 	},
-	dataCollectFrequency: {
+	indicatorDataCollectFrequency: {
 		fr: 'Fréquence de diffusion',
 		en: 'Frequency of dissemination',
+	},
+	dataCollectFrequency: {
+		fr: 'Fréquence de collecte des données',
+		en: 'Data collection frequency',
 	},
 	operationType: {
 		fr: "Type d'opération",

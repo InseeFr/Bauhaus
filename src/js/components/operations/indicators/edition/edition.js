@@ -8,6 +8,12 @@ import EditorMarkdown from 'js/components/shared/editor-markdown';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/components/shared/input-rmes';
 import Control from 'js/components/operations/indicators/edition/control';
+import SelectRmes from 'js/components/shared/select-rmes';
+import {
+	toSelectModel,
+	mergedItemsToSelectModels,
+} from 'js/components/operations/shared/utils/itemToSelectModel';
+
 const defaultIndicator = {
 	prefLabelLg1: '',
 	prefLabelLg2: '',
@@ -58,31 +64,40 @@ class OperationsIndicatorEdition extends Component {
 	}
 
 	render() {
-		const { langs: { lg1, lg2 }, frequencies } = this.props;
+		const {
+			langs: { lg1, lg2 },
+			frequencies,
+			organisations,
+			indicators,
+			series,
+		} = this.props;
 		const isUpdate = !!this.state.indicator.id;
-		console.log(this.state.indicator);
-		//TODO To be changed when the edition of links will be enabled
 		const indicator = {
 			...this.state.indicator,
-			seeAlso: (this.state.indicator.seeAlso || [])
-				.map(link => link.id)
-				.join(','),
+			seeAlso: (this.state.indicator.seeAlso || []).map(link => link.id),
 			stakeHolder: (this.state.indicator.stakeHolder || []).map(
 				link => link.id
 			),
-			wasGeneratedBy: (this.state.indicator.wasGeneratedBy || [])
-				.map(link => link.id)
-				.join(','),
-			replaces: (this.state.indicator.replaces || [])
-				.map(link => link.id)
-				.join(','),
-			replacedBy: (this.state.indicator.isReplacedBy || [])
-				.map(link => link.id)
-				.join(','),
-			generate: (this.state.indicator.generate || [])
-				.map(link => link.id)
-				.join(','),
+			wasGeneratedBy: (this.state.indicator.wasGeneratedBy || []).map(
+				link => link.id
+			),
+			replaces: (this.state.indicator.replaces || []).map(link => link.id),
+			replacedBy: (this.state.indicator.isReplacedBy || []).map(
+				link => link.id
+			),
 		};
+
+		const organisationsOptions = toSelectModel(organisations);
+		const seriesOptions = toSelectModel(series, 'series');
+		const indicatorsOptions = toSelectModel(
+			indicators.filter(s => s.id !== indicator.id),
+			'indicator'
+		);
+		const seriesAndIndicatorsOptions = mergedItemsToSelectModels(
+			indicatorsOptions,
+			seriesOptions
+		);
+
 		return (
 			<div className="container editor-container">
 				{isUpdate && (
@@ -193,85 +208,170 @@ class OperationsIndicatorEdition extends Component {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-12 form-group">
-							<label htmlFor="accrualPeriodicity">
-								{D.dataCollectFrequency}
-							</label>
-							{
-								<select
-									className="form-control"
-									id="accrualPeriodicityCode"
-									value={indicator.accrualPeriodicityCode}
-									onChange={this.onChange}
-								>
-									{frequencies.codes.map(category => (
-										<option key={category.code} value={category.code}>
-											{category.labelLg1}
-										</option>
-									))}
-								</select>
-							}
-						</div>
-					</div>
-					<div className="row">
-						<div className="form-group col-md-12">
-							<label htmlFor="creator">{D.organisation}</label>
-							<input
-								type="text"
-								className="form-control"
-								id="creator"
-								value={indicator.creator}
-								onChange={this.onChange}
-							/>
-						</div>
-					</div>
-					<div className="row">
-						<div className="form-group col-md-12">
-							<label htmlFor="stakeHolder">{D.stakeholders}</label>
-							<input
-								disabled
-								value={indicator.stakeHolder}
-								className="form-control"
-								id="stakeHolder"
-								onChange={this.onChange}
-							/>
+						<div className="col-md-12">
+							<div className="form-group">
+								<label htmlFor="accrualPeriodicity" className="full-label">
+									{D.indicatorDataCollectFrequency}
+									<SelectRmes
+										placeholder=""
+										unclearable
+										value={indicator.accrualPeriodicityCode}
+										options={frequencies.codes.map(cat => {
+											return { value: cat.code, label: cat.labelLg1 };
+										})}
+										onChange={value =>
+											this.onChange({
+												target: { value, id: 'accrualPeriodicityCode' },
+											})
+										}
+									/>
+								</label>
+							</div>
 						</div>
 					</div>
 
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="replaces">{D.replaces}</label>
-							<input
-								disabled
-								value={indicator.replaces}
-								className="form-control"
-								id="replaces"
-								onChange={this.onChange}
-							/>
+							<label htmlFor="creator" className="full-label">
+								{D.organisation}
+
+								<SelectRmes
+									unclearable
+									value={indicator.creator}
+									options={organisationsOptions}
+									placeholder=""
+									onChange={value => {
+										this.onChange({
+											target: {
+												value,
+												id: 'creator',
+											},
+										});
+									}}
+								/>
+							</label>
 						</div>
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="replacedBy">{D.replacedBy}</label>
-							<input
-								disabled
-								value={indicator.replacedBy}
-								className="form-control"
-								id="replacedBy"
-								onChange={this.onChange}
-							/>
+							<label className="full-label">
+								{D.stakeholders}
+								<SelectRmes
+									unclearable
+									value={indicator.stakeHolder}
+									options={organisationsOptions}
+									placeholder=""
+									multi
+									onChange={value => {
+										this.onChange({
+											target: {
+												value: value.map(v => {
+													return { id: v.value };
+												}),
+												id: 'stakeHolder',
+											},
+										});
+									}}
+								/>
+							</label>
+						</div>
+					</div>
+
+					<div className="row">
+						<div className="form-group col-md-12">
+							<label className="full-label">
+								{D.replaces}
+								<SelectRmes
+									unclearable
+									value={indicator.replaces}
+									options={indicatorsOptions}
+									placeholder=""
+									onChange={value =>
+										this.onChange({
+											target: {
+												value: value.map(v => {
+													return { id: v.value, type: v.type };
+												}),
+												id: 'replaces',
+											},
+										})
+									}
+									multi
+								/>
+							</label>
 						</div>
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="wasGeneratedBy">{D.generatedBy}</label>
-							<input
-								disabled
-								value={indicator.wasGeneratedBy}
-								className="form-control"
-								id="wasGeneratedBy"
-								onChange={this.onChange}
-							/>
+							<label className="full-label">
+								{D.replacedBy}
+								<SelectRmes
+									unclearable
+									value={indicator.replacedBy}
+									options={indicatorsOptions}
+									placeholder=""
+									onChange={value =>
+										this.onChange({
+											target: {
+												value: value.map(v => {
+													return { id: v.value, type: v.type };
+												}),
+												id: 'isReplacedBy',
+											},
+										})
+									}
+									multi
+								/>
+							</label>
+						</div>
+					</div>
+					<div className="row">
+						<div className="form-group col-md-12">
+							<label className="full-label">
+								{D.generatedBy}
+								<SelectRmes
+									unclearable
+									value={indicator.wasGeneratedBy}
+									options={seriesOptions}
+									multi
+									placeholder=""
+									onChange={value =>
+										this.onChange({
+											target: {
+												value: value.map(v => {
+													return { id: v.value, type: v.type };
+												}),
+												id: 'wasGeneratedBy',
+											},
+										})
+									}
+								/>
+							</label>
+						</div>
+					</div>
+					<div className="row">
+						<div className="form-group col-md-12">
+							<label htmlFor="seeAlso" className="full-label">
+								{D.seeAlso}
+								<SelectRmes
+									unclearable
+									value={indicator.seeAlso}
+									options={seriesAndIndicatorsOptions}
+									placeholder=""
+									onChange={value =>
+										this.onChange({
+											target: {
+												value: value.map(v => {
+													return { id: v.value, type: v.type };
+												}),
+
+												id: 'seeAlso',
+											},
+										})
+									}
+									multi
+								/>
+							</label>
 						</div>
 					</div>
 				</form>
