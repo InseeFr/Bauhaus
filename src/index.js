@@ -5,8 +5,7 @@ import Root from 'js/components/router';
 import Error from 'js/components/shared/error';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
-import loadCodesList from 'js/actions/operations/series/codesList';
-import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
+import loadSetup from 'js/actions/operations/utils/setup';
 
 import 'app.css';
 
@@ -31,7 +30,7 @@ const renderApp = (Component, initState, props) => {
 		},
 	});
 
-	loadCodesList([CL_SOURCE_CATEGORY, CL_FREQ], store);
+	loadSetup(store);
 
 	ReactDOM.render(
 		<Provider store={store}>

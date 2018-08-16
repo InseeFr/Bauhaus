@@ -12,7 +12,7 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 						{title}
 						<ul>
 							{seeAlso.map(link => (
-								<li>
+								<li key={link.id}>
 									<Link to={`${path}/${link.id}`}>{link[label]}</Link>
 								</li>
 							))}

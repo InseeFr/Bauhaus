@@ -43,6 +43,9 @@ const mapStateToProps = (state, ownProps) => {
 		langs,
 		frequencies,
 		operationsAsyncTask: state.operationsAsyncTask,
+		organisations: state.operationsOrganisations.results,
+		indicators: state.operationsIndicatorsList.results || [],
+		series: state.operationsSeriesList.results || [],
 	};
 };
 

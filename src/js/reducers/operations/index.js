@@ -1,5 +1,11 @@
 import * as A from 'js/actions/constants';
 import { LOADED, LOADING, ERROR } from 'js/constants';
+import {
+	operationsSeriesCurrent,
+	operationsFamiliesCurrent,
+	operationsOperationsCurrent,
+	operationsIndicatorsCurrent,
+} from 'js/reducers/operations/current';
 
 function makeReducers([
 	GET_ITEMS,
@@ -41,54 +47,15 @@ const operationsSeriesList = makeReducers([
 	A.LOAD_OPERATIONS_SERIES_LIST_FAILURE,
 ]);
 
-const operationsSeriesCurrent = function(state = {}, action) {
-	switch (action.type) {
-		case A.LOAD_OPERATIONS_SERIE_SUCCESS:
-		case A.SAVE_OPERATIONS_SERIE:
-			return action.payload;
-
-		default:
-			return state;
-	}
-};
-const operationsFamiliesCurrent = function(state = {}, action) {
-	switch (action.type) {
-		case A.LOAD_OPERATIONS_FAMILY_SUCCESS:
-		case A.SAVE_OPERATIONS_FAMILY:
-			return action.payload;
-
-		default:
-			return state;
-	}
-};
-const operationsOperationsCurrent = function(state = {}, action) {
-	switch (action.type) {
-		case A.LOAD_OPERATIONS_OPERATION_SUCCESS:
-		case A.SAVE_OPERATIONS_OPERATION:
-			return action.payload;
-
-		default:
-			return state;
-	}
-};
-
-const operationsIndicatorsCurrent = function(state = {}, action) {
-	switch (action.type) {
-		case A.LOAD_OPERATIONS_INDICATOR_SUCCESS:
-		case A.SAVE_OPERATIONS_INDICATOR:
-			return action.payload;
-
-		default:
-			return state;
-	}
-};
-
 const operationsAsyncTask = function(state = false, action) {
 	switch (action.type) {
 		case A.SAVE_OPERATIONS_INDICATOR:
+		case A.SAVE_OPERATIONS_SERIE:
 			return true;
 		case A.SAVE_OPERATIONS_INDICATOR_SUCCESS:
 		case A.SAVE_OPERATIONS_INDICATOR_FAILURE:
+		case A.SAVE_OPERATIONS_SERIE_SUCCESS:
+		case A.SAVE_OPERATIONS_SERIE_FAILURE:
 			return false;
 
 		default:

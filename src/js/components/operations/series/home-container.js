@@ -1,22 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Loading from 'js/components/shared/loading';
 import SeriesHome from './home';
 import { NOT_LOADED, LOADED } from 'js/constants';
 import loadSeriesList from 'js/actions/operations/series/list';
 
-class SeriesHomeContainer extends Component {
-	componentWillMount() {
-		if (this.props.status !== LOADED) {
-			this.props.loadSeriesList();
-		}
-	}
-	render() {
-		const { series, status } = this.props;
-		if (status !== LOADED)
-			return <Loading textType="loading" context="operations" />;
-		return <SeriesHome series={series} />;
-	}
+function SeriesHomeContainer({ series, status }) {
+	if (status !== LOADED)
+		return <Loading textType="loading" context="operations" />;
+	return <SeriesHome series={series} />;
 }
 
 const mapStateToProps = state => {

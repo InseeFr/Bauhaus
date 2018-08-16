@@ -37,6 +37,7 @@ class SeriesVisualizationContainer extends Component {
 			serie: { ...attr },
 			frequency,
 			category,
+			organisations,
 		} = this.props;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
 		return (
@@ -71,6 +72,7 @@ class SeriesVisualizationContainer extends Component {
 					langs={langs}
 					frequency={frequency}
 					category={category}
+					organisations={organisations}
 				/>
 			</div>
 		);
@@ -83,6 +85,7 @@ const mapStateToProps = (state, ownProps) => {
 	const categories =
 		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
 	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
+	const organisations = state.operationsOrganisations.results || [];
 
 	return {
 		id,
@@ -93,6 +96,7 @@ const mapStateToProps = (state, ownProps) => {
 			c => c.code === serie.accrualPeriodicityCode
 		),
 		category: categories.codes.find(c => c.code === serie.typeCode),
+		organisations,
 	};
 };
 const mapDispatchToProps = {

@@ -12,13 +12,15 @@ const extractId = buildExtract('id');
 
 class OperationsSeriesEditionContainer extends Component {
 	componentWillMount() {
-		if (!this.props.serie.id) {
+		if (!this.props.serie.id && this.props.id) {
 			this.props.loadSerie(this.props.id);
 		}
 	}
 	render() {
-		if (!this.props.serie)
+		if (!this.props.serie.id)
 			return <Loading textType="loading" context="operations" />;
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
 		return <OperationsSerieEdition {...this.props} />;
 	}
 }
@@ -30,7 +32,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const serie = select.getSerie(state, id);
+	const serie = id ? select.getSerie(state, id) : {};
 	const langs = select.getLangs(state);
 	const categories =
 		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
@@ -41,6 +43,10 @@ const mapStateToProps = (state, ownProps) => {
 		langs,
 		categories,
 		frequencies,
+		operationsAsyncTask: state.operationsAsyncTask,
+		organisations: state.operationsOrganisations.results,
+		indicators: state.operationsIndicatorsList.results || [],
+		series: state.operationsSeriesList.results || [],
 	};
 };
 

@@ -1,23 +1,27 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
 
-export const saveSerie = serie => dispatch => {
+export const saveSerie = (serie, callback) => dispatch => {
 	dispatch({
 		type: A.SAVE_OPERATIONS_SERIE,
 		payload: serie,
 	});
 
 	return api.putSeries(serie).then(
-		results =>
+		results => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_SERIE_SUCCESS,
 				payload: serie,
-			}),
-		err =>
+			});
+			callback(results);
+		},
+		err => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_SERIE_FAILURE,
 				payload: { err },
-			})
+			});
+			callback();
+		}
 	);
 };
 

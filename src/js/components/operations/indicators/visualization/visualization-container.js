@@ -29,7 +29,13 @@ class IndicatorVisualizationContainer extends Component {
 		}
 	}
 	render() {
-		const { secondLang, langs, indicator: { ...attr }, frequency } = this.props;
+		const {
+			secondLang,
+			langs,
+			indicator: { ...attr },
+			frequency,
+			organisations,
+		} = this.props;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
 		return (
 			<div className="container">
@@ -62,6 +68,7 @@ class IndicatorVisualizationContainer extends Component {
 					attr={attr}
 					langs={langs}
 					frequency={frequency}
+					organisations={organisations}
 				/>
 			</div>
 		);
@@ -72,6 +79,7 @@ const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const indicator = select.getIndicator(state, id);
 	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
+	const organisations = state.operationsOrganisations.results || [];
 	return {
 		id,
 		indicator: indicator.id === id ? indicator : {},
@@ -80,6 +88,7 @@ const mapStateToProps = (state, ownProps) => {
 		frequency: frequencies.codes.find(
 			c => c.code === indicator.accrualPeriodicityCode
 		),
+		organisations,
 	};
 };
 const mapDispatchToProps = {

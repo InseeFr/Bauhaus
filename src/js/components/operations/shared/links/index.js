@@ -9,6 +9,8 @@ function DisplayLinks({
 	langs: { lg1, lg2 },
 	secondLang,
 	displayLink = true,
+	labelLg1 = 'labelLg1',
+	labelLg2 = 'labelLg2',
 }) {
 	function displayBlock(link, label) {
 		if (displayLink) {
@@ -19,7 +21,11 @@ function DisplayLinks({
 
 	function displayList(label) {
 		return (
-			<ul>{links.sort().map(link => <li>{displayBlock(link, label)}</li>)}</ul>
+			<ul>
+				{links
+					.sort()
+					.map(link => <li key={link.id}>{displayBlock(link, label)}</li>)}
+			</ul>
 		);
 	}
 	function displayItem(label) {
@@ -29,7 +35,7 @@ function DisplayLinks({
 		<div className="row">
 			<Note
 				text={
-					links.length === 1 ? displayItem('labelLg1') : displayList('labelLg1')
+					links.length === 1 ? displayItem(labelLg1) : displayList(labelLg1)
 				}
 				title={title}
 				lang={lg1}
@@ -39,9 +45,7 @@ function DisplayLinks({
 			{secondLang && (
 				<Note
 					text={
-						links.length === 1
-							? displayItem('labelLg2')
-							: displayList('labelLg2')
+						links.length === 1 ? displayItem(labelLg2) : displayList(labelLg2)
 					}
 					title={title}
 					lang={lg2}
