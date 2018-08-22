@@ -5,7 +5,6 @@ import Root from 'js/components/router';
 import Error from 'js/components/shared/error';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
-import loadSetup from 'js/actions/operations/utils/setup';
 
 import 'app.css';
 
@@ -29,8 +28,6 @@ const renderApp = (Component, initState, props) => {
 			error: false,
 		},
 	});
-
-	loadSetup(store);
 
 	ReactDOM.render(
 		<Provider store={store}>
