@@ -81,7 +81,6 @@
 		"start-https-js":
 			"cross-env NODE_PATH=src/ HTTPS=true REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
 		"start-https": "npm-run-all -p watch-css start-https-js",
-		"start-dev": "concurrently \"yarn server\" \"yarn start\"",
 		"build-js":
 			"cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
 		"build": "npm-run-all build-css build-js",
@@ -98,8 +97,7 @@
 		"build-storybook-js":
 			"cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
 		"build-storybook": "npm-run-all build-css build-storybook-js",
-		"eject": "react-scripts eject",
-		"server": "node ./fake-backend/index.js"
+		"eject": "react-scripts eject"
 	},
 	"prettier": {
 		"singleQuote": true,
