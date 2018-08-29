@@ -11,9 +11,9 @@ function RelationsViewPerLg({
 	parentTitle,
 	parentPath,
 	title,
-	langs: { lg1, lg2 },
 	secondLang,
 	currentLang,
+	langSuffix,
 }) {
 	return (
 		<Note
@@ -23,7 +23,7 @@ function RelationsViewPerLg({
 						<p>
 							<span className="linksTitle">{parentTitle}:</span>
 							<Link to={`/operations/${parentPath}/${parent.id}`}>
-								{parent[`label${currentLang}`]}
+								{parent[`label${langSuffix}`]}
 							</Link>
 						</p>
 					)}
@@ -35,14 +35,14 @@ function RelationsViewPerLg({
 							<ul>
 								{children
 									.sort(function(a, b) {
-										return a[`label${currentLang}`].localeCompare(
-											b[`label${currentLang}`]
+										return a[`label${langSuffix}`].localeCompare(
+											b[`label${langSuffix}`]
 										);
 									})
 									.map(item => (
 										<li>
 											<Link to={`/operations/${childrenPath}/${item.id}`}>
-												{item[`label${currentLang}`]}
+												{item[`label${langSuffix}`]}
 											</Link>
 										</li>
 									))}
@@ -52,7 +52,7 @@ function RelationsViewPerLg({
 				</React.Fragment>
 			}
 			title={title}
-			lang={lg1}
+			lang={currentLang}
 			alone={!secondLang}
 			allowEmpty={true}
 		/>
@@ -62,8 +62,18 @@ function RelationsViewPerLg({
 function RelationsView(props) {
 	return (
 		<div className="row">
-			<RelationsViewPerLg {...props} currentLang="Lg1" />
-			{props.secondLang && <RelationsViewPerLg {...props} currentLang="Lg2" />}
+			<RelationsViewPerLg
+				{...props}
+				langSuffix="Lg1"
+				currentLang={props.langs.lg1}
+			/>
+			{props.secondLang && (
+				<RelationsViewPerLg
+					{...props}
+					langSuffix="Lg2"
+					currentLang={props.langs.lg2}
+				/>
+			)}
 		</div>
 	);
 }
