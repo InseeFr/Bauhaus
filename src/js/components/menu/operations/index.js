@@ -48,6 +48,11 @@ class MenuOperations extends Component {
 				pathKey: 'operations/indicator',
 				className: null,
 			},
+			help: {
+				path: '/operations/help',
+				pathKey: 'help',
+				className: null,
+			},
 			operations: {
 				path: '/operations',
 				pathKey: 'operation',
@@ -111,6 +116,14 @@ class MenuOperations extends Component {
 											}
 										>
 											{D.indicatorsTitle}
+										</Link>
+									</li>
+									<li className={paths.help.className}>
+										<Link
+											to={paths.help.path}
+											onClick={() => this.changeActivePath(paths.help.path)}
+										>
+											{D.help}
 										</Link>
 									</li>
 								</ul>

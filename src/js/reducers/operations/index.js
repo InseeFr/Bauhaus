@@ -73,7 +73,11 @@ const operationsFamiliesList = makeReducers([
 	A.LOAD_OPERATIONS_FAMILIES_LIST_SUCCESS,
 	A.LOAD_OPERATIONS_FAMILIES_LIST_FAILURE,
 ]);
-
+const operationsMetadataStructureList = makeReducers([
+	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
+	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
+	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
+]);
 const operationsIndicatorsList = makeReducers([
 	A.LOAD_OPERATIONS_INDICATORS_LIST,
 	A.LOAD_OPERATIONS_INDICATORS_LIST_SUCCESS,
@@ -85,6 +89,7 @@ export default {
 	operationsSeriesList,
 	operationsOperationsList,
 	operationsFamiliesList,
+	operationsMetadataStructureList,
 	operationsSeriesCurrent,
 	operationsFamiliesCurrent,
 	operationsOperationsCurrent,
