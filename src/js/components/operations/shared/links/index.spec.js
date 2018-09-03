@@ -30,7 +30,7 @@ describe('DisplayLinks', () => {
 		);
 
 		expect(component.html()).toContain(
-			'<div class="panel-body"><a href="/series/1">'
+			'<div className="panel-body"><a href="/series/1">'
 		);
 	});
 	xit('should not display a link', () => {

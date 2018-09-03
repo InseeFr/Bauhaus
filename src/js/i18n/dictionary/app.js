@@ -584,6 +584,38 @@ const dictionary = {
 		fr: "L'intitulé est obligatoire",
 		en: 'The title is required',
 	},
+	helpContent: {
+		en: 'Content',
+		fr: 'Contenu',
+	},
+	helpSummary: {
+		en: 'Summary',
+		fr: 'Sommaire',
+	},
+	helpRange: {
+		en: 'Range',
+		fr: 'Portée',
+	},
+	helpPresentational: {
+		en: 'Presentational attribut',
+		fr: 'Attribut présentationnel',
+	},
+	helpREPORTED_ATTRIBUTE: {
+		en: 'Rich text + URI',
+		fr: 'Texte riche + URI',
+	},
+	helpTEXT: {
+		en: 'Text',
+		fr: 'Texte',
+	},
+	helpDATE: {
+		en: 'Date',
+		fr: 'Date',
+	},
+	helpCODE_LIST: {
+		en: 'Code list',
+		fr: 'Liste de codes',
+	},
 };
 
 export default dictionary;

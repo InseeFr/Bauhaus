@@ -18,6 +18,7 @@ import OperationEditionContainer from 'js/components/operations/operations/editi
 import OperationsIndicatorEditionContainer from 'js/components/operations/indicators/edition';
 
 import { loadSetup } from 'js/actions/operations/utils/setup';
+import HelpContainer from '../operations/msd/help';
 
 class RootComponent extends Component {
 	componentDidMount() {
@@ -87,6 +88,7 @@ class RootComponent extends Component {
 					path="/operations/operation/:id/modify"
 					component={OperationEditionContainer}
 				/>
+				<Route exact path="/operations/help" component={HelpContainer} />
 			</Switch>
 		);
 	}

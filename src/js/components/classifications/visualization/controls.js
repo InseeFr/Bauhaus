@@ -5,7 +5,6 @@ import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
 const ClassificationControls = props => {
-	console.log(props);
 	const location = props.history.location.pathname;
 	const treeLocation = `${location}/tree`;
 
