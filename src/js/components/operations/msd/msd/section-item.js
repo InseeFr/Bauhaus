@@ -31,7 +31,7 @@ class SectionItem extends Component {
 		});
 	}
 	render() {
-		const { secondary } = this.props;
+		const { secondary, parent } = this.props;
 		const { children } = this.state;
 		if (Object.keys(children).length <= 0) return null;
 		return (
@@ -53,11 +53,15 @@ class SectionItem extends Component {
 									/>
 								</button>
 							)}
-							<Link smooth to={`/operations/help#${child.idMas}`}>
+							<Link smooth to={`/operations/help/${parent}#${child.idMas}`}>
 								{child.idMas} - {child.masLabelLg1}
 							</Link>
 							{child.opened && (
-								<SectionItem children={child.children} secondary />
+								<SectionItem
+									children={child.children}
+									secondary
+									parent={parent}
+								/>
 							)}
 						</li>
 					);

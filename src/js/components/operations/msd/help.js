@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Loading from 'js/components/shared/loading';
 import { NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
+import { withRouter } from 'react-router-dom';
 
 class HelpContainer extends Component {
 	componentWillMount() {
@@ -12,10 +13,16 @@ class HelpContainer extends Component {
 		}
 	}
 	render() {
-		const { metadataStructure, status } = this.props;
+		const { metadataStructure, status, codesLists } = this.props;
 		if (status !== LOADED)
 			return <Loading textType="loading" context="operations" />;
-		return <MSDComponent metadataStructure={metadataStructure} />;
+		return (
+			<MSDComponent
+				metadataStructure={metadataStructure}
+				currentSection={this.props.match.params.id}
+				codesLists={codesLists}
+			/>
+		);
 	}
 }
 
@@ -34,6 +41,7 @@ const mapStateToProps = state => {
 
 	return {
 		metadataStructure,
+		codesLists: state.operationsCodesList.results,
 		status,
 		err,
 	};
@@ -43,4 +51,6 @@ const mapDispatchToProps = {
 	loadMetadataStructure,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HelpContainer);
+export default withRouter(
+	connect(mapStateToProps, mapDispatchToProps)(HelpContainer)
+);

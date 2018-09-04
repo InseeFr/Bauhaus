@@ -48,11 +48,13 @@ button {
 		background-color: transparent;
 		color: black;
 		padding-right: 5px;
+		margin-left: -19px;
 	}
-	> .up-down {
+	&.up-down {
 		position: absolute;
 		right: 15px;
 		top: 40%;
+		display: block;
 	}
 }
 
@@ -136,6 +138,9 @@ button {
 	margin-top: 30px;
 	color: white;
 	position: relative;
+	a {
+		color: white;
+	}
 }
 
 .sommaire-item {
@@ -162,5 +167,5 @@ button {
 }
 
 .contenu {
-	margin-left: 30px;
+	margin-left: 50px;
 }
