@@ -15,6 +15,7 @@ export function getTree(input, idParent, objectToMerge) {
 					...msd,
 					isPresentational: msdToMerge.isPresentational || false,
 					rangeType: msdToMerge.rangeType,
+					codeList: msdToMerge.codeList,
 					children: getTree(input, msd.idMas, objectToMerge),
 				},
 			};

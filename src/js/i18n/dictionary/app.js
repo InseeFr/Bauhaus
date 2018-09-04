@@ -616,6 +616,10 @@ const dictionary = {
 		en: 'Code list',
 		fr: 'Liste de codes',
 	},
+	helpORGANIZATION: {
+		en: 'Organization',
+		fr: 'Organisation',
+	},
 };
 
 export default dictionary;

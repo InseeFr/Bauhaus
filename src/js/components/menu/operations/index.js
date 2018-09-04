@@ -118,6 +118,8 @@ class MenuOperations extends Component {
 											{D.indicatorsTitle}
 										</Link>
 									</li>
+								</ul>
+								<ul className="nav navbar-nav navbar-nav-operations navbar-right">
 									<li className={paths.help.className}>
 										<Link
 											to={paths.help.path}

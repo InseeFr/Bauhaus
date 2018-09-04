@@ -89,6 +89,7 @@ class RootComponent extends Component {
 					component={OperationEditionContainer}
 				/>
 				<Route exact path="/operations/help" component={HelpContainer} />
+				<Route exact path="/operations/help/:id" component={HelpContainer} />
 			</Switch>
 		);
 	}

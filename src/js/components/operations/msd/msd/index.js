@@ -24,30 +24,63 @@ class MSDComponent extends Component {
 		});
 	}
 	render() {
+		const { status } = this.state;
+		const { codesLists } = this.props;
+		function displayInformation(msd) {
+			if (!msd.masLabelLg1) {
+				return null;
+			}
+			return (
+				<dl>
+					<dt>{D.labelTitle}:</dt>
+					<dd>{msd.masLabelLg2}</dd>
+					<dt>{D.helpPresentational}:</dt>
+					<dd>{msd.isPresentational.toString()}</dd>
+					<dt>{D.helpRange}:</dt>
+					<dd>
+						{msd.rangeType === 'CODE_LIST' && codesLists[msd.codeList]
+							? `${D[`help${msd.rangeType}`]} - ${
+									codesLists[msd.codeList].codeListLabelLg1
+								}`
+							: `${D[`help${msd.rangeType}`]}`}
+
+						{msd.rangeType === 'CODE_LIST' &&
+							codesLists[msd.codeList] && (
+								<ul className="list-group">
+									{codesLists[msd.codeList].codes.map(code => (
+										<li className="list-group-item" key={code.code}>
+											{code.labelLg1}
+										</li>
+									))}
+								</ul>
+							)}
+					</dd>
+				</dl>
+			);
+		}
+
 		function displayContent(children) {
 			if (Object.keys(children).length <= 0) return null;
 			return (
-				<div className="contenu">
+				<div>
 					{Object.keys(children).map(id => {
 						return (
-							<article id={id} key={id}>
-								<h3>{`${id} - ${children[id].masLabelLg1}`}</h3>
-								<dl>
-									<dt>{D.labelTitle}:</dt>
-									<dd>{children[id].masLabelLg2}</dd>
-									<dt>{D.helpPresentational}:</dt>
-									<dd>{children[id].isPresentational.toString()}</dd>
-									<dt>{D.helpRange}:</dt>
-									<dd>{D[`help${children[id].rangeType}`]}</dd>
-								</dl>
+							<div key={id} className="contenu">
+								<article id={id} className="panel panel-default">
+									<div className="panel-heading">
+										<h3>{`${id} - ${children[id].masLabelLg1}`}</h3>
+									</div>
+									<div className="panel-body">
+										{displayInformation(children[id])}
+									</div>
+								</article>
 								{displayContent(children[id].children)}
-							</article>
+							</div>
 						);
 					})}
 				</div>
 			);
 		}
-		const { status } = this.state;
 
 		const styleSummary = {
 			width: status === STATUS.BOTH ? '33%' : '100%',
@@ -124,17 +157,22 @@ class MSDComponent extends Component {
 					}
 				>
 					{Object.keys(this.props.metadataStructure).map(id => {
+						if (this.props.currentSection && id !== this.props.currentSection) {
+							return null;
+						}
 						return (
-							<div>
-								<div className="titre-sommaire publication">
-									<div className="titre">
+							<div key={id}>
+								<div className="panel panel-default">
+									<div className="panel-heading">
 										<h2 id={id} className="titre-principal">
 											{id} - {this.props.metadataStructure[id].masLabelLg1}
 										</h2>
 									</div>
+									<div className="panel-body">
+										{displayInformation(this.props.metadataStructure[id])}
+									</div>
 								</div>
 								{displayContent(this.props.metadataStructure[id].children)}
-								<hr />
 							</div>
 						);
 					})}
