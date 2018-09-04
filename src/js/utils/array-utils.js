@@ -66,8 +66,9 @@ export const filterKeyDeburr = keys => rawStr => {
 	};
 };
 
-export const filterKeyDate = key => (start, end) => item =>
-	item[key] && isDateIn(item[key], start, end);
+export const filterKeyDate = key => (start, end) => item =>{
+	return !item[key] || isDateIn(item[key], start, end);
+}
 
 export const creatSelectList = max => {
 	const result = [];
