@@ -114,8 +114,6 @@ ConceptVisualization.propTypes = {
 	general: generalPropTypes.isRequired,
 	notes: notePropTypes.isRequired,
 	links: linksPropTypes.isRequired,
-	stampList: PropTypes.array.isRequired,
-	disseminationStatusList: PropTypes.array.isRequired,
 	validateConcept: PropTypes.func.isRequired,
 	langs: PropTypes.object.isRequired,
 };

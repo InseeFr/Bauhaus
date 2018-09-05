@@ -9,7 +9,7 @@ import { saveSecondLang } from 'js/actions/app';
 import loadConcept from 'js/actions/concepts/concept';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
-import loadGeneralAndAllNotes from 'js/actions/concepts/general-and-all-notes';
+import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import check from 'js/utils/auth';
 import Loading from 'js/components/shared/loading';
 import ConceptVisualization from './home';
@@ -31,18 +31,9 @@ class ConceptVisualizationContainer extends Component {
 		};
 	}
 	componentWillMount() {
-		const {
-			id,
-			concept,
-			allNotes,
-			stampList,
-			disseminationStatusList,
-		} = this.props;
-		if (!concept) this.props.loadConcept(id);
-		if (!stampList) this.props.loadStampList();
-		if (!disseminationStatusList) this.props.loadDisseminationStatusList();
+		const {	id,	allNotes } = this.props;
 		if (!allNotes) {
-			this.props.loadGeneralAndAllNotes(id);
+			this.props.loadConceptAndAllNotes(id);
 		}
 	}
 
@@ -57,7 +48,7 @@ class ConceptVisualizationContainer extends Component {
 				validationRequested: false,
 			});
 			//we need to load the concept again
-			this.props.loadConcept(id);
+			this.props.loadConceptAndAllNotes(id);
 		}
 	}
 	render() {
@@ -76,12 +67,10 @@ class ConceptVisualizationContainer extends Component {
 			permission,
 			concept,
 			allNotes,
-			stampList,
-			disseminationStatusList,
 			secondLang,
 			langs,
 		} = this.props;
-		if (concept && stampList && disseminationStatusList && allNotes) {
+		if (concept  && allNotes) {
 			const { general, links } = concept;
 			let { notes } = concept;
 			const { conceptVersion, isValidated, creator } = general;
@@ -115,8 +104,6 @@ class ConceptVisualizationContainer extends Component {
 					general={general}
 					notes={notes}
 					links={links}
-					stampList={stampList}
-					disseminationStatusList={disseminationStatusList}
 					validateConcept={this.handleConceptValidation}
 					validationStatus={validationStatus}
 					secondLang={secondLang}
@@ -156,7 +143,7 @@ const mapDispatchToProps = {
 	loadConcept,
 	loadDisseminationStatusList,
 	loadStampList,
-	loadGeneralAndAllNotes,
+	loadConceptAndAllNotes,
 	validateConcept: id => validateConcepts([id]),
 };
 

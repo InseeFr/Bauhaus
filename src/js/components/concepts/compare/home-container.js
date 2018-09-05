@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Loading from 'js/components/shared/loading';
 import ConceptCompare from './home';
 import { saveSecondLang } from 'js/actions/app';
-import loadGeneralAndAllNotes from 'js/actions/concepts/general-and-all-notes';
+import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import buildExtract from 'js/utils/build-extract';
 import * as select from 'js/reducers';
 
@@ -15,7 +15,7 @@ class ConceptCompareContainer extends Component {
 	componentWillMount() {
 		const { id, general, notes } = this.props;
 		if (!(general && notes)) {
-			this.props.loadGeneralAndAllNotes(id);
+			this.props.loadConceptAndAllNotes(id);
 		}
 	}
 
@@ -59,7 +59,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
 	saveSecondLang,
-	loadGeneralAndAllNotes,
+	loadConceptAndAllNotes,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
