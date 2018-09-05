@@ -7,8 +7,6 @@ import * as select from 'js/reducers';
 import buildExtract from 'js/utils/build-extract';
 import { saveSecondLang } from 'js/actions/app';
 import loadConcept from 'js/actions/concepts/concept';
-import loadDisseminationStatusList from 'js/actions/dissemination-status';
-import loadStampList from 'js/actions/stamp';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import check from 'js/utils/auth';
 import Loading from 'js/components/shared/loading';
@@ -39,7 +37,7 @@ class ConceptVisualizationContainer extends Component {
 
 	componentWillReceiveProps({ id, validationStatus }) {
 		if (id !== this.props.id) {
-			this.props.loadConcept(id);
+			this.props.loadConceptAndAllNotes(id);
 		}
 		if (this.state.validationRequested && validationStatus === OK) {
 			//validation has been processed successfully, we can show the
@@ -48,7 +46,7 @@ class ConceptVisualizationContainer extends Component {
 				validationRequested: false,
 			});
 			//we need to load the concept again
-			this.props.loadConceptAndAllNotes(id);
+			this.props.loadConcept(id);
 		}
 	}
 	render() {
@@ -129,8 +127,6 @@ const mapStateToProps = (state, ownProps) => {
 		secondLang: state.app.secondLang,
 		concept: select.getConcept(state, id),
 		allNotes,
-		stampList: select.getStampList(state),
-		disseminationStatusList: select.getDisseminationStatusList(state),
 		//TODO should check if the concept which has been validated are the same
 		//a validation has been requested for.
 		validationStatus: select.getStatus(state, VALIDATE_CONCEPT_LIST),
@@ -141,8 +137,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	saveSecondLang,
 	loadConcept,
-	loadDisseminationStatusList,
-	loadStampList,
 	loadConceptAndAllNotes,
 	validateConcept: id => validateConcepts([id]),
 };
