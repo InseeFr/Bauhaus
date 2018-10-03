@@ -620,6 +620,18 @@ const dictionary = {
 		en: 'Organization',
 		fr: 'Organisation',
 	},
+	btnSimsVisu: {
+		en: 'Show the SIMS',
+		fr: 'Voir le SIMS',
+	},
+	btnSimsCreate: {
+		en: 'Create the SIMS',
+		fr: 'Créer le SIMS',
+	},
+	backToTop: {
+		en: 'Back to Top',
+		fr: 'Haut de page',
+	},
 };
 
 export default dictionary;

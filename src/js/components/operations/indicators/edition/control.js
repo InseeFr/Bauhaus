@@ -9,7 +9,11 @@ function Control(props) {
 	return (
 		<div className="row btn-line">
 			<Button
-				action={`/operations/indicator/${indicator.id}`}
+				action={
+					indicator.id
+						? `/operations/indicator/${indicator.id}`
+						: `/operations/indicators`
+				}
 				label={
 					<React.Fragment>
 						<span

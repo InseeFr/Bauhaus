@@ -2,20 +2,29 @@ import React, { Component } from 'react';
 import { toggleOpen, isOpen } from 'js/components/operations/msd/msd/utils';
 import { HashLink as Link } from 'react-router-hash-link';
 import SectionItem from 'js/components/operations/msd/msd/section-item';
+import PropTypes from 'prop-types';
 
 class SummaryItem extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { opened: isOpen(props.metadataStructure.idMas) };
+
+		/**
+		 * If the storeCollapseState is false, we won't store the state in the localStorage.
+		 * It will be resetted after each F5
+		 */
+		this.state = {
+			opened: props.storeCollapseState && isOpen(props.metadataStructure.idMas),
+		};
 	}
 
 	expandOrCollapseItem() {
 		this.setState({ opened: !this.state.opened });
-		toggleOpen(this.props.metadataStructure.idMas);
+		this.props.storeCollapseState &&
+			toggleOpen(this.props.metadataStructure.idMas);
 	}
 
 	render() {
-		const { metadataStructure } = this.props;
+		const { metadataStructure, storeCollapseState } = this.props;
 
 		return (
 			<li>
@@ -46,11 +55,17 @@ class SummaryItem extends Component {
 					<SectionItem
 						children={metadataStructure.children}
 						parent={metadataStructure.idMas}
+						storeCollapseState={storeCollapseState}
 					/>
 				)}
 			</li>
 		);
 	}
 }
+
+SummaryItem.propTypes = {
+	storeCollapseState: PropTypes.bool,
+	metadataStructure: PropTypes.object.isRequired,
+};
 
 export default SummaryItem;

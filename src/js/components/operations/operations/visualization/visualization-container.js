@@ -113,8 +113,22 @@ class OperationVisualizationContainer extends Component {
 						context="operations"
 					/>
 
-					<div className="col-md-6 centered" />
+					<div className="col-md-4 centered" />
 
+					{operation.id_sims && (
+						<Button
+							action={`/operations/sims/${operation.id_sims}`}
+							label={D.btnSimsVisu}
+							context="operations"
+						/>
+					)}
+					{!operation.id_sims && (
+						<Button
+							action={`/operations/sims/create`}
+							label={D.btnSimsCreate}
+							context="operations"
+						/>
+					)}
 					<Button label={D.btnSend} context="operations" />
 					<Button
 						action={`/operations/operation/${operation.id}/modify`}
@@ -154,8 +168,9 @@ const mapDispatchToProps = {
 	loadOperation,
 };
 
-OperationVisualizationContainer = connect(mapStateToProps, mapDispatchToProps)(
-	OperationVisualizationContainer
-);
+OperationVisualizationContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(OperationVisualizationContainer);
 
 export default withRouter(OperationVisualizationContainer);

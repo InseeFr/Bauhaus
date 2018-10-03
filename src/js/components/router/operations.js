@@ -18,7 +18,7 @@ import OperationEditionContainer from 'js/components/operations/operations/editi
 import OperationsIndicatorEditionContainer from 'js/components/operations/indicators/edition';
 
 import { loadSetup } from 'js/actions/operations/utils/setup';
-import HelpContainer from '../operations/msd/help';
+import MSDContainer, { CREATE, VIEW } from '../operations/msd/help';
 
 class RootComponent extends Component {
 	componentDidMount() {
@@ -88,8 +88,17 @@ class RootComponent extends Component {
 					path="/operations/operation/:id/modify"
 					component={OperationEditionContainer}
 				/>
-				<Route exact path="/operations/help" component={HelpContainer} />
-				<Route exact path="/operations/help/:id" component={HelpContainer} />
+				<Route exact path="/operations/help" component={MSDContainer} />
+				<Route
+					exact
+					path="/operations/sims/create"
+					render={() => <MSDContainer mode={CREATE} />}
+				/>
+				<Route
+					exact
+					path="/operations/sims/:id"
+					render={() => <MSDContainer mode={VIEW} />}
+				/>
 			</Switch>
 		);
 	}
@@ -97,8 +106,9 @@ class RootComponent extends Component {
 const mapDispatchToProps = {
 	loadSetup,
 };
-const ConnectedRootComponent = connect(undefined, mapDispatchToProps)(
-	RootComponent
-);
+const ConnectedRootComponent = connect(
+	undefined,
+	mapDispatchToProps
+)(RootComponent);
 
 export default () => <Route path="/" component={ConnectedRootComponent} />;
