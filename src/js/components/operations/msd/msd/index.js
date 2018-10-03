@@ -43,7 +43,12 @@ class MSDComponent extends Component {
 			>
 				<section className="sommaire-gauche" style={styleSummary}>
 					<div className="titre-sommaire titre">{D.helpSummary}</div>
-					<input className="form-control" disabled placeholder={D.search} />
+					<input
+						className="form-control"
+						disabled
+						placeholder={D.search}
+						aria-label={D.search}
+					/>
 					<nav className="sommaire-container">
 						<ul className="sommaire">
 							{Object.keys(metadataStructure).map(id => (
