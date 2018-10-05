@@ -5,6 +5,7 @@ import Root from 'js/components/router';
 import Error from 'js/components/shared/error';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
+import BackToTop from 'js/components/shared/back-to-top/';
 
 import 'app.css';
 
@@ -31,7 +32,10 @@ const renderApp = (Component, initState, props) => {
 
 	ReactDOM.render(
 		<Provider store={store}>
-			<Component {...props} />
+			<main>
+				<Component {...props} />
+				<BackToTop />
+			</main>
 		</Provider>,
 		document.getElementById('root')
 	);
