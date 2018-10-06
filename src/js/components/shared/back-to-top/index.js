@@ -16,7 +16,7 @@ window.onload = function() {
 };
 export default function BackToTop() {
 	return (
-		<a href="#/" className="sticky-top" style={{ display: 'none' }}>
+		<a href="#" className="sticky-top" style={{ display: 'none' }}>
 			<span className="glyphicon glyphicon-chevron-up" />
 			<span data-i18n="footer.sticky-top.texte" className="sticky-text">
 				{D.backToTop}
