@@ -52,6 +52,16 @@ const api = {
 		},
 		() => {},
 	],
+	putSims: sims => [
+		`metadataReport/${sims.id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(sims),
+		},
+		() => {},
+	],
 	putIndicator: indicator => [
 		`indicator/${indicator.id}`,
 		{

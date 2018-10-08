@@ -1,7 +1,7 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
 
-export const saveOperation = sims => dispatch => {
+export const saveSims = sims => dispatch => {
 	dispatch({
 		type: A.SAVE_OPERATIONS_SIMS,
 		payload: sims,
