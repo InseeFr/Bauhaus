@@ -5,6 +5,7 @@ import {
 	operationsFamiliesCurrent,
 	operationsOperationsCurrent,
 	operationsIndicatorsCurrent,
+	operationsSimsCurrent,
 } from 'js/reducers/operations/current';
 
 function makeReducers([
@@ -96,4 +97,5 @@ export default {
 	operationsIndicatorsCurrent,
 	operationsIndicatorsList,
 	operationsAsyncTask,
+	operationsSimsCurrent,
 };
