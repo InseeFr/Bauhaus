@@ -14,8 +14,10 @@ window.onload = function() {
 		false
 	);
 };
+
 export default function BackToTop() {
 	return (
+		// eslint-disable-next-line
 		<a href="#" className="sticky-top" style={{ display: 'none' }}>
 			<span className="glyphicon glyphicon-chevron-up" />
 			<span data-i18n="footer.sticky-top.texte" className="sticky-text">
