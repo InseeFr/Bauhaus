@@ -77,7 +77,6 @@ const mapStateToProps = (state, ownProps) => {
 	} = state.operationsMetadataStructureList;
 	const id = extractId(ownProps);
 
-	console.log(state);
 	return {
 		metadataStructure,
 		currentSims:
