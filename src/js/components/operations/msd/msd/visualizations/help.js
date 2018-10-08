@@ -52,16 +52,17 @@ export default function MSDHelp({
 									<h3>{`${id} - ${children[id].masLabelLg1}`}</h3>
 								</div>
 								<div className="panel-body">
-									{displayInformation(children[id], codesLists)}
+									{displayInformation(children[id])}
 								</div>
 							</article>
-							{displayContent(children[id].children, codesLists)}
+							{displayContent(children[id].children)}
 						</div>
 					);
 				})}
 			</div>
 		);
 	}
+
 	return Object.keys(metadataStructure).map(id => {
 		if (currentSection && id !== currentSection) {
 			return null;
@@ -75,10 +76,10 @@ export default function MSDHelp({
 						</h2>
 					</div>
 					<div className="panel-body">
-						{displayInformation(metadataStructure[id], codesLists)}
+						{displayInformation(metadataStructure[id])}
 					</div>
 				</div>
-				{displayContent(metadataStructure[id].children, codesLists)}
+				{displayContent(metadataStructure[id].children)}
 			</div>
 		);
 	});
