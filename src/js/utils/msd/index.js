@@ -21,3 +21,10 @@ export function getTree(input, idParent, objectToMerge) {
 			};
 		}, {});
 }
+
+export const rangeType = {
+	REPORTED_ATTRIBUTE: 'REPORTED_ATTRIBUTE',
+	TEXT: 'TEXT',
+	DATE: 'DATE',
+	CODE_LIST: 'CODE_LIST',
+};

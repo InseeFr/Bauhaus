@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
+import { stringToDate } from 'js/utils/moment';
 import { rangeType } from 'js/utils/msd/';
 
-const { CODE_LIST } = rangeType;
-
-export default function MSDHelp({
+const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
+export default function Sims({
 	metadataStructure,
 	currentSection,
 	codesLists,
+	sims = {},
 }) {
-	function displayInformation(msd) {
+	function displayInformation(msd, currentSection = {}) {
 		if (!msd.masLabelLg1) {
 			return null;
 		}
@@ -18,25 +19,26 @@ export default function MSDHelp({
 			<dl>
 				<dt>{D.labelTitle}:</dt>
 				<dd>{msd.masLabelLg2}</dd>
-				<dt>{D.helpPresentational}:</dt>
-				<dd>{msd.isPresentational.toString()}</dd>
-				<dt>{D.helpRange}:</dt>
+				<dt>{D.simsValue}:</dt>
 				<dd>
-					{msd.rangeType === CODE_LIST && codesLists[msd.codeList]
-						? `${D[`help${msd.rangeType}`]} - ${
-								codesLists[msd.codeList].codeListLabelLg1
-						  }`
-						: `${D[`help${msd.rangeType}`]}`}
-
-					{msd.rangeType === CODE_LIST &&
-						codesLists[msd.codeList] && (
-							<ul className="list-group">
-								{codesLists[msd.codeList].codes.map(code => (
-									<li className="list-group-item" key={code.code}>
-										{code.labelLg1}
-									</li>
-								))}
-							</ul>
+					{currentSection.rangeType === TEXT && currentSection.value}
+					{currentSection.rangeType === DATE &&
+						stringToDate(currentSection.value)}
+					{currentSection.rangeType === REPORTED_ATTRIBUTE && (
+						<div
+							dangerouslySetInnerHTML={{ __html: currentSection.labelLg1 }}
+						/>
+					)}
+					{currentSection.rangeType === CODE_LIST &&
+						codesLists[currentSection.codeList] && (
+							<span>
+								{currentSection.codeList}-
+								{
+									codesLists[currentSection.codeList].codes.find(
+										code => code.code === currentSection.value
+									).labelLg1
+								}
+							</span>
 						)}
 				</dd>
 			</dl>
@@ -55,7 +57,7 @@ export default function MSDHelp({
 									<h3>{`${id} - ${children[id].masLabelLg1}`}</h3>
 								</div>
 								<div className="panel-body">
-									{displayInformation(children[id])}
+									{displayInformation(children[id], sims[id])}
 								</div>
 							</article>
 							{displayContent(children[id].children)}
@@ -65,7 +67,6 @@ export default function MSDHelp({
 			</div>
 		);
 	}
-
 	return Object.keys(metadataStructure).map(id => {
 		if (currentSection && id !== currentSection) {
 			return null;
@@ -79,17 +80,18 @@ export default function MSDHelp({
 						</h2>
 					</div>
 					<div className="panel-body">
-						{displayInformation(metadataStructure[id])}
+						{displayInformation(metadataStructure[id], sims[id])}
 					</div>
 				</div>
-				{displayContent(metadataStructure[id].children)}
+				{displayContent(metadataStructure[id].children, sims[id])}
 			</div>
 		);
 	});
 }
 
-MSDHelp.propTypes = {
+Sims.propTypes = {
 	metadataStructure: PropTypes.object.isRequired,
 	currentSection: PropTypes.string,
 	codesLists: PropTypes.object.isRequired,
+	sims: PropTypes.object.isRequired,
 };

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
 import { toggleOpen, isOpen } from 'js/components/operations/msd/msd/utils';
+import PropTypes from 'prop-types';
 
 class SectionItem extends Component {
 	constructor(props) {
@@ -31,7 +32,7 @@ class SectionItem extends Component {
 		});
 	}
 	render() {
-		const { secondary, parent } = this.props;
+		const { secondary, parent, baseUrl = '/operations/help/' } = this.props;
 		const { children } = this.state;
 		if (Object.keys(children).length <= 0) return null;
 		return (
@@ -53,7 +54,7 @@ class SectionItem extends Component {
 									/>
 								</button>
 							)}
-							<Link smooth to={`/operations/help/${parent}#${child.idMas}`}>
+							<Link smooth to={`${baseUrl}${parent}#${child.idMas}`}>
 								{child.idMas} - {child.masLabelLg1}
 							</Link>
 							{child.opened && (
@@ -61,6 +62,7 @@ class SectionItem extends Component {
 									children={child.children}
 									secondary
 									parent={parent}
+									baseUrl={baseUrl}
 								/>
 							)}
 						</li>
@@ -70,5 +72,9 @@ class SectionItem extends Component {
 		);
 	}
 }
-
+SectionItem.propTypes = {
+	secondary: PropTypes.bool,
+	parent: PropTypes.string,
+	baseUrl: PropTypes.string,
+};
 export default SectionItem;

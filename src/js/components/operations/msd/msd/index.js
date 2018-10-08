@@ -35,7 +35,12 @@ class MSDComponent extends Component {
 			width: status === STATUS.BOTH ? '66%' : '100%',
 			display: status === STATUS.SUMMARY ? 'none' : 'block',
 		};
-		const { storeCollapseState, metadataStructure, children } = this.props;
+		const {
+			storeCollapseState,
+			metadataStructure,
+			children,
+			baseUrl,
+		} = this.props;
 		return (
 			<div
 				id="consulter-sommaire"
@@ -56,6 +61,7 @@ class MSDComponent extends Component {
 									key={id}
 									storeCollapseState={storeCollapseState}
 									metadataStructure={metadataStructure[id]}
+									baseUrl={baseUrl}
 								/>
 							))}
 						</ul>

@@ -24,13 +24,17 @@ class SummaryItem extends Component {
 	}
 
 	render() {
-		const { metadataStructure, storeCollapseState } = this.props;
+		const {
+			metadataStructure,
+			storeCollapseState,
+			baseUrl = '/operations/help/',
+		} = this.props;
 
 		return (
 			<li>
 				<div className="primary-item">
 					<Link
-						to={`/operations/help/${metadataStructure.idMas}#${
+						to={`${baseUrl}${metadataStructure.idMas}#${
 							metadataStructure.idMas
 						}`}
 					>
@@ -56,6 +60,7 @@ class SummaryItem extends Component {
 						children={metadataStructure.children}
 						parent={metadataStructure.idMas}
 						storeCollapseState={storeCollapseState}
+						baseUrl={baseUrl}
 					/>
 				)}
 			</li>
@@ -66,6 +71,7 @@ class SummaryItem extends Component {
 SummaryItem.propTypes = {
 	storeCollapseState: PropTypes.bool,
 	metadataStructure: PropTypes.object.isRequired,
+	baseUrl: PropTypes.string,
 };
 
 export default SummaryItem;
