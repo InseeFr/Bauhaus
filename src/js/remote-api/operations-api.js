@@ -11,6 +11,7 @@ const api = {
 	getOperation: id => [`operation/${id}`],
 	getSerie: id => [`series/${id}`],
 	getIndicator: id => [`indicator/${id}`],
+	getSims: id => [`metadataReport/${id}`],
 	getVarBookExport: (id, MimeType) => [
 		`operation/${id}/variableBook`,
 		{
