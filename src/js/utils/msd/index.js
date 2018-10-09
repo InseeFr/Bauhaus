@@ -1,3 +1,10 @@
+/**
+ *
+ * Take a an array as input, and return a hierarchical tree based on objects
+ * @param {Array<Object>} input : the content of a SIMS
+ * @param {string} idParent
+ * @param {object} objectToMerge
+ */
 export function getTree(input, idParent, objectToMerge) {
 	return input
 		.filter(msd => msd.idParent === idParent)
@@ -20,6 +27,26 @@ export function getTree(input, idParent, objectToMerge) {
 				},
 			};
 		}, {});
+}
+
+/**
+ * Flatten a hierarchical tree. Return the same type of data : an object with the
+ * ID of the element as a key
+ * @param {Object} tree
+ */
+export function flattenTree(tree) {
+	if (!tree) {
+		return null;
+	}
+	return Object.keys(tree).reduce((acc, key) => {
+		return {
+			...acc,
+			[key]: {
+				...tree[key],
+			},
+			...flattenTree(tree[key].children),
+		};
+	}, {});
 }
 
 export const rangeType = {
