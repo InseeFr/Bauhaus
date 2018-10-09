@@ -44,7 +44,7 @@ function IndicatorInformation(props) {
 		d => organisations.find(orga => orga.id === d.id) || {}
 	);
 	return (
-		<div>
+		<React.Fragment>
 			<DisplayMultiLangNote
 				value1={attr.altLabelLg1}
 				value2={attr.altLabelLg2}
@@ -115,7 +115,7 @@ function IndicatorInformation(props) {
 			/>
 
 			<SeeAlso links={seeAlso} langs={langs} secondLang={secondLang} />
-		</div>
+		</React.Fragment>
 	);
 }
 

@@ -10,7 +10,7 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 	const authImpl = check(authType);
 	const adminOrContributor = authImpl.isAdminOrContributor(roles);
 	return (
-		<div>
+		<React.Fragment>
 			<div className="container">
 				<div className="row">
 					<div className="col-md-3 btn-group-vertical">
@@ -49,7 +49,7 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 					</div>
 				</div>
 			</div>
-		</div>
+		</React.Fragment>
 	);
 }
 

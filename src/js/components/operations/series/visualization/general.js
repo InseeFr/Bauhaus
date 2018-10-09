@@ -30,7 +30,7 @@ function SerieInformation({
 		d => organisations.find(orga => orga.id === d.id) || {}
 	);
 	return (
-		<div>
+		<React.Fragment>
 			<div className="row">
 				<Note
 					text={attr.altLabelLg1}
@@ -200,7 +200,7 @@ function SerieInformation({
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>
-		</div>
+		</React.Fragment>
 	);
 }
 

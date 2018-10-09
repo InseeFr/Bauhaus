@@ -6,7 +6,7 @@ import D from 'js/i18n';
 
 function FamiliesHome({ families }) {
 	return (
-		<div>
+		<React.Fragment>
 			<div className="container">
 				<div className="row">
 					<div className="col-md-8 col-md-offset-2 centered">
@@ -25,7 +25,7 @@ function FamiliesHome({ families }) {
 					</div>
 				</div>
 			</div>
-		</div>
+		</React.Fragment>
 	);
 }
 

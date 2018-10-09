@@ -28,7 +28,7 @@ function RelationsViewPerLg({
 						</p>
 					)}
 					{children && (
-						<div>
+						<React.Fragment>
 							<p>
 								<span className="linksTitle">{childrenTitle}:</span>
 							</p>
@@ -47,7 +47,7 @@ function RelationsViewPerLg({
 										</li>
 									))}
 							</ul>
-						</div>
+						</React.Fragment>
 					)}
 				</React.Fragment>
 			}

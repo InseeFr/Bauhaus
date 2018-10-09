@@ -5,10 +5,14 @@ import D from 'js/i18n';
 import RelationsView from 'js/components/operations/shared/relations';
 
 function FamilyInformation(props) {
-	const { attr, langs: { lg1, lg2 }, secondLang } = props;
+	const {
+		attr,
+		langs: { lg1, lg2 },
+		secondLang,
+	} = props;
 
 	return (
-		<div>
+		<React.Fragment>
 			<div className="row">
 				<Note
 					text={attr.themeLg1}
@@ -56,7 +60,7 @@ function FamilyInformation(props) {
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>
-		</div>
+		</React.Fragment>
 	);
 }
 

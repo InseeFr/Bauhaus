@@ -46,7 +46,7 @@ export default function MSDHelp({
 	function displayContent(children) {
 		if (Object.keys(children).length <= 0) return null;
 		return (
-			<div>
+			<React.Fragment>
 				{Object.keys(children).map(id => {
 					return (
 						<div key={id} className="contenu">
@@ -62,7 +62,7 @@ export default function MSDHelp({
 						</div>
 					);
 				})}
-			</div>
+			</React.Fragment>
 		);
 	}
 

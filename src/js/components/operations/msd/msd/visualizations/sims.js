@@ -48,7 +48,7 @@ export default function Sims({
 	function displayContent(children) {
 		if (Object.keys(children).length <= 0) return null;
 		return (
-			<div>
+			<React.Fragment>
 				{Object.keys(children).map(id => {
 					return (
 						<div key={id} className="contenu">
@@ -64,7 +64,7 @@ export default function Sims({
 						</div>
 					);
 				})}
-			</div>
+			</React.Fragment>
 		);
 	}
 	return Object.keys(metadataStructure).map(id => {
