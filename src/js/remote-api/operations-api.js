@@ -1,17 +1,20 @@
 import buildApi from './build-api';
 import simsApi from './operations/sims';
+import indicatorApi from './operations/indicator';
+
 const api = {
 	...simsApi,
+	...indicatorApi,
+
 	getSeriesList: () => ['series'],
 	getOperationsList: () => ['operations'],
 	getFamiliesList: () => ['families'],
-	getIndicatorsList: () => ['indicators'],
+
 	getMetadataStructureList: () => ['metadataStructureDefinition'],
 	getMetadataAttributesList: () => ['metadataAttributes'],
 	getFamily: id => [`family/${id}`],
 	getOperation: id => [`operation/${id}`],
 	getSerie: id => [`series/${id}`],
-	getIndicator: id => [`indicator/${id}`],
 	getVarBookExport: (id, MimeType) => [
 		`operation/${id}/variableBook`,
 		{
@@ -51,26 +54,6 @@ const api = {
 			body: JSON.stringify(operation),
 		},
 		() => {},
-	],
-	putIndicator: indicator => [
-		`indicator/${indicator.id}`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(indicator),
-		},
-		() => {},
-	],
-	postIndicator: indicator => [
-		`indicator`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(indicator),
-		},
-		res => res.text().then(id => id),
 	],
 };
 
