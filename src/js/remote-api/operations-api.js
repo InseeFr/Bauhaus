@@ -1,6 +1,7 @@
 import buildApi from './build-api';
-
+import simsApi from './operations/sims';
 const api = {
+	...simsApi,
 	getSeriesList: () => ['series'],
 	getOperationsList: () => ['operations'],
 	getFamiliesList: () => ['families'],
@@ -11,7 +12,6 @@ const api = {
 	getOperation: id => [`operation/${id}`],
 	getSerie: id => [`series/${id}`],
 	getIndicator: id => [`indicator/${id}`],
-	getSims: id => [`metadataReport/${id}`],
 	getVarBookExport: (id, MimeType) => [
 		`operation/${id}/variableBook`,
 		{
@@ -49,16 +49,6 @@ const api = {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(operation),
-		},
-		() => {},
-	],
-	putSims: sims => [
-		`metadataReport/${sims.id}`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(sims),
 		},
 		() => {},
 	],
