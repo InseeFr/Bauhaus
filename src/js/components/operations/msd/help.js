@@ -4,14 +4,16 @@ import { connect } from 'react-redux';
 import Loading from 'js/components/shared/loading';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
-import loadSIMS from 'js/actions/operations/sims/item';
+import loadSIMS, { saveSims } from 'js/actions/operations/sims/item';
 import { withRouter } from 'react-router-dom';
 import MSDHelp from 'js/components/operations/msd/msd/visualizations/help';
 import Sims from 'js/components/operations/msd/msd/visualizations/sims';
+import SimsForm from 'js/components/operations/msd/msd/visualizations/sims-form';
 import buildExtract from 'js/utils/build-extract';
 import PropTypes from 'prop-types';
 
 const extractId = buildExtract('id');
+const extractIdOperation = buildExtract('idOperation');
 
 export const HELP = 'HELP';
 export const CREATE = 'CREATE';
@@ -31,6 +33,9 @@ class MSDContainer extends Component {
 			codesLists,
 			mode = HELP,
 			baseUrl,
+			saveSims,
+			idOperation,
+			disableSectionAnchor,
 		} = this.props;
 		if (status !== LOADED)
 			return <Loading textType="loading" context="operations" />;
@@ -40,6 +45,7 @@ class MSDContainer extends Component {
 				currentSection={this.props.match.params.idSection}
 				storeCollapseState={mode === HELP}
 				baseUrl={baseUrl}
+				disableSectionAnchor={disableSectionAnchor}
 			>
 				{mode === HELP && (
 					<MSDHelp
@@ -57,7 +63,16 @@ class MSDContainer extends Component {
 						currentSection={this.props.match.params.idSection}
 					/>
 				)}
-				{mode === CREATE && <div> CREATE mode</div>}
+				{mode === CREATE && (
+					<SimsForm
+						sims={this.props.currentSims}
+						metadataStructure={metadataStructure}
+						codesLists={codesLists}
+						currentSection={this.props.match.params.idSection}
+						onSubmit={saveSims}
+						idOperation={idOperation}
+					/>
+				)}
 			</MSDComponent>
 		);
 	}
@@ -75,13 +90,13 @@ const mapStateToProps = (state, ownProps) => {
 		status,
 		err,
 	} = state.operationsMetadataStructureList;
-	const id = extractId(ownProps);
 
 	return {
 		metadataStructure,
 		currentSims:
 			ownProps.mode === VIEW ? state.operationsSimsCurrent.rubrics : {},
-		id,
+		id: extractId(ownProps),
+		idOperation: extractIdOperation(ownProps),
 		codesLists: state.operationsCodesList.results,
 		status,
 		err,
@@ -91,6 +106,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	loadMetadataStructure,
 	loadSIMS,
+	saveSims,
 };
 
 export default withRouter(
@@ -106,4 +122,5 @@ MSDContainer.propTypes = {
 	codesLists: PropTypes.object,
 	mode: PropTypes.oneOf([HELP, VIEW, CREATE]),
 	baseUrl: PropTypes.string,
+	disableSectionAnchor: PropTypes.bool,
 };

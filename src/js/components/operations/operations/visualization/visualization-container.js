@@ -124,7 +124,7 @@ class OperationVisualizationContainer extends Component {
 					)}
 					{!operation.id_sims && (
 						<Button
-							action={`/operations/sims/create`}
+							action={`/operations/${operation.id}/sims/create`}
 							label={D.btnSimsCreate}
 							context="operations"
 						/>

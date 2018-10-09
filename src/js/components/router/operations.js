@@ -96,8 +96,16 @@ class RootComponent extends Component {
 				/>
 				<Route
 					exact
-					path="/operations/sims/create"
-					render={() => <MSDContainer mode={CREATE} />}
+					path="/operations/:idOperation/sims/create"
+					render={props => (
+						<MSDContainer
+							mode={CREATE}
+							baseUrl={`/operations/${
+								props.match.params.idOperation
+							}/sims/create`}
+							disableSectionAnchor
+						/>
+					)}
 				/>
 				<Route
 					exact

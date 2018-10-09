@@ -32,7 +32,12 @@ class SectionItem extends Component {
 		});
 	}
 	render() {
-		const { secondary, parent, baseUrl = '/operations/help/' } = this.props;
+		const {
+			secondary,
+			parent,
+			baseUrl = '/operations/help/',
+			disableSectionAnchor = false,
+		} = this.props;
 		const { children } = this.state;
 		if (Object.keys(children).length <= 0) return null;
 		return (
@@ -54,7 +59,12 @@ class SectionItem extends Component {
 									/>
 								</button>
 							)}
-							<Link smooth to={`${baseUrl}${parent}#${child.idMas}`}>
+							<Link
+								smooth
+								to={`${baseUrl}${disableSectionAnchor ? '' : parent}#${
+									child.idMas
+								}`}
+							>
 								{child.idMas} - {child.masLabelLg1}
 							</Link>
 							{child.opened && (
@@ -63,6 +73,7 @@ class SectionItem extends Component {
 									secondary
 									parent={parent}
 									baseUrl={baseUrl}
+									disableSectionAnchor={disableSectionAnchor}
 								/>
 							)}
 						</li>

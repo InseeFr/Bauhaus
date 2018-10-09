@@ -40,6 +40,7 @@ class MSDComponent extends Component {
 			metadataStructure,
 			children,
 			baseUrl,
+			disableSectionAnchor,
 		} = this.props;
 		return (
 			<div
@@ -62,6 +63,7 @@ class MSDComponent extends Component {
 									storeCollapseState={storeCollapseState}
 									metadataStructure={metadataStructure[id]}
 									baseUrl={baseUrl}
+									disableSectionAnchor={disableSectionAnchor}
 								/>
 							))}
 						</ul>

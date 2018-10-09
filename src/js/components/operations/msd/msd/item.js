@@ -28,15 +28,16 @@ class SummaryItem extends Component {
 			metadataStructure,
 			storeCollapseState,
 			baseUrl = '/operations/help/',
+			disableSectionAnchor = false,
 		} = this.props;
 
 		return (
 			<li>
 				<div className="primary-item">
 					<Link
-						to={`${baseUrl}${metadataStructure.idMas}#${
-							metadataStructure.idMas
-						}`}
+						to={`${baseUrl}${
+							disableSectionAnchor ? '' : metadataStructure.idMas
+						}#${metadataStructure.idMas}`}
 					>
 						{metadataStructure.idMas} - {metadataStructure.masLabelLg1}
 					</Link>
@@ -61,6 +62,7 @@ class SummaryItem extends Component {
 						parent={metadataStructure.idMas}
 						storeCollapseState={storeCollapseState}
 						baseUrl={baseUrl}
+						disableSectionAnchor={disableSectionAnchor}
 					/>
 				)}
 			</li>

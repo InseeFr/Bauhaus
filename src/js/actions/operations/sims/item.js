@@ -1,22 +1,26 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
 
-export const saveSims = sims => dispatch => {
+export const saveSims = (sims, callback) => dispatch => {
 	dispatch({
 		type: A.SAVE_OPERATIONS_SIMS,
 		payload: sims,
 	});
-	return api.putSims(sims).then(
-		results =>
+	const method = sims.id ? 'putSims' : 'postSims';
+	return api[method](sims).then(
+		results => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_SIMS_SUCCESS,
 				payload: sims,
-			}),
-		err =>
+			});
+			callback(results);
+		},
+		err => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_SIMS_FAILURE,
 				payload: { err },
-			})
+			});
+		}
 	);
 };
 
