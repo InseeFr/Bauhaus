@@ -19,28 +19,33 @@ export default function Sims({
 			<dl>
 				<dt>{D.labelTitle}:</dt>
 				<dd>{msd.masLabelLg2}</dd>
-				<dt>{D.simsValue}:</dt>
-				<dd>
-					{currentSection.rangeType === TEXT && currentSection.value}
-					{currentSection.rangeType === DATE &&
-						stringToDate(currentSection.value)}
-					{currentSection.rangeType === REPORTED_ATTRIBUTE && (
-						<div
-							dangerouslySetInnerHTML={{ __html: currentSection.labelLg1 }}
-						/>
-					)}
-					{currentSection.rangeType === CODE_LIST &&
-						codesLists[currentSection.codeList] && (
-							<span>
-								{currentSection.codeList}-
-								{
-									codesLists[currentSection.codeList].codes.find(
-										code => code.code === currentSection.value
-									).labelLg1
-								}
-							</span>
-						)}
-				</dd>
+				{!msd.isPresentational && (
+					<React.Fragment>
+						<dt>{D.simsValue}:</dt>
+						<dd>
+							{currentSection.rangeType === TEXT && currentSection.value}
+							{currentSection.value &&
+								currentSection.rangeType === DATE &&
+								stringToDate(currentSection.value)}
+							{currentSection.rangeType === REPORTED_ATTRIBUTE && (
+								<div
+									dangerouslySetInnerHTML={{ __html: currentSection.labelLg1 }}
+								/>
+							)}
+							{currentSection.rangeType === CODE_LIST &&
+								codesLists[currentSection.codeList] && (
+									<span>
+										{currentSection.codeList}-
+										{
+											codesLists[currentSection.codeList].codes.find(
+												code => code.code === currentSection.value
+											).labelLg1
+										}
+									</span>
+								)}
+						</dd>
+					</React.Fragment>
+				)}
 			</dl>
 		);
 	}
