@@ -44,8 +44,8 @@ describe('SIMS actions', () => {
 			api.putSims = function(id) {
 				return Promise.resolve('');
 			};
-			const sims = { label: 'aaa' };
-			await saveSims(sims)(dispatch);
+			const sims = { id: 1, label: 'aaa' };
+			await saveSims(sims, () => {})(dispatch);
 			expect(dispatch).toHaveBeenCalledWith({
 				type: A.SAVE_OPERATIONS_SIMS,
 				payload: sims,
