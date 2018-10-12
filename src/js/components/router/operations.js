@@ -91,13 +91,41 @@ class RootComponent extends Component {
 				<Route exact path="/operations/help" component={MSDContainer} />
 				<Route
 					exact
-					path="/operations/sims/create"
-					render={() => <MSDContainer mode={CREATE} />}
+					path="/operations/help/:idSection"
+					component={MSDContainer}
+				/>
+				<Route
+					exact
+					path="/operations/:idOperation/sims/create"
+					render={props => (
+						<MSDContainer
+							mode={CREATE}
+							baseUrl={`/operations/${
+								props.match.params.idOperation
+							}/sims/create`}
+							disableSectionAnchor
+						/>
+					)}
 				/>
 				<Route
 					exact
 					path="/operations/sims/:id"
-					render={() => <MSDContainer mode={VIEW} />}
+					render={props => (
+						<MSDContainer
+							mode={VIEW}
+							baseUrl={`/operations/sims/${props.match.params.id}/section/`}
+						/>
+					)}
+				/>
+				<Route
+					exact
+					path="/operations/sims/:id/section/:idSection"
+					render={props => (
+						<MSDContainer
+							mode={VIEW}
+							baseUrl={`/operations/sims/${props.match.params.id}/section/`}
+						/>
+					)}
 				/>
 			</Switch>
 		);

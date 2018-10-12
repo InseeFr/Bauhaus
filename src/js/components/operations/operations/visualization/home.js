@@ -8,7 +8,7 @@ function OperationVisualization(props) {
 	const { attr, secondLang, langs: { lg1, lg2 } } = props;
 
 	return (
-		<div>
+		<React.Fragment>
 			<div className="row">
 				<Note
 					text={attr.altLabelLg1}
@@ -35,7 +35,7 @@ function OperationVisualization(props) {
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>
-		</div>
+		</React.Fragment>
 	);
 }
 

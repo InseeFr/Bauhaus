@@ -596,6 +596,10 @@ const dictionary = {
 		en: 'Range',
 		fr: 'Portée',
 	},
+	simsValue: {
+		en: 'Value',
+		fr: 'Valeur',
+	},
 	helpPresentational: {
 		en: 'Presentational attribut',
 		fr: 'Attribut présentationnel',

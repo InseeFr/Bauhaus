@@ -6,7 +6,7 @@ import D from 'js/i18n';
 
 function OperationsHome({ operations }) {
 	return (
-		<div>
+		<React.Fragment>
 			<div className="container">
 				<div className="row">
 					<div className="col-md-8 col-md-offset-2 centered">
@@ -25,7 +25,7 @@ function OperationsHome({ operations }) {
 					</div>
 				</div>
 			</div>
-		</div>
+		</React.Fragment>
 	);
 }
 

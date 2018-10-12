@@ -1,5 +1,6 @@
 import React from 'react';
 import D from 'js/i18n';
+import './index.css';
 
 window.onload = function() {
 	document.addEventListener(
@@ -14,9 +15,11 @@ window.onload = function() {
 		false
 	);
 };
+
 export default function BackToTop() {
 	return (
-		<a href="#/" className="sticky-top" style={{ display: 'none' }}>
+		// eslint-disable-next-line
+		<a href="#" className="sticky-top" style={{ display: 'none' }}>
 			<span className="glyphicon glyphicon-chevron-up" />
 			<span data-i18n="footer.sticky-top.texte" className="sticky-text">
 				{D.backToTop}

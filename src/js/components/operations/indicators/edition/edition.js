@@ -101,7 +101,7 @@ class OperationsIndicatorEdition extends Component {
 		return (
 			<div className="container editor-container">
 				{isUpdate && (
-					<div>
+					<React.Fragment>
 						<PageTitle
 							title={this.props.indicator.prefLabelLg1}
 							context="operations"
@@ -109,7 +109,7 @@ class OperationsIndicatorEdition extends Component {
 						{indicator.prefLabelLg2 && (
 							<PageSubtitle subTitle={this.props.indicator.prefLabelLg2} />
 						)}
-					</div>
+					</React.Fragment>
 				)}
 				<Control indicator={this.state.indicator} onSubmit={this.onSubmit} />
 
