@@ -115,14 +115,14 @@ class OperationVisualizationContainer extends Component {
 
 					<div className="col-md-4 centered" />
 
-					{operation.id_sims && (
+					{operation.idSims && (
 						<Button
 							action={`/operations/sims/${operation.id_sims}`}
 							label={D.btnSimsVisu}
 							context="operations"
 						/>
 					)}
-					{!operation.id_sims && (
+					{!operation.idSims && (
 						<Button
 							action={`/operations/${operation.id}/sims/create`}
 							label={D.btnSimsCreate}
