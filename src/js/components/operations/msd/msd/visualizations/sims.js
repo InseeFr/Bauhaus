@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-import { formattedStringToDate } from 'js/utils/moment';
+import { stringToDate } from 'js/utils/moment';
 import { rangeType } from 'js/utils/msd/';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 
@@ -33,7 +33,7 @@ export default function Sims({
 							{currentSection.rangeType === TEXT && currentSection.labelLg1}
 							{currentSection.value &&
 								currentSection.rangeType === DATE &&
-								formattedStringToDate(currentSection.value)}
+								stringToDate(currentSection.value)}
 							{currentSection.rangeType === REPORTED_ATTRIBUTE && (
 								<div
 									dangerouslySetInnerHTML={{ __html: currentSection.labelLg1 }}

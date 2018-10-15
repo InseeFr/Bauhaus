@@ -5,7 +5,6 @@ import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
 import EditorMarkdown from 'js/components/shared/editor-markdown';
-import { stringToDate, toISOString } from 'js/utils/moment';
 import './sims-field.css';
 
 const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
@@ -67,11 +66,11 @@ class Field extends React.Component {
 								<DatePickerRmes
 									id={msd.idMas}
 									colMd={12}
-									value={toISOString(currentSection.value)}
+									value={currentSection.value}
 									onChange={value => {
 										handleChange({
 											id: msd.idMas,
-											override: { value: stringToDate(value.toString()) },
+											override: { value },
 										});
 									}}
 								/>

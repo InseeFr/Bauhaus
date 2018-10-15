@@ -6,6 +6,9 @@ window.onload = function() {
 	document.addEventListener(
 		'scroll',
 		function(e) {
+			if (!document.querySelector('.sticky-top')) {
+				return;
+			}
 			if (window.pageYOffset > 100) {
 				document.querySelector('.sticky-top').style.display = 'block';
 			} else {

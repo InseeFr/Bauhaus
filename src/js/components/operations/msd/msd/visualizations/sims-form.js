@@ -6,15 +6,9 @@ import { withRouter } from 'react-router-dom';
 import Field from 'js/components/operations/msd/msd/visualizations/sims-field';
 import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
-import { rangeType } from 'js/utils/msd/';
 
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
 
-//todo move
-function hasLabelLg2(section) {
-	return section.rangeType === TEXT || section.rangeType === REPORTED_ATTRIBUTE;
-}
 class SimsForm extends React.Component {
 	constructor(props) {
 		super(props);

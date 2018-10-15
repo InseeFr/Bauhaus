@@ -20,23 +20,7 @@ export const today = () =>
 		.locale(getLang())
 		.format('L');
 
-export const stringToDate = (string, lang) => {
-	const l = getLang();
-	console.log(moment(string));
-	const result = moment(string)
+export const stringToDate = (string, lang) =>
+	moment(string)
 		.locale(lang || getLang())
 		.format('L');
-	return result;
-};
-
-export const formattedStringToDate = (string, lang) => {
-	const result = moment(toISOString(string))
-		.locale(lang || getLang())
-		.format('L');
-	return result;
-};
-
-export const toISOString = (string, lang = getLang()) => {
-	const format = lang === 'en' ? 'MM/DD/YYYY' : 'DD/MM/YYYY';
-	return moment(string, format, lang, true).toISOString(true);
-};
