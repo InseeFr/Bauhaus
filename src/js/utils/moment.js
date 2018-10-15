@@ -24,8 +24,3 @@ export const stringToDate = (string, lang) =>
 	moment(string)
 		.locale(lang || getLang())
 		.format('L');
-
-export const toISOString = (string, lang = getLang()) => {
-	const format = lang === 'en' ? 'MM/DD/YYYY' : 'DD/MM/YYYY';
-	return moment(string, format, lang, true).toISOString(true);
-};

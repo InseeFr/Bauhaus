@@ -103,7 +103,10 @@ class OperationVisualizationContainer extends Component {
 				<PageTitle title={operation.prefLabelLg1} context="operations" />
 				{secondLang &&
 					operation.prefLabelLg2 && (
-						<PageSubtitle subTitle={operation.prefLabelLg2} />
+						<PageSubtitle
+							subTitle={operation.prefLabelLg2}
+							context="operations"
+						/>
 					)}
 
 				<div className="row btn-line">
@@ -115,14 +118,14 @@ class OperationVisualizationContainer extends Component {
 
 					<div className="col-md-4 centered" />
 
-					{operation.id_sims && (
+					{operation.idSims && (
 						<Button
-							action={`/operations/sims/${operation.id_sims}`}
+							action={`/operations/sims/${operation.idSims}`}
 							label={D.btnSimsVisu}
 							context="operations"
 						/>
 					)}
-					{!operation.id_sims && (
+					{!operation.idSims && (
 						<Button
 							action={`/operations/${operation.id}/sims/create`}
 							label={D.btnSimsCreate}

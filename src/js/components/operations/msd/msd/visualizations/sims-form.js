@@ -6,6 +6,9 @@ import { withRouter } from 'react-router-dom';
 import Field from 'js/components/operations/msd/msd/visualizations/sims-field';
 import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
+
+import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+
 class SimsForm extends React.Component {
 	constructor(props) {
 		super(props);
@@ -47,7 +50,7 @@ class SimsForm extends React.Component {
 		this.props.onSubmit(
 			{
 				idOperation: this.props.idOperation,
-				rubrics: this.state.sims,
+				rubrics: Object.values(this.state.sims),
 			},
 			id => {
 				this.props.history.push(`/operations/sims/${id}`);
@@ -55,7 +58,12 @@ class SimsForm extends React.Component {
 		);
 	}
 	render() {
-		const { metadataStructure, codesLists } = this.props;
+		const {
+			metadataStructure,
+			codesLists,
+			saveSecondLang,
+			secondLang,
+		} = this.props;
 		const { sims } = this.state;
 		function displayContent(children, handleChange) {
 			if (Object.keys(children).length <= 0) return null;
@@ -74,6 +82,7 @@ class SimsForm extends React.Component {
 											currentSection={sims[id]}
 											handleChange={handleChange}
 											codesLists={codesLists}
+											secondLang={secondLang}
 										/>
 									</div>
 								</article>
@@ -104,9 +113,15 @@ class SimsForm extends React.Component {
 					/>
 				</div>
 
-				{Object.keys(metadataStructure).map(id => {
+				{Object.keys(metadataStructure).map((id, index) => {
 					return (
 						<div key={id}>
+							{index === 0 && (
+								<CheckSecondLang
+									secondLang={secondLang}
+									onChange={saveSecondLang}
+								/>
+							)}
 							<div className="panel panel-default">
 								<div className="panel-heading">
 									<h2 id={id} className="titre-principal">
@@ -119,6 +134,7 @@ class SimsForm extends React.Component {
 										currentSection={sims[id]}
 										handleChange={this.handleChange}
 										codesLists={codesLists}
+										secondLang={secondLang}
 									/>
 								</div>
 							</div>

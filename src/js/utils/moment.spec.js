@@ -1,4 +1,4 @@
-import { isDateIn, isOutOfDate, stringToDate, toISOString } from './moment';
+import { isDateIn, isOutOfDate, stringToDate } from './moment';
 
 describe('is date in', () => {
 	it('returns true if the start and end dates are null', () => {
@@ -44,18 +44,5 @@ describe('has date passed', () => {
 
 	test(`should return the english version when the navigator.${property} is EN`, () => {
 		expect(stringToDate('1988-02-28T10:51:47.812'), 'en').toEqual('02/28/1988');
-	});
-});
-
-describe('toISOString', () => {
-	it('should return the right ISO representation of a date when the lang is french', () => {
-		expect(toISOString('01/02/2018', 'fr')).toEqual(
-			expect.stringMatching(/^2018-02-01/)
-		);
-	});
-	it('should return the right ISO representation of a date when the lang is english', () => {
-		expect(toISOString('01/02/2018', 'en')).toEqual(
-			expect.stringMatching(/^2018-01-02/)
-		);
 	});
 });

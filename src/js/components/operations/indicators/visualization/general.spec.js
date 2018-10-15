@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import IndicatorInformation from './general';
 import DisplayLinks from 'js/components/operations/shared/links/';
 import SeeAlso from 'js/components/operations/shared/seeAlso';
-import RelationsView from 'js/components/operations/shared/relations';
 
 const langs = {
 	lg1: 'fr',

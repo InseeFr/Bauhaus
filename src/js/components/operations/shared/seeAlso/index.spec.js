@@ -2,7 +2,6 @@ import React from 'react';
 import SeeAlso from './index';
 import { Note } from 'js/components/shared/note';
 import { shallow } from 'enzyme';
-import { Link } from 'react-router-dom';
 import { MemoryRouter } from 'react-router-dom';
 
 const langs = {

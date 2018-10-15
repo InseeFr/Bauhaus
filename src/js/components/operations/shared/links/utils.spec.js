@@ -1,6 +1,4 @@
 import { getSeeAlsoByType } from './utils';
-import * as A from 'js/actions/constants';
-import api from 'js/remote-api/operations-api';
 
 describe('getSeeAlsoByType', () => {
 	it('should return the array of seeAlsos grouped by type', async () => {

@@ -23,7 +23,11 @@ class FamilyVisualizationContainer extends Component {
 		}
 	}
 	render() {
-		const { secondLang, langs, family: { ...attr } } = this.props;
+		const {
+			secondLang,
+			langs,
+			family: { ...attr },
+		} = this.props;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
 		return (
 			<div className="container">
@@ -34,7 +38,9 @@ class FamilyVisualizationContainer extends Component {
 
 				<PageTitle title={attr.prefLabelLg1} context="operations" />
 				{secondLang &&
-					attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
+					attr.prefLabelLg2 && (
+						<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
+					)}
 
 				<div className="row btn-line">
 					<Button
@@ -73,5 +79,8 @@ const mapDispatchToProps = {
 	loadFamily,
 };
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(FamilyVisualizationContainer)
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(FamilyVisualizationContainer)
 );

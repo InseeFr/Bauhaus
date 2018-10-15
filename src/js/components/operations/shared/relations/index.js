@@ -14,6 +14,7 @@ function RelationsViewPerLg({
 	secondLang,
 	currentLang,
 	langSuffix,
+	context,
 }) {
 	return (
 		<Note
@@ -40,7 +41,7 @@ function RelationsViewPerLg({
 										);
 									})
 									.map(item => (
-										<li>
+										<li key={item.id}>
 											<Link to={`/operations/${childrenPath}/${item.id}`}>
 												{item[`label${langSuffix}`]}
 											</Link>
@@ -55,6 +56,7 @@ function RelationsViewPerLg({
 			lang={currentLang}
 			alone={!secondLang}
 			allowEmpty={true}
+			context={context}
 		/>
 	);
 }

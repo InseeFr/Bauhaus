@@ -46,7 +46,9 @@ class IndicatorVisualizationContainer extends Component {
 
 				<PageTitle title={attr.prefLabelLg1} context="operations" />
 				{secondLang &&
-					attr.prefLabelLg2 && <PageSubtitle subTitle={attr.prefLabelLg2} />}
+					attr.prefLabelLg2 && (
+						<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
+					)}
 
 				<div className="row btn-line">
 					<Button
@@ -96,5 +98,8 @@ const mapDispatchToProps = {
 	loadIndicator,
 };
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(IndicatorVisualizationContainer)
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(IndicatorVisualizationContainer)
 );

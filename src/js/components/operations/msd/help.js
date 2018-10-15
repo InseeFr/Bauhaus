@@ -11,6 +11,8 @@ import Sims from 'js/components/operations/msd/msd/visualizations/sims';
 import SimsForm from 'js/components/operations/msd/msd/visualizations/sims-form';
 import buildExtract from 'js/utils/build-extract';
 import PropTypes from 'prop-types';
+import { saveSecondLang } from 'js/actions/app';
+import * as select from 'js/reducers';
 
 const extractId = buildExtract('id');
 const extractIdOperation = buildExtract('idOperation');
@@ -26,6 +28,16 @@ class MSDContainer extends Component {
 			this.props.mode === VIEW && this.props.loadSIMS(this.props.id);
 		}
 	}
+	componentWillReceiveProps(nextProps) {
+		// If we do a redirect form the Edit to the view mode, we must reload the sims data from the server
+		if (
+			nextProps.mode === VIEW &&
+			nextProps.id !== this.props.id &&
+			nextProps.id
+		) {
+			this.props.loadSIMS(nextProps.id);
+		}
+	}
 	render() {
 		const {
 			metadataStructure,
@@ -36,8 +48,14 @@ class MSDContainer extends Component {
 			saveSims,
 			idOperation,
 			disableSectionAnchor,
+			saveSecondLang,
+			langs,
+			secondLang,
+			currentSims,
 		} = this.props;
 		if (status !== LOADED)
+			return <Loading textType="loading" context="operations" />;
+		if (mode === VIEW && !currentSims.id)
 			return <Loading textType="loading" context="operations" />;
 		return (
 			<MSDComponent
@@ -57,20 +75,26 @@ class MSDContainer extends Component {
 
 				{mode === VIEW && (
 					<Sims
-						sims={this.props.currentSims}
+						sims={currentSims.rubrics}
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
 						currentSection={this.props.match.params.idSection}
+						saveSecondLang={saveSecondLang}
+						langs={langs}
+						secondLang={secondLang}
 					/>
 				)}
 				{mode === CREATE && (
 					<SimsForm
-						sims={this.props.currentSims}
+						sims={currentSims.rubrics}
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
 						currentSection={this.props.match.params.idSection}
 						onSubmit={saveSims}
 						idOperation={idOperation}
+						saveSecondLang={saveSecondLang}
+						langs={langs}
+						secondLang={secondLang}
 					/>
 				)}
 			</MSDComponent>
@@ -92,9 +116,10 @@ const mapStateToProps = (state, ownProps) => {
 	} = state.operationsMetadataStructureList;
 
 	return {
+		langs: select.getLangs(state),
+		secondLang: state.app.secondLang,
 		metadataStructure,
-		currentSims:
-			ownProps.mode === VIEW ? state.operationsSimsCurrent.rubrics : {},
+		currentSims: ownProps.mode === VIEW ? state.operationsSimsCurrent : {},
 		id: extractId(ownProps),
 		idOperation: extractIdOperation(ownProps),
 		codesLists: state.operationsCodesList.results,
@@ -107,6 +132,7 @@ const mapDispatchToProps = {
 	loadMetadataStructure,
 	loadSIMS,
 	saveSims,
+	saveSecondLang,
 };
 
 export default withRouter(
@@ -123,4 +149,7 @@ MSDContainer.propTypes = {
 	mode: PropTypes.oneOf([HELP, VIEW, CREATE]),
 	baseUrl: PropTypes.string,
 	disableSectionAnchor: PropTypes.bool,
+};
+MSDContainer.defaultProps = {
+	currentSims: {},
 };

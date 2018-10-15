@@ -1,4 +1,4 @@
-import loadSetup, { loadCodesList, loadOrganisations } from './setup';
+import { loadCodesList, loadOrganisations } from './setup';
 import * as A from 'js/actions/constants';
 import api from 'js/remote-api/codelist-api';
 import apiOrganisations from 'js/remote-api/organisations-api';

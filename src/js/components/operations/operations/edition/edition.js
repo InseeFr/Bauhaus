@@ -47,7 +47,9 @@ class OperationsOperationEdition extends Component {
 	}
 
 	render() {
-		const { langs: { lg1, lg2 } } = this.props;
+		const {
+			langs: { lg1, lg2 },
+		} = this.props;
 
 		const { operation } = this.state;
 
@@ -58,7 +60,10 @@ class OperationsOperationEdition extends Component {
 					context="operations"
 				/>
 				{operation.prefLabelLg2 && (
-					<PageSubtitle subTitle={this.props.operation.prefLabelLg2} />
+					<PageSubtitle
+						subTitle={this.props.operation.prefLabelLg2}
+						context="operations"
+					/>
 				)}
 
 				<div className="row btn-line">

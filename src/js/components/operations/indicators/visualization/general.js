@@ -21,6 +21,7 @@ function DisplayMultiLangNote({
 				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
+				context="operations"
 			/>
 			{secondLang && (
 				<Note
@@ -29,6 +30,7 @@ function DisplayMultiLangNote({
 					lang={lg2}
 					alone={false}
 					allowEmpty={true}
+					context="operations"
 				/>
 			)}
 		</div>
@@ -51,6 +53,7 @@ function IndicatorInformation(props) {
 				title={D.altLabel}
 				langs={langs}
 				secondLang={secondLang}
+				context="operations"
 			/>
 			<DisplayMultiLangNote
 				value1={attr.abstractLg1}
@@ -58,6 +61,7 @@ function IndicatorInformation(props) {
 				title={D.summary}
 				langs={langs}
 				secondLang={secondLang}
+				context="operations"
 			/>
 			<DisplayMultiLangNote
 				value1={attr.historyNoteLg1}
@@ -65,6 +69,7 @@ function IndicatorInformation(props) {
 				title={D.history}
 				langs={langs}
 				secondLang={secondLang}
+				context="operations"
 			/>
 			<DisplayMultiLangNote
 				value1={frequency.labelLg1}
@@ -72,6 +77,7 @@ function IndicatorInformation(props) {
 				title={D.indicatorDataCollectFrequency}
 				langs={langs}
 				secondLang={secondLang}
+				context="operations"
 			/>
 			<div className="row">
 				<Note
@@ -80,6 +86,7 @@ function IndicatorInformation(props) {
 					lang={langs.lg1}
 					alone={true}
 					allowEmpty={true}
+					context="operations"
 				/>
 			</div>
 
@@ -90,6 +97,7 @@ function IndicatorInformation(props) {
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
+				context="operations"
 			/>
 
 			<DisplayLinks
@@ -98,6 +106,7 @@ function IndicatorInformation(props) {
 				title={D.replaces}
 				langs={langs}
 				secondLang={secondLang}
+				context="operations"
 			/>
 			<DisplayLinks
 				links={attr.isReplacedBy}
@@ -105,6 +114,7 @@ function IndicatorInformation(props) {
 				title={D.replacedBy}
 				langs={langs}
 				secondLang={secondLang}
+				context="operations"
 			/>
 			<DisplayLinks
 				links={attr.wasGeneratedBy}
@@ -112,9 +122,15 @@ function IndicatorInformation(props) {
 				title={D.generatedBy}
 				langs={langs}
 				secondLang={secondLang}
+				context="operations"
 			/>
 
-			<SeeAlso links={seeAlso} langs={langs} secondLang={secondLang} />
+			<SeeAlso
+				links={seeAlso}
+				langs={langs}
+				secondLang={secondLang}
+				context="operations"
+			/>
 		</React.Fragment>
 	);
 }
