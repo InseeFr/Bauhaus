@@ -7,6 +7,7 @@ export const saveSims = (sims, callback) => dispatch => {
 		payload: sims,
 	});
 	const method = sims.id ? 'putSims' : 'postSims';
+
 	return api[method](sims).then(
 		results => {
 			dispatch({

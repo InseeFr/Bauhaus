@@ -13,10 +13,19 @@ const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
 class Field extends React.Component {
 	shouldComponentUpdate(nextProps) {
 		//we add this check in order to avoir re-render each fields of the form
-		return nextProps.currentSection.value !== this.props.currentSection.value;
+		return (
+			nextProps.currentSection.value !== this.props.currentSection.value ||
+			nextProps.secondLang !== this.props.secondLang
+		);
 	}
 	render() {
-		const { msd, currentSection = {}, handleChange, codesLists } = this.props;
+		const {
+			msd,
+			currentSection = {},
+			handleChange,
+			codesLists,
+			secondLang,
+		} = this.props;
 		return (
 			<React.Fragment>
 				<dl>
@@ -28,13 +37,30 @@ class Field extends React.Component {
 						{msd.rangeType === TEXT && (
 							<InputRmes
 								id={msd.idMas}
-								value={currentSection.value}
+								value={currentSection.labelLg1}
 								handleChange={value => {
-									handleChange({ id: msd.idMas, override: { value } });
+									handleChange({
+										id: msd.idMas,
+										override: { labelLg1: value },
+									});
 								}}
 								label={D.simsValue}
 							/>
 						)}
+						{secondLang &&
+							msd.rangeType === TEXT && (
+								<InputRmes
+									id={msd.idMas}
+									value={currentSection.labelLg2}
+									handleChange={value => {
+										handleChange({
+											id: msd.idMas,
+											override: { labelLg2: value },
+										});
+									}}
+									label={D.altLabelTitle}
+								/>
+							)}
 						{msd.rangeType === DATE && (
 							<label>
 								{D.simsValue}
@@ -66,6 +92,22 @@ class Field extends React.Component {
 								/>
 							</React.Fragment>
 						)}
+						{secondLang &&
+							msd.rangeType === REPORTED_ATTRIBUTE && (
+								<React.Fragment>
+									<label>{D.altLabelTitle}</label>
+									<EditorMarkdown
+										aria-label={D.altLabelTitle}
+										text={currentSection.labelLg2}
+										handleChange={value =>
+											handleChange({
+												id: msd.idMas,
+												override: { labelLg2: value },
+											})
+										}
+									/>
+								</React.Fragment>
+							)}
 						{msd.rangeType === CODE_LIST &&
 							codesLists[currentSection.codeList] && (
 								<span>
@@ -89,6 +131,7 @@ Field.propTypes = {
 	currentSection: PropTypes.object,
 	codesLists: PropTypes.object.isRequired,
 	handleChange: PropTypes.func,
+	secondLang: PropTypes.bool,
 };
 
 export default Field;
