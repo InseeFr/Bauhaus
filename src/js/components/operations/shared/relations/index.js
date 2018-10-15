@@ -41,7 +41,7 @@ function RelationsViewPerLg({
 										);
 									})
 									.map(item => (
-										<li>
+										<li key={item.id}>
 											<Link to={`/operations/${childrenPath}/${item.id}`}>
 												{item[`label${langSuffix}`]}
 											</Link>
