@@ -20,7 +20,9 @@ function FamilyInformation(props) {
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
+					context="operations"
 				/>
+
 				{secondLang && (
 					<Note
 						text={attr.themeLg2}
@@ -28,6 +30,7 @@ function FamilyInformation(props) {
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
+						context="operations"
 					/>
 				)}
 			</div>
@@ -39,6 +42,7 @@ function FamilyInformation(props) {
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
+					context="operations"
 					md
 				/>
 				{secondLang && (
@@ -48,6 +52,7 @@ function FamilyInformation(props) {
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
+						context="operations"
 						md
 					/>
 				)}
@@ -59,6 +64,7 @@ function FamilyInformation(props) {
 				title={D.linksTitle}
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
+				context="operations"
 			/>
 		</React.Fragment>
 	);

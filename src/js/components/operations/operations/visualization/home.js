@@ -5,7 +5,11 @@ import D from 'js/i18n';
 import RelationsView from 'js/components/operations/shared/relations';
 
 function OperationVisualization(props) {
-	const { attr, secondLang, langs: { lg1, lg2 } } = props;
+	const {
+		attr,
+		secondLang,
+		langs: { lg1, lg2 },
+	} = props;
 
 	return (
 		<React.Fragment>
@@ -16,6 +20,7 @@ function OperationVisualization(props) {
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
+					context="operations"
 				/>
 				{secondLang && (
 					<Note
@@ -24,6 +29,7 @@ function OperationVisualization(props) {
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
+						context="operations"
 					/>
 				)}
 			</div>
@@ -34,6 +40,7 @@ function OperationVisualization(props) {
 				title={D.linksTitle}
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
+				context="operations"
 			/>
 		</React.Fragment>
 	);

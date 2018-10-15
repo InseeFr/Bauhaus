@@ -21,7 +21,7 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 										to="/operations/indicator/create"
 										col={8}
 										offset={2}
-										className="btn btn-concepts btn-lg col-md-12"
+										className="btn btn-operations btn-lg col-md-12"
 									>
 										<span
 											className="glyphicon glyphicon-plus"

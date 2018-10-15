@@ -50,7 +50,9 @@ class OperationsFamilyEdition extends Component {
 	}
 
 	render() {
-		const { langs: { lg1, lg2 } } = this.props;
+		const {
+			langs: { lg1, lg2 },
+		} = this.props;
 		const { family } = this.state;
 
 		return (
@@ -60,7 +62,10 @@ class OperationsFamilyEdition extends Component {
 					context="operations"
 				/>
 				{family.prefLabelLg2 && (
-					<PageSubtitle subTitle={this.props.family.prefLabelLg2} />
+					<PageSubtitle
+						subTitle={this.props.family.prefLabelLg2}
+						context="operations"
+					/>
 				)}
 				<div className="row btn-line">
 					<Button

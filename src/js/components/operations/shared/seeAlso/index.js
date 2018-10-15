@@ -3,7 +3,7 @@ import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
 import { Link } from 'react-router-dom';
 
-function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
+function SeeAlso({ links, langs: { lg1, lg2 }, secondLang, context }) {
 	function displaySeeAlsos(label) {
 		function displaySeeAlso(seeAlso, title, path) {
 			return (
@@ -46,6 +46,7 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
+				context="operations"
 			/>
 			{secondLang && (
 				<Note
@@ -54,6 +55,7 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 					lang={lg2}
 					alone={false}
 					allowEmpty={true}
+					context="operations"
 				/>
 			)}
 		</div>

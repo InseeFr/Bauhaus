@@ -27,3 +27,17 @@
 	background: #f3f3f3;
 	border-color: $color_classifications_3;
 }
+
+.panel-operations {
+	border-color: $color_operations_3;
+}
+.panel-operations > .panel-heading {
+	background: $color_operations_3;
+	color: #ffffff;
+	border-color: $color_operations_3;
+}
+
+.panel-operations > .panel-body {
+	background: #f3f3f3;
+	border-color: $color_operations_3;
+}

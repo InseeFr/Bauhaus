@@ -103,7 +103,10 @@ class OperationVisualizationContainer extends Component {
 				<PageTitle title={operation.prefLabelLg1} context="operations" />
 				{secondLang &&
 					operation.prefLabelLg2 && (
-						<PageSubtitle subTitle={operation.prefLabelLg2} />
+						<PageSubtitle
+							subTitle={operation.prefLabelLg2}
+							context="operations"
+						/>
 					)}
 
 				<div className="row btn-line">

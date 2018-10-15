@@ -107,7 +107,10 @@ class OperationsIndicatorEdition extends Component {
 							context="operations"
 						/>
 						{indicator.prefLabelLg2 && (
-							<PageSubtitle subTitle={this.props.indicator.prefLabelLg2} />
+							<PageSubtitle
+								subTitle={this.props.indicator.prefLabelLg2}
+								context="operations"
+							/>
 						)}
 					</React.Fragment>
 				)}

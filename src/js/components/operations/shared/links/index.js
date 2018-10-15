@@ -11,6 +11,7 @@ function DisplayLinks({
 	displayLink = true,
 	labelLg1 = 'labelLg1',
 	labelLg2 = 'labelLg2',
+	context,
 }) {
 	function displayBlock(link, label) {
 		if (displayLink) {
@@ -22,9 +23,9 @@ function DisplayLinks({
 	function displayList(label) {
 		return (
 			<ul>
-				{links
-					.sort()
-					.map(link => <li key={link.id}>{displayBlock(link, label)}</li>)}
+				{links.sort().map(link => (
+					<li key={link.id}>{displayBlock(link, label)}</li>
+				))}
 			</ul>
 		);
 	}
@@ -41,6 +42,7 @@ function DisplayLinks({
 				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
+				context="operations"
 			/>
 			{secondLang && (
 				<Note
@@ -51,6 +53,7 @@ function DisplayLinks({
 					lang={lg2}
 					alone={false}
 					allowEmpty={true}
+					context="operations"
 				/>
 			)}
 		</div>

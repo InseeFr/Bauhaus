@@ -10,14 +10,16 @@ export const Note = ({
 	alone,
 	allowEmpty = false,
 	md = false,
+	context,
 }) => {
+	console.log(context);
 	const cl = alone ? 'col-md-12' : 'col-md-6';
 	if (!text && !allowEmpty) return null;
 
 	if (md) {
 		return (
 			<div className={cl}>
-				<Panel title={<NoteFlag text={title} lang={lang} />}>
+				<Panel title={<NoteFlag text={title} lang={lang} />} context={context}>
 					<div dangerouslySetInnerHTML={{ __html: markdownToHtml(text) }} />
 				</Panel>
 			</div>
@@ -25,7 +27,9 @@ export const Note = ({
 	}
 	return (
 		<div className={cl}>
-			<Panel title={<NoteFlag text={title} lang={lang} />}>{text}</Panel>
+			<Panel title={<NoteFlag text={title} lang={lang} />} context={context}>
+				{text}
+			</Panel>
 		</div>
 	);
 };

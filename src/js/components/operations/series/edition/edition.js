@@ -97,7 +97,7 @@ class OperationsSerieEdition extends Component {
 			<div className="container editor-container">
 				<PageTitle title={this.props.serie.prefLabelLg1} context="operations" />
 				{serie.prefLabelLg2 && (
-					<PageSubtitle subTitle={this.props.serie.prefLabelLg2} />
+					<PageSubtitle subTitle={this.props.serie.prefLabelLg2} context="operations"/>
 				)}
 				<div className="row btn-line">
 					<Button

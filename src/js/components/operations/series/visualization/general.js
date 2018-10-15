@@ -38,6 +38,7 @@ function SerieInformation({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
+					context="operations"
 				/>
 				{secondLang && (
 					<Note
@@ -46,6 +47,7 @@ function SerieInformation({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
+						context="operations"
 					/>
 				)}
 			</div>
@@ -56,6 +58,7 @@ function SerieInformation({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
+					context="operations"
 					md
 				/>
 				{secondLang && (
@@ -65,6 +68,7 @@ function SerieInformation({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
+						context="operations"
 						md
 					/>
 				)}
@@ -77,6 +81,7 @@ function SerieInformation({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
+					context="operations"
 					md
 				/>
 				{secondLang && (
@@ -86,6 +91,7 @@ function SerieInformation({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
+						context="operations"
 						md
 					/>
 				)}
@@ -98,6 +104,7 @@ function SerieInformation({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
+					context="operations"
 				/>
 				{secondLang && (
 					<Note
@@ -106,6 +113,7 @@ function SerieInformation({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
+						context="operations"
 					/>
 				)}
 			</div>
@@ -117,6 +125,7 @@ function SerieInformation({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
+					context="operations"
 				/>
 				{secondLang && (
 					<Note
@@ -125,6 +134,7 @@ function SerieInformation({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
+						context="operations"
 					/>
 				)}
 			</div>
@@ -136,6 +146,7 @@ function SerieInformation({
 					lang={lg1}
 					alone={true}
 					allowEmpty={true}
+					context="operations"
 				/>
 			</div>
 
@@ -146,6 +157,7 @@ function SerieInformation({
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
+				context="operations"
 			/>
 			<DisplayLinks
 				links={dataCollector}
@@ -154,6 +166,7 @@ function SerieInformation({
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
+				context="operations"
 			/>
 
 			<div className="row">
@@ -163,6 +176,7 @@ function SerieInformation({
 					lang={lg1}
 					alone={true}
 					allowEmpty={true}
+					context="operations"
 				/>
 			</div>
 			<DisplayLinks
@@ -171,6 +185,7 @@ function SerieInformation({
 				title={D.replaces}
 				langs={langs}
 				secondLang={secondLang}
+				context="operations"
 			/>
 			<DisplayLinks
 				links={attr.isReplacedBy}
@@ -178,6 +193,7 @@ function SerieInformation({
 				title={D.replacedBy}
 				langs={langs}
 				secondLang={secondLang}
+				context="operations"
 			/>
 			<DisplayLinks
 				links={attr.generate}
@@ -185,9 +201,15 @@ function SerieInformation({
 				title={D.indicators}
 				langs={langs}
 				secondLang={secondLang}
+				context="operations"
 			/>
 
-			<SeeAlso links={seeAlso} langs={langs} secondLang={secondLang} />
+			<SeeAlso
+				links={seeAlso}
+				langs={langs}
+				secondLang={secondLang}
+				context="operations"
+			/>
 
 			<RelationsView
 				children={attr.operations}
@@ -199,6 +221,7 @@ function SerieInformation({
 				title={D.linksTitle}
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
+				context="operations"
 			/>
 		</React.Fragment>
 	);

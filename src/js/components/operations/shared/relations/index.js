@@ -14,6 +14,7 @@ function RelationsViewPerLg({
 	secondLang,
 	currentLang,
 	langSuffix,
+	context,
 }) {
 	return (
 		<Note
@@ -55,6 +56,7 @@ function RelationsViewPerLg({
 			lang={currentLang}
 			alone={!secondLang}
 			allowEmpty={true}
+			context={context}
 		/>
 	);
 }
