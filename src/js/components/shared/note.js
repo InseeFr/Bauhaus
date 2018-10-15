@@ -12,7 +12,6 @@ export const Note = ({
 	md = false,
 	context,
 }) => {
-	console.log(context);
 	const cl = alone ? 'col-md-12' : 'col-md-6';
 	if (!text && !allowEmpty) return null;
 
