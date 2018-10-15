@@ -59,7 +59,6 @@ describe('pagination', () => {
 		const wrapper = shallow(
 			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
 		);
-		const event = { target: { id: '2' } };
 		expect(wrapper.state(['currentPage'])).toBe(1);
 		wrapper
 			.find('.pagination')
