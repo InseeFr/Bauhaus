@@ -61,9 +61,10 @@ class Field extends React.Component {
 								/>
 							)}
 						{msd.rangeType === DATE && (
-							<label>
-								{D.simsValue}
+							<React.Fragment>
+								<label>{D.simsValue}</label>
 								<DatePickerRmes
+									aria-label={D.simsValue}
 									id={msd.idMas}
 									colMd={12}
 									value={currentSection.value}
@@ -74,7 +75,7 @@ class Field extends React.Component {
 										});
 									}}
 								/>
-							</label>
+							</React.Fragment>
 						)}
 						{msd.rangeType === REPORTED_ATTRIBUTE && (
 							<React.Fragment>
