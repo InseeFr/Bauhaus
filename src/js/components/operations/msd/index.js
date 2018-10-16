@@ -47,7 +47,7 @@ class MSDContainer extends Component {
 			this.props.mode === VIEW && this.props.loadSIMS(this.props.id);
 		}
 	}
-	componentDidUpdate(nextProps) {
+	componentWillReceiveProps(nextProps) {
 		// If we do a redirect form the Edit to the view mode, we must reload the sims data from the server
 		if (
 			nextProps.mode === VIEW &&

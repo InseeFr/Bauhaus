@@ -13,6 +13,7 @@ class SimsCreation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
+		this.goBackToOperation = this.goBackToOperation.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
@@ -57,6 +58,12 @@ class SimsCreation extends React.Component {
 			}
 		);
 	}
+
+	goBackToOperation(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		this.props.history.push(`/operations/operation/${this.props.idOperation}`);
+	}
 	render() {
 		const {
 			metadataStructure,
@@ -96,7 +103,21 @@ class SimsCreation extends React.Component {
 		return (
 			<form>
 				<div className="row btn-line">
-					<div className="col-md-9" />
+					<Button
+						col={3}
+						action={this.goBackToOperation}
+						label={
+							<React.Fragment>
+								<span
+									className="glyphicon glyphicon-floppy-disk"
+									aria-hidden="true"
+								/>
+								<span> {D.btnCancel}</span>
+							</React.Fragment>
+						}
+						context="operation"
+					/>
+					<div className="col-md-6" />
 					<Button
 						col={3}
 						action={this.handleSubmit}
