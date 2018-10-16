@@ -4,7 +4,7 @@ import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
 import RelationsView from 'js/components/operations/shared/relations';
 
-function OperationVisualization(props) {
+function OperationsOperationVisualization(props) {
 	const {
 		attr,
 		secondLang,
@@ -46,8 +46,8 @@ function OperationVisualization(props) {
 	);
 }
 
-OperationVisualization.propTypes = {
+OperationsOperationVisualization.propTypes = {
 	attr: PropTypes.object.isRequired,
 };
 
-export default OperationVisualization;
+export default OperationsOperationVisualization;

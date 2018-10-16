@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import OperationsFamiliesContainer from 'js/components/operations/families/home-container';
-import OperationsSeriesContainer from 'js/components/operations/series/home-container';
-import OperationsContainer from 'js/components/operations/operations/home-container';
-import OperationsIndicatorsContainer from 'js/components/operations/indicators/home-container';
+import OperationsFamiliesContainer from 'js/components/operations/families/';
+import OperationsSeriesContainer from 'js/components/operations/series/';
+import OperationsContainer from 'js/components/operations/operations/';
+import OperationsIndicatorsContainer from 'js/components/operations/indicators/';
 
-import OperationsFamilyVisualizationContainer from 'js/components/operations/families/visualization/visualization-container';
-import OperationsSeriesVisualizationContainer from 'js/components/operations/series/visualization/visualization-container';
-import OperationVisualizationContainer from 'js/components/operations/operations/visualization/visualization-container';
-import OperationIndicatorContainer from 'js/components/operations/indicators/visualization/visualization-container';
+import OperationsFamilyVisualizationContainer from 'js/components/operations/families/visualization/';
+import OperationsSeriesVisualizationContainer from 'js/components/operations/series/visualization/';
+import OperationVisualizationContainer from 'js/components/operations/operations/visualization/';
+import OperationIndicatorContainer from 'js/components/operations/indicators/visualization/';
 
 import OperationsFamilyEditionContainer from 'js/components/operations/families/edition';
 import OperationsSeriesEditionContainer from 'js/components/operations/series/edition';
@@ -18,7 +18,7 @@ import OperationEditionContainer from 'js/components/operations/operations/editi
 import OperationsIndicatorEditionContainer from 'js/components/operations/indicators/edition';
 
 import { loadSetup } from 'js/actions/operations/utils/setup';
-import MSDContainer, { CREATE, VIEW } from '../operations/msd/help';
+import MSDContainer, { CREATE, VIEW } from '../operations/msd/';
 
 class RootComponent extends Component {
 	componentDidMount() {

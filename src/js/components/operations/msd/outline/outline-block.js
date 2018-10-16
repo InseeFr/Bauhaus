@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
-import { toggleOpen, isOpen } from 'js/components/operations/msd/msd/utils';
+import { toggleOpen, isOpen } from 'js/components/operations/msd/utils';
 import PropTypes from 'prop-types';
 
-class SectionItem extends Component {
+class OutlineBlock extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -68,7 +68,7 @@ class SectionItem extends Component {
 								{child.idMas} - {child.masLabelLg1}
 							</Link>
 							{child.opened && (
-								<SectionItem
+								<OutlineBlock
 									children={child.children}
 									secondary
 									parent={parent}
@@ -83,9 +83,9 @@ class SectionItem extends Component {
 		);
 	}
 }
-SectionItem.propTypes = {
+OutlineBlock.propTypes = {
 	secondary: PropTypes.bool,
 	parent: PropTypes.string,
 	baseUrl: PropTypes.string,
 };
-export default SectionItem;
+export default OutlineBlock;

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import D from 'js/i18n';
 
 import { withRouter } from 'react-router-dom';
-import Field from 'js/components/operations/msd/msd/visualizations/sims-field';
+import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
 import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
 
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 
-class SimsForm extends React.Component {
+class SimsCreation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
@@ -150,7 +150,7 @@ class SimsForm extends React.Component {
 	}
 }
 
-SimsForm.propTypes = {
+SimsCreation.propTypes = {
 	metadataStructure: PropTypes.object.isRequired,
 	currentSection: PropTypes.string,
 	codesLists: PropTypes.object.isRequired,
@@ -158,4 +158,4 @@ SimsForm.propTypes = {
 	onSubmit: PropTypes.func.isRequired,
 };
 
-export default withRouter(SimsForm);
+export default withRouter(SimsCreation);

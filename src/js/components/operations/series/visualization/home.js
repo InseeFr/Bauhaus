@@ -7,7 +7,7 @@ import DisplayLinks from 'js/components/operations/shared/links/';
 import SeeAlso from 'js/components/operations/shared/seeAlso';
 import { getSeeAlsoByType } from 'js/components/operations/shared/links/utils';
 
-function SerieInformation({
+function OperationsSerieVisualization({
 	attr,
 	langs: { lg1, lg2 },
 	langs,
@@ -227,4 +227,4 @@ function SerieInformation({
 	);
 }
 
-export default SerieInformation;
+export default OperationsSerieVisualization;

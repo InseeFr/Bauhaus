@@ -10,7 +10,7 @@ import * as select from 'js/reducers';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { saveSecondLang } from 'js/actions/app';
 import PageSubtitle from 'js/components/shared/page-subtitle';
-import FamilyInformation from 'js/components/operations/families/visualization/general';
+import OperationsFamilyVisualization from 'js/components/operations/families/visualization/visualization';
 import Loading from 'js/components/shared/loading';
 import loadFamily from 'js/actions/operations/families/item';
 import Button from 'js/components/shared/button';
@@ -57,7 +57,11 @@ class FamilyVisualizationContainer extends Component {
 						context="operations"
 					/>
 				</div>
-				<FamilyInformation secondLang={secondLang} attr={attr} langs={langs} />
+				<OperationsFamilyVisualization
+					secondLang={secondLang}
+					attr={attr}
+					langs={langs}
+				/>
 			</div>
 		);
 	}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import FamilyInformation from './general';
+import OperationsFamilyVisualization from './visualization';
 import { Note } from 'js/components/shared/note';
 
 const langs = {
@@ -14,7 +14,9 @@ describe('FamilyInformation', () => {
 			themeLg1: 'themeLg1',
 			abstractLg1: 'descriptionLg1',
 		};
-		const general = shallow(<FamilyInformation attr={attr} langs={langs} />);
+		const general = shallow(
+			<OperationsFamilyVisualization attr={attr} langs={langs} />
+		);
 		expect(general.find(Note).length).toBe(2);
 	});
 
@@ -28,7 +30,11 @@ describe('FamilyInformation', () => {
 			abstractLg2: 'descriptionLg2',
 		};
 		const general = shallow(
-			<FamilyInformation attr={attr} secondLang={true} langs={langs} />
+			<OperationsFamilyVisualization
+				attr={attr}
+				secondLang={true}
+				langs={langs}
+			/>
 		);
 		expect(general.find(Note).length).toBe(4);
 	});

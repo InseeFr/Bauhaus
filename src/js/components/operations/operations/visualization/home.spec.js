@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import OperationVisualization from './home';
+import OperationsOperationVisualization from './home';
 import { Note } from 'js/components/shared/note';
 
 const langs = {
@@ -15,7 +15,7 @@ describe('OperationVisualization', () => {
 			altLabelLg1: 'altLabel1',
 		};
 		const general = shallow(
-			<OperationVisualization
+			<OperationsOperationVisualization
 				attr={attr}
 				exportVarBook={() => {}}
 				saveSecondLang={() => {}}
@@ -36,7 +36,7 @@ describe('OperationVisualization', () => {
 			altLabelLg2: 'altLabel2',
 		};
 		const general = shallow(
-			<OperationVisualization
+			<OperationsOperationVisualization
 				attr={attr}
 				secondLang={true}
 				exportVarBook={() => {}}

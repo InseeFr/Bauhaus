@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import SerieInformation from './general';
+import OperationsSerieVisualization from './home';
 import { Note } from 'js/components/shared/note';
 import DisplayLinks from 'js/components/operations/shared/links/';
 import SeeAlso from 'js/components/operations/shared/seeAlso';
@@ -27,12 +27,14 @@ const attr = {
 			type: 'series',
 		},
 	],
-	generate: [{
-		labelLg2: 'Local knowledge of the productive system',
-		labelLg1: "Connaissance locale de l'appareil productif",
-		id: 's1162',
-		type: 'indicator',
-	}],
+	generate: [
+		{
+			labelLg2: 'Local knowledge of the productive system',
+			labelLg1: "Connaissance locale de l'appareil productif",
+			id: 's1162',
+			type: 'indicator',
+		},
+	],
 	dataCollector: [
 		{
 			id: 'CNAMTS',
@@ -83,25 +85,35 @@ const attr = {
 };
 describe('SerieInformation', () => {
 	it('should show the right number of Note component when the second lang is not selected', () => {
-		const component = shallow(<SerieInformation attr={attr} langs={langs} />);
+		const component = shallow(
+			<OperationsSerieVisualization attr={attr} langs={langs} />
+		);
 		expect(component.find(Note).length).toBe(7);
 	});
 
 	it('should show the right number of Note component when the second lang is selected', () => {
 		const component = shallow(
-			<SerieInformation attr={attr} secondLang={true} langs={langs} />
+			<OperationsSerieVisualization
+				attr={attr}
+				secondLang={true}
+				langs={langs}
+			/>
 		);
 		expect(component.find(Note).length).toBe(12);
 	});
 	it('should show the right number of DisplayLinks component', () => {
 		const component = shallow(
-			<SerieInformation attr={attr} secondLang={true} langs={langs} />
+			<OperationsSerieVisualization
+				attr={attr}
+				secondLang={true}
+				langs={langs}
+			/>
 		);
 		expect(component.find(DisplayLinks).length).toBe(5);
 	});
 	it('should show the right data in the DisplayLinks component', () => {
 		const component = shallow(
-			<SerieInformation
+			<OperationsSerieVisualization
 				attr={attr}
 				secondLang={true}
 				langs={langs}
@@ -155,12 +167,23 @@ describe('SerieInformation', () => {
 		expect(replacedBy.props.path).toEqual('/operations/series/');
 
 		const generate = displayLinks.get(4);
-		expect(generate.props.links).toEqual([{"id": "s1162", "labelLg1": "Connaissance locale de l'appareil productif", "labelLg2": "Local knowledge of the productive system", "type": "indicator"}]);
+		expect(generate.props.links).toEqual([
+			{
+				id: 's1162',
+				labelLg1: "Connaissance locale de l'appareil productif",
+				labelLg2: 'Local knowledge of the productive system',
+				type: 'indicator',
+			},
+		]);
 		expect(generate.props.path).toEqual('/operations/indicator/');
 	});
 	it('should show the right number of SeeAlso component', () => {
 		const component = shallow(
-			<SerieInformation attr={attr} secondLang={true} langs={langs} />
+			<OperationsSerieVisualization
+				attr={attr}
+				secondLang={true}
+				langs={langs}
+			/>
 		);
 		const seeAlso = component.find(SeeAlso).first();
 		expect(seeAlso.props().links).toEqual({
@@ -176,7 +199,11 @@ describe('SerieInformation', () => {
 	});
 	it('should show the right number of RelationsView component', () => {
 		const component = shallow(
-			<SerieInformation attr={attr} secondLang={true} langs={langs} />
+			<OperationsSerieVisualization
+				attr={attr}
+				secondLang={true}
+				langs={langs}
+			/>
 		);
 		const relationsView = component.find(RelationsView).first();
 		expect(relationsView.props().childrenPath).toBe('operation');
