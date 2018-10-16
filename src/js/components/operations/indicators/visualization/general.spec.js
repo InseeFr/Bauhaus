@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import IndicatorInformation from './general';
+import OperationsIndicatorVisualization from './general';
 import DisplayLinks from 'js/components/operations/shared/links/';
 import SeeAlso from 'js/components/operations/shared/seeAlso';
 
@@ -81,7 +81,7 @@ const indicator = {
 describe('IndicatorInformation', () => {
 	it('should renderer all informations for the main lang', () => {
 		const general = shallow(
-			<IndicatorInformation attr={indicator} langs={langs} />
+			<OperationsIndicatorVisualization attr={indicator} langs={langs} />
 		);
 		expect(general.find(DisplayLinks).length).toBe(4);
 		expect(general.find(SeeAlso).length).toBe(1);
@@ -89,13 +89,17 @@ describe('IndicatorInformation', () => {
 
 	it('should show the right number of DisplayLinks component', () => {
 		const component = shallow(
-			<IndicatorInformation attr={indicator} secondLang={true} langs={langs} />
+			<OperationsIndicatorVisualization
+				attr={indicator}
+				secondLang={true}
+				langs={langs}
+			/>
 		);
 		expect(component.find(DisplayLinks).length).toBe(4);
 	});
 	it('should show the right data in the DisplayLinks component', () => {
 		const component = shallow(
-			<IndicatorInformation
+			<OperationsIndicatorVisualization
 				attr={indicator}
 				secondLang={true}
 				langs={langs}
@@ -149,7 +153,11 @@ describe('IndicatorInformation', () => {
 	});
 	it('should show the right number of SeeAlso component', () => {
 		const component = shallow(
-			<IndicatorInformation attr={indicator} secondLang={true} langs={langs} />
+			<OperationsIndicatorVisualization
+				attr={indicator}
+				secondLang={true}
+				langs={langs}
+			/>
 		);
 		const seeAlso = component.find(SeeAlso).first();
 		expect(seeAlso.props().links).toEqual({

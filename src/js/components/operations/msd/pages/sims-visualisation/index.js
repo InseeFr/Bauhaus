@@ -10,7 +10,7 @@ const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
 function hasLabelLg2(section) {
 	return section.rangeType === TEXT || section.rangeType === REPORTED_ATTRIBUTE;
 }
-export default function Sims({
+export default function SimsVisualisation({
 	metadataStructure,
 	currentSection,
 	codesLists,
@@ -119,7 +119,7 @@ export default function Sims({
 	});
 }
 
-Sims.propTypes = {
+SimsVisualisation.propTypes = {
 	metadataStructure: PropTypes.object.isRequired,
 	currentSection: PropTypes.string,
 	codesLists: PropTypes.object.isRequired,

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { toggleOpen, isOpen } from 'js/components/operations/msd/msd/utils';
+import { toggleOpen, isOpen } from 'js/components/operations/msd/utils';
 import { HashLink as Link } from 'react-router-hash-link';
-import SectionItem from 'js/components/operations/msd/msd/section-item';
+import OutlineBlock from 'js/components/operations/msd/outline/outline-block';
 import PropTypes from 'prop-types';
 
-class SummaryItem extends Component {
+class Outline extends Component {
 	constructor(props) {
 		super(props);
 
@@ -57,7 +57,7 @@ class SummaryItem extends Component {
 				</div>
 
 				{this.state.opened && (
-					<SectionItem
+					<OutlineBlock
 						children={metadataStructure.children}
 						parent={metadataStructure.idMas}
 						storeCollapseState={storeCollapseState}
@@ -70,10 +70,10 @@ class SummaryItem extends Component {
 	}
 }
 
-SummaryItem.propTypes = {
+Outline.propTypes = {
 	storeCollapseState: PropTypes.bool,
 	metadataStructure: PropTypes.object.isRequired,
 	baseUrl: PropTypes.string,
 };
 
-export default SummaryItem;
+export default Outline;

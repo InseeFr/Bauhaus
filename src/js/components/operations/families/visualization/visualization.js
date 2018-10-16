@@ -4,7 +4,7 @@ import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
 import RelationsView from 'js/components/operations/shared/relations';
 
-function FamilyInformation(props) {
+function OperationsFamilyVisualization(props) {
 	const {
 		attr,
 		langs: { lg1, lg2 },
@@ -70,4 +70,4 @@ function FamilyInformation(props) {
 	);
 }
 
-export default FamilyInformation;
+export default OperationsFamilyVisualization;

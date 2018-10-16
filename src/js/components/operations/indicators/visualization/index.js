@@ -1,42 +1,38 @@
-// TODO Not really container yet, fix with real data
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import PageTitle from 'js/components/shared/page-title';
-import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
+import buildExtract from 'js/utils/build-extract';
+import { goBack } from 'js/utils/redirection';
+import { connect } from 'react-redux';
 import * as select from 'js/reducers';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { saveSecondLang } from 'js/actions/app';
 import PageSubtitle from 'js/components/shared/page-subtitle';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import buildExtract from 'js/utils/build-extract';
-import SerieInformation from 'js/components/operations/series/visualization/general';
+import OperationsIndicatorVisualization from 'js/components/operations/indicators/visualization/general';
 import Loading from 'js/components/shared/loading';
-import loadSerie from 'js/actions/operations/series/item';
-import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
+import loadIndicator from 'js/actions/operations/indicators/item';
 import Button from 'js/components/shared/button';
+import { CL_FREQ } from 'js/actions/constants/codeList';
 
 const extractId = buildExtract('id');
-
-class SeriesVisualizationContainer extends Component {
+class IndicatorVisualizationContainer extends Component {
 	componentWillMount() {
-		if (!this.props.serie.id) {
-			this.props.loadSerie(this.props.id);
+		if (!this.props.indicator.id) {
+			this.props.loadIndicator(this.props.id);
 		}
 	}
-
 	componentWillReceiveProps(nextProps) {
 		if (this.props.id !== nextProps.id) {
-			this.props.loadSerie(nextProps.id);
+			this.props.loadIndicator(nextProps.id);
 		}
 	}
 	render() {
 		const {
 			secondLang,
 			langs,
-			serie: { ...attr },
+			indicator: { ...attr },
 			frequency,
-			category,
 			organisations,
 		} = this.props;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
@@ -55,7 +51,7 @@ class SeriesVisualizationContainer extends Component {
 
 				<div className="row btn-line">
 					<Button
-						action={goBack(this.props, '/operations/series')}
+						action={goBack(this.props, '/operations/indicators')}
 						label={D.btnReturn}
 						context="operations"
 					/>
@@ -63,17 +59,16 @@ class SeriesVisualizationContainer extends Component {
 					<div className="col-md-6 centered" />
 					<Button label={D.btnSend} context="operations" />
 					<Button
-						action={`/operations/series/${attr.id}/modify`}
+						action={`/operations/indicator/${attr.id}/modify`}
 						label={D.btnUpdate}
 						context="operations"
 					/>
 				</div>
-				<SerieInformation
+				<OperationsIndicatorVisualization
 					secondLang={secondLang}
 					attr={attr}
 					langs={langs}
 					frequency={frequency}
-					category={category}
 					organisations={organisations}
 				/>
 			</div>
@@ -83,32 +78,27 @@ class SeriesVisualizationContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const serie = select.getSerie(state, id);
-	const categories =
-		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
+	const indicator = select.getIndicator(state, id);
 	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
 	const organisations = state.operationsOrganisations.results || [];
-
 	return {
 		id,
-		serie: serie.id === id ? serie : {},
+		indicator: indicator.id === id ? indicator : {},
 		langs: select.getLangs(state),
 		secondLang: state.app.secondLang,
 		frequency: frequencies.codes.find(
-			c => c.code === serie.accrualPeriodicityCode
+			c => c.code === indicator.accrualPeriodicityCode
 		),
-		category: categories.codes.find(c => c.code === serie.typeCode),
 		organisations,
 	};
 };
 const mapDispatchToProps = {
 	saveSecondLang,
-	loadSerie,
+	loadIndicator,
 };
-
 export default withRouter(
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
-	)(SeriesVisualizationContainer)
+	)(IndicatorVisualizationContainer)
 );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SummaryItem from 'js/components/operations/msd/msd/item';
+import Outline from 'js/components/operations/msd/outline/';
 import D from 'js/i18n';
 import PropTypes from 'prop-types';
 
@@ -11,6 +11,14 @@ const STATUS = {
 	CONTENT: 'CONTENT',
 };
 class MSDComponent extends Component {
+	static propTypes = {
+		metadataStructure: PropTypes.object.isRequired,
+		storeCollapseState: PropTypes.bool,
+		children: PropTypes.array,
+		baseUrl: PropTypes.string,
+		disableSectionAnchor: PropTypes.bool,
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -57,11 +65,11 @@ class MSDComponent extends Component {
 					/>
 					<nav className="sommaire-container">
 						<ul className="sommaire">
-							{Object.keys(metadataStructure).map(id => (
-								<SummaryItem
-									key={id}
+							{Object.values(metadataStructure).map(metadata => (
+								<Outline
+									key={metadata.idMas}
 									storeCollapseState={storeCollapseState}
-									metadataStructure={metadataStructure[id]}
+									metadataStructure={metadata}
 									baseUrl={baseUrl}
 									disableSectionAnchor={disableSectionAnchor}
 								/>
@@ -122,10 +130,5 @@ class MSDComponent extends Component {
 		);
 	}
 }
-
-MSDComponent.propTypes = {
-	metadataStructure: PropTypes.object.isRequired,
-	storeCollapseState: PropTypes.bool,
-};
 
 export default MSDComponent;

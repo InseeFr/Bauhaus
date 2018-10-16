@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import './panel.css';
 
 function Panel({ title, children, context = 'concepts' }) {
-	console.log('panel', context);
 	return (
 		<div className={`panel panel-${context}`}>
 			<div className="panel-heading">

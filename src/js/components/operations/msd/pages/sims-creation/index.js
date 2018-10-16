@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import D from 'js/i18n';
 
 import { withRouter } from 'react-router-dom';
-import Field from 'js/components/operations/msd/msd/visualizations/sims-field';
+import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
 import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
 
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 
-class SimsForm extends React.Component {
+class SimsCreation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
+		this.goBackToOperation = this.goBackToOperation.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
@@ -57,6 +58,12 @@ class SimsForm extends React.Component {
 			}
 		);
 	}
+
+	goBackToOperation(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		this.props.history.push(`/operations/operation/${this.props.idOperation}`);
+	}
 	render() {
 		const {
 			metadataStructure,
@@ -96,7 +103,21 @@ class SimsForm extends React.Component {
 		return (
 			<form>
 				<div className="row btn-line">
-					<div className="col-md-9" />
+					<Button
+						col={3}
+						action={this.goBackToOperation}
+						label={
+							<React.Fragment>
+								<span
+									className="glyphicon glyphicon-floppy-disk"
+									aria-hidden="true"
+								/>
+								<span> {D.btnCancel}</span>
+							</React.Fragment>
+						}
+						context="operation"
+					/>
+					<div className="col-md-6" />
 					<Button
 						col={3}
 						action={this.handleSubmit}
@@ -150,7 +171,7 @@ class SimsForm extends React.Component {
 	}
 }
 
-SimsForm.propTypes = {
+SimsCreation.propTypes = {
 	metadataStructure: PropTypes.object.isRequired,
 	currentSection: PropTypes.string,
 	codesLists: PropTypes.object.isRequired,
@@ -158,4 +179,4 @@ SimsForm.propTypes = {
 	onSubmit: PropTypes.func.isRequired,
 };
 
-export default withRouter(SimsForm);
+export default withRouter(SimsCreation);
