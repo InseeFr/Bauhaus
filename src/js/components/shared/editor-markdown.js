@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './editor-html.css';
+import { getLang } from 'js/i18n/build-dictionary';
 
 import { mdFromEditorState, editorStateFromMd } from 'js/utils/html';
 
@@ -50,6 +51,9 @@ class EditorMarkdown extends Component {
 				editorClassName="home-editor"
 				onEditorStateChange={this.handleChange}
 				onBlur={this.handleLeave}
+				localization={{
+					locale: getLang(),
+				}}
 			/>
 		);
 	}
