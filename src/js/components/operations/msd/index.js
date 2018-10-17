@@ -72,10 +72,9 @@ class MSDContainer extends Component {
 			secondLang,
 			currentSims,
 		} = this.props;
-		if (status !== LOADED)
+		if (status !== LOADED || (mode === VIEW && !currentSims.id))
 			return <Loading textType="loading" context="operations" />;
-		if (mode === VIEW && !currentSims.id)
-			return <Loading textType="loading" context="operations" />;
+
 		return (
 			<MSDLayout
 				metadataStructure={metadataStructure}
