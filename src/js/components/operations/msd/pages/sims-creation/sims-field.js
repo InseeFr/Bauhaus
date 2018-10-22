@@ -14,6 +14,10 @@ class Field extends React.Component {
 		//we add this check in order to avoir re-render each fields of the form
 		return (
 			nextProps.currentSection.value !== this.props.currentSection.value ||
+			nextProps.currentSection.labelLg1 !==
+				this.props.currentSection.labelLg1 ||
+			nextProps.currentSection.labelLg2 !==
+				this.props.currentSection.labelLg2 ||
 			nextProps.secondLang !== this.props.secondLang
 		);
 	}

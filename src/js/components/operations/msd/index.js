@@ -41,19 +41,16 @@ class MSDContainer extends Component {
 		currentSims: {},
 	};
 
-	componentDidMount() {
+	componentWillMount() {
 		if (this.props.status !== LOADED) {
 			this.props.loadMetadataStructure();
-			this.props.mode === VIEW && this.props.loadSIMS(this.props.id);
+		}
+		if (!this.props.currentSims.id) {
+			this.props.loadSIMS(this.props.id);
 		}
 	}
 	componentWillReceiveProps(nextProps) {
-		// If we do a redirect form the Edit to the view mode, we must reload the sims data from the server
-		if (
-			nextProps.mode === VIEW &&
-			nextProps.id !== this.props.id &&
-			nextProps.id
-		) {
+		if (this.props.id !== nextProps.id) {
 			this.props.loadSIMS(nextProps.id);
 		}
 	}
@@ -133,12 +130,14 @@ const mapStateToProps = (state, ownProps) => {
 		err,
 	} = state.operationsMetadataStructureList;
 
+	const currentSims = ownProps.mode === VIEW ? state.operationsSimsCurrent : {};
+	const id = extractId(ownProps);
 	return {
 		langs: select.getLangs(state),
 		secondLang: state.app.secondLang,
 		metadataStructure,
-		currentSims: ownProps.mode === VIEW ? state.operationsSimsCurrent : {},
-		id: extractId(ownProps),
+		currentSims: currentSims.id === id ? currentSims : {},
+		id,
 		idOperation: extractIdOperation(ownProps),
 		codesLists: state.operationsCodesList.results,
 		status,

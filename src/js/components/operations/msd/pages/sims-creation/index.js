@@ -26,6 +26,8 @@ class SimsCreation extends React.Component {
 							rangeType: flattenStructure[key].rangeType,
 							idAttribute: key,
 							value: '',
+							labelLg1: '',
+							labelLg2: '',
 						},
 					};
 				}, {}),
@@ -35,15 +37,16 @@ class SimsCreation extends React.Component {
 	}
 
 	handleChange(e) {
-		this.setState({
+		this.setState(state => ({
+			...state,
 			sims: {
-				...this.state.sims,
+				...state.sims,
 				[e.id]: {
-					...this.state.sims[e.id],
+					...state.sims[e.id],
 					...e.override,
 				},
 			},
-		});
+		}));
 	}
 	handleSubmit(e) {
 		e.preventDefault();
@@ -72,6 +75,7 @@ class SimsCreation extends React.Component {
 			secondLang,
 		} = this.props;
 		const { sims } = this.state;
+		console.log(sims);
 		function displayContent(children, handleChange) {
 			if (Object.keys(children).length <= 0) return null;
 			return (
