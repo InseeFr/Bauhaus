@@ -12,6 +12,8 @@ import SimsCreation from 'js/components/operations/msd/pages/sims-creation/';
 import buildExtract from 'js/utils/build-extract';
 import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
+import { compose } from 'recompose';
+
 import * as select from 'js/reducers';
 
 const extractId = buildExtract('id');
@@ -130,7 +132,10 @@ const mapStateToProps = (state, ownProps) => {
 		err,
 	} = state.operationsMetadataStructureList;
 
-	const currentSims = ownProps.mode === VIEW ? state.operationsSimsCurrent : {};
+	//TODO move to a a selector
+
+	const currentSims =
+		ownProps.mode === HELP ? {} : select.getOperationsSimsCurrent(state);
 	const id = extractId(ownProps);
 	return {
 		langs: select.getLangs(state),
@@ -152,9 +157,10 @@ const mapDispatchToProps = {
 	saveSecondLang,
 };
 
-export default withRouter(
+export default compose(
+	withRouter,
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
-	)(MSDContainer)
-);
+	)
+)(MSDContainer);

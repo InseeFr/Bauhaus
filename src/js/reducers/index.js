@@ -93,7 +93,10 @@ export const getStampList = state => getItems(state.stampList);
 export const getRoleList = state => getItems(state.roleList);
 export const getAgentList = state => getItems(state.agentList);
 export const getPermission = state => {
-	const { type: authType, user: { roles, stamp } } = state.app.auth;
+	const {
+		type: authType,
+		user: { roles, stamp },
+	} = state.app.auth;
 	return { authType, roles, stamp };
 };
 export const getLangs = state => {
@@ -121,4 +124,8 @@ export const getOperation = (state, id) => {
 
 export const getIndicator = (state, id) => {
 	return state.operationsIndicatorsCurrent || {};
+};
+
+export const getOperationsSimsCurrent = state => {
+	return state.operationsSimsCurrent || {};
 };

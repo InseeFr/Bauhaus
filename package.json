@@ -69,6 +69,7 @@
 		"react-select": "^1.1.0",
 		"react-sortable-tree": "^2.1.0",
 		"react-test-renderer": "16.4.2",
+		"recompose": "0.30.0",
 		"redux": "^3.6.0",
 		"redux-logger": "^2.8.1",
 		"redux-thunk": "^2.2.0"
