@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-
-import { withRouter } from 'react-router-dom';
 import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
 import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
@@ -13,7 +11,6 @@ class SimsCreation extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
-		this.goBackToOperation = this.goBackToOperation.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
@@ -57,25 +54,22 @@ class SimsCreation extends React.Component {
 				rubrics: Object.values(this.state.sims),
 			},
 			id => {
-				this.props.history.push(`/operations/sims/${id}`);
+				this.props.goBack(`/operations/sims/${id}`);
 			}
 		);
 	}
 
-	goBackToOperation(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		this.props.history.push(`/operations/operation/${this.props.idOperation}`);
-	}
 	render() {
 		const {
 			metadataStructure,
 			codesLists,
 			saveSecondLang,
 			secondLang,
+			goBack,
+			idOperation,
 		} = this.props;
 		const { sims } = this.state;
-		console.log(sims);
+
 		function displayContent(children, handleChange) {
 			if (Object.keys(children).length <= 0) return null;
 			return (
@@ -109,7 +103,7 @@ class SimsCreation extends React.Component {
 				<div className="row btn-line">
 					<Button
 						col={3}
-						action={this.goBackToOperation}
+						action={() => goBack(`/operations/operation/${idOperation}`)}
 						label={
 							<React.Fragment>
 								<span
@@ -119,7 +113,7 @@ class SimsCreation extends React.Component {
 								<span> {D.btnCancel}</span>
 							</React.Fragment>
 						}
-						context="operation"
+						context="operations"
 					/>
 					<div className="col-md-6" />
 					<Button
@@ -179,8 +173,9 @@ SimsCreation.propTypes = {
 	metadataStructure: PropTypes.object.isRequired,
 	currentSection: PropTypes.string,
 	codesLists: PropTypes.object.isRequired,
-	sims: PropTypes.object.isRequired,
+	sims: PropTypes.object,
 	onSubmit: PropTypes.func.isRequired,
+	goBack: PropTypes.func,
 };
 
-export default withRouter(SimsCreation);
+export default SimsCreation;

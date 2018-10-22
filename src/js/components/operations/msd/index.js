@@ -13,7 +13,6 @@ import buildExtract from 'js/utils/build-extract';
 import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
 import { compose } from 'recompose';
-
 import * as select from 'js/reducers';
 
 const extractId = buildExtract('id');
@@ -42,6 +41,15 @@ class MSDContainer extends Component {
 	static defaultProps = {
 		currentSims: {},
 	};
+
+	constructor(props) {
+		super(props);
+		this.goBackCallback = this.goBackCallback.bind(this);
+	}
+
+	goBackCallback(url) {
+		this.props.history.push(url);
+	}
 
 	componentWillMount() {
 		if (this.props.status !== LOADED) {
@@ -93,12 +101,14 @@ class MSDContainer extends Component {
 				{mode === VIEW && (
 					<SimsVisualisation
 						sims={currentSims.rubrics}
+						idOperation={currentSims.idOperation}
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
 						currentSection={this.props.match.params.idSection}
 						saveSecondLang={saveSecondLang}
 						langs={langs}
 						secondLang={secondLang}
+						goBack={this.goBackCallback}
 					/>
 				)}
 				{mode === CREATE && (
@@ -112,6 +122,7 @@ class MSDContainer extends Component {
 						saveSecondLang={saveSecondLang}
 						langs={langs}
 						secondLang={secondLang}
+						goBack={this.goBackCallback}
 					/>
 				)}
 			</MSDLayout>
@@ -131,8 +142,6 @@ const mapStateToProps = (state, ownProps) => {
 		status,
 		err,
 	} = state.operationsMetadataStructureList;
-
-	//TODO move to a a selector
 
 	const currentSims =
 		ownProps.mode === HELP ? {} : select.getOperationsSimsCurrent(state);
