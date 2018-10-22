@@ -8,6 +8,15 @@ import { flattenTree } from 'js/utils/msd';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 
 class SimsCreation extends React.Component {
+	static propTypes = {
+		metadataStructure: PropTypes.object.isRequired,
+		currentSection: PropTypes.string,
+		codesLists: PropTypes.object.isRequired,
+		sims: PropTypes.object,
+		onSubmit: PropTypes.func.isRequired,
+		goBack: PropTypes.func,
+	};
+
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
@@ -168,14 +177,5 @@ class SimsCreation extends React.Component {
 		);
 	}
 }
-
-SimsCreation.propTypes = {
-	metadataStructure: PropTypes.object.isRequired,
-	currentSection: PropTypes.string,
-	codesLists: PropTypes.object.isRequired,
-	sims: PropTypes.object,
-	onSubmit: PropTypes.func.isRequired,
-	goBack: PropTypes.func,
-};
 
 export default SimsCreation;
