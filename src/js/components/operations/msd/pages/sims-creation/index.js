@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-
-import { withRouter } from 'react-router-dom';
 import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
 import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
@@ -10,10 +8,17 @@ import { flattenTree } from 'js/utils/msd';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 
 class SimsCreation extends React.Component {
+	static propTypes = {
+		metadataStructure: PropTypes.object.isRequired,
+		codesLists: PropTypes.object.isRequired,
+		sims: PropTypes.object,
+		onSubmit: PropTypes.func.isRequired,
+		goBack: PropTypes.func,
+	};
+
 	constructor(props) {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
-		this.goBackToOperation = this.goBackToOperation.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
@@ -26,52 +31,55 @@ class SimsCreation extends React.Component {
 							rangeType: flattenStructure[key].rangeType,
 							idAttribute: key,
 							value: '',
+							labelLg1: '',
+							labelLg2: '',
 						},
 					};
 				}, {}),
-				...sims,
+				...sims.rubrics,
 			},
 		};
 	}
 
 	handleChange(e) {
-		this.setState({
+		this.setState(state => ({
+			...state,
 			sims: {
-				...this.state.sims,
+				...state.sims,
 				[e.id]: {
-					...this.state.sims[e.id],
+					...state.sims[e.id],
 					...e.override,
 				},
 			},
-		});
+		}));
 	}
 	handleSubmit(e) {
 		e.preventDefault();
 		e.stopPropagation();
+		const existingId = this.props.sims.id;
 		this.props.onSubmit(
 			{
-				idOperation: this.props.idOperation,
+				id: this.props.sims.id,
+				idOperation: this.props.idOperation || this.props.sims.idOperation,
 				rubrics: Object.values(this.state.sims),
 			},
 			id => {
-				this.props.history.push(`/operations/sims/${id}`);
+				this.props.goBack(`/operations/sims/${id || existingId}`);
 			}
 		);
 	}
 
-	goBackToOperation(e) {
-		e.preventDefault();
-		e.stopPropagation();
-		this.props.history.push(`/operations/operation/${this.props.idOperation}`);
-	}
 	render() {
 		const {
 			metadataStructure,
 			codesLists,
 			saveSecondLang,
 			secondLang,
+			goBack,
+			idOperation,
 		} = this.props;
 		const { sims } = this.state;
+
 		function displayContent(children, handleChange) {
 			if (Object.keys(children).length <= 0) return null;
 			return (
@@ -93,7 +101,7 @@ class SimsCreation extends React.Component {
 										/>
 									</div>
 								</article>
-								{displayContent(children[id].children)}
+								{displayContent(children[id].children, handleChange)}
 							</div>
 						);
 					})}
@@ -105,7 +113,13 @@ class SimsCreation extends React.Component {
 				<div className="row btn-line">
 					<Button
 						col={3}
-						action={this.goBackToOperation}
+						action={() =>
+							goBack(
+								this.props.sims.id
+									? `/operations/sims/${this.props.sims.id}`
+									: `/operations/operation/${idOperation}`
+							)
+						}
 						label={
 							<React.Fragment>
 								<span
@@ -115,7 +129,7 @@ class SimsCreation extends React.Component {
 								<span> {D.btnCancel}</span>
 							</React.Fragment>
 						}
-						context="operation"
+						context="operations"
 					/>
 					<div className="col-md-6" />
 					<Button
@@ -171,12 +185,4 @@ class SimsCreation extends React.Component {
 	}
 }
 
-SimsCreation.propTypes = {
-	metadataStructure: PropTypes.object.isRequired,
-	currentSection: PropTypes.string,
-	codesLists: PropTypes.object.isRequired,
-	sims: PropTypes.object.isRequired,
-	onSubmit: PropTypes.func.isRequired,
-};
-
-export default withRouter(SimsCreation);
+export default SimsCreation;

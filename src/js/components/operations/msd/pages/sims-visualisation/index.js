@@ -4,6 +4,7 @@ import D from 'js/i18n';
 import { stringToDate } from 'js/utils/moment';
 import { rangeType } from 'js/utils/msd/';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import Button from 'js/components/shared/button';
 
 const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
 
@@ -17,6 +18,8 @@ export default function SimsVisualisation({
 	sims = {},
 	secondLang,
 	saveSecondLang,
+	idOperation,
+	goBack,
 }) {
 	function displayInformation(msd, currentSection = {}) {
 		if (!msd.masLabelLg1) {
@@ -84,7 +87,7 @@ export default function SimsVisualisation({
 									<h3>{`${id} - ${children[id].masLabelLg1}`}</h3>
 								</div>
 								<div className="panel-body">
-									{displayInformation(children[id], sims[id])}
+									{displayInformation(children[id], sims.rubrics[id])}
 								</div>
 							</article>
 							{displayContent(children[id].children)}
@@ -94,29 +97,55 @@ export default function SimsVisualisation({
 			</React.Fragment>
 		);
 	}
-	return Object.keys(metadataStructure).map((id, index) => {
-		if (currentSection && id !== currentSection) {
-			return null;
-		}
-		return (
-			<div key={id}>
-				{index === 0 && (
-					<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
-				)}
-				<div className="panel panel-default">
-					<div className="panel-heading">
-						<h2 id={id} className="titre-principal">
-							{id} - {metadataStructure[id].masLabelLg1}
-						</h2>
-					</div>
-					<div className="panel-body">
-						{displayInformation(metadataStructure[id], sims[id])}
-					</div>
-				</div>
-				{displayContent(metadataStructure[id].children, sims[id])}
+
+	return (
+		<React.Fragment>
+			<div className="row btn-line">
+				<Button
+					col={3}
+					action={() => goBack(`/operations/operation/${idOperation}`)}
+					label={D.btnReturn}
+					context="operations"
+				/>
+				<div className="col-md-6" />
+				<Button
+					col={3}
+					action={`/operations/sims/${sims.id}/modify`}
+					label={
+						<React.Fragment>
+							<span
+								className="glyphicon glyphicon-floppy-disk"
+								aria-hidden="true"
+							/>
+							<span> {D.btnUpdate}</span>
+						</React.Fragment>
+					}
+					context="operations"
+				/>
 			</div>
-		);
-	});
+			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+			{Object.keys(metadataStructure).map(id => {
+				if (currentSection && id !== currentSection) {
+					return null;
+				}
+				return (
+					<div key={id}>
+						<div className="panel panel-default">
+							<div className="panel-heading">
+								<h2 id={id} className="titre-principal">
+									{id} - {metadataStructure[id].masLabelLg1}
+								</h2>
+							</div>
+							<div className="panel-body">
+								{displayInformation(metadataStructure[id], sims.rubrics[id])}
+							</div>
+						</div>
+						{displayContent(metadataStructure[id].children, sims.rubrics[id])}
+					</div>
+				);
+			})}
+		</React.Fragment>
+	);
 }
 
 SimsVisualisation.propTypes = {
@@ -124,4 +153,5 @@ SimsVisualisation.propTypes = {
 	currentSection: PropTypes.string,
 	codesLists: PropTypes.object.isRequired,
 	sims: PropTypes.object.isRequired,
+	goBack: PropTypes.func,
 };

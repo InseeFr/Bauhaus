@@ -3,8 +3,7 @@ import D from 'js/i18n';
 import Button from 'js/components/shared/button';
 import { validate } from 'js/components/operations/indicators/edition/validation';
 
-function Control(props) {
-	const { onSubmit, indicator } = props;
+function Control({ onSubmit, indicator }) {
 	const message = validate(indicator);
 	return (
 		<div className="row btn-line">

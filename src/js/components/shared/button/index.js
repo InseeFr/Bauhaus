@@ -3,8 +3,15 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './button.css';
 
-const Button = ({ action, label, disabled, context, col, offset }) => {
-	const btnClass = context ? `btn-${context}` : 'btn-concepts';
+const Button = ({
+	action,
+	label,
+	disabled,
+	context = 'concepts',
+	col = 2,
+	offset,
+}) => {
+	const btnClass = `btn-${context}`;
 	let button;
 	if (typeof action === 'string') {
 		button = (
@@ -25,9 +32,7 @@ const Button = ({ action, label, disabled, context, col, offset }) => {
 		);
 	}
 	return (
-		<div
-			className={`col-md-${col || 2} ${offset && `col-md-offset-${offset}`}`}
-		>
+		<div className={`col-md-${col} ${offset && `col-md-offset-${offset}`}`}>
 			{button}
 		</div>
 	);
