@@ -18,7 +18,7 @@ import OperationEditionContainer from 'js/components/operations/operations/editi
 import OperationsIndicatorEditionContainer from 'js/components/operations/indicators/edition';
 
 import { loadSetup } from 'js/actions/operations/utils/setup';
-import MSDContainer, { CREATE, VIEW } from '../operations/msd/';
+import MSDContainer, { CREATE, VIEW, UPDATE } from '../operations/msd/';
 
 class RootComponent extends Component {
 	componentDidMount() {
@@ -114,6 +114,17 @@ class RootComponent extends Component {
 						<MSDContainer
 							mode={VIEW}
 							baseUrl={`/operations/sims/${props.match.params.id}/section/`}
+						/>
+					)}
+				/>
+				<Route
+					exact
+					path="/operations/sims/:id/modify"
+					render={props => (
+						<MSDContainer
+							mode={UPDATE}
+							disableSectionAnchor
+							baseUrl={`/operations/sims/${props.match.params.id}/modify`}
 						/>
 					)}
 				/>

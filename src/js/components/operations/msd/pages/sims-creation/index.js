@@ -10,7 +10,6 @@ import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 class SimsCreation extends React.Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object.isRequired,
-		currentSection: PropTypes.string,
 		codesLists: PropTypes.object.isRequired,
 		sims: PropTypes.object,
 		onSubmit: PropTypes.func.isRequired,
@@ -37,7 +36,7 @@ class SimsCreation extends React.Component {
 						},
 					};
 				}, {}),
-				...sims,
+				...sims.rubrics,
 			},
 		};
 	}
@@ -57,13 +56,15 @@ class SimsCreation extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault();
 		e.stopPropagation();
+		const existingId = this.props.sims.id;
 		this.props.onSubmit(
 			{
-				idOperation: this.props.idOperation,
+				id: this.props.sims.id,
+				idOperation: this.props.idOperation || this.props.sims.idOperation,
 				rubrics: Object.values(this.state.sims),
 			},
 			id => {
-				this.props.goBack(`/operations/sims/${id}`);
+				this.props.goBack(`/operations/sims/${id || existingId}`);
 			}
 		);
 	}
@@ -100,7 +101,7 @@ class SimsCreation extends React.Component {
 										/>
 									</div>
 								</article>
-								{displayContent(children[id].children)}
+								{displayContent(children[id].children, handleChange)}
 							</div>
 						);
 					})}
@@ -112,7 +113,13 @@ class SimsCreation extends React.Component {
 				<div className="row btn-line">
 					<Button
 						col={3}
-						action={() => goBack(`/operations/operation/${idOperation}`)}
+						action={() =>
+							goBack(
+								this.props.sims.id
+									? `/operations/sims/${this.props.sims.id}`
+									: `/operations/operation/${idOperation}`
+							)
+						}
 						label={
 							<React.Fragment>
 								<span

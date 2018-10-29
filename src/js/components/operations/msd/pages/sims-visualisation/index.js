@@ -87,7 +87,7 @@ export default function SimsVisualisation({
 									<h3>{`${id} - ${children[id].masLabelLg1}`}</h3>
 								</div>
 								<div className="panel-body">
-									{displayInformation(children[id], sims[id])}
+									{displayInformation(children[id], sims.rubrics[id])}
 								</div>
 							</article>
 							{displayContent(children[id].children)}
@@ -107,6 +107,21 @@ export default function SimsVisualisation({
 					label={D.btnReturn}
 					context="operations"
 				/>
+				<div className="col-md-6" />
+				<Button
+					col={3}
+					action={`/operations/sims/${sims.id}/modify`}
+					label={
+						<React.Fragment>
+							<span
+								className="glyphicon glyphicon-floppy-disk"
+								aria-hidden="true"
+							/>
+							<span> {D.btnUpdate}</span>
+						</React.Fragment>
+					}
+					context="operations"
+				/>
 			</div>
 			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 			{Object.keys(metadataStructure).map(id => {
@@ -122,10 +137,10 @@ export default function SimsVisualisation({
 								</h2>
 							</div>
 							<div className="panel-body">
-								{displayInformation(metadataStructure[id], sims[id])}
+								{displayInformation(metadataStructure[id], sims.rubrics[id])}
 							</div>
 						</div>
-						{displayContent(metadataStructure[id].children, sims[id])}
+						{displayContent(metadataStructure[id].children, sims.rubrics[id])}
 					</div>
 				);
 			})}

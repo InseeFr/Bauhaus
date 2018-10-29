@@ -21,6 +21,7 @@ const extractIdOperation = buildExtract('idOperation');
 export const HELP = 'HELP';
 export const CREATE = 'CREATE';
 export const VIEW = 'VIEW';
+export const UPDATE = 'UPDATE';
 
 class MSDContainer extends Component {
 	static propTypes = {
@@ -60,7 +61,7 @@ class MSDContainer extends Component {
 		}
 	}
 	componentWillReceiveProps(nextProps) {
-		if (this.props.id !== nextProps.id) {
+		if (!nextProps.currentSims.id || this.props.id !== nextProps.id) {
 			this.props.loadSIMS(nextProps.id);
 		}
 	}
@@ -81,7 +82,6 @@ class MSDContainer extends Component {
 		} = this.props;
 		if (status !== LOADED || (mode === VIEW && !currentSims.id))
 			return <Loading textType="loading" context="operations" />;
-
 		return (
 			<MSDLayout
 				metadataStructure={metadataStructure}
@@ -100,7 +100,7 @@ class MSDContainer extends Component {
 
 				{mode === VIEW && (
 					<SimsVisualisation
-						sims={currentSims.rubrics}
+						sims={currentSims}
 						idOperation={currentSims.idOperation}
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
@@ -111,12 +111,11 @@ class MSDContainer extends Component {
 						goBack={this.goBackCallback}
 					/>
 				)}
-				{mode === CREATE && (
+				{(mode === CREATE || mode === UPDATE) && (
 					<SimsCreation
-						sims={currentSims.rubrics}
+						sims={currentSims}
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
-						currentSection={this.props.match.params.idSection}
 						onSubmit={saveSims}
 						idOperation={idOperation}
 						saveSecondLang={saveSecondLang}
