@@ -1,4 +1,4 @@
-const HELP_COLLAPSED = 'HELP_COLLAPSED';
+export const HELP_COLLAPSED = 'HELP_COLLAPSED';
 
 export function isOpen(id) {
 	const collapsed = JSON.parse(localStorage.getItem(HELP_COLLAPSED)) || {};
