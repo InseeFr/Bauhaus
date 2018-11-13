@@ -28,7 +28,7 @@ class MSDContainer extends Component {
 		metadataStructure: PropTypes.object,
 		status: PropTypes.oneOf([LOADED, NOT_LOADED, LOADING]),
 		codesLists: PropTypes.object,
-		mode: PropTypes.oneOf([HELP, VIEW, CREATE]),
+		mode: PropTypes.oneOf([HELP, VIEW, CREATE, UPDATE]),
 		baseUrl: PropTypes.string,
 		id: PropTypes.string,
 		saveSims: PropTypes.func,
