@@ -26,6 +26,9 @@ export const saveSims = (sims, callback) => dispatch => {
 };
 
 export default id => dispatch => {
+	if (!id) {
+		return;
+	}
 	dispatch({
 		type: A.LOAD_OPERATIONS_SIMS,
 		payload: {
