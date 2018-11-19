@@ -106,6 +106,7 @@ function Field({
 							<React.Fragment>
 								<label>{codesLists[msd.codeList].codeListLabelLg1}</label>
 								<SelectRmes
+									placeholder=""
 									aria-label={codesLists[msd.codeList].codeListLabelLg1}
 									className="form-control"
 									value={currentSection.value}
