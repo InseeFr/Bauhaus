@@ -5,6 +5,7 @@ import { stringToDate } from 'js/utils/moment';
 import { rangeType } from 'js/utils/msd/';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import Button from 'js/components/shared/button';
+import { markdownToHtml } from 'js/utils/html';
 
 const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
 
@@ -39,7 +40,9 @@ export default function SimsVisualisation({
 								stringToDate(currentSection.value)}
 							{currentSection.rangeType === REPORTED_ATTRIBUTE && (
 								<div
-									dangerouslySetInnerHTML={{ __html: currentSection.labelLg1 }}
+									dangerouslySetInnerHTML={{
+										__html: markdownToHtml(currentSection.labelLg1),
+									}}
 								/>
 							)}
 							{currentSection.rangeType === CODE_LIST &&
@@ -63,7 +66,7 @@ export default function SimsVisualisation({
 									{currentSection.rangeType === REPORTED_ATTRIBUTE && (
 										<div
 											dangerouslySetInnerHTML={{
-												__html: currentSection.labelLg2,
+												__html: markdownToHtml(currentSection.labelLg2),
 											}}
 										/>
 									)}
