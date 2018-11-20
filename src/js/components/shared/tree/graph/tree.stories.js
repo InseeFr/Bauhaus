@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Tree from './';
 
-import { withKnobs } from '@storybook/addon-knobs/react';
+import { withKnobs } from '@storybook/addon-knobs';
 
 const stories = storiesOf('Tree - Graph', module);
 stories.addDecorator(withKnobs);

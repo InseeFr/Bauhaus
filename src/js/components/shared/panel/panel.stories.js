@@ -1,9 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Panel from './';
-import './panel.css';
+import './panel.scss';
 
-import { withKnobs, text } from '@storybook/addon-knobs/react';
+import { withKnobs, text } from '@storybook/addon-knobs';
 
 const stories = storiesOf('Panel', module);
 stories.addDecorator(withKnobs);

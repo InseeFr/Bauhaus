@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import PageSubtitle from './';
 import './page-subtitle.scss';
 
-import { withKnobs, text } from '@storybook/addon-knobs/react';
+import { withKnobs, text } from '@storybook/addon-knobs';
 
 const stories = storiesOf('PageSubtitle', module);
 stories.addDecorator(withKnobs);

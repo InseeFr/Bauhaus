@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import TableRmes from './';
 import './table-rmes.scss';
 
-import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 
 export const rows = [
 	{

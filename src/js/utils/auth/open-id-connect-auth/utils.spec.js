@@ -99,10 +99,8 @@ describe('open-id-connect-auth-utils', () => {
 		});
 		it('should return false because of stamps', () => {
 			expect(
-				U.isAdminOrConceptCreator([R.CONCEPTS_CREATOR]),
-				'stamp',
-				'stampX'
-			).toBeTruthy();
+				U.isAdminOrConceptCreator([R.CONCEPTS_CREATOR], 'stamp', 'stampX')
+			).toBeFalsy();
 		});
 		it('should return true', () => {
 			expect(U.isAdminOrConceptCreator(fullRoles)).toBeTruthy();
