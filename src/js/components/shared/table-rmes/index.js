@@ -1,7 +1,7 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import D from 'js/i18n';
-import './table-rmes.css';
+import './table-rmes.scss';
 
 function TableRmes({
 	rowParams,

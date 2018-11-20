@@ -4,7 +4,7 @@ import MenuReferentiels from '../referentiels';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
-import './concepts.css';
+import './concepts.scss';
 
 class MenuConcepts extends Component {
 	constructor(props) {

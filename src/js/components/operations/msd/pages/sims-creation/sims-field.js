@@ -7,7 +7,7 @@ import InputRmes from 'js/components/shared/input-rmes';
 import EditorMarkdown from 'js/components/shared/editor-markdown';
 import SelectRmes from 'js/components/shared/select-rmes';
 
-import './sims-field.css';
+import './sims-field.scss';
 
 const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
 

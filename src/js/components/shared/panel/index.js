@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './panel.css';
+import './panel.scss';
 
 function Panel({ title, children, context = 'concepts' }) {
 	return (

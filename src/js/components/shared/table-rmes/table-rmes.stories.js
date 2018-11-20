@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import TableRmes from './';
-import './table-rmes.css';
+import './table-rmes.scss';
 
 import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
 

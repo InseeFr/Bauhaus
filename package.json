@@ -15,13 +15,12 @@
 	],
 	"license": "MIT",
 	"devDependencies": {
-		"@storybook/addon-knobs": "^3.3.15",
-		"@storybook/react": "^3.3.15",
-		"babel-eslint": "^7.2.3",
+		"@storybook/addon-actions": "^4.0.7",
+		"@storybook/addon-knobs": "4.0.0",
+		"@storybook/react": "^4.0.7",
 		"concurrently": "^3.5.1",
 		"coveralls": "^3.0.0",
 		"cross-env": "^5.0.1",
-		"eslint": "^4.1.1",
 		"eslint-config-prettier": "3.1.0",
 		"eslint-config-react-app": "2.1.0",
 		"eslint-plugin-flowtype": "3.0.0",
@@ -32,7 +31,11 @@
 		"jest-localstorage-mock": "2.3.0",
 		"node-sass-chokidar": "^1.3.0",
 		"npm-run-all": "^4.1.3",
-		"prettier": "1.14.2"
+		"prettier": "1.14.2",
+		"@storybook/addon-links": "^4.0.7",
+		"@storybook/addons": "^4.0.7",
+		"@babel/core": "^7.1.6",
+		"babel-loader": "^8.0.4"
 	},
 	"dependencies": {
 		"babel-polyfill": "^6.23.0",
@@ -53,7 +56,7 @@
 		"moment": "^2.18.1",
 		"moment-range": "^3.0.3",
 		"prop-types": "^15.5.10",
-		"react": "16.2.0",
+		"react": "16.3.0",
 		"react-16-bootstrap-date-picker": "^5.1.1",
 		"react-bootstrap": "^0.31.5",
 		"react-bootstrap-table": "^4.3.0",
@@ -66,7 +69,7 @@
 		"react-redux": "^5.0.2",
 		"react-router-dom": "^4.1.1",
 		"react-router-hash-link": "^1.2.0",
-		"react-scripts": "^1.1.1",
+		"react-scripts": "2.1.1",
 		"react-select": "^1.1.0",
 		"react-sortable-tree": "^2.1.0",
 		"react-test-renderer": "16.4.2",
@@ -79,17 +82,16 @@
 		"build-css": "node-sass-chokidar src/ -o src/",
 		"watch-css": "node-sass-chokidar src/ -o src/ --watch --recursive",
 		"start-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
-		"start": "npm-run-all -p watch-css start-js",
+		"start": "npm-run-all -p start-js",
 		"start-https-js": "cross-env NODE_PATH=src/ HTTPS=true REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
-		"start-https": "npm-run-all -p watch-css start-https-js",
+		"start-https": "npm-run-all -p start-https-js",
 		"build-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
-		"build": "npm-run-all build-css build-js",
+		"build": "npm-run-all build-js",
 		"build-insee-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build",
-		"build-insee": "npm-run-all build-css build-insee-js",
-		"test-css": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom",
-		"test": "npm-run-all -p watch-css test-css",
-		"test:coverage-css": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom --coverage -i",
-		"test:coverage": "npm-run-all -p build-css test:coverage-css",
+		"build-insee": "npm-run-all build-insee-js",
+		"test": "NODE_PATH=src/ react-scripts test",
+		"test:coverage-css": "cross-env NODE_PATH=src/  react-scripts test --coverage -i",
+		"test:coverage": "npm-run-all -p test:coverage-css",
 		"start-storybook-js": "cross-env NODE_PATH=src/ start-storybook -p 9999",
 		"start-storybook": "npm-run-all -p watch-css start-storybook-js",
 		"build-storybook-js": "cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
@@ -108,5 +110,11 @@
 		"hooks": {
 			"pre-commit": "run-s lint test:coverage"
 		}
-	}
+	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not ie <= 11",
+		"not op_mini all"
+	]
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import D from 'js/i18n';
-import './index.css';
+import './index.scss';
 
 window.onload = function() {
 	document.addEventListener(
