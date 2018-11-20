@@ -14,6 +14,12 @@ const defaultOperation = {
 	altLabelLg2: '',
 };
 class OperationsOperationEdition extends Component {
+	static propTypes = {
+		operation: PropTypes.object.isRequired,
+		langs: PropTypes.object.isRequired,
+		saveOperation: PropTypes.func.isRequired,
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -164,11 +170,5 @@ class OperationsOperationEdition extends Component {
 		);
 	}
 }
-
-OperationsOperationEdition.propTypes = {
-	operation: PropTypes.object.isRequired,
-	langs: PropTypes.object.isRequired,
-	saveOperation: PropTypes.func.isRequired,
-};
 
 export default OperationsOperationEdition;

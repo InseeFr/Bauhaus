@@ -56,7 +56,6 @@ class SimsCreation extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		const existingId = this.props.sims.id;
 		this.props.onSubmit(
 			{
 				id: this.props.sims.id,
@@ -64,7 +63,7 @@ class SimsCreation extends React.Component {
 				rubrics: Object.values(this.state.sims),
 			},
 			id => {
-				this.props.goBack(`/operations/sims/${id || existingId}`);
+				this.props.goBack(`/operations/sims/${id || this.props.sims.id}`);
 			}
 		);
 	}
@@ -148,9 +147,9 @@ class SimsCreation extends React.Component {
 					/>
 				</div>
 
-				{Object.keys(metadataStructure).map((id, index) => {
+				{Object.values(metadataStructure).map((msd, index) => {
 					return (
-						<div key={id}>
+						<div key={msd.idMas}>
 							{index === 0 && (
 								<CheckSecondLang
 									secondLang={secondLang}
@@ -159,24 +158,21 @@ class SimsCreation extends React.Component {
 							)}
 							<div className="panel panel-default">
 								<div className="panel-heading">
-									<h2 id={id} className="titre-principal">
-										{id} - {metadataStructure[id].masLabelLg1}
+									<h2 id={msd.idMas} className="titre-principal">
+										{msd.idMas} - {msd.masLabelLg1}
 									</h2>
 								</div>
 								<div className="panel-body">
 									<Field
-										msd={metadataStructure[id]}
-										currentSection={sims[id]}
+										msd={msd}
+										currentSection={sims[msd.idMas]}
 										handleChange={this.handleChange}
 										codesLists={codesLists}
 										secondLang={secondLang}
 									/>
 								</div>
 							</div>
-							{displayContent(
-								metadataStructure[id].children,
-								this.handleChange
-							)}
+							{displayContent(msd.children, this.handleChange)}
 						</div>
 					);
 				})}

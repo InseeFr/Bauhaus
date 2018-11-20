@@ -5,25 +5,23 @@ import PlaceHolder from 'js/components/shared/placeholder';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
-class OperationsControls extends Component {
-	render() {
-		const { openModal } = this.props;
+function OperationsControls(props) {
+	const { openModal } = props;
 
-		const cancel = [goBack(this.props, `/operations/series`), D.btnReturn];
+	const cancel = [goBack(props, `/operations/series`), D.btnReturn];
 
-		const exportVarBook = [openModal, D.btnExport];
+	const exportVarBook = [openModal, D.btnExport];
 
-		const btns = [cancel, null, null, null, null, exportVarBook];
-		return (
-			<div className="row btn-line">
-				{btns.map((btn, i) => {
-					if (!btn) return <PlaceHolder key={i} />;
-					const [action, label] = btn;
-					return btn && <Button key={label} action={action} label={label} />;
-				})}
-			</div>
-		);
-	}
+	const btns = [cancel, null, null, null, null, exportVarBook];
+	return (
+		<div className="row btn-line">
+			{btns.map((btn, i) => {
+				if (!btn) return <PlaceHolder key={i} />;
+				const [action, label] = btn;
+				return btn && <Button key={label} action={action} label={label} />;
+			})}
+		</div>
+	);
 }
 
 export default withRouter(OperationsControls);

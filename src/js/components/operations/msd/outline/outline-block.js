@@ -4,6 +4,12 @@ import { toggleOpen, isOpen } from 'js/components/operations/msd/utils';
 import PropTypes from 'prop-types';
 
 class OutlineBlock extends Component {
+	static propTypes = {
+		secondary: PropTypes.bool,
+		parent: PropTypes.string,
+		baseUrl: PropTypes.string,
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -21,7 +27,7 @@ class OutlineBlock extends Component {
 
 	expandOrCollapseItem(id) {
 		toggleOpen(id);
-		this.setState({
+		this.setState(previousState => ({
 			children: {
 				...this.state.children,
 				[id]: {
@@ -29,7 +35,7 @@ class OutlineBlock extends Component {
 					opened: !this.state.children[id].opened,
 				},
 			},
-		});
+		}));
 	}
 	render() {
 		const {
@@ -42,15 +48,14 @@ class OutlineBlock extends Component {
 		if (Object.keys(children).length <= 0) return null;
 		return (
 			<ul className={secondary ? 'secondary sommaire-item' : 'sommaire-item'}>
-				{Object.keys(children).map(id => {
-					const child = children[id];
+				{Object.values(children).map(child => {
 					return (
 						<li key={child.idMas} className="help-item">
 							{Object.keys(child.children).length > 0 && (
 								<button
 									className="white"
 									title="expand/collapse"
-									onClick={() => this.expandOrCollapseItem(id)}
+									onClick={() => this.expandOrCollapseItem(child.idMas)}
 								>
 									<span
 										className={`glyphicon glyphicon-chevron-${
@@ -83,9 +88,5 @@ class OutlineBlock extends Component {
 		);
 	}
 }
-OutlineBlock.propTypes = {
-	secondary: PropTypes.bool,
-	parent: PropTypes.string,
-	baseUrl: PropTypes.string,
-};
+
 export default OutlineBlock;
