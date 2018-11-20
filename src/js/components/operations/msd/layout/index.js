@@ -28,9 +28,9 @@ class MSDComponent extends Component {
 
 	changeStatus(status) {
 		localStorage.setItem('HELP_VIEW', status);
-		this.setState({
+		this.setState(previousState => ({
 			status,
-		});
+		}));
 	}
 	render() {
 		const { status } = this.state;
