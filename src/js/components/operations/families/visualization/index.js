@@ -27,14 +27,12 @@ class FamilyVisualizationContainer extends Component {
 			secondLang,
 			langs,
 			family: { ...attr },
+			saveSecondLang,
 		} = this.props;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
 		return (
 			<div className="container">
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
+				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
 				<PageTitle title={attr.prefLabelLg1} context="operations" />
 				{secondLang &&
