@@ -5,6 +5,12 @@ import OutlineBlock from 'js/components/operations/msd/outline/outline-block';
 import PropTypes from 'prop-types';
 
 class Outline extends Component {
+	static propTypes = {
+		storeCollapseState: PropTypes.bool,
+		metadataStructure: PropTypes.object.isRequired,
+		baseUrl: PropTypes.string,
+	};
+
 	constructor(props) {
 		super(props);
 
@@ -18,7 +24,7 @@ class Outline extends Component {
 	}
 
 	expandOrCollapseItem() {
-		this.setState({ opened: !this.state.opened });
+		this.setState(previousState => ({ opened: !previousState.opened }));
 		this.props.storeCollapseState &&
 			toggleOpen(this.props.metadataStructure.idMas);
 	}
@@ -69,11 +75,5 @@ class Outline extends Component {
 		);
 	}
 }
-
-Outline.propTypes = {
-	storeCollapseState: PropTypes.bool,
-	metadataStructure: PropTypes.object.isRequired,
-	baseUrl: PropTypes.string,
-};
 
 export default Outline;
