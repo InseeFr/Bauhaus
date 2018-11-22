@@ -37,6 +37,8 @@ export const operationsOperationsCurrent = function(state = {}, action) {
 		case A.LOAD_OPERATIONS_OPERATION_SUCCESS:
 		case A.SAVE_OPERATIONS_OPERATION:
 			return action.payload;
+		case A.SAVE_OPERATIONS_SIMS_SUCCESS:
+			return {};
 		default:
 			return state;
 	}
