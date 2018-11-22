@@ -4,13 +4,11 @@ import { Note } from 'js/components/shared/note';
 import D from 'js/i18n';
 import RelationsView from 'js/components/operations/shared/relations';
 
-function OperationsFamilyVisualization(props) {
-	const {
-		attr,
-		langs: { lg1, lg2 },
-		secondLang,
-	} = props;
-
+function OperationsFamilyVisualization({
+	attr,
+	langs: { lg1, lg2 },
+	secondLang,
+}) {
 	return (
 		<React.Fragment>
 			<div className="row">

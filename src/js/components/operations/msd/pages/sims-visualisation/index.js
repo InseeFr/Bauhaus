@@ -82,18 +82,18 @@ export default function SimsVisualisation({
 		if (Object.values(children).length <= 0) return null;
 		return (
 			<React.Fragment>
-				{Object.keys(children).map(id => {
+				{Object.values(children).map(child => {
 					return (
-						<div key={id} className="contenu">
-							<article id={id} className="panel panel-default">
+						<div key={child.idMas} className="contenu">
+							<article id={child.idMas} className="panel panel-default">
 								<div className="panel-heading">
-									<h3>{`${id} - ${children[id].masLabelLg1}`}</h3>
+									<h3>{`${child.idMas} - ${child.masLabelLg1}`}</h3>
 								</div>
 								<div className="panel-body">
-									{displayInformation(children[id], sims.rubrics[id])}
+									{displayInformation(child, sims.rubrics[child.idMas])}
 								</div>
 							</article>
-							{displayContent(children[id].children)}
+							{displayContent(child.children)}
 						</div>
 					);
 				})}
@@ -127,23 +127,23 @@ export default function SimsVisualisation({
 				/>
 			</div>
 			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
-			{Object.keys(metadataStructure).map(id => {
-				if (currentSection && id !== currentSection) {
+			{Object.values(metadataStructure).map(msd => {
+				if (currentSection && msd.idMas !== currentSection) {
 					return null;
 				}
 				return (
-					<div key={id}>
-						<div className="panel panel-default">
+					<div key={msd.idMas}>
+						<article className="panel panel-default">
 							<div className="panel-heading">
-								<h2 id={id} className="titre-principal">
-									{id} - {metadataStructure[id].masLabelLg1}
+								<h2 id={msd.idMas} className="titre-principal">
+									{msd.idMas} - {msd.masLabelLg1}
 								</h2>
 							</div>
 							<div className="panel-body">
-								{displayInformation(metadataStructure[id], sims.rubrics[id])}
+								{displayInformation(msd, sims.rubrics[msd.idMas])}
 							</div>
-						</div>
-						{displayContent(metadataStructure[id].children, sims.rubrics[id])}
+						</article>
+						{displayContent(msd.children, sims.rubrics[msd.idMas])}
 					</div>
 				);
 			})}

@@ -26,6 +26,13 @@ const defaultIndicator = {
 	accrualPeriodicityList: CL_FREQ,
 };
 class OperationsIndicatorEdition extends Component {
+	static propTypes = {
+		indicator: PropTypes.object.isRequired,
+		langs: PropTypes.object.isRequired,
+		saveIndicator: PropTypes.func.isRequired,
+		frequencies: PropTypes.object.isRequired,
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -382,12 +389,5 @@ class OperationsIndicatorEdition extends Component {
 		);
 	}
 }
-
-OperationsIndicatorEdition.propTypes = {
-	indicator: PropTypes.object.isRequired,
-	langs: PropTypes.object.isRequired,
-	saveIndicator: PropTypes.func.isRequired,
-	frequencies: PropTypes.object.isRequired,
-};
 
 export default OperationsIndicatorEdition;
