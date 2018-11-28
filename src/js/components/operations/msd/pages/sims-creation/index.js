@@ -63,7 +63,7 @@ class SimsCreation extends React.Component {
 				rubrics: Object.values(this.state.sims),
 			},
 			id => {
-				this.props.goBack(`/operations/sims/${id || this.props.sims.id}`);
+				this.props.goBack(`/operations/sims/${id}`);
 			}
 		);
 	}

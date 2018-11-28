@@ -14,7 +14,7 @@ export const saveSims = (sims, callback) => dispatch => {
 				type: A.SAVE_OPERATIONS_SIMS_SUCCESS,
 				payload: sims,
 			});
-			callback(results);
+			callback(results || sims.id);
 		},
 		err => {
 			dispatch({
