@@ -26,7 +26,7 @@ export const UPDATE = 'UPDATE';
 class MSDContainer extends Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object,
-		status: PropTypes.oneOf([LOADED, NOT_LOADED, LOADING]),
+		metadataStructureStatus: PropTypes.oneOf([LOADED, NOT_LOADED, LOADING]),
 		codesLists: PropTypes.object,
 		mode: PropTypes.oneOf([HELP, VIEW, CREATE, UPDATE]),
 		baseUrl: PropTypes.string,
@@ -53,7 +53,7 @@ class MSDContainer extends Component {
 	}
 
 	componentWillMount() {
-		if (this.props.status !== LOADED) {
+		if (this.props.metadataStructureStatus !== LOADED) {
 			this.props.loadMetadataStructure();
 		}
 		if (!this.props.currentSims.id) {
@@ -68,7 +68,7 @@ class MSDContainer extends Component {
 	render() {
 		const {
 			metadataStructure,
-			status,
+			metadataStructureStatus,
 			codesLists,
 			mode = HELP,
 			baseUrl,
@@ -80,7 +80,12 @@ class MSDContainer extends Component {
 			secondLang,
 			currentSims,
 		} = this.props;
-		if (status !== LOADED || (mode === VIEW && !currentSims.id))
+
+		console.log(metadataStructureStatus);
+		if (
+			metadataStructureStatus !== LOADED ||
+			(mode === VIEW && !currentSims.id)
+		)
 			return <Loading textType="loading" context="operations" />;
 		return (
 			<MSDLayout
@@ -132,13 +137,13 @@ class MSDContainer extends Component {
 const mapStateToProps = (state, ownProps) => {
 	if (!state.operationsMetadataStructureList) {
 		return {
-			status: NOT_LOADED,
+			metadataStructureStatus: NOT_LOADED,
 			metadataStructure: [],
 		};
 	}
 	const {
 		results: metadataStructure,
-		status,
+		status: metadataStructureStatus,
 		err,
 	} = state.operationsMetadataStructureList;
 
@@ -153,7 +158,7 @@ const mapStateToProps = (state, ownProps) => {
 		id,
 		idOperation: extractIdOperation(ownProps),
 		codesLists: state.operationsCodesList.results,
-		status,
+		metadataStructureStatus,
 		err,
 	};
 };
