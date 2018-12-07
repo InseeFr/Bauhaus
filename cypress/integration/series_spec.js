@@ -1,5 +1,5 @@
-describe('Main Layout', function() {
-	it('Should display an error message if the backoffice is not reachable', function() {
+describe('Series', function() {
+	it('Should display the series page', function() {
 		cy.server().visit('/operations/series');
 
 		cy.get('.navbar-nav-operations li:nth-child(3)').should(
