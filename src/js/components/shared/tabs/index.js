@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import './tabs.css';
+import './tabs.scss';
 
 class TabsRmes extends Component {
 	constructor() {

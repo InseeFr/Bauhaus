@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import MenuReferentiels from '../referentiels';
 import D from 'js/i18n';
-import './classifications.css';
+import './classifications.scss';
 
 class MenuClassifications extends Component {
 	constructor(props) {

@@ -5,7 +5,7 @@ import dashBoardLogo from 'img/dashboard.png';
 import adminLogo from 'img/admin.png';
 import PageTitle from '../shared/page-title';
 import D from 'js/i18n';
-import './home.css';
+import './home.scss';
 
 function AdministrationHome({ permission }) {
 	const { authType, roles } = permission;

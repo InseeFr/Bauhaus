@@ -7,7 +7,7 @@ import PageTitle from 'js/components/shared/page-title';
 import HelpFooter from './footer';
 import buildExtract from 'js/utils/build-extract';
 import { getLang } from 'js/i18n/build-dictionary';
-import './help.css';
+import './help.scss';
 
 const getContent = props => {
 	const path = props.location.pathname;

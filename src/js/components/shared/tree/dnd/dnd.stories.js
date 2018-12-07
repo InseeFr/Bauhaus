@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { MemoryRouter } from 'react-router';
 import RmesTree from './';
 
-import { withKnobs } from '@storybook/addon-knobs/react';
+import { withKnobs } from '@storybook/addon-knobs';
 
 const stories = storiesOf('Tree - DND', module);
 stories.addDecorator(withKnobs);

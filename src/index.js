@@ -7,7 +7,7 @@ import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
 import BackToTop from 'js/components/shared/back-to-top/';
 
-import 'app.css';
+import 'app.scss';
 
 Api.getInit()
 	.then(

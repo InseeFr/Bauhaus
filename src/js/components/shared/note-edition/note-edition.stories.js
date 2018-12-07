@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import NoteEdition from './';
 
-import { withKnobs, text, object } from '@storybook/addon-knobs/react';
+import { withKnobs, text, object } from '@storybook/addon-knobs';
 
 const stories = storiesOf('NoteEdition', module);
 stories.addDecorator(withKnobs);
