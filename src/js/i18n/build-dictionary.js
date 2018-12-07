@@ -35,4 +35,9 @@ export const getLang = defaultLang =>
 		? 'fr'
 		: 'en';
 
+export const getMessageForSecondLang = message => {
+	const secondLang = ['en', 'fr'].find(l => l !== getLang());
+	return dictionary[message][secondLang];
+};
+
 export default createDictionary(getLang());
