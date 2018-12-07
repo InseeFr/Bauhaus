@@ -6,33 +6,44 @@
 		"type": "git",
 		"url": "https://github.com/InseeFr/Bauhaus"
 	},
-	"author": "INSEE (http://www.insee.fr)",
-	"contributor": [
-		{
-			"name": "Nicolas Laval",
-			"email": "nicolas.laval@insee.fr"
-		}
-	],
 	"license": "MIT",
-	"devDependencies": {
-		"@storybook/addon-knobs": "^3.3.15",
-		"@storybook/react": "^3.3.15",
-		"babel-eslint": "^7.2.3",
-		"concurrently": "^3.5.1",
-		"coveralls": "^3.0.0",
-		"cross-env": "^5.0.1",
-		"eslint": "^4.1.1",
-		"eslint-config-prettier": "3.1.0",
-		"eslint-config-react-app": "2.1.0",
-		"eslint-plugin-flowtype": "3.0.0",
-		"eslint-plugin-import": "2.14.0",
-		"eslint-plugin-jsx-a11y": "6.1.2",
-		"eslint-plugin-react": "7.11.1",
-		"husky": "1.1.2",
-		"jest-localstorage-mock": "2.3.0",
-		"node-sass-chokidar": "^1.3.0",
-		"npm-run-all": "^4.1.3",
-		"prettier": "1.14.2"
+	"author": "INSEE (http://www.insee.fr)",
+	"scripts": {
+		"build": "npm-run-all build-css build-js",
+		"build-css": "node-sass-chokidar src/ -o src/",
+		"build-insee": "npm-run-all build-css build-insee-js",
+		"build-insee-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build",
+		"build-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
+		"build-storybook": "npm-run-all build-css build-storybook-js",
+		"build-storybook-js": "cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
+		"cypress:open": "cypress open",
+		"cypress:run": "cypress run",
+		"e2e": "start-server-and-test start http://localhost:3000 cypress:run",
+		"eject": "react-scripts eject",
+		"lint": "eslint src",
+		"start": "npm-run-all -p watch-css start-js",
+		"start-https": "npm-run-all -p watch-css start-https-js",
+		"start-https-js": "cross-env NODE_PATH=src/ HTTPS=true REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
+		"start-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
+		"start-storybook": "npm-run-all -p watch-css start-storybook-js",
+		"start-storybook-js": "cross-env NODE_PATH=src/ start-storybook -p 9999",
+		"test": "npm-run-all -p watch-css test-css",
+		"test-css": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom",
+		"test:coverage": "npm-run-all -p build-css test:coverage-css",
+		"test:coverage-css": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom --coverage -i",
+		"watch-css": "node-sass-chokidar src/ -o src/ --watch --recursive"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "run-s lint test:coverage"
+		}
+	},
+	"prettier": {
+		"bracketSpacing": true,
+		"semi": true,
+		"singleQuote": true,
+		"trailingComma": "es5",
+		"useTabs": true
 	},
 	"dependencies": {
 		"babel-polyfill": "^6.23.0",
@@ -75,38 +86,32 @@
 		"redux-logger": "^2.8.1",
 		"redux-thunk": "^2.2.0"
 	},
-	"scripts": {
-		"build-css": "node-sass-chokidar src/ -o src/",
-		"watch-css": "node-sass-chokidar src/ -o src/ --watch --recursive",
-		"start-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
-		"start": "npm-run-all -p watch-css start-js",
-		"start-https-js": "cross-env NODE_PATH=src/ HTTPS=true REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
-		"start-https": "npm-run-all -p watch-css start-https-js",
-		"build-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
-		"build": "npm-run-all build-css build-js",
-		"build-insee-js": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build",
-		"build-insee": "npm-run-all build-css build-insee-js",
-		"test-css": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom",
-		"test": "npm-run-all -p watch-css test-css",
-		"test:coverage-css": "cross-env NODE_PATH=src/  react-scripts test --env=jsdom --coverage -i",
-		"test:coverage": "npm-run-all -p build-css test:coverage-css",
-		"start-storybook-js": "cross-env NODE_PATH=src/ start-storybook -p 9999",
-		"start-storybook": "npm-run-all -p watch-css start-storybook-js",
-		"build-storybook-js": "cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
-		"build-storybook": "npm-run-all build-css build-storybook-js",
-		"eject": "react-scripts eject",
-		"lint": "eslint src"
+	"devDependencies": {
+		"@storybook/addon-knobs": "^3.3.15",
+		"@storybook/react": "^3.3.15",
+		"babel-eslint": "^7.2.3",
+		"concurrently": "^3.5.1",
+		"coveralls": "^3.0.0",
+		"cross-env": "^5.0.1",
+		"cypress": "3.1.3",
+		"eslint": "^4.1.1",
+		"eslint-config-prettier": "3.1.0",
+		"eslint-config-react-app": "2.1.0",
+		"eslint-plugin-flowtype": "3.0.0",
+		"eslint-plugin-import": "2.14.0",
+		"eslint-plugin-jsx-a11y": "6.1.2",
+		"eslint-plugin-react": "7.11.1",
+		"husky": "1.1.2",
+		"jest-localstorage-mock": "2.3.0",
+		"node-sass-chokidar": "^1.3.0",
+		"npm-run-all": "^4.1.3",
+		"prettier": "1.14.2",
+		"start-server-and-test": "1.7.11"
 	},
-	"prettier": {
-		"singleQuote": true,
-		"semi": true,
-		"useTabs": true,
-		"bracketSpacing": true,
-		"trailingComma": "es5"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "run-s lint test:coverage"
+	"contributor": [
+		{
+			"name": "Nicolas Laval",
+			"email": "nicolas.laval@insee.fr"
 		}
-	}
+	]
 }
