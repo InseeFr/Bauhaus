@@ -1,12 +1,6 @@
 import * as A from 'js/actions/constants';
 import { LOADED, LOADING, ERROR } from 'js/constants';
-import {
-	operationsSeriesCurrent,
-	operationsFamiliesCurrent,
-	operationsOperationsCurrent,
-	operationsIndicatorsCurrent,
-	operationsSimsCurrent,
-} from 'js/reducers/operations/current';
+import * as currentReducers from 'js/reducers/operations/current';
 
 function makeReducers([
 	GET_ITEMS,
@@ -91,11 +85,7 @@ export default {
 	operationsOperationsList,
 	operationsFamiliesList,
 	operationsMetadataStructureList,
-	operationsSeriesCurrent,
-	operationsFamiliesCurrent,
-	operationsOperationsCurrent,
-	operationsIndicatorsCurrent,
 	operationsIndicatorsList,
 	operationsAsyncTask,
-	operationsSimsCurrent,
+	...currentReducers,
 };

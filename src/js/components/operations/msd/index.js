@@ -14,6 +14,9 @@ import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
 import { compose } from 'recompose';
 import * as select from 'js/reducers';
+import PageSubtitle from 'js/components/shared/page-subtitle';
+import PageTitle from 'js/components/shared/page-title';
+import loadOperation from 'js/actions/operations/operations/item';
 
 const extractId = buildExtract('id');
 const extractIdOperation = buildExtract('idOperation');
@@ -59,10 +62,17 @@ class MSDContainer extends Component {
 		if (!this.props.currentSims.id) {
 			this.props.loadSIMS(this.props.id);
 		}
+		if (!this.props.isOperationLoaded) {
+			this.props.loadOperation(this.props.idOperation);
+		}
 	}
+
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.currentSims.id || this.props.id !== nextProps.id) {
 			this.props.loadSIMS(nextProps.id);
+		}
+		if (!nextProps.isOperationLoaded) {
+			this.props.loadOperation(nextProps.idOperation);
 		}
 	}
 	render() {
@@ -81,12 +91,12 @@ class MSDContainer extends Component {
 			currentSims,
 		} = this.props;
 
-		console.log(metadataStructureStatus);
 		if (
 			metadataStructureStatus !== LOADED ||
 			(mode === VIEW && !currentSims.id)
 		)
 			return <Loading textType="loading" context="operations" />;
+
 		return (
 			<MSDLayout
 				metadataStructure={metadataStructure}
@@ -95,6 +105,17 @@ class MSDContainer extends Component {
 				baseUrl={baseUrl}
 				disableSectionAnchor={disableSectionAnchor}
 			>
+				{mode !== HELP && (
+					<React.Fragment>
+						<PageTitle title={currentSims.labelLg1} context="operations" />
+						{secondLang && (
+							<PageSubtitle
+								subTitle={currentSims.labelLg2}
+								context="operations"
+							/>
+						)}
+					</React.Fragment>
+				)}
 				{mode === HELP && (
 					<MSDHelp
 						metadataStructure={metadataStructure}
@@ -141,25 +162,31 @@ const mapStateToProps = (state, ownProps) => {
 			metadataStructure: [],
 		};
 	}
+
 	const {
 		results: metadataStructure,
 		status: metadataStructureStatus,
-		err,
 	} = state.operationsMetadataStructureList;
 
-	const currentSims =
-		ownProps.mode === HELP ? {} : select.getOperationsSimsCurrent(state);
+	const currentOperation = select.getOperation(state);
 	const id = extractId(ownProps);
+	const idOperation = extractIdOperation(ownProps);
+	const currentSims =
+		ownProps.mode === HELP
+			? {}
+			: select.getOperationsSimsCurrent(state, currentOperation);
+
 	return {
 		langs: select.getLangs(state),
 		secondLang: state.app.secondLang,
 		metadataStructure,
 		currentSims: currentSims.id === id ? currentSims : {},
+		isOperationLoaded:
+			ownProps.mode === HELP || currentOperation.id === idOperation,
 		id,
-		idOperation: extractIdOperation(ownProps),
+		idOperation,
 		codesLists: state.operationsCodesList.results,
 		metadataStructureStatus,
-		err,
 	};
 };
 
@@ -167,6 +194,7 @@ const mapDispatchToProps = {
 	loadMetadataStructure,
 	loadSIMS,
 	saveSims,
+	loadOperation,
 	saveSecondLang,
 };
 

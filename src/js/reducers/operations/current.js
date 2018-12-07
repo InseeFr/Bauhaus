@@ -75,3 +75,5 @@ export const operationsSimsCurrent = function(state = {}, action) {
 			return state;
 	}
 };
+
+export * from './loadStatus';

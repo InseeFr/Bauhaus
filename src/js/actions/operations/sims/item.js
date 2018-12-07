@@ -1,7 +1,8 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
+import { LOADING } from 'js/constants';
 
-export const saveSims = (sims, callback) => dispatch => {
+export const saveSims = (sims, callback) => (dispatch, getState) => {
 	dispatch({
 		type: A.SAVE_OPERATIONS_SIMS,
 		payload: sims,
@@ -25,8 +26,8 @@ export const saveSims = (sims, callback) => dispatch => {
 	);
 };
 
-export default id => dispatch => {
-	if (!id) {
+export default id => (dispatch, getState) => {
+	if (!id || getState().operationsSimsCurrentStatus === LOADING) {
 		return;
 	}
 	dispatch({

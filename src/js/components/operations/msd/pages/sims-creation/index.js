@@ -59,6 +59,8 @@ class SimsCreation extends React.Component {
 		this.props.onSubmit(
 			{
 				id: this.props.sims.id,
+				labelLg1: this.props.sims.labelLg1,
+				labelLg2: this.props.sims.labelLg2,
 				idOperation: this.props.idOperation || this.props.sims.idOperation,
 				rubrics: Object.values(this.state.sims),
 			},

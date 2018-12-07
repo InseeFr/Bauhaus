@@ -15,8 +15,11 @@ import classificationsReducers from './classifications';
 import operationsReducers from './operations';
 import codesListReducers from './operations/codesList';
 import organisationsReducers from './operations/organisations';
+import D from 'js/i18n';
+import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
 
 import remoteCalls, * as remoteCallsSelectors from './remote-calls';
+const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
 
 export default combineReducers({
 	app,
@@ -110,22 +113,37 @@ export const getStatus = (state, op) =>
 export const getNewlyCreatedId = state =>
 	remoteCallsSelectors.getNewlyCreatedId(state.remoteCalls);
 
-export const getFamily = (state, id) => {
+export const getFamily = state => {
 	return state.operationsFamiliesCurrent || {};
 };
 
-export const getSerie = (state, id) => {
+export const getSerie = state => {
 	return state.operationsSeriesCurrent || {};
 };
 
-export const getOperation = (state, id) => {
+export const getOperation = state => {
 	return state.operationsOperationsCurrent || {};
 };
 
-export const getIndicator = (state, id) => {
+export const getIndicator = state => {
 	return state.operationsIndicatorsCurrent || {};
 };
 
-export const getOperationsSimsCurrent = state => {
-	return state.operationsSimsCurrent || {};
+export const getOperationsSimsCurrent = (state, currentOperation = {}) => {
+	const currentSims = state.operationsSimsCurrent || {};
+	return {
+		...currentSims,
+		labelLg1: currentSims.labelLg1
+			? currentSims.labelLg1
+			: D.simsLabel.replace(
+					labelOperationNameTemplate,
+					currentOperation.prefLabelLg1
+			  ),
+		labelLg2: currentSims.labelLg2
+			? currentSims.labelLg2
+			: getMessageForSecondLang('simsLabel').replace(
+					labelOperationNameTemplate,
+					currentOperation.prefLabelLg2
+			  ),
+	};
 };
