@@ -5,14 +5,14 @@ node_js:
 cache: yarn
 
 install:
-  - yarn install
+  - npm install
 
 before_script:
-  - yarn test:coverage
+  - npm test:coverage
 
 script:
   - CI=false yarn build
-  - yarn build-storybook
+  - npm build-storybook
 
 after_script:
   - 'cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js'
