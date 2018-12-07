@@ -8,11 +8,11 @@ install:
   - npm install
 
 before_script:
-  - npm test:coverage
+  - npm run test:coverage
 
 script:
   - CI=false yarn build
-  - npm build-storybook
+  - npm run build-storybook
 
 after_script:
   - 'cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js'
