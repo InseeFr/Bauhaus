@@ -10,11 +10,11 @@ export const operationsSimsCurrentStatus = function(
 ) {
 	switch (action.type) {
 		case A.LOAD_OPERATIONS_SIMS_SUCCESS:
-		case A.SAVE_OPERATIONS_SIMS:
 			return LOADED;
 		case A.SAVE_OPERATIONS_SIMS_SUCCESS:
 			return NOT_LOADED;
 		case A.LOAD_OPERATIONS_SIMS:
+		case A.SAVE_OPERATIONS_SIMS:
 			return LOADING;
 		default:
 			return state;
