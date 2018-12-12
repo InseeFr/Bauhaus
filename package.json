@@ -25,7 +25,7 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "run-s lint test:coverage"
+			"pre-push": "run-s lint test:coverage"
 		}
 	},
 	"prettier": {
@@ -86,18 +86,18 @@
 		"coveralls": "^3.0.0",
 		"cross-env": "^5.0.1",
 		"cypress": "3.1.3",
-		"enzyme": "^3.3.0",
-		"enzyme-adapter-react-16": "^1.1.1",
+		"enzyme": "3.8.0",
+		"enzyme-adapter-react-16": "1.7.1",
 		"eslint-config-prettier": "3.1.0",
 		"eslint-config-react-app": "2.1.0",
 		"eslint-plugin-flowtype": "3.0.0",
 		"eslint-plugin-import": "2.14.0",
 		"eslint-plugin-jsx-a11y": "6.1.2",
 		"eslint-plugin-react": "7.11.1",
-		"husky": "1.1.2",
+		"husky": "1.2.0",
 		"jest-localstorage-mock": "2.3.0",
 		"node-sass": "4.10.0",
-		"npm-run-all": "4.1.3",
+		"npm-run-all": "4.1.5",
 		"prettier": "1.14.2",
 		"start-server-and-test": "1.7.11"
 	},
