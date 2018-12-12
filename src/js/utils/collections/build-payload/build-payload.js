@@ -23,15 +23,11 @@ const generalFieldsToKeepUpdate = [
 
 function processGeneral(general, keys) {
 	const extract = takeKeys(keys);
-	general = extract(general);
-	return general;
+	return extract(general);
 }
 
 function processMembers(members) {
-	return members.reduce((ids, { id, label }) => {
-		ids.push(id);
-		return ids;
-	}, []);
+	return members.map(({ id }) => id);
 }
 
 export default function buildPayload(collection, action) {
