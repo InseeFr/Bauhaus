@@ -4,7 +4,7 @@ import NoteFlag from 'js/components/shared/note-flag';
 import { markdownToHtml } from 'js/utils/html';
 
 export const Note = ({
-	text,
+	text = '',
 	title,
 	lang,
 	alone,
