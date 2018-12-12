@@ -3,6 +3,9 @@ import conceptsD from './dictionary/concepts';
 import classificationsD from './dictionary/classifications';
 import operationsD from './dictionary/operations';
 
+import 'moment/locale/en-gb';
+import 'moment/locale/fr';
+
 const dictionary = {
 	...appD,
 	...conceptsD,
