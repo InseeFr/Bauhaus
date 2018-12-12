@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
@@ -21,6 +23,15 @@ import Button from 'js/components/shared/button';
 const extractId = buildExtract('id');
 
 class OperationVisualizationContainer extends Component {
+	static propTypes = {
+		operation: PropTypes.object.isRequired,
+		id: PropTypes.string.isRequired,
+		exportVariableBook: PropTypes.func,
+		exportStatus: PropTypes.string,
+		langs: PropTypes.object,
+		secondLang: PropTypes.bool,
+		saveSecondLang: PropTypes.func,
+	};
 	componentWillMount() {
 		if (!this.props.operation.id) {
 			this.props.loadOperation(this.props.id);
@@ -132,7 +143,7 @@ class OperationVisualizationContainer extends Component {
 							context="operations"
 						/>
 					)}
-					<Button label={D.btnSend} context="operations" />
+					<Button label={D.btnSend} action={() => {}} context="operations" />
 					<Button
 						action={`/operations/operation/${operation.id}/modify`}
 						label={D.btnUpdate}
