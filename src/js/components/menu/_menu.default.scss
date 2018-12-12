@@ -1,4 +1,11 @@
-
+@media (min-width: 768px) {
+	.navbar-nav > li > button {
+		background-color: transparent;
+		padding-top: 10px;
+		padding-bottom: 15px;
+		padding-right: 5px;
+	}
+}
 .navbar-icon {
 	color: #ffffff;
 	font-size: 17px;
@@ -12,7 +19,7 @@
 	width: auto;
 }
 @mixin set-menu($context, $color_1, $color_2, $color_3) {
-    background: $color_3;
+	background: $color_3;
 	font-size: 20px;
 	font-family: arial;
 	color: #fff;
@@ -33,7 +40,7 @@
 
 		> li > a {
 			color: #fff;
-	
+
 			&:hover {
 				text-decoration: none;
 				background-color: $color_2;
@@ -46,4 +53,3 @@
 		}
 	}
 }
-

@@ -160,7 +160,7 @@ export default ({ general, secondLang, langs }) => {
 									return (
 										<li key={fieldName}>
 											{`${mapping[fieldName]} : `}
-											<a href={general[fieldName]} target="_blank">{`${
+											<a href={general[fieldName]} target="_blank" rel="noopener noreferrer">{`${
 												general[fieldName]
 											}`}</a>
 										</li>

@@ -76,11 +76,11 @@ class MenuOperations extends Component {
 						<div className="container-fluid">
 							<div className="collapse navbar-collapse">
 								<ul className="nav navbar-nav navbar-nav-operations">
-									<li onClick={this.onChangeMenu}>
-										<a>
-											<div className="glyphicon glyphicon-th navbar-icon inline" />
-											<div className="inline"> {D.repositoryNavigation}</div>
-										</a>
+									<li>
+										<button onClick={this.onChangeMenu}>
+											<span className="glyphicon glyphicon-th navbar-icon inline" />
+											<span className="inline"> {D.repositoryNavigation}</span>
+										</button>
 									</li>
 									<li className={paths.families.className}>
 										<Link

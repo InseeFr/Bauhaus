@@ -78,7 +78,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 									return (
 										<li key={fieldName}>
 											{`${mapping[fieldName]} : `}
-											<a href={attr[fieldName]} target="_blank">{`${
+											<a href={attr[fieldName]} target="_blank" rel="noopener noreferrer">{`${
 												attr[fieldName]
 											}`}</a>
 										</li>
