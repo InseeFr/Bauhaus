@@ -21,6 +21,8 @@ class SimsCreation extends React.Component {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.goBack = this.goBack.bind(this);
+
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
 		this.state = {
@@ -74,14 +76,20 @@ class SimsCreation extends React.Component {
 		);
 	}
 
+	goBack() {
+		const { goBack, idOperation, sims } = this.props;
+		goBack(
+			sims.id
+				? `/operations/sims/${sims.id}`
+				: `/operations/operation/${idOperation}`
+		);
+	}
 	render() {
 		const {
 			metadataStructure,
 			codesLists,
 			saveSecondLang,
 			secondLang,
-			goBack,
-			idOperation,
 		} = this.props;
 		const { sims } = this.state;
 
@@ -130,13 +138,7 @@ class SimsCreation extends React.Component {
 				<div className="row btn-line">
 					<Button
 						col={3}
-						action={() =>
-							goBack(
-								this.props.sims.id
-									? `/operations/sims/${this.props.sims.id}`
-									: `/operations/operation/${idOperation}`
-							)
-						}
+						action={this.goBack}
 						label={
 							<React.Fragment>
 								<span
