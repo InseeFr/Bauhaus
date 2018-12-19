@@ -4,6 +4,7 @@ import D from 'js/i18n';
 import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
 import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
+import ReactLoading from 'react-loading';
 
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 
@@ -20,9 +21,12 @@ class SimsCreation extends React.Component {
 		super(props);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.goBack = this.goBack.bind(this);
+
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
 		this.state = {
+			saving: false,
 			sims: {
 				...Object.keys(flattenStructure).reduce((acc, key) => {
 					return {
@@ -56,26 +60,36 @@ class SimsCreation extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault();
 		e.stopPropagation();
+		this.setState({ saving: true });
 		this.props.onSubmit(
 			{
 				id: this.props.sims.id,
+				labelLg1: this.props.sims.labelLg1,
+				labelLg2: this.props.sims.labelLg2,
 				idOperation: this.props.idOperation || this.props.sims.idOperation,
 				rubrics: Object.values(this.state.sims),
 			},
 			id => {
+				this.setState({ saving: false });
 				this.props.goBack(`/operations/sims/${id}`);
 			}
 		);
 	}
 
+	goBack() {
+		const { goBack, idOperation, sims } = this.props;
+		goBack(
+			sims.id
+				? `/operations/sims/${sims.id}`
+				: `/operations/operation/${idOperation}`
+		);
+	}
 	render() {
 		const {
 			metadataStructure,
 			codesLists,
 			saveSecondLang,
 			secondLang,
-			goBack,
-			idOperation,
 		} = this.props;
 		const { sims } = this.state;
 
@@ -107,18 +121,24 @@ class SimsCreation extends React.Component {
 				</React.Fragment>
 			);
 		}
+		if (this.state.saving)
+			return (
+				<div className="loading-operations">
+					<ReactLoading
+						type="spinningBubbles"
+						delay={0}
+						height="50%"
+						width="50%"
+					/>
+				</div>
+			);
+
 		return (
 			<form>
 				<div className="row btn-line">
 					<Button
 						col={3}
-						action={() =>
-							goBack(
-								this.props.sims.id
-									? `/operations/sims/${this.props.sims.id}`
-									: `/operations/operation/${idOperation}`
-							)
-						}
+						action={this.goBack}
 						label={
 							<React.Fragment>
 								<span

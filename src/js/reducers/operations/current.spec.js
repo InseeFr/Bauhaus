@@ -1,6 +1,5 @@
 import * as reducer from './current';
 import * as A from 'js/actions/constants';
-import { LOADED, LOADING, ERROR } from 'js/constants';
 
 describe('current reducer', () => {
 	describe('operationsFamiliesCurrent', () => {

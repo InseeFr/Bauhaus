@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import D from 'js/i18n';
 import 'react-select/dist/react-select.css';
-import './select-rmes.css';
+import './select-rmes.scss';
 
 function SelectRmes({
 	value,

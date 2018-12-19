@@ -5,7 +5,7 @@ import homeLogo from 'img/accueil.png';
 import conceptsLogo from 'img/concepts.jpg';
 import classificationsLogo from 'img/classifications.jpg';
 import operationsLogo from 'img/operations.jpg';
-import './referentiels.css';
+import './referentiels.scss';
 
 function MenuReferentiels() {
 	return (

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
 import { getText } from 'js/utils/loading';
-import './loading.css';
+import './loading.scss';
 
 const Loading = ({ textType, context }) => {
 	const text = getText(textType);

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './page-subtitle.css';
+import './page-subtitle.scss';
 
 const PageSubtitle = ({ subTitle, context }) => (
 	<div className="row">

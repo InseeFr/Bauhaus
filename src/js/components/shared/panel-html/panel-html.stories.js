@@ -1,9 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import PanelHtml from './';
-import '../panel/panel.css';
+import '../panel/panel.scss';
 
-import { withKnobs, text } from '@storybook/addon-knobs/react';
+import { withKnobs, text } from '@storybook/addon-knobs';
 
 const html = `
 	<div>

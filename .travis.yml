@@ -1,18 +1,18 @@
 language: node_js
 node_js:
-  - '8.10.0'
+  - '9.10.0'
 
 cache: yarn
 
 install:
-  - yarn install
+  - npm install
 
 before_script:
-  - yarn test:coverage
+  - npm run test:coverage
 
 script:
-  - yarn build
-  - yarn build-storybook
+  - CI=false yarn build
+  - npm run build-storybook
 
 after_script:
   - 'cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js'

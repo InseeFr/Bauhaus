@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router';
 import { storiesOf } from '@storybook/react';
 import Picker from './';
 
-import { withKnobs, text } from '@storybook/addon-knobs/react';
+import { withKnobs, text } from '@storybook/addon-knobs';
 
 const stories = storiesOf('Picker-Page', module);
 stories.addDecorator(withKnobs);

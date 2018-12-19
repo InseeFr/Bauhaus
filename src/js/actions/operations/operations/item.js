@@ -1,5 +1,6 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
+import { LOADING } from 'js/constants';
 
 export const saveOperation = operation => dispatch => {
 	dispatch({
@@ -20,7 +21,10 @@ export const saveOperation = operation => dispatch => {
 	);
 };
 
-export default id => dispatch => {
+export default id => (dispatch, getState) => {
+	if (getState().operationsOperationCurrentStatus === LOADING) {
+		return;
+	}
 	dispatch({
 		type: A.LOAD_OPERATIONS_OPERATION,
 		payload: {

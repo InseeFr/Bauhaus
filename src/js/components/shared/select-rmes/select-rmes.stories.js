@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Select from './';
 
-import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 
 const stories = storiesOf('Select', module);
 stories.addDecorator(withKnobs);

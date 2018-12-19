@@ -1,6 +1,6 @@
 import React from 'react';
 import { Note } from 'js/components/shared/note';
-import './relations.css';
+import './relations.scss';
 import { Link } from 'react-router-dom';
 
 function RelationsViewPerLg({

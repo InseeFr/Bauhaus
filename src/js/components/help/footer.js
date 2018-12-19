@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getLang } from 'js/i18n/build-dictionary';
-import './help.css';
+import './help.scss';
 
 export default ({ content, selectedId }) => {
 	const previous = content.find(c => c.id === selectedId - 1) || {};

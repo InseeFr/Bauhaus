@@ -3,7 +3,7 @@ import Outline from 'js/components/operations/msd/outline/';
 import D from 'js/i18n';
 import PropTypes from 'prop-types';
 
-import './style.css';
+import './style.scss';
 
 const STATUS = {
 	BOTH: 'BOTH',

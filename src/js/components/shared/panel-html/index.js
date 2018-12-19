@@ -1,6 +1,6 @@
 import React from 'react';
 import DOMPurify from 'dompurify';
-import '../panel/panel.css';
+import '../panel/panel.scss';
 
 function PanelHtml({ title, children, context }) {
 	return (

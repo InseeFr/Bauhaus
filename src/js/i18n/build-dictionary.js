@@ -3,6 +3,9 @@ import conceptsD from './dictionary/concepts';
 import classificationsD from './dictionary/classifications';
 import operationsD from './dictionary/operations';
 
+import 'moment/locale/en-gb';
+import 'moment/locale/fr';
+
 const dictionary = {
 	...appD,
 	...conceptsD,
@@ -34,5 +37,10 @@ export const getLang = defaultLang =>
 	)[0] === 'fr'
 		? 'fr'
 		: 'en';
+
+export const getMessageForSecondLang = message => {
+	const secondLang = ['en', 'fr'].find(l => l !== getLang());
+	return dictionary[message][secondLang];
+};
 
 export default createDictionary(getLang());
