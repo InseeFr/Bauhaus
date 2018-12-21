@@ -5,9 +5,7 @@ import PlaceHolder from 'js/components/shared/placeholder';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
-function OperationsControls(props) {
-	const { openModal } = props;
-
+function OperationsControls({ openModal }) {
 	const cancel = [goBack(props, `/operations/series`), D.btnReturn];
 
 	const exportVarBook = [openModal, D.btnExport];
