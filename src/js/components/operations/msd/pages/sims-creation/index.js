@@ -99,8 +99,8 @@ class SimsCreation extends React.Component {
 				<React.Fragment>
 					{Object.keys(children).map(id => {
 						return (
-							<div key={id} className="contenu">
-								<article id={id} className="panel panel-default">
+							<React.Fragment key={id}>
+								<article id={id} className="panel panel-default contenu">
 									<div className="panel-heading">
 										<h3>{`${id} - ${children[id].masLabelLg1}`}</h3>
 									</div>
@@ -115,7 +115,7 @@ class SimsCreation extends React.Component {
 									</div>
 								</article>
 								{displayContent(children[id].children, handleChange)}
-							</div>
+							</React.Fragment>
 						);
 					})}
 				</React.Fragment>
