@@ -47,19 +47,20 @@ class Outline extends Component {
 					>
 						{metadataStructure.idMas} - {metadataStructure.masLabelLg1}
 					</Link>
-					<button
-						className="up-down"
-						title={metadataStructure.masLabelLg1}
-						onClick={() => this.expandOrCollapseItem()}
-					>
-						{Object.keys(metadataStructure.children).length > 0 && (
+
+					{Object.keys(metadataStructure.children).length > 0 && (
+						<button
+							className="up-down"
+							title={metadataStructure.masLabelLg1}
+							onClick={() => this.expandOrCollapseItem()}
+						>
 							<span
 								className={` glyphicon glyphicon-chevron-${
 									this.state.opened ? 'up' : 'down'
 								}`}
 							/>
-						)}
-					</button>
+						</button>
+					)}
 				</div>
 
 				{this.state.opened && (
