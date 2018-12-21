@@ -16,6 +16,8 @@ Application needs externals Web services : Bauhaus-Back-Office(https://github.co
 `yarn test` runs the test watcher in an interactive mode. By default, runs tests related to files changed since the last commit.
 An other script, `yarn test:coverage` allows to generate a complete local report `Bauhaus/coverage/lcov-report/index.html`.
 
+Some Integrations tests are also available thanks to _Cypress.io_. You should use the `yarn cypress:open` command if you want to launch these tests on dev mode. For your CI, you have to use the `yarn cypress:run` command.
+
 ## Build
 
 To build the application, run `yarn build`. You can now serve the content of the `dist` folder with the HTTP server of your choice.
