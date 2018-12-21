@@ -31,11 +31,11 @@ const Button = ({
 			</button>
 		);
 	}
-	return (
-		<div className={`col-md-${col} ${offset && `col-md-offset-${offset}`}`}>
-			{button}
-		</div>
-	);
+	const classes = [`col-md-${col}`];
+	if (offset) {
+		classes.push(`col-md-offset-${offset}`);
+	}
+	return <div className={classes.join(' ')}>{button}</div>;
 };
 
 Button.propTypes = {
