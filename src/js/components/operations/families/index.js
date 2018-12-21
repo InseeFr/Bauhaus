@@ -25,8 +25,7 @@ const mapStateToProps = state => {
 			families: [],
 		};
 	}
-	//TODO should be sorted in the state, shouldn't they ?
-	let { results: families, status, err } = state.operationsFamiliesList;
+	const { results: families, status, err } = state.operationsFamiliesList;
 
 	return {
 		families,

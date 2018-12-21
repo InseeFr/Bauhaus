@@ -26,7 +26,7 @@ const mapStateToProps = state => {
 			operations: [],
 		};
 	}
-	let { results: operations, status, err } = state.operationsOperationsList;
+	const { results: operations, status, err } = state.operationsOperationsList;
 
 	return {
 		operations,
