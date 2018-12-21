@@ -28,6 +28,23 @@ const defaultSerie = {
 	typeList: CL_SOURCE_CATEGORY,
 };
 class OperationsSerieEdition extends Component {
+	static defaultProps = {
+		organisation: [],
+		indicators: [],
+		series: [],
+	};
+	static propTypes = {
+		serie: PropTypes.object.isRequired,
+		langs: PropTypes.object.isRequired,
+		saveSerie: PropTypes.func.isRequired,
+		categories: PropTypes.object.isRequired,
+		frequencies: PropTypes.object.isRequired,
+
+		organisation: PropTypes.array.isRequired,
+		indicators: PropTypes.array.isRequired,
+		series: PropTypes.array.isRequired,
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -97,7 +114,10 @@ class OperationsSerieEdition extends Component {
 			<div className="container editor-container">
 				<PageTitle title={this.props.serie.prefLabelLg1} context="operations" />
 				{serie.prefLabelLg2 && (
-					<PageSubtitle subTitle={this.props.serie.prefLabelLg2} context="operations"/>
+					<PageSubtitle
+						subTitle={this.props.serie.prefLabelLg2}
+						context="operations"
+					/>
 				)}
 				<div className="row btn-line">
 					<Button
@@ -444,22 +464,5 @@ class OperationsSerieEdition extends Component {
 		);
 	}
 }
-
-OperationsSerieEdition.defaultProps = {
-	organisation: [],
-	indicators: [],
-	series: [],
-};
-OperationsSerieEdition.propTypes = {
-	serie: PropTypes.object.isRequired,
-	langs: PropTypes.object.isRequired,
-	saveSerie: PropTypes.func.isRequired,
-	categories: PropTypes.object.isRequired,
-	frequencies: PropTypes.object.isRequired,
-
-	organisation: PropTypes.array.isRequired,
-	indicators: PropTypes.array.isRequired,
-	series: PropTypes.array.isRequired,
-};
 
 export default OperationsSerieEdition;
