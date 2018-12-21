@@ -19,7 +19,7 @@ describe('button', () => {
 	});
 
 	it('contains well-formed button tag', () => {
-		const onClick = e => '';
+		const onClick = () => '';
 		const wrapper = shallow(<Button action={onClick} label="myButton" />);
 		const button = (
 			<button className="btn btn-concepts btn-lg col-md-12" onClick={onClick}>
