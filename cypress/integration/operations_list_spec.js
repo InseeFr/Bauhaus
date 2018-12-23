@@ -8,7 +8,7 @@
 			path = page[1];
 		}
 		describe(title, function() {
-			it('Should display the series page', function() {
+			it(`Should display the ${title} page`, function() {
 				cy.server().visit(`/operations/${path}`);
 
 				cy.get(`.navbar-nav-operations li:nth-child(${index + 2})`).should(

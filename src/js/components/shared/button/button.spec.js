@@ -19,7 +19,7 @@ describe('button', () => {
 	});
 
 	it('contains well-formed button tag', () => {
-		const onClick = e => '';
+		const onClick = () => '';
 		const wrapper = shallow(<Button action={onClick} label="myButton" />);
 		const button = (
 			<button className="btn btn-concepts btn-lg col-md-12" onClick={onClick}>
@@ -27,5 +27,30 @@ describe('button', () => {
 			</button>
 		);
 		expect(wrapper.contains(button)).toEqual(true);
+	});
+
+	it('should contain a col-md-offset CSS class if the offset prop is defined', () => {
+		const wrapper = shallow(
+			<Button action="/home" label="myButton" offset={2} />
+		);
+		const link = (
+			<div className="col-md-2 col-md-offset-2">
+				<Link className="btn btn-concepts btn-lg col-md-12" to="/home">
+					myButton
+				</Link>
+			</div>
+		);
+		expect(wrapper.contains(link)).toEqual(true);
+	});
+	it('should not contain a col-md-offset CSS class if the offset prop is undefined', () => {
+		const wrapper = shallow(<Button action="/home" label="myButton" />);
+		const link = (
+			<div className="col-md-2">
+				<Link className="btn btn-concepts btn-lg col-md-12" to="/home">
+					myButton
+				</Link>
+			</div>
+		);
+		expect(wrapper.contains(link)).toEqual(true);
 	});
 });

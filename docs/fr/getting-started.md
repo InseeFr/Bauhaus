@@ -16,6 +16,8 @@ L'application s'appuie sur des Web services externes : Bauhaus-Back-Office(https
 Les tests peuvent être lancés de façon interactive avec la commande `yarn test`. Par défaut, seuls les tests impliquant des fichiers modifiés depuis le dernier commit seront éxécutés.
 Un script supplémentaire, `yarn test:coverage` permet de générer un rapport local complet `Bauhaus/coverage/lcov-report/index.html`.
 
+Des tests d'intégrations, utilisant _Cypress.io_ peuvent être également lancés. Pour cela, vous pouvez lancer la commande `yarn cypress:open` en développement, ou `yarn cypress:run` sur votre système d'intégration continue.
+
 ## Build
 
 Pour produire la version de production, lancez la commande `yarn build`. Vous pouvez désormais servir le contenu du dossier `dist` avec le serveur web de votre choix.

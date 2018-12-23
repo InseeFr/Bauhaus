@@ -84,8 +84,8 @@ export default function SimsVisualisation({
 			<React.Fragment>
 				{Object.values(children).map(child => {
 					return (
-						<div key={child.idMas} className="contenu">
-							<article id={child.idMas} className="panel panel-default">
+						<React.Fragment key={child.idMas}>
+							<article id={child.idMas} className="panel panel-default contenu">
 								<div className="panel-heading">
 									<h3>{`${child.idMas} - ${child.masLabelLg1}`}</h3>
 								</div>
@@ -94,7 +94,7 @@ export default function SimsVisualisation({
 								</div>
 							</article>
 							{displayContent(child.children)}
-						</div>
+						</React.Fragment>
 					);
 				})}
 			</React.Fragment>
