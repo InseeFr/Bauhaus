@@ -25,7 +25,7 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-push": "run-s lint test:coverage"
+			"pre-pushs": "run-s lint test:coverage"
 		}
 	},
 	"prettier": {
