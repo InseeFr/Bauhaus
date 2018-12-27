@@ -5,6 +5,7 @@ import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
 import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
 import ReactLoading from 'react-loading';
+import MSDItemLayout from 'js/components/operations/msd/msd-item-layout';
 
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 
@@ -100,20 +101,18 @@ class SimsCreation extends React.Component {
 					{Object.keys(children).map(id => {
 						return (
 							<React.Fragment key={id}>
-								<article id={id} className="panel panel-default contenu">
-									<div className="panel-heading">
-										<h3>{`${id} - ${children[id].masLabelLg1}`}</h3>
-									</div>
-									<div className="panel-body">
-										<Field
-											msd={children[id]}
-											currentSection={sims[id]}
-											handleChange={handleChange}
-											codesLists={codesLists}
-											secondLang={secondLang}
-										/>
-									</div>
-								</article>
+								<MSDItemLayout
+									id={id}
+									title={`${id} - ${children[id].masLabelLg1}`}
+								>
+									<Field
+										msd={children[id]}
+										currentSection={sims[id]}
+										handleChange={handleChange}
+										codesLists={codesLists}
+										secondLang={secondLang}
+									/>
+								</MSDItemLayout>
 								{displayContent(children[id].children, handleChange)}
 							</React.Fragment>
 						);
