@@ -1,9 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import renderer from 'react-test-renderer';
+
 import HelpInformation from './';
 import { rangeType } from 'js/utils/msd/';
 const { CODE_LIST, TEXT } = rangeType;
-import renderer from 'react-test-renderer';
 
 describe('HelpInformation', () => {
 	it('should return null if the masLabelLg1 is undefined', () => {
