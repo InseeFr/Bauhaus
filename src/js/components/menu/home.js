@@ -33,11 +33,11 @@ class MenuDispatcher extends Component {
 			false
 		);
 		return (
-			<div>
+			<React.Fragment>
 				{isConceptPath && <MenuConcepts permission={permission} />}
 				{isClassificationPath && <MenuClassifications />}
 				{isOperationPath && <MenuOperations />}
-			</div>
+			</React.Fragment>
 		);
 	}
 }

@@ -7,7 +7,7 @@ import D from 'js/i18n';
 
 function App() {
 	return (
-		<div>
+		<React.Fragment>
 			<div className="centered page-title">
 				<h1>{D.welcome}</h1>
 			</div>
@@ -43,7 +43,7 @@ function App() {
 					<img src={operationsLogo} alt="Operations" className="img" />
 				</Link>
 			</div>
-		</div>
+		</React.Fragment>
 	);
 }
 

@@ -16,7 +16,7 @@ import OperationsRoutes from 'js/components/router/operations.js';
 
 export default withRouter(
 	auth(({ error }) => (
-		<span>
+		<React.Fragment>
 			<Route path="/" component={MenuDispatcher} />
 			<Switch>
 				{error && <Route path="/" component={Error} />}
@@ -30,6 +30,6 @@ export default withRouter(
 				<Route path="/operations" component={OperationsRoutes} />
 				<Route path="*" component={NotFound} />
 			</Switch>
-		</span>
+		</React.Fragment>
 	))
 );
