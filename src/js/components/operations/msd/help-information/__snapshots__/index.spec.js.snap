@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HelpInformation should display the right content when the rangeType is a CODE_LIST 1`] = `
+<dl>
+  <dt>
+    Label
+    :
+  </dt>
+  <dd>
+    masLabelLg2
+  </dd>
+  <dt>
+    Presentational attribut
+    :
+  </dt>
+  <dd>
+    true
+  </dd>
+  <dt>
+    Range
+    :
+  </dt>
+  <dd>
+    Code list - codeListLabelLg1
+    <ul
+      className="list-group"
+    >
+      <li
+        className="list-group-item"
+      />
+      <li
+        className="list-group-item"
+      />
+    </ul>
+  </dd>
+</dl>
+`;
+
+exports[`HelpInformation should display the right content when the rangeType is not a CODE_LIST 1`] = `
+<dl>
+  <dt>
+    Label
+    :
+  </dt>
+  <dd>
+    masLabelLg2
+  </dd>
+  <dt>
+    Presentational attribut
+    :
+  </dt>
+  <dd>
+    true
+  </dd>
+  <dt>
+    Range
+    :
+  </dt>
+  <dd>
+    Text
+  </dd>
+</dl>
+`;
