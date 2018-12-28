@@ -7,7 +7,7 @@ install:
 before_script:
   - npm run test:coverage
 script:
-  - CI=false yarn build
+  - CI=false yarn build-insee
   - npm run build-storybook
 before_deploy:
   - git config --global user.email "demey.emmanuel@gmail.com"
