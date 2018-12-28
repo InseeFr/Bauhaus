@@ -20,9 +20,6 @@ class SimsCreation extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.goBack = this.goBack.bind(this);
 
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
@@ -46,7 +43,7 @@ class SimsCreation extends React.Component {
 		};
 	}
 
-	handleChange(e) {
+	handleChange = e => {
 		this.setState(state => ({
 			...state,
 			sims: {
@@ -57,8 +54,8 @@ class SimsCreation extends React.Component {
 				},
 			},
 		}));
-	}
-	handleSubmit(e) {
+	};
+	handleSubmit = e => {
 		e.preventDefault();
 		e.stopPropagation();
 		this.setState({ saving: true });
@@ -75,16 +72,16 @@ class SimsCreation extends React.Component {
 				this.props.goBack(`/operations/sims/${id}`);
 			}
 		);
-	}
+	};
 
-	goBack() {
+	goBack = () => {
 		const { goBack, idOperation, sims } = this.props;
 		goBack(
 			sims.id
 				? `/operations/sims/${sims.id}`
 				: `/operations/operation/${idOperation}`
 		);
-	}
+	};
 	render() {
 		const {
 			metadataStructure,
