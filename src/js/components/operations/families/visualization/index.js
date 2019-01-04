@@ -43,10 +43,9 @@ class FamilyVisualizationContainer extends PureComponent {
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
 				<PageTitle title={attr.prefLabelLg1} context="operations" />
-				{secondLang &&
-					attr.prefLabelLg2 && (
-						<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
-					)}
+				{secondLang && attr.prefLabelLg2 && (
+					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
+				)}
 
 				<div className="row btn-line">
 					<Button
@@ -73,7 +72,7 @@ class FamilyVisualizationContainer extends PureComponent {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const family = select.getFamily(state, id);
 
