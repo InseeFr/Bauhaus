@@ -27,7 +27,7 @@ const mapDispatchToProps = {
 	saveFamily,
 };
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const family = select.getFamily(state);
 	const langs = select.getLangs(state);
