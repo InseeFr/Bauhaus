@@ -44,10 +44,9 @@ class IndicatorVisualizationContainer extends Component {
 				/>
 
 				<PageTitle title={attr.prefLabelLg1} context="operations" />
-				{secondLang &&
-					attr.prefLabelLg2 && (
-						<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
-					)}
+				{secondLang && attr.prefLabelLg2 && (
+					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
+				)}
 
 				<div className="row btn-line">
 					<Button
@@ -76,9 +75,9 @@ class IndicatorVisualizationContainer extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const indicator = select.getIndicator(state, id);
+	const indicator = select.getIndicator(state);
 	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
 	const organisations = state.operationsOrganisations.results || [];
 	return {
