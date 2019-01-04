@@ -11,7 +11,8 @@ function IndicatorsHomeContainer({ indicators, status, permission }) {
 		return <Loading textType="loading" context="operations" />;
 	return <IndicatorsHome indicators={indicators} permission={permission} />;
 }
-const mapStateToProps = state => {
+
+export const mapStateToProps = state => {
 	if (!state.operationsIndicatorsList) {
 		return {
 			status: NOT_LOADED,
@@ -33,6 +34,7 @@ const mapDispatchToProps = {
 	loadIndicatorsList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	IndicatorsHomeContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(IndicatorsHomeContainer);
