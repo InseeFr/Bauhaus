@@ -38,7 +38,7 @@ class OperationVisualizationContainer extends Component {
 		}
 	}
 	constructor(props) {
-		super();
+		super(props);
 
 		this.state = {
 			isModalOpen: false,
