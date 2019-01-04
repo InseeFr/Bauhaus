@@ -32,11 +32,7 @@ class OperationVisualizationContainer extends Component {
 		secondLang: PropTypes.bool,
 		saveSecondLang: PropTypes.func,
 	};
-	componentWillMount() {
-		if (!this.props.operation.id) {
-			this.props.loadOperation(this.props.id);
-		}
-	}
+	
 	constructor(props) {
 		super(props);
 
@@ -68,6 +64,13 @@ class OperationVisualizationContainer extends Component {
 			});
 		};
 	}
+
+	componentWillMount() {
+		if (!this.props.operation.id) {
+			this.props.loadOperation(this.props.id);
+		}
+	}
+	
 	render() {
 		const {
 			id,
