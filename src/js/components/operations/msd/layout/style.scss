@@ -1,3 +1,5 @@
+@import 'src/app.scss';
+
 .panneau {
 	position: relative;
 	display: block;
@@ -12,7 +14,7 @@
 		padding: 0;
 		overflow: hidden;
 		padding: 70px 20px 20px 20px;
-		border-right: solid #a31c20 1px;
+		border-right: solid $color_operations_3 1px;
 	}
 
 	.ouverture-sommaire,
@@ -32,13 +34,13 @@
 .panneau.produit-sommaire .fermeture {
 	position: absolute;
 	margin-top: 20px;
-	background-color: #a31c20;
+	background-color: $color_operations_3;
 	color: #fff;
 	text-align: center;
 	text-transform: uppercase;
 }
 button {
-	background-color: #a31c20;
+	background-color: $color_operations_3;
 	color: #fff;
 	display: inline-block;
 	border: 0px none;
@@ -85,7 +87,7 @@ button {
 	padding: 70px 20px 20px 20px;
 
 	&.alone {
-		border-left: solid #a31c20 1px;
+		border-left: solid $color_operations_3 1px;
 	}
 }
 .panneau.produit-sommaire .sommaire-droite .titre-sommaire {
@@ -110,29 +112,30 @@ button {
 
 .sommaire-gauche {
 	background-color: transparent;
+	.titre {
+		font-size: 28px;
+		font-size: 2.8rem;
+		color: $color_operations_3;
+		border: none;
+		border-bottom: solid 2px $color_operations_3;
+		padding: 0 0 10px 0;
+		margin: 0 0 15px 0;
+	}
+	.sommaire-container {
+		border: none;
+		margin: 0;
+		padding: 0;
+	}
+	.sommaire-container .sommaire {
+		background-color: transparent;
+		padding: 0;
+		margin: 0;
+		border: none;
+	}
 }
-.sommaire-gauche .titre {
-	font-size: 28px;
-	font-size: 2.8rem;
-	color: #a31c20;
-	border: none;
-	border-bottom: solid 2px #a31c20;
-	padding: 0 0 10px 0;
-	margin: 0 0 15px 0;
-}
-.sommaire-gauche .sommaire-container {
-	border: none;
-	margin: 0;
-	padding: 0;
-}
-.sommaire-gauche .sommaire-container .sommaire {
-	background-color: transparent;
-	padding: 0;
-	margin: 0;
-	border: none;
-}
+
 .primary-item {
-	background-color: #a31c20;
+	background-color: $color_operations_3;
 	padding: 15px 30px;
 	border-radius: 2px;
 	margin-top: 30px;

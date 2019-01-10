@@ -2,42 +2,42 @@
 
 .panel-concepts {
 	border-color: $color_concepts_3;
-}
-.panel-concepts > .panel-heading {
-	background: $color_concepts_3;
-	color: #ffffff;
-	border-color: $color_concepts_3;
-}
+	> .panel-heading {
+		background: $color_concepts_3;
+		color: #fff;
+		border-color: $color_concepts_3;
+	}
 
-.panel-concepts > .panel-body {
-	background: #f3f3f3;
-	border-color: $color_concepts_3;
+	> .panel-body {
+		background: #f3f3f3;
+		border-color: $color_concepts_3;
+	}
 }
 
 .panel-classifications {
 	border-color: $color_classifications_3;
-}
-.panel-classifications > .panel-heading {
-	background: $color_classifications_3;
-	color: #ffffff;
-	border-color: $color_classifications_3;
-}
+	> .panel-heading {
+		background: $color_classifications_3;
+		color: #fff;
+		border-color: $color_classifications_3;
+	}
 
-.panel-classifications > .panel-body {
-	background: #f3f3f3;
-	border-color: $color_classifications_3;
+	> .panel-body {
+		background: #f3f3f3;
+		border-color: $color_classifications_3;
+	}
 }
 
 .panel-operations {
 	border-color: $color_operations_3;
-}
-.panel-operations > .panel-heading {
-	background: $color_operations_3;
-	color: #ffffff;
-	border-color: $color_operations_3;
-}
+	> .panel-heading {
+		background: $color_operations_3;
+		color: #fff;
+		border-color: $color_operations_3;
+	}
 
-.panel-operations > .panel-body {
-	background: #f3f3f3;
-	border-color: $color_operations_3;
+	> .panel-body {
+		background: #f3f3f3;
+		border-color: $color_operations_3;
+	}
 }

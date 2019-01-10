@@ -27,9 +27,9 @@ const mapDispatchToProps = {
 	saveFamily,
 };
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const family = select.getFamily(state, id);
+	const family = select.getFamily(state);
 	const langs = select.getLangs(state);
 	return {
 		id,
@@ -39,5 +39,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(OperationsFamilyEditionContainer)
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(OperationsFamilyEditionContainer)
 );

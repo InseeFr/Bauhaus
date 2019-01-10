@@ -1,6 +1,8 @@
-// TODO Not really container yet, fix with real data
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { compose } from 'recompose';
+
 import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import buildExtract from 'js/utils/build-extract';
@@ -16,7 +18,13 @@ import loadFamily from 'js/actions/operations/families/item';
 import Button from 'js/components/shared/button';
 
 const extractId = buildExtract('id');
-class FamilyVisualizationContainer extends Component {
+class FamilyVisualizationContainer extends PureComponent {
+	static propTypes = {
+		family: PropTypes.object,
+		secondLang: PropTypes.bool,
+		langs: PropTypes.object,
+		saveSecondLang: PropTypes.func,
+	};
 	componentWillMount() {
 		if (!this.props.family.id) {
 			this.props.loadFamily(this.props.id);
@@ -35,10 +43,9 @@ class FamilyVisualizationContainer extends Component {
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
 				<PageTitle title={attr.prefLabelLg1} context="operations" />
-				{secondLang &&
-					attr.prefLabelLg2 && (
-						<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
-					)}
+				{secondLang && attr.prefLabelLg2 && (
+					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
+				)}
 
 				<div className="row btn-line">
 					<Button
@@ -65,7 +72,7 @@ class FamilyVisualizationContainer extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const family = select.getFamily(state, id);
 
@@ -80,9 +87,10 @@ const mapDispatchToProps = {
 	saveSecondLang,
 	loadFamily,
 };
-export default withRouter(
+export default compose(
+	withRouter,
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
-	)(FamilyVisualizationContainer)
-);
+	)
+)(FamilyVisualizationContainer);

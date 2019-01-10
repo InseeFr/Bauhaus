@@ -32,9 +32,9 @@ const mapDispatchToProps = {
 	saveIndicator,
 };
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps) || '';
-	const indicator = id ? select.getIndicator(state, id) : {};
+	const indicator = id ? select.getIndicator(state) : {};
 	const langs = select.getLangs(state);
 	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
 	return {
@@ -50,7 +50,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(
-		OperationsIndicatorsEditionContainer
-	)
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(OperationsIndicatorsEditionContainer)
 );

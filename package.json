@@ -21,7 +21,7 @@
 		"start-https": "cross-env NODE_PATH=src/ HTTPS=true REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
 		"start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
 		"test": "cross-env NODE_PATH=src/ react-scripts test",
-		"test:coverage": "cross-env NODE_PATH=src/  react-scripts test --coverage -i --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.stories.js"
+		"test:coverage": "cross-env NODE_PATH=src/ react-scripts test --coverage -i --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js"
 	},
 	"husky": {
 		"hooks": {
@@ -49,7 +49,7 @@
 		"keycloak": "1.2.0",
 		"lodash.deburr": "4.1.0",
 		"lodash.difference": "4.5.0",
-		"moment": "2.18.1",
+		"moment": "2.23.0",
 		"moment-range": "3.0.3",
 		"prop-types": "15.5.10",
 		"react": "16.3.0",
@@ -85,20 +85,19 @@
 		"concurrently": "3.5.1",
 		"coveralls": "3.0.0",
 		"cross-env": "5.0.1",
-		"cypress": "3.1.3",
+		"cypress": "3.1.4",
 		"enzyme": "3.8.0",
 		"enzyme-adapter-react-16": "1.7.1",
-		"eslint-config-prettier": "3.1.0",
+		"eslint-config-prettier": "3.3.0",
 		"eslint-config-react-app": "2.1.0",
-		"eslint-plugin-flowtype": "3.0.0",
 		"eslint-plugin-import": "2.14.0",
 		"eslint-plugin-jsx-a11y": "6.1.2",
 		"eslint-plugin-react": "7.11.1",
-		"husky": "1.2.0",
+		"husky": "1.2.1",
 		"jest-localstorage-mock": "2.3.0",
-		"node-sass": "4.10.0",
+		"node-sass": "4.11.0",
 		"npm-run-all": "4.1.5",
-		"prettier": "1.14.2",
+		"prettier": "1.15.3",
 		"start-server-and-test": "1.7.11"
 	},
 	"browserslist": [

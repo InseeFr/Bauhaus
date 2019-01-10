@@ -25,10 +25,10 @@ describe('Help Page', function() {
 
 	it(`Should manage the collapsible panel feature`, function() {
 		cy.server().visit(`/operations/help`);
-		cy.get('.sommaire li:nth-child(2) .sommaire-item').should('not.be.visible');
-		cy.get('.sommaire li:nth-child(2) .up-down').click();
-		cy.get('.sommaire li:nth-child(2) .sommaire-item').should('be.visible');
-		cy.get('.sommaire li:nth-child(2) .up-down').click();
-		cy.get('.sommaire li:nth-child(2) .sommaire-item').should('not.be.visible');
+		cy.get('.sommaire li:nth-child(1) .sommaire-item').should('not.be.visible');
+		cy.get('.sommaire li:nth-child(1) .up-down').click();
+		cy.get('.sommaire li:nth-child(1) .sommaire-item').should('be.visible');
+		cy.get('.sommaire li:nth-child(1) .up-down').click();
+		cy.get('.sommaire li:nth-child(1) .sommaire-item').should('not.be.visible');
 	});
 });

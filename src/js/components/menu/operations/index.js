@@ -70,7 +70,7 @@ class MenuOperations extends Component {
 		if (activePath === '/') return null;
 
 		return (
-			<div>
+			<React.Fragment>
 				<header>
 					<nav className="navbar navbar-default-operations">
 						<div className="container-fluid">
@@ -134,7 +134,7 @@ class MenuOperations extends Component {
 					</nav>
 				</header>
 				{menuRef && <MenuReferentiels />}
-			</div>
+			</React.Fragment>
 		);
 	}
 }

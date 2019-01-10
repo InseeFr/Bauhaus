@@ -94,7 +94,7 @@ body {
 }
 
 link {
-	color: #ffffff;
+	color: #fff;
 }
 
 .centered {
@@ -118,15 +118,15 @@ link {
 }
 .nav-tabs > li > a:hover {
 	background-color: $color_concepts_2 !important;
-	color: #ffffff !important;
+	color: #fff !important;
 }
 .nav-tabs > li.active > a {
 	background-color: $color_concepts_3 !important;
-	color: #ffffff !important;
+	color: #fff !important;
 }
 .nav-tabs > li > a:focus {
 	background-color: $color_concepts_3 !important;
-	color: #ffffff;
+	color: #fff;
 }
 
 .boldRed {

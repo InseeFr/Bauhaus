@@ -23,11 +23,11 @@ class Outline extends Component {
 		};
 	}
 
-	expandOrCollapseItem() {
+	expandOrCollapseItem = () => {
 		this.setState(previousState => ({ opened: !previousState.opened }));
 		this.props.storeCollapseState &&
 			toggleOpen(this.props.metadataStructure.idMas);
-	}
+	};
 
 	render() {
 		const {
@@ -52,7 +52,7 @@ class Outline extends Component {
 						<button
 							className="up-down"
 							title={metadataStructure.masLabelLg1}
-							onClick={() => this.expandOrCollapseItem()}
+							onClick={this.expandOrCollapseItem}
 						>
 							<span
 								className={` glyphicon glyphicon-chevron-${

@@ -218,25 +218,23 @@ class OperationsIndicatorEdition extends Component {
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-12">
-							<div className="form-group">
-								<label htmlFor="accrualPeriodicity" className="full-label">
-									{D.indicatorDataCollectFrequency}
-									<SelectRmes
-										placeholder=""
-										unclearable
-										value={indicator.accrualPeriodicityCode}
-										options={frequencies.codes.map(cat => {
-											return { value: cat.code, label: cat.labelLg1 };
-										})}
-										onChange={value =>
-											this.onChange({
-												target: { value, id: 'accrualPeriodicityCode' },
-											})
-										}
-									/>
-								</label>
-							</div>
+						<div className="form-group col-md-12">
+							<label htmlFor="accrualPeriodicity" className="full-label">
+								{D.indicatorDataCollectFrequency}
+								<SelectRmes
+									placeholder=""
+									unclearable
+									value={indicator.accrualPeriodicityCode}
+									options={frequencies.codes.map(cat => {
+										return { value: cat.code, label: cat.labelLg1 };
+									})}
+									onChange={value =>
+										this.onChange({
+											target: { value, id: 'accrualPeriodicityCode' },
+										})
+									}
+								/>
+							</label>
 						</div>
 					</div>
 

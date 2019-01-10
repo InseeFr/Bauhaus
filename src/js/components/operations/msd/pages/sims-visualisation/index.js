@@ -6,6 +6,7 @@ import { rangeType } from 'js/utils/msd/';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import Button from 'js/components/shared/button';
 import { markdownToHtml } from 'js/utils/html';
+import MSDItemLayout from 'js/components/operations/msd/msd-item-layout';
 
 const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
 
@@ -85,14 +86,12 @@ export default function SimsVisualisation({
 				{Object.values(children).map(child => {
 					return (
 						<React.Fragment key={child.idMas}>
-							<article id={child.idMas} className="panel panel-default contenu">
-								<div className="panel-heading">
-									<h3>{`${child.idMas} - ${child.masLabelLg1}`}</h3>
-								</div>
-								<div className="panel-body">
-									{displayInformation(child, sims.rubrics[child.idMas])}
-								</div>
-							</article>
+							<MSDItemLayout
+								id={child.idMas}
+								title={`${child.idMas} - ${child.masLabelLg1}`}
+							>
+								{displayInformation(child, sims.rubrics[child.idMas])}
+							</MSDItemLayout>
 							{displayContent(child.children)}
 						</React.Fragment>
 					);

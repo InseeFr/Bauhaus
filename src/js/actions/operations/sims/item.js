@@ -45,9 +45,9 @@ export default id => (dispatch, getState) => {
 					rubrics: results.rubrics.reduce((acc, rubric) => {
 						return {
 							...acc,
-							[rubric.idAttribute.toLowerCase()]: {
+							[rubric.idAttribute]: {
 								...rubric,
-								idMas: rubric.idAttribute.toLowerCase(),
+								idMas: rubric.idAttribute,
 							},
 						};
 					}, {}),

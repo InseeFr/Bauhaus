@@ -18,7 +18,8 @@ class FamiliesHomeContainer extends Component {
 		return <FamiliesHome families={families} />;
 	}
 }
-const mapStateToProps = state => {
+
+export const mapStateToProps = state => {
 	if (!state.operationsFamiliesList) {
 		return {
 			status: NOT_LOADED,

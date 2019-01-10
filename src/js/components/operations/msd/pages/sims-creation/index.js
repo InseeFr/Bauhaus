@@ -5,6 +5,7 @@ import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
 import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
 import ReactLoading from 'react-loading';
+import MSDItemLayout from 'js/components/operations/msd/msd-item-layout';
 
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 
@@ -19,9 +20,6 @@ class SimsCreation extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.goBack = this.goBack.bind(this);
 
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
@@ -45,7 +43,7 @@ class SimsCreation extends React.Component {
 		};
 	}
 
-	handleChange(e) {
+	handleChange = e => {
 		this.setState(state => ({
 			...state,
 			sims: {
@@ -56,8 +54,8 @@ class SimsCreation extends React.Component {
 				},
 			},
 		}));
-	}
-	handleSubmit(e) {
+	};
+	handleSubmit = e => {
 		e.preventDefault();
 		e.stopPropagation();
 		this.setState({ saving: true });
@@ -74,16 +72,16 @@ class SimsCreation extends React.Component {
 				this.props.goBack(`/operations/sims/${id}`);
 			}
 		);
-	}
+	};
 
-	goBack() {
+	goBack = () => {
 		const { goBack, idOperation, sims } = this.props;
 		goBack(
 			sims.id
 				? `/operations/sims/${sims.id}`
 				: `/operations/operation/${idOperation}`
 		);
-	}
+	};
 	render() {
 		const {
 			metadataStructure,
@@ -100,20 +98,18 @@ class SimsCreation extends React.Component {
 					{Object.keys(children).map(id => {
 						return (
 							<React.Fragment key={id}>
-								<article id={id} className="panel panel-default contenu">
-									<div className="panel-heading">
-										<h3>{`${id} - ${children[id].masLabelLg1}`}</h3>
-									</div>
-									<div className="panel-body">
-										<Field
-											msd={children[id]}
-											currentSection={sims[id]}
-											handleChange={handleChange}
-											codesLists={codesLists}
-											secondLang={secondLang}
-										/>
-									</div>
-								</article>
+								<MSDItemLayout
+									id={id}
+									title={`${id} - ${children[id].masLabelLg1}`}
+								>
+									<Field
+										msd={children[id]}
+										currentSection={sims[id]}
+										handleChange={handleChange}
+										codesLists={codesLists}
+										secondLang={secondLang}
+									/>
+								</MSDItemLayout>
 								{displayContent(children[id].children, handleChange)}
 							</React.Fragment>
 						);
