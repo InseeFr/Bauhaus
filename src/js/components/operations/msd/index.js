@@ -17,6 +17,9 @@ import * as select from 'js/reducers';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import loadOperation from 'js/actions/operations/operations/item';
+import D from 'js/i18n';
+import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
+const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
 
 const extractId = buildExtract('id');
 const extractIdOperation = buildExtract('idOperation');
@@ -168,21 +171,40 @@ const mapStateToProps = (state, ownProps) => {
 		status: metadataStructureStatus,
 	} = state.operationsMetadataStructureList;
 
-	const currentOperation = select.getOperation(state);
 	const id = extractId(ownProps);
+
+	const currentOperation = select.getOperation(state);
 	const idOperation = extractIdOperation(ownProps);
-	const currentSims =
-		ownProps.mode === HELP
-			? {}
-			: select.getOperationsSimsCurrent(state, currentOperation);
+
+	let currentSims = {};
+	switch (ownProps.mode) {
+		case HELP:
+			currentSims = {};
+			break;
+		case CREATE:
+			currentSims = {
+				labelLg1: D.simsLabel.replace(
+					labelOperationNameTemplate,
+					currentOperation.prefLabelLg1
+				),
+				labelLg2: getMessageForSecondLang('simsLabel').replace(
+					labelOperationNameTemplate,
+					currentOperation.prefLabelLg2
+				),
+			};
+			break;
+		default:
+			currentSims = select.getOperationsSimsCurrent(state);
+			break;
+	}
 
 	return {
 		langs: select.getLangs(state),
 		secondLang: state.app.secondLang,
 		metadataStructure,
-		currentSims: currentSims.id === id ? currentSims : {},
+		currentSims: !id || currentSims.id === id ? currentSims : {},
 		isOperationLoaded:
-			ownProps.mode === HELP || currentOperation.id === idOperation,
+			ownProps.mode !== CREATE || currentOperation.id === idOperation,
 		id,
 		idOperation,
 		codesLists: state.operationsCodesList.results,
