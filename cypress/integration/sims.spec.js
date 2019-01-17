@@ -35,8 +35,8 @@ describe('SIMS Page', function() {
 		cy.get(':nth-child(3) > .btn').click();
 		cy.url().should('contains', '/sims/1512');
 		cy.get('.btn-line').within(btns => {
-			cy.get('button').should('have.length', 1);
-			cy.get('a').should('have.length', 1);
+			cy.get('div:first > button').contains('Retour');
+			cy.get('div:nth-child(3) > a').contains('Modifier');
 		});
 
 		// Quand on click sur le bouton Voir le SIMS on doit est rediriger vers la page SIMS create et ne pas avoir de  bouton duplicate
@@ -62,7 +62,8 @@ describe('SIMS Page', function() {
 		cy.get(':nth-child(3) > .btn').click();
 		cy.url().should('contains', '/sims/create');
 		cy.get('.btn-line').within(btns => {
-			cy.get('button').should('have.length', 2);
+			cy.get('div:first > button').contains('Annuler');
+			cy.get('div:nth-child(3) > button').contains('Sauvegarder');
 		});
 	});
 });
