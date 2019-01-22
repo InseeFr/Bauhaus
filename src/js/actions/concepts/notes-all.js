@@ -9,7 +9,8 @@ export default (id, lastVersion) => dispatch => {
 		lastVersion,
 	});
 	return Promise.all(
-		range(1, lastVersion).map(version =>
+		// Add 1 because of range behaviour
+		range(1, lastVersion+1).map(version =>
 			dispatch(loadNotesVersion(id, version))
 		)
 	).then(
