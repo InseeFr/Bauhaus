@@ -54,12 +54,14 @@ export default id => (dispatch, getState) => {
 			api
 				.getOperation(results.idOperation)
 				.then(operation => api.getOperationsWithoutReport(operation.series.id))
-				.then(operationsWithoutSims => {
+				.then((operationsWithoutSims = []) => {
 					dispatch({
 						type: A.LOAD_OPERATIONS_SIMS_SUCCESS,
 						payload: {
 							...results,
-							operationsWithoutSims,
+							operationsWithoutSims: operationsWithoutSims.filter(
+								op => !!op.labelLg1
+							),
 							rubrics: results.rubrics.reduce((acc, rubric) => {
 								return {
 									...acc,
