@@ -18,7 +18,6 @@ function InputRmes({
 			<label className="form-label">
 				{label} {flag(lang) ? '( ' : null} {flag(lang)}{' '}
 				{flag(lang) ? ' )' : null}
-				{/* TODO handle visibility */}
 				{star && <span className="boldRed">*</span>}
 				{hiddenStar && <span className="boldWhite">*</span>}
 				<input
