@@ -1,0 +1,66 @@
+{
+	"creator": "ONISR",
+	"prefLabelLg1": "Base permanente des équipements",
+	"prefLabelLg2": "Permanent database of facilities",
+	"dataCollector": [
+		{
+			"labelLg2": "Epidemiology Centre on medical causes of Deaths",
+			"labelLg1": "Centre d'épidémiologie sur les causes médicales de Décès",
+			"id": "CépiDc",
+			"type": "organization"
+		},
+		{
+			"labelLg2": "Statistical Studies on Tax Matters Section",
+			"labelLg1": "Bureau des Études statistiques en matière fiscale",
+			"id": "GF3C",
+			"type": "organization"
+		}
+	],
+	"seeAlso": [
+		{
+			"labelLg2": "Enterprise bankruptcy",
+			"labelLg1": "Défaillances d'entreprises",
+			"id": "p1631",
+			"type": "indicator"
+		},
+		{
+			"labelLg2": "Household budget survey",
+			"labelLg1": "Enquête Budget de famille",
+			"id": "s1194",
+			"type": "series"
+		},
+		{
+			"labelLg2": "Continuous Labour Force Survey",
+			"labelLg1": "Enquête emploi en continu",
+			"id": "s1223",
+			"type": "series"
+		},
+		{
+			"labelLg2": "demey",
+			"labelLg1": "demey",
+			"id": "p1684",
+			"type": "indicator"
+		}
+	],
+	"typeCode": "I",
+	"abstractLg1": "La base permanente des équipements (BPE) est destinée à fournir le niveau d'équipements et de services rendus par un territoire à la population.\n\nCette base permet de produire différentes données, comme la présence ou l'absence d'un équipement, la densité d'un équipement, ou un indicateur de disponibilité d'un équipement du point de vue des habitants ; toutes ces données étant rapportées à une zone géographique qui peut être infra-communale (Iris).\n\nLa localisation fine des équipements et de la population permet de calculer des distances entre communes équipées et non équipées par exemple, d'étudier la concentration spatiale des équipements, de mettre en rapport les équipements et leurs utilisateurs potentiels.",
+	"typeList": "CL_SOURCE_CATEGORY",
+	"abstractLg2": "The purpose of the permanent database of facilities (BPE) is to provide information on the level of facilities and services a territory provides for its population.\n\nVarious types of data can be produced from this database, such as the presence or absence of a facility, the density of a facility, or an availability indicator of a facility from the point of view of the inhabitants; all these data can be provided for a geographical area that may be at infra-municipality level (statistical block groups).\n\nBy providing detailed information about the location of facilities and population, distances can be calculated between areas municipalities that do or do not provide certain facilities, for example, the spatial concentration of facilities can be studied, and facilities and their potential users can be brought together.",
+	"historyNoteLg2": "The first BPE covered data for 2007.\nThe permanent database of facilities (BPE) partly replaces the municipality inventory, last carried out in 1998. Although they are similar, the information in the BPE is updated every year and lists a much wider range of facilities (186 instead of 36) with the location of these facilities given much more precisely and the precise geographical coordinates are provided for some of them.",
+	"historyNoteLg1": "La première BPE porte sur les données de l'année 2007. \nLa base permanente des équipements (BPE) se substitue en partie à l'inventaire communal, dont le dernier a été réalisé en 1998. Comparables sur le volet présence/absence des équipements, les données de la BPE sont actualisées chaque année, au lieu de tous les 7-8 ans pour l'inventaire communal. De plus, la BPE répertorie une plus grande variété d'équipements (186 au lieu de 36) ; leur localisation est également plus affinée (IRIS) et les coordonnées géographiques précises sont fournies pour certains d'entre eux.",
+	"id": "s1161",
+	"family": {
+		"labelLg2": "Facilities census",
+		"labelLg1": "Recensement des équipements",
+		"id": "s1"
+	},
+	"gestionnaire": "GF3C",
+	"generate": [
+		{
+			"labelLg2": "alice 2",
+			"labelLg1": "ALICE",
+			"id": "p1671",
+			"type": "indicator"
+		}
+	]
+}

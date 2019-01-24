@@ -1,4 +1,13 @@
 describe('Series page', () => {
+	let polyfill;
+
+	before(() => {
+		const polyfillUrl = 'https://unpkg.com/unfetch/dist/unfetch.umd.js';
+		cy.request(polyfillUrl).then(response => {
+			polyfill = response.body;
+		});
+	});
+
 	it('Should go the Series view page and come back', () => {
 		cy.server().visit(`/operations/series`);
 		cy.get('.list-group a')
@@ -51,7 +60,7 @@ describe('Series page', () => {
 
 		cy.url().should('include', '/modify');
 
-		cy.get('form input[disabled]').should('have.length', 2);
+		cy.get('form input[disabled]').should('have.length', 3);
 
 		cy.get('form .Select:not(.is-disabled) .Select-control').each($el => {
 			const control = cy.wrap($el);
@@ -78,7 +87,20 @@ describe('Series page', () => {
 	});
 
 	it('should handle multi Select component', () => {
-		cy.server().visit(`/operations/series`);
+		cy.server()
+			.fixture('series')
+			.then(json => {
+				cy.route(Cypress.env('API') + 'operations/series/s1161', json);
+			})
+
+			.visit('/operations/series', {
+				onBeforeLoad(win) {
+					delete win.fetch;
+					win.eval(polyfill);
+					win.fetch = win.unfetch;
+				},
+			});
+
 		cy.get('.list-group a')
 			.first()
 			.click();
@@ -92,7 +114,7 @@ describe('Series page', () => {
 		cy.url().should('include', '/modify');
 
 		cy.get('.Select--multi')
-			.first()
+			.eq(1)
 			.as('firstMultiSelect')
 			.get('@firstMultiSelect')
 			.find('.Select-multi-value-wrapper')

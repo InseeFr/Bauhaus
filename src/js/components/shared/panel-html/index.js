@@ -2,9 +2,9 @@ import React from 'react';
 import DOMPurify from 'dompurify';
 import '../panel/panel.scss';
 
-function PanelHtml({ title, children, context }) {
+function PanelHtml({ title, children, context = 'concepts' }) {
 	return (
-		<div className={`panel panel-${context ? context : 'concepts'}`}>
+		<div className={`panel panel-${context}`}>
 			<div className="panel-heading">
 				<h3 className="panel-title">{title}</h3>
 			</div>

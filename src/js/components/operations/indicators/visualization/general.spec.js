@@ -60,7 +60,7 @@ const indicator = {
 		'In application of Decree 2014-114 of 7 February 2014 and of circular of 16 May 2014 (BOAC 60 September-October 2014) the responsibility of building (BT), public works (TP) and various construction (ID) indices is transferred to INSEE. The building (BT), public works (TP) and various construction (ID) indices were announced in the Official Journal of December 20, 2014 and published on January 16th, 2015 in base 2010 since January 2010 until October 2014.\nThe base change means a change of reference period (average  2010 = 100), but also an update of weights and methodological conventions.\nThese indices are used for escalation and update of construction contracts.',
 	historyNoteLg2:
 		'BOAC 60 de septembre-octobre 2014\nBefore Decree 2014-114 of 7 February 2014 and circular of 16 May 2014 (BOAC 60 September-October 2014), the Building (BT), Public Works (TP) and various construction indices were compiled and disseminated under the responsibility of Ministry of Ecology, Sustainable Development and Energy, since 1974 for most Building indices, 1975 for most Public Works indices, 1973 or diverse dates after 2000 for various ndices.',
-	stakeHolder: [
+	contributor: [
 		{
 			id: 'CNAMTS',
 		},
@@ -108,15 +108,15 @@ describe('IndicatorInformation', () => {
 		);
 		const displayLinks = component.find(DisplayLinks);
 
-		const stakeHolder = displayLinks.get(0);
-		expect(stakeHolder.props.links).toEqual([
+		const contributor = displayLinks.get(0);
+		expect(contributor.props.links).toEqual([
 			{
 				id: 'CNAMTS',
 				label: 'Agence centrale des organismes de sécurité sociale',
 			},
 		]);
-		expect(stakeHolder.props.path).toBeUndefined();
-		expect(stakeHolder.props.displayLink).toBeFalsy();
+		expect(contributor.props.path).toBeUndefined();
+		expect(contributor.props.displayLink).toBeFalsy();
 
 		const replaces = displayLinks.get(1);
 		expect(replaces.props.links).toEqual([

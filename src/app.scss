@@ -21,7 +21,9 @@ body {
 	padding: 0;
 	font-family: sans-serif;
 }
-
+a {
+	color: #045396;
+}
 .inline {
 	display: inline;
 }
@@ -161,4 +163,7 @@ link {
 
 .full-label {
 	width: 100%;
+}
+.form-label {
+	display: block;
 }

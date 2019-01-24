@@ -8,7 +8,6 @@ function DatePickerRmes({ value, onChange, placement }) {
 
 	return (
 		<DatePicker
-			className="form-control"
 			value={value}
 			calendarPlacement={placement}
 			onChange={onChange}

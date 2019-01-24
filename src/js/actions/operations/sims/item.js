@@ -3,27 +3,40 @@ import * as A from 'js/actions/constants';
 import { LOADING } from 'js/constants';
 
 export const saveSims = (sims, callback) => (dispatch, getState) => {
+	let promise = Promise.resolve(sims);
+
+	if (!sims.labelLg1 && sims.idOperation) {
+		promise = api.getOperation(sims.idOperation).then(result => {
+			return {
+				...sims,
+				labelLg1: result.prefLabelLg1,
+				labelLg2: result.prefLabelLg2,
+			};
+		});
+	}
+
+	const method = sims.id ? 'putSims' : 'postSims';
 	dispatch({
 		type: A.SAVE_OPERATIONS_SIMS,
 		payload: sims,
 	});
-	const method = sims.id ? 'putSims' : 'postSims';
-
-	return api[method](sims).then(
-		results => {
-			dispatch({
-				type: A.SAVE_OPERATIONS_SIMS_SUCCESS,
-				payload: sims,
-			});
-			callback(results || sims.id);
-		},
-		err => {
-			dispatch({
-				type: A.SAVE_OPERATIONS_SIMS_FAILURE,
-				payload: { err },
-			});
-		}
-	);
+	return promise.then(sims => {
+		return api[method](sims).then(
+			results => {
+				dispatch({
+					type: A.SAVE_OPERATIONS_SIMS_SUCCESS,
+					payload: sims,
+				});
+				callback(results || sims.id);
+			},
+			err => {
+				dispatch({
+					type: A.SAVE_OPERATIONS_SIMS_FAILURE,
+					payload: { err },
+				});
+			}
+		);
+	});
 };
 
 export default id => (dispatch, getState) => {
@@ -38,21 +51,29 @@ export default id => (dispatch, getState) => {
 	});
 	return api.getSims(id).then(
 		results => {
-			dispatch({
-				type: A.LOAD_OPERATIONS_SIMS_SUCCESS,
-				payload: {
-					...results,
-					rubrics: results.rubrics.reduce((acc, rubric) => {
-						return {
-							...acc,
-							[rubric.idAttribute]: {
-								...rubric,
-								idMas: rubric.idAttribute,
-							},
-						};
-					}, {}),
-				},
-			});
+			api
+				.getOperation(results.idOperation)
+				.then(operation => api.getOperationsWithoutReport(operation.series.id))
+				.then((operationsWithoutSims = []) => {
+					dispatch({
+						type: A.LOAD_OPERATIONS_SIMS_SUCCESS,
+						payload: {
+							...results,
+							operationsWithoutSims: operationsWithoutSims.filter(
+								op => !!op.labelLg1
+							),
+							rubrics: results.rubrics.reduce((acc, rubric) => {
+								return {
+									...acc,
+									[rubric.idAttribute]: {
+										...rubric,
+										idMas: rubric.idAttribute,
+									},
+								};
+							}, {}),
+						},
+					});
+				});
 		},
 
 		err => {

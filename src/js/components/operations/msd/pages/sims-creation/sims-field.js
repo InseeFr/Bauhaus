@@ -11,36 +11,45 @@ import './sims-field.scss';
 
 const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
 
-function Field({
-	msd,
-	currentSection = {},
-	handleChange,
-	codesLists,
-	secondLang,
-}) {
-	return (
-		<React.Fragment>
-			<dl>
-				<dt>{D.labelTitle}:</dt>
-				<dd>{msd.masLabelLg2}</dd>
-			</dl>
-			{!msd.isPresentational && (
-				<React.Fragment>
-					{msd.rangeType === TEXT && (
-						<InputRmes
-							id={msd.idMas}
-							value={currentSection.labelLg1}
-							handleChange={value => {
-								handleChange({
-									id: msd.idMas,
-									override: { labelLg1: value },
-								});
-							}}
-							label={D.simsValue}
-						/>
-					)}
-					{secondLang &&
-						msd.rangeType === TEXT && (
+class Field extends React.PureComponent {
+	static propTypes = {
+		msd: PropTypes.object.isRequired,
+		currentSection: PropTypes.object,
+		codesLists: PropTypes.object.isRequired,
+		handleChange: PropTypes.func,
+		secondLang: PropTypes.bool,
+	};
+
+	render() {
+		const {
+			msd,
+			currentSection = {},
+			handleChange,
+			codesLists,
+			secondLang,
+		} = this.props;
+		return (
+			<React.Fragment>
+				<dl>
+					<dt>{D.labelTitle}:</dt>
+					<dd>{msd.masLabelLg2}</dd>
+				</dl>
+				{!msd.isPresentational && (
+					<React.Fragment>
+						{msd.rangeType === TEXT && (
+							<InputRmes
+								id={msd.idMas}
+								value={currentSection.labelLg1}
+								handleChange={value => {
+									handleChange({
+										id: msd.idMas,
+										override: { labelLg1: value },
+									});
+								}}
+								label={D.simsValue}
+							/>
+						)}
+						{secondLang && msd.rangeType === TEXT && (
 							<InputRmes
 								id={msd.idMas}
 								value={currentSection.labelLg2}
@@ -53,40 +62,36 @@ function Field({
 								label={D.altLabelTitle}
 							/>
 						)}
-					{msd.rangeType === DATE && (
-						<React.Fragment>
-							<label>{D.simsValue}</label>
-							<DatePickerRmes
-								aria-label={D.simsValue}
-								id={msd.idMas}
-								colMd={12}
-								value={currentSection.value}
-								onChange={value => {
-									handleChange({
-										id: msd.idMas,
-										override: { value },
-									});
-								}}
-							/>
-						</React.Fragment>
-					)}
-					{msd.rangeType === REPORTED_ATTRIBUTE && (
-						<React.Fragment>
-							<label>{D.simsValue}</label>
-							<EditorMarkdown
-								aria-label={D.simsValue}
-								text={currentSection.labelLg1}
-								handleChange={value =>
-									handleChange({
-										id: msd.idMas,
-										override: { labelLg1: value },
-									})
-								}
-							/>
-						</React.Fragment>
-					)}
-					{secondLang &&
-						msd.rangeType === REPORTED_ATTRIBUTE && (
+						{msd.rangeType === DATE && (
+							<label className="form-label">
+								{D.simsValue}
+								<DatePickerRmes
+									aria-label={D.simsValue}
+									id={msd.idMas}
+									colMd={12}
+									value={currentSection.value}
+									onChange={value => {
+										handleChange({ id: msd.idMas, override: { value } });
+									}}
+								/>
+							</label>
+						)}
+						{msd.rangeType === REPORTED_ATTRIBUTE && (
+							<React.Fragment>
+								<label>{D.simsValue}</label>
+								<EditorMarkdown
+									aria-label={D.simsValue}
+									text={currentSection.labelLg1}
+									handleChange={value =>
+										handleChange({
+											id: msd.idMas,
+											override: { labelLg1: value },
+										})
+									}
+								/>
+							</React.Fragment>
+						)}
+						{secondLang && msd.rangeType === REPORTED_ATTRIBUTE && (
 							<React.Fragment>
 								<label>{D.altLabelTitle}</label>
 								<EditorMarkdown
@@ -101,10 +106,9 @@ function Field({
 								/>
 							</React.Fragment>
 						)}
-					{msd.rangeType === CODE_LIST &&
-						codesLists[msd.codeList] && (
-							<React.Fragment>
-								<label>{codesLists[msd.codeList].codeListLabelLg1}</label>
+						{msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (
+							<label className="form-label">
+								{codesLists[msd.codeList].codeListLabelLg1}
 								<SelectRmes
 									placeholder=""
 									aria-label={codesLists[msd.codeList].codeListLabelLg1}
@@ -121,20 +125,13 @@ function Field({
 										})
 									}
 								/>
-							</React.Fragment>
+							</label>
 						)}
-				</React.Fragment>
-			)}
-		</React.Fragment>
-	);
+					</React.Fragment>
+				)}
+			</React.Fragment>
+		);
+	}
 }
-
-Field.propTypes = {
-	msd: PropTypes.object.isRequired,
-	currentSection: PropTypes.object,
-	codesLists: PropTypes.object.isRequired,
-	handleChange: PropTypes.func,
-	secondLang: PropTypes.bool,
-};
 
 export default Field;

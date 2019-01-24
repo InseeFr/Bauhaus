@@ -55,6 +55,9 @@ const api = {
 		},
 		() => {},
 	],
+	getOperationsWithoutReport: idSerie => [
+		`series/${idSerie}/operationsWithoutReport`,
+	],
 };
 
 //TODO change to operations

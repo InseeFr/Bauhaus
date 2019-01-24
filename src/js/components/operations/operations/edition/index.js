@@ -12,7 +12,7 @@ import OperationsOperationEdition from 'js/components/operations/operations/edit
 const extractId = buildExtract('id');
 
 class OperationEditionContainer extends Component {
-	componentWillMount() {
+	componentDidMount() {
 		if (!this.props.operation.id) {
 			this.props.loadOperation(this.props.id);
 		}
@@ -41,5 +41,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(OperationEditionContainer)
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(OperationEditionContainer)
 );

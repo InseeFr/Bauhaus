@@ -14,6 +14,7 @@ function SelectRmes({
 	searchable,
 	multi,
 	disabled,
+	name,
 }) {
 	const isClearable = unclearable ? false : true;
 	const onChangeSelect = multi
@@ -21,6 +22,7 @@ function SelectRmes({
 		: e => onChange(e ? e.value : '');
 	return (
 		<Select
+			name="hello"
 			value={value}
 			placeholder={placeholder}
 			options={options}
@@ -39,6 +41,7 @@ SelectRmes.defaultProps = {
 	clearable: false,
 	searchable: true,
 	disabled: false,
+	name: '',
 };
 
 SelectRmes.propTypes = {
@@ -55,6 +58,7 @@ SelectRmes.propTypes = {
 	searchable: PropTypes.bool,
 	creatable: PropTypes.bool,
 	disabled: PropTypes.bool,
+	name: PropTypes.string,
 };
 
 export default SelectRmes;

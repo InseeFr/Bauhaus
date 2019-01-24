@@ -21,6 +21,10 @@ describe('SIMS actions', () => {
 			api.getSims = function(id) {
 				return Promise.resolve({ label: 'bbb', id, rubrics: [] });
 			};
+			api.getOperation = function(id) {
+				return Promise.resolve({ series: { id: 1 } });
+			};
+
 			const getState = () => {
 				return { operationsSimsCurrentStatus: NOT_LOADED };
 			};
@@ -32,7 +36,12 @@ describe('SIMS actions', () => {
 			});
 			expect(dispatch).toHaveBeenLastCalledWith({
 				type: A.LOAD_OPERATIONS_SIMS_SUCCESS,
-				payload: { id, label: 'bbb', rubrics: {} },
+				payload: {
+					id,
+					label: 'bbb',
+					operationsWithoutSims: [],
+					rubrics: {},
+				},
 			});
 		});
 		it('should call dispatch LOAD_OPERATIONS_SIMS_LIST_FAILURE action with the error if the status is not LOADING', async () => {

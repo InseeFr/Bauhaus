@@ -20,13 +20,13 @@ function OperationsSerieVisualization({
 
 	const creator = (organisations.find(orga => orga.id === attr.creator) || {})
 		.label;
-	const contributor = (
-		organisations.find(orga => orga.id === attr.contributor) || {}
+	const gestionnaire = (
+		organisations.find(orga => orga.id === attr.gestionnaire) || {}
 	).label;
 	const dataCollector = (attr.dataCollector || []).map(
 		d => organisations.find(orga => orga.id === d.id) || {}
 	);
-	const stakeHolder = (attr.stakeHolder || []).map(
+	const contributor = (attr.contributor || []).map(
 		d => organisations.find(orga => orga.id === d.id) || {}
 	);
 	return (
@@ -151,7 +151,7 @@ function OperationsSerieVisualization({
 			</div>
 
 			<DisplayLinks
-				links={stakeHolder}
+				links={contributor}
 				title={D.stakeholders}
 				langs={langs}
 				secondLang={false}
@@ -169,10 +169,10 @@ function OperationsSerieVisualization({
 				context="operations"
 			/>
 
-			<div className="row">
+			<div className="row" data-cy="gestionnaire">
 				<Note
-					text={contributor}
-					title={D.contributorTitle}
+					text={gestionnaire}
+					title={D.operationsContributorTitle}
 					lang={lg1}
 					alone={true}
 					allowEmpty={true}

@@ -19,6 +19,7 @@ import PageTitle from 'js/components/shared/page-title';
 import loadOperation from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
 import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
+
 const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
 
 const extractId = buildExtract('id');
@@ -28,13 +29,14 @@ export const HELP = 'HELP';
 export const CREATE = 'CREATE';
 export const VIEW = 'VIEW';
 export const UPDATE = 'UPDATE';
+export const DUPLICATE = 'DUPLICATE';
 
 class MSDContainer extends Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object,
 		metadataStructureStatus: PropTypes.oneOf([LOADED, NOT_LOADED, LOADING]),
 		codesLists: PropTypes.object,
-		mode: PropTypes.oneOf([HELP, VIEW, CREATE, UPDATE]),
+		mode: PropTypes.oneOf([HELP, VIEW, CREATE, UPDATE, DUPLICATE]),
 		baseUrl: PropTypes.string,
 		id: PropTypes.string,
 		saveSims: PropTypes.func,
@@ -49,16 +51,11 @@ class MSDContainer extends Component {
 		currentSims: {},
 	};
 
-	constructor(props) {
-		super(props);
-		this.goBackCallback = this.goBackCallback.bind(this);
-	}
-
-	goBackCallback(url) {
+	goBackCallback = url => {
 		this.props.history.push(url);
-	}
+	};
 
-	componentWillMount() {
+	componentDidMount() {
 		if (this.props.metadataStructureStatus !== LOADED) {
 			this.props.loadMetadataStructure();
 		}
@@ -108,7 +105,7 @@ class MSDContainer extends Component {
 				baseUrl={baseUrl}
 				disableSectionAnchor={disableSectionAnchor}
 			>
-				{mode !== HELP && (
+				{mode !== HELP && mode !== DUPLICATE && (
 					<React.Fragment>
 						<PageTitle title={currentSims.labelLg1} context="operations" />
 						{secondLang && (
@@ -140,7 +137,7 @@ class MSDContainer extends Component {
 						goBack={this.goBackCallback}
 					/>
 				)}
-				{(mode === CREATE || mode === UPDATE) && (
+				{(mode === CREATE || mode === UPDATE || mode === DUPLICATE) && (
 					<SimsCreation
 						sims={currentSims}
 						metadataStructure={metadataStructure}
@@ -151,6 +148,7 @@ class MSDContainer extends Component {
 						langs={langs}
 						secondLang={secondLang}
 						goBack={this.goBackCallback}
+						mode={mode}
 					/>
 				)}
 			</MSDLayout>
@@ -177,6 +175,7 @@ const mapStateToProps = (state, ownProps) => {
 	const idOperation = extractIdOperation(ownProps);
 
 	let currentSims = {};
+
 	switch (ownProps.mode) {
 		case HELP:
 			currentSims = {};
@@ -202,13 +201,14 @@ const mapStateToProps = (state, ownProps) => {
 		langs: select.getLangs(state),
 		secondLang: state.app.secondLang,
 		metadataStructure,
+		metadataStructureStatus,
+
 		currentSims: !id || currentSims.id === id ? currentSims : {},
 		isOperationLoaded:
 			ownProps.mode !== CREATE || currentOperation.id === idOperation,
 		id,
 		idOperation,
 		codesLists: state.operationsCodesList.results,
-		metadataStructureStatus,
 	};
 };
 

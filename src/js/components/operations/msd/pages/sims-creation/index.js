@@ -6,9 +6,11 @@ import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
 import ReactLoading from 'react-loading';
 import MSDItemLayout from 'js/components/operations/msd/msd-item-layout';
-
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import SelectRmes from 'js/components/shared/select-rmes';
+import { DUPLICATE } from 'js/components/operations/msd';
 
+const blackList = [];
 class SimsCreation extends React.Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object.isRequired,
@@ -16,15 +18,31 @@ class SimsCreation extends React.Component {
 		sims: PropTypes.object,
 		onSubmit: PropTypes.func.isRequired,
 		goBack: PropTypes.func,
+		mode: PropTypes.string,
 	};
 
 	constructor(props) {
 		super(props);
 
+		function removeRubricsWhenDuplicate(rubrics = {}) {
+			return Object.keys(rubrics).reduce((acc, rubricKey) => {
+				if (props.mode === DUPLICATE && blackList.indexOf(rubricKey) >= 0)
+					return acc;
+				return {
+					...acc,
+					[rubricKey]: rubrics[rubricKey],
+				};
+			}, {});
+		}
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
+
 		this.state = {
 			saving: false,
+			idOperation:
+				this.props.mode !== DUPLICATE
+					? this.props.idOperation || this.props.sims.idOperation
+					: '',
 			sims: {
 				...Object.keys(flattenStructure).reduce((acc, key) => {
 					return {
@@ -38,7 +56,7 @@ class SimsCreation extends React.Component {
 						},
 					};
 				}, {}),
-				...sims.rubrics,
+				...removeRubricsWhenDuplicate(sims.rubrics),
 			},
 		};
 	}
@@ -55,16 +73,23 @@ class SimsCreation extends React.Component {
 			},
 		}));
 	};
+
+	updateIdOperation = value => {
+		this.setState({
+			idOperation: value,
+		});
+	};
+
 	handleSubmit = e => {
 		e.preventDefault();
 		e.stopPropagation();
 		this.setState({ saving: true });
 		this.props.onSubmit(
 			{
-				id: this.props.sims.id,
-				labelLg1: this.props.sims.labelLg1,
-				labelLg2: this.props.sims.labelLg2,
-				idOperation: this.props.idOperation || this.props.sims.idOperation,
+				id: this.props.mode !== DUPLICATE ? this.props.sims.id : '',
+				labelLg1: this.props.mode !== DUPLICATE ? this.props.sims.labelLg1 : '',
+				labelLg2: this.props.mode !== DUPLICATE ? this.props.sims.labelLg2 : '',
+				idOperation: this.state.idOperation,
 				rubrics: Object.values(this.state.sims),
 			},
 			id => {
@@ -88,8 +113,16 @@ class SimsCreation extends React.Component {
 			codesLists,
 			saveSecondLang,
 			secondLang,
+			mode,
 		} = this.props;
-		const { sims } = this.state;
+		const { sims, idOperation } = this.state;
+
+		const operationsOptions = (this.props.sims.operationsWithoutSims || []).map(
+			op => ({
+				label: op.labelLg1,
+				value: op.id,
+			})
+		);
 
 		function displayContent(children, handleChange) {
 			if (Object.keys(children).length <= 0) return null;
@@ -138,7 +171,7 @@ class SimsCreation extends React.Component {
 						label={
 							<React.Fragment>
 								<span
-									className="glyphicon glyphicon-floppy-disk"
+									className="glyphicon glyphicon-floppy-remove"
 									aria-hidden="true"
 								/>
 								<span> {D.btnCancel}</span>
@@ -167,10 +200,23 @@ class SimsCreation extends React.Component {
 					return (
 						<div key={msd.idMas}>
 							{index === 0 && (
-								<CheckSecondLang
-									secondLang={secondLang}
-									onChange={saveSecondLang}
-								/>
+								<React.Fragment>
+									<CheckSecondLang
+										secondLang={secondLang}
+										onChange={saveSecondLang}
+									/>
+									{mode === 'DUPLICATE' && (
+										<div id="operation-picker" className="panel panel-default">
+											<SelectRmes
+												value={idOperation}
+												placeholder={D.operationsTitle}
+												options={operationsOptions}
+												onChange={this.updateIdOperation}
+												searchable
+											/>
+										</div>
+									)}
+								</React.Fragment>
 							)}
 							<div className="panel panel-default">
 								<div className="panel-heading">

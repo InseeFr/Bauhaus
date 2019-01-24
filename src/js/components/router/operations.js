@@ -18,7 +18,7 @@ import OperationEditionContainer from 'js/components/operations/operations/editi
 import OperationsIndicatorEditionContainer from 'js/components/operations/indicators/edition';
 
 import { loadSetup } from 'js/actions/operations/utils/setup';
-import MSDContainer, { CREATE, VIEW, UPDATE } from '../operations/msd/';
+import MSDContainer, { CREATE, VIEW, UPDATE, DUPLICATE } from '../operations/msd/';
 
 class RootComponent extends Component {
 	componentDidMount() {
@@ -125,6 +125,17 @@ class RootComponent extends Component {
 							mode={UPDATE}
 							disableSectionAnchor
 							baseUrl={`/operations/sims/${props.match.params.id}/modify`}
+						/>
+					)}
+				/>
+				<Route
+					exact
+					path="/operations/sims/:id/duplicate"
+					render={props => (
+						<MSDContainer
+							mode={DUPLICATE}
+							disableSectionAnchor
+							baseUrl={`/operations/sims/${props.match.params.id}/duplicate`}
 						/>
 					)}
 				/>

@@ -23,6 +23,8 @@ export default function SimsVisualisation({
 	idOperation,
 	goBack,
 }) {
+	const shouldDisplayDuplicateButton = sims.operationsWithoutSims.length > 0;
+
 	function displayInformation(msd, currentSection = {}) {
 		if (!msd.masLabelLg1) {
 			return null;
@@ -59,20 +61,19 @@ export default function SimsVisualisation({
 								)}
 						</dd>
 						{secondLang && hasLabelLg2(msd) && <dt>{D.altLabelTitle}:</dt>}
-						{secondLang &&
-							hasLabelLg2(msd) && (
-								<dd>
-									{currentSection.rangeType === TEXT && currentSection.labelLg1}
+						{secondLang && hasLabelLg2(msd) && (
+							<dd>
+								{currentSection.rangeType === TEXT && currentSection.labelLg1}
 
-									{currentSection.rangeType === REPORTED_ATTRIBUTE && (
-										<div
-											dangerouslySetInnerHTML={{
-												__html: markdownToHtml(currentSection.labelLg2),
-											}}
-										/>
-									)}
-								</dd>
-							)}
+								{currentSection.rangeType === REPORTED_ATTRIBUTE && (
+									<div
+										dangerouslySetInnerHTML={{
+											__html: markdownToHtml(currentSection.labelLg2),
+										}}
+									/>
+								)}
+							</dd>
+						)}
 					</React.Fragment>
 				)}
 			</dl>
@@ -109,7 +110,23 @@ export default function SimsVisualisation({
 					label={D.btnReturn}
 					context="operations"
 				/>
-				<div className="col-md-6" />
+				<div className={`col-md-${shouldDisplayDuplicateButton ? 3 : 6}`} />
+				{shouldDisplayDuplicateButton && (
+					<Button
+						col={3}
+						action={`/operations/sims/${sims.id}/duplicate`}
+						label={
+							<React.Fragment>
+								<span
+									className="glyphicon glyphicon-duplicate"
+									aria-hidden="true"
+								/>
+								<span> {D.btnDuplicate}</span>
+							</React.Fragment>
+						}
+						context="operations"
+					/>
+				)}
 				<Button
 					col={3}
 					action={`/operations/sims/${sims.id}/modify`}
