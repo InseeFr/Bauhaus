@@ -42,7 +42,7 @@ function OperationsIndicatorVisualization(props) {
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 	const creator = (organisations.find(orga => orga.id === attr.creator) || {})
 		.label;
-	const contributors = (attr.contributors || []).map(
+	const contributor = (attr.contributor || []).map(
 		d => organisations.find(orga => orga.id === d.id) || {}
 	);
 	return (
@@ -91,7 +91,7 @@ function OperationsIndicatorVisualization(props) {
 			</div>
 
 			<DisplayLinks
-				links={contributors}
+				links={contributor}
 				title={D.stakeholders}
 				langs={langs}
 				secondLang={false}
