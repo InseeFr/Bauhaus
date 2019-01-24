@@ -7,6 +7,10 @@ const dictionary = {
 		fr: 'Familles',
 		en: 'Families',
 	},
+	operationsContributorTitle: {
+		fr: 'Gestionnaire',
+		en: 'Administrator',
+	},
 	seriesTitle: {
 		fr: 'Séries',
 		en: 'Series',

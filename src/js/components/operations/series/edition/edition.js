@@ -91,7 +91,7 @@ class OperationsSerieEdition extends Component {
 		const serie = {
 			...this.state.serie,
 			seeAlso: (this.state.serie.seeAlso || []).map(link => link.id),
-			stakeHolder: (this.state.serie.stakeHolder || []).map(link => link.id),
+			contributor: (this.state.serie.contributor || []).map(link => link.id),
 			dataCollector: (this.state.serie.dataCollector || []).map(
 				link => link.id
 			),
@@ -264,7 +264,9 @@ class OperationsSerieEdition extends Component {
 										return { value: cat.code, label: cat.labelLg1 };
 									})}
 									onChange={value =>
-										this.onChange({ target: { value, id: 'typeCode' } })
+										this.onChange({
+											target: { value, id: 'typeCode' },
+										})
 									}
 								/>
 							</label>
@@ -308,12 +310,12 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="stakeHolder" className="full-label">
+							<label className="full-label">
 								{D.stakeholders}
 								<SelectRmes
 									placeholder=""
 									unclearable
-									value={serie.stakeHolder}
+									value={serie.contributor}
 									options={organisationsOptions}
 									onChange={value =>
 										this.onChange({
@@ -321,7 +323,7 @@ class OperationsSerieEdition extends Component {
 												value: value.map(v => {
 													return { id: v.value };
 												}),
-												id: 'stakeHolder',
+												id: 'contributor',
 											},
 										})
 									}
@@ -357,14 +359,14 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="contributor" className="full-label">
-								{D.contributorTitle}
+								{D.operationsContributorTitle}
 								<SelectRmes
 									placeholder=""
 									unclearable
-									value={serie.contributor}
+									value={serie.gestionnaire}
 									options={organisationsOptions}
 									onChange={value =>
-										this.onChange({ target: { value, id: 'contributor' } })
+										this.onChange({ target: { value, id: 'gestionnaire' } })
 									}
 								/>
 							</label>
