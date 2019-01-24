@@ -21,6 +21,12 @@ describe('SIMS actions', () => {
 			api.getSims = function(id) {
 				return Promise.resolve({ label: 'bbb', id, rubrics: [] });
 			};
+			api.getOperation = function(id) {
+				return Promise.resolve({ series: { id: 1 } });
+			};
+			const getOperationsWithoutReport = () => {
+				return Promise.resolve([]);
+			};
 			const getState = () => {
 				return { operationsSimsCurrentStatus: NOT_LOADED };
 			};

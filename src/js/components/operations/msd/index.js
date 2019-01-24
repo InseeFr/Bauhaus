@@ -19,7 +19,6 @@ import PageTitle from 'js/components/shared/page-title';
 import loadOperation from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
 import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
-import loadOperationsList from 'js/actions/operations/operations/list';
 
 const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
 
@@ -65,9 +64,6 @@ class MSDContainer extends Component {
 		if (this.props.metadataStructureStatus !== LOADED) {
 			this.props.loadMetadataStructure();
 		}
-		if (this.props.operationsListStatus !== LOADED) {
-			this.props.loadOperationsList();
-		}
 		if (!this.props.currentSims.id) {
 			this.props.loadSIMS(this.props.id);
 		}
@@ -98,7 +94,6 @@ class MSDContainer extends Component {
 			langs,
 			secondLang,
 			currentSims,
-			operations = [],
 		} = this.props;
 
 		if (
@@ -159,7 +154,6 @@ class MSDContainer extends Component {
 						secondLang={secondLang}
 						goBack={this.goBackCallback}
 						mode={mode}
-						operations={operations}
 					/>
 				)}
 			</MSDLayout>
@@ -208,11 +202,6 @@ const mapStateToProps = (state, ownProps) => {
 			break;
 	}
 
-	const {
-		results: operations,
-		operationsListStatus,
-	} = state.operationsOperationsList;
-
 	return {
 		langs: select.getLangs(state),
 		secondLang: state.app.secondLang,
@@ -225,8 +214,6 @@ const mapStateToProps = (state, ownProps) => {
 		id,
 		idOperation,
 		codesLists: state.operationsCodesList.results,
-		operations,
-		operationsListStatus,
 	};
 };
 
@@ -236,7 +223,6 @@ const mapDispatchToProps = {
 	saveSims,
 	loadOperation,
 	saveSecondLang,
-	loadOperationsList,
 };
 
 export default compose(

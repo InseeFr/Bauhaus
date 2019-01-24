@@ -48,6 +48,45 @@ describe('SIMS Page', function() {
 
 		cy.get('#operation-picker').should('not.exist');
 	});
+
+	it(`Should not have a duplicate button if the SIMS has all reports`, () => {
+		cy.server()
+			.fixture('operation-with-sims')
+			.then(json => {
+				cy.route('http://localhost:8080/api/operations/operation/1', json);
+			})
+			.fixture('sims')
+			.then(json => {
+				cy.route(
+					'http://localhost:8080/api/operations/metadataReport/1512',
+					json
+				);
+			})
+			.then(() => {
+				cy.route('http://localhost:8080/api/operations/operation/1', {
+					series: { id: 2 },
+				});
+			})
+			.then(() => {
+				cy.route(
+					'http://localhost:8080/api/operations/series/2/operationsWithoutReport',
+					[]
+				);
+			})
+
+			.visit('/operations/sims/1512', {
+				onBeforeLoad(win) {
+					delete win.fetch;
+					win.eval(polyfill);
+					win.fetch = win.unfetch;
+				},
+			});
+
+		cy.get('.btn-line').within(btns => {
+			cy.get('a[href="/operations/sims/1512/duplicate"]').should('not.exist');
+		});
+	});
+
 	it(`Should duplicate a SIMS`, function() {
 		cy.server()
 			.fixture('operation-with-sims')
@@ -62,6 +101,23 @@ describe('SIMS Page', function() {
 				);
 			})
 
+			.then(() => {
+				cy.route(
+					'http://localhost:8080/api/operations/series/s1193/operationsWithoutReport',
+					[
+						{
+							labelLg2: 'labelLg2',
+							labelLg1: 'labelLg1',
+							id: 's1435',
+						},
+						{
+							labelLg2: 'labelLg2 2',
+							labelLg1: 'labelLg1 2',
+							id: 's1436',
+						},
+					]
+				);
+			})
 			.visit('/operations/operation/1', {
 				onBeforeLoad(win) {
 					delete win.fetch;
@@ -110,7 +166,7 @@ describe('SIMS Page', function() {
 			cy.get('.Select-menu')
 				.children()
 				.should('have.length.greaterThan', 1);
-			cy.get('.Select-option:nth-child(3)').click();
+			cy.get('.Select-option:nth-child(2)').click();
 			cy.get('.Select-value-label').should('exist');
 		});
 	});

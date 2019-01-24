@@ -51,21 +51,27 @@ export default id => (dispatch, getState) => {
 	});
 	return api.getSims(id).then(
 		results => {
-			dispatch({
-				type: A.LOAD_OPERATIONS_SIMS_SUCCESS,
-				payload: {
-					...results,
-					rubrics: results.rubrics.reduce((acc, rubric) => {
-						return {
-							...acc,
-							[rubric.idAttribute]: {
-								...rubric,
-								idMas: rubric.idAttribute,
-							},
-						};
-					}, {}),
-				},
-			});
+			api
+				.getOperation(results.idOperation)
+				.then(operation => api.getOperationsWithoutReport(operation.series.id))
+				.then(operationsWithoutSims => {
+					dispatch({
+						type: A.LOAD_OPERATIONS_SIMS_SUCCESS,
+						payload: {
+							...results,
+							operationsWithoutSims,
+							rubrics: results.rubrics.reduce((acc, rubric) => {
+								return {
+									...acc,
+									[rubric.idAttribute]: {
+										...rubric,
+										idMas: rubric.idAttribute,
+									},
+								};
+							}, {}),
+						},
+					});
+				});
 		},
 
 		err => {

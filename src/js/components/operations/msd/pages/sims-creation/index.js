@@ -10,7 +10,7 @@ import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { DUPLICATE } from 'js/components/operations/msd';
 
-const blackList = []
+const blackList = [];
 class SimsCreation extends React.Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object.isRequired,
@@ -19,7 +19,6 @@ class SimsCreation extends React.Component {
 		onSubmit: PropTypes.func.isRequired,
 		goBack: PropTypes.func,
 		mode: PropTypes.string,
-		operations: PropTypes.array,
 	};
 
 	constructor(props) {
@@ -37,7 +36,7 @@ class SimsCreation extends React.Component {
 		}
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
-		console.log(sims.rubrics);
+
 		this.state = {
 			saving: false,
 			idOperation:
@@ -115,13 +114,15 @@ class SimsCreation extends React.Component {
 			saveSecondLang,
 			secondLang,
 			mode,
-			operations,
 		} = this.props;
 		const { sims, idOperation } = this.state;
-		const operationsOptions = operations.map(op => ({
-			label: op.label,
-			value: op.id,
-		}));
+
+		const operationsOptions = (this.props.sims.operationsWithoutSims || []).map(
+			op => ({
+				label: op.labelLg1,
+				value: op.id,
+			})
+		);
 
 		function displayContent(children, handleChange) {
 			if (Object.keys(children).length <= 0) return null;

@@ -23,6 +23,8 @@ export default function SimsVisualisation({
 	idOperation,
 	goBack,
 }) {
+	const shouldDisplayDuplicateButton = sims.operationsWithoutSims.length > 0;
+
 	function displayInformation(msd, currentSection = {}) {
 		if (!msd.masLabelLg1) {
 			return null;
@@ -108,21 +110,23 @@ export default function SimsVisualisation({
 					label={D.btnReturn}
 					context="operations"
 				/>
-				<div className="col-md-3" />
-				<Button
-					col={3}
-					action={`/operations/sims/${sims.id}/duplicate`}
-					label={
-						<React.Fragment>
-							<span
-								className="glyphicon glyphicon-duplicate"
-								aria-hidden="true"
-							/>
-							<span> {D.btnDuplicate}</span>
-						</React.Fragment>
-					}
-					context="operations"
-				/>
+				<div className={`col-md-${shouldDisplayDuplicateButton ? 3 : 6}`} />
+				{shouldDisplayDuplicateButton && (
+					<Button
+						col={3}
+						action={`/operations/sims/${sims.id}/duplicate`}
+						label={
+							<React.Fragment>
+								<span
+									className="glyphicon glyphicon-duplicate"
+									aria-hidden="true"
+								/>
+								<span> {D.btnDuplicate}</span>
+							</React.Fragment>
+						}
+						context="operations"
+					/>
+				)}
 				<Button
 					col={3}
 					action={`/operations/sims/${sims.id}/modify`}
