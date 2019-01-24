@@ -24,9 +24,7 @@ describe('SIMS actions', () => {
 			api.getOperation = function(id) {
 				return Promise.resolve({ series: { id: 1 } });
 			};
-			const getOperationsWithoutReport = () => {
-				return Promise.resolve([]);
-			};
+
 			const getState = () => {
 				return { operationsSimsCurrentStatus: NOT_LOADED };
 			};

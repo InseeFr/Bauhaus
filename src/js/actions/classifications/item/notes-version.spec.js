@@ -1,7 +1,6 @@
 import get from './notes-version';
 import * as A from 'js/actions/constants';
 import api from 'js/remote-api/classifications-api';
-import { LOADING, NOT_LOADED } from 'js/constants';
 
 const dispatch = jest.fn();
 jest.mock('js/remote-api/classifications-api');
