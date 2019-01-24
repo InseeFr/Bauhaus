@@ -21,7 +21,7 @@ describe('Operation Page', function() {
 		cy.server()
 			.fixture('operation-with-sims')
 			.then(json => {
-				cy.route('http://localhost:8080/api/operations/operation/1', json);
+				cy.route(Cypress.env('API') + 'operations/operation/1', json);
 			})
 
 			.visit('/operations/operation/1', {
@@ -39,7 +39,7 @@ describe('Operation Page', function() {
 		cy.server()
 			.fixture('operation-with-sims')
 			.then(json => {
-				cy.route('http://localhost:8080/api/operations/operation/1', json);
+				cy.route(Cypress.env('API') + 'operations/operation/1', json);
 			})
 
 			.visit('/operations/operation/1', {
@@ -55,7 +55,7 @@ describe('Operation Page', function() {
 		cy.server()
 			.fixture('operation-without-sims')
 			.then(json => {
-				cy.route('http://localhost:8080/api/operations/operation/1', json);
+				cy.route(Cypress.env('API') + 'operations/operation/1', json);
 			})
 
 			.visit('/operations/operation/1', {
@@ -71,7 +71,7 @@ describe('Operation Page', function() {
 		cy.server()
 			.fixture('operation-with-sims')
 			.then(json => {
-				cy.route('http://localhost:8080/api/operations/operation/1', json);
+				cy.route(Cypress.env('API') + 'operations/operation/1', json);
 			})
 
 			.visit('/operations/operation/1', {

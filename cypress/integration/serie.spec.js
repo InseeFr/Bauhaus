@@ -90,7 +90,7 @@ describe('Series page', () => {
 		cy.server()
 			.fixture('series')
 			.then(json => {
-				cy.route('http://localhost:8080/api/operations/series/s1161', json);
+				cy.route(Cypress.env('API') + 'operations/series/s1161', json);
 			})
 
 			.visit('/operations/series', {

@@ -12,14 +12,11 @@ describe('SIMS Page', function() {
 		cy.server()
 			.fixture('operation-with-sims')
 			.then(json => {
-				cy.route('http://localhost:8080/api/operations/operation/1', json);
+				cy.route(Cypress.env('API') + 'operations/operation/1', json);
 			})
 			.fixture('sims')
 			.then(json => {
-				cy.route(
-					'http://localhost:8080/api/operations/metadataReport/1512',
-					json
-				);
+				cy.route(Cypress.env('API') + 'operations/metadataReport/1512', json);
 			})
 
 			.visit('/operations/operation/1', {
@@ -53,23 +50,20 @@ describe('SIMS Page', function() {
 		cy.server()
 			.fixture('operation-with-sims')
 			.then(json => {
-				cy.route('http://localhost:8080/api/operations/operation/1', json);
+				cy.route(Cypress.env('API') + 'operations/operation/1', json);
 			})
 			.fixture('sims')
 			.then(json => {
-				cy.route(
-					'http://localhost:8080/api/operations/metadataReport/1512',
-					json
-				);
+				cy.route(Cypress.env('API') + 'operations/metadataReport/1512', json);
 			})
 			.then(() => {
-				cy.route('http://localhost:8080/api/operations/operation/1', {
+				cy.route(Cypress.env('API') + 'operations/operation/1', {
 					series: { id: 2 },
 				});
 			})
 			.then(() => {
 				cy.route(
-					'http://localhost:8080/api/operations/series/2/operationsWithoutReport',
+					Cypress.env('API') + 'operations/series/2/operationsWithoutReport',
 					[]
 				);
 			})
@@ -91,19 +85,17 @@ describe('SIMS Page', function() {
 		cy.server()
 			.fixture('operation-with-sims')
 			.then(json => {
-				cy.route('http://localhost:8080/api/operations/operation/1', json);
+				cy.route(Cypress.env('API') + 'operations/operation/1', json);
 			})
 			.fixture('sims')
 			.then(json => {
-				cy.route(
-					'http://localhost:8080/api/operations/metadataReport/1512',
-					json
-				);
+				cy.route(Cypress.env('API') + 'operations/metadataReport/1512', json);
 			})
 
 			.then(() => {
 				cy.route(
-					'http://localhost:8080/api/operations/series/s1193/operationsWithoutReport',
+					Cypress.env('API') +
+						'operations/series/s1193/operationsWithoutReport',
 					[
 						{
 							labelLg2: 'labelLg2',
@@ -175,7 +167,7 @@ describe('SIMS Page', function() {
 		cy.server()
 			.fixture('operation-without-sims')
 			.then(json => {
-				cy.route('http://localhost:8080/api/operations/operation/1', json);
+				cy.route(Cypress.env('API') + 'operations/operation/1', json);
 			})
 
 			.visit('/operations/operation/1', {
