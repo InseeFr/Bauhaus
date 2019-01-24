@@ -171,7 +171,7 @@ class SimsCreation extends React.Component {
 						label={
 							<React.Fragment>
 								<span
-									className="glyphicon glyphicon-floppy-disk"
+									className="glyphicon glyphicon-floppy-remove"
 									aria-hidden="true"
 								/>
 								<span> {D.btnCancel}</span>
