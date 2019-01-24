@@ -1,5 +1,9 @@
+import { SimsViewPage, SimsEditPage } from './po/sims.po';
+
 describe('SIMS Page', function() {
 	let polyfill;
+	const simsViewPage = new SimsViewPage();
+	const simsEditPage = new SimsEditPage();
 
 	before(() => {
 		const polyfillUrl = 'https://unpkg.com/unfetch/dist/unfetch.umd.js';
@@ -32,16 +36,14 @@ describe('SIMS Page', function() {
 
 		// Visu Page
 		cy.url().should('contains', '/sims/1512');
-		cy.get('.page-title-operations').should('exist');
-		cy.get('div:nth-child(4) > a').click();
+		cy.get(simsViewPage.getTitle()).should('exist');
+		cy.get(simsViewPage.getUpdateButton()).click();
 
 		// Update page
 		cy.url().should('contains', '/sims/1512/modify');
-		cy.get('.page-title-operations').should('exist');
-		cy.get('.btn-line').within(() => {
-			cy.get('div:first > button').contains('Annuler');
-			cy.get('div:nth-child(3) > button').contains('Sauvegarder');
-		});
+		cy.get(simsEditPage.getTitle()).should('exist');
+		cy.get(simsEditPage.getCancelButton()).contains('Annuler');
+		cy.get(simsEditPage.getSaveButton()).contains('Sauvegarder');
 
 		cy.get('#operation-picker').should('not.exist');
 	});
