@@ -7,5 +7,12 @@
 		"react": {
 			"version": "16.3.0"
 		}
+	},
+	"globals": {
+		"cy": true,
+		"Cypress": true
+	},
+	"env": {
+		"mocha": true
 	}
 }
