@@ -51,14 +51,9 @@ class MSDContainer extends Component {
 		currentSims: {},
 	};
 
-	constructor(props) {
-		super(props);
-		this.goBackCallback = this.goBackCallback.bind(this);
-	}
-
-	goBackCallback(url) {
+	goBackCallback = url => {
 		this.props.history.push(url);
-	}
+	};
 
 	componentDidMount() {
 		if (this.props.metadataStructureStatus !== LOADED) {
