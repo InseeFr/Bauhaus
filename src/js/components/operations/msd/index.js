@@ -60,7 +60,7 @@ class MSDContainer extends Component {
 		this.props.history.push(url);
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		if (this.props.metadataStructureStatus !== LOADED) {
 			this.props.loadMetadataStructure();
 		}
