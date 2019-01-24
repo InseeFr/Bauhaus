@@ -39,36 +39,32 @@ function Field({
 							label={D.simsValue}
 						/>
 					)}
-					{secondLang &&
-						msd.rangeType === TEXT && (
-							<InputRmes
-								id={msd.idMas}
-								value={currentSection.labelLg2}
-								handleChange={value => {
-									handleChange({
-										id: msd.idMas,
-										override: { labelLg2: value },
-									});
-								}}
-								label={D.altLabelTitle}
-							/>
-						)}
+					{secondLang && msd.rangeType === TEXT && (
+						<InputRmes
+							id={msd.idMas}
+							value={currentSection.labelLg2}
+							handleChange={value => {
+								handleChange({
+									id: msd.idMas,
+									override: { labelLg2: value },
+								});
+							}}
+							label={D.altLabelTitle}
+						/>
+					)}
 					{msd.rangeType === DATE && (
-						<React.Fragment>
-							<label>{D.simsValue}</label>
+						<label className="form-label">
+							{D.simsValue}
 							<DatePickerRmes
 								aria-label={D.simsValue}
 								id={msd.idMas}
 								colMd={12}
 								value={currentSection.value}
 								onChange={value => {
-									handleChange({
-										id: msd.idMas,
-										override: { value },
-									});
+									handleChange({ id: msd.idMas, override: { value } });
 								}}
 							/>
-						</React.Fragment>
+						</label>
 					)}
 					{msd.rangeType === REPORTED_ATTRIBUTE && (
 						<React.Fragment>
@@ -85,44 +81,42 @@ function Field({
 							/>
 						</React.Fragment>
 					)}
-					{secondLang &&
-						msd.rangeType === REPORTED_ATTRIBUTE && (
-							<React.Fragment>
-								<label>{D.altLabelTitle}</label>
-								<EditorMarkdown
-									aria-label={D.altLabelTitle}
-									text={currentSection.labelLg2}
-									handleChange={value =>
-										handleChange({
-											id: msd.idMas,
-											override: { labelLg2: value },
-										})
-									}
-								/>
-							</React.Fragment>
-						)}
-					{msd.rangeType === CODE_LIST &&
-						codesLists[msd.codeList] && (
-							<React.Fragment>
-								<label>{codesLists[msd.codeList].codeListLabelLg1}</label>
-								<SelectRmes
-									placeholder=""
-									aria-label={codesLists[msd.codeList].codeListLabelLg1}
-									className="form-control"
-									value={currentSection.value}
-									options={codesLists[msd.codeList].codes.map(c => ({
-										label: c.labelLg1,
-										value: c.code,
-									}))}
-									onChange={value =>
-										handleChange({
-											id: msd.idMas,
-											override: { codeList: msd.codeList, value },
-										})
-									}
-								/>
-							</React.Fragment>
-						)}
+					{secondLang && msd.rangeType === REPORTED_ATTRIBUTE && (
+						<React.Fragment>
+							<label>{D.altLabelTitle}</label>
+							<EditorMarkdown
+								aria-label={D.altLabelTitle}
+								text={currentSection.labelLg2}
+								handleChange={value =>
+									handleChange({
+										id: msd.idMas,
+										override: { labelLg2: value },
+									})
+								}
+							/>
+						</React.Fragment>
+					)}
+					{msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (
+						<label className="form-label">
+							{codesLists[msd.codeList].codeListLabelLg1}
+							<SelectRmes
+								placeholder=""
+								aria-label={codesLists[msd.codeList].codeListLabelLg1}
+								className="form-control"
+								value={currentSection.value}
+								options={codesLists[msd.codeList].codes.map(c => ({
+									label: c.labelLg1,
+									value: c.code,
+								}))}
+								onChange={value =>
+									handleChange({
+										id: msd.idMas,
+										override: { codeList: msd.codeList, value },
+									})
+								}
+							/>
+						</label>
+					)}
 				</React.Fragment>
 			)}
 		</React.Fragment>

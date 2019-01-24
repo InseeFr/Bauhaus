@@ -15,20 +15,20 @@ function InputRmes({
 }) {
 	return (
 		<div className={`form-group col-md-${colMd || 12}`}>
-			<label>
+			<label className="form-label">
 				{label} {flag(lang) ? '( ' : null} {flag(lang)}{' '}
 				{flag(lang) ? ' )' : null}
 				{/* TODO handle visibility */}
 				{star && <span className="boldRed">*</span>}
 				{hiddenStar && <span className="boldWhite">*</span>}
+				<input
+					type={password ? 'password' : 'text'}
+					value={value || ''}
+					className="form-control"
+					disabled={disabled}
+					onChange={e => handleChange(e.target.value)}
+				/>
 			</label>
-			<input
-				type={password ? 'password' : 'text'}
-				value={value || ''}
-				className="form-control"
-				disabled={disabled}
-				onChange={e => handleChange(e.target.value)}
-			/>
 		</div>
 	);
 }
