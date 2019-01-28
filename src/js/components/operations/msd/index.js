@@ -10,6 +10,7 @@ import MSDHelp from 'js/components/operations/msd/pages/help';
 import SimsVisualisation from 'js/components/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/components/operations/msd/pages/sims-creation/';
 import buildExtract from 'js/utils/build-extract';
+import {getLabelsFromOperation} from 'js/utils/msd' 
 import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
 import { compose } from 'recompose';
@@ -17,10 +18,6 @@ import * as select from 'js/reducers';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import loadOperation from 'js/actions/operations/operations/item';
-import D from 'js/i18n';
-import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
-
-const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
 
 const extractId = buildExtract('id');
 const extractIdOperation = buildExtract('idOperation');
@@ -182,14 +179,7 @@ const mapStateToProps = (state, ownProps) => {
 			break;
 		case CREATE:
 			currentSims = {
-				labelLg1: D.simsLabel.replace(
-					labelOperationNameTemplate,
-					currentOperation.prefLabelLg1
-				),
-				labelLg2: getMessageForSecondLang('simsLabel').replace(
-					labelOperationNameTemplate,
-					currentOperation.prefLabelLg2
-				),
+				...getLabelsFromOperation(currentOperation)
 			};
 			break;
 		default:

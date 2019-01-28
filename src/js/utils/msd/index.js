@@ -1,3 +1,20 @@
+
+import D from 'js/i18n';
+import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
+
+export function getLabelsFromOperation(operation){
+	const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
+	return {
+		labelLg1: D.simsLabel.replace(
+			labelOperationNameTemplate,
+			operation.prefLabelLg1
+		),
+		labelLg2: getMessageForSecondLang('simsLabel').replace(
+			labelOperationNameTemplate,
+			operation.prefLabelLg2
+		),
+	}
+}
 /**
  *
  * Take a an array as input, and return a hierarchical tree based on objects
