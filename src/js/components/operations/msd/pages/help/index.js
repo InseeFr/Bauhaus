@@ -32,7 +32,7 @@ export default function MSDHelp({
 		if (currentSection && msd.idMas !== currentSection) {
 			return null;
 		}
-		return <MSDInformations msd={msd} />;
+		return <MSDInformations key={msd.idMas} msd={msd} />;
 	});
 }
 
