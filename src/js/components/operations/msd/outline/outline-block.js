@@ -47,13 +47,13 @@ class OutlineBlock extends Component {
 		const { children } = this.state;
 		if (Object.keys(children).length <= 0) return null;
 		return (
-			<ul className={secondary ? 'secondary sommaire-item' : 'sommaire-item'}>
+			<ul className={secondary ? 'msd__item-secondary' : 'msd__item'}>
 				{Object.values(children).map(child => {
 					return (
 						<li key={child.idMas} className="help-item">
 							{Object.keys(child.children).length > 0 && (
 								<button
-									className="white"
+									className="msd__item-updown"
 									title="expand/collapse"
 									onClick={() => this.expandOrCollapseItem(child.idMas)}
 								>

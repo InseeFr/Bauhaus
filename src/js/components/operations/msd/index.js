@@ -10,7 +10,7 @@ import MSDHelp from 'js/components/operations/msd/pages/help';
 import SimsVisualisation from 'js/components/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/components/operations/msd/pages/sims-creation/';
 import buildExtract from 'js/utils/build-extract';
-import {getLabelsFromOperation} from 'js/utils/msd' 
+import { getLabelsFromOperation } from 'js/utils/msd';
 import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
 import { compose } from 'recompose';
@@ -118,6 +118,7 @@ class MSDContainer extends Component {
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
 						currentSection={this.props.match.params.idSection}
+						langs={langs}
 					/>
 				)}
 
@@ -179,7 +180,7 @@ const mapStateToProps = (state, ownProps) => {
 			break;
 		case CREATE:
 			currentSims = {
-				...getLabelsFromOperation(currentOperation)
+				...getLabelsFromOperation(currentOperation),
 			};
 			break;
 		default:

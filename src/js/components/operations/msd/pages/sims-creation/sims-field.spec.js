@@ -26,7 +26,7 @@ describe('Sims Field', () => {
 		expect(general.find(EditorMarkdown).length).toBe(0);
 		expect(general.find(SelectRmes).length).toBe(0);
 	});
-	it('without secondlang, should display only one field', () => {
+	it('should display only one field', () => {
 		const general = shallow(
 			<Field
 				msd={{
@@ -39,20 +39,7 @@ describe('Sims Field', () => {
 		);
 		expect(general.find(InputRmes).length).toBe(1);
 	});
-	it('with secondlang, should display two fields', () => {
-		const general = shallow(
-			<Field
-				msd={{
-					masLabelLg2: 'masLabelLg2',
-					rangeType: TEXT,
-					isPresentational: false,
-				}}
-				codesLists={{}}
-				secondLang
-			/>
-		);
-		expect(general.find(InputRmes).length).toBe(2);
-	});
+
 	it('when rangeType === DATE, should display a DatePickerRmes', () => {
 		const general = shallow(
 			<Field

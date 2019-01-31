@@ -5,12 +5,18 @@ import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
 import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
 import ReactLoading from 'react-loading';
-import MSDItemLayout from 'js/components/operations/msd/msd-item-layout';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { DUPLICATE } from 'js/components/operations/msd';
+import { Note } from 'js/components/shared/note';
+import { rangeType } from 'js/utils/msd/';
 
 const blackList = [];
+const { REPORTED_ATTRIBUTE, TEXT } = rangeType;
+
+function hasLabelLg2(section) {
+	return section.rangeType === TEXT || section.rangeType === REPORTED_ATTRIBUTE;
+}
 class SimsCreation extends React.Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object.isRequired,
@@ -114,6 +120,7 @@ class SimsCreation extends React.Component {
 			saveSecondLang,
 			secondLang,
 			mode,
+			langs: { lg1, lg2 },
 		} = this.props;
 		const { sims, idOperation } = this.state;
 
@@ -123,33 +130,61 @@ class SimsCreation extends React.Component {
 				value: op.id,
 			})
 		);
-
-		function displayContent(children, handleChange) {
-			if (Object.keys(children).length <= 0) return null;
+		function MSDInformations({ msd, firstLevel = false, handleChange }) {
 			return (
 				<React.Fragment>
-					{Object.keys(children).map(id => {
-						return (
-							<React.Fragment key={id}>
-								<MSDItemLayout
-									id={id}
-									title={`${id} - ${children[id].masLabelLg1}`}
-								>
+					<div className="row" key={msd.idMas} id={msd.idMas}>
+						{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
+							<h3 className="col-md-12">
+								{msd.idMas} - {msd.masLabelLg1}
+							</h3>
+						)}
+						{!msd.isPresentational && (
+							<Note
+								context="operations"
+								title={`${msd.idMas} - ${msd.masLabelLg1}`}
+								text={
 									<Field
-										msd={children[id]}
-										currentSection={sims[id]}
+										msd={msd}
+										currentSection={sims[msd.idMas]}
 										handleChange={handleChange}
 										codesLists={codesLists}
 										secondLang={secondLang}
 									/>
-								</MSDItemLayout>
-								{displayContent(children[id].children, handleChange)}
-							</React.Fragment>
-						);
-					})}
+								}
+								alone={!(hasLabelLg2(msd) && secondLang)}
+								lang={lg1}
+							/>
+						)}
+						{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
+							<Note
+								context="operations"
+								title={`${msd.idMas} - ${msd.masLabelLg2} `}
+								text={
+									<Field
+										msd={msd}
+										currentSection={sims[msd.idMas]}
+										handleChange={handleChange}
+										codesLists={codesLists}
+										secondLang={secondLang}
+									/>
+								}
+								lang={lg2}
+							/>
+						)}
+					</div>
+					{Object.values(msd.children).length > 0 &&
+						Object.values(msd.children).map(child => (
+							<MSDInformations
+								key={child.idMas}
+								msd={child}
+								handleChange={handleChange}
+							/>
+						))}
 				</React.Fragment>
 			);
 		}
+
 		if (this.state.saving)
 			return (
 				<div className="loading-operations">
@@ -218,29 +253,20 @@ class SimsCreation extends React.Component {
 									)}
 								</React.Fragment>
 							)}
-							<div className="panel panel-default">
-								<div className="panel-heading">
-									<h2 id={msd.idMas} className="titre-principal">
-										{msd.idMas} - {msd.masLabelLg1}
-									</h2>
-								</div>
-								<div className="panel-body">
-									<Field
-										msd={msd}
-										currentSection={sims[msd.idMas]}
-										handleChange={this.handleChange}
-										codesLists={codesLists}
-										secondLang={secondLang}
-									/>
-								</div>
-							</div>
-							{displayContent(msd.children, this.handleChange)}
+							<MSDInformations msd={msd} handleChange={this.handleChange} />
 						</div>
 					);
 				})}
 			</form>
 		);
 	}
+}
+
+function shouldDisplayTitleForPrimaryItem(msd) {
+	return (
+		msd.isPresentational ||
+		(!msd.isPresentational && Object.keys(msd.children).length === 0)
+	);
 }
 
 export default SimsCreation;
