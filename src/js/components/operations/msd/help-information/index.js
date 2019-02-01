@@ -21,16 +21,15 @@ export default function HelpInformation({ msd, codesLists }) {
 					  }`
 					: `${D[`help${msd.rangeType}`]}`}
 
-				{msd.rangeType === CODE_LIST &&
-					codesLists[msd.codeList] && (
-						<ul className="list-group">
-							{codesLists[msd.codeList].codes.map(code => (
-								<li className="list-group-item" key={code.code}>
-									{code.labelLg1}
-								</li>
-							))}
-						</ul>
-					)}
+				{msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (
+					<ul className="list-group">
+						{codesLists[msd.codeList].codes.map(code => (
+							<li className="list-group-item" key={code.code}>
+								{code.labelLg1}
+							</li>
+						))}
+					</ul>
+				)}
 			</dd>
 		</dl>
 	);

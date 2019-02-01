@@ -2,33 +2,48 @@ describe('Help Page', function() {
 	it(`Should display the Help page and manage the show/hide feature`, function() {
 		cy.server().visit(`/operations/help`);
 
+		//Should see both blocks
 		cy.get(`.navbar-right li:nth-child(1)`).should('have.class', 'active');
-		cy.get('.sommaire-gauche').should('be.visible');
-		cy.get('.sommaire-droite').should('be.visible');
+		cy.get('.msd__outline').should('be.visible');
+		cy.get('.msd__content').should('be.visible');
 
+		// Should see only summary
 		cy.get('button[title="open summary"]').click();
-		cy.get('.sommaire-gauche').should('not.be.visible');
-		cy.get('.sommaire-droite').should('be.visible');
+		cy.get('.msd__outline').should('be.visible');
+		cy.get('.msd__content').should('not.be.visible');
 
-		cy.get('.ouverture-sommaire').click();
-		cy.get('.sommaire-gauche').should('be.visible');
-		cy.get('.sommaire-droite').should('be.visible');
+		// Should see both blocks
+		cy.get('.msd__panel-trigger_right').click();
+		cy.get('.msd__outline').should('be.visible');
+		cy.get('.msd__content').should('be.visible');
 
+		// Should see only main content
 		cy.get('button[title="open content"]').click();
-		cy.get('.sommaire-gauche').should('be.visible');
-		cy.get('.sommaire-droite').should('not.be.visible');
+		cy.get('.msd__outline').should('not.be.visible');
+		cy.get('.msd__content_alone').should('be.visible');
 
-		cy.get('.ouverture-contenu').click();
-		cy.get('.sommaire-gauche').should('be.visible');
-		cy.get('.sommaire-droite').should('be.visible');
+		// Should see both blocks
+		cy.get('.msd__panel-trigger_left').click();
+		cy.get('.msd__outline').should('be.visible');
+		cy.get('.msd__content').should('be.visible');
 	});
 
 	it(`Should manage the collapsible panel feature`, function() {
 		cy.server().visit(`/operations/help`);
-		cy.get('.sommaire li:nth-child(1) .sommaire-item').should('not.be.visible');
-		cy.get('.sommaire li:nth-child(1) .up-down').click();
-		cy.get('.sommaire li:nth-child(1) .sommaire-item').should('be.visible');
-		cy.get('.sommaire li:nth-child(1) .up-down').click();
-		cy.get('.sommaire li:nth-child(1) .sommaire-item').should('not.be.visible');
+		cy.get('.msd__outline-content li:nth-child(1) .msd__item').should(
+			'not.be.visible'
+		);
+		cy.get(
+			'.msd__outline-content li:nth-child(1) .msd__outline-primary-updown'
+		).click();
+		cy.get('.msd__outline-content li:nth-child(1) .msd__item').should(
+			'be.visible'
+		);
+		cy.get(
+			'.msd__outline-content li:nth-child(1) .msd__outline-primary-updown'
+		).click();
+		cy.get('.msd__outline-content li:nth-child(1) .msd__item').should(
+			'not.be.visible'
+		);
 	});
 });

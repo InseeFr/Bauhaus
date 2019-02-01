@@ -6,7 +6,7 @@ import { rangeType } from 'js/utils/msd/';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import Button from 'js/components/shared/button';
 import { markdownToHtml } from 'js/utils/html';
-import MSDItemLayout from 'js/components/operations/msd/msd-item-layout';
+import { Note } from 'js/components/shared/note';
 
 const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
 
@@ -22,6 +22,7 @@ export default function SimsVisualisation({
 	saveSecondLang,
 	idOperation,
 	goBack,
+	langs: { lg1, lg2 },
 }) {
 	const shouldDisplayDuplicateButton = sims.operationsWithoutSims.length > 0;
 
@@ -30,73 +31,66 @@ export default function SimsVisualisation({
 			return null;
 		}
 		return (
-			<dl>
-				<dt>{D.labelTitle}:</dt>
-				<dd>{msd.masLabelLg2}</dd>
-				{!msd.isPresentational && (
-					<React.Fragment>
-						<dt>{D.simsValue}:</dt>
-						<dd>
-							{currentSection.rangeType === TEXT && currentSection.labelLg1}
-							{currentSection.value &&
-								currentSection.rangeType === DATE &&
-								stringToDate(currentSection.value)}
-							{currentSection.rangeType === REPORTED_ATTRIBUTE && (
-								<div
-									dangerouslySetInnerHTML={{
-										__html: markdownToHtml(currentSection.labelLg1),
-									}}
-								/>
-							)}
-							{currentSection.rangeType === CODE_LIST &&
-								codesLists[currentSection.codeList] && (
-									<span>
-										{currentSection.codeList}-
-										{
-											codesLists[currentSection.codeList].codes.find(
-												code => code.code === currentSection.value
-											).labelLg1
-										}
-									</span>
-								)}
-						</dd>
-						{secondLang && hasLabelLg2(msd) && <dt>{D.altLabelTitle}:</dt>}
-						{secondLang && hasLabelLg2(msd) && (
-							<dd>
-								{currentSection.rangeType === TEXT && currentSection.labelLg1}
-
-								{currentSection.rangeType === REPORTED_ATTRIBUTE && (
-									<div
-										dangerouslySetInnerHTML={{
-											__html: markdownToHtml(currentSection.labelLg2),
-										}}
-									/>
-								)}
-							</dd>
+			!msd.isPresentational && (
+				<React.Fragment>
+					{currentSection.rangeType === TEXT && currentSection.labelLg1}
+					{currentSection.value &&
+						currentSection.rangeType === DATE &&
+						stringToDate(currentSection.value)}
+					{currentSection.rangeType === REPORTED_ATTRIBUTE && (
+						<div
+							dangerouslySetInnerHTML={{
+								__html: markdownToHtml(currentSection.labelLg1),
+							}}
+						/>
+					)}
+					{currentSection.rangeType === CODE_LIST &&
+						codesLists[currentSection.codeList] && (
+							<span>
+								{currentSection.codeList}-
+								{
+									codesLists[currentSection.codeList].codes.find(
+										code => code.code === currentSection.value
+									).labelLg1
+								}
+							</span>
 						)}
-					</React.Fragment>
-				)}
-			</dl>
+				</React.Fragment>
+			)
 		);
 	}
 
-	function displayContent(children = []) {
-		if (Object.values(children).length <= 0) return null;
+	function MSDInformations({ msd, firstLevel = false }) {
 		return (
 			<React.Fragment>
-				{Object.values(children).map(child => {
-					return (
-						<React.Fragment key={child.idMas}>
-							<MSDItemLayout
-								id={child.idMas}
-								title={`${child.idMas} - ${child.masLabelLg1}`}
-							>
-								{displayInformation(child, sims.rubrics[child.idMas])}
-							</MSDItemLayout>
-							{displayContent(child.children)}
-						</React.Fragment>
-					);
-				})}
+				<div className="row" key={msd.idMas} id={msd.idMas}>
+					{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
+						<h3 className="col-md-12">
+							{msd.idMas} - {msd.masLabelLg1}
+						</h3>
+					)}
+					{!msd.isPresentational && (
+						<Note
+							context="operations"
+							title={`${msd.idMas} - ${msd.masLabelLg1}`}
+							text={displayInformation(msd, sims.rubrics[msd.idMas])}
+							alone={!(hasLabelLg2(msd) && secondLang)}
+							lang={lg1}
+						/>
+					)}
+					{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
+						<Note
+							context="operations"
+							title={`${msd.idMas} - ${msd.masLabelLg2} `}
+							text={displayInformation(msd, sims.rubrics[msd.idMas])}
+							lang={lg2}
+						/>
+					)}
+				</div>
+				{Object.values(msd.children).length > 0 &&
+					Object.values(msd.children).map(child => (
+						<MSDInformations key={child.idMas} msd={child} />
+					))}
 			</React.Fragment>
 		);
 	}
@@ -143,30 +137,22 @@ export default function SimsVisualisation({
 				/>
 			</div>
 			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+
 			{Object.values(metadataStructure).map(msd => {
 				if (currentSection && msd.idMas !== currentSection) {
 					return null;
 				}
-				return (
-					<div key={msd.idMas}>
-						<article className="panel panel-default">
-							<div className="panel-heading">
-								<h2 id={msd.idMas} className="titre-principal">
-									{msd.idMas} - {msd.masLabelLg1}
-								</h2>
-							</div>
-							<div className="panel-body">
-								{displayInformation(msd, sims.rubrics[msd.idMas])}
-							</div>
-						</article>
-						{displayContent(msd.children, sims.rubrics[msd.idMas])}
-					</div>
-				);
+				return <MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />;
 			})}
 		</React.Fragment>
 	);
 }
-
+function shouldDisplayTitleForPrimaryItem(msd) {
+	return (
+		msd.isPresentational ||
+		(!msd.isPresentational && Object.keys(msd.children).length === 0)
+	);
+}
 SimsVisualisation.propTypes = {
 	metadataStructure: PropTypes.object.isRequired,
 	currentSection: PropTypes.string,
