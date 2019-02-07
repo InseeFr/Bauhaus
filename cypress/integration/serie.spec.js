@@ -1,4 +1,8 @@
+import { SeriesPage } from './po/series.po';
+
 describe('Series page', () => {
+	const seriesPage = new SeriesPage();
+
 	let polyfill;
 
 	before(() => {
@@ -6,6 +10,13 @@ describe('Series page', () => {
 		cy.request(polyfillUrl).then(response => {
 			polyfill = response.body;
 		});
+	});
+
+	it('Should go the Series creation page and come back', () => {
+		cy.server().visit(`/operations/series`);
+		cy.get(seriesPage.getNewButton()).should('be.visible');
+
+		//TODO
 	});
 
 	it('Should go the Series view page and come back', () => {

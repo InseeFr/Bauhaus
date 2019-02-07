@@ -17,7 +17,7 @@ class OperationsSeriesEditionContainer extends Component {
 		}
 	}
 	render() {
-		if (!this.props.serie.id)
+		if (!this.props.serie)
 			return <Loading textType="loading" context="operations" />;
 		if (this.props.operationsAsyncTask)
 			return <Loading textType="saving" context="operations" />;
@@ -51,5 +51,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(OperationsSeriesEditionContainer)
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(OperationsSeriesEditionContainer)
 );

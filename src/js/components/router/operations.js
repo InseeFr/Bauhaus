@@ -18,7 +18,12 @@ import OperationEditionContainer from 'js/components/operations/operations/editi
 import OperationsIndicatorEditionContainer from 'js/components/operations/indicators/edition';
 
 import { loadSetup } from 'js/actions/operations/utils/setup';
-import MSDContainer, { CREATE, VIEW, UPDATE, DUPLICATE } from '../operations/msd/';
+import MSDContainer, {
+	CREATE,
+	VIEW,
+	UPDATE,
+	DUPLICATE,
+} from '../operations/msd/';
 
 class RootComponent extends Component {
 	componentDidMount() {
@@ -40,6 +45,11 @@ class RootComponent extends Component {
 				<Route exact path="/operations" component={OperationsContainer} />
 				<Route
 					exact
+					path="/operations/family/create"
+					component={OperationsFamilyEditionContainer}
+				/>
+				<Route
+					exact
 					path="/operations/family/:id"
 					component={OperationsFamilyVisualizationContainer}
 				/>
@@ -53,6 +63,7 @@ class RootComponent extends Component {
 					path="/operations/indicator/create"
 					component={OperationsIndicatorEditionContainer}
 				/>
+
 				<Route
 					exact
 					path="/operations/indicator/:id"
@@ -63,10 +74,16 @@ class RootComponent extends Component {
 					path="/operations/indicator/:id/modify"
 					component={OperationsIndicatorEditionContainer}
 				/>
+
 				<Route
 					exact
 					path="/operations/family/:id/modify"
 					component={OperationsFamilyEditionContainer}
+				/>
+				<Route
+					exact
+					path="/operations/series/create"
+					component={OperationsSeriesEditionContainer}
 				/>
 				<Route
 					exact
@@ -77,6 +94,11 @@ class RootComponent extends Component {
 					exact
 					path="/operations/series/:id/modify"
 					component={OperationsSeriesEditionContainer}
+				/>
+				<Route
+					exact
+					path="/operations/operation/create"
+					component={OperationEditionContainer}
 				/>
 				<Route
 					exact

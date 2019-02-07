@@ -11,7 +11,7 @@ const extractId = buildExtract('id');
 
 class OperationsFamilyEditionContainer extends Component {
 	componentWillMount() {
-		if (!this.props.family.id) {
+		if (!this.props.family.id && this.props.id) {
 			this.props.loadFamily(this.props.id);
 		}
 	}
@@ -29,7 +29,7 @@ const mapDispatchToProps = {
 
 export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const family = select.getFamily(state);
+	const family = id ? select.getFamily(state) : {};
 	const langs = select.getLangs(state);
 	return {
 		id,

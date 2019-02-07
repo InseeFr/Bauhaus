@@ -13,7 +13,7 @@ const extractId = buildExtract('id');
 
 class OperationEditionContainer extends Component {
 	componentDidMount() {
-		if (!this.props.operation.id) {
+		if (!this.props.operation.id && this.props.id) {
 			this.props.loadOperation(this.props.id);
 		}
 	}
@@ -31,7 +31,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const operation = select.getOperation(state, id);
+	const operation = id ? select.getOperation(state, id) : {};
 	const langs = select.getLangs(state);
 	return {
 		id,

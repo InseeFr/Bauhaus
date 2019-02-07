@@ -1,5 +1,8 @@
+import { OperationsPage } from './po/operation.po';
+
 describe('Operation Page', function() {
 	let polyfill;
+	const operationsPage = new OperationsPage();
 
 	before(() => {
 		const polyfillUrl = 'https://unpkg.com/unfetch/dist/unfetch.umd.js';
@@ -15,6 +18,13 @@ describe('Operation Page', function() {
 		cy.get('.btn-line > div:nth-child(1) button').contains('Retour');
 		cy.get('.btn-line > div:nth-child(1) button').click();
 		cy.url().should('match', /\/operations$/);
+	});
+
+	it('Should go the Operations creation page and come back', () => {
+		cy.server().visit(`/operations`);
+		cy.get(operationsPage.getNewButton()).should('be.visible');
+
+		//TODO
 	});
 
 	it(`Should contain the content of an operation`, function() {

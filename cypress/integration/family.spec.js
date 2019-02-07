@@ -1,4 +1,8 @@
+import { FamiliesPage } from './po/family.po';
+
 describe('Family page', () => {
+	const familiesPage = new FamiliesPage();
+
 	it('Should go the Family view page and come back', () => {
 		cy.server().visit(`/operations/families`);
 		cy.get('.list-group a')
@@ -10,6 +14,13 @@ describe('Family page', () => {
 			.first()
 			.click();
 		cy.url().should('match', /\/operations\/families$/);
+	});
+
+	it('Should go the Family creation page and come back', () => {
+		cy.server().visit(`/operations/families`);
+		cy.get(familiesPage.getNewButton()).should('be.visible');
+
+		//TODO
 	});
 
 	it('Should go the Family update page and come back', () => {

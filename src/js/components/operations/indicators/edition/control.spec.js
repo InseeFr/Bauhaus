@@ -39,7 +39,11 @@ describe('Control', () => {
 		const indicator = {};
 		const general = shallow(
 			<Router>
-				<Control indicator={indicator} onSubmit={onSubmit} />
+				<Control
+					indicator={indicator}
+					onSubmit={onSubmit}
+					errorMessage="The title is required"
+				/>
 			</Router>
 		).render();
 		expect(
