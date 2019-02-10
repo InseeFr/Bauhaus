@@ -99,6 +99,7 @@ class OperationsSerieEdition extends Component {
 			replacedBy: (this.state.serie.isReplacedBy || []).map(link => link.id),
 			generate: (this.state.serie.generate || []).map(link => link.id),
 		};
+		const isEditing = !!serie.id;
 
 		const organisationsOptions = toSelectModel(organisations);
 		const seriesOptions = toSelectModel(
@@ -112,13 +113,21 @@ class OperationsSerieEdition extends Component {
 		);
 		return (
 			<div className="container editor-container">
-				<PageTitle title={this.props.serie.prefLabelLg1} context="operations" />
-				{serie.prefLabelLg2 && (
-					<PageSubtitle
-						subTitle={this.props.serie.prefLabelLg2}
-						context="operations"
-					/>
+				{isEditing && (
+					<React.Fragment>
+						<PageTitle
+							title={this.props.serie.prefLabelLg1}
+							context="operations"
+						/>
+						{serie.prefLabelLg2 && (
+							<PageSubtitle
+								subTitle={this.props.serie.prefLabelLg2}
+								context="operations"
+							/>
+						)}
+					</React.Fragment>
 				)}
+
 				<div className="row btn-line">
 					<Button
 						action={goBack(this.props, '/operations/series')}
@@ -161,7 +170,7 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg1"
 								value={serie.prefLabelLg1}
 								onChange={this.onChange}
-								disabled
+								disabled={isEditing}
 							/>
 						</div>
 						<div className="form-group col-md-6">
@@ -174,7 +183,7 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg2"
 								value={serie.prefLabelLg2}
 								onChange={this.onChange}
-								disabled
+								disabled={isEditing}
 							/>
 						</div>
 					</div>

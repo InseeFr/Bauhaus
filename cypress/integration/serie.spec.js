@@ -1,7 +1,8 @@
-import { SeriesPage } from './po/series.po';
+import { SeriesPage, SeriesEditPage } from './po/series.po';
 
 describe('Series page', () => {
 	const seriesPage = new SeriesPage();
+	const seriesEditPage = new SeriesEditPage();
 
 	let polyfill;
 
@@ -15,8 +16,22 @@ describe('Series page', () => {
 	it('Should go the Series creation page and come back', () => {
 		cy.server().visit(`/operations/series`);
 		cy.get(seriesPage.getNewButton()).should('be.visible');
+		cy.get(seriesPage.getNewButton()).click();
+		cy.url().should('match', /\/operations\/series\/create$/);
+		cy.get(seriesEditPage.getBackButton())
+			.first()
+			.click();
 
-		//TODO
+		cy.url().should('match', /\/operations\/series$/);
+	});
+
+	it('Should create a new series', () => {
+		cy.server().visit(`/operations/series`);
+		cy.get(seriesPage.getNewButton()).should('be.visible');
+		cy.get(seriesPage.getNewButton()).click();
+		cy.url().should('match', /\/operations\/series\/create$/);
+		cy.get(seriesEditPage.getTitle()).should('not.exist');
+		cy.get('form input[disabled]').should('have.length', 0);
 	});
 
 	it('Should go the Series view page and come back', () => {

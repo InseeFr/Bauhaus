@@ -1,8 +1,9 @@
-import { OperationsPage } from './po/operation.po';
+import { OperationsPage, OperationEditPage } from './po/operation.po';
 
 describe('Operation Page', function() {
 	let polyfill;
 	const operationsPage = new OperationsPage();
+	const operationEditPage = new OperationEditPage();
 
 	before(() => {
 		const polyfillUrl = 'https://unpkg.com/unfetch/dist/unfetch.umd.js';
@@ -23,8 +24,21 @@ describe('Operation Page', function() {
 	it('Should go the Operations creation page and come back', () => {
 		cy.server().visit(`/operations`);
 		cy.get(operationsPage.getNewButton()).should('be.visible');
+		cy.get(operationsPage.getNewButton()).click();
+		cy.url().should('match', /\/operations\/operation\/create$/);
+		cy.get(operationEditPage.getBackButton())
+			.first()
+			.click();
 
-		//TODO
+		cy.url().should('match', /\/operations$/);
+	});
+	it('Should create a new operation', () => {
+		cy.server().visit(`/operations/series`);
+		cy.get(operationsPage.getNewButton()).should('be.visible');
+		cy.get(operationsPage.getNewButton()).click();
+		cy.url().should('match', /\/operations\/series\/create$/);
+		cy.get(operationEditPage.getTitle()).should('not.exist');
+		cy.get('form input[disabled]').should('have.length', 0);
 	});
 
 	it(`Should contain the content of an operation`, function() {
