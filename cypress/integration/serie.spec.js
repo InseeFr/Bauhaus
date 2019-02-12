@@ -32,6 +32,9 @@ describe('Series page', () => {
 		cy.url().should('match', /\/operations\/series\/create$/);
 		cy.get(seriesEditPage.getTitle()).should('not.exist');
 		cy.get('form input[disabled]').should('have.length', 0);
+		cy.get('form .Select-placeholder')
+			.first()
+			.should('contain', 'Familles');
 	});
 
 	it('Should go the Series view page and come back', () => {

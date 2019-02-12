@@ -33,12 +33,15 @@ describe('Operation Page', function() {
 		cy.url().should('match', /\/operations$/);
 	});
 	it('Should create a new operation', () => {
-		cy.server().visit(`/operations/series`);
+		cy.server().visit(`/operations`);
 		cy.get(operationsPage.getNewButton()).should('be.visible');
 		cy.get(operationsPage.getNewButton()).click();
-		cy.url().should('match', /\/operations\/series\/create$/);
+		cy.url().should('match', /\/operations\/operation\/create$/);
 		cy.get(operationEditPage.getTitle()).should('not.exist');
 		cy.get('form input[disabled]').should('have.length', 0);
+		cy.get('form .Select-placeholder')
+			.first()
+			.should('contain', 'Séries');
 	});
 
 	it(`Should contain the content of an operation`, function() {

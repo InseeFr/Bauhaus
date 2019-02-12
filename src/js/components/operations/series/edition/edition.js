@@ -114,7 +114,7 @@ class OperationsSerieEdition extends Component {
 		return (
 			<div className="container editor-container">
 				{isEditing && (
-					<React.Fragment>
+					<>
 						<PageTitle
 							title={this.props.serie.prefLabelLg1}
 							context="operations"
@@ -125,11 +125,12 @@ class OperationsSerieEdition extends Component {
 								context="operations"
 							/>
 						)}
-					</React.Fragment>
+					</>
 				)}
 
 				<div className="row btn-line">
 					<Button
+						className="col-md-2"
 						action={goBack(this.props, '/operations/series')}
 						label={
 							<React.Fragment>
@@ -145,6 +146,7 @@ class OperationsSerieEdition extends Component {
 
 					<div className="col-md-8 centered" />
 					<Button
+						className="col-md-2"
 						action={this.onSubmit}
 						label={
 							<React.Fragment>
@@ -159,6 +161,23 @@ class OperationsSerieEdition extends Component {
 					/>
 				</div>
 				<form>
+					{!isEditing && (
+						<div className="row">
+							<div className="form-group col-md-12">
+								<SelectRmes
+									placeholder={D.familiesTitle}
+									unclearable
+									value={serie.typeCode}
+									options={[]}
+									onChange={value =>
+										this.onChange({
+											target: { value, id: 'typeCode' },
+										})
+									}
+								/>
+							</div>
+						</div>
+					)}
 					<div className="row">
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg1">
