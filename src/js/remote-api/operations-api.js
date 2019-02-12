@@ -35,6 +35,16 @@ const api = {
 		},
 		() => {},
 	],
+	postFamily: family => [
+		`family`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(family),
+		},
+		() => {},
+	],
 	putSeries: series => [
 		`series/${series.id}`,
 		{
@@ -45,8 +55,28 @@ const api = {
 		},
 		() => {},
 	],
+	postSeries: series => [
+		`series`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(series),
+		},
+		() => {},
+	],
 	putOperation: operation => [
 		`operation/${operation.id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(operation),
+		},
+		() => {},
+	],
+	postOperation: operation => [
+		`operation`,
 		{
 			headers: {
 				'Content-Type': 'application/json',

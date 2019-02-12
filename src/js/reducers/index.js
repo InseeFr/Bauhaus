@@ -117,6 +117,13 @@ export const getFamily = state => {
 export const getSerie = state => {
 	return state.operationsSeriesCurrent || {};
 };
+export const getSeries = state => {
+	return state.operationsSeriesList || {};
+};
+
+export const getFamilies = state => {
+	return state.operationsFamiliesList || {};
+};
 
 export const getOperation = state => {
 	return state.operationsOperationsCurrent || {};

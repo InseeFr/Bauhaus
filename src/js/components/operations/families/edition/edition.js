@@ -51,8 +51,9 @@ class OperationsFamilyEdition extends Component {
 		});
 	}
 	onSubmit() {
-		this.props.saveFamily(this.state.family);
-		goBack(this.props, '/operations/families/' + this.props.family.id)();
+		this.props.saveFamily(this.state.family, (id = this.state.family.id) => {
+			this.props.history.push(`/operations/family/${id}`);
+		});
 	}
 
 	render() {
@@ -106,6 +107,7 @@ class OperationsFamilyEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
+						disabled={!isEditing}
 					/>
 				</div>
 				<form>

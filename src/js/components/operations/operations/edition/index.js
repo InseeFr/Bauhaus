@@ -8,11 +8,16 @@ import { connect } from 'react-redux';
 import buildExtract from 'js/utils/build-extract';
 import Loading from 'js/components/shared/loading';
 import OperationsOperationEdition from 'js/components/operations/operations/edition/edition';
+import loadSeriesList from 'js/actions/operations/series/list';
+import { LOADED } from 'js/constants';
 
 const extractId = buildExtract('id');
 
 class OperationEditionContainer extends Component {
 	componentDidMount() {
+		if (!this.props.statusSeries !== LOADED) {
+			this.props.loadSeriesList();
+		}
 		if (!this.props.operation.id && this.props.id) {
 			this.props.loadOperation(this.props.id);
 		}
@@ -20,6 +25,8 @@ class OperationEditionContainer extends Component {
 	render() {
 		if (!this.props.operation)
 			return <Loading textType="loading" context="operations" />;
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
 		return <OperationsOperationEdition {...this.props} />;
 	}
 }
@@ -27,16 +34,23 @@ class OperationEditionContainer extends Component {
 const mapDispatchToProps = {
 	loadOperation,
 	saveOperation,
+	loadSeriesList,
 };
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const operation = id ? select.getOperation(state, id) : {};
+	const { results: series = [], status: statusSeries } = select.getSeries(
+		state
+	);
 	const langs = select.getLangs(state);
 	return {
 		id,
 		operation,
 		langs,
+		series,
+		statusSeries,
+		operationsAsyncTask: state.operationsAsyncTask,
 	};
 };
 

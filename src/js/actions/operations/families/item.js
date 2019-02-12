@@ -1,22 +1,27 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
 
-export const saveFamily = family => dispatch => {
+export const saveFamily = (family, callback) => dispatch => {
 	dispatch({
 		type: A.SAVE_OPERATIONS_FAMILY,
 		payload: family,
 	});
-	return api.putFamily(family).then(
-		results =>
+	const method = family.id ? 'putFamily' : 'postFamily';
+	return api[method](family).then(
+		results => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_FAMILY_SUCCESS,
 				payload: family,
-			}),
-		err =>
+			});
+			callback(results);
+		},
+		err => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_FAMILY_FAILURE,
 				payload: { err },
-			})
+			});
+			callback();
+		}
 	);
 };
 export default id => dispatch => {

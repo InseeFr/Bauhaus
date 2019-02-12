@@ -61,8 +61,8 @@ describe('Operation actions', () => {
 				return Promise.resolve('');
 			};
 
-			const operation = { label: 'aaa' };
-			await saveOperation(operation)(dispatch);
+			const operation = { label: 'aaa', id: '1' };
+			await saveOperation(operation, () => {})(dispatch);
 			expect(dispatch).toHaveBeenCalledWith({
 				type: A.SAVE_OPERATIONS_OPERATION,
 				payload: operation,

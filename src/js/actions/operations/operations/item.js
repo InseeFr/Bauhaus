@@ -2,22 +2,27 @@ import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
 import { LOADING } from 'js/constants';
 
-export const saveOperation = operation => dispatch => {
+export const saveOperation = (operation, callback) => dispatch => {
 	dispatch({
 		type: A.SAVE_OPERATIONS_OPERATION,
 		payload: operation,
 	});
-	return api.putOperation(operation).then(
-		results =>
+	const method = operation.id ? 'putOperation' : 'postOperation';
+	return api[method](operation).then(
+		results => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_OPERATION_SUCCESS,
 				payload: operation,
-			}),
-		err =>
+			});
+			callback(results);
+		},
+		err => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_OPERATION_FAILURE,
 				payload: { err },
-			})
+			});
+			callback();
+		}
 	);
 };
 

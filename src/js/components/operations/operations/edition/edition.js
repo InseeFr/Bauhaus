@@ -41,16 +41,30 @@ class OperationsOperationEdition extends Component {
 		});
 	}
 	onChange(e) {
+		let override = {
+			[e.target.id]: e.target.value,
+		};
+		if (e.target.id === 'idSeries') {
+			override = {
+				series: {
+					id: e.target.value,
+				},
+			};
+		}
 		this.setState({
 			operation: {
 				...this.state.operation,
-				[e.target.id]: e.target.value,
+				...override,
 			},
 		});
 	}
 	onSubmit() {
-		this.props.saveOperation(this.state.operation);
-		goBack(this.props, '/operations/operation/' + this.props.operation.id)();
+		this.props.saveOperation(
+			this.state.operation,
+			(id = this.state.operation.id) => {
+				this.props.history.push(`/operations/operation/${id}`);
+			}
+		);
 	}
 
 	render() {
@@ -58,7 +72,11 @@ class OperationsOperationEdition extends Component {
 			langs: { lg1, lg2 },
 		} = this.props;
 
+		const seriesOptions = this.props.series.map(s => {
+			return { value: s.id, label: s.label };
+		});
 		const { operation } = this.state;
+		const series = operation.series || { id: '' };
 		const isEditing = !!operation.id;
 		return (
 			<div className="container editor-container">
@@ -105,6 +123,7 @@ class OperationsOperationEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
+						disabled={!isEditing}
 					/>
 				</div>
 				<form>
@@ -114,11 +133,11 @@ class OperationsOperationEdition extends Component {
 								<SelectRmes
 									placeholder={D.seriesTitle}
 									unclearable
-									value={operation.typeCode}
-									options={[]}
+									value={series.id}
+									options={seriesOptions}
 									onChange={value =>
 										this.onChange({
-											target: { value, id: 'typeCode' },
+											target: { value, id: 'idSeries' },
 										})
 									}
 								/>
