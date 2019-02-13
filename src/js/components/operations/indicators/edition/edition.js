@@ -13,6 +13,7 @@ import {
 	toSelectModel,
 	mergedItemsToSelectModels,
 } from 'js/components/operations/shared/utils/itemToSelectModel';
+import { validate } from 'js/components/operations/indicators/edition/validation';
 
 const defaultIndicator = {
 	prefLabelLg1: '',
@@ -104,6 +105,7 @@ class OperationsIndicatorEdition extends Component {
 			indicatorsOptions,
 			seriesOptions
 		);
+		const errors = validate(this.state.indicator);
 
 		return (
 			<div className="container editor-container">
@@ -121,7 +123,11 @@ class OperationsIndicatorEdition extends Component {
 						)}
 					</React.Fragment>
 				)}
-				<Control indicator={this.state.indicator} onSubmit={this.onSubmit} />
+				<Control
+					indicator={this.state.indicator}
+					onSubmit={this.onSubmit}
+					errorMessage={errors.errorMessage}
+				/>
 
 				<form>
 					<h4 className="centered">
@@ -137,6 +143,9 @@ class OperationsIndicatorEdition extends Component {
 							handleChange={value =>
 								this.onChange({ target: { value, id: 'prefLabelLg1' } })
 							}
+							arias={{
+								'aria-invalid': errors.fields.prefLabelLg1,
+							}}
 						/>
 						<InputRmes
 							colMd={6}
@@ -147,6 +156,9 @@ class OperationsIndicatorEdition extends Component {
 							handleChange={value =>
 								this.onChange({ target: { value, id: 'prefLabelLg2' } })
 							}
+							arias={{
+								'aria-invalid': errors.fields.prefLabelLg2,
+							}}
 						/>
 					</div>
 					<div className="row">

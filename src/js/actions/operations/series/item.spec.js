@@ -45,7 +45,7 @@ describe('Serie actions', () => {
 			api.putSeries = function(id) {
 				return Promise.resolve('');
 			};
-			const serie = { label: 'aaa' };
+			const serie = { label: 'aaa', id: '1' };
 			await saveSerie(serie, () => {})(dispatch);
 			expect(dispatch).toHaveBeenCalledWith({
 				type: A.SAVE_OPERATIONS_SERIE,

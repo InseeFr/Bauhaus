@@ -65,16 +65,26 @@ class OperationsSerieEdition extends Component {
 		});
 	}
 	onChange(e) {
+		let override = {
+			[e.target.id]: e.target.value,
+		};
+		if (e.target.id === 'idFamily') {
+			override = {
+				family: {
+					id: e.target.value,
+				},
+			};
+		}
 		this.setState({
 			serie: {
 				...this.state.serie,
-				[e.target.id]: e.target.value,
+				...override,
 			},
 		});
 	}
 	onSubmit() {
-		this.props.saveSerie(this.state.serie, () => {
-			goBack(this.props, '/operations/series/' + this.state.serie.id)();
+		this.props.saveSerie(this.state.serie, (id = this.props.serie.id) => {
+			this.props.history.push(`/operations/series/${id}`);
 		});
 	}
 
@@ -99,6 +109,12 @@ class OperationsSerieEdition extends Component {
 			replacedBy: (this.state.serie.isReplacedBy || []).map(link => link.id),
 			generate: (this.state.serie.generate || []).map(link => link.id),
 		};
+		const familiesOptions = this.props.families.map(s => {
+			return { value: s.id, label: s.label };
+		});
+		const family = serie.family || { id: '' };
+
+		const isEditing = !!serie.id;
 
 		const organisationsOptions = toSelectModel(organisations);
 		const seriesOptions = toSelectModel(
@@ -112,15 +128,24 @@ class OperationsSerieEdition extends Component {
 		);
 		return (
 			<div className="container editor-container">
-				<PageTitle title={this.props.serie.prefLabelLg1} context="operations" />
-				{serie.prefLabelLg2 && (
-					<PageSubtitle
-						subTitle={this.props.serie.prefLabelLg2}
-						context="operations"
-					/>
+				{isEditing && (
+					<>
+						<PageTitle
+							title={this.props.serie.prefLabelLg1}
+							context="operations"
+						/>
+						{serie.prefLabelLg2 && (
+							<PageSubtitle
+								subTitle={this.props.serie.prefLabelLg2}
+								context="operations"
+							/>
+						)}
+					</>
 				)}
+
 				<div className="row btn-line">
 					<Button
+						className="col-md-2"
 						action={goBack(this.props, '/operations/series')}
 						label={
 							<React.Fragment>
@@ -136,6 +161,7 @@ class OperationsSerieEdition extends Component {
 
 					<div className="col-md-8 centered" />
 					<Button
+						className="col-md-2"
 						action={this.onSubmit}
 						label={
 							<React.Fragment>
@@ -147,9 +173,27 @@ class OperationsSerieEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
+						disabled={!isEditing}
 					/>
 				</div>
 				<form>
+					{!isEditing && (
+						<div className="row">
+							<div className="form-group col-md-12">
+								<SelectRmes
+									placeholder={D.familiesTitle}
+									unclearable
+									value={family.id}
+									options={familiesOptions}
+									onChange={value =>
+										this.onChange({
+											target: { value, id: 'idFamily' },
+										})
+									}
+								/>
+							</div>
+						</div>
+					)}
 					<div className="row">
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg1">
@@ -161,7 +205,7 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg1"
 								value={serie.prefLabelLg1}
 								onChange={this.onChange}
-								disabled
+								disabled={isEditing}
 							/>
 						</div>
 						<div className="form-group col-md-6">
@@ -174,7 +218,7 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg2"
 								value={serie.prefLabelLg2}
 								onChange={this.onChange}
-								disabled
+								disabled={isEditing}
 							/>
 						</div>
 					</div>

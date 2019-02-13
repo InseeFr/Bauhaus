@@ -130,10 +130,10 @@ class SimsCreation extends React.Component {
 				value: op.id,
 			})
 		);
-		function MSDInformations({ msd, firstLevel = false, handleChange }) {
+		function MSDInformations(msd, handleChange, firstLevel = false) {
 			return (
-				<React.Fragment>
-					<div className="row" key={msd.idMas} id={msd.idMas}>
+				<React.Fragment key={msd.idMas}>
+					<div className="row" id={msd.idMas}>
 						{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
 							<h3 className="col-md-12">
 								{msd.idMas} - {msd.masLabelLg1}
@@ -142,17 +142,17 @@ class SimsCreation extends React.Component {
 						{!msd.isPresentational && (
 							<Note
 								context="operations"
-								title={`${msd.idMas} - ${msd.masLabelLg1}`}
+								title={`${msd.idMas} - ${msd.masLabelLg2} `}
+								alone={!(hasLabelLg2(msd) && secondLang)}
 								text={
 									<Field
 										msd={msd}
 										currentSection={sims[msd.idMas]}
 										handleChange={handleChange}
 										codesLists={codesLists}
-										secondLang={secondLang}
+										secondLang={false}
 									/>
 								}
-								alone={!(hasLabelLg2(msd) && secondLang)}
 								lang={lg1}
 							/>
 						)}
@@ -166,21 +166,16 @@ class SimsCreation extends React.Component {
 										currentSection={sims[msd.idMas]}
 										handleChange={handleChange}
 										codesLists={codesLists}
-										secondLang={secondLang}
+										secondLang={true}
 									/>
 								}
 								lang={lg2}
 							/>
 						)}
 					</div>
-					{Object.values(msd.children).length > 0 &&
-						Object.values(msd.children).map(child => (
-							<MSDInformations
-								key={child.idMas}
-								msd={child}
-								handleChange={handleChange}
-							/>
-						))}
+					{Object.values(msd.children).map(child =>
+						MSDInformations(child, handleChange)
+					)}
 				</React.Fragment>
 			);
 		}
@@ -253,7 +248,7 @@ class SimsCreation extends React.Component {
 									)}
 								</React.Fragment>
 							)}
-							<MSDInformations msd={msd} handleChange={this.handleChange} />
+							{MSDInformations(msd, this.handleChange)}
 						</div>
 					);
 				})}

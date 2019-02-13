@@ -1,5 +1,9 @@
+import { OperationsPage, OperationEditPage } from './po/operation.po';
+
 describe('Operation Page', function() {
 	let polyfill;
+	const operationsPage = new OperationsPage();
+	const operationEditPage = new OperationEditPage();
 
 	before(() => {
 		const polyfillUrl = 'https://unpkg.com/unfetch/dist/unfetch.umd.js';
@@ -15,6 +19,29 @@ describe('Operation Page', function() {
 		cy.get('.btn-line > div:nth-child(1) button').contains('Retour');
 		cy.get('.btn-line > div:nth-child(1) button').click();
 		cy.url().should('match', /\/operations$/);
+	});
+
+	it('Should go the Operations creation page and come back', () => {
+		cy.server().visit(`/operations`);
+		cy.get(operationsPage.getNewButton()).should('be.visible');
+		cy.get(operationsPage.getNewButton()).click();
+		cy.url().should('match', /\/operations\/operation\/create$/);
+		cy.get(operationEditPage.getBackButton())
+			.first()
+			.click();
+
+		cy.url().should('match', /\/operations$/);
+	});
+	it('Should create a new operation', () => {
+		cy.server().visit(`/operations`);
+		cy.get(operationsPage.getNewButton()).should('be.visible');
+		cy.get(operationsPage.getNewButton()).click();
+		cy.url().should('match', /\/operations\/operation\/create$/);
+		cy.get(operationEditPage.getTitle()).should('not.exist');
+		cy.get('form input[disabled]').should('have.length', 0);
+		cy.get('form .Select-placeholder')
+			.first()
+			.should('contain', 'Séries');
 	});
 
 	it(`Should contain the content of an operation`, function() {

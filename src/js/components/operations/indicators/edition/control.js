@@ -1,10 +1,8 @@
 import React from 'react';
 import D from 'js/i18n';
 import Button from 'js/components/shared/button';
-import { validate } from 'js/components/operations/indicators/edition/validation';
 
-function Control({ onSubmit, indicator }) {
-	const message = validate(indicator);
+function Control({ onSubmit, indicator, errorMessage }) {
 	return (
 		<div className="row btn-line">
 			<Button
@@ -27,13 +25,13 @@ function Control({ onSubmit, indicator }) {
 
 			<div className="col-md-8 centered">
 				<div
-					style={{ visibility: message ? 'visible' : 'hidden' }}
+					style={{ visibility: errorMessage ? 'visible' : 'hidden' }}
 					className="alert alert-danger bold"
 					role="alert"
 				>
 					{/* HACK: if no content, the line height is set to 0 and the rest
 	              of the page moves a little  */}
-					{message || <span style={{ whiteSpace: 'pre-wrap' }}> </span>}
+					{errorMessage || <span style={{ whiteSpace: 'pre-wrap' }}> </span>}
 				</div>
 			</div>
 			<Button
@@ -48,7 +46,7 @@ function Control({ onSubmit, indicator }) {
 					</React.Fragment>
 				}
 				context="operations"
-				disabled={message}
+				disabled={errorMessage}
 			/>
 		</div>
 	);

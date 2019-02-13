@@ -51,8 +51,9 @@ class OperationsFamilyEdition extends Component {
 		});
 	}
 	onSubmit() {
-		this.props.saveFamily(this.state.family);
-		goBack(this.props, '/operations/families/' + this.props.family.id)();
+		this.props.saveFamily(this.state.family, (id = this.state.family.id) => {
+			this.props.history.push(`/operations/family/${id}`);
+		});
 	}
 
 	render() {
@@ -60,19 +61,24 @@ class OperationsFamilyEdition extends Component {
 			langs: { lg1, lg2 },
 		} = this.props;
 		const { family } = this.state;
-
+		const isEditing = !!family.id;
 		return (
 			<div className="container editor-container">
-				<PageTitle
-					title={this.props.family.prefLabelLg1}
-					context="operations"
-				/>
-				{family.prefLabelLg2 && (
-					<PageSubtitle
-						subTitle={this.props.family.prefLabelLg2}
-						context="operations"
-					/>
+				{isEditing && (
+					<React.Fragment>
+						<PageTitle
+							title={this.props.family.prefLabelLg1}
+							context="operations"
+						/>
+						{family.prefLabelLg2 && (
+							<PageSubtitle
+								subTitle={this.props.family.prefLabelLg2}
+								context="operations"
+							/>
+						)}
+					</React.Fragment>
 				)}
+
 				<div className="row btn-line">
 					<Button
 						action={goBack(this.props, '/operations/families')}
@@ -101,6 +107,7 @@ class OperationsFamilyEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
+						disabled={!isEditing}
 					/>
 				</div>
 				<form>
@@ -116,7 +123,7 @@ class OperationsFamilyEdition extends Component {
 									id="prefLabelLg1"
 									value={this.state.family.prefLabelLg1}
 									onChange={this.onChange}
-									disabled
+									disabled={isEditing}
 								/>
 							</div>
 						</div>
@@ -131,7 +138,7 @@ class OperationsFamilyEdition extends Component {
 									id="prefLabelLg2"
 									value={family.prefLabelLg2}
 									onChange={this.onChange}
-									disabled
+									disabled={isEditing}
 								/>
 							</div>
 						</div>
@@ -143,7 +150,7 @@ class OperationsFamilyEdition extends Component {
 									<NoteFlag text={D.theme} lang={lg1} />
 								</label>
 								<input
-									disabled
+									disabled={isEditing}
 									type="text"
 									className="form-control"
 									id="themeLg1"
@@ -158,7 +165,7 @@ class OperationsFamilyEdition extends Component {
 									<NoteFlag text={D.theme} lang={lg2} />
 								</label>
 								<input
-									disabled
+									disabled={isEditing}
 									type="text"
 									className="form-control"
 									id="themeLg2"

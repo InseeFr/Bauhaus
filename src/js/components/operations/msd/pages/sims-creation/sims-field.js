@@ -20,6 +20,13 @@ class Field extends React.PureComponent {
 		secondLang: PropTypes.bool,
 	};
 
+	handleTextInput = value => {
+		this.props.handleChange({
+			id: this.props.msd.idMas,
+			override: { [this.props.secondLang ? 'labelLg2' : 'labelLg1']: value },
+		});
+	};
+
 	render() {
 		const {
 			msd,
@@ -29,19 +36,14 @@ class Field extends React.PureComponent {
 			secondLang,
 		} = this.props;
 		return (
-			<React.Fragment>
+			<>
 				{!msd.isPresentational && (
-					<React.Fragment>
+					<>
 						{msd.rangeType === TEXT && (
 							<InputRmes
 								id={msd.idMas}
 								value={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
-								handleChange={value => {
-									handleChange({
-										id: msd.idMas,
-										override: { [secondLang ? 'labelLg2' : 'labelLg1']: value },
-									});
-								}}
+								handleChange={this.handleTextInput}
 								arias={{
 									'aria-label': D.simsValue,
 								}}
@@ -60,20 +62,13 @@ class Field extends React.PureComponent {
 							/>
 						)}
 						{msd.rangeType === REPORTED_ATTRIBUTE && (
-							<React.Fragment>
+							<>
 								<EditorMarkdown
 									aria-label={D.simsValue}
 									text={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
-									handleChange={value =>
-										handleChange({
-											id: msd.idMas,
-											override: {
-												[secondLang ? 'labelLg2' : 'labelLg1']: value,
-											},
-										})
-									}
+									handleChange={this.handleTextInput}
 								/>
-							</React.Fragment>
+							</>
 						)}
 
 						{msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (
@@ -94,9 +89,9 @@ class Field extends React.PureComponent {
 								}
 							/>
 						)}
-					</React.Fragment>
+					</>
 				)}
-			</React.Fragment>
+			</>
 		);
 	}
 }
