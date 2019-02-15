@@ -9,7 +9,7 @@ import SelectRmes from 'js/components/shared/select-rmes';
 
 import './sims-field.scss';
 
-const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
+const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
 
 class Field extends React.PureComponent {
 	static propTypes = {
@@ -38,7 +38,7 @@ class Field extends React.PureComponent {
 		return (
 			<>
 				{!msd.isPresentational && (
-					<>
+					<span className="simsField">
 						{msd.rangeType === TEXT && (
 							<InputRmes
 								id={msd.idMas}
@@ -61,7 +61,7 @@ class Field extends React.PureComponent {
 								}}
 							/>
 						)}
-						{msd.rangeType === REPORTED_ATTRIBUTE && (
+						{msd.rangeType === RICH_TEXT && (
 							<>
 								<EditorMarkdown
 									aria-label={D.simsValue}
@@ -89,7 +89,7 @@ class Field extends React.PureComponent {
 								}
 							/>
 						)}
-					</>
+					</span>
 				)}
 			</>
 		);

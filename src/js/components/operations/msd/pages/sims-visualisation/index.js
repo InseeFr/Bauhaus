@@ -7,11 +7,12 @@ import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import Button from 'js/components/shared/button';
 import { markdownToHtml } from 'js/utils/html';
 import { Note } from 'js/components/shared/note';
+import './index.scss';
 
-const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
+const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
 
 function hasLabelLg2(section) {
-	return section.rangeType === TEXT || section.rangeType === REPORTED_ATTRIBUTE;
+	return section.rangeType === TEXT || section.rangeType === RICH_TEXT;
 }
 export default function SimsVisualisation({
 	metadataStructure,
@@ -26,21 +27,24 @@ export default function SimsVisualisation({
 }) {
 	const shouldDisplayDuplicateButton = sims.operationsWithoutSims.length > 0;
 
-	function displayInformation(msd, currentSection = {}) {
+	function displayInformation(msd, isSecondLang = false, currentSection = {}) {
 		if (!msd.masLabelLg1) {
 			return null;
 		}
 		return (
 			!msd.isPresentational && (
 				<React.Fragment>
-					{currentSection.rangeType === TEXT && currentSection.labelLg1}
+					{currentSection.rangeType === TEXT &&
+						currentSection[isSecondLang ? 'labelLg2' : 'labelLg1']}
 					{currentSection.value &&
 						currentSection.rangeType === DATE &&
 						stringToDate(currentSection.value)}
-					{currentSection.rangeType === REPORTED_ATTRIBUTE && (
+					{currentSection.rangeType === RICH_TEXT && (
 						<div
 							dangerouslySetInnerHTML={{
-								__html: markdownToHtml(currentSection.labelLg1),
+								__html: markdownToHtml(
+									currentSection[isSecondLang ? 'labelLg2' : 'labelLg1']
+								),
 							}}
 						/>
 					)}
@@ -63,7 +67,7 @@ export default function SimsVisualisation({
 	function MSDInformations({ msd, firstLevel = false }) {
 		return (
 			<React.Fragment>
-				<div className="row" key={msd.idMas} id={msd.idMas}>
+				<div className="row flex" key={msd.idMas} id={msd.idMas}>
 					{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
 						<h3 className="col-md-12">
 							{msd.idMas} - {msd.masLabelLg1}
@@ -73,7 +77,7 @@ export default function SimsVisualisation({
 						<Note
 							context="operations"
 							title={`${msd.idMas} - ${msd.masLabelLg1}`}
-							text={displayInformation(msd, sims.rubrics[msd.idMas])}
+							text={displayInformation(msd, false, sims.rubrics[msd.idMas])}
 							alone={!(hasLabelLg2(msd) && secondLang)}
 							lang={lg1}
 						/>
@@ -82,7 +86,7 @@ export default function SimsVisualisation({
 						<Note
 							context="operations"
 							title={`${msd.idMas} - ${msd.masLabelLg2} `}
-							text={displayInformation(msd, sims.rubrics[msd.idMas])}
+							text={displayInformation(msd, true, sims.rubrics[msd.idMas])}
 							lang={lg2}
 						/>
 					)}
