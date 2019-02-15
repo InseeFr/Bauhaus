@@ -32,6 +32,11 @@ class MSDComponent extends Component {
 			status,
 		}));
 	}
+
+	changeStatusToBoth = () => this.changeStatus(STATUS.BOTH);
+	changeStatusToContent = () => this.changeStatus(STATUS.CONTENT);
+	changeStatusToSummary = () => this.changeStatus(STATUS.SUMMARY);
+
 	render() {
 		const { status } = this.state;
 
@@ -78,7 +83,7 @@ class MSDComponent extends Component {
 				{status === STATUS.CONTENT && (
 					<button
 						className="msd__panel-trigger_left"
-						onClick={() => this.changeStatus(STATUS.BOTH)}
+						onClick={this.changeStatusToBoth}
 					>
 						{D.helpSummary}
 						<span className="glyphicon glyphicon-chevron-right" />
@@ -87,18 +92,12 @@ class MSDComponent extends Component {
 				{status === STATUS.BOTH && (
 					<div className="msd__panel-trigger_middle">
 						<div>
-							<button
-								onClick={() => this.changeStatus(STATUS.CONTENT)}
-								title="open content"
-							>
+							<button onClick={this.changeStatusToContent} title="open content">
 								<span className="glyphicon glyphicon-chevron-left" />
 							</button>
 						</div>
 						<div>
-							<button
-								onClick={() => this.changeStatus(STATUS.SUMMARY)}
-								title="open summary"
-							>
+							<button onClick={this.changeStatusToSummary} title="open summary">
 								<span className="glyphicon glyphicon-chevron-right" />
 							</button>
 						</div>
@@ -107,7 +106,7 @@ class MSDComponent extends Component {
 				{status === STATUS.SUMMARY && (
 					<button
 						className="msd__panel-trigger_right"
-						onClick={() => this.changeStatus(STATUS.BOTH)}
+						onClick={this.changeStatusToBoth}
 					>
 						<span className="glyphicon glyphicon-chevron-left" />
 						{D.helpContent}

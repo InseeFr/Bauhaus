@@ -21,10 +21,9 @@ export default function MSDHelp({
 						lang={lg1}
 					/>
 				</div>
-				{Object.values(msd.children).length > 0 &&
-					Object.values(msd.children).map(child => (
-						<MSDInformations key={child.idMas} msd={child} />
-					))}
+				{Object.values(msd.children).map(child => (
+					<MSDInformations key={child.idMas} msd={child} />
+				))}
 			</React.Fragment>
 		);
 	}
