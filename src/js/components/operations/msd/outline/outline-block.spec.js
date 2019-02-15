@@ -39,7 +39,7 @@ describe('OutlineBlock', () => {
 	it('should handle the click on the button', () => {
 		const general = shallow(<OutlineBlock children={childrenClosed} />);
 		expect(general.find(OutlineBlock).length).toBe(0);
-		general.find('button').simulate('click');
+		general.find('button').simulate('click', { currentTarget: { id: 2 } });
 		expect(general.find(OutlineBlock).length).toBe(1);
 	});
 	it('should have the right icon if opened', () => {
