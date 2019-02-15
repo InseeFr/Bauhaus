@@ -25,18 +25,18 @@ class OutlineBlock extends Component {
 		};
 	}
 
-	expandOrCollapseItem(id) {
+	expandOrCollapseItem = ({ currentTarget: { id } }) => {
 		toggleOpen(id);
 		this.setState(previousState => ({
 			children: {
-				...this.state.children,
+				...previousState.children,
 				[id]: {
-					...this.state.children[id],
-					opened: !this.state.children[id].opened,
+					...previousState.children[id],
+					opened: !previousState.children[id].opened,
 				},
 			},
 		}));
-	}
+	};
 	render() {
 		const {
 			secondary,
@@ -55,7 +55,8 @@ class OutlineBlock extends Component {
 								<button
 									className="msd__item-updown"
 									title="expand/collapse"
-									onClick={() => this.expandOrCollapseItem(child.idMas)}
+									id={child.idMas}
+									onClick={this.expandOrCollapseItem}
 								>
 									<span
 										className={`glyphicon glyphicon-chevron-${
