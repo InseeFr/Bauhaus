@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
@@ -11,7 +11,7 @@ import './sims-field.scss';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
 
-class Field extends React.PureComponent {
+class Field extends PureComponent {
 	static propTypes = {
 		msd: PropTypes.object.isRequired,
 		currentSection: PropTypes.object,
@@ -26,15 +26,25 @@ class Field extends React.PureComponent {
 			override: { [this.props.secondLang ? 'labelLg2' : 'labelLg1']: value },
 		});
 	};
+	handleCodeListInput = value => {
+		this.props.handleChange({
+			id: this.props.msd.idMas,
+			override: { codeList: this.props.msd.codeList, value },
+		});
+	};
+	handleDateInput = value => {
+		this.props.handleChange({ id: this.props.msd.idMas, override: { value } });
+	};
 
 	render() {
-		const {
-			msd,
-			currentSection = {},
-			handleChange,
-			codesLists,
-			secondLang,
-		} = this.props;
+		const { msd, currentSection = {}, secondLang } = this.props;
+		const codesList = this.props.codesLists[msd.codeList] || {};
+		const codes = codesList.codes || [];
+		const codesListOptions = codes.map(c => ({
+			label: c.labelLg1,
+			value: c.code,
+		}));
+
 		return (
 			<>
 				{!msd.isPresentational && (
@@ -56,37 +66,25 @@ class Field extends React.PureComponent {
 								id={msd.idMas}
 								colMd={12}
 								value={currentSection.value}
-								onChange={value => {
-									handleChange({ id: msd.idMas, override: { value } });
-								}}
+								onChange={this.handleCodeListInput}
 							/>
 						)}
 						{msd.rangeType === RICH_TEXT && (
-							<>
-								<EditorMarkdown
-									aria-label={D.simsValue}
-									text={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
-									handleChange={this.handleTextInput}
-								/>
-							</>
+							<EditorMarkdown
+								aria-label={D.simsValue}
+								text={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
+								handleChange={this.handleTextInput}
+							/>
 						)}
 
-						{msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (
+						{msd.rangeType === CODE_LIST && codesList && (
 							<SelectRmes
 								placeholder=""
-								aria-label={codesLists[msd.codeList].codeListLabelLg1}
+								aria-label={codesList.codeListLabelLg1}
 								className="form-control"
 								value={currentSection.value}
-								options={codesLists[msd.codeList].codes.map(c => ({
-									label: c.labelLg1,
-									value: c.code,
-								}))}
-								onChange={value =>
-									handleChange({
-										id: msd.idMas,
-										override: { codeList: msd.codeList, value },
-									})
-								}
+								options={codesListOptions}
+								onChange={this.handleCodeListInput}
 							/>
 						)}
 					</span>

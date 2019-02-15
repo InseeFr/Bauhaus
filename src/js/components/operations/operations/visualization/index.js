@@ -32,7 +32,7 @@ class OperationVisualizationContainer extends Component {
 		secondLang: PropTypes.bool,
 		saveSecondLang: PropTypes.func,
 	};
-	
+
 	constructor(props) {
 		super(props);
 
@@ -70,7 +70,7 @@ class OperationVisualizationContainer extends Component {
 			this.props.loadOperation(this.props.id);
 		}
 	}
-	
+
 	render() {
 		const {
 			id,
@@ -115,28 +115,29 @@ class OperationVisualizationContainer extends Component {
 				/>
 
 				<PageTitle title={operation.prefLabelLg1} context="operations" />
-				{secondLang &&
-					operation.prefLabelLg2 && (
-						<PageSubtitle
-							subTitle={operation.prefLabelLg2}
-							context="operations"
-						/>
-					)}
+				{secondLang && operation.prefLabelLg2 && (
+					<PageSubtitle
+						subTitle={operation.prefLabelLg2}
+						context="operations"
+					/>
+				)}
 
 				<div className="row btn-line">
 					<Button
 						action={goBack(this.props, '/operations/operations')}
 						label={D.btnReturn}
 						context="operations"
+						col={2}
 					/>
 
-					<div className="col-md-4 centered" />
+					<div className="col-md-6 centered" />
 
 					{operation.idSims && (
 						<Button
 							action={`/operations/sims/${operation.idSims}`}
 							label={D.btnSimsVisu}
 							context="operations"
+							col={2}
 						/>
 					)}
 					{!operation.idSims && (
@@ -144,13 +145,14 @@ class OperationVisualizationContainer extends Component {
 							action={`/operations/${operation.id}/sims/create`}
 							label={D.btnSimsCreate}
 							context="operations"
+							col={2}
 						/>
 					)}
-					<Button label={D.btnSend} action={() => {}} context="operations" />
 					<Button
 						action={`/operations/operation/${operation.id}/modify`}
 						label={D.btnUpdate}
 						context="operations"
+						col={2}
 					/>
 				</div>
 				<OperationsOperationVisualization

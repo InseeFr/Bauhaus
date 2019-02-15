@@ -62,6 +62,12 @@
 		padding: 70px 20px 20px 20px;
 		border-left: solid $color_operations_3 1px;
 	}
+	& .panel {
+		background: white;
+	}
+	& .panel-body {
+		background: white;
+	}
 }
 
 @mixin panel-trigger() {

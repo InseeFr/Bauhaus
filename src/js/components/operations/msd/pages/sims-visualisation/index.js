@@ -7,7 +7,6 @@ import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import Button from 'js/components/shared/button';
 import { markdownToHtml } from 'js/utils/html';
 import { Note } from 'js/components/shared/note';
-import './index.scss';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
 
@@ -33,7 +32,7 @@ export default function SimsVisualisation({
 		}
 		return (
 			!msd.isPresentational && (
-				<React.Fragment>
+				<>
 					{currentSection.rangeType === TEXT &&
 						currentSection[isSecondLang ? 'labelLg2' : 'labelLg1']}
 					{currentSection.value &&
@@ -59,14 +58,14 @@ export default function SimsVisualisation({
 								}
 							</span>
 						)}
-				</React.Fragment>
+				</>
 			)
 		);
 	}
 
 	function MSDInformations({ msd, firstLevel = false }) {
 		return (
-			<React.Fragment>
+			<>
 				<div className="row flex" key={msd.idMas} id={msd.idMas}>
 					{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
 						<h3 className="col-md-12">
@@ -95,12 +94,12 @@ export default function SimsVisualisation({
 					Object.values(msd.children).map(child => (
 						<MSDInformations key={child.idMas} msd={child} />
 					))}
-			</React.Fragment>
+			</>
 		);
 	}
 
 	return (
-		<React.Fragment>
+		<>
 			<div className="row btn-line">
 				<Button
 					col={3}
@@ -114,13 +113,13 @@ export default function SimsVisualisation({
 						col={3}
 						action={`/operations/sims/${sims.id}/duplicate`}
 						label={
-							<React.Fragment>
+							<>
 								<span
 									className="glyphicon glyphicon-duplicate"
 									aria-hidden="true"
 								/>
 								<span> {D.btnDuplicate}</span>
-							</React.Fragment>
+							</>
 						}
 						context="operations"
 					/>
@@ -129,13 +128,13 @@ export default function SimsVisualisation({
 					col={3}
 					action={`/operations/sims/${sims.id}/modify`}
 					label={
-						<React.Fragment>
+						<>
 							<span
 								className="glyphicon glyphicon-floppy-disk"
 								aria-hidden="true"
 							/>
 							<span> {D.btnUpdate}</span>
-						</React.Fragment>
+						</>
 					}
 					context="operations"
 				/>
@@ -148,7 +147,7 @@ export default function SimsVisualisation({
 				}
 				return <MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />;
 			})}
-		</React.Fragment>
+		</>
 	);
 }
 function shouldDisplayTitleForPrimaryItem(msd) {

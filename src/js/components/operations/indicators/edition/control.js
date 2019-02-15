@@ -21,9 +21,10 @@ function Control({ onSubmit, indicator, errorMessage }) {
 					</React.Fragment>
 				}
 				context="operations"
+				col={3}
 			/>
 
-			<div className="col-md-8 centered">
+			<div className="col-md-6 centered">
 				<div
 					style={{ visibility: errorMessage ? 'visible' : 'hidden' }}
 					className="alert alert-danger bold"
@@ -47,6 +48,7 @@ function Control({ onSubmit, indicator, errorMessage }) {
 				}
 				context="operations"
 				disabled={errorMessage}
+				col={3}
 			/>
 		</div>
 	);

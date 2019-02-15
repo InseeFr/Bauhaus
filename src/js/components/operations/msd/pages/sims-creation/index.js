@@ -11,7 +11,7 @@ import { DUPLICATE } from 'js/components/operations/msd';
 import { Note } from 'js/components/shared/note';
 import { rangeType } from 'js/utils/msd/';
 
-const blackList = [];
+const blackList = ['I.6.4'];
 const { RICH_TEXT, TEXT } = rangeType;
 
 function hasLabelLg2(section) {
@@ -132,7 +132,7 @@ class SimsCreation extends React.Component {
 		function MSDInformations(msd, handleChange, firstLevel = false) {
 			return (
 				<React.Fragment key={msd.idMas}>
-					<div className="row" id={msd.idMas}>
+					<div className="row flex" id={msd.idMas}>
 						{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
 							<h3 className="col-md-12">
 								{msd.idMas} - {msd.masLabelLg1}

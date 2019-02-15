@@ -167,3 +167,12 @@ link {
 .form-label {
 	display: block;
 }
+
+.row.flex {
+	display: flex;
+	flex-wrap: wrap;
+}
+.row.flex [class*='col-'] {
+	display: flex;
+	flex-direction: column;
+}

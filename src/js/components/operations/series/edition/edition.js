@@ -145,7 +145,6 @@ class OperationsSerieEdition extends Component {
 
 				<div className="row btn-line">
 					<Button
-						className="col-md-2"
 						action={goBack(this.props, '/operations/series')}
 						label={
 							<React.Fragment>
@@ -157,11 +156,11 @@ class OperationsSerieEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
+						col={3}
 					/>
 
-					<div className="col-md-8 centered" />
+					<div className="col-md-6 centered" />
 					<Button
-						className="col-md-2"
 						action={this.onSubmit}
 						label={
 							<React.Fragment>
@@ -174,6 +173,7 @@ class OperationsSerieEdition extends Component {
 						}
 						context="operations"
 						disabled={!isEditing}
+						col={3}
 					/>
 				</div>
 				<form>
