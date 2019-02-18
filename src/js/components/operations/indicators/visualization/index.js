@@ -53,14 +53,15 @@ class IndicatorVisualizationContainer extends Component {
 						action={goBack(this.props, '/operations/indicators')}
 						label={D.btnReturn}
 						context="operations"
+						col={3}
 					/>
 
 					<div className="col-md-6 centered" />
-					<Button label={D.btnSend} context="operations" />
 					<Button
 						action={`/operations/indicator/${attr.id}/modify`}
 						label={D.btnUpdate}
 						context="operations"
+						col={3}
 					/>
 				</div>
 				<OperationsIndicatorVisualization

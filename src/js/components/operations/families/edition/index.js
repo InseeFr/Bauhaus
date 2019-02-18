@@ -10,7 +10,7 @@ import OperationsFamilyEdition from 'js/components/operations/families/edition/e
 const extractId = buildExtract('id');
 
 class OperationsFamilyEditionContainer extends Component {
-	componentWillMount() {
+	componentDidMount() {
 		if (!this.props.family.id && this.props.id) {
 			this.props.loadFamily(this.props.id);
 		}

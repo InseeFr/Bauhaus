@@ -25,7 +25,7 @@ class FamilyVisualizationContainer extends PureComponent {
 		langs: PropTypes.object,
 		saveSecondLang: PropTypes.func,
 	};
-	componentWillMount() {
+	componentDidMount() {
 		if (!this.props.family.id) {
 			this.props.loadFamily(this.props.id);
 		}
@@ -49,14 +49,15 @@ class FamilyVisualizationContainer extends PureComponent {
 
 				<div className="row btn-line">
 					<Button
+						col="3"
 						action={goBack(this.props, '/operations/families')}
 						label={D.btnReturn}
 						context="operations"
 					/>
 
 					<div className="col-md-6 centered" />
-					<Button label={D.btnSend} context="operations" />
 					<Button
+						col="3"
 						action={`/operations/family/${attr.id}/modify`}
 						label={D.btnUpdate}
 						context="operations"

@@ -48,24 +48,24 @@ class SeriesVisualizationContainer extends Component {
 				/>
 
 				<PageTitle title={attr.prefLabelLg1} context="operations" />
-				{secondLang &&
-					attr.prefLabelLg2 && (
-						<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
-					)}
+				{secondLang && attr.prefLabelLg2 && (
+					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
+				)}
 
 				<div className="row btn-line">
 					<Button
 						action={goBack(this.props, '/operations/series')}
 						label={D.btnReturn}
 						context="operations"
+						col={3}
 					/>
 
 					<div className="col-md-6 centered" />
-					<Button label={D.btnSend} context="operations" />
 					<Button
 						action={`/operations/series/${attr.id}/modify`}
 						label={D.btnUpdate}
 						context="operations"
+						col={3}
 					/>
 				</div>
 				<OperationsSerieVisualization

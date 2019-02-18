@@ -7,7 +7,7 @@ import InputRmes from 'js/components/shared/input-rmes';
 import EditorMarkdown from 'js/components/shared/editor-markdown';
 import SelectRmes from 'js/components/shared/select-rmes';
 
-const { REPORTED_ATTRIBUTE, TEXT, DATE, CODE_LIST } = rangeType;
+const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
 
 describe('Sims Field', () => {
 	it('if isPresentational is true, should not display any fields', () => {
@@ -53,12 +53,12 @@ describe('Sims Field', () => {
 		);
 		expect(general.find(DatePickerRmes).length).toBe(1);
 	});
-	it('when rangeType === REPORTED_ATTRIBUTE, should display a EditorMarkdown', () => {
+	it('when rangeType === RICH_TEXT, should display a EditorMarkdown', () => {
 		const general = shallow(
 			<Field
 				msd={{
 					masLabelLg2: 'masLabelLg2',
-					rangeType: REPORTED_ATTRIBUTE,
+					rangeType: RICH_TEXT,
 					isPresentational: false,
 				}}
 				codesLists={{}}

@@ -34,14 +34,16 @@ class OperationsFamilyEdition extends Component {
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 	}
-	componentWillReceiveProps(nextProps) {
-		this.setState({
+
+	static getDerivedStateFromProps(props, state) {
+		return {
 			family: {
 				...defaultFamily,
-				...nextProps.family,
+				...props.family,
 			},
-		});
+		};
 	}
+
 	onChange(e) {
 		this.setState({
 			family: {
@@ -92,9 +94,10 @@ class OperationsFamilyEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
+						col="3"
 					/>
 
-					<div className="col-md-8 centered" />
+					<div className="col-md-6 centered" />
 					<Button
 						action={this.onSubmit}
 						label={
@@ -108,99 +111,88 @@ class OperationsFamilyEdition extends Component {
 						}
 						context="operations"
 						disabled={!isEditing}
+						col="3"
 					/>
 				</div>
 				<form>
 					<div className="row">
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="prefLabelLg1">
-									<NoteFlag text={D.title} lang={lg1} />
-								</label>
-								<input
-									type="text"
-									className="form-control"
-									id="prefLabelLg1"
-									value={this.state.family.prefLabelLg1}
-									onChange={this.onChange}
-									disabled={isEditing}
-								/>
-							</div>
+						<div className="col-md-6 form-group">
+							<label htmlFor="prefLabelLg1">
+								<NoteFlag text={D.title} lang={lg1} />
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								id="prefLabelLg1"
+								value={this.state.family.prefLabelLg1}
+								onChange={this.onChange}
+								disabled={isEditing}
+							/>
 						</div>
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="prefLabelLg2">
-									<NoteFlag text={D.title} lang={lg2} />
-								</label>
-								<input
-									type="text"
-									className="form-control"
-									id="prefLabelLg2"
-									value={family.prefLabelLg2}
-									onChange={this.onChange}
-									disabled={isEditing}
-								/>
-							</div>
+						<div className="col-md-6 form-group">
+							<label htmlFor="prefLabelLg2">
+								<NoteFlag text={D.title} lang={lg2} />
+							</label>
+							<input
+								type="text"
+								className="form-control"
+								id="prefLabelLg2"
+								value={family.prefLabelLg2}
+								onChange={this.onChange}
+								disabled={isEditing}
+							/>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="themeLg1">
-									<NoteFlag text={D.theme} lang={lg1} />
-								</label>
-								<input
-									disabled={isEditing}
-									type="text"
-									className="form-control"
-									id="themeLg1"
-									value={family.themeLg1}
-									onChange={this.onChange}
-								/>
-							</div>
+						<div className="col-md-6 form-group">
+							<label htmlFor="themeLg1">
+								<NoteFlag text={D.theme} lang={lg1} />
+							</label>
+							<input
+								disabled={isEditing}
+								type="text"
+								className="form-control"
+								id="themeLg1"
+								value={family.themeLg1}
+								onChange={this.onChange}
+							/>
 						</div>
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="themeLg2">
-									<NoteFlag text={D.theme} lang={lg2} />
-								</label>
-								<input
-									disabled={isEditing}
-									type="text"
-									className="form-control"
-									id="themeLg2"
-									value={family.themeLg2}
-									onChange={this.onChange}
-								/>
-							</div>
+						<div className="col-md-6 form-group">
+							<label htmlFor="themeLg2">
+								<NoteFlag text={D.theme} lang={lg2} />
+							</label>
+							<input
+								disabled={isEditing}
+								type="text"
+								className="form-control"
+								id="themeLg2"
+								value={family.themeLg2}
+								onChange={this.onChange}
+							/>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="abstractLg1">
-									<NoteFlag text={D.summary} lang={lg1} />
-								</label>
-								<EditorMarkdown
-									text={family.abstractLg1}
-									handleChange={value =>
-										this.onChange({ target: { value, id: 'abstractLg1' } })
-									}
-								/>
-							</div>
+						<div className="col-md-6 form-group">
+							<label htmlFor="abstractLg1">
+								<NoteFlag text={D.summary} lang={lg1} />
+							</label>
+							<EditorMarkdown
+								text={family.abstractLg1}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'abstractLg1' } })
+								}
+							/>
 						</div>
-						<div className="col-md-6">
-							<div className="form-group">
-								<label htmlFor="abstractLg2">
-									<NoteFlag text={D.summary} lang={lg2} />
-								</label>
-								<EditorMarkdown
-									text={family.abstractLg2}
-									handleChange={value =>
-										this.onChange({ target: { value, id: 'abstractLg2' } })
-									}
-								/>
-							</div>
+						<div className="col-md-6 form-group">
+							<label htmlFor="abstractLg2">
+								<NoteFlag text={D.summary} lang={lg2} />
+							</label>
+							<EditorMarkdown
+								text={family.abstractLg2}
+								handleChange={value =>
+									this.onChange({ target: { value, id: 'abstractLg2' } })
+								}
+							/>
 						</div>
 					</div>
 				</form>

@@ -1,8 +1,7 @@
-
 import D from 'js/i18n';
 import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
 
-export function getLabelsFromOperation(operation){
+export function getLabelsFromOperation(operation) {
 	const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
 	return {
 		labelLg1: D.simsLabel.replace(
@@ -13,7 +12,7 @@ export function getLabelsFromOperation(operation){
 			labelOperationNameTemplate,
 			operation.prefLabelLg2
 		),
-	}
+	};
 }
 /**
  *
@@ -71,4 +70,5 @@ export const rangeType = {
 	TEXT: 'TEXT',
 	DATE: 'DATE',
 	CODE_LIST: 'CODE_LIST',
+	RICH_TEXT: 'RICH_TEXT',
 };

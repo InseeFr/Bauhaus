@@ -11,11 +11,11 @@ import { DUPLICATE } from 'js/components/operations/msd';
 import { Note } from 'js/components/shared/note';
 import { rangeType } from 'js/utils/msd/';
 
-const blackList = [];
-const { REPORTED_ATTRIBUTE, TEXT } = rangeType;
+const blackList = ['I.6.4'];
+const { RICH_TEXT, TEXT } = rangeType;
 
 function hasLabelLg2(section) {
-	return section.rangeType === TEXT || section.rangeType === REPORTED_ATTRIBUTE;
+	return section.rangeType === TEXT || section.rangeType === RICH_TEXT;
 }
 class SimsCreation extends React.Component {
 	static propTypes = {
@@ -123,7 +123,6 @@ class SimsCreation extends React.Component {
 			langs: { lg1, lg2 },
 		} = this.props;
 		const { sims, idOperation } = this.state;
-
 		const operationsOptions = (this.props.sims.operationsWithoutSims || []).map(
 			op => ({
 				label: op.labelLg1,
@@ -133,7 +132,7 @@ class SimsCreation extends React.Component {
 		function MSDInformations(msd, handleChange, firstLevel = false) {
 			return (
 				<React.Fragment key={msd.idMas}>
-					<div className="row" id={msd.idMas}>
+					<div className="row flex" id={msd.idMas}>
 						{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
 							<h3 className="col-md-12">
 								{msd.idMas} - {msd.masLabelLg1}
@@ -142,7 +141,7 @@ class SimsCreation extends React.Component {
 						{!msd.isPresentational && (
 							<Note
 								context="operations"
-								title={`${msd.idMas} - ${msd.masLabelLg2} `}
+								title={`${msd.idMas} - ${msd.masLabelLg1} `}
 								alone={!(hasLabelLg2(msd) && secondLang)}
 								text={
 									<Field

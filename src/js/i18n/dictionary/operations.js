@@ -140,7 +140,7 @@ const dictionary = {
 		en: 'Presentational attribut',
 		fr: 'Attribut présentationnel',
 	},
-	helpREPORTED_ATTRIBUTE: {
+	helpRICH_TEXT: {
 		en: 'Rich text + URI',
 		fr: 'Texte riche + URI',
 	},

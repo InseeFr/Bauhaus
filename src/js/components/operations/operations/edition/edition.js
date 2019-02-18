@@ -108,9 +108,10 @@ class OperationsOperationEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
+						col={3}
 					/>
 
-					<div className="col-md-8 centered" />
+					<div className="col-md-6 centered" />
 					<Button
 						action={this.onSubmit}
 						label={
@@ -124,6 +125,7 @@ class OperationsOperationEdition extends Component {
 						}
 						context="operations"
 						disabled={!isEditing}
+						col={3}
 					/>
 				</div>
 				<form>
