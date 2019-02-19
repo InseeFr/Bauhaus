@@ -33,7 +33,7 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 							</div>
 						)}
 					</div>
-					<div className="col-md-9 centered">
+					<div className="col-md-8 centered pull-right">
 						<PageTitle
 							title={D.indicatorsSearchTitle}
 							col={12}

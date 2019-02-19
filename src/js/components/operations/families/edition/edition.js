@@ -31,8 +31,6 @@ class OperationsFamilyEdition extends Component {
 				...props.family,
 			},
 		};
-		this.onChange = this.onChange.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
 	}
 
 	static getDerivedStateFromProps(props, state) {
@@ -44,19 +42,19 @@ class OperationsFamilyEdition extends Component {
 		};
 	}
 
-	onChange(e) {
+	onChange = e => {
 		this.setState({
 			family: {
 				...this.state.family,
 				[e.target.id]: e.target.value,
 			},
 		});
-	}
-	onSubmit() {
+	};
+	onSubmit = () => {
 		this.props.saveFamily(this.state.family, (id = this.state.family.id) => {
 			this.props.history.push(`/operations/family/${id}`);
 		});
-	}
+	};
 
 	render() {
 		const {
@@ -94,10 +92,9 @@ class OperationsFamilyEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
-						col={3}
 					/>
 
-					<div className="col-md-6 centered" />
+					<div className="col-md-8 centered" />
 					<Button
 						action={this.onSubmit}
 						label={
@@ -111,7 +108,6 @@ class OperationsFamilyEdition extends Component {
 						}
 						context="operations"
 						disabled={!isEditing}
-						col={3}
 					/>
 				</div>
 				<form>

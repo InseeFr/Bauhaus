@@ -53,8 +53,6 @@ class OperationsSerieEdition extends Component {
 				...props.serie,
 			},
 		};
-		this.onChange = this.onChange.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
 	}
 	componentWillReceiveProps(nextProps) {
 		this.setState({
@@ -64,7 +62,7 @@ class OperationsSerieEdition extends Component {
 			},
 		});
 	}
-	onChange(e) {
+	onChange = e => {
 		let override = {
 			[e.target.id]: e.target.value,
 		};
@@ -81,12 +79,12 @@ class OperationsSerieEdition extends Component {
 				...override,
 			},
 		});
-	}
-	onSubmit() {
+	};
+	onSubmit = () => {
 		this.props.saveSerie(this.state.serie, (id = this.props.serie.id) => {
 			this.props.history.push(`/operations/series/${id}`);
 		});
-	}
+	};
 
 	render() {
 		const {
@@ -156,10 +154,9 @@ class OperationsSerieEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
-						col={3}
 					/>
 
-					<div className="col-md-6 centered" />
+					<div className="col-md-8 centered" />
 					<Button
 						action={this.onSubmit}
 						label={
@@ -173,7 +170,6 @@ class OperationsSerieEdition extends Component {
 						}
 						context="operations"
 						disabled={!isEditing}
-						col={3}
 					/>
 				</div>
 				<form>

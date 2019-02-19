@@ -29,8 +29,6 @@ class OperationsOperationEdition extends Component {
 				...props.operation,
 			},
 		};
-		this.onChange = this.onChange.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
 	}
 	componentWillReceiveProps(nextProps) {
 		this.setState({
@@ -40,7 +38,7 @@ class OperationsOperationEdition extends Component {
 			},
 		});
 	}
-	onChange(e) {
+	onChange = e => {
 		let override = {
 			[e.target.id]: e.target.value,
 		};
@@ -57,15 +55,15 @@ class OperationsOperationEdition extends Component {
 				...override,
 			},
 		});
-	}
-	onSubmit() {
+	};
+	onSubmit = () => {
 		this.props.saveOperation(
 			this.state.operation,
 			(id = this.state.operation.id) => {
 				this.props.history.push(`/operations/operation/${id}`);
 			}
 		);
-	}
+	};
 
 	render() {
 		const {
@@ -108,10 +106,9 @@ class OperationsOperationEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
-						col={3}
 					/>
 
-					<div className="col-md-6 centered" />
+					<div className="col-md-8 centered" />
 					<Button
 						action={this.onSubmit}
 						label={
@@ -125,7 +122,6 @@ class OperationsOperationEdition extends Component {
 						}
 						context="operations"
 						disabled={!isEditing}
-						col={3}
 					/>
 				</div>
 				<form>

@@ -1,7 +1,7 @@
 @media (min-width: 768px) {
 	.navbar-nav > li > button {
 		background-color: transparent;
-		padding-top: 10px;
+		padding-top: 15px;
 		padding-bottom: 15px;
 		padding-right: 5px;
 	}
@@ -21,6 +21,7 @@
 @mixin set-menu($context, $color_1, $color_2, $color_3) {
 	background: $color_3;
 	font-size: 20px;
+	line-height: 20px;
 	font-family: arial;
 	color: #fff;
 	margin-bottom: 0;
@@ -28,6 +29,9 @@
 	border-bottom: 0;
 
 	.navbar-nav-#{$context} {
+		button {
+			border: none;
+		}
 		> li > a:focus,
 		> .active > a {
 			background: #fff;

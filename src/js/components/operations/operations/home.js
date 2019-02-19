@@ -28,7 +28,7 @@ function OperationsHome({ operations }) {
 							</div>
 						</div>
 					</div>
-					<div className="col-md-9 centered">
+					<div className="col-md-8 centered pull-right">
 						<PageTitle
 							title={D.operationsSearchTitle}
 							col={12}
