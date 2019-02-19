@@ -11,7 +11,6 @@ function DisplayLinks({
 	displayLink = true,
 	labelLg1 = 'labelLg1',
 	labelLg2 = 'labelLg2',
-	context,
 }) {
 	function displayBlock(link, label) {
 		if (displayLink) {
