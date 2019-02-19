@@ -94,7 +94,7 @@ class OperationsFamilyEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
-						col="3"
+						col={3}
 					/>
 
 					<div className="col-md-6 centered" />
@@ -111,7 +111,7 @@ class OperationsFamilyEdition extends Component {
 						}
 						context="operations"
 						disabled={!isEditing}
-						col="3"
+						col={3}
 					/>
 				</div>
 				<form>

@@ -49,7 +49,7 @@ class FamilyVisualizationContainer extends PureComponent {
 
 				<div className="row btn-line">
 					<Button
-						col="3"
+						col={3}
 						action={goBack(this.props, '/operations/families')}
 						label={D.btnReturn}
 						context="operations"
@@ -57,7 +57,7 @@ class FamilyVisualizationContainer extends PureComponent {
 
 					<div className="col-md-6 centered" />
 					<Button
-						col="3"
+						col={3}
 						action={`/operations/family/${attr.id}/modify`}
 						label={D.btnUpdate}
 						context="operations"
