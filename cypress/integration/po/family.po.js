@@ -1,6 +1,6 @@
 export class FamiliesPage {
 	getNewButton() {
-		return '.btn-group-vertical a';
+		return '.operations-btn-group-vertical a';
 	}
 }
 export class FamilyEditPage {

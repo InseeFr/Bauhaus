@@ -195,7 +195,6 @@ class SimsCreation extends React.Component {
 			<form>
 				<div className="row btn-line">
 					<Button
-						col={3}
 						action={this.goBack}
 						label={
 							<React.Fragment>
@@ -208,9 +207,8 @@ class SimsCreation extends React.Component {
 						}
 						context="operations"
 					/>
-					<div className="col-md-6" />
+					<div className="col-md-7" />
 					<Button
-						col={3}
 						action={this.handleSubmit}
 						label={
 							<React.Fragment>
@@ -222,6 +220,7 @@ class SimsCreation extends React.Component {
 							</React.Fragment>
 						}
 						context="operations"
+						col={3}
 					/>
 				</div>
 

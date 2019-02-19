@@ -57,15 +57,13 @@ class SeriesVisualizationContainer extends Component {
 						action={goBack(this.props, '/operations/series')}
 						label={D.btnReturn}
 						context="operations"
-						col={3}
 					/>
 
-					<div className="col-md-6 centered" />
+					<div className="col-md-8 centered" />
 					<Button
 						action={`/operations/series/${attr.id}/modify`}
 						label={D.btnUpdate}
 						context="operations"
-						col={3}
 					/>
 				</div>
 				<OperationsSerieVisualization

@@ -4,7 +4,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import auth from 'js/components/auth/hoc';
 
 import Error from 'js/components/shared/error';
-import NotFound from 'js/components/shared/not-found';
+import NotFound from 'js/components/shared/not-found/';
 
 import App from 'js/components/app';
 import MenuDispatcher from 'js/components/menu/home-container';

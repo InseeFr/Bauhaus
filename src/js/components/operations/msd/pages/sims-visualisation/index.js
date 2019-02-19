@@ -102,15 +102,13 @@ export default function SimsVisualisation({
 		<>
 			<div className="row btn-line">
 				<Button
-					col={3}
 					action={() => goBack(`/operations/operation/${idOperation}`)}
 					label={D.btnReturn}
 					context="operations"
 				/>
-				<div className={`col-md-${shouldDisplayDuplicateButton ? 3 : 6}`} />
+				<div className={`col-md-${shouldDisplayDuplicateButton ? 5 : 8}`} />
 				{shouldDisplayDuplicateButton && (
 					<Button
-						col={3}
 						action={`/operations/sims/${sims.id}/duplicate`}
 						label={
 							<>
@@ -121,11 +119,11 @@ export default function SimsVisualisation({
 								<span> {D.btnDuplicate}</span>
 							</>
 						}
+						col={3}
 						context="operations"
 					/>
 				)}
 				<Button
-					col={3}
 					action={`/operations/sims/${sims.id}/modify`}
 					label={
 						<>

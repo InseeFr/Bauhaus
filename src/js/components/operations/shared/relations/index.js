@@ -19,7 +19,7 @@ function RelationsViewPerLg({
 	return (
 		<Note
 			text={
-				<React.Fragment>
+				<>
 					{parent && (
 						<p>
 							<span className="linksTitle">{parentTitle}:</span>
@@ -29,7 +29,7 @@ function RelationsViewPerLg({
 						</p>
 					)}
 					{children && (
-						<React.Fragment>
+						<>
 							<p>
 								<span className="linksTitle">{childrenTitle}:</span>
 							</p>
@@ -48,9 +48,9 @@ function RelationsViewPerLg({
 										</li>
 									))}
 							</ul>
-						</React.Fragment>
+						</>
 					)}
-				</React.Fragment>
+				</>
 			}
 			title={title}
 			lang={currentLang}

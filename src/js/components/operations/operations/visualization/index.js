@@ -127,7 +127,6 @@ class OperationVisualizationContainer extends Component {
 						action={goBack(this.props, '/operations/operations')}
 						label={D.btnReturn}
 						context="operations"
-						col={2}
 					/>
 
 					<div className="col-md-6 centered" />
@@ -137,7 +136,6 @@ class OperationVisualizationContainer extends Component {
 							action={`/operations/sims/${operation.idSims}`}
 							label={D.btnSimsVisu}
 							context="operations"
-							col={2}
 						/>
 					)}
 					{!operation.idSims && (
@@ -145,14 +143,12 @@ class OperationVisualizationContainer extends Component {
 							action={`/operations/${operation.id}/sims/create`}
 							label={D.btnSimsCreate}
 							context="operations"
-							col={2}
 						/>
 					)}
 					<Button
 						action={`/operations/operation/${operation.id}/modify`}
 						label={D.btnUpdate}
 						context="operations"
-						col={2}
 					/>
 				</div>
 				<OperationsOperationVisualization
