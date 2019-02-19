@@ -40,7 +40,7 @@ describe('toggleOpen', () => {
 	});
 	it('should return call localStorage with true if the item is not present yet in the localStorage', () => {
 		const input = 1;
-		const output = toggleOpen(input);
+		toggleOpen(input);
 		expect(localStorage.setItem).toHaveBeenLastCalledWith(
 			HELP_COLLAPSED,
 			JSON.stringify({
@@ -52,7 +52,7 @@ describe('toggleOpen', () => {
 	});
 	it('should return call localStorage with false if the item is currently opened', () => {
 		const input = 2;
-		const output = toggleOpen(input);
+		toggleOpen(input);
 		expect(localStorage.setItem).toHaveBeenLastCalledWith(
 			HELP_COLLAPSED,
 			JSON.stringify({
@@ -64,7 +64,7 @@ describe('toggleOpen', () => {
 
 	it('should return  call localStorage with true if the item is currently closed', () => {
 		const input = 3;
-		const output = toggleOpen(input);
+		toggleOpen(input);
 		expect(localStorage.setItem).toHaveBeenLastCalledWith(
 			HELP_COLLAPSED,
 			JSON.stringify({
