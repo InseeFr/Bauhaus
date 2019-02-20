@@ -19,51 +19,52 @@ describe('Family page', () => {
 				cy.route(Cypress.env('API') + 'operations/families', json);
 			});
 
-		cy.server().visit(`/operations/families`);
-		cy.get('.list-group-item').should('have.length', 10);
-		cy.get('.page-item').should('have.length', 7);
-		cy.get('input').type('INSEE');
-		cy.get('.list-group-item').should('have.length', 0);
-		cy.get('input').clear();
-		cy.get('.list-group-item').should('have.length', 10);
+		familiesPage.go();
+		familiesPage.getFamiliesList().should('have.length', 10);
+		familiesPage.getPaginationBlock().should('have.length', 7);
+		familiesPage.search('INSEE');
+		familiesPage.getFamiliesList().should('have.length', 0);
+		familiesPage.resetSearch();
+		familiesPage.getFamiliesList().should('have.length', 10);
 	});
 
-	it('Should go the Family view page and come back', () => {
-		cy.server().visit(`/operations/families`);
-		cy.get('.list-group a')
-			.first()
-			.click();
-
+	it('Should go the Family view page', () => {
+		familiesPage.go();
+		familiesPage.selectFamily();
 		cy.url().should('include', '/operations/family/');
+		familyEditPage.goBack();
+		cy.url().should('match', /\/operations\/families$/);
+
+		familiesPage.selectFamily();
+		cy.url().should('include', '/operations/family/');
+		cy.get('.panel-body > ul > :nth-child(1) > a').click();
+		cy.url().should('include', '/operations/series/s1284');
 		cy.get('.btn-line button')
 			.first()
 			.click();
-		cy.url().should('match', /\/operations\/families$/);
+		cy.url().should('include', '/operations/family/');
 	});
 
 	it('Should go the Family creation page and come back', () => {
-		cy.server().visit(`/operations/families`);
-		cy.get(familiesPage.getNewButton()).should('be.visible');
-		cy.get(familiesPage.getNewButton()).click();
+		familiesPage.go();
+		familiesPage.getNewButton().should('be.visible');
+		familiesPage.getNewButton().click();
 		cy.url().should('match', /\/operations\/family\/create$/);
-		cy.get(familyEditPage.getBackButton())
-			.first()
-			.click();
-
+		familyEditPage.goBack();
 		cy.url().should('match', /\/operations\/families$/);
 	});
 
 	it('Should create a new family', () => {
-		cy.server().visit(`/operations/families`);
-		cy.get(familiesPage.getNewButton()).should('be.visible');
-		cy.get(familiesPage.getNewButton()).click();
+		familiesPage.go();
+		familiesPage.getNewButton().should('be.visible');
+		familiesPage.goToCreationPage();
 		cy.url().should('match', /\/operations\/family\/create$/);
-		cy.get(familyEditPage.getTitle()).should('not.exist');
+		familyEditPage.getTitle().should('not.exist');
 		cy.get('form input[disabled]').should('have.length', 0);
 	});
 
 	it('Should go the Family update page and come back', () => {
-		cy.server().visit(`/operations/families`);
+		familiesPage.go();
 		cy.get('.list-group a')
 			.first()
 			.click();
@@ -88,7 +89,7 @@ describe('Family page', () => {
 	});
 
 	it('Should go the Family update page', () => {
-		cy.server().visit(`/operations/families`);
+		familiesPage.go();
 		cy.get('.list-group a')
 			.first()
 			.click();
