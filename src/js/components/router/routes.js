@@ -10,9 +10,9 @@ import App from 'js/components/app';
 import MenuDispatcher from 'js/components/menu/home-container';
 import Role from 'js/components/administration/roles/home-container';
 
-import ConceptsRoutes from 'js/components/router/concepts.js';
-import ClassificationsRoutes from 'js/components/router/classifications.js';
-import OperationsRoutes from 'js/components/router/operations.js';
+import ConceptsRoutes from 'js/components/router/concepts';
+import ClassificationsRoutes from 'js/components/router/classifications';
+import OperationsRoutes from 'js/components/router/operations';
 
 export default withRouter(
 	auth(({ error }) => (
