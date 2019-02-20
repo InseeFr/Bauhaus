@@ -1,8 +1,32 @@
 import { FamiliesPage, FamilyEditPage } from './po/family.po';
 
 describe('Family page', () => {
+	let polyfill;
 	const familiesPage = new FamiliesPage();
 	const familyEditPage = new FamilyEditPage();
+
+	before(() => {
+		const polyfillUrl = 'https://unpkg.com/unfetch/dist/unfetch.umd.js';
+		cy.request(polyfillUrl).then(response => {
+			polyfill = response.body;
+		});
+	});
+
+	it('Families view page', () => {
+		cy.server()
+			.fixture('families')
+			.then(json => {
+				cy.route(Cypress.env('API') + 'operations/families', json);
+			});
+
+		cy.server().visit(`/operations/families`);
+		cy.get('.list-group-item').should('have.length', 10);
+		cy.get('.page-item').should('have.length', 7);
+		cy.get('input').type('INSEE');
+		cy.get('.list-group-item').should('have.length', 0);
+		cy.get('input').clear();
+		cy.get('.list-group-item').should('have.length', 10);
+	});
 
 	it('Should go the Family view page and come back', () => {
 		cy.server().visit(`/operations/families`);
