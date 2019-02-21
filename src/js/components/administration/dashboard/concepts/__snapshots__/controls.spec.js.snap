@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`concept-visualization-controls should render the component 1`] = `
+<div
+  className="row btn-line"
+>
+  <div
+    className="col-md-2"
+  >
+    <a
+      className="btn btn-primary btn-lg col-md-12"
+      href="/concepts/administration"
+      onClick={[Function]}
+    >
+      Back
+    </a>
+  </div>
+</div>
+`;
