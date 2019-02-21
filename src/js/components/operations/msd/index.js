@@ -18,6 +18,7 @@ import * as select from 'js/reducers';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import loadOperation from 'js/actions/operations/operations/item';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');
 const extractIdOperation = buildExtract('idOperation');
@@ -190,7 +191,7 @@ const mapStateToProps = (state, ownProps) => {
 
 	return {
 		langs: select.getLangs(state),
-		secondLang: state.app.secondLang,
+		secondLang: getSecondLang(state),
 		metadataStructure,
 		metadataStructureStatus,
 

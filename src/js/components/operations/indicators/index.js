@@ -19,7 +19,6 @@ export const mapStateToProps = state => {
 			indicators: [],
 		};
 	}
-	//TODO should be sorted in the state, shouldn't they ?
 	const { results: indicators, status, err } = state.operationsIndicatorsList;
 	const permission = select.getPermission(state);
 	return {

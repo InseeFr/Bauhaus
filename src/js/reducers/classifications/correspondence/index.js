@@ -6,14 +6,16 @@ export function getCorrespondence(state, id) {
 		state.classificationsCorrespondenceGeneral,
 		id
 	);
-	//if (!correspondence) return;
 	const associations = getAssociations(
 		state.classificationsCorrespondenceAssociations,
 		id
 	);
-	//	if (!associations) return;
 	return {
 		correspondence,
 		associations,
 	};
+}
+
+export function getCorrespondencesList(state) {
+	return state.classificationsCorrespondencesList;
 }

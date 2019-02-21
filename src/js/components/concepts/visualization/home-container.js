@@ -13,6 +13,7 @@ import Loading from 'js/components/shared/loading';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';
 import { OK } from 'js/constants';
+import { getSecondLang } from 'js/reducers/app';
 const extractId = buildExtract('id');
 
 class ConceptVisualizationContainer extends Component {
@@ -29,7 +30,7 @@ class ConceptVisualizationContainer extends Component {
 		};
 	}
 	componentWillMount() {
-		const {	id,	allNotes } = this.props;
+		const { id, allNotes } = this.props;
 		if (!allNotes) {
 			this.props.loadConceptAndAllNotes(id);
 		}
@@ -60,15 +61,8 @@ class ConceptVisualizationContainer extends Component {
 				return <Loading textType="validating" context="concepts" />;
 			}
 		}
-		const {
-			id,
-			permission,
-			concept,
-			allNotes,
-			secondLang,
-			langs,
-		} = this.props;
-		if (concept  && allNotes) {
+		const { id, permission, concept, allNotes, secondLang, langs } = this.props;
+		if (concept && allNotes) {
 			const { general, links } = concept;
 			let { notes } = concept;
 			const { conceptVersion, isValidated, creator } = general;
@@ -124,11 +118,9 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		id,
 		permission: select.getPermission(state),
-		secondLang: state.app.secondLang,
+		secondLang: getSecondLang(state),
 		concept: select.getConcept(state, id),
 		allNotes,
-		//TODO should check if the concept which has been validated are the same
-		//a validation has been requested for.
 		validationStatus: select.getStatus(state, VALIDATE_CONCEPT_LIST),
 		langs: select.getLangs(state),
 	};
@@ -141,9 +133,10 @@ const mapDispatchToProps = {
 	validateConcept: id => validateConcepts([id]),
 };
 
-ConceptVisualizationContainer = connect(mapStateToProps, mapDispatchToProps)(
-	ConceptVisualizationContainer
-);
+ConceptVisualizationContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ConceptVisualizationContainer);
 
 ConceptVisualizationContainer.propTypes = {
 	match: PropTypes.shape({

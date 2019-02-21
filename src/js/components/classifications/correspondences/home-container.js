@@ -4,6 +4,7 @@ import Loading from 'js/components/shared/loading';
 import CorrespondencesHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadCorrespondencesList from 'js/actions/classifications/correspondences/list';
+import { getCorrespondencesList } from 'js/reducers/classifications/correspondence';
 
 class CorrespondencesHomeContainer extends Component {
 	componentWillMount() {
@@ -19,19 +20,19 @@ class CorrespondencesHomeContainer extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	if (!state.classificationsCorrespondencesList) {
+export const mapStateToProps = state => {
+	const classificationsCorrespondencesList = getCorrespondencesList(state);
+	if (!classificationsCorrespondencesList) {
 		return {
 			status: NOT_LOADED,
 			correspondences: [],
 		};
 	}
-	//TODO should be sorted in the state, shouldn't they ?
 	let {
 		results: correspondences,
 		status,
 		err,
-	} = state.classificationsCorrespondencesList;
+	} = classificationsCorrespondencesList;
 
 	return {
 		correspondences,
@@ -44,6 +45,7 @@ const mapDispatchToProps = {
 	loadCorrespondencesList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	CorrespondencesHomeContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CorrespondencesHomeContainer);

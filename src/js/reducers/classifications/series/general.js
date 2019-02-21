@@ -9,7 +9,6 @@ export default function(state = {}, action) {
 			const { id } = payload;
 			return {
 				...state,
-				//TODO do optimistic updates
 				[id]: {},
 			};
 		}

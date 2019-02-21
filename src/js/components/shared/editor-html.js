@@ -14,8 +14,6 @@ const toolbar = {
 	},
 };
 
-//TODO in the previous version, we used `stateToHTML(note.getCurrentContent()) !== '<p>undefined</p>'`
-// see if it is still necessary.
 class EditorHtml extends Component {
 	constructor(props) {
 		super(props);
@@ -33,7 +31,6 @@ class EditorHtml extends Component {
 		//some controls appear as disabled even if the editor has some content.
 		//Hence this approach (with `onBlur`) has been desactivated and we give
 		//back the `html` to the parent component every time a key is pressed.
-		//TODO check if there is no performance issue
 		this.handleLeave = () =>
 			this.props.handleChange(htmlFromEditorState(this.state.editorState));
 	}

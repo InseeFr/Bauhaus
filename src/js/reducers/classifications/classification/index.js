@@ -11,3 +11,7 @@ export function getClassification(state, id) {
 		levels,
 	};
 }
+
+export function getClassificationsFamiliesList(state) {
+	return state.classificationsFamiliesList;
+}

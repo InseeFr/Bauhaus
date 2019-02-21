@@ -11,6 +11,7 @@ import loadStampList from 'js/actions/stamp';
 import Loading from 'js/components/shared/loading';
 import CollectionVisualization from './home';
 import { OK } from 'js/constants';
+import { getSecondLang } from 'js/reducers/app';
 const extractId = buildExtract('id');
 
 class CollectionVisualizationContainer extends Component {
@@ -83,11 +84,9 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		id,
 		permission: select.getPermission(state),
-		secondLang: state.app.secondLang,
+		secondLang: getSecondLang(state),
 		collection: select.getCollection(state, id),
 		stampList: select.getStampList(state),
-		//TODO should check if the collection which has been validated are the same
-		//a validation has been requested for.
 		validationStatus: select.getStatus(state, VALIDATE_COLLECTION_LIST),
 		langs: select.getLangs(state),
 	};
@@ -100,9 +99,10 @@ const mapDispatchToProps = {
 	validateCollection: id => validateCollection([id]),
 };
 
-CollectionVisualizationContainer = connect(mapStateToProps, mapDispatchToProps)(
-	CollectionVisualizationContainer
-);
+CollectionVisualizationContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CollectionVisualizationContainer);
 
 CollectionVisualizationContainer.propTypes = {
 	match: PropTypes.shape({

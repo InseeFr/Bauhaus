@@ -7,7 +7,6 @@ import D from 'js/i18n';
 import { regexValidMail, allTagA } from 'js/utils/regex';
 
 const getDefaultMessage = (appHost, id, label, isValidated) => {
-	//TODO fix me
 	const params = [appHost, label, id];
 	if (isValidated === 'false') {
 		params.push('false');
@@ -22,6 +21,14 @@ const deleteRef = message => {
 };
 
 class CollectionSend extends Component {
+	static propTypes = {
+		id: PropTypes.string.isRequired,
+		prefLabelLg1: PropTypes.string,
+		properties: PropTypes.object.isRequired,
+		isValidated: PropTypes.oneOf(['false', 'true']).isRequired,
+		sendCollection: PropTypes.func.isRequired,
+	};
+
 	constructor(props) {
 		super(props);
 
@@ -116,14 +123,4 @@ class CollectionSend extends Component {
 		);
 	}
 }
-
-CollectionSend.propTypes = {
-	id: PropTypes.string.isRequired,
-	prefLabelLg1: PropTypes.string,
-	properties: PropTypes.object.isRequired,
-	//TODO use constants
-	isValidated: PropTypes.oneOf(['false', 'true']).isRequired,
-	sendCollection: PropTypes.func.isRequired,
-};
-
 export default CollectionSend;

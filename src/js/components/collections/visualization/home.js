@@ -30,15 +30,13 @@ class CollectionVisualization extends Component {
 						onChange={this.props.saveSecondLang}
 					/>
 					<PageTitle title={general.prefLabelLg1} />
-					{secondLang &&
-						general.prefLabelLg2 && (
-							<PageSubtitle subTitle={general.prefLabelLg2} />
-						)}
+					{secondLang && general.prefLabelLg2 && (
+						<PageSubtitle subTitle={general.prefLabelLg2} />
+					)}
 					<CollectionVisualizationControls
 						id={id}
 						permission={permission}
 						creator={creator}
-						//TODO FIX ME
 						isValidated={isValidated === 'true'}
 						handleValidation={this.handleClickValid}
 					/>

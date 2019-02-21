@@ -15,8 +15,6 @@ import {
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
-//TODO reorganize files and exports
-//TODO check if we can use a boolean for versioning
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
 
 class ConceptEditionCreation extends Component {
@@ -89,7 +87,6 @@ class ConceptEditionCreation extends Component {
 		};
 
 		this.askToConfirmOrSave = () => {
-			//TODO check against a constant instead==
 			const isValidated = this.props.general.isValidated === 'true';
 			//If notes have changed, we need to open the modal to confirm version
 			//change.

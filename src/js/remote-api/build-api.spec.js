@@ -39,7 +39,6 @@ describe('compute api call description', () => {
 });
 
 describe('build call', () => {
-	//TODO improve tests
 	it('returns a function which calls fetch with the computed body and chains it with the given handler', () => {
 		const resPromise = () => Promise.resolve(42);
 		const fetch = jest.fn(() =>
@@ -52,10 +51,6 @@ describe('build call', () => {
 		const remoteCall = buildCall('context', 'postComment', postCommentFn);
 		expect.assertions(1);
 		return expect(remoteCall('john', 'some text')).resolves.toEqual(42);
-	});
-
-	it('the HTTP verb is extracted form the resource name', () => {
-		//TODO
 	});
 });
 

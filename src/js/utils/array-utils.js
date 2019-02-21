@@ -50,8 +50,6 @@ export const filterDeburr = rawStr => {
 			.includes(str);
 };
 
-//TODO remove other filters that should be built inline when needed with
-//`filterKeyDeburr`
 export const filterKeyDeburr = keys => rawStr => {
 	const str = _.deburr(rawStr).toLocaleLowerCase();
 	return item => {
@@ -66,9 +64,9 @@ export const filterKeyDeburr = keys => rawStr => {
 	};
 };
 
-export const filterKeyDate = key => (start, end) => item =>{
+export const filterKeyDate = key => (start, end) => item => {
 	return !item[key] || isDateIn(item[key], start, end);
-}
+};
 
 export const creatSelectList = max => {
 	const result = [];

@@ -27,13 +27,10 @@ export default function buildPayloadUpdate(versioning, oldConcept, concept) {
 	const general = processGeneral(rawGeneral, generalFieldsToKeep);
 	const links = processLinks(conceptsWithLinks);
 
-	//TODO check if there is no `isValidated` property within general
 	return {
 		versioning: versioning === VERSIONING ? true : false,
 		...general, //prefLabelLg1, prefLabelLg2...
 		links,
-		//[{ noteType: 'scopeNoteLg2', content: 'new note'} ...]
-		//datableNotes: processDatableChanges(oldNotes, notes),
 		datableNotes: keepDatableNotes(notes),
 		versionableNotes: processVersionableChanges(oldNotes, notes),
 	};

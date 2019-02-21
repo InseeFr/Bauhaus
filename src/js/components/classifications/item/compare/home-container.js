@@ -9,6 +9,7 @@ import loadItem from 'js/actions/classifications/item';
 import buildExtract from 'js/utils/build-extract';
 import * as select from 'js/reducers/classifications/item';
 import * as mainSelect from 'js/reducers';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractClassificationId = buildExtract('classificationId');
 const extractItemId = buildExtract('itemId');
@@ -43,7 +44,7 @@ const mapStateToProps = (state, ownProps) => {
 	const classificationId = extractClassificationId(ownProps);
 	const itemId = extractItemId(ownProps);
 	const item = select.getFullItem(state, classificationId, itemId);
-	const secondLang = state.app.secondLang;
+	const secondLang = getSecondLang(state);
 	const langs = mainSelect.getLangs(state);
 	return {
 		classificationId,
@@ -64,6 +65,7 @@ CompareContainer.propTypes = {
 	itemId: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	withRouter(CompareContainer)
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(withRouter(CompareContainer));

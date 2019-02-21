@@ -10,6 +10,11 @@ import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permissi
 import D from 'js/i18n';
 
 class CollectionsHome extends Component {
+	static propTypes = {
+		collections: PropTypes.arrayOf(collectionOverviewPropTypes.isRequired),
+		permission: permissionOverviewPropTypes.isRequired,
+	};
+
 	constructor() {
 		super();
 
@@ -28,7 +33,10 @@ class CollectionsHome extends Component {
 	}
 
 	render() {
-		const { collections, permission: { authType, roles } } = this.props;
+		const {
+			collections,
+			permission: { authType, roles },
+		} = this.props;
 		const authImpl = check(authType);
 		const adminOrCreator = authImpl.isAdminOrCollectionCreator(roles);
 		const adminOrContributor = authImpl.isAdminOrContributor(roles);
@@ -105,10 +113,4 @@ class CollectionsHome extends Component {
 	}
 }
 
-CollectionsHome.propTypes = {
-	collections: PropTypes.arrayOf(collectionOverviewPropTypes.isRequired),
-	permission: permissionOverviewPropTypes.isRequired,
-};
-
-//TODO use <Navigate /> so we don't need `withRouter`
 export default withRouter(CollectionsHome);
