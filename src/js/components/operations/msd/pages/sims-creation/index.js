@@ -11,11 +11,20 @@ import { DUPLICATE } from 'js/components/operations/msd';
 import { rangeType } from 'js/utils/msd/';
 
 const { RICH_TEXT, TEXT } = rangeType;
+
+/**
+ *
+ * @param {{rangeType}} section
+ * @return boolean
+ */
 function hasLabelLg2(section) {
 	return section.rangeType === TEXT || section.rangeType === RICH_TEXT;
 }
-const blackList = ['I.6.4'];
 
+/**
+ * @type {string[]} name A name to use.
+ */
+const blackList = ['I.6.4'];
 class SimsCreation extends React.Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object.isRequired,
