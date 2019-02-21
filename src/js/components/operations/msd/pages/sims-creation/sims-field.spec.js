@@ -6,6 +6,7 @@ import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
 import EditorMarkdown from 'js/components/shared/editor-markdown';
 import SelectRmes from 'js/components/shared/select-rmes';
+import { Note } from 'js/components/shared/note';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
 
@@ -35,9 +36,15 @@ describe('Sims Field', () => {
 					isPresentational: false,
 				}}
 				codesLists={{}}
+				alone={true}
 			/>
 		);
-		expect(general.find(InputRmes).length).toBe(1);
+		expect(
+			general
+				.find(Note)
+				.dive()
+				.find(InputRmes).length
+		).toBe(1);
 	});
 
 	it('when rangeType === DATE, should display a DatePickerRmes', () => {
@@ -49,9 +56,15 @@ describe('Sims Field', () => {
 					isPresentational: false,
 				}}
 				codesLists={{}}
+				alone={true}
 			/>
 		);
-		expect(general.find(DatePickerRmes).length).toBe(1);
+		expect(
+			general
+				.find(Note)
+				.dive()
+				.find(DatePickerRmes).length
+		).toBe(1);
 	});
 	it('when rangeType === RICH_TEXT, should display a EditorMarkdown', () => {
 		const general = shallow(
@@ -62,23 +75,39 @@ describe('Sims Field', () => {
 					isPresentational: false,
 				}}
 				codesLists={{}}
+				alone={true}
 			/>
 		);
-		expect(general.find(EditorMarkdown).length).toBe(1);
+		expect(
+			general
+				.find(Note)
+				.dive()
+				.find(EditorMarkdown).length
+		).toBe(1);
 	});
 	it('when rangeType === CODE_LIST, should display a SelectRmes', () => {
 		const general = shallow(
 			<Field
 				msd={{
-					masLabelLg2: 'masLabelLg2',
+					masLabelLg1: 'masLabelLg1',
 					rangeType: CODE_LIST,
 					isPresentational: false,
 					codeList: 'codeList',
+					idMas: '1',
 				}}
 				currentSection={{ value: 'value' }}
 				codesLists={{ codeList: { codes: [] } }}
+				alone={true}
+				secondLang={false}
+				lang={'fr'}
 			/>
 		);
-		expect(general.find(SelectRmes).length).toBe(1);
+
+		expect(
+			general
+				.find(Note)
+				.dive()
+				.find(SelectRmes).length
+		).toBe(1);
 	});
 });
