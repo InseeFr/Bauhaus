@@ -6,6 +6,7 @@ import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
 import EditorMarkdown from 'js/components/shared/editor-markdown';
 import SelectRmes from 'js/components/shared/select-rmes';
+import { Note } from 'js/components/shared/note';
 
 import './sims-field.scss';
 
@@ -37,7 +38,7 @@ class Field extends PureComponent {
 	};
 
 	render() {
-		const { msd, currentSection = {}, secondLang } = this.props;
+		const { msd, currentSection = {}, secondLang, lang, alone } = this.props;
 		const codesList = this.props.codesLists[msd.codeList] || {};
 		const codes = codesList.codes || [];
 		const codesListOptions = codes.map(c => ({
@@ -46,50 +47,58 @@ class Field extends PureComponent {
 		}));
 
 		return (
-			<>
-				{!msd.isPresentational && (
-					<span className="simsField">
-						{msd.rangeType === TEXT && (
-							<InputRmes
-								id={msd.idMas}
-								value={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
-								handleChange={this.handleTextInput}
-								arias={{
-									'aria-label': D.simsValue,
-								}}
-							/>
-						)}
+			<Note
+				context="operations"
+				title={`${msd.idMas} - ${
+					msd[secondLang ? 'masLabelLg2' : 'masLabelLg1']
+				} `}
+				alone={alone}
+				lang={lang}
+				text={
+					!msd.isPresentational && (
+						<span className="simsField">
+							{msd.rangeType === TEXT && (
+								<InputRmes
+									id={msd.idMas}
+									value={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
+									handleChange={this.handleTextInput}
+									arias={{
+										'aria-label': D.simsValue,
+									}}
+								/>
+							)}
 
-						{msd.rangeType === DATE && (
-							<DatePickerRmes
-								aria-label={D.simsValue}
-								id={msd.idMas}
-								colMd={12}
-								value={currentSection.value}
-								onChange={this.handleCodeListInput}
-							/>
-						)}
-						{msd.rangeType === RICH_TEXT && (
-							<EditorMarkdown
-								aria-label={D.simsValue}
-								text={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
-								handleChange={this.handleTextInput}
-							/>
-						)}
+							{msd.rangeType === DATE && (
+								<DatePickerRmes
+									aria-label={D.simsValue}
+									id={msd.idMas}
+									colMd={12}
+									value={currentSection.value}
+									onChange={this.handleCodeListInput}
+								/>
+							)}
+							{msd.rangeType === RICH_TEXT && (
+								<EditorMarkdown
+									aria-label={D.simsValue}
+									text={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
+									handleChange={this.handleTextInput}
+								/>
+							)}
 
-						{msd.rangeType === CODE_LIST && codesList && (
-							<SelectRmes
-								placeholder=""
-								aria-label={codesList.codeListLabelLg1}
-								className="form-control"
-								value={currentSection.value}
-								options={codesListOptions}
-								onChange={this.handleCodeListInput}
-							/>
-						)}
-					</span>
-				)}
-			</>
+							{msd.rangeType === CODE_LIST && codesList && (
+								<SelectRmes
+									placeholder=""
+									aria-label={codesList.codeListLabelLg1}
+									className="form-control"
+									value={currentSection.value}
+									options={codesListOptions}
+									onChange={this.handleCodeListInput}
+								/>
+							)}
+						</span>
+					)
+				}
+			/>
 		);
 	}
 }

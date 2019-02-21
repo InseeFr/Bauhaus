@@ -8,15 +8,14 @@ import ReactLoading from 'react-loading';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { DUPLICATE } from 'js/components/operations/msd';
-import { Note } from 'js/components/shared/note';
 import { rangeType } from 'js/utils/msd/';
 
-const blackList = ['I.6.4'];
 const { RICH_TEXT, TEXT } = rangeType;
-
 function hasLabelLg2(section) {
 	return section.rangeType === TEXT || section.rangeType === RICH_TEXT;
 }
+const blackList = ['I.6.4'];
+
 class SimsCreation extends React.Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object.isRequired,
@@ -139,36 +138,25 @@ class SimsCreation extends React.Component {
 							</h3>
 						)}
 						{!msd.isPresentational && (
-							<Note
-								context="operations"
-								title={`${msd.idMas} - ${msd.masLabelLg1} `}
-								alone={!(hasLabelLg2(msd) && secondLang)}
-								text={
-									<Field
-										msd={msd}
-										currentSection={sims[msd.idMas]}
-										handleChange={handleChange}
-										codesLists={codesLists}
-										secondLang={false}
-									/>
-								}
+							<Field
+								msd={msd}
+								currentSection={sims[msd.idMas]}
+								handleChange={handleChange}
+								codesLists={codesLists}
+								secondLang={false}
 								lang={lg1}
+								alone={!hasLabelLg2(msd) || !secondLang}
 							/>
 						)}
 						{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
-							<Note
-								context="operations"
-								title={`${msd.idMas} - ${msd.masLabelLg2} `}
-								text={
-									<Field
-										msd={msd}
-										currentSection={sims[msd.idMas]}
-										handleChange={handleChange}
-										codesLists={codesLists}
-										secondLang={true}
-									/>
-								}
+							<Field
+								msd={msd}
+								currentSection={sims[msd.idMas]}
+								handleChange={handleChange}
+								codesLists={codesLists}
+								secondLang={true}
 								lang={lg2}
+								alone={false}
 							/>
 						)}
 					</div>
@@ -246,7 +234,7 @@ class SimsCreation extends React.Component {
 									)}
 								</React.Fragment>
 							)}
-							{MSDInformations(msd, this.handleChange)}
+							{MSDInformations(msd, this.handleChange, true)}
 						</div>
 					);
 				})}
