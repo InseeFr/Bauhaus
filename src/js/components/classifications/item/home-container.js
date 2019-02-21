@@ -14,6 +14,14 @@ const extractClassificationId = buildExtract('classificationId');
 const extractItemId = buildExtract('itemId');
 
 class ItemVisualizationContainer extends Component {
+	static propTypes = {
+		match: PropTypes.shape({
+			params: PropTypes.shape({
+				classificationId: PropTypes.string.isRequired,
+				itemId: PropTypes.string.isRequired,
+			}),
+		}),
+	};
 	constructor(props) {
 		super();
 	}
@@ -71,12 +79,4 @@ ItemVisualizationContainer = connect(
 	mapDispatchToProps
 )(ItemVisualizationContainer);
 
-ItemVisualizationContainer.propTypes = {
-	match: PropTypes.shape({
-		params: PropTypes.shape({
-			classificationId: PropTypes.string.isRequired,
-			itemId: PropTypes.string.isRequired,
-		}),
-	}),
-};
 export default ItemVisualizationContainer;

@@ -12,6 +12,14 @@ import { getSecondLang } from 'js/reducers/app';
 const extractId = buildExtract('id');
 
 class FamilyVisualizationContainer extends Component {
+	static propTypes = {
+		match: PropTypes.shape({
+			params: PropTypes.shape({
+				id: PropTypes.string.isRequired,
+			}),
+		}),
+	};
+
 	constructor(props) {
 		super();
 	}
@@ -54,11 +62,4 @@ FamilyVisualizationContainer = connect(
 	mapDispatchToProps
 )(FamilyVisualizationContainer);
 
-FamilyVisualizationContainer.propTypes = {
-	match: PropTypes.shape({
-		params: PropTypes.shape({
-			id: PropTypes.string.isRequired,
-		}),
-	}),
-};
 export default FamilyVisualizationContainer;

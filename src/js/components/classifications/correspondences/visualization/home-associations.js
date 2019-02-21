@@ -11,6 +11,13 @@ import { sortArray } from 'js/utils/array-utils';
 const sortById = sortArray('id');
 
 class HomeAssociations extends Component {
+	static propTypes = {
+		id: PropTypes.string.isRequired,
+		associations: associationsPropTypes.isRequired,
+		correspondence: correspondencePropTypes.isRequired,
+		secondLang: PropTypes.bool.isRequired,
+	};
+
 	render() {
 		const { id, associations, correspondence, secondLang } = this.props;
 		const {
@@ -69,12 +76,5 @@ class HomeAssociations extends Component {
 		);
 	}
 }
-
-HomeAssociations.propTypes = {
-	id: PropTypes.string.isRequired,
-	associations: associationsPropTypes.isRequired,
-	correspondence: correspondencePropTypes.isRequired,
-	secondLang: PropTypes.bool.isRequired,
-};
 
 export default withRouter(HomeAssociations);

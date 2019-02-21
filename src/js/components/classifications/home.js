@@ -5,6 +5,15 @@ import SearchRmes from 'js/components/shared/search-rmes';
 import D from 'js/i18n';
 
 class ClassificationsHome extends Component {
+	static propTypes = {
+		items: PropTypes.arrayOf(
+			PropTypes.shape({
+				id: PropTypes.string.isRequired,
+				label: PropTypes.string.isRequired,
+			}).isRequired
+		),
+	};
+
 	render() {
 		const { classifications } = this.props;
 		return (
@@ -30,14 +39,5 @@ class ClassificationsHome extends Component {
 		);
 	}
 }
-
-ClassificationsHome.propTypes = {
-	items: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		}).isRequired
-	),
-};
 
 export default ClassificationsHome;

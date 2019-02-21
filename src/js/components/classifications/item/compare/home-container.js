@@ -15,6 +15,11 @@ const extractClassificationId = buildExtract('classificationId');
 const extractItemId = buildExtract('itemId');
 
 class CompareContainer extends Component {
+	static propTypes = {
+		classificationId: PropTypes.string.isRequired,
+		itemId: PropTypes.string.isRequired,
+	};
+	
 	componentWillMount() {
 		const { classificationId, itemId, item } = this.props;
 		if (!item) {
@@ -58,11 +63,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	saveSecondLang,
 	loadItem,
-};
-
-CompareContainer.propTypes = {
-	classificationId: PropTypes.string.isRequired,
-	itemId: PropTypes.string.isRequired,
 };
 
 export default connect(

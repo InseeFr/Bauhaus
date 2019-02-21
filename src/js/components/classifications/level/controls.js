@@ -7,6 +7,10 @@ import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
 class LevelControls extends Component {
+	static propTypes = {
+		id: PropTypes.string.isRequired,
+	};
+
 	render() {
 		const { id } = this.props;
 		const cancel = [
@@ -35,9 +39,4 @@ class LevelControls extends Component {
 		);
 	}
 }
-
-LevelControls.propTypes = {
-	id: PropTypes.string.isRequired,
-};
-
 export default withRouter(LevelControls);
