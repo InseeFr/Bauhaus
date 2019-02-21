@@ -1,4 +1,4 @@
-import { mapStateToProps } from './index.js';
+import { mapStateToProps } from './index';
 
 describe('OperationsFamilyEditionContainer', () => {
 	it('should return families if available', () => {

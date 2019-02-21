@@ -9,6 +9,15 @@ import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
 class ConceptVisualizationControls extends Component {
+	static propTypes = {
+		id: PropTypes.string.isRequired,
+		permission: permissionOverviewPropTypes,
+		creator: PropTypes.string.isRequired,
+		isValidated: PropTypes.bool.isRequired,
+		conceptVersion: PropTypes.string.isRequired,
+		handleValidation: PropTypes.func.isRequired,
+	};
+
 	render() {
 		const {
 			isValidated,
@@ -82,14 +91,5 @@ class ConceptVisualizationControls extends Component {
 		);
 	}
 }
-
-ConceptVisualizationControls.propTypes = {
-	id: PropTypes.string.isRequired,
-	permission: permissionOverviewPropTypes,
-	creator: PropTypes.string.isRequired,
-	isValidated: PropTypes.bool.isRequired,
-	conceptVersion: PropTypes.string.isRequired,
-	handleValidation: PropTypes.func.isRequired,
-};
 
 export default withRouter(ConceptVisualizationControls);

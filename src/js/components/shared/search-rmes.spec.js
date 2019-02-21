@@ -11,6 +11,4 @@ describe('search', () => {
 	it('renders without crashing', () => {
 		shallow(<Search items={items} childPath="concept" context="concepts" />);
 	});
-
-	//TODO test onChange
 });

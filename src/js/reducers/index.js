@@ -125,6 +125,10 @@ export const getFamilies = state => {
 	return state.operationsFamiliesList || {};
 };
 
+export const getOperations = state => {
+	return state.operationsOperationsList || {};
+};
+
 export const getOperation = state => {
 	return state.operationsOperationsCurrent || {};
 };

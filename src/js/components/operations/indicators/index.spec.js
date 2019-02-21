@@ -1,4 +1,4 @@
-import { mapStateToProps } from './index.js';
+import { mapStateToProps } from './index';
 
 describe('IndicatorsHomeContainer', () => {
 	it('should return indicators if available', () => {

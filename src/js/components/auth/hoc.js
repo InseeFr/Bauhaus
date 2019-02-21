@@ -4,6 +4,7 @@ import LoginNoAuth from 'js/components/auth/no-auth/login';
 import LoginBasic from 'js/components/auth/basic-auth/login-container';
 import LoginOpenIDConnect from 'js/components/auth/open-id-connect-auth/login-container';
 import * as Impl from 'js/utils/auth/auth-impl';
+import * as select from 'js/reducers';
 
 const auth = WrappedComponent => {
 	class AuthComponent extends Component {
@@ -27,11 +28,9 @@ const auth = WrappedComponent => {
 	return connect(mapStateToProps)(AuthComponent);
 };
 
-const mapStateToProps = state => {
-	const auth = state.app.auth;
-	const authType = auth.type;
-	// Assume that you are authenticated if you have a stamp
-	if (auth.user.stamp) return { authType, roles: auth.user.roles };
+export const mapStateToProps = state => {
+	const { authType, roles, stamp } = select.getPermission(state);
+	if (stamp) return { authType, roles };
 	return { authType, roles: null };
 };
 

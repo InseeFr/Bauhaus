@@ -27,8 +27,6 @@ class ConceptSendContainer extends Component {
 		};
 	}
 	componentWillMount() {
-		//TODO create a `resetSend` action to reset the status in remote calls
-		//when we load the component
 		const { id, loaded, loadGeneral } = this.props;
 		if (!loaded) loadGeneral(id);
 	}
@@ -89,9 +87,10 @@ const mapDispatchToProps = {
 	sendConcept,
 };
 
-ConceptSendContainer = connect(mapStateToProps, mapDispatchToProps)(
-	ConceptSendContainer
-);
+ConceptSendContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ConceptSendContainer);
 
 ConceptSendContainer.propTypes = {
 	match: PropTypes.shape({

@@ -9,8 +9,15 @@ import D from 'js/i18n';
 import { propTypes as correspondencePropTypes } from 'js/utils/classifications/correspondence/general';
 
 class HomeGeneral extends Component {
+	static propTypes = {
+		correspondence: correspondencePropTypes.isRequired,
+	};
 	render() {
-		const { correspondence, secondLang, langs: { lg1, lg2 } } = this.props;
+		const {
+			correspondence,
+			secondLang,
+			langs: { lg1, lg2 },
+		} = this.props;
 		const {
 			labelLg1,
 			labelLg2,
@@ -65,9 +72,5 @@ class HomeGeneral extends Component {
 		);
 	}
 }
-
-HomeGeneral.propTypes = {
-	correspondence: correspondencePropTypes.isRequired,
-};
 
 export default HomeGeneral;

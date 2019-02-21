@@ -34,8 +34,6 @@ const noteTypes = maxLengthScopeNote => [
 		noteLg2Name: 'changeNoteLg2',
 	},
 ];
-//TODO structuring data in the state to make `fr` and `en` two attributes of an
-//object might be a better option to organize the code efficiently.
 
 const handleFieldChange = (handleChange, maxLengthScopeNote) =>
 	noteTypes(maxLengthScopeNote).reduce(

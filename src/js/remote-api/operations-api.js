@@ -90,5 +90,4 @@ const api = {
 	],
 };
 
-//TODO change to operations
 export default buildApi('operations', api);

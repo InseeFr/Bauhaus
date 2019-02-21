@@ -23,7 +23,10 @@ class ConceptVisualization extends Component {
 			modalValid: false,
 		};
 		this.handleClickValidation = () => {
-			const { id, general: { valid } } = this.props;
+			const {
+				id,
+				general: { valid },
+			} = this.props;
 			if (valid) this.setState({ modalValid: true });
 			else this.props.validateConcept(id);
 		};
@@ -75,13 +78,13 @@ class ConceptVisualization extends Component {
 						onChange={this.props.saveSecondLang}
 					/>
 					<PageTitle title={prefLabelLg1} />
-					{secondLang &&
-						prefLabelLg2 && <PageSubtitle subTitle={prefLabelLg2} />}
+					{secondLang && prefLabelLg2 && (
+						<PageSubtitle subTitle={prefLabelLg2} />
+					)}
 					<ConceptVisualizationControls
 						id={id}
 						permission={permission}
 						creator={creator}
-						//TODO FIX ME
 						isValidated={isValidated === 'true'}
 						isValidOutOfDate={isOutOfDate(valid)}
 						conceptVersion={conceptVersion}

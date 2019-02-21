@@ -28,7 +28,10 @@ class ConceptsHome extends Component {
 	}
 
 	render() {
-		const { concepts, permission: { authType, roles } } = this.props;
+		const {
+			concepts,
+			permission: { authType, roles },
+		} = this.props;
 		const authImpl = check(authType);
 		const adminOrContributor = authImpl.isAdminOrContributor(roles);
 		const adminOrCreator = authImpl.isAdminOrConceptCreator(roles);
@@ -111,5 +114,4 @@ ConceptsHome.propTypes = {
 	permission: permissionOverviewPropTypes.isRequired,
 };
 
-//TODO use <Navigate /> so we don't need `withRouter`
 export default withRouter(ConceptsHome);

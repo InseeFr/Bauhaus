@@ -7,6 +7,7 @@ import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/correspondence/association';
 import * as mainSelect from 'js/reducers';
 import buildExtract from 'js/utils/build-extract';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractCorrespondenceId = buildExtract('correspondenceId');
 const extractAssociationId = buildExtract('associationId');
@@ -41,7 +42,7 @@ const mapStateToProps = (state, ownProps) => {
 		correspondenceId,
 		associationId
 	);
-	const secondLang = state.app.secondLang;
+	const secondLang = getSecondLang(state);
 	const langs = mainSelect.getLangs(state);
 	return {
 		correspondenceId,
@@ -57,6 +58,7 @@ const mapDispatchToProps = {
 	saveSecondLang,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	AssociationHomeContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(AssociationHomeContainer);

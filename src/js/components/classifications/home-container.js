@@ -4,7 +4,7 @@ import Loading from 'js/components/shared/loading';
 import ClassificationsHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadClassificationsList from 'js/actions/classifications/list';
-
+import { getClassificationsList } from 'js/reducers/classifications/selector';
 class ClassificationsHomeContainer extends Component {
 	componentWillMount() {
 		if (!this.props.classifications) {
@@ -19,14 +19,15 @@ class ClassificationsHomeContainer extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	if (!state.classificationsList) {
+export const mapStateToProps = state => {
+	const classificationsList = getClassificationsList(state);
+	if (!classificationsList) {
 		return {
 			status: NOT_LOADED,
 			classifications: [],
 		};
 	}
-	let { results: classifications, status, err } = state.classificationsList;
+	let { results: classifications, status, err } = classificationsList;
 
 	return {
 		classifications,
@@ -39,6 +40,7 @@ const mapDispatchToProps = {
 	loadClassificationsList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	ClassificationsHomeContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ClassificationsHomeContainer);

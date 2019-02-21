@@ -95,8 +95,6 @@ class LinksEdition extends Component {
 		};
 
 		this.updateConceptsWithLinks = conceptsWithLinks => {
-			//TODO we do not need to update the current state, we should handle
-			//this with `commponentWillReceiveProps`
 			this.setState({ conceptsWithLinks });
 			this.props.handleChange(conceptsWithLinks);
 		};
@@ -119,7 +117,6 @@ class LinksEdition extends Component {
 		this.getActualType = () => linkTypes[this.state.activeTab].memberType;
 		this.isPanelParent = () => this.getActualType() === NARROWER;
 		//if the concept already has a parent, we cannot add a parent
-		//TODO check if the previous assertion is right
 		this.isAddDisabled = members => this.isPanelParent() && members.length > 0;
 	}
 
@@ -138,7 +135,6 @@ class LinksEdition extends Component {
 			/>
 		));
 		//if a concept already has a parent, no other parent can be added.
-		//TODO check if the previous assertion is right
 		const handleClickAdd = !this.isAddDisabled(members) ? addMember : undefined;
 		const hitEls = hits.map(({ id, label }) => (
 			<Item

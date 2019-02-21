@@ -10,6 +10,7 @@ import {
 	getAuthPropsFromToken,
 	isTokenValid,
 } from 'js/utils/auth/open-id-connect-auth/token-utils';
+import * as select from 'js/reducers';
 const kcConfig = `${window.location.origin}/keycloak.json`;
 
 class LoginOpenIDConnect extends Component {
@@ -67,13 +68,17 @@ class LoginOpenIDConnect extends Component {
 	}
 }
 
-// Assume that you are authenticated if you have a stamp
-const mapStateToProps = state => ({ authenticated: state.app.auth.user.stamp });
+export const mapStateToProps = state => ({
+	authenticated: select.getPermission(state).stamp,
+});
 
 const mapDispatchToProps = {
 	saveUserProps,
 };
 
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(LoginOpenIDConnect)
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(LoginOpenIDConnect)
 );

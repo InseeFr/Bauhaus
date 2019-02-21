@@ -7,6 +7,7 @@ import loadLevel from 'js/actions/classifications/level';
 import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/level';
 import buildExtract from 'js/utils/build-extract';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractClassificationId = buildExtract('classificationId');
 const extractLevelId = buildExtract('levelId');
@@ -41,7 +42,7 @@ const mapStateToProps = (state, ownProps) => {
 	const classificationId = extractClassificationId(ownProps);
 	const levelId = extractLevelId(ownProps);
 	const level = select.getLevel(state, classificationId, levelId);
-	const secondLang = state.app.secondLang;
+	const secondLang = getSecondLang(state);
 	return {
 		classificationId,
 		levelId,
@@ -55,9 +56,10 @@ const mapDispatchToProps = {
 	loadLevel,
 };
 
-LevelVisualizationContainer = connect(mapStateToProps, mapDispatchToProps)(
-	LevelVisualizationContainer
-);
+LevelVisualizationContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(LevelVisualizationContainer);
 
 LevelVisualizationContainer.propTypes = {
 	match: PropTypes.shape({

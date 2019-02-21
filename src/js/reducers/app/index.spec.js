@@ -1,6 +1,17 @@
-import reducerApp from './';
+import reducerApp, { getSecondLang } from './';
 import * as A from 'js/actions/constants';
 
+describe('getSecondLang', () => {
+	it('should return the secondLang', () => {
+		const input = {
+			app: {
+				secondLang: 'en',
+			},
+		};
+		const output = 'en';
+		expect(getSecondLang(input)).toEqual(output);
+	});
+});
 describe('reducerApp', () => {
 	test('failure action type', () => {
 		const action = { type: 'XXX_FAILURE', payload: 'payload' };

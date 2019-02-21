@@ -9,6 +9,7 @@ import { saveSecondLang } from 'js/actions/app';
 import * as selectT from 'js/reducers/classifications/items';
 import * as selectG from 'js/reducers/classifications/classification/general';
 import buildExtract from 'js/utils/build-extract';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');
 
@@ -60,7 +61,7 @@ const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const items = selectT.getItems(state, id);
 	const general = selectG.getGeneral(state.classificationGeneral, id);
-	const secondLang = state.app.secondLang;
+	const secondLang = getSecondLang(state);
 	return {
 		id,
 		items,
@@ -75,9 +76,10 @@ const mapDispatchToProps = {
 	saveSecondLang,
 };
 
-ClassificationItemsContainer = connect(mapStateToProps, mapDispatchToProps)(
-	ClassificationItemsContainer
-);
+ClassificationItemsContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ClassificationItemsContainer);
 
 ClassificationItemsContainer.propTypes = {
 	match: PropTypes.shape({

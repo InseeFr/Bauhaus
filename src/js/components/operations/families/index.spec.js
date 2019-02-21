@@ -1,4 +1,4 @@
-import { mapStateToProps } from './index.js';
+import { mapStateToProps } from './index';
 import { NOT_LOADED, LOADED } from 'js/constants';
 
 describe('FamiliesHomeContainer', () => {

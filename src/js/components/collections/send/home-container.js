@@ -27,8 +27,6 @@ class CollectionSendContainer extends Component {
 		};
 	}
 	componentWillMount() {
-		//TODO create a `resetSend` action to reset the status in remote calls
-		//when we load the component
 		const { id, loaded, loadGeneral } = this.props;
 		if (!loaded) loadGeneral(id);
 	}
@@ -89,9 +87,10 @@ const mapDispatchToProps = {
 	sendCollection,
 };
 
-CollectionSendContainer = connect(mapStateToProps, mapDispatchToProps)(
-	CollectionSendContainer
-);
+CollectionSendContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CollectionSendContainer);
 
 CollectionSendContainer.propTypes = {
 	match: PropTypes.shape({

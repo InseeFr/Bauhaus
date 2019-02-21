@@ -21,6 +21,14 @@ const deleteRef = message => {
 };
 
 class ConceptSend extends Component {
+	static propTypes = {
+		id: PropTypes.string.isRequired,
+		prefLabelLg1: PropTypes.string,
+		properties: PropTypes.object.isRequired,
+		isValidated: PropTypes.oneOf(['false', 'true']).isRequired,
+		sendConcept: PropTypes.func.isRequired,
+	};
+
 	constructor(props) {
 		super(props);
 
@@ -114,14 +122,5 @@ class ConceptSend extends Component {
 		);
 	}
 }
-
-ConceptSend.propTypes = {
-	id: PropTypes.string.isRequired,
-	prefLabelLg1: PropTypes.string,
-	properties: PropTypes.object.isRequired,
-	//TODO use constants
-	isValidated: PropTypes.oneOf(['false', 'true']).isRequired,
-	sendConcept: PropTypes.func.isRequired,
-};
 
 export default ConceptSend;

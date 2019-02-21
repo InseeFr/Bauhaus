@@ -19,6 +19,7 @@ import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import { goBack } from 'js/utils/redirection';
 import Button from 'js/components/shared/button';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');
 
@@ -165,15 +166,15 @@ class OperationVisualizationContainer extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const operation = select.getOperation(state, id);
+	const operation = select.getOperation(state);
 	return {
 		id,
 		operation: id === operation.id ? operation : {},
 		exportStatus: select.getStatus(state, EXPORT_VARBOOK),
 		langs: select.getLangs(state),
-		secondLang: state.app.secondLang,
+		secondLang: getSecondLang(state),
 	};
 };
 

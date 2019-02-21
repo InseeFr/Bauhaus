@@ -9,8 +9,6 @@ import { propTypes as notesPropTypes } from 'js/utils/concepts/notes';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
 
-//TODO check logic (if not changed but not unique => ok ?)
-//TODO check if we need to call deburr on concept labels
 const checkPrefLabelFrExisting = (
 	concepts,
 	prefLabelLg1,
@@ -57,10 +55,8 @@ function ConceptCreateControl({
 		prefLabelLg1,
 		initialPrefLabelFr
 	);
-	//TODO check how to deal with notes like `<p></p>`: is it empty ?
 	const isMissingConcept = !(prefLabelLg1 && creator && disseminationStatus);
 	const isDefinitionLg1Empty = htmlIsEmpty(definitionLg1);
-	//TODO verify check on `disseminationStatus` works as expected
 	const isStatusPublicAndEmptyScopeNote =
 		disseminationStatus.includes('Public') && htmlIsEmpty(scopeNoteLg1);
 	const hasScopeNoteLg2NotLg1 = scndWithoutFirst(scopeNoteLg1, scopeNoteLg2);
@@ -90,10 +86,6 @@ function ConceptCreateControl({
 	} else if (hasChangeNoteLg2NotLg1) {
 		message = D.hasChangeNoteLg2NotLg1;
 	} else {
-		//TODO missing else statement ? for instance if no creator ?
-		//prefLabelLg1 && creator &&  disseminationStatus && !isLabelFrExisting &&
-		//isDefinitionFr
-		//no message
 		saveEnabled = true;
 	}
 	return (

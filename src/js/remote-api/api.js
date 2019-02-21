@@ -36,7 +36,4 @@ const api = {
 	],
 };
 
-//TODO wrap api in a proxy for developement to catch error when accessing
-//an unknown function (the kind of check performed when we import something
-//that has not been exported)
 export default buildApi('', api);
