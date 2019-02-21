@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Note } from 'js/components/shared/note';
+import { Note } from 'js/components/shared/note/note';
 import D from 'js/i18n';
 import RelationsView from 'js/components/operations/shared/relations';
 

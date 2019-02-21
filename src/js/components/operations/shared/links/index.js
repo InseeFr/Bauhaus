@@ -1,5 +1,5 @@
 import React from 'react';
-import { Note } from 'js/components/shared/note';
+import { Note } from 'js/components/shared/note/note';
 import { Link } from 'react-router-dom';
 
 function DisplayLinks({

@@ -13,7 +13,7 @@ import exportVariableBook from 'js/actions/operations/export-varBook';
 import { saveSecondLang } from 'js/actions/app';
 import loadOperation from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
-import ModalRmes from 'js/components/shared/modal-rmes';
+import ModalRmes from 'js/components/shared/modal-rmes/modal-rmes';
 import PageTitle from 'js/components/shared/page-title';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageSubtitle from 'js/components/shared/page-subtitle';

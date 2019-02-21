@@ -6,7 +6,7 @@ import ConceptCreateControl from './controls';
 import GeneralEdition from './general';
 import NotesEdition from './notes';
 import LinksEdition from './links';
-import ModalRmes from 'js/components/shared/modal-rmes';
+import ModalRmes from 'js/components/shared/modal-rmes/modal-rmes';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import {
 	propTypes as notePropTypes,

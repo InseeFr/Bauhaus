@@ -6,8 +6,8 @@ import ConceptToLink from './concept-to-link';
 import SearchConceptsByLabel from './search-concepts-by-label';
 import { filterDeburr } from 'js/utils/array-utils';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
-import logoAdd from 'js/components/shared/logo-add';
-import logoDel from 'js/components/shared/logo-del';
+import logoAdd from 'js/components/shared/logo/logo-add';
+import logoDel from 'js/components/shared/logo/logo-del';
 import Item from 'js/components/shared/picker-item';
 
 import {

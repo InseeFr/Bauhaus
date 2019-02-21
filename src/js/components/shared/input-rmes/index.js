@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import flag from 'js/components/shared/flag';
+import flag from 'js/components/shared/flag/flag';
 
 function InputRmes({
 	colMd,

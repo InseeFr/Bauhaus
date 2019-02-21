@@ -3,9 +3,9 @@ import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import { goBack } from 'js/utils/redirection';
-import NoteFlag from 'js/components/shared/note-flag';
+import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
-import EditorMarkdown from 'js/components/shared/editor-markdown';
+import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import Button from 'js/components/shared/button';
 
 const defaultFamily = {

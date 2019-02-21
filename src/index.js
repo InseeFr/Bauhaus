@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Root from 'js/components/router';
-import Error from 'js/components/shared/error';
+import Error from 'js/components/shared/error/error';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
 import BackToTop from 'js/components/shared/back-to-top/';

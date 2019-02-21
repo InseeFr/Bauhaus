@@ -1,6 +1,6 @@
 import React from 'react';
 import Panel from 'js/components/shared/panel';
-import NoteFlag from 'js/components/shared/note-flag';
+import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import { markdownToHtml } from 'js/utils/html';
 
 export const Note = ({

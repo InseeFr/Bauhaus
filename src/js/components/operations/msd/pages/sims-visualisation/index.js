@@ -6,7 +6,7 @@ import { rangeType } from 'js/utils/msd/';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import Button from 'js/components/shared/button';
 import { markdownToHtml } from 'js/utils/html';
-import { Note } from 'js/components/shared/note';
+import { Note } from 'js/components/shared/note/note';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
 
