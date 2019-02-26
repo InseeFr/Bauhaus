@@ -154,7 +154,6 @@ class OperationsOperationEdition extends Component {
 								id="prefLabelLg1"
 								value={operation.prefLabelLg1}
 								onChange={this.onChange}
-								disabled={isEditing}
 							/>
 						</div>
 						<div className="form-group col-md-6">
@@ -167,7 +166,6 @@ class OperationsOperationEdition extends Component {
 								id="prefLabelLg2"
 								value={operation.prefLabelLg2}
 								onChange={this.onChange}
-								disabled={isEditing}
 							/>
 						</div>
 					</div>

@@ -122,7 +122,6 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg1"
 								value={this.state.family.prefLabelLg1}
 								onChange={this.onChange}
-								disabled={isEditing}
 							/>
 						</div>
 						<div className="col-md-6 form-group">
@@ -135,7 +134,6 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg2"
 								value={family.prefLabelLg2}
 								onChange={this.onChange}
-								disabled={isEditing}
 							/>
 						</div>
 					</div>
@@ -145,7 +143,6 @@ class OperationsFamilyEdition extends Component {
 								<NoteFlag text={D.theme} lang={lg1} />
 							</label>
 							<input
-								disabled={isEditing}
 								type="text"
 								className="form-control"
 								id="themeLg1"
@@ -158,7 +155,6 @@ class OperationsFamilyEdition extends Component {
 								<NoteFlag text={D.theme} lang={lg2} />
 							</label>
 							<input
-								disabled={isEditing}
 								type="text"
 								className="form-control"
 								id="themeLg2"
