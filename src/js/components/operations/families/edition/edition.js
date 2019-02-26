@@ -33,13 +33,13 @@ class OperationsFamilyEdition extends Component {
 		};
 	}
 
-	static getDerivedStateFromProps(props, state) {
-		return {
+	componentWillReceiveProps(nextProps) {
+		this.setState({
 			family: {
 				...defaultFamily,
-				...props.family,
+				...nextProps.family,
 			},
-		};
+		});
 	}
 
 	onChange = e => {
