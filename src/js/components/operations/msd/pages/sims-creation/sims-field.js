@@ -4,7 +4,7 @@ import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
-import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown/';
+import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { Note } from 'js/components/shared/note/note';
 
