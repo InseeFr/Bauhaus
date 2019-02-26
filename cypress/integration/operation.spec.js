@@ -38,7 +38,6 @@ describe('Operation Page', function() {
 		cy.get(operationsPage.getNewButton()).click();
 		cy.url().should('match', /\/operations\/operation\/create$/);
 		cy.get(operationEditPage.getTitle()).should('not.exist');
-		cy.get('form input[disabled]').should('have.length', 0);
 		cy.get('form .Select-placeholder')
 			.first()
 			.should('contain', 'Séries');

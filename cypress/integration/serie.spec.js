@@ -31,7 +31,6 @@ describe('Series page', () => {
 		cy.get(seriesPage.getNewButton()).click();
 		cy.url().should('match', /\/operations\/series\/create$/);
 		cy.get(seriesEditPage.getTitle()).should('not.exist');
-		cy.get('form input[disabled]').should('have.length', 0);
 		cy.get('form .Select-placeholder')
 			.first()
 			.should('contain', 'Familles');
@@ -88,8 +87,6 @@ describe('Series page', () => {
 			.click();
 
 		cy.url().should('include', '/modify');
-
-		cy.get('form input[disabled]').should('have.length', 3);
 
 		cy.get('form .Select:not(.is-disabled) .Select-control').each($el => {
 			const control = cy.wrap($el);
