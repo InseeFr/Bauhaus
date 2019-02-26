@@ -4,7 +4,7 @@ import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
-import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown/';
+import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/components/shared/input-rmes';
 import Control from 'js/components/operations/indicators/edition/control';
