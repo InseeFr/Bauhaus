@@ -143,7 +143,7 @@ class SimsCreation extends React.Component {
 					<div className="row flex" id={msd.idMas}>
 						{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
 							<h3 className="col-md-12">
-								{msd.idMas} - {msd.masLabelLg1}
+								{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
 							</h3>
 						)}
 						{!msd.isPresentational && (

@@ -1,5 +1,6 @@
 import D from 'js/i18n';
 import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
+import { isLg2 } from 'js/i18n/build-dictionary';
 
 export function getLabelsFromOperation(operation) {
 	const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
@@ -36,6 +37,9 @@ export function getTree(input, idParent, objectToMerge) {
 				...acc,
 				[msd.idMas]: {
 					...msd,
+					masLabelBasedOnCurrentLang: isLg2()
+						? msd.masLabelLg2
+						: msd.masLabelLg1,
 					isPresentational: msdToMerge.isPresentational || false,
 					rangeType: msdToMerge.rangeType,
 					codeList: msdToMerge.codeList,

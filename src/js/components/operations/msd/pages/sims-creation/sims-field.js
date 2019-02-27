@@ -49,11 +49,12 @@ class Field extends PureComponent {
 		return (
 			<Note
 				context="operations"
-				title={`${msd.idMas} - ${
-					msd[secondLang ? 'masLabelLg2' : 'masLabelLg1']
-				} `}
+				title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}
 				alone={alone}
 				lang={lang}
+				alt={`${msd.idMas} - ${
+					msd[secondLang ? 'masLabelLg2' : 'masLabelLg1']
+				}`}
 				text={
 					!msd.isPresentational && (
 						<span className="simsField">

@@ -46,7 +46,8 @@ class Outline extends Component {
 							disableSectionAnchor ? '' : metadataStructure.idMas
 						}#${metadataStructure.idMas}`}
 					>
-						{metadataStructure.idMas} - {metadataStructure.masLabelLg1}
+						{metadataStructure.idMas} -{' '}
+						{metadataStructure.masLabelBasedOnCurrentLang}
 					</Link>
 
 					{Object.keys(metadataStructure.children).length > 0 && (
