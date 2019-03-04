@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ModalRmes from 'js/components/shared/modal-rmes';
+import ModalRmes from 'js/components/shared/modal-rmes/modal-rmes';
 import Picker from 'js/components/shared/picker-page';
 import check from 'js/utils/auth';
 import D from 'js/i18n';

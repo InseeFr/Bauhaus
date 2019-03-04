@@ -7,7 +7,7 @@ import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
 import ConceptNotes from './notes';
-import ModalRmes from 'js/components/shared/modal-rmes';
+import ModalRmes from 'js/components/shared/modal-rmes/modal-rmes';
 import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';

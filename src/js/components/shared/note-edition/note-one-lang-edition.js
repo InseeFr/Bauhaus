@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import logoWarning from 'js/components/shared/logo-warning';
+import logoWarning from 'js/components/shared/logo/logo-warning';
 import ModifyNotes from './modify-notes';
-import flag from 'js/components/shared/flag';
+import flag from 'js/components/shared/flag/flag';
 import { htmlLength } from 'js/utils/html';
 
 function NoteOneLangEdition({ lang, note, handleChange, maxLength }) {

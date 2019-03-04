@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Tabs from 'js/components/shared/tabs';
 import D from 'js/i18n';
-import addLogo from 'js/components/shared/logo-add';
-import delLogo from 'js/components/shared/logo-del';
+import addLogo from 'js/components/shared/logo/logo-add';
+import delLogo from 'js/components/shared/logo/logo-del';
 
 export const content = [
 	{

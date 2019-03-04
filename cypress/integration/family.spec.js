@@ -60,7 +60,6 @@ describe('Family page', () => {
 		familiesPage.goToCreationPage();
 		cy.url().should('match', /\/operations\/family\/create$/);
 		familyEditPage.getTitle().should('not.exist');
-		cy.get('form input[disabled]').should('have.length', 0);
 	});
 
 	it('Should go the Family update page and come back', () => {
@@ -101,7 +100,6 @@ describe('Family page', () => {
 			.click();
 
 		cy.url().should('include', '/modify');
-		cy.get('form input[disabled]').should('have.length', 4);
 
 		cy.get('label img').should('have.length', 6);
 	});

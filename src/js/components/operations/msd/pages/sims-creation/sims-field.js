@@ -4,9 +4,9 @@ import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
-import EditorMarkdown from 'js/components/shared/editor-markdown';
+import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import SelectRmes from 'js/components/shared/select-rmes';
-import { Note } from 'js/components/shared/note';
+import { Note } from 'js/components/shared/note/note';
 
 import './sims-field.scss';
 
@@ -49,11 +49,12 @@ class Field extends PureComponent {
 		return (
 			<Note
 				context="operations"
-				title={`${msd.idMas} - ${
-					msd[secondLang ? 'masLabelLg2' : 'masLabelLg1']
-				} `}
+				title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}
 				alone={alone}
 				lang={lang}
+				alt={`${msd.idMas} - ${
+					msd[secondLang ? 'masLabelLg2' : 'masLabelLg1']
+				}`}
 				text={
 					!msd.isPresentational && (
 						<span className="simsField">

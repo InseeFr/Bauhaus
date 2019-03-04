@@ -71,7 +71,7 @@ class OutlineBlock extends Component {
 									child.idMas
 								}`}
 							>
-								{child.idMas} - {child.masLabelLg1}
+								{child.idMas} - {child.masLabelBasedOnCurrentLang}
 							</Link>
 							{child.opened && (
 								<OutlineBlock

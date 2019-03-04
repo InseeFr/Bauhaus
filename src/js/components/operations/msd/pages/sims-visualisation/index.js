@@ -6,7 +6,7 @@ import { rangeType } from 'js/utils/msd/';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import Button from 'js/components/shared/button';
 import { markdownToHtml } from 'js/utils/html';
-import { Note } from 'js/components/shared/note';
+import { Note } from 'js/components/shared/note/note';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
 
@@ -69,31 +69,32 @@ export default function SimsVisualisation({
 				<div className="row flex" key={msd.idMas} id={msd.idMas}>
 					{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
 						<h3 className="col-md-12">
-							{msd.idMas} - {msd.masLabelLg1}
+							{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
 						</h3>
 					)}
 					{!msd.isPresentational && (
 						<Note
 							context="operations"
-							title={`${msd.idMas} - ${msd.masLabelLg1}`}
+							title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}
 							text={displayInformation(msd, false, sims.rubrics[msd.idMas])}
 							alone={!(hasLabelLg2(msd) && secondLang)}
 							lang={lg1}
+							alt={`${msd.idMas} - ${msd.masLabelLg1}`}
 						/>
 					)}
 					{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
 						<Note
 							context="operations"
-							title={`${msd.idMas} - ${msd.masLabelLg2} `}
+							title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}
 							text={displayInformation(msd, true, sims.rubrics[msd.idMas])}
 							lang={lg2}
+							alt={`${msd.idMas} - ${msd.masLabelLg2}`}
 						/>
 					)}
 				</div>
-				{Object.values(msd.children).length > 0 &&
-					Object.values(msd.children).map(child => (
-						<MSDInformations key={child.idMas} msd={child} />
-					))}
+				{Object.values(msd.children).map(child => (
+					<MSDInformations key={child.idMas} msd={child} />
+				))}
 			</>
 		);
 	}

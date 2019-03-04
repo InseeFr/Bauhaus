@@ -5,8 +5,8 @@ import Panel from 'js/components/shared/panel';
 import Pagination from 'js/components/shared/pagination';
 import Item from 'js/components/shared/picker-item';
 import { filterDeburr } from 'js/utils/array-utils';
-import addLogo from 'js/components/shared/logo-add';
-import delLogo from 'js/components/shared/logo-del';
+import addLogo from 'js/components/shared/logo/logo-add';
+import delLogo from 'js/components/shared/logo/logo-del';
 
 class Picker extends Component {
 	constructor(props) {

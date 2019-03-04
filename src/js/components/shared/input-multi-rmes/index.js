@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'js/components/shared/input-multi-modal-rmes';
-import flag from 'js/components/shared/flag';
+import Modal from 'js/components/shared/input-multi-modal-rmes/input-multi-modal-rmes';
+import flag from 'js/components/shared/flag/flag';
 import D from 'js/i18n';
 
 class InputMultiRmes extends Component {
@@ -86,7 +86,10 @@ class InputMultiRmes extends Component {
 		};
 	}
 	render() {
-		const { label, langs: { lg1, lg2 } } = this.props;
+		const {
+			label,
+			langs: { lg1, lg2 },
+		} = this.props;
 		const { arrayLg1, arrayLg2, modalAdd, modalDelete, modalLast } = this.state;
 
 		const altLg1 = this.initInput(arrayLg1, 'arrayLg1');

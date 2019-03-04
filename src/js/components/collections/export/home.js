@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Picker from 'js/components/shared/picker-page';
 import D from 'js/i18n';
-import ModalRmes from 'js/components/shared/modal-rmes';
+import ModalRmes from 'js/components/shared/modal-rmes/modal-rmes';
 
 class CollectionsToExport extends Component {
 	constructor(props) {
