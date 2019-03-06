@@ -75,4 +75,5 @@ export const rangeType = {
 	DATE: 'DATE',
 	CODE_LIST: 'CODE_LIST',
 	RICH_TEXT: 'RICH_TEXT',
+	ORGANIZATION: 'ORGANIZATION',
 };

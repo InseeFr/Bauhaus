@@ -19,7 +19,10 @@ import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import loadOperation from 'js/actions/operations/operations/item';
 import { getSecondLang } from 'js/reducers/app';
-
+import {
+	getOperationsOrganisations,
+	getOperationsCodesList,
+} from 'js/reducers/operations/selector';
 const extractId = buildExtract('id');
 const extractIdOperation = buildExtract('idOperation');
 
@@ -87,6 +90,7 @@ class MSDContainer extends Component {
 			langs,
 			secondLang,
 			currentSims,
+			organisations,
 		} = this.props;
 
 		if (
@@ -120,6 +124,7 @@ class MSDContainer extends Component {
 						codesLists={codesLists}
 						currentSection={this.props.match.params.idSection}
 						langs={langs}
+						organisations={organisations}
 					/>
 				)}
 
@@ -129,6 +134,7 @@ class MSDContainer extends Component {
 						idOperation={currentSims.idOperation}
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
+						organisations={organisations}
 						currentSection={this.props.match.params.idSection}
 						saveSecondLang={saveSecondLang}
 						langs={langs}
@@ -148,6 +154,7 @@ class MSDContainer extends Component {
 						secondLang={secondLang}
 						goBack={this.goBackCallback}
 						mode={mode}
+						organisations={organisations}
 					/>
 				)}
 			</MSDLayout>
@@ -200,7 +207,8 @@ const mapStateToProps = (state, ownProps) => {
 			ownProps.mode !== CREATE || currentOperation.id === idOperation,
 		id,
 		idOperation,
-		codesLists: state.operationsCodesList.results,
+		codesLists: getOperationsCodesList(state),
+		organisations: getOperationsOrganisations(state),
 	};
 };
 

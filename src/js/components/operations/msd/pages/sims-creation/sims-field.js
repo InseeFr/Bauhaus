@@ -10,7 +10,7 @@ import { Note } from 'js/components/shared/note/note';
 
 import './sims-field.scss';
 
-const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
+const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
 class Field extends PureComponent {
 	static propTypes = {
@@ -38,12 +38,23 @@ class Field extends PureComponent {
 	};
 
 	render() {
-		const { msd, currentSection = {}, secondLang, lang, alone } = this.props;
+		const {
+			msd,
+			currentSection = {},
+			secondLang,
+			lang,
+			alone,
+			organisations = [],
+		} = this.props;
 		const codesList = this.props.codesLists[msd.codeList] || {};
 		const codes = codesList.codes || [];
 		const codesListOptions = codes.map(c => ({
 			label: c.labelLg1,
 			value: c.code,
+		}));
+		const organisationsOptions = organisations.map(c => ({
+			label: c.label,
+			value: c.id,
 		}));
 
 		return (
@@ -68,7 +79,15 @@ class Field extends PureComponent {
 									}}
 								/>
 							)}
-
+							{msd.rangeType === ORGANIZATION && (
+								<SelectRmes
+									placeholder=""
+									className="form-control"
+									value={currentSection.value}
+									options={organisationsOptions}
+									onChange={this.handleCodeListInput}
+								/>
+							)}
 							{msd.rangeType === DATE && (
 								<DatePickerRmes
 									aria-label={D.simsValue}

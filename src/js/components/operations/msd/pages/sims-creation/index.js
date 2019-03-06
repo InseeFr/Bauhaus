@@ -129,6 +129,7 @@ class SimsCreation extends React.Component {
 			secondLang,
 			mode,
 			langs: { lg1, lg2 },
+			organisations,
 		} = this.props;
 		const { sims, idOperation } = this.state;
 		const operationsOptions = (this.props.sims.operationsWithoutSims || []).map(
@@ -155,6 +156,7 @@ class SimsCreation extends React.Component {
 								secondLang={false}
 								lang={lg1}
 								alone={!hasLabelLg2(msd) || !secondLang}
+								organisations={organisations}
 							/>
 						)}
 						{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
@@ -166,6 +168,7 @@ class SimsCreation extends React.Component {
 								secondLang={true}
 								lang={lg2}
 								alone={false}
+								organisations={organisations}
 							/>
 						)}
 					</div>
