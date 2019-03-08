@@ -13,6 +13,7 @@ import {
 	toSelectModel,
 	mergedItemsToSelectModels,
 } from 'js/components/operations/shared/utils/itemToSelectModel';
+import { validate } from './validation';
 
 const defaultSerie = {
 	id: '',
@@ -124,6 +125,9 @@ class OperationsSerieEdition extends Component {
 			indicatorsOptions,
 			seriesOptions
 		);
+
+		const errors = validate(serie);
+
 		return (
 			<div className="container editor-container">
 				{isEditing && (
@@ -132,7 +136,7 @@ class OperationsSerieEdition extends Component {
 							title={this.props.serie.prefLabelLg1}
 							context="operations"
 						/>
-						{serie.prefLabelLg2 && (
+						{this.props.serie.prefLabelLg2 && (
 							<PageSubtitle
 								subTitle={this.props.serie.prefLabelLg2}
 								context="operations"
@@ -155,8 +159,20 @@ class OperationsSerieEdition extends Component {
 						}
 						context="operations"
 					/>
+					<div className="col-md-8 centered">
+						<div
+							style={{ visibility: errors.errorMessage ? 'visible' : 'hidden' }}
+							className="alert alert-danger bold"
+							role="alert"
+						>
+							{/* HACK: if no content, the line height is set to 0 and the rest
+	              of the page moves a little  */}
+							{errors.errorMessage || (
+								<span style={{ whiteSpace: 'pre-wrap' }}> </span>
+							)}
+						</div>
+					</div>
 
-					<div className="col-md-8 centered" />
 					<Button
 						action={this.onSubmit}
 						label={
@@ -169,7 +185,7 @@ class OperationsSerieEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
-						disabled={!isEditing}
+						disabled={errors.errorMessage}
 					/>
 				</div>
 				<form>
@@ -194,6 +210,7 @@ class OperationsSerieEdition extends Component {
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg1">
 								<NoteFlag text={D.title} lang={lg1} />
+								<span className="boldRed">*</span>
 							</label>
 							<input
 								type="text"
@@ -201,11 +218,13 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg1"
 								value={serie.prefLabelLg1}
 								onChange={this.onChange}
+								aria-invalid={errors.fields.prefLabelLg1}
 							/>
 						</div>
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg2">
 								<NoteFlag text={D.title} lang={lg2} />
+								<span className="boldRed">*</span>
 							</label>
 							<input
 								type="text"
@@ -213,6 +232,7 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg2"
 								value={serie.prefLabelLg2}
 								onChange={this.onChange}
+								aria-invalid={errors.fields.prefLabelLg2}
 							/>
 						</div>
 					</div>

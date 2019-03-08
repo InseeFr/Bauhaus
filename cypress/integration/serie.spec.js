@@ -34,6 +34,33 @@ describe('Series page', () => {
 		cy.get('form .Select-placeholder')
 			.first()
 			.should('contain', 'Familles');
+
+		cy.get(seriesEditPage.getErrorsBlock()).should('be.visible');
+
+		cy.get('.Select--single')
+			.eq(0)
+			.as('familySelect');
+		cy.get('@familySelect').click();
+		cy.get('@familySelect').click();
+
+		cy.get('@familySelect')
+			.get('.Select-option')
+			.first()
+			.should('be.visible');
+
+		cy.get('@familySelect')
+			.get('.Select-option')
+			.first()
+			.click();
+
+		cy.get(seriesEditPage.getErrorsBlock()).should('be.visible');
+		cy.get(seriesEditPage.getPrefLabelLg1()).type('test');
+
+		cy.get(seriesEditPage.getErrorsBlock()).should('be.visible');
+
+		cy.get(seriesEditPage.getPrefLabelLg2()).type('test');
+
+		cy.get(seriesEditPage.getErrorsBlock()).should('not.be.visible');
 	});
 
 	it('Should go the Series view page and come back', () => {
@@ -109,7 +136,7 @@ describe('Series page', () => {
 
 		cy.get('label img').should('have.length', 8);
 		cy.get('.row:first-of-type > div.form-group').should('have.length', 2);
-		cy.get('label span.boldRed').should('have.length', 0);
+		cy.get('label span.boldRed').should('have.length', 2);
 	});
 
 	it('should handle multi Select component', () => {
