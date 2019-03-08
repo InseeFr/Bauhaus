@@ -8,7 +8,7 @@ import Button from 'js/components/shared/button';
 import { markdownToHtml } from 'js/utils/html';
 import { Note } from 'js/components/shared/note/note';
 
-const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
+const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
 function hasLabelLg2(section) {
 	return section.rangeType === TEXT || section.rangeType === RICH_TEXT;
@@ -23,6 +23,7 @@ export default function SimsVisualisation({
 	idOperation,
 	goBack,
 	langs: { lg1, lg2 },
+	organisations,
 }) {
 	const shouldDisplayDuplicateButton = sims.operationsWithoutSims.length > 0;
 
@@ -58,6 +59,17 @@ export default function SimsVisualisation({
 								}
 							</span>
 						)}
+					{currentSection.rangeType === ORGANIZATION && (
+						<span>
+							{
+								(
+									organisations.find(
+										orga => orga.id === currentSection.value
+									) || {}
+								).label
+							}
+						</span>
+					)}
 				</>
 			)
 		);

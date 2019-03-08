@@ -8,6 +8,7 @@ export default function MSDHelp({
 	currentSection,
 	codesLists,
 	langs: { lg1 },
+	organisations,
 }) {
 	function MSDInformations({ msd }) {
 		return (
@@ -16,7 +17,13 @@ export default function MSDHelp({
 					<Note
 						context="operations"
 						title={`${msd.idMas} - ${msd.masLabelLg1}`}
-						text={<HelpInformation msd={msd} codesLists={codesLists} />}
+						text={
+							<HelpInformation
+								msd={msd}
+								codesLists={codesLists}
+								organisations={organisations}
+							/>
+						}
 						alone
 						lang={lg1}
 					/>
