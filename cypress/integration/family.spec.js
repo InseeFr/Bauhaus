@@ -60,6 +60,15 @@ describe('Family page', () => {
 		familiesPage.goToCreationPage();
 		cy.url().should('match', /\/operations\/family\/create$/);
 		familyEditPage.getTitle().should('not.exist');
+
+		cy.get(familyEditPage.getErrorsBlock()).should('be.visible');
+		cy.get(familyEditPage.getPrefLabelLg1()).type('test');
+
+		cy.get(familyEditPage.getErrorsBlock()).should('be.visible');
+
+		cy.get(familyEditPage.getPrefLabelLg2()).type('test');
+
+		cy.get(familyEditPage.getErrorsBlock()).should('not.be.visible');
 	});
 
 	it('Should go the Family update page and come back', () => {

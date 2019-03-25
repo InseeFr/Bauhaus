@@ -11,4 +11,13 @@ export class OperationEditPage {
 	getTitle() {
 		return '.page-title-operations';
 	}
+	getErrorsBlock() {
+		return '.alert';
+	}
+	getPrefLabelLg1() {
+		return '#prefLabelLg1';
+	}
+	getPrefLabelLg2() {
+		return '#prefLabelLg2';
+	}
 }

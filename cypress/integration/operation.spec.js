@@ -41,6 +41,33 @@ describe('Operation Page', function() {
 		cy.get('form .Select-placeholder')
 			.first()
 			.should('contain', 'Séries');
+
+		cy.get(operationEditPage.getErrorsBlock()).should('be.visible');
+
+		cy.get('.Select--single')
+			.eq(0)
+			.as('familySelect');
+		cy.get('@familySelect').click();
+		cy.get('@familySelect').click();
+
+		cy.get('@familySelect')
+			.get('.Select-option')
+			.first()
+			.should('be.visible');
+
+		cy.get('@familySelect')
+			.get('.Select-option')
+			.first()
+			.click();
+
+		cy.get(operationEditPage.getErrorsBlock()).should('be.visible');
+		cy.get(operationEditPage.getPrefLabelLg1()).type('test');
+
+		cy.get(operationEditPage.getErrorsBlock()).should('be.visible');
+
+		cy.get(operationEditPage.getPrefLabelLg2()).type('test');
+
+		cy.get(operationEditPage.getErrorsBlock()).should('not.be.visible');
 	});
 
 	it(`Should contain the content of an operation`, function() {

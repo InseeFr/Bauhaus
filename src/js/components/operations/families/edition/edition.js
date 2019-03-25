@@ -7,6 +7,7 @@ import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import Button from 'js/components/shared/button';
+import { validate } from './validation';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -62,6 +63,9 @@ class OperationsFamilyEdition extends Component {
 		} = this.props;
 		const { family } = this.state;
 		const isEditing = !!family.id;
+
+		const errors = validate(family);
+
 		return (
 			<div className="container editor-container">
 				{isEditing && (
@@ -70,7 +74,7 @@ class OperationsFamilyEdition extends Component {
 							title={this.props.family.prefLabelLg1}
 							context="operations"
 						/>
-						{family.prefLabelLg2 && (
+						{this.props.family.prefLabelLg2 && (
 							<PageSubtitle
 								subTitle={this.props.family.prefLabelLg2}
 								context="operations"
@@ -94,7 +98,19 @@ class OperationsFamilyEdition extends Component {
 						context="operations"
 					/>
 
-					<div className="col-md-8 centered" />
+					<div className="col-md-8 centered">
+						<div
+							style={{ visibility: errors.errorMessage ? 'visible' : 'hidden' }}
+							className="alert alert-danger bold"
+							role="alert"
+						>
+							{/* HACK: if no content, the line height is set to 0 and the rest
+	              of the page moves a little  */}
+							{errors.errorMessage || (
+								<span style={{ whiteSpace: 'pre-wrap' }}> </span>
+							)}
+						</div>
+					</div>
 					<Button
 						action={this.onSubmit}
 						label={
@@ -107,7 +123,7 @@ class OperationsFamilyEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
-						disabled={!isEditing}
+						disabled={errors.errorMessage}
 					/>
 				</div>
 				<form>
@@ -115,6 +131,7 @@ class OperationsFamilyEdition extends Component {
 						<div className="col-md-6 form-group">
 							<label htmlFor="prefLabelLg1">
 								<NoteFlag text={D.title} lang={lg1} />
+								<span className="boldRed">*</span>
 							</label>
 							<input
 								type="text"
@@ -122,11 +139,13 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg1"
 								value={this.state.family.prefLabelLg1}
 								onChange={this.onChange}
+								aria-invalid={errors.fields.prefLabelLg1}
 							/>
 						</div>
 						<div className="col-md-6 form-group">
 							<label htmlFor="prefLabelLg2">
 								<NoteFlag text={D.title} lang={lg2} />
+								<span className="boldRed">*</span>
 							</label>
 							<input
 								type="text"
@@ -134,6 +153,7 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg2"
 								value={family.prefLabelLg2}
 								onChange={this.onChange}
+								aria-invalid={errors.fields.prefLabelLg2}
 							/>
 						</div>
 					</div>
