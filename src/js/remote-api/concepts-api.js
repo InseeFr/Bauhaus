@@ -38,12 +38,22 @@ const api = {
 		},
 		() => {},
 	],
+	deleteConcept: id => [
+		`${id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(id),
+		},
+		() => {},
+	],
 	putConceptValidList: ids => [
 		`validate`,
 		{
 			body: JSON.stringify(ids),
 		},
-		//do not process resspoonse
+		//do not process response
 		() => {}, //TODO upgrade build apri
 	],
 	getConceptExport: (id, MimeType) => [

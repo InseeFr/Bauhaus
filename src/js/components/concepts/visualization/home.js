@@ -23,14 +23,30 @@ class ConceptVisualization extends Component {
 			modalValid: false,
 		};
 		this.handleClickValidation = () => {
-			const { id, general: { valid } } = this.props;
+			const {
+				id,
+				general: { valid },
+			} = this.props;
 			if (valid) this.setState({ modalValid: true });
 			else this.props.validateConcept(id);
 		};
 		this.handleCancelValidation = () => this.setState({ modalValid: false });
+
 		this.handleConfirmValidation = () => {
 			this.handleCancelValidation();
 			this.props.validateConcept(this.props.id);
+		};
+
+		this.handleClickDeletion = () => this.props.deleteConcept(this.props.id);
+
+		this.handleCancelDeletion = () => {
+			this.setState({ modalDelete: false });
+			this.props.validateConcept(this.props.id);
+		};
+
+		this.handleConfirmDeletion = () => {
+			this.handleCancelDeletion();
+			this.props.deleteConcept(this.props.id);
 		};
 	}
 
@@ -75,8 +91,9 @@ class ConceptVisualization extends Component {
 						onChange={this.props.saveSecondLang}
 					/>
 					<PageTitle title={prefLabelLg1} />
-					{secondLang &&
-						prefLabelLg2 && <PageSubtitle subTitle={prefLabelLg2} />}
+					{secondLang && prefLabelLg2 && (
+						<PageSubtitle subTitle={prefLabelLg2} />
+					)}
 					<ConceptVisualizationControls
 						id={id}
 						permission={permission}
@@ -86,6 +103,7 @@ class ConceptVisualization extends Component {
 						isValidOutOfDate={isOutOfDate(valid)}
 						conceptVersion={conceptVersion}
 						handleValidation={this.handleClickValidation}
+						handleDeletion={this.handleClickDeletion}
 					/>
 					<ConceptGeneral
 						secondLang={secondLang}

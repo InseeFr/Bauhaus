@@ -289,8 +289,8 @@ const dictionary = {
 		en: 'Send',
 	},
 	btnValid: {
-		fr: 'Valider',
-		en: 'Validate',
+		fr: 'Publier',
+		en: 'Publish',
 	},
 	btnReinitialize: {
 		fr: 'Réinitialiser',
@@ -299,6 +299,10 @@ const dictionary = {
 	btnTree: {
 		fr: "Voir l'arborescence",
 		en: 'View tree',
+	},
+	btnDelete: {
+		fr: 'Supprimer',
+		en: 'Delete',
 	},
 	// Links
 	narrowerTitle: {
