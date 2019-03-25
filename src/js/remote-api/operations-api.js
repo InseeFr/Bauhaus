@@ -35,8 +35,28 @@ const api = {
 		},
 		() => {},
 	],
+	postFamily: family => [
+		`family`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(family),
+		},
+		() => {},
+	],
 	putSeries: series => [
 		`series/${series.id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(series),
+		},
+		() => {},
+	],
+	postSeries: series => [
+		`series`,
 		{
 			headers: {
 				'Content-Type': 'application/json',
@@ -55,10 +75,19 @@ const api = {
 		},
 		() => {},
 	],
+	postOperation: operation => [
+		`operation`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(operation),
+		},
+		() => {},
+	],
 	getOperationsWithoutReport: idSerie => [
 		`series/${idSerie}/operationsWithoutReport`,
 	],
 };
 
-//TODO change to operations
 export default buildApi('operations', api);

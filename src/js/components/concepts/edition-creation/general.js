@@ -10,9 +10,7 @@ import {
 	fields as generalFields,
 } from 'js/utils/concepts/general';
 
-//TODO make an utility function (see `notes-edition.js` for another usage)
 const handleFieldChange = handleChange =>
-	//TODO rewrite fields (required should be handled elsewhere)
 	generalFields.reduce((handlers, fieldName) => {
 		handlers[fieldName] = value => handleChange({ [fieldName]: value });
 		return handlers;
@@ -45,8 +43,6 @@ function ConceptGeneralEdition({
 				( <span className="boldRed">*</span> : {D.requiredFields})
 			</h4>
 			<div className="row">
-				{/* TODO Work on consistency between different Rmes fields markup (for
-           instance, `InputRmes` includes the label and the star). */}
 				<InputRmes
 					colMd={6}
 					label={D.labelTitle}
@@ -114,8 +110,7 @@ function ConceptGeneralEdition({
 				<label>{D.additionalMaterialTitle}</label>
 				<div className="input-group">
 					<span className="input-group-addon">http://</span>
-					{/* TODO previous version worked with `defaultValue`
-                  -> check if everything is ok */}
+
 					<input
 						type="text"
 						className="form-control"

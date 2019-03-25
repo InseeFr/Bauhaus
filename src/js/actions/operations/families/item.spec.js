@@ -44,8 +44,8 @@ describe('Families actions', () => {
 			api.putFamily = function(id) {
 				return Promise.resolve('');
 			};
-			const family = { label: 'aaa' };
-			await saveFamily(family)(dispatch);
+			const family = { label: 'aaa', id: '1' };
+			await saveFamily(family, () => {})(dispatch);
 			expect(dispatch).toHaveBeenCalledWith({
 				type: A.SAVE_OPERATIONS_FAMILY,
 				payload: family,

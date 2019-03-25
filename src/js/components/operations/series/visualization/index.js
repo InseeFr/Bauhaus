@@ -1,4 +1,3 @@
-// TODO Not really container yet, fix with real data
 import React, { Component } from 'react';
 import PageTitle from 'js/components/shared/page-title';
 import { goBack } from 'js/utils/redirection';
@@ -15,6 +14,7 @@ import Loading from 'js/components/shared/loading';
 import loadSerie from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import Button from 'js/components/shared/button';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');
 
@@ -48,10 +48,9 @@ class SeriesVisualizationContainer extends Component {
 				/>
 
 				<PageTitle title={attr.prefLabelLg1} context="operations" />
-				{secondLang &&
-					attr.prefLabelLg2 && (
-						<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
-					)}
+				{secondLang && attr.prefLabelLg2 && (
+					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
+				)}
 
 				<div className="row btn-line">
 					<Button
@@ -60,8 +59,7 @@ class SeriesVisualizationContainer extends Component {
 						context="operations"
 					/>
 
-					<div className="col-md-6 centered" />
-					<Button label={D.btnSend} context="operations" />
+					<div className="col-md-8 centered" />
 					<Button
 						action={`/operations/series/${attr.id}/modify`}
 						label={D.btnUpdate}
@@ -93,7 +91,7 @@ const mapStateToProps = (state, ownProps) => {
 		id,
 		serie: serie.id === id ? serie : {},
 		langs: select.getLangs(state),
-		secondLang: state.app.secondLang,
+		secondLang: getSecondLang(state),
 		frequency: frequencies.codes.find(
 			c => c.code === serie.accrualPeriodicityCode
 		),

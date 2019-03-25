@@ -41,8 +41,6 @@ const handleFieldChange = handleChange =>
 		return handlers;
 	}, {});
 
-//TODO fix confusion about naming between `ConceptsSearchList`,
-//`ConceptsListSearch` and `SearchConceptsList`
 class ConceptSearchList extends Component {
 	constructor(props) {
 		super(props);
@@ -95,9 +93,7 @@ class ConceptSearchList extends Component {
 				.filter(filterValidationStatus(validationStatus))
 				.filter(filterCreatedDate(dateCreatedStart, dateCreatedEnd))
 				.filter(filterModifiedDate(dateModifiedStart, dateModifiedEnd));
-			//TODO might need further thinking. For now, I think it's the best way of
-			//updating the state. We could also have used a callback to process hits,
-			//or passing `newState` to `setState`.
+
 			this.setState(Object.assign(stateChange, { hits }));
 		};
 
@@ -284,7 +280,6 @@ const propTypesGeneralForSearch = PropTypes.shape({
 
 ConceptSearchList.propTypes = {
 	conceptSearchList: PropTypes.arrayOf(propTypesGeneralForSearch).isRequired,
-	//TODO create generic prop types for stamps and dissemintation statuses
 	stampList: PropTypes.array.isRequired,
 	disseminationStatusList: PropTypes.array.isRequired,
 };

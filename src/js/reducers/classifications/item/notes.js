@@ -5,7 +5,6 @@ import { range } from 'js/utils/array-utils';
 export default function(state = {}, action) {
 	const { type, payload } = action;
 	switch (type) {
-		//TODO don't load twice the same resource
 		case A.LOAD_CLASSIFICATION_ITEM_NOTES_VERSION:
 			const { classificationId, itemId, version } = payload;
 			const otherItems = state[classificationId];

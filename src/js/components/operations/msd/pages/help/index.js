@@ -1,53 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HelpInformation from 'js/components/operations/msd/help-information';
-import MSDItemLayout from 'js/components/operations/msd/msd-item-layout';
+import { Note } from 'js/components/shared/note/note';
 
 export default function MSDHelp({
 	metadataStructure,
 	currentSection,
 	codesLists,
+	langs: { lg1 },
+	organisations,
 }) {
-	function displayContent(children) {
-		if (Object.keys(children).length <= 0) return null;
+	function MSDInformations({ msd }) {
 		return (
 			<React.Fragment>
-				{Object.values(children).map(child => {
-					return (
-						<React.Fragment key={child.idMas}>
-							<MSDItemLayout
-								id={child.idMas}
-								title={`${child.idMas} - ${child.masLabelLg1}`}
-							>
-								<HelpInformation msd={child} codesLists={codesLists} />
-							</MSDItemLayout>
-							{displayContent(child.children)}
-						</React.Fragment>
-					);
-				})}
+				<div className="row" key={msd.idMas} id={msd.idMas}>
+					<Note
+						context="operations"
+						title={`${msd.idMas} - ${msd.masLabelLg1}`}
+						text={
+							<HelpInformation
+								msd={msd}
+								codesLists={codesLists}
+								organisations={organisations}
+							/>
+						}
+						alone
+						lang={lg1}
+					/>
+				</div>
+				{Object.values(msd.children).map(child => (
+					<MSDInformations key={child.idMas} msd={child} />
+				))}
 			</React.Fragment>
 		);
 	}
-
 	return Object.values(metadataStructure).map(msd => {
 		if (currentSection && msd.idMas !== currentSection) {
 			return null;
 		}
-		return (
-			<div key={msd.idMas}>
-				<article className="panel panel-default">
-					<div className="panel-heading">
-						<h2 id={msd.idMas} className="titre-principal">
-							{msd.idMas} - {msd.masLabelLg1}
-						</h2>
-					</div>
-					<div className="panel-body">
-						<HelpInformation msd={msd} codesLists={codesLists} />
-					</div>
-				</article>
-				{displayContent(msd.children)}
-			</div>
-		);
+		return <MSDInformations key={msd.idMas} msd={msd} />;
 	});
 }
 

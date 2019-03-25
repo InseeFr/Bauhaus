@@ -1,3 +1,20 @@
+import D from 'js/i18n';
+import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
+import { isLg2 } from 'js/i18n/build-dictionary';
+
+export function getLabelsFromOperation(operation) {
+	const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
+	return {
+		labelLg1: D.simsLabel.replace(
+			labelOperationNameTemplate,
+			operation.prefLabelLg1
+		),
+		labelLg2: getMessageForSecondLang('simsLabel').replace(
+			labelOperationNameTemplate,
+			operation.prefLabelLg2
+		),
+	};
+}
 /**
  *
  * Take a an array as input, and return a hierarchical tree based on objects
@@ -20,6 +37,9 @@ export function getTree(input, idParent, objectToMerge) {
 				...acc,
 				[msd.idMas]: {
 					...msd,
+					masLabelBasedOnCurrentLang: isLg2()
+						? msd.masLabelLg2
+						: msd.masLabelLg1,
 					isPresentational: msdToMerge.isPresentational || false,
 					rangeType: msdToMerge.rangeType,
 					codeList: msdToMerge.codeList,
@@ -54,4 +74,6 @@ export const rangeType = {
 	TEXT: 'TEXT',
 	DATE: 'DATE',
 	CODE_LIST: 'CODE_LIST',
+	RICH_TEXT: 'RICH_TEXT',
+	ORGANIZATION: 'ORGANIZATION',
 };

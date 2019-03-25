@@ -32,15 +32,20 @@ class MSDComponent extends Component {
 			status,
 		}));
 	}
+
+	changeStatusToBoth = () => this.changeStatus(STATUS.BOTH);
+	changeStatusToContent = () => this.changeStatus(STATUS.CONTENT);
+	changeStatusToSummary = () => this.changeStatus(STATUS.SUMMARY);
+
 	render() {
 		const { status } = this.state;
 
 		const styleSummary = {
-			width: status === STATUS.BOTH ? '33%' : '100%',
+			width: status === STATUS.BOTH ? '25%' : '100%',
 			display: status === STATUS.CONTENT ? 'none' : 'block',
 		};
 		const styleContent = {
-			width: status === STATUS.BOTH ? '66%' : '100%',
+			width: status === STATUS.BOTH ? '75%' : '100%',
 			display: status === STATUS.SUMMARY ? 'none' : 'block',
 		};
 		const {
@@ -51,20 +56,17 @@ class MSDComponent extends Component {
 			disableSectionAnchor,
 		} = this.props;
 		return (
-			<div
-				id="consulter-sommaire"
-				className="container panneau produit-sommaire"
-			>
-				<section className="sommaire-gauche" style={styleSummary}>
-					<div className="titre-sommaire titre">{D.helpSummary}</div>
+			<div id="consulter-sommaire" className="container msd__container">
+				<section className="msd__outline" style={styleSummary}>
+					<div className="msd__outline_title">{D.helpSummary}</div>
 					<input
 						className="form-control"
 						disabled
 						placeholder={D.search}
 						aria-label={D.search}
 					/>
-					<nav className="sommaire-container">
-						<ul className="sommaire">
+					<nav className="msd__outline-container">
+						<ul className="msd__outline-content">
 							{Object.values(metadataStructure).map(metadata => (
 								<Outline
 									key={metadata.idMas}
@@ -80,28 +82,22 @@ class MSDComponent extends Component {
 
 				{status === STATUS.CONTENT && (
 					<button
-						className="ouverture-sommaire"
-						onClick={() => this.changeStatus(STATUS.BOTH)}
+						className="msd__panel-trigger_left"
+						onClick={this.changeStatusToBoth}
 					>
 						{D.helpSummary}
 						<span className="glyphicon glyphicon-chevron-right" />
 					</button>
 				)}
 				{status === STATUS.BOTH && (
-					<div className="fermeture">
-						<div className="fermeture-gauche">
-							<button
-								onClick={() => this.changeStatus(STATUS.CONTENT)}
-								title="open summary"
-							>
+					<div className="msd__panel-trigger_middle">
+						<div>
+							<button onClick={this.changeStatusToContent} title="open content">
 								<span className="glyphicon glyphicon-chevron-left" />
 							</button>
 						</div>
-						<div className="fermeture-droite">
-							<button
-								onClick={() => this.changeStatus(STATUS.SUMMARY)}
-								title="open content"
-							>
+						<div>
+							<button onClick={this.changeStatusToSummary} title="open summary">
 								<span className="glyphicon glyphicon-chevron-right" />
 							</button>
 						</div>
@@ -109,8 +105,8 @@ class MSDComponent extends Component {
 				)}
 				{status === STATUS.SUMMARY && (
 					<button
-						className="ouverture-contenu"
-						onClick={() => this.changeStatus(STATUS.BOTH)}
+						className="msd__panel-trigger_right"
+						onClick={this.changeStatusToBoth}
 					>
 						<span className="glyphicon glyphicon-chevron-left" />
 						{D.helpContent}
@@ -119,9 +115,7 @@ class MSDComponent extends Component {
 				<section
 					style={styleContent}
 					className={
-						status === STATUS.CONTENT
-							? 'sommaire-droite alone'
-							: 'sommaire-droite'
+						status === STATUS.CONTENT ? 'msd__content_alone' : 'msd__content'
 					}
 				>
 					{children}

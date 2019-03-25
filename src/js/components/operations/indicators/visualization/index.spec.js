@@ -1,4 +1,4 @@
-import { mapStateToProps } from './index.js';
+import { mapStateToProps } from './index';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 
 describe('IndicatorVisualizationContainer', () => {

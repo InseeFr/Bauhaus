@@ -8,6 +8,7 @@ import { saveSecondLang } from 'js/actions/app';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import buildExtract from 'js/utils/build-extract';
 import * as select from 'js/reducers';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');
 
@@ -50,7 +51,7 @@ const mapStateToProps = (state, ownProps) => {
 	}
 	return {
 		id,
-		secondLang: state.app.secondLang,
+		secondLang: getSecondLang(state),
 		general,
 		notes,
 		langs,
@@ -62,6 +63,7 @@ const mapDispatchToProps = {
 	loadConceptAndAllNotes,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	withRouter(ConceptCompareContainer)
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(withRouter(ConceptCompareContainer));

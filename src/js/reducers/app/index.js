@@ -31,3 +31,7 @@ export default function(state = {}, action) {
 			return state;
 	}
 }
+
+export function getSecondLang(state) {
+	return state.app.secondLang;
+}

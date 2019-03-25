@@ -1,118 +1,29 @@
 @import 'src/app.scss';
 
-.panneau {
+.msd__container {
 	position: relative;
 	display: block;
 	padding: 0;
 	margin-top: 20px;
 
-	> .sommaire-gauche {
-		box-sizing: border-box;
-		float: left;
-		width: 33%;
-		margin: 0;
-		padding: 0;
-		overflow: hidden;
-		padding: 70px 20px 20px 20px;
-		border-right: solid $color_operations_3 1px;
-	}
-
-	.ouverture-sommaire,
-	.ouverture-contenu {
-		margin-top: 20px;
-		border-top-left-radius: 2px;
-		border-bottom-left-radius: 2px;
-		padding: 6px 5px 2px 5px;
-	}
-
 	ul {
 		list-style: none;
 	}
 }
-.panneau.produit-sommaire .panneau.produit-sommaire .ouverture-sommaire,
-.panneau.produit-sommaire .ouverture-contenu,
-.panneau.produit-sommaire .fermeture {
-	position: absolute;
-	margin-top: 20px;
-	background-color: $color_operations_3;
-	color: #fff;
-	text-align: center;
-	text-transform: uppercase;
-}
-button {
-	background-color: $color_operations_3;
-	color: #fff;
-	display: inline-block;
-	border: 0px none;
-	padding: 0;
-	text-align: left;
-	&.white {
-		background-color: transparent;
-		color: black;
-		padding-right: 5px;
-		margin-left: -19px;
-	}
-	&.up-down {
-		position: absolute;
-		right: 15px;
-		top: 40%;
-		display: block;
-	}
-}
 
-.ouverture-contenu {
-	position: absolute;
-	right: 0;
-	display: block;
-}
-
-.panneau.produit-sommaire .fermeture {
-	width: 50px;
-	height: 30px;
-	left: calc(33% - 25px);
-	border-radius: 2px;
-	display: table;
-}
-.panneau.produit-sommaire .fermeture .fermeture-gauche,
-.panneau.produit-sommaire .fermeture .fermeture-droite {
-	vertical-align: middle;
-	display: table-cell;
-}
-.panneau.produit-sommaire .sommaire-droite {
+.msd__outline {
 	box-sizing: border-box;
-	float: right;
-	width: 67%;
+	float: left;
+	width: 33%;
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
 	padding: 70px 20px 20px 20px;
+	border-right: solid $color_operations_3 1px;
 
-	&.alone {
-		border-left: solid $color_operations_3 1px;
-	}
-}
-.panneau.produit-sommaire .sommaire-droite .titre-sommaire {
-	margin-bottom: 30px;
-}
-.panneau.produit-sommaire .sommaire-droite .titre-sommaire .titre {
-	border: none;
-	margin: 0;
-	padding: 0;
-	max-width: 668px;
-}
-.panneau.produit-sommaire
-	.sommaire-droite
-	.titre-sommaire
-	.titre
-	.titre-principal {
-	font-size: 28px;
-	font-size: 2.8rem;
-	margin: 0 0 10px 0;
-	line-height: 30px;
-}
-
-.sommaire-gauche {
 	background-color: transparent;
-	.titre {
+
+	&_title {
 		font-size: 28px;
 		font-size: 2.8rem;
 		color: $color_operations_3;
@@ -121,12 +32,13 @@ button {
 		padding: 0 0 10px 0;
 		margin: 0 0 15px 0;
 	}
-	.sommaire-container {
+
+	&-container {
 		border: none;
 		margin: 0;
 		padding: 0;
 	}
-	.sommaire-container .sommaire {
+	&-content {
 		background-color: transparent;
 		padding: 0;
 		margin: 0;
@@ -134,41 +46,74 @@ button {
 	}
 }
 
-.primary-item {
-	background-color: $color_operations_3;
-	padding: 15px 30px;
-	border-radius: 2px;
-	margin-top: 30px;
-	color: white;
-	position: relative;
-	a {
-		color: white;
-	}
-}
-
-.sommaire-item {
-	font-size: 14px;
-	font-size: 1.4rem;
-	padding: 15px 0;
-	margin-bottom: 30px;
-	border: solid #e0e0e0 1px;
-	background-color: #fff;
-	border-top-left-radius: 2px;
-	border-top-right-radius: 2px;
-	&.secondary {
+.msd__content {
+	box-sizing: border-box;
+	float: right;
+	width: 67%;
+	margin: 0;
+	padding: 0;
+	padding: 70px 20px 20px 20px;
+	&_alone {
+		box-sizing: border-box;
+		float: right;
+		width: 67%;
+		margin: 0;
 		padding: 0;
-		border: none;
+		padding: 70px 20px 20px 20px;
+		border-left: solid $color_operations_3 1px;
 	}
-
-	li {
-		text-transform: none;
-		padding: 0 10px 0 30px;
-		margin: 15px 0;
-		color: #337ab7;
-		border-radius: 0;
+	& .panel {
+		background: white;
+	}
+	& .panel-body {
+		background: white;
 	}
 }
 
-.contenu {
-	margin-left: 50px;
+@mixin panel-trigger() {
+	margin-top: 20px;
+	border-top-left-radius: 2px;
+	border-bottom-left-radius: 2px;
+	padding: 6px 5px 2px 5px;
+	position: absolute;
+	margin-top: 20px;
+	background-color: $color_operations_3;
+	color: #fff;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.msd__panel-trigger {
+	&_right {
+		@include panel-trigger();
+		position: absolute;
+		right: 0;
+		display: block;
+	}
+	&_left {
+		@include panel-trigger();
+	}
+	&_middle {
+		position: absolute;
+		margin-top: 20px;
+		background-color: $color_operations_3;
+		color: #fff;
+		text-align: center;
+		text-transform: uppercase;
+		width: 50px;
+		height: 30px;
+		left: calc(25% - 30px);
+		border-radius: 2px;
+		display: table;
+
+		> div {
+			vertical-align: middle;
+			display: table-cell;
+
+			> button {
+				background: transparent;
+				border: none;
+			}
+		}
+	}
 }

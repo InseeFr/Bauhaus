@@ -5,6 +5,11 @@ import Button from 'js/components/shared/button';
 import D from 'js/i18n';
 
 class LoginBasic extends Component {
+	static propTypes = {
+		roleList: PropTypes.array.isRequired,
+		stampList: PropTypes.array.isRequired,
+		checkAuth: PropTypes.func.isRequired,
+	};
 	constructor(props) {
 		super();
 		this.state = { role: '', stamp: '' };
@@ -75,9 +80,4 @@ class LoginBasic extends Component {
 	}
 }
 
-LoginBasic.propTypes = {
-	roleList: PropTypes.array.isRequired,
-	stampList: PropTypes.array.isRequired,
-	checkAuth: PropTypes.func.isRequired,
-};
 export default LoginBasic;

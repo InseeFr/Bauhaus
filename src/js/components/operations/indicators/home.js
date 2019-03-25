@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PageTitle from 'js/components/shared/page-title';
-import SearchRmes from 'js/components/shared/search-rmes';
+import SearchRmes from 'js/components/shared/search-rmes/search-rmes';
 import D from 'js/i18n';
 import check from 'js/utils/auth';
 import { Link } from 'react-router-dom';
@@ -13,7 +13,7 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 		<React.Fragment>
 			<div className="container">
 				<div className="row">
-					<div className="col-md-3 btn-group-vertical">
+					<div className="col-md-3 operations-btn-group-vertical">
 						{adminOrContributor && (
 							<div className="row">
 								<div className="col-md-8 col-md-offset-2">
@@ -33,7 +33,7 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 							</div>
 						)}
 					</div>
-					<div className="col-md-9 centered">
+					<div className="col-md-8 centered pull-right">
 						<PageTitle
 							title={D.indicatorsSearchTitle}
 							col={12}

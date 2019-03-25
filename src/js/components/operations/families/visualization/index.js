@@ -16,6 +16,7 @@ import OperationsFamilyVisualization from 'js/components/operations/families/vis
 import Loading from 'js/components/shared/loading';
 import loadFamily from 'js/actions/operations/families/item';
 import Button from 'js/components/shared/button';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');
 class FamilyVisualizationContainer extends PureComponent {
@@ -25,7 +26,7 @@ class FamilyVisualizationContainer extends PureComponent {
 		langs: PropTypes.object,
 		saveSecondLang: PropTypes.func,
 	};
-	componentWillMount() {
+	componentDidMount() {
 		if (!this.props.family.id) {
 			this.props.loadFamily(this.props.id);
 		}
@@ -54,8 +55,7 @@ class FamilyVisualizationContainer extends PureComponent {
 						context="operations"
 					/>
 
-					<div className="col-md-6 centered" />
-					<Button label={D.btnSend} context="operations" />
+					<div className="col-md-8 centered" />
 					<Button
 						action={`/operations/family/${attr.id}/modify`}
 						label={D.btnUpdate}
@@ -75,12 +75,11 @@ class FamilyVisualizationContainer extends PureComponent {
 export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const family = select.getFamily(state, id);
-
 	return {
 		id,
 		family: family.id === id ? family : {},
 		langs: select.getLangs(state),
-		secondLang: state.app.secondLang,
+		secondLang: getSecondLang(state),
 	};
 };
 const mapDispatchToProps = {

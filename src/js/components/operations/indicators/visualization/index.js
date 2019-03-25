@@ -14,6 +14,7 @@ import Loading from 'js/components/shared/loading';
 import loadIndicator from 'js/actions/operations/indicators/item';
 import Button from 'js/components/shared/button';
 import { CL_FREQ } from 'js/actions/constants/codeList';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');
 class IndicatorVisualizationContainer extends Component {
@@ -55,8 +56,7 @@ class IndicatorVisualizationContainer extends Component {
 						context="operations"
 					/>
 
-					<div className="col-md-6 centered" />
-					<Button label={D.btnSend} context="operations" />
+					<div className="col-md-8 centered" />
 					<Button
 						action={`/operations/indicator/${attr.id}/modify`}
 						label={D.btnUpdate}
@@ -84,7 +84,7 @@ export const mapStateToProps = (state, ownProps) => {
 		id,
 		indicator: indicator.id === id ? indicator : {},
 		langs: select.getLangs(state),
-		secondLang: state.app.secondLang,
+		secondLang: getSecondLang(state),
 		frequency: frequencies.codes.find(
 			c => c.code === indicator.accrualPeriodicityCode
 		),

@@ -20,6 +20,7 @@ import Loading from 'js/components/shared/loading';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';
 import { OK } from 'js/constants';
+import { getSecondLang } from 'js/reducers/app';
 const extractId = buildExtract('id');
 
 class ConceptVisualizationContainer extends Component {
@@ -160,11 +161,9 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		id,
 		permission: select.getPermission(state),
-		secondLang: state.app.secondLang,
+		secondLang: getSecondLang(state),
 		concept: select.getConcept(state, id),
 		allNotes,
-		//TODO should check if the concept which has been validated are the same
-		//a validation has been requested for.
 		validationStatus: select.getStatus(state, VALIDATE_CONCEPT_LIST),
 		deleteStatus: select.getStatus(state, DELETE_CONCEPT),
 		deleteSuccessStatus: select.getStatus(state, DELETE_CONCEPT_SUCCESS),

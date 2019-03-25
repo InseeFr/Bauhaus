@@ -1,9 +1,9 @@
 import React from 'react';
-import { Note } from 'js/components/shared/note';
+import { Note } from 'js/components/shared/note/note';
 import D from 'js/i18n';
 import { Link } from 'react-router-dom';
 
-function SeeAlso({ links, langs: { lg1, lg2 }, secondLang, context }) {
+function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 	function displaySeeAlsos(label) {
 		function displaySeeAlso(seeAlso, title, path) {
 			return (

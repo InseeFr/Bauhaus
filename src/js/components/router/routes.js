@@ -3,16 +3,16 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 
 import auth from 'js/components/auth/hoc';
 
-import Error from 'js/components/shared/error';
-import NotFound from 'js/components/shared/not-found';
+import Error from 'js/components/shared/error/error';
+import NotFound from 'js/components/shared/not-found/';
 
 import App from 'js/components/app';
 import MenuDispatcher from 'js/components/menu/home-container';
 import Role from 'js/components/administration/roles/home-container';
 
-import ConceptsRoutes from 'js/components/router/concepts.js';
-import ClassificationsRoutes from 'js/components/router/classifications.js';
-import OperationsRoutes from 'js/components/router/operations.js';
+import ConceptsRoutes from 'js/components/router/concepts';
+import ClassificationsRoutes from 'js/components/router/classifications';
+import OperationsRoutes from 'js/components/router/operations';
 
 export default withRouter(
 	auth(({ error }) => (

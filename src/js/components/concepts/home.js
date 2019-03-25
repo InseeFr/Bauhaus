@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import PageTitle from 'js/components/shared/page-title';
 import Button from 'js/components/shared/button';
-import SearchRmes from 'js/components/shared/search-rmes';
+import SearchRmes from 'js/components/shared/search-rmes/search-rmes';
 import check from 'js/utils/auth';
 import { propTypes as conceptOverviewPropTypes } from 'js/utils/concepts/concept-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
@@ -28,7 +28,10 @@ class ConceptsHome extends Component {
 	}
 
 	render() {
-		const { concepts, permission: { authType, roles } } = this.props;
+		const {
+			concepts,
+			permission: { authType, roles },
+		} = this.props;
 		const authImpl = check(authType);
 		const adminOrContributor = authImpl.isAdminOrContributor(roles);
 		const adminOrCreator = authImpl.isAdminOrConceptCreator(roles);
@@ -111,5 +114,4 @@ ConceptsHome.propTypes = {
 	permission: permissionOverviewPropTypes.isRequired,
 };
 
-//TODO use <Navigate /> so we don't need `withRouter`
 export default withRouter(ConceptsHome);

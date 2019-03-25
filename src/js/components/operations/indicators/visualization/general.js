@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Note } from 'js/components/shared/note';
+import { Note } from 'js/components/shared/note/note';
 import D from 'js/i18n';
 import { getSeeAlsoByType } from 'js/components/operations/shared/links/utils';
 import DisplayLinks from 'js/components/operations/shared/links/';

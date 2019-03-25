@@ -120,6 +120,14 @@ const dictionary = {
 		fr: "L'intitulé est obligatoire",
 		en: 'The title is required',
 	},
+	requiredFamily: {
+		fr: 'La famille est obligatoire',
+		en: 'The family is required',
+	},
+	requiredSeries: {
+		fr: 'La série est obligatoire',
+		en: 'The series is required',
+	},
 	helpContent: {
 		en: 'Content',
 		fr: 'Contenu',
@@ -140,7 +148,7 @@ const dictionary = {
 		en: 'Presentational attribut',
 		fr: 'Attribut présentationnel',
 	},
-	helpREPORTED_ATTRIBUTE: {
+	helpRICH_TEXT: {
 		en: 'Rich text + URI',
 		fr: 'Texte riche + URI',
 	},

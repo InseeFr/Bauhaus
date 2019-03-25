@@ -55,15 +55,28 @@ a {
 	margin: 0;
 }
 
-.btn-group-vertical {
-	border: 2px solid $color_concepts_3;
+@mixin btn-group-vertical() {
 	border-radius: 6px;
+	border-width: 2px;
+	border-style: solid;
 	margin-top: 200px;
+
+	.btn {
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
 }
-.btn-group-vertical .btn {
-	margin-top: 15px;
-	margin-bottom: 15px;
+
+.btn-group-vertical {
+	border-color: $color_concepts_3;
+	@include btn-group-vertical();
 }
+
+.operations-btn-group-vertical {
+	border-color: $color_operations_3;
+	@include btn-group-vertical();
+}
+
 .btn-line {
 	margin-top: 15px;
 	margin-bottom: 15px;
@@ -166,4 +179,13 @@ link {
 }
 .form-label {
 	display: block;
+}
+
+.row.flex {
+	display: flex;
+	flex-wrap: wrap;
+}
+.row.flex [class*='col-'] {
+	display: flex;
+	flex-direction: column;
 }

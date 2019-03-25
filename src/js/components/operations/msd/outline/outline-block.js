@@ -25,18 +25,18 @@ class OutlineBlock extends Component {
 		};
 	}
 
-	expandOrCollapseItem(id) {
+	expandOrCollapseItem = ({ currentTarget: { id } }) => {
 		toggleOpen(id);
 		this.setState(previousState => ({
 			children: {
-				...this.state.children,
+				...previousState.children,
 				[id]: {
-					...this.state.children[id],
-					opened: !this.state.children[id].opened,
+					...previousState.children[id],
+					opened: !previousState.children[id].opened,
 				},
 			},
 		}));
-	}
+	};
 	render() {
 		const {
 			secondary,
@@ -47,15 +47,16 @@ class OutlineBlock extends Component {
 		const { children } = this.state;
 		if (Object.keys(children).length <= 0) return null;
 		return (
-			<ul className={secondary ? 'secondary sommaire-item' : 'sommaire-item'}>
+			<ul className={secondary ? 'msd__item-secondary' : 'msd__item'}>
 				{Object.values(children).map(child => {
 					return (
 						<li key={child.idMas} className="help-item">
 							{Object.keys(child.children).length > 0 && (
 								<button
-									className="white"
+									className="msd__item-updown"
 									title="expand/collapse"
-									onClick={() => this.expandOrCollapseItem(child.idMas)}
+									id={child.idMas}
+									onClick={this.expandOrCollapseItem}
 								>
 									<span
 										className={`glyphicon glyphicon-chevron-${
@@ -70,7 +71,7 @@ class OutlineBlock extends Component {
 									child.idMas
 								}`}
 							>
-								{child.idMas} - {child.masLabelLg1}
+								{child.idMas} - {child.masLabelBasedOnCurrentLang}
 							</Link>
 							{child.opened && (
 								<OutlineBlock

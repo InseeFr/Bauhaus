@@ -10,6 +10,7 @@ import MSDHelp from 'js/components/operations/msd/pages/help';
 import SimsVisualisation from 'js/components/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/components/operations/msd/pages/sims-creation/';
 import buildExtract from 'js/utils/build-extract';
+import { getLabelsFromOperation } from 'js/utils/msd';
 import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
 import { compose } from 'recompose';
@@ -17,11 +18,11 @@ import * as select from 'js/reducers';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import loadOperation from 'js/actions/operations/operations/item';
-import D from 'js/i18n';
-import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
-
-const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
-
+import { getSecondLang } from 'js/reducers/app';
+import {
+	getOperationsOrganisations,
+	getOperationsCodesList,
+} from 'js/reducers/operations/selector';
 const extractId = buildExtract('id');
 const extractIdOperation = buildExtract('idOperation');
 
@@ -89,6 +90,7 @@ class MSDContainer extends Component {
 			langs,
 			secondLang,
 			currentSims,
+			organisations,
 		} = this.props;
 
 		if (
@@ -121,6 +123,8 @@ class MSDContainer extends Component {
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
 						currentSection={this.props.match.params.idSection}
+						langs={langs}
+						organisations={organisations}
 					/>
 				)}
 
@@ -130,6 +134,7 @@ class MSDContainer extends Component {
 						idOperation={currentSims.idOperation}
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
+						organisations={organisations}
 						currentSection={this.props.match.params.idSection}
 						saveSecondLang={saveSecondLang}
 						langs={langs}
@@ -149,6 +154,7 @@ class MSDContainer extends Component {
 						secondLang={secondLang}
 						goBack={this.goBackCallback}
 						mode={mode}
+						organisations={organisations}
 					/>
 				)}
 			</MSDLayout>
@@ -182,14 +188,7 @@ const mapStateToProps = (state, ownProps) => {
 			break;
 		case CREATE:
 			currentSims = {
-				labelLg1: D.simsLabel.replace(
-					labelOperationNameTemplate,
-					currentOperation.prefLabelLg1
-				),
-				labelLg2: getMessageForSecondLang('simsLabel').replace(
-					labelOperationNameTemplate,
-					currentOperation.prefLabelLg2
-				),
+				...getLabelsFromOperation(currentOperation),
 			};
 			break;
 		default:
@@ -199,7 +198,7 @@ const mapStateToProps = (state, ownProps) => {
 
 	return {
 		langs: select.getLangs(state),
-		secondLang: state.app.secondLang,
+		secondLang: getSecondLang(state),
 		metadataStructure,
 		metadataStructureStatus,
 
@@ -208,7 +207,8 @@ const mapStateToProps = (state, ownProps) => {
 			ownProps.mode !== CREATE || currentOperation.id === idOperation,
 		id,
 		idOperation,
-		codesLists: state.operationsCodesList.results,
+		codesLists: getOperationsCodesList(state),
+		organisations: getOperationsOrganisations(state),
 	};
 };
 

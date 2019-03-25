@@ -1,11 +1,5 @@
 import buildApi from './build-api';
 
-//TODO then handler should not default to res => res.json() when no response
-//body is expected.
-//Change signature to (params) => [url, thenHandler, options] and pass
-//json as a then handler for all GET calls
-//const json = res => res.json()
-//getConcepteList: () => ['concepts', json]
 const api = {
 	getConceptList: () => [''],
 	getConceptSearchList: () => ['advanced-search'],
@@ -54,7 +48,7 @@ const api = {
 			body: JSON.stringify(ids),
 		},
 		//do not process response
-		() => {}, //TODO upgrade build apri
+		() => {}, //TODO upgrade build api
 	],
 	getConceptExport: (id, MimeType) => [
 		`concept/export/${id}`,
@@ -107,7 +101,7 @@ const api = {
 			body: JSON.stringify(ids),
 		},
 		//do not process resspoonse
-		() => {}, //TODO upgrade build apri
+		() => {},
 	],
 	getCollectionGeneral: id => [`collection/${id}`],
 	getCollectionMembersList: id => [`collection/${id}/members`],
@@ -133,7 +127,4 @@ const api = {
 	],
 };
 
-//TODO wrap api in a proxy for developement to catch error when accessing
-//an unknown function (the kind of check performed when we import something
-//that has not been exported)
 export default buildApi('concepts', api);

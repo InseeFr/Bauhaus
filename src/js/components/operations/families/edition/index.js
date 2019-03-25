@@ -10,14 +10,16 @@ import OperationsFamilyEdition from 'js/components/operations/families/edition/e
 const extractId = buildExtract('id');
 
 class OperationsFamilyEditionContainer extends Component {
-	componentWillMount() {
-		if (!this.props.family.id) {
+	componentDidMount() {
+		if (!this.props.family.id && this.props.id) {
 			this.props.loadFamily(this.props.id);
 		}
 	}
 	render() {
 		if (!this.props.family)
 			return <Loading textType="loading" context="operations" />;
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
 		return <OperationsFamilyEdition {...this.props} />;
 	}
 }
@@ -29,12 +31,13 @@ const mapDispatchToProps = {
 
 export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const family = select.getFamily(state);
+	const family = id ? select.getFamily(state) : {};
 	const langs = select.getLangs(state);
 	return {
 		id,
 		family,
 		langs,
+		operationsAsyncTask: state.operationsAsyncTask,
 	};
 };
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
-const { CODE_LIST } = rangeType;
+const { CODE_LIST, ORGANIZATION } = rangeType;
 
-export default function HelpInformation({ msd, codesLists }) {
+export default function HelpInformation({ msd, codesLists, organisations }) {
 	if (!msd.masLabelLg1) {
 		return null;
 	}
@@ -21,16 +21,24 @@ export default function HelpInformation({ msd, codesLists }) {
 					  }`
 					: `${D[`help${msd.rangeType}`]}`}
 
-				{msd.rangeType === CODE_LIST &&
-					codesLists[msd.codeList] && (
-						<ul className="list-group">
-							{codesLists[msd.codeList].codes.map(code => (
-								<li className="list-group-item" key={code.code}>
-									{code.labelLg1}
-								</li>
-							))}
-						</ul>
-					)}
+				{msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (
+					<ul className="list-group">
+						{codesLists[msd.codeList].codes.map(code => (
+							<li className="list-group-item" key={code.code}>
+								{code.labelLg1}
+							</li>
+						))}
+					</ul>
+				)}
+				{msd.rangeType === ORGANIZATION && (
+					<ul className="list-group">
+						{organisations.map(orga => (
+							<li className="list-group-item" key={orga.id}>
+								{orga.label}
+							</li>
+						))}
+					</ul>
+				)}
 			</dd>
 		</dl>
 	);

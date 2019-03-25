@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import PickerItem from './';
-import addLogo from 'js/components/shared/logo-add';
-import delLogo from 'js/components/shared/logo-del';
+import addLogo from 'js/components/shared/logo/logo-add';
+import delLogo from 'js/components/shared/logo/logo-del';
 
 import { withKnobs, text } from '@storybook/addon-knobs';
 

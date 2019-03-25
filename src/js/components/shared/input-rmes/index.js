@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import flag from 'js/components/shared/flag';
+import flag from 'js/components/shared/flag/flag';
 
 function InputRmes({
 	colMd,
@@ -12,6 +12,7 @@ function InputRmes({
 	disabled,
 	password,
 	handleChange,
+	arias,
 }) {
 	return (
 		<div className={`form-group col-md-${colMd || 12}`}>
@@ -26,6 +27,7 @@ function InputRmes({
 					className="form-control"
 					disabled={disabled}
 					onChange={e => handleChange(e.target.value)}
+					{...arias}
 				/>
 			</label>
 		</div>

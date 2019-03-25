@@ -1,5 +1,5 @@
 import React from 'react';
-import { Note } from 'js/components/shared/note';
+import { Note } from 'js/components/shared/note/note';
 import { Link } from 'react-router-dom';
 
 function DisplayLinks({
@@ -11,7 +11,6 @@ function DisplayLinks({
 	displayLink = true,
 	labelLg1 = 'labelLg1',
 	labelLg2 = 'labelLg2',
-	context,
 }) {
 	function displayBlock(link, label) {
 		if (displayLink) {

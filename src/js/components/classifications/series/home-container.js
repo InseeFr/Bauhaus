@@ -4,6 +4,7 @@ import Loading from 'js/components/shared/loading';
 import SeriesHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadSeriesList from 'js/actions/classifications/series/list';
+import { getClassificationsSeriesList } from 'js/reducers/classifications/series/selector';
 
 class SeriesHomeContainer extends Component {
 	componentWillMount() {
@@ -19,15 +20,15 @@ class SeriesHomeContainer extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	if (!state.classificationsSeriesList) {
+export const mapStateToProps = state => {
+	const classificationsSeriesList = getClassificationsSeriesList(state);
+	if (!classificationsSeriesList) {
 		return {
 			status: NOT_LOADED,
 			series: [],
 		};
 	}
-	//TODO should be sorted in the state, shouldn't they ?
-	let { results: series, status, err } = state.classificationsSeriesList;
+	let { results: series, status, err } = classificationsSeriesList;
 
 	return {
 		series,
@@ -40,6 +41,7 @@ const mapDispatchToProps = {
 	loadSeriesList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	SeriesHomeContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SeriesHomeContainer);

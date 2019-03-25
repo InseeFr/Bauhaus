@@ -3,6 +3,7 @@ import { toggleOpen, isOpen } from 'js/components/operations/msd/utils';
 import { HashLink as Link } from 'react-router-hash-link';
 import OutlineBlock from 'js/components/operations/msd/outline/outline-block';
 import PropTypes from 'prop-types';
+import './style.scss';
 
 class Outline extends Component {
 	static propTypes = {
@@ -39,18 +40,19 @@ class Outline extends Component {
 
 		return (
 			<li>
-				<div className="primary-item">
+				<div className="msd__outline-primary-item">
 					<Link
 						to={`${baseUrl}${
 							disableSectionAnchor ? '' : metadataStructure.idMas
 						}#${metadataStructure.idMas}`}
 					>
-						{metadataStructure.idMas} - {metadataStructure.masLabelLg1}
+						{metadataStructure.idMas} -{' '}
+						{metadataStructure.masLabelBasedOnCurrentLang}
 					</Link>
 
 					{Object.keys(metadataStructure.children).length > 0 && (
 						<button
-							className="up-down"
+							className="msd__outline-primary-updown"
 							title={metadataStructure.masLabelLg1}
 							onClick={this.expandOrCollapseItem}
 						>

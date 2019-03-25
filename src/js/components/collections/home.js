@@ -3,13 +3,18 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import PageTitle from 'js/components/shared/page-title';
 import Button from 'js/components/shared/button';
-import SearchRmes from 'js/components/shared/search-rmes';
+import SearchRmes from 'js/components/shared/search-rmes/search-rmes';
 import check from 'js/utils/auth';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
 
 class CollectionsHome extends Component {
+	static propTypes = {
+		collections: PropTypes.arrayOf(collectionOverviewPropTypes.isRequired),
+		permission: permissionOverviewPropTypes.isRequired,
+	};
+
 	constructor() {
 		super();
 
@@ -28,7 +33,10 @@ class CollectionsHome extends Component {
 	}
 
 	render() {
-		const { collections, permission: { authType, roles } } = this.props;
+		const {
+			collections,
+			permission: { authType, roles },
+		} = this.props;
 		const authImpl = check(authType);
 		const adminOrCreator = authImpl.isAdminOrCollectionCreator(roles);
 		const adminOrContributor = authImpl.isAdminOrContributor(roles);
@@ -105,10 +113,4 @@ class CollectionsHome extends Component {
 	}
 }
 
-CollectionsHome.propTypes = {
-	collections: PropTypes.arrayOf(collectionOverviewPropTypes.isRequired),
-	permission: permissionOverviewPropTypes.isRequired,
-};
-
-//TODO use <Navigate /> so we don't need `withRouter`
 export default withRouter(CollectionsHome);

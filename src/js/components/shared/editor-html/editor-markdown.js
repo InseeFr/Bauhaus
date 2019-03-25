@@ -20,6 +20,11 @@ const toolbar = {
 };
 
 class EditorMarkdown extends Component {
+	static propTypes = {
+		text: PropTypes.string,
+		handleChange: PropTypes.func.isRequired,
+	};
+
 	constructor(props) {
 		super(props);
 		const { text } = props;
@@ -58,10 +63,5 @@ class EditorMarkdown extends Component {
 		);
 	}
 }
-
-EditorMarkdown.propTypes = {
-	text: PropTypes.string,
-	handleChange: PropTypes.func.isRequired,
-};
 
 export default EditorMarkdown;

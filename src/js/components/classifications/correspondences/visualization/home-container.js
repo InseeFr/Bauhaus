@@ -9,6 +9,7 @@ import loadCorrespondenceGeneral from 'js/actions/classifications/correspondence
 import loadCorrespondenceAssociations from 'js/actions/classifications/correspondences/associations';
 import * as select from 'js/reducers';
 import buildExtract from 'js/utils/build-extract';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');
 
@@ -60,7 +61,7 @@ class CorrespondencesHomeContainer extends Component {
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const { correspondence, associations } = getCorrespondence(state, id);
-	const secondLang = state.app.secondLang;
+	const secondLang = getSecondLang(state);
 	const langs = select.getLangs(state);
 	return {
 		id,
@@ -77,6 +78,7 @@ const mapDispatchToProps = {
 	loadCorrespondenceAssociations,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	CorrespondencesHomeContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CorrespondencesHomeContainer);

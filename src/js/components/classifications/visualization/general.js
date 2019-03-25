@@ -40,7 +40,6 @@ export default ({ general, secondLang, langs }) => {
 		legalMaterial: D.legalMaterialTitle,
 		homepage: D.homepageTitle,
 	};
-	// TODO refactor
 	return (
 		<div className="row">
 			<div className="col-md-12">
@@ -55,18 +54,17 @@ export default ({ general, secondLang, langs }) => {
 											<Link to={`/classifications/series/${general.idSeries}`}>
 												{general[fieldName]}
 											</Link>
-											{secondLang &&
-												general.seriesLg2 && (
-													<span>
-														{' ('}
-														<Link
-															to={`/classifications/series/${general.idSeries}`}
-														>
-															{general.seriesLg2}
-														</Link>
-														{')'}
-													</span>
-												)}
+											{secondLang && general.seriesLg2 && (
+												<span>
+													{' ('}
+													<Link
+														to={`/classifications/series/${general.idSeries}`}
+													>
+														{general.seriesLg2}
+													</Link>
+													{')'}
+												</span>
+											)}
 										</li>
 									);
 								}
@@ -81,20 +79,19 @@ export default ({ general, secondLang, langs }) => {
 											>
 												{general[fieldName]}
 											</Link>
-											{secondLang &&
-												general.afterLg2 && (
-													<span>
-														{' ('}
-														<Link
-															to={`/classifications/classification/${
-																general.idAfter
-															}`}
-														>
-															{general.afterLg2}
-														</Link>
-														{')'}
-													</span>
-												)}
+											{secondLang && general.afterLg2 && (
+												<span>
+													{' ('}
+													<Link
+														to={`/classifications/classification/${
+															general.idAfter
+														}`}
+													>
+														{general.afterLg2}
+													</Link>
+													{')'}
+												</span>
+											)}
 										</li>
 									);
 								}
@@ -109,20 +106,19 @@ export default ({ general, secondLang, langs }) => {
 											>
 												{general[fieldName]}
 											</Link>
-											{secondLang &&
-												general.beforeLg2 && (
-													<span>
-														{' ('}
-														<Link
-															to={`/classifications/classification/${
-																general.idBefore
-															}`}
-														>
-															{general.beforeLg2}
-														</Link>
-														{')'}
-													</span>
-												)}
+											{secondLang && general.beforeLg2 && (
+												<span>
+													{' ('}
+													<Link
+														to={`/classifications/classification/${
+															general.idBefore
+														}`}
+													>
+														{general.beforeLg2}
+													</Link>
+													{')'}
+												</span>
+											)}
 										</li>
 									);
 								}
@@ -137,20 +133,19 @@ export default ({ general, secondLang, langs }) => {
 											>
 												{general[fieldName]}
 											</Link>
-											{secondLang &&
-												general.variantLg2 && (
-													<span>
-														{' ('}
-														<Link
-															to={`/classifications/classification/${
-																general.idVariant
-															}`}
-														>
-															{general.variantLg2}
-														</Link>
-														{')'}
-													</span>
-												)}
+											{secondLang && general.variantLg2 && (
+												<span>
+													{' ('}
+													<Link
+														to={`/classifications/classification/${
+															general.idVariant
+														}`}
+													>
+														{general.variantLg2}
+													</Link>
+													{')'}
+												</span>
+											)}
 										</li>
 									);
 								}
@@ -160,9 +155,11 @@ export default ({ general, secondLang, langs }) => {
 									return (
 										<li key={fieldName}>
 											{`${mapping[fieldName]} : `}
-											<a href={general[fieldName]} target="_blank" rel="noopener noreferrer">{`${
-												general[fieldName]
-											}`}</a>
+											<a
+												href={general[fieldName]}
+												target="_blank"
+												rel="noopener noreferrer"
+											>{`${general[fieldName]}`}</a>
 										</li>
 									);
 								}

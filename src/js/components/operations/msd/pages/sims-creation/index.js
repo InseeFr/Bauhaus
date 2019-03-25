@@ -5,12 +5,26 @@ import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
 import Button from 'js/components/shared/button';
 import { flattenTree } from 'js/utils/msd';
 import ReactLoading from 'react-loading';
-import MSDItemLayout from 'js/components/operations/msd/msd-item-layout';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { DUPLICATE } from 'js/components/operations/msd';
+import { rangeType } from 'js/utils/msd/';
 
-const blackList = [];
+const { RICH_TEXT, TEXT } = rangeType;
+
+/**
+ *
+ * @param {{rangeType}} section
+ * @return boolean
+ */
+function hasLabelLg2(section) {
+	return section.rangeType === TEXT || section.rangeType === RICH_TEXT;
+}
+
+/**
+ * @type {string[]} name A name to use.
+ */
+const blackList = ['I.6.4'];
 class SimsCreation extends React.Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object.isRequired,
@@ -114,42 +128,57 @@ class SimsCreation extends React.Component {
 			saveSecondLang,
 			secondLang,
 			mode,
+			langs: { lg1, lg2 },
+			organisations,
 		} = this.props;
 		const { sims, idOperation } = this.state;
-
 		const operationsOptions = (this.props.sims.operationsWithoutSims || []).map(
 			op => ({
 				label: op.labelLg1,
 				value: op.id,
 			})
 		);
-
-		function displayContent(children, handleChange) {
-			if (Object.keys(children).length <= 0) return null;
+		function MSDInformations(msd, handleChange, firstLevel = false) {
 			return (
-				<React.Fragment>
-					{Object.keys(children).map(id => {
-						return (
-							<React.Fragment key={id}>
-								<MSDItemLayout
-									id={id}
-									title={`${id} - ${children[id].masLabelLg1}`}
-								>
-									<Field
-										msd={children[id]}
-										currentSection={sims[id]}
-										handleChange={handleChange}
-										codesLists={codesLists}
-										secondLang={secondLang}
-									/>
-								</MSDItemLayout>
-								{displayContent(children[id].children, handleChange)}
-							</React.Fragment>
-						);
-					})}
+				<React.Fragment key={msd.idMas}>
+					<div className="row flex" id={msd.idMas}>
+						{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
+							<h3 className="col-md-12">
+								{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
+							</h3>
+						)}
+						{!msd.isPresentational && (
+							<Field
+								msd={msd}
+								currentSection={sims[msd.idMas]}
+								handleChange={handleChange}
+								codesLists={codesLists}
+								secondLang={false}
+								lang={lg1}
+								alone={!hasLabelLg2(msd) || !secondLang}
+								organisations={organisations}
+							/>
+						)}
+						{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
+							<Field
+								msd={msd}
+								currentSection={sims[msd.idMas]}
+								handleChange={handleChange}
+								codesLists={codesLists}
+								secondLang={true}
+								lang={lg2}
+								alone={false}
+								organisations={organisations}
+							/>
+						)}
+					</div>
+					{Object.values(msd.children).map(child =>
+						MSDInformations(child, handleChange)
+					)}
 				</React.Fragment>
 			);
 		}
+
 		if (this.state.saving)
 			return (
 				<div className="loading-operations">
@@ -166,7 +195,6 @@ class SimsCreation extends React.Component {
 			<form>
 				<div className="row btn-line">
 					<Button
-						col={3}
 						action={this.goBack}
 						label={
 							<React.Fragment>
@@ -179,9 +207,8 @@ class SimsCreation extends React.Component {
 						}
 						context="operations"
 					/>
-					<div className="col-md-6" />
+					<div className="col-md-7" />
 					<Button
-						col={3}
 						action={this.handleSubmit}
 						label={
 							<React.Fragment>
@@ -193,6 +220,7 @@ class SimsCreation extends React.Component {
 							</React.Fragment>
 						}
 						context="operations"
+						col={3}
 					/>
 				</div>
 
@@ -218,29 +246,20 @@ class SimsCreation extends React.Component {
 									)}
 								</React.Fragment>
 							)}
-							<div className="panel panel-default">
-								<div className="panel-heading">
-									<h2 id={msd.idMas} className="titre-principal">
-										{msd.idMas} - {msd.masLabelLg1}
-									</h2>
-								</div>
-								<div className="panel-body">
-									<Field
-										msd={msd}
-										currentSection={sims[msd.idMas]}
-										handleChange={this.handleChange}
-										codesLists={codesLists}
-										secondLang={secondLang}
-									/>
-								</div>
-							</div>
-							{displayContent(msd.children, this.handleChange)}
+							{MSDInformations(msd, this.handleChange, true)}
 						</div>
 					);
 				})}
 			</form>
 		);
 	}
+}
+
+function shouldDisplayTitleForPrimaryItem(msd) {
+	return (
+		msd.isPresentational ||
+		(!msd.isPresentational && Object.keys(msd.children).length === 0)
+	);
 }
 
 export default SimsCreation;

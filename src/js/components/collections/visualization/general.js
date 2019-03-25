@@ -1,7 +1,7 @@
 import React from 'react';
 import D from 'js/i18n';
 import Panel from 'js/components/shared/panel';
-import { Note } from 'js/components/shared/note';
+import { Note } from 'js/components/shared/note/note';
 import { stringToDate } from 'js/utils/moment';
 
 function CollectionGeneral({ attr, secondLang, langs }) {

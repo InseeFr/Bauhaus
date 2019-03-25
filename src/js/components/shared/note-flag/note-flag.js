@@ -1,5 +1,5 @@
 import React from 'react';
-import flag from 'js/components/shared/flag';
+import flag from 'js/components/shared/flag/flag';
 import PropTypes from 'prop-types';
 
 function NoteFlag({ text, lang }) {

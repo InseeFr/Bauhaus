@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
-import NoteFlag from 'js/components/shared/note-flag';
+import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
-import EditorMarkdown from 'js/components/shared/editor-markdown';
+import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/components/shared/input-rmes';
 import Control from 'js/components/operations/indicators/edition/control';
@@ -13,6 +13,7 @@ import {
 	toSelectModel,
 	mergedItemsToSelectModels,
 } from 'js/components/operations/shared/utils/itemToSelectModel';
+import { validate } from 'js/components/operations/indicators/edition/validation';
 
 const defaultIndicator = {
 	prefLabelLg1: '',
@@ -41,8 +42,24 @@ class OperationsIndicatorEdition extends Component {
 				...props.indicator,
 			},
 		};
-		this.onChange = this.onChange.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
+		this.onChanges = [
+			'prefLabelLg1',
+			'prefLabelLg2',
+			'altLabelLg1',
+			'altLabelLg2',
+			'abstractLg1',
+			'abstractLg2',
+			'historyNoteLg1',
+			'historyNoteLg2',
+			'creator',
+			'accrualPeriodicityCode',
+		].reduce(
+			(acc, selector) => ({
+				...acc,
+				[selector]: this.onChange(selector),
+			}),
+			{}
+		);
 	}
 	componentWillReceiveProps(nextProps) {
 		this.setState({
@@ -52,23 +69,27 @@ class OperationsIndicatorEdition extends Component {
 			},
 		});
 	}
-	onChange(e) {
-		this.setState({
-			indicator: {
-				...this.state.indicator,
-				[e.target.id]: e.target.value,
-			},
-		});
-	}
 
-	onSubmit() {
+	onChange = selector => {
+		return value => {
+			console.log('value');
+			this.setState({
+				indicator: {
+					...this.state.indicator,
+					[selector]: value,
+				},
+			});
+		};
+	};
+
+	onSubmit = () => {
 		this.props.saveIndicator(
 			this.state.indicator,
 			(id = this.state.indicator.id) => {
 				this.props.history.push(`/operations/indicator/${id}`);
 			}
 		);
-	}
+	};
 
 	render() {
 		const {
@@ -104,6 +125,7 @@ class OperationsIndicatorEdition extends Component {
 			indicatorsOptions,
 			seriesOptions
 		);
+		const errors = validate(this.state.indicator);
 
 		return (
 			<div className="container editor-container">
@@ -121,7 +143,11 @@ class OperationsIndicatorEdition extends Component {
 						)}
 					</React.Fragment>
 				)}
-				<Control indicator={this.state.indicator} onSubmit={this.onSubmit} />
+				<Control
+					indicator={this.state.indicator}
+					onSubmit={this.onSubmit}
+					errorMessage={errors.errorMessage}
+				/>
 
 				<form>
 					<h4 className="centered">
@@ -134,9 +160,10 @@ class OperationsIndicatorEdition extends Component {
 							label={D.title}
 							lang={lg1}
 							star
-							handleChange={value =>
-								this.onChange({ target: { value, id: 'prefLabelLg1' } })
-							}
+							handleChange={this.onChanges.prefLabelLg1}
+							arias={{
+								'aria-invalid': errors.fields.prefLabelLg1,
+							}}
 						/>
 						<InputRmes
 							colMd={6}
@@ -144,9 +171,10 @@ class OperationsIndicatorEdition extends Component {
 							label={D.title}
 							lang={lg2}
 							star
-							handleChange={value =>
-								this.onChange({ target: { value, id: 'prefLabelLg2' } })
-							}
+							handleChange={this.onChanges.prefLabelLg2}
+							arias={{
+								'aria-invalid': errors.fields.prefLabelLg2,
+							}}
 						/>
 					</div>
 					<div className="row">
@@ -155,18 +183,14 @@ class OperationsIndicatorEdition extends Component {
 							value={indicator.altLabelLg1}
 							label={D.altLabel}
 							lang={lg1}
-							handleChange={value =>
-								this.onChange({ target: { value, id: 'altLabelLg1' } })
-							}
+							handleChange={this.onChanges.altLabelLg1}
 						/>
 						<InputRmes
 							colMd={6}
 							value={indicator.altLabelLg2}
 							label={D.altLabel}
 							lang={lg2}
-							handleChange={value =>
-								this.onChange({ target: { value, id: 'altLabelLg2' } })
-							}
+							handleChange={this.onChanges.altLabelLg2}
 						/>
 					</div>
 					<div className="row">
@@ -176,9 +200,7 @@ class OperationsIndicatorEdition extends Component {
 							</label>
 							<EditorMarkdown
 								text={indicator.abstractLg1}
-								handleChange={value =>
-									this.onChange({ target: { value, id: 'abstractLg1' } })
-								}
+								handleChange={this.onChanges.abstractLg1}
 							/>
 						</div>
 						<div className="form-group col-md-6">
@@ -187,9 +209,7 @@ class OperationsIndicatorEdition extends Component {
 							</label>
 							<EditorMarkdown
 								text={indicator.abstractLg2}
-								handleChange={value =>
-									this.onChange({ target: { value, id: 'abstractLg2' } })
-								}
+								handleChange={this.onChanges.abstractLg2}
 							/>
 						</div>
 					</div>
@@ -200,9 +220,7 @@ class OperationsIndicatorEdition extends Component {
 							</label>
 							<EditorMarkdown
 								text={indicator.historyNoteLg1}
-								handleChange={value =>
-									this.onChange({ target: { value, id: 'historyNoteLg1' } })
-								}
+								handleChange={this.onChanges.historyNoteLg1}
 							/>
 						</div>
 						<div className="form-group col-md-6">
@@ -211,9 +229,7 @@ class OperationsIndicatorEdition extends Component {
 							</label>
 							<EditorMarkdown
 								text={indicator.historyNoteLg2}
-								handleChange={value =>
-									this.onChange({ target: { value, id: 'historyNoteLg2' } })
-								}
+								handleChange={this.onChanges.historyNoteLg2}
 							/>
 						</div>
 					</div>
@@ -228,11 +244,7 @@ class OperationsIndicatorEdition extends Component {
 									options={frequencies.codes.map(cat => {
 										return { value: cat.code, label: cat.labelLg1 };
 									})}
-									onChange={value =>
-										this.onChange({
-											target: { value, id: 'accrualPeriodicityCode' },
-										})
-									}
+									onChange={this.onChange('accrualPeriodicityCode')}
 								/>
 							</label>
 						</div>
@@ -248,9 +260,7 @@ class OperationsIndicatorEdition extends Component {
 									value={indicator.creator}
 									options={organisationsOptions}
 									placeholder=""
-									onChange={value => {
-										this.onChange({ target: { value, id: 'creator' } });
-									}}
+									onChange={this.onChanges.creator}
 								/>
 							</label>
 						</div>
@@ -265,16 +275,13 @@ class OperationsIndicatorEdition extends Component {
 									options={organisationsOptions}
 									placeholder=""
 									multi
-									onChange={value => {
-										this.onChange({
-											target: {
-												value: value.map(v => {
-													return { id: v.value };
-												}),
-												id: 'contributor',
-											},
-										});
-									}}
+									onChange={value =>
+										this.onChange('contributor')(
+											value.map(v => {
+												return { id: v.value };
+											})
+										)
+									}
 								/>
 							</label>
 						</div>
@@ -290,14 +297,11 @@ class OperationsIndicatorEdition extends Component {
 									options={indicatorsOptions}
 									placeholder=""
 									onChange={value =>
-										this.onChange({
-											target: {
-												value: value.map(v => {
-													return { id: v.value, type: v.type };
-												}),
-												id: 'replaces',
-											},
-										})
+										this.onChange('replaces')(
+											value.map(v => {
+												return { id: v.value, type: v.type };
+											})
+										)
 									}
 									multi
 								/>
@@ -314,14 +318,11 @@ class OperationsIndicatorEdition extends Component {
 									options={indicatorsOptions}
 									placeholder=""
 									onChange={value =>
-										this.onChange({
-											target: {
-												value: value.map(v => {
-													return { id: v.value, type: v.type };
-												}),
-												id: 'isReplacedBy',
-											},
-										})
+										this.onChange('isReplacedBy')(
+											value.map(v => {
+												return { id: v.value, type: v.type };
+											})
+										)
 									}
 									multi
 								/>
@@ -339,14 +340,11 @@ class OperationsIndicatorEdition extends Component {
 									multi
 									placeholder=""
 									onChange={value =>
-										this.onChange({
-											target: {
-												value: value.map(v => {
-													return { id: v.value, type: v.type };
-												}),
-												id: 'wasGeneratedBy',
-											},
-										})
+										this.onChange('wasGeneratedBy')(
+											value.map(v => {
+												return { id: v.value, type: v.type };
+											})
+										)
 									}
 								/>
 							</label>
@@ -362,15 +360,11 @@ class OperationsIndicatorEdition extends Component {
 									options={seriesAndIndicatorsOptions}
 									placeholder=""
 									onChange={value =>
-										this.onChange({
-											target: {
-												value: value.map(v => {
-													return { id: v.value, type: v.type };
-												}),
-
-												id: 'seeAlso',
-											},
-										})
+										this.onChange('seeAlso')(
+											value.map(v => {
+												return { id: v.value, type: v.type };
+											})
+										)
 									}
 									multi
 								/>

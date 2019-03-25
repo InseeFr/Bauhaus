@@ -3,9 +3,9 @@ import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import { goBack } from 'js/utils/redirection';
-import NoteFlag from 'js/components/shared/note-flag';
+import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
-import EditorMarkdown from 'js/components/shared/editor-markdown';
+import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import Button from 'js/components/shared/button';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import SelectRmes from 'js/components/shared/select-rmes';
@@ -13,6 +13,7 @@ import {
 	toSelectModel,
 	mergedItemsToSelectModels,
 } from 'js/components/operations/shared/utils/itemToSelectModel';
+import { validate } from './validation';
 
 const defaultSerie = {
 	id: '',
@@ -53,8 +54,6 @@ class OperationsSerieEdition extends Component {
 				...props.serie,
 			},
 		};
-		this.onChange = this.onChange.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
 	}
 	componentWillReceiveProps(nextProps) {
 		this.setState({
@@ -64,19 +63,29 @@ class OperationsSerieEdition extends Component {
 			},
 		});
 	}
-	onChange(e) {
+	onChange = e => {
+		let override = {
+			[e.target.id]: e.target.value,
+		};
+		if (e.target.id === 'idFamily') {
+			override = {
+				family: {
+					id: e.target.value,
+				},
+			};
+		}
 		this.setState({
 			serie: {
 				...this.state.serie,
-				[e.target.id]: e.target.value,
+				...override,
 			},
 		});
-	}
-	onSubmit() {
-		this.props.saveSerie(this.state.serie, () => {
-			goBack(this.props, '/operations/series/' + this.state.serie.id)();
+	};
+	onSubmit = () => {
+		this.props.saveSerie(this.state.serie, (id = this.props.serie.id) => {
+			this.props.history.push(`/operations/series/${id}`);
 		});
-	}
+	};
 
 	render() {
 		const {
@@ -99,6 +108,12 @@ class OperationsSerieEdition extends Component {
 			replacedBy: (this.state.serie.isReplacedBy || []).map(link => link.id),
 			generate: (this.state.serie.generate || []).map(link => link.id),
 		};
+		const familiesOptions = this.props.families.map(s => {
+			return { value: s.id, label: s.label };
+		});
+		const family = serie.family || { id: '' };
+
+		const isEditing = !!serie.id;
 
 		const organisationsOptions = toSelectModel(organisations);
 		const seriesOptions = toSelectModel(
@@ -110,15 +125,26 @@ class OperationsSerieEdition extends Component {
 			indicatorsOptions,
 			seriesOptions
 		);
+
+		const errors = validate(serie);
+
 		return (
 			<div className="container editor-container">
-				<PageTitle title={this.props.serie.prefLabelLg1} context="operations" />
-				{serie.prefLabelLg2 && (
-					<PageSubtitle
-						subTitle={this.props.serie.prefLabelLg2}
-						context="operations"
-					/>
+				{isEditing && (
+					<>
+						<PageTitle
+							title={this.props.serie.prefLabelLg1}
+							context="operations"
+						/>
+						{this.props.serie.prefLabelLg2 && (
+							<PageSubtitle
+								subTitle={this.props.serie.prefLabelLg2}
+								context="operations"
+							/>
+						)}
+					</>
 				)}
+
 				<div className="row btn-line">
 					<Button
 						action={goBack(this.props, '/operations/series')}
@@ -133,8 +159,20 @@ class OperationsSerieEdition extends Component {
 						}
 						context="operations"
 					/>
+					<div className="col-md-8 centered">
+						<div
+							style={{ visibility: errors.errorMessage ? 'visible' : 'hidden' }}
+							className="alert alert-danger bold"
+							role="alert"
+						>
+							{/* HACK: if no content, the line height is set to 0 and the rest
+	              of the page moves a little  */}
+							{errors.errorMessage || (
+								<span style={{ whiteSpace: 'pre-wrap' }}> </span>
+							)}
+						</div>
+					</div>
 
-					<div className="col-md-8 centered" />
 					<Button
 						action={this.onSubmit}
 						label={
@@ -147,13 +185,32 @@ class OperationsSerieEdition extends Component {
 							</React.Fragment>
 						}
 						context="operations"
+						disabled={errors.errorMessage}
 					/>
 				</div>
 				<form>
+					{!isEditing && (
+						<div className="row">
+							<div className="form-group col-md-12">
+								<SelectRmes
+									placeholder={D.familiesTitle}
+									unclearable
+									value={family.id}
+									options={familiesOptions}
+									onChange={value =>
+										this.onChange({
+											target: { value, id: 'idFamily' },
+										})
+									}
+								/>
+							</div>
+						</div>
+					)}
 					<div className="row">
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg1">
 								<NoteFlag text={D.title} lang={lg1} />
+								<span className="boldRed">*</span>
 							</label>
 							<input
 								type="text"
@@ -161,12 +218,13 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg1"
 								value={serie.prefLabelLg1}
 								onChange={this.onChange}
-								disabled
+								aria-invalid={errors.fields.prefLabelLg1}
 							/>
 						</div>
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg2">
 								<NoteFlag text={D.title} lang={lg2} />
+								<span className="boldRed">*</span>
 							</label>
 							<input
 								type="text"
@@ -174,7 +232,7 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg2"
 								value={serie.prefLabelLg2}
 								onChange={this.onChange}
-								disabled
+								aria-invalid={errors.fields.prefLabelLg2}
 							/>
 						</div>
 					</div>

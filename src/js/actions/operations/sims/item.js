@@ -1,6 +1,7 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
 import { LOADING } from 'js/constants';
+import { getLabelsFromOperation } from 'js/utils/msd';
 
 export const saveSims = (sims, callback) => (dispatch, getState) => {
 	let promise = Promise.resolve(sims);
@@ -9,8 +10,7 @@ export const saveSims = (sims, callback) => (dispatch, getState) => {
 		promise = api.getOperation(sims.idOperation).then(result => {
 			return {
 				...sims,
-				labelLg1: result.prefLabelLg1,
-				labelLg2: result.prefLabelLg2,
+				...getLabelsFromOperation(result),
 			};
 		});
 	}
@@ -59,9 +59,7 @@ export default id => (dispatch, getState) => {
 						type: A.LOAD_OPERATIONS_SIMS_SUCCESS,
 						payload: {
 							...results,
-							operationsWithoutSims: operationsWithoutSims.filter(
-								op => !!op.labelLg1
-							),
+							operationsWithoutSims,
 							rubrics: results.rubrics.reduce((acc, rubric) => {
 								return {
 									...acc,

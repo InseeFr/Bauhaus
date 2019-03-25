@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Button from 'js/components/shared/button';
-import PlaceHolder from 'js/components/shared/placeholder';
+import PlaceHolder from 'js/components/shared/placeholder/placeholder';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
 class FamilyControls extends Component {
+	static propTypes = {
+		id: PropTypes.string,
+	};
+
 	render() {
 		const cancel = [
 			goBack(this.props, `/classifications/families`),
@@ -34,9 +38,5 @@ class FamilyControls extends Component {
 		);
 	}
 }
-
-FamilyControls.propTypes = {
-	id: PropTypes.string,
-};
 
 export default withRouter(FamilyControls);

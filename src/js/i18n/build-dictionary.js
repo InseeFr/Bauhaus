@@ -31,13 +31,18 @@ export const createDictionary = lang =>
  * If the lang is not fr, will return en
  * @param {string} lang the lang of the user
  */
+
+const firstLang = 'fr';
+const secondLang = 'en';
+
 export const getLang = defaultLang =>
 	(defaultLang || navigator.language || navigator.browserLanguage).split(
 		'-'
-	)[0] === 'fr'
-		? 'fr'
-		: 'en';
+	)[0] === firstLang
+		? firstLang
+		: secondLang;
 
+export const isLg2 = () => getLang() === secondLang;
 export const getMessageForSecondLang = message => {
 	const secondLang = ['en', 'fr'].find(l => l !== getLang());
 	return dictionary[message][secondLang];

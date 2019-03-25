@@ -13,12 +13,13 @@ import exportVariableBook from 'js/actions/operations/export-varBook';
 import { saveSecondLang } from 'js/actions/app';
 import loadOperation from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
-import ModalRmes from 'js/components/shared/modal-rmes';
+import ModalRmes from 'js/components/shared/modal-rmes/modal-rmes';
 import PageTitle from 'js/components/shared/page-title';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import { goBack } from 'js/utils/redirection';
 import Button from 'js/components/shared/button';
+import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');
 
@@ -32,7 +33,7 @@ class OperationVisualizationContainer extends Component {
 		secondLang: PropTypes.bool,
 		saveSecondLang: PropTypes.func,
 	};
-	
+
 	constructor(props) {
 		super(props);
 
@@ -70,7 +71,7 @@ class OperationVisualizationContainer extends Component {
 			this.props.loadOperation(this.props.id);
 		}
 	}
-	
+
 	render() {
 		const {
 			id,
@@ -115,13 +116,12 @@ class OperationVisualizationContainer extends Component {
 				/>
 
 				<PageTitle title={operation.prefLabelLg1} context="operations" />
-				{secondLang &&
-					operation.prefLabelLg2 && (
-						<PageSubtitle
-							subTitle={operation.prefLabelLg2}
-							context="operations"
-						/>
-					)}
+				{secondLang && operation.prefLabelLg2 && (
+					<PageSubtitle
+						subTitle={operation.prefLabelLg2}
+						context="operations"
+					/>
+				)}
 
 				<div className="row btn-line">
 					<Button
@@ -130,7 +130,7 @@ class OperationVisualizationContainer extends Component {
 						context="operations"
 					/>
 
-					<div className="col-md-4 centered" />
+					<div className="col-md-6 centered" />
 
 					{operation.idSims && (
 						<Button
@@ -146,7 +146,6 @@ class OperationVisualizationContainer extends Component {
 							context="operations"
 						/>
 					)}
-					<Button label={D.btnSend} action={() => {}} context="operations" />
 					<Button
 						action={`/operations/operation/${operation.id}/modify`}
 						label={D.btnUpdate}
@@ -167,15 +166,15 @@ class OperationVisualizationContainer extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const operation = select.getOperation(state, id);
+	const operation = select.getOperation(state);
 	return {
 		id,
 		operation: id === operation.id ? operation : {},
 		exportStatus: select.getStatus(state, EXPORT_VARBOOK),
 		langs: select.getLangs(state),
-		secondLang: state.app.secondLang,
+		secondLang: getSecondLang(state),
 	};
 };
 

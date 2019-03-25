@@ -2,11 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Button from 'js/components/shared/button';
-import PlaceHolder from 'js/components/shared/placeholder';
+import PlaceHolder from 'js/components/shared/placeholder/placeholder';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
 class ItemControls extends Component {
+	static propTypes = {
+		classificationId: PropTypes.string.isRequired,
+		itemId: PropTypes.string.isRequired,
+		version: PropTypes.string.isRequired,
+	};
+
 	render() {
 		const { classificationId, itemId, version } = this.props;
 		const cancel = [
@@ -22,7 +28,7 @@ class ItemControls extends Component {
 				: [
 						`/classifications/classification/${classificationId}/item/${itemId}/compare`,
 						D.btnCompare,
-					];
+				  ];
 		const btns = [cancel, null, null, null, null, compare];
 
 		return (
@@ -45,11 +51,5 @@ class ItemControls extends Component {
 		);
 	}
 }
-
-ItemControls.propTypes = {
-	classificationId: PropTypes.string.isRequired,
-	itemId: PropTypes.string.isRequired,
-	version: PropTypes.string.isRequired,
-};
 
 export default withRouter(ItemControls);

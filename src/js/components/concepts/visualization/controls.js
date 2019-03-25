@@ -2,13 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Button from 'js/components/shared/button';
-import PlaceHolder from 'js/components/shared/placeholder';
+import PlaceHolder from 'js/components/shared/placeholder/placeholder';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 
 class ConceptVisualizationControls extends Component {
+	static propTypes = {
+		id: PropTypes.string.isRequired,
+		permission: permissionOverviewPropTypes,
+		creator: PropTypes.string.isRequired,
+		isValidated: PropTypes.bool.isRequired,
+		conceptVersion: PropTypes.string.isRequired,
+		handleValidation: PropTypes.func.isRequired,
+	};
+
 	render() {
 		const {
 			isValidated,
@@ -83,14 +92,5 @@ class ConceptVisualizationControls extends Component {
 		);
 	}
 }
-
-ConceptVisualizationControls.propTypes = {
-	id: PropTypes.string.isRequired,
-	permission: permissionOverviewPropTypes,
-	creator: PropTypes.string.isRequired,
-	isValidated: PropTypes.bool.isRequired,
-	conceptVersion: PropTypes.string.isRequired,
-	handleValidation: PropTypes.func.isRequired,
-};
 
 export default withRouter(ConceptVisualizationControls);

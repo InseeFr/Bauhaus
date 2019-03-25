@@ -4,6 +4,7 @@ import Loading from 'js/components/shared/loading';
 import OperationsHome from './home';
 import { NOT_LOADED, LOADED } from 'js/constants';
 import loadOperationsList from 'js/actions/operations/operations/list';
+import { getOperations } from 'js/reducers';
 
 class OperationsHomeContainer extends Component {
 	componentWillMount() {
@@ -19,14 +20,15 @@ class OperationsHomeContainer extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	if (!state.operationsOperationsList) {
+export const mapStateToProps = state => {
+	const operationsOperationsList = getOperations(state);
+	if (!operationsOperationsList.results) {
 		return {
 			status: NOT_LOADED,
 			operations: [],
 		};
 	}
-	const { results: operations, status, err } = state.operationsOperationsList;
+	const { results: operations, status, err } = operationsOperationsList;
 
 	return {
 		operations,
