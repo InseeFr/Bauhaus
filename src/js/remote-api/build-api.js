@@ -75,7 +75,7 @@ export const buildCall = (context, resource, fn) => {
 			.then(
 				res => {
 					if (res.ok) return res;
-					else return Promise.reject(res.statusText);
+					else return Promise.reject(res.status);
 				},
 				err => Promise.reject(err.toString())
 			)
@@ -83,7 +83,12 @@ export const buildCall = (context, resource, fn) => {
 	};
 };
 
-const patterns = [['GET', /^get/i], ['PUT', /^put/i], ['POST', /post/i]];
+const patterns = [
+	['GET', /^get/i],
+	['PUT', /^put/i],
+	['POST', /post/i],
+	['DELETE', /delete/i],
+];
 /**
  * Takes a string and returns an HTTP verb
  */

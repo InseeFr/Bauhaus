@@ -7,6 +7,8 @@ import ConceptCompareContainer from 'js/components/concepts/compare/home-contain
 import ConceptSendContainer from 'js/components/concepts/send/home-container';
 import ConceptCreationContainer from 'js/components/concepts/edition-creation/creation-container';
 import ConceptEditionContainer from 'js/components/concepts/edition-creation/edition-container';
+//import ConceptDeletionContainer from 'js/components/concepts/edition-creation/deletion-container';
+
 import ConceptVisualizationContainer from 'js/components/concepts/visualization/home-container';
 import ConceptsToValidateContainer from 'js/components/concepts/validation/home-container';
 import ConceptsToExportContainer from 'js/components/concepts/export/home-container';

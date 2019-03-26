@@ -31,9 +31,22 @@ class ConceptVisualization extends Component {
 			else this.props.validateConcept(id);
 		};
 		this.handleCancelValidation = () => this.setState({ modalValid: false });
+
 		this.handleConfirmValidation = () => {
 			this.handleCancelValidation();
 			this.props.validateConcept(this.props.id);
+		};
+
+		this.handleClickDeletion = () => this.props.deleteConcept(this.props.id);
+
+		this.handleCancelDeletion = () => {
+			this.setState({ modalDelete: false });
+			this.props.validateConcept(this.props.id);
+		};
+
+		this.handleConfirmDeletion = () => {
+			this.handleCancelDeletion();
+			this.props.deleteConcept(this.props.id);
 		};
 	}
 
@@ -89,6 +102,7 @@ class ConceptVisualization extends Component {
 						isValidOutOfDate={isOutOfDate(valid)}
 						conceptVersion={conceptVersion}
 						handleValidation={this.handleClickValidation}
+						handleDeletion={this.handleClickDeletion}
 					/>
 					<ConceptGeneral
 						secondLang={secondLang}
