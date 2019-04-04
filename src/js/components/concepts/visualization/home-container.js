@@ -17,6 +17,7 @@ import loadConcept from 'js/actions/concepts/concept';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import check from 'js/utils/auth';
 import Loading from 'js/components/shared/loading';
+import ModalRmes from 'js/components/shared/modal-rmes/modal-rmes';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';
 import { OK } from 'js/constants';
@@ -29,6 +30,7 @@ class ConceptVisualizationContainer extends Component {
 		this.state = {
 			validationRequested: false,
 			deletionRequested: false,
+			showModalError: false
 		};
 		this.handleConceptValidation = id => {
 			this.props.validateConcept(id);
@@ -42,6 +44,8 @@ class ConceptVisualizationContainer extends Component {
 				deletionRequested: true,
 			});
 		};
+		this.closeModal = () => this.setState({ showModalError: false });
+
 	}
 	componentWillMount() {
 		const { id, allNotes } = this.props;
@@ -66,10 +70,9 @@ class ConceptVisualizationContainer extends Component {
 		if (this.state.deletionRequested && deleteStatus !== OK) {
 			//deletion has not been processed successfully, we show the
 			//component again
-			console.log('delete not ok');
-			console.log(deleteStatus);
 			this.setState({
 				deletionRequested: false,
+				showModalError: true
 			});
 			//we need to load the concept again
 			this.props.loadConcept(id);
@@ -80,14 +83,18 @@ class ConceptVisualizationContainer extends Component {
 		console.log('visu-home-container');
 		const { validationRequested } = this.state;
 		const { deletionRequested } = this.state;
+		const { showModalError } = this.state;
 		const { validationStatus } = this.props;
 		const { deleteStatus } = this.props;
-
-		console.log('deleteStatus:' + deleteStatus);
-		console.log('deletionRequested:' + deletionRequested);
+		const modalButtons = [
+			{
+				label: "OK",
+				action: this.closeModal,
+				style: 'primary',
+			},
+		];
 
 		if (validationRequested && validationStatus !== OK) {
-			console.log('visu-home-container2');
 			//if validation is OK: nothing to do. We stay on this page and the concept will
 			//be loaded automatically (since the entries for the given concept in the store will
 			//be deleted).
@@ -103,7 +110,7 @@ class ConceptVisualizationContainer extends Component {
 			return <Redirect to={`/concepts`} />;
 		}
 
-		const { id, permission, concept, allNotes, secondLang, langs } = this.props;
+		const { id, permission, concept, allNotes, secondLang, langs, error } = this.props;
 		if (concept && allNotes) {
 			const { general, links } = concept;
 			let { notes } = concept;
@@ -132,6 +139,7 @@ class ConceptVisualizationContainer extends Component {
 			}
 
 			return (
+				<>
 				<ConceptVisualization
 					id={id}
 					permission={permission}
@@ -145,6 +153,15 @@ class ConceptVisualizationContainer extends Component {
 					saveSecondLang={this.props.saveSecondLang}
 					langs={langs}
 				/>
+				<ModalRmes
+				id="error-deletion-modal"
+				isOpen={showModalError}
+				title="Suppression impossible"
+				body={error}
+				modalButtons={modalButtons}
+				closeCancel={this.closeModal}
+			/>
+			</>
 			);
 		}
 		return <Loading textType="loading" context="concepts" />;
@@ -169,6 +186,8 @@ const mapStateToProps = (state, ownProps) => {
 		deleteSuccessStatus: select.getStatus(state, DELETE_CONCEPT_SUCCESS),
 		deleteFailureStatus: select.getStatus(state, DELETE_CONCEPT_FAILURE),
 		langs: select.getLangs(state),
+		error: select.getError(state, DELETE_CONCEPT),
+
 	};
 };
 

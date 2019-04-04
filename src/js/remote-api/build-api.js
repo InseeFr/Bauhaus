@@ -1,4 +1,5 @@
 import { removeTrailingSlash } from 'js/utils/string-utils';
+
 import {
 	getToken,
 	isTokenValid,
@@ -73,13 +74,14 @@ export const buildCall = (context, resource, fn) => {
 
 		return fetch(url, options)
 			.then(
-				res => {
-					if (res.ok) return res;
-					else return Promise.reject(res.status);
+				res =>{
+					if (res.ok) return Promise.resolve(res).then(thenHandler);
+					else return res.text().then(text => Promise.reject(res.status +" "+ res.statusText + " - "+ text));
 				},
-				err => Promise.reject(err.toString())
+				err => {
+					return Promise.reject(err.toString())
+				}
 			)
-			.then(thenHandler);
 	};
 };
 

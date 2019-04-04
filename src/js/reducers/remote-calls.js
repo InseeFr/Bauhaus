@@ -34,7 +34,7 @@ export const trackActionReducer = actions => (state = {}, action) => {
 			return {
 				...state,
 				[startActions[failIndex]]: {
-					status: '!!!!!!!!!!!!!!!!!!!!!!',
+					status: 'KO',
 					...action.payload,
 				},
 			};
@@ -73,6 +73,11 @@ export default trackActionReducer([
 
 export const getStatus = (state, actionType) => {
 	return state[actionType] && state[actionType].status;
+};
+
+export const getError = (state, actionType) => {
+	console.log(state[actionType])
+	return state[actionType] && state[actionType].err;
 };
 
 export const getNewlyCreatedId = state =>
