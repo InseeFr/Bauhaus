@@ -22,7 +22,7 @@ describe('Family page', () => {
 		familiesPage.go();
 		familiesPage.getFamiliesList().should('have.length', 10);
 		familiesPage.getPaginationBlock().should('have.length', 7);
-		familiesPage.search('INSEE');
+		familiesPage.search('ZENIKA');
 		familiesPage.getFamiliesList().should('have.length', 0);
 		familiesPage.resetSearch();
 		familiesPage.getFamiliesList().should('have.length', 10);
@@ -66,7 +66,7 @@ describe('Family page', () => {
 
 		cy.get(familyEditPage.getErrorsBlock()).should('be.visible');
 
-		cy.get(familyEditPage.getPrefLabelLg2()).type('test');
+		cy.get(familyEditPage.getPrefLabelLg2()).type('test2');
 
 		cy.get(familyEditPage.getErrorsBlock()).should('not.be.visible');
 	});

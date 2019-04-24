@@ -43,7 +43,7 @@ const api = {
 			},
 			body: JSON.stringify(family),
 		},
-		() => {},
+		res => res.text().then(id => id),
 	],
 	putSeries: series => [
 		`series/${series.id}`,
@@ -63,7 +63,7 @@ const api = {
 			},
 			body: JSON.stringify(series),
 		},
-		() => {},
+		res => res.text().then(id => id),
 	],
 	putOperation: operation => [
 		`operation/${operation.id}`,
@@ -83,7 +83,7 @@ const api = {
 			},
 			body: JSON.stringify(operation),
 		},
-		() => {},
+		res => res.text().then(id => id),
 	],
 	getOperationsWithoutReport: idSerie => [
 		`series/${idSerie}/operationsWithoutReport`,
