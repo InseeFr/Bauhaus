@@ -508,6 +508,14 @@ const dictionary = {
 		en: 'Back to Top',
 		fr: 'Haut de page',
 	},
+	delete: {
+		fr: 'Supprimer',
+		en: 'Delete',
+	},
+	addDocument: {
+		fr: 'Ajoutez un document',
+		en: 'Add a document',
+	},
 };
 
 export default dictionary;

@@ -33,7 +33,7 @@ const api = {
 			},
 			body: JSON.stringify(family),
 		},
-		() => {},
+		res => Promise.resolve(family.id),
 	],
 	postFamily: family => [
 		`family`,
@@ -43,7 +43,7 @@ const api = {
 			},
 			body: JSON.stringify(family),
 		},
-		res => res.text().then(id => id),
+		res => res.text(),
 	],
 	putSeries: series => [
 		`series/${series.id}`,
@@ -53,7 +53,7 @@ const api = {
 			},
 			body: JSON.stringify(series),
 		},
-		() => {},
+		res => Promise.resolve(series.id),
 	],
 	postSeries: series => [
 		`series`,
@@ -63,7 +63,7 @@ const api = {
 			},
 			body: JSON.stringify(series),
 		},
-		res => res.text().then(id => id),
+		res => res.text(),
 	],
 	putOperation: operation => [
 		`operation/${operation.id}`,
@@ -73,7 +73,7 @@ const api = {
 			},
 			body: JSON.stringify(operation),
 		},
-		() => {},
+		res => Promise.resolve(operation.id),
 	],
 	postOperation: operation => [
 		`operation`,
@@ -83,7 +83,7 @@ const api = {
 			},
 			body: JSON.stringify(operation),
 		},
-		res => res.text().then(id => id),
+		res => res.text(),
 	],
 	getOperationsWithoutReport: idSerie => [
 		`series/${idSerie}/operationsWithoutReport`,

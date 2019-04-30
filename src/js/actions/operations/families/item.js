@@ -11,7 +11,10 @@ export const saveFamily = (family, callback) => dispatch => {
 		results => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_FAMILY_SUCCESS,
-				payload: family,
+				payload: {
+					...family,
+					id: family.id ? family.id : results
+				},
 			});
 			callback(results);
 		},

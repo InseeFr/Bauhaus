@@ -9,6 +9,7 @@ import SelectRmes from 'js/components/shared/select-rmes';
 import { Note } from 'js/components/shared/note/note';
 
 import './sims-field.scss';
+import DocumentsBloc from '../../documents/documents-bloc';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
@@ -98,11 +99,18 @@ class Field extends PureComponent {
 								/>
 							)}
 							{msd.rangeType === RICH_TEXT && (
-								<EditorMarkdown
-									aria-label={D.simsValue}
-									text={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
-									handleChange={this.handleTextInput}
-								/>
+								<>
+									<EditorMarkdown
+										aria-label={D.simsValue}
+										text={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
+										handleChange={this.handleTextInput}
+									/>
+									<DocumentsBloc
+										documents={currentSection.documents}
+										localPrefix={secondLang ? 'Lg2' : 'Lg1'}
+										editMode={true}
+									/>
+								</>
 							)}
 
 							{msd.rangeType === CODE_LIST && codesList && (

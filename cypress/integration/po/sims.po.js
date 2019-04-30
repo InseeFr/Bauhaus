@@ -6,13 +6,17 @@ export class SimsViewPage {
 	getUpdateButton() {
 		return 'div:nth-child(4) > a';
 	}
+
+	getDocumentsBlocForRubric(rubricId) {
+		return cy.get(rubricId);
+	}
 }
 
 export class SimsEditPage {
 	getTitle() {
 		return '.page-title-operations';
 	}
-
+	p;
 	getCancelButton() {
 		return '.btn-line div:first > button';
 	}

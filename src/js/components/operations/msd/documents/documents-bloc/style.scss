@@ -1,0 +1,14 @@
+@import 'src/app.scss';
+
+.documentsbloc {
+	i {
+		margin-left: 10px;
+	}
+
+	&__btn {
+		@include reset-btn();
+	}
+	&__delete {
+		float: right;
+	}
+}
