@@ -508,7 +508,7 @@ const dictionary = {
 		en: 'Back to Top',
 		fr: 'Haut de page',
 	},
-	delete: {
+	btnDelete: {
 		fr: 'Supprimer',
 		en: 'Delete',
 	},

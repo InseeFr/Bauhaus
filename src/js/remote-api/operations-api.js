@@ -9,6 +9,7 @@ const api = {
 	getSeriesList: () => ['series'],
 	getOperationsList: () => ['operations'],
 	getFamiliesList: () => ['families'],
+	getDocumentsList: () => ['documents'],
 
 	getMetadataStructureList: () => ['metadataStructureDefinition'],
 	getMetadataAttributesList: () => ['metadataAttributes'],

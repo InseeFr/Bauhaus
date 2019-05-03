@@ -108,4 +108,7 @@ const mapDispatchToProps = {
 	deleteRole,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RolesContainer);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(RolesContainer);

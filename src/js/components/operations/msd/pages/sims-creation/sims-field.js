@@ -22,20 +22,52 @@ class Field extends PureComponent {
 		secondLang: PropTypes.bool,
 	};
 
+	_handleChange(override) {
+		this.props.handleChange({
+			id: this.props.msd.idMas,
+			override,
+		});
+	}
+
 	handleTextInput = value => {
-		this.props.handleChange({
-			id: this.props.msd.idMas,
-			override: { [this.props.secondLang ? 'labelLg2' : 'labelLg1']: value },
+		this._handleChange({
+			[this.props.secondLang ? 'labelLg2' : 'labelLg1']: value,
 		});
 	};
+
 	handleCodeListInput = value => {
-		this.props.handleChange({
-			id: this.props.msd.idMas,
-			override: { codeList: this.props.msd.codeList, value },
+		this._handleChange({ codeList: this.props.msd.codeList, value });
+	};
+
+	/**
+	 * @param {String} value The new value of the date input
+	 */
+	handleDateInput = value => {
+		this._handleChange({ value });
+	};
+
+	/**
+	 * Handler when the user click on a button in order to delete a document
+	 * @param {String} uri The uri of the document that we should remove
+	 */
+	handleDeleteDocument = uri => {
+		const documents = this.props.currentSection.documents || [];
+
+		this._handleChange({
+			documents: documents.filter(doc => doc.uri !== uri),
 		});
 	};
-	handleDateInput = value => {
-		this.props.handleChange({ id: this.props.msd.idMas, override: { value } });
+
+	/**
+	 * Handler when the user add a new document to a rubric
+	 * @param {import('js/actions/operations/sims/item').SimsDocuments} document
+	 */
+	handleAddDocument = document => {
+		const documents = this.props.currentSection.documents || [];
+
+		this._handleChange({
+			documents: [...documents, document],
+		});
 	};
 
 	render() {
@@ -109,6 +141,8 @@ class Field extends PureComponent {
 										documents={currentSection.documents}
 										localPrefix={secondLang ? 'Lg2' : 'Lg1'}
 										editMode={true}
+										deleteHandler={this.handleDeleteDocument}
+										addHandler={this.handleAddDocument}
 									/>
 								</>
 							)}

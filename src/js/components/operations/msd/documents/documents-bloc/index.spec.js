@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import DocumentsBloc from './index';
+import { DocumentsBloc } from './index';
 import { sortArray } from 'js/utils/array-utils';
 import { getLang } from 'js/i18n/build-dictionary';
 
@@ -33,7 +33,7 @@ const documents = [
 		)}`,
 	},
 	{
-		uri: 'uri2-bis',
+		uri: 'uri3-bis',
 		url: 'http://google.fr?q=url-2',
 		labelLg1: 'Z labelLg1-2',
 		labelLg2: 'Z labelLg2-2',
@@ -47,20 +47,24 @@ const documents = [
 describe('DocumentsBloc', () => {
 	it('should display nothing if the documents props is not defined', () => {
 		const general = shallow(<DocumentsBloc />);
-		expect(general.html()).toBeNull();
+		expect(general.find('.documentsbloc')).toHaveLength(0);
 	});
 	it('should display nothing if the documents props is an empty array', () => {
 		const general = shallow(<DocumentsBloc documents={[]} />);
-		expect(general.html()).toBeNull();
+		expect(general.find('.documentsbloc')).toHaveLength(0);
 	});
 
 	it('should display nothing if the documents props is an empty array', () => {
-		const general = shallow(<DocumentsBloc documents={documents} />);
+		const general = shallow(
+			<DocumentsBloc documents={documents} documentStores={documents} />
+		);
 		expect(general.find('li')).toHaveLength(3);
 	});
 
 	it('should display the Lg1 label and description ordered by label', () => {
-		const general = shallow(<DocumentsBloc documents={documents} />);
+		const general = shallow(
+			<DocumentsBloc documents={documents} documentStores={documents} />
+		);
 		const orderedList = sortArray('labelLg1')(documents);
 
 		general.find('li').forEach((li, i) => {
@@ -75,7 +79,11 @@ describe('DocumentsBloc', () => {
 	});
 	it('should display the Lg2 label and description ordered by label', () => {
 		const general = shallow(
-			<DocumentsBloc documents={documents} localPrefix="Lg2" />
+			<DocumentsBloc
+				documents={documents}
+				localPrefix="Lg2"
+				documentStores={documents}
+			/>
 		);
 		const orderedList = sortArray('labelLg2')(documents);
 
@@ -92,7 +100,12 @@ describe('DocumentsBloc', () => {
 
 	it('should not display delete buttons', () => {
 		const general = shallow(
-			<DocumentsBloc documents={documents} localPrefix="Lg2" editMode={false} />
+			<DocumentsBloc
+				documents={documents}
+				localPrefix="Lg2"
+				editMode={false}
+				documentStores={documents}
+			/>
 		);
 
 		expect(general.find('.documentsbloc__delete')).toHaveLength(0);
@@ -100,23 +113,56 @@ describe('DocumentsBloc', () => {
 
 	it('should display three delete buttons', () => {
 		const general = shallow(
-			<DocumentsBloc documents={documents} localPrefix="Lg2" editMode={true} />
+			<DocumentsBloc
+				documents={documents}
+				localPrefix="Lg2"
+				editMode={true}
+				documentStores={documents}
+			/>
 		);
 
 		expect(general.find('.documentsbloc__delete')).toHaveLength(3);
 	});
 
-	it('should display the Add Document button', () => {
+	it('should not display the Add Document button if there is not more document to add', () => {
 		const general = shallow(
-			<DocumentsBloc documents={documents} localPrefix="Lg2" editMode={true} />
+			<DocumentsBloc
+				documents={documents}
+				localPrefix="Lg1"
+				editMode={true}
+				documentStores={documents}
+			/>
 		);
 
-		expect(general.find('.documentsbloc__add')).toHaveLength(1);
+		expect(general.find('.documentsbloc__add')).toHaveLength(0);
+	});
+	it('should display the Add Document button if there is more than on document available', () => {
+		const general = shallow(
+			<DocumentsBloc
+				documents={documents}
+				localPrefix="Lg1"
+				editMode={true}
+				documentStores={[
+					...documents,
+					{
+						uri: 'new-uri',
+						...documents[0],
+					},
+				]}
+			/>
+		);
+
+		expect(general.find('.documentsbloc__add')).toHaveLength(0);
 	});
 
-	it('should display the Add Document button', () => {
+	it('should not display the Add Document button for Lg2', () => {
 		const general = shallow(
-			<DocumentsBloc documents={documents} localPrefix="Lg2" editMode={false} />
+			<DocumentsBloc
+				documents={documents}
+				localPrefix="Lg2"
+				editMode={false}
+				documentStores={documents}
+			/>
 		);
 
 		expect(general.find('.documentsbloc__add')).toHaveLength(0);

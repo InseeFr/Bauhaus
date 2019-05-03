@@ -1,6 +1,7 @@
 import * as A from 'js/actions/constants';
 import { LOADED, LOADING, ERROR } from 'js/constants';
 import * as currentReducers from 'js/reducers/operations/current';
+import * as documentsReducers from 'js/reducers/operations/documents';
 import { sortArray } from 'js/utils/array-utils';
 
 const sortByLabel = sortArray('label');
@@ -134,4 +135,5 @@ export default {
 	operationsIndicatorsList,
 	operationsAsyncTask,
 	...currentReducers,
+	...documentsReducers,
 };

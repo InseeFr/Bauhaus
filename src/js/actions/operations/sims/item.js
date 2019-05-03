@@ -95,7 +95,7 @@ export default id => (dispatch, getState) => {
 										descriptionLg2: 'Description 2 en Langue 2',
 									},
 									{
-										uri: 'uri2-bis',
+										uri: 'uri3-bis',
 										url: 'http://google.fr?q=url-2',
 										labelLg1: 'Document 3 - label en Langue 1',
 										labelLg2: 'Document 3 - label en Langue 2',
