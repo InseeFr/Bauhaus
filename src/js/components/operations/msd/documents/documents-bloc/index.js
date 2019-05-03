@@ -95,27 +95,25 @@ export function DocumentsBloc({
 			)}
 
 			{editMode && !isSecondLang && otherDocuments.length > 0 && (
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">
-							<button
-								type="button"
-								className="btn documentsbloc__add documentsbloc__btn"
-								aria-label={D.addDocument}
-								onClick={() => setPanelStatus(!panelStatus)}
-							>
-								<span
-									className={`glyphicon glyphicon-menu-${
-										panelStatus ? 'down' : 'right'
-									}`}
-									aria-hidden="true"
-								/>
-								{D.addDocument}
-							</button>
-						</h3>
+				<div className="panel panel-default">
+					<div className="panel-heading">
+						<button
+							type="button"
+							className="btn documentsbloc__add documentsbloc__btn"
+							aria-label={D.addDocument}
+							onClick={() => setPanelStatus(!panelStatus)}
+						>
+							<span
+								className={`glyphicon glyphicon-menu-${
+									panelStatus ? 'down' : 'right'
+								}`}
+								aria-hidden="true"
+							/>
+							{D.addDocument}
+						</button>
 					</div>
 					{panelStatus && (
-						<div class="panel-body">
+						<div className="panel-body">
 							<ul className="documentsbloc__filepicker">
 								{otherDocuments.map(addAsideToTheDocument).map(document => {
 									return displayHTMLForDocument(document, document => (
