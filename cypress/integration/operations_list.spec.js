@@ -23,7 +23,7 @@
 				cy.get('.list-group').should('be.visible');
 				cy.get('.pagination').should('be.visible');
 
-				cy.get('input').type('Zenika');
+				cy.get('input').type('FAKE DATA');
 				cy.get('h4').should(h4 => {
 					expect(h4.first()).to.contain('0');
 				});
