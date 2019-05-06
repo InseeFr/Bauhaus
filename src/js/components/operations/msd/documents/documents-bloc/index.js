@@ -80,7 +80,7 @@ export function DocumentsBloc({
 					{document[`label${localPrefix}`]}
 				</a>
 				<i>({document.aside})</i>
-				{editMode && btnBlocFunction(document)}
+				{editMode && !isSecondLang && btnBlocFunction(document)}
 			</li>
 		);
 	}
