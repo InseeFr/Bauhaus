@@ -1,7 +1,7 @@
 import appD from './dictionary/app';
 import conceptsD from './dictionary/concepts';
 import classificationsD from './dictionary/classifications';
-import operationsD from './dictionary/operations';
+import operationsD from './dictionary/operations/index.js';
 
 import 'moment/locale/en-gb';
 import 'moment/locale/fr';

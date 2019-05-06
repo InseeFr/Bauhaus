@@ -1,0 +1,17 @@
+@import 'src/styles/mixin.scss';
+
+.documentsbloc {
+	i {
+		margin-left: 10px;
+	}
+
+	&__btn {
+		@include reset-btn();
+	}
+	&__delete {
+		float: right;
+	}
+	&__filepicker {
+		padding-left: 0;
+	}
+}

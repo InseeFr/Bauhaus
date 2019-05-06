@@ -37,6 +37,7 @@ describe('SIMS Page', function() {
 		// Visu Page
 		cy.url().should('contains', '/sims/1512');
 		cy.get(simsViewPage.getTitle()).should('exist');
+
 		cy.get(simsViewPage.getUpdateButton()).click();
 
 		// Update page

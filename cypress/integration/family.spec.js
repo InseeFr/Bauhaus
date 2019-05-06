@@ -22,7 +22,7 @@ describe('Family page', () => {
 		familiesPage.go();
 		familiesPage.getFamiliesList().should('have.length', 10);
 		familiesPage.getPaginationBlock().should('have.length', 7);
-		familiesPage.search('ZENIKA');
+		familiesPage.search('FAKE DATA');
 		familiesPage.getFamiliesList().should('have.length', 0);
 		familiesPage.resetSearch();
 		familiesPage.getFamiliesList().should('have.length', 10);

@@ -1,3 +1,5 @@
+@import 'src/styles/mixin.scss';
+
 // Define concepts colors
 $color_concepts_1: #044173;
 $color_concepts_2: #234ca5;
@@ -53,18 +55,6 @@ a {
 	height: 20px;
 	width: auto;
 	margin: 0;
-}
-
-@mixin btn-group-vertical() {
-	border-radius: 6px;
-	border-width: 2px;
-	border-style: solid;
-	margin-top: 200px;
-
-	.btn {
-		margin-top: 15px;
-		margin-bottom: 15px;
-	}
 }
 
 .btn-group-vertical {

@@ -1,3 +1,5 @@
+import documentsD from 'js/i18n/dictionary/operations/documents';
+
 const dictionary = {
 	operationsTitle: {
 		fr: 'Opérations',
@@ -180,6 +182,7 @@ const dictionary = {
 		en: '{{OPERATION_LABEL}} SIMS',
 		fr: "SIMS de l'opération {{OPERATION_LABEL}}",
 	},
+	...documentsD,
 };
 
 export default dictionary;

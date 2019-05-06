@@ -43,7 +43,7 @@ describe('Serie actions', () => {
 	describe('save a serie', () => {
 		it('should call dispatch SAVE_OPERATIONS_SERIE_SUCCESS action with the udpated serie', async () => {
 			api.putSeries = function(id) {
-				return Promise.resolve('');
+				return Promise.resolve('1');
 			};
 			const serie = { label: 'aaa', id: '1' };
 			await saveSerie(serie, () => {})(dispatch);

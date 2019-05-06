@@ -7,6 +7,7 @@ import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import Button from 'js/components/shared/button';
 import { markdownToHtml } from 'js/utils/html';
 import { Note } from 'js/components/shared/note/note';
+import DocumentsBloc from 'js/components/operations/msd/documents/documents-bloc/index.js';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
@@ -40,13 +41,19 @@ export default function SimsVisualisation({
 						currentSection.rangeType === DATE &&
 						stringToDate(currentSection.value)}
 					{currentSection.rangeType === RICH_TEXT && (
-						<div
-							dangerouslySetInnerHTML={{
-								__html: markdownToHtml(
-									currentSection[isSecondLang ? 'labelLg2' : 'labelLg1']
-								),
-							}}
-						/>
+						<>
+							<div
+								dangerouslySetInnerHTML={{
+									__html: markdownToHtml(
+										currentSection[isSecondLang ? 'labelLg2' : 'labelLg1']
+									),
+								}}
+							/>
+							<DocumentsBloc
+								documents={currentSection.documents}
+								localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
+							/>
+						</>
 					)}
 					{currentSection.rangeType === CODE_LIST &&
 						codesLists[currentSection.codeList] && (

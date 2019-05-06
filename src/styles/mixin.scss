@@ -1,0 +1,49 @@
+@mixin panel-trigger() {
+	margin-top: 20px;
+	border-top-left-radius: 2px;
+	border-bottom-left-radius: 2px;
+	padding: 6px 5px 2px 5px;
+	position: absolute;
+	margin-top: 20px;
+	background-color: $color_operations_3;
+	color: #fff;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+
+@mixin reset-btn() {
+	border: none;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	overflow: visible;
+
+	background: transparent;
+
+	/* inherit font & color from ancestor */
+	color: inherit;
+	font: inherit;
+
+	/* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+	line-height: normal;
+
+	/* Corrects font smoothing for webkit */
+	-webkit-font-smoothing: inherit;
+	-moz-osx-font-smoothing: inherit;
+
+	/* Corrects inability to style clickable `input` types in iOS */
+	-webkit-appearance: none;
+}
+
+@mixin btn-group-vertical() {
+	border-radius: 6px;
+	border-width: 2px;
+	border-style: solid;
+	margin-top: 200px;
+
+	.btn {
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+}

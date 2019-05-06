@@ -1,7 +1,15 @@
 import * as A from 'js/actions/constants';
 import { LOADED, LOADING, ERROR } from 'js/constants';
 import * as currentReducers from 'js/reducers/operations/current';
+import * as documentsReducers from 'js/reducers/operations/documents';
+import { sortArray } from 'js/utils/array-utils';
 
+const sortByLabel = sortArray('label');
+
+/**
+ *
+ * @param {Array<String>} param List of Redux event
+ */
 function makeReducers([
 	GET_ITEMS,
 	GET_ITEMS_SUCCESS,
@@ -26,9 +34,23 @@ function makeReducers([
 				};
 			case SAVE_ITEM_SUCCESS:
 				if (!state.results) return state;
+
+				/**
+				 * When we add / update a new object, we must first remove this updated item from
+				 * the previous list.
+				 *
+				 * Finally, we should sort by label again
+				 */
+				const tail = state.results.filter(obj => obj.id !== action.payload.id);
 				return {
 					status: state.status,
-					results: [...state.results, action.payload],
+					results: sortByLabel([
+						...tail,
+						{
+							id: action.payload.id,
+							label: action.payload.prefLabelLg1,
+						},
+					]),
 				};
 			default:
 				return state;
@@ -36,14 +58,22 @@ function makeReducers([
 	};
 }
 
-const operationsSeriesList = makeReducers([
-	A.LOAD_OPERATIONS_SERIES_LIST,
-	A.LOAD_OPERATIONS_SERIES_LIST_SUCCESS,
-	A.LOAD_OPERATIONS_SERIES_LIST_FAILURE,
-]);
+/**
+ * @typedef {Object} ActionType
+ * @property {string} types
+ * @property {Object} payload
+ */
 
+/**
+ * Reducer to store the state of any asynchronous operations.
+ * The boolean state is used to display / hide a spinner
+ *
+ * @param {Boolean} state
+ * @param {ActionType} action
+ * @returns {Boolean}
+ */
 const operationsAsyncTask = function(state = false, action) {
-	switch (action.type) {
+	switch (action.types) {
 		case A.SAVE_OPERATIONS_INDICATOR:
 		case A.SAVE_OPERATIONS_SERIE:
 		case A.SAVE_OPERATIONS_FAMILY:
@@ -63,17 +93,28 @@ const operationsAsyncTask = function(state = false, action) {
 			return state;
 	}
 };
-const operationsOperationsList = makeReducers([
-	A.LOAD_OPERATIONS_OPERATIONS_LIST,
-	A.LOAD_OPERATIONS_OPERATIONS_LIST_SUCCESS,
-	A.LOAD_OPERATIONS_OPERATIONS_LIST_FAILURE,
-]);
 
 const operationsFamiliesList = makeReducers([
 	A.LOAD_OPERATIONS_FAMILIES_LIST,
 	A.LOAD_OPERATIONS_FAMILIES_LIST_SUCCESS,
 	A.LOAD_OPERATIONS_FAMILIES_LIST_FAILURE,
+	A.SAVE_OPERATIONS_FAMILY_SUCCESS,
 ]);
+
+const operationsSeriesList = makeReducers([
+	A.LOAD_OPERATIONS_SERIES_LIST,
+	A.LOAD_OPERATIONS_SERIES_LIST_SUCCESS,
+	A.LOAD_OPERATIONS_SERIES_LIST_FAILURE,
+	A.SAVE_OPERATIONS_SERIE_SUCCESS,
+]);
+
+const operationsOperationsList = makeReducers([
+	A.LOAD_OPERATIONS_OPERATIONS_LIST,
+	A.LOAD_OPERATIONS_OPERATIONS_LIST_SUCCESS,
+	A.LOAD_OPERATIONS_OPERATIONS_LIST_FAILURE,
+	A.SAVE_OPERATIONS_OPERATION_SUCCESS,
+]);
+
 const operationsMetadataStructureList = makeReducers([
 	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
 	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
@@ -94,4 +135,5 @@ export default {
 	operationsIndicatorsList,
 	operationsAsyncTask,
 	...currentReducers,
+	...documentsReducers,
 };

@@ -9,6 +9,44 @@
 			"rangeType": "DATE",
 			"idAttribute": "S.2.2",
 			"value": "2019-01-01T11:00:00.000Z"
+		},
+		{
+			"rangeType": "RICH_TEXT",
+			"idAttribute": "S.3.1",
+			"documents": [
+				{
+					"uri": "uri1-bis",
+					"url": "http://google.fr?q=url-1",
+					"updatedDate": "01/01/2019",
+					"labelLg1": "labelLg1-0",
+					"labelLg2": "labelLg2-0",
+					"lang": "fr",
+					"descriptionLg1": "descriptionLg1",
+					"descriptionLg2": "descriptionLg2"
+				},
+				{
+					"uri": "uri2-bis",
+					"url": "http://google.fr?q=url-2",
+					"updatedDate": "01/02/2019",
+					"labelLg1": "labelLg1-1",
+					"labelLg2": "labelLg2-1",
+					"descriptionLg1": "descriptionLg1-2",
+					"descriptionLg2": "descriptionLg2-2"
+				},
+				{
+					"uri": "uri3-bis",
+					"url": "http://google.fr?q=url-2",
+					"labelLg1": "labelLg1-2",
+					"labelLg2": "labelLg2-2",
+					"lang": "fr",
+					"descriptionLg1": "descriptionLg1-2",
+					"descriptionLg2": "descriptionLg2-2"
+				}
+			]
+		},
+		{
+			"rangeType": "RICH_TEXT",
+			"idAttribute": "S.3.2"
 		}
 	],
 	"labelLg2": "Annual production survey 2012 SIMS",
