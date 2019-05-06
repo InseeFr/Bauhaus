@@ -4,9 +4,11 @@ import * as A from 'js/actions/constants';
 export const trackActionReducer = actions => (state = {}, action) => {
 	const startActions = [];
 	const successActions = [];
-	actions.forEach(([start, sucess]) => {
+	const failActions = [];
+	actions.forEach(([start, sucess, fail]) => {
 		startActions.push(start);
 		successActions.push(sucess);
+		failActions.push(fail);
 	});
 	if (startActions.indexOf(action.type) !== -1) {
 		return {
@@ -18,11 +20,21 @@ export const trackActionReducer = actions => (state = {}, action) => {
 		};
 	} else {
 		const actionIndex = successActions.indexOf(action.type);
+		const failIndex = failActions.indexOf(action.type);
 		if (actionIndex !== -1) {
 			return {
 				...state,
 				[startActions[actionIndex]]: {
 					status: OK,
+					...action.payload,
+				},
+			};
+		}
+		if (failIndex !== -1) {
+			return {
+				...state,
+				[startActions[failIndex]]: {
+					status: 'KO',
 					...action.payload,
 				},
 			};
@@ -44,7 +56,8 @@ export const trackActionReducer = actions => (state = {}, action) => {
  */
 export default trackActionReducer([
 	[A.CREATE_CONCEPT, A.CREATE_CONCEPT_SUCCESS],
-	[A.UPDATE_CONCEPT, A.UPDATE_CONCEPT_SUCCESS],
+	[A.UPDATE_CONCEPT, A.UPDATE_CONCEPT_SUCCESS, A.UPDATE_CONCEPT_FAILURE],
+	[A.DELETE_CONCEPT, A.DELETE_CONCEPT_SUCCESS, A.DELETE_CONCEPT_FAILURE],
 	[A.EXPORT_CONCEPT_LIST, A.EXPORT_CONCEPT_LIST_SUCCESS],
 	[A.SEND_CONCEPT, A.SEND_CONCEPT_SUCCESS],
 	[A.VALIDATE_CONCEPT_LIST, A.VALIDATE_CONCEPT_LIST_SUCCESS],
@@ -60,6 +73,11 @@ export default trackActionReducer([
 
 export const getStatus = (state, actionType) => {
 	return state[actionType] && state[actionType].status;
+};
+
+export const getError = (state, actionType) => {
+	console.log(state[actionType])
+	return state[actionType] && state[actionType].err;
 };
 
 export const getNewlyCreatedId = state =>

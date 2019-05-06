@@ -27,6 +27,7 @@ class ConceptVisualizationControls extends Component {
 			permission: { authType, roles, stamp },
 			creator: conceptCreator,
 			handleValidation,
+			handleDeletion,
 		} = this.props;
 
 		const authImpl = check(authType);
@@ -43,20 +44,20 @@ class ConceptVisualizationControls extends Component {
 		const validate = adminOrCreator && [handleValidation, D.btnValid];
 		const update = [`/concept/${id}/modify`, D.btnUpdate];
 		const compare =
-			adminOrContributorOrCreator &&
-			(!conceptVersion || conceptVersion <= 1
+			adminOrContributorOrCreator && (!conceptVersion || conceptVersion <= 1)
 				? null
-				: [`/concept/${id}/compare`, D.btnCompare]);
+				: [`/concept/${id}/compare`, D.btnCompare];
+		const erase = adminOrCreator && [handleDeletion, D.btnDelete];
 
 		if (admin || (creator && contributor)) {
 			if (isValidOutOfDate) {
 				btns = isValidated
-					? [cancel, null, null, null, compare, send]
-					: [cancel, null, compare, send, update, validate];
+					? [cancel, null, null, compare, send, erase]
+					: [cancel, compare, send, update, validate, erase];
 			} else {
 				btns = isValidated
-					? [cancel, null, null, compare, send, update]
-					: [cancel, null, compare, send, update, validate];
+					? [cancel, null, compare, send, update, erase]
+					: [cancel, compare, send, update, validate, erase];
 			}
 		} else if (contributor) {
 			if (isValidOutOfDate) {

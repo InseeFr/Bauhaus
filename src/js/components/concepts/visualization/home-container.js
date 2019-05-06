@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { VALIDATE_CONCEPT_LIST } from 'js/actions/constants';
 import validateConcepts from 'js/actions/concepts/validate';
+import {
+	DELETE_CONCEPT,
+	DELETE_CONCEPT_FAILURE,
+	DELETE_CONCEPT_SUCCESS,
+} from 'js/actions/constants/concepts';
+import deleteConcept from 'js/actions/concepts/delete';
 import * as select from 'js/reducers';
 import buildExtract from 'js/utils/build-extract';
 import { saveSecondLang } from 'js/actions/app';
@@ -10,6 +17,7 @@ import loadConcept from 'js/actions/concepts/concept';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import check from 'js/utils/auth';
 import Loading from 'js/components/shared/loading';
+import ModalRmes from 'js/components/shared/modal-rmes/modal-rmes';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';
 import { OK } from 'js/constants';
@@ -21,6 +29,8 @@ class ConceptVisualizationContainer extends Component {
 		super(props);
 		this.state = {
 			validationRequested: false,
+			deletionRequested: false,
+			showModalError: false
 		};
 		this.handleConceptValidation = id => {
 			this.props.validateConcept(id);
@@ -28,6 +38,14 @@ class ConceptVisualizationContainer extends Component {
 				validationRequested: true,
 			});
 		};
+		this.handleConceptDeletion = id => {
+			this.props.deleteConcept(id);
+			this.setState({
+				deletionRequested: true,
+			});
+		};
+		this.closeModal = () => this.setState({ showModalError: false });
+
 	}
 	componentWillMount() {
 		const { id, allNotes } = this.props;
@@ -36,7 +54,7 @@ class ConceptVisualizationContainer extends Component {
 		}
 	}
 
-	componentWillReceiveProps({ id, validationStatus }) {
+	componentWillReceiveProps({ id, validationStatus, deleteStatus }) {
 		if (id !== this.props.id) {
 			this.props.loadConceptAndAllNotes(id);
 		}
@@ -49,10 +67,33 @@ class ConceptVisualizationContainer extends Component {
 			//we need to load the concept again
 			this.props.loadConcept(id);
 		}
+		if (this.state.deletionRequested && deleteStatus !== OK) {
+			//deletion has not been processed successfully, we show the
+			//component again
+			this.setState({
+				deletionRequested: false,
+				showModalError: true
+			});
+			//we need to load the concept again
+			this.props.loadConcept(id);
+		}
 	}
 	render() {
+		//this.state.updateStatus();
+		console.log('visu-home-container');
 		const { validationRequested } = this.state;
+		const { deletionRequested } = this.state;
+		const { showModalError } = this.state;
 		const { validationStatus } = this.props;
+		const { deleteStatus } = this.props;
+		const modalButtons = [
+			{
+				label: "OK",
+				action: this.closeModal,
+				style: 'primary',
+			},
+		];
+
 		if (validationRequested && validationStatus !== OK) {
 			//if validation is OK: nothing to do. We stay on this page and the concept will
 			//be loaded automatically (since the entries for the given concept in the store will
@@ -61,7 +102,15 @@ class ConceptVisualizationContainer extends Component {
 				return <Loading textType="validating" context="concepts" />;
 			}
 		}
-		const { id, permission, concept, allNotes, secondLang, langs } = this.props;
+
+		if (deletionRequested && deleteStatus === OK) {
+			console.log('delete ok: redirection');
+			//if deletion is OK: we redirect to the concepts list.
+			// TODO: pop-up the error message.
+			return <Redirect to={`/concepts`} />;
+		}
+
+		const { id, permission, concept, allNotes, secondLang, langs, error } = this.props;
 		if (concept && allNotes) {
 			const { general, links } = concept;
 			let { notes } = concept;
@@ -90,6 +139,7 @@ class ConceptVisualizationContainer extends Component {
 			}
 
 			return (
+				<>
 				<ConceptVisualization
 					id={id}
 					permission={permission}
@@ -97,11 +147,21 @@ class ConceptVisualizationContainer extends Component {
 					notes={notes}
 					links={links}
 					validateConcept={this.handleConceptValidation}
+					deleteConcept={this.handleConceptDeletion}
 					validationStatus={validationStatus}
 					secondLang={secondLang}
 					saveSecondLang={this.props.saveSecondLang}
 					langs={langs}
 				/>
+				<ModalRmes
+				id="error-deletion-modal"
+				isOpen={showModalError}
+				title="Suppression impossible"
+				body={error}
+				modalButtons={modalButtons}
+				closeCancel={this.closeModal}
+			/>
+			</>
 			);
 		}
 		return <Loading textType="loading" context="concepts" />;
@@ -122,7 +182,12 @@ const mapStateToProps = (state, ownProps) => {
 		concept: select.getConcept(state, id),
 		allNotes,
 		validationStatus: select.getStatus(state, VALIDATE_CONCEPT_LIST),
+		deleteStatus: select.getStatus(state, DELETE_CONCEPT),
+		deleteSuccessStatus: select.getStatus(state, DELETE_CONCEPT_SUCCESS),
+		deleteFailureStatus: select.getStatus(state, DELETE_CONCEPT_FAILURE),
 		langs: select.getLangs(state),
+		error: select.getError(state, DELETE_CONCEPT),
+
 	};
 };
 
@@ -131,6 +196,7 @@ const mapDispatchToProps = {
 	loadConcept,
 	loadConceptAndAllNotes,
 	validateConcept: id => validateConcepts([id]),
+	deleteConcept: id => deleteConcept(id),
 };
 
 ConceptVisualizationContainer = connect(

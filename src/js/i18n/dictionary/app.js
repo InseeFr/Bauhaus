@@ -221,7 +221,6 @@ const dictionary = {
 		en: 'Links',
 	},
 	...btnD,
-
 	// Links
 	narrowerTitle: {
 		fr: 'Parent',
