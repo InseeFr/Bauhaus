@@ -31,3 +31,16 @@ If you're new to JavaScript, you might need to first install [node](https://node
 `yarn start` will launch the `dev` command defined in the `scripts` section of the same `package.json` file. This command will launch a local web server serving the main HTML file ([src/js/index.html](https://github.com/InseeFr/Bauhaus/blob/master/public/index.html)) and all the relevant assets.
 
 `yarn build` will launch the compilation with some optimizations for production. It copies all the static assets and the resulting bundle file in the `dist` folder.
+
+## Project Structure
+
+In this paragraph, we will try to explain the rules we defined and try to follow when talking about the structure of the project. 
+
+### SCSS Mixin
+
+If you have to define SCSS mixin, you have to define them in the `src/styles/mixin.scss` file, and import them in the stylesheet of the React component. 
+
+### I18N
+
+In order to avoid big i18n file, we try to split this file in smaller files, based on `page` or `feature`. For example, we have a `src/js/i18n/dictionary/operations/documents.js` file for all messages dedicated to the documents feature.
+This files have to be imported directly or not in the main file `js/i18n/dictionary/app.js`.
