@@ -98,30 +98,36 @@ describe('DocumentsBloc', () => {
 		});
 	});
 
-	it('should not display delete buttons', () => {
-		const general = shallow(
-			<DocumentsBloc
-				documents={documents}
-				localPrefix="Lg2"
-				editMode={false}
-				documentStores={documents}
-			/>
-		);
+	describe.each`
+		lang     | expectedEdit | expectedView
+		${'Lg2'} | ${0}         | ${0}
+		${'Lg1'} | ${3}         | ${0}
+	`('$a + $b', ({ lang, expectedEdit, expectedView }) => {
+		it('should not display delete buttons', () => {
+			const general = shallow(
+				<DocumentsBloc
+					documents={documents}
+					localPrefix={lang}
+					editMode={false}
+					documentStores={documents}
+				/>
+			);
 
-		expect(general.find('.documentsbloc__delete')).toHaveLength(0);
-	});
+			expect(general.find('.documentsbloc__delete')).toHaveLength(expectedView);
+		});
 
-	it('should display three delete buttons', () => {
-		const general = shallow(
-			<DocumentsBloc
-				documents={documents}
-				localPrefix="Lg2"
-				editMode={true}
-				documentStores={documents}
-			/>
-		);
+		it('should display zero delete buttons', () => {
+			const general = shallow(
+				<DocumentsBloc
+					documents={documents}
+					localPrefix={lang}
+					editMode={true}
+					documentStores={documents}
+				/>
+			);
 
-		expect(general.find('.documentsbloc__delete')).toHaveLength(3);
+			expect(general.find('.documentsbloc__delete')).toHaveLength(expectedEdit);
+		});
 	});
 
 	it('should not display the Add Document button if there is not more document to add', () => {
