@@ -70,19 +70,6 @@
 	}
 }
 
-@mixin panel-trigger() {
-	margin-top: 20px;
-	border-top-left-radius: 2px;
-	border-bottom-left-radius: 2px;
-	padding: 6px 5px 2px 5px;
-	position: absolute;
-	margin-top: 20px;
-	background-color: $color_operations_3;
-	color: #fff;
-	text-align: center;
-	text-transform: uppercase;
-}
-
 .msd__panel-trigger {
 	&_right {
 		@include panel-trigger();
