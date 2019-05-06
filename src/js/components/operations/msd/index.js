@@ -10,7 +10,7 @@ import MSDHelp from 'js/components/operations/msd/pages/help';
 import SimsVisualisation from 'js/components/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/components/operations/msd/pages/sims-creation/';
 import buildExtract from 'js/utils/build-extract';
-import { getLabelsFromOperation } from 'js/utils/msd';
+import { getLabelsFromParent } from 'js/utils/msd';
 import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
 import { compose } from 'recompose';
@@ -188,7 +188,7 @@ const mapStateToProps = (state, ownProps) => {
 			break;
 		case CREATE:
 			currentSims = {
-				...getLabelsFromOperation(currentOperation),
+				...getLabelsFromParent(currentOperation),
 			};
 			break;
 		default:

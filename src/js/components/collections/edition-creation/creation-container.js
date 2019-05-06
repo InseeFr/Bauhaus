@@ -83,7 +83,6 @@ const mapStateToProps = (state, ownProps) => {
 		collectionList: select.getCollectionList(state),
 		conceptList: select.getConceptList(state),
 		stampList: select.getStampList(state),
-		//TODO build appropriate selector
 		creationStatus: select.getStatus(state, CREATE_COLLECTION),
 		langs: select.getLangs(state),
 	};
@@ -96,8 +95,9 @@ const mapDispatchToProps = {
 	createCollection,
 };
 
-CreationContainer = connect(mapStateToProps, mapDispatchToProps)(
-	CreationContainer
-);
+CreationContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CreationContainer);
 
 export default CreationContainer;

@@ -132,7 +132,7 @@ class SimsCreation extends React.Component {
 			organisations,
 		} = this.props;
 		const { sims, idOperation } = this.state;
-		const operationsOptions = (this.props.sims.operationsWithoutSims || []).map(
+		const operationsOptions = (this.props.sims.parentsWithoutSims || []).map(
 			op => ({
 				label: op.labelLg1,
 				value: op.id,

@@ -48,7 +48,7 @@ const api = {
 			body: JSON.stringify(ids),
 		},
 		//do not process response
-		() => {}, //TODO upgrade build api
+		() => {},
 	],
 	getConceptExport: (id, MimeType) => [
 		`concept/export/${id}`,

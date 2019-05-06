@@ -2,16 +2,18 @@ import D from 'js/i18n';
 import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
 import { isLg2 } from 'js/i18n/build-dictionary';
 
-export function getLabelsFromOperation(operation) {
+// TODO Add TU
+// TODO add types
+export function getLabelsFromParent(parent) {
 	const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
 	return {
 		labelLg1: D.simsLabel.replace(
 			labelOperationNameTemplate,
-			operation.prefLabelLg1
+			parent.prefLabelLg1
 		),
 		labelLg2: getMessageForSecondLang('simsLabel').replace(
 			labelOperationNameTemplate,
-			operation.prefLabelLg2
+			parent.prefLabelLg2
 		),
 	};
 }

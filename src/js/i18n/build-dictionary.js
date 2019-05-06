@@ -35,6 +35,7 @@ export const createDictionary = lang =>
 const firstLang = 'fr';
 const secondLang = 'en';
 
+// TODO add types
 export const getLang = defaultLang =>
 	(defaultLang || navigator.language || navigator.browserLanguage).split(
 		'-'
@@ -42,7 +43,12 @@ export const getLang = defaultLang =>
 		? firstLang
 		: secondLang;
 
+// TODO add types
+// TODO rename method
 export const isLg2 = () => getLang() === secondLang;
+
+// TODO add types
+// TODO remove hard coded locales
 export const getMessageForSecondLang = message => {
 	const secondLang = ['en', 'fr'].find(l => l !== getLang());
 	return dictionary[message][secondLang];

@@ -59,7 +59,21 @@ class SeriesVisualizationContainer extends Component {
 						context="operations"
 					/>
 
-					<div className="col-md-8 centered" />
+					<div className="col-md-6 centered" />
+					{attr.idSims && (
+						<Button
+							action={`/operations/sims/${attr.idSims}`}
+							label={D.btnSimsVisu}
+							context="operations"
+						/>
+					)}
+					{!attr.idSims && (
+						<Button
+							action={`/operations/${attr.id}/sims/create`}
+							label={D.btnSimsCreate}
+							context="operations"
+						/>
+					)}
 					<Button
 						action={`/operations/series/${attr.id}/modify`}
 						label={D.btnUpdate}

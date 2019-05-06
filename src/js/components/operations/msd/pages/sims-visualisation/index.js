@@ -26,7 +26,7 @@ export default function SimsVisualisation({
 	langs: { lg1, lg2 },
 	organisations,
 }) {
-	const shouldDisplayDuplicateButton = sims.operationsWithoutSims.length > 0;
+	const shouldDisplayDuplicateButton = sims.parentsWithoutSims.length > 0;
 
 	function displayInformation(msd, isSecondLang = false, currentSection = {}) {
 		if (!msd.masLabelLg1) {
