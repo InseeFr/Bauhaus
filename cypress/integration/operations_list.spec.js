@@ -19,13 +19,13 @@
 					expect(lis).to.have.length(1);
 				});
 
-				cy.get('h2.page-title-operations').should('be.visible');
+				cy.get('h1.page-title-operations').should('be.visible');
 				cy.get('.list-group').should('be.visible');
 				cy.get('.pagination').should('be.visible');
 
 				cy.get('input').type('FAKE DATA');
-				cy.get('h4').should(h4 => {
-					expect(h4.first()).to.contain('0');
+				cy.get('p').should(p => {
+					expect(p.first()).to.contain('0');
 				});
 				cy.get('.pagination li').should(lis => {
 					expect(lis).to.have.length(0);

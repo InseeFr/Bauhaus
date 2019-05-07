@@ -1,17 +1,21 @@
 import D from 'js/i18n';
 import { getMessageForSecondLang } from 'js/i18n/build-dictionary';
-import { isLg2 } from 'js/i18n/build-dictionary';
+import { isLang2 } from 'js/i18n/build-dictionary';
 
-// TODO Add TU
-// TODO add types
-export function getLabelsFromParent(parent) {
-	const labelOperationNameTemplate = '{{OPERATION_LABEL}}';
+/**
+ * This method is used when we cant to create a new SIMS.
+ * It will return a new Object with the labels predefined based
+ * on the parent object
+ *
+ * @param {import('js/types/index').Series | import('js/types/index').Indicator | import('js/types/index').Operation } parent
+ * @returns {import('js/types').Sims}
+ */
+export function getLabelsFromParent(parent, type = 'operation') {
+	const labelOperationNameTemplate = '{{PARENT_LABEL}}';
+	const key = 'simsLabel_' + type;
 	return {
-		labelLg1: D.simsLabel.replace(
-			labelOperationNameTemplate,
-			parent.prefLabelLg1
-		),
-		labelLg2: getMessageForSecondLang('simsLabel').replace(
+		labelLg1: D[key].replace(labelOperationNameTemplate, parent.prefLabelLg1),
+		labelLg2: getMessageForSecondLang(key).replace(
 			labelOperationNameTemplate,
 			parent.prefLabelLg2
 		),
@@ -39,7 +43,7 @@ export function getTree(input, idParent, objectToMerge) {
 				...acc,
 				[msd.idMas]: {
 					...msd,
-					masLabelBasedOnCurrentLang: isLg2()
+					masLabelBasedOnCurrentLang: isLang2()
 						? msd.masLabelLg2
 						: msd.masLabelLg1,
 					isPresentational: msdToMerge.isPresentational || false,

@@ -69,7 +69,7 @@ class SeriesVisualizationContainer extends Component {
 					)}
 					{!attr.idSims && (
 						<Button
-							action={`/operations/${attr.id}/sims/create`}
+							action={`/operations/series/${attr.id}/sims/create`}
 							label={D.btnSimsCreate}
 							context="operations"
 						/>

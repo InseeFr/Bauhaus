@@ -66,7 +66,7 @@ class IndicatorVisualizationContainer extends Component {
 					)}
 					{!attr.idSims && (
 						<Button
-							action={`/operations/${attr.id}/sims/create`}
+							action={`/operations/indicator/${attr.id}/sims/create`}
 							label={D.btnSimsCreate}
 							context="operations"
 						/>

@@ -8,18 +8,11 @@ import ReactLoading from 'react-loading';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { DUPLICATE } from 'js/components/operations/msd';
-import { rangeType } from 'js/utils/msd/';
-
-const { RICH_TEXT, TEXT } = rangeType;
-
-/**
- *
- * @param {{rangeType}} section
- * @return boolean
- */
-function hasLabelLg2(section) {
-	return section.rangeType === TEXT || section.rangeType === RICH_TEXT;
-}
+import {
+	hasLabelLg2,
+	getParentId,
+	getParentIdName,
+} from 'js/components/operations/msd/utils';
 
 /**
  * @type {string[]} name A name to use.
@@ -53,9 +46,9 @@ class SimsCreation extends React.Component {
 
 		this.state = {
 			saving: false,
-			idOperation:
+			idParent:
 				this.props.mode !== DUPLICATE
-					? this.props.idOperation || this.props.sims.idOperation
+					? this.props.idParent || getParentId(this.props.sims)
 					: '',
 			sims: {
 				...Object.keys(flattenStructure).reduce((acc, key) => {
@@ -88,9 +81,9 @@ class SimsCreation extends React.Component {
 		}));
 	};
 
-	updateIdOperation = value => {
+	updateIdParent = value => {
 		this.setState({
-			idOperation: value,
+			idParent: value,
 		});
 	};
 
@@ -98,12 +91,13 @@ class SimsCreation extends React.Component {
 		e.preventDefault();
 		e.stopPropagation();
 		this.setState({ saving: true });
+
 		this.props.onSubmit(
 			{
 				id: this.props.mode !== DUPLICATE ? this.props.sims.id : '',
 				labelLg1: this.props.mode !== DUPLICATE ? this.props.sims.labelLg1 : '',
 				labelLg2: this.props.mode !== DUPLICATE ? this.props.sims.labelLg2 : '',
-				idOperation: this.state.idOperation,
+				[getParentIdName(this.props.parentType)]: this.state.idParent,
 				rubrics: Object.values(this.state.sims),
 			},
 			id => {
@@ -114,11 +108,12 @@ class SimsCreation extends React.Component {
 	};
 
 	goBack = () => {
-		const { goBack, idOperation, sims } = this.props;
+		const { goBack, sims, parentType } = this.props;
+		const { idParent } = this.state;
 		goBack(
 			sims.id
 				? `/operations/sims/${sims.id}`
-				: `/operations/operation/${idOperation}`
+				: `/operations/${parentType}/${idParent}`
 		);
 	};
 	render() {
@@ -131,7 +126,7 @@ class SimsCreation extends React.Component {
 			langs: { lg1, lg2 },
 			organisations,
 		} = this.props;
-		const { sims, idOperation } = this.state;
+		const { sims, idParent } = this.state;
 		const operationsOptions = (this.props.sims.parentsWithoutSims || []).map(
 			op => ({
 				label: op.labelLg1,
@@ -236,10 +231,10 @@ class SimsCreation extends React.Component {
 									{mode === 'DUPLICATE' && (
 										<div id="operation-picker" className="panel panel-default">
 											<SelectRmes
-												value={idOperation}
+												value={idParent}
 												placeholder={D.operationsTitle}
 												options={operationsOptions}
-												onChange={this.updateIdOperation}
+												onChange={this.updateIdParent}
 												searchable
 											/>
 										</div>

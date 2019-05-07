@@ -4,25 +4,6 @@ import { LOADING } from 'js/constants';
 import { getLabelsFromParent } from 'js/utils/msd';
 
 /**
- * @typedef {Object} Sims
- * @property {string=} id
- * @property {string=} labelLg1
- * @property {SimsDocuments[]} documents
- */
-
-/**
- * @typedef {Object} SimsDocuments
- * @property {string} uri
- * @property {string} url
- * @property {string=} updatedDate
- * @property {string} labelLg1
- * @property {string} labelLg2
- * @property {string=} lang
- * @property {string} descriptionLg1
- * @property {string} descriptionLg2
- */
-
-/**
  * Method used to merge a SIMS with the label of its corresponding
  * parent.
  *
@@ -30,20 +11,26 @@ import { getLabelsFromParent } from 'js/utils/msd';
  * @param {*} promise
  */
 function getFetchLabelsPromise(sims, promise) {
-	function mergeLabels(parent) {
+	function mergeLabels(parent, parentType) {
 		return {
 			...sims,
-			...getLabelsFromParent(parent),
+			...getLabelsFromParent(parent, parentType),
 		};
 	}
 	if (sims.idOperation) {
-		return api.getOperation(sims.idOperation).then(mergeLabels);
+		return api
+			.getOperation(sims.idOperation)
+			.then(parent => mergeLabels(parent, 'operation'));
 	}
 	if (sims.idSeries) {
-		return api.getSerie(sims.idSeries).then(mergeLabels);
+		return api
+			.getSerie(sims.idSeries)
+			.then(parent => mergeLabels(parent, 'series'));
 	}
 	if (sims.idIndicator) {
-		return api.getIndicator(sims.idIndicator).then(mergeLabels);
+		return api
+			.getIndicator(sims.idIndicator)
+			.then(parent => mergeLabels(parent, 'indicator'));
 	}
 	return promise;
 }
