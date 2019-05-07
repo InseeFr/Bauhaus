@@ -11,10 +11,10 @@ function PageTitle({ title, subtitle, col, offset, context }) {
 					offset === undefined ? 1 : offset
 				}`}
 			>
-				<h2 className={className}>
+				<h1 className={className}>
 					{title}
 					{subtitle && <div>&quot; {subtitle} &quot;</div>}
-				</h2>
+				</h1>
 			</div>
 		</div>
 	);
