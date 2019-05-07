@@ -97,9 +97,10 @@ describe('shouldDisplayDuplicateButton', () => {
 	});
 	it('should return true if this is an operation with siblings without SIMS', () => {
 		const input = {
-			siblingsWithoutSims: [],
+			parentsWithoutSims: ['op'],
 			idOperation: 1,
 		};
+		expect(shouldDisplayDuplicateButton(input)).toBeTruthy();
 	});
 });
 
