@@ -12,12 +12,10 @@ import {
 	hasLabelLg2,
 	getParentId,
 	getParentIdName,
+	removeRubricsWhenDuplicate,
+	shouldDisplayTitleForPrimaryItem,
 } from 'js/components/operations/msd/utils';
 
-/**
- * @type {string[]} name A name to use.
- */
-const blackList = ['I.6.4'];
 class SimsCreation extends React.Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object.isRequired,
@@ -31,16 +29,6 @@ class SimsCreation extends React.Component {
 	constructor(props) {
 		super(props);
 
-		function removeRubricsWhenDuplicate(rubrics = {}) {
-			return Object.keys(rubrics).reduce((acc, rubricKey) => {
-				if (props.mode === DUPLICATE && blackList.indexOf(rubricKey) >= 0)
-					return acc;
-				return {
-					...acc,
-					[rubricKey]: rubrics[rubricKey],
-				};
-			}, {});
-		}
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
 
@@ -63,7 +51,7 @@ class SimsCreation extends React.Component {
 						},
 					};
 				}, {}),
-				...removeRubricsWhenDuplicate(sims.rubrics),
+				...removeRubricsWhenDuplicate(props.mode, sims.rubrics),
 			},
 		};
 	}
@@ -248,13 +236,6 @@ class SimsCreation extends React.Component {
 			</form>
 		);
 	}
-}
-
-function shouldDisplayTitleForPrimaryItem(msd) {
-	return (
-		msd.isPresentational ||
-		(!msd.isPresentational && Object.keys(msd.children).length === 0)
-	);
 }
 
 export default SimsCreation;

@@ -1,4 +1,6 @@
 import { rangeType } from 'js/utils/msd/';
+import { DUPLICATE } from 'js/components/operations/msd';
+
 const { RICH_TEXT, TEXT } = rangeType;
 
 export const HELP_COLLAPSED = 'HELP_COLLAPSED';
@@ -84,4 +86,26 @@ export function getParentIdName(parentType) {
 	if (parentType === 'indicator') {
 		return 'idIndicator';
 	}
+}
+
+export function removeRubricsWhenDuplicate(mode, rubrics = {}) {
+	/**
+	 * @type {string[]} name A name to use.
+	 */
+	const blackList = ['I.6.4'];
+
+	return Object.keys(rubrics).reduce((acc, rubricKey) => {
+		if (mode === DUPLICATE && blackList.indexOf(rubricKey) >= 0) return acc;
+		return {
+			...acc,
+			[rubricKey]: rubrics[rubricKey],
+		};
+	}, {});
+}
+
+export function shouldDisplayTitleForPrimaryItem(msd) {
+	return (
+		msd.isPresentational ||
+		(!msd.isPresentational && Object.keys(msd.children).length === 0)
+	);
 }
