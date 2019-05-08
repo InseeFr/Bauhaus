@@ -15,9 +15,9 @@ class Root extends Component {
 				<Router>
 					<Routes error={error} />
 				</Router>
-				<div className="centered" style={{ marginTop: '50px' }}>
-					<label>{footer}</label>
-				</div>
+				<footer className="centered" style={{ marginTop: '50px' }}>
+					<p>{footer}</p>
+				</footer>
 			</div>
 		);
 	}
