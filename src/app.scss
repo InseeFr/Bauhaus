@@ -44,13 +44,6 @@ a {
 	text-align: center;
 }
 
-.img {
-	width: 15%;
-	margin-left: 5%;
-	margin-right: 5%;
-	margin-top: 2%;
-}
-
 .img-flag {
 	height: 20px;
 	width: auto;
@@ -72,6 +65,28 @@ a {
 	margin-bottom: 15px;
 }
 
+ul.home-page-links {
+	display: flex;
+	list-style: none;
+	flex-direction: row;
+	li {
+		flex: 1;
+
+		h2 {
+			width: 90%;
+			margin: 10px auto 10px auto;
+			text-align: center;
+		}
+		img {
+			width: 90%;
+		}
+	}
+}
+@media screen and (max-width: 640px) {
+	ul.home-page-links {
+		flex-direction: column;
+	}
+}
 .page-title-link:hover {
 	color: $color_concepts_1;
 	text-decoration: none;

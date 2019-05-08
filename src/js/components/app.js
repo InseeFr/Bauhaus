@@ -11,38 +11,32 @@ function App() {
 			<div className="centered page-title">
 				<h1>{D.welcome}</h1>
 			</div>
-			<div className="img-block">
-				<Link to="/concepts">
-					<h2 className="items page-title page-title-link">
-						{D.conceptsTitle}
-					</h2>
-				</Link>
-				<Link to="/classifications">
-					<h2 className="items page-title page-title-link" disabled>
-						{D.classificationsTitle}
-					</h2>
-				</Link>
-				<Link to="/operations/series">
-					<h2 className="items page-title page-title-link">
-						{D.operationsTitle}
-					</h2>
-				</Link>
-			</div>
-			<div className="img-block">
-				<Link to="/concepts">
-					<img src={conceptsLogo} alt="Concepts" className="img" />
-				</Link>
-				<Link to="/classifications">
-					<img
-						src={classificationsLogo}
-						alt="Classifications"
-						className="img"
-					/>
-				</Link>
-				<Link to="/operations/series">
-					<img src={operationsLogo} alt="Operations" className="img" />
-				</Link>
-			</div>
+			<ul className="home-page-links">
+				<li>
+					<Link to="/concepts">
+						<h2 className="items page-title page-title-link">
+							{D.conceptsTitle}
+						</h2>
+						<img src={conceptsLogo} alt="Concepts" />
+					</Link>
+				</li>
+				<li>
+					<Link to="/classifications">
+						<h2 className="items page-title page-title-link" disabled>
+							{D.classificationsTitle}
+						</h2>
+						<img src={classificationsLogo} alt="Classifications" />
+					</Link>
+				</li>
+				<li>
+					<Link to="/operations/series">
+						<h2 className="items page-title page-title-link">
+							{D.operationsTitle}
+						</h2>
+						<img src={operationsLogo} alt="Operations" />
+					</Link>
+				</li>
+			</ul>
 		</React.Fragment>
 	);
 }
