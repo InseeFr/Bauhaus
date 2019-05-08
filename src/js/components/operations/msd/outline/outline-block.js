@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
 import { toggleOpen, isOpen } from 'js/components/operations/msd/utils';
 import PropTypes from 'prop-types';
+import D from 'js/i18n';
 
 class OutlineBlock extends Component {
 	static propTypes = {
@@ -54,7 +55,7 @@ class OutlineBlock extends Component {
 							{Object.keys(child.children).length > 0 && (
 								<button
 									className="msd__item-updown"
-									title="expand/collapse"
+									title={child.opened ? D.hide : D.display}
 									id={child.idMas}
 									onClick={this.expandOrCollapseItem}
 								>

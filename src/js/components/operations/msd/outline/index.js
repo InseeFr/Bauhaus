@@ -3,6 +3,8 @@ import { toggleOpen, isOpen } from 'js/components/operations/msd/utils';
 import { HashLink as Link } from 'react-router-hash-link';
 import OutlineBlock from 'js/components/operations/msd/outline/outline-block';
 import PropTypes from 'prop-types';
+import D from 'js/i18n';
+
 import './style.scss';
 
 class Outline extends Component {
@@ -53,7 +55,7 @@ class Outline extends Component {
 					{Object.keys(metadataStructure.children).length > 0 && (
 						<button
 							className="msd__outline-primary-updown"
-							title={metadataStructure.masLabelLg1}
+							title={this.state.opened ? D.hide : D.display}
 							onClick={this.expandOrCollapseItem}
 						>
 							<span

@@ -16,6 +16,14 @@ const dictionary = {
 		fr: 'Aide',
 		en: 'Help',
 	},
+	display: {
+		fr: 'Afficher',
+		en: 'Display',
+	},
+	hide: {
+		fr: 'Cacher',
+		en: 'Hide',
+	},
 	administrationTitle: {
 		fr: 'Administration',
 		en: 'Administration',
