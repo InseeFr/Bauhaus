@@ -8,23 +8,14 @@ import ReactLoading from 'react-loading';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { DUPLICATE } from 'js/components/operations/msd';
-import { rangeType } from 'js/utils/msd/';
+import {
+	hasLabelLg2,
+	getParentId,
+	getParentIdName,
+	removeRubricsWhenDuplicate,
+	shouldDisplayTitleForPrimaryItem,
+} from 'js/components/operations/msd/utils';
 
-const { RICH_TEXT, TEXT } = rangeType;
-
-/**
- *
- * @param {{rangeType}} section
- * @return boolean
- */
-function hasLabelLg2(section) {
-	return section.rangeType === TEXT || section.rangeType === RICH_TEXT;
-}
-
-/**
- * @type {string[]} name A name to use.
- */
-const blackList = ['I.6.4'];
 class SimsCreation extends React.Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object.isRequired,
@@ -38,24 +29,14 @@ class SimsCreation extends React.Component {
 	constructor(props) {
 		super(props);
 
-		function removeRubricsWhenDuplicate(rubrics = {}) {
-			return Object.keys(rubrics).reduce((acc, rubricKey) => {
-				if (props.mode === DUPLICATE && blackList.indexOf(rubricKey) >= 0)
-					return acc;
-				return {
-					...acc,
-					[rubricKey]: rubrics[rubricKey],
-				};
-			}, {});
-		}
 		const { metadataStructure, sims = {} } = this.props;
 		const flattenStructure = flattenTree(metadataStructure);
 
 		this.state = {
 			saving: false,
-			idOperation:
+			idParent:
 				this.props.mode !== DUPLICATE
-					? this.props.idOperation || this.props.sims.idOperation
+					? this.props.idParent || getParentId(this.props.sims)
 					: '',
 			sims: {
 				...Object.keys(flattenStructure).reduce((acc, key) => {
@@ -70,7 +51,7 @@ class SimsCreation extends React.Component {
 						},
 					};
 				}, {}),
-				...removeRubricsWhenDuplicate(sims.rubrics),
+				...removeRubricsWhenDuplicate(props.mode, sims.rubrics),
 			},
 		};
 	}
@@ -88,9 +69,9 @@ class SimsCreation extends React.Component {
 		}));
 	};
 
-	updateIdOperation = value => {
+	updateIdParent = value => {
 		this.setState({
-			idOperation: value,
+			idParent: value,
 		});
 	};
 
@@ -98,12 +79,13 @@ class SimsCreation extends React.Component {
 		e.preventDefault();
 		e.stopPropagation();
 		this.setState({ saving: true });
+
 		this.props.onSubmit(
 			{
 				id: this.props.mode !== DUPLICATE ? this.props.sims.id : '',
 				labelLg1: this.props.mode !== DUPLICATE ? this.props.sims.labelLg1 : '',
 				labelLg2: this.props.mode !== DUPLICATE ? this.props.sims.labelLg2 : '',
-				idOperation: this.state.idOperation,
+				[getParentIdName(this.props.parentType)]: this.state.idParent,
 				rubrics: Object.values(this.state.sims),
 			},
 			id => {
@@ -114,11 +96,12 @@ class SimsCreation extends React.Component {
 	};
 
 	goBack = () => {
-		const { goBack, idOperation, sims } = this.props;
+		const { goBack, sims, parentType } = this.props;
+		const { idParent } = this.state;
 		goBack(
 			sims.id
 				? `/operations/sims/${sims.id}`
-				: `/operations/operation/${idOperation}`
+				: `/operations/${parentType}/${idParent}`
 		);
 	};
 	render() {
@@ -131,8 +114,8 @@ class SimsCreation extends React.Component {
 			langs: { lg1, lg2 },
 			organisations,
 		} = this.props;
-		const { sims, idOperation } = this.state;
-		const operationsOptions = (this.props.sims.operationsWithoutSims || []).map(
+		const { sims, idParent } = this.state;
+		const operationsOptions = (this.props.sims.parentsWithoutSims || []).map(
 			op => ({
 				label: op.labelLg1,
 				value: op.id,
@@ -236,10 +219,10 @@ class SimsCreation extends React.Component {
 									{mode === 'DUPLICATE' && (
 										<div id="operation-picker" className="panel panel-default">
 											<SelectRmes
-												value={idOperation}
+												value={idParent}
 												placeholder={D.operationsTitle}
 												options={operationsOptions}
-												onChange={this.updateIdOperation}
+												onChange={this.updateIdParent}
 												searchable
 											/>
 										</div>
@@ -253,13 +236,6 @@ class SimsCreation extends React.Component {
 			</form>
 		);
 	}
-}
-
-function shouldDisplayTitleForPrimaryItem(msd) {
-	return (
-		msd.isPresentational ||
-		(!msd.isPresentational && Object.keys(msd.children).length === 0)
-	);
 }
 
 export default SimsCreation;

@@ -15,7 +15,10 @@ describe('Series page', () => {
 
 	it('Should go the Series creation page and come back', () => {
 		cy.server().visit(`/operations/series`);
+		cy.injectAxe();
+
 		cy.get(seriesPage.getNewButton()).should('be.visible');
+		cy.checkA11y();
 		cy.get(seriesPage.getNewButton()).click();
 		cy.url().should('match', /\/operations\/series\/create$/);
 		cy.get(seriesEditPage.getBackButton())
@@ -85,7 +88,7 @@ describe('Series page', () => {
 		cy.url().should('include', '/operations/series/');
 
 		cy.get('.btn-line a')
-			.first()
+			.eq(1)
 			.click();
 
 		cy.url().should('include', '/modify');
@@ -110,7 +113,7 @@ describe('Series page', () => {
 		cy.url().should('include', '/operations/series/');
 
 		cy.get('.btn-line a')
-			.first()
+			.eq(1)
 			.click();
 
 		cy.url().should('include', '/modify');

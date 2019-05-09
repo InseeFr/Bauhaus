@@ -1,30 +1,53 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
 import { LOADING } from 'js/constants';
-import { getLabelsFromOperation } from 'js/utils/msd';
+import { getLabelsFromParent } from 'js/utils/msd';
 
 /**
- * @typedef {Object} SimsDocuments
- * @property {string} uri
- * @property {string} url
- * @property {string=} updatedDate
- * @property {string} labelLg1
- * @property {string} labelLg2
- * @property {string=} lang
- * @property {string} descriptionLg1
- * @property {string} descriptionLg2
+ * Method used to merge a SIMS with the label of its corresponding
+ * parent.
+ *
+ * @param {*} sims
+ * @param {*} promise
  */
-
-export const saveSims = (sims, callback) => (dispatch, getState) => {
+function getFetchLabelsPromise(sims, promise) {
+	function mergeLabels(parent, parentType) {
+		return {
+			...sims,
+			...getLabelsFromParent(parent, parentType),
+		};
+	}
+	if (sims.idOperation) {
+		return api
+			.getOperation(sims.idOperation)
+			.then(parent => mergeLabels(parent, 'operation'));
+	}
+	if (sims.idSeries) {
+		return api
+			.getSerie(sims.idSeries)
+			.then(parent => mergeLabels(parent, 'series'));
+	}
+	if (sims.idIndicator) {
+		return api
+			.getIndicator(sims.idIndicator)
+			.then(parent => mergeLabels(parent, 'indicator'));
+	}
+	return promise;
+}
+/**
+ * This method is called when we need to save a SIMS.
+ * If the sims passed as a parameter already have an id,
+ * we will send a PUR request. If this property is not
+ * present, a POST request will be send.
+ *
+ * @param {Sims} sims
+ * @param {(string) => void} callback
+ */
+export const saveSims = (sims, callback) => dispatch => {
 	let promise = Promise.resolve(sims);
 
-	if (!sims.labelLg1 && sims.idOperation) {
-		promise = api.getOperation(sims.idOperation).then(result => {
-			return {
-				...sims,
-				...getLabelsFromOperation(result),
-			};
-		});
+	if (!sims.labelLg1) {
+		promise = getFetchLabelsPromise(sims, promise);
 	}
 
 	const method = sims.id ? 'putSims' : 'postSims';
@@ -51,6 +74,15 @@ export const saveSims = (sims, callback) => (dispatch, getState) => {
 	});
 };
 
+function getParentsWithoutSims(idOperation) {
+	if (idOperation) {
+		return api
+			.getOperation(idOperation)
+			.then(operation => api.getOperationsWithoutReport(operation.series.id));
+	}
+	return Promise.resolve([]);
+}
+
 export default id => (dispatch, getState) => {
 	if (!id || getState().operationsSimsCurrentStatus === LOADING) {
 		return;
@@ -61,17 +93,16 @@ export default id => (dispatch, getState) => {
 			id,
 		},
 	});
+
 	return api.getSims(id).then(
 		results => {
-			api
-				.getOperation(results.idOperation)
-				.then(operation => api.getOperationsWithoutReport(operation.series.id))
-				.then((operationsWithoutSims = []) => {
+			return getParentsWithoutSims(results.idOperation).then(
+				(parentsWithoutSims = []) => {
 					dispatch({
 						type: A.LOAD_OPERATIONS_SIMS_SUCCESS,
 						payload: {
 							...results,
-							operationsWithoutSims,
+							parentsWithoutSims,
 							rubrics: results.rubrics.reduce((acc, rubric) => {
 								// TO BE DELETED
 								const documents = [
@@ -115,7 +146,8 @@ export default id => (dispatch, getState) => {
 							}, {}),
 						},
 					});
-				});
+				}
+			);
 		},
 
 		err => {

@@ -10,7 +10,7 @@ import MSDHelp from 'js/components/operations/msd/pages/help';
 import SimsVisualisation from 'js/components/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/components/operations/msd/pages/sims-creation/';
 import buildExtract from 'js/utils/build-extract';
-import { getLabelsFromOperation } from 'js/utils/msd';
+import { getLabelsFromParent } from 'js/utils/msd';
 import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
 import { compose } from 'recompose';
@@ -18,13 +18,17 @@ import * as select from 'js/reducers';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import loadOperation from 'js/actions/operations/operations/item';
+import loadSerie from 'js/actions/operations/series/item';
+import loadIndicator from 'js/actions/operations/indicators/item';
+
 import { getSecondLang } from 'js/reducers/app';
 import {
 	getOperationsOrganisations,
 	getOperationsCodesList,
 } from 'js/reducers/operations/selector';
+import { getParentType, getParentId } from './utils';
 const extractId = buildExtract('id');
-const extractIdOperation = buildExtract('idOperation');
+const extractIdParent = buildExtract('idParent');
 
 export const HELP = 'HELP';
 export const CREATE = 'CREATE';
@@ -32,6 +36,14 @@ export const VIEW = 'VIEW';
 export const UPDATE = 'UPDATE';
 export const DUPLICATE = 'DUPLICATE';
 
+const mapToParentType = {
+	operation: {
+		load: 'loadOperation',
+		path: 'operation',
+	},
+	series: { load: 'loadSerie' },
+	indicator: { load: 'loadIndicator' },
+};
 class MSDContainer extends Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object,
@@ -41,7 +53,7 @@ class MSDContainer extends Component {
 		baseUrl: PropTypes.string,
 		id: PropTypes.string,
 		saveSims: PropTypes.func,
-		idOperation: PropTypes.string,
+		idParent: PropTypes.string,
 		disableSectionAnchor: PropTypes.bool,
 		saveSecondLang: PropTypes.func,
 		langs: PropTypes.object,
@@ -51,6 +63,11 @@ class MSDContainer extends Component {
 	static defaultProps = {
 		currentSims: {},
 	};
+
+	_loadParent(id) {
+		const parentType = this.props.match.params[0];
+		return this.props[mapToParentType[parentType].load](id);
+	}
 
 	goBackCallback = url => {
 		this.props.history.push(url);
@@ -63,8 +80,8 @@ class MSDContainer extends Component {
 		if (!this.props.currentSims.id) {
 			this.props.loadSIMS(this.props.id);
 		}
-		if (!this.props.isOperationLoaded) {
-			this.props.loadOperation(this.props.idOperation);
+		if (!this.props.isParentLoaded) {
+			this._loadParent(this.props.idParent);
 		}
 	}
 
@@ -72,8 +89,8 @@ class MSDContainer extends Component {
 		if (!nextProps.currentSims.id || this.props.id !== nextProps.id) {
 			this.props.loadSIMS(nextProps.id);
 		}
-		if (!nextProps.isOperationLoaded) {
-			this.props.loadOperation(nextProps.idOperation);
+		if (!nextProps.isParentLoaded) {
+			this._loadParent(nextProps.idParent);
 		}
 	}
 	render() {
@@ -84,15 +101,15 @@ class MSDContainer extends Component {
 			mode = HELP,
 			baseUrl,
 			saveSims,
-			idOperation,
+			idParent,
 			disableSectionAnchor,
 			saveSecondLang,
 			langs,
 			secondLang,
 			currentSims,
 			organisations,
+			parentType,
 		} = this.props;
-
 		if (
 			metadataStructureStatus !== LOADED ||
 			(mode === VIEW && !currentSims.id)
@@ -131,7 +148,6 @@ class MSDContainer extends Component {
 				{mode === VIEW && (
 					<SimsVisualisation
 						sims={currentSims}
-						idOperation={currentSims.idOperation}
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
 						organisations={organisations}
@@ -148,13 +164,14 @@ class MSDContainer extends Component {
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
 						onSubmit={saveSims}
-						idOperation={idOperation}
+						idParent={idParent}
 						saveSecondLang={saveSecondLang}
 						langs={langs}
 						secondLang={secondLang}
 						goBack={this.goBackCallback}
 						mode={mode}
 						organisations={organisations}
+						parentType={parentType}
 					/>
 				)}
 			</MSDLayout>
@@ -177,22 +194,39 @@ const mapStateToProps = (state, ownProps) => {
 
 	const id = extractId(ownProps);
 
-	const currentOperation = select.getOperation(state);
-	const idOperation = extractIdOperation(ownProps);
+	function getCurrentParent(parentType) {
+		if (parentType === 'operation') {
+			return select.getOperation(state);
+		}
+		if (parentType === 'series') {
+			return select.getSerie(state);
+		}
+		if (parentType === 'indicator') {
+			return select.getIndicator(state);
+		}
+	}
 
+	let idParent;
 	let currentSims = {};
-
+	let parentType;
+	let isParentLoaded = true;
 	switch (ownProps.mode) {
 		case HELP:
 			currentSims = {};
 			break;
 		case CREATE:
+			idParent = extractIdParent(ownProps);
+			parentType = ownProps.match.params[0];
+			const currentParent = getCurrentParent(parentType);
 			currentSims = {
-				...getLabelsFromOperation(currentOperation),
+				...getLabelsFromParent(currentParent, parentType),
 			};
+			isParentLoaded = currentParent.id === idParent;
 			break;
 		default:
 			currentSims = select.getOperationsSimsCurrent(state);
+			parentType = getParentType(currentSims);
+			idParent = getParentId(currentSims);
 			break;
 	}
 
@@ -201,14 +235,13 @@ const mapStateToProps = (state, ownProps) => {
 		secondLang: getSecondLang(state),
 		metadataStructure,
 		metadataStructureStatus,
-
 		currentSims: !id || currentSims.id === id ? currentSims : {},
-		isOperationLoaded:
-			ownProps.mode !== CREATE || currentOperation.id === idOperation,
+		isParentLoaded,
 		id,
-		idOperation,
+		idParent,
 		codesLists: getOperationsCodesList(state),
 		organisations: getOperationsOrganisations(state),
+		parentType,
 	};
 };
 
@@ -217,6 +250,8 @@ const mapDispatchToProps = {
 	loadSIMS,
 	saveSims,
 	loadOperation,
+	loadSerie,
+	loadIndicator,
 	saveSecondLang,
 };
 

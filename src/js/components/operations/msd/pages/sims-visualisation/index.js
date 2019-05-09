@@ -8,12 +8,14 @@ import Button from 'js/components/shared/button';
 import { markdownToHtml } from 'js/utils/html';
 import { Note } from 'js/components/shared/note/note';
 import DocumentsBloc from 'js/components/operations/msd/documents/documents-bloc/index.js';
+import {
+	hasLabelLg2,
+	shouldDisplayDuplicateButton,
+	getParentUri,
+} from 'js/components/operations/msd/utils';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
-function hasLabelLg2(section) {
-	return section.rangeType === TEXT || section.rangeType === RICH_TEXT;
-}
 export default function SimsVisualisation({
 	metadataStructure,
 	currentSection,
@@ -21,12 +23,11 @@ export default function SimsVisualisation({
 	sims = {},
 	secondLang,
 	saveSecondLang,
-	idOperation,
 	goBack,
 	langs: { lg1, lg2 },
 	organisations,
 }) {
-	const shouldDisplayDuplicateButton = sims.operationsWithoutSims.length > 0;
+	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 
 	function displayInformation(msd, isSecondLang = false, currentSection = {}) {
 		if (!msd.masLabelLg1) {
@@ -122,12 +123,12 @@ export default function SimsVisualisation({
 		<>
 			<div className="row btn-line">
 				<Button
-					action={() => goBack(`/operations/operation/${idOperation}`)}
+					action={() => goBack(getParentUri(sims))}
 					label={D.btnReturn}
 					context="operations"
 				/>
-				<div className={`col-md-${shouldDisplayDuplicateButton ? 5 : 8}`} />
-				{shouldDisplayDuplicateButton && (
+				<div className={`col-md-${shouldDisplayDuplicateButtonFlag ? 5 : 8}`} />
+				{shouldDisplayDuplicateButtonFlag && (
 					<Button
 						action={`/operations/sims/${sims.id}/duplicate`}
 						label={

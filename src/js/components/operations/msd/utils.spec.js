@@ -1,4 +1,13 @@
-import { isOpen, toggleOpen, HELP_COLLAPSED } from './utils';
+import {
+	hasLabelLg2,
+	shouldDisplayDuplicateButton,
+	isOpen,
+	toggleOpen,
+	HELP_COLLAPSED,
+	getParentUri,
+} from './utils';
+import { rangeType } from 'js/utils/msd/';
+const { RICH_TEXT, TEXT, DATE } = rangeType;
 
 describe('isOpen', () => {
 	beforeEach(() => {
@@ -72,5 +81,55 @@ describe('toggleOpen', () => {
 				3: true,
 			})
 		);
+	});
+});
+
+describe('shouldDisplayDuplicateButton', () => {
+	it('should return false if this is not an operation', () => {
+		const input = {};
+		expect(shouldDisplayDuplicateButton(input)).toBeFalsy();
+	});
+	it('should return false if this is an operation without any siblings SIMS-less', () => {
+		const input = {
+			idOperation: 1,
+		};
+		expect(shouldDisplayDuplicateButton(input)).toBeFalsy();
+	});
+	it('should return true if this is an operation with siblings without SIMS', () => {
+		const input = {
+			parentsWithoutSims: ['op'],
+			idOperation: 1,
+		};
+		expect(shouldDisplayDuplicateButton(input)).toBeTruthy();
+	});
+});
+
+describe('shouldDisplayDuplicateButton', () => {
+	it('should return true if the section is a TEXT', () => {
+		const input = { rangeType: TEXT };
+		expect(hasLabelLg2(input)).toBeTruthy();
+	});
+	it('should return true if the section is a RICH_TEXT', () => {
+		const input = { rangeType: RICH_TEXT };
+		expect(hasLabelLg2(input)).toBeTruthy();
+	});
+	it('should return false if the section is a DATE', () => {
+		const input = { rangeType: DATE };
+		expect(hasLabelLg2(input)).toBeFalsy();
+	});
+});
+
+describe('getParentUri', () => {
+	it('should return a uri of an operation', () => {
+		expect(getParentUri({ idOperation: '1' })).toBe(`/operations/operation/1`);
+	});
+	it('should return a uri of an series', () => {
+		expect(getParentUri({ idSeries: '1' })).toBe(`/operations/serie/1`);
+	});
+	it('should return a uri of an indicator', () => {
+		expect(getParentUri({ idIndicator: '1' })).toBe(`/operations/indicator/1`);
+	});
+	it('should return undefined', () => {
+		expect(getParentUri({})).toBeUndefined();
 	});
 });

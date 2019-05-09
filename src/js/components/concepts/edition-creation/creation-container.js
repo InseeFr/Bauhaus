@@ -84,7 +84,6 @@ const mapStateToProps = (state, ownProps) => {
 		stampList: select.getStampList(state),
 		disseminationStatusList: select.getDisseminationStatusList(state),
 		maxLengthScopeNote: Number(state.app.properties.maxLengthScopeNote),
-		//TODO build appropriate selector
 		id: select.getNewlyCreatedId(state),
 		creationStatus: select.getStatus(state, CREATE_CONCEPT),
 		langs: select.getLangs(state),
@@ -98,8 +97,9 @@ const mapDispatchToProps = {
 	createConcept,
 };
 
-CreationContainer = connect(mapStateToProps, mapDispatchToProps)(
-	CreationContainer
-);
+CreationContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CreationContainer);
 
 export default CreationContainer;

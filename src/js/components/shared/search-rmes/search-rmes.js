@@ -67,7 +67,7 @@ class SearchRmes extends Component {
 					</div>
 				)}
 				<div className="row">
-					<h4>{nbResults(hits)}</h4>
+					<p>{nbResults(hits)}</p>
 				</div>
 				<div>
 					<Pagination itemEls={hitEls} itemsPerPage="10" context={context} />

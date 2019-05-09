@@ -60,7 +60,7 @@ class Field extends PureComponent {
 
 	/**
 	 * Handler when the user add a new document to a rubric
-	 * @param {import('js/actions/operations/sims/item').SimsDocuments} document
+	 * @param {SimsDocuments} document
 	 */
 	handleAddDocument = document => {
 		const documents = this.props.currentSection.documents || [];
