@@ -21,12 +21,6 @@ a {
   width: 100%;
   text-align: center; }
 
-.img {
-  width: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 2%; }
-
 .img-flag {
   height: 20px;
   width: auto;
@@ -55,6 +49,27 @@ a {
 .btn-line {
   margin-top: 15px;
   margin-bottom: 15px; }
+
+ul.home-page-links {
+  display: -webkit-flex;
+  display: flex;
+  list-style: none;
+  -webkit-flex-direction: row;
+          flex-direction: row; }
+  ul.home-page-links li {
+    -webkit-flex: 1 1;
+            flex: 1 1; }
+    ul.home-page-links li h2 {
+      width: 90%;
+      margin: 10px auto 10px auto;
+      text-align: center; }
+    ul.home-page-links li img {
+      width: 90%; }
+
+@media screen and (max-width: 640px) {
+  ul.home-page-links {
+    -webkit-flex-direction: column;
+            flex-direction: column; } }
 
 .page-title-link:hover {
   color: #044173;
@@ -153,6 +168,9 @@ link {
   display: flex;
   -webkit-flex-direction: column;
           flex-direction: column; }
+
+footer p {
+  font-weight: bold; }
 
 body {
   margin: 0;
@@ -177,12 +195,6 @@ a {
   width: 100%;
   text-align: center; }
 
-.img {
-  width: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 2%; }
-
 .img-flag {
   height: 20px;
   width: auto;
@@ -211,6 +223,27 @@ a {
 .btn-line {
   margin-top: 15px;
   margin-bottom: 15px; }
+
+ul.home-page-links {
+  display: -webkit-flex;
+  display: flex;
+  list-style: none;
+  -webkit-flex-direction: row;
+          flex-direction: row; }
+  ul.home-page-links li {
+    -webkit-flex: 1 1;
+            flex: 1 1; }
+    ul.home-page-links li h2 {
+      width: 90%;
+      margin: 10px auto 10px auto;
+      text-align: center; }
+    ul.home-page-links li img {
+      width: 90%; }
+
+@media screen and (max-width: 640px) {
+  ul.home-page-links {
+    -webkit-flex-direction: column;
+            flex-direction: column; } }
 
 .page-title-link:hover {
   color: #044173;
@@ -309,6 +342,9 @@ link {
   display: flex;
   -webkit-flex-direction: column;
           flex-direction: column; }
+
+footer p {
+  font-weight: bold; }
 
 .btn-concepts {
   background-color: #457dbb;
@@ -363,12 +399,6 @@ a {
   width: 100%;
   text-align: center; }
 
-.img {
-  width: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 2%; }
-
 .img-flag {
   height: 20px;
   width: auto;
@@ -397,6 +427,27 @@ a {
 .btn-line {
   margin-top: 15px;
   margin-bottom: 15px; }
+
+ul.home-page-links {
+  display: -webkit-flex;
+  display: flex;
+  list-style: none;
+  -webkit-flex-direction: row;
+          flex-direction: row; }
+  ul.home-page-links li {
+    -webkit-flex: 1 1;
+            flex: 1 1; }
+    ul.home-page-links li h2 {
+      width: 90%;
+      margin: 10px auto 10px auto;
+      text-align: center; }
+    ul.home-page-links li img {
+      width: 90%; }
+
+@media screen and (max-width: 640px) {
+  ul.home-page-links {
+    -webkit-flex-direction: column;
+            flex-direction: column; } }
 
 .page-title-link:hover {
   color: #044173;
@@ -495,6 +546,9 @@ link {
   display: flex;
   -webkit-flex-direction: column;
           flex-direction: column; }
+
+footer p {
+  font-weight: bold; }
 
 .panel-concepts {
   border-color: #457dbb; }
@@ -551,12 +605,6 @@ a {
   width: 100%;
   text-align: center; }
 
-.img {
-  width: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 2%; }
-
 .img-flag {
   height: 20px;
   width: auto;
@@ -585,6 +633,27 @@ a {
 .btn-line {
   margin-top: 15px;
   margin-bottom: 15px; }
+
+ul.home-page-links {
+  display: -webkit-flex;
+  display: flex;
+  list-style: none;
+  -webkit-flex-direction: row;
+          flex-direction: row; }
+  ul.home-page-links li {
+    -webkit-flex: 1 1;
+            flex: 1 1; }
+    ul.home-page-links li h2 {
+      width: 90%;
+      margin: 10px auto 10px auto;
+      text-align: center; }
+    ul.home-page-links li img {
+      width: 90%; }
+
+@media screen and (max-width: 640px) {
+  ul.home-page-links {
+    -webkit-flex-direction: column;
+            flex-direction: column; } }
 
 .page-title-link:hover {
   color: #044173;
@@ -683,6 +752,9 @@ link {
   display: flex;
   -webkit-flex-direction: column;
           flex-direction: column; }
+
+footer p {
+  font-weight: bold; }
 
 .loading-row {
   margin-top: 5%; }
@@ -751,12 +823,6 @@ a {
   width: 100%;
   text-align: center; }
 
-.img {
-  width: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 2%; }
-
 .img-flag {
   height: 20px;
   width: auto;
@@ -785,6 +851,27 @@ a {
 .btn-line {
   margin-top: 15px;
   margin-bottom: 15px; }
+
+ul.home-page-links {
+  display: -webkit-flex;
+  display: flex;
+  list-style: none;
+  -webkit-flex-direction: row;
+          flex-direction: row; }
+  ul.home-page-links li {
+    -webkit-flex: 1 1;
+            flex: 1 1; }
+    ul.home-page-links li h2 {
+      width: 90%;
+      margin: 10px auto 10px auto;
+      text-align: center; }
+    ul.home-page-links li img {
+      width: 90%; }
+
+@media screen and (max-width: 640px) {
+  ul.home-page-links {
+    -webkit-flex-direction: column;
+            flex-direction: column; } }
 
 .page-title-link:hover {
   color: #044173;
@@ -883,6 +970,9 @@ link {
   display: flex;
   -webkit-flex-direction: column;
           flex-direction: column; }
+
+footer p {
+  font-weight: bold; }
 
 .page-subtitle-concepts {
   border: 2px solid #5d87e8;
@@ -931,12 +1021,6 @@ a {
   width: 100%;
   text-align: center; }
 
-.img {
-  width: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 2%; }
-
 .img-flag {
   height: 20px;
   width: auto;
@@ -965,6 +1049,27 @@ a {
 .btn-line {
   margin-top: 15px;
   margin-bottom: 15px; }
+
+ul.home-page-links {
+  display: -webkit-flex;
+  display: flex;
+  list-style: none;
+  -webkit-flex-direction: row;
+          flex-direction: row; }
+  ul.home-page-links li {
+    -webkit-flex: 1 1;
+            flex: 1 1; }
+    ul.home-page-links li h2 {
+      width: 90%;
+      margin: 10px auto 10px auto;
+      text-align: center; }
+    ul.home-page-links li img {
+      width: 90%; }
+
+@media screen and (max-width: 640px) {
+  ul.home-page-links {
+    -webkit-flex-direction: column;
+            flex-direction: column; } }
 
 .page-title-link:hover {
   color: #044173;
@@ -1063,6 +1168,9 @@ link {
   display: flex;
   -webkit-flex-direction: column;
           flex-direction: column; }
+
+footer p {
+  font-weight: bold; }
 
 .page-title {
   border: 2px solid #044173;
@@ -1111,12 +1219,6 @@ a {
   width: 100%;
   text-align: center; }
 
-.img {
-  width: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 2%; }
-
 .img-flag {
   height: 20px;
   width: auto;
@@ -1145,6 +1247,27 @@ a {
 .btn-line {
   margin-top: 15px;
   margin-bottom: 15px; }
+
+ul.home-page-links {
+  display: -webkit-flex;
+  display: flex;
+  list-style: none;
+  -webkit-flex-direction: row;
+          flex-direction: row; }
+  ul.home-page-links li {
+    -webkit-flex: 1 1;
+            flex: 1 1; }
+    ul.home-page-links li h2 {
+      width: 90%;
+      margin: 10px auto 10px auto;
+      text-align: center; }
+    ul.home-page-links li img {
+      width: 90%; }
+
+@media screen and (max-width: 640px) {
+  ul.home-page-links {
+    -webkit-flex-direction: column;
+            flex-direction: column; } }
 
 .page-title-link:hover {
   color: #044173;
@@ -1243,6 +1366,9 @@ link {
   display: flex;
   -webkit-flex-direction: column;
           flex-direction: column; }
+
+footer p {
+  font-weight: bold; }
 
 .pg-rmes {
   display: inline-block; }
@@ -1322,12 +1448,6 @@ a {
   width: 100%;
   text-align: center; }
 
-.img {
-  width: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 2%; }
-
 .img-flag {
   height: 20px;
   width: auto;
@@ -1356,6 +1476,27 @@ a {
 .btn-line {
   margin-top: 15px;
   margin-bottom: 15px; }
+
+ul.home-page-links {
+  display: -webkit-flex;
+  display: flex;
+  list-style: none;
+  -webkit-flex-direction: row;
+          flex-direction: row; }
+  ul.home-page-links li {
+    -webkit-flex: 1 1;
+            flex: 1 1; }
+    ul.home-page-links li h2 {
+      width: 90%;
+      margin: 10px auto 10px auto;
+      text-align: center; }
+    ul.home-page-links li img {
+      width: 90%; }
+
+@media screen and (max-width: 640px) {
+  ul.home-page-links {
+    -webkit-flex-direction: column;
+            flex-direction: column; } }
 
 .page-title-link:hover {
   color: #044173;
@@ -1454,6 +1595,9 @@ link {
   display: flex;
   -webkit-flex-direction: column;
           flex-direction: column; }
+
+footer p {
+  font-weight: bold; }
 
 .table-concepts .table-hover tbody tr:hover td {
   background-color: #457dbb; }
