@@ -6,6 +6,10 @@ import loadDocuments from 'js/actions/operations/documents/list';
 import './style.scss';
 import { getLang } from 'js/i18n/build-dictionary';
 import { NOT_LOADED } from 'js/constants';
+import {
+	getOperationsDocumentsStatus,
+	getOperationsDocuments,
+} from 'js/reducers/operations/selector';
 /**
  * @typedef {Object} DocumentsBlocProps
  * @property {import('js/types').SimsDocuments[]=}  documents
@@ -160,8 +164,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
 	return {
-		documentStoresStatus: state.operationsDocuments.status,
-		documentStores: state.operationsDocuments.results || [],
+		documentStoresStatus: getOperationsDocumentsStatus(state),
+		documentStores: getOperationsDocuments(state),
 	};
 };
 

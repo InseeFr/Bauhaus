@@ -107,9 +107,8 @@ export const getLangs = state => {
 export const getStatus = (state, op) =>
 	remoteCallsSelectors.getStatus(state.remoteCalls, op);
 
-export const getError = (state, op) =>  
+export const getError = (state, op) =>
 	remoteCallsSelectors.getError(state.remoteCalls, op);
-
 
 export const getNewlyCreatedId = state =>
 	remoteCallsSelectors.getNewlyCreatedId(state.remoteCalls);
