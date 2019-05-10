@@ -109,7 +109,7 @@ export default id => (dispatch, getState) => {
 									{
 										uri: 'uri1-bis',
 										url: 'http://google.fr?q=url-1',
-										updatedDate: '01/01/2019',
+										lastRefresh: '01/01/2019',
 										lang: 'fr',
 										labelLg1: 'Document 1 - label en Langue 1',
 										labelLg2: 'Document 1 - label en Langue 2',
@@ -119,7 +119,7 @@ export default id => (dispatch, getState) => {
 									{
 										uri: 'uri2-bis',
 										url: 'http://google.fr?q=url-2',
-										updatedDate: '01/02/2019',
+										lastRefresh: '01/02/2019',
 										labelLg1: 'Document 2 - label en Langue 1',
 										labelLg2: 'Document 2 - label en Langue 2',
 										descriptionLg1: 'Description 2 en Langue 1',

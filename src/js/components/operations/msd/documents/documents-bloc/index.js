@@ -5,15 +5,19 @@ import D from 'js/i18n';
 import loadDocuments from 'js/actions/operations/documents/list';
 import './style.scss';
 import { getLang } from 'js/i18n/build-dictionary';
-import { LOADED, NOT_LOADED } from 'js/constants';
+import { NOT_LOADED } from 'js/constants';
+import {
+	getOperationsDocumentsStatus,
+	getOperationsDocuments,
+} from 'js/reducers/operations/selector';
 /**
  * @typedef {Object} DocumentsBlocProps
- * @property {import('js/actions/operations/sims/item').SimsDocuments[]=} documents
+ * @property {import('js/types').SimsDocuments[]=}  documents
  * @property {String=} localPrefix
  * @property {Boolean=} editMode
  * @property {(string) => void } deleteHandler
  * @property {(string) => void } addHandler
- * @property {import('js/actions/operations/sims/item').SimsDocuments[]} documentStores
+ * @property {import('js/types').SimsDocuments[]} documentStores
  */
 
 /**
@@ -32,6 +36,7 @@ export function DocumentsBloc({
 }) {
 	const currentDocuments = sortArray(`label${localPrefix}`)(documents);
 	const currentDocumentsIds = currentDocuments.map(doc => doc.uri);
+
 	const otherDocuments = sortArray(`label${localPrefix}`)(
 		documentStores.filter(
 			document => !currentDocumentsIds.includes(document.uri)
@@ -41,13 +46,13 @@ export function DocumentsBloc({
 	const [panelStatus, setPanelStatus] = useState(false);
 
 	function addAsideToTheDocument(document) {
-		let updatedDate;
-		if (document.updatedDate) {
-			updatedDate = new Intl.DateTimeFormat(getLang()).format(
-				new Date(document.updatedDate)
+		let lastRefresh;
+		if (document.lastRefresh) {
+			lastRefresh = new Intl.DateTimeFormat(getLang()).format(
+				new Date(document.lastRefresh)
 			);
 		}
-		const aside = [document.lang, updatedDate].filter(val => !!val).join('-');
+		const aside = [document.lang, lastRefresh].filter(val => !!val).join('-');
 		return {
 			...document,
 			aside,
@@ -69,17 +74,21 @@ export function DocumentsBloc({
 		document,
 		btnBlocFunction = defaultBtnBlocFunction
 	) {
+		const label =
+			document[`label${localPrefix}`] || document.labelLg1 || document.labelLg2;
 		return (
-			<li className="list-group-item" key={document.uri}>
-				<a
-					target="_blank"
-					rel="noopener noreferrer"
-					href={document.url}
-					title={document[`description${localPrefix}`]}
-				>
-					{document[`label${localPrefix}`]}
-				</a>
-				<i>({document.aside})</i>
+			<li className="list-group-item documentbloc__item" key={document.uri}>
+				<span>
+					<a
+						target="_blank"
+						rel="noopener noreferrer"
+						href={document.url}
+						title={document[`description${localPrefix}`]}
+					>
+						{label}
+					</a>
+					<i>({document.aside})</i>
+				</span>
 				{editMode && !isSecondLang && btnBlocFunction(document)}
 			</li>
 		);
@@ -93,8 +102,7 @@ export function DocumentsBloc({
 						.map(document => displayHTMLForDocument(document))}
 				</ul>
 			)}
-
-			{editMode && !isSecondLang && otherDocuments.length > 0 && (
+			{editMode && !isSecondLang && (
 				<div className="panel panel-default">
 					<div className="panel-heading">
 						<button
@@ -109,7 +117,7 @@ export function DocumentsBloc({
 								}`}
 								aria-hidden="true"
 							/>
-							{D.addDocument}
+							{D.addDocument} ({otherDocuments.length})
 						</button>
 					</div>
 					{panelStatus && (
@@ -146,11 +154,7 @@ class DocumentsBlocContainer extends Component {
 		}
 	}
 	render() {
-		return (
-			this.props.documentStoresStatus === LOADED && (
-				<DocumentsBloc {...this.props} />
-			)
-		);
+		return <DocumentsBloc {...this.props} />;
 	}
 }
 
@@ -160,8 +164,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
 	return {
-		documentStoresStatus: state.operationsDocuments.status,
-		documentStores: state.operationsDocuments.results,
+		documentStoresStatus: getOperationsDocumentsStatus(state),
+		documentStores: getOperationsDocuments(state),
 	};
 };
 

@@ -39,7 +39,6 @@ export const DUPLICATE = 'DUPLICATE';
 const mapToParentType = {
 	operation: {
 		load: 'loadOperation',
-		path: 'operation',
 	},
 	series: { load: 'loadSerie' },
 	indicator: { load: 'loadIndicator' },
@@ -196,13 +195,19 @@ const mapStateToProps = (state, ownProps) => {
 
 	function getCurrentParent(parentType) {
 		if (parentType === 'operation') {
-			return select.getOperation(state);
+			return [
+				select.getOperation(state),
+				state.operationsIndicatorCurrentStatus,
+			];
 		}
 		if (parentType === 'series') {
-			return select.getSerie(state);
+			return [select.getSerie(state), state.operationsSeriesCurrentStatus];
 		}
 		if (parentType === 'indicator') {
-			return select.getIndicator(state);
+			return [
+				select.getIndicator(state),
+				state.operationsIndicatorCurrentStatus,
+			];
 		}
 	}
 
@@ -217,11 +222,12 @@ const mapStateToProps = (state, ownProps) => {
 		case CREATE:
 			idParent = extractIdParent(ownProps);
 			parentType = ownProps.match.params[0];
-			const currentParent = getCurrentParent(parentType);
+			const [currentParent, currentParentStatus] = getCurrentParent(parentType);
 			currentSims = {
 				...getLabelsFromParent(currentParent, parentType),
 			};
-			isParentLoaded = currentParent.id === idParent;
+			isParentLoaded =
+				currentParentStatus !== NOT_LOADED || currentParent.id === idParent;
 			break;
 		default:
 			currentSims = select.getOperationsSimsCurrent(state);

@@ -15,3 +15,11 @@
 		padding-left: 0;
 	}
 }
+
+.documentbloc__item {
+	display: flex;
+
+	span {
+		flex: 2 1 auto;
+	}
+}
