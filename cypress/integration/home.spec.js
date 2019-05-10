@@ -28,4 +28,8 @@ describe('Home Page', function() {
 			'Application de gestion des métadonnées de référence'
 		);
 	});
+	it(`Should contain a footer`, function() {
+		cy.server().visit(`/`);
+		cy.get('footer').should('exist');
+	});
 });
