@@ -31,7 +31,7 @@
  * @typedef {Object} SimsDocuments
  * @property {string} uri
  * @property {string} url
- * @property {string=} updatedDate
+ * @property {string=} lastRefresh
  * @property {string} labelLg1
  * @property {string} labelLg2
  * @property {string=} lang

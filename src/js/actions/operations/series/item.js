@@ -13,7 +13,7 @@ export const saveSerie = (series, callback) => dispatch => {
 				type: A.SAVE_OPERATIONS_SERIE_SUCCESS,
 				payload: {
 					...series,
-					id
+					id,
 				},
 			});
 			callback(id);

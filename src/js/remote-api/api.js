@@ -10,6 +10,8 @@ const api = {
 		},
 		res => res,
 	],
+	getDocumentsList: () => ['documents'],
+
 	getDissStatusList: () => ['disseminationStatus'],
 	getStampList: () => ['stamps'],
 	getRoleList: () => ['roles'],
