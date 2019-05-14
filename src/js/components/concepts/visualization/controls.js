@@ -35,7 +35,7 @@ class ConceptVisualizationControls extends Component {
 		const contributor = authImpl.isContributor(roles);
 		const creator = authImpl.isConceptCreator(roles, stamp, conceptCreator);
 		const adminOrCreator = admin || creator;
-		const adminOrContributorOrCreator = admin || contributor || creator;
+		//const adminOrContributorOrCreator = admin || contributor || creator;
 
 		let btns;
 
@@ -44,7 +44,7 @@ class ConceptVisualizationControls extends Component {
 		const validate = adminOrCreator && [handleValidation, D.btnValid];
 		const update = [`/concept/${id}/modify`, D.btnUpdate];
 		const compare =
-			adminOrContributorOrCreator && (!conceptVersion || conceptVersion <= 1)
+			 (!conceptVersion || conceptVersion <= 1)
 				? null
 				: [`/concept/${id}/compare`, D.btnCompare];
 		const erase = adminOrCreator && [handleDeletion, D.btnDelete];
