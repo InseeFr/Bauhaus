@@ -104,43 +104,11 @@ export default id => (dispatch, getState) => {
 							...results,
 							parentsWithoutSims,
 							rubrics: results.rubrics.reduce((acc, rubric) => {
-								// TO BE DELETED
-								const documents = [
-									{
-										uri: 'uri1-bis',
-										url: 'http://google.fr?q=url-1',
-										lastRefresh: '01/01/2019',
-										lang: 'fr',
-										labelLg1: 'Document 1 - label en Langue 1',
-										labelLg2: 'Document 1 - label en Langue 2',
-										descriptionLg1: 'Description 1 en Langue 1',
-										descriptionLg2: 'Description 1 en Langue 2',
-									},
-									{
-										uri: 'uri2-bis',
-										url: 'http://google.fr?q=url-2',
-										lastRefresh: '01/02/2019',
-										labelLg1: 'Document 2 - label en Langue 1',
-										labelLg2: 'Document 2 - label en Langue 2',
-										descriptionLg1: 'Description 2 en Langue 1',
-										descriptionLg2: 'Description 2 en Langue 2',
-									},
-									{
-										uri: 'uri3-bis',
-										url: 'http://google.fr?q=url-2',
-										labelLg1: 'Document 3 - label en Langue 1',
-										labelLg2: 'Document 3 - label en Langue 2',
-										descriptionLg1: 'Description 3 en Langue 1',
-										descriptionLg2: 'Description 3 en Langue 2',
-										lang: 'fr',
-									},
-								];
 								return {
 									...acc,
 									[rubric.idAttribute]: {
 										...rubric,
-										idMas: rubric.idAttribute,
-										documents: rubric.idAttribute === 'S.3.1' ? documents : [],
+										idMas: rubric.idAttribute
 									},
 								};
 							}, {}),
