@@ -18,6 +18,8 @@ An other script, `yarn test:coverage` allows to generate a complete local report
 
 Some Integrations tests are also available thanks to _Cypress.io_. You should use the `yarn cypress:open` command if you want to launch these tests on dev mode. For your CI, you have to use the `yarn cypress:run` command.
 
+Unit tests are launched each time a `git push` is executed.
+
 ## Build
 
 To build the application, run `yarn build`. You can now serve the content of the `dist` folder with the HTTP server of your choice.
@@ -34,11 +36,11 @@ If you're new to JavaScript, you might need to first install [node](https://node
 
 ## Project Structure
 
-In this paragraph, we will try to explain the rules we defined and try to follow when talking about the structure of the project. 
+In this paragraph, we will try to explain the rules we defined and try to follow when talking about the structure of the project.
 
 ### SCSS Mixin
 
-If you have to define SCSS mixin, you have to define them in the `src/styles/mixin.scss` file, and import them in the stylesheet of the React component. 
+If you have to define SCSS mixin, you have to define them in the `src/styles/mixin.scss` file, and import them in the stylesheet of the React component.
 
 ### I18N
 

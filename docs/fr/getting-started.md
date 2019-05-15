@@ -18,6 +18,8 @@ Un script supplémentaire, `yarn test:coverage` permet de générer un rapport l
 
 Des tests d'intégrations, utilisant _Cypress.io_ peuvent être également lancés. Pour cela, vous pouvez lancer la commande `yarn cypress:open` en développement, ou `yarn cypress:run` sur votre système d'intégration continue.
 
+Les tests unitaires sont exécutés lorsque nous faisons un `git push`
+
 ## Build
 
 Pour produire la version de production, lancez la commande `yarn build`. Vous pouvez désormais servir le contenu du dossier `dist` avec le serveur web de votre choix.
@@ -32,15 +34,15 @@ Si vous débutez avec ces technologies, vous aurez vraisemblablement besoin d'in
 
 `yarn build` lance la compilation du code avec des optimisations pour la mise en production. Elle copie toutes les ressources statiques et le fichier `JavaScript` compilé dans le dossier `dist`.
 
-## Structure du projet 
+## Structure du projet
 
-Dans ce paragraphe, nous allons définir les quelques règles que nous essayons de suivre concernant la structure du projet. 
+Dans ce paragraphe, nous allons définir les quelques règles que nous essayons de suivre concernant la structure du projet.
 
 ### Mixin SCSS
 
-Si vous devez définir des mixins SCSS, vous devez les implémenter dans le fichier `src/styles/mixin.scss` et ensuite importer ce fichier lorsque vous souhaitez l'utiliser. 
+Si vous devez définir des mixins SCSS, vous devez les implémenter dans le fichier `src/styles/mixin.scss` et ensuite importer ce fichier lorsque vous souhaitez l'utiliser.
 
 ### I18N
 
-Dans le but d'éviter d'avoir un fichier d'i18n trop gros, nous avons commencer à découper ce fichier par `page` ou `fontionnalité`. Il y a par exemple un fichier `src/js/i18n/dictionary/operations/documents.js` pour tous les messages utilisés dans la fonctionnalité de gestions des documents. 
+Dans le but d'éviter d'avoir un fichier d'i18n trop gros, nous avons commencer à découper ce fichier par `page` ou `fontionnalité`. Il y a par exemple un fichier `src/js/i18n/dictionary/operations/documents.js` pour tous les messages utilisés dans la fonctionnalité de gestions des documents.
 Ces fichiers doivent ensuite être importés directement ou indirectement dans le fichier principal `js/i18n/dictionary/app.js`
