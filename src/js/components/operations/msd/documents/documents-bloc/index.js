@@ -5,11 +5,14 @@ import D from 'js/i18n';
 import loadDocuments from 'js/actions/operations/documents/list';
 import './style.scss';
 import { getLang } from 'js/i18n/build-dictionary';
-import { NOT_LOADED } from 'js/constants';
+import { NOT_LOADED, LOADING } from 'js/constants';
 import {
 	getOperationsDocumentsStatus,
 	getOperationsDocuments,
 } from 'js/reducers/operations/selector';
+
+import spinner from 'img/spinner.svg';
+
 /**
  * @typedef {Object} DocumentsBlocProps
  * @property {import('js/types').SimsDocuments[]=}  documents
@@ -18,6 +21,7 @@ import {
  * @property {(string) => void } deleteHandler
  * @property {(string) => void } addHandler
  * @property {import('js/types').SimsDocuments[]} documentStores
+ * @property {String} documentStoresStatus
  */
 
 /**
@@ -33,17 +37,25 @@ export function DocumentsBloc({
 	deleteHandler,
 	addHandler,
 	documentStores = [],
+	documentStoresStatus,
 }) {
+	const [panelStatus, setPanelStatus] = useState(false);
+	const [filter, setFilter] = useState('');
+
 	const currentDocuments = sortArray(`label${localPrefix}`)(documents);
 	const currentDocumentsIds = currentDocuments.map(doc => doc.uri);
 
 	const otherDocuments = sortArray(`label${localPrefix}`)(
-		documentStores.filter(
-			document => !currentDocumentsIds.includes(document.uri)
-		)
+		documentStores
+			.filter(document => !currentDocumentsIds.includes(document.uri))
+			.filter(document =>
+				['', document.labelLg1, document.labelLg2]
+					.join()
+					.toLowerCase()
+					.includes(filter.toLowerCase())
+			)
 	);
 	const isSecondLang = localPrefix === 'Lg2';
-	const [panelStatus, setPanelStatus] = useState(false);
 
 	function addAsideToTheDocument(document) {
 		let lastRefresh;
@@ -117,11 +129,28 @@ export function DocumentsBloc({
 								}`}
 								aria-hidden="true"
 							/>
-							{D.addDocument} ({otherDocuments.length})
+							{D.addDocument}{' '}
+							{documentStoresStatus === LOADING ? (
+								<img src={spinner} width="30px" alt="loading" />
+							) : (
+								<span class="badge">{otherDocuments.length}</span>
+							)}
 						</button>
 					</div>
 					{panelStatus && (
 						<div className="panel-body">
+							<div class="form-group">
+								<label className="sr-only" for="documentFilter">
+									Email address
+								</label>
+								<input
+									className="form-control"
+									id="documentFilter"
+									placeholder="Searcgh"
+									value={filter}
+									onChange={e => setFilter(e.target.value)}
+								/>
+							</div>
 							<ul className="documentsbloc__filepicker">
 								{otherDocuments.map(addAsideToTheDocument).map(document => {
 									return displayHTMLForDocument(document, document => (
