@@ -178,7 +178,7 @@ class MSDContainer extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
 	if (!state.operationsMetadataStructureList) {
 		return {
 			metadataStructureStatus: NOT_LOADED,
