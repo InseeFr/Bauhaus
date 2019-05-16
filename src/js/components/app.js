@@ -6,6 +6,8 @@ import operationsLogo from 'img/operations.jpg';
 import D from 'js/i18n';
 
 function App() {
+	document.title = 'Bauhaus';
+
 	return (
 		<React.Fragment>
 			<div className="centered page-title">
