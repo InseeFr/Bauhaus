@@ -67,7 +67,7 @@ class SearchRmes extends Component {
 					</div>
 				)}
 				<div className="row">
-					<p>{nbResults(hits)}</p>
+					<p aria-live="assertive">{nbResults(hits)}</p>
 				</div>
 				<div>
 					<Pagination itemEls={hitEls} itemsPerPage="10" context={context} />
