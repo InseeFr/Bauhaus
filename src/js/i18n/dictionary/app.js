@@ -1,5 +1,9 @@
 import btnD from './generic/btn';
 const dictionary = {
+	langs: {
+		fr: 'Français',
+		en: 'English',
+	},
 	welcome: {
 		fr: 'Application de gestion des métadonnées de référence',
 		en: 'Metadata management application',

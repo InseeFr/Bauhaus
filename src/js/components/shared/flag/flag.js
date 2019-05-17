@@ -1,5 +1,6 @@
 import React from 'react';
 import defaultFlag from 'img/flags/default.png';
+import D from 'js/i18n';
 
 export const isFlag = lang => {
 	try {
@@ -15,7 +16,7 @@ export default lang => {
 	return (
 		<img
 			src={isFlag(lang) ? require(`img/flags/${lang}.png`) : defaultFlag}
-			alt={lang}
+			alt={D.langs}
 			className="img-flag"
 		/>
 	);

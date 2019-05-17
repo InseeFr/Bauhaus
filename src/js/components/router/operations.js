@@ -24,10 +24,12 @@ import MSDContainer, {
 	UPDATE,
 	DUPLICATE,
 } from '../operations/msd/';
+import D from 'js/i18n';
 
 class RootComponent extends Component {
 	componentDidMount() {
 		this.props.loadSetup();
+		document.title = 'Bauhaus - ' + D.operationsTitle;
 	}
 	render() {
 		return (

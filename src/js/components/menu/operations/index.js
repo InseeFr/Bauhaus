@@ -118,9 +118,7 @@ class MenuOperations extends Component {
 											{D.indicatorsTitle}
 										</Link>
 									</li>
-								</ul>
-								<ul className="nav navbar-nav navbar-nav-operations navbar-right">
-									<li className={paths.help.className}>
+									<li className={paths.help.className + ' navbar-right'}>
 										<Link
 											to={paths.help.path}
 											onClick={() => this.changeActivePath(paths.help.path)}

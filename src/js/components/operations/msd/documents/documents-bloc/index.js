@@ -146,7 +146,7 @@ export function DocumentsBloc({
 								<input
 									className="form-control"
 									id="documentFilter"
-									placeholder="Searcgh"
+									placeholder={D.search}
 									value={filter}
 									onChange={e => setFilter(e.target.value)}
 								/>
