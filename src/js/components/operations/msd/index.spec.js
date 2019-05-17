@@ -33,7 +33,8 @@ describe('', () => {
 				},
 			},
 		};
-		expect(mapStateToProps(input, props).currentSims).toEqual({});
+		const output = mapStateToProps(input, props);
+		expect(output.currentSims).toEqual({});
 	});
 
 	it('should return a currenSims with a default label for the CREATE MODE', () => {
@@ -65,10 +66,12 @@ describe('', () => {
 				},
 			},
 		};
-		expect(mapStateToProps(input, props).currentSims).toEqual({
+		const output = mapStateToProps(input, props);
+		expect(output.currentSims).toEqual({
 			labelLg1: 'prefLabelLg1 SIMS',
 			labelLg2: 'SIMS de la série prefLabelLg2',
 		});
+		expect(output.parentType).toEqual('series');
 	});
 
 	it('should return a complete currenSims for the VIEW MODE', () => {
@@ -85,6 +88,7 @@ describe('', () => {
 			},
 			operationsSimsCurrent: {
 				id: 1,
+				idOperation: 2,
 			},
 		};
 
@@ -96,9 +100,12 @@ describe('', () => {
 				},
 			},
 		};
-		expect(mapStateToProps(input, props).currentSims).toEqual({
+		const output = mapStateToProps(input, props);
+		expect(output.currentSims).toEqual({
 			id: 1,
+			idOperation: 2,
 		});
+		expect(output.parentType).toEqual('operation');
 	});
 
 	it('should return the langes', () => {
