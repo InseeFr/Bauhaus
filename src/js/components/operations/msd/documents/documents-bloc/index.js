@@ -22,6 +22,7 @@ import spinner from 'img/spinner.svg';
  * @property {(string) => void } addHandler
  * @property {import('js/types').SimsDocuments[]} documentStores
  * @property {String} documentStoresStatus
+ * @property {String} objectType
  */
 
 /**
@@ -38,6 +39,7 @@ export function DocumentsBloc({
 	addHandler,
 	documentStores = [],
 	documentStoresStatus,
+	objectType,
 }) {
 	const [panelStatus, setPanelStatus] = useState(false);
 	const [filter, setFilter] = useState('');
@@ -105,8 +107,11 @@ export function DocumentsBloc({
 			</li>
 		);
 	}
+	const addTitle = objectType === 'documents' ? D.addDocument : D.addLink;
+	const title = objectType === 'documents' ? D.titleDocument : D.titleLink;
 	return (
 		<>
+			<h4>{title}</h4>
 			{documents && documents.length > 0 && (
 				<ul className="documentsbloc list-group">
 					{currentDocuments
@@ -120,7 +125,7 @@ export function DocumentsBloc({
 						<button
 							type="button"
 							className="btn documentsbloc__add documentsbloc__btn"
-							aria-label={D.addDocument}
+							aria-label={addTitle}
 							onClick={() => setPanelStatus(!panelStatus)}
 						>
 							<span
@@ -129,19 +134,19 @@ export function DocumentsBloc({
 								}`}
 								aria-hidden="true"
 							/>
-							{D.addDocument}{' '}
+							{addTitle}{' '}
 							{documentStoresStatus === LOADING ? (
 								<img src={spinner} width="30px" alt="loading" />
 							) : (
-								<span class="badge">{otherDocuments.length}</span>
+								<span className="badge">{otherDocuments.length}</span>
 							)}
 						</button>
 					</div>
 					{panelStatus && (
 						<div className="panel-body">
-							<div class="form-group">
-								<label className="sr-only" for="documentFilter">
-									Email address
+							<div className="form-group">
+								<label className="sr-only" htmlFor="documentFilter">
+									{D.search}
 								</label>
 								<input
 									className="form-control"
@@ -192,6 +197,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => {
+	// TODO we will filter here the documents we should display based on the base URI
 	return {
 		documentStoresStatus: getOperationsDocumentsStatus(state),
 		documentStores: getOperationsDocuments(state),
