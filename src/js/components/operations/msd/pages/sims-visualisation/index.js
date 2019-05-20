@@ -56,7 +56,7 @@ export default function SimsVisualisation({
 								objectType="documents"
 							/>
 							<DocumentsBloc
-								documents={currentSection.links}
+								documents={currentSection.documents}
 								localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
 								objectType="links"
 							/>

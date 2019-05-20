@@ -76,10 +76,6 @@ class Field extends PureComponent {
 	handleAddDocument = document =>
 		this._handleAddDocumentOrLinks('documents')(document);
 
-	handleDeleteLink = uri => this._handleDeleteDocumentOrLinks('links')(uri);
-
-	handleAddLink = link => this._handleAddDocumentOrLinks('links')(link);
-
 	render() {
 		const {
 			msd,
@@ -156,11 +152,11 @@ class Field extends PureComponent {
 										objectType="documents"
 									/>
 									<DocumentsBloc
-										documents={currentSection.links}
+										documents={currentSection.documents}
 										localPrefix={secondLang ? 'Lg2' : 'Lg1'}
 										editMode={true}
-										deleteHandler={this.handleDeleteLink}
-										addHandler={this.handleAddLink}
+										deleteHandler={this.handleDeleteDocument}
+										addHandler={this.handleAddDocument}
 										objectType="links"
 									/>
 								</>
