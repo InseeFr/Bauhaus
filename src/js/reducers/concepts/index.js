@@ -11,7 +11,7 @@ const conceptList = handleReset(
 		A.LOAD_CONCEPT_LIST_SUCCESS,
 		A.LOAD_CONCEPT_LIST_FAILURE,
 	]),
-	[A.CREATE_CONCEPT, A.UPDATE_CONCEPT]
+	[A.CREATE_CONCEPT, A.UPDATE_CONCEPT, A.DELETE_CONCEPT_SUCCESS]
 );
 
 const conceptToValidateList = handleReset(
