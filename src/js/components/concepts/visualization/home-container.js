@@ -73,8 +73,6 @@ class ConceptVisualizationContainer extends Component {
 				deletionRequested: false,
 				showModalError: true,
 			});
-			//we need to load the concept again
-			this.props.loadConcept(id);
 		}
 	}
 	render() {

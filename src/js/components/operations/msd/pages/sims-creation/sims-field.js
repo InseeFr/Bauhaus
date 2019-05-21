@@ -46,29 +46,35 @@ class Field extends PureComponent {
 		this._handleChange({ value });
 	};
 
+	_handleDeleteDocumentOrLinks = type => uri => {
+		const objects = this.props.currentSection[type] || [];
+
+		this._handleChange({
+			[type]: objects.filter(doc => doc.uri !== uri),
+		});
+	};
+
+	_handleAddDocumentOrLinks = type => newObject => {
+		const objects = this.props.currentSection[type] || [];
+
+		this._handleChange({
+			[type]: [...objects, newObject],
+		});
+	};
+
 	/**
 	 * Handler when the user click on a button in order to delete a document
 	 * @param {String} uri The uri of the document that we should remove
 	 */
-	handleDeleteDocument = uri => {
-		const documents = this.props.currentSection.documents || [];
-
-		this._handleChange({
-			documents: documents.filter(doc => doc.uri !== uri),
-		});
-	};
+	handleDeleteDocument = uri =>
+		this._handleDeleteDocumentOrLinks('documents')(uri);
 
 	/**
 	 * Handler when the user add a new document to a rubric
 	 * @param {SimsDocuments} document
 	 */
-	handleAddDocument = document => {
-		const documents = this.props.currentSection.documents || [];
-
-		this._handleChange({
-			documents: [...documents, document],
-		});
-	};
+	handleAddDocument = document =>
+		this._handleAddDocumentOrLinks('documents')(document);
 
 	render() {
 		const {
@@ -143,6 +149,15 @@ class Field extends PureComponent {
 										editMode={true}
 										deleteHandler={this.handleDeleteDocument}
 										addHandler={this.handleAddDocument}
+										objectType="documents"
+									/>
+									<DocumentsBloc
+										documents={currentSection.documents}
+										localPrefix={secondLang ? 'Lg2' : 'Lg1'}
+										editMode={true}
+										deleteHandler={this.handleDeleteDocument}
+										addHandler={this.handleAddDocument}
+										objectType="links"
 									/>
 								</>
 							)}

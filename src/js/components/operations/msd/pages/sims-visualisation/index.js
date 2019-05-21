@@ -53,6 +53,12 @@ export default function SimsVisualisation({
 							<DocumentsBloc
 								documents={currentSection.documents}
 								localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
+								objectType="documents"
+							/>
+							<DocumentsBloc
+								documents={currentSection.documents}
+								localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
+								objectType="links"
 							/>
 						</>
 					)}
