@@ -1,3 +1,5 @@
+<img align="right" src="docs/img/bauhaus-logo.png" alt="Bauhaus logo"/>
+
 # Bauhaus
 
 Web application for the management of concepts, classifications and other statistical objects.
