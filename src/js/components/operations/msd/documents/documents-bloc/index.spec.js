@@ -73,7 +73,7 @@ describe('DocumentsBloc', () => {
 					orderedList[i].url
 				}" title="${orderedList[i].descriptionLg1}">${
 					orderedList[i].labelLg1
-				}</a> <i>(${orderedList[i].aside})</i></span></li>`
+				}</a><i> (${orderedList[i].aside})</i></span></li>`
 			);
 		});
 	});
@@ -93,7 +93,7 @@ describe('DocumentsBloc', () => {
 					orderedList[i].url
 				}" title="${orderedList[i].descriptionLg2}">${
 					orderedList[i].labelLg2
-				}</a> <i>(${orderedList[i].aside})</i></span></li>`
+				}</a><i> (${orderedList[i].aside})</i></span></li>`
 			);
 		});
 	});
