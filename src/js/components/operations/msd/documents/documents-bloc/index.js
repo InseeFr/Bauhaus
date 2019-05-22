@@ -59,18 +59,14 @@ export function DocumentsBloc({
 	);
 	const isSecondLang = localPrefix === 'Lg2';
 
-	function addAsideToTheDocument(document) {
-		let lastRefresh;
-		if (document.lastRefresh) {
-			lastRefresh = new Intl.DateTimeFormat(getLang()).format(
-				new Date(document.lastRefresh)
+	function getAsideToTheDocument(document) {
+		let updatedDate;
+		if (document.updatedDate) {
+			updatedDate = new Intl.DateTimeFormat(getLang()).format(
+				new Date(document.updatedDate)
 			);
 		}
-		const aside = [document.lang, lastRefresh].filter(val => !!val).join('-');
-		return {
-			...document,
-			aside,
-		};
+		return [document.lang, updatedDate].filter(val => !!val).join('-');
 	}
 
 	const defaultBtnBlocFunction = document => (
@@ -101,7 +97,7 @@ export function DocumentsBloc({
 					>
 						{label}
 					</a>
-					<i>({document.aside})</i>
+					<i> ({getAsideToTheDocument(document)})</i>
 				</span>
 				{editMode && !isSecondLang && btnBlocFunction(document)}
 			</li>
@@ -114,9 +110,7 @@ export function DocumentsBloc({
 			<h4>{title}</h4>
 			{documents && documents.length > 0 && (
 				<ul className="documentsbloc list-group">
-					{currentDocuments
-						.map(addAsideToTheDocument)
-						.map(document => displayHTMLForDocument(document))}
+					{currentDocuments.map(document => displayHTMLForDocument(document))}
 				</ul>
 			)}
 			{editMode && !isSecondLang && (
@@ -157,7 +151,7 @@ export function DocumentsBloc({
 								/>
 							</div>
 							<ul className="documentsbloc__filepicker">
-								{otherDocuments.map(addAsideToTheDocument).map(document => {
+								{otherDocuments.map(document => {
 									return displayHTMLForDocument(document, document => (
 										<button
 											type="button"

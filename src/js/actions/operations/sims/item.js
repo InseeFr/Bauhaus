@@ -108,7 +108,7 @@ export default id => (dispatch, getState) => {
 									...acc,
 									[rubric.idAttribute]: {
 										...rubric,
-										idMas: rubric.idAttribute
+										idMas: rubric.idAttribute,
 									},
 								};
 							}, {}),

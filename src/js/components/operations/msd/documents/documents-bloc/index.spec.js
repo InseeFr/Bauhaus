@@ -10,7 +10,7 @@ const documents = [
 	{
 		uri: 'uri1-bis',
 		url: 'http://google.fr?q=url-1',
-		lastRefresh: '2019-03-04T10:00:00.000Z',
+		updatedDate: '2019-03-04T10:00:00.000Z',
 		labelLg1: 'B labelLg1-0',
 		labelLg2: 'B labelLg2-0',
 		lang: 'fr',
@@ -23,7 +23,7 @@ const documents = [
 	{
 		uri: 'uri2-bis',
 		url: 'http://google.fr?q=url-2',
-		lastRefresh: '2019-04-04T10:00:00.000Z',
+		updatedDate: '2019-04-04T10:00:00.000Z',
 		labelLg1: 'A labelLg1-1',
 		labelLg2: 'A labelLg2-1',
 		descriptionLg1: 'descriptionLg1-2',
