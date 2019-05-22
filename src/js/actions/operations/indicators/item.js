@@ -14,7 +14,7 @@ export const saveIndicator = (indicator, callback) => dispatch => {
 				type: A.SAVE_OPERATIONS_INDICATOR_SUCCESS,
 				payload: {
 					id: results,
-					label: indicator.prefLabelLg1,
+					prefLabelLg1: indicator.prefLabelLg1,
 					altLabel: indicator.altLabelLg1,
 				},
 			});
