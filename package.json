@@ -21,7 +21,7 @@
 		"start-https": "cross-env NODE_PATH=src/ HTTPS=true REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
 		"start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
 		"test": "cross-env NODE_PATH=src/ react-scripts test",
-		"test:coverage": "cross-env NODE_PATH=src/ react-scripts test --coverage -i --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js"
+		"test:coverage": "cross-env CI=true NODE_PATH=src/ react-scripts test --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js"
 	},
 	"husky": {
 		"hooks": {
