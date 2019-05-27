@@ -1,71 +1,106 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import MenuReferentiels from '../referentiels';
+import { connect } from 'react-redux';
+
 import D from 'js/i18n';
 import './operations.scss';
+import { compose } from 'recompose';
+import { getOperationsSimsCurrent } from 'js/reducers';
 
 class MenuOperations extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			menuRef: false,
-			activePath: props.location.pathname,
-		};
-		this.onChangeMenu = () => {
-			this.setState({
-				menuRef: !this.state.menuRef,
-			});
-		};
-		this.changeActivePath = activePath => {
-			this.setState({
-				activePath,
-				menuRef: false,
-			});
+			paths: {
+				families: {
+					path: '/operations/families',
+					pathKey: 'operations/famil',
+					className: null,
+				},
+				series: {
+					path: '/operations/series',
+					pathKey: 'operations/series',
+					className: null,
+				},
+				indicators: {
+					path: '/operations/indicators',
+					pathKey: 'operations/indicator',
+					className: null,
+				},
+				help: {
+					path: '/operations/help',
+					pathKey: 'help',
+					className: null,
+				},
+				operations: {
+					path: '/operations',
+					pathKey: 'operation',
+					className: 'active',
+				},
+			},
 		};
 	}
+
+	onChangeMenu = () => {
+		this.setState({
+			menuRef: !this.state.menuRef,
+		});
+	};
+
+	changeActivePath = activePath => {
+		this.setState({
+			activePath,
+			menuRef: false,
+		});
+	};
 
 	componentWillReceiveProps(nextProps) {
 		if (this.props !== nextProps) {
 			this.changeActivePath(nextProps.location.pathname);
+
+			const paths = Object.keys(this.state.paths).reduce((acc, key) => {
+				return {
+					...acc,
+					[key]: {
+						...this.state.paths[key],
+						className: '',
+					},
+				};
+			}, {});
+			console.log(nextProps);
+			if (nextProps.location.pathname.includes('sims')) {
+				if (
+					nextProps.sims.idSeries ||
+					this.props.location.pathname.includes(paths.series.pathKey)
+				) {
+					paths['series']['className'] = 'active';
+				} else if (
+					nextProps.sims.idIndicator ||
+					this.props.location.pathname.includes(paths.indicators.pathKey)
+				) {
+					paths['indicators']['className'] = 'active';
+				} else if (
+					nextProps.sims.idOperation ||
+					this.props.location.pathname.includes(paths.operations.pathKey)
+				) {
+					paths['operations']['className'] = 'active';
+				}
+			} else {
+				for (let key in paths) {
+					if (nextProps.location.pathname.includes(paths[key]['pathKey'])) {
+						paths[key]['className'] = 'active';
+						break;
+					}
+				}
+			}
+			this.setState({ paths });
 		}
 	}
 
 	render() {
-		const { menuRef, activePath } = this.state;
-		var paths = {
-			families: {
-				path: '/operations/families',
-				pathKey: 'operations/famil',
-				className: null,
-			},
-			series: {
-				path: '/operations/series',
-				pathKey: 'operations/series',
-				className: null,
-			},
-			indicators: {
-				path: '/operations/indicators',
-				pathKey: 'operations/indicator',
-				className: null,
-			},
-			help: {
-				path: '/operations/help',
-				pathKey: 'help',
-				className: null,
-			},
-			operations: {
-				path: '/operations',
-				pathKey: 'operation',
-				className: null,
-			},
-		};
-
-		for (var key in paths) {
-			if (this.props.location.pathname.includes(paths[key]['pathKey'])) {
-				paths[key]['className'] = 'active';
-				break;
-			}
-		}
+		const { menuRef, activePath, paths } = this.state;
 
 		if (activePath === '/') return null;
 
@@ -137,4 +172,9 @@ class MenuOperations extends Component {
 	}
 }
 
-export default withRouter(MenuOperations);
+export default compose(
+	withRouter,
+	connect(state => {
+		return { sims: getOperationsSimsCurrent(state) };
+	})
+)(MenuOperations);
