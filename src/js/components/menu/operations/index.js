@@ -8,6 +8,8 @@ import './operations.scss';
 import { compose } from 'recompose';
 import { getOperationsSimsCurrent } from 'js/reducers';
 
+const ACTIVE = 'active';
+
 class MenuOperations extends Component {
 	constructor(props) {
 		super(props);
@@ -69,28 +71,33 @@ class MenuOperations extends Component {
 					},
 				};
 			}, {});
-			console.log(nextProps);
+
+			/**
+			 * If we are on the SIMS page, we have to check on which parent element we are working on.
+			 * Two possibilities, during the update phase, we check the presence of the idOperation, idSeries or idIndicator properties of the current SIMS
+			 * During the creation phase, we are checking the previous page.
+			 */
 			if (nextProps.location.pathname.includes('sims')) {
 				if (
 					nextProps.sims.idSeries ||
 					this.props.location.pathname.includes(paths.series.pathKey)
 				) {
-					paths['series']['className'] = 'active';
+					paths['series']['className'] = ACTIVE;
 				} else if (
 					nextProps.sims.idIndicator ||
 					this.props.location.pathname.includes(paths.indicators.pathKey)
 				) {
-					paths['indicators']['className'] = 'active';
+					paths['indicators']['className'] = ACTIVE;
 				} else if (
 					nextProps.sims.idOperation ||
 					this.props.location.pathname.includes(paths.operations.pathKey)
 				) {
-					paths['operations']['className'] = 'active';
+					paths['operations']['className'] = ACTIVE;
 				}
 			} else {
 				for (let key in paths) {
 					if (nextProps.location.pathname.includes(paths[key]['pathKey'])) {
-						paths[key]['className'] = 'active';
+						paths[key]['className'] = ACTIVE;
 						break;
 					}
 				}
