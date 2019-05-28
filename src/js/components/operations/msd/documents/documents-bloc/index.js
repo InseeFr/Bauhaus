@@ -1,17 +1,16 @@
-import React, { useState, Component } from 'react';
-import { connect } from 'react-redux';
-import { sortArray } from 'js/utils/array-utils';
-import D from 'js/i18n';
-import loadDocuments from 'js/actions/operations/documents/list';
-import './style.scss';
-import { getLang } from 'js/i18n/build-dictionary';
-import { NOT_LOADED, LOADING } from 'js/constants';
-import {
-	getOperationsDocumentsStatus,
-	getOperationsDocuments,
-} from 'js/reducers/operations/selector';
-
 import spinner from 'img/spinner.svg';
+import loadDocuments from 'js/actions/operations/documents/list';
+import { LOADING, NOT_LOADED } from 'js/constants';
+import D from 'js/i18n';
+import { getLang } from 'js/i18n/build-dictionary';
+import {
+	getOperationsDocuments,
+	getOperationsDocumentsStatus,
+} from 'js/reducers/operations/selector';
+import { sortArray } from 'js/utils/array-utils';
+import React, { Component, useState } from 'react';
+import { connect } from 'react-redux';
+import './style.scss';
 
 /**
  * @typedef {Object} DocumentsBlocProps
@@ -69,6 +68,9 @@ export function DocumentsBloc({
 		return [document.lang, updatedDate].filter(val => !!val).join('-');
 	}
 
+	/**
+	 * @param {import('js/types').SimsDocuments} document
+	 */
 	const defaultBtnBlocFunction = document => (
 		<button
 			type="button"
@@ -80,6 +82,9 @@ export function DocumentsBloc({
 		</button>
 	);
 
+	/**
+	 * @param {import('js/types').SimsDocuments} document
+	 */
 	function displayHTMLForDocument(
 		document,
 		btnBlocFunction = defaultBtnBlocFunction
@@ -190,8 +195,10 @@ const mapDispatchToProps = {
 	loadDocuments,
 };
 
+/**
+ * @param {DocumentsBlocProps} ownProps
+ */
 const mapStateToProps = (state, ownProps) => {
-	// TODO we will filter here the documents we should display based on the base URI
 	return {
 		documentStoresStatus: getOperationsDocumentsStatus(state),
 		documentStores: getOperationsDocuments(state, ownProps.objectType),
