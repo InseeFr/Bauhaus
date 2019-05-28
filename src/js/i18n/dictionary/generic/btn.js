@@ -68,8 +68,8 @@ export default {
 		en: 'Send',
 	},
 	btnValid: {
-		fr: 'Valider',
-		en: 'Validate',
+		fr: 'Publier',
+		en: 'Publish',
 	},
 	btnReinitialize: {
 		fr: 'Réinitialiser',

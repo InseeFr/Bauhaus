@@ -34,7 +34,7 @@ export const content = [
 							et renseigné dans l’application, charge à lui éventuellement
 							d’organiser la consultation avec d’autres utilisateurs. Dans
 							l’application le propriétaire ou par délégation l’unité Qualité
-							sont habilités à valider un concept.
+							sont habilités à publier un concept.
 						</i>
 					</p>
 					<p>
@@ -49,7 +49,7 @@ export const content = [
 							utilisateurs dans différentes collections. Le propriétaire d’une
 							collection peut la modifier à tout moment. Dans l’application le
 							propriétaire ou par délégation l’unité Qualité sont habilités à
-							valider une collection.
+							publier une collection.
 						</i>
 					</p>
 					<p>
@@ -67,10 +67,10 @@ export const content = [
 						</li>
 						<li>
 							<b>Propriétaire de collection de concepts</b> : consulter,
-							modifier, valider et exporter une collection de concepts ;
+							modifier, publier et exporter une collection de concepts ;
 						</li>
 						<li>
-							<b>Propriétaire de concepts</b> : consulter, valider et exporter
+							<b>Propriétaire de concepts</b> : consulter, publier et exporter
 							un concept ;
 						</li>
 						<li>
@@ -277,7 +277,7 @@ export const content = [
 											<li>
 												Le <b>« Propriétaire »</b> du concept est le timbre de
 												l’unité responsable de la description du concept :le
-												chef de l’unité a la responsabilité de valider les
+												chef de l’unité a la responsabilité de publier les
 												définitions et leur modifications.{' '}
 												<b>
 													Le timbre du « propriétaire » est obligatoire pour
@@ -485,9 +485,9 @@ export const content = [
 						bouton <span className="content-back-color">Envoyer</span>
 					</p>
 					<p>
-						Pour valider, cliquer en haut à gauche de l’écran de description du
+						Pour publier, cliquer en haut à gauche de l’écran de description du
 						concept sur le bouton{' '}
-						<span className="content-back-color">Valider</span>
+						<span className="content-back-color">Publier</span>
 					</p>
 				</React.Fragment>
 			),
@@ -530,23 +530,23 @@ export const content = [
 	{
 		id: 5,
 		title: {
-			fr: 'Valider un concept',
-			en: 'Valid a concept',
+			fr: 'Publier un concept',
+			en: 'Publish a concept',
 		},
 		body: {
 			fr: (
 				<React.Fragment>
 					<p>
-						Pour valider un concept, se positionner sur l’écran de description
-						du concept à valider et cliquer en haut à droite sur{' '}
-						<span className="content-back-color">Valider</span> après avoir
+						Pour publier un concept, se positionner sur l’écran de description
+						du concept à publier et cliquer en haut à droite sur{' '}
+						<span className="content-back-color">Publier</span> après avoir
 						vérifié les informations saisies.
 					</p>
 					<p>
-						Pour rechercher les concepts à valider, utiliser la recherche
+						Pour rechercher les concepts à publier, utiliser la recherche
 						avancée en sélectionnant{' '}
 						<b>le statut de validation « Provisoire »</b> et éventuellement{' '}
-						<b>le timbre</b>. La liste des concepts à valider s'affiche. Le
+						<b>le timbre</b>. La liste des concepts à publier s'affiche. Le
 						concept ne peut être validé que par son propriétaire (i.e la
 						personne désignée dans l’application comme ayant ce rôle pour un
 						timbre donné) et par l’unité Qualité par délégation.{' '}
@@ -603,8 +603,8 @@ export const content = [
 						applications clientes, et notamment publiée sur insee.fr.
 					</p>
 					<p>
-						Pour valider, cliquer en haut à droite sur le bouton{' '}
-						<span className="content-back-color">Valider</span>
+						Pour publier, cliquer en haut à droite sur le bouton{' '}
+						<span className="content-back-color">Publier</span>
 					</p>
 					<p>
 						La modification des propriétés Définition courte, Définition et note
@@ -890,16 +890,16 @@ export const content = [
 	{
 		id: 13,
 		title: {
-			fr: 'Valider une collection de concepts',
-			en: 'Valid a collection of concepts',
+			fr: 'Publier une collection de concepts',
+			en: 'Publish a collection of concepts',
 		},
 		body: {
 			fr: (
 				<React.Fragment>
 					<p>
-						Pour valider une collection de concepts, se positionner sur l’écran
-						de description de la collection à valider et cliquer en haut à
-						droite sur <span className="content-back-color">Valider</span> après
+						Pour publier une collection de concepts, se positionner sur l’écran
+						de description de la collection à publier et cliquer en haut à
+						droite sur <span className="content-back-color">Publier</span> après
 						avoir vérifié les informations saisies.
 					</p>
 				</React.Fragment>

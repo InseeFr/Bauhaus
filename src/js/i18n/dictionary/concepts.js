@@ -72,12 +72,12 @@ const dictionary = {
 		en: 'Validation of the provisional concepts',
 	},
 	conceptsToValidPanelTitle: {
-		fr: 'Concepts à valider',
-		en: 'Concepts to validate',
+		fr: 'Concepts à publier',
+		en: 'Concepts to publish',
 	},
 	hasNotConceptToValid: {
-		fr: 'Ajouter au moins un concept à valider',
-		en: 'Add at least one concept to validate',
+		fr: 'Ajouter au moins un concept à publier',
+		en: 'Add at least one concept to publish',
 	},
 	collectionMembersPanelTitle: {
 		fr: 'Concepts membres de la collection',
@@ -92,12 +92,12 @@ const dictionary = {
 		en: 'Validation of the provisional collections',
 	},
 	collectionsToValidPanelTitle: {
-		fr: 'Collections à valider',
-		en: 'Collections to validate',
+		fr: 'Collections à publier',
+		en: 'Collections to publish',
 	},
 	hasNotCollectionToValid: {
-		fr: 'Ajouter au moins une collection à valider',
-		en: 'Add at least one collection to validate',
+		fr: 'Ajouter au moins une collection à publier',
+		en: 'Add at least one collection to publish',
 	},
 	collectionStandBy: {
 		fr: 'La collection est en cours de la validation par',
