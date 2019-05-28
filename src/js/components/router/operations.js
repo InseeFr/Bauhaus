@@ -6,6 +6,7 @@ import OperationsFamiliesContainer from 'js/components/operations/families/';
 import OperationsSeriesContainer from 'js/components/operations/series/';
 import OperationsContainer from 'js/components/operations/operations/';
 import OperationsIndicatorsContainer from 'js/components/operations/indicators/';
+import OperationsDocumentsContainer from 'js/components/operations/document/';
 
 import OperationsFamilyVisualizationContainer from 'js/components/operations/families/visualization/';
 import OperationsSeriesVisualizationContainer from 'js/components/operations/series/visualization/';
@@ -45,6 +46,11 @@ class RootComponent extends Component {
 					component={OperationsSeriesContainer}
 				/>
 				<Route exact path="/operations" component={OperationsContainer} />
+				<Route
+					exact
+					path="/operations/documents"
+					component={OperationsDocumentsContainer}
+				/>
 				<Route
 					exact
 					path="/operations/family/create"

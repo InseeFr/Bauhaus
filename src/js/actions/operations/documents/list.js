@@ -2,7 +2,7 @@ import api from 'js/remote-api/api';
 import * as A from 'js/actions/constants';
 import { sortArray } from 'js/utils/array-utils';
 
-const sortByLabel = sortArray('label');
+const sortByLabel = sortArray('labelLg1');
 
 export default () => dispatch => {
 	dispatch({
@@ -19,7 +19,7 @@ export default () => dispatch => {
 			dispatch({
 				type: A.LOAD_OPERATIONS_DOCUMENTS_FAILURE,
 				payload: { err },
-			})
+			});
 		}
 	);
 };

@@ -8,8 +8,11 @@ export const getOperationsCodesList = state => {
 	return operationsCodesList.results || [];
 };
 
-export const getOperationsDocuments = state => {
-	return state.operationsDocuments.results || [];
+export const getOperationsDocuments = (state, group = 'full') => {
+	if (!state.operationsDocuments.results) {
+		return [];
+	}
+	return state.operationsDocuments.results[group] || [];
 };
 
 export const getOperationsDocumentsStatus = state => {

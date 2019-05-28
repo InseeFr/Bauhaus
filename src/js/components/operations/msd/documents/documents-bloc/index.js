@@ -107,7 +107,7 @@ export function DocumentsBloc({
 	const title = objectType === 'documents' ? D.titleDocument : D.titleLink;
 	return (
 		<>
-			<h4>{title}</h4>
+			{(documents.length > 0 || editMode) && <h4>{title}</h4>}
 			{documents && documents.length > 0 && (
 				<ul className="documentsbloc list-group">
 					{currentDocuments.map(document => displayHTMLForDocument(document))}
@@ -190,11 +190,11 @@ const mapDispatchToProps = {
 	loadDocuments,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
 	// TODO we will filter here the documents we should display based on the base URI
 	return {
 		documentStoresStatus: getOperationsDocumentsStatus(state),
-		documentStores: getOperationsDocuments(state),
+		documentStores: getOperationsDocuments(state, ownProps.objectType),
 	};
 };
 

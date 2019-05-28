@@ -7,7 +7,7 @@ import InputRmes from 'js/components/shared/input-rmes';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { Note } from 'js/components/shared/note/note';
-
+import { isLink, isDocument } from 'js/components/operations/document/utils';
 import './sims-field.scss';
 import DocumentsBloc from '../../documents/documents-bloc';
 
@@ -144,7 +144,9 @@ class Field extends PureComponent {
 										handleChange={this.handleTextInput}
 									/>
 									<DocumentsBloc
-										documents={currentSection.documents}
+										documents={(currentSection.documents || []).filter(
+											isDocument
+										)}
 										localPrefix={secondLang ? 'Lg2' : 'Lg1'}
 										editMode={true}
 										deleteHandler={this.handleDeleteDocument}
@@ -152,7 +154,7 @@ class Field extends PureComponent {
 										objectType="documents"
 									/>
 									<DocumentsBloc
-										documents={currentSection.documents}
+										documents={(currentSection.documents || []).filter(isLink)}
 										localPrefix={secondLang ? 'Lg2' : 'Lg1'}
 										editMode={true}
 										deleteHandler={this.handleDeleteDocument}

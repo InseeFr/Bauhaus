@@ -41,7 +41,7 @@ class MenuOperations extends Component {
 					attrs: null,
 				},
 				document: {
-					path: '/operations/document',
+					path: '/operations/documents',
 					pathKey: 'document',
 					className: null,
 					attrs: null,

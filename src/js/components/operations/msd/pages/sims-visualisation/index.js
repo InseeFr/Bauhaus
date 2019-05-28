@@ -13,6 +13,7 @@ import {
 	shouldDisplayDuplicateButton,
 	getParentUri,
 } from 'js/components/operations/msd/utils';
+import { isLink, isDocument } from 'js/components/operations/document/utils';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
@@ -51,12 +52,12 @@ export default function SimsVisualisation({
 								}}
 							/>
 							<DocumentsBloc
-								documents={currentSection.documents}
+								documents={currentSection.documents.filter(isDocument)}
 								localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
 								objectType="documents"
 							/>
 							<DocumentsBloc
-								documents={currentSection.documents}
+								documents={currentSection.documents.filter(isLink)}
 								localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
 								objectType="links"
 							/>
