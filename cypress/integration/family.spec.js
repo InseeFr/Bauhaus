@@ -30,14 +30,16 @@ describe('Family page', () => {
 
 	it('Should go the Family view page', () => {
 		familiesPage.go();
-		cy.get('.list-group :nth-child(3) a')
+		familiesPage
+			.getNthElementFromList(3)
 			.first()
 			.click();
 		cy.url().should('include', '/operations/family/');
 		familyEditPage.goBack();
 		cy.url().should('match', /\/operations\/families$/);
 
-		cy.get('.list-group > :nth-child(3) a')
+		familiesPage
+			.getNthElementFromList(3)
 			.first()
 			.click();
 		cy.url().should('include', '/operations/family/');
