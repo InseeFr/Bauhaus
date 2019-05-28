@@ -30,14 +30,14 @@ function App() {
 						<img src={classificationsLogo} alt="Classifications" />
 					</Link>
 				</li>
-				<li>
+				{/* <li>
 					<Link to="/operations/series">
 						<h2 className="items page-title page-title-link">
 							{D.operationsTitle}
 						</h2>
 						<img src={operationsLogo} alt="Operations" />
 					</Link>
-				</li>
+				</li> */}
 			</ul>
 		</React.Fragment>
 	);
