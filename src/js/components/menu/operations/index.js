@@ -40,6 +40,12 @@ class MenuOperations extends Component {
 					className: null,
 					attrs: null,
 				},
+				document: {
+					path: '/operations/document',
+					pathKey: 'document',
+					className: null,
+					attrs: null,
+				},
 				operations: {
 					path: '/operations',
 					pathKey: 'operation',
@@ -188,6 +194,7 @@ class MenuOperations extends Component {
 											{D.indicatorsTitle}
 										</Link>
 									</li>
+
 									<li
 										className={paths.help.className + ' navbar-right'}
 										{...paths.help.attrs}
@@ -197,6 +204,18 @@ class MenuOperations extends Component {
 											onClick={() => this.changeActivePath(paths.help.path)}
 										>
 											{D.help}
+										</Link>
+									</li>
+
+									<li
+										className={paths.document.className + ' navbar-right'}
+										{...paths.help.attrs}
+									>
+										<Link
+											to={paths.document.path}
+											onClick={() => this.changeActivePath(paths.document.path)}
+										>
+											{D.titleDocument} / {D.titleLink}
 										</Link>
 									</li>
 								</ul>
