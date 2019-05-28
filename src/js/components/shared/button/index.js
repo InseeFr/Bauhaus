@@ -45,6 +45,7 @@ Button.propTypes = {
 	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
 	col: PropTypes.number,
 	offset: PropTypes.number,
+	disabled: PropTypes.bool,
 };
 
 export default Button;
