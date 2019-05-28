@@ -89,6 +89,7 @@
 		"cross-env": "5.0.1",
 		"cypress": "3.2.0",
 		"cypress-axe": "0.4.1",
+		"cypress-skip-and-only-ui": "^1.1.0",
 		"enzyme": "3.9.0",
 		"enzyme-adapter-react-16": "1.9.1",
 		"eslint-config-prettier": "4.0.0",
