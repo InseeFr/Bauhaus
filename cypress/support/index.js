@@ -20,3 +20,4 @@ import './commands';
 // require('./commands')
 
 import 'cypress-axe';
+require('cypress-skip-and-only-ui/support');

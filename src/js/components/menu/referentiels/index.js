@@ -42,7 +42,7 @@ function MenuReferentiels() {
 									</Link>
 								</li>
 
-								<li>
+								{/* <li>
 									<Link to="/operations/series">
 										<img
 											src={operationsLogo}
@@ -51,7 +51,7 @@ function MenuReferentiels() {
 										/>{' '}
 										{D.operationsTitle}
 									</Link>
-								</li>
+								</li> */}
 							</ul>
 						</div>
 					</div>

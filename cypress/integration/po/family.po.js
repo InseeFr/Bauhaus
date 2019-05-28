@@ -11,6 +11,9 @@ export class FamiliesPage {
 	getFamiliesList() {
 		return cy.get('.list-group-item');
 	}
+	getNthElementFromList(nth) {
+		return cy.get(`.list-group :nth-child(${nth}) a`);
+	}
 	getPaginationBlock() {
 		return cy.get('.page-item');
 	}

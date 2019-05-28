@@ -60,7 +60,7 @@ function makeReducers([
 
 /**
  * @typedef {Object} ActionType
- * @property {string} types
+ * @property {string} type
  * @property {Object} payload
  */
 
@@ -73,7 +73,7 @@ function makeReducers([
  * @returns {Boolean}
  */
 const operationsAsyncTask = function(state = false, action) {
-	switch (action.types) {
+	switch (action.type) {
 		case A.SAVE_OPERATIONS_INDICATOR:
 		case A.SAVE_OPERATIONS_SERIE:
 		case A.SAVE_OPERATIONS_FAMILY:

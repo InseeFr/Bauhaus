@@ -3,7 +3,7 @@ describe('Help Page', function() {
 		cy.server().visit(`/operations/help`);
 
 		//Should see both blocks
-		cy.get(`.navbar-right li:nth-child(1)`).should('have.class', 'active');
+		cy.get(`li:nth-child(6)`).should('have.class', 'active');
 		cy.get('.msd__outline').should('be.visible');
 		cy.get('.msd__content').should('be.visible');
 

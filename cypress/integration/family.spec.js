@@ -30,15 +30,21 @@ describe('Family page', () => {
 
 	it('Should go the Family view page', () => {
 		familiesPage.go();
-		familiesPage.selectFamily();
+		familiesPage
+			.getNthElementFromList(3)
+			.first()
+			.click();
 		cy.url().should('include', '/operations/family/');
 		familyEditPage.goBack();
 		cy.url().should('match', /\/operations\/families$/);
 
-		familiesPage.selectFamily();
+		familiesPage
+			.getNthElementFromList(3)
+			.first()
+			.click();
 		cy.url().should('include', '/operations/family/');
 		cy.get('.panel-body > ul > :nth-child(1) > a').click();
-		cy.url().should('include', '/operations/series/s1284');
+		cy.url().should('include', '/operations/series/s1485');
 		cy.get('.btn-line button')
 			.first()
 			.click();

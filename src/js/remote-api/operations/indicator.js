@@ -9,7 +9,7 @@ export default {
 			},
 			body: JSON.stringify(indicator),
 		},
-		() => {},
+		() => indicator.id,
 	],
 	postIndicator: indicator => [
 		`indicator`,

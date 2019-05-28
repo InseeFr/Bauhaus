@@ -29,6 +29,10 @@ const dictionary = {
 		fr: 'Familles - Recherche',
 		en: 'Families - Search',
 	},
+	documentsSearchTitle: {
+		fr: 'Documents/Liens - Recherche',
+		en: 'Documents/Links - Search',
+	},
 	seriesSearchTitle: {
 		fr: 'Séries - Recherche',
 		en: 'Series - Search',

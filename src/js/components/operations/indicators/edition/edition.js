@@ -83,12 +83,9 @@ class OperationsIndicatorEdition extends Component {
 	};
 
 	onSubmit = () => {
-		this.props.saveIndicator(
-			this.state.indicator,
-			(id = this.state.indicator.id) => {
-				this.props.history.push(`/operations/indicator/${id}`);
-			}
-		);
+		this.props.saveIndicator(this.state.indicator, id => {
+			this.props.history.push(`/operations/indicator/${id}`);
+		});
 	};
 
 	render() {

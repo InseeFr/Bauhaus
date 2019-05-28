@@ -54,7 +54,7 @@ describe('Indicators actions', () => {
 			});
 			expect(dispatch).toHaveBeenLastCalledWith({
 				type: A.SAVE_OPERATIONS_INDICATOR_SUCCESS,
-				payload: { altLabel: 'aaa', id: '', label: 'aaa' },
+				payload: { altLabel: 'aaa', id: '', prefLabelLg1: 'aaa' },
 			});
 		});
 	});
