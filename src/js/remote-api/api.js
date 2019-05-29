@@ -11,7 +11,7 @@ const api = {
 		res => res,
 	],
 	getDocumentsList: () => ['documents'],
-
+	getDocument: id => [`documents/${id}`],
 	getDissStatusList: () => ['disseminationStatus'],
 	getStampList: () => ['stamps'],
 	getRoleList: () => ['roles'],
