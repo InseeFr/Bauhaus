@@ -30,7 +30,7 @@ export const content = [
 							concept, mais afin de garantir l’intégrité et la qualité de la
 							base, la création et la modification des concepts, ainsi que
 							l’identification du propriétaire sont réservés à l’unité Qualité.
-							La validation est de la responsabilité du propriétaire identifié
+							La publication est de la responsabilité du propriétaire identifié
 							et renseigné dans l’application, charge à lui éventuellement
 							d’organiser la consultation avec d’autres utilisateurs. Dans
 							l’application le propriétaire ou par délégation l’unité Qualité
@@ -188,12 +188,12 @@ export const content = [
 							</ul>
 						</li>
 						<li>
-							<u>Sélectionner le statut de validation</u> : choisir parmi :
+							<u>Sélectionner le statut de publication</u> : choisir parmi :
 							<ul>
-								<li>Validé (par le propriétaire)</li>
+								<li>Publié (par le propriétaire)</li>
 								<li>
 									Provisoire (en cours de modification ou en attente de
-									validation)
+									publication)
 								</li>
 							</ul>
 						</li>
@@ -383,7 +383,7 @@ export const content = [
 											Plusieurs types de lien permettent de renvoyer d’un
 											concept vers un autre. Ces liens sont porteurs de sens et
 											fournir une information complémentaire à la définition.
-											Ils doivent être validés avec la définition.
+											Ils doivent être publiés avec la définition.
 										</p>
 										<p>
 											Pour poser un lien choisir l’onglet correspondant au lien
@@ -471,13 +471,13 @@ export const content = [
 					</p>
 					<p>
 						La sauvegarde n’entraîne pas la publication du concept. Il doit au
-						préalable avoir été validé par son propriétaire ou par délégation
+						préalable avoir été publié par son propriétaire ou par délégation
 						(après échanges de mails) par l’unité Qualité . Il est donc possible
 						de créer le concept en plusieurs étapes si c’est nécessaire.
 					</p>
 					<p>
-						Le statut de validation du concept est alors{' '}
-						<b>« provisoire », jusqu’à sa validation</b>.
+						Le statut de publication du concept est alors{' '}
+						<b>« provisoire », jusqu’à sa publication</b>.
 					</p>
 					<p>
 						Pour envoyer la description du concept par mail à un interlocuteur
@@ -545,9 +545,9 @@ export const content = [
 					<p>
 						Pour rechercher les concepts à publier, utiliser la recherche
 						avancée en sélectionnant{' '}
-						<b>le statut de validation « Provisoire »</b> et éventuellement{' '}
+						<b>le statut de publication « Provisoire »</b> et éventuellement{' '}
 						<b>le timbre</b>. La liste des concepts à publier s'affiche. Le
-						concept ne peut être validé que par son propriétaire (i.e la
+						concept ne peut être publié que par son propriétaire (i.e la
 						personne désignée dans l’application comme ayant ce rôle pour un
 						timbre donné) et par l’unité Qualité par délégation.{' '}
 					</p>
@@ -597,9 +597,9 @@ export const content = [
 						générique » ou « Public spécifique ».
 					</p>
 					<p>
-						Une fois le concept modifié, son statut de validation devient
-						<b>« provisoire », jusqu’à sa validation</b>. Tant qu’il n’est pas
-						validé, c’est l’ancienne version qui est mise à disposition des
+						Une fois le concept modifié, son statut de publication devient
+						<b>« provisoire », jusqu’à sa publication</b>. Tant qu’il n’est pas
+						publié, c’est l’ancienne version qui est mise à disposition des
 						applications clientes, et notamment publiée sur insee.fr.
 					</p>
 					<p>
@@ -659,8 +659,8 @@ export const content = [
 					</p>
 					<p>
 						NB : le processus de versionnement ne s’active que lorsque l’on veut
-						modifier un concept validé. Si le concept est en attente de
-						validation (c’est-à-dire si son statut de validation est provisoire)
+						modifier un concept publié. Si le concept est en attente de
+						publication (c’est-à-dire si son statut de publication est provisoire)
 						les modifications successives ne donnent pas lieu à versionnement.
 						Les nouvelles définitions et notes écrasent les anciennes.
 					</p>
@@ -838,7 +838,7 @@ export const content = [
 					</p>
 					<p>
 						La sauvegarde n’entraîne pas la publication de la collection. La
-						collection doit au préalable avoir été validé par son propriétaire
+						collection doit au préalable avoir été publié par son propriétaire
 						ou par délégation (après échanges de mails) par l’unité Qualité . Il
 						est donc possible de créer la collection en plusieurs étapes si
 						c’est nécessaire : par exemple compléter la liste des concepts à
@@ -846,7 +846,7 @@ export const content = [
 					</p>
 					<p>
 						Le statut de la collection est alors{' '}
-						<b>« provisoire », jusqu’à sa validation</b>.
+						<b>« provisoire », jusqu’à sa publication</b>.
 					</p>
 				</React.Fragment>
 			),
@@ -932,9 +932,9 @@ export const content = [
 						saisie avant de changer d’écran.
 					</p>
 					<p>
-						Une fois la collection modifiée, son statut de validation devient
-						<b>« provisoire » jusqu’à sa validation</b>. Tant qu’il n’est pas
-						validé, c’est l’ancienne version qui est mise à disposition des
+						Une fois la collection modifiée, son statut de publication devient
+						<b>« provisoire » jusqu’à sa publication</b>. Tant qu’il n’est pas
+						publié, c’est l’ancienne version qui est mise à disposition des
 						éventuelles applications clientes.
 					</p>
 				</React.Fragment>

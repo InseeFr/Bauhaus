@@ -68,8 +68,8 @@ const dictionary = {
 		en: 'Add at least one collection to export',
 	},
 	conceptsToValidTitle: {
-		fr: 'Validation des concepts provisoires',
-		en: 'Validation of the provisional concepts',
+		fr: 'Publication des concepts provisoires',
+		en: 'Publishing of the provisional concepts',
 	},
 	conceptsToValidPanelTitle: {
 		fr: 'Concepts à publier',
@@ -84,12 +84,12 @@ const dictionary = {
 		en: 'Collection concept members',
 	},
 	conceptStandBy: {
-		fr: 'Le concept est en cours de la validation par',
-		en: 'The concept is being validated by',
+		fr: 'Le concept est en cours de la publication par',
+		en: 'The concept is being published by',
 	},
 	collectionsToValidTitle: {
-		fr: 'Validation des collections provisoires',
-		en: 'Validation of the provisional collections',
+		fr: 'Publication des collections provisoires',
+		en: 'Publication of the provisional collections',
 	},
 	collectionsToValidPanelTitle: {
 		fr: 'Collections à publier',
@@ -100,8 +100,8 @@ const dictionary = {
 		en: 'Add at least one collection to publish',
 	},
 	collectionStandBy: {
-		fr: 'La collection est en cours de la validation par',
-		en: 'The collection is being validated by',
+		fr: 'La collection est en cours de la publication par',
+		en: 'The collection is being published by',
 	},
 	isConceptValidTitle: {
 		fr: 'État du concept',
@@ -185,16 +185,16 @@ const dictionary = {
 		en: 'Update collection',
 	},
 	conceptStatusValid: {
-		fr: 'Validé',
-		en: 'Validated',
+		fr: 'Publié',
+		en: 'Published',
 	},
 	conceptStatusProvisional: {
 		fr: 'Provisoire',
 		en: 'Provisional',
 	},
 	collectionStatusValid: {
-		fr: 'Validée',
-		en: 'Validated',
+		fr: 'Publiée',
+		en: 'Published',
 	},
 	collectionStatusProvisional: {
 		fr: 'Provisoire',
@@ -242,7 +242,7 @@ const dictionary = {
 				href = params[0] + 'concept/' + id,
 				inseeText = ` (<a href=${href}>Lien vers le concept</a>)`;
 			if (params.includes('false'))
-				validText = `<p><b>Ce concept est en attente de validation.</b></p>`;
+				validText = `<p><b>Ce concept est en attente de publication.</b></p>`;
 			return `<p>Bonjour,</p>
           <p>Vous trouverez ci-joint la description du concept « <b>
           ${prefLabelLg1}
@@ -260,7 +260,7 @@ const dictionary = {
 				href = params[0] + 'concept/' + id,
 				inseeText = ` (<a href=${href}>Concept link</a>)`;
 			if (params.includes('false'))
-				validText = `<p><b>This concept is waiting for validation.</b></p>`;
+				validText = `<p><b>This concept is waiting for publication.</b></p>`;
 			return `<p>Hi,</p>
           <p>You will find attached the description of the concept “<b>
           ${prefLabelLg1}
@@ -292,7 +292,7 @@ const dictionary = {
 				href = params[0] + 'collection/' + id,
 				inseeText = ` (<a href=${href}>Lien vers la collection</a>)`;
 			if (params.includes('false'))
-				validText = `<p><b>Cette collection est en attente de validation.</b></p>`;
+				validText = `<p><b>Cette collection est en attente de publication.</b></p>`;
 			return `<p>Bonjour,</p>
 	          <p>Vous trouverez ci-joint la composition de la collection de concepts « <b>
 	          ${prefLabelLg1}
@@ -310,7 +310,7 @@ const dictionary = {
 				href = params[0] + 'collection/' + id,
 				inseeText = ` (<a href=${href}>Collection link</a>)`;
 			if (params.includes('false'))
-				validText = `<p><b>This collection is waiting for validation.</b></p>`;
+				validText = `<p><b>This collection is waiting for publication.</b></p>`;
 			return `<p>Hi,</p>
 	          <p>You will find attached the composition of the collection “<b>
 	          ${prefLabelLg1}

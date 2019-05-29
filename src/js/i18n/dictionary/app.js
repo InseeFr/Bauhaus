@@ -141,8 +141,8 @@ const dictionary = {
 		en: 'Search in the definition ...',
 	},
 	validationStatusPlaceholder: {
-		fr: 'Sélectionnez le statut de validation...',
-		en: 'Select validation status...',
+		fr: 'Sélectionnez le statut de publication...',
+		en: 'Select publishing status...',
 	},
 	creatorTitle: {
 		fr: 'Propriétaire',
@@ -369,8 +369,8 @@ const dictionary = {
 		en: 'Export in progress...',
 	},
 	loadableValidating: {
-		fr: 'Validation en cours ...',
-		en: 'Validation in progress ...',
+		fr: 'Publication en cours ...',
+		en: 'Publish in progress ...',
 	},
 	loadableLoading: {
 		fr: 'Chargement en cours...',
