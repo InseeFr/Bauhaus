@@ -13,7 +13,16 @@ export default () => dispatch => {
 		results =>
 			dispatch({
 				type: A.LOAD_OPERATIONS_DOCUMENTS_SUCCESS,
-				payload: { results: sortByLabel(results) },
+				payload: {
+					results: sortByLabel(
+						results.map(doc => {
+							return {
+								...doc,
+								id: doc.uri.substr(doc.uri.lastIndexOf('/') + 1),
+							};
+						})
+					),
+				},
 			}),
 		err => {
 			dispatch({
