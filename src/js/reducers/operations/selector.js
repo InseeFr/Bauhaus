@@ -18,3 +18,6 @@ export const getOperationsDocuments = (state, group = 'full') => {
 export const getOperationsDocumentsStatus = state => {
 	return state.operationsDocuments.status;
 };
+export const getCurrentDocument = state => {
+	return state.operationsCurrentDocument.results || {};
+};

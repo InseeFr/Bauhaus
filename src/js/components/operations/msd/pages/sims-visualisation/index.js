@@ -51,16 +51,20 @@ export default function SimsVisualisation({
 									),
 								}}
 							/>
-							<DocumentsBloc
-								documents={currentSection.documents.filter(isDocument)}
-								localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
-								objectType="documents"
-							/>
-							<DocumentsBloc
-								documents={currentSection.documents.filter(isLink)}
-								localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
-								objectType="links"
-							/>
+							{currentSection.documents && (
+								<>
+									<DocumentsBloc
+										documents={currentSection.documents.filter(isDocument)}
+										localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
+										objectType="documents"
+									/>
+									<DocumentsBloc
+										documents={currentSection.documents.filter(isLink)}
+										localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
+										objectType="links"
+									/>
+								</>
+							)}
 						</>
 					)}
 					{currentSection.rangeType === CODE_LIST &&

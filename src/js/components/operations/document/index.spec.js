@@ -27,12 +27,10 @@ describe('DocumentHomeContainer', () => {
 		expect(result).toEqual({
 			documentStores: [
 				{
-					id: '1',
 					label: 'labelLg1',
 					uri: 'uri/1',
 				},
 				{
-					id: '2',
 					label: 'labelLg2',
 					uri: 'uri/2',
 				},

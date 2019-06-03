@@ -32,7 +32,7 @@ export const mapStateToProps = state => {
 		documentStores: sortByLabel(
 			getOperationsDocuments(state).map(document => {
 				return {
-					id: document.uri.substr(document.uri.lastIndexOf('/') + 1),
+					id: document.id,
 					label: document.labelLg1 || document.labelLg2,
 					uri: document.uri,
 				};
