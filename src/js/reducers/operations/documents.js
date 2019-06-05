@@ -6,6 +6,7 @@ import {
 	LOAD_OPERATIONS_DOCUMENT,
 	LOAD_OPERATIONS_DOCUMENT_SUCCESS,
 	LOAD_OPERATIONS_DOCUMENT_FAILURE,
+	SAVE_OPERATIONS_DOCUMENT_SUCCESS,
 } from 'js/actions/constants/operations/documents';
 import { isDocument } from 'js/components/operations/document/utils';
 /**
@@ -22,7 +23,7 @@ export const operationsDocuments = function(
 			return {
 				status: LOADING,
 			};
-			case LOAD_OPERATIONS_DOCUMENTS_SUCCESS:
+		case LOAD_OPERATIONS_DOCUMENTS_SUCCESS:
 			const full = action.payload.results;
 			const [documents, links] = full.reduce(
 				(acc, element) => {
@@ -44,6 +45,8 @@ export const operationsDocuments = function(
 				status: ERROR,
 				err: action.payload.err,
 			};
+		case SAVE_OPERATIONS_DOCUMENT_SUCCESS:
+			return {};
 		default:
 			return state;
 	}
@@ -68,6 +71,8 @@ export const operationsCurrentDocument = function(
 				status: ERROR,
 				err: action.payload.err,
 			};
+		case SAVE_OPERATIONS_DOCUMENT_SUCCESS:
+			return {};
 		default:
 			return state;
 	}

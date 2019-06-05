@@ -12,6 +12,34 @@ const api = {
 	],
 	getDocumentsList: () => ['documents'],
 	getDocument: id => [`documents/${id}`],
+	postDocument: formData => [
+		`documents/document`,
+		{
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+			body: formData,
+		},
+		res => res.text(),
+	],
+	postLink: formData => [
+		`documents/link`,
+		{
+			headers: {},
+			body: formData,
+		},
+		res => res.text(),
+	],
+	putDocument: document => [
+		`documents/document/${document.id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(document),
+		},
+		res => Promise.resolve(document.id),
+	],
 	getDissStatusList: () => ['disseminationStatus'],
 	getStampList: () => ['stamps'],
 	getRoleList: () => ['roles'],

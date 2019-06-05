@@ -126,6 +126,14 @@ const dictionary = {
 		fr: "L'intitulé est obligatoire",
 		en: 'The title is required',
 	},
+	requiredLang: {
+		fr: "La langue est obligatoire",
+		en: 'The lamguage is required',
+	},
+	requiredUrl: {
+		fr: "L'URL est obligatoire",
+		en: 'The link is required',
+	},
 	requiredFamily: {
 		fr: 'La famille est obligatoire',
 		en: 'The family is required',

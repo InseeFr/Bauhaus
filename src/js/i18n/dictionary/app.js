@@ -60,6 +60,10 @@ const dictionary = {
 		fr: 'Tous',
 		en: 'All',
 	},
+	langTitle: {
+		fr: 'Langue',
+		en: 'Language',
+	},
 	notFoundTitle: {
 		fr: 'Page introuvable',
 		en: 'Page not found',

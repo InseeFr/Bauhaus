@@ -124,7 +124,7 @@ describe('getParentUri', () => {
 		expect(getParentUri({ idOperation: '1' })).toBe(`/operations/operation/1`);
 	});
 	it('should return a uri of an series', () => {
-		expect(getParentUri({ idSeries: '1' })).toBe(`/operations/serie/1`);
+		expect(getParentUri({ idSeries: '1' })).toBe(`/operations/series/1`);
 	});
 	it('should return a uri of an indicator', () => {
 		expect(getParentUri({ idIndicator: '1' })).toBe(`/operations/indicator/1`);

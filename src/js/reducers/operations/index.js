@@ -78,6 +78,7 @@ const operationsAsyncTask = function(state = false, action) {
 		case A.SAVE_OPERATIONS_SERIE:
 		case A.SAVE_OPERATIONS_FAMILY:
 		case A.SAVE_OPERATIONS_OPERATION:
+		case A.SAVE_OPERATIONS_DOCUMENT:
 			return true;
 		case A.SAVE_OPERATIONS_INDICATOR_SUCCESS:
 		case A.SAVE_OPERATIONS_INDICATOR_FAILURE:
@@ -87,6 +88,8 @@ const operationsAsyncTask = function(state = false, action) {
 		case A.SAVE_OPERATIONS_FAMILY_FAILURE:
 		case A.SAVE_OPERATIONS_OPERATION_SUCCESS:
 		case A.SAVE_OPERATIONS_OPERATION_FAILURE:
+		case A.SAVE_OPERATIONS_DOCUMENT_SUCCESS:
+		case A.SAVE_OPERATIONS_DOCUMENT_FAILURE:
 			return false;
 
 		default:
