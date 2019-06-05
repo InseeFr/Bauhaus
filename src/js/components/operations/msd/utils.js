@@ -54,7 +54,7 @@ export function getParentUri(sims) {
 	if (sims.idOperation) {
 		return `/operations/operation/${sims.idOperation}`;
 	} else if (sims.idSeries) {
-		return `/operations/serie/${sims.idSeries}`;
+		return `/operations/series/${sims.idSeries}`;
 	} else if (sims.idIndicator) {
 		return `/operations/indicator/${sims.idIndicator}`;
 	}
