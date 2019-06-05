@@ -1,5 +1,5 @@
 import { operationsDocuments, operationsCurrentDocument } from './documents';
-import { LOADED, LOADING, ERROR, NOT_LOADED } from 'js/constants';
+import { LOADED, LOADING, ERROR } from 'js/constants';
 import {
 	LOAD_OPERATIONS_DOCUMENTS,
 	LOAD_OPERATIONS_DOCUMENTS_SUCCESS,
