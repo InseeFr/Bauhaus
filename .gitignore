@@ -31,3 +31,5 @@ yarn-error.log*
 
 /swagger
 .cache
+cypress/videos
+cypress/screenshots
