@@ -17,11 +17,11 @@
 		"e2e": "start-server-and-test start http://localhost:3000 cypress:run",
 		"eject": "react-scripts eject",
 		"lint": "eslint src",
-		"start": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
-		"start-https": "cross-env NODE_PATH=src/ HTTPS=true REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
+		"start": "cross-env REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
+		"start-https": "cross-env HTTPS=true REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
 		"start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
-		"test": "cross-env NODE_PATH=src/ react-scripts test",
-		"test:coverage": "cross-env CI=true NODE_PATH=src/ react-scripts test --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js"
+		"test": "react-scripts test",
+		"test:coverage": "cross-env CI=true react-scripts test --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js"
 	},
 	"husky": {
 		"hooks": {
@@ -103,7 +103,7 @@
 		"npm-run-all": "4.1.5",
 		"prettier": "1.16.4",
 		"react-test-renderer": "16.8.6",
-		"start-server-and-test": "1.7.11",
+		"start-server-and-test": "1.9.1",
 		"term-size": "^1.2.0"
 	},
 	"browserslist": [

@@ -9,6 +9,7 @@ export const operationsSeriesCurrent = function(state = {}, action) {
 		case A.SAVE_OPERATIONS_SERIE:
 			return action.payload;
 		case A.SAVE_OPERATIONS_SERIE_SUCCESS:
+		case A.SAVE_OPERATIONS_SIMS_SUCCESS:
 			//When we save an item, we reset the current item stored in the store in order to send a new GET HTTP request
 			return {};
 		default:
@@ -53,6 +54,7 @@ export const operationsIndicatorsCurrent = function(state = {}, action) {
 		case A.SAVE_OPERATIONS_INDICATOR:
 			return action.payload;
 		case A.SAVE_OPERATIONS_INDICATOR_SUCCESS:
+		case A.SAVE_OPERATIONS_SIMS_SUCCESS:
 			//When we save an item, we reset the current item stored in the store in order to send a new GET HTTP request
 			return {};
 		default:
