@@ -94,9 +94,6 @@ class OperationsDocumentationEdition extends Component {
 			type,
 		} = this.props;
 
-		if (this.props.operationsAsyncTask)
-			return <Loading textType="saving" context="operations" />;
-
 		const { document, files, serverSideError } = this.state;
 		const isEditing = !!document.id;
 
