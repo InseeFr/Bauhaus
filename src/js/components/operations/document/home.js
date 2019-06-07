@@ -22,22 +22,30 @@ function DocumentHome({ documents }) {
 			<div className="container documents-home">
 				<div className="row">
 					<div className="col-md-3 operations-btn-group-vertical">
-						<div className="row">
-							<div className="col-md-8 col-md-offset-2">
-								<Link
-									to="/operations/document/create"
-									col={8}
-									offset={2}
-									className="btn btn-operations btn-lg col-md-12"
-								>
-									<span
-										className="glyphicon glyphicon-plus"
-										aria-hidden="true"
-									/>
-									<span> {D.btnNewMale}</span>
-								</Link>
+						{[
+							['/operations/document/create', D.document],
+							['/operations/link/create', D.link],
+						].map(([url, title]) => (
+							<div className="row">
+								<div className="col-md-12">
+									<Link
+										to={url}
+										col={8}
+										offset={2}
+										className="btn btn-operations btn-lg col-md-12"
+									>
+										<span
+											className="glyphicon glyphicon-plus"
+											aria-hidden="true"
+										/>
+										<span>
+											{' '}
+											{D.btnNewMale} {title}
+										</span>
+									</Link>
+								</div>
 							</div>
-						</div>
+						))}
 					</div>
 					<div className="col-md-8 centered pull-right">
 						<PageTitle

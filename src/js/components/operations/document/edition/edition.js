@@ -8,6 +8,10 @@ import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import Button from 'js/components/shared/button';
 import { validate } from 'js/components/operations/document/edition/validation';
+import { LINK, DOCUMENT } from '../utils';
+import Dropzone from 'react-dropzone';
+import Loading from 'js/components/shared/loading';
+
 const defaultDocument = {
 	labelLg1: '',
 	labelLg2: '',
@@ -21,40 +25,65 @@ class OperationsDocumentationEdition extends Component {
 		document: PropTypes.object.isRequired,
 		langs: PropTypes.object.isRequired,
 		saveDocument: PropTypes.func.isRequired,
+		type: PropTypes.oneOf([LINK, DOCUMENT]),
 	};
 
 	constructor(props) {
 		super(props);
-		this.state = {
+		this.state = this.setInitialState(props);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setState(this.setInitialState(nextProps));
+	}
+
+	setInitialState = props => {
+		return {
+			serverSideError: '',
 			document: {
 				...defaultDocument,
 				...props.document,
 			},
+			files: props.document.url ? [{ name: props.document.url }] : [],
 		};
-	}
+	};
 
-	componentWillReceiveProps(nextProps) {
+	uploadFile = files => {
 		this.setState({
-			document: {
-				...defaultDocument,
-				...nextProps.document,
-			},
+			serverSideError: '',
+			files,
 		});
-	}
+	};
+	removeFile = () => {
+		this.setState({
+			serverSideError: '',
+			files: [],
+		});
+	};
 
 	onChange = e => {
 		this.setState({
+			serverSideError: '',
 			document: {
 				...this.state.document,
 				[e.target.id]: e.target.value,
 			},
 		});
 	};
+
 	onSubmit = () => {
 		this.props.saveDocument(
 			this.state.document,
-			(id = this.state.document.id) => {
-				this.props.history.push(`/operations/document/${id}`);
+			this.props.type,
+			this.state.files,
+			(err, id = this.state.document.id) => {
+				if (!err) {
+					this.props.history.push(`/operations/document/${id}`);
+				} else {
+					this.setState({
+						serverSideError: err,
+					});
+				}
 			}
 		);
 	};
@@ -62,12 +91,17 @@ class OperationsDocumentationEdition extends Component {
 	render() {
 		const {
 			langs: { lg1, lg2 },
+			type,
 		} = this.props;
-		const { document } = this.state;
+
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
+
+		const { document, files, serverSideError } = this.state;
 		const isEditing = !!document.id;
 
-		const errors = validate(document);
-
+		const errors = validate(document, type, files);
+		const globalError = errors.errorMessage || serverSideError;
 		return (
 			<div className="container editor-container">
 				{isEditing && (
@@ -102,15 +136,11 @@ class OperationsDocumentationEdition extends Component {
 
 					<div className="col-md-8 centered">
 						<div
-							style={{ visibility: errors.errorMessage ? 'visible' : 'hidden' }}
+							style={{ visibility: globalError ? 'visible' : 'hidden' }}
 							className="alert alert-danger bold"
 							role="alert"
 						>
-							{/* HACK: if no content, the line height is set to 0 and the rest
-	              of the page moves a little  */}
-							{errors.errorMessage || (
-								<span style={{ whiteSpace: 'pre-wrap' }}> </span>
-							)}
+							{globalError}
 						</div>
 					</div>
 					<Button
@@ -183,22 +213,65 @@ class OperationsDocumentationEdition extends Component {
 							/>
 						</div>
 					</div>
-					<div className="row">
-						<div className="col-md-12 form-group">
-							<label htmlFor="url">
-								<NoteFlag text={D.titleLink} lang={lg1} />
-								<span className="boldRed">*</span>
-							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="url"
-								value={document.url}
-								onChange={this.onChange}
-								aria-invalid={errors.fields.url}
-							/>
+					{type === LINK && (
+						<div className="row">
+							<div className="col-md-12 form-group">
+								<label htmlFor="url">
+									<NoteFlag text={D.titleLink} lang={lg1} />
+									<span className="boldRed">*</span>
+								</label>
+								<input
+									type="text"
+									className="form-control"
+									id="url"
+									value={document.url}
+									onChange={this.onChange}
+									aria-invalid={errors.fields.url}
+								/>
+							</div>
 						</div>
-					</div>
+					)}
+
+					{type === DOCUMENT && files.length === 0 && (
+						<div className="row">
+							<div className="col-md-12 form-group">
+								<Dropzone onDrop={this.uploadFile} multiple={false}>
+									{({ getRootProps, getInputProps }) => (
+										<div
+											{...getRootProps({
+												className: 'dropzone',
+												onDrop: event => event.stopPropagation(),
+											})}
+										>
+											<input
+												{...getInputProps()}
+												aria-invalid={errors.fields.file}
+											/>
+											<p>{D.drag}</p>
+										</div>
+									)}
+								</Dropzone>
+							</div>
+						</div>
+					)}
+
+					{type === DOCUMENT && files.length > 0 && (
+						<div className="panel panel-default">
+							{files.map(file => (
+								<div className="panel-body" key={file.name}>
+									{file.name}
+									<button
+										onClick={this.removeFile}
+										type="button"
+										className="close"
+										aria-label="Close"
+									>
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							))}
+						</div>
+					)}
 					<div className="row">
 						<div className="col-md-12 form-group">
 							<label htmlFor="lang">
@@ -218,8 +291,6 @@ class OperationsDocumentationEdition extends Component {
 				</form>
 			</div>
 		);
-		// TODO n'afficher que l'URL pour les liens
-		// TODO ajouter un select pour savoir si c'est un lien ou un document qu'on souhaite creer
 	}
 }
 

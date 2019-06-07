@@ -1,5 +1,5 @@
 import documentsD from 'js/i18n/dictionary/operations/documents';
-
+import validationD from 'js/i18n/dictionary/operations/validation';
 const dictionary = {
 	operationsTitle: {
 		fr: 'Opérations',
@@ -122,26 +122,6 @@ const dictionary = {
 		fr: 'Produit de',
 		en: 'Produced from',
 	},
-	requiredPrefLabel: {
-		fr: "L'intitulé est obligatoire",
-		en: 'The title is required',
-	},
-	requiredLang: {
-		fr: "La langue est obligatoire",
-		en: 'The lamguage is required',
-	},
-	requiredUrl: {
-		fr: "L'URL est obligatoire",
-		en: 'The link is required',
-	},
-	requiredFamily: {
-		fr: 'La famille est obligatoire',
-		en: 'The family is required',
-	},
-	requiredSeries: {
-		fr: 'La série est obligatoire',
-		en: 'The series is required',
-	},
 	helpContent: {
 		en: 'Content',
 		fr: 'Contenu',
@@ -203,6 +183,7 @@ const dictionary = {
 		fr: "SIMS de l'indicateur {{PARENT_LABEL}}",
 	},
 	...documentsD,
+	...validationD,
 };
 
 export default dictionary;
