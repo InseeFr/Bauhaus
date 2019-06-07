@@ -55,9 +55,10 @@ class RootComponent extends Component {
 				/>
 				<Route
 					exact
-					path="/operations/document/create"
+					path="/operations/(link|document)/create"
 					component={OperationsDocumentationEditionContainer}
 				/>
+
 				<Route
 					exact
 					path="/operations/document/:id"

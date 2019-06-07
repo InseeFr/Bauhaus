@@ -15,9 +15,7 @@ const api = {
 	postDocument: formData => [
 		`documents/document`,
 		{
-			headers: {
-				'Content-Type': 'multipart/form-data',
-			},
+			headers: {},
 			body: formData,
 		},
 		res => res.text(),
@@ -37,6 +35,14 @@ const api = {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(document),
+		},
+		res => Promise.resolve(document.id),
+	],
+	putDocumentFile: (document, formData) => [
+		`documents/${document.id}`,
+		{
+			headers: {},
+			body: formData,
 		},
 		res => Promise.resolve(document.id),
 	],

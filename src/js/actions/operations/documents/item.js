@@ -1,19 +1,45 @@
 import api from 'js/remote-api/api';
 import * as A from 'js/actions/constants';
+import { LINK, DOCUMENT } from 'js/components/operations/document/utils';
 
-export const saveDocument = (document, callback) => dispatch => {
+export const saveDocument = (document, type, files, callback) => dispatch => {
 	dispatch({
 		type: A.SAVE_OPERATIONS_DOCUMENT,
 		payload: document,
 	});
-	const method = document.id ? 'putDocument' : 'postLink';
+	const method = document.id
+		? 'putDocument'
+		: type === LINK
+		? 'postLink'
+		: 'postDocument';
+
 	let body = document;
+
+	/**
+	 * If the document has no id, this is a creation
+	 * We have to send FormData kind of HTTP request.
+	 * Only File-type document has a file to upload
+	 */
 	if (!document.id) {
 		const formData = new FormData();
 		formData.append('body', JSON.stringify(document));
+
+		if (type === DOCUMENT && files[0]) {
+			formData.append('file', files[0], files[0].name);
+		}
 		body = formData;
 	}
-	return api[method](body).then(
+
+	let promise;
+	if (type === DOCUMENT && document.id && files[0] && files[0].size) {
+		const formData = new FormData();
+		formData.append('file', files[0], files[0].name);
+		promise = api.putDocumentFile(document, formData);
+	} else {
+		promise = api[method](body);
+	}
+
+	return promise.then(
 		results => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_DOCUMENT_SUCCESS,
@@ -22,14 +48,14 @@ export const saveDocument = (document, callback) => dispatch => {
 					id: document.id ? document.id : results,
 				},
 			});
-			callback(results);
+			callback(null, results);
 		},
 		err => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_DOCUMENT_FAILURE,
 				payload: { err },
 			});
-			callback();
+			callback(err);
 		}
 	);
 };

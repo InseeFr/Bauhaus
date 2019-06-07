@@ -1,6 +1,6 @@
 export const BOTH = 'BOTH';
-export const DOCUMENT = 'DOCUMENT';
-export const LINK = 'LINK';
+export const DOCUMENT = 'document';
+export const LINK = 'link';
 
 export function isLink(document) {
 	return document.uri.includes('/page/');

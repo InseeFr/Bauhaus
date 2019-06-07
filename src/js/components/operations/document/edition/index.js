@@ -9,6 +9,7 @@ import buildExtract from 'js/utils/build-extract';
 import Loading from 'js/components/shared/loading';
 import DocumentationEdition from 'js/components/operations/document/edition/edition';
 import { getCurrentDocument } from 'js/reducers/operations/selector';
+import { isDocument, LINK, DOCUMENT } from '../utils';
 
 const extractId = buildExtract('id');
 
@@ -34,13 +35,22 @@ const mapDispatchToProps = {
 
 export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
+
+	const pathName = ownProps.location.pathname;
 	const document = id ? getCurrentDocument(state) : {};
+	let type;
+	if (/(link|document)\/create/.test(pathName)) {
+		type = /(link|document)\/create/.exec(pathName)[1];
+	} else if (document.uri) {
+		type = isDocument(document) ? DOCUMENT : LINK;
+	}
 	const langs = select.getLangs(state);
 	return {
 		id,
 		document,
 		langs,
 		operationsAsyncTask: state.operationsAsyncTask,
+		type,
 	};
 };
 
