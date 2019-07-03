@@ -15,6 +15,13 @@ import loadSerie from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import Button from 'js/components/shared/button';
 import { getSecondLang } from 'js/reducers/app';
+import {
+	INDICATOR_CREATOR,
+	ADMIN,
+	SERIES_CREATOR,
+	CNIS,
+} from 'js/utils/auth/roles';
+import Auth from 'js/utils/auth/components/auth';
 
 const extractId = buildExtract('id');
 
@@ -58,8 +65,13 @@ class SeriesVisualizationContainer extends Component {
 						label={D.btnReturn}
 						context="operations"
 					/>
+					<Auth
+						roles={[ADMIN, SERIES_CREATOR, CNIS]}
+						fallback={<div className="col-md-8" />}
+					>
+						<div className="col-md-6" />
+					</Auth>
 
-					<div className="col-md-6 centered" />
 					{attr.idSims && (
 						<Button
 							action={`/operations/sims/${attr.idSims}`}
@@ -68,17 +80,27 @@ class SeriesVisualizationContainer extends Component {
 						/>
 					)}
 					{!attr.idSims && (
+						<Auth
+							roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}
+							fallback={<div className="col-md-8" />}
+						>
+							<Button
+								action={`/operations/series/${attr.id}/sims/create`}
+								label={D.btnSimsCreate}
+								context="operations"
+							/>
+						</Auth>
+					)}
+					<Auth
+						roles={[ADMIN, SERIES_CREATOR, CNIS]}
+						fallback={<div className="col-md-2" />}
+					>
 						<Button
-							action={`/operations/series/${attr.id}/sims/create`}
-							label={D.btnSimsCreate}
+							action={`/operations/series/${attr.id}/modify`}
+							label={D.btnUpdate}
 							context="operations"
 						/>
-					)}
-					<Button
-						action={`/operations/series/${attr.id}/modify`}
-						label={D.btnUpdate}
-						context="operations"
-					/>
+					</Auth>
 				</div>
 				<OperationsSerieVisualization
 					secondLang={secondLang}

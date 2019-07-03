@@ -15,6 +15,8 @@ import loadIndicator from 'js/actions/operations/indicators/item';
 import Button from 'js/components/shared/button';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import { getSecondLang } from 'js/reducers/app';
+import Auth from 'js/utils/auth/components/auth';
+import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
 
 const extractId = buildExtract('id');
 class IndicatorVisualizationContainer extends Component {
@@ -37,6 +39,7 @@ class IndicatorVisualizationContainer extends Component {
 			organisations,
 		} = this.props;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
+
 		return (
 			<div className="container">
 				<CheckSecondLang
@@ -55,27 +58,43 @@ class IndicatorVisualizationContainer extends Component {
 						label={D.btnReturn}
 						context="operations"
 					/>
-
-					<div className="col-md-6 centered" />
+					<Auth
+						roles={[ADMIN, INDICATOR_CREATOR]}
+						fallback={<div className="col-md-8" />}
+					>
+						<div className="col-md-6" />
+					</Auth>
 					{attr.idSims && (
-						<Button
-							action={`/operations/sims/${attr.idSims}`}
-							label={D.btnSimsVisu}
-							context="operations"
-						/>
+						<>
+							<Button
+								action={`/operations/sims/${attr.idSims}`}
+								label={D.btnSimsVisu}
+								context="operations"
+							/>
+						</>
 					)}
 					{!attr.idSims && (
+						<Auth
+							roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}
+							fallback={<div className="col-md-8" />}
+						>
+							<Button
+								action={`/operations/indicator/${attr.id}/sims/create`}
+								label={D.btnSimsCreate}
+								context="operations"
+							/>
+						</Auth>
+					)}
+					<Auth
+						roles={[ADMIN, INDICATOR_CREATOR]}
+						fallback={<div className="col-md-2" />}
+					>
 						<Button
-							action={`/operations/indicator/${attr.id}/sims/create`}
-							label={D.btnSimsCreate}
+							action={`/operations/indicator/${attr.id}/modify`}
+							label={D.btnUpdate}
 							context="operations"
 						/>
-					)}
-					<Button
-						action={`/operations/indicator/${attr.id}/modify`}
-						label={D.btnUpdate}
-						context="operations"
-					/>
+					</Auth>
 				</div>
 				<OperationsIndicatorVisualization
 					secondLang={secondLang}

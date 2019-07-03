@@ -17,6 +17,8 @@ import Loading from 'js/components/shared/loading';
 import loadFamily from 'js/actions/operations/families/item';
 import Button from 'js/components/shared/button';
 import { getSecondLang } from 'js/reducers/app';
+import { ADMIN, CNIS } from 'js/utils/auth/roles';
+import Auth from 'js/utils/auth/components/auth';
 
 const extractId = buildExtract('id');
 class FamilyVisualizationContainer extends PureComponent {
@@ -56,11 +58,13 @@ class FamilyVisualizationContainer extends PureComponent {
 					/>
 
 					<div className="col-md-8 centered" />
-					<Button
-						action={`/operations/family/${attr.id}/modify`}
-						label={D.btnUpdate}
-						context="operations"
-					/>
+					<Auth roles={[ADMIN, CNIS]} fallback={<div className="col-md-2" />}>
+						<Button
+							action={`/operations/family/${attr.id}/modify`}
+							label={D.btnUpdate}
+							context="operations"
+						/>
+					</Auth>
 				</div>
 				<OperationsFamilyVisualization
 					secondLang={secondLang}
