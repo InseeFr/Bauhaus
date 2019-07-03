@@ -22,8 +22,6 @@ class OperationsDocumentationEditionContainer extends Component {
 	render() {
 		if (!this.props.document)
 			return <Loading textType="loading" context="operations" />;
-		if (this.props.operationsAsyncTask)
-			return <Loading textType="saving" context="operations" />;
 		return <DocumentationEdition {...this.props} />;
 	}
 }
