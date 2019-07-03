@@ -52,18 +52,13 @@ class IndicatorVisualizationContainer extends Component {
 					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
 				)}
 
-				<div className="row btn-line">
+				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/indicators')}
 						label={D.btnReturn}
 						context="operations"
 					/>
-					<Auth
-						roles={[ADMIN, INDICATOR_CREATOR]}
-						fallback={<div className="col-md-8" />}
-					>
-						<div className="col-md-6" />
-					</Auth>
+					<div className="empty-center" />
 					{attr.idSims && (
 						<>
 							<Button
@@ -74,10 +69,7 @@ class IndicatorVisualizationContainer extends Component {
 						</>
 					)}
 					{!attr.idSims && (
-						<Auth
-							roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}
-							fallback={<div className="col-md-8" />}
-						>
+						<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
 							<Button
 								action={`/operations/indicator/${attr.id}/sims/create`}
 								label={D.btnSimsCreate}
@@ -85,10 +77,7 @@ class IndicatorVisualizationContainer extends Component {
 							/>
 						</Auth>
 					)}
-					<Auth
-						roles={[ADMIN, INDICATOR_CREATOR]}
-						fallback={<div className="col-md-2" />}
-					>
+					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
 						<Button
 							action={`/operations/indicator/${attr.id}/modify`}
 							label={D.btnUpdate}

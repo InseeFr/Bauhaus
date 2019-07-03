@@ -139,21 +139,15 @@ export default function SimsVisualisation({
 
 	return (
 		<>
-			<div className="row btn-line">
+			<div className="row btn-line action-toolbar">
 				<Button
 					action={() => goBack(getParentUri(sims))}
 					label={D.btnReturn}
 					context="operations"
 				/>
-				<Auth
-					roles={[ADMIN, INDICATOR_CREATOR, SERIES_CREATOR, CNIS]}
-					fallback={<div className="col-md-7" />}
-				>
-					<div className="col-md-5 centered" />
-				</Auth>
+				<div className="empty-center" />
 				<Auth
 					roles={[ADMIN, SERIES_CREATOR]}
-					fallback={<div className="col-md-3" />}
 					complementaryCheck={shouldDisplayDuplicateButtonFlag}
 				>
 					<Button
@@ -171,10 +165,7 @@ export default function SimsVisualisation({
 						context="operations"
 					/>
 				</Auth>
-				<Auth
-					roles={[ADMIN, INDICATOR_CREATOR, SERIES_CREATOR, CNIS]}
-					fallback={<div className="col-md-8" />}
-				>
+				<Auth roles={[ADMIN, INDICATOR_CREATOR, SERIES_CREATOR, CNIS]}>
 					<Button
 						action={`/operations/sims/${sims.id}/modify`}
 						label={

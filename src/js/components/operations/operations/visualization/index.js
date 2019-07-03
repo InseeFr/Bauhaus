@@ -130,19 +130,14 @@ class OperationVisualizationContainer extends Component {
 					/>
 				)}
 
-				<div className="row btn-line">
+				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/operations')}
 						label={D.btnReturn}
 						context="operations"
 					/>
 
-					<Auth
-						roles={[ADMIN, SERIES_CREATOR, CNIS]}
-						fallback={<div className="col-md-8" />}
-					>
-						<div className="col-md-6" />
-					</Auth>
+					<div className="empty-center" />
 					{operation.idSims && (
 						<Button
 							action={`/operations/sims/${operation.idSims}`}
@@ -151,10 +146,7 @@ class OperationVisualizationContainer extends Component {
 						/>
 					)}
 					{!operation.idSims && (
-						<Auth
-							roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}
-							fallback={<div className="col-md-8" />}
-						>
+						<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
 							<div className="col-md-6 centered" />
 							<Button
 								action={`/operations/operation/${operation.id}/sims/create`}
@@ -163,10 +155,7 @@ class OperationVisualizationContainer extends Component {
 							/>
 						</Auth>
 					)}
-					<Auth
-						roles={[ADMIN, SERIES_CREATOR, CNIS]}
-						fallback={<div className="col-md-2" />}
-					>
+					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
 							action={`/operations/operation/${operation.id}/modify`}
 							label={D.btnUpdate}

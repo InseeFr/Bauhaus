@@ -50,15 +50,15 @@ class FamilyVisualizationContainer extends PureComponent {
 					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
 				)}
 
-				<div className="row btn-line">
+				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/families')}
 						label={D.btnReturn}
 						context="operations"
 					/>
 
-					<div className="col-md-8 centered" />
-					<Auth roles={[ADMIN, CNIS]} fallback={<div className="col-md-2" />}>
+					<div className="empty-center" />
+					<Auth roles={[ADMIN, CNIS]}>
 						<Button
 							action={`/operations/family/${attr.id}/modify`}
 							label={D.btnUpdate}

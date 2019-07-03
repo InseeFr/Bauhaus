@@ -61,18 +61,14 @@ class SeriesVisualizationContainer extends Component {
 					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
 				)}
 
-				<div className="row btn-line">
+				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/series')}
 						label={D.btnReturn}
 						context="operations"
 					/>
-					<Auth
-						roles={[ADMIN, SERIES_CREATOR, CNIS]}
-						fallback={<div className="col-md-8" />}
-					>
-						<div className="col-md-6" />
-					</Auth>
+
+					<div className="empty-center" />
 
 					{attr.idSims && (
 						<Button
@@ -84,7 +80,6 @@ class SeriesVisualizationContainer extends Component {
 					{!attr.idSims && (
 						<Auth
 							roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}
-							fallback={<div className="col-md-8" />}
 							complementaryCheck={ableToCreateASimsForThisSeries}
 						>
 							<Button
@@ -94,10 +89,7 @@ class SeriesVisualizationContainer extends Component {
 							/>
 						</Auth>
 					)}
-					<Auth
-						roles={[ADMIN, SERIES_CREATOR, CNIS]}
-						fallback={<div className="col-md-2" />}
-					>
+					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
 							action={`/operations/series/${attr.id}/modify`}
 							label={D.btnUpdate}
