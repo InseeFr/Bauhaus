@@ -46,6 +46,8 @@ class SeriesVisualizationContainer extends Component {
 			category,
 			organisations,
 		} = this.props;
+
+		const ableToCreateASimsForThisSeries = (attr.operations || []).length === 0;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
 		return (
 			<div className="container">
@@ -83,6 +85,7 @@ class SeriesVisualizationContainer extends Component {
 						<Auth
 							roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}
 							fallback={<div className="col-md-8" />}
+							complementaryCheck={ableToCreateASimsForThisSeries}
 						>
 							<Button
 								action={`/operations/series/${attr.id}/sims/create`}
