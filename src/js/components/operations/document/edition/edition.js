@@ -26,15 +26,12 @@ class OperationsDocumentationEdition extends Component {
 		langs: PropTypes.object.isRequired,
 		saveDocument: PropTypes.func.isRequired,
 		type: PropTypes.oneOf([LINK, DOCUMENT]),
+		operationsAsyncTask: PropTypes.bool
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = this.setInitialState(props);
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setState(this.setInitialState(nextProps));
 	}
 
 	setInitialState = props => {
@@ -54,6 +51,7 @@ class OperationsDocumentationEdition extends Component {
 			files,
 		});
 	};
+
 	removeFile = () => {
 		this.setState({
 			serverSideError: '',
@@ -93,6 +91,9 @@ class OperationsDocumentationEdition extends Component {
 			langs: { lg1, lg2 },
 			type,
 		} = this.props;
+
+		if (this.props.operationsAsyncTask)
+		 	return <Loading textType="saving" context="operations" />;
 
 		const { document, files, serverSideError } = this.state;
 		const isEditing = !!document.id;
