@@ -17,4 +17,7 @@ const mapDispatchToProps = {
 	checkAuth,
 };
 
-export default connect(null, mapDispatchToProps)(LoginNoAuth);
+export default connect(
+	null,
+	mapDispatchToProps
+)(LoginNoAuth);
