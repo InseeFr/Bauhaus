@@ -11,6 +11,7 @@ import { validate } from 'js/components/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
 import Loading from 'js/components/shared/loading';
+import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 
 const defaultDocument = {
 	labelLg1: '',
@@ -26,6 +27,7 @@ class OperationsDocumentationEdition extends Component {
 		langs: PropTypes.object.isRequired,
 		saveDocument: PropTypes.func.isRequired,
 		type: PropTypes.oneOf([LINK, DOCUMENT]),
+		operationsAsyncTask: PropTypes.bool,
 	};
 
 	constructor(props) {
@@ -33,8 +35,9 @@ class OperationsDocumentationEdition extends Component {
 		this.state = this.setInitialState(props);
 	}
 
-	componentWillReceiveProps(nextProps) {
-		this.setState(this.setInitialState(nextProps));
+	componentWillReceiveProps(ownProps) {
+		if (this.props.document.url !== ownProps.document.url)
+			this.setState(this.setInitialState(ownProps));
 	}
 
 	setInitialState = props => {
@@ -54,6 +57,7 @@ class OperationsDocumentationEdition extends Component {
 			files,
 		});
 	};
+
 	removeFile = () => {
 		this.setState({
 			serverSideError: '',
@@ -94,11 +98,20 @@ class OperationsDocumentationEdition extends Component {
 			type,
 		} = this.props;
 
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
+
 		const { document, files, serverSideError } = this.state;
 		const isEditing = !!document.id;
 
 		const errors = validate(document, type, files);
 		const globalError = errors.errorMessage || serverSideError;
+
+		let updatedDate;
+		if (document.updatedDate) {
+			const [year, month, day] = document.updatedDate.split('-');
+			updatedDate = `${year}-${month}-${day}T23:00:00.000Z`;
+		}
 		return (
 			<div className="container editor-container">
 				{isEditing && (
@@ -228,7 +241,24 @@ class OperationsDocumentationEdition extends Component {
 							</div>
 						</div>
 					)}
-
+					{type === DOCUMENT && (
+						<div className="row">
+							<div className="col-md-12 form-group">
+								<label>
+									<NoteFlag text={D.titleUpdatedDate} lang={lg1} />
+									<span className="boldRed">*</span>
+								</label>
+								<DatePickerRmes
+									value={updatedDate}
+									onChange={date => {
+										const value = date.split('T')[0];
+										this.onChange({ target: { value, id: 'updatedDate' } });
+									}}
+									placement="top"
+								/>
+							</div>
+						</div>
+					)}
 					{type === DOCUMENT && files.length === 0 && (
 						<div className="row">
 							<div className="col-md-12 form-group">

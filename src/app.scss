@@ -227,3 +227,12 @@ footer {
 	outline: none;
 	transition: border 0.24s ease-in-out;
 }
+
+.action-toolbar {
+	display: flex;
+	flex-direction: row;
+
+	.empty-center {
+		flex-grow: 1;
+	}
+}

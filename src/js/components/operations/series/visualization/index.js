@@ -15,6 +15,13 @@ import loadSerie from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import Button from 'js/components/shared/button';
 import { getSecondLang } from 'js/reducers/app';
+import {
+	INDICATOR_CREATOR,
+	ADMIN,
+	SERIES_CREATOR,
+	CNIS,
+} from 'js/utils/auth/roles';
+import Auth from 'js/utils/auth/components/auth';
 
 const extractId = buildExtract('id');
 
@@ -39,6 +46,8 @@ class SeriesVisualizationContainer extends Component {
 			category,
 			organisations,
 		} = this.props;
+
+		const ableToCreateASimsForThisSeries = (attr.operations || []).length === 0;
 		if (!attr.id) return <Loading textType="loading" context="operations" />;
 		return (
 			<div className="container">
@@ -52,14 +61,15 @@ class SeriesVisualizationContainer extends Component {
 					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
 				)}
 
-				<div className="row btn-line">
+				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/series')}
 						label={D.btnReturn}
 						context="operations"
 					/>
 
-					<div className="col-md-6 centered" />
+					<div className="empty-center" />
+
 					{attr.idSims && (
 						<Button
 							action={`/operations/sims/${attr.idSims}`}
@@ -68,17 +78,24 @@ class SeriesVisualizationContainer extends Component {
 						/>
 					)}
 					{!attr.idSims && (
+						<Auth
+							roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}
+							complementaryCheck={ableToCreateASimsForThisSeries}
+						>
+							<Button
+								action={`/operations/series/${attr.id}/sims/create`}
+								label={D.btnSimsCreate}
+								context="operations"
+							/>
+						</Auth>
+					)}
+					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
-							action={`/operations/series/${attr.id}/sims/create`}
-							label={D.btnSimsCreate}
+							action={`/operations/series/${attr.id}/modify`}
+							label={D.btnUpdate}
 							context="operations"
 						/>
-					)}
-					<Button
-						action={`/operations/series/${attr.id}/modify`}
-						label={D.btnUpdate}
-						context="operations"
-					/>
+					</Auth>
 				</div>
 				<OperationsSerieVisualization
 					secondLang={secondLang}

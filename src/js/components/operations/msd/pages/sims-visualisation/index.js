@@ -14,6 +14,13 @@ import {
 	getParentUri,
 } from 'js/components/operations/msd/utils';
 import { isLink, isDocument } from 'js/components/operations/document/utils';
+import {
+	ADMIN,
+	SERIES_CREATOR,
+	INDICATOR_CREATOR,
+	CNIS,
+} from 'js/utils/auth/roles';
+import Auth from 'js/utils/auth/components/auth';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
@@ -132,14 +139,17 @@ export default function SimsVisualisation({
 
 	return (
 		<>
-			<div className="row btn-line">
+			<div className="row btn-line action-toolbar">
 				<Button
 					action={() => goBack(getParentUri(sims))}
 					label={D.btnReturn}
 					context="operations"
 				/>
-				<div className={`col-md-${shouldDisplayDuplicateButtonFlag ? 5 : 8}`} />
-				{shouldDisplayDuplicateButtonFlag && (
+				<div className="empty-center" />
+				<Auth
+					roles={[ADMIN, SERIES_CREATOR]}
+					complementaryCheck={shouldDisplayDuplicateButtonFlag}
+				>
 					<Button
 						action={`/operations/sims/${sims.id}/duplicate`}
 						label={
@@ -154,20 +164,22 @@ export default function SimsVisualisation({
 						col={3}
 						context="operations"
 					/>
-				)}
-				<Button
-					action={`/operations/sims/${sims.id}/modify`}
-					label={
-						<>
-							<span
-								className="glyphicon glyphicon-floppy-disk"
-								aria-hidden="true"
-							/>
-							<span> {D.btnUpdate}</span>
-						</>
-					}
-					context="operations"
-				/>
+				</Auth>
+				<Auth roles={[ADMIN, INDICATOR_CREATOR, SERIES_CREATOR, CNIS]}>
+					<Button
+						action={`/operations/sims/${sims.id}/modify`}
+						label={
+							<>
+								<span
+									className="glyphicon glyphicon-floppy-disk"
+									aria-hidden="true"
+								/>
+								<span> {D.btnUpdate}</span>
+							</>
+						}
+						context="operations"
+					/>
+				</Auth>
 			</div>
 			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 

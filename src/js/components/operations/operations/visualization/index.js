@@ -20,6 +20,13 @@ import PageSubtitle from 'js/components/shared/page-subtitle';
 import { goBack } from 'js/utils/redirection';
 import Button from 'js/components/shared/button';
 import { getSecondLang } from 'js/reducers/app';
+import Auth from 'js/utils/auth/components/auth';
+import {
+	INDICATOR_CREATOR,
+	ADMIN,
+	SERIES_CREATOR,
+	CNIS,
+} from 'js/utils/auth/roles';
 
 const extractId = buildExtract('id');
 
@@ -123,15 +130,14 @@ class OperationVisualizationContainer extends Component {
 					/>
 				)}
 
-				<div className="row btn-line">
+				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/operations')}
 						label={D.btnReturn}
 						context="operations"
 					/>
 
-					<div className="col-md-6 centered" />
-
+					<div className="empty-center" />
 					{operation.idSims && (
 						<Button
 							action={`/operations/sims/${operation.idSims}`}
@@ -140,17 +146,22 @@ class OperationVisualizationContainer extends Component {
 						/>
 					)}
 					{!operation.idSims && (
+						<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
+							<div className="col-md-6 centered" />
+							<Button
+								action={`/operations/operation/${operation.id}/sims/create`}
+								label={D.btnSimsCreate}
+								context="operations"
+							/>
+						</Auth>
+					)}
+					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
-							action={`/operations/operation/${operation.id}/sims/create`}
-							label={D.btnSimsCreate}
+							action={`/operations/operation/${operation.id}/modify`}
+							label={D.btnUpdate}
 							context="operations"
 						/>
-					)}
-					<Button
-						action={`/operations/operation/${operation.id}/modify`}
-						label={D.btnUpdate}
-						context="operations"
-					/>
+					</Auth>
 				</div>
 				<OperationsOperationVisualization
 					id={id}

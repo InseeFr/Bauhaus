@@ -2,6 +2,7 @@ import { Note } from 'js/components/shared/note/note';
 import D from 'js/i18n';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { isDocument } from '../utils';
 
 /**
  * @typedef OperationsDocumentationVisualizationProps
@@ -38,6 +39,18 @@ function OperationsDocumentationVisualization({
 					/>
 				)}
 			</div>
+			{isDocument(attr) && (
+				<div className="row">
+					<Note
+						text={new Date(attr.updatedDate).toLocaleDateString()}
+						title={D.titleUpdatedDate}
+						lang={lg1}
+						alone={true}
+						allowEmpty={true}
+						context="operations"
+					/>
+				</div>
+			)}
 			<div className="row">
 				<Note
 					text={
