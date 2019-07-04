@@ -186,6 +186,12 @@ footer p {
   -webkit-transition: border 0.24s ease-in-out;
   transition: border 0.24s ease-in-out; }
 
+.action-toolbar {
+  display: flex;
+  flex-direction: row; }
+  .action-toolbar .empty-center {
+    flex-grow: 1; }
+
 body {
   margin: 0;
   padding: 0;
@@ -373,6 +379,12 @@ footer p {
   outline: none;
   -webkit-transition: border 0.24s ease-in-out;
   transition: border 0.24s ease-in-out; }
+
+.action-toolbar {
+  display: flex;
+  flex-direction: row; }
+  .action-toolbar .empty-center {
+    flex-grow: 1; }
 
 .btn-concepts {
   background-color: #457dbb;
@@ -591,6 +603,12 @@ footer p {
   outline: none;
   -webkit-transition: border 0.24s ease-in-out;
   transition: border 0.24s ease-in-out; }
+
+.action-toolbar {
+  display: flex;
+  flex-direction: row; }
+  .action-toolbar .empty-center {
+    flex-grow: 1; }
 
 .panel-concepts {
   border-color: #457dbb; }
@@ -811,6 +829,12 @@ footer p {
   outline: none;
   -webkit-transition: border 0.24s ease-in-out;
   transition: border 0.24s ease-in-out; }
+
+.action-toolbar {
+  display: flex;
+  flex-direction: row; }
+  .action-toolbar .empty-center {
+    flex-grow: 1; }
 
 .loading-row {
   margin-top: 5%; }
@@ -1044,6 +1068,12 @@ footer p {
   -webkit-transition: border 0.24s ease-in-out;
   transition: border 0.24s ease-in-out; }
 
+.action-toolbar {
+  display: flex;
+  flex-direction: row; }
+  .action-toolbar .empty-center {
+    flex-grow: 1; }
+
 .page-subtitle-concepts {
   border: 2px solid #5d87e8;
   background-color: #5d87e8;
@@ -1256,6 +1286,12 @@ footer p {
   -webkit-transition: border 0.24s ease-in-out;
   transition: border 0.24s ease-in-out; }
 
+.action-toolbar {
+  display: flex;
+  flex-direction: row; }
+  .action-toolbar .empty-center {
+    flex-grow: 1; }
+
 .page-title {
   border: 2px solid #044173;
   background-color: #044173;
@@ -1467,6 +1503,12 @@ footer p {
   outline: none;
   -webkit-transition: border 0.24s ease-in-out;
   transition: border 0.24s ease-in-out; }
+
+.action-toolbar {
+  display: flex;
+  flex-direction: row; }
+  .action-toolbar .empty-center {
+    flex-grow: 1; }
 
 .pg-rmes {
   display: inline-block; }
@@ -1710,6 +1752,12 @@ footer p {
   outline: none;
   -webkit-transition: border 0.24s ease-in-out;
   transition: border 0.24s ease-in-out; }
+
+.action-toolbar {
+  display: flex;
+  flex-direction: row; }
+  .action-toolbar .empty-center {
+    flex-grow: 1; }
 
 .table-concepts .table-hover tbody tr:hover td {
   background-color: #457dbb; }
