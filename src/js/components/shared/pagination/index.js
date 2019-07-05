@@ -12,8 +12,20 @@ function checkInvalidPage(targetPage, listSize) {
  *	context: The context of the page. Used for theming
  */
 class Pagination extends Component {
-	constructor() {
-		super();
+	static propTypes = {
+		itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
+		itemsPerPage: PropTypes.string.isRequired,
+		context: PropTypes.oneOf([
+			'',
+			'concepts',
+			'collections',
+			'classifications',
+			'operations',
+		]),
+	};
+
+	constructor(props) {
+		super(props);
 		this.state = {
 			currentPage: 1,
 		};
@@ -46,20 +58,18 @@ class Pagination extends Component {
 			pageNumbers.push(i);
 		}
 
-		function activePage(page) {
-			return page === currentPage ? 'page-item active' : 'page-item';
+		function isActivePage(page) {
+			return page === currentPage;
 		}
 		function isDisabled(targetPage) {
-			return checkInvalidPage(targetPage, pageNumbers.length)
-				? 'page-item disabled'
-				: 'page-item';
+			return checkInvalidPage(targetPage, pageNumbers.length);
 		}
 
 		const renderPageNumbers = pageNumbers
 			.filter(number => number - 3 < currentPage && number + 3 > currentPage)
 			.map(number => {
 				return (
-					<li className={activePage(number)} key={number} id={number}>
+					<li className={isActivePage(number) && 'active'} key={number}>
 						<button
 							href="#"
 							onClick={e => this.goToPage(number, e)}
@@ -77,13 +87,17 @@ class Pagination extends Component {
 				<ul className="list-group">{currentItems}</ul>
 				{pageNumbers.length > 1 && (
 					<ul className={`pagination pg-rmes ${contextCSS}`}>
-						<li className="page-item">
-							<button onClick={e => this.goToPage(1, e)} aria-label="First">
+						<li className={isDisabled(currentPage - 1) && 'disabled'}>
+							<button
+								onClick={e => this.goToPage(1, e)}
+								aria-label="First"
+								disabled={isDisabled(currentPage - 1)}
+							>
 								<span aria-hidden="true">&laquo;</span>
 								<span className="sr-only">First</span>
 							</button>
 						</li>
-						<li className={isDisabled(currentPage - 1)}>
+						<li className={isDisabled(currentPage - 1) && 'disabled'}>
 							<button
 								href="#"
 								onClick={e =>
@@ -91,13 +105,14 @@ class Pagination extends Component {
 									this.goToPage(currentPage - 1, e)
 								}
 								aria-label="Previous"
+								disabled={isDisabled(currentPage - 1)}
 							>
 								<span aria-hidden="true">&lt;</span>
 								<span className="sr-only">Previous</span>
 							</button>
 						</li>
 						{renderPageNumbers}
-						<li className={isDisabled(currentPage + 1)}>
+						<li className={isDisabled(currentPage + 1) && 'disabled'}>
 							<button
 								href="#"
 								onClick={e =>
@@ -105,18 +120,20 @@ class Pagination extends Component {
 									this.goToPage(currentPage + 1, e)
 								}
 								aria-label="Next"
+								disabled={isDisabled(currentPage + 1)}
 							>
 								<span aria-hidden="true">&gt;</span>
 								<span className="sr-only">Next</span>
 							</button>
 						</li>
-						<li className="page-item">
+						<li className={isDisabled(currentPage + 1) && 'disabled'}>
 							<button
 								aria-label="Last"
 								href="#"
 								onClick={e =>
 									this.goToPage(pageNumbers[pageNumbers.length - 1], e)
 								}
+								disabled={isDisabled(currentPage + 1)}
 							>
 								<span aria-hidden="true">&raquo;</span>
 								<span className="sr-only">Last</span>
@@ -129,15 +146,4 @@ class Pagination extends Component {
 	}
 }
 
-Pagination.propTypes = {
-	itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
-	itemsPerPage: PropTypes.string.isRequired,
-	context: PropTypes.oneOf([
-		'',
-		'concepts',
-		'collections',
-		'classifications',
-		'operations',
-	]),
-};
 export default Pagination;

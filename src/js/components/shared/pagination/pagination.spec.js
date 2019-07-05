@@ -127,6 +127,7 @@ describe('pagination', () => {
 		);
 		wrapper.setState({ currentPage: 2 });
 		expect(wrapper.find('.disabled').length).toBe(0);
+		expect(wrapper.find('button[disabled=true]').length).toBe(0);
 	});
 	it('should disable the previous link if we are on the page 1', () => {
 		const wrapper = shallow(
@@ -138,6 +139,14 @@ describe('pagination', () => {
 				.find('.pagination')
 				.find('li')
 				.at(1)
+				.hasClass('disabled')
+		).toBeTruthy();
+
+		expect(
+			wrapper
+				.find('.pagination')
+				.find('li')
+				.at(0)
 				.hasClass('disabled')
 		).toBeTruthy();
 	});
@@ -153,6 +162,13 @@ describe('pagination', () => {
 				.find('.pagination')
 				.find('li')
 				.at(5)
+				.hasClass('disabled')
+		).toBeTruthy();
+		expect(
+			wrapper
+				.find('.pagination')
+				.find('li')
+				.at(6)
 				.hasClass('disabled')
 		).toBeTruthy();
 	});
