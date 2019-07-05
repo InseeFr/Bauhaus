@@ -61,8 +61,8 @@ describe('pagination', () => {
 		);
 		expect(wrapper.state(['currentPage'])).toBe(1);
 		wrapper
-			.find('.pagination')
-			.find('[id=2] button')
+			.findWhere(node => node.key() === '2')
+			.find('button')
 			.first()
 			.simulate('click', e);
 		expect(wrapper.state(['currentPage'])).toBe(2);
@@ -75,7 +75,6 @@ describe('pagination', () => {
 		wrapper.setState({ currentPage: 2 });
 
 		wrapper
-			.find('.pagination')
 			.find('button')
 			.at(1)
 			.simulate('click', e);
@@ -89,7 +88,6 @@ describe('pagination', () => {
 		wrapper.setState({ currentPage: 2 });
 
 		wrapper
-			.find('.pagination')
 			.find('button')
 			.at(6)
 			.simulate('click', e);
@@ -102,7 +100,6 @@ describe('pagination', () => {
 		);
 		expect(wrapper.state(['currentPage'])).toBe(1);
 		wrapper
-			.find('.pagination')
 			.find('button')
 			.first()
 			.simulate('click', e);
@@ -114,7 +111,6 @@ describe('pagination', () => {
 		);
 		expect(wrapper.state(['currentPage'])).toBe(1);
 		wrapper
-			.find('.pagination')
 			.find('button')
 			.last()
 			.simulate('click', e);
@@ -136,7 +132,6 @@ describe('pagination', () => {
 		wrapper.setState({ currentPage: 1 });
 		expect(
 			wrapper
-				.find('.pagination')
 				.find('li')
 				.at(1)
 				.hasClass('disabled')
@@ -144,7 +139,6 @@ describe('pagination', () => {
 
 		expect(
 			wrapper
-				.find('.pagination')
 				.find('li')
 				.at(0)
 				.hasClass('disabled')
@@ -159,14 +153,12 @@ describe('pagination', () => {
 
 		expect(
 			wrapper
-				.find('.pagination')
 				.find('li')
 				.at(5)
 				.hasClass('disabled')
 		).toBeTruthy();
 		expect(
 			wrapper
-				.find('.pagination')
 				.find('li')
 				.at(6)
 				.hasClass('disabled')
