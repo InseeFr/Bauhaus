@@ -19,6 +19,10 @@ export default {
 		fr: 'Le fichier est obligatoire',
 		en: 'The file is required',
 	},
+	wrongFileName: {
+		fr: 'Le nom du fichier est incorrect',
+		en: 'The name of the file incorrect',
+	},
 	requiredFamily: {
 		fr: 'La famille est obligatoire',
 		en: 'The family is required',

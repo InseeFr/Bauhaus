@@ -267,7 +267,6 @@ class OperationsDocumentationEdition extends Component {
 										<div
 											{...getRootProps({
 												className: 'dropzone',
-												onDrop: event => event.stopPropagation(),
 											})}
 										>
 											<input
