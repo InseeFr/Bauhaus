@@ -12,6 +12,8 @@ import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
 import Loading from 'js/components/shared/loading';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
+import { toSelectModel } from '../../shared/utils/itemToSelectModel';
+import SelectRmes from 'js/components/shared/select-rmes';
 
 const defaultDocument = {
 	labelLg1: '',
@@ -97,6 +99,7 @@ class OperationsDocumentationEdition extends Component {
 	render() {
 		const {
 			langs: { lg1, lg2 },
+			langOptions,
 			type,
 		} = this.props;
 
@@ -306,13 +309,17 @@ class OperationsDocumentationEdition extends Component {
 								<NoteFlag text={D.langTitle} lang={lg1} />
 								<span className="boldRed">*</span>
 							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="lang"
+							
+							<SelectRmes
+								placeholder=""
+								unclearable
 								value={document.lang}
-								onChange={this.onChange}
-								aria-invalid={errors.fields.lang}
+								options={langOptions.codes.map(lang => {
+									return { value: lang.code, label: lang.labelLg1 };
+								})}
+								onChange={value => {
+									this.onChange({ target: { value, id: 'lang' } });
+								}}
 							/>
 						</div>
 					</div>
