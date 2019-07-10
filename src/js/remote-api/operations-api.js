@@ -6,7 +6,7 @@ const api = {
 	...simsApi,
 	...indicatorApi,
 
-	getSeriesList: () => ['series'],
+	getSeriesList: () => ['series/withSims'],
 	getOperationsList: () => ['operations'],
 	getFamiliesList: () => ['families'],
 
