@@ -12,7 +12,6 @@ import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
 import Loading from 'js/components/shared/loading';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
-import { toSelectModel } from '../../shared/utils/itemToSelectModel';
 import SelectRmes from 'js/components/shared/select-rmes';
 
 const defaultDocument = {
@@ -309,7 +308,7 @@ class OperationsDocumentationEdition extends Component {
 								<NoteFlag text={D.langTitle} lang={lg1} />
 								<span className="boldRed">*</span>
 							</label>
-							
+
 							<SelectRmes
 								placeholder=""
 								unclearable
