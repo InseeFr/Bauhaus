@@ -11,6 +11,10 @@
 		text-decoration: none;
 		border: 1px solid #ddd;
 
+		&.disabled {
+			color: lightgrey;
+		}
+
 		&:first-child {
 			border-top-left-radius: 5px;
 			border-bottom-left-radius: 5px;
