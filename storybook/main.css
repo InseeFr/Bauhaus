@@ -1519,6 +1519,8 @@ footer p {
     height: 40px;
     text-decoration: none;
     border: 1px solid #ddd; }
+    .pg-rmes li.disabled {
+      color: lightgrey; }
     .pg-rmes li:first-child {
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px; }
