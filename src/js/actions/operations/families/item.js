@@ -7,23 +7,24 @@ export const saveFamily = (family, callback) => dispatch => {
 		payload: family,
 	});
 	const method = family.id ? 'putFamily' : 'postFamily';
+
 	return api[method](family).then(
 		results => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_FAMILY_SUCCESS,
 				payload: {
 					...family,
-					id: family.id ? family.id : results
+					id: family.id ? family.id : results,
 				},
 			});
-			callback(results);
+			callback(null, results);
 		},
 		err => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_FAMILY_FAILURE,
 				payload: { err },
 			});
-			callback();
+			callback(err);
 		}
 	);
 };

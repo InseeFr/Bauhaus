@@ -18,14 +18,14 @@ export const saveIndicator = (indicator, callback) => dispatch => {
 					altLabel: indicator.altLabelLg1,
 				},
 			});
-			callback(results);
+			callback(null, results);
 		},
 		err => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_INDICATOR_FAILURE,
 				payload: { err },
 			});
-			callback();
+			callback(err);
 		}
 	);
 };

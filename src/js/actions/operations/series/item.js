@@ -7,6 +7,7 @@ export const saveSerie = (series, callback) => dispatch => {
 		payload: series,
 	});
 	const method = series.id ? 'putSeries' : 'postSeries';
+
 	return api[method](series).then(
 		id => {
 			dispatch({
@@ -16,14 +17,14 @@ export const saveSerie = (series, callback) => dispatch => {
 					id,
 				},
 			});
-			callback(id);
+			callback(null, id);
 		},
 		err => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_SERIE_FAILURE,
 				payload: { err },
 			});
-			callback();
+			callback(err);
 		}
 	);
 };

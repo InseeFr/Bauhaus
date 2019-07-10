@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import Button from 'js/components/shared/button';
 import { validate } from './validation';
+import Loading from 'js/components/shared/loading';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -26,25 +27,28 @@ class OperationsFamilyEdition extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
+		this.state = this.setInitialState(props);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.family.id !== this.props.family.id) {
+			this.setState(this.setInitialState(nextProps));
+		}
+	}
+
+	setInitialState = props => {
+		return {
+			serverSideError: '',
 			family: {
 				...defaultFamily,
 				...props.family,
 			},
 		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			family: {
-				...defaultFamily,
-				...nextProps.family,
-			},
-		});
-	}
+	};
 
 	onChange = e => {
 		this.setState({
+			serverSideError: '',
 			family: {
 				...this.state.family,
 				[e.target.id]: e.target.value,
@@ -52,19 +56,32 @@ class OperationsFamilyEdition extends Component {
 		});
 	};
 	onSubmit = () => {
-		this.props.saveFamily(this.state.family, (id = this.state.family.id) => {
-			this.props.history.push(`/operations/family/${id}`);
-		});
+		this.props.saveFamily(
+			this.state.family,
+			(err, id = this.state.family.id) => {
+				if (!err) {
+					this.props.history.push(`/operations/family/${id}`);
+				} else {
+					this.setState({
+						serverSideError: err,
+					});
+				}
+			}
+		);
 	};
 
 	render() {
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
+
 		const {
 			langs: { lg1, lg2 },
 		} = this.props;
-		const { family } = this.state;
+		const { family, serverSideError } = this.state;
 		const isEditing = !!family.id;
 
 		const errors = validate(family);
+		const globalError = errors.errorMessage || serverSideError;
 
 		return (
 			<div className="container editor-container">
@@ -100,15 +117,11 @@ class OperationsFamilyEdition extends Component {
 
 					<div className="col-md-8 centered">
 						<div
-							style={{ visibility: errors.errorMessage ? 'visible' : 'hidden' }}
+							style={{ visibility: globalError ? 'visible' : 'hidden' }}
 							className="alert alert-danger bold"
 							role="alert"
 						>
-							{/* HACK: if no content, the line height is set to 0 and the rest
-	              of the page moves a little  */}
-							{errors.errorMessage || (
-								<span style={{ whiteSpace: 'pre-wrap' }}> </span>
-							)}
+							{globalError || <span style={{ whiteSpace: 'pre-wrap' }}> </span>}
 						</div>
 					</div>
 					<Button

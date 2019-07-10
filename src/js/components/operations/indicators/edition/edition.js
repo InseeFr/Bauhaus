@@ -14,6 +14,7 @@ import {
 	mergedItemsToSelectModels,
 } from 'js/components/operations/shared/utils/itemToSelectModel';
 import { validate } from 'js/components/operations/indicators/edition/validation';
+import Loading from 'js/components/shared/loading';
 
 const defaultIndicator = {
 	prefLabelLg1: '',
@@ -36,12 +37,8 @@ class OperationsIndicatorEdition extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			indicator: {
-				...defaultIndicator,
-				...props.indicator,
-			},
-		};
+		this.state = this.setInitialState(props);
+
 		this.onChanges = [
 			'prefLabelLg1',
 			'prefLabelLg2',
@@ -62,18 +59,25 @@ class OperationsIndicatorEdition extends Component {
 		);
 	}
 	componentWillReceiveProps(nextProps) {
-		this.setState({
+		if (nextProps.indicator.id !== this.props.indicator.id) {
+			this.setState(this.setInitialState(nextProps));
+		}
+	}
+
+	setInitialState = props => {
+		return {
+			serverSideError: '',
 			indicator: {
 				...defaultIndicator,
-				...nextProps.indicator,
+				...props.indicator,
 			},
-		});
-	}
+		};
+	};
 
 	onChange = selector => {
 		return value => {
-			console.log('value');
 			this.setState({
+				serverSideError: '',
 				indicator: {
 					...this.state.indicator,
 					[selector]: value,
@@ -83,12 +87,21 @@ class OperationsIndicatorEdition extends Component {
 	};
 
 	onSubmit = () => {
-		this.props.saveIndicator(this.state.indicator, id => {
-			this.props.history.push(`/operations/indicator/${id}`);
+		this.props.saveIndicator(this.state.indicator, (err, id) => {
+			if (!err) {
+				this.props.history.push(`/operations/indicator/${id}`);
+			} else {
+				this.setState({
+					serverSideError: err,
+				});
+			}
 		});
 	};
 
 	render() {
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
+
 		const {
 			langs: { lg1, lg2 },
 			frequencies,
@@ -123,6 +136,7 @@ class OperationsIndicatorEdition extends Component {
 			seriesOptions
 		);
 		const errors = validate(this.state.indicator);
+		const globalError = errors.errorMessage || this.state.serverSideError;
 
 		return (
 			<div className="container editor-container">
@@ -143,7 +157,7 @@ class OperationsIndicatorEdition extends Component {
 				<Control
 					indicator={this.state.indicator}
 					onSubmit={this.onSubmit}
-					errorMessage={errors.errorMessage}
+					errorMessage={globalError}
 				/>
 
 				<form>

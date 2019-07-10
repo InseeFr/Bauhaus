@@ -24,8 +24,6 @@ class OperationsSeriesEditionContainer extends Component {
 	render() {
 		if (!this.props.serie)
 			return <Loading textType="loading" context="operations" />;
-		if (this.props.operationsAsyncTask)
-			return <Loading textType="saving" context="operations" />;
 		return <OperationsSerieEdition {...this.props} />;
 	}
 }
@@ -38,7 +36,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const serie = id ? select.getSerie(state, id) : {};
+	const serie = id ? select.getSerie(state) : {};
 	const langs = select.getLangs(state);
 	const categories =
 		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};

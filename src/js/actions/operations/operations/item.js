@@ -8,20 +8,21 @@ export const saveOperation = (operation, callback) => dispatch => {
 		payload: operation,
 	});
 	const method = operation.id ? 'putOperation' : 'postOperation';
+
 	return api[method](operation).then(
 		results => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_OPERATION_SUCCESS,
 				payload: operation,
 			});
-			callback(results);
+			callback(null, results);
 		},
 		err => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_OPERATION_FAILURE,
 				payload: { err },
 			});
-			callback();
+			callback(err);
 		}
 	);
 };

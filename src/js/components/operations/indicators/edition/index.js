@@ -21,8 +21,7 @@ class OperationsIndicatorsEditionContainer extends Component {
 	render() {
 		if (!this.props.indicator)
 			return <Loading textType="loading" context="operations" />;
-		if (this.props.operationsAsyncTask)
-			return <Loading textType="saving" context="operations" />;
+
 		return <OperationsIndicatorEdition {...this.props} />;
 	}
 }

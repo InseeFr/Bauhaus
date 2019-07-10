@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import Button from 'js/components/shared/button';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { validate } from './validation';
+import Loading from 'js/components/shared/loading';
 
 const defaultOperation = {
 	prefLabelLg1: '',
@@ -24,21 +25,24 @@ class OperationsOperationEdition extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
+		this.state = this.setInitialState(props);
+	}
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.operation.id !== this.props.operation.id) {
+			this.setState(this.setInitialState(nextProps));
+		}
+	}
+
+	setInitialState = props => {
+		return {
+			serverSideError: '',
 			operation: {
 				...defaultOperation,
 				...props.operation,
 			},
 		};
-	}
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			operation: {
-				...defaultOperation,
-				...nextProps.operation,
-			},
-		});
-	}
+	};
+
 	onChange = e => {
 		let override = {
 			[e.target.id]: e.target.value,
@@ -51,6 +55,7 @@ class OperationsOperationEdition extends Component {
 			};
 		}
 		this.setState({
+			serverSideError: '',
 			operation: {
 				...this.state.operation,
 				...override,
@@ -60,26 +65,37 @@ class OperationsOperationEdition extends Component {
 	onSubmit = () => {
 		this.props.saveOperation(
 			this.state.operation,
-			(id = this.state.operation.id) => {
-				this.props.history.push(`/operations/operation/${id}`);
+			(err, id = this.state.operation.id) => {
+				if (!err) {
+					this.props.history.push(`/operations/operation/${id}`);
+				} else {
+					this.setState({
+						serverSideError: err,
+					});
+				}
 			}
 		);
 	};
 
 	render() {
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
+
 		const {
 			langs: { lg1, lg2 },
 		} = this.props;
 
-		const seriesOptions = this.props.series.map(s => {
-			return { value: s.id, label: s.label };
-		});
-		const { operation } = this.state;
+		const seriesOptions = this.props.series
+			.filter(series => !series.idSims)
+			.map(({ id, label }) => {
+				return { value: id, label: label };
+			});
+		const { operation, serverSideError } = this.state;
 		const series = operation.series || { id: '' };
 		const isEditing = !!operation.id;
 
 		const errors = validate(operation);
-
+		const globalError = errors.errorMessage || serverSideError;
 		return (
 			<div className="container editor-container">
 				{isEditing && (
@@ -114,15 +130,13 @@ class OperationsOperationEdition extends Component {
 
 					<div className="col-md-8 centered">
 						<div
-							style={{ visibility: errors.errorMessage ? 'visible' : 'hidden' }}
+							style={{ visibility: globalError ? 'visible' : 'hidden' }}
 							className="alert alert-danger bold"
 							role="alert"
 						>
 							{/* HACK: if no content, the line height is set to 0 and the rest
 	              of the page moves a little  */}
-							{errors.errorMessage || (
-								<span style={{ whiteSpace: 'pre-wrap' }}> </span>
-							)}
+							{globalError || <span style={{ whiteSpace: 'pre-wrap' }}> </span>}
 						</div>
 					</div>
 					<Button
