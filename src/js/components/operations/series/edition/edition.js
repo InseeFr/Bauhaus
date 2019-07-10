@@ -1,7 +1,7 @@
 import D from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { goBack } from 'js/utils/redirection';
+import { goBack, goBackOrReplace } from 'js/utils/redirection';
 import Button from 'js/components/shared/button';
 import Loading from 'js/components/shared/loading';
 import PageTitle from 'js/components/shared/page-title';
@@ -90,9 +90,11 @@ class OperationsSerieEdition extends Component {
 		});
 	};
 	onSubmit = () => {
+		const isCreation = !this.state.serie.id;
+
 		this.props.saveSerie(this.state.serie, (err, id = this.props.serie.id) => {
 			if (!err) {
-				this.props.history.push(`/operations/series/${id}`);
+				goBackOrReplace(this.props, `/operations/series/${id}`, isCreation);
 			} else {
 				this.setState({
 					serverSideError: err,

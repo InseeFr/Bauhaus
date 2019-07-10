@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
-import { goBack } from 'js/utils/redirection';
+import { goBackOrReplace, goBack } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
@@ -56,11 +56,13 @@ class OperationsFamilyEdition extends Component {
 		});
 	};
 	onSubmit = () => {
+		const isCreation = !this.state.family.id;
+
 		this.props.saveFamily(
 			this.state.family,
 			(err, id = this.state.family.id) => {
 				if (!err) {
-					this.props.history.push(`/operations/family/${id}`);
+					goBackOrReplace(this.props, `/operations/family/${id}`, isCreation);
 				} else {
 					this.setState({
 						serverSideError: err,

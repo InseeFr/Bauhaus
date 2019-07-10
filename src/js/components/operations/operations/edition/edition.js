@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
-import { goBack } from 'js/utils/redirection';
+import { goBack, goBackOrReplace } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
 import Button from 'js/components/shared/button';
@@ -63,11 +63,17 @@ class OperationsOperationEdition extends Component {
 		});
 	};
 	onSubmit = () => {
+		const isCreation = !this.state.operation.id;
+
 		this.props.saveOperation(
 			this.state.operation,
 			(err, id = this.state.operation.id) => {
 				if (!err) {
-					this.props.history.push(`/operations/operation/${id}`);
+					goBackOrReplace(
+						this.props,
+						`/operations/operation/${id}`,
+						isCreation
+					);
 				} else {
 					this.setState({
 						serverSideError: err,

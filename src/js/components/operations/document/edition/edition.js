@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PageSubtitle from 'js/components/shared/page-subtitle';
 import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
-import { goBack } from 'js/utils/redirection';
+import { goBack, goBackOrReplace } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
@@ -76,13 +76,15 @@ class OperationsDocumentationEdition extends Component {
 	};
 
 	onSubmit = () => {
+		const isCreation = !this.state.document.id;
 		this.props.saveDocument(
 			this.state.document,
 			this.props.type,
 			this.state.files,
 			(err, id = this.state.document.id) => {
+				console.log(this.state.document);
 				if (!err) {
-					this.props.history.push(`/operations/document/${id}`);
+					goBackOrReplace(this.props, `/operations/document/${id}`, isCreation);
 				} else {
 					this.setState({
 						serverSideError: err,

@@ -15,6 +15,7 @@ import {
 } from 'js/components/operations/shared/utils/itemToSelectModel';
 import { validate } from 'js/components/operations/indicators/edition/validation';
 import Loading from 'js/components/shared/loading';
+import { goBackOrReplace } from 'js/utils/redirection';
 
 const defaultIndicator = {
 	prefLabelLg1: '',
@@ -87,9 +88,11 @@ class OperationsIndicatorEdition extends Component {
 	};
 
 	onSubmit = () => {
+		const isCreation = !this.state.indicator.id;
+
 		this.props.saveIndicator(this.state.indicator, (err, id) => {
 			if (!err) {
-				this.props.history.push(`/operations/indicator/${id}`);
+				goBackOrReplace(this.props, `/operations/indicator/${id}`, isCreation);
 			} else {
 				this.setState({
 					serverSideError: err,
