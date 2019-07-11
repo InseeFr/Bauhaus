@@ -1,5 +1,6 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
+import { getItemFactory } from '../utils';
 
 export const saveFamily = (family, callback) => dispatch => {
 	dispatch({
@@ -28,23 +29,9 @@ export const saveFamily = (family, callback) => dispatch => {
 		}
 	);
 };
-export default id => dispatch => {
-	dispatch({
-		type: A.LOAD_OPERATIONS_FAMILY,
-		payload: {
-			id,
-		},
-	});
-	return api.getFamily(id).then(
-		results =>
-			dispatch({
-				type: A.LOAD_OPERATIONS_FAMILY_SUCCESS,
-				payload: results,
-			}),
-		err =>
-			dispatch({
-				type: A.LOAD_OPERATIONS_FAMILIES_LIST_FAILURE,
-				payload: { err },
-			})
-	);
-};
+export default getItemFactory(
+	api.getFamily,
+	A.LOAD_OPERATIONS_FAMILY,
+	A.LOAD_OPERATIONS_FAMILY_SUCCESS,
+	A.LOAD_OPERATIONS_FAMILIES_LIST_FAILURE
+);

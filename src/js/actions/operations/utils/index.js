@@ -20,3 +20,30 @@ export default (remoteCall, LOADING, SUCCESS, FAILURE) => dispatch => {
 			})
 	);
 };
+
+export const getItemFactory = (remoteCall, LOADING, SUCCESS, FAILURE) => id => (
+	dispatch,
+	getState
+) => {
+	if (getState().operationsOperationCurrentStatus === LOADING) {
+		return;
+	}
+	dispatch({
+		type: LOADING,
+		payload: {
+			id,
+		},
+	});
+	return remoteCall(id).then(
+		results =>
+			dispatch({
+				type: SUCCESS,
+				payload: results,
+			}),
+		err =>
+			dispatch({
+				type: FAILURE,
+				payload: { err },
+			})
+	);
+};

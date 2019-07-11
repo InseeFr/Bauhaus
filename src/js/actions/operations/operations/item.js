@@ -1,6 +1,7 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
 import { LOADING } from 'js/constants';
+import { getItemFactory } from '../utils';
 
 export const saveOperation = (operation, callback) => dispatch => {
 	dispatch({
@@ -27,26 +28,9 @@ export const saveOperation = (operation, callback) => dispatch => {
 	);
 };
 
-export default id => (dispatch, getState) => {
-	if (getState().operationsOperationCurrentStatus === LOADING) {
-		return;
-	}
-	dispatch({
-		type: A.LOAD_OPERATIONS_OPERATION,
-		payload: {
-			id,
-		},
-	});
-	return api.getOperation(id).then(
-		results =>
-			dispatch({
-				type: A.LOAD_OPERATIONS_OPERATION_SUCCESS,
-				payload: results,
-			}),
-		err =>
-			dispatch({
-				type: A.LOAD_OPERATIONS_OPERATIONS_LIST_FAILURE,
-				payload: { err },
-			})
-	);
-};
+export default getItemFactory(
+	api.getOperation,
+	A.LOAD_OPERATIONS_OPERATION,
+	A.LOAD_OPERATIONS_OPERATION_SUCCESS,
+	A.LOAD_OPERATIONS_OPERATIONS_LIST_FAILURE
+);
