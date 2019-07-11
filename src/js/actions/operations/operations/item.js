@@ -1,6 +1,5 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
-import { LOADING } from 'js/constants';
 import { getItemFactory } from '../utils';
 
 export const saveOperation = (operation, callback) => dispatch => {
