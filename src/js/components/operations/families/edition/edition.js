@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PageSubtitle from 'js/components/shared/page-subtitle';
-import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import { goBackOrReplace, goBack } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
@@ -9,6 +7,7 @@ import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import Button from 'js/components/shared/button';
 import { validate } from './validation';
 import Loading from 'js/components/shared/loading';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -88,18 +87,12 @@ class OperationsFamilyEdition extends Component {
 		return (
 			<div className="container editor-container">
 				{isEditing && (
-					<React.Fragment>
-						<PageTitle
-							title={this.props.family.prefLabelLg1}
-							context="operations"
-						/>
-						{this.props.family.prefLabelLg2 && (
-							<PageSubtitle
-								subTitle={this.props.family.prefLabelLg2}
-								context="operations"
-							/>
-						)}
-					</React.Fragment>
+					<PageTitleBlock
+						titleLg1={this.props.family.prefLabelLg1}
+						titleLg2={this.props.family.prefLabelLg2}
+						secondLang={true}
+						context="operations"
+					/>
 				)}
 
 				<div className="row btn-line">

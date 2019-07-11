@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PageSubtitle from 'js/components/shared/page-subtitle';
-import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import { goBack, goBackOrReplace } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
@@ -9,6 +7,7 @@ import Button from 'js/components/shared/button';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { validate } from './validation';
 import Loading from 'js/components/shared/loading';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const defaultOperation = {
 	prefLabelLg1: '',
@@ -105,18 +104,12 @@ class OperationsOperationEdition extends Component {
 		return (
 			<div className="container editor-container">
 				{isEditing && (
-					<>
-						<PageTitle
-							title={this.props.operation.prefLabelLg1}
-							context="operations"
-						/>
-						{this.props.operation.prefLabelLg2 && (
-							<PageSubtitle
-								subTitle={this.props.operation.prefLabelLg2}
-								context="operations"
-							/>
-						)}
-					</>
+					<PageTitleBlock
+						titleLg1={this.props.operation.prefLabelLg1}
+						titleLg2={this.props.operation.prefLabelLg2}
+						secondLang={true}
+						context="operations"
+					/>
 				)}
 
 				<div className="row btn-line">

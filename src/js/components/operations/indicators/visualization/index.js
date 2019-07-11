@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import buildExtract from 'js/utils/build-extract';
 import { goBack } from 'js/utils/redirection';
@@ -8,7 +7,6 @@ import { connect } from 'react-redux';
 import * as select from 'js/reducers';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { saveSecondLang } from 'js/actions/app';
-import PageSubtitle from 'js/components/shared/page-subtitle';
 import OperationsIndicatorVisualization from 'js/components/operations/indicators/visualization/general';
 import Loading from 'js/components/shared/loading';
 import loadIndicator from 'js/actions/operations/indicators/item';
@@ -17,6 +15,7 @@ import { CL_FREQ } from 'js/actions/constants/codeList';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const extractId = buildExtract('id');
 class IndicatorVisualizationContainer extends Component {
@@ -47,10 +46,12 @@ class IndicatorVisualizationContainer extends Component {
 					onChange={this.props.saveSecondLang}
 				/>
 
-				<PageTitle title={attr.prefLabelLg1} context="operations" />
-				{secondLang && attr.prefLabelLg2 && (
-					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
-				)}
+				<PageTitleBlock
+					titleLg1={attr.prefLabelLg1}
+					titleLg2={attr.prefLabelLg2}
+					secondLang={secondLang}
+					context="operations"
+				/>
 
 				<div className="row btn-line action-toolbar">
 					<Button
@@ -77,6 +78,9 @@ class IndicatorVisualizationContainer extends Component {
 							/>
 						</Auth>
 					)}
+					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
+						<Button label={D.btnValid} context="operations" />
+					</Auth>
 					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
 						<Button
 							action={`/operations/indicator/${attr.id}/modify`}

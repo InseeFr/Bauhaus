@@ -2,8 +2,6 @@ import { saveSecondLang } from 'js/actions/app';
 import loadDocument from 'js/actions/operations/documents/item';
 import Button from 'js/components/shared/button';
 import Loading from 'js/components/shared/loading';
-import PageSubtitle from 'js/components/shared/page-subtitle';
-import PageTitle from 'js/components/shared/page-title';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
@@ -17,6 +15,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
 import { compose } from 'recompose';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const extractId = buildExtract('id');
 
@@ -45,13 +44,12 @@ class DocumentationVisualizationContainer extends Component {
 			<div className="container">
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
-				<PageTitle
-					title={document.labelLg1 || document.labelLg2}
+				<PageTitleBlock
+					titleLg1={document.labelLg1 || document.labelLg2}
+					titleLg2={document.labelLg2}
+					secondLang={secondLang}
 					context="operations"
 				/>
-				{secondLang && document.labelLg2 && (
-					<PageSubtitle subTitle={document.labelLg2} context="operations" />
-				)}
 
 				<div className="row btn-line">
 					<Button

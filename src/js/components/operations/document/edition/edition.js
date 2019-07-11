@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PageSubtitle from 'js/components/shared/page-subtitle';
-import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import { goBack, goBackOrReplace } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
@@ -13,6 +11,7 @@ import Dropzone from 'react-dropzone';
 import Loading from 'js/components/shared/loading';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import SelectRmes from 'js/components/shared/select-rmes';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const defaultDocument = {
 	labelLg1: '',
@@ -119,18 +118,12 @@ class OperationsDocumentationEdition extends Component {
 		return (
 			<div className="container editor-container">
 				{isEditing && (
-					<React.Fragment>
-						<PageTitle
-							title={this.props.document.labelLg1}
-							context="operations"
-						/>
-						{this.props.document.labelLg2 && (
-							<PageSubtitle
-								subTitle={this.props.document.labelLg2}
-								context="operations"
-							/>
-						)}
-					</React.Fragment>
+					<PageTitleBlock
+						titleLg1={this.props.document.labelLg1}
+						titleLg2={this.props.document.labelLg2}
+						secondLang={true}
+						context="operations"
+					/>
 				)}
 
 				<div className="row btn-line">

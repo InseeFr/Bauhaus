@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './page-title.scss';
 
-function PageTitle({ title, subtitle, col, offset, context }) {
+/**
+ *
+ * @param {{title:string, subtitle:string?, col: number?, offset: number?, context:string}} props
+ */
+function PageTitle({ title, subtitle, col = 10, offset = 1, context }) {
 	const className = context ? `page-title-${context}` : 'page-title';
 	return (
 		<div className="row">
-			<div
-				className={`col-md-${col || 10} centered col-md-offset-${
-					offset === undefined ? 1 : offset
-				}`}
-			>
+			<div className={`col-md-${col} centered col-md-offset-${offset}`}>
 				<h1 className={className}>
 					{title}
 					{subtitle && <div>&quot; {subtitle} &quot;</div>}

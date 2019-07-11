@@ -14,9 +14,7 @@ import { saveSecondLang } from 'js/actions/app';
 import loadOperation from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
 import ModalRmes from 'js/components/shared/modal-rmes/modal-rmes';
-import PageTitle from 'js/components/shared/page-title';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import PageSubtitle from 'js/components/shared/page-subtitle';
 import { goBack } from 'js/utils/redirection';
 import Button from 'js/components/shared/button';
 import { getSecondLang } from 'js/reducers/app';
@@ -27,6 +25,7 @@ import {
 	SERIES_CREATOR,
 	CNIS,
 } from 'js/utils/auth/roles';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const extractId = buildExtract('id');
 
@@ -122,13 +121,12 @@ class OperationVisualizationContainer extends Component {
 					modalButtons={modalButtons}
 				/>
 
-				<PageTitle title={operation.prefLabelLg1} context="operations" />
-				{secondLang && operation.prefLabelLg2 && (
-					<PageSubtitle
-						subTitle={operation.prefLabelLg2}
-						context="operations"
-					/>
-				)}
+				<PageTitleBlock
+					titleLg1={operation.prefLabelLg1}
+					titleLg2={operation.prefLabelLg2}
+					secondLang={secondLang}
+					context="operations"
+				/>
 
 				<div className="row btn-line action-toolbar">
 					<Button
@@ -155,6 +153,9 @@ class OperationVisualizationContainer extends Component {
 							/>
 						</Auth>
 					)}
+					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
+						<Button label={D.btnValid} context="operations" />
+					</Auth>
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
 							action={`/operations/operation/${operation.id}/modify`}

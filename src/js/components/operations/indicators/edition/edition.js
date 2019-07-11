@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PageSubtitle from 'js/components/shared/page-subtitle';
-import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
@@ -16,6 +14,7 @@ import {
 import { validate } from 'js/components/operations/indicators/edition/validation';
 import Loading from 'js/components/shared/loading';
 import { goBackOrReplace } from 'js/utils/redirection';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const defaultIndicator = {
 	prefLabelLg1: '',
@@ -144,18 +143,12 @@ class OperationsIndicatorEdition extends Component {
 		return (
 			<div className="container editor-container">
 				{isUpdate && (
-					<React.Fragment>
-						<PageTitle
-							title={this.props.indicator.prefLabelLg1}
-							context="operations"
-						/>
-						{indicator.prefLabelLg2 && (
-							<PageSubtitle
-								subTitle={this.props.indicator.prefLabelLg2}
-								context="operations"
-							/>
-						)}
-					</React.Fragment>
+					<PageTitleBlock
+						titleLg1={indicator.prefLabelLg1}
+						titleLg2={indicator.prefLabelLg2}
+						secondLang={true}
+						context="operations"
+					/>
 				)}
 				<Control
 					indicator={this.state.indicator}

@@ -4,9 +4,7 @@ import React, { Component } from 'react';
 import { goBack, goBackOrReplace } from 'js/utils/redirection';
 import Button from 'js/components/shared/button';
 import Loading from 'js/components/shared/loading';
-import PageTitle from 'js/components/shared/page-title';
 import SelectRmes from 'js/components/shared/select-rmes';
-import PageSubtitle from 'js/components/shared/page-subtitle';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
@@ -17,6 +15,7 @@ import {
 	toSelectModel,
 	mergedItemsToSelectModels,
 } from 'js/components/operations/shared/utils/itemToSelectModel';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const defaultSerie = {
 	id: '',
@@ -151,18 +150,12 @@ class OperationsSerieEdition extends Component {
 		return (
 			<div className="container editor-container">
 				{isEditing && (
-					<>
-						<PageTitle
-							title={this.props.serie.prefLabelLg1}
-							context="operations"
-						/>
-						{this.props.serie.prefLabelLg2 && (
-							<PageSubtitle
-								subTitle={this.props.serie.prefLabelLg2}
-								context="operations"
-							/>
-						)}
-					</>
+					<PageTitleBlock
+						titleLg1={this.props.serie.prefLabelLg1}
+						titleLg2={this.props.serie.prefLabelLg2}
+						secondLang={true}
+						context="operations"
+					/>
 				)}
 
 				<div className="row btn-line">
