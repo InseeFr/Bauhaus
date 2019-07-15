@@ -30,4 +30,10 @@ export const SaveButton = props => (
 	</AbstractButton>
 );
 
+export const DuplicateButton = props => (
+	<AbstractButton icon="duplicate" {...props}>
+		{D.btnDuplicate}
+	</AbstractButton>
+);
+
 export default AbstractButton;

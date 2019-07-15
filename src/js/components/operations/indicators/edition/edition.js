@@ -101,8 +101,7 @@ class OperationsIndicatorEdition extends Component {
 	};
 
 	render() {
-		if (this.props.operationsAsyncTask)
-			return <Loading textType="saving" context="operations" />;
+		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
 		const {
 			langs: { lg1, lg2 },
@@ -147,7 +146,6 @@ class OperationsIndicatorEdition extends Component {
 						titleLg1={indicator.prefLabelLg1}
 						titleLg2={indicator.prefLabelLg2}
 						secondLang={true}
-						context="operations"
 					/>
 				)}
 				<Control

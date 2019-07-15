@@ -14,8 +14,7 @@ class OperationsHomeContainer extends Component {
 	}
 	render() {
 		const { operations, status } = this.props;
-		if (status !== LOADED)
-			return <Loading textType="loading" context="operations" />;
+		if (status !== LOADED) return <Loading textType="loading" />;
 		return <OperationsHome operations={operations} />;
 	}
 }

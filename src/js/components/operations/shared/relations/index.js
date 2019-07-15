@@ -56,7 +56,6 @@ function RelationsViewPerLg({
 			lang={currentLang}
 			alone={!secondLang}
 			allowEmpty={true}
-			context={context}
 		/>
 	);
 }

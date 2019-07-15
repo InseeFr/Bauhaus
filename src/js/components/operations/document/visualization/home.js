@@ -26,7 +26,6 @@ function OperationsDocumentationVisualization({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					context="operations"
 				/>
 				{secondLang && (
 					<Note
@@ -35,7 +34,6 @@ function OperationsDocumentationVisualization({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						context="operations"
 					/>
 				)}
 			</div>
@@ -47,7 +45,6 @@ function OperationsDocumentationVisualization({
 						lang={lg1}
 						alone={true}
 						allowEmpty={true}
-						context="operations"
 					/>
 				</div>
 			)}
@@ -62,7 +59,6 @@ function OperationsDocumentationVisualization({
 					lang={lg1}
 					alone={true}
 					allowEmpty={true}
-					context="operations"
 				/>
 			</div>
 		</React.Fragment>

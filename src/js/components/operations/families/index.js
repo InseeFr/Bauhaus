@@ -14,8 +14,7 @@ class FamiliesHomeContainer extends Component {
 	}
 	render() {
 		const { families, status } = this.props;
-		if (status !== LOADED)
-			return <Loading textType="loading" context="operations" />;
+		if (status !== LOADED) return <Loading textType="loading" />;
 		return <FamiliesHome families={families} />;
 	}
 }

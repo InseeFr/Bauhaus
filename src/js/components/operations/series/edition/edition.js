@@ -107,8 +107,7 @@ class OperationsSerieEdition extends Component {
 	};
 
 	render() {
-		if (this.props.operationsAsyncTask)
-			return <Loading textType="saving" context="operations" />;
+		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
 		const {
 			langs: { lg1, lg2 },
@@ -158,21 +157,13 @@ class OperationsSerieEdition extends Component {
 						titleLg1={this.props.serie.prefLabelLg1}
 						titleLg2={this.props.serie.prefLabelLg2}
 						secondLang={true}
-						context="operations"
 					/>
 				)}
 
 				<div className="row btn-line action-toolbar">
-					<CancelButton
-						action={goBack(this.props, '/operations/series')}
-						context="operations"
-					/>
+					<CancelButton action={goBack(this.props, '/operations/series')} />
 					<ErrorBloc error={globalError} />
-					<SaveButton
-						action={this.onSubmit}
-						context="operations"
-						disabled={errors.errorMessage}
-					/>
+					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
 				</div>
 				<form>
 					{!isEditing && (

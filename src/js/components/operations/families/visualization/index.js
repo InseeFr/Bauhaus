@@ -38,7 +38,7 @@ class FamilyVisualizationContainer extends PureComponent {
 			family: { ...attr },
 			saveSecondLang,
 		} = this.props;
-		if (!attr.id) return <Loading textType="loading" context="operations" />;
+		if (!attr.id) return <Loading textType="loading" />;
 		return (
 			<div className="container">
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
@@ -47,25 +47,22 @@ class FamilyVisualizationContainer extends PureComponent {
 					titleLg1={attr.prefLabelLg1}
 					titleLg2={attr.prefLabelLg2}
 					secondLang={secondLang}
-					context="operations"
 				/>
 
 				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/families')}
 						label={D.btnReturn}
-						context="operations"
 					/>
 
 					<div className="empty-center" />
 					<Auth roles={[ADMIN]}>
-						<Button label={D.btnValid} context="operations" />
+						<Button label={D.btnValid} />
 					</Auth>
 					<Auth roles={[ADMIN, CNIS]}>
 						<Button
 							action={`/operations/family/${attr.id}/modify`}
 							label={D.btnUpdate}
-							context="operations"
 						/>
 					</Auth>
 				</div>

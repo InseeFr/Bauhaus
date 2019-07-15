@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import Pagination from 'js/components/shared/pagination';
 import { filterKeyDeburr, nbResults } from 'js/utils/array-utils';
+import { ApplicationContext } from 'js/context';
 
 function SearchRmes({
 	items = [],
@@ -15,7 +16,7 @@ function SearchRmes({
 	label,
 }) {
 	const [search, handleSearch] = useState('');
-
+	const ctx = useContext(ApplicationContext) || context;
 	const filter = filterKeyDeburr(
 		Object.keys(items[0] || {}).filter(k => k !== 'id')
 	);
@@ -61,7 +62,7 @@ function SearchRmes({
 				<p aria-live="assertive">{nbResults(hits)}</p>
 			</div>
 			<div>
-				<Pagination itemEls={hitEls} itemsPerPage="10" context={context} />
+				<Pagination itemEls={hitEls} itemsPerPage="10" context={ctx} />
 			</div>
 		</div>
 	);

@@ -33,16 +33,10 @@ function FamiliesHome({ families }) {
 						</div>
 					</Auth>
 					<div className="col-md-8 centered pull-right">
-						<PageTitle
-							title={D.familiesSearchTitle}
-							col={12}
-							offset={0}
-							context="operations"
-						/>
+						<PageTitle title={D.familiesSearchTitle} col={12} offset={0} />
 						<SearchRmes
 							items={families}
 							childPath="operations/family"
-							context="operations"
 							label="label"
 						/>
 					</div>

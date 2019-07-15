@@ -88,10 +88,9 @@ class OperationVisualizationContainer extends Component {
 			saveSecondLang,
 		} = this.props;
 
-		if (!operation.id)
-			return <Loading textType="loading" context="operations" />;
+		if (!operation.id) return <Loading textType="loading" />;
 		if (this.state.isLoading && exportStatus !== OK) {
-			return <Loading textType="exporting" context="operations" />;
+			return <Loading textType="exporting" />;
 		}
 
 		const modalButtons = [
@@ -125,14 +124,12 @@ class OperationVisualizationContainer extends Component {
 					titleLg1={operation.prefLabelLg1}
 					titleLg2={operation.prefLabelLg2}
 					secondLang={secondLang}
-					context="operations"
 				/>
 
 				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/operations')}
 						label={D.btnReturn}
-						context="operations"
 					/>
 
 					<div className="empty-center" />
@@ -140,7 +137,6 @@ class OperationVisualizationContainer extends Component {
 						<Button
 							action={`/operations/sims/${operation.idSims}`}
 							label={D.btnSimsVisu}
-							context="operations"
 						/>
 					)}
 					{!operation.idSims && (
@@ -149,18 +145,16 @@ class OperationVisualizationContainer extends Component {
 							<Button
 								action={`/operations/operation/${operation.id}/sims/create`}
 								label={D.btnSimsCreate}
-								context="operations"
 							/>
 						</Auth>
 					)}
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
-						<Button label={D.btnValid} context="operations" />
+						<Button label={D.btnValid} />
 					</Auth>
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
 							action={`/operations/operation/${operation.id}/modify`}
 							label={D.btnUpdate}
-							context="operations"
 						/>
 					</Auth>
 				</div>

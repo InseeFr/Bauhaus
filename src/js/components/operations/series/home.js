@@ -33,17 +33,8 @@ function SeriesHome({ series }) {
 						</div>
 					</Auth>
 					<div className="col-md-8 centered pull-right">
-						<PageTitle
-							title={D.seriesSearchTitle}
-							col={12}
-							offset={0}
-							context="operations"
-						/>
-						<SearchRmes
-							items={series}
-							childPath="operations/series"
-							context="operations"
-						/>
+						<PageTitle title={D.seriesSearchTitle} col={12} offset={0} />
+						<SearchRmes items={series} childPath="operations/series" />
 					</div>
 				</div>
 			</div>

@@ -19,8 +19,7 @@ class OperationsIndicatorsEditionContainer extends Component {
 		}
 	}
 	render() {
-		if (!this.props.indicator)
-			return <Loading textType="loading" context="operations" />;
+		if (!this.props.indicator) return <Loading textType="loading" />;
 
 		return <OperationsIndicatorEdition {...this.props} />;
 	}

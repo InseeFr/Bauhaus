@@ -20,8 +20,7 @@ class OperationsDocumentsContainer extends Component {
 	}
 	render() {
 		const { documentStores, documentStoresStatus } = this.props;
-		if (documentStoresStatus !== LOADED)
-			return <Loading textType="loading" context="operations" />;
+		if (documentStoresStatus !== LOADED) return <Loading textType="loading" />;
 		return <DocumentHome documents={documentStores} />;
 	}
 }

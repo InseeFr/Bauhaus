@@ -18,7 +18,6 @@ function OperationsOperationVisualization({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					context="operations"
 				/>
 				{secondLang && (
 					<Note
@@ -27,7 +26,6 @@ function OperationsOperationVisualization({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						context="operations"
 					/>
 				)}
 			</div>
@@ -38,7 +36,6 @@ function OperationsOperationVisualization({
 				title={D.linksTitle}
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
-				context="operations"
 			/>
 		</React.Fragment>
 	);

@@ -112,7 +112,7 @@ class MSDContainer extends Component {
 			metadataStructureStatus !== LOADED ||
 			(mode === VIEW && !currentSims.id)
 		)
-			return <Loading textType="loading" context="operations" />;
+			return <Loading textType="loading" />;
 
 		return (
 			<MSDLayout
@@ -127,7 +127,6 @@ class MSDContainer extends Component {
 						titleLg1={currentSims.labelLg1}
 						titleLg2={currentSims.labelLg2}
 						secondLang={secondLang}
-						context="operations"
 					/>
 				)}
 				{mode === HELP && (

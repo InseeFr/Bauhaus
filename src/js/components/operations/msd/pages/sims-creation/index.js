@@ -188,7 +188,6 @@ class SimsCreation extends React.Component {
 								<span> {D.btnCancel}</span>
 							</React.Fragment>
 						}
-						context="operations"
 					/>
 					<div className="col-md-7" />
 					<Button
@@ -202,7 +201,6 @@ class SimsCreation extends React.Component {
 								<span> {D.btnSave}</span>
 							</React.Fragment>
 						}
-						context="operations"
 						col={3}
 					/>
 				</div>

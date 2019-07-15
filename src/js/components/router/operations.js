@@ -28,6 +28,7 @@ import MSDContainer, {
 	DUPLICATE,
 } from '../operations/msd/';
 import D from 'js/i18n';
+import { ApplicationContext } from 'js/context';
 
 class RootComponent extends Component {
 	componentDidMount() {
@@ -36,170 +37,172 @@ class RootComponent extends Component {
 	}
 	render() {
 		return (
-			<Switch>
-				<Route
-					exact
-					path="/operations/families"
-					component={OperationsFamiliesContainer}
-				/>
-				<Route
-					exact
-					path="/operations/series"
-					component={OperationsSeriesContainer}
-				/>
-				<Route exact path="/operations" component={OperationsContainer} />
-				<Route
-					exact
-					path="/operations/documents"
-					component={OperationsDocumentsContainer}
-				/>
-				<Route
-					exact
-					path="/operations/(link|document)/create"
-					component={OperationsDocumentationEditionContainer}
-				/>
+			<ApplicationContext.Provider value={'operations'}>
+				<Switch>
+					<Route
+						exact
+						path="/operations/families"
+						component={OperationsFamiliesContainer}
+					/>
+					<Route
+						exact
+						path="/operations/series"
+						component={OperationsSeriesContainer}
+					/>
+					<Route exact path="/operations" component={OperationsContainer} />
+					<Route
+						exact
+						path="/operations/documents"
+						component={OperationsDocumentsContainer}
+					/>
+					<Route
+						exact
+						path="/operations/(link|document)/create"
+						component={OperationsDocumentationEditionContainer}
+					/>
 
-				<Route
-					exact
-					path="/operations/document/:id"
-					component={DocumentationVisualizationContainer}
-				/>
-				<Route
-					exact
-					path="/operations/document/:id/modify"
-					component={OperationsDocumentationEditionContainer}
-				/>
-				<Route
-					exact
-					path="/operations/family/create"
-					component={OperationsFamilyEditionContainer}
-				/>
-				<Route
-					exact
-					path="/operations/family/:id"
-					component={OperationsFamilyVisualizationContainer}
-				/>
-				<Route
-					exact
-					path="/operations/indicators"
-					component={OperationsIndicatorsContainer}
-				/>
-				<Route
-					exact
-					path="/operations/indicator/create"
-					component={OperationsIndicatorEditionContainer}
-				/>
+					<Route
+						exact
+						path="/operations/document/:id"
+						component={DocumentationVisualizationContainer}
+					/>
+					<Route
+						exact
+						path="/operations/document/:id/modify"
+						component={OperationsDocumentationEditionContainer}
+					/>
+					<Route
+						exact
+						path="/operations/family/create"
+						component={OperationsFamilyEditionContainer}
+					/>
+					<Route
+						exact
+						path="/operations/family/:id"
+						component={OperationsFamilyVisualizationContainer}
+					/>
+					<Route
+						exact
+						path="/operations/indicators"
+						component={OperationsIndicatorsContainer}
+					/>
+					<Route
+						exact
+						path="/operations/indicator/create"
+						component={OperationsIndicatorEditionContainer}
+					/>
 
-				<Route
-					exact
-					path="/operations/indicator/:id"
-					component={OperationIndicatorContainer}
-				/>
-				<Route
-					exact
-					path="/operations/indicator/:id/modify"
-					component={OperationsIndicatorEditionContainer}
-				/>
+					<Route
+						exact
+						path="/operations/indicator/:id"
+						component={OperationIndicatorContainer}
+					/>
+					<Route
+						exact
+						path="/operations/indicator/:id/modify"
+						component={OperationsIndicatorEditionContainer}
+					/>
 
-				<Route
-					exact
-					path="/operations/family/:id/modify"
-					component={OperationsFamilyEditionContainer}
-				/>
-				<Route
-					exact
-					path="/operations/series/create"
-					component={OperationsSeriesEditionContainer}
-				/>
-				<Route
-					exact
-					path="/operations/series/:id"
-					component={OperationsSeriesVisualizationContainer}
-				/>
-				<Route
-					exact
-					path="/operations/series/:id/modify"
-					component={OperationsSeriesEditionContainer}
-				/>
-				<Route
-					exact
-					path="/operations/operation/create"
-					component={OperationEditionContainer}
-				/>
-				<Route
-					exact
-					path="/operations/operation/:id"
-					component={OperationVisualizationContainer}
-				/>
-				<Route
-					exact
-					path="/operations/operation/:id/modify"
-					component={OperationEditionContainer}
-				/>
-				<Route exact path="/operations/help" component={MSDContainer} />
-				<Route
-					exact
-					path="/operations/help/:idSection"
-					component={MSDContainer}
-				/>
-				<Route
-					exact
-					path="/operations/(operation|series|indicator)/:idParent/sims/create"
-					render={props => {
-						return (
+					<Route
+						exact
+						path="/operations/family/:id/modify"
+						component={OperationsFamilyEditionContainer}
+					/>
+					<Route
+						exact
+						path="/operations/series/create"
+						component={OperationsSeriesEditionContainer}
+					/>
+					<Route
+						exact
+						path="/operations/series/:id"
+						component={OperationsSeriesVisualizationContainer}
+					/>
+					<Route
+						exact
+						path="/operations/series/:id/modify"
+						component={OperationsSeriesEditionContainer}
+					/>
+					<Route
+						exact
+						path="/operations/operation/create"
+						component={OperationEditionContainer}
+					/>
+					<Route
+						exact
+						path="/operations/operation/:id"
+						component={OperationVisualizationContainer}
+					/>
+					<Route
+						exact
+						path="/operations/operation/:id/modify"
+						component={OperationEditionContainer}
+					/>
+					<Route exact path="/operations/help" component={MSDContainer} />
+					<Route
+						exact
+						path="/operations/help/:idSection"
+						component={MSDContainer}
+					/>
+					<Route
+						exact
+						path="/operations/(operation|series|indicator)/:idParent/sims/create"
+						render={props => {
+							return (
+								<MSDContainer
+									mode={CREATE}
+									baseUrl={`/operations/${props.match.params[0]}/${
+										props.match.params.idParent
+									}/sims/create`}
+									disableSectionAnchor
+								/>
+							);
+						}}
+					/>
+					<Route
+						exact
+						path="/operations/sims/:id"
+						render={props => (
 							<MSDContainer
-								mode={CREATE}
-								baseUrl={`/operations/${props.match.params[0]}/${
-									props.match.params.idParent
-								}/sims/create`}
-								disableSectionAnchor
+								mode={VIEW}
+								baseUrl={`/operations/sims/${props.match.params.id}/section/`}
 							/>
-						);
-					}}
-				/>
-				<Route
-					exact
-					path="/operations/sims/:id"
-					render={props => (
-						<MSDContainer
-							mode={VIEW}
-							baseUrl={`/operations/sims/${props.match.params.id}/section/`}
-						/>
-					)}
-				/>
-				<Route
-					exact
-					path="/operations/sims/:id/modify"
-					render={props => (
-						<MSDContainer
-							mode={UPDATE}
-							disableSectionAnchor
-							baseUrl={`/operations/sims/${props.match.params.id}/modify`}
-						/>
-					)}
-				/>
-				<Route
-					exact
-					path="/operations/sims/:id/duplicate"
-					render={props => (
-						<MSDContainer
-							mode={DUPLICATE}
-							disableSectionAnchor
-							baseUrl={`/operations/sims/${props.match.params.id}/duplicate`}
-						/>
-					)}
-				/>
-				<Route
-					exact
-					path="/operations/sims/:id/section/:idSection"
-					render={props => (
-						<MSDContainer
-							mode={VIEW}
-							baseUrl={`/operations/sims/${props.match.params.id}/section/`}
-						/>
-					)}
-				/>
-			</Switch>
+						)}
+					/>
+					<Route
+						exact
+						path="/operations/sims/:id/modify"
+						render={props => (
+							<MSDContainer
+								mode={UPDATE}
+								disableSectionAnchor
+								baseUrl={`/operations/sims/${props.match.params.id}/modify`}
+							/>
+						)}
+					/>
+					<Route
+						exact
+						path="/operations/sims/:id/duplicate"
+						render={props => (
+							<MSDContainer
+								mode={DUPLICATE}
+								disableSectionAnchor
+								baseUrl={`/operations/sims/${props.match.params.id}/duplicate`}
+							/>
+						)}
+					/>
+					<Route
+						exact
+						path="/operations/sims/:id/section/:idSection"
+						render={props => (
+							<MSDContainer
+								mode={VIEW}
+								baseUrl={`/operations/sims/${props.match.params.id}/section/`}
+							/>
+						)}
+					/>
+				</Switch>
+			</ApplicationContext.Provider>
 		);
 	}
 }

@@ -101,8 +101,7 @@ class OperationsDocumentationEdition extends Component {
 			type,
 		} = this.props;
 
-		if (this.props.operationsAsyncTask)
-			return <Loading textType="saving" context="operations" />;
+		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
 		const { document, files, serverSideError } = this.state;
 		const isEditing = !!document.id;
@@ -122,7 +121,6 @@ class OperationsDocumentationEdition extends Component {
 						titleLg1={this.props.document.labelLg1}
 						titleLg2={this.props.document.labelLg2}
 						secondLang={true}
-						context="operations"
 					/>
 				)}
 
@@ -138,7 +136,6 @@ class OperationsDocumentationEdition extends Component {
 								<span> {D.btnCancel}</span>
 							</React.Fragment>
 						}
-						context="operations"
 					/>
 
 					<div className="col-md-8 centered">
@@ -161,7 +158,6 @@ class OperationsDocumentationEdition extends Component {
 								<span> {D.btnSave}</span>
 							</React.Fragment>
 						}
-						context="operations"
 						disabled={errors.errorMessage}
 					/>
 				</div>

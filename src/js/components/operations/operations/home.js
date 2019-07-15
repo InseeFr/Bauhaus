@@ -33,16 +33,10 @@ function OperationsHome({ operations }) {
 						</div>
 					</Auth>
 					<div className="col-md-8 centered pull-right">
-						<PageTitle
-							title={D.operationsSearchTitle}
-							col={12}
-							offset={0}
-							context="operations"
-						/>
+						<PageTitle title={D.operationsSearchTitle} col={12} offset={0} />
 						<SearchRmes
 							items={operations}
 							childPath="operations/operation"
-							context="operations"
 							label="label"
 						/>
 					</div>

@@ -38,16 +38,10 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 						</div>
 					</Auth>
 					<div className="col-md-8 centered pull-right">
-						<PageTitle
-							title={D.indicatorsSearchTitle}
-							col={12}
-							offset={0}
-							context="operations"
-						/>
+						<PageTitle title={D.indicatorsSearchTitle} col={12} offset={0} />
 						<SearchRmes
 							items={indicators}
 							childPath="operations/indicator"
-							context="operations"
 							label="label"
 						/>
 					</div>

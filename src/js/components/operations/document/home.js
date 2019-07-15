@@ -48,12 +48,7 @@ function DocumentHome({ documents }) {
 						))}
 					</div>
 					<div className="col-md-8 centered pull-right">
-						<PageTitle
-							title={D.documentsSearchTitle}
-							col={12}
-							offset={0}
-							context="operations"
-						/>
+						<PageTitle title={D.documentsSearchTitle} col={12} offset={0} />
 						<div
 							className="documents-home__btn-group btn-group btn-group-justified"
 							role="group"
@@ -95,7 +90,6 @@ function DocumentHome({ documents }) {
 						<SearchRmes
 							items={filteredDocuments}
 							childPath="operations/document"
-							context="operations"
 							label="label"
 						/>
 					</div>
