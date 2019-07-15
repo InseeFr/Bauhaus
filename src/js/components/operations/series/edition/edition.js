@@ -2,12 +2,16 @@ import D from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { goBack, goBackOrReplace } from 'js/utils/redirection';
-import Button from 'js/components/shared/button';
+import {
+	CancelButton,
+	SaveButton,
+} from 'js/components/shared/button-with-icon';
 import Loading from 'js/components/shared/loading';
 import SelectRmes from 'js/components/shared/select-rmes';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
+import ErrorBloc from 'js/components/shared/error-bloc';
 
 import { validate } from './validation';
 
@@ -158,41 +162,14 @@ class OperationsSerieEdition extends Component {
 					/>
 				)}
 
-				<div className="row btn-line">
-					<Button
+				<div className="row btn-line action-toolbar">
+					<CancelButton
 						action={goBack(this.props, '/operations/series')}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-remove"
-									aria-hidden="true"
-								/>
-								<span> {D.btnCancel}</span>
-							</React.Fragment>
-						}
 						context="operations"
 					/>
-					<div className="col-md-8 centered">
-						<div
-							style={{ visibility: globalError ? 'visible' : 'hidden' }}
-							className="alert alert-danger bold"
-							role="alert"
-						>
-							{globalError || <span style={{ whiteSpace: 'pre-wrap' }}> </span>}
-						</div>
-					</div>
-
-					<Button
+					<ErrorBloc error={globalError} />
+					<SaveButton
 						action={this.onSubmit}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-disk"
-									aria-hidden="true"
-								/>
-								<span> {D.btnSave}</span>
-							</React.Fragment>
-						}
 						context="operations"
 						disabled={errors.errorMessage}
 					/>
