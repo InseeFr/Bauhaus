@@ -10,6 +10,7 @@ import Loading from 'js/components/shared/loading';
 import DocumentationEdition from 'js/components/operations/document/edition/edition';
 import { getCurrentDocument } from 'js/reducers/operations/selector';
 import { isDocument, LINK, DOCUMENT } from '../utils';
+import { CL_FREQ } from 'js/actions/constants/codeList';
 
 const extractId = buildExtract('id');
 
@@ -43,12 +44,14 @@ export const mapStateToProps = (state, ownProps) => {
 		type = isDocument(document) ? DOCUMENT : LINK;
 	}
 	const langs = select.getLangs(state);
+	const langOptions = state.operationsCodesList.results[CL_FREQ] || {};
 	return {
 		id,
 		document,
 		langs,
 		operationsAsyncTask: state.operationsAsyncTask,
 		type,
+		langOptions,
 	};
 };
 

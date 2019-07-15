@@ -15,8 +15,6 @@ import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
 import { compose } from 'recompose';
 import * as select from 'js/reducers';
-import PageSubtitle from 'js/components/shared/page-subtitle';
-import PageTitle from 'js/components/shared/page-title';
 import loadOperation from 'js/actions/operations/operations/item';
 import loadSerie from 'js/actions/operations/series/item';
 import loadIndicator from 'js/actions/operations/indicators/item';
@@ -27,6 +25,7 @@ import {
 	getOperationsCodesList,
 } from 'js/reducers/operations/selector';
 import { getParentType, getParentId } from './utils';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 const extractId = buildExtract('id');
 const extractIdParent = buildExtract('idParent');
 
@@ -124,15 +123,12 @@ class MSDContainer extends Component {
 				disableSectionAnchor={disableSectionAnchor}
 			>
 				{mode !== HELP && mode !== DUPLICATE && (
-					<React.Fragment>
-						<PageTitle title={currentSims.labelLg1} context="operations" />
-						{secondLang && (
-							<PageSubtitle
-								subTitle={currentSims.labelLg2}
-								context="operations"
-							/>
-						)}
-					</React.Fragment>
+					<PageTitleBlock
+						titleLg1={currentSims.labelLg1}
+						titleLg2={currentSims.labelLg2}
+						secondLang={secondLang}
+						context="operations"
+					/>
 				)}
 				{mode === HELP && (
 					<MSDHelp

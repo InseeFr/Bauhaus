@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import PageSubtitle from 'js/components/shared/page-subtitle';
-import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
@@ -14,6 +12,9 @@ import {
 	mergedItemsToSelectModels,
 } from 'js/components/operations/shared/utils/itemToSelectModel';
 import { validate } from 'js/components/operations/indicators/edition/validation';
+import Loading from 'js/components/shared/loading';
+import { goBackOrReplace } from 'js/utils/redirection';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const defaultIndicator = {
 	prefLabelLg1: '',
@@ -36,12 +37,8 @@ class OperationsIndicatorEdition extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			indicator: {
-				...defaultIndicator,
-				...props.indicator,
-			},
-		};
+		this.state = this.setInitialState(props);
+
 		this.onChanges = [
 			'prefLabelLg1',
 			'prefLabelLg2',
@@ -62,18 +59,25 @@ class OperationsIndicatorEdition extends Component {
 		);
 	}
 	componentWillReceiveProps(nextProps) {
-		this.setState({
+		if (nextProps.indicator.id !== this.props.indicator.id) {
+			this.setState(this.setInitialState(nextProps));
+		}
+	}
+
+	setInitialState = props => {
+		return {
+			serverSideError: '',
 			indicator: {
 				...defaultIndicator,
-				...nextProps.indicator,
+				...props.indicator,
 			},
-		});
-	}
+		};
+	};
 
 	onChange = selector => {
 		return value => {
-			console.log('value');
 			this.setState({
+				serverSideError: '',
 				indicator: {
 					...this.state.indicator,
 					[selector]: value,
@@ -83,12 +87,23 @@ class OperationsIndicatorEdition extends Component {
 	};
 
 	onSubmit = () => {
-		this.props.saveIndicator(this.state.indicator, id => {
-			this.props.history.push(`/operations/indicator/${id}`);
+		const isCreation = !this.state.indicator.id;
+
+		this.props.saveIndicator(this.state.indicator, (err, id) => {
+			if (!err) {
+				goBackOrReplace(this.props, `/operations/indicator/${id}`, isCreation);
+			} else {
+				this.setState({
+					serverSideError: err,
+				});
+			}
 		});
 	};
 
 	render() {
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
+
 		const {
 			langs: { lg1, lg2 },
 			frequencies,
@@ -123,27 +138,22 @@ class OperationsIndicatorEdition extends Component {
 			seriesOptions
 		);
 		const errors = validate(this.state.indicator);
+		const globalError = errors.errorMessage || this.state.serverSideError;
 
 		return (
 			<div className="container editor-container">
 				{isUpdate && (
-					<React.Fragment>
-						<PageTitle
-							title={this.props.indicator.prefLabelLg1}
-							context="operations"
-						/>
-						{indicator.prefLabelLg2 && (
-							<PageSubtitle
-								subTitle={this.props.indicator.prefLabelLg2}
-								context="operations"
-							/>
-						)}
-					</React.Fragment>
+					<PageTitleBlock
+						titleLg1={indicator.prefLabelLg1}
+						titleLg2={indicator.prefLabelLg2}
+						secondLang={true}
+						context="operations"
+					/>
 				)}
 				<Control
 					indicator={this.state.indicator}
 					onSubmit={this.onSubmit}
-					errorMessage={errors.errorMessage}
+					errorMessage={globalError}
 				/>
 
 				<form>

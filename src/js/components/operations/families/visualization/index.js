@@ -2,8 +2,6 @@ import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
-
-import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import buildExtract from 'js/utils/build-extract';
 import { goBack } from 'js/utils/redirection';
@@ -11,7 +9,6 @@ import { connect } from 'react-redux';
 import * as select from 'js/reducers';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { saveSecondLang } from 'js/actions/app';
-import PageSubtitle from 'js/components/shared/page-subtitle';
 import OperationsFamilyVisualization from 'js/components/operations/families/visualization/visualization';
 import Loading from 'js/components/shared/loading';
 import loadFamily from 'js/actions/operations/families/item';
@@ -19,6 +16,7 @@ import Button from 'js/components/shared/button';
 import { getSecondLang } from 'js/reducers/app';
 import { ADMIN, CNIS } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const extractId = buildExtract('id');
 class FamilyVisualizationContainer extends PureComponent {
@@ -45,10 +43,12 @@ class FamilyVisualizationContainer extends PureComponent {
 			<div className="container">
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
-				<PageTitle title={attr.prefLabelLg1} context="operations" />
-				{secondLang && attr.prefLabelLg2 && (
-					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
-				)}
+				<PageTitleBlock
+					titleLg1={attr.prefLabelLg1}
+					titleLg2={attr.prefLabelLg2}
+					secondLang={secondLang}
+					context="operations"
+				/>
 
 				<div className="row btn-line action-toolbar">
 					<Button
@@ -58,6 +58,9 @@ class FamilyVisualizationContainer extends PureComponent {
 					/>
 
 					<div className="empty-center" />
+					<Auth roles={[ADMIN]}>
+						<Button label={D.btnValid} context="operations" />
+					</Auth>
 					<Auth roles={[ADMIN, CNIS]}>
 						<Button
 							action={`/operations/family/${attr.id}/modify`}

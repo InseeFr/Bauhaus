@@ -22,7 +22,7 @@ describe('Home Page', function() {
 			'Application de gestion des métadonnées de référence'
 		);
 	});
-	it(`Should go to the Operations page and come back`, function() {
+	xit(`Should go to the Operations page and come back`, function() {
 		cy.server().visit(`/`);
 		cy.get('li:nth-child(3) a').click();
 		cy.url().should('match', /\/operations\/series$/);

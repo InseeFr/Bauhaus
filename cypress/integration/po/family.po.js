@@ -15,7 +15,7 @@ export class FamiliesPage {
 		return cy.get(`.list-group :nth-child(${nth}) a`);
 	}
 	getPaginationBlock() {
-		return cy.get('.page-item');
+		return cy.get('.pagination li');
 	}
 	search(value) {
 		return cy.get('input').type(value);

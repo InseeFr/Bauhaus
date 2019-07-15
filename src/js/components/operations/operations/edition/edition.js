@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import PageSubtitle from 'js/components/shared/page-subtitle';
-import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
-import { goBack } from 'js/utils/redirection';
+import { goBack, goBackOrReplace } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
-import Button from 'js/components/shared/button';
+import {
+	CancelButton,
+	SaveButton,
+} from 'js/components/shared/button-with-icon';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { validate } from './validation';
+import Loading from 'js/components/shared/loading';
+import PageTitleBlock from 'js/components/shared/page-title-block';
+import ErrorBloc from 'js/components/shared/error-bloc';
 
 const defaultOperation = {
 	prefLabelLg1: '',
@@ -24,21 +28,24 @@ class OperationsOperationEdition extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
+		this.state = this.setInitialState(props);
+	}
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.operation.id !== this.props.operation.id) {
+			this.setState(this.setInitialState(nextProps));
+		}
+	}
+
+	setInitialState = props => {
+		return {
+			serverSideError: '',
 			operation: {
 				...defaultOperation,
 				...props.operation,
 			},
 		};
-	}
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			operation: {
-				...defaultOperation,
-				...nextProps.operation,
-			},
-		});
-	}
+	};
+
 	onChange = e => {
 		let override = {
 			[e.target.id]: e.target.value,
@@ -51,6 +58,7 @@ class OperationsOperationEdition extends Component {
 			};
 		}
 		this.setState({
+			serverSideError: '',
 			operation: {
 				...this.state.operation,
 				...override,
@@ -58,84 +66,66 @@ class OperationsOperationEdition extends Component {
 		});
 	};
 	onSubmit = () => {
+		const isCreation = !this.state.operation.id;
+
 		this.props.saveOperation(
 			this.state.operation,
-			(id = this.state.operation.id) => {
-				this.props.history.push(`/operations/operation/${id}`);
+			(err, id = this.state.operation.id) => {
+				if (!err) {
+					goBackOrReplace(
+						this.props,
+						`/operations/operation/${id}`,
+						isCreation
+					);
+				} else {
+					this.setState({
+						serverSideError: err,
+					});
+				}
 			}
 		);
 	};
 
 	render() {
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
+
 		const {
 			langs: { lg1, lg2 },
 		} = this.props;
 
-		const seriesOptions = this.props.series.map(s => {
-			return { value: s.id, label: s.label };
-		});
-		const { operation } = this.state;
+		const seriesOptions = this.props.series
+			.filter(series => !series.idSims)
+			.map(({ id, label }) => {
+				return { value: id, label: label };
+			});
+		const { operation, serverSideError } = this.state;
 		const series = operation.series || { id: '' };
 		const isEditing = !!operation.id;
 
 		const errors = validate(operation);
-
+		const globalError = errors.errorMessage || serverSideError;
 		return (
 			<div className="container editor-container">
 				{isEditing && (
-					<>
-						<PageTitle
-							title={this.props.operation.prefLabelLg1}
-							context="operations"
-						/>
-						{this.props.operation.prefLabelLg2 && (
-							<PageSubtitle
-								subTitle={this.props.operation.prefLabelLg2}
-								context="operations"
-							/>
-						)}
-					</>
+					<PageTitleBlock
+						titleLg1={this.props.operation.prefLabelLg1}
+						titleLg2={this.props.operation.prefLabelLg2}
+						secondLang={true}
+						context="operations"
+					/>
 				)}
 
-				<div className="row btn-line">
-					<Button
+				<div className="row btn-line action-toolbar">
+					<CancelButton
 						action={goBack(this.props, '/operations/operations')}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-remove"
-									aria-hidden="true"
-								/>
-								<span> {D.btnCancel}</span>
-							</React.Fragment>
-						}
 						context="operations"
 					/>
 
-					<div className="col-md-8 centered">
-						<div
-							style={{ visibility: errors.errorMessage ? 'visible' : 'hidden' }}
-							className="alert alert-danger bold"
-							role="alert"
-						>
-							{/* HACK: if no content, the line height is set to 0 and the rest
-	              of the page moves a little  */}
-							{errors.errorMessage || (
-								<span style={{ whiteSpace: 'pre-wrap' }}> </span>
-							)}
-						</div>
-					</div>
-					<Button
+					<ErrorBloc error={globalError} />
+
+					<SaveButton
 						action={this.onSubmit}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-disk"
-									aria-hidden="true"
-								/>
-								<span> {D.btnSave}</span>
-							</React.Fragment>
-						}
 						context="operations"
 						disabled={errors.errorMessage}
 					/>

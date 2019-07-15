@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import PageTitle from 'js/components/shared/page-title';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { saveSecondLang } from 'js/actions/app';
-import PageSubtitle from 'js/components/shared/page-subtitle';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import buildExtract from 'js/utils/build-extract';
@@ -22,6 +20,7 @@ import {
 	CNIS,
 } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const extractId = buildExtract('id');
 
@@ -56,10 +55,12 @@ class SeriesVisualizationContainer extends Component {
 					onChange={this.props.saveSecondLang}
 				/>
 
-				<PageTitle title={attr.prefLabelLg1} context="operations" />
-				{secondLang && attr.prefLabelLg2 && (
-					<PageSubtitle subTitle={attr.prefLabelLg2} context="operations" />
-				)}
+				<PageTitleBlock
+					titleLg1={attr.prefLabelLg1}
+					titleLg2={attr.prefLabelLg2}
+					secondLang={secondLang}
+					context="operations"
+				/>
 
 				<div className="row btn-line action-toolbar">
 					<Button
@@ -89,6 +90,9 @@ class SeriesVisualizationContainer extends Component {
 							/>
 						</Auth>
 					)}
+					<Auth roles={[ADMIN, SERIES_CREATOR]}>
+						<Button label={D.btnValid} context="operations" />
+					</Auth>
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
 							action={`/operations/series/${attr.id}/modify`}

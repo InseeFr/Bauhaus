@@ -69,7 +69,7 @@ class Pagination extends Component {
 			.filter(number => number - 3 < currentPage && number + 3 > currentPage)
 			.map(number => {
 				return (
-					<li className={isActivePage(number) && 'active'} key={number}>
+					<li className={isActivePage(number) ? 'active' : ''} key={number}>
 						<button
 							href="#"
 							onClick={e => this.goToPage(number, e)}
@@ -87,7 +87,7 @@ class Pagination extends Component {
 				<ul className="list-group">{currentItems}</ul>
 				{pageNumbers.length > 1 && (
 					<ul className={`pagination pg-rmes ${contextCSS}`}>
-						<li className={isDisabled(currentPage - 1) && 'disabled'}>
+						<li className={isDisabled(currentPage - 1) ? 'disabled' : ''}>
 							<button
 								onClick={e => this.goToPage(1, e)}
 								aria-label="First"
@@ -97,7 +97,7 @@ class Pagination extends Component {
 								<span className="sr-only">First</span>
 							</button>
 						</li>
-						<li className={isDisabled(currentPage - 1) && 'disabled'}>
+						<li className={isDisabled(currentPage - 1) ? 'disabled' : ''}>
 							<button
 								href="#"
 								onClick={e =>
@@ -112,7 +112,7 @@ class Pagination extends Component {
 							</button>
 						</li>
 						{renderPageNumbers}
-						<li className={isDisabled(currentPage + 1) && 'disabled'}>
+						<li className={isDisabled(currentPage + 1) ? 'disabled' : ''}>
 							<button
 								href="#"
 								onClick={e =>
@@ -126,7 +126,7 @@ class Pagination extends Component {
 								<span className="sr-only">Next</span>
 							</button>
 						</li>
-						<li className={isDisabled(currentPage + 1) && 'disabled'}>
+						<li className={isDisabled(currentPage + 1) ? 'disabled' : ''}>
 							<button
 								aria-label="Last"
 								href="#"

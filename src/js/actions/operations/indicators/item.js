@@ -1,5 +1,6 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
+import { getItemFactory } from '../utils';
 
 export const saveIndicator = (indicator, callback) => dispatch => {
 	dispatch({
@@ -18,35 +19,21 @@ export const saveIndicator = (indicator, callback) => dispatch => {
 					altLabel: indicator.altLabelLg1,
 				},
 			});
-			callback(results);
+			callback(null, results);
 		},
 		err => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_INDICATOR_FAILURE,
 				payload: { err },
 			});
-			callback();
+			callback(err);
 		}
 	);
 };
 
-export default id => dispatch => {
-	dispatch({
-		type: A.LOAD_OPERATIONS_INDICATOR,
-		payload: {
-			id,
-		},
-	});
-	return api.getIndicator(id).then(
-		results =>
-			dispatch({
-				type: A.LOAD_OPERATIONS_INDICATOR_SUCCESS,
-				payload: results,
-			}),
-		err =>
-			dispatch({
-				type: A.LOAD_OPERATIONS_INDICATORS_LIST_FAILURE,
-				payload: { err },
-			})
-	);
-};
+export default getItemFactory(
+	api.getIndicator,
+	A.LOAD_OPERATIONS_INDICATOR,
+	A.LOAD_OPERATIONS_INDICATOR_SUCCESS,
+	A.LOAD_OPERATIONS_INDICATORS_LIST_FAILURE
+);

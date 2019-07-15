@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import PageSubtitle from 'js/components/shared/page-subtitle';
-import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
-import { goBack } from 'js/utils/redirection';
+import { goBack, goBackOrReplace } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
@@ -12,6 +10,8 @@ import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
 import Loading from 'js/components/shared/loading';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
+import SelectRmes from 'js/components/shared/select-rmes';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const defaultDocument = {
 	labelLg1: '',
@@ -76,13 +76,15 @@ class OperationsDocumentationEdition extends Component {
 	};
 
 	onSubmit = () => {
+		const isCreation = !this.state.document.id;
 		this.props.saveDocument(
 			this.state.document,
 			this.props.type,
 			this.state.files,
 			(err, id = this.state.document.id) => {
+				console.log(this.state.document);
 				if (!err) {
-					this.props.history.push(`/operations/document/${id}`);
+					goBackOrReplace(this.props, `/operations/document/${id}`, isCreation);
 				} else {
 					this.setState({
 						serverSideError: err,
@@ -95,6 +97,7 @@ class OperationsDocumentationEdition extends Component {
 	render() {
 		const {
 			langs: { lg1, lg2 },
+			langOptions,
 			type,
 		} = this.props;
 
@@ -115,18 +118,12 @@ class OperationsDocumentationEdition extends Component {
 		return (
 			<div className="container editor-container">
 				{isEditing && (
-					<React.Fragment>
-						<PageTitle
-							title={this.props.document.labelLg1}
-							context="operations"
-						/>
-						{this.props.document.labelLg2 && (
-							<PageSubtitle
-								subTitle={this.props.document.labelLg2}
-								context="operations"
-							/>
-						)}
-					</React.Fragment>
+					<PageTitleBlock
+						titleLg1={this.props.document.labelLg1}
+						titleLg2={this.props.document.labelLg2}
+						secondLang={true}
+						context="operations"
+					/>
 				)}
 
 				<div className="row btn-line">
@@ -304,13 +301,17 @@ class OperationsDocumentationEdition extends Component {
 								<NoteFlag text={D.langTitle} lang={lg1} />
 								<span className="boldRed">*</span>
 							</label>
-							<input
-								type="text"
-								className="form-control"
-								id="lang"
+
+							<SelectRmes
+								placeholder=""
+								unclearable
 								value={document.lang}
-								onChange={this.onChange}
-								aria-invalid={errors.fields.lang}
+								options={langOptions.codes.map(lang => {
+									return { value: lang.code, label: lang.labelLg1 };
+								})}
+								onChange={value => {
+									this.onChange({ target: { value, id: 'lang' } });
+								}}
 							/>
 						</div>
 					</div>

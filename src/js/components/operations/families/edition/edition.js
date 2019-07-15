@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import PageSubtitle from 'js/components/shared/page-subtitle';
-import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
-import { goBack } from 'js/utils/redirection';
+import { goBackOrReplace, goBack } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
-import Button from 'js/components/shared/button';
+import {
+	CancelButton,
+	SaveButton,
+} from 'js/components/shared/button-with-icon';
 import { validate } from './validation';
+import Loading from 'js/components/shared/loading';
+import PageTitleBlock from 'js/components/shared/page-title-block';
+import ErrorBloc from 'js/components/shared/error-bloc';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -26,25 +30,28 @@ class OperationsFamilyEdition extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
+		this.state = this.setInitialState(props);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.family.id !== this.props.family.id) {
+			this.setState(this.setInitialState(nextProps));
+		}
+	}
+
+	setInitialState = props => {
+		return {
+			serverSideError: '',
 			family: {
 				...defaultFamily,
 				...props.family,
 			},
 		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			family: {
-				...defaultFamily,
-				...nextProps.family,
-			},
-		});
-	}
+	};
 
 	onChange = e => {
 		this.setState({
+			serverSideError: '',
 			family: {
 				...this.state.family,
 				[e.target.id]: e.target.value,
@@ -52,76 +59,56 @@ class OperationsFamilyEdition extends Component {
 		});
 	};
 	onSubmit = () => {
-		this.props.saveFamily(this.state.family, (id = this.state.family.id) => {
-			this.props.history.push(`/operations/family/${id}`);
-		});
+		const isCreation = !this.state.family.id;
+
+		this.props.saveFamily(
+			this.state.family,
+			(err, id = this.state.family.id) => {
+				if (!err) {
+					goBackOrReplace(this.props, `/operations/family/${id}`, isCreation);
+				} else {
+					this.setState({
+						serverSideError: err,
+					});
+				}
+			}
+		);
 	};
 
 	render() {
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
+
 		const {
 			langs: { lg1, lg2 },
 		} = this.props;
-		const { family } = this.state;
+		const { family, serverSideError } = this.state;
 		const isEditing = !!family.id;
 
 		const errors = validate(family);
+		const globalError = errors.errorMessage || serverSideError;
 
 		return (
 			<div className="container editor-container">
 				{isEditing && (
-					<React.Fragment>
-						<PageTitle
-							title={this.props.family.prefLabelLg1}
-							context="operations"
-						/>
-						{this.props.family.prefLabelLg2 && (
-							<PageSubtitle
-								subTitle={this.props.family.prefLabelLg2}
-								context="operations"
-							/>
-						)}
-					</React.Fragment>
+					<PageTitleBlock
+						titleLg1={this.props.family.prefLabelLg1}
+						titleLg2={this.props.family.prefLabelLg2}
+						secondLang={true}
+						context="operations"
+					/>
 				)}
 
-				<div className="row btn-line">
-					<Button
+				<div className="row btn-line action-toolbar">
+					<CancelButton
 						action={goBack(this.props, '/operations/families')}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-remove"
-									aria-hidden="true"
-								/>
-								<span> {D.btnCancel}</span>
-							</React.Fragment>
-						}
 						context="operations"
 					/>
 
-					<div className="col-md-8 centered">
-						<div
-							style={{ visibility: errors.errorMessage ? 'visible' : 'hidden' }}
-							className="alert alert-danger bold"
-							role="alert"
-						>
-							{/* HACK: if no content, the line height is set to 0 and the rest
-	              of the page moves a little  */}
-							{errors.errorMessage || (
-								<span style={{ whiteSpace: 'pre-wrap' }}> </span>
-							)}
-						</div>
-					</div>
-					<Button
+					<ErrorBloc error={globalError} />
+
+					<SaveButton
 						action={this.onSubmit}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-disk"
-									aria-hidden="true"
-								/>
-								<span> {D.btnSave}</span>
-							</React.Fragment>
-						}
 						context="operations"
 						disabled={errors.errorMessage}
 					/>

@@ -1,19 +1,25 @@
-import React, { Component } from 'react';
-import PageSubtitle from 'js/components/shared/page-subtitle';
-import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
-import { goBack } from 'js/utils/redirection';
-import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
-import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
-import Button from 'js/components/shared/button';
-import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
+import React, { Component } from 'react';
+import { goBack, goBackOrReplace } from 'js/utils/redirection';
+import {
+	CancelButton,
+	SaveButton,
+} from 'js/components/shared/button-with-icon';
+import Loading from 'js/components/shared/loading';
 import SelectRmes from 'js/components/shared/select-rmes';
+import NoteFlag from 'js/components/shared/note-flag/note-flag';
+import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
+import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
+import ErrorBloc from 'js/components/shared/error-bloc';
+
+import { validate } from './validation';
+
 import {
 	toSelectModel,
 	mergedItemsToSelectModels,
 } from 'js/components/operations/shared/utils/itemToSelectModel';
-import { validate } from './validation';
+import PageTitleBlock from 'js/components/shared/page-title-block';
 
 const defaultSerie = {
 	id: '',
@@ -48,21 +54,25 @@ class OperationsSerieEdition extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
+		this.state = this.setInitialState(props);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.serie.id !== this.props.serie.id) {
+			this.setState(this.setInitialState(nextProps));
+		}
+	}
+
+	setInitialState = props => {
+		return {
+			serverSideError: '',
 			serie: {
 				...defaultSerie,
 				...props.serie,
 			},
 		};
-	}
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			serie: {
-				...defaultSerie,
-				...nextProps.serie,
-			},
-		});
-	}
+	};
+
 	onChange = e => {
 		let override = {
 			[e.target.id]: e.target.value,
@@ -75,6 +85,7 @@ class OperationsSerieEdition extends Component {
 			};
 		}
 		this.setState({
+			serverSideError: '',
 			serie: {
 				...this.state.serie,
 				...override,
@@ -82,12 +93,23 @@ class OperationsSerieEdition extends Component {
 		});
 	};
 	onSubmit = () => {
-		this.props.saveSerie(this.state.serie, (id = this.props.serie.id) => {
-			this.props.history.push(`/operations/series/${id}`);
+		const isCreation = !this.state.serie.id;
+
+		this.props.saveSerie(this.state.serie, (err, id = this.props.serie.id) => {
+			if (!err) {
+				goBackOrReplace(this.props, `/operations/series/${id}`, isCreation);
+			} else {
+				this.setState({
+					serverSideError: err,
+				});
+			}
 		});
 	};
 
 	render() {
+		if (this.props.operationsAsyncTask)
+			return <Loading textType="saving" context="operations" />;
+
 		const {
 			langs: { lg1, lg2 },
 			frequencies,
@@ -127,63 +149,27 @@ class OperationsSerieEdition extends Component {
 		);
 
 		const errors = validate(serie);
+		const globalError = errors.errorMessage || this.state.serverSideError;
 
 		return (
 			<div className="container editor-container">
 				{isEditing && (
-					<>
-						<PageTitle
-							title={this.props.serie.prefLabelLg1}
-							context="operations"
-						/>
-						{this.props.serie.prefLabelLg2 && (
-							<PageSubtitle
-								subTitle={this.props.serie.prefLabelLg2}
-								context="operations"
-							/>
-						)}
-					</>
-				)}
-
-				<div className="row btn-line">
-					<Button
-						action={goBack(this.props, '/operations/series')}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-remove"
-									aria-hidden="true"
-								/>
-								<span> {D.btnCancel}</span>
-							</React.Fragment>
-						}
+					<PageTitleBlock
+						titleLg1={this.props.serie.prefLabelLg1}
+						titleLg2={this.props.serie.prefLabelLg2}
+						secondLang={true}
 						context="operations"
 					/>
-					<div className="col-md-8 centered">
-						<div
-							style={{ visibility: errors.errorMessage ? 'visible' : 'hidden' }}
-							className="alert alert-danger bold"
-							role="alert"
-						>
-							{/* HACK: if no content, the line height is set to 0 and the rest
-	              of the page moves a little  */}
-							{errors.errorMessage || (
-								<span style={{ whiteSpace: 'pre-wrap' }}> </span>
-							)}
-						</div>
-					</div>
+				)}
 
-					<Button
+				<div className="row btn-line action-toolbar">
+					<CancelButton
+						action={goBack(this.props, '/operations/series')}
+						context="operations"
+					/>
+					<ErrorBloc error={globalError} />
+					<SaveButton
 						action={this.onSubmit}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-disk"
-									aria-hidden="true"
-								/>
-								<span> {D.btnSave}</span>
-							</React.Fragment>
-						}
 						context="operations"
 						disabled={errors.errorMessage}
 					/>
