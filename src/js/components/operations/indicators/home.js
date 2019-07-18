@@ -12,7 +12,7 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 	const authImpl = check(authType);
 	const adminOrContributor = authImpl.isAdminOrContributor(roles);
 	return (
-		<React.Fragment>
+		<>
 			<div className="container">
 				<div className="row">
 					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
@@ -43,11 +43,13 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 							items={indicators}
 							childPath="operations/indicator"
 							label="label"
+							advancedSearch
+							searchUrl="/operations/indicators/search"
 						/>
 					</div>
 				</div>
 			</div>
-		</React.Fragment>
+		</>
 	);
 }
 

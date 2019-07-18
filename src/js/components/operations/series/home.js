@@ -9,7 +9,7 @@ import Auth from 'js/utils/auth/components/auth';
 
 function SeriesHome({ series }) {
 	return (
-		<React.Fragment>
+		<>
 			<div className="container">
 				<div className="row">
 					<Auth roles={[ADMIN]}>
@@ -34,11 +34,16 @@ function SeriesHome({ series }) {
 					</Auth>
 					<div className="col-md-8 centered pull-right">
 						<PageTitle title={D.seriesSearchTitle} col={12} offset={0} />
-						<SearchRmes items={series} childPath="operations/series" />
+						<SearchRmes
+							items={series}
+							childPath="operations/series"
+							advancedSearch
+							searchUrl="/operations/series/search"
+						/>
 					</div>
 				</div>
 			</div>
-		</React.Fragment>
+		</>
 	);
 }
 

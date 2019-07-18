@@ -18,7 +18,7 @@ function DocumentHome({ documents }) {
 	});
 
 	return (
-		<React.Fragment>
+		<>
 			<div className="container documents-home">
 				<div className="row">
 					<div className="col-md-3 operations-btn-group-vertical">
@@ -95,7 +95,7 @@ function DocumentHome({ documents }) {
 					</div>
 				</div>
 			</div>
-		</React.Fragment>
+		</>
 	);
 }
 

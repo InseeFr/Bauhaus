@@ -9,7 +9,7 @@ import Auth from 'js/utils/auth/components/auth';
 
 function OperationsHome({ operations }) {
 	return (
-		<React.Fragment>
+		<>
 			<div className="container">
 				<div className="row">
 					<Auth roles={[ADMIN, SERIES_CREATOR]}>
@@ -38,11 +38,13 @@ function OperationsHome({ operations }) {
 							items={operations}
 							childPath="operations/operation"
 							label="label"
+							advancedSearch
+							searchUrl="/operations/search"
 						/>
 					</div>
 				</div>
 			</div>
-		</React.Fragment>
+		</>
 	);
 }
 

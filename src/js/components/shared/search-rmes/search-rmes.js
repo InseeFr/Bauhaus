@@ -8,7 +8,9 @@ import { ApplicationContext } from 'js/context';
 
 function SearchRmes({
 	items = [],
-	concepts,
+	advancedSearch = false,
+	searchUrl,
+	placeholder = D.searchLabelPlaceholder,
 	childPath,
 	col,
 	colOff,
@@ -40,18 +42,16 @@ function SearchRmes({
 						value={search}
 						onChange={e => handleSearch(e.target.value)}
 						type="text"
-						placeholder={
-							concepts ? D.searchLabelHomePlaceholder : D.searchLabelPlaceholder
-						}
+						placeholder={placeholder}
 						className="form-control"
 						aria-label={D.search}
 					/>
 				</div>
 			</div>
-			{concepts && (
+			{advancedSearch && (
 				<div className="row">
 					<div className="col-md-12">
-						<Link to={'/concepts/search'}>
+						<Link to={searchUrl}>
 							<h3 className="glyphicon glyphicon-zoom-in inline"> </h3>
 							<h3 className="inline">{D.conceptAdvancedSearchTitle}</h3>
 						</Link>
@@ -75,7 +75,9 @@ SearchRmes.defaultProps = {
 SearchRmes.propTypes = {
 	items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
 	childPath: PropTypes.string.isRequired,
-	concepts: PropTypes.bool,
+	advancedSearch: PropTypes.bool,
+	searchUrl: PropTypes.string,
+	placeholder: PropTypes.string,
 	col: PropTypes.number,
 	colOff: PropTypes.number,
 	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
