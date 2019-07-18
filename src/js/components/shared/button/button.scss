@@ -1,40 +1,26 @@
 @import 'src/app.scss';
 
-.btn-concepts {
-	background-color: $color_concepts_3;
-	border-color: $color_concepts_3;
+@mixin btn($color2, $color3) {
+	background-color: $color3;
+	border-color: $color3;
 	color: white;
 	&:hover {
 		color: white;
 	}
 	&:hover:not([disabled]) {
-		background-color: $color_concepts_2;
+		background-color: $color2;
 		color: white;
 	}
+}
+
+.btn-concepts {
+	@include btn($color_concepts_2, $color_concepts_3);
 }
 
 .btn-classifications {
-	background-color: $color_classifications_3;
-	border-color: $color_classifications_3;
-	color: white;
-	&:hover {
-		color: white;
-	}
-	&:hover:not([disabled]) {
-		background-color: $color_classifications_2;
-		color: white;
-	}
+	@include btn($color_classifications_2, $color_classifications_3);
 }
 
 .btn-operations {
-	background-color: $color_operations_3;
-	border-color: $color_operations_3;
-	color: white;
-	&:hover {
-		color: white;
-	}
-	&:hover:not([disabled]) {
-		background-color: $color_operations_2;
-		color: white;
-	}
+	@include btn($color_operations_2, $color_operations_3);
 }
