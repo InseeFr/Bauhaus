@@ -12,6 +12,11 @@ import Loading from 'js/components/shared/loading';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import SelectRmes from 'js/components/shared/select-rmes';
 import PageTitleBlock from 'js/components/shared/page-title-block';
+import ErrorBloc from 'js/components/shared/error-bloc';
+import {
+	CancelButton,
+	SaveButton,
+} from 'js/components/shared/button-with-icon';
 
 const defaultDocument = {
 	labelLg1: '',
@@ -124,42 +129,12 @@ class OperationsDocumentationEdition extends Component {
 					/>
 				)}
 
-				<div className="row btn-line">
-					<Button
-						action={goBack(this.props, '/operations/documents')}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-remove"
-									aria-hidden="true"
-								/>
-								<span> {D.btnCancel}</span>
-							</React.Fragment>
-						}
-					/>
+				<div className="row btn-line action-toolbar">
+					<CancelButton action={goBack(this.props, '/operations/documents')} />
 
-					<div className="col-md-8 centered">
-						<div
-							style={{ visibility: globalError ? 'visible' : 'hidden' }}
-							className="alert alert-danger bold"
-							role="alert"
-						>
-							{globalError}
-						</div>
-					</div>
-					<Button
-						action={this.onSubmit}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-disk"
-									aria-hidden="true"
-								/>
-								<span> {D.btnSave}</span>
-							</React.Fragment>
-						}
-						disabled={errors.errorMessage}
-					/>
+					<ErrorBloc error={globalError} />
+
+					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
 				</div>
 				<form>
 					<div className="row">
