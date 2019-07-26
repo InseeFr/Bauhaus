@@ -1,4 +1,4 @@
-import get, { saveFamily } from './item';
+import { saveFamily } from './item';
 import * as A from 'js/actions/constants';
 import api from 'js/remote-api/operations-api';
 
