@@ -2,34 +2,39 @@ import D from 'js/i18n';
 import { LINK, DOCUMENT } from '../utils';
 
 /**
- * Check if a list of document is correct.
- * This list of document should respect the following criterias
- * - Should have at least one item
- * - The name of each files should respect a regexp
+ * Check if the name of every file is invalid
  *
  * @param {Array<{name}>} files
- * @returns {{errorMessage: string, fields: { file:  boolean}}}
+ * @returns {boolean}
  */
-function verifyFile(files = []) {
+function haveInvalidFilesName(files = []) {
 	const regexp = /^[a-zA-Z1-9-_\.]*$/;
-	let errorMessage = '';
 
-	if (files.length === 0) {
-		errorMessage = D.requiredFile;
-	} else {
-		const wrongFile = files
-			.map(file => file.name)
-			.find(fileName => !regexp.test(fileName));
-		if (wrongFile) {
-			errorMessage = D.wrongFileName;
-		}
-	}
-	return {
-		errorMessage,
-		fields: { file: errorMessage !== '' },
-	};
+	const wrongFile = files
+		.map(file => file.name)
+		.find(fileName => !regexp.test(fileName));
+
+	return wrongFile;
 }
 
+/**
+ * Check the files array has at least one element
+ *
+ * @param {Array<{name}>} files
+ * @returns {boolean}
+ */
+function haveFiles(files = []) {
+	return files.length > 0;
+}
+
+/**
+ * Check if the document or link we want to add is valid.
+ *
+ * @param {any} document the content of the form
+ * @param {string} type the type of document
+ * @param {{name: string}[]=} files the files we want to upload
+ * @returns {{fields: any, errorMessage: string}}
+ */
 export function validate(document, type, files) {
 	const fields = {};
 	let errorMessage = '';
@@ -43,11 +48,19 @@ export function validate(document, type, files) {
 	} else if (type === LINK && !/https*\:\/\//.test(document.url)) {
 		errorMessage = D.badUrl;
 		fields.url = true;
+	} else if (type === DOCUMENT && !haveFiles(files)) {
+		return {
+			errorMessage: D.requiredFile,
+			fields: { file: true },
+		};
+	} else if (type === DOCUMENT && haveInvalidFilesName(files)) {
+		return {
+			errorMessage: D.wrongFileName,
+			fields: { file: true },
+		};
 	} else if (!document.lang) {
 		errorMessage = D.requiredLang;
 		fields.lang = true;
-	} else if (type === DOCUMENT) {
-		return verifyFile(files);
 	}
 	return {
 		fields,

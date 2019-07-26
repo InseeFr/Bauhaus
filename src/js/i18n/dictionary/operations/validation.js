@@ -5,7 +5,7 @@ export default {
 	},
 	requiredLang: {
 		fr: 'La langue est obligatoire',
-		en: 'The lamguage is required',
+		en: 'The language is required',
 	},
 	requiredUrl: {
 		fr: "L'URL est obligatoire",
@@ -20,8 +20,10 @@ export default {
 		en: 'The file is required',
 	},
 	wrongFileName: {
-		fr: 'Le nom du fichier est incorrect',
-		en: 'The name of the file incorrect',
+		fr:
+			'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
+		en:
+			'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 	},
 	requiredFamily: {
 		fr: 'La famille est obligatoire',
