@@ -86,7 +86,6 @@ class OperationsDocumentationEdition extends Component {
 			this.props.type,
 			this.state.files,
 			(err, id = this.state.document.id) => {
-				console.log(this.state.document);
 				if (!err) {
 					goBackOrReplace(this.props, `/operations/document/${id}`, isCreation);
 				} else {
@@ -109,9 +108,12 @@ class OperationsDocumentationEdition extends Component {
 
 		const { document, files, serverSideError } = this.state;
 		const isEditing = !!document.id;
-
 		const errors = validate(document, type, files);
-		const globalError = errors.errorMessage || serverSideError;
+		const globalError =
+			errors.errorMessage ||
+			Object.keys(D.documents.serverSideErrors).reduce((acc, key) => {
+				return acc.replace(key, D.documents.serverSideErrors[key]);
+			}, serverSideError);
 
 		let updatedDate;
 		if (document.updatedDate) {

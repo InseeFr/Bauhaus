@@ -33,4 +33,16 @@ export default {
 		fr: 'La série est obligatoire',
 		en: 'The series is required',
 	},
+	documents: {
+		serverSideErrors: {
+			LINK_EXISTING_URL: {
+				en: 'There already exists a link to that url:',
+				fr: 'Il y a déjà un lien avec cette url:',
+			},
+			DOCUMENT_EXISTING_FILE: {
+				en: 'There already exists a document under this name:',
+				fr: 'Il y a déjà un document avec le même nom:',
+			},
+		},
+	},
 };
