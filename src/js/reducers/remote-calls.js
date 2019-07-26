@@ -76,7 +76,6 @@ export const getStatus = (state, actionType) => {
 };
 
 export const getError = (state, actionType) => {
-	console.log(state[actionType])
 	return state[actionType] && state[actionType].err;
 };
 
