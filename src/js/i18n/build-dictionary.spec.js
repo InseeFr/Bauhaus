@@ -59,6 +59,18 @@ import { createDictionary, getLang } from './build-dictionary';
 			dictionary.welcome.string.fr
 		);
 	});
+
+	test('should handle function', () => {
+		const dictionary = {
+			classificationsChangeNote: {
+				fr: d => (d ? `Note de changement - ${d}` : `Note de changement`),
+				en: d => (d ? `Change note - ${d}` : `Change note`),
+			},
+		};
+		expect(createDictionary('en', dictionary).classificationsChangeNote()).toBe(
+			'Change note'
+		);
+	});
 });
 
 test(`should return fr when we passe fr as a paremeter`, () => {

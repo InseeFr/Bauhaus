@@ -22,7 +22,10 @@ const dictionary = {
 export const createDictionary = (lang, dict = dictionary) =>
 	Object.keys(dict).reduce((acc, k) => {
 		const hasChildObject = Object.keys(dict[k]).find(
-			key => typeof dict[k][key] !== 'string' && !Array.isArray(dict[k][key])
+			key =>
+				dict[k][key] &&
+				typeof dict[k][key] === 'object' &&
+				dict[k][key].constructor === Object
 		);
 		return {
 			...acc,
