@@ -18,37 +18,37 @@ class MenuOperations extends Component {
 			paths: this.setActiveItem(this.props, {
 				families: {
 					path: '/operations/families',
-					pathKey: 'operations/famil',
+					pathKey: /operations\/famil'/,
 					className: null,
 					attrs: null,
 				},
 				series: {
 					path: '/operations/series',
-					pathKey: 'operations/series',
+					pathKey: /operations\/series/,
 					className: null,
 					attrs: null,
 				},
 				indicators: {
 					path: '/operations/indicators',
-					pathKey: 'operations/indicator',
+					pathKey: /operations\/indicator/,
 					className: null,
 					attrs: null,
 				},
 				help: {
 					path: '/operations/help',
-					pathKey: 'help',
+					pathKey: /help/,
 					className: null,
 					attrs: null,
 				},
 				document: {
 					path: '/operations/documents',
-					pathKey: 'document',
+					pathKey: /(link|document)/,
 					className: null,
 					attrs: null,
 				},
 				operations: {
 					path: '/operations',
-					pathKey: 'operation',
+					pathKey: /operation/,
 					className: 'active',
 					attrs: defaultAttrs,
 				},
@@ -98,26 +98,26 @@ class MenuOperations extends Component {
 		if (nextProps.location.pathname.includes('sims')) {
 			if (
 				nextProps.sims.idSeries ||
-				this.props.location.pathname.includes(paths.series.pathKey)
+				paths.series.pathKey.test(this.props.location.pathname)
 			) {
 				paths['series']['className'] = ACTIVE;
 				paths['series']['attrs'] = defaultAttrs;
 			} else if (
 				nextProps.sims.idIndicator ||
-				this.props.location.pathname.includes(paths.indicators.pathKey)
+				paths.indicators.pathKey.test(this.props.location.pathname)
 			) {
 				paths['indicators']['className'] = ACTIVE;
 				paths['indicators']['attrs'] = defaultAttrs;
 			} else if (
 				nextProps.sims.idOperation ||
-				this.props.location.pathname.includes(paths.operations.pathKey)
+				paths.operations.pathKey.test(this.props.location.pathname)
 			) {
 				paths['operations']['className'] = ACTIVE;
 				paths['operations']['attrs'] = defaultAttrs;
 			}
 		} else {
 			for (let key in paths) {
-				if (nextProps.location.pathname.includes(paths[key]['pathKey'])) {
+				if (paths[key]['pathKey'].test(nextProps.location.pathname)) {
 					paths[key]['className'] = ACTIVE;
 					paths[key]['attrs'] = defaultAttrs;
 
