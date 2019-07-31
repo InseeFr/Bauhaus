@@ -15,9 +15,18 @@ export class AbstractSearchComponent extends Component {
 			...this.getEmptyState(),
 		};
 	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.data) {
+			this.setState({
+				...nextProps.data,
+			});
+		}
+	}
+
 	getEmptyState = () => {
 		return {
-			data: this.props.data,
+			...this.props,
 			...this.emptyState,
 		};
 	};

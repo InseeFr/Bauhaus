@@ -10,6 +10,10 @@ const api = {
 	getOperationsList: () => ['operations'],
 	getFamiliesList: () => ['families'],
 
+	getFamiliesSearchList: () => ['families_search'],
+	getSeriesSearchList: () => ['series_search'],
+	getOperationsSearchList: () => ['operations_search'],
+
 	getMetadataStructureList: () => ['metadataStructureDefinition'],
 	getMetadataAttributesList: () => ['metadataAttributes'],
 	getFamily: id => [`family/${id}`],
