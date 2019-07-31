@@ -18,7 +18,7 @@ class MenuOperations extends Component {
 			paths: this.setActiveItem(this.props, {
 				families: {
 					path: '/operations/families',
-					pathKey: /operations\/famil'/,
+					pathKey: /operations\/famil/,
 					className: null,
 					attrs: null,
 				},
@@ -117,6 +117,7 @@ class MenuOperations extends Component {
 			}
 		} else {
 			for (let key in paths) {
+				console.log(paths[key]['pathKey'], nextProps.location.pathname);
 				if (paths[key]['pathKey'].test(nextProps.location.pathname)) {
 					paths[key]['className'] = ACTIVE;
 					paths[key]['attrs'] = defaultAttrs;
