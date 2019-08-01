@@ -10,12 +10,15 @@ export const saveOperation = (operation, callback) => dispatch => {
 	const method = operation.id ? 'putOperation' : 'postOperation';
 
 	return api[method](operation).then(
-		results => {
+		id => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_OPERATION_SUCCESS,
-				payload: operation,
+				payload: {
+					...operation,
+					id,
+				},
 			});
-			callback(null, results);
+			callback(null, id);
 		},
 		err => {
 			dispatch({
