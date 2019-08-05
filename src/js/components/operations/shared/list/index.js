@@ -38,7 +38,7 @@ function OperationsObjectHome({
 							</div>
 						</div>
 					</Auth>
-					<div className="col-md-8 centered pull-right">
+					<div className="col-md-8 centered pull-right operations-list">
 						<PageTitle title={title} col={12} offset={0} />
 						<SearchRmes
 							items={items}

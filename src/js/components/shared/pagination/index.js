@@ -85,7 +85,7 @@ class Pagination extends Component {
 
 		const contextCSS = ctx ? `pg-rmes-${ctx}` : '';
 		return (
-			<div>
+			<>
 				<ul className="list-group">{currentItems}</ul>
 				{pageNumbers.length > 1 && (
 					<ul className={`pagination pg-rmes ${contextCSS}`}>
@@ -143,7 +143,7 @@ class Pagination extends Component {
 						</li>
 					</ul>
 				)}
-			</div>
+			</>
 		);
 	}
 }

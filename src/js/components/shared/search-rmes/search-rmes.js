@@ -31,8 +31,8 @@ function SearchRmes({
 		</li>
 	));
 
-	const colSize = col ? `col-md-${col}` : null;
-	const colOffset = colOff ? `col-md-offset-${colOff}` : null;
+	const colSize = col ? `col-md-${col}` : '';
+	const colOffset = colOff ? `col-md-offset-${colOff}` : '';
 
 	return (
 		<div className={`${colSize} ${colOffset}`}>
@@ -66,9 +66,7 @@ function SearchRmes({
 			<div className="row">
 				<p aria-live="assertive">{nbResults(hits)}</p>
 			</div>
-			<div>
-				<Pagination itemEls={hitEls} itemsPerPage="10" context={ctx} />
-			</div>
+			<Pagination itemEls={hitEls} itemsPerPage="10" context={ctx} />
 		</div>
 	);
 }
