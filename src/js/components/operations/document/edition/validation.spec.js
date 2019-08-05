@@ -104,5 +104,16 @@ describe('validate', () => {
 				fields: {},
 			});
 		});
+
+		it('should not return any error if the name property has an absolute path', () => {
+			expect(
+				validate(document, type, [
+					{ name: 'file://files/storage/documents/F3MAJDocumentation.odt' },
+				])
+			).toEqual({
+				errorMessage: '',
+				fields: {},
+			});
+		});
 	});
 });

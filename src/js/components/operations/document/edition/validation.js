@@ -12,6 +12,7 @@ function haveInvalidFilesName(files = []) {
 
 	const wrongFile = files
 		.map(file => file.name)
+		.map(name => name.substr(name.lastIndexOf('/') + 1, name.length))
 		.find(fileName => !regexp.test(fileName));
 
 	return wrongFile;
