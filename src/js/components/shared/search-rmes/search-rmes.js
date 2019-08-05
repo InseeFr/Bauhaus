@@ -52,8 +52,13 @@ function SearchRmes({
 				<div className="row">
 					<div className="col-md-12">
 						<Link to={searchUrl}>
-							<h3 className="glyphicon glyphicon-zoom-in inline"> </h3>
-							<h3 className="inline">{D.conceptAdvancedSearchTitle}</h3>
+							<h2 className="inline">
+								<span
+									className="glyphicon glyphicon-zoom-in"
+									aria-hidden="true"
+								/>
+								{D.conceptAdvancedSearchTitle}
+							</h2>
 						</Link>
 					</div>
 				</div>
