@@ -98,7 +98,6 @@ class Field extends PureComponent {
 
 		return (
 			<Note
-				context="operations"
 				title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}
 				alone={alone}
 				lang={lang}

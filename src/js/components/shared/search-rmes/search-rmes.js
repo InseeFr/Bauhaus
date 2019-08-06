@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import Pagination from 'js/components/shared/pagination';
 import { filterKeyDeburr, nbResults } from 'js/utils/array-utils';
+import { ApplicationContext } from 'js/context';
 
 function SearchRmes({
 	items = [],
-	concepts,
+	advancedSearch = false,
+	searchUrl,
+	placeholder = D.searchLabelPlaceholder,
 	childPath,
 	col,
 	colOff,
@@ -15,7 +18,7 @@ function SearchRmes({
 	label,
 }) {
 	const [search, handleSearch] = useState('');
-
+	const ctx = useContext(ApplicationContext) || context;
 	const filter = filterKeyDeburr(
 		Object.keys(items[0] || {}).filter(k => k !== 'id')
 	);
@@ -28,8 +31,8 @@ function SearchRmes({
 		</li>
 	));
 
-	const colSize = col ? `col-md-${col}` : null;
-	const colOffset = colOff ? `col-md-offset-${colOff}` : null;
+	const colSize = col ? `col-md-${col}` : '';
+	const colOffset = colOff ? `col-md-offset-${colOff}` : '';
 
 	return (
 		<div className={`${colSize} ${colOffset}`}>
@@ -39,20 +42,23 @@ function SearchRmes({
 						value={search}
 						onChange={e => handleSearch(e.target.value)}
 						type="text"
-						placeholder={
-							concepts ? D.searchLabelHomePlaceholder : D.searchLabelPlaceholder
-						}
+						placeholder={placeholder}
 						className="form-control"
 						aria-label={D.search}
 					/>
 				</div>
 			</div>
-			{concepts && (
+			{advancedSearch && (
 				<div className="row">
 					<div className="col-md-12">
-						<Link to={'/concepts/search'}>
-							<h3 className="glyphicon glyphicon-zoom-in inline"> </h3>
-							<h3 className="inline">{D.conceptAdvancedSearchTitle}</h3>
+						<Link to={searchUrl}>
+							<h2 className="inline">
+								<span
+									className="glyphicon glyphicon-zoom-in"
+									aria-hidden="true"
+								/>
+								{D.conceptAdvancedSearchTitle}
+							</h2>
 						</Link>
 					</div>
 				</div>
@@ -60,9 +66,7 @@ function SearchRmes({
 			<div className="row">
 				<p aria-live="assertive">{nbResults(hits)}</p>
 			</div>
-			<div>
-				<Pagination itemEls={hitEls} itemsPerPage="10" context={context} />
-			</div>
+			<Pagination itemEls={hitEls} itemsPerPage="10" context={ctx} />
 		</div>
 	);
 }
@@ -74,7 +78,9 @@ SearchRmes.defaultProps = {
 SearchRmes.propTypes = {
 	items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
 	childPath: PropTypes.string.isRequired,
-	concepts: PropTypes.bool,
+	advancedSearch: PropTypes.bool,
+	searchUrl: PropTypes.string,
+	placeholder: PropTypes.string,
 	col: PropTypes.number,
 	colOff: PropTypes.number,
 	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),

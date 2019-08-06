@@ -181,7 +181,7 @@ describe('SIMS Page', function() {
 				},
 			});
 		cy.get('.btn-line').contains('Créer le SIMS');
-		cy.get(':nth-child(3) > .btn').click();
+		cy.get(':nth-child(4) > .btn').click();
 
 		// Create Page
 		cy.url().should('contains', '/sims/create');

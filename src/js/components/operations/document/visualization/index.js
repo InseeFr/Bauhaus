@@ -37,8 +37,7 @@ class DocumentationVisualizationContainer extends Component {
 	render() {
 		const { id, document, langs, secondLang, saveSecondLang } = this.props;
 
-		if (!document.id)
-			return <Loading textType="loading" context="operations" />;
+		if (!document.id) return <Loading textType="loading" />;
 
 		return (
 			<div className="container">
@@ -48,14 +47,12 @@ class DocumentationVisualizationContainer extends Component {
 					titleLg1={document.labelLg1 || document.labelLg2}
 					titleLg2={document.labelLg2}
 					secondLang={secondLang}
-					context="operations"
 				/>
 
 				<div className="row btn-line">
 					<Button
 						action={goBack(this.props, '/operations/documents')}
 						label={D.btnReturn}
-						context="operations"
 					/>
 
 					<div className="col-md-8 centered" />
@@ -63,7 +60,6 @@ class DocumentationVisualizationContainer extends Component {
 					<Button
 						action={`/operations/document/${document.id}/modify`}
 						label={D.btnUpdate}
-						context="operations"
 					/>
 				</div>
 				<OperationsDocumentVisualization

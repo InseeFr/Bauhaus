@@ -16,8 +16,7 @@ class OperationsFamilyEditionContainer extends Component {
 		}
 	}
 	render() {
-		if (!this.props.family)
-			return <Loading textType="loading" context="operations" />;
+		if (!this.props.family) return <Loading textType="loading" />;
 		return <OperationsFamilyEdition {...this.props} />;
 	}
 }

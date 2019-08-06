@@ -47,7 +47,7 @@ class SeriesVisualizationContainer extends Component {
 		} = this.props;
 
 		const ableToCreateASimsForThisSeries = (attr.operations || []).length === 0;
-		if (!attr.id) return <Loading textType="loading" context="operations" />;
+		if (!attr.id) return <Loading textType="loading" />;
 		return (
 			<div className="container">
 				<CheckSecondLang
@@ -59,14 +59,12 @@ class SeriesVisualizationContainer extends Component {
 					titleLg1={attr.prefLabelLg1}
 					titleLg2={attr.prefLabelLg2}
 					secondLang={secondLang}
-					context="operations"
 				/>
 
 				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/series')}
 						label={D.btnReturn}
-						context="operations"
 					/>
 
 					<div className="empty-center" />
@@ -75,7 +73,6 @@ class SeriesVisualizationContainer extends Component {
 						<Button
 							action={`/operations/sims/${attr.idSims}`}
 							label={D.btnSimsVisu}
-							context="operations"
 						/>
 					)}
 					{!attr.idSims && (
@@ -86,18 +83,16 @@ class SeriesVisualizationContainer extends Component {
 							<Button
 								action={`/operations/series/${attr.id}/sims/create`}
 								label={D.btnSimsCreate}
-								context="operations"
 							/>
 						</Auth>
 					)}
 					<Auth roles={[ADMIN, SERIES_CREATOR]}>
-						<Button label={D.btnValid} context="operations" />
+						<Button label={D.btnValid} />
 					</Auth>
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
 							action={`/operations/series/${attr.id}/modify`}
 							label={D.btnUpdate}
-							context="operations"
 						/>
 					</Auth>
 				</div>

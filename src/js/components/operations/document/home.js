@@ -18,7 +18,7 @@ function DocumentHome({ documents }) {
 	});
 
 	return (
-		<React.Fragment>
+		<>
 			<div className="container documents-home">
 				<div className="row">
 					<div className="col-md-3 operations-btn-group-vertical">
@@ -47,13 +47,8 @@ function DocumentHome({ documents }) {
 							</div>
 						))}
 					</div>
-					<div className="col-md-8 centered pull-right">
-						<PageTitle
-							title={D.documentsSearchTitle}
-							col={12}
-							offset={0}
-							context="operations"
-						/>
+					<div className="col-md-8 centered pull-right operations-list">
+						<PageTitle title={D.documentsSearchTitle} col={12} offset={0} />
 						<div
 							className="documents-home__btn-group btn-group btn-group-justified"
 							role="group"
@@ -95,13 +90,12 @@ function DocumentHome({ documents }) {
 						<SearchRmes
 							items={filteredDocuments}
 							childPath="operations/document"
-							context="operations"
 							label="label"
 						/>
 					</div>
 				</div>
 			</div>
-		</React.Fragment>
+		</>
 	);
 }
 

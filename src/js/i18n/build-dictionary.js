@@ -19,10 +19,18 @@ const dictionary = {
  *
  * @param {string} lang the lang of the user
  */
-export const createDictionary = lang =>
-	Object.keys(dictionary).reduce((_, k) => {
-		_[k] = dictionary[k][lang];
-		return _;
+export const createDictionary = (lang, dict = dictionary) =>
+	Object.keys(dict).reduce((acc, k) => {
+		const hasChildObject = Object.keys(dict[k]).find(
+			key =>
+				dict[k][key] &&
+				typeof dict[k][key] === 'object' &&
+				dict[k][key].constructor === Object
+		);
+		return {
+			...acc,
+			[k]: !hasChildObject ? dict[k][lang] : createDictionary(lang, dict[k]),
+		};
 	}, {});
 
 /**

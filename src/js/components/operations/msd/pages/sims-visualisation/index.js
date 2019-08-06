@@ -21,6 +21,7 @@ import {
 	CNIS,
 } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
+import { DuplicateButton } from 'js/components/shared/button-with-icon';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
@@ -112,7 +113,6 @@ export default function SimsVisualisation({
 					)}
 					{!msd.isPresentational && (
 						<Note
-							context="operations"
 							title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}
 							text={displayInformation(msd, false, sims.rubrics[msd.idMas])}
 							alone={!(hasLabelLg2(msd) && secondLang)}
@@ -122,7 +122,6 @@ export default function SimsVisualisation({
 					)}
 					{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
 						<Note
-							context="operations"
 							title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}
 							text={displayInformation(msd, true, sims.rubrics[msd.idMas])}
 							lang={lg2}
@@ -140,29 +139,15 @@ export default function SimsVisualisation({
 	return (
 		<>
 			<div className="row btn-line action-toolbar">
-				<Button
-					action={() => goBack(getParentUri(sims))}
-					label={D.btnReturn}
-					context="operations"
-				/>
+				<Button action={() => goBack(getParentUri(sims))} label={D.btnReturn} />
 				<div className="empty-center" />
 				<Auth
 					roles={[ADMIN, SERIES_CREATOR]}
 					complementaryCheck={shouldDisplayDuplicateButtonFlag}
 				>
-					<Button
+					<DuplicateButton
 						action={`/operations/sims/${sims.id}/duplicate`}
-						label={
-							<>
-								<span
-									className="glyphicon glyphicon-duplicate"
-									aria-hidden="true"
-								/>
-								<span> {D.btnDuplicate}</span>
-							</>
-						}
 						col={3}
-						context="operations"
 					/>
 				</Auth>
 				<Auth roles={[ADMIN, INDICATOR_CREATOR, SERIES_CREATOR, CNIS]}>
@@ -177,7 +162,6 @@ export default function SimsVisualisation({
 								<span> {D.btnUpdate}</span>
 							</>
 						}
-						context="operations"
 					/>
 				</Auth>
 			</div>

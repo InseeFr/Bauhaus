@@ -1,42 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import PageTitle from 'js/components/shared/page-title';
 import SearchRmes from 'js/components/shared/search-rmes/search-rmes';
 import D from 'js/i18n';
 
-class CorrespondencesHome extends Component {
-	static propTypes = {
-		items: PropTypes.arrayOf(
-			PropTypes.shape({
-				id: PropTypes.string.isRequired,
-				label: PropTypes.string.isRequired,
-			}).isRequired
-		),
-	};
-	render() {
-		const { correspondences } = this.props;
-		return (
-			<div>
-				<div className="container">
-					<div className="row">
-						<div className="col-md-8 col-md-offset-2 centered">
-							<PageTitle
-								title={D.correspondencesSearchTitle}
-								col={12}
-								offset={0}
-								context="classifications"
-							/>
-							<SearchRmes
-								items={correspondences}
-								childPath="classifications/correspondence"
-								context="classifications"
-							/>
-						</div>
-					</div>
+const CorrespondencesHome = ({ correspondences }) => {
+	return (
+		<div className="container">
+			<div className="row">
+				<div className="col-md-8 col-md-offset-2 centered">
+					<PageTitle
+						title={D.correspondencesSearchTitle}
+						col={12}
+						offset={0}
+						context="classifications"
+					/>
+					<SearchRmes
+						items={correspondences}
+						childPath="classifications/correspondence"
+						context="classifications"
+					/>
 				</div>
 			</div>
-		);
-	}
-}
+		</div>
+	);
+};
+
+CorrespondencesHome.propTypes = {
+	items: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.string.isRequired,
+			label: PropTypes.string.isRequired,
+		}).isRequired
+	),
+};
 
 export default CorrespondencesHome;

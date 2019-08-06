@@ -14,16 +14,11 @@ function Control({ onSubmit, indicator, errorMessage }) {
 						? `/operations/indicator/${indicator.id}`
 						: `/operations/indicators`
 				}
-				context="operations"
 			/>
 
 			<ErrorBloc error={errorMessage} />
 
-			<SaveButton
-				action={onSubmit}
-				context="operations"
-				disabled={errorMessage}
-			/>
+			<SaveButton action={onSubmit} disabled={errorMessage} />
 		</div>
 	);
 }

@@ -6,8 +6,7 @@ import { NOT_LOADED, LOADED } from 'js/constants';
 import loadSeriesList from 'js/actions/operations/series/list';
 
 function SeriesHomeContainer({ series, status }) {
-	if (status !== LOADED)
-		return <Loading textType="loading" context="operations" />;
+	if (status !== LOADED) return <Loading textType="loading" />;
 	return <SeriesHome series={series} />;
 }
 
@@ -31,6 +30,7 @@ const mapDispatchToProps = {
 	loadSeriesList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	SeriesHomeContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SeriesHomeContainer);

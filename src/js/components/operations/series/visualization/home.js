@@ -38,7 +38,6 @@ function OperationsSerieVisualization({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					context="operations"
 				/>
 				{secondLang && (
 					<Note
@@ -47,7 +46,6 @@ function OperationsSerieVisualization({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						context="operations"
 					/>
 				)}
 			</div>
@@ -58,7 +56,6 @@ function OperationsSerieVisualization({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					context="operations"
 					md
 				/>
 				{secondLang && (
@@ -68,7 +65,6 @@ function OperationsSerieVisualization({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						context="operations"
 						md
 					/>
 				)}
@@ -81,7 +77,6 @@ function OperationsSerieVisualization({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					context="operations"
 					md
 				/>
 				{secondLang && (
@@ -91,7 +86,6 @@ function OperationsSerieVisualization({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						context="operations"
 						md
 					/>
 				)}
@@ -104,7 +98,6 @@ function OperationsSerieVisualization({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					context="operations"
 				/>
 				{secondLang && (
 					<Note
@@ -113,7 +106,6 @@ function OperationsSerieVisualization({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						context="operations"
 					/>
 				)}
 			</div>
@@ -125,7 +117,6 @@ function OperationsSerieVisualization({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					context="operations"
 				/>
 				{secondLang && (
 					<Note
@@ -134,7 +125,6 @@ function OperationsSerieVisualization({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						context="operations"
 					/>
 				)}
 			</div>
@@ -146,7 +136,6 @@ function OperationsSerieVisualization({
 					lang={lg1}
 					alone={true}
 					allowEmpty={true}
-					context="operations"
 				/>
 			</div>
 
@@ -157,7 +146,6 @@ function OperationsSerieVisualization({
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
-				context="operations"
 			/>
 			<DisplayLinks
 				links={dataCollector}
@@ -166,7 +154,6 @@ function OperationsSerieVisualization({
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
-				context="operations"
 			/>
 
 			<div className="row flex" data-cy="gestionnaire">
@@ -176,7 +163,6 @@ function OperationsSerieVisualization({
 					lang={lg1}
 					alone={true}
 					allowEmpty={true}
-					context="operations"
 				/>
 			</div>
 			<DisplayLinks
@@ -185,7 +171,6 @@ function OperationsSerieVisualization({
 				title={D.replaces}
 				langs={langs}
 				secondLang={secondLang}
-				context="operations"
 			/>
 			<DisplayLinks
 				links={attr.isReplacedBy}
@@ -193,7 +178,6 @@ function OperationsSerieVisualization({
 				title={D.replacedBy}
 				langs={langs}
 				secondLang={secondLang}
-				context="operations"
 			/>
 			<DisplayLinks
 				links={attr.generate}
@@ -201,15 +185,9 @@ function OperationsSerieVisualization({
 				title={D.indicators}
 				langs={langs}
 				secondLang={secondLang}
-				context="operations"
 			/>
 
-			<SeeAlso
-				links={seeAlso}
-				langs={langs}
-				secondLang={secondLang}
-				context="operations"
-			/>
+			<SeeAlso links={seeAlso} langs={langs} secondLang={secondLang} />
 
 			<RelationsView
 				children={attr.operations}
@@ -221,7 +199,6 @@ function OperationsSerieVisualization({
 				title={D.linksTitle}
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
-				context="operations"
 			/>
 		</React.Fragment>
 	);

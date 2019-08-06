@@ -4,7 +4,6 @@ import { goBack, goBackOrReplace } from 'js/utils/redirection';
 import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
-import Button from 'js/components/shared/button';
 import { validate } from 'js/components/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -12,6 +11,11 @@ import Loading from 'js/components/shared/loading';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import SelectRmes from 'js/components/shared/select-rmes';
 import PageTitleBlock from 'js/components/shared/page-title-block';
+import ErrorBloc from 'js/components/shared/error-bloc';
+import {
+	CancelButton,
+	SaveButton,
+} from 'js/components/shared/button-with-icon';
 
 const defaultDocument = {
 	labelLg1: '',
@@ -82,7 +86,6 @@ class OperationsDocumentationEdition extends Component {
 			this.props.type,
 			this.state.files,
 			(err, id = this.state.document.id) => {
-				console.log(this.state.document);
 				if (!err) {
 					goBackOrReplace(this.props, `/operations/document/${id}`, isCreation);
 				} else {
@@ -101,14 +104,16 @@ class OperationsDocumentationEdition extends Component {
 			type,
 		} = this.props;
 
-		if (this.props.operationsAsyncTask)
-			return <Loading textType="saving" context="operations" />;
+		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
 		const { document, files, serverSideError } = this.state;
 		const isEditing = !!document.id;
-
 		const errors = validate(document, type, files);
-		const globalError = errors.errorMessage || serverSideError;
+		const globalError =
+			errors.errorMessage ||
+			Object.keys(D.documents.serverSideErrors).reduce((acc, key) => {
+				return acc.replace(key, D.documents.serverSideErrors[key]);
+			}, serverSideError);
 
 		let updatedDate;
 		if (document.updatedDate) {
@@ -122,48 +127,15 @@ class OperationsDocumentationEdition extends Component {
 						titleLg1={this.props.document.labelLg1}
 						titleLg2={this.props.document.labelLg2}
 						secondLang={true}
-						context="operations"
 					/>
 				)}
 
-				<div className="row btn-line">
-					<Button
-						action={goBack(this.props, '/operations/documents')}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-remove"
-									aria-hidden="true"
-								/>
-								<span> {D.btnCancel}</span>
-							</React.Fragment>
-						}
-						context="operations"
-					/>
+				<div className="row btn-line action-toolbar">
+					<CancelButton action={goBack(this.props, '/operations/documents')} />
 
-					<div className="col-md-8 centered">
-						<div
-							style={{ visibility: globalError ? 'visible' : 'hidden' }}
-							className="alert alert-danger bold"
-							role="alert"
-						>
-							{globalError}
-						</div>
-					</div>
-					<Button
-						action={this.onSubmit}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-disk"
-									aria-hidden="true"
-								/>
-								<span> {D.btnSave}</span>
-							</React.Fragment>
-						}
-						context="operations"
-						disabled={errors.errorMessage}
-					/>
+					<ErrorBloc error={globalError} />
+
+					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
 				</div>
 				<form>
 					<div className="row">

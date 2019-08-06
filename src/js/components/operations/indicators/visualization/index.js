@@ -37,7 +37,7 @@ class IndicatorVisualizationContainer extends Component {
 			frequency,
 			organisations,
 		} = this.props;
-		if (!attr.id) return <Loading textType="loading" context="operations" />;
+		if (!attr.id) return <Loading textType="loading" />;
 
 		return (
 			<div className="container">
@@ -50,14 +50,12 @@ class IndicatorVisualizationContainer extends Component {
 					titleLg1={attr.prefLabelLg1}
 					titleLg2={attr.prefLabelLg2}
 					secondLang={secondLang}
-					context="operations"
 				/>
 
 				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/indicators')}
 						label={D.btnReturn}
-						context="operations"
 					/>
 					<div className="empty-center" />
 					{attr.idSims && (
@@ -65,7 +63,6 @@ class IndicatorVisualizationContainer extends Component {
 							<Button
 								action={`/operations/sims/${attr.idSims}`}
 								label={D.btnSimsVisu}
-								context="operations"
 							/>
 						</>
 					)}
@@ -74,18 +71,16 @@ class IndicatorVisualizationContainer extends Component {
 							<Button
 								action={`/operations/indicator/${attr.id}/sims/create`}
 								label={D.btnSimsCreate}
-								context="operations"
 							/>
 						</Auth>
 					)}
 					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
-						<Button label={D.btnValid} context="operations" />
+						<Button label={D.btnValid} />
 					</Auth>
 					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
 						<Button
 							action={`/operations/indicator/${attr.id}/modify`}
 							label={D.btnUpdate}
-							context="operations"
 						/>
 					</Auth>
 				</div>

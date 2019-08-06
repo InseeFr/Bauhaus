@@ -46,7 +46,6 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
-				context="operations"
 			/>
 			{secondLang && (
 				<Note
@@ -55,7 +54,6 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 					lang={lg2}
 					alone={false}
 					allowEmpty={true}
-					context="operations"
 				/>
 			)}
 		</div>

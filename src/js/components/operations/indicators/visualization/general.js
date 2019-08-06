@@ -21,7 +21,6 @@ function DisplayMultiLangNote({
 				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
-				context="operations"
 			/>
 			{secondLang && (
 				<Note
@@ -30,7 +29,6 @@ function DisplayMultiLangNote({
 					lang={lg2}
 					alone={false}
 					allowEmpty={true}
-					context="operations"
 				/>
 			)}
 		</div>
@@ -53,7 +51,6 @@ function OperationsIndicatorVisualization(props) {
 				title={D.altLabel}
 				langs={langs}
 				secondLang={secondLang}
-				context="operations"
 			/>
 			<DisplayMultiLangNote
 				value1={attr.abstractLg1}
@@ -61,7 +58,6 @@ function OperationsIndicatorVisualization(props) {
 				title={D.summary}
 				langs={langs}
 				secondLang={secondLang}
-				context="operations"
 			/>
 			<DisplayMultiLangNote
 				value1={attr.historyNoteLg1}
@@ -69,7 +65,6 @@ function OperationsIndicatorVisualization(props) {
 				title={D.history}
 				langs={langs}
 				secondLang={secondLang}
-				context="operations"
 			/>
 			<DisplayMultiLangNote
 				value1={frequency.labelLg1}
@@ -77,7 +72,6 @@ function OperationsIndicatorVisualization(props) {
 				title={D.indicatorDataCollectFrequency}
 				langs={langs}
 				secondLang={secondLang}
-				context="operations"
 			/>
 			<div className="row">
 				<Note
@@ -86,7 +80,6 @@ function OperationsIndicatorVisualization(props) {
 					lang={langs.lg1}
 					alone={true}
 					allowEmpty={true}
-					context="operations"
 				/>
 			</div>
 
@@ -97,7 +90,6 @@ function OperationsIndicatorVisualization(props) {
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
-				context="operations"
 			/>
 
 			<DisplayLinks
@@ -106,7 +98,6 @@ function OperationsIndicatorVisualization(props) {
 				title={D.replaces}
 				langs={langs}
 				secondLang={secondLang}
-				context="operations"
 			/>
 			<DisplayLinks
 				links={attr.isReplacedBy}
@@ -114,7 +105,6 @@ function OperationsIndicatorVisualization(props) {
 				title={D.replacedBy}
 				langs={langs}
 				secondLang={secondLang}
-				context="operations"
 			/>
 			<DisplayLinks
 				links={attr.wasGeneratedBy}
@@ -122,15 +112,9 @@ function OperationsIndicatorVisualization(props) {
 				title={D.generatedBy}
 				langs={langs}
 				secondLang={secondLang}
-				context="operations"
 			/>
 
-			<SeeAlso
-				links={seeAlso}
-				langs={langs}
-				secondLang={secondLang}
-				context="operations"
-			/>
+			<SeeAlso links={seeAlso} langs={langs} secondLang={secondLang} />
 		</React.Fragment>
 	);
 }

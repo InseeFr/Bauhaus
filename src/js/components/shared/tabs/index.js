@@ -3,8 +3,8 @@ import { Tabs, Tab } from 'react-bootstrap';
 import './tabs.scss';
 
 class TabsRmes extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = { activeTab: 1 };
 		this.selectTab = tabIndex =>
 			this.setState({

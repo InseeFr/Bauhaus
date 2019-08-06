@@ -98,7 +98,9 @@ class ConceptsHome extends Component {
 							<SearchRmes
 								items={concepts}
 								childPath="concept"
-								concepts
+								advancedSearch
+								searchUrl="/concepts/search"
+								placeholder={D.searchLabelHomePlaceholder}
 								context="concepts"
 							/>
 						</div>

@@ -128,6 +128,10 @@ export const getFamilies = state => {
 	return state.operationsFamiliesList || {};
 };
 
+export const getIndicators = state => {
+	return state.operationsIndicatorsList || {};
+};
+
 export const getOperations = state => {
 	return state.operationsOperationsList || {};
 };

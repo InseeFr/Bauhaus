@@ -18,7 +18,6 @@ function OperationsFamilyVisualization({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					context="operations"
 				/>
 
 				{secondLang && (
@@ -28,7 +27,6 @@ function OperationsFamilyVisualization({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						context="operations"
 					/>
 				)}
 			</div>
@@ -40,7 +38,6 @@ function OperationsFamilyVisualization({
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					context="operations"
 					md
 				/>
 				{secondLang && (
@@ -50,7 +47,6 @@ function OperationsFamilyVisualization({
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						context="operations"
 						md
 					/>
 				)}
@@ -62,7 +58,6 @@ function OperationsFamilyVisualization({
 				title={D.linksTitle}
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
-				context="operations"
 			/>
 		</React.Fragment>
 	);

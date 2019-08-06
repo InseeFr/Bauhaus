@@ -15,7 +15,6 @@ export default function MSDHelp({
 			<React.Fragment>
 				<div className="row" key={msd.idMas} id={msd.idMas}>
 					<Note
-						context="operations"
 						title={`${msd.idMas} - ${msd.masLabelLg1}`}
 						text={
 							<HelpInformation

@@ -1,4 +1,4 @@
-import get, { saveIndicator } from './item';
+import { saveIndicator } from './item';
 import * as A from 'js/actions/constants';
 import api from 'js/remote-api/operations-api';
 

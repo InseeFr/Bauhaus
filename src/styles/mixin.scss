@@ -11,7 +11,6 @@
 	text-transform: uppercase;
 }
 
-
 @mixin reset-btn() {
 	border: none;
 	margin: 0;
@@ -37,10 +36,14 @@
 }
 
 @mixin btn-group-vertical() {
+	@media (min-width: 1000px) {
+		margin-top: 200px;
+	}
+
 	border-radius: 6px;
 	border-width: 2px;
 	border-style: solid;
-	margin-top: 200px;
+	margin-top: 50px;
 
 	.btn {
 		margin-top: 15px;

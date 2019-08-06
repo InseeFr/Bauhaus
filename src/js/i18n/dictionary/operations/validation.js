@@ -5,7 +5,7 @@ export default {
 	},
 	requiredLang: {
 		fr: 'La langue est obligatoire',
-		en: 'The lamguage is required',
+		en: 'The language is required',
 	},
 	requiredUrl: {
 		fr: "L'URL est obligatoire",
@@ -20,8 +20,10 @@ export default {
 		en: 'The file is required',
 	},
 	wrongFileName: {
-		fr: 'Le nom du fichier est incorrect',
-		en: 'The name of the file incorrect',
+		fr:
+			'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
+		en:
+			'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 	},
 	requiredFamily: {
 		fr: 'La famille est obligatoire',
@@ -30,5 +32,17 @@ export default {
 	requiredSeries: {
 		fr: 'La série est obligatoire',
 		en: 'The series is required',
+	},
+	documents: {
+		serverSideErrors: {
+			LINK_EXISTING_URL: {
+				en: 'There already exists a link to that url:',
+				fr: 'Il y a déjà un lien avec cette url:',
+			},
+			DOCUMENT_EXISTING_FILE: {
+				en: 'There already exists a document under this name:',
+				fr: 'Il y a déjà un document avec le même nom:',
+			},
+		},
 	},
 };

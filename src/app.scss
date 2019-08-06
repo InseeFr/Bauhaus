@@ -60,6 +60,12 @@ a {
 	@include btn-group-vertical();
 }
 
+@media (max-width: 1000px) {
+	.operations-list {
+		width: 100%;
+	}
+}
+
 .btn-line {
 	margin-top: 15px;
 	margin-bottom: 15px;
