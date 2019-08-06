@@ -31,7 +31,10 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .btn-group-vertical {
+      margin-top: 200px; } }
   .btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
@@ -41,10 +44,17 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .operations-btn-group-vertical {
+      margin-top: 200px; } }
   .operations-btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
+
+@media (max-width: 1000px) {
+  .operations-list {
+    width: 100%; } }
 
 .btn-line {
   margin-top: 15px;
@@ -225,7 +235,10 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .btn-group-vertical {
+      margin-top: 200px; } }
   .btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
@@ -235,10 +248,17 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .operations-btn-group-vertical {
+      margin-top: 200px; } }
   .operations-btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
+
+@media (max-width: 1000px) {
+  .operations-list {
+    width: 100%; } }
 
 .btn-line {
   margin-top: 15px;
@@ -449,7 +469,10 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .btn-group-vertical {
+      margin-top: 200px; } }
   .btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
@@ -459,10 +482,17 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .operations-btn-group-vertical {
+      margin-top: 200px; } }
   .operations-btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
+
+@media (max-width: 1000px) {
+  .operations-list {
+    width: 100%; } }
 
 .btn-line {
   margin-top: 15px;
@@ -675,7 +705,10 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .btn-group-vertical {
+      margin-top: 200px; } }
   .btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
@@ -685,10 +718,17 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .operations-btn-group-vertical {
+      margin-top: 200px; } }
   .operations-btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
+
+@media (max-width: 1000px) {
+  .operations-list {
+    width: 100%; } }
 
 .btn-line {
   margin-top: 15px;
@@ -913,7 +953,10 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .btn-group-vertical {
+      margin-top: 200px; } }
   .btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
@@ -923,10 +966,17 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .operations-btn-group-vertical {
+      margin-top: 200px; } }
   .operations-btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
+
+@media (max-width: 1000px) {
+  .operations-list {
+    width: 100%; } }
 
 .btn-line {
   margin-top: 15px;
@@ -1131,7 +1181,10 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .btn-group-vertical {
+      margin-top: 200px; } }
   .btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
@@ -1141,10 +1194,17 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .operations-btn-group-vertical {
+      margin-top: 200px; } }
   .operations-btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
+
+@media (max-width: 1000px) {
+  .operations-list {
+    width: 100%; } }
 
 .btn-line {
   margin-top: 15px;
@@ -1349,7 +1409,10 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .btn-group-vertical {
+      margin-top: 200px; } }
   .btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
@@ -1359,10 +1422,17 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .operations-btn-group-vertical {
+      margin-top: 200px; } }
   .operations-btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
+
+@media (max-width: 1000px) {
+  .operations-list {
+    width: 100%; } }
 
 .btn-line {
   margin-top: 15px;
@@ -1600,7 +1670,10 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .btn-group-vertical {
+      margin-top: 200px; } }
   .btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
@@ -1610,10 +1683,17 @@ a {
   border-radius: 6px;
   border-width: 2px;
   border-style: solid;
-  margin-top: 200px; }
+  margin-top: 50px; }
+  @media (min-width: 1000px) {
+    .operations-btn-group-vertical {
+      margin-top: 200px; } }
   .operations-btn-group-vertical .btn {
     margin-top: 15px;
     margin-bottom: 15px; }
+
+@media (max-width: 1000px) {
+  .operations-list {
+    width: 100%; } }
 
 .btn-line {
   margin-top: 15px;
