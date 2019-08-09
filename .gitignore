@@ -6,16 +6,12 @@ node_modules
 # styles
 *.css
 
-# testing
-/coverage
 
 # storybook building files
-/built-storybook
+built-storybook
 /website
 _book
 
-# production
-/build
 
 # misc
 .DS_Store
