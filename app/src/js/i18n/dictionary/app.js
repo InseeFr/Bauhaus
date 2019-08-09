@@ -441,10 +441,6 @@ const dictionary = {
 		fr: 'Privé',
 		en: 'Private',
 	},
-	backToTop: {
-		en: 'Back to Top',
-		fr: 'Haut de page',
-	},
 };
 
 export default dictionary;

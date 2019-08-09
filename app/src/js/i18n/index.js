@@ -1,1 +1,1 @@
-export { default } from './build-dictionary';
+export { default, bauhausLibraryDictionary } from './build-dictionary';

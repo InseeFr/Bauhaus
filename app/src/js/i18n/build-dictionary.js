@@ -2,6 +2,7 @@ import appD from './dictionary/app';
 import conceptsD from './dictionary/concepts';
 import classificationsD from './dictionary/classifications';
 import operationsD from './dictionary/operations/index.js';
+import bauhausLibrary from './dictionary/bauhaus-library.js';
 
 import 'moment/locale/en-gb';
 import 'moment/locale/fr';
@@ -18,6 +19,7 @@ const dictionary = {
  * the corresponding dictionary.
  *
  * @param {string} lang the lang of the user
+ * @param {any} dict
  */
 export const createDictionary = (lang, dict = dictionary) =>
 	Object.keys(dict).reduce((acc, k) => {
@@ -73,3 +75,8 @@ export const getMessageForSecondLang = message => {
 };
 
 export default createDictionary(getLang());
+
+export const bauhausLibraryDictionary = createDictionary(
+	getLang(),
+	bauhausLibrary
+);

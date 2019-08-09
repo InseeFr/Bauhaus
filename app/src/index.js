@@ -6,7 +6,7 @@ import Error from 'js/components/shared/error/error';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
 import { I18NContext, BackToTop } from 'bauhaus-library';
-import D from 'js/i18n';
+import { bauhausLibraryDictionary } from 'js/i18n';
 
 import 'app.scss';
 import 'bauhaus-library/dist/index.css';
@@ -34,7 +34,7 @@ const renderApp = (Component, initState, props) => {
 
 	ReactDOM.render(
 		<Provider store={store}>
-			<I18NContext.Provider value={D}>
+			<I18NContext.Provider value={bauhausLibraryDictionary}>
 				<main>
 					<Component {...props} />
 					<BackToTop />
