@@ -150,6 +150,14 @@ export default function SimsVisualisation({
 						col={3}
 					/>
 				</Auth>
+				<Auth
+					roles={[
+						ADMIN,
+						!!sims.idIndicator ? SERIES_CREATOR : INDICATOR_CREATOR,
+					]}
+				>
+					<Button label={D.btnValid} />
+				</Auth>
 				<Auth roles={[ADMIN, INDICATOR_CREATOR, SERIES_CREATOR, CNIS]}>
 					<Button
 						action={`/operations/sims/${sims.id}/modify`}
