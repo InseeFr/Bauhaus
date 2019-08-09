@@ -63,7 +63,5 @@ describe('OperationsDocumentationVisualization', () => {
 		);
 		const notes = wrapper.find(Note);
 		expect(notes).toHaveLength(4);
-
-		expect(notes.get(2).props.text).toBe('2019-2-1');
 	});
 });
