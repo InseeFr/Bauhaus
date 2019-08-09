@@ -23,7 +23,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "pre-commit"
+      "pre-push": "yarn pre-commit"
     }
   }
 }
