@@ -12,11 +12,18 @@
     "build-insee": "lerna run build-insee",
     "test": "lerna run test --parallel",
     "test:coverage": "lerna run test:coverage",
-    "build-storybook": "lerna run build-storybook --parallel"
+    "build-storybook": "lerna run build-storybook --parallel",
+    "pre-commit": "lerna run test:coverage && lerna run lint"
   },
   "devDependencies": {
-    "lcov-result-merger": "^3.1.0",
-    "lerna": "^3.16.4",
-    "microbundle": "^0.11.0"
+    "lcov-result-merger": "3.1.0",
+    "lerna": "3.16.4",
+    "microbundle": "0.11.0",
+    "husky": "3.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "pre-commit"
+    }
   }
 }

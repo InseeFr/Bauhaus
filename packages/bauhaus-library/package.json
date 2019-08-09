@@ -10,7 +10,8 @@
     "test": "jest --watch",
     "build-storybook": "cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
     "start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src"
   },
   "peerDependencies": {
     "react": "^16.8.6"
@@ -29,6 +30,11 @@
     "babel-jest": "24.7.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "jest": "24.7.1"
+    "jest": "24.7.1",
+    "eslint-config-prettier": "6.0.0",
+    "eslint-config-react-app": "4.0.1",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-react": "7.14.3"
   }
 }
