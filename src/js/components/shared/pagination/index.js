@@ -37,10 +37,14 @@ class Pagination extends Component {
 			currentPage: Number(targetPage),
 		});
 	}
-	componentWillReceiveProps({ itemEls, itemsPerPage }) {
-		const { currentPage } = this.state;
+
+	static getDerivedStateFromProps({ itemEls, itemsPerPage }, previousState) {
+		const { currentPage } = previousState;
 		const pageMax = Math.ceil(itemEls.length / itemsPerPage) || 1;
-		if (currentPage > pageMax) this.goToPage(pageMax);
+		if (currentPage > pageMax) {
+			return { currentPage: Number(pageMax) };
+		}
+		return null;
 	}
 
 	render() {
