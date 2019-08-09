@@ -3,12 +3,12 @@ node_js:
   - 9.10.0
 cache: yarn
 install:
-  - npm install
+  - yarn install
 before_script:
-  - npm run test:coverage
+  - yarn test:coverage
 script:
   - CI=false yarn build-insee
-  - npm run build-storybook
+  - yarn build-storybook
 before_deploy:
   - git config --global user.email "demey.emmanuel@gmail.com"
   - git config --global user.name "Emmanuel DEMEY"
