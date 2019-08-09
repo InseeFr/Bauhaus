@@ -4,7 +4,7 @@ node_js:
 
 cache: yarn
 install:
-  - yarn install
+  - npm install
 before_script:
   - yarn test:coverage
 script:
