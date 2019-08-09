@@ -1,0 +1,7 @@
+{
+	"realm": "agents-insee-interne",
+	"auth-server-url": "https://auth.insee.test/auth",
+	"ssl-required": "external",
+	"resource": "localhost-frontend",
+	"public-client": true
+}
