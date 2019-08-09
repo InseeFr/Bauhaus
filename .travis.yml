@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - 12.8.0
-  
+
 cache: yarn
 install:
   - yarn config set registry https://registry.npmjs.org
@@ -9,15 +9,7 @@ install:
 before_script:
   - yarn test:coverage
 script:
-  - CI=false yarn build-insee
   - yarn build-storybook
-before_deploy:
-  - git config --global user.email "demey.emmanuel@gmail.com"
-  - git config --global user.name "Emmanuel DEMEY"
-  - export GIT_TAG=$TRAVIS_BRANCH-$TRAVIS_BUILD_NUMBER
-  - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-  - git push -q https://${GITHUB_TOKEN}@github.com/$TRAVIS_REPO_SLUG --tags
-  - tar -zcf ${TRAVIS_BUILD_NUMBER}.tar.gz build
 
 deploy:
   skip_cleanup: true
