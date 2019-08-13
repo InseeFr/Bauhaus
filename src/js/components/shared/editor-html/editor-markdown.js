@@ -8,14 +8,14 @@ import { getLang } from 'js/i18n/build-dictionary';
 import { mdFromEditorState, editorStateFromMd } from 'js/utils/html';
 
 const toolbar = {
-	options: ['list', 'inline', 'link'],
+	options: ['list', 'inline', 'link', 'colorPicker'],
 	list: {
 		inDropdown: false,
 		className: undefined,
 		options: ['unordered', 'ordered'],
 	},
 	inline: {
-		options: ['bold', 'italic'],
+		options: ['bold', 'italic', 'strikethrough'],
 	},
 };
 

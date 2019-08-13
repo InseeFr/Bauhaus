@@ -17,6 +17,7 @@ import { getSecondLang } from 'js/reducers/app';
 import { ADMIN, CNIS } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
 import PageTitleBlock from 'js/components/shared/page-title-block';
+import { containUnsupportedStyles } from 'js/utils/html';
 
 const extractId = buildExtract('id');
 class FamilyVisualizationContainer extends PureComponent {
@@ -39,6 +40,12 @@ class FamilyVisualizationContainer extends PureComponent {
 			saveSecondLang,
 		} = this.props;
 		if (!attr.id) return <Loading textType="loading" />;
+
+		/*
+		 * The publication button should be enabled only if RICH_TEXT value do not
+		 * have unsupported styles like STRIKETHROUGH, color or background color
+		 */
+		const publicationEnabled = !!containUnsupportedStyles(attr);
 		return (
 			<div className="container">
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
@@ -57,7 +64,7 @@ class FamilyVisualizationContainer extends PureComponent {
 
 					<div className="empty-center" />
 					<Auth roles={[ADMIN]}>
-						<Button label={D.btnValid} />
+						<Button disabled={publicationEnabled} label={D.btnValid} />
 					</Auth>
 					<Auth roles={[ADMIN, CNIS]}>
 						<Button

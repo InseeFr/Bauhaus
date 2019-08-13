@@ -5,7 +5,7 @@ import { stringToDate } from 'js/utils/moment';
 import { rangeType } from 'js/utils/msd/';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import Button from 'js/components/shared/button';
-import { markdownToHtml } from 'js/utils/html';
+import { markdownToHtml, containUnsupportedStyles } from 'js/utils/html';
 import { Note } from 'js/components/shared/note/note';
 import DocumentsBloc from 'js/components/operations/msd/documents/documents-bloc/index.js';
 import {
@@ -136,6 +136,22 @@ export default function SimsVisualisation({
 		);
 	}
 
+	/*
+	 * The publication button should be enabled only if RICH_TEXT value do not
+	 * have unsupported styles like STRIKETHROUGH, color or background color
+	 */
+	const publicationEnabled = !!containUnsupportedStyles(
+		Object.keys(sims.rubrics)
+			.filter(key => sims.rubrics[key].rangeType === RICH_TEXT)
+			.reduce((acc, key) => {
+				return {
+					...acc,
+					[`${key}_labelLg1`]: sims.rubrics[key].labelLg1,
+					[`${key}_labelLg2`]: sims.rubrics[key].labelLg2,
+				};
+			}, {})
+	);
+
 	return (
 		<>
 			<div className="row btn-line action-toolbar">
@@ -156,7 +172,7 @@ export default function SimsVisualisation({
 						!!sims.idIndicator ? SERIES_CREATOR : INDICATOR_CREATOR,
 					]}
 				>
-					<Button label={D.btnValid} />
+					<Button disabled={publicationEnabled} label={D.btnValid} />
 				</Auth>
 				<Auth roles={[ADMIN, INDICATOR_CREATOR, SERIES_CREATOR, CNIS]}>
 					<Button
