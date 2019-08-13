@@ -10,7 +10,7 @@
 	"author": "INSEE (http://www.insee.fr)",
 	"scripts": {
 		"build": "cross-env NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
-		"build-insee": "cross-env REACT_APP_APPLICATIONS=classifications,concepts,operations NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build",
+		"build-insee": "cross-env REACT_APP_APPLICATIONS=classifications,concepts NODE_PATH=src/ REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build",
 		"cypress:open": "cypress open",
 		"cypress:run": "cypress run",
 		"e2e": "start-server-and-test start http://localhost:3000 cypress:run",
