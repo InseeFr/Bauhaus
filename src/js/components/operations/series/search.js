@@ -112,7 +112,7 @@ class SearchFormList extends AbstractSearchComponent {
 					</div>
 					<div className="col-md-6">
 						<label htmlFor="typeOperation" className="full-label">
-							{D.organisation}
+							{D.dataCollector}
 
 							<SelectRmes
 								placeholder=""
