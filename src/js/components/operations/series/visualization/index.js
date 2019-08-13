@@ -54,7 +54,7 @@ class SeriesVisualizationContainer extends Component {
 		 * The publication button should be enabled only if RICH_TEXT value do not
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
-		const publicationEnabled = !!containUnsupportedStyles(attr);
+		const publicationDisabled = containUnsupportedStyles(attr);
 
 		return (
 			<div className="container">
@@ -95,7 +95,7 @@ class SeriesVisualizationContainer extends Component {
 						</Auth>
 					)}
 					<Auth roles={[ADMIN, SERIES_CREATOR]}>
-						<Button disabled={publicationEnabled} label={D.btnValid} />
+						<Button disabled={publicationDisabled} label={D.btnValid} />
 					</Auth>
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button

@@ -77,3 +77,39 @@ describe('is empty', () => {
 		expect(htmlUtils.htmlIsEmpty(undefined)).toBe(true);
 	});
 });
+
+describe('containUnsupportedStyles', () => {
+	it('should return false if the parameter is undefined', () => {
+		expect(htmlUtils.containUnsupportedStyles()).toBeFalsy();
+	});
+	it('should return false if the parameter is valid', () => {
+		expect(
+			htmlUtils.containUnsupportedStyles({
+				key: 'value',
+			})
+		).toBeFalsy();
+	});
+	[
+		'+value+',
+		'color-rgb(0,0,0)valuecolor-rgb(0,0,0)',
+		'bgcolor-rgb(0,0,0)valuebgcolor-rgb(0,0,0)',
+	].forEach(value => {
+		it(`should return true if the parameter contains one unsupported value (using ${value})`, () => {
+			expect(
+				htmlUtils.containUnsupportedStyles({
+					key: value,
+				})
+			).toBeTruthy();
+		});
+	});
+
+	it('should return true if the parameter contains two unsupported values', () => {
+		expect(
+			htmlUtils.containUnsupportedStyles({
+				key: '+value+',
+				key1: 'color-rgb(0,0,0)valuecolor-rgb(0,0,0)',
+				key2: 'bgcolor-rgb(0,0,0)valuebgcolor-rgb(0,0,0)',
+			})
+		).toBeTruthy();
+	});
+});

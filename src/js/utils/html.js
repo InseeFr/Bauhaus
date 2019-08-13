@@ -5,8 +5,8 @@ import { draftjsToMd } from 'js/utils/draftjs/draftjsToMd';
 import { mdToDraftjs } from 'js/utils/draftjs/mdToDraftjs';
 import { REGEXPS } from 'js/utils/draftjs/mdToDraftjs';
 
-export const containUnsupportedStyles = attr => {
-	return REGEXPS.map(r => r.regexp).find(
+export const containUnsupportedStyles = (attr = {}) => {
+	return !!REGEXPS.map(r => r.regexp).find(
 		regexp => !!Object.keys(attr).find(key => regexp.test(attr[key]))
 	);
 };

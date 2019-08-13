@@ -140,7 +140,7 @@ export default function SimsVisualisation({
 	 * The publication button should be enabled only if RICH_TEXT value do not
 	 * have unsupported styles like STRIKETHROUGH, color or background color
 	 */
-	const publicationEnabled = !!containUnsupportedStyles(
+	const publicationDisabled = containUnsupportedStyles(
 		Object.keys(sims.rubrics)
 			.filter(key => sims.rubrics[key].rangeType === RICH_TEXT)
 			.reduce((acc, key) => {
@@ -172,7 +172,7 @@ export default function SimsVisualisation({
 						!!sims.idIndicator ? SERIES_CREATOR : INDICATOR_CREATOR,
 					]}
 				>
-					<Button disabled={publicationEnabled} label={D.btnValid} />
+					<Button disabled={publicationDisabled} label={D.btnValid} />
 				</Auth>
 				<Auth roles={[ADMIN, INDICATOR_CREATOR, SERIES_CREATOR, CNIS]}>
 					<Button

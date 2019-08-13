@@ -45,7 +45,7 @@ class FamilyVisualizationContainer extends PureComponent {
 		 * The publication button should be enabled only if RICH_TEXT value do not
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
-		const publicationEnabled = !!containUnsupportedStyles(attr);
+		const publicationDisabled = containUnsupportedStyles(attr);
 		return (
 			<div className="container">
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
@@ -64,7 +64,7 @@ class FamilyVisualizationContainer extends PureComponent {
 
 					<div className="empty-center" />
 					<Auth roles={[ADMIN]}>
-						<Button disabled={publicationEnabled} label={D.btnValid} />
+						<Button disabled={publicationDisabled} label={D.btnValid} />
 					</Auth>
 					<Auth roles={[ADMIN, CNIS]}>
 						<Button
