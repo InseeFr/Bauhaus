@@ -19,6 +19,10 @@ export default {
 		fr: 'Le fichier est obligatoire',
 		en: 'The file is required',
 	},
+	requiredUpdatedDate: {
+		fr: 'La date de mise à jour est obligatoire',
+		en: 'The update date is required',
+	},
 	wrongFileName: {
 		fr:
 			'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
