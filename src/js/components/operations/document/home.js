@@ -5,6 +5,8 @@ import SearchRmes from 'js/components/shared/search-rmes/search-rmes';
 import D from 'js/i18n';
 import { Link } from 'react-router-dom';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
+import Auth from 'js/utils/auth/components/auth';
+import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
 import './home.scss';
 
 function DocumentHome({ documents }) {
@@ -21,32 +23,35 @@ function DocumentHome({ documents }) {
 		<>
 			<div className="container documents-home">
 				<div className="row">
-					<div className="col-md-3 operations-btn-group-vertical">
-						{[
-							['/operations/document/create', D.document],
-							['/operations/link/create', D.link],
-						].map(([url, title]) => (
-							<div className="row">
-								<div className="col-md-12">
-									<Link
-										to={url}
-										col={8}
-										offset={2}
-										className="btn btn-operations btn-lg col-md-12"
-									>
-										<span
-											className="glyphicon glyphicon-plus"
-											aria-hidden="true"
-										/>
-										<span>
-											{' '}
-											{D.btnNewMale} {title}
-										</span>
-									</Link>
+					<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
+						<div className="col-md-3 operations-btn-group-vertical">
+							{[
+								['/operations/document/create', D.document],
+								['/operations/link/create', D.link],
+							].map(([url, title]) => (
+								<div className="row">
+									<div className="col-md-12">
+										<Link
+											to={url}
+											col={8}
+											offset={2}
+											className="btn btn-operations btn-lg col-md-12"
+										>
+											<span
+												className="glyphicon glyphicon-plus"
+												aria-hidden="true"
+											/>
+											<span>
+												{' '}
+												{D.btnNewMale} {title}
+											</span>
+										</Link>
+									</div>
 								</div>
-							</div>
-						))}
-					</div>
+							))}
+						</div>
+					</Auth>
+
 					<div className="col-md-8 centered pull-right operations-list">
 						<PageTitle title={D.documentsSearchTitle} col={12} offset={0} />
 						<div
