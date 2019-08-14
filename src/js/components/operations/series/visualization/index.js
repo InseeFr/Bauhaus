@@ -21,6 +21,7 @@ import {
 } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
 import PageTitleBlock from 'js/components/shared/page-title-block';
+import { containUnsupportedStyles } from 'js/utils/html';
 
 const extractId = buildExtract('id');
 
@@ -48,6 +49,13 @@ class SeriesVisualizationContainer extends Component {
 
 		const ableToCreateASimsForThisSeries = (attr.operations || []).length === 0;
 		if (!attr.id) return <Loading textType="loading" />;
+
+		/*
+		 * The publication button should be enabled only if RICH_TEXT value do not
+		 * have unsupported styles like STRIKETHROUGH, color or background color
+		 */
+		const publicationDisabled = containUnsupportedStyles(attr);
+
 		return (
 			<div className="container">
 				<CheckSecondLang
@@ -87,7 +95,7 @@ class SeriesVisualizationContainer extends Component {
 						</Auth>
 					)}
 					<Auth roles={[ADMIN, SERIES_CREATOR]}>
-						<Button label={D.btnValid} />
+						<Button disabled={publicationDisabled} label={D.btnValid} />
 					</Auth>
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
