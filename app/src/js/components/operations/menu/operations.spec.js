@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import MenuConcepts from './';
+import MenuOperations from '.';
 
-describe('menu-concepts', () => {
+describe('menu-operations', () => {
 	it('renders without crashing', () => {
-		shallow(<MenuConcepts />);
+		shallow(<MenuOperations />);
 	});
 });

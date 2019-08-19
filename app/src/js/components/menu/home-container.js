@@ -1,18 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import Menu from './home';
 import * as select from 'js/reducers';
 
-class MenuContainer extends Component {
-	render() {
-		const { permission } = this.props;
-		return <Menu permission={permission} />;
+export function withPermissions(WrappedComponent) {
+	const mapStateToProps = state => {
+		const permission = select.getPermission(state);
+		return { permission };
+	};
+
+	class MenuContainer extends React.Component {
+		render() {
+			return (
+				<WrappedComponent
+					permissions={this.props.permissions}
+					{...this.props}
+				/>
+			);
+		}
 	}
+
+	return connect(mapStateToProps)(MenuContainer);
 }
-
-const mapStateToProps = state => {
-	const permission = select.getPermission(state);
-	return { permission };
-};
-
-export default connect(mapStateToProps)(MenuContainer);
