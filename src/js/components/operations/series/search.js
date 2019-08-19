@@ -194,7 +194,7 @@ class SearchListContainer extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
 	const categories =
 		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
 	return {
