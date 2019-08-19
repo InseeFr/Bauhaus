@@ -14,7 +14,14 @@ import { toSelectModel } from '../shared/utils/itemToSelectModel';
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = filterKeyDeburr(['typeCode']);
 const filterCreator = filterKeyDeburr(['creator']);
-const fields = ['prefLabelLg1', 'typeCode', 'creator', 'dataCollector'];
+const filterGestionnaire = filterKeyDeburr(['gestionnaire']);
+const fields = [
+	'prefLabelLg1',
+	'typeCode',
+	'creator',
+	'dataCollector',
+	'gestionnaire',
+];
 
 class SearchFormList extends AbstractSearchComponent {
 	static defaultState = {
@@ -22,6 +29,7 @@ class SearchFormList extends AbstractSearchComponent {
 		typeCode: '',
 		creator: '',
 		dataCollector: '',
+		gestionnaire: '',
 		organisations: [],
 	};
 
@@ -30,11 +38,18 @@ class SearchFormList extends AbstractSearchComponent {
 	}
 
 	handlers = this.handleChange(fields, newState => {
-		const { prefLabelLg1, typeCode, creator, dataCollector } = newState;
+		const {
+			prefLabelLg1,
+			typeCode,
+			creator,
+			dataCollector,
+			gestionnaire,
+		} = newState;
 		return this.props.data
 			.filter(filterLabel(prefLabelLg1))
 			.filter(filterTypeCode(typeCode))
 			.filter(filterCreator(creator))
+			.filter(filterGestionnaire(gestionnaire))
 			.filter(series => {
 				return (
 					!dataCollector ||
@@ -46,7 +61,14 @@ class SearchFormList extends AbstractSearchComponent {
 	});
 
 	render() {
-		const { data, prefLabelLg1, typeCode, creator, dataCollector } = this.state;
+		const {
+			data,
+			prefLabelLg1,
+			typeCode,
+			creator,
+			dataCollector,
+			gestionnaire,
+		} = this.state;
 		const { categories, organisations } = this.props;
 		const organisationsOptions = toSelectModel(organisations);
 
@@ -89,6 +111,23 @@ class SearchFormList extends AbstractSearchComponent {
 								})}
 								onChange={value => {
 									this.handlers.typeCode(value);
+								}}
+							/>
+						</label>
+					</div>
+				</div>
+				<div className="form-group row">
+					<div className="col-md-12">
+						<label htmlFor="typeOperation" className="full-label">
+							{D.contributorTitle}
+
+							<SelectRmes
+								placeholder=""
+								unclearable
+								value={gestionnaire}
+								options={organisationsOptions}
+								onChange={value => {
+									this.handlers.gestionnaire(value);
 								}}
 							/>
 						</label>

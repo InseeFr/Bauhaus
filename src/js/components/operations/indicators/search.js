@@ -35,7 +35,7 @@ class SearchFormList extends AbstractSearchComponent {
 			<SearchList
 				title={D.indicatorsSearchTitle}
 				data={dataLinks}
-				backUrl="/operations/getIndicators"
+				backUrl="/operations/indicators"
 				initializeState={this.initializeState}
 			>
 				<div className="row form-group">

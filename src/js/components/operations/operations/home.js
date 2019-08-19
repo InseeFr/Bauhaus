@@ -11,8 +11,8 @@ function OperationsHome({ operations }) {
 			roles={[ADMIN, SERIES_CREATOR]}
 			title={D.operationsSearchTitle}
 			childPath="operations/operation"
-			searchURL="/operations/search"
 			createURL="/operations/operation/create"
+			advancedSearch={false}
 		/>
 	);
 }
