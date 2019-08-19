@@ -8,7 +8,6 @@ import Error from 'js/components/shared/error/error';
 import NotFound from 'js/components/shared/not-found/';
 
 import App from 'js/components/app';
-import MenuDispatcher from 'js/components/menu/home-container';
 import Role from 'js/components/administration/roles/home-container';
 
 const pages = process.env.REACT_APP_APPLICATIONS.split(',').reduce(
@@ -16,7 +15,7 @@ const pages = process.env.REACT_APP_APPLICATIONS.split(',').reduce(
 		const app = appName.trim();
 		return {
 			...acc,
-			[app]: lazy(() => import('js/components/router/' + app)),
+			[app]: lazy(() => import('js/components/' + app + '/routes')),
 		};
 	},
 	{}
@@ -37,7 +36,6 @@ const getHomePage = () => {
 export default withRouter(
 	auth(({ error }) => (
 		<React.Fragment>
-			<Route path="/" component={MenuDispatcher} />
 			<Suspense fallback={<Loading />}>
 				<Switch>
 					{error && <Route path="/" component={Error} />}

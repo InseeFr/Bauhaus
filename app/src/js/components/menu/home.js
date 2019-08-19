@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import MenuConcepts from './concepts';
 import MenuClassifications from './classifications';
-import MenuOperations from './operations';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 
 class MenuDispatcher extends Component {
@@ -25,18 +24,11 @@ class MenuDispatcher extends Component {
 			if (path.includes(p)) _ = true;
 			return _;
 		}, false);
-		const isOperationPath = ['/operations', '/operations/help'].reduce(
-			(_, p) => {
-				if (path.includes(p)) _ = true;
-				return _;
-			},
-			false
-		);
+
 		return (
 			<React.Fragment>
 				{isConceptPath && <MenuConcepts permission={permission} />}
 				{isClassificationPath && <MenuClassifications />}
-				{isOperationPath && <MenuOperations />}
 			</React.Fragment>
 		);
 	}

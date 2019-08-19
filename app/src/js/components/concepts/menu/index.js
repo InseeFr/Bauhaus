@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import MenuReferentiels from '../referentiels';
+import MenuReferentiels from 'js/components/menu/referentiels';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
 import './concepts.scss';
+import { compose } from 'recompose';
+import { withPermissions } from 'js/components/menu/home-container';
 
 class MenuConcepts extends Component {
 	constructor(props) {
@@ -132,4 +134,7 @@ MenuConcepts.propTypes = {
 	permission: permissionOverviewPropTypes.isRequired,
 };
 
-export default withRouter(MenuConcepts);
+export default compose(
+	withRouter,
+	withPermissions
+)(MenuConcepts);
