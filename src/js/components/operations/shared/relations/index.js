@@ -3,58 +3,58 @@ import { Note } from 'js/components/shared/note/note';
 import './relations.scss';
 import { Link } from 'react-router-dom';
 
-function RelationsViewPerLg({
+export function RelationsViewPerLgContent({
 	children,
 	childrenTitle,
 	childrenPath,
 	parent,
 	parentTitle,
 	parentPath,
-	title,
-	secondLang,
-	currentLang,
 	langSuffix,
-	context,
 }) {
 	return (
-		<Note
-			text={
+		<>
+			{parent && (
+				<p>
+					<span className="linksTitle">{parentTitle}:</span>
+					<Link to={`/operations/${parentPath}/${parent.id}`}>
+						{parent[`label${langSuffix}`]}
+					</Link>
+				</p>
+			)}
+			{children && (
 				<>
-					{parent && (
-						<p>
-							<span className="linksTitle">{parentTitle}:</span>
-							<Link to={`/operations/${parentPath}/${parent.id}`}>
-								{parent[`label${langSuffix}`]}
-							</Link>
-						</p>
-					)}
-					{children && (
-						<>
-							<p>
-								<span className="linksTitle">{childrenTitle}:</span>
-							</p>
-							<ul>
-								{children
-									.sort(function(a, b) {
-										return a[`label${langSuffix}`].localeCompare(
-											b[`label${langSuffix}`]
-										);
-									})
-									.map(item => (
-										<li key={item.id}>
-											<Link to={`/operations/${childrenPath}/${item.id}`}>
-												{item[`label${langSuffix}`]}
-											</Link>
-										</li>
-									))}
-							</ul>
-						</>
-					)}
+					<p>
+						<span className="linksTitle">{childrenTitle}:</span>
+					</p>
+					<ul>
+						{children
+							.sort(function(a, b) {
+								return a[`label${langSuffix}`].localeCompare(
+									b[`label${langSuffix}`]
+								);
+							})
+							.map(item => (
+								<li key={item.id}>
+									<Link to={`/operations/${childrenPath}/${item.id}`}>
+										{item[`label${langSuffix}`]}
+									</Link>
+								</li>
+							))}
+					</ul>
 				</>
-			}
-			title={title}
-			lang={currentLang}
-			alone={!secondLang}
+			)}
+		</>
+	);
+}
+
+export function RelationsViewPerLg(props) {
+	return (
+		<Note
+			text={<RelationsViewPerLgContent {...props} />}
+			title={props.title}
+			lang={props.currentLang}
+			alone={!props.secondLang}
 			allowEmpty={true}
 		/>
 	);
