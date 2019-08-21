@@ -22,7 +22,7 @@ if [ "$TRAVIS_BRANCH" != "$MAIN_BRANCH" ];then
 fi
 
 function setup() {
-  npm install -g gitbook-cli
+  npm install -g yarn gitbook-cli
 }
 
 function buildDocumentation() {
@@ -33,7 +33,7 @@ function buildDocumentation() {
 }
 
 function buildStoryBook(){
-  npm run build-storybook
+  yarn build-storybook
 }
 
 function publish() {
@@ -43,7 +43,13 @@ function publish() {
   pushd "$SITE_FOLDER"
 
   cp -a "../$DOC_FOLDER/_book/." .
-  cp -R "../$STORYBOOK_FOLDER/." .
+
+
+  mkdir app_storybook
+  mkdir lib_storybook
+
+  cp -R "../app/$STORYBOOK_FOLDER/." app_storybook
+  cp -R "../packages/bauhaus-library/$STORYBOOK_FOLDER/." lib_storybook
 
   git init
   git remote add upstream "$UPSTREAM"
