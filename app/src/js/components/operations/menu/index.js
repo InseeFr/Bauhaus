@@ -7,7 +7,6 @@ import D from 'js/i18n';
 import './operations.scss';
 import { compose } from 'recompose';
 import { getOperationsSimsCurrent } from 'js/reducers';
-import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };
@@ -230,10 +229,6 @@ class MenuOperations extends Component {
 		);
 	}
 }
-
-MenuOperations.propTypes = {
-	permission: permissionOverviewPropTypes.isRequired,
-};
 
 export default compose(
 	withRouter,
