@@ -65,11 +65,6 @@ a {
 	@include btn-group-vertical();
 }
 
-.dsds-btn-group-vertical {
-	border-color: $color_dsds_3;
-	@include btn-group-vertical();
-}
-
 @media (max-width: 1000px) {
 	.operations-list {
 		width: 100%;

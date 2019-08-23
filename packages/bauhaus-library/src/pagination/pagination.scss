@@ -1,0 +1,78 @@
+@import 'src/app.scss';
+
+.pg-rmes {
+	display: inline-block;
+
+	li {
+		color: black;
+		float: left;
+		width: 40px;
+		height: 40px;
+		text-decoration: none;
+		border: 1px solid #ddd;
+
+		&.disabled {
+			color: lightgrey;
+		}
+
+		&:first-child {
+			border-top-left-radius: 5px;
+			border-bottom-left-radius: 5px;
+		}
+
+		&:last-child {
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+		}
+
+		&:hover:not(.active) {
+			background-color: #ddd;
+		}
+
+		button {
+			border: none;
+			margin: 0;
+			width: 100%;
+			height: 100%;
+			display: block;
+			overflow: visible;
+			background: transparent;
+			color: inherit;
+			font: inherit;
+			line-height: normal;
+			-webkit-font-smoothing: inherit;
+			-moz-osx-font-smoothing: inherit;
+			-webkit-appearance: none;
+
+			padding: 0;
+			border: 0;
+			background-color: rgba(0, 0, 0, 0) !important;
+			text-align: center;
+		}
+	}
+}
+
+.pg-rmes-concepts li.active,
+.pg-rmes-collections li.active {
+	background-color: $color_concepts_3;
+	color: white;
+	border: 1px solid $color_concepts_3;
+}
+
+.pg-rmes-classifications li.active {
+	background-color: $color_classifications_3;
+	color: white;
+	border: 1px solid $color_classifications_3;
+}
+
+.pg-rmes-operations li.active {
+	background-color: $color_operations_3;
+	color: white;
+	border: 1px solid $color_operations_3;
+}
+
+.pg-rmes-dsds li.active {
+	background-color: $color_dsds_3;
+	color: white;
+	border: 1px solid $color_dsds_3;
+}

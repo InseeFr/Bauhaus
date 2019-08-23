@@ -21,7 +21,7 @@ function MenuReferentiels() {
 								{process.env.REACT_APP_APPLICATIONS.split(',').map(appName => {
 									const app = appName.trim();
 									return (
-										<li>
+										<li key={`menu-ref-${app}`}>
 											<Link to={'/' + app}>
 												<img
 													src={require(`img/${app}.jpg`)}
