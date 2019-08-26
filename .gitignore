@@ -1,21 +1,19 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
+dist
 
 # dependencies
 node_modules
 
 # styles
 *.css
+!packages/**/*.css
 
-# testing
-/coverage
 
 # storybook building files
-/built-storybook
+built-storybook
 /website
 _book
 
-# production
-/build
 
 # misc
 .DS_Store
@@ -35,3 +33,4 @@ cypress/videos
 cypress/screenshots
 
 coverage
+build
