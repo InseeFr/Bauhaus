@@ -71,7 +71,7 @@ export default {
 		fr: 'Publier',
 		en: 'Publish',
 	},
-	btnValided: {
+	btnValidated: {
 		fr: 'Publié',
 		en: 'Published',
 	},
