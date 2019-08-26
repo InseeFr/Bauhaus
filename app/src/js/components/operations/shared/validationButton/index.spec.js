@@ -7,7 +7,7 @@ describe('<ValidationButton', () => {
 	it('should contain a disabled button if the object is already validated', () => {
 		const component = shallow(
 			<ValidationButton
-				object={{ validationState: 'validated' }}
+				object={{ validationState: 'Validated' }}
 				callback={jest.fn()}
 				disabled={false}
 			/>

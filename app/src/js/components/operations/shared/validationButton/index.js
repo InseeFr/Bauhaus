@@ -6,12 +6,11 @@ export default ({ object = {}, callback, disabled = false }) => {
 	const state = object.validationState || '';
 
 	const clickHandler = useCallback(() => {
-		console.log('hello');
 		callback(object);
 	}, []);
 
-	if (state.indexOf('validated') >= 0) {
-		return <Button label={D.btnValided} disabled action={() => {}} />;
+	if (state.indexOf('Validated') >= 0) {
+		return <Button label={D.btnValidated} disabled action={() => {}} />;
 	}
 	return (
 		<Button label={D.btnValid} action={clickHandler} disabled={disabled} />
