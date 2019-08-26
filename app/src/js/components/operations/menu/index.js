@@ -117,7 +117,6 @@ class MenuOperations extends Component {
 			}
 		} else {
 			for (let key in paths) {
-				console.log(paths[key]['pathKey'], nextProps.location.pathname);
 				if (paths[key]['pathKey'].test(nextProps.location.pathname)) {
 					paths[key]['className'] = ACTIVE;
 					paths[key]['attrs'] = defaultAttrs;

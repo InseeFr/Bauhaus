@@ -143,7 +143,6 @@ export function draftjsToMd(raw, extraMarkdownDict) {
 							range => markdownDict[range.style] || RGB_REGEXP.test(range.style)
 						)
 						.forEach(currentStyle => {
-							console.log(currentStyle);
 							let symbol;
 							let symbolLength;
 							if (RGB_REGEXP.test(currentStyle.style)) {
