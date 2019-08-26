@@ -76,7 +76,11 @@ class FamilyVisualizationContainer extends PureComponent {
 
 					<div className="empty-center" />
 					<Auth roles={[ADMIN]}>
-						<ValidationButton object={attr} callback={publishFamily} />
+						<ValidationButton
+							object={attr}
+							callback={publishFamily}
+							disabled={publicationDisabled}
+						/>
 					</Auth>
 					<Auth roles={[ADMIN, CNIS]}>
 						<Button
