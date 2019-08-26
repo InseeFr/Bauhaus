@@ -21,6 +21,31 @@ export default (remoteCall, LOADING, SUCCESS, FAILURE) => dispatch => {
 	);
 };
 
+// TODO Add Unit Test
+export const getPublishFactory = (remoteCall, LOADING, SUCCESS, FAILURE) => {
+	return object => dispatch => {
+		dispatch({
+			type: LOADING,
+			payload: {},
+		});
+
+		return remoteCall(object).then(
+			results => {
+				dispatch({
+					type: SUCCESS,
+					payload: results,
+				});
+			},
+			err => {
+				dispatch({
+					type: FAILURE,
+					payload: { err },
+				});
+			}
+		);
+	};
+};
+
 export const getItemFactory = (remoteCall, LOADING, SUCCESS, FAILURE) => id => (
 	dispatch,
 	getState

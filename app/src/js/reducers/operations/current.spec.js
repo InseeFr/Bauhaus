@@ -17,7 +17,7 @@ describe('current reducer', () => {
 					type: A.SAVE_OPERATIONS_FAMILY,
 					payload: 'payload',
 				})
-			).toEqual('payload');
+			).toEqual({});
 		});
 	});
 
