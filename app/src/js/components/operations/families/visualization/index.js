@@ -1,35 +1,46 @@
-import React, { PureComponent } from 'react';
-import { withRouter } from 'react-router-dom';
+import D from 'js/i18n';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
-import D from 'js/i18n';
-import buildExtract from 'js/utils/build-extract';
-import { goBack } from 'js/utils/redirection';
-import { connect } from 'react-redux';
 import * as select from 'js/reducers';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import { saveSecondLang } from 'js/actions/app';
-import OperationsFamilyVisualization from 'js/components/operations/families/visualization/visualization';
-import Loading from 'js/components/shared/loading';
-import loadFamily from 'js/actions/operations/families/item';
-import Button from 'js/components/shared/button';
+import { connect } from 'react-redux';
+import { goBack } from 'js/utils/redirection';
+import { withRouter } from 'react-router-dom';
 import { getSecondLang } from 'js/reducers/app';
-import { ADMIN, CNIS } from 'js/utils/auth/roles';
+import { saveSecondLang } from 'js/actions/app';
 import Auth from 'js/utils/auth/components/auth';
+import Button from 'js/components/shared/button';
+import buildExtract from 'js/utils/build-extract';
+import { ADMIN, CNIS } from 'js/utils/auth/roles';
+import Loading from 'js/components/shared/loading';
+import React, { PureComponent } from 'react';
 import PageTitleBlock from 'js/components/shared/page-title-block';
+import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
+import OperationsFamilyVisualization from 'js/components/operations/families/visualization/visualization';
+import ValidationButton from 'js/components/operations/shared/validationButton';
 import { containUnsupportedStyles } from 'js/utils/html';
 
 const extractId = buildExtract('id');
+
 class FamilyVisualizationContainer extends PureComponent {
 	static propTypes = {
 		family: PropTypes.object,
 		secondLang: PropTypes.bool,
 		langs: PropTypes.object,
 		saveSecondLang: PropTypes.func,
+		loadFamily: PropTypes.func,
+		publishFamily: PropTypes.func,
 	};
 	componentDidMount() {
-		if (!this.props.family.id) {
-			this.props.loadFamily(this.props.id);
+		this.loadFamily(this.props.family, this.props.id);
+	}
+	componentDidUpdate() {
+		this.loadFamily(this.props.family, this.props.id);
+	}
+
+	loadFamily(family, id) {
+		if (!family.id) {
+			this.props.loadFamily(id);
 		}
 	}
 	render() {
@@ -38,6 +49,7 @@ class FamilyVisualizationContainer extends PureComponent {
 			langs,
 			family: { ...attr },
 			saveSecondLang,
+			publishFamily,
 		} = this.props;
 		if (!attr.id) return <Loading textType="loading" />;
 
@@ -64,7 +76,7 @@ class FamilyVisualizationContainer extends PureComponent {
 
 					<div className="empty-center" />
 					<Auth roles={[ADMIN]}>
-						<Button disabled={publicationDisabled} label={D.btnValid} />
+						<ValidationButton object={attr} callback={publishFamily} />
 					</Auth>
 					<Auth roles={[ADMIN, CNIS]}>
 						<Button
@@ -85,7 +97,7 @@ class FamilyVisualizationContainer extends PureComponent {
 
 export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const family = select.getFamily(state, id);
+	const family = select.getFamily(state);
 	return {
 		id,
 		family: family.id === id ? family : {},
@@ -96,6 +108,7 @@ export const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	saveSecondLang,
 	loadFamily,
+	publishFamily,
 };
 export default compose(
 	withRouter,

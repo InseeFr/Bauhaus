@@ -71,6 +71,10 @@ export default {
 		fr: 'Publier',
 		en: 'Publish',
 	},
+	btnValided: {
+		fr: 'Publié',
+		en: 'Published',
+	},
 	btnReinitialize: {
 		fr: 'Réinitialiser',
 		en: 'Reinitialize',

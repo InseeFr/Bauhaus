@@ -23,8 +23,11 @@ export const operationsSeriesCurrent = function(state = {}, action) {
 export const operationsFamiliesCurrent = function(state = {}, action) {
 	switch (action.type) {
 		case A.LOAD_OPERATIONS_FAMILY_SUCCESS:
-		case A.SAVE_OPERATIONS_FAMILY:
 			return action.payload;
+		case A.SAVE_OPERATIONS_FAMILY:
+		case A.PUBLISH_OPERATIONS_FAMILY_SUCCESS:
+		case A.PUBLISH_OPERATIONS_FAMILY_FAILURE:
+			return {};
 		default:
 			return state;
 	}
