@@ -12,6 +12,7 @@ function OperationsObjectHome({
 	childPath,
 	searchURL,
 	createURL,
+	advancedSearch = true,
 }) {
 	return (
 		<>
@@ -43,8 +44,8 @@ function OperationsObjectHome({
 							items={items}
 							childPath={childPath}
 							label="label"
-							advancedSearch
 							searchUrl={searchURL}
+							advancedSearch={advancedSearch}
 						/>
 					</div>
 				</div>

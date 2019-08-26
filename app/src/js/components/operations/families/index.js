@@ -7,7 +7,7 @@ import { NOT_LOADED, LOADED } from 'js/constants';
 import { getFamilies } from 'js/reducers/index';
 
 class FamiliesHomeContainer extends Component {
-	componentWillMount() {
+	componentDidMount() {
 		if (this.props.status !== LOADED) {
 			this.props.loadFamiliesList();
 		}

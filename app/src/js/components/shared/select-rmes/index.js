@@ -14,7 +14,6 @@ function SelectRmes({
 	searchable,
 	multi,
 	disabled,
-	name,
 }) {
 	const isClearable = unclearable ? false : true;
 	const onChangeSelect = multi

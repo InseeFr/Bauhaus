@@ -21,6 +21,16 @@ const defaultFamily = {
 	abstractLg1: '',
 	abstractLg2: '',
 };
+
+const setInitialState = props => {
+	return {
+		serverSideError: '',
+		family: {
+			...defaultFamily,
+			...props.family,
+		},
+	};
+};
 class OperationsFamilyEdition extends Component {
 	static propTypes = {
 		family: PropTypes.object.isRequired,
@@ -30,24 +40,14 @@ class OperationsFamilyEdition extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = this.setInitialState(props);
+		this.state = setInitialState(props);
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.family.id !== this.props.family.id) {
-			this.setState(this.setInitialState(nextProps));
-		}
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.family.id !== prevState.family.id) {
+			return setInitialState(nextProps);
+		} else return null;
 	}
-
-	setInitialState = props => {
-		return {
-			serverSideError: '',
-			family: {
-				...defaultFamily,
-				...props.family,
-			},
-		};
-	};
 
 	onChange = e => {
 		this.setState({

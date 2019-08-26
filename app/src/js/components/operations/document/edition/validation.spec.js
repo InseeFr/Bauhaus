@@ -15,6 +15,7 @@ describe('validate', () => {
 				fields: { prefLabelLg1: false, prefLabelLg2: true },
 			});
 		});
+
 		it('should return an error if the lang is not defined', () => {
 			expect(
 				validate(
@@ -22,6 +23,7 @@ describe('validate', () => {
 						labelLg1: '1',
 						labelLg2: '2',
 						url: 'http://url.com',
+						updatedDate: 'updatedDate',
 					},
 					type,
 					[{ name: 'name_without_space' }]
@@ -76,7 +78,24 @@ describe('validate', () => {
 			labelLg1: '1',
 			labelLg2: '2',
 			lang: 'fr',
+			updatedDate: 'updatedDate',
 		};
+		it('should return an error if the updatedDate is not defined', () => {
+			expect(
+				validate(
+					{
+						labelLg1: '1',
+						labelLg2: '2',
+						url: 'http://url.com',
+					},
+					type,
+					[{ name: 'name_without_space' }]
+				)
+			).toEqual({
+				errorMessage: 'The update date is required',
+				fields: { updatedDate: true },
+			});
+		});
 		it('should return an error if the files is undefined', () => {
 			expect(validate(document, type)).toEqual({
 				errorMessage: 'The file is required',

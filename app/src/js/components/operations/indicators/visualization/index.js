@@ -16,6 +16,7 @@ import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/components/shared/page-title-block';
+import { containUnsupportedStyles } from 'js/utils/html';
 
 const extractId = buildExtract('id');
 class IndicatorVisualizationContainer extends Component {
@@ -38,6 +39,12 @@ class IndicatorVisualizationContainer extends Component {
 			organisations,
 		} = this.props;
 		if (!attr.id) return <Loading textType="loading" />;
+
+		/*
+		 * The publication button should be enabled only if RICH_TEXT value do not
+		 * have unsupported styles like STRIKETHROUGH, color or background color
+		 */
+		const publicationDisabled = containUnsupportedStyles(attr);
 
 		return (
 			<div className="container">
@@ -75,7 +82,7 @@ class IndicatorVisualizationContainer extends Component {
 						</Auth>
 					)}
 					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
-						<Button label={D.btnValid} />
+						<Button disabled={publicationDisabled} label={D.btnValid} />
 					</Auth>
 					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
 						<Button

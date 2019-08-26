@@ -5,7 +5,6 @@ import OperationsContainer from 'js/components/operations/operations/';
 import OperationVisualizationContainer from 'js/components/operations/operations/visualization/';
 
 import OperationEditionContainer from 'js/components/operations/operations/edition';
-import OperationsSearchContainer from 'js/components/operations/operations/search';
 
 export default () => {
 	return (
@@ -26,11 +25,6 @@ export default () => {
 				exact
 				path="/operations/operation/:id/modify"
 				component={OperationEditionContainer}
-			/>
-			<Route
-				exact
-				path="/operations/search"
-				component={OperationsSearchContainer}
 			/>
 		</Switch>
 	);

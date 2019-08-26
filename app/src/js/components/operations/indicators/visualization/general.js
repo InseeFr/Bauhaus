@@ -12,6 +12,7 @@ function DisplayMultiLangNote({
 	title,
 	langs: { lg1, lg2 },
 	secondLang,
+	md = false,
 }) {
 	return (
 		<div className="row">
@@ -21,6 +22,7 @@ function DisplayMultiLangNote({
 				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
+				md={md}
 			/>
 			{secondLang && (
 				<Note
@@ -29,6 +31,7 @@ function DisplayMultiLangNote({
 					lang={lg2}
 					alone={false}
 					allowEmpty={true}
+					md={md}
 				/>
 			)}
 		</div>
@@ -58,6 +61,7 @@ function OperationsIndicatorVisualization(props) {
 				title={D.summary}
 				langs={langs}
 				secondLang={secondLang}
+				md
 			/>
 			<DisplayMultiLangNote
 				value1={attr.historyNoteLg1}

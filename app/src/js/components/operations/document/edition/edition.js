@@ -220,7 +220,7 @@ class OperationsDocumentationEdition extends Component {
 								<DatePickerRmes
 									value={updatedDate}
 									onChange={date => {
-										const value = date.split('T')[0];
+										const value = date && date.split('T')[0];
 										this.onChange({ target: { value, id: 'updatedDate' } });
 									}}
 									placement="top"

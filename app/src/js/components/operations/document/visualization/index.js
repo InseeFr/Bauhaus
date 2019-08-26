@@ -16,6 +16,8 @@ import { withRouter } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
 import { compose } from 'recompose';
 import PageTitleBlock from 'js/components/shared/page-title-block';
+import Auth from 'js/utils/auth/components/auth';
+import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
 
 const extractId = buildExtract('id');
 
@@ -56,11 +58,12 @@ class DocumentationVisualizationContainer extends Component {
 					/>
 
 					<div className="col-md-8 centered" />
-
-					<Button
-						action={`/operations/document/${document.id}/modify`}
-						label={D.btnUpdate}
-					/>
+					<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
+						<Button
+							action={`/operations/document/${document.id}/modify`}
+							label={D.btnUpdate}
+						/>
+					</Auth>
 				</div>
 				<OperationsDocumentVisualization
 					id={id}

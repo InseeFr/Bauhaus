@@ -18,6 +18,7 @@ import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
 import OperationsFamilyVisualization from 'js/components/operations/families/visualization/visualization';
 import ValidationButton from 'js/components/operations/shared/validationButton';
+import { containUnsupportedStyles } from 'js/utils/html';
 
 const extractId = buildExtract('id');
 
@@ -51,6 +52,12 @@ class FamilyVisualizationContainer extends PureComponent {
 			publishFamily,
 		} = this.props;
 		if (!attr.id) return <Loading textType="loading" />;
+
+		/*
+		 * The publication button should be enabled only if RICH_TEXT value do not
+		 * have unsupported styles like STRIKETHROUGH, color or background color
+		 */
+		const publicationDisabled = containUnsupportedStyles(attr);
 		return (
 			<div className="container">
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />

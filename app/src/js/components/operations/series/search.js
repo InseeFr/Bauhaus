@@ -14,7 +14,14 @@ import { toSelectModel } from '../shared/utils/itemToSelectModel';
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = filterKeyDeburr(['typeCode']);
 const filterCreator = filterKeyDeburr(['creator']);
-const fields = ['prefLabelLg1', 'typeCode', 'creator', 'dataCollector'];
+const filterGestionnaire = filterKeyDeburr(['gestionnaire']);
+const fields = [
+	'prefLabelLg1',
+	'typeCode',
+	'creator',
+	'dataCollector',
+	'gestionnaire',
+];
 
 class SearchFormList extends AbstractSearchComponent {
 	static defaultState = {
@@ -22,6 +29,7 @@ class SearchFormList extends AbstractSearchComponent {
 		typeCode: '',
 		creator: '',
 		dataCollector: '',
+		gestionnaire: '',
 		organisations: [],
 	};
 
@@ -30,11 +38,18 @@ class SearchFormList extends AbstractSearchComponent {
 	}
 
 	handlers = this.handleChange(fields, newState => {
-		const { prefLabelLg1, typeCode, creator, dataCollector } = newState;
+		const {
+			prefLabelLg1,
+			typeCode,
+			creator,
+			dataCollector,
+			gestionnaire,
+		} = newState;
 		return this.props.data
 			.filter(filterLabel(prefLabelLg1))
 			.filter(filterTypeCode(typeCode))
 			.filter(filterCreator(creator))
+			.filter(filterGestionnaire(gestionnaire))
 			.filter(series => {
 				return (
 					!dataCollector ||
@@ -46,7 +61,14 @@ class SearchFormList extends AbstractSearchComponent {
 	});
 
 	render() {
-		const { data, prefLabelLg1, typeCode, creator, dataCollector } = this.state;
+		const {
+			data,
+			prefLabelLg1,
+			typeCode,
+			creator,
+			dataCollector,
+			gestionnaire,
+		} = this.state;
 		const { categories, organisations } = this.props;
 		const organisationsOptions = toSelectModel(organisations);
 
@@ -95,6 +117,23 @@ class SearchFormList extends AbstractSearchComponent {
 					</div>
 				</div>
 				<div className="form-group row">
+					<div className="col-md-12">
+						<label htmlFor="typeOperation" className="full-label">
+							{D.contributorTitle}
+
+							<SelectRmes
+								placeholder=""
+								unclearable
+								value={gestionnaire}
+								options={organisationsOptions}
+								onChange={value => {
+									this.handlers.gestionnaire(value);
+								}}
+							/>
+						</label>
+					</div>
+				</div>
+				<div className="form-group row">
 					<div className="col-md-6">
 						<label htmlFor="typeOperation" className="full-label">
 							{D.organisation}
@@ -112,7 +151,7 @@ class SearchFormList extends AbstractSearchComponent {
 					</div>
 					<div className="col-md-6">
 						<label htmlFor="typeOperation" className="full-label">
-							{D.organisation}
+							{D.dataCollector}
 
 							<SelectRmes
 								placeholder=""
@@ -155,7 +194,7 @@ class SearchListContainer extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
 	const categories =
 		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
 	return {

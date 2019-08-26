@@ -1,7 +1,15 @@
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
-import { mdToDraftjs, draftjsToMd } from 'draftjs-md-converter';
+import { draftjsToMd } from 'js/utils/draftjs/draftjsToMd';
+import { mdToDraftjs } from 'js/utils/draftjs/mdToDraftjs';
+import { REGEXPS } from 'js/utils/draftjs/mdToDraftjs';
+
+export const containUnsupportedStyles = (attr = {}) => {
+	return !!REGEXPS.map(r => r.regexp).find(
+		regexp => !!Object.keys(attr).find(key => regexp.test(attr[key]))
+	);
+};
 export const htmlToRawText = html => {
 	const el = document.createElement('div');
 	el.innerHTML = html || '';
@@ -48,7 +56,31 @@ export const delPTags = s => s && s.replace(/<p>/g, '').replace(/<\/p>/g, '');
 //of these whitespaces might impact the rendered html. But for notes edited with
 //the html editor, it should be ok.
 export function htmlFromEditorState(editorState) {
-	const html = stateToHTML(editorState.getCurrentContent());
+	function setStyle(property, color) {
+		return {
+			element: 'span',
+			style: {
+				[property]: color,
+			},
+		};
+	}
+	let options = {
+		inlineStyleFn: styles => {
+			let key = 'color-';
+			let color = styles.filter(value => value.startsWith(key)).first();
+			if (color) {
+				return setStyle('color', color.replace(key, ''));
+			}
+
+			key = 'bgcolor-';
+			color = styles.filter(value => value.startsWith(key)).first();
+			if (color) {
+				return setStyle('backgroundColor', color.replace(key, ''));
+			}
+		},
+	};
+
+	const html = stateToHTML(editorState.getCurrentContent(), options);
 	return cleanHtml(html);
 }
 

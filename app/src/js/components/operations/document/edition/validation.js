@@ -49,6 +49,9 @@ export function validate(document, type, files) {
 	} else if (type === LINK && !/https*\:\/\//.test(document.url)) {
 		errorMessage = D.badUrl;
 		fields.url = true;
+	} else if (type === DOCUMENT && !document.updatedDate) {
+		errorMessage = D.requiredUpdatedDate;
+		fields.updatedDate = true;
 	} else if (type === DOCUMENT && !haveFiles(files)) {
 		return {
 			errorMessage: D.requiredFile,

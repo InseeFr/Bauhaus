@@ -5941,7 +5941,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.8, debug@^2.6.
 
 debug@3.1.0:
   version "3.1.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
+  resolved "https://registry.npmjs.org/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
   integrity sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==
   dependencies:
     ms "2.0.0"
@@ -6391,7 +6391,7 @@ dotenv@6.2.0, dotenv@^6.0.0, dotenv@^6.2.0:
 
 draft-js-export-html@1.2.0:
   version "1.2.0"
-  resolved "https://registry.yarnpkg.com/draft-js-export-html/-/draft-js-export-html-1.2.0.tgz#1cbe2b78e1fed74fc29c7cdcbfd7540468eca209"
+  resolved "https://registry.npmjs.org/draft-js-export-html/-/draft-js-export-html-1.2.0.tgz#1cbe2b78e1fed74fc29c7cdcbfd7540468eca209"
   integrity sha1-HL4reOH+10/CnHzcv9dUBGjsogk=
   dependencies:
     draft-js-utils "^1.2.0"
@@ -6413,7 +6413,7 @@ draft-js-import-html@1.2.1:
 
 draft-js-utils@^1.2.0, draft-js-utils@^1.4.0:
   version "1.4.0"
-  resolved "https://registry.yarnpkg.com/draft-js-utils/-/draft-js-utils-1.4.0.tgz#c60af198108f69b0f1df3572555b23836819d1cf"
+  resolved "https://registry.npmjs.org/draft-js-utils/-/draft-js-utils-1.4.0.tgz#c60af198108f69b0f1df3572555b23836819d1cf"
   integrity sha512-8s9FFuKC+lOWGwJ0b3om2PF+uXrqQPaEQlPJI7UxdzxTYGMeKouMPA9+YlPn52zcAVElIZtd2tXj6eQmvlKelw==
 
 draft-js@0.10.4:
@@ -8340,7 +8340,7 @@ highlight.js@~9.12.0:
 
 history@^4.7.2:
   version "4.9.0"
-  resolved "https://registry.yarnpkg.com/history/-/history-4.9.0.tgz#84587c2068039ead8af769e9d6a6860a14fa1bca"
+  resolved "https://registry.npmjs.org/history/-/history-4.9.0.tgz#84587c2068039ead8af769e9d6a6860a14fa1bca"
   integrity sha512-H2DkjCjXf0Op9OAr6nJ56fcRkTSNrUiv41vNJ6IswJjif6wlpZK0BTfFbi7qK9dXLSYZxkq5lBsj3vUjlYBYZA==
   dependencies:
     "@babel/runtime" "^7.1.2"
@@ -14206,7 +14206,7 @@ react-resize-detector@^4.0.5:
 
 react-router-dom@4.3.1:
   version "4.3.1"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.3.1.tgz#4c2619fc24c4fa87c9fd18f4fb4a43fe63fbd5c6"
+  resolved "https://registry.npmjs.org/react-router-dom/-/react-router-dom-4.3.1.tgz#4c2619fc24c4fa87c9fd18f4fb4a43fe63fbd5c6"
   integrity sha512-c/MlywfxDdCp7EnB7YfPMOfMD3tOtIjrQlj/CKfNMBxdmpJP8xcz5P/UAFn3JbnQCNUxsHyVVqllF9LhgVyFCA==
   dependencies:
     history "^4.7.2"
@@ -14225,7 +14225,7 @@ react-router-hash-link@1.2.0:
 
 react-router@^4.3.1:
   version "4.3.1"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.3.1.tgz#aada4aef14c809cb2e686b05cee4742234506c4e"
+  resolved "https://registry.npmjs.org/react-router/-/react-router-4.3.1.tgz#aada4aef14c809cb2e686b05cee4742234506c4e"
   integrity sha512-yrvL8AogDh2X42Dt9iknk4wF4V8bWREPirFfS9gLU1huk6qK41sg7Z/1S81jjTrGHxa3B8R3J6xIkDAA6CVarg==
   dependencies:
     history "^4.7.2"
