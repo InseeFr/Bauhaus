@@ -11,7 +11,8 @@
     "build-storybook": "cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
     "start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
     "test:coverage": "jest --coverage",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "postinstall": "yarn build-insee"
   },
   "peerDependencies": {
     "react": "^16.8.6"
@@ -35,6 +36,7 @@
     "eslint-config-react-app": "4.0.1",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-jsx-a11y": "6.2.3",
-    "eslint-plugin-react": "7.14.3"
+    "eslint-plugin-react": "7.14.3",
+    "microbundle": "0.12.0-next.6"
   }
 }
