@@ -12,7 +12,7 @@ import updateCollection from 'js/actions/collections/update';
 import CollectionEditionCreation from './home';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import buildExtract from 'js/utils/build-extract';
-import { bindToCollectionId } from 'js/utils/string-utils';
+import { cleanId } from 'js/utils/string-utils';
 import D from 'js/i18n';
 import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
@@ -65,9 +65,7 @@ class EditionContainer extends Component {
 
 		if (this.state.updateRequested) {
 			if (this.props.updateStatus === OK) {
-				return (
-					<Redirect to={`/collection/${bindToCollectionId(this.state.id)}`} />
-				);
+				return <Redirect to={`/collection/${cleanId(this.state.id)}`} />;
 			} else {
 				return <Loading textType="saving" context="concepts" />;
 			}
@@ -115,9 +113,10 @@ const mapDispatchToProps = {
 	updateCollection,
 };
 
-EditionContainer = connect(mapStateToProps, mapDispatchToProps)(
-	EditionContainer
-);
+EditionContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(EditionContainer);
 
 EditionContainer.propTypes = {
 	match: PropTypes.shape({

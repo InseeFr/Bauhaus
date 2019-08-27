@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"baseUrl": "./src",
-		"checkJs": true,
+		"checkJs": false,
 		"jsx": "preserve"
 	},
 	"exclude": ["cypress/**/*.js"]

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Root from 'js/components/router';
@@ -11,6 +11,8 @@ import { bauhausLibraryDictionary } from 'js/i18n';
 import 'app.scss';
 import 'bauhaus-library/dist/index.css';
 
+export const AppContext = createContext({});
+
 Api.getInit()
 	.then(
 		res => (res.ok ? res.json() : Promise.reject(res.statusText)),
@@ -22,10 +24,12 @@ Api.getInit()
 	.then(res => renderApp(Root, res));
 
 const renderApp = (Component, initState, props) => {
-	const { authType: type, ...properties } = initState;
+	const { authType: type, lg1, lg2, ...properties } = initState;
 	const store = configureStore({
 		app: {
 			auth: { type, user: { roles: [], stamp: '' } },
+			lg1,
+			lg2,
 			properties,
 			secondLang: false,
 			error: false,
@@ -34,12 +38,14 @@ const renderApp = (Component, initState, props) => {
 
 	ReactDOM.render(
 		<Provider store={store}>
-			<I18NContext.Provider value={bauhausLibraryDictionary}>
-				<main>
-					<Component {...props} />
-					<BackToTop />
-				</main>
-			</I18NContext.Provider>
+			<AppContext.Provider value={{ lg1, lg2 }}>
+				<I18NContext.Provider value={bauhausLibraryDictionary}>
+					<main>
+						<Component {...props} />
+						<BackToTop />
+					</main>
+				</I18NContext.Provider>
+			</AppContext.Provider>
 		</Provider>,
 		document.getElementById('root')
 	);

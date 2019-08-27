@@ -50,6 +50,7 @@ export default withRouter(
 						component={getComponent('classifications')}
 					/>
 					<Route path="/operations" component={getComponent('operations')} />
+					<Route path="/dsds" component={getComponent('dsds')} />
 					<Route path="*" component={NotFound} />
 				</Switch>
 			</Suspense>
