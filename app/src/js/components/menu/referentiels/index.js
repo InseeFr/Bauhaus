@@ -20,6 +20,9 @@ function MenuReferentiels() {
 								</li>
 								{process.env.REACT_APP_APPLICATIONS.split(',').map(appName => {
 									const app = appName.trim();
+									if (!app) {
+										return;
+									}
 									return (
 										<li key={`menu-ref-${app}`}>
 											<Link to={'/' + app}>
