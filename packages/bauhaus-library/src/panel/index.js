@@ -4,12 +4,13 @@ import Flag from '../flag';
 import './panel.scss';
 
 function Panel({ title, children, context = 'concepts', flag }) {
-	const flagComponent = <Flag flag={flag} />;
+	const flagComponent = flag ? ` ( ${<Flag flag={flag} />} )` : '';
 	return (
 		<div className={`panel panel-${context}`}>
 			<div className="panel-heading">
 				<h3 className="panel-title">
-					{title} {flag ? '( ' : null} {flagComponent} {flag ? ' )' : null}
+					{title}
+					{flagComponent}
 				</h3>
 			</div>
 			<div className="panel-body">{children}</div>
