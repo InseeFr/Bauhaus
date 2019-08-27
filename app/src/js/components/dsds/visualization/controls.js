@@ -15,7 +15,7 @@ const Controls = ({ dsdId }) => {
 			)}
 			<Button
 				label={D.btnUpdate}
-				action={`/dsd/${dsdId}/update`}
+				action={`/dsds/${dsdId}/update`}
 				context="dsds"
 			/>
 			{isLocal && (

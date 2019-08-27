@@ -1,4 +1,4 @@
-import { removeTrailingSlash, bindToCollectionId } from './string-utils';
+import { removeTrailingSlash, cleanId } from './string-utils';
 
 describe('string-utils', () => {
 	describe('removeTrailingSlash', () => {
@@ -16,20 +16,20 @@ describe('string-utils', () => {
 			);
 		});
 	});
-	describe('bindToCollectionId', () => {
+	describe('cleanId', () => {
 		it('should return empty string', () => {
-			expect(bindToCollectionId('')).toEqual('');
+			expect(cleanId('')).toEqual('');
 		});
 
 		it('should return same string', () => {
-			expect(bindToCollectionId('aaa')).toEqual('aaa');
+			expect(cleanId('aaa')).toEqual('aaa');
 		});
 
 		it('should return modified string', () => {
-			expect(bindToCollectionId('AA BB')).toEqual('aa-bb');
+			expect(cleanId('AA BB')).toEqual('aa-bb');
 		});
 		it('should return modified string', () => {
-			expect(bindToCollectionId('AA BB CC  DD')).toEqual('aa-bb-cc--dd');
+			expect(cleanId('AA BB CC  DD')).toEqual('aa-bb-cc--dd');
 		});
 	});
 });

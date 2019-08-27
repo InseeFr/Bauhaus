@@ -2,21 +2,20 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'index';
 import { PageTitle, Panel } from 'bauhaus-library';
 import Controls from './controls';
-//import Components from './components';
+import Components from './components';
 import D from 'js/i18n';
-import API from 'js/remote-api/dsds-api';
+import API from 'js/remote-api/dsds/dsds-api';
 import buildExtract from 'js/utils/build-extract';
+import { getFlag } from 'js/utils/flags/get-flag';
 
 const DSD = props => {
 	const [DSD, setDSD] = useState({});
-	const [components, setComponents] = useState([]);
 
 	const { lg1, lg2 } = useContext(AppContext);
 
 	useEffect(() => {
 		const dsdId = buildExtract('dsdId')(props);
 		API.getDSD(dsdId).then(res => setDSD(res));
-		API.getComponents(dsdId).then(res => setComponents(res));
 	}, [props]);
 
 	const { labelLg1, labelLg2, descriptionLg1, descriptionLg2 } = DSD;
@@ -30,7 +29,8 @@ const DSD = props => {
 						<Panel
 							title={D.descriptionTitle}
 							children={descriptionLg1}
-							lang={lg1}
+							flag={getFlag(lg1)}
+							context="dsds"
 						/>
 					</div>
 				)}
@@ -39,12 +39,13 @@ const DSD = props => {
 						<Panel
 							title={D.descriptionTitle}
 							children={descriptionLg2}
-							lang={lg2}
+							flag={getFlag(lg2)}
+							context="dsds"
 						/>
 					</div>
 				)}
 			</div>
-			{/* {components.length > 0 && <Components components={components} />} */}
+			<Components />
 		</>
 	);
 };

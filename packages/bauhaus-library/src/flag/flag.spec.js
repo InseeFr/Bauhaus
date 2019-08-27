@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Flag, { isFlag } from './flag';
+import Flag, { isFlag } from './';
 
 describe('isFlag', () => {
 	it('missing img returns false', () => {

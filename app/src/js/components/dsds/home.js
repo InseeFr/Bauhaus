@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, PageTitle, SearchRmes } from 'bauhaus-library';
-import API from 'js/remote-api/dsds-api';
+import API from 'js/remote-api/dsds/dsds-api';
 import D from 'js/i18n';
 
 const Home = () => {
@@ -54,7 +54,7 @@ const Home = () => {
 						offset={0}
 						context="dsds"
 					/>
-					<SearchRmes items={DSDs} childPath="dsds/dsd" context="dsds" />
+					<SearchRmes items={DSDs} childPath="dsds" context="dsds" />
 				</div>
 			</div>
 		</div>

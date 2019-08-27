@@ -8,18 +8,15 @@
     "app"
   ],
   "scripts": {
-    "start": "lerna run start --parallel",
-    "build-insee": "lerna run build-insee",
-    "test": "lerna run test --parallel",
-    "test:coverage": "lerna run test:coverage",
-    "build-storybook": "lerna run build-storybook --parallel",
-    "pre-commit": "lerna run test:coverage && lerna run lint"
+    "start": "yarn workspaces run start",
+    "build-insee": "yarn workspaces run build-insee",
+    "test:coverage": "yarn workspaces run test:coverage",
+    "build-storybook": "yarn workspaces run build-storybook",
+    "pre-commit": "yarn workspaces run test:coverage && yarn workspaces run lint"
   },
   "devDependencies": {
-    "lcov-result-merger": "3.1.0",
-    "lerna": "3.16.4",
-    "microbundle": "0.11.0",
-    "husky": "3.0.2"
+    "husky": "3.0.2",
+    "lcov-result-merger": "3.1.0"
   },
   "husky": {
     "hooks": {

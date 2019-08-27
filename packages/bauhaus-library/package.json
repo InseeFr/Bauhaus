@@ -1,47 +1,52 @@
 {
-  "name": "bauhaus-library",
-  "version": "0.0.0",
-  "main": "dist/index.js",
-  "source": "src/index.js",
-  "license": "MIT",
-  "scripts": {
-    "start": "microbundle watch --target node --jsx React.createElement",
-    "build-insee": "microbundle --verbose --jsx React.createElement",
-    "test": "jest --watch",
-    "build-storybook": "cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
-    "start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
-    "test:coverage": "jest --coverage",
-    "lint": "eslint src"
-  },
-  "peerDependencies": {
-    "react": "^16.8.6"
-  },
-  "devDependencies": {
-    "@storybook/addon-actions": "5.1.0-rc.1",
-    "@storybook/addon-knobs": "5.1.0-rc.1",
-    "@storybook/addon-links": "5.1.0-rc.1",
-    "@storybook/addons": "5.1.0-rc.1",
-    "@storybook/react": "5.1.0-rc.1",
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "@babel/preset-env": "^7.5.5",
-    "babel-loader": "8.0.5",
-    "@testing-library/react": "^8.0.7",
-    "babel-jest": "24.7.1",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "jest": "24.7.1",
-    "eslint-config-prettier": "6.0.0",
-    "eslint-config-react-app": "4.0.1",
-    "eslint-plugin-import": "2.18.2",
-    "eslint-plugin-jsx-a11y": "6.2.3",
-    "eslint-plugin-react": "7.14.3"
-  },
-  "prettier": {
-    "bracketSpacing": true,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5",
-    "useTabs": true
-  }
+	"name": "bauhaus-library",
+	"version": "0.0.0",
+	"main": "dist/index.js",
+	"source": "src/index.js",
+	"license": "MIT",
+	"scripts": {
+		"start": "microbundle watch --target node --jsx React.createElement",
+		"build-insee": "microbundle build --jsx React.createElement",
+		"test": "jest --watch",
+		"build-storybook": "cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
+		"start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
+		"test:coverage": "jest --coverage",
+		"lint": "eslint src"
+	},
+	"peerDependencies": {
+		"react": "^16.8.6"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.5.5",
+		"@babel/plugin-transform-react-jsx": "^7.3.0",
+		"@babel/preset-env": "^7.5.5",
+		"@storybook/addon-actions": "5.1.0-rc.1",
+		"@storybook/addon-knobs": "5.1.0-rc.1",
+		"@storybook/addon-links": "5.1.0-rc.1",
+		"@storybook/addons": "5.1.0-rc.1",
+		"@storybook/react": "5.1.0-rc.1",
+		"@testing-library/react": "^8.0.7",
+		"babel-jest": "24.7.1",
+		"babel-loader": "8.0.5",
+		"enzyme": "^3.10.0",
+		"enzyme-adapter-react-16": "^1.14.0",
+		"eslint-config-prettier": "6.0.0",
+		"eslint-config-react-app": "4.0.1",
+		"eslint-plugin-import": "2.18.2",
+		"eslint-plugin-jsx-a11y": "6.2.3",
+		"eslint-plugin-react": "7.14.3",
+		"jest": "24.7.1",
+		"microbundle": "^0.12.0-next.6"
+	},
+	"prettier": {
+		"bracketSpacing": true,
+		"semi": true,
+		"singleQuote": true,
+		"trailingComma": "es5",
+		"useTabs": true
+	},
+	"dependencies": {
+		"react-loading": "^2.0.3",
+		"react-select": "^3.0.4"
+	}
 }

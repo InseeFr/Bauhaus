@@ -11,7 +11,7 @@ import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import CollectionEditionCreation from './home';
 import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
-import { bindToCollectionId } from 'js/utils/string-utils';
+import { cleanId } from 'js/utils/string-utils';
 import Loading from 'js/components/shared/loading';
 import { OK } from 'js/constants';
 
@@ -51,9 +51,7 @@ class CreationContainer extends Component {
 
 		if (this.state.creationRequested) {
 			if (creationStatus === OK) {
-				return (
-					<Redirect to={`/collection/${bindToCollectionId(this.state.id)}`} />
-				);
+				return <Redirect to={`/collection/${cleanId(this.state.id)}`} />;
 			} else return <Loading textType="saving" context="concepts" />;
 		}
 		if (conceptList && stampList) {

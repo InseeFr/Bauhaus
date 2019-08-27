@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './pagination.scss';
-import { ApplicationContext } from 'js/context';
 
 function checkInvalidPage(targetPage, listSize) {
 	return targetPage === 0 || targetPage > listSize;
@@ -22,9 +21,9 @@ class Pagination extends Component {
 			'collections',
 			'classifications',
 			'operations',
+			'dsds',
 		]),
 	};
-	static contextType = ApplicationContext;
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -44,9 +43,8 @@ class Pagination extends Component {
 	}
 
 	render() {
-		const ctx = this.props.context || this.context;
 		const { currentPage } = this.state;
-		const { itemEls, itemsPerPage } = this.props;
+		const { itemEls, itemsPerPage, context } = this.props;
 
 		if (!itemsPerPage) return null;
 
@@ -83,9 +81,9 @@ class Pagination extends Component {
 				);
 			});
 
-		const contextCSS = ctx ? `pg-rmes-${ctx}` : '';
+		const contextCSS = context ? `pg-rmes-${context}` : '';
 		return (
-			<>
+			<React.Fragment>
 				<ul className="list-group">{currentItems}</ul>
 				{pageNumbers.length > 1 && (
 					<ul className={`pagination pg-rmes ${contextCSS}`}>
@@ -143,7 +141,7 @@ class Pagination extends Component {
 						</li>
 					</ul>
 				)}
-			</>
+			</React.Fragment>
 		);
 	}
 }

@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './button.scss';
-import { ApplicationContext } from 'js/context';
 
 const Button = ({
 	action,
@@ -12,8 +11,7 @@ const Button = ({
 	col = 2,
 	offset,
 }) => {
-	const ctx = useContext(ApplicationContext) || context;
-	const btnClass = `btn-${ctx}`;
+	const btnClass = `btn-${context}`;
 	let button;
 	if (typeof action === 'string') {
 		button = (
