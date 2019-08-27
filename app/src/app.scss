@@ -17,6 +17,12 @@ $color_operations_2: #6f1417;
 $color_operations_3: #a31c20;
 $color_operations_4: #db2754;
 
+// Define DSDs colors
+$color_dsds_1: #99004d;
+$color_dsds_2: #ff0080;
+$color_dsds_3: #ff66b3;
+$color_dsds_4: #ffb3d9;
+
 body {
 	margin: 0;
 	padding: 0;
@@ -59,6 +65,11 @@ a {
 	@include btn-group-vertical();
 }
 
+.dsds-btn-group-vertical {
+	border-color: $color_dsds_3;
+	@include btn-group-vertical();
+}
+
 @media (max-width: 1000px) {
 	.operations-list {
 		width: 100%;
@@ -71,7 +82,7 @@ a {
 }
 
 ul.home-page-links {
-	width: 75%;
+	width: 85%;
 	margin: auto;
 	display: flex;
 	list-style: none;
