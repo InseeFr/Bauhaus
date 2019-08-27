@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import I18NContext from '../i18n-provider';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import D from 'js/i18n';
 import Pagination from '../pagination';
 import { filterKeyDeburr, nbResults } from 'js/utils/array-utils';
 
@@ -9,7 +9,7 @@ function SearchRmes({
 	items = [],
 	advancedSearch = false,
 	searchUrl,
-	placeholder = D.searchLabelPlaceholder,
+	placeholder,
 	childPath,
 	col,
 	colOff,
@@ -17,6 +17,8 @@ function SearchRmes({
 	label,
 }) {
 	const [search, handleSearch] = useState('');
+	const D = useContext(I18NContext).backToTop || label;
+
 	const filter = filterKeyDeburr(
 		Object.keys(items[0] || {}).filter(k => k !== 'id')
 	);
@@ -40,7 +42,7 @@ function SearchRmes({
 						value={search}
 						onChange={e => handleSearch(e.target.value)}
 						type="text"
-						placeholder={placeholder}
+						placeholder={D.searchLabelPlaceholder}
 						className="form-control"
 						aria-label={D.search}
 					/>
