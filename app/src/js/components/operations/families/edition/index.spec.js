@@ -5,7 +5,8 @@ describe('OperationsFamilyEditionContainer', () => {
 		const result = mapStateToProps(
 			{
 				app: {
-					properties: { lg1: 'lg1', lg2: 'lg2' },
+					lg1: 'lg1',
+					lg2: 'lg2',
 				},
 				operationsFamiliesCurrent: { id: 'id' },
 			},

@@ -5,7 +5,7 @@ describe('IndicatorVisualizationContainer', () => {
 	it('should return an indicator if available', () => {
 		const result = mapStateToProps(
 			{
-				app: { properties: { lg1: 'lg1', lg2: 'lg2' }, secondLang: true },
+				app: { lg1: 'lg1', lg2: 'lg2', secondLang: true },
 				operationsIndicatorsCurrent: {
 					id: '1',
 					accrualPeriodicityCode: 'code',
@@ -29,7 +29,7 @@ describe('IndicatorVisualizationContainer', () => {
 	it('should return an empty indicator if the id is not the same', () => {
 		const result = mapStateToProps(
 			{
-				app: { properties: { lg1: 'lg1', lg2: 'lg2' }, secondLang: true },
+				app: { lg1: 'lg1', lg2: 'lg2', secondLang: true },
 				operationsIndicatorsCurrent: {
 					id: '2',
 					accrualPeriodicityCode: 'code',

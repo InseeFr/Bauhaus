@@ -6,7 +6,8 @@ describe('FamilyVisualizationContainer', () => {
 			{
 				app: {
 					secondLang: 'secondLang',
-					properties: { lg1: 'lg1', lg2: 'lg2' },
+					lg1: 'lg1',
+					lg2: 'lg2',
 				},
 				operationsFamiliesCurrent: { id: 'id' },
 			},
@@ -24,7 +25,8 @@ describe('FamilyVisualizationContainer', () => {
 			{
 				app: {
 					secondLang: 'secondLang',
-					properties: { lg1: 'lg1', lg2: 'lg2' },
+					lg1: 'lg1',
+					lg2: 'lg2',
 				},
 				operationsFamiliesCurrent: { value: 'value' },
 			},
