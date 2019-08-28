@@ -3,7 +3,7 @@ import I18NContext from '../i18n-provider';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Pagination from '../pagination';
-import { filterKeyDeburr, nbResults } from 'js/utils/array-utils';
+import { filterKeyDeburr, nbResults } from '../utils/array-utils';
 
 function SearchRmes({
 	items = [],
@@ -17,7 +17,7 @@ function SearchRmes({
 	label,
 }) {
 	const [search, handleSearch] = useState('');
-	const D = useContext(I18NContext).backToTop || label;
+	const D = useContext(I18NContext);
 
 	const filter = filterKeyDeburr(
 		Object.keys(items[0] || {}).filter(k => k !== 'id')
@@ -42,7 +42,7 @@ function SearchRmes({
 						value={search}
 						onChange={e => handleSearch(e.target.value)}
 						type="text"
-						placeholder={D.searchLabelPlaceholder}
+						placeholder={D.searchLabelPlaceholder || placeholder}
 						className="form-control"
 						aria-label={D.search}
 					/>
@@ -64,7 +64,7 @@ function SearchRmes({
 				</div>
 			)}
 			<div className="row">
-				<p aria-live="assertive">{nbResults(hits)}</p>
+				<p aria-live="assertive">{nbResults(hits, D)}</p>
 			</div>
 			<Pagination itemEls={hitEls} itemsPerPage="10" context={context} />
 		</div>

@@ -47,6 +47,7 @@
 		"useTabs": true
 	},
 	"dependencies": {
+		"lodash": "^4.17.15",
 		"react-loading": "^2.0.3",
 		"react-select": "^3.0.4"
 	}

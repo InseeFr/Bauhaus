@@ -78,7 +78,4 @@ export const getMessageForSecondLang = message => {
 
 export default createDictionary(getLang());
 
-export const bauhausLibraryDictionary = createDictionary(
-	getLang(),
-	bauhausLibrary
-);
+export const bauhausLibraryDictionary = createDictionary(getLang(), dictionary);
