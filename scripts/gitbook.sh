@@ -45,11 +45,12 @@ function publish() {
   cp -a "../$DOC_FOLDER/_book/." .
 
 
-  mkdir app_storybook
-  mkdir lib_storybook
+  mkdir storybook
+  mkdir storybook/app
+  mkdir storybook/lib
 
-  cp -R "../app/$STORYBOOK_FOLDER/." app_storybook
-  cp -R "../packages/bauhaus-library/$STORYBOOK_FOLDER/." lib_storybook
+  cp -R "../app/$STORYBOOK_FOLDER/storybook/." storybook/app
+  cp -R "../packages/bauhaus-library/$STORYBOOK_FOLDER/storybook/." storybook/lib
 
   git init
   git remote add upstream "$UPSTREAM"

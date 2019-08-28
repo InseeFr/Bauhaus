@@ -100,7 +100,7 @@ export const getPermission = state => {
 	return { authType, roles, stamp };
 };
 export const getLangs = state => {
-	const { lg1, lg2 } = state.app.properties;
+	const { lg1, lg2 } = state.app;
 	return { lg1, lg2 };
 };
 

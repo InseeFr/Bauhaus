@@ -6,10 +6,8 @@ const state = {
 		},
 	},
 	app: {
-		properties: {
-			lg1: 'lg1',
-			lg2: 'lg2',
-		},
+		lg1: 'lg1',
+		lg2: 'lg2',
 		secondLang: true,
 	},
 };

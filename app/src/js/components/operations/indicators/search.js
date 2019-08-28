@@ -63,7 +63,7 @@ class SearchFormList extends AbstractSearchComponent {
 				<div className="form-group row">
 					<div className="col-md-12">
 						<label htmlFor="typeOperation" className="full-label">
-							{D.contributorTitle}
+							{D.organisation}
 
 							<SelectRmes
 								placeholder=""

@@ -6,10 +6,8 @@ describe('mapStateToProps', () => {
 		const input = {
 			app: {
 				secondLang: 'en',
-				properties: {
-					lg1: 'fr',
-					lg2: 'en',
-				},
+				lg1: 'fr',
+				lg2: 'en',
 			},
 			operationsOperationsCurrent: {
 				id: '1',

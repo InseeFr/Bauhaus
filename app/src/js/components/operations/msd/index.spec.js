@@ -18,10 +18,8 @@ describe('', () => {
 				status: LOADED,
 			},
 			app: {
-				properties: {
-					lg1: 'lg1',
-					lg2: 'lg2',
-				},
+				lg1: 'lg1',
+				lg2: 'lg2',
 			},
 		};
 
@@ -44,10 +42,8 @@ describe('', () => {
 				status: LOADED,
 			},
 			app: {
-				properties: {
-					lg1: 'lg1',
-					lg2: 'lg2',
-				},
+				lg1: 'lg1',
+				lg2: 'lg2',
 			},
 			operationsSeriesCurrentStatus: LOADED,
 			operationsSeriesCurrent: {
@@ -81,10 +77,8 @@ describe('', () => {
 				status: LOADED,
 			},
 			app: {
-				properties: {
-					lg1: 'lg1',
-					lg2: 'lg2',
-				},
+				lg1: 'lg1',
+				lg2: 'lg2',
 			},
 			operationsSimsCurrent: {
 				id: 1,
@@ -115,10 +109,8 @@ describe('', () => {
 				status: LOADED,
 			},
 			app: {
-				properties: {
-					lg1: 'lg1',
-					lg2: 'lg2',
-				},
+				lg1: 'lg1',
+				lg2: 'lg2',
 			},
 		};
 
