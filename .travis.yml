@@ -8,8 +8,6 @@ install:
   - yarn install
 before_script:
   - yarn test:coverage
-script:
-  - yarn build-storybook
 
 deploy:
   skip_cleanup: true
@@ -21,7 +19,7 @@ deploy:
     - ${TRAVIS_BUILD_NUMBER}.tar.gz
   on:
     all_branches: true
-    condition: '$TRAVIS_BRANCH =~ ^master$'
+    condition: "$TRAVIS_BRANCH =~ ^master$"
 after_script:
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
   - bash scripts/gitbook.sh
