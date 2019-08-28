@@ -21,7 +21,7 @@ const ResourceLabel = ({ title, URI }) => {
         FILTER (lang(?labelLg2) = '${lg2}')} .
     }
     `;
-		getRDFObject('http://id.insee.fr/sparql')(query(URI)).then(res =>
+		getRDFObject('https://id.insee.fr/sparql')(query(URI)).then(res =>
 			setLabels(res)
 		);
 	}, [URI, lg1, lg2]);
