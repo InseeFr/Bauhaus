@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
@@ -13,7 +13,7 @@ import DocumentsBloc from '../../documents/documents-bloc';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
-class Field extends PureComponent {
+class Field extends Component {
 	static propTypes = {
 		msd: PropTypes.object.isRequired,
 		currentSection: PropTypes.object,
@@ -37,13 +37,6 @@ class Field extends PureComponent {
 
 	handleCodeListInput = value => {
 		this._handleChange({ codeList: this.props.msd.codeList, value });
-	};
-
-	/**
-	 * @param {String} value The new value of the date input
-	 */
-	handleDateInput = value => {
-		this._handleChange({ value });
 	};
 
 	_handleDeleteDocumentOrLinks = type => uri => {
