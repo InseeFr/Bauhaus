@@ -46,6 +46,10 @@ function OperationsIndicatorVisualization(props) {
 	const contributor = (attr.contributor || []).map(
 		d => organisations.find(orga => orga.id === d.id) || {}
 	);
+	const gestionnaire = (
+		organisations.find(orga => orga.id === attr.gestionnaire) || {}
+	).label;
+	
 	return (
 		<React.Fragment>
 			<DisplayMultiLangNote
@@ -86,7 +90,15 @@ function OperationsIndicatorVisualization(props) {
 					allowEmpty={true}
 				/>
 			</div>
-
+			<div className="row flex" data-cy="gestionnaire">
+				<Note
+					text={gestionnaire}
+					title={D.operationsContributorTitle}
+					lang={langs.lg1}
+					alone={true}
+					allowEmpty={true}
+				/>
+			</div>
 			<DisplayLinks
 				links={contributor}
 				title={D.stakeholders}
