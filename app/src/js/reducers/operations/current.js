@@ -26,7 +26,6 @@ export const operationsFamiliesCurrent = function(state = {}, action) {
 			return action.payload;
 		case A.SAVE_OPERATIONS_FAMILY:
 		case A.PUBLISH_OPERATIONS_FAMILY_SUCCESS:
-		case A.PUBLISH_OPERATIONS_FAMILY_FAILURE:
 			return {};
 		default:
 			return state;

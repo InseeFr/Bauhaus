@@ -23,7 +23,7 @@ export default (remoteCall, LOADING, SUCCESS, FAILURE) => dispatch => {
 
 // TODO Add Unit Test
 export const getPublishFactory = (remoteCall, LOADING, SUCCESS, FAILURE) => {
-	return object => dispatch => {
+	return (object, callback = () => {}) => dispatch => {
 		dispatch({
 			type: LOADING,
 			payload: {},
@@ -35,12 +35,14 @@ export const getPublishFactory = (remoteCall, LOADING, SUCCESS, FAILURE) => {
 					type: SUCCESS,
 					payload: results,
 				});
+				callback(null, results);
 			},
 			err => {
 				dispatch({
 					type: FAILURE,
 					payload: { err },
 				});
+				callback(err);
 			}
 		);
 	};
