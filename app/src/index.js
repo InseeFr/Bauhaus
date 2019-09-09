@@ -8,7 +8,7 @@ import Api from 'js/remote-api/api';
 import { I18NContext, BackToTop } from 'bauhaus-library';
 import { bauhausLibraryDictionary } from 'js/i18n';
 
-import 'app.scss';
+import 'main.scss';
 import 'bauhaus-library/dist/index.css';
 
 export const AppContext = createContext({});

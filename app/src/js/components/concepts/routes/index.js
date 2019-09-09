@@ -20,7 +20,7 @@ import CollectionEditionContainer from 'js/components/collections/edition-creati
 import CollectionsToValidateContainer from 'js/components/collections/validation/home-container';
 import CollectionsToExportContainer from 'js/components/collections/export/home-container';
 import Help from 'js/components/help/home';
-import Administration from 'js/components/administration/home-container';
+import Administration from 'js/components/administration/home';
 import ConceptsDashboard from 'js/components/administration/dashboard/concepts/home-container';
 import D from 'js/i18n';
 import Menu from 'js/components/concepts/menu';
