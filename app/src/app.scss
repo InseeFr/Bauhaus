@@ -84,9 +84,9 @@ a {
 ul.home-page-links {
 	width: 85%;
 	margin: auto;
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(33%, 1fr));
 	list-style: none;
-	flex-direction: row;
 	li {
 		flex: 1;
 		text-align: center;

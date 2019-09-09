@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import check from 'js/utils/auth';
 import dashBoardLogo from 'img/dashboard.png';
-import adminLogo from 'img/admin.png';
 import PageTitle from '../shared/page-title';
 import D from 'js/i18n';
 import './home.scss';
@@ -32,11 +31,11 @@ function AdministrationHome({ permission }) {
 				<Link to="/concepts/administration/dashboard">
 					<img src={dashBoardLogo} alt="Dashboard" className="img" />
 				</Link>
-				{isAdmin && (
+				{/* {isAdmin && (
 					<Link to="/administration/roles">
 						<img src={adminLogo} alt="Roles" className="img" />
 					</Link>
-				)}
+				)} */}
 			</div>
 		</div>
 	);
