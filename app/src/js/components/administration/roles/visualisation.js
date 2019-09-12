@@ -4,7 +4,7 @@ import Button from 'js/components/shared/button';
 import TableRmes from 'js/components/shared/table-rmes';
 import D from 'js/i18n';
 
-function VisualisationTable({ roles }) {
+function VisualisationTable({ roles = [] }) {
 	const persons = roles.reduce(function(_, role) {
 		role.persons.map(p =>
 			_.push({ role: role.label, label: p.label, stamp: p.stamp })
