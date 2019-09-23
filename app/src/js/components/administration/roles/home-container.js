@@ -84,7 +84,8 @@ class RolesContainer extends Component {
 
 		if (roles && agents) {
 			return (
-				<Menu>
+				<>
+					<Menu></Menu>
 					{pathname.endsWith('update') ? (
 						<Update
 							roles={roles}
@@ -94,7 +95,7 @@ class RolesContainer extends Component {
 					) : (
 						<Visualisation roles={roles} />
 					)}
-				</Menu>
+				</>
 			);
 		}
 		return <Loading textType="loading" />;
