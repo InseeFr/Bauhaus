@@ -11,6 +11,7 @@ import loadAgentList from 'js/actions/roles/agent';
 import addRole from 'js/actions/roles/add';
 import deleteRole from 'js/actions/roles/delete';
 import { OK } from 'js/constants';
+import Menu from 'js/components/administration/roles/menu';
 
 const initState = {
 	deleteRequested: false,
@@ -82,10 +83,18 @@ class RolesContainer extends Component {
 			return <Redirect to="/administration/roles" />;
 
 		if (roles && agents) {
-			return pathname.endsWith('update') ? (
-				<Update roles={roles} agents={agents} handleSave={this.handleSave} />
-			) : (
-				<Visualisation roles={roles} />
+			return (
+				<Menu>
+					{pathname.endsWith('update') ? (
+						<Update
+							roles={roles}
+							agents={agents}
+							handleSave={this.handleSave}
+						/>
+					) : (
+						<Visualisation roles={roles} />
+					)}
+				</Menu>
 			);
 		}
 		return <Loading textType="loading" />;

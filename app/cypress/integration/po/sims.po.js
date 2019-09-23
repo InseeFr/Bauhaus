@@ -4,7 +4,7 @@ export class SimsViewPage {
 	}
 
 	getUpdateButton() {
-		return 'div:nth-child(4) > a';
+		return 'div:nth-child(5) > a';
 	}
 
 	getDocumentsBlocForRubric(rubricId) {

@@ -19,6 +19,7 @@ import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
 import OperationsFamilyVisualization from 'js/components/operations/families/visualization/visualization';
 import ValidationButton from 'js/components/operations/shared/validationButton';
 import { containUnsupportedStyles } from 'js/utils/html';
+import ErrorBloc from 'js/components/shared/error-bloc';
 
 const extractId = buildExtract('id');
 
@@ -31,6 +32,10 @@ class FamilyVisualizationContainer extends PureComponent {
 		loadFamily: PropTypes.func,
 		publishFamily: PropTypes.func,
 	};
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
 	componentDidMount() {
 		this.loadFamily(this.props.family, this.props.id);
 	}
@@ -43,14 +48,24 @@ class FamilyVisualizationContainer extends PureComponent {
 			this.props.loadFamily(id);
 		}
 	}
+
+	publishFamily(object) {
+		this.props.publishFamily(object, err => {
+			if (err) {
+				this.setState({
+					serverSideError: err,
+				});
+			}
+		});
+	}
 	render() {
 		const {
 			secondLang,
 			langs,
 			family: { ...attr },
 			saveSecondLang,
-			publishFamily,
 		} = this.props;
+		const { serverSideError } = this.state;
 		if (!attr.id) return <Loading textType="loading" />;
 
 		/*
@@ -74,11 +89,11 @@ class FamilyVisualizationContainer extends PureComponent {
 						label={D.btnReturn}
 					/>
 
-					<div className="empty-center" />
+					<ErrorBloc error={serverSideError} />
 					<Auth roles={[ADMIN]}>
 						<ValidationButton
 							object={attr}
-							callback={publishFamily}
+							callback={object => this.publishFamily(object)}
 							disabled={publicationDisabled}
 						/>
 					</Auth>

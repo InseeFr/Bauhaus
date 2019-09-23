@@ -11,14 +11,16 @@ import SearchList from 'js/components/shared/advanced-search/home';
 import { toSelectModel } from '../shared/utils/itemToSelectModel';
 
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);
-const creatorLabel = filterKeyDeburr(['creator']);
+const filterCreator = filterKeyDeburr(['creator']);
+const filterGestionnaire = filterKeyDeburr(['gestionnaire']);
 
-const fields = ['prefLabelLg1', 'creator'];
+const fields = ['prefLabelLg1', 'creator', 'gestionnaire'];
 
 class SearchFormList extends AbstractSearchComponent {
 	static defaultState = {
 		prefLabelLg1: '',
 		creator: '',
+		gestionnaire: '',
 	};
 
 	constructor(props) {
@@ -26,15 +28,17 @@ class SearchFormList extends AbstractSearchComponent {
 	}
 
 	handlers = this.handleChange(fields, newState => {
-		const { prefLabelLg1, creator } = newState;
+		const { prefLabelLg1, creator, gestionnaire } = newState;
 		return this.props.data
-			.filter(creatorLabel(creator))
-			.filter(filterLabel(prefLabelLg1));
+			.filter(filterCreator(creator))
+			.filter(filterLabel(prefLabelLg1))
+			.filter(filterGestionnaire(gestionnaire));
 	});
 
 	render() {
-		const { data, prefLabelLg1, creator } = this.state;
+		const { data, prefLabelLg1, creator, gestionnaire } = this.state;
 		const { organisations } = this.props;
+
 		const creatorsOptions = toSelectModel(organisations);
 
 		const dataLinks = data.map(({ id, prefLabelLg1 }) => (
@@ -61,7 +65,7 @@ class SearchFormList extends AbstractSearchComponent {
 					</div>
 				</div>
 				<div className="form-group row">
-					<div className="col-md-12">
+					<div className="col-md-6">
 						<label htmlFor="typeOperation" className="full-label">
 							{D.organisation}
 
@@ -72,6 +76,21 @@ class SearchFormList extends AbstractSearchComponent {
 								options={creatorsOptions}
 								onChange={value => {
 									this.handlers.creator(value);
+								}}
+							/>
+						</label>
+					</div>
+					<div className="col-md-6">
+						<label htmlFor="typeOperation" className="full-label">
+							{D.operationsContributorTitle}
+
+							<SelectRmes
+								placeholder=""
+								unclearable
+								value={gestionnaire}
+								options={creatorsOptions}
+								onChange={value => {
+									this.handlers.gestionnaire(value);
 								}}
 							/>
 						</label>

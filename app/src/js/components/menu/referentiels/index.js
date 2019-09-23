@@ -18,6 +18,7 @@ function MenuReferentiels() {
 										{D.home}
 									</Link>
 								</li>
+
 								{process.env.REACT_APP_APPLICATIONS.split(',').map(appName => {
 									const app = appName.trim();
 									if (!app) {

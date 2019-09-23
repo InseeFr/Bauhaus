@@ -129,7 +129,6 @@ describe('SIMS Page', function() {
 		cy.get('.btn-line').within(btns => {
 			cy.get('div:first > button').contains('Retour');
 			cy.get('div:nth-child(3) > a').contains('Dupliquer');
-			cy.get('div:nth-child(4) > a').contains('Modifier');
 			cy.get('div:nth-child(3) > a').click();
 		});
 

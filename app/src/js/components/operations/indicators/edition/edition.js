@@ -49,6 +49,7 @@ class OperationsIndicatorEdition extends Component {
 			'historyNoteLg1',
 			'historyNoteLg2',
 			'creator',
+			'gestionnaire',
 			'accrualPeriodicityCode',
 		].reduce(
 			(acc, selector) => ({
@@ -266,6 +267,20 @@ class OperationsIndicatorEdition extends Component {
 									options={organisationsOptions}
 									placeholder=""
 									onChange={this.onChanges.creator}
+								/>
+							</label>
+						</div>
+					</div>
+					<div className="row">
+						<div className="form-group col-md-12">
+							<label htmlFor="contributor" className="full-label">
+								{D.operationsContributorTitle}
+								<SelectRmes
+									placeholder=""
+									unclearable
+									value={indicator.gestionnaire}
+									options={organisationsOptions}
+									onChange={this.onChanges.gestionnaire}
 								/>
 							</label>
 						</div>

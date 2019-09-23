@@ -44,7 +44,7 @@ describe('Family page', () => {
 			.click();
 		cy.url().should('include', '/operations/family/');
 		cy.get('.panel-body > ul > :nth-child(1) > a').click();
-		cy.url().should('include', '/operations/series/s1501');
+		cy.url().should('include', '/operations/series/s');
 		cy.get('.btn-line button')
 			.first()
 			.click();
