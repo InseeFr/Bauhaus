@@ -22,7 +22,7 @@ function MenuReferentiels() {
 								{process.env.REACT_APP_APPLICATIONS.split(',').map(appName => {
 									const app = appName.trim();
 									if (!app) {
-										return;
+										return null;
 									}
 									return (
 										<li key={`menu-ref-${app}`}>
