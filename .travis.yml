@@ -6,7 +6,7 @@ cache: yarn
 install:
   - yarn config set registry https://registry.npmjs.org
   - yarn install
-before_script:
+script:
   - yarn test:coverage
 
 deploy:

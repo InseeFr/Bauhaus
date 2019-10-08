@@ -2,7 +2,11 @@ export default {
 	getFamiliesList: () => ['families'],
 	getFamily: id => [`family/${id}`],
 	getFamiliesSearchList: () => ['families_search'],
-	publishFamily: family => [`family/validate/${family.id}`, { method: 'PUT' }],
+	publishFamily: family => [
+		`family/validate/${family.id}`,
+		{ method: 'PUT' },
+		res => res.text(),
+	],
 	putFamily: family => [
 		`family/${family.id}`,
 		{
