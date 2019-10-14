@@ -10,7 +10,9 @@ import OperationsOperationVisualization from './home';
 import buildExtract from 'js/utils/build-extract';
 import exportVariableBook from 'js/actions/operations/export-varBook';
 import { saveSecondLang } from 'js/actions/app';
-import loadOperation from 'js/actions/operations/operations/item';
+import loadOperation, {
+	publishOperation,
+} from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { goBack } from 'js/utils/redirection';
@@ -24,6 +26,8 @@ import {
 	CNIS,
 } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/components/shared/page-title-block';
+import ValidationButton from 'js/components/operations/shared/validationButton';
+import ErrorBloc from 'js/components/shared/error-bloc';
 
 const extractId = buildExtract('id');
 
@@ -38,14 +42,36 @@ class OperationVisualizationContainer extends Component {
 		saveSecondLang: PropTypes.func,
 	};
 
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+
 	componentWillMount() {
 		if (!this.props.operation.id) {
 			this.props.loadOperation(this.props.id);
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (this.props.operation.id !== nextProps.id) {
+			this.props.loadOperation(nextProps.id);
+		}
+	}
+
+	publishOperation(object) {
+		this.props.publishOperation(object, err => {
+			if (err) {
+				this.setState({
+					serverSideError: err,
+				});
+			}
+		});
+	}
+
 	render() {
 		const { id, operation, langs, secondLang, saveSecondLang } = this.props;
+		const { serverSideError } = this.state;
 
 		if (!operation.id) return <Loading textType="loading" />;
 
@@ -64,7 +90,8 @@ class OperationVisualizationContainer extends Component {
 						label={D.btnReturn}
 					/>
 
-					<div className="empty-center" />
+					<ErrorBloc error={serverSideError} />
+
 					{operation.idSims && (
 						<Button
 							action={`/operations/sims/${operation.idSims}`}
@@ -81,7 +108,10 @@ class OperationVisualizationContainer extends Component {
 						</Auth>
 					)}
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
-						<Button label={D.btnValid} />
+						<ValidationButton
+							object={operation}
+							callback={object => this.publishOperation(object)}
+						/>
 					</Auth>
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
@@ -118,6 +148,7 @@ const mapDispatchToProps = {
 	exportVariableBook,
 	saveSecondLang,
 	loadOperation,
+	publishOperation,
 };
 
 OperationVisualizationContainer = connect(

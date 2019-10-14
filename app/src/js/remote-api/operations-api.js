@@ -3,19 +3,17 @@ import simsApi from './operations/sims';
 import indicatorApi from './operations/indicator';
 import familyApi from './operations/family';
 import seriesApi from './operations/series';
+import operationsApi from './operations/operation';
 
 const api = {
 	...simsApi,
 	...indicatorApi,
 	...familyApi,
 	...seriesApi,
-	getOperationsList: () => ['operations'],
-
-	getOperationsSearchList: () => ['operations_search'],
+	...operationsApi,
 
 	getMetadataStructureList: () => ['metadataStructureDefinition'],
 	getMetadataAttributesList: () => ['metadataAttributes'],
-	getOperation: id => [`operation/${id}`],
 
 	getVarBookExport: (id, MimeType) => [
 		`operation/${id}/variableBook`,
@@ -26,30 +24,6 @@ const api = {
 			},
 		},
 		res => res,
-	],
-
-	putOperation: operation => [
-		`operation/${operation.id}`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(operation),
-		},
-		() => Promise.resolve(operation.id),
-	],
-	postOperation: operation => [
-		`operation`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(operation),
-		},
-		res => res.text(),
-	],
-	getOperationsWithoutReport: idSerie => [
-		`series/${idSerie}/operationsWithoutReport`,
 	],
 };
 
