@@ -14,7 +14,7 @@ describe('FamilyVisualizationContainer', () => {
 			{ match: { params: { id: '1' } } }
 		);
 		expect(result).toEqual({
-			family: {},
+			object: {},
 			id: '1',
 			langs: { lg1: 'lg1', lg2: 'lg2' },
 			secondLang: 'secondLang',
@@ -33,7 +33,7 @@ describe('FamilyVisualizationContainer', () => {
 			{ match: { params: { id: '1' } } }
 		);
 		expect(result).toEqual({
-			family: {},
+			object: {},
 			id: '1',
 			langs: { lg1: 'lg1', lg2: 'lg2' },
 			secondLang: 'secondLang',
