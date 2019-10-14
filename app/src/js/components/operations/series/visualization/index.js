@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
@@ -24,35 +24,21 @@ import PageTitleBlock from 'js/components/shared/page-title-block';
 import { containUnsupportedStyles } from 'js/utils/html';
 import ValidationButton from 'js/components/operations/shared/validationButton';
 import ErrorBloc from 'js/components/shared/error-bloc';
+import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
 
-class SeriesVisualizationContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {};
-	}
-
-	componentWillMount() {
+class SeriesVisualizationContainer extends VisualizationContainer {
+	componentDidMount() {
 		if (!this.props.serie.id) {
 			this.props.loadSerie(this.props.id);
 		}
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.serie.id !== nextProps.id) {
+		if (this.props.id !== nextProps.id) {
 			this.props.loadSerie(nextProps.id);
 		}
-	}
-
-	publishSeries(object) {
-		this.props.publishSeries(object, err => {
-			if (err) {
-				this.setState({
-					serverSideError: err,
-				});
-			}
-		});
 	}
 
 	render() {
@@ -116,7 +102,9 @@ class SeriesVisualizationContainer extends Component {
 					<Auth roles={[ADMIN, SERIES_CREATOR]}>
 						<ValidationButton
 							object={attr}
-							callback={object => this.publishSeries(object)}
+							callback={object =>
+								this.publish(object, this.props.publishSeries)
+							}
 							disabled={publicationDisabled}
 						/>
 					</Auth>

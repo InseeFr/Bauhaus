@@ -1,6 +1,14 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
-import { getItemFactory } from '../utils';
+
+import { getPublishFactory, getItemFactory } from '../utils';
+
+export const publishIndicator = getPublishFactory(
+	api.publishIndicator,
+	A.PUBLISH_OPERATIONS_INDICATOR,
+	A.PUBLISH_OPERATIONS_INDICATOR_SUCCESS,
+	A.PUBLISH_OPERATIONS_INDICATOR_FAILURE
+);
 
 export const saveIndicator = (indicator, callback) => dispatch => {
 	dispatch({

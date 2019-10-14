@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -28,10 +28,11 @@ import {
 import PageTitleBlock from 'js/components/shared/page-title-block';
 import ValidationButton from 'js/components/operations/shared/validationButton';
 import ErrorBloc from 'js/components/shared/error-bloc';
+import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
 
-class OperationVisualizationContainer extends Component {
+class OperationVisualizationContainer extends VisualizationContainer {
 	static propTypes = {
 		operation: PropTypes.object.isRequired,
 		id: PropTypes.string.isRequired,
@@ -42,11 +43,6 @@ class OperationVisualizationContainer extends Component {
 		saveSecondLang: PropTypes.func,
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {};
-	}
-
 	componentWillMount() {
 		if (!this.props.operation.id) {
 			this.props.loadOperation(this.props.id);
@@ -54,19 +50,9 @@ class OperationVisualizationContainer extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.operation.id !== nextProps.id) {
+		if (this.props.id !== nextProps.id) {
 			this.props.loadOperation(nextProps.id);
 		}
-	}
-
-	publishOperation(object) {
-		this.props.publishOperation(object, err => {
-			if (err) {
-				this.setState({
-					serverSideError: err,
-				});
-			}
-		});
 	}
 
 	render() {
@@ -110,7 +96,9 @@ class OperationVisualizationContainer extends Component {
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<ValidationButton
 							object={operation}
-							callback={object => this.publishOperation(object)}
+							callback={object =>
+								this.publish(object, this.props.publishOperation)
+							}
 						/>
 					</Auth>
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
