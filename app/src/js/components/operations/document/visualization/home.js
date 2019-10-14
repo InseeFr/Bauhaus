@@ -2,7 +2,7 @@ import { Note } from 'js/components/shared/note/note';
 import D from 'js/i18n';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { isDocument } from '../utils';
+import { isDocument, isLink } from '../utils';
 
 /**
  * @typedef OperationsDocumentationVisualizationProps
@@ -48,19 +48,49 @@ function OperationsDocumentationVisualization({
 					/>
 				</div>
 			)}
-			<div className="row">
-				<Note
-					text={
-						<a href={attr.url} rel="noopener noreferrer" target="_blank">
-							{attr.url}
-						</a>
-					}
-					title={D.titleLink}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
+			{isDocument(attr) && (
+				<div className="row">
+					<Note
+						text={
+							<a href={attr.url} rel="noopener noreferrer" target="_blank">
+								{attr.labelLg1}
+							</a>
+						}
+						title={D.titleLink}
+						lang={lg1}
+						alone={!secondLang}
+						allowEmpty={true}
+					/>
+					{secondLang && (
+						<Note
+							text={
+								<a href={attr.url} rel="noopener noreferrer" target="_blank">
+									{attr.labelLg2}
+								</a>
+							}
+							title={D.descriptionTitle}
+							lang={lg2}
+							alone={false}
+							allowEmpty={true}
+						/>
+					)}
+				</div>
+			)}
+			{isLink(attr) && (
+				<div className="row">
+					<Note
+						text={
+							<a href={attr.url} rel="noopener noreferrer" target="_blank">
+								{attr.url}
+							</a>
+						}
+						title={D.titleLink}
+						lang={lg1}
+						alone={true}
+						allowEmpty={true}
+					/>
+				</div>
+			)}
 		</React.Fragment>
 	);
 }
