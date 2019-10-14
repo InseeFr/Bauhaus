@@ -73,7 +73,7 @@ class SeriesVisualizationContainer extends Component {
 		 * The publication button should be enabled only if RICH_TEXT value do not
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
-		const publicationDisabled = false; //containUnsupportedStyles(attr);
+		const publicationDisabled = containUnsupportedStyles(attr);
 
 		return (
 			<div className="container">
