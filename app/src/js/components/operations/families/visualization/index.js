@@ -26,30 +26,19 @@ const extractId = buildExtract('id');
 
 class FamilyVisualizationContainer extends VisualizationContainer {
 	static propTypes = {
-		family: PropTypes.object,
+		object: PropTypes.object,
 		secondLang: PropTypes.bool,
 		langs: PropTypes.object,
 		saveSecondLang: PropTypes.func,
-		loadFamily: PropTypes.func,
+		load: PropTypes.func,
 		publishFamily: PropTypes.func,
 	};
-	componentDidMount() {
-		if (!this.props.family.id) {
-			this.props.loadFamily(this.props.id);
-		}
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (this.props.id !== nextProps.id) {
-			this.props.loadFamily(nextProps.id);
-		}
-	}
 
 	render() {
 		const {
 			secondLang,
 			langs,
-			family: { ...attr },
+			object: { ...attr },
 			saveSecondLang,
 		} = this.props;
 		const { serverSideError } = this.state;
@@ -108,14 +97,14 @@ export const mapStateToProps = (state, ownProps) => {
 	const family = select.getFamily(state);
 	return {
 		id,
-		family: family.id === id ? family : {},
+		object: family.id === id ? family : {},
 		langs: select.getLangs(state),
 		secondLang: getSecondLang(state),
 	};
 };
 const mapDispatchToProps = {
 	saveSecondLang,
-	loadFamily,
+	load: loadFamily,
 	publishFamily,
 };
 export default compose(

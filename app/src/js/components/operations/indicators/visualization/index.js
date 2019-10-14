@@ -26,22 +26,11 @@ import ErrorBloc from 'js/components/shared/error-bloc';
 
 const extractId = buildExtract('id');
 class IndicatorVisualizationContainer extends VisualizationContainer {
-	componentWillMount() {
-		if (!this.props.indicator.id) {
-			this.props.loadIndicator(this.props.id);
-		}
-	}
-	componentWillReceiveProps(nextProps) {
-		if (this.props.id !== nextProps.id) {
-			this.props.loadIndicator(nextProps.id);
-		}
-	}
-
 	render() {
 		const {
 			secondLang,
 			langs,
-			indicator: { ...attr },
+			object: { ...attr },
 			frequency,
 			organisations,
 		} = this.props;
@@ -125,7 +114,7 @@ export const mapStateToProps = (state, ownProps) => {
 	const organisations = state.operationsOrganisations.results || [];
 	return {
 		id,
-		indicator: indicator.id === id ? indicator : {},
+		object: indicator.id === id ? indicator : {},
 		langs: select.getLangs(state),
 		secondLang: getSecondLang(state),
 		frequency: frequencies.codes.find(
@@ -136,7 +125,7 @@ export const mapStateToProps = (state, ownProps) => {
 };
 const mapDispatchToProps = {
 	saveSecondLang,
-	loadIndicator,
+	load: loadIndicator,
 	publishIndicator,
 };
 export default withRouter(

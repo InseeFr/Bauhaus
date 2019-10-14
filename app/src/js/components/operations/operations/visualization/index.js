@@ -43,20 +43,14 @@ class OperationVisualizationContainer extends VisualizationContainer {
 		saveSecondLang: PropTypes.func,
 	};
 
-	componentWillMount() {
-		if (!this.props.operation.id) {
-			this.props.loadOperation(this.props.id);
-		}
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (this.props.id !== nextProps.id) {
-			this.props.loadOperation(nextProps.id);
-		}
-	}
-
 	render() {
-		const { id, operation, langs, secondLang, saveSecondLang } = this.props;
+		const {
+			id,
+			object: { ...operation },
+			langs,
+			secondLang,
+			saveSecondLang,
+		} = this.props;
 		const { serverSideError } = this.state;
 
 		if (!operation.id) return <Loading textType="loading" />;
@@ -125,7 +119,7 @@ export const mapStateToProps = (state, ownProps) => {
 	const operation = select.getOperation(state);
 	return {
 		id,
-		operation: id === operation.id ? operation : {},
+		object: id === operation.id ? operation : {},
 		exportStatus: select.getStatus(state, EXPORT_VARBOOK),
 		langs: select.getLangs(state),
 		secondLang: getSecondLang(state),
@@ -135,7 +129,7 @@ export const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	exportVariableBook,
 	saveSecondLang,
-	loadOperation,
+	load: loadOperation,
 	publishOperation,
 };
 

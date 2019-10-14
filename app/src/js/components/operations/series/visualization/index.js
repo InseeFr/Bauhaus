@@ -29,23 +29,11 @@ import VisualizationContainer from 'js/components/operations/shared/vizualisatio
 const extractId = buildExtract('id');
 
 class SeriesVisualizationContainer extends VisualizationContainer {
-	componentDidMount() {
-		if (!this.props.serie.id) {
-			this.props.loadSerie(this.props.id);
-		}
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (this.props.id !== nextProps.id) {
-			this.props.loadSerie(nextProps.id);
-		}
-	}
-
 	render() {
 		const {
 			secondLang,
 			langs,
-			serie: { ...attr },
+			object: { ...attr },
 			frequency,
 			category,
 			organisations,
@@ -138,7 +126,7 @@ const mapStateToProps = (state, ownProps) => {
 
 	return {
 		id,
-		serie: serie.id === id ? serie : {},
+		object: serie.id === id ? serie : {},
 		langs: select.getLangs(state),
 		secondLang: getSecondLang(state),
 		frequency: frequencies.codes.find(
@@ -150,7 +138,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 const mapDispatchToProps = {
 	saveSecondLang,
-	loadSerie,
+	load: loadSerie,
 	publishSeries,
 };
 
