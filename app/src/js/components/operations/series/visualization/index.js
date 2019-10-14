@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 import buildExtract from 'js/utils/build-extract';
 import OperationsSerieVisualization from 'js/components/operations/series/visualization/home';
 import Loading from 'js/components/shared/loading';
-import loadSerie from 'js/actions/operations/series/item';
+import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import Button from 'js/components/shared/button';
 import { getSecondLang } from 'js/reducers/app';
@@ -22,10 +22,17 @@ import {
 import Auth from 'js/utils/auth/components/auth';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 import { containUnsupportedStyles } from 'js/utils/html';
+import ValidationButton from 'js/components/operations/shared/validationButton';
+import ErrorBloc from 'js/components/shared/error-bloc';
 
 const extractId = buildExtract('id');
 
 class SeriesVisualizationContainer extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+
 	componentWillMount() {
 		if (!this.props.serie.id) {
 			this.props.loadSerie(this.props.id);
@@ -33,10 +40,21 @@ class SeriesVisualizationContainer extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.id !== nextProps.id) {
+		if (this.props.serie.id !== nextProps.id) {
 			this.props.loadSerie(nextProps.id);
 		}
 	}
+
+	publishSeries(object) {
+		this.props.publishSeries(object, err => {
+			if (err) {
+				this.setState({
+					serverSideError: err,
+				});
+			}
+		});
+	}
+
 	render() {
 		const {
 			secondLang,
@@ -46,6 +64,7 @@ class SeriesVisualizationContainer extends Component {
 			category,
 			organisations,
 		} = this.props;
+		const { serverSideError } = this.state;
 
 		const ableToCreateASimsForThisSeries = (attr.operations || []).length === 0;
 		if (!attr.id) return <Loading textType="loading" />;
@@ -54,7 +73,7 @@ class SeriesVisualizationContainer extends Component {
 		 * The publication button should be enabled only if RICH_TEXT value do not
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
-		const publicationDisabled = containUnsupportedStyles(attr);
+		const publicationDisabled = false; //containUnsupportedStyles(attr);
 
 		return (
 			<div className="container">
@@ -75,7 +94,7 @@ class SeriesVisualizationContainer extends Component {
 						label={D.btnReturn}
 					/>
 
-					<div className="empty-center" />
+					<ErrorBloc error={serverSideError} />
 
 					{attr.idSims && (
 						<Button
@@ -95,7 +114,11 @@ class SeriesVisualizationContainer extends Component {
 						</Auth>
 					)}
 					<Auth roles={[ADMIN, SERIES_CREATOR]}>
-						<Button disabled={publicationDisabled} label={D.btnValid} />
+						<ValidationButton
+							object={attr}
+							callback={object => this.publishSeries(object)}
+							disabled={publicationDisabled}
+						/>
 					</Auth>
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
@@ -119,7 +142,7 @@ class SeriesVisualizationContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
-	const serie = select.getSerie(state, id);
+	const serie = select.getSerie(state);
 	const categories =
 		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
 	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
@@ -140,6 +163,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	saveSecondLang,
 	loadSerie,
+	publishSeries,
 };
 
 export default withRouter(

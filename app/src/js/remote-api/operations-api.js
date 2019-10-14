@@ -2,22 +2,21 @@ import buildApi from './build-api';
 import simsApi from './operations/sims';
 import indicatorApi from './operations/indicator';
 import familyApi from './operations/family';
+import seriesApi from './operations/series';
 
 const api = {
 	...simsApi,
 	...indicatorApi,
 	...familyApi,
-
-	getSeriesList: () => ['series/withSims'],
+	...seriesApi,
 	getOperationsList: () => ['operations'],
 
-	getSeriesSearchList: () => ['series_search'],
 	getOperationsSearchList: () => ['operations_search'],
 
 	getMetadataStructureList: () => ['metadataStructureDefinition'],
 	getMetadataAttributesList: () => ['metadataAttributes'],
 	getOperation: id => [`operation/${id}`],
-	getSerie: id => [`series/${id}`],
+
 	getVarBookExport: (id, MimeType) => [
 		`operation/${id}/variableBook`,
 		{
@@ -29,26 +28,6 @@ const api = {
 		res => res,
 	],
 
-	putSeries: series => [
-		`series/${series.id}`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(series),
-		},
-		() => Promise.resolve(series.id),
-	],
-	postSeries: series => [
-		`series`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(series),
-		},
-		res => res.text(),
-	],
 	putOperation: operation => [
 		`operation/${operation.id}`,
 		{
