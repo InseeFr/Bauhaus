@@ -76,6 +76,7 @@ export const operationsSimsCurrent = function(state = {}, action) {
 		case A.SAVE_OPERATIONS_SIMS:
 			return action.payload;
 		case A.SAVE_OPERATIONS_SIMS_SUCCESS:
+		case A.PUBLISH_OPERATIONS_SIMS_SUCCESS:
 			//When we save an item, we reset the current item stored in the store in order to send a new GET HTTP request
 			return {};
 		default:

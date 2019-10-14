@@ -3,6 +3,15 @@ import * as A from 'js/actions/constants';
 import { LOADING } from 'js/constants';
 import { getLabelsFromParent } from 'js/utils/msd';
 
+import { getPublishFactory } from '../utils';
+
+export const publishSims = getPublishFactory(
+	api.publishSeries,
+	A.PUBLISH_OPERATIONS_SIMS,
+	A.PUBLISH_OPERATIONS_SIMS_SUCCESS,
+	A.PUBLISH_OPERATIONS_SIMS_FAILURE
+);
+
 /**
  * Method used to merge a SIMS with the label of its corresponding
  * parent.
