@@ -7,7 +7,8 @@ Bauhaus is a single page application built with [React](https://facebook.github.
 yarn install
 # Compiles the code and starts a minimal web server
 yarn start
-```
+`
+We discovered an error when using the command `yarn start` with a path containing accentuated characters. If this is also the case for you, you can also usr the command `npm start` instead of `yarn start`.
 
 Application needs externals Web services : Bauhaus-Back-Office(https://github.com/InseeFr/Bauhaus-Back-Office).
 
@@ -46,3 +47,4 @@ If you have to define SCSS mixin, you have to define them in the `src/styles/mix
 
 In order to avoid big i18n file, we try to split this file in smaller files, based on `page` or `feature`. For example, we have a `src/js/i18n/dictionary/operations/documents.js` file for all messages dedicated to the documents feature.
 This files have to be imported directly or not in the main file `js/i18n/dictionary/app.js`.
+```
