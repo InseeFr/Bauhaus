@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Panel from 'js/components/shared/panel';
+import { Panel } from 'bauhaus-library';
 
 function ConceptToLink({ title, memberEls, searchComponent }) {
 	return (

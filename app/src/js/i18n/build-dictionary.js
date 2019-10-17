@@ -3,6 +3,7 @@ import conceptsD from './dictionary/concepts';
 import classificationsD from './dictionary/classifications';
 import operationsD from './dictionary/operations/index.js';
 import DSDsD from './dictionary/dsds';
+import bauhausLibrary from './dictionary/bauhaus-library.js';
 
 import 'moment/locale/en-gb';
 import 'moment/locale/fr';
@@ -13,6 +14,7 @@ const dictionary = {
 	...classificationsD,
 	...operationsD,
 	...DSDsD,
+	...bauhausLibrary,
 };
 
 /**
@@ -75,6 +77,8 @@ export const getMessageForSecondLang = message => {
 	return dictionary[message][secondLang];
 };
 
+export const D2 = createDictionary(secondLang);
+
 export default createDictionary(getLang());
 
-export const bauhausLibraryDictionary = createDictionary(getLang(), dictionary);
+export const bauhausLibraryDictionary = createDictionary(getLang());

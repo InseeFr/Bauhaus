@@ -43,8 +43,6 @@ class DocumentationVisualizationContainer extends Component {
 
 		return (
 			<div className="container">
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
-
 				<PageTitleBlock
 					titleLg1={document.labelLg1 || document.labelLg2}
 					titleLg2={document.labelLg2}
@@ -65,6 +63,8 @@ class DocumentationVisualizationContainer extends Component {
 						/>
 					</Auth>
 				</div>
+				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+
 				<OperationsDocumentVisualization
 					id={id}
 					attr={document}

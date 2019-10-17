@@ -1,4 +1,4 @@
-import D from 'js/i18n';
+import D, { D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { goBack, goBackOrReplace } from 'js/utils/redirection';
@@ -8,7 +8,6 @@ import {
 } from 'js/components/shared/button-with-icon';
 import Loading from 'js/components/shared/loading';
 import SelectRmes from 'js/components/shared/select-rmes';
-import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import ErrorBloc from 'js/components/shared/error-bloc';
@@ -110,7 +109,6 @@ class OperationsSerieEdition extends Component {
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
 		const {
-			langs: { lg1, lg2 },
 			frequencies,
 			categories,
 			organisations,
@@ -186,7 +184,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg1">
-								<NoteFlag text={D.title} lang={lg1} />
+								{D.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -200,7 +198,7 @@ class OperationsSerieEdition extends Component {
 						</div>
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg2">
-								<NoteFlag text={D.title} lang={lg2} />
+								{D2.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -215,9 +213,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="altLabelLg1">
-								<NoteFlag text={D.altLabel} lang={lg1} />
-							</label>
+							<label htmlFor="altLabelLg1">{D.altLabel}</label>
 							<input
 								type="text"
 								className="form-control"
@@ -227,9 +223,7 @@ class OperationsSerieEdition extends Component {
 							/>
 						</div>
 						<div className="form-group col-md-6">
-							<label htmlFor="altLabel2">
-								<NoteFlag text={D.altLabel} lang={lg2} />
-							</label>
+							<label htmlFor="altLabel2">{D2.altLabel}</label>
 							<input
 								type="text"
 								className="form-control"
@@ -241,9 +235,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="abstractLg1">
-								<NoteFlag text={D.summary} lang={lg1} />
-							</label>
+							<label htmlFor="abstractLg1">{D.summary}</label>
 							<EditorMarkdown
 								text={serie.abstractLg1}
 								handleChange={value =>
@@ -252,9 +244,7 @@ class OperationsSerieEdition extends Component {
 							/>
 						</div>
 						<div className="form-group col-md-6">
-							<label htmlFor="abstractLg2">
-								<NoteFlag text={D.summary} lang={lg2} />
-							</label>
+							<label htmlFor="abstractLg2">{D2.summary} ></label>
 							<EditorMarkdown
 								text={serie.abstractLg2}
 								handleChange={value =>
@@ -265,9 +255,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="historyNoteLg1">
-								<NoteFlag text={D.history} lang={lg1} />
-							</label>
+							<label htmlFor="historyNoteLg1">{D.history}</label>
 							<EditorMarkdown
 								text={serie.historyNoteLg1}
 								handleChange={value =>
@@ -276,9 +264,7 @@ class OperationsSerieEdition extends Component {
 							/>
 						</div>
 						<div className="form-group col-md-6">
-							<label htmlFor="historyNoteLg2">
-								<NoteFlag text={D.history} lang={lg2} />
-							</label>
+							<label htmlFor="historyNoteLg2">{D2.history}</label>
 							<EditorMarkdown
 								text={serie.historyNoteLg2}
 								handleChange={value =>

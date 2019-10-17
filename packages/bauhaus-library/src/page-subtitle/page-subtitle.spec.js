@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import PageSubtitle from './';
+jest.mock('../');
 
 describe('page-subTitle', () => {
 	it('renders without crashing', () => {
@@ -15,13 +16,5 @@ describe('page-subTitle', () => {
 	it('returns component into row', () => {
 		const wrapper = shallow(<PageSubtitle subTitle="subTitle" />);
 		expect(wrapper.find('.row')).toHaveLength(1);
-	});
-
-	it('returns component with context', () => {
-		const wrapper = shallow(
-			<PageSubtitle subTitle="subTitle" context="classifications" />
-		);
-		expect(wrapper.find('.page-subtitle')).toHaveLength(0);
-		expect(wrapper.find('.page-subtitle-classifications')).toHaveLength(1);
 	});
 });

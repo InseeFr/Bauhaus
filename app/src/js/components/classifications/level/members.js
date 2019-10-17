@@ -1,7 +1,7 @@
 import React from 'react';
-import Panel from 'js/components/shared/panel';
-import SearchRmes from 'js/components/shared/search-rmes/search-rmes';
-import D from 'js/i18n';
+import { Panel } from 'bauhaus-library';
+import { SearchRmes } from 'bauhaus-library';
+import D, { D2 } from 'js/i18n';
 
 export default ({ members, classificationId, secondLang }) => {
 	const membersLg1 = members.map(({ id, labelLg1 }, i) => ({
@@ -30,25 +30,24 @@ export default ({ members, classificationId, secondLang }) => {
 					</div>
 				</Panel>
 			</div>
-			{secondLang &&
-				membersLg2.length !== 0 && (
-					<div className="col-md-6">
-						<Panel
-							title={D.childrenClassificationItems}
-							context="classifications"
-						>
-							<div className="centered">
-								<SearchRmes
-									items={membersLg2}
-									childPath={`classifications/classification/${classificationId}/item`}
-									context="classifications"
-									col={12}
-									colOff={0}
-								/>
-							</div>
-						</Panel>
-					</div>
-				)}
+			{secondLang && membersLg2.length !== 0 && (
+				<div className="col-md-6">
+					<Panel
+						title={D2.childrenClassificationItems}
+						context="classifications"
+					>
+						<div className="centered">
+							<SearchRmes
+								items={membersLg2}
+								childPath={`classifications/classification/${classificationId}/item`}
+								context="classifications"
+								col={12}
+								colOff={0}
+							/>
+						</div>
+					</Panel>
+				</div>
+			)}
 		</div>
 	);
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import PageTitle from 'js/components/shared/page-title';
-import SearchRmes from 'js/components/shared/search-rmes/search-rmes';
+import { PageTitle } from 'bauhaus-library';
+import { SearchRmes } from 'bauhaus-library';
 import D from 'js/i18n';
 import { Link } from 'react-router-dom';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';

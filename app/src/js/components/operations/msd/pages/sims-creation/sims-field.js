@@ -6,7 +6,7 @@ import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import SelectRmes from 'js/components/shared/select-rmes';
-import { Note } from 'js/components/shared/note/note';
+import { Note } from 'bauhaus-library';
 import { isLink, isDocument } from 'js/components/operations/document/utils';
 import './sims-field.scss';
 import DocumentsBloc from '../../documents/documents-bloc';

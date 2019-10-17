@@ -1,32 +1,29 @@
+@import 'src/styles/mixin.scss';
+
 .img-menu {
 	height: 60px;
 	padding: 0;
 	width: auto;
 }
 .navbar-default-ref {
-	background: #484747;
+	background: #dddade;
 	font-size: 20px;
-	font-family: arial;
-	color: #fff;
+	color: #45374e;
 	margin-bottom: 0;
-	border-top: 0;
-	border-bottom: 0;
+	border: 0;
+	border-radius: 0;
 
-	.navbar-nav-ref > .active > a,
-	.navbar-nav-ref > .active > a:hover,
-	.navbar-nav-ref > .active > a:focus {
-		background: #484747;
-		color: #fff;
-	}
+	.navbar-nav-ref > li {
+		padding: 0 20px;
 
-	.navbar-nav-ref > li > a {
-		color: #fff;
-		width: 250px;
-
-		&:hover {
+		&:not(:nth-child(5)):after {
+			@include list-item-separator(white);
+		}
+		> a {
 			text-decoration: none;
-			background-color: #808080;
-			color: #fff;
+			font-size: medium;
+			font-family: 'Barlow', sans-serif;
+			padding: 10px;
 		}
 	}
 }

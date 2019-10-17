@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Search from '.';
+jest.mock('../');
 
 const items = Array.apply(null, Array(50)).map((a, i) => ({
 	id: `${i + 1}`,

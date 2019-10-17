@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import SendControls from './controls';
 import EditorHtml from 'js/components/shared/editor-html/';
 import D from 'js/i18n';

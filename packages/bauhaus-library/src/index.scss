@@ -1,36 +1,23 @@
 @import 'src/styles/mixin.scss';
-
-$color_concepts_1: #044173;
-$color_concepts_2: #234ca5;
-$color_concepts_3: #457dbb;
-$color_concepts_4: #5d87e8;
+$color_concepts_1: #91b5d0;
+$color_concepts_2: #425d84;
+$color_concepts_3: #5f7a96;
 
 // Define classifications colors
 $color_classifications_1: #417324;
 $color_classifications_2: #53872a;
 $color_classifications_3: #419f2e;
-$color_classifications_4: #85c630;
 
 // Define operations colors
-$color_operations_1: #6f1417;
-$color_operations_2: #6f1417;
-$color_operations_3: #a31c20;
-$color_operations_4: #db2754;
+$color_operations_1: #a96d88;
+$color_operations_2: #7e375b;
+$color_operations_3: #600141;
 
 // Define DSDs colors
 $color_dsds_1: #99004d;
 $color_dsds_2: #ff0080;
 $color_dsds_3: #ff66b3;
-$color_dsds_4: #ffb3d9;
 
-body {
-	margin: 0;
-	padding: 0;
-	font-family: sans-serif;
-}
-a {
-	color: #045396;
-}
 .inline {
 	display: inline;
 }

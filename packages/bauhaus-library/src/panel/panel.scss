@@ -1,63 +1,33 @@
 @import 'src/index.scss';
 
-.panel-concepts {
-	border-color: $color_concepts_3;
-	> .panel-heading {
-		background: $color_concepts_3;
-		color: #fff;
-		border-color: $color_concepts_3;
-	}
-
-	> .panel-body {
-		background: #f3f3f3;
-		border-color: $color_concepts_3;
-	}
-}
-
-.panel-classifications {
-	border-color: $color_classifications_3;
-	> .panel-heading {
-		background: $color_classifications_3;
-		color: #fff;
-		border-color: $color_classifications_3;
-	}
-
-	> .panel-body {
-		background: #f3f3f3;
-		border-color: $color_classifications_3;
-	}
-}
-
-.panel-operations {
-	background: #f3f3f3;
-	border-color: $color_operations_3;
+@mixin note($color1, $color2) {
 	height: 100%;
-
-	> .panel-heading {
-		background: $color_operations_3;
+	&:nth-child(2) .panel-heading {
+		background: $color2;
+	}
+	&:nth-child(1) .panel-heading {
+		background: $color1;
+	}
+	.panel-heading {
 		color: #fff;
-		border-color: $color_operations_3;
 	}
 
-	> .panel-body {
-		background: #f3f3f3;
-		border-color: $color_operations_3;
+	.panel-body {
+		background: white;
+		box-shadow: 1px 2px #b4b4b4;
 	}
 }
+.note-concepts {
+	@include note($color_concepts_2, $color_concepts_1);
+}
 
-.panel-dsds {
-	background: #f3f3f3;
-	border-color: $color_dsds_3;
-	height: 100%;
+.note-classifications {
+	@include note($color_classifications_2, $color_classifications_1);
+}
+.note-operations {
+	@include note($color_operations_2, $color_operations_1);
+}
 
-	> .panel-heading {
-		background: $color_dsds_3;
-		color: #fff;
-		border-color: $color_dsds_3;
-	}
-
-	> .panel-body {
-		background: #f3f3f3;
-		border-color: $color_dsds_3;
-	}
+.note-dsds {
+	@include note($color_dsds_2, $color_dsds_1);
 }

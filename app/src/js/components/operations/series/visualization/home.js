@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Note } from 'js/components/shared/note/note';
-import D from 'js/i18n';
+import { Note } from 'bauhaus-library';
+import D, { D2 } from 'js/i18n';
 import RelationsView from 'js/components/operations/shared/relations';
 import DisplayLinks from 'js/components/operations/shared/links/';
 import SeeAlso from 'js/components/operations/shared/seeAlso';
@@ -42,7 +42,7 @@ function OperationsSerieVisualization({
 				{secondLang && (
 					<Note
 						text={attr.altLabelLg2}
-						title={D.altLabel}
+						title={D2.altLabel}
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
@@ -61,7 +61,7 @@ function OperationsSerieVisualization({
 				{secondLang && (
 					<Note
 						text={attr.abstractLg2}
-						title={D.summary}
+						title={D2.summary}
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
@@ -82,7 +82,7 @@ function OperationsSerieVisualization({
 				{secondLang && (
 					<Note
 						text={attr.historyNoteLg2}
-						title={D.history}
+						title={D2.history}
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
@@ -102,7 +102,7 @@ function OperationsSerieVisualization({
 				{secondLang && (
 					<Note
 						text={category.labelLg2}
-						title={D.operationType}
+						title={D2.operationType}
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
@@ -121,7 +121,7 @@ function OperationsSerieVisualization({
 				{secondLang && (
 					<Note
 						text={frequency.labelLg2}
-						title={D.dataCollectFrequency}
+						title={D2.dataCollectFrequency}
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
@@ -141,7 +141,7 @@ function OperationsSerieVisualization({
 
 			<DisplayLinks
 				links={contributor}
-				title={D.stakeholders}
+				title={'stakeholders'}
 				langs={langs}
 				secondLang={false}
 				displayLink={false}
@@ -149,7 +149,7 @@ function OperationsSerieVisualization({
 			/>
 			<DisplayLinks
 				links={dataCollector}
-				title={D.dataCollector}
+				title={'dataCollector'}
 				langs={langs}
 				secondLang={false}
 				displayLink={false}
@@ -168,21 +168,21 @@ function OperationsSerieVisualization({
 			<DisplayLinks
 				links={attr.replaces}
 				path={'/operations/series/'}
-				title={D.replaces}
+				title={'replaces'}
 				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.isReplacedBy}
 				path={'/operations/series/'}
-				title={D.replacedBy}
+				title={'replacedBy'}
 				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.generate}
 				path={'/operations/indicator/'}
-				title={D.indicators}
+				title={'indicators'}
 				langs={langs}
 				secondLang={secondLang}
 			/>
@@ -196,7 +196,7 @@ function OperationsSerieVisualization({
 				parent={attr.family}
 				parentTitle={D.parentFamilly}
 				parentPath="family"
-				title={D.linksTitle}
+				title={'linksTitle'}
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>

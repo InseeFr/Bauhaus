@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import PageTitle from 'js/components/shared/page-title';
-import PageSubtitle from 'js/components/shared/page-subtitle';
+import { PageTitle } from 'bauhaus-library';
+import { PageSubtitle } from 'bauhaus-library';
 import Controls from './controls';
 import General from './general';
 import Members from './members';
 
 class LevelVisualization extends Component {
 	render() {
-		const { level: { general, members }, secondLang } = this.props;
+		const {
+			level: { general, members },
+			secondLang,
+		} = this.props;
 		const { classificationId } = general;
 		return (
 			<div className="container">
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
 				<PageTitle title={general.prefLabelLg1} context="classifications" />
 				{general.prefLabelLg2 && (
 					<PageSubtitle
@@ -24,6 +23,10 @@ class LevelVisualization extends Component {
 					/>
 				)}
 				<Controls id={classificationId} />
+				<CheckSecondLang
+					secondLang={secondLang}
+					onChange={this.props.saveSecondLang}
+				/>
 				<General
 					general={general}
 					classificationId={classificationId}

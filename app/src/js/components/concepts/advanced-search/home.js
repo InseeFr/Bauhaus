@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import Controls from './controls';
 import SelectRmes from 'js/components/shared/select-rmes';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import D from 'js/i18n';
-import Pagination from 'js/components/shared/pagination';
+import { Pagination } from 'bauhaus-library';
 import {
 	filterKeyDeburr,
 	filterKeyDate,
@@ -253,11 +253,7 @@ class ConceptSearchList extends Component {
 							<h4>{nbResults(hitEls)}</h4>
 						</div>
 						<div>
-							<Pagination
-								itemEls={hitEls}
-								itemsPerPage="10"
-								context="concepts"
-							/>
+							<Pagination itemEls={hitEls} itemsPerPage="10" />
 						</div>
 					</div>
 				</div>
