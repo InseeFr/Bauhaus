@@ -1,37 +1,24 @@
 @import 'src/index.scss';
 
-.page-title {
-	border: 2px solid $color_concepts_1;
-	background-color: $color_concepts_1;
-	color: white;
-	border-radius: 6px;
+@mixin page-title() {
+	font-family: 'Frank Ruhl Libre', serif;
+	color: #45374e;
+	font-size: 26.5pt;
 	padding: 10px;
 	margin-bottom: 20px;
+}
+.page-title {
+	@include page-title();
 }
 
 .page-title-classifications {
-	border: 2px solid $color_classifications_1;
-	background-color: $color_classifications_1;
-	color: white;
-	border-radius: 6px;
-	padding: 10px;
-	margin-bottom: 20px;
+	@include page-title();
 }
 
 .page-title-operations {
-	border: 2px solid $color_operations_1;
-	background-color: $color_operations_1;
-	color: white;
-	border-radius: 6px;
-	padding: 10px;
-	margin-bottom: 20px;
+	@include page-title();
 }
 
 .page-title-dsds {
-	border: 2px solid $color_dsds_1;
-	background-color: $color_dsds_1;
-	color: white;
-	border-radius: 6px;
-	padding: 10px;
-	margin-bottom: 20px;
+	@include page-title();
 }

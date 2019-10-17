@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import Button from 'js/components/shared/button';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
@@ -8,7 +8,9 @@ import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 
 class ConceptVisualizationStandBy extends Component {
 	render() {
-		const { general: { prefLabelLg1, creator } } = this.props;
+		const {
+			general: { prefLabelLg1, creator },
+		} = this.props;
 		return (
 			<div className="container">
 				<PageTitle title={prefLabelLg1} />

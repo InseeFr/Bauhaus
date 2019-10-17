@@ -1,0 +1,20 @@
+@import 'src/index.scss';
+
+@mixin page-subtitle($color) {
+	font-size: 13pt;
+	font-weight: bold;
+	color: $color;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+.page-subtitle-concepts {
+	@include page-subtitle($color_concepts_3);
+}
+
+.page-subtitle-classifications {
+	@include page-subtitle($color_classifications_3);
+}
+
+.page-subtitle-operations {
+	@include page-subtitle($color_operations_3);
+}

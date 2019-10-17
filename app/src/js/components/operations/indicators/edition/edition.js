@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import D from 'js/i18n';
-import NoteFlag from 'js/components/shared/note-flag/note-flag';
+import D, { D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import { CL_FREQ } from 'js/actions/constants/codeList';
@@ -104,13 +103,7 @@ class OperationsIndicatorEdition extends Component {
 	render() {
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
-		const {
-			langs: { lg1, lg2 },
-			frequencies,
-			organisations,
-			indicators,
-			series,
-		} = this.props;
+		const { frequencies, organisations, indicators, series } = this.props;
 		const isUpdate = !!this.state.indicator.id;
 		const indicator = {
 			...this.state.indicator,
@@ -164,7 +157,6 @@ class OperationsIndicatorEdition extends Component {
 							colMd={6}
 							value={indicator.prefLabelLg1}
 							label={D.title}
-							lang={lg1}
 							star
 							handleChange={this.onChanges.prefLabelLg1}
 							arias={{
@@ -174,8 +166,7 @@ class OperationsIndicatorEdition extends Component {
 						<InputRmes
 							colMd={6}
 							value={indicator.prefLabelLg2}
-							label={D.title}
-							lang={lg2}
+							label={D2.title}
 							star
 							handleChange={this.onChanges.prefLabelLg2}
 							arias={{
@@ -188,31 +179,25 @@ class OperationsIndicatorEdition extends Component {
 							colMd={6}
 							value={indicator.altLabelLg1}
 							label={D.altLabel}
-							lang={lg1}
 							handleChange={this.onChanges.altLabelLg1}
 						/>
 						<InputRmes
 							colMd={6}
 							value={indicator.altLabelLg2}
-							label={D.altLabel}
-							lang={lg2}
+							label={D2.altLabel}
 							handleChange={this.onChanges.altLabelLg2}
 						/>
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="abstractLg1">
-								<NoteFlag text={D.summary} lang={lg1} />
-							</label>
+							<label htmlFor="abstractLg1">{D.summary}</label>
 							<EditorMarkdown
 								text={indicator.abstractLg1}
 								handleChange={this.onChanges.abstractLg1}
 							/>
 						</div>
 						<div className="form-group col-md-6">
-							<label htmlFor="abstractLg2">
-								<NoteFlag text={D.summary} lang={lg2} />
-							</label>
+							<label htmlFor="abstractLg2">{D2.summary}</label>
 							<EditorMarkdown
 								text={indicator.abstractLg2}
 								handleChange={this.onChanges.abstractLg2}
@@ -221,18 +206,14 @@ class OperationsIndicatorEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="historyNoteLg1">
-								<NoteFlag text={D.history} lang={lg1} />
-							</label>
+							<label htmlFor="historyNoteLg1">{D.history}</label>
 							<EditorMarkdown
 								text={indicator.historyNoteLg1}
 								handleChange={this.onChanges.historyNoteLg1}
 							/>
 						</div>
 						<div className="form-group col-md-6">
-							<label htmlFor="historyNoteLg2">
-								<NoteFlag text={D.history} lang={lg2} />
-							</label>
+							<label htmlFor="historyNoteLg2">{D2.history}</label>
 							<EditorMarkdown
 								text={indicator.historyNoteLg2}
 								handleChange={this.onChanges.historyNoteLg2}

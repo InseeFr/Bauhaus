@@ -51,11 +51,6 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 
 		return (
 			<div className="container">
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
-
 				<PageTitleBlock
 					titleLg1={attr.prefLabelLg1}
 					titleLg2={attr.prefLabelLg2}
@@ -103,6 +98,11 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth>
 				</div>
+
+				<CheckSecondLang
+					secondLang={secondLang}
+					onChange={this.props.saveSecondLang}
+				/>
 				<OperationsSerieVisualization
 					secondLang={secondLang}
 					attr={attr}

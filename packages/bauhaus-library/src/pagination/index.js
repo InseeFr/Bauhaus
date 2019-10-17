@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './pagination.scss';
+import { getApplicationContext } from '../';
 
 function checkInvalidPage(targetPage, listSize) {
 	return targetPage === 0 || targetPage > listSize;
@@ -15,15 +16,8 @@ class Pagination extends Component {
 	static propTypes = {
 		itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
 		itemsPerPage: PropTypes.string.isRequired,
-		context: PropTypes.oneOf([
-			'',
-			'concepts',
-			'collections',
-			'classifications',
-			'operations',
-			'dsds',
-		]),
 	};
+	static contextType = getApplicationContext();
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -44,7 +38,7 @@ class Pagination extends Component {
 
 	render() {
 		const { currentPage } = this.state;
-		const { itemEls, itemsPerPage, context } = this.props;
+		const { itemEls, itemsPerPage } = this.props;
 
 		if (!itemsPerPage) return null;
 
@@ -81,7 +75,7 @@ class Pagination extends Component {
 				);
 			});
 
-		const contextCSS = context ? `pg-rmes-${context}` : '';
+		const contextCSS = this.context ? `pg-rmes-${this.context}` : '';
 		return (
 			<React.Fragment>
 				<ul className="list-group">{currentItems}</ul>

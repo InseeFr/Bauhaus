@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import D from 'js/i18n';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import Button from 'js/components/shared/button';
-import Panel from 'js/components/shared/panel';
-import Pagination from 'js/components/shared/pagination';
+import { Panel } from 'bauhaus-library';
+import { Pagination } from 'bauhaus-library';
 import Item from 'js/components/shared/picker-item';
 import { filterDeburr } from 'js/utils/array-utils';
 import addLogo from 'js/components/shared/logo/logo-add';
@@ -155,11 +155,7 @@ class Picker extends Component {
 								placeholder={D.searchLabelPlaceholder}
 								className="form-control"
 							/>
-							<Pagination
-								itemEls={toAddEls}
-								itemsPerPage="10"
-								context={context}
-							/>
+							<Pagination itemEls={toAddEls} itemsPerPage="10" />
 						</div>
 					</div>
 				</div>

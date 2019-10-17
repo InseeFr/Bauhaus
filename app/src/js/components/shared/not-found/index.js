@@ -1,5 +1,5 @@
 import React from 'react';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import Button from 'js/components/shared/button';
 import D from 'js/i18n';
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import D from 'js/i18n';
+import D, { D2 } from 'js/i18n';
 import { goBackOrReplace, goBack } from 'js/utils/redirection';
-import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import {
@@ -78,9 +77,6 @@ class OperationsFamilyEdition extends Component {
 	render() {
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
-		const {
-			langs: { lg1, lg2 },
-		} = this.props;
 		const { family, serverSideError } = this.state;
 		const isEditing = !!family.id;
 
@@ -108,7 +104,7 @@ class OperationsFamilyEdition extends Component {
 					<div className="row">
 						<div className="col-md-6 form-group">
 							<label htmlFor="prefLabelLg1">
-								<NoteFlag text={D.title} lang={lg1} />
+								{D.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -122,7 +118,7 @@ class OperationsFamilyEdition extends Component {
 						</div>
 						<div className="col-md-6 form-group">
 							<label htmlFor="prefLabelLg2">
-								<NoteFlag text={D.title} lang={lg2} />
+								{D2.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -137,9 +133,7 @@ class OperationsFamilyEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="col-md-6 form-group">
-							<label htmlFor="themeLg1">
-								<NoteFlag text={D.theme} lang={lg1} />
-							</label>
+							<label htmlFor="themeLg1">{D2.theme}</label>
 							<input
 								type="text"
 								className="form-control"
@@ -149,9 +143,7 @@ class OperationsFamilyEdition extends Component {
 							/>
 						</div>
 						<div className="col-md-6 form-group">
-							<label htmlFor="themeLg2">
-								<NoteFlag text={D.theme} lang={lg2} />
-							</label>
+							<label htmlFor="themeLg2">{D2.theme}</label>
 							<input
 								type="text"
 								className="form-control"
@@ -163,9 +155,7 @@ class OperationsFamilyEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="col-md-6 form-group">
-							<label htmlFor="abstractLg1">
-								<NoteFlag text={D.summary} lang={lg1} />
-							</label>
+							<label htmlFor="abstractLg1">{D.summary}</label>
 							<EditorMarkdown
 								text={family.abstractLg1}
 								handleChange={value =>
@@ -174,9 +164,7 @@ class OperationsFamilyEdition extends Component {
 							/>
 						</div>
 						<div className="col-md-6 form-group">
-							<label htmlFor="abstractLg2">
-								<NoteFlag text={D.summary} lang={lg2} />
-							</label>
+							<label htmlFor="abstractLg2">{D2.summary}</label>
 							<EditorMarkdown
 								text={family.abstractLg2}
 								handleChange={value =>

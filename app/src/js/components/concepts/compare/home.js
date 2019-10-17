@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import Controls from './controls';
 import ConceptGeneral from '../visualization/general';
 import CompareNotes from 'js/components/shared/note-compare';
@@ -21,9 +21,10 @@ const ConceptCompare = ({
 	return (
 		<div>
 			<div className="container">
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 				<PageTitle title={secondLang ? prefLabelLg2 : prefLabelLg1} />
 				<Controls />
+				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+
 				<ConceptGeneral
 					attr={conceptGeneral}
 					secondLang={secondLang}

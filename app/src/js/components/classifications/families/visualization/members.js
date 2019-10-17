@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Panel from 'js/components/shared/panel';
-import D from 'js/i18n';
+import { Panel } from 'bauhaus-library';
+import D, { D2 } from 'js/i18n';
 
 export default ({ members, secondLang }) => {
 	const membersLg1 = members.map((m, i) => (
@@ -11,13 +11,12 @@ export default ({ members, secondLang }) => {
 	));
 	let membersLg2 = [];
 	if (secondLang)
-		membersLg2 = members.map(
-			(m, i) =>
-				m.labelLg2 ? (
-					<li key={i}>
-						<Link to={`/classifications/series/${m.id}`}>{m.labelLg2}</Link>
-					</li>
-				) : null
+		membersLg2 = members.map((m, i) =>
+			m.labelLg2 ? (
+				<li key={i}>
+					<Link to={`/classifications/series/${m.id}`}>{m.labelLg2}</Link>
+				</li>
+			) : null
 		);
 	const isMembersLg2 = membersLg2.filter(m => m !== null).length !== 0;
 	return (
@@ -27,14 +26,13 @@ export default ({ members, secondLang }) => {
 					<ul>{membersLg1}</ul>
 				</Panel>
 			</div>
-			{secondLang &&
-				isMembersLg2 && (
-					<div className="col-md-6">
-						<Panel title={D.childrenSeries} context="classifications">
-							<ul>{membersLg2}</ul>
-						</Panel>
-					</div>
-				)}
+			{secondLang && isMembersLg2 && (
+				<div className="col-md-6">
+					<Panel title={D2.childrenSeries} context="classifications">
+						<ul>{membersLg2}</ul>
+					</Panel>
+				</div>
+			)}
 		</div>
 	);
 };

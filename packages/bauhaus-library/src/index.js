@@ -3,7 +3,10 @@ export { default as Badge } from './badge';
 export { default as Button } from './button';
 export { default as Flag } from './flag';
 export { default as Input } from './input';
+export { default as Note } from './note';
 export { default as PageTitle } from './page-title';
+export { default as PageSubtitle } from './page-subtitle';
+
 export { default as Pagination } from './pagination';
 export { default as Panel } from './panel';
 export { default as Radio } from './radio';

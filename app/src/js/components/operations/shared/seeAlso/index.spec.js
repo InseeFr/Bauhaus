@@ -1,6 +1,6 @@
 import React from 'react';
 import SeeAlso from './index';
-import { Note } from 'js/components/shared/note/note';
+import { Note } from 'bauhaus-library';
 import { shallow } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 

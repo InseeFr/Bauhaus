@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './routes';
+import bauhausLogo from 'img/logo_noir.svg';
 
 import 'react-app-polyfill/stable';
 
@@ -15,7 +16,11 @@ class Root extends Component {
 					<Routes error={error} />
 				</Router>
 				<footer className="centered" style={{ marginTop: '50px' }}>
-					<p>{footer}</p>
+					<p>
+						<img width="100" src={bauhausLogo} alt="application logo" />
+
+						{footer}
+					</p>
 				</footer>
 			</div>
 		);

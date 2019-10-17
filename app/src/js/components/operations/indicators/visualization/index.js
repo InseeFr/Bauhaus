@@ -46,11 +46,6 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 
 		return (
 			<div className="container">
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
-
 				<PageTitleBlock
 					titleLg1={attr.prefLabelLg1}
 					titleLg2={attr.prefLabelLg2}
@@ -95,6 +90,12 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth>
 				</div>
+
+				<CheckSecondLang
+					secondLang={secondLang}
+					onChange={this.props.saveSecondLang}
+				/>
+
 				<OperationsIndicatorVisualization
 					secondLang={secondLang}
 					attr={attr}

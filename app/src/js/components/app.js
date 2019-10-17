@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import adminLogo from 'img/admin.png';
+
 import { ADMIN } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
 import './app.scss';
@@ -24,9 +25,6 @@ function App() {
 	});
 	return (
 		<>
-			<div className="centered page-title">
-				<h1>{D.welcome}</h1>
-			</div>
 			<ul className="home-page-links">
 				{apps}
 				<Auth roles={[ADMIN]}>

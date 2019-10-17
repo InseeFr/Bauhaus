@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { ApplicationContext } from 'js/context';
 
 import Menu from 'js/components/dsds/menu';
 import Home from 'js/components/dsds/home';
@@ -13,14 +14,16 @@ export default () => {
 	return (
 		<>
 			<Menu />
-			<div className="container">
-				<Switch>
-					<Route exact path="/dsds" component={Home} />
-					<Route exact path="/dsds/create" component={Create} />
-					<Route exact path="/dsds/:dsdId/update" component={Update} />
-					<Route exact path="/dsds/:dsdId" component={Visualization} />
-				</Switch>
-			</div>
+			<ApplicationContext.Provider value={'dsds'}>
+				<div className="container">
+					<Switch>
+						<Route exact path="/dsds" component={Home} />
+						<Route exact path="/dsds/create" component={Create} />
+						<Route exact path="/dsds/:dsdId/update" component={Update} />
+						<Route exact path="/dsds/:dsdId" component={Visualization} />
+					</Switch>
+				</div>
+			</ApplicationContext.Provider>
 		</>
 	);
 };

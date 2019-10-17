@@ -29,6 +29,7 @@ import {
 } from 'js/reducers/operations/selector';
 import { getParentType, getParentId } from './utils';
 import PageTitleBlock from 'js/components/shared/page-title-block';
+import './msd.scss';
 const extractId = buildExtract('id');
 const extractIdParent = buildExtract('idParent');
 

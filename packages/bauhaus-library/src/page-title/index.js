@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import './page-title.scss';
+import { getApplicationContext } from '../';
 
 /**
  *
  * @param {{title:string, subtitle:string?, col: number?, offset: number?, context:string}} props
  */
 function PageTitle({ title, subtitle, col = 10, offset = 1, context }) {
-	const className = context ? `page-title-${context}` : 'page-title';
+	const ctx = useContext(getApplicationContext()) || context;
+	const className = ctx ? `page-title-${ctx}` : 'page-title';
 	return (
 		<div className="row">
 			<div className={`col-md-${col} centered col-md-offset-${offset}`}>
@@ -23,13 +25,7 @@ function PageTitle({ title, subtitle, col = 10, offset = 1, context }) {
 PageTitle.proptTypes = {
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.string,
-	context: PropTypes.oneOf([
-		'',
-		'concepts',
-		'classifications',
-		'operations',
-		'dsds',
-	]),
+	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
 };
 
 export default PageTitle;

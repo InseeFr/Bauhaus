@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import Panel from 'js/components/shared/panel';
+import { Panel } from 'bauhaus-library';
 import { sortArray } from 'js/utils/array-utils';
 import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED } from 'js/constants';
 const sortByLabelLg1 = sortArray('prefLabelLg1');
@@ -72,32 +72,27 @@ function ConceptLinks({ secondLang, links }) {
 				<ul>
 					{isEmpty(narrower) && (
 						<li>
-							{D.narrowerTitle} :
-							<ul>{narrowerList[lang]}</ul>
+							{D.narrowerTitle} :<ul>{narrowerList[lang]}</ul>
 						</li>
 					)}
 					{isEmpty(broader) && (
 						<li>
-							{D.broaderTitle} :
-							<ul>{broaderList[lang]}</ul>
+							{D.broaderTitle} :<ul>{broaderList[lang]}</ul>
 						</li>
 					)}
 					{isEmpty(references) && (
 						<li>
-							{D.referencesTitle} :
-							<ul>{referencesList[lang]}</ul>
+							{D.referencesTitle} :<ul>{referencesList[lang]}</ul>
 						</li>
 					)}
 					{isEmpty(replaces) && (
 						<li>
-							{D.replacesTitle} :
-							<ul>{replacesList[lang]}</ul>
+							{D.replacesTitle} :<ul>{replacesList[lang]}</ul>
 						</li>
 					)}
 					{isEmpty(related) && (
 						<li>
-							{D.relatedTitle} :
-							<ul>{relatedList[lang]}</ul>
+							{D.relatedTitle} :<ul>{relatedList[lang]}</ul>
 						</li>
 					)}
 				</ul>

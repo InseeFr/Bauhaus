@@ -51,8 +51,6 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 		const publicationDisabled = containUnsupportedStyles(attr);
 		return (
 			<div className="container">
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
-
 				<PageTitleBlock
 					titleLg1={attr.prefLabelLg1}
 					titleLg2={attr.prefLabelLg2}
@@ -82,6 +80,8 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth>
 				</div>
+				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+
 				<OperationsFamilyVisualization
 					secondLang={secondLang}
 					attr={attr}

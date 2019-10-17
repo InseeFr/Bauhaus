@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import Panel from 'js/components/shared/panel';
+import { Panel } from 'bauhaus-library';
 
 export default ({ general, classificationId, itemId, secondLang }) => {
 	const mapping = {
@@ -23,26 +23,21 @@ export default ({ general, classificationId, itemId, secondLang }) => {
 										<li key={fieldName}>
 											{mapping[fieldName]} :{' '}
 											<Link
-												to={`/classifications/classification/${classificationId}/item/${
-													general.idBroader
-												}`}
+												to={`/classifications/classification/${classificationId}/item/${general.idBroader}`}
 											>
 												{general.idBroader} - {general[fieldName]}
 											</Link>
-											{secondLang &&
-												general.broaderLg2 && (
-													<span>
-														{' ('}
-														<Link
-															to={`/classifications/classification/${classificationId}/item/${
-																general.idBroader
-															}`}
-														>
-															{general.idBroader} - {general.broaderLg2}
-														</Link>
-														{')'}
-													</span>
-												)}
+											{secondLang && general.broaderLg2 && (
+												<span>
+													{' ('}
+													<Link
+														to={`/classifications/classification/${classificationId}/item/${general.idBroader}`}
+													>
+														{general.idBroader} - {general.broaderLg2}
+													</Link>
+													{')'}
+												</span>
+											)}
 										</li>
 									);
 								}
@@ -71,9 +66,9 @@ export default ({ general, classificationId, itemId, secondLang }) => {
 									);
 								} else {
 									return (
-										<li key={fieldName}>{`${mapping[fieldName]} : ${
-											general[fieldName]
-										}`}</li>
+										<li
+											key={fieldName}
+										>{`${mapping[fieldName]} : ${general[fieldName]}`}</li>
 									);
 								}
 							} else return null;

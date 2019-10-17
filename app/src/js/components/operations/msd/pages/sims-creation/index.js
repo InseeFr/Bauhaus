@@ -124,12 +124,12 @@ class SimsCreation extends React.Component {
 		function MSDInformations(msd, handleChange, firstLevel = false) {
 			return (
 				<React.Fragment key={msd.idMas}>
+					{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
+						<h3 className="col-md-12 sims-title">
+							{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
+						</h3>
+					)}
 					<div className="row flex" id={msd.idMas}>
-						{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
-							<h3 className="col-md-12">
-								{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
-							</h3>
-						)}
 						{!msd.isPresentational && (
 							<Field
 								msd={msd}

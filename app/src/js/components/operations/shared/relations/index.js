@@ -1,7 +1,8 @@
 import React from 'react';
-import { Note } from 'js/components/shared/note/note';
+import { Note } from 'bauhaus-library';
 import './relations.scss';
 import { Link } from 'react-router-dom';
+import D, { D2 } from 'js/i18n';
 
 export function RelationsViewPerLgContent({
 	children,
@@ -65,12 +66,14 @@ function RelationsView(props) {
 		<div className="row">
 			<RelationsViewPerLg
 				{...props}
+				title={D[props.title]}
 				langSuffix="Lg1"
 				currentLang={props.langs.lg1}
 			/>
 			{props.secondLang && (
 				<RelationsViewPerLg
 					{...props}
+					title={D2[props.title]}
 					langSuffix="Lg2"
 					currentLang={props.langs.lg2}
 				/>

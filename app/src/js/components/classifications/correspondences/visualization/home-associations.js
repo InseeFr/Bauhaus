@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Panel from 'js/components/shared/panel';
+import { Panel } from 'bauhaus-library';
 import TableRmes from 'js/components/shared/table-rmes';
 import D from 'js/i18n';
 import { propTypes as associationsPropTypes } from 'js/utils/classifications/correspondence/associations';

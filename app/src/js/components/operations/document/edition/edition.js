@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import D from 'js/i18n';
+import D, { D2 } from 'js/i18n';
 import { goBack, goBackOrReplace } from 'js/utils/redirection';
-import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import { validate } from 'js/components/operations/document/edition/validation';
@@ -16,7 +15,6 @@ import {
 	CancelButton,
 	SaveButton,
 } from 'js/components/shared/button-with-icon';
-
 const defaultDocument = {
 	labelLg1: '',
 	labelLg2: '',
@@ -25,6 +23,7 @@ const defaultDocument = {
 	url: '',
 	lang: '',
 };
+
 class OperationsDocumentationEdition extends Component {
 	static propTypes = {
 		document: PropTypes.object.isRequired,
@@ -98,11 +97,7 @@ class OperationsDocumentationEdition extends Component {
 	};
 
 	render() {
-		const {
-			langs: { lg1, lg2 },
-			langOptions,
-			type,
-		} = this.props;
+		const { langOptions, type } = this.props;
 
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
@@ -141,7 +136,7 @@ class OperationsDocumentationEdition extends Component {
 					<div className="row">
 						<div className="col-md-6 form-group">
 							<label htmlFor="prefLabelLg1">
-								<NoteFlag text={D.title} lang={lg1} />
+								{D.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -155,7 +150,7 @@ class OperationsDocumentationEdition extends Component {
 						</div>
 						<div className="col-md-6 form-group">
 							<label htmlFor="prefLabelLg2">
-								<NoteFlag text={D.title} lang={lg2} />
+								{D2.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -170,9 +165,7 @@ class OperationsDocumentationEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="col-md-6 form-group">
-							<label htmlFor="abstractLg1">
-								<NoteFlag text={D.descriptionTitle} lang={lg1} />
-							</label>
+							<label htmlFor="abstractLg1">{D.descriptionTitle}</label>
 							<EditorMarkdown
 								text={document.descriptionLg1}
 								handleChange={value =>
@@ -181,9 +174,7 @@ class OperationsDocumentationEdition extends Component {
 							/>
 						</div>
 						<div className="col-md-6 form-group">
-							<label htmlFor="abstractLg2">
-								<NoteFlag text={D.descriptionTitle} lang={lg2} />
-							</label>
+							<label htmlFor="abstractLg2">{D2.descriptionTitle}</label>
 							<EditorMarkdown
 								text={document.descriptionLg2}
 								handleChange={value =>
@@ -196,7 +187,7 @@ class OperationsDocumentationEdition extends Component {
 						<div className="row">
 							<div className="col-md-12 form-group">
 								<label htmlFor="url">
-									<NoteFlag text={D.titleLink} lang={lg1} />
+									{D.titleLink}
 									<span className="boldRed">*</span>
 								</label>
 								<input
@@ -214,7 +205,7 @@ class OperationsDocumentationEdition extends Component {
 						<div className="row">
 							<div className="col-md-12 form-group">
 								<label>
-									<NoteFlag text={D.titleUpdatedDate} lang={lg1} />
+									{D.titleUpdatedDate}
 									<span className="boldRed">*</span>
 								</label>
 								<DatePickerRmes
@@ -270,7 +261,7 @@ class OperationsDocumentationEdition extends Component {
 					<div className="row">
 						<div className="col-md-12 form-group">
 							<label htmlFor="lang">
-								<NoteFlag text={D.langTitle} lang={lg1} />
+								{D.langTitle}
 								<span className="boldRed">*</span>
 							</label>
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import CorrespondenceControls from './controls';
-import Panel from 'js/components/shared/panel';
+import { Panel } from 'bauhaus-library';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/components/shared/explanatory-note';
-import D from 'js/i18n';
+import D, { D2 } from 'js/i18n';
 
 export default ({ association, secondLang, saveSecondLang, langs }) => {
 	const {
@@ -21,13 +21,14 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 	const { sourceItemLabelLg2, targetItemLabelLg2 } = association;
 	return (
 		<div className="container">
-			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 			<PageTitle
 				title={title}
 				subtitle={associationId}
 				context="classifications"
 			/>
 			<CorrespondenceControls correspondenceId={correspondenceId} />
+			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+
 			<div className="row">
 				<div className="col-md-12">
 					{(!secondLang ||
@@ -51,7 +52,7 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 						{secondLang && (
 							<ExplanatoryNote
 								text={scopeNoteLg2}
-								title={D.classificationsDescription}
+								title={D2.classificationsDescription}
 								lang={lg2}
 								alone={false}
 								context="classifications"

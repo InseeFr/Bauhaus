@@ -57,8 +57,6 @@ class OperationVisualizationContainer extends VisualizationContainer {
 
 		return (
 			<div className="container">
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
-
 				<PageTitleBlock
 					titleLg1={operation.prefLabelLg1}
 					titleLg2={operation.prefLabelLg2}
@@ -102,6 +100,9 @@ class OperationVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth>
 				</div>
+
+				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+
 				<OperationsOperationVisualization
 					id={id}
 					attr={operation}

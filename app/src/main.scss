@@ -4,10 +4,17 @@
 body {
 	margin: 0;
 	padding: 0;
-	font-family: sans-serif;
+	font-family: 'Barlow', sans-serif;
 }
 a {
 	color: #045396;
+}
+
+footer {
+	p {
+		color: #0b0b55;
+		font-weight: 900;
+	}
 }
 .inline {
 	display: inline;

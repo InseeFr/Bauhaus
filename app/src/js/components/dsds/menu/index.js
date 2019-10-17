@@ -16,8 +16,7 @@ const MenuDSDs = () => {
 							<ul className="nav navbar-nav navbar-nav-dsds">
 								<li>
 									<button onClick={() => setMenuRef(!menuRef)}>
-										<span className="glyphicon glyphicon-th navbar-icon inline" />
-										<span className="inline"> {D.repositoryNavigation}</span>
+										{D.repositoryNavigation}
 									</button>
 								</li>
 								<li className="active">
