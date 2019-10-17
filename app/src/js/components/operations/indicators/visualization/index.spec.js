@@ -20,7 +20,7 @@ describe('IndicatorVisualizationContainer', () => {
 		expect(result).toEqual({
 			frequency: { code: 'code' },
 			id: '1',
-			indicator: { accrualPeriodicityCode: 'code', id: '1' },
+			object: { accrualPeriodicityCode: 'code', id: '1' },
 			langs: { lg1: 'lg1', lg2: 'lg2' },
 			organisations: ['results'],
 			secondLang: true,
@@ -44,7 +44,7 @@ describe('IndicatorVisualizationContainer', () => {
 		expect(result).toEqual({
 			frequency: { code: 'code' },
 			id: '1',
-			indicator: {},
+			object: {},
 			langs: { lg1: 'lg1', lg2: 'lg2' },
 			organisations: ['results'],
 			secondLang: true,

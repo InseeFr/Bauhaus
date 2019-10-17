@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import Loading from 'js/components/shared/loading';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
-import loadSIMS, { saveSims } from 'js/actions/operations/sims/item';
+import loadSIMS, {
+	saveSims,
+	publishSims,
+} from 'js/actions/operations/sims/item';
 import { withRouter } from 'react-router-dom';
 import MSDHelp from 'js/components/operations/msd/pages/help';
 import SimsVisualisation from 'js/components/operations/msd/pages/sims-visualisation/';
@@ -150,6 +153,7 @@ class MSDContainer extends Component {
 						langs={langs}
 						secondLang={secondLang}
 						goBack={this.goBackCallback}
+						publishSims={this.props.publishSims}
 					/>
 				)}
 				{(mode === CREATE || mode === UPDATE || mode === DUPLICATE) && (
@@ -254,6 +258,7 @@ const mapDispatchToProps = {
 	loadSerie,
 	loadIndicator,
 	saveSecondLang,
+	publishSims,
 };
 
 export default compose(

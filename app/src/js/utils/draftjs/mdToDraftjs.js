@@ -14,14 +14,13 @@ const defaultInlineStyles = {
 		symbol: '+',
 	},
 };
-
 export const REGEXPS = [
 	{
-		regexp: /^(\+)/,
+		regexp: /(\+)/,
 		type: defaultInlineStyles.STRIKETHROUGH.type,
 	},
 	{
-		regexp: /^((bg)?color-rgb\(\d*,\d*,\d*\))/,
+		regexp: /((bg)?color-rgb\(\d*,\d*,\d*\))/,
 	},
 ];
 

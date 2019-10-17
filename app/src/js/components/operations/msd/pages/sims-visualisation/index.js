@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { stringToDate } from 'js/utils/moment';
@@ -22,6 +22,8 @@ import {
 } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
 import { DuplicateButton } from 'js/components/shared/button-with-icon';
+import ValidationButton from 'js/components/operations/shared/validationButton';
+import ErrorBloc from 'js/components/shared/error-bloc';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
@@ -35,6 +37,7 @@ export default function SimsVisualisation({
 	goBack,
 	langs: { lg1, lg2 },
 	organisations,
+	publishSims,
 }) {
 	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 
@@ -152,11 +155,23 @@ export default function SimsVisualisation({
 			}, {})
 	);
 
+	const [serverSideError, setServerSideError] = useState();
+	const publish = useCallback(
+		object => {
+			publishSims(object, err => {
+				if (err) {
+					setServerSideError(err);
+				}
+			});
+		},
+		[publishSims]
+	);
+
 	return (
 		<>
 			<div className="row btn-line action-toolbar">
 				<Button action={() => goBack(getParentUri(sims))} label={D.btnReturn} />
-				<div className="empty-center" />
+				<ErrorBloc error={serverSideError} />
 				<Auth
 					roles={[ADMIN, SERIES_CREATOR]}
 					complementaryCheck={shouldDisplayDuplicateButtonFlag}
@@ -172,7 +187,11 @@ export default function SimsVisualisation({
 						!!sims.idIndicator ? SERIES_CREATOR : INDICATOR_CREATOR,
 					]}
 				>
-					<Button disabled={publicationDisabled} label={D.btnValid} />
+					<ValidationButton
+						object={sims}
+						callback={object => publish(object)}
+						disabled={publicationDisabled}
+					/>
 				</Auth>
 				<Auth roles={[ADMIN, INDICATOR_CREATOR, SERIES_CREATOR, CNIS]}>
 					<Button

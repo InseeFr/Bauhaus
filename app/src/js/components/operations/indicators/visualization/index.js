@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import D from 'js/i18n';
 import buildExtract from 'js/utils/build-extract';
@@ -9,7 +9,9 @@ import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { saveSecondLang } from 'js/actions/app';
 import OperationsIndicatorVisualization from 'js/components/operations/indicators/visualization/general';
 import Loading from 'js/components/shared/loading';
-import loadIndicator from 'js/actions/operations/indicators/item';
+import loadIndicator, {
+	publishIndicator,
+} from 'js/actions/operations/indicators/item';
 import Button from 'js/components/shared/button';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import { getSecondLang } from 'js/reducers/app';
@@ -17,27 +19,23 @@ import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 import { containUnsupportedStyles } from 'js/utils/html';
+import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
+
+import ValidationButton from 'js/components/operations/shared/validationButton';
+import ErrorBloc from 'js/components/shared/error-bloc';
 
 const extractId = buildExtract('id');
-class IndicatorVisualizationContainer extends Component {
-	componentWillMount() {
-		if (!this.props.indicator.id) {
-			this.props.loadIndicator(this.props.id);
-		}
-	}
-	componentWillReceiveProps(nextProps) {
-		if (this.props.id !== nextProps.id) {
-			this.props.loadIndicator(nextProps.id);
-		}
-	}
+class IndicatorVisualizationContainer extends VisualizationContainer {
 	render() {
 		const {
 			secondLang,
 			langs,
-			indicator: { ...attr },
+			object: { ...attr },
 			frequency,
 			organisations,
 		} = this.props;
+		const { serverSideError } = this.state;
+
 		if (!attr.id) return <Loading textType="loading" />;
 
 		/*
@@ -64,7 +62,7 @@ class IndicatorVisualizationContainer extends Component {
 						action={goBack(this.props, '/operations/indicators')}
 						label={D.btnReturn}
 					/>
-					<div className="empty-center" />
+					<ErrorBloc error={serverSideError} />
 					{attr.idSims && (
 						<>
 							<Button
@@ -82,7 +80,13 @@ class IndicatorVisualizationContainer extends Component {
 						</Auth>
 					)}
 					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
-						<Button disabled={publicationDisabled} label={D.btnValid} />
+						<ValidationButton
+							object={attr}
+							callback={object =>
+								this.publish(object, this.props.publishIndicator)
+							}
+							disabled={publicationDisabled}
+						/>
 					</Auth>
 					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
 						<Button
@@ -110,7 +114,7 @@ export const mapStateToProps = (state, ownProps) => {
 	const organisations = state.operationsOrganisations.results || [];
 	return {
 		id,
-		indicator: indicator.id === id ? indicator : {},
+		object: indicator.id === id ? indicator : {},
 		langs: select.getLangs(state),
 		secondLang: getSecondLang(state),
 		frequency: frequencies.codes.find(
@@ -121,7 +125,8 @@ export const mapStateToProps = (state, ownProps) => {
 };
 const mapDispatchToProps = {
 	saveSecondLang,
-	loadIndicator,
+	load: loadIndicator,
+	publishIndicator,
 };
 export default withRouter(
 	connect(

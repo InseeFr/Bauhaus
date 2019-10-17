@@ -66,3 +66,10 @@ export const operationsSeriesCurrentStatus = trackStatus(
 	A.SAVE_OPERATIONS_SERIE_SUCCESS,
 	A.LOAD_OPERATIONS_SERIE
 );
+
+export const operationsFamilyCurrentStatus = trackStatus(
+	A.LOAD_OPERATIONS_FAMILY_SUCCESS,
+	A.SAVE_OPERATIONS_FAMILY,
+	A.SAVE_OPERATIONS_FAMILY_SUCCESS,
+	A.LOAD_OPERATIONS_FAMILY
+);

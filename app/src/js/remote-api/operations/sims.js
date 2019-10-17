@@ -1,5 +1,10 @@
 export default {
 	getSims: id => [`metadataReport/${id}`],
+	publishSims: series => [
+		`metadataReport/validate/${series.id}`,
+		{ method: 'PUT' },
+		res => res.text(),
+	],
 	putSims: sims => [
 		`metadataReport/${sims.id}`,
 		{

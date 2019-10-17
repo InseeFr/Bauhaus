@@ -7,7 +7,7 @@ const langs = { lg1: 'lg1', lg2: 'lg2' };
 const document = {
 	descriptionLg1: 'descriptionLg1',
 	descriptionLg2: 'descriptionLg2',
-	uri: 'uri',
+	uri: 'uri/page/1',
 	url: 'url',
 	updatedDate: '2019/02/01',
 };
@@ -62,6 +62,6 @@ describe('OperationsDocumentationVisualization', () => {
 			/>
 		);
 		const notes = wrapper.find(Note);
-		expect(notes).toHaveLength(4);
+		expect(notes).toHaveLength(5);
 	});
 });

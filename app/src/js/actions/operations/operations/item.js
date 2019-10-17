@@ -1,6 +1,13 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
-import { getItemFactory } from '../utils';
+import { getPublishFactory, getItemFactory } from '../utils';
+
+export const publishOperation = getPublishFactory(
+	api.publishOperation,
+	A.PUBLISH_OPERATIONS_OPERATION,
+	A.PUBLISH_OPERATIONS_OPERATION_SUCCESS,
+	A.PUBLISH_OPERATIONS_OPERATION_FAILURE
+);
 
 export const saveOperation = (operation, callback) => dispatch => {
 	dispatch({

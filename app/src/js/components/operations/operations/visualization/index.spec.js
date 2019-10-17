@@ -22,7 +22,7 @@ describe('mapStateToProps', () => {
 			exportStatus: 'status',
 			id: '1',
 			langs: { lg1: 'fr', lg2: 'en' },
-			operation: { id: '1' },
+			object: { id: '1' },
 			secondLang: 'en',
 		};
 		expect(

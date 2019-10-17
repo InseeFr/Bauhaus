@@ -12,7 +12,7 @@ import Button from 'js/components/shared/button';
 import buildExtract from 'js/utils/build-extract';
 import { ADMIN, CNIS } from 'js/utils/auth/roles';
 import Loading from 'js/components/shared/loading';
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
@@ -20,49 +20,25 @@ import OperationsFamilyVisualization from 'js/components/operations/families/vis
 import ValidationButton from 'js/components/operations/shared/validationButton';
 import { containUnsupportedStyles } from 'js/utils/html';
 import ErrorBloc from 'js/components/shared/error-bloc';
+import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
 
-class FamilyVisualizationContainer extends PureComponent {
+class FamilyVisualizationContainer extends VisualizationContainer {
 	static propTypes = {
-		family: PropTypes.object,
+		object: PropTypes.object,
 		secondLang: PropTypes.bool,
 		langs: PropTypes.object,
 		saveSecondLang: PropTypes.func,
-		loadFamily: PropTypes.func,
+		load: PropTypes.func,
 		publishFamily: PropTypes.func,
 	};
-	constructor(props) {
-		super(props);
-		this.state = {};
-	}
-	componentDidMount() {
-		this.loadFamily(this.props.family, this.props.id);
-	}
-	componentDidUpdate() {
-		this.loadFamily(this.props.family, this.props.id);
-	}
 
-	loadFamily(family, id) {
-		if (!family.id) {
-			this.props.loadFamily(id);
-		}
-	}
-
-	publishFamily(object) {
-		this.props.publishFamily(object, err => {
-			if (err) {
-				this.setState({
-					serverSideError: err,
-				});
-			}
-		});
-	}
 	render() {
 		const {
 			secondLang,
 			langs,
-			family: { ...attr },
+			object: { ...attr },
 			saveSecondLang,
 		} = this.props;
 		const { serverSideError } = this.state;
@@ -93,7 +69,9 @@ class FamilyVisualizationContainer extends PureComponent {
 					<Auth roles={[ADMIN]}>
 						<ValidationButton
 							object={attr}
-							callback={object => this.publishFamily(object)}
+							callback={object =>
+								this.publish(object, this.props.publishFamily)
+							}
 							disabled={publicationDisabled}
 						/>
 					</Auth>
@@ -119,14 +97,14 @@ export const mapStateToProps = (state, ownProps) => {
 	const family = select.getFamily(state);
 	return {
 		id,
-		family: family.id === id ? family : {},
+		object: family.id === id ? family : {},
 		langs: select.getLangs(state),
 		secondLang: getSecondLang(state),
 	};
 };
 const mapDispatchToProps = {
 	saveSecondLang,
-	loadFamily,
+	load: loadFamily,
 	publishFamily,
 };
 export default compose(

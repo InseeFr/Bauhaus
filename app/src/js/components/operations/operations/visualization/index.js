@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -10,7 +10,9 @@ import OperationsOperationVisualization from './home';
 import buildExtract from 'js/utils/build-extract';
 import exportVariableBook from 'js/actions/operations/export-varBook';
 import { saveSecondLang } from 'js/actions/app';
-import loadOperation from 'js/actions/operations/operations/item';
+import loadOperation, {
+	publishOperation,
+} from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { goBack } from 'js/utils/redirection';
@@ -24,10 +26,13 @@ import {
 	CNIS,
 } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/components/shared/page-title-block';
+import ValidationButton from 'js/components/operations/shared/validationButton';
+import ErrorBloc from 'js/components/shared/error-bloc';
+import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
 
-class OperationVisualizationContainer extends Component {
+class OperationVisualizationContainer extends VisualizationContainer {
 	static propTypes = {
 		operation: PropTypes.object.isRequired,
 		id: PropTypes.string.isRequired,
@@ -38,14 +43,15 @@ class OperationVisualizationContainer extends Component {
 		saveSecondLang: PropTypes.func,
 	};
 
-	componentWillMount() {
-		if (!this.props.operation.id) {
-			this.props.loadOperation(this.props.id);
-		}
-	}
-
 	render() {
-		const { id, operation, langs, secondLang, saveSecondLang } = this.props;
+		const {
+			id,
+			object: { ...operation },
+			langs,
+			secondLang,
+			saveSecondLang,
+		} = this.props;
+		const { serverSideError } = this.state;
 
 		if (!operation.id) return <Loading textType="loading" />;
 
@@ -64,7 +70,8 @@ class OperationVisualizationContainer extends Component {
 						label={D.btnReturn}
 					/>
 
-					<div className="empty-center" />
+					<ErrorBloc error={serverSideError} />
+
 					{operation.idSims && (
 						<Button
 							action={`/operations/sims/${operation.idSims}`}
@@ -81,7 +88,12 @@ class OperationVisualizationContainer extends Component {
 						</Auth>
 					)}
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
-						<Button label={D.btnValid} />
+						<ValidationButton
+							object={operation}
+							callback={object =>
+								this.publish(object, this.props.publishOperation)
+							}
+						/>
 					</Auth>
 					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
 						<Button
@@ -107,7 +119,7 @@ export const mapStateToProps = (state, ownProps) => {
 	const operation = select.getOperation(state);
 	return {
 		id,
-		operation: id === operation.id ? operation : {},
+		object: id === operation.id ? operation : {},
 		exportStatus: select.getStatus(state, EXPORT_VARBOOK),
 		langs: select.getLangs(state),
 		secondLang: getSecondLang(state),
@@ -117,7 +129,8 @@ export const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	exportVariableBook,
 	saveSecondLang,
-	loadOperation,
+	load: loadOperation,
+	publishOperation,
 };
 
 OperationVisualizationContainer = connect(

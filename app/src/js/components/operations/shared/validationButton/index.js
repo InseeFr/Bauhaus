@@ -7,7 +7,7 @@ export default ({ object = {}, callback, disabled = false }) => {
 
 	const clickHandler = useCallback(() => {
 		callback(object);
-	}, []);
+	}, [object, callback]);
 
 	if (state.indexOf('Validated') >= 0) {
 		return <Button label={D.btnValidated} disabled action={() => {}} />;
