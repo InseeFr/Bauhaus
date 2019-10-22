@@ -8,7 +8,7 @@ import { LINK, DOCUMENT } from '../utils';
  * @returns {boolean}
  */
 function haveInvalidFilesName(files = []) {
-	const regexp = /^[a-zA-Z1-9-_\.]*$/;
+	const regexp = /^[a-zA-Z0-9-_\.]*$/;
 
 	const wrongFile = files
 		.map(file => file.name)
