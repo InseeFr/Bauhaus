@@ -68,7 +68,7 @@ describe('VisualizationContainer', () => {
 			const object = { id: '1' };
 			component.publish(object, callback);
 			expect(component.setState).not.toHaveBeenCalled();
-			expect(load).toHaveBeenCalled();
+			expect(load).toHaveBeenCalledWith('1');
 		});
 	});
 });
