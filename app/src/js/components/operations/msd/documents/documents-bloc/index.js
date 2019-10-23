@@ -12,7 +12,7 @@ import React, { Component, useState, useEffect } from 'react';
 import { getBaseURI } from 'js/remote-api/build-api';
 import { connect } from 'react-redux';
 import './style.scss';
-import { isDocument, isLink } from 'js/components/operations/document/utils';
+import { isDocument } from 'js/components/operations/document/utils';
 
 /**
  * @typedef {Object} DocumentsBlocProps
