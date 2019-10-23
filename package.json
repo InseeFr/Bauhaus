@@ -13,7 +13,7 @@
     "test:coverage": "yarn workspaces run test:coverage",
     "build-storybook": "yarn workspaces run build-storybook",
     "pre-commit": "yarn workspaces run test:coverage && yarn workspaces run lint",
-    "postinstall": "yarn build-insee"
+    "postinstall": "npm run build-insee"
   },
   "devDependencies": {
     "lcov-result-merger": "3.1.0",
