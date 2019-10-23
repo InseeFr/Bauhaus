@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Panel from '.';
+import Panel from './';
 
 describe('panel', () => {
 	it('renders without crashing', () => {

@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AppContext } from 'index';
-import { Input, Spinner } from 'bauhaus-library';
+import { Input } from 'bauhaus-library';
+import Spinner from 'js/components/shared/spinner';
 import Controls from './controls';
 import Components from './components';
 import API from 'js/remote-api/dsds/dsds-api';

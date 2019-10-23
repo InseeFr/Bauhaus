@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import PageTitle from './';
-jest.mock('../');
+import PageTitle from '.';
 
 describe('page-title', () => {
 	it('renders without crashing', () => {
@@ -9,12 +8,14 @@ describe('page-title', () => {
 	});
 
 	it('returns component title', () => {
-		const wrapper = shallow(<PageTitle title="title" />);
+		const wrapper = shallow(<PageTitle title="title" context="concepts" />);
 		expect(wrapper.find('.page-title-concepts').text()).toEqual('title');
 	});
 
 	it('returns component text', () => {
-		const wrapper = shallow(<PageTitle title="title" subtitle="subtitle" />);
+		const wrapper = shallow(
+			<PageTitle title="title" subtitle="subtitle" context="concepts" />
+		);
 		expect(wrapper.find('.page-title-concepts').text()).toEqual(
 			'title" subtitle "'
 		);

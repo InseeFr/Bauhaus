@@ -1,8 +1,8 @@
 import React from 'react';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import { PageTitle } from 'bauhaus-library';
+import PageTitle from 'js/components/shared/page-title';
 import CorrespondenceControls from './controls';
-import { Panel } from 'bauhaus-library';
+import Panel from 'js/components/shared/panel';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/components/shared/explanatory-note';
 import D, { D2 } from 'js/i18n';

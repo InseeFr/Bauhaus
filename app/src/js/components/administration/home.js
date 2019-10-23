@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import dashBoardLogo from 'img/dashboard.png';
-import { PageTitle } from 'bauhaus-library';
+import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 import './home.scss';
 

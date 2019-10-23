@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import PageTitle from './';
+import PageTitle from '.';
 
 import { withKnobs, text, number } from '@storybook/addon-knobs';
 

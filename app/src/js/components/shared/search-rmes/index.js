@@ -1,9 +1,12 @@
-import React, { useState, useContext } from 'react';
-import I18NContext from '../i18n-provider';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Pagination from '../pagination';
-import { filterKeyDeburr, nbResults } from '../utils/array-utils';
+import Pagination from 'js/components/shared/pagination';
+import {
+	filterKeyDeburr,
+	nbResults,
+} from 'bauhaus-library/src/utils/array-utils';
+import D from 'js/i18n';
 
 function SearchRmes({
 	items = [],
@@ -17,7 +20,6 @@ function SearchRmes({
 	label,
 }) {
 	const [search, handleSearch] = useState('');
-	const D = useContext(I18NContext);
 
 	const filter = filterKeyDeburr(
 		Object.keys(items[0] || {}).filter(k => k !== 'id')

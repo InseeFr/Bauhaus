@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Panel from '.';
+import Panel from './';
 import './panel.scss';
 
 import { withKnobs, text } from '@storybook/addon-knobs';
