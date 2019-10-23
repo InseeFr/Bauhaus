@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HelpInformation from 'js/components/operations/msd/help-information';
-import { Note } from 'bauhaus-library';
+import Note from 'js/components/shared/note';
 
 export default function MSDHelp({
 	metadataStructure,

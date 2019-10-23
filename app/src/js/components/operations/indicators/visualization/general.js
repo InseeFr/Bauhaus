@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Note } from 'bauhaus-library';
+import Note from 'js/components/shared/note';
 import D, { D2 } from 'js/i18n';
 import { getSeeAlsoByType } from 'js/components/operations/shared/links/utils';
 import DisplayLinks from 'js/components/operations/shared/links/';

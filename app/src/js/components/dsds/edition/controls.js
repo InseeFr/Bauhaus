@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button } from 'bauhaus-library';
+import Button from 'js/components/shared/button';
 import buildExtract from 'js/utils/build-extract';
 import { cleanId } from 'js/utils/string-utils';
 import D from 'js/i18n';
