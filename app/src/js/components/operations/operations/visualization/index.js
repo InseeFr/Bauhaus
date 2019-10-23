@@ -34,7 +34,7 @@ const extractId = buildExtract('id');
 
 class OperationVisualizationContainer extends VisualizationContainer {
 	static propTypes = {
-		operation: PropTypes.object.isRequired,
+		object: PropTypes.object.isRequired,
 		id: PropTypes.string.isRequired,
 		exportVariableBook: PropTypes.func,
 		exportStatus: PropTypes.string,
