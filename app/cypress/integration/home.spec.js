@@ -22,10 +22,10 @@ describe('Home Page', function() {
 			'Application de gestion des métadonnées de référence'
 		);
 	});
-	xit(`Should go to the Operations page and come back`, function() {
+	it(`Should go to the Operations page and come back`, function() {
 		cy.server().visit(`/`);
 		cy.get('li:nth-child(3) a').click();
-		cy.url().should('match', /\/operations\/series$/);
+		cy.url().should('match', /\/operations$/);
 		cy.get('title').contains('Bauhaus - Opérations');
 		cy.go('back');
 		cy.get('.page-title').contains(
