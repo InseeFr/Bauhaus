@@ -9,6 +9,8 @@ yarn install
 yarn start
 ```
 
+Nous avons remarqué une erreur avec la commande `yarn start` lorsque des caractéres accentués sont présent dans le `path`. Si cela est votre cas, vous pouvez exécuter la commande `npm start` à la place de `yarn start`.
+
 L'application s'appuie sur des Web services externes : Bauhaus-Back-Office(https://github.com/InseeFr/Bauhaus-Back-Office).
 
 ## Test

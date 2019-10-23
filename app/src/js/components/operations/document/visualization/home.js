@@ -1,9 +1,9 @@
 import { Note } from 'js/components/shared/note/note';
 import D from 'js/i18n';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { isDocument, isLink } from '../utils';
-
+import { getBaseURI } from 'js/remote-api/build-api';
 /**
  * @typedef OperationsDocumentationVisualizationProps
  * @property {any} attr
@@ -13,10 +13,15 @@ import { isDocument, isLink } from '../utils';
  * @param {OperationsDocumentationVisualizationProps} props
  */
 function OperationsDocumentationVisualization({
+	id,
 	attr,
 	secondLang,
 	langs: { lg1, lg2 },
 }) {
+	const [baseURI, setBaseURI] = useState('');
+	useEffect(() => {
+		getBaseURI().then(uri => setBaseURI(uri));
+	});
 	return (
 		<React.Fragment>
 			<div className="row">
@@ -52,7 +57,11 @@ function OperationsDocumentationVisualization({
 				<div className="row">
 					<Note
 						text={
-							<a href={attr.url} rel="noopener noreferrer" target="_blank">
+							<a
+								href={`${baseURI}/documents/document/${id}`}
+								rel="noopener noreferrer"
+								target="_blank"
+							>
 								{attr.labelLg1}
 							</a>
 						}
