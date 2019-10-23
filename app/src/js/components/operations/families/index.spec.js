@@ -1,9 +1,11 @@
 import React from 'react';
-import { mapStateToProps, FamiliesHomeContainer } from './index';
-import { NOT_LOADED, LOADED } from 'js/constants';
 import { shallow } from 'enzyme';
+import { NOT_LOADED, LOADED } from 'js/constants';
 import Loading from 'js/components/shared/loading';
+
 import FamiliesHome from './home';
+
+import { mapStateToProps, FamiliesHomeContainer } from './index';
 
 describe('FamiliesHomeContainer', () => {
 	it('should display a LOADING component if the status is not LOADED', () => {
