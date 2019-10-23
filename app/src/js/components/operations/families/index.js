@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { NOT_LOADED, LOADED } from 'js/constants';
 import { getFamilies } from 'js/reducers/index';
 
-class FamiliesHomeContainer extends Component {
+export class FamiliesHomeContainer extends Component {
 	componentDidMount() {
 		if (this.props.status !== LOADED) {
 			this.props.loadFamiliesList();

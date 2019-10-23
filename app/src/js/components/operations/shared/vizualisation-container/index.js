@@ -24,6 +24,8 @@ class VisualizationContainer extends Component {
 				this.setState({
 					serverSideError: err,
 				});
+			} else {
+				this.props.load(object.id);
 			}
 		});
 	}

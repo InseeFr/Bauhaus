@@ -48,11 +48,11 @@ export const computeDscr = (fn, [...args]) => {
 };
 
 let saveApiURL;
-const getBaseURI = context => {
+export const getBaseURI = context => {
 	return process.env.REACT_APP_INSEE
 		? saveApiURL ||
 				fetch(apiURL).then(res => {
-					saveApiURL = res.json();
+					saveApiURL = res.json().then(config => config.bauhaus);
 					return saveApiURL;
 				})
 		: Promise.resolve(process.env.REACT_APP_API_BASE_HOST);
@@ -65,23 +65,27 @@ export const buildCall = (context, resource, fn) => {
 			options.method = guessMethod(resource);
 		}
 
-		let baseURI = await getBaseURI();
-		baseURI = process.env.REACT_APP_INSEE ? baseURI.bauhaus : baseURI;
-		let baseHost = `${baseURI}${context ? `/${context}` : ''}`;
-		baseHost = removeTrailingSlash(baseHost);
+		const baseURI = await getBaseURI();
+		const baseHost = removeTrailingSlash(
+			`${baseURI}${context ? `/${context}` : ''}`
+		);
 
 		const url = `${baseHost}/${path}`;
 
-		return fetch(url, options)
-			.then(
-				res =>{
-					if (res.ok) return Promise.resolve(res).then(thenHandler);
-					else return res.text().then(text => Promise.reject(res.status +" "+ res.statusText + " - "+ text));
-				},
-				err => {
-					return Promise.reject(err.toString())
-				}
-			)
+		return fetch(url, options).then(
+			res => {
+				if (res.ok) return Promise.resolve(res).then(thenHandler);
+				else
+					return res
+						.text()
+						.then(text =>
+							Promise.reject(res.status + ' ' + res.statusText + ' - ' + text)
+						);
+			},
+			err => {
+				return Promise.reject(err.toString());
+			}
+		);
 	};
 };
 

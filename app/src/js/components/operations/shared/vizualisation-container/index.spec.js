@@ -55,9 +55,11 @@ describe('VisualizationContainer', () => {
 			});
 		});
 		it('should not call setstate if we do not have any error', () => {
+			const load = jest.fn();
 			const component = new VisualizationContainer({
 				id: '1',
 				object: { id: '1' },
+				load,
 			});
 			component.setState = jest.fn();
 			const callback = jest
@@ -66,6 +68,7 @@ describe('VisualizationContainer', () => {
 			const object = { id: '1' };
 			component.publish(object, callback);
 			expect(component.setState).not.toHaveBeenCalled();
+			expect(load).toHaveBeenCalledWith('1');
 		});
 	});
 });

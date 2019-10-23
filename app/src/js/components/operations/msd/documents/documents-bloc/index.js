@@ -8,9 +8,11 @@ import {
 	getOperationsDocumentsStatus,
 } from 'js/reducers/operations/selector';
 import { sortArray } from 'js/utils/array-utils';
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
+import { getBaseURI } from 'js/remote-api/build-api';
 import { connect } from 'react-redux';
 import './style.scss';
+import { isDocument } from 'js/components/operations/document/utils';
 
 /**
  * @typedef {Object} DocumentsBlocProps
@@ -42,6 +44,11 @@ export function DocumentsBloc({
 }) {
 	const [panelStatus, setPanelStatus] = useState(false);
 	const [filter, setFilter] = useState('');
+
+	const [baseURI, setBaseURI] = useState('');
+	useEffect(() => {
+		getBaseURI().then(uri => setBaseURI(uri));
+	});
 
 	const currentDocuments = sortArray(`label${localPrefix}`)(documents);
 	const currentDocumentsIds = currentDocuments.map(doc => doc.uri);
@@ -89,6 +96,10 @@ export function DocumentsBloc({
 		document,
 		btnBlocFunction = defaultBtnBlocFunction
 	) {
+		const id = document.uri.substr(document.uri.lastIndexOf('/') + 1);
+		const uri = isDocument(document)
+			? `${baseURI}/documents/document/${id}`
+			: document.url;
 		const label =
 			document[`label${localPrefix}`] || document.labelLg1 || document.labelLg2;
 		return (
@@ -97,7 +108,7 @@ export function DocumentsBloc({
 					<a
 						target="_blank"
 						rel="noopener noreferrer"
-						href={document.url}
+						href={uri}
 						title={document[`description${localPrefix}`]}
 					>
 						{label}
