@@ -44,7 +44,13 @@ Button.propTypes = {
 	//handler or url
 	action: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
 	label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
+	context: PropTypes.oneOf([
+		'',
+		'concepts',
+		'classifications',
+		'operations',
+		'dsds',
+	]),
 	col: PropTypes.number,
 	offset: PropTypes.number,
 	disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

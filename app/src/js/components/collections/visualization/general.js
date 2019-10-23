@@ -1,7 +1,7 @@
 import React from 'react';
 import D, { D2 } from 'js/i18n';
 import { Panel } from 'bauhaus-library';
-import { Note } from 'bauhaus-library';
+import Note from 'js/components/shared/note';
 import { stringToDate } from 'js/utils/moment';
 
 function CollectionGeneral({ attr, secondLang, langs }) {

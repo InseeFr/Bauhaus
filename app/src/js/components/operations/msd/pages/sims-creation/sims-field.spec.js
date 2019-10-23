@@ -6,7 +6,7 @@ import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import SelectRmes from 'js/components/shared/select-rmes';
-import { Note } from 'bauhaus-library';
+import Note from 'js/components/shared/note';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, PageTitle, SearchRmes } from 'bauhaus-library';
+import Button from 'js/components/shared/button';
+import { PageTitle, SearchRmes } from 'bauhaus-library';
 import API from 'js/remote-api/dsds/dsds-api';
 import D from 'js/i18n';
 

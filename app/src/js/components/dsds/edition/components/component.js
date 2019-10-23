@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ComponentList from 'js/components/dsds/visualization/components/component-list';
 import ComponentDetail from './details';
-import { Button } from 'bauhaus-library';
+import Button from 'js/components/shared/button';
 import { getConcepts, getCodeList } from 'js/remote-api/dsds';
 import * as C from 'js/constants';
 import D from 'js/i18n';

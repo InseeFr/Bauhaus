@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Note } from 'bauhaus-library';
+import Note from 'js/components/shared/note';
 import D, { D2 } from 'js/i18n';
 import { sortArray } from 'js/utils/array-utils';
 

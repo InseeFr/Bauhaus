@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button } from 'bauhaus-library';
+import Button from 'js/components/shared/button';
 import D from 'js/i18n';
 
 const Controls = ({ dsdId }) => {

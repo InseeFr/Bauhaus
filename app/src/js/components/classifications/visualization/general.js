@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import { Note } from 'bauhaus-library';
+import Note from 'js/components/shared/note';
 import { stringToDate } from 'js/utils/moment';
 import { DSURLToLabel } from 'js/utils/dissemination-status-convertor';
 

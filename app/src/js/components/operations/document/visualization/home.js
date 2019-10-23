@@ -1,4 +1,4 @@
-import { Note } from 'bauhaus-library';
+import Note from 'js/components/shared/note';
 import D, { D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React from 'react';
