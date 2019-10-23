@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import { Panel } from 'bauhaus-library';
+import Panel from 'js/components/shared/panel';
 
 export default ({ general, classificationId, secondLang }) => {
 	const mapping = {

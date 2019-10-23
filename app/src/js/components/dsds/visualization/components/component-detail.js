@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Badge, PageTitle } from 'bauhaus-library';
+import PageTitle from 'js/components/shared/page-title';
+import Badge from 'js/components/shared/badge';
 import ResourceLabel from './resource-label';
 import buildExtract from 'js/utils/build-extract';
 import API from 'js/remote-api/dsds/dsds-api';

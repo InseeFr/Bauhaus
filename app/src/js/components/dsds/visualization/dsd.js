@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'index';
-import { PageTitle, Panel } from 'bauhaus-library';
+import Panel from 'js/components/shared/panel';
+import PageTitle from 'js/components/shared/page-title';
+
 import Controls from './controls';
 import Components from './components';
 import D from 'js/i18n';

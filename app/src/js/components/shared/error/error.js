@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageTitle } from 'bauhaus-library';
+import PageTitle from 'js/components/shared/page-title';
 import D from 'js/i18n';
 
 export default ({ home }) => (

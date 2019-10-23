@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './pagination.scss';
-import { getApplicationContext } from '../';
+import { ApplicationContext } from 'js/context';
 
 function checkInvalidPage(targetPage, listSize) {
 	return targetPage === 0 || targetPage > listSize;
@@ -17,7 +17,7 @@ class Pagination extends Component {
 		itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
 		itemsPerPage: PropTypes.string.isRequired,
 	};
-	static contextType = getApplicationContext();
+	static contextType = ApplicationContext;
 	constructor(props) {
 		super(props);
 		this.state = {

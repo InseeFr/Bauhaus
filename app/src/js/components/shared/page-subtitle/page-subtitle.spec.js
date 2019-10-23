@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import PageSubtitle from './';
-jest.mock('../');
+import PageSubtitle from '.';
 
 describe('page-subTitle', () => {
 	it('renders without crashing', () => {

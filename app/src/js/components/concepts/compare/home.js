@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import { PageTitle } from 'bauhaus-library';
+import PageTitle from 'js/components/shared/page-title';
 import Controls from './controls';
 import ConceptGeneral from '../visualization/general';
 import CompareNotes from 'js/components/shared/note-compare';

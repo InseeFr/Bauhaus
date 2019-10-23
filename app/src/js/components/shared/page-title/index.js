@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import './page-title.scss';
-import { getApplicationContext } from '../';
+import { ApplicationContext } from 'js/context';
 
 /**
  *
  * @param {{title:string, subtitle:string?, col: number?, offset: number?, context:string}} props
  */
 function PageTitle({ title, subtitle, col = 10, offset = 1, context }) {
-	const ctx = useContext(getApplicationContext()) || context;
+	const ctx = useContext(ApplicationContext) || context;
 	const className = ctx ? `page-title-${ctx}` : 'page-title';
 	return (
 		<div className="row">

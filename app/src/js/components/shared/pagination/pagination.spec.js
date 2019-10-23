@@ -2,8 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Pagination from './';
 
-jest.mock('../');
-
 const items = Array.apply(null, Array(50)).map((a, i) => (
 	<span key={i}>`Item ${i + 1}`</span>
 ));

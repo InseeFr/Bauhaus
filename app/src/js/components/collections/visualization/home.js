@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import { PageTitle } from 'bauhaus-library';
-import { PageSubtitle } from 'bauhaus-library';
+import PageTitle from 'js/components/shared/page-title';
+import PageSubtitle from 'js/components/shared/page-subtitle';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 import CollectionMembers from './members';

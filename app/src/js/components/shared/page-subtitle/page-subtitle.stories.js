@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import PageSubtitle from './';
+import PageSubtitle from '.';
 import './page-subtitle.scss';
 
 import { withKnobs, text } from '@storybook/addon-knobs';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import { PageTitle } from 'bauhaus-library';
+import PageTitle from 'js/components/shared/page-title';
 import Controls from './controls';
 import Members from './members';
 

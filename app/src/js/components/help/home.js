@@ -3,7 +3,7 @@ import { content as contentConcepts } from './content-concepts';
 import { content as contentClassifications } from './content-classifications';
 import { content as contentOperations } from './content-operations';
 import HelpMenu from './menu';
-import { PageTitle } from 'bauhaus-library';
+import PageTitle from 'js/components/shared/page-title';
 import HelpFooter from './footer';
 import buildExtract from 'js/utils/build-extract';
 import { getLang } from 'js/i18n/build-dictionary';
