@@ -51,7 +51,6 @@ Button.propTypes = {
 	col: PropTypes.number,
 	offset: PropTypes.number,
 	disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-	children: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 	wrapper: PropTypes.bool,
 };
 
