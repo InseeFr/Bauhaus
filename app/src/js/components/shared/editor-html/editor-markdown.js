@@ -32,23 +32,39 @@ class EditorMarkdown extends Component {
 			editorState: editorStateFromMd(text || ''),
 			text,
 		};
-		this.handleChange = editorState => {
-			this.setState({
-				editorState,
-			});
-		};
-		this.handleLeave = () =>
-			this.props.handleChange(mdFromEditorState(this.state.editorState));
+
+		this.editorRef = React.createRef();
 	}
+
+	handleChange = editorState => {
+		this.setState({
+			editorState,
+		});
+	};
+	handleLeave = () => {
+		this.props.handleChange(mdFromEditorState(this.state.editorState));
+	};
+
 	componentWillReceiveProps(nextProps) {
 		this.setState({
 			editorState: editorStateFromMd(nextProps.text || ''),
 		});
 	}
-
+	componentDidMount() {
+		// hack to trigger the leave event when we click on the submit button when inserting a link
+		document
+			.getElementById(this.editorRef.current.wrapperId)
+			.querySelector('.rdw-link-wrapper')
+			.addEventListener('click', e => {
+				if (e.target.tagName === 'BUTTON') {
+					setTimeout(() => this.handleLeave(), 0);
+				}
+			});
+	}
 	render() {
 		return (
 			<Editor
+				ref={this.editorRef}
 				editorState={this.state.editorState}
 				toolbar={toolbar}
 				toolbarClassName="home-toolbar"
