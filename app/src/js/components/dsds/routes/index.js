@@ -11,6 +11,7 @@ import D from 'js/i18n';
 
 export default () => {
 	document.title = 'Bauhaus - ' + D.dsdsTitle;
+	document.body.classList = ['dsds'];
 	return (
 		<>
 			<Menu />

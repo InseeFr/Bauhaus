@@ -1,27 +1,9 @@
-@import 'src/index.scss';
-
-@mixin btn($mainColor, $hoveredColor) {
-	background-color: $mainColor;
+.bauhaus-btn {
+	background-color: var(--color-2);
 	color: white;
 	font-weight: bold;
 	&:hover:not([disabled]) {
-		background-color: $hoveredColor;
+		background-color: var(--color-3);
 		color: white;
 	}
-}
-
-.btn-concepts {
-	@include btn($color_concepts_2, $color_concepts_3);
-}
-
-.btn-classifications {
-	@include btn($color_classifications_2, $color_classifications_3);
-}
-
-.btn-operations {
-	@include btn($color_operations_2, $color_operations_3);
-}
-
-.btn-dsds {
-	@include btn($color_dsds_2, $color_dsds_3);
 }

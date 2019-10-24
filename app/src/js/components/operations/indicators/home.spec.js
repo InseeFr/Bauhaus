@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import IndicatorsHome from './home';
 import PageTitle from 'js/components/shared/page-title';
-import SearchRmes from 'js/components/shared/search-rmes';
+import { SearchRmes } from 'bauhaus-library';
 
 describe('IndicatorsHome', () => {
 	it('should display the PageTitle component', () => {

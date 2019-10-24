@@ -21,6 +21,7 @@ import { ThemeContext } from 'bauhaus-library';
 
 export default () => {
 	document.title = 'Bauhaus - ' + D.classificationsTitle;
+	document.body.classList = ['classifications'];
 	return (
 		<>
 			<Menu />

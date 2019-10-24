@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PageTitle from 'js/components/shared/page-title';
-import SearchRmes from 'js/components/shared/search-rmes';
+import { SearchRmes } from 'bauhaus-library';
 import D from 'js/i18n';
-import { Link } from 'react-router-dom';
+import { Button } from 'bauhaus-library';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
@@ -31,12 +31,7 @@ function DocumentHome({ documents }) {
 							].map(([url, title]) => (
 								<div className="row">
 									<div className="col-md-12">
-										<Link
-											to={url}
-											col={8}
-											offset={2}
-											className="btn btn-operations btn-lg col-md-12"
-										>
+										<Button action={url} wrapper={false}>
 											<span
 												className="glyphicon glyphicon-plus"
 												aria-hidden="true"
@@ -45,7 +40,7 @@ function DocumentHome({ documents }) {
 												{' '}
 												{D.btnNewMale} {title}
 											</span>
-										</Link>
+										</Button>
 									</div>
 								</div>
 							))}

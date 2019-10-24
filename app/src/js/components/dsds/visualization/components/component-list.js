@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Checkbox } from 'react-bootstrap';
 import { Input } from 'bauhaus-library';
-import Pagination from 'js/components/shared/pagination';
+import { Pagination } from 'bauhaus-library';
 
 import Badge from 'js/components/shared/badge';
 

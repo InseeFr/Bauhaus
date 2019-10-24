@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './pagination.scss';
-import { ThemeContext } from 'bauhaus-library';
 
 function checkInvalidPage(targetPage, listSize) {
 	return targetPage === 0 || targetPage > listSize;
@@ -17,7 +16,6 @@ class Pagination extends Component {
 		itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
 		itemsPerPage: PropTypes.string.isRequired,
 	};
-	static contextType = ThemeContext;
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -75,12 +73,11 @@ class Pagination extends Component {
 				);
 			});
 
-		const contextCSS = this.context ? `pg-rmes-${this.context}` : '';
 		return (
 			<React.Fragment>
 				<ul className="list-group">{currentItems}</ul>
 				{pageNumbers.length > 1 && (
-					<ul className={`pagination pg-rmes ${contextCSS}`}>
+					<ul className={`pagination pg-rmes`}>
 						<li className={isDisabled(currentPage - 1) ? 'disabled' : ''}>
 							<button
 								onClick={e => this.goToPage(1, e)}

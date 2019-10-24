@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Pagination from 'js/components/shared/pagination';
-import {
-	filterKeyDeburr,
-	nbResults,
-} from 'bauhaus-library/src/utils/array-utils';
-import D from 'js/i18n';
+import Pagination from '../pagination';
+import { I18NContext } from '../context';
+import { filterKeyDeburr, nbResults } from '../utils/array-utils';
 
 function SearchRmes({
 	items = [],
@@ -16,10 +13,10 @@ function SearchRmes({
 	childPath,
 	col,
 	colOff,
-	context,
 	label,
 }) {
 	const [search, handleSearch] = useState('');
+	const D = useContext(I18NContext);
 
 	const filter = filterKeyDeburr(
 		Object.keys(items[0] || {}).filter(k => k !== 'id')
@@ -85,13 +82,6 @@ SearchRmes.propTypes = {
 	placeholder: PropTypes.string,
 	col: PropTypes.number,
 	colOff: PropTypes.number,
-	context: PropTypes.oneOf([
-		'',
-		'concepts',
-		'classifications',
-		'operations',
-		'dsds',
-	]),
 	label: PropTypes.string,
 };
 
