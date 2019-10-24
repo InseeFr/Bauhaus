@@ -11,7 +11,7 @@ import OperationsSerieVisualization from 'js/components/operations/series/visual
 import Loading from 'js/components/shared/loading';
 import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import { getSecondLang } from 'js/reducers/app';
 import {
 	INDICATOR_CREATOR,

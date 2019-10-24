@@ -1,6 +1,6 @@
 import React from 'react';
 import PageTitle from 'js/components/shared/page-title';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import D from 'js/i18n';
 
 export default () => (

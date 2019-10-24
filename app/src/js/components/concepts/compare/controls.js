@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import D from 'js/i18n';
 
 class Controls extends Component {

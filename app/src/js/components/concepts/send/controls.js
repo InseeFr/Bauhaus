@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 

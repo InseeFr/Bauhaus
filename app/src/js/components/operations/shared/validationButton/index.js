@@ -1,6 +1,6 @@
 import D from 'js/i18n';
 import React, { useCallback } from 'react';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 
 export default ({ object = {}, callback, disabled = false }) => {
 	const state = object.validationState || '';

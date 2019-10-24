@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import D from 'js/i18n';
 
 function SendControls({

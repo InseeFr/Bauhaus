@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { loadSetup } from 'js/actions/operations/utils/setup';
 
 import D from 'js/i18n';
-import { ApplicationContext } from 'js/context';
+import { ThemeContext } from 'bauhaus-library';
 
 import FamilyRoutes from 'js/components/operations/routes/family';
 import SeriesRoutes from 'js/components/operations/routes/series';
@@ -24,14 +24,14 @@ class RootComponent extends Component {
 		return (
 			<>
 				<Menu />
-				<ApplicationContext.Provider value={'operations'}>
+				<ThemeContext.Provider value={'operations'}>
 					<FamilyRoutes />
 					<SeriesRoutes />
 					<OperationsRoutes />
 					<IndicatorRoutes />
 					<DocumentRoutes />
 					<SimsRoutes />
-				</ApplicationContext.Provider>
+				</ThemeContext.Provider>
 			</>
 		);
 	}

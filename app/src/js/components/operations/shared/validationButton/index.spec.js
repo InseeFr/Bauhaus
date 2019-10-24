@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import ValidationButton from './';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 
 describe('<ValidationButton', () => {
 	it('should contain a disabled button if the object is already validated', () => {

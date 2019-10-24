@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import I18NContext from '../i18n-provider';
+import { I18NContext } from '../context';
 import './back-to-top.css';
 window.onload = function() {
 	document.addEventListener(

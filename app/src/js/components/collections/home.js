@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import PageTitle from 'js/components/shared/page-title';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import SearchRmes from 'js/components/shared/search-rmes';
 import check from 'js/utils/auth';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';

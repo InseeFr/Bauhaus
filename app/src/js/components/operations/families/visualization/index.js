@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom';
 import { getSecondLang } from 'js/reducers/app';
 import { saveSecondLang } from 'js/actions/app';
 import Auth from 'js/utils/auth/components/auth';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import buildExtract from 'js/utils/build-extract';
 import { ADMIN, CNIS } from 'js/utils/auth/roles';
 import Loading from 'js/components/shared/loading';

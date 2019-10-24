@@ -17,14 +17,14 @@ import ClassificationsCorrespondenceContainer from 'js/components/classification
 import ClassificationsCorrespondenceAssociationContainer from 'js/components/classifications/correspondences/association/home-container';
 import D from 'js/i18n';
 import Menu from 'js/components/classifications/menu';
-import { ApplicationContext } from 'js/context';
+import { ThemeContext } from 'bauhaus-library';
 
 export default () => {
 	document.title = 'Bauhaus - ' + D.classificationsTitle;
 	return (
 		<>
 			<Menu />
-			<ApplicationContext.Provider value={'classifications'}>
+			<ThemeContext.Provider value={'classifications'}>
 				<Switch>
 					<Route
 						exact
@@ -97,7 +97,7 @@ export default () => {
 						component={ClassificationsCorrespondenceAssociationContainer}
 					/>
 				</Switch>
-			</ApplicationContext.Provider>
+			</ThemeContext.Provider>
 		</>
 	);
 };

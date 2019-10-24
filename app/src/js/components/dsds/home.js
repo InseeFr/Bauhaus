@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import SearchRmes from 'js/components/shared/search-rmes';
 import PageTitle from 'js/components/shared/page-title';
 import API from 'js/remote-api/dsds/dsds-api';
