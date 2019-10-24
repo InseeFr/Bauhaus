@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Pagination from 'js/components/shared/pagination';
+import { Pagination } from 'bauhaus-library';
 import D from 'js/i18n';
 
 class SearchConceptsByLabel extends Component {

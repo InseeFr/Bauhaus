@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Panel from 'js/components/shared/panel';
-import Pagination from 'js/components/shared/pagination';
+import { Pagination } from 'bauhaus-library';
 import Item from 'js/components/shared/picker-item';
 import { filterDeburr } from 'js/utils/array-utils';
 import D from 'js/i18n';

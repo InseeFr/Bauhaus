@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import PageTitle from 'js/components/shared/page-title';
 import Controls from './controls';
-import Pagination from 'js/components/shared/pagination';
+import { Pagination } from 'bauhaus-library';
 import { nbResults } from 'js/utils/array-utils';
 
 const SearchList = ({ title, backUrl, children, data, initializeState }) => {

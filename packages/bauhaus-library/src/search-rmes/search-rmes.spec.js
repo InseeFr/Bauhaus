@@ -9,6 +9,6 @@ const items = Array.apply(null, Array(50)).map((a, i) => ({
 
 describe('search', () => {
 	it('renders without crashing', () => {
-		shallow(<Search items={items} childPath="concept" context="concepts" />);
+		shallow(<Search items={items} childPath="concept" />);
 	});
 });
