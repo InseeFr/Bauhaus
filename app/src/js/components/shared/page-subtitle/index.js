@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import './page-subtitle.scss';
-import { ApplicationContext } from 'js/context';
+import { ThemeContext } from 'bauhaus-library';
 
 const PageSubtitle = ({ subTitle, context = 'concepts' }) => {
-	const ctx = useContext(ApplicationContext) || context;
+	const ctx = useContext(ThemeContext) || context;
 
 	return (
 		<div className="row">

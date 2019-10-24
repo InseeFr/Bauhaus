@@ -16,7 +16,7 @@ import loadOperation, {
 import D from 'js/i18n';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { goBack } from 'js/utils/redirection';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import {

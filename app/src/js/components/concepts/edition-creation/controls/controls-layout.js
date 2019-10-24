@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import D from 'js/i18n';
 
 class ConceptCreateControlLayout extends Component {

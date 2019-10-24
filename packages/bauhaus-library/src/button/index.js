@@ -1,18 +1,13 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import './button.scss';
-import { ApplicationContext } from 'js/context';
+import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
 
-const Button = ({
-	action,
-	label,
-	disabled,
-	context = 'concepts',
-	col = 2,
-	offset,
-}) => {
-	const ctx = useContext(ApplicationContext) || context;
+import { ThemeContext } from '../context';
+
+import './button.scss';
+
+const Button = ({ action, label, disabled, col = 2, offset }) => {
+	const ctx = useContext(ThemeContext);
 	const btnClass = `btn-${ctx}`;
 	let button;
 	if (typeof action === 'string') {
@@ -41,16 +36,8 @@ const Button = ({
 };
 
 Button.propTypes = {
-	//handler or url
 	action: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
 	label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-	context: PropTypes.oneOf([
-		'',
-		'concepts',
-		'classifications',
-		'operations',
-		'dsds',
-	]),
 	col: PropTypes.number,
 	offset: PropTypes.number,
 	disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

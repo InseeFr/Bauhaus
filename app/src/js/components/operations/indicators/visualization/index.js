@@ -12,7 +12,7 @@ import Loading from 'js/components/shared/loading';
 import loadIndicator, {
 	publishIndicator,
 } from 'js/actions/operations/indicators/item';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';

@@ -1,5 +1,6 @@
 export { default as BackToTop } from './back-to-top';
-export { default as I18NContext } from './i18n-provider';
+export { I18NContext, ThemeContext } from './context';
+export { default as Button } from './button';
 
 export { default as Flag } from './flag';
 export { default as Input } from './input';

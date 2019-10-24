@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import { flattenTree } from 'js/utils/msd';
 import ReactLoading from 'react-loading';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Update from './update';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import SelectRmes from 'js/components/shared/select-rmes';
 
 const roles = [{ id: 'id', label: 'label', persons: [] }];

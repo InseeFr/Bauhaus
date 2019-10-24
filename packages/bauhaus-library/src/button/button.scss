@@ -1,11 +1,11 @@
-@import 'src/main.scss';
+@import 'src/index.scss';
 
-@mixin btn($color2, $color3) {
-	background-color: $color2;
+@mixin btn($mainColor, $hoveredColor) {
+	background-color: $mainColor;
 	color: white;
 	font-weight: bold;
 	&:hover:not([disabled]) {
-		background-color: $color3;
+		background-color: $hoveredColor;
 		color: white;
 	}
 }

@@ -1,6 +1,6 @@
 import { saveSecondLang } from 'js/actions/app';
 import loadDocument from 'js/actions/operations/documents/item';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import Loading from 'js/components/shared/loading';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import D from 'js/i18n';

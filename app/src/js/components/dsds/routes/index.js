@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { ApplicationContext } from 'js/context';
+import { ThemeContext } from 'bauhaus-library';
 
 import Menu from 'js/components/dsds/menu';
 import Home from 'js/components/dsds/home';
@@ -14,7 +14,7 @@ export default () => {
 	return (
 		<>
 			<Menu />
-			<ApplicationContext.Provider value={'dsds'}>
+			<ThemeContext.Provider value={'dsds'}>
 				<div className="container">
 					<Switch>
 						<Route exact path="/dsds" component={Home} />
@@ -23,7 +23,7 @@ export default () => {
 						<Route exact path="/dsds/:dsdId" component={Visualization} />
 					</Switch>
 				</div>
-			</ApplicationContext.Provider>
+			</ThemeContext.Provider>
 		</>
 	);
 };

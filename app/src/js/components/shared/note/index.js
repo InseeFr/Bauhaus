@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Panel from '../panel';
 import { markdownToHtml } from 'js/utils/html';
-import { ApplicationContext } from 'js/context';
+import { ThemeContext } from 'bauhaus-library';
 
 export default ({
 	text = '',
@@ -12,7 +12,7 @@ export default ({
 	context,
 	alt = '',
 }) => {
-	const ctx = useContext(ApplicationContext) || context;
+	const ctx = useContext(ThemeContext) || context;
 	const cl = alone ? 'col-md-12' : 'col-md-6';
 	if (!text && !allowEmpty) return null;
 

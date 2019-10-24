@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import PlaceHolder from 'js/components/shared/placeholder/placeholder';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';

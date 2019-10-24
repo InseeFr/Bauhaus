@@ -24,14 +24,14 @@ import Administration from 'js/components/administration/home';
 import ConceptsDashboard from 'js/components/administration/dashboard/concepts/home-container';
 import D from 'js/i18n';
 import Menu from 'js/components/concepts/menu';
-import { ApplicationContext } from 'js/context';
+import { ThemeContext } from 'bauhaus-library';
 
 export default () => {
 	document.title = 'Bauhaus - ' + D.conceptsTitle;
 	return (
 		<>
 			<Menu />
-			<ApplicationContext.Provider value={'concepts'}>
+			<ThemeContext.Provider value={'concepts'}>
 				<Switch>
 					<Route exact path="/concepts" component={ConceptsContainer} />
 					<Route
@@ -118,7 +118,7 @@ export default () => {
 						component={ConceptsDashboard}
 					/>
 				</Switch>
-			</ApplicationContext.Provider>
+			</ThemeContext.Provider>
 		</>
 	);
 };

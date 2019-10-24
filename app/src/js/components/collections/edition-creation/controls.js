@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from 'js/components/shared/button';
+import { Button } from 'bauhaus-library';
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import D from 'js/i18n';

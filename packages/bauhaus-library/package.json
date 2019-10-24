@@ -8,8 +8,8 @@
 		"start": "microbundle watch --target node --jsx React.createElement",
 		"build-insee": "microbundle build --jsx React.createElement",
 		"test": "jest --watch",
-		"build-storybook": "cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
-		"start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
+		"build-storybook": "build-storybook -o built-storybook/storybook",
+		"start-storybook": "start-storybook -p 9999",
 		"test:coverage": "jest --coverage",
 		"lint": "eslint src"
 	},

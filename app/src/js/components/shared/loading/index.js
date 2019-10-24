@@ -3,10 +3,10 @@ import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
 import { getText } from 'js/utils/loading';
 import './loading.scss';
-import { ApplicationContext } from 'js/context';
+import { ThemeContext } from 'bauhaus-library';
 
 const Loading = ({ textType, context = 'concepts' }) => {
-	const ctx = useContext(ApplicationContext) || context;
+	const ctx = useContext(ThemeContext) || context;
 	const text = getText(textType);
 	return (
 		<div className="container centered">
