@@ -18,7 +18,7 @@ function App() {
 					<h2 className="items page-title page-title-link">
 						{D[app + 'Title']}
 					</h2>
-					<img src={require(`img/${app}.jpg`)} alt={app} />
+					<img src={require(`img/${app}_noir.svg`)} alt={app} />
 				</Link>
 			</li>
 		);
