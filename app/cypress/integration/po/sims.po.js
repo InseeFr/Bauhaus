@@ -3,7 +3,15 @@ export class SimsViewPage {
 		return '.bauhaus-page-title';
 	}
 
+	getPublishButton() {
+		return 'div:nth-child(3) > button';
+	}
+
 	getUpdateButton() {
+		return 'div:nth-child(4) > a';
+	}
+
+	getSecondLangCheckbox() {
 		return 'div:nth-child(4) > a';
 	}
 

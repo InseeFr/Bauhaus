@@ -38,6 +38,8 @@ describe('SIMS Page', function() {
 		cy.url().should('contains', '/sims/1512');
 		cy.get(simsViewPage.getTitle()).should('exist');
 
+		cy.get(simsViewPage.getPublishButton()).contains('Publier');
+		cy.get(simsViewPage.getSecondLangCheckbox()).should('be.visible');
 		cy.get(simsViewPage.getUpdateButton()).click();
 
 		// Update page
