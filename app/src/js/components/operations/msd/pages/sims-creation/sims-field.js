@@ -132,7 +132,9 @@ class Field extends Component {
 								<>
 									<EditorMarkdown
 										aria-label={D.simsValue}
-										text={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
+										text={
+											currentSection[secondLang ? 'labelLg2' : 'labelLg1'] || ''
+										}
 										handleChange={this.handleTextInput}
 									/>
 									<DocumentsBloc
