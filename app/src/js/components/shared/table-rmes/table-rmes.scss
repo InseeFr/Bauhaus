@@ -1,28 +1,28 @@
 @import 'src/main.scss';
 
 .table-concepts .table-hover tbody tr:hover td {
-	background-color: $color_concepts_3;
+	background-color: var(--color-3);
 }
 .table-classifications .table-hover tbody tr:hover td {
-	background-color: $color_classifications_3;
+	background-color: var(--color-3);
 }
 
 .table-header-concepts {
-	background-color: $color_concepts_3;
+	background-color: var(--color-3);
 	color: white;
 }
 .table-header-classifications {
-	background-color: $color_classifications_3;
+	background-color: var(--color-3);
 	color: white;
 }
 
 .pagination-concepts .pagination > .active > a {
-	background-color: $color_concepts_3;
-	border-color: $color_concepts_3;
+	background-color: var(--color-3);
+	border-color: var(--color-3);
 }
 .pagination-classifications .pagination > .active > a {
-	background-color: $color_classifications_3;
-	border-color: $color_classifications_3;
+	background-color: var(--color-3);
+	border-color: var(--color-3);
 }
 
 .table-header-concepts thead tr th,

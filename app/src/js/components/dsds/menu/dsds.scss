@@ -3,5 +3,5 @@
 @import 'src/js/components/menu/_menu.default.scss';
 
 .navbar-default-dsds {
-	@include set-menu('dsds', $color_dsds_1, $color_dsds_2, $color_dsds_3);
+	@include set-menu('dsds', var(--color-1), var(--color-2), var(--color-3));
 }

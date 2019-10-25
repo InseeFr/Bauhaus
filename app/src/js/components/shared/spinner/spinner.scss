@@ -5,8 +5,8 @@
 }
 
 .loading-dsds > div {
-	fill: $color_dsds_3 !important;
+	fill: var(--color-3) !important;
 }
 .loading-dsds-text {
-	color: $color_dsds_3;
+	color: var(--color-3);
 }

@@ -43,17 +43,17 @@ footer {
 }
 
 .btn-group-vertical {
-	border-color: $color_concepts_3;
+	border-color: var(--color-3);
 	@include btn-group-vertical();
 }
 
 .operations-btn-group-vertical {
-	border-color: $color_operations_3;
+	border-color: var(--color-3);
 	@include btn-group-vertical();
 }
 
 .dsds-btn-group-vertical {
-	border-color: $color_dsds_3;
+	border-color: var(--color-3);
 	@include btn-group-vertical();
 }
 
@@ -69,8 +69,8 @@ footer {
 }
 
 .page-title-temp {
-	border: 2px solid $color_concepts_3;
-	background-color: $color_concepts_3;
+	border: 2px solid var(--color-3);
+	background-color: var(--color-3);
 	color: white;
 	border-radius: 6px;
 	padding: 10px;
@@ -106,21 +106,21 @@ link {
 }
 
 .nav-tabs > li {
-	border: 1px solid $color_concepts_3;
+	border: 1px solid var(--color-3);
 }
 .nav-tabs.nav-justified > li > a {
 	border-bottom: none;
 }
 .nav-tabs > li > a:hover {
-	background-color: $color_concepts_2 !important;
+	background-color: var(--color-2) !important;
 	color: #fff !important;
 }
 .nav-tabs > li.active > a {
-	background-color: $color_concepts_3 !important;
+	background-color: var(--color-3) !important;
 	color: #fff !important;
 }
 .nav-tabs > li > a:focus {
-	background-color: $color_concepts_3 !important;
+	background-color: var(--color-3) !important;
 	color: #fff;
 }
 
@@ -145,7 +145,7 @@ link {
 }
 
 .DraftEditor-root {
-	border: 2px solid $color_concepts_3;
+	border: 2px solid var(--color-3);
 	border-radius: 6px;
 	margin-top: 10px;
 	min-height: 200px;

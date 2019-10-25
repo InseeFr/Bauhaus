@@ -8,13 +8,13 @@
 	margin-bottom: 20px;
 }
 .page-subtitle-concepts {
-	@include page-subtitle($color_concepts_3);
+	@include page-subtitle(var(--color-3));
 }
 
 .page-subtitle-classifications {
-	@include page-subtitle($color_classifications_3);
+	@include page-subtitle(var(--color-3));
 }
 
 .page-subtitle-operations {
-	@include page-subtitle($color_operations_3);
+	@include page-subtitle(var(--color-3));
 }

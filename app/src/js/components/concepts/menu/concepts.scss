@@ -3,5 +3,5 @@
 @import 'src/js/components/menu/_menu.default.scss';
 
 .navbar-default-concepts {
-	@include set-menu("concepts", $color_concepts_1, $color_concepts_2, $color_concepts_3);
+	@include set-menu('concepts', var(--color-1), var(--color-2), var(--color-3));
 }

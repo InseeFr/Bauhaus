@@ -18,16 +18,16 @@
 	}
 }
 .note-concepts {
-	@include note($color_concepts_2, $color_concepts_1);
+	@include note(var(--color-2), var(--color-1));
 }
 
 .note-classifications {
-	@include note($color_classifications_2, $color_classifications_1);
+	@include note(var(--color-2), var(--color-1));
 }
 .note-operations {
-	@include note($color_operations_2, $color_operations_1);
+	@include note(var(--color-2), var(--color-1));
 }
 
 .note-dsds {
-	@include note($color_dsds_2, $color_dsds_1);
+	@include note(var(--color-2), var(--color-1));
 }

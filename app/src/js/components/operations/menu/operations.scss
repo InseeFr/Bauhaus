@@ -2,5 +2,10 @@
 @import 'src/js/components/menu/_menu.default.scss';
 
 .navbar-default-operations {
-	@include set-menu("operations", $color_operations_1, $color_operations_2, $color_operations_3);
+	@include set-menu(
+		'operations',
+		var(--color-1),
+		var(--color-2),
+		var(--color-3)
+	);
 }
