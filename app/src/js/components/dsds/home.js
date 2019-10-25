@@ -16,7 +16,7 @@ const Home = () => {
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-md-3 dsds-btn-group-vertical">
+				<div className="col-md-3 btn-group-vertical">
 					<div className="row">
 						<Button
 							label={D.btnNewFemale}

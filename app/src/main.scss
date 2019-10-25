@@ -43,18 +43,16 @@ footer {
 }
 
 .btn-group-vertical {
-	border-color: var(--color-3);
-	@include btn-group-vertical();
-}
+	@media (min-width: 1000px) {
+		margin-top: 200px;
+	}
 
-.operations-btn-group-vertical {
-	border-color: var(--color-3);
-	@include btn-group-vertical();
-}
+	margin-top: 50px;
 
-.dsds-btn-group-vertical {
-	border-color: var(--color-3);
-	@include btn-group-vertical();
+	.btn {
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
 }
 
 @media (max-width: 1000px) {

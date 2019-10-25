@@ -24,7 +24,7 @@ function DocumentHome({ documents }) {
 			<div className="container documents-home">
 				<div className="row">
 					<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
-						<div className="col-md-3 operations-btn-group-vertical">
+						<div className="col-md-3 btn-group-vertical">
 							{[
 								['/operations/document/create', D.document],
 								['/operations/link/create', D.link],

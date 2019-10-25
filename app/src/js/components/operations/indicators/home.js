@@ -16,7 +16,7 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 			<div className="container">
 				<div className="row">
 					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
-						<div className="col-md-3 operations-btn-group-vertical">
+						<div className="col-md-3 btn-group-vertical">
 							{adminOrContributor && (
 								<div className="row">
 									<div className="col-md-8 col-md-offset-2">

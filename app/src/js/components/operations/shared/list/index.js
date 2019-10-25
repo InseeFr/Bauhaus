@@ -19,7 +19,7 @@ function OperationsObjectHome({
 			<div className="container">
 				<div className="row">
 					<Auth roles={roles}>
-						<div className="col-md-3 operations-btn-group-vertical">
+						<div className="col-md-3 btn-group-vertical">
 							<div className="row">
 								<div className="col-md-8 col-md-offset-2">
 									<Button action={createURL} wrapper={false}>

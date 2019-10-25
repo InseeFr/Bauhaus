@@ -1,6 +1,6 @@
 export class SeriesPage {
 	getNewButton() {
-		return '.operations-btn-group-vertical a';
+		return '.btn-group-vertical a';
 	}
 }
 

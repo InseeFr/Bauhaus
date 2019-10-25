@@ -13,7 +13,7 @@ describe('Indicator Page', function() {
 	});
 	it(`Should go to the Indicator creation page and come back`, function() {
 		cy.server().visit(`/operations/indicators`);
-		cy.get('.operations-btn-group-vertical a')
+		cy.get('.btn-group-vertical a')
 			.first()
 			.click();
 
@@ -27,7 +27,7 @@ describe('Indicator Page', function() {
 	});
 	it(`Should go to the creation page`, function() {
 		cy.server().visit(`/operations/indicators`);
-		cy.get('.operations-btn-group-vertical a')
+		cy.get('.btn-group-vertical a')
 			.first()
 			.click();
 		cy.get('.alert-danger').should('be.visible');
