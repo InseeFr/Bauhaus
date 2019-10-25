@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PageTitle from 'js/components/shared/page-title';
-import PageSubtitle from 'js/components/shared/page-subtitle';
+import { PageSubtitle } from 'bauhaus-library';
 
 function PageTitleBlock({ titleLg1, titleLg2, secondLang }) {
 	return (
