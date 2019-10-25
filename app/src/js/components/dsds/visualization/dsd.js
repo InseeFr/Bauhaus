@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'index';
 import Panel from 'js/components/shared/panel';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 
 import Controls from './controls';
 import Components from './components';

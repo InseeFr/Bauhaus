@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import { Button } from 'bauhaus-library';
 import { SearchRmes } from 'bauhaus-library';
 import check from 'js/utils/auth';

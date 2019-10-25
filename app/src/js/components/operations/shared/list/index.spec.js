@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import OperationsObjectHome from './index';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import { SearchRmes } from 'bauhaus-library';
 
 describe('FamiliesHome', () => {

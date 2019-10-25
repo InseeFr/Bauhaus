@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import Controls from './controls';
 import DnDTree from 'js/components/shared/tree/dnd';
 import D from 'js/i18n';

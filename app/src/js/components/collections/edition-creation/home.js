@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
 import MembersEdition from './members';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { PageTitle } from 'bauhaus-library'; from '.';
+import { PageTitle } from 'bauhaus-library';
 
 describe('page-title', () => {
 	it('renders without crashing', () => {

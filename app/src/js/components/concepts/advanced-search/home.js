@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import Controls from './controls';
 import SelectRmes from 'js/components/shared/select-rmes';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';

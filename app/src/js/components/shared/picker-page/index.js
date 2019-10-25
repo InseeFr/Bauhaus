@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import D from 'js/i18n';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import { Button } from 'bauhaus-library';
 import Panel from 'js/components/shared/panel';
 import { Pagination } from 'bauhaus-library';
