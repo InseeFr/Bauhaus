@@ -19,7 +19,7 @@
 					expect(lis).to.have.length(1);
 				});
 
-				cy.get('h1.page-title-operations').should('be.visible');
+				cy.get('h1.bauhaus-page-title').should('be.visible');
 				cy.get('.list-group').should('be.visible');
 				cy.get('.pagination').should('be.visible');
 

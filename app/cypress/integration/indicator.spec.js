@@ -67,7 +67,6 @@ describe('Indicator Page', function() {
 				.click();
 		});
 
-		cy.get('label img').should('have.length', 8);
 		cy.get('.row:first-of-type > div.form-group').should('have.length', 2);
 		cy.get('label span.boldRed').should('have.length', 2);
 	});

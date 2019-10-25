@@ -134,7 +134,7 @@ describe('SIMS Page', function() {
 
 		// Duplicate page
 		cy.url().should('contains', '/sims/1512/duplicate');
-		cy.get('.page-title-operations').should('not.exist');
+		cy.get('.bauhaus-page-title').should('not.exist');
 		cy.get('input[value="02/01/2019"]').should('exist');
 		cy.get('.btn-line').within(() => {
 			cy.get('div:first > button')
@@ -184,7 +184,7 @@ describe('SIMS Page', function() {
 
 		// Create Page
 		cy.url().should('contains', '/sims/create');
-		cy.get('.page-title-operations').should('exist');
+		cy.get('.bauhaus-page-title').should('exist');
 		cy.get('.btn-line').within(() => {
 			cy.get('div:first > button').contains('Annuler');
 			cy.get('div:nth-child(3) > button').contains('Sauvegarder');

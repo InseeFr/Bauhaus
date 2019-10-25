@@ -37,7 +37,7 @@ export class FamilyEditPage {
 		this.getBackButton().click();
 	}
 	getTitle() {
-		return cy.get('.page-title-operations');
+		return cy.get('.bauhaus-page-title');
 	}
 	getErrorsBlock() {
 		return '.alert';

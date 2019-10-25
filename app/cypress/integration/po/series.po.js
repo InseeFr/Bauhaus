@@ -9,7 +9,7 @@ export class SeriesEditPage {
 		return '.btn-line button';
 	}
 	getTitle() {
-		return '.page-title-operations';
+		return '.bauhaus-page-title';
 	}
 	getErrorsBlock() {
 		return '.alert';
