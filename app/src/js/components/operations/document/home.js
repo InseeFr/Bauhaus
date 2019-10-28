@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { PageTitle } from 'bauhaus-library';
 import { SearchRmes } from 'bauhaus-library';
 import D from 'js/i18n';
-import { Button } from 'bauhaus-library';
+import { NewButton } from 'bauhaus-library';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
@@ -31,16 +31,11 @@ function DocumentHome({ documents }) {
 							].map(([url, title]) => (
 								<div className="row">
 									<div className="col-md-12">
-										<Button action={url} wrapper={false}>
-											<span
-												className="glyphicon glyphicon-plus"
-												aria-hidden="true"
-											/>
-											<span>
-												{' '}
-												{D.btnNewMale} {title}
-											</span>
-										</Button>
+										<NewButton
+											action={url}
+											wrapper={false}
+											label={`${D.btnNewMale} ${title}`}
+										/>
 									</div>
 								</div>
 							))}

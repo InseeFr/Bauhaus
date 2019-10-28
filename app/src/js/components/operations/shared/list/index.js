@@ -1,8 +1,5 @@
 import React from 'react';
-import { PageTitle } from 'bauhaus-library';
-import { SearchRmes } from 'bauhaus-library';
-import D from 'js/i18n';
-import { Button } from 'bauhaus-library';
+import { NewButton, SearchRmes, PageTitle } from 'bauhaus-library';
 import Auth from 'js/utils/auth/components/auth';
 
 function OperationsObjectHome({
@@ -22,13 +19,7 @@ function OperationsObjectHome({
 						<div className="col-md-3 btn-group-vertical">
 							<div className="row">
 								<div className="col-md-8 col-md-offset-2">
-									<Button action={createURL} wrapper={false}>
-										<span
-											className="glyphicon glyphicon-plus"
-											aria-hidden="true"
-										/>
-										<span> {D.btnNewMale}</span>
-									</Button>
+									<NewButton action={createURL} wrapper={false} />
 								</div>
 							</div>
 						</div>

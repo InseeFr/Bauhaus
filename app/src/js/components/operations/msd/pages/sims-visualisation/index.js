@@ -21,7 +21,7 @@ import {
 	CNIS,
 } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
-import { DuplicateButton } from 'js/components/shared/button-with-icon';
+import { DuplicateButton } from 'bauhaus-library';
 import ValidationButton from 'js/components/operations/shared/validationButton';
 import { ErrorBloc } from 'bauhaus-library';
 

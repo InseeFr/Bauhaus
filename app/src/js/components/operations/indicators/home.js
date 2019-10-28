@@ -4,7 +4,7 @@ import { PageTitle } from 'bauhaus-library';
 import { SearchRmes } from 'bauhaus-library';
 import D from 'js/i18n';
 import check from 'js/utils/auth';
-import { Button } from 'bauhaus-library';
+import { NewButton } from 'bauhaus-library';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CREATOR, ADMIN } from 'js/utils/auth/roles';
 
@@ -20,16 +20,10 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 							{adminOrContributor && (
 								<div className="row">
 									<div className="col-md-8 col-md-offset-2">
-										<Button
+										<NewButton
 											action="/operations/indicator/create"
 											wrapper={false}
-										>
-											<span
-												className="glyphicon glyphicon-plus"
-												aria-hidden="true"
-											/>
-											<span> {D.btnNewMale}</span>
-										</Button>
+										/>
 									</div>
 								</div>
 							)}

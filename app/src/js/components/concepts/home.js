@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { PageTitle } from 'bauhaus-library';
-import { Button } from 'bauhaus-library';
-import { SearchRmes } from 'bauhaus-library';
+import {
+	PageTitle,
+	SearchRmes,
+	NewButton,
+	PublishButton,
+	ExportButton,
+} from 'bauhaus-library';
 import check from 'js/utils/auth';
 import { propTypes as conceptOverviewPropTypes } from 'js/utils/concepts/concept-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
@@ -42,33 +46,11 @@ class ConceptsHome extends Component {
 						<div className="col-md-3 btn-group-vertical">
 							{adminOrContributor && (
 								<div className="row">
-									<Button
-										label={
-											<React.Fragment>
-												<span
-													className="glyphicon glyphicon-plus"
-													aria-hidden="true"
-												/>
-												<span> {D.btnNewMale}</span>
-											</React.Fragment>
-										}
-										action={this.handleClick}
-										col={8}
-										offset={2}
-									/>
+									<NewButton action={this.handleClick} col={8} offset={2} />
 								</div>
 							)}
 							<div className="row">
-								<Button
-									label={
-										<React.Fragment>
-											<span
-												className="glyphicon glyphicon-export"
-												aria-hidden="true"
-											/>
-											<span> {D.btnExport}</span>
-										</React.Fragment>
-									}
+								<ExportButton
 									action={this.handleClickExport}
 									col={8}
 									offset={2}
@@ -76,16 +58,7 @@ class ConceptsHome extends Component {
 							</div>
 							{adminOrCreator && (
 								<div className="row">
-									<Button
-										label={
-											<React.Fragment>
-												<span
-													className="glyphicon glyphicon-ok"
-													aria-hidden="true"
-												/>
-												<span> {D.btnValid}</span>
-											</React.Fragment>
-										}
+									<PublishButton
 										action={this.handleClickValidate}
 										col={8}
 										offset={2}

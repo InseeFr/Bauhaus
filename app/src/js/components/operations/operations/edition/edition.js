@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import D, { D2 } from 'js/i18n';
 import { goBack, goBackOrReplace } from 'js/utils/redirection';
 import PropTypes from 'prop-types';
-import {
-	CancelButton,
-	SaveButton,
-} from 'js/components/shared/button-with-icon';
+import { CancelButton, SaveButton } from 'bauhaus-library';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { validate } from './validation';
 import Loading from 'js/components/shared/loading';

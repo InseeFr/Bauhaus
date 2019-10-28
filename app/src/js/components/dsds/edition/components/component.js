@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ComponentList from 'js/components/dsds/visualization/components/component-list';
 import ComponentDetail from './details';
-import { Button } from 'bauhaus-library';
+import { NewButton } from 'bauhaus-library';
 import { getConcepts, getCodeList } from 'js/remote-api/dsds';
 import * as C from 'js/constants';
 import D from 'js/i18n';
@@ -71,13 +71,7 @@ const Components = ({ components, onChange }) => {
 						/>
 					)}
 					{!edition && (
-						<Button
-							label={D.btnNewMale}
-							action={() => setEdition(true)}
-							col={4}
-							offset={4}
-							context="dsds"
-						/>
+						<NewButton action={() => setEdition(true)} col={4} offset={4} />
 					)}
 				</div>
 			</div>

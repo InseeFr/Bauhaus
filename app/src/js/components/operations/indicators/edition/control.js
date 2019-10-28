@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-	CancelButton,
-	SaveButton,
-} from 'js/components/shared/button-with-icon';
+import { CancelButton, SaveButton } from 'bauhaus-library';
 import { ErrorBloc } from 'bauhaus-library';
 
 function Control({ onSubmit, indicator, errorMessage }) {
