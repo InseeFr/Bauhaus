@@ -15,6 +15,7 @@ import {
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
 } from 'js/components/operations/msd/utils';
+import { mdFromEditorState } from 'js/utils/html';
 
 class SimsCreation extends React.Component {
 	static propTypes = {
@@ -38,6 +39,7 @@ class SimsCreation extends React.Component {
 				this.props.mode !== DUPLICATE
 					? this.props.idParent || getParentId(this.props.sims)
 					: '',
+
 			sims: {
 				...Object.keys(flattenStructure).reduce((acc, key) => {
 					return {
@@ -78,6 +80,7 @@ class SimsCreation extends React.Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		e.stopPropagation();
+
 		this.setState({ saving: true });
 
 		this.props.onSubmit(
@@ -86,7 +89,20 @@ class SimsCreation extends React.Component {
 				labelLg1: this.props.mode !== DUPLICATE ? this.props.sims.labelLg1 : '',
 				labelLg2: this.props.mode !== DUPLICATE ? this.props.sims.labelLg2 : '',
 				[getParentIdName(this.props.parentType)]: this.state.idParent,
-				rubrics: Object.values(this.state.sims),
+				rubrics: Object.values(this.state.sims).map(rubric => {
+					if (rubric.rangeType === 'RICH_TEXT') {
+						return {
+							...rubric,
+							labelLg1: rubric.labelLg1
+								? mdFromEditorState(rubric.labelLg1)
+								: rubric.labelLg1,
+							labelLg2: rubric.labelLg2
+								? mdFromEditorState(rubric.labelLg2)
+								: rubric.labelLg2,
+						};
+					}
+					return rubric;
+				}),
 			},
 			id => {
 				this.setState({ saving: false });

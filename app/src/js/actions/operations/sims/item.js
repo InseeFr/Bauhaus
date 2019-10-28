@@ -6,7 +6,7 @@ import { getLabelsFromParent } from 'js/utils/msd';
 import { getPublishFactory } from '../utils';
 
 export const publishSims = getPublishFactory(
-	api.publishSeries,
+	api.publishSims,
 	A.PUBLISH_OPERATIONS_SIMS,
 	A.PUBLISH_OPERATIONS_SIMS_SUCCESS,
 	A.PUBLISH_OPERATIONS_SIMS_FAILURE
