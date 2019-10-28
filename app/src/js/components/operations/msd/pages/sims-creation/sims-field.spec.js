@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
-import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
+import { Editor } from 'react-draft-wysiwyg';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { Note } from 'js/components/shared/note/note';
 
@@ -24,7 +24,7 @@ describe('Sims Field', () => {
 		);
 		expect(general.find(InputRmes).length).toBe(0);
 		expect(general.find(DatePickerRmes).length).toBe(0);
-		expect(general.find(EditorMarkdown).length).toBe(0);
+		expect(general.find(Editor).length).toBe(0);
 		expect(general.find(SelectRmes).length).toBe(0);
 	});
 	it('should display only one field', () => {
@@ -82,7 +82,7 @@ describe('Sims Field', () => {
 			general
 				.find(Note)
 				.dive()
-				.find(EditorMarkdown).length
+				.find(Editor).length
 		).toBe(1);
 	});
 	it('when rangeType === CODE_LIST, should display a SelectRmes', () => {
