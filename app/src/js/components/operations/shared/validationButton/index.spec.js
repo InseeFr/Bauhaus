@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import ValidationButton from './';
-import { Button } from 'bauhaus-library';
+import { PublishButton } from 'bauhaus-library';
 
 describe('<ValidationButton', () => {
 	it('should contain a disabled button if the object is already validated', () => {
@@ -12,14 +12,14 @@ describe('<ValidationButton', () => {
 				disabled={false}
 			/>
 		);
-		expect(component.find(Button).props().disabled).toBeTruthy();
+		expect(component.find(PublishButton).props().disabled).toBeTruthy();
 	});
 
 	it('should contain a enabled button if the validationStateis not defined', () => {
 		const component = shallow(
 			<ValidationButton callback={jest.fn()} disabled={false} />
 		);
-		expect(component.find(Button).props().disabled).toBeFalsy();
+		expect(component.find(PublishButton).props().disabled).toBeFalsy();
 	});
 
 	it('should contain a enabled button if the object is already validated', () => {
@@ -30,7 +30,7 @@ describe('<ValidationButton', () => {
 				disabled={false}
 			/>
 		);
-		expect(component.find(Button).props().disabled).toBeFalsy();
+		expect(component.find(PublishButton).props().disabled).toBeFalsy();
 	});
 
 	it('should call the callback if we click on the button', () => {
@@ -40,7 +40,7 @@ describe('<ValidationButton', () => {
 			<ValidationButton object={object} callback={callback} disabled={false} />
 		);
 		component
-			.find(Button)
+			.find(PublishButton)
 			.props()
 			.action();
 		expect(callback).toHaveBeenCalledWith(object);
@@ -52,6 +52,6 @@ describe('<ValidationButton', () => {
 		const component = shallow(
 			<ValidationButton object={object} callback={callback} disabled={true} />
 		);
-		expect(component.find(Button).props().disabled).toBeTruthy();
+		expect(component.find(PublishButton).props().disabled).toBeTruthy();
 	});
 });
