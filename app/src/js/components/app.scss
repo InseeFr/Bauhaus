@@ -1,17 +1,23 @@
 @import 'src/styles/colors.scss';
 
 ul.home-page-links {
-	width: 85%;
-	margin: auto;
+	width: 70%;
+	margin: 4em auto auto;
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(33%, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
 	list-style: none;
+	grid-column-gap: 3.33%;
+	grid-row-gap: 1em;
 	li {
 		flex: 1;
 		text-align: center;
+		background: var(--color-3);
+		border-radius: 15px;
+		box-shadow: 4px 5px 5px grey;
+		padding: 2em 0;
 		h2 {
 			width: 70%;
-			margin: 10px auto 10px auto;
+			margin: 10px auto -1em auto;
 			min-height: 3em;
 			display: flex;
 			justify-content: center;
@@ -19,18 +25,24 @@ ul.home-page-links {
 			flex-direction: column;
 		}
 		img {
-			width: 70%;
+			width: 60%;
+			padding-top: 1em;
+			opacity: 0.4;
 		}
 		a {
 			display: block;
+			color: white;
+			text-decoration: none;
 		}
 	}
 }
 @media screen and (max-width: 640px) {
 	ul.home-page-links {
-		width: 100%;
+		width: 90%;
+		margin: 1em auto;
 		grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
 		flex-direction: column;
+		padding: 0;
 		li {
 			h2 {
 				width: 90%;
