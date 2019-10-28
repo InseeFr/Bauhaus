@@ -19,7 +19,7 @@ import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
 import OperationsFamilyVisualization from 'js/components/operations/families/visualization/visualization';
 import ValidationButton from 'js/components/operations/shared/validationButton';
 import { containUnsupportedStyles } from 'js/utils/html';
-import ErrorBloc from 'js/components/shared/error-bloc';
+import { ErrorBloc } from 'bauhaus-library';
 import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');

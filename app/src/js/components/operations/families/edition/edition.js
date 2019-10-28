@@ -10,7 +10,7 @@ import {
 import { validate } from './validation';
 import Loading from 'js/components/shared/loading';
 import PageTitleBlock from 'js/components/shared/page-title-block';
-import ErrorBloc from 'js/components/shared/error-bloc';
+import { ErrorBloc } from 'bauhaus-library';
 
 const defaultFamily = {
 	prefLabelLg1: '',

@@ -10,7 +10,7 @@ import Loading from 'js/components/shared/loading';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
-import ErrorBloc from 'js/components/shared/error-bloc';
+import { ErrorBloc } from 'bauhaus-library';
 
 import { validate } from './validation';
 

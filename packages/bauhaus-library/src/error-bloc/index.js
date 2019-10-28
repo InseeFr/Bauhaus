@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default ({ error }) => {
+const ErrorBloc = ({ error }) => {
 	return (
 		<div className="empty-center centered">
 			<div
@@ -13,3 +14,9 @@ export default ({ error }) => {
 		</div>
 	);
 };
+
+ErrorBloc.propTypes = {
+	error: PropTypes.string,
+};
+
+export default ErrorBloc;

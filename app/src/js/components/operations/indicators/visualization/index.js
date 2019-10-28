@@ -22,7 +22,7 @@ import { containUnsupportedStyles } from 'js/utils/html';
 import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 import ValidationButton from 'js/components/operations/shared/validationButton';
-import ErrorBloc from 'js/components/shared/error-bloc';
+import { ErrorBloc } from 'bauhaus-library';
 
 const extractId = buildExtract('id');
 class IndicatorVisualizationContainer extends VisualizationContainer {

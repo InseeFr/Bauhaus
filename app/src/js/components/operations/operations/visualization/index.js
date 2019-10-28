@@ -27,7 +27,7 @@ import {
 } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 import ValidationButton from 'js/components/operations/shared/validationButton';
-import ErrorBloc from 'js/components/shared/error-bloc';
+import { ErrorBloc } from 'bauhaus-library';
 import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');

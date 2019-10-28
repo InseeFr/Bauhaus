@@ -10,7 +10,7 @@ import Loading from 'js/components/shared/loading';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import SelectRmes from 'js/components/shared/select-rmes';
 import PageTitleBlock from 'js/components/shared/page-title-block';
-import ErrorBloc from 'js/components/shared/error-bloc';
+import { ErrorBloc } from 'bauhaus-library';
 import {
 	CancelButton,
 	SaveButton,

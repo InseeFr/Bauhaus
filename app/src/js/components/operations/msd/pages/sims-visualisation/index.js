@@ -23,7 +23,7 @@ import {
 import Auth from 'js/utils/auth/components/auth';
 import { DuplicateButton } from 'js/components/shared/button-with-icon';
 import ValidationButton from 'js/components/operations/shared/validationButton';
-import ErrorBloc from 'js/components/shared/error-bloc';
+import { ErrorBloc } from 'bauhaus-library';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 

@@ -10,7 +10,7 @@ import SelectRmes from 'js/components/shared/select-rmes';
 import { validate } from './validation';
 import Loading from 'js/components/shared/loading';
 import PageTitleBlock from 'js/components/shared/page-title-block';
-import ErrorBloc from 'js/components/shared/error-bloc';
+import { ErrorBloc } from 'bauhaus-library';
 
 const defaultOperation = {
 	prefLabelLg1: '',

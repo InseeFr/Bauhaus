@@ -3,7 +3,7 @@ import {
 	CancelButton,
 	SaveButton,
 } from 'js/components/shared/button-with-icon';
-import ErrorBloc from 'js/components/shared/error-bloc';
+import { ErrorBloc } from 'bauhaus-library';
 
 function Control({ onSubmit, indicator, errorMessage }) {
 	return (
