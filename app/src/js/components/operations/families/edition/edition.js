@@ -3,11 +3,9 @@ import D, { D2 } from 'js/i18n';
 import { goBackOrReplace, goBack } from 'js/utils/redirection';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
-import { CancelButton, SaveButton } from 'bauhaus-library';
+import { CancelButton, SaveButton, Loading, ErrorBloc } from 'bauhaus-library';
 import { validate } from './validation';
-import { Loading } from 'bauhaus-library';
 import PageTitleBlock from 'js/components/shared/page-title-block';
-import { ErrorBloc } from 'bauhaus-library';
 
 const defaultFamily = {
 	prefLabelLg1: '',

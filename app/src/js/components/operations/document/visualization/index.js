@@ -1,7 +1,6 @@
 import { saveSecondLang } from 'js/actions/app';
 import loadDocument from 'js/actions/operations/documents/item';
-import { Button } from 'bauhaus-library';
-import { Loading } from 'bauhaus-library';
+import { Loading, Button } from 'bauhaus-library';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import D from 'js/i18n';
 import * as select from 'js/reducers';

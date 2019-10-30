@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PageTitle } from 'bauhaus-library';
-import { SearchRmes } from 'bauhaus-library';
+import { PageTitle, SearchRmes } from 'bauhaus-library';
 import D from 'js/i18n';
 
 const SeriesHome = ({ series }) => {

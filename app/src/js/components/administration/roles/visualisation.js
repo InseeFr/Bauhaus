@@ -1,6 +1,5 @@
 import React from 'react';
-import { PageTitle } from 'bauhaus-library';
-import { Button } from 'bauhaus-library';
+import { PageTitle, Button } from 'bauhaus-library';
 import TableRmes from 'js/components/shared/table-rmes';
 import D from 'js/i18n';
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PageTitle } from 'bauhaus-library';
-import { PageSubtitle } from 'bauhaus-library';
+import { PageTitle, PageSubtitle } from 'bauhaus-library';
 
 function PageTitleBlock({ titleLg1, titleLg2, secondLang }) {
 	return (

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { PageTitle } from 'bauhaus-library';
-import { Button } from 'bauhaus-library';
-import { SearchRmes } from 'bauhaus-library';
+import { PageTitle, Button, SearchRmes } from 'bauhaus-library';
 import check from 'js/utils/auth';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';

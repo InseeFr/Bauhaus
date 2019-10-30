@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import { PageTitle } from 'bauhaus-library';
+import { PageTitle, SearchRmes } from 'bauhaus-library';
 import Controls from './controls';
-import { SearchRmes } from 'bauhaus-library';
 import D from 'js/i18n';
 
 const ClassificationTree = ({

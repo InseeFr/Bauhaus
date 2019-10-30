@@ -1,6 +1,5 @@
 import React from 'react';
-import { CancelButton, SaveButton } from 'bauhaus-library';
-import { ErrorBloc } from 'bauhaus-library';
+import { CancelButton, SaveButton, ErrorBloc } from 'bauhaus-library';
 
 function Control({ onSubmit, indicator, errorMessage }) {
 	return (

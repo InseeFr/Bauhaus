@@ -8,11 +8,10 @@ import * as select from 'js/reducers';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { saveSecondLang } from 'js/actions/app';
 import OperationsIndicatorVisualization from 'js/components/operations/indicators/visualization/general';
-import { Loading } from 'bauhaus-library';
+import { Loading, Button, ErrorBloc } from 'bauhaus-library';
 import loadIndicator, {
 	publishIndicator,
 } from 'js/actions/operations/indicators/item';
-import { Button } from 'bauhaus-library';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
@@ -22,7 +21,6 @@ import { containUnsupportedStyles } from 'js/utils/html';
 import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 import ValidationButton from 'js/components/operations/shared/validationButton';
-import { ErrorBloc } from 'bauhaus-library';
 
 const extractId = buildExtract('id');
 class IndicatorVisualizationContainer extends VisualizationContainer {

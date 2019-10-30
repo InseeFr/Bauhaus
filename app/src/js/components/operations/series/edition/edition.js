@@ -2,12 +2,10 @@ import D, { D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { goBack, goBackOrReplace } from 'js/utils/redirection';
-import { CancelButton, SaveButton } from 'bauhaus-library';
-import { Loading } from 'bauhaus-library';
+import { Loading, CancelButton, SaveButton, ErrorBloc } from 'bauhaus-library';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
-import { ErrorBloc } from 'bauhaus-library';
 
 import { validate } from './validation';
 

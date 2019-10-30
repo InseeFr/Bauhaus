@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
-import { PageTitle } from 'bauhaus-library';
+import { PageTitle, Pagination } from 'bauhaus-library';
 import Controls from './controls';
 import SelectRmes from 'js/components/shared/select-rmes';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import D from 'js/i18n';
-import { Pagination } from 'bauhaus-library';
 import {
 	filterKeyDeburr,
 	filterKeyDate,

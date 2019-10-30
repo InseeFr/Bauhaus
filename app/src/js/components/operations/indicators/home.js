@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PageTitle } from 'bauhaus-library';
-import { SearchRmes } from 'bauhaus-library';
+import { PageTitle, SearchRmes, NewButton } from 'bauhaus-library';
 import D from 'js/i18n';
 import check from 'js/utils/auth';
-import { NewButton } from 'bauhaus-library';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CREATOR, ADMIN } from 'js/utils/auth/roles';
 

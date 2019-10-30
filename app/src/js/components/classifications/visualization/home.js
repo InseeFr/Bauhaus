@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import { PageTitle } from 'bauhaus-library';
-import { PageSubtitle } from 'bauhaus-library';
+import { PageSubtitle, PageTitle } from 'bauhaus-library';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';

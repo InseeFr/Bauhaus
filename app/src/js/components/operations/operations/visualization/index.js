@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { EXPORT_VARBOOK } from 'js/actions/constants';
-import { Loading } from 'bauhaus-library';
+import { Loading, ErrorBloc, Button } from 'bauhaus-library';
 import OperationsOperationVisualization from './home';
 import buildExtract from 'js/utils/build-extract';
 import exportVariableBook from 'js/actions/operations/export-varBook';
@@ -16,7 +16,6 @@ import loadOperation, {
 import D from 'js/i18n';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { goBack } from 'js/utils/redirection';
-import { Button } from 'bauhaus-library';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import {
@@ -27,7 +26,6 @@ import {
 } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 import ValidationButton from 'js/components/operations/shared/validationButton';
-import { ErrorBloc } from 'bauhaus-library';
 import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
