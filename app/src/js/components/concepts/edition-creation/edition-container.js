@@ -88,7 +88,7 @@ class EditionContainer extends Component {
 				/>
 			);
 		}
-		return <Loading textType="loading" />;
+		return <Loading />;
 	}
 }
 

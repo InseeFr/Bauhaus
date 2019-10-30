@@ -27,7 +27,7 @@ class LevelVisualizationContainer extends Component {
 	}
 	render() {
 		const { level, secondLang } = this.props;
-		if (!level) return <Loading textType="loading" />;
+		if (!level) return <Loading />;
 		return (
 			<LevelVisualization
 				level={level}

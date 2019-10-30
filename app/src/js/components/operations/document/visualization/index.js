@@ -39,7 +39,7 @@ class DocumentationVisualizationContainer extends Component {
 	render() {
 		const { id, document, langs, secondLang, saveSecondLang } = this.props;
 
-		if (!document.id) return <Loading textType="loading" />;
+		if (!document.id) return <Loading />;
 
 		return (
 			<div className="container">

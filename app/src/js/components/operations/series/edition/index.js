@@ -22,7 +22,7 @@ class OperationsSeriesEditionContainer extends Component {
 		}
 	}
 	render() {
-		if (!this.props.serie) return <Loading textType="loading" />;
+		if (!this.props.serie) return <Loading />;
 		return <OperationsSerieEdition {...this.props} />;
 	}
 }

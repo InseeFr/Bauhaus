@@ -22,7 +22,7 @@ class SeriesVisualizationContainer extends Component {
 	}
 	render() {
 		const { series, secondLang, langs } = this.props;
-		if (!series) return <Loading textType="loading" />;
+		if (!series) return <Loading />;
 		return (
 			<SeriesVisualization
 				series={series}

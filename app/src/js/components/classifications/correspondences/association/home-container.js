@@ -21,7 +21,7 @@ class AssociationHomeContainer extends Component {
 	}
 	render() {
 		const { association, secondLang, saveSecondLang, langs } = this.props;
-		if (!association) return <Loading textType="loading" />;
+		if (!association) return <Loading />;
 		return (
 			<AssociationHome
 				association={association}

@@ -98,7 +98,7 @@ class RolesContainer extends Component {
 				</>
 			);
 		}
-		return <Loading textType="loading" />;
+		return <Loading />;
 	}
 }
 

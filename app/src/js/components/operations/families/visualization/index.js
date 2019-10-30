@@ -42,7 +42,7 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 			saveSecondLang,
 		} = this.props;
 		const { serverSideError } = this.state;
-		if (!attr.id) return <Loading textType="loading" />;
+		if (!attr.id) return <Loading />;
 
 		/*
 		 * The publication button should be enabled only if RICH_TEXT value do not

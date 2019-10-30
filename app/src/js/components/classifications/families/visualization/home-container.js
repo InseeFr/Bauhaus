@@ -29,7 +29,7 @@ class FamilyVisualizationContainer extends Component {
 	}
 	render() {
 		const { family, secondLang } = this.props;
-		if (!family) return <Loading textType="loading" />;
+		if (!family) return <Loading />;
 		return (
 			<FamilyVisualization
 				family={family}

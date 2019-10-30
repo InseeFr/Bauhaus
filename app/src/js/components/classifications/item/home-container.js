@@ -42,7 +42,7 @@ class ItemVisualizationContainer extends Component {
 	}
 	render() {
 		const { item, secondLang, langs } = this.props;
-		if (!item) return <Loading textType="loading" />;
+		if (!item) return <Loading />;
 		return (
 			<ItemVisualization
 				item={item}

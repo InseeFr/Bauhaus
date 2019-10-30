@@ -27,7 +27,7 @@ class ConceptSearchListContainer extends Component {
 		} = this.props;
 
 		if (!(conceptSearchList && stampList && disseminationStatusList))
-			return <Loading textType="loading" />;
+			return <Loading />;
 
 		return (
 			<ConceptSearchList

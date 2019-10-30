@@ -23,7 +23,7 @@ class OperationEditionContainer extends Component {
 		}
 	}
 	render() {
-		if (!this.props.operation) return <Loading textType="loading" />;
+		if (!this.props.operation) return <Loading />;
 		return <OperationsOperationEdition {...this.props} />;
 	}
 }

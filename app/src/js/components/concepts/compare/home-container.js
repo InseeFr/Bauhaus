@@ -22,7 +22,7 @@ class ConceptCompareContainer extends Component {
 
 	render() {
 		let { id, general, notes, secondLang, langs } = this.props;
-		if (!(notes && general)) return <Loading textType="loading" />;
+		if (!(notes && general)) return <Loading />;
 		return (
 			<ConceptCompare
 				id={id}

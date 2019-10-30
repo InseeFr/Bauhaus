@@ -51,7 +51,7 @@ class CollectionSendContainer extends Component {
 				/>
 			);
 		}
-		if (!loaded || !properties) return <Loading textType="loading" />;
+		if (!loaded || !properties) return <Loading />;
 		return (
 			<CollectionSend
 				id={id}

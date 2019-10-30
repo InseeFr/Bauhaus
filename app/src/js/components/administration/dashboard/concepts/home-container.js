@@ -15,8 +15,7 @@ class DashboardContainer extends Component {
 
 	render() {
 		const { conceptSearchList, collectionDashboardList } = this.props;
-		if (!conceptSearchList || !collectionDashboardList)
-			return <Loading textType="loading" />;
+		if (!conceptSearchList || !collectionDashboardList) return <Loading />;
 
 		return (
 			<Dashboard

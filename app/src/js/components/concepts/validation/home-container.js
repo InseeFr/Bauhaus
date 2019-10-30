@@ -35,7 +35,7 @@ class ConceptsToValidateContainer extends Component {
 				return <Loading textType="validating" />;
 			}
 		}
-		if (!concepts) return <Loading textType="loading" />;
+		if (!concepts) return <Loading />;
 		return (
 			<ConceptsToValidate
 				concepts={concepts}

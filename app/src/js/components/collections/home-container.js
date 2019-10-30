@@ -17,7 +17,7 @@ class CollectionsHomeContainer extends Component {
 		const { collections, permission } = this.props;
 
 		if (!collections) {
-			return <Loading textType="loading" />;
+			return <Loading  />;
 		}
 		return (
 			<CollectionsHome collections={collections} permission={permission} />

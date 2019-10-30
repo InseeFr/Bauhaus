@@ -48,7 +48,7 @@ class LoginBasicContainer extends Component {
 				/>
 			);
 		}
-		return <Loading textType="loading" />;
+		return <Loading />;
 	}
 }
 
@@ -65,6 +65,7 @@ const mapDispatchToProps = {
 	checkAuth,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	LoginBasicContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(LoginBasicContainer);

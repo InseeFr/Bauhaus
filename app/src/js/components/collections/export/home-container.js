@@ -37,7 +37,7 @@ class CollectionsToExportContainer extends Component {
 			return <Loading textType="exporting" />;
 		}
 
-		if (!collections) return <Loading textType="loading" />;
+		if (!collections) return <Loading />;
 		return (
 			<CollectionsToExport
 				collections={collections}

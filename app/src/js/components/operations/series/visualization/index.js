@@ -41,7 +41,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 		const { serverSideError } = this.state;
 
 		const ableToCreateASimsForThisSeries = (attr.operations || []).length === 0;
-		if (!attr.id) return <Loading textType="loading" />;
+		if (!attr.id) return <Loading />;
 
 		/*
 		 * The publication button should be enabled only if RICH_TEXT value do not

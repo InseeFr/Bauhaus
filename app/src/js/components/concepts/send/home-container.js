@@ -51,7 +51,7 @@ class ConceptSendContainer extends Component {
 				/>
 			);
 		}
-		if (!loaded || !properties) return <Loading textType="loading" />;
+		if (!loaded || !properties) return <Loading />;
 		return (
 			<ConceptSend
 				id={id}

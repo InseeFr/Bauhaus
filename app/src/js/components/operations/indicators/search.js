@@ -115,7 +115,7 @@ class SearchListContainer extends Component {
 		const { data } = this.state;
 		const { organisations } = this.props;
 
-		if (!data) return <Loading textType="loading" />;
+		if (!data) return <Loading />;
 		return <SearchFormList data={data} organisations={organisations} />;
 	}
 }

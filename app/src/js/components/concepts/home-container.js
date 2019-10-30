@@ -16,7 +16,7 @@ class ConceptsHomeContainer extends Component {
 	render() {
 		const { concepts, permission } = this.props;
 
-		if (!concepts) return <Loading textType="loading" />;
+		if (!concepts) return <Loading />;
 		return <ConceptsHome concepts={concepts} permission={permission} />;
 	}
 }

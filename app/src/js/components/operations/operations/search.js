@@ -66,7 +66,7 @@ class SearchListContainer extends Component {
 
 	render() {
 		const { data } = this.state;
-		if (!data) return <Loading textType="loading" />;
+		if (!data) return <Loading />;
 		return <SearchFormList data={data} />;
 	}
 }

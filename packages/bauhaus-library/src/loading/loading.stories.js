@@ -22,4 +22,4 @@ const styleDecorator = storyFn => (
 );
 stories.addDecorator(styleDecorator);
 
-stories.add('Default', () => <Loading textType="loading" />);
+stories.add('Default', () => <Loading />);

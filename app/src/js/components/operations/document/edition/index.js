@@ -21,7 +21,7 @@ class OperationsDocumentationEditionContainer extends Component {
 		}
 	}
 	render() {
-		if (!this.props.document) return <Loading textType="loading" />;
+		if (!this.props.document) return <Loading />;
 		return <DocumentationEdition {...this.props} />;
 	}
 }

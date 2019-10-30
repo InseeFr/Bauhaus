@@ -31,7 +31,7 @@ class ClassificationItemsContainer extends Component {
 	render() {
 		const { items, general, id, secondLang } = this.props;
 
-		if (!(items && general)) return <Loading textType="loading" />;
+		if (!(items && general)) return <Loading />;
 
 		const { prefLabelLg1, prefLabelLg2 } = general;
 		const label = secondLang ? 'labelLg2' : 'labelLg1';

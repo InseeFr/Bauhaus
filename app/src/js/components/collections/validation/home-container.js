@@ -35,7 +35,7 @@ class CollectionsToValidateContainer extends Component {
 				return <Redirect to="/collections" />;
 			} else return <Loading textType="validating" />;
 		}
-		if (!collections) return <Loading textType="loading" />;
+		if (!collections) return <Loading />;
 		return (
 			<CollectionsToValidate
 				collections={collections}

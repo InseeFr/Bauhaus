@@ -116,7 +116,7 @@ class MSDContainer extends Component {
 			metadataStructureStatus !== LOADED ||
 			(mode === VIEW && !currentSims.id)
 		)
-			return <Loading textType="loading" />;
+			return <Loading />;
 
 		return (
 			<MSDLayout

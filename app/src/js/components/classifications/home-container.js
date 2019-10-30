@@ -13,7 +13,7 @@ class ClassificationsHomeContainer extends Component {
 	}
 	render() {
 		const { classifications } = this.props;
-		if (!classifications) return <Loading textType="loading" />;
+		if (!classifications) return <Loading />;
 		return <ClassificationsHome classifications={classifications} />;
 	}
 }

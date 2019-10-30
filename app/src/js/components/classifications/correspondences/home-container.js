@@ -14,7 +14,7 @@ class CorrespondencesHomeContainer extends Component {
 	}
 	render() {
 		const { correspondences } = this.props;
-		if (!correspondences) return <Loading textType="loading" />;
+		if (!correspondences) return <Loading />;
 		return <CorrespondencesHome correspondences={correspondences} />;
 	}
 }

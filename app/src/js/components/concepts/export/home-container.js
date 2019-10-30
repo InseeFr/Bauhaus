@@ -38,7 +38,7 @@ class ConceptsToExportContainer extends Component {
 		}
 
 		if (!concepts) {
-			return <Loading textType="loading" />;
+			return <Loading />;
 		}
 		return (
 			<ConceptsToExport

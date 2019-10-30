@@ -14,7 +14,7 @@ class SeriesHomeContainer extends Component {
 	}
 	render() {
 		const { series } = this.props;
-		if (!series) return <Loading textType="loading" />;
+		if (!series) return <Loading />;
 		return <SeriesHome series={series} />;
 	}
 }

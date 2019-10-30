@@ -73,7 +73,7 @@ class CreationContainer extends Component {
 				/>
 			);
 		}
-		return <Loading textType="loading" />;
+		return <Loading />;
 	}
 }
 

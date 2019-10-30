@@ -53,7 +53,7 @@ class OperationVisualizationContainer extends VisualizationContainer {
 		} = this.props;
 		const { serverSideError } = this.state;
 
-		if (!operation.id) return <Loading textType="loading" />;
+		if (!operation.id) return <Loading />;
 
 		return (
 			<div className="container">

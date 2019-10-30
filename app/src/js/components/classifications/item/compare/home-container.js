@@ -29,7 +29,7 @@ class CompareContainer extends Component {
 
 	render() {
 		let { classificationId, itemId, item, secondLang, langs } = this.props;
-		if (!item) return <Loading textType="loading" />;
+		if (!item) return <Loading />;
 		const { general, notes } = item;
 		return (
 			<Compare

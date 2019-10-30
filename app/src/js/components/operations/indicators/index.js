@@ -7,7 +7,7 @@ import { NOT_LOADED, LOADED } from 'js/constants';
 import * as select from 'js/reducers';
 
 function IndicatorsHomeContainer({ indicators, status, permission }) {
-	if (status !== LOADED) return <Loading textType="loading" />;
+	if (status !== LOADED) return <Loading />;
 	return <IndicatorsHome indicators={indicators} permission={permission} />;
 }
 

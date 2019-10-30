@@ -31,7 +31,7 @@ class ClassificationTreeContainer extends Component {
 	}
 	render() {
 		const { flatTree, general, secondLang } = this.props;
-		if (!(flatTree && general)) return <Loading textType="loading" />;
+		if (!(flatTree && general)) return <Loading />;
 		const { prefLabelLg1, prefLabelLg2 } = general;
 		const label = secondLang ? 'labelLg2' : 'labelLg1';
 		const data =
