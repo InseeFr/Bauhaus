@@ -90,7 +90,7 @@ function OperationsIndicatorVisualization(props) {
 					allowEmpty={true}
 				/>
 			</div>
-			<div className="row flex" data-cy="gestionnaire">
+			<div className="row" data-cy="gestionnaire">
 				<Note
 					text={gestionnaire}
 					title={D.operationsContributorTitle}

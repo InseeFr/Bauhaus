@@ -31,7 +31,7 @@ function OperationsSerieVisualization({
 	);
 	return (
 		<React.Fragment>
-			<div className="row flex">
+			<div className="row">
 				<Note
 					text={attr.altLabelLg1}
 					title={D.altLabel}
@@ -49,7 +49,7 @@ function OperationsSerieVisualization({
 					/>
 				)}
 			</div>
-			<div className="row flex">
+			<div className="row">
 				<Note
 					text={attr.abstractLg1}
 					title={D.summary}
@@ -70,7 +70,7 @@ function OperationsSerieVisualization({
 				)}
 			</div>
 
-			<div className="row flex">
+			<div className="row">
 				<Note
 					text={attr.historyNoteLg1}
 					title={D.history}
@@ -91,7 +91,7 @@ function OperationsSerieVisualization({
 				)}
 			</div>
 
-			<div className="row flex">
+			<div className="row">
 				<Note
 					text={category.labelLg1}
 					title={D.operationType}
@@ -110,7 +110,7 @@ function OperationsSerieVisualization({
 				)}
 			</div>
 
-			<div className="row flex">
+			<div className="row">
 				<Note
 					text={frequency.labelLg1}
 					title={D.dataCollectFrequency}
@@ -129,7 +129,7 @@ function OperationsSerieVisualization({
 				)}
 			</div>
 
-			<div className="row flex">
+			<div className="row">
 				<Note
 					text={creator}
 					title={D.organisation}
@@ -156,7 +156,7 @@ function OperationsSerieVisualization({
 				labelLg1="label"
 			/>
 
-			<div className="row flex" data-cy="gestionnaire">
+			<div className="row" data-cy="gestionnaire">
 				<Note
 					text={gestionnaire}
 					title={D.operationsContributorTitle}

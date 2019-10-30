@@ -129,7 +129,7 @@ class SimsCreation extends React.Component {
 							{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
 						</h3>
 					)}
-					<div className="row flex" id={msd.idMas}>
+					<div className="row" id={msd.idMas}>
 						{!msd.isPresentational && (
 							<Field
 								msd={msd}

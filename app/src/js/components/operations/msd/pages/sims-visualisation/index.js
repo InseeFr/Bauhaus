@@ -113,7 +113,7 @@ export default function SimsVisualisation({
 						{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
 					</h3>
 				)}
-				<div className="row flex" key={msd.idMas} id={msd.idMas}>
+				<div className="row" key={msd.idMas} id={msd.idMas}>
 					{!msd.isPresentational && (
 						<Note
 							title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}
