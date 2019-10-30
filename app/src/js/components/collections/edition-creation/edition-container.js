@@ -14,7 +14,7 @@ import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import buildExtract from 'js/utils/build-extract';
 import { cleanId } from 'js/utils/string-utils';
 import D from 'js/i18n';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { OK } from 'js/constants';
 
 const extractId = buildExtract('id');
@@ -67,7 +67,7 @@ class EditionContainer extends Component {
 			if (this.props.updateStatus === OK) {
 				return <Redirect to={`/collection/${cleanId(this.state.id)}`} />;
 			} else {
-				return <Loading textType="saving" context="concepts" />;
+				return <Loading textType="saving" />;
 			}
 		}
 		if (collection && collectionList && conceptList && stampList) {
@@ -88,7 +88,7 @@ class EditionContainer extends Component {
 				/>
 			);
 		}
-		return <Loading textType="loading" context="concepts" />;
+		return <Loading textType="loading" />;
 	}
 }
 

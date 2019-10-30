@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import buildExtract from 'js/utils/build-extract';
 import OperationsSerieVisualization from 'js/components/operations/series/visualization/home';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import { Button } from 'bauhaus-library';

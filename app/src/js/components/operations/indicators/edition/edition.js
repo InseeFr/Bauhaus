@@ -11,7 +11,7 @@ import {
 	mergedItemsToSelectModels,
 } from 'js/components/operations/shared/utils/itemToSelectModel';
 import { validate } from 'js/components/operations/indicators/edition/validation';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { goBackOrReplace } from 'js/utils/redirection';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 

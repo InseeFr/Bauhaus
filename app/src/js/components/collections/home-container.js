@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import CollectionsHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadCollectionList from 'js/actions/collections/list';
@@ -17,7 +17,7 @@ class CollectionsHomeContainer extends Component {
 		const { collections, permission } = this.props;
 
 		if (!collections) {
-			return <Loading textType="loading" context="concepts" />;
+			return <Loading textType="loading" />;
 		}
 		return (
 			<CollectionsHome collections={collections} permission={permission} />
@@ -46,6 +46,7 @@ const mapDispatchToProps = {
 	loadCollectionList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	CollectionsHomeContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CollectionsHomeContainer);

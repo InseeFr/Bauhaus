@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import AssociationHome from './home';
 import loadCorrespondenceAssociation from 'js/actions/classifications/correspondences/association';
 import { saveSecondLang } from 'js/actions/app';
@@ -21,8 +21,7 @@ class AssociationHomeContainer extends Component {
 	}
 	render() {
 		const { association, secondLang, saveSecondLang, langs } = this.props;
-		if (!association)
-			return <Loading textType="loading" context="classifications" />;
+		if (!association) return <Loading textType="loading" />;
 		return (
 			<AssociationHome
 				association={association}

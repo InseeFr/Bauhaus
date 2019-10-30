@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import LevelVisualization from './home';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import loadLevel from 'js/actions/classifications/level';
 import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/level';
@@ -27,7 +27,7 @@ class LevelVisualizationContainer extends Component {
 	}
 	render() {
 		const { level, secondLang } = this.props;
-		if (!level) return <Loading textType="loading" context="classifications" />;
+		if (!level) return <Loading textType="loading" />;
 		return (
 			<LevelVisualization
 				level={level}

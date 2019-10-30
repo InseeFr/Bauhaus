@@ -1,6 +1,4 @@
-import D from 'js/i18n';
-
-export const getText = textType => {
+export const getText = (textType, D) => {
 	switch (textType) {
 		case 'authentification':
 			return D.loadableAuth;

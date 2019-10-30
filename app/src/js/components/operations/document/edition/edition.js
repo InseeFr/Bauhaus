@@ -6,7 +6,7 @@ import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import { validate } from 'js/components/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import SelectRmes from 'js/components/shared/select-rmes';
 import PageTitleBlock from 'js/components/shared/page-title-block';

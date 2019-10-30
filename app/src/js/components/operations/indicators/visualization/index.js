@@ -8,7 +8,7 @@ import * as select from 'js/reducers';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
 import { saveSecondLang } from 'js/actions/app';
 import OperationsIndicatorVisualization from 'js/components/operations/indicators/visualization/general';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import loadIndicator, {
 	publishIndicator,
 } from 'js/actions/operations/indicators/item';

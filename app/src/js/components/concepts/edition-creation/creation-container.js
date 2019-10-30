@@ -12,7 +12,7 @@ import ConceptEditionCreation from './home';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import emptyConcept from 'js/utils/concepts/empty-concept';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { OK } from 'js/constants';
 
 class CreationContainer extends Component {
@@ -52,7 +52,7 @@ class CreationContainer extends Component {
 		if (this.state.creationRequested) {
 			if (creationStatus === OK) {
 				return <Redirect to={`/concept/${this.props.id}`} />;
-			} else return <Loading textType="saving" context="concepts" />;
+			} else return <Loading textType="saving" />;
 		}
 		if (conceptList && stampList && disseminationStatusList) {
 			const { general, notes, links } = concept;
@@ -73,7 +73,7 @@ class CreationContainer extends Component {
 				/>
 			);
 		}
-		return <Loading textType="loading" context="concepts" />;
+		return <Loading textType="loading" />;
 	}
 }
 

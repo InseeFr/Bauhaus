@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import FamilyVisualization from './home';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import loadFamily from 'js/actions/classifications/families/family';
 import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/family';
@@ -29,8 +29,7 @@ class FamilyVisualizationContainer extends Component {
 	}
 	render() {
 		const { family, secondLang } = this.props;
-		if (!family)
-			return <Loading textType="loading" context="classifications" />;
+		if (!family) return <Loading textType="loading" />;
 		return (
 			<FamilyVisualization
 				family={family}

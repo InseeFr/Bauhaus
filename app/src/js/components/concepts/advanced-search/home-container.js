@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import * as select from 'js/reducers';
 import ConceptSearchList from './home';
 import loadStampList from 'js/actions/stamp';
@@ -27,7 +27,7 @@ class ConceptSearchListContainer extends Component {
 		} = this.props;
 
 		if (!(conceptSearchList && stampList && disseminationStatusList))
-			return <Loading textType="loading" context="concepts" />;
+			return <Loading textType="loading" />;
 
 		return (
 			<ConceptSearchList
@@ -50,6 +50,7 @@ const mapDispatchToProps = {
 	loadDisseminationStatusList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	ConceptSearchListContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ConceptSearchListContainer);

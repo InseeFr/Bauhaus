@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MSDLayout from 'js/components/operations/msd/layout/';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
 import loadSIMS, {

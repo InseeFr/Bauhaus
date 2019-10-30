@@ -14,7 +14,7 @@ import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/
 import buildExtract from 'js/utils/build-extract';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { OK } from 'js/constants';
 
 const extractId = buildExtract('id');
@@ -55,7 +55,7 @@ class EditionContainer extends Component {
 		if (this.state.updateRequested) {
 			if (this.props.updateStatus === OK) {
 				return <Redirect to={`/concept/${this.props.id}`} />;
-			} else return <Loading textType="saving" context="concepts" />;
+			} else return <Loading textType="saving" />;
 		}
 		const {
 			id,
@@ -88,7 +88,7 @@ class EditionContainer extends Component {
 				/>
 			);
 		}
-		return <Loading textType="loading" context="concepts" />;
+		return <Loading textType="loading" />;
 	}
 }
 
@@ -114,9 +114,10 @@ const mapDispatchToProps = {
 	updateConcept,
 };
 
-EditionContainer = connect(mapStateToProps, mapDispatchToProps)(
-	EditionContainer
-);
+EditionContainer = connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(EditionContainer);
 
 EditionContainer.propTypes = {
 	match: PropTypes.shape({

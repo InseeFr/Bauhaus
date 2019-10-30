@@ -4,7 +4,7 @@ import loadFamily, { saveFamily } from 'js/actions/operations/families/item';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
 import buildExtract from 'js/utils/build-extract';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import OperationsFamilyEdition from 'js/components/operations/families/edition/edition';
 
 const extractId = buildExtract('id');

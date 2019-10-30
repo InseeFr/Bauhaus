@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import ConceptCompare from './home';
 import { saveSecondLang } from 'js/actions/app';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
@@ -22,8 +22,7 @@ class ConceptCompareContainer extends Component {
 
 	render() {
 		let { id, general, notes, secondLang, langs } = this.props;
-		if (!(notes && general))
-			return <Loading textType="loading" context="concepts" />;
+		if (!(notes && general)) return <Loading textType="loading" />;
 		return (
 			<ConceptCompare
 				id={id}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import ClassificationItems from './home';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import loadClassificationItems from 'js/actions/classifications/items';
 import loadClassificationGeneral from 'js/actions/classifications/general';
 import { saveSecondLang } from 'js/actions/app';
@@ -31,8 +31,7 @@ class ClassificationItemsContainer extends Component {
 	render() {
 		const { items, general, id, secondLang } = this.props;
 
-		if (!(items && general))
-			return <Loading textType="loading" context="classifications" />;
+		if (!(items && general)) return <Loading textType="loading" />;
 
 		const { prefLabelLg1, prefLabelLg2 } = general;
 		const label = secondLang ? 'labelLg2' : 'labelLg1';

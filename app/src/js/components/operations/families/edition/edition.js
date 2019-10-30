@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import { CancelButton, SaveButton } from 'bauhaus-library';
 import { validate } from './validation';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 import { ErrorBloc } from 'bauhaus-library';
 

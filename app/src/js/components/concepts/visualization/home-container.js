@@ -16,7 +16,7 @@ import { saveSecondLang } from 'js/actions/app';
 import loadConcept from 'js/actions/concepts/concept';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import check from 'js/utils/auth';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import ModalRmes from 'js/components/shared/modal-rmes/modal-rmes';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';
@@ -96,7 +96,7 @@ class ConceptVisualizationContainer extends Component {
 			//be loaded automatically (since the entries for the given concept in the store will
 			//be deleted).
 			if (validationStatus !== OK) {
-				return <Loading textType="validating" context="concepts" />;
+				return <Loading textType="validating" />;
 			}
 		}
 
@@ -168,7 +168,7 @@ class ConceptVisualizationContainer extends Component {
 				</>
 			);
 		}
-		return <Loading textType="loading" context="concepts" />;
+		return <Loading textType="loading" />;
 	}
 }
 

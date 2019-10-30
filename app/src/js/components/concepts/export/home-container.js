@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { EXPORT_CONCEPT_LIST } from 'js/actions/constants';
 import ConceptsToExport from './home';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import exportConceptList from 'js/actions/concepts/export-multi';
 import loadConceptList from 'js/actions/concepts/list';
 import { OK } from 'js/constants';
@@ -34,11 +34,11 @@ class ConceptsToExportContainer extends Component {
 			if (exportStatus === OK) {
 				return <Redirect to="/concepts" />;
 			}
-			return <Loading textType="exporting" context="concepts" />;
+			return <Loading textType="exporting" />;
 		}
 
 		if (!concepts) {
-			return <Loading textType="loading" context="concepts" />;
+			return <Loading textType="loading" />;
 		}
 		return (
 			<ConceptsToExport
@@ -59,6 +59,7 @@ const mapDispatchToProps = {
 	exportConceptList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	ConceptsToExportContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ConceptsToExportContainer);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import FamiliesHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadFamiliesList from 'js/actions/classifications/families/list';
@@ -14,8 +14,7 @@ class FamiliesHomeContainer extends Component {
 	}
 	render() {
 		const { families } = this.props;
-		if (!families)
-			return <Loading textType="loading" context="classifications" />;
+		if (!families) return <Loading textType="loading" />;
 		return <FamiliesHome families={families} />;
 	}
 }

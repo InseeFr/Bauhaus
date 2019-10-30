@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import * as select from 'js/reducers';
 import Visualisation from './visualisation';
 import Update from './update';

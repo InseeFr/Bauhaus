@@ -1,7 +1,7 @@
 import D from 'js/i18n';
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { AbstractSearchComponent } from 'js/components/shared/advanced-search/home-container';
 import api from 'js/remote-api/operations-api';
 import { connect } from 'react-redux';
@@ -183,7 +183,7 @@ class SearchListContainer extends Component {
 	render() {
 		const { data } = this.state;
 		const { categories, organisations } = this.props;
-		if (!data) return <Loading textType="loading" context="concepts" />;
+		if (!data) return <Loading textType="loading" />;
 		return (
 			<SearchFormList
 				data={data}

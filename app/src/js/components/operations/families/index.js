@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import FamiliesHome from './home';
 import loadFamiliesList from 'js/actions/operations/families/list';
 import { connect } from 'react-redux';

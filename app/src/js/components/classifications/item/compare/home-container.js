@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import Compare from './home';
 import { saveSecondLang } from 'js/actions/app';
 import loadItem from 'js/actions/classifications/item';
@@ -19,7 +19,7 @@ class CompareContainer extends Component {
 		classificationId: PropTypes.string.isRequired,
 		itemId: PropTypes.string.isRequired,
 	};
-	
+
 	componentWillMount() {
 		const { classificationId, itemId, item } = this.props;
 		if (!item) {
@@ -29,7 +29,7 @@ class CompareContainer extends Component {
 
 	render() {
 		let { classificationId, itemId, item, secondLang, langs } = this.props;
-		if (!item) return <Loading textType="loading" context="classifications" />;
+		if (!item) return <Loading textType="loading" />;
 		const { general, notes } = item;
 		return (
 			<Compare

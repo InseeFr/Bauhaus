@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { EXPORT_VARBOOK } from 'js/actions/constants';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import OperationsOperationVisualization from './home';
 import buildExtract from 'js/utils/build-extract';
 import exportVariableBook from 'js/actions/operations/export-varBook';

@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 
 import auth from 'js/components/auth/hoc';
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import CollectionsToValidate from './home';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import * as select from 'js/reducers';
 import validateCollectionList from 'js/actions/collections/validate';
 import loadCollectionValidateList from 'js/actions/collections/validate-list';
@@ -33,9 +33,9 @@ class CollectionsToValidateContainer extends Component {
 		if (validationRequested) {
 			if (validationStatus === OK) {
 				return <Redirect to="/collections" />;
-			} else return <Loading textType="validating" context="concepts" />;
+			} else return <Loading textType="validating" />;
 		}
-		if (!collections) return <Loading textType="loading" context="concepts" />;
+		if (!collections) return <Loading textType="loading" />;
 		return (
 			<CollectionsToValidate
 				collections={collections}
@@ -57,6 +57,7 @@ const mapDispatchToProps = {
 	validateCollectionList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	CollectionsToValidateContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CollectionsToValidateContainer);

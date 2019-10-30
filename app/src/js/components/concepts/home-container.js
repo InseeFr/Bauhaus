@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import ConceptsHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadConceptList from 'js/actions/concepts/list';
@@ -16,7 +16,7 @@ class ConceptsHomeContainer extends Component {
 	render() {
 		const { concepts, permission } = this.props;
 
-		if (!concepts) return <Loading textType="loading" context="concepts" />;
+		if (!concepts) return <Loading textType="loading" />;
 		return <ConceptsHome concepts={concepts} permission={permission} />;
 	}
 }
@@ -42,6 +42,7 @@ const mapDispatchToProps = {
 	loadConceptList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	ConceptsHomeContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ConceptsHomeContainer);

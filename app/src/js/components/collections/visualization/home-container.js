@@ -8,7 +8,7 @@ import buildExtract from 'js/utils/build-extract';
 import { saveSecondLang } from 'js/actions/app';
 import loadCollections from 'js/actions/collections/collection';
 import loadStampList from 'js/actions/stamp';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import CollectionVisualization from './home';
 import { OK } from 'js/constants';
 import { getSecondLang } from 'js/reducers/app';
@@ -54,8 +54,7 @@ class CollectionVisualizationContainer extends Component {
 			//if validation is OK: nothing to do. We stay on this page and the collection will
 			//be loaded automatically (since the entries for the given collection in the store will
 			//be deleted).
-			if (validationStatus !== OK)
-				return <Loading textType="validating" context="concepts" />;
+			if (validationStatus !== OK) return <Loading textType="validating" />;
 		}
 		const { id, permission, collection, stampList, secondLang } = this.props;
 		if (collection && stampList) {
@@ -75,7 +74,7 @@ class CollectionVisualizationContainer extends Component {
 				/>
 			);
 		}
-		return <Loading textType="loading" context="concepts" />;
+		return <Loading textType="loading" />;
 	}
 }
 

@@ -1,4 +1,4 @@
-import { getText } from './loading';
+import { getText } from './loading-utils';
 
 describe('getText', () => {
 	it("default value should return same text as 'loading' value", () => {

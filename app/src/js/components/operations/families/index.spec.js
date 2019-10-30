@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { NOT_LOADED, LOADED } from 'js/constants';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 
 import FamiliesHome from './home';
 

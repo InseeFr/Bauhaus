@@ -11,7 +11,7 @@ import Auth from 'js/utils/auth/components/auth';
 import { Button } from 'bauhaus-library';
 import buildExtract from 'js/utils/build-extract';
 import { ADMIN, CNIS } from 'js/utils/auth/roles';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import React from 'react';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 import CheckSecondLang from 'js/components/shared/second-lang-checkbox';

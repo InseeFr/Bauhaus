@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import CollectionsToExport from './home';
 import * as select from 'js/reducers';
 import { EXPORT_COLLECTION_LIST } from 'js/actions/constants';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import exportCollectionList from 'js/actions/collections/export-multi';
 import loadCollectionList from 'js/actions/collections/list';
 import { OK } from 'js/constants';
@@ -34,10 +34,10 @@ class CollectionsToExportContainer extends Component {
 			if (exportStatus === OK) {
 				return <Redirect to="/collections" />;
 			}
-			return <Loading textType="exporting" context="concepts" />;
+			return <Loading textType="exporting" />;
 		}
 
-		if (!collections) return <Loading textType="loading" context="concepts" />;
+		if (!collections) return <Loading textType="loading" />;
 		return (
 			<CollectionsToExport
 				collections={collections}
@@ -57,6 +57,7 @@ const mapDispatchToProps = {
 	exportCollectionList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	CollectionsToExportContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CollectionsToExportContainer);
