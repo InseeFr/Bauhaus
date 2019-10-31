@@ -58,6 +58,9 @@ class RolesContainer extends Component {
 		}
 	}
 
+	componentDidMount() {
+		document.body.classList = ['concepts'];
+	}
 	render() {
 		const { addRequested, deleteRequested } = this.state;
 
