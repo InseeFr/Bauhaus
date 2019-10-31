@@ -27,7 +27,7 @@ function VisualisationTable({ roles = [] }) {
 		<div className="container">
 			<PageTitle title={D.authorizationTitle} />
 			<div className="row btn-line">
-				<Button label={D.btnReturn} action="/concepts/administration" />
+				<Button label={D.btnReturn} action="/" />
 				<Button
 					label={D.btnUpdate}
 					action="/administration/roles/update"
