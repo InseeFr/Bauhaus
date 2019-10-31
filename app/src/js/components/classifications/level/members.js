@@ -1,5 +1,5 @@
 import React from 'react';
-import Panel from 'js/components/shared/panel';
+import { Panel }  from 'bauhaus-library';
 import { SearchRmes } from 'bauhaus-library';
 import D, { D2 } from 'js/i18n';
 
@@ -18,7 +18,7 @@ export default ({ members, classificationId, secondLang }) => {
 	return (
 		<div className="row">
 			<div className={`col-md-${secondLang ? 6 : 12}`}>
-				<Panel title={D.childrenClassificationItems} context="classifications">
+				<Panel title={D.childrenClassificationItems}>
 					<div className="centered">
 						<SearchRmes
 							items={membersLg1}
@@ -32,10 +32,7 @@ export default ({ members, classificationId, secondLang }) => {
 			</div>
 			{secondLang && membersLg2.length !== 0 && (
 				<div className="col-md-6">
-					<Panel
-						title={D2.childrenClassificationItems}
-						context="classifications"
-					>
+					<Panel title={D2.childrenClassificationItems}>
 						<div className="centered">
 							<SearchRmes
 								items={membersLg2}

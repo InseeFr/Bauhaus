@@ -2,7 +2,7 @@ import React from 'react';
 import { CheckSecondLang } from 'bauhaus-library';
 import { PageTitle } from 'bauhaus-library';
 import CorrespondenceControls from './controls';
-import Panel from 'js/components/shared/panel';
+import { Panel }  from 'bauhaus-library';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/components/shared/explanatory-note';
 import D, { D2 } from 'js/i18n';
@@ -33,7 +33,7 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 				<div className="col-md-12">
 					{(!secondLang ||
 						(secondLang && sourceItemLabelLg2 && targetItemLabelLg2)) && (
-						<Panel title={D.globalInformationsTitle} context="classifications">
+						<Panel title={D.globalInformationsTitle}>
 							{generalFields(association, secondLang)}
 						</Panel>
 					)}
@@ -47,7 +47,6 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 							title={D.classificationsDescription}
 							lang={lg1}
 							alone={!secondLang}
-							context="classifications"
 						/>
 						{secondLang && (
 							<ExplanatoryNote
@@ -55,7 +54,6 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 								title={D2.classificationsDescription}
 								lang={lg2}
 								alone={false}
-								context="classifications"
 							/>
 						)}
 					</div>

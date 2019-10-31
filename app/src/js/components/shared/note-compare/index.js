@@ -31,7 +31,6 @@ class CompareNotes extends Component {
 			langs: { lg1, lg2 },
 			version,
 			buildNotes,
-			context,
 		} = this.props;
 		const { select1, select2 } = this.state;
 		const notesVersion1 = buildNotes(notes[select1]);
@@ -73,14 +72,12 @@ class CompareNotes extends Component {
 							title={notesVersion1[i].title}
 							lang={secondLang ? lg2 : lg1}
 							alone={false}
-							context={context}
 						/>
 						<ExplanatoryNote
 							text={secondLang ? n.lg2 : n.lg1}
 							title={n.title}
 							lang={secondLang ? lg2 : lg1}
 							alone={false}
-							context={context}
 						/>
 					</div>
 				))}
@@ -95,7 +92,6 @@ CompareNotes.propTypes = {
 	langs: PropTypes.object.isRequired,
 	version: PropTypes.number.isRequired,
 	buildNotes: PropTypes.func.isRequired,
-	context: PropTypes.string,
 };
 
 export default CompareNotes;

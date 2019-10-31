@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Note from 'js/components/shared/note';
+import { Note }  from 'bauhaus-library';
 import D, { D2 } from 'js/i18n';
 
 export default ({ levels, classificationId, secondLang }) => {
@@ -32,14 +32,12 @@ export default ({ levels, classificationId, secondLang }) => {
 			<Note
 				alone={!(secondLang && isMembersLg2)}
 				title={D.classificationLevelsTitle}
-				context="classifications"
 				text={levelsLg1}
 			></Note>
 			{secondLang && isMembersLg2 && (
 				<Note
 					alone={false}
 					title={D2.classificationLevelsTitle}
-					context="classifications"
 					text={levelsLg2}
 				></Note>
 			)}

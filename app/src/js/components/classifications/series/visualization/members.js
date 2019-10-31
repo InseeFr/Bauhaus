@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Panel from 'js/components/shared/panel';
+import { Panel }  from 'bauhaus-library';
 import D, { D2 } from 'js/i18n';
 
 export default ({ members, secondLang }) => {
@@ -24,13 +24,13 @@ export default ({ members, secondLang }) => {
 	return (
 		<div className="row">
 			<div className={`col-md-${secondLang ? 6 : 12}`}>
-				<Panel title={D.childrenClassifications} context="classifications">
+				<Panel title={D.childrenClassifications}>
 					<ul>{membersLg1}</ul>
 				</Panel>
 			</div>
 			{secondLang && isMembersLg2 && (
 				<div className="col-md-6">
-					<Panel title={D2.childrenClassifications} context="classifications">
+					<Panel title={D2.childrenClassifications}>
 						<ul>{membersLg2}</ul>
 					</Panel>
 				</div>

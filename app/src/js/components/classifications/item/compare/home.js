@@ -40,7 +40,6 @@ const Compare = ({
 					langs={langs}
 					version={version}
 					buildNotes={buildNotes}
-					context="classifications"
 				/>
 			</div>
 		</div>

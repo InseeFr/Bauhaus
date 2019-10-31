@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'index';
-import Panel from 'js/components/shared/panel';
+import { Panel }  from 'bauhaus-library';
 import { PageTitle } from 'bauhaus-library';
 
 import Controls from './controls';
@@ -32,7 +32,6 @@ const DSD = props => {
 							title={D.descriptionTitle}
 							children={descriptionLg1}
 							flag={getFlag(lg1)}
-							context="dsds"
 						/>
 					</div>
 				)}
@@ -42,7 +41,6 @@ const DSD = props => {
 							title={D.descriptionTitle}
 							children={descriptionLg2}
 							flag={getFlag(lg2)}
-							context="dsds"
 						/>
 					</div>
 				)}

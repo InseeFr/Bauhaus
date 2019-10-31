@@ -1,6 +1,6 @@
 import React from 'react';
 import DOMPurify from 'dompurify';
-import '../panel/panel.scss';
+import '../../../../../../packages/bauhaus-library/src/panel/panel.scss';
 
 function PanelHtml({ title, children, context = 'concepts' }) {
 	return (

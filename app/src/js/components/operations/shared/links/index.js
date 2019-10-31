@@ -1,5 +1,5 @@
 import React from 'react';
-import Note from 'js/components/shared/note';
+import { Note }  from 'bauhaus-library';
 import { Link } from 'react-router-dom';
 import D, { D2 } from 'js/i18n';
 

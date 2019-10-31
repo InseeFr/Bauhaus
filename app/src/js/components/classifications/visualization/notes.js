@@ -23,7 +23,6 @@ export default ({
 						title={D.classificationsDescription}
 						lang={lg1}
 						alone={!secondLang}
-						context="classifications"
 					/>
 					{secondLang && (
 						<ExplanatoryNote
@@ -31,7 +30,6 @@ export default ({
 							title={D2.classificationsDescription}
 							lang={lg2}
 							alone={false}
-							context="classifications"
 						/>
 					)}
 				</div>
@@ -45,7 +43,6 @@ export default ({
 						title={D.classificationsScopeNote}
 						lang={lg1}
 						alone={!secondLang}
-						context="classifications"
 					/>
 					{secondLang && (
 						<ExplanatoryNote
@@ -53,7 +50,6 @@ export default ({
 							title={D2.classificationsScopeNote}
 							lang={lg2}
 							alone={false}
-							context="classifications"
 						/>
 					)}
 				</div>
@@ -67,7 +63,6 @@ export default ({
 						title={D.classificationsChangeNote()}
 						lang={lg1}
 						alone={!secondLang}
-						context="classifications"
 					/>
 					{secondLang && (
 						<ExplanatoryNote
@@ -75,7 +70,6 @@ export default ({
 							title={D2.classificationsChangeNote()}
 							lang={lg2}
 							alone={false}
-							context="classifications"
 						/>
 					)}
 				</div>

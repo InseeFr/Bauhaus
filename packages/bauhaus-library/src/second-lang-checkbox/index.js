@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import D from 'js/i18n';
+import { I18NContext } from '../context';
 
-const CheckSecondLang = ({ secondLang, onChange }) => (
-	<div className="row">
-		<div className="col-md-12">
-			<label className="pull-right">
-				<input type="checkbox" checked={secondLang} onChange={onChange} />{' '}
-				{D.displayLg2}
-			</label>
+const CheckSecondLang = ({ secondLang, onChange }) => {
+	const D = useContext(I18NContext);
+	return (
+		<div className="row">
+			<div className="col-md-12">
+				<label className="pull-right">
+					<input type="checkbox" checked={secondLang} onChange={onChange} />{' '}
+					{D.displayLg2}
+				</label>
+			</div>
 		</div>
-	</div>
-);
+	);
+};
 
 CheckSecondLang.propTypes = {
 	secondLang: PropTypes.bool.isRequired,

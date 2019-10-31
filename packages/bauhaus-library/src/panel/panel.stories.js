@@ -16,18 +16,3 @@ stories.add('Default', () => (
 		{text('Children', 'Panel body')}
 	</Panel>
 ));
-
-stories.add('With classifications context', () => (
-	<Panel
-		title={text('Title', 'Classification panel title')}
-		context="classifications"
-	>
-		{text('Children', 'Panel body')}
-	</Panel>
-));
-
-stories.add('With all props', () => (
-	<Panel title={text('Title', 'Panel title')} context={text('Context', '')}>
-		{text('Children', 'Panel body')}
-	</Panel>
-));

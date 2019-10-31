@@ -15,7 +15,6 @@ export default ({
 					title={D.classificationsScopeNote}
 					lang={lg1}
 					alone={!secondLang}
-					context="classifications"
 				/>
 				{secondLang && (
 					<ExplanatoryNote
@@ -23,7 +22,6 @@ export default ({
 						title={D2.classificationsScopeNote}
 						lang={lg2}
 						alone={false}
-						context="classifications"
 					/>
 				)}
 			</div>

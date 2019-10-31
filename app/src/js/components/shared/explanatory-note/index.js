@@ -1,8 +1,8 @@
 import React from 'react';
-import Note from 'js/components/shared/note';
+import { Note }  from 'bauhaus-library';
 import DOMPurify from 'dompurify';
 
-export const ExplanatoryNote = ({ text, title, alone, context }) => {
+export const ExplanatoryNote = ({ text, title, alone }) => {
 	const cl = alone ? 'col-md-12' : 'col-md-6';
 	if (!text) return <div className={cl} />;
 	const newText = text.replace(
@@ -12,7 +12,6 @@ export const ExplanatoryNote = ({ text, title, alone, context }) => {
 	return (
 		<Note
 			title={title}
-			context={context}
 			alone={alone}
 			text={
 				<div

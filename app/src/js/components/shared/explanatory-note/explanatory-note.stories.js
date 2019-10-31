@@ -34,7 +34,6 @@ stories.add('With html content', () => (
 		title={text('Title', 'Classification panel title')}
 		text={text('Text', html)}
 		lang="fr"
-		context="classifications"
 	/>
 ));
 
@@ -42,7 +41,6 @@ stories.add('With all props', () => (
 	<ExplanatoryNote
 		title={text('Title', 'ExplanatoryNote title')}
 		text={text('Text', html)}
-		context={text('Context', 'classifications')}
 		lang={text('Lang', 'en')}
 		alone={boolean('Alone', true)}
 	/>

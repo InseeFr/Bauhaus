@@ -6,7 +6,7 @@ import { rangeType } from 'js/utils/msd/';
 import { CheckSecondLang } from 'bauhaus-library';
 import { Button, DuplicateButton, ErrorBloc } from 'bauhaus-library';
 import { markdownToHtml, containUnsupportedStyles } from 'js/utils/html';
-import Note from 'js/components/shared/note';
+import { Note }  from 'bauhaus-library';
 import DocumentsBloc from 'js/components/operations/msd/documents/documents-bloc/index.js';
 import {
 	hasLabelLg2,

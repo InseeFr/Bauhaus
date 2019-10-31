@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import Note from 'js/components/shared/note';
+import { Note }  from 'bauhaus-library';
 import { stringToDate } from 'js/utils/moment';
 import { DSURLToLabel } from 'js/utils/dissemination-status-convertor';
 
@@ -44,7 +44,6 @@ export default ({ general, secondLang, langs }) => {
 		<div className="row">
 			<Note
 				title={D.globalInformationsTitle}
-				context="classifications"
 				alone={true}
 				text={
 					<ul>
