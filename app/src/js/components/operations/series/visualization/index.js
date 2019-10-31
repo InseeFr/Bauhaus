@@ -2,7 +2,7 @@ import React from 'react';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import { saveSecondLang } from 'js/actions/app';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';

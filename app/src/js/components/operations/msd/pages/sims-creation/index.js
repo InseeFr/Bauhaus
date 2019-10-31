@@ -5,7 +5,7 @@ import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
 import { Button } from 'bauhaus-library';
 import { flattenTree } from 'js/utils/msd';
 import ReactLoading from 'react-loading';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { DUPLICATE } from 'js/components/operations/msd';
 import {

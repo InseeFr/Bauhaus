@@ -17,7 +17,7 @@ export { default as Loading } from './loading';
 
 export { default as Pagination } from './pagination';
 export { default as SearchRmes } from './search-rmes';
-
+export { default as CheckSecondLang } from './second-lang-checkbox';
 export { default as PageTitle } from './page-title';
 export { default as PageSubtitle } from './page-subtitle';
 

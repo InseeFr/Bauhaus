@@ -13,7 +13,7 @@ import buildExtract from 'js/utils/build-extract';
 import { ADMIN, CNIS } from 'js/utils/auth/roles';
 import React from 'react';
 import PageTitleBlock from 'js/components/shared/page-title-block';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
 import OperationsFamilyVisualization from 'js/components/operations/families/visualization/visualization';
 import ValidationButton from 'js/components/operations/shared/validationButton';

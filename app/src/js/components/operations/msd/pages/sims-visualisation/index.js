@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { stringToDate } from 'js/utils/moment';
 import { rangeType } from 'js/utils/msd/';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import { Button, DuplicateButton, ErrorBloc } from 'bauhaus-library';
 import { markdownToHtml, containUnsupportedStyles } from 'js/utils/html';
 import Note from 'js/components/shared/note';

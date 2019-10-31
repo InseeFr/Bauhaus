@@ -14,7 +14,7 @@ import loadOperation, {
 	publishOperation,
 } from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import { goBack } from 'js/utils/redirection';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';

@@ -5,7 +5,7 @@ import buildExtract from 'js/utils/build-extract';
 import { goBack } from 'js/utils/redirection';
 import { connect } from 'react-redux';
 import * as select from 'js/reducers';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import { saveSecondLang } from 'js/actions/app';
 import OperationsIndicatorVisualization from 'js/components/operations/indicators/visualization/general';
 import { Loading, Button, ErrorBloc } from 'bauhaus-library';

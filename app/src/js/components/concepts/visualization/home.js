@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import { PageTitle, PageSubtitle } from 'bauhaus-library';
 import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
