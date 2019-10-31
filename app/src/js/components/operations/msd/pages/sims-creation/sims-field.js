@@ -1,10 +1,13 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
-import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
+import { toolbar } from 'js/components/shared/editor-html/editor-markdown';
+import { Editor } from 'react-draft-wysiwyg';
+import { getLang } from 'js/i18n/build-dictionary';
+
 import SelectRmes from 'js/components/shared/select-rmes';
 import { Note }  from 'bauhaus-library';
 import { isLink, isDocument } from 'js/components/operations/document/utils';
@@ -13,7 +16,7 @@ import DocumentsBloc from '../../documents/documents-bloc';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
-class Field extends Component {
+class Field extends PureComponent {
 	static propTypes = {
 		msd: PropTypes.object.isRequired,
 		currentSection: PropTypes.object,
@@ -130,12 +133,19 @@ class Field extends Component {
 							)}
 							{msd.rangeType === RICH_TEXT && (
 								<>
-									<EditorMarkdown
-										aria-label={D.simsValue}
-										text={
-											currentSection[secondLang ? 'labelLg2' : 'labelLg1'] || ''
+									<Editor
+										editorState={
+											currentSection[secondLang ? 'labelLg2' : 'labelLg1']
 										}
-										handleChange={this.handleTextInput}
+										toolbar={toolbar}
+										toolbarClassName="home-toolbar"
+										wrapperClassName="home-wrapper"
+										editorClassName="home-editor"
+										onEditorStateChange={this.handleTextInput}
+										onBlur={this.handleLeave}
+										localization={{
+											locale: getLang(),
+										}}
 									/>
 									<DocumentsBloc
 										documents={(currentSection.documents || []).filter(

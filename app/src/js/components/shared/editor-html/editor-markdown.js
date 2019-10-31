@@ -7,7 +7,7 @@ import { getLang } from 'js/i18n/build-dictionary';
 
 import { mdFromEditorState, editorStateFromMd } from 'js/utils/html';
 
-const toolbar = {
+export const toolbar = {
 	options: ['list', 'inline', 'link', 'colorPicker'],
 	list: {
 		inDropdown: false,
