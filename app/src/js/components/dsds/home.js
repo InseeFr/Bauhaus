@@ -21,7 +21,6 @@ const Home = () => {
 							action="/dsds/create"
 							col={8}
 							offset={2}
-							context="dsds"
 						/>
 					</div>
 					{isLocal && (
@@ -31,7 +30,6 @@ const Home = () => {
 								action="/dsds/import"
 								col={8}
 								offset={2}
-								context="dsds"
 							/>
 						</div>
 					)}
@@ -42,18 +40,12 @@ const Home = () => {
 								action="/dsds/export"
 								col={8}
 								offset={2}
-								context="dsds"
 							/>
 						</div>
 					)}
 				</div>
 				<div className="col-md-8 centered pull-right">
-					<PageTitle
-						title={D.dsdsSearchTitle}
-						col={12}
-						offset={0}
-						context="dsds"
-					/>
+					<PageTitle title={D.dsdsSearchTitle} col={12} offset={0} />
 					<SearchRmes items={DSDs} childPath="dsds" context="dsds" />
 				</div>
 			</div>

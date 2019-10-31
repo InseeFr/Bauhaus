@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'index';
-import { Panel }  from 'bauhaus-library';
+import { Panel } from 'bauhaus-library';
 import { PageTitle } from 'bauhaus-library';
 
 import Controls from './controls';
@@ -23,7 +23,7 @@ const DSD = props => {
 	const { labelLg1, labelLg2, descriptionLg1, descriptionLg2 } = DSD;
 	return (
 		<>
-			<PageTitle title={labelLg1} subtitle={labelLg2} context="dsds" />
+			<PageTitle title={labelLg1} subtitle={labelLg2} />
 			<Controls dsdId={buildExtract('dsdId')(props)} />
 			<div className="row">
 				{descriptionLg1 && (

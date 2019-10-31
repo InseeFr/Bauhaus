@@ -110,9 +110,7 @@ describe('pagination', () => {
 	});
 
 	it('should disable the next link if we are on the last page', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 		wrapper.setState({ currentPage: 5 });
 
 		expect(

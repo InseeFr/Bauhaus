@@ -18,7 +18,6 @@ stories.add('With all props', () => (
 		subtitle={text('Sub-Title', '')}
 		col={number('Col', 4)}
 		offset={text('Offset', '4')}
-		context={text('Context', '')}
 	/>
 ));
 

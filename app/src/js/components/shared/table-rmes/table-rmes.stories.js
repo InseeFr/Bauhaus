@@ -35,7 +35,6 @@ stories.add('With all props', () => (
 	<TableRmes
 		rowParams={rows}
 		data={data}
-		context={text('Context', 'concepts')}
 		search={boolean('Searchable', 'true')}
 		pagination={boolean('Paginable', 'true')}
 		dataAlign={text('Align', 'left')}
