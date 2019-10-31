@@ -96,7 +96,10 @@ describe('SIMS Page', function() {
 			.then(json => {
 				cy.route(Cypress.env('API') + 'operations/metadataReport/1512', json);
 			})
-
+			.fixture('metaDataAttribute')
+			.then(json => {
+				cy.route(Cypress.env('API') + 'operations/metadataAttributes', json);
+			})
 			.then(() => {
 				cy.route(
 					Cypress.env('API') +
