@@ -2,7 +2,7 @@
 	"extends": ["prettier", "react-app"],
 	"rules": {
 		"jsx-a11y/href-no-hash": false,
-		"no-useless-escape": 0
+		"no-useless-escape": "off"
 	},
 	"settings": {
 		"react": {
