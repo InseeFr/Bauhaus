@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AppContext } from 'index';
-import { Input } from 'bauhaus-library';
-import Spinner from 'js/components/shared/spinner';
+import { Input, Loading } from 'bauhaus-library';
 import Controls from './controls';
 import Components from './components';
 import API from 'js/remote-api/dsds/dsds-api';
@@ -36,7 +35,7 @@ const Edition = ({ creation, initDSD }) => {
 	}, [initDSD]);
 
 	if (redirectId) return <Redirect to={`/dsds/${id}`} />;
-	if (loading) return <Spinner text={D.savingText} />;
+	if (loading) return <Loading textType={'saving'} />;
 	return (
 		<>
 			<Controls
