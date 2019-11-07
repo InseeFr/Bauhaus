@@ -11,17 +11,13 @@ const Loading = ({ textType }) => {
 	const text = getText(textType, D);
 	return (
 		<div className="bauhaus-loading container">
-			<div className="row">
-				<div className="col-md-4 col-md-offset-4">
-					<ReactLoading
-						className="bauhaus-loader"
-						type="spinningBubbles"
-						delay={0}
-						height="100%"
-						width="100%"
-					/>
-				</div>
-			</div>
+			<ReactLoading
+				className="bauhaus-loader"
+				type="spinningBubbles"
+				delay={0}
+				height="100%"
+				width="100%"
+			/>
 			<h3 className="bauhaus-loading-text">{text}</h3>
 		</div>
 	);

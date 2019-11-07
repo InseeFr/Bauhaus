@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
-import { Button } from 'bauhaus-library';
+import { Button, Loading } from 'bauhaus-library';
 import { flattenTree } from 'js/utils/msd';
-import ReactLoading from 'react-loading';
 import { CheckSecondLang } from 'bauhaus-library';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { DUPLICATE } from 'js/components/operations/msd';
@@ -178,17 +177,7 @@ class SimsCreation extends React.Component {
 			);
 		}
 
-		if (this.state.saving)
-			return (
-				<div className="loading-operations">
-					<ReactLoading
-						type="spinningBubbles"
-						delay={0}
-						height="50%"
-						width="50%"
-					/>
-				</div>
-			);
+		if (this.state.saving) return <Loading textType="saving" />;
 
 		return (
 			<form>
