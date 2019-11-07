@@ -8,14 +8,14 @@ import { getLang } from 'js/i18n/build-dictionary';
 import { mdFromEditorState, editorStateFromMd } from 'js/utils/html';
 
 export const toolbar = {
-	options: ['list', 'inline', 'link', 'colorPicker'],
+	options: ['list', 'inline', 'link'],
 	list: {
 		inDropdown: false,
 		className: undefined,
 		options: ['unordered', 'ordered'],
 	},
 	inline: {
-		options: ['bold', 'italic', 'strikethrough'],
+		options: ['bold', 'italic'],
 	},
 };
 
@@ -50,17 +50,7 @@ class EditorMarkdown extends Component {
 			editorState: editorStateFromMd(nextProps.text || ''),
 		});
 	}
-	componentDidMount() {
-		// hack to trigger the leave event when we click on the submit button when inserting a link
-		document
-			.getElementById(this.editorRef.current.wrapperId)
-			.querySelector('.rdw-link-wrapper')
-			.addEventListener('click', e => {
-				if (e.target.tagName === 'BUTTON') {
-					setTimeout(() => this.handleLeave(), 0);
-				}
-			});
-	}
+
 	render() {
 		return (
 			<Editor
