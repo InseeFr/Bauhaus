@@ -5,7 +5,7 @@ import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/components/shared/input-rmes';
 import Control from 'js/components/operations/indicators/edition/control';
-import SelectRmes from 'js/components/shared/select-rmes';
+import { SelectRmes } from 'bauhaus-library';
 import {
 	toSelectModel,
 	mergedItemsToSelectModels,

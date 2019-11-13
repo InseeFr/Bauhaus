@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
 import { PageTitle, Pagination } from 'bauhaus-library';
 import Controls from './controls';
-import SelectRmes from 'js/components/shared/select-rmes';
+import { SelectRmes } from 'bauhaus-library';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import D from 'js/i18n';
 import {

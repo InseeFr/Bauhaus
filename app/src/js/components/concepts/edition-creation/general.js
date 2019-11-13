@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
-import SelectRmes from 'js/components/shared/select-rmes';
+import { SelectRmes } from 'bauhaus-library';
 import InputRmes from 'js/components/shared/input-rmes';
 import InputMultiRmes from 'js/components/shared/input-multi-rmes';
 import {

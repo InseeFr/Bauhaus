@@ -3,7 +3,7 @@ import D, { D2 } from 'js/i18n';
 import { goBack, goBackOrReplace } from 'js/utils/redirection';
 import PropTypes from 'prop-types';
 import { CancelButton, SaveButton, Loading, ErrorBloc } from 'bauhaus-library';
-import SelectRmes from 'js/components/shared/select-rmes';
+import { SelectRmes } from 'bauhaus-library';
 import { validate } from './validation';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 

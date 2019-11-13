@@ -18,7 +18,7 @@ export { default as Note } from './note';
 
 export { default as Pagination } from './pagination';
 export { default as Panel } from './panel';
-
+export { default as SelectRmes } from './select-rmes';
 export { default as SearchRmes } from './search-rmes';
 export { default as CheckSecondLang } from './second-lang-checkbox';
 export { default as PageTitle } from './page-title';

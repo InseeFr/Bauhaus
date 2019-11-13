@@ -8,7 +8,7 @@ import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
 import { Loading, ErrorBloc, CancelButton, SaveButton } from 'bauhaus-library';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
-import SelectRmes from 'js/components/shared/select-rmes';
+import { SelectRmes } from 'bauhaus-library';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 const defaultDocument = {
 	labelLg1: '',
