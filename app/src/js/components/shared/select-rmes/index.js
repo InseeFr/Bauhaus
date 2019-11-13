@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { I18NContext } from '../context';
-
 import Select from 'react-select';
+import D from 'js/i18n';
 import 'react-select/dist/react-select.css';
 import './select-rmes.scss';
 
@@ -16,7 +15,6 @@ function SelectRmes({
 	multi,
 	disabled,
 }) {
-	const D = useContext(I18NContext);
 	const isClearable = unclearable ? false : true;
 	const onChangeSelect = multi
 		? e => onChange(e)

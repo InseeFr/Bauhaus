@@ -8,7 +8,7 @@ import { toolbar } from 'js/components/shared/editor-html/editor-markdown';
 import { Editor } from 'react-draft-wysiwyg';
 import { getLang } from 'js/i18n/build-dictionary';
 
-import { SelectRmes } from 'bauhaus-library';
+import SelectRmes from 'js/components/shared/select-rmes';
 import { Note } from 'bauhaus-library';
 import { isLink, isDocument } from 'js/components/operations/document/utils';
 import './sims-field.scss';

@@ -5,7 +5,7 @@ import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/components/shared/date-picker-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
 import { Editor } from 'react-draft-wysiwyg';
-import { SelectRmes } from 'bauhaus-library';
+import SelectRmes from 'js/components/shared/select-rmes';
 import { Note }  from 'bauhaus-library';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-import { SelectRmes } from 'bauhaus-library';
+import SelectRmes from 'js/components/shared/select-rmes';
 import InputRmes from 'js/components/shared/input-rmes';
 import {
 	propTypes as generalPropTypes,

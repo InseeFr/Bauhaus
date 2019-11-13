@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { SelectRmes } from 'bauhaus-library';
+import SelectRmes from 'js/components/shared/select-rmes';
 import { Button } from 'bauhaus-library';
 import D from 'js/i18n';
 

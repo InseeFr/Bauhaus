@@ -5,7 +5,7 @@ import { Loading } from 'bauhaus-library';
 import { AbstractSearchComponent } from 'js/components/shared/advanced-search/home-container';
 import api from 'js/remote-api/operations-api';
 import { connect } from 'react-redux';
-import { SelectRmes } from 'bauhaus-library';
+import SelectRmes from 'js/components/shared/select-rmes';
 
 import { filterKeyDeburr } from 'js/utils/array-utils';
 import SearchList from 'js/components/shared/advanced-search/home';
