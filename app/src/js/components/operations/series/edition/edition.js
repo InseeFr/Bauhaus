@@ -1,7 +1,7 @@
 import D, { D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { goBack, goBackOrReplace } from 'js/utils/redirection';
+import { goBack, goBackOrReplace } from 'bauhaus-library/src/utils/redirection';
 import { Loading, CancelButton, SaveButton, ErrorBloc } from 'bauhaus-library';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';

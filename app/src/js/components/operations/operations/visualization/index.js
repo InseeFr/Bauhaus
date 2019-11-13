@@ -7,7 +7,7 @@ import * as select from 'js/reducers';
 import { EXPORT_VARBOOK } from 'js/actions/constants';
 import { Loading, ErrorBloc, Button } from 'bauhaus-library';
 import OperationsOperationVisualization from './home';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import exportVariableBook from 'js/actions/operations/export-varBook';
 import { saveSecondLang } from 'js/actions/app';
 import loadOperation, {
@@ -15,7 +15,7 @@ import loadOperation, {
 } from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
 import { CheckSecondLang } from 'bauhaus-library';
-import { goBack } from 'js/utils/redirection';
+import { goBack } from 'bauhaus-library/src/utils/redirection';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import {

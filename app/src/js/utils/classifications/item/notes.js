@@ -1,4 +1,4 @@
-import { buildEmptyNotes } from 'js/utils/build-empty-notes';
+import { buildEmptyNotes } from 'bauhaus-library/src/utils/build-empty-notes';
 
 export const versionableNotes = [
 	'scopeNoteLg1',

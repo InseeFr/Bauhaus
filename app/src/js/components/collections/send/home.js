@@ -4,7 +4,7 @@ import { PageTitle } from 'bauhaus-library';
 import SendControls from './controls';
 import EditorHtml from 'js/components/shared/editor-html/';
 import D from 'js/i18n';
-import { regexValidMail, allTagA } from 'js/utils/regex';
+import { regexValidMail, allTagA } from 'bauhaus-library/src/utils/regex';
 
 const getDefaultMessage = (appHost, id, label, isValidated) => {
 	const params = [appHost, label, id];

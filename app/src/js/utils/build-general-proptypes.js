@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import objectFromKeys from 'js/utils/object-from-keys';
+import objectFromKeys from 'bauhaus-library/src/utils/object-from-keys';
 
 export const buildFields = fieldsWithRequired =>
 	fieldsWithRequired.map(([fieldName]) => fieldName);

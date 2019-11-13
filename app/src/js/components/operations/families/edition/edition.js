@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import D, { D2 } from 'js/i18n';
-import { goBackOrReplace, goBack } from 'js/utils/redirection';
+import { goBackOrReplace, goBack } from 'bauhaus-library/src/utils/redirection';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import { CancelButton, SaveButton, Loading, ErrorBloc } from 'bauhaus-library';

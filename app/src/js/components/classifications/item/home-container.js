@@ -7,7 +7,7 @@ import loadItem from 'js/actions/classifications/item';
 import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/item';
 import * as mainSelect from 'js/reducers';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { getSecondLang } from 'js/reducers/app';
 
 const extractClassificationId = buildExtract('classificationId');

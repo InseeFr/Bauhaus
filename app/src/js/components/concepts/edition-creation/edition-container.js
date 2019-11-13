@@ -11,7 +11,7 @@ import loadStampList from 'js/actions/stamp';
 import updateConcept from 'js/actions/concepts/update';
 import ConceptEditionCreation from './home';
 import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/build-payload-update';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import { Loading } from 'bauhaus-library';

@@ -11,7 +11,7 @@ import {
 } from 'js/actions/constants/concepts';
 import deleteConcept from 'js/actions/concepts/delete';
 import * as select from 'js/reducers';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { saveSecondLang } from 'js/actions/app';
 import loadConcept from 'js/actions/concepts/concept';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';

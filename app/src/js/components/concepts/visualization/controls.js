@@ -5,7 +5,7 @@ import { Button } from 'bauhaus-library';
 import PlaceHolder from 'js/components/shared/placeholder/placeholder';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
-import { goBack } from 'js/utils/redirection';
+import { goBack } from 'bauhaus-library/src/utils/redirection';
 import D from 'js/i18n';
 
 class ConceptVisualizationControls extends Component {

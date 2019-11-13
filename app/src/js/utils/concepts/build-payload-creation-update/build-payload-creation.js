@@ -1,5 +1,5 @@
 import { processLinks, processGeneral } from './shared';
-import takeKeys from 'js/utils/take-keys';
+import takeKeys from 'bauhaus-library/src/utils/take-keys';
 import { rawHtmlToRmesHtml } from 'js/utils/html';
 
 const generalFieldsToKeep = [

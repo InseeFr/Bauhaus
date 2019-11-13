@@ -8,7 +8,7 @@ import loadClassificationGeneral from 'js/actions/classifications/general';
 import { saveSecondLang } from 'js/actions/app';
 import * as selectT from 'js/reducers/classifications/items';
 import * as selectG from 'js/reducers/classifications/classification/general';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { getTreeFromFlatData } from 'react-sortable-tree';
 import { getSecondLang } from 'js/reducers/app';
 

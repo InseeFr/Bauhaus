@@ -1,4 +1,4 @@
-import takeKeys from 'js/utils/take-keys';
+import takeKeys from 'bauhaus-library/src/utils/take-keys';
 
 const generalFieldsToKeepCreate = [
 	'id',

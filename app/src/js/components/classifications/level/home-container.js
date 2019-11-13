@@ -6,7 +6,7 @@ import { Loading } from 'bauhaus-library';
 import loadLevel from 'js/actions/classifications/level';
 import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/level';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { getSecondLang } from 'js/reducers/app';
 
 const extractClassificationId = buildExtract('classificationId');
