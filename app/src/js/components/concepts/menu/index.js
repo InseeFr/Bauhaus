@@ -4,7 +4,6 @@ import MenuReferentiels from 'js/components/menu/referentiels';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
-import './concepts.scss';
 import { compose } from 'recompose';
 import { withPermissions } from 'js/components/menu/home-container';
 
@@ -15,7 +14,8 @@ class MenuConcepts extends Component {
 			menuRef: false,
 			activePath: props.location.pathname,
 		};
-		this.onChangeMenu = () => {
+		this.onChangeMenu = e => {
+			e.preventDefault();
 			this.setState({
 				menuRef: !this.state.menuRef,
 			});
@@ -70,14 +70,14 @@ class MenuConcepts extends Component {
 		return (
 			<div>
 				<header>
-					<nav className="navbar navbar-default-concepts">
+					<nav className="navbar navbar-primary">
 						<div className="container-fluid">
 							<div className="collapse navbar-collapse">
-								<ul className="nav navbar-nav navbar-nav-concepts">
+								<ul className="nav navbar-nav">
 									<li>
-										<button onClick={this.onChangeMenu}>
+										<Link to="/" onClick={this.onChangeMenu}>
 											{D.repositoryNavigation}
-										</button>
+										</Link>
 									</li>
 									<li className={paths.concepts.className}>
 										<Link

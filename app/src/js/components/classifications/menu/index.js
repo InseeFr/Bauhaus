@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import MenuReferentiels from 'js/components/menu/referentiels';
 import D from 'js/i18n';
-import './classifications.scss';
 
 class MenuClassifications extends Component {
 	constructor(props) {
@@ -11,7 +10,8 @@ class MenuClassifications extends Component {
 			menuRef: false,
 			activePath: props.location.pathname,
 		};
-		this.onChangeMenu = () => {
+		this.onChangeMenu = e => {
+			e.preventDefault();
 			this.setState({
 				menuRef: !this.state.menuRef,
 			});
@@ -67,14 +67,14 @@ class MenuClassifications extends Component {
 		return (
 			<div>
 				<header>
-					<nav className="navbar navbar-default-classifications">
+					<nav className="navbar navbar-primary">
 						<div className="container-fluid">
 							<div className="collapse navbar-collapse">
-								<ul className="nav navbar-nav navbar-nav-classifications">
+								<ul className="nav navbar-nav">
 									<li>
-										<button onClick={this.onChangeMenu}>
+										<Link to="/" onClick={this.onChangeMenu}>
 											{D.repositoryNavigation}
-										</button>
+										</Link>
 									</li>
 									<li className={paths.families.className}>
 										<Link

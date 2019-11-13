@@ -4,7 +4,6 @@ import MenuReferentiels from 'js/components/menu/referentiels';
 import { connect } from 'react-redux';
 
 import D from 'js/i18n';
-import './operations.scss';
 import { compose } from 'recompose';
 import { getOperationsSimsCurrent } from 'js/reducers';
 
@@ -56,7 +55,9 @@ class MenuOperations extends Component {
 		};
 	}
 
-	onChangeMenu = () => {
+	onChangeMenu = e => {
+		e.preventDefault();
+
 		this.setState({
 			menuRef: !this.state.menuRef,
 		});
@@ -135,14 +136,14 @@ class MenuOperations extends Component {
 		return (
 			<>
 				<header>
-					<nav className="navbar navbar-default-operations">
+					<nav className="navbar navbar-primary">
 						<div className="container-fluid">
 							<div className="collapse navbar-collapse">
-								<ul className="nav navbar-nav navbar-nav-operations">
+								<ul className="nav navbar-nav">
 									<li>
-										<button onClick={this.onChangeMenu}>
+										<Link to="/" onClick={this.onChangeMenu}>
 											{D.repositoryNavigation}
-										</button>
+										</Link>
 									</li>
 									<li
 										className={paths.families.className}

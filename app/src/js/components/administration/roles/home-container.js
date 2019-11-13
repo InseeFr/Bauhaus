@@ -72,20 +72,7 @@ class RolesContainer extends Component {
 			location: { pathname },
 		} = this.props;
 
-		if (
-			(deleteRequested && deleteStatus !== OK) ||
-			(addRequested && addStatus !== OK)
-		)
-			return <Loading textType="saving" />;
-
-		if (
-			(!deleteRequested && addRequested && addStatus) ||
-			(!addRequested && deleteRequested && deleteStatus) ||
-			(deleteRequested && deleteStatus && addRequested && addStatus)
-		)
-			return <Redirect to="/administration/roles" />;
-
-		if (roles && agents) {
+		if (true || (roles && agents)) {
 			return (
 				<>
 					<Menu></Menu>

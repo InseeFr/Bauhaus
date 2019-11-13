@@ -1,7 +1,0 @@
-@import 'src/main.scss';
-
-@import 'src/js/components/menu/_menu.default.scss';
-
-.navbar-default-concepts {
-	@include set-menu('concepts', var(--color-1), var(--color-2), var(--color-3));
-}
