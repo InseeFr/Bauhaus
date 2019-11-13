@@ -6,6 +6,7 @@ import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permissi
 import D from 'js/i18n';
 import { compose } from 'recompose';
 import { withPermissions } from 'js/components/menu/home-container';
+const defaultAttrs = { 'aria-current': 'page' };
 
 class MenuConcepts extends Component {
 	constructor(props) {
@@ -48,6 +49,7 @@ class MenuConcepts extends Component {
 				path: '/concepts/administration',
 				pathKey: 'administration',
 				className: null,
+				attrs: null,
 			},
 			help: { path: '/concepts/help/1', pathKey: 'help', className: null },
 			concepts: { path: '/concepts', pathKey: 'concept', className: null },
@@ -55,12 +57,14 @@ class MenuConcepts extends Component {
 				path: '/collections',
 				pathKey: 'collection',
 				className: null,
+				attrs: null,
 			},
 		};
 
 		for (var key in paths) {
 			if (this.props.location.pathname.includes(paths[key]['pathKey'])) {
 				paths[key]['className'] = 'active';
+				paths[key]['attrs'] = defaultAttrs;
 				break;
 			}
 		}
@@ -83,6 +87,7 @@ class MenuConcepts extends Component {
 										<Link
 											to={paths.concepts.path}
 											onClick={() => this.changeActivePath(paths.concepts.path)}
+											{...paths.concepts.attrs}
 										>
 											{D.conceptsTitle}
 										</Link>
@@ -93,6 +98,7 @@ class MenuConcepts extends Component {
 											onClick={() =>
 												this.changeActivePath(paths.collections.path)
 											}
+											{...paths.collections.attrs}
 										>
 											{D.collectionsTitle}
 										</Link>
@@ -102,17 +108,23 @@ class MenuConcepts extends Component {
 											to={paths.help.path}
 											onClick={() => this.changeActivePath(paths.help.path)}
 											target="_blank"
+											{...paths.help.attrs}
 										>
 											{D.help}
 										</Link>
 									</li>
 									{adminOrContributor && (
-										<li className={paths.help.className + ' navbar-right'}>
+										<li
+											className={
+												paths.administration.className + ' navbar-right'
+											}
+										>
 											<Link
 												to={paths.administration.path}
 												onClick={() =>
 													this.changeActivePath(paths.administration.path)
 												}
+												{...paths.administration.attrs}
 											>
 												{D.administrationTitle}
 											</Link>

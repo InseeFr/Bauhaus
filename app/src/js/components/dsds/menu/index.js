@@ -25,7 +25,9 @@ const MenuDSDs = () => {
 									</Link>
 								</li>
 								<li className="active">
-									<Link to={'/dsds'}>{D.dsdsTitle}</Link>
+									<Link to={'/dsds'} aria-current="page">
+										{D.dsdsTitle}
+									</Link>
 								</li>
 							</ul>
 						</div>
