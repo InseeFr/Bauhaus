@@ -52,7 +52,7 @@ function CollectionEditionCreationControls({
 			<div className="col-md-8 centered">
 				<div
 					style={{ visibility: message ? 'visible' : 'hidden' }}
-					className="alert alert-danger bold"
+					className="alert alert-danger"
 					role="alert"
 				>
 					{/* HACK: if no content, the line height is set to 0 and the rest
