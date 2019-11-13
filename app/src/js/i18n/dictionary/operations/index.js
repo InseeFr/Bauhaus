@@ -170,18 +170,6 @@ const dictionary = {
 		en: 'Create the SIMS',
 		fr: 'Créer le SIMS',
 	},
-	simsLabel_operation: {
-		en: '{{PARENT_LABEL}} SIMS',
-		fr: "SIMS de l'opération {{PARENT_LABEL}}",
-	},
-	simsLabel_series: {
-		en: '{{PARENT_LABEL}} SIMS',
-		fr: 'SIMS de la série {{PARENT_LABEL}}',
-	},
-	simsLabel_indicator: {
-		en: '{{PARENT_LABEL}} SIMS',
-		fr: "SIMS de l'indicateur {{PARENT_LABEL}}",
-	},
 	...documentsD,
 	...validationD,
 };

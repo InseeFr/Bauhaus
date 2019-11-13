@@ -1,4 +1,4 @@
-import { getTree, flattenTree, getLabelsFromParent } from './index';
+import { getTree, flattenTree } from './index';
 
 describe('flattenTree', () => {
 	it('should return the right flat array', () => {
@@ -224,47 +224,5 @@ describe('getTree', () => {
 			},
 		};
 		expect(getTree(input, undefined, {})).toEqual(output);
-	});
-});
-
-describe('getLabelsFromParent', () => {
-	it('should return the labels for a SIMS linked to an operation', () => {
-		/**
-		 * @type {import('js/types').Operation}
-		 */
-		const input = {
-			prefLabelLg1: 'prefLabelLg1',
-			prefLabelLg2: 'prefLabelLg2',
-		};
-		expect(getLabelsFromParent(input)).toEqual({
-			labelLg1: 'prefLabelLg1 SIMS',
-			labelLg2: "SIMS de l'opération prefLabelLg2",
-		});
-	});
-	it('should return the labels for a SIMS linked to an series', () => {
-		/**
-		 * @type {import('js/types').Series}
-		 */
-		const input = {
-			prefLabelLg1: 'prefLabelLg1',
-			prefLabelLg2: 'prefLabelLg2',
-		};
-		expect(getLabelsFromParent(input, 'series')).toEqual({
-			labelLg1: 'prefLabelLg1 SIMS',
-			labelLg2: 'SIMS de la série prefLabelLg2',
-		});
-	});
-	it('should return the labels for a SIMS linked to an indicator', () => {
-		/**
-		 * @type {import('js/types').Indicator}
-		 */
-		const input = {
-			prefLabelLg1: 'prefLabelLg1',
-			prefLabelLg2: 'prefLabelLg2',
-		};
-		expect(getLabelsFromParent(input, 'indicator')).toEqual({
-			labelLg1: 'prefLabelLg1 SIMS',
-			labelLg2: "SIMS de l'indicateur prefLabelLg2",
-		});
 	});
 });

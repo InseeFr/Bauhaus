@@ -13,7 +13,6 @@ import MSDHelp from 'js/components/operations/msd/pages/help';
 import SimsVisualisation from 'js/components/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/components/operations/msd/pages/sims-creation/';
 import buildExtract from 'js/utils/build-extract';
-import { getLabelsFromParent } from 'js/utils/msd';
 import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
 import { compose } from 'recompose';
@@ -224,7 +223,8 @@ export const mapStateToProps = (state, ownProps) => {
 			parentType = ownProps.match.params[0];
 			const [currentParent, currentParentStatus] = getCurrentParent(parentType);
 			currentSims = {
-				...getLabelsFromParent(currentParent, parentType),
+				labelLg1: currentParent.prefLabelLg1,
+				labelLg2: currentParent.prefLabelLg2,
 			};
 			isParentLoaded =
 				currentParentStatus !== NOT_LOADED || currentParent.id === idParent;

@@ -64,8 +64,8 @@ describe('', () => {
 		};
 		const output = mapStateToProps(input, props);
 		expect(output.currentSims).toEqual({
-			labelLg1: 'prefLabelLg1 SIMS',
-			labelLg2: 'SIMS de la série prefLabelLg2',
+			labelLg1: 'prefLabelLg1',
+			labelLg2: 'prefLabelLg2',
 		});
 		expect(output.parentType).toEqual('series');
 	});

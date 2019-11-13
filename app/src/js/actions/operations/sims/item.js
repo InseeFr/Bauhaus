@@ -1,7 +1,6 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
 import { LOADING } from 'js/constants';
-import { getLabelsFromParent } from 'js/utils/msd';
 
 import { getPublishFactory } from '../utils';
 
@@ -20,26 +19,25 @@ export const publishSims = getPublishFactory(
  * @param {*} promise
  */
 function getFetchLabelsPromise(sims, promise) {
-	function mergeLabels(parent, parentType) {
+	function mergeLabels(parent) {
 		return {
 			...sims,
-			...getLabelsFromParent(parent, parentType),
+			labelLg1: parent.prefLabelLg1,
+			labelLg2: parent.prefLabelLg2,
 		};
 	}
 	if (sims.idOperation) {
 		return api
 			.getOperation(sims.idOperation)
-			.then(parent => mergeLabels(parent, 'operation'));
+			.then(parent => mergeLabels(parent));
 	}
 	if (sims.idSeries) {
-		return api
-			.getSerie(sims.idSeries)
-			.then(parent => mergeLabels(parent, 'series'));
+		return api.getSerie(sims.idSeries).then(parent => mergeLabels(parent));
 	}
 	if (sims.idIndicator) {
 		return api
 			.getIndicator(sims.idIndicator)
-			.then(parent => mergeLabels(parent, 'indicator'));
+			.then(parent => mergeLabels(parent));
 	}
 	return promise;
 }
