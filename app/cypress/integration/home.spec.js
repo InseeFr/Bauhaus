@@ -7,7 +7,7 @@ describe('Home Page', function() {
 		cy.url().should('match', /\/concepts$/);
 		cy.get('title').contains('Bauhaus - Concepts');
 		cy.go('back');
-		cy.get('.page-title').contains(
+		cy.get('h1').contains(
 			'Application de gestion des métadonnées de référence'
 		);
 	});
@@ -18,7 +18,7 @@ describe('Home Page', function() {
 		cy.url().should('match', /\/classifications$/);
 		cy.get('title').contains('Bauhaus - Nomenclatures');
 		cy.go('back');
-		cy.get('.page-title').contains(
+		cy.get('h1').contains(
 			'Application de gestion des métadonnées de référence'
 		);
 	});
@@ -28,7 +28,7 @@ describe('Home Page', function() {
 		cy.url().should('match', /\/operations$/);
 		cy.get('title').contains('Bauhaus - Opérations');
 		cy.go('back');
-		cy.get('.page-title').contains(
+		cy.get('h1').contains(
 			'Application de gestion des métadonnées de référence'
 		);
 	});

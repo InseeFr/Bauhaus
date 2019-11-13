@@ -1,5 +1,5 @@
 import React from 'react';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import IndicatorsHome from './home';
 import loadIndicatorsList from 'js/actions/operations/indicators/list';
 import { connect } from 'react-redux';
@@ -7,7 +7,7 @@ import { NOT_LOADED, LOADED } from 'js/constants';
 import * as select from 'js/reducers';
 
 function IndicatorsHomeContainer({ indicators, status, permission }) {
-	if (status !== LOADED) return <Loading textType="loading" />;
+	if (status !== LOADED) return <Loading />;
 	return <IndicatorsHome indicators={indicators} permission={permission} />;
 }
 

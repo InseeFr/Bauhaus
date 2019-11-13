@@ -1,8 +1,8 @@
 import React from 'react';
-import PanelHtml from 'js/components/shared/panel-html';
-import NoteFlag from 'js/components/shared/note-flag/note-flag';
+import { Note }  from 'bauhaus-library';
+import DOMPurify from 'dompurify';
 
-export const ExplanatoryNote = ({ text, title, lang, alone, context }) => {
+export const ExplanatoryNote = ({ text, title, alone }) => {
 	const cl = alone ? 'col-md-12' : 'col-md-6';
 	if (!text) return <div className={cl} />;
 	const newText = text.replace(
@@ -10,13 +10,16 @@ export const ExplanatoryNote = ({ text, title, lang, alone, context }) => {
 		`href="${window.location.origin}/classifications/classification/$1/item/$2"`
 	);
 	return (
-		<div className={cl}>
-			<PanelHtml
-				title={<NoteFlag text={title} lang={lang} />}
-				context={context}
-			>
-				{newText}
-			</PanelHtml>
-		</div>
+		<Note
+			title={title}
+			alone={alone}
+			text={
+				<div
+					dangerouslySetInnerHTML={{
+						__html: DOMPurify.sanitize(newText),
+					}}
+				/>
+			}
+		></Note>
 	);
 };

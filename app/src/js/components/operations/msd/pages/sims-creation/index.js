@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
-import Button from 'js/components/shared/button';
+import { Button, Loading } from 'bauhaus-library';
 import { flattenTree } from 'js/utils/msd';
-import ReactLoading from 'react-loading';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { DUPLICATE } from 'js/components/operations/msd';
 import {
@@ -140,12 +139,12 @@ class SimsCreation extends React.Component {
 		function MSDInformations(msd, handleChange, firstLevel = false) {
 			return (
 				<React.Fragment key={msd.idMas}>
-					<div className="row flex" id={msd.idMas}>
-						{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
-							<h3 className="col-md-12">
-								{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
-							</h3>
-						)}
+					{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
+						<h3 className="col-md-12 sims-title">
+							{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
+						</h3>
+					)}
+					<div className="row" id={msd.idMas}>
 						{!msd.isPresentational && (
 							<Field
 								msd={msd}
@@ -178,17 +177,7 @@ class SimsCreation extends React.Component {
 			);
 		}
 
-		if (this.state.saving)
-			return (
-				<div className="loading-operations">
-					<ReactLoading
-						type="spinningBubbles"
-						delay={0}
-						height="50%"
-						width="50%"
-					/>
-				</div>
-			);
+		if (this.state.saving) return <Loading textType="saving" />;
 
 		return (
 			<form>

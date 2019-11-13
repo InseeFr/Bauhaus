@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import HomeGeneral from './home-general';
 import HomeAssociations from './home-associations';
 import { getCorrespondence } from 'js/reducers/classifications/correspondence';
@@ -25,8 +25,7 @@ class CorrespondencesHomeContainer extends Component {
 	}
 	render() {
 		const { id, correspondence, associations, secondLang, langs } = this.props;
-		if (!correspondence)
-			return <Loading textType="loading" context="classifications" />;
+		if (!correspondence) return <Loading />;
 		if (correspondence && !associations)
 			return (
 				<div className="container">
@@ -36,7 +35,7 @@ class CorrespondencesHomeContainer extends Component {
 						saveSecondLang={this.props.saveSecondLang}
 						langs={langs}
 					/>
-					<Loading textType="loading" context="classifications" />
+					<Loading />
 				</div>
 			);
 		return (

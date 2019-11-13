@@ -1,7 +1,7 @@
 import React from 'react';
-import D from 'js/i18n';
-import Panel from 'js/components/shared/panel';
-import { Note } from 'js/components/shared/note/note';
+import D, { D2 } from 'js/i18n';
+import { Panel }  from 'bauhaus-library';
+import { Note }  from 'bauhaus-library';
 import { stringToDate } from 'js/utils/moment';
 
 function CollectionGeneral({ attr, secondLang, langs }) {
@@ -35,9 +35,9 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 								);
 							} else {
 								return (
-									<li key={fieldName}>{`${mapping[fieldName]} : ${
-										attr[fieldName]
-									}`}</li>
+									<li
+										key={fieldName}
+									>{`${mapping[fieldName]} : ${attr[fieldName]}`}</li>
 								);
 							}
 						} else return null;
@@ -55,7 +55,7 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 					{secondLang && (
 						<Note
 							text={attr.descriptionLg2}
-							title={D.descriptionTitle}
+							title={D2.descriptionTitle}
 							lang={lg2}
 							alone={false}
 						/>

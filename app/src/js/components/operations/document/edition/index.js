@@ -6,7 +6,7 @@ import loadDocument, {
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
 import buildExtract from 'js/utils/build-extract';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import DocumentationEdition from 'js/components/operations/document/edition/edition';
 import { getCurrentDocument } from 'js/reducers/operations/selector';
 import { isDocument, LINK, DOCUMENT } from '../utils';
@@ -21,7 +21,7 @@ class OperationsDocumentationEditionContainer extends Component {
 		}
 	}
 	render() {
-		if (!this.props.document) return <Loading textType="loading" />;
+		if (!this.props.document) return <Loading />;
 		return <DocumentationEdition {...this.props} />;
 	}
 }

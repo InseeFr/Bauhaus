@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import OperationsHome from './home';
 import { NOT_LOADED, LOADED } from 'js/constants';
 import loadOperationsList from 'js/actions/operations/operations/list';
@@ -14,7 +14,7 @@ class OperationsHomeContainer extends Component {
 	}
 	render() {
 		const { operations, status } = this.props;
-		if (status !== LOADED) return <Loading textType="loading" />;
+		if (status !== LOADED) return <Loading />;
 		return <OperationsHome operations={operations} />;
 	}
 }

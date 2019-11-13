@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PageTitle from 'js/components/shared/page-title';
-import SearchRmes from 'js/components/shared/search-rmes/search-rmes';
+import { PageTitle, SearchRmes, NewButton } from 'bauhaus-library';
 import D from 'js/i18n';
 import check from 'js/utils/auth';
-import { Link } from 'react-router-dom';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CREATOR, ADMIN } from 'js/utils/auth/roles';
 
@@ -16,22 +14,14 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 			<div className="container">
 				<div className="row">
 					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
-						<div className="col-md-3 operations-btn-group-vertical">
+						<div className="col-md-3 btn-group-vertical">
 							{adminOrContributor && (
 								<div className="row">
 									<div className="col-md-8 col-md-offset-2">
-										<Link
-											to="/operations/indicator/create"
-											col={8}
-											offset={2}
-											className="btn btn-operations btn-lg col-md-12"
-										>
-											<span
-												className="glyphicon glyphicon-plus"
-												aria-hidden="true"
-											/>
-											<span> {D.btnNewMale}</span>
-										</Link>
+										<NewButton
+											action="/operations/indicator/create"
+											wrapper={false}
+										/>
 									</div>
 								</div>
 							)}

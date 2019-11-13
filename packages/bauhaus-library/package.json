@@ -8,8 +8,8 @@
 		"start": "microbundle watch --target node --jsx React.createElement",
 		"build-insee": "microbundle build --jsx React.createElement",
 		"test": "jest --watch",
-		"build-storybook": "cross-env NODE_PATH=src/ build-storybook -o built-storybook/storybook",
-		"start-storybook": "cross-env NODE_PATH=src/ start-storybook -p 9999",
+		"build-storybook": "build-storybook -o built-storybook/storybook",
+		"start-storybook": "start-storybook -p 9999",
 		"test:coverage": "jest --coverage",
 		"lint": "eslint src"
 	},
@@ -26,7 +26,6 @@
 		"@storybook/addon-links": "5.1.11",
 		"@storybook/addons": "5.1.11",
 		"@storybook/react": "5.1.11",
-		"@testing-library/react": "^8.0.7",
 		"babel-jest": "24.7.1",
 		"babel-loader": "8.0.5",
 		"enzyme": "^3.10.0",

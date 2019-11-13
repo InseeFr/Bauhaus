@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import DocumentHome from './home';
 import { connect } from 'react-redux';
 import { LOADED } from 'js/constants';
@@ -20,7 +20,7 @@ class OperationsDocumentsContainer extends Component {
 	}
 	render() {
 		const { documentStores, documentStoresStatus } = this.props;
-		if (documentStoresStatus !== LOADED) return <Loading textType="loading" />;
+		if (documentStoresStatus !== LOADED) return <Loading />;
 		return <DocumentHome documents={documentStores} />;
 	}
 }

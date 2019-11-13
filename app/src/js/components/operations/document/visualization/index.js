@@ -1,8 +1,7 @@
 import { saveSecondLang } from 'js/actions/app';
 import loadDocument from 'js/actions/operations/documents/item';
-import Button from 'js/components/shared/button';
-import Loading from 'js/components/shared/loading';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { Loading, Button } from 'bauhaus-library';
+import { CheckSecondLang } from 'bauhaus-library';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { getSecondLang } from 'js/reducers/app';
@@ -39,12 +38,10 @@ class DocumentationVisualizationContainer extends Component {
 	render() {
 		const { id, document, langs, secondLang, saveSecondLang } = this.props;
 
-		if (!document.id) return <Loading textType="loading" />;
+		if (!document.id) return <Loading />;
 
 		return (
 			<div className="container">
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
-
 				<PageTitleBlock
 					titleLg1={document.labelLg1 || document.labelLg2}
 					titleLg2={document.labelLg2}
@@ -65,6 +62,8 @@ class DocumentationVisualizationContainer extends Component {
 						/>
 					</Auth>
 				</div>
+				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+
 				<OperationsDocumentVisualization
 					id={id}
 					attr={document}

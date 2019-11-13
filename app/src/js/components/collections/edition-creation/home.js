@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import PageTitle from 'js/components/shared/page-title';
+import { PageTitle } from 'bauhaus-library';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
 import MembersEdition from './members';
@@ -78,7 +78,9 @@ class CollectionEditionCreation extends Component {
 			creation,
 			langs,
 		} = this.props;
-		const { data: { general, members } } = this.state;
+		const {
+			data: { general, members },
+		} = this.state;
 		const {
 			id: initialId,
 			prefLabelLg1: initialPrefLabelLg1,

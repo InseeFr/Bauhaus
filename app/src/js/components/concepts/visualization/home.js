@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import PageTitle from 'js/components/shared/page-title';
-import PageSubtitle from 'js/components/shared/page-subtitle';
+import { CheckSecondLang } from 'bauhaus-library';
+import { PageTitle, PageSubtitle } from 'bauhaus-library';
 import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
@@ -86,10 +85,6 @@ class ConceptVisualization extends Component {
 		return (
 			<div>
 				<div className="container">
-					<CheckSecondLang
-						secondLang={secondLang}
-						onChange={this.props.saveSecondLang}
-					/>
 					<PageTitle title={prefLabelLg1} />
 					{secondLang && prefLabelLg2 && (
 						<PageSubtitle subTitle={prefLabelLg2} />
@@ -104,6 +99,12 @@ class ConceptVisualization extends Component {
 						handleValidation={this.handleClickValidation}
 						handleDeletion={this.handleClickDeletion}
 					/>
+
+					<CheckSecondLang
+						secondLang={secondLang}
+						onChange={this.props.saveSecondLang}
+					/>
+
 					<ConceptGeneral
 						secondLang={secondLang}
 						attr={general}

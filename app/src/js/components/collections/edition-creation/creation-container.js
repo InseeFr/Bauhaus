@@ -12,7 +12,7 @@ import CollectionEditionCreation from './home';
 import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
 import { cleanId } from 'js/utils/string-utils';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { OK } from 'js/constants';
 
 class CreationContainer extends Component {
@@ -52,7 +52,7 @@ class CreationContainer extends Component {
 		if (this.state.creationRequested) {
 			if (creationStatus === OK) {
 				return <Redirect to={`/collection/${cleanId(this.state.id)}`} />;
-			} else return <Loading textType="saving" context="concepts" />;
+			} else return <Loading textType="saving" />;
 		}
 		if (conceptList && stampList) {
 			const { general, members } = collection;
@@ -71,7 +71,7 @@ class CreationContainer extends Component {
 				/>
 			);
 		}
-		return <Loading textType="loading" context="concepts" />;
+		return <Loading />;
 	}
 }
 

@@ -1,3 +1,13 @@
+@mixin list-item-separator($color) {
+	content: '';
+	height: 60%;
+	width: 1px;
+	position: absolute;
+	right: 0;
+	top: 20%;
+	background-color: $color;
+}
+
 @mixin panel-trigger() {
 	margin-top: 20px;
 	border-top-left-radius: 2px;
@@ -5,7 +15,7 @@
 	padding: 6px 5px 2px 5px;
 	position: absolute;
 	margin-top: 20px;
-	background-color: $color_operations_3;
+	background-color: var(-color-3);
 	color: #fff;
 	text-align: center;
 	text-transform: uppercase;
@@ -33,20 +43,4 @@
 
 	/* Corrects inability to style clickable `input` types in iOS */
 	-webkit-appearance: none;
-}
-
-@mixin btn-group-vertical() {
-	@media (min-width: 1000px) {
-		margin-top: 200px;
-	}
-
-	border-radius: 6px;
-	border-width: 2px;
-	border-style: solid;
-	margin-top: 50px;
-
-	.btn {
-		margin-top: 15px;
-		margin-bottom: 15px;
-	}
 }

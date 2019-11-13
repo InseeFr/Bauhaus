@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { EXPORT_VARBOOK } from 'js/actions/constants';
-import Loading from 'js/components/shared/loading';
+import { Loading, ErrorBloc, Button } from 'bauhaus-library';
 import OperationsOperationVisualization from './home';
 import buildExtract from 'js/utils/build-extract';
 import exportVariableBook from 'js/actions/operations/export-varBook';
@@ -14,9 +14,8 @@ import loadOperation, {
 	publishOperation,
 } from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import { goBack } from 'js/utils/redirection';
-import Button from 'js/components/shared/button';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import {
@@ -27,7 +26,6 @@ import {
 } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 import ValidationButton from 'js/components/operations/shared/validationButton';
-import ErrorBloc from 'js/components/shared/error-bloc';
 import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
@@ -53,12 +51,10 @@ class OperationVisualizationContainer extends VisualizationContainer {
 		} = this.props;
 		const { serverSideError } = this.state;
 
-		if (!operation.id) return <Loading textType="loading" />;
+		if (!operation.id) return <Loading />;
 
 		return (
 			<div className="container">
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
-
 				<PageTitleBlock
 					titleLg1={operation.prefLabelLg1}
 					titleLg2={operation.prefLabelLg2}
@@ -102,6 +98,9 @@ class OperationVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth>
 				</div>
+
+				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+
 				<OperationsOperationVisualization
 					id={id}
 					attr={operation}

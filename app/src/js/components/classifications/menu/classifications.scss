@@ -2,5 +2,10 @@
 @import 'src/js/components/menu/_menu.default.scss';
 
 .navbar-default-classifications {
-	@include set-menu("classifications", $color_classifications_1, $color_classifications_2, $color_classifications_3);
+	@include set-menu(
+		'classifications',
+		var(--color-1),
+		var(--color-2),
+		var(--color-3)
+	);
 }

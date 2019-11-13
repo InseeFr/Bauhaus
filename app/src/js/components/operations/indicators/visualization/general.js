@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Note } from 'js/components/shared/note/note';
-import D from 'js/i18n';
+import { Note }  from 'bauhaus-library';
+import D, { D2 } from 'js/i18n';
 import { getSeeAlsoByType } from 'js/components/operations/shared/links/utils';
 import DisplayLinks from 'js/components/operations/shared/links/';
 import SeeAlso from 'js/components/operations/shared/seeAlso';
@@ -18,7 +18,7 @@ function DisplayMultiLangNote({
 		<div className="row">
 			<Note
 				text={value1}
-				title={title}
+				title={D[title]}
 				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
@@ -27,7 +27,7 @@ function DisplayMultiLangNote({
 			{secondLang && (
 				<Note
 					text={value2}
-					title={title}
+					title={D2[title]}
 					lang={lg2}
 					alone={false}
 					allowEmpty={true}
@@ -49,20 +49,20 @@ function OperationsIndicatorVisualization(props) {
 	const gestionnaire = (
 		organisations.find(orga => orga.id === attr.gestionnaire) || {}
 	).label;
-	
+
 	return (
 		<React.Fragment>
 			<DisplayMultiLangNote
 				value1={attr.altLabelLg1}
 				value2={attr.altLabelLg2}
-				title={D.altLabel}
+				title={'altLabel'}
 				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayMultiLangNote
 				value1={attr.abstractLg1}
 				value2={attr.abstractLg2}
-				title={D.summary}
+				title={'summary'}
 				langs={langs}
 				secondLang={secondLang}
 				md
@@ -70,14 +70,14 @@ function OperationsIndicatorVisualization(props) {
 			<DisplayMultiLangNote
 				value1={attr.historyNoteLg1}
 				value2={attr.historyNoteLg2}
-				title={D.history}
+				title={'history'}
 				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayMultiLangNote
 				value1={frequency.labelLg1}
 				value2={frequency.labelLg2}
-				title={D.indicatorDataCollectFrequency}
+				title={'indicatorDataCollectFrequency'}
 				langs={langs}
 				secondLang={secondLang}
 			/>
@@ -90,7 +90,7 @@ function OperationsIndicatorVisualization(props) {
 					allowEmpty={true}
 				/>
 			</div>
-			<div className="row flex" data-cy="gestionnaire">
+			<div className="row" data-cy="gestionnaire">
 				<Note
 					text={gestionnaire}
 					title={D.operationsContributorTitle}
@@ -101,7 +101,7 @@ function OperationsIndicatorVisualization(props) {
 			</div>
 			<DisplayLinks
 				links={contributor}
-				title={D.stakeholders}
+				title={'stakeholders'}
 				langs={langs}
 				secondLang={false}
 				displayLink={false}
@@ -111,21 +111,21 @@ function OperationsIndicatorVisualization(props) {
 			<DisplayLinks
 				links={attr.replaces}
 				path={'/operations/indicator/'}
-				title={D.replaces}
+				title={'replaces'}
 				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.isReplacedBy}
 				path={'/operations/indicator/'}
-				title={D.replacedBy}
+				title={'replacedBy'}
 				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.wasGeneratedBy}
 				path={'/operations/series/'}
-				title={D.generatedBy}
+				title={'generatedBy'}
 				langs={langs}
 				secondLang={secondLang}
 			/>

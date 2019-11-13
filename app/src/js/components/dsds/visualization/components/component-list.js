@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Checkbox } from 'react-bootstrap';
-import { Input, Pagination, Badge } from 'bauhaus-library';
+import { Input, Pagination } from 'bauhaus-library';
+
+import Badge from 'js/components/shared/badge';
+
 import * as C from 'js/constants';
 import D from 'js/i18n';
 import { sortArray, filterDeburr } from 'js/utils/array-utils';

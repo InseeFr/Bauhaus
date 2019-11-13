@@ -1,5 +1,5 @@
-import { Note } from 'js/components/shared/note/note';
-import D from 'js/i18n';
+import { Note }  from 'bauhaus-library';
+import D, { D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { isDocument, isLink } from '../utils';
@@ -35,7 +35,7 @@ function OperationsDocumentationVisualization({
 				{secondLang && (
 					<Note
 						text={attr.descriptionLg2}
-						title={D.descriptionTitle}
+						title={D2.descriptionTitle}
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
@@ -77,7 +77,7 @@ function OperationsDocumentationVisualization({
 									{attr.labelLg2}
 								</a>
 							}
-							title={D.descriptionTitle}
+							title={D2.descriptionTitle}
 							lang={lg2}
 							alone={false}
 							allowEmpty={true}

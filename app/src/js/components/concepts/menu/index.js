@@ -76,8 +76,7 @@ class MenuConcepts extends Component {
 								<ul className="nav navbar-nav navbar-nav-concepts">
 									<li>
 										<button onClick={this.onChangeMenu}>
-											<span className="glyphicon glyphicon-th navbar-icon inline" />
-											<span className="inline"> {D.repositoryNavigation}</span>
+											{D.repositoryNavigation}
 										</button>
 									</li>
 									<li className={paths.concepts.className}>

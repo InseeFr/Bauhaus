@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { SEND_COLLECTION } from 'js/actions/constants';
 import loadGeneral from 'js/actions/collections/general';
 import sendCollection from 'js/actions/collections/send';
@@ -51,8 +51,7 @@ class CollectionSendContainer extends Component {
 				/>
 			);
 		}
-		if (!loaded || !properties)
-			return <Loading textType="loading" context="concepts" />;
+		if (!loaded || !properties) return <Loading />;
 		return (
 			<CollectionSend
 				id={id}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Auth from 'js/components/auth/basic-auth/login';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { checkAuth } from 'js/actions/app';
 import loadRoleList from 'js/actions/roles/role';
 import loadStampList from 'js/actions/stamp';
@@ -48,7 +48,7 @@ class LoginBasicContainer extends Component {
 				/>
 			);
 		}
-		return <Loading textType="loading" />;
+		return <Loading />;
 	}
 }
 
@@ -65,6 +65,7 @@ const mapDispatchToProps = {
 	checkAuth,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	LoginBasicContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(LoginBasicContainer);

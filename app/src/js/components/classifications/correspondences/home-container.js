@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import CorrespondencesHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadCorrespondencesList from 'js/actions/classifications/correspondences/list';
@@ -14,8 +14,7 @@ class CorrespondencesHomeContainer extends Component {
 	}
 	render() {
 		const { correspondences } = this.props;
-		if (!correspondences)
-			return <Loading textType="loading" context="classifications" />;
+		if (!correspondences) return <Loading />;
 		return <CorrespondencesHome correspondences={correspondences} />;
 	}
 }

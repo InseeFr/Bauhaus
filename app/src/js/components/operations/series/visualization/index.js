@@ -2,16 +2,15 @@ import React from 'react';
 import { goBack } from 'js/utils/redirection';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import { saveSecondLang } from 'js/actions/app';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import buildExtract from 'js/utils/build-extract';
 import OperationsSerieVisualization from 'js/components/operations/series/visualization/home';
-import Loading from 'js/components/shared/loading';
+import { Loading, ErrorBloc, Button } from 'bauhaus-library';
 import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
-import Button from 'js/components/shared/button';
 import { getSecondLang } from 'js/reducers/app';
 import {
 	INDICATOR_CREATOR,
@@ -23,7 +22,6 @@ import Auth from 'js/utils/auth/components/auth';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 import { containUnsupportedStyles } from 'js/utils/html';
 import ValidationButton from 'js/components/operations/shared/validationButton';
-import ErrorBloc from 'js/components/shared/error-bloc';
 import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
@@ -41,7 +39,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 		const { serverSideError } = this.state;
 
 		const ableToCreateASimsForThisSeries = (attr.operations || []).length === 0;
-		if (!attr.id) return <Loading textType="loading" />;
+		if (!attr.id) return <Loading />;
 
 		/*
 		 * The publication button should be enabled only if RICH_TEXT value do not
@@ -51,11 +49,6 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 
 		return (
 			<div className="container">
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
-
 				<PageTitleBlock
 					titleLg1={attr.prefLabelLg1}
 					titleLg2={attr.prefLabelLg2}
@@ -103,6 +96,11 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth>
 				</div>
+
+				<CheckSecondLang
+					secondLang={secondLang}
+					onChange={this.props.saveSecondLang}
+				/>
 				<OperationsSerieVisualization
 					secondLang={secondLang}
 					attr={attr}

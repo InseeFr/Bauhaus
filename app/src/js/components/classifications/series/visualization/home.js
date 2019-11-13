@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import PageTitle from 'js/components/shared/page-title';
-import PageSubtitle from 'js/components/shared/page-subtitle';
+import { CheckSecondLang } from 'bauhaus-library';
+import { PageSubtitle, PageTitle } from 'bauhaus-library';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';
@@ -9,17 +8,17 @@ import Members from './members';
 
 class SeriesVisualization extends Component {
 	render() {
-		const { series: { general, members }, secondLang, langs } = this.props;
+		const {
+			series: { general, members },
+			secondLang,
+			langs,
+		} = this.props;
 		const notes = {
 			scopeNoteLg1: general.scopeNoteLg1,
 			scopeNoteLg2: general.scopeNoteLg2,
 		};
 		return (
 			<div className="container">
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
 				<PageTitle title={general.prefLabelLg1} context="classifications" />
 				{general.prefLabelLg2 && (
 					<PageSubtitle
@@ -28,6 +27,10 @@ class SeriesVisualization extends Component {
 					/>
 				)}
 				<Controls />
+				<CheckSecondLang
+					secondLang={secondLang}
+					onChange={this.props.saveSecondLang}
+				/>
 				<General general={general} secondLang={secondLang} langs={langs} />
 				{notes.scopeNoteLg1 && (
 					<Notes notes={notes} secondLang={secondLang} langs={langs} />

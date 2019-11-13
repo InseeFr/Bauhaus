@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import PageTitle from 'js/components/shared/page-title';
-import PageSubtitle from 'js/components/shared/page-subtitle';
+import { CheckSecondLang } from 'bauhaus-library';
+import { PageTitle, PageSubtitle } from 'bauhaus-library';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 import CollectionMembers from './members';
@@ -25,10 +24,6 @@ class CollectionVisualization extends Component {
 		return (
 			<div>
 				<div className="container">
-					<CheckSecondLang
-						secondLang={secondLang}
-						onChange={this.props.saveSecondLang}
-					/>
 					<PageTitle title={general.prefLabelLg1} />
 					{secondLang && general.prefLabelLg2 && (
 						<PageSubtitle subTitle={general.prefLabelLg2} />
@@ -39,6 +34,10 @@ class CollectionVisualization extends Component {
 						creator={creator}
 						isValidated={isValidated === 'true'}
 						handleValidation={this.handleClickValid}
+					/>
+					<CheckSecondLang
+						secondLang={secondLang}
+						onChange={this.props.saveSecondLang}
 					/>
 					<CollectionGeneral
 						attr={general}

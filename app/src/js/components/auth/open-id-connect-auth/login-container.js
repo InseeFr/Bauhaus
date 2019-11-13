@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Keycloak from 'keycloak';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { saveUserProps } from 'js/actions/app';
 import {
 	getToken,

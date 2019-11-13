@@ -8,18 +8,16 @@ import { withRouter } from 'react-router-dom';
 import { getSecondLang } from 'js/reducers/app';
 import { saveSecondLang } from 'js/actions/app';
 import Auth from 'js/utils/auth/components/auth';
-import Button from 'js/components/shared/button';
+import { Button, Loading, ErrorBloc } from 'bauhaus-library';
 import buildExtract from 'js/utils/build-extract';
 import { ADMIN, CNIS } from 'js/utils/auth/roles';
-import Loading from 'js/components/shared/loading';
 import React from 'react';
 import PageTitleBlock from 'js/components/shared/page-title-block';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
 import OperationsFamilyVisualization from 'js/components/operations/families/visualization/visualization';
 import ValidationButton from 'js/components/operations/shared/validationButton';
 import { containUnsupportedStyles } from 'js/utils/html';
-import ErrorBloc from 'js/components/shared/error-bloc';
 import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
@@ -42,7 +40,7 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 			saveSecondLang,
 		} = this.props;
 		const { serverSideError } = this.state;
-		if (!attr.id) return <Loading textType="loading" />;
+		if (!attr.id) return <Loading />;
 
 		/*
 		 * The publication button should be enabled only if RICH_TEXT value do not
@@ -51,8 +49,6 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 		const publicationDisabled = containUnsupportedStyles(attr);
 		return (
 			<div className="container">
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
-
 				<PageTitleBlock
 					titleLg1={attr.prefLabelLg1}
 					titleLg2={attr.prefLabelLg2}
@@ -82,6 +78,8 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth>
 				</div>
+				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+
 				<OperationsFamilyVisualization
 					secondLang={secondLang}
 					attr={attr}

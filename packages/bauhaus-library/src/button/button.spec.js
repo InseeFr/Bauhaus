@@ -11,7 +11,7 @@ describe('button', () => {
 	it('contains well-formed Link tag', () => {
 		const wrapper = shallow(<Button action="/home" label="myButton" />);
 		const link = (
-			<Link className="btn btn-concepts btn-lg col-md-12" to="/home">
+			<Link className="btn bauhaus-btn btn-lg col-md-12" to="/home">
 				myButton
 			</Link>
 		);
@@ -22,7 +22,7 @@ describe('button', () => {
 		const onClick = () => '';
 		const wrapper = shallow(<Button action={onClick} label="myButton" />);
 		const button = (
-			<button className="btn btn-concepts btn-lg col-md-12" onClick={onClick}>
+			<button className="btn bauhaus-btn btn-lg col-md-12" onClick={onClick}>
 				myButton
 			</button>
 		);
@@ -35,7 +35,7 @@ describe('button', () => {
 		);
 		const link = (
 			<div className="col-md-2 col-md-offset-2">
-				<Link className="btn btn-concepts btn-lg col-md-12" to="/home">
+				<Link className="btn bauhaus-btn btn-lg col-md-12" to="/home">
 					myButton
 				</Link>
 			</div>
@@ -46,7 +46,7 @@ describe('button', () => {
 		const wrapper = shallow(<Button action="/home" label="myButton" />);
 		const link = (
 			<div className="col-md-2">
-				<Link className="btn btn-concepts btn-lg col-md-12" to="/home">
+				<Link className="btn bauhaus-btn btn-lg col-md-12" to="/home">
 					myButton
 				</Link>
 			</div>

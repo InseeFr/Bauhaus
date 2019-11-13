@@ -73,8 +73,7 @@ class MenuClassifications extends Component {
 								<ul className="nav navbar-nav navbar-nav-classifications">
 									<li>
 										<button onClick={this.onChangeMenu}>
-											<span className="glyphicon glyphicon-th navbar-icon inline" />
-											<span className="inline"> {D.repositoryNavigation}</span>
+											{D.repositoryNavigation}
 										</button>
 									</li>
 									<li className={paths.families.className}>

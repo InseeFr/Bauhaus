@@ -1,6 +1,6 @@
 import D from 'js/i18n';
 import React, { useCallback } from 'react';
-import Button from 'js/components/shared/button';
+import { PublishButton } from 'bauhaus-library';
 
 export default ({ object = {}, callback, disabled = false }) => {
 	const state = object.validationState || '';
@@ -10,9 +10,7 @@ export default ({ object = {}, callback, disabled = false }) => {
 	}, [object, callback]);
 
 	if (state.indexOf('Validated') >= 0) {
-		return <Button label={D.btnValidated} disabled action={() => {}} />;
+		return <PublishButton label={D.btnValidated} disabled action={() => {}} />;
 	}
-	return (
-		<Button label={D.btnValid} action={clickHandler} disabled={disabled} />
-	);
+	return <PublishButton action={clickHandler} disabled={disabled} />;
 };

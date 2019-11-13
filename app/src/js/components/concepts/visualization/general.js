@@ -1,6 +1,6 @@
 import React from 'react';
 import D from 'js/i18n';
-import Panel from 'js/components/shared/panel';
+import { Panel }  from 'bauhaus-library';
 import { arrayToString } from 'js/utils/array-utils';
 import { DSURLToLabel } from 'js/utils/dissemination-status-convertor';
 import { stringToDate } from 'js/utils/moment';
@@ -78,9 +78,11 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 									return (
 										<li key={fieldName}>
 											{`${mapping[fieldName]} : `}
-											<a href={attr[fieldName]} target="_blank" rel="noopener noreferrer">{`${
-												attr[fieldName]
-											}`}</a>
+											<a
+												href={attr[fieldName]}
+												target="_blank"
+												rel="noopener noreferrer"
+											>{`${attr[fieldName]}`}</a>
 										</li>
 									);
 								}
@@ -102,9 +104,9 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 									);
 								} else {
 									return (
-										<li key={fieldName}>{`${mapping[fieldName]} : ${
-											attr[fieldName]
-										}`}</li>
+										<li
+											key={fieldName}
+										>{`${mapping[fieldName]} : ${attr[fieldName]}`}</li>
 									);
 								}
 							} else return null;

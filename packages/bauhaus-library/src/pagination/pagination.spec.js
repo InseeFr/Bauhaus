@@ -11,43 +11,21 @@ const e = {
 };
 describe('pagination', () => {
 	it('renders without crashing', () => {
-		shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 	});
 
 	it('returns null because of itemsPerPage is empty', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="" />);
 		expect(wrapper.html()).toBeNull();
 	});
 
 	it('returns items per page', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 		expect(wrapper.find('.list-group').children()).toHaveLength(10);
 	});
 
-	it('returns empty because of context', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="" />
-		);
-		expect(wrapper.find('.pg-rmes-concepts')).toHaveLength(0);
-	});
-
-	it('returns element thanks to context', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
-		expect(wrapper.find('.pg-rmes-concepts')).toHaveLength(1);
-	});
-
 	it('returns true if init state with componentWillReceiveProps', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 		expect(wrapper.state(['currentPage'])).toBe(1);
 		wrapper.setState({ currentPage: 2 });
 		expect(wrapper.state(['currentPage'])).toBe(2);
@@ -56,9 +34,7 @@ describe('pagination', () => {
 	});
 
 	it('return the right currentPage when we click to the page 2', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 		expect(wrapper.state(['currentPage'])).toBe(1);
 		wrapper
 			.findWhere(node => node.key() === '2')
@@ -69,9 +45,7 @@ describe('pagination', () => {
 	});
 
 	it('return the right currentPage when we click to the previous page', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 		wrapper.setState({ currentPage: 2 });
 
 		wrapper
@@ -82,9 +56,7 @@ describe('pagination', () => {
 		expect(wrapper.state(['currentPage'])).toBe(1);
 	});
 	it('return the right currentPage when we click to the next page', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 		wrapper.setState({ currentPage: 2 });
 
 		wrapper
@@ -95,9 +67,7 @@ describe('pagination', () => {
 	});
 
 	it('return the right currentPage when we click to the first page', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 		expect(wrapper.state(['currentPage'])).toBe(1);
 		wrapper
 			.find('button')
@@ -106,9 +76,7 @@ describe('pagination', () => {
 		expect(wrapper.state(['currentPage'])).toBe(1);
 	});
 	it('return the right currentPage when we click to the last page', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 		expect(wrapper.state(['currentPage'])).toBe(1);
 		wrapper
 			.find('button')
@@ -118,17 +86,13 @@ describe('pagination', () => {
 	});
 
 	it('should enable the previous and next links if we are on the page 2', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 		wrapper.setState({ currentPage: 2 });
 		expect(wrapper.find('.disabled').length).toBe(0);
 		expect(wrapper.find('button[disabled=true]').length).toBe(0);
 	});
 	it('should disable the previous link if we are on the page 1', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 		wrapper.setState({ currentPage: 1 });
 		expect(
 			wrapper
@@ -146,9 +110,7 @@ describe('pagination', () => {
 	});
 
 	it('should disable the next link if we are on the last page', () => {
-		const wrapper = shallow(
-			<Pagination itemEls={items} itemsPerPage="10" context="concepts" />
-		);
+		const wrapper = shallow(<Pagination itemEls={items} itemsPerPage="10" />);
 		wrapper.setState({ currentPage: 5 });
 
 		expect(

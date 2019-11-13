@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import * as select from 'js/reducers';
 import Dashboard from './home';
 import loadConceptSearchList from 'js/actions/concepts/search-list';
@@ -15,8 +15,7 @@ class DashboardContainer extends Component {
 
 	render() {
 		const { conceptSearchList, collectionDashboardList } = this.props;
-		if (!conceptSearchList || !collectionDashboardList)
-			return <Loading textType="loading" context="concepts" />;
+		if (!conceptSearchList || !collectionDashboardList) return <Loading />;
 
 		return (
 			<Dashboard
@@ -36,4 +35,7 @@ const mapDispatchToProps = {
 	loadCollectionDashboardList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(DashboardContainer);

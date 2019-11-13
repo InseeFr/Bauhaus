@@ -6,7 +6,7 @@
 
 .help-menu-item {
 	font-size: 14px;
-	color: $color_concepts_3;
+	color: var(--color-3);
 	&:hover {
 		text-decoration: none;
 	}
@@ -15,18 +15,17 @@
 	}
 }
 .help-menu-item-selected > p {
-	background-color: $color_concepts_3;
+	background-color: var(--color-3);
 	color: white;
 	padding: 10px;
-	border: 2px solid $color_concepts_3;
+	border: 2px solid var(--color-3);
 	border-radius: 6px;
 }
 .help-menu-sub {
 	font-size: 20px;
 	margin-bottom: 10px;
-	//background-color: $color_concepts_2;
-	color: $color_concepts_2;
-	border: 2px solid $color_concepts_2;
+	color: var(--color-2);
+	border: 2px solid var(--color-2);
 	border-radius: 3px;
 	padding: 5px;
 	text-align: center;
@@ -38,10 +37,10 @@
 }
 
 .content-back-color {
-	background-color: $color_concepts_3;
+	background-color: var(--color-3);
 	color: white;
 	padding: 2px;
-	border: 1px solid $color_concepts_3;
+	border: 1px solid var(--color-3);
 	border-radius: 3px;
 	&:hover {
 		text-decoration: none;
@@ -49,12 +48,12 @@
 }
 
 .content-color {
-	color: $color_concepts_3;
+	color: var(--color-3);
 	font-weight: bold;
 }
 
 .separator {
-	border-top: 2px solid $color_concepts_3;
+	border-top: 2px solid var(--color-3);
 	margin-top: 10px;
 	margin-bottom: 10px;
 }

@@ -1,6 +1,6 @@
 export class OperationsPage {
 	getNewButton() {
-		return '.operations-btn-group-vertical a';
+		return '.btn-group-vertical a';
 	}
 }
 
@@ -9,7 +9,7 @@ export class OperationEditPage {
 		return '.btn-line button';
 	}
 	getTitle() {
-		return '.page-title-operations';
+		return '.bauhaus-page-title';
 	}
 	getErrorsBlock() {
 		return '.alert';

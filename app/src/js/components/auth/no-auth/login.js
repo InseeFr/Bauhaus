@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { checkAuth } from 'js/actions/app';
 import { ADMIN } from 'js/utils/auth/roles';
 

@@ -6,12 +6,7 @@ const Controls = ({ deleteAction, saveAction, disabledSave }) => {
 	return (
 		<div className="row">
 			<div className="col-md-4 col-md-offset-1">
-				<Button
-					label={D.btnDelete}
-					action={deleteAction}
-					col={12}
-					context="dsds"
-				/>
+				<Button label={D.btnDelete} action={deleteAction} col={12} />
 			</div>
 			<div className="col-md-4 col-md-offset-2">
 				<Button
@@ -19,7 +14,6 @@ const Controls = ({ deleteAction, saveAction, disabledSave }) => {
 					action={saveAction}
 					disabled={disabledSave}
 					col={12}
-					context="dsds"
 				/>
 			</div>
 		</div>

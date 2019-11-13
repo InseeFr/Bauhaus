@@ -1,10 +1,18 @@
 export class SimsViewPage {
 	getTitle() {
-		return '.page-title-operations';
+		return '.bauhaus-page-title';
+	}
+
+	getPublishButton() {
+		return 'div:nth-child(3) > button';
 	}
 
 	getUpdateButton() {
-		return 'div:nth-child(5) > a';
+		return 'div:nth-child(4) > a';
+	}
+
+	getSecondLangCheckbox() {
+		return 'div:nth-child(4) > a';
 	}
 
 	getDocumentsBlocForRubric(rubricId) {
@@ -14,7 +22,7 @@ export class SimsViewPage {
 
 export class SimsEditPage {
 	getTitle() {
-		return '.page-title-operations';
+		return '.bauhaus-page-title';
 	}
 	p;
 	getCancelButton() {

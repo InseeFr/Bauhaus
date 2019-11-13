@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
-import I18NContext from '../i18n-provider';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Pagination from '../pagination';
+import { I18NContext } from '../context';
 import { filterKeyDeburr, nbResults } from '../utils/array-utils';
 
 function SearchRmes({
@@ -13,7 +13,6 @@ function SearchRmes({
 	childPath,
 	col,
 	colOff,
-	context,
 	label,
 }) {
 	const [search, handleSearch] = useState('');
@@ -66,7 +65,7 @@ function SearchRmes({
 			<div className="row">
 				<p aria-live="assertive">{nbResults(hits, D)}</p>
 			</div>
-			<Pagination itemEls={hitEls} itemsPerPage="10" context={context} />
+			<Pagination itemEls={hitEls} itemsPerPage="10" />
 		</div>
 	);
 }
@@ -83,13 +82,6 @@ SearchRmes.propTypes = {
 	placeholder: PropTypes.string,
 	col: PropTypes.number,
 	colOff: PropTypes.number,
-	context: PropTypes.oneOf([
-		'',
-		'concepts',
-		'classifications',
-		'operations',
-		'dsds',
-	]),
 	label: PropTypes.string,
 };
 

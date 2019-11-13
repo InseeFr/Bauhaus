@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import PageTitle from 'js/components/shared/page-title';
-import SearchRmes from 'js/components/shared/search-rmes/search-rmes';
+import { PageTitle, SearchRmes, NewButton } from 'bauhaus-library';
 import D from 'js/i18n';
-import { Link } from 'react-router-dom';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
@@ -24,28 +22,18 @@ function DocumentHome({ documents }) {
 			<div className="container documents-home">
 				<div className="row">
 					<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
-						<div className="col-md-3 operations-btn-group-vertical">
+						<div className="col-md-3 btn-group-vertical">
 							{[
 								['/operations/document/create', D.document],
 								['/operations/link/create', D.link],
 							].map(([url, title]) => (
 								<div className="row">
 									<div className="col-md-12">
-										<Link
-											to={url}
-											col={8}
-											offset={2}
-											className="btn btn-operations btn-lg col-md-12"
-										>
-											<span
-												className="glyphicon glyphicon-plus"
-												aria-hidden="true"
-											/>
-											<span>
-												{' '}
-												{D.btnNewMale} {title}
-											</span>
-										</Link>
+										<NewButton
+											action={url}
+											wrapper={false}
+											label={`${D.btnNewMale} ${title}`}
+										/>
 									</div>
 								</div>
 							))}

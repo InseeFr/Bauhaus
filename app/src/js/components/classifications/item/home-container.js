@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import ItemVisualization from './home';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import loadItem from 'js/actions/classifications/item';
 import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/item';
@@ -42,7 +42,7 @@ class ItemVisualizationContainer extends Component {
 	}
 	render() {
 		const { item, secondLang, langs } = this.props;
-		if (!item) return <Loading textType="loading" context="classifications" />;
+		if (!item) return <Loading />;
 		return (
 			<ItemVisualization
 				item={item}

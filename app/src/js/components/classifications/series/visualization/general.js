@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import Panel from 'js/components/shared/panel';
+import { Panel }  from 'bauhaus-library';
 
 export default ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
@@ -46,7 +46,7 @@ export default ({ general, secondLang, langs }) => {
 	return (
 		<div className="row">
 			<div className="col-md-12">
-				<Panel title={D.globalInformationsTitle} context="classifications">
+				<Panel title={D.globalInformationsTitle}>
 					<ul>
 						{Object.keys(mapping).map(fieldName => {
 							if (general.hasOwnProperty(fieldName)) {
@@ -57,18 +57,17 @@ export default ({ general, secondLang, langs }) => {
 											<Link to={`/classifications/family/${general.idFamily}`}>
 												{general[fieldName]}
 											</Link>
-											{secondLang &&
-												general.familyLg2 && (
-													<span>
-														{' ('}
-														<Link
-															to={`/classifications/family/${general.idFamily}`}
-														>
-															{general.familyLg2}
-														</Link>
-														{')'}
-													</span>
-												)}
+											{secondLang && general.familyLg2 && (
+												<span>
+													{' ('}
+													<Link
+														to={`/classifications/family/${general.idFamily}`}
+													>
+														{general.familyLg2}
+													</Link>
+													{')'}
+												</span>
+											)}
 										</li>
 									);
 								}
@@ -88,9 +87,9 @@ export default ({ general, secondLang, langs }) => {
 									);
 								} else {
 									return (
-										<li key={fieldName}>{`${mapping[fieldName]} : ${
-											general[fieldName]
-										}`}</li>
+										<li
+											key={fieldName}
+										>{`${mapping[fieldName]} : ${general[fieldName]}`}</li>
 									);
 								}
 							} else return null;

@@ -3,7 +3,7 @@ export class FamiliesPage {
 		cy.server().visit(`/operations/families`);
 	}
 	getNewButton() {
-		return cy.get('.operations-btn-group-vertical a');
+		return cy.get('.btn-group-vertical a');
 	}
 	goToCreationPage() {
 		this.getNewButton().click();
@@ -37,7 +37,7 @@ export class FamilyEditPage {
 		this.getBackButton().click();
 	}
 	getTitle() {
-		return cy.get('.page-title-operations');
+		return cy.get('.bauhaus-page-title');
 	}
 	getErrorsBlock() {
 		return '.alert';

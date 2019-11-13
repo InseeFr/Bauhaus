@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, PageTitle, SearchRmes } from 'bauhaus-library';
+import { PageTitle, Button, SearchRmes } from 'bauhaus-library';
 import API from 'js/remote-api/dsds/dsds-api';
 import D from 'js/i18n';
 
@@ -14,14 +14,13 @@ const Home = () => {
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-md-3 dsds-btn-group-vertical">
+				<div className="col-md-3 btn-group-vertical">
 					<div className="row">
 						<Button
 							label={D.btnNewFemale}
 							action="/dsds/create"
 							col={8}
 							offset={2}
-							context="dsds"
 						/>
 					</div>
 					{isLocal && (
@@ -31,7 +30,6 @@ const Home = () => {
 								action="/dsds/import"
 								col={8}
 								offset={2}
-								context="dsds"
 							/>
 						</div>
 					)}
@@ -42,18 +40,12 @@ const Home = () => {
 								action="/dsds/export"
 								col={8}
 								offset={2}
-								context="dsds"
 							/>
 						</div>
 					)}
 				</div>
 				<div className="col-md-8 centered pull-right">
-					<PageTitle
-						title={D.dsdsSearchTitle}
-						col={12}
-						offset={0}
-						context="dsds"
-					/>
+					<PageTitle title={D.dsdsSearchTitle} col={12} offset={0} />
 					<SearchRmes items={DSDs} childPath="dsds" context="dsds" />
 				</div>
 			</div>

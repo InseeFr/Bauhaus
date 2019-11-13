@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import adminLogo from 'img/admin.png';
+import adminLogo from 'img/admin.svg';
+
 import { ADMIN } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
 import './app.scss';
@@ -12,25 +13,22 @@ function App() {
 	const apps = process.env.REACT_APP_APPLICATIONS.split(',').map(appName => {
 		const app = appName.trim();
 		return (
-			<li key={appName}>
+			<li key={appName} className={appName}>
 				<Link to={'/' + app}>
 					<h2 className="items page-title page-title-link">
 						{D[app + 'Title']}
 					</h2>
-					<img src={require(`img/${app}.jpg`)} alt={app} />
+					<img src={require(`img/${app}_blanc.svg`)} alt={app} />
 				</Link>
 			</li>
 		);
 	});
 	return (
 		<>
-			<div className="centered page-title">
-				<h1>{D.welcome}</h1>
-			</div>
 			<ul className="home-page-links">
 				{apps}
 				<Auth roles={[ADMIN]}>
-					<li>
+					<li className="concepts">
 						<Link to="/administration/roles">
 							<h2 className="items page-title page-title-link">
 								{D.authorizationManagementTitle}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import SeriesHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadSeriesList from 'js/actions/classifications/series/list';
@@ -14,8 +14,7 @@ class SeriesHomeContainer extends Component {
 	}
 	render() {
 		const { series } = this.props;
-		if (!series)
-			return <Loading textType="loading" context="classifications" />;
+		if (!series) return <Loading />;
 		return <SeriesHome series={series} />;
 	}
 }

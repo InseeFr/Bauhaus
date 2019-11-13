@@ -12,15 +12,9 @@ const Controls = ({ creation, save, disabledSave, ...props }) => {
 			<Button
 				label={D.btnReturn}
 				action={creation ? '/dsds' : `/dsds/${cleanId(dsdId)}`}
-				context="dsds"
 			/>
 			<div className="col-md-8" />
-			<Button
-				label={D.btnSave}
-				action={save}
-				disabled={disabledSave}
-				context="dsds"
-			/>
+			<Button label={D.btnSave} action={save} disabled={disabledSave} />
 		</div>
 	);
 };

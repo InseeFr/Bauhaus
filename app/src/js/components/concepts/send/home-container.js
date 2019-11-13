@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { SEND_CONCEPT } from 'js/actions/constants';
 import loadGeneral from 'js/actions/concepts/general';
 import sendConcept from 'js/actions/concepts/send';
@@ -51,8 +51,7 @@ class ConceptSendContainer extends Component {
 				/>
 			);
 		}
-		if (!loaded || !properties)
-			return <Loading textType="loading" context="concepts" />;
+		if (!loaded || !properties) return <Loading />;
 		return (
 			<ConceptSend
 				id={id}

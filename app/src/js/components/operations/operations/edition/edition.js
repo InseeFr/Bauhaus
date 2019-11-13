@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
-import D from 'js/i18n';
+import D, { D2 } from 'js/i18n';
 import { goBack, goBackOrReplace } from 'js/utils/redirection';
-import NoteFlag from 'js/components/shared/note-flag/note-flag';
 import PropTypes from 'prop-types';
-import {
-	CancelButton,
-	SaveButton,
-} from 'js/components/shared/button-with-icon';
+import { CancelButton, SaveButton, Loading, ErrorBloc } from 'bauhaus-library';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { validate } from './validation';
-import Loading from 'js/components/shared/loading';
 import PageTitleBlock from 'js/components/shared/page-title-block';
-import ErrorBloc from 'js/components/shared/error-bloc';
 
 const defaultOperation = {
 	prefLabelLg1: '',
@@ -89,10 +83,6 @@ class OperationsOperationEdition extends Component {
 	render() {
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
-		const {
-			langs: { lg1, lg2 },
-		} = this.props;
-
 		const seriesOptions = this.props.series
 			.filter(series => !series.idSims)
 			.map(({ id, label }) => {
@@ -143,7 +133,7 @@ class OperationsOperationEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg1">
-								<NoteFlag text={D.title} lang={lg1} />
+								{D.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -157,7 +147,7 @@ class OperationsOperationEdition extends Component {
 						</div>
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg2">
-								<NoteFlag text={D.title} lang={lg2} />
+								{D2.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -172,9 +162,7 @@ class OperationsOperationEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="altLabelLg1">
-								<NoteFlag text={D.altLabel} lang={lg1} />
-							</label>
+							<label htmlFor="altLabelLg1">{D.altLabel}</label>
 							<input
 								type="text"
 								className="form-control"
@@ -184,9 +172,7 @@ class OperationsOperationEdition extends Component {
 							/>
 						</div>
 						<div className="form-group col-md-6">
-							<label htmlFor="altLabelLg2">
-								<NoteFlag text={D.altLabel} lang={lg2} />
-							</label>
+							<label htmlFor="altLabelLg2">{D2.altLabel}</label>
 							<input
 								type="text"
 								className="form-control"

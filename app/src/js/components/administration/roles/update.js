@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import PageTitle from 'js/components/shared/page-title';
-import Button from 'js/components/shared/button';
+import { PageTitle, Button } from 'bauhaus-library';
 import SelectRmes from 'js/components/shared/select-rmes';
 import Picker from 'js/components/shared/picker';
 import * as U from 'js/utils/administration/utils';

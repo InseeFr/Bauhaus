@@ -1,6 +1,8 @@
 import D from 'js/i18n';
 import { LINK, DOCUMENT } from '../utils';
 
+/* eslint-disable no-useless-escape */
+
 /**
  * Check if the name of every file is invalid
  *

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Badge, PageTitle } from 'bauhaus-library';
+import { PageTitle } from 'bauhaus-library';
+import Badge from 'js/components/shared/badge';
 import ResourceLabel from './resource-label';
 import buildExtract from 'js/utils/build-extract';
 import API from 'js/remote-api/dsds/dsds-api';
@@ -31,13 +32,7 @@ const ComponentDetails = ({ id, ...props }) => {
 
 	return (
 		<div>
-			<PageTitle
-				title={labelLg1}
-				subtitle={labelLg2}
-				col={12}
-				offset={0}
-				context="dsds"
-			/>
+			<PageTitle title={labelLg1} subtitle={labelLg2} col={12} offset={0} />
 			<div className="centered">
 				<Badge type={type} />
 			</div>

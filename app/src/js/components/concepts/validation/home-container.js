@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import ConceptsToValidate from './home';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { VALIDATE_CONCEPT_LIST } from 'js/actions/constants';
 import * as select from 'js/reducers';
 import validateConceptList from 'js/actions/concepts/validate';
@@ -32,10 +32,10 @@ class ConceptsToValidateContainer extends Component {
 			if (validationStatus === OK) {
 				return <Redirect to="/concepts" />;
 			} else {
-				return <Loading textType="validating" context="concepts" />;
+				return <Loading textType="validating" />;
 			}
 		}
-		if (!concepts) return <Loading textType="loading" context="concepts" />;
+		if (!concepts) return <Loading />;
 		return (
 			<ConceptsToValidate
 				concepts={concepts}
@@ -57,6 +57,7 @@ const mapDispatchToProps = {
 	validateConceptList,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-	ConceptsToValidateContainer
-);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ConceptsToValidateContainer);

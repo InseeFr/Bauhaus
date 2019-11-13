@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import PageTitle from 'js/components/shared/page-title';
-import PageSubtitle from 'js/components/shared/page-subtitle';
+import { CheckSecondLang } from 'bauhaus-library';
+import { PageTitle, PageSubtitle } from 'bauhaus-library';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';
@@ -17,22 +16,21 @@ class ItemVisualization extends Component {
 		const { classificationId, itemId, conceptVersion: version } = general;
 		return (
 			<div className="container">
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
 				<PageTitle title={general.prefLabelLg1} context="classifications" />
-				{secondLang &&
-					general.prefLabelLg2 && (
-						<PageSubtitle
-							subTitle={general.prefLabelLg2}
-							context="classifications"
-						/>
-					)}
+				{secondLang && general.prefLabelLg2 && (
+					<PageSubtitle
+						subTitle={general.prefLabelLg2}
+						context="classifications"
+					/>
+				)}
 				<Controls
 					classificationId={classificationId}
 					itemId={itemId}
 					version={version}
+				/>
+				<CheckSecondLang
+					secondLang={secondLang}
+					onChange={this.props.saveSecondLang}
 				/>
 				<General
 					general={general}

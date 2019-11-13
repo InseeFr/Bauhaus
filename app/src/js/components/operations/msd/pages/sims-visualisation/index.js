@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { stringToDate } from 'js/utils/moment';
 import { rangeType } from 'js/utils/msd/';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import Button from 'js/components/shared/button';
+import { CheckSecondLang } from 'bauhaus-library';
+import { Button, DuplicateButton, ErrorBloc } from 'bauhaus-library';
 import { markdownToHtml, containUnsupportedStyles } from 'js/utils/html';
-import { Note } from 'js/components/shared/note/note';
+import { Note }  from 'bauhaus-library';
 import DocumentsBloc from 'js/components/operations/msd/documents/documents-bloc/index.js';
 import {
 	hasLabelLg2,
@@ -21,9 +21,7 @@ import {
 	CNIS,
 } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
-import { DuplicateButton } from 'js/components/shared/button-with-icon';
 import ValidationButton from 'js/components/operations/shared/validationButton';
-import ErrorBloc from 'js/components/shared/error-bloc';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
@@ -108,12 +106,12 @@ export default function SimsVisualisation({
 	function MSDInformations({ msd, firstLevel = false }) {
 		return (
 			<>
-				<div className="row flex" key={msd.idMas} id={msd.idMas}>
-					{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
-						<h3 className="col-md-12">
-							{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
-						</h3>
-					)}
+				{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
+					<h3 className="col-md-12 sims-title">
+						{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
+					</h3>
+				)}
+				<div className="row" key={msd.idMas} id={msd.idMas}>
 					{!msd.isPresentational && (
 						<Note
 							title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}

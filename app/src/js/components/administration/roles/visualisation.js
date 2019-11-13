@@ -1,6 +1,5 @@
 import React from 'react';
-import PageTitle from 'js/components/shared/page-title';
-import Button from 'js/components/shared/button';
+import { PageTitle, Button } from 'bauhaus-library';
 import TableRmes from 'js/components/shared/table-rmes';
 import D from 'js/i18n';
 
@@ -28,7 +27,7 @@ function VisualisationTable({ roles = [] }) {
 		<div className="container">
 			<PageTitle title={D.authorizationTitle} />
 			<div className="row btn-line">
-				<Button label={D.btnReturn} action="/concepts/administration" />
+				<Button label={D.btnReturn} action="/" />
 				<Button
 					label={D.btnUpdate}
 					action="/administration/roles/update"

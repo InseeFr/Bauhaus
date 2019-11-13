@@ -19,16 +19,16 @@
 	padding: 0;
 	overflow: hidden;
 	padding: 70px 20px 20px 20px;
-	border-right: solid $color_operations_3 1px;
+	border-right: solid var(--color-3) 1px;
 
 	background-color: transparent;
 
 	&_title {
 		font-size: 28px;
 		font-size: 2.8rem;
-		color: $color_operations_3;
+		color: var(--color-3);
 		border: none;
-		border-bottom: solid 2px $color_operations_3;
+		border-bottom: solid 2px var(--color-3);
 		padding: 0 0 10px 0;
 		margin: 0 0 15px 0;
 	}
@@ -60,7 +60,7 @@
 		margin: 0;
 		padding: 0;
 		padding: 70px 20px 20px 20px;
-		border-left: solid $color_operations_3 1px;
+		border-left: solid var(--color-3) 1px;
 	}
 	& .panel {
 		background: white;
@@ -86,7 +86,7 @@
 	&_middle {
 		position: absolute;
 		margin-top: 20px;
-		background-color: $color_operations_3;
+		background-color: var(--color-3);
 		color: #fff;
 		text-align: center;
 		text-transform: uppercase;

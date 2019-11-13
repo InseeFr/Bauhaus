@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MSDLayout from 'js/components/operations/msd/layout/';
 import { connect } from 'react-redux';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
 import loadSIMS, {
@@ -13,7 +13,6 @@ import MSDHelp from 'js/components/operations/msd/pages/help';
 import SimsVisualisation from 'js/components/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/components/operations/msd/pages/sims-creation/';
 import buildExtract from 'js/utils/build-extract';
-import { getLabelsFromParent } from 'js/utils/msd';
 import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
 import { compose } from 'recompose';
@@ -29,6 +28,7 @@ import {
 } from 'js/reducers/operations/selector';
 import { getParentType, getParentId } from './utils';
 import PageTitleBlock from 'js/components/shared/page-title-block';
+import './msd.scss';
 const extractId = buildExtract('id');
 const extractIdParent = buildExtract('idParent');
 
@@ -115,7 +115,7 @@ class MSDContainer extends Component {
 			metadataStructureStatus !== LOADED ||
 			(mode === VIEW && !currentSims.id)
 		)
-			return <Loading textType="loading" />;
+			return <Loading />;
 
 		return (
 			<MSDLayout
@@ -223,7 +223,8 @@ export const mapStateToProps = (state, ownProps) => {
 			parentType = ownProps.match.params[0];
 			const [currentParent, currentParentStatus] = getCurrentParent(parentType);
 			currentSims = {
-				...getLabelsFromParent(currentParent, parentType),
+				labelLg1: currentParent.prefLabelLg1,
+				labelLg2: currentParent.prefLabelLg2,
 			};
 			isParentLoaded =
 				currentParentStatus !== NOT_LOADED || currentParent.id === idParent;

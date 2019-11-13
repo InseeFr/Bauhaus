@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import OperationsFamilyVisualization from './visualization';
-import { Note } from 'js/components/shared/note/note';
+import { Note }  from 'bauhaus-library';
 
 const langs = {
 	lg1: 'fr',

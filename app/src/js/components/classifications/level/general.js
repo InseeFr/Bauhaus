@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import Panel from 'js/components/shared/panel';
+import { Panel }  from 'bauhaus-library';
 
 export default ({ general, classificationId, secondLang }) => {
 	const mapping = {
@@ -14,7 +14,7 @@ export default ({ general, classificationId, secondLang }) => {
 	return (
 		<div className="row">
 			<div className="col-md-12">
-				<Panel title={D.globalInformationsTitle} context="classifications">
+				<Panel title={D.globalInformationsTitle}>
 					<ul>
 						{Object.keys(mapping).map(fieldName => {
 							if (general.hasOwnProperty(fieldName) && general[fieldName]) {
@@ -23,26 +23,21 @@ export default ({ general, classificationId, secondLang }) => {
 										<li key={fieldName}>
 											{mapping[fieldName]} :{' '}
 											<Link
-												to={`/classifications/classification/${classificationId}/level/${
-													general.idBroader
-												}`}
+												to={`/classifications/classification/${classificationId}/level/${general.idBroader}`}
 											>
 												{general[fieldName]}
 											</Link>
-											{secondLang &&
-												general.broaderLg2 && (
-													<span>
-														{' ('}
-														<Link
-															to={`/classifications/classification/${classificationId}/level/${
-																general.idBroader
-															}`}
-														>
-															{general.broaderLg2}
-														</Link>
-														{')'}
-													</span>
-												)}
+											{secondLang && general.broaderLg2 && (
+												<span>
+													{' ('}
+													<Link
+														to={`/classifications/classification/${classificationId}/level/${general.idBroader}`}
+													>
+														{general.broaderLg2}
+													</Link>
+													{')'}
+												</span>
+											)}
 										</li>
 									);
 								}
@@ -51,33 +46,28 @@ export default ({ general, classificationId, secondLang }) => {
 										<li key={fieldName}>
 											{mapping[fieldName]} :{' '}
 											<Link
-												to={`/classifications/classification/${classificationId}/level/${
-													general.idNarrower
-												}`}
+												to={`/classifications/classification/${classificationId}/level/${general.idNarrower}`}
 											>
 												{general[fieldName]}
 											</Link>
-											{secondLang &&
-												general.narrowerLg2 && (
-													<span>
-														{' ('}
-														<Link
-															to={`/classifications/classification/${classificationId}/level/${
-																general.idNarrower
-															}`}
-														>
-															{general.narrowerLg2}
-														</Link>
-														{')'}
-													</span>
-												)}
+											{secondLang && general.narrowerLg2 && (
+												<span>
+													{' ('}
+													<Link
+														to={`/classifications/classification/${classificationId}/level/${general.idNarrower}`}
+													>
+														{general.narrowerLg2}
+													</Link>
+													{')'}
+												</span>
+											)}
 										</li>
 									);
 								} else {
 									return (
-										<li key={fieldName}>{`${mapping[fieldName]} : ${
-											general[fieldName]
-										}`}</li>
+										<li
+											key={fieldName}
+										>{`${mapping[fieldName]} : ${general[fieldName]}`}</li>
 									);
 								}
 							} else return null;

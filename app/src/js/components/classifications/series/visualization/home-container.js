@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import SeriesVisualization from './home';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import loadSeries from 'js/actions/classifications/series/series';
 import { saveSecondLang } from 'js/actions/app';
 import * as mainSelect from 'js/reducers';
@@ -22,8 +22,7 @@ class SeriesVisualizationContainer extends Component {
 	}
 	render() {
 		const { series, secondLang, langs } = this.props;
-		if (!series)
-			return <Loading textType="loading" context="classifications" />;
+		if (!series) return <Loading />;
 		return (
 			<SeriesVisualization
 				series={series}

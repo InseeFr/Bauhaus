@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import homeLogo from 'img/accueil.png';
+import homeLogo from 'img/accueil_blanc.svg';
 import './referentiels.scss';
 
 function MenuReferentiels() {
@@ -27,7 +27,7 @@ function MenuReferentiels() {
 									<li key={`menu-ref-${app}`}>
 										<Link to={'/' + app}>
 											<img
-												src={require(`img/${app}.jpg`)}
+												src={require(`img/${app}_blanc.svg`)}
 												alt={app}
 												className="img-menu"
 											/>{' '}

@@ -5,14 +5,13 @@ import buildExtract from 'js/utils/build-extract';
 import { goBack } from 'js/utils/redirection';
 import { connect } from 'react-redux';
 import * as select from 'js/reducers';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
+import { CheckSecondLang } from 'bauhaus-library';
 import { saveSecondLang } from 'js/actions/app';
 import OperationsIndicatorVisualization from 'js/components/operations/indicators/visualization/general';
-import Loading from 'js/components/shared/loading';
+import { Loading, Button, ErrorBloc } from 'bauhaus-library';
 import loadIndicator, {
 	publishIndicator,
 } from 'js/actions/operations/indicators/item';
-import Button from 'js/components/shared/button';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
@@ -22,7 +21,6 @@ import { containUnsupportedStyles } from 'js/utils/html';
 import VisualizationContainer from 'js/components/operations/shared/vizualisation-container';
 
 import ValidationButton from 'js/components/operations/shared/validationButton';
-import ErrorBloc from 'js/components/shared/error-bloc';
 
 const extractId = buildExtract('id');
 class IndicatorVisualizationContainer extends VisualizationContainer {
@@ -36,7 +34,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 		} = this.props;
 		const { serverSideError } = this.state;
 
-		if (!attr.id) return <Loading textType="loading" />;
+		if (!attr.id) return <Loading />;
 
 		/*
 		 * The publication button should be enabled only if RICH_TEXT value do not
@@ -46,11 +44,6 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 
 		return (
 			<div className="container">
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
-
 				<PageTitleBlock
 					titleLg1={attr.prefLabelLg1}
 					titleLg2={attr.prefLabelLg2}
@@ -95,6 +88,12 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth>
 				</div>
+
+				<CheckSecondLang
+					secondLang={secondLang}
+					onChange={this.props.saveSecondLang}
+				/>
+
 				<OperationsIndicatorVisualization
 					secondLang={secondLang}
 					attr={attr}

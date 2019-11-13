@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import CheckSecondLang from 'js/components/shared/second-lang-checkbox';
-import PageTitle from 'js/components/shared/page-title';
+import { CheckSecondLang } from 'bauhaus-library';
+import { PageTitle } from 'bauhaus-library';
 import CorrespondenceControls from './controls';
-import Panel from 'js/components/shared/panel';
+import { Panel }  from 'bauhaus-library';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/components/shared/explanatory-note';
-import D from 'js/i18n';
+import D, { D2 } from 'js/i18n';
 import { propTypes as correspondencePropTypes } from 'js/utils/classifications/correspondence/general';
 
 class HomeGeneral extends Component {
@@ -27,20 +27,17 @@ class HomeGeneral extends Component {
 		const title = secondLang ? labelLg2 : labelLg1;
 		return (
 			<div>
+				{title && <PageTitle title={title} context="classifications" />}
+				<CorrespondenceControls />
 				<CheckSecondLang
 					secondLang={secondLang}
 					onChange={this.props.saveSecondLang}
 				/>
-				{title && <PageTitle title={title} context="classifications" />}
-				<CorrespondenceControls />
 				<div className="row">
 					<div className="col-md-12">
 						{(!secondLang ||
 							(secondLang && (firstClassLabelLg2 || secondClassLabelLg2))) && (
-							<Panel
-								title={D.globalInformationsTitle}
-								context="classifications"
-							>
+							<Panel title={D.globalInformationsTitle}>
 								{generalFields(correspondence, secondLang)}
 							</Panel>
 						)}
@@ -54,15 +51,13 @@ class HomeGeneral extends Component {
 								title={D.classificationsDescription}
 								lang={lg1}
 								alone={!secondLang}
-								context="classifications"
 							/>
 							{secondLang && (
 								<ExplanatoryNote
 									text={correspondence.descriptionLg2}
-									title={D.classificationsDescription}
+									title={D2.classificationsDescription}
 									lang={lg2}
 									alone={false}
-									context="classifications"
 								/>
 							)}
 						</div>

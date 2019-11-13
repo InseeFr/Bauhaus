@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import Panel from 'js/components/shared/panel';
+import { Note }  from 'bauhaus-library';
 import { stringToDate } from 'js/utils/moment';
 import { DSURLToLabel } from 'js/utils/dissemination-status-convertor';
 
@@ -42,8 +42,10 @@ export default ({ general, secondLang, langs }) => {
 	};
 	return (
 		<div className="row">
-			<div className="col-md-12">
-				<Panel title={D.globalInformationsTitle} context="classifications">
+			<Note
+				title={D.globalInformationsTitle}
+				alone={true}
+				text={
 					<ul>
 						{Object.keys(mapping).map(fieldName => {
 							if (general.hasOwnProperty(fieldName) && general[fieldName]) {
@@ -73,9 +75,7 @@ export default ({ general, secondLang, langs }) => {
 										<li key={fieldName}>
 											{mapping[fieldName]} :{' '}
 											<Link
-												to={`/classifications/classification/${
-													general.idAfter
-												}`}
+												to={`/classifications/classification/${general.idAfter}`}
 											>
 												{general[fieldName]}
 											</Link>
@@ -83,9 +83,7 @@ export default ({ general, secondLang, langs }) => {
 												<span>
 													{' ('}
 													<Link
-														to={`/classifications/classification/${
-															general.idAfter
-														}`}
+														to={`/classifications/classification/${general.idAfter}`}
 													>
 														{general.afterLg2}
 													</Link>
@@ -100,9 +98,7 @@ export default ({ general, secondLang, langs }) => {
 										<li key={fieldName}>
 											{mapping[fieldName]} :{' '}
 											<Link
-												to={`/classifications/classification/${
-													general.idBefore
-												}`}
+												to={`/classifications/classification/${general.idBefore}`}
 											>
 												{general[fieldName]}
 											</Link>
@@ -110,9 +106,7 @@ export default ({ general, secondLang, langs }) => {
 												<span>
 													{' ('}
 													<Link
-														to={`/classifications/classification/${
-															general.idBefore
-														}`}
+														to={`/classifications/classification/${general.idBefore}`}
 													>
 														{general.beforeLg2}
 													</Link>
@@ -127,9 +121,7 @@ export default ({ general, secondLang, langs }) => {
 										<li key={fieldName}>
 											{mapping[fieldName]} :{' '}
 											<Link
-												to={`/classifications/classification/${
-													general.idVariant
-												}`}
+												to={`/classifications/classification/${general.idVariant}`}
 											>
 												{general[fieldName]}
 											</Link>
@@ -137,9 +129,7 @@ export default ({ general, secondLang, langs }) => {
 												<span>
 													{' ('}
 													<Link
-														to={`/classifications/classification/${
-															general.idVariant
-														}`}
+														to={`/classifications/classification/${general.idVariant}`}
 													>
 														{general.variantLg2}
 													</Link>
@@ -196,16 +186,16 @@ export default ({ general, secondLang, langs }) => {
 									);
 								} else {
 									return (
-										<li key={fieldName}>{`${mapping[fieldName]} : ${
-											general[fieldName]
-										}`}</li>
+										<li
+											key={fieldName}
+										>{`${mapping[fieldName]} : ${general[fieldName]}`}</li>
 									);
 								}
 							} else return null;
 						})}
 					</ul>
-				</Panel>
-			</div>
+				}
+			></Note>
 		</div>
 	);
 };

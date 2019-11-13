@@ -1,8 +1,5 @@
 import React from 'react';
-import PageTitle from 'js/components/shared/page-title';
-import SearchRmes from 'js/components/shared/search-rmes/search-rmes';
-import D from 'js/i18n';
-import { Link } from 'react-router-dom';
+import { NewButton, SearchRmes, PageTitle } from 'bauhaus-library';
 import Auth from 'js/utils/auth/components/auth';
 
 function OperationsObjectHome({
@@ -19,21 +16,10 @@ function OperationsObjectHome({
 			<div className="container">
 				<div className="row">
 					<Auth roles={roles}>
-						<div className="col-md-3 operations-btn-group-vertical">
+						<div className="col-md-3 btn-group-vertical">
 							<div className="row">
 								<div className="col-md-8 col-md-offset-2">
-									<Link
-										to={createURL}
-										col={8}
-										offset={2}
-										className="btn btn-operations btn-lg col-md-12"
-									>
-										<span
-											className="glyphicon glyphicon-plus"
-											aria-hidden="true"
-										/>
-										<span> {D.btnNewMale}</span>
-									</Link>
+									<NewButton action={createURL} wrapper={false} />
 								</div>
 							</div>
 						</div>

@@ -115,7 +115,5 @@ describe('Family page', () => {
 			.click();
 
 		cy.url().should('include', '/modify');
-
-		cy.get('label img').should('have.length', 6);
 	});
 });

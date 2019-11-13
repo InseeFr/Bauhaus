@@ -9,7 +9,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import { getLang } from 'js/i18n/build-dictionary';
 
 import SelectRmes from 'js/components/shared/select-rmes';
-import { Note } from 'js/components/shared/note/note';
+import { Note } from 'bauhaus-library';
 import { isLink, isDocument } from 'js/components/operations/document/utils';
 import './sims-field.scss';
 import DocumentsBloc from '../../documents/documents-bloc';
@@ -92,6 +92,10 @@ class Field extends PureComponent {
 			value: c.id,
 		}));
 
+		const currentToolbar = {
+			...toolbar,
+			options: ['list', 'inline'],
+		};
 		return (
 			<Note
 				title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}
@@ -137,7 +141,7 @@ class Field extends PureComponent {
 										editorState={
 											currentSection[secondLang ? 'labelLg2' : 'labelLg1']
 										}
-										toolbar={toolbar}
+										toolbar={currentToolbar}
 										toolbarClassName="home-toolbar"
 										wrapperClassName="home-wrapper"
 										editorClassName="home-editor"

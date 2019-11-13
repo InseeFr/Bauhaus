@@ -137,7 +137,6 @@ describe('Series page', () => {
 
 		cy.get('form .Select.is-disabled .Select-control').should('have.length', 1);
 
-		cy.get('label img').should('have.length', 8);
 		cy.get('.row:first-of-type > div.form-group').should('have.length', 2);
 		cy.get('label span.boldRed').should('have.length', 2);
 	});

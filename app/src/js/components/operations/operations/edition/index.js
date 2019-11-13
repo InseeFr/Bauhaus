@@ -6,7 +6,7 @@ import loadOperation, {
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
 import buildExtract from 'js/utils/build-extract';
-import Loading from 'js/components/shared/loading';
+import { Loading } from 'bauhaus-library';
 import OperationsOperationEdition from 'js/components/operations/operations/edition/edition';
 import loadSeriesList from 'js/actions/operations/series/list';
 import { LOADED } from 'js/constants';
@@ -23,7 +23,7 @@ class OperationEditionContainer extends Component {
 		}
 	}
 	render() {
-		if (!this.props.operation) return <Loading textType="loading" />;
+		if (!this.props.operation) return <Loading />;
 		return <OperationsOperationEdition {...this.props} />;
 	}
 }

@@ -15,14 +15,6 @@ class Pagination extends Component {
 	static propTypes = {
 		itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
 		itemsPerPage: PropTypes.string.isRequired,
-		context: PropTypes.oneOf([
-			'',
-			'concepts',
-			'collections',
-			'classifications',
-			'operations',
-			'dsds',
-		]),
 	};
 	constructor(props) {
 		super(props);
@@ -44,7 +36,7 @@ class Pagination extends Component {
 
 	render() {
 		const { currentPage } = this.state;
-		const { itemEls, itemsPerPage, context } = this.props;
+		const { itemEls, itemsPerPage } = this.props;
 
 		if (!itemsPerPage) return null;
 
@@ -81,12 +73,11 @@ class Pagination extends Component {
 				);
 			});
 
-		const contextCSS = context ? `pg-rmes-${context}` : '';
 		return (
 			<React.Fragment>
 				<ul className="list-group">{currentItems}</ul>
 				{pageNumbers.length > 1 && (
-					<ul className={`pagination pg-rmes ${contextCSS}`}>
+					<ul className={`pagination pg-rmes`}>
 						<li className={isDisabled(currentPage - 1) ? 'disabled' : ''}>
 							<button
 								onClick={e => this.goToPage(1, e)}
