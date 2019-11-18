@@ -1,6 +1,5 @@
 import D from 'js/i18n';
 import PropTypes from 'prop-types';
-import { compose } from 'recompose';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
 import { goBack } from 'bauhaus-library/src/utils/redirection';
@@ -104,10 +103,9 @@ const mapDispatchToProps = {
 	load: loadFamily,
 	publishFamily,
 };
-export default compose(
-	withRouter,
+export default withRouter(
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
-	)
-)(FamilyVisualizationContainer);
+	)(FamilyVisualizationContainer)
+);

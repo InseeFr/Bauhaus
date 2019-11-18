@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
-import { compose } from 'recompose';
 import { withPermissions } from 'js/components/menu/home-container';
 import { Menu } from 'bauhaus-library';
 
@@ -73,7 +72,4 @@ MenuConcepts.propTypes = {
 	permission: permissionOverviewPropTypes.isRequired,
 };
 
-export default compose(
-	withRouter,
-	withPermissions
-)(MenuConcepts);
+export default withRouter(withPermissions(MenuConcepts));

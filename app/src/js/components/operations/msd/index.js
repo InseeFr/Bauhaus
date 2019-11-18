@@ -15,7 +15,6 @@ import SimsCreation from 'js/components/operations/msd/pages/sims-creation/';
 import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
-import { compose } from 'recompose';
 import * as select from 'js/reducers';
 import loadOperation from 'js/actions/operations/operations/item';
 import loadSerie from 'js/actions/operations/series/item';
@@ -262,10 +261,9 @@ const mapDispatchToProps = {
 	publishSims,
 };
 
-export default compose(
-	withRouter,
+export default withRouter(
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
-	)
-)(MSDContainer);
+	)(MSDContainer)
+);

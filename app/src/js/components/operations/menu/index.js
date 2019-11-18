@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Menu } from 'bauhaus-library';
 import D from 'js/i18n';
 
-import { compose } from 'recompose';
 import { getOperationsSimsCurrent } from 'js/reducers';
 
 const ACTIVE = 'active';
@@ -137,9 +136,8 @@ class MenuOperations extends Component {
 	}
 }
 
-export default compose(
-	withRouter,
+export default withRouter(
 	connect(state => {
 		return { sims: getOperationsSimsCurrent(state) };
-	})
-)(MenuOperations);
+	})(MenuOperations)
+);

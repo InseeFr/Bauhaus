@@ -12,7 +12,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
-import { compose } from 'recompose';
 import PageTitleBlock from 'js/components/shared/page-title-block';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
@@ -91,10 +90,7 @@ const mapDispatchToProps = {
 	loadDocument,
 };
 
-export default compose(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	),
-	withRouter
-)(DocumentationVisualizationContainer);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(withRouter(DocumentationVisualizationContainer));
