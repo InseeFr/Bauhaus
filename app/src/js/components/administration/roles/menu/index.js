@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import MenuReferentiels from 'js/components/menu/referentiels';
-import { Link } from 'react-router-dom';
 
 import D from 'js/i18n';
 import { compose } from 'recompose';

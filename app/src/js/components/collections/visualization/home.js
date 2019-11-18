@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { CheckSecondLang } from 'bauhaus-library';
-import { PageTitle, PageSubtitle } from 'bauhaus-library';
+import { CheckSecondLang, PageTitle, PageSubtitle } from 'bauhaus-library';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 import CollectionMembers from './members';

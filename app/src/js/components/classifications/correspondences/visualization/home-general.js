@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { CheckSecondLang } from 'bauhaus-library';
-import { PageTitle } from 'bauhaus-library';
+import { CheckSecondLang, PageTitle, Panel } from 'bauhaus-library';
 import CorrespondenceControls from './controls';
-import { Panel }  from 'bauhaus-library';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/components/shared/explanatory-note';
 import D, { D2 } from 'js/i18n';

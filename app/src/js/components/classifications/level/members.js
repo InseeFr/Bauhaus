@@ -1,6 +1,5 @@
 import React from 'react';
-import { Panel }  from 'bauhaus-library';
-import { SearchRmes } from 'bauhaus-library';
+import { Panel, SearchRmes } from 'bauhaus-library';
 import D, { D2 } from 'js/i18n';
 
 export default ({ members, classificationId, secondLang }) => {

@@ -1,5 +1,4 @@
-import { isOutOfDate } from 'js/utils/moment';
-import { stringToDate } from 'js/utils/moment';
+import { isOutOfDate, stringToDate } from 'js/utils/moment';
 
 export const getModalMessage = array =>
 	array.reduce((message, { prefLabelLg1, valid }) => {

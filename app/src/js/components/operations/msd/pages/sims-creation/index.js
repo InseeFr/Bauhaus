@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import Field from 'js/components/operations/msd/pages/sims-creation/sims-field';
-import { Button, Loading } from 'bauhaus-library';
 import { flattenTree } from 'js/utils/msd';
-import { CheckSecondLang } from 'bauhaus-library';
+import { Button, Loading, CheckSecondLang } from 'bauhaus-library';
 import SelectRmes from 'js/components/shared/select-rmes';
 import { DUPLICATE } from 'js/components/operations/msd';
 import {
