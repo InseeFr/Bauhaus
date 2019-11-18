@@ -53,17 +53,6 @@
 			}
 		}
 
-		> li:first-child:hover a {
-			background-image: url(/img/burger-black.svg);
-		}
-		> li:first-child a {
-			background-image: url(/img/burger.svg);
-			background-position: left center;
-			background-repeat: no-repeat;
-			background-size: contain;
-			padding-left: 50px;
-		}
-
 		> .active,
 		> li:hover {
 			background-color: white;

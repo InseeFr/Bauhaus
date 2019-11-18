@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import MenuReferentiels from 'js/components/menu/referentiels';
 import D from 'js/i18n';
 
 const MenuDSDs = () => {
-	const [menuRef, setMenuRef] = useState(false);
-
 	return (
 		<div>
 			<header>
@@ -14,15 +11,7 @@ const MenuDSDs = () => {
 						<div className="collapse navbar-collapse">
 							<ul className="nav navbar-nav navbar-nav">
 								<li>
-									<Link
-										to="/"
-										onClick={e => {
-											e.preventDefault();
-											setMenuRef(!menuRef);
-										}}
-									>
-										{D.repositoryNavigation}
-									</Link>
+									<Link to="/">{D.home}</Link>
 								</li>
 								<li className="active">
 									<Link to={'/dsds'} aria-current="page">
@@ -34,7 +23,6 @@ const MenuDSDs = () => {
 					</div>
 				</nav>
 			</header>
-			{menuRef && <MenuReferentiels />}
 		</div>
 	);
 };

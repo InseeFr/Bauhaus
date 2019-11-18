@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import MenuReferentiels from 'js/components/menu/referentiels';
 import D from 'js/i18n';
 const defaultAttrs = { 'aria-current': 'page' };
 
@@ -8,19 +7,12 @@ class MenuClassifications extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			menuRef: false,
 			activePath: props.location.pathname,
 		};
-		this.onChangeMenu = e => {
-			e.preventDefault();
-			this.setState({
-				menuRef: !this.state.menuRef,
-			});
-		};
+
 		this.changeActivePath = activePath => {
 			this.setState({
 				activePath,
-				menuRef: false,
 			});
 		};
 	}
@@ -32,7 +24,7 @@ class MenuClassifications extends Component {
 	}
 
 	render() {
-		const { menuRef, activePath } = this.state;
+		const { activePath } = this.state;
 		var paths = {
 			families: {
 				path: '/classifications/families',
@@ -78,9 +70,7 @@ class MenuClassifications extends Component {
 							<div className="collapse navbar-collapse">
 								<ul className="nav navbar-nav">
 									<li>
-										<Link to="/" onClick={this.onChangeMenu}>
-											{D.repositoryNavigation}
-										</Link>
+										<Link to="/">{D.home}</Link>
 									</li>
 									<li className={paths.families.className}>
 										<Link
@@ -127,7 +117,6 @@ class MenuClassifications extends Component {
 						</div>
 					</nav>
 				</header>
-				{menuRef && <MenuReferentiels />}
 			</div>
 		);
 	}

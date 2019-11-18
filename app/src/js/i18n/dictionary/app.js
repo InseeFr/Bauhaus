@@ -12,10 +12,6 @@ const dictionary = {
 		fr: 'Accueil',
 		en: 'Home',
 	},
-	repositoryNavigation: {
-		fr: 'Naviguer dans les référentiels',
-		en: 'Browse the repositories',
-	},
 	help: {
 		fr: 'Aide',
 		en: 'Help',

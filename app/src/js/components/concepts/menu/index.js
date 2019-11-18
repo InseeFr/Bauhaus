@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import MenuReferentiels from 'js/components/menu/referentiels';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
@@ -12,19 +11,12 @@ class MenuConcepts extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			menuRef: false,
 			activePath: props.location.pathname,
 		};
-		this.onChangeMenu = e => {
-			e.preventDefault();
-			this.setState({
-				menuRef: !this.state.menuRef,
-			});
-		};
+
 		this.changeActivePath = activePath => {
 			this.setState({
 				activePath,
-				menuRef: false,
 			});
 		};
 	}
@@ -39,7 +31,7 @@ class MenuConcepts extends Component {
 		const {
 			permission: { authType, roles },
 		} = this.props;
-		const { menuRef, activePath } = this.state;
+		const { activePath } = this.state;
 
 		const authImpl = check(authType);
 		const adminOrContributor = authImpl.isAdminOrContributor(roles);
@@ -79,9 +71,7 @@ class MenuConcepts extends Component {
 							<div className="collapse navbar-collapse">
 								<ul className="nav navbar-nav">
 									<li>
-										<Link to="/" onClick={this.onChangeMenu}>
-											{D.repositoryNavigation}
-										</Link>
+										<Link to="/">{D.home}</Link>
 									</li>
 									<li className={paths.concepts.className}>
 										<Link
@@ -135,7 +125,6 @@ class MenuConcepts extends Component {
 						</div>
 					</nav>
 				</header>
-				{menuRef && <MenuReferentiels />}
 			</div>
 		);
 	}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import MenuReferentiels from 'js/components/menu/referentiels';
 import { connect } from 'react-redux';
 
 import D from 'js/i18n';
@@ -13,7 +12,6 @@ class MenuOperations extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			menuRef: false,
 			paths: this.setActiveItem(this.props, {
 				families: {
 					path: '/operations/families',
@@ -55,18 +53,9 @@ class MenuOperations extends Component {
 		};
 	}
 
-	onChangeMenu = e => {
-		e.preventDefault();
-
-		this.setState({
-			menuRef: !this.state.menuRef,
-		});
-	};
-
 	changeActivePath = activePath => {
 		this.setState({
 			activePath,
-			menuRef: false,
 		});
 	};
 
@@ -129,7 +118,7 @@ class MenuOperations extends Component {
 		return paths;
 	}
 	render() {
-		const { menuRef, activePath, paths } = this.state;
+		const { activePath, paths } = this.state;
 
 		if (activePath === '/') return null;
 
@@ -141,9 +130,7 @@ class MenuOperations extends Component {
 							<div className="collapse navbar-collapse">
 								<ul className="nav navbar-nav">
 									<li>
-										<Link to="/" onClick={this.onChangeMenu}>
-											{D.repositoryNavigation}
-										</Link>
+										<Link to="/">{D.home}</Link>
 									</li>
 									<li className={paths.families.className}>
 										<Link
@@ -210,7 +197,6 @@ class MenuOperations extends Component {
 						</div>
 					</nav>
 				</header>
-				{menuRef && <MenuReferentiels />}
 			</>
 		);
 	}
