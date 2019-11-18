@@ -1,30 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import D from 'js/i18n';
+import { Menu } from 'bauhaus-library';
 
 const MenuDSDs = () => {
-	return (
-		<div>
-			<header>
-				<nav className="navbar navbar-primary">
-					<div className="container-fluid">
-						<div className="collapse navbar-collapse">
-							<ul className="nav navbar-nav navbar-nav">
-								<li>
-									<Link to="/">{D.home}</Link>
-								</li>
-								<li className="active">
-									<Link to={'/dsds'} aria-current="page">
-										{D.dsdsTitle}
-									</Link>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</nav>
-			</header>
-		</div>
-	);
+	const paths = [
+		{
+			path: '/dsds',
+			pathKey: 'dsds',
+			className: 'active',
+			attrs: { 'aria-current': 'page' },
+			label: D.dsdsTitle,
+			order: 1,
+		},
+	];
+	return <Menu paths={paths} />;
 };
 
 export default MenuDSDs;

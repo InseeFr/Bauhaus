@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import { Menu } from 'bauhaus-library';
 import D from 'js/i18n';
+
 import { compose } from 'recompose';
 import { getOperationsSimsCurrent } from 'js/reducers';
 
@@ -18,50 +19,60 @@ class MenuOperations extends Component {
 					pathKey: /operations\/famil/,
 					className: null,
 					attrs: null,
+					order: 1,
+					label: D.familiesTitle,
 				},
 				series: {
 					path: '/operations/series',
 					pathKey: /operations\/series/,
 					className: null,
 					attrs: null,
+					order: 2,
+					label: D.seriesTitle,
 				},
 				indicators: {
 					path: '/operations/indicators',
 					pathKey: /operations\/indicator/,
 					className: null,
 					attrs: null,
+					order: 4,
+					label: D.indicatorsTitle,
 				},
 				help: {
 					path: '/operations/help',
 					pathKey: /help/,
 					className: null,
 					attrs: null,
+					alignToRight: true,
+					order: 5,
+					label: D.help,
 				},
 				document: {
 					path: '/operations/documents',
 					pathKey: /(link|document)/,
 					className: null,
 					attrs: null,
+					alignToRight: true,
+					order: 6,
+					label: `${D.titleDocument} / ${D.titleLink}`,
 				},
 				operations: {
 					path: '/operations',
 					pathKey: /operation/,
 					className: 'active',
 					attrs: defaultAttrs,
+					order: 3,
+					label: D.operationsTitle,
 				},
 			}),
 		};
 	}
 
-	changeActivePath = activePath => {
-		this.setState({
-			activePath,
-		});
-	};
-
 	componentWillReceiveProps(nextProps) {
 		if (this.props !== nextProps) {
-			this.changeActivePath(nextProps.location.pathname);
+			this.setState({
+				paths: nextProps.location.pathname,
+			});
 
 			const paths = this.setActiveItem(nextProps, this.state.paths);
 			this.setState({ paths });
@@ -122,83 +133,7 @@ class MenuOperations extends Component {
 
 		if (activePath === '/') return null;
 
-		return (
-			<>
-				<header>
-					<nav className="navbar navbar-primary">
-						<div className="container-fluid">
-							<div className="collapse navbar-collapse">
-								<ul className="nav navbar-nav">
-									<li>
-										<Link to="/">{D.home}</Link>
-									</li>
-									<li className={paths.families.className}>
-										<Link
-											to={paths.families.path}
-											onClick={() => this.changeActivePath(paths.families.path)}
-											{...paths.families.attrs}
-										>
-											{D.familiesTitle}
-										</Link>
-									</li>
-									<li className={paths.series.className}>
-										<Link
-											to={paths.series.path}
-											onClick={() => this.changeActivePath(paths.series.path)}
-											{...paths.series.attrs}
-										>
-											{D.seriesTitle}
-										</Link>
-									</li>
-									<li className={paths.operations.className}>
-										<Link
-											to={paths.operations.path}
-											onClick={() =>
-												this.changeActivePath(paths.operations.path)
-											}
-											{...paths.operations.attrs}
-										>
-											{D.operationsTitle}
-										</Link>
-									</li>
-									<li className={paths.indicators.className}>
-										<Link
-											to={paths.indicators.path}
-											onClick={() =>
-												this.changeActivePath(paths.indicators.path)
-											}
-											{...paths.indicators.attrs}
-										>
-											{D.indicatorsTitle}
-										</Link>
-									</li>
-
-									<li className={paths.help.className + ' navbar-right'}>
-										<Link
-											to={paths.help.path}
-											onClick={() => this.changeActivePath(paths.help.path)}
-											{...paths.help.attrs}
-										>
-											{D.help}
-										</Link>
-									</li>
-
-									<li className={paths.document.className + ' navbar-right'}>
-										<Link
-											to={paths.document.path}
-											onClick={() => this.changeActivePath(paths.document.path)}
-											{...paths.help.attrs}
-										>
-											{D.titleDocument} / {D.titleLink}
-										</Link>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</nav>
-				</header>
-			</>
-		);
+		return <Menu paths={Object.values(paths)} />;
 	}
 }
 
