@@ -1,7 +1,7 @@
 export default {
 	getOperationsList: () => ['operations'],
 
-	getOperationsSearchList: () => ['operations_search'],
+	getOperationsSearchList: () => ['operations/advanced-search'],
 	getOperation: id => [`operation/${id}`],
 	publishOperation: operation => [
 		`operation/validate/${operation.id}`,
