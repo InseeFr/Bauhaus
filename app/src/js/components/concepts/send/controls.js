@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'bauhaus-library';
-import { goBack } from 'js/utils/redirection';
+import { goBack } from 'bauhaus-library/src/utils/redirection';
 import D from 'js/i18n';
 
 class SendControls extends Component {
@@ -30,7 +30,7 @@ class SendControls extends Component {
 				<Button label={D.btnReturn} action={goBack(this.props, nextLocation)} />
 				<div className="col-md-8 centered">
 					{warning && (
-						<div className="alert alert-danger bold" role="alert">
+						<div className="alert alert-danger" role="alert">
 							{warning}
 						</div>
 					)}

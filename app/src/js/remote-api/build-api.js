@@ -1,4 +1,4 @@
-import { removeTrailingSlash } from 'js/utils/string-utils';
+import { removeTrailingSlash } from 'bauhaus-library/src/utils/string-utils';
 
 import {
 	getToken,

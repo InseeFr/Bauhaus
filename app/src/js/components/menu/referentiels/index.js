@@ -7,10 +7,10 @@ import './referentiels.scss';
 function MenuReferentiels() {
 	return (
 		<header>
-			<nav className="navbar navbar-default navbar-default-ref">
+			<nav className="navbar navbar-default navbar-secondary">
 				<div className="container-fluid">
 					<div className="collapse navbar-collapse">
-						<ul className="nav navbar-nav navbar-nav-ref">
+						<ul className="nav navbar-nav">
 							<li>
 								<Link to="/">
 									<img src={homeLogo} alt="Accueil" className="img-menu" />{' '}

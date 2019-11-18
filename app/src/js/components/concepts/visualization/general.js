@@ -2,7 +2,7 @@ import React from 'react';
 import D from 'js/i18n';
 import { Panel }  from 'bauhaus-library';
 import { arrayToString } from 'js/utils/array-utils';
-import { DSURLToLabel } from 'js/utils/dissemination-status-convertor';
+import { DSURLToLabel } from 'bauhaus-library/src/utils/dissemination-status-convertor';
 import { stringToDate } from 'js/utils/moment';
 
 function ConceptGeneral({ attr, secondLang, langs }) {

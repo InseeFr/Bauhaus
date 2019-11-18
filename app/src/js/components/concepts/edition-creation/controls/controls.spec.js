@@ -1,8 +1,7 @@
 import React from 'react';
-import Controls from './';
 import { shallow } from 'enzyme';
 import { empty } from 'js/utils/concepts/general';
-import { scndWithoutFirst } from './';
+import Controls, { scndWithoutFirst } from './';
 
 describe('concept-edition-creation-controls', () => {
 	it('renders without crashing', () => {

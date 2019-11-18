@@ -5,7 +5,7 @@
 	padding: 0;
 	width: auto;
 }
-.navbar-default-ref {
+.navbar-secondary {
 	background: #dddade;
 	font-size: 20px;
 	color: #45374e;
@@ -13,7 +13,7 @@
 	border: 0;
 	border-radius: 0;
 
-	.navbar-nav-ref > li {
+	.navbar-nav > li {
 		padding: 0 20px;
 
 		&:not(:nth-child(5)):after {
@@ -22,7 +22,6 @@
 		> a {
 			text-decoration: none;
 			font-size: medium;
-			font-family: 'Barlow', sans-serif;
 			padding: 10px;
 		}
 	}

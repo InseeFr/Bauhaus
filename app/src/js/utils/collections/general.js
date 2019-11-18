@@ -3,7 +3,7 @@ import {
 	buildPropTypes,
 	buildEmpty,
 	buildEmptyWithContributor,
-} from 'js/utils/build-general-proptypes';
+} from 'bauhaus-library/src/utils/build-general-proptypes';
 
 export const fieldsWithRequired = [
 	['id', false],

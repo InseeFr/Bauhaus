@@ -6,7 +6,7 @@ const ErrorBloc = ({ error }) => {
 		<div className="empty-center centered">
 			<div
 				style={{ visibility: error ? 'visible' : 'hidden' }}
-				className="alert alert-danger bold"
+				className="alert alert-danger"
 				role="alert"
 			>
 				{error || <span style={{ whiteSpace: 'pre-wrap' }}> </span>}

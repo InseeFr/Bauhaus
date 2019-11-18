@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
 import validateCollection from 'js/actions/collections/validate';
 import * as select from 'js/reducers';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { saveSecondLang } from 'js/actions/app';
 import loadCollections from 'js/actions/collections/collection';
 import loadStampList from 'js/actions/stamp';

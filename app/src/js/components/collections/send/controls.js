@@ -28,7 +28,7 @@ function SendControls({
 			<Button label={D.btnReturn} action={urlBack} />
 			<div className="col-md-8 centered">
 				{warning && (
-					<div className="alert alert-danger bold" role="alert">
+					<div className="alert alert-danger" role="alert">
 						{warning}
 					</div>
 				)}

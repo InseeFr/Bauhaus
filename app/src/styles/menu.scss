@@ -1,3 +1,5 @@
+@import './mixin.scss';
+
 @media (min-width: 768px) {
 	.navbar-nav > li > button {
 		background-color: transparent;
@@ -15,25 +17,21 @@
 	color: #ffffff;
 	font-size: 17px;
 }
-.inline {
-	display: inline;
-}
+
 .img-menu {
 	height: 60px;
 	padding: 0px;
 	width: auto;
 }
-
-@mixin set-menu($context, $color_1, $color_2, $color_3) {
-	background: $color_3;
+.navbar-primary {
+	background: var(--color-3);
 	font-size: 15.3pt;
-	color: #ccc9d9;
-	font-family: 'Barlow', sans-serif;
+	color: #cccfd9;
 	line-height: 20px;
 	margin-bottom: 0;
 	border-radius: 0;
 	border: 0;
-	.navbar-nav-#{$context} {
+	.navbar-nav {
 		button {
 			border: none;
 		}
@@ -45,7 +43,7 @@
 			padding: 0 10px;
 		}
 		a {
-			color: #ccc9d9;
+			color: #cccfd9;
 			border: 0;
 			text-decoration: none;
 
@@ -55,10 +53,10 @@
 			}
 		}
 
-		> li:first-child:hover button {
+		> li:first-child:hover a {
 			background-image: url(/img/burger-black.svg);
 		}
-		> li:first-child button {
+		> li:first-child a {
 			background-image: url(/img/burger.svg);
 			background-position: left center;
 			background-repeat: no-repeat;
@@ -71,7 +69,7 @@
 			background-color: white;
 			> a,
 			> button {
-				color: $color_3;
+				color: var(--color-3);
 			}
 		}
 	}

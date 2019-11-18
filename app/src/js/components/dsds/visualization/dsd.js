@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'index';
-import { Panel } from 'bauhaus-library';
-import { PageTitle } from 'bauhaus-library';
+import { Panel, PageTitle } from 'bauhaus-library';
 
 import Controls from './controls';
 import Components from './components';
 import D from 'js/i18n';
 import API from 'js/remote-api/dsds/dsds-api';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { getFlag } from 'js/utils/flags/get-flag';
 
 const DSD = props => {

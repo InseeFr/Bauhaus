@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import { Note }  from 'bauhaus-library';
 import { stringToDate } from 'js/utils/moment';
-import { DSURLToLabel } from 'js/utils/dissemination-status-convertor';
+import { DSURLToLabel } from 'bauhaus-library/src/utils/dissemination-status-convertor';
 
 export default ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;

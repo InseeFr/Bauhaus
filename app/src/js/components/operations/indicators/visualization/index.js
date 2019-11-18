@@ -1,14 +1,13 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import D from 'js/i18n';
-import buildExtract from 'js/utils/build-extract';
-import { goBack } from 'js/utils/redirection';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
+import { goBack } from 'bauhaus-library/src/utils/redirection';
 import { connect } from 'react-redux';
 import * as select from 'js/reducers';
-import { CheckSecondLang } from 'bauhaus-library';
 import { saveSecondLang } from 'js/actions/app';
 import OperationsIndicatorVisualization from 'js/components/operations/indicators/visualization/general';
-import { Loading, Button, ErrorBloc } from 'bauhaus-library';
+import { CheckSecondLang, Loading, Button, ErrorBloc } from 'bauhaus-library';
 import loadIndicator, {
 	publishIndicator,
 } from 'js/actions/operations/indicators/item';

@@ -5,7 +5,7 @@ import loadOperation, {
 } from 'js/actions/operations/operations/item';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { Loading } from 'bauhaus-library';
 import OperationsOperationEdition from 'js/components/operations/operations/edition/edition';
 import loadSeriesList from 'js/actions/operations/series/list';

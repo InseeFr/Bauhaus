@@ -6,7 +6,7 @@ import { Loading } from 'bauhaus-library';
 import ConceptCompare from './home';
 import { saveSecondLang } from 'js/actions/app';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import * as select from 'js/reducers';
 import { getSecondLang } from 'js/reducers/app';
 

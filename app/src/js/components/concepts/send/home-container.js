@@ -6,7 +6,7 @@ import { SEND_CONCEPT } from 'js/actions/constants';
 import loadGeneral from 'js/actions/concepts/general';
 import sendConcept from 'js/actions/concepts/send';
 import * as select from 'js/reducers';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { OK } from 'js/constants';
 import SendStatus from './status';
 import ConceptSend from './home';

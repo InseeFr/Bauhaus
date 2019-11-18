@@ -2,8 +2,7 @@ import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
 import { draftjsToMd } from 'js/utils/draftjs/draftjsToMd';
-import { mdToDraftjs } from 'js/utils/draftjs/mdToDraftjs';
-import { REGEXPS } from 'js/utils/draftjs/mdToDraftjs';
+import { mdToDraftjs, REGEXPS } from 'js/utils/draftjs/mdToDraftjs';
 
 export const containUnsupportedStyles = (attr = {}) => {
 	return !!REGEXPS.map(r => r.regexp).find(

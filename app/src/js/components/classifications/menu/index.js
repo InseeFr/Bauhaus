@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import MenuReferentiels from 'js/components/menu/referentiels';
 import D from 'js/i18n';
-import './classifications.scss';
+const defaultAttrs = { 'aria-current': 'page' };
 
 class MenuClassifications extends Component {
 	constructor(props) {
@@ -11,7 +11,8 @@ class MenuClassifications extends Component {
 			menuRef: false,
 			activePath: props.location.pathname,
 		};
-		this.onChangeMenu = () => {
+		this.onChangeMenu = e => {
+			e.preventDefault();
 			this.setState({
 				menuRef: !this.state.menuRef,
 			});
@@ -37,27 +38,32 @@ class MenuClassifications extends Component {
 				path: '/classifications/families',
 				pathKey: 'classifications/famil',
 				className: null,
+				attrs: null,
 			},
 			series: {
 				path: '/classifications/series',
 				pathKey: 'classifications/series',
 				className: null,
+				attrs: null,
 			},
 			correspondences: {
 				path: '/classifications/correspondences',
 				pathKey: 'classifications/correspondence',
 				className: null,
+				attrs: null,
 			},
 			classifications: {
 				path: '/classifications',
 				pathKey: 'classification',
 				className: null,
+				attrs: null,
 			},
 		};
 
 		for (var key in paths) {
 			if (this.props.location.pathname.includes(paths[key]['pathKey'])) {
 				paths[key]['className'] = 'active';
+				paths[key]['attrs'] = defaultAttrs;
 				break;
 			}
 		}
@@ -67,19 +73,20 @@ class MenuClassifications extends Component {
 		return (
 			<div>
 				<header>
-					<nav className="navbar navbar-default-classifications">
+					<nav className="navbar navbar-primary">
 						<div className="container-fluid">
 							<div className="collapse navbar-collapse">
-								<ul className="nav navbar-nav navbar-nav-classifications">
+								<ul className="nav navbar-nav">
 									<li>
-										<button onClick={this.onChangeMenu}>
+										<Link to="/" onClick={this.onChangeMenu}>
 											{D.repositoryNavigation}
-										</button>
+										</Link>
 									</li>
 									<li className={paths.families.className}>
 										<Link
 											to={paths.families.path}
 											onClick={() => this.changeActivePath(paths.families.path)}
+											{...paths.families.attrs}
 										>
 											{D.familiesTitle}
 										</Link>
@@ -88,6 +95,7 @@ class MenuClassifications extends Component {
 										<Link
 											to={paths.series.path}
 											onClick={() => this.changeActivePath(paths.series.path)}
+											{...paths.series.attrs}
 										>
 											{D.seriesTitle}
 										</Link>
@@ -98,6 +106,7 @@ class MenuClassifications extends Component {
 											onClick={() =>
 												this.changeActivePath(paths.classifications.path)
 											}
+											{...paths.classifications.attrs}
 										>
 											{D.classificationsTitle}
 										</Link>
@@ -108,6 +117,7 @@ class MenuClassifications extends Component {
 											onClick={() =>
 												this.changeActivePath(paths.correspondences.path)
 											}
+											{...paths.correspondences.attrs}
 										>
 											{D.correspondencesTitle}
 										</Link>

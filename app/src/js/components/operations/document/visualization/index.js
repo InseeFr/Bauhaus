@@ -1,13 +1,12 @@
 import { saveSecondLang } from 'js/actions/app';
 import loadDocument from 'js/actions/operations/documents/item';
-import { Loading, Button } from 'bauhaus-library';
-import { CheckSecondLang } from 'bauhaus-library';
+import { CheckSecondLang, Loading, Button } from 'bauhaus-library';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { getSecondLang } from 'js/reducers/app';
 import { getCurrentDocument } from 'js/reducers/operations/selector';
-import buildExtract from 'js/utils/build-extract';
-import { goBack } from 'js/utils/redirection';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
+import { goBack } from 'bauhaus-library/src/utils/redirection';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';

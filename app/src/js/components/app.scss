@@ -1,5 +1,3 @@
-@import 'src/styles/colors.scss';
-
 ul.home-page-links {
 	width: 70%;
 	margin: 4em auto auto;
@@ -9,7 +7,6 @@ ul.home-page-links {
 	grid-column-gap: 3.33%;
 	grid-row-gap: 1em;
 	li {
-		flex: 1;
 		text-align: center;
 		background: var(--color-3);
 		border-radius: 15px;
@@ -19,10 +16,8 @@ ul.home-page-links {
 			width: 70%;
 			margin: 10px auto -1em auto;
 			min-height: 3em;
-			display: flex;
 			justify-content: center;
 			align-content: center;
-			flex-direction: column;
 		}
 		img {
 			width: 60%;
@@ -36,12 +31,11 @@ ul.home-page-links {
 		}
 	}
 }
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 1025px) {
 	ul.home-page-links {
 		width: 90%;
 		margin: 1em auto;
-		grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-		flex-direction: column;
+		grid-template-columns: repeat(auto-fill, 48%);
 		padding: 0;
 		li {
 			h2 {
@@ -51,5 +45,12 @@ ul.home-page-links {
 				width: 90%;
 			}
 		}
+	}
+}
+
+@media screen and (max-width: 500px) {
+	ul.home-page-links {
+		grid-template-columns: repeat(auto-fill, 100%);
+		padding: 0;
 	}
 }

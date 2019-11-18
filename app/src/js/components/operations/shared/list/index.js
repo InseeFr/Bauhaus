@@ -12,31 +12,29 @@ function OperationsObjectHome({
 	advancedSearch = true,
 }) {
 	return (
-		<>
-			<div className="container">
-				<div className="row">
-					<Auth roles={roles}>
-						<div className="col-md-3 btn-group-vertical">
-							<div className="row">
-								<div className="col-md-8 col-md-offset-2">
-									<NewButton action={createURL} wrapper={false} />
-								</div>
+		<div className="container">
+			<div className="row">
+				<Auth roles={roles}>
+					<div className="col-md-3 btn-group-vertical">
+						<div className="row">
+							<div className="col-md-8 col-md-offset-2">
+								<NewButton action={createURL} wrapper={false} />
 							</div>
 						</div>
-					</Auth>
-					<div className="col-md-8 centered pull-right operations-list">
-						<PageTitle title={title} col={12} offset={0} />
-						<SearchRmes
-							items={items}
-							childPath={childPath}
-							label="label"
-							searchUrl={searchURL}
-							advancedSearch={advancedSearch}
-						/>
 					</div>
+				</Auth>
+				<div className="col-md-8 centered pull-right operations-list">
+					<PageTitle title={title} col={12} offset={0} />
+					<SearchRmes
+						items={items}
+						childPath={childPath}
+						label="label"
+						searchUrl={searchURL}
+						advancedSearch={advancedSearch}
+					/>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 

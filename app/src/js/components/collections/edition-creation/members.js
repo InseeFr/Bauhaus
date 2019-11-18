@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Panel }  from 'bauhaus-library';
-import { Pagination } from 'bauhaus-library';
+import { Panel, Pagination } from 'bauhaus-library';
 import Item from 'js/components/shared/picker-item';
-import { filterDeburr } from 'js/utils/array-utils';
+import { filterDeburr, arrayDifferenceByID } from 'js/utils/array-utils';
 import D from 'js/i18n';
 import logoAdd from 'js/components/shared/logo/logo-add';
 import logoDel from 'js/components/shared/logo/logo-del';
-import { arrayDifferenceByID } from 'js/utils/array-utils';
 
 class CollectionMembersEdition extends Component {
 	constructor(props) {

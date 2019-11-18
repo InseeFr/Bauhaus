@@ -5,7 +5,7 @@ import { content as contentOperations } from './content-operations';
 import HelpMenu from './menu';
 import { PageTitle } from 'bauhaus-library';
 import HelpFooter from './footer';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { getLang } from 'js/i18n/build-dictionary';
 import './help.scss';
 

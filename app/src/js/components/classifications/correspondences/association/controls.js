@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'bauhaus-library';
 import PlaceHolder from 'js/components/shared/placeholder/placeholder';
-import { goBack } from 'js/utils/redirection';
+import { goBack } from 'bauhaus-library/src/utils/redirection';
 import D from 'js/i18n';
 
 class CorrespondenceControls extends Component {

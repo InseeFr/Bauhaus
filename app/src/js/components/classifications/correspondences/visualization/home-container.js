@@ -8,7 +8,7 @@ import { saveSecondLang } from 'js/actions/app';
 import loadCorrespondenceGeneral from 'js/actions/classifications/correspondences/general';
 import loadCorrespondenceAssociations from 'js/actions/classifications/correspondences/associations';
 import * as select from 'js/reducers';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');

@@ -4,7 +4,6 @@ import MenuReferentiels from 'js/components/menu/referentiels';
 import { connect } from 'react-redux';
 
 import D from 'js/i18n';
-import './operations.scss';
 import { compose } from 'recompose';
 import { getOperationsSimsCurrent } from 'js/reducers';
 
@@ -56,7 +55,9 @@ class MenuOperations extends Component {
 		};
 	}
 
-	onChangeMenu = () => {
+	onChangeMenu = e => {
+		e.preventDefault();
+
 		this.setState({
 			menuRef: !this.state.menuRef,
 		});
@@ -135,84 +136,71 @@ class MenuOperations extends Component {
 		return (
 			<>
 				<header>
-					<nav className="navbar navbar-default-operations">
+					<nav className="navbar navbar-primary">
 						<div className="container-fluid">
 							<div className="collapse navbar-collapse">
-								<ul className="nav navbar-nav navbar-nav-operations">
+								<ul className="nav navbar-nav">
 									<li>
-										<button onClick={this.onChangeMenu}>
+										<Link to="/" onClick={this.onChangeMenu}>
 											{D.repositoryNavigation}
-										</button>
+										</Link>
 									</li>
-									<li
-										className={paths.families.className}
-										{...paths.families.attrs}
-									>
+									<li className={paths.families.className}>
 										<Link
-											aria-current="page"
 											to={paths.families.path}
 											onClick={() => this.changeActivePath(paths.families.path)}
+											{...paths.families.attrs}
 										>
 											{D.familiesTitle}
 										</Link>
 									</li>
-									<li
-										className={paths.series.className}
-										{...paths.series.attrs}
-									>
+									<li className={paths.series.className}>
 										<Link
 											to={paths.series.path}
 											onClick={() => this.changeActivePath(paths.series.path)}
+											{...paths.series.attrs}
 										>
 											{D.seriesTitle}
 										</Link>
 									</li>
-									<li
-										className={paths.operations.className}
-										{...paths.operations.attrs}
-									>
+									<li className={paths.operations.className}>
 										<Link
 											to={paths.operations.path}
 											onClick={() =>
 												this.changeActivePath(paths.operations.path)
 											}
+											{...paths.operations.attrs}
 										>
 											{D.operationsTitle}
 										</Link>
 									</li>
-									<li
-										className={paths.indicators.className}
-										{...paths.indicators.attrs}
-									>
+									<li className={paths.indicators.className}>
 										<Link
 											to={paths.indicators.path}
 											onClick={() =>
 												this.changeActivePath(paths.indicators.path)
 											}
+											{...paths.indicators.attrs}
 										>
 											{D.indicatorsTitle}
 										</Link>
 									</li>
 
-									<li
-										className={paths.help.className + ' navbar-right'}
-										{...paths.help.attrs}
-									>
+									<li className={paths.help.className + ' navbar-right'}>
 										<Link
 											to={paths.help.path}
 											onClick={() => this.changeActivePath(paths.help.path)}
+											{...paths.help.attrs}
 										>
 											{D.help}
 										</Link>
 									</li>
 
-									<li
-										className={paths.document.className + ' navbar-right'}
-										{...paths.help.attrs}
-									>
+									<li className={paths.document.className + ' navbar-right'}>
 										<Link
 											to={paths.document.path}
 											onClick={() => this.changeActivePath(paths.document.path)}
+											{...paths.help.attrs}
 										>
 											{D.titleDocument} / {D.titleLink}
 										</Link>

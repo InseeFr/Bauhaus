@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import D, { D2 } from 'js/i18n';
-import { goBack, goBackOrReplace } from 'js/utils/redirection';
+import { goBack, goBackOrReplace } from 'bauhaus-library/src/utils/redirection';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/components/shared/editor-html/editor-markdown';
 import { validate } from 'js/components/operations/document/edition/validation';

@@ -6,7 +6,7 @@ import loadCorrespondenceAssociation from 'js/actions/classifications/correspond
 import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/correspondence/association';
 import * as mainSelect from 'js/reducers';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { getSecondLang } from 'js/reducers/app';
 
 const extractCorrespondenceId = buildExtract('correspondenceId');

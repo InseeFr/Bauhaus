@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { CheckSecondLang } from 'bauhaus-library';
-import { PageTitle, PageSubtitle } from 'bauhaus-library';
+import { CheckSecondLang, PageTitle, PageSubtitle } from 'bauhaus-library';
 import Controls from './controls';
 import General from './general';
 import Members from './members';

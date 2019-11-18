@@ -1,6 +1,6 @@
 export default {
 	getIndicatorsList: () => ['indicators'],
-	getIndicatorsSearchList: () => ['indicators_search'],
+	getIndicatorsSearchList: () => ['indicators/advanced-search'],
 	publishIndicator: series => [
 		`indicator/validate/${series.id}`,
 		{ method: 'PUT' },

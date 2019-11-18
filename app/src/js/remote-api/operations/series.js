@@ -1,6 +1,6 @@
 export default {
 	getSeriesList: () => ['series/withSims'],
-	getSeriesSearchList: () => ['series_search'],
+	getSeriesSearchList: () => ['series/advanced-search'],
 	getSerie: id => [`series/${id}`],
 	publishSeries: series => [
 		`series/validate/${series.id}`,

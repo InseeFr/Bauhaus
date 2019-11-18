@@ -1,14 +1,13 @@
 import React from 'react';
-import { goBack } from 'js/utils/redirection';
+import { goBack } from 'bauhaus-library/src/utils/redirection';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
-import { CheckSecondLang } from 'bauhaus-library';
 import { saveSecondLang } from 'js/actions/app';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import buildExtract from 'js/utils/build-extract';
+import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import OperationsSerieVisualization from 'js/components/operations/series/visualization/home';
-import { Loading, ErrorBloc, Button } from 'bauhaus-library';
+import { CheckSecondLang, Loading, ErrorBloc, Button } from 'bauhaus-library';
 import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import { getSecondLang } from 'js/reducers/app';

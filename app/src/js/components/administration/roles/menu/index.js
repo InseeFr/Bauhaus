@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import MenuReferentiels from 'js/components/menu/referentiels';
 
 import D from 'js/i18n';
 import { compose } from 'recompose';
-import 'js/components/concepts/menu/concepts.scss';
 class Menu extends Component {
 	constructor(props) {
 		super(props);
@@ -13,15 +12,10 @@ class Menu extends Component {
 		};
 	}
 
-	onChangeMenu = () => {
+	onChangeMenu = e => {
+		e.preventDefault();
 		this.setState({
 			menuRef: !this.state.menuRef,
-		});
-	};
-
-	changeActivePath = activePath => {
-		this.setState({
-			menuRef: false,
 		});
 	};
 
@@ -31,15 +25,14 @@ class Menu extends Component {
 		return (
 			<>
 				<header>
-					<nav className="navbar navbar-default-concepts">
+					<nav className="navbar navbar-primary">
 						<div className="container-fluid">
 							<div className="collapse navbar-collapse">
-								<ul className="nav navbar-nav navbar-nav-concepts">
+								<ul className="nav navbar-nav">
 									<li>
-										<button onClick={this.onChangeMenu}>
-											<span className="glyphicon glyphicon-th navbar-icon inline" />
-											<span className="inline"> {D.repositoryNavigation}</span>
-										</button>
+										<Link to="/" onClick={this.onChangeMenu}>
+											{D.repositoryNavigation}
+										</Link>
 									</li>
 								</ul>
 							</div>
