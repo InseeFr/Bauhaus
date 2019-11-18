@@ -14,6 +14,8 @@ export { default as ErrorBloc } from './error-bloc';
 export { default as Flag } from './flag';
 export { default as Input } from './input';
 export { default as Loading } from './loading';
+export { default as Menu } from './menu';
+
 export { default as Note } from './note';
 
 export { default as Pagination } from './pagination';
