@@ -21,13 +21,13 @@
 
 				cy.get('h1.bauhaus-page-title').should('be.visible');
 				cy.get('.list-group').should('be.visible');
-				cy.get('.pagination').should('be.visible');
+				cy.get('.bauhaus-pagination').should('be.visible');
 
 				cy.get('input').type('FAKE DATA');
 				cy.get('p').should(p => {
 					expect(p.first()).to.contain('0');
 				});
-				cy.get('.pagination li').should(lis => {
+				cy.get('.bauhaus-pagination li').should(lis => {
 					expect(lis).to.have.length(0);
 				});
 			});
