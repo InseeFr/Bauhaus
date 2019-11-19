@@ -2,7 +2,8 @@
 	background-color: var(--color-2);
 	color: white;
 	font-weight: bold;
-	&:hover:not([disabled]) {
+	&:hover:not([disabled]),
+	&:focus {
 		background-color: var(--color-3);
 		color: white;
 	}

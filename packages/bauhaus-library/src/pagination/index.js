@@ -1,5 +1,8 @@
-import React, { Component } from 'react';
+import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter, Link } from 'react-router-dom';
+import queryString from 'query-string';
+import { I18NContext } from '../context';
 import './pagination.scss';
 
 function checkInvalidPage(targetPage, listSize) {
@@ -11,34 +14,14 @@ function checkInvalidPage(targetPage, listSize) {
  *	itemsPerPage: The number of element per page
  *	context: The context of the page. Used for theming
  */
-class Pagination extends Component {
-	static propTypes = {
-		itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
-		itemsPerPage: PropTypes.string.isRequired,
-	};
-	constructor(props) {
-		super(props);
-		this.state = {
-			currentPage: 1,
-		};
-	}
-	goToPage(targetPage, e) {
-		if (e) e.preventDefault();
-		this.setState({
-			currentPage: Number(targetPage),
-		});
-	}
-	componentWillReceiveProps({ itemEls, itemsPerPage }) {
-		const { currentPage } = this.state;
-		const pageMax = Math.ceil(itemEls.length / itemsPerPage) || 1;
-		if (currentPage > pageMax) this.goToPage(pageMax);
-	}
-
-	render() {
-		const { currentPage } = this.state;
-		const { itemEls, itemsPerPage } = this.props;
-
+export const Pagination = React.memo(
+	({ location: { pathname, search }, itemEls, itemsPerPage }) => {
+		const D = useContext(I18NContext).pagination || {};
+		const ariaLabel = number => `${D.goTo} ${number}`;
 		if (!itemsPerPage) return null;
+
+		const queryParams = queryString.parse(search);
+		const currentPage = parseInt(queryParams.page || '1', 10);
 
 		const indexOfLastItem = currentPage * itemsPerPage;
 		const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -62,79 +45,75 @@ class Pagination extends Component {
 			.map(number => {
 				return (
 					<li className={isActivePage(number) ? 'active' : ''} key={number}>
-						<button
-							href="#"
-							onClick={e => this.goToPage(number, e)}
-							className="page-link"
+						<Link
+							to={`${pathname}?page=${number}`}
+							aria-label={ariaLabel(number)}
+							aria-current={number === currentPage}
 						>
 							{number}
-						</button>
+						</Link>
 					</li>
 				);
 			});
 
 		return (
-			<React.Fragment>
+			<Fragment>
 				<ul className="list-group">{currentItems}</ul>
 				{pageNumbers.length > 1 && (
-					<ul className={`pagination pg-rmes`}>
-						<li className={isDisabled(currentPage - 1) ? 'disabled' : ''}>
-							<button
-								onClick={e => this.goToPage(1, e)}
-								aria-label="First"
-								disabled={isDisabled(currentPage - 1)}
-							>
-								<span aria-hidden="true">&laquo;</span>
-								<span className="sr-only">First</span>
-							</button>
-						</li>
-						<li className={isDisabled(currentPage - 1) ? 'disabled' : ''}>
-							<button
-								href="#"
-								onClick={e =>
-									!checkInvalidPage(currentPage - 1) &&
-									this.goToPage(currentPage - 1, e)
-								}
-								aria-label="Previous"
-								disabled={isDisabled(currentPage - 1)}
-							>
-								<span aria-hidden="true">&lt;</span>
-								<span className="sr-only">Previous</span>
-							</button>
-						</li>
-						{renderPageNumbers}
-						<li className={isDisabled(currentPage + 1) ? 'disabled' : ''}>
-							<button
-								href="#"
-								onClick={e =>
-									!checkInvalidPage(currentPage + 1) &&
-									this.goToPage(currentPage + 1, e)
-								}
-								aria-label="Next"
-								disabled={isDisabled(currentPage + 1)}
-							>
-								<span aria-hidden="true">&gt;</span>
-								<span className="sr-only">Next</span>
-							</button>
-						</li>
-						<li className={isDisabled(currentPage + 1) ? 'disabled' : ''}>
-							<button
-								aria-label="Last"
-								href="#"
-								onClick={e =>
-									this.goToPage(pageNumbers[pageNumbers.length - 1], e)
-								}
-								disabled={isDisabled(currentPage + 1)}
-							>
-								<span aria-hidden="true">&raquo;</span>
-								<span className="sr-only">Last</span>
-							</button>
-						</li>
-					</ul>
+					<nav role="navigation">
+						<ul className={`bauhaus-pagination`}>
+							<li className={isDisabled(currentPage - 1) ? 'disabled' : ''}>
+								<Link
+									to={`${pathname}?page=1`}
+									aria-label={ariaLabel(1)}
+									disabled={isDisabled(currentPage - 1)}
+								>
+									<span aria-hidden="true">&laquo;</span>
+									<span className="sr-only">First</span>
+								</Link>
+							</li>
+							<li className={isDisabled(currentPage - 1) ? 'disabled' : ''}>
+								<Link
+									to={`${pathname}?page=${currentPage - 1}`}
+									aria-label={ariaLabel(currentPage - 1)}
+									disabled={isDisabled(currentPage - 1)}
+								>
+									<span aria-hidden="true">&lt;</span>
+									<span className="sr-only">Previous</span>
+								</Link>
+							</li>
+							{renderPageNumbers}
+							<li className={isDisabled(currentPage + 1) ? 'disabled' : ''}>
+								<Link
+									to={`${pathname}?page=${currentPage + 1}`}
+									aria-label={ariaLabel(currentPage + 1)}
+									disabled={isDisabled(currentPage + 1)}
+								>
+									<span aria-hidden="true">&gt;</span>
+									<span className="sr-only">Next</span>
+								</Link>
+							</li>
+							<li className={isDisabled(currentPage + 1) ? 'disabled' : ''}>
+								<Link
+									aria-label={ariaLabel(pageNumbers[pageNumbers.length - 1])}
+									to={`${pathname}?page=${pageNumbers[pageNumbers.length - 1]}`}
+									disabled={isDisabled(currentPage + 1)}
+								>
+									<span aria-hidden="true">&raquo;</span>
+									<span className="sr-only">Last</span>
+								</Link>
+							</li>
+						</ul>
+					</nav>
 				)}
-			</React.Fragment>
+			</Fragment>
 		);
 	}
-}
+);
 
-export default Pagination;
+Pagination.propTypes = {
+	itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
+	itemsPerPage: PropTypes.string.isRequired,
+};
+
+export default withRouter(Pagination);

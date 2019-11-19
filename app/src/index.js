@@ -36,7 +36,6 @@ const renderApp = (Component, initState, props) => {
 			error: false,
 		},
 	});
-	console.log(bauhausLibraryDictionary);
 	ReactDOM.render(
 		<Provider store={store}>
 			<AppContext.Provider value={{ lg1, lg2 }}>
