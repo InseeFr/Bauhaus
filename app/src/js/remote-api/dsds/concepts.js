@@ -1,4 +1,4 @@
-import { getRDFList } from 'js/utils/dsds/sparql-endpoint-call';
+import { getRDFList } from 'js/applications/dsds/utils/sparql-endpoint-call';
 
 const query = `
 PREFIX skos:<http://www.w3.org/2004/02/skos/core#>

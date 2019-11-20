@@ -1,7 +1,7 @@
 import { saveDocument } from './item';
 import * as A from 'js/actions/constants';
 import api from 'js/remote-api/api';
-import { DOCUMENT, LINK } from 'js/components/operations/document/utils';
+import { DOCUMENT, LINK } from 'js/applications/operations/document/utils';
 
 const dispatch = jest.fn();
 jest.mock('js/remote-api/api');

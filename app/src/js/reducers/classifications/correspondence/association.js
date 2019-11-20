@@ -1,6 +1,6 @@
 import * as A from 'js/actions/constants';
 import { LOADED, LOADING } from 'js/constants';
-import * as associationUtils from 'js/utils/classifications/correspondence/association';
+import * as associationUtils from 'js/applications/classifications/utils/correspondence/association';
 
 export default function(state = {}, action) {
 	const { type, payload } = action;

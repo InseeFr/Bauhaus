@@ -1,7 +1,7 @@
 import reducerSeriesGeneral, { getGeneral } from './general';
 import * as A from 'js/actions/constants';
 import { LOADED } from 'js/constants';
-import * as generalUtils from 'js/utils/classifications/series/general';
+import * as generalUtils from 'js/applications/classifications/utils/series/general';
 
 describe('reducerSeriesGeneral', () => {
 	test('action UPDATE_CLASSIFICATIONS_SERIES_SUCCESS', () => {

@@ -1,6 +1,6 @@
 import * as A from 'js/actions/constants';
 import { LOADED } from 'js/constants';
-import * as generalUtils from 'js/utils/classifications/correspondence/general';
+import * as generalUtils from 'js/applications/classifications/utils/correspondence/general';
 
 export default function(state = {}, action) {
 	const { type, payload } = action;

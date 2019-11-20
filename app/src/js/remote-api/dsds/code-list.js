@@ -1,4 +1,4 @@
-import { getRDFList } from 'js/utils/dsds/sparql-endpoint-call';
+import { getRDFList } from 'js/applications/dsds/utils/sparql-endpoint-call';
 
 // TODO : Complete with other code list
 const query = `

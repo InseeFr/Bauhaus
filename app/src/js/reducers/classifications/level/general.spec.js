@@ -1,7 +1,7 @@
 import reducerLevelGeneral, { getGeneral } from './general';
 import * as A from 'js/actions/constants';
 import { LOADING, LOADED } from 'js/constants';
-import * as generalUtils from 'js/utils/classifications/level/general';
+import * as generalUtils from 'js/applications/classifications/utils/level/general';
 
 describe('reducerLevelGeneral', () => {
 	test('action LOAD_CLASSIFICATION_LEVEL_GENERAL', () => {
