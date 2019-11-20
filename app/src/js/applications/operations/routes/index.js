@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { loadSetup } from 'js/actions/operations/utils/setup';
 
 import D from 'js/i18n';
-import { ThemeContext } from 'bauhaus-library';
 
 import FamilyRoutes from 'js/applications/operations/routes/family';
 import SeriesRoutes from 'js/applications/operations/routes/series';
@@ -25,14 +24,12 @@ class RootComponent extends Component {
 		return (
 			<>
 				<Menu />
-				<ThemeContext.Provider value={'operations'}>
-					<FamilyRoutes />
-					<SeriesRoutes />
-					<OperationsRoutes />
-					<IndicatorRoutes />
-					<DocumentRoutes />
-					<SimsRoutes />
-				</ThemeContext.Provider>
+				<FamilyRoutes />
+				<SeriesRoutes />
+				<OperationsRoutes />
+				<IndicatorRoutes />
+				<DocumentRoutes />
+				<SimsRoutes />
 			</>
 		);
 	}
