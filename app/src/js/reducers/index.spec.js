@@ -1,5 +1,41 @@
 import * as selector from './index';
 
+describe('getLangs', () => {
+	it('should return the langs object', () => {
+		const input = {
+			app: {
+				lg1: 'lg1',
+				lg2: 'lg2',
+			},
+		};
+		const output = {
+			lg1: 'lg1',
+			lg2: 'lg2',
+		};
+		expect(selector.getLangs(input)).toEqual(output);
+	});
+});
+describe('getPermission', () => {
+	it('should return the permission object', () => {
+		const input = {
+			app: {
+				auth: {
+					type: 'authType',
+					user: {
+						roles: 'roles',
+						stamp: 'stamp',
+					},
+				},
+			},
+		};
+		const output = {
+			authType: 'authType',
+			roles: 'roles',
+			stamp: 'stamp',
+		};
+		expect(selector.getPermission(input)).toEqual(output);
+	});
+});
 describe('getFamily', () => {
 	it('should return an empty object if the value is undefined', () => {
 		const input = {};
