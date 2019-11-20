@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { I18NContext } from '../context';
 
 import { Link } from 'react-router-dom';
-
 function getClasses(path) {
 	if (path.alignToRight) {
 		return [path.className, 'navbar-right'].join(' ');

@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import Root from 'js/applications/router';
+import Root from 'js/router';
 import Error from 'js/applications/shared/error/error';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';

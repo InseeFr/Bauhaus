@@ -7,7 +7,7 @@ import auth from 'js/applications/auth/hoc';
 import Error from 'js/applications/shared/error/error';
 import NotFound from 'js/applications/shared/not-found/';
 
-import App from 'js/applications/app';
+import App from 'js/app';
 import Role from 'js/applications/administration/roles/home-container';
 
 const pages = process.env.REACT_APP_APPLICATIONS.split(',').reduce(

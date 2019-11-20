@@ -1,11 +1,20 @@
 @import './mixin.scss';
 
-@media (min-width: 768px) {
-	.navbar-nav > li > button {
-		background-color: transparent;
-		padding-top: 15px;
-		padding-bottom: 15px;
-		padding-right: 5px;
+@media screen and (max-width: 767px) {
+	.navbar-primary {
+		.container-fluid {
+			padding-right: 0;
+			padding-left: 0;
+		}
+	}
+}
+@media screen and (min-width: 767px) {
+	.navbar-primary {
+		li {
+			&:not(:nth-child(5)):not(:nth-child(6)):after {
+				@include list-item-separator(white);
+			}
+		}
 	}
 }
 
@@ -13,16 +22,6 @@
 	width: 100%;
 }
 
-.navbar-icon {
-	color: #ffffff;
-	font-size: 17px;
-}
-
-.img-menu {
-	height: 60px;
-	padding: 0px;
-	width: auto;
-}
 .navbar-primary {
 	background: var(--color-3);
 	font-size: 15.3pt;
@@ -31,15 +30,13 @@
 	margin-bottom: 0;
 	border-radius: 0;
 	border: 0;
-	.navbar-nav {
-		button {
-			border: none;
-		}
 
+	.collapse {
+		display: block;
+	}
+
+	.navbar-nav {
 		> li {
-			&:not(:nth-child(5)):not(:nth-child(6)):after {
-				@include list-item-separator(white);
-			}
 			padding: 0 10px;
 		}
 		a {
