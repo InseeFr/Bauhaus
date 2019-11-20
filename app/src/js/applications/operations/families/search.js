@@ -5,10 +5,11 @@ import { Loading } from 'bauhaus-library';
 import { AbstractSearchComponent } from 'js/applications/shared/advanced-search/home-container';
 import api from 'js/remote-api/operations-api';
 
-import { filterKeyDeburr } from 'js/utils/array-utils';
+import { filterKeyDeburr, sortArray } from 'js/utils/array-utils';
 import SearchList from 'js/applications/shared/advanced-search/home';
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);
 const fields = ['prefLabelLg1'];
+const sortByLabel = sortArray('prefLabelLg1');
 
 class SearchFormList extends AbstractSearchComponent {
 	static defaultState = {
@@ -60,7 +61,7 @@ class SearchListContainer extends Component {
 	}
 	componentWillMount() {
 		api.getFamiliesSearchList().then(data => {
-			this.setState({ data });
+			this.setState({ data: sortByLabel(data) });
 		});
 	}
 

@@ -7,7 +7,7 @@ import api from 'js/remote-api/operations-api';
 import { connect } from 'react-redux';
 import SelectRmes from 'js/applications/shared/select-rmes';
 
-import { filterKeyDeburr } from 'js/utils/array-utils';
+import { filterKeyDeburr, sortArray } from 'js/utils/array-utils';
 import SearchList from 'js/applications/shared/advanced-search/home';
 import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
 import { toSelectModel } from '../shared/utils/itemToSelectModel';
@@ -22,6 +22,7 @@ const fields = [
 	'dataCollector',
 	'gestionnaire',
 ];
+const sortByLabel = sortArray('prefLabelLg1');
 
 class SearchFormList extends AbstractSearchComponent {
 	static defaultState = {
@@ -176,7 +177,7 @@ class SearchListContainer extends Component {
 	}
 	componentWillMount() {
 		api.getSeriesSearchList().then(data => {
-			this.setState({ data });
+			this.setState({ data: sortByLabel(data) });
 		});
 	}
 
