@@ -2,7 +2,7 @@
 
 Bauhaus is a single page application built with [React](https://facebook.github.io/react/) and [Redux](https://github.com/reactjs/reduxreact). It was bootstraped with [Create React App](https://github.com/facebook/create-react-app) and designed thanks to [Bootstrap](https://github.com/twbs/bootstrap). To run the application in development mode, run the following commands from a shell prompt in the local directory, and then navigate to [http://localhost:3000](http://localhost:3000):
 
-```
+````
 # Download all the dependencies needed by the application
 yarn install
 # Compiles the code and starts a minimal web server
@@ -24,6 +24,22 @@ Unit tests are launched each time a `git push` is executed.
 ## Build
 
 To build the application, run `yarn build`. You can now serve the content of the `dist` folder with the HTTP server of your choice.
+
+### Docker
+
+You can also build a Docker container :
+
+```shell
+docker build . -t bauhaus-front
+````
+
+And run it :
+
+```shell
+docker run  -it -p 8083:80 -e BAUHAUS_API_URL=http://192.168.1.12:8081/api bauhaus
+```
+
+`http://192.168.1.12:8081/api` is the base URL of the Bauhaus API.
 
 ## New to JavaScript and Node.js
 
@@ -47,4 +63,7 @@ If you have to define SCSS mixin, you have to define them in the `src/styles/mix
 
 In order to avoid big i18n file, we try to split this file in smaller files, based on `page` or `feature`. For example, we have a `src/js/i18n/dictionary/operations/documents.js` file for all messages dedicated to the documents feature.
 This files have to be imported directly or not in the main file `js/i18n/dictionary/app.js`.
+
+```
+
 ```

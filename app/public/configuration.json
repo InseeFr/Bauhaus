@@ -1,3 +1,3 @@
 {
-	"bauhaus": "https://dv.gestion-metadonnees-api.insee.fr/bauhaus/api"
+	"bauhaus": "BAUHAUS_API_URL"
 }

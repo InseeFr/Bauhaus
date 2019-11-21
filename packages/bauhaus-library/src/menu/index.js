@@ -3,6 +3,8 @@ import { I18NContext } from '../context';
 
 import { Link } from 'react-router-dom';
 
+import './menu.scss';
+
 function getClasses(path) {
 	if (path.alignToRight) {
 		return [path.className, 'navbar-right'].join(' ');

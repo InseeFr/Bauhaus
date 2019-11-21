@@ -1,13 +1,13 @@
 import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import Root from 'js/components/router';
-import Error from 'js/components/shared/error/error';
+import Root from 'js/router';
+import Error from 'js/applications/shared/error/error';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
 import { I18NContext, BackToTop } from 'bauhaus-library';
 import { bauhausLibraryDictionary } from 'js/i18n';
-import ApplicationTitle from 'js/components/shared/application-title';
+import ApplicationTitle from 'js/applications/shared/application-title';
 
 import 'main.scss';
 import 'bauhaus-library/dist/index.css';
@@ -36,7 +36,6 @@ const renderApp = (Component, initState, props) => {
 			error: false,
 		},
 	});
-	console.log(bauhausLibraryDictionary);
 	ReactDOM.render(
 		<Provider store={store}>
 			<AppContext.Provider value={{ lg1, lg2 }}>

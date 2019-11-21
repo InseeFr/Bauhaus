@@ -1,7 +1,7 @@
 import reducerFamilyGeneral, { getGeneral } from './general';
 import * as A from 'js/actions/constants';
 import { LOADED } from 'js/constants';
-import * as generalUtils from 'js/utils/classifications/families/general';
+import * as generalUtils from 'js/applications/classifications/utils/families/general';
 
 describe('reducerFamilyGeneral', () => {
 	test('action UPDATE_CLASSIFICATIONS_FAMILLY_SUCCESS', () => {

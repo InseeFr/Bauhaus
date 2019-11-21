@@ -8,7 +8,7 @@ import {
 	LOAD_OPERATIONS_DOCUMENT_FAILURE,
 	SAVE_OPERATIONS_DOCUMENT_SUCCESS,
 } from 'js/actions/constants/operations/documents';
-import { isDocument } from 'js/components/operations/document/utils';
+import { isDocument } from 'js/applications/operations/document/utils';
 /**
  *
  * @param {SimsDoc} state

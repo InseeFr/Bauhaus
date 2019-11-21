@@ -1,6 +1,6 @@
 import api from 'js/remote-api/api';
 import * as A from 'js/actions/constants';
-import { LINK, DOCUMENT } from 'js/components/operations/document/utils';
+import { LINK, DOCUMENT } from 'js/applications/operations/document/utils';
 
 export const saveDocument = (document, type, files, callback) => dispatch => {
 	dispatch({

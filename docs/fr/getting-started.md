@@ -26,6 +26,22 @@ Les tests unitaires sont exécutés lorsque nous faisons un `git push`
 
 Pour produire la version de production, lancez la commande `yarn build`. Vous pouvez désormais servir le contenu du dossier `dist` avec le serveur web de votre choix.
 
+### Docker
+
+Vous pouvez également builder un container Docker :
+
+```shell
+docker build . -t bauhaus-front
+```
+
+Et l'éxecuter :
+
+```shell
+docker run  -it -p 8083:80 -e BAUHAUS_API_URL=http://192.168.1.12:8081/api bauhaus
+```
+
+`http://192.168.1.12:8081/api` est l'URL de base de l'API Bauhaus.
+
 ## Débuter avec JavaScript et Node.js
 
 Si vous débutez avec ces technologies, vous aurez vraisemblablement besoin d'installer dans un premier temps sur votre ordinateur [node](https://nodejs.org/en/download/) et [yarn](https://github.com/yarnpkg/yarn).

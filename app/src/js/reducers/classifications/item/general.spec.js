@@ -1,7 +1,7 @@
 import reducerItemGeneral, { getGeneral } from './general';
 import * as A from 'js/actions/constants';
 import { LOADING, LOADED } from 'js/constants';
-import * as generalUtils from 'js/utils/classifications/item/general';
+import * as generalUtils from 'js/applications/classifications/utils/item/general';
 
 describe('reducerItemGeneral', () => {
 	test('action LOAD_CLASSIFICATION_ITEM_GENERAL', () => {

@@ -1,5 +1,5 @@
 export { default as BackToTop } from './back-to-top';
-export { I18NContext, ThemeContext } from './context';
+export { I18NContext } from './context';
 export { default as Button } from './button';
 export {
 	default as AbstractButton,
