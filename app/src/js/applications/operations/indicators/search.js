@@ -6,7 +6,7 @@ import { AbstractSearchComponent } from 'js/applications/shared/advanced-search/
 import api from 'js/remote-api/operations-api';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { connect } from 'react-redux';
-import { filterKeyDeburr } from 'js/utils/array-utils';
+import { filterKeyDeburr, sortArray } from 'js/utils/array-utils';
 import SearchList from 'js/applications/shared/advanced-search/home';
 import { toSelectModel } from '../shared/utils/itemToSelectModel';
 
@@ -15,6 +15,7 @@ const filterCreator = filterKeyDeburr(['creator']);
 const filterGestionnaire = filterKeyDeburr(['gestionnaire']);
 
 const fields = ['prefLabelLg1', 'creator', 'gestionnaire'];
+const sortByLabel = sortArray('prefLabelLg1');
 
 class SearchFormList extends AbstractSearchComponent {
 	static defaultState = {
@@ -107,7 +108,7 @@ class SearchListContainer extends Component {
 	}
 	componentDidMount() {
 		api.getIndicatorsSearchList().then(data => {
-			this.setState({ data });
+			this.setState({ data: sortByLabel(data) });
 		});
 	}
 

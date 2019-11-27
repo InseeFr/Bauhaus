@@ -18,7 +18,10 @@ export function loadCodesList(notations, dispatch) {
 			results =>
 				dispatch({
 					type: A.LOAD_OPERATIONS_CODES_LIST_SUCCESS,
-					payload: results,
+					payload: {
+						codes: [],
+						...results,
+					},
 				}),
 			err =>
 				dispatch({

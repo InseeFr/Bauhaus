@@ -13,7 +13,7 @@ describe('setup operations', () => {
 			await loadCodesList(['notation'], dispatch);
 			expect(dispatch).toHaveBeenLastCalledWith({
 				type: A.LOAD_OPERATIONS_CODES_LIST_SUCCESS,
-				payload: { id: 'notation', label: 'bbb' },
+				payload: { id: 'notation', label: 'bbb', codes: [] },
 			});
 		});
 		it('should call dispatch LOAD_OPERATIONS_CODES_LIST_FAILURE action with the right operation', async () => {

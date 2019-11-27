@@ -28,7 +28,7 @@ function App() {
 			<ul className="home-page-links">
 				{apps}
 				<Auth roles={[ADMIN]}>
-					<li className="concepts">
+					<li className="bauhaus-app">
 						<Link to="/administration/roles">
 							<h2 className="items page-title page-title-link">
 								{D.authorizationManagementTitle}
