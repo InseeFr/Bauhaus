@@ -20,7 +20,7 @@ Api.getInit()
 			return Promise.reject(err.toString());
 		}
 	)
-	.then(res => renderApp(Error, {}, { home: true }));
+	.then(res => renderApp(Root, res));
 
 const renderApp = (Component, initState, props) => {
 	const { authType: type, lg1, lg2, ...properties } = initState;
