@@ -11,6 +11,8 @@ export {
 	ExportButton,
 } from './button-with-icon';
 export { default as ErrorBloc } from './error-bloc';
+export { default as Error } from './error';
+
 export { default as Flag } from './flag';
 export { default as Input } from './input';
 export { default as Loading } from './loading';
