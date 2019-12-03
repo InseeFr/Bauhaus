@@ -9,7 +9,21 @@ const apiURL = `${window.location.origin}/configuration.json`;
 
 export default (context, api) => {
 	return Object.keys(api).reduce((apiFns, resource) => {
-		apiFns[resource] = buildCall(context, resource, api[resource]);
+		if (process.env.REACT_APP_USE_MOCKS) {
+			try {
+				const mockPath = context === '' ? 'index' : context;
+				const mocks = require('./mocks/' + mockPath);
+				if (mocks[resource]) {
+					apiFns[resource] = mocks[resource];
+				}
+			} catch (e) {
+				console.log(`The API ${context} do not have any mock file`);
+			}
+		}
+		if (!apiFns[resource]) {
+			apiFns[resource] = buildCall(context, resource, api[resource]);
+		}
+
 		return apiFns;
 	}, {});
 };
