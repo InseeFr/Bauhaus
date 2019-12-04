@@ -14,3 +14,12 @@ export { default as getSeriesList } from './operations/getSeriesList';
 export { default as getOperationsList } from './operations/getOperationsList';
 export { default as getOrganisations } from './operations/getOrganisations';
 export { default as getIndicatorsList } from './operations/getIndicatorsList';
+export {
+	default as getFamiliesSearchList,
+} from './operations/getFamiliesSearchList';
+export {
+	default as getSeriesSearchList,
+} from './operations/getSeriesSearchList';
+export {
+	default as getIndicatorsSearchList,
+} from './operations/getIndicatorsSearchList';
