@@ -7,6 +7,7 @@ const ErrorBloc = ({ error }) => {
 	// This will be changed when an error will be an object
 	const code = error && error.substr(0, error.indexOf(':')).trim();
 	const errorMsg = D.errors[code || '0'] || error;
+
 	return (
 		<div className="empty-center centered">
 			<div
