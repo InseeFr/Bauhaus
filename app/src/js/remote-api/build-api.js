@@ -87,12 +87,7 @@ export const buildCall = (context, resource, fn) => {
 		return fetch(url, options).then(
 			res => {
 				if (res.ok) return Promise.resolve(res).then(thenHandler);
-				else
-					return res
-						.text()
-						.then(text =>
-							Promise.reject(res.status + ' ' + res.statusText + ' - ' + text)
-						);
+				else return res.text().then(text => Promise.reject(text));
 			},
 			err => {
 				return Promise.reject(err.toString());

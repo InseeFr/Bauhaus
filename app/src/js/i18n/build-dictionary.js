@@ -4,6 +4,7 @@ import classificationsD from './dictionary/classifications';
 import operationsD from './dictionary/operations/index.js';
 import DSDsD from './dictionary/dsds';
 import bauhausLibrary from './dictionary/bauhaus-library.js';
+import errorsD from './dictionary/errors.js';
 
 import 'moment/locale/en-gb';
 import 'moment/locale/fr';
@@ -15,6 +16,7 @@ const dictionary = {
 	...operationsD,
 	...DSDsD,
 	...bauhausLibrary,
+	...errorsD,
 };
 
 /**
