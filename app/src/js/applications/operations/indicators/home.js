@@ -17,7 +17,7 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 						<div className="col-md-3 btn-group-vertical">
 							{adminOrContributor && (
 								<div className="row">
-									<div className="col-md-8 col-md-offset-2">
+									<div className="col-md-12">
 										<NewButton
 											action="/operations/indicator/create"
 											wrapper={false}

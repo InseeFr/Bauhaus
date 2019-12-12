@@ -13,7 +13,7 @@ import DocumentRoutes from 'js/applications/operations/routes/document';
 import IndicatorRoutes from 'js/applications/operations/routes/indicator';
 import SimsRoutes from 'js/applications/operations/routes/sims';
 import Menu from 'js/applications/operations/menu';
-
+import OperationsTreeContainer from 'js/applications/operations/tree';
 class RootComponent extends Component {
 	componentDidMount() {
 		this.props.loadSetup();
@@ -30,6 +30,11 @@ class RootComponent extends Component {
 				<IndicatorRoutes />
 				<DocumentRoutes />
 				<SimsRoutes />
+				<Route
+					exact
+					path="/operations/tree"
+					component={OperationsTreeContainer}
+				/>
 			</>
 		);
 	}
