@@ -9,7 +9,13 @@ import { goBack } from 'bauhaus-library/src/utils/redirection';
 
 import './tree.scss';
 
-const formatLeaf = (leaf, index, parent, baseURL, canHaveChildren = true) => {
+export const formatLeaf = (
+	leaf,
+	index,
+	parent,
+	baseURL,
+	canHaveChildren = true
+) => {
 	return {
 		...leaf,
 		index,
@@ -20,7 +26,12 @@ const formatLeaf = (leaf, index, parent, baseURL, canHaveChildren = true) => {
 	};
 };
 
-const updateParent = (leaf, children, path, canHaveGrantChildren = true) => {
+export const updateParent = (
+	leaf,
+	children,
+	path,
+	canHaveGrantChildren = true
+) => {
 	return {
 		...leaf,
 		expanded: true,
@@ -31,7 +42,7 @@ const updateParent = (leaf, children, path, canHaveGrantChildren = true) => {
 	};
 };
 
-const updateTree = (treeData, leaf, familyIndex, seriesIndex) => {
+export const updateTree = (treeData, leaf, familyIndex, seriesIndex) => {
 	return treeData.map((data, i) => {
 		if (i === familyIndex) {
 			if (!(seriesIndex >= 0)) {
