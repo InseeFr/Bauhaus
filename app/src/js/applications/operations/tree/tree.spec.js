@@ -1,4 +1,4 @@
-import { formatLeaf, updateParent, updateTree } from './';
+import { formatLeaf, updateParent } from './';
 
 describe('formatLeaf', () => {
 	it('should return an object with an empty array for the children property', () => {
