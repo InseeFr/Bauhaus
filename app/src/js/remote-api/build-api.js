@@ -9,7 +9,19 @@ const apiURL = `${window.location.origin}/configuration.json`;
 
 export default (context, api) => {
 	return Object.keys(api).reduce((apiFns, resource) => {
-		apiFns[resource] = buildCall(context, resource, api[resource]);
+		/*try {
+			const mockPath = context === '' ? 'index' : context;
+			const mocks = require('./mocks/' + mockPath);
+			if (mocks[resource]) {
+				apiFns[resource] = mocks[resource];
+			}
+		} catch (e) {
+			console.log(`The API ${context} do not have any mock file`);
+		}*/
+		if (!apiFns[resource]) {
+			apiFns[resource] = buildCall(context, resource, api[resource]);
+		}
+
 		return apiFns;
 	}, {});
 };
@@ -75,12 +87,7 @@ export const buildCall = (context, resource, fn) => {
 		return fetch(url, options).then(
 			res => {
 				if (res.ok) return Promise.resolve(res).then(thenHandler);
-				else
-					return res
-						.text()
-						.then(text =>
-							Promise.reject(res.status + ' ' + res.statusText + ' - ' + text)
-						);
+				else return res.text().then(text => Promise.reject(text));
 			},
 			err => {
 				return Promise.reject(err.toString());

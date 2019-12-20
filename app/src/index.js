@@ -2,10 +2,9 @@ import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Root from 'js/router';
-import Error from 'js/applications/shared/error/error';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
-import { I18NContext, BackToTop } from 'bauhaus-library';
+import { Error, I18NContext, BackToTop } from 'bauhaus-library';
 import { bauhausLibraryDictionary } from 'js/i18n';
 import ApplicationTitle from 'js/applications/shared/application-title';
 
@@ -13,7 +12,6 @@ import 'main.scss';
 import 'bauhaus-library/dist/index.css';
 
 export const AppContext = createContext({});
-
 Api.getInit()
 	.then(
 		res => (res.ok ? res.json() : Promise.reject(res.statusText)),

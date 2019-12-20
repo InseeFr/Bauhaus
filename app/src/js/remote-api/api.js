@@ -2,7 +2,7 @@ import buildApi from './build-api';
 
 const api = {
 	getInit: () => [
-		`init`,
+		'init',
 		{
 			headers: {
 				Accept: 'application/json',
@@ -36,7 +36,7 @@ const api = {
 			},
 			body: JSON.stringify(document),
 		},
-		res => Promise.resolve(document.id),
+		() => Promise.resolve(document.id),
 	],
 	putDocumentFile: (document, formData) => [
 		`documents/${document.id}`,
@@ -44,7 +44,7 @@ const api = {
 			headers: {},
 			body: formData,
 		},
-		res => Promise.resolve(document.id),
+		() => Promise.resolve(document.id),
 	],
 	getDissStatusList: () => ['disseminationStatus'],
 	getStampList: () => ['stamps'],

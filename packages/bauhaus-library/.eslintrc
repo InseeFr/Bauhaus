@@ -1,7 +1,7 @@
 {
 	"extends": ["prettier", "react-app"],
 	"rules": {
-		"jsx-a11y/href-no-hash": false
+		"jsx-a11y/href-no-hash": 0
 	},
 	"settings": {
 		"react": {

@@ -170,6 +170,10 @@ const dictionary = {
 		en: 'Create the SIMS',
 		fr: 'Créer le SIMS',
 	},
+	operationsTreeTitle: {
+		fr: 'Arbre des Opérations',
+		en: 'Operations tree',
+	},
 	...documentsD,
 	...validationD,
 };

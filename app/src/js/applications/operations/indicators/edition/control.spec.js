@@ -1,16 +1,24 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import Control from './control';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { I18NContext } from 'bauhaus-library';
 
+const value = {
+	errors: {
+		402: '402 fr',
+	},
+};
 const onSubmit = () => {};
 describe('Control', () => {
 	it('should have a button to the indicator page', () => {
 		const indicator = { id: '1' };
-		const general = shallow(
-			<Router>
-				<Control indicator={indicator} onSubmit={onSubmit} />
-			</Router>
+		const general = mount(
+			<I18NContext.Provider value={value}>
+				<Router>
+					<Control indicator={indicator} onSubmit={onSubmit} />
+				</Router>
+			</I18NContext.Provider>
 		);
 		expect(
 			general
@@ -22,10 +30,12 @@ describe('Control', () => {
 	});
 	it('should have a button to the indicators page', () => {
 		const indicator = {};
-		const general = shallow(
-			<Router>
-				<Control indicator={indicator} onSubmit={onSubmit} />
-			</Router>
+		const general = mount(
+			<I18NContext.Provider value={value}>
+				<Router>
+					<Control indicator={indicator} onSubmit={onSubmit} />
+				</Router>
+			</I18NContext.Provider>
 		);
 		expect(
 			general
@@ -37,14 +47,16 @@ describe('Control', () => {
 	});
 	it('should display an error message', () => {
 		const indicator = {};
-		const general = shallow(
-			<Router>
-				<Control
-					indicator={indicator}
-					onSubmit={onSubmit}
-					errorMessage="The title is required"
-				/>
-			</Router>
+		const general = mount(
+			<I18NContext.Provider value={value}>
+				<Router>
+					<Control
+						indicator={indicator}
+						onSubmit={onSubmit}
+						errorMessage="The title is required"
+					/>
+				</Router>
+			</I18NContext.Provider>
 		).render();
 		expect(
 			general
@@ -72,10 +84,12 @@ describe('Control', () => {
 			prefLabelLg1: 'prefLabelLg1',
 			prefLabelLg2: 'prefLabelLg2',
 		};
-		const general = shallow(
-			<Router>
-				<Control indicator={indicator} onSubmit={onSubmit} />
-			</Router>
+		const general = mount(
+			<I18NContext.Provider value={value}>
+				<Router>
+					<Control indicator={indicator} onSubmit={onSubmit} />
+				</Router>
+			</I18NContext.Provider>
 		).render();
 		expect(
 			general

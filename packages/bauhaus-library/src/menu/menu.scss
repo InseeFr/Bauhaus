@@ -51,7 +51,7 @@
 			padding: 0 10px;
 		}
 		a {
-			color: #cccfd9;
+			color: white;
 			border: 0;
 			text-decoration: none;
 
@@ -63,6 +63,7 @@
 
 		> .active,
 		> li:hover {
+			margin-left: -1px;
 			background-color: white;
 			> a,
 			> button {
