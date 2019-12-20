@@ -1,6 +1,6 @@
 import React from 'react';
 import D from 'js/i18n';
-import { Panel }  from 'bauhaus-library';
+import { Note } from 'bauhaus-library';
 import { arrayToString } from 'js/utils/array-utils';
 import { DSURLToLabel } from 'bauhaus-library/src/utils/dissemination-status-convertor';
 import { stringToDate } from 'js/utils/moment';
@@ -48,8 +48,8 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 
 	return (
 		<div className="row">
-			<div className="col-md-12">
-				<Panel title={D.globalInformationsTitle}>
+			<Note
+				text={
 					<ul>
 						{Object.keys(mapping).map(fieldName => {
 							if (attr.hasOwnProperty(fieldName)) {
@@ -112,8 +112,10 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 							} else return null;
 						})}
 					</ul>
-				</Panel>
-			</div>
+				}
+				title={D.globalInformationsTitle}
+				alone={true}
+			/>
 		</div>
 	);
 }
