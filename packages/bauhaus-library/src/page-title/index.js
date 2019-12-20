@@ -9,7 +9,7 @@ import './page-title.scss';
 function PageTitle({ title, subtitle, col = 10, offset = 1 }) {
 	return (
 		<div className="row">
-			<div className={`row col-md-${col} centered col-md-offset-${offset}`}>
+			<div className={`col-md-${col} centered col-md-offset-${offset}`}>
 				<h1 className="bauhaus-page-title">
 					{title}
 					{subtitle && <div>&quot; {subtitle} &quot;</div>}
