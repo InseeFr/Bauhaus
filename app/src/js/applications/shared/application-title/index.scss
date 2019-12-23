@@ -3,10 +3,13 @@
 	padding-bottom: 0.5em;
 	padding-top: 0.5em;
 
-	div {
+	.application-title__container {
 		width: 50%;
 		margin: auto;
+	}
+	.application-title__wrapper {
 		display: flex;
+		margin: auto;
 	}
 	img {
 		width: 25%;
@@ -20,5 +23,6 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
+		flex-grow: 1;
 	}
 }
