@@ -5,6 +5,7 @@ describe('OperationsIndicatorsEditionContainer', () => {
 	it('should return an empty indicator if the id is not the same', () => {
 		const result = mapStateToProps(
 			{
+				stampList: { results: ['STAMP1'] },
 				app: { lg1: 'lg1', lg2: 'lg2', secondLang: true },
 				operationsIndicatorsCurrent: {
 					id: '2',
@@ -29,6 +30,7 @@ describe('OperationsIndicatorsEditionContainer', () => {
 			operationsAsyncTask: false,
 			organisations: ['results'],
 			series: ['operationsSeriesList'],
+			stamps: ['STAMP1'],
 		});
 	});
 });
