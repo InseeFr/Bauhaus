@@ -44,6 +44,7 @@ class OperationsSerieEdition extends Component {
 		organisation: PropTypes.array.isRequired,
 		indicators: PropTypes.array.isRequired,
 		series: PropTypes.array.isRequired,
+		stamps: PropTypes.arrayOf(PropTypes.string),
 	};
 
 	constructor(props) {
@@ -109,6 +110,7 @@ class OperationsSerieEdition extends Component {
 			organisations,
 			indicators,
 			series,
+			stamps,
 		} = this.props;
 
 		const serie = {
@@ -128,6 +130,11 @@ class OperationsSerieEdition extends Component {
 		const family = serie.family || { id: '' };
 
 		const isEditing = !!serie.id;
+
+		const stampsOptions = stamps.map(stamp => ({
+			value: stamp,
+			label: stamp,
+		}));
 
 		const organisationsOptions = toSelectModel(organisations);
 		const seriesOptions = toSelectModel(
@@ -380,7 +387,7 @@ class OperationsSerieEdition extends Component {
 									placeholder=""
 									unclearable
 									value={serie.gestionnaire}
-									options={organisationsOptions}
+									options={stampsOptions}
 									onChange={value =>
 										this.onChange({ target: { value, id: 'gestionnaire' } })
 									}

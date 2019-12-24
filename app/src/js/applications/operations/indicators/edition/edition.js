@@ -32,6 +32,7 @@ class OperationsIndicatorEdition extends Component {
 		langs: PropTypes.object.isRequired,
 		saveIndicator: PropTypes.func.isRequired,
 		frequencies: PropTypes.object.isRequired,
+		stamps: PropTypes.arrayOf(PropTypes.string),
 	};
 
 	constructor(props) {
@@ -103,7 +104,13 @@ class OperationsIndicatorEdition extends Component {
 	render() {
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
-		const { frequencies, organisations, indicators, series } = this.props;
+		const {
+			frequencies,
+			organisations,
+			indicators,
+			series,
+			stamps,
+		} = this.props;
 		const isUpdate = !!this.state.indicator.id;
 		const indicator = {
 			...this.state.indicator,
@@ -120,6 +127,7 @@ class OperationsIndicatorEdition extends Component {
 			),
 		};
 
+		const stampsOptions = stamps.map(stamp => ({ value: stamp, label: stamp }));
 		const organisationsOptions = toSelectModel(organisations);
 		const seriesOptions = toSelectModel(series, 'series');
 		const indicatorsOptions = toSelectModel(
@@ -260,7 +268,7 @@ class OperationsIndicatorEdition extends Component {
 									placeholder=""
 									unclearable
 									value={indicator.gestionnaire}
-									options={organisationsOptions}
+									options={stampsOptions}
 									onChange={this.onChanges.gestionnaire}
 								/>
 							</label>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Note }  from 'bauhaus-library';
+import { Note } from 'bauhaus-library';
 import D, { D2 } from 'js/i18n';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
 import DisplayLinks from 'js/applications/operations/shared/links/';
@@ -46,9 +46,6 @@ function OperationsIndicatorVisualization(props) {
 	const contributor = (attr.contributor || []).map(
 		d => organisations.find(orga => orga.id === d.id) || {}
 	);
-	const gestionnaire = (
-		organisations.find(orga => orga.id === attr.gestionnaire) || {}
-	).label;
 
 	return (
 		<React.Fragment>
@@ -92,7 +89,7 @@ function OperationsIndicatorVisualization(props) {
 			</div>
 			<div className="row" data-cy="gestionnaire">
 				<Note
-					text={gestionnaire}
+					text={attr.gestionnaire}
 					title={D.operationsContributorTitle}
 					lang={langs.lg1}
 					alone={true}
