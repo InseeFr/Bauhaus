@@ -7,9 +7,8 @@ const Controls = ({ dsdId }) => {
 	const isLocal = process.env.REACT_APP_API === 'local';
 
 	return (
-		<div className="row btn-line">
+		<div className="row btn-line action-toolbar">
 			<Button label={D.btnReturn} action="/dsds" context="dsds" />
-			<div className={`col-md-${isLocal ? '4' : '8'}`} />
 			{isLocal && (
 				<Button label={D.btnExport} action={console.log} context="dsds" />
 			)}

@@ -1,38 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'bauhaus-library';
-import PlaceHolder from 'js/applications/shared/placeholder/placeholder';
 import { goBack } from 'bauhaus-library/src/utils/redirection';
 import D from 'js/i18n';
 
-class CorrespondenceControls extends Component {
-	render() {
-		const { correspondenceId } = this.props;
-		const cancel = [
-			goBack(this.props, `/classifications/correspondence/${correspondenceId}`),
-			D.btnReturn,
-		];
-		const btns = [cancel, null, null, null, null, null];
+function CorrespondenceControls(props) {
+	const { correspondenceId } = props;
 
-		return (
-			<div className="row btn-line">
-				{btns.map((btn, i) => {
-					if (!btn) return <PlaceHolder key={i} />;
-					const [action, label] = btn;
-					return (
-						btn && (
-							<Button
-								key={label}
-								action={action}
-								label={label}
-								context="classifications"
-							/>
-						)
-					);
-				})}
-			</div>
-		);
-	}
+	return (
+		<div className="row btn-line action-toolbar">
+			<Button
+				action={goBack(
+					props,
+					`/classifications/correspondence/${correspondenceId}`
+				)}
+				label={D.btnReturn}
+			/>
+		</div>
+	);
 }
 
 export default withRouter(CorrespondenceControls);

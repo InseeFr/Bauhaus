@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Panel } from 'bauhaus-library';
+import { Note } from 'bauhaus-library';
 import TableRmes from 'js/applications/shared/table-rmes';
 import D from 'js/i18n';
 import { propTypes as associationsPropTypes } from 'js/applications/classifications/utils/correspondence/associations';
@@ -60,19 +60,26 @@ class HomeAssociations extends Component {
 			},
 		];
 		return (
-			<Panel title={D.associationsTitle}>
-				<TableRmes
-					rowParams={rowParams}
-					data={data}
-					search={true}
-					pagination={true}
-					onRowClick={row =>
-						this.props.history.push(`${id}/association/${row.id}`)
+			<div className="row">
+				<Note
+					text={
+						<TableRmes
+							rowParams={rowParams}
+							data={data}
+							search={true}
+							pagination={true}
+							onRowClick={row =>
+								this.props.history.push(`${id}/association/${row.id}`)
+							}
+							context="classifications"
+							dataAlign="left"
+						/>
 					}
-					context="classifications"
-					dataAlign="left"
+					title={D.associationsTitle}
+					alone={true}
+					allowEmpty={true}
 				/>
-			</Panel>
+			</div>
 		);
 	}
 }

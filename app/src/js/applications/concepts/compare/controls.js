@@ -8,7 +8,7 @@ class Controls extends Component {
 		const location = this.props.history.location.pathname;
 		const nextLocation = location.replace('/compare', '');
 		return (
-			<div className="row btn-line">
+			<div className="row btn-line action-toolbar">
 				<Button label={D.btnReturnCurrent} action={nextLocation} col={3} />
 			</div>
 		);

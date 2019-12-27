@@ -46,13 +46,12 @@ class DocumentationVisualizationContainer extends Component {
 					secondLang={secondLang}
 				/>
 
-				<div className="row btn-line">
+				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/documents')}
 						label={D.btnReturn}
 					/>
 
-					<div className="col-md-8 centered" />
 					<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
 						<Button
 							action={`/operations/document/${document.id}/modify`}

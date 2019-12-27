@@ -9,14 +9,13 @@ const ClassificationControls = props => {
 	const treeLocation = `${location}/tree`;
 
 	return (
-		<div className="row btn-line">
+		<div className="row btn-line action-toolbar">
 			<Button
 				key={D.btnReturn}
 				action={goBack(props, `/classifications`)}
 				label={D.btnReturn}
 				context="classifications"
 			/>
-			<div className="col-md-7" />
 			<Button
 				key={D.btnTree}
 				action={treeLocation}

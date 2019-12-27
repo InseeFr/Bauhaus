@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Panel }  from 'bauhaus-library';
+import { Note } from 'bauhaus-library';
 import D, { D2 } from 'js/i18n';
 
 export default ({ narrowers, classificationId, secondLang }) => {
@@ -29,17 +29,19 @@ export default ({ narrowers, classificationId, secondLang }) => {
 	const isMembersLg2 = narrowersLg2.filter(m => m !== null).length !== 0;
 	return (
 		<div className="row">
-			<div className={`col-md-${secondLang ? 6 : 12}`}>
-				<Panel title={D.classificationsNarrowerItems}>
-					<ul>{narrowersLg1}</ul>
-				</Panel>
-			</div>
+			<Note
+				text={<ul>{narrowersLg1}</ul>}
+				title={D.classificationsNarrowerItems}
+				alone={!(secondLang && isMembersLg2)}
+				allowEmpty={true}
+			/>
 			{secondLang && isMembersLg2 && (
-				<div className="col-md-6">
-					<Panel title={D2.classificationsNarrowerItems}>
-						<ul>{narrowersLg2}</ul>
-					</Panel>
-				</div>
+				<Note
+					text={<ul>{narrowersLg2}</ul>}
+					title={D2.classificationsNarrowerItems}
+					alone={false}
+					allowEmpty={true}
+				/>
 			)}
 		</div>
 	);

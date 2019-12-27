@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'bauhaus-library';
-import PlaceHolder from 'js/applications/shared/placeholder/placeholder';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
@@ -35,18 +34,18 @@ class CollectionVisualizationControls extends Component {
 
 		if (admin || creator) {
 			btns = isValidated
-				? [cancel, null, null, null, send, update]
-				: [cancel, null, null, send, update, validate];
+				? [cancel, send, update]
+				: [cancel, send, update, validate];
 		} else if (contributor) {
-			btns = [cancel, null, null, null, send, update];
+			btns = [cancel, send, update];
 		} else {
-			btns = [cancel, null, null, null, null, null];
+			btns = [cancel];
 		}
 
 		return (
-			<div className="row btn-line">
+			<div className="row btn-line action-toolbar">
 				{btns.map((btn, i) => {
-					if (!btn) return <PlaceHolder key={i} />;
+					if (!btn) return null;
 					const [action, label] = btn;
 					return btn && <Button key={label} action={action} label={label} />;
 				})}

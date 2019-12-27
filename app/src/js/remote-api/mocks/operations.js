@@ -23,3 +23,8 @@ export {
 export {
 	default as getIndicatorsSearchList,
 } from './operations/getIndicatorsSearchList';
+
+export { default as getSims } from './operations/getSims';
+export {
+	default as getOperationsWithoutReport,
+} from './operations/getOperationsWithoutReport';

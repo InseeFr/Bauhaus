@@ -119,7 +119,7 @@ const TreeComponent = props => {
 	return (
 		<div className="container">
 			<PageTitle title={D.operationsTreeTitle} col={12} offset={0} />
-			<div className="row btn-line">
+			<div className="row btn-line action-toolbar">
 				<Button action={goBack(props, '/operations')} label={D.btnReturn} />
 			</div>
 			<div className="row">

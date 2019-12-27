@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckSecondLang, PageTitle, Panel } from 'bauhaus-library';
+import { CheckSecondLang, PageTitle, Note } from 'bauhaus-library';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
@@ -19,23 +19,20 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 	const { sourceItemLabelLg2, targetItemLabelLg2 } = association;
 	return (
 		<div className="container">
-			<PageTitle
-				title={title}
-				subtitle={associationId}
-				context="classifications"
-			/>
+			<PageTitle title={title} subtitle={associationId} />
 			<CorrespondenceControls correspondenceId={correspondenceId} />
 			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
 			<div className="row">
-				<div className="col-md-12">
-					{(!secondLang ||
-						(secondLang && sourceItemLabelLg2 && targetItemLabelLg2)) && (
-						<Panel title={D.globalInformationsTitle}>
-							{generalFields(association, secondLang)}
-						</Panel>
-					)}
-				</div>
+				{(!secondLang ||
+					(secondLang && sourceItemLabelLg2 && targetItemLabelLg2)) && (
+					<Note
+						text={generalFields(association, secondLang)}
+						title={D.globalInformationsTitle}
+						alone={true}
+						allowEmpty={true}
+					/>
+				)}
 			</div>
 			<span>
 				{scopeNoteLg1 && (
