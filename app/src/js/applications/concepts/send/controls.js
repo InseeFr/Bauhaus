@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Button } from 'bauhaus-library';
+import { Button, ErrorBloc } from 'bauhaus-library';
 import { goBack } from 'bauhaus-library/src/utils/redirection';
 import D from 'js/i18n';
 
@@ -26,17 +26,17 @@ class SendControls extends Component {
 		const nextLocation = location.replace('/send', '');
 
 		return (
-			<div className="row btn-line">
-				<Button label={D.btnReturn} action={goBack(this.props, nextLocation)} />
-				<div className="col-md-8 centered">
-					{warning && (
-						<div className="alert alert-danger" role="alert">
-							{warning}
-						</div>
-					)}
+			<>
+				<div className="row btn-line action-toolbar">
+					<Button
+						label={D.btnReturn}
+						action={goBack(this.props, nextLocation)}
+					/>
+
+					<Button label={D.btnSend} action={sendMessage} disabled={disabled} />
 				</div>
-				<Button label={D.btnSend} action={sendMessage} disabled={disabled} />
-			</div>
+				<ErrorBloc error={warning} />
+			</>
 		);
 	}
 }

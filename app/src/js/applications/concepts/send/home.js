@@ -84,8 +84,12 @@ class ConceptSend extends Component {
 					sendMessage={this.handleClickSend}
 				/>
 				<div className="form-group">
-					<label>{D.mailRecipientTitle}</label>
+					<label htmlFor="recipient">
+						{D.mailRecipientTitle}
+						<span className="boldRed">*</span>
+					</label>
 					<input
+						id="recipient"
 						type="email"
 						className="form-control"
 						value={recipient}
@@ -93,8 +97,9 @@ class ConceptSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D.mailSenderTitle}</label>
+					<label htmlFor="send">{D.mailSenderTitle}</label>
 					<input
+						id="sender"
 						type="text"
 						className="form-control"
 						defaultValue={sender}
@@ -102,8 +107,9 @@ class ConceptSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D.mailObjectTitle}</label>
+					<label htmlFor="subject">{D.mailObjectTitle}</label>
 					<input
+						id="subject"
 						type="text"
 						className="form-control"
 						defaultValue={subject}
@@ -111,8 +117,10 @@ class ConceptSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D.mailTitle}</label>
+					<label htmlFor="message">{D.mailTitle}</label>
 					<EditorHtml
+						ariaLabel={D.mailTitle}
+						id="message"
 						smart
 						text={message}
 						handleChange={this.handleMessageChange}

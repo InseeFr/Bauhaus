@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Button } from 'bauhaus-library';
+import { Button, ErrorBloc } from 'bauhaus-library';
 import D from 'js/i18n';
 
 function SendControls({
@@ -24,17 +24,14 @@ function SendControls({
 		warning = D.emptyMailBody;
 	}
 	return (
-		<div className="row btn-line">
-			<Button label={D.btnReturn} action={urlBack} />
-			<div className="col-md-8 centered">
-				{warning && (
-					<div className="alert alert-danger" role="alert">
-						{warning}
-					</div>
-				)}
+		<>
+			<div className="row btn-line alert-toolbar">
+				<Button label={D.btnReturn} action={urlBack} />
+
+				<Button label={D.btnSend} action={sendMessage} disabled={disabled} />
 			</div>
-			<Button label={D.btnSend} action={sendMessage} disabled={disabled} />
-		</div>
+			<ErrorBloc error={warning} />
+		</>
 	);
 }
 

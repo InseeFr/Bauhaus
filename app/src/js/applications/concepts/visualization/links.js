@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import { Panel }  from 'bauhaus-library';
+import { Note } from 'bauhaus-library';
 import { sortArray } from 'js/utils/array-utils';
 import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED } from 'js/constants';
 const sortByLabelLg1 = sortArray('prefLabelLg1');
@@ -9,7 +9,6 @@ const sortByLabelLg2 = sortArray('prefLabelLg2');
 
 function ConceptLinks({ secondLang, links }) {
 	var nbLinks = 0;
-	const cl = secondLang ? 'col-md-6' : 'col-md-12';
 
 	const narrower = [];
 	const broader = [];
@@ -66,9 +65,9 @@ function ConceptLinks({ secondLang, links }) {
 	// Don't display links panel if there isn't links
 	if (nbLinks === 0) return null;
 
-	const content = lang => (
-		<div className={cl}>
-			<Panel title={D.linksTitle}>
+	const content = (lang, alone) => (
+		<Note
+			text={
 				<ul>
 					{isEmpty(narrower) && (
 						<li>
@@ -96,14 +95,17 @@ function ConceptLinks({ secondLang, links }) {
 						</li>
 					)}
 				</ul>
-			</Panel>
-		</div>
+			}
+			title={D.linksTitle}
+			lang={lang}
+			alone={alone}
+		/>
 	);
 
 	return (
 		<div className="row">
-			{content('lg1')}
-			{secondLang && content('lg2')}
+			{content('lg1', !secondLang)}
+			{secondLang && content('lg2', false)}
 		</div>
 	);
 }

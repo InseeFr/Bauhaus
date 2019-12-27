@@ -3,7 +3,7 @@ import apiOrganisations from 'js/remote-api/organisations-api';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import loadIndicators from 'js/actions/operations/indicators/list';
 import loadSeries from 'js/actions/operations/series/list';
-
+import loadStampList from 'js/actions/stamp';
 import * as A from 'js/actions/constants';
 
 export const loadSetup = () => dispatch => {
@@ -11,6 +11,7 @@ export const loadSetup = () => dispatch => {
 	loadOrganisations(dispatch);
 	loadIndicators()(dispatch);
 	loadSeries()(dispatch);
+	loadStampList()(dispatch);
 };
 export function loadCodesList(notations, dispatch) {
 	notations.forEach(notation => {

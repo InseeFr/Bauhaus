@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Note }  from 'bauhaus-library';
+import { Note } from 'bauhaus-library';
 import D, { D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
 import DisplayLinks from 'js/applications/operations/shared/links/';
@@ -20,9 +20,6 @@ function OperationsSerieVisualization({
 
 	const creator = (organisations.find(orga => orga.id === attr.creator) || {})
 		.label;
-	const gestionnaire = (
-		organisations.find(orga => orga.id === attr.gestionnaire) || {}
-	).label;
 	const dataCollector = (attr.dataCollector || []).map(
 		d => organisations.find(orga => orga.id === d.id) || {}
 	);
@@ -158,7 +155,7 @@ function OperationsSerieVisualization({
 
 			<div className="row" data-cy="gestionnaire">
 				<Note
-					text={gestionnaire}
+					text={attr.gestionnaire}
 					title={D.operationsContributorTitle}
 					lang={lg1}
 					alone={true}

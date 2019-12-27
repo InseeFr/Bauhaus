@@ -85,8 +85,11 @@ class CollectionSend extends Component {
 					urlBack={`/collection/${id}`}
 				/>
 				<div className="form-group">
-					<label>{D.mailRecipientTitle}</label>
+					<label htmlFor="recipient">
+						{D.mailRecipientTitle} <span className="boldRed">*</span>
+					</label>
 					<input
+						id="recipient"
 						type="email"
 						className="form-control"
 						value={recipient}
@@ -94,8 +97,9 @@ class CollectionSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D.mailSenderTitle}</label>
+					<label htmlFor="sender">{D.mailSenderTitle}</label>
 					<input
+						id="sender"
 						type="text"
 						className="form-control"
 						defaultValue={sender}
@@ -103,8 +107,9 @@ class CollectionSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D.mailObjectTitle}</label>
+					<label htmlFor="subject">{D.mailObjectTitle}</label>
 					<input
+						id="subject"
 						type="text"
 						className="form-control"
 						defaultValue={subject}
@@ -112,8 +117,10 @@ class CollectionSend extends Component {
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D.mailTitle}</label>
+					<label id="messageLabel">{D.mailTitle}</label>
 					<EditorHtml
+						ariaLabel={D.mailTitle}
+						id="message"
 						smart
 						text={message}
 						handleChange={this.handleMessageChange}

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AppContext } from 'index';
-import { Input, Loading } from 'bauhaus-library';
+import { Input, Loading, ErrorBloc } from 'bauhaus-library';
 import Controls from './controls';
 import Components from './components';
 import API from 'js/remote-api/dsds/dsds-api';
@@ -36,6 +36,13 @@ const Edition = ({ creation, initDSD }) => {
 
 	if (redirectId) return <Redirect to={`/dsds/${id}`} />;
 	if (loading) return <Loading textType={'saving'} />;
+
+	let errorMessage;
+	if (!id) {
+		errorMessage = D.requiredId;
+	} else if (!labelLg1) {
+		errorMessage = D.requiredLabel;
+	}
 	return (
 		<>
 			<Controls
@@ -48,23 +55,30 @@ const Edition = ({ creation, initDSD }) => {
 				}}
 				disabledSave={!id || !labelLg1}
 			/>
+			<ErrorBloc error={errorMessage} />
 			<Input
 				id="id"
-				label={D.idTitle}
+				label={
+					<>
+						{D.idTitle} <span className="boldRed">*</span>
+					</>
+				}
 				value={id}
 				onChange={e => onChange('id', e.target.value)}
 				disabled={!creation}
-				helpMsg={!id && `Identifier can't be empty`}
 			/>
 			<div className="row">
 				<div className="col-md-6">
 					<Input
 						id="labelLg1"
-						label={D.labelTitle}
+						label={
+							<>
+								{D.labelTitle} <span className="boldRed">*</span>
+							</>
+						}
 						value={labelLg1}
 						onChange={e => onChange('labelLg1', e.target.value)}
 						lang={lg1}
-						helpMsg={!labelLg1 && `Label can't be empty`}
 					/>
 				</div>
 				<div className="col-md-6">

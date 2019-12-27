@@ -200,4 +200,12 @@ export default {
 		fr: 'Non',
 		en: 'No',
 	},
+	requiredLabel: {
+		fr: 'Le libellé est obligatoire',
+		en: 'The label is required',
+	},
+	requiredId: {
+		fr: "L'identifiant est obligatoire",
+		en: 'The identifier is required',
+	},
 };

@@ -13,32 +13,31 @@ function App() {
 	const apps = process.env.REACT_APP_APPLICATIONS.split(',').map(appName => {
 		const app = appName.trim();
 		return (
-			<li key={appName} className={appName}>
+			<div key={appName} className={appName}>
 				<Link to={'/' + app}>
 					<h2 className="items page-title page-title-link">
 						{D[app + 'Title']}
 					</h2>
 					<img src={require(`img/${app}_blanc.svg`)} alt={app} />
 				</Link>
-			</li>
+			</div>
 		);
 	});
+
 	return (
-		<>
-			<ul className="home-page-links">
-				{apps}
-				<Auth roles={[ADMIN]}>
-					<li className="bauhaus-app">
-						<Link to="/administration/roles">
-							<h2 className="items page-title page-title-link">
-								{D.authorizationManagementTitle}
-							</h2>
-							<img src={adminLogo} alt="Roles" className="img" />
-						</Link>
-					</li>
-				</Auth>
-			</ul>
-		</>
+		<div className="home-page-links home-page-links__grid-3">
+			{apps}
+			<Auth roles={[ADMIN]}>
+				<div className="bauhaus-app">
+					<Link to="/administration/roles">
+						<h2 className="items page-title page-title-link">
+							{D.authorizationManagementTitle}
+						</h2>
+						<img src={adminLogo} alt="Roles" className="img" />
+					</Link>
+				</div>
+			</Auth>
+		</div>
 	);
 }
 

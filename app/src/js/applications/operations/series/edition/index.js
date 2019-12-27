@@ -55,6 +55,7 @@ const mapStateToProps = (state, ownProps) => {
 		series: state.operationsSeriesList.results || [],
 		families,
 		statusFamilies,
+		stamps: select.getStampList(state) || [],
 	};
 };
 
