@@ -173,7 +173,6 @@ export default function SimsVisualisation({
 		<>
 			<div className="row btn-line action-toolbar">
 				<Button action={() => goBack(getParentUri(sims))} label={D.btnReturn} />
-				<ErrorBloc error={serverSideError} />
 				<Auth
 					roles={[ADMIN, SERIES_CREATOR]}
 					complementaryCheck={shouldDisplayDuplicateButtonFlag}
@@ -210,6 +209,9 @@ export default function SimsVisualisation({
 					/>
 				</Auth>
 			</div>
+
+			<ErrorBloc error={serverSideError} />
+
 			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
 			{Object.values(metadataStructure).map(msd => {

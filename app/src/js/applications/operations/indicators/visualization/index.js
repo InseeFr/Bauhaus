@@ -48,13 +48,11 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 					titleLg2={attr.prefLabelLg2}
 					secondLang={secondLang}
 				/>
-
 				<div className="row btn-line action-toolbar">
 					<Button
 						action={goBack(this.props, '/operations/indicators')}
 						label={D.btnReturn}
 					/>
-					<ErrorBloc error={serverSideError} />
 					{attr.idSims && (
 						<>
 							<Button
@@ -87,12 +85,12 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth>
 				</div>
+				<ErrorBloc error={serverSideError} />
 
 				<CheckSecondLang
 					secondLang={secondLang}
 					onChange={this.props.saveSecondLang}
 				/>
-
 				<OperationsIndicatorVisualization
 					secondLang={secondLang}
 					attr={attr}

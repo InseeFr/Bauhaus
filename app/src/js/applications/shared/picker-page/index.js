@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import D from 'js/i18n';
-import { PageTitle, Button, Pagination, Panel } from 'bauhaus-library';
+import {
+	PageTitle,
+	Button,
+	Pagination,
+	Panel,
+	ErrorBloc,
+} from 'bauhaus-library';
 import Item from 'js/applications/shared/picker-item';
 import { filterDeburr } from 'js/utils/array-utils';
 import addLogo from 'js/applications/shared/logo/logo-add';
@@ -114,18 +120,11 @@ class Picker extends Component {
 		));
 
 		//The user has to add at least one item
-		const message = added.length === 0 && (
-			<div className="col-md-8 centered">
-				<div className="alert alert-danger" role="alert">
-					{labelWarning}
-				</div>
-			</div>
-		);
+		const message = added.length === 0 && labelWarning;
 
 		const controls = (
-			<div className="row btn-line">
+			<div className="row btn-line action-toolbar">
 				<Button label={D.btnReturn} action={`/${context}`} />
-				{message}
 				<Button
 					label={labelValidateButton}
 					action={this.handleClickValid}
@@ -140,6 +139,8 @@ class Picker extends Component {
 				<div className="container">
 					<PageTitle title={title} />
 					{controls}
+					<ErrorBloc error={message} />
+
 					<div className="row">
 						<div className="col-md-6">
 							<Panel title={panelTitle}>{addedEls}</Panel>

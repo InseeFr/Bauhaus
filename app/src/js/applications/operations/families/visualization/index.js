@@ -59,7 +59,6 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 						label={D.btnReturn}
 					/>
 
-					<ErrorBloc error={serverSideError} />
 					<Auth roles={[ADMIN]}>
 						<ValidationButton
 							object={attr}
@@ -76,6 +75,9 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth>
 				</div>
+
+				<ErrorBloc error={serverSideError} />
+
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
 				<OperationsFamilyVisualization

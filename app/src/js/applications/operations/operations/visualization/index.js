@@ -65,8 +65,6 @@ class OperationVisualizationContainer extends VisualizationContainer {
 						label={D.btnReturn}
 					/>
 
-					<ErrorBloc error={serverSideError} />
-
 					{operation.idSims && (
 						<Button
 							action={`/operations/sims/${operation.idSims}`}
@@ -97,6 +95,8 @@ class OperationVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth>
 				</div>
+
+				<ErrorBloc error={serverSideError} />
 
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 

@@ -162,9 +162,10 @@ class OperationsSerieEdition extends Component {
 
 				<div className="row btn-line action-toolbar">
 					<CancelButton action={goBack(this.props, '/operations/series')} />
-					<ErrorBloc error={globalError} />
 					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
 				</div>
+				<ErrorBloc error={globalError} />
+
 				<form>
 					{!isEditing && (
 						<div className="row">

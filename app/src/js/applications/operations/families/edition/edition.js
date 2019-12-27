@@ -91,10 +91,10 @@ class OperationsFamilyEdition extends Component {
 				<div className="row btn-line action-toolbar">
 					<CancelButton action={goBack(this.props, '/operations/families')} />
 
-					<ErrorBloc error={globalError} />
-
 					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
 				</div>
+				<ErrorBloc error={globalError} />
+
 				<form>
 					<div className="row">
 						<div className="col-md-6 form-group">
