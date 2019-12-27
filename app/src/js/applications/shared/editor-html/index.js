@@ -49,13 +49,14 @@ class EditorHtml extends Component {
 	render() {
 		return (
 			<Editor
+				ariaLabel={this.props.ariaLabel}
 				editorState={this.state.editorState}
+				id={this.props.id}
 				toolbar={toolbar}
 				toolbarClassName="home-toolbar"
 				wrapperClassName="home-wrapper"
 				editorClassName="home-editor"
 				onEditorStateChange={this.handleChange}
-				// onBlur={this.handleLeave}
 			/>
 		);
 	}
