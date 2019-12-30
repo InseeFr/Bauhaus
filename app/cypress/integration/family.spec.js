@@ -28,7 +28,7 @@ describe('Family page', () => {
 		familiesPage.getFamiliesList().should('have.length', 10);
 	});
 
-	it('Should go the Family view page', () => {
+	it('Should go to the Family view page', () => {
 		familiesPage.go();
 		familiesPage
 			.getNthElementFromList(3)

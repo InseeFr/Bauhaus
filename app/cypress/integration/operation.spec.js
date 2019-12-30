@@ -23,8 +23,8 @@ describe('Operation Page', function() {
 
 	it('Should go the Operations creation page and come back', () => {
 		cy.server().visit(`/operations`);
-		cy.get(operationsPage.getNewButton()).should('be.visible');
-		cy.get(operationsPage.getNewButton()).click();
+		operationsPage.getNewButton().should('be.visible');
+		operationsPage.getNewButton().click();
 		cy.url().should('match', /\/operations\/operation\/create$/);
 		cy.get(operationEditPage.getBackButton())
 			.first()
@@ -34,8 +34,8 @@ describe('Operation Page', function() {
 	});
 	it('Should create a new operation', () => {
 		cy.server().visit(`/operations`);
-		cy.get(operationsPage.getNewButton()).should('be.visible');
-		cy.get(operationsPage.getNewButton()).click();
+		operationsPage.getNewButton().should('be.visible');
+		operationsPage.getNewButton().click();
 		cy.url().should('match', /\/operations\/operation\/create$/);
 		cy.get(operationEditPage.getTitle()).should('not.exist');
 		cy.get('form .Select-placeholder')

@@ -73,7 +73,6 @@ class OperationVisualizationContainer extends VisualizationContainer {
 					)}
 					{!operation.idSims && (
 						<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
-							<div className="col-md-6 centered" />
 							<Button
 								action={`/operations/operation/${operation.id}/sims/create`}
 								label={D.btnSimsCreate}

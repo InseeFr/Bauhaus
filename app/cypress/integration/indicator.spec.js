@@ -1,4 +1,13 @@
 describe('Indicator Page', function() {
+	let polyfill;
+
+	before(() => {
+		const polyfillUrl = 'https://unpkg.com/unfetch/dist/unfetch.umd.js';
+		cy.request(polyfillUrl).then(response => {
+			polyfill = response.body;
+		});
+	});
+
 	it(`Should go to the Indicator view page and come back`, function() {
 		cy.server().visit(`/operations/indicators`);
 		cy.get('.list-group a')
@@ -26,7 +35,18 @@ describe('Indicator Page', function() {
 		cy.url().should('match', /\/operations\/indicators$/);
 	});
 	it(`Should go to the creation page`, function() {
-		cy.server().visit(`/operations/indicators`);
+		cy.server()
+			.fixture('stamps')
+			.then(json => {
+				cy.route(Cypress.env('API') + 'stamps', json);
+			})
+			.visit(`/operations/indicators`, {
+				onBeforeLoad(win) {
+					delete win.fetch;
+					win.eval(polyfill);
+					win.fetch = win.unfetch;
+				},
+			});
 		cy.get('.btn-group-vertical a')
 			.first()
 			.click();
@@ -57,6 +77,7 @@ describe('Indicator Page', function() {
 		cy.get('form .Select-control').each($el => {
 			const control = cy.wrap($el).click();
 			cy.wrap($el).click();
+
 			control
 				.get('.Select-option')
 				.first()

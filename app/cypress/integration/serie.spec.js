@@ -17,9 +17,9 @@ describe('Series page', () => {
 		cy.server().visit(`/operations/series`);
 		cy.injectAxe();
 
-		cy.get(seriesPage.getNewButton()).should('be.visible');
+		seriesPage.getNewButton().should('be.visible');
 		cy.checkA11y();
-		cy.get(seriesPage.getNewButton()).click();
+		seriesPage.getNewButton().click();
 		cy.url().should('match', /\/operations\/series\/create$/);
 		cy.get(seriesEditPage.getBackButton())
 			.first()
@@ -30,8 +30,8 @@ describe('Series page', () => {
 
 	it('Should create a new series', () => {
 		cy.server().visit(`/operations/series`);
-		cy.get(seriesPage.getNewButton()).should('be.visible');
-		cy.get(seriesPage.getNewButton()).click();
+		seriesPage.getNewButton().should('be.visible');
+		seriesPage.getNewButton().click();
 		cy.url().should('match', /\/operations\/series\/create$/);
 		cy.get(seriesEditPage.getTitle()).should('not.exist');
 		cy.get('form .Select-placeholder')
@@ -105,7 +105,19 @@ describe('Series page', () => {
 	});
 
 	it('Should go the Series update page', () => {
-		cy.server().visit(`/operations/series`);
+		cy.server()
+			.fixture('stamps')
+			.then(json => {
+				cy.route(Cypress.env('API') + 'stamps', json);
+			})
+			.visit(`/operations/series`, {
+				onBeforeLoad(win) {
+					delete win.fetch;
+					win.eval(polyfill);
+					win.fetch = win.unfetch;
+				},
+			});
+
 		cy.get('.list-group a')
 			.first()
 			.click();

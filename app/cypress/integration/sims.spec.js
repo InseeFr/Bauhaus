@@ -32,7 +32,7 @@ describe('SIMS Page', function() {
 			});
 		cy.get('.btn-line').contains('Voir le SIMS');
 		cy.get('#operation-picker').should('not.exist');
-		cy.get(':nth-child(3) > .btn').click();
+		cy.get(':nth-child(2) > .btn').click();
 
 		// Visu Page
 		cy.url().should('contains', '/sims/1512');
@@ -45,8 +45,8 @@ describe('SIMS Page', function() {
 		// Update page
 		cy.url().should('contains', '/sims/1512/modify');
 		cy.get(simsEditPage.getTitle()).should('exist');
-		cy.get(simsEditPage.getCancelButton()).contains('Annuler');
-		cy.get(simsEditPage.getSaveButton()).contains('Sauvegarder');
+		simsEditPage.getCancelButton().contains('Annuler');
+		simsEditPage.getSaveButton().contains('Sauvegarder');
 
 		cy.get('#operation-picker').should('not.exist');
 	});
@@ -126,15 +126,15 @@ describe('SIMS Page', function() {
 				},
 			});
 		cy.get('.btn-line').contains('Voir le SIMS');
-		cy.get(':nth-child(3) > .btn').click();
+		cy.get(':nth-child(2) > .btn').click();
 
 		// Visu Page
 		cy.url().should('contains', '/sims/1512');
 
 		cy.get('.btn-line').within(btns => {
 			cy.get('div:first > button').contains('Retour');
-			cy.get('div:nth-child(3) > a').contains('Dupliquer');
-			cy.get('div:nth-child(3) > a').click();
+			cy.get('div:nth-child(2) > a').contains('Dupliquer');
+			cy.get('div:nth-child(2) > a').click();
 		});
 
 		// Duplicate page
@@ -145,14 +145,14 @@ describe('SIMS Page', function() {
 			cy.get('div:first > button')
 				.as('cancelButton')
 				.contains('Annuler');
-			cy.get('div:nth-child(3) > button').contains('Sauvegarder');
+			cy.get('div:nth-child(2) > button').contains('Sauvegarder');
 
 			cy.get('@cancelButton').click();
 		});
 
 		// Visu page
 		cy.url().should('not.contains', '/sims/1512/duplicate');
-		cy.get('.btn-line div:nth-child(3) > a').click();
+		cy.get('.btn-line div:nth-child(2) > a').click();
 
 		// Duplicate page
 		cy.get('#operation-picker')
@@ -185,14 +185,14 @@ describe('SIMS Page', function() {
 				},
 			});
 		cy.get('.btn-line').contains('Créer le SIMS');
-		cy.get(':nth-child(4) > .btn').click();
+		cy.get(':nth-child(2) > .btn').click();
 
 		// Create Page
 		cy.url().should('contains', '/sims/create');
 		cy.get('.bauhaus-page-title').should('exist');
 		cy.get('.btn-line').within(() => {
 			cy.get('div:first > button').contains('Annuler');
-			cy.get('div:nth-child(3) > button').contains('Sauvegarder');
+			cy.get('div:nth-child(2) > button').contains('Sauvegarder');
 		});
 		cy.get('#operation-picker').should('not.exist');
 	});
