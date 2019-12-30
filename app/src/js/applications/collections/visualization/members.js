@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Note }  from 'bauhaus-library';
-import D, { D2 } from 'js/i18n';
+import { Note } from 'bauhaus-library';
+import { D1, D2 } from 'js/i18n';
 import { sortArray } from 'js/utils/array-utils';
 
 const sortByLabelLg1 = sortArray('prefLabelLg1');
@@ -23,7 +23,7 @@ function CollectionMembers({ members, secondLang, langs }) {
 		<div className="row">
 			<Note
 				text={memberListLg1}
-				title={D.collectionMembersPanelTitle}
+				title={D1.collectionMembersPanelTitle}
 				lang={lg1}
 				alone={!secondLang}
 			/>

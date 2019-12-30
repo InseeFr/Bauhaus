@@ -3,7 +3,7 @@ import { CheckSecondLang, PageTitle, Note } from 'bauhaus-library';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 import { propTypes as correspondencePropTypes } from 'js/applications/classifications/utils/correspondence/general';
 
 class HomeGeneral extends Component {
@@ -36,7 +36,7 @@ class HomeGeneral extends Component {
 						(secondLang && (firstClassLabelLg2 || secondClassLabelLg2))) && (
 						<Note
 							text={generalFields(correspondence, secondLang)}
-							title={D.globalInformationsTitle}
+							title={D1.globalInformationsTitle}
 							alone={true}
 							allowEmpty={true}
 						/>
@@ -47,7 +47,7 @@ class HomeGeneral extends Component {
 						<div className="row">
 							<ExplanatoryNote
 								text={correspondence.descriptionLg1}
-								title={D.classificationsDescription}
+								title={D1.classificationsDescription}
 								lang={lg1}
 								alone={!secondLang}
 							/>

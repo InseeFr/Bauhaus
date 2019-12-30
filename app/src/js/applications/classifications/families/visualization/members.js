@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Panel } from 'bauhaus-library';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 
 export default ({ members, secondLang }) => {
 	const membersLg1 = members.map((m, i) => (
@@ -22,7 +22,7 @@ export default ({ members, secondLang }) => {
 	return (
 		<div className="row">
 			<div className={`col-md-${secondLang ? 6 : 12}`}>
-				<Panel title={D.childrenSeries}>
+				<Panel title={D1.childrenSeries}>
 					<ul>{membersLg1}</ul>
 				</Panel>
 			</div>

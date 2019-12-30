@@ -1,7 +1,7 @@
 import React from 'react';
-import { Note }  from 'bauhaus-library';
+import { Note } from 'bauhaus-library';
 import { Link } from 'react-router-dom';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 
 function DisplayLinks({
 	links = [],
@@ -38,7 +38,7 @@ function DisplayLinks({
 				text={
 					links.length === 1 ? displayItem(labelLg1) : displayList(labelLg1)
 				}
-				title={D[title]}
+				title={D1[title]}
 				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}

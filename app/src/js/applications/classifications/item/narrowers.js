@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Note } from 'bauhaus-library';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 
 export default ({ narrowers, classificationId, secondLang }) => {
 	const narrowersLg1 = narrowers.map((n, i) => (
@@ -31,7 +31,7 @@ export default ({ narrowers, classificationId, secondLang }) => {
 		<div className="row">
 			<Note
 				text={<ul>{narrowersLg1}</ul>}
-				title={D.classificationsNarrowerItems}
+				title={D1.classificationsNarrowerItems}
 				alone={!(secondLang && isMembersLg2)}
 				allowEmpty={true}
 			/>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import D, { D2 } from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 import { goBack, goBackOrReplace } from 'bauhaus-library/src/utils/redirection';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
@@ -131,7 +131,7 @@ class OperationsDocumentationEdition extends Component {
 					<div className="row">
 						<div className="col-md-6 form-group">
 							<label htmlFor="prefLabelLg1">
-								{D.title}
+								{D1.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -160,7 +160,7 @@ class OperationsDocumentationEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="col-md-6 form-group">
-							<label htmlFor="abstractLg1">{D.descriptionTitle}</label>
+							<label htmlFor="abstractLg1">{D1.descriptionTitle}</label>
 							<EditorMarkdown
 								text={document.descriptionLg1}
 								handleChange={value =>
@@ -182,7 +182,7 @@ class OperationsDocumentationEdition extends Component {
 						<div className="row">
 							<div className="col-md-12 form-group">
 								<label htmlFor="url">
-									{D.titleLink}
+									{D1.titleLink}
 									<span className="boldRed">*</span>
 								</label>
 								<input
@@ -200,7 +200,7 @@ class OperationsDocumentationEdition extends Component {
 						<div className="row">
 							<div className="col-md-12 form-group">
 								<label>
-									{D.titleUpdatedDate}
+									{D1.titleUpdatedDate}
 									<span className="boldRed">*</span>
 								</label>
 								<DatePickerRmes
@@ -256,7 +256,7 @@ class OperationsDocumentationEdition extends Component {
 					<div className="row">
 						<div className="col-md-12 form-group">
 							<label htmlFor="lang">
-								{D.langTitle}
+								{D1.langTitle}
 								<span className="boldRed">*</span>
 							</label>
 

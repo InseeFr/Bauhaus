@@ -1,4 +1,4 @@
-import D, { D2 } from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { goBack, goBackOrReplace } from 'bauhaus-library/src/utils/redirection';
@@ -187,7 +187,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg1">
-								{D.title}
+								{D1.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -216,7 +216,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="altLabelLg1">{D.altLabel}</label>
+							<label htmlFor="altLabelLg1">{D1.altLabel}</label>
 							<input
 								type="text"
 								className="form-control"
@@ -238,7 +238,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="abstractLg1">{D.summary}</label>
+							<label htmlFor="abstractLg1">{D1.summary}</label>
 							<EditorMarkdown
 								text={serie.abstractLg1}
 								handleChange={value =>
@@ -258,7 +258,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="historyNoteLg1">{D.history}</label>
+							<label htmlFor="historyNoteLg1">{D1.history}</label>
 							<EditorMarkdown
 								text={serie.historyNoteLg1}
 								handleChange={value =>
@@ -279,7 +279,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="typeOperation" className="full-label">
-								{D.operationType}
+								{D1.operationType}
 								<SelectRmes
 									placeholder=""
 									unclearable
@@ -299,7 +299,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="accrualPeriodicity" className="full-label">
-								{D.dataCollectFrequency}
+								{D1.dataCollectFrequency}
 								<SelectRmes
 									placeholder=""
 									unclearable
@@ -319,7 +319,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="creator" className="full-label">
-								{D.organisation}
+								{D1.organisation}
 								<SelectRmes
 									placeholder=""
 									unclearable
@@ -335,7 +335,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label className="full-label">
-								{D.stakeholders}
+								{D1.stakeholders}
 								<SelectRmes
 									placeholder=""
 									unclearable
@@ -359,7 +359,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="dataCollector" className="full-label">
-								{D.dataCollector}
+								{D1.dataCollector}
 								<SelectRmes
 									placeholder=""
 									unclearable
@@ -383,7 +383,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="contributor" className="full-label">
-								{D.operationsContributorTitle}
+								{D1.operationsContributorTitle}
 								<SelectRmes
 									placeholder=""
 									unclearable
@@ -400,7 +400,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="replaces" className="full-label">
-								{D.replaces}
+								{D1.replaces}
 								<SelectRmes
 									placeholder=""
 									unclearable
@@ -424,7 +424,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="replacedBy" className="full-label">
-								{D.replacedBy}
+								{D1.replacedBy}
 								<SelectRmes
 									placeholder=""
 									unclearable
@@ -448,7 +448,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="indicators" className="full-label">
-								{D.indicators}
+								{D1.indicators}
 								<SelectRmes
 									placeholder=""
 									unclearable
@@ -464,7 +464,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="seeAlso" className="full-label">
-								{D.seeAlso}
+								{D1.seeAlso}
 								<SelectRmes
 									unclearable
 									placeholder=""

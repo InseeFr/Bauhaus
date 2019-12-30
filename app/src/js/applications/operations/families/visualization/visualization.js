@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Note }  from 'bauhaus-library';
-import D, { D2 } from 'js/i18n';
+import { Note } from 'bauhaus-library';
+import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
 
 function OperationsFamilyVisualization({
@@ -14,7 +14,7 @@ function OperationsFamilyVisualization({
 			<div className="row">
 				<Note
 					text={attr.themeLg1}
-					title={D.theme}
+					title={D1.theme}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -32,7 +32,7 @@ function OperationsFamilyVisualization({
 			<div className="row">
 				<Note
 					text={attr.abstractLg1}
-					title={D.summary}
+					title={D1.summary}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
@@ -51,7 +51,7 @@ function OperationsFamilyVisualization({
 			</div>
 			<RelationsView
 				children={attr.series}
-				childrenTitle={D.childrenSeries}
+				childrenTitle={D1.childrenSeries}
 				childrenPath="series"
 				title={'linksTitle'}
 				langs={{ lg1, lg2 }}

@@ -79,8 +79,7 @@ export const getMessageForSecondLang = message => {
 	return dictionary[message][secondLang];
 };
 
-export const D2 = createDictionary(isLang2() ? firstLang : secondLang);
+export const D1 = createDictionary(firstLang);
+export const D2 = createDictionary(secondLang);
 
-export default createDictionary(getLang());
-
-export const bauhausLibraryDictionary = createDictionary(getLang());
+export default getLang() === firstLang ? D1 : D2;

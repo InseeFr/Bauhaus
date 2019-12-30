@@ -3,7 +3,7 @@ import { CheckSecondLang, PageTitle, Note } from 'bauhaus-library';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
-import D, { D2 } from 'js/i18n';
+import { D2, D1 } from 'js/i18n';
 
 export default ({ association, secondLang, saveSecondLang, langs }) => {
 	const {
@@ -28,7 +28,7 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 					(secondLang && sourceItemLabelLg2 && targetItemLabelLg2)) && (
 					<Note
 						text={generalFields(association, secondLang)}
-						title={D.globalInformationsTitle}
+						title={D1.globalInformationsTitle}
 						alone={true}
 						allowEmpty={true}
 					/>
@@ -39,7 +39,7 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 					<div className="row">
 						<ExplanatoryNote
 							text={scopeNoteLg1}
-							title={D.classificationsDescription}
+							title={D1.classificationsDescription}
 							lang={lg1}
 							alone={!secondLang}
 						/>

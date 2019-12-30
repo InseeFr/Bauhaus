@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 
 const NoteVisualization = ({ params, langs, secondLang }) => (
 	<div>
@@ -11,7 +11,7 @@ const NoteVisualization = ({ params, langs, secondLang }) => (
 					<div className="row">
 						<ExplanatoryNote
 							text={note.lg1}
-							title={D[note.title]}
+							title={D1[note.title]}
 							lang={langs.lg1}
 							alone={!secondLang}
 						/>

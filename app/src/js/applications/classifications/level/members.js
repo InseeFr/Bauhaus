@@ -1,6 +1,6 @@
 import React from 'react';
 import { Note, SearchRmes } from 'bauhaus-library';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 
 export default ({ members, classificationId, secondLang }) => {
 	const membersLg1 = members.map(({ id, labelLg1 }, i) => ({
@@ -26,7 +26,7 @@ export default ({ members, classificationId, secondLang }) => {
 						colOff={secondLang ? 0 : 2}
 					/>
 				}
-				title={D.childrenClassificationItems}
+				title={D1.childrenClassificationItems}
 				alone={!secondLang}
 				allowEmpty={true}
 			/>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
 import NoteEdition from 'js/applications/shared/note-edition';
-import D from 'js/i18n';
+import { D1 } from 'js/i18n';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { htmlIsEmpty } from 'js/utils/html';
 
@@ -89,9 +89,9 @@ class NotesEdition extends Component {
 								htmlIsEmpty(noteLg1) &&
 								redLg1Empty(disseminationStatus);
 							const title = highlight ? (
-								<div className="red">{D[rawTitle]}</div>
+								<div className="red">{D1[rawTitle]}</div>
 							) : (
-								D[rawTitle]
+								D1[rawTitle]
 							);
 							if (activeTab === i) {
 								noteEdition = (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 
 export default ({
 	notes: {
@@ -20,7 +20,7 @@ export default ({
 				<div className="row">
 					<ExplanatoryNote
 						text={descriptionLg1}
-						title={D.classificationsDescription}
+						title={D1.classificationsDescription}
 						lang={lg1}
 						alone={!secondLang}
 					/>
@@ -40,7 +40,7 @@ export default ({
 				<div className="row">
 					<ExplanatoryNote
 						text={scopeNoteLg1}
-						title={D.classificationsScopeNote}
+						title={D1.classificationsScopeNote}
 						lang={lg1}
 						alone={!secondLang}
 					/>
@@ -60,7 +60,7 @@ export default ({
 				<div className="row">
 					<ExplanatoryNote
 						text={changeNoteLg1}
-						title={D.classificationsChangeNote()}
+						title={D1.classificationsChangeNote()}
 						lang={lg1}
 						alone={!secondLang}
 					/>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Note } from 'bauhaus-library';
 import TableRmes from 'js/applications/shared/table-rmes';
-import D from 'js/i18n';
+import D, { D1 } from 'js/i18n';
 import { propTypes as associationsPropTypes } from 'js/applications/classifications/utils/correspondence/associations';
 import { propTypes as correspondencePropTypes } from 'js/applications/classifications/utils/correspondence/general';
 import { sortArray } from 'js/utils/array-utils';
@@ -75,7 +75,7 @@ class HomeAssociations extends Component {
 							dataAlign="left"
 						/>
 					}
-					title={D.associationsTitle}
+					title={D1.associationsTitle}
 					alone={true}
 					allowEmpty={true}
 				/>
