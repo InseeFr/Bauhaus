@@ -1,5 +1,4 @@
 import { buildNotes, capitalizeFirst } from './notes';
-import D from 'js/i18n';
 
 describe('concepts-notes-utils', () => {
 	it('should return an array', () => {
