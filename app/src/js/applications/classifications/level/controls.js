@@ -11,7 +11,7 @@ function LevelControls(props) {
 	return (
 		<div className="row btn-line action-toolbar">
 			<Button
-				action={goBack(this.props, `/classifications/classification/${id}`)}
+				action={goBack(props, `/classifications/classification/${id}`)}
 				label={D.btnReturn}
 			/>
 		</div>

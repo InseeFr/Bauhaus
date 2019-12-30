@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
+import D, { D2 } from 'js/i18n';
 
-const NoteVisualization = ({ params, langs, secondLang, context }) => (
+const NoteVisualization = ({ params, langs, secondLang }) => (
 	<div>
 		{params.map((note, i) => (
 			<span key={`note-visualization-${i}`}>
@@ -10,14 +11,14 @@ const NoteVisualization = ({ params, langs, secondLang, context }) => (
 					<div className="row">
 						<ExplanatoryNote
 							text={note.lg1}
-							title={note.title}
+							title={D[note.title]}
 							lang={langs.lg1}
 							alone={!secondLang}
 						/>
 						{secondLang && (
 							<ExplanatoryNote
 								text={note.lg2}
-								title={note.title}
+								title={D2[note.title]}
 								lang={langs.lg2}
 								alone={false}
 							/>

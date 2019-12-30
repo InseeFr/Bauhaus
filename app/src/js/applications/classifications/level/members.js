@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel, SearchRmes } from 'bauhaus-library';
+import { Note, SearchRmes } from 'bauhaus-library';
 import D, { D2 } from 'js/i18n';
 
 export default ({ members, classificationId, secondLang }) => {
@@ -15,34 +15,37 @@ export default ({ members, classificationId, secondLang }) => {
 		}));
 	}
 	return (
-		<div className="row">
-			<div className={`col-md-${secondLang ? 6 : 12}`}>
-				<Panel title={D.childrenClassificationItems}>
-					<div className="centered">
+		<div className="row centered">
+			<Note
+				text={
+					<SearchRmes
+						items={membersLg1}
+						childPath={`classifications/classification/${classificationId}/item`}
+						context="classifications"
+						col={secondLang ? 12 : 8}
+						colOff={secondLang ? 0 : 2}
+					/>
+				}
+				title={D.childrenClassificationItems}
+				alone={!secondLang}
+				allowEmpty={true}
+			/>
+
+			{secondLang && membersLg2.length !== 0 && (
+				<Note
+					text={
 						<SearchRmes
-							items={membersLg1}
+							items={membersLg2}
 							childPath={`classifications/classification/${classificationId}/item`}
 							context="classifications"
-							col={secondLang ? 12 : 8}
-							colOff={secondLang ? 0 : 2}
+							col={12}
+							colOff={0}
 						/>
-					</div>
-				</Panel>
-			</div>
-			{secondLang && membersLg2.length !== 0 && (
-				<div className="col-md-6">
-					<Panel title={D2.childrenClassificationItems}>
-						<div className="centered">
-							<SearchRmes
-								items={membersLg2}
-								childPath={`classifications/classification/${classificationId}/item`}
-								context="classifications"
-								col={12}
-								colOff={0}
-							/>
-						</div>
-					</Panel>
-				</div>
+					}
+					title={D2.childrenClassificationItems}
+					alone={!secondLang}
+					allowEmpty={true}
+				/>
 			)}
 		</div>
 	);

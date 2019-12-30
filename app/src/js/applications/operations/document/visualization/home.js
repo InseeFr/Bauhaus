@@ -1,4 +1,4 @@
-import { Note }  from 'bauhaus-library';
+import { Note } from 'bauhaus-library';
 import D, { D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -77,7 +77,7 @@ function OperationsDocumentationVisualization({
 									{attr.labelLg2}
 								</a>
 							}
-							title={D2.descriptionTitle}
+							title={D2.titleLink}
 							lang={lg2}
 							alone={false}
 							allowEmpty={true}

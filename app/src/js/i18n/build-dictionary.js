@@ -79,7 +79,7 @@ export const getMessageForSecondLang = message => {
 	return dictionary[message][secondLang];
 };
 
-export const D2 = createDictionary(secondLang);
+export const D2 = createDictionary(isLang2() ? firstLang : secondLang);
 
 export default createDictionary(getLang());
 

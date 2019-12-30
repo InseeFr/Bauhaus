@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import D from 'js/i18n';
+import D, { D2 } from 'js/i18n';
 import { Note } from 'bauhaus-library';
 import { sortArray } from 'js/utils/array-utils';
 import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED } from 'js/constants';
@@ -65,7 +65,7 @@ function ConceptLinks({ secondLang, links }) {
 	// Don't display links panel if there isn't links
 	if (nbLinks === 0) return null;
 
-	const content = (lang, alone) => (
+	const content = (lang, alone, Dictionnary = D) => (
 		<Note
 			text={
 				<ul>
@@ -96,7 +96,7 @@ function ConceptLinks({ secondLang, links }) {
 					)}
 				</ul>
 			}
-			title={D.linksTitle}
+			title={Dictionnary.linksTitle}
 			lang={lang}
 			alone={alone}
 		/>
@@ -105,7 +105,7 @@ function ConceptLinks({ secondLang, links }) {
 	return (
 		<div className="row">
 			{content('lg1', !secondLang)}
-			{secondLang && content('lg2', false)}
+			{secondLang && content('lg2', false, D2)}
 		</div>
 	);
 }

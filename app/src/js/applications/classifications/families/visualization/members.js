@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Panel }  from 'bauhaus-library';
+import { Panel } from 'bauhaus-library';
 import D, { D2 } from 'js/i18n';
 
 export default ({ members, secondLang }) => {
