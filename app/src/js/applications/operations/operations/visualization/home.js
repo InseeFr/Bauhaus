@@ -31,7 +31,7 @@ function OperationsOperationVisualization({
 			</div>
 			<RelationsView
 				parent={attr.series}
-				parentTitle={D1.parentSeries}
+				parentTitle={'parentSeries'}
 				parentPath="series"
 				title={'linksTitle'}
 				langs={{ lg1, lg2 }}

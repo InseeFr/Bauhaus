@@ -1,5 +1,5 @@
 import React from 'react';
-import D, { D1, D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 import { Note } from 'bauhaus-library';
 import { stringToDate } from 'js/utils/moment';
 
@@ -32,8 +32,8 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 										return (
 											<li key={fieldName}>{`${mapping[fieldName]} : ${
 												attr[fieldName] === 'false'
-													? D.collectionStatusProvisional
-													: D.collectionStatusValid
+													? D1.collectionStatusProvisional
+													: D1.collectionStatusValid
 											}`}</li>
 										);
 									} else {

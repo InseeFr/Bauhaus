@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Note } from 'bauhaus-library';
-import D, { D1, D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
@@ -188,10 +188,10 @@ function OperationsSerieVisualization({
 
 			<RelationsView
 				children={attr.operations}
-				childrenTitle={D1.childrenOperations}
+				childrenTitle={'childrenOperations'}
 				childrenPath="operation"
 				parent={attr.family}
-				parentTitle={D.parentFamilly}
+				parentTitle={'parentFamilly'}
 				parentPath="family"
 				title={'linksTitle'}
 				langs={{ lg1, lg2 }}

@@ -10,7 +10,7 @@ function OperationsFamilyVisualization({
 	secondLang,
 }) {
 	return (
-		<React.Fragment>
+		<>
 			<div className="row">
 				<Note
 					text={attr.themeLg1}
@@ -51,13 +51,13 @@ function OperationsFamilyVisualization({
 			</div>
 			<RelationsView
 				children={attr.series}
-				childrenTitle={D1.childrenSeries}
+				childrenTitle={'childrenSeries'}
 				childrenPath="series"
 				title={'linksTitle'}
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>
-		</React.Fragment>
+		</>
 	);
 }
 
