@@ -18,7 +18,7 @@ export function RelationsViewPerLgContent({
 		<>
 			{parent && (
 				<p>
-					<span className="linksTitle">{Dictionnary[parentTitle]}:</span>
+					<span className="linksTitle">{Dictionnary[parentTitle]}</span>
 					<Link to={`/operations/${parentPath}/${parent.id}`}>
 						{parent[`label${langSuffix}`]}
 					</Link>
@@ -27,7 +27,7 @@ export function RelationsViewPerLgContent({
 			{children && (
 				<>
 					<p>
-						<span className="linksTitle">{Dictionnary[childrenTitle]}:</span>
+						<span className="linksTitle">{Dictionnary[childrenTitle]}</span>
 					</p>
 					<ul>
 						{children
