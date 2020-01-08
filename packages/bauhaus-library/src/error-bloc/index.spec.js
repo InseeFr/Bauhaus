@@ -45,7 +45,7 @@ describe('error-bloc', () => {
 	it('should display an error from the dictionnay', () => {
 		const Component = () => (
 			<I18NContext.Provider value={value}>
-				<ErrorBloc error={'402 : this is a message'} />
+				<ErrorBloc error={'{"code": 402, "message": "this is a message"}'} />
 			</I18NContext.Provider>
 		);
 		const wrapper = mount(<Component />);
@@ -58,7 +58,7 @@ describe('error-bloc', () => {
 	it('should display an error from the dictionnay even if the code contains empty space', () => {
 		const Component = () => (
 			<I18NContext.Provider value={value}>
-				<ErrorBloc error={'      402 : this is a message'} />
+				<ErrorBloc error={'{"code": 402, "message": "this is a message"}'} />
 			</I18NContext.Provider>
 		);
 		const wrapper = mount(<Component />);

@@ -1,29 +1,210 @@
 export default {
 	errors: {
+		101: {
+			fr: 'CONCEPT_CREATION_RIGHTS_DENIED',
+			en: 'CONCEPT_CREATION_RIGHTS_DENIED',
+		},
+		102: {
+			fr: 'CONCEPT_MODIFICATION_RIGHTS_DENIED',
+			en: 'CONCEPT_MODIFICATION_RIGHTS_DENIED',
+		},
+		103: {
+			fr: 'CONCEPT_VALIDATION_RIGHTS_DENIED',
+			en: 'CONCEPT_VALIDATION_RIGHTS_DENIED',
+		},
+		104: {
+			fr: 'CONCEPT_MAILING_RIGHTS_DENIED',
+			en: 'CONCEPT_MAILING_RIGHTS_DENIED',
+		},
+		111: {
+			fr: 'CONCEPT_DELETION_SEVERAL_GRAPHS',
+			en: 'CONCEPT_DELETION_SEVERAL_GRAPHS',
+		},
+		112: {
+			fr: 'CONCEPT_DELETION_LINKED',
+			en: 'CONCEPT_DELETION_LINKED',
+		},
+		141: {
+			fr: 'CONCEPT_UNKNOWN_ID',
+			en: 'CONCEPT_UNKNOWN_ID',
+		},
+		201: {
+			fr: 'INDICATOR_CREATION_RIGHTS_DENIED',
+			en: 'INDICATOR_CREATION_RIGHTS_DENIED',
+		},
+		202: {
+			fr: 'INDICATOR_MODIFICATION_RIGHTS_DENIED',
+			en: 'INDICATOR_MODIFICATION_RIGHTS_DENIED',
+		},
+		203: {
+			fr: 'INDICATOR_VALIDATION_RIGHTS_DENIED',
+			en: 'INDICATOR_VALIDATION_RIGHTS_DENIED',
+		},
+		241: {
+			fr: 'INDICATOR_UNKNOWN_ID',
+			en: 'INDICATOR_UNKNOWN_ID',
+		},
 		301: {
-			fr: 'Le nom du fichier est vide. Merci de renseigner un nom de fichier.',
-			en: 'The file name is empty. Please, fill a file name.',
+			en: 'DOCUMENT_CREATION_RIGHTS_DENIED',
+			fr: 'DOCUMENT_CREATION_RIGHTS_DENIED',
 		},
 		302: {
-			fr:
-				'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
-			en:
-				'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols.',
+			fr: 'DOCUMENT_CREATION_EXISTING_FILE',
+			en: 'DOCUMENT_CREATION_EXISTING_FILE',
+		},
+		303: {
+			fr: 'DOCUMENT_MODIFICATION_RIGHTS_DENIED',
+			en: 'DOCUMENT_MODIFICATION_RIGHTS_DENIED',
+		},
+		304: {
+			fr: 'DOCUMENT_DELETION_LINKED',
+			en: 'DOCUMENT_DELETION_LINKED',
+		},
+		341: {
+			fr: 'DOCUMENT_UNKNOWN_ID',
+			en: 'DOCUMENT_UNKNOWN_ID',
+		},
+		361: {
+			fr: 'DOCUMENT_EMPTY_NAME',
+			en: 'DOCUMENT_EMPTY_NAME',
+		},
+		362: {
+			fr: 'DOCUMENT_FORBIDDEN_CHARATER_NAME',
+			en: 'DOCUMENT_FORBIDDEN_CHARATER_NAME',
 		},
 		401: {
-			fr: 'L’URL est vide. Merci de renseigner un URL.',
-			en: 'The URL is empty. Please, fill a URL.',
+			fr: 'LINK_CREATION_RIGHTS_DENIED',
+			en: 'LINK_CREATION_RIGHTS_DENIED',
 		},
-		402: {
+		403: {
+			fr: 'LINK_MODIFICATION_RIGHTS_DENIED',
+			en: 'LINK_MODIFICATION_RIGHTS_DENIED',
+		},
+		441: {
+			fr: 'LINK_UNKNOWN_ID',
+			en: 'LINK_UNKNOWN_ID',
+		},
+		461: {
+			fr: 'LINK_EMPTY_URL',
+			en: 'LINK_EMPTY_URL',
+		},
+		462: {
 			fr:
 				'L’URL existe déjà. Merci de réutiliser le lien existant ou choisir une autre URL.',
 			en:
 				'The URL already exists. Please, reuse the existing link or choose another URL.',
 		},
+		501: {
+			fr: 'FAMILY_CREATION_RIGHTS_DENIED',
+			en: 'FAMILY_CREATION_RIGHTS_DENIED',
+		},
+		502: {
+			fr: 'FAMILY_MODIFICATION_RIGHTS_DENIED',
+			en: 'FAMILY_MODIFICATION_RIGHTS_DENIED',
+		},
+		503: {
+			fr: 'FAMILY_VALIDATION_RIGHTS_DENIED',
+			en: 'FAMILY_VALIDATION_RIGHTS_DENIED',
+		},
+		541: {
+			fr: 'FAMILY_UNKNOWN_ID',
+			en: 'FAMILY_UNKNOWN_ID',
+		},
+		542: {
+			fr: 'FAMILY_INCORRECT_BODY',
+			en: 'FAMILY_INCORRECT_BODY',
+		},
+		601: {
+			fr: 'SERIES_CREATION_RIGHTS_DENIED',
+			en: 'SERIES_CREATION_RIGHTS_DENIED',
+		},
+		602: {
+			fr: 'SERIES_MODIFICATION_RIGHTS_DENIED',
+			en: 'SERIES_MODIFICATION_RIGHTS_DENIED',
+		},
 		603: {
-			fr:
-				'Une série ne peut avoir à la fois une documentation Sims et des opérations.',
-			en: 'A series can not have both Sims documentation and operations.',
+			fr: 'SERIES_VALIDATION_RIGHTS_DENIED',
+			en: 'SERIES_VALIDATION_RIGHTS_DENIED',
+		},
+		604: {
+			fr: 'SERIES_VALIDATION_UNPUBLISHED_FAMILY',
+			en: 'SERIES_VALIDATION_UNPUBLISHED_FAMILY',
+		},
+		641: {
+			fr: 'SERIES_UNKNOWN_ID',
+			en: 'SERIES_UNKNOWN_ID',
+		},
+		644: {
+			fr: 'SERIES_UNKNOWN_FAMILY',
+			en: 'SERIES_UNKNOWN_FAMILY',
+		},
+		663: {
+			fr: 'SERIES_OPERATION_OR_SIMS',
+			en: 'SERIES_OPERATION_OR_SIMS',
+		},
+		701: {
+			fr: 'OPERATION_CREATION_RIGHTS_DENIED',
+			en: 'OPERATION_CREATION_RIGHTS_DENIED',
+		},
+		702: {
+			fr: 'OPERATION_MODIFICATION_RIGHTS_DENIED',
+			en: 'OPERATION_MODIFICATION_RIGHTS_DENIED',
+		},
+		703: {
+			fr: 'OPERATION_VALIDATION_RIGHTS_DENIED',
+			en: 'OPERATION_VALIDATION_RIGHTS_DENIED',
+		},
+		704: {
+			fr: 'OPERATION_VALIDATION_UNPUBLISHED_SERIES',
+			en: 'OPERATION_VALIDATION_UNPUBLISHED_SERIES',
+		},
+		741: {
+			fr: 'OPERATION_UNKNOWN_ID',
+			en: 'OPERATION_UNKNOWN_ID',
+		},
+		744: {
+			fr: 'OPERATION_UNKNOWN_SERIES',
+			en: 'OPERATION_UNKNOWN_SERIES',
+		},
+		801: {
+			fr: 'SIMS_CREATION_RIGHTS_DENIED',
+			en: 'SIMS_CREATION_RIGHTS_DENIED',
+		},
+		802: {
+			fr: 'SIMS_MODIFICATION_RIGHTS_DENIED',
+			en: 'SIMS_MODIFICATION_RIGHTS_DENIED',
+		},
+		803: {
+			fr: 'SIMS_VALIDATION_RIGHTS_DENIED',
+			en: 'SIMS_VALIDATION_RIGHTS_DENIED',
+		},
+		804: {
+			fr: 'SIMS_VALIDATION_UNPUBLISHED_TARGET',
+			en: 'SIMS_VALIDATION_UNPUBLISHED_TARGET',
+		},
+		841: {
+			fr: 'SIMS_UNKNOWN_ID',
+			en: 'SIMS_UNKNOWN_ID',
+		},
+		844: {
+			fr: 'SIMS_UNKNOWN_TARGET',
+			en: 'SIMS_UNKNOWN_TARGET',
+		},
+		901: {
+			fr: 'COLLECTION_CREATION_RIGHTS_DENIED',
+			en: 'COLLECTION_CREATION_RIGHTS_DENIED',
+		},
+		902: {
+			fr: 'COLLECTION_MODIFICATION_RIGHTS_DENIED',
+			en: 'COLLECTION_MODIFICATION_RIGHTS_DENIED',
+		},
+		903: {
+			fr: 'COLLECTION_VALIDATION_RIGHTS_DENIED',
+			en: 'COLLECTION_VALIDATION_RIGHTS_DENIED',
+		},
+		904: {
+			fr: 'COLLECTION_MAILING_RIGHTS_DENIED',
+			en: 'COLLECTION_MAILING_RIGHTS_DENIED',
 		},
 	},
 };
