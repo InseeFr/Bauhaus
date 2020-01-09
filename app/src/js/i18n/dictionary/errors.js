@@ -1,210 +1,278 @@
 export default {
 	errors: {
 		101: {
-			fr: 'CONCEPT_CREATION_RIGHTS_DENIED',
-			en: 'CONCEPT_CREATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisation requises pour la création d’un concept. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for creating a concept. For more information, please contact the management team.',
 		},
 		102: {
-			fr: 'CONCEPT_MODIFICATION_RIGHTS_DENIED',
-			en: 'CONCEPT_MODIFICATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la modification d’un concept. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for editing a concept. For more information, please contact the management team.',
 		},
 		103: {
-			fr: 'CONCEPT_VALIDATION_RIGHTS_DENIED',
-			en: 'CONCEPT_VALIDATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la publication d’un concept. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for publishing a concept. For more information, please contact the management team.',
 		},
 		104: {
-			fr: 'CONCEPT_MAILING_RIGHTS_DENIED',
-			en: 'CONCEPT_MAILING_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour l’envoi d’un concept. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for mailing a concept. For more information, please contact the management team.',
 		},
 		111: {
-			fr: 'CONCEPT_DELETION_SEVERAL_GRAPHS',
-			en: 'CONCEPT_DELETION_SEVERAL_GRAPHS',
+			fr: ({ id }) =>
+				`Le concept ${id} ne peut pas être supprimé car il est utilisé dans d’autres graphes.`,
+			en: ({ id }) =>
+				`The concept ${id} can not be deleted because it is used in different graphs.`,
 		},
 		112: {
-			fr: 'CONCEPT_DELETION_LINKED',
-			en: 'CONCEPT_DELETION_LINKED',
+			fr: ({ id }) =>
+				`Le concept ${id} ne peut pas être supprimé car il est lié à d’autres concepts.`,
+			en: ({ id }) =>
+				`The concept ${id} can not be deleted because it is used in different graphs.`,
 		},
 		141: {
-			fr: 'CONCEPT_UNKNOWN_ID',
-			en: 'CONCEPT_UNKNOWN_ID',
+			fr: () => 'Le concept n’existe pas.',
+			en: () => 'The concept does not exist.',
 		},
 		201: {
-			fr: 'INDICATOR_CREATION_RIGHTS_DENIED',
-			en: 'INDICATOR_CREATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisation requises pour la création d’un indicateur. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for creating an indicator. For more information, please contact the management team.',
 		},
 		202: {
-			fr: 'INDICATOR_MODIFICATION_RIGHTS_DENIED',
-			en: 'INDICATOR_MODIFICATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la modification d’un indicateur. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for editing an indicator. For more information, please contact the management team.',
 		},
 		203: {
-			fr: 'INDICATOR_VALIDATION_RIGHTS_DENIED',
-			en: 'INDICATOR_VALIDATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la publication d’un indicateur. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for publishing an indicator. For more information, please contact the management team.',
 		},
 		241: {
-			fr: 'INDICATOR_UNKNOWN_ID',
-			en: 'INDICATOR_UNKNOWN_ID',
+			fr: () => 'L’indicateur n’existe pas.',
+			en: () => 'The indicator does not exist.',
 		},
 		301: {
-			en: 'DOCUMENT_CREATION_RIGHTS_DENIED',
-			fr: 'DOCUMENT_CREATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisation requises pour la création d’un document. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for creating a document. For more information, please contact the management team.',
 		},
 		302: {
-			fr: 'DOCUMENT_CREATION_EXISTING_FILE',
-			en: 'DOCUMENT_CREATION_EXISTING_FILE',
+			fr: () =>
+				'Le nom de fichier existe déjà. Merci de réutiliser le fichier existant ou choisir un autre nom de fichier.',
+			en: () =>
+				'The file name already exists. Please, reuse the existing document or choose another file name.',
 		},
 		303: {
-			fr: 'DOCUMENT_MODIFICATION_RIGHTS_DENIED',
-			en: 'DOCUMENT_MODIFICATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la modification d’un document. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for editing a document. For more information, please contact the management team.',
 		},
 		304: {
-			fr: 'DOCUMENT_DELETION_LINKED',
-			en: 'DOCUMENT_DELETION_LINKED',
+			fr: () => 'DOCUMENT_DELETION_LINKED',
+			en: () => 'DOCUMENT_DELETION_LINKED',
 		},
 		341: {
-			fr: 'DOCUMENT_UNKNOWN_ID',
-			en: 'DOCUMENT_UNKNOWN_ID',
+			fr: () => 'Le document n’existe pas.',
+			en: () => 'The document does not exist.',
 		},
 		361: {
-			fr: 'DOCUMENT_EMPTY_NAME',
-			en: 'DOCUMENT_EMPTY_NAME',
+			fr: () =>
+				'Le nom du fichier est vide. Merci de renseigner un nom de fichier.',
+			en: () => 'The file name is empty. Please, fill a file name.',
 		},
 		362: {
-			fr: 'DOCUMENT_FORBIDDEN_CHARATER_NAME',
-			en: 'DOCUMENT_FORBIDDEN_CHARATER_NAME',
+			fr: () =>
+				'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
+			en: () =>
+				'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols.',
 		},
 		401: {
-			fr: 'LINK_CREATION_RIGHTS_DENIED',
-			en: 'LINK_CREATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisation requises pour la création d’un lien. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for creating a link. For more information, please contact the management team.',
 		},
 		403: {
-			fr: 'LINK_MODIFICATION_RIGHTS_DENIED',
-			en: 'LINK_MODIFICATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la modification d’un lien. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for editing a link. For more information, please contact the management team.',
 		},
 		441: {
-			fr: 'LINK_UNKNOWN_ID',
-			en: 'LINK_UNKNOWN_ID',
+			fr: () => 'Le lien n’existe pas.',
+			en: () => 'The link does not exist.',
 		},
 		461: {
-			fr: 'LINK_EMPTY_URL',
-			en: 'LINK_EMPTY_URL',
+			fr: () => 'L’URL est vide. Merci de renseigner un URL.',
+			en: () => 'The URL is empty. Please, fill a URL.',
 		},
 		462: {
-			fr:
+			fr: () =>
 				'L’URL existe déjà. Merci de réutiliser le lien existant ou choisir une autre URL.',
-			en:
+			en: () =>
 				'The URL already exists. Please, reuse the existing link or choose another URL.',
 		},
 		501: {
-			fr: 'FAMILY_CREATION_RIGHTS_DENIED',
-			en: 'FAMILY_CREATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisation requises pour la création d’une famille. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for creating a family. For more information, please contact the management team.',
 		},
 		502: {
-			fr: 'FAMILY_MODIFICATION_RIGHTS_DENIED',
-			en: 'FAMILY_MODIFICATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la modification d’une famille. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for editing a family. For more information, please contact the management team.',
 		},
 		503: {
-			fr: 'FAMILY_VALIDATION_RIGHTS_DENIED',
-			en: 'FAMILY_VALIDATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la publication d’une famille. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for publishing a family. For more information, please contact the management team.',
 		},
 		541: {
-			fr: 'FAMILY_UNKNOWN_ID',
-			en: 'FAMILY_UNKNOWN_ID',
+			fr: () => 'La famille n’existe pas.',
+			en: () => 'The family does not exist.',
 		},
 		542: {
-			fr: 'FAMILY_INCORRECT_BODY',
-			en: 'FAMILY_INCORRECT_BODY',
+			fr: () => 'FAMILY_INCORRECT_BODY',
+			en: () => 'FAMILY_INCORRECT_BODY',
 		},
 		601: {
-			fr: 'SERIES_CREATION_RIGHTS_DENIED',
-			en: 'SERIES_CREATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisation requises pour la création d’une série. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for creating a series. For more information, please contact the management team.',
 		},
 		602: {
-			fr: 'SERIES_MODIFICATION_RIGHTS_DENIED',
-			en: 'SERIES_MODIFICATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la modification d’une série. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for editing a series. For more information, please contact the management team.',
 		},
 		603: {
-			fr: 'SERIES_VALIDATION_RIGHTS_DENIED',
-			en: 'SERIES_VALIDATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la publication d’une série. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for publishing a series. For more information, please contact the management team.',
 		},
 		604: {
-			fr: 'SERIES_VALIDATION_UNPUBLISHED_FAMILY',
-			en: 'SERIES_VALIDATION_UNPUBLISHED_FAMILY',
+			fr: () =>
+				'Pour publier la série, vous devez au préalable publier sa famille.',
+			en: () => 'To publish the series, you must first publish its family.',
 		},
 		641: {
-			fr: 'SERIES_UNKNOWN_ID',
-			en: 'SERIES_UNKNOWN_ID',
+			fr: () => 'La série n’existe pas.',
+			en: () => 'The series does not exist.',
 		},
 		644: {
-			fr: 'SERIES_UNKNOWN_FAMILY',
-			en: 'SERIES_UNKNOWN_FAMILY',
+			fr: () => 'La famille référencée n’existe pas.',
+			en: () => 'The referenced family does not exist.',
 		},
 		663: {
-			fr: 'SERIES_OPERATION_OR_SIMS',
-			en: 'SERIES_OPERATION_OR_SIMS',
+			fr: () =>
+				'Une série ne peut avoir à la fois une documentation Sims et des opérations.',
+			en: () => 'A series can not have both Sims documentation and operations.',
 		},
 		701: {
-			fr: 'OPERATION_CREATION_RIGHTS_DENIED',
-			en: 'OPERATION_CREATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisation requises pour la création d’une opération. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for creating an operation. For more information, please contact the management team.',
 		},
 		702: {
-			fr: 'OPERATION_MODIFICATION_RIGHTS_DENIED',
-			en: 'OPERATION_MODIFICATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la modification d’une opération. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for editing an operation. For more information, please contact the management team.',
 		},
 		703: {
-			fr: 'OPERATION_VALIDATION_RIGHTS_DENIED',
-			en: 'OPERATION_VALIDATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la publication d’une opération. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for publishing an operation. For more information, please contact the management team.',
 		},
 		704: {
-			fr: 'OPERATION_VALIDATION_UNPUBLISHED_SERIES',
-			en: 'OPERATION_VALIDATION_UNPUBLISHED_SERIES',
+			fr: () =>
+				'Pour publier l’opération, vous devez au préalable publier sa série.',
+			en: () => 'To publish the operation, you must first publish its series.',
 		},
 		741: {
-			fr: 'OPERATION_UNKNOWN_ID',
-			en: 'OPERATION_UNKNOWN_ID',
+			fr: () => 'L’opération n’existe pas.',
+			en: () => 'The operation does not exist.',
 		},
 		744: {
-			fr: 'OPERATION_UNKNOWN_SERIES',
-			en: 'OPERATION_UNKNOWN_SERIES',
+			fr: () => 'La série référencée n’existe pas.',
+			en: () => 'The referenced series does not exist.',
 		},
 		801: {
-			fr: 'SIMS_CREATION_RIGHTS_DENIED',
-			en: 'SIMS_CREATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisation requises pour la création d’une documentation Sims. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for creating a Sims documentation. For more information, please contact the management team.',
 		},
 		802: {
-			fr: 'SIMS_MODIFICATION_RIGHTS_DENIED',
-			en: 'SIMS_MODIFICATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la modification d’une documentation Sims. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for editing a Sims documentation. For more information, please contact the management team.',
 		},
 		803: {
-			fr: 'SIMS_VALIDATION_RIGHTS_DENIED',
-			en: 'SIMS_VALIDATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la publication d’une documentation Sims. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for publishing a Sims documentation. For more information, please contact the management team.',
 		},
 		804: {
-			fr: 'SIMS_VALIDATION_UNPUBLISHED_TARGET',
-			en: 'SIMS_VALIDATION_UNPUBLISHED_TARGET',
+			fr: () =>
+				'Vous ne pouvez pas publier une documentation Sims sans avoir publier au préalable l’objet qu’il documente. Merci de publier l’objet documenté.',
+			en: () =>
+				'You can not publish a Sims documentation without first publishing the object it documents. Please, publish the documented object.',
 		},
 		841: {
-			fr: 'SIMS_UNKNOWN_ID',
-			en: 'SIMS_UNKNOWN_ID',
+			fr: () => 'La documentation Sims n’existe pas.',
+			en: () => 'The Sims documentation does not exist.',
 		},
 		844: {
-			fr: 'SIMS_UNKNOWN_TARGET',
-			en: 'SIMS_UNKNOWN_TARGET',
+			fr: () => 'L’objet documenté référencée n’existe pas.',
+			en: () => 'The referenced documented object does not exist.',
 		},
 		901: {
-			fr: 'COLLECTION_CREATION_RIGHTS_DENIED',
-			en: 'COLLECTION_CREATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisation requises pour la création d’une collection. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for creating a collection. For more information, please contact the management team.',
 		},
 		902: {
-			fr: 'COLLECTION_MODIFICATION_RIGHTS_DENIED',
-			en: 'COLLECTION_MODIFICATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la modification d’une collection. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for editing a collection. For more information, please contact the management team.',
 		},
 		903: {
-			fr: 'COLLECTION_VALIDATION_RIGHTS_DENIED',
-			en: 'COLLECTION_VALIDATION_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour la publication d’une collection. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for publishing a collection. For more information, please contact the management team.',
 		},
 		904: {
-			fr: 'COLLECTION_MAILING_RIGHTS_DENIED',
-			en: 'COLLECTION_MAILING_RIGHTS_DENIED',
+			fr: () =>
+				'Vous ne disposez pas des autorisations requises pour l’envoi d’une collection. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			en: () =>
+				'You do not have the required permissions for mailing a collection. For more information, please contact the management team.',
 		},
 	},
 };

@@ -5,7 +5,7 @@ import { I18NContext } from '../context';
 
 const value = {
 	errors: {
-		402: '402 fr',
+		402: () => '402 fr',
 	},
 };
 describe('error-bloc', () => {
