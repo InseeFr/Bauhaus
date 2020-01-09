@@ -8,7 +8,7 @@ import { Menu } from 'bauhaus-library';
 
 const defaultAttrs = { 'aria-current': 'page' };
 
-const MenuConcepts = ({ location, permission: { authType, roles } }) => {
+export const MenuConcepts = ({ location, permission: { authType, roles } }) => {
 	const activePath = location.pathname;
 	if (activePath === '/') return null;
 

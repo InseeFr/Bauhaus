@@ -8,7 +8,7 @@ import { getOperationsSimsCurrent } from 'js/reducers';
 
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };
-class MenuOperations extends Component {
+export class MenuOperations extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
