@@ -37,7 +37,7 @@ docker build . -t bauhaus-front
 Et l'éxecuter :
 
 ```shell
-docker run  -it -p 8083:80 -e BAUHAUS_API_URL=http://192.168.1.12:8081/api bauhaus
+docker run  -it -p 8083:80 -e BAUHAUS_API_URL=http://192.168.1.12:8081/api bauhaus-front
 ```
 
 `http://192.168.1.12:8081/api` est l'URL de base de l'API Bauhaus.
