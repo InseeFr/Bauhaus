@@ -6,6 +6,7 @@ import { I18NContext } from '../context';
 const value = {
 	errors: {
 		402: () => '402 fr',
+		403: ({ idConcept }) => `${idConcept} is required`,
 	},
 };
 describe('error-bloc', () => {
@@ -53,6 +54,23 @@ describe('error-bloc', () => {
 		const alertBoc = wrapper.find('.alert');
 		expect(alertBoc.get(0).props.style.visibility).toEqual('visible');
 		expect(alertBoc.html()).toContain('402 fr');
+	});
+
+	it('should display an error from the dictionnay with a dynamic value', () => {
+		const Component = () => (
+			<I18NContext.Provider value={value}>
+				<ErrorBloc
+					error={
+						'{"code": 403, "message": "this is a message", "idConcept": 1}'
+					}
+				/>
+			</I18NContext.Provider>
+		);
+		const wrapper = mount(<Component />);
+
+		const alertBoc = wrapper.find('.alert');
+		expect(alertBoc.get(0).props.style.visibility).toEqual('visible');
+		expect(alertBoc.html()).toContain('1 is required');
 	});
 
 	it('should display an error from the dictionnay even if the code contains empty space', () => {

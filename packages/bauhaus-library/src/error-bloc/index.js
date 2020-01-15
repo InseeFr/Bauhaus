@@ -8,7 +8,7 @@ const ErrorBloc = ({ error }) => {
 	try {
 		const parsedError = JSON.parse(error);
 		errorMsg = parsedError.code
-			? D.errors[parsedError.code]()
+			? D.errors[parsedError.code](parsedError)
 			: parsedError.message;
 	} catch (e) {
 		errorMsg = error;

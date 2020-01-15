@@ -25,16 +25,16 @@ export default {
 				'You do not have the required permissions for mailing a concept. For more information, please contact the management team.',
 		},
 		111: {
-			fr: ({ id }) =>
-				`Le concept ${id} ne peut pas être supprimé car il est utilisé dans d’autres graphes.`,
-			en: ({ id }) =>
-				`The concept ${id} can not be deleted because it is used in different graphs.`,
+			fr: ({ idConcept }) =>
+				`Le concept ${idConcept} ne peut pas être supprimé car il est utilisé dans d’autres graphes.`,
+			en: ({ idConcept }) =>
+				`The concept ${idConcept} can not be deleted because it is used in different graphs.`,
 		},
 		112: {
-			fr: ({ id }) =>
-				`Le concept ${id} ne peut pas être supprimé car il est lié à d’autres concepts.`,
-			en: ({ id }) =>
-				`The concept ${id} can not be deleted because it is used in different graphs.`,
+			fr: ({ idConcept }) =>
+				`Le concept ${idConcept} ne peut pas être supprimé car il est lié à d’autres concepts.`,
+			en: ({ idConcept }) =>
+				`The concept ${idConcept} can not be deleted because it is used in different graphs.`,
 		},
 		141: {
 			fr: () => 'Le concept n’existe pas.',
