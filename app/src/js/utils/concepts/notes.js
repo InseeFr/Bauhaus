@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import objectFromKeys from 'bauhaus-library/src/utils/object-from-keys';
-import D from 'js/i18n';
 import { buildEmptyNotes } from 'bauhaus-library/src/utils/build-empty-notes';
 import { rawHtmlToRmesHtml } from 'js/utils/html';
 
@@ -22,14 +21,14 @@ export const fields = allNotes;
 export const emptyNotes = buildEmptyNotes(fields);
 
 export const buildNotes = n => [
-	{ lg1: n.scopeNoteLg1, lg2: n.scopeNoteLg2, title: D.conceptsScopeNote },
-	{ lg1: n.definitionLg1, lg2: n.definitionLg2, title: D.conceptsDefinition },
+	{ lg1: n.scopeNoteLg1, lg2: n.scopeNoteLg2, title: 'conceptsScopeNote' },
+	{ lg1: n.definitionLg1, lg2: n.definitionLg2, title: 'conceptsDefinition' },
 	{
 		lg1: n.editorialNoteLg1,
 		lg2: n.editorialNoteLg2,
-		title: D.conceptsEditorialNote,
+		title: 'conceptsEditorialNote',
 	},
-	{ lg1: n.changeNoteLg1, lg2: n.changeNoteLg2, title: D.conceptsChangeNote },
+	{ lg1: n.changeNoteLg1, lg2: n.changeNoteLg2, title: 'conceptsChangeNote' },
 ];
 
 export const capitalizeFirst = str =>

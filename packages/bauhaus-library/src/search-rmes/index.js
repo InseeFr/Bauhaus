@@ -62,9 +62,7 @@ function SearchRmes({
 					</div>
 				</div>
 			)}
-			<div className="row">
-				<p aria-live="assertive">{nbResults(hits, D)}</p>
-			</div>
+			<p aria-live="assertive">{nbResults(hits, D)}</p>
 			<Pagination itemEls={hitEls} itemsPerPage="10" />
 		</div>
 	);

@@ -1,5 +1,5 @@
-import { Note }  from 'bauhaus-library';
-import D, { D2 } from 'js/i18n';
+import { Note } from 'bauhaus-library';
+import { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { isDocument, isLink } from '../utils';
@@ -27,7 +27,7 @@ function OperationsDocumentationVisualization({
 			<div className="row">
 				<Note
 					text={attr.descriptionLg1}
-					title={D.descriptionTitle}
+					title={D1.descriptionTitle}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
@@ -46,7 +46,7 @@ function OperationsDocumentationVisualization({
 				<div className="row">
 					<Note
 						text={new Date(attr.updatedDate).toLocaleDateString()}
-						title={D.titleUpdatedDate}
+						title={D1.titleUpdatedDate}
 						lang={lg1}
 						alone={true}
 						allowEmpty={true}
@@ -65,7 +65,7 @@ function OperationsDocumentationVisualization({
 								{attr.labelLg1}
 							</a>
 						}
-						title={D.titleLink}
+						title={D1.titleLink}
 						lang={lg1}
 						alone={!secondLang}
 						allowEmpty={true}
@@ -77,7 +77,7 @@ function OperationsDocumentationVisualization({
 									{attr.labelLg2}
 								</a>
 							}
-							title={D2.descriptionTitle}
+							title={D2.titleLink}
 							lang={lg2}
 							alone={false}
 							allowEmpty={true}
@@ -93,7 +93,7 @@ function OperationsDocumentationVisualization({
 								{attr.url}
 							</a>
 						}
-						title={D.titleLink}
+						title={D1.titleLink}
 						lang={lg1}
 						alone={true}
 						allowEmpty={true}

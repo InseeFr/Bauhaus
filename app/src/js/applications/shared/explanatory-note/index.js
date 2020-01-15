@@ -1,5 +1,5 @@
 import React from 'react';
-import { Note }  from 'bauhaus-library';
+import { Note } from 'bauhaus-library';
 import DOMPurify from 'dompurify';
 
 export const ExplanatoryNote = ({ text, title, alone }) => {

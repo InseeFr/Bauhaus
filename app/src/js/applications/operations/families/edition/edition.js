@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 import { goBackOrReplace, goBack } from 'bauhaus-library/src/utils/redirection';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
@@ -99,7 +99,7 @@ class OperationsFamilyEdition extends Component {
 					<div className="row">
 						<div className="col-md-6 form-group">
 							<label htmlFor="prefLabelLg1">
-								{D.title}
+								{D1.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -128,7 +128,7 @@ class OperationsFamilyEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="col-md-6 form-group">
-							<label htmlFor="themeLg1">{D2.theme}</label>
+							<label htmlFor="themeLg1">{D1.theme}</label>
 							<input
 								type="text"
 								className="form-control"
@@ -150,7 +150,7 @@ class OperationsFamilyEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="col-md-6 form-group">
-							<label htmlFor="abstractLg1">{D.summary}</label>
+							<label htmlFor="abstractLg1">{D1.summary}</label>
 							<EditorMarkdown
 								text={family.abstractLg1}
 								handleChange={value =>

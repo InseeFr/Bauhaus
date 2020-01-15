@@ -1,6 +1,4 @@
 import { buildNotes } from './notes';
-import D from 'js/i18n';
-import { stringToDate } from 'js/utils/moment';
 
 describe('classification-notes-utils', () => {
 	it('should return an array', () => {
@@ -9,32 +7,32 @@ describe('classification-notes-utils', () => {
 			{
 				lg1: undefined,
 				lg2: undefined,
-				title: D.classificationsDefinition,
+				title: 'classificationsDefinition',
 			},
 			{
 				lg1: 'scopeNoteLg1',
 				lg2: undefined,
-				title: D.classificationsScopeNote,
+				title: 'classificationsScopeNote',
 			},
 			{
 				lg1: undefined,
 				lg2: undefined,
-				title: D.classificationsCoreContentNote,
+				title: 'classificationsCoreContentNote',
 			},
 			{
 				lg1: undefined,
 				lg2: undefined,
-				title: D.classificationsAdditionalContentNote,
+				title: 'classificationsAdditionalContentNote',
 			},
 			{
 				lg1: undefined,
 				lg2: undefined,
-				title: D.classificationsExclusionNote,
+				title: 'classificationsExclusionNote',
 			},
 			{
 				lg1: undefined,
 				lg2: undefined,
-				title: D.classificationsChangeNote(stringToDate(new Date())),
+				title: 'classificationsChangeNote',
 			},
 		];
 		expect(buildNotes(notes)).toEqual(result);

@@ -8,12 +8,11 @@ import D from 'js/i18n';
 const Controls = ({ creation, save, disabledSave, ...props }) => {
 	const dsdId = buildExtract('dsdId')(props);
 	return (
-		<div className="row btn-line">
+		<div className="row btn-line action-toolbar">
 			<Button
 				label={D.btnReturn}
 				action={creation ? '/dsds' : `/dsds/${cleanId(dsdId)}`}
 			/>
-			<div className="col-md-8" />
 			<Button label={D.btnSave} action={save} disabled={disabledSave} />
 		</div>
 	);

@@ -2,7 +2,7 @@
 
 exports[`concept-visualization-controls should render the component 1`] = `
 <div
-  className="row btn-line"
+  className="row btn-line action-toolbar"
 >
   <div
     className="col-md-2"

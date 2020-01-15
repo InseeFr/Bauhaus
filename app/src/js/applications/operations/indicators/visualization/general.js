@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Note } from 'bauhaus-library';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
@@ -18,7 +18,7 @@ function DisplayMultiLangNote({
 		<div className="row">
 			<Note
 				text={value1}
-				title={D[title]}
+				title={D1[title]}
 				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
@@ -81,7 +81,7 @@ function OperationsIndicatorVisualization(props) {
 			<div className="row">
 				<Note
 					text={creator}
-					title={D.organisation}
+					title={D1.organisation}
 					lang={langs.lg1}
 					alone={true}
 					allowEmpty={true}
@@ -90,7 +90,7 @@ function OperationsIndicatorVisualization(props) {
 			<div className="row" data-cy="gestionnaire">
 				<Note
 					text={attr.gestionnaire}
-					title={D.operationsContributorTitle}
+					title={D1.operationsContributorTitle}
 					lang={langs.lg1}
 					alone={true}
 					allowEmpty={true}

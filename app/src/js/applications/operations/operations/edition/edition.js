@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import D, { D2 } from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 import { goBack, goBackOrReplace } from 'bauhaus-library/src/utils/redirection';
 import PropTypes from 'prop-types';
 import { CancelButton, SaveButton, Loading, ErrorBloc } from 'bauhaus-library';
@@ -134,7 +134,7 @@ class OperationsOperationEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-6">
 							<label htmlFor="prefLabelLg1">
-								{D.title}
+								{D1.title}
 								<span className="boldRed">*</span>
 							</label>
 							<input
@@ -163,7 +163,7 @@ class OperationsOperationEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="altLabelLg1">{D.altLabel}</label>
+							<label htmlFor="altLabelLg1">{D1.altLabel}</label>
 							<input
 								type="text"
 								className="form-control"

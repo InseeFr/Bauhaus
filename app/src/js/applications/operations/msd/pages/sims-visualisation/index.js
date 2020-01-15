@@ -118,19 +118,17 @@ export default function SimsVisualisation({
 				<div className="row" key={msd.idMas} id={msd.idMas}>
 					{!msd.isPresentational && (
 						<Note
-							title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}
+							title={`${msd.idMas} - ${msd.masLabelLg1}`}
 							text={displayInformation(msd, false, sims.rubrics[msd.idMas])}
 							alone={!(hasLabelLg2(msd) && secondLang)}
 							lang={lg1}
-							alt={`${msd.idMas} - ${msd.masLabelLg1}`}
 						/>
 					)}
 					{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
 						<Note
-							title={`${msd.idMas} - ${msd.masLabelBasedOnCurrentLang}`}
+							title={`${msd.idMas} - ${msd.masLabelLg2}`}
 							text={displayInformation(msd, true, sims.rubrics[msd.idMas])}
 							lang={lg2}
-							alt={`${msd.idMas} - ${msd.masLabelLg2}`}
 						/>
 					)}
 				</div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import D from 'js/i18n';
+import { D1 } from 'js/i18n';
 import { Note } from 'bauhaus-library';
 import { arrayToString } from 'js/utils/array-utils';
 import { DSURLToLabel } from 'bauhaus-library/src/utils/dissemination-status-convertor';
@@ -11,38 +11,38 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 	if (attr.altLabelLg1 && attr.altLabelLg1.length !== 0) {
 		mapping = {
 			...mapping,
-			altLabelLg1: `${D.altLabelTitle} (${lg1})`,
+			altLabelLg1: `${D1.altLabelTitle} (${lg1})`,
 		};
 	}
 	if (attr.altLabelLg2 && attr.altLabelLg2.length !== 0) {
 		mapping = {
 			...mapping,
-			altLabelLg2: `${D.altLabelTitle} (${lg2})`,
+			altLabelLg2: `${D1.altLabelTitle} (${lg2})`,
 		};
 	}
 	mapping = {
 		...mapping,
-		created: D.createdDateTitle,
-		modified: D.modifiedDateTitle,
+		created: D1.createdDateTitle,
+		modified: D1.modifiedDateTitle,
 	};
 	if (attr.valid) {
 		mapping = {
 			...mapping,
-			valid: D.validDateTitle,
+			valid: D1.validDateTitle,
 		};
 	}
 	mapping = {
 		...mapping,
-		conceptVersion: D.conceptVersionTitle,
-		creator: D.creatorTitle,
-		contributor: D.contributorTitle,
-		disseminationStatus: D.disseminationStatusTitle,
-		isValidated: D.isConceptValidTitle,
+		conceptVersion: D1.conceptVersionTitle,
+		creator: D1.creatorTitle,
+		contributor: D1.contributorTitle,
+		disseminationStatus: D1.disseminationStatusTitle,
+		isValidated: D1.isConceptValidTitle,
 	};
 	if (attr.additionalMaterial) {
 		mapping = {
 			...mapping,
-			additionalMaterial: D.additionalMaterialTitle,
+			additionalMaterial: D1.additionalMaterialTitle,
 		};
 	}
 
@@ -98,8 +98,8 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 									return (
 										<li key={fieldName}>{`${mapping[fieldName]} : ${
 											attr[fieldName] === 'false'
-												? D.conceptStatusProvisional
-												: D.conceptStatusValid
+												? D1.conceptStatusProvisional
+												: D1.conceptStatusValid
 										}`}</li>
 									);
 								} else {
@@ -113,7 +113,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 						})}
 					</ul>
 				}
-				title={D.globalInformationsTitle}
+				title={D1.globalInformationsTitle}
 				alone={true}
 			/>
 		</div>

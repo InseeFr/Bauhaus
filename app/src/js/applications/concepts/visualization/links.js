@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import D from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 import { Note } from 'bauhaus-library';
 import { sortArray } from 'js/utils/array-utils';
 import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED } from 'js/constants';
@@ -65,38 +65,38 @@ function ConceptLinks({ secondLang, links }) {
 	// Don't display links panel if there isn't links
 	if (nbLinks === 0) return null;
 
-	const content = (lang, alone) => (
+	const content = (lang, alone, Dictionnary = D1) => (
 		<Note
 			text={
 				<ul>
 					{isEmpty(narrower) && (
 						<li>
-							{D.narrowerTitle} :<ul>{narrowerList[lang]}</ul>
+							{Dictionnary.narrowerTitle} :<ul>{narrowerList[lang]}</ul>
 						</li>
 					)}
 					{isEmpty(broader) && (
 						<li>
-							{D.broaderTitle} :<ul>{broaderList[lang]}</ul>
+							{Dictionnary.broaderTitle} :<ul>{broaderList[lang]}</ul>
 						</li>
 					)}
 					{isEmpty(references) && (
 						<li>
-							{D.referencesTitle} :<ul>{referencesList[lang]}</ul>
+							{Dictionnary.referencesTitle} :<ul>{referencesList[lang]}</ul>
 						</li>
 					)}
 					{isEmpty(replaces) && (
 						<li>
-							{D.replacesTitle} :<ul>{replacesList[lang]}</ul>
+							{Dictionnary.replacesTitle} :<ul>{replacesList[lang]}</ul>
 						</li>
 					)}
 					{isEmpty(related) && (
 						<li>
-							{D.relatedTitle} :<ul>{relatedList[lang]}</ul>
+							{Dictionnary.relatedTitle} :<ul>{relatedList[lang]}</ul>
 						</li>
 					)}
 				</ul>
 			}
-			title={D.linksTitle}
+			title={Dictionnary.linksTitle}
 			lang={lang}
 			alone={alone}
 		/>
@@ -105,7 +105,7 @@ function ConceptLinks({ secondLang, links }) {
 	return (
 		<div className="row">
 			{content('lg1', !secondLang)}
-			{secondLang && content('lg2', false)}
+			{secondLang && content('lg2', false, D2)}
 		</div>
 	);
 }

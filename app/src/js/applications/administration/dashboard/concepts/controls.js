@@ -4,7 +4,7 @@ import D from 'js/i18n';
 
 function Controls() {
 	return (
-		<div className="row btn-line">
+		<div className="row btn-line action-toolbar">
 			<div className="col-md-2">
 				<Link
 					className="btn btn-primary btn-lg col-md-12"

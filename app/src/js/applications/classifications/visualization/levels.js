@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Note }  from 'bauhaus-library';
-import D, { D2 } from 'js/i18n';
+import { Note } from 'bauhaus-library';
+import { D1, D2 } from 'js/i18n';
 
 export default ({ levels, classificationId, secondLang }) => {
 	const levelsLg1 = levels.map((m, i) => (
@@ -31,7 +31,7 @@ export default ({ levels, classificationId, secondLang }) => {
 		<div className="row">
 			<Note
 				alone={!(secondLang && isMembersLg2)}
-				title={D.classificationLevelsTitle}
+				title={D1.classificationLevelsTitle}
 				text={levelsLg1}
 			></Note>
 			{secondLang && isMembersLg2 && (

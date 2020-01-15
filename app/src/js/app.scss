@@ -1,7 +1,7 @@
 .home-page-links {
 	list-style: none;
 
-	--content-width: 70vw;
+	--content-width: 50vw;
 	--gutter: 40px;
 	--columns: 1;
 	--row-size: calc(
@@ -29,7 +29,7 @@
 		padding: 2em 0;
 		h2 {
 			width: 70%;
-			font-size: 20px;
+			font-size: 22px;
 			margin: 10px auto 0 auto;
 			justify-content: center;
 			align-content: center;
@@ -41,21 +41,26 @@
 			text-decoration: none;
 		}
 		img {
-			width: 70%;
-			padding-top: 0.5em;
+			width: 60%;
 			opacity: 0.4;
-			margin-top: 1em;
+			margin-top: 0.5em;
 		}
 	}
 }
 
-@media (min-width: 550px) {
+// This declaration will be removed after receiving the icon for this application
+.bauhaus-app img {
+	width: 50% !important;
+	margin-top: 1.5em !important;
+}
+
+@media (min-width: 750px) {
 	.home-page-links {
 		--columns: 2;
 	}
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 900px) {
 	.home-page-links {
 		--columns: 3;
 	}

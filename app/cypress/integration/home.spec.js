@@ -2,7 +2,7 @@ describe('Home Page', function() {
 	it(`Should go to the Concepts page and come back`, function() {
 		cy.server().visit(`/`);
 
-		cy.get('li:nth-child(1) a').click();
+		cy.get('div.concepts a').click();
 
 		cy.url().should('match', /\/concepts$/);
 		cy.get('title').contains('Bauhaus - Concepts');
@@ -14,7 +14,7 @@ describe('Home Page', function() {
 
 	it(`Should go to the Nomenclatures page and come back`, function() {
 		cy.server().visit(`/`);
-		cy.get('li:nth-child(2) a').click();
+		cy.get('div.classifications a').click();
 		cy.url().should('match', /\/classifications$/);
 		cy.get('title').contains('Bauhaus - Nomenclatures');
 		cy.go('back');
@@ -24,7 +24,7 @@ describe('Home Page', function() {
 	});
 	it(`Should go to the Operations page and come back`, function() {
 		cy.server().visit(`/`);
-		cy.get('li:nth-child(3) a').click();
+		cy.get('div.operations a').click();
 		cy.url().should('match', /\/operations$/);
 		cy.get('title').contains('Bauhaus - Opérations');
 		cy.go('back');

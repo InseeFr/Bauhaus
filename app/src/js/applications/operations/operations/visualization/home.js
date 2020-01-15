@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Note }  from 'bauhaus-library';
-import D, { D2 } from 'js/i18n';
+import { Note } from 'bauhaus-library';
+import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
 
 function OperationsOperationVisualization({
@@ -14,7 +14,7 @@ function OperationsOperationVisualization({
 			<div className="row">
 				<Note
 					text={attr.altLabelLg1}
-					title={D.altLabel}
+					title={D1.altLabel}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
@@ -31,7 +31,7 @@ function OperationsOperationVisualization({
 			</div>
 			<RelationsView
 				parent={attr.series}
-				parentTitle={D.parentSeries}
+				parentTitle={'parentSeries'}
 				parentPath="series"
 				title={'linksTitle'}
 				langs={{ lg1, lg2 }}

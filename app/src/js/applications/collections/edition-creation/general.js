@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import D from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
 import {
@@ -42,7 +42,7 @@ function CollectionGeneralEdition({
 				{creation && (
 					<InputRmes
 						colMd={12}
-						label={D.idTitle}
+						label={D1.idTitle}
 						lang={lg1}
 						star
 						value={id}
@@ -52,7 +52,7 @@ function CollectionGeneralEdition({
 				{!creation && (
 					<InputRmes
 						colMd={12}
-						label={D.idTitle}
+						label={D1.idTitle}
 						lang={lg1}
 						star
 						value={id}
@@ -64,7 +64,7 @@ function CollectionGeneralEdition({
 			<div className="row">
 				<InputRmes
 					colMd={12}
-					label={D.labelTitle}
+					label={D1.labelTitle}
 					lang={lg1}
 					star
 					value={prefLabelLg1}
@@ -74,7 +74,7 @@ function CollectionGeneralEdition({
 			<div className="row">
 				<InputRmes
 					colMd={12}
-					label={D.labelTitle}
+					label={D2.labelTitle}
 					lang={lg2}
 					hiddenStar
 					value={prefLabelLg2}
@@ -83,11 +83,11 @@ function CollectionGeneralEdition({
 			</div>
 			<div className="form-group">
 				<label>
-					{D.creatorTitle} <span className="boldRed">*</span>
+					{D1.creatorTitle} <span className="boldRed">*</span>
 				</label>
 				<SelectRmes
 					className="form-control"
-					placeholder={D.stampsPlaceholder}
+					placeholder={D1.stampsPlaceholder}
 					value={creator}
 					options={stampList.map(stamp => ({ label: stamp, value: stamp }))}
 					onChange={handlers.creator}
@@ -95,7 +95,7 @@ function CollectionGeneralEdition({
 				/>
 			</div>
 			<div className="form-group">
-				<label>{D.contributorTitle}</label>
+				<label>{D1.contributorTitle}</label>
 				<input
 					type="text"
 					className="form-control"
@@ -106,7 +106,7 @@ function CollectionGeneralEdition({
 			<div className="row">
 				<InputRmes
 					colMd={12}
-					label={D.descriptionTitle}
+					label={D1.descriptionTitle}
 					lang={lg1}
 					value={descriptionLg1}
 					handleChange={handlers.descriptionLg1}
@@ -115,7 +115,7 @@ function CollectionGeneralEdition({
 			<div className="row">
 				<InputRmes
 					colMd={12}
-					label={D.descriptionTitle}
+					label={D2.descriptionTitle}
 					lang={lg2}
 					value={descriptionLg2}
 					handleChange={handlers.descriptionLg2}

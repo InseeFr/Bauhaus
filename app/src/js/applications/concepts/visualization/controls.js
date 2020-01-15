@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'bauhaus-library';
-import PlaceHolder from 'js/applications/shared/placeholder/placeholder';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { goBack } from 'bauhaus-library/src/utils/redirection';
@@ -44,7 +43,7 @@ class ConceptVisualizationControls extends Component {
 		const validate = adminOrCreator && [handleValidation, D.btnValid];
 		const update = [`/concept/${id}/modify`, D.btnUpdate];
 		const compare =
-			 (!conceptVersion || conceptVersion <= 1)
+			!conceptVersion || conceptVersion <= 1
 				? null
 				: [`/concept/${id}/compare`, D.btnCompare];
 		const erase = adminOrCreator && [handleDeletion, D.btnDelete];
@@ -52,39 +51,39 @@ class ConceptVisualizationControls extends Component {
 		if (admin || (creator && contributor)) {
 			if (isValidOutOfDate) {
 				btns = isValidated
-					? [cancel, null, null, compare, send, erase]
+					? [cancel, compare, send, erase]
 					: [cancel, compare, send, update, validate, erase];
 			} else {
 				btns = isValidated
-					? [cancel, null, compare, send, update, erase]
+					? [cancel, compare, send, update, erase]
 					: [cancel, compare, send, update, validate, erase];
 			}
 		} else if (contributor) {
 			if (isValidOutOfDate) {
 				btns = isValidated
-					? [cancel, null, null, null, compare, send]
-					: [cancel, null, null, compare, send, update];
+					? [cancel, compare, send]
+					: [cancel, compare, send, update];
 			} else {
-				btns = [cancel, null, null, compare, send, update];
+				btns = [cancel, compare, send, update];
 			}
 		} else if (creator) {
 			if (isValidOutOfDate) {
 				btns = isValidated
-					? [cancel, null, null, null, compare, send]
-					: [cancel, null, null, compare, send, validate];
+					? [cancel, compare, send]
+					: [cancel, compare, send, validate];
 			} else {
 				btns = isValidated
-					? [cancel, null, null, null, compare, send]
-					: [cancel, null, null, compare, send, validate];
+					? [cancel, compare, send]
+					: [cancel, compare, send, validate];
 			}
 		} else {
-			btns = [cancel, null, null, null, null, compare];
+			btns = [cancel, compare];
 		}
 
 		return (
-			<div className="row btn-line">
+			<div className="row btn-line action-toolbar">
 				{btns.map((btn, i) => {
-					if (!btn) return <PlaceHolder key={i} />;
+					if (!btn) return null;
 					const [action, label] = btn;
 					return btn && <Button key={label} action={action} label={label} />;
 				})}

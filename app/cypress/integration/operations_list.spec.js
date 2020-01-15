@@ -11,11 +11,11 @@
 			it(`Should display the ${title} page`, function() {
 				cy.server().visit(`/operations/${path}`);
 
-				cy.get(`.navbar-nav-operations li:nth-child(${index + 2})`).should(
+				cy.get(`.navbar-nav li:nth-child(${index + 2})`).should(
 					'have.class',
 					'active'
 				);
-				cy.get('.navbar-nav-operations li.active').should(lis => {
+				cy.get('.navbar-nav li.active').should(lis => {
 					expect(lis).to.have.length(1);
 				});
 

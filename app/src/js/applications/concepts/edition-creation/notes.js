@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
 import NoteEdition from 'js/applications/shared/note-edition';
-import D from 'js/i18n';
+import { D1 } from 'js/i18n';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { htmlIsEmpty } from 'js/utils/html';
 
 const noteTypes = maxLengthScopeNote => [
 	{
-		rawTitle: D.conceptsScopeNote,
+		rawTitle: 'conceptsScopeNote',
 		// should be highlighted only if `scopeNoteLg1` is empty and
 		//`disseminationStatus.includes('Public')`
 		redLg1Empty: disseminationStatus => disseminationStatus.includes('Public'),
@@ -17,19 +17,19 @@ const noteTypes = maxLengthScopeNote => [
 		maxLength: maxLengthScopeNote,
 	},
 	{
-		rawTitle: D.conceptsDefinition,
+		rawTitle: 'conceptsDefinition',
 		redLg1Empty: () => true,
 		noteLg1Name: 'definitionLg1',
 		noteLg2Name: 'definitionLg2',
 	},
 
 	{
-		rawTitle: D.conceptsEditorialNote,
+		rawTitle: 'conceptsEditorialNote',
 		noteLg1Name: 'editorialNoteLg1',
 		noteLg2Name: 'editorialNoteLg2',
 	},
 	{
-		rawTitle: D.conceptsChangeNote,
+		rawTitle: 'conceptsChangeNote',
 		noteLg1Name: 'changeNoteLg1',
 		noteLg2Name: 'changeNoteLg2',
 	},
@@ -89,9 +89,9 @@ class NotesEdition extends Component {
 								htmlIsEmpty(noteLg1) &&
 								redLg1Empty(disseminationStatus);
 							const title = highlight ? (
-								<div className="red">{rawTitle}</div>
+								<div className="red">{D1[rawTitle]}</div>
 							) : (
-								rawTitle
+								D1[rawTitle]
 							);
 							if (activeTab === i) {
 								noteEdition = (

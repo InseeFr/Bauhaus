@@ -4,9 +4,15 @@ import { I18NContext } from '../context';
 
 const ErrorBloc = ({ error }) => {
 	const D = useContext(I18NContext);
-	// This will be changed when an error will be an object
-	const code = error && error.substr(0, error.indexOf(':')).trim();
-	const errorMsg = D.errors[code || '0'] || error;
+	let errorMsg;
+	try {
+		const parsedError = JSON.parse(error);
+		errorMsg = parsedError.code
+			? D.errors[parsedError.code](parsedError)
+			: parsedError.message;
+	} catch (e) {
+		errorMsg = error;
+	}
 
 	return (
 		<div className="empty-center centered">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import D, { D2 } from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
 import { CL_FREQ } from 'js/actions/constants/codeList';
@@ -164,7 +164,7 @@ class OperationsIndicatorEdition extends Component {
 						<InputRmes
 							colMd={6}
 							value={indicator.prefLabelLg1}
-							label={D.title}
+							label={D1.title}
 							star
 							handleChange={this.onChanges.prefLabelLg1}
 							arias={{
@@ -186,7 +186,7 @@ class OperationsIndicatorEdition extends Component {
 						<InputRmes
 							colMd={6}
 							value={indicator.altLabelLg1}
-							label={D.altLabel}
+							label={D1.altLabel}
 							handleChange={this.onChanges.altLabelLg1}
 						/>
 						<InputRmes
@@ -198,7 +198,7 @@ class OperationsIndicatorEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="abstractLg1">{D.summary}</label>
+							<label htmlFor="abstractLg1">{D1.summary}</label>
 							<EditorMarkdown
 								text={indicator.abstractLg1}
 								handleChange={this.onChanges.abstractLg1}
@@ -214,7 +214,7 @@ class OperationsIndicatorEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="historyNoteLg1">{D.history}</label>
+							<label htmlFor="historyNoteLg1">{D1.history}</label>
 							<EditorMarkdown
 								text={indicator.historyNoteLg1}
 								handleChange={this.onChanges.historyNoteLg1}
@@ -231,7 +231,7 @@ class OperationsIndicatorEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="accrualPeriodicity" className="full-label">
-								{D.indicatorDataCollectFrequency}
+								{D1.indicatorDataCollectFrequency}
 								<SelectRmes
 									placeholder=""
 									unclearable
@@ -248,7 +248,7 @@ class OperationsIndicatorEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="creator" className="full-label">
-								{D.organisation}
+								{D1.organisation}
 
 								<SelectRmes
 									unclearable
@@ -263,7 +263,7 @@ class OperationsIndicatorEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="contributor" className="full-label">
-								{D.operationsContributorTitle}
+								{D1.operationsContributorTitle}
 								<SelectRmes
 									placeholder=""
 									unclearable
@@ -277,7 +277,7 @@ class OperationsIndicatorEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label className="full-label">
-								{D.stakeholders}
+								{D1.stakeholders}
 								<SelectRmes
 									unclearable
 									value={indicator.contributor}
@@ -299,7 +299,7 @@ class OperationsIndicatorEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label className="full-label">
-								{D.replaces}
+								{D1.replaces}
 								<SelectRmes
 									unclearable
 									value={indicator.replaces}
@@ -320,7 +320,7 @@ class OperationsIndicatorEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label className="full-label">
-								{D.replacedBy}
+								{D1.replacedBy}
 								<SelectRmes
 									unclearable
 									value={indicator.replacedBy}
@@ -341,7 +341,7 @@ class OperationsIndicatorEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label className="full-label">
-								{D.generatedBy}
+								{D1.generatedBy}
 								<SelectRmes
 									unclearable
 									value={indicator.wasGeneratedBy}
@@ -362,7 +362,7 @@ class OperationsIndicatorEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="seeAlso" className="full-label">
-								{D.seeAlso}
+								{D1.seeAlso}
 								<SelectRmes
 									unclearable
 									value={indicator.seeAlso}

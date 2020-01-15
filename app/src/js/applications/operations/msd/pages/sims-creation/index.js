@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from 'js/utils/msd';
-import { Button, Loading, CheckSecondLang } from 'bauhaus-library';
+import {
+	Button,
+	Loading,
+	CheckSecondLang,
+	CancelButton,
+} from 'bauhaus-library';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { DUPLICATE } from 'js/applications/operations/msd';
 import {
@@ -180,20 +185,9 @@ class SimsCreation extends React.Component {
 
 		return (
 			<form>
-				<div className="row btn-line">
-					<Button
-						action={this.goBack}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-remove"
-									aria-hidden="true"
-								/>
-								<span> {D.btnCancel}</span>
-							</React.Fragment>
-						}
-					/>
-					<div className="col-md-7" />
+				<div className="row btn-line action-toolbar">
+					<CancelButton action={this.goBack} />
+
 					<Button
 						action={this.handleSubmit}
 						label={

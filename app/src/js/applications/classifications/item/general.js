@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import { Panel }  from 'bauhaus-library';
+import { Note } from 'bauhaus-library';
 
 export default ({ general, classificationId, itemId, secondLang }) => {
 	const mapping = {
@@ -13,8 +13,8 @@ export default ({ general, classificationId, itemId, secondLang }) => {
 	};
 	return (
 		<div className="row">
-			<div className="col-md-12">
-				<Panel title={D.globalInformationsTitle}>
+			<Note
+				text={
 					<ul>
 						{Object.keys(mapping).map(fieldName => {
 							if (general.hasOwnProperty(fieldName) && general[fieldName]) {
@@ -74,8 +74,11 @@ export default ({ general, classificationId, itemId, secondLang }) => {
 							} else return null;
 						})}
 					</ul>
-				</Panel>
-			</div>
+				}
+				title={D.globalInformationsTitle}
+				alone={true}
+				allowEmpty={true}
+			/>
 		</div>
 	);
 };

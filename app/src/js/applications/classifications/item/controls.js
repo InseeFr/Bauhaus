@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'bauhaus-library';
-import PlaceHolder from 'js/applications/shared/placeholder/placeholder';
 import { goBack } from 'bauhaus-library/src/utils/redirection';
 import D from 'js/i18n';
 
@@ -29,23 +28,14 @@ class ItemControls extends Component {
 						`/classifications/classification/${classificationId}/item/${itemId}/compare`,
 						D.btnCompare,
 				  ];
-		const btns = [cancel, null, null, null, null, compare];
+		const btns = [cancel, compare];
 
 		return (
-			<div className="row btn-line">
+			<div className="row btn-line action-toolbar">
 				{btns.map((btn, i) => {
-					if (!btn) return <PlaceHolder key={i} />;
+					if (!btn) return null;
 					const [action, label] = btn;
-					return (
-						btn && (
-							<Button
-								key={label}
-								action={action}
-								label={label}
-								context="classifications"
-							/>
-						)
-					);
+					return btn && <Button key={label} action={action} label={label} />;
 				})}
 			</div>
 		);

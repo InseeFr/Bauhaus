@@ -1,6 +1,6 @@
 import React from 'react';
-import { Note }  from 'bauhaus-library';
-import D, { D2 } from 'js/i18n';
+import { Note } from 'bauhaus-library';
+import D, { D1, D2 } from 'js/i18n';
 import { Link } from 'react-router-dom';
 
 function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
@@ -42,7 +42,7 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 		<div className="row">
 			<Note
 				text={displaySeeAlsos('labelLg1')}
-				title={D.seeAlso}
+				title={D1.seeAlso}
 				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}

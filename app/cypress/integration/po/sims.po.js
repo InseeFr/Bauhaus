@@ -4,15 +4,15 @@ export class SimsViewPage {
 	}
 
 	getPublishButton() {
-		return 'div:nth-child(3) > button';
+		return 'div:nth-child(2) > button';
 	}
 
 	getUpdateButton() {
-		return 'div:nth-child(4) > a';
+		return 'div:nth-child(3) > a';
 	}
 
 	getSecondLangCheckbox() {
-		return 'div:nth-child(4) > a';
+		return '.bauhaus-second-lang-checkbox';
 	}
 
 	getDocumentsBlocForRubric(rubricId) {
@@ -26,10 +26,10 @@ export class SimsEditPage {
 	}
 	p;
 	getCancelButton() {
-		return '.btn-line div:first > button';
+		return cy.get('.btn-line div:first > button');
 	}
 
 	getSaveButton() {
-		return '.btn-line div:nth-child(3) > button';
+		return cy.get('.btn-line div:nth-child(2) > button');
 	}
 }

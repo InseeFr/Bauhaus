@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Note } from 'bauhaus-library';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
@@ -31,7 +31,7 @@ function OperationsSerieVisualization({
 			<div className="row">
 				<Note
 					text={attr.altLabelLg1}
-					title={D.altLabel}
+					title={D1.altLabel}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
@@ -49,7 +49,7 @@ function OperationsSerieVisualization({
 			<div className="row">
 				<Note
 					text={attr.abstractLg1}
-					title={D.summary}
+					title={D1.summary}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
@@ -70,7 +70,7 @@ function OperationsSerieVisualization({
 			<div className="row">
 				<Note
 					text={attr.historyNoteLg1}
-					title={D.history}
+					title={D1.history}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
@@ -91,7 +91,7 @@ function OperationsSerieVisualization({
 			<div className="row">
 				<Note
 					text={category.labelLg1}
-					title={D.operationType}
+					title={D1.operationType}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
@@ -110,7 +110,7 @@ function OperationsSerieVisualization({
 			<div className="row">
 				<Note
 					text={frequency.labelLg1}
-					title={D.dataCollectFrequency}
+					title={D1.dataCollectFrequency}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
@@ -129,7 +129,7 @@ function OperationsSerieVisualization({
 			<div className="row">
 				<Note
 					text={creator}
-					title={D.organisation}
+					title={D1.organisation}
 					lang={lg1}
 					alone={true}
 					allowEmpty={true}
@@ -156,7 +156,7 @@ function OperationsSerieVisualization({
 			<div className="row" data-cy="gestionnaire">
 				<Note
 					text={attr.gestionnaire}
-					title={D.operationsContributorTitle}
+					title={D1.operationsContributorTitle}
 					lang={lg1}
 					alone={true}
 					allowEmpty={true}
@@ -188,10 +188,10 @@ function OperationsSerieVisualization({
 
 			<RelationsView
 				children={attr.operations}
-				childrenTitle={D.childrenOperations}
+				childrenTitle={'childrenOperations'}
 				childrenPath="operation"
 				parent={attr.family}
-				parentTitle={D.parentFamilly}
+				parentTitle={'parentFamilly'}
 				parentPath="family"
 				title={'linksTitle'}
 				langs={{ lg1, lg2 }}

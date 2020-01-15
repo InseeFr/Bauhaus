@@ -3,7 +3,7 @@ export class FamiliesPage {
 		cy.server().visit(`/operations/families`);
 	}
 	getNewButton() {
-		return cy.get('.btn-group-vertical a');
+		return cy.get('.btn-group-vertical a').first();
 	}
 	goToCreationPage() {
 		this.getNewButton().click();

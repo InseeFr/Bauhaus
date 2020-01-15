@@ -57,7 +57,7 @@ class Update extends Component {
 		return (
 			<div className="container">
 				<PageTitle title={D.authorizationManagementTitle} />
-				<div className="row btn-line">
+				<div className="row btn-line action-toolbar">
 					<Button label={D.btnReturn} action="/administration/roles" />
 					<Button
 						label={D.btnSave}

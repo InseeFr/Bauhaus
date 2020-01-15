@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import D from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
@@ -45,7 +45,7 @@ function ConceptGeneralEdition({
 			<div className="row">
 				<InputRmes
 					colMd={6}
-					label={D.labelTitle}
+					label={D1.labelTitle}
 					lang={langs.lg1}
 					star
 					value={prefLabelLg1}
@@ -53,7 +53,7 @@ function ConceptGeneralEdition({
 				/>
 				<InputRmes
 					colMd={6}
-					label={D.labelTitle}
+					label={D2.labelTitle}
 					lang={langs.lg2}
 					hiddenStar
 					value={prefLabelLg2}
@@ -63,14 +63,14 @@ function ConceptGeneralEdition({
 			<InputMultiRmes
 				inputLg1={altLabelLg1}
 				inputLg2={altLabelLg2}
-				label={D.altLabelTitle}
+				label={'altLabelTitle'}
 				handleChangeLg1={handlers.altLabelLg1}
 				handleChangeLg2={handlers.altLabelLg2}
 				langs={langs}
 			/>
 			<div className="form-group">
 				<label>
-					{D.creatorTitle} <span className="boldRed">*</span>
+					{D1.creatorTitle} <span className="boldRed">*</span>
 				</label>
 				<SelectRmes
 					className="form-control"
@@ -82,7 +82,7 @@ function ConceptGeneralEdition({
 				/>
 			</div>
 			<div className="form-group">
-				<label>{D.contributorTitle}</label>
+				<label>{D1.contributorTitle}</label>
 				<input
 					type="text"
 					className="form-control"
@@ -92,7 +92,7 @@ function ConceptGeneralEdition({
 			</div>
 			<div className="form-group">
 				<label>
-					{D.disseminationStatusTitle} <span className="boldRed">*</span>
+					{D1.disseminationStatusTitle} <span className="boldRed">*</span>
 				</label>
 				<SelectRmes
 					className="form-control"
@@ -107,7 +107,7 @@ function ConceptGeneralEdition({
 				/>
 			</div>
 			<div className="form-group">
-				<label>{D.additionalMaterialTitle}</label>
+				<label>{D1.additionalMaterialTitle}</label>
 				<div className="input-group">
 					<span className="input-group-addon">http://</span>
 
@@ -120,7 +120,7 @@ function ConceptGeneralEdition({
 				</div>
 			</div>
 			<div className="form-group">
-				<label>{D.validDateTitle}</label>
+				<label>{D1.validDateTitle}</label>
 				<DatePickerRmes
 					value={valid}
 					onChange={handlers.valid}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ErrorBloc } from 'bauhaus-library';
+import { CancelButton, Button, ErrorBloc } from 'bauhaus-library';
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import D from 'js/i18n';
@@ -38,18 +38,7 @@ function CollectionEditionCreationControls({
 	return (
 		<>
 			<div className="row btn-line action-toolbar">
-				<Button
-					label={
-						<React.Fragment>
-							<span
-								className="glyphicon glyphicon-floppy-remove"
-								aria-hidden="true"
-							/>
-							<span> {D.btnCancel}</span>
-						</React.Fragment>
-					}
-					action={redirectCancel()}
-				/>
+				<CancelButton action={redirectCancel()} />
 
 				<Button
 					label={

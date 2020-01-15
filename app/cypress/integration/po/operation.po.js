@@ -1,6 +1,6 @@
 export class OperationsPage {
 	getNewButton() {
-		return '.btn-group-vertical a';
+		return cy.get('.btn-group-vertical a').first();
 	}
 }
 

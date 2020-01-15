@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
-import D from 'js/i18n';
+import { D1 } from 'js/i18n';
 import ConceptToLink from './concept-to-link';
 import SearchConceptsByLabel from './search-concepts-by-label';
 import { filterDeburr } from 'js/utils/array-utils';
@@ -20,23 +20,23 @@ import {
 } from 'js/constants';
 const linkTypes = [
 	{
-		title: D.narrowerTitle,
+		title: D1.narrowerTitle,
 		memberType: NARROWER,
 	},
 	{
-		title: D.broaderTitle,
+		title: D1.broaderTitle,
 		memberType: BROADER,
 	},
 	{
-		title: D.referencesTitle,
+		title: D1.referencesTitle,
 		memberType: REFERENCES,
 	},
 	{
-		title: D.replacesTitle,
+		title: D1.replacesTitle,
 		memberType: SUCCEED,
 	},
 	{
-		title: D.relatedTitle,
+		title: D1.relatedTitle,
 		memberType: RELATED,
 	},
 ];

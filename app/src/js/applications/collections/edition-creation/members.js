@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Panel, Pagination } from 'bauhaus-library';
 import Item from 'js/applications/shared/picker-item';
 import { filterDeburr, arrayDifferenceByID } from 'js/utils/array-utils';
-import D from 'js/i18n';
+import D, { D1 } from 'js/i18n';
 import logoAdd from 'js/applications/shared/logo/logo-add';
 import logoDel from 'js/applications/shared/logo/logo-del';
 
@@ -122,7 +122,7 @@ class CollectionMembersEdition extends Component {
 		return (
 			<div className="row">
 				<div className="col-md-6">
-					<Panel title={D.collectionMembersPanelTitle}>{addedEls}</Panel>
+					<Panel title={D1.collectionMembersPanelTitle}>{addedEls}</Panel>
 				</div>
 				<div className="col-md-6 centered">
 					<input

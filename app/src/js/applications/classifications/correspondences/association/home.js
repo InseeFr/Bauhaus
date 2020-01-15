@@ -1,9 +1,9 @@
 import React from 'react';
-import { CheckSecondLang, PageTitle, Panel } from 'bauhaus-library';
+import { CheckSecondLang, PageTitle, Note } from 'bauhaus-library';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
-import D, { D2 } from 'js/i18n';
+import { D2, D1 } from 'js/i18n';
 
 export default ({ association, secondLang, saveSecondLang, langs }) => {
 	const {
@@ -19,30 +19,27 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 	const { sourceItemLabelLg2, targetItemLabelLg2 } = association;
 	return (
 		<div className="container">
-			<PageTitle
-				title={title}
-				subtitle={associationId}
-				context="classifications"
-			/>
+			<PageTitle title={title} subtitle={associationId} />
 			<CorrespondenceControls correspondenceId={correspondenceId} />
 			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
 			<div className="row">
-				<div className="col-md-12">
-					{(!secondLang ||
-						(secondLang && sourceItemLabelLg2 && targetItemLabelLg2)) && (
-						<Panel title={D.globalInformationsTitle}>
-							{generalFields(association, secondLang)}
-						</Panel>
-					)}
-				</div>
+				{(!secondLang ||
+					(secondLang && sourceItemLabelLg2 && targetItemLabelLg2)) && (
+					<Note
+						text={generalFields(association, secondLang)}
+						title={D1.globalInformationsTitle}
+						alone={true}
+						allowEmpty={true}
+					/>
+				)}
 			</div>
 			<span>
 				{scopeNoteLg1 && (
 					<div className="row">
 						<ExplanatoryNote
 							text={scopeNoteLg1}
-							title={D.classificationsDescription}
+							title={D1.classificationsDescription}
 							lang={lg1}
 							alone={!secondLang}
 						/>

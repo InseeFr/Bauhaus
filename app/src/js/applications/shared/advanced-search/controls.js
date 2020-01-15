@@ -3,7 +3,7 @@ import { Button } from 'bauhaus-library';
 import D from 'js/i18n';
 
 export default ({ onClickReturn, initializeState }) => (
-	<div className="row btn-line">
+	<div className="row btn-line action-toolbar">
 		<Button
 			label={
 				<>

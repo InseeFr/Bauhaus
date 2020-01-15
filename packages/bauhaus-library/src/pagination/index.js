@@ -60,7 +60,7 @@ export const Pagination = React.memo(
 			<Fragment>
 				<ul className="list-group">{currentItems}</ul>
 				{pageNumbers.length > 1 && (
-					<nav role="navigation">
+					<div>
 						<ul className={`bauhaus-pagination`}>
 							<li className={isDisabled(currentPage - 1) ? 'disabled' : ''}>
 								<Link
@@ -104,7 +104,7 @@ export const Pagination = React.memo(
 								</Link>
 							</li>
 						</ul>
-					</nav>
+					</div>
 				)}
 			</Fragment>
 		);

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Note }  from 'bauhaus-library';
+import { Note } from 'bauhaus-library';
 import './relations.scss';
 import { Link } from 'react-router-dom';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 
 export function RelationsViewPerLgContent({
 	children,
@@ -13,11 +13,12 @@ export function RelationsViewPerLgContent({
 	parentPath,
 	langSuffix,
 }) {
+	const Dictionnary = langSuffix === 'Lg1' ? D1 : D2;
 	return (
 		<>
 			{parent && (
 				<p>
-					<span className="linksTitle">{parentTitle}:</span>
+					<span className="linksTitle">{Dictionnary[parentTitle]}</span>
 					<Link to={`/operations/${parentPath}/${parent.id}`}>
 						{parent[`label${langSuffix}`]}
 					</Link>
@@ -26,7 +27,7 @@ export function RelationsViewPerLgContent({
 			{children && (
 				<>
 					<p>
-						<span className="linksTitle">{childrenTitle}:</span>
+						<span className="linksTitle">{Dictionnary[childrenTitle]}</span>
 					</p>
 					<ul>
 						{children
@@ -66,7 +67,7 @@ function RelationsView(props) {
 		<div className="row">
 			<RelationsViewPerLg
 				{...props}
-				title={D[props.title]}
+				title={D1[props.title]}
 				langSuffix="Lg1"
 				currentLang={props.langs.lg1}
 			/>

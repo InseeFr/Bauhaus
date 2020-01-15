@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { CheckSecondLang, PageTitle, Panel } from 'bauhaus-library';
+import { CheckSecondLang, PageTitle, Note } from 'bauhaus-library';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 import { propTypes as correspondencePropTypes } from 'js/applications/classifications/utils/correspondence/general';
 
 class HomeGeneral extends Component {
@@ -32,21 +32,22 @@ class HomeGeneral extends Component {
 					onChange={this.props.saveSecondLang}
 				/>
 				<div className="row">
-					<div className="col-md-12">
-						{(!secondLang ||
-							(secondLang && (firstClassLabelLg2 || secondClassLabelLg2))) && (
-							<Panel title={D.globalInformationsTitle}>
-								{generalFields(correspondence, secondLang)}
-							</Panel>
-						)}
-					</div>
+					{(!secondLang ||
+						(secondLang && (firstClassLabelLg2 || secondClassLabelLg2))) && (
+						<Note
+							text={generalFields(correspondence, secondLang)}
+							title={D1.globalInformationsTitle}
+							alone={true}
+							allowEmpty={true}
+						/>
+					)}
 				</div>
 				<span>
 					{correspondence.descriptionLg1 && (
 						<div className="row">
 							<ExplanatoryNote
 								text={correspondence.descriptionLg1}
-								title={D.classificationsDescription}
+								title={D1.classificationsDescription}
 								lang={lg1}
 								alone={!secondLang}
 							/>

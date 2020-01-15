@@ -1,22 +1,22 @@
 import React from 'react';
-import D, { D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 import { Note } from 'bauhaus-library';
 import { stringToDate } from 'js/utils/moment';
 
 function CollectionGeneral({ attr, secondLang, langs }) {
 	const mapping = {
-		created: D.createdDateTitle,
-		modified: D.modifiedDateTitle,
-		creator: D.creatorTitle,
-		contributor: D.contributorTitle,
-		isValidated: D.isCollectionValidTitle,
+		created: D1.createdDateTitle,
+		modified: D1.modifiedDateTitle,
+		creator: D1.creatorTitle,
+		contributor: D1.contributorTitle,
+		isValidated: D1.isCollectionValidTitle,
 	};
 	const { lg1, lg2 } = langs;
 	return (
 		<>
 			<div className="row">
 				<Note
-					title={D.globalInformationsTitle}
+					title={D1.globalInformationsTitle}
 					alone={true}
 					text={
 						<ul>
@@ -32,8 +32,8 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 										return (
 											<li key={fieldName}>{`${mapping[fieldName]} : ${
 												attr[fieldName] === 'false'
-													? D.collectionStatusProvisional
-													: D.collectionStatusValid
+													? D1.collectionStatusProvisional
+													: D1.collectionStatusValid
 											}`}</li>
 										);
 									} else {
@@ -53,7 +53,7 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 				<div className="row">
 					<Note
 						text={attr.descriptionLg1}
-						title={D.descriptionTitle}
+						title={D1.descriptionTitle}
 						lang={lg1}
 						alone={!secondLang}
 					/>
