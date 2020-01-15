@@ -61,6 +61,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="user-guide/concept.html" />
+    
     
     <link rel="prev" href="./" />
     
@@ -121,6 +123,65 @@
     
 
     
+        
+        <li class="header">Guide Utilisateur</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="user-guide/concept.html">
+            
+                <a href="user-guide/concept.html">
+            
+                    
+                    Concept
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="user-guide/classification.html">
+            
+                <a href="user-guide/classification.html">
+            
+                    
+                    Nomenclature
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="user-guide/operation.html">
+            
+                <a href="user-guide/operation.html">
+            
+                    
+                    Operation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="user-guide/structure.html">
+            
+                <a href="user-guide/structure.html">
+            
+                    
+                    Structure
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
 
     <li class="divider"></li>
 
@@ -170,7 +231,8 @@
 yarn install
 # Compilation du code et d&#xE9;marrage d&apos;un serveur de d&#xE9;veloppement
 yarn start
-</code></pre><p>L&apos;application s&apos;appuie sur des Web services externes : Bauhaus-Back-Office(<a href="https://github.com/InseeFr/Bauhaus-Back-Office" target="_blank">https://github.com/InseeFr/Bauhaus-Back-Office</a>).</p>
+</code></pre><p>Nous avons remarqu&#xE9; une erreur avec la commande <code>yarn start</code> lorsque des caract&#xE9;res accentu&#xE9;s sont pr&#xE9;sent dans le <code>path</code>. Si cela est votre cas, vous pouvez ex&#xE9;cuter la commande <code>npm start</code> &#xE0; la place de <code>yarn start</code>.</p>
+<p>L&apos;application s&apos;appuie sur des Web services externes : Bauhaus-Back-Office(<a href="https://github.com/InseeFr/Bauhaus-Back-Office" target="_blank">https://github.com/InseeFr/Bauhaus-Back-Office</a>).</p>
 <h2 id="test">Test</h2>
 <p>Les tests peuvent &#xEA;tre lanc&#xE9;s de fa&#xE7;on interactive avec la commande <code>yarn test</code>. Par d&#xE9;faut, seuls les tests impliquant des fichiers modifi&#xE9;s depuis le dernier commit seront &#xE9;x&#xE9;cut&#xE9;s.
 Un script suppl&#xE9;mentaire, <code>yarn test:coverage</code> permet de g&#xE9;n&#xE9;rer un rapport local complet <code>Bauhaus/coverage/lcov-report/index.html</code>.</p>
@@ -178,6 +240,14 @@ Un script suppl&#xE9;mentaire, <code>yarn test:coverage</code> permet de g&#xE9;
 <p>Les tests unitaires sont ex&#xE9;cut&#xE9;s lorsque nous faisons un <code>git push</code></p>
 <h2 id="build">Build</h2>
 <p>Pour produire la version de production, lancez la commande <code>yarn build</code>. Vous pouvez d&#xE9;sormais servir le contenu du dossier <code>dist</code> avec le serveur web de votre choix.</p>
+<h3 id="docker">Docker</h3>
+<p>Vous pouvez &#xE9;galement builder un container Docker :</p>
+<pre class="language-"><code class="lang-shell">docker build <span class="token builtin class-name">.</span> -t bauhaus-front
+</code></pre>
+<p>Et l&apos;&#xE9;xecuter :</p>
+<pre class="language-"><code class="lang-shell">docker run  -it -p <span class="token number">8083</span>:80 -e <span class="token assign-left variable">BAUHAUS_API_URL</span><span class="token operator">=</span>http://192.168.1.12:8081/api bauhaus-front
+</code></pre>
+<p><code>http://192.168.1.12:8081/api</code> est l&apos;URL de base de l&apos;API Bauhaus.</p>
 <h2 id="d&#xE9;buter-avec-javascript-et-nodejs">D&#xE9;buter avec JavaScript et Node.js</h2>
 <p>Si vous d&#xE9;butez avec ces technologies, vous aurez vraisemblablement besoin d&apos;installer dans un premier temps sur votre ordinateur <a href="https://nodejs.org/en/download/" target="_blank">node</a> et <a href="https://github.com/yarnpkg/yarn" target="_blank">yarn</a>.</p>
 <p><code>yarn</code> est un gestionnaire de modules pour <code>Node.js</code>. <code>yarn install</code> t&#xE9;l&#xE9;chargera toutes les d&#xE9;pendances du projet, d&#xE9;crites dans la section <code>dependencies</code> et <code>devDepedencies</code> du fichier <a href="https://github.com/InseeFr/Bauhaus/blob/master/package.json" target="_blank">package.json</a>.</p>
@@ -217,10 +287,14 @@ Ces fichiers doivent ensuite &#xEA;tre import&#xE9;s directement ou indirectemen
 
             
                 
-                <a href="./" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Introduction">
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Introduction">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
+                
+                <a href="user-guide/concept.html" class="navigation navigation-next " aria-label="Next page: Concept">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -229,7 +303,7 @@ Ces fichiers doivent ensuite &#xEA;tre import&#xE9;s directement ou indirectemen
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Démarrage","level":"1.2","depth":1,"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","prism","-highlight","github","anchorjs","image-captions","include-codeblock"],"root":"./","styles":{"website":"gitbook.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"github":{"url":"https://github.com/InseeFr/Bauhaus/"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit This Page","base":"https://github.com/InseeFr/Bauhaus/tree/master/docs"},"theme-default":{"styles":{"website":"gitbook.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchorjs":{},"image-captions":{"variable_name":"_pictures"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[]},"title":"Bauhaus","language":"fr","gitbook":"*"},"file":{"path":"getting-started.md","mtime":"2019-08-28T10:03:23.457Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2019-08-28T10:07:06.130Z"},"basePath":".","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Démarrage","level":"1.2","depth":1,"next":{"title":"Concept","level":"2.1","depth":1,"path":"user-guide/concept.md","ref":"user-guide/concept.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","prism","-highlight","github","anchorjs","image-captions","include-codeblock"],"root":"./","styles":{"website":"gitbook.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"shell":"bash"}},"github":{"url":"https://github.com/InseeFr/Bauhaus/"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit This Page","base":"https://github.com/InseeFr/Bauhaus/tree/master/docs"},"theme-default":{"styles":{"website":"gitbook.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchorjs":{},"image-captions":{"variable_name":"_pictures"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[]},"title":"Bauhaus","language":"fr","gitbook":"*"},"file":{"path":"getting-started.md","mtime":"2020-01-15T14:16:29.324Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2020-01-15T14:24:28.883Z"},"basePath":".","book":{"language":"fr"}});
         });
     </script>
 </div>
