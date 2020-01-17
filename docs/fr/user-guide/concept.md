@@ -9,7 +9,7 @@ Version au 01/01/2020
 - [**Fonctionnalités du module Concepts**](#fonctionnalites-concepts)
 
   - [Rechercher un concept](#rechercher-concept)
-  - [Exporter un ou plusieurs concepts](exporter-concept)
+  - [Exporter un ou plusieurs concepts](#exporter-concept)
   - [Créer un concept](#creer-concept)
   - [Modifier un concept](#modifier-concept)
   - [Créer une nouvelle version](#creer-version-concept)
