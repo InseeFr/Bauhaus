@@ -296,12 +296,6 @@ Une fois la collection modifiée, son statut de publication devient **« proviso
 
 ---
 
-## <a id="publier-collection">Publier une collection de concepts</a>
-
-Pour publier une collection de concepts, se positionner sur l'écran de description de la collection à publier et cliquer en haut à droite sur Publier après avoir vérifié les informations saisies.
-
----
-
 ## <a id=envoyer-collection>Envoyer une collection de concepts</a>
 
 Cliquer en haut à gauche de l'écran de description de la collection sur le bouton Envoyer
@@ -311,6 +305,12 @@ Un écran s'affiche, permettant d'envoyer à un destinataire un message avec en 
 NB : le service n'est pas branché sur l'annuaire interne : il faut donc saisir l'adresse mail complète pour tous les destinataires.
 
 Lorsque l'adresse mail du destinataire est renseignée et le texte prêt, cliquer sur le bouton Envoyer.
+
+---
+
+## <a id="publier-collection">Publier une collection de concepts</a>
+
+Pour publier une collection de concepts, se positionner sur l'écran de description de la collection à publier et cliquer en haut à droite sur Publier après avoir vérifié les informations saisies.
 
 ---
 
