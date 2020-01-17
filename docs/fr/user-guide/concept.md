@@ -199,11 +199,11 @@ La modification des propriétés Définition courte, Définition et note éditor
 
 Lorsque l'on [modifie](#modifier-concept) une définition, courte ou longue, ou la note éditoriale, au moment où l'on clique sur Sauvegarder une boite de dialogue s'ouvre pour demander de choisir entre créer une nouvelle version ou écraser la version courante.
 
-Créer une nouvelle version permet de garder trace des définitions précédentes, de comparer ensuite les versions successives. **Dès lors que le changement de définition ou de note éditoriale n'est pas une simple correction de syntaxe ou d'orthographe, il faut créer une nouvelle version** pour permettre aux propriétaires successifs du concept de comprendre le cheminement qui a conduit à la définition courante.
+- Créer une nouvelle version permet de garder trace des définitions précédentes, de comparer ensuite les versions successives. **Dès lors que le changement de définition ou de note éditoriale n'est pas une simple correction de syntaxe ou d'orthographe, il faut créer une nouvelle version** pour permettre aux propriétaires successifs du concept de comprendre le cheminement qui a conduit à la définition courante.
 
 **La note de changement est obligatoire pour créer une nouvelle version de la définition.** C'est une note à usage interne : elle est destinée à garder trace de l'origine et du contexte des modifications.
 
-Pour continuer, renseigner la note de changement puis procéder aux modifications comme indiqué à la rubrique **« Modifier un concept »**.
+- Pour continuer, renseigner la note de changement puis procéder aux modifications comme indiqué à la rubrique **« Modifier un concept »**.
 
 NB : le processus de versionnement ne s'active que lorsque l'on veut modifier un concept publié. Si le concept est en attente de publication (c'est-à-dire si son statut de publication est provisoire) les modifications successives ne donnent pas lieu à versionnement. Les nouvelles définitions et notes écrasent les anciennes.
 
