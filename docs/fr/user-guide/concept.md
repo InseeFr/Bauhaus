@@ -2,6 +2,8 @@
 # Guide utilisateur du module Concepts de Bauhaus
 Version au 01/01/2020
 
+Le module Concepts encore appelée "Bauhaus-concepts" permet de gérer les concepts utiles à des fins statistiques.
+
 ## Sommaire
 
 - [**Naviguer dans l'application**](#naviguer)
@@ -35,7 +37,7 @@ Version au 01/01/2020
 
 ## <a id="naviguer">Naviguer dans l'application</a>
 
-Pour arriver sur la page d'accueil cliquer sur le pavé Concepts de la page d'accueil.
+Pour atteindre la page d'accueil du module de gestion des concepts, cliquer sur le pavé Concepts de la page d'accueil.
 La navigation se fait par la barre de menu en haut de la page.
 
 *Toute unité en ayant l'utilité peut demander la création d'un concept, mais afin de garantir l'intégrité et la qualité de la base, la création et la modification des concepts, ainsi que l'identification du propriétaire sont réservés à l'unité Qualité. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, l'unité Qualité est habilitée à publier un concept sur demande du propriétaire.*
@@ -43,7 +45,6 @@ La navigation se fait par la barre de menu en haut de la page.
 *La création d'une collection de concepts peut être demandée à l'unité Qualité par toute unité ayant l'utilité de rassembler plusieurs concepts pour un usage particulier (par exemple documenter un Insee-Résultats). L'unité ayant fait la demande est l'unité propriétaire de la collection, qui peut regrouper des concepts dont elle n'est pas propriétaire. Un concept peut appartenir à plusieurs collections et être utilisé par plusieurs utilisateurs dans différentes collections. Le propriétaire d'une collection peut la modifier à tout moment. Dans l'application, l'unité qualité est habilitée à publier une collection sur demande du propriétaire.*
 
 Dans l'application, les habilitations sont attribuées en fonction des profils des utilisateurs.
-
 Quatre grands profils d'utilisateurs ont été définis quant à l'accès aux fonctionnalités de l'application :
 
    - Administrateur de l'application : accès à toutes les fonctionnalités ;
@@ -113,7 +114,7 @@ Vous pouvez également rechercher un concept dans la liste en entrant une chaîn
 Une boite de dialogue s'ouvre.
 
 - Choisir le format souhaité, PDF ou ODT.
-La fenêtre de téléchargement s'ouvre alors avec les options « ouvrir » et « enregistrer ». En cas d'export de plusieurs concepts, il y a autant de fichiers et de fenêtres de téléchargement que de concepts exportés.
+Deux cas se La fenêtre de téléchargement s'ouvre alors avec les options « ouvrir » et « enregistrer ». En cas d'export de plusieurs concepts, il y a autant de fichiers et de fenêtres de téléchargement que de concepts exportés.
 
 *NB : le format ODT permet d'échanger avec des interlocuteurs pour la mise au point d'une définition, le format PDF est à usage d'information.*
 
@@ -223,7 +224,7 @@ Lorsque plusieurs versions d'un concept existent, on peut les comparer en cliqua
 
 Pour publier un concept, se positionner sur l'écran de description du concept à publier
 
-- cliquer en haut à droite sur Publier après avoir vérifié les informations saisies.
+- Cliquer en haut à droite sur Publier après avoir vérifié les informations saisies.
 
 Pour rechercher les concepts à publier, utiliser la recherche avancée en sélectionnant **le statut de publication « Provisoire »** et éventuellement **le timbre**. La liste des concepts à publier s'affiche. Le concept ne peut être publié que par son propriétaire (i.e la personne désignée dans l'application comme ayant ce rôle pour un timbre donné) et par l'unité Qualité par délégation.
 
