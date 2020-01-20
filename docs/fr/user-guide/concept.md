@@ -107,7 +107,8 @@ L'export de la description d'un ou plusieurs concepts est disponible à partir d
 
 - Cliquer sur le bouton <span style="color: blue">Exporter</span> à gauche de la page.
 
-- Sélectionner les concepts à exporter en les faisant glisser du bloc de droite au bloc de gauche à l'aide du bouton ![4%](../../img/add.png).
+- Sélectionner les concepts à exporter en les faisant glisser du bloc de droite au bloc de gauche à l'aide du bouton <img src="../../img/add.png" width="18">
+
 Vous pouvez également rechercher un concept dans la liste en entrant une chaîne de caractères contenue dans le libellé du concept dans la zone de saisie au-dessus de la liste.
 
 - Une fois les concepts sélectionnés, cliquer sur <span style="color: blue">Exporter</span> en haut à droite. 
@@ -181,10 +182,10 @@ La modification d'un concept est disponible à partir de la page de description 
 Les différents champs peuvent alors être modifiés.
 
 Pour modifier les liens :
-   - pour ajouter des concepts liés, utiliser les boutons ![4%](../../img/add.png)
+   - pour ajouter des concepts liés, utiliser les boutons <img src="../../img/add.png" width="18">
 
 Pour trouver un concept dans la liste taper une chaîne de caractères contenue dans le libellé du concept recherché dans la boite de saisie au-dessus de la liste.
-   - pour retirer des concepts liés, utiliser les boutons ![4%](../../img/del.png)
+   - pour retirer des concepts liés, utiliser les boutons <img src="../../img/del.png" width="18">
 
 Penser à Sauvegarder la saisie avant de changer d'écran.
 
