@@ -37,7 +37,7 @@ Le module Concepts encore appelée "Bauhaus-concepts" permet de gérer les conce
 
 ## <a id="naviguer">Naviguer dans l'application</a>
 
-Pour atteindre la page d'accueil du module de gestion des concepts, cliquer sur le pavé Concepts de la page d'accueil.
+Pour atteindre la page d'accueil du module de gestion des concepts, cliquer sur le pavé <span style="color: blue">Concepts</span> de la page d'accueil.
 La navigation se fait par la barre de menu en haut de la page.
 
 *Toute unité en ayant l'utilité peut demander la création d'un concept, mais afin de garantir l'intégrité et la qualité de la base, la création et la modification des concepts, ainsi que l'identification du propriétaire sont réservés à l'unité Qualité. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, l'unité Qualité est habilitée à publier un concept sur demande du propriétaire.*
@@ -47,10 +47,10 @@ La navigation se fait par la barre de menu en haut de la page.
 Dans l'application, les habilitations sont attribuées en fonction des profils des utilisateurs.
 Quatre grands profils d'utilisateurs ont été définis quant à l'accès aux fonctionnalités de l'application :
 
-   - Administrateur de l'application : accès à toutes les fonctionnalités ;
-   - Gestionnaire de l'ensemble des concepts : rechercher, exporter, créer, modifier, envoyer, publier un concept ou une collection et comparer les versions des caractéristiques d'un concept ;
-   - Propriétaire de collection de concepts : rechercher, exporter, créer, modifier, envoyer, publier une collection ;
-   - Invité (profil par défaut pour tout utilisateur se connectant à l'application) : rechercher, exporter, envoyer un concept ou une collection et comparer les versions des caractéristiques d'un concept ;
+   - **Administrateur de l'application** : accès à toutes les fonctionnalités ;
+   - **Gestionnaire de l'ensemble des concepts** : rechercher, exporter, créer, modifier, envoyer, publier un concept ou une collection et comparer les versions des caractéristiques d'un concept ;
+   - **Propriétaire de collection de concepts** : rechercher, exporter, créer, modifier, envoyer, publier une collection ;
+   - **Invité** (profil par défaut pour tout utilisateur se connectant à l'application) : rechercher, exporter, envoyer un concept ou une collection et comparer les versions des caractéristiques d'un concept ;
 
 **Les boutons correspondant aux différentes fonctionnalités s'affichent en fonction du profil utilisateur.**
 
@@ -85,11 +85,11 @@ Pour consulter la version anglaise, cocher la case
   - *Libellé alternatif* : saisir une suite de caractères du sigle ou acronyme, ou d'un synonyme
   - *Recherche dans la définition* : saisir une suite de caractères du texte de la définition en français
   - *Sélectionner un timbre* : choisir un timbre dans la liste pour obtenir la liste des concepts de la responsabilité de cette unité
-  - *Sélectionner un statut de diffusion* : choisir par statut :
-    - Privé (usage interne)
+  - *Sélectionner un statut de diffusion*, choisir parmi :
     - Public générique (publié à la rubrique Définitions sur insee.fr)
-  - Public spécifique (non publié à la rubrique Définitions, mais disponible pour documenter une publication, un produit)
-  - *Sélectionner le statut de publication* : choisir parmi :
+    - Public spécifique (non publié à la rubrique Définitions, mais disponible pour documenter une publication, un produit)
+    - Privé (usage interne)
+  - *Sélectionner le statut de publication*, choisir parmi :
     - Publié
     - Provisoire (en cours de modification ou en attente de publication)
   - *Sélectionner les plages de date de création ou de modification* du concept recherché
