@@ -237,11 +237,12 @@ Pour rechercher les concepts à publier, utiliser la recherche avancée en séle
 
 La recherche d'une collection se faire à partir de la page d'accueil (onglet Collections de la barre horizontale de menu).
 
-**Saisir une suite de caractères (pas forcément les premiers) du libellé de la collection.**
+- **Saisir une suite de caractères (pas forcément les premiers) du libellé de la collection.**
 
-Cliquer sur la collection recherchée pour accéder à la page de description.
+- Cliquer sur la collection recherchée pour accéder à la page de description.
 
-Pour voir la version anglaise, cocher la case en haut à gauche **« Afficher la seconde langue »**.
+Pour consulter la version anglaise, cocher la case - [ ] **Afficher la seconde langue**.
+
 
 ---
 
