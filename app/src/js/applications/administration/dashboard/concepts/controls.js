@@ -7,7 +7,7 @@ function Controls() {
 		<div className="row btn-line action-toolbar">
 			<div className="col-md-2">
 				<Link
-					className="btn btn-primary btn-lg col-md-12"
+					className="btn bauhaus-btn btn-lg col-md-12"
 					to={'/concepts/administration'}
 				>
 					{D.btnReturn}
