@@ -12,9 +12,10 @@ function App() {
 
 	const apps = process.env.REACT_APP_APPLICATIONS.split(',').map(appName => {
 		const app = appName.trim();
+		const defaultRoute = require(`./applications/${app}/config`).defaultRoute;
 		return (
 			<div key={appName} className={appName}>
-				<Link to={'/' + app}>
+				<Link to={'/' + app + defaultRoute}>
 					<h2 className="items page-title page-title-link">
 						{D[app + 'Title']}
 					</h2>
