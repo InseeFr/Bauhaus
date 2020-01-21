@@ -269,7 +269,7 @@ Pour rechercher les concepts à publier, utiliser la recherche avancée en séle
 # <a id="fonctionnalites-collections-concepts">Fonctionnalités du gestion des collections de concepts</a>
 ## <a id="rechecher-collection">Rechercher une collection de concepts</a>
 
-La recherche d'une collection est disponible à partir de la page d'accueil Concepts via l'onglet <span style="color: blue">Collections</span> de la barre horizontale de menu. La page propose alors un moteur de recherche sur la totalité des collections de concepts de l'application
+La recherche d'une collection est diponible à partir de la page d'accueil Collection : onglet <span style="color: blue">Collections</span> dans la barre horizontale de menu. La page propose alors un moteur de recherche sur la totalité des collections de concepts de l'application.
 
 - **Saisir une suite de caractères (pas forcément les premiers) du libellé de la collection.**
 
@@ -366,7 +366,9 @@ La publication d'un collection de concepts est disponible à partir de la page d
 
 ## <a id="suivre-concepts">Suivre l'activité du référentiel</a>
 
-Pour suivre l'activité du référentiel cliquer sur le pavé **Tableau de bord** dans l'onglet Administration de la barre de menus horizontale.
+Le suivi de l'activité du référentiel est diponible à partir de la page d'accueil Administration : onglet <span style="color: blue">Administration</span> dans la barre horizontale de menu.
+
+- Cliquer sur le pavé **Tableau de bord** dans l'onglet Administration de la barre de menus horizontale.
 
 En cliquant sur l'onglet <span style="color: blue">**Concepts**</span> de la page, deux tableaux récapitulatif des concepts contenus de la base à la date du jour s'affichent, dont l'un par propriétaire.
 
