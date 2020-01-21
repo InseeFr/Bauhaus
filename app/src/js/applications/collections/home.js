@@ -101,7 +101,7 @@ class CollectionsHome extends Component {
 							<SearchRmes
 								items={collections}
 								childPath="collection"
-								context="concepts"
+								autoFocus={true}
 							/>
 						</div>
 					</div>
