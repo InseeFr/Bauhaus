@@ -8,16 +8,11 @@ const ClassificationsHome = ({ classifications }) => {
 		<div className="container">
 			<div className="row">
 				<div className="col-md-8 col-md-offset-2 centered">
-					<PageTitle
-						title={D.classificationsSearchTitle}
-						col={12}
-						offset={0}
-						context="classifications"
-					/>
+					<PageTitle title={D.classificationsSearchTitle} col={12} offset={0} />
 					<SearchRmes
 						items={classifications}
 						childPath="classifications/classification"
-						context="classifications"
+						autoFocus={true}
 					/>
 				</div>
 			</div>

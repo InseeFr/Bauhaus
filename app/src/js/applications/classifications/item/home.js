@@ -15,12 +15,9 @@ class ItemVisualization extends Component {
 		const { classificationId, itemId, conceptVersion: version } = general;
 		return (
 			<div className="container">
-				<PageTitle title={general.prefLabelLg1} context="classifications" />
+				<PageTitle title={general.prefLabelLg1} />
 				{secondLang && general.prefLabelLg2 && (
-					<PageSubtitle
-						subTitle={general.prefLabelLg2}
-						context="classifications"
-					/>
+					<PageSubtitle subTitle={general.prefLabelLg2} />
 				)}
 				<Controls
 					classificationId={classificationId}

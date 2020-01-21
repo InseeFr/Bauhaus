@@ -14,11 +14,7 @@ const ClassificationTree = ({
 	return (
 		<div>
 			<div className="container">
-				<PageTitle
-					title={D.classificationAllItemsTitle}
-					subtitle={subtitle}
-					context="classifications"
-				/>
+				<PageTitle title={D.classificationAllItemsTitle} subtitle={subtitle} />
 				<Controls />
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
@@ -28,7 +24,6 @@ const ClassificationTree = ({
 							<SearchRmes
 								items={items}
 								childPath={`classifications/classification/${classificationId}/item`}
-								context="classifications"
 							/>
 						</div>
 					</div>

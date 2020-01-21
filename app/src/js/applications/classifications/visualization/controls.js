@@ -14,15 +14,8 @@ const ClassificationControls = props => {
 				key={D.btnReturn}
 				action={goBack(props, `/classifications`)}
 				label={D.btnReturn}
-				context="classifications"
 			/>
-			<Button
-				key={D.btnTree}
-				action={treeLocation}
-				label={D.btnTree}
-				context="classifications"
-				col={3}
-			/>
+			<Button key={D.btnTree} action={treeLocation} label={D.btnTree} col={3} />
 		</div>
 	);
 };

@@ -21,7 +21,6 @@ export default ({ members, classificationId, secondLang }) => {
 					<SearchRmes
 						items={membersLg1}
 						childPath={`classifications/classification/${classificationId}/item`}
-						context="classifications"
 						col={secondLang ? 12 : 8}
 						colOff={secondLang ? 0 : 2}
 					/>
@@ -37,7 +36,6 @@ export default ({ members, classificationId, secondLang }) => {
 						<SearchRmes
 							items={membersLg2}
 							childPath={`classifications/classification/${classificationId}/item`}
-							context="classifications"
 							col={12}
 							colOff={0}
 						/>

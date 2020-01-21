@@ -25,12 +25,9 @@ class ClassificationVisualization extends Component {
 		};
 		return (
 			<div className="container">
-				<PageTitle title={general.prefLabelLg1} context="classifications" />
+				<PageTitle title={general.prefLabelLg1} />
 				{general.prefLabelLg2 && (
-					<PageSubtitle
-						subtitle={general.prefLabelLg2}
-						context="classifications"
-					/>
+					<PageSubtitle subtitle={general.prefLabelLg2} />
 				)}
 				<div className="row">
 					<div className="col-md-12 centered">

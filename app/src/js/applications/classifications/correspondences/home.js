@@ -8,16 +8,11 @@ const CorrespondencesHome = ({ correspondences }) => {
 		<div className="container">
 			<div className="row">
 				<div className="col-md-8 col-md-offset-2 centered">
-					<PageTitle
-						title={D.correspondencesSearchTitle}
-						col={12}
-						offset={0}
-						context="classifications"
-					/>
+					<PageTitle title={D.correspondencesSearchTitle} col={12} offset={0} />
 					<SearchRmes
 						items={correspondences}
 						childPath="classifications/correspondence"
-						context="classifications"
+						autoFocus={true}
 					/>
 				</div>
 			</div>

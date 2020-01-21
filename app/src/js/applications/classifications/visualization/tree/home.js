@@ -14,11 +14,7 @@ const ClassificationTree = ({
 	return (
 		<div>
 			<div className="container">
-				<PageTitle
-					title={D.classificationTreeTitle}
-					subtitle={prefLabel}
-					context="classifications"
-				/>
+				<PageTitle title={D.classificationTreeTitle} subtitle={prefLabel} />
 				<Controls />
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
