@@ -183,15 +183,15 @@ Cette « Note de changement » peut être renseignée à tout moment, y compris 
 
 3. Dans l'onglet <span style="color: blue">Liens</span>, vous pouvez renseigner différentes informations, à savoir :
 
-Plusieurs types de lien permettent de renvoyer d’un concept vers un autre. Ces liens sont porteurs de sens et fournir une information complémentaire à la définition. Ils doivent être publiés avec la définition.
+Plusieurs types de lien permettent de renvoyer d'un concept vers un autre. Ces liens sont porteurs de sens et fournissent une information complémentaire à la définition. Ils doivent être publiés avec la définition.
 
-Pour poser un lien choisir l'onglet correspondant au lien à poser et ajouter à l'aide du add les concepts à lier dans le bloc de gauche. Pour trouver un concept dans la liste taper une chaîne de caractères contenue dans le libellé du concept recherché dans la boite de saisie au-dessus de la liste.
+Pour poser un lien, choisir l'onglet correspondant au lien à poser puis utiliser les boutons <img src="../../img/add.png" width="18"> et  <img src="../../img/del.png" width="18"> pour respectivement ajouter et retirer des liens. Pour rechercher un concept dans la liste saisir une chaîne de caractères contenue dans le libellé du concept recherché dans la boite de saisie au-dessus de la liste.
 
 - Onglets <span style="color: blue">Parent</span> et <span style="color: blue">Enfant</span> : il s'agit des liens hiérarchiques qui permettent de relier un concept général à des concepts plus spécifiques et inversement :
 
-Exemple : « Vacances » est le concept parent de « Vacances d’été » et « Vacances d’hiver »
+Exemple : « Vacances » est le concept parent de « Vacances d'été » et « Vacances d'hiver »
 
-NB : la pose d’un lien Parent d’un concept A vers un concept B entraîne automatiquement la pose d’un lien Enfant du concept B vers le concept A ; Un concept parent peut avoir plusieurs concepts enfants, mais un concept enfant ne peut avoir qu’un concept parent.
+NB : la pose d'un lien Parent d’un concept A vers un concept B entraîne automatiquement la pose d’un lien Enfant du concept B vers le concept A ; Un concept parent peut avoir plusieurs concepts enfants, mais un concept enfant ne peut avoir qu’un concept parent.
 
 - Onglet : Référence : il s’agit de poser des liens vers les concepts cités dans le texte de la définition, qui permettront de mettre en place des hyperliens vers les concepts cités. Un concept peut référencer plusieurs concepts.
 - Onglet : Remplace : ces liens permettent de reconstituer l'historique du concept :
@@ -212,9 +212,9 @@ La sauvegarde n'entraîne pas la publication du concept. Il doit au préalable a
 
 Le statut de publication du concept est alors **« provisoire », jusqu'à sa publication.**
 
-Pour envoyer la description du concept par mail à un interlocuteur (en particulier à son propriétaire) cliquer en haut à droite sur le bouton Envoyer
+Pour envoyer la description du concept par mail à un interlocuteur (en particulier à son propriétaire), voir [Envoyer un concept](#envoyer-concept).
 
-Pour publier, cliquer en haut à gauche de l'écran de description du concept sur le bouton Publier.
+Pour publier un concept, voir [Publier un concept](#publier-concept).
 
 ---
 
@@ -223,29 +223,18 @@ Pour publier, cliquer en haut à gauche de l'écran de description du concept su
 La modification d'un concept est disponible à partir de la page de description d'un concept.
 
 - Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
-Les différents champs peuvent alors être modifiés.
 
-Pour modifier les liens :
-   - pour ajouter des concepts liés, utiliser les boutons <img src="../../img/add.png" width="18">
+Les différents champs peuvent alors être modifiés et les consignes décrites dans la fonctionnalité [Créer un concept] s'appliquent alors.
 
-Pour trouver un concept dans la liste taper une chaîne de caractères contenue dans le libellé du concept recherché dans la boite de saisie au-dessus de la liste.
-   - pour retirer des concepts liés, utiliser les boutons <img src="../../img/del.png" width="18">
-
-Penser à Sauvegarder la saisie avant de changer d'écran.
-
-NB : La définition courte est obligatoire pour pouvoir sauvegarder les modifications des concepts ayant un statut de diffusion « Public générique » ou « Public spécifique ».
-
-- Une fois le concept modifié, son statut de publication devient **« provisoire », jusqu'à sa publication**. Tant qu'il n'est pas publié, c'est l'ancienne version qui est mise à disposition des applications clientes, et notamment publiée sur insee.fr.
-
-La modification des propriétés Définition courte, Définition et note éditoriale peuvent donner lieu à la création de nouvelles versions de ces notes, et donc du concept (voir créer une nouvelle version).
+La modification des notes « Définition courte », « Définition » et « Note éditoriale » peuvent donner lieu à la création de nouvelles versions de ces notes. Voir [Créer une nouvelle version](#creer-nouvelle-version).
 
 ---
 
 ## <a id="creer-version-concept">Créer une nouvelle version</a>
 
-Lorsque l'on [modifie](#modifier-concept) une définition, courte ou longue, ou la note éditoriale, au moment où l'on clique sur Sauvegarder une boite de dialogue s'ouvre pour demander de choisir entre créer une nouvelle version ou écraser la version courante.
+Lorsque l'on [modifie](#modifier-concept) une définition, courte ou longue, ou la note éditoriale, au moment où l'on clique sur <span style="color: blue">Sauvegarder</span> une boîte de dialogue s'ouvre pour demander de choisir entre créer une nouvelle version ou écraser la version courante.
 
-- Créer une nouvelle version permet de garder trace des définitions précédentes, de comparer ensuite les versions successives. **Dès lors que le changement de définition ou de note éditoriale n'est pas une simple correction de syntaxe ou d'orthographe, il faut créer une nouvelle version** pour permettre aux propriétaires successifs du concept de comprendre le cheminement qui a conduit à la définition courante.
+- Créer une nouvelle version permet de garder trace des définitions précédentes, de comparer ensuite les versions successives. **Dès lors que le changement de définition ou de note éditoriale n'est pas une simple correction de syntaxe, d'orthographe ou une amélioration du contenu, il faut créer une nouvelle version** pour permettre aux propriétaires successifs du concept de comprendre le cheminement qui a conduit à la définition courante.
 
 **La note de changement est obligatoire pour créer une nouvelle version de la définition.** C'est une note à usage interne : elle est destinée à garder trace de l'origine et du contexte des modifications.
 
@@ -278,7 +267,7 @@ Pour rechercher les concepts à publier, utiliser la recherche avancée en séle
 # <a id="fonctionnalites-collections-concepts">Fonctionnalités du gestion des collections de concepts</a>
 ## <a id="rechecher-collection">Rechercher une collection de concepts</a>
 
-La recherche d'une collection se faire à partir de la page d'accueil (onglet Collections de la barre horizontale de menu).
+La recherche d'une collection est disponible à partir de la page d'accueil Concepts (onglet <span style="color: blue">Collections</span> de la barre horizontale de menu).
 
 - **Saisir une suite de caractères (pas forcément les premiers) du libellé de la collection.**
 
@@ -309,15 +298,15 @@ La création d'une collection de concepts se fait à partir de la page d'accueil
 
 Pour accéder à l'écran de création, cliquer sur l'option Nouvelle du menu à gauche. La page de création de la collection s'affiche.
 
-Le bouton Annuler permet de revenir à la page d'accueil de l'onglet Collections .
+Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Collections .
 
-Le bouton Sauvegarder permet d'enregistrer les données dans la base de gestion.
+Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
 
 **La sauvegarde n'est pas possible tant que les champs obligatoires ne sont pas remplis** (champs marqués d'une *).
 
 Pour sélectionner les concepts à inclure dans la collection les faire glisser à l'aide du add du bloc de droite vers le bloc de gauche. Pour trouver un concept dans la liste taper une chaîne de caractères contenue dans le libellé du concept recherché dans la boite de saisie au-dessus de la liste.
 
-Penser à Sauvegarder les informations saisies en cliquant sur le bouton en haut à gauche avant de changer d'écran.
+Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à gauche avant de changer d'écran.
 
 La sauvegarde n'entraîne pas la publication de la collection. La collection doit au préalable avoir été publié par son propriétaire ou par délégation (après échanges de mails) par l'unité Qualité . Il est donc possible de créer la collection en plusieurs étapes si c'est nécessaire : par exemple compléter la liste des concepts à inclure dans un deuxième temps.
 
@@ -327,7 +316,7 @@ Le statut de la collection est alors **« provisoire », jusqu'à sa publication
 
 ## <a id="modifier-collection">Modifier une collection de concepts</a>
 
-Pour modifier une collection de concepts, rechercher la collection puis une fois sur l'écran de description de la collection , cliquer sur le bouton Modifier
+Pour modifier une collection de concepts, rechercher la collection puis une fois sur l'écran de description de la collection , cliquer sur le bouton <span style="color: blue">Modifier</span>
 
 Les différents champs peuvent alors être modifiés.
 
