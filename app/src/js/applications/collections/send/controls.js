@@ -25,9 +25,8 @@ function SendControls({
 	}
 	return (
 		<>
-			<div className="row btn-line alert-toolbar">
+			<div className="row btn-line action-toolbar">
 				<Button label={D.btnReturn} action={urlBack} />
-
 				<Button label={D.btnSend} action={sendMessage} disabled={disabled} />
 			</div>
 			<ErrorBloc error={warning} />

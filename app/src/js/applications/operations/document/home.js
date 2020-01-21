@@ -84,6 +84,7 @@ function DocumentHome({ documents }) {
 							items={filteredDocuments}
 							childPath="operations/document"
 							label="label"
+							autoFocus={true}
 						/>
 					</div>
 				</div>

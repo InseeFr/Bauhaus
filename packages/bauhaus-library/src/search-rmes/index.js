@@ -14,6 +14,7 @@ function SearchRmes({
 	col,
 	colOff,
 	label,
+	autoFocus,
 }) {
 	const [search, handleSearch] = useState('');
 	const D = useContext(I18NContext);
@@ -44,6 +45,7 @@ function SearchRmes({
 						placeholder={D.searchLabelPlaceholder || placeholder}
 						className="form-control"
 						aria-label={D.search}
+						autoFocus={autoFocus}
 					/>
 				</div>
 			</div>
@@ -70,6 +72,7 @@ function SearchRmes({
 
 SearchRmes.defaultProps = {
 	label: 'label',
+	autoFocus: false,
 };
 
 SearchRmes.propTypes = {
@@ -81,6 +84,7 @@ SearchRmes.propTypes = {
 	col: PropTypes.number,
 	colOff: PropTypes.number,
 	label: PropTypes.string,
+	autoFocus: PropTypes.bool,
 };
 
 export default SearchRmes;

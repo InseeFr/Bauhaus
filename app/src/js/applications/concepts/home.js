@@ -74,7 +74,7 @@ class ConceptsHome extends Component {
 								advancedSearch
 								searchUrl="/concepts/search"
 								placeholder={D.searchLabelHomePlaceholder}
-								context="concepts"
+								autoFocus={true}
 							/>
 						</div>
 					</div>

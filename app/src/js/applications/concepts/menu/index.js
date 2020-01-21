@@ -5,7 +5,7 @@ import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permissi
 import D from 'js/i18n';
 import { withPermissions } from 'js/components/menu/withPermissions';
 import { Menu } from 'bauhaus-library';
-
+import { getLang } from 'js/i18n/build-dictionary';
 const defaultAttrs = { 'aria-current': 'page' };
 
 export const MenuConcepts = ({ location, permission: { authType, roles } }) => {
@@ -27,7 +27,7 @@ export const MenuConcepts = ({ location, permission: { authType, roles } }) => {
 			alignToRight: true,
 		},
 		{
-			path: '/concepts/help/1',
+			path: `//inseefr.github.io/Bauhaus/${getLang()}/user-guide/concept.html`,
 			pathKey: 'help',
 			className: null,
 			order: 3,

@@ -23,7 +23,7 @@ function CollectionSendStatus({ label, status, urlBack }) {
 			<div className="row">
 				<div className="col-md-12">
 					<Link
-						className="btn btn-primary btn-lg col-md-2 col-md-offset-5"
+						className="btn bauhaus-btn btn-lg col-md-2 col-md-offset-5"
 						to={urlBack}
 					>
 						{D.btnReturn}

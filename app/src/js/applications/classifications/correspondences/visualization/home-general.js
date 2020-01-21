@@ -25,7 +25,7 @@ class HomeGeneral extends Component {
 		const title = secondLang ? labelLg2 : labelLg1;
 		return (
 			<div>
-				{title && <PageTitle title={title} context="classifications" />}
+				{title && <PageTitle title={title} />}
 				<CorrespondenceControls />
 				<CheckSecondLang
 					secondLang={secondLang}

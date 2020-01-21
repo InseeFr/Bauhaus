@@ -21,10 +21,8 @@
 }
 @media screen and (min-width: 767px) {
 	.navbar-primary {
-		li {
-			&:not(:nth-child(5)):not(:nth-child(6)):after {
-				@include list-item-separator(white);
-			}
+		.with-separator::after {
+			@include list-item-separator(white);
 		}
 	}
 }

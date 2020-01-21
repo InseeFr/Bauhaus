@@ -11,11 +11,7 @@ function ClassificationControls(props) {
 
 	return (
 		<div className="row btn-line action-toolbar">
-			<Button
-				action={goBack(props, nextLocation)}
-				label={D.btnReturn}
-				context="classifications"
-			/>
+			<Button action={goBack(props, nextLocation)} label={D.btnReturn} />
 		</div>
 	);
 }

@@ -35,6 +35,7 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 							label="label"
 							advancedSearch
 							searchUrl="/operations/indicators/search"
+							autoFocus={true}
 						/>
 					</div>
 				</div>

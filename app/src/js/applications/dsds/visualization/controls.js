@@ -8,18 +8,10 @@ const Controls = ({ dsdId }) => {
 
 	return (
 		<div className="row btn-line action-toolbar">
-			<Button label={D.btnReturn} action="/dsds" context="dsds" />
-			{isLocal && (
-				<Button label={D.btnExport} action={console.log} context="dsds" />
-			)}
-			<Button
-				label={D.btnUpdate}
-				action={`/dsds/${dsdId}/update`}
-				context="dsds"
-			/>
-			{isLocal && (
-				<Button label={D.btnDelete} action={console.log} context="dsds" />
-			)}
+			<Button label={D.btnReturn} action="/dsds" />
+			{isLocal && <Button label={D.btnExport} action={console.log} />}
+			<Button label={D.btnUpdate} action={`/dsds/${dsdId}/update`} />
+			{isLocal && <Button label={D.btnDelete} action={console.log} />}
 		</div>
 	);
 };

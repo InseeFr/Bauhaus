@@ -39,6 +39,7 @@ function OperationsObjectHome({
 						label="label"
 						searchUrl={searchURL}
 						advancedSearch={advancedSearch}
+						autoFocus={true}
 					/>
 				</div>
 			</div>

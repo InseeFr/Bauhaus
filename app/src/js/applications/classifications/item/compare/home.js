@@ -20,10 +20,7 @@ const Compare = ({
 	return (
 		<div>
 			<div className="container">
-				<PageTitle
-					title={secondLang ? prefLabelLg2 : prefLabelLg1}
-					context="classifications"
-				/>
+				<PageTitle title={secondLang ? prefLabelLg2 : prefLabelLg1} />
 				<Controls />
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 

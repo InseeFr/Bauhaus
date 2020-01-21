@@ -59,12 +59,6 @@ class MSDComponent extends Component {
 			<div id="consulter-sommaire" className="container msd__container">
 				<section className="msd__outline" style={styleSummary}>
 					<div className="msd__outline_title">{D.helpSummary}</div>
-					<input
-						className="form-control"
-						disabled
-						placeholder={D.search}
-						aria-label={D.search}
-					/>
 					<nav className="msd__outline-container">
 						<ul className="msd__outline-content">
 							{Object.values(metadataStructure).map(metadata => (

@@ -116,7 +116,7 @@ export default {
 			en: () => 'The link does not exist.',
 		},
 		461: {
-			fr: () => 'L’URL est vide. Merci de renseigner un URL.',
+			fr: () => 'L’URL est vide. Merci de renseigner une URL.',
 			en: () => 'The URL is empty. Please, fill a URL.',
 		},
 		462: {
