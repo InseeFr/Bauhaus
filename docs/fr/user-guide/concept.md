@@ -224,7 +224,7 @@ La modification d'un concept est disponible à partir de la page de description 
 
 - Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
 
-Les différents champs peuvent alors être modifiés et les consignes décrites dans la fonctionnalité [Créer un concept] s'appliquent alors.
+Les différents champs peuvent alors être modifiés et les consignes décrites dans la fonctionnalité [Créer un concept](#creer-concept) s'appliquent alors.
 
 Une fois le concept modifié, son statut de publication devient **« provisoire », jusqu’à sa publication**. Tant qu’il n'est pas publié dans le référentiel de publication (voir [Publier un concept](#publier-concept)), c’est l'ancienne version qui est mise à disposition des applications clientes.
 
@@ -279,7 +279,7 @@ L'application renvoie une liste en bas de page, éventuellement plusieurs pages.
 
 Pour consulter la version anglaise, cocher la case 
 
-- [ ] **Afficher la seconde langue**.
+[ ] **Afficher la seconde langue**.
 
 ---
 
@@ -345,7 +345,8 @@ Une fois la collection modifiée, son statut de publication devient **« proviso
 
 L'envoi d'une collection de concepts est disponible à partir de la page de description d'une collection.
 
-- Cliquer en haut à droite de l'écran de description de la collection sur le bouton <span style="color: blue">Envoyer</span>
+- Cliquer en haut à droite de l'écran de description de la collection sur le bouton <span style="color: blue">Envoyer</span>.
+
 Un écran s'affiche, permettant d'envoyer à un destinataire un message avec en pièce jointe la liste des concepts de la collection au format odt, ainsi qu'un lien vers l'application. L'objet du message ainsi que le texte peuvent être modifiés pour personnaliser l'envoi.
 
 NB : le service n'est pas branché sur l'annuaire interne : il faut donc saisir l'adresse mail complète pour tous les destinataires.
