@@ -142,7 +142,7 @@ NB : le service n'est pas branché sur l'annuaire : il faut donc saisir l'adress
 
 La création d'un concept est disponible à partir de la page d'accueil du module Concepts.
 
-- Cliquer sur l'option <span style="color: blue">Nouveau</span> du menu à gauche.
+- Cliquer sur le bouton <span style="color: blue">Nouveau</span> du menu à gauche.
 
 La première page de création du concept s'affiche.
 
@@ -214,7 +214,7 @@ Le statut de publication du concept est alors **« provisoire », jusqu'à sa pu
 
 Pour envoyer la description du concept par mail à un interlocuteur (en particulier à son propriétaire), voir [Envoyer un concept](#envoyer-concept).
 
-Pour publier un concept, voir [Publier un concept](#publier-concept).
+Pour publier un concept dans le référentiel, voir [Publier un concept](#publier-concept).
 
 ---
 
@@ -258,7 +258,7 @@ Lorsque plusieurs versions de notes (définition courte, définition longue ou l
 
 ## <a id="publier-concept">Publier un concept</a>
 
-La publication d'un concept est disponible à partir de la page de description d'un concept.
+La publication d'un concept est disponible à partir de la page de description d'un concept. Seul le propriétaire du concept ou par délégation l'unité Qualité (après échanges de mails) est habilité à publier un concept.
 
 - Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
 
@@ -299,23 +299,33 @@ L'export d'une collection de concepts est diponible à partir de la page d'accue
 
 ## <a id="creer-collection">Créer une collection de concepts</a>
 
+**Avant de créer une collection, vérifier qu'elle n'existe pas déjà en utilisant les [fonctionnalités de recherche](#rechercher-collection).**
+
 La création d'une collection de concept est diponible à partir de la page d'accueil Collection : onglet <span style="color: blue">Collections</span> dans la barre horizontale de menu.
 
-Pour accéder à l'écran de création, cliquer sur le bouton <span style="color: blue">Nouvelle</span> du menu à gauche. La page de création de la collection s'affiche.
+- Cliquer sur le bouton <span style="color: blue">Nouvelle</span> du menu à gauche.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Collections .
+La page de création de la collection s'affiche.
+
+Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet <span style="color: blue">Collections</span>.
 
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
 
-**La sauvegarde n'est pas possible tant que les champs obligatoires ne sont pas remplis** (champs marqués d'une *).
+**NB : La sauvegarde n'est pas possible tant que les champs obligatoires ne sont pas remplis** (champs marqués d'une *).
 
-Pour sélectionner les concepts à inclure dans la collection les faire glisser à l'aide du add du bloc de droite vers le bloc de gauche. Pour trouver un concept dans la liste taper une chaîne de caractères contenue dans le libellé du concept recherché dans la boite de saisie au-dessus de la liste.
+- Sélectionner les concepts à inclure dans la collection en utilisant les boutons <img src="../../img/add.png" width="18"> et <img src="../../img/del.png" width="18"> pour respectivement les ajouter ou les retirer. Pour rechercher un concept dans la liste saisir une chaîne de caractères contenue dans le libellé du concept recherché dans la boite de saisie au-dessus de la liste.
 
-Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à gauche avant de changer d'écran.
+Le bouton <span style="color: blue">Sauvegarder</span> devient actif après la saisie des champs obligatoires.
 
-La sauvegarde n'entraîne pas la publication de la collection. La collection doit au préalable avoir été publié par son propriétaire ou par délégation (après échanges de mails) par l'unité Qualité . Il est donc possible de créer la collection en plusieurs étapes si c'est nécessaire : par exemple compléter la liste des concepts à inclure dans un deuxième temps.
+Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
 
-Le statut de la collection est alors **« provisoire », jusqu'à sa publication**.
+La sauvegarde n'entraîne pas la publication du concept. Il doit au préalable avoir été publié par son propriétaire ou par délégation (après échanges de mails) par l'unité Qualité . Il est donc possible de créer le concept en plusieurs étapes si c'est nécessaire.
+
+Le statut de publication de la collection est alors **« provisoire », jusqu'à sa publication.**
+
+Pour envoyer la collection de concepts par mail à un interlocuteur (en particulier à son propriétaire), voir [Envoyer une collection de concepts](#envoyer-collection).
+
+Pour publier une collection dans le référentiel, voir [Publier une collection de concepts](#publier-collection).
 
 ---
 
@@ -333,7 +343,6 @@ Une fois la collection modifiée, son statut de publication devient **« proviso
 
 ## <a id=envoyer-collection>Envoyer une collection de concepts</a>
 
-
 L'envoi d'une collection de concepts est disponible à partir de la page de description d'une collection.
 
 - Cliquer en haut à droite de l'écran de description de la collection sur le bouton <span style="color: blue">Envoyer</span>
@@ -347,7 +356,7 @@ NB : le service n'est pas branché sur l'annuaire interne : il faut donc saisir 
 
 ## <a id="publier-collection">Publier une collection de concepts</a>
 
-La publication d'un collection de concepts est disponible à partir de la page de description d'une collection.
+La publication d'un collection de concepts est disponible à partir de la page de description d'une collection. Seul le propriétaire de la collection ou par délégation l'unité Qualité (après échanges de mails) est habilité à publier une collection.
 
 - Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
 
