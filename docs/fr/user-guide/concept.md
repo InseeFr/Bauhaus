@@ -226,7 +226,7 @@ La modification d'un concept est disponible à partir de la page de description 
 
 Les différents champs peuvent alors être modifiés et les consignes décrites dans la fonctionnalité [Créer un concept] s'appliquent alors.
 
-Une fois le concept modifié, son statut de publication devient **« provisoire », jusqu’à sa publication**. Tant qu’il n'est pas publié (voir [Publier un concept](#publier-concept)), c’est l'ancienne version qui est mise à disposition des applications clientes.
+Une fois le concept modifié, son statut de publication devient **« provisoire », jusqu’à sa publication**. Tant qu’il n'est pas publié dans le référentiel de publication (voir [Publier un concept](#publier-concept)), c’est l'ancienne version qui est mise à disposition des applications clientes.
 
 La modification des notes « Définition courte », « Définition » et « Note éditoriale » peuvent donner lieu à la création de nouvelles versions de ces notes (voir [Créer une nouvelle version](#creer-nouvelle-version)).
 
@@ -321,18 +321,13 @@ Le statut de la collection est alors **« provisoire », jusqu'à sa publication
 
 ## <a id="modifier-collection">Modifier une collection de concepts</a>
 
-Pour modifier une collection de concepts, rechercher la collection puis une fois sur l'écran de description de la collection, cliquer sur le bouton <span style="color: blue">Modifier</span>
+La modification d'une collection de concepts est disponible à partir de la page de description d'une collection.
 
-Les différents champs peuvent alors être modifiés.
+- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
 
-Pour modifier la composition de la collection :
+Les différents champs peuvent alors être modifiés et les consignes décrites dans la fonctionnalité [Créer une collection de concepts](#creer-collection) s'appliquent alors.
 
-   - pour ajouter des concepts, utiliser les boutons add
-   - pour enlever des concepts, utiliser les boutons delete
-
-Penser à Sauvegarder la saisie avant de changer d'écran.
-
-Une fois la collection modifiée, son statut de publication devient **« provisoire » jusqu'à sa publication**. Tant qu'il n'est pas publié, c'est l'ancienne version qui est mise à disposition des éventuelles applications clientes.
+Une fois la collection modifiée, son statut de publication devient **« provisoire », jusqu’à sa publication**. Tant qu’elle n'est pas publiée dans le référentiel de publication (voir [Publier une collection de concepts](#publier-collection)), c'est l'ancienne version qui est mise à disposition des applications clientes.
 
 ---
 
