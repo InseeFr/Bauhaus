@@ -75,6 +75,7 @@ L'application renvoie une liste en bas de page, éventuellement plusieurs pages.
 
 Cliquer sur le concept recherché pour accéder à la page de description.
 Pour consulter la version anglaise, cocher la case 
+
 - [ ] **Afficher la seconde langue**.
 
 2. La recherche avanacée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>, vous pouvez affiner la sélection :
@@ -97,6 +98,7 @@ Pour consulter la version anglaise, cocher la case
 - Cliquer sur le concept recherché pour accéder à la page de description.
 
 Pour consulter la version anglaise, cocher la case
+
 - [ ] **Afficher la seconde langue**.
 
 ---
@@ -111,11 +113,11 @@ L'export de la description d'un ou plusieurs concepts est disponible à partir d
 
 Vous pouvez également rechercher un concept dans la liste en entrant une chaîne de caractères contenue dans le libellé du concept dans la zone de saisie au-dessus de la liste.
 
-- Une fois les concepts sélectionnés, cliquer sur <span style="color: blue">Exporter</span> en haut à droite. 
-Une boite de dialogue s'ouvre.
+- Une fois les concepts sélectionnés, cliquer sur <span style="color: blue">Exporter</span> en haut à droite.
+Une boîte de dialogue s'ouvre.
 
 - Choisir le format souhaité, PDF ou ODT.
-Deux cas se La fenêtre de téléchargement s'ouvre alors avec les options « ouvrir » et « enregistrer ». En cas d'export de plusieurs concepts, il y a autant de fichiers et de fenêtres de téléchargement que de concepts exportés.
+La fenêtre de téléchargement s'ouvre alors avec les options « ouvrir » et « enregistrer ». En cas d'export de plusieurs concepts, il y a autant de fichiers et de fenêtres de téléchargement que de concepts exportés.
 
 *NB : le format ODT permet d'échanger avec des interlocuteurs pour la mise au point d'une définition, le format PDF est à usage d'information.*
 
@@ -136,29 +138,71 @@ NB : le service n'est pas branché sur l'annuaire : il faut donc saisir l'adress
 
 ## <a id="creer-concept">Créer un concept</a>
 
-**Avant de créer un concept, vérifier qu'il n'existe pas déjà en utilisant les fonctionnalités de recherche.**
+**Avant de créer un concept, vérifier qu'il n'existe pas déjà en utilisant les [fonctionnalités de recherche](#rechercher-concept).**
 
 La création d'un concept est disponible à partir de la page d'accueil du module Concepts.
 
 - Cliquer sur l'option <span style="color: blue">Nouveau</span> du menu à gauche.
+
 La première page de création du concept s'affiche.
+
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Concept.
+
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
 
 **NB : La sauvegarde n'est pas possible tant que les champs obligatoires ne sont pas remplis** (champs marqués d'une *).
 
-    Informations générales    Notes    Liens
+Trois onglets sont disponibles pour définir le concept : <span style="color: blue">Informations générales</span> (1), <span style="color: blue">Notes</span> (2) et <span style="color: blue">Liens</span> (3)
 
-   - Le « Libellé » est le nom du concept : le libellé français est obligatoire pour créer un concept.
-   - Le « Libellé alternatif » est un autre libellé, un sigle ou un acronyme (ajout ou suppression de libellés en cliquant sur + ou - ).
-   - Le « Propriétaire » du concept est le timbre de l'unité responsable de la description du concept :le chef de l'unité a la responsabilité de publier les définitions et leur modifications. Le timbre du « propriétaire » est obligatoire pour créer un concept
-    - Le « Gestionnaire » est l'unité habilitée à créer / modifier le concept : c'est l'unité Qualité (DG75-L201) qui assure la gestion des concepts.
-    - Le « Statut de diffusion » peut être :
+1. Dans l'onglet <span style="color: blue">Informations générales</span>, vous pouvez renseigner différentes informations, à savoir :
+
+   - Le **« Libellé »** est le nom du concept : **le libellé français est obligatoire pour créer un concept.**
+   - Le **« Libellé alternatif »** est un autre libellé, un sigle ou un acronyme (ajout ou suppression de libellés en cliquant sur + ou - ).
+   - Le « Propriétaire » du concept est le timbre de l'unité responsable de la description du concept. **Le timbre du « propriétaire » est obligatoire pour créer un concept**
+    - Le **« Gestionnaire »** est l'unité habilitée à créer / modifier le concept : c'est l'unité Qualité (DG75-L201) qui assure la gestion des concepts.
+    - Le **« Statut de diffusion »** peut être :
         - Privé : la diffusion est réservée à un usage interne.
         - Public générique : la diffusion est destinée à la rubrique « Définitions » de Insee.fr
         - Public spécifique : la diffusion est restreinte à la documentation des publications et n'apparaît pas à la rubrique Définitions.
-    - Un « Document lié » permet d'insérer un lien vers une page internet.
-    - « Date de fin de validité » : ne doit pas être renseignée à la création (une fois la date renseignée, dès lors que la date renseignée est atteinte, le concept ne peut plus être modifié).
+    - Un **« Document lié »** permet d'insérer un lien vers une page internet.
+    - **« Date de fin de validité » : ne doit pas être renseignée à la création** (une fois la date renseignée, dès lors que la date renseignée est atteinte, le concept ne peut plus être modifié).
+
+2. Dans l'onglet <span style="color: blue">Notes</span>, vous pouvez renseigner différentes informations, à savoir :
+
+- **Définition courte** : la définition courte reprend en règle générale la première phrase de la définition. Elle ne doit pas comporter plus de 350 caractères. La saisie peut être mise en forme avec des puces ou des numéros en cliquant sur les icônes correspondantes.
+
+**La définition courte est obligatoire pour tous les concepts hormis ceux dont le statut de diffusion est « Privé »**
+
+- **Définition** : la définition est la définition longue. Elle doit commencer en reprenant intégralement la définition courte. La saisie peut être mise en forme avec des puces ou des numéros en cliquant sur les icônes correspondantes.
+
+- **Note éditoriale** : correspond à la rubrique « Remarque » des définitions sur Insee.fr. Ne pas saisir le mot « Remarque » dans la « Note éditoriale », l'intitulé du cadre est déjà prévu sur Insee.fr.
+
+- **Note de changement** : Il s'agit d’une courte notification à usage interne permettant de commenter la création ou modification de la définition.
+
+Cette « Note de changement » peut être renseignée à tout moment, y compris à la création pour documenter le contexte de la création par exemple.
+
+3. Dans l'onglet <span style="color: blue">Liens</span>, vous pouvez renseigner différentes informations, à savoir :
+
+Plusieurs types de lien permettent de renvoyer d’un concept vers un autre. Ces liens sont porteurs de sens et fournir une information complémentaire à la définition. Ils doivent être publiés avec la définition.
+
+Pour poser un lien choisir l'onglet correspondant au lien à poser et ajouter à l'aide du add les concepts à lier dans le bloc de gauche. Pour trouver un concept dans la liste taper une chaîne de caractères contenue dans le libellé du concept recherché dans la boite de saisie au-dessus de la liste.
+
+- Onglets <span style="color: blue">Parent</span> et <span style="color: blue">Enfant</span> : il s'agit des liens hiérarchiques qui permettent de relier un concept général à des concepts plus spécifiques et inversement :
+
+Exemple : « Vacances » est le concept parent de « Vacances d’été » et « Vacances d’hiver »
+
+NB : la pose d’un lien Parent d’un concept A vers un concept B entraîne automatiquement la pose d’un lien Enfant du concept B vers le concept A ; Un concept parent peut avoir plusieurs concepts enfants, mais un concept enfant ne peut avoir qu’un concept parent.
+
+- Onglet : Référence : il s’agit de poser des liens vers les concepts cités dans le texte de la définition, qui permettront de mettre en place des hyperliens vers les concepts cités. Un concept peut référencer plusieurs concepts.
+- Onglet : Remplace : ces liens permettent de reconstituer l'historique du concept :
+
+Exemple : le RSA remplace le RMI, le microentrepreneur remplace l'autoentrepreneur.
+
+NB : un concept peut être remplacé par un ou plusieurs concepts, et inversement.
+
+La pose d’un lien Remplace du concept A vers le concept B entraîne un lien « est remplacé » par  du concept B vers le concept A.
+
+- Onglet : Lié : ces liens sont de type « voir aussi » et permettent de renvoyer vers des concepts connexes.
 
 Le bouton <span style="color: blue">Sauvegarder</span> devient actif après la saisie des champs obligatoires.
 
@@ -213,7 +257,7 @@ NB : le processus de versionnement ne s'active que lorsque l'on veut modifier un
 
 ## <a id="comparer-versions">Comparer les versions d'un concept</a>
 
-Lorsque plusieurs versions d'un concept existent, on peut les comparer en cliquant en haut à droite sur le bouton Comparer de l'écran de description d'un concept. Un menu déroulant permet de sélectionner les versions que l'on souhaite comparer.
+Lorsque plusieurs versions d'un concept existent, on peut les comparer en cliquant en haut à droite sur le bouton <span style="color: blue">Comparer</span> de l'écran de description d'un concept. Un menu déroulant permet de sélectionner les versions que l'on souhaite comparer.
 
 - Les deux versions sélectionnées s'affichent alors en vis à vis.
 
