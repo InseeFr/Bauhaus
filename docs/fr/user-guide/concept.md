@@ -226,15 +226,17 @@ La modification d'un concept est disponible à partir de la page de description 
 
 Les différents champs peuvent alors être modifiés et les consignes décrites dans la fonctionnalité [Créer un concept] s'appliquent alors.
 
-La modification des notes « Définition courte », « Définition » et « Note éditoriale » peuvent donner lieu à la création de nouvelles versions de ces notes. Voir [Créer une nouvelle version](#creer-nouvelle-version).
+Une fois le concept modifié, son statut de publication devient **« provisoire », jusqu’à sa publication**. Tant qu’il n'est pas publié (voir [Publier un concept](#publier-concept)), c’est l'ancienne version qui est mise à disposition des applications clientes.
+
+La modification des notes « Définition courte », « Définition » et « Note éditoriale » peuvent donner lieu à la création de nouvelles versions de ces notes (voir [Créer une nouvelle version](#creer-nouvelle-version)).
 
 ---
 
 ## <a id="creer-version-concept">Créer une nouvelle version</a>
 
-Lorsque l'on [modifie](#modifier-concept) une définition, courte ou longue, ou la note éditoriale, au moment où l'on clique sur <span style="color: blue">Sauvegarder</span> une boîte de dialogue s'ouvre pour demander de choisir entre créer une nouvelle version ou écraser la version courante.
+Lorsque l'on [modifie](#modifier-concept) une définition courte, une définition longue ou la note éditoriale, au moment où l'on clique sur <span style="color: blue">Sauvegarder</span> une boîte de dialogue s'ouvre pour demander de choisir entre créer une nouvelle version ou écraser la version courante.
 
-- Créer une nouvelle version permet de garder trace des définitions précédentes, de comparer ensuite les versions successives. **Dès lors que le changement de définition ou de note éditoriale n'est pas une simple correction de syntaxe, d'orthographe ou une amélioration du contenu, il faut créer une nouvelle version** pour permettre aux propriétaires successifs du concept de comprendre le cheminement qui a conduit à la définition courante.
+- Créer une nouvelle version permet de garder trace des définitions précédentes, de comparer ensuite les versions successives. **Dès lors que le changement de définition courte, de définition longue ou de de la note éditoriale représente une évolution du concept, c'est à dire qu'il ne s'agit pas d'une simple améloration (par exemple : la correction de syntaxe, d'orthographe...), il faut créer une nouvelle version** pour permettre aux propriétaires successifs du concept de comprendre le cheminement qui a conduit à la définition courante.
 
 **La note de changement est obligatoire pour créer une nouvelle version de la définition.** C'est une note à usage interne : elle est destinée à garder trace de l'origine et du contexte des modifications.
 
@@ -246,7 +248,7 @@ NB : le processus de versionnement ne s'active que lorsque l'on veut modifier un
 
 ## <a id="comparer-versions">Comparer les versions d'un concept</a>
 
-Lorsque plusieurs versions d'un concept existent, on peut les comparer en cliquant en haut à droite sur le bouton <span style="color: blue">Comparer</span> de l'écran de description d'un concept. Un menu déroulant permet de sélectionner les versions que l'on souhaite comparer.
+Lorsque plusieurs versions de notes (définition courte, définition longue ou la note éditoriale) existent, on peut les comparer en cliquant en haut à droite sur le bouton <span style="color: blue">Comparer</span> de l'écran de description d'un concept. Un menu déroulant permet de sélectionner les versions que l'on souhaite comparer.
 
 - Les deux versions sélectionnées s'affichent alors en vis à vis.
 
@@ -256,31 +258,34 @@ Lorsque plusieurs versions d'un concept existent, on peut les comparer en cliqua
 
 ## <a id="publier-concept">Publier un concept</a>
 
-Pour publier un concept, se positionner sur l'écran de description du concept à publier
+La publication d'un concept est disponible à partir de la page de description d'un concept.
 
-- Cliquer en haut à droite sur Publier après avoir vérifié les informations saisies.
+- Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
 
-Pour rechercher les concepts à publier, utiliser la recherche avancée en sélectionnant **le statut de publication « Provisoire »** et éventuellement **le timbre**. La liste des concepts à publier s'affiche. Le concept ne peut être publié que par son propriétaire (i.e la personne désignée dans l'application comme ayant ce rôle pour un timbre donné) et par l'unité Qualité par délégation.
+Pour rechercher les concepts à publier, utiliser la recherche avancée en sélectionnant **le statut de publication « Provisoire »** et éventuellement **le timbre**. La liste des concepts à publier s'affiche. l'unité Qualité est habilitée à publier un concept sur demande du propriétaire.
 
 ---
 
 # <a id="fonctionnalites-collections-concepts">Fonctionnalités du gestion des collections de concepts</a>
 ## <a id="rechecher-collection">Rechercher une collection de concepts</a>
 
-La recherche d'une collection est disponible à partir de la page d'accueil Concepts (onglet <span style="color: blue">Collections</span> de la barre horizontale de menu).
+La recherche d'une collection est disponible à partir de la page d'accueil Concepts via l'onglet <span style="color: blue">Collections</span> de la barre horizontale de menu. La page propose alors un moteur de recherche sur la totalité des collections de concepts de l'application
 
 - **Saisir une suite de caractères (pas forcément les premiers) du libellé de la collection.**
 
+L'application renvoie une liste en bas de page, éventuellement plusieurs pages. Pour réduire le liste, entrer quelques caractères supplémentaires.
+
 - Cliquer sur la collection recherchée pour accéder à la page de description.
 
-Pour consulter la version anglaise, cocher la case - [ ] **Afficher la seconde langue**.
+Pour consulter la version anglaise, cocher la case 
 
+- [ ] **Afficher la seconde langue**.
 
 ---
 
 ## <a id="exporter-collection">Exporter une collection de concepts</a>
 
-L'export de la liste des concepts d'une collection se fait à partir de la page d'accueil Collection : onglet Collections dans la barre horizontale de menu.
+L'export d'une collection de concepts est diponible à partir de la page d'accueil Collection : onglet <span style="color: blue">Collections</span> dans la barre horizontale de menu.
 
 - Cliquer sur le bouton <span style="color: blue">Exporter</span> à gauche de la page.
 
@@ -294,9 +299,9 @@ L'export de la liste des concepts d'une collection se fait à partir de la page 
 
 ## <a id="creer-collection">Créer une collection de concepts</a>
 
-La création d'une collection de concepts se fait à partir de la page d'accueil (onglet Collections dans la barre horizontale de menu).
+La création d'une collection de concept est diponible à partir de la page d'accueil Collection : onglet <span style="color: blue">Collections</span> dans la barre horizontale de menu.
 
-Pour accéder à l'écran de création, cliquer sur l'option Nouvelle du menu à gauche. La page de création de la collection s'affiche.
+Pour accéder à l'écran de création, cliquer sur le bouton <span style="color: blue">Nouvelle</span> du menu à gauche. La page de création de la collection s'affiche.
 
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Collections .
 
@@ -316,7 +321,7 @@ Le statut de la collection est alors **« provisoire », jusqu'à sa publication
 
 ## <a id="modifier-collection">Modifier une collection de concepts</a>
 
-Pour modifier une collection de concepts, rechercher la collection puis une fois sur l'écran de description de la collection , cliquer sur le bouton <span style="color: blue">Modifier</span>
+Pour modifier une collection de concepts, rechercher la collection puis une fois sur l'écran de description de la collection, cliquer sur le bouton <span style="color: blue">Modifier</span>
 
 Les différents champs peuvent alors être modifiés.
 
@@ -333,19 +338,23 @@ Une fois la collection modifiée, son statut de publication devient **« proviso
 
 ## <a id=envoyer-collection>Envoyer une collection de concepts</a>
 
-Cliquer en haut à gauche de l'écran de description de la collection sur le bouton Envoyer
 
+L'envoi d'une collection de concepts est disponible à partir de la page de description d'une collection.
+
+- Cliquer en haut à droite de l'écran de description de la collection sur le bouton <span style="color: blue">Envoyer</span>
 Un écran s'affiche, permettant d'envoyer à un destinataire un message avec en pièce jointe la liste des concepts de la collection au format odt, ainsi qu'un lien vers l'application. L'objet du message ainsi que le texte peuvent être modifiés pour personnaliser l'envoi.
 
 NB : le service n'est pas branché sur l'annuaire interne : il faut donc saisir l'adresse mail complète pour tous les destinataires.
 
-Lorsque l'adresse mail du destinataire est renseignée et le texte prêt, cliquer sur le bouton Envoyer.
+- Lorsque l'adresse mail du destinataire est renseignée et le texte prêt, cliquer en haut à droite sur le bouton <span style="color: blue">Envoyer</span>
 
 ---
 
 ## <a id="publier-collection">Publier une collection de concepts</a>
 
-Pour publier une collection de concepts, se positionner sur l'écran de description de la collection à publier et cliquer en haut à droite sur Publier après avoir vérifié les informations saisies.
+La publication d'un collection de concepts est disponible à partir de la page de description d'une collection.
+
+- Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
 
 ---
 
