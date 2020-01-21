@@ -8,7 +8,7 @@ Le module Concepts encore appelée "Bauhaus-concepts" permet de gérer les conce
 
 - [**Naviguer dans l'application**](#naviguer)
 
-- [**Fonctionnalités du module Concepts**](#fonctionnalites-concepts)
+- [**Fonctionnalités de gestion des concepts**](#fonctionnalites-concepts)
 
   - [Rechercher un concept](#rechercher-concept)
   - [Exporter un ou plusieurs concepts](#exporter-concept)
@@ -21,7 +21,7 @@ Le module Concepts encore appelée "Bauhaus-concepts" permet de gérer les conce
 
 ---
 
-- [**Collection de concepts**](#collection-concepts)
+- [**Fonctionnalités de gestion des collections de concepts**](#fonctionnalites-collections-concepts)
 
   - [Rechercher une collection de concepts](#rechecher-collection)
   - [Exporter une collection de concepts](#exporter-collection)
@@ -60,7 +60,7 @@ Pour toute demande ou question, adresser un message à la boite fonctionnelle :
 
 ---
 
-## <a id="fonctionnalites-concepts">Fonctionnalités du module Concepts</a>
+## <a id="fonctionnalites-concepts">Fonctionnalités de gestion des concepts</a>
 
 ### <a id="rechercher-concept">Rechercher un concept</a>
 
@@ -231,8 +231,7 @@ Pour rechercher les concepts à publier, utiliser la recherche avancée en séle
 
 ---
 
-# <a id="collection-concepts">Collection de concepts</a>
-
+# <a id="fonctionnalites-collections-concepts">Fonctionnalités du gestion des collections de concepts</a>
 ## <a id="rechecher-collection">Rechercher une collection de concepts</a>
 
 La recherche d'une collection se faire à partir de la page d'accueil (onglet Collections de la barre horizontale de menu).
