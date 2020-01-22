@@ -22,7 +22,7 @@ class LoginBasic extends Component {
 	}
 
 	componentDidMount() {
-		document.body.classList = ['concepts'];
+		document.getElementById('root-app').classList = ['concepts'];
 	}
 	render() {
 		const { roleList, stampList } = this.props;

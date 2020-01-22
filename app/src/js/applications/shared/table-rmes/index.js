@@ -12,7 +12,6 @@ function TableRmes({
 	csvFileName,
 	onRowClick,
 	dataAlign,
-	context,
 }) {
 	const options = {
 		sizePerPage: 5,
@@ -35,7 +34,6 @@ function TableRmes({
 		onRowClick: onRowClick,
 	};
 	dataAlign = dataAlign || 'center';
-	context = context || 'concepts';
 	const rows = rowParams.map(
 		({ dataField, label, width, isKey, dataFormat, dataSort }) => (
 			<TableHeaderColumn
@@ -52,9 +50,7 @@ function TableRmes({
 		)
 	);
 	return (
-		<div
-			className={`${cssClass} table-${context} pagination-${context} marginTop`}
-		>
+		<div className={`${cssClass} bauhaus-table pagination marginTop`}>
 			<BootstrapTable
 				exportCSV={csvFileName}
 				csvFileName={csvFileName}
@@ -62,7 +58,7 @@ function TableRmes({
 				striped={true}
 				hover={true}
 				tableBodyClass="hover"
-				tableHeaderClass={`table-header-${context}`}
+				tableHeaderClass={`bauhaus-table-header`}
 				search={search}
 				searchPlaceholder={D.searchTablePlaceholder}
 				pagination={pagination}

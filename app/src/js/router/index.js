@@ -11,10 +11,12 @@ class Root extends Component {
 		const { error } = this.props;
 		const footer = `${process.env.REACT_APP_NAME} - ${process.env.REACT_APP_VERSION}`;
 		return (
-			<div>
-				<Router>
-					<Routes error={error} />
-				</Router>
+			<>
+				<div id="root-app">
+					<Router>
+						<Routes error={error} />
+					</Router>
+				</div>
 				<footer className="centered" style={{ marginTop: '50px' }}>
 					<p>
 						<img width="100" src={bauhausLogo} alt="application logo" />
@@ -22,7 +24,7 @@ class Root extends Component {
 						{footer}
 					</p>
 				</footer>
-			</div>
+			</>
 		);
 	}
 }

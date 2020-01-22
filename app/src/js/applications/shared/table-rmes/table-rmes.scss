@@ -1,31 +1,20 @@
-.table-concepts .table-hover tbody tr:hover td {
-	background-color: var(--color-3);
-}
-.table-classifications .table-hover tbody tr:hover td {
-	background-color: var(--color-3);
-}
-
-.table-header-concepts {
-	background-color: var(--color-3);
-	color: white;
-}
-.table-header-classifications {
+.bauhaus-table .table-hover tbody tr:hover td {
 	background-color: var(--color-3);
 	color: white;
 }
 
-.pagination-concepts .pagination > .active > a {
+.bauhaus-table-header {
 	background-color: var(--color-3);
-	border-color: var(--color-3);
-}
-.pagination-classifications .pagination > .active > a {
-	background-color: var(--color-3);
-	border-color: var(--color-3);
+	color: white;
+	thead tr th,
+	thead tr th {
+		text-align: center !important;
+	}
 }
 
-.table-header-concepts thead tr th,
-.table-header-classifications thead tr th {
-	text-align: center !important;
+.pagination > .active > a {
+	background-color: var(--color-3);
+	border-color: var(--color-3);
 }
 
 .marginTop {

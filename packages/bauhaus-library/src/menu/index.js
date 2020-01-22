@@ -12,13 +12,17 @@ function getClasses(path, index, paths) {
 		return [
 			path.className,
 			'navbar-right',
-			!paths[index - 1].alignToRight ? '' : WITH_SEPARATOR_CLASS,
+			!paths[index - 1] || !paths[index - 1].alignToRight
+				? ''
+				: WITH_SEPARATOR_CLASS,
 		];
 	}
 	return [
 		path.className,
 		'navbar-left',
-		paths[index + 1].alignToRight ? '' : WITH_SEPARATOR_CLASS,
+		!paths[index + 1] || paths[index + 1].alignToRight
+			? ''
+			: WITH_SEPARATOR_CLASS,
 	];
 }
 export default ({ paths }) => {
