@@ -78,7 +78,7 @@ Pour consulter la version anglaise, cocher la case
 
 - [ ] **Afficher la seconde langue**.
 
-2. La recherche avanacée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>, vous pouvez affiner la sélection :
+2. La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>, vous pouvez affiner la sélection :
 
 - **Saisir les filtres souhaités** dans les champs :
 
@@ -127,7 +127,7 @@ La fenêtre de téléchargement s'ouvre alors avec les options « ouvrir » et �
 
 L'envoi d'un concept est disponible à partir de la page de description d'un concept.
 
-- Cliquer en haut à droite de l'écran de description du concept sur le bouton <span style="color: blue">Envoyer</span>
+- Cliquer en haut à droite de l'écran de description du concept sur le bouton <span style="color: blue">Envoyer.</span>
 Un écran s'affiche, permettant d'envoyer à un destinataire un message avec en pièce jointe la description du concept en odt ainsi qu'un lien vers l'application. L'objet du message ainsi que le texte peuvent être modifiés pour personnaliser l'envoi.
 
 NB : le service n'est pas branché sur l'annuaire : il faut donc saisir l'adresse mail complète pour tous les destinataires.
@@ -158,7 +158,7 @@ Trois onglets sont disponibles pour définir le concept : <span style="color: bl
 
    - Le **« Libellé »** est le nom du concept : **le libellé français est obligatoire pour créer un concept.**
    - Le **« Libellé alternatif »** est un autre libellé, un sigle ou un acronyme (ajout ou suppression de libellés en cliquant sur + ou - ).
-   - Le « Propriétaire » du concept est le timbre de l'unité responsable de la description du concept. **Le timbre du « propriétaire » est obligatoire pour créer un concept**
+   - Le « Propriétaire » du concept est le timbre de l'unité responsable de la description du concept. **Le timbre du « propriétaire » est obligatoire pour créer un concept.**
     - Le **« Gestionnaire »** est l'unité habilitée à créer / modifier le concept : c'est l'unité Qualité (DG75-L201) qui assure la gestion des concepts.
     - Le **« Statut de diffusion »** peut être :
         - Privé : la diffusion est réservée à un usage interne.
@@ -224,7 +224,7 @@ La modification d'un concept est disponible à partir de la page de description 
 
 - Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
 
-Les différents champs peuvent alors être modifiés et les consignes décrites dans la fonctionnalité [Créer un concept](#creer-concept) s'appliquent alors.
+Les différents champs peuvent alors être modifiés et les consignes décrites dans la fonctionnalité [Créer un concept] s'appliquent alors.
 
 Une fois le concept modifié, son statut de publication devient **« provisoire », jusqu’à sa publication**. Tant qu’il n'est pas publié dans le référentiel de publication (voir [Publier un concept](#publier-concept)), c’est l'ancienne version qui est mise à disposition des applications clientes.
 
@@ -279,7 +279,7 @@ L'application renvoie une liste en bas de page, éventuellement plusieurs pages.
 
 Pour consulter la version anglaise, cocher la case 
 
-[ ] **Afficher la seconde langue**.
+- [ ] **Afficher la seconde langue**.
 
 ---
 
@@ -333,7 +333,7 @@ Pour publier une collection dans le référentiel, voir [Publier une collection 
 
 La modification d'une collection de concepts est disponible à partir de la page de description d'une collection.
 
-- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier.</span>
 
 Les différents champs peuvent alors être modifiés et les consignes décrites dans la fonctionnalité [Créer une collection de concepts](#creer-collection) s'appliquent alors.
 
@@ -345,13 +345,13 @@ Une fois la collection modifiée, son statut de publication devient **« proviso
 
 L'envoi d'une collection de concepts est disponible à partir de la page de description d'une collection.
 
-- Cliquer en haut à droite de l'écran de description de la collection sur le bouton <span style="color: blue">Envoyer</span>.
+- Cliquer en haut à droite de l'écran de description de la collection sur le bouton <span style="color: blue">Envoyer.</span>
 
 Un écran s'affiche, permettant d'envoyer à un destinataire un message avec en pièce jointe la liste des concepts de la collection au format odt, ainsi qu'un lien vers l'application. L'objet du message ainsi que le texte peuvent être modifiés pour personnaliser l'envoi.
 
 NB : le service n'est pas branché sur l'annuaire interne : il faut donc saisir l'adresse mail complète pour tous les destinataires.
 
-- Lorsque l'adresse mail du destinataire est renseignée et le texte prêt, cliquer en haut à droite sur le bouton <span style="color: blue">Envoyer</span>
+- Lorsque l'adresse mail du destinataire est renseignée et le texte prêt, cliquer en haut à droite sur le bouton <span style="color: blue">Envoyer.</span>
 
 ---
 
