@@ -50,7 +50,9 @@ function TableRmes({
 			dataField,
 			text,
 			sort,
-			align,
+			headerAlign: align,
+			align: align,
+
 			headerStyle: () => {
 				return { width };
 			},
@@ -74,7 +76,6 @@ function TableRmes({
 								striped={true}
 								hover={true}
 								tableBodyClass="hover"
-								tableHeaderClass={`bauhaus-table-header`}
 								noDataIndication={() => D.noDataTitle}
 								rowEvents={rowEvents}
 								{...props.baseProps}
