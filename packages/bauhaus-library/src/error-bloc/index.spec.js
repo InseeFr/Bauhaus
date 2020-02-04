@@ -1,30 +1,21 @@
 import * as React from 'react';
 import { mount, shallow } from 'enzyme';
 import ErrorBloc from './';
-import { I18NContext } from '../context';
 
-const value = {
+jest.mock('../build-dictionary', () => ({
 	errors: {
 		402: () => '402 fr',
 		403: ({ idConcept }) => `${idConcept} is required`,
 	},
-};
+}));
 describe('error-bloc', () => {
 	it('renders without crashing', () => {
-		const Component = () => (
-			<I18NContext.Provider value={value}>
-				<ErrorBloc />
-			</I18NContext.Provider>
-		);
+		const Component = () => <ErrorBloc />;
 		shallow(<Component />);
 	});
 
-	it('should display the error', () => {
-		const Component = () => (
-			<I18NContext.Provider value={value}>
-				<ErrorBloc error="This is an error" />
-			</I18NContext.Provider>
-		);
+	it('should 	 the error', () => {
+		const Component = () => <ErrorBloc error="This is an error" />;
 		const wrapper = mount(<Component />);
 
 		const alertBoc = wrapper.find('.alert');
@@ -33,11 +24,7 @@ describe('error-bloc', () => {
 	});
 
 	it('should not display any error', () => {
-		const Component = () => (
-			<I18NContext.Provider value={value}>
-				<ErrorBloc />
-			</I18NContext.Provider>
-		);
+		const Component = () => <ErrorBloc />;
 		const wrapper = mount(<Component />);
 
 		const alertBoc = wrapper.find('.alert');
@@ -45,9 +32,7 @@ describe('error-bloc', () => {
 	});
 	it('should display an error from the dictionnay', () => {
 		const Component = () => (
-			<I18NContext.Provider value={value}>
-				<ErrorBloc error={'{"code": 402, "message": "this is a message"}'} />
-			</I18NContext.Provider>
+			<ErrorBloc error={'{"code": 402, "message": "this is a message"}'} />
 		);
 		const wrapper = mount(<Component />);
 
@@ -58,13 +43,9 @@ describe('error-bloc', () => {
 
 	it('should display an error from the dictionnay with a dynamic value', () => {
 		const Component = () => (
-			<I18NContext.Provider value={value}>
-				<ErrorBloc
-					error={
-						'{"code": 403, "message": "this is a message", "idConcept": 1}'
-					}
-				/>
-			</I18NContext.Provider>
+			<ErrorBloc
+				error={'{"code": 403, "message": "this is a message", "idConcept": 1}'}
+			/>
 		);
 		const wrapper = mount(<Component />);
 
@@ -75,9 +56,7 @@ describe('error-bloc', () => {
 
 	it('should display an error from the dictionnay even if the code contains empty space', () => {
 		const Component = () => (
-			<I18NContext.Provider value={value}>
-				<ErrorBloc error={'{"code": 402, "message": "this is a message"}'} />
-			</I18NContext.Provider>
+			<ErrorBloc error={'{"code": 402, "message": "this is a message"}'} />
 		);
 		const wrapper = mount(<Component />);
 
