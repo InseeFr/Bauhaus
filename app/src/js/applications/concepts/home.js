@@ -41,37 +41,31 @@ class ConceptsHome extends Component {
 		const adminOrContributor = authImpl.isAdminOrContributor(roles);
 		const adminOrCreator = authImpl.isAdminOrConceptCreator(roles);
 		return (
-			<div>
-				<div className="container">
-					<div className="row">
-						<VerticalMenu>
-							{adminOrContributor && (
-								<NewButton action={this.handleClick} col={8} offset={2} />
-							)}
-							<ExportButton
-								action={this.handleClickExport}
+			<div className="container">
+				<div className="row">
+					<VerticalMenu>
+						{adminOrContributor && (
+							<NewButton action={this.handleClick} col={8} offset={2} />
+						)}
+						<ExportButton action={this.handleClickExport} col={8} offset={2} />
+						{adminOrCreator && (
+							<PublishButton
+								action={this.handleClickValidate}
 								col={8}
 								offset={2}
 							/>
-							{adminOrCreator && (
-								<PublishButton
-									action={this.handleClickValidate}
-									col={8}
-									offset={2}
-								/>
-							)}
-						</VerticalMenu>
-						<div className="col-md-8 centered pull-right">
-							<PageTitle title={D.conceptSearchTitle} col={12} offset={0} />
-							<SearchRmes
-								items={concepts}
-								childPath="concept"
-								advancedSearch
-								searchUrl="/concepts/search"
-								placeholder={D.searchLabelHomePlaceholder}
-								autoFocus={true}
-							/>
-						</div>
+						)}
+					</VerticalMenu>
+					<div className="col-md-8 centered pull-right">
+						<PageTitle title={D.conceptSearchTitle} col={12} offset={0} />
+						<SearchRmes
+							items={concepts}
+							childPath="concept"
+							advancedSearch
+							searchUrl="/concepts/search"
+							placeholder={D.searchLabelHomePlaceholder}
+							autoFocus={true}
+						/>
 					</div>
 				</div>
 			</div>

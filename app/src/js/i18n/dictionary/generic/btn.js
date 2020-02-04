@@ -19,14 +19,6 @@ export default {
 		fr: 'Modifier',
 		en: 'Update',
 	},
-	btnDuplicate: {
-		fr: 'Dupliquer',
-		en: 'Duplicate',
-	},
-	btnSave: {
-		fr: 'Sauvegarder',
-		en: 'Save',
-	},
 	btnCompare: {
 		fr: 'Comparer',
 		en: 'Compare',
