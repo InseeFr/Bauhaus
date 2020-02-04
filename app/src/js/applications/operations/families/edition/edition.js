@@ -3,7 +3,13 @@ import { D1, D2 } from 'js/i18n';
 import { goBackOrReplace, goBack } from 'bauhaus-library/src/utils/redirection';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
-import { CancelButton, SaveButton, Loading, ErrorBloc } from 'bauhaus-library';
+import {
+	CancelButton,
+	SaveButton,
+	Loading,
+	ErrorBloc,
+	ActionToolbar,
+} from 'bauhaus-library';
 import { validate } from './validation';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
 
@@ -88,11 +94,11 @@ class OperationsFamilyEdition extends Component {
 					/>
 				)}
 
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<CancelButton action={goBack(this.props, '/operations/families')} />
 
 					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
-				</div>
+				</ActionToolbar>
 				<ErrorBloc error={globalError} />
 
 				<form>

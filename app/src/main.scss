@@ -160,20 +160,3 @@ footer {
 	outline: none;
 	transition: border 0.24s ease-in-out;
 }
-
-.action-toolbar {
-	&::before {
-		content: none;
-	}
-	&::after {
-		content: none;
-	}
-
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-
-	.empty-center {
-		flex-grow: 1;
-	}
-}

@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Panel, Pagination } from 'bauhaus-library';
-import Item from 'js/applications/shared/picker-item';
-import { filterDeburr, arrayDifferenceByID } from 'js/utils/array-utils';
+import {
+	Panel,
+	Pagination,
+	LogoAdd,
+	LogoDel,
+	PickerItem,
+} from 'bauhaus-library';
+import {
+	filterDeburr,
+	arrayDifferenceByID,
+} from 'bauhaus-library/src/utils/array-utils';
+
 import D, { D1 } from 'js/i18n';
-import logoAdd from 'js/applications/shared/logo/logo-add';
-import logoDel from 'js/applications/shared/logo/logo-del';
 
 class CollectionMembersEdition extends Component {
 	constructor(props) {
@@ -100,21 +107,21 @@ class CollectionMembersEdition extends Component {
 		const { toAdd, added } = this.getConceptsByStatus();
 
 		const toAddEls = toAdd.map(({ id, label }) => (
-			<Item
+			<PickerItem
 				key={id}
 				id={id}
 				label={label}
-				logo={logoAdd}
+				logo={LogoAdd}
 				handleClick={this.addConcept}
 			/>
 		));
 
 		const addedEls = added.map(({ id, label }) => (
-			<Item
+			<PickerItem
 				key={id}
 				id={id}
 				label={label}
-				logo={logoDel}
+				logo={LogoDel}
 				handleClick={this.removeConcept}
 			/>
 		));

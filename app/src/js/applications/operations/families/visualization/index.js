@@ -7,7 +7,13 @@ import { withRouter } from 'react-router-dom';
 import { getSecondLang } from 'js/reducers/app';
 import { saveSecondLang } from 'js/actions/app';
 import Auth from 'js/utils/auth/components/auth';
-import { Button, Loading, ErrorBloc, CheckSecondLang } from 'bauhaus-library';
+import {
+	Button,
+	Loading,
+	ErrorBloc,
+	CheckSecondLang,
+	ActionToolbar,
+} from 'bauhaus-library';
 import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { ADMIN, CNIS } from 'js/utils/auth/roles';
 import React from 'react';
@@ -53,7 +59,7 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 					secondLang={secondLang}
 				/>
 
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<Button
 						action={goBack(this.props, '/operations/families')}
 						label={D.btnReturn}
@@ -74,7 +80,7 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 							label={D.btnUpdate}
 						/>
 					</Auth>
-				</div>
+				</ActionToolbar>
 
 				<ErrorBloc error={serverSideError} />
 

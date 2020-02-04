@@ -8,6 +8,7 @@ import {
 	Loading,
 	CheckSecondLang,
 	CancelButton,
+	ActionToolbar,
 } from 'bauhaus-library';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { DUPLICATE } from 'js/applications/operations/msd';
@@ -185,7 +186,7 @@ class SimsCreation extends React.Component {
 
 		return (
 			<form>
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<CancelButton action={this.goBack} />
 
 					<Button
@@ -201,7 +202,7 @@ class SimsCreation extends React.Component {
 						}
 						col={3}
 					/>
-				</div>
+				</ActionToolbar>
 
 				{Object.values(metadataStructure).map((msd, index) => {
 					return (

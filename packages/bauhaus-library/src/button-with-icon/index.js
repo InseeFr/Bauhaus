@@ -1,6 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Button from '../button';
-import { I18NContext } from '../context';
+import D from '../build-dictionary';
+
+export const ReturnButton = props => {
+	return <Button label={D.btnReturn} {...props} />;
+};
+
+export const UpdateButton = props => {
+	return <Button label={D.btnUpdate} {...props} />;
+};
 export const AbstractButton = props => {
 	const p = {
 		...props,
@@ -18,7 +26,6 @@ export const AbstractButton = props => {
 };
 
 export const ExportButton = props => {
-	const D = useContext(I18NContext);
 	return (
 		<AbstractButton icon="export" {...props}>
 			{D.btnExport}
@@ -27,7 +34,6 @@ export const ExportButton = props => {
 };
 
 export const PublishButton = props => {
-	const D = useContext(I18NContext);
 	return (
 		<AbstractButton icon="ok" {...props}>
 			{D.btnValid}
@@ -35,7 +41,6 @@ export const PublishButton = props => {
 	);
 };
 export const NewButton = props => {
-	const D = useContext(I18NContext);
 	return (
 		<AbstractButton icon="plus" {...props}>
 			{D.btnNewMale}
@@ -43,7 +48,6 @@ export const NewButton = props => {
 	);
 };
 export const CancelButton = props => {
-	const D = useContext(I18NContext);
 	return (
 		<AbstractButton icon="floppy-remove" {...props}>
 			{D.btnCancel}
@@ -51,7 +55,6 @@ export const CancelButton = props => {
 	);
 };
 export const SaveButton = props => {
-	const D = useContext(I18NContext);
 	return (
 		<AbstractButton icon="floppy-disk" {...props}>
 			{D.btnSave}
@@ -60,7 +63,6 @@ export const SaveButton = props => {
 };
 
 export const DuplicateButton = props => {
-	const D = useContext(I18NContext);
 	return (
 		<AbstractButton icon="duplicate" {...props}>
 			{D.btnDuplicate}

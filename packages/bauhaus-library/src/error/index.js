@@ -1,10 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PageTitle from '../page-title';
-import { I18NContext } from '../context';
-
+import D from '../build-dictionary';
 export default ({ home }) => {
-	const D = useContext(I18NContext);
-
 	return (
 		<div>
 			{home && <h1 className="centered page-title">{D.welcome}</h1>}

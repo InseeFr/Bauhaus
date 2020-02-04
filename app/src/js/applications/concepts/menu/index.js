@@ -4,8 +4,7 @@ import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
 import { withPermissions } from 'js/components/menu/withPermissions';
-import { Menu } from 'bauhaus-library';
-import { getLang } from 'js/i18n/build-dictionary';
+import { getLang, Menu } from 'bauhaus-library';
 const defaultAttrs = { 'aria-current': 'page' };
 
 export const MenuConcepts = ({ location, permission: { authType, roles } }) => {

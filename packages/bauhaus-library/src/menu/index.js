@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
-import { I18NContext } from '../context';
-
+import React from 'react';
+import D from '../build-dictionary';
 import { Link } from 'react-router-dom';
 
 import './menu.scss';
@@ -26,7 +25,6 @@ function getClasses(path, index, paths) {
 	];
 }
 export default ({ paths }) => {
-	const D = useContext(I18NContext);
 	const orderedPaths = paths
 		.filter(path => path.shouldBeDisplayed !== false)
 		.sort((p1, p2) => p1.order - p2.order);

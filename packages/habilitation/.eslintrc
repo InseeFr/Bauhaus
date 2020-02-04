@@ -1,0 +1,18 @@
+{
+	"extends": ["prettier", "react-app"],
+	"rules": {
+		"jsx-a11y/href-no-hash": 0
+	},
+	"settings": {
+		"react": {
+			"version": "16.3.0"
+		}
+	},
+	"globals": {
+		"cy": true,
+		"Cypress": true
+	},
+	"env": {
+		"mocha": true
+	}
+}

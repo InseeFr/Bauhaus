@@ -1,7 +1,7 @@
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 
-import { getLang } from 'js/i18n/build-dictionary';
+import { getLang } from 'bauhaus-library';
 
 const moment = extendMoment(Moment);
 

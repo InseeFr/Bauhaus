@@ -4,11 +4,9 @@ import { Tabs, Tab } from 'react-bootstrap';
 import { D1 } from 'js/i18n';
 import ConceptToLink from './concept-to-link';
 import SearchConceptsByLabel from './search-concepts-by-label';
-import { filterDeburr } from 'js/utils/array-utils';
+import { filterDeburr } from 'bauhaus-library/src/utils/array-utils';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
-import logoAdd from 'js/applications/shared/logo/logo-add';
-import logoDel from 'js/applications/shared/logo/logo-del';
-import Item from 'js/applications/shared/picker-item';
+import { LogoAdd, LogoDel, PickerItem } from 'bauhaus-library';
 
 import {
 	BROADER,
@@ -126,22 +124,22 @@ class LinksEdition extends Component {
 		const { addMember, removeMember } = this;
 
 		const memberEls = members.map(({ id, label }) => (
-			<Item
+			<PickerItem
 				key={id}
 				id={id}
 				label={label}
-				logo={logoDel}
+				logo={LogoDel}
 				handleClick={removeMember}
 			/>
 		));
 		//if a concept already has a parent, no other parent can be added.
 		const handleClickAdd = !this.isAddDisabled(members) ? addMember : undefined;
 		const hitEls = hits.map(({ id, label }) => (
-			<Item
+			<PickerItem
 				key={id}
 				id={id}
 				label={label}
-				logo={logoAdd}
+				logo={LogoAdd}
 				handleClick={handleClickAdd}
 			/>
 		));

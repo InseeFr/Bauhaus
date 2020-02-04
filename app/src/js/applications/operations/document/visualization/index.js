@@ -1,6 +1,11 @@
 import { saveSecondLang } from 'js/actions/app';
 import loadDocument from 'js/actions/operations/documents/item';
-import { CheckSecondLang, Loading, Button } from 'bauhaus-library';
+import {
+	CheckSecondLang,
+	Loading,
+	Button,
+	ActionToolbar,
+} from 'bauhaus-library';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { getSecondLang } from 'js/reducers/app';
@@ -46,7 +51,7 @@ class DocumentationVisualizationContainer extends Component {
 					secondLang={secondLang}
 				/>
 
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<Button
 						action={goBack(this.props, '/operations/documents')}
 						label={D.btnReturn}
@@ -58,7 +63,7 @@ class DocumentationVisualizationContainer extends Component {
 							label={D.btnUpdate}
 						/>
 					</Auth>
-				</div>
+				</ActionToolbar>
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
 				<OperationsDocumentVisualization

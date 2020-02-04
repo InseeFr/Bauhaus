@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import Auth from 'js/applications/auth/basic-auth/login';
 import { Loading } from 'bauhaus-library';
 import { checkAuth } from 'js/actions/app';
-import loadRoleList from 'js/actions/roles/role';
 import loadStampList from 'js/actions/stamp';
 import * as select from 'js/reducers';
+import api from 'js/remote-api/api';
 
 class LoginBasicContainer extends Component {
 	constructor(props) {
-		super();
+		super(props);
 		this.state = {
 			updateRequested: false,
 		};
@@ -23,16 +23,22 @@ class LoginBasicContainer extends Component {
 	}
 
 	componentWillMount() {
-		const { roleList, stampList } = this.props;
+		const { stampList } = this.props;
+		const { roleList } = this.state;
+
 		if (!roleList) {
-			this.props.loadRoleList();
+			api.getRoleList().then(roleList => {
+				this.setState({
+					roleList,
+				});
+			});
 		}
 		if (!stampList) this.props.loadStampList();
 	}
 
 	render() {
-		const { roleList, stampList } = this.props;
-		const { updateRequested } = this.state;
+		const { stampList } = this.props;
+		const { updateRequested, roleList } = this.state;
 
 		if (updateRequested) return <Loading textType="authentification" />;
 		if (roleList && stampList) {
@@ -54,13 +60,11 @@ class LoginBasicContainer extends Component {
 
 const mapStateToProps = state => {
 	return {
-		roleList: select.getRoleList(state),
 		stampList: select.getStampList(state),
 	};
 };
 
 const mapDispatchToProps = {
-	loadRoleList,
 	loadStampList,
 	checkAuth,
 };

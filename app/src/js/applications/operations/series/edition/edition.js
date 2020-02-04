@@ -2,7 +2,13 @@ import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { goBack, goBackOrReplace } from 'bauhaus-library/src/utils/redirection';
-import { Loading, CancelButton, SaveButton, ErrorBloc } from 'bauhaus-library';
+import {
+	Loading,
+	CancelButton,
+	SaveButton,
+	ErrorBloc,
+	ActionToolbar,
+} from 'bauhaus-library';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
@@ -160,10 +166,10 @@ class OperationsSerieEdition extends Component {
 					/>
 				)}
 
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<CancelButton action={goBack(this.props, '/operations/series')} />
 					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
-				</div>
+				</ActionToolbar>
 				<ErrorBloc error={globalError} />
 
 				<form>

@@ -30,7 +30,7 @@ function App() {
 			{apps}
 			<Auth roles={[ADMIN]}>
 				<div className="bauhaus-app">
-					<Link to="/administration/roles">
+					<Link to="/habilitation">
 						<h2 className="items page-title page-title-link">
 							{D.authorizationManagementTitle}
 						</h2>

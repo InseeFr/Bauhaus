@@ -1,10 +1,9 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Link } from 'react-router-dom';
 import queryString from 'query-string';
-import { I18NContext } from '../context';
 import './pagination.scss';
-
+import D from '../build-dictionary';
 function checkInvalidPage(targetPage, listSize) {
 	return targetPage === 0 || targetPage > listSize;
 }
@@ -16,8 +15,8 @@ function checkInvalidPage(targetPage, listSize) {
  */
 export const Pagination = React.memo(
 	({ location: { pathname, search }, itemEls, itemsPerPage }) => {
-		const D = useContext(I18NContext).pagination || {};
-		const ariaLabel = number => `${D.goTo} ${number}`;
+		const paginationD = D.pagination || {};
+		const ariaLabel = number => `${paginationD.goTo} ${number}`;
 		if (!itemsPerPage) return null;
 
 		const queryParams = queryString.parse(search);

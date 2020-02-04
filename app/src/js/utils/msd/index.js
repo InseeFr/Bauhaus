@@ -1,4 +1,4 @@
-import { isLang2 } from 'js/i18n/build-dictionary';
+import { isLang2 } from 'bauhaus-library';
 
 /**
  *

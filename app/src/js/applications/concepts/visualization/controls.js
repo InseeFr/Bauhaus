@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Button } from 'bauhaus-library';
+import { Button, ActionToolbar } from 'bauhaus-library';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { goBack } from 'bauhaus-library/src/utils/redirection';
@@ -81,13 +81,13 @@ class ConceptVisualizationControls extends Component {
 		}
 
 		return (
-			<div className="row btn-line action-toolbar">
+			<ActionToolbar>
 				{btns.map((btn, i) => {
 					if (!btn) return null;
 					const [action, label] = btn;
 					return btn && <Button key={label} action={action} label={label} />;
 				})}
-			</div>
+			</ActionToolbar>
 		);
 	}
 }

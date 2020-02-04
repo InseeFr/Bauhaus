@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getLang } from 'js/i18n/build-dictionary';
+import { getLang } from 'bauhaus-library';
 import './help.scss';
 
 export default ({ content, selectedId }) => {

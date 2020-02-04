@@ -9,7 +9,6 @@ import * as links from './concepts/by-id/links';
 import * as collectionGeneral from './collections/by-id/general';
 import * as members from './collections/by-id/members';
 import collectionReducers from './collections';
-import roleReducers from './roles';
 import dashboardReducers from './dashboard';
 import classificationsReducers from './classifications';
 import operationsReducers from './operations';
@@ -23,7 +22,6 @@ export default combineReducers({
 	...sharedReducers,
 	...conceptReducers,
 	...collectionReducers,
-	...roleReducers,
 	...dashboardReducers,
 	...classificationsReducers,
 	...operationsReducers,

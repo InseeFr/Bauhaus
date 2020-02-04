@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import logoWarning from 'js/applications/shared/logo/logo-warning';
+import { LogoWarning } from 'bauhaus-library';
 import ModifyNotes from './modify-notes';
 import flag from 'js/applications/shared/flag/flag';
 import { htmlLength } from 'js/utils/html';
@@ -12,7 +12,7 @@ function NoteOneLangEdition({ lang, note, handleChange, maxLength }) {
 			<div>
 				{noteLength} / {maxLength}
 			</div>
-			<div>{noteLength > maxLength && logoWarning}</div>
+			<div>{noteLength > maxLength && LogoWarning}</div>
 		</div>
 	);
 

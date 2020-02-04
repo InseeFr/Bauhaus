@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import { goBack, goBackOrReplace } from 'bauhaus-library/src/utils/redirection';
 import PropTypes from 'prop-types';
-import { CancelButton, SaveButton, Loading, ErrorBloc } from 'bauhaus-library';
+import {
+	CancelButton,
+	SaveButton,
+	Loading,
+	ErrorBloc,
+	ActionToolbar,
+} from 'bauhaus-library';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { validate } from './validation';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
@@ -104,11 +110,11 @@ class OperationsOperationEdition extends Component {
 					/>
 				)}
 
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<CancelButton action={goBack(this.props, '/operations/operations')} />
 
 					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
-				</div>
+				</ActionToolbar>
 
 				<ErrorBloc error={globalError} />
 
