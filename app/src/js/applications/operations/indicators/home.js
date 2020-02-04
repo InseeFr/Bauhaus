@@ -15,33 +15,31 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 	const authImpl = check(authType);
 	const adminOrContributor = authImpl.isAdminOrContributor(roles);
 	return (
-		<>
-			<div className="container">
-				<div className="row">
-					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
-						<VerticalMenu>
-							{adminOrContributor && (
-								<NewButton
-									action="/operations/indicator/create"
-									wrapper={false}
-								/>
-							)}
-						</VerticalMenu>
-					</Auth>
-					<div className="col-md-8 centered pull-right operations-list">
-						<PageTitle title={D.indicatorsSearchTitle} col={12} offset={0} />
-						<SearchRmes
-							items={indicators}
-							childPath="operations/indicator"
-							label="label"
-							advancedSearch
-							searchUrl="/operations/indicators/search"
-							autoFocus={true}
-						/>
-					</div>
+		<div className="container">
+			<div className="row">
+				<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
+					<VerticalMenu>
+						{adminOrContributor && (
+							<NewButton
+								action="/operations/indicator/create"
+								wrapper={false}
+							/>
+						)}
+					</VerticalMenu>
+				</Auth>
+				<div className="col-md-8 centered pull-right operations-list">
+					<PageTitle title={D.indicatorsSearchTitle} col={12} offset={0} />
+					<SearchRmes
+						items={indicators}
+						childPath="operations/indicator"
+						label="label"
+						advancedSearch
+						searchUrl="/operations/indicators/search"
+						autoFocus={true}
+					/>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 

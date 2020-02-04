@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import {
 	CancelButton,
-	Button,
 	ErrorBloc,
 	ActionToolbar,
+	SaveButton,
 } from 'bauhaus-library';
-import D from 'js/i18n';
 
 class ConceptCreateControlLayout extends Component {
 	render() {
@@ -17,20 +16,7 @@ class ConceptCreateControlLayout extends Component {
 			<>
 				<ActionToolbar>
 					<CancelButton action={redirectCancel()} />
-
-					<Button
-						label={
-							<>
-								<span
-									className="glyphicon glyphicon-floppy-disk"
-									aria-hidden="true"
-								/>
-								<span> {D.btnSave}</span>
-							</>
-						}
-						action={handleSave}
-						disabled={!saveEnabled}
-					/>
+					<SaveButton action={handleSave} disabled={!saveEnabled} />
 				</ActionToolbar>
 				<ErrorBloc error={message} />
 			</>

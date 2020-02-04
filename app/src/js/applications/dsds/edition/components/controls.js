@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'bauhaus-library';
+import { Button, SaveButton } from 'bauhaus-library';
 import D from 'js/i18n';
 
 const Controls = ({ deleteAction, saveAction, disabledSave }) => {
@@ -9,12 +9,7 @@ const Controls = ({ deleteAction, saveAction, disabledSave }) => {
 				<Button label={D.btnDelete} action={deleteAction} col={12} />
 			</div>
 			<div className="col-md-4 col-md-offset-2">
-				<Button
-					label={D.btnSave}
-					action={saveAction}
-					disabled={disabledSave}
-					col={12}
-				/>
+				<SaveButton action={saveAction} disabled={disabledSave} col={12} />
 			</div>
 		</div>
 	);
