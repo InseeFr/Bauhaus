@@ -44,7 +44,6 @@ export class Update extends Component {
 		this.handleSave = () => {
 			const { toAdd, toDelete } = this.state;
 			const data = U.buildDataToSave(toAdd, toDelete);
-			console.log(data);
 			this.props.handleSave(data);
 		};
 		this.onChangePicker = agents => {
