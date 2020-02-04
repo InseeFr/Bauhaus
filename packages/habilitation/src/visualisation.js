@@ -13,7 +13,8 @@ function VisualisationTable({ roles = [] }) {
 	for (let i = 0; i < roles.length; i++) {
 		roles[i].persons.forEach(p => {
 			if (persons[p.id]) {
-				persons[p.id].roles += ',' + roles[i].label;
+				//persons[p.id].roles += ',' + <strong>{roles[i].label}</strong>;
+				persons[p.id].roles = <strong>{roles[i].label}</strong>;
 			} else {
 				persons[p.id] = {
 					...p,
@@ -26,13 +27,13 @@ function VisualisationTable({ roles = [] }) {
 	const rowParams = [
 		{
 			dataField: 'label',
-			label: D.nameTitle,
+			text: D.nameTitle,
 			width: '40%',
 			isKey: true,
-			dataSort: true,
+			sort: true,
 		},
-		{ dataField: 'stamp', label: D.stampTitle, width: '30%', dataSort: true },
-		{ dataField: 'roles', label: D.roleTitle, width: '30%', dataSort: true },
+		{ dataField: 'stamp', text: D.stampTitle, width: '30%', sort: true },
+		{ dataField: 'roles', text: D.roleTitle, width: '30%', sort: true },
 	];
 
 	return (

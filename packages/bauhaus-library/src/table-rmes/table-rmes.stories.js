@@ -8,14 +8,15 @@ import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 export const rows = [
 	{
 		dataField: 'col1',
-		label: 'Col1',
-		width: '50%',
+		text: 'Col1',
+		width: '70%',
 		isKey: true,
+		dataFormat: d => d.toUpperCase(),
 	},
 	{
 		dataField: 'col2',
-		label: 'Col2',
-		width: '50%',
+		text: 'Col2',
+		width: '30%',
 	},
 ];
 
@@ -37,6 +38,6 @@ stories.add('With all props', () => (
 		data={data}
 		search={boolean('Searchable', 'true')}
 		pagination={boolean('Paginable', 'true')}
-		dataAlign={text('Align', 'left')}
+		align={text('Align', 'left')}
 	/>
 ));
