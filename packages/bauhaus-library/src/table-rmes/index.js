@@ -50,7 +50,6 @@ function TableRmes({
 			dataField,
 			text,
 			sort,
-			headerAlign: align,
 			align: align,
 
 			headerStyle: () => {
