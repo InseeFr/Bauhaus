@@ -1,10 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Pagination from '../pagination';
-import { I18NContext } from '../context';
 import { filterKeyDeburr, nbResults } from '../utils/array-utils';
-
+import D from '../build-dictionary';
 function SearchRmes({
 	items = [],
 	advancedSearch = false,
@@ -17,7 +16,6 @@ function SearchRmes({
 	autoFocus,
 }) {
 	const [search, handleSearch] = useState('');
-	const D = useContext(I18NContext);
 
 	const filter = filterKeyDeburr(
 		Object.keys(items[0] || {}).filter(k => k !== 'id')
@@ -58,7 +56,7 @@ function SearchRmes({
 									className="glyphicon glyphicon-zoom-in"
 									aria-hidden="true"
 								/>
-								{D.conceptAdvancedSearchTitle}
+								{D.advancedSearchTitle}
 							</h2>
 						</Link>
 					</div>

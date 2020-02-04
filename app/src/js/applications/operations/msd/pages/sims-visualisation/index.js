@@ -9,6 +9,7 @@ import {
 	DuplicateButton,
 	ErrorBloc,
 	Note,
+	ActionToolbar,
 } from 'bauhaus-library';
 import { markdownToHtml, containUnsupportedStyles } from 'js/utils/html';
 import DocumentsBloc from 'js/applications/operations/msd/documents/documents-bloc/index.js';
@@ -169,7 +170,7 @@ export default function SimsVisualisation({
 
 	return (
 		<>
-			<div className="row btn-line action-toolbar">
+			<ActionToolbar>
 				<Button action={() => goBack(getParentUri(sims))} label={D.btnReturn} />
 				<Auth
 					roles={[ADMIN, SERIES_CREATOR]}
@@ -206,7 +207,7 @@ export default function SimsVisualisation({
 						}
 					/>
 				</Auth>
-			</div>
+			</ActionToolbar>
 
 			<ErrorBloc error={serverSideError} />
 

@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
+import { ActionToolbar } from 'bauhaus-library';
 
 function Controls() {
 	return (
-		<div className="row btn-line action-toolbar">
+		<ActionToolbar>
 			<div className="col-md-2">
 				<Link
 					className="btn bauhaus-btn btn-lg col-md-12"
@@ -13,7 +14,7 @@ function Controls() {
 					{D.btnReturn}
 				</Link>
 			</div>
-		</div>
+		</ActionToolbar>
 	);
 }
 

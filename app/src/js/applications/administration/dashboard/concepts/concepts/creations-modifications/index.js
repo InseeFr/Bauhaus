@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import TableRmes from 'js/applications/shared/table-rmes';
+import { TableRmes } from 'bauhaus-library';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
 import { rowParams } from './data';

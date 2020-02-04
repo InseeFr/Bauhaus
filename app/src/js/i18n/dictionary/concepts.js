@@ -7,10 +7,7 @@ const dictionary = {
 		fr: 'Concepts - Recherche',
 		en: 'Concepts - Search',
 	},
-	conceptAdvancedSearchTitle: {
-		fr: 'Recherche avancée',
-		en: 'Advanced search',
-	},
+
 	conceptsNumberTitle: {
 		fr: 'Nombre de concepts',
 		en: 'Number of concepts',

@@ -7,7 +7,13 @@ import { connect } from 'react-redux';
 import * as select from 'js/reducers';
 import { saveSecondLang } from 'js/actions/app';
 import OperationsIndicatorVisualization from 'js/applications/operations/indicators/visualization/general';
-import { CheckSecondLang, Loading, Button, ErrorBloc } from 'bauhaus-library';
+import {
+	CheckSecondLang,
+	Loading,
+	Button,
+	ErrorBloc,
+	ActionToolbar,
+} from 'bauhaus-library';
 import loadIndicator, {
 	publishIndicator,
 } from 'js/actions/operations/indicators/item';
@@ -48,7 +54,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 					titleLg2={attr.prefLabelLg2}
 					secondLang={secondLang}
 				/>
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<Button
 						action={goBack(this.props, '/operations/indicators')}
 						label={D.btnReturn}
@@ -84,7 +90,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 							label={D.btnUpdate}
 						/>
 					</Auth>
-				</div>
+				</ActionToolbar>
 				<ErrorBloc error={serverSideError} />
 
 				<CheckSecondLang

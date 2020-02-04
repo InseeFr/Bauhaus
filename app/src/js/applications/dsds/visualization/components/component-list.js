@@ -6,7 +6,8 @@ import Badge from 'js/applications/shared/badge';
 
 import * as C from 'js/constants';
 import D from 'js/i18n';
-import { sortArray, filterDeburr } from 'js/utils/array-utils';
+import { sortArray } from 'js/utils/array-utils';
+import { filterDeburr } from 'bauhaus-library/src/utils/array-utils';
 
 const sortArrayByLabel = sortArray('label');
 

@@ -4,7 +4,7 @@ import 'react-sortable-tree/style.css';
 import { Link } from 'react-router-dom';
 import api from 'js/remote-api/operations-api';
 import D from 'js/i18n';
-import { PageTitle, Button } from 'bauhaus-library';
+import { PageTitle, Button, ActionToolbar } from 'bauhaus-library';
 import { goBack } from 'bauhaus-library/src/utils/redirection';
 
 import './tree.scss';
@@ -119,9 +119,9 @@ const TreeComponent = props => {
 	return (
 		<div className="container">
 			<PageTitle title={D.operationsTreeTitle} col={12} offset={0} />
-			<div className="row btn-line action-toolbar">
+			<ActionToolbar>
 				<Button action={goBack(props, '/operations')} label={D.btnReturn} />
-			</div>
+			</ActionToolbar>
 			<div className="row">
 				<div className="col-md-12 centered pull-right operations-list">
 					<div style={{ height: '100vh' }}>

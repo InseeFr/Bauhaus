@@ -7,7 +7,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import OperationsSerieVisualization from 'js/applications/operations/series/visualization/home';
-import { CheckSecondLang, Loading, ErrorBloc, Button } from 'bauhaus-library';
+import {
+	CheckSecondLang,
+	Loading,
+	ErrorBloc,
+	Button,
+	ActionToolbar,
+} from 'bauhaus-library';
 import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import { getSecondLang } from 'js/reducers/app';
@@ -54,7 +60,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 					secondLang={secondLang}
 				/>
 
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<Button
 						action={goBack(this.props, '/operations/series')}
 						label={D.btnReturn}
@@ -92,7 +98,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 							label={D.btnUpdate}
 						/>
 					</Auth>
-				</div>
+				</ActionToolbar>
 
 				<ErrorBloc error={serverSideError} />
 

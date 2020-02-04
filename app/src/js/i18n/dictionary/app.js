@@ -28,10 +28,7 @@ const dictionary = {
 		fr: 'Administration',
 		en: 'Administration',
 	},
-	displayLg2: {
-		fr: 'Afficher la seconde langue',
-		en: 'Display second language',
-	},
+
 	noResult: {
 		fr: 'Aucun résultat',
 		en: 'No results',
@@ -52,10 +49,7 @@ const dictionary = {
 		fr: 'Version',
 		en: 'Version',
 	},
-	allTitle: {
-		fr: 'Tous',
-		en: 'All',
-	},
+
 	langTitle: {
 		fr: 'Langue',
 		en: 'Language',
@@ -76,14 +70,7 @@ const dictionary = {
 		fr: 'Impossible de supprimer le dernier champ',
 		en: 'Impossible to remove the last field',
 	},
-	noDataTitle: {
-		fr: 'Aucune donnée',
-		en: 'No data',
-	},
-	errorTitle: {
-		fr: 'Erreur',
-		en: 'Error',
-	},
+
 	errorBody: {
 		fr: 'Veuillez contacter :DR59-SINL-Equipe-maintenance-RMeS',
 		en: 'Please contact :DR59-SINL-Equipe-maintenance-RMeS',
@@ -91,10 +78,6 @@ const dictionary = {
 	exportTitle: {
 		fr: 'Export',
 		en: 'Export',
-	},
-	exportCSV: {
-		fr: 'Exporter en CSV',
-		en: 'Export as CSV',
 	},
 	idTitle: {
 		fr: 'Identifiant',
@@ -116,10 +99,7 @@ const dictionary = {
 		fr: 'Libellé (ou libellé alternatif)...',
 		en: 'Label (or alternative label)...',
 	},
-	searchTablePlaceholder: {
-		fr: 'Rechercher dans le tableau...',
-		en: 'Search in the table...',
-	},
+
 	altLabelTitle: {
 		fr: 'Libellé alternatif',
 		en: 'Alternative label',
@@ -152,10 +132,7 @@ const dictionary = {
 		fr: 'Gestionnaire',
 		en: 'Contributor',
 	},
-	stampTitle: {
-		fr: 'Timbre',
-		en: 'Stamp',
-	},
+
 	stampsPlaceholder: {
 		fr: 'Sélectionnez un timbre...',
 		en: 'Select stamp...',
@@ -351,48 +328,17 @@ const dictionary = {
 		fr: 'Sélectionner un rôle...',
 		en: 'Select a role...',
 	},
-	// Loadable
-	loadableAuth: {
-		fr: 'Authentification en cours...',
-		en: 'Authentication in progress...',
-	},
-	loadableSaving: {
-		fr: 'Sauvegarde en cours...',
-		en: 'Saving in progress...',
-	},
-	loadableSending: {
-		fr: 'Envoi en cours...',
-		en: 'Sending in progress...',
-	},
-	loadableExporting: {
-		fr: 'Export en cours...',
-		en: 'Export in progress...',
-	},
-	loadableValidating: {
-		fr: 'Publication en cours ...',
-		en: 'Publish in progress ...',
-	},
+
 	loadableLoading: {
 		fr: 'Chargement en cours...',
 		en: 'Loading in progress...',
 	},
-	// Admin & dashboard
-	authorizationTitle: {
-		fr: 'Habilitations',
-		en: 'Authorizations',
-	},
+
 	authorizationManagementTitle: {
 		fr: 'Gestion des habilitations',
 		en: 'Authorization management',
 	},
-	roleTitle: {
-		fr: 'Rôle',
-		en: 'Role',
-	},
-	nameTitle: {
-		fr: 'Nom',
-		en: 'Name',
-	},
+
 	pickedUserAddTitle: {
 		fr: 'Agents à ajouter',
 		en: 'User to add',

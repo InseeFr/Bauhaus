@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Tabs from 'js/applications/shared/tabs';
 import D from 'js/i18n';
-import addLogo from 'js/applications/shared/logo/logo-add';
-import delLogo from 'js/applications/shared/logo/logo-del';
+import { AddLogo, DelLogo } from 'bauhaus-library';
 
 export const content = [
 	{
@@ -20,7 +19,8 @@ export const content = [
 						Pour arriver sur la page d’accueil cliquer sur{' '}
 						<span className="content-back-color">
 							Naviguer dans les référentiels
-						</span>, puis sur le pavé{' '}
+						</span>
+						, puis sur le pavé{' '}
 						<span className="content-back-color">Concepts</span> ou{' '}
 						<span className="content-back-color">Collections</span>
 					</p>
@@ -207,9 +207,8 @@ export const content = [
 						description.
 					</p>
 					<p>
-						Pour voir la version anglaise, cocher la case en haut à gauche « <b>
-							Afficher la seconde langue
-						</b> ».
+						Pour voir la version anglaise, cocher la case en haut à gauche « 
+						<b>Afficher la seconde langue</b> ».
 					</p>
 				</React.Fragment>
 			),
@@ -387,7 +386,7 @@ export const content = [
 										</p>
 										<p>
 											Pour poser un lien choisir l’onglet correspondant au lien
-											à poser et ajouter à l’aide du {addLogo} les concepts à
+											à poser et ajouter à l’aide du {AddLogo} les concepts à
 											lier dans le bloc de gauche. Pour trouver un concept dans
 											la liste taper une chaîne de caractères contenue dans le
 											libellé du concept recherché dans la boite de saisie
@@ -574,7 +573,7 @@ export const content = [
 					<p>Pour modifier les liens :</p>
 					<ul>
 						<li>
-							pour ajouter des concepts liés, utiliser les boutons {addLogo}
+							pour ajouter des concepts liés, utiliser les boutons {AddLogo}
 						</li>
 					</ul>
 					<p>
@@ -584,7 +583,7 @@ export const content = [
 					</p>
 					<ul>
 						<li>
-							pour enlever des concepts liés, utiliser les boutons {delLogo}
+							pour enlever des concepts liés, utiliser les boutons {DelLogo}
 						</li>
 					</ul>
 					<p>
@@ -648,21 +647,22 @@ export const content = [
 						<b>
 							La note de changement est obligatoire pour créer une nouvelle
 							version de la définition
-						</b>. C’est une note à usage interne : elle est destinée à garder
-						trace de l’origine et du contexte des modifications.
+						</b>
+						. C’est une note à usage interne : elle est destinée à garder trace
+						de l’origine et du contexte des modifications.
 					</p>
 					<p>
 						Pour continuer, renseigner la note de changement puis procéder aux
-						modifications comme indiqué à la rubrique « <b>
-							Modifier un concept
-						</b> ».
+						modifications comme indiqué à la rubrique « 
+						<b>Modifier un concept</b> ».
 					</p>
 					<p>
 						NB : le processus de versionnement ne s’active que lorsque l’on veut
 						modifier un concept publié. Si le concept est en attente de
-						publication (c’est-à-dire si son statut de publication est provisoire)
-						les modifications successives ne donnent pas lieu à versionnement.
-						Les nouvelles définitions et notes écrasent les anciennes.
+						publication (c’est-à-dire si son statut de publication est
+						provisoire) les modifications successives ne donnent pas lieu à
+						versionnement. Les nouvelles définitions et notes écrasent les
+						anciennes.
 					</p>
 				</React.Fragment>
 			),
@@ -719,7 +719,7 @@ export const content = [
 					</p>
 					<p>
 						Pour sélectionner les concepts à exporter, les faire glisser à
-						l’aide du {addLogo} dans le bloc de gauche. Pour trouver un concept
+						l’aide du {AddLogo} dans le bloc de gauche. Pour trouver un concept
 						dans la liste taper une chaîne de caractères contenue dans le
 						libellé du concept recherché dans la boite de saisie au-dessus de la
 						liste.
@@ -780,9 +780,8 @@ export const content = [
 						description.
 					</p>
 					<p>
-						Pour voir la version anglaise, cocher la case en haut à gauche « <b>
-							Afficher la seconde langue
-						</b> ».
+						Pour voir la version anglaise, cocher la case en haut à gauche « 
+						<b>Afficher la seconde langue</b> ».
 					</p>
 				</React.Fragment>
 			),
@@ -826,7 +825,7 @@ export const content = [
 					</p>
 					<p>
 						Pour sélectionner les concepts à inclure dans la collection les
-						faire glisser à l’aide du {addLogo} du bloc de droite vers le bloc
+						faire glisser à l’aide du {AddLogo} du bloc de droite vers le bloc
 						de gauche. Pour trouver un concept dans la liste taper une chaîne de
 						caractères contenue dans le libellé du concept recherché dans la
 						boite de saisie au-dessus de la liste.
@@ -924,8 +923,8 @@ export const content = [
 					<p>Les différents champs peuvent alors être modifiés.</p>
 					<p>Pour modifier la composition de la collection :</p>
 					<ul>
-						<li>pour ajouter des concepts, utiliser les boutons {addLogo}</li>
-						<li>pour enlever des concepts, utiliser les boutons {delLogo}</li>
+						<li>pour ajouter des concepts, utiliser les boutons {AddLogo}</li>
+						<li>pour enlever des concepts, utiliser les boutons {DelLogo}</li>
 					</ul>
 					<p>
 						Penser à <span className="content-back-color">Sauvegarder</span> la
@@ -964,7 +963,7 @@ export const content = [
 					</p>
 					<p>
 						Pour sélectionner la ou les collections à exporter les faire glisser
-						à l’aide du {addLogo} dans le bloc de gauche. Pour trouver une
+						à l’aide du {AddLogo} dans le bloc de gauche. Pour trouver une
 						collection dans la liste taper une chaîne de caractères contenue
 						dans le libellé du concept recherché dans la boite de saisie
 						au-dessus de la liste.
@@ -1063,7 +1062,7 @@ export const content = [
 						droite de la page.
 					</p>
 					<ul>
-						<li>pour ajouter des personnes, utiliser les boutons {addLogo}</li>
+						<li>pour ajouter des personnes, utiliser les boutons {AddLogo}</li>
 					</ul>
 					<p>
 						Pour trouver une personne dans liste taper une chaîne de caractères
@@ -1071,7 +1070,7 @@ export const content = [
 						boite de saisie au-dessus de la liste.
 					</p>
 					<ul>
-						<li>pour enlever des personnes, utiliser les boutons {delLogo}</li>
+						<li>pour enlever des personnes, utiliser les boutons {DelLogo}</li>
 						<li>
 							pour attribuer un rôle à une personne ajoutée, choisir dans la
 							liste déroulante au-dessus.

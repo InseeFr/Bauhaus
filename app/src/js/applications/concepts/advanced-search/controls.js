@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button } from 'bauhaus-library';
+import { Button, ActionToolbar } from 'bauhaus-library';
 import D from 'js/i18n';
 
 export default ({ onClickReturn, initializeState }) => (
-	<div className="row btn-line action-toolbar">
+	<ActionToolbar>
 		<Button
 			label={
 				<React.Fragment>
@@ -23,5 +23,5 @@ export default ({ onClickReturn, initializeState }) => (
 			action={initializeState}
 			offset={8}
 		/>
-	</div>
+	</ActionToolbar>
 );

@@ -1,13 +1,14 @@
 import React, { Suspense, lazy } from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { Loading, Error } from 'bauhaus-library';
+import api from 'js/remote-api/api';
 
 import auth from 'js/applications/auth/hoc';
 
 import NotFound from 'js/applications/shared/not-found/';
 
 import App from 'js/app';
-import Role from 'js/applications/administration/roles/home-container';
+import { Habilitation } from 'bauhaus-habilitation';
 
 const pages = process.env.REACT_APP_APPLICATIONS.split(',').reduce(
 	(acc, appName) => {
@@ -39,7 +40,17 @@ export default withRouter(
 				<Switch>
 					{error && <Route path="/" component={Error} />}
 					<Route exact path="/" render={() => getHomePage()} />
-					<Route path="/administration/roles" component={Role} />
+					<Route
+						path="/habilitation"
+						component={() => (
+							<Habilitation
+								loadAgentList={api.getAgentList}
+								loadRoleList={api.getRoleList}
+								deleteAgent={api.postDeleteRole}
+								addAgent={api.postAddRole}
+							/>
+						)}
+					/>
 					<Route
 						path="/(concept|concepts|collections|collection)"
 						component={getComponent('concepts')}

@@ -2,7 +2,6 @@ export default () =>
 	Promise.resolve({
 		creator: 'DG75-E420',
 		contributor: 'DG75-L201',
-		isValidated: 'true',
 		prefLabelLg1: 'ADSL',
 		prefLabelLg2: 'Asymmetric Digital Subscriber Line ',
 		created: '2008-07-21T00:00:00.000+02:00',

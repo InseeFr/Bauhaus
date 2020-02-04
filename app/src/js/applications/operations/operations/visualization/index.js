@@ -5,7 +5,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { EXPORT_VARBOOK } from 'js/actions/constants';
-import { Loading, ErrorBloc, Button, CheckSecondLang } from 'bauhaus-library';
+import {
+	Loading,
+	ErrorBloc,
+	Button,
+	CheckSecondLang,
+	ActionToolbar,
+} from 'bauhaus-library';
 import OperationsOperationVisualization from './home';
 import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import exportVariableBook from 'js/actions/operations/export-varBook';
@@ -59,7 +65,7 @@ class OperationVisualizationContainer extends VisualizationContainer {
 					titleLg2={operation.prefLabelLg2}
 					secondLang={secondLang}
 				/>
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<Button
 						action={goBack(this.props, '/operations/operations')}
 						label={D.btnReturn}
@@ -93,7 +99,7 @@ class OperationVisualizationContainer extends VisualizationContainer {
 							label={D.btnUpdate}
 						/>
 					</Auth>
-				</div>
+				</ActionToolbar>
 
 				<ErrorBloc error={serverSideError} />
 

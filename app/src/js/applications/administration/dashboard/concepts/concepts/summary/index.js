@@ -1,5 +1,5 @@
 import React from 'react';
-import TableRmes from 'js/applications/shared/table-rmes';
+import { TableRmes } from 'bauhaus-library';
 import D from 'js/i18n';
 import { rowParams, buildData } from './summary-data';
 import { rowParamsStamps, buildDataStamps } from './stamps-data';

@@ -1,10 +1,15 @@
 import React from 'react';
-import { CancelButton, SaveButton, ErrorBloc } from 'bauhaus-library';
+import {
+	CancelButton,
+	SaveButton,
+	ErrorBloc,
+	ActionToolbar,
+} from 'bauhaus-library';
 
 function Control({ onSubmit, indicator, errorMessage }) {
 	return (
 		<>
-			<div className="row btn-line action-toolbar">
+			<ActionToolbar>
 				<CancelButton
 					action={
 						indicator.id
@@ -14,7 +19,7 @@ function Control({ onSubmit, indicator, errorMessage }) {
 				/>
 
 				<SaveButton action={onSubmit} disabled={errorMessage} />
-			</div>
+			</ActionToolbar>
 			<ErrorBloc error={errorMessage} />
 		</>
 	);
