@@ -3,16 +3,16 @@ import D from 'js/i18n';
 export const rowParamsStamps = [
 	{
 		dataField: 'stamp',
-		label: D.dashboardCollectionsByCreatorTitle,
+		text: D.dashboardCollectionsByCreatorTitle,
 		width: '66%',
 		isKey: true,
-		dataSort: true,
+		sort: true,
 	},
 	{
 		dataField: 'total',
-		label: D.totalTitle,
+		text: D.totalTitle,
 		width: '34%',
-		dataSort: true,
+		sort: true,
 	},
 ];
 

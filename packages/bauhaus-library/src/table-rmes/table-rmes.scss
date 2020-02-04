@@ -12,9 +12,11 @@
 	}
 }
 
-.pagination > .active > a {
-	background-color: var(--color-3);
-	border-color: var(--color-3);
+.pagination > .active > a,
+.pagination > li:hover > a,
+.pagination > a:focus {
+	background-color: var(--color-3) !important;
+	border-color: var(--color-3) !important;
 }
 
 .marginTop {
@@ -24,4 +26,10 @@
 .dropup .caret,
 .dropdown .caret {
 	color: white !important;
+}
+
+.search-bar {
+	width: 25%;
+	float: right;
+	margin-bottom: 1em;
 }

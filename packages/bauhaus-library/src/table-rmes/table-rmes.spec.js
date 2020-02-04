@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Table from './';
 
-const rowParams = [{ dataField: 'total', label: 'Total', width: '100%' }];
+const rowParams = [{ dataField: 'total', text: 'Total', width: '100%' }];
 
 const data = [
 	{

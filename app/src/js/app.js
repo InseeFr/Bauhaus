@@ -5,6 +5,7 @@ import adminLogo from 'img/admin.svg';
 
 import { ADMIN } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
+
 import './app.scss';
 
 function App() {
