@@ -29,7 +29,6 @@ function VisualisationTable({ roles = [] }) {
 			dataField: 'label',
 			text: D.nameTitle,
 			width: '40%',
-			isKey: true,
 			sort: true,
 		},
 		{ dataField: 'stamp', text: D.stampTitle, width: '30%', sort: true },
