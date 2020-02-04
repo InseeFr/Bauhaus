@@ -1,5 +1,11 @@
 import React from 'react';
-import { NewButton, SearchRmes, PageTitle, Button } from 'bauhaus-library';
+import {
+	NewButton,
+	SearchRmes,
+	PageTitle,
+	Button,
+	VerticalMenu,
+} from 'bauhaus-library';
 import Auth from 'js/utils/auth/components/auth';
 import D from 'js/i18n';
 
@@ -16,20 +22,12 @@ function OperationsObjectHome({
 		<div className="container">
 			<div className="row">
 				<Auth roles={roles}>
-					<div className="col-md-3 btn-group-vertical">
-						<div className="row">
-							<div className="col-md-12">
-								<NewButton action={createURL} wrapper={false} />
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-md-12">
-								<Button wrapper={false} action="/operations/tree">
-									{D.btnTree}
-								</Button>
-							</div>
-						</div>
-					</div>
+					<VerticalMenu>
+						<NewButton action={createURL} wrapper={false} />
+						<Button wrapper={false} action="/operations/tree">
+							{D.btnTree}
+						</Button>
+					</VerticalMenu>
 				</Auth>
 				<div className="col-md-8 centered pull-right operations-list">
 					<PageTitle title={title} col={12} offset={0} />

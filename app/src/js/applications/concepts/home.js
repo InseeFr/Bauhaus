@@ -7,6 +7,7 @@ import {
 	NewButton,
 	PublishButton,
 	ExportButton,
+	VerticalMenu,
 } from 'bauhaus-library';
 import check from 'js/utils/auth';
 import { propTypes as conceptOverviewPropTypes } from 'js/utils/concepts/concept-overview';
@@ -43,29 +44,23 @@ class ConceptsHome extends Component {
 			<div>
 				<div className="container">
 					<div className="row">
-						<div className="col-md-3 btn-group-vertical">
+						<VerticalMenu>
 							{adminOrContributor && (
-								<div className="row">
-									<NewButton action={this.handleClick} col={8} offset={2} />
-								</div>
+								<NewButton action={this.handleClick} col={8} offset={2} />
 							)}
-							<div className="row">
-								<ExportButton
-									action={this.handleClickExport}
+							<ExportButton
+								action={this.handleClickExport}
+								col={8}
+								offset={2}
+							/>
+							{adminOrCreator && (
+								<PublishButton
+									action={this.handleClickValidate}
 									col={8}
 									offset={2}
 								/>
-							</div>
-							{adminOrCreator && (
-								<div className="row">
-									<PublishButton
-										action={this.handleClickValidate}
-										col={8}
-										offset={2}
-									/>
-								</div>
 							)}
-						</div>
+						</VerticalMenu>
 						<div className="col-md-8 centered pull-right">
 							<PageTitle title={D.conceptSearchTitle} col={12} offset={0} />
 							<SearchRmes

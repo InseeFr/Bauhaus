@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PageTitle, SearchRmes, NewButton } from 'bauhaus-library';
+import {
+	PageTitle,
+	SearchRmes,
+	NewButton,
+	VerticalMenu,
+} from 'bauhaus-library';
 import D from 'js/i18n';
 import check from 'js/utils/auth';
 import Auth from 'js/utils/auth/components/auth';
@@ -14,18 +19,14 @@ function IndicatorsHome({ indicators, permission: { authType, roles } }) {
 			<div className="container">
 				<div className="row">
 					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
-						<div className="col-md-3 btn-group-vertical">
+						<VerticalMenu>
 							{adminOrContributor && (
-								<div className="row">
-									<div className="col-md-12">
-										<NewButton
-											action="/operations/indicator/create"
-											wrapper={false}
-										/>
-									</div>
-								</div>
+								<NewButton
+									action="/operations/indicator/create"
+									wrapper={false}
+								/>
 							)}
-						</div>
+						</VerticalMenu>
 					</Auth>
 					<div className="col-md-8 centered pull-right operations-list">
 						<PageTitle title={D.indicatorsSearchTitle} col={12} offset={0} />
