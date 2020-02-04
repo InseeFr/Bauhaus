@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { PageTitle, Button, SearchRmes } from 'bauhaus-library';
+import { PageTitle, Button, SearchRmes, VerticalMenu } from 'bauhaus-library';
 import check from 'js/utils/auth';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
@@ -39,71 +39,63 @@ class CollectionsHome extends Component {
 		const adminOrCreator = authImpl.isAdminOrCollectionCreator(roles);
 		const adminOrContributor = authImpl.isAdminOrContributor(roles);
 		return (
-			<div>
-				<div className="container">
-					<div className="row">
-						<div className="col-md-3 btn-group-vertical">
-							{adminOrContributor && (
-								<div className="row">
-									<Button
-										label={
-											<React.Fragment>
-												<span
-													className="glyphicon glyphicon-plus"
-													aria-hidden="true"
-												/>
-												<span> {D.btnNewFemale}</span>
-											</React.Fragment>
-										}
-										action={this.handleClick}
-										col={8}
-										offset={2}
-									/>
-								</div>
-							)}
-							<div className="row">
-								<Button
-									label={
-										<React.Fragment>
-											<span
-												className="glyphicon glyphicon-export"
-												aria-hidden="true"
-											/>
-											<span> {D.btnExport}</span>
-										</React.Fragment>
-									}
-									action={this.handleClickExport}
-									col={8}
-									offset={2}
-								/>
-							</div>
-							{adminOrCreator && (
-								<div className="row">
-									<Button
-										label={
-											<React.Fragment>
-												<span
-													className="glyphicon glyphicon-ok"
-													aria-hidden="true"
-												/>
-												<span> {D.btnValid}</span>
-											</React.Fragment>
-										}
-										action={this.handleClickValidate}
-										col={8}
-										offset={2}
-									/>
-								</div>
-							)}
-						</div>
-						<div className="col-md-8 centered pull-right">
-							<PageTitle title={D.collectionSearchTitle} col={12} offset={0} />
-							<SearchRmes
-								items={collections}
-								childPath="collection"
-								autoFocus={true}
+			<div className="container">
+				<div className="row">
+					<VerticalMenu>
+						{adminOrContributor && (
+							<Button
+								label={
+									<React.Fragment>
+										<span
+											className="glyphicon glyphicon-plus"
+											aria-hidden="true"
+										/>
+										<span> {D.btnNewFemale}</span>
+									</React.Fragment>
+								}
+								action={this.handleClick}
+								col={8}
+								offset={2}
 							/>
-						</div>
+						)}
+						<Button
+							label={
+								<React.Fragment>
+									<span
+										className="glyphicon glyphicon-export"
+										aria-hidden="true"
+									/>
+									<span> {D.btnExport}</span>
+								</React.Fragment>
+							}
+							action={this.handleClickExport}
+							col={8}
+							offset={2}
+						/>
+						{adminOrCreator && (
+							<Button
+								label={
+									<React.Fragment>
+										<span
+											className="glyphicon glyphicon-ok"
+											aria-hidden="true"
+										/>
+										<span> {D.btnValid}</span>
+									</React.Fragment>
+								}
+								action={this.handleClickValidate}
+								col={8}
+								offset={2}
+							/>
+						)}
+					</VerticalMenu>
+					<div className="col-md-8 centered pull-right">
+						<PageTitle title={D.collectionSearchTitle} col={12} offset={0} />
+						<SearchRmes
+							items={collections}
+							childPath="collection"
+							autoFocus={true}
+						/>
 					</div>
 				</div>
 			</div>

@@ -44,3 +44,4 @@ export { default as WarningLogo } from './logo/logo-warning';
 
 export { default as AddLogo } from './logo/logo-add';
 export { default as DelLogo } from './logo/logo-del';
+export { default as VerticalMenu } from './vertical-menu';

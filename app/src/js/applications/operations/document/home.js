@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { PageTitle, SearchRmes, NewButton } from 'bauhaus-library';
+import {
+	PageTitle,
+	SearchRmes,
+	NewButton,
+	VerticalMenu,
+} from 'bauhaus-library';
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
 import Auth from 'js/utils/auth/components/auth';
@@ -22,22 +27,18 @@ function DocumentHome({ documents }) {
 			<div className="container documents-home">
 				<div className="row">
 					<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
-						<div className="col-md-3 btn-group-vertical">
+						<VerticalMenu>
 							{[
 								['/operations/document/create', D.document],
 								['/operations/link/create', D.link],
 							].map(([url, title]) => (
-								<div className="row">
-									<div className="col-md-12">
-										<NewButton
-											action={url}
-											wrapper={false}
-											label={`${D.btnNewMale} ${title}`}
-										/>
-									</div>
-								</div>
+								<NewButton
+									action={url}
+									wrapper={false}
+									label={`${D.btnNewMale} ${title}`}
+								/>
 							))}
-						</div>
+						</VerticalMenu>
 					</Auth>
 
 					<div className="col-md-8 centered pull-right operations-list">
