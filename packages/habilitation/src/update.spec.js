@@ -21,7 +21,6 @@ describe('administration-update-roles', () => {
 	});
 
 	it('should set options for the select component', () => {
-		//configure({ wrappingComponent: MemoryRouter });
 		const container = mount(
 			<MemoryRouter>
 				<Update
@@ -29,8 +28,7 @@ describe('administration-update-roles', () => {
 					agents={[]}
 					handleSave={() => console.log('save')}
 				/>
-			</MemoryRouter>,
-			{ wrappingComponent: MemoryRouter }
+			</MemoryRouter>
 		);
 
 		expect(container.find(Select).props().options).toEqual([
