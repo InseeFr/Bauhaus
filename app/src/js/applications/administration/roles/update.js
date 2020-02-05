@@ -87,7 +87,6 @@ class Update extends Component {
 				<Picker
 					items={newAgents}
 					panelTitle={selectedRoleLabel}
-					context="concepts"
 					onChange={this.onChangePicker}
 				/>
 			</div>

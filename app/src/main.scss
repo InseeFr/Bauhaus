@@ -28,10 +28,10 @@ a {
 	text-align: center;
 }
 
-.img-flag {
-	height: 20px;
-	width: auto;
-	margin: 0;
+img.img-flag {
+	height: 20px !important;
+	width: auto !important;
+	margin: 0 !important;
 }
 
 .btn-group-vertical {
@@ -60,12 +60,6 @@ a {
 
 .list-group-item {
 	text-align: left;
-}
-
-.img-flag {
-	height: 20px;
-	width: auto;
-	margin: 0;
 }
 
 .vertical-center {

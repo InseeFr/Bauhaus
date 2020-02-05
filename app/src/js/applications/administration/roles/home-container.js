@@ -59,7 +59,7 @@ class RolesContainer extends Component {
 	}
 
 	componentDidMount() {
-		document.body.classList = ['bauhaus-app'];
+		document.getElementById('root-app').classList = ['bauhaus-app'];
 	}
 	render() {
 		const { addRequested, deleteRequested } = this.state;

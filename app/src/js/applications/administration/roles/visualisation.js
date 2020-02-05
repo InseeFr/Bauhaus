@@ -39,7 +39,6 @@ function VisualisationTable({ roles = [] }) {
 				data={persons}
 				search={true}
 				pagination={true}
-				cssClass="col-md-10 col-md-offset-1"
 			/>
 		</div>
 	);

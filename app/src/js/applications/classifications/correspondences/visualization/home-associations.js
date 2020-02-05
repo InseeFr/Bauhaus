@@ -71,7 +71,6 @@ class HomeAssociations extends Component {
 							onRowClick={row =>
 								this.props.history.push(`${id}/association/${row.id}`)
 							}
-							context="classifications"
 							dataAlign="left"
 						/>
 					}
