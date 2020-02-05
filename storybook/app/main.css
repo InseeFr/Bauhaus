@@ -4,7 +4,7 @@
 
 .Select-menu-outer{z-index:5}
 
-.table-concepts .table-hover tbody tr:hover td{background-color:var(--color-3)}.table-classifications .table-hover tbody tr:hover td{background-color:var(--color-3)}.table-header-concepts{background-color:var(--color-3);color:white}.table-header-classifications{background-color:var(--color-3);color:white}.pagination-concepts .pagination>.active>a{background-color:var(--color-3);border-color:var(--color-3)}.pagination-classifications .pagination>.active>a{background-color:var(--color-3);border-color:var(--color-3)}.table-header-concepts thead tr th,.table-header-classifications thead tr th{text-align:center !important}.marginTop{margin-top:2%}
+.bauhaus-table .table-hover tbody tr:hover td{background-color:var(--color-3);color:white}.bauhaus-table-header{background-color:var(--color-3);color:white}.bauhaus-table-header thead tr th,.bauhaus-table-header thead tr th{text-align:center !important}.pagination>.active>a{background-color:var(--color-3);border-color:var(--color-3)}.marginTop{margin-top:2%}
 
 .tabs-items{margin-top:10px}
 
