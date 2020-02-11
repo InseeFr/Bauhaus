@@ -21,9 +21,9 @@ import {
 import { isLink, isDocument } from 'js/applications/operations/document/utils';
 import {
 	ADMIN,
-	SERIES_CREATOR,
-	INDICATOR_CREATOR,
 	CNIS,
+	INDICATOR_CONTRIBUTOR,
+	SERIES_CONTRIBUTOR,
 } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
 import ValidationButton from 'js/applications/operations/shared/validationButton';
@@ -168,12 +168,15 @@ export default function SimsVisualisation({
 		[publishSims]
 	);
 
+	const CONTRIBUTOR = sims.idIndicator
+		? INDICATOR_CONTRIBUTOR
+		: SERIES_CONTRIBUTOR;
 	return (
 		<>
 			<ActionToolbar>
 				<Button action={() => goBack(getParentUri(sims))} label={D.btnReturn} />
 				<Auth
-					roles={[ADMIN, SERIES_CREATOR]}
+					roles={[ADMIN, CONTRIBUTOR]}
 					complementaryCheck={shouldDisplayDuplicateButtonFlag}
 				>
 					<DuplicateButton
@@ -181,19 +184,14 @@ export default function SimsVisualisation({
 						col={3}
 					/>
 				</Auth>
-				<Auth
-					roles={[
-						ADMIN,
-						!!sims.idIndicator ? SERIES_CREATOR : INDICATOR_CREATOR,
-					]}
-				>
+				<Auth roles={[ADMIN, CONTRIBUTOR]}>
 					<ValidationButton
 						object={sims}
 						callback={object => publish(object)}
 						disabled={publicationDisabled}
 					/>
 				</Auth>
-				<Auth roles={[ADMIN, INDICATOR_CREATOR, SERIES_CREATOR, CNIS]}>
+				<Auth roles={[ADMIN, CNIS, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]}>
 					<Button
 						action={`/operations/sims/${sims.id}/modify`}
 						label={

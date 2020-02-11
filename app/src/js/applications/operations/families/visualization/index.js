@@ -15,7 +15,7 @@ import {
 	ActionToolbar,
 } from 'bauhaus-library';
 import buildExtract from 'bauhaus-library/src/utils/build-extract';
-import { ADMIN, CNIS } from 'js/utils/auth/roles';
+import { ADMIN } from 'js/utils/auth/roles';
 import React from 'react';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
 import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
@@ -74,7 +74,7 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 							disabled={publicationDisabled}
 						/>
 					</Auth>
-					<Auth roles={[ADMIN, CNIS]}>
+					<Auth roles={[ADMIN]}>
 						<Button
 							action={`/operations/family/${attr.id}/modify`}
 							label={D.btnUpdate}
