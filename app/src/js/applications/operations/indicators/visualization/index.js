@@ -20,7 +20,7 @@ import loadIndicator, {
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
-import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
+import { INDICATOR_CONTRIBUTOR, ADMIN } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
 import { containUnsupportedStyles } from 'js/utils/html';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
@@ -68,14 +68,14 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 						</>
 					)}
 					{!attr.idSims && (
-						<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
+						<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR]}>
 							<Button
 								action={`/operations/indicator/${attr.id}/sims/create`}
 								label={D.btnSimsCreate}
 							/>
 						</Auth>
 					)}
-					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
+					<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR]}>
 						<ValidationButton
 							object={attr}
 							callback={object =>
@@ -84,7 +84,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 							disabled={publicationDisabled}
 						/>
 					</Auth>
-					<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
+					<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR]}>
 						<Button
 							action={`/operations/indicator/${attr.id}/modify`}
 							label={D.btnUpdate}

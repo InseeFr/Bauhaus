@@ -7,24 +7,16 @@ import {
 	VerticalMenu,
 } from 'bauhaus-library';
 import D from 'js/i18n';
-import check from 'js/utils/auth';
 import Auth from 'js/utils/auth/components/auth';
-import { INDICATOR_CREATOR, ADMIN } from 'js/utils/auth/roles';
+import { ADMIN, INDICATOR_CONTRIBUTOR } from 'js/utils/auth/roles';
 
-function IndicatorsHome({ indicators, permission: { authType, roles } }) {
-	const authImpl = check(authType);
-	const adminOrContributor = authImpl.isAdminOrContributor(roles);
+function IndicatorsHome({ indicators }) {
 	return (
 		<div className="container">
 			<div className="row">
-				<Auth roles={[ADMIN, INDICATOR_CREATOR]}>
+				<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR]}>
 					<VerticalMenu>
-						{adminOrContributor && (
-							<NewButton
-								action="/operations/indicator/create"
-								wrapper={false}
-							/>
-						)}
+						<NewButton action="/operations/indicator/create" wrapper={false} />
 					</VerticalMenu>
 				</Auth>
 				<div className="col-md-8 centered pull-right operations-list">

@@ -19,7 +19,11 @@ import { withRouter } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
 import Auth from 'js/utils/auth/components/auth';
-import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
+import {
+	ADMIN,
+	INDICATOR_CONTRIBUTOR,
+	SERIES_CONTRIBUTOR,
+} from 'js/utils/auth/roles';
 
 const extractId = buildExtract('id');
 
@@ -57,7 +61,7 @@ class DocumentationVisualizationContainer extends Component {
 						label={D.btnReturn}
 					/>
 
-					<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
+					<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]}>
 						<Button
 							action={`/operations/document/${document.id}/modify`}
 							label={D.btnUpdate}

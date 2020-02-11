@@ -23,12 +23,7 @@ import D from 'js/i18n';
 import { goBack } from 'bauhaus-library/src/utils/redirection';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
-import {
-	INDICATOR_CREATOR,
-	ADMIN,
-	SERIES_CREATOR,
-	CNIS,
-} from 'js/utils/auth/roles';
+import { ADMIN, CNIS, SERIES_CONTRIBUTOR } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
 import ValidationButton from 'js/applications/operations/shared/validationButton';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
@@ -78,14 +73,14 @@ class OperationVisualizationContainer extends VisualizationContainer {
 						/>
 					)}
 					{!operation.idSims && (
-						<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
+						<Auth roles={[ADMIN, SERIES_CONTRIBUTOR]}>
 							<Button
 								action={`/operations/operation/${operation.id}/sims/create`}
 								label={D.btnSimsCreate}
 							/>
 						</Auth>
 					)}
-					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
+					<Auth roles={[ADMIN, SERIES_CONTRIBUTOR]}>
 						<ValidationButton
 							object={operation}
 							callback={object =>
@@ -93,7 +88,7 @@ class OperationVisualizationContainer extends VisualizationContainer {
 							}
 						/>
 					</Auth>
-					<Auth roles={[ADMIN, SERIES_CREATOR, CNIS]}>
+					<Auth roles={[ADMIN, CNIS, SERIES_CONTRIBUTOR]}>
 						<Button
 							action={`/operations/operation/${operation.id}/modify`}
 							label={D.btnUpdate}

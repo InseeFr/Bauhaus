@@ -9,7 +9,11 @@ import {
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
 import Auth from 'js/utils/auth/components/auth';
-import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
+import {
+	ADMIN,
+	INDICATOR_CONTRIBUTOR,
+	SERIES_CONTRIBUTOR,
+} from 'js/utils/auth/roles';
 import './home.scss';
 
 function DocumentHome({ documents }) {
@@ -25,7 +29,7 @@ function DocumentHome({ documents }) {
 	return (
 		<div className="container documents-home">
 			<div className="row">
-				<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
+				<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]}>
 					<VerticalMenu>
 						{[
 							['/operations/document/create', D.document],
