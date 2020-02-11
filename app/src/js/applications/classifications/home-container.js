@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/ui';
 import ClassificationsHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadClassificationsList from 'js/actions/classifications/list';

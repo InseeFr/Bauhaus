@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Auth from 'js/applications/auth/basic-auth/login';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/ui';
 import { checkAuth } from 'js/actions/app';
 import loadStampList from 'js/actions/stamp';
 import * as select from 'js/reducers';

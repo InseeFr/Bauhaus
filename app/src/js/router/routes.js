@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { Loading, Error } from 'bauhaus-library';
+import { Loading, Error } from '@inseefr/ui';
 import api from 'js/remote-api/api';
 
 import auth from 'js/applications/auth/hoc';

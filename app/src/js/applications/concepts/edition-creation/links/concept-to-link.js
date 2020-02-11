@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel }  from 'bauhaus-library';
+import { Panel }  from '@inseefr/ui';
 
 function ConceptToLink({ title, memberEls, searchComponent }) {
 	return (

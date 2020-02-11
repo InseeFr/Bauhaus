@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Radio, Select } from 'bauhaus-library';
+import { Input, Radio, Select } from '@inseefr/ui';
 import Controls from './controls';
 import D from 'js/i18n';
 import * as C from 'js/constants';

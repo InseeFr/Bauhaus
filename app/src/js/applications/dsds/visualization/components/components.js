@@ -5,7 +5,7 @@ import ComponentDetail from './component-detail';
 import * as C from 'js/constants';
 import D from 'js/i18n';
 import API from 'js/remote-api/dsds/dsds-api';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
+import buildExtract from '@inseefr/ui/src/utils/build-extract';
 import './components.scss';
 
 const Components = props => {

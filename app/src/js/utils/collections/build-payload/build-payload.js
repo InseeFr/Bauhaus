@@ -1,4 +1,4 @@
-import takeKeys from 'bauhaus-library/src/utils/take-keys';
+import takeKeys from '@inseefr/ui/src/utils/take-keys';
 
 const generalFieldsToKeepCreate = [
 	'id',

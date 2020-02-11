@@ -7,7 +7,7 @@ import {
 	ReturnButton,
 	SaveButton,
 	ActionToolbar,
-} from 'bauhaus-library';
+} from '@inseefr/ui';
 import * as U from './utils';
 import D from './build-dictionary';
 

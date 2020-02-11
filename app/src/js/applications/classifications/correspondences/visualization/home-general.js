@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CheckSecondLang, PageTitle, Note } from 'bauhaus-library';
+import { CheckSecondLang, PageTitle, Note } from '@inseefr/ui';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';

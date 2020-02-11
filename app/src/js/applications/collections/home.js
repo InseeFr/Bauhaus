@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { PageTitle, Button, SearchRmes, VerticalMenu } from 'bauhaus-library';
+import { PageTitle, Button, SearchRmes, VerticalMenu } from '@inseefr/ui';
 import check from 'js/utils/auth';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';

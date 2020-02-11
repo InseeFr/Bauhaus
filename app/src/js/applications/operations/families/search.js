@@ -1,7 +1,7 @@
 import D from 'js/i18n';
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/ui';
 import { AbstractSearchComponent } from 'js/applications/shared/advanced-search/home-container';
 import api from 'js/remote-api/operations-api';
 

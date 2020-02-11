@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import OperationsSerieVisualization from './home';
-import { Note }  from 'bauhaus-library';
+import { Note }  from '@inseefr/ui';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
 import RelationsView from 'js/applications/operations/shared/relations';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Tabs from 'js/applications/shared/tabs';
 import D from 'js/i18n';
-import { AddLogo, DelLogo } from 'bauhaus-library';
+import { AddLogo, DelLogo } from '@inseefr/ui';
 
 export const content = [
 	{

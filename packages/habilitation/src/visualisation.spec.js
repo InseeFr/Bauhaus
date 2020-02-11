@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Visualisation from './visualisation';
-import { TableRmes } from 'bauhaus-library';
+import { TableRmes } from '@inseefr/ui';
 
 const roles = [{ id: 'id', label: 'label', persons: [] }];
 

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import objectFromKeys from 'bauhaus-library/src/utils/object-from-keys';
-import { buildEmptyNotes } from 'bauhaus-library/src/utils/build-empty-notes';
+import objectFromKeys from '@inseefr/ui/src/utils/object-from-keys';
+import { buildEmptyNotes } from '@inseefr/ui/src/utils/build-empty-notes';
 import { rawHtmlToRmesHtml } from 'js/utils/html';
 
 export const versionableNotes = [

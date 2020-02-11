@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import CollectionsToExport from './home';
 import * as select from 'js/reducers';
 import { EXPORT_COLLECTION_LIST } from 'js/actions/constants';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/ui';
 import exportCollectionList from 'js/actions/collections/export-multi';
 import loadCollectionList from 'js/actions/collections/list';
 import { OK } from 'js/constants';

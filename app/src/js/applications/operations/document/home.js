@@ -5,7 +5,7 @@ import {
 	SearchRmes,
 	NewButton,
 	VerticalMenu,
-} from 'bauhaus-library';
+} from '@inseefr/ui';
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
 import Auth from 'js/utils/auth/components/auth';

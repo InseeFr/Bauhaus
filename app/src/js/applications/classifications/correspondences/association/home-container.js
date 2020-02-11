@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/ui';
 import AssociationHome from './home';
 import loadCorrespondenceAssociation from 'js/actions/classifications/correspondences/association';
 import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/correspondence/association';
 import * as mainSelect from 'js/reducers';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
+import buildExtract from '@inseefr/ui/src/utils/build-extract';
 import { getSecondLang } from 'js/reducers/app';
 
 const extractCorrespondenceId = buildExtract('correspondenceId');

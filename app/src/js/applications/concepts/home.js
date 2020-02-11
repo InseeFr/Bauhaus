@@ -8,7 +8,7 @@ import {
 	PublishButton,
 	ExportButton,
 	VerticalMenu,
-} from 'bauhaus-library';
+} from '@inseefr/ui';
 import check from 'js/utils/auth';
 import { propTypes as conceptOverviewPropTypes } from 'js/utils/concepts/concept-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';

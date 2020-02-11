@@ -5,13 +5,13 @@ import {
 	Loading,
 	Button,
 	ActionToolbar,
-} from 'bauhaus-library';
+} from '@inseefr/ui';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { getSecondLang } from 'js/reducers/app';
 import { getCurrentDocument } from 'js/reducers/operations/selector';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
-import { goBack } from 'bauhaus-library/src/utils/redirection';
+import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import { goBack } from '@inseefr/ui/src/utils/redirection';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';

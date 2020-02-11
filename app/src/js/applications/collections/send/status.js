@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/ui';
 import D from 'js/i18n';
 import { PENDING, OK, ERROR } from 'js/constants';
 

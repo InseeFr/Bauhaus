@@ -1,6 +1,6 @@
 import React from 'react';
 import { D1, D2 } from 'js/i18n';
-import { Note } from 'bauhaus-library';
+import { Note } from '@inseefr/ui';
 import { stringToDate } from 'js/utils/moment';
 
 function CollectionGeneral({ attr, secondLang, langs }) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import SeeAlso from './index';
-import { Note }  from 'bauhaus-library';
+import { Note }  from '@inseefr/ui';
 import { shallow } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 

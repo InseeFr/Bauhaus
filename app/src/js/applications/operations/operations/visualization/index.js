@@ -11,16 +11,16 @@ import {
 	Button,
 	CheckSecondLang,
 	ActionToolbar,
-} from 'bauhaus-library';
+} from '@inseefr/ui';
 import OperationsOperationVisualization from './home';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
+import buildExtract from '@inseefr/ui/src/utils/build-extract';
 import exportVariableBook from 'js/actions/operations/export-varBook';
 import { saveSecondLang } from 'js/actions/app';
 import loadOperation, {
 	publishOperation,
 } from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
-import { goBack } from 'bauhaus-library/src/utils/redirection';
+import { goBack } from '@inseefr/ui/src/utils/redirection';
 import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import { ADMIN, CNIS, SERIES_CONTRIBUTOR } from 'js/utils/auth/roles';

@@ -1,6 +1,6 @@
 import { NONE } from 'js/constants';
-import prefixWithHttp from 'bauhaus-library/src/utils/prefix-with-http';
-import takeKeys from 'bauhaus-library/src/utils/take-keys';
+import prefixWithHttp from '@inseefr/ui/src/utils/prefix-with-http';
+import takeKeys from '@inseefr/ui/src/utils/take-keys';
 
 export function processLinks(conceptsWithLinks) {
 	/*

@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import ClassificationVisualization from './home';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/ui';
 import loadClassification from 'js/actions/classifications/classification';
 import { saveSecondLang } from 'js/actions/app';
 import * as mainSelect from 'js/reducers';
 import * as select from 'js/reducers/classifications/classification';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
+import buildExtract from '@inseefr/ui/src/utils/build-extract';
 import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');

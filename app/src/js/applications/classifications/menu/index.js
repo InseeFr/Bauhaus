@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Menu } from 'bauhaus-library';
+import { Menu } from '@inseefr/ui';
 import D from 'js/i18n';
 const defaultAttrs = { 'aria-current': 'page' };
 

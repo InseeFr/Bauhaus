@@ -1,8 +1,8 @@
 import React from 'react';
 import { D1 } from 'js/i18n';
-import { Note } from 'bauhaus-library';
+import { Note } from '@inseefr/ui';
 import { arrayToString } from 'js/utils/array-utils';
-import { DSURLToLabel } from 'bauhaus-library/src/utils/dissemination-status-convertor';
+import { DSURLToLabel } from '@inseefr/ui/src/utils/dissemination-status-convertor';
 import { stringToDate } from 'js/utils/moment';
 
 function ConceptGeneral({ attr, secondLang, langs }) {

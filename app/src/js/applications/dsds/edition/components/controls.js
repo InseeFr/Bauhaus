@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, SaveButton } from 'bauhaus-library';
+import { Button, SaveButton } from '@inseefr/ui';
 import D from 'js/i18n';
 
 const Controls = ({ deleteAction, saveAction, disabledSave }) => {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Button, ErrorBloc, ActionToolbar } from 'bauhaus-library';
-import { goBack } from 'bauhaus-library/src/utils/redirection';
+import { Button, ErrorBloc, ActionToolbar } from '@inseefr/ui';
+import { goBack } from '@inseefr/ui/src/utils/redirection';
 import D from 'js/i18n';
 
 class SendControls extends Component {

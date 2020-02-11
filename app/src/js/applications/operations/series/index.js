@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/ui';
 import SeriesHome from './home';
 import { NOT_LOADED, LOADED } from 'js/constants';
 import loadSeriesList from 'js/actions/operations/series/list';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Note } from 'bauhaus-library';
+import { Note } from '@inseefr/ui';
 import { D1, D2 } from 'js/i18n';
 
 export default ({ levels, classificationId, secondLang }) => {

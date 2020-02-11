@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import ConceptsToValidate from './home';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/ui';
 import { VALIDATE_CONCEPT_LIST } from 'js/actions/constants';
 import * as select from 'js/reducers';
 import validateConceptList from 'js/actions/concepts/validate';

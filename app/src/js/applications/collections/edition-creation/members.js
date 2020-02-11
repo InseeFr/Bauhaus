@@ -6,11 +6,11 @@ import {
 	LogoAdd,
 	LogoDel,
 	PickerItem,
-} from 'bauhaus-library';
+} from '@inseefr/ui';
 import {
 	filterDeburr,
 	arrayDifferenceByID,
-} from 'bauhaus-library/src/utils/array-utils';
+} from '@inseefr/ui/src/utils/array-utils';
 
 import D, { D1 } from 'js/i18n';
 

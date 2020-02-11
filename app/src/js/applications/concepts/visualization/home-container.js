@@ -11,12 +11,12 @@ import {
 } from 'js/actions/constants/concepts';
 import deleteConcept from 'js/actions/concepts/delete';
 import * as select from 'js/reducers';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
+import buildExtract from '@inseefr/ui/src/utils/build-extract';
 import { saveSecondLang } from 'js/actions/app';
 import loadConcept from 'js/actions/concepts/concept';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import check from 'js/utils/auth';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/ui';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';

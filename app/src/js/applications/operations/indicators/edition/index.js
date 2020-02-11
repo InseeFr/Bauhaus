@@ -5,8 +5,8 @@ import loadIndicator, {
 } from 'js/actions/operations/indicators/item';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
-import { Loading } from 'bauhaus-library';
+import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import { Loading } from '@inseefr/ui';
 import OperationsIndicatorEdition from 'js/applications/operations/indicators/edition/edition';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 

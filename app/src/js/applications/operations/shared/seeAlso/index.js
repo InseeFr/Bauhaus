@@ -1,5 +1,5 @@
 import React from 'react';
-import { Note } from 'bauhaus-library';
+import { Note } from '@inseefr/ui';
 import D, { D1, D2 } from 'js/i18n';
 import { Link } from 'react-router-dom';
 

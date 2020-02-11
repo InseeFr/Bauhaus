@@ -11,8 +11,8 @@ import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import CollectionEditionCreation from './home';
 import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
-import { cleanId } from 'bauhaus-library/src/utils/string-utils';
-import { Loading } from 'bauhaus-library';
+import { cleanId } from '@inseefr/ui/src/utils/string-utils';
+import { Loading } from '@inseefr/ui';
 import { OK } from 'js/constants';
 
 class CreationContainer extends Component {

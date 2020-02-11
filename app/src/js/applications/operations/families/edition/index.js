@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 import loadFamily, { saveFamily } from 'js/actions/operations/families/item';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
-import { Loading } from 'bauhaus-library';
+import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import { Loading } from '@inseefr/ui';
 import OperationsFamilyEdition from 'js/applications/operations/families/edition/edition';
 
 const extractId = buildExtract('id');

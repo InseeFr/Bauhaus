@@ -14,7 +14,7 @@
 		"lint": "eslint src"
 	},
 	"peerDependencies": {
-		"react": "^16.8.6"
+		"react": "16.8.6"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.5.5",
@@ -45,8 +45,8 @@
 		"useTabs": true
 	},
 	"dependencies": {
+		"@inseefr/ui": "file:../../../bauhaus-library",
 		"lodash": "^4.17.15",
-		"bauhaus-library": "0.0.0",
 		"react": "16.8.6",
 		"react-dom": "16.8.6",
 		"react-router-dom": "4.3.1"

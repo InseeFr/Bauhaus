@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PageTitle, PageSubtitle } from 'bauhaus-library';
+import { PageTitle, PageSubtitle } from '@inseefr/ui';
 
 function PageTitleBlock({ titleLg1, titleLg2, secondLang }) {
 	return (

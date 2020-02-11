@@ -5,7 +5,7 @@ import {
 	UpdateButton,
 	ReturnButton,
 	ActionToolbar,
-} from 'bauhaus-library';
+} from '@inseefr/ui';
 import D from './build-dictionary';
 
 function RolesPicker({ roles = [], person = {}, defaultOpen = false }) {

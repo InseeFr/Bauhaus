@@ -4,7 +4,7 @@ import {
 	SaveButton,
 	ErrorBloc,
 	ActionToolbar,
-} from 'bauhaus-library';
+} from '@inseefr/ui';
 
 function Control({ onSubmit, indicator, errorMessage }) {
 	return (

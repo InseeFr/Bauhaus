@@ -6,7 +6,7 @@ import {
 	ErrorBloc,
 	ActionToolbar,
 	SaveButton,
-} from 'bauhaus-library';
+} from '@inseefr/ui';
 
 class ConceptCreateControlLayout extends Component {
 	render() {

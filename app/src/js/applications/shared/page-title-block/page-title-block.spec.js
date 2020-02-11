@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import PageTitleBlock from './';
-import { PageTitle, PageSubtitle } from 'bauhaus-library';
+import { PageTitle, PageSubtitle } from '@inseefr/ui';
 
 describe('page-title-bloc', () => {
 	it('renders one PageTitle only is secondLang is false', () => {

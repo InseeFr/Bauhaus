@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageTitle } from 'bauhaus-library';
+import { PageTitle } from '@inseefr/ui';
 import Controls from './controls';
 import TabsRmes from 'js/applications/shared/tabs-rmes/tabs-rmes';
 import ConceptsSummary from './concepts/summary';

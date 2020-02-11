@@ -11,8 +11,8 @@ import {
 	DelLogo,
 	PickerItem,
 	ActionToolbar,
-} from 'bauhaus-library';
-import { filterDeburr } from 'bauhaus-library/src/utils/array-utils';
+} from '@inseefr/ui';
+import { filterDeburr } from '@inseefr/ui/src/utils/array-utils';
 
 class Picker extends Component {
 	constructor(props) {

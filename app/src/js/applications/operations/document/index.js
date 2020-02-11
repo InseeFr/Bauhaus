@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/ui';
 import DocumentHome from './home';
 import { connect } from 'react-redux';
 import { LOADED } from 'js/constants';

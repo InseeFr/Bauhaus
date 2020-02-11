@@ -1,7 +1,7 @@
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 
-import { getLang } from 'bauhaus-library';
+import { getLang } from '@inseefr/ui';
 
 const moment = extendMoment(Moment);
 

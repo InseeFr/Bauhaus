@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, ActionToolbar, SaveButton } from 'bauhaus-library';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
-import { cleanId } from 'bauhaus-library/src/utils/string-utils';
+import { Button, ActionToolbar, SaveButton } from '@inseefr/ui';
+import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import { cleanId } from '@inseefr/ui/src/utils/string-utils';
 import D from 'js/i18n';
 
 const Controls = ({ creation, save, disabledSave, ...props }) => {

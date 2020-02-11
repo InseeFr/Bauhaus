@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { AppContext } from 'index';
-import { Input, Loading, ErrorBloc } from 'bauhaus-library';
+import { Input, Loading, ErrorBloc } from '@inseefr/ui';
 import Controls from './controls';
 import Components from './components';
 import API from 'js/remote-api/dsds/dsds-api';

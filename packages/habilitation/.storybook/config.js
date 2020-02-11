@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import './styles.css';
 
-import 'bauhaus-library/dist/index.css';
+import '@inseefr/ui/dist/index.css';
 
 const requireAll = requireContext => requireContext.keys().map(requireContext);
 

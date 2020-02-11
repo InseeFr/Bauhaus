@@ -5,7 +5,7 @@ import {
 	firstLang,
 	secondLang,
 	getLang,
-} from 'bauhaus-library';
+} from '@inseefr/ui';
 
 const dictionary = {
 	authorizationTitle: {

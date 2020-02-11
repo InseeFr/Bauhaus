@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import D from 'js/i18n';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
-import { goBack } from 'bauhaus-library/src/utils/redirection';
+import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import { goBack } from '@inseefr/ui/src/utils/redirection';
 import { connect } from 'react-redux';
 import * as select from 'js/reducers';
 import { saveSecondLang } from 'js/actions/app';
@@ -13,7 +13,7 @@ import {
 	Button,
 	ErrorBloc,
 	ActionToolbar,
-} from 'bauhaus-library';
+} from '@inseefr/ui';
 import loadIndicator, {
 	publishIndicator,
 } from 'js/actions/operations/indicators/item';

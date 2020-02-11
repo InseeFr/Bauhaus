@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PageTitle, Button, SearchRmes, VerticalMenu } from 'bauhaus-library';
+import { PageTitle, Button, SearchRmes, VerticalMenu } from '@inseefr/ui';
 import API from 'js/remote-api/dsds/dsds-api';
 import D from 'js/i18n';
 

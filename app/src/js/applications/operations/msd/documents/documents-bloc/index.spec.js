@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { DocumentsBloc } from './index';
 import { sortArray } from 'js/utils/array-utils';
-import { getLang } from 'bauhaus-library';
+import { getLang } from '@inseefr/ui';
 
 jest.mock('js/applications/operations/msd/utils');
 
