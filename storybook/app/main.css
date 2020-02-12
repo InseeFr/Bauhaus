@@ -4,8 +4,6 @@
 
 .Select-menu-outer{z-index:5}
 
-.bauhaus-table .table-hover tbody tr:hover td{background-color:var(--color-3);color:white}.bauhaus-table-header{background-color:var(--color-3);color:white}.bauhaus-table-header thead tr th,.bauhaus-table-header thead tr th{text-align:center !important}.pagination>.active>a{background-color:var(--color-3);border-color:var(--color-3)}.marginTop{margin-top:2%}
-
 .tabs-items{margin-top:10px}
 
 div.rst__rowLabel{display:none}

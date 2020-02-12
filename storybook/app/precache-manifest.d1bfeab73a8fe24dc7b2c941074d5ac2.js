@@ -1,29 +1,21 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c1b63069f511d1c5a23bfa136a171a30",
+    "revision": "004fc3571aac75ac75cd8688030abfd0",
     "url": "iframe.html"
   },
   {
-    "url": "main.4195ed705b73269e3c8f.bundle.js"
+    "url": "main.ac6158c741d4427318ea.bundle.js"
   },
   {
-    "revision": "f840a7630ccb6b3f8a6e",
+    "revision": "5ea34d87cf1bcc5cd6ae",
     "url": "main.css"
   },
   {
-    "url": "runtime~main.4195ed705b73269e3c8f.bundle.js"
-  },
-  {
-    "revision": "5669b29522e81c5ce262189a287469af",
-    "url": "static/media/add.5669b295.png"
+    "url": "runtime~main.ac6158c741d4427318ea.bundle.js"
   },
   {
     "revision": "0d6fe9ef93a5996157a9a4b27b153c9d",
     "url": "static/media/default.0d6fe9ef.png"
-  },
-  {
-    "revision": "1bc8311e97b800a409de6d4e915749b1",
-    "url": "static/media/del.1bc8311e.png"
   },
   {
     "revision": "bdabb29d451a1e37adc6de04a92eca6c",
@@ -54,14 +46,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "static/media/glyphicons-halflings-regular.fa277232.woff"
   },
   {
-    "revision": "95a56b42a10a6c723ee52f9cb3934c9d",
-    "url": "static/media/warning.95a56b42.jpg"
+    "url": "vendors~main.ac6158c741d4427318ea.bundle.js"
   },
   {
-    "url": "vendors~main.4195ed705b73269e3c8f.bundle.js"
-  },
-  {
-    "revision": "548fad5ed1637ae15ff5",
+    "revision": "788543beb680fdb0c5f2",
     "url": "vendors~main.css"
   }
 ]);
