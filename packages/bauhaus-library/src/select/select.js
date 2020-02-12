@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
-import Select from 'react-select';
+import ReactSelect from 'react-select';
 import './select.scss';
+import D from '../build-dictionary';
 
-function mySelect({
+function Select({
 	id,
 	label,
 	value,
@@ -15,32 +16,41 @@ function mySelect({
 	searchable,
 	multi,
 	helpMsg,
+	disabled,
 }) {
 	const isClearable = unclearable ? false : true;
+	const onChangeSelect = multi
+		? e => onChange(e)
+		: e => onChange(e ? e.value : '');
+
 	return (
 		<FormGroup controlId={id}>
 			{label && <ControlLabel>{label}</ControlLabel>}{' '}
-			<Select
+			<ReactSelect
 				value={value}
-				placeholder={placeholder}
 				options={options}
-				onChange={onChange}
+				onChange={onChangeSelect}
+				placeholder={placeholder}
 				clearable={isClearable}
 				searchable={searchable}
+				noResultsText={D.noResult}
 				multi={multi}
+				disabled={disabled}
 			/>
 			{helpMsg && <HelpBlock style={{ color: 'red' }}>{helpMsg}</HelpBlock>}
 		</FormGroup>
 	);
 }
 
-mySelect.defaultProps = {
+Select.defaultProps = {
 	multi: false,
 	clearable: false,
 	searchable: true,
+	disabled: false,
+	name: '',
 };
 
-mySelect.propTypes = {
+Select.propTypes = {
 	value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 	placeholder: PropTypes.string.isRequired,
 	options: PropTypes.arrayOf(
@@ -53,6 +63,8 @@ mySelect.propTypes = {
 	clearable: PropTypes.bool,
 	searchable: PropTypes.bool,
 	creatable: PropTypes.bool,
+	disabled: PropTypes.bool,
+	name: PropTypes.string,
 };
 
-export default mySelect;
+export default Select;

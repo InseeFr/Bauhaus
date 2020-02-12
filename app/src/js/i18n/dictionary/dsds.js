@@ -76,10 +76,7 @@ export default {
 		fr: 'Sélectionner un composant',
 		en: 'Select component',
 	},
-	noResult: {
-		fr: 'Aucun résultat',
-		en: 'No results',
-	},
+
 	result: {
 		fr: 'résultat',
 		en: 'result',
@@ -88,14 +85,7 @@ export default {
 		fr: 'résultats',
 		en: 'results',
 	},
-	noDataTitle: {
-		fr: 'Aucune donnée',
-		en: 'No data',
-	},
-	errorTitle: {
-		fr: 'Erreur',
-		en: 'Error',
-	},
+
 	idTitle: {
 		fr: 'Identifiant',
 		en: 'Identifier',
@@ -119,14 +109,6 @@ export default {
 	labelExisting: {
 		fr: 'Ce libellé est déjà utilisé',
 		en: 'This label is already used',
-	},
-	search: {
-		fr: 'Recherchez ...',
-		en: 'Search...',
-	},
-	searchLabelPlaceholder: {
-		fr: 'Libellé ...',
-		en: 'Label...',
 	},
 	stringType: {
 		fr: 'Texte',

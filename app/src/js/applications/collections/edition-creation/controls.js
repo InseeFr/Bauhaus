@@ -1,5 +1,10 @@
 import React from 'react';
-import { CancelButton, Button, ErrorBloc } from 'bauhaus-library';
+import {
+	CancelButton,
+	ErrorBloc,
+	ActionToolbar,
+	SaveButton,
+} from 'bauhaus-library';
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import D from 'js/i18n';
@@ -37,23 +42,10 @@ function CollectionEditionCreationControls({
 
 	return (
 		<>
-			<div className="row btn-line action-toolbar">
+			<ActionToolbar>
 				<CancelButton action={redirectCancel()} />
-
-				<Button
-					label={
-						<React.Fragment>
-							<span
-								className="glyphicon glyphicon-floppy-disk"
-								aria-hidden="true"
-							/>
-							<span> {D.btnSave}</span>
-						</React.Fragment>
-					}
-					action={handleSave}
-					disabled={message}
-				/>
-			</div>
+				<SaveButton action={handleSave} disabled={message} />
+			</ActionToolbar>
 			<ErrorBloc error={message} />
 		</>
 	);

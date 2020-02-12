@@ -26,7 +26,6 @@
 		"@storybook/addon-links": "5.1.11",
 		"@storybook/addons": "5.1.11",
 		"@storybook/react": "5.1.11",
-		"babel-jest": "24.7.1",
 		"babel-loader": "8.0.6",
 		"enzyme": "^3.10.0",
 		"enzyme-adapter-react-16": "^1.14.0",
@@ -49,6 +48,13 @@
 		"lodash": "^4.17.15",
 		"query-string": "^6.9.0",
 		"react-loading": "^2.0.3",
-		"react-select": "^3.0.4"
+		"react-select": "^3.0.4",
+		"react-bootstrap-table-next": "3.3.3",
+		"react-bootstrap-table2-paginator": "2.1.0",
+		"react-bootstrap-table2-toolkit": "2.1.1",
+		"react-bootstrap": "0.31.5",
+		"react": "16.8.6",
+		"react-dom": "16.8.6",
+		"moment": "2.23.0"
 	}
 }

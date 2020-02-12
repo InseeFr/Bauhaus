@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { I18NContext } from '../context';
+import React from 'react';
+import D from '../build-dictionary';
 import './back-to-top.scss';
 
 const className = 'bauhaus-sticky-top';
@@ -22,7 +22,7 @@ window.onload = function() {
 };
 
 export default function BackToTop({ label }) {
-	const text = useContext(I18NContext).backToTop || label;
+	const text = D.backToTop || label;
 	return (
 		// eslint-disable-next-line
 		<a href="#" className={className} style={{ display: 'none' }}>

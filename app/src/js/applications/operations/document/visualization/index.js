@@ -1,6 +1,11 @@
 import { saveSecondLang } from 'js/actions/app';
 import loadDocument from 'js/actions/operations/documents/item';
-import { CheckSecondLang, Loading, Button } from 'bauhaus-library';
+import {
+	CheckSecondLang,
+	Loading,
+	Button,
+	ActionToolbar,
+} from 'bauhaus-library';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { getSecondLang } from 'js/reducers/app';
@@ -14,7 +19,11 @@ import { withRouter } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
 import Auth from 'js/utils/auth/components/auth';
-import { INDICATOR_CREATOR, ADMIN, SERIES_CREATOR } from 'js/utils/auth/roles';
+import {
+	ADMIN,
+	INDICATOR_CONTRIBUTOR,
+	SERIES_CONTRIBUTOR,
+} from 'js/utils/auth/roles';
 
 const extractId = buildExtract('id');
 
@@ -46,19 +55,19 @@ class DocumentationVisualizationContainer extends Component {
 					secondLang={secondLang}
 				/>
 
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<Button
 						action={goBack(this.props, '/operations/documents')}
 						label={D.btnReturn}
 					/>
 
-					<Auth roles={[ADMIN, SERIES_CREATOR, INDICATOR_CREATOR]}>
+					<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]}>
 						<Button
 							action={`/operations/document/${document.id}/modify`}
 							label={D.btnUpdate}
 						/>
 					</Auth>
-				</div>
+				</ActionToolbar>
 				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
 
 				<OperationsDocumentVisualization

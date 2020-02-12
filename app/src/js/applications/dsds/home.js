@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PageTitle, Button, SearchRmes } from 'bauhaus-library';
+import { PageTitle, Button, SearchRmes, VerticalMenu } from 'bauhaus-library';
 import API from 'js/remote-api/dsds/dsds-api';
 import D from 'js/i18n';
 
@@ -14,36 +14,30 @@ const Home = () => {
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-md-3 btn-group-vertical">
-					<div className="row">
+				<VerticalMenu>
+					<Button
+						label={D.btnNewFemale}
+						action="/dsds/create"
+						col={8}
+						offset={2}
+					/>
+					{isLocal && (
 						<Button
-							label={D.btnNewFemale}
-							action="/dsds/create"
+							label={D.btnImport}
+							action="/dsds/import"
 							col={8}
 							offset={2}
 						/>
-					</div>
-					{isLocal && (
-						<div className="row">
-							<Button
-								label={D.btnImport}
-								action="/dsds/import"
-								col={8}
-								offset={2}
-							/>
-						</div>
 					)}
 					{isLocal && (
-						<div className="row">
-							<Button
-								label={D.btnExport}
-								action="/dsds/export"
-								col={8}
-								offset={2}
-							/>
-						</div>
+						<Button
+							label={D.btnExport}
+							action="/dsds/export"
+							col={8}
+							offset={2}
+						/>
 					)}
-				</div>
+				</VerticalMenu>
 				<div className="col-md-8 centered pull-right">
 					<PageTitle title={D.dsdsSearchTitle} col={12} offset={0} />
 					<SearchRmes items={DSDs} childPath="dsds" autoFocus={true} />

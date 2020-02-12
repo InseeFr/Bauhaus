@@ -3,18 +3,18 @@ import D from 'js/i18n';
 export const rowParams = [
 	{
 		dataField: 'type',
-		label: '',
+		text: '',
 		width: '32%',
 		isKey: true,
 	},
-	{ dataField: 'total', label: D.totalTitle, width: '17%' },
-	{ dataField: 'generic', label: D.DSPublicGeneriqueTitle, width: '17%' },
+	{ dataField: 'total', text: D.totalTitle, width: '17%' },
+	{ dataField: 'generic', text: D.DSPublicGeneriqueTitle, width: '17%' },
 	{
 		dataField: 'specific',
-		label: D.DSPublicSpecifiqueTitle,
+		text: D.DSPublicSpecifiqueTitle,
 		width: '17%',
 	},
-	{ dataField: 'private', label: D.DSPrivateTitle, width: '17%' },
+	{ dataField: 'private', text: D.DSPrivateTitle, width: '17%' },
 ];
 
 export const buildData = d => [

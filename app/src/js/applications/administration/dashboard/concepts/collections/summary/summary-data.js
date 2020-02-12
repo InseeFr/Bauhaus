@@ -3,11 +3,11 @@ import D from 'js/i18n';
 export const rowParams = [
 	{
 		dataField: 'type',
-		label: '',
+		text: '',
 		width: '66%',
 		isKey: true,
 	},
-	{ dataField: 'total', label: D.totalTitle, width: '34%' },
+	{ dataField: 'total', text: D.totalTitle, width: '34%' },
 ];
 
 export const buildData = d => [

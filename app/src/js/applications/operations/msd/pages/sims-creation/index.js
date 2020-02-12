@@ -4,10 +4,11 @@ import D from 'js/i18n';
 import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from 'js/utils/msd';
 import {
-	Button,
 	Loading,
 	CheckSecondLang,
 	CancelButton,
+	ActionToolbar,
+	SaveButton,
 } from 'bauhaus-library';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { DUPLICATE } from 'js/applications/operations/msd';
@@ -185,23 +186,10 @@ class SimsCreation extends React.Component {
 
 		return (
 			<form>
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<CancelButton action={this.goBack} />
-
-					<Button
-						action={this.handleSubmit}
-						label={
-							<React.Fragment>
-								<span
-									className="glyphicon glyphicon-floppy-disk"
-									aria-hidden="true"
-								/>
-								<span> {D.btnSave}</span>
-							</React.Fragment>
-						}
-						col={3}
-					/>
-				</div>
+					<SaveButton action={this.handleSubmit} col={3} />
+				</ActionToolbar>
 
 				{Object.values(metadataStructure).map((msd, index) => {
 					return (

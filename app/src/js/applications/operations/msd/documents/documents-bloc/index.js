@@ -2,7 +2,7 @@ import spinner from 'img/spinner.svg';
 import loadDocuments from 'js/actions/operations/documents/list';
 import { LOADING, NOT_LOADED } from 'js/constants';
 import D from 'js/i18n';
-import { getLang } from 'js/i18n/build-dictionary';
+import { getLang } from 'bauhaus-library';
 import {
 	getOperationsDocuments,
 	getOperationsDocumentsStatus,

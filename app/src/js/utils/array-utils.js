@@ -14,14 +14,6 @@ export const arrayKeepUniqueField = (array, field) =>
 		return _.deburr(item[field].toLowerCase());
 	});
 
-export const arrayDifferenceByID = (array1, array2) => {
-	const diff = _.difference(_.map(array1, 'id'), _.map(array2, 'id'));
-	const result = _.filter(array1, function(obj) {
-		return diff.indexOf(obj.id) >= 0;
-	});
-	return result;
-};
-
 export const sortArray = key =>
 	/**
 	 * Sort an array by a given key
@@ -41,14 +33,6 @@ export const sortArray = key =>
 			return bUp > aUp ? order : bUp === aUp ? 0 : -order;
 		});
 	};
-
-export const filterDeburr = rawStr => {
-	const str = _.deburr(rawStr).toLocaleLowerCase();
-	return item =>
-		_.deburr(item)
-			.toLocaleLowerCase()
-			.includes(str);
-};
 
 export const filterKeyDeburr = keys => rawStr => {
 	const str = _.deburr(rawStr).toLocaleLowerCase();

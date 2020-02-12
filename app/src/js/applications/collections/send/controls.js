@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Button, ErrorBloc } from 'bauhaus-library';
+import { Button, ErrorBloc, ActionToolbar } from 'bauhaus-library';
 import D from 'js/i18n';
 
 function SendControls({
@@ -25,10 +25,10 @@ function SendControls({
 	}
 	return (
 		<>
-			<div className="row btn-line action-toolbar">
+			<ActionToolbar>
 				<Button label={D.btnReturn} action={urlBack} />
 				<Button label={D.btnSend} action={sendMessage} disabled={disabled} />
-			</div>
+			</ActionToolbar>
 			<ErrorBloc error={warning} />
 		</>
 	);

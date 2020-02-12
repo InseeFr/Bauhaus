@@ -6,7 +6,13 @@ import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
-import { Loading, ErrorBloc, CancelButton, SaveButton } from 'bauhaus-library';
+import {
+	Loading,
+	ErrorBloc,
+	CancelButton,
+	SaveButton,
+	ActionToolbar,
+} from 'bauhaus-library';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
@@ -120,11 +126,11 @@ class OperationsDocumentationEdition extends Component {
 					/>
 				)}
 
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<CancelButton action={goBack(this.props, '/operations/documents')} />
 
 					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
-				</div>
+				</ActionToolbar>
 				<ErrorBloc error={globalError} />
 
 				<form>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Button } from 'bauhaus-library';
+import { Button, ActionToolbar } from 'bauhaus-library';
 import { goBack } from 'bauhaus-library/src/utils/redirection';
 import D from 'js/i18n';
 
@@ -31,13 +31,13 @@ class ItemControls extends Component {
 		const btns = [cancel, compare];
 
 		return (
-			<div className="row btn-line action-toolbar">
+			<ActionToolbar>
 				{btns.map((btn, i) => {
 					if (!btn) return null;
 					const [action, label] = btn;
 					return btn && <Button key={label} action={action} label={label} />;
 				})}
-			</div>
+			</ActionToolbar>
 		);
 	}
 }

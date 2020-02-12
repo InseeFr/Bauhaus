@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { CancelButton, Button, ErrorBloc } from 'bauhaus-library';
-import D from 'js/i18n';
+import {
+	CancelButton,
+	ErrorBloc,
+	ActionToolbar,
+	SaveButton,
+} from 'bauhaus-library';
 
 class ConceptCreateControlLayout extends Component {
 	render() {
@@ -10,23 +14,10 @@ class ConceptCreateControlLayout extends Component {
 
 		return (
 			<>
-				<div className="row btn-line action-toolbar">
+				<ActionToolbar>
 					<CancelButton action={redirectCancel()} />
-
-					<Button
-						label={
-							<>
-								<span
-									className="glyphicon glyphicon-floppy-disk"
-									aria-hidden="true"
-								/>
-								<span> {D.btnSave}</span>
-							</>
-						}
-						action={handleSave}
-						disabled={!saveEnabled}
-					/>
-				</div>
+					<SaveButton action={handleSave} disabled={!saveEnabled} />
+				</ActionToolbar>
 				<ErrorBloc error={message} />
 			</>
 		);

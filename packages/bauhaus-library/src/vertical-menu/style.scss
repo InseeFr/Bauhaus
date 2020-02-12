@@ -1,0 +1,12 @@
+.btn-group-vertical {
+	@media (min-width: 1000px) {
+		margin-top: 200px;
+	}
+
+	margin-top: 50px;
+
+	.btn {
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+}

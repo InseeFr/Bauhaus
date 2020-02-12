@@ -1,0 +1,34 @@
+.bauhaus-table .table-hover tbody tr:hover td {
+	background-color: var(--color-3);
+	color: white;
+}
+
+.bauhaus-table thead {
+	background-color: var(--color-3);
+	color: white;
+	th {
+		text-align: center !important;
+	}
+}
+
+.pagination > .active > a,
+.pagination > li:hover > a,
+.pagination > a:focus {
+	background-color: var(--color-3) !important;
+	border-color: var(--color-3) !important;
+}
+
+.marginTop {
+	margin-top: 2%;
+}
+
+.dropup .caret,
+.dropdown .caret {
+	color: white !important;
+}
+
+.search-bar {
+	width: 25%;
+	float: right;
+	margin-bottom: 1em;
+}

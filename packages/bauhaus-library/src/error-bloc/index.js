@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { I18NContext } from '../context';
+import D from '../build-dictionary';
 
 const ErrorBloc = ({ error }) => {
-	const D = useContext(I18NContext);
 	let errorMsg;
 	try {
 		const parsedError = JSON.parse(error);

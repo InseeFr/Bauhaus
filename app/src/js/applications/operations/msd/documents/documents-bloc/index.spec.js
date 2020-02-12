@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { DocumentsBloc } from './index';
 import { sortArray } from 'js/utils/array-utils';
-import { getLang } from 'js/i18n/build-dictionary';
+import { getLang } from 'bauhaus-library';
 
 jest.mock('js/applications/operations/msd/utils');
 
@@ -69,11 +69,7 @@ describe('DocumentsBloc', () => {
 
 		general.find('li').forEach((li, i) => {
 			expect(li.html()).toEqual(
-				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${
-					orderedList[i].url
-				}" title="${orderedList[i].descriptionLg1}">${
-					orderedList[i].labelLg1
-				}</a><i> (${orderedList[i].aside})</i></span></li>`
+				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg1}">${orderedList[i].labelLg1}</a><i> (${orderedList[i].aside})</i></span></li>`
 			);
 		});
 	});
@@ -89,11 +85,7 @@ describe('DocumentsBloc', () => {
 
 		general.find('li').forEach((li, i) => {
 			expect(li.html()).toEqual(
-				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${
-					orderedList[i].url
-				}" title="${orderedList[i].descriptionLg2}">${
-					orderedList[i].labelLg2
-				}</a><i> (${orderedList[i].aside})</i></span></li>`
+				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg2}">${orderedList[i].labelLg2}</a><i> (${orderedList[i].aside})</i></span></li>`
 			);
 		});
 	});

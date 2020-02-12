@@ -3,34 +3,34 @@ import D from 'js/i18n';
 export const rowParamsStamps = [
 	{
 		dataField: 'stamp',
-		label: D.dashboardConceptsByCreatorTitle,
+		text: D.dashboardConceptsByCreatorTitle,
 		width: '32%',
 		isKey: true,
-		dataSort: true,
+		sort: true,
 	},
 	{
 		dataField: 'total',
-		label: D.totalTitle,
+		text: D.totalTitle,
 		width: '17%',
-		dataSort: true,
+		sort: true,
 	},
 	{
 		dataField: 'generic',
-		label: D.DSPublicGeneriqueTitle,
+		text: D.DSPublicGeneriqueTitle,
 		width: '17%',
-		dataSort: true,
+		sort: true,
 	},
 	{
 		dataField: 'specific',
-		label: D.DSPublicSpecifiqueTitle,
+		text: D.DSPublicSpecifiqueTitle,
 		width: '17%',
-		dataSort: true,
+		sort: true,
 	},
 	{
 		dataField: 'private',
-		label: D.DSPrivateTitle,
+		text: D.DSPrivateTitle,
 		width: '17%',
-		dataSort: true,
+		sort: true,
 	},
 ];
 

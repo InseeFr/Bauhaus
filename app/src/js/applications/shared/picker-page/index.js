@@ -7,11 +7,12 @@ import {
 	Pagination,
 	Panel,
 	ErrorBloc,
+	AddLogo,
+	DelLogo,
+	PickerItem,
+	ActionToolbar,
 } from 'bauhaus-library';
-import Item from 'js/applications/shared/picker-item';
-import { filterDeburr } from 'js/utils/array-utils';
-import addLogo from 'js/applications/shared/logo/logo-add';
-import delLogo from 'js/applications/shared/logo/logo-del';
+import { filterDeburr } from 'bauhaus-library/src/utils/array-utils';
 
 class Picker extends Component {
 	constructor(props) {
@@ -100,21 +101,21 @@ class Picker extends Component {
 		const { toAdd, added } = this.getItemsByStatus();
 
 		const toAddEls = toAdd.map(({ id, label }) => (
-			<Item
+			<PickerItem
 				key={id}
 				id={id}
 				label={label}
-				logo={addLogo}
+				logo={AddLogo}
 				handleClick={this.addItem}
 			/>
 		));
 
 		const addedEls = added.map(({ id, label }) => (
-			<Item
+			<PickerItem
 				key={id}
 				id={id}
 				label={label}
-				logo={delLogo}
+				logo={DelLogo}
 				handleClick={this.removeItem}
 			/>
 		));
@@ -123,7 +124,7 @@ class Picker extends Component {
 		const message = added.length === 0 && labelWarning;
 
 		const controls = (
-			<div className="row btn-line action-toolbar">
+			<ActionToolbar>
 				<Button label={D.btnReturn} action={`/${context}`} />
 				<Button
 					label={labelValidateButton}
@@ -131,7 +132,7 @@ class Picker extends Component {
 					disabled={added.length === 0}
 					offset={message ? 0 : 8}
 				/>
-			</div>
+			</ActionToolbar>
 		);
 
 		return (
