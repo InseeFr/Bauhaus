@@ -1,8 +1,8 @@
 import * as A from './utils';
 
-import ArrayUtils from '@inseefr/ui/src/utils/array-utils';
+import ArrayUtils from '@inseefr/wilco/src/utils/array-utils';
 
-jest.mock('@inseefr/ui/src/utils/array-utils', () => {
+jest.mock('@inseefr/wilco/src/utils/array-utils', () => {
 	return {
 		arrayDifferenceByID: jest.fn().mockReturnValue([]),
 	};

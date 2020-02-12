@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Note, TableRmes } from '@inseefr/ui';
+import { Note, TableRmes } from '@inseefr/wilco';
 import D, { D1 } from 'js/i18n';
 import { propTypes as associationsPropTypes } from 'js/applications/classifications/utils/correspondence/associations';
 import { propTypes as correspondencePropTypes } from 'js/applications/classifications/utils/correspondence/general';

@@ -7,7 +7,7 @@ import {
 	ReturnButton,
 	SaveButton,
 	ActionToolbar,
-} from '@inseefr/ui';
+} from '@inseefr/wilco';
 import * as U from './utils';
 import D from './build-dictionary';
 

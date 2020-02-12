@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import Menu from './menu';
 import Visualisation from './visualisation';
 import Update from './update';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, ActionToolbar } from '@inseefr/ui';
+import { Button, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 const Controls = ({ dsdId }) => {

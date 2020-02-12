@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
-import { PageTitle, Pagination } from '@inseefr/ui';
+import { PageTitle, Pagination } from '@inseefr/wilco';
 import Controls from './controls';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';

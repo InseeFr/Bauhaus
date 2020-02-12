@@ -4,7 +4,7 @@ import {
 	SaveButton,
 	ErrorBloc,
 	ActionToolbar,
-} from '@inseefr/ui';
+} from '@inseefr/wilco';
 
 function Control({ onSubmit, indicator, errorMessage }) {
 	return (

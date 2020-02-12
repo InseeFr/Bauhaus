@@ -11,8 +11,8 @@ import {
 	DelLogo,
 	PickerItem,
 	ActionToolbar,
-} from '@inseefr/ui';
-import { filterDeburr } from '@inseefr/ui/src/utils/array-utils';
+} from '@inseefr/wilco';
+import { filterDeburr } from '@inseefr/wilco/src/utils/array-utils';
 
 class Picker extends Component {
 	constructor(props) {

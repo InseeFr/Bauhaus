@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'index';
-import { Panel, PageTitle } from '@inseefr/ui';
+import { Panel, PageTitle } from '@inseefr/wilco';
 
 import Controls from './controls';
 import Components from './components';
 import D from 'js/i18n';
 import API from 'js/remote-api/dsds/dsds-api';
-import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import buildExtract from '@inseefr/wilco/src/utils/build-extract';
 import { getFlag } from 'js/utils/flags/get-flag';
 
 const DSD = props => {

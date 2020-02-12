@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Edition from '../component';
-import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import buildExtract from '@inseefr/wilco/src/utils/build-extract';
 import API from 'js/remote-api/dsds/dsds-api';
 
 const Update = props => {

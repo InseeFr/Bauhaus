@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel }  from '@inseefr/ui';
+import { Panel }  from '@inseefr/wilco';
 
 function ConceptToLink({ title, memberEls, searchComponent }) {
 	return (

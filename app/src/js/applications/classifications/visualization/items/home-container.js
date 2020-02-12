@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import ClassificationItems from './home';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import loadClassificationItems from 'js/actions/classifications/items';
 import loadClassificationGeneral from 'js/actions/classifications/general';
 import { saveSecondLang } from 'js/actions/app';
 import * as selectT from 'js/reducers/classifications/items';
 import * as selectG from 'js/reducers/classifications/classification/general';
-import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import buildExtract from '@inseefr/wilco/src/utils/build-extract';
 import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');

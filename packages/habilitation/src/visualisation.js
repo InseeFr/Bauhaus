@@ -5,7 +5,7 @@ import {
 	UpdateButton,
 	ReturnButton,
 	ActionToolbar,
-} from '@inseefr/ui';
+} from '@inseefr/wilco';
 import D from './build-dictionary';
 
 function RolesPicker({ roles = [], person = {}, defaultOpen = false }) {

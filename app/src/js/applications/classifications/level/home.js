@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CheckSecondLang, PageTitle, PageSubtitle } from '@inseefr/ui';
+import { CheckSecondLang, PageTitle, PageSubtitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from './general';
 import Members from './members';

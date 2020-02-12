@@ -1,14 +1,14 @@
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { goBack, goBackOrReplace } from '@inseefr/ui/src/utils/redirection';
+import { goBack, goBackOrReplace } from '@inseefr/wilco/src/utils/redirection';
 import {
 	Loading,
 	CancelButton,
 	SaveButton,
 	ErrorBloc,
 	ActionToolbar,
-} from '@inseefr/ui';
+} from '@inseefr/wilco';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';

@@ -46,6 +46,7 @@
 	},
 	"dependencies": {
 		"@inseefr/ui": "file:../../../bauhaus-library",
+		"@inseefr/wilco": "../../../Wilco/inseefr-wilco-v0.0.1.tgz",
 		"lodash": "^4.17.15",
 		"react": "16.8.6",
 		"react-dom": "16.8.6",

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HelpInformation from 'js/applications/operations/msd/help-information';
-import { Note }  from '@inseefr/ui';
+import { Note }  from '@inseefr/wilco';
 
 export default function MSDHelp({
 	metadataStructure,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Button, ErrorBloc, ActionToolbar } from '@inseefr/ui';
+import { Button, ErrorBloc, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 function SendControls({

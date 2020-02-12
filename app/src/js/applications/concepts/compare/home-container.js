@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import ConceptCompare from './home';
 import { saveSecondLang } from 'js/actions/app';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
-import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import buildExtract from '@inseefr/wilco/src/utils/build-extract';
 import * as select from 'js/reducers';
 import { getSecondLang } from 'js/reducers/app';
 

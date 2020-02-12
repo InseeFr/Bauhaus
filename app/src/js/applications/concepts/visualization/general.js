@@ -1,8 +1,8 @@
 import React from 'react';
 import { D1 } from 'js/i18n';
-import { Note } from '@inseefr/ui';
+import { Note } from '@inseefr/wilco';
 import { arrayToString } from 'js/utils/array-utils';
-import { DSURLToLabel } from '@inseefr/ui/src/utils/dissemination-status-convertor';
+import { DSURLToLabel } from '@inseefr/wilco/src/utils/dissemination-status-convertor';
 import { stringToDate } from 'js/utils/moment';
 
 function ConceptGeneral({ attr, secondLang, langs }) {

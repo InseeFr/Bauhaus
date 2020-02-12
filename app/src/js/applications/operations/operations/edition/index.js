@@ -5,8 +5,8 @@ import loadOperation, {
 } from 'js/actions/operations/operations/item';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
-import buildExtract from '@inseefr/ui/src/utils/build-extract';
-import { Loading } from '@inseefr/ui';
+import buildExtract from '@inseefr/wilco/src/utils/build-extract';
+import { Loading } from '@inseefr/wilco';
 import OperationsOperationEdition from 'js/applications/operations/operations/edition/edition';
 import loadSeriesList from 'js/actions/operations/series/list';
 import { LOADED } from 'js/constants';

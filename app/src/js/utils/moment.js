@@ -1,7 +1,7 @@
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 
-import { getLang } from '@inseefr/ui';
+import { getLang } from '@inseefr/wilco';
 
 const moment = extendMoment(Moment);
 

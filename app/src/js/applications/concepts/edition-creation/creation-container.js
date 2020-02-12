@@ -12,7 +12,7 @@ import ConceptEditionCreation from './home';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import emptyConcept from 'js/utils/concepts/empty-concept';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import { OK } from 'js/constants';
 
 class CreationContainer extends Component {

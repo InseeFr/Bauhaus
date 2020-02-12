@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import FamiliesHome from './home';
 import loadFamiliesList from 'js/actions/operations/families/list';
 import { connect } from 'react-redux';

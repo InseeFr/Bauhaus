@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CheckSecondLang, PageTitle } from '@inseefr/ui';
+import { CheckSecondLang, PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from '../general';
 import CompareNotes from 'js/applications/shared/note-compare';

@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import ItemVisualization from './home';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import loadItem from 'js/actions/classifications/item';
 import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/item';
 import * as mainSelect from 'js/reducers';
-import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import buildExtract from '@inseefr/wilco/src/utils/build-extract';
 import { getSecondLang } from 'js/reducers/app';
 
 const extractClassificationId = buildExtract('classificationId');

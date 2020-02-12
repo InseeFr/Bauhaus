@@ -31,9 +31,10 @@
 		"useTabs": true
 	},
 	"dependencies": {
+		"@inseefr/ui": "../../bauhaus-library/inseefr-ui-v0.0.1.tgz",
+		"@inseefr/wilco": "../../Wilco/inseefr-wilco-v0.0.2-rc2.tgz",
 		"axios": "^0.19.0",
 		"bauhaus-habilitation": "^0.0.0",
-		"@inseefr/ui": "file:../../bauhaus-library",
 		"bootstrap": "3.4.1",
 		"create-react-class": "^15.6.3",
 		"dompurify": "0.8.7",

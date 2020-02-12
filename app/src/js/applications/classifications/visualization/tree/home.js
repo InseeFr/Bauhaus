@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CheckSecondLang, PageTitle } from '@inseefr/ui';
+import { CheckSecondLang, PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import DnDTree from 'js/applications/shared/tree/dnd';
 import D from 'js/i18n';

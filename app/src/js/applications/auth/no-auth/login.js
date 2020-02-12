@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import { checkAuth } from 'js/actions/app';
 import {
 	ADMIN,

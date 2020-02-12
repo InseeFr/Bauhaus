@@ -6,7 +6,7 @@ import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
 import { Editor } from 'react-draft-wysiwyg';
 import SelectRmes from 'js/applications/shared/select-rmes';
-import { Note }  from '@inseefr/ui';
+import { Note }  from '@inseefr/wilco';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
 

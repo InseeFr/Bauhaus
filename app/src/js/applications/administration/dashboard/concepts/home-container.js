@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import * as select from 'js/reducers';
 import Dashboard from './home';
 import loadConceptSearchList from 'js/actions/concepts/search-list';

@@ -11,8 +11,8 @@ import {
 	mergedItemsToSelectModels,
 } from 'js/applications/operations/shared/utils/itemToSelectModel';
 import { validate } from 'js/applications/operations/indicators/edition/validation';
-import { Loading } from '@inseefr/ui';
-import { goBackOrReplace } from '@inseefr/ui/src/utils/redirection';
+import { Loading } from '@inseefr/wilco';
+import { goBackOrReplace } from '@inseefr/wilco/src/utils/redirection';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
 
 const defaultIndicator = {

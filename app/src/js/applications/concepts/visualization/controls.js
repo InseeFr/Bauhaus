@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Button, ActionToolbar } from '@inseefr/ui';
+import { Button, ActionToolbar } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
-import { goBack } from '@inseefr/ui/src/utils/redirection';
+import { goBack } from '@inseefr/wilco/src/utils/redirection';
 import D from 'js/i18n';
 
 class ConceptVisualizationControls extends Component {

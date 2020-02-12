@@ -10,7 +10,7 @@ import {
 	ErrorBloc,
 	Note,
 	ActionToolbar,
-} from '@inseefr/ui';
+} from '@inseefr/wilco';
 import { markdownToHtml, containUnsupportedStyles } from 'js/utils/html';
 import DocumentsBloc from 'js/applications/operations/msd/documents/documents-bloc/index.js';
 import {

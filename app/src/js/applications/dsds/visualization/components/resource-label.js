@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'index';
-import { Flag } from '@inseefr/ui';
+import { Flag } from '@inseefr/wilco';
 import { getRDFObject } from 'js/applications/dsds/utils/sparql-endpoint-call';
 import { getFlag } from 'js/utils/flags/get-flag';
 

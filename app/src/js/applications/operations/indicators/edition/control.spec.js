@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import Control from './control';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { I18NContext } from '@inseefr/ui';
+import { I18NContext } from '@inseefr/wilco';
 
 const value = {
 	errors: {

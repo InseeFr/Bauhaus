@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Checkbox } from 'react-bootstrap';
-import { Input, Pagination } from '@inseefr/ui';
+import { Input, Pagination } from '@inseefr/wilco';
 
 import Badge from 'js/applications/shared/badge';
 
 import * as C from 'js/constants';
 import D from 'js/i18n';
 import { sortArray } from 'js/utils/array-utils';
-import { filterDeburr } from '@inseefr/ui/src/utils/array-utils';
+import { filterDeburr } from '@inseefr/wilco/src/utils/array-utils';
 
 const sortArrayByLabel = sortArray('label');
 

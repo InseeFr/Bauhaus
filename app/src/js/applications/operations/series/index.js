@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import SeriesHome from './home';
 import { NOT_LOADED, LOADED } from 'js/constants';
 import loadSeriesList from 'js/actions/operations/series/list';

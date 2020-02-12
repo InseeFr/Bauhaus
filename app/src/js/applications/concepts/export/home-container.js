@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { EXPORT_CONCEPT_LIST } from 'js/actions/constants';
 import ConceptsToExport from './home';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import exportConceptList from 'js/actions/concepts/export-multi';
 import loadConceptList from 'js/actions/concepts/list';
 import { OK } from 'js/constants';

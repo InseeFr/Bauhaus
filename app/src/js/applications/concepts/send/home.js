@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { PageTitle } from '@inseefr/ui';
+import { PageTitle } from '@inseefr/wilco';
 import SendControls from './controls';
 import EditorHtml from 'js/applications/shared/editor-html/';
 import D from 'js/i18n';
-import { regexValidMail, allTagA } from '@inseefr/ui/src/utils/regex';
+import { regexValidMail, allTagA } from '@inseefr/wilco/src/utils/regex';
 
 const getDefaultMessage = (appHost, id, label, isValidated) => {
 	const params = [appHost, label, id];

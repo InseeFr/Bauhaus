@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { PageTitle, Pagination } from '@inseefr/ui';
+import { PageTitle, Pagination } from '@inseefr/wilco';
 import Controls from './controls';
 import { nbResults } from 'js/utils/array-utils';
 

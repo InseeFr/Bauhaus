@@ -1,6 +1,6 @@
 import React from 'react';
 import D from 'js/i18n';
-import { Menu } from '@inseefr/ui';
+import { Menu } from '@inseefr/wilco';
 
 const MenuDSDs = () => {
 	const paths = [

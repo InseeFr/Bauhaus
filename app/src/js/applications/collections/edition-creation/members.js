@@ -6,11 +6,11 @@ import {
 	LogoAdd,
 	LogoDel,
 	PickerItem,
-} from '@inseefr/ui';
+} from '@inseefr/wilco';
 import {
 	filterDeburr,
 	arrayDifferenceByID,
-} from '@inseefr/ui/src/utils/array-utils';
+} from '@inseefr/wilco/src/utils/array-utils';
 
 import D, { D1 } from 'js/i18n';
 

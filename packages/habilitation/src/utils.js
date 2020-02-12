@@ -1,4 +1,4 @@
-import { arrayDifferenceByID } from '@inseefr/ui/src/utils/array-utils';
+import { arrayDifferenceByID } from '@inseefr/wilco/src/utils/array-utils';
 
 export const extractAdded = (agents, newAgents) =>
 	arrayDifferenceByID(

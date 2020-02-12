@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Update from './update';
-import { Button, Select } from '@inseefr/ui';
+import { Button, Select } from '@inseefr/wilco';
 import { MemoryRouter } from 'react-router-dom';
 const roles = [{ id: 'id', label: 'label', persons: [] }];
 jest.mock('./utils', () => {

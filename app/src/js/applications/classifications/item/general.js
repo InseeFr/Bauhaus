@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import { Note } from '@inseefr/ui';
+import { Note } from '@inseefr/wilco';
 
 export default ({ general, classificationId, itemId, secondLang }) => {
 	const mapping = {

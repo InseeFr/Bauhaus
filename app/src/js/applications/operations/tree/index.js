@@ -4,8 +4,8 @@ import 'react-sortable-tree/style.css';
 import { Link } from 'react-router-dom';
 import api from 'js/remote-api/operations-api';
 import D from 'js/i18n';
-import { PageTitle, Button, ActionToolbar } from '@inseefr/ui';
-import { goBack } from '@inseefr/ui/src/utils/redirection';
+import { PageTitle, Button, ActionToolbar } from '@inseefr/wilco';
+import { goBack } from '@inseefr/wilco/src/utils/redirection';
 
 import './tree.scss';
 

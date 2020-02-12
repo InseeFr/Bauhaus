@@ -8,7 +8,7 @@ import { toolbar } from 'js/applications/shared/editor-html/editor-markdown';
 import { Editor } from 'react-draft-wysiwyg';
 
 import SelectRmes from 'js/applications/shared/select-rmes';
-import { Note, getLang } from '@inseefr/ui';
+import { Note, getLang } from '@inseefr/wilco';
 import { isLink, isDocument } from 'js/applications/operations/document/utils';
 import './sims-field.scss';
 import DocumentsBloc from '../../documents/documents-bloc';

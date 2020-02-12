@@ -4,9 +4,9 @@ import { Tabs, Tab } from 'react-bootstrap';
 import { D1 } from 'js/i18n';
 import ConceptToLink from './concept-to-link';
 import SearchConceptsByLabel from './search-concepts-by-label';
-import { filterDeburr } from '@inseefr/ui/src/utils/array-utils';
+import { filterDeburr } from '@inseefr/wilco/src/utils/array-utils';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
-import { LogoAdd, LogoDel, PickerItem } from '@inseefr/ui';
+import { LogoAdd, LogoDel, PickerItem } from '@inseefr/wilco';
 
 import {
 	BROADER,

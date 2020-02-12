@@ -1,4 +1,4 @@
-import { removeTrailingSlash } from '@inseefr/ui/src/utils/string-utils';
+import { removeTrailingSlash } from '@inseefr/wilco/src/utils/string-utils';
 
 import {
 	getToken,

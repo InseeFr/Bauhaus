@@ -4,7 +4,7 @@ import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
 import { withPermissions } from 'js/components/menu/withPermissions';
-import { getLang, Menu } from '@inseefr/ui';
+import { getLang, Menu } from '@inseefr/wilco';
 const defaultAttrs = { 'aria-current': 'page' };
 
 export const MenuConcepts = ({ location, permission: { authType, roles } }) => {

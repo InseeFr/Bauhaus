@@ -1,5 +1,5 @@
 import { processLinks, processGeneral } from './shared';
-import takeKeys from '@inseefr/ui/src/utils/take-keys';
+import takeKeys from '@inseefr/wilco/src/utils/take-keys';
 import { rawHtmlToRmesHtml } from 'js/utils/html';
 
 const generalFieldsToKeep = [

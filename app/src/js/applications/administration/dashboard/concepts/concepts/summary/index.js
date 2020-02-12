@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableRmes } from '@inseefr/ui';
+import { TableRmes } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { rowParams, buildData } from './summary-data';
 import { rowParamsStamps, buildDataStamps } from './stamps-data';

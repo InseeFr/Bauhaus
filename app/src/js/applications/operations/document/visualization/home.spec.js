@@ -1,7 +1,7 @@
 import React from 'react';
 import OperationsDocumentationVisualization from './home';
 import { shallow } from 'enzyme';
-import { Note }  from '@inseefr/ui';
+import { Note }  from '@inseefr/wilco';
 
 const langs = { lg1: 'lg1', lg2: 'lg2' };
 const document = {

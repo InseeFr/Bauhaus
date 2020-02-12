@@ -6,7 +6,7 @@ import {
 	ErrorBloc,
 	ActionToolbar,
 	SaveButton,
-} from '@inseefr/ui';
+} from '@inseefr/wilco';
 
 class ConceptCreateControlLayout extends Component {
 	render() {

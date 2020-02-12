@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SelectRmes from 'js/applications/shared/select-rmes';
-import { Button } from '@inseefr/ui';
+import { Button } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 class LoginBasic extends Component {

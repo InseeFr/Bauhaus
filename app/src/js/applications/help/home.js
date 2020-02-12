@@ -3,9 +3,9 @@ import { content as contentConcepts } from './content-concepts';
 import { content as contentClassifications } from './content-classifications';
 import { content as contentOperations } from './content-operations';
 import HelpMenu from './menu';
-import { PageTitle, getLang } from '@inseefr/ui';
+import { PageTitle, getLang } from '@inseefr/wilco';
 import HelpFooter from './footer';
-import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import buildExtract from '@inseefr/wilco/src/utils/build-extract';
 import './help.scss';
 
 const getContent = props => {

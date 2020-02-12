@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Pagination } from '@inseefr/ui';
+import { Pagination } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 class SearchConceptsByLabel extends Component {

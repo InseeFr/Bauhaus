@@ -5,7 +5,7 @@ import {
 	firstLang,
 	secondLang,
 	getLang,
-} from '@inseefr/ui';
+} from '@inseefr/wilco';
 
 const dictionary = {
 	authorizationTitle: {

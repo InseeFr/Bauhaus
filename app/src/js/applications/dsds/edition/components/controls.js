@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, SaveButton } from '@inseefr/ui';
+import { Button, SaveButton } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 const Controls = ({ deleteAction, saveAction, disabledSave }) => {

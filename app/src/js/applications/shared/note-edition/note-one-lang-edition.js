@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LogoWarning } from '@inseefr/ui';
+import { LogoWarning } from '@inseefr/wilco';
 import ModifyNotes from './modify-notes';
 import flag from 'js/applications/shared/flag/flag';
 import { htmlLength } from 'js/utils/html';

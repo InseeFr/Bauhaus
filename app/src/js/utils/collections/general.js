@@ -3,7 +3,7 @@ import {
 	buildPropTypes,
 	buildEmpty,
 	buildEmptyWithContributor,
-} from '@inseefr/ui/src/utils/build-general-proptypes';
+} from '@inseefr/wilco/src/utils/build-general-proptypes';
 
 export const fieldsWithRequired = [
 	['id', false],

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { PageTitle } from '@inseefr/ui';
+import { PageTitle } from '@inseefr/wilco';
 import Badge from 'js/applications/shared/badge';
 import ResourceLabel from './resource-label';
-import buildExtract from '@inseefr/ui/src/utils/build-extract';
+import buildExtract from '@inseefr/wilco/src/utils/build-extract';
 import API from 'js/remote-api/dsds/dsds-api';
 import D from 'js/i18n';
 import * as C from 'js/constants';

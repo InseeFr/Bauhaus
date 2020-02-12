@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ActionToolbar } from '@inseefr/ui';
+import { Button, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 export default ({ onClickReturn, initializeState }) => (

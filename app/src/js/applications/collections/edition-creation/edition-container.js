@@ -11,10 +11,10 @@ import loadStampList from 'js/actions/stamp';
 import updateCollection from 'js/actions/collections/update';
 import CollectionEditionCreation from './home';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
-import buildExtract from '@inseefr/ui/src/utils/build-extract';
-import { cleanId } from '@inseefr/ui/src/utils/string-utils';
+import buildExtract from '@inseefr/wilco/src/utils/build-extract';
+import { cleanId } from '@inseefr/wilco/src/utils/string-utils';
 import D from 'js/i18n';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import { OK } from 'js/constants';
 
 const extractId = buildExtract('id');

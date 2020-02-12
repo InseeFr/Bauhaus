@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import { Panel }  from '@inseefr/ui';
+import { Panel }  from '@inseefr/wilco';
 
 export default ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;

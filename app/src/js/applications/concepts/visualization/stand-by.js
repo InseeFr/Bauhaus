@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { PageTitle, Button } from '@inseefr/ui';
-import { goBack } from '@inseefr/ui/src/utils/redirection';
+import { PageTitle, Button } from '@inseefr/wilco';
+import { goBack } from '@inseefr/wilco/src/utils/redirection';
 import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 

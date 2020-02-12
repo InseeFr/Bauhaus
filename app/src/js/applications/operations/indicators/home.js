@@ -5,7 +5,7 @@ import {
 	SearchRmes,
 	NewButton,
 	VerticalMenu,
-} from '@inseefr/ui';
+} from '@inseefr/wilco';
 import D from 'js/i18n';
 import Auth from 'js/utils/auth/components/auth';
 import { ADMIN, INDICATOR_CONTRIBUTOR } from 'js/utils/auth/roles';

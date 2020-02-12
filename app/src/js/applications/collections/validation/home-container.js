@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import CollectionsToValidate from './home';
-import { Loading } from '@inseefr/ui';
+import { Loading } from '@inseefr/wilco';
 import * as select from 'js/reducers';
 import validateCollectionList from 'js/actions/collections/validate';
 import loadCollectionValidateList from 'js/actions/collections/validate-list';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Note } from '@inseefr/ui';
+import { Note } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
 import { D1, D2 } from 'js/i18n';
 
