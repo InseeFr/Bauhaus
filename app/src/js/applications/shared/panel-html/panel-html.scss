@@ -1,0 +1,17 @@
+.bauhaus-note {
+	height: 100%;
+
+	.panel-heading {
+		background: var(--color-2);
+		color: #fff;
+	}
+	&:nth-child(2) .panel-heading {
+		background: var(--second-lang-bloc-title);
+		color: #fff;
+	}
+
+	.panel-body {
+		background: white;
+		box-shadow: 1px 2px #b4b4b4;
+	}
+}
