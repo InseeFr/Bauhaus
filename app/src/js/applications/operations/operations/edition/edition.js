@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
-import { goBack, goBackOrReplace } from '@inseefr/wilco/src/utils/redirection';
 import PropTypes from 'prop-types';
 import {
 	CancelButton,
@@ -8,6 +7,8 @@ import {
 	Loading,
 	ErrorBloc,
 	ActionToolbar,
+	goBack,
+	goBackOrReplace,
 } from '@inseefr/wilco';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { validate } from './validation';

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
-import { goBack, goBackOrReplace } from '@inseefr/wilco/src/utils/redirection';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
 import {
+	goBack,
+	goBackOrReplace,
 	Loading,
 	ErrorBloc,
 	CancelButton,

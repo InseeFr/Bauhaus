@@ -5,8 +5,7 @@ import loadIndicator, {
 } from 'js/actions/operations/indicators/item';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
-import buildExtract from '@inseefr/wilco/src/utils/build-extract';
-import { Loading } from '@inseefr/wilco';
+import { Loading, buildExtract } from '@inseefr/wilco';
 import OperationsIndicatorEdition from 'js/applications/operations/indicators/edition/edition';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 

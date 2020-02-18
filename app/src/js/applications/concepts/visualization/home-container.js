@@ -11,12 +11,11 @@ import {
 } from 'js/actions/constants/concepts';
 import deleteConcept from 'js/actions/concepts/delete';
 import * as select from 'js/reducers';
-import buildExtract from '@inseefr/wilco/src/utils/build-extract';
 import { saveSecondLang } from 'js/actions/app';
 import loadConcept from 'js/actions/concepts/concept';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import check from 'js/utils/auth';
-import { Loading } from '@inseefr/wilco';
+import { Loading, buildExtract } from '@inseefr/wilco';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';

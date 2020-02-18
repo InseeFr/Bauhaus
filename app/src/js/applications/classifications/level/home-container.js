@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import LevelVisualization from './home';
-import { Loading } from '@inseefr/wilco';
+import { buildExtract, Loading } from '@inseefr/wilco';
 import loadLevel from 'js/actions/classifications/level';
 import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/level';
-import buildExtract from '@inseefr/wilco/src/utils/build-extract';
 import { getSecondLang } from 'js/reducers/app';
 
 const extractClassificationId = buildExtract('classificationId');

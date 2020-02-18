@@ -1,4 +1,4 @@
-import { buildPropTypes, buildEmpty } from '@inseefr/wilco/src/utils/build-general-proptypes';
+import { buildPropTypes, buildEmpty } from '@inseefr/wilco';
 
 export const fieldsWithRequired = [
 	['id', true],

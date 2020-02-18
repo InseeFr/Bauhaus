@@ -45,11 +45,10 @@
 		"useTabs": true
 	},
 	"dependencies": {
-		"@inseefr/ui": "file:../../../bauhaus-library",
-		"@inseefr/wilco": "../../../Wilco/inseefr-wilco-v0.0.1.tgz",
+		"@inseefr/wilco": "0.0.2-rc4",
 		"lodash": "^4.17.15",
 		"react": "16.8.6",
 		"react-dom": "16.8.6",
-		"react-router-dom": "4.3.1"
+		"react-router-dom": "5.1.2"
 	}
 }

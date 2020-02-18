@@ -1,8 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import D from 'js/i18n';
-import buildExtract from '@inseefr/wilco/src/utils/build-extract';
-import { goBack } from '@inseefr/wilco/src/utils/redirection';
 import { connect } from 'react-redux';
 import * as select from 'js/reducers';
 import { saveSecondLang } from 'js/actions/app';
@@ -13,6 +11,8 @@ import {
 	Button,
 	ErrorBloc,
 	ActionToolbar,
+	buildExtract,
+	goBack,
 } from '@inseefr/wilco';
 import loadIndicator, {
 	publishIndicator,

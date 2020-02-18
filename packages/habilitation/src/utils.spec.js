@@ -1,15 +1,15 @@
 import * as A from './utils';
 
-import ArrayUtils from '@inseefr/wilco/src/utils/array-utils';
+import { arrayDifferenceByID } from '@inseefr/wilco';
 
-jest.mock('@inseefr/wilco/src/utils/array-utils', () => {
+jest.mock('@inseefr/wilco', () => {
 	return {
 		arrayDifferenceByID: jest.fn().mockReturnValue([]),
 	};
 });
 describe('extractAdded', () => {
 	beforeEach(() => {
-		ArrayUtils.arrayDifferenceByID.mockClear();
+		arrayDifferenceByID.mockClear();
 	});
 	it('should return an empty array', () => {
 		expect(A.extractAdded([], [])).toEqual([]);
@@ -19,7 +19,7 @@ describe('extractAdded', () => {
 			[{ id: 'id1', label: 'label 1', isAdded: false }],
 			[{ id: 'id1', label: 'label 1', isAdded: true }]
 		);
-		expect(ArrayUtils.arrayDifferenceByID).toHaveBeenCalledWith(
+		expect(arrayDifferenceByID).toHaveBeenCalledWith(
 			[],
 			[{ id: 'id1', label: 'label 1', isAdded: true }]
 		);
@@ -32,7 +32,7 @@ describe('extractAdded', () => {
 			],
 			[{ id: 'id1', label: 'label 1', isAdded: true }]
 		);
-		expect(ArrayUtils.arrayDifferenceByID).toHaveBeenCalledWith(
+		expect(arrayDifferenceByID).toHaveBeenCalledWith(
 			[
 				{ id: 'id1', label: 'label 1', isAdded: true },
 				{ id: 'id2', label: 'label 2', isAdded: true },
@@ -44,7 +44,7 @@ describe('extractAdded', () => {
 
 describe('extractDeleted', () => {
 	beforeEach(() => {
-		ArrayUtils.arrayDifferenceByID.mockClear();
+		arrayDifferenceByID.mockClear();
 	});
 	it('should return an empty array', () => {
 		expect(A.extractDeleted([], [])).toEqual([]);
@@ -55,7 +55,7 @@ describe('extractDeleted', () => {
 			[{ id: 'id1', label: 'label 1', isAdded: false }]
 		);
 
-		expect(ArrayUtils.arrayDifferenceByID).toHaveBeenCalledWith(
+		expect(arrayDifferenceByID).toHaveBeenCalledWith(
 			[],
 			[{ id: 'id1', label: 'label 1', isAdded: true }]
 		);
@@ -68,7 +68,7 @@ describe('extractDeleted', () => {
 				{ id: 'id2', label: 'label 2', isAdded: false },
 			]
 		);
-		expect(ArrayUtils.arrayDifferenceByID).toHaveBeenCalledWith(
+		expect(arrayDifferenceByID).toHaveBeenCalledWith(
 			[{ id: 'id1', label: 'label 1', isAdded: true }],
 			[{ id: 'id1', label: 'label 1', isAdded: true }]
 		);

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { D1, D2 } from 'js/i18n';
-import { goBackOrReplace, goBack } from '@inseefr/wilco/src/utils/redirection';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
 import {
@@ -9,6 +8,8 @@ import {
 	Loading,
 	ErrorBloc,
 	ActionToolbar,
+	goBackOrReplace,
+	goBack,
 } from '@inseefr/wilco';
 import { validate } from './validation';
 import PageTitleBlock from 'js/applications/shared/page-title-block';

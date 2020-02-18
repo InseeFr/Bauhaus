@@ -1,4 +1,4 @@
-import takeKeys from '@inseefr/wilco/src/utils/take-keys';
+import { takeKeys } from '@inseefr/wilco';
 
 const generalFieldsToKeepCreate = [
 	'id',

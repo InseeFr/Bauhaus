@@ -11,8 +11,7 @@ import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import CollectionEditionCreation from './home';
 import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
-import { cleanId } from '@inseefr/wilco/src/utils/string-utils';
-import { Loading } from '@inseefr/wilco';
+import { cleanId, Loading } from '@inseefr/wilco';
 import { OK } from 'js/constants';
 
 class CreationContainer extends Component {

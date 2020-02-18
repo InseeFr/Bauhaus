@@ -3,8 +3,7 @@ import { withRouter } from 'react-router-dom';
 import loadFamily, { saveFamily } from 'js/actions/operations/families/item';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
-import buildExtract from '@inseefr/wilco/src/utils/build-extract';
-import { Loading } from '@inseefr/wilco';
+import { Loading, buildExtract } from '@inseefr/wilco';
 import OperationsFamilyEdition from 'js/applications/operations/families/edition/edition';
 
 const extractId = buildExtract('id');

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { Loading } from '@inseefr/wilco';
+import { Loading, buildExtract } from '@inseefr/wilco';
 import { SEND_COLLECTION } from 'js/actions/constants';
 import loadGeneral from 'js/actions/collections/general';
 import sendCollection from 'js/actions/collections/send';
 import * as select from 'js/reducers';
-import buildExtract from '@inseefr/wilco/src/utils/build-extract';
 import { OK } from 'js/constants';
 import SendStatus from './status';
 import CollectionSend from './home';

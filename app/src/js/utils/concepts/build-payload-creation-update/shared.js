@@ -1,6 +1,5 @@
 import { NONE } from 'js/constants';
-import prefixWithHttp from '@inseefr/wilco/src/utils/prefix-with-http';
-import takeKeys from '@inseefr/wilco/src/utils/take-keys';
+import { takeKeys, prefixWithHttp } from '@inseefr/wilco';
 
 export function processLinks(conceptsWithLinks) {
 	/*

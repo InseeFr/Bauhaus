@@ -31,8 +31,7 @@
 		"useTabs": true
 	},
 	"dependencies": {
-		"@inseefr/ui": "../../bauhaus-library/inseefr-ui-v0.0.1.tgz",
-		"@inseefr/wilco": "../../Wilco/inseefr-wilco-v0.0.2-rc2.tgz",
+		"@inseefr/wilco": "0.0.2-rc4",
 		"axios": "^0.19.0",
 		"bauhaus-habilitation": "^0.0.0",
 		"bootstrap": "3.4.1",
@@ -59,9 +58,9 @@
 		"react-dropzone": "^10.1.5",
 		"react-modal": "3.1.8",
 		"react-redux": "7.1.0",
-		"react-router-dom": "4.3.1",
+		"react-router-dom": "5.1.2",
 		"react-router-hash-link": "1.2.0",
-		"react-scripts": "3.3.0",
+		"react-scripts": "3.4.0",
 		"react-select": "1.1.0",
 		"react-sortable-tree": "2.1.0",
 		"redux": "4.0.4",

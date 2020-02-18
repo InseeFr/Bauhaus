@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { PageTitle, Button } from '@inseefr/wilco';
-import { goBack } from '@inseefr/wilco/src/utils/redirection';
+import { goBack, PageTitle, Button } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 

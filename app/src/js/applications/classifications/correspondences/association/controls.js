@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, ActionToolbar } from '@inseefr/wilco';
-import { goBack } from '@inseefr/wilco/src/utils/redirection';
+import { goBack, Button, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 function CorrespondenceControls(props) {
