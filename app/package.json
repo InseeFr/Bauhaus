@@ -31,9 +31,9 @@
 		"useTabs": true
 	},
 	"dependencies": {
-		"@inseefr/wilco": "0.0.2-rc4",
+		"@inseefr/iam": "0.0.1-rc1",
+		"@inseefr/wilco": "0.0.2-rc6",
 		"axios": "^0.19.0",
-		"bauhaus-habilitation": "^0.0.0",
 		"bootstrap": "3.4.1",
 		"create-react-class": "^15.6.3",
 		"dompurify": "0.8.7",
