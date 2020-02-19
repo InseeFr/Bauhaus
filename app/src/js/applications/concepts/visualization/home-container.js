@@ -76,7 +76,6 @@ class ConceptVisualizationContainer extends Component {
 	}
 	render() {
 		//this.state.updateStatus();
-		console.log('visu-home-container');
 		const { validationRequested } = this.state;
 		const { deletionRequested } = this.state;
 		const { showModalError } = this.state;
@@ -100,7 +99,6 @@ class ConceptVisualizationContainer extends Component {
 		}
 
 		if (deletionRequested && deleteStatus === OK) {
-			console.log('delete ok: redirection');
 			//if deletion is OK: we redirect to the concepts list.
 			return <Redirect to={`/concepts`} />;
 		}
