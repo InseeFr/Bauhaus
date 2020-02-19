@@ -10,7 +10,7 @@ import {
 	ErrorBloc,
 	Note,
 	ActionToolbar,
-} from 'bauhaus-library';
+} from '@inseefr/wilco';
 import { markdownToHtml, containUnsupportedStyles } from 'js/utils/html';
 import DocumentsBloc from 'js/applications/operations/msd/documents/documents-bloc/index.js';
 import {

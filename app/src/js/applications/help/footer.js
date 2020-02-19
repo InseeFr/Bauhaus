@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getLang } from 'bauhaus-library';
+import { getLang } from '@inseefr/wilco';
 import './help.scss';
 
 export default ({ content, selectedId }) => {

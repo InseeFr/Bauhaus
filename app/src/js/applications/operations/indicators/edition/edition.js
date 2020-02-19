@@ -11,8 +11,7 @@ import {
 	mergedItemsToSelectModels,
 } from 'js/applications/operations/shared/utils/itemToSelectModel';
 import { validate } from 'js/applications/operations/indicators/edition/validation';
-import { Loading } from 'bauhaus-library';
-import { goBackOrReplace } from 'bauhaus-library/src/utils/redirection';
+import { Loading, goBackOrReplace } from '@inseefr/wilco';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
 
 const defaultIndicator = {

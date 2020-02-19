@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { PageTitle, Button } from 'bauhaus-library';
-import { goBack } from 'bauhaus-library/src/utils/redirection';
+import { goBack, PageTitle, Button } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 

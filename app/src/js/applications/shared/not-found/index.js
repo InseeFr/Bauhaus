@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageTitle, Button } from 'bauhaus-library';
+import { PageTitle, Button } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 export default () => (

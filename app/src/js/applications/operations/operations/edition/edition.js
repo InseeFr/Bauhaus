@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
-import { goBack, goBackOrReplace } from 'bauhaus-library/src/utils/redirection';
 import PropTypes from 'prop-types';
 import {
 	CancelButton,
@@ -8,7 +7,9 @@ import {
 	Loading,
 	ErrorBloc,
 	ActionToolbar,
-} from 'bauhaus-library';
+	goBack,
+	goBackOrReplace,
+} from '@inseefr/wilco';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { validate } from './validation';
 import PageTitleBlock from 'js/applications/shared/page-title-block';

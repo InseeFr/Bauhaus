@@ -9,7 +9,7 @@ import {
 	firstLang,
 	secondLang,
 	getLang,
-} from 'bauhaus-library';
+} from '@inseefr/wilco';
 
 const dictionary = {
 	...appD,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/wilco';
 import IndicatorsHome from './home';
 import loadIndicatorsList from 'js/actions/operations/indicators/list';
 import { connect } from 'react-redux';

@@ -47,10 +47,8 @@ function publish() {
 
   mkdir storybook
   mkdir storybook/app
-  mkdir storybook/lib
 
   cp -R "../app/$STORYBOOK_FOLDER/storybook/." storybook/app
-  cp -R "../packages/bauhaus-library/$STORYBOOK_FOLDER/storybook/." storybook/lib
 
   git init
   git remote add upstream "$UPSTREAM"

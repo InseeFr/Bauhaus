@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import { ActionToolbar } from 'bauhaus-library';
+import { ActionToolbar } from '@inseefr/wilco';
 
 function Controls() {
 	return (

@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import SeriesVisualization from './home';
-import { Loading } from 'bauhaus-library';
+import { buildExtract, Loading } from '@inseefr/wilco';
 import loadSeries from 'js/actions/classifications/series/series';
 import { saveSecondLang } from 'js/actions/app';
 import * as mainSelect from 'js/reducers';
 import * as select from 'js/reducers/classifications/series';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { getSecondLang } from 'js/reducers/app';
 
 const extractId = buildExtract('id');

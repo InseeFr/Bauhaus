@@ -9,7 +9,7 @@ import {
 	CancelButton,
 	ActionToolbar,
 	SaveButton,
-} from 'bauhaus-library';
+} from '@inseefr/wilco';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { DUPLICATE } from 'js/applications/operations/msd';
 import {

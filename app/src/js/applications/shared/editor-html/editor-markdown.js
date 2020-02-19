@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './editor-html.scss';
-import { getLang } from 'bauhaus-library';
+import { getLang } from '@inseefr/wilco';
 
 import { mdFromEditorState, editorStateFromMd } from 'js/utils/html';
 

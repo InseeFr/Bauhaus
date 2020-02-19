@@ -1,11 +1,9 @@
 import React from 'react';
-import { goBack } from 'bauhaus-library/src/utils/redirection';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { saveSecondLang } from 'js/actions/app';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import OperationsSerieVisualization from 'js/applications/operations/series/visualization/home';
 import {
 	CheckSecondLang,
@@ -13,7 +11,9 @@ import {
 	ErrorBloc,
 	Button,
 	ActionToolbar,
-} from 'bauhaus-library';
+	goBack,
+	buildExtract,
+} from '@inseefr/wilco';
 import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import { getSecondLang } from 'js/reducers/app';

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PageTitle, SearchRmes } from 'bauhaus-library';
+import { PageTitle, SearchRmes } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 const FamiliesHome = ({ families }) => {

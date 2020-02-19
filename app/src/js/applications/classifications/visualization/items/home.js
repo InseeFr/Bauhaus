@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CheckSecondLang, PageTitle, SearchRmes } from 'bauhaus-library';
+import { CheckSecondLang, PageTitle, SearchRmes } from '@inseefr/wilco';
 import Controls from './controls';
 import D from 'js/i18n';
 

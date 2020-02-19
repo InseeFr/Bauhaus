@@ -1,6 +1,6 @@
 import D from 'js/i18n';
 import React, { useCallback } from 'react';
-import { PublishButton } from 'bauhaus-library';
+import { PublishButton } from '@inseefr/wilco';
 
 export default ({ object = {}, callback, disabled = false }) => {
 	const state = object.validationState || '';

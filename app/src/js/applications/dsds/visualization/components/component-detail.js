@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { PageTitle } from 'bauhaus-library';
+import { buildExtract, PageTitle } from '@inseefr/wilco';
 import Badge from 'js/applications/shared/badge';
 import ResourceLabel from './resource-label';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import API from 'js/remote-api/dsds/dsds-api';
 import D from 'js/i18n';
 import * as C from 'js/constants';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
-import { PageTitle } from 'bauhaus-library';
+import { PageTitle } from '@inseefr/wilco';
 import ConceptCreateControl from './controls';
 import GeneralEdition from './general';
 import NotesEdition from './notes';

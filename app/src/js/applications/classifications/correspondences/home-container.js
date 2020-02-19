@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/wilco';
 import CorrespondencesHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadCorrespondencesList from 'js/actions/classifications/correspondences/list';

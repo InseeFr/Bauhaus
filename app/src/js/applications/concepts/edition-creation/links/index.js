@@ -4,9 +4,8 @@ import { Tabs, Tab } from 'react-bootstrap';
 import { D1 } from 'js/i18n';
 import ConceptToLink from './concept-to-link';
 import SearchConceptsByLabel from './search-concepts-by-label';
-import { filterDeburr } from 'bauhaus-library/src/utils/array-utils';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
-import { LogoAdd, LogoDel, PickerItem } from 'bauhaus-library';
+import { LogoAdd, LogoDel, PickerItem, filterDeburr } from '@inseefr/wilco';
 
 import {
 	BROADER,

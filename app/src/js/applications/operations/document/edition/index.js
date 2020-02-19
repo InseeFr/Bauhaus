@@ -5,8 +5,7 @@ import loadDocument, {
 } from 'js/actions/operations/documents/item';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
-import { Loading } from 'bauhaus-library';
+import { buildExtract, Loading } from '@inseefr/wilco';
 import DocumentationEdition from 'js/applications/operations/document/edition/edition';
 import { getCurrentDocument } from 'js/reducers/operations/selector';
 import { isDocument, LINK, DOCUMENT } from '../utils';

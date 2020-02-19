@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Menu } from 'bauhaus-library';
+import { Menu } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 import { getOperationsSimsCurrent } from 'js/reducers';

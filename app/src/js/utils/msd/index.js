@@ -1,4 +1,4 @@
-import { isLang2 } from 'bauhaus-library';
+import { isLang2 } from '@inseefr/wilco';
 
 /**
  *

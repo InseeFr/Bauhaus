@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MSDLayout from 'js/applications/operations/msd/layout/';
 import { connect } from 'react-redux';
-import { Loading } from 'bauhaus-library';
+import { Loading, buildExtract } from '@inseefr/wilco';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
 import loadSIMS, {
@@ -12,7 +12,6 @@ import { withRouter } from 'react-router-dom';
 import MSDHelp from 'js/applications/operations/msd/pages/help';
 import SimsVisualisation from 'js/applications/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/applications/operations/msd/pages/sims-creation/';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import PropTypes from 'prop-types';
 import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers';

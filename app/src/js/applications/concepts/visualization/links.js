@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { D1, D2 } from 'js/i18n';
-import { Note } from 'bauhaus-library';
+import { Note } from '@inseefr/wilco';
 import { sortArray } from 'js/utils/array-utils';
 import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED } from 'js/constants';
 const sortByLabelLg1 = sortArray('prefLabelLg1');

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Checkbox } from 'react-bootstrap';
-import { Input, Pagination } from 'bauhaus-library';
+import { filterDeburr, Input, Pagination } from '@inseefr/wilco';
 
 import Badge from 'js/applications/shared/badge';
 
 import * as C from 'js/constants';
 import D from 'js/i18n';
 import { sortArray } from 'js/utils/array-utils';
-import { filterDeburr } from 'bauhaus-library/src/utils/array-utils';
 
 const sortArrayByLabel = sortArray('label');
 

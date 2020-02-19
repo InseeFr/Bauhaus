@@ -4,12 +4,12 @@ import { Provider } from 'react-redux';
 import Root from 'js/router';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
-import { Error, I18NContext, BackToTop } from 'bauhaus-library';
+import { Error, I18NContext, BackToTop } from '@inseefr/wilco';
 import D from 'js/i18n';
 import ApplicationTitle from 'js/applications/shared/application-title';
+import '@inseefr/wilco/dist/index.css';
 
 import 'main.scss';
-import 'bauhaus-library/dist/index.css';
 
 export const AppContext = createContext({});
 Api.getInit()

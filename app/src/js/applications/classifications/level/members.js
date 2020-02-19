@@ -1,5 +1,5 @@
 import React from 'react';
-import { Note, SearchRmes } from 'bauhaus-library';
+import { Note, SearchRmes } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 
 export default ({ members, classificationId, secondLang }) => {

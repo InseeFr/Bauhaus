@@ -2,7 +2,6 @@ import D from 'js/i18n';
 import PropTypes from 'prop-types';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
-import { goBack } from 'bauhaus-library/src/utils/redirection';
 import { withRouter } from 'react-router-dom';
 import { getSecondLang } from 'js/reducers/app';
 import { saveSecondLang } from 'js/actions/app';
@@ -13,8 +12,9 @@ import {
 	ErrorBloc,
 	CheckSecondLang,
 	ActionToolbar,
-} from 'bauhaus-library';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
+	goBack,
+	buildExtract,
+} from '@inseefr/wilco';
 import { ADMIN } from 'js/utils/auth/roles';
 import React from 'react';
 import PageTitleBlock from 'js/applications/shared/page-title-block';

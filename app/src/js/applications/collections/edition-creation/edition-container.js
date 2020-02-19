@@ -11,10 +11,8 @@ import loadStampList from 'js/actions/stamp';
 import updateCollection from 'js/actions/collections/update';
 import CollectionEditionCreation from './home';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
-import { cleanId } from 'bauhaus-library/src/utils/string-utils';
 import D from 'js/i18n';
-import { Loading } from 'bauhaus-library';
+import { Loading, buildExtract, cleanId } from '@inseefr/wilco';
 import { OK } from 'js/constants';
 
 const extractId = buildExtract('id');

@@ -3,7 +3,7 @@ import {
 	buildPropTypes,
 	buildEmpty,
 	buildEmptyWithContributor,
-} from 'bauhaus-library/src/utils/build-general-proptypes';
+} from '@inseefr/wilco';
 
 export const fieldsWithRequired = [
 	['id', false],

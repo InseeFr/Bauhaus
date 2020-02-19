@@ -1,8 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, ActionToolbar, SaveButton } from 'bauhaus-library';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
-import { cleanId } from 'bauhaus-library/src/utils/string-utils';
+import {
+	buildExtract,
+	cleanId,
+	Button,
+	ActionToolbar,
+	SaveButton,
+} from '@inseefr/wilco';
 import D from 'js/i18n';
 
 const Controls = ({ creation, save, disabledSave, ...props }) => {

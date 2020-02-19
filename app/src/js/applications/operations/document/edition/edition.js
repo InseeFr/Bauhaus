@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
-import { goBack, goBackOrReplace } from 'bauhaus-library/src/utils/redirection';
 import PropTypes from 'prop-types';
 import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
 import {
+	goBack,
+	goBackOrReplace,
 	Loading,
 	ErrorBloc,
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
-} from 'bauhaus-library';
+} from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import PageTitleBlock from 'js/applications/shared/page-title-block';

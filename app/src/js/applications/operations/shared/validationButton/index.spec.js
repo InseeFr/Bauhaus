@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import ValidationButton from './';
-import { PublishButton } from 'bauhaus-library';
+import { PublishButton } from '@inseefr/wilco';
 
 describe('<ValidationButton', () => {
 	it('should contain a disabled button if the object is already validated', () => {

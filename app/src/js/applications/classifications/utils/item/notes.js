@@ -1,4 +1,4 @@
-import { buildEmptyNotes } from 'bauhaus-library/src/utils/build-empty-notes';
+import { buildEmptyNotes } from '@inseefr/wilco';
 
 export const versionableNotes = [
 	'scopeNoteLg1',

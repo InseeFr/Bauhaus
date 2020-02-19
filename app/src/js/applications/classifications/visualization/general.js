@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import { Note }  from 'bauhaus-library';
+import { DSURLToLabel, Note } from '@inseefr/wilco';
 import { stringToDate } from 'js/utils/moment';
-import { DSURLToLabel } from 'bauhaus-library/src/utils/dissemination-status-convertor';
 
 export default ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;

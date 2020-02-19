@@ -11,10 +11,9 @@ import loadStampList from 'js/actions/stamp';
 import updateConcept from 'js/actions/concepts/update';
 import ConceptEditionCreation from './home';
 import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/build-payload-update';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
-import { Loading } from 'bauhaus-library';
+import { Loading, buildExtract } from '@inseefr/wilco';
 import { OK } from 'js/constants';
 
 const extractId = buildExtract('id');

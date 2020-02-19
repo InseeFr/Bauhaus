@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckSecondLang, PageSubtitle, PageTitle } from 'bauhaus-library';
+import { CheckSecondLang, PageSubtitle, PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';

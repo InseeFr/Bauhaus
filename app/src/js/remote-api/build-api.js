@@ -1,4 +1,4 @@
-import { removeTrailingSlash } from 'bauhaus-library/src/utils/string-utils';
+import { removeTrailingSlash } from '@inseefr/wilco';
 
 import {
 	getToken,

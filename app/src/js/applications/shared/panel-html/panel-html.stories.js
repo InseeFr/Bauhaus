@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import PanelHtml from './';
-import '../../../../../../packages/bauhaus-library/src/panel/panel.scss';
+import './panel-html.scss';
 
 import { withKnobs, text } from '@storybook/addon-knobs';
 

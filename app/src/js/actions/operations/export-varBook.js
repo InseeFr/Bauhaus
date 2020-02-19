@@ -1,6 +1,6 @@
 import api from 'js/remote-api/operations-api';
 import * as A from '../constants';
-import { getContentDisposition } from 'bauhaus-library/src/utils/regex';
+import { getContentDisposition } from '@inseefr/wilco';
 import FileSaver from 'file-saver';
 
 export default (id, MimeType) => dispatch => {

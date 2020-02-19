@@ -1,4 +1,4 @@
-import { Note } from 'bauhaus-library';
+import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';

@@ -4,7 +4,7 @@ import {
 	ErrorBloc,
 	ActionToolbar,
 	SaveButton,
-} from 'bauhaus-library';
+} from '@inseefr/wilco';
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import D from 'js/i18n';

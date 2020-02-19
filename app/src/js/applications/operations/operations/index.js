@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Loading } from 'bauhaus-library';
+import { Loading } from '@inseefr/wilco';
 import OperationsHome from './home';
 import { NOT_LOADED, LOADED } from 'js/constants';
 import loadOperationsList from 'js/actions/operations/operations/list';

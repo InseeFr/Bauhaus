@@ -11,12 +11,11 @@ import {
 } from 'js/actions/constants/concepts';
 import deleteConcept from 'js/actions/concepts/delete';
 import * as select from 'js/reducers';
-import buildExtract from 'bauhaus-library/src/utils/build-extract';
 import { saveSecondLang } from 'js/actions/app';
 import loadConcept from 'js/actions/concepts/concept';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import check from 'js/utils/auth';
-import { Loading } from 'bauhaus-library';
+import { Loading, buildExtract } from '@inseefr/wilco';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';
@@ -77,7 +76,6 @@ class ConceptVisualizationContainer extends Component {
 	}
 	render() {
 		//this.state.updateStatus();
-		console.log('visu-home-container');
 		const { validationRequested } = this.state;
 		const { deletionRequested } = this.state;
 		const { showModalError } = this.state;
@@ -101,7 +99,6 @@ class ConceptVisualizationContainer extends Component {
 		}
 
 		if (deletionRequested && deleteStatus === OK) {
-			console.log('delete ok: redirection');
 			//if deletion is OK: we redirect to the concepts list.
 			return <Redirect to={`/concepts`} />;
 		}

@@ -5,7 +5,7 @@ import {
 	PageTitle,
 	Button,
 	VerticalMenu,
-} from 'bauhaus-library';
+} from '@inseefr/wilco';
 import Auth from 'js/utils/auth/components/auth';
 import D from 'js/i18n';
 
