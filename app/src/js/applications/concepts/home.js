@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import {
 	PageTitle,
-	SearchRmes,
+	SearchableList,
 	NewButton,
 	PublishButton,
 	ExportButton,
@@ -58,7 +58,7 @@ class ConceptsHome extends Component {
 					</VerticalMenu>
 					<div className="col-md-8 centered pull-right">
 						<PageTitle title={D.conceptSearchTitle} col={12} offset={0} />
-						<SearchRmes
+						<SearchableList
 							items={concepts}
 							childPath="concept"
 							advancedSearch

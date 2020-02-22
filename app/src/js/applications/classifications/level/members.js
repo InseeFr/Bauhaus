@@ -1,5 +1,5 @@
 import React from 'react';
-import { Note, SearchRmes } from '@inseefr/wilco';
+import { Note, SearchableList } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 
 export default ({ members, classificationId, secondLang }) => {
@@ -18,7 +18,7 @@ export default ({ members, classificationId, secondLang }) => {
 		<div className="row centered">
 			<Note
 				text={
-					<SearchRmes
+					<SearchableList
 						items={membersLg1}
 						childPath={`classifications/classification/${classificationId}/item`}
 						col={secondLang ? 12 : 8}
@@ -33,7 +33,7 @@ export default ({ members, classificationId, secondLang }) => {
 			{secondLang && membersLg2.length !== 0 && (
 				<Note
 					text={
-						<SearchRmes
+						<SearchableList
 							items={membersLg2}
 							childPath={`classifications/classification/${classificationId}/item`}
 							col={12}

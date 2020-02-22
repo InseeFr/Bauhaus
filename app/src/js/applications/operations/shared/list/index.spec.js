@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import OperationsObjectHome from './index';
-import { PageTitle, SearchRmes } from '@inseefr/wilco';
+import { PageTitle, SearchableList } from '@inseefr/wilco';
 
 describe('FamiliesHome', () => {
 	it('should display the PageTitle component', () => {
@@ -10,10 +10,10 @@ describe('FamiliesHome', () => {
 		);
 		expect(general.find(PageTitle).length).toBe(1);
 	});
-	it('should display the SearchRmes component', () => {
+	it('should display the SearchableList component', () => {
 		const general = shallow(
 			<OperationsObjectHome items={[]} createURL="" searchURL="" childPath="" />
 		);
-		expect(general.find(SearchRmes).length).toBe(1);
+		expect(general.find(SearchableList).length).toBe(1);
 	});
 });

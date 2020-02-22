@@ -1,15 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import DocumentHome from './home';
-import { PageTitle, SearchRmes } from '@inseefr/wilco';
+import { PageTitle, SearchableList } from '@inseefr/wilco';
 
 describe('DocumentHome', () => {
 	it('should display the PageTitle component', () => {
 		const general = shallow(<DocumentHome documents={[]} />);
 		expect(general.find(PageTitle).length).toBe(1);
 	});
-	it('should display the SearchRmes component', () => {
+	it('should display the SearchableList component', () => {
 		const general = shallow(<DocumentHome documents={[]} />);
-		expect(general.find(SearchRmes).length).toBe(1);
+		expect(general.find(SearchableList).length).toBe(1);
 	});
 });

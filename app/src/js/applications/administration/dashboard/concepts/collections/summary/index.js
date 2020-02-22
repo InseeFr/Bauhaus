@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableRmes } from '@inseefr/wilco';
+import { Table } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { rowParams, buildData } from './summary-data';
 import { rowParamsStamps, buildDataStamps } from './stamps-data';
@@ -14,10 +14,10 @@ function CollectionsSummary({ collectionsData }) {
 				{D.dashboardCollectionsSummaryTitle} {today()}
 			</h3>
 			<div className="col-md-8 col-md-offset-2">
-				<TableRmes rowParams={rowParams} data={data} />
+				<Table rowParams={rowParams} data={data} />
 			</div>
 			<div className="col-md-8 col-md-offset-2">
-				<TableRmes
+				<Table
 					rowParams={rowParamsStamps}
 					data={dataStamps}
 					search={true}

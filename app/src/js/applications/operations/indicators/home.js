@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
-	SearchRmes,
+	SearchableList,
 	NewButton,
 	VerticalMenu,
 } from '@inseefr/wilco';
@@ -21,7 +21,7 @@ function IndicatorsHome({ indicators }) {
 				</Auth>
 				<div className="col-md-8 centered pull-right operations-list">
 					<PageTitle title={D.indicatorsSearchTitle} col={12} offset={0} />
-					<SearchRmes
+					<SearchableList
 						items={indicators}
 						childPath="operations/indicator"
 						label="label"

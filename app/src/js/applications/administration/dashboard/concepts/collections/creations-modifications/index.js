@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { TableRmes } from '@inseefr/wilco';
+import { Table } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
 import { rowParams } from './data';
@@ -47,7 +47,7 @@ class CollectionsCreationsModifications extends Component {
 				<div className="row centered">
 					<h4>{nbResults(data)}</h4>
 				</div>
-				<TableRmes
+				<Table
 					rowParams={rowParams[type]}
 					data={data}
 					search={true}

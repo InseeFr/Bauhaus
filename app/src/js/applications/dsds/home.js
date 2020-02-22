@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { PageTitle, Button, SearchRmes, VerticalMenu } from '@inseefr/wilco';
+import {
+	PageTitle,
+	Button,
+	SearchableList,
+	VerticalMenu,
+} from '@inseefr/wilco';
 import API from 'js/remote-api/dsds/dsds-api';
 import D from 'js/i18n';
 
@@ -40,7 +45,7 @@ const Home = () => {
 				</VerticalMenu>
 				<div className="col-md-8 centered pull-right">
 					<PageTitle title={D.dsdsSearchTitle} col={12} offset={0} />
-					<SearchRmes items={DSDs} childPath="dsds" autoFocus={true} />
+					<SearchableList items={DSDs} childPath="dsds" autoFocus={true} />
 				</div>
 			</div>
 		</div>

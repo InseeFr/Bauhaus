@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Note, TableRmes } from '@inseefr/wilco';
+import { Note, Table } from '@inseefr/wilco';
 import D, { D1 } from 'js/i18n';
 import { propTypes as associationsPropTypes } from 'js/applications/classifications/utils/correspondence/associations';
 import { propTypes as correspondencePropTypes } from 'js/applications/classifications/utils/correspondence/general';
@@ -62,7 +62,7 @@ class HomeAssociations extends Component {
 			<div className="row">
 				<Note
 					text={
-						<TableRmes
+						<Table
 							rowParams={rowParams}
 							data={data}
 							search={true}

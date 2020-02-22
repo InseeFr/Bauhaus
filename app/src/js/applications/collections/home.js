@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { PageTitle, Button, SearchRmes, VerticalMenu } from '@inseefr/wilco';
+import {
+	PageTitle,
+	Button,
+	SearchableList,
+	VerticalMenu,
+} from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
@@ -91,7 +96,7 @@ class CollectionsHome extends Component {
 					</VerticalMenu>
 					<div className="col-md-8 centered pull-right">
 						<PageTitle title={D.collectionSearchTitle} col={12} offset={0} />
-						<SearchRmes
+						<SearchableList
 							items={collections}
 							childPath="collection"
 							autoFocus={true}

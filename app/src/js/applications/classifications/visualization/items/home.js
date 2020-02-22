@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CheckSecondLang, PageTitle, SearchRmes } from '@inseefr/wilco';
+import { CheckSecondLang, PageTitle, SearchableList } from '@inseefr/wilco';
 import Controls from './controls';
 import D from 'js/i18n';
 
@@ -21,7 +21,7 @@ const ClassificationTree = ({
 				{items.length !== 0 && (
 					<div className="row">
 						<div className="col-md-8 col-md-offset-2 centered">
-							<SearchRmes
+							<SearchableList
 								items={items}
 								childPath={`classifications/classification/${classificationId}/item`}
 							/>

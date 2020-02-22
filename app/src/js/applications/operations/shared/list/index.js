@@ -1,7 +1,7 @@
 import React from 'react';
 import {
 	NewButton,
-	SearchRmes,
+	SearchableList,
 	PageTitle,
 	Button,
 	VerticalMenu,
@@ -31,7 +31,7 @@ function OperationsObjectHome({
 				</Auth>
 				<div className="col-md-8 centered pull-right operations-list">
 					<PageTitle title={title} col={12} offset={0} />
-					<SearchRmes
+					<SearchableList
 						items={items}
 						childPath={childPath}
 						label="label"

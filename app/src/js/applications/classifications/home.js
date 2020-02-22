@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PageTitle, SearchRmes } from '@inseefr/wilco';
+import { PageTitle, SearchableList } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 const ClassificationsHome = ({ classifications }) => {
@@ -9,7 +9,7 @@ const ClassificationsHome = ({ classifications }) => {
 			<div className="row">
 				<div className="col-md-8 col-md-offset-2 centered">
 					<PageTitle title={D.classificationsSearchTitle} col={12} offset={0} />
-					<SearchRmes
+					<SearchableList
 						items={classifications}
 						childPath="classifications/classification"
 						autoFocus={true}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
-	SearchRmes,
+	SearchableList,
 	NewButton,
 	VerticalMenu,
 } from '@inseefr/wilco';
@@ -84,7 +84,7 @@ function DocumentHome({ documents }) {
 							</button>
 						</div>
 					</div>
-					<SearchRmes
+					<SearchableList
 						items={filteredDocuments}
 						childPath="operations/document"
 						label="label"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableRmes } from '@inseefr/wilco';
+import { Table } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { rowParams, buildData } from './summary-data';
 import { rowParamsStamps, buildDataStamps } from './stamps-data';
@@ -13,8 +13,8 @@ function ConceptsSummary({ conceptsData }) {
 			<h3 className="centered">
 				{D.dashboardConceptsSummaryTitle} {today()}
 			</h3>
-			<TableRmes rowParams={rowParams} data={data} />
-			<TableRmes
+			<Table rowParams={rowParams} data={data} />
+			<Table
 				rowParams={rowParamsStamps}
 				data={dataStamps}
 				search={true}
