@@ -50,26 +50,14 @@ const api = {
 	getStampList: () => ['stamps'],
 	getRoleList: () => ['roles'],
 	getAgentList: () => ['agents'],
-	postAddRole: data => [
-		`private/role/add`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		},
-		() => {},
-	],
-	postDeleteRole: data => [
-		`private/role/delete`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		},
-		() => {},
-	],
+	postAddRole: agent => {
+		const { id, role } = agent;
+		return [`private/add/role/${role}/user/${id}`, undefined, () => {}];
+	},
+	postDeleteRole: agent => {
+		const { id, role } = agent;
+		return [`private/delete/role/${role}/user/${id}`, undefined, () => {}];
+	},
 };
 
 export default buildApi('', api);
