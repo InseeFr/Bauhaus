@@ -31,7 +31,7 @@
 		"useTabs": true
 	},
 	"dependencies": {
-		"@inseefr/iam": "^0.0.1-rc4",
+		"@inseefr/iam": "^0.0.1-rc5",
 		"@inseefr/wilco": "^0.0.2-rc9",
 		"axios": "^0.19.0",
 		"bootstrap": "3.4.1",
