@@ -14,7 +14,7 @@ export default ({
 		callback(object);
 	}, [object, callback]);
 
-	if (true || state.indexOf('Validated') >= 0) {
+	if (state.indexOf('Validated') >= 0) {
 		return <PublishButton label={label} disabled action={() => {}} />;
 	}
 	return <PublishButton action={clickHandler} disabled={disabled} />;
