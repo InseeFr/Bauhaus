@@ -82,6 +82,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 								this.publish(object, this.props.publishIndicator)
 							}
 							disabled={publicationDisabled}
+							label={D.btnValidatedM}
 						/>
 					</Auth>
 					<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR]}>
