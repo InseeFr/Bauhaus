@@ -404,7 +404,7 @@ export default () =>
 		{
 			abstractLg1:
 				"En application du d��cret 2014-114 du 7 f��vrier 2014 et de la circulaire du 16 mai 2014 (BOAC 60 de septembre-octobre 2014 la ma��trise d'ouvrage des index nationaux B��timent (BT), Travaux publics (TP) et divers de la construction est transf��r��e �� l���Insee. Les index B��timent, Travaux publics et divers de la construction ont ��t�� annonc��s au Journal Officiel le 20 d��cembre 2014 et publi��s le 16 janvier 2015 en base 2010 depuis janvier 2010 �� octobre 2014. \nLe changement de base signifie un changement de r��f��rence (moyenne de 2010 = 100), mais aussi une mise �� jour des pond��rations et des conventions m��thodologiques. \nCes index sont utilis��s pour les actualisations et r��visions des prix des march��s de construction.\n\nL'indice statistique ����41.2��: Construction de b��timents���� constitue d��sormais l'indicateur avanc�� de prix de r��f��rence dans le secteur de la construction en remplacement de l���index BT01. Avec deux de ses postes, il forme la r��ponse fran��aise au r��glement europ��en sur les statistiques de court-terme (r��glement CE dit ����STS���� n�� 1165/98 du conseil du 19 mai 1998, modifi�� par le r��glement CE n�� 1158/2005 du conseil du 6 juillet 2005) pour les variables 320 ����co��ts de la construction����, 321 ����co��ts des mat��riaux���� et 322 ����co��ts salariaux���� de l'annexe B ����Construction���� de ce r��glement.",
-			gestionnaire: 'Bpifrance',
+			gestionnaires: ['DG57-C060'],
 			prefLabelLg1: 'Index Batiment 2010',
 			abstractLg2:
 				'In application of the Decree 2014-114 of 7th February 2014 and the circular of 16th May 2014 (BOAC 60 September-October 2014), the project management of the national Building indices (BT),  Civil Engineering indices (TP) and various indices for construction has been transferred to INSEE. The ���new base (2010)��� of building indices (BT), civil engineering indices (TP) and various indices for construction was announced in the Official Journal of December 2th, 2014 and published on January 16th, 2015 in reference 2010 from January 2010 to October 2014. The change in base means a change in reference (average 2010 = 100), but also an update of the weights and methodological conventions.\nThese indices are used for updates and revisions to construction contracts prices. \n\nThe statistical index "Producer cost index in 41.2: Construction of buildings" is now the leading reference cost indicator for macroeconomic issues, in replacement of the old BT01 index. With two of its cost items, it composes the French response to the European regulation on short-term statistics (EC Regulation "STS" No 1165/98 of the Council of 19th May 1998, as amended by Regulation EC No. 1158/2005 Council of 6th July 2005) for the variables 320 "construction costs" 321 "material costs" and 322 "labour��costs" in Appendix B "Construction".',
@@ -609,7 +609,7 @@ export default () =>
 		{
 			creator: 'Bpifrance',
 			idSims: '1939',
-			gestionnaire: 'Bpifrance',
+			gestionnaires: ['DG57-C060'],
 			prefLabelLg1: 'ALICE',
 			prefLabelLg2: 'alice 2',
 			accrualPeriodicityCode: 'Q',
@@ -655,7 +655,7 @@ export default () =>
 		},
 		{ prefLabelLg1: 'zxzx', prefLabelLg2: 'zxzx', id: 'p1685' },
 		{
-			gestionnaire: 'Bpifrance',
+			gestionnaires: ['DG57-C060'],
 			prefLabelLg1: 'asdasd',
 			prefLabelLg2: 'asdasd',
 			id: 'p1686',

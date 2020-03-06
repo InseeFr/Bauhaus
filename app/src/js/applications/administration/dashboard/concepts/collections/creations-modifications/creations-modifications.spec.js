@@ -1,9 +1,15 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import CollectionsDashboardEdition from './';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('dashboard-collections-edition', () => {
 	it('renders without crashing', () => {
-		shallow(<CollectionsDashboardEdition collectionsData={[]} />);
+		render(
+			<CollectionsDashboardEdition collectionsData={[]} type="creations" />,
+			{
+				wrapper: MemoryRouter,
+			}
+		);
 	});
 });

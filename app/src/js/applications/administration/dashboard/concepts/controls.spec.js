@@ -1,19 +1,23 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptDashboardControls from './controls';
 import renderer from 'react-test-renderer';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('concept-visualization-controls', () => {
 	it('renders without crashing', () => {
-		shallow(<ConceptDashboardControls />);
+		render(
+			<MemoryRouter>
+				<ConceptDashboardControls />
+			</MemoryRouter>
+		);
 	});
 	it('should render the component', () => {
 		const tree = renderer
 			.create(
-				<Router>
+				<MemoryRouter>
 					<ConceptDashboardControls />
-				</Router>
+				</MemoryRouter>
 			)
 			.toJSON();
 		expect(tree).toMatchSnapshot();

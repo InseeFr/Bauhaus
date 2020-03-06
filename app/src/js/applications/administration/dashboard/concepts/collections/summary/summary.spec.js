@@ -1,9 +1,9 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import CollectionsSummary from './';
 
 describe('dashboard-collections-summary', () => {
 	it('renders without crashing', () => {
-		shallow(<CollectionsSummary collectionsData={[]} />);
+		render(<CollectionsSummary collectionsData={[]} />);
 	});
 });

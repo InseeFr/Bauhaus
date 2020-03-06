@@ -1,17 +1,20 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Home from './home';
 import * as associationUtils from 'js/applications/classifications/utils/correspondence/association';
-
+import { MemoryRouter } from 'react-router-dom';
 describe('association-home', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<Home
 				association={associationUtils.empty()}
 				secondLang={false}
 				saveSecondLang={() => console.log('save second lang')}
 				langs={{ lg1: 'fr', lg2: 'en' }}
-			/>
+			/>,
+			{
+				wrapper: MemoryRouter,
+			}
 		);
 	});
 });

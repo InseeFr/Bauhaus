@@ -1,11 +1,14 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Home from './home';
+import { MemoryRouter } from 'react-router-dom';
 
 const correspondences = [{ id: '1', label: 'Correspondence 1' }];
 
 describe('correspondences-home', () => {
 	it('renders without crashing', () => {
-		shallow(<Home correspondences={correspondences} />);
+		render(<Home correspondences={correspondences} />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });

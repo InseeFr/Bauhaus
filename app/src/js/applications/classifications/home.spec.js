@@ -1,11 +1,14 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Home from './home';
+import { MemoryRouter } from 'react-router-dom';
 
 const classifications = [{ id: '1', label: 'Classification 1' }];
 
 describe('classifications-home', () => {
 	it('renders without crashing', () => {
-		shallow(<Home classifications={classifications} />);
+		render(<Home classifications={classifications} />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });

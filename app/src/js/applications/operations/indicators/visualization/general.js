@@ -100,11 +100,11 @@ function OperationsIndicatorVisualization(props) {
 					allowEmpty={true}
 				/>
 			</div>
-			<div className="row" data-cy="gestionnaire">
+			<div className="row" data-cy="gestionnaires">
 				<Note
 					text={
 						<ul>
-							{attr.gestionnaire.map(g => (
+							{attr.gestionnaires.map(g => (
 								<li>{g}</li>
 							))}
 						</ul>

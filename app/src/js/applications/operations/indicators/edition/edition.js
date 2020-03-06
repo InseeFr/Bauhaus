@@ -48,7 +48,6 @@ class OperationsIndicatorEdition extends Component {
 			'historyNoteLg1',
 			'historyNoteLg2',
 			'creator',
-			'gestionnaire',
 			'accrualPeriodicityCode',
 		].reduce(
 			(acc, selector) => ({
@@ -267,10 +266,10 @@ class OperationsIndicatorEdition extends Component {
 									placeholder=""
 									unclearable
 									multi
-									value={indicator.gestionnaire}
+									value={indicator.gestionnaires}
 									options={stampsOptions}
 									onChange={value =>
-										this.onChange('gestionnaire')(value.map(v => v.value))
+										this.onChange('gestionnaires')(value.map(v => v.value))
 									}
 								/>
 							</label>

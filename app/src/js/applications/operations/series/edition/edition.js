@@ -395,13 +395,13 @@ class OperationsSerieEdition extends Component {
 									placeholder=""
 									unclearable
 									multi
-									value={serie.gestionnaire}
+									value={serie.gestionnaires}
 									options={stampsOptions}
 									onChange={value =>
 										this.onChange({
 											target: {
 												value: value.map(v => v.value),
-												id: 'gestionnaire',
+												id: 'gestionnaires',
 											},
 										})
 									}

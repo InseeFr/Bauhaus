@@ -1,9 +1,14 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Administration from './home';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('administration', () => {
 	it('renders without crashing', () => {
-		shallow(<Administration permission={{ authType: '', roles: [''] }} />);
+		render(
+			<MemoryRouter>
+				<Administration permission={{ authType: '', roles: [''] }} />
+			</MemoryRouter>
+		);
 	});
 });

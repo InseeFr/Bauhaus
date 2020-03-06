@@ -1,6 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import HomeAssociations from './home-associations';
+import { MemoryRouter } from 'react-router-dom';
 
 const associations = [
 	{
@@ -14,6 +15,11 @@ const associations = [
 
 describe('correspondence-home-associations', () => {
 	it('renders without crashing', () => {
-		shallow(<HomeAssociations associations={associations} />);
+		render(
+			<HomeAssociations associations={associations} correspondence={{}} />,
+			{
+				wrapper: MemoryRouter,
+			}
+		);
 	});
 });

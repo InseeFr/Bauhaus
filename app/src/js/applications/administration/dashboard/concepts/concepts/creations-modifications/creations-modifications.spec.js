@@ -1,9 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptsDashboardEdition from './';
-
+import { MemoryRouter } from 'react-router-dom';
 describe('dashboard-concepts-edition', () => {
 	it('renders without crashing', () => {
-		shallow(<ConceptsDashboardEdition conceptsData={[]} />);
+		render(<ConceptsDashboardEdition conceptsData={[]} type="creations" />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });
