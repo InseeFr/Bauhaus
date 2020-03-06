@@ -39,7 +39,11 @@ export const filterKeyDeburr = keys => rawStr => {
 	return item => {
 		let isIn = false;
 		for (var i = 0; i < keys.length; i++) {
-			if (_.deburr((item[keys[i]] || '').toLocaleLowerCase()).includes(str)) {
+			const value = Array.isArray(item[keys[i]])
+				? item[keys[i]].join(',')
+				: item[keys[i]];
+
+			if (_.deburr((value || '').toLocaleLowerCase()).includes(str)) {
 				isIn = true;
 				break;
 			}

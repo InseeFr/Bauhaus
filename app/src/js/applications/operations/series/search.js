@@ -11,10 +11,12 @@ import { filterKeyDeburr, sortArray } from 'js/utils/array-utils';
 import SearchList from 'js/applications/shared/advanced-search/home';
 import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
 import { toSelectModel } from '../shared/utils/itemToSelectModel';
+import * as select from 'js/reducers';
+
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = filterKeyDeburr(['typeCode']);
 const filterCreator = filterKeyDeburr(['creator']);
-const filterGestionnaire = filterKeyDeburr(['gestionnaire']);
+const filterGestionnaire = filterKeyDeburr(['gestionnaires']);
 const fields = [
 	'prefLabelLg1',
 	'typeCode',
@@ -70,8 +72,9 @@ class SearchFormList extends AbstractSearchComponent {
 			dataCollector,
 			gestionnaire,
 		} = this.state;
-		const { categories, organisations } = this.props;
+		const { categories, organisations, stamps } = this.props;
 		const organisationsOptions = toSelectModel(organisations);
+		const stampsOptions = stamps.map(stamp => ({ value: stamp, label: stamp }));
 
 		const dataLinks = data.map(({ id, prefLabelLg1 }) => (
 			<li key={id} className="list-group-item">
@@ -126,7 +129,7 @@ class SearchFormList extends AbstractSearchComponent {
 								placeholder=""
 								unclearable
 								value={gestionnaire}
-								options={organisationsOptions}
+								options={stampsOptions}
 								onChange={value => {
 									this.handlers.gestionnaire(value);
 								}}
@@ -183,13 +186,14 @@ class SearchListContainer extends Component {
 
 	render() {
 		const { data } = this.state;
-		const { categories, organisations } = this.props;
+		const { categories, organisations, stamps } = this.props;
 		if (!data) return <Loading />;
 		return (
 			<SearchFormList
 				data={data}
 				categories={categories}
 				organisations={organisations}
+				stamps={stamps}
 			/>
 		);
 	}
@@ -201,6 +205,7 @@ const mapStateToProps = state => {
 	return {
 		categories,
 		organisations: state.operationsOrganisations.results,
+		stamps: select.getStampList(state) || [],
 	};
 };
 

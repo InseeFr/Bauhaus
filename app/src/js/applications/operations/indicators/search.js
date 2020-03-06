@@ -9,10 +9,11 @@ import { connect } from 'react-redux';
 import { filterKeyDeburr, sortArray } from 'js/utils/array-utils';
 import SearchList from 'js/applications/shared/advanced-search/home';
 import { toSelectModel } from '../shared/utils/itemToSelectModel';
+import * as select from 'js/reducers';
 
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);
 const filterCreator = filterKeyDeburr(['creator']);
-const filterGestionnaire = filterKeyDeburr(['gestionnaire']);
+const filterGestionnaire = filterKeyDeburr(['gestionnaires']);
 
 const fields = ['prefLabelLg1', 'creator', 'gestionnaire'];
 const sortByLabel = sortArray('prefLabelLg1');
@@ -38,10 +39,10 @@ class SearchFormList extends AbstractSearchComponent {
 
 	render() {
 		const { data, prefLabelLg1, creator, gestionnaire } = this.state;
-		const { organisations } = this.props;
+		const { organisations, stamps } = this.props;
 
 		const creatorsOptions = toSelectModel(organisations);
-
+		const stampsOptions = stamps.map(stamp => ({ value: stamp, label: stamp }));
 		const dataLinks = data.map(({ id, prefLabelLg1 }) => (
 			<li key={id} className="list-group-item">
 				<Link to={`/operations/indicator/${id}`}>{prefLabelLg1}</Link>
@@ -89,7 +90,7 @@ class SearchFormList extends AbstractSearchComponent {
 								placeholder=""
 								unclearable
 								value={gestionnaire}
-								options={creatorsOptions}
+								options={stampsOptions}
 								onChange={value => {
 									this.handlers.gestionnaire(value);
 								}}
@@ -114,16 +115,23 @@ class SearchListContainer extends Component {
 
 	render() {
 		const { data } = this.state;
-		const { organisations } = this.props;
+		const { organisations, stamps } = this.props;
 
 		if (!data) return <Loading />;
-		return <SearchFormList data={data} organisations={organisations} />;
+		return (
+			<SearchFormList
+				data={data}
+				organisations={organisations}
+				stamps={stamps}
+			/>
+		);
 	}
 }
 
 const mapStateToProps = state => {
 	return {
 		organisations: state.operationsOrganisations.results,
+		stamps: select.getStampList(state) || [],
 	};
 };
 

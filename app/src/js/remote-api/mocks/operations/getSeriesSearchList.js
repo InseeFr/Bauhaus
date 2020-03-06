@@ -762,7 +762,7 @@ export default () =>
 			abstractLg1:
 				"La base permanente des équipements (BPE) est destinée à fournir le niveau d'équipements et de services rendus par un territoire à la population.\n\nCette base permet de produire différentes données, comme la présence ou l'absence d'un équipement, la densité d'un équipement, ou un indicateur de disponibilité d'un équipement du point de vue des habitants ; toutes ces données étant rapportées à une zone géographique qui peut être infra-communale (Iris).\n\nLa localisation fine des équipements et de la population permet de calculer des distances entre communes équipées et non équipées par exemple, d'étudier la concentration spatiale des équipements, de mettre en rapport les équipements et leurs utilisateurs potentiels.",
 			typeList: 'CL_SOURCE_CATEGORY',
-			gestionnaire: 'Acoss',
+			gestionnaires: ['DG57-C060'],
 			abstractLg2:
 				'The purpose of the permanent database of facilities (BPE) is to provide information on the level of facilities and services a territory provides for its population.\n\nVarious types of data can be produced from this database, such as the presence or absence of a facility, the density of a facility, or an availability indicator of a facility from the point of view of the inhabitants; all these data can be provided for a geographical area that may be at infra-municipality level (statistical block groups).\n\nBy providing detailed information about the location of facilities and population, distances can be calculated between areas municipalities that do or do not provide certain facilities, for example, the spatial concentration of facilities can be studied, and facilities and their potential users can be brought together.',
 			historyNoteLg2:

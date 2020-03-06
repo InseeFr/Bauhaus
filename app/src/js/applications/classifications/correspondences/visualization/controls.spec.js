@@ -1,9 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import CorrespondenceControls from './controls';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('classification-correspondence-visualization-controls', () => {
 	it('renders without crashing', () => {
-		shallow(<CorrespondenceControls />);
+		render(<CorrespondenceControls />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });

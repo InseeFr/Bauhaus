@@ -1,23 +1,23 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import PanelHtml from './';
 
 describe('panel-html', () => {
 	it('renders without crashing', () => {
-		shallow(<PanelHtml title="title">{'<div>Text<div>'}</PanelHtml>);
+		render(<PanelHtml title="title">{'<div>Text<div>'}</PanelHtml>);
 	});
 
 	it('returns component title', () => {
-		const wrapper = shallow(
+		const { container } = render(
 			<PanelHtml title="title">{'<div>Text<div>'}</PanelHtml>
 		);
-		expect(wrapper.find('.panel-title').text()).toEqual('title');
+		expect(container.querySelector('.panel-title').innerHTML).toEqual('title');
 	});
 
 	it('returns panel body', () => {
-		const wrapper = shallow(
+		const { container } = render(
 			<PanelHtml title="title">{'<div>Text<div>'}</PanelHtml>
 		);
-		expect(wrapper.find('.panel-body').exists()).toBeTruthy();
+		expect(container.querySelector('.panel-body')).toBeDefined();
 	});
 });

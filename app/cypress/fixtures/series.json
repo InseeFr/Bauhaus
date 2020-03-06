@@ -54,7 +54,7 @@
 		"labelLg1": "Recensement des équipements",
 		"id": "s1"
 	},
-	"gestionnaire": "GF3C",
+	"gestionnaires": ["GF3C"],
 	"generate": [
 		{
 			"labelLg2": "alice 2",
