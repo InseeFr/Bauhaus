@@ -394,10 +394,16 @@ class OperationsSerieEdition extends Component {
 								<SelectRmes
 									placeholder=""
 									unclearable
+									multi
 									value={serie.gestionnaire}
 									options={stampsOptions}
 									onChange={value =>
-										this.onChange({ target: { value, id: 'gestionnaire' } })
+										this.onChange({
+											target: {
+												value: value.map(v => v.value),
+												id: 'gestionnaire',
+											},
+										})
 									}
 								/>
 							</label>

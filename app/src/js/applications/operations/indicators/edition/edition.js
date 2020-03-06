@@ -266,9 +266,12 @@ class OperationsIndicatorEdition extends Component {
 								<SelectRmes
 									placeholder=""
 									unclearable
+									multi
 									value={indicator.gestionnaire}
 									options={stampsOptions}
-									onChange={this.onChanges.gestionnaire}
+									onChange={value =>
+										this.onChange('gestionnaire')(value.map(v => v.value))
+									}
 								/>
 							</label>
 						</div>
