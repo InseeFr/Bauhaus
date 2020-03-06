@@ -155,7 +155,13 @@ function OperationsSerieVisualization({
 
 			<div className="row" data-cy="gestionnaire">
 				<Note
-					text={attr.gestionnaire}
+					text={
+						<ul>
+							{attr.gestionnaire.map(g => (
+								<li>{g}</li>
+							))}
+						</ul>
+					}
 					title={D1.operationsContributorTitle}
 					lang={lg1}
 					alone={true}

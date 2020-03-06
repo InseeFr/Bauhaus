@@ -102,7 +102,13 @@ function OperationsIndicatorVisualization(props) {
 			</div>
 			<div className="row" data-cy="gestionnaire">
 				<Note
-					text={attr.gestionnaire}
+					text={
+						<ul>
+							{attr.gestionnaire.map(g => (
+								<li>{g}</li>
+							))}
+						</ul>
+					}
 					title={D1.operationsContributorTitle}
 					lang={langs.lg1}
 					alone={true}

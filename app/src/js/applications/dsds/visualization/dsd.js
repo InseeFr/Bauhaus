@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AppContext } from 'index';
-import { buildExtract, Panel, PageTitle } from '@inseefr/wilco';
-
+import React, { useState, useEffect } from 'react';
+import { buildExtract, Note, PageTitle, PageSubtitle } from '@inseefr/wilco';
+import { useSelector } from 'react-redux';
+import { getSecondLang } from 'js/reducers/app';
+import CheckSecondLang from 'js/applications/shared/check-second-lang';
 import Controls from './controls';
 import Components from './components';
 import D from 'js/i18n';
 import API from 'js/remote-api/dsds/dsds-api';
-import { getFlag } from 'js/utils/flags/get-flag';
 
 const DSD = props => {
 	const [DSD, setDSD] = useState({});
-
-	const { lg1, lg2 } = useContext(AppContext);
+	const secondLang = useSelector(state => getSecondLang(state));
 
 	useEffect(() => {
 		const dsdId = buildExtract('dsdId')(props);
@@ -21,26 +20,27 @@ const DSD = props => {
 	const { labelLg1, labelLg2, descriptionLg1, descriptionLg2 } = DSD;
 	return (
 		<>
-			<PageTitle title={labelLg1} subtitle={labelLg2} />
+			<PageTitle title={labelLg1} />
+			{secondLang && <PageSubtitle subTitle={labelLg2} />}
+			<CheckSecondLang />
+
 			<Controls dsdId={buildExtract('dsdId')(props)} />
 			<div className="row">
 				{descriptionLg1 && (
-					<div className={`col-md-${descriptionLg2 ? '6' : '12'}`}>
-						<Panel
-							title={D.descriptionTitle}
-							children={descriptionLg1}
-							flag={getFlag(lg1)}
-						/>
-					</div>
+					<Note
+						title={D.descriptionTitle}
+						text={descriptionLg1}
+						alone={!secondLang}
+						allowEmpty={true}
+					/>
 				)}
-				{descriptionLg2 && (
-					<div className="col-md-6">
-						<Panel
-							title={D.descriptionTitle}
-							children={descriptionLg2}
-							flag={getFlag(lg2)}
-						/>
-					</div>
+				{secondLang && (
+					<Note
+						title={D.descriptionTitle}
+						text={descriptionLg2}
+						alone={false}
+						allowEmpty={true}
+					/>
 				)}
 			</div>
 			<Components />

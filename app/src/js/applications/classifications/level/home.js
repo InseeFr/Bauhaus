@@ -15,7 +15,7 @@ class LevelVisualization extends Component {
 			<div className="container">
 				<PageTitle title={general.prefLabelLg1} />
 				{general.prefLabelLg2 && (
-					<PageSubtitle subtitle={general.prefLabelLg2} />
+					<PageSubtitle subTitle={general.prefLabelLg2} />
 				)}
 				<Controls id={classificationId} />
 				<CheckSecondLang

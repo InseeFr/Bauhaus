@@ -3,7 +3,7 @@ export default () => {
 		creator: 'DST',
 		prefLabelLg1: 'Comptes nationaux annuels (base 1995)',
 		prefLabelLg2: 'Annual national accounts (1995 base)',
-		gestionnaire: 'DG57-C060',
+		gestionnaire: ['DG57-C060', 'DG57-C003'],
 		dataCollector: [
 			{
 				labelLg2: 'National Health Insurance Fund for Employees',
