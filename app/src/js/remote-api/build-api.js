@@ -18,6 +18,7 @@ export default (context, api) => {
 		} catch (e) {
 			console.log(`The API ${context} do not have any mock file`);
 		}*/
+
 		if (!apiFns[resource]) {
 			apiFns[resource] = buildCall(context, resource, api[resource]);
 		}
