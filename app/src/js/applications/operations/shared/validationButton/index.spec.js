@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import ValidationButton from './';
-import { PublishButton } from '@inseefr/wilco';
 
 describe('<ValidationButton', () => {
 	it('should contain a disabled button if the object is already validated', () => {

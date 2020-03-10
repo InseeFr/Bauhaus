@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import OperationsOperationVisualization from './home';
-import { Note } from '@inseefr/wilco';
 
 const langs = {
 	lg1: 'fr',

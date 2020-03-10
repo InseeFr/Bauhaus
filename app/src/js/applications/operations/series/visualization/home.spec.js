@@ -7,10 +7,6 @@ const langs = {
 	lg2: 'en',
 };
 
-const organisations = [
-	{ id: 'CNAMTS', label: 'Agence centrale des organismes de sécurité sociale' },
-	{ id: 'DG75-F110', label: "Banque Publique d'Investissement" },
-];
 const attr = {
 	gestionnaires: [],
 	creator: 'DG75-G001',

@@ -2,8 +2,6 @@ import React from 'react';
 import Field from './sims-field';
 import { render } from '@testing-library/react';
 import { rangeType } from 'js/utils/msd/';
-import SelectRmes from 'js/applications/shared/select-rmes';
-import { Note } from '@inseefr/wilco';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 

@@ -1,8 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import Outline from './index';
-import { HashLink as Link } from 'react-router-hash-link';
-import OutlineBlock from 'js/applications/operations/msd/outline/outline-block';
 import { MemoryRouter } from 'react-router-dom';
 jest.mock('js/applications/operations/msd/utils');
 
