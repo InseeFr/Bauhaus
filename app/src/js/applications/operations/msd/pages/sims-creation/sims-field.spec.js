@@ -1,18 +1,20 @@
 import React from 'react';
 import Field from './sims-field';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { rangeType } from 'js/utils/msd/';
-import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
-import InputRmes from 'js/applications/shared/input-rmes';
-import { Editor } from 'react-draft-wysiwyg';
 import SelectRmes from 'js/applications/shared/select-rmes';
-import { Note }  from '@inseefr/wilco';
+import { Note } from '@inseefr/wilco';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+const store = mockStore({ operationsDocuments: {} });
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST } = rangeType;
 
 describe('Sims Field', () => {
 	it('if isPresentational is true, should not display any fields', () => {
-		const general = shallow(
+		const { container } = render(
 			<Field
 				msd={{
 					masLabelLg2: 'masLabelLg2',
@@ -22,13 +24,10 @@ describe('Sims Field', () => {
 				codesLists={{}}
 			/>
 		);
-		expect(general.find(InputRmes).length).toBe(0);
-		expect(general.find(DatePickerRmes).length).toBe(0);
-		expect(general.find(Editor).length).toBe(0);
-		expect(general.find(SelectRmes).length).toBe(0);
+		expect(container.innerHTML).toBe('');
 	});
 	it('should display only one field', () => {
-		const general = shallow(
+		const { container } = render(
 			<Field
 				msd={{
 					masLabelLg2: 'masLabelLg2',
@@ -39,16 +38,11 @@ describe('Sims Field', () => {
 				alone={true}
 			/>
 		);
-		expect(
-			general
-				.find(Note)
-				.dive()
-				.find(InputRmes).length
-		).toBe(1);
+		expect(container.querySelectorAll('input')).toHaveLength(1);
 	});
 
 	it('when rangeType === DATE, should display a DatePickerRmes', () => {
-		const general = shallow(
+		const { container } = render(
 			<Field
 				msd={{
 					masLabelLg2: 'masLabelLg2',
@@ -60,33 +54,28 @@ describe('Sims Field', () => {
 			/>
 		);
 		expect(
-			general
-				.find(Note)
-				.dive()
-				.find(DatePickerRmes).length
-		).toBe(1);
+			container.querySelectorAll('input[data-formattedvalue]')
+		).toHaveLength(1);
 	});
 	it('when rangeType === RICH_TEXT, should display a EditorMarkdown', () => {
-		const general = shallow(
-			<Field
-				msd={{
-					masLabelLg2: 'masLabelLg2',
-					rangeType: RICH_TEXT,
-					isPresentational: false,
-				}}
-				codesLists={{}}
-				alone={true}
-			/>
+		const { container } = render(
+			<Provider store={store}>
+				<Field
+					msd={{
+						masLabelLg2: 'masLabelLg2',
+						rangeType: RICH_TEXT,
+						isPresentational: false,
+					}}
+					codesLists={{}}
+					alone={true}
+				/>
+			</Provider>
 		);
-		expect(
-			general
-				.find(Note)
-				.dive()
-				.find(Editor).length
-		).toBe(1);
+
+		expect(container.querySelectorAll('.rdw-editor-wrapper')).toHaveLength(1);
 	});
 	it('when rangeType === CODE_LIST, should display a SelectRmes', () => {
-		const general = shallow(
+		const { container } = render(
 			<Field
 				msd={{
 					masLabelLg1: 'masLabelLg1',
@@ -102,12 +91,6 @@ describe('Sims Field', () => {
 				lang={'fr'}
 			/>
 		);
-
-		expect(
-			general
-				.find(Note)
-				.dive()
-				.find(SelectRmes).length
-		).toBe(1);
+		expect(container.querySelectorAll('.Select')).toHaveLength(1);
 	});
 });

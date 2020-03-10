@@ -1,10 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptNotesVisualization from './notes';
 
 describe('concept-visualization-notes', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ConceptNotesVisualization
 				notes={{}}
 				langs={{ lg1: 'fr', lg2: 'en' }}

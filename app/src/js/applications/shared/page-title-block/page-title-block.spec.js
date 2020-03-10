@@ -1,32 +1,37 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import PageTitleBlock from './';
-import { PageTitle, PageSubtitle } from '@inseefr/wilco';
 
 describe('page-title-bloc', () => {
 	it('renders one PageTitle only is secondLang is false', () => {
-		const wrapper = shallow(<PageTitleBlock titleLg1="titleLg1" />);
-		expect(wrapper.find(PageTitle)).toHaveLength(1);
-		expect(wrapper.find(PageSubtitle)).toHaveLength(0);
+		const { container } = render(<PageTitleBlock titleLg1="titleLg1" />);
+		expect(container.querySelectorAll('h1')).toHaveLength(1);
+		expect(container.querySelectorAll('.bauhaus-page-subtitle')).toHaveLength(
+			0
+		);
 	});
 
 	it('renders one PageTitle only is titleLg2 is undefined', () => {
-		const wrapper = shallow(
+		const { container } = render(
 			<PageTitleBlock titleLg1="titleLg1" secondLang={true} />
 		);
-		expect(wrapper.find(PageTitle)).toHaveLength(1);
-		expect(wrapper.find(PageSubtitle)).toHaveLength(0);
+		expect(container.querySelectorAll('h1')).toHaveLength(1);
+		expect(container.querySelectorAll('.bauhaus-page-subtitle')).toHaveLength(
+			0
+		);
 	});
 
 	it('renders one PageTitle and one PageSubstitle', () => {
-		const wrapper = shallow(
+		const { container } = render(
 			<PageTitleBlock
 				titleLg1="titleLg1"
 				titleLg2="titleLg2"
 				secondLang={true}
 			/>
 		);
-		expect(wrapper.find(PageTitle)).toHaveLength(1);
-		expect(wrapper.find(PageSubtitle)).toHaveLength(1);
+		expect(container.querySelectorAll('h1')).toHaveLength(1);
+		expect(container.querySelectorAll('.bauhaus-page-subtitle')).toHaveLength(
+			1
+		);
 	});
 });

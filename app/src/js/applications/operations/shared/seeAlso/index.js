@@ -39,7 +39,7 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 		);
 	}
 	return (
-		<div className="row">
+		<div className="row bauhaus-see-also">
 			<Note
 				text={displaySeeAlsos('labelLg1')}
 				title={D1.seeAlso}

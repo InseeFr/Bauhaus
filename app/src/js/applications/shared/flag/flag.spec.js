@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Flag, { isFlag } from './flag';
 
 describe('isFlag', () => {
@@ -14,6 +14,6 @@ describe('isFlag', () => {
 
 describe('flag', () => {
 	it('renders without crashing', () => {
-		shallow(<Flag lang="fr" />);
+		render(<Flag lang="fr" />);
 	});
 });

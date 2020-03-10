@@ -1,15 +1,17 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import SearchConceptsByLabel from './search-concepts-by-label';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('concept-edition-creation-search-concepts-by-label', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<SearchConceptsByLabel
 				searchLabel="label"
 				hitEls={[<div>Element</div>]}
 				handleSearch={() => console.log('save')}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

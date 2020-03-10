@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Tabs from './';
 
 const tabs = [
@@ -9,6 +9,6 @@ const tabs = [
 
 describe('tabs', () => {
 	it('renders without crashing', () => {
-		shallow(<Tabs tabs={tabs} />);
+		render(<Tabs tabs={tabs} />);
 	});
 });

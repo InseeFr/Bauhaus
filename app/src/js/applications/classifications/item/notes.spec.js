@@ -1,10 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ItemNotesVisualization from './notes';
 
 describe('classification-visualization-notes', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ItemNotesVisualization
 				notes={{}}
 				langs={{ lg1: 'fr', lg2: 'en' }}

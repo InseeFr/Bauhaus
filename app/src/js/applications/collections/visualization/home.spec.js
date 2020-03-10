@@ -1,11 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import CollectionVisualization from './home';
 import { empty } from 'js/utils/collections/general';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('collection-visualization', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<CollectionVisualization
 				id="id"
 				general={empty()}
@@ -16,7 +17,8 @@ describe('collection-visualization', () => {
 				saveSecondLang={() => console.log('save second lang')}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 				permission={{ authType: '', roles: [''] }}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

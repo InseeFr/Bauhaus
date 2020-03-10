@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ModalRmes from './modal-rmes';
 
 const onClick = () => '';
@@ -18,7 +18,7 @@ const modalButtons = [
 
 describe('modal', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ModalRmes
 				id="id"
 				isOpen={true}
@@ -27,25 +27,5 @@ describe('modal', () => {
 				modalButtons={modalButtons}
 			/>
 		);
-	});
-
-	it('returns footer buttons', () => {
-		const wrapper = shallow(
-			<ModalRmes
-				id="id"
-				isOpen={true}
-				title="title"
-				closeCancel={onClick}
-				modalButtons={modalButtons}
-			/>
-		);
-		expect(
-			wrapper.find('.modal-footer').containsMatchingElement(
-				<div className="centered">
-					<button>primary</button>
-					<button>default</button>
-				</div>
-			)
-		).toEqual(true);
 	});
 });

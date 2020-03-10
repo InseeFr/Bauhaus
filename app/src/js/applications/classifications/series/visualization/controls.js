@@ -8,7 +8,7 @@ function SeriesControls(props) {
 	return (
 		<ActionToolbar>
 			<Button
-				action={goBack(this.props, `/classifications/series`)}
+				action={goBack(props, `/classifications/series`)}
 				label={D.btnReturn}
 			/>
 		</ActionToolbar>

@@ -1,11 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptEditionCreation from './home';
 import { empty } from 'js/utils/concepts/general';
 
 describe('concept-edition-creation', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ConceptEditionCreation
 				id="id"
 				creation={true}

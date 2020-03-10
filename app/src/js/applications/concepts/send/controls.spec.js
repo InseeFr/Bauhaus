@@ -1,14 +1,16 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Controls from './controls';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('concept-send-controls', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<Controls
 				isRecipientValid={true}
 				sendMessage={() => console.log('send')}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

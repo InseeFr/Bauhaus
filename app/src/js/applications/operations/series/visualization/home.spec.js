@@ -1,11 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import OperationsSerieVisualization from './home';
-import { Note }  from '@inseefr/wilco';
-import DisplayLinks from 'js/applications/operations/shared/links/';
-import SeeAlso from 'js/applications/operations/shared/seeAlso';
-import RelationsView from 'js/applications/operations/shared/relations';
-
+import { MemoryRouter } from 'react-router-dom';
 const langs = {
 	lg1: 'fr',
 	lg2: 'en',
@@ -16,6 +12,7 @@ const organisations = [
 	{ id: 'DG75-F110', label: "Banque Publique d'Investissement" },
 ];
 const attr = {
+	gestionnaires: [],
 	creator: 'DG75-G001',
 	prefLabelLg1: 'Comptes nationaux trimestriels',
 	prefLabelLg2: 'Quarterly national accounts',
@@ -84,130 +81,42 @@ const attr = {
 };
 describe('SerieInformation', () => {
 	it('should show the right number of Note component when the second lang is not selected', () => {
-		const component = shallow(
-			<OperationsSerieVisualization attr={attr} langs={langs} />
+		const { container } = render(
+			<MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr}
+					langs={langs}
+					secondLang={false}
+				/>
+			</MemoryRouter>
 		);
-		expect(component.find(Note).length).toBe(7);
+		expect(container.querySelectorAll('.bauhaus-note')).toHaveLength(14);
 	});
 
 	it('should show the right number of Note component when the second lang is selected', () => {
-		const component = shallow(
-			<OperationsSerieVisualization
-				attr={attr}
-				secondLang={true}
-				langs={langs}
-			/>
+		const { container } = render(
+			<MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr}
+					secondLang={true}
+					langs={langs}
+				/>
+			</MemoryRouter>
 		);
-		expect(component.find(Note).length).toBe(12);
+		expect(container.querySelectorAll('.bauhaus-note')).toHaveLength(24);
 	});
 	it('should show the right number of DisplayLinks component', () => {
-		const component = shallow(
-			<OperationsSerieVisualization
-				attr={attr}
-				secondLang={true}
-				langs={langs}
-			/>
+		const { container } = render(
+			<MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr}
+					secondLang={true}
+					langs={langs}
+				/>
+			</MemoryRouter>
 		);
-		expect(component.find(DisplayLinks).length).toBe(5);
-	});
-	it('should show the right data in the DisplayLinks component', () => {
-		const component = shallow(
-			<OperationsSerieVisualization
-				attr={attr}
-				secondLang={true}
-				langs={langs}
-				organisations={organisations}
-			/>
+		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
+			5
 		);
-
-		const displayLinks = component.find(DisplayLinks);
-		const contributor = displayLinks.get(0);
-		expect(contributor.props.links).toEqual([
-			{
-				id: 'CNAMTS',
-				label: 'Agence centrale des organismes de sécurité sociale',
-			},
-			{ id: 'DG75-F110', label: "Banque Publique d'Investissement" },
-		]);
-		expect(contributor.props.path).toBeUndefined();
-		expect(contributor.props.displayLink).toBeFalsy();
-
-		const dataCollector = displayLinks.get(1);
-		expect(dataCollector.props.links).toEqual([
-			{
-				id: 'CNAMTS',
-				label: 'Agence centrale des organismes de sécurité sociale',
-			},
-			{ id: 'DG75-F110', label: "Banque Publique d'Investissement" },
-		]);
-		expect(dataCollector.props.path).toBeUndefined();
-		expect(dataCollector.props.displayLink).toBeFalsy();
-
-		const replaces = displayLinks.get(2);
-		expect(replaces.props.links).toEqual([
-			{
-				id: 's1272',
-				labelLg1: "Système unifié de statistiques d'entreprises",
-				labelLg2: 'Unified corporate statistics system',
-				type: 'series',
-			},
-		]);
-		expect(replaces.props.path).toEqual('/operations/series/');
-
-		const replacedBy = displayLinks.get(3);
-		expect(replacedBy.props.links).toEqual([
-			{
-				id: 's1272',
-				labelLg1: "Système unifié de statistiques d'entreprises",
-				labelLg2: 'Unified corporate statistics system',
-				type: 'series',
-			},
-		]);
-		expect(replacedBy.props.path).toEqual('/operations/series/');
-
-		const generate = displayLinks.get(4);
-		expect(generate.props.links).toEqual([
-			{
-				id: 's1162',
-				labelLg1: "Connaissance locale de l'appareil productif",
-				labelLg2: 'Local knowledge of the productive system',
-				type: 'indicator',
-			},
-		]);
-		expect(generate.props.path).toEqual('/operations/indicator/');
-	});
-	it('should show the right number of SeeAlso component', () => {
-		const component = shallow(
-			<OperationsSerieVisualization
-				attr={attr}
-				secondLang={true}
-				langs={langs}
-			/>
-		);
-		const seeAlso = component.find(SeeAlso).first();
-		expect(seeAlso.props().links).toEqual({
-			series: [
-				{
-					id: 's1162',
-					labelLg1: "Connaissance locale de l'appareil productif",
-					labelLg2: 'Local knowledge of the productive system',
-					type: 'series',
-				},
-			],
-		});
-	});
-	it('should show the right number of RelationsView component', () => {
-		const component = shallow(
-			<OperationsSerieVisualization
-				attr={attr}
-				secondLang={true}
-				langs={langs}
-			/>
-		);
-		const relationsView = component.find(RelationsView).first();
-		expect(relationsView.props().childrenPath).toBe('operation');
-		expect(relationsView.props().parentPath).toBe('family');
-		expect(relationsView.props().parent).toBe(attr.family);
-		expect(relationsView.props().children).toBe(attr.operations);
 	});
 });

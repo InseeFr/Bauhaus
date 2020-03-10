@@ -1,15 +1,17 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import CollectionMembers from './members';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('collection-edition-creation-members', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<CollectionMembers
 				members={[]}
 				conceptList={[]}
 				handleChange={() => console.log('save')}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

@@ -1,16 +1,19 @@
 import React from 'react';
 import ControlsLayout from './controls-layout';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('concept-edition-creation-controls-layout', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ControlsLayout
 				message="message"
 				saveEnabled={false}
 				conceptsWithLinks={[]}
 				handleSave={() => console.log('validate')}
-			/>
+				redirectCancel={() => {}}
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

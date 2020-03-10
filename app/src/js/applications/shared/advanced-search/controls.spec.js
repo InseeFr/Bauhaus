@@ -1,10 +1,10 @@
 import React from 'react';
 import Controls from './controls';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
 describe('concepts-advanced-search-controls', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<Controls
 				onClickReturn={() => console.log('return')}
 				initializeState={() => console.log('init state')}

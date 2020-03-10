@@ -1,13 +1,15 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Members from './members';
+import { MemoryRouter } from 'react-router-dom';
 
 const members = [{ id: '1', label: 'Member 1' }];
 
 describe('classification-level-members', () => {
 	it('renders without crashing', () => {
-		shallow(
-			<Members members={members} classificationId="id" secondLang={true} />
+		render(
+			<Members members={members} classificationId="id" secondLang={true} />,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

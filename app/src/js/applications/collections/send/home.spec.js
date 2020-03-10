@@ -1,17 +1,20 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import SendCollection from './home';
 
 describe('collection-send', () => {
 	it('renders without crashing', () => {
-		shallow(
-			<SendCollection
-				id="id"
-				prefLabelLg1="prefLabelLg1"
-				properties={{}}
-				isValidated="false"
-				sendCollection={() => console.log('send')}
-			/>
+		render(
+			<MemoryRouter>
+				<SendCollection
+					id="id"
+					prefLabelLg1="prefLabelLg1"
+					properties={{}}
+					isValidated="false"
+					sendCollection={() => console.log('send')}
+				/>
+			</MemoryRouter>
 		);
 	});
 });

@@ -1,9 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import OperationsIndicatorVisualization from './general';
-import DisplayLinks from 'js/applications/operations/shared/links/';
-import SeeAlso from 'js/applications/operations/shared/seeAlso';
-
+import { MemoryRouter } from 'react-router-dom';
 const langs = {
 	lg1: 'fr',
 	lg2: 'en',
@@ -54,6 +52,7 @@ const indicator = {
 			type: 'series',
 		},
 	],
+	gestionnaires: [],
 	abstractLg1:
 		"En application du décret 2014-114 du 7 février 2014 et de la circulaire du 16 mai 2014 (BOAC 60 de septembre-octobre 2014 la maîtrise d'ouvrage des index nationaux Bâtiment (BT), Travaux publics (TP) et divers de la construction est transférée à l’Insee. Les index Bâtiment, Travaux publics et divers de la construction ont été annoncés au Journal Officiel le 20 décembre 2014 et publiés le 16 janvier 2015 en base 2010 depuis janvier 2010 à octobre 2014. \nLe changement de base signifie un changement de référence (moyenne de 2010 = 100), mais aussi une mise à jour des pondérations et des conventions méthodologiques. \nCes index sont utilisés pour les actualisations et révisions des prix des marchés de construction.",
 	abstractLg2:
@@ -80,108 +79,77 @@ const indicator = {
 };
 describe('IndicatorInformation', () => {
 	it('should renderer all informations for the main lang', () => {
-		const general = shallow(
-			<OperationsIndicatorVisualization attr={indicator} langs={langs} />
+		const { container } = render(
+			<MemoryRouter>
+				<OperationsIndicatorVisualization attr={indicator} langs={langs} />
+			</MemoryRouter>
 		);
-		expect(general.find(DisplayLinks).length).toBe(4);
-		expect(general.find(SeeAlso).length).toBe(1);
+		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
+			4
+		);
+		expect(container.querySelectorAll('.bauhaus-see-also')).toHaveLength(1);
 	});
 
 	it('should show the right number of DisplayLinks component', () => {
-		const component = shallow(
-			<OperationsIndicatorVisualization
-				attr={indicator}
-				secondLang={true}
-				langs={langs}
-			/>
+		const { container } = render(
+			<MemoryRouter>
+				<OperationsIndicatorVisualization
+					attr={indicator}
+					secondLang={true}
+					langs={langs}
+				/>
+			</MemoryRouter>
 		);
-		expect(component.find(DisplayLinks).length).toBe(4);
+		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
+			4
+		);
 	});
 	it('should show the right data in the DisplayLinks component', () => {
-		const component = shallow(
-			<OperationsIndicatorVisualization
-				attr={indicator}
-				secondLang={true}
-				langs={langs}
-				organisations={organisations}
-			/>
+		const { container } = render(
+			<MemoryRouter>
+				<OperationsIndicatorVisualization
+					attr={indicator}
+					secondLang={true}
+					langs={langs}
+					organisations={organisations}
+				/>
+			</MemoryRouter>
 		);
-		const displayLinks = component.find(DisplayLinks);
+		const displayLinks = container.querySelectorAll('.bauhaus-display-links');
 
-		const contributor = displayLinks.get(0);
-		expect(contributor.props.links).toEqual([
-			{
-				id: 'CNAMTS',
-				label: 'Agence centrale des organismes de sécurité sociale',
-			},
-		]);
-		expect(contributor.props.path).toBeUndefined();
-		expect(contributor.props.displayLink).toBeFalsy();
+		const contributor = displayLinks[0];
+		expect(contributor.querySelector('p').innerHTML).toBe(
+			'Agence centrale des organismes de sécurité sociale'
+		);
 
-		const replaces = displayLinks.get(1);
-		expect(replaces.props.links).toEqual([
-			{
-				id: 'p1662',
-				labelLg1: 'Index Divers (base antérieure à 2010)',
-				labelLg2: 'Various indices for Previous Construction Bases',
-				type: 'indicator',
-			},
-		]);
-		expect(replaces.props.path).toEqual('/operations/indicator/');
+		const replaces = displayLinks[1];
+		expect(replaces.querySelector('a').href).toContain(
+			'/operations/indicator/p1662'
+		);
 
-		const replacedBy = displayLinks.get(2);
-		expect(replacedBy.props.links).toEqual([
-			{
-				id: 'p1662',
-				labelLg1: 'Index Divers (base antérieure à 2010)',
-				labelLg2: 'Various indices for Previous Construction Bases',
-				type: 'indicator',
-			},
-		]);
-		expect(replacedBy.props.path).toEqual('/operations/indicator/');
+		const replacedBy = displayLinks[2];
+		expect(replacedBy.querySelector('a').href).toContain(
+			'/operations/indicator/p1662'
+		);
 
-		const wasGeneratedBy = displayLinks.get(3);
-		expect(wasGeneratedBy.props.links).toEqual([
-			{
-				id: 's1353',
-				labelLg1: "Enquête observation des prix de l'industrie et des services",
-				labelLg2: 'Survey on observation of prices in industry and services',
-				type: 'series',
-			},
-		]);
-		expect(wasGeneratedBy.props.path).toEqual('/operations/series/');
+		const wasGeneratedBy = displayLinks[3];
+		expect(wasGeneratedBy.querySelector('a').href).toContain(
+			'/operations/series/s1353'
+		);
 	});
 	it('should show the right number of SeeAlso component', () => {
-		const component = shallow(
-			<OperationsIndicatorVisualization
-				attr={indicator}
-				secondLang={true}
-				langs={langs}
-			/>
+		const { container } = render(
+			<MemoryRouter>
+				<OperationsIndicatorVisualization
+					attr={indicator}
+					secondLang={true}
+					langs={langs}
+				/>
+			</MemoryRouter>
 		);
-		const seeAlso = component.find(SeeAlso).first();
-		expect(seeAlso.props().links).toEqual({
-			indicator: [
-				{
-					id: 'p1622',
-					labelLg1: 'Index Batiment 2010',
-					labelLg2: 'Building Index base 2010',
-					type: 'indicator',
-				},
-				{
-					id: 'p1623',
-					labelLg1: 'Index Bâtiment et Travaux Publics (bases 1974 et 1975)',
-					labelLg2:
-						'Building and public works index (reference 1974 and reference 1975)',
-					type: 'indicator',
-				},
-				{
-					id: 'p1660',
-					labelLg1: 'Index Travaux Publics (base 2010)',
-					labelLg2: 'Public works Indice (base 2010)',
-					type: 'indicator',
-				},
-			],
-		});
+		const seeAlso = container.querySelector('.bauhaus-see-also');
+
+		const a = seeAlso.querySelectorAll('a');
+		expect(a).toHaveLength(6);
 	});
 });

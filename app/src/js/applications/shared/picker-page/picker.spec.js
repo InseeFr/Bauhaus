@@ -1,12 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import PagePicker from './';
-
+import { MemoryRouter } from 'react-router-dom';
 const items = [{ id: '1', label: 'Item 1' }];
 
 describe('picker-page', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<PagePicker
 				items={items}
 				title="title"
@@ -15,7 +15,10 @@ describe('picker-page', () => {
 				labelValidateButton="labelValidateButton"
 				handleAction={() => console.log('action')}
 				context="concepts"
-			/>
+			/>,
+			{
+				wrapper: MemoryRouter,
+			}
 		);
 	});
 });

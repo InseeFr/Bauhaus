@@ -1,14 +1,18 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import HelpConcepts from './home';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('help-concepts', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<HelpConcepts
 				match={{ params: { id: 1 } }}
 				location={{ pathname: '/concepts' }}
-			/>
+			/>,
+			{
+				wrapper: MemoryRouter,
+			}
 		);
 	});
 });

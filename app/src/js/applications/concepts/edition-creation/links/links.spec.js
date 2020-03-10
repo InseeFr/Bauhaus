@@ -1,14 +1,16 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptLinks from './';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('concept-edition-creation-links', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ConceptLinks
 				conceptsWithLinks={[]}
 				handleChange={() => console.log('save')}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

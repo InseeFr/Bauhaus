@@ -1,7 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import OperationsOperationVisualization from './home';
-import { Note }  from '@inseefr/wilco';
+import { Note } from '@inseefr/wilco';
 
 const langs = {
 	lg1: 'fr',
@@ -14,7 +14,7 @@ describe('OperationVisualization', () => {
 			prefLabelLg2: 'prefLabelLg2',
 			altLabelLg1: 'altLabel1',
 		};
-		const general = shallow(
+		const { container } = render(
 			<OperationsOperationVisualization
 				attr={attr}
 				exportVarBook={() => {}}
@@ -25,7 +25,9 @@ describe('OperationVisualization', () => {
 				closeModal={() => {}}
 			/>
 		);
-		expect(general.find(Note).length).toBe(1);
+		expect(
+			container.querySelectorAll('.row:first-child .bauhaus-note').length
+		).toBe(1);
 	});
 
 	it('should renderer all informations for the second lang', () => {
@@ -35,7 +37,7 @@ describe('OperationVisualization', () => {
 			altLabelLg1: 'altLabel1',
 			altLabelLg2: 'altLabel2',
 		};
-		const general = shallow(
+		const { container } = render(
 			<OperationsOperationVisualization
 				attr={attr}
 				secondLang={true}
@@ -46,6 +48,8 @@ describe('OperationVisualization', () => {
 				closeModal={() => {}}
 			/>
 		);
-		expect(general.find(Note).length).toBe(2);
+		expect(
+			container.querySelectorAll('.row:first-child .bauhaus-note').length
+		).toBe(2);
 	});
 });

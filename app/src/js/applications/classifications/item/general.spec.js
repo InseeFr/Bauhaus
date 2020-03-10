@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import General from './general';
 
 const general = {};
@@ -7,7 +7,7 @@ const langs = { lg1: 'fr', lg2: 'en' };
 
 describe('classification-level-general', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<General
 				general={general}
 				classificationId="id"

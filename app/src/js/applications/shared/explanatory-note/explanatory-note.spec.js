@@ -1,20 +1,20 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { ExplanatoryNote } from './';
 
 describe('explanatory-note', () => {
 	it('renders without crashing', () => {
-		shallow(<ExplanatoryNote />);
+		render(<ExplanatoryNote />);
 	});
 
 	it('renders null component', () => {
-		const wrapper = shallow(<ExplanatoryNote />);
-		const result = shallow(<div className="col-md-6" />);
-		expect(wrapper.html()).toEqual(result.html());
+		const { container } = render(<ExplanatoryNote />);
+		const { container: container2 } = render(<div className="col-md-6" />);
+		expect(container.innerHTML).toEqual(container2.innerHTML);
 	});
 
 	it('renders not null component', () => {
-		const wrapper = shallow(<ExplanatoryNote text="text" />);
-		expect(wrapper.html()).not.toBeNull();
+		const { container } = render(<ExplanatoryNote text="text" />);
+		expect(container.innerHTML).not.toBeNull();
 	});
 });

@@ -1,9 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import MenuClassifications from '.';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('menu-classifications', () => {
 	it('renders without crashing', () => {
-		shallow(<MenuClassifications />);
+		render(<MenuClassifications />, { wrapper: MemoryRouter });
 	});
 });

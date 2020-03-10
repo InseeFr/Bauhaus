@@ -1,9 +1,9 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import HelpMenu from './menu';
 
 describe('help-menu', () => {
 	it('renders without crashing', () => {
-		shallow(<HelpMenu content={[]} selectedId="id" />);
+		render(<HelpMenu content={[]} selectedId="id" />);
 	});
 });

@@ -1,9 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import MenuDSDs from '.';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('menu-dsds', () => {
 	it('renders without crashing', () => {
-		shallow(<MenuDSDs />);
+		render(<MenuDSDs />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });

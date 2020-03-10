@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Select from './';
 
 const options = Array.apply(null, Array(5)).map((a, i) => ({
@@ -9,7 +9,7 @@ const options = Array.apply(null, Array(5)).map((a, i) => ({
 
 describe('select', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<Select
 				value="value"
 				placeholder="..."

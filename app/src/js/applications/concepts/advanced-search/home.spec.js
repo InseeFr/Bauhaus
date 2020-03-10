@@ -1,15 +1,16 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import AdvancedSearch from './home';
-
+import { MemoryRouter } from 'react-router-dom';
 describe('concepts-advanced-search', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<AdvancedSearch
 				conceptSearchList={[]}
 				stampList={[]}
 				disseminationStatusList={[]}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

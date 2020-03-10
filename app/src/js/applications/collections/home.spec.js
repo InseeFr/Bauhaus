@@ -1,14 +1,16 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Collections from './home';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('collections', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<Collections
 				collections={[]}
 				permission={{ authType: '', roles: [''] }}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

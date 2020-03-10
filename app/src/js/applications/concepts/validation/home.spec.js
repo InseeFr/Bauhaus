@@ -1,15 +1,17 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptValidation from './home';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('concept-validation', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ConceptValidation
 				concepts={[]}
 				permission={{ authType: '', roles: [''] }}
 				handleValidateConceptList={() => console.log('validation')}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

@@ -1,9 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import NotFound from '.';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('not-found', () => {
 	it('renders without crashing', () => {
-		shallow(<NotFound />);
+		render(<NotFound />, { wrapper: MemoryRouter });
 	});
 });
