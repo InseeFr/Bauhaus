@@ -21,7 +21,7 @@ export const MenuConcepts = ({ location, permission: { authType, roles } }) => {
 			className: null,
 			attrs: null,
 			label: D.administrationTitle,
-			order: 4,
+			order: 3,
 			shouldBeDisplayed: adminOrContributor,
 			alignToRight: true,
 		},
@@ -29,7 +29,7 @@ export const MenuConcepts = ({ location, permission: { authType, roles } }) => {
 			path: `//inseefr.github.io/Bauhaus/${getLang()}/user-guide/concept.html`,
 			pathKey: 'help',
 			className: null,
-			order: 3,
+			order: 4,
 			attrs: {
 				target: '_blank',
 			},
