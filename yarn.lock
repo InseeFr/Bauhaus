@@ -1162,6 +1162,21 @@
     react-router-dom "^5.1.2"
     react-select "^3.0.4"
 
+"@inseefr/wilco@^0.0.2-rc12":
+  version "0.0.2-rc12"
+  resolved "https://registry.npmjs.org/@inseefr/wilco/-/wilco-0.0.2-rc12.tgz#9e8f728a8dd9538ead24d503c32c96a4c2a8ea20"
+  integrity sha512-FsFAITf1nB8jczk7QPAjVVMLeOZd0U3L9Hifiil/kPxKjjEyuhLugtwfBfJA/jB7SMt+bFHg3eC/9qBMyn+q4Q==
+  dependencies:
+    lodash "^4.17.15"
+    query-string "^6.9.0"
+    react-bootstrap "0.31.5"
+    react-bootstrap-table-next "3.3.3"
+    react-bootstrap-table2-paginator "2.1.0"
+    react-bootstrap-table2-toolkit "2.1.1"
+    react-loading "^2.0.3"
+    react-router-dom "^5.1.2"
+    react-select "^3.0.4"
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.npmjs.org/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"

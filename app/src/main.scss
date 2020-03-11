@@ -147,3 +147,56 @@ footer {
 	outline: none;
 	transition: border 0.24s ease-in-out;
 }
+
+// to be deleted with the new version of Wilco
+@mixin list-item-separator($color) {
+	content: '';
+	height: 60%;
+	width: 1px;
+	position: absolute;
+	right: 0;
+	top: 20%;
+	background-color: $color;
+}
+.navbar-primary {
+	background: var(--color-3);
+	font-size: 15.3pt;
+	color: #cccfd9;
+	line-height: 20px;
+	margin-bottom: 0;
+	border-radius: 0;
+	border: 0;
+
+	.collapse {
+		display: block;
+	}
+
+	.navbar-nav {
+		> li {
+			padding: 0 10px;
+			&:hover,
+			&.active {
+				background: var(--color-2);
+				margin-left: -1px;
+
+				> a,
+				> button {
+					color: red;
+					background: none;
+					&:focus,
+					&:hover {
+						background: none;
+					}
+				}
+				&::after {
+					@include list-item-separator(transparent);
+				}
+			}
+			a {
+				color: white !important;
+				border: 0;
+				text-decoration: none;
+			}
+		}
+	}
+}
