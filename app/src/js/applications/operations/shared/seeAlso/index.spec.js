@@ -12,14 +12,14 @@ describe('SeeAlso', () => {
 	it('should display one Note if the second lang is not selected', () => {
 		const seeAlso = {};
 		const { container } = render(<SeeAlso links={seeAlso} langs={langs} />);
-		expect(container.querySelector('.bauhaus-note')).toBeDefined();
+		expect(container.querySelector('.wilco-note')).toBeDefined();
 	});
 	it('should display two Note if the second lang is selected', () => {
 		const seeAlso = {};
 		const { container } = render(
 			<SeeAlso links={seeAlso} langs={langs} secondLang />
 		);
-		expect(container.querySelectorAll('.bauhaus-note')).toHaveLength(2);
+		expect(container.querySelectorAll('.wilco-note')).toHaveLength(2);
 	});
 	it('should display indicators', () => {
 		const seeAlso = {

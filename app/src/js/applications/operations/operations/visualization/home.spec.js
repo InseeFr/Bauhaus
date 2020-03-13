@@ -25,7 +25,7 @@ describe('OperationVisualization', () => {
 			/>
 		);
 		expect(
-			container.querySelectorAll('.row:first-child .bauhaus-note').length
+			container.querySelectorAll('.row:first-child .wilco-note').length
 		).toBe(1);
 	});
 
@@ -48,7 +48,7 @@ describe('OperationVisualization', () => {
 			/>
 		);
 		expect(
-			container.querySelectorAll('.row:first-child .bauhaus-note').length
+			container.querySelectorAll('.row:first-child .wilco-note').length
 		).toBe(2);
 	});
 });

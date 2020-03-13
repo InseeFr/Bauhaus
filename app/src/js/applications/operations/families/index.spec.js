@@ -19,7 +19,7 @@ describe('FamiliesHomeContainer', () => {
 			/>,
 			{ wrapper: MemoryRouter }
 		);
-		expect(container.querySelectorAll('.bauhaus-loading').length).toBe(1);
+		expect(container.querySelectorAll('.wilco-loading').length).toBe(1);
 		expect(container.querySelectorAll('.list-group').length).toBe(0);
 	});
 	it('should display a FamiliesHome component if the status is  LOADED', () => {
@@ -29,7 +29,7 @@ describe('FamiliesHomeContainer', () => {
 			</Provider>,
 			{ wrapper: MemoryRouter }
 		);
-		expect(container.querySelectorAll('.bauhaus-loading').length).toBe(0);
+		expect(container.querySelectorAll('.wilco-loading').length).toBe(0);
 		expect(container.querySelectorAll('.list-group').length).toBe(1);
 	});
 	it('should return NOT_LOADED status if the data is not available', () => {

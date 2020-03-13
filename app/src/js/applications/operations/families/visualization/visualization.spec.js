@@ -16,7 +16,7 @@ describe('FamilyInformation', () => {
 		const { container } = render(
 			<OperationsFamilyVisualization attr={attr} langs={langs} />
 		);
-		expect(container.querySelectorAll('.bauhaus-note')).toHaveLength(3);
+		expect(container.querySelectorAll('.wilco-note')).toHaveLength(3);
 	});
 
 	it('should renderer all informations for the second lang', () => {
@@ -35,6 +35,6 @@ describe('FamilyInformation', () => {
 				langs={langs}
 			/>
 		);
-		expect(container.querySelectorAll('.bauhaus-note')).toHaveLength(6);
+		expect(container.querySelectorAll('.wilco-note')).toHaveLength(6);
 	});
 });

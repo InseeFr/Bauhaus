@@ -19,7 +19,7 @@ describe('OperationsDocumentationVisualization', () => {
 				langs={langs}
 			/>
 		);
-		const notes = container.querySelectorAll('.bauhaus-note');
+		const notes = container.querySelectorAll('.wilco-note');
 		expect(notes).toHaveLength(2);
 
 		expect(notes[0].innerHTML).toContain(document.descriptionLg1);
@@ -40,7 +40,7 @@ describe('OperationsDocumentationVisualization', () => {
 				secondLang={true}
 			/>
 		);
-		const notes = container.querySelectorAll('.bauhaus-note');
+		const notes = container.querySelectorAll('.wilco-note');
 
 		expect(notes).toHaveLength(3);
 
@@ -59,7 +59,7 @@ describe('OperationsDocumentationVisualization', () => {
 				secondLang={true}
 			/>
 		);
-		const notes = container.querySelectorAll('.bauhaus-note');
+		const notes = container.querySelectorAll('.wilco-note');
 		expect(notes).toHaveLength(5);
 	});
 });

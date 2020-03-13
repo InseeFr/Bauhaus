@@ -86,7 +86,7 @@ describe('SerieInformation', () => {
 				/>
 			</MemoryRouter>
 		);
-		expect(container.querySelectorAll('.bauhaus-note')).toHaveLength(14);
+		expect(container.querySelectorAll('.wilco-note')).toHaveLength(14);
 	});
 
 	it('should show the right number of Note component when the second lang is selected', () => {
@@ -99,7 +99,7 @@ describe('SerieInformation', () => {
 				/>
 			</MemoryRouter>
 		);
-		expect(container.querySelectorAll('.bauhaus-note')).toHaveLength(24);
+		expect(container.querySelectorAll('.wilco-note')).toHaveLength(24);
 	});
 	it('should show the right number of DisplayLinks component', () => {
 		const { container } = render(
