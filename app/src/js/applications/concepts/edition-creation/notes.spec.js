@@ -1,11 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptNotes from './notes';
 import { emptyNotes } from 'js/utils/concepts/notes';
 
 describe('concept-edition-creation-notes', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ConceptNotes
 				notes={emptyNotes}
 				disseminationStatus=""

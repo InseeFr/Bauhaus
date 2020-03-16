@@ -1,11 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptGeneralVisualization from './general';
 import { empty } from 'js/utils/concepts/general';
 
 describe('concept-visualization-general', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ConceptGeneralVisualization
 				attr={empty()}
 				secondLang={false}

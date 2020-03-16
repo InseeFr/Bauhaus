@@ -1,7 +1,6 @@
 import React from 'react';
 import OperationsDocumentationVisualization from './home';
-import { shallow } from 'enzyme';
-import { Note }  from '@inseefr/wilco';
+import { render } from '@testing-library/react';
 
 const langs = { lg1: 'lg1', lg2: 'lg2' };
 const document = {
@@ -13,55 +12,54 @@ const document = {
 };
 describe('OperationsDocumentationVisualization', () => {
 	it('should display by default two notes', () => {
-		const wrapper = shallow(
+		const { container } = render(
 			<OperationsDocumentationVisualization
 				secondLang={false}
 				attr={document}
 				langs={langs}
 			/>
 		);
-		const notes = wrapper.find(Note);
+		const notes = container.querySelectorAll('.wilco-note');
 		expect(notes).toHaveLength(2);
 
-		expect(notes.get(0).props.text).toBe(document.descriptionLg1);
-		expect(notes.get(0).props.alone).toBe(true);
+		expect(notes[0].innerHTML).toContain(document.descriptionLg1);
 
-		expect(notes.get(1).props.text.type).toBe('a');
-		expect(notes.get(1).props.text.props.href).toBe(document.url);
-		expect(notes.get(1).props.text.props.rel).toBe('noopener noreferrer');
-		expect(notes.get(1).props.text.props.target).toBe('_blank');
-		expect(notes.get(1).props.text.props.children).toBe(document.url);
+		const a = notes[1].querySelector('a');
+		expect(a).toBeDefined();
+		expect(a.href).toContain(document.url);
+		expect(a.getAttribute('rel')).toBe('noopener noreferrer');
+		expect(a.getAttribute('target')).toBe('_blank');
+		expect(a.innerHTML).toContain(document.url);
 	});
 
 	it('should display a note if the secondLang flag is true', () => {
-		const wrapper = shallow(
+		const { container } = render(
 			<OperationsDocumentationVisualization
 				attr={document}
 				langs={langs}
 				secondLang={true}
 			/>
 		);
-		const notes = wrapper.find(Note);
+		const notes = container.querySelectorAll('.wilco-note');
+
 		expect(notes).toHaveLength(3);
 
-		expect(notes.get(0).props.text).toBe(document.descriptionLg1);
-		expect(notes.get(0).props.alone).toBe(false);
-
-		expect(notes.get(1).props.text).toBe(document.descriptionLg2);
+		expect(notes[0].innerHTML).toContain(document.descriptionLg1);
+		expect(notes[1].innerHTML).toContain(document.descriptionLg2);
 	});
 	it('should display a note if the object is a document', () => {
 		const d = {
 			...document,
 			uri: '/document/uri',
 		};
-		const wrapper = shallow(
+		const { container } = render(
 			<OperationsDocumentationVisualization
 				attr={d}
 				langs={langs}
 				secondLang={true}
 			/>
 		);
-		const notes = wrapper.find(Note);
+		const notes = container.querySelectorAll('.wilco-note');
 		expect(notes).toHaveLength(5);
 	});
 });

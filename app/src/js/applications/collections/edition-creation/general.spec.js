@@ -1,11 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import CollectionGeneral from './general';
 import { empty } from 'js/utils/collections/general';
 
 describe('collection-edition-creation-general', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<CollectionGeneral
 				general={empty()}
 				stampList={[]}

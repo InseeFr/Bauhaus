@@ -1,7 +1,6 @@
 import React from 'react';
 import SeeAlso from './index';
-import { Note }  from '@inseefr/wilco';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 const langs = {
@@ -12,58 +11,58 @@ const langs = {
 describe('SeeAlso', () => {
 	it('should display one Note if the second lang is not selected', () => {
 		const seeAlso = {};
-		const component = shallow(<SeeAlso links={seeAlso} langs={langs} />);
-		expect(component.find(Note).length).toBe(1);
+		const { container } = render(<SeeAlso links={seeAlso} langs={langs} />);
+		expect(container.querySelector('.wilco-note')).toBeDefined();
 	});
 	it('should display two Note if the second lang is selected', () => {
 		const seeAlso = {};
-		const component = shallow(
+		const { container } = render(
 			<SeeAlso links={seeAlso} langs={langs} secondLang />
 		);
-		expect(component.find(Note).length).toBe(2);
+		expect(container.querySelectorAll('.wilco-note')).toHaveLength(2);
 	});
 	it('should display indicators', () => {
 		const seeAlso = {
 			indicator: [{ id: 1, label: 'indicators' }],
 		};
-		const component = shallow(
+		const { container } = render(
 			<MemoryRouter>
 				<SeeAlso links={seeAlso} langs={langs} />
 			</MemoryRouter>
 		);
-		expect(component.html()).toContain('href="/operations/indicator/1"');
+		expect(container.innerHTML).toContain('href="/operations/indicator/1"');
 	});
 	it('should display series', () => {
 		const seeAlso = {
 			series: [{ id: 1, label: 'indicators' }],
 		};
-		const component = shallow(
+		const { container } = render(
 			<MemoryRouter>
 				<SeeAlso links={seeAlso} langs={langs} />
 			</MemoryRouter>
 		);
-		expect(component.html()).toContain('href="/operations/series/1"');
+		expect(container.innerHTML).toContain('href="/operations/series/1"');
 	});
 	it('should display families', () => {
 		const seeAlso = {
 			family: [{ id: 1, label: 'indicators' }],
 		};
-		const component = shallow(
+		const { container } = render(
 			<MemoryRouter>
 				<SeeAlso links={seeAlso} langs={langs} />
 			</MemoryRouter>
 		);
-		expect(component.html()).toContain('href="/operations/family/1"');
+		expect(container.innerHTML).toContain('href="/operations/family/1"');
 	});
 	it('should display operations', () => {
 		const seeAlso = {
 			operation: [{ id: 1, label: 'indicators' }],
 		};
-		const component = shallow(
+		const { container } = render(
 			<MemoryRouter>
 				<SeeAlso links={seeAlso} langs={langs} />
 			</MemoryRouter>
 		);
-		expect(component.html()).toContain('href="/operations/operation/1"');
+		expect(container.innerHTML).toContain('href="/operations/operation/1"');
 	});
 });

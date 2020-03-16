@@ -1,9 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Status from './status';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('concept-send-status', () => {
 	it('renders without crashing', () => {
-		shallow(<Status status="OK" urlBack="/concepts" />);
+		render(<Status status="OK" urlBack="/concepts" />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });

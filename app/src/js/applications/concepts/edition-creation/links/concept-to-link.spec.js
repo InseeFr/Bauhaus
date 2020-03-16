@@ -1,10 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptToLink from './concept-to-link';
 
 describe('concept-edition-creation-concept-to-link', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ConceptToLink
 				title="title"
 				memberEls={[]}

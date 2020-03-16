@@ -1,10 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import CollectionMembers from './members';
 
 describe('collection-visualization-members', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<CollectionMembers
 				members={[]}
 				secondLang={true}

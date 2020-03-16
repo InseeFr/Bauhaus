@@ -1,7 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Home from './home';
-
+import { MemoryRouter } from 'react-router-dom';
 const series = {
 	general: { prefLabelLg1: 'Label' },
 	members: [{ id: '1', label: 'Member 1' }],
@@ -15,13 +15,14 @@ const langs = { lg1: 'fr', lg2: 'en' };
 
 describe('classification-series-home', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<Home
 				series={series}
 				langs={langs}
 				secondLang={true}
 				saveSecondLang={() => console.log('save second lang')}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

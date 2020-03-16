@@ -1,15 +1,17 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import CollectionValidation from './home';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('collection-validation', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<CollectionValidation
 				collections={[]}
 				permission={{ authType: '', roles: [''] }}
 				handleValidateCollectionList={() => console.log('validation')}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

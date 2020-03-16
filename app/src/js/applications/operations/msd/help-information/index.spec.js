@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 
 import HelpInformation from './';
@@ -8,8 +8,8 @@ const { CODE_LIST, TEXT } = rangeType;
 
 describe('HelpInformation', () => {
 	it('should return null if the masLabelLg1 is undefined', () => {
-		const instance = shallow(<HelpInformation msd={{}} />);
-		expect(instance.html()).toBeNull();
+		const { container } = render(<HelpInformation msd={{}} />);
+		expect(container.innerHTML).toBe('');
 	});
 
 	it('should display the right content when the rangeType is a CODE_LIST', () => {

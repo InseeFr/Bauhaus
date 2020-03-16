@@ -1,10 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptVisualizationControls from './controls';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('concept-visualization-controls', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ConceptVisualizationControls
 				id="id"
 				creator="creator"
@@ -12,7 +13,8 @@ describe('concept-visualization-controls', () => {
 				conceptVersion="1"
 				handleValidation={() => console.log('validate')}
 				permission={{ authType: '', roles: [''] }}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

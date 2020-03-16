@@ -1,16 +1,18 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import CollectionVisualizationControls from './controls';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('collection-visualization-controls', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<CollectionVisualizationControls
 				id="id"
 				isValidated="false"
 				handleValidation={() => console.log('validate')}
 				permission={{ authType: '', roles: [''] }}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

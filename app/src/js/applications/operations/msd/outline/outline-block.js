@@ -3,8 +3,7 @@ import { HashLink as Link } from 'react-router-hash-link';
 import { toggleOpen, isOpen } from 'js/applications/operations/msd/utils';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-
-class OutlineBlock extends Component {
+export class OutlineBlock extends Component {
 	static propTypes = {
 		secondary: PropTypes.bool,
 		parent: PropTypes.string,

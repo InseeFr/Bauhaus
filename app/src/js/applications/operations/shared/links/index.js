@@ -33,7 +33,7 @@ function DisplayLinks({
 		return displayBlock(links[0], label);
 	}
 	return (
-		<div className="row">
+		<div className="row bauhaus-display-links">
 			<Note
 				text={
 					links.length === 1 ? displayItem(labelLg1) : displayList(labelLg1)

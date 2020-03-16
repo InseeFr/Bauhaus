@@ -1,57 +1,60 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 import ValidationButton from './';
-import { PublishButton } from '@inseefr/wilco';
 
 describe('<ValidationButton', () => {
-	it('should contain a disabled button if the object is already validated', () => {
-		const component = shallow(
+	it('should return nothing if the object is already validated', () => {
+		const { container } = render(
 			<ValidationButton
 				object={{ validationState: 'Validated' }}
 				callback={jest.fn()}
 				disabled={false}
 			/>
 		);
-		expect(component.find(PublishButton).props().disabled).toBeTruthy();
+		expect(container.innerHTML).toBe('');
 	});
 
 	it('should contain a enabled button if the validationStateis not defined', () => {
-		const component = shallow(
+		const { container } = render(
 			<ValidationButton callback={jest.fn()} disabled={false} />
 		);
-		expect(component.find(PublishButton).props().disabled).toBeFalsy();
+		expect(
+			container.querySelector('button').hasAttribute('disabled')
+		).toBeFalsy();
 	});
 
 	it('should contain a enabled button if the object is already validated', () => {
-		const component = shallow(
+		const { container } = render(
 			<ValidationButton
 				object={{ validationState: 'updated' }}
 				callback={jest.fn()}
 				disabled={false}
 			/>
 		);
-		expect(component.find(PublishButton).props().disabled).toBeFalsy();
+		expect(
+			container.querySelector('button').hasAttribute('disabled')
+		).toBeFalsy();
 	});
 
 	it('should call the callback if we click on the button', () => {
 		const callback = jest.fn();
 		const object = { validationState: 'updated' };
-		const component = shallow(
+		const { container } = render(
 			<ValidationButton object={object} callback={callback} disabled={false} />
 		);
-		component
-			.find(PublishButton)
-			.props()
-			.action();
+		fireEvent.click(container.querySelector('button'));
+
 		expect(callback).toHaveBeenCalledWith(object);
 	});
 
 	it('should be disabled if the property disabled is set to true', () => {
 		const callback = jest.fn();
 		const object = { validationState: 'updated' };
-		const component = shallow(
+		const { container } = render(
 			<ValidationButton object={object} callback={callback} disabled={true} />
 		);
-		expect(component.find(PublishButton).props().disabled).toBeTruthy();
+		expect(
+			container.querySelector('button').hasAttribute('disabled')
+		).toBeTruthy();
 	});
 });

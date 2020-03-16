@@ -1,9 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptCompare from './controls';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('concept-visualization-compare-controls', () => {
 	it('renders without crashing', () => {
-		shallow(<ConceptCompare />);
+		render(<ConceptCompare />, { wrapper: MemoryRouter });
 	});
 });

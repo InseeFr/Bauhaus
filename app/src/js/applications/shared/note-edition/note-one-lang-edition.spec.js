@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import NoteOneLangEdition from './note-one-lang-edition';
 
 const lang = 'fr';
@@ -7,6 +7,6 @@ const handle = () => console.log('change');
 
 describe('note-one-lang-edition', () => {
 	it('renders without crashing', () => {
-		shallow(<NoteOneLangEdition lang={lang} handleChange={handle} />);
+		render(<NoteOneLangEdition lang={lang} handleChange={handle} />);
 	});
 });

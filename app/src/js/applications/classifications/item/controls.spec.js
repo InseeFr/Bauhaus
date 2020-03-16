@@ -1,9 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Controls from './controls';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('classification-item-controls', () => {
 	it('renders without crashing', () => {
-		shallow(<Controls classificationId="nafr2" itemId="A" version={1} />);
+		render(<Controls classificationId="nafr2" itemId="A" version={1} />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });

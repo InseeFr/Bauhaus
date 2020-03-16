@@ -3,6 +3,7 @@ import React from 'react';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
+import { PublicationFemale } from 'js/applications/operations/shared/status';
 
 function OperationsFamilyVisualization({
 	attr,
@@ -11,6 +12,19 @@ function OperationsFamilyVisualization({
 }) {
 	return (
 		<>
+			<div className="row">
+				<Note
+					text={
+						<ul>
+							<li>
+								{D1.familyStatus} : <PublicationFemale object={attr} />
+							</li>
+						</ul>
+					}
+					title={D1.globalInformationsTitle}
+					alone={true}
+				/>
+			</div>
 			<div className="row">
 				<Note
 					text={attr.themeLg1}

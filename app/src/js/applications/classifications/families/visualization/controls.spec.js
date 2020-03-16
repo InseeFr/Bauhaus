@@ -1,9 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Controls from './controls';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('classification-family-visualization-controls', () => {
 	it('renders without crashing', () => {
-		shallow(<Controls />);
+		render(<Controls />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });

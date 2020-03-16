@@ -1,7 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import OperationsFamilyVisualization from './visualization';
-import { Note }  from '@inseefr/wilco';
 
 const langs = {
 	lg1: 'fr',
@@ -14,10 +13,10 @@ describe('FamilyInformation', () => {
 			themeLg1: 'themeLg1',
 			abstractLg1: 'descriptionLg1',
 		};
-		const general = shallow(
+		const { container } = render(
 			<OperationsFamilyVisualization attr={attr} langs={langs} />
 		);
-		expect(general.find(Note).length).toBe(2);
+		expect(container.querySelectorAll('.wilco-note')).toHaveLength(4);
 	});
 
 	it('should renderer all informations for the second lang', () => {
@@ -29,13 +28,13 @@ describe('FamilyInformation', () => {
 			themeLg2: 'themeLg2',
 			abstractLg2: 'descriptionLg2',
 		};
-		const general = shallow(
+		const { container } = render(
 			<OperationsFamilyVisualization
 				attr={attr}
 				secondLang={true}
 				langs={langs}
 			/>
 		);
-		expect(general.find(Note).length).toBe(4);
+		expect(container.querySelectorAll('.wilco-note')).toHaveLength(7);
 	});
 });

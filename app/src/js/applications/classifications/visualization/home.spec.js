@@ -1,6 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Home from './home';
+import { MemoryRouter } from 'react-router-dom';
 
 const classification = {
 	general: { prefLabelLg1: 'Label' },
@@ -17,13 +18,14 @@ const langs = { lg1: 'fr', lg2: 'en' };
 
 describe('classification-home', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<Home
 				classification={classification}
 				langs={langs}
 				secondLang={false}
 				saveSecondLang={() => console.log('save second lang')}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

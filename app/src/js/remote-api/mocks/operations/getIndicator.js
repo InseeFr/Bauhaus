@@ -9,5 +9,6 @@ export default () => {
 		prefLabelLg2: 'Building authorisations and building starts',
 		id: 'p1626',
 		gestionnaires: ['DG57-C060', 'DG57-C003'],
+		validationState: 'Validated',
 	});
 };

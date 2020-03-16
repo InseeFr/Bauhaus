@@ -1,12 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import CompareNotes from './';
 
 const builder = n => [{ lg1: 'noteLg1', lg2: 'noteLg2', title: 'title' }];
 
 describe('visualization-compare-notes', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<CompareNotes
 				notes={{ 1: {}, 2: {} }}
 				secondLang={false}

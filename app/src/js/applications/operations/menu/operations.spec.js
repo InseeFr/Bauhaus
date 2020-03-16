@@ -1,11 +1,13 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { MenuOperations } from '.';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('menu-operations', () => {
 	it('renders without crashing', () => {
-		shallow(
-			<MenuOperations location={{ pathname: '/location' }} permission={{}} />
+		render(
+			<MenuOperations location={{ pathname: '/location' }} permission={{}} />,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

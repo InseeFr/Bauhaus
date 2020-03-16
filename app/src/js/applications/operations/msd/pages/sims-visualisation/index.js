@@ -11,6 +11,8 @@ import {
 	Note,
 	ActionToolbar,
 } from '@inseefr/wilco';
+import { PublicationFemale } from 'js/applications/operations/shared/status';
+
 import { markdownToHtml, containUnsupportedStyles } from 'js/utils/html';
 import DocumentsBloc from 'js/applications/operations/msd/documents/documents-bloc/index.js';
 import {
@@ -210,6 +212,20 @@ export default function SimsVisualisation({
 			<ErrorBloc error={serverSideError} />
 
 			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+
+			<div className="row">
+				<Note
+					text={
+						<ul>
+							<li>
+								{D.simsStatus} : <PublicationFemale object={sims} />
+							</li>
+						</ul>
+					}
+					title={D.globalInformationsTitle}
+					alone={true}
+				/>
+			</div>
 
 			{Object.values(metadataStructure).map(msd => {
 				if (currentSection && msd.idMas !== currentSection) {

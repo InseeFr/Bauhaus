@@ -1,14 +1,17 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import ExportCollection from './home';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('collection-export', () => {
 	it('renders without crashing', () => {
-		shallow(
-			<ExportCollection
-				collections={[]}
-				handleExportCollectionList={(a, b) => console.log('export')}
-			/>
+		render(
+			<MemoryRouter>
+				<ExportCollection
+					collections={[]}
+					handleExportCollectionList={(a, b) => console.log('export')}
+				/>
+			</MemoryRouter>
 		);
 	});
 });

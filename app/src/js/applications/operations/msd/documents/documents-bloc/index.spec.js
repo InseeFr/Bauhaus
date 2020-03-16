@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { DocumentsBloc } from './index';
 import { sortArray } from 'js/utils/array-utils';
 import { getLang } from '@inseefr/wilco';
@@ -46,35 +46,36 @@ const documents = [
 
 describe('DocumentsBloc', () => {
 	it('should display nothing if the documents props is not defined', () => {
-		const general = shallow(<DocumentsBloc />);
-		expect(general.find('.documentsbloc')).toHaveLength(0);
+		const { container } = render(<DocumentsBloc />);
+		expect(container.querySelectorAll('.documentsbloc')).toHaveLength(0);
 	});
 	it('should display nothing if the documents props is an empty array', () => {
-		const general = shallow(<DocumentsBloc documents={[]} />);
-		expect(general.find('.documentsbloc')).toHaveLength(0);
+		const { container } = render(<DocumentsBloc documents={[]} />);
+		expect(container.querySelectorAll('.documentsbloc')).toHaveLength(0);
 	});
 
 	it('should display nothing if the documents props is an empty array', () => {
-		const general = shallow(
+		const { container } = render(
 			<DocumentsBloc documents={documents} documentStores={documents} />
 		);
-		expect(general.find('li')).toHaveLength(3);
+		expect(container.querySelectorAll('li')).toHaveLength(3);
 	});
 
 	it('should display the Lg1 label and description ordered by label', () => {
-		const general = shallow(
+		const { container } = render(
 			<DocumentsBloc documents={documents} documentStores={documents} />
 		);
 		const orderedList = sortArray('labelLg1')(documents);
 
-		general.find('li').forEach((li, i) => {
-			expect(li.html()).toEqual(
+		const lis = container.querySelectorAll('li');
+		for (let i = 0; i < lis.length; i++) {
+			expect(lis[i].outerHTML).toEqual(
 				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg1}">${orderedList[i].labelLg1}</a><i> (${orderedList[i].aside})</i></span></li>`
 			);
-		});
+		}
 	});
 	it('should display the Lg2 label and description ordered by label', () => {
-		const general = shallow(
+		const { container } = render(
 			<DocumentsBloc
 				documents={documents}
 				localPrefix="Lg2"
@@ -83,11 +84,12 @@ describe('DocumentsBloc', () => {
 		);
 		const orderedList = sortArray('labelLg2')(documents);
 
-		general.find('li').forEach((li, i) => {
-			expect(li.html()).toEqual(
+		const lis = container.querySelectorAll('li');
+		for (let i = 0; i < lis.length; i++) {
+			expect(lis[i].outerHTML).toEqual(
 				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg2}">${orderedList[i].labelLg2}</a><i> (${orderedList[i].aside})</i></span></li>`
 			);
-		});
+		}
 	});
 
 	describe.each`
@@ -96,7 +98,7 @@ describe('DocumentsBloc', () => {
 		${'Lg1'} | ${3}         | ${0}
 	`('$a + $b', ({ lang, expectedEdit, expectedView }) => {
 		it('should not display delete buttons', () => {
-			const general = shallow(
+			const { container } = render(
 				<DocumentsBloc
 					documents={documents}
 					localPrefix={lang}
@@ -105,11 +107,13 @@ describe('DocumentsBloc', () => {
 				/>
 			);
 
-			expect(general.find('.documentsbloc__delete')).toHaveLength(expectedView);
+			expect(container.querySelectorAll('.documentsbloc__delete')).toHaveLength(
+				expectedView
+			);
 		});
 
 		it('should display zero delete buttons', () => {
-			const general = shallow(
+			const { container } = render(
 				<DocumentsBloc
 					documents={documents}
 					localPrefix={lang}
@@ -118,12 +122,14 @@ describe('DocumentsBloc', () => {
 				/>
 			);
 
-			expect(general.find('.documentsbloc__delete')).toHaveLength(expectedEdit);
+			expect(container.querySelectorAll('.documentsbloc__delete')).toHaveLength(
+				expectedEdit
+			);
 		});
 	});
 
 	it('should display the Add Document button if there is not more document to add', () => {
-		const general = shallow(
+		const { container } = render(
 			<DocumentsBloc
 				documents={documents}
 				localPrefix="Lg1"
@@ -132,10 +138,10 @@ describe('DocumentsBloc', () => {
 			/>
 		);
 
-		expect(general.find('.documentsbloc__add')).toHaveLength(1);
+		expect(container.querySelectorAll('.documentsbloc__add')).toHaveLength(1);
 	});
 	it('should display the Add Document button if there is more than on document available', () => {
-		const general = shallow(
+		const { container } = render(
 			<DocumentsBloc
 				documents={documents}
 				localPrefix="Lg1"
@@ -150,11 +156,11 @@ describe('DocumentsBloc', () => {
 			/>
 		);
 
-		expect(general.find('.documentsbloc__add')).toHaveLength(1);
+		expect(container.querySelectorAll('.documentsbloc__add')).toHaveLength(1);
 	});
 
 	it('should not display the Add Document button for Lg2', () => {
-		const general = shallow(
+		const { container } = render(
 			<DocumentsBloc
 				documents={documents}
 				localPrefix="Lg2"
@@ -163,6 +169,6 @@ describe('DocumentsBloc', () => {
 			/>
 		);
 
-		expect(general.find('.documentsbloc__add')).toHaveLength(0);
+		expect(container.querySelectorAll('.documentsbloc__add')).toHaveLength(0);
 	});
 });

@@ -1,37 +1,45 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 import InputRmes from './';
 
 describe('inputMulti', () => {
 	const handleChange = jest.fn();
 
 	it('renders without crashing', () => {
-		shallow(<InputRmes handleChange={handleChange} />);
+		render(<InputRmes handleChange={handleChange} />);
 	});
 
 	it('returns disabled component', () => {
-		const wrapper = shallow(<InputRmes handleChange={handleChange} disabled />);
-		expect(wrapper.find('input').prop('disabled')).toBe(true);
+		const { container } = render(
+			<InputRmes handleChange={handleChange} disabled />
+		);
+		expect(
+			container.querySelector('input').hasAttribute('disabled')
+		).toBeTruthy();
 	});
 
 	it('returns enabled component', () => {
-		const wrapper = shallow(<InputRmes handleChange={handleChange} />);
-		expect(wrapper.find('input').prop('disabled')).toBe(undefined);
+		const { container } = render(<InputRmes handleChange={handleChange} />);
+		expect(
+			container.querySelector('input').hasAttribute('disabled')
+		).toBeFalsy();
 	});
 
 	it('returns starry component', () => {
-		const wrapper = shallow(<InputRmes handleChange={handleChange} star />);
-		expect(wrapper.find('.boldRed').text()).toBe('*');
+		const { container } = render(
+			<InputRmes handleChange={handleChange} star />
+		);
+		expect(container.querySelector('.boldRed').innerHTML).toBe('*');
 	});
 
 	it('returns non-starry component', () => {
-		const wrapper = shallow(<InputRmes handleChange={handleChange} />);
-		expect(wrapper.find('.boldRed')).toHaveLength(0);
+		const { container } = render(<InputRmes handleChange={handleChange} />);
+		expect(container.querySelectorAll('.boldRed')).toHaveLength(0);
 	});
 
 	it('should trigger the change event', () => {
-		const wrapper = shallow(<InputRmes handleChange={handleChange} />);
-		wrapper.find('input').simulate('change', {
+		const { container } = render(<InputRmes handleChange={handleChange} />);
+		fireEvent.change(container.querySelector('input'), {
 			target: {
 				value: 'value',
 			},

@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 import InputMultiRmes from './';
 
 const handleChangeLg1 = () => '';
@@ -18,29 +18,26 @@ const component = (
 
 describe('inputMulti', () => {
 	it('renders without crashing', () => {
-		shallow(component);
+		render(component);
 	});
 
 	it('returns arrayLg1 from component state', () => {
-		const wrapper = shallow(component);
-		expect(wrapper.state('arrayLg1')).toEqual(['altLg1', 'altLg1Bis']);
+		const { container } = render(component);
+
+		const inputs = container.querySelectorAll('.form-group:first-child input');
+
+		expect(inputs[0].value).toBe('altLg1');
+		expect(inputs[1].value).toBe('altLg1Bis');
 	});
 
 	it('should add an empty string when clicking on the Lg1/plus button', () => {
-		const wrapper = shallow(component);
-		wrapper
-			.find('.glyphicon-plus')
-			.first()
-			.simulate('click');
-		expect(wrapper.state('arrayLg1')).toEqual(['altLg1', 'altLg1Bis', '']);
-	});
+		const { container } = render(component);
 
-	fit('should display the modal when clicking on the Lg1/minus button', () => {
-		const wrapper = shallow(component);
-		wrapper
-			.find('.glyphicon-minus')
-			.first()
-			.simulate('click');
-		expect(wrapper.state('modalDelete')).toBeTruthy();
+		fireEvent.click(container.querySelector('.glyphicon-plus'));
+		const inputs = container.querySelectorAll('.form-group:first-child input');
+
+		expect(inputs[0].value).toBe('altLg1');
+		expect(inputs[1].value).toBe('altLg1Bis');
+		expect(inputs[2].value).toBe('');
 	});
 });

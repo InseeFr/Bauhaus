@@ -1,11 +1,15 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import Concepts from './home';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('concept', () => {
 	it('renders without crashing', () => {
-		shallow(
-			<Concepts concepts={[]} permission={{ authType: '', roles: [''] }} />
+		render(
+			<Concepts concepts={[]} permission={{ authType: '', roles: [''] }} />,
+			{
+				wrapper: MemoryRouter,
+			}
 		);
 	});
 });

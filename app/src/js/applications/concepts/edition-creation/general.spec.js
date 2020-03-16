@@ -1,11 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ConceptGeneral from './general';
 import { empty } from 'js/utils/concepts/general';
 
 describe('concept-edition-creation-general', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ConceptGeneral
 				general={empty()}
 				stampList={[]}

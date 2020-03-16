@@ -1,14 +1,16 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ExportConcept from './home';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('concept-export', () => {
 	it('renders without crashing', () => {
-		shallow(
+		render(
 			<ExportConcept
 				concepts={[]}
 				handleExportConceptList={(a, b) => console.log('export')}
-			/>
+			/>,
+			{ wrapper: MemoryRouter }
 		);
 	});
 });

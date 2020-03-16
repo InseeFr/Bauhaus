@@ -1,10 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import EditorHtml from '.';
 
 describe('editor-html', () => {
 	it('renders without crashing', () => {
 		const onChange = () => '';
-		shallow(<EditorHtml text="text" handleChange={onChange} smart={true} />);
+		render(<EditorHtml text="text" handleChange={onChange} smart={true} />);
 	});
 });

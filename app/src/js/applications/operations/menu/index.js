@@ -43,7 +43,7 @@ export class MenuOperations extends Component {
 					className: null,
 					attrs: null,
 					alignToRight: true,
-					order: 5,
+					order: 6,
 					label: D.help,
 				},
 				document: {
@@ -52,7 +52,7 @@ export class MenuOperations extends Component {
 					className: null,
 					attrs: null,
 					alignToRight: true,
-					order: 6,
+					order: 5,
 					label: `${D.titleDocument} / ${D.titleLink}`,
 				},
 				operations: {
