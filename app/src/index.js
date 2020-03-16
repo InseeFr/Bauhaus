@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import Root from 'js/router';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
-import { Error, I18NContext, BackToTop } from '@inseefr/wilco';
+import { Error, I18NContext, BackToTop, getLang } from '@inseefr/wilco';
 import D from 'js/i18n';
 import ApplicationTitle from 'js/applications/shared/application-title';
 
@@ -25,6 +25,8 @@ Api.getInit()
 	.then(res => renderApp(Root, res));
 
 const renderApp = (Component, initState, props) => {
+	document.querySelector('html').setAttribute('lang', getLang());
+
 	const { authType: type, lg1, lg2, ...properties } = initState;
 	const store = configureStore({
 		app: {
