@@ -29,6 +29,6 @@ export default () => {
 			{ labelLg2: 'blibl', labelLg1: 'blabla', id: 's1511' },
 		],
 		id: 's82',
-		validationState: 'http://rdf.insee.fr/def/base#validated',
+		validationState: 'Validated',
 	});
 };

@@ -61,5 +61,6 @@ export default () => {
 				type: 'indicator',
 			},
 		],
+		validationState: 'Modified',
 	});
 };

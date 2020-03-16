@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import ValidationButton from './';
 
 describe('<ValidationButton', () => {
-	it('should contain a disabled button if the object is already validated', () => {
+	it('should return nothing if the object is already validated', () => {
 		const { container } = render(
 			<ValidationButton
 				object={{ validationState: 'Validated' }}
@@ -11,9 +11,7 @@ describe('<ValidationButton', () => {
 				disabled={false}
 			/>
 		);
-		expect(
-			container.querySelector('button').hasAttribute('disabled')
-		).toBeTruthy();
+		expect(container.innerHTML).toBe('');
 	});
 
 	it('should contain a enabled button if the validationStateis not defined', () => {

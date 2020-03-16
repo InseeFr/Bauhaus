@@ -1,13 +1,7 @@
-import D from 'js/i18n';
 import React, { useCallback } from 'react';
 import { PublishButton } from '@inseefr/wilco';
 
-export default ({
-	object = {},
-	callback,
-	disabled = false,
-	label = D.btnValidatedF,
-}) => {
+export default ({ object = {}, callback, disabled = false }) => {
 	const state = object.validationState || '';
 
 	const clickHandler = useCallback(() => {
@@ -15,7 +9,7 @@ export default ({
 	}, [object, callback]);
 
 	if (state.indexOf('Validated') >= 0) {
-		return <PublishButton label={label} disabled action={() => {}} />;
+		return null;
 	}
 	return <PublishButton action={clickHandler} disabled={disabled} />;
 };

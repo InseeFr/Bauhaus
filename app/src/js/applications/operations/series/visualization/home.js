@@ -6,6 +6,7 @@ import RelationsView from 'js/applications/operations/shared/relations';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
+import { PublicationFemale } from 'js/applications/operations/shared/status';
 
 function OperationsSerieVisualization({
 	attr,
@@ -28,6 +29,19 @@ function OperationsSerieVisualization({
 	);
 	return (
 		<React.Fragment>
+			<div className="row">
+				<Note
+					text={
+						<ul>
+							<li>
+								{D1.seriesStatus} : <PublicationFemale object={attr} />
+							</li>
+						</ul>
+					}
+					title={D1.globalInformationsTitle}
+					alone={true}
+				/>
+			</div>
 			<div className="row">
 				<Note
 					text={attr.altLabelLg1}

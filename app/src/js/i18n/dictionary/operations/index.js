@@ -174,6 +174,50 @@ const dictionary = {
 		fr: 'Arbre des Opérations',
 		en: 'Operations tree',
 	},
+	familyStatus: {
+		fr: 'État de la famille',
+		en: 'State of the family',
+	},
+	seriesStatus: {
+		fr: 'État de la série',
+		en: 'State of the series',
+	},
+	operationStatus: {
+		fr: "État de l'opération",
+		en: 'State of the operation',
+	},
+	indicatorStatus: {
+		fr: "État de l'indicateur",
+		en: 'State of the indicator',
+	},
+	simsStatus: {
+		fr: 'État du SIMS',
+		en: 'State of the SIMS',
+	},
+	statusValidatedM: {
+		fr: 'Publié',
+		en: 'Published',
+	},
+	statusValidatedF: {
+		fr: 'Publiée',
+		en: 'Published',
+	},
+	statusModifiedM: {
+		fr: 'Modifié',
+		en: 'Modified',
+	},
+	statusModifiedF: {
+		fr: 'Modifiée',
+		en: 'Modified',
+	},
+	statusUnpublishedM: {
+		fr: 'Non Publié',
+		en: 'Published',
+	},
+	statusUnpublishedF: {
+		fr: 'Non Publiée',
+		en: 'Published',
+	},
 	...documentsD,
 	...validationD,
 };

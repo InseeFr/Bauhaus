@@ -6,6 +6,7 @@ import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils'
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
 import { markdownToHtml } from 'js/utils/html';
+import { PublicationMale } from 'js/applications/operations/shared/status';
 
 function DisplayMultiLangNote({
 	value1,
@@ -62,6 +63,19 @@ function OperationsIndicatorVisualization(props) {
 
 	return (
 		<React.Fragment>
+			<div className="row">
+				<Note
+					text={
+						<ul>
+							<li>
+								{D1.indicatorStatus} : <PublicationMale object={attr} />
+							</li>
+						</ul>
+					}
+					title={D1.globalInformationsTitle}
+					alone={true}
+				/>
+			</div>
 			<DisplayMultiLangNote
 				value1={attr.altLabelLg1}
 				value2={attr.altLabelLg2}

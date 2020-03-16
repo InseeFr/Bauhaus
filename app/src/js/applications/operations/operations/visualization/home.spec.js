@@ -47,8 +47,7 @@ describe('OperationVisualization', () => {
 				closeModal={() => {}}
 			/>
 		);
-		expect(
-			container.querySelectorAll('.row:first-child .wilco-note').length
-		).toBe(2);
+
+		expect(container.querySelectorAll('.wilco-note')).toHaveLength(5);
 	});
 });
