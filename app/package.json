@@ -33,7 +33,7 @@
 	"dependencies": {
 		"bauhaus-structures": "^0.0.0",
 		"bauhaus-utilities": "^0.0.0",
-		"@inseefr/iam": "^0.0.1-rc8",
+		"@inseefr/iam": "^0.0.1-rc11",
 		"@inseefr/wilco": "0.0.2-rc13",
 		"axios": "^0.19.0",
 		"bootstrap": "3.4.1",
