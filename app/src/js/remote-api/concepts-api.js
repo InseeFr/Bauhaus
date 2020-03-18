@@ -1,4 +1,4 @@
-import buildApi from './build-api';
+import { API } from 'bauhaus-utilities';
 
 const api = {
 	getConceptList: () => [''],
@@ -127,4 +127,4 @@ const api = {
 	],
 };
 
-export default buildApi('concepts', api);
+export default API.buildApi('concepts', api);

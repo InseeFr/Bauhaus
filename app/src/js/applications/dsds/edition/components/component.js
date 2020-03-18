@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ComponentList from 'js/applications/dsds/visualization/components/component-list';
 import ComponentDetail from './details';
 import { NewButton } from '@inseefr/wilco';
-import { getConcepts, getCodeList } from 'js/remote-api/dsds';
+import { getConcepts, getCodeList } from 'bauhaus-structures';
 import * as C from 'js/constants';
 import D from 'js/i18n';
 

@@ -9,7 +9,7 @@ import {
 } from 'js/reducers/operations/selector';
 import { sortArray } from 'js/utils/array-utils';
 import React, { Component, useState, useEffect } from 'react';
-import { getBaseURI } from 'js/remote-api/build-api';
+import { API } from 'bauhaus-utilities';
 import { connect } from 'react-redux';
 import './style.scss';
 import { isDocument } from 'js/applications/operations/document/utils';
@@ -47,7 +47,7 @@ export function DocumentsBloc({
 
 	const [baseURI, setBaseURI] = useState('');
 	useEffect(() => {
-		getBaseURI().then(uri => setBaseURI(uri));
+		API.getBaseURI().then(uri => setBaseURI(uri));
 	});
 
 	const currentDocuments = sortArray(`label${localPrefix}`)(documents);

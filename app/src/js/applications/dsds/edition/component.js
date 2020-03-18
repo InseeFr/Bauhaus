@@ -4,7 +4,7 @@ import { AppContext } from 'index';
 import { Input, Loading, ErrorBloc } from '@inseefr/wilco';
 import Controls from './controls';
 import Components from './components';
-import API from 'js/remote-api/dsds/dsds-api';
+import { StructureAPI } from 'bauhaus-structures';
 import D from 'js/i18n';
 
 const defaultDSD = {
@@ -49,7 +49,10 @@ const Edition = ({ creation, initDSD }) => {
 				creation={creation}
 				save={() => {
 					setLoading(true);
-					(creation ? API.postDSD(DSD) : API.putDSD(DSD)).then(id => {
+					(creation
+						? StructureAPI.postStructure(DSD)
+						: StructureAPI.putStructure(DSD)
+					).then(id => {
 						setRedirectId(id);
 					});
 				}}

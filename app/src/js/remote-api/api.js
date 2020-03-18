@@ -1,4 +1,4 @@
-import buildApi from './build-api';
+import { API } from 'bauhaus-utilities';
 
 const api = {
 	getInit: () => [
@@ -60,4 +60,4 @@ const api = {
 	},
 };
 
-export default buildApi('', api);
+export default API.buildApi('', api);

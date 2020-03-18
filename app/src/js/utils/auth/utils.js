@@ -1,6 +1,6 @@
 import * as NoAuthUtils from './no-auth/utils';
 import * as FakeAuthUtils from './fake-auth/utils';
-import * as OpenIDConnectAuthUtils from './open-id-connect-auth/utils';
+import * as OpenIDConnectAuthUtils from 'bauhaus-utilities';
 import * as Impl from 'js/utils/auth/auth-impl';
 
 export default authType => {

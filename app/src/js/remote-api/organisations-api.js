@@ -1,6 +1,6 @@
-import buildApi from './build-api';
+import { API } from 'bauhaus-utilities';
 
 const api = {
 	getOrganisations: () => [''],
 };
-export default buildApi('organizations', api);
+export default API.buildApi('organizations', api);

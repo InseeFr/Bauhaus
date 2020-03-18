@@ -1,8 +1,8 @@
-import buildApi from './build-api';
+import { API } from 'bauhaus-utilities';
 
 const api = {
 	getCodesList: notation => [`${notation}`],
 	getCode: (notation, code) => [`${notation}/code/${code}`],
 };
 
-export default buildApi('codeList', api);
+export default API.buildApi('codeList', api);
