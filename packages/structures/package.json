@@ -7,7 +7,7 @@
 	"scripts": {
 		"start": "microbundle watch --target node --jsx React.createElement",
 		"build-insee": "microbundle build --jsx React.createElement",
-		"test": "jest --watch",
+		"test": "jest --watch --passWithNoTests",
 		"build-storybook": "build-storybook -o built-storybook/storybook",
 		"start-storybook": "start-storybook -p 9999",
 		"test:coverage": "jest --coverage",
