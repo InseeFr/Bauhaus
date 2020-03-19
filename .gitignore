@@ -3,7 +3,7 @@ dist
 
 .deploy
 deploy.sh
-
+.firebase
 
 # dependencies
 node_modules
