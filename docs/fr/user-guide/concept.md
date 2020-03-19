@@ -18,7 +18,7 @@ Le module Concepts encore appelée "Bauhaus-concepts" permet de gérer les conce
   - [Comparer les versions](#comparer-versions)
   - [Envoyer un concept](#envoyer-concept)
   - [Publier un concept](#publier-concept)
-
+ 
 ---
 
 - [**Fonctionnalités de gestion des collections de concepts**](#fonctionnalites-collections-concepts)
