@@ -22,10 +22,12 @@ if [ "$TRAVIS_BRANCH" != "$MAIN_BRANCH" ];then
 fi
 
 function setup() {
+  echo "Installing Yarn and gitbook-cli"
   npm install -g yarn gitbook-cli
 }
 
 function buildDocumentation() {
+  echo "Running gitbook install and build"
   pushd "$DOC_FOLDER"
   gitbook install
   gitbook build
@@ -33,10 +35,13 @@ function buildDocumentation() {
 }
 
 function buildStoryBook(){
+  echo "Building storybook"
   yarn build-storybook
 }
 
 function publish() {
+  echo "Start Publishing"
+
   if [ -d "$SITE_FOLDER" ]; then rm -Rf $SITE_FOLDER; fi
 
   mkdir $SITE_FOLDER
@@ -62,6 +67,7 @@ function publish() {
 }
 
 function main() {
+  echo "Building everything"
   setup && buildDocumentation && buildStoryBook && publish
 }
 
