@@ -10,17 +10,18 @@ install:
 script:
   - yarn test:coverage
 
-deploy:
-  skip_cleanup: true
-  provider: releases
-  api_key:
-    secure:
-      - ${GITHUB_TOKEN}
-  file:
-    - ${TRAVIS_BUILD_NUMBER}.tar.gz
-  on:
-    all_branches: true
-    condition: "$TRAVIS_BRANCH =~ ^master$"
+# deploy:
+#   skip_cleanup: true
+#   provider: releases
+#   api_key:
+#     secure:
+#       - ${GITHUB_TOKEN}
+#   file:
+#     - ${TRAVIS_BUILD_NUMBER}.tar.gz
+#   on:
+#     all_branches: true
+#     condition: "$TRAVIS_BRANCH =~ ^master$"
+
 after_script:
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
   - bash scripts/gitbook.sh
