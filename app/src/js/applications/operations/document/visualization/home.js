@@ -3,7 +3,7 @@ import { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { isDocument, isLink } from '../utils';
-import { getBaseURI } from 'js/remote-api/build-api';
+import { API } from 'bauhaus-utilities';
 /**
  * @typedef OperationsDocumentationVisualizationProps
  * @property {any} attr
@@ -20,7 +20,7 @@ function OperationsDocumentationVisualization({
 }) {
 	const [baseURI, setBaseURI] = useState('');
 	useEffect(() => {
-		getBaseURI().then(uri => setBaseURI(uri));
+		API.getBaseURI().then(uri => setBaseURI(uri));
 	});
 	return (
 		<React.Fragment>

@@ -9,7 +9,7 @@ import {
 	setToken,
 	getAuthPropsFromToken,
 	isTokenValid,
-} from 'js/utils/auth/open-id-connect-auth/token-utils';
+} from 'bauhaus-utilities';
 import * as select from 'js/reducers';
 const kcConfig = `${window.location.origin}/keycloak.json`;
 

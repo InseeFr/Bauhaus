@@ -4,6 +4,7 @@ import { Menu, PageTitle, goBack } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import api from 'js/remote-api/api';
 import D from 'js/i18n';
+import './component.scss';
 
 const Habilitation = props => {
 	document.getElementById('root-app').classList = ['bauhaus-app'];
@@ -12,7 +13,7 @@ const Habilitation = props => {
 	} = props;
 	const authImpl = check(authType);
 	return (
-		<>
+		<div className="bauhaus-habilitations">
 			<Menu paths={[]}></Menu>
 			<PageTitle title={D.authorizationTitle} />
 			<HabilitationContainer
@@ -25,7 +26,7 @@ const Habilitation = props => {
 				}}
 				displayUpdateBtn={authImpl.isAdmin(roles)}
 			/>
-		</>
+		</div>
 	);
 };
 export default Habilitation;

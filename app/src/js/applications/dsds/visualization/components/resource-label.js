@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AppContext } from 'index';
 import { Flag } from '@inseefr/wilco';
-import { getRDFObject } from 'js/applications/dsds/utils/sparql-endpoint-call';
+import { getRDFObject } from 'bauhaus-utilities';
 import { getFlag } from 'js/utils/flags/get-flag';
 
 const ResourceLabel = ({ title, URI }) => {

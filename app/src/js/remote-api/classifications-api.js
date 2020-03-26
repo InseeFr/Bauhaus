@@ -1,4 +1,4 @@
-import buildApi from './build-api';
+import { API } from 'bauhaus-utilities';
 
 const api = {
 	getFamiliesList: () => ['families'],
@@ -38,4 +38,4 @@ const api = {
 	],
 };
 
-export default buildApi('classifications', api);
+export default API.buildApi('classifications', api);

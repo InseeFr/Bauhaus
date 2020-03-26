@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { buildExtract, PageTitle } from '@inseefr/wilco';
 import Badge from 'js/applications/shared/badge';
 import ResourceLabel from './resource-label';
-import API from 'js/remote-api/dsds/dsds-api';
+import { StructureAPI } from 'bauhaus-structures';
 import D from 'js/i18n';
 import * as C from 'js/constants';
 
@@ -13,7 +13,10 @@ const ComponentDetails = ({ id, ...props }) => {
 	const dsdId = buildExtract('dsdId')(props);
 
 	useEffect(() => {
-		id && API.getDSDComponent(dsdId, id).then(res => setComponent(res));
+		id &&
+			StructureAPI.getStructureComponent(dsdId, id).then(res =>
+				setComponent(res)
+			);
 	}, [id, dsdId]);
 
 	const {

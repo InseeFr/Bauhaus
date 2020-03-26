@@ -74,7 +74,7 @@ const ComponentDetail = ({
 				value={C.COMPONENT_TYPES.find(c => c.value === type)}
 				placeholder={D.componentTypePlaceholder}
 				options={C.COMPONENT_TYPES}
-				onChange={e => onChange({ type: e.value })}
+				onChange={value => onChange({ type: value })}
 				helpMsg={!type && `Type can't be undefined`}
 			/>
 			{type === C.ATTRIBUTE_TYPE && (

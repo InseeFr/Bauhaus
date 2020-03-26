@@ -48,6 +48,10 @@ export default {
 		fr: 'Composants',
 		en: 'Components',
 	},
+	mutualizedComponentTitle: {
+		fr: 'Composants mutualisés',
+		en: 'Mutualized Components',
+	},
 	attributsTitle: {
 		fr: 'Attributs',
 		en: 'Attributs',

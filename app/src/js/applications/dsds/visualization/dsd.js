@@ -6,7 +6,7 @@ import CheckSecondLang from 'js/applications/shared/check-second-lang';
 import Controls from './controls';
 import Components from './components';
 import D from 'js/i18n';
-import API from 'js/remote-api/dsds/dsds-api';
+import { StructureAPI } from 'bauhaus-structures';
 
 const DSD = props => {
 	const [DSD, setDSD] = useState({});
@@ -14,7 +14,7 @@ const DSD = props => {
 
 	useEffect(() => {
 		const dsdId = buildExtract('dsdId')(props);
-		API.getDSD(dsdId).then(res => setDSD(res));
+		StructureAPI.getStructure(dsdId).then(res => setDSD(res));
 	}, [props]);
 
 	const { labelLg1, labelLg2, descriptionLg1, descriptionLg2 } = DSD;

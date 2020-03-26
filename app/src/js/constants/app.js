@@ -1,6 +1,3 @@
-// AUTH
-export const SESSION_ITEM = '__SESSION_ITEM__';
-
 // TEMP roles
 export const NOT_AUTH = 'NONE';
 export const GESTIONNAIRE = 'GESTIONNAIRE';

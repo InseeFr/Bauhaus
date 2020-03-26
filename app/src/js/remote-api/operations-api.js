@@ -1,4 +1,4 @@
-import buildApi from './build-api';
+import { API } from 'bauhaus-utilities';
 import simsApi from './operations/sims';
 import indicatorApi from './operations/indicator';
 import familyApi from './operations/family';
@@ -27,4 +27,4 @@ const api = {
 	],
 };
 
-export default buildApi('operations', api);
+export default API.buildApi('operations', api);

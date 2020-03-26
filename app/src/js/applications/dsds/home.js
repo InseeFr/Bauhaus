@@ -5,14 +5,14 @@ import {
 	SearchableList,
 	VerticalMenu,
 } from '@inseefr/wilco';
-import API from 'js/remote-api/dsds/dsds-api';
+import { StructureAPI } from 'bauhaus-structures';
 import D from 'js/i18n';
 
 const Home = () => {
 	const [DSDs, setDSDs] = useState([]);
 
 	useEffect(() => {
-		API.getDSDs().then(res => setDSDs(res));
+		StructureAPI.getStructures().then(res => setDSDs(res));
 	}, []);
 
 	const isLocal = process.env.REACT_APP_API_MODE === 'local';

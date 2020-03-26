@@ -4,7 +4,7 @@ import ComponentList from './component-list';
 import ComponentDetail from './component-detail';
 import * as C from 'js/constants';
 import D from 'js/i18n';
-import API from 'js/remote-api/dsds/dsds-api';
+import { StructureAPI } from 'bauhaus-structures';
 import { buildExtract } from '@inseefr/wilco';
 import './components.scss';
 
@@ -20,7 +20,7 @@ const Components = props => {
 
 	useEffect(() => {
 		const dsdId = buildExtract('dsdId')(props);
-		API.getComponents(dsdId).then(res => setComponents(res));
+		StructureAPI.getComponents(dsdId).then(res => setComponents(res));
 	}, [props]);
 
 	return (

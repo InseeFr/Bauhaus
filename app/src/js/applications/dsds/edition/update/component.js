@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Edition from '../component';
 import { buildExtract } from '@inseefr/wilco';
-import API from 'js/remote-api/dsds/dsds-api';
+import { StructureAPI } from 'bauhaus-structures';
 
 const Update = props => {
 	const [DSD, setDSD] = useState({});
@@ -9,8 +9,10 @@ const Update = props => {
 
 	useEffect(() => {
 		const dsdId = buildExtract('dsdId')(props);
-		API.getDSD(dsdId).then(res => setDSD(res));
-		API.getDSDDetailedComponents(dsdId).then(res => setComponents(res));
+		StructureAPI.getStructure(dsdId).then(res => setDSD(res));
+		StructureAPI.getStructureDetailedComponents(dsdId).then(res =>
+			setComponents(res)
+		);
 	}, [props]);
 
 	return (
