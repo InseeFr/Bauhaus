@@ -62,7 +62,7 @@
 		"react-redux": "7.1.0",
 		"react-router-dom": "5.1.2",
 		"react-router-hash-link": "1.2.0",
-		"react-scripts": "3.3.0",
+		"react-scripts": "3.4.0",
 		"react-select": "1.1.0",
 		"react-sortable-tree": "2.1.0",
 		"redux": "4.0.4",
