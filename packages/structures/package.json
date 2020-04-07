@@ -46,6 +46,7 @@
 		"useTabs": true
 	},
 	"dependencies": {
-		"bauhaus-utilities": "^0.0.0"
+		"bauhaus-utilities": "^0.0.0",
+		"react-sliding-side-panel": "^1.0.14"
 	}
 }

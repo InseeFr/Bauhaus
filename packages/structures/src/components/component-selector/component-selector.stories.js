@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import ComponentSelector from '.';
 const stories = storiesOf('ComponentSelector', module);
 
-const styleDecorator = storyFn => (
+const styleDecorator = (storyFn) => (
 	<div className="col-md-12" style={{ marginTop: '5%' }}>
 		{storyFn()}
 	</div>
@@ -145,11 +145,29 @@ const mutualizedComponents = [
 	},
 ];
 
-const components = [{ ...mutualizedComponents[0] }];
+const components = [
+	{ ...mutualizedComponents[0] },
+	{ ...mutualizedComponents[1] },
+	{ ...mutualizedComponents[2] },
+];
+
+const concepts = mutualizedComponents.map((component) => ({
+	altLabel: '',
+	id: component.concept,
+	label: 'Concept - Label ' + component.concept,
+}));
+const codesLists = mutualizedComponents.map((component) => ({
+	altLabel: '',
+	id: component.codeList,
+	label: 'Code List - Label ' + component.concept,
+}));
+
 stories.add('Default', () => {
 	return (
 		<ComponentSelector
 			components={components}
+			codesLists={codesLists}
+			concepts={concepts}
 			mutualizedComponents={mutualizedComponents}
 		/>
 	);

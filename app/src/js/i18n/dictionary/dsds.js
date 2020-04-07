@@ -56,26 +56,28 @@ export default {
 		fr: 'Attributs',
 		en: 'Attributs',
 	},
-	attributTitle: {
-		fr: 'Attribut',
-		en: 'Attribut',
-	},
+	
 	dimensionsTitle: {
 		fr: 'Dimensions',
 		en: 'Dimensions',
+	},
+	attributTitle: {
+		fr: 'Attribut',
+		en: 'Attribut',
 	},
 	dimensionTitle: {
 		fr: 'Dimension',
 		en: 'Dimension',
 	},
-	measuresTitle: {
-		fr: 'Mesures',
-		en: 'Measures',
-	},
 	measureTitle: {
 		fr: 'Mesure',
 		en: 'Measure',
 	},
+	measuresTitle: {
+		fr: 'Mesures',
+		en: 'Measures',
+	},
+	
 	emptyComponent: {
 		fr: 'Sélectionner un composant',
 		en: 'Select component',

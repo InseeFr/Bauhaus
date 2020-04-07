@@ -1,150 +1,14 @@
 import React, { useState, useCallback } from 'react';
-import { Note, Table } from '@inseefr/wilco';
-import D from '../../i18n/build-dictionary';
-
 import './component-selector.scss';
-/**
- * TODO:
- * - pouvoir editer un composant dans CH
- * - Reorder
- * - Gerer l'affichage du type
- * - l'affichage des codelist et concepts
- */
+import { MutualizedComponentsSelector } from '../mutualized-component-selector';
+import { StructureComponentsSelector } from '../structure-component-selector';
 
-const CollapsiblePanel = ({ id, title, children, hidden: hiddenProps }) => {
-	const [hidden, setHidden] = useState(hiddenProps);
-	const clickTitleHandler = useCallback(() => {
-		setHidden(!hidden);
-	}, [hidden]);
-
-	const bodyId = `${id}-body`;
-	const buttonId = `${id}-button`;
-
-	return (
-		<div className="bauhaus-collapsible-panel">
-			<Note
-				text={
-					<div id={bodyId} aria-labelledby={buttonId} hidden={hidden}>
-						{children}
-					</div>
-				}
-				title={
-					<button
-						id={buttonId}
-						aria-expanded={!hidden}
-						aria-controls={bodyId}
-						onClick={clickTitleHandler}
-					>
-						{title}{' '}
-						<span
-							className={`glyphicon glyphicon-chevron-${
-								hidden ? 'down' : 'up'
-							}`}
-						/>
-					</button>
-				}
-				alone={true}
-			/>
-		</div>
-	);
-};
-const rowParams = [
-	{
-		dataField: 'labelLg1',
-		text: D.label,
-		width: '40%',
-		isKey: true,
-	},
-	{
-		dataField: 'type',
-		text: D.type,
-		width: '40%',
-	},
-	{
-		dataField: 'actions',
-		text: '',
-		width: '20%',
-	},
-];
-const MutualizedComponentsSelector = ({
-	hidden = false,
-	components,
-	handleAdd,
+const ComponentSelector = ({
+	components = [],
+	mutualizedComponents,
+	concepts = [],
+	codesLists = [],
 }) => {
-	const addClickHandler = useCallback(
-		e => {
-			handleAdd(e.target.parentElement.dataset.componentId);
-		},
-		[handleAdd]
-	);
-	const componentsWithActions = components.map(component => ({
-		...component,
-		actions: (
-			<button
-				data-component-id={component.id}
-				onClick={addClickHandler}
-				aria-label={D.add}
-			>
-				<span className="glyphicon glyphicon-plus"></span>
-			</button>
-		),
-	}));
-
-	return (
-		<CollapsiblePanel
-			id="mutualized-components-picker"
-			hidden={hidden}
-			title={D.mutualizedComponentTitle}
-		>
-			<Table
-				rowParams={rowParams}
-				data={componentsWithActions}
-				search={true}
-				pagination={false}
-			/>
-		</CollapsiblePanel>
-	);
-};
-const StructureComponentsSelector = ({
-	hidden = false,
-	components,
-	handleRemove,
-}) => {
-	const removeClickHandler = useCallback(
-		e => {
-			handleRemove(e.target.parentElement.dataset.componentId);
-		},
-		[handleRemove]
-	);
-
-	const componentsWithActions = components.map(component => ({
-		...component,
-		actions: (
-			<button
-				data-component-id={component.id}
-				onClick={removeClickHandler}
-				aria-label={D.remove}
-			>
-				<span className="glyphicon glyphicon-minus"></span>
-			</button>
-		),
-	}));
-	return (
-		<CollapsiblePanel
-			id="components-picker"
-			hidden={hidden}
-			title={D.componentTitle}
-		>
-			<Table
-				rowParams={rowParams}
-				data={componentsWithActions}
-				search={false}
-				pagination={false}
-			/>
-		</CollapsiblePanel>
-	);
-};
-const ComponentSelector = ({ components = [], mutualizedComponents }) => {
 	const [structureComponents, setStructureComponents] = useState(components);
 
 	const filteredMutualizedComponents = mutualizedComponents.filter(
@@ -166,14 +30,54 @@ const ComponentSelector = ({ components = [], mutualizedComponents }) => {
 		},
 		[mutualizedComponents, structureComponents]
 	);
+
+	const handleUp = useCallback(
+		id => {
+			const data = [...structureComponents];
+			const index = data.findIndex(component => component.id === id);
+			const temp = data[index];
+			data[index] = data[index - 1];
+			data[index - 1] = temp;
+			setStructureComponents(data);
+		},
+		[structureComponents]
+	);
+	const handleDown = useCallback(
+		id => {
+			const data = [...structureComponents];
+			const index = data.findIndex(component => component.id === id);
+			const temp = data[index];
+			data[index] = data[index + 1];
+			data[index + 1] = temp;
+			setStructureComponents(data);
+		},
+		[structureComponents]
+	);
+
+	const conceptsObject = concepts.reduce(
+		(acc, concept) => ({ ...acc, [concept.id]: { ...concept } }),
+		{}
+	);
+
+	const codesListsObject = codesLists.reduce(
+		(acc, code) => ({ ...acc, [code.id]: { ...code } }),
+		{}
+	);
+
 	return (
 		<>
 			<StructureComponentsSelector
 				hidden={false}
+				codesLists={codesListsObject}
+				concepts={conceptsObject}
 				components={structureComponents}
 				handleRemove={handleRemove}
+				handleUp={handleUp}
+				handleDown={handleDown}
 			/>
 			<MutualizedComponentsSelector
+				concepts={conceptsObject}
+				codesLists={codesListsObject}
 				hidden={true}
 				components={filteredMutualizedComponents}
 				handleAdd={handleAdd}
