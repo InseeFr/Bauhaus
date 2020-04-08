@@ -6,6 +6,7 @@ import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 import { defaultComponentsTableParams } from '../../utils';
+import { XSD_CODE_LIST } from '../../utils/constants/xsd';
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,
@@ -37,7 +38,10 @@ export const MutualizedComponentsSelector = ({
 		...component,
 		type: typeUriToLabel(component.type),
 		concept: concepts[component.concept]?.label,
-		codeList: codesLists[component.codeList]?.label,
+		codeList:
+			component.range === XSD_CODE_LIST
+				? ''
+				: codesLists[component.codeList]?.label,
 		actions: (
 			<React.Fragment>
 				<button
@@ -79,6 +83,7 @@ export const MutualizedComponentsSelector = ({
 					handleBack={() => {
 						setOpenPanel(false);
 					}}
+					updatable={false}
 				/>
 			</SlidingPanel>
 		</CollapsiblePanel>

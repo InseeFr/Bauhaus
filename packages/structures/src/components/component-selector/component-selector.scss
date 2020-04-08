@@ -50,8 +50,6 @@
 	}
 
 	.wilco-page-title__block {
-		margin: 0;
-		text-align: left;
 		h1 {
 			margin-top: 20px;
 			margin-bottom: 20px;
@@ -70,4 +68,7 @@
 		display: inline-block;
 		width: auto;
 	}
+}
+.centered {
+	text-align: center;
 }

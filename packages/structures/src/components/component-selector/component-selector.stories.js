@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import ComponentSelector from '.';
 const stories = storiesOf('ComponentSelector', module);
 
-const styleDecorator = (storyFn) => (
+const styleDecorator = storyFn => (
 	<div className="col-md-12" style={{ marginTop: '5%' }}>
 		{storyFn()}
 	</div>
@@ -20,7 +20,7 @@ const mutualizedComponents = [
 		concept: 439,
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 942,
-		range: 'http://www.w3.org/2001/XMLSchema#date',
+		range: 'http://www.w3.org/2001/XMLSchema#codeList',
 	},
 	{
 		id: '5e7334005ed839722436a194',
@@ -151,12 +151,12 @@ const components = [
 	{ ...mutualizedComponents[2] },
 ];
 
-const concepts = mutualizedComponents.map((component) => ({
+const concepts = mutualizedComponents.map(component => ({
 	altLabel: '',
 	id: component.concept,
 	label: 'Concept - Label ' + component.concept,
 }));
-const codesLists = mutualizedComponents.map((component) => ({
+const codesLists = mutualizedComponents.map(component => ({
 	altLabel: '',
 	id: component.codeList,
 	label: 'Code List - Label ' + component.concept,

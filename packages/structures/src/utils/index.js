@@ -18,13 +18,13 @@ export const defaultComponentsTableParams = [
 		width: '20%',
 	},
 	{
-		dataField: 'codeList',
-		text: D.codesListTitle,
+		dataField: 'concept',
+		text: D.conceptTitle,
 		width: '20%',
 	},
 	{
-		dataField: 'concept',
-		text: D.conceptTitle,
+		dataField: 'codeList',
+		text: D.codesListTitle,
 		width: '20%',
 	},
 	{
@@ -33,3 +33,13 @@ export const defaultComponentsTableParams = [
 		width: '20%',
 	},
 ];
+
+export const validateComponent = component => {
+	if (!component.id) {
+		return {
+			field: 'id',
+			message: D.errorsIdMantory,
+		};
+	}
+	return {};
+};

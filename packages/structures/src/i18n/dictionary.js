@@ -1,4 +1,8 @@
 export default {
+	errorsIdMantory: {
+		fr: "L'identifiant est obligatoire",
+		en: 'The id is mandatory',
+	},
 	componentTitle: {
 		fr: 'Composants',
 		en: 'Components',
@@ -58,5 +62,33 @@ export default {
 	conceptTitle: {
 		en: 'Concept',
 		fr: 'Concept',
+	},
+	rangeTitle: {
+		fr: 'Portée',
+		en: 'Range',
+	},
+	stringType: {
+		fr: 'Texte',
+		en: 'String',
+	},
+	floatType: {
+		fr: 'Nombre décimal',
+		en: 'Float',
+	},
+	intType: {
+		fr: 'Nombre entier',
+		en: 'Integer',
+	},
+	dateType: {
+		fr: 'Date',
+		en: 'Date',
+	},
+	idTitle: {
+		fr: 'Identifiant',
+		en: 'Identifier',
+	},
+	attachmentTitle: {
+		fr: 'Attachment',
+		en: 'Attachment',
 	},
 };

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { PageTitle } from '@inseefr/wilco';
+import { PageTitle, PageSubtitle, CheckSecondLang } from '@inseefr/wilco';
 import { ComponentDetailEdit } from './edit';
 import { ComponentDetailView } from './view';
 
@@ -12,18 +12,24 @@ export const ComponentDetail = props => {
 		() => (!props.component.labelLg1 ? props.handleBack() : setMode('VIEW')),
 		[props]
 	);
-	// TODO
-	// - Afficher le titre en deuxieme langue
-	// - Affiche le composant permettant de switcher la 2e langue
+	//props.secondLang && props.component?.titleLg2 &&
 	return (
 		<div className="container">
-			<PageTitle title={props.component.labelLg1} />
 			{mode === 'VIEW' && (
-				<ComponentDetailView
-					{...props}
-					handleUpdate={handleViewUpdate}
-					handleBack={props.handleBack}
-				/>
+				<React.Fragment>
+					<PageTitle title={props.component.labelLg1} />
+					{<PageSubtitle subTitle={props.component.labelLg2} />}
+					<CheckSecondLang
+						secondLang={props.secondLang}
+						onChange={props.saveSecondLang}
+					/>
+
+					<ComponentDetailView
+						{...props}
+						handleUpdate={handleViewUpdate}
+						handleBack={props.handleBack}
+					/>
+				</React.Fragment>
 			)}
 			{mode === 'EDIT' && (
 				<ComponentDetailEdit
@@ -35,3 +41,5 @@ export const ComponentDetail = props => {
 		</div>
 	);
 };
+
+//
