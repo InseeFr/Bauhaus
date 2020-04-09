@@ -82,7 +82,7 @@ Click on the desired concept to access its description page. On this page, you c
   - *Label*: enter the label of the concept;
   - *Alternative label*: enter the abbreviation, acronym, or synonym;
   - *Search the definition*: enter one or more words from the text of the definition in French;
-  - *Select the owner*: select the owner to get the list of concepts under the responsibility of this owner;
+  - *Select the owner*: select the unit to get the list of concepts under the responsibility of this unit;
   - *Select a dissemination status*, from the following choices:
     - Generic Audience (published in the Definitions section on insee.fr);
     - Specific audience (not published under Definitions, but available for documenting a publication);
@@ -104,7 +104,7 @@ It is possible to export the description of one or more concepts from the Concep
 
 - Click on the button <span style="color: blue">Export</span> on the left of the page;
 
-- Scroll through the concepts list on the right to find the desired concepts, or use the search bar at the top of the concept list;
+- Scroll through the concepts list on the right to find the desired concepts, or use the search bar at the top of the list of concepts;
 
 - Click on the button <img src="../../img/add.png" width="18"> of the concepts you want to export to integrate them into the left export block, or on the button <img src="../../img/del.png" width="18"> to remove them;
 
@@ -146,9 +146,10 @@ Three tabs are available to describe a concept: <span style="color: blue">Genera
 
 1. The tab <span style="color: blue">General Informations</span> allows you to fill various informations, including:
 
+
 - The **« Label »**: the label of the concept, **mandatory to create a concept**;
 - The **« Alternative label »**: the description, the acronym or the abbreviation (alternative names can be added or removed by clicking on + or -);
-- The **« Owner »**: the owner responsible for the description of the concept;
+- The **« Owner »**: the unit responsible for the description of the concept;
 - The **« Contributor »** : the unit authorized to create / modify the concept. This is the Quality unit (DG75-L201) which manages the concepts;
 - The **« Dissemination status »**, which may be:
   - Private: for internal use only;
@@ -159,6 +160,7 @@ Three tabs are available to describe a concept: <span style="color: blue">Genera
 
 2. The tab <span style="color: blue">Notes</span> allows you to fill various informations, including:
 
+
 - **Short definition**: it generally repeats the first sentence of the definition, and must not be longer than 350 letters. The entry can be formatted with bullets points or numbers by clicking on the corresponding icons above the box. **The short definition is mandatory for all concepts, except for those with the release status « Private »;**
 
 - **Definition**: the definition is the long definition, and must begin by taking over the short definition in its entirety. The entry can be formatted with bullets points or numbers by clicking on the corresponding icons above the box;
@@ -168,6 +170,7 @@ Three tabs are available to describe a concept: <span style="color: blue">Genera
 - **Change note**: this is a short note for internal use, allowing for comments on the creation or modification of the definition. This « Change note » can be filled at any time, including at the creation of the concept, in particular to document the background of its creation.
 
 3. The tab <span style="color: blue">Links</span> allows you to fill various informations, including:
+
 
 - Several types of links allow you to browse the concepts. These links are meaningful and provide additional informations to the definition, and must be published with it. To add a link, choose the type of tab corresponding to the link you want to add, then scroll through the list of concepts on the right to find the desired link, or use the search bar at the top of the list of concepts. Click on the button <img src="../../img/add.png" width="18"> of the link to add, or the button <img src="../../img/del.png" width="18"> to remove it.
 
@@ -203,7 +206,7 @@ It is possible to modify a concept from its the description page.
 
 - Click in the upper right corner on the button <span style="color: blue">Modify</span>.
 
-The various boxes can be modified, as described in the chapter [Create Concept].
+The various boxes can be modified, as described in the chapter [Create Concept](#create-concept).
 
 Once the concept is modified, the release status of the concept then changes to **« Temporary », until its publication.** As long as it is not published in the repository (see [Publish a concept](#publish-concept)), the old version remains available to the connected applications.
 
