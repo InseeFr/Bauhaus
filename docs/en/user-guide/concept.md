@@ -87,7 +87,7 @@ Click on the desired concept to access its description page. On this page, you c
     - Generic Audience (published in the Definitions section on insee.fr);
     - Specific audience (not published under Definitions, but available for documenting a publication);
     - Private (internal use).
-  - *Select publication status*, from the following choices:
+  - *Select s status*, from the following choices:
     - Published ;
     - Provisional (being modified or awaiting publication).
   - *Select the dates of the creation or the modification* of the desired concept.
@@ -102,7 +102,7 @@ You can consult the English version by marking the box: [ ] **Show second langua
 
 It is possible to export the description of one or more concepts from the Concepts homepage:
 
-- Click on the module <span style="color: blue">Export</span> on the left of the page;
+- Click on the button <span style="color: blue">Export</span> on the left of the page;
 
 - Scroll through the concepts list on the right to find the desired concepts, or use the search bar at the top of the concept list;
 
@@ -110,9 +110,9 @@ It is possible to export the description of one or more concepts from the Concep
 
 - Once the concepts have been selected, click on <span style="color: blue">Export</span> on the top right of the page. A dialog box will open;
 
-- Select the desired format (PDF or ODT). The download window then opens with the options « open » et « save ». If several concepts are exported, there are as many files and download windows as there are exported concepts.
+- Select the desired format (PDF or ODT). The download window then opens with the options « open » and « save ». If several concepts are exported, there are as many files and download windows as there are exported concepts.
 
-***NB: The ODT format allows you to exchange with other units for the development of a definition, while the PDF format is for information purposes..***
+***NB: The ODT format allows you to exchange with other units for the editing of a definition, while the PDF format is for information purposes..***
 
 ---
 
@@ -146,16 +146,16 @@ Three tabs are available to describe a concept: <span style="color: blue">Genera
 
 1. The tab <span style="color: blue">General Informations</span> allows you to fill various informations, including:
 
-- The **« Name »**: the name of the concept, **mandatory to create a concept**;
-- The **« Alternative name »**: the description, the acronym or the abbreviation (alternative names can be added or removed by clicking on + or -);
-- The **« Owner »**: the unit code responsible for the description of the concept;
-- The **« Manager »** : the unit authorized to create / modify the concept. This is the Quality unit (DG75-L201) which manages the concepts;
-- The **« Release status »**, which may be:
+- The **« Label »**: the label of the concept, **mandatory to create a concept**;
+- The **« Alternative label »**: the description, the acronym or the abbreviation (alternative names can be added or removed by clicking on + or -);
+- The **« Owner »**: the owner responsible for the description of the concept;
+- The **« Contributor »** : the unit authorized to create / modify the concept. This is the Quality unit (DG75-L201) which manages the concepts;
+- The **« Dissemination status »**, which may be:
   - Private: for internal use only;
   - Generic Audience: the concept is published in the « Definitions » section on insee.fr ;
   - Specific audience: distribution is restricted to documentation of publications and is not listed under Definitions.
-- The **« Related document »**: allows you to insert a link to a web page;
-- The **« Validity end date »**: **must not be filled in when creating**: once this date is filled, and it has been reached, the concept can no longer be changed.
+- The **« Additional material »**: allows you to insert a link to a web page;
+- The **« Expiration »**: **must not be filled in when creating**: once this date is filled, and it has been reached, the concept can no longer be changed.
 
 2. The tab <span style="color: blue">Notes</span> allows you to fill various informations, including:
 
@@ -165,7 +165,7 @@ Three tabs are available to describe a concept: <span style="color: blue">Genera
 
 - **Editorial Note**: it refers to the « Remarks » section of the definitions on insee.fr. **Caution**: it is not necessary to enter the word « Remarks » in the box, as this title is already provided on insee.fr;
 
-- **Change notice**: this is a short notification for internal use, allowing for comments on the creation or modification of the definition. This « Change notice » can be filled at any time, including at the creation of the concept, in particular to document the background of its creation.
+- **Change note**: this is a short note for internal use, allowing for comments on the creation or modification of the definition. This « Change note » can be filled at any time, including at the creation of the concept, in particular to document the background of its creation.
 
 3. The tab <span style="color: blue">Links</span> allows you to fill various informations, including:
 
