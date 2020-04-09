@@ -8,9 +8,11 @@ import { ComponentDetail } from '../component-detail';
 import { defaultComponentsTableParams } from '../../utils';
 import { XSD_CODE_LIST } from '../../utils/constants/xsd';
 
+import PropTypes from 'prop-types';
+
 export const StructureComponentsSelector = ({
 	hidden = false,
-	components,
+	components: defaultComponents,
 	handleRemove,
 	handleUp,
 	handleDown,
@@ -24,7 +26,25 @@ export const StructureComponentsSelector = ({
 		[handleRemove]
 	);
 	const [openPanel, setOpenPanel] = useState(false);
+	const [components, setComponents] = useState(defaultComponents);
+
 	const [selectedComponent, setSelectedComponent] = useState(null);
+
+	const handleSave = useCallback(
+		component => {
+			setComponents(
+				components.map(c => {
+					if (c.id === component.id) {
+						return { ...component };
+					}
+					return { ...c };
+				})
+			);
+			setSelectedComponent(component);
+		},
+		[components]
+	);
+
 	const seeClickHandler = useCallback(
 		e => {
 			const component = components.find(
@@ -59,7 +79,7 @@ export const StructureComponentsSelector = ({
 		type: typeUriToLabel(component.type),
 		concept: concepts[component.concept]?.label,
 		codeList:
-			component.range === XSD_CODE_LIST
+			component.range !== XSD_CODE_LIST
 				? ''
 				: codesLists[component.codeList]?.label,
 		actions: (
@@ -128,7 +148,7 @@ export const StructureComponentsSelector = ({
 					component={selectedComponent}
 					codesLists={codesLists}
 					concepts={concepts}
-					handleSave={() => {}}
+					handleSave={handleSave}
 					handleBack={() => {
 						setOpenPanel(false);
 					}}
@@ -136,4 +156,14 @@ export const StructureComponentsSelector = ({
 			</SlidingPanel>
 		</CollapsiblePanel>
 	);
+};
+
+StructureComponentsSelector.propTypes = {
+	hidden: PropTypes.bool,
+	components: PropTypes.array,
+	handleRemove: PropTypes.func,
+	handleUp: PropTypes.func,
+	handleDown: PropTypes.func,
+	concepts: PropTypes.object,
+	codesLists: PropTypes.object,
 };

@@ -7,7 +7,13 @@ export const ComponentDetail = props => {
 	const [mode, setMode] = useState(!props.component.labelLg1 ? 'EDIT' : 'VIEW');
 
 	const handleViewUpdate = useCallback(() => setMode('EDIT'), []);
-	const handleEditUpdate = useCallback(() => setMode('VIEW'), []);
+	const handleEditUpdate = useCallback(
+		component => {
+			props.handleSave(component);
+			setMode('VIEW');
+		},
+		[props]
+	);
 	const handleEditBack = useCallback(
 		() => (!props.component.labelLg1 ? props.handleBack() : setMode('VIEW')),
 		[props]
@@ -18,7 +24,9 @@ export const ComponentDetail = props => {
 			{mode === 'VIEW' && (
 				<React.Fragment>
 					<PageTitle title={props.component.labelLg1} />
-					{<PageSubtitle subTitle={props.component.labelLg2} />}
+					{props.secondLang && props.component.labelLg2 && (
+						<PageSubtitle subTitle={props.component.labelLg2} />
+					)}
 					<CheckSecondLang
 						secondLang={props.secondLang}
 						onChange={props.saveSecondLang}

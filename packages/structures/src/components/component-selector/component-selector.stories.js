@@ -153,12 +153,12 @@ const components = [
 
 const concepts = mutualizedComponents.map(component => ({
 	altLabel: '',
-	id: component.concept,
+	id: component.concept.toString(),
 	label: 'Concept - Label ' + component.concept,
 }));
 const codesLists = mutualizedComponents.map(component => ({
 	altLabel: '',
-	id: component.codeList,
+	id: component.codeList.toString(),
 	label: 'Code List - Label ' + component.concept,
 }));
 

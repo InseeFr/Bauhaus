@@ -16,6 +16,8 @@ import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import D from '../../i18n/build-dictionary';
 import { Select } from '@inseefr/wilco';
 
+import PropTypes from 'prop-types';
+
 export const ComponentDetailEdit = ({
 	component: defaultComponent,
 	concepts = {},
@@ -37,6 +39,10 @@ export const ComponentDetailEdit = ({
 		[component]
 	);
 
+	const handleSaveClick = useCallback(() => {
+		handleSave(component);
+	}, [component, handleSave]);
+
 	const conceptOptions = Object.values(concepts).map(({ id, label }) => ({
 		value: id,
 		label,
@@ -51,8 +57,8 @@ export const ComponentDetailEdit = ({
 	return (
 		<React.Fragment>
 			<ActionToolbar>
-				<CancelButton action={handleBack} col="3" />
-				<SaveButton action={handleSave} col="3" />
+				<CancelButton action={handleBack} col={3} />
+				<SaveButton disabled={message} action={handleSaveClick} col={3} />
 			</ActionToolbar>
 			{message && <ErrorBloc error={message} />}
 
@@ -103,6 +109,7 @@ export const ComponentDetailEdit = ({
 						<Select
 							id="type"
 							label={D.type}
+							placeholder={D.type}
 							value={COMPONENT_TYPES.find(c => c.value === component.type)}
 							options={COMPONENT_TYPES}
 							name="type"
@@ -117,6 +124,7 @@ export const ComponentDetailEdit = ({
 								id="attachment"
 								name="attachment"
 								label={D.attachmentTitle}
+								placeholder={D.attachmentTitle}
 								value={ATTACHMENTS.find(c => c.value === component.attachment)}
 								options={ATTACHMENTS}
 								onChange={value =>
@@ -133,6 +141,7 @@ export const ComponentDetailEdit = ({
 							id="concept"
 							name="concept"
 							label={D.conceptTitle}
+							placeholder={D.conceptTitle}
 							options={conceptOptions}
 							value={conceptOptions.find(c => c.value === component.concept)}
 							onChange={value => setComponent({ ...component, concept: value })}
@@ -145,6 +154,7 @@ export const ComponentDetailEdit = ({
 							id="range"
 							name="range"
 							label={D.rangeTitle}
+							placeholder={D.rangeTitle}
 							value={XSD_TYPES.find(c => c.value === component.range)}
 							options={XSD_TYPES}
 							onChange={value => setComponent({ ...component, range: value })}
@@ -161,6 +171,7 @@ export const ComponentDetailEdit = ({
 								id="codeList"
 								name="codeList"
 								label={D.codesListTitle}
+								placeholder={D.codesListTitle}
 								options={codeListOptions}
 								value={codeListOptions.find(
 									c => c.value === component.codeList
@@ -175,4 +186,13 @@ export const ComponentDetailEdit = ({
 			</form>
 		</React.Fragment>
 	);
+};
+
+ComponentDetailEdit.propTypes = {
+	component: PropTypes.object,
+	concepts: PropTypes.object,
+	codesLists: PropTypes.object,
+	handleSave: PropTypes.func,
+	handleBack: PropTypes.func,
+	secondLang: PropTypes.bool,
 };

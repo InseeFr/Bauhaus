@@ -3,6 +3,8 @@ import './component-selector.scss';
 import { MutualizedComponentsSelector } from '../mutualized-component-selector';
 import { StructureComponentsSelector } from '../structure-component-selector';
 
+import PropTypes from 'prop-types';
+
 const ComponentSelector = ({
 	components = [],
 	mutualizedComponents,
@@ -84,6 +86,13 @@ const ComponentSelector = ({
 			/>
 		</>
 	);
+};
+
+ComponentSelector.propTypes = {
+	components: PropTypes.array,
+	mutualizedComponents: PropTypes.array,
+	concepts: PropTypes.array,
+	codesLists: PropTypes.array,
 };
 
 export default ComponentSelector;

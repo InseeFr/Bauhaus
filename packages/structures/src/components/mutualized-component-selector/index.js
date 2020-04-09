@@ -8,6 +8,8 @@ import { ComponentDetail } from '../component-detail';
 import { defaultComponentsTableParams } from '../../utils';
 import { XSD_CODE_LIST } from '../../utils/constants/xsd';
 
+import PropTypes from 'prop-types';
+
 export const MutualizedComponentsSelector = ({
 	hidden = false,
 	components,
@@ -39,7 +41,7 @@ export const MutualizedComponentsSelector = ({
 		type: typeUriToLabel(component.type),
 		concept: concepts[component.concept]?.label,
 		codeList:
-			component.range === XSD_CODE_LIST
+			component.range !== XSD_CODE_LIST
 				? ''
 				: codesLists[component.codeList]?.label,
 		actions: (
@@ -88,4 +90,12 @@ export const MutualizedComponentsSelector = ({
 			</SlidingPanel>
 		</CollapsiblePanel>
 	);
+};
+
+MutualizedComponentsSelector.propTypes = {
+	hidden: PropTypes.bool,
+	components: PropTypes.array,
+	handleAdd: PropTypes.func,
+	concepts: PropTypes.object,
+	codesLists: PropTypes.object,
 };

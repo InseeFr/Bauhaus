@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Note } from '@inseefr/wilco';
+import PropTypes from 'prop-types';
 
 export const CollapsiblePanel = ({
 	id,
@@ -47,4 +48,12 @@ export const CollapsiblePanel = ({
 			/>
 		</div>
 	);
+};
+
+CollapsiblePanel.propTypes = {
+	id: PropTypes.string.isRequired,
+	title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
+	children: PropTypes.array.isRequired,
+	hidden: PropTypes.bool,
+	collapsible: PropTypes.bool,
 };

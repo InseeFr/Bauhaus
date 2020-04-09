@@ -11,6 +11,8 @@ import { D1 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 import { ATTACHMENTS } from '../../utils/constants/attachments';
 
+import PropTypes from 'prop-types';
+
 export const ComponentDetailView = ({
 	component,
 	concepts,
@@ -26,8 +28,8 @@ export const ComponentDetailView = ({
 	return (
 		<React.Fragment>
 			<ActionToolbar>
-				<CancelButton action={handleBack} col="3" />
-				{updatable && <UpdateButton action={handleUpdate} col="3" />}
+				<CancelButton action={handleBack} col={3} />
+				{updatable && <UpdateButton action={handleUpdate} col={3} />}
 			</ActionToolbar>
 
 			<div className="row">
@@ -82,4 +84,13 @@ export const ComponentDetailView = ({
 			)}
 		</React.Fragment>
 	);
+};
+
+ComponentDetailView.propTypes = {
+	component: PropTypes.object,
+	concepts: PropTypes.object,
+	codesLists: PropTypes.object,
+	handleUpdate: PropTypes.func,
+	handleBack: PropTypes.func,
+	updatable: PropTypes.bool,
 };
