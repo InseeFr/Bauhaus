@@ -24,7 +24,6 @@ export const ComponentDetailEdit = ({
 	codesLists = {},
 	handleSave,
 	handleBack,
-	secondLang,
 }) => {
 	const [component, setComponent] = useState(defaultComponent || {});
 
@@ -77,7 +76,7 @@ export const ComponentDetailEdit = ({
 					</div>
 				</div>
 				<div className="row">
-					<div className={`col-md-${secondLang ? 6 : 12} form-group`}>
+					<div className={`col-md-6 form-group`}>
 						<label htmlFor="labelLg1">{D.label}</label>
 						<input
 							type="text"
@@ -89,19 +88,18 @@ export const ComponentDetailEdit = ({
 							aria-invalid={field === 'labelLg1'}
 						/>
 					</div>
-					{secondLang && (
-						<div className="col-md-6 form-group">
-							<label htmlFor="labelLg2">{D.label}</label>
-							<input
-								type="text"
-								className="form-control"
-								id="labelLg2"
-								name="labelLg2"
-								value={component.labelLg2}
-								onChange={handleChange}
-							/>
-						</div>
-					)}
+
+					<div className="col-md-6 form-group">
+						<label htmlFor="labelLg2">{D.label}</label>
+						<input
+							type="text"
+							className="form-control"
+							id="labelLg2"
+							name="labelLg2"
+							value={component.labelLg2}
+							onChange={handleChange}
+						/>
+					</div>
 				</div>
 
 				<div className="row">

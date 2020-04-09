@@ -81,7 +81,7 @@ describe('<ComponentDetailEdit />', () => {
 		expect(container.querySelector('.alert-danger')).not.toBeNull();
 	});
 
-	it('should display the labelLg2 if secondLang = true', () => {
+	it('should display the labelLg2', () => {
 		const handleSave = jest.fn();
 		const { container } = render(
 			<ComponentDetailEdit
