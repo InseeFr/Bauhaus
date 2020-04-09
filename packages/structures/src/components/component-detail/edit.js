@@ -26,7 +26,7 @@ export const ComponentDetailEdit = ({
 	handleBack,
 	secondLang,
 }) => {
-	const [component, setComponent] = useState(defaultComponent);
+	const [component, setComponent] = useState(defaultComponent || {});
 
 	const handleChange = useCallback(
 		e => {
@@ -53,7 +53,6 @@ export const ComponentDetailEdit = ({
 	}));
 
 	const { field, message } = validateComponent(component);
-
 	return (
 		<React.Fragment>
 			<ActionToolbar>
@@ -87,6 +86,7 @@ export const ComponentDetailEdit = ({
 							name="labelLg1"
 							value={component.labelLg1}
 							onChange={handleChange}
+							aria-invalid={field === 'labelLg1'}
 						/>
 					</div>
 					{secondLang && (

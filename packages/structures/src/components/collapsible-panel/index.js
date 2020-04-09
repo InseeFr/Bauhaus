@@ -14,8 +14,8 @@ export const CollapsiblePanel = ({
 		setHidden(!hidden);
 	}, [hidden]);
 
-	const bodyId = `${id}-body`;
-	const buttonId = `${id}-button`;
+	const bodyId = `${id}body`;
+	const buttonId = `${id}button`;
 
 	return (
 		<div className="bauhaus-collapsible-panel">
@@ -53,7 +53,7 @@ export const CollapsiblePanel = ({
 CollapsiblePanel.propTypes = {
 	id: PropTypes.string.isRequired,
 	title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
-	children: PropTypes.array.isRequired,
+	children: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
 	hidden: PropTypes.bool,
 	collapsible: PropTypes.bool,
 };

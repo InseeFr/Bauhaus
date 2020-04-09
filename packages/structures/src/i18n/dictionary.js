@@ -3,6 +3,10 @@ export default {
 		fr: "L'identifiant est obligatoire",
 		en: 'The id is mandatory',
 	},
+	errorsLabelLg1Mandatory: {
+		fr: 'Le label est obligatoire',
+		en: 'The label is mandatory',
+	},
 	componentTitle: {
 		fr: 'Composants',
 		en: 'Components',

@@ -41,5 +41,11 @@ export const validateComponent = component => {
 			message: D.errorsIdMantory,
 		};
 	}
+	if (!component.labelLg1) {
+		return {
+			field: 'labelLg1',
+			message: D.errorsLabelLg1Mandatory,
+		};
+	}
 	return {};
 };

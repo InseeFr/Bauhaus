@@ -4,7 +4,9 @@ import { ComponentDetailEdit } from './edit';
 import { ComponentDetailView } from './view';
 
 export const ComponentDetail = props => {
-	const [mode, setMode] = useState(!props.component.labelLg1 ? 'EDIT' : 'VIEW');
+	const [mode, setMode] = useState(
+		!props.component?.labelLg1 ? 'EDIT' : 'VIEW'
+	);
 
 	const handleViewUpdate = useCallback(() => setMode('EDIT'), []);
 	const handleEditUpdate = useCallback(
@@ -18,14 +20,14 @@ export const ComponentDetail = props => {
 		() => (!props.component.labelLg1 ? props.handleBack() : setMode('VIEW')),
 		[props]
 	);
-	//props.secondLang && props.component?.titleLg2 &&
+
 	return (
 		<div className="container">
 			{mode === 'VIEW' && (
 				<React.Fragment>
-					<PageTitle title={props.component.labelLg1} />
-					{props.secondLang && props.component.labelLg2 && (
-						<PageSubtitle subTitle={props.component.labelLg2} />
+					<PageTitle title={props.component?.labelLg1} />
+					{props.secondLang && props.component?.labelLg2 && (
+						<PageSubtitle subTitle={props.component?.labelLg2} />
 					)}
 					<CheckSecondLang
 						secondLang={props.secondLang}
