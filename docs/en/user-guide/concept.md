@@ -87,7 +87,7 @@ Click on the desired concept to access its description page. On this page, you c
     - Generic Audience (published in the Definitions section on insee.fr);
     - Specific audience (not published under Definitions, but available for documenting a publication);
     - Private (internal use).
-  - *Select s status*, from the following choices:
+  - *Select a publication status*, from the following choices:
     - Published ;
     - Provisional (being modified or awaiting publication).
   - *Select the dates of the creation or the modification* of the desired concept.
@@ -192,7 +192,7 @@ The button <span style="color: blue">Save</span> becomes active after completing
 
 In addition, saving does not result in the publication of the concept. Indeed, it must first have been published by its owner, or by delegation (after exchange of mails) by the Quality unit. It is therefore possible, if necessary, to create a concept in several steps.
 
-The release status of the concept then changes to **« Temporary », until its publication.**
+The release status of the concept then changes to **« Provisional », until its publication.**
 
 To send the description of a concept by e-mail to a contact person (especially the owner), see [Send concept](#send-concept).
 
@@ -202,13 +202,13 @@ To publish a concept to the repository, see [Publish a concept](#publish-concept
 
 ## <a id="modify-concept">Modify a concept</a>
 
-It is possible to modify a concept from its the description page.
+It is possible to modify a concept from its description page.
 
 - Click in the upper right corner on the button <span style="color: blue">Modify</span>.
 
-The various boxes can be modified, as described in the chapter [Create Concept](#create-concept).
+The various boxes can be modified, as described in the chapter [Create a concept](#create-concept).
 
-Once the concept is modified, the release status of the concept then changes to **« Temporary », until its publication.** As long as it is not published in the repository (see [Publish a concept](#publish-concept)), the old version remains available to the connected applications.
+Once the concept is modified, the publication status of the concept then changes to **« Provisional », until its publication.** As long as it is not published in the repository (see [Publish a concept](#publish-concept)), the old version remains available to the connected applications.
 
 Changing the notes « Short definition », « Definition » and « Editorial note » may result in the creation of new versions of these notes (see [Create a new version](#create-new-version)).
 
@@ -222,9 +222,9 @@ When you [modify](#modify-concept) a short definition, a long definition or an e
 
 - Changing a definition or an editorial note also changes the meaning of a concept. Thus, creating a new version makes it possible to keep track of previous definitions, so that successive versions can be compared.
 
-**The change notice is mandatory to create a new version of the definition.** This is a note for internal use: it is intended to keep track of the background of the modifications.
+**The change note is mandatory to create a new version of the definition.** This is a note for internal use: it is intended to keep track of the background of the modifications.
 
-- To continue, fill in the change notice, then make the modifications as described in the chapter **« Modify a concept »**.
+- To continue, fill in the change note, then make the modifications as described in the chapter **« Modify a concept »**.
 
 ***NB: The versioning process is only activated when a published concept is modified. If the concept is awaiting publication (i.e. if its publication status is provisional), successive changes do not result in versioning. New definitions and notes overwrite old versions.***
 
@@ -242,11 +242,11 @@ When multiple versions of a note exist (short definition, long definition or edi
 
 ## <a id="publish-concept">Publish a concept</a>
 
-It is possible to publish a concept from the concept description page. Only the owner of the concept, or by delegation the Quality unit (after exchanging emails), is entitled to publish a concept.
+It is possible to publish a concept from the concept description page. Only the owner of the concept, or by delegation the Quality unit (after exchanging emails), is authorised to publish a concept.
 
 - Click in the upper right corner on the button <span style="color: blue">Publish</span> after checking that the informations are correct.
 
-To search for concepts awaiting publication, use the advanced search bar from the Concepts homepage by selecting **the publication status « Provisional »**, and possibly **the unit code**. The list of concepts awaiting publication is then automatically displayed under the search bar.
+To search for concepts awaiting publication, use the advanced search bar from the Concepts homepage by selecting **the publication status « Provisional »**, and possibly **the owner**. The list of concepts awaiting publication is then automatically displayed under the search bar.
 
 ---
 
