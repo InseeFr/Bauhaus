@@ -40,9 +40,9 @@ The Concepts module, also known as "Bauhaus-concepts", is used to manage concept
 To reach the homepage of the concept management module, click on the module <span style="color: blue">Concepts</span> on the homepage.
 Browsing is done with the horizontal menu bar at the top of the page.
 
-*Any unit can ask for the creation of a concept. However, in order to guarantee the integrity and quality of the database, any creation or modification of a concept, as well as the identification of the owner, can only be done by the Quality unit. The publication is the responsibility of the owner identified in the application; it is up to him/her to organize the consultation with other users. In the application, the Quality unit is entitled to publish a concept on request of the owner.*
+*Any unit can ask for the creation of a concept. However, in order to guarantee the integrity and quality of the database, any creation or modification of a concept, as well as the identification of the owner, can only be done by the Quality unit. The publication is the responsibility of the owner identified in the application; it is up to him/her to organize the consultation with other users. In the application, the Quality unit is authorised to publish a concept on request of the owner.*
 
-*The creation of a collection of concepts may be requested by any unit which need to bring together several concepts for a particular purpose (for exemple : documenting an Insee-Résultats). The requesting unit is the one that owns the collection, which may include concepts that it does not own. A concept can belong to several collections, and be used by several users in different collections. The owner of a collection can modify it at any time. In the application, the Quality unit is entitled to publish a collection on request of the owner.*
+*The creation of a collection of concepts may be requested by any unit which need to bring together several concepts for a particular purpose (for exemple : documenting an Insee-Résultats). The requesting unit is the one that owns the collection, which may include concepts that it does not own. A concept can belong to several collections, and be used by several users in different collections. The owner of a collection can modify it at any time. In the application, the Quality unit is authorised to publish a collection on request of the owner.*
 
 In the application, four main user profiles have been created. Each one corresponds to a level of clearance giving access to different functionalities:
 
@@ -116,18 +116,6 @@ It is possible to export the description of one or more concepts from the Concep
 
 ---
 
-## <a id="send-concept">Send a concept</a>
-
-It is possible to send a concept from the description page of a concept.
-
-- Click on the button <span style="color: blue">Send</span> on the top of the page. A new page is then displayed, allowing you to send an email to a recipient with the description of the concept in ODT format as an attachment, as well as a link to the concept page in the application. The subject of the email and the text can be changed to personalize the message;
-
-***NB: This service is not linked to the directory: you must enter the complete email address for all recipients.***
-
-- When the recipient's email address is filled and the text is ready, click on the button in the top right corner <span style="color: blue">Send</span> to send the email.
-
----
-
 ## <a id="create-concept">Create a concept</a>
 
 **Before creating a concept, it is important to check that it has not already been recorded in the application by using the [search tools](#search-concept).**
@@ -140,7 +128,7 @@ The button <span style="color: blue">Cancel</span> takes you back to the Concept
 
 The button <span style="color: blue">Save</span> allows you to record the new concept in the database.
 
-***NB: Saving is impossible as long as the required box, marked with a « * », have not been completed.***
+***NB: Saving is impossible as long as the required box, marked with a « \* », have not been completed.***
 
 Three tabs are available to describe a concept: <span style="color: blue">General Informations</span> (1), <span style="color: blue">Notes</span> (2) and <span style="color: blue">Links</span> (3).
 
@@ -240,6 +228,18 @@ When multiple versions of a note exist (short definition, long definition or edi
 
 ---
 
+## <a id="send-concept">Send a concept</a>
+
+It is possible to send a concept from the description page of a concept.
+
+- Click on the button <span style="color: blue">Send</span> on the top of the page. A new page is then displayed, allowing you to send an email to a recipient with the description of the concept in ODT format as an attachment, as well as a link to the concept page in the application. The subject of the email and the text can be changed to personalize the message;
+
+***NB: This service is not linked to the directory: you must enter the complete email address for all recipients.***
+
+- When the recipient's email address is filled and the text is ready, click on the button in the top right corner <span style="color: blue">Send</span> to send the email.
+
+---
+
 ## <a id="publish-concept">Publish a concept</a>
 
 It is possible to publish a concept from the concept description page. Only the owner of the concept, or by delegation the Quality unit (after exchanging emails), is authorised to publish a concept.
@@ -251,7 +251,7 @@ To search for concepts awaiting publication, use the advanced search bar from th
 ---
 
 # <a id="tools-collections-concepts">Concept collection management tools</a>
-## <a id="search-collection">Search a concept collection</a>
+## <a id="search-collection">Search for a concept collection</a>
 
 It is possible to search for a collection from the homepage <span style="color: blue">Collections</span> in the horizontal menu bar. The page offers a search engine on all concept collections registered in the application.
 
@@ -291,7 +291,7 @@ The button <span style="color: blue">Cancel</span> allows you to come back to th
 
 The button <span style="color: blue">Save</span> allows you to record the new collection in the database.
 
-***NB: Saving is impossible as long as the required box, marked with a « * », have not been completed.***
+***NB: Saving is impossible as long as the required box, marked with a « \* », have not been completed.***
 
 - At the bottom of the page, select the concepts you want to include in the collection by using the buttons <img src="../../img/add.png" width="18"> and <img src="../../img/del.png" width="18"> to add or remove them. To search for a concept, you can enter a sequence of letters corresponding to all or part of the title of the concept you are looking for in the search bar above the list.
 
@@ -301,7 +301,7 @@ The button <span style="color: blue">Save</span> becomes active after completing
 
 In addition, saving does not result in the publication of the collection. Indeed, it must first have been published by its owner, or by delegation (after exchange of mails) by the Quality unit. It is therefore possible, if necessary, to create a collection in several steps.
 
-The release status of the collection then changes to **« Temporary », until its publication.**
+The publication status of the collection then changes to **« Provisional », until its publication.**
 
 To send a collection of concepts by e-mail to a contact person (especially the owner), see [Send a collection of concepts](#send-collection).
 
@@ -317,7 +317,7 @@ It is possible to modify a collection of concepts from the description page of a
 
 The various boxes can be modified, and the instructions described in [Create a collection of concepts](#create-collection) apply.
 
-Once the collection has been modified, its release status changes to **« Temporary », until its publication.**. As long as it is not published in the repository (see [Publish a concept](#publish-concept)), the old version remains available to the connected applications.
+Once the collection has been modified, its publication status changes to **« Provisional », until its publication.**. As long as it is not published in the repository (see [Publish a concept](#publish-concept)), the old version remains available to the connected applications.
 
 ---
 
@@ -337,7 +337,7 @@ A new page is then displayed, allowing you to send an email to a recipient, with
 
 ## <a id="publish-collection">Publish a collection of concepts</a>
 
-It is possible to publish a collection of concepts from the description page of a collection. Only the owner of the collection, or by delegation the Quality unit (after exchanging emails), is entitled to publish a collection.
+It is possible to publish a collection of concepts from the description page of a collection. Only the owner of the collection, or by delegation the Quality unit (after exchanging emails), is authorised to publish a collection.
 
 - Click on the button in the upper right-hand corner <span style="color: blue">Publish</span> after checking the information entered.
 
