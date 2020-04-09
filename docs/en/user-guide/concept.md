@@ -1,6 +1,6 @@
 
 # Bauhaus Concepts User Guide
-Version on 01/01/2020
+Version on 19/03/2020
 
 The Concepts module, also known as "Bauhaus-concepts", is used to manage concepts useful for statistical purposes.
 
@@ -68,6 +68,7 @@ The Concepts homepage, located on the horizontal menu bar, offers two search met
 - A main search bar, which gives access to all the concepts registered in the application (1);
 - A link to the advanced search page, which allows you to perform a refined search according to different criteria (2).
 
+
 1. The main search bar is a search engine in which you can **enter a sequence of letters corresponding to all or part of the title, acronym, short name or synonym you are looking for**. The search starts automatically as letters are entered in the search bar.
 
 The application generates a list of results under the search engine, on one or more pages depending on the number of concepts found.
@@ -78,11 +79,11 @@ Click on the desired concept to access its description page. On this page, you c
 
 - **Enter the desired filters** in the box:
 
-  - *Name*: enter the name of the concept;
-  - *Alternative name*: enter the abbreviation, acronym, or synonym;
+  - *Label*: enter the label of the concept;
+  - *Alternative label*: enter the abbreviation, acronym, or synonym;
   - *Search the definition*: enter one or more words from the text of the definition in French;
-  - *Select the unit code*: select the unit code to get the list of concepts under the responsibility of this unit;
-  - *Select a release status*, from the following choices:
+  - *Select the owner*: select the owner to get the list of concepts under the responsibility of this owner;
+  - *Select a dissemination status*, from the following choices:
     - Generic Audience (published in the Definitions section on insee.fr);
     - Specific audience (not published under Definitions, but available for documenting a publication);
     - Private (internal use).
