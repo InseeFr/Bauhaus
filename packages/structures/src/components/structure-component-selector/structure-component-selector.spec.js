@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import React from 'react';
-import { render, fireEvent, getByText } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 import { StructureComponentsSelector } from '.';
 describe('<StructureComponentsSelector />', () => {
