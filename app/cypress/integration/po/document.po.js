@@ -3,6 +3,6 @@ export class DocumentMenu {
 		cy.server().visit(`/operations`);
 	}
 	getMenuElement() {
-		return cy.get('.nav > :nth-child(7) > a');
+		return cy.get('.navbar-right > :nth-child(1) > a');
 	}
 }

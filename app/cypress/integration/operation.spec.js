@@ -84,9 +84,7 @@ describe('Operation Page', function() {
 					win.fetch = win.unfetch;
 				},
 			});
-		cy.get('.bauhaus-page-title').contains(
-			'Enquête annuelle de production 2013'
-		);
+		cy.get('.wilco-page-title').contains('Enquête annuelle de production 2013');
 	});
 	it(`Should have a button to create a SIMS`, function() {
 		cy.server()
@@ -134,9 +132,7 @@ describe('Operation Page', function() {
 					win.fetch = win.unfetch;
 				},
 			});
-		cy.get('.bauhaus-page-title').contains(
-			'Enquête annuelle de production 2013'
-		);
+		cy.get('.wilco-page-title').contains('Enquête annuelle de production 2013');
 		cy.get('a[href="/operations/operation/1/modify"]').click();
 		cy.url().should('match', /\/operations\/operation\/1\/modify$/);
 		cy.get('.btn-line button')

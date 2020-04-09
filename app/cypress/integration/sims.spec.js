@@ -139,7 +139,7 @@ describe('SIMS Page', function() {
 
 		// Duplicate page
 		cy.url().should('contains', '/sims/1512/duplicate');
-		cy.get('.bauhaus-page-title').should('not.exist');
+		cy.get('.wilco-page-title').should('not.exist');
 		cy.get('input[value="02/01/2019"]').should('exist');
 		cy.get('.btn-line').within(() => {
 			cy.get('div:first > button')
@@ -189,7 +189,7 @@ describe('SIMS Page', function() {
 
 		// Create Page
 		cy.url().should('contains', '/sims/create');
-		cy.get('.bauhaus-page-title').should('exist');
+		cy.get('.wilco-page-title').should('exist');
 		cy.get('.btn-line').within(() => {
 			cy.get('div:first > button').contains('Annuler');
 			cy.get('div:nth-child(2) > button').contains('Sauvegarder');

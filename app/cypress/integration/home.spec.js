@@ -25,7 +25,7 @@ describe('Home Page', function() {
 	it(`Should go to the Operations page and come back`, function() {
 		cy.server().visit(`/`);
 		cy.get('div.operations a').click();
-		cy.url().should('match', /\/operations$/);
+		cy.url().should('match', /\/operations\/series$/);
 		cy.get('title').contains('Bauhaus - Opérations');
 		cy.go('back');
 		cy.get('h1').contains(
