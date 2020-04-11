@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import SlidingPanel from 'react-sliding-side-panel';
 import { typeUriToLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
@@ -28,6 +28,10 @@ export const StructureComponentsSelector = ({
 	const [openPanel, setOpenPanel] = useState(false);
 	const [components, setComponents] = useState(defaultComponents);
 
+	useEffect(() => {
+		setComponents(defaultComponents);
+	}, [defaultComponents]);
+
 	const [selectedComponent, setSelectedComponent] = useState(null);
 
 	const handleSave = useCallback(
@@ -47,24 +51,30 @@ export const StructureComponentsSelector = ({
 
 	const seeClickHandler = useCallback(
 		e => {
-			const component = components.find(
-				c => c.id === e.target.parentElement.dataset.componentId
-			);
-			setSelectedComponent(component);
-			setOpenPanel(true);
+			if (e.target.parentElement.dataset.componentId) {
+				const component = components.find(
+					c => c.id === e.target.parentElement.dataset.componentId
+				);
+				setSelectedComponent(component);
+				setOpenPanel(true);
+			}
 		},
 		[components]
 	);
 
 	const goingUp = useCallback(
 		e => {
-			handleUp(e.target.parentElement.dataset.componentId);
+			if (e.target.parentElement.dataset.componentId) {
+				handleUp(e.target.parentElement.dataset.componentId);
+			}
 		},
 		[handleUp]
 	);
 	const goingDown = useCallback(
 		e => {
-			handleDown(e.target.parentElement.dataset.componentId);
+			if (e.target.parentElement.dataset.componentId) {
+				handleDown(e.target.parentElement.dataset.componentId);
+			}
 		},
 		[handleDown]
 	);

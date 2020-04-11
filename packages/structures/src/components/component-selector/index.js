@@ -35,23 +35,33 @@ const ComponentSelector = ({
 
 	const handleUp = useCallback(
 		id => {
-			const data = [...structureComponents];
-			const index = data.findIndex(component => component.id === id);
-			const temp = data[index];
-			data[index] = data[index - 1];
-			data[index - 1] = temp;
-			setStructureComponents(data);
+			const index = structureComponents.findIndex(
+				component => component.id === id
+			);
+			const startArray = structureComponents.slice(0, index - 1);
+			const endArray = structureComponents.slice(index + 1);
+			setStructureComponents([
+				...startArray,
+				structureComponents[index],
+				structureComponents[index - 1],
+				...endArray,
+			]);
 		},
 		[structureComponents]
 	);
 	const handleDown = useCallback(
 		id => {
-			const data = [...structureComponents];
-			const index = data.findIndex(component => component.id === id);
-			const temp = data[index];
-			data[index] = data[index + 1];
-			data[index + 1] = temp;
-			setStructureComponents(data);
+			const index = structureComponents.findIndex(
+				component => component.id === id
+			);
+			const startArray = structureComponents.slice(0, index);
+			const endArray = structureComponents.slice(index + 2);
+			setStructureComponents([
+				...startArray,
+				structureComponents[index + 1],
+				structureComponents[index],
+				...endArray,
+			]);
 		},
 		[structureComponents]
 	);
