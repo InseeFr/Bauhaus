@@ -21,6 +21,8 @@ import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';
 import { OK } from 'js/constants';
 import { getSecondLang } from 'js/reducers/app';
+import { Auth } from 'bauhaus-utilities';
+
 const extractId = buildExtract('id');
 
 class ConceptVisualizationContainer extends Component {
@@ -178,7 +180,7 @@ const mapStateToProps = (state, ownProps) => {
 	}
 	return {
 		id,
-		permission: select.getPermission(state),
+		permission: Auth.getPermission(state),
 		secondLang: getSecondLang(state),
 		concept: select.getConcept(state, id),
 		allNotes,

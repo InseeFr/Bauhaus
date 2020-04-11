@@ -4,7 +4,7 @@ import LoginNoAuth from 'js/applications/auth/no-auth/login';
 import LoginBasic from 'js/applications/auth/basic-auth/login-container';
 import LoginOpenIDConnect from 'js/applications/auth/open-id-connect-auth/login-container';
 import * as Impl from 'js/utils/auth/auth-impl';
-import * as select from 'js/reducers';
+import { Auth } from 'bauhaus-utilities';
 
 const auth = WrappedComponent => {
 	class AuthComponent extends Component {
@@ -29,7 +29,7 @@ const auth = WrappedComponent => {
 };
 
 export const mapStateToProps = state => {
-	const { authType, roles, stamp } = select.getPermission(state);
+	const { authType, roles, stamp } = Auth.getPermission(state);
 	if (stamp) return { authType, roles };
 	return { authType, roles: null };
 };

@@ -4,7 +4,7 @@ import { Loading } from '@inseefr/wilco';
 import ConceptsHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadConceptList from 'js/actions/concepts/list';
-import * as select from 'js/reducers';
+import { Auth } from 'bauhaus-utilities';
 
 class ConceptsHomeContainer extends Component {
 	componentWillMount() {
@@ -22,7 +22,7 @@ class ConceptsHomeContainer extends Component {
 }
 
 const mapStateToProps = state => {
-	const permission = select.getPermission(state);
+	const permission = Auth.getPermission(state);
 	if (!state.conceptList) {
 		return {
 			status: NOT_LOADED,

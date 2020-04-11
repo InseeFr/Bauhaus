@@ -8,6 +8,7 @@ import validateCollectionList from 'js/actions/collections/validate';
 import loadCollectionValidateList from 'js/actions/collections/validate-list';
 import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
 import { OK } from 'js/constants';
+import { Auth } from 'bauhaus-utilities';
 
 class CollectionsToValidateContainer extends Component {
 	constructor(props) {
@@ -48,7 +49,7 @@ class CollectionsToValidateContainer extends Component {
 
 const mapStateToProps = state => ({
 	collections: select.getCollectionValidateList(state),
-	permission: select.getPermission(state),
+	permission: Auth.getPermission(state),
 	validationStatus: select.getStatus(state, VALIDATE_COLLECTION_LIST),
 });
 

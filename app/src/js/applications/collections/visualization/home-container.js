@@ -11,6 +11,8 @@ import { Loading, buildExtract } from '@inseefr/wilco';
 import CollectionVisualization from './home';
 import { OK } from 'js/constants';
 import { getSecondLang } from 'js/reducers/app';
+import { Auth } from 'bauhaus-utilities';
+
 const extractId = buildExtract('id');
 
 class CollectionVisualizationContainer extends Component {
@@ -81,7 +83,7 @@ const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	return {
 		id,
-		permission: select.getPermission(state),
+		permission: Auth.getPermission(state),
 		secondLang: getSecondLang(state),
 		collection: select.getCollection(state, id),
 		stampList: select.getStampList(state),
