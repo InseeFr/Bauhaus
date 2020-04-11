@@ -68,7 +68,6 @@ describe('<StructureComponentsSelector />', () => {
 	it('should call handleUp', () => {
 		const handleRemove = jest.fn();
 		const handleUp = jest.fn();
-
 		const handleDown = jest.fn();
 
 		const { container } = render(
@@ -81,8 +80,9 @@ describe('<StructureComponentsSelector />', () => {
 				handleDown={handleDown}
 			/>
 		);
+
 		fireEvent.click(
-			container.querySelector('tbody tr:nth-child(2) button:nth-child(3)')
+			container.querySelector('tbody tr:nth-child(2) button:nth-child(3) span')
 		);
 		expect(handleUp).toHaveBeenCalled();
 	});
@@ -103,7 +103,7 @@ describe('<StructureComponentsSelector />', () => {
 			/>
 		);
 		fireEvent.click(
-			container.querySelector('tbody tr:nth-child(1) button:nth-child(3)')
+			container.querySelector('tbody tr:nth-child(1) button:nth-child(3) span')
 		);
 		expect(handleDown).toHaveBeenCalled();
 	});
@@ -155,7 +155,7 @@ describe('<StructureComponentsSelector />', () => {
 		);
 
 		fireEvent.click(
-			container.querySelector('tbody tr:nth-child(1) button:nth-child(1)')
+			container.querySelector('tbody tr:nth-child(1) button:nth-child(1) span')
 		);
 		expect(
 			container.querySelector('.sliding-panel-container.active')
