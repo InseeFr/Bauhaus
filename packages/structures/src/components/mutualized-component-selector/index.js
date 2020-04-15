@@ -86,6 +86,7 @@ export const MutualizedComponentsSelector = ({
 						setOpenPanel(false);
 					}}
 					updatable={false}
+					mutualized={true}
 				/>
 			</SlidingPanel>
 		</CollapsiblePanel>

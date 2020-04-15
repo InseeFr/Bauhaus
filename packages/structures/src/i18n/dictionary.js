@@ -1,11 +1,27 @@
 export default {
-	errorsIdMantory: {
+	componentSpecificationTitle: {
+		fr: 'Spécification du Composant',
+		en: 'Component Specification',
+	},
+	errorsIdMandatory: {
 		fr: "L'identifiant est obligatoire",
 		en: 'The id is mandatory',
+	},
+	errorsTypeMandatory: {
+		fr: 'Le type est obligatoire',
+		en: 'The type is mandatory',
 	},
 	errorsLabelLg1Mandatory: {
 		fr: 'Le label est obligatoire',
 		en: 'The label is mandatory',
+	},
+	errorsConceptMandatory: {
+		fr: 'Le concept est obligatoire',
+		en: 'The concept is mandatory',
+	},
+	errorsRangeMandatory: {
+		fr: 'La portée est obligatoire',
+		en: 'The range is mandatory',
 	},
 	componentTitle: {
 		fr: 'Composants',
@@ -21,7 +37,7 @@ export default {
 	},
 	label: {
 		fr: 'Libellé',
-		en: 'Labbel',
+		en: 'Label',
 	},
 	type: {
 		fr: 'Type',
@@ -94,5 +110,13 @@ export default {
 	attachmentTitle: {
 		fr: 'Attachment',
 		en: 'Attachment',
+	},
+	descriptionTitle: {
+		fr: 'Description',
+		en: 'Description',
+	},
+	componentsSearchTitle: {
+		fr: 'Composants - Recherche',
+		en: 'Components - Search',
 	},
 };

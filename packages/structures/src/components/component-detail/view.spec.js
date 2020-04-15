@@ -12,6 +12,7 @@ import { ComponentDetailView } from './view';
 describe('<ComponentDetailView />', () => {
 	const component = {
 		id: '5e7334002a5c764f68247222',
+		identifiant: '5e7334002a5c764f68247222',
 		labelLg1: 'veniam non irure',
 		labelLg2: 'nisi aliquip',
 		type: 'http://purl.org/linked-data/cube#dimension',
@@ -93,7 +94,7 @@ describe('<ComponentDetailView />', () => {
 			></ComponentDetailView>
 		);
 
-		expect(queryByText(container, component.id)).not.toBeNull();
+		expect(queryByText(container, component.identifiant)).not.toBeNull();
 		expect(queryByText(container, 'Dimension')).not.toBeNull();
 		expect(
 			queryByText(container, concepts[component.concept].label)

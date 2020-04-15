@@ -7,6 +7,7 @@ import { ComponentDetailEdit } from './edit';
 describe('<ComponentDetailEdit />', () => {
 	const component = {
 		id: '5e7334002a5c764f68247222',
+		identifiant: '5e7334002a5c764f68247222',
 		labelLg1: 'veniam non irure',
 		labelLg2: 'nisi aliquip',
 		type: 'http://purl.org/linked-data/cube#dimension',

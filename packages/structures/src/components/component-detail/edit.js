@@ -5,6 +5,7 @@ import {
 	ActionToolbar,
 	ErrorBloc,
 } from '@inseefr/wilco';
+import { EditorMarkdown, LabelRequired } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { ATTACHMENTS } from '../../utils/constants/attachments';
 import {
@@ -13,7 +14,7 @@ import {
 } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 
-import D from '../../i18n/build-dictionary';
+import { D1, D2 } from '../../i18n/build-dictionary';
 import { Select } from '@inseefr/wilco';
 
 import PropTypes from 'prop-types';
@@ -24,6 +25,7 @@ export const ComponentDetailEdit = ({
 	codesLists = {},
 	handleSave,
 	handleBack,
+	mutualized = false,
 }) => {
 	const [component, setComponent] = useState(defaultComponent || {});
 
@@ -63,21 +65,21 @@ export const ComponentDetailEdit = ({
 			<form>
 				<div className="row">
 					<div className="col-md-12 form-group">
-						<label htmlFor="id">{D.idTitle}</label>
+						<LabelRequired htmlFor="identifiant">{D1.idTitle}</LabelRequired>
 						<input
 							type="text"
 							className="form-control"
-							id="id"
-							name="id"
-							value={component.id}
+							id="identifiant"
+							name="identifiant"
+							value={component.identifiant}
 							onChange={handleChange}
-							aria-invalid={field === 'id'}
+							aria-invalid={field === 'identifiant'}
 						/>
 					</div>
 				</div>
 				<div className="row">
 					<div className={`col-md-6 form-group`}>
-						<label htmlFor="labelLg1">{D.label}</label>
+						<LabelRequired htmlFor="labelLg1">{D1.label}</LabelRequired>
 						<input
 							type="text"
 							className="form-control"
@@ -90,7 +92,7 @@ export const ComponentDetailEdit = ({
 					</div>
 
 					<div className="col-md-6 form-group">
-						<label htmlFor="labelLg2">{D.label}</label>
+						<label htmlFor="labelLg2">{D2.label}</label>
 						<input
 							type="text"
 							className="form-control"
@@ -106,8 +108,8 @@ export const ComponentDetailEdit = ({
 					<div className="col-md-12 ">
 						<Select
 							id="type"
-							label={D.type}
-							placeholder={D.type}
+							label={D1.type}
+							placeholder={D1.type}
 							value={COMPONENT_TYPES.find(c => c.value === component.type)}
 							options={COMPONENT_TYPES}
 							name="type"
@@ -115,33 +117,18 @@ export const ComponentDetailEdit = ({
 						/>
 					</div>
 				</div>
-				{component.type === ATTRIBUTE_TYPE && (
-					<div className="row">
-						<div className="col-md-12">
-							<Select
-								id="attachment"
-								name="attachment"
-								label={D.attachmentTitle}
-								placeholder={D.attachmentTitle}
-								value={ATTACHMENTS.find(c => c.value === component.attachment)}
-								options={ATTACHMENTS}
-								onChange={value =>
-									setComponent({ ...component, attachment: value })
-								}
-							/>
-						</div>
-					</div>
-				)}
 
 				<div className="row">
 					<div className="col-md-12">
 						<Select
 							id="concept"
 							name="concept"
-							label={D.conceptTitle}
-							placeholder={D.conceptTitle}
+							label={D1.conceptTitle}
+							placeholder={D1.conceptTitle}
 							options={conceptOptions}
-							value={conceptOptions.find(c => c.value === component.concept)}
+							value={conceptOptions.find(
+								c => c.value === component.concept.toString()
+							)}
 							onChange={value => setComponent({ ...component, concept: value })}
 						/>
 					</div>
@@ -151,8 +138,8 @@ export const ComponentDetailEdit = ({
 						<Select
 							id="range"
 							name="range"
-							label={D.rangeTitle}
-							placeholder={D.rangeTitle}
+							label={D1.rangeTitle}
+							placeholder={D1.rangeTitle}
 							value={XSD_TYPES.find(c => c.value === component.range)}
 							options={XSD_TYPES}
 							onChange={value => setComponent({ ...component, range: value })}
@@ -168,11 +155,11 @@ export const ComponentDetailEdit = ({
 								className="form-control"
 								id="codeList"
 								name="codeList"
-								label={D.codesListTitle}
-								placeholder={D.codesListTitle}
+								label={D1.codesListTitle}
+								placeholder={D1.codesListTitle}
 								options={codeListOptions}
 								value={codeListOptions.find(
-									c => c.value === component.codeList
+									c => c.value === component.codeList.toString()
 								)}
 								onChange={value =>
 									setComponent({ ...component, codeList: value })
@@ -180,6 +167,51 @@ export const ComponentDetailEdit = ({
 							/>
 						</div>
 					</div>
+				)}
+				<div className="row">
+					<div className="col-md-6 form-group">
+						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
+						<EditorMarkdown
+							text={component.descriptionLg1}
+							handleChange={value =>
+								setComponent({ ...component, descriptionLg1: value })
+							}
+						/>
+					</div>
+					<div className="col-md-6 form-group">
+						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
+						<EditorMarkdown
+							text={component.descriptionLg2}
+							handleChange={value =>
+								setComponent({ ...component, descriptionLg2: value })
+							}
+						/>
+					</div>
+				</div>
+
+				{component.type === ATTRIBUTE_TYPE && !mutualized && (
+					<React.Fragment>
+						<hr />
+						<h4>{D1.componentSpecificationTitle}</h4>
+
+						<div className="row">
+							<div className="col-md-12">
+								<Select
+									id="attachment"
+									name="attachment"
+									label={D1.attachmentTitle}
+									placeholder={D1.attachmentTitle}
+									value={ATTACHMENTS.find(
+										c => c.value === component.attachment
+									)}
+									options={ATTACHMENTS}
+									onChange={value =>
+										setComponent({ ...component, attachment: value })
+									}
+								/>
+							</div>
+						</div>
+					</React.Fragment>
 				)}
 			</form>
 		</React.Fragment>

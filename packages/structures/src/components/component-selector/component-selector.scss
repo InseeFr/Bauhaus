@@ -1,4 +1,7 @@
 .bauhaus-collapsible-panel {
+	.DraftEditor-root {
+		z-index: 0;
+	}
 	> .wilco-note > .panel {
 		> .panel-heading {
 			button {
@@ -73,7 +76,4 @@
 		display: inline-block;
 		width: auto;
 	}
-}
-.centered {
-	text-align: center;
 }

@@ -1,16 +1,17 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import ComponentSelector from '.';
-const stories = storiesOf('ComponentSelector', module);
+import { SearchFormList } from './search';
+import { MemoryRouter } from 'react-router-dom';
+const stories = storiesOf('Components Advanced Search', module);
 
 const styleDecorator = storyFn => (
 	<div className="col-md-12" style={{ marginTop: '5%' }}>
-		{storyFn()}
+		<MemoryRouter>{storyFn()}</MemoryRouter>
 	</div>
 );
 stories.addDecorator(styleDecorator);
 
-const mutualizedComponents = [
+const components = [
 	{
 		id: '5e7334002a5c764f68247222',
 		identifiant: '5e7334002a5c764f68247222',
@@ -18,7 +19,7 @@ const mutualizedComponents = [
 		labelLg2: 'nisi aliquip',
 		type: 'http://purl.org/linked-data/cube#dimension',
 		attachment: 'http://purl.org/linked-data/cube#Observation',
-		concept: 439,
+		concept: '439',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 942,
 		range: 'http://www.w3.org/2001/XMLSchema#codeList',
@@ -32,7 +33,7 @@ const mutualizedComponents = [
 		labelLg2: 'deserunt in',
 		type: 'http://purl.org/linked-data/cube#measure',
 		attachment: 'http://purl.org/linked-data/cube#Observation',
-		concept: 385,
+		concept: '385',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 507,
 		range: 'http://www.w3.org/2001/XMLSchema#float',
@@ -46,7 +47,7 @@ const mutualizedComponents = [
 		labelLg2: 'officia duis',
 		type: 'http://purl.org/linked-data/cube#attribute',
 		attachment: 'http://purl.org/linked-data/cube#Slice',
-		concept: 103,
+		concept: '103',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 377,
 		range: 'http://www.w3.org/2001/XMLSchema#int',
@@ -60,7 +61,7 @@ const mutualizedComponents = [
 		labelLg2: 'elit ex',
 		type: 'http://purl.org/linked-data/cube#dimension',
 		attachment: 'http://purl.org/linked-data/cube#Observation',
-		concept: 792,
+		concept: '792',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 471,
 		range: 'http://www.w3.org/2001/XMLSchema#float',
@@ -74,7 +75,7 @@ const mutualizedComponents = [
 		labelLg2: 'labore reprehenderit',
 		type: 'http://purl.org/linked-data/cube#dimension',
 		attachment: 'http://purl.org/linked-data/cube#Slice',
-		concept: 936,
+		concept: '936',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 278,
 		range: 'http://www.w3.org/2001/XMLSchema#int',
@@ -88,7 +89,7 @@ const mutualizedComponents = [
 		labelLg2: 'irure quis',
 		type: 'http://purl.org/linked-data/cube#dimension',
 		attachment: 'http://purl.org/linked-data/cube#Observation',
-		concept: 566,
+		concept: '566',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 174,
 		range: 'http://www.w3.org/2001/XMLSchema#string',
@@ -102,7 +103,7 @@ const mutualizedComponents = [
 		labelLg2: 'et incididunt',
 		type: 'http://purl.org/linked-data/cube#attribute',
 		attachment: 'http://purl.org/linked-data/cube#DataSet',
-		concept: 141,
+		concept: '141',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 415,
 		range: 'http://www.w3.org/2001/XMLSchema#string',
@@ -116,7 +117,7 @@ const mutualizedComponents = [
 		labelLg2: 'culpa adipisicing',
 		type: 'http://purl.org/linked-data/cube#measure',
 		attachment: 'http://purl.org/linked-data/cube#Slice',
-		concept: 526,
+		concept: '526',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 216,
 		range: 'http://www.w3.org/2001/XMLSchema#string',
@@ -130,7 +131,7 @@ const mutualizedComponents = [
 		labelLg2: 'exercitation officia',
 		type: 'http://purl.org/linked-data/cube#dimension',
 		attachment: 'http://purl.org/linked-data/cube#Observation',
-		concept: 201,
+		concept: '201',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 356,
 		range: 'http://www.w3.org/2001/XMLSchema#string',
@@ -144,7 +145,7 @@ const mutualizedComponents = [
 		labelLg2: 'quis nostrud',
 		type: 'http://purl.org/linked-data/cube#attribute',
 		attachment: 'http://purl.org/linked-data/cube#Slice',
-		concept: 765,
+		concept: '765',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 973,
 		range: 'http://www.w3.org/2001/XMLSchema#date',
@@ -158,7 +159,7 @@ const mutualizedComponents = [
 		labelLg2: 'aliquip aliqua',
 		type: 'http://purl.org/linked-data/cube#attribute',
 		attachment: 'http://purl.org/linked-data/cube#Slice',
-		concept: 848,
+		concept: '848',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 274,
 		range: 'http://www.w3.org/2001/XMLSchema#string',
@@ -172,7 +173,7 @@ const mutualizedComponents = [
 		labelLg2: 'mollit incididunt',
 		type: 'http://purl.org/linked-data/cube#dimension',
 		attachment: 'http://purl.org/linked-data/cube#DataSet',
-		concept: 575,
+		concept: '575',
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 813,
 		range: 'http://www.w3.org/2001/XMLSchema#date',
@@ -181,30 +182,12 @@ const mutualizedComponents = [
 	},
 ];
 
-const components = [
-	{ ...mutualizedComponents[0] },
-	{ ...mutualizedComponents[1] },
-	{ ...mutualizedComponents[2] },
-];
-
-const concepts = mutualizedComponents.map(component => ({
+const concepts = components.map(component => ({
 	altLabel: '',
 	id: component.concept.toString(),
 	label: 'Concept - Label ' + component.concept,
 }));
-const codesLists = mutualizedComponents.map(component => ({
-	altLabel: '',
-	id: component.codeList.toString(),
-	label: 'Code List - Label ' + component.concept,
-}));
 
 stories.add('Default', () => {
-	return (
-		<ComponentSelector
-			components={components}
-			codesLists={codesLists}
-			concepts={concepts}
-			mutualizedComponents={mutualizedComponents}
-		/>
-	);
+	return <SearchFormList data={components} concepts={concepts} />;
 });

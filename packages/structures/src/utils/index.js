@@ -35,17 +35,19 @@ export const defaultComponentsTableParams = [
 ];
 
 export const validateComponent = component => {
-	if (!component.id) {
+	const validations = {
+		identifiant: 'errorsIdMandatory',
+		labelLg1: 'errorsLabelLg1Mandatory',
+	};
+
+	const field = Object.keys(validations).find(field => !component[field]);
+
+	if (field) {
 		return {
-			field: 'id',
-			message: D.errorsIdMantory,
+			field,
+			message: D[validations[field]],
 		};
 	}
-	if (!component.labelLg1) {
-		return {
-			field: 'labelLg1',
-			message: D.errorsLabelLg1Mandatory,
-		};
-	}
+
 	return {};
 };

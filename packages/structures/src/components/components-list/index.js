@@ -14,7 +14,7 @@ function ComponentsList({ items, title, childPath }) {
 				<VerticalMenu>
 					<NewButton action="/dsds/components/search" wrapper={false} />
 				</VerticalMenu>
-				<div className="col-md-8 centered pull-right">
+				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={title} col={12} offset={0} />
 					<SearchableList
 						items={items}
