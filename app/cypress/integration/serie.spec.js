@@ -73,7 +73,7 @@ describe('Series page', () => {
 			.click();
 
 		cy.url().should('include', '/operations/series/');
-		cy.get('.btn-line button')
+		cy.get('.action-toolbar button')
 			.first()
 			.click();
 		cy.url().should('match', /\/operations\/series$/);
@@ -87,18 +87,18 @@ describe('Series page', () => {
 
 		cy.url().should('include', '/operations/series/');
 
-		cy.get('.btn-line a')
+		cy.get('.action-toolbar a')
 			.eq(1)
 			.click();
 
 		cy.url().should('include', '/modify');
 
-		cy.get('.btn-line button')
+		cy.get('.action-toolbar button')
 			.first()
 			.click();
 
 		cy.url().should('include', '/operations/series/');
-		cy.get('.btn-line button')
+		cy.get('.action-toolbar button')
 			.first()
 			.click();
 		cy.url().should('match', /\/operations\/series$/);
@@ -124,7 +124,7 @@ describe('Series page', () => {
 
 		cy.url().should('include', '/operations/series/');
 
-		cy.get('.btn-line a')
+		cy.get('.action-toolbar a')
 			.eq(1)
 			.click();
 

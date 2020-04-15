@@ -2,21 +2,22 @@ import D from 'js/i18n';
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
 import { Loading } from '@inseefr/wilco';
-import { AbstractSearchComponent } from 'js/applications/shared/advanced-search/home-container';
 import api from 'js/remote-api/operations-api';
 import { connect } from 'react-redux';
 import SelectRmes from 'js/applications/shared/select-rmes';
-
-import { filterKeyDeburr, sortArray } from 'js/utils/array-utils';
-import SearchList from 'js/applications/shared/advanced-search/home';
+import {
+	ArrayUtils,
+	AbstractAdvancedSearchComponent,
+	AdvancedSearchList,
+	ItemToSelectModel,
+} from 'bauhaus-utilities';
 import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
-import { toSelectModel } from '../shared/utils/itemToSelectModel';
 import * as select from 'js/reducers';
 
-const filterLabel = filterKeyDeburr(['prefLabelLg1']);
-const filterTypeCode = filterKeyDeburr(['typeCode']);
-const filterCreator = filterKeyDeburr(['creator']);
-const filterGestionnaire = filterKeyDeburr(['gestionnaires']);
+const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
+const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
+const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
+const filterGestionnaire = ArrayUtils.filterKeyDeburr(['gestionnaires']);
 const fields = [
 	'prefLabelLg1',
 	'typeCode',
@@ -24,9 +25,9 @@ const fields = [
 	'dataCollector',
 	'gestionnaire',
 ];
-const sortByLabel = sortArray('prefLabelLg1');
+const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
 
-class SearchFormList extends AbstractSearchComponent {
+class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
 		prefLabelLg1: '',
 		typeCode: '',
@@ -73,7 +74,7 @@ class SearchFormList extends AbstractSearchComponent {
 			gestionnaire,
 		} = this.state;
 		const { categories, organisations, stamps } = this.props;
-		const organisationsOptions = toSelectModel(organisations);
+		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 		const stampsOptions = stamps.map(stamp => ({ value: stamp, label: stamp }));
 
 		const dataLinks = data.map(({ id, prefLabelLg1 }) => (
@@ -82,7 +83,7 @@ class SearchFormList extends AbstractSearchComponent {
 			</li>
 		));
 		return (
-			<SearchList
+			<AdvancedSearchList
 				title={D.seriesSearchTitle}
 				data={dataLinks}
 				backUrl="/operations/series"
@@ -90,7 +91,7 @@ class SearchFormList extends AbstractSearchComponent {
 			>
 				<div className="row form-group">
 					<div className="col-md-12">
-						<label className="full-label">
+						<label className="w-100">
 							{D.labelTitle}
 							<input
 								value={prefLabelLg1}
@@ -103,7 +104,7 @@ class SearchFormList extends AbstractSearchComponent {
 				</div>
 				<div className="form-group row">
 					<div className="col-md-12">
-						<label htmlFor="typeOperation" className="full-label">
+						<label htmlFor="typeOperation" className="w-100">
 							{D.operationType}
 
 							<SelectRmes
@@ -122,7 +123,7 @@ class SearchFormList extends AbstractSearchComponent {
 				</div>
 				<div className="form-group row">
 					<div className="col-md-12">
-						<label htmlFor="typeOperation" className="full-label">
+						<label htmlFor="typeOperation" className="w-100">
 							{D.contributorTitle}
 
 							<SelectRmes
@@ -139,7 +140,7 @@ class SearchFormList extends AbstractSearchComponent {
 				</div>
 				<div className="form-group row">
 					<div className="col-md-6">
-						<label htmlFor="typeOperation" className="full-label">
+						<label htmlFor="typeOperation" className="w-100">
 							{D.organisation}
 
 							<SelectRmes
@@ -154,7 +155,7 @@ class SearchFormList extends AbstractSearchComponent {
 						</label>
 					</div>
 					<div className="col-md-6">
-						<label htmlFor="typeOperation" className="full-label">
+						<label htmlFor="typeOperation" className="w-100">
 							{D.dataCollector}
 
 							<SelectRmes
@@ -169,7 +170,7 @@ class SearchFormList extends AbstractSearchComponent {
 						</label>
 					</div>
 				</div>
-			</SearchList>
+			</AdvancedSearchList>
 		);
 	}
 }

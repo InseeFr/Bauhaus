@@ -15,7 +15,7 @@ export default ({ members, classificationId, secondLang }) => {
 		}));
 	}
 	return (
-		<div className="row centered">
+		<div className="row text-center">
 			<Note
 				text={
 					<SearchableList

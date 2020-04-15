@@ -16,8 +16,8 @@ describe('Operation Page', function() {
 		cy.server().visit(`/operations`);
 		cy.get('.list-group li:nth-child(1) a').click();
 		cy.url().should('include', '/operations/operation');
-		cy.get('.btn-line > div:nth-child(1) button').contains('Retour');
-		cy.get('.btn-line > div:nth-child(1) button').click();
+		cy.get('.action-toolbar > div:nth-child(1) button').contains('Retour');
+		cy.get('.action-toolbar > div:nth-child(1) button').click();
 		cy.url().should('match', /\/operations$/);
 	});
 
@@ -100,7 +100,7 @@ describe('Operation Page', function() {
 					win.fetch = win.unfetch;
 				},
 			});
-		cy.get('.btn-line').contains('Voir le SIMS');
+		cy.get('.action-toolbar').contains('Voir le SIMS');
 	});
 	it(`Should have a button to update a SIMS`, function() {
 		cy.server()
@@ -116,7 +116,7 @@ describe('Operation Page', function() {
 					win.fetch = win.unfetch;
 				},
 			});
-		cy.get('.btn-line').contains('Créer le SIMS');
+		cy.get('.action-toolbar').contains('Créer le SIMS');
 	});
 	it(`Should go to the update page and go back`, function() {
 		cy.server()
@@ -135,7 +135,7 @@ describe('Operation Page', function() {
 		cy.get('.wilco-page-title').contains('Enquête annuelle de production 2013');
 		cy.get('a[href="/operations/operation/1/modify"]').click();
 		cy.url().should('match', /\/operations\/operation\/1\/modify$/);
-		cy.get('.btn-line button')
+		cy.get('.action-toolbar button')
 			.first()
 			.click();
 		cy.url().should('match', /\/operations\/operation\/1$/);

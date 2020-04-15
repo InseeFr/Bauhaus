@@ -35,7 +35,7 @@ function CollectionGeneralEdition({
 	const handlers = handleFieldChange(handleChange);
 	return (
 		<div>
-			<h4 className="centered">
+			<h4 className="text-center">
 				( <span className="boldRed">*</span> : {D.requiredFields})
 			</h4>
 			<div className="row">

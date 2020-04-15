@@ -1,4 +1,7 @@
-import { toSelectModel, mergedItemsToSelectModels } from './itemToSelectModel';
+import {
+	toSelectModel,
+	mergedItemsToSelectModels,
+} from './item-to-select-model';
 describe('toSelectModel', () => {
 	it('should return the right select model', () => {
 		const items = [

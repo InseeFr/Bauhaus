@@ -1,6 +1,4 @@
-import { sortArray } from 'js/utils/array-utils';
-
-const sortByLabel = sortArray('label');
+import { sortArrayByLabel } from './array-utils';
 
 /**
  * Return the representation needed by the react-select model
@@ -23,7 +21,7 @@ export function toSelectModel(items, type) {
  * In order to see the type of the item, the label is prepend by the type
  */
 export function mergedItemsToSelectModels(...items) {
-	return sortByLabel(
+	return sortArrayByLabel(
 		items.reduce((acc, values) => [...acc, ...values], [])
 	).map(elt => {
 		return {

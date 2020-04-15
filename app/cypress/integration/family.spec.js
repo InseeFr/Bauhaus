@@ -45,7 +45,7 @@ describe('Family page', () => {
 		cy.url().should('include', '/operations/family/');
 		cy.get('.panel-body > ul > :nth-child(1) > a').click();
 		cy.url().should('include', '/operations/series/s');
-		cy.get('.btn-line button')
+		cy.get('.action-toolbar button')
 			.first()
 			.click();
 		cy.url().should('include', '/operations/family/');
@@ -85,18 +85,18 @@ describe('Family page', () => {
 
 		cy.url().should('include', '/operations/family/');
 
-		cy.get('.btn-line a')
+		cy.get('.action-toolbar a')
 			.first()
 			.click();
 
 		cy.url().should('include', '/modify');
 
-		cy.get('.btn-line button')
+		cy.get('.action-toolbar button')
 			.first()
 			.click();
 
 		cy.url().should('include', '/operations/family/');
-		cy.get('.btn-line button')
+		cy.get('.action-toolbar button')
 			.first()
 			.click();
 		cy.url().should('match', /\/operations\/families$/);
@@ -110,7 +110,7 @@ describe('Family page', () => {
 
 		cy.url().should('include', '/operations/family/');
 
-		cy.get('.btn-line a')
+		cy.get('.action-toolbar a')
 			.first()
 			.click();
 

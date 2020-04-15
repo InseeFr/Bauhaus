@@ -15,7 +15,7 @@ describe('Indicator Page', function() {
 			.click();
 
 		cy.url().should('include', '/operations/indicator/');
-		cy.get('.btn-line button')
+		cy.get('.action-toolbar button')
 			.first()
 			.click();
 		cy.url().should('match', /\/operations\/indicators$/);
@@ -28,7 +28,7 @@ describe('Indicator Page', function() {
 
 		cy.url().should('include', '/operations/indicator/create');
 
-		cy.get('.btn-line a')
+		cy.get('.action-toolbar a')
 			.first()
 			.click();
 
@@ -51,25 +51,25 @@ describe('Indicator Page', function() {
 			.first()
 			.click();
 		cy.get('.alert-danger').should('be.visible');
-		cy.get('.btn-line a')
+		cy.get('.action-toolbar a')
 			.first()
 			.should('not.be.disabled');
 
-		cy.get('.btn-line button')
+		cy.get('.action-toolbar button')
 			.first()
 			.should('be.disabled');
 
 		cy.get('form div:nth-child(1) input')
 			.first()
 			.type('name');
-		cy.get('.btn-line button')
+		cy.get('.action-toolbar button')
 			.first()
 			.should('be.disabled');
 
 		cy.get('form input[type=text]').each($el => {
 			cy.wrap($el).type('name');
 		});
-		cy.get('.btn-line button')
+		cy.get('.action-toolbar button')
 			.first()
 			.should('not.be.disabled');
 		cy.get('.alert-danger').should('not.be.visible');

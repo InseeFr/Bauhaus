@@ -44,7 +44,7 @@ function DocumentHome({ documents }) {
 					</VerticalMenu>
 				</Auth>
 
-				<div className="col-md-8 centered pull-right operations-list">
+				<div className="col-md-8 text-center pull-right operations-list">
 					<PageTitle title={D.documentsSearchTitle} col={12} offset={0} />
 					<div
 						className="documents-home__btn-group btn-group btn-group-justified"

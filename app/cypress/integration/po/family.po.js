@@ -31,7 +31,7 @@ export class FamiliesPage {
 }
 export class FamilyEditPage {
 	getBackButton() {
-		return cy.get('.btn-line button').first();
+		return cy.get('.action-toolbar button').first();
 	}
 	goBack() {
 		this.getBackButton().click();

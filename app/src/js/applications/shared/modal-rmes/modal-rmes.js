@@ -50,7 +50,7 @@ function ModalRmes({
 					</div>
 				)}
 				<div className="modal-footer">
-					<div className="centered">{buttons}</div>
+					<div className="text-center">{buttons}</div>
 					{footer && (
 						<div
 							style={{ textAlign: 'left', marginTop: '20px' }}

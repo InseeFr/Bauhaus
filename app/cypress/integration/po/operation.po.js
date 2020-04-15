@@ -6,7 +6,7 @@ export class OperationsPage {
 
 export class OperationEditPage {
 	getBackButton() {
-		return '.btn-line button';
+		return '.action-toolbar button';
 	}
 	getTitle() {
 		return '.bauhaus-page-title';

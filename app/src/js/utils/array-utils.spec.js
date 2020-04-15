@@ -19,19 +19,6 @@ describe('array utils', () => {
 		});
 	});
 
-	describe('sortArray', () => {
-		it('should return a same length array', () => {
-			const array = [{ id: '2', label: 'B' }, { id: '1', label: 'A' }];
-			expect(A.sortArray('id')(array)).toHaveLength(array.length);
-		});
-
-		it('should return a sorted array', () => {
-			const array = [{ id: '2', label: 'B' }, { id: '1', label: 'A' }];
-			const res = [{ id: '1', label: 'A' }, { id: '2', label: 'B' }];
-			expect(A.sortArray('id')(array)).toEqual(res);
-		});
-	});
-
 	describe('filter by key date', () => {
 		it('returns true if the date matches', () => {
 			const evt = { creationDate: '2017-07-15T10:51:47.812' };
@@ -74,17 +61,6 @@ describe('array utils', () => {
 					prefLabelLg1: 'A',
 				},
 			]);
-		});
-	});
-
-	describe('nbResults', () => {
-		it('should return string ends with any letter', () => {
-			expect(A.nbResults([])).toMatch(/[A-Za-z]{1}$/);
-			expect(A.nbResults(['A'])).toMatch(/[A-Za-z]{1}$/);
-		});
-
-		it("should return string ends with 's'", () => {
-			expect(A.nbResults(['a', 'b']).endsWith('s')).toBeTruthy();
 		});
 	});
 

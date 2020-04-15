@@ -6,7 +6,7 @@ export class SeriesPage {
 
 export class SeriesEditPage {
 	getBackButton() {
-		return '.btn-line button';
+		return '.action-toolbar button';
 	}
 	getTitle() {
 		return '.bauhaus-page-title';

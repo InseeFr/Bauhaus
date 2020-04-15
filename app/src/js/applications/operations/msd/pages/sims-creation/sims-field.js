@@ -4,7 +4,7 @@ import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
-import { toolbar } from 'js/applications/shared/editor-html/editor-markdown';
+import { EditorMarkdownToolbar } from 'bauhaus-utilities';
 import { Editor } from 'react-draft-wysiwyg';
 
 import SelectRmes from 'js/applications/shared/select-rmes';
@@ -92,7 +92,7 @@ class Field extends PureComponent {
 		}));
 
 		const currentToolbar = {
-			...toolbar,
+			...EditorMarkdownToolbar,
 			options: ['list', 'inline'],
 		};
 		return (

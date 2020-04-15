@@ -5,9 +5,9 @@ import { Note, Table } from '@inseefr/wilco';
 import D, { D1 } from 'js/i18n';
 import { propTypes as associationsPropTypes } from 'js/applications/classifications/utils/correspondence/associations';
 import { propTypes as correspondencePropTypes } from 'js/applications/classifications/utils/correspondence/general';
-import { sortArray } from 'js/utils/array-utils';
+import { ArrayUtils } from 'bauhaus-utilities';
 
-const sortById = sortArray('id');
+const sortById = ArrayUtils.sortArray('id');
 
 class HomeAssociations extends Component {
 	static propTypes = {

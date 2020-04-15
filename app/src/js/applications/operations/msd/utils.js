@@ -1,6 +1,6 @@
 import { rangeType } from 'js/utils/msd/';
 import { DUPLICATE } from 'js/applications/operations/msd';
-import { editorStateFromMd } from 'js/utils/html';
+import { HTMLUtils } from 'bauhaus-utilities';
 
 const { RICH_TEXT, TEXT } = rangeType;
 
@@ -103,11 +103,11 @@ export function removeRubricsWhenDuplicate(mode, rubrics = {}) {
 				...rubrics[rubricKey],
 				labelLg1:
 					rubrics[rubricKey].rangeType === 'RICH_TEXT'
-						? editorStateFromMd(rubrics[rubricKey].labelLg1)
+						? HTMLUtils.editorStateFromMd(rubrics[rubricKey].labelLg1)
 						: rubrics[rubricKey].labelLg1,
 				labelLg2:
 					rubrics[rubricKey].rangeType === 'RICH_TEXT'
-						? editorStateFromMd(rubrics[rubricKey].labelLg2)
+						? HTMLUtils.editorStateFromMd(rubrics[rubricKey].labelLg2)
 						: rubrics[rubricKey].labelLg2,
 			},
 		};

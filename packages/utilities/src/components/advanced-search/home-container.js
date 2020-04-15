@@ -6,7 +6,7 @@ const handleFieldChange = (fields, handleChange) =>
 		return handlers;
 	}, {});
 
-export class AbstractSearchComponent extends Component {
+export class AbstractAdvancedSearchComponent extends Component {
 	constructor(props, emptyState) {
 		super(props);
 		this.emptyState = emptyState;

@@ -10,6 +10,7 @@ import {
 	goBack,
 	goBackOrReplace,
 } from '@inseefr/wilco';
+import { LabelRequired } from 'bauhaus-utilities';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { validate } from './validation';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
@@ -140,10 +141,7 @@ class OperationsOperationEdition extends Component {
 
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="prefLabelLg1">
-								{D1.title}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
 							<input
 								type="text"
 								className="form-control"
@@ -154,10 +152,7 @@ class OperationsOperationEdition extends Component {
 							/>
 						</div>
 						<div className="form-group col-md-6">
-							<label htmlFor="prefLabelLg2">
-								{D2.title}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
 							<input
 								type="text"
 								className="form-control"

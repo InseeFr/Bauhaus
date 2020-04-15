@@ -1,4 +1,4 @@
-import { sortArray } from 'js/utils/array-utils';
+import { sortArray } from '../utils/array-utils';
 
 const sortArrayByLabel = sortArray('label');
 

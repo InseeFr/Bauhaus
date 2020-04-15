@@ -6,18 +6,17 @@ import Controls from './controls';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
-import {
-	filterKeyDeburr,
-	filterKeyDate,
-	nbResults,
-} from 'js/utils/array-utils';
+import { filterKeyDate } from 'js/utils/array-utils';
+import { NumberResult, ArrayUtils } from 'bauhaus-utilities';
 
-const filterLabel = filterKeyDeburr(['label']);
-const filterAltLabel = filterKeyDeburr(['altLabel']);
-const filterDefinition = filterKeyDeburr(['definition']);
-const filterCreator = filterKeyDeburr(['creator']);
-const filterDisseminationStatus = filterKeyDeburr(['disseminationStatus']);
-const filterValidationStatus = filterKeyDeburr(['validationStatus']);
+const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
+const filterAltLabel = ArrayUtils.filterKeyDeburr(['altLabel']);
+const filterDefinition = ArrayUtils.filterKeyDeburr(['definition']);
+const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
+const filterDisseminationStatus = ArrayUtils.filterKeyDeburr([
+	'disseminationStatus',
+]);
+const filterValidationStatus = ArrayUtils.filterKeyDeburr(['validationStatus']);
 const filterCreatedDate = filterKeyDate(['created']);
 const filterModifiedDate = filterKeyDate(['modified']);
 
@@ -204,7 +203,7 @@ class ConceptSearchList extends Component {
 						</div>
 					</div>
 					<div className="row vertical-center">
-						<div className="col-md-3 centered">
+						<div className="col-md-3 text-center">
 							<label>{D.conceptsCreationDateMessage}</label>
 						</div>
 						<div className="col-md-4">
@@ -214,7 +213,7 @@ class ConceptSearchList extends Component {
 								placement="bottom"
 							/>
 						</div>
-						<div className="col-md-1 centered">
+						<div className="col-md-1 text-center">
 							<label>{D.conceptsTransitionDateMessage}</label>
 						</div>
 						<div className="col-md-4">
@@ -226,7 +225,7 @@ class ConceptSearchList extends Component {
 						</div>
 					</div>
 					<div className="row vertical-center">
-						<div className="col-md-3 centered">
+						<div className="col-md-3 text-center">
 							<label>{D.conceptsUpdateDateMessage}</label>
 						</div>
 						<div className="col-md-4">
@@ -236,7 +235,7 @@ class ConceptSearchList extends Component {
 								placement="bottom"
 							/>
 						</div>
-						<div className="col-md-1 centered">
+						<div className="col-md-1 text-center">
 							<label>{D.conceptsTransitionDateMessage}</label>
 						</div>
 						<div className="col-md-4">
@@ -247,9 +246,11 @@ class ConceptSearchList extends Component {
 							/>
 						</div>
 					</div>
-					<div className="centered">
+					<div className="text-center">
 						<div>
-							<h4>{nbResults(hitEls)}</h4>
+							<h4>
+								<NumberResult results={hitEls} />
+							</h4>
 						</div>
 						<div>
 							<Pagination itemEls={hitEls} itemsPerPage="10" />

@@ -6,16 +6,14 @@ import Badge from 'js/applications/shared/badge';
 
 import * as C from 'js/constants';
 import D from 'js/i18n';
-import { sortArray } from 'js/utils/array-utils';
-
-const sortArrayByLabel = sortArray('label');
+import { ArrayUtils } from 'bauhaus-utilities';
 
 const ComponentList = ({ components, checked, onCheck, onChange }) => {
 	const [search, setSearch] = useState(() => '');
 
 	const items = buildComponents(
 		checked,
-		sortArrayByLabel(components),
+		ArrayUtils.sortArrayByLabel(components),
 		onChange,
 		search
 	);
@@ -23,7 +21,7 @@ const ComponentList = ({ components, checked, onCheck, onChange }) => {
 	return (
 		<>
 			<div className="row">
-				<div className="col-md-4 centered">
+				<div className="col-md-4 text-center">
 					<Checkbox
 						defaultChecked={checked[C.ATTRIBUTE_TYPE]}
 						onChange={() => onCheck(C.ATTRIBUTE_TYPE)}
@@ -31,7 +29,7 @@ const ComponentList = ({ components, checked, onCheck, onChange }) => {
 						{D.attributsTitle}
 					</Checkbox>
 				</div>
-				<div className="col-md-4 centered">
+				<div className="col-md-4 text-center">
 					<Checkbox
 						defaultChecked={checked[C.DIMENSION_TYPE]}
 						onChange={() => onCheck(C.DIMENSION_TYPE)}
@@ -39,7 +37,7 @@ const ComponentList = ({ components, checked, onCheck, onChange }) => {
 						{D.dimensionsTitle}
 					</Checkbox>
 				</div>
-				<div className="col-md-4 centered">
+				<div className="col-md-4 text-center">
 					<Checkbox
 						defaultChecked={checked[C.MEASURE_TYPE]}
 						onChange={() => onCheck(C.MEASURE_TYPE)}
@@ -49,7 +47,7 @@ const ComponentList = ({ components, checked, onCheck, onChange }) => {
 				</div>
 			</div>
 			<div className="row">
-				<div className="col-md-10 col-md-offset-1 centered">
+				<div className="col-md-10 col-md-offset-1 text-center">
 					<Input
 						value={search}
 						onChange={e => setSearch(e.target.value)}

@@ -122,7 +122,7 @@ const TreeComponent = props => {
 				<Button action={goBack(props, '/operations')} label={D.btnReturn} />
 			</ActionToolbar>
 			<div className="row">
-				<div className="col-md-12 centered pull-right operations-list">
+				<div className="col-md-12 text-center pull-right operations-list">
 					<div style={{ height: '100vh' }}>
 						<SortableTree
 							treeData={treeData}

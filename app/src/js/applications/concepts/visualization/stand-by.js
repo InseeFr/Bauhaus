@@ -19,7 +19,7 @@ class ConceptVisualizationStandBy extends Component {
 					/>
 				</div>
 				<div className="row">
-					<div className="col-md-10 centered col-md-offset-1">
+					<div className="col-md-10 text-center col-md-offset-1">
 						<h2>
 							{D.conceptStandBy} {creator}
 						</h2>

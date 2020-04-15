@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { PageTitle, regexValidMail, allTagA } from '@inseefr/wilco';
 import SendControls from './controls';
-import EditorHtml from 'js/applications/shared/editor-html/';
+import { EditorHTML } from 'bauhaus-utilities';
 import D from 'js/i18n';
 
 const getDefaultMessage = (appHost, id, label, isValidated) => {
@@ -117,7 +117,7 @@ class CollectionSend extends Component {
 				</div>
 				<div className="form-group">
 					<label id="messageLabel">{D.mailTitle}</label>
-					<EditorHtml
+					<EditorHTML
 						ariaLabel={D.mailTitle}
 						id="message"
 						smart

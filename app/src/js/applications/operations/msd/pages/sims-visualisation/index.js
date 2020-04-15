@@ -13,7 +13,7 @@ import {
 } from '@inseefr/wilco';
 import { PublicationFemale } from 'js/applications/operations/shared/status';
 
-import { markdownToHtml, containUnsupportedStyles } from 'js/utils/html';
+import { HTMLUtils } from 'bauhaus-utilities';
 import DocumentsBloc from 'js/applications/operations/msd/documents/documents-bloc/index.js';
 import {
 	hasLabelLg2,
@@ -60,13 +60,10 @@ export default function SimsVisualisation({
 						stringToDate(currentSection.value)}
 					{currentSection.rangeType === RICH_TEXT && (
 						<>
-							<div
-								dangerouslySetInnerHTML={{
-									__html: markdownToHtml(
-										currentSection[isSecondLang ? 'labelLg2' : 'labelLg1']
-									),
-								}}
-							/>
+							{HTMLUtils.renderMarkdownElement(
+								currentSection[isSecondLang ? 'labelLg2' : 'labelLg1']
+							)}
+
 							{currentSection.documents && (
 								<>
 									<DocumentsBloc
@@ -146,7 +143,7 @@ export default function SimsVisualisation({
 	 * The publication button should be enabled only if RICH_TEXT value do not
 	 * have unsupported styles like STRIKETHROUGH, color or background color
 	 */
-	const publicationDisabled = containUnsupportedStyles(
+	const publicationDisabled = HTMLUtils.containUnsupportedStyles(
 		Object.keys(sims.rubrics)
 			.filter(key => sims.rubrics[key].rangeType === RICH_TEXT)
 			.reduce((acc, key) => {

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './editor-html.scss';
 import { getLang } from '@inseefr/wilco';
 
-import { mdFromEditorState, editorStateFromMd } from 'js/utils/html';
+import * as HTMLUtils from '../../utils/html-utils';
 
 export const toolbar = {
 	options: ['list', 'inline', 'link'],
@@ -29,7 +28,7 @@ class EditorMarkdown extends Component {
 		super(props);
 		const { text } = props;
 		this.state = {
-			editorState: editorStateFromMd(text || ''),
+			editorState: HTMLUtils.editorStateFromMd(text || ''),
 			text,
 		};
 
@@ -42,12 +41,14 @@ class EditorMarkdown extends Component {
 		});
 	};
 	handleLeave = () => {
-		this.props.handleChange(mdFromEditorState(this.state.editorState));
+		this.props.handleChange(
+			HTMLUtils.mdFromEditorState(this.state.editorState)
+		);
 	};
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({
-			editorState: editorStateFromMd(nextProps.text || ''),
+			editorState: HTMLUtils.editorStateFromMd(nextProps.text || ''),
 		});
 	}
 

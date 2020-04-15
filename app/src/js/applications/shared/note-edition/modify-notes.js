@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EditorHtml from 'js/applications/shared/editor-html/';
+import { EditorHTML } from 'bauhaus-utilities';
 
 function ModifyNotes({ note, handleChange }) {
-	return <EditorHtml smart text={note} handleChange={handleChange} />;
+	return <EditorHTML smart text={note} handleChange={handleChange} />;
 }
 
 ModifyNotes.propTypes = {

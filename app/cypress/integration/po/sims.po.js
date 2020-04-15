@@ -26,10 +26,10 @@ export class SimsEditPage {
 	}
 	p;
 	getCancelButton() {
-		return cy.get('.btn-line div:first > button');
+		return cy.get('.action-toolbar div:first > button');
 	}
 
 	getSaveButton() {
-		return cy.get('.btn-line div:nth-child(2) > button');
+		return cy.get('.action-toolbar div:nth-child(2) > button');
 	}
 }

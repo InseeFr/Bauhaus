@@ -19,7 +19,7 @@ import {
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
 } from 'js/applications/operations/msd/utils';
-import { mdFromEditorState } from 'js/utils/html';
+import { HTMLUtils } from 'bauhaus-utilities';
 
 class SimsCreation extends React.Component {
 	static propTypes = {
@@ -98,10 +98,10 @@ class SimsCreation extends React.Component {
 						return {
 							...rubric,
 							labelLg1: rubric.labelLg1
-								? mdFromEditorState(rubric.labelLg1)
+								? HTMLUtils.mdFromEditorState(rubric.labelLg1)
 								: rubric.labelLg1,
 							labelLg2: rubric.labelLg2
-								? mdFromEditorState(rubric.labelLg2)
+								? HTMLUtils.mdFromEditorState(rubric.labelLg2)
 								: rubric.labelLg2,
 						};
 					}

@@ -39,7 +39,7 @@ const Components = ({ components, onChange }) => {
 
 	return (
 		<div className="components">
-			<div className="row centered">
+			<div className="row text-center">
 				<h2>{D.componentTitle}</h2>
 			</div>
 			<div className="row">

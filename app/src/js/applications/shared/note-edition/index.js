@@ -34,7 +34,7 @@ function NoteEdition({
 			</div>
 			{maxLength && (
 				<div className="row">
-					<div className="row centered boldRed">
+					<div className="row text-center boldRed">
 						{maxLength} {D.scopeNoteChar}
 					</div>
 				</div>

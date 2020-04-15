@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
+import { EditorMarkdown, LabelRequired } from 'bauhaus-utilities';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -137,10 +137,7 @@ class OperationsDocumentationEdition extends Component {
 				<form>
 					<div className="row">
 						<div className="col-md-6 form-group">
-							<label htmlFor="prefLabelLg1">
-								{D1.title}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
 							<input
 								type="text"
 								className="form-control"
@@ -151,10 +148,7 @@ class OperationsDocumentationEdition extends Component {
 							/>
 						</div>
 						<div className="col-md-6 form-group">
-							<label htmlFor="prefLabelLg2">
-								{D2.title}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
 							<input
 								type="text"
 								className="form-control"
@@ -188,10 +182,7 @@ class OperationsDocumentationEdition extends Component {
 					{type === LINK && (
 						<div className="row">
 							<div className="col-md-12 form-group">
-								<label htmlFor="url">
-									{D1.titleLink}
-									<span className="boldRed">*</span>
-								</label>
+								<LabelRequired htmlFor="url">{D1.titleLink}</LabelRequired>
 								<input
 									type="text"
 									className="form-control"
@@ -206,10 +197,7 @@ class OperationsDocumentationEdition extends Component {
 					{type === DOCUMENT && (
 						<div className="row">
 							<div className="col-md-12 form-group">
-								<label>
-									{D1.titleUpdatedDate}
-									<span className="boldRed">*</span>
-								</label>
+								<LabelRequired>{D1.titleUpdatedDate}</LabelRequired>
 								<DatePickerRmes
 									value={updatedDate}
 									onChange={date => {
@@ -262,10 +250,7 @@ class OperationsDocumentationEdition extends Component {
 					)}
 					<div className="row">
 						<div className="col-md-12 form-group">
-							<label htmlFor="lang">
-								{D1.langTitle}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="lang">{D1.langTitle}</LabelRequired>
 
 							<SelectRmes
 								placeholder=""

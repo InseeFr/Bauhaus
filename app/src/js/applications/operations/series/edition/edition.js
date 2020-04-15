@@ -12,14 +12,14 @@ import {
 } from '@inseefr/wilco';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
-import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
+import {
+	EditorMarkdown,
+	LabelRequired,
+	ItemToSelectModel,
+} from 'bauhaus-utilities';
 
 import { validate } from './validation';
 
-import {
-	toSelectModel,
-	mergedItemsToSelectModels,
-} from 'js/applications/operations/shared/utils/itemToSelectModel';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
 
 const defaultSerie = {
@@ -143,13 +143,16 @@ class OperationsSerieEdition extends Component {
 			label: stamp,
 		}));
 
-		const organisationsOptions = toSelectModel(organisations);
-		const seriesOptions = toSelectModel(
+		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
+		const seriesOptions = ItemToSelectModel.toSelectModel(
 			series.filter(s => s.id !== serie.id),
 			'series'
 		);
-		const indicatorsOptions = toSelectModel(indicators, 'indicator');
-		const seriesAndIndicatorsOptions = mergedItemsToSelectModels(
+		const indicatorsOptions = ItemToSelectModel.toSelectModel(
+			indicators,
+			'indicator'
+		);
+		const seriesAndIndicatorsOptions = ItemToSelectModel.mergedItemsToSelectModels(
 			indicatorsOptions,
 			seriesOptions
 		);
@@ -193,10 +196,7 @@ class OperationsSerieEdition extends Component {
 					)}
 					<div className="row">
 						<div className="form-group col-md-6">
-							<label htmlFor="prefLabelLg1">
-								{D1.title}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
 							<input
 								type="text"
 								className="form-control"
@@ -207,10 +207,7 @@ class OperationsSerieEdition extends Component {
 							/>
 						</div>
 						<div className="form-group col-md-6">
-							<label htmlFor="prefLabelLg2">
-								{D2.title}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
 							<input
 								type="text"
 								className="form-control"
@@ -285,7 +282,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="typeOperation" className="full-label">
+							<label htmlFor="typeOperation" className="w-100">
 								{D1.operationType}
 								<SelectRmes
 									placeholder=""
@@ -305,7 +302,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="accrualPeriodicity" className="full-label">
+							<label htmlFor="accrualPeriodicity" className="w-100">
 								{D1.dataCollectFrequency}
 								<SelectRmes
 									placeholder=""
@@ -325,7 +322,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="creator" className="full-label">
+							<label htmlFor="creator" className="w-100">
 								{D1.organisation}
 								<SelectRmes
 									placeholder=""
@@ -341,7 +338,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label className="full-label">
+							<label className="w-100">
 								{D1.stakeholders}
 								<SelectRmes
 									placeholder=""
@@ -365,7 +362,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="dataCollector" className="full-label">
+							<label htmlFor="dataCollector" className="w-100">
 								{D1.dataCollector}
 								<SelectRmes
 									placeholder=""
@@ -389,7 +386,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="contributor" className="full-label">
+							<label htmlFor="contributor" className="w-100">
 								{D1.operationsContributorTitle}
 								<SelectRmes
 									placeholder=""
@@ -412,7 +409,7 @@ class OperationsSerieEdition extends Component {
 
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="replaces" className="full-label">
+							<label htmlFor="replaces" className="w-100">
 								{D1.replaces}
 								<SelectRmes
 									placeholder=""
@@ -436,7 +433,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="replacedBy" className="full-label">
+							<label htmlFor="replacedBy" className="w-100">
 								{D1.replacedBy}
 								<SelectRmes
 									placeholder=""
@@ -460,7 +457,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="indicators" className="full-label">
+							<label htmlFor="indicators" className="w-100">
 								{D1.indicators}
 								<SelectRmes
 									placeholder=""
@@ -476,7 +473,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="seeAlso" className="full-label">
+							<label htmlFor="seeAlso" className="w-100">
 								{D1.seeAlso}
 								<SelectRmes
 									unclearable

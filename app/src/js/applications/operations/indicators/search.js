@@ -1,24 +1,25 @@
 import D from 'js/i18n';
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
-import { Loading } from '@inseefr/wilco';
-import { AbstractSearchComponent } from 'js/applications/shared/advanced-search/home-container';
+import { Loading, Select } from '@inseefr/wilco';
 import api from 'js/remote-api/operations-api';
-import SelectRmes from 'js/applications/shared/select-rmes';
 import { connect } from 'react-redux';
-import { filterKeyDeburr, sortArray } from 'js/utils/array-utils';
-import SearchList from 'js/applications/shared/advanced-search/home';
-import { toSelectModel } from '../shared/utils/itemToSelectModel';
+import {
+	ArrayUtils,
+	AbstractAdvancedSearchComponent,
+	AdvancedSearchList,
+	ItemToSelectModel,
+} from 'bauhaus-utilities';
 import * as select from 'js/reducers';
 
-const filterLabel = filterKeyDeburr(['prefLabelLg1']);
-const filterCreator = filterKeyDeburr(['creator']);
-const filterGestionnaire = filterKeyDeburr(['gestionnaires']);
+const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
+const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
+const filterGestionnaire = ArrayUtils.filterKeyDeburr(['gestionnaires']);
 
 const fields = ['prefLabelLg1', 'creator', 'gestionnaire'];
-const sortByLabel = sortArray('prefLabelLg1');
+const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
 
-class SearchFormList extends AbstractSearchComponent {
+class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
 		prefLabelLg1: '',
 		creator: '',
@@ -41,7 +42,7 @@ class SearchFormList extends AbstractSearchComponent {
 		const { data, prefLabelLg1, creator, gestionnaire } = this.state;
 		const { organisations, stamps } = this.props;
 
-		const creatorsOptions = toSelectModel(organisations);
+		const creatorsOptions = ItemToSelectModel.toSelectModel(organisations);
 		const stampsOptions = stamps.map(stamp => ({ value: stamp, label: stamp }));
 		const dataLinks = data.map(({ id, prefLabelLg1 }) => (
 			<li key={id} className="list-group-item">
@@ -49,7 +50,7 @@ class SearchFormList extends AbstractSearchComponent {
 			</li>
 		));
 		return (
-			<SearchList
+			<AdvancedSearchList
 				title={D.indicatorsSearchTitle}
 				data={dataLinks}
 				backUrl="/operations/indicators"
@@ -68,13 +69,13 @@ class SearchFormList extends AbstractSearchComponent {
 				</div>
 				<div className="form-group row">
 					<div className="col-md-6">
-						<label htmlFor="typeOperation" className="full-label">
+						<label htmlFor="typeOperation" className="w-100">
 							{D.organisation}
 
-							<SelectRmes
+							<Select
 								placeholder=""
 								unclearable
-								value={creator}
+								value={creatorsOptions.find(option => option.value === creator)}
 								options={creatorsOptions}
 								onChange={value => {
 									this.handlers.creator(value);
@@ -83,13 +84,15 @@ class SearchFormList extends AbstractSearchComponent {
 						</label>
 					</div>
 					<div className="col-md-6">
-						<label htmlFor="typeOperation" className="full-label">
+						<label htmlFor="typeOperation" className="w-100">
 							{D.operationsContributorTitle}
 
-							<SelectRmes
+							<Select
 								placeholder=""
 								unclearable
-								value={gestionnaire}
+								value={stampsOptions.find(
+									option => option.value === gestionnaire
+								)}
 								options={stampsOptions}
 								onChange={value => {
 									this.handlers.gestionnaire(value);
@@ -98,7 +101,7 @@ class SearchFormList extends AbstractSearchComponent {
 						</label>
 					</div>
 				</div>
-			</SearchList>
+			</AdvancedSearchList>
 		);
 	}
 }

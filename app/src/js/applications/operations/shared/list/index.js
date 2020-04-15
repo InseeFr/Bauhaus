@@ -29,7 +29,7 @@ function OperationsObjectHome({
 						</Button>
 					</VerticalMenu>
 				</Auth>
-				<div className="col-md-8 centered pull-right operations-list">
+				<div className="col-md-8 text-center pull-right operations-list">
 					<PageTitle title={title} col={12} offset={0} />
 					<SearchableList
 						items={items}

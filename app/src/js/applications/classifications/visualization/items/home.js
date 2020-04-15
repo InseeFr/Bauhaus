@@ -20,7 +20,7 @@ const ClassificationTree = ({
 
 				{items.length !== 0 && (
 					<div className="row">
-						<div className="col-md-8 col-md-offset-2 centered">
+						<div className="col-md-8 col-md-offset-2 text-center">
 							<SearchableList
 								items={items}
 								childPath={`classifications/classification/${classificationId}/item`}

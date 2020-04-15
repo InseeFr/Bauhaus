@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { regexValidMail, allTagA, PageTitle } from '@inseefr/wilco';
 import SendControls from './controls';
-import EditorHtml from 'js/applications/shared/editor-html/';
+import { EditorHTML, LabelRequired } from 'bauhaus-utilities';
 import D from 'js/i18n';
 
 const getDefaultMessage = (appHost, id, label, isValidated) => {
@@ -83,10 +83,9 @@ class ConceptSend extends Component {
 					sendMessage={this.handleClickSend}
 				/>
 				<div className="form-group">
-					<label htmlFor="recipient">
+					<LabelRequired htmlFor="recipient">
 						{D.mailRecipientTitle}
-						<span className="boldRed">*</span>
-					</label>
+					</LabelRequired>
 					<input
 						id="recipient"
 						type="email"
@@ -117,7 +116,7 @@ class ConceptSend extends Component {
 				</div>
 				<div className="form-group">
 					<label htmlFor="message">{D.mailTitle}</label>
-					<EditorHtml
+					<EditorHTML
 						ariaLabel={D.mailTitle}
 						id="message"
 						smart

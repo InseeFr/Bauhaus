@@ -29,11 +29,11 @@ class LoginBasic extends Component {
 		const { role, stamp } = this.state;
 		return (
 			<div>
-				<div className="centered page-title">
+				<div className="text-center page-title">
 					<h1>{D.welcome}</h1>
 				</div>
 				<div className="container" style={{ marginTop: '10%' }}>
-					<div className="row centered">
+					<div className="row text-center">
 						<h3>{D.pickedUserProfil}</h3>
 					</div>
 					<div className="row" style={{ marginTop: '2%' }}>
@@ -66,7 +66,7 @@ class LoginBasic extends Component {
 						</div>
 					</div>
 					<div
-						className="row centered"
+						className="row text-center"
 						style={{ marginTop: '5%', marginBottom: '5%' }}
 					>
 						<Button

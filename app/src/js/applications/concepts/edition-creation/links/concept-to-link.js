@@ -8,7 +8,7 @@ function ConceptToLink({ title, memberEls, searchComponent }) {
 			<div className="col-md-6">
 				<Panel title={title}>{memberEls}</Panel>
 			</div>
-			<div className="col-md-6 centered">{searchComponent}</div>
+			<div className="col-md-6 text-center">{searchComponent}</div>
 		</div>
 	);
 }

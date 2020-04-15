@@ -10,7 +10,7 @@ import ApplicationTitle from 'js/applications/shared/application-title';
 
 import '@inseefr/wilco/dist/index.css';
 import '@inseefr/iam/dist/index.css';
-
+import 'bauhaus-utilities/dist/index.css';
 import 'main.scss';
 
 export const AppContext = createContext({});

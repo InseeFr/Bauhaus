@@ -30,12 +30,12 @@ const ComponentDetails = ({ id, ...props }) => {
 	} = component;
 
 	if (!id)
-		return <h3 className="centered empty-component">{D.emptyComponent}</h3>;
+		return <h3 className="text-center empty-component">{D.emptyComponent}</h3>;
 
 	return (
 		<div>
 			<PageTitle title={labelLg1} subtitle={labelLg2} col={12} offset={0} />
-			<div className="centered">
+			<div className="text-center">
 				<Badge type={type} />
 			</div>
 			<ul>

@@ -21,7 +21,7 @@ import PageTitleBlock from 'js/applications/shared/page-title-block';
 import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
 import OperationsFamilyVisualization from 'js/applications/operations/families/visualization/visualization';
 import ValidationButton from 'js/applications/operations/shared/validationButton';
-import { containUnsupportedStyles } from 'js/utils/html';
+import { HTMLUtils } from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
@@ -50,7 +50,7 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 		 * The publication button should be enabled only if RICH_TEXT value do not
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
-		const publicationDisabled = containUnsupportedStyles(attr);
+		const publicationDisabled = HTMLUtils.containUnsupportedStyles(attr);
 		return (
 			<div className="container">
 				<PageTitleBlock

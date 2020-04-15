@@ -56,7 +56,7 @@ export default {
 		fr: 'Attributs',
 		en: 'Attributs',
 	},
-	
+
 	dimensionsTitle: {
 		fr: 'Dimensions',
 		en: 'Dimensions',
@@ -77,19 +77,10 @@ export default {
 		fr: 'Mesures',
 		en: 'Measures',
 	},
-	
+
 	emptyComponent: {
 		fr: 'Sélectionner un composant',
 		en: 'Select component',
-	},
-
-	result: {
-		fr: 'résultat',
-		en: 'result',
-	},
-	results: {
-		fr: 'résultats',
-		en: 'results',
 	},
 
 	idTitle: {

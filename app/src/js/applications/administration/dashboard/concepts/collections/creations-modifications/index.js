@@ -4,7 +4,8 @@ import { Table } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
 import { rowParams } from './data';
-import { filterKeyDate, nbResults } from 'js/utils/array-utils';
+import { filterKeyDate } from 'js/utils/array-utils';
+import { NumberResult } from 'bauhaus-utilities';
 
 class CollectionsCreationsModifications extends Component {
 	constructor(props) {
@@ -35,7 +36,7 @@ class CollectionsCreationsModifications extends Component {
 		return (
 			<div>
 				<div className="row" style={{ marginTop: '2%' }}>
-					<div className="form-group col-md-4 col-md-offset-4 centered">
+					<div className="form-group col-md-4 col-md-offset-4 text-center">
 						<label>{D.dashboardCollectionsListPickerTitle(typeByLang)}</label>
 						<DatePickerRmes
 							value={dateStart}
@@ -44,8 +45,10 @@ class CollectionsCreationsModifications extends Component {
 						/>
 					</div>
 				</div>
-				<div className="row centered">
-					<h4>{nbResults(data)}</h4>
+				<div className="row text-center">
+					<h4>
+						<NumberResult results={data} />
+					</h4>
 				</div>
 				<Table
 					rowParams={rowParams[type]}

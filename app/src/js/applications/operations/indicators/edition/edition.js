@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
+import { EditorMarkdown, ItemToSelectModel } from 'bauhaus-utilities';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/applications/shared/input-rmes';
 import Control from 'js/applications/operations/indicators/edition/control';
 import SelectRmes from 'js/applications/shared/select-rmes';
-import {
-	toSelectModel,
-	mergedItemsToSelectModels,
-} from 'js/applications/operations/shared/utils/itemToSelectModel';
 import { validate } from 'js/applications/operations/indicators/edition/validation';
 import { Loading, goBackOrReplace } from '@inseefr/wilco';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
@@ -126,13 +122,13 @@ class OperationsIndicatorEdition extends Component {
 		};
 
 		const stampsOptions = stamps.map(stamp => ({ value: stamp, label: stamp }));
-		const organisationsOptions = toSelectModel(organisations);
-		const seriesOptions = toSelectModel(series, 'series');
-		const indicatorsOptions = toSelectModel(
+		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
+		const seriesOptions = ItemToSelectModel.toSelectModel(series, 'series');
+		const indicatorsOptions = ItemToSelectModel.toSelectModel(
 			indicators.filter(s => s.id !== indicator.id),
 			'indicator'
 		);
-		const seriesAndIndicatorsOptions = mergedItemsToSelectModels(
+		const seriesAndIndicatorsOptions = ItemToSelectModel.mergedItemsToSelectModels(
 			indicatorsOptions,
 			seriesOptions
 		);
@@ -155,7 +151,7 @@ class OperationsIndicatorEdition extends Component {
 				/>
 
 				<form>
-					<h4 className="centered">
+					<h4 className="text-center">
 						( <span className="boldRed">*</span> : {D.requiredFields})
 					</h4>
 					<div className="row">
@@ -228,7 +224,7 @@ class OperationsIndicatorEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="accrualPeriodicity" className="full-label">
+							<label htmlFor="accrualPeriodicity" className="w-100">
 								{D1.indicatorDataCollectFrequency}
 								<SelectRmes
 									placeholder=""
@@ -245,7 +241,7 @@ class OperationsIndicatorEdition extends Component {
 
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="creator" className="full-label">
+							<label htmlFor="creator" className="w-100">
 								{D1.organisation}
 
 								<SelectRmes
@@ -260,7 +256,7 @@ class OperationsIndicatorEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="contributor" className="full-label">
+							<label htmlFor="contributor" className="w-100">
 								{D1.operationsContributorTitle}
 								<SelectRmes
 									placeholder=""
@@ -277,7 +273,7 @@ class OperationsIndicatorEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label className="full-label">
+							<label className="w-100">
 								{D1.stakeholders}
 								<SelectRmes
 									unclearable
@@ -299,7 +295,7 @@ class OperationsIndicatorEdition extends Component {
 
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label className="full-label">
+							<label className="w-100">
 								{D1.replaces}
 								<SelectRmes
 									unclearable
@@ -320,7 +316,7 @@ class OperationsIndicatorEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label className="full-label">
+							<label className="w-100">
 								{D1.replacedBy}
 								<SelectRmes
 									unclearable
@@ -341,7 +337,7 @@ class OperationsIndicatorEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label className="full-label">
+							<label className="w-100">
 								{D1.generatedBy}
 								<SelectRmes
 									unclearable
@@ -362,7 +358,7 @@ class OperationsIndicatorEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="seeAlso" className="full-label">
+							<label htmlFor="seeAlso" className="w-100">
 								{D1.seeAlso}
 								<SelectRmes
 									unclearable

@@ -2,15 +2,17 @@ import D from 'js/i18n';
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
 import { Loading } from '@inseefr/wilco';
-import { AbstractSearchComponent } from 'js/applications/shared/advanced-search/home-container';
+import {
+	AbstractAdvancedSearchComponent,
+	AdvancedSearchList,
+	ArrayUtils,
+} from 'bauhaus-utilities';
 import api from 'js/remote-api/operations-api';
 
-import { filterKeyDeburr } from 'js/utils/array-utils';
-import SearchList from 'js/applications/shared/advanced-search/home';
-const filterLabel = filterKeyDeburr(['prefLabelLg1']);
+const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const fields = ['prefLabelLg1'];
 
-class SearchFormList extends AbstractSearchComponent {
+class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
 		prefLabelLg1: '',
 	};
@@ -32,7 +34,7 @@ class SearchFormList extends AbstractSearchComponent {
 			</li>
 		));
 		return (
-			<SearchList
+			<AdvancedSearchList
 				title={D.operationsSearchTitle}
 				data={dataLinks}
 				backUrl="/operations/families"
@@ -49,7 +51,7 @@ class SearchFormList extends AbstractSearchComponent {
 						/>
 					</div>
 				</div>
-			</SearchList>
+			</AdvancedSearchList>
 		);
 	}
 }

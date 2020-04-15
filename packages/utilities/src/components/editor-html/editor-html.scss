@@ -1,0 +1,36 @@
+@import '~react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
+.rdw-editor-toolbar {
+	border-style: none;
+	background: transparent;
+}
+
+.DraftEditor-root {
+	border: 2px solid var(--color-3);
+	border-radius: 6px;
+	margin-top: 10px;
+	min-height: 200px;
+	background: white;
+}
+
+.public-DraftStyleDefault-block {
+	margin: 0;
+}
+
+.DraftEditor-root {
+	padding: 5px;
+}
+
+.rdw-option-wrapper {
+	min-width: 30px;
+	height: 30px;
+}
+
+.rdw-link-modal {
+	width: max-content;
+	height: max-content;
+}
+.rdw-link-modal-btn {
+	color: black;
+	text-align: center;
+}

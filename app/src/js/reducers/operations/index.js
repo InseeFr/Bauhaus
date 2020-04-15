@@ -2,9 +2,7 @@ import * as A from 'js/actions/constants';
 import { LOADED, LOADING, ERROR } from 'js/constants';
 import * as currentReducers from 'js/reducers/operations/current';
 import * as documentsReducers from 'js/reducers/operations/documents';
-import { sortArray } from 'js/utils/array-utils';
-
-const sortByLabel = sortArray('label');
+import { ArrayUtils } from 'bauhaus-utilities';
 
 /**
  *
@@ -44,7 +42,7 @@ function makeReducers([
 				const tail = state.results.filter(obj => obj.id !== action.payload.id);
 				return {
 					status: state.status,
-					results: sortByLabel([
+					results: ArrayUtils.sortArrayByLabel([
 						...tail,
 						{
 							id: action.payload.id,

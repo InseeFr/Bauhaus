@@ -22,7 +22,7 @@ import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CONTRIBUTOR, ADMIN } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
-import { containUnsupportedStyles } from 'js/utils/html';
+import { HTMLUtils } from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 
 import ValidationButton from 'js/applications/operations/shared/validationButton';
@@ -45,7 +45,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 		 * The publication button should be enabled only if RICH_TEXT value do not
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
-		const publicationDisabled = containUnsupportedStyles(attr);
+		const publicationDisabled = HTMLUtils.containUnsupportedStyles(attr);
 
 		return (
 			<div className="container">

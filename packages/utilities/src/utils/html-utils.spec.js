@@ -1,4 +1,4 @@
-import * as htmlUtils from './html';
+import * as htmlUtils from './html-utils';
 
 describe('build raw html from rmes version of html', () => {
 	it('removes wrapping `div` and namespace references', () => {

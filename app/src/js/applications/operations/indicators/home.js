@@ -19,7 +19,7 @@ function IndicatorsHome({ indicators }) {
 						<NewButton action="/operations/indicator/create" wrapper={false} />
 					</VerticalMenu>
 				</Auth>
-				<div className="col-md-8 centered pull-right operations-list">
+				<div className="col-md-8 text-center pull-right operations-list">
 					<PageTitle title={D.indicatorsSearchTitle} col={12} offset={0} />
 					<SearchableList
 						items={indicators}

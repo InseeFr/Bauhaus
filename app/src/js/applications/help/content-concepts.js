@@ -93,7 +93,7 @@ export const content = [
 						Pour toute demande ou question, adresser un message à la boite
 						fonctionnelle :
 					</p>
-					<p className="centered">
+					<p className="text-center">
 						<b>:DG75-Définitions et sources statistiques</b>
 					</p>
 				</React.Fragment>

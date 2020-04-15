@@ -38,7 +38,7 @@ class CompareNotes extends Component {
 		return (
 			<div>
 				<div className="row">
-					<div className="col-md-6 centered">
+					<div className="col-md-6 text-center">
 						<h3>
 							{' '}
 							{D.version} :{' '}
@@ -50,7 +50,7 @@ class CompareNotes extends Component {
 							</select>
 						</h3>
 					</div>
-					<div className="col-md-6 centered">
+					<div className="col-md-6 text-center">
 						<h3>
 							{' '}
 							{D.version} :{' '}

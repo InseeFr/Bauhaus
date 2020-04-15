@@ -1,6 +1,4 @@
-import { sortArray } from 'js/utils/array-utils';
-
-const sortByLabel = sortArray('label');
+import { ArrayUtils } from 'bauhaus-utilities';
 
 export default (remoteCall, LOADING, SUCCESS, FAILURE) => dispatch => {
 	dispatch({
@@ -11,7 +9,7 @@ export default (remoteCall, LOADING, SUCCESS, FAILURE) => dispatch => {
 		results =>
 			dispatch({
 				type: SUCCESS,
-				payload: { results: sortByLabel(results) },
+				payload: { results: ArrayUtils.sortArrayByLabel(results) },
 			}),
 		err =>
 			dispatch({

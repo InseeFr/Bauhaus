@@ -7,6 +7,7 @@ import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
 import { PublicationFemale } from 'js/applications/operations/shared/status';
+import { HTMLUtils } from 'bauhaus-utilities';
 
 function OperationsSerieVisualization({
 	attr,
@@ -62,42 +63,38 @@ function OperationsSerieVisualization({
 			</div>
 			<div className="row">
 				<Note
-					text={attr.abstractLg1}
+					text={HTMLUtils.renderMarkdownElement(attr.abstractLg1)}
 					title={D1.summary}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					md
 				/>
 				{secondLang && (
 					<Note
-						text={attr.abstractLg2}
+						text={HTMLUtils.renderMarkdownElement(attr.abstractLg2)}
 						title={D2.summary}
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						md
 					/>
 				)}
 			</div>
 
 			<div className="row">
 				<Note
-					text={attr.historyNoteLg1}
+					text={HTMLUtils.renderMarkdownElement(attr.historyNoteLg1)}
 					title={D1.history}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					md
 				/>
 				{secondLang && (
 					<Note
-						text={attr.historyNoteLg2}
+						text={HTMLUtils.renderMarkdownElement(attr.historyNoteLg2)}
 						title={D2.history}
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						md
 					/>
 				)}
 			</div>

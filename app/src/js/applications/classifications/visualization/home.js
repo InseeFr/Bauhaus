@@ -30,7 +30,7 @@ class ClassificationVisualization extends Component {
 					<PageSubtitle subTitle={general.prefLabelLg2} />
 				)}
 				<div className="row">
-					<div className="col-md-12 centered">
+					<div className="col-md-12 text-center">
 						<Link
 							to={`/classifications/classification/${classificationId}/items`}
 						>

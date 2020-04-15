@@ -1,8 +1,9 @@
+import React from 'react';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
-import { draftjsToMd } from 'js/utils/draftjs/draftjsToMd';
-import { mdToDraftjs, REGEXPS } from 'js/utils/draftjs/mdToDraftjs';
+import { draftjsToMd } from './draftjs/draftjsToMd';
+import { mdToDraftjs, REGEXPS } from './draftjs/mdToDraftjs';
 
 export const containUnsupportedStyles = (attr = {}) => {
 	return !!REGEXPS.map(r => r.regexp).find(
@@ -97,4 +98,8 @@ export function editorStateFromMd(md = '') {
 
 export function markdownToHtml(md) {
 	return htmlFromEditorState(editorStateFromMd(md));
+}
+
+export function renderMarkdownElement(value) {
+	return <div dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }} />;
 }

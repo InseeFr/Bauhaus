@@ -30,7 +30,7 @@ describe('SIMS Page', function() {
 					win.fetch = win.unfetch;
 				},
 			});
-		cy.get('.btn-line').contains('Voir le SIMS');
+		cy.get('.action-toolbar').contains('Voir le SIMS');
 		cy.get('#operation-picker').should('not.exist');
 		cy.get(':nth-child(2) > .btn').click();
 
@@ -81,7 +81,7 @@ describe('SIMS Page', function() {
 				},
 			});
 
-		cy.get('.btn-line').within(btns => {
+		cy.get('.action-toolbar').within(btns => {
 			cy.get('a[href="/operations/sims/1512/duplicate"]').should('not.exist');
 		});
 	});
@@ -125,13 +125,13 @@ describe('SIMS Page', function() {
 					win.fetch = win.unfetch;
 				},
 			});
-		cy.get('.btn-line').contains('Voir le SIMS');
+		cy.get('.action-toolbar').contains('Voir le SIMS');
 		cy.get(':nth-child(2) > .btn').click();
 
 		// Visu Page
 		cy.url().should('contains', '/sims/1512');
 
-		cy.get('.btn-line').within(btns => {
+		cy.get('.action-toolbar').within(btns => {
 			cy.get('div:first > button').contains('Retour');
 			cy.get('div:nth-child(2) > a').contains('Dupliquer');
 			cy.get('div:nth-child(2) > a').click();
@@ -141,7 +141,7 @@ describe('SIMS Page', function() {
 		cy.url().should('contains', '/sims/1512/duplicate');
 		cy.get('.wilco-page-title').should('not.exist');
 		cy.get('input[value="02/01/2019"]').should('exist');
-		cy.get('.btn-line').within(() => {
+		cy.get('.action-toolbar').within(() => {
 			cy.get('div:first > button')
 				.as('cancelButton')
 				.contains('Annuler');
@@ -152,7 +152,7 @@ describe('SIMS Page', function() {
 
 		// Visu page
 		cy.url().should('not.contains', '/sims/1512/duplicate');
-		cy.get('.btn-line div:nth-child(2) > a').click();
+		cy.get('.action-toolbar div:nth-child(2) > a').click();
 
 		// Duplicate page
 		cy.get('#operation-picker')
@@ -184,13 +184,13 @@ describe('SIMS Page', function() {
 					win.fetch = win.unfetch;
 				},
 			});
-		cy.get('.btn-line').contains('Créer le SIMS');
+		cy.get('.action-toolbar').contains('Créer le SIMS');
 		cy.get(':nth-child(2) > .btn').click();
 
 		// Create Page
 		cy.url().should('contains', '/sims/create');
 		cy.get('.wilco-page-title').should('exist');
-		cy.get('.btn-line').within(() => {
+		cy.get('.action-toolbar').within(() => {
 			cy.get('div:first > button').contains('Annuler');
 			cy.get('div:nth-child(2) > button').contains('Sauvegarder');
 		});

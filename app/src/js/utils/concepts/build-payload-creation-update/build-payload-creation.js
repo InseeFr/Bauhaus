@@ -1,6 +1,6 @@
 import { processLinks, processGeneral } from './shared';
 import { takeKeys } from '@inseefr/wilco';
-import { rawHtmlToRmesHtml } from 'js/utils/html';
+import { HTMLUtils } from 'bauhaus-utilities';
 
 const generalFieldsToKeep = [
 	'prefLabelLg1',
@@ -36,7 +36,7 @@ export default function buildPayloadCreation(concept) {
 		if (content)
 			arr.push({
 				noteType,
-				content: rawHtmlToRmesHtml(content),
+				content: HTMLUtils.rawHtmlToRmesHtml(content),
 			});
 		return arr;
 	}, []);
@@ -47,7 +47,7 @@ export default function buildPayloadCreation(concept) {
 			if (content)
 				return {
 					noteType,
-					content: rawHtmlToRmesHtml(content),
+					content: HTMLUtils.rawHtmlToRmesHtml(content),
 				};
 			return null;
 		})

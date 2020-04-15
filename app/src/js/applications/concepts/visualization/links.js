@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { D1, D2 } from 'js/i18n';
 import { Note } from '@inseefr/wilco';
-import { sortArray } from 'js/utils/array-utils';
+import { ArrayUtils } from 'bauhaus-utilities';
 import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED } from 'js/constants';
-const sortByLabelLg1 = sortArray('prefLabelLg1');
-const sortByLabelLg2 = sortArray('prefLabelLg2');
+const sortByLabelLg1 = ArrayUtils.sortArray('prefLabelLg1');
+const sortByLabelLg2 = ArrayUtils.sortArray('prefLabelLg2');
 
 function ConceptLinks({ secondLang, links }) {
 	var nbLinks = 0;
