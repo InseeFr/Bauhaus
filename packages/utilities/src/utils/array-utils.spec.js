@@ -20,6 +20,8 @@ describe('nbResults', () => {
 	});
 
 	it("should return string ends with 's'", () => {
-		expect(A.nbResults(['a', 'b']).endsWith('s')).toBeTruthy();
+		expect(
+			A.nbResults(['a', 'b'], 'euros', 'euro').endsWith('euros')
+		).toBeTruthy();
 	});
 });

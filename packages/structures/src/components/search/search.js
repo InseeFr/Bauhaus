@@ -8,7 +8,7 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-} from 'bauhaus-utilities/dist/index.umd';
+} from 'bauhaus-utilities';
 
 import './search.scss';
 
