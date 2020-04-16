@@ -108,8 +108,8 @@ export default {
 		en: 'Identifier',
 	},
 	attachmentTitle: {
-		fr: 'Attachment',
-		en: 'Attachment',
+		fr: "Attachement de l'attribut",
+		en: 'Attribute attachment',
 	},
 	descriptionTitle: {
 		fr: 'Description',
@@ -118,5 +118,9 @@ export default {
 	componentsSearchTitle: {
 		fr: 'Composants - Recherche',
 		en: 'Components - Search',
+	},
+	structuresSearchTitle: {
+		fr: 'Structures - Recherche',
+		en: 'Structures - Search',
 	},
 };
