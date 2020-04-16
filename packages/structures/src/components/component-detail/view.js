@@ -10,7 +10,7 @@ import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 import { ATTACHMENTS } from '../../utils/constants/attachments';
-import { HTMLUtils } from 'bauhaus-utilities';
+import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 
 export const ComponentDetailView = ({
@@ -37,6 +37,7 @@ export const ComponentDetailView = ({
 		<React.Fragment>
 			<ActionToolbar>
 				<CancelButton action={handleBack} col={3} />
+				<ValidationButton object={component} />
 				{updatable && <UpdateButton action={handleUpdate} col={3} />}
 			</ActionToolbar>
 

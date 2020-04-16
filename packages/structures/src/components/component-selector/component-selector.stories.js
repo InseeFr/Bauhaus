@@ -24,6 +24,7 @@ const mutualizedComponents = [
 		range: 'http://www.w3.org/2001/XMLSchema#codeList',
 		descriptionLg1: '*Ceci est une description*',
 		descriptionLg2: '*Ceci est une description*',
+		validationState: 'Validated',
 	},
 	{
 		id: '5e7334005ed839722436a194',

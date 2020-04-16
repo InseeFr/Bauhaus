@@ -127,7 +127,7 @@ export const ComponentDetailEdit = ({
 							placeholder={D1.conceptTitle}
 							options={conceptOptions}
 							value={conceptOptions.find(
-								c => c.value === component.concept.toString()
+								c => c.value === component.concept?.toString()
 							)}
 							onChange={value => setComponent({ ...component, concept: value })}
 						/>
@@ -159,7 +159,7 @@ export const ComponentDetailEdit = ({
 								placeholder={D1.codesListTitle}
 								options={codeListOptions}
 								value={codeListOptions.find(
-									c => c.value === component.codeList.toString()
+									c => c.value === component.codeList?.toString()
 								)}
 								onChange={value =>
 									setComponent({ ...component, codeList: value })
@@ -204,6 +204,7 @@ export const ComponentDetailEdit = ({
 									value={ATTACHMENTS.find(
 										c => c.value === component.attachment
 									)}
+									multi
 									options={ATTACHMENTS}
 									onChange={value =>
 										setComponent({ ...component, attachment: value })
