@@ -1,5 +1,5 @@
 import D from 'js/i18n';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
 import { Loading, Select } from '@inseefr/wilco';
 import api from 'js/remote-api/operations-api';
@@ -53,8 +53,8 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			<AdvancedSearchList
 				title={D.indicatorsSearchTitle}
 				data={dataLinks}
-				backUrl="/operations/indicators"
 				initializeState={this.initializeState}
+				redirect={<Redirect to={'/operations/indicators'} push />}
 			>
 				<div className="row form-group">
 					<div className="col-md-12">

@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 import { PageTitle, Pagination } from '@inseefr/wilco';
 import AdvancedSearchControls from '../advanced-search/controls';
 import NumberResult from '../number-result';
 const AdvancedSearchList = ({
 	title,
-	backUrl,
 	children,
 	data,
 	initializeState,
+	redirect,
 }) => {
 	const [askForReturn, askForReturnChange] = useState(false);
 
-	if (askForReturn) return <Redirect to={backUrl} push />;
+	if (askForReturn) return redirect;
 
 	return (
 		<div>

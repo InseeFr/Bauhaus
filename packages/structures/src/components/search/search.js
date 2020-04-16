@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Select } from '@inseefr/wilco';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import D from '../../i18n/build-dictionary';
 
@@ -94,8 +94,8 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 			<AdvancedSearchList
 				title={D.componentsSearchTitle}
 				data={dataLinks}
-				backUrl="/dsds/components"
 				initializeState={this.initializeState}
+				redirect={<Redirect to={'/dsds/components'} push />}
 			>
 				<div className="row form-group">
 					<div className="col-md-12">

@@ -1,5 +1,5 @@
 import D from 'js/i18n';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
 import { Loading } from '@inseefr/wilco';
 import api from 'js/remote-api/operations-api';
@@ -86,8 +86,8 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			<AdvancedSearchList
 				title={D.seriesSearchTitle}
 				data={dataLinks}
-				backUrl="/operations/series"
 				initializeState={this.initializeState}
+				redirect={<Redirect to={'/operations/series'} push />}
 			>
 				<div className="row form-group">
 					<div className="col-md-12">
