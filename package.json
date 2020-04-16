@@ -15,7 +15,7 @@
     "pre-push": "yarn workspaces run test:coverage && yarn workspaces run lint"
   },
   "resolutions": {
-    "@inseefr/wilco": "0.0.2-rc13"
+    "@inseefr/wilco": "0.0.2"
   },
   "devDependencies": {
     "lcov-result-merger": "3.1.0",
