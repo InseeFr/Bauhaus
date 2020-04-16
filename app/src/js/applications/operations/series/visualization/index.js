@@ -20,8 +20,7 @@ import { getSecondLang } from 'js/reducers/app';
 import { ADMIN, CNIS, SERIES_CONTRIBUTOR } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
-import { HTMLUtils } from 'bauhaus-utilities';
-import ValidationButton from 'js/applications/operations/shared/validationButton';
+import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');

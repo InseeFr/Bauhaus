@@ -13,7 +13,7 @@ import {
 } from '@inseefr/wilco';
 import { PublicationFemale } from 'js/applications/operations/shared/status';
 
-import { HTMLUtils } from 'bauhaus-utilities';
+import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
 import DocumentsBloc from 'js/applications/operations/msd/documents/documents-bloc/index.js';
 import {
 	hasLabelLg2,
@@ -28,7 +28,6 @@ import {
 	SERIES_CONTRIBUTOR,
 } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
-import ValidationButton from 'js/applications/operations/shared/validationButton';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 

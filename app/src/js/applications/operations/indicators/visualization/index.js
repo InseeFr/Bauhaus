@@ -22,10 +22,8 @@ import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CONTRIBUTOR, ADMIN } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
-import { HTMLUtils } from 'bauhaus-utilities';
+import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
-
-import ValidationButton from 'js/applications/operations/shared/validationButton';
 
 const extractId = buildExtract('id');
 class IndicatorVisualizationContainer extends VisualizationContainer {

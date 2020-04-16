@@ -20,8 +20,7 @@ import React from 'react';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
 import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
 import OperationsFamilyVisualization from 'js/applications/operations/families/visualization/visualization';
-import ValidationButton from 'js/applications/operations/shared/validationButton';
-import { HTMLUtils } from 'bauhaus-utilities';
+import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');

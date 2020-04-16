@@ -28,3 +28,4 @@ export {
 	default as AdvancedSearchList,
 } from './components/advanced-search/home';
 export * as ItemToSelectModel from './utils/item-to-select-model';
+export { default as ValidationButton } from './components/validationButton';
