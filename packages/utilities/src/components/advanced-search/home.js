@@ -26,14 +26,10 @@ const AdvancedSearchList = ({
 				/>
 				{children}
 				<div className="text-center">
-					<div>
-						<h4>
-							<NumberResult results={data} />
-						</h4>
-					</div>
-					<div>
-						<Pagination itemEls={data} itemsPerPage="10" />
-					</div>
+					<h4>
+						<NumberResult results={data} />
+					</h4>
+					<Pagination itemEls={data} itemsPerPage="10" />
 				</div>
 			</div>
 		</div>

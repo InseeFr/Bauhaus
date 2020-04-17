@@ -25,3 +25,45 @@ describe('nbResults', () => {
 		).toBeTruthy();
 	});
 });
+
+describe('filterKeyDeburr', () => {
+	describe('the value is single', () => {
+		it('should return true if the value is present', () => {
+			expect(A.filterKeyDeburr(['label'])('a')({ label: 'a' })).toBeTruthy();
+		});
+		it('should return false if the value is not present', () => {
+			expect(A.filterKeyDeburr(['label'])('a')({ label: 'b' })).toBeFalsy();
+		});
+	});
+	describe('the value is multiple', () => {
+		it('should return true if the value is present', () => {
+			expect(A.filterKeyDeburr(['label'])('a')({ label: ['a'] })).toBeTruthy();
+		});
+		it('should return false if the value is not present', () => {
+			expect(A.filterKeyDeburr(['label'])('a')({ label: ['b'] })).toBeFalsy();
+		});
+	});
+	describe('the key has a full path', () => {
+		it('should return true if the value is present', () => {
+			expect(
+				A.filterKeyDeburr(['components.label'])('a')({
+					components: [{ label: 'a' }],
+				})
+			).toBeTruthy();
+		});
+		it('should return true if the value is present in an array', () => {
+			expect(
+				A.filterKeyDeburr(['components.label'])('a')({
+					components: [{ label: ['a'] }],
+				})
+			).toBeTruthy();
+		});
+		it('should return false if the value is not present', () => {
+			expect(
+				A.filterKeyDeburr(['components.label'])('b')({
+					components: [{ label: ['a'] }],
+				})
+			).toBeFalsy();
+		});
+	});
+});

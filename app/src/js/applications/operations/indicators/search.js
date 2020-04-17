@@ -58,13 +58,15 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			>
 				<div className="row form-group">
 					<div className="col-md-12">
-						<input
-							value={prefLabelLg1}
-							onChange={e => this.handlers.prefLabelLg1(e.target.value)}
-							type="text"
-							placeholder={D.searchLabelPlaceholder}
-							className="form-control"
-						/>
+						<label className="w-100">
+							{D.searchLabelPlaceholder}
+							<input
+								value={prefLabelLg1}
+								onChange={e => this.handlers.prefLabelLg1(e.target.value)}
+								type="text"
+								className="form-control"
+							/>
+						</label>
 					</div>
 				</div>
 				<div className="form-group row">

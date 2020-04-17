@@ -39,6 +39,10 @@ export default {
 		fr: 'Libellé',
 		en: 'Label',
 	},
+	componentLabel: {
+		fr: 'Libellé du composant',
+		en: 'Component label',
+	},
 	type: {
 		fr: 'Type',
 		en: 'Type',
@@ -122,5 +126,9 @@ export default {
 	structuresSearchTitle: {
 		fr: 'Structures - Recherche',
 		en: 'Structures - Search',
+	},
+	all: {
+		fr: 'Tous',
+		en: 'All',
 	},
 };

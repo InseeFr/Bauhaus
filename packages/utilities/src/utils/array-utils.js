@@ -26,14 +26,25 @@ export const nbResults = (array, many, one) =>
 	`${array.length} ${array.length > 1 ? many : one}`;
 
 export const filterKeyDeburr = keys => rawStr => {
+	function getValue(item, key) {
+		if (!key.includes('.')) {
+			if (Array.isArray(item)) {
+				return item.map(i => i[key]);
+			}
+			return item[key];
+		}
+		const [first, ...rest] = key.split('.');
+		return getValue(item[first], rest.join('.'));
+	}
+
 	const str = deburr(rawStr).toLocaleLowerCase();
 	return item => {
 		let isIn = false;
 		for (var i = 0; i < keys.length; i++) {
-			const value = Array.isArray(item[keys[i]])
-				? item[keys[i]].join(',')
-				: item[keys[i]];
-			if (deburr((value || '').toLocaleLowerCase()).includes(str)) {
+			const key = keys[i];
+			const value = getValue(item, key);
+			const formattedValue = Array.isArray(value) ? value.join(',') : value;
+			if (deburr((formattedValue || '').toLocaleLowerCase()).includes(str)) {
 				isIn = true;
 				break;
 			}

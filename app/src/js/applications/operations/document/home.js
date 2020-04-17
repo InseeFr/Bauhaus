@@ -14,7 +14,7 @@ import {
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
 } from 'js/utils/auth/roles';
-import './home.scss';
+import { FilterToggleButtons } from 'bauhaus-utilities';
 
 function DocumentHome({ documents }) {
 	const [filter, setFilter] = useState(BOTH);
@@ -46,44 +46,15 @@ function DocumentHome({ documents }) {
 
 				<div className="col-md-8 text-center pull-right operations-list">
 					<PageTitle title={D.documentsSearchTitle} col={12} offset={0} />
-					<div
-						className="documents-home__btn-group btn-group btn-group-justified"
-						role="group"
-					>
-						<div className="btn-group" role="group">
-							<button
-								type="button"
-								className={`btn btn-default ${
-									filter === DOCUMENT ? 'documents-home__btn-active' : ''
-								}`}
-								onClick={() => setFilter(DOCUMENT)}
-							>
-								{D.titleDocument}
-							</button>
-						</div>
-						<div className="btn-group" role="group">
-							<button
-								type="button"
-								className={`btn btn-default ${
-									filter === BOTH ? 'documents-home__btn-active' : ''
-								}`}
-								onClick={() => setFilter(BOTH)}
-							>
-								{D.titleDocument} / {D.titleLink}
-							</button>
-						</div>
-						<div className="btn-group" role="group">
-							<button
-								type="button"
-								className={`btn btn-default ${
-									filter === LINK ? 'documents-home__btn-active' : ''
-								}`}
-								onClick={() => setFilter(LINK)}
-							>
-								{D.titleLink}
-							</button>
-						</div>
-					</div>
+					<FilterToggleButtons
+						currentValue={filter}
+						handleSelection={setFilter}
+						options={[
+							[DOCUMENT, D.titleDocument],
+							[BOTH, `${D.titleDocument} / ${D.titleLink}`],
+							[LINK, D.titleLink],
+						]}
+					/>
 					<SearchableList
 						items={filteredDocuments}
 						childPath="operations/document"

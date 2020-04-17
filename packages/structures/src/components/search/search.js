@@ -99,18 +99,20 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 			>
 				<div className="row form-group">
 					<div className="col-md-12">
-						<input
-							value={labelLg1}
-							onChange={e => this.handlers.labelLg1(e.target.value)}
-							type="text"
-							placeholder={D.label}
-							className="form-control"
-						/>
+						<label className="w-100">
+							{D.label}
+							<input
+								value={labelLg1}
+								onChange={e => this.handlers.labelLg1(e.target.value)}
+								type="text"
+								className="form-control"
+							/>
+						</label>
 					</div>
 				</div>
 				<div className="row form-group">
 					<div className="col-md-12">
-						<label htmlFor="typeOperation" className="w-100">
+						<label className="w-100">
 							{D.conceptTitle}
 
 							<Select
