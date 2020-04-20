@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ComponentList from 'js/applications/dsds/visualization/components/component-list';
+import ComponentList from 'js/applications/structures/visualization/components/component-list';
 import ComponentDetail from './details';
 import { NewButton } from '@inseefr/wilco';
 import { getConcepts, getCodeList } from 'bauhaus-structures';

@@ -34,7 +34,7 @@ const Edition = ({ creation, initDSD }) => {
 		setDSD({ ...defaultDSD, ...initDSD });
 	}, [initDSD]);
 
-	if (redirectId) return <Redirect to={`/dsds/${id}`} />;
+	if (redirectId) return <Redirect to={`/structures/${id}`} />;
 	if (loading) return <Loading textType={'saving'} />;
 
 	let errorMessage;

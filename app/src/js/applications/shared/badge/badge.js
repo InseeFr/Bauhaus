@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	getComponentTypeLabel,
 	getComponentBackgroundColor,
-} from 'js/applications/dsds/utils/components';
+} from 'js/applications/structures/utils/components';
 
 export default ({ type }) => {
 	const backgroundColor = getComponentBackgroundColor(type);

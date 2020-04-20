@@ -15,7 +15,7 @@ const Controls = ({ creation, save, disabledSave, ...props }) => {
 		<ActionToolbar>
 			<Button
 				label={D.btnReturn}
-				action={creation ? '/dsds' : `/dsds/${cleanId(dsdId)}`}
+				action={creation ? '/structures' : `/structures/${cleanId(dsdId)}`}
 			/>
 
 			<SaveButton action={save} disabled={disabledSave} />

@@ -8,9 +8,9 @@ const Controls = ({ dsdId }) => {
 
 	return (
 		<ActionToolbar>
-			<Button label={D.btnReturn} action="/dsds" />
+			<Button label={D.btnReturn} action="/structures" />
 			{isLocal && <Button label={D.btnExport} action={console.log} />}
-			<Button label={D.btnUpdate} action={`/dsds/${dsdId}/update`} />
+			<Button label={D.btnUpdate} action={`/structures/${dsdId}/update`} />
 			{isLocal && <Button label={D.btnDelete} action={console.log} />}
 		</ActionToolbar>
 	);

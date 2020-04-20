@@ -1,5 +1,5 @@
 export default {
-	dsdsTitle: { fr: 'Structures', en: 'Structures' },
+	structuresTitle: { fr: 'Structures', en: 'Structures' },
 	dsdsSearchTitle: {
 		fr: 'Data structure definition - Recherche',
 		en: 'Data structure definition - Search',

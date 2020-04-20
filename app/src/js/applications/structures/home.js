@@ -22,14 +22,14 @@ const Home = () => {
 				<VerticalMenu>
 					<Button
 						label={D.btnNewFemale}
-						action="/dsds/create"
+						action="/structures/create"
 						col={8}
 						offset={2}
 					/>
 					{isLocal && (
 						<Button
 							label={D.btnImport}
-							action="/dsds/import"
+							action="/structures/import"
 							col={8}
 							offset={2}
 						/>
@@ -37,7 +37,7 @@ const Home = () => {
 					{isLocal && (
 						<Button
 							label={D.btnExport}
-							action="/dsds/export"
+							action="/structures/export"
 							col={8}
 							offset={2}
 						/>
@@ -45,7 +45,11 @@ const Home = () => {
 				</VerticalMenu>
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.dsdsSearchTitle} col={12} offset={0} />
-					<SearchableList items={DSDs} childPath="dsds" autoFocus={true} />
+					<SearchableList
+						items={DSDs}
+						childPath="structures"
+						autoFocus={true}
+					/>
 				</div>
 			</div>
 		</div>

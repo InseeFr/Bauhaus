@@ -5,11 +5,11 @@ import { Menu } from '@inseefr/wilco';
 const MenuDSDs = () => {
 	const paths = [
 		{
-			path: '/dsds',
-			pathKey: 'dsds',
+			path: '/structures',
+			pathKey: 'structures',
 			className: 'active',
 			attrs: { 'aria-current': 'page' },
-			label: D.dsdsTitle,
+			label: D.structuresTitle,
 			order: 1,
 		},
 	];
