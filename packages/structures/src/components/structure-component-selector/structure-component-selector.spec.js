@@ -3,6 +3,12 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
 import { StructureComponentsSelector } from '.';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+const store = mockStore({});
+
 describe('<StructureComponentsSelector />', () => {
 	const components = [
 		{
@@ -29,20 +35,20 @@ describe('<StructureComponentsSelector />', () => {
 		},
 	];
 
-	const concepts = {
-		[components[0].concept]: {
+	const concepts = [
+		{
 			altLabel: '',
 			id: components[0].concept.toString(),
 			label: 'Concept - Label ' + components[0].concept,
 		},
-	};
-	const codesLists = {
-		[components[0].codeList]: {
+	];
+	const codesLists = [
+		{
 			altLabel: '',
 			id: components[0].codeList.toString(),
 			label: 'Code List - Label ' + components[0].codeList,
 		},
-	};
+	];
 
 	it('should call handleRemove', () => {
 		const handleRemove = jest.fn();
@@ -51,14 +57,16 @@ describe('<StructureComponentsSelector />', () => {
 		const handleDown = jest.fn();
 
 		const { container } = render(
-			<StructureComponentsSelector
-				components={components}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleRemove={handleRemove}
-				handleUp={handleUp}
-				handleDown={handleDown}
-			/>
+			<Provider store={store}>
+				<StructureComponentsSelector
+					components={components}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleRemove={handleRemove}
+					handleUp={handleUp}
+					handleDown={handleDown}
+				/>
+			</Provider>
 		);
 		fireEvent.click(
 			container.querySelector('tbody tr:nth-child(1) button:nth-child(2)')
@@ -71,14 +79,16 @@ describe('<StructureComponentsSelector />', () => {
 		const handleDown = jest.fn();
 
 		const { container } = render(
-			<StructureComponentsSelector
-				components={components}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleRemove={handleRemove}
-				handleUp={handleUp}
-				handleDown={handleDown}
-			/>
+			<Provider store={store}>
+				<StructureComponentsSelector
+					components={components}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleRemove={handleRemove}
+					handleUp={handleUp}
+					handleDown={handleDown}
+				/>
+			</Provider>
 		);
 
 		fireEvent.click(
@@ -93,14 +103,16 @@ describe('<StructureComponentsSelector />', () => {
 		const handleDown = jest.fn();
 
 		const { container } = render(
-			<StructureComponentsSelector
-				components={components}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleRemove={handleRemove}
-				handleUp={handleUp}
-				handleDown={handleDown}
-			/>
+			<Provider store={store}>
+				<StructureComponentsSelector
+					components={components}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleRemove={handleRemove}
+					handleUp={handleUp}
+					handleDown={handleDown}
+				/>
+			</Provider>
 		);
 		fireEvent.click(
 			container.querySelector('tbody tr:nth-child(1) button:nth-child(3) span')
@@ -109,14 +121,16 @@ describe('<StructureComponentsSelector />', () => {
 	});
 	it('should not display the creation/update form', () => {
 		const { container } = render(
-			<StructureComponentsSelector
-				components={components}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleRemove={() => {}}
-				handleUp={() => {}}
-				handleDown={() => {}}
-			/>
+			<Provider store={store}>
+				<StructureComponentsSelector
+					components={components}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleRemove={() => {}}
+					handleUp={() => {}}
+					handleDown={() => {}}
+				/>
+			</Provider>
 		);
 
 		expect(
@@ -126,14 +140,16 @@ describe('<StructureComponentsSelector />', () => {
 
 	it('should display the creation form', () => {
 		const { container } = render(
-			<StructureComponentsSelector
-				components={components}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleRemove={() => {}}
-				handleUp={() => {}}
-				handleDown={() => {}}
-			/>
+			<Provider store={store}>
+				<StructureComponentsSelector
+					components={components}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleRemove={() => {}}
+					handleUp={() => {}}
+					handleDown={() => {}}
+				/>
+			</Provider>
 		);
 
 		fireEvent.click(container.querySelector('#add-component'));
@@ -144,14 +160,16 @@ describe('<StructureComponentsSelector />', () => {
 	});
 	it('should display the view panel', () => {
 		const { container } = render(
-			<StructureComponentsSelector
-				components={components}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleRemove={() => {}}
-				handleUp={() => {}}
-				handleDown={() => {}}
-			/>
+			<Provider store={store}>
+				<StructureComponentsSelector
+					components={components}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleRemove={() => {}}
+					handleUp={() => {}}
+					handleDown={() => {}}
+				/>
+			</Provider>
 		);
 
 		fireEvent.click(

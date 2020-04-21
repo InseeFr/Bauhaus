@@ -2,13 +2,14 @@ import React, { Component, useState, useEffect } from 'react';
 import { Select, Loading } from '@inseefr/wilco';
 import { Link, Redirect } from 'react-router-dom';
 import api from '../../apis/structure-api';
-import { ConceptsAPI } from 'bauhaus-utilities';
 import D from '../../i18n/build-dictionary';
 
 import {
+	ConceptsAPI,
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
+	AbstractAdvancedSearchComponent,
 } from 'bauhaus-utilities';
 
 import './search.scss';
@@ -16,52 +17,6 @@ const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['concept']);
 
 const fields = ['labelLg1', 'concept'];
-const sortByLabel = ArrayUtils.sortArray('labelLg1');
-
-const handleFieldChange = (fields, handleChange) =>
-	fields.reduce((handlers, field) => {
-		handlers[field] = value => handleChange({ [field]: value });
-		return handlers;
-	}, {});
-
-/**
- *  TODO
- * Cette classe sera supprimée. NOus utiliserons celel de bauhaus-utlities
- * J'ai du la copier/coller ici car j'avais un pb avec le storybook
- * */
-
-export class AbstractAdvancedSearchComponent extends Component {
-	constructor(props, emptyState) {
-		super(props);
-		this.emptyState = emptyState;
-		this.state = {
-			askForReturn: false,
-			...this.getEmptyState(),
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.data) {
-			this.setState({
-				...nextProps.data,
-			});
-		}
-	}
-
-	getEmptyState = () => {
-		return {
-			...this.props,
-			...this.emptyState,
-		};
-	};
-	initializeState = () => this.setState(this.getEmptyState());
-	handleChange = (fields, filterData) =>
-		handleFieldChange(fields, stateChange => {
-			const newState = Object.assign(this.state, stateChange);
-			const data = filterData(newState);
-			this.setState(Object.assign(stateChange, { data }));
-		});
-}
 
 export class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {

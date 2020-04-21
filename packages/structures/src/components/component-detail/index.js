@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { PageTitle, PageSubtitle, CheckSecondLang } from '@inseefr/wilco';
 import { ComponentDetailEdit } from './edit';
 import { ComponentDetailView } from './view';
+import ComponentTitle from './title';
 
 export const ComponentDetail = props => {
 	const [mode, setMode] = useState(
@@ -25,14 +25,7 @@ export const ComponentDetail = props => {
 		<div className="container">
 			{mode === 'VIEW' && (
 				<React.Fragment>
-					<PageTitle title={props.component?.labelLg1} />
-					{props.secondLang && props.component?.labelLg2 && (
-						<PageSubtitle subTitle={props.component?.labelLg2} />
-					)}
-					<CheckSecondLang
-						secondLang={props.secondLang}
-						onChange={props.saveSecondLang}
-					/>
+					<ComponentTitle component={props.component} />
 
 					<ComponentDetailView
 						{...props}

@@ -23,20 +23,20 @@ describe('<ComponentDetailView />', () => {
 		range: 'http://www.w3.org/2001/XMLSchema#codeList',
 	};
 
-	const concepts = {
-		[component.concept]: {
+	const concepts = [
+		{
 			altLabel: '',
 			id: component.concept.toString(),
 			label: 'Concept - Label ' + component.concept,
 		},
-	};
-	const codesLists = {
-		[component.codeList]: {
+	];
+	const codesLists = [
+		{
 			altLabel: '',
 			id: component.codeList.toString(),
 			label: 'Code List - Label ' + component.codeList,
 		},
-	};
+	];
 	it('should display  the update button if the component is updatable', () => {
 		const { container } = render(
 			<ComponentDetailView
@@ -96,9 +96,6 @@ describe('<ComponentDetailView />', () => {
 
 		expect(queryByText(container, component.identifiant)).not.toBeNull();
 		expect(queryByText(container, 'Dimension')).not.toBeNull();
-		expect(
-			queryByText(container, concepts[component.concept].label)
-		).not.toBeNull();
 		expect(queryByText(container, 'Code list')).not.toBeNull();
 	});
 	it('should display the attachment if the type is an attribute', () => {
@@ -116,21 +113,6 @@ describe('<ComponentDetailView />', () => {
 		);
 		expect(queryByText(container, 'Observation')).not.toBeNull();
 	});
-	it('should display the codeList if the range is an XSD_CODE_LIST', () => {
-		const { container } = render(
-			<ComponentDetailView
-				component={{ ...component, labelLg1: undefined }}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleBack={() => {}}
-				handleUpdate={() => {}}
-			></ComponentDetailView>
-		);
-
-		expect(
-			queryByText(container, codesLists[component.codeList].label)
-		).not.toBeNull();
-	});
 
 	it('should not display the codeList if the range is  not an XSD_CODE_LIST', () => {
 		const { container } = render(
@@ -143,8 +125,6 @@ describe('<ComponentDetailView />', () => {
 			></ComponentDetailView>
 		);
 
-		expect(
-			queryByText(container, codesLists[component.codeList].label)
-		).toBeNull();
+		expect(queryByText(container, 'Code List - Label 492')).toBeNull();
 	});
 });

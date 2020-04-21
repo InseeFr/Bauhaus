@@ -8,5 +8,5 @@ export const saveSecondLang = secondLang => {
 };
 
 export function getSecondLang(state) {
-	return state.app.secondLang;
+	return state.app?.secondLang;
 }

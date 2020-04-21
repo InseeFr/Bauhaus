@@ -14,3 +14,14 @@ SELECT ?value ?label ?range WHERE {
 `;
 
 export const getCodeList = () => getRDFList('http://id.insee.fr/sparql')(query);
+
+export const getFormattedCodeList = () => {
+	return getCodeList().then(response => {
+		return response?.map(({ value, label }) => {
+			return {
+				id: value,
+				label: label,
+			};
+		});
+	});
+};

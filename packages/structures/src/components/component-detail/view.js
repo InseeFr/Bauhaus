@@ -22,10 +22,15 @@ export const ComponentDetailView = ({
 	updatable = true,
 	mutualized = false,
 	secondLang = false,
+	col = 3,
 }) => {
 	const typeValue = typeUriToLabel(component.type);
-	const conceptValue = concepts[component.concept]?.label;
-	const codeListValue = codesLists[component.codeList]?.label;
+	const conceptValue = concepts.find(
+		concept => concept.id === component.concept
+	)?.label;
+	const codeListValue = codesLists.find(
+		concept => concept.id === component.codeList
+	)?.label;
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
 		component.descriptionLg1
 	);
@@ -36,9 +41,9 @@ export const ComponentDetailView = ({
 	return (
 		<React.Fragment>
 			<ActionToolbar>
-				<CancelButton action={handleBack} col={3} />
+				<CancelButton action={handleBack} col={col} />
 				<ValidationButton object={component} />
-				{updatable && <UpdateButton action={handleUpdate} col={3} />}
+				{updatable && <UpdateButton action={handleUpdate} col={col} />}
 			</ActionToolbar>
 
 			<div className="row">
@@ -120,8 +125,8 @@ export const ComponentDetailView = ({
 
 ComponentDetailView.propTypes = {
 	component: PropTypes.object,
-	concepts: PropTypes.object,
-	codesLists: PropTypes.object,
+	concepts: PropTypes.array,
+	codesLists: PropTypes.array,
 	handleUpdate: PropTypes.func,
 	handleBack: PropTypes.func,
 	updatable: PropTypes.bool,

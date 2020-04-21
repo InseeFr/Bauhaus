@@ -55,6 +55,7 @@
 		"react": "16.13.x",
 		"react-is": "^16.13.1",
 		"react-router-dom": "^5.1.2",
-		"react-sliding-side-panel": "^1.0.14"
+		"react-sliding-side-panel": "^1.0.14",
+		"react-redux": "7.1.0"
 	}
 }

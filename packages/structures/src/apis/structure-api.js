@@ -4,6 +4,7 @@ const api = {
 	getStructures: () => [''],
 	getMutualizedComponents: () => ['components'],
 	getMutualizedComponentsForSearch: () => ['components/search'],
+	getMutualizedComponent: id => ['components/' + id],
 	getStructure: id => [`dsd/${id}`],
 	getComponents: id => [`dsd/${id}/components`],
 	getStructureDetailedComponents: dsdId => [`dsd/${dsdId}/detailed-components`],

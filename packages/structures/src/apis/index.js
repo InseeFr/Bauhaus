@@ -1,3 +1,3 @@
 export { default as StructureAPI } from './structure-api';
 export { getConcepts } from './concepts';
-export { getCodeList } from './code-list';
+export { getCodeList, getFormattedCodeList } from './code-list';
