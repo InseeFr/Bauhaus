@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import ComponentList from 'js/applications/structures/visualization/components/component-list';
 import ComponentDetail from './details';
 import { NewButton } from '@inseefr/wilco';
-import { getConcepts, getCodeList } from 'bauhaus-structures';
-import * as C from 'js/constants';
+import {
+	getConcepts,
+	getCodeList,
+	StructuresConstants,
+} from 'bauhaus-structures';
 import D from 'js/i18n';
 
 const Components = ({ components, onChange }) => {
 	const [checked, setChecked] = useState({
-		[C.ATTRIBUTE_TYPE]: true,
-		[C.DIMENSION_TYPE]: true,
-		[C.MEASURE_TYPE]: true,
+		[StructuresConstants.ATTRIBUTE_TYPE]: true,
+		[StructuresConstants.DIMENSION_TYPE]: true,
+		[StructuresConstants.MEASURE_TYPE]: true,
 	});
 	const [componentId, setComponentId] = useState('');
 	const [edition, setEdition] = useState(false);

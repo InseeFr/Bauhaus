@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Radio, Select } from '@inseefr/wilco';
 import Controls from './controls';
 import D from 'js/i18n';
-import * as C from 'js/constants';
+import { StructuresConstants } from 'bauhaus-structures';
 
 const defaultComponent = {
 	id: '',
@@ -71,19 +71,21 @@ const ComponentDetail = ({
 			<Select
 				id="type"
 				label={D.componentTypeTitle}
-				value={C.COMPONENT_TYPES.find(c => c.value === type)}
+				value={StructuresConstants.COMPONENT_TYPES.find(c => c.value === type)}
 				placeholder={D.componentTypePlaceholder}
-				options={C.COMPONENT_TYPES}
+				options={StructuresConstants.COMPONENT_TYPES}
 				onChange={value => onChange({ type: value })}
 				helpMsg={!type && `Type can't be undefined`}
 			/>
-			{type === C.ATTRIBUTE_TYPE && (
+			{type === StructuresConstants.ATTRIBUTE_TYPE && (
 				<Select
 					id="attachment"
 					label={D.attachmentTitle}
-					value={C.ATTACHMENTS.find(c => c.value === attachment)}
+					value={StructuresConstants.ATTACHMENTS.find(
+						c => c.value === attachment
+					)}
 					placeholder={D.attachmentPlaceholder}
-					options={C.ATTACHMENTS}
+					options={StructuresConstants.ATTACHMENTS}
 					onChange={e => onChange({ attachment: e.value })}
 				/>
 			)}
@@ -125,9 +127,9 @@ const ComponentDetail = ({
 				<Select
 					id="range"
 					label={D.rangeTitle}
-					value={C.XSD_TYPES.find(t => t.value === range)}
+					value={StructuresConstants.XSD_TYPES.find(t => t.value === range)}
 					placeholder={D.rangePlaceholder}
-					options={C.XSD_TYPES}
+					options={StructuresConstants.XSD_TYPES}
 					onChange={e => onChange({ range: e.value })}
 				/>
 			)}

@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import ComponentList from './component-list';
 import ComponentDetail from './component-detail';
-import * as C from 'js/constants';
 import D from 'js/i18n';
-import { StructureAPI } from 'bauhaus-structures';
+import { StructureAPI, StructuresConstants } from 'bauhaus-structures';
 import { buildExtract } from '@inseefr/wilco';
 import './components.scss';
 
 const Components = props => {
 	const [checked, setChecked] = useState({
-		[C.ATTRIBUTE_TYPE]: true,
-		[C.DIMENSION_TYPE]: true,
-		[C.MEASURE_TYPE]: true,
+		[StructuresConstants.ATTRIBUTE_TYPE]: true,
+		[StructuresConstants.DIMENSION_TYPE]: true,
+		[StructuresConstants.MEASURE_TYPE]: true,
 	});
 	const [components, setComponents] = useState([]);
 	const [id, setId] = useState('');

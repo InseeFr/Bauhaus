@@ -3,9 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { buildExtract, PageTitle } from '@inseefr/wilco';
 import Badge from 'js/applications/shared/badge';
 import ResourceLabel from './resource-label';
-import { StructureAPI } from 'bauhaus-structures';
+import { StructureAPI, StructuresConstants } from 'bauhaus-structures';
 import D from 'js/i18n';
-import * as C from 'js/constants';
 
 const ComponentDetails = ({ id, ...props }) => {
 	const [component, setComponent] = useState({});
@@ -39,10 +38,13 @@ const ComponentDetails = ({ id, ...props }) => {
 				<Badge type={type} />
 			</div>
 			<ul>
-				{C.ATTACHMENTS.find(a => a.value === attachment) && (
+				{StructuresConstants.ATTACHMENTS.find(a => a.value === attachment) && (
 					<li>
 						{D.attachmentTitle} :{' '}
-						{C.ATTACHMENTS.find(a => a.value === attachment).label}
+						{
+							StructuresConstants.ATTACHMENTS.find(a => a.value === attachment)
+								.label
+						}
 					</li>
 				)}
 				<ResourceLabel title={D.conceptTitle} URI={concept} />

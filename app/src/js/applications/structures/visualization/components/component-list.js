@@ -3,10 +3,8 @@ import { Checkbox } from 'react-bootstrap';
 import { filterDeburr, Input, Pagination } from '@inseefr/wilco';
 
 import Badge from 'js/applications/shared/badge';
-
-import * as C from 'js/constants';
 import D from 'js/i18n';
-import { ArrayUtils } from 'bauhaus-utilities';
+import { ArrayUtils, StructuresConstants } from 'bauhaus-utilities';
 
 const ComponentList = ({ components, checked, onCheck, onChange }) => {
 	const [search, setSearch] = useState(() => '');
@@ -23,24 +21,24 @@ const ComponentList = ({ components, checked, onCheck, onChange }) => {
 			<div className="row">
 				<div className="col-md-4 text-center">
 					<Checkbox
-						defaultChecked={checked[C.ATTRIBUTE_TYPE]}
-						onChange={() => onCheck(C.ATTRIBUTE_TYPE)}
+						defaultChecked={checked[StructuresConstants.ATTRIBUTE_TYPE]}
+						onChange={() => onCheck(StructuresConstants.ATTRIBUTE_TYPE)}
 					>
 						{D.attributsTitle}
 					</Checkbox>
 				</div>
 				<div className="col-md-4 text-center">
 					<Checkbox
-						defaultChecked={checked[C.DIMENSION_TYPE]}
-						onChange={() => onCheck(C.DIMENSION_TYPE)}
+						defaultChecked={checked[StructuresConstants.DIMENSION_TYPE]}
+						onChange={() => onCheck(StructuresConstants.DIMENSION_TYPE)}
 					>
 						{D.dimensionsTitle}
 					</Checkbox>
 				</div>
 				<div className="col-md-4 text-center">
 					<Checkbox
-						defaultChecked={checked[C.MEASURE_TYPE]}
-						onChange={() => onCheck(C.MEASURE_TYPE)}
+						defaultChecked={checked[StructuresConstants.MEASURE_TYPE]}
+						onChange={() => onCheck(StructuresConstants.MEASURE_TYPE)}
 					>
 						{D.measuresTitle}
 					</Checkbox>
