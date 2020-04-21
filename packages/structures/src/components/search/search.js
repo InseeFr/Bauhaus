@@ -1,9 +1,9 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Select, Loading } from '@inseefr/wilco';
 import { Link, Redirect } from 'react-router-dom';
 import api from '../../apis/structure-api';
 import D from '../../i18n/build-dictionary';
-
+import { formatLabel } from '../../utils';
 import {
 	ConceptsAPI,
 	ArrayUtils,
@@ -40,9 +40,11 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 		const { concepts } = this.props;
 
 		const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
-		const dataLinks = data.map(({ id, labelLg1 }) => (
-			<li key={id} className="list-group-item text-left">
-				<Link to={`#`}>{labelLg1}</Link>
+		const dataLinks = data.map(component => (
+			<li key={component.id} className="list-group-item text-left">
+				<Link to={`/structures/components/${component.id}`}>
+					{formatLabel(component)}
+				</Link>
 			</li>
 		));
 		return (

@@ -13,6 +13,8 @@ import {
 	DIMENSION_TYPE,
 	ATTRIBUTE_TYPE,
 } from '../../utils/constants/dsd-components';
+
+import { formatLabel } from '../../utils';
 import api from '../../apis/structure-api';
 import D from '../../i18n/build-dictionary';
 
@@ -62,6 +64,7 @@ function ComponentsList() {
 						advancedSearch={true}
 						label="label"
 						autoFocus={true}
+						itemFormatter={(_, component) => formatLabel(component)}
 					/>
 				</div>
 			</div>

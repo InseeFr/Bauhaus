@@ -1,5 +1,17 @@
+import React from 'react';
 import D from '../i18n/build-dictionary';
-
+import { COMPONENT_TYPES } from './constants/';
+export const formatLabel = component => {
+	console.log(component);
+	return (
+		<React.Fragment>
+			{component.labelLg1}
+			<span class="badge badge-pill" style={{ 'margin-left': '1em' }}>
+				{COMPONENT_TYPES.find(c => c.value === component.type)?.label}
+			</span>
+		</React.Fragment>
+	);
+};
 export const typeUriToLabel = (uri = '') => {
 	const key = uri.substr(uri.indexOf('#') + 1);
 	return D[key + 'Title'];

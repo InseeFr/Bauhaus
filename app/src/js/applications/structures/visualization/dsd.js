@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { buildExtract, Note, PageTitle, PageSubtitle } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang, Stores } from 'bauhaus-utilities';
 import Controls from './controls';
 import Components from './components';
 import D from 'js/i18n';
-import { StructureAPI, Stores } from 'bauhaus-structures';
+import { StructureAPI } from 'bauhaus-structures';
 
 const DSD = props => {
 	const [DSD, setDSD] = useState({});
