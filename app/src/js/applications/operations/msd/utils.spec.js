@@ -2,7 +2,6 @@ import {
 	hasLabelLg2,
 	shouldDisplayDuplicateButton,
 	isOpen,
-	toggleOpen,
 	HELP_COLLAPSED,
 	getParentUri,
 } from './utils';

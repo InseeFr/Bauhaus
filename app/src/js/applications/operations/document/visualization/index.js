@@ -6,7 +6,7 @@ import {
 	buildExtract,
 	goBack,
 } from '@inseefr/wilco';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang, Stores } from 'bauhaus-utilities';
 
 import D from 'js/i18n';
 import * as select from 'js/reducers';
@@ -23,7 +23,6 @@ import {
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
 } from 'js/utils/auth/roles';
-import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
