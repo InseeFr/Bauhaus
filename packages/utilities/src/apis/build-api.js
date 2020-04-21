@@ -9,7 +9,7 @@ export const removeTrailingSlash = url => url.replace(/\/$/, '');
 
 export const buildApi = (context, api) => {
 	return Object.keys(api).reduce((apiFns, resource) => {
-		try {
+		/*try {
 			const mockPath = context === '' ? 'index' : context;
 			const mocks = require('./mocks/' + mockPath);
 			console.debug(mockPath, resource);
@@ -18,7 +18,7 @@ export const buildApi = (context, api) => {
 			}
 		} catch (e) {
 			console.log(`The API ${context} do not have any mock file`);
-		}
+		}*/
 
 		if (!apiFns[resource]) {
 			apiFns[resource] = buildCall(context, resource, api[resource]);
