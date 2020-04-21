@@ -2,6 +2,11 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import Home from './home';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+const store = mockStore({});
 
 const classification = {
 	general: { prefLabelLg1: 'Label' },
@@ -19,7 +24,13 @@ const langs = { lg1: 'fr', lg2: 'en' };
 describe('classification-home', () => {
 	it('renders without crashing', () => {
 		render(
-			<Home classification={classification} langs={langs} secondLang={false} />,
+			<Provider store={store}>
+				<Home
+					classification={classification}
+					langs={langs}
+					secondLang={false}
+				/>
+			</Provider>,
 			{ wrapper: MemoryRouter }
 		);
 	});
