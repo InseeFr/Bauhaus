@@ -9,8 +9,8 @@ import {
 	ActionToolbar,
 	goBack,
 	goBackOrReplace,
+	LabelRequired,
 } from '@inseefr/wilco';
-import { LabelRequired } from 'bauhaus-utilities';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { validate } from './validation';
 import PageTitleBlock from 'js/applications/shared/page-title-block';

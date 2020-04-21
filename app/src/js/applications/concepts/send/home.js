@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { regexValidMail, allTagA, PageTitle } from '@inseefr/wilco';
+import {
+	regexValidMail,
+	allTagA,
+	PageTitle,
+	LabelRequired,
+} from '@inseefr/wilco';
 import SendControls from './controls';
-import { EditorHTML, LabelRequired } from 'bauhaus-utilities';
+import { EditorHTML } from 'bauhaus-utilities';
 import D from 'js/i18n';
 
 const getDefaultMessage = (appHost, id, label, isValidated) => {

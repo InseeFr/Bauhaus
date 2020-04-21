@@ -12,18 +12,14 @@ export const Auth = {
 	...utils,
 	...selectors,
 };
-export { default as LabelRequired } from './components/label-required';
-
 export { default as EditorHTML } from './components/editor-html';
 export {
 	default as EditorMarkdown,
 	toolbar as EditorMarkdownToolbar,
 } from './components/editor-html/editor-markdown';
-export { default as ResetButton } from './components/reset-button';
 export {
 	default as AdvancedSearchControls,
 } from './components/advanced-search/controls';
-export { default as NumberResult } from './components/number-result';
 export * from './components/advanced-search/home-container';
 export {
 	default as AdvancedSearchList,

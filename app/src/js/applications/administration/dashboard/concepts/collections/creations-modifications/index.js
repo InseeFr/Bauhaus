@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Table } from '@inseefr/wilco';
+import { Table, NumberResult } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
 import { rowParams } from './data';
 import { filterKeyDate } from 'js/utils/array-utils';
-import { NumberResult } from 'bauhaus-utilities';
 
 class CollectionsCreationsModifications extends Component {
 	constructor(props) {

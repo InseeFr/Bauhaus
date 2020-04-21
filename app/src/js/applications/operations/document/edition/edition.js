@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown, LabelRequired } from 'bauhaus-utilities';
+import { EditorMarkdown } from 'bauhaus-utilities';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -13,6 +13,7 @@ import {
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
+	LabelRequired,
 } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import SelectRmes from 'js/applications/shared/select-rmes';

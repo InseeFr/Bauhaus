@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
-import { PageTitle, Pagination } from '@inseefr/wilco';
+import { PageTitle, Pagination, NumberResult } from '@inseefr/wilco';
 import Controls from './controls';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
 import { filterKeyDate } from 'js/utils/array-utils';
-import { NumberResult, ArrayUtils } from 'bauhaus-utilities';
+import { ArrayUtils } from 'bauhaus-utilities';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
 const filterAltLabel = ArrayUtils.filterKeyDeburr(['altLabel']);

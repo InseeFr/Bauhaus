@@ -4,8 +4,9 @@ import {
 	SaveButton,
 	ActionToolbar,
 	ErrorBloc,
+	LabelRequired,
 } from '@inseefr/wilco';
-import { EditorMarkdown, LabelRequired } from 'bauhaus-utilities';
+import { EditorMarkdown } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { ATTACHMENTS } from '../../utils/constants/attachments';
 import {

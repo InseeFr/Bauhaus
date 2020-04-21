@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown, LabelRequired } from 'bauhaus-utilities';
+import { EditorMarkdown } from 'bauhaus-utilities';
 import {
 	CancelButton,
 	SaveButton,
@@ -10,6 +10,7 @@ import {
 	ActionToolbar,
 	goBackOrReplace,
 	goBack,
+	LabelRequired,
 } from '@inseefr/wilco';
 import { validate } from './validation';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
