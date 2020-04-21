@@ -1,12 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { saveSecondLang } from 'js/actions/app';
-import { getSecondLang } from 'js/reducers/app';
-
+import { getSecondLang, saveSecondLang } from '../../stores/second-lang';
 import { CheckSecondLang } from '@inseefr/wilco';
 
-export default () => {
-	const secondLang = useSelector(state => getSecondLang(state));
+const CheckSecondLangContainer = () => {
+	const secondLang = useSelector(getSecondLang);
 	const dispatch = useDispatch();
 	return (
 		<CheckSecondLang
@@ -15,3 +13,5 @@ export default () => {
 		/>
 	);
 };
+
+export default CheckSecondLangContainer;

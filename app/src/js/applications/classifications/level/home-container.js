@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import LevelVisualization from './home';
 import { buildExtract, Loading } from '@inseefr/wilco';
 import loadLevel from 'js/actions/classifications/level';
-import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/level';
-import { getSecondLang } from 'js/reducers/app';
+import { Stores } from 'bauhaus-utilities';
 
 const extractClassificationId = buildExtract('classificationId');
 const extractLevelId = buildExtract('levelId');
@@ -27,13 +26,7 @@ class LevelVisualizationContainer extends Component {
 	render() {
 		const { level, secondLang } = this.props;
 		if (!level) return <Loading />;
-		return (
-			<LevelVisualization
-				level={level}
-				secondLang={secondLang}
-				saveSecondLang={this.props.saveSecondLang}
-			/>
-		);
+		return <LevelVisualization level={level} secondLang={secondLang} />;
 	}
 }
 
@@ -41,7 +34,7 @@ const mapStateToProps = (state, ownProps) => {
 	const classificationId = extractClassificationId(ownProps);
 	const levelId = extractLevelId(ownProps);
 	const level = select.getLevel(state, classificationId, levelId);
-	const secondLang = getSecondLang(state);
+	const secondLang = Stores.SecondLang.getSecondLang(state);
 	return {
 		classificationId,
 		levelId,
@@ -51,7 +44,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadLevel,
 };
 

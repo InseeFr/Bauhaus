@@ -1,16 +1,15 @@
-import { saveSecondLang } from 'js/actions/app';
 import loadDocument from 'js/actions/operations/documents/item';
 import {
-	CheckSecondLang,
 	Loading,
 	Button,
 	ActionToolbar,
 	buildExtract,
 	goBack,
 } from '@inseefr/wilco';
+import { CheckSecondLang } from 'bauhaus-utilities';
+
 import D from 'js/i18n';
 import * as select from 'js/reducers';
-import { getSecondLang } from 'js/reducers/app';
 import { getCurrentDocument } from 'js/reducers/operations/selector';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -24,6 +23,7 @@ import {
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
 } from 'js/utils/auth/roles';
+import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
@@ -33,7 +33,6 @@ class DocumentationVisualizationContainer extends Component {
 		id: PropTypes.string.isRequired,
 		langs: PropTypes.object,
 		secondLang: PropTypes.bool,
-		saveSecondLang: PropTypes.func,
 	};
 
 	componentWillMount() {
@@ -43,7 +42,7 @@ class DocumentationVisualizationContainer extends Component {
 	}
 
 	render() {
-		const { id, document, langs, secondLang, saveSecondLang } = this.props;
+		const { id, document, langs, secondLang } = this.props;
 
 		if (!document.id) return <Loading />;
 
@@ -68,14 +67,13 @@ class DocumentationVisualizationContainer extends Component {
 						/>
 					</Auth>
 				</ActionToolbar>
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+				<CheckSecondLang />
 
 				<OperationsDocumentVisualization
 					id={id}
 					attr={document}
 					langs={langs}
 					secondLang={secondLang}
-					saveSecondLang={saveSecondLang}
 				/>
 			</div>
 		);
@@ -89,12 +87,11 @@ export const mapStateToProps = (state, ownProps) => {
 		id,
 		document: id === document.id ? document : {},
 		langs: select.getLangs(state),
-		secondLang: getSecondLang(state),
+		secondLang: Stores.SecondLang.getSecondLang(state),
 	};
 };
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadDocument,
 };
 

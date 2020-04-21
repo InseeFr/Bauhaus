@@ -10,15 +10,8 @@ const family = {
 
 describe('classification-family-home', () => {
 	it('renders without crashing', () => {
-		render(
-			<Home
-				family={family}
-				secondLang={true}
-				saveSecondLang={() => console.log('save second lang')}
-			/>,
-			{
-				wrapper: MemoryRouter,
-			}
-		);
+		render(<Home family={family} secondLang={true} />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });

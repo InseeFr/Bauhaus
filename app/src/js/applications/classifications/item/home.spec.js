@@ -13,16 +13,8 @@ const langs = { lg1: 'fr', lg2: 'en' };
 
 describe('classification-item-home', () => {
 	it('renders without crashing', () => {
-		render(
-			<Home
-				item={item}
-				langs={langs}
-				secondLang={true}
-				saveSecondLang={() => console.log('save second lang')}
-			/>,
-			{
-				wrapper: MemoryRouter,
-			}
-		);
+		render(<Home item={item} langs={langs} secondLang={true} />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });

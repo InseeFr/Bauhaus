@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import FamilyVisualization from './home';
 import { buildExtract, Loading } from '@inseefr/wilco';
 import loadFamily from 'js/actions/classifications/families/family';
-import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/family';
-import { getSecondLang } from 'js/reducers/app';
+import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
@@ -29,20 +28,14 @@ class FamilyVisualizationContainer extends Component {
 	render() {
 		const { family, secondLang } = this.props;
 		if (!family) return <Loading />;
-		return (
-			<FamilyVisualization
-				family={family}
-				secondLang={secondLang}
-				saveSecondLang={this.props.saveSecondLang}
-			/>
-		);
+		return <FamilyVisualization family={family} secondLang={secondLang} />;
 	}
 }
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const family = select.getFamily(state, id);
-	const secondLang = getSecondLang(state);
+	const secondLang = Stores.SecondLang.getSecondLang(state);
 	return {
 		id,
 		family,
@@ -51,7 +44,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadFamily,
 };
 

@@ -4,16 +4,20 @@ import D from 'js/i18n';
 import { stringToDate } from 'js/utils/moment';
 import { rangeType } from 'js/utils/msd/';
 import {
-	CheckSecondLang,
 	Button,
 	DuplicateButton,
 	ErrorBloc,
 	Note,
 	ActionToolbar,
 } from '@inseefr/wilco';
+
 import { PublicationFemale } from 'js/applications/operations/shared/status';
 
-import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
+import {
+	HTMLUtils,
+	ValidationButton,
+	CheckSecondLang,
+} from 'bauhaus-utilities';
 import DocumentsBloc from 'js/applications/operations/msd/documents/documents-bloc/index.js';
 import {
 	hasLabelLg2,
@@ -37,7 +41,6 @@ export default function SimsVisualisation({
 	codesLists,
 	sims = {},
 	secondLang,
-	saveSecondLang,
 	goBack,
 	langs: { lg1, lg2 },
 	organisations,
@@ -207,7 +210,7 @@ export default function SimsVisualisation({
 
 			<ErrorBloc error={serverSideError} />
 
-			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+			<CheckSecondLang />
 
 			<div className="row">
 				<Note

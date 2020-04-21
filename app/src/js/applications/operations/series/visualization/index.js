@@ -1,12 +1,11 @@
 import React from 'react';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
-import { saveSecondLang } from 'js/actions/app';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import OperationsSerieVisualization from 'js/applications/operations/series/visualization/home';
+
 import {
-	CheckSecondLang,
 	Loading,
 	ErrorBloc,
 	Button,
@@ -16,11 +15,15 @@ import {
 } from '@inseefr/wilco';
 import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
-import { getSecondLang } from 'js/reducers/app';
 import { ADMIN, CNIS, SERIES_CONTRIBUTOR } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
-import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
+import {
+	HTMLUtils,
+	ValidationButton,
+	Stores,
+	CheckSecondLang,
+} from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
@@ -96,10 +99,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 
 				<ErrorBloc error={serverSideError} />
 
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
+				<CheckSecondLang />
 				<OperationsSerieVisualization
 					secondLang={secondLang}
 					attr={attr}
@@ -125,7 +125,7 @@ const mapStateToProps = (state, ownProps) => {
 		id,
 		object: serie.id === id ? serie : {},
 		langs: select.getLangs(state),
-		secondLang: getSecondLang(state),
+		secondLang: Stores.SecondLang.getSecondLang(state),
 		frequency: frequencies.codes.find(
 			c => c.code === serie.accrualPeriodicityCode
 		),
@@ -134,7 +134,6 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 const mapDispatchToProps = {
-	saveSecondLang,
 	load: loadSerie,
 	publishSeries,
 };

@@ -19,12 +19,7 @@ const langs = { lg1: 'fr', lg2: 'en' };
 describe('classification-home', () => {
 	it('renders without crashing', () => {
 		render(
-			<Home
-				classification={classification}
-				langs={langs}
-				secondLang={false}
-				saveSecondLang={() => console.log('save second lang')}
-			/>,
+			<Home classification={classification} langs={langs} secondLang={false} />,
 			{ wrapper: MemoryRouter }
 		);
 	});

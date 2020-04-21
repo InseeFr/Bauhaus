@@ -5,11 +5,11 @@ import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field
 import { flattenTree } from 'js/utils/msd';
 import {
 	Loading,
-	CheckSecondLang,
 	CancelButton,
 	ActionToolbar,
 	SaveButton,
 } from '@inseefr/wilco';
+
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { DUPLICATE } from 'js/applications/operations/msd';
 import {
@@ -19,7 +19,7 @@ import {
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
 } from 'js/applications/operations/msd/utils';
-import { HTMLUtils } from 'bauhaus-utilities';
+import { HTMLUtils, CheckSecondLang } from 'bauhaus-utilities';
 
 class SimsCreation extends React.Component {
 	static propTypes = {
@@ -128,7 +128,6 @@ class SimsCreation extends React.Component {
 		const {
 			metadataStructure,
 			codesLists,
-			saveSecondLang,
 			secondLang,
 			mode,
 			langs: { lg1, lg2 },
@@ -196,10 +195,7 @@ class SimsCreation extends React.Component {
 						<div key={msd.idMas}>
 							{index === 0 && (
 								<React.Fragment>
-									<CheckSecondLang
-										secondLang={secondLang}
-										onChange={saveSecondLang}
-									/>
+									<CheckSecondLang />
 									{mode === 'DUPLICATE' && (
 										<div id="operation-picker" className="panel panel-default">
 											<SelectRmes

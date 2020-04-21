@@ -4,7 +4,8 @@ import { filterDeburr, Input, Pagination } from '@inseefr/wilco';
 
 import Badge from 'js/applications/shared/badge';
 import D from 'js/i18n';
-import { ArrayUtils, StructuresConstants } from 'bauhaus-utilities';
+import { StructuresConstants } from 'bauhaus-structures';
+import { ArrayUtils } from 'bauhaus-utilities';
 
 const ComponentList = ({ components, checked, onCheck, onChange }) => {
 	const [search, setSearch] = useState(() => '');

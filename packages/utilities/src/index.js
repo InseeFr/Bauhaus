@@ -33,3 +33,7 @@ export { default as ValidationButton } from './components/validationButton';
 export {
 	default as FilterToggleButtons,
 } from './components/filter-toggle-buttons';
+
+export { default as CheckSecondLang } from './components/check-second-lang';
+
+export * as Stores from './stores';

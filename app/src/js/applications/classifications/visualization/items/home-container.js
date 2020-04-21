@@ -5,10 +5,9 @@ import ClassificationItems from './home';
 import { buildExtract, Loading } from '@inseefr/wilco';
 import loadClassificationItems from 'js/actions/classifications/items';
 import loadClassificationGeneral from 'js/actions/classifications/general';
-import { saveSecondLang } from 'js/actions/app';
 import * as selectT from 'js/reducers/classifications/items';
 import * as selectG from 'js/reducers/classifications/classification/general';
-import { getSecondLang } from 'js/reducers/app';
+import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
@@ -49,7 +48,6 @@ class ClassificationItemsContainer extends Component {
 				subtitle={secondLang ? prefLabelLg2 : prefLabelLg1}
 				classificationId={id}
 				secondLang={secondLang}
-				saveSecondLang={this.props.saveSecondLang}
 			/>
 		);
 	}
@@ -59,7 +57,7 @@ const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const items = selectT.getItems(state, id);
 	const general = selectG.getGeneral(state.classificationGeneral, id);
-	const secondLang = getSecondLang(state);
+	const secondLang = Stores.SecondLang.getSecondLang(state);
 	return {
 		id,
 		items,
@@ -71,7 +69,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	loadClassificationItems,
 	loadClassificationGeneral,
-	saveSecondLang,
 };
 
 ClassificationItemsContainer = connect(

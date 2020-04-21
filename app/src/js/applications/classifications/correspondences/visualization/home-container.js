@@ -4,11 +4,10 @@ import { Loading, buildExtract } from '@inseefr/wilco';
 import HomeGeneral from './home-general';
 import HomeAssociations from './home-associations';
 import { getCorrespondence } from 'js/reducers/classifications/correspondence';
-import { saveSecondLang } from 'js/actions/app';
 import loadCorrespondenceGeneral from 'js/actions/classifications/correspondences/general';
 import loadCorrespondenceAssociations from 'js/actions/classifications/correspondences/associations';
 import * as select from 'js/reducers';
-import { getSecondLang } from 'js/reducers/app';
+import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
@@ -31,7 +30,6 @@ class CorrespondencesHomeContainer extends Component {
 					<HomeGeneral
 						correspondence={correspondence}
 						secondLang={secondLang}
-						saveSecondLang={this.props.saveSecondLang}
 						langs={langs}
 					/>
 					<Loading />
@@ -42,7 +40,6 @@ class CorrespondencesHomeContainer extends Component {
 				<HomeGeneral
 					correspondence={correspondence}
 					secondLang={secondLang}
-					saveSecondLang={this.props.saveSecondLang}
 					langs={langs}
 				/>
 				<HomeAssociations
@@ -59,7 +56,7 @@ class CorrespondencesHomeContainer extends Component {
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const { correspondence, associations } = getCorrespondence(state, id);
-	const secondLang = getSecondLang(state);
+	const secondLang = Stores.SecondLang.getSecondLang(state);
 	const langs = select.getLangs(state);
 	return {
 		id,
@@ -71,7 +68,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadCorrespondenceGeneral,
 	loadCorrespondenceAssociations,
 };

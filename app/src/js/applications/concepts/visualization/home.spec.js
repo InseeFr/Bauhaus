@@ -16,7 +16,6 @@ describe('concept-visualization', () => {
 				disseminationStatusList={[]}
 				validateConcept={() => console.log('validate')}
 				secondLang={true}
-				saveSecondLang={() => console.log('save second lang')}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 				permission={{ authType: '', roles: [''] }}
 			/>,

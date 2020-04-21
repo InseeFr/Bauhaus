@@ -11,7 +11,6 @@ describe('concepts-compare', () => {
 				conceptGeneral={{ conceptVersion: '2' }}
 				notes={{ '2': {}, '1': {} }}
 				secondLang={false}
-				saveSecondLang={() => console.log('save second lang')}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 			/>,
 			{

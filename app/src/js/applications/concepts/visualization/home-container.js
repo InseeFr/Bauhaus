@@ -11,7 +11,6 @@ import {
 } from 'js/actions/constants/concepts';
 import deleteConcept from 'js/actions/concepts/delete';
 import * as select from 'js/reducers';
-import { saveSecondLang } from 'js/actions/app';
 import loadConcept from 'js/actions/concepts/concept';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import check from 'js/utils/auth';
@@ -20,8 +19,7 @@ import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';
 import { OK } from 'js/constants';
-import { getSecondLang } from 'js/reducers/app';
-import { Auth } from 'bauhaus-utilities';
+import { Auth, Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
@@ -153,7 +151,6 @@ class ConceptVisualizationContainer extends Component {
 						deleteConcept={this.handleConceptDeletion}
 						validationStatus={validationStatus}
 						secondLang={secondLang}
-						saveSecondLang={this.props.saveSecondLang}
 						langs={langs}
 					/>
 					<ModalRmes
@@ -181,7 +178,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		id,
 		permission: Auth.getPermission(state),
-		secondLang: getSecondLang(state),
+		secondLang: Stores.SecondLang.getSecondLang(state),
 		concept: select.getConcept(state, id),
 		allNotes,
 		validationStatus: select.getStatus(state, VALIDATE_CONCEPT_LIST),
@@ -194,7 +191,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadConcept,
 	loadConceptAndAllNotes,
 	validateConcept: id => validateConcepts([id]),

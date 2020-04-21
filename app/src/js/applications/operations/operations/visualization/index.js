@@ -5,27 +5,25 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { EXPORT_VARBOOK } from 'js/actions/constants';
+
 import {
 	Loading,
 	ErrorBloc,
 	Button,
-	CheckSecondLang,
 	ActionToolbar,
 	buildExtract,
 	goBack,
 } from '@inseefr/wilco';
 import OperationsOperationVisualization from './home';
 import exportVariableBook from 'js/actions/operations/export-varBook';
-import { saveSecondLang } from 'js/actions/app';
 import loadOperation, {
 	publishOperation,
 } from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
-import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import { ADMIN, CNIS, SERIES_CONTRIBUTOR } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
-import { ValidationButton } from 'bauhaus-utilities';
+import { ValidationButton, Stores, CheckSecondLang } from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
@@ -38,7 +36,6 @@ class OperationVisualizationContainer extends VisualizationContainer {
 		exportStatus: PropTypes.string,
 		langs: PropTypes.object,
 		secondLang: PropTypes.bool,
-		saveSecondLang: PropTypes.func,
 	};
 
 	render() {
@@ -47,7 +44,6 @@ class OperationVisualizationContainer extends VisualizationContainer {
 			object: { ...operation },
 			langs,
 			secondLang,
-			saveSecondLang,
 		} = this.props;
 		const { serverSideError } = this.state;
 
@@ -98,14 +94,13 @@ class OperationVisualizationContainer extends VisualizationContainer {
 
 				<ErrorBloc error={serverSideError} />
 
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+				<CheckSecondLang />
 
 				<OperationsOperationVisualization
 					id={id}
 					attr={operation}
 					langs={langs}
 					secondLang={secondLang}
-					saveSecondLang={saveSecondLang}
 				/>
 			</div>
 		);
@@ -120,13 +115,12 @@ export const mapStateToProps = (state, ownProps) => {
 		object: id === operation.id ? operation : {},
 		exportStatus: select.getStatus(state, EXPORT_VARBOOK),
 		langs: select.getLangs(state),
-		secondLang: getSecondLang(state),
+		secondLang: Stores.SecondLang.getSecondLang(state),
 	};
 };
 
 const mapDispatchToProps = {
 	exportVariableBook,
-	saveSecondLang,
 	load: loadOperation,
 	publishOperation,
 };

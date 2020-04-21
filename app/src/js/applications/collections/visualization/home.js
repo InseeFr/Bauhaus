@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { CheckSecondLang, PageTitle, PageSubtitle } from '@inseefr/wilco';
+import { PageTitle, PageSubtitle } from '@inseefr/wilco';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 import CollectionMembers from './members';
 import { propTypes as generalPropTypes } from 'js/utils/collections/general';
 import { propTypes as membersPropTypes } from 'js/utils/collections/members';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
+import { CheckSecondLang } from 'bauhaus-utilities';
 
 class CollectionVisualization extends Component {
 	constructor(props) {
@@ -34,10 +35,7 @@ class CollectionVisualization extends Component {
 						isValidated={isValidated === 'true'}
 						handleValidation={this.handleClickValid}
 					/>
-					<CheckSecondLang
-						secondLang={secondLang}
-						onChange={this.props.saveSecondLang}
-					/>
+					<CheckSecondLang />
 					<CollectionGeneral
 						attr={general}
 						secondLang={secondLang}

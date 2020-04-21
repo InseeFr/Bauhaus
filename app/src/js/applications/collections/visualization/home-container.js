@@ -4,14 +4,12 @@ import { connect } from 'react-redux';
 import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
 import validateCollection from 'js/actions/collections/validate';
 import * as select from 'js/reducers';
-import { saveSecondLang } from 'js/actions/app';
 import loadCollections from 'js/actions/collections/collection';
 import loadStampList from 'js/actions/stamp';
 import { Loading, buildExtract } from '@inseefr/wilco';
 import CollectionVisualization from './home';
 import { OK } from 'js/constants';
-import { getSecondLang } from 'js/reducers/app';
-import { Auth } from 'bauhaus-utilities';
+import { Auth, Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
@@ -70,7 +68,6 @@ class CollectionVisualizationContainer extends Component {
 					validateCollection={this.handleCollectionValidation}
 					validationStatus={validationStatus}
 					secondLang={secondLang}
-					saveSecondLang={this.props.saveSecondLang}
 					langs={langs}
 				/>
 			);
@@ -84,7 +81,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		id,
 		permission: Auth.getPermission(state),
-		secondLang: getSecondLang(state),
+		secondLang: Stores.SecondLang.getSecondLang(state),
 		collection: select.getCollection(state, id),
 		stampList: select.getStampList(state),
 		validationStatus: select.getStatus(state, VALIDATE_COLLECTION_LIST),
@@ -93,7 +90,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadCollections,
 	loadStampList,
 	validateCollection: id => validateCollection([id]),

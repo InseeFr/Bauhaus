@@ -17,7 +17,6 @@ describe('correspondence-home-general', () => {
 			<HomeGeneral
 				correspondence={correspondence}
 				secondLang={true}
-				saveSecondLang={() => console.log('second lang')}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 			/>,
 			{

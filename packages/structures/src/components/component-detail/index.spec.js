@@ -46,7 +46,6 @@ describe('<ComponentDetail />', () => {
 		const { container } = render(
 			<ComponentDetail
 				secondLang={true}
-				saveSecondLang={() => {}}
 				component={{ ...component }}
 				concepts={concepts}
 				codesLists={codesLists}
@@ -59,7 +58,6 @@ describe('<ComponentDetail />', () => {
 		const { container } = render(
 			<ComponentDetail
 				secondLang={true}
-				saveSecondLang={() => {}}
 				component={{ ...component }}
 				concepts={concepts}
 				codesLists={codesLists}

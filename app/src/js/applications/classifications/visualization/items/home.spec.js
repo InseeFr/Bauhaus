@@ -10,7 +10,6 @@ describe('classification-items-home', () => {
 				items={[]}
 				classificationId="id"
 				secondLang={false}
-				saveSecondLang={() => console.log('save second lang')}
 			/>,
 			{ wrapper: MemoryRouter }
 		);

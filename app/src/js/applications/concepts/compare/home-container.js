@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Loading, buildExtract } from '@inseefr/wilco';
 import ConceptCompare from './home';
-import { saveSecondLang } from 'js/actions/app';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import * as select from 'js/reducers';
-import { getSecondLang } from 'js/reducers/app';
+import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
@@ -28,7 +27,6 @@ class ConceptCompareContainer extends Component {
 				conceptGeneral={general}
 				notes={notes}
 				secondLang={secondLang}
-				saveSecondLang={this.props.saveSecondLang}
 				langs={langs}
 			/>
 		);
@@ -49,7 +47,7 @@ const mapStateToProps = (state, ownProps) => {
 	}
 	return {
 		id,
-		secondLang: getSecondLang(state),
+		secondLang: Stores.SecondLang.getSecondLang(state),
 		general,
 		notes,
 		langs,
@@ -57,7 +55,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadConceptAndAllNotes,
 };
 

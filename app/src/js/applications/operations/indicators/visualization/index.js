@@ -3,10 +3,8 @@ import { withRouter } from 'react-router-dom';
 import D from 'js/i18n';
 import { connect } from 'react-redux';
 import * as select from 'js/reducers';
-import { saveSecondLang } from 'js/actions/app';
 import OperationsIndicatorVisualization from 'js/applications/operations/indicators/visualization/general';
 import {
-	CheckSecondLang,
 	Loading,
 	Button,
 	ErrorBloc,
@@ -14,15 +12,20 @@ import {
 	buildExtract,
 	goBack,
 } from '@inseefr/wilco';
+
 import loadIndicator, {
 	publishIndicator,
 } from 'js/actions/operations/indicators/item';
 import { CL_FREQ } from 'js/actions/constants/codeList';
-import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CONTRIBUTOR, ADMIN } from 'js/utils/auth/roles';
 import PageTitleBlock from 'js/applications/shared/page-title-block';
-import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
+import {
+	HTMLUtils,
+	ValidationButton,
+	Stores,
+	CheckSecondLang,
+} from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
@@ -91,10 +94,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 				</ActionToolbar>
 				<ErrorBloc error={serverSideError} />
 
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
+				<CheckSecondLang />
 				<OperationsIndicatorVisualization
 					secondLang={secondLang}
 					attr={attr}
@@ -116,7 +116,7 @@ export const mapStateToProps = (state, ownProps) => {
 		id,
 		object: indicator.id === id ? indicator : {},
 		langs: select.getLangs(state),
-		secondLang: getSecondLang(state),
+		secondLang: Stores.SecondLang.getSecondLang(state),
 		frequency: frequencies.codes.find(
 			c => c.code === indicator.accrualPeriodicityCode
 		),
@@ -124,7 +124,6 @@ export const mapStateToProps = (state, ownProps) => {
 	};
 };
 const mapDispatchToProps = {
-	saveSecondLang,
 	load: loadIndicator,
 	publishIndicator,
 };

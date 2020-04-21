@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { CheckSecondLang, PageSubtitle, PageTitle } from '@inseefr/wilco';
+import { PageSubtitle, PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Members from './members';
+import { CheckSecondLang } from 'bauhaus-utilities';
 
 class SeriesVisualization extends Component {
 	render() {
@@ -23,10 +24,7 @@ class SeriesVisualization extends Component {
 					<PageSubtitle subTitle={general.prefLabelLg2} />
 				)}
 				<Controls />
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
+				<CheckSecondLang />
 				<General general={general} secondLang={secondLang} langs={langs} />
 				{notes.scopeNoteLg1 && (
 					<Notes notes={notes} secondLang={secondLang} langs={langs} />

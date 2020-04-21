@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckSecondLang, PageSubtitle, PageTitle } from '@inseefr/wilco';
+import { PageSubtitle, PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Levels from './levels';
 import D from 'js/i18n';
+import { CheckSecondLang } from 'bauhaus-utilities';
 
 class ClassificationVisualization extends Component {
 	render() {
@@ -40,10 +41,7 @@ class ClassificationVisualization extends Component {
 					</div>
 				</div>
 				<Controls />
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
+				<CheckSecondLang />
 				<General general={general} secondLang={secondLang} langs={langs} />
 				{notes.scopeNoteLg1 && (
 					<Notes notes={notes} secondLang={secondLang} langs={langs} />

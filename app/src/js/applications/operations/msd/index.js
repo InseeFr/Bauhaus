@@ -13,13 +13,12 @@ import MSDHelp from 'js/applications/operations/msd/pages/help';
 import SimsVisualisation from 'js/applications/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/applications/operations/msd/pages/sims-creation/';
 import PropTypes from 'prop-types';
-import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers';
 import loadOperation from 'js/actions/operations/operations/item';
 import loadSerie from 'js/actions/operations/series/item';
 import loadIndicator from 'js/actions/operations/indicators/item';
+import { Stores } from 'bauhaus-utilities';
 
-import { getSecondLang } from 'js/reducers/app';
 import {
 	getOperationsOrganisations,
 	getOperationsCodesList,
@@ -54,7 +53,6 @@ class MSDContainer extends Component {
 		saveSims: PropTypes.func,
 		idParent: PropTypes.string,
 		disableSectionAnchor: PropTypes.bool,
-		saveSecondLang: PropTypes.func,
 		langs: PropTypes.object,
 		secondLang: PropTypes.bool,
 		currentSims: PropTypes.object,
@@ -102,7 +100,6 @@ class MSDContainer extends Component {
 			saveSims,
 			idParent,
 			disableSectionAnchor,
-			saveSecondLang,
 			langs,
 			secondLang,
 			currentSims,
@@ -147,7 +144,6 @@ class MSDContainer extends Component {
 						codesLists={codesLists}
 						organisations={organisations}
 						currentSection={this.props.match.params.idSection}
-						saveSecondLang={saveSecondLang}
 						langs={langs}
 						secondLang={secondLang}
 						goBack={this.goBackCallback}
@@ -161,7 +157,6 @@ class MSDContainer extends Component {
 						codesLists={codesLists}
 						onSubmit={saveSims}
 						idParent={idParent}
-						saveSecondLang={saveSecondLang}
 						langs={langs}
 						secondLang={secondLang}
 						goBack={this.goBackCallback}
@@ -236,7 +231,7 @@ export const mapStateToProps = (state, ownProps) => {
 
 	return {
 		langs: select.getLangs(state),
-		secondLang: getSecondLang(state),
+		secondLang: Stores.SecondLang.getSecondLang(state),
 		metadataStructure,
 		metadataStructureStatus,
 		currentSims: !id || currentSims.id === id ? currentSims : {},
@@ -256,7 +251,6 @@ const mapDispatchToProps = {
 	loadOperation,
 	loadSerie,
 	loadIndicator,
-	saveSecondLang,
 	publishSims,
 };
 

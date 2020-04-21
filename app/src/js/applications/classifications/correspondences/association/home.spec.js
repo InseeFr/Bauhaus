@@ -9,7 +9,6 @@ describe('association-home', () => {
 			<Home
 				association={associationUtils.empty()}
 				secondLang={false}
-				saveSecondLang={() => console.log('save second lang')}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 			/>,
 			{

@@ -5,11 +5,10 @@ import ClassificationTree from './home';
 import { buildExtract, Loading } from '@inseefr/wilco';
 import loadClassificationItems from 'js/actions/classifications/items';
 import loadClassificationGeneral from 'js/actions/classifications/general';
-import { saveSecondLang } from 'js/actions/app';
 import * as selectT from 'js/reducers/classifications/items';
 import * as selectG from 'js/reducers/classifications/classification/general';
 import { getTreeFromFlatData } from 'react-sortable-tree';
-import { getSecondLang } from 'js/reducers/app';
+import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
@@ -53,7 +52,6 @@ class ClassificationTreeContainer extends Component {
 				prefLabel={secondLang ? prefLabelLg2 : prefLabelLg1}
 				data={data}
 				secondLang={secondLang}
-				saveSecondLang={this.props.saveSecondLang}
 			/>
 		);
 	}
@@ -63,7 +61,7 @@ const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const flatTree = selectT.getItems(state, id);
 	const general = selectG.getGeneral(state.classificationGeneral, id);
-	const secondLang = getSecondLang(state);
+	const secondLang = Stores.SecondLang.getSecondLang(state);
 	return {
 		id,
 		flatTree,
@@ -75,7 +73,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	loadClassificationItems,
 	loadClassificationGeneral,
-	saveSecondLang,
 };
 
 ClassificationTreeContainer = connect(

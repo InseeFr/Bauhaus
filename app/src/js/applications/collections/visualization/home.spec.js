@@ -14,7 +14,6 @@ describe('collection-visualization', () => {
 				stampList={[]}
 				validateCollection={() => console.log('validate')}
 				secondLang={true}
-				saveSecondLang={() => console.log('save second lang')}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 				permission={{ authType: '', roles: [''] }}
 			/>,

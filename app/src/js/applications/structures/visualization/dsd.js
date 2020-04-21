@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { buildExtract, Note, PageTitle, PageSubtitle } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
-import { getSecondLang } from 'js/reducers/app';
-import CheckSecondLang from 'js/applications/shared/check-second-lang';
+import { CheckSecondLang } from 'bauhaus-utilities';
 import Controls from './controls';
 import Components from './components';
 import D from 'js/i18n';
-import { StructureAPI } from 'bauhaus-structures';
+import { StructureAPI, Stores } from 'bauhaus-structures';
 
 const DSD = props => {
 	const [DSD, setDSD] = useState({});
-	const secondLang = useSelector(state => getSecondLang(state));
+	const secondLang = useSelector(state =>
+		Stores.SecondLang.getSecondLang(state)
+	);
 
 	useEffect(() => {
 		const dsdId = buildExtract('dsdId')(props);

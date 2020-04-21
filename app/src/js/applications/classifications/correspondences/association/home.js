@@ -1,11 +1,12 @@
 import React from 'react';
-import { CheckSecondLang, PageTitle, Note } from '@inseefr/wilco';
+import { PageTitle, Note } from '@inseefr/wilco';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import { D2, D1 } from 'js/i18n';
+import { CheckSecondLang } from 'bauhaus-utilities';
 
-export default ({ association, secondLang, saveSecondLang, langs }) => {
+export default ({ association, secondLang, langs }) => {
 	const {
 		labelLg1,
 		labelLg2,
@@ -21,7 +22,7 @@ export default ({ association, secondLang, saveSecondLang, langs }) => {
 		<div className="container">
 			<PageTitle title={title} subtitle={associationId} />
 			<CorrespondenceControls correspondenceId={correspondenceId} />
-			<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+			<CheckSecondLang />
 
 			<div className="row">
 				{(!secondLang ||

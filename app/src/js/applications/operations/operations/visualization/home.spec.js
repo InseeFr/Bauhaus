@@ -17,7 +17,6 @@ describe('OperationVisualization', () => {
 			<OperationsOperationVisualization
 				attr={attr}
 				exportVarBook={() => {}}
-				saveSecondLang={() => {}}
 				langs={langs}
 				secondLang={false}
 				isModalOpen={false}
@@ -41,7 +40,6 @@ describe('OperationVisualization', () => {
 				attr={attr}
 				secondLang={true}
 				exportVarBook={() => {}}
-				saveSecondLang={() => {}}
 				langs={langs}
 				isModalOpen={false}
 				closeModal={() => {}}
