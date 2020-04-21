@@ -95,7 +95,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 				title={D.structuresSearchTitle}
 				data={dataLinks}
 				initializeState={this.initializeState}
-				redirect={<Redirect to={'/dsds'} push />}
+				redirect={<Redirect to={'/structures'} push />}
 			>
 				<div className="row form-group">
 					<div className="col-md-6">

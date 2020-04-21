@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { Select } from '@inseefr/wilco';
+import React, { Component, useState, useEffect } from 'react';
+import { Select, Loading } from '@inseefr/wilco';
 import { Link, Redirect } from 'react-router-dom';
-
+import api from '../../apis/structure-api';
+import { ConceptsAPI } from 'bauhaus-utilities';
 import D from '../../i18n/build-dictionary';
 
 import {
@@ -11,7 +12,6 @@ import {
 } from 'bauhaus-utilities';
 
 import './search.scss';
-
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['concept']);
 
@@ -95,7 +95,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 				title={D.componentsSearchTitle}
 				data={dataLinks}
 				initializeState={this.initializeState}
-				redirect={<Redirect to={'/dsds/components'} push />}
+				redirect={<Redirect to={'/structures/components'} push />}
 			>
 				<div className="row form-group">
 					<div className="col-md-12">
@@ -132,32 +132,26 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 	}
 }
 
-/*
-class SearchListContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {};
-	}
-	componentDidMount() {
-		api.getComponentsSearchList().then(data => {
-			this.setState({ data: sortByLabel(data) });
-		});
-	}
+const SearchListContainer = () => {
+	const [loading, setLoading] = useState(true);
+	const [items, setItems] = useState([]);
+	const [concepts, setConcepts] = useState([]);
 
-	render() {
-		const { data } = this.state;
-		const { concepts } = this.props;
-
-		if (!data) return <Loading />;
-		return <SearchFormList data={data} concepts={concepts} />;
+	useEffect(() => {
+		Promise.all([
+			api.getMutualizedComponentsForSearch(),
+			ConceptsAPI.getConceptList(),
+		])
+			.then(([components, concepts]) => {
+				setItems(components);
+				setConcepts(concepts);
+			})
+			.finally(() => setLoading(false));
+	}, []);
+	if (loading) {
+		return <Loading />;
 	}
-}
-
-const mapStateToProps = state => {
-	return {
-		concepts: state.concepts,
-	};
+	return <SearchFormList data={items} concepts={concepts} />;
 };
 
-export default connect(mapStateToProps)(SearchListContainer);
-*/
+export default SearchListContainer;

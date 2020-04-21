@@ -3,6 +3,7 @@ import * as selectors from './auth/selectors';
 import * as utils from './auth/open-id-connect-auth/token-utils';
 export * from './apis/sparql-endpoint-call';
 export * as API from './apis/build-api';
+export { default as ConceptsAPI } from './apis/concepts-api';
 
 export * as ArrayUtils from './utils/array-utils';
 export * as HTMLUtils from './utils/html-utils';

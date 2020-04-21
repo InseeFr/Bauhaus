@@ -2,6 +2,8 @@ import { API } from 'bauhaus-utilities';
 
 const api = {
 	getStructures: () => [''],
+	getMutualizedComponents: () => ['components'],
+	getMutualizedComponentsForSearch: () => ['components/search'],
 	getStructure: id => [`dsd/${id}`],
 	getComponents: id => [`dsd/${id}/components`],
 	getStructureDetailedComponents: dsdId => [`dsd/${dsdId}/detailed-components`],
