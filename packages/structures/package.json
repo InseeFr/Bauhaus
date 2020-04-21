@@ -35,7 +35,6 @@
 		"eslint-plugin-react": "7.17.0",
 		"identity-obj-proxy": "^3.0.0",
 		"jest": "24.9.0",
-		"microbundle": "^0.12.0-next.6",
 		"rollup": "^2.6.1",
 		"rollup-plugin-babel": "^4.4.0",
 		"rollup-plugin-commonjs": "^10.1.0",
@@ -52,10 +51,10 @@
 		"useTabs": true
 	},
 	"dependencies": {
-		"react-router-dom": "^5.1.2",
-		"react": "16.13.x",
 		"bauhaus-utilities": "^0.0.0",
+		"react": "16.13.x",
 		"react-is": "^16.13.1",
+		"react-router-dom": "^5.1.2",
 		"react-sliding-side-panel": "^1.0.14"
 	}
 }
