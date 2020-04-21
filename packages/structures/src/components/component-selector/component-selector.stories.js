@@ -1,11 +1,17 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import ComponentSelector from '.';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+const store = mockStore({});
+
 const stories = storiesOf('ComponentSelector', module);
 
 const styleDecorator = storyFn => (
 	<div className="col-md-12" style={{ marginTop: '5%' }}>
-		{storyFn()}
+		<Provider store={store}>{storyFn()}</Provider>
 	</div>
 );
 stories.addDecorator(styleDecorator);

@@ -66,30 +66,20 @@ const ComponentSelector = ({
 		[structureComponents]
 	);
 
-	const conceptsObject = concepts.reduce(
-		(acc, concept) => ({ ...acc, [concept.id]: { ...concept } }),
-		{}
-	);
-
-	const codesListsObject = codesLists.reduce(
-		(acc, code) => ({ ...acc, [code.id]: { ...code } }),
-		{}
-	);
-
 	return (
 		<>
 			<StructureComponentsSelector
 				hidden={false}
-				codesLists={codesListsObject}
-				concepts={conceptsObject}
+				codesLists={codesLists}
+				concepts={concepts}
 				components={structureComponents}
 				handleRemove={handleRemove}
 				handleUp={handleUp}
 				handleDown={handleDown}
 			/>
 			<MutualizedComponentsSelector
-				concepts={conceptsObject}
-				codesLists={codesListsObject}
+				concepts={concepts}
+				codesLists={codesLists}
 				hidden={true}
 				components={filteredMutualizedComponents}
 				handleAdd={handleAdd}

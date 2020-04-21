@@ -87,11 +87,15 @@ export const StructureComponentsSelector = ({
 	const componentsWithActions = components.map((component, i) => ({
 		...component,
 		type: typeUriToLabel(component.type),
-		concept: concepts[component.concept]?.label,
+		concept: concepts.find(
+			({ id }) => id?.toString() === component.concept?.toString()
+		)?.label,
 		codeList:
 			component.range !== XSD_CODE_LIST
 				? ''
-				: codesLists[component.codeList]?.label,
+				: codesLists.find(
+						({ id }) => id?.toString() === component.codeList?.toString()
+				  )?.label,
 		actions: (
 			<React.Fragment>
 				<button
@@ -174,6 +178,6 @@ StructureComponentsSelector.propTypes = {
 	handleRemove: PropTypes.func,
 	handleUp: PropTypes.func,
 	handleDown: PropTypes.func,
-	concepts: PropTypes.object,
-	codesLists: PropTypes.object,
+	concepts: PropTypes.array,
+	codesLists: PropTypes.array,
 };

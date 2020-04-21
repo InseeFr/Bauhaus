@@ -24,12 +24,15 @@ export const ComponentDetailView = ({
 	secondLang = false,
 	col = 3,
 }) => {
+	console.log(concepts);
+	console.log(codesLists);
+
 	const typeValue = typeUriToLabel(component.type);
 	const conceptValue = concepts.find(
-		concept => concept.id === component.concept
+		concept => concept.id?.toString() === component.concept?.toString()
 	)?.label;
 	const codeListValue = codesLists.find(
-		concept => concept.id === component.codeList
+		concept => concept.id?.toString() === component.codeList?.toString()
 	)?.label;
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
 		component.descriptionLg1
