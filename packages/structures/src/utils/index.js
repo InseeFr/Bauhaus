@@ -2,7 +2,6 @@ import React from 'react';
 import D from '../i18n/build-dictionary';
 import { COMPONENT_TYPES } from './constants/';
 export const formatLabel = component => {
-	console.log(component);
 	return (
 		<React.Fragment>
 			{component.labelLg1}

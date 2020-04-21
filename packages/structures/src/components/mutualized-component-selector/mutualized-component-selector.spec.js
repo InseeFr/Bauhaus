@@ -29,20 +29,20 @@ describe('<MutualizedComponentsSelector />', () => {
 		},
 	];
 
-	const concepts = {
-		[components[0].concept]: {
+	const concepts = [
+		{
 			altLabel: '',
 			id: components[0].concept.toString(),
 			label: 'Concept - Label ' + components[0].concept,
 		},
-	};
-	const codesLists = {
-		[components[0].codeList]: {
+	];
+	const codesLists = [
+		{
 			altLabel: '',
 			id: components[0].codeList.toString(),
 			label: 'Code List - Label ' + components[0].codeList,
 		},
-	};
+	];
 
 	it('should call handleAdd', () => {
 		const handleAdd = jest.fn();
