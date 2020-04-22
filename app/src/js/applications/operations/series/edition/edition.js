@@ -9,14 +9,11 @@ import {
 	ActionToolbar,
 	goBack,
 	goBackOrReplace,
+	LabelRequired,
 } from '@inseefr/wilco';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
-import {
-	EditorMarkdown,
-	LabelRequired,
-	ItemToSelectModel,
-} from 'bauhaus-utilities';
+import { EditorMarkdown, ItemToSelectModel } from 'bauhaus-utilities';
 
 import { validate } from './validation';
 
