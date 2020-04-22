@@ -62,7 +62,7 @@ describe('<ComponentDetailView />', () => {
 				handleUpdate={() => {}}
 			></ComponentDetailView>
 		);
-		fireEvent.click(getByText(container, 'Cancel'));
+		fireEvent.click(getByText(container, 'Back'));
 
 		expect(handleBack).toHaveBeenCalled();
 	});
