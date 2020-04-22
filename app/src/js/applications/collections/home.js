@@ -6,6 +6,7 @@ import {
 	Button,
 	SearchableList,
 	VerticalMenu,
+	ExportButton,
 } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
@@ -63,20 +64,7 @@ class CollectionsHome extends Component {
 								offset={2}
 							/>
 						)}
-						<Button
-							label={
-								<React.Fragment>
-									<span
-										className="glyphicon glyphicon-export"
-										aria-hidden="true"
-									/>
-									<span> {D.btnExport}</span>
-								</React.Fragment>
-							}
-							action={this.handleClickExport}
-							col={8}
-							offset={2}
-						/>
+						<ExportButton action={this.handleClickExport} col={8} offset={2} />
 						{adminOrCreator && (
 							<Button
 								label={

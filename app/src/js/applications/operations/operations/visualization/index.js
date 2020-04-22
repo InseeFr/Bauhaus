@@ -13,6 +13,7 @@ import {
 	ActionToolbar,
 	buildExtract,
 	goBack,
+	ReturnButton,
 } from '@inseefr/wilco';
 import OperationsOperationVisualization from './home';
 import exportVariableBook from 'js/actions/operations/export-varBook';
@@ -57,10 +58,7 @@ class OperationVisualizationContainer extends VisualizationContainer {
 					secondLang={secondLang}
 				/>
 				<ActionToolbar>
-					<Button
-						action={goBack(this.props, '/operations/operations')}
-						label={D.btnReturn}
-					/>
+					<ReturnButton action={goBack(this.props, '/operations/operations')} />
 
 					{operation.idSims && (
 						<Button

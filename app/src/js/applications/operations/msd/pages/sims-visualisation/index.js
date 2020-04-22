@@ -9,6 +9,7 @@ import {
 	ErrorBloc,
 	Note,
 	ActionToolbar,
+	ReturnButton,
 } from '@inseefr/wilco';
 
 import { PublicationFemale } from 'js/applications/operations/shared/status';
@@ -175,7 +176,7 @@ export default function SimsVisualisation({
 	return (
 		<>
 			<ActionToolbar>
-				<Button action={() => goBack(getParentUri(sims))} label={D.btnReturn} />
+				<ReturnButton action={() => goBack(getParentUri(sims))} />
 				<Auth
 					roles={[ADMIN, CONTRIBUTOR]}
 					complementaryCheck={shouldDisplayDuplicateButtonFlag}

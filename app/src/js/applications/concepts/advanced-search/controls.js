@@ -1,18 +1,10 @@
 import React from 'react';
-import { Button, ActionToolbar } from '@inseefr/wilco';
+import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 export default ({ onClickReturn, initializeState }) => (
 	<ActionToolbar>
-		<Button
-			label={
-				<React.Fragment>
-					<span className="glyphicon glyphicon-menu-left" aria-hidden="true" />
-					<span> {D.btnReturn}</span>
-				</React.Fragment>
-			}
-			action={onClickReturn}
-		/>
+		<ReturnButton action={onClickReturn} />
 		<Button
 			label={
 				<React.Fragment>

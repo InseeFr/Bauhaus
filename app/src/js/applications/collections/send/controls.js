@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Button, ErrorBloc, ActionToolbar } from '@inseefr/wilco';
+import { Button, ErrorBloc, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 function SendControls({
@@ -26,7 +26,7 @@ function SendControls({
 	return (
 		<>
 			<ActionToolbar>
-				<Button label={D.btnReturn} action={urlBack} />
+				<ReturnButton action={urlBack} />
 				<Button label={D.btnSend} action={sendMessage} disabled={disabled} />
 			</ActionToolbar>
 			<ErrorBloc error={warning} />

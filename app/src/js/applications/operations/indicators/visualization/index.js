@@ -11,6 +11,7 @@ import {
 	ActionToolbar,
 	buildExtract,
 	goBack,
+	ReturnButton,
 } from '@inseefr/wilco';
 
 import loadIndicator, {
@@ -56,10 +57,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 					secondLang={secondLang}
 				/>
 				<ActionToolbar>
-					<Button
-						action={goBack(this.props, '/operations/indicators')}
-						label={D.btnReturn}
-					/>
+					<ReturnButton action={goBack(this.props, '/operations/indicators')} />
 					{attr.idSims && (
 						<>
 							<Button

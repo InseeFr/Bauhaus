@@ -5,6 +5,7 @@ import {
 	ActionToolbar,
 	buildExtract,
 	goBack,
+	ReturnButton,
 } from '@inseefr/wilco';
 import { CheckSecondLang, Stores } from 'bauhaus-utilities';
 
@@ -54,10 +55,7 @@ class DocumentationVisualizationContainer extends Component {
 				/>
 
 				<ActionToolbar>
-					<Button
-						action={goBack(this.props, '/operations/documents')}
-						label={D.btnReturn}
-					/>
+					<ReturnButton action={goBack(this.props, '/operations/documents')} />
 
 					<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]}>
 						<Button

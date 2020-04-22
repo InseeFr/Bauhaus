@@ -11,6 +11,7 @@ import {
 	ActionToolbar,
 	goBack,
 	buildExtract,
+	ReturnButton,
 } from '@inseefr/wilco';
 
 import { ADMIN } from 'js/utils/auth/roles';
@@ -60,10 +61,7 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 				/>
 
 				<ActionToolbar>
-					<Button
-						action={goBack(this.props, '/operations/families')}
-						label={D.btnReturn}
-					/>
+					<ReturnButton action={goBack(this.props, '/operations/families')} />
 
 					<Auth roles={[ADMIN]}>
 						<ValidationButton

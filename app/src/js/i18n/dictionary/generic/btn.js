@@ -43,10 +43,6 @@ export default {
 		fr: 'Nouvelle version',
 		en: 'New version',
 	},
-	btnExport: {
-		fr: 'Exporter',
-		en: 'Export',
-	},
 	btnImport: {
 		fr: 'Importer',
 		en: 'Import',

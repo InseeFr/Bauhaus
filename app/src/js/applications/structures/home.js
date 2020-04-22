@@ -4,6 +4,8 @@ import {
 	Button,
 	SearchableList,
 	VerticalMenu,
+	ExportButton,
+	NewButton,
 } from '@inseefr/wilco';
 import { StructureAPI } from 'bauhaus-structures';
 import D from 'js/i18n';
@@ -20,11 +22,12 @@ const Home = () => {
 		<div className="container">
 			<div className="row">
 				<VerticalMenu>
-					<Button
+					<NewButton
 						label={D.btnNewFemale}
 						action="/structures/create"
 						col={8}
 						offset={2}
+						wrapper={false}
 					/>
 					{isLocal && (
 						<Button
@@ -32,14 +35,15 @@ const Home = () => {
 							action="/structures/import"
 							col={8}
 							offset={2}
+							wrapper={false}
 						/>
 					)}
 					{isLocal && (
-						<Button
-							label={D.btnExport}
+						<ExportButton
 							action="/structures/export"
 							col={8}
 							offset={2}
+							wrapper={false}
 						/>
 					)}
 				</VerticalMenu>

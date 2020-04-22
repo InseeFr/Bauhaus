@@ -4,7 +4,7 @@ import 'react-sortable-tree/style.css';
 import { Link } from 'react-router-dom';
 import api from 'js/remote-api/operations-api';
 import D from 'js/i18n';
-import { goBack, PageTitle, Button, ActionToolbar } from '@inseefr/wilco';
+import { goBack, PageTitle, ReturnButton, ActionToolbar } from '@inseefr/wilco';
 
 import './tree.scss';
 
@@ -119,7 +119,7 @@ const TreeComponent = props => {
 		<div className="container">
 			<PageTitle title={D.operationsTreeTitle} col={12} offset={0} />
 			<ActionToolbar>
-				<Button action={goBack(props, '/operations')} label={D.btnReturn} />
+				<ReturnButton action={goBack(props, '/operations')} />
 			</ActionToolbar>
 			<div className="row">
 				<div className="col-md-12 text-center pull-right operations-list">

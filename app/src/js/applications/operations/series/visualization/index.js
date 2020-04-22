@@ -12,6 +12,7 @@ import {
 	ActionToolbar,
 	goBack,
 	buildExtract,
+	ReturnButton,
 } from '@inseefr/wilco';
 import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
@@ -58,10 +59,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 				/>
 
 				<ActionToolbar>
-					<Button
-						action={goBack(this.props, '/operations/series')}
-						label={D.btnReturn}
-					/>
+					<ReturnButton action={goBack(this.props, '/operations/series')} />
 
 					{attr.idSims && (
 						<Button

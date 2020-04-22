@@ -70,7 +70,6 @@ class ConceptsToExport extends Component {
 					title={D.exportTitle}
 					panelTitle={D.conceptsExportPanelTitle}
 					labelWarning={D.hasNotConceptToExport}
-					labelValidateButton={D.btnExport}
 					handleAction={this.openModal}
 					context="concepts"
 				/>
