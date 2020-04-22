@@ -113,6 +113,7 @@ class Field extends PureComponent {
 									arias={{
 										'aria-label': D.simsValue,
 									}}
+									className="w-100"
 								/>
 							)}
 							{msd.rangeType === ORGANIZATION && (

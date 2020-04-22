@@ -164,6 +164,7 @@ class OperationsIndicatorEdition extends Component {
 							arias={{
 								'aria-invalid': errors.fields.prefLabelLg1,
 							}}
+							className="w-100"
 						/>
 						<InputRmes
 							colMd={6}
@@ -174,6 +175,7 @@ class OperationsIndicatorEdition extends Component {
 							arias={{
 								'aria-invalid': errors.fields.prefLabelLg2,
 							}}
+							className="w-100"
 						/>
 					</div>
 					<div className="row">
@@ -182,12 +184,14 @@ class OperationsIndicatorEdition extends Component {
 							value={indicator.altLabelLg1}
 							label={D1.altLabel}
 							handleChange={this.onChanges.altLabelLg1}
+							className="w-100"
 						/>
 						<InputRmes
 							colMd={6}
 							value={indicator.altLabelLg2}
 							label={D2.altLabel}
 							handleChange={this.onChanges.altLabelLg2}
+							className="w-100"
 						/>
 					</div>
 					<div className="row">

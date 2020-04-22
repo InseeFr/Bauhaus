@@ -13,10 +13,11 @@ function InputRmes({
 	password,
 	handleChange,
 	arias,
+	className = '',
 }) {
 	return (
 		<div className={`form-group col-md-${colMd || 12}`}>
-			<label className="form-label">
+			<label className={`form-label ${className}`}>
 				{label} {flag(lang) ? '( ' : null} {flag(lang)}{' '}
 				{flag(lang) ? ' )' : null}
 				{star && <span className="boldRed">*</span>}
