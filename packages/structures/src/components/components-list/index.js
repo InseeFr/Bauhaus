@@ -7,7 +7,7 @@ import {
 	Loading,
 } from '@inseefr/wilco';
 import './component-list.scss';
-import { FilterToggleButtons } from 'bauhaus-utilities';
+import { FilterToggleButtons, ArrayUtils } from 'bauhaus-utilities';
 import {
 	MEASURE_TYPE,
 	DIMENSION_TYPE,
@@ -31,7 +31,7 @@ function ComponentsList() {
 		api
 			.getMutualizedComponents()
 			.then(components => {
-				setItems(components);
+				setItems(ArrayUtils.sortArray('labelLg1')(components));
 			})
 			.finally(() => setLoading(false));
 	}, []);
