@@ -9,6 +9,7 @@ import {
 	StructuresComponentsList,
 	StructuresComponentsSearch,
 	StructuresComponentView,
+	StructuresComponentEdit,
 } from 'bauhaus-structures';
 import D from 'js/i18n';
 
@@ -33,8 +34,18 @@ export default () => {
 					/>
 					<Route
 						exact
+						path="/structures/components/create"
+						component={StructuresComponentEdit}
+					/>
+					<Route
+						exact
 						path="/structures/components/:id"
 						component={StructuresComponentView}
+					/>
+					<Route
+						exact
+						path="/structures/components/:id/modify"
+						component={StructuresComponentEdit}
 					/>
 					<Route exact path="/structures/create" component={Create} />
 					<Route exact path="/structures/:dsdId/update" component={Update} />

@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Loading, goBack } from '@inseefr/wilco';
-import { ComponentDetailView } from './view';
+import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
+import { ComponentDetailEdit } from './edit';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI, Stores } from 'bauhaus-utilities';
-import ComponentTitle from './title';
-import { useSelector } from 'react-redux';
+import { ConceptsAPI } from 'bauhaus-utilities';
 import { useParams } from 'react-router-dom';
 
 const ViewContainer = props => {
-	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [component, setComponent] = useState({});
@@ -20,9 +17,28 @@ const ViewContainer = props => {
 		goBack(props, '/structures/components')();
 	}, [props]);
 
+	const handleSave = useCallback(
+		component => {
+			let request;
+			if (component.id) {
+				request = api.putMutualizedComponent(component);
+			} else {
+				request = api.postMutualizedComponent(component);
+			}
+
+			request.then((id = component.id) => {
+				goBackOrReplace(props, `/structures/components/${id}`, component.id);
+			});
+		},
+		[props]
+	);
+
 	useEffect(() => {
+		const getComponent = id
+			? api.getMutualizedComponent(id)
+			: Promise.resolve({});
 		Promise.all([
-			api.getMutualizedComponent(id),
+			getComponent,
 			ConceptsAPI.getConceptList(),
 			getFormattedCodeList(),
 		])
@@ -39,19 +55,15 @@ const ViewContainer = props => {
 	}
 
 	return (
-		<React.Fragment>
-			<ComponentTitle component={component} secondLang={secondLang} />
-
-			<ComponentDetailView
-				{...props}
-				col={2}
-				codesLists={codesLists}
-				component={component}
-				concepts={concepts}
-				handleBack={handleBack}
-				handleUpdate={`/structures/components/${component.id}/modify`}
-			/>
-		</React.Fragment>
+		<ComponentDetailEdit
+			{...props}
+			col={2}
+			codesLists={codesLists}
+			component={component}
+			concepts={concepts}
+			handleBack={handleBack}
+			handleSave={handleSave}
+		/>
 	);
 };
 

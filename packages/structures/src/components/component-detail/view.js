@@ -1,9 +1,9 @@
 import React from 'react';
 import {
 	Note,
-	CancelButton,
 	UpdateButton,
 	ActionToolbar,
+	ReturnButton,
 } from '@inseefr/wilco';
 import { typeUriToLabel } from '../../utils';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
@@ -41,7 +41,7 @@ export const ComponentDetailView = ({
 	return (
 		<React.Fragment>
 			<ActionToolbar>
-				<CancelButton action={handleBack} col={col} />
+				<ReturnButton action={handleBack} col={col} />
 				<ValidationButton object={component} />
 				{updatable && <UpdateButton action={handleUpdate} col={col} />}
 			</ActionToolbar>

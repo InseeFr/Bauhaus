@@ -9,3 +9,7 @@ export * as StructuresConstants from './utils/constants';
 export {
 	default as StructuresComponentView,
 } from './components/component-detail/view-container';
+
+export {
+	default as StructuresComponentEdit,
+} from './components/component-detail/edit-container';

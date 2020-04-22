@@ -93,7 +93,8 @@ export const ComponentDetailEdit = ({
 					</div>
 
 					<div className="col-md-6 form-group">
-						<label htmlFor="labelLg2">{D2.label}</label>
+						<LabelRequired htmlFor="labelLg1">{D2.label}</LabelRequired>
+
 						<input
 							type="text"
 							className="form-control"
@@ -222,8 +223,8 @@ export const ComponentDetailEdit = ({
 
 ComponentDetailEdit.propTypes = {
 	component: PropTypes.object,
-	concepts: PropTypes.object,
-	codesLists: PropTypes.object,
+	concepts: PropTypes.array,
+	codesLists: PropTypes.array,
 	handleSave: PropTypes.func,
 	handleBack: PropTypes.func,
 	secondLang: PropTypes.bool,
