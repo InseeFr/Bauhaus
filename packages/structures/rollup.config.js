@@ -6,6 +6,7 @@ import replace from 'rollup-plugin-replace';
 import postcss from 'rollup-plugin-postcss';
 
 const { dependencies } = require('./package.json');
+const { dependencies: rootDependencies } = require('../../package.json');
 
 export default {
 	input: 'src/index.js',
@@ -30,6 +31,7 @@ export default {
 		commonjs({
 			namedExports: {
 				'react-dom': ['createPortal', 'findDOMNode'],
+				'node_modules/react-is/index.js': ['isValidElementType'],
 			},
 		}),
 		replace({
@@ -37,5 +39,10 @@ export default {
 			ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
 		}),
 	],
-	external: ['@inseefr/wilco', 'react', ...Object.keys(dependencies)],
+	external: [
+		'@inseefr/wilco',
+		'react',
+		...Object.keys(dependencies),
+		...Object.keys(rootDependencies),
+	],
 };
