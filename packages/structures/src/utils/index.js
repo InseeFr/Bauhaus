@@ -5,7 +5,7 @@ export const formatLabel = component => {
 	return (
 		<React.Fragment>
 			{component.labelLg1}
-			<span class="badge badge-pill" style={{ 'margin-left': '1em' }}>
+			<span className="badge badge-pill" style={{ marginLeft: '1em' }}>
 				{COMPONENT_TYPES.find(c => c.value === component.type)?.label}
 			</span>
 		</React.Fragment>
@@ -49,6 +49,7 @@ export const validateComponent = component => {
 	const validations = {
 		identifiant: 'errorsIdMandatory',
 		labelLg1: 'errorsLabelLg1Mandatory',
+		labelLg2: 'errorsLabelLg1Mandatory',
 	};
 
 	const field = Object.keys(validations).find(field => !component[field]);
