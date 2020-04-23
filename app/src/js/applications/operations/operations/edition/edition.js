@@ -13,7 +13,7 @@ import {
 } from '@inseefr/wilco';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { validate } from './validation';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
+import { PageTitleBlock } from 'bauhaus-utilities';
 
 const defaultOperation = {
 	prefLabelLg1: '',

@@ -16,7 +16,6 @@ import {
 
 import { ADMIN } from 'js/utils/auth/roles';
 import React from 'react';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
 import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
 import OperationsFamilyVisualization from 'js/applications/operations/families/visualization/visualization';
 import {
@@ -24,6 +23,7 @@ import {
 	HTMLUtils,
 	ValidationButton,
 	CheckSecondLang,
+	PageTitleBlock,
 } from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 

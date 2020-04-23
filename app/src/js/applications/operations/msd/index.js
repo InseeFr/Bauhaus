@@ -17,14 +17,13 @@ import * as select from 'js/reducers';
 import loadOperation from 'js/actions/operations/operations/item';
 import loadSerie from 'js/actions/operations/series/item';
 import loadIndicator from 'js/actions/operations/indicators/item';
-import { Stores } from 'bauhaus-utilities';
+import { Stores, PageTitleBlock } from 'bauhaus-utilities';
 
 import {
 	getOperationsOrganisations,
 	getOperationsCodesList,
 } from 'js/reducers/operations/selector';
 import { getParentType, getParentId } from './utils';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
 import './msd.scss';
 const extractId = buildExtract('id');
 const extractIdParent = buildExtract('idParent');

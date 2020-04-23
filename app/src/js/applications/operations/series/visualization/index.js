@@ -18,12 +18,12 @@ import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import { ADMIN, CNIS, SERIES_CONTRIBUTOR } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
 import {
 	HTMLUtils,
 	ValidationButton,
 	Stores,
 	CheckSecondLang,
+	PageTitleBlock,
 } from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 

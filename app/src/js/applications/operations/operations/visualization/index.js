@@ -23,8 +23,12 @@ import loadOperation, {
 import D from 'js/i18n';
 import Auth from 'js/utils/auth/components/auth';
 import { ADMIN, CNIS, SERIES_CONTRIBUTOR } from 'js/utils/auth/roles';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
-import { ValidationButton, Stores, CheckSecondLang } from 'bauhaus-utilities';
+import {
+	ValidationButton,
+	Stores,
+	CheckSecondLang,
+	PageTitleBlock,
+} from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');

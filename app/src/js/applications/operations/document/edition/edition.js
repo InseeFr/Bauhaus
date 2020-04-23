@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown } from 'bauhaus-utilities';
+import { EditorMarkdown, PageTitleBlock } from 'bauhaus-utilities';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -17,7 +17,7 @@ import {
 } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import SelectRmes from 'js/applications/shared/select-rmes';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
+
 const defaultDocument = {
 	labelLg1: '',
 	labelLg2: '',

@@ -13,11 +13,13 @@ import {
 } from '@inseefr/wilco';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
-import { EditorMarkdown, ItemToSelectModel } from 'bauhaus-utilities';
+import {
+	EditorMarkdown,
+	ItemToSelectModel,
+	PageTitleBlock,
+} from 'bauhaus-utilities';
 
 import { validate } from './validation';
-
-import PageTitleBlock from 'js/applications/shared/page-title-block';
 
 const defaultSerie = {
 	id: '',

@@ -7,7 +7,7 @@ import {
 	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
-import { CheckSecondLang, Stores } from 'bauhaus-utilities';
+import { CheckSecondLang, Stores, PageTitleBlock } from 'bauhaus-utilities';
 
 import D from 'js/i18n';
 import * as select from 'js/reducers';
@@ -17,7 +17,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
 import Auth from 'js/utils/auth/components/auth';
 import {
 	ADMIN,

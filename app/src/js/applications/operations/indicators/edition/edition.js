@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown, ItemToSelectModel } from 'bauhaus-utilities';
+import {
+	EditorMarkdown,
+	ItemToSelectModel,
+	PageTitleBlock,
+} from 'bauhaus-utilities';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/applications/shared/input-rmes';
 import Control from 'js/applications/operations/indicators/edition/control';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { validate } from 'js/applications/operations/indicators/edition/validation';
 import { Loading, goBackOrReplace } from '@inseefr/wilco';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
 
 const defaultIndicator = {
 	prefLabelLg1: '',

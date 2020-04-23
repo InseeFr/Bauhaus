@@ -15,7 +15,6 @@ PageTitleBlock.proptTypes = {
 	titleLg1: PropTypes.string.isRequired,
 	titleLg2: PropTypes.string,
 	secondLang: PropTypes.bool,
-	context: PropTypes.oneOf(['', 'concepts', 'classifications', 'operations']),
 };
 
 export default PageTitleBlock;

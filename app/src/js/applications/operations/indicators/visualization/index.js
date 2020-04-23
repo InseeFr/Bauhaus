@@ -20,12 +20,12 @@ import loadIndicator, {
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CONTRIBUTOR, ADMIN } from 'js/utils/auth/roles';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
 import {
 	HTMLUtils,
 	ValidationButton,
 	Stores,
 	CheckSecondLang,
+	PageTitleBlock,
 } from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 

@@ -1,14 +1,15 @@
 import React from 'react';
-import { PageTitle, PageSubtitle } from '@inseefr/wilco';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang, PageTitleBlock } from 'bauhaus-utilities';
 
 const ComponentTitle = ({ component, secondLang }) => {
 	return (
 		<React.Fragment>
-			<PageTitle title={component?.labelLg1} />
-			{secondLang && component?.labelLg2 && (
-				<PageSubtitle subTitle={component?.labelLg2} />
-			)}
+			<PageTitleBlock
+				titleLg1={component?.labelLg1}
+				titleLg2={component?.labelLg2}
+				secondLang={secondLang}
+			/>
+
 			<CheckSecondLang />
 		</React.Fragment>
 	);
