@@ -12,7 +12,6 @@ import {
 	AbstractAdvancedSearchComponent,
 } from 'bauhaus-utilities';
 
-import './search.scss';
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['concept']);
 

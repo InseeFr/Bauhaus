@@ -13,8 +13,6 @@ import {
 	ItemToSelectModel,
 } from 'bauhaus-utilities';
 
-import './search.scss';
-
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
 const filterComponentLabel = ArrayUtils.filterKeyDeburr(['components.label']);
 const filterType = ArrayUtils.filterKeyDeburr(['components.type']);
