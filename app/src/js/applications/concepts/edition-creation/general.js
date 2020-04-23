@@ -50,6 +50,7 @@ function ConceptGeneralEdition({
 					star
 					value={prefLabelLg1}
 					handleChange={handlers.prefLabelLg1}
+					className="w-100"
 				/>
 				<InputRmes
 					colMd={6}
@@ -58,6 +59,7 @@ function ConceptGeneralEdition({
 					hiddenStar
 					value={prefLabelLg2}
 					handleChange={handlers.prefLabelLg2}
+					className="w-100"
 				/>
 			</div>
 			<InputMultiRmes
