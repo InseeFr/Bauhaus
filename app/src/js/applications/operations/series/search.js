@@ -1,10 +1,9 @@
 import D from 'js/i18n';
 import { Link, Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
-import { Loading } from '@inseefr/wilco';
+import { Loading, Select } from '@inseefr/wilco';
 import api from 'js/remote-api/operations-api';
 import { connect } from 'react-redux';
-import SelectRmes from 'js/applications/shared/select-rmes';
 import {
 	ArrayUtils,
 	AbstractAdvancedSearchComponent,
@@ -107,10 +106,10 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 						<label htmlFor="typeOperation" className="w-100">
 							{D.operationType}
 
-							<SelectRmes
+							<Select
 								placeholder=""
-								unclearable
-								value={typeCode}
+								unclearable={false}
+								value={categories.codes.find(code => code.value === typeCode)}
 								options={categories.codes.map(cat => {
 									return { value: cat.code, label: cat.labelLg1 };
 								})}
@@ -126,10 +125,10 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 						<label htmlFor="typeOperation" className="w-100">
 							{D.contributorTitle}
 
-							<SelectRmes
+							<Select
 								placeholder=""
-								unclearable
-								value={gestionnaire}
+								unclearable={false}
+								value={stampsOptions.find(code => code.value === gestionnaire)}
 								options={stampsOptions}
 								onChange={value => {
 									this.handlers.gestionnaire(value);
@@ -143,10 +142,12 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 						<label htmlFor="typeOperation" className="w-100">
 							{D.organisation}
 
-							<SelectRmes
+							<Select
 								placeholder=""
-								unclearable
-								value={creator}
+								unclearable={false}
+								value={organisationsOptions.find(
+									code => code.value === creator
+								)}
 								options={organisationsOptions}
 								onChange={value => {
 									this.handlers.creator(value);
@@ -158,10 +159,12 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 						<label htmlFor="typeOperation" className="w-100">
 							{D.dataCollector}
 
-							<SelectRmes
+							<Select
 								placeholder=""
-								unclearable
-								value={dataCollector}
+								unclearable={false}
+								value={organisationsOptions.find(
+									code => code.value === dataCollector
+								)}
 								options={organisationsOptions}
 								onChange={value => {
 									this.handlers.dataCollector(value);
