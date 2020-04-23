@@ -16,7 +16,7 @@ describe('<ComponentDetailView />', () => {
 		labelLg1: 'veniam non irure',
 		labelLg2: 'nisi aliquip',
 		type: 'http://purl.org/linked-data/cube#dimension',
-		attachment: 'http://purl.org/linked-data/cube#Observation',
+		attachment: ['http://purl.org/linked-data/cube#Observation'],
 		concept: 439,
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 942,
