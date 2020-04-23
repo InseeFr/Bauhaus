@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
-import { PageTitle, Pagination, NumberResult } from '@inseefr/wilco';
+import { PageTitle, Pagination, NumberResult, Select } from '@inseefr/wilco';
 import Controls from './controls';
-import SelectRmes from 'js/applications/shared/select-rmes';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
 import { filterKeyDate } from 'js/utils/array-utils';
@@ -115,6 +114,21 @@ class ConceptSearchList extends Component {
 			hits,
 		} = this.state;
 
+		const disseminationStatusListOptions = disseminationStatusList.map(
+			({ label, url: value }) => ({ label, value })
+		);
+		const stampListOptions = stampList.map(stamp => {
+			return {
+				label: stamp,
+				value: stamp,
+			};
+		});
+
+		const validationStatusOptions = [
+			{ label: D.conceptStatusValid, value: 'true' },
+			{ label: D.conceptStatusProvisional, value: 'false' },
+		];
+
 		const hitEls = hits.map(({ id, label }) => (
 			<li key={id} className="list-group-item">
 				<Link to={`/concept/${id}`}>{label}</Link>
@@ -163,42 +177,35 @@ class ConceptSearchList extends Component {
 						</div>
 					</div>
 					<div className="row form-group">
-						<div className="col-md-4">
-							<SelectRmes
+						<div className="col-md-4 bauhaus-select-block">
+							<Select
 								className="form-control"
 								placeholder={D.stampsPlaceholder}
-								value={creator}
-								options={stampList.map(stamp => ({
-									label: stamp,
-									value: stamp,
-								}))}
+								value={stampListOptions.find(({ value }) => value === creator)}
+								options={stampListOptions}
 								onChange={this.handlers.creator}
-								searchable={true}
 							/>
 						</div>
-						<div className="col-md-4">
-							<SelectRmes
+						<div className="col-md-4 bauhaus-select-block">
+							<Select
 								className="form-control"
 								placeholder={D.disseminationStatusPlaceholder}
-								value={disseminationStatus}
-								options={disseminationStatusList.map(
-									({ label, url: value }) => ({ label, value })
+								value={disseminationStatusListOptions.find(
+									({ value }) => value === disseminationStatus
 								)}
+								options={disseminationStatusListOptions}
 								onChange={this.handlers.disseminationStatus}
-								searchable={true}
 							/>
 						</div>
-						<div className="col-md-4">
-							<SelectRmes
+						<div className="col-md-4 bauhaus-select-block">
+							<Select
 								className="form-control"
 								placeholder={D.validationStatusPlaceholder}
-								value={validationStatus}
-								options={[
-									{ label: D.conceptStatusValid, value: 'true' },
-									{ label: D.conceptStatusProvisional, value: 'false' },
-								]}
+								value={validationStatusOptions.find(
+									({ value }) => value === validationStatus
+								)}
+								options={validationStatusOptions}
 								onChange={this.handlers.validationStatus}
-								searchable={true}
 							/>
 						</div>
 					</div>
