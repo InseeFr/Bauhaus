@@ -203,14 +203,17 @@ export const ComponentDetailEdit = ({
 									name="attachment"
 									label={D1.attachmentTitle}
 									placeholder={D1.attachmentTitle}
-									value={ATTACHMENTS.find(
-										c => c.value === component.attachment
+									value={ATTACHMENTS.filter(
+										c => component.attachment.indexOf(c.value) >= 0
 									)}
 									multi
 									options={ATTACHMENTS}
-									onChange={value =>
-										setComponent({ ...component, attachment: value })
-									}
+									onChange={value => {
+										setComponent({
+											...component,
+											attachment: value.map(v => v.value),
+										});
+									}}
 								/>
 							</div>
 						</div>

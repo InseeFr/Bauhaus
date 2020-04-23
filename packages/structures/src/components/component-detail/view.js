@@ -109,8 +109,18 @@ export const ComponentDetailView = ({
 					<div className="row">
 						<Note
 							text={
-								ATTACHMENTS.find(type => type.value === component.attachment)
-									?.label
+								<ul>
+									{component.attachment.map(attachment => {
+										return (
+											<li key={attachment}>
+												{
+													ATTACHMENTS.find(type => type.value === attachment)
+														?.label
+												}
+											</li>
+										);
+									})}
+								</ul>
 							}
 							title={D1.attachmentTitle}
 							alone={true}
@@ -127,7 +137,7 @@ ComponentDetailView.propTypes = {
 	component: PropTypes.object,
 	concepts: PropTypes.array,
 	codesLists: PropTypes.array,
-	handleUpdate: PropTypes.func,
+	handleUpdate: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 	handleBack: PropTypes.func,
 	updatable: PropTypes.bool,
 };
