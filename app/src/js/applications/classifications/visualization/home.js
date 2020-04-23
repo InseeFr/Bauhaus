@@ -35,8 +35,10 @@ class ClassificationVisualization extends Component {
 						<Link
 							to={`/classifications/classification/${classificationId}/items`}
 						>
-							<h3 className="glyphicon glyphicon-zoom-in"> </h3>
-							<h3>{D.classificationAllItemsTitle}</h3>
+							<h3>
+								<span className="glyphicon glyphicon-zoom-in mr-1"></span>
+								{D.classificationAllItemsTitle}
+							</h3>
 						</Link>
 					</div>
 				</div>
