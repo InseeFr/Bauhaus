@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D, { D1, D2 } from 'js/i18n';
-import SelectRmes from 'js/applications/shared/select-rmes';
+import { Select } from '@inseefr/wilco';
 import InputRmes from 'js/applications/shared/input-rmes';
 import {
 	propTypes as generalPropTypes,
@@ -31,7 +31,10 @@ function CollectionGeneralEdition({
 		descriptionLg2,
 	} = general;
 	const { lg1, lg2 } = langs;
-
+	const stampListOptions = stampList.map(stamp => ({
+		label: stamp,
+		value: stamp,
+	}));
 	const handlers = handleFieldChange(handleChange);
 	return (
 		<div>
@@ -75,11 +78,11 @@ function CollectionGeneralEdition({
 				<label>
 					{D1.creatorTitle} <span className="boldRed">*</span>
 				</label>
-				<SelectRmes
+				<Select
 					className="form-control"
 					placeholder={D1.stampsPlaceholder}
-					value={creator}
-					options={stampList.map(stamp => ({ label: stamp, value: stamp }))}
+					value={stampListOptions.find(value => value === creator)}
+					options={stampListOptions}
 					onChange={handlers.creator}
 					searchable={true}
 				/>

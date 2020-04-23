@@ -10,8 +10,8 @@ import {
 	goBack,
 	goBackOrReplace,
 	LabelRequired,
+	Select,
 } from '@inseefr/wilco';
-import SelectRmes from 'js/applications/shared/select-rmes';
 import { validate } from './validation';
 import { PageTitleBlock } from 'bauhaus-utilities';
 
@@ -124,10 +124,10 @@ class OperationsOperationEdition extends Component {
 					{!isEditing && (
 						<div className="row">
 							<div className="form-group col-md-12">
-								<SelectRmes
+								<Select
 									placeholder={D.seriesTitle}
 									unclearable
-									value={series.id}
+									value={seriesOptions.find(({ value }) => value === series.id)}
 									options={seriesOptions}
 									onChange={value =>
 										this.onChange({
