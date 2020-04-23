@@ -108,7 +108,6 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 
 							<Select
 								placeholder=""
-								unclearable={false}
 								value={categories.codes.find(code => code.value === typeCode)}
 								options={categories.codes.map(cat => {
 									return { value: cat.code, label: cat.labelLg1 };
@@ -127,7 +126,6 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 
 							<Select
 								placeholder=""
-								unclearable={false}
 								value={stampsOptions.find(code => code.value === gestionnaire)}
 								options={stampsOptions}
 								onChange={value => {
@@ -144,7 +142,6 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 
 							<Select
 								placeholder=""
-								unclearable={false}
 								value={organisationsOptions.find(
 									code => code.value === creator
 								)}
@@ -161,7 +158,6 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 
 							<Select
 								placeholder=""
-								unclearable={false}
 								value={organisationsOptions.find(
 									code => code.value === dataCollector
 								)}

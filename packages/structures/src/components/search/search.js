@@ -74,7 +74,6 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 
 							<Select
 								placeholder=""
-								unclearable={false}
 								value={conceptsOptions.find(option => option.value === concept)}
 								options={conceptsOptions}
 								onChange={value => {
