@@ -53,6 +53,8 @@ const Home = () => {
 						items={DSDs}
 						childPath="structures"
 						autoFocus={true}
+						advancedSearch={true}
+						searchUrl="/structures/search"
 					/>
 				</div>
 			</div>

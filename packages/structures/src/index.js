@@ -13,3 +13,5 @@ export {
 export {
 	default as StructuresComponentEdit,
 } from './components/component-detail/edit-container';
+
+export { default as StructuresSearch } from './components/dsd-search/search';

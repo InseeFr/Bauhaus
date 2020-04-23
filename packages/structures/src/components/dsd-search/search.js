@@ -1,10 +1,17 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { Select } from '@inseefr/wilco';
+import { Select, Loading } from '@inseefr/wilco';
 import D from '../../i18n/build-dictionary';
 import { COMPONENT_TYPES } from '../../utils/constants/dsd-components';
+import api from '../../apis/structure-api';
 
-import { ArrayUtils, AdvancedSearchList } from 'bauhaus-utilities';
+import {
+	ConceptsAPI,
+	ArrayUtils,
+	AdvancedSearchList,
+	AbstractAdvancedSearchComponent,
+	ItemToSelectModel,
+} from 'bauhaus-utilities';
 
 import './search.scss';
 
@@ -14,52 +21,6 @@ const filterType = ArrayUtils.filterKeyDeburr(['components.type']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['components.concept']);
 
 const fields = ['label', 'componentLabel', 'type', 'concept'];
-const sortByLabel = ArrayUtils.sortArray('label');
-
-const handleFieldChange = (fields, handleChange) =>
-	fields.reduce((handlers, field) => {
-		handlers[field] = value => handleChange({ [field]: value });
-		return handlers;
-	}, {});
-
-/**
- *  TODO
- * Cette classe sera supprimée. NOus utiliserons celel de bauhaus-utlities
- * J'ai du la copier/coller ici car j'avais un pb avec le storybook
- * */
-
-export class AbstractAdvancedSearchComponent extends Component {
-	constructor(props, emptyState) {
-		super(props);
-		this.emptyState = emptyState;
-		this.state = {
-			askForReturn: false,
-			...this.getEmptyState(),
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.data) {
-			this.setState({
-				...nextProps.data,
-			});
-		}
-	}
-
-	getEmptyState = () => {
-		return {
-			...this.props,
-			...this.emptyState,
-		};
-	};
-	initializeState = () => this.setState(this.getEmptyState());
-	handleChange = (fields, filterData) =>
-		handleFieldChange(fields, stateChange => {
-			const newState = Object.assign(this.state, stateChange);
-			const data = filterData(newState);
-			this.setState(Object.assign(stateChange, { data }));
-		});
-}
 
 export class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
@@ -84,6 +45,8 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 
 	render() {
 		const { data, label, componentLabel, type, concept } = this.state;
+		const { concepts } = this.props;
+		const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
 
 		const dataLinks = data.map(({ id, label }) => (
 			<li key={id} className="list-group-item text-left">
@@ -127,7 +90,6 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 							{D.type}
 							<Select
 								placeholder=""
-								unclearable
 								value={COMPONENT_TYPES.find(option => option.value === type)}
 								options={COMPONENT_TYPES}
 								onChange={value => {
@@ -139,11 +101,13 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 					<div className="col-md-6">
 						<label className="w-100">
 							{D.conceptTitle}
-							<input
-								value={concept}
-								onChange={e => this.handlers.concept(e.target.value)}
-								type="text"
-								className="form-control"
+							<Select
+								placeholder=""
+								value={conceptsOptions.find(option => option.value === concept)}
+								options={conceptsOptions}
+								onChange={value => {
+									this.handlers.concept(value);
+								}}
 							/>
 						</label>
 					</div>
@@ -153,32 +117,23 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 	}
 }
 
-/*
-class SearchListContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {};
-	}
-	componentDidMount() {
-		api.getComponentsSearchList().then(data => {
-			this.setState({ data: sortByLabel(data) });
-		});
-	}
+const SearchListContainer = () => {
+	const [loading, setLoading] = useState(true);
+	const [items, setItems] = useState([]);
+	const [concepts, setConcepts] = useState([]);
 
-	render() {
-		const { data } = this.state;
-		const { concepts } = this.props;
-
-		if (!data) return <Loading />;
-		return <SearchFormList data={data} concepts={concepts} />;
+	useEffect(() => {
+		Promise.all([api.getStructuresForSearch(), ConceptsAPI.getConceptList()])
+			.then(([components, concepts]) => {
+				setItems(ArrayUtils.sortArrayByLabel(components));
+				setConcepts(concepts);
+			})
+			.finally(() => setLoading(false));
+	}, []);
+	if (loading) {
+		return <Loading />;
 	}
-}
-
-const mapStateToProps = state => {
-	return {
-		concepts: state.concepts,
-	};
+	return <SearchFormList data={items} concepts={concepts} />;
 };
 
-export default connect(mapStateToProps)(SearchListContainer);
-*/
+export default SearchListContainer;

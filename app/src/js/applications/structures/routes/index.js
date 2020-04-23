@@ -10,6 +10,7 @@ import {
 	StructuresComponentsSearch,
 	StructuresComponentView,
 	StructuresComponentEdit,
+	StructuresSearch,
 } from 'bauhaus-structures';
 import D from 'js/i18n';
 
@@ -27,6 +28,7 @@ export default () => {
 						path="/structures/components"
 						component={StructuresComponentsList}
 					/>
+					<Route exact path="/structures/search" component={StructuresSearch} />
 					<Route
 						exact
 						path="/structures/components/search"
