@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { buildExtract, Note, PageTitle, PageSubtitle } from '@inseefr/wilco';
+import { useParams } from 'react-router-dom';
+import { Note } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
-import { CheckSecondLang, Stores } from 'bauhaus-utilities';
-import Controls from './controls';
+import { CheckSecondLang, Stores, PageTitleBlock } from 'bauhaus-utilities';
 import Components from './components';
 import D from 'js/i18n';
-import { StructureAPI } from 'bauhaus-structures';
+import {
+	StructureAPI,
+	StructureVisualizationControl,
+} from 'bauhaus-structures';
 
 const DSD = props => {
+	const { dsdId } = useParams();
 	const [DSD, setDSD] = useState({});
 	const secondLang = useSelector(state =>
 		Stores.SecondLang.getSecondLang(state)
 	);
 
 	useEffect(() => {
-		const dsdId = buildExtract('dsdId')(props);
 		StructureAPI.getStructure(dsdId).then(res => setDSD(res));
-	}, [props]);
+	}, [dsdId]);
 
 	const { labelLg1, labelLg2, descriptionLg1, descriptionLg2 } = DSD;
 	return (
 		<>
-			<PageTitle title={labelLg1} />
-			{secondLang && <PageSubtitle subTitle={labelLg2} />}
+			<PageTitleBlock
+				secondLang={secondLang}
+				titleLg1={labelLg1}
+				titleLg2={labelLg2}
+			/>
 			<CheckSecondLang />
 
-			<Controls dsdId={buildExtract('dsdId')(props)} />
+			<StructureVisualizationControl />
 			<div className="row">
 				{descriptionLg1 && (
 					<Note

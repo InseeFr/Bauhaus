@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
 	ActionToolbar,
 	ReturnButton,
@@ -8,7 +8,8 @@ import {
 	DeleteButton,
 } from '@inseefr/wilco';
 
-const Controls = ({ dsdId }) => {
+const Controls = () => {
+	const { dsdId } = useParams();
 	const isLocal = process.env.REACT_APP_API === 'local';
 
 	return (
@@ -21,4 +22,4 @@ const Controls = ({ dsdId }) => {
 	);
 };
 
-export default withRouter(Controls);
+export default Controls;

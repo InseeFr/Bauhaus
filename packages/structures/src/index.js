@@ -15,3 +15,6 @@ export {
 } from './components/component-detail/edit-container';
 
 export { default as StructuresSearch } from './components/dsd-search/search';
+export {
+	default as StructureVisualizationControl,
+} from './components/structure-visualization/controls';
