@@ -1,83 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import ComponentList from 'js/applications/structures/visualization/components/component-list';
-import ComponentDetail from './details';
-import { NewButton } from '@inseefr/wilco';
+import { useParams } from 'react-router-dom';
 import {
-	getConcepts,
-	getCodeList,
-	StructuresConstants,
+	StructureAPI,
+	ComponentSelector,
+	getFormattedCodeList,
 } from 'bauhaus-structures';
-import D from 'js/i18n';
+import { ConceptsAPI } from 'bauhaus-utilities';
 
-const Components = ({ components, onChange }) => {
-	const [checked, setChecked] = useState({
-		[StructuresConstants.ATTRIBUTE_TYPE]: true,
-		[StructuresConstants.DIMENSION_TYPE]: true,
-		[StructuresConstants.MEASURE_TYPE]: true,
-	});
-	const [componentId, setComponentId] = useState('');
-	const [edition, setEdition] = useState(false);
+const Components = ({ onChange }) => {
+	const { dsdId } = useParams();
+	const [components, setComponents] = useState([]);
 	const [concepts, setConcepts] = useState([]);
-	const [codeList, setCodeList] = useState([]);
+	const [codesLists, setCodesLists] = useState([]);
+	const [mutualizedComponents, setMutualizedComponents] = useState([]);
+	useEffect(() => {
+		StructureAPI.getComponents(dsdId).then(res => setComponents(res));
+	}, [dsdId]);
 
 	useEffect(() => {
-		getConcepts().then(res => {
-			setConcepts(res);
-		});
-		getCodeList().then(res => {
-			setCodeList(res);
-		});
+		ConceptsAPI.getConceptList().then(res => setConcepts(res));
 	}, []);
 
-	const addComponent = component => {
-		onChange([...components.filter(c => c.id !== component.id), component]);
-		setComponentId('');
-		setEdition(false);
-	};
-	const deleteComponent = id => {
-		onChange([...components.filter(c => c.id !== id)]);
-		setComponentId('');
-		setEdition(false);
-	};
-
+	useEffect(() => {
+		getFormattedCodeList().then(res => setCodesLists(res));
+	}, []);
+	useEffect(() => {
+		StructureAPI.getMutualizedComponents().then(res =>
+			setMutualizedComponents(res)
+		);
+	}, []);
 	return (
-		<div className="components">
-			<div className="row text-center">
-				<h2>{D.componentTitle}</h2>
-			</div>
-			<div className="row">
-				<div className="col-md-6">
-					<ComponentList
-						checked={checked}
-						onCheck={field =>
-							setChecked({ ...checked, [field]: !checked[field] })
-						}
-						components={components.map(({ id, label, labelLg1, type }) => ({
-							id,
-							type,
-							label: label || labelLg1,
-						}))}
-						onChange={id => {
-							setComponentId(id);
-							setEdition(true);
-						}}
-					/>
-				</div>
-				<div className="col-md-6">
-					{edition && (
-						<ComponentDetail
-							component={components.find(c => c.id === componentId)}
-							addComponent={addComponent}
-							deleteComponent={deleteComponent}
-							concepts={concepts}
-							codeList={codeList}
-						/>
-					)}
-					{!edition && (
-						<NewButton action={() => setEdition(true)} col={4} offset={4} />
-					)}
-				</div>
-			</div>
+		<div className="row text-left">
+			<ComponentSelector
+				components={components}
+				concepts={concepts}
+				codesLists={codesLists}
+				mutualizedComponents={mutualizedComponents}
+				handleUpdate={onChange}
+			/>
 		</div>
 	);
 };

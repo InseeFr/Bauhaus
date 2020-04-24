@@ -1,52 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
-import ComponentList from './component-list';
-import ComponentDetail from './component-detail';
-import D from 'js/i18n';
-import { StructureAPI, StructuresConstants } from 'bauhaus-structures';
-import { buildExtract } from '@inseefr/wilco';
-import './components.scss';
+import { useParams } from 'react-router-dom';
+import {
+	StructureAPI,
+	StructureComponentsSelector,
+	getFormattedCodeList,
+} from 'bauhaus-structures';
+import { ConceptsAPI } from 'bauhaus-utilities';
 
 const Components = props => {
-	const [checked, setChecked] = useState({
-		[StructuresConstants.ATTRIBUTE_TYPE]: true,
-		[StructuresConstants.DIMENSION_TYPE]: true,
-		[StructuresConstants.MEASURE_TYPE]: true,
-	});
+	const { dsdId } = useParams();
 	const [components, setComponents] = useState([]);
-	const [id, setId] = useState('');
-	const [type, setType] = useState('');
+	const [concepts, setConcepts] = useState([]);
+	const [codesLists, setCodesLists] = useState([]);
 
 	useEffect(() => {
-		const dsdId = buildExtract('dsdId')(props);
 		StructureAPI.getComponents(dsdId).then(res => setComponents(res));
-	}, [props]);
+	}, [dsdId]);
+
+	useEffect(() => {
+		ConceptsAPI.getConceptList().then(res => setConcepts(res));
+	}, []);
+
+	useEffect(() => {
+		getFormattedCodeList().then(res => setCodesLists(res));
+	}, []);
 
 	return (
-		<div className="components">
-			<div className="row text-center">
-				<h2>{D.componentTitle}</h2>
-			</div>
-			<div className="row">
-				<div className="col-md-6">
-					<ComponentList
-						checked={checked}
-						onCheck={field =>
-							setChecked({ ...checked, [field]: !checked[field] })
-						}
-						components={components}
-						onChange={(id, type) => {
-							setId(id);
-							setType(type);
-						}}
-					/>
-				</div>
-				<div className="col-md-6">
-					<ComponentDetail id={id} type={type} />
-				</div>
-			</div>
+		<div className="row text-left">
+			<StructureComponentsSelector
+				components={components}
+				concepts={concepts}
+				codesLists={codesLists}
+				readOnly={true}
+			/>
 		</div>
 	);
 };
 
-export default withRouter(Components);
+export default Components;

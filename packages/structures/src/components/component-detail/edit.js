@@ -204,7 +204,7 @@ export const ComponentDetailEdit = ({
 									label={D1.attachmentTitle}
 									placeholder={D1.attachmentTitle}
 									value={ATTACHMENTS.filter(
-										c => component.attachment.indexOf(c.value) >= 0
+										c => component.attachment?.indexOf(c.value) >= 0
 									)}
 									multi
 									options={ATTACHMENTS}

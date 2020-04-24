@@ -110,7 +110,7 @@ export const ComponentDetailView = ({
 						<Note
 							text={
 								<ul>
-									{component.attachment.map(attachment => {
+									{component.attachment?.map(attachment => {
 										return (
 											<li key={attachment}>
 												{

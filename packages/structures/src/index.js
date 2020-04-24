@@ -13,7 +13,13 @@ export {
 export {
 	default as StructuresComponentEdit,
 } from './components/component-detail/edit-container';
-
+export {
+	StructureComponentsSelector,
+} from './components/structure-component-selector';
+export { default as ComponentSelector } from './components/component-selector';
+export {
+	MutualizedComponentsSelector,
+} from './components/mutualized-component-selector';
 export { default as StructuresSearch } from './components/dsd-search/search';
 export {
 	default as StructureVisualizationControl,

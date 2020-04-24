@@ -31,6 +31,7 @@ export const ComponentDetail = props => {
 						{...props}
 						handleUpdate={handleViewUpdate}
 						handleBack={props.handleBack}
+						updatable={!props.readOnly}
 					/>
 				</React.Fragment>
 			)}

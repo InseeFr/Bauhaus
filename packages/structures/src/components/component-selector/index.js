@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import './component-selector.scss';
 import { MutualizedComponentsSelector } from '../mutualized-component-selector';
 import { StructureComponentsSelector } from '../structure-component-selector';
@@ -10,27 +10,47 @@ const ComponentSelector = ({
 	mutualizedComponents,
 	concepts = [],
 	codesLists = [],
+	handleUpdate,
 }) => {
 	const [structureComponents, setStructureComponents] = useState(components);
+	const [
+		filteredMutualizedComponents,
+		setFilteredMutualizedComponents,
+	] = useState(mutualizedComponents);
 
-	const filteredMutualizedComponents = mutualizedComponents.filter(
-		component => {
-			return !structureComponents.find(c => c.id === component.id);
-		}
+	useEffect(() => setStructureComponents(components), [components]);
+	useEffect(() => {
+		setFilteredMutualizedComponents(
+			mutualizedComponents.filter(component => {
+				return !structureComponents.find(c => c.id === component.id);
+			})
+		);
+	}, [mutualizedComponents, structureComponents]);
+
+	const handleCreateOrUpdate = useCallback(
+		components => {
+			setStructureComponents(components);
+			handleUpdate(components);
+		},
+		[handleUpdate]
 	);
+
 	const handleRemove = useCallback(
 		id => {
 			const filteredComponents = structureComponents.filter(c => c.id !== id);
 			setStructureComponents(filteredComponents);
+			handleUpdate(filteredComponents);
 		},
-		[structureComponents]
+		[handleUpdate, structureComponents]
 	);
 	const handleAdd = useCallback(
 		id => {
 			const component = mutualizedComponents.find(c => c.id === id);
-			setStructureComponents([...structureComponents, component]);
+			const components = [...structureComponents, component];
+			setStructureComponents(components);
+			handleUpdate(components);
 		},
-		[mutualizedComponents, structureComponents]
+		[handleUpdate, mutualizedComponents, structureComponents]
 	);
 
 	const handleUp = useCallback(
@@ -40,14 +60,16 @@ const ComponentSelector = ({
 			);
 			const startArray = structureComponents.slice(0, index - 1);
 			const endArray = structureComponents.slice(index + 1);
-			setStructureComponents([
+			const components = [
 				...startArray,
 				structureComponents[index],
 				structureComponents[index - 1],
 				...endArray,
-			]);
+			];
+			setStructureComponents(components);
+			handleUpdate(components);
 		},
-		[structureComponents]
+		[handleUpdate, structureComponents]
 	);
 	const handleDown = useCallback(
 		id => {
@@ -56,14 +78,16 @@ const ComponentSelector = ({
 			);
 			const startArray = structureComponents.slice(0, index);
 			const endArray = structureComponents.slice(index + 2);
-			setStructureComponents([
+			const components = [
 				...startArray,
 				structureComponents[index + 1],
 				structureComponents[index],
 				...endArray,
-			]);
+			];
+			setStructureComponents(components);
+			handleUpdate(components);
 		},
-		[structureComponents]
+		[handleUpdate, structureComponents]
 	);
 
 	return (
@@ -76,6 +100,7 @@ const ComponentSelector = ({
 				handleRemove={handleRemove}
 				handleUp={handleUp}
 				handleDown={handleDown}
+				handleCreateOrUpdate={handleCreateOrUpdate}
 			/>
 			<MutualizedComponentsSelector
 				concepts={concepts}
@@ -93,6 +118,7 @@ ComponentSelector.propTypes = {
 	mutualizedComponents: PropTypes.array,
 	concepts: PropTypes.array,
 	codesLists: PropTypes.array,
+	handleUpdate: PropTypes.func,
 };
 
 export default ComponentSelector;

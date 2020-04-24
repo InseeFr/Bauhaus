@@ -16,8 +16,10 @@ export const StructureComponentsSelector = ({
 	handleRemove,
 	handleUp,
 	handleDown,
+	handleCreateOrUpdate,
 	concepts,
 	codesLists,
+	readOnly = false,
 }) => {
 	const removeClickHandler = useCallback(
 		e => {
@@ -27,7 +29,6 @@ export const StructureComponentsSelector = ({
 	);
 	const [openPanel, setOpenPanel] = useState(false);
 	const [components, setComponents] = useState(defaultComponents);
-
 	useEffect(() => {
 		setComponents(defaultComponents);
 	}, [defaultComponents]);
@@ -36,17 +37,29 @@ export const StructureComponentsSelector = ({
 
 	const handleSave = useCallback(
 		component => {
-			setComponents(
-				components.map(c => {
+			let newComponents;
+			if (!component.id) {
+				newComponents = [
+					...components,
+					{
+						...component,
+						id: component.identifiant,
+					},
+				];
+			} else {
+				newComponents = components.map(c => {
 					if (c.id === component.id) {
 						return { ...component };
 					}
 					return { ...c };
-				})
-			);
+				});
+			}
+
+			setComponents(newComponents);
+			handleCreateOrUpdate(newComponents);
 			setSelectedComponent(component);
 		},
-		[components]
+		[components, handleCreateOrUpdate]
 	);
 
 	const seeClickHandler = useCallback(
@@ -105,14 +118,16 @@ export const StructureComponentsSelector = ({
 				>
 					<span className="glyphicon glyphicon-eye-open"></span>
 				</button>
-				<button
-					data-component-id={component.id}
-					onClick={removeClickHandler}
-					aria-label={D.remove}
-				>
-					<span className="glyphicon glyphicon-minus"></span>
-				</button>
-				{i !== 0 && (
+				{!readOnly && (
+					<button
+						data-component-id={component.id}
+						onClick={removeClickHandler}
+						aria-label={D.remove}
+					>
+						<span className="glyphicon glyphicon-minus"></span>
+					</button>
+				)}
+				{!readOnly && i !== 0 && (
 					<button
 						data-component-id={component.id}
 						onClick={goingUp}
@@ -121,7 +136,7 @@ export const StructureComponentsSelector = ({
 						<span className="glyphicon glyphicon-arrow-up"></span>
 					</button>
 				)}
-				{i !== components.length - 1 && (
+				{!readOnly && i !== components.length - 1 && (
 					<button
 						data-component-id={component.id}
 						onClick={goingDown}
@@ -141,13 +156,15 @@ export const StructureComponentsSelector = ({
 			title={
 				<React.Fragment>
 					{D.componentTitle}{' '}
-					<button
-						id="add-component"
-						aria-label={D.addComponentTitle}
-						onClick={handleCreateComponent}
-					>
-						<span className="glyphicon glyphicon-plus"></span>
-					</button>
+					{!readOnly && (
+						<button
+							id="add-component"
+							aria-label={D.addComponentTitle}
+							onClick={handleCreateComponent}
+						>
+							<span className="glyphicon glyphicon-plus"></span>
+						</button>
+					)}
 				</React.Fragment>
 			}
 		>
@@ -166,6 +183,7 @@ export const StructureComponentsSelector = ({
 					handleBack={() => {
 						setOpenPanel(false);
 					}}
+					readOnly={readOnly}
 				/>
 			</SlidingPanel>
 		</CollapsiblePanel>

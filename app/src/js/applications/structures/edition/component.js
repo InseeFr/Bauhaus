@@ -5,7 +5,7 @@ import { Input, Loading, ErrorBloc } from '@inseefr/wilco';
 import Controls from './controls';
 import Components from './components';
 import { StructureAPI } from 'bauhaus-structures';
-import D from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 
 const defaultDSD = {
 	id: '',
@@ -20,7 +20,9 @@ const Edition = ({ creation, initDSD }) => {
 	const [DSD, setDSD] = useState(() => defaultDSD);
 	const [loading, setLoading] = useState(false);
 	const [redirectId, setRedirectId] = useState('');
-	const onChange = (key, value) => setDSD({ ...DSD, [key]: value });
+	const onChange = (key, value) => {
+		setDSD({ ...DSD, [key]: value });
+	};
 	const { lg1, lg2 } = useContext(AppContext);
 	const {
 		id,
@@ -41,6 +43,8 @@ const Edition = ({ creation, initDSD }) => {
 	if (!id) {
 		errorMessage = D.requiredId;
 	} else if (!labelLg1) {
+		errorMessage = D.requiredLabel;
+	} else if (!labelLg2) {
 		errorMessage = D.requiredLabel;
 	}
 	return (
@@ -63,7 +67,7 @@ const Edition = ({ creation, initDSD }) => {
 				id="id"
 				label={
 					<>
-						{D.idTitle} <span className="boldRed">*</span>
+						{D1.idTitle} <span className="boldRed">*</span>
 					</>
 				}
 				value={id}
@@ -76,7 +80,7 @@ const Edition = ({ creation, initDSD }) => {
 						id="labelLg1"
 						label={
 							<>
-								{D.labelTitle} <span className="boldRed">*</span>
+								{D1.labelTitle} <span className="boldRed">*</span>
 							</>
 						}
 						value={labelLg1}
@@ -87,7 +91,11 @@ const Edition = ({ creation, initDSD }) => {
 				<div className="col-md-6">
 					<Input
 						id="labelLg2"
-						label={D.labelTitle}
+						label={
+							<>
+								{D2.labelTitle} <span className="boldRed">*</span>
+							</>
+						}
 						value={labelLg2}
 						onChange={e => onChange('labelLg2', e.target.value)}
 						lang={lg2}
@@ -98,7 +106,7 @@ const Edition = ({ creation, initDSD }) => {
 				<div className="col-md-6">
 					<Input
 						id="descriptionLg1"
-						label={D.descriptionTitle}
+						label={D1.descriptionTitle}
 						value={descriptionLg1}
 						onChange={e => onChange('descriptionLg1', e.target.value)}
 						lang={lg1}
@@ -107,7 +115,7 @@ const Edition = ({ creation, initDSD }) => {
 				<div className="col-md-6">
 					<Input
 						id="descriptionLg2"
-						label={D.descriptionTitle}
+						label={D1.descriptionTitle}
 						value={descriptionLg2}
 						onChange={e => onChange('descriptionLg2', e.target.value)}
 						lang={lg2}

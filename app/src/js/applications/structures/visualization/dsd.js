@@ -4,13 +4,13 @@ import { Note } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
 import { CheckSecondLang, Stores, PageTitleBlock } from 'bauhaus-utilities';
 import Components from './components';
-import D from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 import {
 	StructureAPI,
 	StructureVisualizationControl,
 } from 'bauhaus-structures';
 
-const DSD = props => {
+const DSD = () => {
 	const { dsdId } = useParams();
 	const [DSD, setDSD] = useState({});
 	const secondLang = useSelector(state =>
@@ -35,7 +35,7 @@ const DSD = props => {
 			<div className="row">
 				{descriptionLg1 && (
 					<Note
-						title={D.descriptionTitle}
+						title={D1.descriptionTitle}
 						text={descriptionLg1}
 						alone={!secondLang}
 						allowEmpty={true}
@@ -43,7 +43,7 @@ const DSD = props => {
 				)}
 				{secondLang && (
 					<Note
-						title={D.descriptionTitle}
+						title={D2.descriptionTitle}
 						text={descriptionLg2}
 						alone={false}
 						allowEmpty={true}
