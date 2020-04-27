@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SelectRmes from 'js/applications/shared/select-rmes';
-import { Button } from '@inseefr/wilco';
+import { Button, Select } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 class LoginBasic extends Component {
@@ -27,6 +26,16 @@ class LoginBasic extends Component {
 	render() {
 		const { roleList, stampList } = this.props;
 		const { role, stamp } = this.state;
+
+		const roleOptions = roleList.map(role => ({
+			label: role.label,
+			value: role.id,
+		}));
+		const stampOptions = stampList.map(stamp => ({
+			label: stamp,
+			value: stamp,
+		}));
+
 		return (
 			<div>
 				<div className="text-center page-title">
@@ -38,14 +47,11 @@ class LoginBasic extends Component {
 					</div>
 					<div className="row" style={{ marginTop: '2%' }}>
 						<div className="col-md-6 col-md-offset-3">
-							<SelectRmes
+							<Select
 								value={role}
 								multi={true}
 								placeholder={D.pickedRolePlaceholder}
-								options={roleList.map(role => ({
-									label: role.label,
-									value: role.id,
-								}))}
+								options={roleOptions}
 								onChange={this.handleChangeRole}
 								searchable
 							/>
@@ -53,13 +59,10 @@ class LoginBasic extends Component {
 					</div>
 					<div className="row" style={{ marginTop: '2%' }}>
 						<div className="col-md-6 col-md-offset-3">
-							<SelectRmes
-								value={stamp}
+							<Select
+								value={stampOptions.find(({ value }) => value === stamp)}
 								placeholder={D.stampsPlaceholder}
-								options={stampList.map(stamp => ({
-									label: stamp,
-									value: stamp,
-								}))}
+								options={stampOptions}
 								onChange={this.handleChangeStamp}
 								searchable
 							/>
