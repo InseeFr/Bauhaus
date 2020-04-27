@@ -1,15 +1,14 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
-	buildExtract,
 	cleanId,
 	ReturnButton,
 	ActionToolbar,
 	SaveButton,
 } from '@inseefr/wilco';
 
-const Controls = ({ creation, save, disabledSave, ...props }) => {
-	const dsdId = buildExtract('dsdId')(props);
+const Controls = ({ creation, save, disabledSave }) => {
+	const { dsdId } = useParams();
 	return (
 		<ActionToolbar>
 			<ReturnButton
@@ -21,4 +20,4 @@ const Controls = ({ creation, save, disabledSave, ...props }) => {
 	);
 };
 
-export default withRouter(Controls);
+export default Controls;
