@@ -14,9 +14,9 @@ import {
 	SaveButton,
 	ActionToolbar,
 	LabelRequired,
+	Select,
 } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
-import SelectRmes from 'js/applications/shared/select-rmes';
 
 const defaultDocument = {
 	labelLg1: '',
@@ -101,7 +101,9 @@ class OperationsDocumentationEdition extends Component {
 
 	render() {
 		const { langOptions, type } = this.props;
-
+		const langSelectOptions = langOptions.codes.map(lang => {
+			return { value: lang.code, label: lang.labelLg1 };
+		});
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
 		const { document, files, serverSideError } = this.state;
@@ -253,13 +255,13 @@ class OperationsDocumentationEdition extends Component {
 						<div className="col-md-12 form-group">
 							<LabelRequired htmlFor="lang">{D1.langTitle}</LabelRequired>
 
-							<SelectRmes
+							<Select
 								placeholder=""
 								unclearable
-								value={document.lang}
-								options={langOptions.codes.map(lang => {
-									return { value: lang.code, label: lang.labelLg1 };
-								})}
+								value={langSelectOptions.find(
+									({ value }) => value === document.lang
+								)}
+								options={langSelectOptions}
 								onChange={value => {
 									this.onChange({ target: { value, id: 'lang' } });
 								}}

@@ -7,8 +7,7 @@ import InputRmes from 'js/applications/shared/input-rmes';
 import { EditorMarkdownToolbar } from 'bauhaus-utilities';
 import { Editor } from 'react-draft-wysiwyg';
 
-import SelectRmes from 'js/applications/shared/select-rmes';
-import { Note, getLang } from '@inseefr/wilco';
+import { Note, getLang, Select } from '@inseefr/wilco';
 import { isLink, isDocument } from 'js/applications/operations/document/utils';
 import './sims-field.scss';
 import DocumentsBloc from '../../documents/documents-bloc';
@@ -117,10 +116,12 @@ class Field extends PureComponent {
 								/>
 							)}
 							{msd.rangeType === ORGANIZATION && (
-								<SelectRmes
+								<Select
 									placeholder=""
 									className="form-control"
-									value={currentSection.value}
+									value={organisationsOptions.find(
+										({ value }) => value === currentSection.value
+									)}
 									options={organisationsOptions}
 									onChange={this.handleCodeListInput}
 								/>
@@ -172,11 +173,13 @@ class Field extends PureComponent {
 							)}
 
 							{msd.rangeType === CODE_LIST && codesList && (
-								<SelectRmes
+								<Select
 									placeholder=""
 									aria-label={codesList.codeListLabelLg1}
 									className="form-control"
-									value={currentSection.value}
+									value={codesListOptions.find(
+										({ value }) => value === currentSection.value
+									)}
 									options={codesListOptions}
 									onChange={this.handleCodeListInput}
 								/>
