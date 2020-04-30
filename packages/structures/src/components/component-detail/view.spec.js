@@ -76,6 +76,7 @@ describe('<ComponentDetailView />', () => {
 				codesLists={codesLists}
 				handleBack={() => {}}
 				handleUpdate={handleUpdate}
+				updatable={true}
 			></ComponentDetailView>
 		);
 
