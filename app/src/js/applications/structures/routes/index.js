@@ -51,6 +51,7 @@ export default () => {
 					/>
 					<Route exact path="/structures/create" component={Create} />
 					<Route exact path="/structures/:dsdId/update" component={Update} />
+					<Route exact path="/structures/:dsdId/duplicate" component={Update} />
 					<Route exact path="/structures/:dsdId" component={Visualization} />
 				</Switch>
 			</div>

@@ -14,7 +14,9 @@ const Home = () => {
 	const [DSDs, setDSDs] = useState([]);
 
 	useEffect(() => {
-		StructureAPI.getStructures().then(res => setDSDs(res));
+		StructureAPI.getStructures().then(res => {
+			setDSDs(res);
+		});
 	}, []);
 
 	const isLocal = process.env.REACT_APP_API_MODE === 'local';

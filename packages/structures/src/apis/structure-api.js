@@ -33,6 +33,7 @@ const api = {
 	getStructureComponent: (dsdId, componentId) => [
 		`dsd/${dsdId}/component/${componentId}`,
 	],
+	deleteStructure: dsdId => [`dsd/${dsdId}`, res => res.text()],
 	postStructure: dsd => [
 		'dsd',
 		{

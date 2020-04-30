@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import Edition from '../component';
-import { buildExtract } from '@inseefr/wilco';
 import { StructureAPI } from 'bauhaus-structures';
+import { useLocation, useParams } from 'react-router-dom';
+const Update = () => {
+	const location = useLocation();
+	const { dsdId } = useParams();
 
-const Update = props => {
 	const [DSD, setDSD] = useState({});
 	const [components, setComponents] = useState([]);
-
 	useEffect(() => {
-		const dsdId = buildExtract('dsdId')(props);
 		StructureAPI.getStructure(dsdId).then(res => setDSD(res));
 		StructureAPI.getStructureDetailedComponents(dsdId).then(res =>
 			setComponents(res)
 		);
-	}, [props]);
-
+	}, [dsdId]);
+	const duplicate = location.pathname.indexOf('/duplicate') >= 0;
 	return (
 		<Edition
+			creation={duplicate}
 			initDSD={{
 				...DSD,
+				id: duplicate ? '' : DSD.id,
 				components: components.map(({ codeList, ...c }) => ({
 					...c,
 					codeList,
