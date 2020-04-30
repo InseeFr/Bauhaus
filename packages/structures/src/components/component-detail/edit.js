@@ -20,12 +20,12 @@ import PropTypes from 'prop-types';
 
 export const ComponentDetailEdit = ({
 	component: defaultComponent,
-	concepts = {},
-	codesLists = {},
+	concepts,
+	codesLists,
 	handleSave,
 	handleBack,
 	mutualized = false,
-	structureComponents = [],
+	structureComponents,
 }) => {
 	const [component, setComponent] = useState(defaultComponent || {});
 	const [attachments, setAttachments] = useState([]);
@@ -49,11 +49,11 @@ export const ComponentDetailEdit = ({
 		handleSave(component);
 	}, [component, handleSave]);
 
-	const conceptOptions = Object.values(concepts).map(({ id, label }) => ({
+	const conceptOptions = concepts.map(({ id, label }) => ({
 		value: id,
 		label,
 	}));
-	const codeListOptions = Object.values(codesLists).map(({ id, label }) => ({
+	const codeListOptions = codesLists.map(({ id, label }) => ({
 		value: id,
 		label,
 	}));
@@ -235,4 +235,11 @@ ComponentDetailEdit.propTypes = {
 	handleSave: PropTypes.func,
 	handleBack: PropTypes.func,
 	secondLang: PropTypes.bool,
+	structureComponents: PropTypes.array,
+};
+
+ComponentDetailEdit.defaultProps = {
+	structureComponents: [],
+	concepts: [],
+	codesLists: [],
 };

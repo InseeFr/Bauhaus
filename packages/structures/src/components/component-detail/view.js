@@ -21,7 +21,7 @@ export const ComponentDetailView = ({
 	updatable = true,
 	mutualized = false,
 	secondLang = false,
-	structureComponents = [],
+	structureComponents,
 	col = 3,
 }) => {
 	const typeValue = typeUriToLabel(component.type);
@@ -145,4 +145,11 @@ ComponentDetailView.propTypes = {
 	handleUpdate: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 	handleBack: PropTypes.func,
 	updatable: PropTypes.bool,
+	structureComponents: PropTypes.array,
+};
+
+ComponentDetailView.defaultProps = {
+	structureComponents: [],
+	concepts: [],
+	codesLists: [],
 };

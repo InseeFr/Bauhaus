@@ -6,10 +6,10 @@ import { StructureComponentsSelector } from '../structure-component-selector';
 import PropTypes from 'prop-types';
 
 const ComponentSelector = ({
-	components = [],
+	components,
 	mutualizedComponents,
-	concepts = [],
-	codesLists = [],
+	concepts,
+	codesLists,
 	handleUpdate,
 }) => {
 	const [structureComponents, setStructureComponents] = useState(components);
@@ -18,7 +18,9 @@ const ComponentSelector = ({
 		setFilteredMutualizedComponents,
 	] = useState(mutualizedComponents);
 
-	useEffect(() => setStructureComponents(components), [components]);
+	useEffect(() => {
+		setStructureComponents(components);
+	}, [components]);
 	useEffect(() => {
 		setFilteredMutualizedComponents(
 			mutualizedComponents.filter(component => {
@@ -121,4 +123,9 @@ ComponentSelector.propTypes = {
 	handleUpdate: PropTypes.func,
 };
 
+ComponentSelector.defaultProps = {
+	components: [],
+	concepts: [],
+	codesLists: [],
+};
 export default ComponentSelector;
