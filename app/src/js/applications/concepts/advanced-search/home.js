@@ -177,7 +177,7 @@ class ConceptSearchList extends Component {
 						</div>
 					</div>
 					<div className="row form-group">
-						<div className="col-md-4 bauhaus-select-block">
+						<div className="col-md-4">
 							<Select
 								className="form-control"
 								placeholder={D.stampsPlaceholder}
@@ -186,7 +186,7 @@ class ConceptSearchList extends Component {
 								onChange={this.handlers.creator}
 							/>
 						</div>
-						<div className="col-md-4 bauhaus-select-block">
+						<div className="col-md-4">
 							<Select
 								className="form-control"
 								placeholder={D.disseminationStatusPlaceholder}
@@ -197,7 +197,7 @@ class ConceptSearchList extends Component {
 								onChange={this.handlers.disseminationStatus}
 							/>
 						</div>
-						<div className="col-md-4 bauhaus-select-block">
+						<div className="col-md-4">
 							<Select
 								className="form-control"
 								placeholder={D.validationStatusPlaceholder}
