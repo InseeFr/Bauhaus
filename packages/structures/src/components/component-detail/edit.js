@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
 	CancelButton,
 	SaveButton,
@@ -7,8 +7,7 @@ import {
 	LabelRequired,
 } from '@inseefr/wilco';
 import { EditorMarkdown } from 'bauhaus-utilities';
-import { validateComponent } from '../../utils';
-import { ATTACHMENTS } from '../../utils/constants/attachments';
+import { validateComponent, getAllAttachment } from '../../utils';
 import {
 	ATTRIBUTE_TYPE,
 	COMPONENT_TYPES,
@@ -17,7 +16,6 @@ import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 
 import { D1, D2 } from '../../i18n/build-dictionary';
 import { Select } from '@inseefr/wilco';
-
 import PropTypes from 'prop-types';
 
 export const ComponentDetailEdit = ({
@@ -27,8 +25,14 @@ export const ComponentDetailEdit = ({
 	handleSave,
 	handleBack,
 	mutualized = false,
+	structureComponents = [],
 }) => {
 	const [component, setComponent] = useState(defaultComponent || {});
+	const [attachments, setAttachments] = useState([]);
+
+	useEffect(() => {
+		setAttachments(getAllAttachment(structureComponents));
+	}, [structureComponents]);
 
 	const handleChange = useCallback(
 		e => {
@@ -203,11 +207,11 @@ export const ComponentDetailEdit = ({
 									name="attachment"
 									label={D1.attachmentTitle}
 									placeholder={D1.attachmentTitle}
-									value={ATTACHMENTS.filter(
+									value={attachments.filter(
 										c => component.attachment?.indexOf(c.value) >= 0
 									)}
 									multi
-									options={ATTACHMENTS}
+									options={attachments}
 									onChange={value => {
 										setComponent({
 											...component,

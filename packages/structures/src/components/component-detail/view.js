@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Note,
 	UpdateButton,
 	ActionToolbar,
 	ReturnButton,
 } from '@inseefr/wilco';
-import { typeUriToLabel } from '../../utils';
+import { typeUriToLabel, getAllAttachment } from '../../utils';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
-import { ATTACHMENTS } from '../../utils/constants/attachments';
 import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 
@@ -22,6 +21,7 @@ export const ComponentDetailView = ({
 	updatable = true,
 	mutualized = false,
 	secondLang = false,
+	structureComponents = [],
 	col = 3,
 }) => {
 	const typeValue = typeUriToLabel(component.type);
@@ -37,6 +37,11 @@ export const ComponentDetailView = ({
 	const descriptionLg2 = HTMLUtils.renderMarkdownElement(
 		component.descriptionLg2
 	);
+	const [attachments, setAttachments] = useState([]);
+
+	useEffect(() => {
+		setAttachments(getAllAttachment(structureComponents));
+	}, [structureComponents]);
 
 	return (
 		<React.Fragment>
@@ -114,7 +119,7 @@ export const ComponentDetailView = ({
 										return (
 											<li key={attachment}>
 												{
-													ATTACHMENTS.find(type => type.value === attachment)
+													attachments.find(type => type.value === attachment)
 														?.label
 												}
 											</li>

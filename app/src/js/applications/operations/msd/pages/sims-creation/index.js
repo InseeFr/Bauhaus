@@ -19,7 +19,7 @@ import {
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
 } from 'js/applications/operations/msd/utils';
-import { HTMLUtils, CheckSecondLang } from 'bauhaus-utilities';
+import { HTMLUtils, CheckSecondLang, ArrayUtils } from 'bauhaus-utilities';
 
 class SimsCreation extends React.Component {
 	static propTypes = {
@@ -127,12 +127,20 @@ class SimsCreation extends React.Component {
 	render() {
 		const {
 			metadataStructure,
-			codesLists,
+			codesLists = {},
 			secondLang,
 			mode,
 			langs: { lg1, lg2 },
-			organisations,
+			organisations = [],
 		} = this.props;
+
+		const organisationsOptions = ArrayUtils.sortArrayByLabel(
+			organisations.map(c => ({
+				label: c.label,
+				value: c.id,
+			}))
+		);
+
 		const { sims, idParent } = this.state;
 		const operationsOptions = (this.props.sims.parentsWithoutSims || []).map(
 			op => ({
@@ -158,7 +166,7 @@ class SimsCreation extends React.Component {
 								secondLang={false}
 								lang={lg1}
 								alone={!hasLabelLg2(msd) || !secondLang}
-								organisations={organisations}
+								organisationsOptions={organisationsOptions}
 							/>
 						)}
 						{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
@@ -170,7 +178,7 @@ class SimsCreation extends React.Component {
 								secondLang={true}
 								lang={lg2}
 								alone={false}
-								organisations={organisations}
+								organisationsOptions={organisationsOptions}
 							/>
 						)}
 					</div>

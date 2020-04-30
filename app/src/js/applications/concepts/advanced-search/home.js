@@ -181,7 +181,9 @@ class ConceptSearchList extends Component {
 							<Select
 								className="form-control"
 								placeholder={D.stampsPlaceholder}
-								value={stampListOptions.find(({ value }) => value === creator)}
+								value={
+									stampListOptions.find(({ value }) => value === creator) || ''
+								}
 								options={stampListOptions}
 								onChange={this.handlers.creator}
 							/>
@@ -190,9 +192,11 @@ class ConceptSearchList extends Component {
 							<Select
 								className="form-control"
 								placeholder={D.disseminationStatusPlaceholder}
-								value={disseminationStatusListOptions.find(
-									({ value }) => value === disseminationStatus
-								)}
+								value={
+									disseminationStatusListOptions.find(
+										({ value }) => value === disseminationStatus
+									) || ''
+								}
 								options={disseminationStatusListOptions}
 								onChange={this.handlers.disseminationStatus}
 							/>
@@ -201,9 +205,11 @@ class ConceptSearchList extends Component {
 							<Select
 								className="form-control"
 								placeholder={D.validationStatusPlaceholder}
-								value={validationStatusOptions.find(
-									({ value }) => value === validationStatus
-								)}
+								value={
+									validationStatusOptions.find(
+										({ value }) => value === validationStatus
+									) || ''
+								}
 								options={validationStatusOptions}
 								onChange={this.handlers.validationStatus}
 							/>

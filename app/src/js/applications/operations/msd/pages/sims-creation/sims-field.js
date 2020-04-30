@@ -4,7 +4,7 @@ import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
-import { EditorMarkdownToolbar } from 'bauhaus-utilities';
+import { EditorMarkdownToolbar, ArrayUtils } from 'bauhaus-utilities';
 import { Editor } from 'react-draft-wysiwyg';
 
 import { Note, getLang, Select } from '@inseefr/wilco';
@@ -77,18 +77,16 @@ class Field extends PureComponent {
 			secondLang,
 			lang,
 			alone,
-			organisations = [],
+			organisationsOptions = [],
 		} = this.props;
 		const codesList = this.props.codesLists[msd.codeList] || {};
 		const codes = codesList.codes || [];
-		const codesListOptions = codes.map(c => ({
-			label: c.labelLg1,
-			value: c.code,
-		}));
-		const organisationsOptions = organisations.map(c => ({
-			label: c.label,
-			value: c.id,
-		}));
+		const codesListOptions = ArrayUtils.sortArrayByLabel(
+			codes.map(c => ({
+				label: c.labelLg1,
+				value: c.code,
+			}))
+		);
 
 		const currentToolbar = {
 			...EditorMarkdownToolbar,

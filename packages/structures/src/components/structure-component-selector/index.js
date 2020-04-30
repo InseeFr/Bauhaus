@@ -184,6 +184,7 @@ export const StructureComponentsSelector = ({
 						setOpenPanel(false);
 					}}
 					readOnly={readOnly}
+					structureComponents={components}
 				/>
 			</SlidingPanel>
 		</CollapsiblePanel>

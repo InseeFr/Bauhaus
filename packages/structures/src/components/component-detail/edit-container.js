@@ -63,6 +63,7 @@ const ViewContainer = props => {
 			concepts={concepts}
 			handleBack={handleBack}
 			handleSave={handleSave}
+			mutualized={true}
 		/>
 	);
 };

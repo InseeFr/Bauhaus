@@ -108,7 +108,9 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 
 							<Select
 								placeholder=""
-								value={categories.codes.find(code => code.value === typeCode)}
+								value={
+									categories.codes.find(code => code.value === typeCode) || ''
+								}
 								options={categories.codes.map(cat => {
 									return { value: cat.code, label: cat.labelLg1 };
 								})}
@@ -126,7 +128,9 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 
 							<Select
 								placeholder=""
-								value={stampsOptions.find(code => code.value === gestionnaire)}
+								value={
+									stampsOptions.find(code => code.value === gestionnaire) || ''
+								}
 								options={stampsOptions}
 								onChange={value => {
 									this.handlers.gestionnaire(value);
@@ -142,9 +146,10 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 
 							<Select
 								placeholder=""
-								value={organisationsOptions.find(
-									code => code.value === creator
-								)}
+								value={
+									organisationsOptions.find(code => code.value === creator) ||
+									''
+								}
 								options={organisationsOptions}
 								onChange={value => {
 									this.handlers.creator(value);
@@ -158,9 +163,11 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 
 							<Select
 								placeholder=""
-								value={organisationsOptions.find(
-									code => code.value === dataCollector
-								)}
+								value={
+									organisationsOptions.find(
+										code => code.value === dataCollector
+									) || ''
+								}
 								options={organisationsOptions}
 								onChange={value => {
 									this.handlers.dataCollector(value);

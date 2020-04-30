@@ -23,9 +23,11 @@ function ComponentsList() {
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [filter, setFilter] = useState(ALL);
-	const filteredItems = items.filter(item => {
-		return filter === ALL || item?.type === filter;
-	});
+	const filteredItems = items
+		.filter(item => {
+			return filter === ALL || item?.type === filter;
+		})
+		.map(({ id, labelLg1, labelLg2 }) => ({ id, labelLg1, labelLg2 }));
 
 	useEffect(() => {
 		api
@@ -39,6 +41,7 @@ function ComponentsList() {
 	if (loading) {
 		return <Loading />;
 	}
+	console.log(filteredItems);
 	return (
 		<div className="container structures-components-list">
 			<div className="row">

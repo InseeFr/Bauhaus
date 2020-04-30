@@ -21,7 +21,13 @@ const DSD = () => {
 		StructureAPI.getStructure(dsdId).then(res => setDSD(res));
 	}, [dsdId]);
 
-	const { labelLg1, labelLg2, descriptionLg1, descriptionLg2 } = DSD;
+	const {
+		labelLg1,
+		labelLg2,
+		descriptionLg1,
+		descriptionLg2,
+		components,
+	} = DSD;
 	return (
 		<>
 			<PageTitleBlock
@@ -31,7 +37,7 @@ const DSD = () => {
 			/>
 			<CheckSecondLang />
 
-			<StructureVisualizationControl />
+			<StructureVisualizationControl structure={DSD} />
 			<div className="row">
 				{descriptionLg1 && (
 					<Note
@@ -50,7 +56,7 @@ const DSD = () => {
 					/>
 				)}
 			</div>
-			<Components />
+			<Components components={components} />
 		</>
 	);
 };

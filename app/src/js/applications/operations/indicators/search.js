@@ -76,7 +76,9 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 
 							<Select
 								placeholder=""
-								value={creatorsOptions.find(option => option.value === creator)}
+								value={
+									creatorsOptions.find(option => option.value === creator) || ''
+								}
 								options={creatorsOptions}
 								onChange={value => {
 									this.handlers.creator(value);
@@ -90,9 +92,10 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 
 							<Select
 								placeholder=""
-								value={stampsOptions.find(
-									option => option.value === gestionnaire
-								)}
+								value={
+									stampsOptions.find(option => option.value === gestionnaire) ||
+									''
+								}
 								options={stampsOptions}
 								onChange={value => {
 									this.handlers.gestionnaire(value);

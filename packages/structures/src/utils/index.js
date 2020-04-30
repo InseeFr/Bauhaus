@@ -1,6 +1,15 @@
 import React from 'react';
 import D from '../i18n/build-dictionary';
-import { COMPONENT_TYPES } from './constants/';
+import { COMPONENT_TYPES, ATTACHMENTS, MEASURE_TYPE } from './constants/';
+
+export const getAllAttachment = components => {
+	return [
+		...ATTACHMENTS,
+		...components
+			.filter(c => c.type === MEASURE_TYPE)
+			.map(c => ({ value: c.id, label: c.labelLg1 })),
+	];
+};
 export const formatLabel = component => {
 	return (
 		<React.Fragment>

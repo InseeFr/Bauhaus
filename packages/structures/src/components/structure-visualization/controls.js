@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
 	ActionToolbar,
 	ReturnButton,
@@ -8,25 +8,27 @@ import {
 	DeleteButton,
 	DuplicateButton,
 } from '@inseefr/wilco';
+import { ValidationButton } from 'bauhaus-utilities';
 import StructureAPI from '../../apis/structure-api';
 
-const Controls = () => {
-	const { dsdId } = useParams();
+const Controls = ({ structure }) => {
+	const { id } = structure;
 	let history = useHistory();
 	const isLocal = process.env.REACT_APP_API === 'local';
 
 	const handleDelete = useCallback(() => {
-		StructureAPI.deleteStructure(dsdId).then(() => {
+		StructureAPI.deleteStructure(id).then(() => {
 			history.push('/structures');
 		});
-	}, [dsdId, history]);
+	}, [id, history]);
 	return (
 		<ActionToolbar>
 			<ReturnButton action="/structures" />
 			{isLocal && <ExportButton action={console.log} />}
-			<DuplicateButton action={`/structures/${dsdId}/duplicate`} />
+			<ValidationButton object={structure} callback={console.log} />
+			<DuplicateButton action={`/structures/${id}/duplicate`} />
 			<DeleteButton action={handleDelete} />
-			<UpdateButton action={`/structures/${dsdId}/update`} />
+			<UpdateButton action={`/structures/${id}/update`} />
 		</ActionToolbar>
 	);
 };

@@ -32,6 +32,7 @@ const Edition = ({ creation, initDSD }) => {
 		descriptionLg2,
 		components,
 	} = DSD;
+
 	useEffect(() => {
 		setDSD({ ...defaultDSD, ...initDSD });
 	}, [initDSD]);
@@ -47,6 +48,7 @@ const Edition = ({ creation, initDSD }) => {
 	} else if (!labelLg2) {
 		errorMessage = D.requiredLabel;
 	}
+
 	return (
 		<>
 			<Controls
@@ -123,6 +125,7 @@ const Edition = ({ creation, initDSD }) => {
 				</div>
 			</div>
 			<Components
+				creation={creation}
 				components={components}
 				onChange={components => onChange('components', components)}
 			/>

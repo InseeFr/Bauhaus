@@ -48,7 +48,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 
 		const dataLinks = data.map(({ id, label }) => (
 			<li key={id} className="list-group-item text-left">
-				<Link to={`#`}>{label}</Link>
+				<Link to={'/structures/' + id}>{label}</Link>
 			</li>
 		));
 		return (
@@ -88,7 +88,9 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 							{D.type}
 							<Select
 								placeholder=""
-								value={COMPONENT_TYPES.find(option => option.value === type)}
+								value={
+									COMPONENT_TYPES.find(option => option.value === type) || ''
+								}
 								options={COMPONENT_TYPES}
 								onChange={value => {
 									this.handlers.type(value);
@@ -101,7 +103,9 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 							{D.conceptTitle}
 							<Select
 								placeholder=""
-								value={conceptsOptions.find(option => option.value === concept)}
+								value={
+									conceptsOptions.find(option => option.value === concept) || ''
+								}
 								options={conceptsOptions}
 								onChange={value => {
 									this.handlers.concept(value);
