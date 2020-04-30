@@ -44,7 +44,6 @@ export const ComponentDetailView = ({
 		setAttachments(getAllAttachment(structureComponents));
 	}, [structureComponents]);
 
-	console.log(component);
 	return (
 		<React.Fragment>
 			<ActionToolbar>

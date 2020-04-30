@@ -41,7 +41,6 @@ function ComponentsList() {
 	if (loading) {
 		return <Loading />;
 	}
-	console.log(filteredItems);
 	return (
 		<div className="container structures-components-list">
 			<div className="row">
