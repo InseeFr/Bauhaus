@@ -5,6 +5,7 @@ import {
 	ActionToolbar,
 	ReturnButton,
 } from '@inseefr/wilco';
+import { Link } from 'react-router-dom';
 import { typeUriToLabel, getAllAttachment } from '../../utils';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import { D1, D2 } from '../../i18n/build-dictionary';
@@ -18,7 +19,7 @@ export const ComponentDetailView = ({
 	codesLists,
 	handleUpdate,
 	handleBack,
-	updatable = true,
+	updatable,
 	mutualized = false,
 	secondLang = false,
 	structureComponents,
@@ -43,6 +44,7 @@ export const ComponentDetailView = ({
 		setAttachments(getAllAttachment(structureComponents));
 	}, [structureComponents]);
 
+	console.log(component);
 	return (
 		<React.Fragment>
 			<ActionToolbar>
@@ -106,6 +108,28 @@ export const ComponentDetailView = ({
 					/>
 				)}
 			</div>
+			{mutualized && component.structures?.length > 0 && (
+				<div className="row">
+					<Note
+						text={
+							<ul>
+								{component.structures?.map(structure => {
+									return (
+										<li key={structure.id}>
+											<Link to={`/structures/${structure.id}`}>
+												{structure.label}
+											</Link>
+										</li>
+									);
+								})}
+							</ul>
+						}
+						title={D1.structuresComponentTitle}
+						alone={true}
+						allowEmpty={true}
+					/>
+				</div>
+			)}
 			{component.type === ATTRIBUTE_TYPE && !mutualized && (
 				<React.Fragment>
 					<hr />

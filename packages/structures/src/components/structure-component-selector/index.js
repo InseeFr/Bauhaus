@@ -19,7 +19,7 @@ export const StructureComponentsSelector = ({
 	handleCreateOrUpdate,
 	concepts,
 	codesLists,
-	readOnly = false,
+	readOnly,
 }) => {
 	const removeClickHandler = useCallback(
 		e => {

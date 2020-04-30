@@ -103,6 +103,7 @@ const ComponentSelector = ({
 				handleUp={handleUp}
 				handleDown={handleDown}
 				handleCreateOrUpdate={handleCreateOrUpdate}
+				readOnly={false}
 			/>
 			<MutualizedComponentsSelector
 				concepts={concepts}
@@ -110,6 +111,7 @@ const ComponentSelector = ({
 				hidden={true}
 				components={filteredMutualizedComponents}
 				handleAdd={handleAdd}
+				readOnly={true}
 			/>
 		</>
 	);

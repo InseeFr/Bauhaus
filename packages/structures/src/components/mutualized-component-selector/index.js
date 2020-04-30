@@ -90,7 +90,7 @@ export const MutualizedComponentsSelector = ({
 					handleBack={() => {
 						setOpenPanel(false);
 					}}
-					updatable={false}
+					readOnly={true}
 					mutualized={true}
 				/>
 			</SlidingPanel>

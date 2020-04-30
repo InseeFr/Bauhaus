@@ -50,6 +50,8 @@ const ViewContainer = props => {
 				concepts={concepts}
 				handleBack={handleBack}
 				handleUpdate={`/structures/components/${component.id}/modify`}
+				mutualized={true}
+				updatable={true}
 			/>
 		</React.Fragment>
 	);

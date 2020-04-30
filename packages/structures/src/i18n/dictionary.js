@@ -115,6 +115,10 @@ export default {
 		fr: "Attachement de l'attribut",
 		en: 'Attribute attachment',
 	},
+	structuresComponentTitle: {
+		fr: 'Structures utilisant le composant',
+		en: 'Structure using the component',
+	},
 	descriptionTitle: {
 		fr: 'Description',
 		en: 'Description',
