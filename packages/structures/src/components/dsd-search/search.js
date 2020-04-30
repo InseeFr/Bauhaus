@@ -59,7 +59,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 				redirect={<Redirect to={'/structures'} push />}
 			>
 				<div className="row form-group">
-					<div className="col-md-6">
+					<div className="col-md-12">
 						<label className="w-100">
 							{D.label}
 							<input
@@ -70,7 +70,9 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 							/>
 						</label>
 					</div>
-					<div className="col-md-6">
+				</div>
+				<div className="row form-group">
+					<div className="col-md-12">
 						<label className="w-100">
 							{D.componentLabel}
 							<input
