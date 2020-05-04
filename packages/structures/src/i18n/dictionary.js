@@ -115,6 +115,18 @@ export default {
 		fr: "Attachement de l'attribut",
 		en: 'Attribute attachment',
 	},
+	requiredSpecificationTitle: {
+		fr: 'Specification obligatoire',
+		en: 'Mandatory specification',
+	},
+	requiredSpecificationTrue: {
+		fr: 'Specification obligatoire',
+		en: 'Mandatory specification',
+	},
+	requiredSpecificationFalse: {
+		fr: 'Specification non obligatoire',
+		en: 'Not msandatory specification',
+	},
 	structuresComponentTitle: {
 		fr: 'Structures utilisant le composant',
 		en: 'Structure using the component',

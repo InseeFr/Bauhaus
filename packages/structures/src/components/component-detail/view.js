@@ -155,6 +155,18 @@ export const ComponentDetailView = ({
 							allowEmpty={true}
 						/>
 					</div>
+					<div className="row">
+						<Note
+							text={
+								component.required
+									? D1.requiredSpecificationTrue
+									: D1.requiredSpecificationFalse
+							}
+							title={D1.requiredSpecificationTitle}
+							alone={true}
+							allowEmpty={true}
+						/>
+					</div>
 				</React.Fragment>
 			)}
 		</React.Fragment>

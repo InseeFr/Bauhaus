@@ -221,6 +221,24 @@ export const ComponentDetailEdit = ({
 								/>
 							</div>
 						</div>
+						<div className="row">
+							<div className="col-md-12 checkbox">
+								<label>
+									<input
+										type="checkbox"
+										label={D1.attachmentTitle}
+										value={component.required}
+										onChange={e => {
+											setComponent({
+												...component,
+												required: e.target.checked,
+											});
+										}}
+									/>
+									{D1.requiredSpecificationTitle}
+								</label>
+							</div>
+						</div>
 					</React.Fragment>
 				)}
 			</form>
