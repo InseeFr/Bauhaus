@@ -8,9 +8,9 @@ import {
 	CancelButton,
 	ActionToolbar,
 	SaveButton,
+	Select,
 } from '@inseefr/wilco';
 
-import SelectRmes from 'js/applications/shared/select-rmes';
 import { DUPLICATE } from 'js/applications/operations/msd';
 import {
 	hasLabelLg2,
@@ -205,15 +205,15 @@ class SimsCreation extends React.Component {
 								<React.Fragment>
 									<CheckSecondLang />
 									{mode === 'DUPLICATE' && (
-										<div id="operation-picker" className="panel panel-default">
-											<SelectRmes
-												value={idParent}
-												placeholder={D.operationsTitle}
-												options={operationsOptions}
-												onChange={this.updateIdParent}
-												searchable
-											/>
-										</div>
+										<Select
+											value={operationsOptions.find(
+												({ value }) => value === idParent
+											)}
+											placeholder={D.operationsTitle}
+											options={operationsOptions}
+											onChange={this.updateIdParent}
+											searchable
+										/>
 									)}
 								</React.Fragment>
 							)}
