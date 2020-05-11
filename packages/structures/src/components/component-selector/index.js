@@ -2,8 +2,9 @@ import React, { useState, useCallback, useEffect } from 'react';
 import './component-selector.scss';
 import { MutualizedComponentsSelector } from '../mutualized-component-selector';
 import { StructureComponentsSelector } from '../structure-component-selector';
-
+import ComponentSpecificationModal from '../component-specification-modal';
 import PropTypes from 'prop-types';
+import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 
 const ComponentSelector = ({
 	components,
@@ -13,6 +14,10 @@ const ComponentSelector = ({
 	handleUpdate,
 }) => {
 	const [structureComponents, setStructureComponents] = useState(components);
+
+	const [modalOpened, setModalOpened] = useState(false);
+	const [selectedComponent, setSelectedComponent] = useState({});
+
 	const [
 		filteredMutualizedComponents,
 		setFilteredMutualizedComponents,
@@ -45,12 +50,34 @@ const ComponentSelector = ({
 		},
 		[handleUpdate, structureComponents]
 	);
-	const handleAdd = useCallback(
-		id => {
-			const component = mutualizedComponents.find(c => c.id === id);
+
+	const saveSpecification = useCallback(
+		specification => {
+			const component = {
+				...selectedComponent,
+				...specification,
+			};
 			const components = [...structureComponents, component];
 			setStructureComponents(components);
 			handleUpdate(components);
+			setSelectedComponent({});
+
+			setModalOpened(false);
+		},
+		[handleUpdate, structureComponents, selectedComponent]
+	);
+
+	const handleAdd = useCallback(
+		id => {
+			const component = mutualizedComponents.find(c => c.id === id);
+			if (component.type !== ATTRIBUTE_TYPE) {
+				const components = [...structureComponents, component];
+				setStructureComponents(components);
+				handleUpdate(components);
+			} else {
+				setSelectedComponent(component);
+				setModalOpened(true);
+			}
 		},
 		[handleUpdate, mutualizedComponents, structureComponents]
 	);
@@ -94,6 +121,18 @@ const ComponentSelector = ({
 
 	return (
 		<>
+			{modalOpened && (
+				<ComponentSpecificationModal
+					onClose={() => setModalOpened(false)}
+					structureComponents={structureComponents}
+					specification={{
+						attachment: selectedComponent.attachment,
+						required: selectedComponent.required,
+					}}
+					onSave={saveSpecification}
+				/>
+			)}
+
 			<StructureComponentsSelector
 				hidden={false}
 				codesLists={codesLists}
