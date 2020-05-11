@@ -1,4 +1,4 @@
-import { range } from 'js/utils/array-utils';
+import { ArrayUtils } from 'bauhaus-utilities';
 import * as A from '../constants';
 import loadNotesVersion from './notes-version';
 
@@ -10,7 +10,7 @@ export default (id, lastVersion) => dispatch => {
 	});
 	return Promise.all(
 		// Add 1 because of range behaviour
-		range(1, lastVersion+1).map(version =>
+		ArrayUtils.range(1, lastVersion + 1).map(version =>
 			dispatch(loadNotesVersion(id, version))
 		)
 	).then(

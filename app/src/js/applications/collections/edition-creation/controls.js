@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import D from 'js/i18n';
-import { arrayKeepUniqueField } from 'js/utils/array-utils';
+import { ArrayUtils } from 'bauhaus-utilities';
 import { propTypes as generalPropTypes } from 'js/utils/collections/general';
 
 function CollectionEditionCreationControls({
@@ -27,14 +27,14 @@ function CollectionEditionCreationControls({
 
 	if (
 		prefLabelLg1 !== initialPrefLabelLg1 &&
-		arrayKeepUniqueField(collectionList, 'label').indexOf(
+		ArrayUtils.arrayKeepUniqueField(collectionList, 'label').indexOf(
 			deburr(prefLabelLg1.toLowerCase())
 		) !== -1
 	)
 		message = D.duplicatedLabel;
 	if (
 		id !== initialId &&
-		arrayKeepUniqueField(collectionList, 'id').indexOf(
+		ArrayUtils.arrayKeepUniqueField(collectionList, 'id').indexOf(
 			deburr(id.toLowerCase())
 		) !== -1
 	)

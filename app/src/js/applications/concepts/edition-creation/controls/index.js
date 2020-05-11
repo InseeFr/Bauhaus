@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import ConceptCreateControlLayout from './controls-layout';
 import D from 'js/i18n';
-import { HTMLUtils } from 'bauhaus-utilities';
-import { arrayKeepUniqueField } from 'js/utils/array-utils';
+import { ArrayUtils, HTMLUtils } from 'bauhaus-utilities';
 import { propTypes as notesPropTypes } from 'js/utils/concepts/notes';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
@@ -17,7 +16,7 @@ const checkPrefLabelFrExisting = (
 	return (
 		//if it has not changed, it's ok
 		prefLabelLg1 !== initialPrefLabelFr &&
-		arrayKeepUniqueField(concepts, 'label').indexOf(
+		ArrayUtils.arrayKeepUniqueField(concepts, 'label').indexOf(
 			deburr(prefLabelLg1.toLowerCase())
 		) !== -1
 	);

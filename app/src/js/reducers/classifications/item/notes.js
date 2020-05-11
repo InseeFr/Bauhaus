@@ -1,6 +1,6 @@
 import * as A from 'js/actions/constants';
 import { LOADING, LOADED } from 'js/constants';
-import { range } from 'js/utils/array-utils';
+import { ArrayUtils } from 'bauhaus-utilities';
 
 export default function(state = {}, action) {
 	const { type, payload } = action;
@@ -68,7 +68,7 @@ export const getAllNotes = (state, classificationId, itemId, lastVersion) => {
 			notes[version] = notesVersion.results;
 		return notes;
 	}, {});
-	const versions = range(1, Number(lastVersion) + 1);
+	const versions = ArrayUtils.range(1, Number(lastVersion) + 1);
 	//return notes only if each expected version is present
 	if (versions.every(version => version in notes)) {
 		return notes;
