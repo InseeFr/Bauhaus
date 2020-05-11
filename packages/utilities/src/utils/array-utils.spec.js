@@ -66,4 +66,27 @@ describe('filterKeyDeburr', () => {
 			).toBeFalsy();
 		});
 	});
+
+	describe('arrayToString', () => {
+		it('should return an empty string', () => {
+			expect(A.arrayToString([])).toEqual('');
+		});
+		it('should return a string containing array elements', () => {
+			const array = ['aaa', 'bbb', 'ccc'];
+			expect(A.arrayToString(array)).toEqual('aaa - bbb - ccc');
+		});
+	});
+
+	describe('arrayKeepUniqueField', () => {
+		it('should return an array of id objects', () => {
+			const array = [{ id: '1', label: 'A' }, { id: '2', label: 'B' }];
+			const res = ['a', 'b'];
+			expect(A.arrayKeepUniqueField(array, 'label')).toEqual(res);
+		});
+	});
+	describe('range', () => {
+		it('should return an array of integers from start to end - 1', () => {
+			expect(A.range(3, 6)).toEqual([3, 4, 5]);
+		});
+	});
 });

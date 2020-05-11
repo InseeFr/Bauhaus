@@ -1,17 +1,5 @@
 import React from 'react';
-import deburr from 'lodash/deburr';
 import { isDateIn } from 'js/utils/moment';
-
-export const arrayToString = array =>
-	array.reduce((_, a, i) => {
-		if (i === 0) return a;
-		return _ + ` - ${a}`;
-	}, '');
-
-export const arrayKeepUniqueField = (array, field) =>
-	array.map(function(item) {
-		return deburr(item[field].toLowerCase());
-	});
 
 export const filterKeyDate = key => (start, end) => item => {
 	return !item[key] || isDateIn(item[key], start, end);
@@ -52,8 +40,3 @@ export const getMembers = (linksArray, typeOfLink) => {
 		.filter(link => link.conceptLink === typeOfLink)
 		.map(({ idLinked, prefLabelLg1 }) => ({ id: idLinked, prefLabelLg1 }));
 };
-
-export const range = (start, end) =>
-	Array(end - start)
-		.fill()
-		.map((_, i) => i + start);

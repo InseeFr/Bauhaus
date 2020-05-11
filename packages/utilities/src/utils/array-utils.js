@@ -52,3 +52,19 @@ export const filterKeyDeburr = keys => rawStr => {
 		return isIn;
 	};
 };
+
+export const arrayToString = array =>
+	array.reduce((_, a, i) => {
+		if (i === 0) return a;
+		return _ + ` - ${a}`;
+	}, '');
+
+export const arrayKeepUniqueField = (array, field) =>
+	array.map(function(item) {
+		return deburr(item[field].toLowerCase());
+	});
+
+export const range = (start, end) =>
+	Array(end - start)
+		.fill()
+		.map((_, i) => i + start);
