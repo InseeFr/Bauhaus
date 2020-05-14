@@ -1422,12 +1422,15 @@
     lodash "^4.17.15"
     react-router-dom "5.1.2"
 
-"@inseefr/wilco@0.0.3", "@inseefr/wilco@^0.0.2-rc13":
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/@inseefr/wilco/-/wilco-0.0.3.tgz#68dbc815c08b12f34dc6275ad3e790b2bb25f18b"
-  integrity sha512-SIc7PtZYMRvSgvltW/j2rMBxw+C3W4jo0B7ze9rVcOOCkG2Lk2E+sBkSsH/xpPhoix14tpfoYjqDe32xQeY7MA==
+"@inseefr/wilco@0.0.5", "@inseefr/wilco@^0.0.2-rc13":
+  version "0.0.5"
+  resolved "https://registry.npmjs.org/@inseefr/wilco/-/wilco-0.0.5.tgz#0c13eff7a801a1e0ff43b985d501ab6d251ff899"
+  integrity sha512-kyhsuCeQ9eEfixKCcoLC3G1j04g9uj9wS0Xg3TwgN9BJ9WOVEEnK3hwJuMrYWjEglevkryz0uWnw85ymrXSCvg==
   dependencies:
-    lodash "^4.17.15"
+    lodash.deburr "^4.1.0"
+    lodash.difference "^4.5.0"
+    lodash.filter "^4.6.0"
+    lodash.map "^4.6.0"
     query-string "^6.9.0"
     react-bootstrap "0.31.5"
     react-bootstrap-table-next "3.3.3"
@@ -9722,10 +9725,15 @@ lodash.deburr@4.1.0, lodash.deburr@^4.1.0:
   resolved "https://registry.npmjs.org/lodash.deburr/-/lodash.deburr-4.1.0.tgz#ddb1bbb3ef07458c0177ba07de14422cb033ff9b"
   integrity sha1-3bG7s+8HRYwBd7oH3hRCLLAz/5s=
 
-lodash.difference@4.5.0:
+lodash.difference@4.5.0, lodash.difference@^4.5.0:
   version "4.5.0"
   resolved "https://registry.npmjs.org/lodash.difference/-/lodash.difference-4.5.0.tgz#9ccb4e505d486b91651345772885a2df27fd017c"
   integrity sha1-nMtOUF1Ia5FlE0V3KIWi3yf9AXw=
+
+lodash.filter@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.npmjs.org/lodash.filter/-/lodash.filter-4.6.0.tgz#668b1d4981603ae1cc5a6fa760143e480b4c4ace"
+  integrity sha1-ZosdSYFgOuHMWm+nYBQ+SAtMSs4=
 
 lodash.isequal@^4.4.0:
   version "4.5.0"
@@ -9736,6 +9744,11 @@ lodash.isplainobject@^4.0.6:
   version "4.0.6"
   resolved "https://registry.npmjs.org/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
   integrity sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=
+
+lodash.map@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.npmjs.org/lodash.map/-/lodash.map-4.6.0.tgz#771ec7839e3473d9c4cde28b19394c3562f4f6d3"
+  integrity sha1-dx7Hg540c9nEzeKLGTlMNWL09tM=
 
 lodash.memoize@^4.1.2:
   version "4.1.2"

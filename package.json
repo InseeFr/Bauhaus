@@ -15,7 +15,7 @@
 		"pre-push": "yarn workspaces run test:coverage && yarn workspaces run lint"
 	},
 	"resolutions": {
-		"@inseefr/wilco": "0.0.3"
+		"@inseefr/wilco": "0.0.5"
 	},
 	"devDependencies": {
 		"@storybook/addon-actions": "5.3.18",

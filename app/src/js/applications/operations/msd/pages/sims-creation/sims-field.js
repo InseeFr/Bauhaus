@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
@@ -13,6 +13,77 @@ import './sims-field.scss';
 import DocumentsBloc from '../../documents/documents-bloc';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
+
+export const DocumentField = ({ handleChange, msd, currentSection }) => {
+	const handleDeleteDocument = useCallback(
+		uri => {
+			console.log('handle delete');
+			const objects = currentSection.documents || [];
+			console.log({
+				id: msd.idMas,
+				override: {
+					documents: objects.filter(doc => doc.uri !== uri),
+				},
+			});
+			handleChange({
+				id: msd.idMas,
+				override: {
+					documents: objects.filter(doc => doc.uri !== uri),
+				},
+			});
+		},
+		[handleChange, currentSection.documents, msd.idMas]
+	);
+
+	const handleAddDocument = useCallback(
+		newObject => {
+			console.log('handle add');
+
+			const objects = currentSection.documents || [];
+			console.log({
+				id: msd.idMas,
+				override: {
+					documents: [...objects, newObject],
+				},
+			});
+			handleChange({
+				id: msd.idMas,
+				override: {
+					documents: [...objects, newObject],
+				},
+			});
+		},
+		[handleChange, msd.idMas, currentSection.documents]
+	);
+
+	return (
+		<div className="bauhaus-document-field">
+			<DocumentsBloc
+				documents={(currentSection.documents || []).filter(isDocument)}
+				localPrefix={'Lg1'}
+				editMode={true}
+				deleteHandler={handleDeleteDocument}
+				addHandler={handleAddDocument}
+				objectType="documents"
+			/>
+			<DocumentsBloc
+				documents={(currentSection.documents || []).filter(isLink)}
+				localPrefix={'Lg1'}
+				editMode={true}
+				deleteHandler={handleDeleteDocument}
+				addHandler={handleAddDocument}
+				objectType="links"
+			/>
+		</div>
+	);
+};
+
+DocumentField.propTypes = {
+	msd: PropTypes.object.isRequired,
+	currentSection: PropTypes.object,
+	codesLists: PropTypes.object.isRequired,
+	handleChange: PropTypes.func,
+};
 
 class Field extends PureComponent {
 	static propTypes = {
@@ -39,36 +110,6 @@ class Field extends PureComponent {
 	handleCodeListInput = value => {
 		this._handleChange({ codeList: this.props.msd.codeList, value });
 	};
-
-	_handleDeleteDocumentOrLinks = type => uri => {
-		const objects = this.props.currentSection[type] || [];
-
-		this._handleChange({
-			[type]: objects.filter(doc => doc.uri !== uri),
-		});
-	};
-
-	_handleAddDocumentOrLinks = type => newObject => {
-		const objects = this.props.currentSection[type] || [];
-
-		this._handleChange({
-			[type]: [...objects, newObject],
-		});
-	};
-
-	/**
-	 * Handler when the user click on a button in order to delete a document
-	 * @param {String} uri The uri of the document that we should remove
-	 */
-	handleDeleteDocument = uri =>
-		this._handleDeleteDocumentOrLinks('documents')(uri);
-
-	/**
-	 * Handler when the user add a new document to a rubric
-	 * @param {SimsDocuments} document
-	 */
-	handleAddDocument = document =>
-		this._handleAddDocumentOrLinks('documents')(document);
 
 	render() {
 		const {
@@ -133,6 +174,7 @@ class Field extends PureComponent {
 									onChange={this.handleCodeListInput}
 								/>
 							)}
+
 							{msd.rangeType === RICH_TEXT && (
 								<>
 									<Editor
@@ -148,24 +190,6 @@ class Field extends PureComponent {
 										localization={{
 											locale: getLang(),
 										}}
-									/>
-									<DocumentsBloc
-										documents={(currentSection.documents || []).filter(
-											isDocument
-										)}
-										localPrefix={secondLang ? 'Lg2' : 'Lg1'}
-										editMode={true}
-										deleteHandler={this.handleDeleteDocument}
-										addHandler={this.handleAddDocument}
-										objectType="documents"
-									/>
-									<DocumentsBloc
-										documents={(currentSection.documents || []).filter(isLink)}
-										localPrefix={secondLang ? 'Lg2' : 'Lg1'}
-										editMode={true}
-										deleteHandler={this.handleDeleteDocument}
-										addHandler={this.handleAddDocument}
-										objectType="links"
 									/>
 								</>
 							)}

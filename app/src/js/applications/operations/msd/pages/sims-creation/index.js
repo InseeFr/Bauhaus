@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
+import Field, {
+	DocumentField,
+} from 'js/applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from 'js/utils/msd';
 import {
 	Loading,
@@ -20,6 +22,10 @@ import {
 	shouldDisplayTitleForPrimaryItem,
 } from 'js/applications/operations/msd/utils';
 import { HTMLUtils, CheckSecondLang, ArrayUtils } from 'bauhaus-utilities';
+import './sims-creation.scss';
+import { rangeType } from 'js/utils/msd/';
+
+const { RICH_TEXT } = rangeType;
 
 class SimsCreation extends React.Component {
 	static propTypes = {
@@ -156,7 +162,14 @@ class SimsCreation extends React.Component {
 							{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
 						</h3>
 					)}
-					<div className="row" id={msd.idMas}>
+					<div
+						className={`row ${
+							!secondLang
+								? 'bauhaus-sims-field__' + msd.rangeType
+								: 'bauhaus-sims-field__' + msd.rangeType + '_2col'
+						}`}
+						id={msd.idMas}
+					>
 						{!msd.isPresentational && (
 							<Field
 								msd={msd}
@@ -179,6 +192,14 @@ class SimsCreation extends React.Component {
 								lang={lg2}
 								alone={false}
 								organisationsOptions={organisationsOptions}
+							/>
+						)}
+
+						{msd.rangeType === RICH_TEXT && (
+							<DocumentField
+								msd={msd}
+								currentSection={sims[msd.idMas]}
+								handleChange={handleChange}
 							/>
 						)}
 					</div>
