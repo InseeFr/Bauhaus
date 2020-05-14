@@ -43,10 +43,6 @@ export default {
 		fr: 'Nouvelle version',
 		en: 'New version',
 	},
-	btnImport: {
-		fr: 'Importer',
-		en: 'Import',
-	},
 	btnPdf: {
 		fr: 'Exporter en PDF',
 		en: 'Export as PDF',

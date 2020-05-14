@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
 	PageTitle,
-	Button,
 	SearchableList,
 	VerticalMenu,
 	ExportButton,
 	NewButton,
+	ImportButton,
 } from '@inseefr/wilco';
 import { StructureAPI } from 'bauhaus-structures';
 import D from 'js/i18n';
@@ -32,7 +32,7 @@ const Home = () => {
 						wrapper={false}
 					/>
 					{isLocal && (
-						<Button
+						<ImportButton
 							label={D.btnImport}
 							action="/structures/import"
 							col={8}
