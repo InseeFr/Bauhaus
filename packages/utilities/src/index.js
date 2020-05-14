@@ -34,3 +34,6 @@ export { default as CheckSecondLang } from './components/check-second-lang';
 
 export * as Stores from './stores';
 export { default as PageTitleBlock } from './components/page-title-block';
+export {
+	default as ConfirmationDelete,
+} from './components/confirmation-delete';
