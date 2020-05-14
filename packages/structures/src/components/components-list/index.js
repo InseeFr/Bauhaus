@@ -54,9 +54,9 @@ function ComponentsList() {
 						handleSelection={setFilter}
 						options={[
 							[ALL, D.all],
-							[MEASURE_TYPE, D.measureTitle],
-							[DIMENSION_TYPE, D.dimensionTitle],
-							[ATTRIBUTE_TYPE, D.attributeTitle],
+							[MEASURE_TYPE, D.Measure],
+							[DIMENSION_TYPE, D.Dimension],
+							[ATTRIBUTE_TYPE, D.Attribute],
 						]}
 					/>
 					<SearchableList

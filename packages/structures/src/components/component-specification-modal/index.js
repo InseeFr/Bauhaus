@@ -77,7 +77,11 @@ export default ({
 				</div>
 				<div className="modal-footer">
 					<div className="text-right">
-						<SaveButton action={() => onSave(specification)} />
+						<SaveButton
+							col={4}
+							offset={8}
+							action={() => onSave(specification)}
+						/>
 					</div>
 				</div>
 			</div>

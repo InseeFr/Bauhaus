@@ -21,8 +21,7 @@ export const formatLabel = component => {
 	);
 };
 export const typeUriToLabel = (uri = '') => {
-	const key = uri.substr(uri.indexOf('#') + 1);
-	return D[key + 'Title'];
+	return COMPONENT_TYPES.find(component => component.value === uri).label;
 };
 
 export const defaultComponentsTableParams = [

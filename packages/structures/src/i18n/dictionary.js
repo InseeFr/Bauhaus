@@ -67,15 +67,15 @@ export default {
 		fr: 'Descendre',
 		en: 'Down',
 	},
-	attributeTitle: {
+	Attribute: {
 		fr: 'Attribut',
-		en: 'Attribut',
+		en: 'Attribute',
 	},
-	dimensionTitle: {
+	Dimension: {
 		fr: 'Dimension',
 		en: 'Dimension',
 	},
-	measureTitle: {
+	Measure: {
 		fr: 'Mesure',
 		en: 'Measure',
 	},
