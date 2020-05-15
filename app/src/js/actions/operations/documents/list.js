@@ -1,8 +1,8 @@
 import api from 'js/remote-api/api';
 import * as A from 'js/actions/constants';
-import { sortArray } from 'js/utils/array-utils';
+import { ArrayUtils } from 'bauhaus-utilities';
 
-const sortByLabel = sortArray('labelLg1');
+const sortByLabel = ArrayUtils.sortArray('labelLg1');
 
 export default () => dispatch => {
 	dispatch({

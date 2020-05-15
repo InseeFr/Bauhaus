@@ -5,47 +5,36 @@
 	"source": "src/index.js",
 	"license": "MIT",
 	"scripts": {
-		"start": "microbundle watch --target node --jsx React.createElement",
-		"build-insee": "microbundle build --jsx React.createElement",
+		"build-insee": "rollup -c rollup.config.js",
 		"test": "jest --watch",
 		"build-storybook": "build-storybook -o built-storybook/storybook",
 		"start-storybook": "start-storybook -p 9999",
 		"test:coverage": "jest --coverage",
 		"lint": "eslint src"
 	},
-	"peerDependencies": {
-		"react": "16.8.6"
-	},
 	"devDependencies": {
-		"@babel/core": "^7.5.5",
+		"@babel/core": "7.9.6",
 		"@babel/plugin-proposal-class-properties": "^7.5.5",
 		"@babel/plugin-transform-react-jsx": "^7.3.0",
-		"@babel/preset-env": "^7.5.5",
-		"@storybook/addon-actions": "5.1.11",
-		"@storybook/addon-knobs": "5.1.11",
-		"@storybook/addon-links": "5.1.11",
-		"@storybook/addons": "5.1.11",
-		"@storybook/react": "5.1.11",
-		"babel-jest": "24.9.0",
-		"babel-loader": "8.0.6",
-		"enzyme": "^3.10.0",
-		"enzyme-adapter-react-16": "^1.14.0",
-		"eslint-config-prettier": "6.7.0",
-		"eslint-config-react-app": "5.1.0",
-		"eslint-plugin-import": "2.19.1",
-		"eslint-plugin-jsx-a11y": "6.2.3",
-		"eslint-plugin-react": "7.17.0",
-		"jest": "24.9.0",
-		"microbundle": "^0.12.0-next.6"
-	},
-	"prettier": {
-		"bracketSpacing": true,
-		"semi": true,
-		"singleQuote": true,
-		"trailingComma": "es5",
-		"useTabs": true
+		"@babel/preset-env": "7.9.6",
+		"identity-obj-proxy": "^3.0.0",
+		"rollup": "2.9.1",
+		"rollup-plugin-babel": "^4.4.0",
+		"rollup-plugin-commonjs": "^10.1.0",
+		"rollup-plugin-node-builtins": "^2.1.2",
+		"rollup-plugin-node-resolve": "^5.2.0",
+		"rollup-plugin-postcss": "3.1.1",
+		"rollup-plugin-replace": "^2.2.0"
 	},
 	"dependencies": {
-		"jwt-decode": "2.2.0"
+		"@inseefr/wilco": "0.0.5",
+		"draft-js": "0.10.4",
+		"draft-js-export-html": "1.4.1",
+		"draft-js-import-html": "1.2.1",
+		"draftjs-md-converter": "1.1.1",
+		"jwt-decode": "2.2.0",
+		"lodash.deburr": "^4.1.0",
+		"react-draft-wysiwyg": "^1.14.4",
+		"react-is": "^16.13.1"
 	}
 }

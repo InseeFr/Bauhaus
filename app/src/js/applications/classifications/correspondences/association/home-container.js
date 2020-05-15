@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import { Loading, buildExtract } from '@inseefr/wilco';
 import AssociationHome from './home';
 import loadCorrespondenceAssociation from 'js/actions/classifications/correspondences/association';
-import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/correspondence/association';
 import * as mainSelect from 'js/reducers';
-import { getSecondLang } from 'js/reducers/app';
+import { Stores } from 'bauhaus-utilities';
 
 const extractCorrespondenceId = buildExtract('correspondenceId');
 const extractAssociationId = buildExtract('associationId');
@@ -19,13 +18,12 @@ class AssociationHomeContainer extends Component {
 		}
 	}
 	render() {
-		const { association, secondLang, saveSecondLang, langs } = this.props;
+		const { association, secondLang, langs } = this.props;
 		if (!association) return <Loading />;
 		return (
 			<AssociationHome
 				association={association}
 				secondLang={secondLang}
-				saveSecondLang={saveSecondLang}
 				langs={langs}
 			/>
 		);
@@ -40,7 +38,7 @@ const mapStateToProps = (state, ownProps) => {
 		correspondenceId,
 		associationId
 	);
-	const secondLang = getSecondLang(state);
+	const secondLang = Stores.SecondLang.getSecondLang(state);
 	const langs = mainSelect.getLangs(state);
 	return {
 		correspondenceId,
@@ -53,7 +51,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
 	loadCorrespondenceAssociation,
-	saveSecondLang,
 };
 
 export default connect(

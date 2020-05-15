@@ -8,6 +8,7 @@ import * as select from 'js/reducers';
 import validateConceptList from 'js/actions/concepts/validate';
 import loadConceptValidateList from 'js/actions/concepts/validate-list';
 import { OK } from 'js/constants';
+import { Auth } from 'bauhaus-utilities';
 
 class ConceptsToValidateContainer extends Component {
 	constructor(props) {
@@ -48,7 +49,7 @@ class ConceptsToValidateContainer extends Component {
 
 const mapStateToProps = state => ({
 	concepts: select.getConceptValidateList(state),
-	permission: select.getPermission(state),
+	permission: Auth.getPermission(state),
 	validationStatus: select.getStatus(state, VALIDATE_CONCEPT_LIST),
 });
 

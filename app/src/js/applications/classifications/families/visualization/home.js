@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { CheckSecondLang, PageTitle } from '@inseefr/wilco';
+import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import Members from './members';
+import { CheckSecondLang } from 'bauhaus-utilities';
 
 class FamilyVisualization extends Component {
 	render() {
@@ -16,10 +17,7 @@ class FamilyVisualization extends Component {
 			<div className="container">
 				<PageTitle title={prefLabelLg1} context="classifications" />
 				<Controls />
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
+				<CheckSecondLang />
 				{members.length !== 0 && (
 					<Members members={members} secondLang={secondLang} />
 				)}

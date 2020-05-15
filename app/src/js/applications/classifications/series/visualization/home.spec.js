@@ -2,6 +2,13 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import Home from './home';
 import { MemoryRouter } from 'react-router-dom';
+
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+const store = mockStore({});
+
 const series = {
 	general: { prefLabelLg1: 'Label' },
 	members: [{ id: '1', label: 'Member 1' }],
@@ -16,13 +23,12 @@ const langs = { lg1: 'fr', lg2: 'en' };
 describe('classification-series-home', () => {
 	it('renders without crashing', () => {
 		render(
-			<Home
-				series={series}
-				langs={langs}
-				secondLang={true}
-				saveSecondLang={() => console.log('save second lang')}
-			/>,
-			{ wrapper: MemoryRouter }
+			<Provider store={store}>
+				<Home series={series} langs={langs} secondLang={true} />
+			</Provider>,
+			{
+				wrapper: MemoryRouter,
+			}
 		);
 	});
 });

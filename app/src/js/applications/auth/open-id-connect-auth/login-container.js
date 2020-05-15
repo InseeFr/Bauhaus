@@ -4,13 +4,8 @@ import { withRouter } from 'react-router-dom';
 import Keycloak from 'keycloak';
 import { Loading } from '@inseefr/wilco';
 import { saveUserProps } from 'js/actions/app';
-import {
-	getToken,
-	setToken,
-	getAuthPropsFromToken,
-	isTokenValid,
-} from 'bauhaus-utilities';
-import * as select from 'js/reducers';
+import { Auth } from 'bauhaus-utilities';
+
 const kcConfig = `${window.location.origin}/keycloak.json`;
 
 class LoginOpenIDConnect extends Component {
@@ -33,8 +28,10 @@ class LoginOpenIDConnect extends Component {
 				checkLoginIframe: false,
 			})
 			.success(() => {
-				this.props.saveUserProps(getAuthPropsFromToken(this.kc.tokenParsed));
-				this.kc.token && setToken(this.kc.token);
+				this.props.saveUserProps(
+					Auth.getAuthPropsFromToken(this.kc.tokenParsed)
+				);
+				this.kc.token && Auth.setToken(this.kc.token);
 				setInterval(() => this.refreshToken(), 20000);
 				const { history } = this.props;
 				history.push({ pathname: history.location.pathname, state: 'init' });
@@ -47,8 +44,10 @@ class LoginOpenIDConnect extends Component {
 			.updateToken(30)
 			.success(isUpdated => {
 				if (isUpdated) {
-					this.kc.token && setToken(this.kc.token);
-					this.props.saveUserProps(getAuthPropsFromToken(this.kc.tokenParsed));
+					this.kc.token && Auth.setToken(this.kc.token);
+					this.props.saveUserProps(
+						Auth.getAuthPropsFromToken(this.kc.tokenParsed)
+					);
 				}
 			})
 			.error(error => this.initLogin());
@@ -61,15 +60,15 @@ class LoginOpenIDConnect extends Component {
 	render() {
 		const { authenticated } = this.props;
 		const { WrappedComponent } = this.props;
-		const token = getToken();
-		if (authenticated && token && isTokenValid(token))
+		const token = Auth.getToken();
+		if (authenticated && token && Auth.isTokenValid(token))
 			return <WrappedComponent />;
 		return <Loading textType="authentification" />;
 	}
 }
 
 export const mapStateToProps = state => ({
-	authenticated: select.getPermission(state).stamp,
+	authenticated: Auth.getPermission(state).stamp,
 });
 
 const mapDispatchToProps = {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, ActionToolbar } from '@inseefr/wilco';
-import D from 'js/i18n';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
 
 class Controls extends Component {
 	render() {
@@ -9,7 +8,7 @@ class Controls extends Component {
 		const nextLocation = location.replace('/compare', '');
 		return (
 			<ActionToolbar>
-				<Button label={D.btnReturnCurrent} action={nextLocation} col={3} />
+				<ReturnButton action={nextLocation} col={3} />
 			</ActionToolbar>
 		);
 	}

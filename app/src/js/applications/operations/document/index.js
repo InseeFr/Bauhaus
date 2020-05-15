@@ -8,9 +8,7 @@ import {
 	getOperationsDocumentsStatus,
 } from 'js/reducers/operations/selector';
 import loadDocuments from 'js/actions/operations/documents/list';
-import { sortArray } from 'js/utils/array-utils';
-
-const sortByLabel = sortArray('label');
+import { ArrayUtils } from 'bauhaus-utilities';
 
 class OperationsDocumentsContainer extends Component {
 	componentWillMount() {
@@ -28,7 +26,7 @@ class OperationsDocumentsContainer extends Component {
 export const mapStateToProps = state => {
 	return {
 		documentStoresStatus: getOperationsDocumentsStatus(state),
-		documentStores: sortByLabel(
+		documentStores: ArrayUtils.sortArrayByLabel(
 			getOperationsDocuments(state).map(document => {
 				return {
 					id: document.id,

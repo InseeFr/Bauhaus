@@ -7,7 +7,7 @@ const CorrespondencesHome = ({ correspondences }) => {
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-md-8 col-md-offset-2 centered">
+				<div className="col-md-8 col-md-offset-2 text-center">
 					<PageTitle title={D.correspondencesSearchTitle} col={12} offset={0} />
 					<SearchableList
 						items={correspondences}

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { CheckSecondLang, PageTitle, PageSubtitle } from '@inseefr/wilco';
+import { PageTitle, PageSubtitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Narrowers from './narrowers';
+import { CheckSecondLang } from 'bauhaus-utilities';
 
 class ItemVisualization extends Component {
 	render() {
@@ -24,10 +25,7 @@ class ItemVisualization extends Component {
 					itemId={itemId}
 					version={version}
 				/>
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
+				<CheckSecondLang />
 				<General
 					general={general}
 					classificationId={classificationId}

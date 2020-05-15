@@ -1,8 +1,6 @@
 import * as A from 'js/actions/constants';
 import { LOADED, ERROR } from 'js/constants';
-import { sortArray } from 'js/utils/array-utils';
-
-const sortByLabel = sortArray('label');
+import { ArrayUtils } from 'bauhaus-utilities';
 
 const defaultState = {
 	results: [],
@@ -12,7 +10,7 @@ const operationsOrganisations = function(state = defaultState, action) {
 		case A.LOAD_OPERATIONS_ORGANISATIONS_SUCCESS:
 			return {
 				status: LOADED,
-				results: sortByLabel(action.payload),
+				results: ArrayUtils.sortArrayByLabel(action.payload),
 			};
 		case A.LOAD_OPERATIONS_ORGANISATIONS_FAILURE:
 			return {

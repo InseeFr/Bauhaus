@@ -10,7 +10,7 @@ function CollectionsSummary({ collectionsData }) {
 	const dataStamps = buildDataStamps(collectionsData);
 	return (
 		<div>
-			<h3 className="centered">
+			<h3 className="text-center">
 				{D.dashboardCollectionsSummaryTitle} {today()}
 			</h3>
 			<div className="col-md-8 col-md-offset-2">

@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import ItemVisualization from './home';
 import { buildExtract, Loading } from '@inseefr/wilco';
 import loadItem from 'js/actions/classifications/item';
-import { saveSecondLang } from 'js/actions/app';
 import * as select from 'js/reducers/classifications/item';
 import * as mainSelect from 'js/reducers';
-import { getSecondLang } from 'js/reducers/app';
+import { Stores } from 'bauhaus-utilities';
 
 const extractClassificationId = buildExtract('classificationId');
 const extractItemId = buildExtract('itemId');
@@ -43,12 +42,7 @@ class ItemVisualizationContainer extends Component {
 		const { item, secondLang, langs } = this.props;
 		if (!item) return <Loading />;
 		return (
-			<ItemVisualization
-				item={item}
-				secondLang={secondLang}
-				saveSecondLang={this.props.saveSecondLang}
-				langs={langs}
-			/>
+			<ItemVisualization item={item} secondLang={secondLang} langs={langs} />
 		);
 	}
 }
@@ -57,7 +51,7 @@ const mapStateToProps = (state, ownProps) => {
 	const classificationId = extractClassificationId(ownProps);
 	const itemId = extractItemId(ownProps);
 	const item = select.getItem(state, classificationId, itemId);
-	const secondLang = getSecondLang(state);
+	const secondLang = Stores.SecondLang.getSecondLang(state);
 	const langs = mainSelect.getLangs(state);
 	return {
 		classificationId,
@@ -69,7 +63,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadItem,
 };
 

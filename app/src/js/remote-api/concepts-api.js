@@ -1,7 +1,7 @@
-import { API } from 'bauhaus-utilities';
+import { API, ConceptsAPI } from 'bauhaus-utilities';
 
 const api = {
-	getConceptList: () => [''],
+	...ConceptsAPI,
 	getConceptSearchList: () => ['advanced-search'],
 	getConceptValidateList: () => ['toValidate'],
 	getConceptGeneral: id => [`concept/${id}`],

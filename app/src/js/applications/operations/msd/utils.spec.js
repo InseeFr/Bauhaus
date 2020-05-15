@@ -2,7 +2,6 @@ import {
 	hasLabelLg2,
 	shouldDisplayDuplicateButton,
 	isOpen,
-	toggleOpen,
 	HELP_COLLAPSED,
 	getParentUri,
 } from './utils';
@@ -34,53 +33,6 @@ describe('isOpen', () => {
 		const input = 2;
 		const output = isOpen(input);
 		expect(output).toBeTruthy();
-	});
-});
-
-describe('toggleOpen', () => {
-	beforeEach(() => {
-		localStorage.setItem(
-			HELP_COLLAPSED,
-			JSON.stringify({
-				2: true,
-				3: false,
-			})
-		);
-	});
-	it('should return call localStorage with true if the item is not present yet in the localStorage', () => {
-		const input = 1;
-		toggleOpen(input);
-		expect(localStorage.setItem).toHaveBeenLastCalledWith(
-			HELP_COLLAPSED,
-			JSON.stringify({
-				1: true,
-				2: true,
-				3: false,
-			})
-		);
-	});
-	it('should return call localStorage with false if the item is currently opened', () => {
-		const input = 2;
-		toggleOpen(input);
-		expect(localStorage.setItem).toHaveBeenLastCalledWith(
-			HELP_COLLAPSED,
-			JSON.stringify({
-				2: false,
-				3: false,
-			})
-		);
-	});
-
-	it('should return  call localStorage with true if the item is currently closed', () => {
-		const input = 3;
-		toggleOpen(input);
-		expect(localStorage.setItem).toHaveBeenLastCalledWith(
-			HELP_COLLAPSED,
-			JSON.stringify({
-				2: true,
-				3: true,
-			})
-		);
 	});
 });
 

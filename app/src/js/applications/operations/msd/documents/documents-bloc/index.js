@@ -7,9 +7,8 @@ import {
 	getOperationsDocuments,
 	getOperationsDocumentsStatus,
 } from 'js/reducers/operations/selector';
-import { sortArray } from 'js/utils/array-utils';
 import React, { Component, useState, useEffect } from 'react';
-import { API } from 'bauhaus-utilities';
+import { API, ArrayUtils } from 'bauhaus-utilities';
 import { connect } from 'react-redux';
 import './style.scss';
 import { isDocument } from 'js/applications/operations/document/utils';
@@ -50,10 +49,12 @@ export function DocumentsBloc({
 		API.getBaseURI().then(uri => setBaseURI(uri));
 	});
 
-	const currentDocuments = sortArray(`label${localPrefix}`)(documents);
+	const currentDocuments = ArrayUtils.sortArray(`label${localPrefix}`)(
+		documents
+	);
 	const currentDocumentsIds = currentDocuments.map(doc => doc.uri);
 
-	const otherDocuments = sortArray(`label${localPrefix}`)(
+	const otherDocuments = ArrayUtils.sortArray(`label${localPrefix}`)(
 		documentStores
 			.filter(document => !currentDocumentsIds.includes(document.uri))
 			.filter(document =>

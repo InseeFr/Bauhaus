@@ -4,7 +4,7 @@ import IndicatorsHome from './home';
 import loadIndicatorsList from 'js/actions/operations/indicators/list';
 import { connect } from 'react-redux';
 import { NOT_LOADED, LOADED } from 'js/constants';
-import * as select from 'js/reducers';
+import { Auth } from 'bauhaus-utilities';
 
 function IndicatorsHomeContainer({ indicators, status, permission }) {
 	if (status !== LOADED) return <Loading />;
@@ -19,7 +19,7 @@ export const mapStateToProps = state => {
 		};
 	}
 	const { results: indicators, status, err } = state.operationsIndicatorsList;
-	const permission = select.getPermission(state);
+	const permission = Auth.getPermission(state);
 	return {
 		indicators,
 		status,

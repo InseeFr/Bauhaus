@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { objectFromKeys, buildEmptyNotes } from '@inseefr/wilco';
-import { rawHtmlToRmesHtml } from 'js/utils/html';
+import { HTMLUtils } from 'bauhaus-utilities';
 
 export const versionableNotes = [
 	'scopeNoteLg1',
@@ -44,7 +44,7 @@ export const processChanges = (oldNotes, notes, fields) =>
 				noteType,
 				//format the note the `rmes` way (with a wrapping div and a
 				//namespace attribte).
-				content: rawHtmlToRmesHtml(content),
+				content: HTMLUtils.rawHtmlToRmesHtml(content),
 			});
 		return changes;
 	}, []);
@@ -57,7 +57,7 @@ export const processNotes = (notesToKeep, fields) =>
 				noteType,
 				//format the note the `rmes` way (with a wrapping div and a
 				//namespace attribte).
-				content: rawHtmlToRmesHtml(content),
+				content: HTMLUtils.rawHtmlToRmesHtml(content),
 			});
 		return notes;
 	}, []);

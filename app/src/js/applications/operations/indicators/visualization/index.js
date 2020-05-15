@@ -3,29 +3,31 @@ import { withRouter } from 'react-router-dom';
 import D from 'js/i18n';
 import { connect } from 'react-redux';
 import * as select from 'js/reducers';
-import { saveSecondLang } from 'js/actions/app';
 import OperationsIndicatorVisualization from 'js/applications/operations/indicators/visualization/general';
 import {
-	CheckSecondLang,
 	Loading,
 	Button,
 	ErrorBloc,
 	ActionToolbar,
 	buildExtract,
 	goBack,
+	ReturnButton,
 } from '@inseefr/wilco';
+
 import loadIndicator, {
 	publishIndicator,
 } from 'js/actions/operations/indicators/item';
 import { CL_FREQ } from 'js/actions/constants/codeList';
-import { getSecondLang } from 'js/reducers/app';
 import Auth from 'js/utils/auth/components/auth';
 import { INDICATOR_CONTRIBUTOR, ADMIN } from 'js/utils/auth/roles';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
-import { containUnsupportedStyles } from 'js/utils/html';
+import {
+	HTMLUtils,
+	ValidationButton,
+	Stores,
+	CheckSecondLang,
+	PageTitleBlock,
+} from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
-
-import ValidationButton from 'js/applications/operations/shared/validationButton';
 
 const extractId = buildExtract('id');
 class IndicatorVisualizationContainer extends VisualizationContainer {
@@ -45,7 +47,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 		 * The publication button should be enabled only if RICH_TEXT value do not
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
-		const publicationDisabled = containUnsupportedStyles(attr);
+		const publicationDisabled = HTMLUtils.containUnsupportedStyles(attr);
 
 		return (
 			<div className="container">
@@ -55,10 +57,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 					secondLang={secondLang}
 				/>
 				<ActionToolbar>
-					<Button
-						action={goBack(this.props, '/operations/indicators')}
-						label={D.btnReturn}
-					/>
+					<ReturnButton action={goBack(this.props, '/operations/indicators')} />
 					{attr.idSims && (
 						<>
 							<Button
@@ -93,10 +92,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 				</ActionToolbar>
 				<ErrorBloc error={serverSideError} />
 
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
+				<CheckSecondLang />
 				<OperationsIndicatorVisualization
 					secondLang={secondLang}
 					attr={attr}
@@ -118,7 +114,7 @@ export const mapStateToProps = (state, ownProps) => {
 		id,
 		object: indicator.id === id ? indicator : {},
 		langs: select.getLangs(state),
-		secondLang: getSecondLang(state),
+		secondLang: Stores.SecondLang.getSecondLang(state),
 		frequency: frequencies.codes.find(
 			c => c.code === indicator.accrualPeriodicityCode
 		),
@@ -126,7 +122,6 @@ export const mapStateToProps = (state, ownProps) => {
 	};
 };
 const mapDispatchToProps = {
-	saveSecondLang,
 	load: loadIndicator,
 	publishIndicator,
 };

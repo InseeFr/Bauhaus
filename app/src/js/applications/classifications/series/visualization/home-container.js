@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import SeriesVisualization from './home';
 import { buildExtract, Loading } from '@inseefr/wilco';
 import loadSeries from 'js/actions/classifications/series/series';
-import { saveSecondLang } from 'js/actions/app';
 import * as mainSelect from 'js/reducers';
 import * as select from 'js/reducers/classifications/series';
-import { getSecondLang } from 'js/reducers/app';
+import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
@@ -26,7 +25,6 @@ class SeriesVisualizationContainer extends Component {
 			<SeriesVisualization
 				series={series}
 				secondLang={secondLang}
-				saveSecondLang={this.props.saveSecondLang}
 				langs={langs}
 			/>
 		);
@@ -36,7 +34,7 @@ class SeriesVisualizationContainer extends Component {
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const series = select.getSeries(state, id);
-	const secondLang = getSecondLang(state);
+	const secondLang = Stores.SecondLang.getSecondLang(state);
 	const langs = mainSelect.getLangs(state);
 	return {
 		id,
@@ -47,7 +45,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadSeries,
 };
 

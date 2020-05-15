@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
+import Field, {
+	DocumentField,
+} from 'js/applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from 'js/utils/msd';
 import {
 	Loading,
-	CheckSecondLang,
 	CancelButton,
 	ActionToolbar,
 	SaveButton,
+	Select,
 } from '@inseefr/wilco';
-import SelectRmes from 'js/applications/shared/select-rmes';
+
 import { DUPLICATE } from 'js/applications/operations/msd';
 import {
 	hasLabelLg2,
@@ -19,7 +21,11 @@ import {
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
 } from 'js/applications/operations/msd/utils';
-import { mdFromEditorState } from 'js/utils/html';
+import { HTMLUtils, CheckSecondLang, ArrayUtils } from 'bauhaus-utilities';
+import './sims-creation.scss';
+import { rangeType } from 'js/utils/msd/';
+
+const { RICH_TEXT } = rangeType;
 
 class SimsCreation extends React.Component {
 	static propTypes = {
@@ -98,10 +104,10 @@ class SimsCreation extends React.Component {
 						return {
 							...rubric,
 							labelLg1: rubric.labelLg1
-								? mdFromEditorState(rubric.labelLg1)
+								? HTMLUtils.mdFromEditorState(rubric.labelLg1)
 								: rubric.labelLg1,
 							labelLg2: rubric.labelLg2
-								? mdFromEditorState(rubric.labelLg2)
+								? HTMLUtils.mdFromEditorState(rubric.labelLg2)
 								: rubric.labelLg2,
 						};
 					}
@@ -127,13 +133,20 @@ class SimsCreation extends React.Component {
 	render() {
 		const {
 			metadataStructure,
-			codesLists,
-			saveSecondLang,
+			codesLists = {},
 			secondLang,
 			mode,
 			langs: { lg1, lg2 },
-			organisations,
+			organisations = [],
 		} = this.props;
+
+		const organisationsOptions = ArrayUtils.sortArrayByLabel(
+			organisations.map(c => ({
+				label: c.label,
+				value: c.id,
+			}))
+		);
+
 		const { sims, idParent } = this.state;
 		const operationsOptions = (this.props.sims.parentsWithoutSims || []).map(
 			op => ({
@@ -149,7 +162,14 @@ class SimsCreation extends React.Component {
 							{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
 						</h3>
 					)}
-					<div className="row" id={msd.idMas}>
+					<div
+						className={`row ${
+							!secondLang
+								? 'bauhaus-sims-field__' + msd.rangeType
+								: 'bauhaus-sims-field__' + msd.rangeType + '_2col'
+						}`}
+						id={msd.idMas}
+					>
 						{!msd.isPresentational && (
 							<Field
 								msd={msd}
@@ -159,7 +179,7 @@ class SimsCreation extends React.Component {
 								secondLang={false}
 								lang={lg1}
 								alone={!hasLabelLg2(msd) || !secondLang}
-								organisations={organisations}
+								organisationsOptions={organisationsOptions}
 							/>
 						)}
 						{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
@@ -171,7 +191,15 @@ class SimsCreation extends React.Component {
 								secondLang={true}
 								lang={lg2}
 								alone={false}
-								organisations={organisations}
+								organisationsOptions={organisationsOptions}
+							/>
+						)}
+
+						{msd.rangeType === RICH_TEXT && (
+							<DocumentField
+								msd={msd}
+								currentSection={sims[msd.idMas]}
+								handleChange={handleChange}
 							/>
 						)}
 					</div>
@@ -196,20 +224,17 @@ class SimsCreation extends React.Component {
 						<div key={msd.idMas}>
 							{index === 0 && (
 								<React.Fragment>
-									<CheckSecondLang
-										secondLang={secondLang}
-										onChange={saveSecondLang}
-									/>
+									<CheckSecondLang />
 									{mode === 'DUPLICATE' && (
-										<div id="operation-picker" className="panel panel-default">
-											<SelectRmes
-												value={idParent}
-												placeholder={D.operationsTitle}
-												options={operationsOptions}
-												onChange={this.updateIdParent}
-												searchable
-											/>
-										</div>
+										<Select
+											value={operationsOptions.find(
+												({ value }) => value === idParent
+											)}
+											placeholder={D.operationsTitle}
+											options={operationsOptions}
+											onChange={this.updateIdParent}
+											searchable
+										/>
 									)}
 								</React.Fragment>
 							)}

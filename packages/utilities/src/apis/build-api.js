@@ -12,6 +12,7 @@ export const buildApi = (context, api) => {
 		/*try {
 			const mockPath = context === '' ? 'index' : context;
 			const mocks = require('./mocks/' + mockPath);
+			console.debug(mockPath, resource);
 			if (mocks[resource]) {
 				apiFns[resource] = mocks[resource];
 			}

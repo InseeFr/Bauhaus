@@ -72,7 +72,6 @@ class CollectionsToExport extends Component {
 					title={D.exportTitle}
 					panelTitle={D.collectionsExportPanelTitle}
 					labelWarning={D.hasNotCollectionToExport}
-					labelValidateButton={D.btnExport}
 					handleAction={this.openModal}
 					context="collections"
 				/>

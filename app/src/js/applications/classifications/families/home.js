@@ -7,7 +7,7 @@ const FamiliesHome = ({ families }) => {
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-md-8 col-md-offset-2 centered">
+				<div className="col-md-8 col-md-offset-2 text-center">
 					<PageTitle title={D.familiesSearchTitle} col={12} offset={0} />
 					<SearchableList
 						items={families}

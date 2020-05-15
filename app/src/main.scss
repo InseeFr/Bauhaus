@@ -1,18 +1,14 @@
-@import 'src/styles/mixin.scss';
-@import 'src/styles/colors.scss';
+/**
+* we tried to respect the ITCSS architecture for our stylessheets
+*/
 
-@import 'src/styles/utility.scss';
-
-body {
-	margin: 0;
-	padding: 0;
-	font-family: 'Barlow', sans-serif;
-	background: linear-gradient(to top, #efeef1, #fefefe);
-	min-height: 100vh;
-}
-a {
-	color: #045396;
-}
+@import 'src/styles/settings.scss';
+@import 'src/styles/tools.scss';
+@import 'src/styles/generic.scss';
+@import 'src/styles/elements.scss';
+@import 'src/styles/objects.scss';
+@import 'src/styles/components.scss';
+@import 'src/styles/utilities.scss';
 
 .items {
 	display: inline-block;
@@ -20,12 +16,6 @@ a {
 	margin-left: 5%;
 	margin-right: 5%;
 	margin-top: 10%;
-}
-
-.img-block {
-	display: block;
-	width: 100%;
-	text-align: center;
 }
 
 img.img-flag {
@@ -40,22 +30,8 @@ img.img-flag {
 	}
 }
 
-.btn-line {
-	margin-top: 15px;
-	margin-bottom: 15px;
-}
-
 .list-group-item {
 	text-align: left;
-}
-
-.vertical-center {
-	display: flex;
-	align-items: center;
-}
-
-.red {
-	color: red;
 }
 
 .nav-tabs > li {
@@ -88,32 +64,8 @@ img.img-flag {
 	font-size: 25px;
 }
 
-.alert.alert-danger {
-	font-weight: bold;
-}
-
-.rdw-editor-toolbar {
-	border-style: none;
-	background: transparent;
-}
-
-.DraftEditor-root {
-	border: 2px solid var(--color-3);
-	border-radius: 6px;
-	margin-top: 10px;
-	min-height: 200px;
-	background: white;
-}
-
 .editor-container {
 	margin-top: 20px;
-}
-
-.full-label {
-	width: 100%;
-}
-.form-label {
-	display: block;
 }
 
 .row.flex {

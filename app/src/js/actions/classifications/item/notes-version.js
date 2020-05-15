@@ -1,5 +1,5 @@
 import api from 'js/remote-api/classifications-api';
-import { rmesHtmlToRawHtml } from 'js/utils/html';
+import { HTMLUtils } from 'bauhaus-utilities';
 import { emptyNotes } from 'js/applications/classifications/utils/item/notes';
 import * as A from 'js/actions/constants';
 
@@ -24,7 +24,9 @@ export default (classificationId, itemId, version) => dispatch => {
 						{},
 						emptyNotes,
 						Object.keys(notes).reduce((formatted, noteName) => {
-							formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
+							formatted[noteName] = HTMLUtils.rmesHtmlToRawHtml(
+								notes[noteName]
+							);
 							return formatted;
 						}, {})
 					),

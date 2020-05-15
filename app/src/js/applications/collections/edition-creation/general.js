@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D, { D1, D2 } from 'js/i18n';
-import SelectRmes from 'js/applications/shared/select-rmes';
+import { Select } from '@inseefr/wilco';
 import InputRmes from 'js/applications/shared/input-rmes';
 import {
 	propTypes as generalPropTypes,
@@ -31,65 +31,58 @@ function CollectionGeneralEdition({
 		descriptionLg2,
 	} = general;
 	const { lg1, lg2 } = langs;
-
+	const stampListOptions = stampList.map(stamp => ({
+		label: stamp,
+		value: stamp,
+	}));
 	const handlers = handleFieldChange(handleChange);
 	return (
 		<div>
-			<h4 className="centered">
+			<h4 className="text-center">
 				( <span className="boldRed">*</span> : {D.requiredFields})
 			</h4>
 			<div className="row">
-				{creation && (
-					<InputRmes
-						colMd={12}
-						label={D1.idTitle}
-						lang={lg1}
-						star
-						value={id}
-						handleChange={handlers.id}
-					/>
-				)}
-				{!creation && (
-					<InputRmes
-						colMd={12}
-						label={D1.idTitle}
-						lang={lg1}
-						star
-						value={id}
-						disabled
-						handleChange={handlers.id}
-					/>
-				)}
+				<InputRmes
+					colMd={12}
+					label={D1.idTitle}
+					lang={lg1}
+					star
+					value={id}
+					disabled={!creation}
+					handleChange={handlers.id}
+					className="w-100"
+				/>
 			</div>
 			<div className="row">
 				<InputRmes
-					colMd={12}
+					colMd={6}
 					label={D1.labelTitle}
 					lang={lg1}
 					star
 					value={prefLabelLg1}
 					handleChange={handlers.prefLabelLg1}
+					className="w-100"
 				/>
-			</div>
-			<div className="row">
 				<InputRmes
-					colMd={12}
+					colMd={6}
 					label={D2.labelTitle}
 					lang={lg2}
 					hiddenStar
 					value={prefLabelLg2}
 					handleChange={handlers.prefLabelLg2}
+					className="w-100"
 				/>
 			</div>
+
 			<div className="form-group">
 				<label>
 					{D1.creatorTitle} <span className="boldRed">*</span>
 				</label>
-				<SelectRmes
+				<Select
 					className="form-control"
 					placeholder={D1.stampsPlaceholder}
-					value={creator}
-					options={stampList.map(stamp => ({ label: stamp, value: stamp }))}
+					value={stampListOptions.find(value => value === creator)}
+					options={stampListOptions}
 					onChange={handlers.creator}
 					searchable={true}
 				/>
@@ -105,20 +98,20 @@ function CollectionGeneralEdition({
 			</div>
 			<div className="row">
 				<InputRmes
-					colMd={12}
+					colMd={6}
 					label={D1.descriptionTitle}
 					lang={lg1}
 					value={descriptionLg1}
 					handleChange={handlers.descriptionLg1}
+					className="w-100"
 				/>
-			</div>
-			<div className="row">
 				<InputRmes
-					colMd={12}
+					colMd={6}
 					label={D2.descriptionTitle}
 					lang={lg2}
 					value={descriptionLg2}
 					handleChange={handlers.descriptionLg2}
+					className="w-100"
 				/>
 			</div>
 		</div>

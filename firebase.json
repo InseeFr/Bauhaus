@@ -1,6 +1,12 @@
 {
-  "hosting": {
-    "public": ".deploy",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
-  }
+	"hosting": {
+		"public": ".deploy",
+		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+		"rewrites": [
+			{
+				"source": "!/storybook/**",
+				"destination": "/index.html"
+			}
+		]
+	}
 }

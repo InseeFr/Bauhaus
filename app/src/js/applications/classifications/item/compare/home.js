@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CheckSecondLang, PageTitle } from '@inseefr/wilco';
+import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from '../general';
 import CompareNotes from 'js/applications/shared/note-compare';
 import { buildNotes } from 'js/applications/classifications/utils/classification/notes';
+import { CheckSecondLang } from 'bauhaus-utilities';
 
 const Compare = ({
 	classificationId,
@@ -12,7 +13,6 @@ const Compare = ({
 	general,
 	notes,
 	secondLang,
-	saveSecondLang,
 	langs,
 }) => {
 	const { prefLabelLg1, prefLabelLg2 } = general;
@@ -22,7 +22,7 @@ const Compare = ({
 			<div className="container">
 				<PageTitle title={secondLang ? prefLabelLg2 : prefLabelLg1} />
 				<Controls />
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+				<CheckSecondLang />
 
 				<General
 					general={general}
@@ -48,7 +48,6 @@ Compare.propTypes = {
 	general: PropTypes.object.isRequired,
 	notes: PropTypes.object.isRequired,
 	secondLang: PropTypes.bool.isRequired,
-	saveSecondLang: PropTypes.func.isRequired,
 	langs: PropTypes.object.isRequired,
 };
 

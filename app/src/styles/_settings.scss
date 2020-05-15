@@ -1,0 +1,51 @@
+body {
+	--color-1: transparent;
+	--color-2: transparent;
+	--color-3: transparent;
+}
+.operations {
+	--color-1: #a96d88;
+	--color-2: #7e375b;
+	--color-3: #600141;
+	--menu-active-page: var(--color-3);
+	--second-lang-bloc-title: var(--color-1);
+	--sub-title: var(--color-3);
+	--home-icon-color: var(--color-3);
+}
+.concepts {
+	--color-1: #91b5d0;
+	--color-2: #425d84;
+	--color-3: #5f7a96;
+	--menu-active-page: #425d84;
+	--second-lang-bloc-title: var(--color-1);
+	--sub-title: var(--color-2);
+	--home-icon-color: var(--color-3);
+}
+.classifications {
+	--color-1: #417324;
+	--color-2: #53872a;
+	--color-3: #419f2e;
+	--menu-active-page: var(--color-3);
+	--second-lang-bloc-title: var(--color-1);
+	--sub-title: var(--color-3);
+	--home-icon-color: #817534;
+}
+.structures {
+	--color-1: #917674;
+	--color-2: #784d49;
+	--color-3: #a36a64;
+	--menu-active-page: var(--color-3);
+	--second-lang-bloc-title: var(--color-1);
+	--sub-title: var(--color-3);
+	--home-icon-color: var(--color-3);
+}
+
+.bauhaus-app {
+	--color-1: #775e88;
+	--color-2: #5b4867;
+	--color-3: #45374e;
+	--menu-active-page: var(--color-3);
+	--second-lang-bloc-title: var(--color-1);
+	--sub-title: var(--color-3);
+	--home-icon-color: var(--color-3);
+}

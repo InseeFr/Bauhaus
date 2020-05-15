@@ -2,6 +2,11 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import Home from './home';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+const store = mockStore({});
 
 const family = {
 	general: { prefLabelLg1: 'Label' },
@@ -11,11 +16,9 @@ const family = {
 describe('classification-family-home', () => {
 	it('renders without crashing', () => {
 		render(
-			<Home
-				family={family}
-				secondLang={true}
-				saveSecondLang={() => console.log('save second lang')}
-			/>,
+			<Provider store={store}>
+				<Home family={family} secondLang={true} />
+			</Provider>,
 			{
 				wrapper: MemoryRouter,
 			}

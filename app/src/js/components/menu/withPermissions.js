@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as select from 'js/reducers';
+import { Auth } from 'bauhaus-utilities';
 
 export function withPermissions(WrappedComponent) {
 	const mapStateToProps = state => {
-		const permission = select.getPermission(state);
+		const permission = Auth.getPermission(state);
 		return { permission };
 	};
 

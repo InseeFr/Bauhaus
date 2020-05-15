@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { goBack, Button, ActionToolbar } from '@inseefr/wilco';
+import { goBack, ReturnButton, Button, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
 
 const ClassificationControls = props => {
@@ -9,11 +9,7 @@ const ClassificationControls = props => {
 
 	return (
 		<ActionToolbar>
-			<Button
-				key={D.btnReturn}
-				action={goBack(props, `/classifications`)}
-				label={D.btnReturn}
-			/>
+			<ReturnButton action={goBack(props, `/classifications`)} />
 			<Button key={D.btnTree} action={treeLocation} label={D.btnTree} col={3} />
 		</ActionToolbar>
 	);

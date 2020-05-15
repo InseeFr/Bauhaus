@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import D, { D1, D2 } from 'js/i18n';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
-import SelectRmes from 'js/applications/shared/select-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
 import InputMultiRmes from 'js/applications/shared/input-multi-rmes';
 import {
 	propTypes as generalPropTypes,
 	fields as generalFields,
 } from 'js/utils/concepts/general';
+import { Select, LabelRequired } from '@inseefr/wilco';
 
 const handleFieldChange = handleChange =>
 	generalFields.reduce((handlers, fieldName) => {
@@ -36,10 +36,19 @@ function ConceptGeneralEdition({
 	} = general;
 
 	const handlers = handleFieldChange(handleChange);
-
+	const stampListOptions = stampList.map(stamp => ({
+		label: stamp,
+		value: stamp,
+	}));
+	const disseminationStatusListOptions = disseminationStatusList.map(
+		({ url: value, label }) => ({
+			label,
+			value,
+		})
+	);
 	return (
 		<div>
-			<h4 className="centered">
+			<h4 className="text-center">
 				( <span className="boldRed">*</span> : {D.requiredFields})
 			</h4>
 			<div className="row">
@@ -50,6 +59,7 @@ function ConceptGeneralEdition({
 					star
 					value={prefLabelLg1}
 					handleChange={handlers.prefLabelLg1}
+					className="w-100"
 				/>
 				<InputRmes
 					colMd={6}
@@ -58,6 +68,7 @@ function ConceptGeneralEdition({
 					hiddenStar
 					value={prefLabelLg2}
 					handleChange={handlers.prefLabelLg2}
+					className="w-100"
 				/>
 			</div>
 			<InputMultiRmes
@@ -69,16 +80,13 @@ function ConceptGeneralEdition({
 				langs={langs}
 			/>
 			<div className="form-group">
-				<label>
-					{D1.creatorTitle} <span className="boldRed">*</span>
-				</label>
-				<SelectRmes
+				<LabelRequired>{D1.creatorTitle}</LabelRequired>
+				<Select
 					className="form-control"
 					placeholder={D.stampsPlaceholder}
-					value={creator}
-					options={stampList.map(stamp => ({ label: stamp, value: stamp }))}
+					value={stampListOptions.find(({ value }) => value === creator)}
+					options={stampListOptions}
 					onChange={handlers.creator}
-					searchable={true}
 				/>
 			</div>
 			<div className="form-group">
@@ -91,17 +99,15 @@ function ConceptGeneralEdition({
 				/>
 			</div>
 			<div className="form-group">
-				<label>
-					{D1.disseminationStatusTitle} <span className="boldRed">*</span>
-				</label>
-				<SelectRmes
+				<LabelRequired>{D1.disseminationStatusTitle}</LabelRequired>
+
+				<Select
 					className="form-control"
 					placeholder={D.disseminationStatusPlaceholder}
-					value={disseminationStatus}
-					options={disseminationStatusList.map(({ url: value, label }) => ({
-						label,
-						value,
-					}))}
+					value={disseminationStatusListOptions.find(
+						({ value }) => value === disseminationStatus
+					)}
+					options={disseminationStatusListOptions}
 					onChange={handlers.disseminationStatus}
 					searchable={true}
 				/>

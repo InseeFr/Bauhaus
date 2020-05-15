@@ -1,9 +1,7 @@
 import api from 'js/remote-api/concepts-api';
 import * as A from '../constants';
 
-import { sortArray } from 'js/utils/array-utils';
-
-const sortByLabel = sortArray('label');
+import { ArrayUtils } from 'bauhaus-utilities';
 
 const emptyItem = {
 	id: '',
@@ -28,7 +26,7 @@ export default () => dispatch => {
 			dispatch({
 				type: A.LOAD_CONCEPT_SEARCH_LIST_SUCCESS,
 				payload: {
-					results: sortByLabel(results).map(concept =>
+					results: ArrayUtils.sortArrayByLabel(results).map(concept =>
 						Object.assign({}, emptyItem, concept)
 					),
 				},

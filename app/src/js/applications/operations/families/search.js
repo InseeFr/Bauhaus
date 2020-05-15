@@ -1,17 +1,20 @@
 import D from 'js/i18n';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
 import { Loading } from '@inseefr/wilco';
-import { AbstractSearchComponent } from 'js/applications/shared/advanced-search/home-container';
 import api from 'js/remote-api/operations-api';
 
-import { filterKeyDeburr, sortArray } from 'js/utils/array-utils';
-import SearchList from 'js/applications/shared/advanced-search/home';
-const filterLabel = filterKeyDeburr(['prefLabelLg1']);
-const fields = ['prefLabelLg1'];
-const sortByLabel = sortArray('prefLabelLg1');
+import {
+	ArrayUtils,
+	AbstractAdvancedSearchComponent,
+	AdvancedSearchList,
+} from 'bauhaus-utilities';
 
-class SearchFormList extends AbstractSearchComponent {
+const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
+const fields = ['prefLabelLg1'];
+const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
+
+class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
 		prefLabelLg1: '',
 	};
@@ -33,24 +36,26 @@ class SearchFormList extends AbstractSearchComponent {
 			</li>
 		));
 		return (
-			<SearchList
+			<AdvancedSearchList
 				title={D.familiesSearchTitle}
 				data={dataLinks}
-				backUrl="/operations/families"
 				initializeState={this.initializeState}
+				redirect={<Redirect to={'/operations/families'} push />}
 			>
 				<div className="row form-group">
 					<div className="col-md-12">
-						<input
-							value={prefLabelLg1}
-							onChange={e => this.handlers.prefLabelLg1(e.target.value)}
-							type="text"
-							placeholder={D.searchLabelPlaceholder}
-							className="form-control"
-						/>
+						<label className="w-100">
+							{D.labelTitle}
+							<input
+								value={prefLabelLg1}
+								onChange={e => this.handlers.prefLabelLg1(e.target.value)}
+								type="text"
+								className="form-control"
+							/>
+						</label>
 					</div>
 				</div>
-			</SearchList>
+			</AdvancedSearchList>
 		);
 	}
 }

@@ -1,5 +1,5 @@
 import * as A from 'js/actions/constants';
-
+import { Stores } from 'bauhaus-utilities';
 export default function(state = {}, action) {
 	const { type, payload } = action;
 	if (/FAILURE$/.test(type)) {
@@ -9,7 +9,7 @@ export default function(state = {}, action) {
 		};
 	}
 	switch (type) {
-		case A.SAVE_SECOND_LANG: {
+		case Stores.SecondLang.SAVE_SECOND_LANG: {
 			return {
 				...state,
 				secondLang: payload,
@@ -30,8 +30,4 @@ export default function(state = {}, action) {
 		default:
 			return state;
 	}
-}
-
-export function getSecondLang(state) {
-	return state.app.secondLang;
 }

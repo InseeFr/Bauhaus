@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { CheckSecondLang, PageTitle, Note } from '@inseefr/wilco';
+import { PageTitle, Note } from '@inseefr/wilco';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import { D1, D2 } from 'js/i18n';
 import { propTypes as correspondencePropTypes } from 'js/applications/classifications/utils/correspondence/general';
+import { CheckSecondLang } from 'bauhaus-utilities';
 
 class HomeGeneral extends Component {
 	static propTypes = {
@@ -27,10 +28,7 @@ class HomeGeneral extends Component {
 			<div>
 				{title && <PageTitle title={title} />}
 				<CorrespondenceControls />
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
+				<CheckSecondLang />
 				<div className="row">
 					{(!secondLang ||
 						(secondLang && (firstClassLabelLg2 || secondClassLabelLg2))) && (

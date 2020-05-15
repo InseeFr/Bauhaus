@@ -15,7 +15,7 @@ function CollectionSendStatus({ label, status, urlBack }) {
 
 	return (
 		<div className="container">
-			<div className="row centered">
+			<div className="row text-center">
 				<div className="col-md-12">
 					<h2>{title}</h2>
 				</div>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { CheckSecondLang, PageTitle, PageSubtitle } from '@inseefr/wilco';
+import { PageTitle, PageSubtitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from './general';
 import Members from './members';
+import { CheckSecondLang } from 'bauhaus-utilities';
 
 class LevelVisualization extends Component {
 	render() {
@@ -18,10 +19,7 @@ class LevelVisualization extends Component {
 					<PageSubtitle subTitle={general.prefLabelLg2} />
 				)}
 				<Controls id={classificationId} />
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
+				<CheckSecondLang />
 				<General
 					general={general}
 					classificationId={classificationId}

@@ -1,5 +1,5 @@
 import api from 'js/remote-api/concepts-api';
-import { rmesHtmlToRawHtml } from 'js/utils/html';
+import { HTMLUtils } from 'bauhaus-utilities';
 import { emptyNotes } from 'js/utils/concepts/notes';
 import * as A from '../constants';
 
@@ -22,7 +22,9 @@ export default (id, version) => dispatch => {
 						{},
 						emptyNotes,
 						Object.keys(notes).reduce((formatted, noteName) => {
-							formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
+							formatted[noteName] = HTMLUtils.rmesHtmlToRawHtml(
+								notes[noteName]
+							);
 							return formatted;
 						}, {})
 					),

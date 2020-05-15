@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import D from 'js/i18n';
 import {
 	PageTitle,
-	Button,
+	ExportButton,
 	Pagination,
 	Panel,
 	ErrorBloc,
@@ -12,6 +12,7 @@ import {
 	PickerItem,
 	ActionToolbar,
 	filterDeburr,
+	ReturnButton,
 } from '@inseefr/wilco';
 
 class Picker extends Component {
@@ -125,8 +126,8 @@ class Picker extends Component {
 
 		const controls = (
 			<ActionToolbar>
-				<Button label={D.btnReturn} action={`/${context}`} />
-				<Button
+				<ReturnButton action={`/${context}`} />
+				<ExportButton
 					label={labelValidateButton}
 					action={this.handleClickValid}
 					disabled={added.length === 0}
@@ -146,7 +147,7 @@ class Picker extends Component {
 						<div className="col-md-6">
 							<Panel title={panelTitle}>{addedEls}</Panel>
 						</div>
-						<div className="col-md-6 centered">
+						<div className="col-md-6 text-center">
 							<input
 								value={searchLabel}
 								onChange={e => this.handleChange(e.target.value)}

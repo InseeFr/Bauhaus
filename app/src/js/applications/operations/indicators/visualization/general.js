@@ -5,7 +5,7 @@ import { D1, D2 } from 'js/i18n';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
-import { markdownToHtml } from 'js/utils/html';
+import { HTMLUtils } from 'bauhaus-utilities';
 import { PublicationMale } from 'js/applications/operations/shared/status';
 
 function DisplayMultiLangNote({
@@ -16,17 +16,9 @@ function DisplayMultiLangNote({
 	secondLang,
 	md = false,
 }) {
-	const body1 = md ? (
-		<div dangerouslySetInnerHTML={{ __html: markdownToHtml(value1) }} />
-	) : (
-		value1
-	);
+	const body1 = md ? HTMLUtils.renderMarkdownElement(value1) : value1;
 
-	const body2 = md ? (
-		<div dangerouslySetInnerHTML={{ __html: markdownToHtml(value2) }} />
-	) : (
-		value2
-	);
+	const body2 = md ? HTMLUtils.renderMarkdownElement(value2) : value2;
 
 	return (
 		<div className="row">
@@ -36,7 +28,6 @@ function DisplayMultiLangNote({
 				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
-				md={md}
 			/>
 			{secondLang && (
 				<Note
@@ -45,7 +36,6 @@ function DisplayMultiLangNote({
 					lang={lg2}
 					alone={false}
 					allowEmpty={true}
-					md={md}
 				/>
 			)}
 		</div>

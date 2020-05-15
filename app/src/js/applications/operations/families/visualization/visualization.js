@@ -4,6 +4,7 @@ import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
 import { PublicationFemale } from 'js/applications/operations/shared/status';
+import { HTMLUtils } from 'bauhaus-utilities';
 
 function OperationsFamilyVisualization({
 	attr,
@@ -45,21 +46,19 @@ function OperationsFamilyVisualization({
 
 			<div className="row">
 				<Note
-					text={attr.abstractLg1}
+					text={HTMLUtils.renderMarkdownElement(attr.abstractLg1)}
 					title={D1.summary}
 					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
-					md
 				/>
 				{secondLang && (
 					<Note
-						text={attr.abstractLg2}
+						text={HTMLUtils.renderMarkdownElement(attr.abstractLg2)}
 						title={D2.summary}
 						lang={lg2}
 						alone={false}
 						allowEmpty={true}
-						md
 					/>
 				)}
 			</div>

@@ -1,8 +1,6 @@
 import api from 'js/remote-api/classifications-api';
 import * as A from 'js/actions/constants';
-import { sortArray } from 'js/utils/array-utils';
-
-const sortByLabel = sortArray('label');
+import { ArrayUtils } from 'bauhaus-utilities';
 
 export default () => dispatch => {
 	dispatch({
@@ -13,7 +11,7 @@ export default () => dispatch => {
 		results =>
 			dispatch({
 				type: A.LOAD_CLASSIFICATIONS_LIST_SUCCESS,
-				payload: { results: sortByLabel(results) },
+				payload: { results: ArrayUtils.sortArrayByLabel(results) },
 			}),
 		err =>
 			dispatch({

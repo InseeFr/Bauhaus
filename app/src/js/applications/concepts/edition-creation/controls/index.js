@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import deburr from 'lodash/deburr';
 import ConceptCreateControlLayout from './controls-layout';
 import D from 'js/i18n';
-import { htmlLength, htmlIsEmpty } from 'js/utils/html';
-import { arrayKeepUniqueField } from 'js/utils/array-utils';
+import { ArrayUtils, HTMLUtils } from 'bauhaus-utilities';
 import { propTypes as notesPropTypes } from 'js/utils/concepts/notes';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
@@ -17,14 +16,14 @@ const checkPrefLabelFrExisting = (
 	return (
 		//if it has not changed, it's ok
 		prefLabelLg1 !== initialPrefLabelFr &&
-		arrayKeepUniqueField(concepts, 'label').indexOf(
+		ArrayUtils.arrayKeepUniqueField(concepts, 'label').indexOf(
 			deburr(prefLabelLg1.toLowerCase())
 		) !== -1
 	);
 };
 
 export const scndWithoutFirst = (first, second) => {
-	return !htmlIsEmpty(second) && htmlIsEmpty(first);
+	return !HTMLUtils.htmlIsEmpty(second) && HTMLUtils.htmlIsEmpty(first);
 };
 
 function ConceptCreateControl({
@@ -56,13 +55,14 @@ function ConceptCreateControl({
 		initialPrefLabelFr
 	);
 	const isMissingConcept = !(prefLabelLg1 && creator && disseminationStatus);
-	const isDefinitionLg1Empty = htmlIsEmpty(definitionLg1);
+	const isDefinitionLg1Empty = HTMLUtils.htmlIsEmpty(definitionLg1);
 	const isStatusPublicAndEmptyScopeNote =
-		disseminationStatus.includes('Public') && htmlIsEmpty(scopeNoteLg1);
+		disseminationStatus.includes('Public') &&
+		HTMLUtils.htmlIsEmpty(scopeNoteLg1);
 	const hasScopeNoteLg2NotLg1 = scndWithoutFirst(scopeNoteLg1, scopeNoteLg2);
 	const isScopeNoteTooLong =
-		htmlLength(scopeNoteLg1) > maxLengthScopeNote ||
-		htmlLength(scopeNoteLg2) > maxLengthScopeNote;
+		HTMLUtils.htmlLength(scopeNoteLg1) > maxLengthScopeNote ||
+		HTMLUtils.htmlLength(scopeNoteLg2) > maxLengthScopeNote;
 	const hasEditorialNoteLg2NotLg1 = scndWithoutFirst(
 		editorialNoteLg1,
 		editorialNoteLg2

@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Loading, buildExtract } from '@inseefr/wilco';
 import Compare from './home';
-import { saveSecondLang } from 'js/actions/app';
 import loadItem from 'js/actions/classifications/item';
 import * as select from 'js/reducers/classifications/item';
 import * as mainSelect from 'js/reducers';
-import { getSecondLang } from 'js/reducers/app';
+import { Stores } from 'bauhaus-utilities';
 
 const extractClassificationId = buildExtract('classificationId');
 const extractItemId = buildExtract('itemId');
@@ -37,7 +36,6 @@ class CompareContainer extends Component {
 				general={general}
 				notes={notes}
 				secondLang={secondLang}
-				saveSecondLang={this.props.saveSecondLang}
 				langs={langs}
 			/>
 		);
@@ -48,7 +46,7 @@ const mapStateToProps = (state, ownProps) => {
 	const classificationId = extractClassificationId(ownProps);
 	const itemId = extractItemId(ownProps);
 	const item = select.getFullItem(state, classificationId, itemId);
-	const secondLang = getSecondLang(state);
+	const secondLang = Stores.SecondLang.getSecondLang(state);
 	const langs = mainSelect.getLangs(state);
 	return {
 		classificationId,
@@ -60,7 +58,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-	saveSecondLang,
 	loadItem,
 };
 

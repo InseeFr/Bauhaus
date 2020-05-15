@@ -4,7 +4,7 @@ import { Loading } from '@inseefr/wilco';
 import CollectionsHome from './home';
 import { NOT_LOADED } from 'js/constants';
 import loadCollectionList from 'js/actions/collections/list';
-import * as select from 'js/reducers';
+import { Auth } from 'bauhaus-utilities';
 
 class CollectionsHomeContainer extends Component {
 	componentWillMount() {
@@ -17,7 +17,7 @@ class CollectionsHomeContainer extends Component {
 		const { collections, permission } = this.props;
 
 		if (!collections) {
-			return <Loading  />;
+			return <Loading />;
 		}
 		return (
 			<CollectionsHome collections={collections} permission={permission} />
@@ -26,7 +26,7 @@ class CollectionsHomeContainer extends Component {
 }
 
 const mapStateToProps = state => {
-	const permission = select.getPermission(state);
+	const permission = Auth.getPermission(state);
 	if (!state.collectionList) {
 		return {
 			status: NOT_LOADED,

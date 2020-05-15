@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { DocumentsBloc } from './index';
-import { sortArray } from 'js/utils/array-utils';
+import { ArrayUtils } from 'bauhaus-utilities';
 import { getLang } from '@inseefr/wilco';
 
 jest.mock('js/applications/operations/msd/utils');
@@ -65,7 +65,7 @@ describe('DocumentsBloc', () => {
 		const { container } = render(
 			<DocumentsBloc documents={documents} documentStores={documents} />
 		);
-		const orderedList = sortArray('labelLg1')(documents);
+		const orderedList = ArrayUtils.sortArray('labelLg1')(documents);
 
 		const lis = container.querySelectorAll('li');
 		for (let i = 0; i < lis.length; i++) {
@@ -82,7 +82,7 @@ describe('DocumentsBloc', () => {
 				documentStores={documents}
 			/>
 		);
-		const orderedList = sortArray('labelLg2')(documents);
+		const orderedList = ArrayUtils.sortArray('labelLg2')(documents);
 
 		const lis = container.querySelectorAll('li');
 		for (let i = 0; i < lis.length; i++) {

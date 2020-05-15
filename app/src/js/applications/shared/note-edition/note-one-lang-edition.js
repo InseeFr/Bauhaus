@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { LogoWarning } from '@inseefr/wilco';
 import ModifyNotes from './modify-notes';
 import flag from 'js/applications/shared/flag/flag';
-import { htmlLength } from 'js/utils/html';
+import { HTMLUtils } from 'bauhaus-utilities';
 
 function NoteOneLangEdition({ lang, note, handleChange, maxLength }) {
-	const noteLength = htmlLength(note);
+	const noteLength = HTMLUtils.htmlLength(note);
 	const checkLength = maxLength && (
 		<div>
 			<div>
@@ -17,7 +17,7 @@ function NoteOneLangEdition({ lang, note, handleChange, maxLength }) {
 	);
 
 	return (
-		<div className="form-group centered">
+		<div className="form-group text-center">
 			<label>{flag(lang)}</label>
 			<ModifyNotes note={note} handleChange={handleChange} />
 			{checkLength}

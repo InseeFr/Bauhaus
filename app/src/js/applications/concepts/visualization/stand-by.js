@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { goBack, PageTitle, Button } from '@inseefr/wilco';
+import { goBack, PageTitle, ReturnButton } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 
@@ -13,13 +13,10 @@ class ConceptVisualizationStandBy extends Component {
 			<div className="container">
 				<PageTitle title={prefLabelLg1} />
 				<div className="row">
-					<Button
-						action={goBack(this.props, '/concepts')}
-						label={D.btnReturn}
-					/>
+					<ReturnButton action={goBack(this.props, '/concepts')} />
 				</div>
 				<div className="row">
-					<div className="col-md-10 centered col-md-offset-1">
+					<div className="col-md-10 text-center col-md-offset-1">
 						<h2>
 							{D.conceptStandBy} {creator}
 						</h2>

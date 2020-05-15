@@ -10,7 +10,7 @@ function ConceptsSummary({ conceptsData }) {
 	const dataStamps = buildDataStamps(conceptsData);
 	return (
 		<div>
-			<h3 className="centered">
+			<h3 className="text-center">
 				{D.dashboardConceptsSummaryTitle} {today()}
 			</h3>
 			<Table rowParams={rowParams} data={data} />

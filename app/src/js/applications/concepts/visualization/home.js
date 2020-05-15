@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { CheckSecondLang, PageTitle, PageSubtitle } from '@inseefr/wilco';
+import { PageTitle, PageSubtitle } from '@inseefr/wilco';
 import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
@@ -13,6 +13,7 @@ import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { isOutOfDate } from 'js/utils/moment';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
+import { CheckSecondLang } from 'bauhaus-utilities';
 
 class ConceptVisualization extends Component {
 	constructor(props) {
@@ -99,10 +100,7 @@ class ConceptVisualization extends Component {
 						handleDeletion={this.handleClickDeletion}
 					/>
 
-					<CheckSecondLang
-						secondLang={secondLang}
-						onChange={this.props.saveSecondLang}
-					/>
+					<CheckSecondLang />
 
 					<ConceptGeneral
 						secondLang={secondLang}

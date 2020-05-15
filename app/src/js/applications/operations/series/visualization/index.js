@@ -1,27 +1,30 @@
 import React from 'react';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
-import { saveSecondLang } from 'js/actions/app';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import OperationsSerieVisualization from 'js/applications/operations/series/visualization/home';
+
 import {
-	CheckSecondLang,
 	Loading,
 	ErrorBloc,
 	Button,
 	ActionToolbar,
 	goBack,
 	buildExtract,
+	ReturnButton,
 } from '@inseefr/wilco';
 import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
-import { getSecondLang } from 'js/reducers/app';
 import { ADMIN, CNIS, SERIES_CONTRIBUTOR } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
-import { containUnsupportedStyles } from 'js/utils/html';
-import ValidationButton from 'js/applications/operations/shared/validationButton';
+import {
+	HTMLUtils,
+	ValidationButton,
+	Stores,
+	CheckSecondLang,
+	PageTitleBlock,
+} from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
@@ -45,7 +48,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 		 * The publication button should be enabled only if RICH_TEXT value do not
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
-		const publicationDisabled = containUnsupportedStyles(attr);
+		const publicationDisabled = HTMLUtils.containUnsupportedStyles(attr);
 
 		return (
 			<div className="container">
@@ -56,10 +59,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 				/>
 
 				<ActionToolbar>
-					<Button
-						action={goBack(this.props, '/operations/series')}
-						label={D.btnReturn}
-					/>
+					<ReturnButton action={goBack(this.props, '/operations/series')} />
 
 					{attr.idSims && (
 						<Button
@@ -97,10 +97,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 
 				<ErrorBloc error={serverSideError} />
 
-				<CheckSecondLang
-					secondLang={secondLang}
-					onChange={this.props.saveSecondLang}
-				/>
+				<CheckSecondLang />
 				<OperationsSerieVisualization
 					secondLang={secondLang}
 					attr={attr}
@@ -126,7 +123,7 @@ const mapStateToProps = (state, ownProps) => {
 		id,
 		object: serie.id === id ? serie : {},
 		langs: select.getLangs(state),
-		secondLang: getSecondLang(state),
+		secondLang: Stores.SecondLang.getSecondLang(state),
 		frequency: frequencies.codes.find(
 			c => c.code === serie.accrualPeriodicityCode
 		),
@@ -135,7 +132,6 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 const mapDispatchToProps = {
-	saveSecondLang,
 	load: loadSerie,
 	publishSeries,
 };

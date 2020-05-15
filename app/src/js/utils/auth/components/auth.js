@@ -1,9 +1,9 @@
-import * as select from 'js/reducers';
+import { Auth } from 'bauhaus-utilities';
 import { connect } from 'react-redux';
 
 export const mapStateToProps = state => {
 	return {
-		userRoles: select.getPermission(state).roles,
+		userRoles: Auth.getPermission(state).roles,
 	};
 };
 

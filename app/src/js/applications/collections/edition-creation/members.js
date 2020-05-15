@@ -129,7 +129,7 @@ class CollectionMembersEdition extends Component {
 				<div className="col-md-6">
 					<Panel title={D1.collectionMembersPanelTitle}>{addedEls}</Panel>
 				</div>
-				<div className="col-md-6 centered">
+				<div className="col-md-6 text-center">
 					<input
 						value={searchLabel}
 						onChange={e => this.handleChange(e.target.value)}

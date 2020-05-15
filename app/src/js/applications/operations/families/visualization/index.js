@@ -3,25 +3,28 @@ import PropTypes from 'prop-types';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getSecondLang } from 'js/reducers/app';
-import { saveSecondLang } from 'js/actions/app';
 import Auth from 'js/utils/auth/components/auth';
 import {
 	Button,
 	Loading,
 	ErrorBloc,
-	CheckSecondLang,
 	ActionToolbar,
 	goBack,
 	buildExtract,
+	ReturnButton,
 } from '@inseefr/wilco';
+
 import { ADMIN } from 'js/utils/auth/roles';
 import React from 'react';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
 import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
 import OperationsFamilyVisualization from 'js/applications/operations/families/visualization/visualization';
-import ValidationButton from 'js/applications/operations/shared/validationButton';
-import { containUnsupportedStyles } from 'js/utils/html';
+import {
+	Stores,
+	HTMLUtils,
+	ValidationButton,
+	CheckSecondLang,
+	PageTitleBlock,
+} from 'bauhaus-utilities';
 import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
 
 const extractId = buildExtract('id');
@@ -31,7 +34,6 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 		object: PropTypes.object,
 		secondLang: PropTypes.bool,
 		langs: PropTypes.object,
-		saveSecondLang: PropTypes.func,
 		load: PropTypes.func,
 		publishFamily: PropTypes.func,
 	};
@@ -41,7 +43,6 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 			secondLang,
 			langs,
 			object: { ...attr },
-			saveSecondLang,
 		} = this.props;
 		const { serverSideError } = this.state;
 		if (!attr.id) return <Loading />;
@@ -50,7 +51,7 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 		 * The publication button should be enabled only if RICH_TEXT value do not
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
-		const publicationDisabled = containUnsupportedStyles(attr);
+		const publicationDisabled = HTMLUtils.containUnsupportedStyles(attr);
 		return (
 			<div className="container">
 				<PageTitleBlock
@@ -60,10 +61,7 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 				/>
 
 				<ActionToolbar>
-					<Button
-						action={goBack(this.props, '/operations/families')}
-						label={D.btnReturn}
-					/>
+					<ReturnButton action={goBack(this.props, '/operations/families')} />
 
 					<Auth roles={[ADMIN]}>
 						<ValidationButton
@@ -84,7 +82,7 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 
 				<ErrorBloc error={serverSideError} />
 
-				<CheckSecondLang secondLang={secondLang} onChange={saveSecondLang} />
+				<CheckSecondLang />
 
 				<OperationsFamilyVisualization
 					secondLang={secondLang}
@@ -103,11 +101,10 @@ export const mapStateToProps = (state, ownProps) => {
 		id,
 		object: family.id === id ? family : {},
 		langs: select.getLangs(state),
-		secondLang: getSecondLang(state),
+		secondLang: Stores.SecondLang.getSecondLang(state),
 	};
 };
 const mapDispatchToProps = {
-	saveSecondLang,
 	load: loadFamily,
 	publishFamily,
 };

@@ -17,7 +17,7 @@ class Root extends Component {
 						<Routes error={error} />
 					</Router>
 				</div>
-				<footer className="centered" style={{ marginTop: '50px' }}>
+				<footer className="text-center" style={{ marginTop: '50px' }}>
 					<p>
 						<img width="100" src={bauhausLogo} alt="application logo" />
 

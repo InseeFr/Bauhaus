@@ -1,5 +1,6 @@
-import reducerApp, { getSecondLang } from './';
+import reducerApp from './';
 import * as A from 'js/actions/constants';
+import { Stores } from 'bauhaus-utilities';
 
 describe('getSecondLang', () => {
 	it('should return the secondLang', () => {
@@ -9,7 +10,7 @@ describe('getSecondLang', () => {
 			},
 		};
 		const output = 'en';
-		expect(getSecondLang(input)).toEqual(output);
+		expect(Stores.SecondLang.getSecondLang(input)).toEqual(output);
 	});
 });
 describe('reducerApp', () => {
@@ -20,7 +21,7 @@ describe('reducerApp', () => {
 	});
 
 	test('action SAVE_SECOND_LANG', () => {
-		const action = { type: A.SAVE_SECOND_LANG, payload: false };
+		const action = { type: Stores.SecondLang.SAVE_SECOND_LANG, payload: false };
 		const result = reducerApp({ state: 'previous' }, action);
 		expect(result).toEqual({ state: 'previous', secondLang: false });
 	});

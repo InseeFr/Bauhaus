@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
-import { sortArray } from 'js/utils/array-utils';
+import { ArrayUtils } from 'bauhaus-utilities';
 
-const sortByLabelLg1 = sortArray('prefLabelLg1');
-const sortByLabelLg2 = sortArray('prefLabelLg2');
+const sortByLabelLg1 = ArrayUtils.sortArray('prefLabelLg1');
+const sortByLabelLg2 = ArrayUtils.sortArray('prefLabelLg2');
 
 function CollectionMembers({ members, secondLang, langs }) {
 	const memberListLg1 = sortByLabelLg1(members).map(item => (

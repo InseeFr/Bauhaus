@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
+import { EditorMarkdown, PageTitleBlock } from 'bauhaus-utilities';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -13,10 +13,11 @@ import {
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
+	LabelRequired,
+	Select,
 } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
-import SelectRmes from 'js/applications/shared/select-rmes';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
+
 const defaultDocument = {
 	labelLg1: '',
 	labelLg2: '',
@@ -100,7 +101,9 @@ class OperationsDocumentationEdition extends Component {
 
 	render() {
 		const { langOptions, type } = this.props;
-
+		const langSelectOptions = langOptions.codes.map(lang => {
+			return { value: lang.code, label: lang.labelLg1 };
+		});
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
 		const { document, files, serverSideError } = this.state;
@@ -137,10 +140,7 @@ class OperationsDocumentationEdition extends Component {
 				<form>
 					<div className="row">
 						<div className="col-md-6 form-group">
-							<label htmlFor="prefLabelLg1">
-								{D1.title}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
 							<input
 								type="text"
 								className="form-control"
@@ -151,10 +151,7 @@ class OperationsDocumentationEdition extends Component {
 							/>
 						</div>
 						<div className="col-md-6 form-group">
-							<label htmlFor="prefLabelLg2">
-								{D2.title}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
 							<input
 								type="text"
 								className="form-control"
@@ -188,10 +185,7 @@ class OperationsDocumentationEdition extends Component {
 					{type === LINK && (
 						<div className="row">
 							<div className="col-md-12 form-group">
-								<label htmlFor="url">
-									{D1.titleLink}
-									<span className="boldRed">*</span>
-								</label>
+								<LabelRequired htmlFor="url">{D1.titleLink}</LabelRequired>
 								<input
 									type="text"
 									className="form-control"
@@ -206,10 +200,7 @@ class OperationsDocumentationEdition extends Component {
 					{type === DOCUMENT && (
 						<div className="row">
 							<div className="col-md-12 form-group">
-								<label>
-									{D1.titleUpdatedDate}
-									<span className="boldRed">*</span>
-								</label>
+								<LabelRequired>{D1.titleUpdatedDate}</LabelRequired>
 								<DatePickerRmes
 									value={updatedDate}
 									onChange={date => {
@@ -262,18 +253,15 @@ class OperationsDocumentationEdition extends Component {
 					)}
 					<div className="row">
 						<div className="col-md-12 form-group">
-							<label htmlFor="lang">
-								{D1.langTitle}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="lang">{D1.langTitle}</LabelRequired>
 
-							<SelectRmes
+							<Select
 								placeholder=""
 								unclearable
-								value={document.lang}
-								options={langOptions.codes.map(lang => {
-									return { value: lang.code, label: lang.labelLg1 };
-								})}
+								value={langSelectOptions.find(
+									({ value }) => value === document.lang
+								)}
+								options={langSelectOptions}
 								onChange={value => {
 									this.onChange({ target: { value, id: 'lang' } });
 								}}

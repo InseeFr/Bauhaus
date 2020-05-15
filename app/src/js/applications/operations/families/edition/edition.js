@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import EditorMarkdown from 'js/applications/shared/editor-html/editor-markdown';
+import { EditorMarkdown, PageTitleBlock } from 'bauhaus-utilities';
 import {
 	CancelButton,
 	SaveButton,
@@ -10,9 +10,9 @@ import {
 	ActionToolbar,
 	goBackOrReplace,
 	goBack,
+	LabelRequired,
 } from '@inseefr/wilco';
 import { validate } from './validation';
-import PageTitleBlock from 'js/applications/shared/page-title-block';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -105,10 +105,7 @@ class OperationsFamilyEdition extends Component {
 				<form>
 					<div className="row">
 						<div className="col-md-6 form-group">
-							<label htmlFor="prefLabelLg1">
-								{D1.title}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
 							<input
 								type="text"
 								className="form-control"
@@ -119,10 +116,7 @@ class OperationsFamilyEdition extends Component {
 							/>
 						</div>
 						<div className="col-md-6 form-group">
-							<label htmlFor="prefLabelLg2">
-								{D2.title}
-								<span className="boldRed">*</span>
-							</label>
+							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
 							<input
 								type="text"
 								className="form-control"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { D1 } from 'js/i18n';
 import { DSURLToLabel, Note } from '@inseefr/wilco';
-import { arrayToString } from 'js/utils/array-utils';
+import { ArrayUtils } from 'bauhaus-utilities';
 import { stringToDate } from 'js/utils/moment';
 
 function ConceptGeneral({ attr, secondLang, langs }) {
@@ -58,7 +58,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 								if (fieldName.includes('altLabel')) {
 									return (
 										<li key={fieldName}>
-											{`${mapping[fieldName]} : ${arrayToString(
+											{`${mapping[fieldName]} : ${ArrayUtils.arrayToString(
 												attr[fieldName]
 											)}`}
 										</li>
