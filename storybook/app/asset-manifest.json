@@ -1,28 +1,30 @@
 {
   "files": {
-    "main.css": "/main.css",
-    "main.js": "/main.5821b69b6f90a3fdf9e7.bundle.js",
-    "main.css.map": "/main.css.map",
-    "main.js.map": "/main.5821b69b6f90a3fdf9e7.bundle.js.map",
-    "runtime~main.js": "/runtime~main.5821b69b6f90a3fdf9e7.bundle.js",
-    "runtime~main.js.map": "/runtime~main.5821b69b6f90a3fdf9e7.bundle.js.map",
-    "vendors~main.css": "/vendors~main.css",
-    "vendors~main.js": "/vendors~main.5821b69b6f90a3fdf9e7.bundle.js",
-    "vendors~main.css.map": "/vendors~main.css.map",
-    "vendors~main.js.map": "/vendors~main.5821b69b6f90a3fdf9e7.bundle.js.map",
+    "main.css": "/static/css/main.6761241d.chunk.css",
+    "main.js": "/main.ce9791748e1dc0ed4902.bundle.js",
+    "main.css.map": "/static/css/main.6761241d.chunk.css.map",
+    "main.js.map": "/main.ce9791748e1dc0ed4902.bundle.js.map",
+    "runtime~main.js": "/runtime~main.ce9791748e1dc0ed4902.bundle.js",
+    "runtime~main.js.map": "/runtime~main.ce9791748e1dc0ed4902.bundle.js.map",
+    "vendors~main.css": "/static/css/vendors~main.1d26c3ea.chunk.css",
+    "vendors~main.js": "/vendors~main.ce9791748e1dc0ed4902.bundle.js",
+    "vendors~main.css.map": "/static/css/vendors~main.1d26c3ea.chunk.css.map",
+    "vendors~main.js.map": "/vendors~main.ce9791748e1dc0ed4902.bundle.js.map",
     "iframe.html": "/iframe.html",
-    "precache-manifest.73d7c3319b96f52c691ca29f41786753.js": "/precache-manifest.73d7c3319b96f52c691ca29f41786753.js",
+    "main.ce9791748e1dc0ed4902.bundle.js.LICENSE.txt": "/main.ce9791748e1dc0ed4902.bundle.js.LICENSE.txt",
+    "precache-manifest.02ca652892c9e1bb9d38a133986d7007.js": "/precache-manifest.02ca652892c9e1bb9d38a133986d7007.js",
     "service-worker.js": "/service-worker.js",
     "static/media/default.png": "/static/media/default.0d6fe9ef.png",
     "static/media/en.png": "/static/media/en.bdabb29d.png",
     "static/media/fr.png": "/static/media/fr.e85c938a.png",
-    "static/media/bootstrap.css": "/static/media/glyphicons-halflings-regular.fa277232.woff"
+    "static/media/bootstrap.css": "/static/media/glyphicons-halflings-regular.fa277232.woff",
+    "vendors~main.ce9791748e1dc0ed4902.bundle.js.LICENSE.txt": "/vendors~main.ce9791748e1dc0ed4902.bundle.js.LICENSE.txt"
   },
   "entrypoints": [
-    "runtime~main.5821b69b6f90a3fdf9e7.bundle.js",
-    "vendors~main.css",
-    "vendors~main.5821b69b6f90a3fdf9e7.bundle.js",
-    "main.css",
-    "main.5821b69b6f90a3fdf9e7.bundle.js"
+    "runtime~main.ce9791748e1dc0ed4902.bundle.js",
+    "static/css/vendors~main.1d26c3ea.chunk.css",
+    "vendors~main.ce9791748e1dc0ed4902.bundle.js",
+    "static/css/main.6761241d.chunk.css",
+    "main.ce9791748e1dc0ed4902.bundle.js"
   ]
 }
