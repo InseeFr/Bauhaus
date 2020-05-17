@@ -339,8 +339,8 @@ const dictionary = {
 	},
 
 	authorizationManagementTitle: {
-		fr: 'Gestion des habilitations',
-		en: 'Authorization management',
+		fr: 'Habilitations',
+		en: 'Authorization',
 	},
 
 	pickedUserAddTitle: {
