@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import { typeUriToLabel, getAllAttachment } from '../../utils';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
-import { D1, D2 } from '../../i18n/build-dictionary';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
@@ -157,11 +157,7 @@ export const ComponentDetailView = ({
 					</div>
 					<div className="row">
 						<Note
-							text={
-								component.required
-									? D1.requiredSpecificationTrue
-									: D1.requiredSpecificationFalse
-							}
+							text={component.required ? D.yes : D.no}
 							title={D1.requiredSpecificationTitle}
 							alone={true}
 							allowEmpty={true}
