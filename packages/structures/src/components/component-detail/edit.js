@@ -10,7 +10,7 @@ import { EditorMarkdown } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
-import D, { D1, D2 } from '../../i18n/build-dictionary';
+import { D1, D2 } from '../../i18n/build-dictionary';
 import { Select } from '@inseefr/wilco';
 import PropTypes from 'prop-types';
 
