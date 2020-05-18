@@ -15,7 +15,6 @@ import loadConcept from 'js/actions/concepts/concept';
 import loadConceptAndAllNotes from 'js/actions/concepts/concept-and-all-notes';
 import check from 'js/utils/auth';
 import { Loading, buildExtract } from '@inseefr/wilco';
-import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';
 import { OK } from 'js/constants';
@@ -29,7 +28,6 @@ class ConceptVisualizationContainer extends Component {
 		this.state = {
 			validationRequested: false,
 			deletionRequested: false,
-			showModalError: false,
 		};
 		this.handleConceptValidation = id => {
 			this.props.validateConcept(id);
@@ -43,7 +41,6 @@ class ConceptVisualizationContainer extends Component {
 				deletionRequested: true,
 			});
 		};
-		this.closeModal = () => this.setState({ showModalError: false });
 	}
 	componentWillMount() {
 		const { id, allNotes } = this.props;
@@ -75,19 +72,10 @@ class ConceptVisualizationContainer extends Component {
 		}
 	}
 	render() {
-		//this.state.updateStatus();
 		const { validationRequested } = this.state;
 		const { deletionRequested } = this.state;
-		const { showModalError } = this.state;
 		const { validationStatus } = this.props;
 		const { deleteStatus } = this.props;
-		const modalButtons = [
-			{
-				label: 'OK',
-				action: this.closeModal,
-				style: 'primary',
-			},
-		];
 
 		if (validationRequested && validationStatus !== OK) {
 			//if validation is OK: nothing to do. We stay on this page and the concept will
@@ -152,14 +140,7 @@ class ConceptVisualizationContainer extends Component {
 						validationStatus={validationStatus}
 						secondLang={secondLang}
 						langs={langs}
-					/>
-					<ModalRmes
-						id="error-deletion-modal"
-						isOpen={showModalError}
-						title="Suppression impossible"
-						body={error}
-						modalButtons={modalButtons}
-						closeCancel={this.closeModal}
+						serverSideError={error}
 					/>
 				</>
 			);
