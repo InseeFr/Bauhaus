@@ -1,6 +1,6 @@
 import { buildApi } from './build-api';
 
-const api = {
+export const api = {
 	getConceptList: () => [''],
 };
 
