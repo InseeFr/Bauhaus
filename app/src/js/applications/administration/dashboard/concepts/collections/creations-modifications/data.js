@@ -1,5 +1,5 @@
 import D from 'js/i18n';
-import { stringToDate } from 'js/utils/moment';
+import { DateUtils } from 'bauhaus-utilities';
 
 export const rowParams = {
 	creations: [
@@ -27,7 +27,7 @@ export const rowParams = {
 			text: D.createdDateTitle,
 			width: '17%',
 			sort: true,
-			formatter: d => stringToDate(d),
+			formatter: d => DateUtils.stringToDate(d),
 		},
 		{
 			dataField: 'isValidated',
@@ -61,7 +61,7 @@ export const rowParams = {
 			text: D.createdDateTitle,
 			width: '17%',
 			sort: true,
-			formatter: d => stringToDate(d),
+			formatter: d => DateUtils.stringToDate(d),
 		},
 		{
 			dataField: 'isValidated',

@@ -1,8 +1,7 @@
 import React from 'react';
 import { D1 } from 'js/i18n';
 import { DSURLToLabel, Note } from '@inseefr/wilco';
-import { ArrayUtils } from 'bauhaus-utilities';
-import { stringToDate } from 'js/utils/moment';
+import { ArrayUtils, DateUtils } from 'bauhaus-utilities';
 
 function ConceptGeneral({ attr, secondLang, langs }) {
 	const { lg1, lg2 } = langs;
@@ -67,7 +66,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 								if (['created', 'modified', 'valid'].includes(fieldName)) {
 									return (
 										<li key={fieldName}>
-											{`${mapping[fieldName]} : ${stringToDate(
+											{`${mapping[fieldName]} : ${DateUtils.stringToDate(
 												attr[fieldName]
 											)}`}
 										</li>

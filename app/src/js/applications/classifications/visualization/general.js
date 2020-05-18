@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import { DSURLToLabel, Note } from '@inseefr/wilco';
-import { stringToDate } from 'js/utils/moment';
+import { DateUtils } from 'bauhaus-utilities';
 
 export default ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
@@ -178,7 +178,7 @@ export default ({ general, secondLang, langs }) => {
 								) {
 									return (
 										<li key={fieldName}>
-											{`${mapping[fieldName]} : ${stringToDate(
+											{`${mapping[fieldName]} : ${DateUtils.stringToDate(
 												general[fieldName]
 											)}`}
 										</li>

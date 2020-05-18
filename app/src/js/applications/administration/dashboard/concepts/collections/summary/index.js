@@ -3,7 +3,7 @@ import { Table } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { rowParams, buildData } from './summary-data';
 import { rowParamsStamps, buildDataStamps } from './stamps-data';
-import { today } from 'js/utils/moment';
+import { DateUtils } from 'bauhaus-utilities';
 
 function CollectionsSummary({ collectionsData }) {
 	const data = buildData(collectionsData);
@@ -11,7 +11,7 @@ function CollectionsSummary({ collectionsData }) {
 	return (
 		<div>
 			<h3 className="text-center">
-				{D.dashboardCollectionsSummaryTitle} {today()}
+				{D.dashboardCollectionsSummaryTitle} {DateUtils.today()}
 			</h3>
 			<div className="col-md-8 col-md-offset-2">
 				<Table rowParams={rowParams} data={data} />

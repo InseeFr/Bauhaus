@@ -3,7 +3,7 @@ import { Table } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { rowParams, buildData } from './summary-data';
 import { rowParamsStamps, buildDataStamps } from './stamps-data';
-import { today } from 'js/utils/moment';
+import { DateUtils } from 'bauhaus-utilities';
 
 function ConceptsSummary({ conceptsData }) {
 	const data = buildData(conceptsData);
@@ -11,7 +11,7 @@ function ConceptsSummary({ conceptsData }) {
 	return (
 		<div>
 			<h3 className="text-center">
-				{D.dashboardConceptsSummaryTitle} {today()}
+				{D.dashboardConceptsSummaryTitle} {DateUtils.today()}
 			</h3>
 			<Table rowParams={rowParams} data={data} />
 			<Table

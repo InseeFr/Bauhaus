@@ -1,8 +1,8 @@
 import React from 'react';
-import { isDateIn } from 'js/utils/moment';
+import { DateUtils } from 'bauhaus-utilities';
 
 export const filterKeyDate = key => (start, end) => item => {
-	return !item[key] || isDateIn(item[key], start, end);
+	return !item[key] || DateUtils.isDateIn(item[key], start, end);
 };
 
 export const creatSelectList = max => {

@@ -7,6 +7,7 @@ import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 import { defaultComponentsTableParams } from '../../utils';
 import { XSD_CODE_LIST } from '../../utils/constants/xsd';
+import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 
 import PropTypes from 'prop-types';
 
@@ -17,6 +18,7 @@ export const StructureComponentsSelector = ({
 	handleUp,
 	handleDown,
 	handleCreateOrUpdate,
+	handleSpecificationClick,
 	concepts,
 	codesLists,
 	readOnly,
@@ -35,17 +37,28 @@ export const StructureComponentsSelector = ({
 
 	const [selectedComponent, setSelectedComponent] = useState(null);
 
+	const specificationClickHandler = useCallback(
+		e => {
+			if (e.target.parentElement.dataset.componentId) {
+				const component = components.find(
+					c => c.id === e.target.parentElement.dataset.componentId
+				);
+				handleSpecificationClick(component);
+			}
+		},
+		[components, handleSpecificationClick]
+	);
 	const handleSave = useCallback(
 		component => {
+			let newComponent = component;
 			let newComponents;
 			if (!component.id) {
-				newComponents = [
-					...components,
-					{
-						...component,
-						id: component.identifiant,
-					},
-				];
+				newComponent = {
+					...component,
+					id: component.identifiant,
+				};
+				newComponents = [...components, newComponent];
+				setOpenPanel(false);
 			} else {
 				newComponents = components.map(c => {
 					if (c.id === component.id) {
@@ -56,8 +69,8 @@ export const StructureComponentsSelector = ({
 			}
 
 			setComponents(newComponents);
-			handleCreateOrUpdate(newComponents);
-			setSelectedComponent(component);
+			handleCreateOrUpdate(newComponents, !component.id, newComponent);
+			setSelectedComponent(newComponent);
 		},
 		[components, handleCreateOrUpdate]
 	);
@@ -97,6 +110,8 @@ export const StructureComponentsSelector = ({
 		setSelectedComponent({});
 		setOpenPanel(true);
 	}, []);
+
+	console.log(components);
 	const componentsWithActions = components.map((component, i) => ({
 		...component,
 		type: typeUriToLabel(component.type),
@@ -115,14 +130,26 @@ export const StructureComponentsSelector = ({
 					data-component-id={component.id}
 					onClick={seeClickHandler}
 					aria-label={D.see}
+					title={D.see}
 				>
 					<span className="glyphicon glyphicon-eye-open"></span>
 				</button>
+				{component.type === ATTRIBUTE_TYPE && (
+					<button
+						data-component-id={component.id}
+						onClick={specificationClickHandler}
+						aria-label={D.componentSpecificationTitle}
+						title={D.componentSpecificationTitle}
+					>
+						<span className="glyphicon glyphicon-cog"></span>
+					</button>
+				)}
 				{!readOnly && (
 					<button
 						data-component-id={component.id}
 						onClick={removeClickHandler}
 						aria-label={D.remove}
+						title={D.up}
 					>
 						<span className="glyphicon glyphicon-minus"></span>
 					</button>
@@ -132,6 +159,7 @@ export const StructureComponentsSelector = ({
 						data-component-id={component.id}
 						onClick={goingUp}
 						aria-label={D.up}
+						title={D.up}
 					>
 						<span className="glyphicon glyphicon-arrow-up"></span>
 					</button>
@@ -141,6 +169,7 @@ export const StructureComponentsSelector = ({
 						data-component-id={component.id}
 						onClick={goingDown}
 						aria-label={D.down}
+						title={D.down}
 					>
 						<span className="glyphicon glyphicon-arrow-down"></span>
 					</button>

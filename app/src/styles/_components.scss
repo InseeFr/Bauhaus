@@ -1,3 +1,16 @@
 .input-group .form-control {
 	z-index: 0;
 }
+
+// TODO : this will be removed once implemented in Wilco
+.wilco-action-toolbar {
+	flex-wrap: wrap;
+	> div {
+		flex-grow: 1;
+	}
+}
+
+.wilco-btn {
+	width: 100%;
+	margin-bottom: 0.5em;
+}

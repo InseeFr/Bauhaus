@@ -26,6 +26,7 @@ const ComponentSelector = ({
 	useEffect(() => {
 		setStructureComponents(components);
 	}, [components]);
+
 	useEffect(() => {
 		setFilteredMutualizedComponents(
 			mutualizedComponents.filter(component => {
@@ -34,10 +35,19 @@ const ComponentSelector = ({
 		);
 	}, [mutualizedComponents, structureComponents]);
 
+	const handleSpecificationClick = useCallback(component => {
+		setSelectedComponent(component);
+		setModalOpened(true);
+	}, []);
+
 	const handleCreateOrUpdate = useCallback(
-		components => {
+		(components, isCreation, component) => {
 			setStructureComponents(components);
 			handleUpdate(components);
+
+			if (isCreation) {
+				_handleAttributeComponent(component);
+			}
 		},
 		[handleUpdate]
 	);
@@ -53,11 +63,25 @@ const ComponentSelector = ({
 
 	const saveSpecification = useCallback(
 		specification => {
+			const update = structureComponents.find(
+				c => c.id === selectedComponent.id
+			);
 			const component = {
 				...selectedComponent,
 				...specification,
 			};
-			const components = [...structureComponents, component];
+			let components;
+			if (!!update) {
+				components = structureComponents.map(c => {
+					if (c.id === component.id) {
+						return component;
+					}
+					return c;
+				});
+			} else {
+				components = [...structureComponents, component];
+			}
+
 			setStructureComponents(components);
 			handleUpdate(components);
 			setSelectedComponent({});
@@ -67,17 +91,21 @@ const ComponentSelector = ({
 		[handleUpdate, structureComponents, selectedComponent]
 	);
 
+	const _handleAttributeComponent = component => {
+		if (component.type === ATTRIBUTE_TYPE) {
+			setSelectedComponent(component);
+			setModalOpened(true);
+		}
+	};
+
 	const handleAdd = useCallback(
 		id => {
 			const component = mutualizedComponents.find(c => c.id === id);
-			if (component.type !== ATTRIBUTE_TYPE) {
-				const components = [...structureComponents, component];
-				setStructureComponents(components);
-				handleUpdate(components);
-			} else {
-				setSelectedComponent(component);
-				setModalOpened(true);
-			}
+			const components = [...structureComponents, component];
+			setStructureComponents(components);
+			handleUpdate(components);
+
+			_handleAttributeComponent(component);
 		},
 		[handleUpdate, mutualizedComponents, structureComponents]
 	);
@@ -142,8 +170,10 @@ const ComponentSelector = ({
 				handleUp={handleUp}
 				handleDown={handleDown}
 				handleCreateOrUpdate={handleCreateOrUpdate}
+				handleSpecificationClick={handleSpecificationClick}
 				readOnly={false}
 			/>
+
 			<MutualizedComponentsSelector
 				concepts={concepts}
 				codesLists={codesLists}

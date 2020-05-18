@@ -1,7 +1,7 @@
 import React from 'react';
 import { D1, D2 } from 'js/i18n';
 import { Note } from '@inseefr/wilco';
-import { stringToDate } from 'js/utils/moment';
+import { DateUtils } from 'bauhaus-utilities';
 
 function CollectionGeneral({ attr, secondLang, langs }) {
 	const mapping = {
@@ -26,7 +26,7 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 										return (
 											<li key={fieldName}>{`${
 												mapping[fieldName]
-											} : ${stringToDate(attr[fieldName])}`}</li>
+											} : ${DateUtils.stringToDate(attr[fieldName])}`}</li>
 										);
 									} else if (fieldName === 'isValidated') {
 										return (

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
 	CancelButton,
 	SaveButton,
@@ -7,13 +7,9 @@ import {
 	LabelRequired,
 } from '@inseefr/wilco';
 import { EditorMarkdown } from 'bauhaus-utilities';
-import { validateComponent, getAllAttachment } from '../../utils';
-import {
-	ATTRIBUTE_TYPE,
-	COMPONENT_TYPES,
-} from '../../utils/constants/dsd-components';
+import { validateComponent } from '../../utils';
+import { COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
-
 import { D1, D2 } from '../../i18n/build-dictionary';
 import { Select } from '@inseefr/wilco';
 import PropTypes from 'prop-types';
@@ -28,11 +24,6 @@ export const ComponentDetailEdit = ({
 	structureComponents,
 }) => {
 	const [component, setComponent] = useState(defaultComponent || {});
-	const [attachments, setAttachments] = useState([]);
-
-	useEffect(() => {
-		setAttachments(getAllAttachment(structureComponents));
-	}, [structureComponents]);
 
 	const handleChange = useCallback(
 		e => {
@@ -194,53 +185,6 @@ export const ComponentDetailEdit = ({
 						/>
 					</div>
 				</div>
-
-				{component.type === ATTRIBUTE_TYPE && !mutualized && (
-					<React.Fragment>
-						<hr />
-						<h4>{D1.componentSpecificationTitle}</h4>
-
-						<div className="row">
-							<div className="col-md-12">
-								<Select
-									id="attachment"
-									name="attachment"
-									label={D1.attachmentTitle}
-									placeholder={D1.attachmentTitle}
-									value={attachments.filter(
-										c => component.attachment?.indexOf(c.value) >= 0
-									)}
-									multi
-									options={attachments}
-									onChange={value => {
-										setComponent({
-											...component,
-											attachment: value.map(v => v.value),
-										});
-									}}
-								/>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-md-12 checkbox">
-								<label>
-									<input
-										type="checkbox"
-										label={D1.attachmentTitle}
-										value={component.required}
-										onChange={e => {
-											setComponent({
-												...component,
-												required: e.target.checked,
-											});
-										}}
-									/>
-									{D1.requiredSpecificationTitle}
-								</label>
-							</div>
-						</div>
-					</React.Fragment>
-				)}
 			</form>
 		</React.Fragment>
 	);

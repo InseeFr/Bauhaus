@@ -11,9 +11,8 @@ import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
-import { isOutOfDate } from 'js/utils/moment';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang, DateUtils } from 'bauhaus-utilities';
 
 class ConceptVisualization extends Component {
 	constructor(props) {
@@ -94,7 +93,7 @@ class ConceptVisualization extends Component {
 						permission={permission}
 						creator={creator}
 						isValidated={isValidated === 'true'}
-						isValidOutOfDate={isOutOfDate(valid)}
+						isValidOutOfDate={DateUtils.isOutOfDate(valid)}
 						conceptVersion={conceptVersion}
 						handleValidation={this.handleClickValidation}
 						handleDeletion={this.handleClickDeletion}

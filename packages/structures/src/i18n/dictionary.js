@@ -116,16 +116,16 @@ export default {
 		en: 'Attribute attachment',
 	},
 	requiredSpecificationTitle: {
-		fr: 'Specification obligatoire',
-		en: 'Mandatory specification',
+		fr: 'Le composant est-il obligatoire ?',
+		en: 'Is this component required ? ',
 	},
-	requiredSpecificationTrue: {
-		fr: 'Specification obligatoire',
-		en: 'Mandatory specification',
+	yes: {
+		fr: 'Oui',
+		en: 'Yes',
 	},
-	requiredSpecificationFalse: {
-		fr: 'Specification non obligatoire',
-		en: 'Not msandatory specification',
+	no: {
+		fr: 'Non',
+		en: 'No',
 	},
 	structuresComponentTitle: {
 		fr: 'Structures utilisant le composant',
