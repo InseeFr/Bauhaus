@@ -1,4 +1,4 @@
-import { isDateIn, isOutOfDate, stringToDate } from './moment';
+import { isDateIn, isOutOfDate, stringToDate } from './date-utils';
 
 describe('is date in', () => {
 	it('returns true if the start and end dates are null', () => {

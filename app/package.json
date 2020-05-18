@@ -40,8 +40,6 @@
 		"keycloak": "1.2.0",
 		"lodash.deburr": "4.1.0",
 		"lodash.difference": "4.5.0",
-		"moment": "2.23.0",
-		"moment-range": "3.0.3",
 		"react-16-bootstrap-date-picker": "5.1.2",
 		"react-bootstrap": "0.31.5",
 		"react-d3-tree": "1.10.3",

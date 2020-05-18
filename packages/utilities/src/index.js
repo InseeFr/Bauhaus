@@ -7,6 +7,7 @@ export { default as ConceptsAPI } from './apis/concepts-api';
 
 export * as ArrayUtils from './utils/array-utils';
 export * as HTMLUtils from './utils/html-utils';
+export * as DateUtils from './utils/date-utils';
 
 export const Auth = {
 	...utils,

@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-import { stringToDate } from 'js/utils/moment';
 import { rangeType } from 'js/utils/msd/';
 import {
 	Button,
@@ -18,6 +17,7 @@ import {
 	HTMLUtils,
 	ValidationButton,
 	CheckSecondLang,
+	DateUtils,
 } from 'bauhaus-utilities';
 import DocumentsBloc from 'js/applications/operations/msd/documents/documents-bloc/index.js';
 import {
@@ -60,7 +60,7 @@ export default function SimsVisualisation({
 						currentSection[isSecondLang ? 'labelLg2' : 'labelLg1']}
 					{currentSection.value &&
 						currentSection.rangeType === DATE &&
-						stringToDate(currentSection.value)}
+						DateUtils.stringToDate(currentSection.value)}
 					{currentSection.rangeType === RICH_TEXT && (
 						<>
 							{HTMLUtils.renderMarkdownElement(
