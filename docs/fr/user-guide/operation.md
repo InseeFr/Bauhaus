@@ -1,5 +1,5 @@
 # Guide utilisateur du module Opérations statistiques de Bauhaus
-Version au 20/05/2020
+Version au 19/05/2020
 
 Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer les opérations statistiques de l'Insee et des SSM.
 ## Sommaire
@@ -215,7 +215,7 @@ Il est à noter que la sauvegarde n'entraîne pas la publication de la série. I
 
 Le statut de publication de la série passe alors en « Provisoire », jusqu'à sa publication.
 
-Pour publier une série dans le référentiel, voir Publier une série(#publier-serie).
+Pour publier une série dans le référentiel, voir [Publier une série](#publier-serie).
 
 ### <a id="modifier-serie">Modifier une série</a>
 La modification d'une série est possible à partir de sa page de description.
@@ -277,7 +277,7 @@ Il est à noter que la sauvegarde n'entraîne pas la publication de l'opération
 
 Le statut de publication de l'opération passe alors en « Provisoire », jusqu'à sa publication.
 
-Pour publier une opération dans le référentiel, voir Publier une opération(#publier-operation).
+Pour publier une opération dans le référentiel, voir [Publier une opération](#publier-operation).
 
 ### <a id="modifier-operation">Modifier une opération</a>
 La modification d'une opération est possible à partir de sa page de description.
@@ -288,7 +288,7 @@ Les différents champs peuvent alors être modifiés.
 
 Penser à Sauvegarder la saisie avant de changer d'écran.
 
-Une fois l'opération modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir Publier une opération), l'ancienne version reste à disposition des applications clientes.
+Une fois l'opération modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une opération](#publier-operation)), l'ancienne version reste à disposition des applications clientes.
 
 ### <a id="publier-operation">Publier une opération</a>
 La publication d'une opération est possible à partir de la page de description d'une opération. Seul le propriétaire de la série à laquelle appartient l'opération, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une opération.
@@ -359,7 +359,7 @@ Il est à noter que la sauvegarde n'entraîne pas la publication de l'indicateur
 
 Le statut de publication de l'indicateur passe alors en « Provisoire », jusqu'à sa publication.
 
-Pour publier un indicateur dans le référentiel, voir Publier un indicateur(#publier-indicateur).
+Pour publier un indicateur dans le référentiel, voir [Publier un indicateur](#publier-indicateur).
 
 ## <a id="modifier-indicateur">Modifier un indicateur</a>
 La modification d'un indicateur est possible à partir de sa page de description.
@@ -370,7 +370,7 @@ Les différents champs peuvent alors être modifiés.
 
 Penser à Sauvegarder la saisie avant de changer d'écran.
 
-Une fois l'indicateur modifié, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » s'il n'a jamais été publié, jusqu'à sa publication**. Tant qu'il n'est pas publié dans le référentiel de publication (voir Publier un indicateur(#publier-indicateur)), l'ancienne version reste à disposition des applications clientes.
+Une fois l'indicateur modifié, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » s'il n'a jamais été publié, jusqu'à sa publication**. Tant qu'il n'est pas publié dans le référentiel de publication (voir [Publier un indicateur](#publier-indicateur)), l'ancienne version reste à disposition des applications clientes.
 
 ## <a id="publier-indicateur">Publier un indicateur</a>
 La publication d'un indicateur est possible à partir de sa page de description. Seul le propriétaire de l'indicateur, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier un indicateur.
@@ -396,7 +396,7 @@ Il est à noter que la sauvegarde n'entraîne pas la publication de la documenta
 
 Le statut de publication de la documentation passe alors en « Provisoire », jusqu'à sa publication.
 
-Pour publier une documentation dans le référentiel, voir Publier une documentation(#publier-sims).
+Pour publier une documentation dans le référentiel, voir [Publier une documentation](#publier-sims).
 
 ### <a id="modifier-sims">Modifier une documentation Sims</a>
 
@@ -408,7 +408,7 @@ Les différents champs peuvent alors être modifiés.
 
 Penser à Sauvegarder la saisie avant de changer d'écran.
 
-Une fois la documentation modifiée, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir Publier une documentation), l'ancienne version reste à disposition des applications clientes.
+Une fois la documentation modifiée, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une documentation](#publier-sims)), l'ancienne version reste à disposition des applications clientes.
 
 ### <a id="publier-sims">Publier une documentation Sims</a>
 La publication d'une documentation est possible à partir de sa page de description. Seul le propriétaire de la documentation, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une documentation.
