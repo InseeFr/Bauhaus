@@ -59,8 +59,7 @@ Le module Opérations encore appelé « Bauhaus-opérations » permet de gére
 
 ---
 
-## <a id="notions">Quelques notions pour bien démarrer
-</a>
+## <a id="notions">Quelques notions pour bien démarrer</a>
 
 ### Qu'est-ce qu'une opération statistique ?
 
@@ -105,41 +104,39 @@ Dans cette arborescence, les boutons + et - permettent de déplier ou replier l'
 Afin de garantir l'intégrité et la qualité de la base, les fonctionnalités de création et modification des familles, de création des séries et indicateurs ainsi que l'identification des propriétaires sont réservés à l'unité Qualité. Toute unité en ayant l'utilité peut demander la création d'une famille, d'une série ou d'un indicateur. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, le propriétaire ou par délégation l'unité Qualité sont habilités à publier.
 
 Dans l'application, quatre grands profils d'utilisateurs ont été créés. Chacun correspond à un niveau d'habilitation donnant accès à différentes fonctionnalités :
-- Administrateur de l'application : accès à toutes les fonctionnalités ;
-- Propriétaire de série : 
+- **Administrateur de l'application** : accès à toutes les fonctionnalités ;
+- **Propriétaire de série** : 
   - rechercher, modifier et publier une série dont il est propriétaire
   - rechercher, créer, modifier et publier une opération appartenant à une des séries dont il est propriétaire
   - rechercher, créer,  modifier et publier  documentation SIMS, un document ou un lien
   - rechercher, créer, modifier et publier un document ou un lien.
-- Propriétaire d'indicateur : 
+- **Propriétaire d'indicateur** : 
   - rechercher, modifier, publier un indicateur dont il est propriétaire
   - rechercher, modifier, publier une documentation SIMS liée à cet indicateur
   - rechercher, créer, modifier et publier un document ou un lien
-- Invité (profil par défaut pour tout utilisateur se connectant à l'application) : rechercher et consulter une famille d'opérations statistiques, séries d'opérations statistiques, opérations statistiques, indicateurs et une documentation Sims.
+- **Invité** (profil par défaut pour tout utilisateur se connectant à l'application) : rechercher et consulter une famille d'opérations statistiques, séries d'opérations statistiques, opérations statistiques, indicateurs et une documentation Sims.
 
-Les boutons correspondant aux différentes fonctionnalités s'affichent en fonction du profil utilisateur.
+**Les boutons correspondant aux différentes fonctionnalités s'affichent en fonction du profil utilisateur.**
 
-Pour toute demande ou question, adresser un message à la boite fonctionnelle :
-:DG75-Administration RMéS
-
+Pour toute demande ou question, adresser un message à la boite fonctionnelle : **:DG75-Administration RMéS**
 
 
 ## <a id="gerer-familles">Fonctionnalités de gestion d'une famille d'opérations statistiques</a>
 
-## <a id="rechercher-famille">Rechercher une famille</a>
+### <a id="rechercher-famille">Rechercher une famille</a>
 
 La page d'accueil Familles, accessible à partir de la barre horizontale de menu, propose deux méthodes de recherche.
 
 - Une barre de recherche principale, qui donne accès à l'ensemble des familles enregistrées dans l'application (1) ;
 - Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères. (2).
 
-1. La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
-La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de familles trouvées.
+1. La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de familles trouvées.
+
 Cliquer ensuite sur la famille souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-2. La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, renseigner les filtres souhaités dans les champs :
-- Libellé : saisir le nom du concept ;
-- Thème : sélectionner le thème.
+2. La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités dans les champs** :
+- *Libellé* : saisir le nom du concept ;
+- *Thème* : sélectionner le thème.
 
 La recherche se lance automatiquement à mesure que des critères sont renseignés dans les différents champs. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de familles trouvées.
 
@@ -169,6 +166,7 @@ Cliquer ensuite sur la série souhaitée pour accéder à sa page de description
 
 2. La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection,**renseigner les filtres souhaités** dans les champs :
 
+
 - *Libellé* : saisir le nom de la série;
 - *Type d'opération* : sélectionner le type d'opération dans le menu déroulant
 - *Gestionnaire* : sélectionner le gestionnaire dans le menu déroulant
@@ -179,13 +177,14 @@ La recherche se lance automatiquement à mesure que des critères sont renseign�
 
 Cliquer ensuite sur la série souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] Afficher la seconde langue. Celle-ci s'affichera à droite de la version française.
 
-## <a id="creer-serie">Créer une série</a>
+### <a id="creer-serie">Créer une série</a>
 
 Avant de créer une série, il est important de vérifier qu'elle n'a pas déjà été renseignée en utilisant les fonctionnalités de recherche.
 
 La création d'une série est possible à partir de  la page d'accueil Séries et est une fonctionnalité réservée à l'Unité Qualité.
 
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de la série s'affiche alors.
+
 Les champs disponibles sont les suivants :
 - La série doit être rattachée à sa famille mère. Si la famille souhaitée n'existe pas, il faut demander sa création à l'équipe d'administration RMéS.
 - L'intitulé est le libellé de la série. Les intitulés français et anglais sont obligatoires.
