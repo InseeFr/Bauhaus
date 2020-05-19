@@ -167,11 +167,11 @@ Cliquer ensuite sur la série souhaitée pour accéder à sa page de description
 2. La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection,**renseigner les filtres souhaités** dans les champs :
 
 
-- *Libellé* : saisir le nom de la série;
-- *Type d'opération* : sélectionner le type d'opération dans le menu déroulant
-- *Gestionnaire* : sélectionner le gestionnaire dans le menu déroulant
-- *Organisme responsable* : sélectionner l'organisme responsable dans le menu déroulant
-- *Services collecteurs* : sélectionner le service collecteur dans le menu déroulant.
+- **Libellé** : saisir le nom de la série;
+- **Type d'opération** : sélectionner le type d'opération dans le menu déroulant
+- **Gestionnaire** : sélectionner le gestionnaire dans le menu déroulant
+- **Organisme responsable** : sélectionner l'organisme responsable dans le menu déroulant
+- **Services collecteurs** : sélectionner le service collecteur dans le menu déroulant.
 
 La recherche se lance automatiquement à mesure que des critères sont renseignés dans les différents champs. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de séries trouvées.
 
@@ -186,33 +186,39 @@ La création d'une série est possible à partir de  la page d'accueil Séries e
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de la série s'affiche alors.
 
 Les champs disponibles sont les suivants :
-- La série doit être rattachée à sa famille mère. Si la famille souhaitée n'existe pas, il faut demander sa création à l'équipe d'administration RMéS.
-- L'intitulé est le libellé de la série. Les intitulés français et anglais sont obligatoires.
-- Le « Nom court » est un libellé alternatif. Il peut s'agir d‘un sigle ou d'un acronyme.
-- Le Résumé permet d'expliquer les objectifs et une courte description générale du processus et de ses résultats ; du domaine statistique auquel appartiennent les résultats ; des autres résultats statistiques ;
-- L' *Historique* » est un bref historique du processus statistique et des résultats ;
-- Le *type d'opération* prend une des valeurs suivante : Enquête, Source administrative, Synthèse, Indicateur.
-- La *Fréquence de collecte* correspond au *rythme* de collecte des données
-- L' *Organisme responsable* est l'organisme responsable de la série ;
-- Les « Partenaires » sont les organismes associés à la conception et au pilotage de la série ;
-- Les *Services collecteurs* correspond aux services réalisant la collecte ;
-- Le *Propriétaire* est l'unité responsable de la gestion et de la publication de la série ainsi que des opérations statistiques et documentations Sims qui en découlent ;
-- Le champ *Succède à* permet de préciser si une série succède à une autre. Si une Série A succède à une Série B, alors la Série B est automatiquement remplacée par la Série A.
-- Le champ *Remplacée par* permet de préciser si une série est remplacée par une autre. Si une Série B est remplacée par une Série A, alors la Série A succède automatiquement remplacée à la la Série B.
-- Le champ *Indicateurs produits* permet de préciser les indicateurs produits à partir de la contributions de la série.
-- Les *Séries ou Indicateurs liés* permet de renvoyer vers des séries ou des indicateurs connexes.
+- La série doit être rattachée à sa **famille mère**. Si la famille souhaitée n'existe pas, il faut demander sa création à l'équipe d'administration RMéS.
+- L'**intitulé** est le libellé de la série. Les intitulés français et anglais sont obligatoires.
+- Le **Nom court** est un libellé alternatif. Il peut s'agir d‘un sigle ou d'un acronyme.
+- Le **Résumé** permet d'expliquer les objectifs et une courte description générale du processus et de ses résultats ; du domaine statistique auquel appartiennent les résultats ; des autres résultats statistiques ;
+- L' **Historique** est un bref historique du processus statistique et des résultats ;
+- Le **type d'opération** prend une des valeurs suivante : Enquête, Source administrative, Synthèse, Indicateur.
+- La **Fréquence de collecte** correspond au *rythme* de collecte des données
+- L' **Organisme responsable** est l'organisme responsable de la série ;
+- Les **Partenaires** sont les organismes associés à la conception et au pilotage de la série ;
+- Les **Services collecteurs** correspond aux services réalisant la collecte ;
+- Le **Propriétaire** est l'unité responsable de la gestion et de la publication de la série ainsi que des opérations statistiques et documentations Sims qui en découlent ;
+- Le champ **Succède à** permet de préciser si une série succède à une autre. Si une Série A succède à une Série B, alors la Série B est automatiquement remplacée par la Série A.
+- Le champ **Remplacée par** permet de préciser si une série est remplacée par une autre. Si une Série B est remplacée par une Série A, alors la Série A succède automatiquement remplacée à la la Série B.
+- Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contributions de la série.
+- Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Séries ;*
 
 Le bouton Sauvegarder permet d'enregistrer les données dans la base de gestion.
+
 ***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
+
 Le bouton <span style="color: blue">Sauvegarder</span> devient actif après la saisie des champs obligatoires.
+
 **Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
+
 Il est à noter que la sauvegarde n'entraîne pas la publication de la série. Il est donc possible, si nécessaire, de créer la série en plusieurs étapes.
+
 Le statut de publication de la série passe alors en « Provisoire », jusqu'à sa publication.
+
 Pour publier une série dans le référentiel, voir Publier une série.
 
-## <a id="modifier-serie">Modifier une série</a>
+### <a id="modifier-serie">Modifier une série</a>
 La modification d'une série est possible à partir de sa page de description.
 
 - Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>.
@@ -223,17 +229,19 @@ Penser à Sauvegarder la saisie avant de changer d'écran.
 
 Une fois la série modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir Publier une série), l'ancienne version reste à disposition des applications clientes.
 
-## <a id="publier-serie">Publier une série</a>
+### <a id="publier-serie">Publier une série</a>
 
 La publication d'une série est possible à partir de la page de description d'une série. Seul le propriétaire de la série, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une série.
 
 - Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
+
 Une série ne peut être publiée que si la famille à laquelle elle est rattachée est déjà publiée. Sinon, publier d'abord la famille. Pour publier cette famille, contacter l'administrateur RMéS.
+
 La série ne peut être publiée que par son propriétaire (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série) et par l'unité Qualité par délégation.
 
 ## <a id="gerer-operations">Fonctionnalités de gestion des opérations statistiques</a>
 
-## <a id="rechercher-operation">Rechercher une opération statistique</a>
+### <a id="rechercher-operation">Rechercher une opération statistique</a>
 
 La page d'accueil Opérations, accessible à partir de la barre horizontale de menu, propose une barre de recherche principale qui donne accès à l'ensemble des Opérations statistiques enregistrées dans l'application.
 
@@ -241,7 +249,7 @@ La barre de recherche principale propose un moteur de recherche dans lequel on p
 La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre d'opérations statistiques trouvées.
 Cliquer sur l'opération statistique souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-## <a id="creer-operation">Créer une opération statistique</a>
+### <a id="creer-operation">Créer une opération statistique</a>
 
 Avant de créer une opération statistique, il est important de vérifier qu'elle n'a pas déjà été renseignée en utilisant les fonctionnalités de recherche.
 La création d'une opération est possible à partir de la page d'accueil Opérations.
