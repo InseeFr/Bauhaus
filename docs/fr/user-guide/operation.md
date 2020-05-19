@@ -1,12 +1,16 @@
 # Guide utilisateur du module Opérations statistiques de Bauhaus
-Version au 20/05/2020
+Version au 19/05/2020
 
 Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer les opérations statistiques de l'Insee et des SSM.
 ## Sommaire
 
 - [**Quelques notions pour bien démarrer**](#notions)
 
+---
+
 - [**Naviguer dans l'application**](#naviguer)
+
+---
 
 - [**Fonctionnalités de gestion des familles**](#gerer-familles)
 
@@ -16,6 +20,7 @@ Le module Opérations encore appelé « Bauhaus-opérations » permet de gére
   - [Publier une famille](#publier-famille)
 
 ---
+
 - [**Fonctionnalités de gestion des séries**](#gerer-series)
 
   - [Rechercher une série](#rechercher-serie)
@@ -24,6 +29,7 @@ Le module Opérations encore appelé « Bauhaus-opérations » permet de gére
   - [Publier une série](#publier-serie)
 
 ---
+
 - [**Fonctionnalités de gestion des opérations**](#gerer-operations)
 
   - [Rechercher une opération](#rechercher-operation)
@@ -201,14 +207,10 @@ Les champs disponibles sont les suivants :
 - Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contributions de la série.
 - Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Séries.
-
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
-Penser à sauvegarder les informations saisies avant de changer d'écran.**
+Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de la série. Il est donc possible, si nécessaire, de créer la série en plusieurs étapes. Le statut de publication de la série passe alors en « Provisoire », jusqu'à sa publication.
 
-Il est à noter que la sauvegarde n'entraîne pas la publication de la série. Il est donc possible, si nécessaire, de créer la série en plusieurs étapes.
-
-Le statut de publication de la série passe alors en « Provisoire », jusqu'à sa publication.
+Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Séries.
 
 Pour publier une série dans le référentiel, voir [Publier une série](#publier-serie).
 
@@ -252,21 +254,16 @@ La création d'une opération est possible à partir de la page d'accueil Opéra
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de l'opération s'affiche alors.
 
 Les champs disponibles sont les suivants :
-  - L'opération doit être rattachée à sa **série mère**. Si la série souhaitée n'existe pas, demander sa création à l'administrateur RMéS, 
-  - L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires.
-  - Le **Nom court** est un libellé alternatif. Il peut s'agit d‘un sigle ou d'un acronyme.
+ - - L'opération doit être rattachée à sa **série mère**. Si la série souhaitée n'existe pas, demander sa création à l'administrateur RMéS, 
+ - - L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires.
+ - - Le **Nom court** est un libellé alternatif. Il peut s'agit d‘un sigle ou d'un acronyme.
+
 - Cliquer sur le bouton <span style="color: blue">Sauvegarder</span> 
 
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
-Penser à sauvegarder les informations saisies avant de changer d'écran.**
+Penser à sauvegarder les informations saisies avant de changer d'écran.** La sauvegarde n'entraîne pas la publication de l'opération. Il est donc possible, si nécessaire, de créer l'opération en plusieurs étapes. Le statut de publication de l'opération passe alors en « Provisoire », jusqu'à sa publication. Pour publier une opération dans le référentiel, voir [Publier une opération](#publier-operation).
 
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Opérations.
-
-Il est à noter que la sauvegarde n'entraîne pas la publication de l'opération. Il est donc possible, si nécessaire, de créer l'opération en plusieurs étapes.
-
-Le statut de publication de l'opération passe alors en « Provisoire », jusqu'à sa publication.
-
-Pour publier une opération dans le référentiel, voir [Publier une opération](#publier-operation).
 
 ### <a id="modifier-operation">Modifier une opération</a>
 La modification d'une opération est possible à partir de sa page de description.
@@ -303,7 +300,7 @@ Cliquer ensuite sur l'indicateur souhaité pour accéder à sa page de descripti
 
 **(2)** La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités** dans les champs :
 
-- **Libellé** : saisir le nom de l'indicateur;
+- **Libellé** : saisir le nom de l'indicateur ;
 - **Organisme responsable** : sélectionner l'organisme responsable dans le menu déroulant ;
 - **Gestionnaire** : sélectionner le gestionnaire dans le menu déroulant ;
 
@@ -336,11 +333,7 @@ Les champs disponibles sont les suivantes :
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Indicateurs ;*
 
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
-Penser à sauvegarder les informations saisies avant de changer d'écran.**
-
-Il est à noter que la sauvegarde n'entraîne pas la publication de l'indicateur. Il est donc possible, si nécessaire, de créer l'indicateur en plusieurs étapes.
-
-Le statut de publication de l'indicateur passe alors en « Provisoire », jusqu'à sa publication.
+Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de l'indicateur. Il est donc possible, si nécessaire, de créer l'indicateur en plusieurs étapes. Le statut de publication de l'indicateur passe alors en « Provisoire », jusqu'à sa publication.
 
 Pour publier un indicateur dans le référentiel, voir [Publier un indicateur](#publier-indicateur).
 
@@ -370,11 +363,7 @@ La création d'une documentation Sims est possible à partir de son opération.
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'opération ;*
 
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
-Penser à sauvegarder les informations saisies avant de changer d'écran.**
-
-Il est à noter que la sauvegarde n'entraîne pas la publication de la documentation. Il est donc possible, si nécessaire, de créer la documentation en plusieurs étapes.
-
-Le statut de publication de la documentation passe alors en « Provisoire », jusqu'à sa publication.
+Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de la documentation. Il est donc possible, si nécessaire, de créer la documentation en plusieurs étapes. Le statut de publication de la documentation passe alors en « Provisoire », jusqu'à sa publication.
 
 Pour publier une documentation dans le référentiel, voir [Publier une documentation](#publier-sims).
 
@@ -432,22 +421,19 @@ Les champs disponibles sont les suivants :
 - Pour joindre un **Fichier**, se placer sur le champ ad hoc et faire un « glisser-déposer » ou cliquer dans le champ pour ajouter le document. Le document est obligatoire ;
 - La **Langue** correspond à la langue du contenu du document. La langue est obligatoire.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents / : Liens ;*
+Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du document. Il est publié en même temps que la publication de la documentation Sims.
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
+Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents / : Liens.
 
-***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.***
-
-**Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
-
-## <a id="modifier-document">Modifier un document</a>
+### <a id="modifier-document">Modifier un document</a>
 La modification d'un document est possible à partir de sa page de description.
 
 - Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
 
-## <a id="creer-lien">Créer un lien</a>
+### <a id="creer-lien">Créer un lien</a>
 Avant de créer un lien, il est important de vérifier qu'il n'a pas déjà été renseigné en utilisant les fonctionnalités de recherche.
 
 La création d'un lien est possible à partir du menu Documents / Liens.
@@ -460,15 +446,12 @@ Les champs disponibles sont les suivants :
 - Le **Lien** correspond à l'URL de la page sur laquelle renvoyer. Le lien est obligatoire.
 - La **Langue** correspond à la langue du contenu de la page sur laquelle on renvoie. La langue est obligatoire.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents : Liens ;*
+Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du lien. Il est publié en même temps que la publication de la documentation Sims.
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
+Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents : Liens.
 
-***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.***
-
-**Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
-
-## <a id="modifier-lien">Modifier un lien</a>
+### <a id="modifier-lien">Modifier un lien</a>
 La modification d'un lien est possible à partir de sa page de description.
 
 - Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>.
