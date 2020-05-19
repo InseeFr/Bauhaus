@@ -1,5 +1,5 @@
 # Guide utilisateur du module Opérations statistiques de Bauhaus
-Version au 19/05/2020
+Version au 20/05/2020
 
 Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer les opérations statistiques de l'Insee et des SSM.
 ## Sommaire
@@ -50,7 +50,7 @@ Le module Opérations encore appelé « Bauhaus-opérations » permet de gére
 
 ---
 
-- [**Fonctionnalités de gestion des Documents/Liens**](#gerer-documents-liens)
+- [**Fonctionnalités de gestion des documents et des liens**](#gerer-documents-liens)
   - [Rechercher un Document/Lien](#rechercher-document-lien)
   - [Créer un document](#creer-document)
   - [Modifier un document](#modifier-document)
@@ -126,14 +126,14 @@ Pour toute demande ou question, adresser un message à la boite fonctionnelle :
 
 La page d'accueil Familles, accessible à partir de la barre horizontale de menu, propose deux méthodes de recherche.
 
-- Une barre de recherche principale, qui donne accès à l'ensemble des familles enregistrées dans l'application (1) ;
-- Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères. (2).
+- Une barre de recherche principale, qui donne accès à l'ensemble des familles enregistrées dans l'application **(1)** ;
+- Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères. **(2)**.
 
-(1) La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de familles trouvées.
+**(1)** La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de familles trouvées.
 
 Cliquer ensuite sur la famille souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-(2) La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités dans les champs** :
+**(2)** La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités dans les champs** :
 - **Libellé** : saisir le nom du concept ;
 - **Thème** : sélectionner le thème.
 
@@ -142,29 +142,29 @@ La recherche se lance automatiquement à mesure que des critères sont renseign�
 Cliquer ensuite sur la famille souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] Afficher la seconde langue. Celle-ci s'affichera à droite de la version française.
 
 ### <a id="creer-famille">Créer une famille</a>
-La création d'une famille est une fonctionnalité réservée à l'Unité Qualité.
+La création d'une famille est une fonctionnalité réservée à l'Unité qualité.
 
 ### <a id="modifier-famille">Modifier une famille</a>
-La modification d'une famille est une fonctionnalité réservée à l'Unité Qualité.
+La modification d'une famille est une fonctionnalité réservée à l'Unité qualité.
 
 ### <a id="publier-famille">Publier une famille</a>
-La publication d'une famille est une fonctionnalité réservée à l'Unité Qualité.
+La publication d'une famille est une fonctionnalité réservée à l'Unité qualité.
 
 ## <a id="gerer-series">Fonctionnalités de gestion d'une série d'opérations statistiques</a>
 
 ### <a id="rechercher-serie">Rechercher une série</a>
 
 La page d'accueil Séries, accessible à partir de la barre horizontale de menu, propose deux méthodes de recherche :
-- Une barre de recherche principale, qui donne accès à l'ensemble des Séries enregistrées dans l'application (1) ;
-- Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères. (2).
+- Une barre de recherche principale, qui donne accès à l'ensemble des Séries enregistrées dans l'application **(1)** ;
+- Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères. **(2)**.
 
-(1) La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
+**(1)** La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
 
 La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de séries trouvées.
 
 Cliquer ensuite sur la série souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-(2) La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection,**renseigner les filtres souhaités** dans les champs :
+**(2)** La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection,**renseigner les filtres souhaités** dans les champs :
 
 - **Libellé** : saisir le nom de la série;
 - **Type d'opération** : sélectionner le type d'opération dans le menu déroulant
@@ -180,7 +180,7 @@ Cliquer ensuite sur la série souhaitée pour accéder à sa page de description
 
 Avant de créer une série, il est important de vérifier qu'elle n'a pas déjà été renseignée en utilisant les fonctionnalités de recherche.
 
-La création d'une série est possible à partir de  la page d'accueil Séries et est une fonctionnalité réservée à l'Unité Qualité.
+La création d'une série est possible à partir de  la page d'accueil Séries et est une fonctionnalité réservée à l'Unité qualité.
 
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de la série s'affiche alors.
 
@@ -201,15 +201,10 @@ Les champs disponibles sont les suivants :
 - Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contributions de la série.
 - Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Séries ;*
+Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Séries.
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
-
-***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
-
-Le bouton <span style="color: blue">Sauvegarder</span> devient actif après la saisie des champs obligatoires.
-
-**Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
+Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Penser à sauvegarder les informations saisies avant de changer d'écran.**
 
 Il est à noter que la sauvegarde n'entraîne pas la publication de la série. Il est donc possible, si nécessaire, de créer la série en plusieurs étapes.
 
@@ -221,10 +216,8 @@ Pour publier une série dans le référentiel, voir [Publier une série](#publie
 La modification d'une série est possible à partir de sa page de description.
 
 - Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>.
-
-Les différents champs peuvent alors être modifiés.
-
-Penser à Sauvegarder la saisie avant de changer d'écran.
+- Modifier les champs souhaités
+- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
 
 Une fois la série modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir Publier une série), l'ancienne version reste à disposition des applications clientes.
 
@@ -259,19 +252,15 @@ La création d'une opération est possible à partir de la page d'accueil Opéra
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de l'opération s'affiche alors.
 
 Les champs disponibles sont les suivants :
-- L'opération doit être rattachée à sa **série mère**. Si la série souhaitée n'existe pas, demander sa création à l'administrateur RMéS, 
-- L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires.
-- Le **Nom court** est un libellé alternatif. Il peut s'agit d‘un sigle ou d'un acronyme.
+  - L'opération doit être rattachée à sa **série mère**. Si la série souhaitée n'existe pas, demander sa création à l'administrateur RMéS, 
+  - L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires.
+  - Le **Nom court** est un libellé alternatif. Il peut s'agit d‘un sigle ou d'un acronyme.
+- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span> 
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Opérations ;*
+Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Penser à sauvegarder les informations saisies avant de changer d'écran.**
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
-
-***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
-
-Le bouton <span style="color: blue">Sauvegarder</span> devient actif après la saisie des champs obligatoires.
-
-**Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
+Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Opérations.
 
 Il est à noter que la sauvegarde n'entraîne pas la publication de l'opération. Il est donc possible, si nécessaire, de créer l'opération en plusieurs étapes.
 
@@ -282,11 +271,9 @@ Pour publier une opération dans le référentiel, voir [Publier une opération]
 ### <a id="modifier-operation">Modifier une opération</a>
 La modification d'une opération est possible à partir de sa page de description.
 
-- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>.
-
-Les différents champs peuvent alors être modifiés.
-
-Penser à Sauvegarder la saisie avant de changer d'écran.
+- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Modifier les champs souhaités
+- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
 
 Une fois l'opération modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une opération](#publier-operation)), l'ancienne version reste à disposition des applications clientes.
 
@@ -308,13 +295,13 @@ La page d'accueil Indicateurs, accessible à partir de la barre horizontale de m
 - Une barre de recherche principale, qui donne accès à l'ensemble des Indicateurs enregistrés dans l'application (1) ;
 - Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères (2).
 
-(1) La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
+**(1)** La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
 
 La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sous le moteur de recherche, sur une ou plusieurs pages en fonction du nombre d'indicateurs trouvés.
 
 Cliquer ensuite sur l'indicateur souhaité pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-(2) La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités** dans les champs :
+**(2)** La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités** dans les champs :
 
 - **Libellé** : saisir le nom de l'indicateur;
 - **Organisme responsable** : sélectionner l'organisme responsable dans le menu déroulant ;
@@ -328,7 +315,7 @@ Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde l
 
 Avant de créer un indicateur, il est important de vérifier qu'il n'a pas déjà été renseigné en utilisant les fonctionnalités de recherche.
 
-La création d'un indicateur est possible à partir de la page d'accueil Indicateurs et est  une fonctionnalité réservée à l'Unité Qualité.
+La création d'un indicateur est possible à partir de la page d'accueil Indicateurs et est  une fonctionnalité réservée à l'Unité qualité.
 
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de l'indicateur s'affiche alors.
 
@@ -348,12 +335,8 @@ Les champs disponibles sont les suivantes :
 
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Indicateurs ;*
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
-***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
-
-Le bouton <span style="color: blue">Sauvegarder</span> devient actif après la saisie des champs obligatoires.
-
-**Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
+Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Penser à sauvegarder les informations saisies avant de changer d'écran.**
 
 Il est à noter que la sauvegarde n'entraîne pas la publication de l'indicateur. Il est donc possible, si nécessaire, de créer l'indicateur en plusieurs étapes.
 
@@ -364,11 +347,9 @@ Pour publier un indicateur dans le référentiel, voir [Publier un indicateur](#
 ## <a id="modifier-indicateur">Modifier un indicateur</a>
 La modification d'un indicateur est possible à partir de sa page de description.
 
-- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>.
-
-Les différents champs peuvent alors être modifiés.
-
-Penser à Sauvegarder la saisie avant de changer d'écran.
+- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Modifier les champs souhaités
+- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
 
 Une fois l'indicateur modifié, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » s'il n'a jamais été publié, jusqu'à sa publication**. Tant qu'il n'est pas publié dans le référentiel de publication (voir [Publier un indicateur](#publier-indicateur)), l'ancienne version reste à disposition des applications clientes.
 
@@ -388,9 +369,8 @@ La création d'une documentation Sims est possible à partir de son opération.
 
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'opération ;*
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
-
-**Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
+Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Penser à sauvegarder les informations saisies avant de changer d'écran.**
 
 Il est à noter que la sauvegarde n'entraîne pas la publication de la documentation. Il est donc possible, si nécessaire, de créer la documentation en plusieurs étapes.
 
@@ -402,11 +382,9 @@ Pour publier une documentation dans le référentiel, voir [Publier une document
 
 La modification d'une documentation est possible à partir de sa page de description.
 
-- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>.
-
-Les différents champs peuvent alors être modifiés.
-
-Penser à Sauvegarder la saisie avant de changer d'écran.
+- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Modifier les champs souhaités
+- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
 
 Une fois la documentation modifiée, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une documentation](#publier-sims)), l'ancienne version reste à disposition des applications clientes.
 
@@ -429,11 +407,11 @@ Ces documents et liens, une fois créés sont réutilisables autant que de besoi
 
 La page d'accueil Documents / Liens, accessible à partir de la barre horizontale de menu, propose une barre de recherche principale qui, donne accès à l'ensemble des Documents et Liens enregistrées dans l'application.
 
-Le bouton <span style="color: blue"Documents / Liens</span> permet de rechercher des documents et/ou des liens.
+Le bouton <span style="color: blue">Documents / Liens</span> permet de rechercher des documents et/ou des liens.
 
-Le bouton <span style="color: blue"Documents</span> permet filtrer la rechercher sur mes documents.
+Le bouton <span style="color: blue">Documents</span> permet filtrer la rechercher sur mes documents.
 
-Le bouton <span style="color: blue"Liens</span> permet de filtrer la recherche sur les liens.
+Le bouton <span style="color: blue">Liens</span> permet de filtrer la recherche sur les liens.
 
 La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sous le moteur de recherche, sur une ou plusieurs pages en fonction du nombre de documents ou liens trouvés.
 
@@ -458,18 +436,16 @@ Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page 
 
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
 
-***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
+***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.***
 
 **Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
 
 ## <a id="modifier-document">Modifier un document</a>
 La modification d'un document est possible à partir de sa page de description.
 
-- Cliquer sur le bouton <span style="color: blue">Modifier</span>. Les différents champs peuvent alors être modifiés.
-
-Penser à Sauvegarder la saisie avant de changer d'écran.
-
-***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
+- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Modifier les champs souhaités
+- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
 
 ## <a id="creer-lien">Créer un lien</a>
 Avant de créer un lien, il est important de vérifier qu'il n'a pas déjà été renseigné en utilisant les fonctionnalités de recherche.
@@ -488,17 +464,13 @@ Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page 
 
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
 
-***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
+***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.***
 
 **Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
 
 ## <a id="modifier-lien">Modifier un lien</a>
 La modification d'un lien est possible à partir de sa page de description.
 
-- Cliquer sur le bouton <span style="color: blue">Modifier</span>.
-
-Les différents champs peuvent alors être modifiés.
-
-Penser à Sauvegarder la saisie avant de changer d'écran.
-
-***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
+- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>.
+- Modifier les champs souhaités
+- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
