@@ -246,32 +246,41 @@ La série ne peut être publiée que par son propriétaire (i.e la personne dés
 La page d'accueil Opérations, accessible à partir de la barre horizontale de menu, propose une barre de recherche principale qui donne accès à l'ensemble des Opérations statistiques enregistrées dans l'application.
 
 La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
+
 La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre d'opérations statistiques trouvées.
+
 Cliquer sur l'opération statistique souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
 ### <a id="creer-operation">Créer une opération statistique</a>
 
 Avant de créer une opération statistique, il est important de vérifier qu'elle n'a pas déjà été renseignée en utilisant les fonctionnalités de recherche.
+
 La création d'une opération est possible à partir de la page d'accueil Opérations.
 
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de l'opération s'affiche alors.
 
 Les champs disponibles sont les suivants :
-
-- L'opération doit être rattachée à sa série mère. Si la série souhaitée n'existe pas, demander sa création à l'administrateur RMéS, 
-  - L'« Intitulé » est le libellé de l'opération. Les intitulés français et anglais sont obligatoires.
-  - Le « Nom court » est un libellé alternatif. Il peut s'agit d‘un sigle ou d'un acronyme.
+- L'opération doit être rattachée à sa **série mère**. Si la série souhaitée n'existe pas, demander sa création à l'administrateur RMéS, 
+  - L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires.
+  - Le **Nom court** est un libellé alternatif. Il peut s'agit d‘un sigle ou d'un acronyme.
 
 Le bouton Annuler permet de revenir à la page d'accueil de l'onglet Opérations ;*
+
 Le bouton Sauvegarder permet d'enregistrer les données dans la base de gestion.
+
 ***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
+
 Le bouton Sauvegarder devient actif après la saisie des champs obligatoires.
+
 **Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
+
 Il est à noter que la sauvegarde n'entraîne pas la publication de l'opération. Il est donc possible, si nécessaire, de créer l'opération en plusieurs étapes.
+
 Le statut de publication de l'opération passe alors en « Provisoire », jusqu'à sa publication.
+
 Pour publier une opération dans le référentiel, voir Publier une opération.
 
-## <a id="modifier-operation">Modifier une opération</a>
+### <a id="modifier-operation">Modifier une opération</a>
 La modification d'une opération est possible à partir de sa page de description.
 
 - Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>.
@@ -286,7 +295,9 @@ Une fois l'opération modifiée, son statut de publication devient **« Proviso
 La publication d'une opération est possible à partir de la page de description d'une opération. Seul le propriétaire de la série à laquelle appartient l'opération, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une opération.
 
 - Cliquer en haut à droite sur Publier après avoir vérifié les informations saisies.
+
 Une opération ne peut être publiée que si la série à laquelle elle est rattachée est déjà publiée. Sinon, publier d'abord la série. 
+
 L'opération ne peut être publiée que par son propriétaire (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série de l'opération statistique) et par l'unité Qualité par délégation.
 
 ## <a id="gerer-indicateurs">Fonctionnalités de gestion des indicateurs</a>
@@ -299,45 +310,56 @@ La page d'accueil Indicateurs, accessible à partir de la barre horizontale de m
 - Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères (2).
 
 1. La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
+
 La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sous le moteur de recherche, sur une ou plusieurs pages en fonction du nombre d'indicateurs trouvés.
+
 Cliquer ensuite sur l'indicateur souhaité pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
 2. La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités** dans les champs :
 
-- *Libellé* : saisir le nom de l'indicateur;
- - *Organisme responsable* : sélectionner l'organisme responsable dans le menu déroulant ;
- - *Gestionnaire* : sélectionner le gestionnaire dans le menu déroulant ;
+- **Libellé** : saisir le nom de l'indicateur;
+- **Organisme responsable** : sélectionner l'organisme responsable dans le menu déroulant ;
+ - **Gestionnaire** : sélectionner le gestionnaire dans le menu déroulant ;
 
 La recherche se lance automatiquement à mesure que des critères sont renseignés dans les différents champs. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre d'indicateurs trouvés. Cliquer ensuite sur l'indicateur recherché pour accéder à sa page de description.
+
 Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-## <a id="creer-indicateur">Créer un indicateur</a>
+### <a id="creer-indicateur">Créer un indicateur</a>
 
 Avant de créer un indicateur, il est important de vérifier qu'il n'a pas déjà été renseigné en utilisant les fonctionnalités de recherche.
+
 La création d'un indicateur est possible à partir de la page d'accueil Indicateurs et est  une fonctionnalité réservée à l'Unité Qualité.
+
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de l'indicateur s'affiche alors.
 
 Les champs disponibles sont les suivantes :
+- L'**Intitulé** est le libellé de l'indicateur. Les intitulés français et anglais sont obligatoires.
+- Le **Nom court** est un libellé alternatif. Il peut s'agir d‘un sigle ou d'un acronyme.
+- Le **Résumé** permet d'expliquer les objectifs et une courte description générale du processus et de ses résultats ; du domaine statistique auquel appartiennent les résultats ; des autres résultats statistiques ;
+- L'**Historique** est un bref historique du processus statistique et des résultats ;
+- La **Fréquence de diffusion** correspond au *rythme* de collecte des données
+- L'**Organisme responsable** est l'organisme responsable de l'indicateur ;
+- Les **Partenaires** sont les organismes associés à la conception et au pilotage de l'indicateur ;
+- Le **Propriétaire** est l'unité responsable de la gestion et de la publication de l'indicateur ainsi que des opérations statistiques et documentations Sims qui en découlent ;
+- Le champ **Succède à** permet de préciser si un indicateur succède à un autre. Si un indicateur A succède à un indicateur B, alors l'indicateur B est automatiquement remplacé par l'indicateur A.
+- Le champ **Remplacée par** permet de préciser si un indicateur est remplacé par un autre. Si un indicateur B est remplacé par un indicateur A, alors l'indicateur A succède automatiquement à l'indicateur B.
+- Le champ **Produits de** permet de préciser les séries contribuant à la production de l'indicateur ;
+- Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
-- L'« Intitulé » est le libellé de l'indicateur. Les intitulés français et anglais sont obligatoires.
-- Le « Nom court » est un libellé alternatif. Il peut s'agir d‘un sigle ou d'un acronyme.
-- Le Résumé permet d'expliquer les objectifs et une courte description générale du processus et de ses résultats ; du domaine statistique auquel appartiennent les résultats ; des autres résultats statistiques ;
-- L' « Historique » est un bref historique du processus statistique et des résultats ;
-- La « Fréquence de diffusion » correspond au *rythme* de collecte des données
-- L' « Organisme responsable » est l'organisme responsable de l'indicateur ;
-- Les « Partenaires » sont les organismes associés à la conception et au pilotage de l'indicateur ;
-- Le « Propriétaire » est l'unité responsable de la gestion et de la publication de l'indicateur ainsi que des opérations statistiques et documentations Sims qui en découlent ;
-      - Le champ « Succède à » permet de préciser si un indicateur succède à un autre. Si un indicateur A succède à un indicateur B, alors l'indicateur B est automatiquement remplacé par l'indicateur A.
-      - Le champ « Remplacée par » permet de préciser si un indicateur est remplacé par un autre. Si un indicateur B est remplacé par un indicateur A, alors l'indicateur A succède automatiquement à l'indicateur B.
-      - Le champ « Produits de » permet de préciser les séries contribuant à la production de l'indicateur ;
-      - Les « Séries ou Indicateurs liés » permet de renvoyer vers des séries ou des indicateurs connexes.
 Le bouton Annuler permet de revenir à la page d'accueil de l'onglet Indicateurs ;*
+
 Le bouton Sauvegarder permet d'enregistrer les données dans la base de gestion.
 ***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
+
 Le bouton Sauvegarder devient actif après la saisie des champs obligatoires.
+
 **Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
+
 Il est à noter que la sauvegarde n'entraîne pas la publication de l'indicateur. Il est donc possible, si nécessaire, de créer l'indicateur en plusieurs étapes.
+
 Le statut de publication de l'indicateur passe alors en « Provisoire », jusqu'à sa publication.
+
 Pour publier un indicateur dans le référentiel, voir Publier un indicateur.
 
 ## <a id="modifier-indicateur">Modifier un indicateur</a>
@@ -365,11 +387,17 @@ L'indicateur ne peut être publié que par son propriétaire (i.e la personne d�
 La création d'une documentation Sims est possible à partir de son opération.
 
 - Cliquer sur le bouton <span style="color: blue">Créer le Sims</span> en haut de la page. La page de création de la documentation Sims s'affiche alors.
+
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'opération ;*
+
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
+
 **Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
+
 Il est à noter que la sauvegarde n'entraîne pas la publication de la documentation. Il est donc possible, si nécessaire, de créer la documentation en plusieurs étapes.
+
 Le statut de publication de la documentation passe alors en « Provisoire », jusqu'à sa publication.
+
 Pour publier une documentation dans le référentiel, voir Publier une documentation.
 
 ## <a id="modifier-sims">Modifier une documentation Sims</a>
@@ -390,19 +418,23 @@ La publication d'une documentation est possible à partir de sa page de descript
 - Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
 
 Une documentation ne peut être publiée que si l'opération à laquelle elle est rattachée est déjà publiée. Sinon, publier d'abord l'opération. 
+
 La documentation ne peut être publiée que par son propriétaire (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série de l'opération statistique) et par l'unité Qualité par délégation.
 
 ## <a id="gerer-documents-liens">Fonctionnalités de gestions des documents et des liens</a>
 
-Un menu Documents/Liens, situé en haut à droite, permet de gérer des documents et des liens utiles à certaines rubriques du SIMS. Ces documents et liens, une fois créés sont réutilisables autant que de besoin dans les rubriques de la documentation Sims.
+Un menu Documents/Liens, situé en haut à droite, permet de gérer des documents et des liens utiles à certaines rubriques du SIMS. 
 
+Ces documents et liens, une fois créés sont réutilisables autant que de besoin dans les rubriques de la documentation Sims.
 
 ## <a id="rechercher-document-lien">Rechercher un document ou un lien</a>
 
 La page d'accueil Documents / Liens, accessible à partir de la barre horizontale de menu, propose une barre de recherche principale qui, donne accès à l'ensemble des Documents et Liens enregistrées dans l'application.
 
 Le bouton Documents / Liens permet de rechercher des documents et/ou des liens.
+
 Le bouton Documents permet filtrer la rechercher sur mes documents.
+
 Le bouton Liens permet de filtrer la recherche sur les liens.
 
 La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sous le moteur de recherche, sur une ou plusieurs pages en fonction du nombre de documents ou liens trouvés.
@@ -412,8 +444,11 @@ Cliquer sur le document ou le lien souhaité pour accéder à sa page de descrip
 ## <a id="creer-document">Créer un document</a>
 
 Avant de créer un document, il est important de vérifier qu'il n'a pas déjà été renseigné en utilisant les fonctionnalités de recherche.
+
 La création d'un document est possible à partir de la page d'accueil Documents / Liens.
+
 - Cliquer sur le bouton <span style="color: blue">Nouveau Document</span> à gauche de la page. La page de création du document s'affiche alors.
+
 Les champs disponibles sont les suivants :
       - L' « Intitulé » est le libellé du document. Les intitulés français et anglais sont obligatoires ;
       - La « Description »permet de décrire le document. Ils s'agit d'une information que l'on peut retrouver en infobulle.
@@ -437,19 +472,26 @@ Avant de créer un lien, il est important de vérifier qu'il n'a pas déjà ét�
 La création d'un lien est possible à partir du menu Documents / Liens.
 - Cliquer sur le bouton <span style="color: blue">Nouveau Lien</span> à gauche de la page. La page de création du lien s'affiche alors.
 Les champs disponibles sont les suivants :
-- L' « Intitulé » est le libellé du lien. Les intitulés français et anglais sont obligatoires.
-      - La « Description »permet de décrire le lien. Il s'agit d'une information que l'on peut retrouver en infobulle ;
-      - Le « Lien » correspond à l'URL de la page sur laquelle renvoyer. Le lien est obligatoire.
-      - La langue correspond à la langue du contenu de la page sur laquelle on renvoie. La langue est obligatoire.
+- L' **Intitulé** est le libellé du lien. Les intitulés français et anglais sont obligatoires.
+- La **Description** permet de décrire le lien. Il s'agit d'une information que l'on peut retrouver en infobulle ;
+- Le **Lien** correspond à l'URL de la page sur laquelle renvoyer. Le lien est obligatoire.
+- La **Langue** correspond à la langue du contenu de la page sur laquelle on renvoie. La langue est obligatoire.
+
 Le bouton Annuler permet de revenir à la page d'accueil de l'onglet Documents : Liens ;*
+
 Le bouton Sauvegarder permet d'enregistrer les données dans la base de gestion.
+
 ***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
+
 **Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer d'écran.
 
 ## <a id="modifier-lien">Modifier un lien</a>
 La modification d'un lien est possible à partir de sa page de description.
 
 - Cliquer sur le bouton <span style="color: blue">Modifier</span>.
+
 Les différents champs peuvent alors être modifiés.
+
 Penser à Sauvegarder la saisie avant de changer d'écran.
+
 ***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
