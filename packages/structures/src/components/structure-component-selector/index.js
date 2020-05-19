@@ -111,7 +111,6 @@ export const StructureComponentsSelector = ({
 		setOpenPanel(true);
 	}, []);
 
-	console.log(components);
 	const componentsWithActions = components.map((component, i) => ({
 		...component,
 		type: typeUriToLabel(component.type),

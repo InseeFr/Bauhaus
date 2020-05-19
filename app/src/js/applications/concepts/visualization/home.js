@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { PageTitle, PageSubtitle } from '@inseefr/wilco';
+import { ErrorBloc } from '@inseefr/wilco';
 import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
@@ -12,7 +12,7 @@ import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
-import { CheckSecondLang, DateUtils } from 'bauhaus-utilities';
+import { CheckSecondLang, DateUtils, PageTitleBlock } from 'bauhaus-utilities';
 
 class ConceptVisualization extends Component {
 	constructor(props) {
@@ -36,16 +36,6 @@ class ConceptVisualization extends Component {
 		};
 
 		this.handleClickDeletion = () => this.props.deleteConcept(this.props.id);
-
-		this.handleCancelDeletion = () => {
-			this.setState({ modalDelete: false });
-			this.props.validateConcept(this.props.id);
-		};
-
-		this.handleConfirmDeletion = () => {
-			this.handleCancelDeletion();
-			this.props.deleteConcept(this.props.id);
-		};
 	}
 
 	render() {
@@ -57,6 +47,7 @@ class ConceptVisualization extends Component {
 			notes,
 			secondLang,
 			langs,
+			serverSideError,
 		} = this.props;
 		const { modalValid } = this.state;
 		const {
@@ -82,12 +73,14 @@ class ConceptVisualization extends Component {
 		];
 
 		return (
-			<div>
+			<>
 				<div className="container">
-					<PageTitle title={prefLabelLg1} />
-					{secondLang && prefLabelLg2 && (
-						<PageSubtitle subTitle={prefLabelLg2} />
-					)}
+					<PageTitleBlock
+						titleLg1={prefLabelLg1}
+						titleLg2={prefLabelLg2}
+						secondLang={secondLang}
+					/>
+
 					<ConceptVisualizationControls
 						id={id}
 						permission={permission}
@@ -98,7 +91,7 @@ class ConceptVisualization extends Component {
 						handleValidation={this.handleClickValidation}
 						handleDeletion={this.handleClickDeletion}
 					/>
-
+					<ErrorBloc error={serverSideError} />
 					<CheckSecondLang />
 
 					<ConceptGeneral
@@ -117,7 +110,7 @@ class ConceptVisualization extends Component {
 					modalButtons={modalButtons}
 					closeCancel={this.handleCancelValidation}
 				/>
-			</div>
+			</>
 		);
 	}
 }
