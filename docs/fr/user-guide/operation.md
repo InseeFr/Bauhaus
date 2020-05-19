@@ -1,5 +1,7 @@
 # Guide utilisateur du module Opérations statistiques de Bauhaus
 
+Version au 19/05/2020
+
 Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer les opérations statistiques de l'Insee et des SSM.
 
 ## Sommaire
@@ -381,7 +383,6 @@ La publication d'un indicateur est possible à partir de sa page de description.
 L'indicateur ne peut être publié que par son propriétaire (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de l'indicateur) ou par l'unité Qualité par délégation.
 
 ## <a id="gerer-sims">Gérer une documentation statistique</a>
-
 ### <a id="creer-sims">Créer une documentation Sims</a>
 
 La création d'une documentation Sims est possible à partir de son opération.
