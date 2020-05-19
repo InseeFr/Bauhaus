@@ -1,9 +1,7 @@
 # Guide utilisateur du module Opérations statistiques de Bauhaus
-
-Version au 19/05/2020
+Version au 20/05/2020
 
 Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer les opérations statistiques de l'Insee et des SSM.
-
 ## Sommaire
 
 - [**Quelques notions pour bien démarrer**](#notions)
@@ -131,11 +129,11 @@ La page d'accueil Familles, accessible à partir de la barre horizontale de menu
 - Une barre de recherche principale, qui donne accès à l'ensemble des familles enregistrées dans l'application (1) ;
 - Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères. (2).
 
-1. La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de familles trouvées.
+(1) La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de familles trouvées.
 
 Cliquer ensuite sur la famille souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-2. La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités dans les champs** :
+(2) La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités dans les champs** :
 - **Libellé** : saisir le nom du concept ;
 - **Thème** : sélectionner le thème.
 
@@ -160,14 +158,13 @@ La page d'accueil Séries, accessible à partir de la barre horizontale de menu,
 - Une barre de recherche principale, qui donne accès à l'ensemble des Séries enregistrées dans l'application (1) ;
 - Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères. (2).
 
-1. La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
+(1) La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
 
 La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de séries trouvées.
 
 Cliquer ensuite sur la série souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-2. La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection,**renseigner les filtres souhaités** dans les champs :
-
+(2) La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection,**renseigner les filtres souhaités** dans les champs :
 
 - **Libellé** : saisir le nom de la série;
 - **Type d'opération** : sélectionner le type d'opération dans le menu déroulant
@@ -206,7 +203,7 @@ Les champs disponibles sont les suivants :
 
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Séries ;*
 
-Le bouton Sauvegarder permet d'enregistrer les données dans la base de gestion.
+Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
 
 ***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
 
@@ -311,17 +308,17 @@ La page d'accueil Indicateurs, accessible à partir de la barre horizontale de m
 - Une barre de recherche principale, qui donne accès à l'ensemble des Indicateurs enregistrés dans l'application (1) ;
 - Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères (2).
 
-1. La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
+(1) La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
 
 La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sous le moteur de recherche, sur une ou plusieurs pages en fonction du nombre d'indicateurs trouvés.
 
 Cliquer ensuite sur l'indicateur souhaité pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-2. La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités** dans les champs :
+(2) La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités** dans les champs :
 
 - **Libellé** : saisir le nom de l'indicateur;
 - **Organisme responsable** : sélectionner l'organisme responsable dans le menu déroulant ;
- - **Gestionnaire** : sélectionner le gestionnaire dans le menu déroulant ;
+- **Gestionnaire** : sélectionner le gestionnaire dans le menu déroulant ;
 
 La recherche se lance automatiquement à mesure que des critères sont renseignés dans les différents champs. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre d'indicateurs trouvés. Cliquer ensuite sur l'indicateur recherché pour accéder à sa page de description.
 
@@ -373,7 +370,7 @@ Les différents champs peuvent alors être modifiés.
 
 Penser à Sauvegarder la saisie avant de changer d'écran.
 
-Une fois l'indicateur modifié, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » s'il n'a jamais été publié, jusqu'à sa publication**. Tant qu'il n'est pas publié dans le référentiel de publication (voir Publier un indicateur), l'ancienne version reste à disposition des applications clientes.
+Une fois l'indicateur modifié, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » s'il n'a jamais été publié, jusqu'à sa publication**. Tant qu'il n'est pas publié dans le référentiel de publication (voir Publier un indicateur(#publier-indicateur)), l'ancienne version reste à disposition des applications clientes.
 
 ## <a id="publier-indicateur">Publier un indicateur</a>
 La publication d'un indicateur est possible à partir de sa page de description. Seul le propriétaire de l'indicateur, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier un indicateur.
