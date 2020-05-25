@@ -104,7 +104,7 @@ Le Sims permet de décrire les opérations statistiques et indicateurs en respec
 
 Pour atteindre la page d'accueil du module de gestion des opérations statistiques, cliquer sur le pavé <span style="color: blue">Opérations</span> de la page d'accueil. La navigation se fait via la barre horizontale de menu en haut de la page.
 
-Un bouton « Voir l'arborescence » disponible via les menus « Familles », « Séries » et « Opérations » permet également d'accéder à l'arborescence de l'ensemble des Familles/Séries/Opérations. 
+Un bouton <span style="color: blue">Voir l'arborescence</span> disponible via les menus <span style="color: blue">Familles</span>, <span style="color: blue">Séries</span> et <span style="color: blue">Opérations</span> permet également d'accéder à l'arborescence de l'ensemble des Familles/Séries/Opérations.
 Dans cette arborescence, les boutons + et - permettent de déplier ou replier l'arborescence, de la famille à l'opération concernée. Un clic sur l'objet famille, série ou opération permet d'accéder à la page de description de cet objet.
 
 Afin de garantir l'intégrité et la qualité de la base, les fonctionnalités de création et modification des familles, de création des séries et indicateurs ainsi que l'identification des propriétaires sont réservés à l'unité Qualité. Toute unité en ayant l'utilité peut demander la création d'une famille, d'une série ou d'un indicateur. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, le propriétaire ou par délégation l'unité Qualité sont habilités à publier.
@@ -360,7 +360,7 @@ La création d'une documentation Sims est possible à partir de son opération.
 
 - Cliquer sur le bouton <span style="color: blue">Créer le Sims</span> en haut de la page. La page de création de la documentation Sims s'affiche alors.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'opération ;*
+Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'opération.
 
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
 Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de la documentation. Il est donc possible, si nécessaire, de créer la documentation en plusieurs étapes. Le statut de publication de la documentation passe alors en « Provisoire », jusqu'à sa publication.
@@ -388,7 +388,7 @@ La documentation ne peut être publiée que par son propriétaire (i.e la person
 
 ## <a id="gerer-documents-liens">Fonctionnalités de gestions des documents et des liens</a>
 
-Un menu Documents/Liens, situé en haut à droite, permet de gérer des documents et des liens utiles à certaines rubriques du SIMS. 
+Un menu Documents/Liens, situé en haut à droite, permet de gérer des documents et des liens utiles à certaines rubriques du Sims. 
 
 Ces documents et liens, une fois créés sont réutilisables autant que de besoin dans les rubriques de la documentation Sims.
 
