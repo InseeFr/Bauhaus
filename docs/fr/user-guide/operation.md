@@ -133,36 +133,59 @@ Pour toute demande ou question, adresser un message à la boite fonctionnelle :
 La page d'accueil Familles, accessible à partir de la barre horizontale de menu, propose deux méthodes de recherche.
 
 - Une barre de recherche principale, qui donne accès à l'ensemble des familles enregistrées dans l'application **(1)** ;
-- Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères. **(2)**.
+- Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères **(2)**.
 
 **(1)** La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de familles trouvées.
 
 Cliquer ensuite sur la famille souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
 **(2)** La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités dans les champs** :
-- **Libellé** : saisir le nom du concept ;
+- **Intitulé** : saisir le nom du concept ;
 - **Thème** : sélectionner le thème.
 
 La recherche se lance automatiquement à mesure que des critères sont renseignés dans les différents champs. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de familles trouvées.
 
-Cliquer ensuite sur la famille souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] Afficher la seconde langue. Celle-ci s'affichera à droite de la version française.
+Cliquer ensuite sur la famille souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
 ### <a id="creer-famille">Créer une famille</a>
-La création d'une famille est une fonctionnalité réservée à l'Unité qualité.
+Avant de créer une famille, il est important de vérifier qu'elle n'a pas déjà été renseignée en utilisant les fonctionnalités de recherche.
+
+La création d'une famille est possible à partir de la page d'accueil Familles. Seule l'unité Qualité est habilitée à créer une famille.
+
+- Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de la famille s'affiche alors.
+
+Les champs disponibles sont les suivants :
+ - - L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires ;
+ - - Le **Thème** de la famille ;
+ - - Le **Résumé** permet d'expliquer les objectifs et une courte description générale de la famille d'opérations statistiques.
+
+- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span> 
+
+Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Penser à sauvegarder les informations saisies avant de changer d'écran.** La sauvegarde n'entraîne pas la publication de la famille. Il est donc possible, si nécessaire, de créer la famille en plusieurs étapes. Le statut de publication de la famille passe alors en « Provisoire », jusqu'à sa publication. Pour publier une famille dans le référentiel, voir [Publier une famille](#publier-famille).
+
+Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Familles.
 
 ### <a id="modifier-famille">Modifier une famille</a>
-La modification d'une famille est une fonctionnalité réservée à l'Unité qualité.
+La modification d'une famille est possible à partir de sa page de description. Seule l'unité Qualité est habilitée à modifier une famille.
+
+- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Modifier les champs souhaités
+- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
+
+Une fois la famille modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une famille](#publier-famille)), l'ancienne version reste à disposition des applications clientes.
 
 ### <a id="publier-famille">Publier une famille</a>
-La publication d'une famille est une fonctionnalité réservée à l'Unité qualité.
+La publication d'une famille est possible à partir de la page de description d'une famille. Seule l'unité Qualité est habilitée à publier une famille.
+
+- Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
 
 ## <a id="gerer-series">Fonctionnalités de gestion d'une série d'opérations statistiques</a>
-
 ### <a id="rechercher-serie">Rechercher une série</a>
 
 La page d'accueil Séries, accessible à partir de la barre horizontale de menu, propose deux méthodes de recherche :
 - Une barre de recherche principale, qui donne accès à l'ensemble des Séries enregistrées dans l'application **(1)** ;
-- Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères. **(2)**.
+- Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères **(2)**.
 
 **(1)** La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé ou du nom court recherché**.
 
@@ -180,7 +203,7 @@ Cliquer ensuite sur la série souhaitée pour accéder à sa page de description
 
 La recherche se lance automatiquement à mesure que des critères sont renseignés dans les différents champs. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de séries trouvées.
 
-Cliquer ensuite sur la série souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] Afficher la seconde langue. Celle-ci s'affichera à droite de la version française.
+Cliquer ensuite sur la série souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
 ### <a id="creer-serie">Créer une série</a>
 
@@ -202,9 +225,9 @@ Les champs disponibles sont les suivants :
 - Les **Partenaires** sont les organismes associés à la conception et au pilotage de la série ;
 - Les **Services collecteurs** correspond aux services réalisant la collecte ;
 - Le **Propriétaire** est l'unité responsable de la gestion et de la publication de la série ainsi que des opérations statistiques et documentations Sims qui en découlent ;
-- Le champ **Succède à** permet de préciser si une série succède à une autre. Si une Série A succède à une Série B, alors la Série B est automatiquement remplacée par la Série A.
-- Le champ **Remplacée par** permet de préciser si une série est remplacée par une autre. Si une Série B est remplacée par une Série A, alors la Série A succède automatiquement remplacée à la la Série B.
-- Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contributions de la série.
+- Le champ **Succède à** permet de préciser si une série succède à une autre. Si une Série A succède à une Série B, alors la Série B est automatiquement remplacée par la Série A ;
+- Le champ **Remplacée par** permet de préciser si une série est remplacée par une autre. Si une Série B est remplacée par une Série A, alors la Série A succède automatiquement remplacée à la la Série B ;
+- Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contributions de la série ;
 - Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
