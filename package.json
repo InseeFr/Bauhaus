@@ -18,12 +18,14 @@
 		"@inseefr/wilco": "0.0.5"
 	},
 	"devDependencies": {
+		"@babel/core": "7.10.0",
+		"@babel/preset-env": "7.10.0",
 		"@storybook/addon-actions": "5.3.19",
 		"@storybook/addon-knobs": "5.3.19",
 		"@storybook/addon-links": "5.3.19",
 		"@storybook/addons": "5.3.19",
 		"@storybook/react": "5.3.19",
-		"@testing-library/jest-dom": "5.7.0",
+		"@testing-library/jest-dom": "5.8.0",
 		"@testing-library/react": "10.0.4",
 		"@types/jest": "25.2.3",
 		"babel-eslint": "^10.1.0",
@@ -41,7 +43,7 @@
 		"jest": "26.0.1",
 		"jest-localstorage-mock": "2.4.2",
 		"lcov-result-merger": "3.1.0",
-		"webpack": "4.42.0"
+		"webpack": "4.43.0"
 	},
 	"dependencies": {
 		"prop-types": "15.7.2",
