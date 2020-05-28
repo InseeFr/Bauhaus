@@ -1,6 +1,10 @@
 import React from 'react';
 import D from '../i18n/build-dictionary';
-import { COMPONENT_TYPES, ATTACHMENTS, MEASURE_TYPE } from './constants/';
+import {
+	MUTUALIZED_COMPONENT_TYPES,
+	ATTACHMENTS,
+	MEASURE_TYPE,
+} from './constants/';
 
 export const getAllAttachment = components => {
 	return [
@@ -15,13 +19,17 @@ export const formatLabel = component => {
 		<React.Fragment>
 			{component.labelLg1}
 			<span className="badge badge-pill" style={{ marginLeft: '1em' }}>
-				{COMPONENT_TYPES.find(c => c.value === component.type)?.label}
+				{
+					MUTUALIZED_COMPONENT_TYPES.find(c => c.value === component.type)
+						?.label
+				}
 			</span>
 		</React.Fragment>
 	);
 };
 export const typeUriToLabel = (uri = '') => {
-	return COMPONENT_TYPES.find(component => component.value === uri)?.label;
+	return MUTUALIZED_COMPONENT_TYPES.find(component => component.value === uri)
+		?.label;
 };
 
 export const defaultComponentsTableParams = [
