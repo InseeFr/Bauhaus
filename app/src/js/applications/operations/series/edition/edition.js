@@ -250,7 +250,7 @@ class OperationsSerieEdition extends Component {
 							/>
 						</div>
 						<div className="form-group col-md-6">
-							<label htmlFor="abstractLg2">{D2.summary} ></label>
+							<label htmlFor="abstractLg2">{D2.summary}</label>
 							<EditorMarkdown
 								text={serie.abstractLg2}
 								handleChange={value =>

@@ -10,7 +10,7 @@ export default {
 	},
 	addLink: {
 		fr: 'Ajoutez un lien',
-		en: 'Add a lien',
+		en: 'Add a link',
 	},
 	drag: {
 		fr: 'Glisser des documents ici, ou cliquez ici pour en sélectionner',
