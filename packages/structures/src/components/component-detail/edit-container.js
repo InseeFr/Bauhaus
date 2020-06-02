@@ -27,7 +27,11 @@ const ViewContainer = props => {
 			}
 
 			request.then((id = component.id) => {
-				goBackOrReplace(props, `/structures/components/${id}`, component.id);
+				return goBackOrReplace(
+					props,
+					`/structures/components/${id}`,
+					!component.id
+				);
 			});
 		},
 		[props]

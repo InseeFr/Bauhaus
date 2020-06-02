@@ -7,12 +7,8 @@ import {
 	Loading,
 } from '@inseefr/wilco';
 import './component-list.scss';
-import { FilterToggleButtons, ArrayUtils } from 'bauhaus-utilities';
-import {
-	MEASURE_TYPE,
-	DIMENSION_TYPE,
-	ATTRIBUTE_TYPE,
-} from '../../utils/constants/dsd-components';
+import { FilterToggleButtons } from 'bauhaus-utilities';
+import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 
 import { formatLabel } from '../../utils';
 import api from '../../apis/structure-api';
@@ -33,7 +29,7 @@ function ComponentsList() {
 		api
 			.getMutualizedComponents()
 			.then(components => {
-				setItems(ArrayUtils.sortArray('labelLg1')(components));
+				setItems(components);
 			})
 			.finally(() => setLoading(false));
 	}, []);
@@ -54,9 +50,10 @@ function ComponentsList() {
 						handleSelection={setFilter}
 						options={[
 							[ALL, D.all],
-							[MEASURE_TYPE, D.Measure],
-							[DIMENSION_TYPE, D.Dimension],
-							[ATTRIBUTE_TYPE, D.Attribute],
+							...MUTUALIZED_COMPONENT_TYPES.map(type => [
+								type.value,
+								type.label,
+							]),
 						]}
 					/>
 					<SearchableList

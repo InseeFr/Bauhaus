@@ -100,7 +100,7 @@ const SearchListContainer = () => {
 			ConceptsAPI.getConceptList(),
 		])
 			.then(([components, concepts]) => {
-				setItems(ArrayUtils.sortArray('labelLg1')(components));
+				setItems(components);
 				setConcepts(concepts);
 			})
 			.finally(() => setLoading(false));

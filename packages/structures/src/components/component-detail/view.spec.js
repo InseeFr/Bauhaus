@@ -15,12 +15,12 @@ describe('<ComponentDetailView />', () => {
 		identifiant: '5e7334002a5c764f68247222',
 		labelLg1: 'veniam non irure',
 		labelLg2: 'nisi aliquip',
-		type: 'http://purl.org/linked-data/cube#dimension',
+		type: 'http://purl.org/linked-data/cube#DimensionProperty',
 		attachment: ['http://purl.org/linked-data/cube#Observation'],
 		concept: 439,
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 942,
-		range: 'http://www.w3.org/2001/XMLSchema#codeList',
+		range: 'http://rdf.insee.fr/def/base#codeList',
 	};
 
 	const concepts = [
