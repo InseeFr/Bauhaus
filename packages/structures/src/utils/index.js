@@ -66,6 +66,7 @@ export const validateComponent = component => {
 		identifiant: 'errorsIdMandatory',
 		labelLg1: 'errorsLabelLg1Mandatory',
 		labelLg2: 'errorsLabelLg1Mandatory',
+		type: 'errorsTypeMandatory',
 	};
 
 	const field = Object.keys(validations).find(field => !component[field]);

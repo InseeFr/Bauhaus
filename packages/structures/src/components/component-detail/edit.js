@@ -8,7 +8,7 @@ import {
 } from '@inseefr/wilco';
 import { EditorMarkdown } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
-import { COMPONENT_TYPES } from '../../utils/constants/dsd-components';
+import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import { D1, D2 } from '../../i18n/build-dictionary';
 import { Select } from '@inseefr/wilco';
@@ -20,8 +20,6 @@ export const ComponentDetailEdit = ({
 	codesLists,
 	handleSave,
 	handleBack,
-	mutualized = false,
-	structureComponents,
 }) => {
 	const [component, setComponent] = useState(defaultComponent || {});
 
@@ -105,16 +103,17 @@ export const ComponentDetailEdit = ({
 					<div className="col-md-12 ">
 						<Select
 							id="type"
-							label={D1.type}
+							label={<LabelRequired>{D1.type}</LabelRequired>}
 							placeholder={D1.type}
-							value={COMPONENT_TYPES.find(c => c.value === component.type)}
-							options={COMPONENT_TYPES}
+							value={MUTUALIZED_COMPONENT_TYPES.find(
+								c => c.value === component.type
+							)}
+							options={MUTUALIZED_COMPONENT_TYPES}
 							name="type"
 							onChange={value => setComponent({ ...component, type: value })}
 						/>
 					</div>
 				</div>
-
 				<div className="row">
 					<div className="col-md-12">
 						<Select
@@ -143,7 +142,6 @@ export const ComponentDetailEdit = ({
 						/>
 					</div>
 				</div>
-
 				{component.range === XSD_CODE_LIST && (
 					<div className="row">
 						<div className="col-md-12 form-group">
