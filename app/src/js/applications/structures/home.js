@@ -57,6 +57,7 @@ const Home = () => {
 						autoFocus={true}
 						advancedSearch={true}
 						searchUrl="/structures/search"
+						itemFormatter={(_, structure) => structure.labelLg1}
 					/>
 				</div>
 			</div>

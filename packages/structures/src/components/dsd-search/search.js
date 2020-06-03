@@ -13,17 +13,19 @@ import {
 	ItemToSelectModel,
 } from 'bauhaus-utilities';
 
-const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
-const filterComponentLabel = ArrayUtils.filterKeyDeburr(['components.label']);
+const filterLabelLg1 = ArrayUtils.filterKeyDeburr(['labelLg1']);
+const filterComponentLabelLg1 = ArrayUtils.filterKeyDeburr([
+	'components.labelLg1',
+]);
 const filterType = ArrayUtils.filterKeyDeburr(['components.type']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['components.concept']);
 
-const fields = ['label', 'componentLabel', 'type', 'concept'];
+const fields = ['labelLg1', 'componentLabelLg1', 'type', 'concept'];
 
 export class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
-		label: '',
-		componentLabel: '',
+		labelLg1: '',
+		componentLabelLg1: '',
 		type: '',
 		concept: '',
 	};
@@ -33,22 +35,22 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 	}
 
 	handlers = this.handleChange(fields, newState => {
-		const { label, componentLabel, type, concept } = newState;
+		const { labelLg1, componentLabelLg1, type, concept } = newState;
 		return this.props.data
-			.filter(filterLabel(label))
-			.filter(filterComponentLabel(componentLabel))
+			.filter(filterLabelLg1(labelLg1))
+			.filter(filterComponentLabelLg1(componentLabelLg1))
 			.filter(filterType(type))
 			.filter(filterConcept(concept));
 	});
 
 	render() {
-		const { data, label, componentLabel, type, concept } = this.state;
+		const { data, labelLg1, componentLabelLg1, type, concept } = this.state;
 		const { concepts } = this.props;
 		const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
 
-		const dataLinks = data.map(({ id, label }) => (
+		const dataLinks = data.map(({ id, labelLg1 }) => (
 			<li key={id} className="list-group-item text-left">
-				<Link to={'/structures/' + id}>{label}</Link>
+				<Link to={'/structures/' + id}>{labelLg1}</Link>
 			</li>
 		));
 		return (
@@ -63,9 +65,8 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 						<label className="w-100">
 							{D.label}
 							<input
-								value={label}
-								onChange={e => this.handlers.label(e.target.value)}
-								type="text"
+								value={labelLg1}
+								onChange={e => this.handlers.labelLg1(e.target.value)}
 								className="form-control"
 							/>
 						</label>
@@ -76,9 +77,8 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 						<label className="w-100">
 							{D.componentLabel}
 							<input
-								value={componentLabel}
-								onChange={e => this.handlers.componentLabel(e.target.value)}
-								type="text"
+								value={componentLabelLg1}
+								onChange={e => this.handlers.componentLabelLg1(e.target.value)}
 								className="form-control"
 							/>
 						</label>
@@ -128,8 +128,8 @@ const SearchListContainer = () => {
 
 	useEffect(() => {
 		Promise.all([api.getStructuresForSearch(), ConceptsAPI.getConceptList()])
-			.then(([components, concepts]) => {
-				setItems(ArrayUtils.sortArrayByLabel(components));
+			.then(([structures, concepts]) => {
+				setItems(structures);
 				setConcepts(concepts);
 			})
 			.finally(() => setLoading(false));
@@ -137,6 +137,7 @@ const SearchListContainer = () => {
 	if (loading) {
 		return <Loading />;
 	}
+
 	return <SearchFormList data={items} concepts={concepts} />;
 };
 

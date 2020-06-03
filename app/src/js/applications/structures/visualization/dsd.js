@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Note } from '@inseefr/wilco';
+import { Note, Loading } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
 import { CheckSecondLang, Stores, PageTitleBlock } from 'bauhaus-utilities';
 import Components from './components';
@@ -13,12 +13,15 @@ import {
 const DSD = () => {
 	const { dsdId } = useParams();
 	const [DSD, setDSD] = useState({});
+	const [loading, setLoading] = useState(true);
 	const secondLang = useSelector(state =>
 		Stores.SecondLang.getSecondLang(state)
 	);
 
 	useEffect(() => {
-		StructureAPI.getStructure(dsdId).then(res => setDSD(res));
+		StructureAPI.getStructure(dsdId)
+			.then(res => setDSD(res))
+			.finally(() => setLoading(false));
 	}, [dsdId]);
 
 	const {
@@ -28,6 +31,11 @@ const DSD = () => {
 		descriptionLg2,
 		components,
 	} = DSD;
+
+	if (loading) {
+		return <Loading />;
+	}
+
 	return (
 		<>
 			<PageTitleBlock
