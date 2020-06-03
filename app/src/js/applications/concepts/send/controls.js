@@ -10,37 +10,34 @@ import {
 } from '@inseefr/wilco';
 import D from 'js/i18n';
 
-class SendControls extends Component {
-	render() {
-		const { isRecipientValid, subject, message, sendMessage } = this.props;
+function SendControls(props) {
+	const { isRecipientValid, subject, message, sendMessage } = props;
 
-		const hasSubject = Boolean(subject);
-		const hasMessage = Boolean(message);
-		let warning;
-		let disabled;
-		if (!isRecipientValid) {
-			warning = D.invalidMailAdress;
-			disabled = true;
-		} else if (!hasSubject) {
-			warning = D.emptyMailObject;
-			disabled = true;
-		} else if (!hasMessage) {
-			warning = D.emptyMailBody;
-		}
-		const location = this.props.history.location.pathname;
-		const nextLocation = location.replace('/send', '');
-
-		return (
-			<>
-				<ActionToolbar>
-					<ReturnButton action={goBack(this.props, nextLocation)} />
-
-					<Button label={D.btnSend} action={sendMessage} disabled={disabled} />
-				</ActionToolbar>
-				<ErrorBloc error={warning} />
-			</>
-		);
+	const hasSubject = Boolean(subject);
+	const hasMessage = Boolean(message);
+	let warning;
+	let disabled;
+	if (!isRecipientValid) {
+		warning = D.invalidMailAdress;
+		disabled = true;
+	} else if (!hasSubject) {
+		warning = D.emptyMailObject;
+		disabled = true;
+	} else if (!hasMessage) {
+		warning = D.emptyMailBody;
 	}
+	const location = props.history.location.pathname;
+	const nextLocation = location.replace('/send', '');
+
+	return (
+		<>
+			<ActionToolbar>
+				<ReturnButton action={goBack(props, nextLocation)} />
+				<Button label={D.btnSend} action={sendMessage} disabled={disabled} />
+			</ActionToolbar>
+			<ErrorBloc error={warning} />
+		</>
+	);
 }
 
 SendControls.propTypes = {
