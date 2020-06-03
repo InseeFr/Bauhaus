@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 import React from 'react';
 import Field from './sims-field';
 import { render } from '@testing-library/react';
@@ -22,7 +24,7 @@ describe('Sims Field', () => {
 				codesLists={{}}
 			/>
 		);
-		expect(container.innerHTML).toBe('');
+		expect(container).toBeEmpty();
 	});
 	it('should display only one field', () => {
 		const { container } = render(

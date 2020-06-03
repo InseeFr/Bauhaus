@@ -20,9 +20,7 @@ describe('Collapsible Panel', () => {
 			</CollapsiblePanel>
 		);
 		expect(container.querySelector('#idbutton')).not.toBeNull();
-		expect(
-			container.querySelector('#idbody').hasAttribute('hidden')
-		).toBeFalsy();
+		expect(container.querySelector('#idbody')).not.toHaveAttribute('hidden');
 	});
 	it('should be collapsed by default', () => {
 		const { container } = render(
@@ -31,9 +29,7 @@ describe('Collapsible Panel', () => {
 			</CollapsiblePanel>
 		);
 		expect(container.querySelector('#idbutton')).not.toBeNull();
-		expect(
-			container.querySelector('#idbody').hasAttribute('hidden')
-		).toBeTruthy();
+		expect(container.querySelector('#idbody')).toHaveAttribute('hidden');
 	});
 	it('should be expanded after clicking to the button', () => {
 		const { container } = render(
@@ -41,14 +37,10 @@ describe('Collapsible Panel', () => {
 				Children
 			</CollapsiblePanel>
 		);
-		expect(
-			container.querySelector('#idbody').hasAttribute('hidden')
-		).toBeFalsy();
+		expect(container.querySelector('#idbody')).not.toHaveAttribute('hidden');
 
 		fireEvent.click(container.querySelector('#idbutton'));
 
-		expect(
-			container.querySelector('#idbody').hasAttribute('hidden')
-		).toBeTruthy();
+		expect(container.querySelector('#idbody')).toHaveAttribute('hidden');
 	});
 });

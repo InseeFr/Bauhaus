@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import React from 'react';
 import OperationsDocumentationVisualization from './home';
 import { render } from '@testing-library/react';
@@ -27,8 +28,8 @@ describe('OperationsDocumentationVisualization', () => {
 		const a = notes[1].querySelector('a');
 		expect(a).toBeDefined();
 		expect(a.href).toContain(document.url);
-		expect(a.getAttribute('rel')).toBe('noopener noreferrer');
-		expect(a.getAttribute('target')).toBe('_blank');
+		expect(a).toHaveAttribute('rel', 'noopener noreferrer');
+		expect(a).toHaveAttribute('target', '_blank');
 		expect(a.innerHTML).toContain(document.url);
 	});
 

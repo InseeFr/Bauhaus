@@ -1,19 +1,26 @@
 {
-  "extends": ["prettier", "react-app"],
-  "plugins": ["react-hooks"],
-  "rules": {
-    "jsx-a11y/href-no-hash": 0
-  },
-  "settings": {
-    "react": {
-      "version": "16.3.0"
-    }
-  },
-  "globals": {
-    "cy": true,
-    "Cypress": true
-  },
-  "env": {
-    "mocha": true
-  }
+	"extends": [
+		"prettier",
+		"react-app",
+		"plugin:testing-library/react",
+		"plugin:jest-dom/recommended"
+	],
+	"plugins": ["react-hooks", "testing-library", "jest-dom"],
+	"rules": {
+		"jsx-a11y/href-no-hash": 0,
+		"no-useless-escape": "off",
+		"no-duplicate-imports": "error"
+	},
+	"settings": {
+		"react": {
+			"version": "16.3.0"
+		}
+	},
+	"globals": {
+		"cy": true,
+		"Cypress": true
+	},
+	"env": {
+		"mocha": true
+	}
 }

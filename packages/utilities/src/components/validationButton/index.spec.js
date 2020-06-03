@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import ValidationButton from './';
@@ -11,16 +12,14 @@ describe('<ValidationButton', () => {
 				disabled={false}
 			/>
 		);
-		expect(container.innerHTML).toBe('');
+		expect(container).toBeEmpty();
 	});
 
 	it('should contain a enabled button if the validationStateis not defined', () => {
 		const { container } = render(
 			<ValidationButton callback={jest.fn()} disabled={false} />
 		);
-		expect(
-			container.querySelector('button').hasAttribute('disabled')
-		).toBeFalsy();
+		expect(container.querySelector('button')).not.toBeEmpty('disabled');
 	});
 
 	it('should contain a enabled button if the object is already validated', () => {
@@ -31,9 +30,7 @@ describe('<ValidationButton', () => {
 				disabled={false}
 			/>
 		);
-		expect(
-			container.querySelector('button').hasAttribute('disabled')
-		).toBeFalsy();
+		expect(container.querySelector('button')).toBeEnabled();
 	});
 
 	it('should call the callback if we click on the button', () => {
@@ -53,8 +50,6 @@ describe('<ValidationButton', () => {
 		const { container } = render(
 			<ValidationButton object={object} callback={callback} disabled={true} />
 		);
-		expect(
-			container.querySelector('button').hasAttribute('disabled')
-		).toBeTruthy();
+		expect(container.querySelector('button')).toBeDisabled();
 	});
 });

@@ -5,13 +5,13 @@ import {
 	ActionToolbar,
 	ErrorBloc,
 	LabelRequired,
+	Select,
 } from '@inseefr/wilco';
 import { EditorMarkdown } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import { D1, D2 } from '../../i18n/build-dictionary';
-import { Select } from '@inseefr/wilco';
 import PropTypes from 'prop-types';
 
 export const ComponentDetailEdit = ({
@@ -24,7 +24,7 @@ export const ComponentDetailEdit = ({
 	const [component, setComponent] = useState(defaultComponent || {});
 
 	const handleChange = useCallback(
-		e => {
+		(e) => {
 			const { name, value } = e.target;
 			setComponent({
 				...component,
@@ -106,11 +106,11 @@ export const ComponentDetailEdit = ({
 							label={<LabelRequired>{D1.type}</LabelRequired>}
 							placeholder={D1.type}
 							value={MUTUALIZED_COMPONENT_TYPES.find(
-								c => c.value === component.type
+								(c) => c.value === component.type
 							)}
 							options={MUTUALIZED_COMPONENT_TYPES}
 							name="type"
-							onChange={value => setComponent({ ...component, type: value })}
+							onChange={(value) => setComponent({ ...component, type: value })}
 						/>
 					</div>
 				</div>
@@ -123,9 +123,11 @@ export const ComponentDetailEdit = ({
 							placeholder={D1.conceptTitle}
 							options={conceptOptions}
 							value={conceptOptions.find(
-								c => c.value === component.concept?.toString()
+								(c) => c.value === component.concept?.toString()
 							)}
-							onChange={value => setComponent({ ...component, concept: value })}
+							onChange={(value) =>
+								setComponent({ ...component, concept: value })
+							}
 						/>
 					</div>
 				</div>
@@ -136,9 +138,9 @@ export const ComponentDetailEdit = ({
 							name="range"
 							label={D1.rangeTitle}
 							placeholder={D1.rangeTitle}
-							value={XSD_TYPES.find(c => c.value === component.range)}
+							value={XSD_TYPES.find((c) => c.value === component.range)}
 							options={XSD_TYPES}
-							onChange={value => setComponent({ ...component, range: value })}
+							onChange={(value) => setComponent({ ...component, range: value })}
 						/>
 					</div>
 				</div>
@@ -154,9 +156,9 @@ export const ComponentDetailEdit = ({
 								placeholder={D1.codesListTitle}
 								options={codeListOptions}
 								value={codeListOptions.find(
-									c => c.value === component.codeList?.toString()
+									(c) => c.value === component.codeList?.toString()
 								)}
-								onChange={value =>
+								onChange={(value) =>
 									setComponent({ ...component, codeList: value })
 								}
 							/>
@@ -168,7 +170,7 @@ export const ComponentDetailEdit = ({
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
 						<EditorMarkdown
 							text={component.descriptionLg1}
-							handleChange={value =>
+							handleChange={(value) =>
 								setComponent({ ...component, descriptionLg1: value })
 							}
 						/>
@@ -177,7 +179,7 @@ export const ComponentDetailEdit = ({
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
 						<EditorMarkdown
 							text={component.descriptionLg2}
-							handleChange={value =>
+							handleChange={(value) =>
 								setComponent({ ...component, descriptionLg2: value })
 							}
 						/>

@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import SlidingPanel from 'react-sliding-side-panel';
-import { typeUriToLabel } from '../../utils';
+import { typeUriToLabel, defaultComponentsTableParams } from '../../utils';
 import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
-import { defaultComponentsTableParams } from '../../utils';
 import { XSD_CODE_LIST } from '../../utils/constants/xsd';
 
 import PropTypes from 'prop-types';
@@ -20,9 +19,9 @@ export const MutualizedComponentsSelector = ({
 	const [openPanel, setOpenPanel] = useState(false);
 	const [selectedComponent, setSelectedComponent] = useState(null);
 	const seeClickHandler = useCallback(
-		e => {
+		(e) => {
 			const component = components.find(
-				c => c.id === e.target.parentElement.dataset.componentId
+				(c) => c.id === e.target.parentElement.dataset.componentId
 			);
 			setSelectedComponent(component);
 			setOpenPanel(true);
@@ -31,12 +30,12 @@ export const MutualizedComponentsSelector = ({
 	);
 
 	const addClickHandler = useCallback(
-		e => {
+		(e) => {
 			handleAdd(e.target.parentElement.dataset.componentId);
 		},
 		[handleAdd]
 	);
-	const componentsWithActions = components.map(component => ({
+	const componentsWithActions = components.map((component) => ({
 		...component,
 		type: typeUriToLabel(component.type),
 		concept: concepts.find(

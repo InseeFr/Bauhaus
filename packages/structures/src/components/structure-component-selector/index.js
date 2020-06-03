@@ -1,11 +1,10 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import SlidingPanel from 'react-sliding-side-panel';
-import { typeUriToLabel } from '../../utils';
+import { typeUriToLabel, defaultComponentsTableParams } from '../../utils';
 import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
-import { defaultComponentsTableParams } from '../../utils';
 import { XSD_CODE_LIST } from '../../utils/constants/xsd';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 
@@ -24,7 +23,7 @@ export const StructureComponentsSelector = ({
 	readOnly,
 }) => {
 	const removeClickHandler = useCallback(
-		e => {
+		(e) => {
 			handleRemove(e.target.parentElement.dataset.componentId);
 		},
 		[handleRemove]
@@ -38,10 +37,10 @@ export const StructureComponentsSelector = ({
 	const [selectedComponent, setSelectedComponent] = useState(null);
 
 	const specificationClickHandler = useCallback(
-		e => {
+		(e) => {
 			if (e.target.parentElement.dataset.componentId) {
 				const component = components.find(
-					c => c.id === e.target.parentElement.dataset.componentId
+					(c) => c.id === e.target.parentElement.dataset.componentId
 				);
 				handleSpecificationClick(component);
 			}
@@ -49,7 +48,7 @@ export const StructureComponentsSelector = ({
 		[components, handleSpecificationClick]
 	);
 	const handleSave = useCallback(
-		component => {
+		(component) => {
 			let newComponent = component;
 			let newComponents;
 			if (!component.id) {
@@ -60,7 +59,7 @@ export const StructureComponentsSelector = ({
 				newComponents = [...components, newComponent];
 				setOpenPanel(false);
 			} else {
-				newComponents = components.map(c => {
+				newComponents = components.map((c) => {
 					if (c.id === component.id) {
 						return { ...component };
 					}
@@ -76,10 +75,10 @@ export const StructureComponentsSelector = ({
 	);
 
 	const seeClickHandler = useCallback(
-		e => {
+		(e) => {
 			if (e.target.parentElement.dataset.componentId) {
 				const component = components.find(
-					c => c.id === e.target.parentElement.dataset.componentId
+					(c) => c.id === e.target.parentElement.dataset.componentId
 				);
 				setSelectedComponent(component);
 				setOpenPanel(true);
@@ -89,7 +88,7 @@ export const StructureComponentsSelector = ({
 	);
 
 	const goingUp = useCallback(
-		e => {
+		(e) => {
 			if (e.target.parentElement.dataset.componentId) {
 				handleUp(e.target.parentElement.dataset.componentId);
 			}
@@ -97,7 +96,7 @@ export const StructureComponentsSelector = ({
 		[handleUp]
 	);
 	const goingDown = useCallback(
-		e => {
+		(e) => {
 			if (e.target.parentElement.dataset.componentId) {
 				handleDown(e.target.parentElement.dataset.componentId);
 			}
@@ -105,7 +104,7 @@ export const StructureComponentsSelector = ({
 		[handleDown]
 	);
 
-	const handleCreateComponent = useCallback(e => {
+	const handleCreateComponent = useCallback((e) => {
 		e.stopPropagation();
 		setSelectedComponent({});
 		setOpenPanel(true);
