@@ -47,14 +47,12 @@ const DSD = () => {
 
 			<StructureVisualizationControl structure={DSD} />
 			<div className="row">
-				{descriptionLg1 && (
-					<Note
-						title={D1.descriptionTitle}
-						text={descriptionLg1}
-						alone={!secondLang}
-						allowEmpty={true}
-					/>
-				)}
+				<Note
+					title={D1.descriptionTitle}
+					text={descriptionLg1}
+					alone={!secondLang}
+					allowEmpty={true}
+				/>
 				{secondLang && (
 					<Note
 						title={D2.descriptionTitle}

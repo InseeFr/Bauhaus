@@ -27,15 +27,10 @@ const api = {
 		res => res.text(),
 	],
 
-	getStructure: id => [`dsd/${id}`],
-	getComponents: id => [`dsd/${id}/components`],
-	getStructureDetailedComponents: dsdId => [`dsd/${dsdId}/detailed-components`],
-	getStructureComponent: (dsdId, componentId) => [
-		`dsd/${dsdId}/component/${componentId}`,
-	],
-	deleteStructure: dsdId => [`dsd/${dsdId}`, res => res.text()],
+	getStructure: id => [`structure/${id}`],
+	deleteStructure: dsdId => [`structure/${dsdId}`, res => res.text()],
 	postStructure: dsd => [
-		'dsd',
+		'structure',
 		{
 			headers: {
 				Accept: 'text/plain',
@@ -58,4 +53,4 @@ const api = {
 	],
 };
 
-export default API.buildApi('dsds', api);
+export default API.buildApi('structures', api);
