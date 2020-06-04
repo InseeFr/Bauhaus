@@ -16,6 +16,15 @@ const defaultDSD = {
 	components: [],
 };
 
+export const validate = DSD => {
+	const { id, labelLg1, labelLg2 } = DSD;
+	if (!id) {
+		return D.requiredId;
+	} else if (!labelLg1 || !labelLg2) {
+		return D.requiredLabel;
+	}
+};
+
 const Edition = ({ creation, initDSD }) => {
 	const [DSD, setDSD] = useState(() => defaultDSD);
 	const [loading, setLoading] = useState(false);
@@ -40,14 +49,7 @@ const Edition = ({ creation, initDSD }) => {
 	if (redirectId) return <Redirect to={`/structures/${id}`} />;
 	if (loading) return <Loading textType={'saving'} />;
 
-	let errorMessage;
-	if (!id) {
-		errorMessage = D.requiredId;
-	} else if (!labelLg1) {
-		errorMessage = D.requiredLabel;
-	} else if (!labelLg2) {
-		errorMessage = D.requiredLabel;
-	}
+	const errorMessage = validate(DSD);
 
 	return (
 		<>
