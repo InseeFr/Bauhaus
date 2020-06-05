@@ -46,7 +46,7 @@ const Edition = ({ creation, initDSD }) => {
 		setDSD({ ...defaultDSD, ...initDSD });
 	}, [initDSD]);
 
-	if (redirectId) return <Redirect to={`/structures/${id}`} />;
+	if (redirectId) return <Redirect to={`/structures/${redirectId}`} />;
 	if (loading) return <Loading textType={'saving'} />;
 
 	const errorMessage = validate(DSD);
@@ -64,7 +64,7 @@ const Edition = ({ creation, initDSD }) => {
 						setRedirectId(id);
 					});
 				}}
-				disabledSave={!id || !labelLg1}
+				disabledSave={errorMessage}
 			/>
 			<ErrorBloc error={errorMessage} />
 			<Input
