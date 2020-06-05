@@ -356,6 +356,7 @@ Les champs disponibles sont les suivantes :
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Indicateurs.
 
 Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+
 Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de l'indicateur. Il est donc possible, si nécessaire, de créer l'indicateur en plusieurs étapes. Le statut de publication de l'indicateur passe alors en « Provisoire », jusqu'à sa publication.
 
 Pour publier un indicateur dans le référentiel, voir [Publier un indicateur](#publier-indicateur).
