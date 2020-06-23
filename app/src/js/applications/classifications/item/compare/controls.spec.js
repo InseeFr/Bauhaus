@@ -5,8 +5,6 @@ import { MemoryRouter } from 'react-router-dom';
 
 describe('classification-item-compare-controls', () => {
 	it('renders without crashing', () => {
-		render(<Controls />, {
-			wrapper: MemoryRouter,
-		});
+		render(<Controls />, { wrapper: MemoryRouter });
 	});
 });
