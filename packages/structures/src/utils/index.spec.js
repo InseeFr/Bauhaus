@@ -22,9 +22,11 @@ describe('getAllAttachment', () => {
 	it('should return all default attachments with all measures', () => {
 		const attachments = getAllAttachment([
 			{
-				type: 'http://purl.org/linked-data/cube#measure',
-				id: 1,
-				labelLg1: 'labelLg1',
+				component: {
+					type: 'http://purl.org/linked-data/cube#MeasureProperty',
+					id: 1,
+					labelLg1: 'labelLg1',
+				},
 			},
 		]);
 		expect(attachments).toEqual([
