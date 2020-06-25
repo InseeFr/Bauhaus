@@ -5,7 +5,6 @@ import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
-import { XSD_CODE_LIST } from '../../utils/constants/xsd';
 
 import PropTypes from 'prop-types';
 
