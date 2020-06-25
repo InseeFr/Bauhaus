@@ -29,8 +29,8 @@ export const ComponentDetailView = ({
 	const conceptValue = concepts.find(
 		concept => concept.id?.toString() === component.concept?.toString()
 	)?.label;
-	const codeListValue = codesLists.find(
-		concept => concept.id?.toString() === component.codeList?.toString()
+	const codeListValue = codesLists.find(concept =>
+		component.codeList?.toString().includes(concept.id?.toString())
 	)?.label;
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
 		component.descriptionLg1
