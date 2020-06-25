@@ -7,13 +7,15 @@ import PropTypes from 'prop-types';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 
 const ComponentSelector = ({
-	components,
+	componentDefinitions,
 	mutualizedComponents,
 	concepts,
 	codesLists,
 	handleUpdate,
 }) => {
-	const [structureComponents, setStructureComponents] = useState(components);
+	const [structureComponents, setStructureComponents] = useState(
+		componentDefinitions
+	);
 
 	const [modalOpened, setModalOpened] = useState(false);
 	const [selectedComponent, setSelectedComponent] = useState({});
@@ -24,13 +26,15 @@ const ComponentSelector = ({
 	] = useState(mutualizedComponents);
 
 	useEffect(() => {
-		setStructureComponents(components);
-	}, [components]);
+		setStructureComponents(componentDefinitions);
+	}, [componentDefinitions]);
 
 	useEffect(() => {
 		setFilteredMutualizedComponents(
 			mutualizedComponents.filter(component => {
-				return !structureComponents.find(c => c.id === component.id);
+				return !structureComponents.find(
+					({ component: c }) => c.id === component.id
+				);
 			})
 		);
 	}, [mutualizedComponents, structureComponents]);
@@ -54,7 +58,10 @@ const ComponentSelector = ({
 
 	const handleRemove = useCallback(
 		id => {
-			const filteredComponents = structureComponents.filter(c => c.id !== id);
+			const filteredComponents = structureComponents
+				.filter(({ component }) => component.id !== id)
+				.map((c, index) => ({ ...c, order: index + 1 }));
+			console.log(filteredComponents);
 			setStructureComponents(filteredComponents);
 			handleUpdate(filteredComponents);
 		},
@@ -63,24 +70,17 @@ const ComponentSelector = ({
 
 	const saveSpecification = useCallback(
 		specification => {
-			const update = structureComponents.find(
-				c => c.id === selectedComponent.id
-			);
 			const component = {
 				...selectedComponent,
 				...specification,
 			};
 			let components;
-			if (!!update) {
-				components = structureComponents.map(c => {
-					if (c.id === component.id) {
-						return component;
-					}
-					return c;
-				});
-			} else {
-				components = [...structureComponents, component];
-			}
+			components = structureComponents.map(c => {
+				if (c.order === component.order) {
+					return component;
+				}
+				return c;
+			});
 
 			setStructureComponents(components);
 			handleUpdate(components);
@@ -101,7 +101,10 @@ const ComponentSelector = ({
 	const handleAdd = useCallback(
 		id => {
 			const component = mutualizedComponents.find(c => c.id === id);
-			const components = [...structureComponents, component];
+			const components = [
+				...structureComponents,
+				{ component, order: structureComponents.length + 1 },
+			];
 			setStructureComponents(components);
 			handleUpdate(components);
 
@@ -112,33 +115,43 @@ const ComponentSelector = ({
 
 	const handleUp = useCallback(
 		id => {
-			const index = structureComponents.findIndex(
-				component => component.id === id
-			);
+			const index = structureComponents.findIndex(cs => cs.component.id === id);
 			const startArray = structureComponents.slice(0, index - 1);
 			const endArray = structureComponents.slice(index + 1);
 			const components = [
 				...startArray,
-				structureComponents[index],
-				structureComponents[index - 1],
+				{
+					...structureComponents[index],
+					order: structureComponents[index - 1].order,
+				},
+				{
+					...structureComponents[index - 1],
+					order: structureComponents[index].order,
+				},
 				...endArray,
 			];
 			setStructureComponents(components);
+
 			handleUpdate(components);
 		},
+
 		[handleUpdate, structureComponents]
 	);
 	const handleDown = useCallback(
 		id => {
-			const index = structureComponents.findIndex(
-				component => component.id === id
-			);
+			const index = structureComponents.findIndex(cs => cs.component.id === id);
 			const startArray = structureComponents.slice(0, index);
 			const endArray = structureComponents.slice(index + 2);
 			const components = [
 				...startArray,
-				structureComponents[index + 1],
-				structureComponents[index],
+				{
+					...structureComponents[index + 1],
+					order: structureComponents[index].order,
+				},
+				{
+					...structureComponents[index],
+					order: structureComponents[index + 1].order,
+				},
 				...endArray,
 			];
 			setStructureComponents(components);
@@ -165,7 +178,7 @@ const ComponentSelector = ({
 				hidden={false}
 				codesLists={codesLists}
 				concepts={concepts}
-				components={structureComponents}
+				componentDefinitions={structureComponents}
 				handleRemove={handleRemove}
 				handleUp={handleUp}
 				handleDown={handleDown}

@@ -8,6 +8,7 @@ export const ComponentSpecificationForm = ({
 	structureComponents,
 	component,
 	onChange,
+	disabled = false,
 }) => {
 	const [attachments, setAttachments] = useState([]);
 
@@ -24,8 +25,8 @@ export const ComponentSpecificationForm = ({
 						name="attachment"
 						label={D.attachmentTitle}
 						placeholder={D.attachmentTitle}
-						value={attachments.filter(
-							c => component.attachment?.indexOf(c.value) >= 0
+						value={attachments.filter(c =>
+							component.attachment?.some(a => a.includes(c.value))
 						)}
 						multi
 						options={attachments}
@@ -35,6 +36,7 @@ export const ComponentSpecificationForm = ({
 								attachment: value.map(v => v.value),
 							});
 						}}
+						disabled={disabled}
 					/>
 				</div>
 			</div>
@@ -53,6 +55,7 @@ export const ComponentSpecificationForm = ({
 									required: true,
 								});
 							}}
+							disabled={disabled}
 						/>
 						{D.yes}
 					</label>
@@ -67,6 +70,7 @@ export const ComponentSpecificationForm = ({
 									required: false,
 								});
 							}}
+							disabled={disabled}
 						/>
 						{D.no}
 					</label>

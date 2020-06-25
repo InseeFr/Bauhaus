@@ -12,40 +12,46 @@ const store = mockStore({});
 describe('<StructureComponentsSelector />', () => {
 	const components = [
 		{
-			id: '5e7334002a5c764f68247222',
-			labelLg1: 'veniam non irure',
-			labelLg2: 'nisi aliquip',
-			type: 'http://purl.org/linked-data/cube#dimension',
-			attachment: 'http://purl.org/linked-data/cube#Observation',
-			concept: 439,
-			isCoded: '<SyntaxError: missing ) after argument list>)',
-			codeList: 942,
-			range: 'http://www.w3.org/2001/XMLSchema#codeList',
+			component: {
+				id: '5e7334002a5c764f68247222',
+				labelLg1: 'veniam non irure',
+				labelLg2: 'nisi aliquip',
+				type: 'http://purl.org/linked-data/cube#dimension',
+				attachment: 'http://purl.org/linked-data/cube#Observation',
+				concept: 439,
+				isCoded: '<SyntaxError: missing ) after argument list>)',
+				codeList: 942,
+				range: 'http://www.w3.org/2001/XMLSchema#codeList',
+			},
+			order: '1',
 		},
 		{
-			id: '5e7334002a5c764f68247222qqq',
-			labelLg1: 'veniam non irure',
-			labelLg2: 'nisi aliquip',
-			type: 'http://purl.org/linked-data/cube#dimension',
-			attachment: 'http://purl.org/linked-data/cube#Observation',
-			concept: 439,
-			isCoded: '<SyntaxError: missing ) after argument list>)',
-			codeList: 942,
-			range: 'http://www.w3.org/2001/XMLSchema#codeList',
+			component: {
+				id: '5e7334002a5c764f68247222qqq',
+				labelLg1: 'veniam non irure',
+				labelLg2: 'nisi aliquip',
+				type: 'http://purl.org/linked-data/cube#dimension',
+				attachment: 'http://purl.org/linked-data/cube#Observation',
+				concept: 439,
+				isCoded: '<SyntaxError: missing ) after argument list>)',
+				codeList: 942,
+				range: 'http://www.w3.org/2001/XMLSchema#codeList',
+			},
+			order: '2',
 		},
 	];
 
 	const concepts = [
 		{
 			altLabel: '',
-			id: components[0].concept.toString(),
+			id: components[0].concept?.toString(),
 			label: 'Concept - Label ' + components[0].concept,
 		},
 	];
 	const codesLists = [
 		{
 			altLabel: '',
-			id: components[0].codeList.toString(),
+			id: components[0].codeList?.toString(),
 			label: 'Code List - Label ' + components[0].codeList,
 		},
 	];
@@ -59,7 +65,7 @@ describe('<StructureComponentsSelector />', () => {
 		const { container } = render(
 			<Provider store={store}>
 				<StructureComponentsSelector
-					components={components}
+					componentDefinitions={components}
 					concepts={concepts}
 					codesLists={codesLists}
 					handleRemove={handleRemove}
@@ -81,7 +87,7 @@ describe('<StructureComponentsSelector />', () => {
 		const { container } = render(
 			<Provider store={store}>
 				<StructureComponentsSelector
-					components={components}
+					componentDefinitions={components}
 					concepts={concepts}
 					codesLists={codesLists}
 					handleRemove={handleRemove}
@@ -105,7 +111,7 @@ describe('<StructureComponentsSelector />', () => {
 		const { container } = render(
 			<Provider store={store}>
 				<StructureComponentsSelector
-					components={components}
+					componentDefinitions={components}
 					concepts={concepts}
 					codesLists={codesLists}
 					handleRemove={handleRemove}
@@ -123,7 +129,7 @@ describe('<StructureComponentsSelector />', () => {
 		const { container } = render(
 			<Provider store={store}>
 				<StructureComponentsSelector
-					components={components}
+					componentDefinitions={components}
 					concepts={concepts}
 					codesLists={codesLists}
 					handleRemove={() => {}}
@@ -142,7 +148,7 @@ describe('<StructureComponentsSelector />', () => {
 		const { container } = render(
 			<Provider store={store}>
 				<StructureComponentsSelector
-					components={components}
+					componentDefinitions={components}
 					concepts={concepts}
 					codesLists={codesLists}
 					handleRemove={() => {}}
@@ -162,7 +168,7 @@ describe('<StructureComponentsSelector />', () => {
 		const { container } = render(
 			<Provider store={store}>
 				<StructureComponentsSelector
-					components={components}
+					componentDefinitions={components}
 					concepts={concepts}
 					codesLists={codesLists}
 					handleRemove={() => {}}

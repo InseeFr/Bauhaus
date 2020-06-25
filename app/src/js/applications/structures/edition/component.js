@@ -13,7 +13,7 @@ const defaultDSD = {
 	labelLg2: '',
 	descriptionLg1: '',
 	descriptionLg2: '',
-	components: [],
+	componentDefinitions: [],
 };
 
 export const validate = DSD => {
@@ -39,7 +39,7 @@ const Edition = ({ creation, initDSD }) => {
 		labelLg2,
 		descriptionLg1,
 		descriptionLg2,
-		components,
+		componentDefinitions = [],
 	} = DSD;
 
 	useEffect(() => {
@@ -128,8 +128,8 @@ const Edition = ({ creation, initDSD }) => {
 			</div>
 			<Components
 				creation={creation}
-				components={components}
-				onChange={components => onChange('components', components)}
+				componentDefinitions={componentDefinitions}
+				onChange={components => onChange('componentDefinitions', components)}
 			/>
 		</>
 	);

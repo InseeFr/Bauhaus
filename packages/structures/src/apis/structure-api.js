@@ -41,7 +41,7 @@ const api = {
 		res => res.text(),
 	],
 	putStructure: dsd => [
-		`dsd/${dsd.id}`,
+		`structure/${dsd.id}`,
 		{
 			headers: {
 				Accept: 'text/plain',

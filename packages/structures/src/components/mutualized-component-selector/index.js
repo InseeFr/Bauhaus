@@ -19,9 +19,9 @@ export const MutualizedComponentsSelector = ({
 	const [openPanel, setOpenPanel] = useState(false);
 	const [selectedComponent, setSelectedComponent] = useState(null);
 	const seeClickHandler = useCallback(
-		(e) => {
+		e => {
 			const component = components.find(
-				(c) => c.id === e.target.parentElement.dataset.componentId
+				c => c.id === e.target.parentElement.dataset.componentId
 			);
 			setSelectedComponent(component);
 			setOpenPanel(true);
@@ -30,23 +30,21 @@ export const MutualizedComponentsSelector = ({
 	);
 
 	const addClickHandler = useCallback(
-		(e) => {
+		e => {
 			handleAdd(e.target.parentElement.dataset.componentId);
 		},
 		[handleAdd]
 	);
-	const componentsWithActions = components.map((component) => ({
+	const componentsWithActions = components.map(component => ({
 		...component,
 		type: typeUriToLabel(component.type),
-		concept: concepts.find(
-			({ id }) => id?.toString() === component.concept?.toString()
+		concept: concepts.find(({ id }) =>
+			component.concept?.toString().includes(id?.toString())
 		)?.label,
 		codeList:
-			component.range !== XSD_CODE_LIST
-				? ''
-				: codesLists.find(
-						({ id }) => id?.toString() === component.codeList?.toString()
-				  )?.label,
+			codesLists.find(
+				({ id }) => id?.toString() === component.codeList?.toString()
+			)?.label || '',
 
 		actions: (
 			<React.Fragment>

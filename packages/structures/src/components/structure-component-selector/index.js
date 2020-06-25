@@ -6,13 +6,13 @@ import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 import { XSD_CODE_LIST } from '../../utils/constants/xsd';
-import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
+import { ATTRIBUTE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
 
 import PropTypes from 'prop-types';
 
 export const StructureComponentsSelector = ({
 	hidden = false,
-	components: defaultComponents,
+	componentDefinitions: defaultComponents,
 	handleRemove,
 	handleUp,
 	handleDown,
@@ -23,7 +23,7 @@ export const StructureComponentsSelector = ({
 	readOnly,
 }) => {
 	const removeClickHandler = useCallback(
-		(e) => {
+		e => {
 			handleRemove(e.target.parentElement.dataset.componentId);
 		},
 		[handleRemove]
@@ -37,10 +37,10 @@ export const StructureComponentsSelector = ({
 	const [selectedComponent, setSelectedComponent] = useState(null);
 
 	const specificationClickHandler = useCallback(
-		(e) => {
+		e => {
 			if (e.target.parentElement.dataset.componentId) {
 				const component = components.find(
-					(c) => c.id === e.target.parentElement.dataset.componentId
+					c => c.component.id === e.target.parentElement.dataset.componentId
 				);
 				handleSpecificationClick(component);
 			}
@@ -48,18 +48,20 @@ export const StructureComponentsSelector = ({
 		[components, handleSpecificationClick]
 	);
 	const handleSave = useCallback(
-		(component) => {
+		component => {
 			let newComponent = component;
 			let newComponents;
 			if (!component.id) {
 				newComponent = {
-					...component,
-					id: component.identifiant,
+					component: {
+						...component,
+					},
+					order: components.length,
 				};
 				newComponents = [...components, newComponent];
 				setOpenPanel(false);
 			} else {
-				newComponents = components.map((c) => {
+				newComponents = components.map(c => {
 					if (c.id === component.id) {
 						return { ...component };
 					}
@@ -75,12 +77,12 @@ export const StructureComponentsSelector = ({
 	);
 
 	const seeClickHandler = useCallback(
-		(e) => {
+		e => {
 			if (e.target.parentElement.dataset.componentId) {
-				const component = components.find(
-					(c) => c.id === e.target.parentElement.dataset.componentId
+				const cs = components.find(
+					c => c.component.id === e.target.parentElement.dataset.componentId
 				);
-				setSelectedComponent(component);
+				setSelectedComponent(cs.component);
 				setOpenPanel(true);
 			}
 		},
@@ -88,7 +90,7 @@ export const StructureComponentsSelector = ({
 	);
 
 	const goingUp = useCallback(
-		(e) => {
+		e => {
 			if (e.target.parentElement.dataset.componentId) {
 				handleUp(e.target.parentElement.dataset.componentId);
 			}
@@ -96,7 +98,7 @@ export const StructureComponentsSelector = ({
 		[handleUp]
 	);
 	const goingDown = useCallback(
-		(e) => {
+		e => {
 			if (e.target.parentElement.dataset.componentId) {
 				handleDown(e.target.parentElement.dataset.componentId);
 			}
@@ -104,77 +106,86 @@ export const StructureComponentsSelector = ({
 		[handleDown]
 	);
 
-	const handleCreateComponent = useCallback((e) => {
+	const handleCreateComponent = useCallback(e => {
 		e.stopPropagation();
 		setSelectedComponent({});
 		setOpenPanel(true);
 	}, []);
 
-	const componentsWithActions = components.map((component, i) => ({
-		...component,
-		type: typeUriToLabel(component.type),
-		concept: concepts.find(
-			({ id }) => id?.toString() === component.concept?.toString()
-		)?.label,
-		codeList:
-			component.range !== XSD_CODE_LIST
-				? ''
-				: codesLists.find(
-						({ id }) => id?.toString() === component.codeList?.toString()
-				  )?.label,
-		actions: (
-			<React.Fragment>
-				<button
-					data-component-id={component.id}
-					onClick={seeClickHandler}
-					aria-label={D.see}
-					title={D.see}
-				>
-					<span className="glyphicon glyphicon-eye-open"></span>
-				</button>
-				{component.type === ATTRIBUTE_TYPE && (
-					<button
-						data-component-id={component.id}
-						onClick={specificationClickHandler}
-						aria-label={D.componentSpecificationTitle}
-						title={D.componentSpecificationTitle}
-					>
-						<span className="glyphicon glyphicon-cog"></span>
-					</button>
-				)}
-				{!readOnly && (
-					<button
-						data-component-id={component.id}
-						onClick={removeClickHandler}
-						aria-label={D.remove}
-						title={D.up}
-					>
-						<span className="glyphicon glyphicon-minus"></span>
-					</button>
-				)}
-				{!readOnly && i !== 0 && (
-					<button
-						data-component-id={component.id}
-						onClick={goingUp}
-						aria-label={D.up}
-						title={D.up}
-					>
-						<span className="glyphicon glyphicon-arrow-up"></span>
-					</button>
-				)}
-				{!readOnly && i !== components.length - 1 && (
-					<button
-						data-component-id={component.id}
-						onClick={goingDown}
-						aria-label={D.down}
-						title={D.down}
-					>
-						<span className="glyphicon glyphicon-arrow-down"></span>
-					</button>
-				)}
-			</React.Fragment>
-		),
-	}));
+	const componentsWithActions = components
+		.sort((cd1, cd2) => {
+			const order1 = parseInt(cd1.order || '1');
+			const order2 = parseInt(cd2.order || '1');
+			return order1 - order2;
+		})
+		.map((componentDefinition, i) => {
+			const component = componentDefinition.component;
+			return {
+				...component,
+				type: typeUriToLabel(component.type),
+				concept: concepts.find(
+					({ id }) => id?.toString() === component.concept?.toString()
+				)?.label,
+				codeList:
+					component.range !== XSD_CODE_LIST
+						? ''
+						: codesLists.find(
+								({ id }) => id?.toString() === component.codeList?.toString()
+						  )?.label,
+				actions: (
+					<React.Fragment>
+						<button
+							data-component-id={component.id}
+							onClick={seeClickHandler}
+							aria-label={D.see}
+							title={D.see}
+						>
+							<span className="glyphicon glyphicon-eye-open"></span>
+						</button>
+						{component.type === ATTRIBUTE_PROPERTY_TYPE && (
+							<button
+								data-component-id={component.id}
+								onClick={specificationClickHandler}
+								aria-label={D.componentSpecificationTitle}
+								title={D.componentSpecificationTitle}
+							>
+								<span className="glyphicon glyphicon-cog"></span>
+							</button>
+						)}
+						{!readOnly && (
+							<button
+								data-component-id={component.id}
+								onClick={removeClickHandler}
+								aria-label={D.remove}
+								title={D.up}
+							>
+								<span className="glyphicon glyphicon-minus"></span>
+							</button>
+						)}
+						{!readOnly && i !== 0 && (
+							<button
+								data-component-id={component.id}
+								onClick={goingUp}
+								aria-label={D.up}
+								title={D.up}
+							>
+								<span className="glyphicon glyphicon-arrow-up"></span>
+							</button>
+						)}
+						{!readOnly && i !== components.length - 1 && (
+							<button
+								data-component-id={component.id}
+								onClick={goingDown}
+								aria-label={D.down}
+								title={D.down}
+							>
+								<span className="glyphicon glyphicon-arrow-down"></span>
+							</button>
+						)}
+					</React.Fragment>
+				),
+			};
+		});
 	return (
 		<CollapsiblePanel
 			id="components-picker"

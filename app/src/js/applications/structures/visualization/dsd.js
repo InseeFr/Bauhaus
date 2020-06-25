@@ -29,7 +29,7 @@ const DSD = () => {
 		labelLg2,
 		descriptionLg1,
 		descriptionLg2,
-		components,
+		componentDefinitions = [],
 	} = DSD;
 
 	if (loading) {
@@ -62,7 +62,7 @@ const DSD = () => {
 					/>
 				)}
 			</div>
-			<Components components={components} />
+			<Components componentDefinitions={componentDefinitions} />
 		</>
 	);
 };

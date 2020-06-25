@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
 	StructureComponentsSelector,
 	getFormattedCodeList,
+	ComponentSpecificationModal,
 } from 'bauhaus-structures';
 import { ConceptsAPI } from 'bauhaus-utilities';
 
-const Components = ({ components = [] }) => {
+const Components = ({ componentDefinitions = [] }) => {
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState([]);
+	const [modalOpened, setModalOpened] = useState(false);
+	const [selectedComponent, setSelectedComponent] = useState({});
 
 	useEffect(() => {
 		ConceptsAPI.getConceptList().then(res => setConcepts(res));
@@ -17,10 +20,26 @@ const Components = ({ components = [] }) => {
 		getFormattedCodeList().then(res => setCodesLists(res));
 	}, []);
 
+	const handleSpecificationClick = useCallback(component => {
+		setSelectedComponent(component);
+		setModalOpened(true);
+	}, []);
 	return (
 		<div className="row text-left">
+			{modalOpened && (
+				<ComponentSpecificationModal
+					onClose={() => setModalOpened(false)}
+					structureComponents={componentDefinitions}
+					disabled={true}
+					specification={{
+						attachment: selectedComponent.attachment,
+						required: selectedComponent.required,
+					}}
+				/>
+			)}
 			<StructureComponentsSelector
-				components={components}
+				componentDefinitions={componentDefinitions}
+				handleSpecificationClick={handleSpecificationClick}
 				concepts={concepts}
 				codesLists={codesLists}
 				readOnly={true}

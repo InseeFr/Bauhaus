@@ -116,7 +116,7 @@ export const ComponentDetailView = ({
 									return (
 										<li key={structure.id}>
 											<Link to={`/structures/${structure.id}`}>
-												{structure.label}
+												{structure.labelLg1}
 											</Link>
 										</li>
 									);

@@ -26,3 +26,6 @@ export {
 } from './components/structure-visualization/controls';
 
 export * as StructuresUtils from './utils';
+export {
+	default as ComponentSpecificationModal,
+} from './components/component-specification-modal';

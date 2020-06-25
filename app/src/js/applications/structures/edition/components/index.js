@@ -6,7 +6,7 @@ import {
 } from 'bauhaus-structures';
 import { ConceptsAPI } from 'bauhaus-utilities';
 
-const Components = ({ components, onChange }) => {
+const Components = ({ componentDefinitions, onChange }) => {
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState([]);
 	const [mutualizedComponents, setMutualizedComponents] = useState([]);
@@ -26,7 +26,7 @@ const Components = ({ components, onChange }) => {
 	return (
 		<div className="row text-left">
 			<ComponentSelector
-				components={components}
+				componentDefinitions={componentDefinitions}
 				concepts={concepts}
 				codesLists={codesLists}
 				mutualizedComponents={mutualizedComponents}

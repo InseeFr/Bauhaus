@@ -3,15 +3,15 @@ import D from '../i18n/build-dictionary';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
 	ATTACHMENTS,
-	MEASURE_TYPE,
+	MEASURE_PROPERTY_TYPE,
 } from './constants/';
 
 export const getAllAttachment = components => {
 	return [
 		...ATTACHMENTS,
 		...components
-			.filter(c => c.type === MEASURE_TYPE)
-			.map(c => ({ value: c.id, label: c.labelLg1 })),
+			.filter(c => c.component.type === MEASURE_PROPERTY_TYPE)
+			.map(c => ({ value: c.component.id, label: c.component.labelLg1 })),
 	];
 };
 export const formatLabel = component => {
