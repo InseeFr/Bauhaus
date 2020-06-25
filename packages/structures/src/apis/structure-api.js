@@ -28,7 +28,10 @@ const api = {
 	],
 
 	getStructure: id => [`structure/${id}`],
-	deleteStructure: dsdId => [`structure/${dsdId}`, res => res.text()],
+	deleteStructure: structureId => [
+		`structure/${structureId}`,
+		res => res.text(),
+	],
 	postStructure: dsd => [
 		'structure',
 		{

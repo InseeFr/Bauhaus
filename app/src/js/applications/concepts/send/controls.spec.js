@@ -36,7 +36,7 @@ describe('concept-send-controls', () => {
 		expect(container.querySelectorAll('button[disabled')).toHaveLength(1);
 	});
 
-	it('should display an error if the destinataire n`est valide', () => {
+	it('should display an error if the destinataire is not valid', () => {
 		const { container } = render(
 			<Controls isRecipientValid={false} sendMessage={sendMessage} />,
 			{
