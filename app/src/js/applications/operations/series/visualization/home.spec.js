@@ -7,6 +7,14 @@ const langs = {
 	lg2: 'en',
 };
 
+const organisations = [
+	{
+		id: 'CNAMTS',
+	},
+	{
+		id: 'DG75-F110',
+	},
+];
 const attr = {
 	gestionnaires: [],
 	creator: 'DG75-G001',
@@ -83,6 +91,7 @@ describe('SerieInformation', () => {
 					attr={attr}
 					langs={langs}
 					secondLang={false}
+					organisations={organisations}
 				/>
 			</MemoryRouter>
 		);
@@ -96,6 +105,7 @@ describe('SerieInformation', () => {
 					attr={attr}
 					secondLang={true}
 					langs={langs}
+					organisations={organisations}
 				/>
 			</MemoryRouter>
 		);
@@ -108,6 +118,7 @@ describe('SerieInformation', () => {
 					attr={attr}
 					secondLang={true}
 					langs={langs}
+					organisations={organisations}
 				/>
 			</MemoryRouter>
 		);
