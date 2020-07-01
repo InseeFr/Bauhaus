@@ -45,7 +45,7 @@ class OperationsFamilyEdition extends Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		if (nextProps.family.id !== prevState.family.id) {
+		if (nextProps.id !== prevState.family.id) {
 			return setInitialState(nextProps);
 		} else return null;
 	}
