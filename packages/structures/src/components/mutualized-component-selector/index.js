@@ -1,12 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import SlidingPanel from 'react-sliding-side-panel';
-import { typeUriToLabel } from '../../utils';
+import { typeUriToLabel, defaultComponentsTableParams } from '../../utils';
 import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
-import { defaultComponentsTableParams } from '../../utils';
-import { XSD_CODE_LIST } from '../../utils/constants/xsd';
 
 import PropTypes from 'prop-types';
 
@@ -39,15 +37,13 @@ export const MutualizedComponentsSelector = ({
 	const componentsWithActions = components.map(component => ({
 		...component,
 		type: typeUriToLabel(component.type),
-		concept: concepts.find(
-			({ id }) => id?.toString() === component.concept?.toString()
+		concept: concepts.find(({ id }) =>
+			component.concept?.toString().includes(id?.toString())
 		)?.label,
 		codeList:
-			component.range !== XSD_CODE_LIST
-				? ''
-				: codesLists.find(
-						({ id }) => id?.toString() === component.codeList?.toString()
-				  )?.label,
+			codesLists.find(
+				({ id }) => id?.toString() === component.codeList?.toString()
+			)?.label || '',
 
 		actions: (
 			<React.Fragment>

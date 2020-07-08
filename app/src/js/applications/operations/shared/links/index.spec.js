@@ -12,7 +12,7 @@ describe('DisplayLinks', () => {
 	it('should display a list if we have multiple item', () => {
 		const links = [{ id: 1 }, { id: 2 }];
 		const { container } = render(
-			<DisplayLinks links={links} langs={langs} path="series/" />,
+			<DisplayLinks links={links} langs={langs} path="series/" title="home" />,
 			{ wrapper: MemoryRouter }
 		);
 		expect(container.innerHTML).toContain('<li><a href="/series/1">');
@@ -21,7 +21,7 @@ describe('DisplayLinks', () => {
 	it('should display a paragraph if we have only one item', () => {
 		const links = [{ id: 1 }];
 		const { container } = render(
-			<DisplayLinks links={links} langs={langs} path="series/" />,
+			<DisplayLinks links={links} langs={langs} path="series/" title="home" />,
 			{ wrapper: MemoryRouter }
 		);
 
@@ -37,6 +37,7 @@ describe('DisplayLinks', () => {
 				langs={langs}
 				path="series/"
 				displayLink={false}
+				title="home"
 			/>,
 			{ wrapper: MemoryRouter }
 		);

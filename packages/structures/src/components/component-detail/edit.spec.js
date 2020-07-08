@@ -57,13 +57,11 @@ describe('<ComponentDetailEdit />', () => {
 				component={component}
 			></ComponentDetailEdit>
 		);
-		expect(getByText(container, 'Save').hasAttribute('disabled')).toBeFalsy();
+		expect(getByText(container, 'Save')).toBeEnabled();
 		fireEvent.change(container.querySelector('#labelLg1'), {
 			target: { value: '', name: 'labelLg1' },
 		});
-		expect(
-			getByText(container, 'Save').parentNode.hasAttribute('disabled')
-		).toBeTruthy();
+		expect(getByText(container, 'Save').parentNode).toBeDisabled();
 	});
 
 	it('should display the error the save button if the component is invalid', () => {

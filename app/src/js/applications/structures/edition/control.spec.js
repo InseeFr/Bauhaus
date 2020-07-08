@@ -3,8 +3,10 @@ import { render } from '@testing-library/react';
 import Controls from './controls';
 import { MemoryRouter } from 'react-router-dom';
 
-describe('classification-item-compare-controls', () => {
+describe('<Control />', () => {
 	it('renders without crashing', () => {
-		render(<Controls />, { wrapper: MemoryRouter });
+		render(<Controls creation={true} save={() => {}} />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });

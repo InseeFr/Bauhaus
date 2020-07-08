@@ -86,7 +86,6 @@ export default function SimsVisualisation({
 					{currentSection.rangeType === CODE_LIST &&
 						codesLists[currentSection.codeList] && (
 							<span>
-								{currentSection.codeList}-
 								{
 									codesLists[currentSection.codeList].codes.find(
 										code => code.code === currentSection.value

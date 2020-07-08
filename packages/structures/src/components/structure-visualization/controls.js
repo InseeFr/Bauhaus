@@ -17,7 +17,7 @@ const Controls = ({ structure }) => {
 	const isLocal = process.env.REACT_APP_API === 'local';
 
 	const handleDelete = useCallback(() => {
-		StructureAPI.deleteStructure(id).then(() => {
+		StructureAPI.deleteStructure(id).finally(() => {
 			history.push('/structures');
 		});
 	}, [id, history]);

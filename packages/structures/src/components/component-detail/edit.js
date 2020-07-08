@@ -5,13 +5,13 @@ import {
 	ActionToolbar,
 	ErrorBloc,
 	LabelRequired,
+	Select,
 } from '@inseefr/wilco';
 import { EditorMarkdown } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import { D1, D2 } from '../../i18n/build-dictionary';
-import { Select } from '@inseefr/wilco';
 import PropTypes from 'prop-types';
 
 export const ComponentDetailEdit = ({
@@ -153,8 +153,8 @@ export const ComponentDetailEdit = ({
 								label={D1.codesListTitle}
 								placeholder={D1.codesListTitle}
 								options={codeListOptions}
-								value={codeListOptions.find(
-									c => c.value === component.codeList?.toString()
+								value={codeListOptions.find(c =>
+									component.codeList?.toString().includes(c.id?.toString())
 								)}
 								onChange={value =>
 									setComponent({ ...component, codeList: value })

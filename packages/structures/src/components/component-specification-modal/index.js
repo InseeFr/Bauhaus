@@ -10,6 +10,7 @@ export const ComponentSpecificationModalBody = ({
 	structureComponents,
 	onClose,
 	onSave,
+	disabled = false,
 }) => {
 	const [specification, setSpecification] = useState(
 		defaultSpecification || {}
@@ -34,7 +35,12 @@ export const ComponentSpecificationModalBody = ({
 			</div>
 			<div className="modal-footer">
 				<div className="text-right">
-					<SaveButton col={4} offset={8} action={() => onSave(specification)} />
+					<SaveButton
+						disabled={disabled}
+						col={4}
+						offset={8}
+						action={() => onSave(specification)}
+					/>
 				</div>
 			</div>
 		</div>

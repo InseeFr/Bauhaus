@@ -11,8 +11,11 @@ export const COMPONENT_TYPES = [
 	{ value: MEASURE_TYPE, label: D.Measure },
 ];
 
+export const ATTRIBUTE_PROPERTY_TYPE = `${QB}AttributeProperty`;
+export const MEASURE_PROPERTY_TYPE = `${QB}MeasureProperty`;
+
 export const MUTUALIZED_COMPONENT_TYPES = [
-	{ value: `${QB}AttributeProperty`, label: D.Attribute },
+	{ value: ATTRIBUTE_PROPERTY_TYPE, label: D.Attribute },
 	{ value: `${QB}DimensionProperty`, label: D.Dimension },
-	{ value: `${QB}MeasureProperty`, label: D.Measure },
+	{ value: MEASURE_PROPERTY_TYPE, label: D.Measure },
 ];

@@ -13,7 +13,16 @@ const defaultDSD = {
 	labelLg2: '',
 	descriptionLg1: '',
 	descriptionLg2: '',
-	components: [],
+	componentDefinitions: [],
+};
+
+export const validate = DSD => {
+	const { id, labelLg1, labelLg2 } = DSD;
+	if (!id) {
+		return D.requiredId;
+	} else if (!labelLg1 || !labelLg2) {
+		return D.requiredLabel;
+	}
 };
 
 const Edition = ({ creation, initDSD }) => {
@@ -30,24 +39,17 @@ const Edition = ({ creation, initDSD }) => {
 		labelLg2,
 		descriptionLg1,
 		descriptionLg2,
-		components,
+		componentDefinitions = [],
 	} = DSD;
 
 	useEffect(() => {
 		setDSD({ ...defaultDSD, ...initDSD });
 	}, [initDSD]);
 
-	if (redirectId) return <Redirect to={`/structures/${id}`} />;
+	if (redirectId) return <Redirect to={`/structures/${redirectId}`} />;
 	if (loading) return <Loading textType={'saving'} />;
 
-	let errorMessage;
-	if (!id) {
-		errorMessage = D.requiredId;
-	} else if (!labelLg1) {
-		errorMessage = D.requiredLabel;
-	} else if (!labelLg2) {
-		errorMessage = D.requiredLabel;
-	}
+	const errorMessage = validate(DSD);
 
 	return (
 		<>
@@ -62,7 +64,7 @@ const Edition = ({ creation, initDSD }) => {
 						setRedirectId(id);
 					});
 				}}
-				disabledSave={!id || !labelLg1}
+				disabledSave={errorMessage}
 			/>
 			<ErrorBloc error={errorMessage} />
 			<Input
@@ -126,8 +128,8 @@ const Edition = ({ creation, initDSD }) => {
 			</div>
 			<Components
 				creation={creation}
-				components={components}
-				onChange={components => onChange('components', components)}
+				componentDefinitions={componentDefinitions}
+				onChange={components => onChange('componentDefinitions', components)}
 			/>
 		</>
 	);

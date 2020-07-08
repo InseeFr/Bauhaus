@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Note } from '@inseefr/wilco';
+import { Note, Loading } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
 import { CheckSecondLang, Stores, PageTitleBlock } from 'bauhaus-utilities';
 import Components from './components';
@@ -13,12 +13,15 @@ import {
 const DSD = () => {
 	const { dsdId } = useParams();
 	const [DSD, setDSD] = useState({});
+	const [loading, setLoading] = useState(true);
 	const secondLang = useSelector(state =>
 		Stores.SecondLang.getSecondLang(state)
 	);
 
 	useEffect(() => {
-		StructureAPI.getStructure(dsdId).then(res => setDSD(res));
+		StructureAPI.getStructure(dsdId)
+			.then(res => setDSD(res))
+			.finally(() => setLoading(false));
 	}, [dsdId]);
 
 	const {
@@ -26,8 +29,13 @@ const DSD = () => {
 		labelLg2,
 		descriptionLg1,
 		descriptionLg2,
-		components,
+		componentDefinitions = [],
 	} = DSD;
+
+	if (loading) {
+		return <Loading />;
+	}
+
 	return (
 		<>
 			<PageTitleBlock
@@ -39,14 +47,12 @@ const DSD = () => {
 
 			<StructureVisualizationControl structure={DSD} />
 			<div className="row">
-				{descriptionLg1 && (
-					<Note
-						title={D1.descriptionTitle}
-						text={descriptionLg1}
-						alone={!secondLang}
-						allowEmpty={true}
-					/>
-				)}
+				<Note
+					title={D1.descriptionTitle}
+					text={descriptionLg1}
+					alone={!secondLang}
+					allowEmpty={true}
+				/>
 				{secondLang && (
 					<Note
 						title={D2.descriptionTitle}
@@ -56,7 +62,7 @@ const DSD = () => {
 					/>
 				)}
 			</div>
-			<Components components={components} />
+			<Components componentDefinitions={componentDefinitions} />
 		</>
 	);
 };

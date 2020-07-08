@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import InputRmes from './';
@@ -13,16 +14,12 @@ describe('inputMulti', () => {
 		const { container } = render(
 			<InputRmes handleChange={handleChange} disabled />
 		);
-		expect(
-			container.querySelector('input').hasAttribute('disabled')
-		).toBeTruthy();
+		expect(container.querySelector('input')).toBeDisabled();
 	});
 
 	it('returns enabled component', () => {
 		const { container } = render(<InputRmes handleChange={handleChange} />);
-		expect(
-			container.querySelector('input').hasAttribute('disabled')
-		).toBeFalsy();
+		expect(container.querySelector('input')).toBeEnabled();
 	});
 
 	it('returns starry component', () => {
