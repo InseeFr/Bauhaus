@@ -7138,8 +7138,7 @@ button.close {
 }
 @keyframes Select-animation-spin {
   to {
-    -webkit-transform: rotate(1turn);
-            transform: rotate(1turn);
+    transform: rotate(1turn);
   }
 }
 @-webkit-keyframes Select-animation-spin {
@@ -7878,4 +7877,4 @@ button.close {
 
 /*# sourceMappingURL=style.css.map*/
 
-/*# sourceMappingURL=vendors~main.1d26c3ea.chunk.css.map*/
+/*# sourceMappingURL=vendors~main.2b0af894.chunk.css.map*/
