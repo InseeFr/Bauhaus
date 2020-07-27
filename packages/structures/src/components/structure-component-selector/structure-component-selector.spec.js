@@ -48,8 +48,8 @@ describe('<StructureComponentsSelector />', () => {
 	const concepts = [
 		{
 			altLabel: '',
-			id: components[0].concept?.toString(),
-			label: 'Concept - Label ' + components[0].concept,
+			id: components[0].component.concept?.toString(),
+			label: 'Concept - Label ' + components[0].component.concept,
 		},
 	];
 	const codesLists = [
