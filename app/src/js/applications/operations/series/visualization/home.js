@@ -9,6 +9,9 @@ import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils'
 import { PublicationFemale } from 'js/applications/operations/shared/status';
 import { HTMLUtils } from 'bauhaus-utilities';
 
+function formatCreator(creator = []) {
+	return Array.isArray(creator) ? creator : [creator];
+}
 function OperationsSerieVisualization({
 	attr,
 	langs: { lg1, lg2 },
@@ -20,8 +23,10 @@ function OperationsSerieVisualization({
 }) {
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
-	const creator = (organisations.find(orga => orga.id === attr.creator) || {})
-		.label;
+	const creator = formatCreator(attr.creator).map(
+		d => organisations.find(orga => orga.id === d) || {}
+	);
+
 	const dataCollector = (attr.dataCollector || []).map(
 		d => organisations.find(orga => orga.id === d.id) || {}
 	);
@@ -139,7 +144,13 @@ function OperationsSerieVisualization({
 
 			<div className="row">
 				<Note
-					text={creator}
+					text={
+						<ul>
+							{creator.map(({ label }, index) => (
+								<li key={index}>{label}</li>
+							))}
+						</ul>
+					}
 					title={D1.organisation}
 					lang={lg1}
 					alone={true}
@@ -168,8 +179,8 @@ function OperationsSerieVisualization({
 				<Note
 					text={
 						<ul>
-							{attr.gestionnaires.map(g => (
-								<li>{g}</li>
+							{attr.gestionnaires.map((g, index) => (
+								<li key={index}>{g}</li>
 							))}
 						</ul>
 					}

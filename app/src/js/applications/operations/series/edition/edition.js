@@ -329,8 +329,16 @@ class OperationsSerieEdition extends Component {
 									value={serie.creator}
 									options={organisationsOptions}
 									onChange={value =>
-										this.onChange({ target: { value, id: 'creator' } })
+										this.onChange({
+											target: {
+												value: value.map(v => {
+													return v.value;
+												}),
+												id: 'creator',
+											},
+										})
 									}
+									multi
 								/>
 							</label>
 						</div>
