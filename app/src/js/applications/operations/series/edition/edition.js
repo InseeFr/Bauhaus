@@ -394,7 +394,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="contributor" className="w-100">
-								{D1.operationsContributorTitle}
+								{D1.creatorTitle}
 								<SelectRmes
 									placeholder=""
 									unclearable

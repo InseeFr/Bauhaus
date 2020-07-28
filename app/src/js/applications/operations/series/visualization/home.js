@@ -184,7 +184,7 @@ function OperationsSerieVisualization({
 							))}
 						</ul>
 					}
-					title={D1.operationsContributorTitle}
+					title={D1.creatorTitle}
 					lang={lg1}
 					alone={true}
 					allowEmpty={true}

@@ -13,6 +13,10 @@ const dictionary = {
 		fr: 'Gestionnaire',
 		en: 'Administrator',
 	},
+	creatorTitle: {
+		fr: 'Propriétaire',
+		en: 'Owner',
+	},
 	seriesTitle: {
 		fr: 'Séries',
 		en: 'Series',
