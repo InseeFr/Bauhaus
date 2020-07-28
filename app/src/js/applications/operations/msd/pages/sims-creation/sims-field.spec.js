@@ -24,7 +24,7 @@ describe('Sims Field', () => {
 				codesLists={{}}
 			/>
 		);
-		expect(container).toBeEmpty();
+		expect(container).toBeEmptyDOMElement();
 	});
 	it('should display only one field', () => {
 		const { container } = render(
