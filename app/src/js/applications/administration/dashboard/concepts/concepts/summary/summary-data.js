@@ -19,6 +19,7 @@ export const rowParams = [
 
 export const buildData = d => [
 	{
+		id: 1,
 		type: D.conceptsNumberTitle,
 		total: d.length,
 		generic: d.filter(c => c.disseminationStatus.endsWith('PublicGenerique'))
@@ -28,6 +29,7 @@ export const buildData = d => [
 		private: d.filter(c => c.disseminationStatus.endsWith('Prive')).length,
 	},
 	{
+		id: 2,
 		type: D.topConceptsNumberTitle,
 		total: d.filter(c => c.isTopConceptOf === 'true').length,
 		generic: d.filter(
@@ -46,6 +48,7 @@ export const buildData = d => [
 		).length,
 	},
 	{
+		id: 3,
 		type: D.provisionalConceptsNumberTitle,
 		total: d.filter(c => c.validationStatus === 'false').length,
 		generic: d.filter(
@@ -65,6 +68,7 @@ export const buildData = d => [
 		).length,
 	},
 	{
+		id: 4,
 		type: D.validDateConceptsNumberTitle,
 		total: d.filter(c => c.valid).length,
 		generic: d.filter(

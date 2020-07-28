@@ -7,6 +7,11 @@ export const saveSecondLang = secondLang => {
 	};
 };
 
+/**
+ * Redux selector that will return a boolean value.
+ * true if the second lang should be displayed, false otherwise.
+ * @param {*} state
+ */
 export function getSecondLang(state) {
 	return state.app?.secondLang;
 }

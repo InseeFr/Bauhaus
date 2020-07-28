@@ -23,8 +23,8 @@ function DisplayLinks({
 	function displayList(label) {
 		return (
 			<ul>
-				{links.sort().map(link => (
-					<li key={link.id}>{displayBlock(link, label)}</li>
+				{links.sort().map((link, index) => (
+					<li key={index}>{displayBlock(link, label)}</li>
 				))}
 			</ul>
 		);

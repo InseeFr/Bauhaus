@@ -7,7 +7,11 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
-const store = mockStore({});
+const store = mockStore({
+	app: {
+		secondLang: true,
+	},
+});
 
 describe('<StructureComponentsSelector />', () => {
 	const components = [
@@ -44,8 +48,8 @@ describe('<StructureComponentsSelector />', () => {
 	const concepts = [
 		{
 			altLabel: '',
-			id: components[0].concept?.toString(),
-			label: 'Concept - Label ' + components[0].concept,
+			id: components[0].component.concept?.toString(),
+			label: 'Concept - Label ' + components[0].component.concept,
 		},
 	];
 	const codesLists = [
