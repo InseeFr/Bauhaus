@@ -1,4 +1,4 @@
-import React, { PureComponent, useCallback } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
@@ -8,81 +8,43 @@ import { EditorMarkdownToolbar, ArrayUtils } from 'bauhaus-utilities';
 import { Editor } from 'react-draft-wysiwyg';
 
 import { Note, getLang, Select } from '@inseefr/wilco';
-import { isLink, isDocument } from 'js/applications/operations/document/utils';
 import './sims-field.scss';
-import DocumentsBloc from '../../documents/documents-bloc';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
 
-export const DocumentField = ({ handleChange, msd, currentSection }) => {
-	const handleDeleteDocument = useCallback(
-		uri => {
-			console.log('handle delete');
-			const objects = currentSection.documents || [];
-			console.log({
-				id: msd.idMas,
-				override: {
-					documents: objects.filter(doc => doc.uri !== uri),
-				},
-			});
-			handleChange({
-				id: msd.idMas,
-				override: {
-					documents: objects.filter(doc => doc.uri !== uri),
-				},
-			});
-		},
-		[handleChange, currentSection.documents, msd.idMas]
-	);
+const SimsCodeListSelect = props => {
+	let value;
+	let onChange;
 
-	const handleAddDocument = useCallback(
-		newObject => {
-			console.log('handle add');
+	if (!props.multi) {
+		value = props.options.find(
+			({ value }) => value === props.currentSection.value
+		);
+		onChange = props.onChange;
+	} else {
+		const currentSectionValue = Array.isArray(props.currentSection.value)
+			? props.currentSection.value
+			: [props.currentSection.value];
 
-			const objects = currentSection.documents || [];
-			console.log({
-				id: msd.idMas,
-				override: {
-					documents: [...objects, newObject],
-				},
-			});
-			handleChange({
-				id: msd.idMas,
-				override: {
-					documents: [...objects, newObject],
-				},
-			});
-		},
-		[handleChange, msd.idMas, currentSection.documents]
-	);
+		value = props.options.filter(({ value }) =>
+			currentSectionValue.includes(value)
+		);
+		onChange = values => {
+			props.onChange((values || []).map(({ value }) => value));
+		};
+	}
 
 	return (
-		<div className="bauhaus-document-field">
-			<DocumentsBloc
-				documents={(currentSection.documents || []).filter(isDocument)}
-				localPrefix={'Lg1'}
-				editMode={true}
-				deleteHandler={handleDeleteDocument}
-				addHandler={handleAddDocument}
-				objectType="documents"
-			/>
-			<DocumentsBloc
-				documents={(currentSection.documents || []).filter(isLink)}
-				localPrefix={'Lg1'}
-				editMode={true}
-				deleteHandler={handleDeleteDocument}
-				addHandler={handleAddDocument}
-				objectType="links"
-			/>
-		</div>
+		<Select
+			placeholder=""
+			aria-label={props['aria-label']}
+			className="form-control"
+			value={value}
+			options={props.options}
+			onChange={onChange}
+			multi={props.multi}
+		/>
 	);
-};
-
-DocumentField.propTypes = {
-	msd: PropTypes.object.isRequired,
-	currentSection: PropTypes.object,
-	codesLists: PropTypes.object.isRequired,
-	handleChange: PropTypes.func,
 };
 
 class Field extends PureComponent {
@@ -119,6 +81,7 @@ class Field extends PureComponent {
 			lang,
 			alone,
 			organisationsOptions = [],
+			unbounded,
 		} = this.props;
 		const codesList = this.props.codesLists[msd.codeList] || {};
 		const codes = codesList.codes || [];
@@ -195,15 +158,12 @@ class Field extends PureComponent {
 							)}
 
 							{msd.rangeType === CODE_LIST && codesList && (
-								<Select
-									placeholder=""
+								<SimsCodeListSelect
 									aria-label={codesList.codeListLabelLg1}
-									className="form-control"
-									value={codesListOptions.find(
-										({ value }) => value === currentSection.value
-									)}
+									currentSection={currentSection}
 									options={codesListOptions}
 									onChange={this.handleCodeListInput}
+									multi={unbounded}
 								/>
 							)}
 						</span>

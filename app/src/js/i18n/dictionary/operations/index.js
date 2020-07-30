@@ -134,6 +134,10 @@ const dictionary = {
 		en: 'Summary',
 		fr: 'Sommaire',
 	},
+	helpMaxOccurs: {
+		en: 'Maximum of occurences',
+		fr: "Maximum d'occurence",
+	},
 	helpRange: {
 		en: 'Range',
 		fr: 'Portée',

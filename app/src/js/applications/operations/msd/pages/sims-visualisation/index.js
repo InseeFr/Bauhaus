@@ -17,15 +17,12 @@ import {
 	HTMLUtils,
 	ValidationButton,
 	CheckSecondLang,
-	DateUtils,
 } from 'bauhaus-utilities';
-import DocumentsBloc from 'js/applications/operations/msd/documents/documents-bloc/index.js';
 import {
 	hasLabelLg2,
 	shouldDisplayDuplicateButton,
 	getParentUri,
 } from 'js/applications/operations/msd/utils';
-import { isLink, isDocument } from 'js/applications/operations/document/utils';
 import {
 	ADMIN,
 	CNIS,
@@ -33,8 +30,9 @@ import {
 	SERIES_CONTRIBUTOR,
 } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
+import SimsBlock from './sims-block';
 
-const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
+const { RICH_TEXT } = rangeType;
 
 export default function SimsVisualisation({
 	metadataStructure,
@@ -49,66 +47,6 @@ export default function SimsVisualisation({
 }) {
 	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 
-	function displayInformation(msd, isSecondLang = false, currentSection = {}) {
-		if (!msd.masLabelLg1) {
-			return null;
-		}
-		return (
-			!msd.isPresentational && (
-				<>
-					{currentSection.rangeType === TEXT &&
-						currentSection[isSecondLang ? 'labelLg2' : 'labelLg1']}
-					{currentSection.value &&
-						currentSection.rangeType === DATE &&
-						DateUtils.stringToDate(currentSection.value)}
-					{currentSection.rangeType === RICH_TEXT && (
-						<>
-							{HTMLUtils.renderMarkdownElement(
-								currentSection[isSecondLang ? 'labelLg2' : 'labelLg1']
-							)}
-
-							{currentSection.documents && (
-								<>
-									<DocumentsBloc
-										documents={currentSection.documents.filter(isDocument)}
-										localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
-										objectType="documents"
-									/>
-									<DocumentsBloc
-										documents={currentSection.documents.filter(isLink)}
-										localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
-										objectType="links"
-									/>
-								</>
-							)}
-						</>
-					)}
-					{currentSection.rangeType === CODE_LIST &&
-						codesLists[currentSection.codeList] && (
-							<span>
-								{
-									codesLists[currentSection.codeList].codes.find(
-										code => code.code === currentSection.value
-									).labelLg1
-								}
-							</span>
-						)}
-					{currentSection.rangeType === ORGANIZATION && (
-						<span>
-							{
-								(
-									organisations.find(
-										orga => orga.id === currentSection.value
-									) || {}
-								).label
-							}
-						</span>
-					)}
-				</>
-			)
-		);
-	}
-
 	function MSDInformations({ msd, firstLevel = false }) {
 		return (
 			<>
@@ -121,7 +59,16 @@ export default function SimsVisualisation({
 					{!msd.isPresentational && (
 						<Note
 							title={`${msd.idMas} - ${msd.masLabelLg1}`}
-							text={displayInformation(msd, false, sims.rubrics[msd.idMas])}
+							text={
+								<SimsBlock
+									msd={msd}
+									isSecondLang={false}
+									currentSection={sims.rubrics[msd.idMas]}
+									unbounded={msd.maxOccurs === 'unbounded'}
+									codesLists={codesLists}
+									organisations={organisations}
+								/>
+							}
 							alone={!(hasLabelLg2(msd) && secondLang)}
 							lang={lg1}
 						/>
@@ -129,7 +76,16 @@ export default function SimsVisualisation({
 					{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
 						<Note
 							title={`${msd.idMas} - ${msd.masLabelLg2}`}
-							text={displayInformation(msd, true, sims.rubrics[msd.idMas])}
+							text={
+								<SimsBlock
+									msd={msd}
+									isSecondLang={true}
+									currentSection={sims.rubrics[msd.idMas]}
+									unbounded={msd.maxOccurs === 'unbounded'}
+									codesLists={codesLists}
+									organisations={organisations}
+								/>
+							}
 							lang={lg2}
 						/>
 					)}

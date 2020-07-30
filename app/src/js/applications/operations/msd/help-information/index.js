@@ -13,6 +13,12 @@ export default function HelpInformation({ msd, codesLists, organisations }) {
 			<dd>{msd.masLabelLg2}</dd>
 			<dt>{D.helpPresentational}:</dt>
 			<dd>{msd.isPresentational.toString()}</dd>
+			{msd.maxOccurs && (
+				<>
+					<dt>{D.helpMaxOccurs}:</dt>
+					<dd>{msd.maxOccurs}</dd>
+				</>
+			)}
 			<dt>{D.helpRange}:</dt>
 			<dd>
 				{msd.rangeType === CODE_LIST && codesLists[msd.codeList]
