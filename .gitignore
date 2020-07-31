@@ -37,3 +37,5 @@ cypress/screenshots
 
 coverage
 build
+
+*.mp4
