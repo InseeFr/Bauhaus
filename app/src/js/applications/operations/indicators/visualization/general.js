@@ -113,7 +113,7 @@ function OperationsIndicatorVisualization(props) {
 							))}
 						</ul>
 					}
-					title={D1.operationsContributorTitle}
+					title={D1.creatorTitle}
 					lang={langs.lg1}
 					alone={true}
 					allowEmpty={true}
