@@ -12,7 +12,7 @@
 		"build-insee": "yarn workspaces run build-insee",
 		"test:coverage": "yarn workspaces run test:coverage",
 		"build-storybook": "yarn workspaces run build-storybook",
-		"pre-push": "yarn workspaces run lint && yarn test:coverage"
+		"pre-push": "yarn workspaces run lint && yarn test:coverage && yarn workspace Bauhaus run e2e"
 	},
 	"resolutions": {
 		"@inseefr/wilco": "0.0.5"
@@ -25,9 +25,9 @@
 		"@storybook/addon-links": "5.3.19",
 		"@storybook/addons": "5.3.19",
 		"@storybook/react": "5.3.19",
-		"@testing-library/jest-dom": "5.11.1",
+		"@testing-library/jest-dom": "5.11.2",
 		"@testing-library/react": "10.4.7",
-		"@testing-library/user-event": "12.0.11",
+		"@testing-library/user-event": "12.0.17",
 		"@types/jest": "26.0.5",
 		"babel-eslint": "^10.1.0",
 		"babel-jest": "26.0.1",
