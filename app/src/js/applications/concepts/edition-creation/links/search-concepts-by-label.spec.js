@@ -8,7 +8,7 @@ describe('concept-edition-creation-search-concepts-by-label', () => {
 		render(
 			<SearchConceptsByLabel
 				searchLabel="label"
-				hitEls={[<div>Element</div>]}
+				hitEls={[]}
 				handleSearch={() => console.log('save')}
 			/>,
 			{ wrapper: MemoryRouter }

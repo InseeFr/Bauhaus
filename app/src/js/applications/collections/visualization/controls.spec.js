@@ -8,7 +8,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<CollectionVisualizationControls
 				id="id"
-				isValidated="false"
+				isValidated={false}
 				handleValidation={() => console.log('validate')}
 				permission={{ authType: '', roles: [''] }}
 			/>,

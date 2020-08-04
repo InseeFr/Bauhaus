@@ -1,25 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Pagination } from '@inseefr/wilco';
 import D from 'js/i18n';
 
-class SearchConceptsByLabel extends Component {
-	render() {
-		const { searchLabel, handleSearch, hitEls } = this.props;
-		return (
-			<div>
-				<input
-					value={searchLabel}
-					onChange={e => handleSearch(e.target.value)}
-					type="text"
-					placeholder={D.searchLabelPlaceholder}
-					className="form-control"
-				/>
-				<Pagination itemEls={hitEls} itemsPerPage="10" />
-			</div>
-		);
-	}
-}
+const SearchConceptsByLabel = ({ searchLabel, handleSearch, hitEls }) => {
+	return (
+		<div>
+			<input
+				value={searchLabel}
+				onChange={e => handleSearch(e.target.value)}
+				type="text"
+				placeholder={D.searchLabelPlaceholder}
+				className="form-control"
+			/>
+			<Pagination itemEls={hitEls} itemsPerPage="10" />
+		</div>
+	);
+};
 
 SearchConceptsByLabel.propTypes = {
 	searchLabel: PropTypes.string.isRequired,

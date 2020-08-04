@@ -13,6 +13,10 @@ const dictionary = {
 		fr: 'Gestionnaire',
 		en: 'Administrator',
 	},
+	creatorTitle: {
+		fr: 'Propriétaire',
+		en: 'Owner',
+	},
 	seriesTitle: {
 		fr: 'Séries',
 		en: 'Series',
@@ -129,6 +133,10 @@ const dictionary = {
 	helpSummary: {
 		en: 'Summary',
 		fr: 'Sommaire',
+	},
+	helpMaxOccurs: {
+		en: 'Maximum of occurences',
+		fr: "Maximum d'occurence",
 	},
 	helpRange: {
 		en: 'Range',

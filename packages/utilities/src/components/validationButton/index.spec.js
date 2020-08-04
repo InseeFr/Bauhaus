@@ -12,14 +12,14 @@ describe('<ValidationButton', () => {
 				disabled={false}
 			/>
 		);
-		expect(container).toBeEmpty();
+		expect(container).toBeEmptyDOMElement();
 	});
 
 	it('should contain a enabled button if the validationStateis not defined', () => {
 		const { container } = render(
 			<ValidationButton callback={jest.fn()} disabled={false} />
 		);
-		expect(container.querySelector('button')).not.toBeEmpty('disabled');
+		expect(container.querySelector('button')).toBeEnabled();
 	});
 
 	it('should contain a enabled button if the object is already validated', () => {

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-import Field, {
-	DocumentField,
-} from 'js/applications/operations/msd/pages/sims-creation/sims-field';
+import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from 'js/utils/msd';
+import SimsDocumentField from 'js/applications/operations/msd/pages/sims-creation/sims-document-field';
+
 import {
 	Loading,
 	CancelButton,
@@ -41,6 +41,7 @@ class SimsCreation extends React.Component {
 		super(props);
 
 		const { metadataStructure, sims = {} } = this.props;
+
 		const flattenStructure = flattenTree(metadataStructure);
 
 		this.state = {
@@ -180,6 +181,7 @@ class SimsCreation extends React.Component {
 								lang={lg1}
 								alone={!hasLabelLg2(msd) || !secondLang}
 								organisationsOptions={organisationsOptions}
+								unbounded={msd.maxOccurs === 'unbounded'}
 							/>
 						)}
 						{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
@@ -196,7 +198,7 @@ class SimsCreation extends React.Component {
 						)}
 
 						{msd.rangeType === RICH_TEXT && (
-							<DocumentField
+							<SimsDocumentField
 								msd={msd}
 								currentSection={sims[msd.idMas]}
 								handleChange={handleChange}
