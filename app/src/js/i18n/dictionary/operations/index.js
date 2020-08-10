@@ -146,6 +146,10 @@ const dictionary = {
 		en: 'Value',
 		fr: 'Valeur',
 	},
+	simsGeographyZoneName: {
+		en: 'Name of the zone',
+		fr: 'Nom de la zone',
+	},
 	helpPresentational: {
 		en: 'Presentational attribut',
 		fr: 'Attribut présentationnel',

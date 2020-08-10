@@ -1,6 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { Select } from '@inseefr/wilco';
 import D from 'js/i18n';
+import InputRmes from 'js/applications/shared/input-rmes';
+import {
+	SimsGeographyI18NLabel,
+	SimsGeographySelector,
+} from 'bauhaus-operations';
 
 const geographies = [
 	{ labelLg1: 'Somme', labelLg2: 'Somme', value: '3' },
@@ -10,11 +15,6 @@ const geographies = [
 	{ labelLg1: 'Bourgogne', labelLg2: 'Bourgogne', value: '8' },
 ];
 
-const SimsGeographyLabel = ({ geography }) => (
-	<>
-		{geography.labelLg1} <i>({geography.labelLg2})</i>
-	</>
-);
 const SimsGeographyField = props => {
 	const [value, setValue] = useState(null);
 	const [excludes] = useState([
@@ -28,43 +28,20 @@ const SimsGeographyField = props => {
 	const options = useMemo(() => {
 		return geographies.map(geography => ({
 			value: geography.value,
-			label: <SimsGeographyLabel geography={geography} />,
+			label: <SimsGeographyI18NLabel geography={geography} />,
 		}));
 	}, []);
 
-	const excludedItems = excludes.map(geography => (
-		<li className="list-group-item" key={geography.value}>
-			<>
-				<SimsGeographyLabel geography={geography} />
-				<button
-					type="button"
-					className="documentsbloc__delete documentsbloc__btn"
-					aria-label={D.btnDelete}
-					onClick={console.log}
-				>
-					<span className="glyphicon glyphicon-trash" aria-hidden="true" />
-				</button>
-			</>
-		</li>
-	));
-	const includedItems = includes.map(geography => (
-		<li className="list-group-item" key={geography.value}>
-			<>
-				<SimsGeographyLabel geography={geography} />
-				<button
-					type="button"
-					className="documentsbloc__delete documentsbloc__btn"
-					aria-label={D.btnDelete}
-					onClick={console.log}
-				>
-					<span className="glyphicon glyphicon-trash" aria-hidden="true" />
-				</button>
-			</>
-		</li>
-	));
-
 	return (
 		<>
+			<div className="row">
+				<InputRmes
+					label={D.simsGeographyZoneName}
+					value={''}
+					handleChange={console.log}
+					className="w-100"
+				/>
+			</div>
 			<div className="bauhaus-sims-geography-field">
 				<Select
 					placeholder=""
@@ -90,16 +67,7 @@ const SimsGeographyField = props => {
 				</div>
 			</div>
 
-			<div className="row">
-				<div className="col-md-6">
-					<h4>Zones géographiques inclues</h4>
-					{includedItems}
-				</div>
-				<div className="col-md-6">
-					<h4>Zones géographiques exclues</h4>
-					{excludedItems}
-				</div>
-			</div>
+			<SimsGeographySelector includes={includes} excludes={excludes} />
 		</>
 	);
 };
