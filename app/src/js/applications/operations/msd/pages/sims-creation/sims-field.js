@@ -6,11 +6,11 @@ import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
 import { EditorMarkdownToolbar, ArrayUtils } from 'bauhaus-utilities';
 import { Editor } from 'react-draft-wysiwyg';
-
+import SimsGeographyField from './sims-geography-field';
 import { Note, getLang, Select } from '@inseefr/wilco';
 import './sims-field.scss';
 
-const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
+const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 
 const SimsCodeListSelect = props => {
 	let value;
@@ -166,6 +166,8 @@ class Field extends PureComponent {
 									multi={unbounded}
 								/>
 							)}
+
+							{msd.rangeType === GEOGRAPHY && <SimsGeographyField />}
 						</span>
 					)
 				}
