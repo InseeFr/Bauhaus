@@ -15,7 +15,7 @@ const geographies = [
 	{ labelLg1: 'Bourgogne', labelLg2: 'Bourgogne', value: '8' },
 ];
 
-const SimsGeographyField = props => {
+const SimsGeographyField = ({ geographies2 }) => {
 	const [value, setValue] = useState(null);
 	const [excludes] = useState([
 		{ labelLg1: 'Nord', labelLg2: 'Nord', value: '1' },
@@ -55,14 +55,14 @@ const SimsGeographyField = props => {
 						className="btn btn-default"
 						disabled={value === null}
 					>
-						Inclure
+						{D.include}
 					</button>
 					<button
 						type="button"
 						className="btn btn-default"
 						disabled={value === null}
 					>
-						Exclure
+						{D.exclude}
 					</button>
 				</div>
 			</div>

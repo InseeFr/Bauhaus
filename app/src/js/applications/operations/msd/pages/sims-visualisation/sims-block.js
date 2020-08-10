@@ -6,8 +6,9 @@ import SimsBlockDate from './sims-block-date';
 import SimsBlockRichText from './sims-block-richtext';
 import SimsBlockCodeList from './sims-block-codelist';
 import SimsBlockOrganisation from './sims-block-organisation';
+import SimsBlockGeography from './sims-block-geography';
 
-const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION } = rangeType;
+const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 
 const SimsBlock = ({
 	msd,
@@ -51,6 +52,9 @@ const SimsBlock = ({
 						organisations={organisations}
 						currentSection={currentSection}
 					/>
+				)}
+				{currentSection.rangeType === GEOGRAPHY && (
+					<SimsBlockGeography currentSection={currentSection} />
 				)}
 			</>
 		)

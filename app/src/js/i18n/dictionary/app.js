@@ -387,6 +387,14 @@ const dictionary = {
 		fr: 'Privé',
 		en: 'Private',
 	},
+	include: {
+		fr: 'Inclure',
+		en: 'Include',
+	},
+	exclude: {
+		fr: 'Exclure',
+		en: 'Exclude',
+	},
 };
 
 export default dictionary;

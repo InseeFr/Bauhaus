@@ -40,11 +40,11 @@ const SimsGeographySelector = ({ includes, excludes, readOnly }) => {
 	return (
 		<div className="row">
 			<div className="col-md-6">
-				<h4>Zones géographiques inclues</h4>
+				<h4>{D.includedZone}</h4>
 				{includedItems}
 			</div>
 			<div className="col-md-6">
-				<h4>Zones géographiques exclues</h4>
+				<h4>{D.excludedZone}</h4>
 				{excludedItems}
 			</div>
 		</div>
