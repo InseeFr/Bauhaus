@@ -21,7 +21,7 @@ export default ({ className, handleNo, handleYes }) => {
 
 				<div className="modal-body">{D.confirmationDelete}</div>
 				<div className="modal-footer text-right">
-					<Button offset="8" action={handleNo}>
+					<Button offset={8} action={handleNo}>
 						{D.no}
 					</Button>
 					<Button action={handleYes}>{D.yes}</Button>
