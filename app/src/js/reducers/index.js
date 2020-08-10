@@ -14,8 +14,9 @@ import classificationsReducers from './classifications';
 import operationsReducers from './operations';
 import codesListReducers from './operations/codesList';
 import organisationsReducers from './operations/organisations';
+import { Stores } from 'bauhaus-utilities';
 
-import remoteCalls, * as remoteCallsSelectors from './remote-calls';
+import remoteCalls from './remote-calls';
 
 export default combineReducers({
 	app,
@@ -97,13 +98,13 @@ export const getLangs = state => {
 };
 
 export const getStatus = (state, op) =>
-	remoteCallsSelectors.getStatus(state.remoteCalls, op);
+	Stores.RemoteCalls.getStatus(state.remoteCalls, op);
 
 export const getError = (state, op) =>
-	remoteCallsSelectors.getError(state.remoteCalls, op);
+	Stores.RemoteCalls.getError(state.remoteCalls, op);
 
 export const getNewlyCreatedId = state =>
-	remoteCallsSelectors.getNewlyCreatedId(state.remoteCalls);
+	Stores.RemoteCalls.getNewlyCreatedId(state.remoteCalls);
 
 export const getFamily = state => {
 	return state.operationsFamiliesCurrent || {};
