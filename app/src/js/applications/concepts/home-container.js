@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import ConceptsHome from './home';
@@ -6,20 +6,15 @@ import { NOT_LOADED } from 'js/constants';
 import loadConceptList from 'js/actions/concepts/list';
 import { Auth } from 'bauhaus-utilities';
 
-class ConceptsHomeContainer extends Component {
-	componentWillMount() {
-		if (!this.props.concepts) {
-			this.props.loadConceptList();
+const ConceptsHomeContainer = ({ concepts, permission, loadConceptList }) => {
+	useEffect(() => {
+		if (!concepts) {
+			loadConceptList();
 		}
-	}
-
-	render() {
-		const { concepts, permission } = this.props;
-
-		if (!concepts) return <Loading />;
-		return <ConceptsHome concepts={concepts} permission={permission} />;
-	}
-}
+	}, [concepts, loadConceptList]);
+	if (!concepts) return <Loading />;
+	return <ConceptsHome concepts={concepts} permission={permission} />;
+};
 
 const mapStateToProps = state => {
 	const permission = Auth.getPermission(state);

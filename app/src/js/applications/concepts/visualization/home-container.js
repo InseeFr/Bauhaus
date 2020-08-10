@@ -72,10 +72,8 @@ class ConceptVisualizationContainer extends Component {
 		}
 	}
 	render() {
-		const { validationRequested } = this.state;
-		const { deletionRequested } = this.state;
-		const { validationStatus } = this.props;
-		const { deleteStatus } = this.props;
+		const { validationRequested, deletionRequested } = this.state;
+		const { validationStatus, deleteStatus } = this.props;
 
 		if (validationRequested && validationStatus !== OK) {
 			//if validation is OK: nothing to do. We stay on this page and the concept will
@@ -128,21 +126,19 @@ class ConceptVisualizationContainer extends Component {
 			}
 
 			return (
-				<>
-					<ConceptVisualization
-						id={id}
-						permission={permission}
-						general={general}
-						notes={notes}
-						links={links}
-						validateConcept={this.handleConceptValidation}
-						deleteConcept={this.handleConceptDeletion}
-						validationStatus={validationStatus}
-						secondLang={secondLang}
-						langs={langs}
-						serverSideError={error}
-					/>
-				</>
+				<ConceptVisualization
+					id={id}
+					permission={permission}
+					general={general}
+					notes={notes}
+					links={links}
+					validateConcept={this.handleConceptValidation}
+					deleteConcept={this.handleConceptDeletion}
+					validationStatus={validationStatus}
+					secondLang={secondLang}
+					langs={langs}
+					serverSideError={error}
+				/>
 			);
 		}
 		return <Loading />;

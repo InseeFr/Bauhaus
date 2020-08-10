@@ -34,3 +34,21 @@
 .bauhaus-sims-field__RICH_TEXT_2col {
 	@include rich-text(1em);
 }
+
+.bauhaus-sims-geography-field {
+	display: flex;
+
+	.form-group {
+		flex-grow: 1;
+		div[class$='singleValue'] {
+			overflow: visible;
+		}
+	}
+	.btn-group {
+		margin-left: 1em;
+
+		.btn {
+			min-height: 38px;
+		}
+	}
+}
