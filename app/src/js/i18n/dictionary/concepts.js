@@ -102,11 +102,11 @@ const dictionary = {
 	},
 	isConceptValidTitle: {
 		fr: 'État du concept',
-		en: 'State of the concept',
+		en: 'Publication status',
 	},
 	isCollectionValidTitle: {
 		fr: 'État de la collection',
-		en: 'State of the collection',
+		en: 'Publication status',
 	},
 	conceptsDefinition: {
 		fr: 'Définition',
