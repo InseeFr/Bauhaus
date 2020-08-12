@@ -88,7 +88,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 					</div>
 					<div className="col-md-6">
 						<label htmlFor="typeOperation" className="w-100">
-							{D.operationsContributorTitle}
+							{D.creatorTitle}
 
 							<Select
 								placeholder=""
