@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import {
@@ -8,21 +8,22 @@ import {
 	SaveButton,
 } from '@inseefr/wilco';
 
-class ConceptCreateControlLayout extends Component {
-	render() {
-		const { message, handleSave, saveEnabled, redirectCancel } = this.props;
-
-		return (
-			<>
-				<ActionToolbar>
-					<CancelButton action={redirectCancel()} />
-					<SaveButton action={handleSave} disabled={!saveEnabled} />
-				</ActionToolbar>
-				<ErrorBloc error={message} />
-			</>
-		);
-	}
-}
+const ConceptCreateControlLayout = ({
+	message,
+	handleSave,
+	saveEnabled,
+	redirectCancel,
+}) => {
+	return (
+		<>
+			<ActionToolbar>
+				<CancelButton action={redirectCancel} />
+				<SaveButton action={handleSave} disabled={!saveEnabled} />
+			</ActionToolbar>
+			<ErrorBloc error={message} />
+		</>
+	);
+};
 
 ConceptCreateControlLayout.propTypes = {
 	message: PropTypes.string,
