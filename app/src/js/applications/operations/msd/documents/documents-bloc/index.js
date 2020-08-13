@@ -190,16 +190,15 @@ export function DocumentsBloc({
 	);
 }
 
-class DocumentsBlocContainer extends Component {
-	componentWillMount() {
-		if (this.props.documentStoresStatus === NOT_LOADED) {
-			this.props.loadDocuments();
+const DocumentsBlocContainer = props => {
+	useEffect(() => {
+		if (props.documentStoresStatus === NOT_LOADED) {
+			props.loadDocuments();
 		}
-	}
-	render() {
-		return <DocumentsBloc {...this.props} />;
-	}
-}
+	}, [props]);
+
+	return <DocumentsBloc {...props} />;
+};
 
 const mapDispatchToProps = {
 	loadDocuments,
