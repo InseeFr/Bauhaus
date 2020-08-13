@@ -49,12 +49,10 @@ export function DocumentsBloc({
 		API.getBaseURI().then(uri => setBaseURI(uri));
 	});
 
-	const currentDocuments = ArrayUtils.sortArray(`label${localPrefix}`)(
-		documents
-	);
+	const currentDocuments = ArrayUtils.sortArray(`labelLg1`)(documents);
 	const currentDocumentsIds = currentDocuments.map(doc => doc.uri);
 
-	const otherDocuments = ArrayUtils.sortArray(`label${localPrefix}`)(
+	const otherDocuments = ArrayUtils.sortArray(`labelLg1`)(
 		documentStores
 			.filter(document => !currentDocumentsIds.includes(document.uri))
 			.filter(document =>
