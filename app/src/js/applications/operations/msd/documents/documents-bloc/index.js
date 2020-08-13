@@ -7,7 +7,7 @@ import {
 	getOperationsDocuments,
 	getOperationsDocumentsStatus,
 } from 'js/reducers/operations/selector';
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { API, ArrayUtils } from 'bauhaus-utilities';
 import { connect } from 'react-redux';
 import './style.scss';
