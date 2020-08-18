@@ -45,10 +45,10 @@ function DisplayMultiLangNote({
 function OperationsIndicatorVisualization(props) {
 	const { attr, langs, secondLang, frequency = {}, organisations = [] } = props;
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
-	const creator = (organisations.find(orga => orga.id === attr.creator) || {})
+	const creator = (organisations.find((orga) => orga.id === attr.creator) || {})
 		.label;
 	const contributor = (attr.contributor || []).map(
-		d => organisations.find(orga => orga.id === d.id) || {}
+		(d) => organisations.find((orga) => orga.id === d.id) || {}
 	);
 
 	return (
@@ -108,7 +108,7 @@ function OperationsIndicatorVisualization(props) {
 				<Note
 					text={
 						<ul>
-							{attr.gestionnaires.map(g => (
+							{attr.proprietaires.map((g) => (
 								<li>{g}</li>
 							))}
 						</ul>

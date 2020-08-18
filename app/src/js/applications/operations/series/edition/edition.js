@@ -399,7 +399,7 @@ class OperationsSerieEdition extends Component {
 									placeholder=""
 									unclearable
 									multi
-									value={serie.gestionnaires}
+									value={serie.proprietaires}
 									options={stampsOptions}
 									onChange={value =>
 										this.onChange({

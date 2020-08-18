@@ -10,8 +10,8 @@ const dictionary = {
 		en: 'Families',
 	},
 	creatorTitle: {
-		fr: 'Propriétaire',
-		en: 'Owner',
+		fr: 'Propriétaires',
+		en: 'Owners',
 	},
 	seriesTitle: {
 		fr: 'Séries',

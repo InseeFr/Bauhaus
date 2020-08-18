@@ -62,7 +62,7 @@ class OperationsIndicatorEdition extends Component {
 		}
 	}
 
-	setInitialState = props => {
+	setInitialState = (props) => {
 		return {
 			serverSideError: '',
 			indicator: {
@@ -72,8 +72,8 @@ class OperationsIndicatorEdition extends Component {
 		};
 	};
 
-	onChange = selector => {
-		return value => {
+	onChange = (selector) => {
+		return (value) => {
 			this.setState({
 				serverSideError: '',
 				indicator: {
@@ -111,24 +111,27 @@ class OperationsIndicatorEdition extends Component {
 		const isUpdate = !!this.state.indicator.id;
 		const indicator = {
 			...this.state.indicator,
-			seeAlso: (this.state.indicator.seeAlso || []).map(link => link.id),
+			seeAlso: (this.state.indicator.seeAlso || []).map((link) => link.id),
 			contributor: (this.state.indicator.contributor || []).map(
-				link => link.id
+				(link) => link.id
 			),
 			wasGeneratedBy: (this.state.indicator.wasGeneratedBy || []).map(
-				link => link.id
+				(link) => link.id
 			),
-			replaces: (this.state.indicator.replaces || []).map(link => link.id),
+			replaces: (this.state.indicator.replaces || []).map((link) => link.id),
 			replacedBy: (this.state.indicator.isReplacedBy || []).map(
-				link => link.id
+				(link) => link.id
 			),
 		};
 
-		const stampsOptions = stamps.map(stamp => ({ value: stamp, label: stamp }));
+		const stampsOptions = stamps.map((stamp) => ({
+			value: stamp,
+			label: stamp,
+		}));
 		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 		const seriesOptions = ItemToSelectModel.toSelectModel(series, 'series');
 		const indicatorsOptions = ItemToSelectModel.toSelectModel(
-			indicators.filter(s => s.id !== indicator.id),
+			indicators.filter((s) => s.id !== indicator.id),
 			'indicator'
 		);
 		const seriesAndIndicatorsOptions = ItemToSelectModel.mergedItemsToSelectModels(
@@ -237,7 +240,7 @@ class OperationsIndicatorEdition extends Component {
 									placeholder=""
 									unclearable
 									value={indicator.accrualPeriodicityCode}
-									options={frequencies.codes.map(cat => {
+									options={frequencies.codes.map((cat) => {
 										return { value: cat.code, label: cat.labelLg1 };
 									})}
 									onChange={this.onChange('accrualPeriodicityCode')}
@@ -269,10 +272,10 @@ class OperationsIndicatorEdition extends Component {
 									placeholder=""
 									unclearable
 									multi
-									value={indicator.gestionnaires}
+									value={indicator.proprietaires}
 									options={stampsOptions}
-									onChange={value =>
-										this.onChange('gestionnaires')(value.map(v => v.value))
+									onChange={(value) =>
+										this.onChange('gestionnaires')(value.map((v) => v.value))
 									}
 								/>
 							</label>
@@ -288,9 +291,9 @@ class OperationsIndicatorEdition extends Component {
 									options={organisationsOptions}
 									placeholder=""
 									multi
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange('contributor')(
-											value.map(v => {
+											value.map((v) => {
 												return { id: v.value };
 											})
 										)
@@ -309,9 +312,9 @@ class OperationsIndicatorEdition extends Component {
 									value={indicator.replaces}
 									options={indicatorsOptions}
 									placeholder=""
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange('replaces')(
-											value.map(v => {
+											value.map((v) => {
 												return { id: v.value, type: v.type };
 											})
 										)
@@ -330,9 +333,9 @@ class OperationsIndicatorEdition extends Component {
 									value={indicator.replacedBy}
 									options={indicatorsOptions}
 									placeholder=""
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange('isReplacedBy')(
-											value.map(v => {
+											value.map((v) => {
 												return { id: v.value, type: v.type };
 											})
 										)
@@ -352,9 +355,9 @@ class OperationsIndicatorEdition extends Component {
 									options={seriesOptions}
 									multi
 									placeholder=""
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange('wasGeneratedBy')(
-											value.map(v => {
+											value.map((v) => {
 												return { id: v.value, type: v.type };
 											})
 										)
@@ -372,9 +375,9 @@ class OperationsIndicatorEdition extends Component {
 									value={indicator.seeAlso}
 									options={seriesAndIndicatorsOptions}
 									placeholder=""
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange('seeAlso')(
-											value.map(v => {
+											value.map((v) => {
 												return { id: v.value, type: v.type };
 											})
 										)
