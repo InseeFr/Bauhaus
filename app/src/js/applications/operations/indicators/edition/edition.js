@@ -275,7 +275,7 @@ class OperationsIndicatorEdition extends Component {
 									value={indicator.proprietaires}
 									options={stampsOptions}
 									onChange={(value) =>
-										this.onChange('gestionnaires')(value.map((v) => v.value))
+										this.onChange('proprietaires')(value.map((v) => v.value))
 									}
 								/>
 							</label>

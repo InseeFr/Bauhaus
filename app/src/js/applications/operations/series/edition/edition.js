@@ -64,7 +64,7 @@ class OperationsSerieEdition extends Component {
 		}
 	}
 
-	setInitialState = props => {
+	setInitialState = (props) => {
 		return {
 			serverSideError: '',
 			serie: {
@@ -74,7 +74,7 @@ class OperationsSerieEdition extends Component {
 		};
 	};
 
-	onChange = e => {
+	onChange = (e) => {
 		let override = {
 			[e.target.id]: e.target.value,
 		};
@@ -121,30 +121,30 @@ class OperationsSerieEdition extends Component {
 
 		const serie = {
 			...this.state.serie,
-			seeAlso: (this.state.serie.seeAlso || []).map(link => link.id),
-			contributor: (this.state.serie.contributor || []).map(link => link.id),
+			seeAlso: (this.state.serie.seeAlso || []).map((link) => link.id),
+			contributor: (this.state.serie.contributor || []).map((link) => link.id),
 			dataCollector: (this.state.serie.dataCollector || []).map(
-				link => link.id
+				(link) => link.id
 			),
-			replaces: (this.state.serie.replaces || []).map(link => link.id),
-			replacedBy: (this.state.serie.isReplacedBy || []).map(link => link.id),
-			generate: (this.state.serie.generate || []).map(link => link.id),
+			replaces: (this.state.serie.replaces || []).map((link) => link.id),
+			replacedBy: (this.state.serie.isReplacedBy || []).map((link) => link.id),
+			generate: (this.state.serie.generate || []).map((link) => link.id),
 		};
-		const familiesOptions = this.props.families.map(s => {
+		const familiesOptions = this.props.families.map((s) => {
 			return { value: s.id, label: s.label };
 		});
 		const family = serie.family || { id: '' };
 
 		const isEditing = !!serie.id;
 
-		const stampsOptions = stamps.map(stamp => ({
+		const stampsOptions = stamps.map((stamp) => ({
 			value: stamp,
 			label: stamp,
 		}));
 
 		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 		const seriesOptions = ItemToSelectModel.toSelectModel(
-			series.filter(s => s.id !== serie.id),
+			series.filter((s) => s.id !== serie.id),
 			'series'
 		);
 		const indicatorsOptions = ItemToSelectModel.toSelectModel(
@@ -184,7 +184,7 @@ class OperationsSerieEdition extends Component {
 									unclearable
 									value={family.id}
 									options={familiesOptions}
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange({
 											target: { value, id: 'idFamily' },
 										})
@@ -244,7 +244,7 @@ class OperationsSerieEdition extends Component {
 							<label htmlFor="abstractLg1">{D1.summary}</label>
 							<EditorMarkdown
 								text={serie.abstractLg1}
-								handleChange={value =>
+								handleChange={(value) =>
 									this.onChange({ target: { value, id: 'abstractLg1' } })
 								}
 							/>
@@ -253,7 +253,7 @@ class OperationsSerieEdition extends Component {
 							<label htmlFor="abstractLg2">{D2.summary}</label>
 							<EditorMarkdown
 								text={serie.abstractLg2}
-								handleChange={value =>
+								handleChange={(value) =>
 									this.onChange({ target: { value, id: 'abstractLg2' } })
 								}
 							/>
@@ -264,7 +264,7 @@ class OperationsSerieEdition extends Component {
 							<label htmlFor="historyNoteLg1">{D1.history}</label>
 							<EditorMarkdown
 								text={serie.historyNoteLg1}
-								handleChange={value =>
+								handleChange={(value) =>
 									this.onChange({ target: { value, id: 'historyNoteLg1' } })
 								}
 							/>
@@ -273,7 +273,7 @@ class OperationsSerieEdition extends Component {
 							<label htmlFor="historyNoteLg2">{D2.history}</label>
 							<EditorMarkdown
 								text={serie.historyNoteLg2}
-								handleChange={value =>
+								handleChange={(value) =>
 									this.onChange({ target: { value, id: 'historyNoteLg2' } })
 								}
 							/>
@@ -287,10 +287,10 @@ class OperationsSerieEdition extends Component {
 									placeholder=""
 									unclearable
 									value={serie.typeCode}
-									options={categories.codes.map(cat => {
+									options={categories.codes.map((cat) => {
 										return { value: cat.code, label: cat.labelLg1 };
 									})}
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange({
 											target: { value, id: 'typeCode' },
 										})
@@ -307,10 +307,10 @@ class OperationsSerieEdition extends Component {
 									placeholder=""
 									unclearable
 									value={serie.accrualPeriodicityCode}
-									options={frequencies.codes.map(cat => {
+									options={frequencies.codes.map((cat) => {
 										return { value: cat.code, label: cat.labelLg1 };
 									})}
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange({
 											target: { value, id: 'accrualPeriodicityCode' },
 										})
@@ -328,10 +328,10 @@ class OperationsSerieEdition extends Component {
 									unclearable
 									value={serie.creator}
 									options={organisationsOptions}
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange({
 											target: {
-												value: value.map(v => {
+												value: value.map((v) => {
 													return v.value;
 												}),
 												id: 'creator',
@@ -352,10 +352,10 @@ class OperationsSerieEdition extends Component {
 									unclearable
 									value={serie.contributor}
 									options={organisationsOptions}
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange({
 											target: {
-												value: value.map(v => {
+												value: value.map((v) => {
 													return { id: v.value };
 												}),
 												id: 'contributor',
@@ -376,10 +376,10 @@ class OperationsSerieEdition extends Component {
 									unclearable
 									value={serie.dataCollector}
 									options={organisationsOptions}
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange({
 											target: {
-												value: value.map(v => {
+												value: value.map((v) => {
 													return { id: v.value };
 												}),
 												id: 'dataCollector',
@@ -401,11 +401,11 @@ class OperationsSerieEdition extends Component {
 									multi
 									value={serie.proprietaires}
 									options={stampsOptions}
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange({
 											target: {
-												value: value.map(v => v.value),
-												id: 'gestionnaires',
+												value: value.map((v) => v.value),
+												id: 'proprietaires',
 											},
 										})
 									}
@@ -423,10 +423,10 @@ class OperationsSerieEdition extends Component {
 									unclearable
 									value={serie.replaces}
 									options={seriesOptions}
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange({
 											target: {
-												value: value.map(v => {
+												value: value.map((v) => {
 													return { id: v.value, type: v.type };
 												}),
 												id: 'replaces',
@@ -447,10 +447,10 @@ class OperationsSerieEdition extends Component {
 									unclearable
 									value={serie.replacedBy}
 									options={seriesOptions}
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange({
 											target: {
-												value: value.map(v => {
+												value: value.map((v) => {
 													return { id: v.value, type: v.type };
 												}),
 												id: 'isReplacedBy',
@@ -487,10 +487,10 @@ class OperationsSerieEdition extends Component {
 									placeholder=""
 									value={serie.seeAlso}
 									options={seriesAndIndicatorsOptions}
-									onChange={value =>
+									onChange={(value) =>
 										this.onChange({
 											target: {
-												value: value.map(v => {
+												value: value.map((v) => {
 													return { id: v.value, type: v.type };
 												}),
 												id: 'seeAlso',

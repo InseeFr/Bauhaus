@@ -104,7 +104,7 @@ function OperationsIndicatorVisualization(props) {
 					allowEmpty={true}
 				/>
 			</div>
-			<div className="row" data-cy="gestionnaires">
+			<div className="row" data-cy="proprietaires">
 				<Note
 					text={
 						<ul>
