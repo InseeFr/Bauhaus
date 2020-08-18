@@ -4,6 +4,7 @@ import Picker from 'js/applications/shared/picker-page';
 import check from 'js/utils/auth';
 import D from 'js/i18n';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
+import { PublishButton } from '@inseefr/wilco';
 
 class ConceptsToValidate extends Component {
 	constructor(props) {
@@ -38,7 +39,10 @@ class ConceptsToValidate extends Component {
 
 	render() {
 		const { modalValid, idWithValid } = this.state;
-		const { concepts, permission: { authType, roles, stamp } } = this.props;
+		const {
+			concepts,
+			permission: { authType, roles, stamp },
+		} = this.props;
 		const authImpl = check(authType);
 
 		const modalButtons = [
@@ -66,7 +70,7 @@ class ConceptsToValidate extends Component {
 					title={D.conceptsToValidTitle}
 					panelTitle={D.conceptsToValidPanelTitle}
 					labelWarning={D.hasNotConceptToValid}
-					labelValidateButton={D.btnValid}
+					ValidationButton={PublishButton}
 					handleAction={this.handleClickValidation}
 					context="concepts"
 				/>
