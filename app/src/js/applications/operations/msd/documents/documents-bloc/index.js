@@ -46,16 +46,16 @@ export function DocumentsBloc({
 
 	const [baseURI, setBaseURI] = useState('');
 	useEffect(() => {
-		API.getBaseURI().then(uri => setBaseURI(uri));
+		API.getBaseURI().then((uri) => setBaseURI(uri));
 	});
 
 	const currentDocuments = ArrayUtils.sortArray(`labelLg1`)(documents);
-	const currentDocumentsIds = currentDocuments.map(doc => doc.uri);
+	const currentDocumentsIds = currentDocuments.map((doc) => doc.uri);
 
 	const otherDocuments = ArrayUtils.sortArray(`labelLg1`)(
 		documentStores
-			.filter(document => !currentDocumentsIds.includes(document.uri))
-			.filter(document =>
+			.filter((document) => !currentDocumentsIds.includes(document.uri))
+			.filter((document) =>
 				['', document.labelLg1, document.labelLg2]
 					.join()
 					.toLowerCase()
@@ -71,13 +71,13 @@ export function DocumentsBloc({
 				new Date(document.updatedDate)
 			);
 		}
-		return [document.lang, updatedDate].filter(val => !!val).join('-');
+		return [document.lang, updatedDate].filter((val) => !!val).join('-');
 	}
 
 	/**
 	 * @param {import('js/types').SimsDocuments} document
 	 */
-	const defaultBtnBlocFunction = document => (
+	const defaultBtnBlocFunction = (document) => (
 		<button
 			type="button"
 			className="documentsbloc__delete documentsbloc__btn"
@@ -125,7 +125,7 @@ export function DocumentsBloc({
 			{(documents.length > 0 || editMode) && <h4>{title}</h4>}
 			{documents && documents.length > 0 && (
 				<ul className="documentsbloc list-group">
-					{currentDocuments.map(document => displayHTMLForDocument(document))}
+					{currentDocuments.map((document) => displayHTMLForDocument(document))}
 				</ul>
 			)}
 			{editMode && !isSecondLang && (
@@ -162,12 +162,12 @@ export function DocumentsBloc({
 									id="documentFilter"
 									placeholder={D.search}
 									value={filter}
-									onChange={e => setFilter(e.target.value)}
+									onChange={(e) => setFilter(e.target.value)}
 								/>
 							</div>
 							<ul className="documentsbloc__filepicker">
-								{otherDocuments.map(document => {
-									return displayHTMLForDocument(document, document => (
+								{otherDocuments.map((document) => {
+									return displayHTMLForDocument(document, (document) => (
 										<button
 											type="button"
 											className="documentsbloc__delete documentsbloc__btn"
@@ -190,10 +190,10 @@ export function DocumentsBloc({
 	);
 }
 
-const DocumentsBlocContainer = props => {
+const DocumentsBlocContainer = (props) => {
 	useEffect(() => {
 		if (props.documentStoresStatus === NOT_LOADED) {
-			props.loadDocuments();
+			//props.loadDocuments();
 		}
 	}, [props]);
 
