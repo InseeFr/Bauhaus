@@ -52,7 +52,7 @@ const indicator = {
 			type: 'series',
 		},
 	],
-	gestionnaires: [],
+	proprietaires: [],
 	abstractLg1:
 		"En application du décret 2014-114 du 7 février 2014 et de la circulaire du 16 mai 2014 (BOAC 60 de septembre-octobre 2014 la maîtrise d'ouvrage des index nationaux Bâtiment (BT), Travaux publics (TP) et divers de la construction est transférée à l’Insee. Les index Bâtiment, Travaux publics et divers de la construction ont été annoncés au Journal Officiel le 20 décembre 2014 et publiés le 16 janvier 2015 en base 2010 depuis janvier 2010 à octobre 2014. \nLe changement de base signifie un changement de référence (moyenne de 2010 = 100), mais aussi une mise à jour des pondérations et des conventions méthodologiques. \nCes index sont utilisés pour les actualisations et révisions des prix des marchés de construction.",
 	abstractLg2:
