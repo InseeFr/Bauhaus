@@ -94,8 +94,8 @@ class Picker extends Component {
 			title,
 			panelTitle,
 			labelWarning,
-			labelValidateButton,
 			context,
+			ValidationButton,
 		} = this.props;
 
 		//validation has not been asked yet
@@ -122,16 +122,14 @@ class Picker extends Component {
 		));
 
 		//The user has to add at least one item
-		const message = added.length === 0 && labelWarning;
+		const message = added.length === 0 ? labelWarning : '';
 
 		const controls = (
 			<ActionToolbar>
 				<ReturnButton action={`/${context}`} />
-				<ExportButton
-					label={labelValidateButton}
+				<ValidationButton
 					action={this.handleClickValid}
 					disabled={added.length === 0}
-					offset={message ? 0 : 8}
 				/>
 			</ActionToolbar>
 		);
@@ -168,14 +166,13 @@ Picker.propTypes = {
 	title: PropTypes.string.isRequired,
 	panelTitle: PropTypes.string.isRequired,
 	labelWarning: PropTypes.string.isRequired,
-	labelValidateButton: PropTypes.string.isRequired,
 	items: PropTypes.arrayOf(
 		PropTypes.shape({
 			id: PropTypes.string.isRequired,
 			label: PropTypes.string.isRequired,
 		})
 	), //not required since this component can be created before the items are
-	//loaded
+	ValidationButton: PropTypes.func,
 	handleAction: PropTypes.func.isRequired,
 	context: PropTypes.oneOf([
 		'',
@@ -184,6 +181,9 @@ Picker.propTypes = {
 		'classifications',
 		'operations',
 	]).isRequired,
+};
+Picker.defaultProps = {
+	ValidationButton: ExportButton,
 };
 
 export default Picker;

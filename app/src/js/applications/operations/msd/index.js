@@ -65,7 +65,7 @@ class MSDContainer extends Component {
 		return this.props[mapToParentType[parentType].load](id);
 	}
 
-	goBackCallback = url => {
+	goBackCallback = (url) => {
 		this.props.history.push(url);
 	};
 
@@ -78,6 +78,9 @@ class MSDContainer extends Component {
 		}
 		if (!this.props.isParentLoaded) {
 			this._loadParent(this.props.idParent);
+		}
+		if (!this.props.geographiesLoaded) {
+			this.props.loadGeographies();
 		}
 	}
 
@@ -229,6 +232,7 @@ export const mapStateToProps = (state, ownProps) => {
 	}
 
 	return {
+		geographiesLoaded: Stores.Geographies.isLoaded(state),
 		langs: select.getLangs(state),
 		secondLang: Stores.SecondLang.getSecondLang(state),
 		metadataStructure,
@@ -251,11 +255,9 @@ const mapDispatchToProps = {
 	loadSerie,
 	loadIndicator,
 	publishSims,
+	loadGeographies: Stores.Geographies.loadGeographies,
 };
 
 export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(MSDContainer)
+	connect(mapStateToProps, mapDispatchToProps)(MSDContainer)
 );

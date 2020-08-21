@@ -10,21 +10,22 @@ import ApplicationTitle from 'js/applications/shared/application-title';
 
 import '@inseefr/wilco/dist/index.css';
 import '@inseefr/iam/dist/index.css';
-import 'bauhaus-utilities/dist/index.css';
+import 'bauhaus-operations/dist/index.css';
 import 'bauhaus-structures/dist/index.css';
+import 'bauhaus-utilities/dist/index.css';
 
 import 'main.scss';
 
 export const AppContext = createContext({});
 Api.getInit()
 	.then(
-		res => (res.ok ? res.json() : Promise.reject(res.statusText)),
-		err => {
+		(res) => (res.ok ? res.json() : Promise.reject(res.statusText)),
+		(err) => {
 			renderApp(Error, {}, { home: true });
 			return Promise.reject(err.toString());
 		}
 	)
-	.then(res => renderApp(Root, res));
+	.then((res) => renderApp(Root, res));
 
 const renderApp = (Component, initState, props) => {
 	document.querySelector('html').setAttribute('lang', getLang());

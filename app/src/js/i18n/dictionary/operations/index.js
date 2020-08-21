@@ -9,13 +9,9 @@ const dictionary = {
 		fr: 'Familles',
 		en: 'Families',
 	},
-	operationsContributorTitle: {
-		fr: 'Gestionnaire',
-		en: 'Administrator',
-	},
 	creatorTitle: {
-		fr: 'Propriétaire',
-		en: 'Owner',
+		fr: 'Propriétaires',
+		en: 'Owners',
 	},
 	seriesTitle: {
 		fr: 'Séries',
@@ -146,6 +142,7 @@ const dictionary = {
 		en: 'Value',
 		fr: 'Valeur',
 	},
+
 	helpPresentational: {
 		en: 'Presentational attribut',
 		fr: 'Attribut présentationnel',

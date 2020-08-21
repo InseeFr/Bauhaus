@@ -15,7 +15,7 @@ import * as select from 'js/reducers';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
-const filterGestionnaire = ArrayUtils.filterKeyDeburr(['gestionnaires']);
+const filterGestionnaire = ArrayUtils.filterKeyDeburr(['proprietaires']);
 const fields = [
 	'prefLabelLg1',
 	'typeCode',
@@ -39,7 +39,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 		super(props, SearchFormList.defaultState);
 	}
 
-	handlers = this.handleChange(fields, newState => {
+	handlers = this.handleChange(fields, (newState) => {
 		const {
 			prefLabelLg1,
 			typeCode,
@@ -50,7 +50,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 		return this.props.data
 			.filter(filterLabel(prefLabelLg1))
 			.filter(filterTypeCode(typeCode))
-			.filter(series => {
+			.filter((series) => {
 				const creators = series.creator || [];
 				// For retrocompatibility
 				const formattedCreators = Array.isArray(creators)
@@ -58,15 +58,15 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 					: [creators];
 				return (
 					!creator ||
-					formattedCreators.map(creator => creator.id).includes(creator)
+					formattedCreators.map((creator) => creator.id).includes(creator)
 				);
 			})
 			.filter(filterGestionnaire(gestionnaire))
-			.filter(series => {
+			.filter((series) => {
 				return (
 					!dataCollector ||
 					(series.dataCollector || [])
-						.map(collector => collector.id)
+						.map((collector) => collector.id)
 						.includes(dataCollector)
 				);
 			});
@@ -83,7 +83,10 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 		} = this.state;
 		const { categories, organisations, stamps } = this.props;
 		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
-		const stampsOptions = stamps.map(stamp => ({ value: stamp, label: stamp }));
+		const stampsOptions = stamps.map((stamp) => ({
+			value: stamp,
+			label: stamp,
+		}));
 
 		const dataLinks = data.map(({ id, prefLabelLg1 }) => (
 			<li key={id} className="list-group-item">
@@ -103,7 +106,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 							{D.labelTitle}
 							<input
 								value={prefLabelLg1}
-								onChange={e => this.handlers.prefLabelLg1(e.target.value)}
+								onChange={(e) => this.handlers.prefLabelLg1(e.target.value)}
 								type="text"
 								className="form-control"
 							/>
@@ -118,12 +121,12 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 							<Select
 								placeholder=""
 								value={
-									categories.codes.find(code => code.value === typeCode) || ''
+									categories.codes.find((code) => code.value === typeCode) || ''
 								}
-								options={categories.codes.map(cat => {
+								options={categories.codes.map((cat) => {
 									return { value: cat.code, label: cat.labelLg1 };
 								})}
-								onChange={value => {
+								onChange={(value) => {
 									this.handlers.typeCode(value);
 								}}
 							/>
@@ -133,15 +136,16 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 				<div className="form-group row">
 					<div className="col-md-12">
 						<label htmlFor="typeOperation" className="w-100">
-							{D.contributorTitle}
+							{D.creatorTitle}
 
 							<Select
 								placeholder=""
 								value={
-									stampsOptions.find(code => code.value === gestionnaire) || ''
+									stampsOptions.find((code) => code.value === gestionnaire) ||
+									''
 								}
 								options={stampsOptions}
-								onChange={value => {
+								onChange={(value) => {
 									this.handlers.gestionnaire(value);
 								}}
 							/>
@@ -156,11 +160,11 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 							<Select
 								placeholder=""
 								value={
-									organisationsOptions.find(code => code.value === creator) ||
+									organisationsOptions.find((code) => code.value === creator) ||
 									''
 								}
 								options={organisationsOptions}
-								onChange={value => {
+								onChange={(value) => {
 									this.handlers.creator(value);
 								}}
 							/>
@@ -174,11 +178,11 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 								placeholder=""
 								value={
 									organisationsOptions.find(
-										code => code.value === dataCollector
+										(code) => code.value === dataCollector
 									) || ''
 								}
 								options={organisationsOptions}
-								onChange={value => {
+								onChange={(value) => {
 									this.handlers.dataCollector(value);
 								}}
 							/>
@@ -195,7 +199,7 @@ class SearchListContainer extends Component {
 		this.state = {};
 	}
 	componentWillMount() {
-		api.getSeriesSearchList().then(data => {
+		api.getSeriesSearchList().then((data) => {
 			this.setState({ data: sortByLabel(data) });
 		});
 	}
@@ -215,7 +219,7 @@ class SearchListContainer extends Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
 	const categories =
 		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
 	return {

@@ -14,7 +14,7 @@ import * as select from 'js/reducers';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
-const filterGestionnaire = ArrayUtils.filterKeyDeburr(['gestionnaires']);
+const filterGestionnaire = ArrayUtils.filterKeyDeburr(['proprietaires']);
 
 const fields = ['prefLabelLg1', 'creator', 'gestionnaire'];
 const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
@@ -30,7 +30,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 		super(props, SearchFormList.defaultState);
 	}
 
-	handlers = this.handleChange(fields, newState => {
+	handlers = this.handleChange(fields, (newState) => {
 		const { prefLabelLg1, creator, gestionnaire } = newState;
 		return this.props.data
 			.filter(filterCreator(creator))
@@ -43,7 +43,10 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 		const { organisations, stamps } = this.props;
 
 		const creatorsOptions = ItemToSelectModel.toSelectModel(organisations);
-		const stampsOptions = stamps.map(stamp => ({ value: stamp, label: stamp }));
+		const stampsOptions = stamps.map((stamp) => ({
+			value: stamp,
+			label: stamp,
+		}));
 		const dataLinks = data.map(({ id, prefLabelLg1 }) => (
 			<li key={id} className="list-group-item">
 				<Link to={`/operations/indicator/${id}`}>{prefLabelLg1}</Link>
@@ -62,7 +65,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 							{D.searchLabelPlaceholder}
 							<input
 								value={prefLabelLg1}
-								onChange={e => this.handlers.prefLabelLg1(e.target.value)}
+								onChange={(e) => this.handlers.prefLabelLg1(e.target.value)}
 								type="text"
 								className="form-control"
 							/>
@@ -77,10 +80,11 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 							<Select
 								placeholder=""
 								value={
-									creatorsOptions.find(option => option.value === creator) || ''
+									creatorsOptions.find((option) => option.value === creator) ||
+									''
 								}
 								options={creatorsOptions}
-								onChange={value => {
+								onChange={(value) => {
 									this.handlers.creator(value);
 								}}
 							/>
@@ -88,16 +92,17 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 					</div>
 					<div className="col-md-6">
 						<label htmlFor="typeOperation" className="w-100">
-							{D.operationsContributorTitle}
+							{D.creatorTitle}
 
 							<Select
 								placeholder=""
 								value={
-									stampsOptions.find(option => option.value === gestionnaire) ||
-									''
+									stampsOptions.find(
+										(option) => option.value === gestionnaire
+									) || ''
 								}
 								options={stampsOptions}
-								onChange={value => {
+								onChange={(value) => {
 									this.handlers.gestionnaire(value);
 								}}
 							/>
@@ -114,7 +119,7 @@ class SearchListContainer extends Component {
 		this.state = {};
 	}
 	componentDidMount() {
-		api.getIndicatorsSearchList().then(data => {
+		api.getIndicatorsSearchList().then((data) => {
 			this.setState({ data: sortByLabel(data) });
 		});
 	}
@@ -134,7 +139,7 @@ class SearchListContainer extends Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
 	return {
 		organisations: state.operationsOrganisations.results,
 		stamps: select.getStampList(state) || [],
