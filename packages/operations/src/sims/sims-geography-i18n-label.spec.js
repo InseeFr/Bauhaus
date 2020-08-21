@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 describe('<SimsGeographyI18NLabel />', () => {
 	it('should render labels for both langs', () => {
 		const geography = {
-			labelLg1: 'labelLg1',
+			label: 'labelLg1',
 			labelLg2: 'labelLg2',
 			typeTerritory: 'typeTerritory',
 		};

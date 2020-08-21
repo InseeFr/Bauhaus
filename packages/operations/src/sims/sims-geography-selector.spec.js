@@ -55,20 +55,4 @@ describe('<SimsGeographySelector />', () => {
 		);
 		expect(container.querySelectorAll('button')).toHaveLength(2);
 	});
-	it('should not display delete button if readOnly=true', () => {
-		const includes = [
-			{ labelLg1: 'labelLg1', labelLg2: 'labelLg2', value: '1' },
-		];
-		const excludes = [
-			{ labelLg1: 'labelLg1', labelLg2: 'labelLg2', value: '1' },
-		];
-		const { container } = render(
-			<SimsGeographySelector
-				includes={includes}
-				excludes={excludes}
-				readOnly={true}
-			/>
-		);
-		expect(container.querySelectorAll('button')).toHaveLength(0);
-	});
 });
