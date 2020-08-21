@@ -28,13 +28,14 @@ export default combineReducers({
 	...operationsReducers,
 	...codesListReducers,
 	...organisationsReducers,
-
+	geographies: Stores.Geographies.reducer,
 	remoteCalls,
 });
 
-export const getConceptList = state => getItems(state.conceptList);
-export const getConceptSearchList = state => getItems(state.conceptSearchList);
-export const getConceptValidateList = state =>
+export const getConceptList = (state) => getItems(state.conceptList);
+export const getConceptSearchList = (state) =>
+	getItems(state.conceptSearchList);
+export const getConceptValidateList = (state) =>
 	getItems(state.conceptToValidateList);
 
 export const getConceptGeneral = (state, id) =>
@@ -64,10 +65,10 @@ export function getConcept(state, id) {
 	};
 }
 
-export const getCollectionList = state => getItems(state.collectionList);
-export const getCollectionDashboardList = state =>
+export const getCollectionList = (state) => getItems(state.collectionList);
+export const getCollectionDashboardList = (state) =>
 	getItems(state.collectionDashboardList);
-export const getCollectionValidateList = state =>
+export const getCollectionValidateList = (state) =>
 	getItems(state.collectionToValidateList);
 
 export const getCollectionGeneral = (state, id) =>
@@ -86,13 +87,13 @@ export function getCollection(state, id) {
 	};
 }
 
-export const getDisseminationStatusList = state =>
+export const getDisseminationStatusList = (state) =>
 	getItems(state.disseminationStatusList);
-export const getStampList = state => getItems(state.stampList);
-export const getRoleList = state => getItems(state.roleList);
-export const getAgentList = state => getItems(state.agentList);
+export const getStampList = (state) => getItems(state.stampList);
+export const getRoleList = (state) => getItems(state.roleList);
+export const getAgentList = (state) => getItems(state.agentList);
 
-export const getLangs = state => {
+export const getLangs = (state) => {
 	const { lg1, lg2 } = state.app;
 	return { lg1, lg2 };
 };
@@ -103,40 +104,40 @@ export const getStatus = (state, op) =>
 export const getError = (state, op) =>
 	Stores.RemoteCalls.getError(state.remoteCalls, op);
 
-export const getNewlyCreatedId = state =>
+export const getNewlyCreatedId = (state) =>
 	Stores.RemoteCalls.getNewlyCreatedId(state.remoteCalls);
 
-export const getFamily = state => {
+export const getFamily = (state) => {
 	return state.operationsFamiliesCurrent || {};
 };
 
-export const getSerie = state => {
+export const getSerie = (state) => {
 	return state.operationsSeriesCurrent || {};
 };
-export const getSeries = state => {
+export const getSeries = (state) => {
 	return state.operationsSeriesList || {};
 };
 
-export const getFamilies = state => {
+export const getFamilies = (state) => {
 	return state.operationsFamiliesList || {};
 };
 
-export const getIndicators = state => {
+export const getIndicators = (state) => {
 	return state.operationsIndicatorsList || {};
 };
 
-export const getOperations = state => {
+export const getOperations = (state) => {
 	return state.operationsOperationsList || {};
 };
 
-export const getOperation = state => {
+export const getOperation = (state) => {
 	return state.operationsOperationsCurrent || {};
 };
 
-export const getIndicator = state => {
+export const getIndicator = (state) => {
 	return state.operationsIndicatorsCurrent || {};
 };
 
-export const getOperationsSimsCurrent = state => {
+export const getOperationsSimsCurrent = (state) => {
 	return state.operationsSimsCurrent || {};
 };

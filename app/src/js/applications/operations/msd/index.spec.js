@@ -21,6 +21,7 @@ describe('', () => {
 				lg1: 'lg1',
 				lg2: 'lg2',
 			},
+			geographies: {},
 		};
 
 		const props = {
@@ -51,6 +52,7 @@ describe('', () => {
 				prefLabelLg1: 'prefLabelLg1',
 				prefLabelLg2: 'prefLabelLg2',
 			},
+			geographies: {},
 		};
 
 		const props = {
@@ -84,6 +86,7 @@ describe('', () => {
 				id: 1,
 				idOperation: 2,
 			},
+			geographies: {},
 		};
 
 		const props = {
@@ -112,6 +115,7 @@ describe('', () => {
 				lg1: 'lg1',
 				lg2: 'lg2',
 			},
+			geographies: {},
 		};
 
 		const props = {

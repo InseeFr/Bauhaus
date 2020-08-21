@@ -69,8 +69,8 @@ class SimsCreation extends React.Component {
 		};
 	}
 
-	handleChange = e => {
-		this.setState(state => ({
+	handleChange = (e) => {
+		this.setState((state) => ({
 			...state,
 			sims: {
 				...state.sims,
@@ -82,13 +82,13 @@ class SimsCreation extends React.Component {
 		}));
 	};
 
-	updateIdParent = value => {
+	updateIdParent = (value) => {
 		this.setState({
 			idParent: value,
 		});
 	};
 
-	handleSubmit = e => {
+	handleSubmit = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
 
@@ -100,7 +100,7 @@ class SimsCreation extends React.Component {
 				labelLg1: this.props.mode !== DUPLICATE ? this.props.sims.labelLg1 : '',
 				labelLg2: this.props.mode !== DUPLICATE ? this.props.sims.labelLg2 : '',
 				[getParentIdName(this.props.parentType)]: this.state.idParent,
-				rubrics: Object.values(this.state.sims).map(rubric => {
+				rubrics: Object.values(this.state.sims).map((rubric) => {
 					if (rubric.rangeType === 'RICH_TEXT') {
 						return {
 							...rubric,
@@ -115,7 +115,7 @@ class SimsCreation extends React.Component {
 					return rubric;
 				}),
 			},
-			id => {
+			(id) => {
 				this.setState({ saving: false });
 				this.props.goBack(`/operations/sims/${id}`);
 			}
@@ -139,10 +139,11 @@ class SimsCreation extends React.Component {
 			mode,
 			langs: { lg1, lg2 },
 			organisations = [],
+			geographiesOptions = [],
 		} = this.props;
 
 		const organisationsOptions = ArrayUtils.sortArrayByLabel(
-			organisations.map(c => ({
+			organisations.map((c) => ({
 				label: c.label,
 				value: c.id,
 			}))
@@ -150,7 +151,7 @@ class SimsCreation extends React.Component {
 
 		const { sims, idParent } = this.state;
 		const operationsOptions = (this.props.sims.parentsWithoutSims || []).map(
-			op => ({
+			(op) => ({
 				label: op.labelLg1,
 				value: op.id,
 			})
@@ -181,6 +182,7 @@ class SimsCreation extends React.Component {
 								lang={lg1}
 								alone={!hasLabelLg2(msd) || !secondLang}
 								organisationsOptions={organisationsOptions}
+								geographiesOptions={geographiesOptions}
 								unbounded={msd.maxOccurs === 'unbounded'}
 							/>
 						)}
@@ -205,7 +207,7 @@ class SimsCreation extends React.Component {
 							/>
 						)}
 					</div>
-					{Object.values(msd.children).map(child =>
+					{Object.values(msd.children).map((child) =>
 						MSDInformations(child, handleChange)
 					)}
 				</React.Fragment>
