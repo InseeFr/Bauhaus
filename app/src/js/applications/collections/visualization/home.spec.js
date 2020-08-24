@@ -7,7 +7,11 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
-const store = mockStore({});
+const store = mockStore({
+	app: {
+		secondLang: true,
+	},
+});
 
 describe('collection-visualization', () => {
 	it('renders without crashing', () => {
