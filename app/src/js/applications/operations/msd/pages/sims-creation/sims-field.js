@@ -5,14 +5,14 @@ import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
 import { EditorMarkdownToolbar, ArrayUtils } from 'bauhaus-utilities';
+import { SimsGeographyPicker } from 'bauhaus-operations';
 import { Editor } from 'react-draft-wysiwyg';
-import SimsGeographyField from './sims-geography-field';
 import { Note, getLang, Select } from '@inseefr/wilco';
 import './sims-field.scss';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 
-const SimsCodeListSelect = props => {
+const SimsCodeListSelect = (props) => {
 	let value;
 	let onChange;
 
@@ -29,7 +29,7 @@ const SimsCodeListSelect = props => {
 		value = props.options.filter(({ value }) =>
 			currentSectionValue.includes(value)
 		);
-		onChange = values => {
+		onChange = (values) => {
 			props.onChange((values || []).map(({ value }) => value));
 		};
 	}
@@ -63,13 +63,13 @@ class Field extends PureComponent {
 		});
 	}
 
-	handleTextInput = value => {
+	handleTextInput = (value) => {
 		this._handleChange({
 			[this.props.secondLang ? 'labelLg2' : 'labelLg1']: value,
 		});
 	};
 
-	handleCodeListInput = value => {
+	handleCodeListInput = (value) => {
 		this._handleChange({ codeList: this.props.msd.codeList, value });
 	};
 
@@ -86,7 +86,7 @@ class Field extends PureComponent {
 		const codesList = this.props.codesLists[msd.codeList] || {};
 		const codes = codesList.codes || [];
 		const codesListOptions = ArrayUtils.sortArrayByLabel(
-			codes.map(c => ({
+			codes.map((c) => ({
 				label: c.labelLg1,
 				value: c.code,
 			}))
@@ -167,7 +167,12 @@ class Field extends PureComponent {
 								/>
 							)}
 
-							{msd.rangeType === GEOGRAPHY && <SimsGeographyField />}
+							{msd.rangeType === GEOGRAPHY && (
+								<SimsGeographyPicker
+									value={currentSection.value}
+									onChange={this.handleCodeListInput}
+								/>
+							)}
 						</span>
 					)
 				}

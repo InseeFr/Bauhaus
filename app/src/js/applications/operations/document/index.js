@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Loading } from '@inseefr/wilco';
 import DocumentHome from './home';
 import { connect } from 'react-redux';
@@ -10,18 +10,19 @@ import {
 import loadDocuments from 'js/actions/operations/documents/list';
 import { ArrayUtils } from 'bauhaus-utilities';
 
-class OperationsDocumentsContainer extends Component {
-	componentWillMount() {
-		if (this.props.documentStoresStatus !== LOADED) {
-			this.props.loadDocuments();
+const OperationsDocumentsContainer = ({
+	documentStores,
+	documentStoresStatus,
+	loadDocuments,
+}) => {
+	useEffect(() => {
+		if (documentStoresStatus !== LOADED) {
+			loadDocuments();
 		}
-	}
-	render() {
-		const { documentStores, documentStoresStatus } = this.props;
-		if (documentStoresStatus !== LOADED) return <Loading />;
-		return <DocumentHome documents={documentStores} />;
-	}
-}
+	}, [documentStoresStatus, loadDocuments]);
+	if (documentStoresStatus !== LOADED) return <Loading />;
+	return <DocumentHome documents={documentStores} />;
+};
 
 export const mapStateToProps = state => {
 	return {

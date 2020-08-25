@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
@@ -14,10 +14,14 @@ import {
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
 } from 'js/utils/auth/roles';
-import { FilterToggleButtons } from 'bauhaus-utilities';
+import { FilterToggleButtons, useQueryParam } from 'bauhaus-utilities';
+import { useHistory } from 'react-router-dom';
 
 function DocumentHome({ documents }) {
-	const [filter, setFilter] = useState(BOTH);
+	const history = useHistory();
+	const queryMode = useQueryParam('mode');
+
+	const [filter, setFilter] = useState(queryMode || BOTH);
 	const filteredDocuments = documents.filter(document => {
 		return (
 			filter === BOTH ||
@@ -25,6 +29,14 @@ function DocumentHome({ documents }) {
 			(filter === LINK && isLink(document))
 		);
 	});
+
+	const onFilter = useCallback(
+		mode => {
+			setFilter(mode);
+			history.push(window.location.pathname + '?page=1&mode=' + mode);
+		},
+		[history]
+	);
 
 	return (
 		<div className="container documents-home">
@@ -34,8 +46,9 @@ function DocumentHome({ documents }) {
 						{[
 							['/operations/document/create', D.document],
 							['/operations/link/create', D.link],
-						].map(([url, title]) => (
+						].map(([url, title], index) => (
 							<NewButton
+								key={index}
 								action={url}
 								wrapper={false}
 								label={`${D.btnNewMale} ${title}`}
@@ -48,7 +61,7 @@ function DocumentHome({ documents }) {
 					<PageTitle title={D.documentsSearchTitle} col={12} offset={0} />
 					<FilterToggleButtons
 						currentValue={filter}
-						handleSelection={setFilter}
+						handleSelection={onFilter}
 						options={[
 							[DOCUMENT, D.titleDocument],
 							[BOTH, `${D.titleDocument} / ${D.titleLink}`],

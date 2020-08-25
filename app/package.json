@@ -28,6 +28,7 @@
 		"@inseefr/wilco": "0.0.5",
 		"axios": "^0.19.0",
 		"bauhaus-structures": "^0.0.0",
+		"bauhaus-operations": "^0.0.0",
 		"bootstrap": "3.4.1",
 		"create-react-class": "^15.6.3",
 		"dompurify": "2.0.8",
@@ -57,7 +58,6 @@
 		"cypress-axe": "0.8.1",
 		"lcov-result-merger": "^3.1.0",
 		"node-sass": "4.14.1",
-		"prettier": "1.18.2",
 		"redux-mock-store": "^1.5.4",
 		"start-server-and-test": "1.11.0",
 		"term-size": "^1.2.0"

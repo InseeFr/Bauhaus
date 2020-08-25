@@ -24,14 +24,14 @@ function OperationsSerieVisualization({
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
 	const creator = formatCreator(attr.creator).map(
-		d => organisations.find(orga => orga.id === d) || {}
+		(d) => organisations.find((orga) => orga.id === d) || {}
 	);
 
 	const dataCollector = (attr.dataCollector || []).map(
-		d => organisations.find(orga => orga.id === d.id) || {}
+		(d) => organisations.find((orga) => orga.id === d.id) || {}
 	);
 	const contributor = (attr.contributor || []).map(
-		d => organisations.find(orga => orga.id === d.id) || {}
+		(d) => organisations.find((orga) => orga.id === d.id) || {}
 	);
 	return (
 		<React.Fragment>
@@ -179,7 +179,7 @@ function OperationsSerieVisualization({
 				<Note
 					text={
 						<ul>
-							{attr.gestionnaires.map((g, index) => (
+							{attr.proprietaires.map((g, index) => (
 								<li key={index}>{g}</li>
 							))}
 						</ul>

@@ -34,6 +34,7 @@
 		"jwt-decode": "2.2.0",
 		"lodash.deburr": "^4.1.0",
 		"react-draft-wysiwyg": "^1.14.4",
-		"react-is": "^16.13.1"
+		"react-is": "^16.13.1",
+		"reselect": "^4.0.0"
 	}
 }

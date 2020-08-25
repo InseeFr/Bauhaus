@@ -41,3 +41,5 @@ export { default as PageTitleBlock } from './components/page-title-block';
 export {
 	default as ConfirmationDelete,
 } from './components/confirmation-delete';
+
+export { useQueryParam } from './utils/hooks';
