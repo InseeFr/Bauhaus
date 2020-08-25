@@ -52,3 +52,12 @@
 		}
 	}
 }
+
+.bauhaus-sims-field {
+	display: flex;
+	flex-direction: column;
+	.bauhaus-sims-field-form {
+		display: flex;
+		flex-direction: row;
+	}
+}
