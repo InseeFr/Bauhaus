@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import CollectionsToExport from './home';
@@ -9,43 +9,41 @@ import exportCollectionList from 'js/actions/collections/export-multi';
 import loadCollectionList from 'js/actions/collections/list';
 import { OK } from 'js/constants';
 
-class CollectionsToExportContainer extends Component {
-	constructor() {
-		super();
-		this.state = {
-			exportRequested: false,
-		};
-		this.handleExportCollectionList = (ids, MimeType) => {
-			this.props.exportCollectionList(ids, MimeType);
-			this.setState({
-				exportRequested: true,
-			});
-		};
-	}
+const CollectionsToExportContainer = ({
+	collections,
+	exportStatus,
+	loadCollectionList,
+	exportCollectionList,
+}) => {
+	const [exportRequested, setExportRequested] = useState(false);
 
-	componentWillMount() {
-		if (!this.props.collections) this.props.loadCollectionList();
-	}
+	const handleExportCollectionList = useCallback(
+		(ids, MimeType) => {
+			exportCollectionList(ids, MimeType);
+			setExportRequested(true);
+		},
+		[exportCollectionList]
+	);
 
-	render() {
-		const { collections, exportStatus } = this.props;
-		const { exportRequested } = this.state;
-		if (exportRequested) {
-			if (exportStatus === OK) {
-				return <Redirect to="/collections" />;
-			}
-			return <Loading textType="exporting" />;
+	useEffect(() => {
+		if (!collections) loadCollectionList();
+	}, [collections, loadCollectionList]);
+
+	if (exportRequested) {
+		if (exportStatus === OK) {
+			return <Redirect to="/collections" />;
 		}
-
-		if (!collections) return <Loading />;
-		return (
-			<CollectionsToExport
-				collections={collections}
-				handleExportCollectionList={this.handleExportCollectionList}
-			/>
-		);
+		return <Loading textType="exporting" />;
 	}
-}
+
+	if (!collections) return <Loading />;
+	return (
+		<CollectionsToExport
+			collections={collections}
+			handleExportCollectionList={handleExportCollectionList}
+		/>
+	);
+};
 
 const mapStateToProps = state => ({
 	collections: select.getCollectionList(state),

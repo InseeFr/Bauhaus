@@ -26,7 +26,6 @@ stories.add('Default', () => (
 		title={text('Title', 'Title')}
 		panelTitle={text('Panel title', 'Panel title')}
 		labelWarning={text('Warning', 'Warning')}
-		labelValidateButton={text('Button label', 'Valid')}
 		handleAction={() => console.log('action')}
 		context="concepts"
 	/>

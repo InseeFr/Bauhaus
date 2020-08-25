@@ -16,7 +16,7 @@ const organisations = [
 	},
 ];
 const attr = {
-	gestionnaires: [],
+	proprietaires: [],
 	creator: 'DG75-G001',
 	prefLabelLg1: 'Comptes nationaux trimestriels',
 	prefLabelLg2: 'Quarterly national accounts',

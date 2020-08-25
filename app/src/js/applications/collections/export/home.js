@@ -1,83 +1,79 @@
-import React, { Component } from 'react';
+import React, { useState, useCallback } from 'react';
 import Picker from 'js/applications/shared/picker-page';
 import D from 'js/i18n';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 
-class CollectionsToExport extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			displayModal: false,
-			ids: [],
-		};
-		this.openModal = ids =>
-			this.setState({
-				displayModal: true,
-				ids,
-			});
-		this.closeModal = () =>
-			this.setState({
-				displayModal: false,
-				ids: [],
-			});
-		this.closePdf = () => {
-			this.handleExportCollectionList('application/octet-stream');
-			this.closeModal();
-		};
-		this.closeOdt = () => {
-			this.handleExportCollectionList(
-				'application/vnd.oasis.opendocument.text'
-			);
-			this.closeModal();
-		};
-		this.handleExportCollectionList = MimeType => {
-			this.props.handleExportCollectionList(this.state.ids, MimeType);
-		};
-	}
+const CollectionsToExport = ({ collections, handleExportCollectionList }) => {
+	const [displayModal, setDisplayModal] = useState(false);
+	const [ids, setIds] = useState([]);
 
-	render() {
-		const { collections } = this.props;
-		const { displayModal } = this.state;
+	const handleExportCollectionListCallback = useCallback(
+		MimeType => {
+			handleExportCollectionList(ids, MimeType);
+		},
+		[ids, handleExportCollectionList]
+	);
 
-		const modalButtons = [
-			{
-				label: D.btnCancel,
-				action: this.closeModal,
-				style: 'default',
-			},
-			{
-				label: D.btnPdf,
-				action: this.closePdf,
-				style: 'primary',
-			},
-			{
-				label: D.btnOdt,
-				action: this.closeOdt,
-				style: 'primary',
-			},
-		];
+	const openModal = useCallback(ids => {
+		setDisplayModal(true);
+		setIds(ids);
+	}, []);
 
-		return (
-			<div>
-				<ModalRmes
-					id="export-concept-modal"
-					isOpen={displayModal}
-					title={D.exportModalTitle}
-					body={D.exportModalBody}
-					modalButtons={modalButtons}
-					closeCancel={this.closeModal}
-				/>
-				<Picker
-					items={collections}
-					title={D.exportTitle}
-					panelTitle={D.collectionsExportPanelTitle}
-					labelWarning={D.hasNotCollectionToExport}
-					handleAction={this.openModal}
-					context="collections"
-				/>
-			</div>
+	const closeModal = useCallback(() => {
+		setDisplayModal(false);
+		setIds([]);
+	}, []);
+
+	const closePdf = useCallback(() => {
+		handleExportCollectionListCallback('application/octet-stream');
+		closeModal();
+	}, [closeModal, handleExportCollectionListCallback]);
+
+	const closeOdt = useCallback(() => {
+		handleExportCollectionListCallback(
+			'application/vnd.oasis.opendocument.text'
 		);
-	}
-}
+		closeModal();
+	}, [closeModal, handleExportCollectionListCallback]);
+
+	const modalButtons = [
+		{
+			label: D.btnCancel,
+			action: closeModal,
+			style: 'default',
+		},
+		{
+			label: D.btnPdf,
+			action: closePdf,
+			style: 'primary',
+		},
+		{
+			label: D.btnOdt,
+			action: closeOdt,
+			style: 'primary',
+		},
+	];
+
+	return (
+		<div>
+			<ModalRmes
+				id="export-concept-modal"
+				isOpen={displayModal}
+				title={D.exportModalTitle}
+				body={D.exportModalBody}
+				modalButtons={modalButtons}
+				closeCancel={closeModal}
+			/>
+			<Picker
+				items={collections}
+				title={D.exportTitle}
+				panelTitle={D.collectionsExportPanelTitle}
+				labelWarning={D.hasNotCollectionToExport}
+				handleAction={openModal}
+				context="collections"
+			/>
+		</div>
+	);
+};
 
 export default CollectionsToExport;
