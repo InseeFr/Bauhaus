@@ -9,6 +9,7 @@ import {
 	Note,
 	ActionToolbar,
 	ReturnButton,
+	Panel,
 } from '@inseefr/wilco';
 
 import { PublicationFemale } from 'js/applications/operations/shared/status';
@@ -31,7 +32,7 @@ import {
 } from 'js/utils/auth/roles';
 import Auth from 'js/utils/auth/components/auth';
 import SimsBlock from './sims-block';
-
+import './sims-visualisation.scss';
 const { RICH_TEXT } = rangeType;
 
 export default function SimsVisualisation({
@@ -55,42 +56,33 @@ export default function SimsVisualisation({
 						{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
 					</h3>
 				)}
-				<div className="row" key={msd.idMas} id={msd.idMas}>
+				<div className="sims-row" key={msd.idMas} id={msd.idMas}>
 					{!msd.isPresentational && (
-						<Note
-							title={`${msd.idMas} - ${msd.masLabelLg1}`}
-							text={
-								<SimsBlock
-									msd={msd}
-									isSecondLang={false}
-									currentSection={sims.rubrics[msd.idMas]}
-									unbounded={msd.maxOccurs === 'unbounded'}
-									codesLists={codesLists}
-									organisations={organisations}
-								/>
-							}
-							alone={!(hasLabelLg2(msd) && secondLang)}
-							lang={lg1}
-						/>
+						<Panel title={`${msd.idMas} - ${msd.masLabelLg1}`}>
+							<SimsBlock
+								msd={msd}
+								isSecondLang={false}
+								currentSection={sims.rubrics[msd.idMas]}
+								unbounded={msd.maxOccurs === 'unbounded'}
+								codesLists={codesLists}
+								organisations={organisations}
+							/>
+						</Panel>
 					)}
 					{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
-						<Note
-							title={`${msd.idMas} - ${msd.masLabelLg2}`}
-							text={
-								<SimsBlock
-									msd={msd}
-									isSecondLang={true}
-									currentSection={sims.rubrics[msd.idMas]}
-									unbounded={msd.maxOccurs === 'unbounded'}
-									codesLists={codesLists}
-									organisations={organisations}
-								/>
-							}
-							lang={lg2}
-						/>
+						<Panel title={`${msd.idMas} - ${msd.masLabelLg2}`}>
+							<SimsBlock
+								msd={msd}
+								isSecondLang={true}
+								currentSection={sims.rubrics[msd.idMas]}
+								unbounded={msd.maxOccurs === 'unbounded'}
+								codesLists={codesLists}
+								organisations={organisations}
+							/>
+						</Panel>
 					)}
 				</div>
-				{Object.values(msd.children).map(child => (
+				{Object.values(msd.children).map((child) => (
 					<MSDInformations key={child.idMas} msd={child} />
 				))}
 			</>
@@ -103,7 +95,7 @@ export default function SimsVisualisation({
 	 */
 	const publicationDisabled = HTMLUtils.containUnsupportedStyles(
 		Object.keys(sims.rubrics)
-			.filter(key => sims.rubrics[key].rangeType === RICH_TEXT)
+			.filter((key) => sims.rubrics[key].rangeType === RICH_TEXT)
 			.reduce((acc, key) => {
 				return {
 					...acc,
@@ -115,8 +107,8 @@ export default function SimsVisualisation({
 
 	const [serverSideError, setServerSideError] = useState();
 	const publish = useCallback(
-		object => {
-			publishSims(object, err => {
+		(object) => {
+			publishSims(object, (err) => {
 				if (err) {
 					setServerSideError(err);
 				}
@@ -144,7 +136,7 @@ export default function SimsVisualisation({
 				<Auth roles={[ADMIN, CONTRIBUTOR]}>
 					<ValidationButton
 						object={sims}
-						callback={object => publish(object)}
+						callback={(object) => publish(object)}
 						disabled={publicationDisabled}
 					/>
 				</Auth>
@@ -182,7 +174,7 @@ export default function SimsVisualisation({
 				/>
 			</div>
 
-			{Object.values(metadataStructure).map(msd => {
+			{Object.values(metadataStructure).map((msd) => {
 				if (currentSection && msd.idMas !== currentSection) {
 					return null;
 				}
