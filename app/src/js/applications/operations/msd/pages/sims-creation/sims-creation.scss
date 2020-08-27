@@ -35,6 +35,10 @@
 	@include rich-text(1em);
 }
 
+.bauhaus-sims-creation {
+	display: flex;
+	flex-direction: column;
+}
 .bauhaus-sims-geography-field {
 	display: flex;
 

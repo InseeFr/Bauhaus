@@ -22,12 +22,15 @@ const SimsGeographyPicker = ({ onChange, value }) => {
 	const formatOptionLabel = (geography) => {
 		return <SimsGeographyI18NLabel geography={geography} />;
 	};
+
 	return (
 		<>
 			<div className="bauhaus-sims-geography-picker">
 				<div className="form-group">
 					<ReactSelect
-						value={geographiesOptions.find(({ gValue }) => gValue === value)}
+						value={geographiesOptions.find(
+							({ value: gValue }) => gValue === value
+						)}
 						options={geographiesOptions}
 						onChange={(e) => onChange(e ? e.value : '')}
 						placeholder={''}
