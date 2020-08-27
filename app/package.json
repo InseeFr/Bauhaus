@@ -11,7 +11,7 @@
 	"scripts": {
 		"build": "cross-env REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
 		"build-insee": "cross-env REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build && npm run change-jsonconfig && npm run create-zip",
-		"change-jsonconfig": "echo '{\"bauhaus\":\"+ $BAUHAUS_API_URL + \"}' > ./build/configuration.json",
+		"change-jsonconfig": "echo '{\"bauhaus\":+ $BAUHAUS_API_URL + }' > ./build/configuration.json",
 		"create-zip": "cd build && bestzip build.zip *",
 		"cypress:open": "cypress open",
 		"cypress:run": "cypress run",
