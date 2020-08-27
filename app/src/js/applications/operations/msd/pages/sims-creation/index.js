@@ -165,40 +165,41 @@ class SimsCreation extends React.Component {
 						</h3>
 					)}
 					<div
-						className={`row ${
+						className={`bauhaus-sims-field row ${
 							!secondLang
 								? 'bauhaus-sims-field__' + msd.rangeType
 								: 'bauhaus-sims-field__' + msd.rangeType + '_2col'
 						}`}
 						id={msd.idMas}
 					>
-						{!msd.isPresentational && (
-							<Field
-								msd={msd}
-								currentSection={sims[msd.idMas]}
-								handleChange={handleChange}
-								codesLists={codesLists}
-								secondLang={false}
-								lang={lg1}
-								alone={!hasLabelLg2(msd) || !secondLang}
-								organisationsOptions={organisationsOptions}
-								geographiesOptions={geographiesOptions}
-								unbounded={msd.maxOccurs === 'unbounded'}
-							/>
-						)}
-						{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
-							<Field
-								msd={msd}
-								currentSection={sims[msd.idMas]}
-								handleChange={handleChange}
-								codesLists={codesLists}
-								secondLang={true}
-								lang={lg2}
-								alone={false}
-								organisationsOptions={organisationsOptions}
-							/>
-						)}
-
+						<div className="bauhaus-sims-field-form">
+							{!msd.isPresentational && (
+								<Field
+									msd={msd}
+									currentSection={sims[msd.idMas]}
+									handleChange={handleChange}
+									codesLists={codesLists}
+									secondLang={false}
+									lang={lg1}
+									alone={!hasLabelLg2(msd) || !secondLang}
+									organisationsOptions={organisationsOptions}
+									geographiesOptions={geographiesOptions}
+									unbounded={msd.maxOccurs === 'unbounded'}
+								/>
+							)}
+							{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
+								<Field
+									msd={msd}
+									currentSection={sims[msd.idMas]}
+									handleChange={handleChange}
+									codesLists={codesLists}
+									secondLang={true}
+									lang={lg2}
+									alone={false}
+									organisationsOptions={organisationsOptions}
+								/>
+							)}
+						</div>
 						{msd.rangeType === RICH_TEXT && (
 							<SimsDocumentField
 								msd={msd}

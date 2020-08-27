@@ -1,0 +1,33 @@
+.sims-row {
+	display: flex;
+	justify-content: space-between;
+	padding: 0 1em;
+	margin-right: -15px;
+	margin-left: -15px;
+
+	> div {
+		display: flex;
+		flex-direction: column;
+
+		&:nth-child(1) + div {
+			margin-left: 2em;
+		}
+		flex: 1;
+
+		.panel-heading,
+		.panel-title {
+			background: var(--color-2);
+			color: #fff;
+		}
+
+		.panel-body {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+
+			> div:nth-child(1) {
+				flex-grow: 1;
+			}
+		}
+	}
+}

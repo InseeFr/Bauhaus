@@ -11,7 +11,7 @@ const SimsBlockRichText = ({ currentSection, isSecondLang }) => {
 			)}
 
 			{currentSection.documents && (
-				<>
+				<div className="sims-documents-block">
 					<DocumentsBloc
 						documents={currentSection.documents.filter(isDocument)}
 						localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
@@ -22,7 +22,7 @@ const SimsBlockRichText = ({ currentSection, isSecondLang }) => {
 						localPrefix={isSecondLang ? 'Lg2' : 'Lg1'}
 						objectType="links"
 					/>
-				</>
+				</div>
 			)}
 		</>
 	);
