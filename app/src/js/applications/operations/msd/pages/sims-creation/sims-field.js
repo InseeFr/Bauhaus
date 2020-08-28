@@ -72,6 +72,9 @@ class Field extends PureComponent {
 	handleCodeListInput = (value) => {
 		this._handleChange({ codeList: this.props.msd.codeList, value });
 	};
+	handleGeography = (id) => {
+		this._handleChange({ id });
+	};
 
 	render() {
 		const {
@@ -169,8 +172,8 @@ class Field extends PureComponent {
 
 							{msd.rangeType === GEOGRAPHY && (
 								<SimsGeographyPicker
-									value={currentSection.value}
-									onChange={this.handleCodeListInput}
+									value={currentSection.id}
+									onChange={this.handleGeography}
 								/>
 							)}
 						</span>

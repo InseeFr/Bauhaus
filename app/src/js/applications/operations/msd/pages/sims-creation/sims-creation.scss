@@ -35,6 +35,10 @@
 	@include rich-text(1em);
 }
 
+.bauhaus-sims-creation {
+	display: flex;
+	flex-direction: column;
+}
 .bauhaus-sims-geography-field {
 	display: flex;
 
@@ -59,5 +63,9 @@
 	.bauhaus-sims-field-form {
 		display: flex;
 		flex-direction: row;
+
+		.wilco-note {
+			flex: 1;
+		}
 	}
 }
