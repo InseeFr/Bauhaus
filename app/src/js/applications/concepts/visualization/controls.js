@@ -6,7 +6,7 @@ import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
 import { ConfirmationDelete } from 'bauhaus-utilities';
-const ConceptVisualizationControls = props => {
+const ConceptVisualizationControls = (props) => {
 	const {
 		isValidated,
 		isValidOutOfDate,
@@ -65,15 +65,9 @@ const ConceptVisualizationControls = props => {
 			btns = [cancel, compare, send, update];
 		}
 	} else if (creator) {
-		if (isValidOutOfDate) {
-			btns = isValidated
-				? [cancel, compare, send]
-				: [cancel, compare, send, validate];
-		} else {
-			btns = isValidated
-				? [cancel, compare, send]
-				: [cancel, compare, send, validate];
-		}
+		btns = isValidated
+			? [cancel, compare, send]
+			: [cancel, compare, send, validate];
 	} else {
 		btns = [cancel, compare];
 	}
@@ -88,7 +82,7 @@ const ConceptVisualizationControls = props => {
 				/>
 			)}
 			<ActionToolbar>
-				{btns.map(btn => {
+				{btns.map((btn) => {
 					if (!btn) return null;
 					const [action, label] = btn;
 					return btn && <Button key={label} action={action} label={label} />;

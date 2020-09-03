@@ -1,5 +1,6 @@
 const SimsBlockText = ({ currentSection, isSecondLang }) => {
-	return currentSection[isSecondLang ? 'labelLg2' : 'labelLg1'];
+	const content = currentSection[isSecondLang ? 'labelLg2' : 'labelLg1'];
+	return content || '';
 };
 
 export default SimsBlockText;

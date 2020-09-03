@@ -13,10 +13,24 @@ const associations = [
 	},
 ];
 
+const correspondence = {
+	id: 'id',
+	labelLg1: 'labelLg1',
+	idFirstClass: 'idFirstClass',
+	firstClassLabelLg1: 'firstClassLabelLg1',
+	idSecondClass: 'idSecondClass',
+	secondClassLabelLg1: 'secondClassLabelLg1',
+};
+
 describe('correspondence-home-associations', () => {
 	it('renders without crashing', () => {
 		render(
-			<HomeAssociations associations={associations} correspondence={{}} />,
+			<HomeAssociations
+				id="id"
+				associations={associations}
+				correspondence={correspondence}
+				secondLang={false}
+			/>,
 			{
 				wrapper: MemoryRouter,
 			}

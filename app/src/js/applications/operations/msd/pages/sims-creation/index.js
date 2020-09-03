@@ -226,7 +226,7 @@ class SimsCreation extends React.Component {
 
 				{Object.values(metadataStructure).map((msd, index) => {
 					return (
-						<div key={msd.idMas}>
+						<div key={msd.idMas} className="bauhaus-sims-creation">
 							{index === 0 && (
 								<React.Fragment>
 									<CheckSecondLang />

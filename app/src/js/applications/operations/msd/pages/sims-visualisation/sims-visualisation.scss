@@ -6,6 +6,10 @@
 	margin-left: -15px;
 
 	> div {
+		&:nth-child(2) .panel-heading,
+		&:nth-child(2) .panel-title {
+			background: var(--second-lang-bloc-title);
+		}
 		display: flex;
 		flex-direction: column;
 

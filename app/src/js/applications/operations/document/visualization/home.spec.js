@@ -63,4 +63,21 @@ describe('OperationsDocumentationVisualization', () => {
 		const notes = container.querySelectorAll('.wilco-note');
 		expect(notes).toHaveLength(5);
 	});
+
+	it('should not display the date if this one is not valid', () => {
+		const d = {
+			...document,
+			uri: '/document/page/1',
+			updatedDate: undefined,
+		};
+		const { container } = render(
+			<OperationsDocumentationVisualization
+				attr={d}
+				langs={langs}
+				secondLang={true}
+			/>
+		);
+		const date = container.querySelector('.row:nth-child(2) .panel-body');
+		expect(date).toBeEmptyDOMElement();
+	});
 });

@@ -2,13 +2,15 @@ import api from 'js/remote-api/api';
 import * as A from 'js/actions/constants';
 import { LINK, DOCUMENT } from 'js/applications/operations/document/utils';
 
-export const saveDocument = (document, type, files, callback) => dispatch => {
+export const saveDocument = (document, type, files, callback) => (dispatch) => {
 	dispatch({
 		type: A.SAVE_OPERATIONS_DOCUMENT,
 		payload: document,
 	});
 	const method = document.id
-		? 'putDocument'
+		? type === LINK
+			? 'putLink'
+			: 'putDocument'
 		: type === LINK
 		? 'postLink'
 		: 'postDocument';
@@ -40,7 +42,7 @@ export const saveDocument = (document, type, files, callback) => dispatch => {
 	}
 
 	return promise.then(
-		results => {
+		(results) => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_DOCUMENT_SUCCESS,
 				payload: {
@@ -50,7 +52,7 @@ export const saveDocument = (document, type, files, callback) => dispatch => {
 			});
 			callback(null, results);
 		},
-		err => {
+		(err) => {
 			dispatch({
 				type: A.SAVE_OPERATIONS_DOCUMENT_FAILURE,
 				payload: { err },
@@ -59,7 +61,7 @@ export const saveDocument = (document, type, files, callback) => dispatch => {
 		}
 	);
 };
-export default id => dispatch => {
+export default (id, type) => (dispatch) => {
 	dispatch({
 		type: A.LOAD_OPERATIONS_DOCUMENT,
 		payload: {
@@ -72,8 +74,8 @@ export default id => dispatch => {
 	/**
 	 * @param {any} err
 	 */
-	return api.getDocument(id).then(
-		results =>
+	return api.getDocument(id, type).then(
+		(results) =>
 			dispatch({
 				type: A.LOAD_OPERATIONS_DOCUMENT_SUCCESS,
 				payload: {
@@ -81,7 +83,7 @@ export default id => dispatch => {
 					id: results.uri.substr(results.uri.lastIndexOf('/') + 1),
 				},
 			}),
-		err =>
+		(err) =>
 			dispatch({
 				type: A.LOAD_OPERATIONS_DOCUMENT_FAILURE,
 				payload: { err },

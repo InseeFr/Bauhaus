@@ -46,7 +46,7 @@ class OperationsDocumentationEdition extends Component {
 			this.setState(this.setInitialState(ownProps));
 	}
 
-	setInitialState = props => {
+	setInitialState = (props) => {
 		return {
 			serverSideError: '',
 			document: {
@@ -57,7 +57,7 @@ class OperationsDocumentationEdition extends Component {
 		};
 	};
 
-	uploadFile = files => {
+	uploadFile = (files) => {
 		this.setState({
 			serverSideError: '',
 			files,
@@ -71,7 +71,7 @@ class OperationsDocumentationEdition extends Component {
 		});
 	};
 
-	onChange = e => {
+	onChange = (e) => {
 		this.setState({
 			serverSideError: '',
 			document: {
@@ -89,7 +89,11 @@ class OperationsDocumentationEdition extends Component {
 			this.state.files,
 			(err, id = this.state.document.id) => {
 				if (!err) {
-					goBackOrReplace(this.props, `/operations/document/${id}`, isCreation);
+					goBackOrReplace(
+						this.props,
+						`/operations/${this.props.type}/${id}`,
+						isCreation
+					);
 				} else {
 					this.setState({
 						serverSideError: err,
@@ -101,7 +105,7 @@ class OperationsDocumentationEdition extends Component {
 
 	render() {
 		const { langOptions, type } = this.props;
-		const langSelectOptions = langOptions.codes.map(lang => {
+		const langSelectOptions = langOptions.codes.map((lang) => {
 			return { value: lang.code, label: lang.labelLg1 };
 		});
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
@@ -167,7 +171,7 @@ class OperationsDocumentationEdition extends Component {
 							<label htmlFor="abstractLg1">{D1.descriptionTitle}</label>
 							<EditorMarkdown
 								text={document.descriptionLg1}
-								handleChange={value =>
+								handleChange={(value) =>
 									this.onChange({ target: { value, id: 'descriptionLg1' } })
 								}
 							/>
@@ -176,7 +180,7 @@ class OperationsDocumentationEdition extends Component {
 							<label htmlFor="abstractLg2">{D2.descriptionTitle}</label>
 							<EditorMarkdown
 								text={document.descriptionLg2}
-								handleChange={value =>
+								handleChange={(value) =>
 									this.onChange({ target: { value, id: 'descriptionLg2' } })
 								}
 							/>
@@ -203,7 +207,7 @@ class OperationsDocumentationEdition extends Component {
 								<LabelRequired>{D1.titleUpdatedDate}</LabelRequired>
 								<DatePickerRmes
 									value={updatedDate}
-									onChange={date => {
+									onChange={(date) => {
 										const value = date && date.split('T')[0];
 										this.onChange({ target: { value, id: 'updatedDate' } });
 									}}
@@ -236,7 +240,7 @@ class OperationsDocumentationEdition extends Component {
 
 					{type === DOCUMENT && files.length > 0 && (
 						<div className="panel panel-default">
-							{files.map(file => (
+							{files.map((file) => (
 								<div className="panel-body" key={file.name}>
 									{file.name}
 									<button
@@ -262,7 +266,7 @@ class OperationsDocumentationEdition extends Component {
 									({ value }) => value === document.lang
 								)}
 								options={langSelectOptions}
-								onChange={value => {
+								onChange={(value) => {
 									this.onChange({ target: { value, id: 'lang' } });
 								}}
 							/>
