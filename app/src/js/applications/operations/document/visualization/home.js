@@ -61,7 +61,7 @@ function OperationsDocumentationVisualization({
 					<Note
 						text={
 							<a
-								href={`${baseURI}/documents/document/${id}`}
+								href={`${baseURI}/documents/document/${id}/file`}
 								rel="noopener noreferrer"
 								target="_blank"
 							>
