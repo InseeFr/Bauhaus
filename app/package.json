@@ -1,6 +1,6 @@
 {
 	"name": "Bauhaus",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"description": "Web application for the management of concepts, classifications and other statistical objects",
 	"repository": {
 		"type": "git",
@@ -10,7 +10,8 @@
 	"author": "INSEE (http://www.insee.fr)",
 	"scripts": {
 		"build": "cross-env REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
-		"build-insee": "cross-env REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build",
+		"build-insee": "cross-env REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build && npm run create-zip",
+		"create-zip": "cd build && bestzip build.zip *",
 		"cypress:open": "cypress open",
 		"cypress:run": "cypress run",
 		"e2e": "start-server-and-test start http://localhost:3000 cypress:run",
@@ -53,6 +54,7 @@
 	"devDependencies": {
 		"axe-core": "3.5.5",
 		"coveralls": "3.1.0",
+		"bestzip": "^2.1.2",
 		"cross-env": "7.0.2",
 		"cypress": "4.11.0",
 		"cypress-axe": "0.8.1",

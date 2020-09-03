@@ -40,11 +40,11 @@ Le module Concepts encore appelée "Bauhaus-concepts" permet de gérer les conce
 Pour atteindre la page d'accueil du module de gestion des concepts, cliquer sur le pavé <span style="color: blue">Concepts</span> de la page d'accueil.
 La navigation se fait via la barre horizontale de menu en haut de la page.
 
-*Toute unité en ayant l'utilité peut demander la création d'un concept. Cependant, afin de garantir l'intégrité et la qualité de la base, la création et la modification des concepts, ainsi que l'identification du propriétaire, sont réservés à l'unité Qualité. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application ; charge à lui d'éventuellement organiser la consultation avec d'autres utilisateurs. Dans l'application, l'unité Qualité est habilitée à publier un concept sur demande du propriétaire.*
+Afin de garantir l'intégrité et la qualité de la base, les fonctionnalités de création et modification des concepts ainsi que l'identification des propriétaires sont réservés à l'unité Qualité. Toute unité en ayant l'utilité peut demander la création d'un concept. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, l'unité Qualité est habilitée à publier un concept sur demande du propriétaire.
 
-*La création d'une collection de concepts peut être demandée à l'unité Qualité par toute unité ayant l'utilité de rassembler plusieurs concepts pour un usage particulier (par exemple : documenter un Insee-Résultats). L'unité ayant fait la demande est l'unité propriétaire de la collection, qui peut regrouper des concepts dont elle n'est pas propriétaire. Un concept peut appartenir à plusieurs collections et être utilisé par plusieurs utilisateurs dans différentes collections. Le propriétaire d'une collection peut la modifier à tout moment. Dans l'application, l'unité qualité est habilitée à publier une collection sur demande du propriétaire.*
+La création d'une collection de concepts peut être demandée à l'unité Qualité par toute unité ayant l'utilité de rassembler plusieurs concepts pour un usage particulier (par exemple : documenter un Insee-Résultats). L'unité ayant fait la demande est l'unité propriétaire de la collection, qui peut regrouper des concepts dont elle n'est pas propriétaire. Un concept peut appartenir à plusieurs collections et être utilisé par plusieurs utilisateurs dans différentes collections. Le propriétaire d'une collection peut la modifier à tout moment. Dans l'application, l'unité qualité est habilitée à publier une collection sur demande du propriétaire.
 
-Dans l'application, quatre grands profils d’utilisateurs ont été créés. Chacun correspond à un niveau d’habilitation donnant accès à différentes fonctionnalités :
+Dans l'application, quatre grands profils d’utilisateurs ont été créés. Chacun correspond à un niveau d'habilitation donnant accès à différentes fonctionnalités :
 
 - **Administrateur de l'application** : accès à toutes les fonctionnalités ;
 - **Gestionnaire de l'ensemble des concepts** : rechercher, exporter, créer, modifier, envoyer, publier un concept ou une collection, et comparer les versions des caractéristiques d'un concept ;
@@ -65,35 +65,32 @@ Pour toute demande ou question, adresser un message à la boite fonctionnelle :
 
 La page d’accueil Concepts, accessible à partir de la barre horizontale de menu, propose deux méthodes de recherche :
 
-- Une barre de recherche principale, qui donne accès à l’ensemble des concepts enregistrés dans l’application (1) ;
-- Un lien vers la page de recherche avancée, qui permet d’affiner une recherche selon différents critères (2).
+- Une barre de recherche principale, qui donne accès à l’ensemble des concepts enregistrés dans l’application **(1)** ;
+- Un lien vers la page de recherche avancée, qui permet d’affiner une recherche selon différents critères **(2)**.
 
-1. La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé, du sigle, du nom court ou du synonyme recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche.
 
-L'application génère une liste de résultats sous le moteur de recherche, sur une ou plusieurs pages en fonction du nombre de concepts trouvés.
+**(1)** La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé, du sigle, du nom court ou du synonyme recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de familles trouvées.
 
-Cliquer sur le concept souhaité pour accéder à sa page de description. Sur cette page, il est possible de consulter la version anglaise, en cochant la case : [ ] **Afficher la seconde langue**. Celle-ci s’affichera à droite de la version française.
+Cliquer ensuite sur le concept souhaité pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s’affichera à droite de la version française.
 
-2. La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection :
+**(2)** La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités dans les champs** :
 
-- **Saisir les filtres souhaités** dans les champs :
-
-  - *Libellé* : saisir le nom du concept ;
-  - *Libellé alternatif* : saisir le sigle, l'acronyme, ou le synonyme ;
-  - *Recherche dans la définition* : saisir un ou plusieurs mots du texte de la définition en français ;
-  - *Sélectionner un timbre* : choisir un timbre dans la liste pour obtenir la liste des concepts de la responsabilité de cette unité ;
-  - *Sélectionner un statut de diffusion*, à choisir parmi :
+  - **Libellé** : saisir le nom du concept ;
+  - **Libellé alternatif** : saisir le sigle, l'acronyme, ou le synonyme ;
+  - **Recherche dans la définition** : saisir un ou plusieurs mots du texte de la définition en français ;
+  - **Sélectionner un timbre** : choisir un timbre dans la liste pour obtenir la liste des concepts de la responsabilité de cette unité ;
+  - **Sélectionner un statut de diffusion**, à choisir parmi :
     - Public générique (publié à la rubrique Définitions sur insee.fr) ;
     - Public spécifique (non publié à la rubrique Définitions, mais disponible pour documenter une publication, un produit) ;
     - Privé (usage interne).
-  - *Sélectionner le statut de publication*, à choisir parmi :
+  - **Sélectionner le statut de publication**, à choisir parmi :
     - Publié ;
     - Provisoire (en cours de modification ou en attente de publication).
-  - *Sélectionner les plages de date de création ou de modification* du concept recherché.
+  - **Sélectionner les plages de date de création ou de modification** du concept recherché.
 
-La recherche se lance automatiquement à mesure que des caractères sont saisis dans les différents champs. Cliquer ensuite sur le concept recherché pour accéder à sa page de description.
+La recherche se lance automatiquement à mesure que des critères sont renseignés dans les différents champs. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de concepts trouvées.
 
-Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s’affichera à droite de la version française.
+Cliquer ensuite sur le concept recherché pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s’affichera à droite de la version française.
 
 ---
 
@@ -135,26 +132,20 @@ La création d'un concept est possible à partir de la page d'accueil Concepts.
 
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> du menu à gauche de la page. La première page de création du concept s'affiche alors.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Concept.
-
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
-
-***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
-
 Trois onglets sont disponibles pour définir le concept : <span style="color: blue">Informations générales</span> (1), <span style="color: blue">Notes</span> (2) et <span style="color: blue">Liens</span> (3).
 
 1. Dans l'onglet <span style="color: blue">Informations générales</span>, vous pouvez renseigner différentes informations, à savoir :
 
-- Le **« Libellé »** : le nom du concept, **obligatoire afin de pouvoir créer un concept** ;
-- Le **« Libellé alternatif »** : il s'agit d'un libellé secondaire, d'un sigle ou d'un acronyme (il est possible d'ajouter ou de supprimer des libellés alternatifs en cliquant sur + ou -) ;
-- Le **« Propriétaire »** : le timbre de l'unité responsable de la description du concept ;
-- Le **« Gestionnaire »** : l'unité habilitée à créer / modifier le concept. Il s'agit de l'unité Qualité (DG75-L201) qui assure la gestion des concepts ;
-- Le **« Statut de diffusion »**, qui peut être :
+- Le **Libellé** : le nom du concept, **obligatoire afin de pouvoir créer un concept** ;
+- Le **Libellé alternatif** : il s'agit d'un libellé secondaire, d'un sigle ou d'un acronyme (il est possible d'ajouter ou de supprimer des libellés alternatifs en cliquant sur + ou -) ;
+- Le **Propriétaire** : le timbre de l'unité responsable de la description du concept ;
+- Le **Gestionnaire** : l'unité habilitée à créer / modifier le concept. Il s'agit de l'unité Qualité (DG75-L201) qui assure la gestion des concepts ;
+- Le **Statut de diffusion**, qui peut être :
   - Privé : la diffusion est réservée à un usage interne ;
   - Public générique : la diffusion est destinée à la rubrique « Définitions » de insee.fr ;
   - Public spécifique : la diffusion est restreinte à la documentation des publications et n'apparaît pas à la rubrique Définitions.
-- Le **« Document lié »** : permet d'insérer un lien vers une page Internet ;
-- La **« Date de fin de validité »** : **ne doit pas être renseignée à la création** : dès lors que cette date est renseignée, et qu'elle a été atteinte, le concept ne peut plus être modifié.
+- Le **Document lié** : permet d'insérer un lien vers une page Internet ;
+- La **Date de fin de validité** : **ne doit pas être renseignée à la création** : dès lors que cette date est renseignée, et qu'elle a été atteinte, le concept ne peut plus être modifié.
 
 2. Dans l'onglet <span style="color: blue">Notes</span>, vous pouvez renseigner différentes informations, à savoir :
 
@@ -182,13 +173,9 @@ Trois onglets sont disponibles pour définir le concept : <span style="color: bl
 
 - Onglet Lié : ces liens sont de type « voir aussi » et permettent de renvoyer vers des concepts connexes.
 
-Le bouton <span style="color: blue">Sauvegarder</span> devient actif après la saisie des champs obligatoires.
+Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis. Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du concept. Il est donc possible, si nécessaire, de créer le concept en plusieurs étapes. Le statut de publication du concept passe alors en « Provisoire », jusqu'à sa publication.
 
-**Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à gauche avant de changer d'écran.
-
-Il est à noter que la sauvegarde n'entraîne pas la publication du concept. En effet, celui-ci doit au préalable avoir été publié par son propriétaire, ou par délégation (après échanges de mails) par l'unité Qualité. Il est donc possible, si nécessaire, de créer un concept en plusieurs étapes.
-
-Le statut de publication du concept passe alors en **« Provisoire », jusqu'à sa publication**.
+Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Concept.
 
 Pour envoyer la description du concept par mail à un interlocuteur (en particulier à son propriétaire), voir [Envoyer un concept](#envoyer-concept).
 
@@ -198,9 +185,11 @@ Pour publier un concept dans le référentiel, voir [Publier un concept](#publie
 
 ## <a id="modifier-concept">Modifier un concept</a>
 
-La modification d'un concept est possible à partir de la page de description d'un concept.
+La modification d'un concept possible à partir de sa page de description.
 
 - Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>.
+- Modifier les champs souhaités
+- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
 
 Les différents champs peuvent alors être modifiés, et les consignes décrites dans la fonctionnalité [Créer un concept] s'appliquent alors.
 
@@ -216,7 +205,7 @@ Lorsque l'on [modifie](#modifier-concept) une définition courte, une définitio
 
 - L’option « écraser la version courante » est utilisée dans le cas d’une modification simple, par exemple pour corriger l’orthographe ou la syntaxe d’une définition ou d’une note éditoriale.
 
-- Dès lors que la modification d’une définition ou d’une note éditoriale fait évoluer le sens d’un concept, l’option « créer une nouvelle version » doit être utilisée afin de permettre aux propriétaires successifs du concept de comprendre le cheminement qui a conduit à sa définition courante. Ainsi, créer une nouvelle version permet de garder trace des définitions précédentes, de manière à pouvoir comparer les différentes versions successives.
+- Dès lors que la modification d'une définition ou d’une note éditoriale fait évoluer le sens d’un concept, l’option « créer une nouvelle version » doit être utilisée afin de permettre aux propriétaires successifs du concept de comprendre le cheminement qui a conduit à sa définition courante. Ainsi, créer une nouvelle version permet de garder trace des définitions précédentes, de manière à pouvoir comparer les différentes versions successives.
 
 **La note de changement est obligatoire pour créer une nouvelle version de la définition.** C'est une note à usage interne : elle est destinée à garder trace de l'origine et du contexte des modifications.
 
@@ -231,7 +220,6 @@ Lorsque l'on [modifie](#modifier-concept) une définition courte, une définitio
 Lorsque plusieurs versions de notes (définition courte, définition longue ou note éditoriale) existent, on peut les comparer en cliquant en haut à gauche sur le bouton <span style="color: blue">Comparer</span> de l'écran de description d'un concept. Un menu déroulant permet de sélectionner les versions que l'on souhaite comparer.
 
 - Les deux versions sélectionnées s'affichent alors en vis-à-vis ;
-
 - Pour revenir à la version courante, cliquer en haut à gauche sur <span style="color: blue">Revenir à la version courante</span>.
 
 ---
@@ -249,13 +237,13 @@ Pour rechercher les concepts à publier, utiliser la recherche avancée à parti
 # <a id="fonctionnalites-collections-concepts">Fonctionnalités de gestion des collections de concepts</a>
 ## <a id="rechecher-collection">Rechercher une collection de concepts</a>
 
-La recherche d'une collection est possible à partir de la page d'accueil <span style="color: blue">Collections</span> dans la barre horizontale de menu. La page propose un moteur de recherche sur la totalité des collections de concepts enregistrées dans l'application.
+La recherche d'une collection est possible à partir de la page d'accueil <span style="color: blue">Collections</span> dans la barre horizontale de menu.
 
-- La barre de recherche propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé, du sigle, du nom court ou du synonyme recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche ;
+La barre de recherche propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé de la collection recherchée**.
 
-- L'application génère une liste de résultats sous le moteur de recherche sur une ou plusieurs pages en fonction du nombre de collections trouvés ;
+La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de séries trouvées.
 
-- Cliquer ensuite sur la collection souhaitée pour accéder à sa page de description. Sur cette page, il est possible de consulter la version anglaise, en cochant la case : [ ] **Afficher la seconde langue**. Celle-ci s’affichera à droite de la version française.
+Cliquer ensuite sur la collection souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
 ---
 
@@ -283,21 +271,11 @@ La création d'une collection de concepts est possible à partir de la page d'ac
 
 - Cliquer sur le bouton <span style="color: blue">Nouvelle</span> du menu à gauche de la page. La première page de création de la collection s'affiche alors.
 
+Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « /* », n'ont pas été remplis. Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de la série. Il est donc possible, si nécessaire, de créer la collection en plusieurs étapes. Le statut de publication de la collection passe alors en « Provisoire », jusqu'à sa publication.
+
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet <span style="color: blue">Collections</span>.
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion.
-
-***NB : Toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.***
-
 - En bas de page, sélectionner les concepts à inclure dans la collection en utilisant les boutons <img src="../../img/add.png" width="18"> et <img src="../../img/del.png" width="18"> pour respectivement les ajouter ou les retirer. Pour rechercher un concept, saisir une suite de caractères contenue dans le libellé du concept recherché dans la barre de recherche au-dessus de la liste.
-
-Le bouton <span style="color: blue">Sauvegarder</span> devient actif après la saisie des champs obligatoires.
-
-**Attention** : Penser à sauvegarder les informations saisies en cliquant sur le bouton en haut à droite avant de changer de page.
-
-Il est à noter que la sauvegarde n'entraîne pas la publication de la collection. En effet, celle-ci doit au préalable avoir été publiée par son propriétaire, ou par délégation (après échanges de mails), par l'unité Qualité. Il est donc possible, si nécessaire, de créer une collection en plusieurs étapes.
-
-Le statut de publication de la collection passe alors en **« Provisoire », jusqu'à sa publication.**
 
 Pour envoyer une collection de concepts par mail à un interlocuteur (en particulier à son propriétaire), voir [Envoyer une collection de concepts](#envoyer-collection).
 

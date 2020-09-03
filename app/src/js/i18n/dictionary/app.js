@@ -126,7 +126,7 @@ const dictionary = {
 	},
 	validationStatusPlaceholder: {
 		fr: 'Sélectionnez le statut de publication...',
-		en: 'Select publishing status...',
+		en: 'Select publication status...',
 	},
 	creatorTitle: {
 		fr: 'Propriétaire',
