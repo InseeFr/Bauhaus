@@ -26,6 +26,9 @@ import {
 
 const extractId = buildExtract('id');
 
+function getPath(path) {
+	return path.includes('document') ? 'document' : 'link';
+}
 class DocumentationVisualizationContainer extends Component {
 	static propTypes = {
 		document: PropTypes.object.isRequired,
@@ -36,13 +39,14 @@ class DocumentationVisualizationContainer extends Component {
 
 	componentWillMount() {
 		if (!this.props.document.id) {
-			this.props.loadDocument(this.props.id);
+			const type = getPath(this.props.match.path);
+			this.props.loadDocument(this.props.id, type);
 		}
 	}
 
 	render() {
 		const { id, document, langs, secondLang } = this.props;
-
+		const type = getPath(this.props.match.path);
 		if (!document.id) return <Loading />;
 
 		return (
@@ -58,7 +62,7 @@ class DocumentationVisualizationContainer extends Component {
 
 					<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]}>
 						<Button
-							action={`/operations/document/${document.id}/modify`}
+							action={`/operations/${type}/${document.id}/modify`}
 							label={D.btnUpdate}
 						/>
 					</Auth>

@@ -1,15 +1,19 @@
 language: node_js
 node_js:
   - 12.8.0
-
+addons:
+  sonarcloud:
+    organization: "inseefr"
 cache: yarn
 install:
   - yarn config set registry https://registry.npmjs.org
-  - yarn install
+  - yarn
+before_script:
   - yarn build-insee
   - yarn build-storybook
-script:
   - yarn test:coverage
+script:
+  - sonar-scanner
 
 after_script:
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

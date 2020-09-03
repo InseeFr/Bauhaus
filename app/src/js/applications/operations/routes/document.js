@@ -28,6 +28,16 @@ export default () => {
 				path="/operations/document/:id/modify"
 				component={OperationsDocumentationEditionContainer}
 			/>
+			<Route
+				exact
+				path="/operations/link/:id"
+				component={DocumentationVisualizationContainer}
+			/>
+			<Route
+				exact
+				path="/operations/link/:id/modify"
+				component={OperationsDocumentationEditionContainer}
+			/>
 		</Switch>
 	);
 };

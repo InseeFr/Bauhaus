@@ -9,16 +9,17 @@ class LoginBasic extends Component {
 		stampList: PropTypes.array.isRequired,
 		checkAuth: PropTypes.func.isRequired,
 	};
-	constructor(props) {
+	constructor() {
 		super();
 		this.state = { role: '', stamp: '' };
-		this.handleChangeRole = role => this.setState({ role });
-		this.handleChangeStamp = stamp => this.setState({ stamp });
-		this.onClickValidate = e => {
-			const { role, stamp } = this.state;
-			props.checkAuth({ role, stamp });
-		};
 	}
+
+	handleChangeRole = (role) => this.setState({ role });
+	handleChangeStamp = (stamp) => this.setState({ stamp });
+	onClickValidate = (e) => {
+		const { role, stamp } = this.state;
+		this.props.checkAuth({ role, stamp });
+	};
 
 	componentDidMount() {
 		document.getElementById('root-app').classList = ['concepts'];
@@ -27,13 +28,13 @@ class LoginBasic extends Component {
 		const { roleList, stampList } = this.props;
 		const { role, stamp } = this.state;
 
-		const roleOptions = roleList.map(role => ({
-			label: role.label,
-			value: role.id,
+		const roleOptions = roleList.map(({ label, id }) => ({
+			label: label,
+			value: id,
 		}));
-		const stampOptions = stampList.map(stamp => ({
-			label: stamp,
-			value: stamp,
+		const stampOptions = stampList.map((s) => ({
+			label: s,
+			value: s,
 		}));
 
 		return (

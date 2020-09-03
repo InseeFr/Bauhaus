@@ -179,7 +179,7 @@ function OperationsSerieVisualization({
 				<Note
 					text={
 						<ul>
-							{attr.proprietaires.map((g, index) => (
+							{attr.proprietaires?.map((g, index) => (
 								<li key={index}>{g}</li>
 							))}
 						</ul>

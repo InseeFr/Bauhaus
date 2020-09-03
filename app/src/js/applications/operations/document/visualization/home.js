@@ -20,7 +20,7 @@ function OperationsDocumentationVisualization({
 }) {
 	const [baseURI, setBaseURI] = useState('');
 	useEffect(() => {
-		API.getBaseURI().then(uri => setBaseURI(uri));
+		API.getBaseURI().then((uri) => setBaseURI(uri));
 	});
 	return (
 		<React.Fragment>
@@ -45,7 +45,10 @@ function OperationsDocumentationVisualization({
 			{isDocument(attr) && (
 				<div className="row">
 					<Note
-						text={new Date(attr.updatedDate).toLocaleDateString()}
+						text={
+							attr.updatedDate &&
+							new Date(attr.updatedDate).toLocaleDateString()
+						}
 						title={D1.titleUpdatedDate}
 						lang={lg1}
 						alone={true}
@@ -58,7 +61,7 @@ function OperationsDocumentationVisualization({
 					<Note
 						text={
 							<a
-								href={`${baseURI}/documents/document/${id}`}
+								href={`${baseURI}/documents/document/${id}/file`}
 								rel="noopener noreferrer"
 								target="_blank"
 							>

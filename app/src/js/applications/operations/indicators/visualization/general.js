@@ -108,7 +108,7 @@ function OperationsIndicatorVisualization(props) {
 				<Note
 					text={
 						<ul>
-							{attr.proprietaires.map((g) => (
+							{attr.proprietaires?.map((g) => (
 								<li>{g}</li>
 							))}
 						</ul>

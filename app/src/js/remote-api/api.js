@@ -8,27 +8,27 @@ const api = {
 				Accept: 'application/json',
 			},
 		},
-		res => res,
+		(res) => res,
 	],
 	getDocumentsList: () => ['documents'],
-	getDocument: id => [`documents/${id}`],
-	postDocument: formData => [
+	getDocument: (id, type) => [`documents/${type}/${id}`],
+	postDocument: (formData) => [
 		`documents/document`,
 		{
 			headers: {},
 			body: formData,
 		},
-		res => res.text(),
+		(res) => res.text(),
 	],
-	postLink: formData => [
+	postLink: (formData) => [
 		`documents/link`,
 		{
 			headers: {},
 			body: formData,
 		},
-		res => res.text(),
+		(res) => res.text(),
 	],
-	putDocument: document => [
+	putDocument: (document) => [
 		`documents/document/${document.id}`,
 		{
 			headers: {
@@ -38,8 +38,18 @@ const api = {
 		},
 		() => Promise.resolve(document.id),
 	],
+	putLink: (document) => [
+		`documents/link/${document.id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(document),
+		},
+		() => Promise.resolve(document.id),
+	],
 	putDocumentFile: (document, formData) => [
-		`documents/${document.id}`,
+		`documents/document/${document.id}/file`,
 		{
 			headers: {},
 			body: formData,
@@ -50,11 +60,11 @@ const api = {
 	getStampList: () => ['stamps'],
 	getRoleList: () => ['roles'],
 	getAgentList: () => ['agents'],
-	postAddRole: agent => {
+	postAddRole: (agent) => {
 		const { id, role } = agent;
 		return [`private/add/role/${role}/user/${id}`, undefined, () => {}];
 	},
-	postDeleteRole: agent => {
+	postDeleteRole: (agent) => {
 		const { id, role } = agent;
 		return [`private/delete/role/${role}/user/${id}`, undefined, () => {}];
 	},

@@ -39,3 +39,5 @@ coverage
 build
 
 *.mp4
+.sonar_lock
+.scannerwork
