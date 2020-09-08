@@ -47,7 +47,7 @@ const SimsCodeListSelect = (props) => {
 	);
 };
 
-class Field extends PureComponent {
+class SimsField extends PureComponent {
 	static propTypes = {
 		msd: PropTypes.object.isRequired,
 		currentSection: PropTypes.object,
@@ -72,8 +72,8 @@ class Field extends PureComponent {
 	handleCodeListInput = (value) => {
 		this._handleChange({ codeList: this.props.msd.codeList, value });
 	};
-	handleGeography = (id) => {
-		this._handleChange({ id });
+	handleGeography = (uri) => {
+		this._handleChange({ uri });
 	};
 
 	render() {
@@ -172,7 +172,7 @@ class Field extends PureComponent {
 
 							{msd.rangeType === GEOGRAPHY && (
 								<SimsGeographyPicker
-									value={currentSection.id}
+									value={currentSection.uri}
 									onChange={this.handleGeography}
 								/>
 							)}
@@ -184,4 +184,4 @@ class Field extends PureComponent {
 	}
 }
 
-export default Field;
+export default SimsField;
