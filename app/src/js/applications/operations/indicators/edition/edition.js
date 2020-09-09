@@ -112,7 +112,7 @@ class OperationsIndicatorEdition extends Component {
 		const indicator = {
 			...this.state.indicator,
 			seeAlso: (this.state.indicator.seeAlso || []).map((link) => link.id),
-			contributor: (this.state.indicator.contributor || []).map(
+			contributors: (this.state.indicator.contributors || []).map(
 				(link) => link.id
 			),
 			wasGeneratedBy: (this.state.indicator.wasGeneratedBy || []).map(
@@ -272,10 +272,10 @@ class OperationsIndicatorEdition extends Component {
 									placeholder=""
 									unclearable
 									multi
-									value={indicator.proprietaires}
+									value={indicator.publishers}
 									options={stampsOptions}
 									onChange={(value) =>
-										this.onChange('proprietaires')(value.map((v) => v.value))
+										this.onChange('publishers')(value.map((v) => v.value))
 									}
 								/>
 							</label>
@@ -287,12 +287,12 @@ class OperationsIndicatorEdition extends Component {
 								{D1.stakeholders}
 								<SelectRmes
 									unclearable
-									value={indicator.contributor}
+									value={indicator.contributors}
 									options={organisationsOptions}
 									placeholder=""
 									multi
 									onChange={(value) =>
-										this.onChange('contributor')(
+										this.onChange('contributors')(
 											value.map((v) => {
 												return { id: v.value };
 											})

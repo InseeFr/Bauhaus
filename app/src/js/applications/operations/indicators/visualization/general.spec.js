@@ -52,14 +52,14 @@ const indicator = {
 			type: 'series',
 		},
 	],
-	proprietaires: [],
+	publishers: [],
 	abstractLg1:
 		"En application du décret 2014-114 du 7 février 2014 et de la circulaire du 16 mai 2014 (BOAC 60 de septembre-octobre 2014 la maîtrise d'ouvrage des index nationaux Bâtiment (BT), Travaux publics (TP) et divers de la construction est transférée à l’Insee. Les index Bâtiment, Travaux publics et divers de la construction ont été annoncés au Journal Officiel le 20 décembre 2014 et publiés le 16 janvier 2015 en base 2010 depuis janvier 2010 à octobre 2014. \nLe changement de base signifie un changement de référence (moyenne de 2010 = 100), mais aussi une mise à jour des pondérations et des conventions méthodologiques. \nCes index sont utilisés pour les actualisations et révisions des prix des marchés de construction.",
 	abstractLg2:
 		'In application of Decree 2014-114 of 7 February 2014 and of circular of 16 May 2014 (BOAC 60 September-October 2014) the responsibility of building (BT), public works (TP) and various construction (ID) indices is transferred to INSEE. The building (BT), public works (TP) and various construction (ID) indices were announced in the Official Journal of December 20, 2014 and published on January 16th, 2015 in base 2010 since January 2010 until October 2014.\nThe base change means a change of reference period (average  2010 = 100), but also an update of weights and methodological conventions.\nThese indices are used for escalation and update of construction contracts.',
 	historyNoteLg2:
 		'BOAC 60 de septembre-octobre 2014\nBefore Decree 2014-114 of 7 February 2014 and circular of 16 May 2014 (BOAC 60 September-October 2014), the Building (BT), Public Works (TP) and various construction indices were compiled and disseminated under the responsibility of Ministry of Ecology, Sustainable Development and Energy, since 1974 for most Building indices, 1975 for most Public Works indices, 1973 or diverse dates after 2000 for various ndices.',
-	contributor: [
+	contributors: [
 		{
 			id: 'CNAMTS',
 		},
