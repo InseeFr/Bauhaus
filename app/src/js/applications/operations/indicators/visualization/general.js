@@ -47,7 +47,7 @@ function OperationsIndicatorVisualization(props) {
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 	const creator = (organisations.find((orga) => orga.id === attr.creator) || {})
 		.label;
-	const contributor = (attr.contributor || []).map(
+	const contributors = (attr.contributors || []).map(
 		(d) => organisations.find((orga) => orga.id === d.id) || {}
 	);
 
@@ -108,7 +108,7 @@ function OperationsIndicatorVisualization(props) {
 				<Note
 					text={
 						<ul>
-							{attr.proprietaires?.map((g) => (
+							{attr.publishers?.map((g) => (
 								<li>{g}</li>
 							))}
 						</ul>
@@ -120,7 +120,7 @@ function OperationsIndicatorVisualization(props) {
 				/>
 			</div>
 			<DisplayLinks
-				links={contributor}
+				links={contributors}
 				title={'stakeholders'}
 				langs={langs}
 				secondLang={false}

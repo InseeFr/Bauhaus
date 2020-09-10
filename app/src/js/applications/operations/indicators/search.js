@@ -14,7 +14,7 @@ import * as select from 'js/reducers';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
-const filterGestionnaire = ArrayUtils.filterKeyDeburr(['proprietaires']);
+const filterGestionnaire = ArrayUtils.filterKeyDeburr(['publishers']);
 
 const fields = ['prefLabelLg1', 'creator', 'gestionnaire'];
 const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');

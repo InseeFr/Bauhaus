@@ -15,7 +15,7 @@ import * as select from 'js/reducers';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
-const filterGestionnaire = ArrayUtils.filterKeyDeburr(['proprietaires']);
+const filterGestionnaire = ArrayUtils.filterKeyDeburr(['publishers']);
 const fields = [
 	'prefLabelLg1',
 	'typeCode',
@@ -51,7 +51,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			.filter(filterLabel(prefLabelLg1))
 			.filter(filterTypeCode(typeCode))
 			.filter((series) => {
-				const creators = series.creator || [];
+				const creators = series.creators || [];
 				// For retrocompatibility
 				const formattedCreators = Array.isArray(creators)
 					? creators
@@ -65,7 +65,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			.filter((series) => {
 				return (
 					!dataCollector ||
-					(series.dataCollector || [])
+					(series.dataCollectors || [])
 						.map((collector) => collector.id)
 						.includes(dataCollector)
 				);

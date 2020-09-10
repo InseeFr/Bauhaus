@@ -74,10 +74,10 @@ export const getAllOptions = createSelector(getAll, (geographies) => {
 		.sort((g1, g2) => {
 			return g1.labelLg1.toLowerCase().localeCompare(g2.labelLg1.toLowerCase());
 		})
-		.map(({ id, labelLg1, labelLg2, typeTerritory }) => ({
+		.map(({ uri, labelLg1, labelLg2, typeTerritory }) => ({
 			label: labelLg1,
 			labelLg2: labelLg2,
-			value: id,
+			value: uri,
 			typeTerritory: typeTerritory,
 		}));
 });
