@@ -122,8 +122,10 @@ class OperationsSerieEdition extends Component {
 		const serie = {
 			...this.state.serie,
 			seeAlso: (this.state.serie.seeAlso || []).map((link) => link.id),
-			contributor: (this.state.serie.contributor || []).map((link) => link.id),
-			dataCollector: (this.state.serie.dataCollector || []).map(
+			contributors: (this.state.serie.contributors || []).map(
+				(link) => link.id
+			),
+			dataCollectors: (this.state.serie.dataCollectors || []).map(
 				(link) => link.id
 			),
 			replaces: (this.state.serie.replaces || []).map((link) => link.id),
@@ -326,7 +328,7 @@ class OperationsSerieEdition extends Component {
 								<SelectRmes
 									placeholder=""
 									unclearable
-									value={serie.creator}
+									value={serie.creators}
 									options={organisationsOptions}
 									onChange={(value) =>
 										this.onChange({
@@ -334,7 +336,7 @@ class OperationsSerieEdition extends Component {
 												value: value.map((v) => {
 													return v.value;
 												}),
-												id: 'creator',
+												id: 'creators',
 											},
 										})
 									}
@@ -350,7 +352,7 @@ class OperationsSerieEdition extends Component {
 								<SelectRmes
 									placeholder=""
 									unclearable
-									value={serie.contributor}
+									value={serie.contributors}
 									options={organisationsOptions}
 									onChange={(value) =>
 										this.onChange({
@@ -358,7 +360,7 @@ class OperationsSerieEdition extends Component {
 												value: value.map((v) => {
 													return { id: v.value };
 												}),
-												id: 'contributor',
+												id: 'contributors',
 											},
 										})
 									}
@@ -374,7 +376,7 @@ class OperationsSerieEdition extends Component {
 								<SelectRmes
 									placeholder=""
 									unclearable
-									value={serie.dataCollector}
+									value={serie.dataCollectors}
 									options={organisationsOptions}
 									onChange={(value) =>
 										this.onChange({
@@ -382,7 +384,7 @@ class OperationsSerieEdition extends Component {
 												value: value.map((v) => {
 													return { id: v.value };
 												}),
-												id: 'dataCollector',
+												id: 'dataCollectors',
 											},
 										})
 									}
@@ -399,13 +401,13 @@ class OperationsSerieEdition extends Component {
 									placeholder=""
 									unclearable
 									multi
-									value={serie.proprietaires}
+									value={serie.publishers}
 									options={stampsOptions}
 									onChange={(value) =>
 										this.onChange({
 											target: {
 												value: value.map((v) => v.value),
-												id: 'proprietaires',
+												id: 'publishers',
 											},
 										})
 									}

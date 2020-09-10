@@ -9,8 +9,8 @@ import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils'
 import { PublicationFemale } from 'js/applications/operations/shared/status';
 import { HTMLUtils } from 'bauhaus-utilities';
 
-function formatCreator(creator = []) {
-	return Array.isArray(creator) ? creator : [creator];
+function formatPrimitiveToArray(object = []) {
+	return Array.isArray(object) ? object : [object];
 }
 function OperationsSerieVisualization({
 	attr,
@@ -23,14 +23,15 @@ function OperationsSerieVisualization({
 }) {
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
-	const creator = formatCreator(attr.creator).map(
+	const creators = formatPrimitiveToArray(attr.creator).map(
 		(d) => organisations.find((orga) => orga.id === d) || {}
 	);
+	const publishers = formatPrimitiveToArray(attr.publishers);
 
-	const dataCollector = (attr.dataCollector || []).map(
+	const dataCollectors = (attr.dataCollectors || []).map(
 		(d) => organisations.find((orga) => orga.id === d.id) || {}
 	);
-	const contributor = (attr.contributor || []).map(
+	const contributors = (attr.contributors || []).map(
 		(d) => organisations.find((orga) => orga.id === d.id) || {}
 	);
 	return (
@@ -146,7 +147,7 @@ function OperationsSerieVisualization({
 				<Note
 					text={
 						<ul>
-							{creator.map(({ label }, index) => (
+							{creators.map(({ label }, index) => (
 								<li key={index}>{label}</li>
 							))}
 						</ul>
@@ -159,7 +160,7 @@ function OperationsSerieVisualization({
 			</div>
 
 			<DisplayLinks
-				links={contributor}
+				links={contributors}
 				title={'stakeholders'}
 				langs={langs}
 				secondLang={false}
@@ -167,7 +168,7 @@ function OperationsSerieVisualization({
 				labelLg1="label"
 			/>
 			<DisplayLinks
-				links={dataCollector}
+				links={dataCollectors}
 				title={'dataCollector'}
 				langs={langs}
 				secondLang={false}
@@ -179,7 +180,7 @@ function OperationsSerieVisualization({
 				<Note
 					text={
 						<ul>
-							{attr.proprietaires?.map((g, index) => (
+							{publishers.map((g, index) => (
 								<li key={index}>{g}</li>
 							))}
 						</ul>
