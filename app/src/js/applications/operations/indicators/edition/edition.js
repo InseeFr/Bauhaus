@@ -46,7 +46,6 @@ class OperationsIndicatorEdition extends Component {
 			'abstractLg2',
 			'historyNoteLg1',
 			'historyNoteLg2',
-			'creator',
 			'accrualPeriodicityCode',
 		].reduce(
 			(acc, selector) => ({
@@ -256,10 +255,17 @@ class OperationsIndicatorEdition extends Component {
 
 								<SelectRmes
 									unclearable
-									value={indicator.creator}
+									value={indicator.creators}
 									options={organisationsOptions}
 									placeholder=""
-									onChange={this.onChanges.creator}
+									multi
+									onChange={(value) => {
+										this.onChange('creators')(
+											value.map((v) => {
+												return v.value;
+											})
+										);
+									}}
 								/>
 							</label>
 						</div>

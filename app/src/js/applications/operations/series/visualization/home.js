@@ -23,7 +23,7 @@ function OperationsSerieVisualization({
 }) {
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
-	const creators = formatPrimitiveToArray(attr.creator).map(
+	const creators = formatPrimitiveToArray(attr.creators).map(
 		(d) => organisations.find((orga) => orga.id === d) || {}
 	);
 	const publishers = formatPrimitiveToArray(attr.publishers);
