@@ -42,11 +42,18 @@ function DisplayMultiLangNote({
 	);
 }
 
+function formatPrimitiveToArray(object = []) {
+	return Array.isArray(object) ? object : [object];
+}
+
 function OperationsIndicatorVisualization(props) {
 	const { attr, langs, secondLang, frequency = {}, organisations = [] } = props;
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
-	const creator = (organisations.find((orga) => orga.id === attr.creator) || {})
-		.label;
+
+	const creators = formatPrimitiveToArray(attr.creators).map(
+		(d) => organisations.find((orga) => orga.id === d) || {}
+	);
+
 	const contributors = (attr.contributors || []).map(
 		(d) => organisations.find((orga) => orga.id === d.id) || {}
 	);
@@ -97,7 +104,13 @@ function OperationsIndicatorVisualization(props) {
 			/>
 			<div className="row">
 				<Note
-					text={creator}
+					text={
+						<ul>
+							{creators.map(({ label }, index) => (
+								<li key={index}>{label}</li>
+							))}
+						</ul>
+					}
 					title={D1.organisation}
 					lang={langs.lg1}
 					alone={true}
