@@ -29,15 +29,15 @@ function getFetchLabelsPromise(sims, promise) {
 	if (sims.idOperation) {
 		return api
 			.getOperation(sims.idOperation)
-			.then(parent => mergeLabels(parent));
+			.then((parent) => mergeLabels(parent));
 	}
 	if (sims.idSeries) {
-		return api.getSerie(sims.idSeries).then(parent => mergeLabels(parent));
+		return api.getSerie(sims.idSeries).then((parent) => mergeLabels(parent));
 	}
 	if (sims.idIndicator) {
 		return api
 			.getIndicator(sims.idIndicator)
-			.then(parent => mergeLabels(parent));
+			.then((parent) => mergeLabels(parent));
 	}
 	return promise;
 }
@@ -50,7 +50,7 @@ function getFetchLabelsPromise(sims, promise) {
  * @param {Sims} sims
  * @param {(string) => void} callback
  */
-export const saveSims = (sims, callback) => dispatch => {
+export const saveSims = (sims, callback) => (dispatch) => {
 	let promise = Promise.resolve(sims);
 
 	if (!sims.labelLg1) {
@@ -62,16 +62,16 @@ export const saveSims = (sims, callback) => dispatch => {
 		type: A.SAVE_OPERATIONS_SIMS,
 		payload: sims,
 	});
-	return promise.then(sims => {
+	return promise.then((sims) => {
 		return api[method](sims).then(
-			results => {
+			(results) => {
 				dispatch({
 					type: A.SAVE_OPERATIONS_SIMS_SUCCESS,
 					payload: sims,
 				});
 				callback(results || sims.id);
 			},
-			err => {
+			(err) => {
 				dispatch({
 					type: A.SAVE_OPERATIONS_SIMS_FAILURE,
 					payload: { err },
@@ -85,12 +85,12 @@ function getParentsWithoutSims(idOperation) {
 	if (idOperation) {
 		return api
 			.getOperation(idOperation)
-			.then(operation => api.getOperationsWithoutReport(operation.series.id));
+			.then((operation) => api.getOperationsWithoutReport(operation.series.id));
 	}
 	return Promise.resolve([]);
 }
 
-export default id => (dispatch, getState) => {
+export default (id) => (dispatch, getState) => {
 	if (!id || getState().operationsSimsCurrentStatus === LOADING) {
 		return;
 	}
@@ -102,7 +102,8 @@ export default id => (dispatch, getState) => {
 	});
 
 	return api.getSims(id).then(
-		results => {
+		(results) => {
+			const rubrics = results.rubrics || [];
 			return getParentsWithoutSims(results.idOperation).then(
 				(parentsWithoutSims = []) => {
 					dispatch({
@@ -110,7 +111,7 @@ export default id => (dispatch, getState) => {
 						payload: {
 							...results,
 							parentsWithoutSims,
-							rubrics: results.rubrics.reduce((acc, rubric) => {
+							rubrics: rubrics.reduce((acc, rubric) => {
 								return {
 									...acc,
 									[rubric.idAttribute]: {
@@ -125,7 +126,7 @@ export default id => (dispatch, getState) => {
 			);
 		},
 
-		err => {
+		(err) => {
 			dispatch({
 				type: A.LOAD_OPERATIONS_SIMS_LIST_FAILURE,
 				payload: { err },
