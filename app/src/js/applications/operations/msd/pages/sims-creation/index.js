@@ -11,6 +11,7 @@ import {
 	ActionToolbar,
 	SaveButton,
 	Select,
+	CheckSecondLang,
 } from '@inseefr/wilco';
 
 import { DUPLICATE } from 'js/applications/operations/msd';
@@ -21,7 +22,7 @@ import {
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
 } from 'js/applications/operations/msd/utils';
-import { HTMLUtils, CheckSecondLang, ArrayUtils } from 'bauhaus-utilities';
+import { HTMLUtils, ArrayUtils } from 'bauhaus-utilities';
 import './sims-creation.scss';
 import { rangeType } from 'js/utils/msd/';
 
@@ -66,6 +67,7 @@ class SimsCreation extends React.Component {
 				}, {}),
 				...removeRubricsWhenDuplicate(props.mode, sims.rubrics),
 			},
+			secondLang: true,
 		};
 	}
 
@@ -135,12 +137,12 @@ class SimsCreation extends React.Component {
 		const {
 			metadataStructure,
 			codesLists = {},
-			secondLang,
 			mode,
 			langs: { lg1, lg2 },
 			organisations = [],
 			geographiesOptions = [],
 		} = this.props;
+		const { secondLang } = this.state;
 
 		const organisationsOptions = ArrayUtils.sortArrayByLabel(
 			organisations.map((c) => ({
@@ -229,7 +231,14 @@ class SimsCreation extends React.Component {
 						<div key={msd.idMas} className="bauhaus-sims-creation">
 							{index === 0 && (
 								<React.Fragment>
-									<CheckSecondLang />
+									<CheckSecondLang
+										secondLang={secondLang}
+										onChange={() => {
+											this.setState({
+												secondLang: !this.state.secondLang,
+											});
+										}}
+									/>
 									{mode === 'DUPLICATE' && (
 										<Select
 											value={operationsOptions.find(
