@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import * as select from 'js/reducers';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Auth from 'js/utils/auth/components/auth';
 import {
 	Button,
 	Loading,
@@ -14,11 +13,11 @@ import {
 	ReturnButton,
 } from '@inseefr/wilco';
 
-import { ADMIN } from 'js/utils/auth/roles';
 import React from 'react';
 import loadFamily, { publishFamily } from 'js/actions/operations/families/item';
 import OperationsFamilyVisualization from 'js/applications/operations/families/visualization/visualization';
 import {
+	Auth,
 	Stores,
 	HTMLUtils,
 	ValidationButton,
@@ -63,21 +62,21 @@ class FamilyVisualizationContainer extends VisualizationContainer {
 				<ActionToolbar>
 					<ReturnButton action={goBack(this.props, '/operations/families')} />
 
-					<Auth roles={[ADMIN]}>
+					<Auth.AuthGuard roles={[Auth.ADMIN]}>
 						<ValidationButton
 							object={attr}
-							callback={object =>
+							callback={(object) =>
 								this.publish(object, this.props.publishFamily)
 							}
 							disabled={publicationDisabled}
 						/>
-					</Auth>
-					<Auth roles={[ADMIN]}>
+					</Auth.AuthGuard>
+					<Auth.AuthGuard roles={[Auth.ADMIN]}>
 						<Button
 							action={`/operations/family/${attr.id}/modify`}
 							label={D.btnUpdate}
 						/>
-					</Auth>
+					</Auth.AuthGuard>
 				</ActionToolbar>
 
 				<ErrorBloc error={serverSideError} />
@@ -109,8 +108,5 @@ const mapDispatchToProps = {
 	publishFamily,
 };
 export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(FamilyVisualizationContainer)
+	connect(mapStateToProps, mapDispatchToProps)(FamilyVisualizationContainer)
 );

@@ -7,7 +7,12 @@ import {
 	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
-import { CheckSecondLang, Stores, PageTitleBlock } from 'bauhaus-utilities';
+import {
+	Auth,
+	CheckSecondLang,
+	Stores,
+	PageTitleBlock,
+} from 'bauhaus-utilities';
 
 import D from 'js/i18n';
 import * as select from 'js/reducers';
@@ -17,12 +22,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
-import Auth from 'js/utils/auth/components/auth';
-import {
-	ADMIN,
-	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR,
-} from 'js/utils/auth/roles';
 
 const extractId = buildExtract('id');
 
@@ -60,12 +59,18 @@ class DocumentationVisualizationContainer extends Component {
 				<ActionToolbar>
 					<ReturnButton action={goBack(this.props, '/operations/documents')} />
 
-					<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]}>
+					<Auth.AuthGuard
+						roles={[
+							Auth.ADMIN,
+							Auth.INDICATOR_CONTRIBUTOR,
+							Auth.SERIES_CONTRIBUTOR,
+						]}
+					>
 						<Button
 							action={`/operations/${type}/${document.id}/modify`}
 							label={D.btnUpdate}
 						/>
-					</Auth>
+					</Auth.AuthGuard>
 				</ActionToolbar>
 				<CheckSecondLang />
 

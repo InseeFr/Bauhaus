@@ -10,13 +10,7 @@ import {
 } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
-import Auth from 'js/utils/auth/components/auth';
-import {
-	ADMIN,
-	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR,
-} from 'js/utils/auth/roles';
-import { FilterToggleButtons, useQueryParam } from 'bauhaus-utilities';
+import { Auth, FilterToggleButtons, useQueryParam } from 'bauhaus-utilities';
 import { useHistory, Link } from 'react-router-dom';
 
 const SearchableList = ({
@@ -93,7 +87,13 @@ function DocumentHome({ documents }) {
 	return (
 		<div className="container documents-home">
 			<div className="row">
-				<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]}>
+				<Auth.AuthGuard
+					roles={[
+						Auth.ADMIN,
+						Auth.INDICATOR_CONTRIBUTOR,
+						Auth.SERIES_CONTRIBUTOR,
+					]}
+				>
 					<VerticalMenu>
 						{[
 							['/operations/document/create', D.document],
@@ -107,7 +107,7 @@ function DocumentHome({ documents }) {
 							/>
 						))}
 					</VerticalMenu>
-				</Auth>
+				</Auth.AuthGuard>
 
 				<div className="col-md-8 text-center pull-right operations-list">
 					<PageTitle title={D.documentsSearchTitle} col={12} offset={0} />

@@ -1,4 +1,4 @@
-import * as R from 'js/utils/auth/roles';
+import * as R from 'bauhaus-utilities/src/auth/roles';
 import * as U from './utils';
 
 const emptyRole = [];
