@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
@@ -10,18 +10,18 @@ import {
 } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
-import { Auth, FilterToggleButtons, useQueryParam } from 'bauhaus-utilities';
-import { useHistory, Link } from 'react-router-dom';
+import { Auth, FilterToggleButtons } from 'bauhaus-utilities';
+import { Link, useHistory } from 'react-router-dom';
 
+const sessionStorageKey = 'documents-displayMode';
 const SearchableList = ({
 	items = [],
-	searchUrl,
 	placeholder,
 	childPath,
 	label,
 	autoFocus,
 	searchValue = '',
-	itemFormatter = (content, item) => content,
+	itemFormatter = (content) => content,
 }) => {
 	const [search, handleSearch] = useState(searchValue);
 
@@ -65,9 +65,10 @@ const SearchableList = ({
 
 function DocumentHome({ documents }) {
 	const history = useHistory();
-	const queryMode = useQueryParam('mode');
+	const queryMode = sessionStorage.getItem(sessionStorageKey);
 
 	const [filter, setFilter] = useState(queryMode || BOTH);
+
 	const filteredDocuments = documents.filter((document) => {
 		return (
 			filter === BOTH ||
@@ -78,11 +79,16 @@ function DocumentHome({ documents }) {
 
 	const onFilter = useCallback(
 		(mode) => {
+			history.push(window.location.pathname + '?page=1');
+
 			setFilter(mode);
-			history.push(window.location.pathname + '?page=1&mode=' + mode);
 		},
 		[history]
 	);
+
+	useEffect(() => {
+		sessionStorage.setItem(sessionStorageKey, filter);
+	}, [filter]);
 
 	return (
 		<div className="container documents-home">
