@@ -1,4 +1,6 @@
 import * as selectors from './auth/selectors';
+import * as roles from './auth/roles';
+import AuthGuard from './auth/components/auth';
 
 import * as utils from './auth/open-id-connect-auth/token-utils';
 export * from './apis/sparql-endpoint-call';
@@ -15,31 +17,25 @@ export * as DateUtils from './utils/date-utils';
 export const Auth = {
 	...utils,
 	...selectors,
+	...roles,
+	AuthGuard,
 };
 export { default as EditorHTML } from './components/editor-html';
 export {
 	default as EditorMarkdown,
 	toolbar as EditorMarkdownToolbar,
 } from './components/editor-html/editor-markdown';
-export {
-	default as AdvancedSearchControls,
-} from './components/advanced-search/controls';
+export { default as AdvancedSearchControls } from './components/advanced-search/controls';
 export * from './components/advanced-search/home-container';
-export {
-	default as AdvancedSearchList,
-} from './components/advanced-search/home';
+export { default as AdvancedSearchList } from './components/advanced-search/home';
 export * as ItemToSelectModel from './utils/item-to-select-model';
 export { default as ValidationButton } from './components/validationButton';
-export {
-	default as FilterToggleButtons,
-} from './components/filter-toggle-buttons';
+export { default as FilterToggleButtons } from './components/filter-toggle-buttons';
 
 export { default as CheckSecondLang } from './components/check-second-lang';
 
 export * as Stores from './stores';
 export { default as PageTitleBlock } from './components/page-title-block';
-export {
-	default as ConfirmationDelete,
-} from './components/confirmation-delete';
+export { default as ConfirmationDelete } from './components/confirmation-delete';
 
 export { useQueryParam } from './utils/hooks';

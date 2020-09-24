@@ -1,9 +1,9 @@
-import { Auth } from 'bauhaus-utilities';
+import { getPermission } from '../selectors';
 import { connect } from 'react-redux';
 
-export const mapStateToProps = state => {
+export const mapStateToProps = (state) => {
 	return {
-		userRoles: Auth.getPermission(state).roles,
+		userRoles: getPermission(state).roles,
 	};
 };
 
@@ -14,7 +14,7 @@ export function AuthDumb({
 	fallback = null,
 	complementaryCheck = true,
 }) {
-	const isAuthorized = !!roles.find(role => userRoles.includes(role));
+	const isAuthorized = !!roles.find((role) => userRoles.includes(role));
 	if (!isAuthorized || !complementaryCheck) {
 		return fallback;
 	}

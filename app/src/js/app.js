@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import adminLogo from 'img/admin.svg';
 
-import { ADMIN } from 'js/utils/auth/roles';
-import Auth from 'js/utils/auth/components/auth';
+import { Auth } from 'bauhaus-utilities';
 import 'bootstrap/dist/css/bootstrap.css';
 import './app.scss';
 function App() {
 	document.title = 'Bauhaus';
 
-	const apps = process.env.REACT_APP_APPLICATIONS.split(',').map(appName => {
+	const apps = process.env.REACT_APP_APPLICATIONS.split(',').map((appName) => {
 		const app = appName.trim();
 		const defaultRoute = require(`./applications/${app}/config`).defaultRoute;
 		return (
@@ -28,7 +27,7 @@ function App() {
 	return (
 		<div className="home-page-links home-page-links__grid-3">
 			{apps}
-			<Auth roles={[ADMIN]}>
+			<Auth.AuthGuard roles={[Auth.ADMIN]}>
 				<div className="bauhaus-app">
 					<Link to="/habilitation">
 						<h2 className="items page-title page-title-link">
@@ -37,7 +36,7 @@ function App() {
 						<img src={adminLogo} alt="Roles" className="img" />
 					</Link>
 				</div>
-			</Auth>
+			</Auth.AuthGuard>
 		</div>
 	);
 }

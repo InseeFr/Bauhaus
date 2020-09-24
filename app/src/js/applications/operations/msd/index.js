@@ -126,7 +126,7 @@ class MSDContainer extends Component {
 					<PageTitleBlock
 						titleLg1={currentSims.labelLg1}
 						titleLg2={currentSims.labelLg2}
-						secondLang={secondLang}
+						secondLang={secondLang || mode !== VIEW}
 					/>
 				)}
 				{mode === HELP && (
@@ -160,7 +160,6 @@ class MSDContainer extends Component {
 						onSubmit={saveSims}
 						idParent={idParent}
 						langs={langs}
-						secondLang={secondLang}
 						goBack={this.goBackCallback}
 						mode={mode}
 						organisations={organisations}

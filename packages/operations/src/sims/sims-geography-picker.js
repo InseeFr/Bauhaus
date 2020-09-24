@@ -2,11 +2,13 @@ import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ReactSelect from 'react-select';
 import D from '../i18n/build-dictionary';
-import { Stores } from 'bauhaus-utilities';
+import { Stores, Auth } from 'bauhaus-utilities';
 import SlidingPanel from 'react-sliding-side-panel';
 import SimsGeographyField from './sims-geography-field';
+
 import './sims-geography-picker.scss';
 import { SimsGeographyI18NLabel } from 'bauhaus-operations';
+
 const SimsGeographyPicker = ({ onChange, value }) => {
 	const geographiesOptions = useSelector(Stores.Geographies.getAllOptions);
 	const [slidingModel, setSlidingModel] = useState(false);
@@ -40,9 +42,12 @@ const SimsGeographyPicker = ({ onChange, value }) => {
 						formatOptionLabel={formatOptionLabel}
 					/>
 				</div>
-				<button type="button" className="btn btn-default" onClick={openPanel}>
-					{D.btnNew}
-				</button>
+
+				<Auth.AuthGuard roles={[Auth.ADMIN]}>
+					<button type="button" className="btn btn-default" onClick={openPanel}>
+						{D.btnNew}
+					</button>
+				</Auth.AuthGuard>
 			</div>
 			<SlidingPanel type={'right'} isOpen={slidingModel} size={60}>
 				<SimsGeographyField onCancel={onCancel} onSave={onSave} />

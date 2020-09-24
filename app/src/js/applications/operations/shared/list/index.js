@@ -6,7 +6,7 @@ import {
 	Button,
 	VerticalMenu,
 } from '@inseefr/wilco';
-import Auth from 'js/utils/auth/components/auth';
+import { Auth } from 'bauhaus-utilities';
 import D from 'js/i18n';
 
 function OperationsObjectHome({
@@ -21,14 +21,14 @@ function OperationsObjectHome({
 	return (
 		<div className="container">
 			<div className="row">
-				<Auth roles={roles}>
+				<Auth.AuthGuard roles={roles}>
 					<VerticalMenu>
 						<NewButton action={createURL} wrapper={false} />
 						<Button wrapper={false} action="/operations/tree">
 							{D.btnTree}
 						</Button>
 					</VerticalMenu>
-				</Auth>
+				</Auth.AuthGuard>
 				<div className="col-md-8 text-center pull-right operations-list">
 					<PageTitle title={title} col={12} offset={0} />
 					<SearchableList

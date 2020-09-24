@@ -15,6 +15,7 @@ import {
 import { PublicationFemale } from 'js/applications/operations/shared/status';
 
 import {
+	Auth,
 	HTMLUtils,
 	ValidationButton,
 	CheckSecondLang,
@@ -24,13 +25,7 @@ import {
 	shouldDisplayDuplicateButton,
 	getParentUri,
 } from 'js/applications/operations/msd/utils';
-import {
-	ADMIN,
-	CNIS,
-	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR,
-} from 'js/utils/auth/roles';
-import Auth from 'js/utils/auth/components/auth';
+
 import SimsBlock from './sims-block';
 import './sims-visualisation.scss';
 const { RICH_TEXT } = rangeType;
@@ -118,29 +113,36 @@ export default function SimsVisualisation({
 	);
 
 	const CONTRIBUTOR = sims.idIndicator
-		? INDICATOR_CONTRIBUTOR
-		: SERIES_CONTRIBUTOR;
+		? Auth.INDICATOR_CONTRIBUTOR
+		: Auth.SERIES_CONTRIBUTOR;
 	return (
 		<>
 			<ActionToolbar>
 				<ReturnButton action={() => goBack(getParentUri(sims))} />
-				<Auth
-					roles={[ADMIN, CONTRIBUTOR]}
+				<Auth.AuthGuard
+					roles={[Auth.ADMIN, CONTRIBUTOR]}
 					complementaryCheck={shouldDisplayDuplicateButtonFlag}
 				>
 					<DuplicateButton
 						action={`/operations/sims/${sims.id}/duplicate`}
 						col={3}
 					/>
-				</Auth>
-				<Auth roles={[ADMIN, CONTRIBUTOR]}>
+				</Auth.AuthGuard>
+				<Auth.AuthGuard roles={[Auth.ADMIN, CONTRIBUTOR]}>
 					<ValidationButton
 						object={sims}
 						callback={(object) => publish(object)}
 						disabled={publicationDisabled}
 					/>
-				</Auth>
-				<Auth roles={[ADMIN, CNIS, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]}>
+				</Auth.AuthGuard>
+				<Auth.AuthGuard
+					roles={[
+						Auth.ADMIN,
+						Auth.CNIS,
+						Auth.INDICATOR_CONTRIBUTOR,
+						Auth.SERIES_CONTRIBUTOR,
+					]}
+				>
 					<Button
 						action={`/operations/sims/${sims.id}/modify`}
 						label={
@@ -153,7 +155,7 @@ export default function SimsVisualisation({
 							</>
 						}
 					/>
-				</Auth>
+				</Auth.AuthGuard>
 			</ActionToolbar>
 
 			<ErrorBloc error={serverSideError} />

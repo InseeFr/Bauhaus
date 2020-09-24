@@ -21,9 +21,9 @@ import loadOperation, {
 	publishOperation,
 } from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
-import Auth from 'js/utils/auth/components/auth';
-import { ADMIN, CNIS, SERIES_CONTRIBUTOR } from 'js/utils/auth/roles';
+
 import {
+	Auth,
 	ValidationButton,
 	Stores,
 	CheckSecondLang,
@@ -71,27 +71,29 @@ class OperationVisualizationContainer extends VisualizationContainer {
 						/>
 					)}
 					{!operation.idSims && (
-						<Auth roles={[ADMIN, SERIES_CONTRIBUTOR]}>
+						<Auth.AuthGuard roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}>
 							<Button
 								action={`/operations/operation/${operation.id}/sims/create`}
 								label={D.btnSimsCreate}
 							/>
-						</Auth>
+						</Auth.AuthGuard>
 					)}
-					<Auth roles={[ADMIN, SERIES_CONTRIBUTOR]}>
+					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}>
 						<ValidationButton
 							object={operation}
-							callback={object =>
+							callback={(object) =>
 								this.publish(object, this.props.publishOperation)
 							}
 						/>
-					</Auth>
-					<Auth roles={[ADMIN, CNIS, SERIES_CONTRIBUTOR]}>
+					</Auth.AuthGuard>
+					<Auth.AuthGuard
+						roles={[Auth.ADMIN, Auth.CNIS, Auth.SERIES_CONTRIBUTOR]}
+					>
 						<Button
 							action={`/operations/operation/${operation.id}/modify`}
 							label={D.btnUpdate}
 						/>
-					</Auth>
+					</Auth.AuthGuard>
 				</ActionToolbar>
 
 				<ErrorBloc error={serverSideError} />
