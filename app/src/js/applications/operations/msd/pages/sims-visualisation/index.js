@@ -10,6 +10,7 @@ import {
 	ActionToolbar,
 	ReturnButton,
 	Panel,
+	ExportButton,
 } from '@inseefr/wilco';
 
 import { PublicationFemale } from 'js/applications/operations/shared/status';
@@ -25,10 +26,19 @@ import {
 	shouldDisplayDuplicateButton,
 	getParentUri,
 } from 'js/applications/operations/msd/utils';
+import api from 'js/remote-api/operations-api';
 
 import SimsBlock from './sims-block';
 import './sims-visualisation.scss';
 const { RICH_TEXT } = rangeType;
+
+const ExportSimsButton = ({ id }) => {
+	const exportCallback = useCallback(() => {
+		console.log(id);
+		api.exportSims(id);
+	}, [id]);
+	return <ExportButton action={exportCallback} />;
+};
 
 export default function SimsVisualisation({
 	metadataStructure,
@@ -155,6 +165,9 @@ export default function SimsVisualisation({
 							</>
 						}
 					/>
+				</Auth.AuthGuard>
+				<Auth.AuthGuard roles={[Auth.ADMIN]}>
+					<ExportSimsButton id={sims.id} />
 				</Auth.AuthGuard>
 			</ActionToolbar>
 
