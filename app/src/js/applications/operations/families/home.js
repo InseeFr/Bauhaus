@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-import { ADMIN } from 'js/utils/auth/roles';
+import { Auth } from 'bauhaus-utilities';
 import OperationsObjectHome from 'js/applications/operations/shared/list';
 
 function FamiliesHome({ families }) {
 	return (
 		<OperationsObjectHome
 			items={families}
-			roles={[ADMIN]}
+			roles={[Auth.ADMIN]}
 			title={D.familiesSearchTitle}
 			childPath="operations/family"
 			searchURL="/operations/families/search"

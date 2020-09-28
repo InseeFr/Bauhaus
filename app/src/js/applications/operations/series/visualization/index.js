@@ -16,9 +16,9 @@ import {
 } from '@inseefr/wilco';
 import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
-import { ADMIN, CNIS, SERIES_CONTRIBUTOR } from 'js/utils/auth/roles';
-import Auth from 'js/utils/auth/components/auth';
+
 import {
+	Auth,
 	HTMLUtils,
 	ValidationButton,
 	Stores,
@@ -68,31 +68,33 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 						/>
 					)}
 					{!attr.idSims && (
-						<Auth
-							roles={[ADMIN, SERIES_CONTRIBUTOR]}
+						<Auth.AuthGuard
+							roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}
 							complementaryCheck={ableToCreateASimsForThisSeries}
 						>
 							<Button
 								action={`/operations/series/${attr.id}/sims/create`}
 								label={D.btnSimsCreate}
 							/>
-						</Auth>
+						</Auth.AuthGuard>
 					)}
-					<Auth roles={[ADMIN, SERIES_CONTRIBUTOR]}>
+					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}>
 						<ValidationButton
 							object={attr}
-							callback={object =>
+							callback={(object) =>
 								this.publish(object, this.props.publishSeries)
 							}
 							disabled={publicationDisabled}
 						/>
-					</Auth>
-					<Auth roles={[ADMIN, CNIS, SERIES_CONTRIBUTOR]}>
+					</Auth.AuthGuard>
+					<Auth.AuthGuard
+						roles={[Auth.ADMIN, Auth.CNIS, Auth.SERIES_CONTRIBUTOR]}
+					>
 						<Button
 							action={`/operations/series/${attr.id}/modify`}
 							label={D.btnUpdate}
 						/>
-					</Auth>
+					</Auth.AuthGuard>
 				</ActionToolbar>
 
 				<ErrorBloc error={serverSideError} />
@@ -125,9 +127,9 @@ const mapStateToProps = (state, ownProps) => {
 		langs: select.getLangs(state),
 		secondLang: Stores.SecondLang.getSecondLang(state),
 		frequency: frequencies.codes.find(
-			c => c.code === serie.accrualPeriodicityCode
+			(c) => c.code === serie.accrualPeriodicityCode
 		),
-		category: categories.codes.find(c => c.code === serie.typeCode),
+		category: categories.codes.find((c) => c.code === serie.typeCode),
 		organisations,
 	};
 };
@@ -137,8 +139,5 @@ const mapDispatchToProps = {
 };
 
 export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(SeriesVisualizationContainer)
+	connect(mapStateToProps, mapDispatchToProps)(SeriesVisualizationContainer)
 );

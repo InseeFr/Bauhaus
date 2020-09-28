@@ -18,9 +18,8 @@ import loadIndicator, {
 	publishIndicator,
 } from 'js/actions/operations/indicators/item';
 import { CL_FREQ } from 'js/actions/constants/codeList';
-import Auth from 'js/utils/auth/components/auth';
-import { INDICATOR_CONTRIBUTOR, ADMIN } from 'js/utils/auth/roles';
 import {
+	Auth,
 	HTMLUtils,
 	ValidationButton,
 	Stores,
@@ -67,28 +66,28 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 						</>
 					)}
 					{!attr.idSims && (
-						<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR]}>
+						<Auth.AuthGuard roles={[Auth.ADMIN, Auth.INDICATOR_CONTRIBUTOR]}>
 							<Button
 								action={`/operations/indicator/${attr.id}/sims/create`}
 								label={D.btnSimsCreate}
 							/>
-						</Auth>
+						</Auth.AuthGuard>
 					)}
-					<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR]}>
+					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.INDICATOR_CONTRIBUTOR]}>
 						<ValidationButton
 							object={attr}
-							callback={object =>
+							callback={(object) =>
 								this.publish(object, this.props.publishIndicator)
 							}
 							disabled={publicationDisabled}
 						/>
-					</Auth>
-					<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR]}>
+					</Auth.AuthGuard>
+					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.INDICATOR_CONTRIBUTOR]}>
 						<Button
 							action={`/operations/indicator/${attr.id}/modify`}
 							label={D.btnUpdate}
 						/>
-					</Auth>
+					</Auth.AuthGuard>
 				</ActionToolbar>
 				<ErrorBloc error={serverSideError} />
 
@@ -116,7 +115,7 @@ export const mapStateToProps = (state, ownProps) => {
 		langs: select.getLangs(state),
 		secondLang: Stores.SecondLang.getSecondLang(state),
 		frequency: frequencies.codes.find(
-			c => c.code === indicator.accrualPeriodicityCode
+			(c) => c.code === indicator.accrualPeriodicityCode
 		),
 		organisations,
 	};
@@ -126,8 +125,5 @@ const mapDispatchToProps = {
 	publishIndicator,
 };
 export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(IndicatorVisualizationContainer)
+	connect(mapStateToProps, mapDispatchToProps)(IndicatorVisualizationContainer)
 );

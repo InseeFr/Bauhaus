@@ -18,6 +18,7 @@ import loadOperation from 'js/actions/operations/operations/item';
 import loadSerie from 'js/actions/operations/series/item';
 import loadIndicator from 'js/actions/operations/indicators/item';
 import { Stores, PageTitleBlock } from 'bauhaus-utilities';
+import api from 'js/remote-api/operations-api';
 
 import {
 	getOperationsOrganisations,
@@ -60,6 +61,12 @@ class MSDContainer extends Component {
 		currentSims: {},
 	};
 
+	constructor() {
+		super();
+		this.state = {
+			exportPending: false,
+		};
+	}
 	_loadParent(id) {
 		const parentType = this.props.match.params[0];
 		return this.props[mapToParentType[parentType].load](id);
@@ -84,6 +91,12 @@ class MSDContainer extends Component {
 		}
 	}
 
+	exportCallback = (id) => {
+		this.setState(() => ({ exportPending: true }));
+		api.exportSims(id).then(() => {
+			this.setState(() => ({ exportPending: false }));
+		});
+	};
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.currentSims.id || this.props.id !== nextProps.id) {
 			this.props.loadSIMS(nextProps.id);
@@ -114,6 +127,8 @@ class MSDContainer extends Component {
 		)
 			return <Loading />;
 
+		if (this.state.exportPending) return <Loading textType="loadableLoading" />;
+
 		return (
 			<MSDLayout
 				metadataStructure={metadataStructure}
@@ -126,7 +141,7 @@ class MSDContainer extends Component {
 					<PageTitleBlock
 						titleLg1={currentSims.labelLg1}
 						titleLg2={currentSims.labelLg2}
-						secondLang={secondLang}
+						secondLang={secondLang || mode !== VIEW}
 					/>
 				)}
 				{mode === HELP && (
@@ -150,6 +165,7 @@ class MSDContainer extends Component {
 						secondLang={secondLang}
 						goBack={this.goBackCallback}
 						publishSims={this.props.publishSims}
+						exportCallback={this.exportCallback}
 					/>
 				)}
 				{(mode === CREATE || mode === UPDATE || mode === DUPLICATE) && (
@@ -160,7 +176,6 @@ class MSDContainer extends Component {
 						onSubmit={saveSims}
 						idParent={idParent}
 						langs={langs}
-						secondLang={secondLang}
 						goBack={this.goBackCallback}
 						mode={mode}
 						organisations={organisations}

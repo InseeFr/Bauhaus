@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
 	NewButton,
 	SearchableList,
@@ -9,18 +9,37 @@ import {
 import './component-list.scss';
 import { FilterToggleButtons } from 'bauhaus-utilities';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
+import { useHistory } from 'react-router-dom';
 
 import { formatLabel } from '../../utils';
 import api from '../../apis/structure-api';
 import D from '../../i18n/build-dictionary';
 
 const ALL = 'ALL';
+const sessionStorageKey = 'components-displayMode';
+
 function ComponentsList() {
+	const history = useHistory();
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const [filter, setFilter] = useState(ALL);
+	const queryMode = sessionStorage.getItem(sessionStorageKey);
+	const [filter, setFilter] = useState(queryMode || ALL);
+
+	const onFilter = useCallback(
+		(mode) => {
+			history.push(window.location.pathname + '?page=1');
+
+			setFilter(mode);
+		},
+		[history]
+	);
+
+	useEffect(() => {
+		sessionStorage.setItem(sessionStorageKey, filter);
+	}, [filter]);
+
 	const filteredItems = items
-		.filter(item => {
+		.filter((item) => {
 			return filter === ALL || item?.type === filter;
 		})
 		.map(({ id, labelLg1, labelLg2 }) => ({ id, labelLg1, labelLg2 }));
@@ -28,7 +47,7 @@ function ComponentsList() {
 	useEffect(() => {
 		api
 			.getMutualizedComponents()
-			.then(components => {
+			.then((components) => {
 				setItems(components);
 			})
 			.finally(() => setLoading(false));
@@ -47,10 +66,10 @@ function ComponentsList() {
 					<PageTitle title={D.componentTitle} col={12} offset={0} />
 					<FilterToggleButtons
 						currentValue={filter}
-						handleSelection={setFilter}
+						handleSelection={onFilter}
 						options={[
 							[ALL, D.all],
-							...MUTUALIZED_COMPONENT_TYPES.map(type => [
+							...MUTUALIZED_COMPONENT_TYPES.map((type) => [
 								type.value,
 								type.label,
 							]),

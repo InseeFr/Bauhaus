@@ -6,7 +6,7 @@ import {
 	ADMIN,
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
-} from 'js/utils/auth/roles';
+} from 'bauhaus-utilities/src/auth/roles';
 
 class LoginNoAuth extends Component {
 	componentWillMount() {
@@ -24,7 +24,4 @@ const mapDispatchToProps = {
 	checkAuth,
 };
 
-export default connect(
-	null,
-	mapDispatchToProps
-)(LoginNoAuth);
+export default connect(null, mapDispatchToProps)(LoginNoAuth);
