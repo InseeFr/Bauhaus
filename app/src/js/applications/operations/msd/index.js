@@ -4,6 +4,13 @@ import { connect } from 'react-redux';
 import { Loading, buildExtract } from '@inseefr/wilco';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
+import loadDocuments from 'js/actions/operations/documents/list';
+import {
+	getOperationsDocuments,
+	getOperationsDocumentsStatus,
+	getOperationsOrganisations,
+	getOperationsCodesList,
+} from 'js/reducers/operations/selector';
 import loadSIMS, {
 	saveSims,
 	publishSims,
@@ -20,10 +27,6 @@ import loadIndicator from 'js/actions/operations/indicators/item';
 import { Stores, PageTitleBlock } from 'bauhaus-utilities';
 import api from 'js/remote-api/operations-api';
 
-import {
-	getOperationsOrganisations,
-	getOperationsCodesList,
-} from 'js/reducers/operations/selector';
 import { getParentType, getParentId } from './utils';
 import './msd.scss';
 const extractId = buildExtract('id');
@@ -77,6 +80,9 @@ class MSDContainer extends Component {
 	};
 
 	componentDidMount() {
+		if (this.props.documentStoresStatus === NOT_LOADED) {
+			this.props.loadDocuments();
+		}
 		if (this.props.metadataStructureStatus !== LOADED) {
 			this.props.loadMetadataStructure();
 		}
@@ -105,6 +111,10 @@ class MSDContainer extends Component {
 			this._loadParent(nextProps.idParent);
 		}
 	}
+	isEditMode = () => {
+		const { mode } = this.props;
+		return mode === CREATE || mode === UPDATE || mode === DUPLICATE;
+	};
 	render() {
 		const {
 			metadataStructure,
@@ -120,6 +130,7 @@ class MSDContainer extends Component {
 			currentSims,
 			organisations,
 			parentType,
+			documentStores,
 		} = this.props;
 		if (
 			metadataStructureStatus !== LOADED ||
@@ -168,7 +179,7 @@ class MSDContainer extends Component {
 						exportCallback={this.exportCallback}
 					/>
 				)}
-				{(mode === CREATE || mode === UPDATE || mode === DUPLICATE) && (
+				{this.isEditMode() && (
 					<SimsCreation
 						sims={currentSims}
 						metadataStructure={metadataStructure}
@@ -180,6 +191,7 @@ class MSDContainer extends Component {
 						mode={mode}
 						organisations={organisations}
 						parentType={parentType}
+						documentStores={documentStores}
 					/>
 				)}
 			</MSDLayout>
@@ -247,6 +259,8 @@ export const mapStateToProps = (state, ownProps) => {
 	}
 
 	return {
+		documentStoresStatus: getOperationsDocumentsStatus(state),
+		documentStores: getOperationsDocuments(state, ownProps.objectType),
 		geographiesLoaded: Stores.Geographies.isLoaded(state),
 		langs: select.getLangs(state),
 		secondLang: Stores.SecondLang.getSecondLang(state),
@@ -270,6 +284,7 @@ const mapDispatchToProps = {
 	loadSerie,
 	loadIndicator,
 	publishSims,
+	loadDocuments,
 	loadGeographies: Stores.Geographies.loadGeographies,
 };
 

@@ -1,15 +1,9 @@
 import spinner from 'img/spinner.svg';
-import loadDocuments from 'js/actions/operations/documents/list';
-import { LOADING, NOT_LOADED } from 'js/constants';
+import { LOADING } from 'js/constants';
 import D from 'js/i18n';
 import { getLang } from '@inseefr/wilco';
-import {
-	getOperationsDocuments,
-	getOperationsDocumentsStatus,
-} from 'js/reducers/operations/selector';
 import React, { useState, useEffect } from 'react';
 import { API, ArrayUtils } from 'bauhaus-utilities';
-import { connect } from 'react-redux';
 import './style.scss';
 import { isDocument } from 'js/applications/operations/document/utils';
 
@@ -190,31 +184,4 @@ export function DocumentsBloc({
 	);
 }
 
-const DocumentsBlocContainer = (props) => {
-	useEffect(() => {
-		if (props.documentStoresStatus === NOT_LOADED) {
-			//props.loadDocuments();
-		}
-	}, [props]);
-
-	return <DocumentsBloc {...props} />;
-};
-
-const mapDispatchToProps = {
-	loadDocuments,
-};
-
-/**
- * @param {DocumentsBlocProps} ownProps
- */
-const mapStateToProps = (state, ownProps) => {
-	return {
-		documentStoresStatus: getOperationsDocumentsStatus(state),
-		documentStores: getOperationsDocuments(state, ownProps.objectType),
-	};
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(DocumentsBlocContainer);
+export default DocumentsBloc;
