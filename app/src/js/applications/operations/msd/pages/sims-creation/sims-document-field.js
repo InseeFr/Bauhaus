@@ -3,52 +3,66 @@ import { isLink, isDocument } from 'js/applications/operations/document/utils';
 import DocumentsBloc from '../../documents/documents-bloc';
 import PropTypes from 'prop-types';
 
-export const SimsDocumentField = ({ handleChange, msd, currentSection }) => {
+export const SimsDocumentField = ({
+	documentStores,
+	handleChange,
+	msd,
+	currentSection,
+	lang = 'Lg1',
+}) => {
 	const handleDeleteDocument = useCallback(
-		uri => {
-			const objects = currentSection.documents || [];
+		(uri) => {
+			const objects = currentSection['documents' + lang] || [];
 			handleChange({
 				id: msd.idMas,
 				override: {
-					documents: objects.filter(doc => doc.uri !== uri),
+					['documents' + lang]: objects.filter((doc) => doc.uri !== uri),
 				},
 			});
 		},
-		[handleChange, currentSection.documents, msd.idMas]
+		[handleChange, currentSection, msd.idMas, lang]
 	);
 
 	const handleAddDocument = useCallback(
-		newObject => {
-			const objects = currentSection.documents || [];
+		(newObject) => {
+			const objects = currentSection['documents' + lang] || [];
 			handleChange({
 				id: msd.idMas,
 				override: {
-					documents: [...objects, newObject],
+					['documents' + lang]: [...objects, newObject],
 				},
 			});
 		},
-		[handleChange, msd.idMas, currentSection.documents]
+		[handleChange, msd.idMas, currentSection, lang]
 	);
 
 	return (
-		<div className="bauhaus-document-field">
-			<DocumentsBloc
-				documents={(currentSection.documents || []).filter(isDocument)}
-				localPrefix={'Lg1'}
-				editMode={true}
-				deleteHandler={handleDeleteDocument}
-				addHandler={handleAddDocument}
-				objectType="documents"
-			/>
-			<DocumentsBloc
-				documents={(currentSection.documents || []).filter(isLink)}
-				localPrefix={'Lg1'}
-				editMode={true}
-				deleteHandler={handleDeleteDocument}
-				addHandler={handleAddDocument}
-				objectType="links"
-			/>
-		</div>
+		<>
+			<div className="bauhaus-document-field">
+				<DocumentsBloc
+					documents={(currentSection['documents' + lang] || []).filter(
+						isDocument
+					)}
+					localPrefix={'Lg1'}
+					editMode={true}
+					deleteHandler={handleDeleteDocument}
+					addHandler={handleAddDocument}
+					objectType="documents"
+					documentStores={documentStores}
+				/>
+			</div>
+			<div className="bauhaus-document-field">
+				<DocumentsBloc
+					documents={(currentSection['documents' + lang] || []).filter(isLink)}
+					localPrefix={'Lg1'}
+					editMode={true}
+					deleteHandler={handleDeleteDocument}
+					addHandler={handleAddDocument}
+					objectType="links"
+					documentStores={documentStores}
+				/>
+			</div>
+		</>
 	);
 };
 
