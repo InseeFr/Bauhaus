@@ -147,7 +147,7 @@ function OperationsSerieVisualization({
 				<Note
 					text={
 						<ul>
-							{creators.map(({ label }, index) => (
+							{publishers.map(({ label }, index) => (
 								<li key={index}>{label}</li>
 							))}
 						</ul>
@@ -180,7 +180,7 @@ function OperationsSerieVisualization({
 				<Note
 					text={
 						<ul>
-							{publishers.map((g, index) => (
+							{creators.map((g, index) => (
 								<li key={index}>{g}</li>
 							))}
 						</ul>

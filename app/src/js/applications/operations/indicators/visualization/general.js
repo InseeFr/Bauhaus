@@ -106,8 +106,8 @@ function OperationsIndicatorVisualization(props) {
 				<Note
 					text={
 						<ul>
-							{creators.map(({ label }, index) => (
-								<li key={index}>{label}</li>
+							{attr.publishers?.map((g) => (
+								<li>{g}</li>
 							))}
 						</ul>
 					}
@@ -121,8 +121,8 @@ function OperationsIndicatorVisualization(props) {
 				<Note
 					text={
 						<ul>
-							{attr.publishers?.map((g) => (
-								<li>{g}</li>
+							{creators.map(({ label }, index) => (
+								<li key={index}>{label}</li>
 							))}
 						</ul>
 					}
