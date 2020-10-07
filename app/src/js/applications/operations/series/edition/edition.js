@@ -328,7 +328,7 @@ class OperationsSerieEdition extends Component {
 								<SelectRmes
 									placeholder=""
 									unclearable
-									value={serie.creators}
+									value={serie.publishers}
 									options={organisationsOptions}
 									onChange={(value) =>
 										this.onChange({
@@ -336,7 +336,7 @@ class OperationsSerieEdition extends Component {
 												value: value.map((v) => {
 													return v.value;
 												}),
-												id: 'creators',
+												id: 'publishers',
 											},
 										})
 									}
@@ -401,13 +401,13 @@ class OperationsSerieEdition extends Component {
 									placeholder=""
 									unclearable
 									multi
-									value={serie.publishers}
+									value={serie.creators}
 									options={stampsOptions}
 									onChange={(value) =>
 										this.onChange({
 											target: {
 												value: value.map((v) => v.value),
-												id: 'publishers',
+												id: 'creators',
 											},
 										})
 									}
