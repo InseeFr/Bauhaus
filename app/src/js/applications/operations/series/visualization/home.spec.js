@@ -12,12 +12,12 @@ const organisations = [
 		id: 'CNAMTS',
 	},
 	{
-		id: 'DG75-F110',
+		id: 'DG75-G001',
 	},
 ];
 const attr = {
-	publishers: [],
-	creators: 'DG75-G001',
+	publishers: [{ label: 'DG75-G001' }],
+	creators: ['DG75-G001'],
 	prefLabelLg1: 'Comptes nationaux trimestriels',
 	prefLabelLg2: 'Quarterly national accounts',
 	replaces: [
@@ -125,5 +125,75 @@ describe('SerieInformation', () => {
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
 			5
 		);
+	});
+
+	it('should display the list of creators if creators is an array', () => {
+		const { container } = render(
+			<MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr}
+					secondLang={true}
+					langs={langs}
+					organisations={organisations}
+				/>
+			</MemoryRouter>
+		);
+		const list = container.querySelector('#creators ul');
+		expect(list.querySelectorAll('li')).toHaveLength(1);
+		expect(list.querySelector('li').innerHTML).toEqual('DG75-G001');
+	});
+
+	it('should display the list of creators if creators is a string', () => {
+		const attr2 = {
+			...attr,
+			creators: attr.creators[0],
+		};
+		const { container } = render(
+			<MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr2}
+					secondLang={true}
+					langs={langs}
+					organisations={organisations}
+				/>
+			</MemoryRouter>
+		);
+		const list = container.querySelector('#creators ul');
+		expect(list.querySelectorAll('li')).toHaveLength(1);
+		expect(list.querySelector('li').innerHTML).toEqual('DG75-G001');
+	});
+	it('should display the list of publishers is an array', () => {
+		const { container } = render(
+			<MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr}
+					secondLang={true}
+					langs={langs}
+					organisations={organisations}
+				/>
+			</MemoryRouter>
+		);
+		const list = container.querySelector('#publishers ul');
+		expect(list.querySelectorAll('li')).toHaveLength(1);
+		expect(list.querySelector('li').innerHTML).toEqual('DG75-G001');
+	});
+	it('should display the list of publishers is an object', () => {
+		const attr2 = {
+			...attr,
+			publishers: attr.publishers[0],
+		};
+		const { container } = render(
+			<MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr2}
+					secondLang={true}
+					langs={langs}
+					organisations={organisations}
+				/>
+			</MemoryRouter>
+		);
+		const list = container.querySelector('#publishers ul');
+		expect(list.querySelectorAll('li')).toHaveLength(1);
+		expect(list.querySelector('li').innerHTML).toEqual('DG75-G001');
 	});
 });
