@@ -27,7 +27,6 @@ function OperationsSerieVisualization({
 		(d) => organisations.find((orga) => orga.id === d) || {}
 	);
 	const publishers = formatPrimitiveToArray(attr.publishers);
-
 	const dataCollectors = (attr.dataCollectors || []).map(
 		(d) => organisations.find((orga) => orga.id === d.id) || {}
 	);
@@ -143,11 +142,11 @@ function OperationsSerieVisualization({
 				)}
 			</div>
 
-			<div className="row">
+			<div id="publishers" className="row">
 				<Note
 					text={
 						<ul>
-							{creators.map(({ label }, index) => (
+							{publishers.map(({ label }, index) => (
 								<li key={index}>{label}</li>
 							))}
 						</ul>
@@ -176,12 +175,12 @@ function OperationsSerieVisualization({
 				labelLg1="label"
 			/>
 
-			<div className="row" data-cy="gestionnaires">
+			<div id="creators" className="row">
 				<Note
 					text={
 						<ul>
-							{publishers.map((g, index) => (
-								<li key={index}>{g}</li>
+							{creators.map((g, index) => (
+								<li key={index}>{g.id}</li>
 							))}
 						</ul>
 					}

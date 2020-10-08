@@ -255,12 +255,12 @@ class OperationsIndicatorEdition extends Component {
 
 								<SelectRmes
 									unclearable
-									value={indicator.creators}
+									value={indicator.publishers}
 									options={organisationsOptions}
 									placeholder=""
 									multi
 									onChange={(value) => {
-										this.onChange('creators')(
+										this.onChange('publishers')(
 											value.map((v) => {
 												return v.value;
 											})
@@ -278,10 +278,10 @@ class OperationsIndicatorEdition extends Component {
 									placeholder=""
 									unclearable
 									multi
-									value={indicator.publishers}
+									value={indicator.creators}
 									options={stampsOptions}
 									onChange={(value) =>
-										this.onChange('publishers')(value.map((v) => v.value))
+										this.onChange('creators')(value.map((v) => v.value))
 									}
 								/>
 							</label>
