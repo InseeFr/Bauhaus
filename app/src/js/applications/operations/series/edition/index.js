@@ -54,13 +54,9 @@ const mapStateToProps = (state, ownProps) => {
 		series: state.operationsSeriesList.results || [],
 		families,
 		statusFamilies,
-		stamps: select.getStampList(state) || [],
 	};
 };
 
 export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(OperationsSeriesEditionContainer)
+	connect(mapStateToProps, mapDispatchToProps)(OperationsSeriesEditionContainer)
 );

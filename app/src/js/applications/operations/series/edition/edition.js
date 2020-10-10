@@ -18,6 +18,7 @@ import {
 	ItemToSelectModel,
 	PageTitleBlock,
 } from 'bauhaus-utilities';
+import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 
 import { validate } from './validation';
 
@@ -50,7 +51,6 @@ class OperationsSerieEdition extends Component {
 		organisation: PropTypes.array.isRequired,
 		indicators: PropTypes.array.isRequired,
 		series: PropTypes.array.isRequired,
-		stamps: PropTypes.arrayOf(PropTypes.string),
 	};
 
 	constructor(props) {
@@ -75,6 +75,7 @@ class OperationsSerieEdition extends Component {
 	};
 
 	onChange = (e) => {
+		console.log(e);
 		let override = {
 			[e.target.id]: e.target.value,
 		};
@@ -116,7 +117,6 @@ class OperationsSerieEdition extends Component {
 			organisations,
 			indicators,
 			series,
-			stamps,
 		} = this.props;
 
 		const serie = {
@@ -128,6 +128,9 @@ class OperationsSerieEdition extends Component {
 			dataCollectors: (this.state.serie.dataCollectors || []).map(
 				(link) => link.id
 			),
+			publishers: (this.state.serie.publishers || []).map(
+				(publisher) => publisher.id
+			),
 			replaces: (this.state.serie.replaces || []).map((link) => link.id),
 			replacedBy: (this.state.serie.isReplacedBy || []).map((link) => link.id),
 			generate: (this.state.serie.generate || []).map((link) => link.id),
@@ -138,11 +141,6 @@ class OperationsSerieEdition extends Component {
 		const family = serie.family || { id: '' };
 
 		const isEditing = !!serie.id;
-
-		const stampsOptions = stamps.map((stamp) => ({
-			value: stamp,
-			label: stamp,
-		}));
 
 		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 		const seriesOptions = ItemToSelectModel.toSelectModel(
@@ -321,28 +319,20 @@ class OperationsSerieEdition extends Component {
 							</label>
 						</div>
 					</div>
+
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="creator" className="w-100">
-								{D1.organisation}
-								<SelectRmes
-									placeholder=""
-									unclearable
-									value={serie.publishers}
-									options={organisationsOptions}
-									onChange={(value) =>
-										this.onChange({
-											target: {
-												value: value.map((v) => {
-													return v.value;
-												}),
-												id: 'publishers',
-											},
-										})
-									}
-									multi
-								/>
-							</label>
+							<PublishersInput
+								value={serie.publishers}
+								onChange={(value) =>
+									this.onChange({
+										target: {
+											value,
+											id: 'publishers',
+										},
+									})
+								}
+							/>
 						</div>
 					</div>
 					<div className="row">
@@ -395,27 +385,19 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="contributor" className="w-100">
-								{D1.creatorTitle}
-								<SelectRmes
-									placeholder=""
-									unclearable
-									multi
-									value={serie.creators}
-									options={stampsOptions}
-									onChange={(value) =>
-										this.onChange({
-											target: {
-												value: value.map((v) => v.value),
-												id: 'creators',
-											},
-										})
-									}
-								/>
-							</label>
+							<CreatorsInput
+								value={serie.creators}
+								onChange={(value) =>
+									this.onChange({
+										target: {
+											value,
+											id: 'creators',
+										},
+									})
+								}
+							/>
 						</div>
 					</div>
-
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label htmlFor="replaces" className="w-100">
