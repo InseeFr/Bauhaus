@@ -30,7 +30,6 @@ describe('OperationsIndicatorsEditionContainer', () => {
 			operationsAsyncTask: false,
 			organisations: ['results'],
 			series: ['operationsSeriesList'],
-			stamps: ['STAMP1'],
 		});
 	});
 });
