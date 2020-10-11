@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import SelectRmes from 'js/applications/shared/select-rmes';
-import * as select from 'js/reducers';
-
+import { Stores } from 'bauhaus-utilities';
 import { D1 } from '../i18n/build-dictionary';
 
 const CreatorsInput = ({ value, onChange }) => {
-	const stamps = useSelector((state) => select.getStampList(state) || []);
+	const stamps = useSelector(
+		(state) => Stores.Stamps.getStampList(state) || []
+	);
 	const stampsOptions = stamps.map((stamp) => ({
 		value: stamp,
 		label: stamp,

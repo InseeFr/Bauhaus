@@ -14,6 +14,7 @@ import D from 'js/i18n';
 import emptyConcept from 'js/utils/concepts/empty-concept';
 import { Loading } from '@inseefr/wilco';
 import { OK } from 'js/constants';
+import { Stores } from 'bauhaus-utilities';
 
 class CreationContainer extends Component {
 	constructor(props) {
@@ -23,7 +24,7 @@ class CreationContainer extends Component {
 			id: '',
 		};
 
-		this.handleCreation = data => {
+		this.handleCreation = (data) => {
 			this.props.createConcept(buildPayloadCreation(data));
 			this.setState({
 				creationRequested: true,
@@ -81,7 +82,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		concept: emptyConcept(state.app.properties.defaultContributor),
 		conceptList: select.getConceptList(state),
-		stampList: select.getStampList(state),
+		stampList: Stores.Stamps.getStampList(state),
 		disseminationStatusList: select.getDisseminationStatusList(state),
 		maxLengthScopeNote: Number(state.app.properties.maxLengthScopeNote),
 		id: select.getNewlyCreatedId(state),

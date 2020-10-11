@@ -15,6 +15,7 @@ import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import { Loading, buildExtract } from '@inseefr/wilco';
 import { OK } from 'js/constants';
+import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
@@ -97,7 +98,7 @@ const mapStateToProps = (state, ownProps) => {
 		id,
 		concept: select.getConcept(state, id),
 		conceptList: select.getConceptList(state),
-		stampList: select.getStampList(state),
+		stampList: Stores.Stamps.getStampList(state),
 		disseminationStatusList: select.getDisseminationStatusList(state),
 		maxLengthScopeNote: Number(state.app.properties.maxLengthScopeNote),
 		updateStatus: select.getStatus(state, UPDATE_CONCEPT),
