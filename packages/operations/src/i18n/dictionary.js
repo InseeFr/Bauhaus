@@ -1,4 +1,12 @@
 export default {
+	creatorTitle: {
+		fr: 'Propriétaires',
+		en: 'Owners',
+	},
+	organisation: {
+		fr: 'Organisme responsable',
+		en: 'Legal owner',
+	},
 	btnDelete: {
 		fr: 'Supprimer',
 		en: 'Delete',

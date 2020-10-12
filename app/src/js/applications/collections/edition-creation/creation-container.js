@@ -13,6 +13,7 @@ import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
 import { cleanId, Loading } from '@inseefr/wilco';
 import { OK } from 'js/constants';
+import { Stores } from 'bauhaus-utilities';
 
 class CreationContainer extends Component {
 	constructor(props) {
@@ -22,7 +23,7 @@ class CreationContainer extends Component {
 			id: '',
 		};
 
-		this.handleCreation = data => {
+		this.handleCreation = (data) => {
 			this.props.createCollection(buildPayload(data, 'CREATE'));
 			this.setState({
 				creationRequested: true,
@@ -79,7 +80,7 @@ const mapStateToProps = (state, ownProps) => {
 		collection: emptyCollection(state.app.properties.defaultContributor),
 		collectionList: select.getCollectionList(state),
 		conceptList: select.getConceptList(state),
-		stampList: select.getStampList(state),
+		stampList: Stores.Stamps.getStampList(state),
 		creationStatus: select.getStatus(state, CREATE_COLLECTION),
 		langs: select.getLangs(state),
 	};

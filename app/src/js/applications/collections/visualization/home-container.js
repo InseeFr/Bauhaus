@@ -19,7 +19,7 @@ class CollectionVisualizationContainer extends Component {
 		this.state = {
 			validationRequested: false,
 		};
-		this.handleCollectionValidation = id => {
+		this.handleCollectionValidation = (id) => {
 			this.props.validateCollection(id);
 			this.setState({
 				validationRequested: true,
@@ -83,7 +83,7 @@ const mapStateToProps = (state, ownProps) => {
 		permission: Auth.getPermission(state),
 		secondLang: Stores.SecondLang.getSecondLang(state),
 		collection: select.getCollection(state, id),
-		stampList: select.getStampList(state),
+		stampList: Stores.Stamps.getStampList(state),
 		validationStatus: select.getStatus(state, VALIDATE_COLLECTION_LIST),
 		langs: select.getLangs(state),
 	};
@@ -92,7 +92,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	loadCollections,
 	loadStampList,
-	validateCollection: id => validateCollection([id]),
+	validateCollection: (id) => validateCollection([id]),
 };
 
 CollectionVisualizationContainer = connect(

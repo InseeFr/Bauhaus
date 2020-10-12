@@ -7,6 +7,7 @@ import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
 import { HTMLUtils } from 'bauhaus-utilities';
 import { PublicationMale } from 'js/applications/operations/shared/status';
+import { PublishersView, CreatorsView } from 'bauhaus-operations';
 
 function DisplayMultiLangNote({
 	value1,
@@ -42,17 +43,9 @@ function DisplayMultiLangNote({
 	);
 }
 
-function formatPrimitiveToArray(object = []) {
-	return Array.isArray(object) ? object : [object];
-}
-
 function OperationsIndicatorVisualization(props) {
 	const { attr, langs, secondLang, frequency = {}, organisations = [] } = props;
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
-
-	const creators = formatPrimitiveToArray(attr.creators).map(
-		(d) => organisations.find((orga) => orga.id === d) || {}
-	);
 
 	const contributors = (attr.contributors || []).map(
 		(d) => organisations.find((orga) => orga.id === d.id) || {}
@@ -103,34 +96,10 @@ function OperationsIndicatorVisualization(props) {
 				secondLang={secondLang}
 			/>
 			<div className="row">
-				<Note
-					text={
-						<ul>
-							{attr.publishers?.map((g) => (
-								<li>{g}</li>
-							))}
-						</ul>
-					}
-					title={D1.organisation}
-					lang={langs.lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
+				<PublishersView publishers={attr.publishers} />
 			</div>
 			<div className="row" data-cy="proprietaires">
-				<Note
-					text={
-						<ul>
-							{creators.map(({ label }, index) => (
-								<li key={index}>{label}</li>
-							))}
-						</ul>
-					}
-					title={D1.creatorTitle}
-					lang={langs.lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
+				<CreatorsView creators={attr.creators} />
 			</div>
 			<DisplayLinks
 				links={contributors}

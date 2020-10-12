@@ -25,15 +25,15 @@ export const ComponentSpecificationForm = ({
 						name="attachment"
 						label={D.attachmentTitle}
 						placeholder={D.attachmentTitle}
-						value={attachments.filter(c =>
-							component.attachment?.some(a => a.includes(c.value))
+						value={attachments.filter((c) =>
+							component.attachment?.some((a) => a.includes(c.value))
 						)}
 						multi
 						options={attachments}
-						onChange={value => {
+						onChange={(value) => {
 							onChange({
 								...component,
-								attachment: value.map(v => v.value),
+								attachment: value?.map((v) => v.value),
 							});
 						}}
 						disabled={disabled}

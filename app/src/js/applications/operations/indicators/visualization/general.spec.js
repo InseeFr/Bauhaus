@@ -2,6 +2,17 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import OperationsIndicatorVisualization from './general';
 import { MemoryRouter } from 'react-router-dom';
+
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+const store = mockStore({
+	operationsOrganisations: {
+		results: [],
+	},
+});
+
 const langs = {
 	lg1: 'fr',
 	lg2: 'en',
@@ -80,9 +91,11 @@ const indicator = {
 describe('IndicatorInformation', () => {
 	it('should renderer all informations for the main lang', () => {
 		const { container } = render(
-			<MemoryRouter>
-				<OperationsIndicatorVisualization attr={indicator} langs={langs} />
-			</MemoryRouter>
+			<Provider store={store}>
+				<MemoryRouter>
+					<OperationsIndicatorVisualization attr={indicator} langs={langs} />
+				</MemoryRouter>
+			</Provider>
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
 			4
@@ -92,13 +105,15 @@ describe('IndicatorInformation', () => {
 
 	it('should show the right number of DisplayLinks component', () => {
 		const { container } = render(
-			<MemoryRouter>
-				<OperationsIndicatorVisualization
-					attr={indicator}
-					secondLang={true}
-					langs={langs}
-				/>
-			</MemoryRouter>
+			<Provider store={store}>
+				<MemoryRouter>
+					<OperationsIndicatorVisualization
+						attr={indicator}
+						secondLang={true}
+						langs={langs}
+					/>
+				</MemoryRouter>
+			</Provider>
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
 			4
@@ -106,14 +121,16 @@ describe('IndicatorInformation', () => {
 	});
 	it('should show the right data in the DisplayLinks component', () => {
 		const { container } = render(
-			<MemoryRouter>
-				<OperationsIndicatorVisualization
-					attr={indicator}
-					secondLang={true}
-					langs={langs}
-					organisations={organisations}
-				/>
-			</MemoryRouter>
+			<Provider store={store}>
+				<MemoryRouter>
+					<OperationsIndicatorVisualization
+						attr={indicator}
+						secondLang={true}
+						langs={langs}
+						organisations={organisations}
+					/>
+				</MemoryRouter>
+			</Provider>
 		);
 		const displayLinks = container.querySelectorAll('.bauhaus-display-links');
 
@@ -139,13 +156,15 @@ describe('IndicatorInformation', () => {
 	});
 	it('should show the right number of SeeAlso component', () => {
 		const { container } = render(
-			<MemoryRouter>
-				<OperationsIndicatorVisualization
-					attr={indicator}
-					secondLang={true}
-					langs={langs}
-				/>
-			</MemoryRouter>
+			<Provider store={store}>
+				<MemoryRouter>
+					<OperationsIndicatorVisualization
+						attr={indicator}
+						secondLang={true}
+						langs={langs}
+					/>
+				</MemoryRouter>
+			</Provider>
 		);
 		const seeAlso = container.querySelector('.bauhaus-see-also');
 

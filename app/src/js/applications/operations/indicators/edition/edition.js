@@ -6,6 +6,7 @@ import {
 	ItemToSelectModel,
 	PageTitleBlock,
 } from 'bauhaus-utilities';
+import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/applications/shared/input-rmes';
 import Control from 'js/applications/operations/indicators/edition/control';
@@ -100,18 +101,15 @@ class OperationsIndicatorEdition extends Component {
 	render() {
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
 
-		const {
-			frequencies,
-			organisations,
-			indicators,
-			series,
-			stamps,
-		} = this.props;
+		const { frequencies, organisations, indicators, series } = this.props;
 		const isUpdate = !!this.state.indicator.id;
 		const indicator = {
 			...this.state.indicator,
 			seeAlso: (this.state.indicator.seeAlso || []).map((link) => link.id),
 			contributors: (this.state.indicator.contributors || []).map(
+				(link) => link.id
+			),
+			publishers: (this.state.indicator.publishers || []).map(
 				(link) => link.id
 			),
 			wasGeneratedBy: (this.state.indicator.wasGeneratedBy || []).map(
@@ -123,10 +121,6 @@ class OperationsIndicatorEdition extends Component {
 			),
 		};
 
-		const stampsOptions = stamps.map((stamp) => ({
-			value: stamp,
-			label: stamp,
-		}));
 		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 		const seriesOptions = ItemToSelectModel.toSelectModel(series, 'series');
 		const indicatorsOptions = ItemToSelectModel.toSelectModel(
@@ -250,41 +244,18 @@ class OperationsIndicatorEdition extends Component {
 
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="creator" className="w-100">
-								{D1.organisation}
-
-								<SelectRmes
-									unclearable
-									value={indicator.publishers}
-									options={organisationsOptions}
-									placeholder=""
-									multi
-									onChange={(value) => {
-										this.onChange('publishers')(
-											value.map((v) => {
-												return v.value;
-											})
-										);
-									}}
-								/>
-							</label>
+							<PublishersInput
+								value={indicator.publishers}
+								onChange={(value) => this.onChange('publishers')(value)}
+							/>
 						</div>
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="contributor" className="w-100">
-								{D1.creatorTitle}
-								<SelectRmes
-									placeholder=""
-									unclearable
-									multi
-									value={indicator.creators}
-									options={stampsOptions}
-									onChange={(value) =>
-										this.onChange('creators')(value.map((v) => v.value))
-									}
-								/>
-							</label>
+							<CreatorsInput
+								value={indicator.creators}
+								onChange={(value) => this.onChange('creators')(value)}
+							/>
 						</div>
 					</div>
 					<div className="row">
