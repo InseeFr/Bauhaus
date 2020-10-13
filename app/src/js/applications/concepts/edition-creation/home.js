@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
-import { PageTitle } from '@inseefr/wilco';
+import { PageTitle, goBack } from '@inseefr/wilco';
 import ConceptCreateControl from './controls';
 import GeneralEdition from './general';
 import NotesEdition from './notes';
@@ -16,6 +16,7 @@ import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links
 import D from 'js/i18n';
 import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
+import { withRouter } from 'react-router';
 
 class ConceptEditionCreation extends Component {
 	constructor(props) {
@@ -32,13 +33,13 @@ class ConceptEditionCreation extends Component {
 			},
 		};
 
-		this.selectTab = tabIndex =>
+		this.selectTab = (tabIndex) =>
 			this.setState({
 				activeTab: tabIndex,
 			});
 		//update should look like `{ prefLabelLg2: 'something new' }` (we can
 		//set mutliple properties at the same time)
-		this.handleChangeGeneral = update => {
+		this.handleChangeGeneral = (update) => {
 			const data = this.state.data;
 			const general = data.general;
 			const newData = Object.assign(data, {
@@ -50,7 +51,7 @@ class ConceptEditionCreation extends Component {
 		};
 
 		//update should look like `{ editorialNoteLg1: '...' }`
-		this.handleChangeNotes = update => {
+		this.handleChangeNotes = (update) => {
 			const data = this.state.data;
 			const notes = data.notes;
 			const newData = Object.assign(data, {
@@ -61,7 +62,7 @@ class ConceptEditionCreation extends Component {
 			});
 		};
 
-		this.handleChangeLinks = newLinks =>
+		this.handleChangeLinks = (newLinks) =>
 			this.setState({
 				data: {
 					...this.state.data,
@@ -75,14 +76,6 @@ class ConceptEditionCreation extends Component {
 			} else {
 				//show modal if needed
 				this.askToConfirmOrSave();
-			}
-		};
-
-		this.redirectCancel = () => {
-			if (this.props.creation) {
-				return `/concepts`;
-			} else {
-				return `/concept/${this.props.id}`;
 			}
 		};
 
@@ -105,7 +98,7 @@ class ConceptEditionCreation extends Component {
 			this.setState({ showModal: true });
 		};
 
-		this.saveConcept = versioningType => {
+		this.saveConcept = (versioningType) => {
 			if (this.props.creation) {
 				this.props.save(this.state.data);
 			} else {
@@ -119,7 +112,7 @@ class ConceptEditionCreation extends Component {
 			}
 		};
 
-		this.closeModal = versioningType => {
+		this.closeModal = (versioningType) => {
 			this.setState({ showModal: false });
 			if (versioningType) {
 				this.setState({ actionRequested: true });
@@ -191,7 +184,7 @@ class ConceptEditionCreation extends Component {
 							conceptsWithLinks={conceptsWithLinks}
 							maxLengthScopeNote={maxLengthScopeNote}
 							handleSave={this.handleSave}
-							redirectCancel={this.redirectCancel}
+							redirectCancel={goBack(this.props, 'concepts')}
 						/>
 					)}
 					<ul className="nav nav-tabs nav-justified">
@@ -269,4 +262,4 @@ ConceptEditionCreation.propTypes = {
 	langs: PropTypes.object.isRequired,
 };
 
-export default ConceptEditionCreation;
+export default withRouter(ConceptEditionCreation);
