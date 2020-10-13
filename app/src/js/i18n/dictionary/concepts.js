@@ -41,12 +41,12 @@ const dictionary = {
 		en: 'Concept version',
 	},
 	sendConceptTitle: {
-		fr: label => `Envoyer le concept " ${label} "`,
-		en: label => `Send concept " ${label} "`,
+		fr: (label) => `Envoyer le concept " ${label} "`,
+		en: (label) => `Send concept " ${label} "`,
 	},
 	sendCollectionTitle: {
-		fr: label => `Envoyer la collection " ${label} "`,
-		en: label => `Send collection " ${label} "`,
+		fr: (label) => `Envoyer la collection " ${label} "`,
+		en: (label) => `Send collection " ${label} "`,
 	},
 	conceptsExportPanelTitle: {
 		fr: 'Concepts à exporter',
@@ -158,8 +158,8 @@ const dictionary = {
 		en: 'The change note can only be completed in the second language',
 	},
 	tooLongScopeNote: {
-		fr: max => `La définition courte est limitée à ${max} caractères`,
-		en: max => `Short definition is limited to ${max} characters`,
+		fr: (max) => `La définition courte est limitée à ${max} caractères`,
+		en: (max) => `Short definition is limited to ${max} characters`,
 	},
 	scopeNoteChar: {
 		fr: 'caractères maximum',
@@ -214,9 +214,11 @@ const dictionary = {
 		en: 'Please select versioning type',
 	},
 	conceptVersioningBody: {
-		fr: label => `<p>Les notes du concept « <b>${label}</b> » ont été modifiées.</p>
+		fr: (
+			label
+		) => `<p>Les notes du concept « <b>${label}</b> » ont été modifiées.</p>
             <p>Voulez-vous créer une nouvelle version, ou écraser les données précédentes ?</p>`,
-		en: label => `<p>Concept “<b>${label}</b>” notes have been modified.</p>
+		en: (label) => `<p>Concept “<b>${label}</b>” notes have been modified.</p>
             <p>Would you like to create a new version, or update the previous one?</p>`,
 	},
 	conceptVersioningFooter: {
@@ -228,11 +230,11 @@ const dictionary = {
           <li><p>Note has to be different from the previous one</p></li></ul>`,
 	},
 	conceptMailObjectDefault: {
-		fr: label => `RMéS - Envoi du descriptif du concept « ${label} »`,
-		en: label => `RMéS - Sending the concept “${label}” description`,
+		fr: (label) => `RMéS - Envoi du descriptif du concept « ${label} »`,
+		en: (label) => `RMéS - Sending the concept “${label}” description`,
 	},
 	conceptMailDefault: {
-		fr: params => {
+		fr: (params) => {
 			let prefLabelLg1 = params[1],
 				id = params[2],
 				validText = '',
@@ -245,12 +247,12 @@ const dictionary = {
           ${prefLabelLg1}
           </b> » ${inseeText} extraite de la base RMéS-Concepts.</p>
           ${validText}
-          <p>Pour toute demande concernant ce concept merci de répondre via la boîte fonctionnelle :DG75 RMéS-Concepts et définitions.</p>
+          <p>Pour toute demande concernant ce concept merci de répondre via la boîte fonctionnelle :DG75-Administration RMéS <a href="mailto:dg75-administration-rmes@insee.fr">dg75-administration-rmes@insee.fr<a>.</p>
           <p>L'équipe RMéS<br/>
           Insee - DG<br/>
           DMCSI - Unité Qualité</p>`;
 		},
-		en: params => {
+		en: (params) => {
 			let prefLabelLg1 = params[1],
 				id = params[2],
 				validText = '',
@@ -263,26 +265,27 @@ const dictionary = {
           ${prefLabelLg1}
           </b>” ${inseeText} extracted from the RMéS-Concepts repository.</p>
           ${validText}
-          <p>For any request concerning this concept please answer via the functional mail box :DG75 RMéS-Concepts et définitions.</p>
+          <p>For any request concerning this concept please answer via the functional mail box :DG75-Administration RMéS <a href="mailto:dg75-administration-rmes@insee.fr">dg75-administration-rmes@insee.fr<a>.</p>
           <p>The RMéS team<br/>
           Insee - DG<br/>
           DMCSI - Quality Unit</p>`;
 		},
 	},
 	sendConceptSuccess: {
-		fr: label => `Le concept « ${label} » a bien été envoyé`,
-		en: label => `Concept “${label}” has been sent`,
+		fr: (label) => `Le concept « ${label} » a bien été envoyé`,
+		en: (label) => `Concept “${label}” has been sent`,
 	},
 	sendConceptFailure: {
-		fr: label => `Le concept « ${label} » n'a pas été envoyé`,
-		en: label => `Concept “${label}” was not sent`,
+		fr: (label) => `Le concept « ${label} » n'a pas été envoyé`,
+		en: (label) => `Concept “${label}” was not sent`,
 	},
 	collectionMailObjectDefault: {
-		fr: label => `RMéS - Envoi de la composition de la collection « ${label} »`,
-		en: label => `RMéS - Sending the composition of collection “${label}”`,
+		fr: (label) =>
+			`RMéS - Envoi de la composition de la collection « ${label} »`,
+		en: (label) => `RMéS - Sending the composition of collection “${label}”`,
 	},
 	collectionMailDefault: {
-		fr: params => {
+		fr: (params) => {
 			let prefLabelLg1 = params[1],
 				id = params[2],
 				validText = '',
@@ -300,7 +303,7 @@ const dictionary = {
 	          Insee - DG<br/>
 	          DMCSI - Unité Qualité</p>`;
 		},
-		en: params => {
+		en: (params) => {
 			let prefLabelLg1 = params[1],
 				id = params[2],
 				validText = '',
@@ -320,12 +323,12 @@ const dictionary = {
 		},
 	},
 	sendCollectionSuccess: {
-		fr: label => `La collection « ${label} » a bien été envoyée`,
-		en: label => `Collection “${label}” has been sent`,
+		fr: (label) => `La collection « ${label} » a bien été envoyée`,
+		en: (label) => `Collection “${label}” has been sent`,
 	},
 	sendCollectionFailure: {
-		fr: label => `La collection « ${label} » n'a pas été envoyée`,
-		en: label => `Collection “${label}” was not sent`,
+		fr: (label) => `La collection « ${label} » n'a pas été envoyée`,
+		en: (label) => `Collection “${label}” was not sent`,
 	},
 	dashboardConceptsTitle: {
 		fr: 'Tableau de bord des concepts',
@@ -340,12 +343,12 @@ const dictionary = {
 		en: 'State of the collections repository at',
 	},
 	dashboardConceptsListPickerTitle: {
-		fr: type => `Liste des ${type} de concepts depuis le :`,
-		en: type => `Concepts ${type} list since:`,
+		fr: (type) => `Liste des ${type} de concepts depuis le :`,
+		en: (type) => `Concepts ${type} list since:`,
 	},
 	dashboardCollectionsListPickerTitle: {
-		fr: type => `Liste des ${type} de collections depuis le :`,
-		en: type => `Collections ${type} list since:`,
+		fr: (type) => `Liste des ${type} de collections depuis le :`,
+		en: (type) => `Collections ${type} list since:`,
 	},
 	dashboardConceptsByCreatorTitle: {
 		fr: 'Nombre de concepts par propriétaire',
