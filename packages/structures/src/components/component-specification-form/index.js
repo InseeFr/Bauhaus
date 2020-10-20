@@ -12,7 +12,7 @@ export const ComponentSpecificationForm = ({
 	disabled = false,
 }) => {
 	const [attachments, setAttachments] = useState([]);
-	componentAttachment = component.attachment
+	const componentAttachment = component.attachment
 		? component.attachment
 		: [OBSERVATION];
 	console.log(componentAttachment);
