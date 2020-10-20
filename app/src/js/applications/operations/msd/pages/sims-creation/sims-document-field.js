@@ -38,12 +38,13 @@ export const SimsDocumentField = ({
 
 	return (
 		<>
+			{' '}
 			<div className="bauhaus-document-field">
 				<DocumentsBloc
 					documents={(currentSection['documents' + lang] || []).filter(
 						isDocument
 					)}
-					localPrefix={'Lg1'}
+					localPrefix={lang}
 					editMode={true}
 					deleteHandler={handleDeleteDocument}
 					addHandler={handleAddDocument}
@@ -54,7 +55,7 @@ export const SimsDocumentField = ({
 			<div className="bauhaus-document-field">
 				<DocumentsBloc
 					documents={(currentSection['documents' + lang] || []).filter(isLink)}
-					localPrefix={'Lg1'}
+					localPrefix={lang}
 					editMode={true}
 					deleteHandler={handleDeleteDocument}
 					addHandler={handleAddDocument}
