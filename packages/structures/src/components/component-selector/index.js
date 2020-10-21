@@ -31,7 +31,7 @@ const ComponentSelector = ({
 
 	useEffect(() => {
 		setFilteredMutualizedComponents(
-			mutualizedComponents.filter(component => {
+			mutualizedComponents.filter((component) => {
 				return !structureComponents.find(
 					({ component: c }) => c.id === component.id
 				);
@@ -39,7 +39,7 @@ const ComponentSelector = ({
 		);
 	}, [mutualizedComponents, structureComponents]);
 
-	const handleSpecificationClick = useCallback(component => {
+	const handleSpecificationClick = useCallback((component) => {
 		setSelectedComponent(component);
 		setModalOpened(true);
 	}, []);
@@ -57,9 +57,9 @@ const ComponentSelector = ({
 	);
 
 	const handleRemove = useCallback(
-		id => {
+		(id) => {
 			const filteredComponents = structureComponents
-				.filter(({ component }) => component.id !== id)
+				.filter(({ component }) => component.identifiant !== id)
 				.map((c, index) => ({ ...c, order: index + 1 }));
 			console.log(filteredComponents);
 			setStructureComponents(filteredComponents);
@@ -69,13 +69,13 @@ const ComponentSelector = ({
 	);
 
 	const saveSpecification = useCallback(
-		specification => {
+		(specification) => {
 			const component = {
 				...selectedComponent,
 				...specification,
 			};
 			let components;
-			components = structureComponents.map(c => {
+			components = structureComponents.map((c) => {
 				if (c.order === component.order) {
 					return component;
 				}
@@ -91,7 +91,7 @@ const ComponentSelector = ({
 		[handleUpdate, structureComponents, selectedComponent]
 	);
 
-	const _handleAttributeComponent = component => {
+	const _handleAttributeComponent = (component) => {
 		if (component.type === ATTRIBUTE_TYPE) {
 			setSelectedComponent(component);
 			setModalOpened(true);
@@ -99,8 +99,8 @@ const ComponentSelector = ({
 	};
 
 	const handleAdd = useCallback(
-		id => {
-			const component = mutualizedComponents.find(c => c.id === id);
+		(id) => {
+			const component = mutualizedComponents.find((c) => c.identifiant === id);
 			const components = [
 				...structureComponents,
 				{ component, order: structureComponents.length + 1 },
@@ -114,8 +114,10 @@ const ComponentSelector = ({
 	);
 
 	const handleUp = useCallback(
-		id => {
-			const index = structureComponents.findIndex(cs => cs.component.id === id);
+		(id) => {
+			const index = structureComponents.findIndex(
+				(cs) => cs.component.identifiant === id
+			);
 			const startArray = structureComponents.slice(0, index - 1);
 			const endArray = structureComponents.slice(index + 1);
 			const components = [
@@ -138,8 +140,10 @@ const ComponentSelector = ({
 		[handleUpdate, structureComponents]
 	);
 	const handleDown = useCallback(
-		id => {
-			const index = structureComponents.findIndex(cs => cs.component.id === id);
+		(id) => {
+			const index = structureComponents.findIndex(
+				(cs) => cs.component.identifiant === id
+			);
 			const startArray = structureComponents.slice(0, index);
 			const endArray = structureComponents.slice(index + 2);
 			const components = [
