@@ -47,7 +47,7 @@ export const ComponentSpecificationModalBody = ({
 	);
 };
 
-export default props => {
+export default (props) => {
 	return (
 		<Modal
 			className="Modal__Bootstrap modal-dialog structures structures-specification-modal"

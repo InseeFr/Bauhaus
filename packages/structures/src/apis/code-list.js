@@ -6,9 +6,9 @@ export const getCodeList = () =>
 
 export const getFormattedCodeList = () => {
 	return getCodeList().then((response) => {
-		return response?.map(({ value, label }) => {
+		return response?.map(({ uri, label }) => {
 			return {
-				id: value,
+				id: uri,
 				label,
 			};
 		});
