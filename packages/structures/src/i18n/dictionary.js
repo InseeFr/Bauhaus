@@ -1,4 +1,4 @@
-export default {
+const dictionary = {
 	componentSpecificationTitle: {
 		fr: 'Spécification du Composant',
 		en: 'Component Specification',
@@ -148,3 +148,4 @@ export default {
 		en: 'All',
 	},
 };
+export default dictionary;

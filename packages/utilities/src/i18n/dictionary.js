@@ -1,4 +1,4 @@
-export default {
+const dictionary = {
 	btnReinitialize: {
 		fr: 'Réinitialiser',
 		en: 'Reinitialize',
@@ -29,3 +29,4 @@ export default {
 		en: 'No',
 	},
 };
+export default dictionary;

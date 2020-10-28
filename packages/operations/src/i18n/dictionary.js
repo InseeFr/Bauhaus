@@ -1,4 +1,4 @@
-export default {
+const dictonary = {
 	creatorTitle: {
 		fr: 'Propriétaires',
 		en: 'Owners',
@@ -36,3 +36,4 @@ export default {
 		en: 'Exclude',
 	},
 };
+export default dictonary;
