@@ -1,4 +1,4 @@
-const dictonary = {
+const dictionary = {
 	creatorTitle: {
 		fr: 'Propriétaires',
 		en: 'Owners',
@@ -36,4 +36,4 @@ const dictonary = {
 		en: 'Exclude',
 	},
 };
-export default dictonary;
+export default dictionary;
