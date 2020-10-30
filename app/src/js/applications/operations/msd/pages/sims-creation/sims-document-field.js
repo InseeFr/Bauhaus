@@ -26,6 +26,7 @@ export const SimsDocumentField = ({
 	const handleAddDocument = useCallback(
 		(newObject) => {
 			const objects = currentSection['documents' + lang] || [];
+
 			handleChange({
 				id: msd.idMas,
 				override: {
@@ -35,7 +36,6 @@ export const SimsDocumentField = ({
 		},
 		[handleChange, msd.idMas, currentSection, lang]
 	);
-
 	return (
 		<>
 			{' '}
@@ -73,4 +73,9 @@ SimsDocumentField.propTypes = {
 	handleChange: PropTypes.func,
 };
 
-export default SimsDocumentField;
+export default React.memo(
+	SimsDocumentField,
+	(prevProps, nextProps) =>
+		prevProps.documentStores.length === nextProps.documentStores.length &&
+		prevProps.currentSection === nextProps.currentSection
+);

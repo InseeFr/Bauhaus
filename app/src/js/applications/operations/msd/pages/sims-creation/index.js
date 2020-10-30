@@ -210,7 +210,6 @@ class SimsCreation extends React.Component {
 										msd={msd}
 										currentSection={sims[msd.idMas]}
 										handleChange={handleChange}
-										doc
 										documentStores={documentStores}
 									/>
 								</div>

@@ -3,7 +3,7 @@ import { Button } from '@inseefr/wilco';
 import Modal from 'react-modal';
 import D from '../../i18n/build-dictionary';
 
-export default ({ className, handleNo, handleYes }) => {
+const ConfirmationDelete = ({ className, handleNo, handleYes }) => {
 	return (
 		<Modal
 			className={`Modal__Bootstrap modal-dialog ${className}`}
@@ -30,3 +30,4 @@ export default ({ className, handleNo, handleYes }) => {
 		</Modal>
 	);
 };
+export default ConfirmationDelete;

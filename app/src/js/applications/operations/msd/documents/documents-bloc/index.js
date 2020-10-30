@@ -168,21 +168,23 @@ export function DocumentsBloc({
 								/>
 							</div>
 							<ul className="documentsbloc__filepicker">
-								{otherDocuments.map((document) => {
-									return displayHTMLForDocument(document, (document) => (
-										<button
-											type="button"
-											className="documentsbloc__delete documentsbloc__btn"
-											aria-label={D.btnAdd}
-											onClick={() => addHandler(document)}
-										>
-											<span
-												className="glyphicon glyphicon-plus"
-												aria-hidden="true"
-											/>
-										</button>
-									));
-								})}
+								{otherDocuments
+									.filter((_, index) => index < 100)
+									.map((document) => {
+										return displayHTMLForDocument(document, (document) => (
+											<button
+												type="button"
+												className="documentsbloc__delete documentsbloc__btn"
+												aria-label={D.btnAdd}
+												onClick={() => addHandler(document)}
+											>
+												<span
+													className="glyphicon glyphicon-plus"
+													aria-hidden="true"
+												/>
+											</button>
+										));
+									})}
 							</ul>
 						</div>
 					)}

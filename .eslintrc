@@ -9,7 +9,8 @@
 	"rules": {
 		"jsx-a11y/href-no-hash": 0,
 		"no-useless-escape": "off",
-		"no-duplicate-imports": "error"
+		"no-duplicate-imports": "error",
+		"import/no-anonymous-default-export": 0
 	},
 	"settings": {
 		"react": {

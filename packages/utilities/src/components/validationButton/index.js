@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { PublishButton } from '@inseefr/wilco';
 
-export default ({ object = {}, callback, disabled = false }) => {
+const ValidationButton = ({ object = {}, callback, disabled = false }) => {
 	const state = object.validationState || '';
 
 	const clickHandler = useCallback(() => {
@@ -13,3 +13,5 @@ export default ({ object = {}, callback, disabled = false }) => {
 	}
 	return <PublishButton action={clickHandler} disabled={disabled} />;
 };
+
+export default ValidationButton;
