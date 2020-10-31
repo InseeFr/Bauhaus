@@ -8,7 +8,7 @@ import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-const ViewContainer = props => {
+const ViewContainer = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
@@ -20,6 +20,12 @@ const ViewContainer = props => {
 		goBack(props, '/structures/components')();
 	}, [props]);
 
+	const handleDelete = useCallback(() => {
+		setLoading(true);
+		api.deleteMutualizedComponent(id).then(() => {
+			goBack(props, '/structures/components')();
+		});
+	}, [id, props]);
 	useEffect(() => {
 		Promise.all([
 			api.getMutualizedComponent(id),
@@ -49,6 +55,7 @@ const ViewContainer = props => {
 				component={component}
 				concepts={concepts}
 				handleBack={handleBack}
+				handleDelete={handleDelete}
 				handleUpdate={`/structures/components/${component.id}/modify`}
 				mutualized={true}
 				updatable={true}
