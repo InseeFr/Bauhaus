@@ -138,6 +138,21 @@ describe('<SearchFormList />', () => {
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(6);
 	});
+	it('should filter by prefLabelLg1', () => {
+		const { container } = render(
+			<MemoryRouter>
+				<SearchFormList
+					data={data}
+					organisations={organisations}
+					stamps={stamps}
+					categories={categories}
+				/>
+			</MemoryRouter>
+		);
+		const input = container.querySelector('input');
+		fireEvent.change(input, { target: { value: 'Base' } });
+		expect(container.querySelectorAll('li')).toHaveLength(1);
+	});
 	it('should filter by creators', async () => {
 		const { container, findByText } = render(
 			<MemoryRouter>
