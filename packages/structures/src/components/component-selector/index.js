@@ -12,9 +12,14 @@ const ComponentSelector = ({
 	concepts,
 	codesLists,
 	handleUpdate,
+	type,
 }) => {
+	const filterComponentDefinition = (type) => (componentDefintion) =>
+		componentDefintion?.component?.type === type;
+	const filterComponent = (type) => (component) => component?.type === type;
+
 	const [structureComponents, setStructureComponents] = useState(
-		componentDefinitions
+		componentDefinitions.filter(filterComponentDefinition(type))
 	);
 
 	const [modalOpened, setModalOpened] = useState(false);
@@ -31,13 +36,13 @@ const ComponentSelector = ({
 
 	useEffect(() => {
 		setFilteredMutualizedComponents(
-			mutualizedComponents.filter((component) => {
+			mutualizedComponents.filter(filterComponent(type)).filter((component) => {
 				return !structureComponents.find(
 					({ component: c }) => c.id === component.id
 				);
 			})
 		);
-	}, [mutualizedComponents, structureComponents]);
+	}, [mutualizedComponents, structureComponents, type]);
 
 	const handleSpecificationClick = useCallback((component) => {
 		setSelectedComponent(component);
@@ -189,6 +194,7 @@ const ComponentSelector = ({
 				handleCreateOrUpdate={handleCreateOrUpdate}
 				handleSpecificationClick={handleSpecificationClick}
 				readOnly={false}
+				type={type}
 			/>
 
 			<MutualizedComponentsSelector

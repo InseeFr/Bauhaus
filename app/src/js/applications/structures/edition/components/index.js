@@ -3,8 +3,10 @@ import {
 	StructureAPI,
 	ComponentSelector,
 	getFormattedCodeList,
+	StructureConstants,
 } from 'bauhaus-structures';
 import { ConceptsAPI } from 'bauhaus-utilities';
+import D from 'js/i18n';
 
 const Components = ({ componentDefinitions, onChange }) => {
 	const [concepts, setConcepts] = useState([]);
@@ -12,27 +14,54 @@ const Components = ({ componentDefinitions, onChange }) => {
 	const [mutualizedComponents, setMutualizedComponents] = useState([]);
 
 	useEffect(() => {
-		ConceptsAPI.getConceptList().then(res => setConcepts(res));
+		ConceptsAPI.getConceptList().then((res) => setConcepts(res));
 	}, []);
 
 	useEffect(() => {
-		getFormattedCodeList().then(res => setCodesLists(res));
+		getFormattedCodeList().then((res) => setCodesLists(res));
 	}, []);
 	useEffect(() => {
-		StructureAPI.getMutualizedComponents().then(res =>
+		StructureAPI.getMutualizedComponents().then((res) =>
 			setMutualizedComponents(res)
 		);
 	}, []);
+
 	return (
-		<div className="row text-left">
-			<ComponentSelector
-				componentDefinitions={componentDefinitions}
-				concepts={concepts}
-				codesLists={codesLists}
-				mutualizedComponents={mutualizedComponents}
-				handleUpdate={onChange}
-			/>
-		</div>
+		<>
+			<h2>{D.Dimension}</h2>
+			<div className="row text-left">
+				<ComponentSelector
+					componentDefinitions={componentDefinitions}
+					concepts={concepts}
+					codesLists={codesLists}
+					mutualizedComponents={mutualizedComponents}
+					type={StructureConstants.DIMENSION_PROPERTY_TYPE}
+					handleUpdate={onChange}
+				/>
+			</div>
+			<h2>{D.Measure}</h2>
+			<div className="row text-left">
+				<ComponentSelector
+					componentDefinitions={componentDefinitions}
+					concepts={concepts}
+					codesLists={codesLists}
+					mutualizedComponents={mutualizedComponents}
+					type={StructureConstants.MEASURE_PROPERTY_TYPE}
+					handleUpdate={onChange}
+				/>
+			</div>
+			<h2>{D.Attribute}</h2>
+			<div className="row text-left">
+				<ComponentSelector
+					componentDefinitions={componentDefinitions}
+					concepts={concepts}
+					codesLists={codesLists}
+					mutualizedComponents={mutualizedComponents}
+					type={StructureConstants.ATTRIBUTE_PROPERTY_TYPE}
+					handleUpdate={onChange}
+				/>
+			</div>
+		</>
 	);
 };
 

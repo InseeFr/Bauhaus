@@ -18,9 +18,9 @@ export const MutualizedComponentsSelector = ({
 	const [openPanel, setOpenPanel] = useState(false);
 	const [selectedComponent, setSelectedComponent] = useState(null);
 	const seeClickHandler = useCallback(
-		e => {
+		(e) => {
 			const component = components.find(
-				c => c.id === e.target.parentElement.dataset.componentId
+				(c) => c.identifiant === e.target.parentElement.dataset.componentId
 			);
 			setSelectedComponent(component);
 			setOpenPanel(true);
@@ -29,12 +29,12 @@ export const MutualizedComponentsSelector = ({
 	);
 
 	const addClickHandler = useCallback(
-		e => {
+		(e) => {
 			handleAdd(e.target.parentElement.dataset.componentId);
 		},
 		[handleAdd]
 	);
-	const componentsWithActions = components.map(component => ({
+	const componentsWithActions = components.map((component) => ({
 		...component,
 		type: typeUriToLabel(component.type),
 		concept: concepts.find(({ id }) =>
@@ -48,14 +48,14 @@ export const MutualizedComponentsSelector = ({
 		actions: (
 			<React.Fragment>
 				<button
-					data-component-id={component.id}
+					data-component-id={component.identifiant}
 					onClick={seeClickHandler}
 					aria-label={D.see}
 				>
 					<span className="glyphicon glyphicon-eye-open"></span>
 				</button>
 				<button
-					data-component-id={component.id}
+					data-component-id={component.identifiant}
 					onClick={addClickHandler}
 					aria-label={D.add}
 				>
