@@ -7,13 +7,7 @@ const data = [
 		prefLabelLg1: 'Base non-salariés',
 		prefLabelLg2: 'Self-employed database',
 		creators: ['DG57-C003', 'DG57-C601'],
-		dataCollector: [
-			{
-				labelLg1: 'Cabinet du directeur général',
-				id: 'DG75-A040',
-				type: 'organization',
-			},
-		],
+		dataCollectors: ['DG75-A040'],
 		accrualPeriodicityList: 'CL_FREQ',
 		typeCode: 'A',
 		abstractLg1:
@@ -121,7 +115,10 @@ const data = [
 		typeCode: 'S',
 	},
 ];
-const organisations = [{ id: 'Acoss', label: 'Acoss' }];
+const organisations = [
+	{ id: 'Acoss', label: 'Acoss' },
+	{ id: 'DG75-A040', label: 'DG75-A040' },
+];
 const stamps = ['DG57-C003'];
 const categories = { codes: [] };
 describe('<SearchFormList />', () => {
@@ -187,6 +184,27 @@ describe('<SearchFormList />', () => {
 		const listOptions = container.querySelector('label[for="publisher"] input');
 		fireEvent.keyDown(listOptions, { key: 'ArrowDown' });
 		const option = await waitForElement(() => findByText('Acoss'));
+		fireEvent.click(option);
+		expect(container.querySelectorAll('li')).toHaveLength(1);
+	});
+
+	it('should filter by dataCollector', async () => {
+		const { container, findByText } = render(
+			<MemoryRouter>
+				<SearchFormList
+					data={data}
+					organisations={organisations}
+					stamps={stamps}
+					categories={categories}
+				/>
+			</MemoryRouter>
+		);
+
+		const listOptions = container.querySelector(
+			'label[for="dataCollector"] input'
+		);
+		fireEvent.keyDown(listOptions, { key: 'ArrowDown' });
+		const option = await waitForElement(() => findByText('DG75-A040'));
 		fireEvent.click(option);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});

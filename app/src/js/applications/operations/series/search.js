@@ -68,9 +68,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 			.filter((series) => {
 				return (
 					!dataCollector ||
-					(series.dataCollectors || [])
-						.map((collector) => collector.id)
-						.includes(dataCollector)
+					(series.dataCollectors || []).includes(dataCollector)
 				);
 			});
 	});
