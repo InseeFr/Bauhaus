@@ -66,7 +66,6 @@ const ComponentSelector = ({
 			const filteredComponents = structureComponents
 				.filter(({ component }) => component.identifiant !== id)
 				.map((c, index) => ({ ...c, order: index + 1 }));
-			console.log(filteredComponents);
 			setStructureComponents(filteredComponents);
 			handleUpdate(filteredComponents);
 		},

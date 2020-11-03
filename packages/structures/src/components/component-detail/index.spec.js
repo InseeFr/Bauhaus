@@ -21,6 +21,7 @@ describe('<ComponentDetail />', () => {
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 942,
 		range: 'http://www.w3.org/2001/XMLSchema#codeList',
+		structures: [],
 	};
 
 	const concepts = [

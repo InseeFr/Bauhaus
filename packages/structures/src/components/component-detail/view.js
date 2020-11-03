@@ -14,6 +14,15 @@ import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 
+export const canBeDeleted = (component) => {
+	const forbidden = ['Validated', 'Modified'];
+	return (
+		!forbidden.includes(component.validationState) &&
+		!component.structures.find((structure) =>
+			forbidden.includes(structure.validationState)
+		)
+	);
+};
 export const ComponentDetailView = ({
 	component,
 	concepts,
@@ -50,10 +59,9 @@ export const ComponentDetailView = ({
 		<React.Fragment>
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
-				{component.validationState !== 'Validated' &&
-					component.validationState !== 'Modified' && (
-						<DeleteButton action={handleDelete} col={col} />
-					)}
+				{canBeDeleted(component) && (
+					<DeleteButton action={handleDelete} col={col} />
+				)}
 				<ValidationButton object={component} />
 				{updatable && <UpdateButton action={handleUpdate} col={col} />}
 			</ActionToolbar>
