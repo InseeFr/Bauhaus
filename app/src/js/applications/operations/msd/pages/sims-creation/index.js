@@ -204,7 +204,7 @@ class SimsCreation extends React.Component {
 							)}
 						</div>
 						{msd.rangeType === RICH_TEXT && (
-							<div className="row">
+							<div className="row bauhaus-documents-bloc">
 								<div className={`col-md-${secondLang ? 6 : 12}`}>
 									<SimsDocumentField
 										msd={msd}
