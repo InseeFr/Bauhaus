@@ -9,8 +9,8 @@ import {
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
 	ItemToSelectModel,
+	Stores,
 } from 'bauhaus-utilities';
-import * as select from 'js/reducers';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
@@ -142,7 +142,7 @@ class SearchListContainer extends Component {
 const mapStateToProps = (state) => {
 	return {
 		organisations: state.operationsOrganisations.results,
-		stamps: select.getStampList(state) || [],
+		stamps: Stores.Stamps.getStampList(state) || [],
 	};
 };
 

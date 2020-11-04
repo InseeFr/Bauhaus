@@ -8,10 +8,8 @@ import SeeAlso from 'js/applications/operations/shared/seeAlso';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
 import { PublicationFemale } from 'js/applications/operations/shared/status';
 import { HTMLUtils } from 'bauhaus-utilities';
+import { PublishersView, CreatorsView } from 'bauhaus-operations';
 
-function formatPrimitiveToArray(object = []) {
-	return Array.isArray(object) ? object : [object];
-}
 function OperationsSerieVisualization({
 	attr,
 	langs: { lg1, lg2 },
@@ -22,11 +20,6 @@ function OperationsSerieVisualization({
 	organisations = [],
 }) {
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
-
-	const creators = formatPrimitiveToArray(attr.creators).map(
-		(d) => organisations.find((orga) => orga.id === d) || {}
-	);
-	const publishers = formatPrimitiveToArray(attr.publishers);
 
 	const dataCollectors = (attr.dataCollectors || []).map(
 		(d) => organisations.find((orga) => orga.id === d.id) || {}
@@ -143,20 +136,8 @@ function OperationsSerieVisualization({
 				)}
 			</div>
 
-			<div className="row">
-				<Note
-					text={
-						<ul>
-							{creators.map(({ label }, index) => (
-								<li key={index}>{label}</li>
-							))}
-						</ul>
-					}
-					title={D1.organisation}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
+			<div id="publishers" className="row">
+				<PublishersView publishers={attr.publishers} lg1={lg1} />
 			</div>
 
 			<DisplayLinks
@@ -176,20 +157,8 @@ function OperationsSerieVisualization({
 				labelLg1="label"
 			/>
 
-			<div className="row" data-cy="gestionnaires">
-				<Note
-					text={
-						<ul>
-							{publishers.map((g, index) => (
-								<li key={index}>{g}</li>
-							))}
-						</ul>
-					}
-					title={D1.creatorTitle}
-					lang={lg1}
-					alone={true}
-					allowEmpty={true}
-				/>
+			<div id="creators" className="row">
+				<CreatorsView creators={attr.creators} lg1={lg1} />
 			</div>
 			<DisplayLinks
 				links={attr.replaces}

@@ -1,11 +1,28 @@
 export default {
-	getSims: id => [`metadataReport/${id}`],
-	publishSims: series => [
+	getSims: (id) => [`metadataReport/${id}`],
+	exportSims: (id) => [
+		`metadataReport/export/${id}`,
+		{
+			method: 'GET',
+			headers: {
+				Accept: 'application/vnd.oasis.opendocument.text',
+				'Content-Type': 'text/plain',
+			},
+		},
+		(res) => {
+			return res.blob().then((blob) => {
+				var file = window.URL.createObjectURL(blob);
+				window.location.assign(file);
+			});
+		},
+	],
+
+	publishSims: (series) => [
 		`metadataReport/validate/${series.id}`,
 		{ method: 'PUT' },
-		res => res.text(),
+		(res) => res.text(),
 	],
-	putSims: sims => [
+	putSims: (sims) => [
 		`metadataReport/${sims.id}`,
 		{
 			headers: {
@@ -15,7 +32,7 @@ export default {
 		},
 		() => {},
 	],
-	postSims: sims => [
+	postSims: (sims) => [
 		`metadataReport`,
 		{
 			headers: {
@@ -23,6 +40,6 @@ export default {
 			},
 			body: JSON.stringify(sims),
 		},
-		res => res.text().then(id => id),
+		(res) => res.text().then((id) => id),
 	],
 };

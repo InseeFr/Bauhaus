@@ -2,6 +2,16 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import OperationsSerieVisualization from './home';
 import { MemoryRouter } from 'react-router-dom';
+
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+const store = mockStore({
+	operationsOrganisations: {
+		results: [],
+	},
+});
 const langs = {
 	lg1: 'fr',
 	lg2: 'en',
@@ -9,15 +19,16 @@ const langs = {
 
 const organisations = [
 	{
-		id: 'CNAMTS',
+		id: 'GF3C',
+		label: 'GF3C',
 	},
 	{
-		id: 'DG75-F110',
+		id: 'DG75-G001',
 	},
 ];
 const attr = {
-	publishers: [],
-	creators: 'DG75-G001',
+	publishers: [{ id: 'GF3C' }],
+	creators: ['DG75-G001'],
 	prefLabelLg1: 'Comptes nationaux trimestriels',
 	prefLabelLg2: 'Quarterly national accounts',
 	replaces: [
@@ -86,44 +97,106 @@ const attr = {
 describe('SerieInformation', () => {
 	it('should show the right number of Note component when the second lang is not selected', () => {
 		const { container } = render(
-			<MemoryRouter>
-				<OperationsSerieVisualization
-					attr={attr}
-					langs={langs}
-					secondLang={false}
-					organisations={organisations}
-				/>
-			</MemoryRouter>
+			<Provider store={store}>
+				<MemoryRouter>
+					<OperationsSerieVisualization
+						attr={attr}
+						langs={langs}
+						secondLang={false}
+						organisations={organisations}
+					/>
+				</MemoryRouter>
+			</Provider>
 		);
 		expect(container.querySelectorAll('.wilco-note')).toHaveLength(15);
 	});
 
 	it('should show the right number of Note component when the second lang is selected', () => {
 		const { container } = render(
-			<MemoryRouter>
-				<OperationsSerieVisualization
-					attr={attr}
-					secondLang={true}
-					langs={langs}
-					organisations={organisations}
-				/>
-			</MemoryRouter>
+			<Provider store={store}>
+				<MemoryRouter>
+					<OperationsSerieVisualization
+						attr={attr}
+						secondLang={true}
+						langs={langs}
+						organisations={organisations}
+					/>
+				</MemoryRouter>
+			</Provider>
 		);
 		expect(container.querySelectorAll('.wilco-note')).toHaveLength(25);
 	});
 	it('should show the right number of DisplayLinks component', () => {
 		const { container } = render(
-			<MemoryRouter>
-				<OperationsSerieVisualization
-					attr={attr}
-					secondLang={true}
-					langs={langs}
-					organisations={organisations}
-				/>
-			</MemoryRouter>
+			<Provider store={store}>
+				<MemoryRouter>
+					<OperationsSerieVisualization
+						attr={attr}
+						secondLang={true}
+						langs={langs}
+						organisations={organisations}
+					/>
+				</MemoryRouter>
+			</Provider>
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
 			5
 		);
+	});
+
+	it('should display the list of creators if creators is an array', () => {
+		const { container } = render(
+			<Provider store={store}>
+				<MemoryRouter>
+					<OperationsSerieVisualization
+						attr={attr}
+						secondLang={true}
+						langs={langs}
+						organisations={organisations}
+					/>
+				</MemoryRouter>
+			</Provider>
+		);
+		const list = container.querySelector('#creators ul');
+		expect(list.querySelectorAll('li')).toHaveLength(1);
+		expect(list.querySelector('li').innerHTML).toEqual('DG75-G001');
+	});
+
+	it('should display the list of creators if creators is a string', () => {
+		const attr2 = {
+			...attr,
+			creators: attr.creators[0],
+		};
+		const { container } = render(
+			<Provider store={store}>
+				<MemoryRouter>
+					<OperationsSerieVisualization
+						attr={attr2}
+						secondLang={true}
+						langs={langs}
+						organisations={organisations}
+					/>
+				</MemoryRouter>
+			</Provider>
+		);
+		const list = container.querySelector('#creators ul');
+		expect(list.querySelectorAll('li')).toHaveLength(1);
+		expect(list.querySelector('li').innerHTML).toEqual('DG75-G001');
+	});
+	it('should display the list of publishers', () => {
+		const { container } = render(
+			<Provider store={store}>
+				<MemoryRouter>
+					<OperationsSerieVisualization
+						attr={attr}
+						secondLang={true}
+						langs={langs}
+						organisations={organisations}
+					/>
+				</MemoryRouter>
+			</Provider>
+		);
+		const list = container.querySelector('#publishers ul');
+		expect(list).toBeDefined();
 	});
 });

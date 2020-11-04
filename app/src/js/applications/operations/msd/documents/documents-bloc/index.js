@@ -1,17 +1,21 @@
 import spinner from 'img/spinner.svg';
-import loadDocuments from 'js/actions/operations/documents/list';
-import { LOADING, NOT_LOADED } from 'js/constants';
-import D from 'js/i18n';
+import { LOADING } from 'js/constants';
+import D, { D1, D2 } from 'js/i18n';
 import { getLang } from '@inseefr/wilco';
-import {
-	getOperationsDocuments,
-	getOperationsDocumentsStatus,
-} from 'js/reducers/operations/selector';
 import React, { useState, useEffect } from 'react';
 import { API, ArrayUtils } from 'bauhaus-utilities';
-import { connect } from 'react-redux';
 import './style.scss';
-import { isDocument } from 'js/applications/operations/document/utils';
+import { isLink, isDocument } from 'js/applications/operations/document/utils';
+
+function getAsideToTheDocument(document) {
+	let updatedDate;
+	if (document.updatedDate) {
+		updatedDate = new Intl.DateTimeFormat(getLang()).format(
+			new Date(document.updatedDate)
+		);
+	}
+	return [document.lang, updatedDate].filter((val) => !!val).join('-');
+}
 
 /**
  * @typedef {Object} DocumentsBlocProps
@@ -41,39 +45,6 @@ export function DocumentsBloc({
 	documentStoresStatus,
 	objectType,
 }) {
-	const [panelStatus, setPanelStatus] = useState(false);
-	const [filter, setFilter] = useState('');
-
-	const [baseURI, setBaseURI] = useState('');
-	useEffect(() => {
-		API.getBaseURI().then((uri) => setBaseURI(uri));
-	});
-
-	const currentDocuments = ArrayUtils.sortArray(`labelLg1`)(documents);
-	const currentDocumentsIds = currentDocuments.map((doc) => doc.uri);
-
-	const otherDocuments = ArrayUtils.sortArray(`labelLg1`)(
-		documentStores
-			.filter((document) => !currentDocumentsIds.includes(document.uri))
-			.filter((document) =>
-				['', document.labelLg1, document.labelLg2]
-					.join()
-					.toLowerCase()
-					.includes(filter.toLowerCase())
-			)
-	);
-	const isSecondLang = localPrefix === 'Lg2';
-
-	function getAsideToTheDocument(document) {
-		let updatedDate;
-		if (document.updatedDate) {
-			updatedDate = new Intl.DateTimeFormat(getLang()).format(
-				new Date(document.updatedDate)
-			);
-		}
-		return [document.lang, updatedDate].filter((val) => !!val).join('-');
-	}
-
 	/**
 	 * @param {import('js/types').SimsDocuments} document
 	 */
@@ -87,6 +58,35 @@ export function DocumentsBloc({
 			<span className="glyphicon glyphicon-trash" aria-hidden="true" />
 		</button>
 	);
+
+	const [panelStatus, setPanelStatus] = useState(false);
+	const [filter, setFilter] = useState('');
+
+	const [baseURI, setBaseURI] = useState('');
+	useEffect(() => {
+		API.getBaseURI().then((uri) => setBaseURI(uri));
+	});
+
+	const currentDocuments = ArrayUtils.sortArray(`label` + localPrefix)(
+		documents
+	);
+	const currentDocumentsIds = currentDocuments.map((doc) => doc.uri);
+
+	const otherDocuments = ArrayUtils.sortArray(`label` + localPrefix)(
+		documentStores
+			.filter((document) => !currentDocumentsIds.includes(document.uri))
+			.filter((document) => !!document['label' + localPrefix])
+			.filter((document) =>
+				objectType === 'documents' ? isDocument(document) : isLink(document)
+			)
+			.filter((document) =>
+				document['label' + localPrefix]
+					.toLowerCase()
+					.includes(filter.toLowerCase())
+			)
+	);
+
+	const isSecondLang = localPrefix === 'Lg2';
 
 	/**
 	 * @param {import('js/types').SimsDocuments} document
@@ -114,11 +114,13 @@ export function DocumentsBloc({
 					</a>
 					<i> ({getAsideToTheDocument(document)})</i>
 				</span>
-				{editMode && !isSecondLang && btnBlocFunction(document)}
+				{editMode && btnBlocFunction(document)}
 			</li>
 		);
 	}
-	const addTitle = objectType === 'documents' ? D.addDocument : D.addLink;
+	const Dictionary = isSecondLang ? D2 : D1;
+	const addTitle =
+		objectType === 'documents' ? Dictionary.addDocument : Dictionary.addLink;
 	const title = objectType === 'documents' ? D.titleDocument : D.titleLink;
 	return (
 		<>
@@ -128,7 +130,7 @@ export function DocumentsBloc({
 					{currentDocuments.map((document) => displayHTMLForDocument(document))}
 				</ul>
 			)}
-			{editMode && !isSecondLang && (
+			{editMode && (
 				<div className="panel panel-default">
 					<div className="panel-heading">
 						<button
@@ -166,21 +168,23 @@ export function DocumentsBloc({
 								/>
 							</div>
 							<ul className="documentsbloc__filepicker">
-								{otherDocuments.map((document) => {
-									return displayHTMLForDocument(document, (document) => (
-										<button
-											type="button"
-											className="documentsbloc__delete documentsbloc__btn"
-											aria-label={D.btnAdd}
-											onClick={() => addHandler(document)}
-										>
-											<span
-												className="glyphicon glyphicon-plus"
-												aria-hidden="true"
-											/>
-										</button>
-									));
-								})}
+								{otherDocuments
+									.filter((_, index) => index < 100)
+									.map((document) => {
+										return displayHTMLForDocument(document, (document) => (
+											<button
+												type="button"
+												className="documentsbloc__delete documentsbloc__btn"
+												aria-label={D.btnAdd}
+												onClick={() => addHandler(document)}
+											>
+												<span
+													className="glyphicon glyphicon-plus"
+													aria-hidden="true"
+												/>
+											</button>
+										));
+									})}
 							</ul>
 						</div>
 					)}
@@ -190,31 +194,4 @@ export function DocumentsBloc({
 	);
 }
 
-const DocumentsBlocContainer = (props) => {
-	useEffect(() => {
-		if (props.documentStoresStatus === NOT_LOADED) {
-			//props.loadDocuments();
-		}
-	}, [props]);
-
-	return <DocumentsBloc {...props} />;
-};
-
-const mapDispatchToProps = {
-	loadDocuments,
-};
-
-/**
- * @param {DocumentsBlocProps} ownProps
- */
-const mapStateToProps = (state, ownProps) => {
-	return {
-		documentStoresStatus: getOperationsDocumentsStatus(state),
-		documentStores: getOperationsDocuments(state, ownProps.objectType),
-	};
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(DocumentsBlocContainer);
+export default DocumentsBloc;

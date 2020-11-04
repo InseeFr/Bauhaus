@@ -6,6 +6,7 @@ import ConceptSearchList from './home';
 import loadStampList from 'js/actions/stamp';
 import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadConceptSearchList from 'js/actions/concepts/search-list';
+import { Stores } from 'bauhaus-utilities';
 
 class ConceptSearchListContainer extends Component {
 	componentWillMount() {
@@ -39,9 +40,9 @@ class ConceptSearchListContainer extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 	conceptSearchList: select.getConceptSearchList(state),
-	stampList: select.getStampList(state),
+	stampList: Stores.Stamps.getStampList(state),
 	disseminationStatusList: select.getDisseminationStatusList(state),
 });
 const mapDispatchToProps = {

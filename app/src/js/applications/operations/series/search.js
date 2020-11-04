@@ -9,9 +9,9 @@ import {
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
 	ItemToSelectModel,
+	Stores,
 } from 'bauhaus-utilities';
 import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
-import * as select from 'js/reducers';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
@@ -225,7 +225,7 @@ const mapStateToProps = (state) => {
 	return {
 		categories,
 		organisations: state.operationsOrganisations.results,
-		stamps: select.getStampList(state) || [],
+		stamps: Stores.Stamps.getStampList(state) || [],
 	};
 };
 

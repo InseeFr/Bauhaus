@@ -141,6 +141,7 @@ class SimsCreation extends React.Component {
 			langs: { lg1, lg2 },
 			organisations = [],
 			geographiesOptions = [],
+			documentStores,
 		} = this.props;
 		const { secondLang } = this.state;
 
@@ -203,11 +204,27 @@ class SimsCreation extends React.Component {
 							)}
 						</div>
 						{msd.rangeType === RICH_TEXT && (
-							<SimsDocumentField
-								msd={msd}
-								currentSection={sims[msd.idMas]}
-								handleChange={handleChange}
-							/>
+							<div className="row">
+								<div className={`col-md-${secondLang ? 6 : 12}`}>
+									<SimsDocumentField
+										msd={msd}
+										currentSection={sims[msd.idMas]}
+										handleChange={handleChange}
+										documentStores={documentStores}
+									/>
+								</div>
+								{secondLang && (
+									<div className="col-md-6">
+										<SimsDocumentField
+											msd={msd}
+											currentSection={sims[msd.idMas]}
+											handleChange={handleChange}
+											documentStores={documentStores}
+											lang="Lg2"
+										/>
+									</div>
+								)}
+							</div>
 						)}
 					</div>
 					{Object.values(msd.children).map((child) =>

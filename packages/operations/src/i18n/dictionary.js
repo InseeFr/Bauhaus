@@ -1,4 +1,12 @@
-export default {
+const dictionary = {
+	creatorTitle: {
+		fr: 'Propriétaires',
+		en: 'Owners',
+	},
+	organisation: {
+		fr: 'Organisme responsable',
+		en: 'Legal owner',
+	},
 	btnDelete: {
 		fr: 'Supprimer',
 		en: 'Delete',
@@ -28,3 +36,4 @@ export default {
 		en: 'Exclude',
 	},
 };
+export default dictionary;

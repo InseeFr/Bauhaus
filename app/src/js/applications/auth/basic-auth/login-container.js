@@ -4,7 +4,7 @@ import Auth from 'js/applications/auth/basic-auth/login';
 import { Loading } from '@inseefr/wilco';
 import { checkAuth } from 'js/actions/app';
 import loadStampList from 'js/actions/stamp';
-import * as select from 'js/reducers';
+import { Stores } from 'bauhaus-utilities';
 import api from 'js/remote-api/api';
 
 class LoginBasicContainer extends Component {
@@ -13,9 +13,9 @@ class LoginBasicContainer extends Component {
 		this.state = {
 			updateRequested: false,
 		};
-		this.onClickValidate = data => {
+		this.onClickValidate = (data) => {
 			const { stamp, role } = data;
-			this.props.checkAuth({ stamp, roles: role.map(r => r.value) });
+			this.props.checkAuth({ stamp, roles: role.map((r) => r.value) });
 			this.setState({
 				updateRequested: true,
 			});
@@ -27,7 +27,7 @@ class LoginBasicContainer extends Component {
 		const { roleList } = this.state;
 
 		if (!roleList) {
-			api.getRoleList().then(roleList => {
+			api.getRoleList().then((roleList) => {
 				this.setState({
 					roleList,
 				});
@@ -58,9 +58,9 @@ class LoginBasicContainer extends Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
 	return {
-		stampList: select.getStampList(state),
+		stampList: Stores.Stamps.getStampList(state),
 	};
 };
 

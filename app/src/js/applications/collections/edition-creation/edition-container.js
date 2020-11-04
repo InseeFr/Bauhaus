@@ -14,6 +14,7 @@ import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import D from 'js/i18n';
 import { Loading, buildExtract, cleanId } from '@inseefr/wilco';
 import { OK } from 'js/constants';
+import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
@@ -25,7 +26,7 @@ class EditionContainer extends Component {
 			id: '',
 		};
 
-		this.handleUpdate = data => {
+		this.handleUpdate = (data) => {
 			this.props.updateCollection(
 				data.general.id,
 				buildPayload(data, 'UPDATE')
@@ -97,7 +98,7 @@ const mapStateToProps = (state, ownProps) => {
 		collection: select.getCollection(state, id),
 		collectionList: select.getCollectionList(state),
 		conceptList: select.getConceptList(state),
-		stampList: select.getStampList(state),
+		stampList: Stores.Stamps.getStampList(state),
 		updateStatus: select.getStatus(state, UPDATE_COLLECTION),
 		langs: select.getLangs(state),
 	};

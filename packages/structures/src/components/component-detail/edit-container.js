@@ -6,9 +6,10 @@ import { getFormattedCodeList } from '../../apis/code-list';
 import { ConceptsAPI } from 'bauhaus-utilities';
 import { useParams } from 'react-router-dom';
 
-const ViewContainer = props => {
+const ViewContainer = (props) => {
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
+	const [saving, setSaving] = useState(false);
 	const [component, setComponent] = useState({});
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState([]);
@@ -18,7 +19,8 @@ const ViewContainer = props => {
 	}, [props]);
 
 	const handleSave = useCallback(
-		component => {
+		(component) => {
+			setSaving(true);
 			let request;
 			if (component.id) {
 				request = api.putMutualizedComponent(component);
@@ -27,6 +29,7 @@ const ViewContainer = props => {
 			}
 
 			request.then((id = component.id) => {
+				setSaving(false);
 				return goBackOrReplace(
 					props,
 					`/structures/components/${id}`,
@@ -56,6 +59,9 @@ const ViewContainer = props => {
 
 	if (loading) {
 		return <Loading />;
+	}
+	if (saving) {
+		return <Loading text="saving" />;
 	}
 
 	return (

@@ -13,12 +13,12 @@ class CompareNotes extends Component {
 		const { version } = props;
 		this.state = { select1: version - 1, select2: version };
 
-		this.changeSelect1 = e => {
+		this.changeSelect1 = (e) => {
 			this.setState({
 				select1: e.target.value,
 			});
 		};
-		this.changeSelect2 = e => {
+		this.changeSelect2 = (e) => {
 			this.setState({
 				select2: e.target.value,
 			});
@@ -44,7 +44,7 @@ class CompareNotes extends Component {
 							{D.version} :{' '}
 							<select
 								value={this.state.select1}
-								onChange={e => this.changeSelect1(e)}
+								onChange={(e) => this.changeSelect1(e)}
 							>
 								{creatSelectList(version)}
 							</select>
@@ -56,7 +56,7 @@ class CompareNotes extends Component {
 							{D.version} :{' '}
 							<select
 								value={this.state.select2}
-								onChange={e => this.changeSelect2(e)}
+								onChange={(e) => this.changeSelect2(e)}
 							>
 								{creatSelectListSelectedLast(version)}
 							</select>
@@ -69,13 +69,13 @@ class CompareNotes extends Component {
 							text={
 								secondLang ? notesVersion1[i]['lg2'] : notesVersion1[i]['lg1']
 							}
-							title={notesVersion1[i].title}
+							title={D[notesVersion1[i].title]}
 							lang={secondLang ? lg2 : lg1}
 							alone={false}
 						/>
 						<ExplanatoryNote
 							text={secondLang ? n.lg2 : n.lg1}
-							title={n.title}
+							title={D[n.title]}
 							lang={secondLang ? lg2 : lg1}
 							alone={false}
 						/>

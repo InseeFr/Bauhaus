@@ -10,6 +10,7 @@ import {
 	ActionToolbar,
 	ReturnButton,
 	Panel,
+	ExportButton,
 } from '@inseefr/wilco';
 
 import { PublicationFemale } from 'js/applications/operations/shared/status';
@@ -37,9 +38,9 @@ export default function SimsVisualisation({
 	sims = {},
 	secondLang,
 	goBack,
-	langs: { lg1, lg2 },
 	organisations,
 	publishSims,
+	exportCallback,
 }) {
 	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 
@@ -156,6 +157,7 @@ export default function SimsVisualisation({
 						}
 					/>
 				</Auth.AuthGuard>
+				<ExportButton action={() => exportCallback(sims.id)} />
 			</ActionToolbar>
 
 			<ErrorBloc error={serverSideError} />

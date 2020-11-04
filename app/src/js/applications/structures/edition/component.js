@@ -16,9 +16,9 @@ const defaultDSD = {
 	componentDefinitions: [],
 };
 
-export const validate = DSD => {
-	const { id, labelLg1, labelLg2 } = DSD;
-	if (!id) {
+export const validate = (DSD) => {
+	const { identifiant, labelLg1, labelLg2 } = DSD;
+	if (!identifiant) {
 		return D.requiredId;
 	} else if (!labelLg1 || !labelLg2) {
 		return D.requiredLabel;
@@ -34,7 +34,7 @@ const Edition = ({ creation, initDSD }) => {
 	};
 	const { lg1, lg2 } = useContext(AppContext);
 	const {
-		id,
+		identifiant,
 		labelLg1,
 		labelLg2,
 		descriptionLg1,
@@ -60,7 +60,7 @@ const Edition = ({ creation, initDSD }) => {
 					(creation
 						? StructureAPI.postStructure(DSD)
 						: StructureAPI.putStructure(DSD)
-					).then(id => {
+					).then((id) => {
 						setRedirectId(id);
 					});
 				}}
@@ -74,8 +74,8 @@ const Edition = ({ creation, initDSD }) => {
 						{D1.idTitle} <span className="boldRed">*</span>
 					</>
 				}
-				value={id}
-				onChange={e => onChange('id', e.target.value)}
+				value={identifiant}
+				onChange={(e) => onChange('identifiant', e.target.value)}
 				disabled={!creation}
 			/>
 			<div className="row">
@@ -88,7 +88,7 @@ const Edition = ({ creation, initDSD }) => {
 							</>
 						}
 						value={labelLg1}
-						onChange={e => onChange('labelLg1', e.target.value)}
+						onChange={(e) => onChange('labelLg1', e.target.value)}
 						lang={lg1}
 					/>
 				</div>
@@ -101,7 +101,7 @@ const Edition = ({ creation, initDSD }) => {
 							</>
 						}
 						value={labelLg2}
-						onChange={e => onChange('labelLg2', e.target.value)}
+						onChange={(e) => onChange('labelLg2', e.target.value)}
 						lang={lg2}
 					/>
 				</div>
@@ -112,7 +112,7 @@ const Edition = ({ creation, initDSD }) => {
 						id="descriptionLg1"
 						label={D1.descriptionTitle}
 						value={descriptionLg1}
-						onChange={e => onChange('descriptionLg1', e.target.value)}
+						onChange={(e) => onChange('descriptionLg1', e.target.value)}
 						lang={lg1}
 					/>
 				</div>
@@ -121,7 +121,7 @@ const Edition = ({ creation, initDSD }) => {
 						id="descriptionLg2"
 						label={D1.descriptionTitle}
 						value={descriptionLg2}
-						onChange={e => onChange('descriptionLg2', e.target.value)}
+						onChange={(e) => onChange('descriptionLg2', e.target.value)}
 						lang={lg2}
 					/>
 				</div>
@@ -129,7 +129,7 @@ const Edition = ({ creation, initDSD }) => {
 			<Components
 				creation={creation}
 				componentDefinitions={componentDefinitions}
-				onChange={components => onChange('componentDefinitions', components)}
+				onChange={(components) => onChange('componentDefinitions', components)}
 			/>
 		</>
 	);

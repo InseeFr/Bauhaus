@@ -94,7 +94,7 @@ describe('DocumentsBloc', () => {
 
 	describe.each`
 		lang     | expectedEdit | expectedView
-		${'Lg2'} | ${0}         | ${0}
+		${'Lg2'} | ${3}         | ${0}
 		${'Lg1'} | ${3}         | ${0}
 	`('$a + $b', ({ lang, expectedEdit, expectedView }) => {
 		it('should not display delete buttons', () => {

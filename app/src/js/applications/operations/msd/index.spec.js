@@ -22,6 +22,7 @@ describe('', () => {
 				lg2: 'lg2',
 			},
 			geographies: {},
+			operationsDocuments: {},
 		};
 
 		const props = {
@@ -47,6 +48,7 @@ describe('', () => {
 				lg2: 'lg2',
 			},
 			operationsSeriesCurrentStatus: LOADED,
+			operationsDocuments: {},
 			operationsSeriesCurrent: {
 				id: 2,
 				prefLabelLg1: 'prefLabelLg1',
@@ -82,6 +84,7 @@ describe('', () => {
 				lg1: 'lg1',
 				lg2: 'lg2',
 			},
+			operationsDocuments: {},
 			operationsSimsCurrent: {
 				id: 1,
 				idOperation: 2,
@@ -111,6 +114,7 @@ describe('', () => {
 				results: 'operationsMetadataStructureList',
 				status: LOADED,
 			},
+			operationsDocuments: {},
 			app: {
 				lg1: 'lg1',
 				lg2: 'lg2',
