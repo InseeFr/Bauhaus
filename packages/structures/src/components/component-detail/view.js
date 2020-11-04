@@ -11,7 +11,7 @@ import { typeUriToLabel, getAllAttachment } from '../../utils';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
-import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
+import { HTMLUtils, ValidationButton, DateUtils } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 
 export const canBeDeleted = (component) => {
@@ -65,7 +65,28 @@ export const ComponentDetailView = ({
 				<ValidationButton object={component} />
 				{updatable && <UpdateButton action={handleUpdate} col={col} />}
 			</ActionToolbar>
-
+			<div className="row">
+				<Note
+					text={
+						<ul>
+							<li>
+								{D.createdDateTitle} :{' '}
+								{DateUtils.stringToDate(component.created)}
+							</li>
+							<li>
+								{D.modifiedDateTitle} :{' '}
+								{DateUtils.stringToDate(component.modified)}
+							</li>
+							<li>
+								{D.componentValididationStatusTitle} :{' '}
+								{component.validationState}
+							</li>
+						</ul>
+					}
+					title={D.globalInformationsTitle}
+					alone={true}
+				/>
+			</div>
 			<div className="row">
 				<Note
 					text={component.identifiant}
