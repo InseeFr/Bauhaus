@@ -5,8 +5,13 @@ const api = {
 	getMutualizedComponents: () => ['components'],
 	getStructuresForSearch: () => ['search'],
 	getMutualizedComponentsForSearch: () => ['components/search'],
-	getMutualizedComponent: id => ['components/' + id],
-	putMutualizedComponent: component => [
+	getMutualizedComponent: (id) => ['components/' + id],
+	deleteMutualizedComponent: (id) => [
+		'components/' + id,
+		{},
+		() => Promise.resolve(),
+	],
+	putMutualizedComponent: (component) => [
 		`components/${component.id}`,
 		{
 			headers: {
@@ -16,7 +21,7 @@ const api = {
 		},
 		() => Promise.resolve(component.id),
 	],
-	postMutualizedComponent: component => [
+	postMutualizedComponent: (component) => [
 		`components`,
 		{
 			headers: {
@@ -24,15 +29,15 @@ const api = {
 			},
 			body: JSON.stringify(component),
 		},
-		res => res.text(),
+		(res) => res.text(),
 	],
 
-	getStructure: id => [`structure/${id}`],
-	deleteStructure: structureId => [
+	getStructure: (id) => [`structure/${id}`],
+	deleteStructure: (structureId) => [
 		`structure/${structureId}`,
-		res => res.text(),
+		(res) => res.text(),
 	],
-	postStructure: dsd => [
+	postStructure: (dsd) => [
 		'structure',
 		{
 			headers: {
@@ -41,9 +46,9 @@ const api = {
 			},
 			body: JSON.stringify(dsd),
 		},
-		res => res.text(),
+		(res) => res.text(),
 	],
-	putStructure: dsd => [
+	putStructure: (dsd) => [
 		`structure/${dsd.id}`,
 		{
 			headers: {
@@ -52,7 +57,7 @@ const api = {
 			},
 			body: JSON.stringify(dsd),
 		},
-		res => res.text(),
+		(res) => res.text(),
 	],
 };
 

@@ -15,7 +15,6 @@ export const ComponentSpecificationForm = ({
 	const componentAttachment = component.attachment
 		? component.attachment
 		: [OBSERVATION];
-	console.log(componentAttachment);
 	useEffect(() => {
 		setAttachments(getAllAttachment(structureComponents));
 	}, [structureComponents]);

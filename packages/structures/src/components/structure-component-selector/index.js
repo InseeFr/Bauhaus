@@ -21,6 +21,7 @@ export const StructureComponentsSelector = ({
 	concepts,
 	codesLists,
 	readOnly,
+	type,
 }) => {
 	const removeClickHandler = useCallback(
 		(e) => {
@@ -227,6 +228,7 @@ export const StructureComponentsSelector = ({
 					}}
 					readOnly={readOnly}
 					structureComponents={components}
+					type={type}
 				/>
 			</SlidingPanel>
 		</CollapsiblePanel>

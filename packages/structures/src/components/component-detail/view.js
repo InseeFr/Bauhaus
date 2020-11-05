@@ -4,20 +4,31 @@ import {
 	UpdateButton,
 	ActionToolbar,
 	ReturnButton,
+	DeleteButton,
 } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
 import { typeUriToLabel, getAllAttachment } from '../../utils';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
-import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
+import { HTMLUtils, ValidationButton, DateUtils } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 
+export const canBeDeleted = (component) => {
+	const forbidden = ['Validated', 'Modified'];
+	return (
+		!forbidden.includes(component.validationState) &&
+		!component.structures.find((structure) =>
+			forbidden.includes(structure.validationState)
+		)
+	);
+};
 export const ComponentDetailView = ({
 	component,
 	concepts,
 	codesLists,
 	handleUpdate,
+	handleDelete,
 	handleBack,
 	updatable,
 	mutualized = false,
@@ -27,9 +38,9 @@ export const ComponentDetailView = ({
 }) => {
 	const typeValue = typeUriToLabel(component.type);
 	const conceptValue = concepts.find(
-		concept => concept.id?.toString() === component.concept?.toString()
+		(concept) => concept.id?.toString() === component.concept?.toString()
 	)?.label;
-	const codeListValue = codesLists.find(concept =>
+	const codeListValue = codesLists.find((concept) =>
 		component.codeList?.toString().includes(concept.id?.toString())
 	)?.label;
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
@@ -48,10 +59,34 @@ export const ComponentDetailView = ({
 		<React.Fragment>
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
+				{canBeDeleted(component) && (
+					<DeleteButton action={handleDelete} col={col} />
+				)}
 				<ValidationButton object={component} />
 				{updatable && <UpdateButton action={handleUpdate} col={col} />}
 			</ActionToolbar>
-
+			<div className="row">
+				<Note
+					text={
+						<ul>
+							<li>
+								{D.createdDateTitle} :{' '}
+								{DateUtils.stringToDate(component.created)}
+							</li>
+							<li>
+								{D.modifiedDateTitle} :{' '}
+								{DateUtils.stringToDate(component.modified)}
+							</li>
+							<li>
+								{D.componentValididationStatusTitle} :{' '}
+								{component.validationState}
+							</li>
+						</ul>
+					}
+					title={D.globalInformationsTitle}
+					alone={true}
+				/>
+			</div>
 			<div className="row">
 				<Note
 					text={component.identifiant}
@@ -74,7 +109,7 @@ export const ComponentDetailView = ({
 			</div>
 			<div className="row">
 				<Note
-					text={XSD_TYPES.find(type => type.value === component.range)?.label}
+					text={XSD_TYPES.find((type) => type.value === component.range)?.label}
 					title={D1.rangeTitle}
 					alone={true}
 					allowEmpty={true}
@@ -112,7 +147,7 @@ export const ComponentDetailView = ({
 					<Note
 						text={
 							<ul>
-								{component.structures?.map(structure => {
+								{component.structures?.map((structure) => {
 									return (
 										<li key={structure.id}>
 											<Link to={`/structures/${structure.id}`}>
@@ -138,11 +173,11 @@ export const ComponentDetailView = ({
 						<Note
 							text={
 								<ul>
-									{component.attachment?.map(attachment => {
+									{component.attachment?.map((attachment) => {
 										return (
 											<li key={attachment}>
 												{
-													attachments.find(type => type.value === attachment)
+													attachments.find((type) => type.value === attachment)
 														?.label
 												}
 											</li>

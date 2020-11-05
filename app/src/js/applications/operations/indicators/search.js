@@ -13,17 +13,15 @@ import {
 } from 'bauhaus-utilities';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
-const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
-const filterGestionnaire = ArrayUtils.filterKeyDeburr(['publishers']);
 
-const fields = ['prefLabelLg1', 'creator', 'gestionnaire'];
+const fields = ['prefLabelLg1', 'creator', 'publisher'];
 const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
 
-class SearchFormList extends AbstractAdvancedSearchComponent {
+export class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
 		prefLabelLg1: '',
 		creator: '',
-		gestionnaire: '',
+		publisher: '',
 	};
 
 	constructor(props) {
@@ -31,18 +29,31 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 	}
 
 	handlers = this.handleChange(fields, (newState) => {
-		const { prefLabelLg1, creator, gestionnaire } = newState;
+		const { prefLabelLg1, creator, publisher } = newState;
 		return this.props.data
-			.filter(filterCreator(creator))
+
 			.filter(filterLabel(prefLabelLg1))
-			.filter(filterGestionnaire(gestionnaire));
+			.filter((series) => {
+				const creators = series.creators || [];
+				const formattedCreators = Array.isArray(creators)
+					? creators
+					: [creators];
+				return !creator || formattedCreators.includes(creator);
+			})
+			.filter((series) => {
+				const publishers = series.publishers || [];
+				const formattedPublishers = Array.isArray(publishers)
+					? publishers
+					: [publishers];
+				return !publisher || formattedPublishers.includes(publisher);
+			});
 	});
 
 	render() {
-		const { data, prefLabelLg1, creator, gestionnaire } = this.state;
+		const { data, prefLabelLg1, creator, publisher } = this.state;
 		const { organisations, stamps } = this.props;
 
-		const creatorsOptions = ItemToSelectModel.toSelectModel(organisations);
+		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 		const stampsOptions = stamps.map((stamp) => ({
 			value: stamp,
 			label: stamp,
@@ -74,36 +85,35 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 				</div>
 				<div className="form-group row">
 					<div className="col-md-6">
-						<label htmlFor="typeOperation" className="w-100">
+						<label htmlFor="publisher" className="w-100">
 							{D.organisation}
 
 							<Select
 								placeholder=""
 								value={
-									creatorsOptions.find((option) => option.value === creator) ||
-									''
+									organisationsOptions.find(
+										(option) => option.value === publisher
+									) || ''
 								}
-								options={creatorsOptions}
+								options={organisationsOptions}
 								onChange={(value) => {
-									this.handlers.creator(value);
+									this.handlers.publisher(value);
 								}}
 							/>
 						</label>
 					</div>
 					<div className="col-md-6">
-						<label htmlFor="typeOperation" className="w-100">
+						<label htmlFor="creator" className="w-100">
 							{D.creatorTitle}
 
 							<Select
 								placeholder=""
 								value={
-									stampsOptions.find(
-										(option) => option.value === gestionnaire
-									) || ''
+									stampsOptions.find((option) => option.value === creator) || ''
 								}
 								options={stampsOptions}
 								onChange={(value) => {
-									this.handlers.gestionnaire(value);
+									this.handlers.creator(value);
 								}}
 							/>
 						</label>

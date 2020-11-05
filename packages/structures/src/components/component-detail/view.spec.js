@@ -7,8 +7,51 @@ import {
 	queryByText,
 } from '@testing-library/react';
 
-import { ComponentDetailView } from './view';
+import { ComponentDetailView, canBeDeleted } from './view';
 
+describe('canBeDeleted', () => {
+	it('can delete if the component is unpublished', () => {
+		expect(
+			canBeDeleted({ validationState: 'Unpublished', structures: [] })
+		).toBeTruthy();
+	});
+	it('cannot delete if the component is Validated', () => {
+		expect(
+			canBeDeleted({ validationState: 'Validated', structures: [] })
+		).toBeFalsy();
+	});
+
+	it('cannot delete if the component is Modified', () => {
+		expect(
+			canBeDeleted({ validationState: 'Modified', structures: [] })
+		).toBeFalsy();
+	});
+	it('can delete if one structure is unpublished', () => {
+		expect(
+			canBeDeleted({
+				validationState: 'Unpublished',
+				structures: [{ validationState: 'Unpublished' }],
+			})
+		).toBeTruthy();
+	});
+	it('cannot delete if one structure is Validated', () => {
+		expect(
+			canBeDeleted({
+				validationState: 'Unpublished',
+				structures: [{ validationState: 'Validated' }],
+			})
+		).toBeFalsy();
+	});
+
+	it('cannot delete if one structure is Modified', () => {
+		expect(
+			canBeDeleted({
+				validationState: 'Unpublished',
+				structures: [{ validationState: 'Modified' }],
+			})
+		).toBeFalsy();
+	});
+});
 describe('<ComponentDetailView />', () => {
 	const component = {
 		id: '5e7334002a5c764f68247222',
@@ -21,6 +64,7 @@ describe('<ComponentDetailView />', () => {
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 942,
 		range: 'http://rdf.insee.fr/def/base#codeList',
+		structures: [],
 	};
 
 	const concepts = [

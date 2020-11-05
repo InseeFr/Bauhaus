@@ -10,7 +10,7 @@
 	"scripts": {
 		"start": "yarn workspace Bauhaus run start",
 		"build-insee": "yarn workspaces run build-insee",
-		"test:coverage": "yarn workspaces run test:coverage",
+		"test:coverage": "yarn workspaces run test:coverage --env=jest-environment-jsdom-sixteen",
 		"build-storybook": "yarn workspaces run build-storybook",
 		"pre-push": "yarn workspaces run lint && yarn test:coverage"
 	},
@@ -50,6 +50,7 @@
 		"webpack": "4.44.0"
 	},
 	"dependencies": {
+		"jest-environment-jsdom-sixteen": "^1.0.3",
 		"prop-types": "15.7.2",
 		"react": "16.13.1",
 		"react-dom": "16.13.1",

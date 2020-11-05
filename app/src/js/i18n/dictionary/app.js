@@ -387,6 +387,18 @@ const dictionary = {
 		fr: 'Privé',
 		en: 'Private',
 	},
+	Attribute: {
+		fr: 'Attribut',
+		en: 'Attribute',
+	},
+	Dimension: {
+		fr: 'Dimension',
+		en: 'Dimension',
+	},
+	Measure: {
+		fr: 'Mesure',
+		en: 'Measure',
+	},
 };
 
 export default dictionary;

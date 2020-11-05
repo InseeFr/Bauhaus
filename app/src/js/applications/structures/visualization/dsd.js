@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Note, Loading } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
-import { CheckSecondLang, Stores, PageTitleBlock } from 'bauhaus-utilities';
+import {
+	CheckSecondLang,
+	Stores,
+	PageTitleBlock,
+	DateUtils,
+} from 'bauhaus-utilities';
 import Components from './components';
 import { D1, D2 } from 'js/i18n';
 import {
@@ -14,13 +19,13 @@ const DSD = () => {
 	const { dsdId } = useParams();
 	const [DSD, setDSD] = useState({});
 	const [loading, setLoading] = useState(true);
-	const secondLang = useSelector(state =>
+	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);
 
 	useEffect(() => {
 		StructureAPI.getStructure(dsdId)
-			.then(res => setDSD(res))
+			.then((res) => setDSD(res))
 			.finally(() => setLoading(false));
 	}, [dsdId]);
 
@@ -46,6 +51,22 @@ const DSD = () => {
 			<CheckSecondLang />
 
 			<StructureVisualizationControl structure={DSD} />
+			<div className="row">
+				<Note
+					text={
+						<ul>
+							<li>
+								{D1.createdDateTitle} : {DateUtils.stringToDate(DSD.created)}
+							</li>
+							<li>
+								{D1.modifiedDateTitle} : {DateUtils.stringToDate(DSD.modified)}
+							</li>
+						</ul>
+					}
+					title={D1.globalInformationsTitle}
+					alone={true}
+				/>
+			</div>
 			<div className="row">
 				<Note
 					title={D1.descriptionTitle}
