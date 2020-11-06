@@ -5,6 +5,7 @@ import { isLink, isDocument } from 'js/applications/operations/document/utils';
 
 const SimsBlockRichText = ({ currentSection, isSecondLang }) => {
 	const suffix = isSecondLang ? 'Lg2' : 'Lg1';
+	const documents = currentSection['documents' + suffix];
 	return (
 		<>
 			{HTMLUtils.renderMarkdownElement(
@@ -13,12 +14,12 @@ const SimsBlockRichText = ({ currentSection, isSecondLang }) => {
 			{currentSection['documents' + suffix] && (
 				<div className="sims-documents-block">
 					<DocumentsBloc
-						documents={currentSection['documents' + suffix].filter(isDocument)}
+						documents={documents.filter(isDocument)}
 						localPrefix={suffix}
 						objectType="documents"
 					/>
 					<DocumentsBloc
-						documents={currentSection['documents' + suffix].filter(isLink)}
+						documents={documents.filter(isLink)}
 						localPrefix={suffix}
 						objectType="links"
 					/>
