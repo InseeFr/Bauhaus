@@ -65,6 +65,9 @@ describe('<ComponentDetailView />', () => {
 		codeList: 942,
 		range: 'http://rdf.insee.fr/def/base#codeList',
 		structures: [],
+		validationState: 'Validated',
+		created: new Date('2020-01-01'),
+		modified: new Date('2020-01-01')
 	};
 
 	const concepts = [
@@ -172,4 +175,19 @@ describe('<ComponentDetailView />', () => {
 
 		expect(queryByText(container, 'Code List - Label 492')).toBeNull();
 	});
+
+	it("should display the general informations block", () => {
+		const { container } = render(
+			<ComponentDetailView
+				component={{ ...component, range: 'fake' }}
+				concepts={concepts}
+				codesLists={codesLists}
+				handleBack={() => {}}
+				handleUpdate={() => {}}
+			></ComponentDetailView>
+		);
+		expect(container.querySelector('ul li:nth-child(1)').innerHTML).toContain('Creation date : 01/01/2020');
+		expect(container.querySelector('ul li:nth-child(2)').innerHTML).toContain('Modification date : 01/01/2020');
+		expect(container.querySelector('ul li:nth-child(3)').innerHTML).toContain('Publication status : Validated');
+	})
 });
