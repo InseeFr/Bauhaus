@@ -67,7 +67,10 @@ describe('<ComponentDetailView />', () => {
 		structures: [],
 		validationState: 'Validated',
 		created: new Date('2020-01-01'),
-		modified: new Date('2020-01-01')
+		modified: new Date('2020-01-01'),
+		contributor: 'STAMP CONTRIBUTOR',
+		creator: 'STAMP CREATORw'
+
 	};
 
 	const concepts = [
@@ -189,5 +192,8 @@ describe('<ComponentDetailView />', () => {
 		expect(container.querySelector('ul li:nth-child(1)').innerHTML).toContain('Creation date : 01/01/2020');
 		expect(container.querySelector('ul li:nth-child(2)').innerHTML).toContain('Modification date : 01/01/2020');
 		expect(container.querySelector('ul li:nth-child(3)').innerHTML).toContain('Publication status : Validated');
+		expect(container.querySelector('ul li:nth-child(4)').innerHTML).toContain('Creator : STAMP CREATOR');
+		expect(container.querySelector('ul li:nth-child(5)').innerHTML).toContain('Contributor : STAMP CONTRIBUTOR');
+
 	})
 });

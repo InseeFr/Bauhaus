@@ -187,4 +187,8 @@ export default {
 		fr: "L'identifiant est obligatoire",
 		en: 'The identifier is required',
 	},
+	componentValididationStatusTitle: {
+		fr: 'État du composant',
+		en: 'Publication status',
+	},
 };

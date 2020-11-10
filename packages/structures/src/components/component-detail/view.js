@@ -81,6 +81,14 @@ export const ComponentDetailView = ({
 								{D.componentValididationStatusTitle} :{' '}
 								{component.validationState}
 							</li>
+							<li>
+								{D.creator} :{' '}
+								{component.creator}
+							</li>
+							<li>
+								{D.contributor} :{' '}
+								{component.contributor}
+							</li>
 						</ul>
 					}
 					title={D.globalInformationsTitle}

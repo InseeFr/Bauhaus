@@ -14,21 +14,9 @@ import {
 	StructureAPI,
 	StructureVisualizationControl,
 } from 'bauhaus-structures';
+import D from 'bauhaus-structures/src/i18n/build-dictionary';
 
-const DSD = () => {
-	const { dsdId } = useParams();
-	const [DSD, setDSD] = useState({});
-	const [loading, setLoading] = useState(true);
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
-
-	useEffect(() => {
-		StructureAPI.getStructure(dsdId)
-			.then((res) => setDSD(res))
-			.finally(() => setLoading(false));
-	}, [dsdId]);
-
+export const DSDView = ({secondLang, DSD}) => {
 	const {
 		labelLg1,
 		labelLg2,
@@ -36,10 +24,6 @@ const DSD = () => {
 		descriptionLg2,
 		componentDefinitions = [],
 	} = DSD;
-
-	if (loading) {
-		return <Loading />;
-	}
 
 	return (
 		<>
@@ -60,6 +44,18 @@ const DSD = () => {
 							</li>
 							<li>
 								{D1.modifiedDateTitle} : {DateUtils.stringToDate(DSD.modified)}
+							</li>
+							<li>
+								{D.componentValididationStatusTitle} :{' '}
+								{DSD.validationState}
+							</li>
+							<li>
+								{D.creator} :{' '}
+								{DSD.creator}
+							</li>
+							<li>
+								{D.contributor} :{' '}
+								{DSD.contributor}
 							</li>
 						</ul>
 					}
@@ -86,6 +82,28 @@ const DSD = () => {
 			<Components componentDefinitions={componentDefinitions} />
 		</>
 	);
+}
+const DSD = () => {
+	const { dsdId } = useParams();
+	const [DSD, setDSD] = useState({});
+	const [loading, setLoading] = useState(true);
+	const secondLang = useSelector((state) =>
+		Stores.SecondLang.getSecondLang(state)
+	);
+
+	useEffect(() => {
+		StructureAPI.getStructure(dsdId)
+			.then((res) => setDSD(res))
+			.finally(() => setLoading(false));
+	}, [dsdId]);
+
+
+
+	if (loading) {
+		return <Loading />;
+	}
+
+	return <DSDView DSD={DSD} secondLang={secondLang}/>
 };
 
 export default DSD;

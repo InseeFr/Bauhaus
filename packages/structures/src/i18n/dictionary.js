@@ -163,5 +163,13 @@ const dictionary = {
 		fr: 'État du composant',
 		en: 'Publication status',
 	},
+	contributor: {
+		fr: 'Gestionnaire',
+		en: 'Contributor',
+	},
+	creator: {
+		fr: 'Propriétaires',
+		en: 'Creator',
+	},
 };
 export default dictionary;
