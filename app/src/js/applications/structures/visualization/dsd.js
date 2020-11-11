@@ -57,6 +57,10 @@ export const DSDView = ({secondLang, DSD}) => {
 								{D.contributor} :{' '}
 								{DSD.contributor}
 							</li>
+							<li>
+								{D.disseminationStatusTitle} :{' '}
+								{DSD.disseminationStatus}
+							</li>
 						</ul>
 					}
 					title={D1.globalInformationsTitle}

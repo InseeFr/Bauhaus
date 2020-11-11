@@ -1,4 +1,8 @@
 const dictionary = {
+	disseminationStatusTitle: {
+		fr: 'Status de diffusion',
+		en: 'Diffusion status',
+	},
 	componentSpecificationTitle: {
 		fr: 'Spécification du Composant',
 		en: 'Component Specification',

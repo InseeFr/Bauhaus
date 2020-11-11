@@ -69,8 +69,8 @@ describe('<ComponentDetailView />', () => {
 		created: new Date('2020-01-01'),
 		modified: new Date('2020-01-01'),
 		contributor: 'STAMP CONTRIBUTOR',
-		creator: 'STAMP CREATORw'
-
+		creator: 'STAMP CREATOR',
+		disseminationStatus: "http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique"
 	};
 
 	const concepts = [
@@ -194,6 +194,7 @@ describe('<ComponentDetailView />', () => {
 		expect(container.querySelector('ul li:nth-child(3)').innerHTML).toContain('Publication status : Validated');
 		expect(container.querySelector('ul li:nth-child(4)').innerHTML).toContain('Creator : STAMP CREATOR');
 		expect(container.querySelector('ul li:nth-child(5)').innerHTML).toContain('Contributor : STAMP CONTRIBUTOR');
+		expect(container.querySelector('ul li:nth-child(6)').innerHTML).toContain('Diffusion status : http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique');
 
 	})
 });

@@ -89,6 +89,10 @@ export const ComponentDetailView = ({
 								{D.contributor} :{' '}
 								{component.contributor}
 							</li>
+							<li>
+								{D.disseminationStatusTitle} :{' '}
+								{component.disseminationStatus}
+							</li>
 						</ul>
 					}
 					title={D.globalInformationsTitle}
