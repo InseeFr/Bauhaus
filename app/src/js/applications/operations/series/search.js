@@ -20,8 +20,7 @@ const fields = [
 	'typeCode',
 	'creator',
 	'publisher',
-	'dataCollector',
-	'gestionnaire',
+	'dataCollector'
 ];
 const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
 
@@ -32,7 +31,6 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 		creator: '',
 		publisher: '',
 		dataCollector: '',
-		gestionnaire: '',
 		organisations: [],
 	};
 
@@ -56,6 +54,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 				const formattedCreators = Array.isArray(creators)
 					? creators
 					: [creators];
+
 				return !creator || formattedCreators.includes(creator);
 			})
 			.filter((series) => {
@@ -63,12 +62,13 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 				const formattedPublishers = Array.isArray(publishers)
 					? publishers
 					: [publishers];
-				return !publisher || formattedPublishers.includes(publisher);
+
+				return !publisher || formattedPublishers.map(({id}) => id).includes(publisher);
 			})
 			.filter((series) => {
 				return (
 					!dataCollector ||
-					(series.dataCollectors || []).includes(dataCollector)
+					(series.dataCollectors || []).map(({id}) => id).includes(dataCollector)
 				);
 			});
 	});
@@ -123,7 +123,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 								placeholder=""
 								value={
 									(
-										categories.codes.find((code) => code.value === typeCode) ||
+										categories.codes.find((category) => category.code === typeCode) ||
 										{}
 									).value
 								}
