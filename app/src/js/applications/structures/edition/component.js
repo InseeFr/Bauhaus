@@ -56,10 +56,15 @@ const Edition = ({ creation, initDSD }) => {
 			<Controls
 				creation={creation}
 				save={() => {
+					const structure = {
+						...DSD,
+						creator: 'DG75-H250',
+						contributor: 'DG75-H250'
+					}
 					setLoading(true);
 					(creation
-						? StructureAPI.postStructure(DSD)
-						: StructureAPI.putStructure(DSD)
+						? StructureAPI.postStructure(structure)
+						: StructureAPI.putStructure(structure)
 					).then((id) => {
 						setRedirectId(id);
 					});

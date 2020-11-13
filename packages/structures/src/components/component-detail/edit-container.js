@@ -20,12 +20,18 @@ const ViewContainer = (props) => {
 
 	const handleSave = useCallback(
 		(component) => {
+
+			const c = {
+				...component,
+				creator: 'DG75-H250',
+				contributor: 'DG75-H250'
+			}
 			setSaving(true);
 			let request;
 			if (component.id) {
-				request = api.putMutualizedComponent(component);
+				request = api.putMutualizedComponent(c);
 			} else {
-				request = api.postMutualizedComponent(component);
+				request = api.postMutualizedComponent(c);
 			}
 
 			request.then((id = component.id) => {
