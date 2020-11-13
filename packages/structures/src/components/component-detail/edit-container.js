@@ -24,7 +24,8 @@ const ViewContainer = (props) => {
 			const c = {
 				...component,
 				creator: 'DG75-H250',
-				contributor: 'DG75-H250'
+				contributor: 'DG75-H250',
+				disseminationStatus: 'http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique'
 			}
 			setSaving(true);
 			let request;

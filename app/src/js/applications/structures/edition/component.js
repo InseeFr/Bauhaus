@@ -59,7 +59,8 @@ const Edition = ({ creation, initDSD }) => {
 					const structure = {
 						...DSD,
 						creator: 'DG75-H250',
-						contributor: 'DG75-H250'
+						contributor: 'DG75-H250',
+						disseminationStatus: 'http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique'
 					}
 					setLoading(true);
 					(creation
