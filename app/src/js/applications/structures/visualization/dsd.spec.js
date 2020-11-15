@@ -1,5 +1,5 @@
 import React from 'react';
-import {DSDView} from './dsd';
+import {StructureView} from './dsd';
 import { render } from '@testing-library/react';
 import {MemoryRouter} from 'react-router';
 import { Provider } from 'react-redux';
@@ -7,15 +7,33 @@ import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
 const store = mockStore({
+	app: {
+		secondLang: true
+	}
 });
 
 describe('<DSD />', () => {
+	it("should display labelLg1", () => {
+		const { container } = render(
+			<Provider store={store}>
+				<MemoryRouter>
+					<StructureView
+						structure={{
+							labelLg1: 'labelLg1'
+						}}
+					></StructureView>
+				</MemoryRouter>
+			</Provider>
+		);
+
+		expect(container.querySelector('h1').innerHTML).toEqual('labelLg1');
+	})
 	it("should display the general informations block", () => {
 		const { container } = render(
 			<Provider store={store}>
 				<MemoryRouter>
-					<DSDView
-						DSD={{
+					<StructureView
+						structure={{
 							created: new Date('2020-01-01'),
 							modified: new Date('2020-01-01'),
 							validationState: 'Validated',
@@ -23,7 +41,7 @@ describe('<DSD />', () => {
 							creator: 'STAMP CREATOR',
 							disseminationStatus: "http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique"
 						}}
-					></DSDView>
+					></StructureView>
 				</MemoryRouter>
 			</Provider>
 		);
