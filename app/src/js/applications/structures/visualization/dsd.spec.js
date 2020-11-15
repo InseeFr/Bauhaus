@@ -12,7 +12,7 @@ const store = mockStore({
 	}
 });
 
-describe('<DSD />', () => {
+describe('<StructureView />', () => {
 	it("should display labelLg1", () => {
 		const { container } = render(
 			<Provider store={store}>
