@@ -13,6 +13,7 @@ import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
+import { default as ReactSelect } from 'react-select';
 
 export const ComponentDetailEdit = ({
 	component: defaultComponent,
@@ -21,7 +22,10 @@ export const ComponentDetailEdit = ({
 	handleSave,
 	handleBack,
 	type,
+	disseminationStatusListOptions,
+	stampListOptions
 }) => {
+	console.log(disseminationStatusListOptions)
 	const [component, setComponent] = useState(defaultComponent || {});
 	const handleChange = useCallback(
 		(e) => {
@@ -165,6 +169,46 @@ export const ComponentDetailEdit = ({
 						</div>
 					</div>
 				)}
+				<div className="form-group">
+					<label>
+						{D1.creatorTitle}
+					</label>
+					<Select
+						className="form-control"
+						placeholder={D1.stampsPlaceholder}
+						value={stampListOptions.find(value => value === component.creator)}
+						options={stampListOptions}
+						onChange={(value) =>
+							setComponent({ ...component, creator: value })
+						}
+						searchable={true}
+					/>
+				</div>
+				<div className="form-group">
+					<label>{D1.contributorTitle}</label>
+					<ReactSelect
+						placeholder={D1.stampsPlaceholder}
+						value={stampListOptions.find(({ value }) => value === (component.contributor || 'DG75-H250'))}
+						options={stampListOptions}
+						onChange={(value) =>
+							setComponent({ ...component, contributor: value })
+						}
+						isDisabled={true}
+					/>
+				</div>
+				<div className="form-group">
+					<label>{D1.disseminationStatusTitle}</label>
+					<Select
+						className="form-control"
+						placeholder={D1.disseminationStatusPlaceholder}
+						value={disseminationStatusListOptions.find(value => value === component.disseminationStatus)}
+						options={disseminationStatusListOptions}
+						onChange={(value) =>
+							setComponent({ ...component, disseminationStatus: value })
+						}
+						searchable={true}
+					/>
+				</div>
 				<div className="row">
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
@@ -194,6 +238,8 @@ ComponentDetailEdit.propTypes = {
 	component: PropTypes.object,
 	concepts: PropTypes.array,
 	codesLists: PropTypes.array,
+	disseminationStatusListOptions: PropTypes.array,
+	stampListOptions: PropTypes.array,
 	handleSave: PropTypes.func,
 	handleBack: PropTypes.func,
 	secondLang: PropTypes.bool,
@@ -204,4 +250,6 @@ ComponentDetailEdit.defaultProps = {
 	structureComponents: [],
 	concepts: [],
 	codesLists: [],
+	disseminationStatusListOptions: [],
+	stampListOptions: []
 };

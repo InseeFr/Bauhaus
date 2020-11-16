@@ -56,7 +56,6 @@ const api = {
 		},
 		() => Promise.resolve(document.id),
 	],
-	getDissStatusList: () => ['disseminationStatus'],
 	getStampList: () => ['stamps'],
 	getRoleList: () => ['roles'],
 	getAgentList: () => ['agents'],

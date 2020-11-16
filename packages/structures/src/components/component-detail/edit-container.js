@@ -3,8 +3,9 @@ import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
 import { ComponentDetailEdit } from './edit';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI } from 'bauhaus-utilities';
+import { ConceptsAPI, Stores } from 'bauhaus-utilities';
 import { useParams } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
 
 const ViewContainer = (props) => {
 	const { id } = useParams();
@@ -14,25 +15,26 @@ const ViewContainer = (props) => {
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState([]);
 
+	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
+	const disseminationStatusListOptions = useSelector(state => Stores.DisseminationStatus.getDisseminationStatusListOptions(state));
+	useEffect(() => {
+		if(disseminationStatusListOptions.length === 0){
+			props.loadDisseminationStatusList();
+		}
+	}, [disseminationStatusListOptions.length, props.loadDisseminationStatusList]);
+
 	const handleBack = useCallback(() => {
 		goBack(props, '/structures/components')();
 	}, [props]);
 
 	const handleSave = useCallback(
 		(component) => {
-
-			const c = {
-				...component,
-				creator: 'DG75-H250',
-				contributor: 'DG75-H250',
-				disseminationStatus: 'http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique'
-			}
 			setSaving(true);
 			let request;
 			if (component.id) {
-				request = api.putMutualizedComponent(c);
+				request = api.putMutualizedComponent(component);
 			} else {
-				request = api.postMutualizedComponent(c);
+				request = api.postMutualizedComponent(component);
 			}
 
 			request.then((id = component.id) => {
@@ -81,8 +83,12 @@ const ViewContainer = (props) => {
 			handleBack={handleBack}
 			handleSave={handleSave}
 			mutualized={true}
+			disseminationStatusListOptions={disseminationStatusListOptions}
+			stampListOptions={stampListOptions}
 		/>
 	);
 };
 
-export default ViewContainer;
+export default connect(undefined, {
+	loadDisseminationStatusList: Stores.DisseminationStatus.loadDisseminationStatusList
+})(ViewContainer);

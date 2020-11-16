@@ -3,6 +3,22 @@ const dictionary = {
 		fr: 'Status de diffusion',
 		en: 'Diffusion status',
 	},
+	creatorTitle: {
+		fr: 'Propriétaire',
+		en: 'Owner',
+	},
+	contributorTitle: {
+		fr: 'Gestionnaire',
+		en: 'Contributor',
+	},
+	stampsPlaceholder: {
+		fr: 'Sélectionnez un timbre...',
+		en: 'Select stamp...',
+	},
+	disseminationStatusPlaceholder: {
+		fr: 'Sélectionnez un statut de diffusion...',
+		en: 'Select dissemination status...',
+	},
 	componentSpecificationTitle: {
 		fr: 'Spécification du Composant',
 		en: 'Component Specification',

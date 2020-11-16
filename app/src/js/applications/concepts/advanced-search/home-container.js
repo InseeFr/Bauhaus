@@ -4,7 +4,6 @@ import { Loading } from '@inseefr/wilco';
 import * as select from 'js/reducers';
 import ConceptSearchList from './home';
 import loadStampList from 'js/actions/stamp';
-import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadConceptSearchList from 'js/actions/concepts/search-list';
 import { Stores } from 'bauhaus-utilities';
 
@@ -43,12 +42,12 @@ class ConceptSearchListContainer extends Component {
 const mapStateToProps = (state) => ({
 	conceptSearchList: select.getConceptSearchList(state),
 	stampList: Stores.Stamps.getStampList(state),
-	disseminationStatusList: select.getDisseminationStatusList(state),
+	disseminationStatusList: Stores.DisseminationStatus.getDisseminationStatusList(state),
 });
 const mapDispatchToProps = {
 	loadConceptSearchList,
 	loadStampList,
-	loadDisseminationStatusList,
+	loadDisseminationStatusList: Stores.DisseminationStatus.loadDisseminationStatusList,
 };
 
 export default connect(

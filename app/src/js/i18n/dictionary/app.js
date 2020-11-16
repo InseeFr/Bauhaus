@@ -137,13 +137,13 @@ const dictionary = {
 		en: 'Contributor',
 	},
 
-	stampsPlaceholder: {
-		fr: 'Sélectionnez un timbre...',
-		en: 'Select stamp...',
-	},
 	disseminationStatusTitle: {
 		fr: 'Statut de diffusion',
 		en: 'Dissemination status',
+	},
+	stampsPlaceholder: {
+		fr: 'Sélectionnez un timbre...',
+		en: 'Select stamp...',
 	},
 	disseminationStatusPlaceholder: {
 		fr: 'Sélectionnez un statut de diffusion...',
