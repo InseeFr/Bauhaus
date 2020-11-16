@@ -18,7 +18,7 @@ export const canBeDeleted = (component) => {
 	const forbidden = ['Validated', 'Modified'];
 	return (
 		!forbidden.includes(component.validationState) &&
-		!component.structures.find((structure) =>
+		!component.structures?.find((structure) =>
 			forbidden.includes(structure.validationState)
 		)
 	);

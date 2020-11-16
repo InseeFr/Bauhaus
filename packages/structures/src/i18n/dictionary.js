@@ -191,5 +191,9 @@ const dictionary = {
 		fr: 'Propriétaires',
 		en: 'Creator',
 	},
+	seeCodesListDetails: {
+		fr: 'Voir les codes de cette liste',
+		en: 'see codes of this list'
+	}
 };
 export default dictionary;

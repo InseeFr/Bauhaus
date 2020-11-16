@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
 	CancelButton,
 	SaveButton,
@@ -11,9 +11,11 @@ import { EditorMarkdown } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
-import { D1, D2 } from '../../i18n/build-dictionary';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
 import { default as ReactSelect } from 'react-select';
+import "./edit.scss";
+import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
 
 export const ComponentDetailEdit = ({
 	component: defaultComponent,
@@ -25,7 +27,7 @@ export const ComponentDetailEdit = ({
 	disseminationStatusListOptions,
 	stampListOptions
 }) => {
-	console.log(disseminationStatusListOptions)
+	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 	const [component, setComponent] = useState(defaultComponent || {});
 	const handleChange = useCallback(
 		(e) => {
@@ -150,7 +152,7 @@ export const ComponentDetailEdit = ({
 				</div>
 				{component.range === XSD_CODE_LIST && (
 					<div className="row">
-						<div className="col-md-12 form-group">
+						<div className="col-md-12 form-group code-list-zone">
 							<Select
 								type="text"
 								className="form-control"
@@ -166,6 +168,13 @@ export const ComponentDetailEdit = ({
 									setComponent({ ...component, codeList: value })
 								}
 							/>
+							<button
+								type="button"
+								disabled={!component.codeList}
+								onClick={() => setCodesListPanelOpened(true)}
+							>
+								{D.see}
+							</button>
 						</div>
 					</div>
 				)}
@@ -230,6 +239,9 @@ export const ComponentDetailEdit = ({
 					</div>
 				</div>
 			</form>
+			<CodesListPanel codesList={codesLists.find((c) =>
+				component.codeList?.toString().includes(c.id?.toString())
+			)} isOpen={codesListPanelOpened} handleBack={() => setCodesListPanelOpened(false)}/>
 		</React.Fragment>
 	);
 };

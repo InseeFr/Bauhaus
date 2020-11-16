@@ -5,6 +5,7 @@ import { StructureComponentsSelector } from '../structure-component-selector';
 import ComponentSpecificationModal from '../component-specification-modal';
 import PropTypes from 'prop-types';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
+import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
 
 const filterComponentDefinition = (type) => (componentDefinition) =>
 	componentDefinition?.component?.type === type;
@@ -19,7 +20,11 @@ const ComponentSelector = ({
 	handleUpdate,
 	type,
 }) => {
-
+	const [codesListNotation, setCodesListNotation] = useState(undefined);
+	const handleCodesListDetail = useCallback(notation => {
+		console.log(notation)
+		setCodesListNotation(notation);
+	}, [])
 	const [structureComponents, setStructureComponents] = useState(
 		[]
 	);
@@ -196,6 +201,7 @@ const ComponentSelector = ({
 				handleSpecificationClick={handleSpecificationClick}
 				readOnly={false}
 				type={type}
+				handleCodesListDetail={handleCodesListDetail}
 			/>
 
 			<MutualizedComponentsSelector
@@ -205,7 +211,9 @@ const ComponentSelector = ({
 				components={filteredMutualizedComponents}
 				handleAdd={handleAdd}
 				readOnly={true}
+				handleCodesListDetail={handleCodesListDetail}
 			/>
+			<CodesListPanel codesList={codesListNotation} isOpen={!!codesListNotation} handleBack={() => setCodesListNotation(undefined)}/>
 		</>
 	);
 };

@@ -14,6 +14,7 @@ export const MutualizedComponentsSelector = ({
 	handleAdd,
 	concepts,
 	codesLists,
+	handleCodesListDetail
 }) => {
 	const [openPanel, setOpenPanel] = useState(false);
 	const [selectedComponent, setSelectedComponent] = useState(null);
@@ -61,6 +62,18 @@ export const MutualizedComponentsSelector = ({
 				>
 					<span className="glyphicon glyphicon-plus"></span>
 				</button>
+				{
+					component.codeList &&
+					<button
+						onClick={() => {
+							const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
+							handleCodesListDetail(codesList)
+						}}
+						aria-label={D.seeCodesListDetails}
+						title={D.seeCodesListDetails}>
+						<span className="glyphicon glyphicon-th"></span>
+					</button>
+				}
 			</React.Fragment>
 		),
 	}));
