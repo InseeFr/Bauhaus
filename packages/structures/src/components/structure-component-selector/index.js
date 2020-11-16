@@ -126,7 +126,6 @@ export const StructureComponentsSelector = ({
 		})
 		.map((componentDefinition, i) => {
 			const component = componentDefinition.component;
-			console.log(component)
 			return {
 				...component,
 				type: typeUriToLabel(component.type),

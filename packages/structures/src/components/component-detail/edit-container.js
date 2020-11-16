@@ -7,7 +7,7 @@ import { ConceptsAPI, Stores } from 'bauhaus-utilities';
 import { useParams } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
 
-const ViewContainer = (props) => {
+const ViewContainer = props => {
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);

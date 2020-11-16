@@ -79,6 +79,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={handleRemove}
 					handleUp={handleUp}
 					handleDown={handleDown}
+					handleCodesListDetail={() => {}}
 				/>
 			</Provider>
 		);
@@ -101,12 +102,13 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={handleRemove}
 					handleUp={handleUp}
 					handleDown={handleDown}
+					handleCodesListDetail={() => {}}
 				/>
 			</Provider>
 		);
 
 		fireEvent.click(
-			container.querySelector('tbody tr:nth-child(2) button:nth-child(3) span')
+			container.querySelector('tbody tr:nth-child(2) button:nth-child(4) span')
 		);
 		expect(handleUp).toHaveBeenCalled();
 	});
@@ -125,11 +127,12 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={handleRemove}
 					handleUp={handleUp}
 					handleDown={handleDown}
+					handleCodesListDetail={() => {}}
 				/>
 			</Provider>
 		);
 		fireEvent.click(
-			container.querySelector('tbody tr:nth-child(1) button:nth-child(3) span')
+			container.querySelector('tbody tr:nth-child(1) button:nth-child(4) span')
 		);
 		expect(handleDown).toHaveBeenCalled();
 	});
@@ -143,6 +146,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={() => {}}
 					handleUp={() => {}}
 					handleDown={() => {}}
+					handleCodesListDetail={() => {}}
 				/>
 			</Provider>
 		);
@@ -162,6 +166,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={() => {}}
 					handleUp={() => {}}
 					handleDown={() => {}}
+					handleCodesListDetail={() => {}}
 				/>
 			</Provider>
 		);
@@ -182,6 +187,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={() => {}}
 					handleUp={() => {}}
 					handleDown={() => {}}
+					handleCodesListDetail={() => {}}
 				/>
 			</Provider>
 		);
