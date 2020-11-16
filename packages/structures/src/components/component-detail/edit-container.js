@@ -31,6 +31,7 @@ const ViewContainer = (props) => {
 		(component) => {
 			setSaving(true);
 			let request;
+
 			if (component.id) {
 				request = api.putMutualizedComponent(component);
 			} else {

@@ -30,7 +30,7 @@ export const validate = (structure) => {
 };
 
 
-const Edition = ({ creation, initDSD, loadDisseminationStatusList }) => {
+const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) => {
 	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
 	const disseminationStatusListOptions = useSelector(state => Stores.DisseminationStatus.getDisseminationStatusListOptions(state));
 
@@ -59,10 +59,10 @@ const Edition = ({ creation, initDSD, loadDisseminationStatusList }) => {
 		contributor = 'DG75-H250',
 		disseminationStatus
 	} = structure;
-console.log(contributor)
+
 	useEffect(() => {
-		setStructure({ ...defaultDSD, ...initDSD });
-	}, [initDSD]);
+		setStructure({ ...defaultDSD, ...initialStructure });
+	}, [initialStructure]);
 
 	if (redirectId) return <Redirect to={`/structures/${redirectId}`} />;
 	if (loading) return <Loading textType={'saving'} />;
