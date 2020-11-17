@@ -22,7 +22,6 @@ const ComponentSelector = ({
 }) => {
 	const [codesListNotation, setCodesListNotation] = useState(undefined);
 	const handleCodesListDetail = useCallback(notation => {
-		console.log(notation)
 		setCodesListNotation(notation);
 	}, [])
 	const [structureComponents, setStructureComponents] = useState(
