@@ -170,6 +170,7 @@ export const StructureComponentsSelector = ({
 						{
 							component.codeList &&
 							<button
+								className="codes-list-detail"
 								onClick={() => {
 									const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
 									handleCodesListDetail(codesList)
