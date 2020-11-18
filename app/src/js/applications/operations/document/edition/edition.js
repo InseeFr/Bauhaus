@@ -105,7 +105,7 @@ class OperationsDocumentationEdition extends Component {
 
 	render() {
 		const { langOptions, type } = this.props;
-		const langSelectOptions = langOptions.codes.map((lang) => {
+		const langSelectOptions = (langOptions.codes || []).map((lang) => {
 			return { value: lang.code, label: lang.labelLg1 };
 		});
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;

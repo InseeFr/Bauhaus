@@ -9,7 +9,7 @@ import { buildExtract, Loading } from '@inseefr/wilco';
 import DocumentationEdition from 'js/applications/operations/document/edition/edition';
 import { getCurrentDocument } from 'js/reducers/operations/selector';
 import { isDocument, LINK, DOCUMENT } from '../utils';
-import { CL_FREQ } from 'js/actions/constants/codeList';
+import { loadCodesList } from 'js/actions/operations/utils/setup';
 
 const extractId = buildExtract('id');
 
@@ -18,6 +18,9 @@ class OperationsDocumentationEditionContainer extends Component {
 		if (!this.props.document.id && this.props.id) {
 			this.props.loadDocument(this.props.id);
 		}
+		if(!this.props.langOptions.codes){
+			this.props.loadLangCodesList()
+		}
 	}
 	render() {
 		if (!this.props.document) return <Loading />;
@@ -25,10 +28,12 @@ class OperationsDocumentationEditionContainer extends Component {
 	}
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps = dispatch => ({
 	loadDocument,
 	saveDocument,
-};
+	loadLangCodesList: () => loadCodesList(['ISO-639'], dispatch)
+});
+
 
 export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
@@ -42,7 +47,7 @@ export const mapStateToProps = (state, ownProps) => {
 		type = isDocument(document) ? DOCUMENT : LINK;
 	}
 	const langs = select.getLangs(state);
-	const langOptions = state.operationsCodesList.results[CL_FREQ] || {};
+	const langOptions = state.operationsCodesList.results['ISO-639'] || {};
 	return {
 		id,
 		document,
