@@ -25,7 +25,8 @@ export const ComponentDetailEdit = ({
 	handleBack,
 	type,
 	disseminationStatusListOptions,
-	stampListOptions
+	stampListOptions,
+	serverSideError
 }) => {
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 	const [component, setComponent] = useState(defaultComponent || {});
@@ -61,7 +62,7 @@ export const ComponentDetailEdit = ({
 				<SaveButton disabled={message} action={handleSaveClick} col={3} />
 			</ActionToolbar>
 			{message && <ErrorBloc error={message} />}
-
+			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<form>
 				<div className="row">
 					<div className="col-md-12 form-group">
