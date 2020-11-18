@@ -18,7 +18,7 @@ export const canBeDeleted = (component) => {
 	const forbidden = ['Validated', 'Modified'];
 	return (
 		!forbidden.includes(component.validationState) &&
-		!component.structures.find((structure) =>
+		!component.structures?.find((structure) =>
 			forbidden.includes(structure.validationState)
 		)
 	);
@@ -80,6 +80,18 @@ export const ComponentDetailView = ({
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
 								{component.validationState}
+							</li>
+							<li>
+								{D.creator} :{' '}
+								{component.creator}
+							</li>
+							<li>
+								{D.contributor} :{' '}
+								{component.contributor}
+							</li>
+							<li>
+								{D.disseminationStatusTitle} :{' '}
+								{component.disseminationStatus}
 							</li>
 						</ul>
 					}

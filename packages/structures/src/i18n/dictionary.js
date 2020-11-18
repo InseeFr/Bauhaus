@@ -1,4 +1,28 @@
 const dictionary = {
+	errors_1002: {
+		fr: 'Un compoasnt avec la même liste de codes et le même concept existe déjà.',
+		en: 'A component with the same code list and concept already exists.'
+	},
+	disseminationStatusTitle: {
+		fr: 'Status de diffusion',
+		en: 'Diffusion status',
+	},
+	creatorTitle: {
+		fr: 'Propriétaire',
+		en: 'Owner',
+	},
+	contributorTitle: {
+		fr: 'Gestionnaire',
+		en: 'Contributor',
+	},
+	stampsPlaceholder: {
+		fr: 'Sélectionnez un timbre...',
+		en: 'Select stamp...',
+	},
+	disseminationStatusPlaceholder: {
+		fr: 'Sélectionnez un statut de diffusion...',
+		en: 'Select dissemination status...',
+	},
 	componentSpecificationTitle: {
 		fr: 'Spécification du Composant',
 		en: 'Component Specification',
@@ -163,5 +187,17 @@ const dictionary = {
 		fr: 'État du composant',
 		en: 'Publication status',
 	},
+	contributor: {
+		fr: 'Gestionnaire',
+		en: 'Contributor',
+	},
+	creator: {
+		fr: 'Propriétaires',
+		en: 'Creator',
+	},
+	seeCodesListDetails: {
+		fr: 'Voir les codes de cette liste',
+		en: 'see codes of this list'
+	}
 };
 export default dictionary;

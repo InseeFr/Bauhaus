@@ -5,6 +5,12 @@ import { StructureComponentsSelector } from '../structure-component-selector';
 import ComponentSpecificationModal from '../component-specification-modal';
 import PropTypes from 'prop-types';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
+import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
+
+const filterComponentDefinition = (type) => (componentDefinition) =>
+	componentDefinition?.component?.type === type;
+
+const filterComponent = (type) => (component) => component?.type === type;
 
 const ComponentSelector = ({
 	componentDefinitions,
@@ -14,12 +20,12 @@ const ComponentSelector = ({
 	handleUpdate,
 	type,
 }) => {
-	const filterComponentDefinition = (type) => (componentDefintion) =>
-		componentDefintion?.component?.type === type;
-	const filterComponent = (type) => (component) => component?.type === type;
-
+	const [codesListNotation, setCodesListNotation] = useState(undefined);
+	const handleCodesListDetail = useCallback(notation => {
+		setCodesListNotation(notation);
+	}, [])
 	const [structureComponents, setStructureComponents] = useState(
-		componentDefinitions.filter(filterComponentDefinition(type))
+		[]
 	);
 
 	const [modalOpened, setModalOpened] = useState(false);
@@ -31,8 +37,8 @@ const ComponentSelector = ({
 	] = useState(mutualizedComponents);
 
 	useEffect(() => {
-		setStructureComponents(componentDefinitions);
-	}, [componentDefinitions]);
+		setStructureComponents(componentDefinitions.filter(filterComponentDefinition(type)));
+	}, [componentDefinitions, type]);
 
 	useEffect(() => {
 		setFilteredMutualizedComponents(
@@ -194,6 +200,7 @@ const ComponentSelector = ({
 				handleSpecificationClick={handleSpecificationClick}
 				readOnly={false}
 				type={type}
+				handleCodesListDetail={handleCodesListDetail}
 			/>
 
 			<MutualizedComponentsSelector
@@ -203,7 +210,9 @@ const ComponentSelector = ({
 				components={filteredMutualizedComponents}
 				handleAdd={handleAdd}
 				readOnly={true}
+				handleCodesListDetail={handleCodesListDetail}
 			/>
+			<CodesListPanel codesList={codesListNotation} isOpen={!!codesListNotation} handleBack={() => setCodesListNotation(undefined)}/>
 		</>
 	);
 };

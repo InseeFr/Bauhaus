@@ -16,7 +16,7 @@ const data = [
 		creators: ['DG57-C060', 'DG57-C601', 'DG57-C701'],
 		historyNoteLg1:
 			"<p>Dans le souci de limiter la charge statistique pesant sur les entreprises, et parce que l'information est collectée de manière régulière par la DGFiP, l'Insee utilise les déclarations de taxe sur la valeur ajoutée (TVA) des entreprises pour bâtir un ensemble d'indices mensuels d'évolution des chiffres d'affaires.</p><p>La DGFiP transmet mensuellement à l'Insee les déclarations TVA des entreprises.</p><p>Jusqu'en 2015, les indices de chiffre d'affaires étaient calculés à partir d'un échantillon d'entreprises déclarant la TVA mensuellement.</p><p>Cet échantillon, de quelque 160 000 entreprises, était renouvelé chaque année. Il comprenait une strate exhaustive (les plus grandes entreprises de chaque secteur) et était tiré proportionnellement au chiffre d'affaires sur le reste du champ.</p><p>Depuis 2016, toutes les déclarations mensuelles sont exploitées pour le calcul des indices.</p><p>À partir de 2017 l'Insee calcule un indice de production dans les services par déflation des indices de chiffres d'affaires en valeur : il retrace l’évolution de la production dans les services.</p>",
-		publishers: ['DG75-L002'],
+		publishers: [{ id: 'DG75-L002' }],
 		id: 'p1647',
 		dataCollector: [],
 		altLabelLg1: '',

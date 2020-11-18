@@ -27,6 +27,6 @@ const dictionary = {
 	no: {
 		fr: 'Non',
 		en: 'No',
-	},
+	}
 };
 export default dictionary;

@@ -3,16 +3,27 @@ import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
 import { ComponentDetailEdit } from './edit';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI } from 'bauhaus-utilities';
+import { ConceptsAPI, Stores } from 'bauhaus-utilities';
 import { useParams } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
+import D from '../../i18n/build-dictionary';
 
-const ViewContainer = (props) => {
+const ViewContainer = props => {
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [component, setComponent] = useState({});
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState([]);
+	const [serverSideError, setServerSideError] = useState('');
+
+	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
+	const disseminationStatusListOptions = useSelector(state => Stores.DisseminationStatus.getDisseminationStatusListOptions(state));
+	useEffect(() => {
+		if(disseminationStatusListOptions.length === 0){
+			props.loadDisseminationStatusList();
+		}
+	}, [disseminationStatusListOptions.length, props.loadDisseminationStatusList]);
 
 	const handleBack = useCallback(() => {
 		goBack(props, '/structures/components')();
@@ -21,7 +32,10 @@ const ViewContainer = (props) => {
 	const handleSave = useCallback(
 		(component) => {
 			setSaving(true);
+			setServerSideError('');
+
 			let request;
+
 			if (component.id) {
 				request = api.putMutualizedComponent(component);
 			} else {
@@ -29,13 +43,14 @@ const ViewContainer = (props) => {
 			}
 
 			request.then((id = component.id) => {
-				setSaving(false);
 				return goBackOrReplace(
 					props,
 					`/structures/components/${id}`,
 					!component.id
 				);
-			});
+			}).catch(error => {
+				setServerSideError(D['errors_' + JSON.parse(error).code])
+			}).finally(() => setSaving(false))
 		},
 		[props]
 	);
@@ -74,8 +89,13 @@ const ViewContainer = (props) => {
 			handleBack={handleBack}
 			handleSave={handleSave}
 			mutualized={true}
+			disseminationStatusListOptions={disseminationStatusListOptions}
+			stampListOptions={stampListOptions}
+			serverSideError={serverSideError}
 		/>
 	);
 };
 
-export default ViewContainer;
+export default connect(undefined, {
+	loadDisseminationStatusList: Stores.DisseminationStatus.loadDisseminationStatusList
+})(ViewContainer);

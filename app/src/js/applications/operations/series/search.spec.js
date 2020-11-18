@@ -6,8 +6,8 @@ const data = [
 	{
 		prefLabelLg1: 'Base non-salariés',
 		prefLabelLg2: 'Self-employed database',
-		creators: ['DG57-C003', 'DG57-C601'],
-		dataCollectors: ['DG75-A040'],
+		creators: ['DG57-C003'],
+		dataCollectors: [{ id: 'DG75-A040' }],
 		accrualPeriodicityList: 'CL_FREQ',
 		typeCode: 'A',
 		abstractLg1:
@@ -19,7 +19,7 @@ const data = [
 			'<p>The self-employed database has been available since 2006.</p>',
 		historyNoteLg1:
 			"<p>La base non-salariés est disponible depuis l'année 2006.</p>",
-		publishers: 'Acoss',
+		publishers: { id: 'Acoss' },
 		accrualPeriodicityCode: 'A',
 		id: 's1037',
 		altLabelLg1: 'qsdfg',
@@ -27,7 +27,7 @@ const data = [
 	{
 		prefLabelLg1: 'Enquête emploi de Mayotte',
 		prefLabelLg2: 'Labour force survey Mayotte',
-		creators: [],
+		creators: ['DG57-C601'],
 		typeCode: 'S',
 		abstractLg1:
 			'<p>Cette enqu&ecirc;te est la seule source fournissant une mesure de l\'activit&eacute;, du ch&ocirc;mage, de l&rsquo;emploi et de l&rsquo;inactivit&eacute; tels que d&eacute;finis par le Bureau international du travail (BIT). Elle s\'inscrit dans le cadre des enqu&ecirc;tes "Forces de travail" d&eacute;finies au niveau europ&eacute;en ("Labour Force Survey").</p>',
@@ -38,7 +38,7 @@ const data = [
 			'<p>The French Labour Force Survey was established in 1950 to provide a regular measure of employment and unemployment.<br />Over the decades, the survey has incorporated numerous changes. A Labour Force Survey was conducted for the first time in Mayotte in 2009. It was based on the annual Labour Force Survey conducted in the other French overseas departments, with small adjustments. From 2013, an annual LFS is conducted every year in Mayotte.</p>',
 		historyNoteLg1:
 			"<p>L'enqu&ecirc;te sur l&rsquo;emploi, le ch&ocirc;mage et l&rsquo;inactivit&eacute; est n&eacute;e en France en 1950 pour permettre une mesure r&eacute;guli&egrave;re de l&rsquo;emploi et du ch&ocirc;mage.<br />Au fil des d&eacute;cennies, l&rsquo;enqu&ecirc;te a int&eacute;gr&eacute; des nombreux changements, de champ g&eacute;ographique notamment. Une enqu&ecirc;te Emploi a &eacute;t&eacute; r&eacute;alis&eacute;e pour la premi&egrave;re fois &agrave; Mayotte en 2009, sur le mod&egrave;le de l&rsquo;enqu&ecirc;te Emploi annuelle qui &eacute;tait alors r&eacute;alis&eacute;e dans les autres Dom, avec quelques adaptations du questionnaire. Depuis 2013, l&rsquo;enqu&ecirc;te Emploi annuelle Mayotte est men&eacute;e chaque ann&eacute;e.</p>",
-		publishers: 'DG75-F001',
+		publishers: { id: 'DG75-F001' },
 		id: 's1041',
 		altLabelLg2: 'LFS Mayotte',
 		altLabelLg1: 'EEA Mayotte',
@@ -58,7 +58,7 @@ const data = [
 		creators: [],
 		historyNoteLg1:
 			'<p>En 2019, les trois segments d&rsquo;enqu&ecirc;tes (h&ocirc;tels, campings et autres h&eacute;bergements collectifs de tourisme) ont &eacute;t&eacute; regroup&eacute;s dans une seule et m&ecirc;me op&eacute;ration.</p>',
-		publishers: 'DG75-E001',
+		publishers: { id: 'DG75-E001' },
 		id: 's1039',
 		typeCode: 'S',
 	},
@@ -71,7 +71,7 @@ const data = [
 		creators: [],
 		historyNoteLg1:
 			"<p>Le syst&egrave;me d'information sur les groupes existe depuis 1979. Jusqu&rsquo;en 2011, LIFI reposait principalement sur une enqu&ecirc;te annuelle interrogeant des unit&eacute;s l&eacute;gales sur leurs actionnaires et participations. Depuis 2012, l'enqu&ecirc;te est remplac&eacute;e par l'exploitation de donn&eacute;es administratives et priv&eacute;es. L&rsquo;introduction de nouvelles sources de donn&eacute;es s&rsquo;est accompagn&eacute;e d&rsquo;une refonte du syst&egrave;me d&rsquo;information LIFI. <br />LIFI s&rsquo;est ainsi dot&eacute; d&rsquo;un nouvel applicatif et de nouveaut&eacute;s conceptuelles. Depuis le mill&eacute;sime LIFI 2015, les concepts, sources et processus sont pour l&rsquo;essentiel stabilis&eacute;s. Le nombre de groupes&nbsp;a augment&eacute; de fa&ccedil;on significative (de 53 000 en 2011 &agrave; 123 000 en 2015) traduisant un effet qualit&eacute; de la r&eacute;novation men&eacute;e, et refl&eacute;tant aussi la tendance actuelle des entreprises &agrave; s&rsquo;organiser en groupes.</p>",
-		publishers: 'DG75-E001',
+		publishers: [{ id: 'DG75-E001' }],
 		id: 's1038',
 		altLabelLg1: 'Lifi',
 		typeCode: 'C',
@@ -90,7 +90,7 @@ const data = [
 			'<p>The year 2017 corresponds to the first compilation of Flores, which succeeds the "Local Knowledge of the Productive System (Clap)" process.</p>\r\n<p>Compared to Clap, the main addition of Flores is the presentation of two years simultaneously in the same file (N-1 and N), which makes it possible to calculate annual changes.</p>',
 		historyNoteLg1:
 			'<p>L&rsquo;exercice 2017 correspond &agrave; la premi&egrave;re r&eacute;alisation de Flores, qui succ&egrave;de au processus de &laquo; Connaissance locale de l&rsquo;appareil productif (Clap) &raquo;.</p>\r\n<p>Par rapport &agrave; Clap, le principal ajout de Flores est la pr&eacute;sentation de deux ann&eacute;es simultan&eacute;ment dans le m&ecirc;me fichier (N-1 et N), ce qui permet de calculer des &eacute;volutions annuelles.</p>',
-		publishers: 'DG75-F201',
+		publishers: { id: 'DG75-F201' },
 		id: 's1042',
 		altLabelLg2: 'Flores',
 		altLabelLg1: 'Flores',
@@ -110,7 +110,7 @@ const data = [
 		creators: [],
 		historyNoteLg1:
 			'<p>L&rsquo;enqu&ecirc;te sur la production et la gestion des d&eacute;chets dans le secteur tertiaire en Hauts-de-France en 2019 est une enqu&ecirc;te exp&eacute;rimentale</p>',
-		publishers: 'Insee',
+		publishers: {id: 'Insee'},
 		id: 's1040',
 		typeCode: 'S',
 	},
@@ -120,7 +120,7 @@ const organisations = [
 	{ id: 'DG75-A040', label: 'DG75-A040' },
 ];
 const stamps = ['DG57-C003'];
-const categories = { codes: [] };
+const categories = { codes: [{code: "S", labelLg2: "Survey", labelLg1: "Enquete"}] };
 describe('<SearchFormList />', () => {
 	it('should return all data when the form is empty', () => {
 		const { container } = render(
@@ -149,6 +149,21 @@ describe('<SearchFormList />', () => {
 		const input = container.querySelector('input');
 		fireEvent.change(input, { target: { value: 'Base' } });
 		expect(container.querySelectorAll('li')).toHaveLength(1);
+	});
+	it('should filter by typeCode', () => {
+		const { container } = render(
+			<MemoryRouter>
+				<SearchFormList
+					data={data}
+					organisations={organisations}
+					stamps={stamps}
+					categories={categories}
+				/>
+			</MemoryRouter>
+		);
+		const input = container.querySelector('input');
+		fireEvent.change(input, { target: { value: 'Enquete' } });
+		expect(container.querySelectorAll('li')).toHaveLength(3);
 	});
 	it('should filter by creators', async () => {
 		const { container, findByText } = render(

@@ -14,32 +14,16 @@ import {
 	StructureAPI,
 	StructureVisualizationControl,
 } from 'bauhaus-structures';
+import D from 'bauhaus-structures/src/i18n/build-dictionary';
 
-const DSD = () => {
-	const { dsdId } = useParams();
-	const [DSD, setDSD] = useState({});
-	const [loading, setLoading] = useState(true);
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
-
-	useEffect(() => {
-		StructureAPI.getStructure(dsdId)
-			.then((res) => setDSD(res))
-			.finally(() => setLoading(false));
-	}, [dsdId]);
-
+export const StructureView = ({secondLang, structure}) => {
 	const {
 		labelLg1,
 		labelLg2,
 		descriptionLg1,
 		descriptionLg2,
 		componentDefinitions = [],
-	} = DSD;
-
-	if (loading) {
-		return <Loading />;
-	}
+	} = structure;
 
 	return (
 		<>
@@ -50,16 +34,32 @@ const DSD = () => {
 			/>
 			<CheckSecondLang />
 
-			<StructureVisualizationControl structure={DSD} />
+			<StructureVisualizationControl structure={structure} />
 			<div className="row">
 				<Note
 					text={
 						<ul>
 							<li>
-								{D1.createdDateTitle} : {DateUtils.stringToDate(DSD.created)}
+								{D1.createdDateTitle} : {DateUtils.stringToDate(structure.created)}
 							</li>
 							<li>
-								{D1.modifiedDateTitle} : {DateUtils.stringToDate(DSD.modified)}
+								{D1.modifiedDateTitle} : {DateUtils.stringToDate(structure.modified)}
+							</li>
+							<li>
+								{D.componentValididationStatusTitle} :{' '}
+								{structure.validationState}
+							</li>
+							<li>
+								{D.creator} :{' '}
+								{structure.creator}
+							</li>
+							<li>
+								{D.contributor} :{' '}
+								{structure.contributor}
+							</li>
+							<li>
+								{D.disseminationStatusTitle} :{' '}
+								{structure.disseminationStatus}
 							</li>
 						</ul>
 					}
@@ -86,6 +86,28 @@ const DSD = () => {
 			<Components componentDefinitions={componentDefinitions} />
 		</>
 	);
+}
+const Structure = () => {
+	const { dsdId } = useParams();
+	const [structure, setStructure] = useState({});
+	const [loading, setLoading] = useState(true);
+	const secondLang = useSelector((state) =>
+		Stores.SecondLang.getSecondLang(state)
+	);
+
+	useEffect(() => {
+		StructureAPI.getStructure(dsdId)
+			.then((res) => setStructure(res))
+			.finally(() => setLoading(false));
+	}, [dsdId]);
+
+
+
+	if (loading) {
+		return <Loading />;
+	}
+
+	return <StructureView structure={structure} secondLang={secondLang}/>
 };
 
-export default DSD;
+export default Structure;

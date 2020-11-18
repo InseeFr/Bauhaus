@@ -45,7 +45,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 				const formattedPublishers = Array.isArray(publishers)
 					? publishers
 					: [publishers];
-				return !publisher || formattedPublishers.includes(publisher);
+				return !publisher || formattedPublishers.map(({id}) => id).includes(publisher);
 			});
 	});
 

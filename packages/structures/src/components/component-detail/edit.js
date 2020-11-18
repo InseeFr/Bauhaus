@@ -11,8 +11,11 @@ import { EditorMarkdown } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
-import { D1, D2 } from '../../i18n/build-dictionary';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
+import { default as ReactSelect } from 'react-select';
+import "./edit.scss";
+import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
 
 export const ComponentDetailEdit = ({
 	component: defaultComponent,
@@ -21,7 +24,11 @@ export const ComponentDetailEdit = ({
 	handleSave,
 	handleBack,
 	type,
+	disseminationStatusListOptions,
+	stampListOptions,
+	serverSideError
 }) => {
+	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 	const [component, setComponent] = useState(defaultComponent || {});
 	const handleChange = useCallback(
 		(e) => {
@@ -55,7 +62,7 @@ export const ComponentDetailEdit = ({
 				<SaveButton disabled={message} action={handleSaveClick} col={3} />
 			</ActionToolbar>
 			{message && <ErrorBloc error={message} />}
-
+			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<form>
 				<div className="row">
 					<div className="col-md-12 form-group">
@@ -146,7 +153,7 @@ export const ComponentDetailEdit = ({
 				</div>
 				{component.range === XSD_CODE_LIST && (
 					<div className="row">
-						<div className="col-md-12 form-group">
+						<div className="col-md-12 form-group code-list-zone">
 							<Select
 								type="text"
 								className="form-control"
@@ -162,9 +169,56 @@ export const ComponentDetailEdit = ({
 									setComponent({ ...component, codeList: value })
 								}
 							/>
+							<button
+								type="button"
+								disabled={!component.codeList}
+								onClick={() => setCodesListPanelOpened(true)}
+							>
+								{D.see}
+							</button>
 						</div>
 					</div>
 				)}
+				<div className="form-group">
+					<label>
+						{D1.creatorTitle}
+					</label>
+					<Select
+						className="form-control"
+						placeholder={D1.stampsPlaceholder}
+						value={stampListOptions.find(value => value === component.creator)}
+						options={stampListOptions}
+						onChange={(value) =>
+							setComponent({ ...component, creator: value })
+						}
+						searchable={true}
+					/>
+				</div>
+				<div className="form-group">
+					<label>{D1.contributorTitle}</label>
+					<ReactSelect
+						placeholder={D1.stampsPlaceholder}
+						value={stampListOptions.find(({ value }) => value === (component.contributor || 'DG75-H250'))}
+						options={stampListOptions}
+						onChange={(value) =>
+							setComponent({ ...component, contributor: value })
+						}
+						isDisabled={true}
+					/>
+				</div>
+				<div className="form-group">
+					<label>{D1.disseminationStatusTitle}</label>
+					<Select
+						className="form-control"
+						placeholder={D1.disseminationStatusPlaceholder}
+						value={disseminationStatusListOptions.find(value => value === component.disseminationStatus)}
+						options={disseminationStatusListOptions}
+						onChange={(value) =>
+							setComponent({ ...component, disseminationStatus: value })
+						}
+						searchable={true}
+					/>
+				</div>
 				<div className="row">
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
@@ -186,6 +240,9 @@ export const ComponentDetailEdit = ({
 					</div>
 				</div>
 			</form>
+			<CodesListPanel codesList={codesLists.find((c) =>
+				component.codeList?.toString().includes(c.id?.toString())
+			)} isOpen={codesListPanelOpened} handleBack={() => setCodesListPanelOpened(false)}/>
 		</React.Fragment>
 	);
 };
@@ -194,6 +251,8 @@ ComponentDetailEdit.propTypes = {
 	component: PropTypes.object,
 	concepts: PropTypes.array,
 	codesLists: PropTypes.array,
+	disseminationStatusListOptions: PropTypes.array,
+	stampListOptions: PropTypes.array,
 	handleSave: PropTypes.func,
 	handleBack: PropTypes.func,
 	secondLang: PropTypes.bool,
@@ -204,4 +263,6 @@ ComponentDetailEdit.defaultProps = {
 	structureComponents: [],
 	concepts: [],
 	codesLists: [],
+	disseminationStatusListOptions: [],
+	stampListOptions: []
 };

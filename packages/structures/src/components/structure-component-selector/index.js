@@ -5,7 +5,6 @@ import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
-import { XSD_CODE_LIST } from '../../utils/constants/xsd';
 import { ATTRIBUTE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
 
 import PropTypes from 'prop-types';
@@ -22,7 +21,9 @@ export const StructureComponentsSelector = ({
 	codesLists,
 	readOnly,
 	type,
+	handleCodesListDetail
 }) => {
+
 	const removeClickHandler = useCallback(
 		(e) => {
 			handleRemove(e.target.parentElement.dataset.componentId);
@@ -132,13 +133,12 @@ export const StructureComponentsSelector = ({
 					({ id }) => id?.toString() === component.concept?.toString()
 				)?.label,
 				codeList:
-					component.range !== XSD_CODE_LIST
-						? ''
-						: codesLists.find(
-								({ id }) => id?.toString() === component.codeList?.toString()
-						  )?.label,
+					codesLists.find(
+						({ id }) => id?.toString() === component.codeList?.toString()
+					)?.label || '',
 				actions: (
 					<React.Fragment>
+
 						<button
 							data-component-id={component.identifiant}
 							onClick={seeClickHandler}
@@ -167,6 +167,19 @@ export const StructureComponentsSelector = ({
 								<span className="glyphicon glyphicon-minus"></span>
 							</button>
 						)}
+						{
+							component.codeList &&
+							<button
+								className="codes-list-detail"
+								onClick={() => {
+									const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
+									handleCodesListDetail(codesList)
+								}}
+								aria-label={D.seeCodesListDetails}
+								title={D.seeCodesListDetails}>
+								<span className="glyphicon glyphicon-th"></span>
+							</button>
+						}
 						{!readOnly && i !== 0 && (
 							<button
 								data-component-id={component.identifiant}

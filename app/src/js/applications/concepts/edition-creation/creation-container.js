@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom';
 import { CREATE_CONCEPT } from 'js/actions/constants';
 import * as select from 'js/reducers';
 import loadConceptList from 'js/actions/concepts/list';
-import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
 import createConcept from 'js/actions/concepts/create';
 import buildPayloadCreation from 'js/utils/concepts/build-payload-creation-update/build-payload-creation';
@@ -83,7 +82,7 @@ const mapStateToProps = (state, ownProps) => {
 		concept: emptyConcept(state.app.properties.defaultContributor),
 		conceptList: select.getConceptList(state),
 		stampList: Stores.Stamps.getStampList(state),
-		disseminationStatusList: select.getDisseminationStatusList(state),
+		disseminationStatusList: Stores.DisseminationStatus.getDisseminationStatusList(state),
 		maxLengthScopeNote: Number(state.app.properties.maxLengthScopeNote),
 		id: select.getNewlyCreatedId(state),
 		creationStatus: select.getStatus(state, CREATE_CONCEPT),
@@ -93,7 +92,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
 	loadConceptList,
-	loadDisseminationStatusList,
+	loadDisseminationStatusList: Stores.DisseminationStatus.loadDisseminationStatusList,
 	loadStampList,
 	createConcept,
 };
