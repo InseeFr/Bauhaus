@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
 	CancelButton,
 	SaveButton,
@@ -29,7 +29,13 @@ export const ComponentDetailEdit = ({
 	serverSideError
 }) => {
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
-	const [component, setComponent] = useState(defaultComponent || {});
+	const [component, setComponent] = useState(defaultComponent || { });
+
+	useEffect(() => {
+		if(!component.type && type){
+			setComponent({ type });
+		}
+	}, [type, component])
 	const handleChange = useCallback(
 		(e) => {
 			const { name, value } = e.target;
@@ -113,7 +119,7 @@ export const ComponentDetailEdit = ({
 							label={<LabelRequired>{D1.type}</LabelRequired>}
 							placeholder={D1.type}
 							value={MUTUALIZED_COMPONENT_TYPES.find(
-								(c) => c.value === (component.type || type)
+								(c) => c.value === (component.type)
 							)}
 							options={MUTUALIZED_COMPONENT_TYPES}
 							name="type"
