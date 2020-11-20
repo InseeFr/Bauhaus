@@ -37,8 +37,8 @@ const ComponentSelector = ({
 	] = useState(mutualizedComponents);
 
 	useEffect(() => {
-		setStructureComponents(componentDefinitions.filter(filterComponentDefinition(type)));
-	}, [componentDefinitions, type]);
+		setStructureComponents(componentDefinitions);
+	}, [componentDefinitions]);
 
 	useEffect(() => {
 		setFilteredMutualizedComponents(
@@ -115,6 +115,7 @@ const ComponentSelector = ({
 				...structureComponents,
 				{ component, order: structureComponents.length + 1 },
 			];
+			console.log(components)
 			setStructureComponents(components);
 			handleUpdate(components);
 
@@ -192,7 +193,7 @@ const ComponentSelector = ({
 				hidden={false}
 				codesLists={codesLists}
 				concepts={concepts}
-				componentDefinitions={structureComponents}
+				componentDefinitions={componentDefinitions.filter(filterComponentDefinition(type))}
 				handleRemove={handleRemove}
 				handleUp={handleUp}
 				handleDown={handleDown}
