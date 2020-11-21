@@ -34,7 +34,7 @@ class CreationContainer extends Component {
 	componentWillMount() {
 		const { conceptList, stampList, disseminationStatusList } = this.props;
 		if (!conceptList) this.props.loadConceptList();
-		if (!stampList) this.props.loadStampList();
+		if (stampList.length === 0) this.props.loadStampList();
 		if (!disseminationStatusList) this.props.loadDisseminationStatusList();
 	}
 

@@ -29,7 +29,7 @@ class CollectionVisualizationContainer extends Component {
 	componentWillMount() {
 		const { id, collection, stampList } = this.props;
 		if (!collection) this.props.loadCollections(id);
-		if (!stampList) this.props.loadStampList();
+		if (stampList.length === 0) this.props.loadStampList();
 	}
 
 	componentWillReceiveProps({ id, validationStatus }) {
