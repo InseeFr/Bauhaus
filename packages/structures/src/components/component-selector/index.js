@@ -115,7 +115,7 @@ const ComponentSelector = ({
 				...structureComponents,
 				{ component, order: structureComponents.length + 1 },
 			];
-			console.log(components)
+
 			setStructureComponents(components);
 			handleUpdate(components);
 
