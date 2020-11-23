@@ -41,6 +41,7 @@ export default function SimsVisualisation({
 	organisations,
 	publishSims,
 	exportCallback,
+	owners =  []
 }) {
 	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 
@@ -113,7 +114,9 @@ export default function SimsVisualisation({
 		[publishSims]
 	);
 
-	const CONTRIBUTOR = sims.idIndicator
+	const checkStamp = stamp => owners.includes(stamp);
+
+	const CREATOR = sims.idIndicator
 		? Auth.INDICATOR_CONTRIBUTOR
 		: Auth.SERIES_CONTRIBUTOR;
 	return (
@@ -121,7 +124,7 @@ export default function SimsVisualisation({
 			<ActionToolbar>
 				<ReturnButton action={() => goBack(getParentUri(sims))} />
 				<Auth.AuthGuard
-					roles={[Auth.ADMIN, CONTRIBUTOR]}
+					roles={[Auth.ADMIN, [CREATOR, checkStamp]]}
 					complementaryCheck={shouldDisplayDuplicateButtonFlag}
 				>
 					<DuplicateButton
@@ -129,7 +132,7 @@ export default function SimsVisualisation({
 						col={3}
 					/>
 				</Auth.AuthGuard>
-				<Auth.AuthGuard roles={[Auth.ADMIN, CONTRIBUTOR]}>
+				<Auth.AuthGuard roles={[Auth.ADMIN, [CREATOR, checkStamp]]}>
 					<ValidationButton
 						object={sims}
 						callback={(object) => publish(object)}
@@ -140,8 +143,7 @@ export default function SimsVisualisation({
 					roles={[
 						Auth.ADMIN,
 						Auth.CNIS,
-						Auth.INDICATOR_CONTRIBUTOR,
-						Auth.SERIES_CONTRIBUTOR,
+						[CREATOR, checkStamp]
 					]}
 				>
 					<Button

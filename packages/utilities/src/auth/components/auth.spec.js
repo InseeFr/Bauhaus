@@ -1,7 +1,7 @@
 import { AuthDumb, mapStateToProps } from './auth';
 
 describe('AuthDumb', () => {
-	it('should the fallback if the user is not authorized', () => {
+	it('should return the fallback if the user is not authorized', () => {
 		expect(
 			AuthDumb({
 				children: 'children',
@@ -11,7 +11,7 @@ describe('AuthDumb', () => {
 			})
 		).toEqual('fallback');
 	});
-	it('should the children if the user is authorized', () => {
+	it('should return the children if the user is authorized', () => {
 		expect(
 			AuthDumb({
 				children: 'children',
@@ -20,6 +20,28 @@ describe('AuthDumb', () => {
 				roles: ['roles'],
 			})
 		).toEqual('children');
+	});
+
+	it('should return the children if the user is authorized via a complementary check', () => {
+		expect(
+			AuthDumb({
+				children: 'children',
+				fallback: 'fallback',
+				userRoles: ['roles'],
+				roles: [['roles', () => true]],
+			})
+		).toEqual('children');
+	});
+
+	it('should return the fallback if the user is not authorized via a complementary check', () => {
+		expect(
+			AuthDumb({
+				children: 'children',
+				fallback: 'fallback',
+				userRoles: ['roles'],
+				roles: [['roles', () => false]],
+			})
+		).toEqual('fallback');
 	});
 });
 
@@ -36,6 +58,26 @@ describe('mapStateToProps', () => {
 		};
 		expect(mapStateToProps(state)).toEqual({
 			userRoles: 'roles',
+		});
+	});
+	it('should return the user stamp', () => {
+		const state = {
+			app: {
+				auth: {
+					user: {
+						roles: 'roles',
+					},
+				}
+			},
+			users: {
+				results: {
+					stamp: 'stamp'
+				}
+			}
+		};
+		expect(mapStateToProps(state)).toEqual({
+			userRoles: 'roles',
+			userStamp: 'stamp',
 		});
 	});
 });

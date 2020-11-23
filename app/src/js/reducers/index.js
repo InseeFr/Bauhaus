@@ -30,6 +30,7 @@ export default combineReducers({
 	...organisationsReducers,
 	geographies: Stores.Geographies.reducer,
 	disseminationStatus: Stores.DisseminationStatus.reducer,
+	users: Stores.UsersAction.reducer,
 	remoteCalls,
 });
 

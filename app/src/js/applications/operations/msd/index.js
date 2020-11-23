@@ -68,6 +68,7 @@ class MSDContainer extends Component {
 		super();
 		this.state = {
 			exportPending: false,
+			owners: []
 		};
 	}
 	_loadParent(id) {
@@ -95,8 +96,19 @@ class MSDContainer extends Component {
 		if (!this.props.geographiesLoaded) {
 			this.props.loadGeographies();
 		}
+
+		if(!this.props.userStampLoaded){
+			this.props.loadUserStamp();
+		}
+
+		this._loadOwnersList();
 	}
 
+	_loadOwnersList() {
+		api.getOwners(this.props.id).then(owners => {
+			this.setState({ owners })
+		})
+	}
 	exportCallback = (id) => {
 		this.setState(() => ({ exportPending: true }));
 		api.exportSims(id).then(() => {
@@ -177,6 +189,7 @@ class MSDContainer extends Component {
 						goBack={this.goBackCallback}
 						publishSims={this.props.publishSims}
 						exportCallback={this.exportCallback}
+						owners={this.state.owners}
 					/>
 				)}
 				{this.isEditMode() && (
@@ -197,6 +210,8 @@ class MSDContainer extends Component {
 			</MSDLayout>
 		);
 	}
+
+
 }
 
 export const mapStateToProps = (state, ownProps) => {
@@ -262,6 +277,7 @@ export const mapStateToProps = (state, ownProps) => {
 		documentStoresStatus: getOperationsDocumentsStatus(state),
 		documentStores: getOperationsDocuments(state, ownProps.objectType),
 		geographiesLoaded: Stores.Geographies.isLoaded(state),
+		userStampLoaded: Stores.UsersAction.isLoaded(state),
 		langs: select.getLangs(state),
 		secondLang: Stores.SecondLang.getSecondLang(state),
 		metadataStructure,
@@ -286,6 +302,7 @@ const mapDispatchToProps = {
 	publishSims,
 	loadDocuments,
 	loadGeographies: Stores.Geographies.loadGeographies,
+	loadUserStamp: Stores.UsersAction.loadUserStamp,
 };
 
 export default withRouter(

@@ -1,5 +1,6 @@
 export default {
 	getSims: (id) => [`metadataReport/${id}`],
+	getOwners: (id) => [`metadataReport/Owner/${id}`],
 	exportSims: (id) => [
 		`metadataReport/export/${id}`,
 		{
