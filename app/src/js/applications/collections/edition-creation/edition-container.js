@@ -49,7 +49,7 @@ class EditionContainer extends Component {
 		if (!collection) this.props.loadCollection(id);
 		if (!collectionList) this.props.loadCollectionList();
 		if (!conceptList) this.props.loadConceptList();
-		if (!stampList) this.props.loadStampList();
+		if (stampList.length === 0) this.props.loadStampList();
 	}
 
 	render() {

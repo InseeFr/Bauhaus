@@ -1,6 +1,6 @@
 const dictionary = {
 	errors_1002: {
-		fr: 'Un compoasnt avec la même liste de codes et le même concept existe déjà.',
+		fr: 'Un composant avec la même liste de codes et le même concept existe déjà.',
 		en: 'A component with the same code list and concept already exists.'
 	},
 	disseminationStatusTitle: {

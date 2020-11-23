@@ -80,6 +80,7 @@ describe('<ComponentDetailEdit />', () => {
 		expect(container.querySelector('.alert-danger')).not.toBeNull();
 	});
 
+
 	it('should display the labelLg2', () => {
 		const handleSave = jest.fn();
 		const { container } = render(
@@ -90,6 +91,22 @@ describe('<ComponentDetailEdit />', () => {
 				secondLang={true}
 			></ComponentDetailEdit>
 		);
-		expect(container.querySelector('#labelLg2')).not.toBeNull();
+		let labelLg2 = container.querySelector('#labelLg2');
+		expect(labelLg2).not.toBeNull();
+		expect(labelLg2.value).toBe(component.labelLg2);
+	});
+	it('should display the identifiant', () => {
+		const handleSave = jest.fn();
+		const { container } = render(
+			<ComponentDetailEdit
+				handleBack={() => {}}
+				handleSave={handleSave}
+				component={component}
+				secondLang={true}
+			></ComponentDetailEdit>
+		);
+		const identifiant = container.querySelector('#identifiant');
+		expect(identifiant.value).toEqual(component.identifiant)
+		expect(identifiant).not.toBeNull();
 	});
 });
