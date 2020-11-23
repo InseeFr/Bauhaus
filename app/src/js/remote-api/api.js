@@ -61,11 +61,11 @@ const api = {
 	getAgentList: () => ['agents'],
 	postAddRole: (agent) => {
 		const { id, role } = agent;
-		return [`private/add/role/${role}/user/${id}`, undefined, () => {}];
+		return [`users/private/add/role/${role}/user/${id}`, undefined, () => {}];
 	},
 	postDeleteRole: (agent) => {
 		const { id, role } = agent;
-		return [`private/delete/role/${role}/user/${id}`, undefined, () => {}];
+		return [`users/private/delete/role/${role}/user/${id}`, undefined, () => {}];
 	},
 };
 
