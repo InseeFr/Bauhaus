@@ -99,7 +99,7 @@ export const ComponentDetailEdit = ({
 					</div>
 
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="labelLg1">{D2.label}</LabelRequired>
+						<LabelRequired htmlFor="labelLg2">{D2.label}</LabelRequired>
 
 						<input
 							type="text"
