@@ -30,7 +30,7 @@ class OperationsDocumentationEditionContainer extends Component {
 
 const mapDispatchToProps = dispatch => ({
 	loadDocument,
-	saveDocument,
+	saveDocument: (...args) => saveDocument(...args)(dispatch),
 	loadLangCodesList: () => loadCodesList(['ISO-639'], dispatch)
 });
 
