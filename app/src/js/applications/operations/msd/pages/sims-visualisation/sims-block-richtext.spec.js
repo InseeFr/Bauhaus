@@ -42,8 +42,6 @@ describe("<SimsBlockRichText />", () => {
 	})
 	it("should display link/document Lg2", () => {
 		const { container } = render(<SimsBlockRichText currentSection={documents} isSecondLang={true}/>);
-		console.log(container.innerHTML)
-
 		expect(container.querySelector(".documentsbloc:nth-child(2) a").innerHTML).toBe('Document 2');
 		expect(container.querySelector(".documentsbloc:nth-child(4) a").innerHTML).toBe('Page 2');
 	})
