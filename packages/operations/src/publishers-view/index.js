@@ -16,11 +16,13 @@ const PublishersView = ({ publishers, lg1 }) => {
 	return (
 		<Note
 			text={
-				<ul>
-					{publishersArray.map(({ label }, index) => (
-						<li key={index}>{label}</li>
-					))}
-				</ul>
+				publishersArray.length === 1
+					? (<p>{publishersArray[0].label}</p>)
+					: (<ul>
+						{publishersArray.map(({ label }, index) => (
+							<li key={index}>{label}</li>
+						))}
+					</ul>)
 			}
 			title={D1.organisation}
 			lang={lg1}

@@ -7,11 +7,13 @@ const CreatorsView = ({ creators, lg1 }) => {
 	return (
 		<Note
 			text={
-				<ul>
-					{creatorsArray.map((creator, index) => (
-						<li key={index}>{creator}</li>
-					))}
-				</ul>
+				creatorsArray.length === 1
+					? (<p>{creatorsArray[0]}</p>)
+					: (<ul>
+						{creatorsArray.map((creator, index) => (
+							<li key={index}>{creator}</li>
+						))}
+					</ul>)
 			}
 			title={D1.creatorTitle}
 			lang={lg1}

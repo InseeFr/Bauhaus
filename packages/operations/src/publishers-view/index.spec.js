@@ -16,7 +16,7 @@ const store = mockStore({
 });
 
 describe('<PublishersView />', () => {
-	it('should return a list of item if the publishers is an object', () => {
+	it('should return a paragraph of item if the publishers is an object', () => {
 		const publishers = {
 			id: 'id',
 		};
@@ -25,7 +25,7 @@ describe('<PublishersView />', () => {
 				<PublishersView publishers={publishers} />
 			</Provider>
 		);
-		expect(container.querySelector('li').innerHTML).toBe('label');
+		expect(container.querySelector('p').innerHTML).toBe('label');
 	});
 	it('should return a list of two items if the publishers is an array', () => {
 		const publishers = [
