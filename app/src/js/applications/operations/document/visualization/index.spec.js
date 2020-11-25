@@ -10,6 +10,11 @@ const state = {
 		lg2: 'lg2',
 		secondLang: true,
 	},
+	operationsCodesList: {
+		results: {
+			'ISO-639': {codes: []}
+		}
+	}
 };
 
 describe('mapStateToProps', () => {
@@ -21,6 +26,7 @@ describe('mapStateToProps', () => {
 				id: 1,
 			},
 			id: 1,
+			langOptions: {codes: []},
 			langs: {
 				lg1: 'lg1',
 				lg2: 'lg2',
@@ -34,6 +40,7 @@ describe('mapStateToProps', () => {
 		expect(output).toEqual({
 			document: {},
 			id: 2,
+			langOptions: {codes: []},
 			langs: {
 				lg1: 'lg1',
 				lg2: 'lg2',
