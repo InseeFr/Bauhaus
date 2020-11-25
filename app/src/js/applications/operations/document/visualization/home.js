@@ -17,6 +17,7 @@ function OperationsDocumentationVisualization({
 	attr,
 	secondLang,
 	langs: { lg1, lg2 },
+	langOptions
 }) {
 	const [baseURI, setBaseURI] = useState('');
 	useEffect(() => {
@@ -68,24 +69,11 @@ function OperationsDocumentationVisualization({
 								{attr.labelLg1}
 							</a>
 						}
-						title={D1.titleLink}
+						title={D1.titleDocument}
 						lang={lg1}
-						alone={!secondLang}
+						alone={true}
 						allowEmpty={true}
 					/>
-					{secondLang && (
-						<Note
-							text={
-								<a href={attr.url} rel="noopener noreferrer" target="_blank">
-									{attr.labelLg2}
-								</a>
-							}
-							title={D2.titleLink}
-							lang={lg2}
-							alone={false}
-							allowEmpty={true}
-						/>
-					)}
 				</div>
 			)}
 			{isLink(attr) && (
@@ -103,6 +91,17 @@ function OperationsDocumentationVisualization({
 					/>
 				</div>
 			)}
+			<div className="row">
+				<Note
+					text={
+						langOptions?.codes?.find(option => option.code === attr.lang)?.labelLg1
+					}
+					title={D1.langTitle}
+					lang={lg1}
+					alone={true}
+					allowEmpty={true}
+				/>
+			</div>
 		</React.Fragment>
 	);
 }

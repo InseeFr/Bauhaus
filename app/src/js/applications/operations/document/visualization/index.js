@@ -1,4 +1,4 @@
-import loadDocument from 'js/actions/operations/documents/item';
+import loadDocument  from 'js/actions/operations/documents/item';
 import {
 	Loading,
 	Button,
@@ -13,6 +13,7 @@ import {
 	Stores,
 	PageTitleBlock,
 } from 'bauhaus-utilities';
+import { loadCodesList } from 'js/actions/operations/utils/setup';
 
 import D from 'js/i18n';
 import * as select from 'js/reducers';
@@ -41,10 +42,13 @@ class DocumentationVisualizationContainer extends Component {
 			const type = getPath(this.props.match.path);
 			this.props.loadDocument(this.props.id, type);
 		}
+		if(!this.props.langOptions.codes){
+			this.props.loadLangCodesList()
+		}
 	}
 
 	render() {
-		const { id, document, langs, secondLang } = this.props;
+		const { id, document, langs, secondLang, langOptions } = this.props;
 		const type = getPath(this.props.match.path);
 		if (!document.id) return <Loading />;
 
@@ -79,6 +83,7 @@ class DocumentationVisualizationContainer extends Component {
 					attr={document}
 					langs={langs}
 					secondLang={secondLang}
+					langOptions={langOptions}
 				/>
 			</div>
 		);
@@ -88,17 +93,20 @@ class DocumentationVisualizationContainer extends Component {
 export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const document = getCurrentDocument(state);
+	const langOptions = state.operationsCodesList.results['ISO-639'] || {};
 	return {
 		id,
 		document: id === document.id ? document : {},
 		langs: select.getLangs(state),
 		secondLang: Stores.SecondLang.getSecondLang(state),
+		langOptions
 	};
 };
 
-const mapDispatchToProps = {
-	loadDocument,
-};
+const mapDispatchToProps = dispatch => ({
+	loadDocument: (id, type) => loadDocument(id, type)(dispatch),
+	loadLangCodesList: () => loadCodesList(['ISO-639'], dispatch)
+});
 
 export default connect(
 	mapStateToProps,

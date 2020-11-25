@@ -151,7 +151,6 @@ class MSDContainer extends Component {
 			return <Loading />;
 
 		if (this.state.exportPending) return <Loading textType="loadableLoading" />;
-
 		return (
 			<MSDLayout
 				metadataStructure={metadataStructure}
