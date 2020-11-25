@@ -14,7 +14,7 @@ import {
 	CheckSecondLang,
 } from '@inseefr/wilco';
 
-import { DUPLICATE } from 'js/applications/operations/msd';
+import { CREATE, DUPLICATE } from 'js/applications/operations/msd';
 import {
 	hasLabelLg2,
 	getParentId,
@@ -96,32 +96,39 @@ class SimsCreation extends React.Component {
 
 		this.setState({ saving: true });
 
-		this.props.onSubmit(
-			{
-				id: this.props.mode !== DUPLICATE ? this.props.sims.id : '',
-				labelLg1: this.props.mode !== DUPLICATE ? this.props.sims.labelLg1 : '',
-				labelLg2: this.props.mode !== DUPLICATE ? this.props.sims.labelLg2 : '',
-				[getParentIdName(this.props.parentType)]: this.state.idParent,
-				rubrics: Object.values(this.state.sims).map((rubric) => {
-					if (rubric.rangeType === 'RICH_TEXT') {
-						return {
-							...rubric,
-							labelLg1: rubric.labelLg1
-								? HTMLUtils.mdFromEditorState(rubric.labelLg1)
-								: rubric.labelLg1,
-							labelLg2: rubric.labelLg2
-								? HTMLUtils.mdFromEditorState(rubric.labelLg2)
-								: rubric.labelLg2,
-						};
-					}
-					return rubric;
-				}),
-			},
-			(id) => {
-				this.setState({ saving: false });
-				this.props.goBack(`/operations/sims/${id}`);
+		/**
+		 * we get the id of the parent object.
+		 * the id coming from the state is used for duplicate
+		 * the id coming from the props is during creation / update
+		 */
+		const idParent = this.state.idParent || this.props.idParent
+
+		const rubrics = Object.values(this.state.sims).map((rubric) => {
+			if (rubric.rangeType === 'RICH_TEXT') {
+				return {
+					...rubric,
+					labelLg1: rubric.labelLg1
+						? HTMLUtils.mdFromEditorState(rubric.labelLg1)
+						: rubric.labelLg1,
+					labelLg2: rubric.labelLg2
+						? HTMLUtils.mdFromEditorState(rubric.labelLg2)
+						: rubric.labelLg2,
+				};
 			}
-		);
+			return rubric;
+		});
+
+		const sims = {
+			id: this.props.mode !== DUPLICATE ? this.props.sims.id : '',
+			labelLg1: this.props.mode !== DUPLICATE ? this.props.sims.labelLg1 : '',
+			labelLg2: this.props.mode !== DUPLICATE ? this.props.sims.labelLg2 : '',
+			[getParentIdName(this.props.parentType)]: idParent,
+			rubrics,
+		};
+		this.props.onSubmit(sims, (id) => {
+			this.setState({ saving: false });
+			this.props.goBack(`/operations/sims/${id}`);
+		});
 	};
 
 	goBack = () => {
