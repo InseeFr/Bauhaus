@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { buildExtract, Loading } from '@inseefr/wilco';
 import DocumentationEdition from 'js/applications/operations/document/edition/edition';
 import { getCurrentDocument } from 'js/reducers/operations/selector';
-import { isDocument, LINK, DOCUMENT } from '../utils';
 import { loadCodesList } from 'js/actions/operations/utils/setup';
 
 const extractId = buildExtract('id');
