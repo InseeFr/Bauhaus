@@ -39,14 +39,10 @@ export default {
 	},
 	documents: {
 		serverSideErrors: {
-			LINK_EXISTING_URL: {
-				en: 'There already exists a link to that url:',
-				fr: 'Il y a déjà un lien avec cette url:',
-			},
-			DOCUMENT_EXISTING_FILE: {
-				en: 'There already exists a document under this name:',
-				fr: 'Il y a déjà un document avec le même nom:',
-			},
+			304: {
+				en: 'You can not remove this document because it is areadu linked to a SIMS',
+				fr: 'Vous ne pouvez pas supprimer ce document car il est déjà associé à un SIMS',
+			}
 		},
 	},
 };

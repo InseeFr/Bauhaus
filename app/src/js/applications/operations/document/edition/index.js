@@ -16,7 +16,7 @@ const extractId = buildExtract('id');
 class OperationsDocumentationEditionContainer extends Component {
 	componentDidMount() {
 		if (!this.props.document.id && this.props.id) {
-			this.props.loadDocument(this.props.id);
+			this.props.loadDocument(this.props.id, this.props.type);
 		}
 		if(!this.props.langOptions.codes){
 			this.props.loadLangCodesList()
@@ -29,7 +29,7 @@ class OperationsDocumentationEditionContainer extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-	loadDocument,
+	loadDocument:  (...args) => loadDocument(...args)(dispatch),
 	saveDocument: (...args) => saveDocument(...args)(dispatch),
 	loadLangCodesList: () => loadCodesList(['ISO-639'], dispatch)
 });
@@ -40,12 +40,7 @@ export const mapStateToProps = (state, ownProps) => {
 
 	const pathName = ownProps.location.pathname;
 	const document = id ? getCurrentDocument(state) : {};
-	let type;
-	if (/(link|document)\/create/.test(pathName)) {
-		type = /(link|document)\/create/.exec(pathName)[1];
-	} else if (document.uri) {
-		type = isDocument(document) ? DOCUMENT : LINK;
-	}
+	const type = /(link|document)/.exec(pathName)[1];
 	const langs = select.getLangs(state);
 	const langOptions = state.operationsCodesList.results['ISO-639'] || {};
 	return {

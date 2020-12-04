@@ -26,9 +26,8 @@ const SearchableList = ({
 	const [search, handleSearch] = useState(searchValue);
 
 	const filter = filterKeyDeburr(
-		Object.keys(items[0] || {}).filter((k) => k !== 'id')
+		['label']
 	);
-
 	const hits = items.filter(filter(search));
 
 	const hitEls = hits.map((item) => (
