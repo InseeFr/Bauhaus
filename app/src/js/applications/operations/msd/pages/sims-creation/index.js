@@ -14,7 +14,7 @@ import {
 	CheckSecondLang,
 } from '@inseefr/wilco';
 
-import { CREATE, DUPLICATE } from 'js/applications/operations/msd';
+import { DUPLICATE } from 'js/applications/operations/msd';
 import {
 	hasLabelLg2,
 	getParentId,
