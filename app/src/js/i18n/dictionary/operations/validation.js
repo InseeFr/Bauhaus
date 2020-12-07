@@ -40,7 +40,7 @@ export default {
 	documents: {
 		serverSideErrors: {
 			304: {
-				en: 'You can not remove this document because it is areadu linked to a SIMS',
+				en: 'You can not remove this document because it is already linked to a SIMS',
 				fr: 'Vous ne pouvez pas supprimer ce document car il est déjà associé à un SIMS',
 			}
 		},
