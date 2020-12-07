@@ -146,7 +146,7 @@ class MSDContainer extends Component {
 		} = this.props;
 		if (
 			metadataStructureStatus !== LOADED ||
-			(mode === VIEW && !currentSims.id)
+			((mode === VIEW || mode === UPDATE) && !currentSims.id)
 		)
 			return <Loading />;
 

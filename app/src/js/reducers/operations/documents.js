@@ -46,7 +46,9 @@ export const operationsDocuments = function(
 				err: action.payload.err,
 			};
 		case SAVE_OPERATIONS_DOCUMENT_SUCCESS:
-			return {};
+			return {
+				status: NOT_LOADED
+			};
 		default:
 			return state;
 	}

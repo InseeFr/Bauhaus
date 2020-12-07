@@ -115,9 +115,7 @@ class OperationsDocumentationEdition extends Component {
 		const errors = validate(document, type, files);
 		const globalError =
 			errors.errorMessage ||
-			Object.keys(D.documents.serverSideErrors).reduce((acc, key) => {
-				return acc.replace(key, D.documents.serverSideErrors[key]);
-			}, serverSideError);
+			D.documents.serverSideErrors[serverSideError.code] || serverSideError
 
 		let updatedDate;
 		if (document.updatedDate) {
