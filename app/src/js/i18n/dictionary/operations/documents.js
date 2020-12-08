@@ -1,7 +1,7 @@
 export default {
 	document: { fr: 'Document', en: 'Document' },
 	link: { fr: 'Lien', en: 'Link' },
-	titleDocument: { fr: 'Documents', en: 'Documents' },
+	titleDocument: { fr: 'Fichier', en: 'Documents' },
 	titleLink: { fr: 'Liens', en: 'Links' },
 	titleUpdatedDate: { fr: 'Date de mise à jour', en: 'Updated date' },
 	addDocument: {
@@ -13,7 +13,7 @@ export default {
 		en: 'Add a link',
 	},
 	drag: {
-		fr: 'Glisser des documents ici, ou cliquez ici pour en sélectionner',
+		fr: 'Glisser un fichier ici, ou cliquez ici pour en sélectionner',
 		en: 'Drag n drop some files here, or click to select files',
 	},
 };
