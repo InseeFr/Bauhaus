@@ -68,7 +68,8 @@ class MSDContainer extends Component {
 		super();
 		this.state = {
 			exportPending: false,
-			owners: []
+			owners: [],
+			defaultSims: {}
 		};
 	}
 	_loadParent(id) {
@@ -87,7 +88,7 @@ class MSDContainer extends Component {
 		if (this.props.metadataStructureStatus !== LOADED) {
 			this.props.loadMetadataStructure();
 		}
-		if (!this.props.currentSims.id) {
+		if (this.props.mode === UPDATE && !this.props.currentSims.id) {
 			this.props.loadSIMS(this.props.id);
 		}
 		if (!this.props.isParentLoaded) {
@@ -100,7 +101,12 @@ class MSDContainer extends Component {
 		if(!this.props.userStampLoaded){
 			this.props.loadUserStamp();
 		}
-
+		
+		if(this.props.mode === CREATE){
+			api.getDefaultSims().then(response => {
+				this.setState({ defaultSimsRubrics: response})
+			})	
+		}
 		this._loadOwnersList();
 	}
 
@@ -204,6 +210,7 @@ class MSDContainer extends Component {
 						organisations={organisations}
 						parentType={parentType}
 						documentStores={documentStores}
+						defaultSimsRubrics={this.state.defaultSimsRubrics}
 					/>
 				)}
 			</MSDLayout>
