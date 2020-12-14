@@ -65,7 +65,7 @@ class SimsCreation extends React.Component {
 						},
 					};
 				}, {}),
-				...removeRubricsWhenDuplicate(props.mode, sims.rubrics),
+				...removeRubricsWhenDuplicate(props.mode, sims.rubrics || this.props.defaultSimsRubrics),
 			},
 			secondLang: true,
 		};
