@@ -16,4 +16,8 @@ export default {
 		fr: 'Glisser un fichier ici, ou cliquez ici pour en sélectionner',
 		en: 'Drag n drop some files here, or click to select files',
 	},
+	documentsSearchTitle: {
+		fr: 'Document/Lien - Recherche',
+		en: 'Document/Link - Search',
+	},
 };
