@@ -120,8 +120,8 @@ function DocumentHome({ documents }) {
 						currentValue={filter}
 						handleSelection={onFilter}
 						options={[
-							[DOCUMENT, D.titleDocument],
-							[BOTH, `${D.titleDocument} / ${D.titleLink}`],
+							[DOCUMENT, D.document],
+							[BOTH, `${D.document} / ${D.titleLink}`],
 							[LINK, D.titleLink],
 						]}
 					/>
