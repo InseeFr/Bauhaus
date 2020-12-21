@@ -19,6 +19,7 @@ const ViewContainer = props => {
 
 	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
 	const disseminationStatusListOptions = useSelector(state => Stores.DisseminationStatus.getDisseminationStatusListOptions(state));
+
 	useEffect(() => {
 		if(disseminationStatusListOptions.length === 0){
 			props.loadDisseminationStatusList();

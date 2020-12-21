@@ -174,7 +174,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 				<Select
 					className="form-control"
 					placeholder={D1.disseminationStatusPlaceholder}
-					value={disseminationStatusListOptions.find(value => value === disseminationStatus)}
+					value={disseminationStatusListOptions.find(({ value }) => value === disseminationStatus)}
 					options={disseminationStatusListOptions}
 					onChange={(value) => onChange('disseminationStatus', value)}
 					searchable={true}

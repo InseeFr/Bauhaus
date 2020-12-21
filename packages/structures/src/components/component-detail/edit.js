@@ -30,7 +30,6 @@ export const ComponentDetailEdit = ({
 }) => {
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 	const [component, setComponent] = useState(defaultComponent || { });
-
 	useEffect(() => {
 		if(!component.type && type){
 			setComponent({ type });
@@ -217,7 +216,7 @@ export const ComponentDetailEdit = ({
 					<Select
 						className="form-control"
 						placeholder={D1.disseminationStatusPlaceholder}
-						value={disseminationStatusListOptions.find(value => value === component.disseminationStatus)}
+						value={disseminationStatusListOptions.find(({ value }) => value === component.disseminationStatus)}
 						options={disseminationStatusListOptions}
 						onChange={(value) =>
 							setComponent({ ...component, disseminationStatus: value })

@@ -7,7 +7,7 @@ import {
 	DeleteButton,
 } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
-import { typeUriToLabel, getAllAttachment } from '../../utils';
+import { typeUriToLabel, getAllAttachment, getDisseminationStatus } from '../../utils';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
@@ -91,7 +91,7 @@ export const ComponentDetailView = ({
 							</li>
 							<li>
 								{D.disseminationStatusTitle} :{' '}
-								{component.disseminationStatus}
+								{getDisseminationStatus(component.disseminationStatus)}
 							</li>
 						</ul>
 					}

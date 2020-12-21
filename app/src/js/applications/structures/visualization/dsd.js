@@ -15,6 +15,7 @@ import {
 	StructureVisualizationControl,
 } from 'bauhaus-structures';
 import D from 'bauhaus-structures/src/i18n/build-dictionary';
+import { StructuresUtils } from 'bauhaus-structures';
 
 export const StructureView = ({secondLang, structure}) => {
 	const {
@@ -59,7 +60,7 @@ export const StructureView = ({secondLang, structure}) => {
 							</li>
 							<li>
 								{D.disseminationStatusTitle} :{' '}
-								{structure.disseminationStatus}
+								{StructuresUtils.getDisseminationStatus(structure.disseminationStatus)}
 							</li>
 						</ul>
 					}
