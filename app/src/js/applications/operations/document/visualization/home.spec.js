@@ -61,7 +61,7 @@ describe('OperationsDocumentationVisualization', () => {
 			/>
 		);
 		const notes = container.querySelectorAll('.wilco-note');
-		expect(notes).toHaveLength(5);
+		expect(notes).toHaveLength(7);
 	});
 
 	it('should not display the date if this one is not valid', () => {
