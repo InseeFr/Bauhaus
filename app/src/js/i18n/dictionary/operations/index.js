@@ -42,6 +42,10 @@ const dictionary = {
 		fr: 'Séries filles :',
 		en: 'Daughter series:',
 	},
+	linkedSims: {
+		fr: 'Sims associés :',
+		en: 'Linked Sims:',
+	},
 	childrenOperations: {
 		fr: 'Opérations filles :',
 		en: 'Daughter operations:',
