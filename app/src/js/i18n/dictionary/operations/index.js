@@ -204,20 +204,20 @@ const dictionary = {
 		en: 'Published',
 	},
 	statusModifiedM: {
-		fr: 'Modifié',
-		en: 'Modified',
+		fr: 'Provisoire, déjà publié',
+		en: 'Temporary, already published',
 	},
 	statusModifiedF: {
-		fr: 'Modifiée',
-		en: 'Modified',
+		fr: 'Provisoire, déjà publiée',
+		en: 'Temporary, already published',
 	},
 	statusUnpublishedM: {
-		fr: 'Non Publié',
-		en: 'Published',
+		fr: 'Provisoire, jamais publiée',
+		en: 'Temporary, never published',
 	},
 	statusUnpublishedF: {
-		fr: 'Non Publiée',
-		en: 'Published',
+		fr: 'Provisoire, jamais publiée',
+		en: 'Temporary, never published',
 	},
 	...documentsD,
 	...validationD,
