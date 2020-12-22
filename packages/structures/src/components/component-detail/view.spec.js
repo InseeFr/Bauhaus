@@ -194,7 +194,7 @@ describe('<ComponentDetailView />', () => {
 		expect(container.querySelector('ul li:nth-child(3)').innerHTML).toContain('Publication status : Validated');
 		expect(container.querySelector('ul li:nth-child(4)').innerHTML).toContain('Creator : STAMP CREATOR');
 		expect(container.querySelector('ul li:nth-child(5)').innerHTML).toContain('Contributor : STAMP CONTRIBUTOR');
-		expect(container.querySelector('ul li:nth-child(6)').innerHTML).toContain('Diffusion status : http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique');
+		expect(container.querySelector('ul li:nth-child(6)').innerHTML).toContain('Diffusion status : Public generic');
 
 	})
 });

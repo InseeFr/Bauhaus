@@ -13,9 +13,9 @@ import { D1, D2 } from 'js/i18n';
 import {
 	StructureAPI,
 	StructureVisualizationControl,
+	StructuresUtils
 } from 'bauhaus-structures';
 import D from 'bauhaus-structures/src/i18n/build-dictionary';
-import { StructuresUtils } from 'bauhaus-structures';
 
 export const StructureView = ({secondLang, structure}) => {
 	const {
