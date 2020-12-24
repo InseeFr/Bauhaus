@@ -50,6 +50,7 @@ const ViewContainer = props => {
 					!component.id
 				);
 			}).catch(error => {
+				setComponent(component);
 				setServerSideError(D['errors_' + JSON.parse(error).code])
 			}).finally(() => setSaving(false))
 		},
