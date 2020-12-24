@@ -7,6 +7,7 @@ import {
 	Stores,
 	PageTitleBlock,
 	DateUtils,
+	PublicationFemale
 } from 'bauhaus-utilities';
 import Components from './components';
 import { D1, D2 } from 'js/i18n';
@@ -48,7 +49,7 @@ export const StructureView = ({secondLang, structure}) => {
 							</li>
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
-								{structure.validationState}
+								<PublicationFemale object={structure.validationState} />
 							</li>
 							<li>
 								{D.creator} :{' '}

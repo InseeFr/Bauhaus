@@ -17,7 +17,7 @@ import {
 	DeleteButton
 } from '@inseefr/wilco';
 
-import { PublicationFemale } from 'js/applications/operations/shared/status';
+import { PublicationFemale } from 'bauhaus-utilities';
 import * as A from 'js/actions/constants';
 
 import {
