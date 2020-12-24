@@ -17,7 +17,6 @@ import {
 	DeleteButton
 } from '@inseefr/wilco';
 
-import { PublicationFemale } from 'bauhaus-utilities';
 import * as A from 'js/actions/constants';
 
 import {
@@ -25,6 +24,7 @@ import {
 	HTMLUtils,
 	ValidationButton,
 	CheckSecondLang,
+	PublicationFemale
 } from 'bauhaus-utilities';
 import {
 	hasLabelLg2,
@@ -133,7 +133,7 @@ export default function SimsVisualisation({
 				history.push(`/operations/series/${sims.idSeries}`)
 			})
 
-	}, []);
+	}, [dispatch, history, sims]);
 
 	const CREATOR = sims.idIndicator
 		? Auth.INDICATOR_CONTRIBUTOR
