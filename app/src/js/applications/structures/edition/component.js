@@ -17,6 +17,7 @@ const defaultDSD = {
 	labelLg2: '',
 	descriptionLg1: '',
 	descriptionLg2: '',
+	contributor: 'DG75-H250',
 	componentDefinitions: [],
 };
 
@@ -56,7 +57,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 		descriptionLg2,
 		componentDefinitions = [],
 		creator,
-		contributor = 'DG75-H250',
+		contributor,
 		disseminationStatus
 	} = structure;
 

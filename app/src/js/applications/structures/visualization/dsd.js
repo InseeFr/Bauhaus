@@ -49,7 +49,7 @@ export const StructureView = ({secondLang, structure}) => {
 							</li>
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
-								<PublicationFemale object={structure.validationState} />
+								<PublicationFemale object={structure} />
 							</li>
 							<li>
 								{D.creator} :{' '}

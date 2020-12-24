@@ -17,8 +17,11 @@ import { default as ReactSelect } from 'react-select';
 import "./edit.scss";
 import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
 
+const defaultComponent = {
+	contributor: 'DG75-H250'
+}
 export const ComponentDetailEdit = ({
-	component: defaultComponent,
+	component: initialComponent,
 	concepts,
 	codesLists,
 	handleSave,
@@ -29,7 +32,12 @@ export const ComponentDetailEdit = ({
 	serverSideError
 }) => {
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
-	const [component, setComponent] = useState(defaultComponent || { });
+	const [component, setComponent] = useState(defaultComponent);
+
+	useEffect(() => {
+		setComponent({ ...defaultComponent, ...initialComponent });
+	}, [initialComponent]);
+
 	useEffect(() => {
 		if(!component.type && type){
 			setComponent({ type });
@@ -203,7 +211,7 @@ export const ComponentDetailEdit = ({
 					<label>{D1.contributorTitle}</label>
 					<ReactSelect
 						placeholder={D1.stampsPlaceholder}
-						value={stampListOptions.find(({ value }) => value === (component.contributor || 'DG75-H250'))}
+						value={stampListOptions.find(({ value }) => value === component.contributor)}
 						options={stampListOptions}
 						onChange={(value) =>
 							setComponent({ ...component, contributor: value })
