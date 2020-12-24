@@ -2,6 +2,9 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
+import api from 'js/remote-api/operations-api';
+import { useHistory } from "react-router-dom";
+import { useDispatch} from 'react-redux';
 import {
 	Button,
 	DuplicateButton,
@@ -11,9 +14,11 @@ import {
 	ReturnButton,
 	Panel,
 	ExportButton,
+	DeleteButton
 } from '@inseefr/wilco';
 
 import { PublicationFemale } from 'js/applications/operations/shared/status';
+import * as A from 'js/actions/constants';
 
 import {
 	Auth,
@@ -116,6 +121,20 @@ export default function SimsVisualisation({
 
 	const checkStamp = stamp => owners.includes(stamp);
 
+	/**
+	 * Handle the deletion of a SIMS.
+	 */
+	const history = useHistory();
+	const dispatch = useDispatch();
+	const handleDelete = useCallback(() => {
+		api.deleteSims(sims)
+			.finally(async () => {
+				await dispatch({ type: A.DELETE_SIMS_SUCCESS })
+				history.push(`/operations/series/${sims.idSeries}`)
+			})
+
+	}, []);
+
 	const CREATOR = sims.idIndicator
 		? Auth.INDICATOR_CONTRIBUTOR
 		: Auth.SERIES_CONTRIBUTOR;
@@ -130,6 +149,11 @@ export default function SimsVisualisation({
 					<DuplicateButton
 						action={`/operations/sims/${sims.id}/duplicate`}
 						col={3}
+					/>
+				</Auth.AuthGuard>
+				<Auth.AuthGuard roles={[Auth.ADMIN]} complementaryCheck={!!sims.idSeries}>
+					<DeleteButton
+						action={handleDelete}
 					/>
 				</Auth.AuthGuard>
 				<Auth.AuthGuard roles={[Auth.ADMIN, [CREATOR, checkStamp]]}>

@@ -27,6 +27,7 @@ export const operationsFamiliesCurrent = function(state = {}, action) {
 		case A.LOAD_OPERATIONS_FAMILY_SUCCESS:
 			return action.payload;
 		case A.SAVE_OPERATIONS_SERIE_SUCCESS:
+		case A.DELETE_SIMS_SUCCESS:
 		case A.SAVE_OPERATIONS_FAMILY:
 		case A.PUBLISH_OPERATIONS_FAMILY_SUCCESS:
 			return {};
