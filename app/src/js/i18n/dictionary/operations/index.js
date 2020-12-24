@@ -199,30 +199,6 @@ const dictionary = {
 		fr: 'État du SIMS',
 		en: 'State of the SIMS',
 	},
-	statusValidatedM: {
-		fr: 'Publié',
-		en: 'Published',
-	},
-	statusValidatedF: {
-		fr: 'Publiée',
-		en: 'Published',
-	},
-	statusModifiedM: {
-		fr: 'Provisoire, déjà publié',
-		en: 'Temporary, already published',
-	},
-	statusModifiedF: {
-		fr: 'Provisoire, déjà publiée',
-		en: 'Temporary, already published',
-	},
-	statusUnpublishedM: {
-		fr: 'Provisoire, jamais publiée',
-		en: 'Temporary, never published',
-	},
-	statusUnpublishedF: {
-		fr: 'Provisoire, jamais publiée',
-		en: 'Temporary, never published',
-	},
 	...documentsD,
 	...validationD,
 };

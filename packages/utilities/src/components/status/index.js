@@ -1,6 +1,6 @@
 import React from 'react';
 
-import D from 'Bauhaus/src/js/i18n';
+import D from '../../i18n/build-dictionary';
 
 export function PublicationMale({ object }) {
 	return (
