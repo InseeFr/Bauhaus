@@ -44,6 +44,7 @@ describe('<ComponentDetailEdit />', () => {
 		fireEvent.click(getByText(container, 'Save'));
 		expect(handleSave).toHaveBeenCalledWith({
 			...component,
+			contributor: "DG75-H250",
 			labelLg1: 'a',
 		});
 	});
