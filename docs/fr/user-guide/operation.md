@@ -148,9 +148,12 @@ La recherche se lance automatiquement à mesure que des critères sont renseign�
 Cliquer ensuite sur la famille souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
 ### <a id="creer-famille">Créer une famille</a>
+
+> Seule l'unité Qualité est habilitée à créer une famille.
+
 Avant de créer une famille, il est important de vérifier qu'elle n'a pas déjà été renseignée en utilisant les fonctionnalités de recherche.
 
-La création d'une famille est possible à partir de la page d'accueil Familles. Seule l'unité Qualité est habilitée à créer une famille.
+La création d'une famille est possible à partir de la page d'accueil Familles.
 
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de la famille s'affiche alors.
 
@@ -167,7 +170,10 @@ Penser à sauvegarder les informations saisies avant de changer d'écran.** La s
 Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Familles.
 
 ### <a id="modifier-famille">Modifier une famille</a>
-La modification d'une famille est possible à partir de sa page de description. Seule l'unité Qualité est habilitée à modifier une famille.
+
+> Seule l'unité Qualité est habilitée à modifier une famille.
+
+La modification d'une famille est possible à partir de sa page de description. 
 
 - Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
 - Modifier les champs souhaités
@@ -207,9 +213,11 @@ Cliquer ensuite sur la série souhaitée pour accéder à sa page de description
 
 ### <a id="creer-serie">Créer une série</a>
 
+> Seule l'unité Qualité est habilitée à créer une série.
+
 Avant de créer une série, il est important de vérifier qu'elle n'a pas déjà été renseignée en utilisant les fonctionnalités de recherche.
 
-La création d'une série est possible à partir de  la page d'accueil Séries et est une fonctionnalité réservée à l'Unité qualité.
+La création d'une série est possible à partir de  la page d'accueil Séries.
 
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de la série s'affiche alors.
 
@@ -333,9 +341,11 @@ Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde l
 
 ### <a id="creer-indicateur">Créer un indicateur</a>
 
+> Seule l'unité Qualité est habilitée à créer un indicateur.
+
 Avant de créer un indicateur, il est important de vérifier qu'il n'a pas déjà été renseigné en utilisant les fonctionnalités de recherche.
 
-La création d'un indicateur est possible à partir de la page d'accueil Indicateurs et est  une fonctionnalité réservée à l'Unité qualité.
+La création d'un indicateur est possible à partir de la page d'accueil Indicateurs.
 
 - Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de l'indicateur s'affiche alors.
 
