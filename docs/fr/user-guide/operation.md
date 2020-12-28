@@ -179,12 +179,19 @@ La modification d'une famille est possible à partir de sa page de description.
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
-Une fois la famille modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une famille](#publier-famille)), l'ancienne version reste à disposition des applications clientes.
+Une fois la famille modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une famille](#publier-famille)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
 
 ### <a id="publier-famille">Publier une famille</a>
-La publication d'une famille est possible à partir de la page de description d'une famille. Seule l'unité Qualité est habilitée à publier une famille.
+
+> Seule l'unité Qualité est habilitée à publier une famille.
+
+L'action de publier consiste à pousser les informations saisies dans le référentiel de publication.
+
+La publication d'une famille est possible à partir de la page de description d'une famille. 
 
 - Cliquer en haut à droite sur <span style="color: brown">Publier</span> après avoir vérifié les informations saisies.
+
+Les changements seront reportés sur insee.fr le jour suivant la publication.
 
 ## <a id="gerer-series">Fonctionnalités de gestion d'une série d'opérations statistiques</a>
 ### <a id="rechercher-serie">Rechercher une série</a>
@@ -252,17 +259,18 @@ La modification d'une série est possible à partir de sa page de description.
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
-Une fois la série modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir Publier une série), l'ancienne version reste à disposition des applications clientes.
+Une fois la série modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir Publier une série), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
 
 ### <a id="publier-serie">Publier une série</a>
+L'action de publier consiste à pousser les informations saisies dans le référentiel de publication.
 
-La publication d'une série est possible à partir de la page de description d'une série. Seul le propriétaire de la série, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une série.
+La publication d'une série est possible à partir de la page de description d'une série. Seul le propriétaire de la série (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série), ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une série.
 
 - Cliquer en haut à droite sur <span style="color: brown">Publier</span> après avoir vérifié les informations saisies.
 
 Une série ne peut être publiée que si la famille à laquelle elle est rattachée est déjà publiée. Sinon, publier d'abord la famille. Pour publier cette famille, contacter l'administrateur RMéS.
 
-La série ne peut être publiée que par son propriétaire (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série) et par l'unité Qualité par délégation.
+Les changements seront reportés sur insee.fr le jour suivant la publication.
 
 ## <a id="gerer-operations">Fonctionnalités de gestion des opérations statistiques</a>
 
@@ -303,16 +311,18 @@ La modification d'une opération est possible à partir de sa page de descriptio
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
-Une fois l'opération modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une opération](#publier-operation)), l'ancienne version reste à disposition des applications clientes.
+Une fois l'opération modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire, jamais publiée » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une opération](#publier-operation)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
 
 ### <a id="publier-operation">Publier une opération</a>
-La publication d'une opération est possible à partir de la page de description d'une opération. Seul le propriétaire de la série à laquelle appartient l'opération, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une opération.
+L'action de publier consiste à pousser les informations saisies dans le référentiel de publication.
+
+La publication d'une opération est possible à partir de la page de description d'une opération. Seul le propriétaire de la série à laquelle appartient l'opération (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série d'opérations statistiques), ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une opération.
 
 - Cliquer en haut à droite sur <span style="color: brown">Publier</span> après avoir vérifié les informations saisies.
 
 Une opération ne peut être publiée que si la série à laquelle elle est rattachée est déjà publiée. Sinon, publier d'abord la série. 
 
-L'opération ne peut être publiée que par son propriétaire (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série de l'opération statistique) et par l'unité Qualité par délégation.
+Les changements seront reportés sur insee.fr le jour suivant la publication.
 
 ## <a id="gerer-indicateurs">Fonctionnalités de gestion des indicateurs</a>
 
@@ -378,14 +388,16 @@ La modification d'un indicateur est possible à partir de sa page de description
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
-Une fois l'indicateur modifié, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » s'il n'a jamais été publié, jusqu'à sa publication**. Tant qu'il n'est pas publié dans le référentiel de publication (voir [Publier un indicateur](#publier-indicateur)), l'ancienne version reste à disposition des applications clientes.
+Une fois l'indicateur modifié, son statut de publication devient **« Provisoire, déjà publié » ou « Provisoire, jamais publié » s'il n'a jamais été publié, jusqu'à sa publication**. Tant qu'il n'est pas publié dans le référentiel de publication (voir [Publier un indicateur](#publier-indicateur)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
 
 ## <a id="publier-indicateur">Publier un indicateur</a>
-La publication d'un indicateur est possible à partir de sa page de description. Seul le propriétaire de l'indicateur, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier un indicateur.
+L'action de publier consiste à pousser les informations saisies dans le référentiel de publication.
+
+La publication d'un indicateur est possible à partir de sa page de description. Seul le propriétaire de l'indicateur (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de l'indicateur), ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier un indicateur.
 
 - Cliquer en haut à droite sur <span style="color: brown">Publier</span> après avoir vérifié les informations saisies.
 
-L'indicateur ne peut être publié que par son propriétaire (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de l'indicateur) ou par l'unité Qualité par délégation.
+Les changements seront reportés sur insee.fr le jour suivant la publication.
 
 ## <a id="gerer-sims">Gérer une documentation statistique</a>
 ### <a id="creer-sims">Créer une documentation Sims</a>
@@ -409,16 +421,18 @@ La modification d'une documentation est possible à partir de sa page de descrip
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
-Une fois la documentation modifiée, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une documentation](#publier-sims)), l'ancienne version reste à disposition des applications clientes.
+Une fois la documentation modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire, jamais publiée » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une documentation](#publier-sims)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
 
 ### <a id="publier-sims">Publier une documentation Sims</a>
-La publication d'une documentation est possible à partir de sa page de description. Seul le propriétaire de la documentation, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une documentation.
+L'action de publier consiste à pousser les informations saisies dans le référentiel de publication.
+
+La publication d'une documentation est possible à partir de sa page de description. Seul le propriétaire de la documentation (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série d'opérations statistiques), ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une documentation.
 
 - Cliquer en haut à droite sur <span style="color: brown">Publier</span> après avoir vérifié les informations saisies.
 
 Une documentation ne peut être publiée que si l'opération à laquelle elle est rattachée est déjà publiée. Sinon, publier d'abord l'opération. 
 
-La documentation ne peut être publiée que par son propriétaire (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série de l'opération statistique) et par l'unité Qualité par délégation.
+Les changements (hors rubriques décrivant le contact) seront reportés sur insee.fr le jour suivant la publication.
 
 ## <a id="gerer-documents-liens">Fonctionnalités de gestions des documents et des liens</a>
 
