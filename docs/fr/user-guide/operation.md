@@ -149,9 +149,9 @@ Cliquer ensuite sur la famille souhaitée pour accéder à sa page de descriptio
 
 ### <a id="creer-famille">Créer une famille</a>
 
-> Seule l'unité Qualité est habilitée à créer une famille.
-
 Avant de créer une famille, il est important de vérifier qu'elle n'a pas déjà été renseignée en utilisant les fonctionnalités de recherche.
+
+> Seule l'unité Qualité est habilitée à créer une famille.
 
 La création d'une famille est possible à partir de la page d'accueil Familles.
 
@@ -220,9 +220,9 @@ Cliquer ensuite sur la série souhaitée pour accéder à sa page de description
 
 ### <a id="creer-serie">Créer une série</a>
 
-> Seule l'unité Qualité est habilitée à créer une série.
-
 Avant de créer une série, il est important de vérifier qu'elle n'a pas déjà été renseignée en utilisant les fonctionnalités de recherche.
+
+> Seule l'unité Qualité est habilitée à créer une série.
 
 La création d'une série est possible à partir de  la page d'accueil Séries.
 
@@ -253,7 +253,7 @@ Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page
 Pour publier une série dans le référentiel, voir [Publier une série](#publier-serie).
 
 ### <a id="modifier-serie">Modifier une série</a>
-La modification d'une série est possible à partir de sa page de description.
+La modification d'une série est possible à partir de sa page de description. Seul le propriétaire de la série, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une série.
 
 - Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
 - Modifier les champs souhaités
@@ -351,9 +351,9 @@ Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde l
 
 ### <a id="creer-indicateur">Créer un indicateur</a>
 
-> Seule l'unité Qualité est habilitée à créer un indicateur.
-
 Avant de créer un indicateur, il est important de vérifier qu'il n'a pas déjà été renseigné en utilisant les fonctionnalités de recherche.
+
+> Seule l'unité Qualité est habilitée à créer un indicateur.
 
 La création d'un indicateur est possible à partir de la page d'accueil Indicateurs.
 
