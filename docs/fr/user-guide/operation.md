@@ -155,19 +155,19 @@ Avant de créer une famille, il est important de vérifier qu'elle n'a pas déj�
 
 La création d'une famille est possible à partir de la page d'accueil Familles.
 
-- Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de la famille s'affiche alors.
+- Cliquer sur le bouton <span style="color: brown">Nouveau</span> à gauche de la page. La page de création de la famille s'affiche alors.
 
 Les champs disponibles sont les suivants :
  - L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires ;
  - Le **Thème** de la famille ;
  - Le **Résumé** permet d'expliquer les objectifs et une courte description générale de la famille d'opérations statistiques.
 
-- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span> 
+- Cliquer sur le bouton <span style="color: brown">Sauvegarder</span> 
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
 Penser à sauvegarder les informations saisies avant de changer d'écran.** La sauvegarde n'entraîne pas la publication de la famille. Il est donc possible, si nécessaire, de créer la famille en plusieurs étapes. Le statut de publication de la famille passe alors en « Provisoire », jusqu'à sa publication. Pour publier une famille dans le référentiel, voir [Publier une famille](#publier-famille).
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Familles.
+Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Familles.
 
 ### <a id="modifier-famille">Modifier une famille</a>
 
@@ -175,16 +175,16 @@ Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page 
 
 La modification d'une famille est possible à partir de sa page de description. 
 
-- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
 - Modifier les champs souhaités
-- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
+- Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
 Une fois la famille modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une famille](#publier-famille)), l'ancienne version reste à disposition des applications clientes.
 
 ### <a id="publier-famille">Publier une famille</a>
 La publication d'une famille est possible à partir de la page de description d'une famille. Seule l'unité Qualité est habilitée à publier une famille.
 
-- Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
+- Cliquer en haut à droite sur <span style="color: brown">Publier</span> après avoir vérifié les informations saisies.
 
 ## <a id="gerer-series">Fonctionnalités de gestion d'une série d'opérations statistiques</a>
 ### <a id="rechercher-serie">Rechercher une série</a>
@@ -199,7 +199,7 @@ La recherche se lance automatiquement à mesure que des caractères sont saisis 
 
 Cliquer ensuite sur la série souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-**(2)** La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection,**renseigner les filtres souhaités** dans les champs :
+**(2)** La recherche avancée est disponible en cliquant sur <span style="color: brown">**Recherche avancée**</span>. Pour affiner la sélection,**renseigner les filtres souhaités** dans les champs :
 
 - **Libellé** : saisir le nom de la série;
 - **Type d'opération** : sélectionner le type d'opération dans le menu déroulant
@@ -219,7 +219,7 @@ Avant de créer une série, il est important de vérifier qu'elle n'a pas déjà
 
 La création d'une série est possible à partir de  la page d'accueil Séries.
 
-- Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de la série s'affiche alors.
+- Cliquer sur le bouton <span style="color: brown">Nouveau</span> à gauche de la page. La page de création de la série s'affiche alors.
 
 Les champs disponibles sont les suivants :
 - La série doit être rattachée à sa **famille mère**. Si la famille souhaitée n'existe pas, il faut demander sa création à l'équipe d'administration RMéS.
@@ -238,19 +238,19 @@ Les champs disponibles sont les suivants :
 - Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contributions de la série ;
 - Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
 Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de la série. Il est donc possible, si nécessaire, de créer la série en plusieurs étapes. Le statut de publication de la série passe alors en « Provisoire », jusqu'à sa publication.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Séries.
+Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Séries.
 
 Pour publier une série dans le référentiel, voir [Publier une série](#publier-serie).
 
 ### <a id="modifier-serie">Modifier une série</a>
 La modification d'une série est possible à partir de sa page de description.
 
-- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
 - Modifier les champs souhaités
-- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
+- Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
 Une fois la série modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir Publier une série), l'ancienne version reste à disposition des applications clientes.
 
@@ -258,7 +258,7 @@ Une fois la série modifiée, son statut de publication devient **« Provisoire,
 
 La publication d'une série est possible à partir de la page de description d'une série. Seul le propriétaire de la série, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une série.
 
-- Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
+- Cliquer en haut à droite sur <span style="color: brown">Publier</span> après avoir vérifié les informations saisies.
 
 Une série ne peut être publiée que si la famille à laquelle elle est rattachée est déjà publiée. Sinon, publier d'abord la famille. Pour publier cette famille, contacter l'administrateur RMéS.
 
@@ -282,33 +282,33 @@ Avant de créer une opération statistique, il est important de vérifier qu'ell
 
 La création d'une opération est possible à partir de la page d'accueil Opérations.
 
-- Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de l'opération s'affiche alors.
+- Cliquer sur le bouton <span style="color: brown">Nouveau</span> à gauche de la page. La page de création de l'opération s'affiche alors.
 
 Les champs disponibles sont les suivants :
  - L'opération doit être rattachée à sa **série mère**. Si la série souhaitée n'existe pas, demander sa création à l'administrateur RMéS.
  - L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires.
  - Le **Nom court** est un libellé alternatif. Il peut s'agit d‘un sigle ou d'un acronyme.
 
-- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span> 
+- Cliquer sur le bouton <span style="color: brown">Sauvegarder</span> 
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
 Penser à sauvegarder les informations saisies avant de changer d'écran.** La sauvegarde n'entraîne pas la publication de l'opération. Il est donc possible, si nécessaire, de créer l'opération en plusieurs étapes. Le statut de publication de l'opération passe alors en « Provisoire », jusqu'à sa publication. Pour publier une opération dans le référentiel, voir [Publier une opération](#publier-operation).
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Opérations.
+Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Opérations.
 
 ### <a id="modifier-operation">Modifier une opération</a>
 La modification d'une opération est possible à partir de sa page de description.
 
-- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
 - Modifier les champs souhaités
-- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
+- Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
 Une fois l'opération modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une opération](#publier-operation)), l'ancienne version reste à disposition des applications clientes.
 
 ### <a id="publier-operation">Publier une opération</a>
 La publication d'une opération est possible à partir de la page de description d'une opération. Seul le propriétaire de la série à laquelle appartient l'opération, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une opération.
 
-- Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
+- Cliquer en haut à droite sur <span style="color: brown">Publier</span> après avoir vérifié les informations saisies.
 
 Une opération ne peut être publiée que si la série à laquelle elle est rattachée est déjà publiée. Sinon, publier d'abord la série. 
 
@@ -329,7 +329,7 @@ La recherche se lance automatiquement à mesure que des caractères sont saisis 
 
 Cliquer ensuite sur l'indicateur souhaité pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-**(2)** La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités** dans les champs :
+**(2)** La recherche avancée est disponible en cliquant sur <span style="color: brown">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités** dans les champs :
 
 - **Libellé** : saisir le nom de l'indicateur ;
 - **Organisme responsable** : sélectionner l'organisme responsable dans le menu déroulant ;
@@ -347,7 +347,7 @@ Avant de créer un indicateur, il est important de vérifier qu'il n'a pas déj�
 
 La création d'un indicateur est possible à partir de la page d'accueil Indicateurs.
 
-- Cliquer sur le bouton <span style="color: blue">Nouveau</span> à gauche de la page. La page de création de l'indicateur s'affiche alors.
+- Cliquer sur le bouton <span style="color: brown">Nouveau</span> à gauche de la page. La page de création de l'indicateur s'affiche alors.
 
 Les champs disponibles sont les suivantes :
 - L'**Intitulé** est le libellé de l'indicateur. Les intitulés français et anglais sont obligatoires.
@@ -363,9 +363,9 @@ Les champs disponibles sont les suivantes :
 - Le champ **Produits de** permet de préciser les séries contribuant à la production de l'indicateur ;
 - Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Indicateurs.
+Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Indicateurs.
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
 
 Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de l'indicateur. Il est donc possible, si nécessaire, de créer l'indicateur en plusieurs étapes. Le statut de publication de l'indicateur passe alors en « Provisoire », jusqu'à sa publication.
 
@@ -374,16 +374,16 @@ Pour publier un indicateur dans le référentiel, voir [Publier un indicateur](#
 ## <a id="modifier-indicateur">Modifier un indicateur</a>
 La modification d'un indicateur est possible à partir de sa page de description.
 
-- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
 - Modifier les champs souhaités
-- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
+- Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
 Une fois l'indicateur modifié, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » s'il n'a jamais été publié, jusqu'à sa publication**. Tant qu'il n'est pas publié dans le référentiel de publication (voir [Publier un indicateur](#publier-indicateur)), l'ancienne version reste à disposition des applications clientes.
 
 ## <a id="publier-indicateur">Publier un indicateur</a>
 La publication d'un indicateur est possible à partir de sa page de description. Seul le propriétaire de l'indicateur, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier un indicateur.
 
-- Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
+- Cliquer en haut à droite sur <span style="color: brown">Publier</span> après avoir vérifié les informations saisies.
 
 L'indicateur ne peut être publié que par son propriétaire (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de l'indicateur) ou par l'unité Qualité par délégation.
 
@@ -392,11 +392,11 @@ L'indicateur ne peut être publié que par son propriétaire (i.e la personne d�
 
 La création d'une documentation Sims est possible à partir de son opération.
 
-- Cliquer sur le bouton <span style="color: blue">Créer le Sims</span> en haut de la page. La page de création de la documentation Sims s'affiche alors.
+- Cliquer sur le bouton <span style="color: brown">Créer le Sims</span> en haut de la page. La page de création de la documentation Sims s'affiche alors.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'opération.
+Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'opération.
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
 Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de la documentation. Il est donc possible, si nécessaire, de créer la documentation en plusieurs étapes. Le statut de publication de la documentation passe alors en « Provisoire », jusqu'à sa publication.
 
 Pour publier une documentation dans le référentiel, voir [Publier une documentation](#publier-sims).
@@ -405,16 +405,16 @@ Pour publier une documentation dans le référentiel, voir [Publier une document
 
 La modification d'une documentation est possible à partir de sa page de description.
 
-- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
 - Modifier les champs souhaités
-- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
+- Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
 Une fois la documentation modifiée, son statut de publication devient « Provisoire, déjà publiée » ou **« Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une documentation](#publier-sims)), l'ancienne version reste à disposition des applications clientes.
 
 ### <a id="publier-sims">Publier une documentation Sims</a>
 La publication d'une documentation est possible à partir de sa page de description. Seul le propriétaire de la documentation, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une documentation.
 
-- Cliquer en haut à droite sur <span style="color: blue">Publier</span> après avoir vérifié les informations saisies.
+- Cliquer en haut à droite sur <span style="color: brown">Publier</span> après avoir vérifié les informations saisies.
 
 Une documentation ne peut être publiée que si l'opération à laquelle elle est rattachée est déjà publiée. Sinon, publier d'abord l'opération. 
 
@@ -430,11 +430,11 @@ Ces documents et liens, une fois créés sont réutilisables autant que de besoi
 
 La page d'accueil Documents / Liens, accessible à partir de la barre horizontale de menu, propose une barre de recherche principale qui, donne accès à l'ensemble des Documents et Liens enregistrées dans l'application.
 
-Le bouton <span style="color: blue">Documents / Liens</span> permet de rechercher des documents et/ou des liens.
+Le bouton <span style="color: brown">Documents / Liens</span> permet de rechercher des documents et/ou des liens.
 
-Le bouton <span style="color: blue">Documents</span> permet filtrer la rechercher sur mes documents.
+Le bouton <span style="color: brown">Documents</span> permet filtrer la rechercher sur mes documents.
 
-Le bouton <span style="color: blue">Liens</span> permet de filtrer la recherche sur les liens.
+Le bouton <span style="color: brown">Liens</span> permet de filtrer la recherche sur les liens.
 
 La barre de recherche principale propose un moteur de recherche dans lequel on peut **saisir une suite de caractères correspondant à tout ou partie du libellé recherché**. La recherche se lance automatiquement à mesure que des caractères sont saisis dans la barre de recherche. Les résultats s'affichent sous le moteur de recherche, sur une ou plusieurs pages en fonction du nombre de documents ou liens trouvés.
 
@@ -446,7 +446,7 @@ Avant de créer un document, il est important de vérifier qu'il n'a pas déjà 
 
 La création d'un document est possible à partir de la page d'accueil Documents / Liens.
 
-- Cliquer sur le bouton <span style="color: blue">Nouveau Document</span> à gauche de la page. La page de création du document s'affiche alors.
+- Cliquer sur le bouton <span style="color: brown">Nouveau Document</span> à gauche de la page. La page de création du document s'affiche alors.
 
 Les champs disponibles sont les suivants :
 - L'**Intitulé** est le libellé du document. Les intitulés français et anglais sont obligatoires ;
@@ -455,24 +455,24 @@ Les champs disponibles sont les suivants :
 - Pour joindre un **Fichier**, se placer sur le champ ad hoc et faire un « glisser-déposer » ou cliquer dans le champ pour ajouter le document. Le document est obligatoire ;
 - La **Langue** correspond à la langue du contenu du document. La langue est obligatoire.
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
 Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du document. Il est publié en même temps que la publication de la documentation Sims.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents /  Liens.
+Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents /  Liens.
 
 ### <a id="modifier-document">Modifier un document</a>
 La modification d'un document est possible à partir de sa page de description.
 
-- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
 - Modifier les champs souhaités
-- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
+- Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
 ### <a id="creer-lien">Créer un lien</a>
 Avant de créer un lien, il est important de vérifier qu'il n'a pas déjà été renseigné en utilisant les fonctionnalités de recherche.
 
 La création d'un lien est possible à partir du menu Documents / Liens.
 
-- Cliquer sur le bouton <span style="color: blue">Nouveau Lien</span> à gauche de la page. La page de création du lien s'affiche alors.
+- Cliquer sur le bouton <span style="color: brown">Nouveau Lien</span> à gauche de la page. La page de création du lien s'affiche alors.
 
 Les champs disponibles sont les suivants :
 - L' **Intitulé** est le libellé du lien. Les intitulés français et anglais sont obligatoires ;
@@ -480,14 +480,14 @@ Les champs disponibles sont les suivants :
 - Le **Lien** correspond à l'URL de la page sur laquelle renvoyer. Le lien est obligatoire ;
 - La **Langue** correspond à la langue du contenu de la page sur laquelle on renvoie. La langue est obligatoire.
 
-Le bouton <span style="color: blue">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
 Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du lien. Il est publié en même temps que la publication de la documentation Sims.
 
-Le bouton <span style="color: blue">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents / Liens.
+Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents / Liens.
 
 ### <a id="modifier-lien">Modifier un lien</a>
 La modification d'un lien est possible à partir de sa page de description.
 
-- Cliquer en haut à droite sur le bouton <span style="color: blue">Modifier</span>
+- Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
 - Modifier les champs souhaités
-- Cliquer sur le bouton <span style="color: blue">Sauvegarder</span>
+- Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
