@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
-const store = mockStore({ app: { auth: { user: { roles: [] } } } });
+const store = mockStore({ users: { results: {stamp: 'stamp'}}, app: { auth: { user: { roles: [] } } } });
 
 describe('DocumentHome', () => {
 	it('should display the PageTitle component', () => {
