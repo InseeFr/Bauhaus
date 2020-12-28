@@ -102,9 +102,9 @@ Le Sims permet de décrire les opérations statistiques et indicateurs en respec
 
 ## <a id="naviguer">Naviguer dans l'application</a>
 
-Pour atteindre la page d'accueil du module de gestion des opérations statistiques, cliquer sur le pavé <span style="color: blue">Opérations</span> de la page d'accueil. La navigation se fait via la barre horizontale de menu en haut de la page.
+Pour atteindre la page d'accueil du module de gestion des opérations statistiques, cliquer sur le pavé <span style="color: brown">Opérations</span> de la page d'accueil. La navigation se fait via la barre horizontale de menu en haut de la page.
 
-Un bouton <span style="color: blue">Voir l'arborescence</span> disponible via les menus <span style="color: blue">Familles</span>, <span style="color: blue">Séries</span> et <span style="color: blue">Opérations</span> permet également d'accéder à l'arborescence de l'ensemble des Familles/Séries/Opérations.
+Un bouton <span style="color: brown">Voir l'arborescence</span> disponible via les menus <span style="color: brown">Familles</span>, <span style="color: brown">Séries</span> et <span style="color: brown">Opérations</span> permet également d'accéder à l'arborescence de l'ensemble des Familles/Séries/Opérations.
 Dans cette arborescence, les boutons + et - permettent de déplier ou replier l'arborescence, de la famille à l'opération concernée. Un clic sur l'objet famille, série ou opération permet d'accéder à la page de description de cet objet.
 
 Afin de garantir l'intégrité et la qualité de la base, les fonctionnalités de création et modification des familles, de création des séries et indicateurs ainsi que l'identification des propriétaires sont réservés à l'unité Qualité. Toute unité en ayant l'utilité peut demander la création d'une famille, d'une série ou d'un indicateur. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, le propriétaire ou par délégation l'unité Qualité sont habilités à publier.
@@ -139,7 +139,7 @@ La page d'accueil Familles, accessible à partir de la barre horizontale de menu
 
 Cliquer ensuite sur la famille souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-**(2)** La recherche avancée est disponible en cliquant sur <span style="color: blue">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités dans les champs** :
+**(2)** La recherche avancée est disponible en cliquant sur <span style="color: brown">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités dans les champs** :
 - **Intitulé** : saisir le nom du concept ;
 - **Thème** : sélectionner le thème.
 
