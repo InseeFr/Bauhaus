@@ -136,14 +136,14 @@ export default function SimsVisualisation({
 	}, [dispatch, history, sims]);
 
 	const CREATOR = sims.idIndicator
-		? Auth.INDICATOR_CONTRIBUTOR
-		: Auth.SERIES_CONTRIBUTOR;
+		? [Auth.INDICATOR_CONTRIBUTOR, checkStamp]
+		: [Auth.SERIES_CONTRIBUTOR, checkStamp];
 	return (
 		<>
 			<ActionToolbar>
 				<ReturnButton action={() => goBack(getParentUri(sims))} />
 				<Auth.AuthGuard
-					roles={[Auth.ADMIN, [CREATOR, checkStamp]]}
+					roles={[Auth.ADMIN]}
 					complementaryCheck={shouldDisplayDuplicateButtonFlag}
 				>
 					<DuplicateButton
@@ -156,20 +156,17 @@ export default function SimsVisualisation({
 						action={handleDelete}
 					/>
 				</Auth.AuthGuard>
-				<Auth.AuthGuard roles={[Auth.ADMIN, [CREATOR, checkStamp]]}>
+				<Auth.AuthGuard
+					roles={[
+						Auth.ADMIN,
+						CREATOR
+					]}
+				>
 					<ValidationButton
 						object={sims}
 						callback={(object) => publish(object)}
 						disabled={publicationDisabled}
 					/>
-				</Auth.AuthGuard>
-				<Auth.AuthGuard
-					roles={[
-						Auth.ADMIN,
-						Auth.CNIS,
-						[CREATOR, checkStamp]
-					]}
-				>
 					<Button
 						action={`/operations/sims/${sims.id}/modify`}
 						label={

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { getPermission } from '../selectors';
 import { connect } from 'react-redux';
 import { UsersAction } from '../../stores';
@@ -5,10 +6,14 @@ import { UsersAction } from '../../stores';
 export const mapStateToProps = (state) => {
 	return {
 		userRoles: getPermission(state).roles,
-		userStamp: UsersAction.getStamp(state)
+		userStamp: UsersAction.getStamp(state),
+		isLoading: UsersAction.isLoading(state)
 	};
 };
 
+const mapDispatchToProps = {
+	loadUserStamp: UsersAction.loadUserStamp
+}
 /**
  * <AuthDumb
  * 	roles: ['ADMIN', ['CONTRIBUTOR', stamp => isUserStampValid()]]>
@@ -22,13 +27,19 @@ export function AuthDumb({
 	roles,
 	fallback = null,
 	complementaryCheck = true,
+	loadUserStamp,
+	isLoading
 }) {
+	useEffect(() => {
+		if(!userStamp && !isLoading){
+			loadUserStamp(userStamp);
+		}
+	}, [userStamp, isLoading])
 	const isAuthorized = !!roles.find((role) => {
 		if(Array.isArray(role)){
 			const [r, check] = role
 			return userRoles.includes(r) && check(userStamp);
 		}
-
 		return userRoles.includes(role)
 	});
 	if (!isAuthorized || !complementaryCheck) {
@@ -36,4 +47,4 @@ export function AuthDumb({
 	}
 	return children;
 }
-export default connect(mapStateToProps)(AuthDumb);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthDumb);

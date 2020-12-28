@@ -66,7 +66,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 						</>
 					)}
 					{!attr.idSims && (
-						<Auth.AuthGuard roles={[Auth.ADMIN, Auth.INDICATOR_CONTRIBUTOR]}>
+						<Auth.AuthGuard roles={[Auth.ADMIN]}>
 							<Button
 								action={`/operations/indicator/${attr.id}/sims/create`}
 								label={D.btnSimsCreate}
@@ -81,8 +81,6 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 							}
 							disabled={publicationDisabled}
 						/>
-					</Auth.AuthGuard>
-					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.INDICATOR_CONTRIBUTOR]}>
 						<Button
 							action={`/operations/indicator/${attr.id}/modify`}
 							label={D.btnUpdate}

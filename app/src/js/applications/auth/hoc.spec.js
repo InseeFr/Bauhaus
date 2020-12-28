@@ -1,4 +1,5 @@
 import { mapStateToProps } from './hoc';
+
 describe('mapStateToProps', () => {
 	it('should return the auth object with a role', () => {
 		const input = {

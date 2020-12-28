@@ -21,14 +21,14 @@ function OperationsObjectHome({
 	return (
 		<div className="container">
 			<div className="row">
-				<Auth.AuthGuard roles={roles}>
 					<VerticalMenu>
-						<NewButton action={createURL} wrapper={false} />
+						<Auth.AuthGuard roles={roles}>
+							<NewButton action={createURL} wrapper={false} />
+						</Auth.AuthGuard>
 						<Button wrapper={false} action="/operations/tree">
 							{D.btnTree}
 						</Button>
 					</VerticalMenu>
-				</Auth.AuthGuard>
 				<div className="col-md-8 text-center pull-right operations-list">
 					<PageTitle title={title} col={12} offset={0} />
 					<SearchableList
