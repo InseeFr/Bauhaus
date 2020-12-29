@@ -7,12 +7,14 @@ import {
 	Stores,
 	PageTitleBlock,
 	DateUtils,
+	PublicationFemale
 } from 'bauhaus-utilities';
 import Components from './components';
 import { D1, D2 } from 'js/i18n';
 import {
 	StructureAPI,
 	StructureVisualizationControl,
+	StructuresUtils
 } from 'bauhaus-structures';
 import D from 'bauhaus-structures/src/i18n/build-dictionary';
 
@@ -47,7 +49,7 @@ export const StructureView = ({secondLang, structure}) => {
 							</li>
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
-								{structure.validationState}
+								<PublicationFemale object={structure} />
 							</li>
 							<li>
 								{D.creator} :{' '}
@@ -59,7 +61,7 @@ export const StructureView = ({secondLang, structure}) => {
 							</li>
 							<li>
 								{D.disseminationStatusTitle} :{' '}
-								{structure.disseminationStatus}
+								{StructuresUtils.getDisseminationStatus(structure.disseminationStatus)}
 							</li>
 						</ul>
 					}

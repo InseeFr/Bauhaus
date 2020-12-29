@@ -13,7 +13,7 @@ function IndicatorsHome({ indicators }) {
 	return (
 		<div className="container">
 			<div className="row">
-				<Auth.AuthGuard roles={[Auth.ADMIN, Auth.INDICATOR_CONTRIBUTOR]}>
+				<Auth.AuthGuard roles={[Auth.ADMIN]}>
 					<VerticalMenu>
 						<NewButton action="/operations/indicator/create" wrapper={false} />
 					</VerticalMenu>

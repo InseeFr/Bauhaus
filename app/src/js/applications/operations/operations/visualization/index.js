@@ -87,7 +87,7 @@ class OperationVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth.AuthGuard>
 					<Auth.AuthGuard
-						roles={[Auth.ADMIN, Auth.CNIS, Auth.SERIES_CONTRIBUTOR]}
+						roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}
 					>
 						<Button
 							action={`/operations/operation/${operation.id}/modify`}

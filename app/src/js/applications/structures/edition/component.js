@@ -17,6 +17,7 @@ const defaultDSD = {
 	labelLg2: '',
 	descriptionLg1: '',
 	descriptionLg2: '',
+	contributor: 'DG75-H250',
 	componentDefinitions: [],
 };
 
@@ -56,7 +57,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 		descriptionLg2,
 		componentDefinitions = [],
 		creator,
-		contributor = 'DG75-H250',
+		contributor,
 		disseminationStatus
 	} = structure;
 
@@ -174,7 +175,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 				<Select
 					className="form-control"
 					placeholder={D1.disseminationStatusPlaceholder}
-					value={disseminationStatusListOptions.find(value => value === disseminationStatus)}
+					value={disseminationStatusListOptions.find(({ value }) => value === disseminationStatus)}
 					options={disseminationStatusListOptions}
 					onChange={(value) => onChange('disseminationStatus', value)}
 					searchable={true}

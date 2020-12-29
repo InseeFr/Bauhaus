@@ -18,9 +18,12 @@ export default {
 			});
 		},
 	],
-
-	publishSims: (series) => [
-		`metadataReport/validate/${series.id}`,
+	deleteSims: (sims) => [
+		`metadataReport/delete/${sims.id}`,
+		(res) => res.text(),
+	],
+	publishSims: (sims) => [
+		`metadataReport/validate/${sims.id}`,
 		{ method: 'PUT' },
 		(res) => res.text(),
 	],

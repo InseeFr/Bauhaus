@@ -98,10 +98,6 @@ class MSDContainer extends Component {
 			this.props.loadGeographies();
 		}
 
-		if(!this.props.userStampLoaded){
-			this.props.loadUserStamp();
-		}
-		
 		if(this.props.mode === CREATE){
 			api.getDefaultSims().then(response => {
 				this.setState({ defaultSimsRubrics: response})
@@ -283,7 +279,6 @@ export const mapStateToProps = (state, ownProps) => {
 		documentStoresStatus: getOperationsDocumentsStatus(state),
 		documentStores: getOperationsDocuments(state, ownProps.objectType),
 		geographiesLoaded: Stores.Geographies.isLoaded(state),
-		userStampLoaded: Stores.UsersAction.isLoaded(state),
 		langs: select.getLangs(state),
 		secondLang: Stores.SecondLang.getSecondLang(state),
 		metadataStructure,
@@ -308,7 +303,6 @@ const mapDispatchToProps = {
 	publishSims,
 	loadDocuments,
 	loadGeographies: Stores.Geographies.loadGeographies,
-	loadUserStamp: Stores.UsersAction.loadUserStamp,
 };
 
 export default withRouter(

@@ -71,3 +71,6 @@ export const getStamp = (state) => state.users?.results?.stamp;
 export const isLoaded = (state) => {
 	return state.users === {}
 }
+export const isLoading = (state) => {
+	return state.users.status === LOADING;
+}

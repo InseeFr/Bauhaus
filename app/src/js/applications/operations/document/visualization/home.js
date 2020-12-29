@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { isDocument, isLink } from '../utils';
 import { API } from 'bauhaus-utilities';
+import RelationsView from '../../shared/relations';
 /**
  * @typedef OperationsDocumentationVisualizationProps
  * @property {any} attr
@@ -102,6 +103,14 @@ function OperationsDocumentationVisualization({
 					allowEmpty={true}
 				/>
 			</div>
+			<RelationsView
+				children={attr.sims}
+				childrenTitle={'linkedSims'}
+				childrenPath="sims"
+				title={'linksTitle'}
+				langs={{ lg1, lg2 }}
+				secondLang={secondLang}
+			/>
 		</React.Fragment>
 	);
 }

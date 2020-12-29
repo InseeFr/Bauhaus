@@ -2,6 +2,9 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
+import api from 'js/remote-api/operations-api';
+import { useHistory } from "react-router-dom";
+import { useDispatch} from 'react-redux';
 import {
 	Button,
 	DuplicateButton,
@@ -11,15 +14,17 @@ import {
 	ReturnButton,
 	Panel,
 	ExportButton,
+	DeleteButton
 } from '@inseefr/wilco';
 
-import { PublicationFemale } from 'js/applications/operations/shared/status';
+import * as A from 'js/actions/constants';
 
 import {
 	Auth,
 	HTMLUtils,
 	ValidationButton,
 	CheckSecondLang,
+	PublicationFemale
 } from 'bauhaus-utilities';
 import {
 	hasLabelLg2,
@@ -116,15 +121,29 @@ export default function SimsVisualisation({
 
 	const checkStamp = stamp => owners.includes(stamp);
 
+	/**
+	 * Handle the deletion of a SIMS.
+	 */
+	const history = useHistory();
+	const dispatch = useDispatch();
+	const handleDelete = useCallback(() => {
+		api.deleteSims(sims)
+			.finally(async () => {
+				await dispatch({ type: A.DELETE_SIMS_SUCCESS })
+				history.push(`/operations/series/${sims.idSeries}`)
+			})
+
+	}, [dispatch, history, sims]);
+
 	const CREATOR = sims.idIndicator
-		? Auth.INDICATOR_CONTRIBUTOR
-		: Auth.SERIES_CONTRIBUTOR;
+		? [Auth.INDICATOR_CONTRIBUTOR, checkStamp]
+		: [Auth.SERIES_CONTRIBUTOR, checkStamp];
 	return (
 		<>
 			<ActionToolbar>
 				<ReturnButton action={() => goBack(getParentUri(sims))} />
 				<Auth.AuthGuard
-					roles={[Auth.ADMIN, [CREATOR, checkStamp]]}
+					roles={[Auth.ADMIN]}
 					complementaryCheck={shouldDisplayDuplicateButtonFlag}
 				>
 					<DuplicateButton
@@ -132,20 +151,22 @@ export default function SimsVisualisation({
 						col={3}
 					/>
 				</Auth.AuthGuard>
-				<Auth.AuthGuard roles={[Auth.ADMIN, [CREATOR, checkStamp]]}>
-					<ValidationButton
-						object={sims}
-						callback={(object) => publish(object)}
-						disabled={publicationDisabled}
+				<Auth.AuthGuard roles={[Auth.ADMIN]} complementaryCheck={!!sims.idSeries}>
+					<DeleteButton
+						action={handleDelete}
 					/>
 				</Auth.AuthGuard>
 				<Auth.AuthGuard
 					roles={[
 						Auth.ADMIN,
-						Auth.CNIS,
-						[CREATOR, checkStamp]
+						CREATOR
 					]}
 				>
+					<ValidationButton
+						object={sims}
+						callback={(object) => publish(object)}
+						disabled={publicationDisabled}
+					/>
 					<Button
 						action={`/operations/sims/${sims.id}/modify`}
 						label={

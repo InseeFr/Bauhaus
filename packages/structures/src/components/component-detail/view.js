@@ -7,11 +7,11 @@ import {
 	DeleteButton,
 } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
-import { typeUriToLabel, getAllAttachment } from '../../utils';
+import { typeUriToLabel, getAllAttachment, getDisseminationStatus } from '../../utils';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
-import { HTMLUtils, ValidationButton, DateUtils } from 'bauhaus-utilities';
+import { HTMLUtils, ValidationButton, DateUtils, PublicationMale } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 
 export const canBeDeleted = (component) => {
@@ -79,7 +79,7 @@ export const ComponentDetailView = ({
 							</li>
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
-								{component.validationState}
+								<PublicationMale object={component} />
 							</li>
 							<li>
 								{D.creator} :{' '}
@@ -91,7 +91,7 @@ export const ComponentDetailView = ({
 							</li>
 							<li>
 								{D.disseminationStatusTitle} :{' '}
-								{component.disseminationStatus}
+								{getDisseminationStatus(component.disseminationStatus)}
 							</li>
 						</ul>
 					}

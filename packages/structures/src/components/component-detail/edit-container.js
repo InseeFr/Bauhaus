@@ -19,6 +19,7 @@ const ViewContainer = props => {
 
 	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
 	const disseminationStatusListOptions = useSelector(state => Stores.DisseminationStatus.getDisseminationStatusListOptions(state));
+
 	useEffect(() => {
 		if(disseminationStatusListOptions.length === 0){
 			props.loadDisseminationStatusList();
@@ -49,6 +50,7 @@ const ViewContainer = props => {
 					!component.id
 				);
 			}).catch(error => {
+				setComponent(component);
 				setServerSideError(D['errors_' + JSON.parse(error).code])
 			}).finally(() => setSaving(false))
 		},

@@ -1,66 +1,59 @@
+import React from 'react';
 import { AuthDumb, mapStateToProps } from './auth';
+import { LOADING } from '../../stores/constants';
+import { render } from '@testing-library/react';
 
 describe('AuthDumb', () => {
 	it('should return the fallback if the user is not authorized', () => {
-		expect(
-			AuthDumb({
-				children: 'children',
-				fallback: 'fallback',
-				userRoles: ['roles'],
-				roles: ['roles1'],
-			})
-		).toEqual('fallback');
+		const { container } = render(
+			<AuthDumb
+				children={'children'}
+				fallback={'fallback'}
+				userRoles={['roles']}
+				roles={['roles1']}
+				loadUserStamp={() => {}}
+			>Children</AuthDumb>);
+		expect(container.innerHTML).toEqual('fallback');
 	});
 	it('should return the children if the user is authorized', () => {
-		expect(
-			AuthDumb({
-				children: 'children',
-				fallback: 'fallback',
-				userRoles: ['roles'],
-				roles: ['roles'],
-			})
-		).toEqual('children');
+		const { container } = render(
+			<AuthDumb
+				children={'children'}
+				fallback={'fallback'}
+				userRoles={['roles']}
+				roles={['roles']}
+				loadUserStamp={() => {}}
+			>Children</AuthDumb>);
+		expect(container.innerHTML).toEqual('Children');
 	});
 
 	it('should return the children if the user is authorized via a complementary check', () => {
-		expect(
-			AuthDumb({
-				children: 'children',
-				fallback: 'fallback',
-				userRoles: ['roles'],
-				roles: [['roles', () => true]],
-			})
-		).toEqual('children');
+		const { container } = render(
+			<AuthDumb
+				children={'children'}
+				fallback={'fallback'}
+				userRoles={['roles']}
+				roles={[['roles', () => true]]}
+				loadUserStamp={() => {}}
+			>Children</AuthDumb>);
+		expect(container.innerHTML).toEqual('Children');
 	});
 
 	it('should return the fallback if the user is not authorized via a complementary check', () => {
-		expect(
-			AuthDumb({
-				children: 'children',
-				fallback: 'fallback',
-				userRoles: ['roles'],
-				roles: [['roles', () => false]],
-			})
-		).toEqual('fallback');
+		const { container } = render(
+			<AuthDumb
+				children={'children'}
+				fallback={'fallback'}
+				userRoles={['roles']}
+				roles={[['roles', () => false]]}
+				loadUserStamp={() => {}}
+			>Children</AuthDumb>);
+		expect(container.innerHTML).toEqual('fallback');
 	});
 });
 
 describe('mapStateToProps', () => {
-	it('should return the user roles', () => {
-		const state = {
-			app: {
-				auth: {
-					user: {
-						roles: 'roles',
-					},
-				},
-			},
-		};
-		expect(mapStateToProps(state)).toEqual({
-			userRoles: 'roles',
-		});
-	});
-	it('should return the user stamp', () => {
+	it('should return the user object', () => {
 		const state = {
 			app: {
 				auth: {
@@ -70,6 +63,7 @@ describe('mapStateToProps', () => {
 				}
 			},
 			users: {
+				status: LOADING,
 				results: {
 					stamp: 'stamp'
 				}
@@ -78,6 +72,7 @@ describe('mapStateToProps', () => {
 		expect(mapStateToProps(state)).toEqual({
 			userRoles: 'roles',
 			userStamp: 'stamp',
+			isLoading: true,
 		});
 	});
 });

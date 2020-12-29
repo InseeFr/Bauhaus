@@ -42,6 +42,10 @@ const dictionary = {
 		fr: 'Séries filles :',
 		en: 'Daughter series:',
 	},
+	linkedSims: {
+		fr: 'Sims associés :',
+		en: 'Linked Sims:',
+	},
 	childrenOperations: {
 		fr: 'Opérations filles :',
 		en: 'Daughter operations:',
@@ -194,30 +198,6 @@ const dictionary = {
 	simsStatus: {
 		fr: 'État du SIMS',
 		en: 'State of the SIMS',
-	},
-	statusValidatedM: {
-		fr: 'Publié',
-		en: 'Published',
-	},
-	statusValidatedF: {
-		fr: 'Publiée',
-		en: 'Published',
-	},
-	statusModifiedM: {
-		fr: 'Modifié',
-		en: 'Modified',
-	},
-	statusModifiedF: {
-		fr: 'Modifiée',
-		en: 'Modified',
-	},
-	statusUnpublishedM: {
-		fr: 'Non Publié',
-		en: 'Published',
-	},
-	statusUnpublishedF: {
-		fr: 'Non Publiée',
-		en: 'Published',
 	},
 	...documentsD,
 	...validationD,

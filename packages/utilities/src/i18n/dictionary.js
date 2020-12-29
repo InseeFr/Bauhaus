@@ -27,6 +27,31 @@ const dictionary = {
 	no: {
 		fr: 'Non',
 		en: 'No',
-	}
+	},
+	statusValidatedM: {
+		fr: 'Publié',
+		en: 'Published',
+	},
+	statusValidatedF: {
+		fr: 'Publiée',
+		en: 'Published',
+	},
+	statusModifiedM: {
+		fr: 'Provisoire, déjà publié',
+		en: 'Temporary, already published',
+	},
+	statusModifiedF: {
+		fr: 'Provisoire, déjà publiée',
+		en: 'Temporary, already published',
+	},
+	statusUnpublishedM: {
+		fr: 'Provisoire, jamais publiée',
+		en: 'Temporary, never published',
+	},
+	statusUnpublishedF: {
+		fr: 'Provisoire, jamais publiée',
+		en: 'Temporary, never published',
+	},
+
 };
 export default dictionary;
