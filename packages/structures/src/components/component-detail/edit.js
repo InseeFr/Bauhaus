@@ -7,7 +7,7 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { EditorMarkdown } from 'bauhaus-utilities';
+import { EditorMarkdown, Stores } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
@@ -17,10 +17,11 @@ import { default as ReactSelect } from 'react-select';
 import "./edit.scss";
 import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
 
+
 const defaultComponent = {
 	contributor: 'DG75-H250'
 }
-export const ComponentDetailEdit = ({
+const DumbComponentDetailEdit = ({
 	component: initialComponent,
 	concepts,
 	codesLists,
@@ -35,14 +36,11 @@ export const ComponentDetailEdit = ({
 	const [component, setComponent] = useState(defaultComponent);
 
 	useEffect(() => {
-		setComponent({ ...defaultComponent, ...initialComponent });
-	}, [initialComponent]);
-
-	useEffect(() => {
 		if(!component.type && type){
-			setComponent({ type });
+			setComponent({ ...defaultComponent, ...initialComponent, type });
 		}
-	}, [type, component])
+	}, [type, component, initialComponent]);
+
 	const handleChange = useCallback(
 		(e) => {
 			const { name, value } = e.target;
@@ -260,7 +258,7 @@ export const ComponentDetailEdit = ({
 	);
 };
 
-ComponentDetailEdit.propTypes = {
+DumbComponentDetailEdit.propTypes = {
 	component: PropTypes.object,
 	concepts: PropTypes.array,
 	codesLists: PropTypes.array,
@@ -272,10 +270,12 @@ ComponentDetailEdit.propTypes = {
 	structureComponents: PropTypes.array,
 };
 
-ComponentDetailEdit.defaultProps = {
+DumbComponentDetailEdit.defaultProps = {
 	structureComponents: [],
 	concepts: [],
 	codesLists: [],
 	disseminationStatusListOptions: [],
 	stampListOptions: []
 };
+
+export const ComponentDetailEdit = Stores.DisseminationStatus.withDisseminationStatusListOptions(DumbComponentDetailEdit);

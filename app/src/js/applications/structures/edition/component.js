@@ -185,6 +185,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 				creation={creation}
 				componentDefinitions={componentDefinitions}
 				onChange={(components) => onChange('componentDefinitions', components)}
+				structure={structure}
 			/>
 		</>
 	);

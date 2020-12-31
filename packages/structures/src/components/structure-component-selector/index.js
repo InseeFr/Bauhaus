@@ -21,7 +21,8 @@ export const StructureComponentsSelector = ({
 	codesLists,
 	readOnly,
 	type,
-	handleCodesListDetail
+	handleCodesListDetail,
+	structure
 }) => {
 
 	const removeClickHandler = useCallback(
@@ -114,9 +115,11 @@ export const StructureComponentsSelector = ({
 
 	const handleCreateComponent = useCallback((e) => {
 		e.stopPropagation();
-		setSelectedComponent({});
+		setSelectedComponent({
+			disseminationStatus: structure.disseminationStatus
+		});
 		setOpenPanel(true);
-	}, []);
+	}, [structure]);
 
 	const componentsWithActions = components
 		.sort((cd1, cd2) => {
@@ -230,7 +233,7 @@ export const StructureComponentsSelector = ({
 				search={false}
 				pagination={false}
 			/>
-			<SlidingPanel type={'right'} isOpen={openPanel} size={60}>
+			<SlidingPanel type={'right'} isOpen={openPanel} size={60} backdropClicked={() => setOpenPanel(false)}>
 				<ComponentDetail
 					component={selectedComponent}
 					codesLists={codesLists}

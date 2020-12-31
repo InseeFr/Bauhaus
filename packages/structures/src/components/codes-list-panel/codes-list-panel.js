@@ -19,7 +19,7 @@ export const CodesListPanel = ({ isOpen, handleBack, codesList }) => {
 		}
 	}, [codesList, isOpen])
 	return (
-		<SlidingPanel panelClassName="codes-list-panel" type={'right'} isOpen={isOpen} size={30}>
+		<SlidingPanel panelClassName="codes-list-panel" type={'right'} isOpen={isOpen} size={30} >
 
 			<ActionToolbar>
 				<CancelButton action={handleBack} col={12} />
