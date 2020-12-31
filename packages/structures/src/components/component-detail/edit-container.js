@@ -5,7 +5,7 @@ import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
 import { ConceptsAPI, Stores } from 'bauhaus-utilities';
 import { useParams } from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import D from '../../i18n/build-dictionary';
 
 

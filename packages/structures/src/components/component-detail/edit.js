@@ -36,6 +36,10 @@ const DumbComponentDetailEdit = ({
 	const [component, setComponent] = useState(defaultComponent);
 
 	useEffect(() => {
+		setComponent({ ...initialComponent, ...defaultComponent });
+	}, [initialComponent]);
+
+	useEffect(() => {
 		if(!component.type && type){
 			setComponent({ ...defaultComponent, ...initialComponent, type });
 		}
