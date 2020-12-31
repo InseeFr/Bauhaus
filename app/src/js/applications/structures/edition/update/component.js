@@ -36,7 +36,9 @@ const Update = () => {
 					componentDefinitions: structure.componentDefinitions.map(cd => {
 						return {
 							component: cd.component,
-							order: cd.order
+							order: cd.order,
+							required: cd.required,
+							attachment: cd.attachment
 						}
 					})
 				}}
