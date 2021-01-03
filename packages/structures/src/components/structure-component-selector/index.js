@@ -171,7 +171,7 @@ export const StructureComponentsSelector = ({
 							</button>
 						)}
 						{
-							component.codeList &&
+							!readOnly && component.codeList &&
 							<button
 								className="codes-list-detail"
 								onClick={() => {
