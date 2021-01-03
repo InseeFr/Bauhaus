@@ -63,6 +63,7 @@ class EditorMarkdown extends Component {
 				editorClassName="home-editor"
 				onEditorStateChange={this.handleChange}
 				onBlur={this.handleLeave}
+				stripPastedStyles={true}
 				localization={{
 					locale: getLang(),
 				}}
