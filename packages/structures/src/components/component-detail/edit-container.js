@@ -5,10 +5,11 @@ import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
 import { ConceptsAPI, Stores } from 'bauhaus-utilities';
 import { useParams } from 'react-router-dom';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import D from '../../i18n/build-dictionary';
 
-const ViewContainer = props => {
+
+const EditContainer = props => {
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
@@ -18,13 +19,7 @@ const ViewContainer = props => {
 	const [serverSideError, setServerSideError] = useState('');
 
 	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
-	const disseminationStatusListOptions = useSelector(state => Stores.DisseminationStatus.getDisseminationStatusListOptions(state));
 
-	useEffect(() => {
-		if(disseminationStatusListOptions.length === 0){
-			props.loadDisseminationStatusList();
-		}
-	}, [disseminationStatusListOptions.length, props.loadDisseminationStatusList]);
 
 	const handleBack = useCallback(() => {
 		goBack(props, '/structures/components')();
@@ -91,13 +86,10 @@ const ViewContainer = props => {
 			handleBack={handleBack}
 			handleSave={handleSave}
 			mutualized={true}
-			disseminationStatusListOptions={disseminationStatusListOptions}
 			stampListOptions={stampListOptions}
 			serverSideError={serverSideError}
 		/>
 	);
 };
 
-export default connect(undefined, {
-	loadDisseminationStatusList: Stores.DisseminationStatus.loadDisseminationStatusList
-})(ViewContainer);
+export default EditContainer;

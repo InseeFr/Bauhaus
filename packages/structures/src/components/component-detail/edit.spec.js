@@ -1,8 +1,18 @@
 import '@testing-library/jest-dom';
 import React from 'react';
 import { render, fireEvent, getByText } from '@testing-library/react';
-
+import { Provider } from 'react-redux';
 import { ComponentDetailEdit } from './edit';
+import configureStore from 'redux-mock-store';
+
+const mockStore = configureStore([]);
+
+const store = mockStore({
+	app: { secondLang: false },
+	disseminationStatus: {
+		results: [{url:'value', label:'label'}]
+	}
+});
 
 describe('<ComponentDetailEdit />', () => {
 	const component = {
@@ -20,10 +30,12 @@ describe('<ComponentDetailEdit />', () => {
 	it('should handleBack when clicking on the back button', () => {
 		const handleBack = jest.fn();
 		const { container } = render(
-			<ComponentDetailEdit
-				handleBack={handleBack}
-				component={component}
-			></ComponentDetailEdit>
+			<Provider store={store}>
+				<ComponentDetailEdit
+					handleBack={handleBack}
+					component={component}
+				></ComponentDetailEdit>
+			</Provider>
 		);
 		fireEvent.click(getByText(container, 'Cancel'));
 		expect(handleBack).toHaveBeenCalled();
@@ -32,11 +44,13 @@ describe('<ComponentDetailEdit />', () => {
 	it('should handleSave when clicking on the save button', () => {
 		const handleSave = jest.fn();
 		const { container } = render(
-			<ComponentDetailEdit
-				handleBack={() => {}}
-				handleSave={handleSave}
-				component={component}
-			></ComponentDetailEdit>
+			<Provider store={store}>
+				<ComponentDetailEdit
+					handleBack={() => {}}
+					handleSave={handleSave}
+					component={component}
+				></ComponentDetailEdit>
+			</Provider>
 		);
 		fireEvent.change(container.querySelector('#labelLg1'), {
 			target: { value: 'a', name: 'labelLg1' },
@@ -52,11 +66,13 @@ describe('<ComponentDetailEdit />', () => {
 	it('should disabled the save button if the component is invalid', () => {
 		const handleSave = jest.fn();
 		const { container } = render(
-			<ComponentDetailEdit
-				handleBack={() => {}}
-				handleSave={handleSave}
-				component={component}
-			></ComponentDetailEdit>
+			<Provider store={store}>
+				<ComponentDetailEdit
+					handleBack={() => {}}
+					handleSave={handleSave}
+					component={component}
+				></ComponentDetailEdit>
+			</Provider>
 		);
 		expect(getByText(container, 'Save')).toBeEnabled();
 		fireEvent.change(container.querySelector('#labelLg1'), {
@@ -68,11 +84,13 @@ describe('<ComponentDetailEdit />', () => {
 	it('should display the error the save button if the component is invalid', () => {
 		const handleSave = jest.fn();
 		const { container } = render(
-			<ComponentDetailEdit
-				handleBack={() => {}}
-				handleSave={handleSave}
-				component={component}
-			></ComponentDetailEdit>
+			<Provider store={store}>
+				<ComponentDetailEdit
+					handleBack={() => {}}
+					handleSave={handleSave}
+					component={component}
+				></ComponentDetailEdit>
+			</Provider>
 		);
 		expect(container.querySelector('.alert-danger')).toBeNull();
 		fireEvent.change(container.querySelector('#labelLg1'), {
@@ -85,12 +103,14 @@ describe('<ComponentDetailEdit />', () => {
 	it('should display the labelLg2', () => {
 		const handleSave = jest.fn();
 		const { container } = render(
-			<ComponentDetailEdit
-				handleBack={() => {}}
-				handleSave={handleSave}
-				component={component}
-				secondLang={true}
-			></ComponentDetailEdit>
+			<Provider store={store}>
+				<ComponentDetailEdit
+					handleBack={() => {}}
+					handleSave={handleSave}
+					component={component}
+					secondLang={true}
+				></ComponentDetailEdit>
+			</Provider>
 		);
 		let labelLg2 = container.querySelector('#labelLg2');
 		expect(labelLg2).not.toBeNull();
@@ -99,12 +119,14 @@ describe('<ComponentDetailEdit />', () => {
 	it('should display the identifiant', () => {
 		const handleSave = jest.fn();
 		const { container } = render(
-			<ComponentDetailEdit
-				handleBack={() => {}}
-				handleSave={handleSave}
-				component={component}
-				secondLang={true}
-			></ComponentDetailEdit>
+			<Provider store={store}>
+				<ComponentDetailEdit
+					handleBack={() => {}}
+					handleSave={handleSave}
+					component={component}
+					secondLang={true}
+				></ComponentDetailEdit>
+			</Provider>
 		);
 		const identifiant = container.querySelector('#identifiant');
 		expect(identifiant.value).toEqual(component.identifiant)

@@ -6,7 +6,7 @@ import {
 } from 'bauhaus-structures';
 import { ConceptsAPI } from 'bauhaus-utilities';
 
-const Components = ({ componentDefinitions = [] }) => {
+const Components = ({ componentDefinitions = []}) => {
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState([]);
 	const [modalOpened, setModalOpened] = useState(false);

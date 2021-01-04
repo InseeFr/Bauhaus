@@ -11,6 +11,9 @@ const store = mockStore({
 	app: {
 		secondLang: true,
 	},
+	disseminationStatus: {
+		results: [{}]
+	}
 });
 
 describe('<StructureComponentsSelector />', () => {
@@ -166,6 +169,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleUp={() => {}}
 					handleDown={() => {}}
 					handleCodesListDetail={() => {}}
+					structure={{}}
 				/>
 			</Provider>
 		);

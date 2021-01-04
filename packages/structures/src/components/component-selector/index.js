@@ -19,6 +19,7 @@ const ComponentSelector = ({
 	codesLists,
 	handleUpdate,
 	type,
+	structure
 }) => {
 	const [codesListNotation, setCodesListNotation] = useState(undefined);
 	const handleCodesListDetail = useCallback(notation => {
@@ -202,6 +203,7 @@ const ComponentSelector = ({
 				readOnly={false}
 				type={type}
 				handleCodesListDetail={handleCodesListDetail}
+				structure={structure}
 			/>
 
 			<MutualizedComponentsSelector

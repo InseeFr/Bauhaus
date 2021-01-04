@@ -11,15 +11,15 @@ import { SimsGeographyI18NLabel } from 'bauhaus-operations';
 
 const SimsGeographyPicker = ({ onChange, value }) => {
 	const geographiesOptions = useSelector(Stores.Geographies.getAllOptions);
-	const [slidingModel, setSlidingModel] = useState(false);
+	const [slidingModal, setSlidingModal] = useState(false);
 	const openPanel = useCallback(() => {
-		setSlidingModel(true);
+		setSlidingModal(true);
 	}, []);
 	const onSave = useCallback(() => {
-		setSlidingModel(false);
+		setSlidingModal(false);
 	}, []);
 	const onCancel = useCallback(() => {
-		setSlidingModel(false);
+		setSlidingModal(false);
 	}, []);
 	const formatOptionLabel = (geography) => {
 		return <SimsGeographyI18NLabel geography={geography} />;
@@ -49,7 +49,7 @@ const SimsGeographyPicker = ({ onChange, value }) => {
 					</button>
 				</Auth.AuthGuard>
 			</div>
-			<SlidingPanel type={'right'} isOpen={slidingModel} size={60}>
+			<SlidingPanel type={'right'} isOpen={slidingModal} size={60} backdropClicked={() => setSlidingModal(false)}>
 				<SimsGeographyField onCancel={onCancel} onSave={onSave} />
 			</SlidingPanel>
 		</>

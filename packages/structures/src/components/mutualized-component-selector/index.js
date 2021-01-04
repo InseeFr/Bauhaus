@@ -90,7 +90,7 @@ export const MutualizedComponentsSelector = ({
 				search={true}
 				pagination={false}
 			/>
-			<SlidingPanel type={'right'} isOpen={openPanel} size={60}>
+			<SlidingPanel type={'right'} isOpen={openPanel} size={60} backdropClicked={() => setOpenPanel(false)}>
 				<ComponentDetail
 					component={selectedComponent}
 					codesLists={codesLists}

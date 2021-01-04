@@ -8,7 +8,12 @@ import { ComponentDetail } from './';
 import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
-const store = mockStore({ app: { secondLang: false } });
+const store = mockStore({
+		app: { secondLang: false },
+		disseminationStatus: {
+			results: [{}]
+		}
+});
 
 describe('<ComponentDetail />', () => {
 	const component = {

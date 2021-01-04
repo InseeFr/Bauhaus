@@ -1,5 +1,7 @@
+import React, { useEffect} from 'react';
 import { buildApi } from '../../apis/build-api';
 import { ERROR, LOADED, LOADING } from '../constants';
+import { connect, useSelector } from 'react-redux';
 
 export const LOAD_DISSEMINATION_STATUS_LIST = 'LOAD_DISSEMINATION_STATUS_LIST';
 export const LOAD_DISSEMINATION_STATUS_LIST_SUCCESS =
@@ -59,3 +61,21 @@ export const loadDisseminationStatusList = () => dispatch => {
 export const getDisseminationStatusList = (state) => state.disseminationStatus.results || [];
 export const getDisseminationStatusListOptions = (state) => getDisseminationStatusList(state).map(({ url, label }) => ({ value: url, label: label}))
 
+export const withDisseminationStatusListOptions = Component => {
+	const componentWithDisseminationStatus =  props => {
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		const disseminationStatusListOptions = useSelector(state => getDisseminationStatusListOptions(state));
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		useEffect(() => {
+			if(disseminationStatusListOptions.length === 0){
+				props.loadDisseminationStatusList();
+			}
+		}, [disseminationStatusListOptions.length, props.loadDisseminationStatusList]);
+
+
+		return <Component disseminationStatusListOptions={disseminationStatusListOptions} {...props} />
+	}
+	return connect(undefined, {
+		loadDisseminationStatusList
+	})(componentWithDisseminationStatus);
+}
