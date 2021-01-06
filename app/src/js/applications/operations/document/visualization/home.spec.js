@@ -10,6 +10,7 @@ const document = {
 	uri: 'uri/page/1',
 	url: 'url',
 	updatedDate: '2019/02/01',
+	sims: []
 };
 describe('OperationsDocumentationVisualization', () => {
 	it('should display by default three notes', () => {
