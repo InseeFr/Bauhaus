@@ -199,6 +199,11 @@ const dictionary = {
 		fr: 'État du SIMS',
 		en: 'State of the SIMS',
 	},
+	confirmationDocumentationDelete: {
+		fr:
+			'Vous êtes sur le point de supprimer définitivement cette documentation. Êtes-vous sûr ?',
+		en: 'You are about to permanently delete this documentation. Are you sure?',
+	},
 	...documentsD,
 	...validationD,
 };

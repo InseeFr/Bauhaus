@@ -24,7 +24,8 @@ import {
 	HTMLUtils,
 	ValidationButton,
 	CheckSecondLang,
-	PublicationFemale
+	PublicationFemale,
+	ConfirmationDelete
 } from 'bauhaus-utilities';
 import {
 	hasLabelLg2,
@@ -49,6 +50,7 @@ export default function SimsVisualisation({
 	owners =  []
 }) {
 	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
+	const [modalOpened, setModalOpened] = useState(false);
 
 	function MSDInformations({ msd, firstLevel = false }) {
 		return (
@@ -126,20 +128,30 @@ export default function SimsVisualisation({
 	 */
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const handleDelete = useCallback(() => {
+	const handleNo = () => {
+		setModalOpened(false);
+	}
+	const handleYes = () => {
 		api.deleteSims(sims)
 			.finally(async () => {
 				await dispatch({ type: A.DELETE_SIMS_SUCCESS })
+				setModalOpened(false);
 				history.push(`/operations/series/${sims.idSeries}`)
 			})
-
-	}, [dispatch, history, sims]);
-
+	}
 	const CREATOR = sims.idIndicator
 		? [Auth.INDICATOR_CONTRIBUTOR, checkStamp]
 		: [Auth.SERIES_CONTRIBUTOR, checkStamp];
 	return (
 		<>
+			{modalOpened && (
+				<ConfirmationDelete
+					className="operations"
+					handleNo={handleNo}
+					handleYes={handleYes}
+					message={D.confirmationDocumentationDelete}
+				/>
+			)}
 			<ActionToolbar>
 				<ReturnButton action={() => goBack(getParentUri(sims))} />
 				<Auth.AuthGuard
@@ -153,7 +165,7 @@ export default function SimsVisualisation({
 				</Auth.AuthGuard>
 				<Auth.AuthGuard roles={[Auth.ADMIN]} complementaryCheck={!!sims.idSeries}>
 					<DeleteButton
-						action={handleDelete}
+						action={() => setModalOpened(true)}
 					/>
 				</Auth.AuthGuard>
 				<Auth.AuthGuard
