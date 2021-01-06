@@ -5,6 +5,36 @@ import React, { useEffect, useState } from 'react';
 import { isDocument, isLink } from '../utils';
 import { API } from 'bauhaus-utilities';
 import RelationsView from '../../shared/relations';
+
+function formatSims(sims){
+	const simsObject = sims.reduce((acc, s) => {
+		if(acc[s.id]){
+			return {
+				...acc,
+				[s.id]: {
+					...acc[s.id],
+					rubrics: [...acc[s.id].rubrics, s.simsRubricId]
+				}
+			}
+		} else {
+			return {
+				...acc,
+				[s.id]: {
+					...s,
+					rubrics: [s.simsRubricId]
+				}
+			}
+		}
+	}, {})
+
+	return Object.values(simsObject).map(s => {
+		return {
+			...s,
+			labelLg1: s.labelLg1 + ` (${s.rubrics?.join(', ')})`,
+			labelLg2: s.labelLg2 + ` (${s.rubrics?.join(', ')})`,
+		}
+	})
+}
 /**
  * @typedef OperationsDocumentationVisualizationProps
  * @property {any} attr
@@ -20,6 +50,7 @@ function OperationsDocumentationVisualization({
 	langs: { lg1, lg2 },
 	langOptions
 }) {
+	const sims = formatSims(attr.sims);
 	const [baseURI, setBaseURI] = useState('');
 	useEffect(() => {
 		API.getBaseURI().then((uri) => setBaseURI(uri));
@@ -104,7 +135,7 @@ function OperationsDocumentationVisualization({
 				/>
 			</div>
 			<RelationsView
-				children={attr.sims}
+				children={sims}
 				childrenTitle={'linkedSims'}
 				childrenPath="sims"
 				title={'linksTitle'}
