@@ -15,7 +15,7 @@ const dictionary = {
 		fr: 'Suppression',
 		en: 'Delete',
 	},
-	confirmationDelete: {
+	confirmationConceptDelete: {
 		fr:
 			'Vous êtes sur le point de supprimer définitivement ce concept. Êtes-vous sûr ?',
 		en: 'You are about to permanently delete this concept. Are you sure?',
