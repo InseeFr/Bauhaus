@@ -121,10 +121,6 @@ export function editorStateFromMd(md = '') {
 	return EditorState.createWithContent(convertFromRaw(mdToDraftjs(md)));
 }
 
-export function cleanMarkdownInput(markdown){
-	return markdown;
-}
-
 export function markdownToHtml(markdown) {
 	return htmlFromEditorState(editorStateFromMd(markdown));
 }
