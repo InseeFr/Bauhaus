@@ -3,7 +3,6 @@ import D from '../../i18n/build-dictionary';
 import { Select } from '@inseefr/wilco';
 import { getAllAttachment } from '../../utils';
 import './component-specification-form.scss';
-import { OBSERVATION } from '../../utils/constants/';
 
 export const ComponentSpecificationForm = ({
 	structureComponents,
@@ -12,9 +11,6 @@ export const ComponentSpecificationForm = ({
 	disabled = false,
 }) => {
 	const [attachments, setAttachments] = useState([]);
-	const componentAttachment = component.attachment
-		? component.attachment
-		: [OBSERVATION];
 	useEffect(() => {
 		setAttachments(getAllAttachment(structureComponents));
 	}, [structureComponents]);
@@ -29,7 +25,7 @@ export const ComponentSpecificationForm = ({
 						label={D.attachmentTitle}
 						placeholder={D.attachmentTitle}
 						value={attachments.filter((c) =>
-							componentAttachment?.some((a) => a.includes(c.value))
+							component.attachment?.some((a) => a.includes(c.value))
 						)}
 						multi
 						options={attachments}
