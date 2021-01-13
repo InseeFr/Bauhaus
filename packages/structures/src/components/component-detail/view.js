@@ -15,12 +15,11 @@ import { HTMLUtils, ValidationButton, DateUtils, PublicationMale } from 'bauhaus
 import PropTypes from 'prop-types';
 
 export const canBeDeleted = (component) => {
+	const withoutStructuresUsingThisComponent = !component.structures || component.structures?.length === 0
 	const forbidden = ['Validated', 'Modified'];
 	return (
-		!forbidden.includes(component.validationState) &&
-		!component.structures?.find((structure) =>
-			forbidden.includes(structure.validationState)
-		)
+		withoutStructuresUsingThisComponent &&
+		!forbidden.includes(component.validationState)
 	);
 };
 export const ComponentDetailView = ({
