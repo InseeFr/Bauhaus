@@ -6,12 +6,13 @@ describe('CodesListPanel', () => {
 	it('should open the panel', () => {
 		const handleBack = jest.fn()
 		const { container } = render(<CodesListPanel isOpen={true} handleBack={handleBack}/>);
-		expect(container.querySelector(".sliding-panel-container").innerHTML).not.toBe('')
+		console.log(container.innerHTML)
+		expect(container.querySelector(".sliding-panel-container.active")).not.toBeNull();
 	})
 	it('should close the panel', () => {
 		const handleBack = jest.fn()
 		const { container } = render(<CodesListPanel isOpen={false} handleBack={handleBack}/>);
-		expect(container.querySelector(".sliding-panel-container").innerHTML).toBe('');
+		expect(container.querySelector(".sliding-panel-container.active")).toBeNull()
 	})
 	it('should not call the API if the panel is closed', () => {
 		const handleBack = jest.fn()
