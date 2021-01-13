@@ -256,7 +256,7 @@ const DumbComponentDetailEdit = ({
 				</div>
 			</form>
 			<CodesListPanel codesList={codesLists.find((c) =>
-				component.codeList?.toString().includes(c.id?.toString())
+				(component.codeList?.id || component.codeList)?.toString().includes(c.id?.toString())
 			)} isOpen={codesListPanelOpened} handleBack={() => setCodesListPanelOpened(false)}/>
 		</React.Fragment>
 	);

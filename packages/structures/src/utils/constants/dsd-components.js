@@ -20,3 +20,7 @@ export const MUTUALIZED_COMPONENT_TYPES = [
 	{ value: `${QB}DimensionProperty`, label: D.Dimension },
 	{ value: MEASURE_PROPERTY_TYPE, label: D.Measure },
 ];
+
+export const DISSEMINATION_STATUS = {
+	PUBLIC_GENERIC: "http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique"
+}

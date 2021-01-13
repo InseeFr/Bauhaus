@@ -4,7 +4,7 @@ import { AppContext } from 'index';
 import { Input, Loading, ErrorBloc, Select } from '@inseefr/wilco';
 import Controls from './controls';
 import Components from './components';
-import { StructureAPI } from 'bauhaus-structures';
+import { StructureAPI, StructureConstants } from 'bauhaus-structures';
 import { Stores } from 'bauhaus-utilities'
 import D, { D1, D2 } from 'js/i18n';
 import { useSelector, connect } from 'react-redux';
@@ -17,6 +17,7 @@ const defaultDSD = {
 	labelLg2: '',
 	descriptionLg1: '',
 	descriptionLg2: '',
+	disseminationStatus: StructureConstants.DISSEMINATION_STATUS.PUBLIC_GENERIC,
 	contributor: 'DG75-H250',
 	componentDefinitions: [],
 };
@@ -34,7 +35,6 @@ export const validate = (structure) => {
 const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) => {
 	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
 	const disseminationStatusListOptions = useSelector(state => Stores.DisseminationStatus.getDisseminationStatusListOptions(state));
-
 	useEffect(() => {
 		if(disseminationStatusListOptions.length === 0){
 			loadDisseminationStatusList();
