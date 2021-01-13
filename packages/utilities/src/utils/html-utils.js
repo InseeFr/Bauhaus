@@ -89,15 +89,40 @@ export function editorStateFromHtml(html) {
 }
 
 export function mdFromEditorState(editorState) {
-	return draftjsToMd(convertToRaw(editorState.getCurrentContent()));
+	/*
+	* Sometimes the React editor  include space when formatting text (bold or italic).
+	* With the following code, we remove this issue.
+	* https://trello.com/c/t6jFYvMR/633-sims-rich-text
+	*/
+	const content = convertToRaw(editorState.getCurrentContent())
+	for(let blockIndex = 0; blockIndex < content.blocks.length; blockIndex++){
+		const text = content.blocks[blockIndex].text;
+		const inlineStyleRanges = content.blocks[blockIndex].inlineStyleRanges;
+		for(let inlineStyleIndex = 0; inlineStyleIndex < inlineStyleRanges.length; inlineStyleIndex++){
+			const currentInlineStyle = inlineStyleRanges[inlineStyleIndex];
+			const withSameOffset = inlineStyleRanges.filter((_, index) => {
+				return index !== inlineStyleIndex && inlineStyleRanges[index].offset === currentInlineStyle.offset
+			});
+			let minLength = Math.min(currentInlineStyle.length, ...withSameOffset.map(style => style.length));
+			if(text[currentInlineStyle.offset + minLength - 1] === " "){
+				minLength -= 1;
+			}
+			currentInlineStyle.length = minLength;
+			withSameOffset.forEach(style => {
+				style.lengh = minLength;
+			})
+		}
+	}
+
+	return draftjsToMd(content);
 }
 
 export function editorStateFromMd(md = '') {
 	return EditorState.createWithContent(convertFromRaw(mdToDraftjs(md)));
 }
 
-export function markdownToHtml(md) {
-	return htmlFromEditorState(editorStateFromMd(md));
+export function markdownToHtml(markdown) {
+	return htmlFromEditorState(editorStateFromMd(markdown));
 }
 
 export function renderMarkdownElement(value) {
