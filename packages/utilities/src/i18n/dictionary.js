@@ -45,7 +45,7 @@ const dictionary = {
 		en: 'Temporary, already published',
 	},
 	statusUnpublishedM: {
-		fr: 'Provisoire, jamais publiée',
+		fr: 'Provisoire, jamais publié',
 		en: 'Temporary, never published',
 	},
 	statusUnpublishedF: {
