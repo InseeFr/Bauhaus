@@ -19,7 +19,7 @@ import loadStampList from 'js/actions/stamp';
 const StructureComponent = ({ loadStampList }) => {
 	useEffect(() => {
 		loadStampList();
-	}, [])
+	}, [loadStampList])
 	document.title = 'Bauhaus - ' + D.structuresTitle;
 	document.getElementById('root-app').classList = ['structures'];
 	return (
