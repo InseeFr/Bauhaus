@@ -13,6 +13,9 @@ const store = mockStore({
 	},
 	disseminationStatus: {
 		results: [{}]
+	},
+	stampList: {
+		results: []
 	}
 });
 
