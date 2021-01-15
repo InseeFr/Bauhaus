@@ -34,11 +34,9 @@ const DumbComponentDetailEdit = ({
 }) => {
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 	const [component, setComponent] = useState(defaultComponent);
-
 	useEffect(() => {
 		setComponent({ ...initialComponent, ...defaultComponent });
 	}, [initialComponent]);
-
 	useEffect(() => {
 		if(!component.type && type){
 			setComponent({ ...defaultComponent, ...initialComponent, type });
@@ -68,7 +66,6 @@ const DumbComponentDetailEdit = ({
 		value: id,
 		label,
 	}));
-
 	const { field, message } = validateComponent(component);
 	return (
 		<React.Fragment>
@@ -201,7 +198,7 @@ const DumbComponentDetailEdit = ({
 					<Select
 						className="form-control"
 						placeholder={D1.stampsPlaceholder}
-						value={stampListOptions.find(value => value === component.creator)}
+						value={stampListOptions.find(({ value }) => value === component.creator)}
 						options={stampListOptions}
 						onChange={(value) =>
 							setComponent({ ...component, creator: value })

@@ -20,7 +20,6 @@ const EditContainer = props => {
 
 	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
 
-
 	const handleBack = useCallback(() => {
 		goBack(props, '/structures/components')();
 	}, [props]);

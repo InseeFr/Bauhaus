@@ -153,7 +153,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 				<Select
 					className="form-control"
 					placeholder={D1.stampsPlaceholder}
-					value={stampListOptions.find(value => value === creator)}
+					value={stampListOptions.find(({ value }) => value === creator)}
 					options={stampListOptions}
 					onChange={(value) => onChange('creator', value)}
 					searchable={true}

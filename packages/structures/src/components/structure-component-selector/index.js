@@ -8,6 +8,8 @@ import { ComponentDetail } from '../component-detail';
 import { ATTRIBUTE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
 
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { Stores } from 'bauhaus-utilities';
 
 export const StructureComponentsSelector = ({
 	hidden = false,
@@ -31,6 +33,7 @@ export const StructureComponentsSelector = ({
 		},
 		[handleRemove]
 	);
+	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
 	const [openPanel, setOpenPanel] = useState(false);
 	const [components, setComponents] = useState(defaultComponents);
 	useEffect(() => {
@@ -116,7 +119,8 @@ export const StructureComponentsSelector = ({
 	const handleCreateComponent = useCallback((e) => {
 		e.stopPropagation();
 		setSelectedComponent({
-			disseminationStatus: structure.disseminationStatus
+			disseminationStatus: structure.disseminationStatus,
+			contributor: 'DG75-H250'
 		});
 		setOpenPanel(true);
 	}, [structure]);
@@ -245,6 +249,7 @@ export const StructureComponentsSelector = ({
 					readOnly={readOnly}
 					structureComponents={components}
 					type={type}
+					stampListOptions={stampListOptions}
 				/>
 			</SlidingPanel>
 		</CollapsiblePanel>
