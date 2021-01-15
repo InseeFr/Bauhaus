@@ -9,6 +9,9 @@ const mockStore = configureStore([]);
 const store = mockStore({
 	app: {
 		secondLang: true
+	},
+	stampList: {
+		results: []
 	}
 });
 
