@@ -107,6 +107,10 @@ const dictionary = {
 		en: 'Code list',
 		fr: 'Liste de codes',
 	},
+	representationTitle: {
+		en: 'Representation',
+		fr: 'Représentation',
+	},
 	conceptTitle: {
 		en: 'Concept',
 		fr: 'Concept',
