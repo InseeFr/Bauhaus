@@ -46,6 +46,8 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 	const [structure, setStructure] = useState(() => defaultDSD);
 	const [loading, setLoading] = useState(false);
 	const [redirectId, setRedirectId] = useState('');
+	const [serverSideError, setServerSideError] = useState('');
+
 	const onChange = (key, value) => {
 		setStructure({ ...structure, [key]: value });
 	};
@@ -81,11 +83,13 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 						: StructureAPI.putStructure(structure)
 					).then((id) => {
 						setRedirectId(id);
-					});
+					}).catch(error => {
+						setServerSideError(D['errors_' + JSON.parse(error).code])
+					}).finally(() => setLoading(false))
 				}}
 				disabledSave={errorMessage}
 			/>
-			<ErrorBloc error={errorMessage} />
+			<ErrorBloc error={errorMessage || serverSideError} />
 			<Input
 				id="id"
 				label={
@@ -153,7 +157,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 				<Select
 					className="form-control"
 					placeholder={D1.stampsPlaceholder}
-					value={stampListOptions.find(value => value === creator)}
+					value={stampListOptions.find(({ value }) => value === creator)}
 					options={stampListOptions}
 					onChange={(value) => onChange('creator', value)}
 					searchable={true}

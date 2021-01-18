@@ -4,8 +4,9 @@ import { MutualizedComponentsSelector } from '../mutualized-component-selector';
 import { StructureComponentsSelector } from '../structure-component-selector';
 import ComponentSpecificationModal from '../component-specification-modal';
 import PropTypes from 'prop-types';
-import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
+import { ATTRIBUTE_PROPERTY_TYPE, ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
+import { OBSERVATION } from '../../utils/constants';
 
 const filterComponentDefinition = (type) => (componentDefinition) =>
 	componentDefinition?.component?.type === type;
@@ -112,9 +113,13 @@ const ComponentSelector = ({
 	const handleAdd = useCallback(
 		(id) => {
 			const component = mutualizedComponents.find((c) => c.identifiant === id);
+			const newStructureComponent = { component, order: structureComponents.length + 1 };
+			if(component.type === ATTRIBUTE_PROPERTY_TYPE){
+				newStructureComponent.attachment = [OBSERVATION]
+			}
 			const components = [
 				...structureComponents,
-				{ component, order: structureComponents.length + 1 },
+				newStructureComponent,
 			];
 
 			setStructureComponents(components);

@@ -6,7 +6,6 @@ describe('CodesListPanel', () => {
 	it('should open the panel', () => {
 		const handleBack = jest.fn()
 		const { container } = render(<CodesListPanel isOpen={true} handleBack={handleBack}/>);
-		console.log(container.innerHTML)
 		expect(container.querySelector(".sliding-panel-container.active")).not.toBeNull();
 	})
 	it('should close the panel', () => {

@@ -191,4 +191,8 @@ export default {
 		fr: 'État du composant',
 		en: 'Publication status',
 	},
+	errors_1003: {
+		fr: 'Une structure avec les mêmes composants existe déjà.',
+		en: 'A structure with the same components already exists.'
+	}
 };

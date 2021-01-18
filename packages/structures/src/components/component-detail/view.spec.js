@@ -26,15 +26,8 @@ describe('canBeDeleted', () => {
 			canBeDeleted({ validationState: 'Modified', structures: [] })
 		).toBeFalsy();
 	});
-	it('can delete if one structure is unpublished', () => {
-		expect(
-			canBeDeleted({
-				validationState: 'Unpublished',
-				structures: [{ validationState: 'Unpublished' }],
-			})
-		).toBeTruthy();
-	});
-	it('cannot delete if one structure is Validated', () => {
+
+	it('cannot delete if the component is linked to a structure', () => {
 		expect(
 			canBeDeleted({
 				validationState: 'Unpublished',

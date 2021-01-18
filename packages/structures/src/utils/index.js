@@ -64,7 +64,7 @@ export const defaultComponentsTableParams = [
 	},
 	{
 		dataField: 'codeList',
-		text: D.codesListTitle,
+		text: D.representationTitle,
 		width: '20%',
 	},
 	{
