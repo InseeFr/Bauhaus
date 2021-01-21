@@ -47,7 +47,7 @@ class EditionContainer extends Component {
 		if (!concept) this.props.loadConcept(id);
 		if (!conceptList) this.props.loadConceptList();
 		if (stampList.length === 0) this.props.loadStampList();
-		if (!disseminationStatusList) this.props.loadDisseminationStatusList();
+		if (disseminationStatusList.length === 0) this.props.loadDisseminationStatusList();
 	}
 
 	render() {

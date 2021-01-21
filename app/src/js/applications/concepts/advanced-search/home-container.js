@@ -16,7 +16,7 @@ class ConceptSearchListContainer extends Component {
 		} = this.props;
 		if (!conceptSearchList) this.props.loadConceptSearchList();
 		if (stampList.length === 0) this.props.loadStampList();
-		if (!disseminationStatusList) this.props.loadDisseminationStatusList();
+		if (disseminationStatusList.length === 0) this.props.loadDisseminationStatusList();
 	}
 
 	render() {

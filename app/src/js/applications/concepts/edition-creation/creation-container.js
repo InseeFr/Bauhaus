@@ -35,7 +35,9 @@ class CreationContainer extends Component {
 		const { conceptList, stampList, disseminationStatusList } = this.props;
 		if (!conceptList) this.props.loadConceptList();
 		if (stampList.length === 0) this.props.loadStampList();
-		if (!disseminationStatusList) this.props.loadDisseminationStatusList();
+		if (disseminationStatusList.length === 0){
+			this.props.loadDisseminationStatusList();
+		}
 	}
 
 	render() {
@@ -48,7 +50,6 @@ class CreationContainer extends Component {
 			creationStatus,
 			langs,
 		} = this.props;
-
 		if (this.state.creationRequested) {
 			if (creationStatus === OK) {
 				return <Redirect to={`/concept/${this.props.id}`} />;
