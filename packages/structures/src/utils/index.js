@@ -58,6 +58,11 @@ export const defaultComponentsTableParams = [
 		width: '20%',
 	},
 	{
+		dataField: 'mutualized',
+		text: D.mutualized,
+		width: '10%',
+	},
+	{
 		dataField: 'concept',
 		text: D.conceptTitle,
 		width: '20%',
