@@ -9,18 +9,29 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	AbstractAdvancedSearchComponent,
+	AbstractAdvancedSearchComponent, Stores,
 } from 'bauhaus-utilities';
+import { useSelector } from 'react-redux';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['concept']);
+const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
+const filterValidationState = ArrayUtils.filterKeyDeburr(['validationState']);
 
-const fields = ['labelLg1', 'concept'];
+const fields = ['labelLg1', 'concept', 'creator', 'validationState'];
+
+const validateStateOptions = [
+	{value: 'Unpublished', label: D.statusUnpublishedM},
+	{value: 'Modified', label: D.statusModifiedM},
+	{value: 'Validated', label: D.statusValidatedM}
+]
 
 export class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
 		labelLg1: '',
 		concept: '',
+		creator: '',
+		validationState: ''
 	};
 
 	constructor(props) {
@@ -28,15 +39,17 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 	}
 
 	handlers = this.handleChange(fields, newState => {
-		const { labelLg1, concept } = newState;
+		const { labelLg1, concept, creator, validationState } = newState;
 		return this.props.data
 			.filter(filterConcept(concept))
-			.filter(filterLabel(labelLg1));
+			.filter(filterLabel(labelLg1))
+			.filter(filterCreator(creator))
+			.filter(filterValidationState(validationState));
 	});
 
 	render() {
-		const { data, labelLg1, concept } = this.state;
-		const { concepts } = this.props;
+		const { data, labelLg1, concept, creator, validationState } = this.state;
+		const { concepts, stampListOptions } = this.props;
 
 		const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
 		const dataLinks = data.map(component => (
@@ -84,6 +97,39 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 						</label>
 					</div>
 				</div>
+				<div className="row form-group">
+					<div className="col-md-6">
+						<label className="w-100">
+							{D.creator}
+							<Select
+								placeholder=""
+								value={
+									stampListOptions.find(option => option.value === creator) || ''
+								}
+								options={stampListOptions}
+								onChange={value => {
+									this.handlers.creator(value);
+								}}
+							/>
+						</label>
+					</div>
+					<div className="col-md-6">
+						<label className="w-100">
+							{D.componentValididationStatusTitle}
+							<Select
+								placeholder=""
+								value={
+									validateStateOptions.find(option => option.value === validationState) || ''
+								}
+								options={validateStateOptions}
+								onChange={value => {
+									this.handlers.validationState(value);
+								}}
+							/>
+						</label>
+					</div>
+				</div>
+
 			</AdvancedSearchList>
 		);
 	}
@@ -93,6 +139,7 @@ const SearchListContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [items, setItems] = useState([]);
 	const [concepts, setConcepts] = useState([]);
+	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
 
 	useEffect(() => {
 		Promise.all([
@@ -108,7 +155,7 @@ const SearchListContainer = () => {
 	if (loading) {
 		return <Loading />;
 	}
-	return <SearchFormList data={items} concepts={concepts} />;
+	return <SearchFormList data={items} concepts={concepts} stampListOptions={stampListOptions}/>;
 };
 
 export default SearchListContainer;

@@ -16,7 +16,7 @@ const auth = WrappedComponent => {
 			if (roles) return <WrappedComponent />;
 			switch (authType) {
 				case Impl.NO_AUTH:
-					return <LoginNoAuth />;
+					return <LoginNoAuth	 />;
 				case Impl.BASIC_AUTH:
 					return <LoginBasic />;
 				default:
