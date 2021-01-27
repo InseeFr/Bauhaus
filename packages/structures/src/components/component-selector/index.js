@@ -59,15 +59,23 @@ const ComponentSelector = ({
 
 	const handleCreateOrUpdate = useCallback(
 		(components, isCreation, component) => {
-			setStructureComponents(components);
-			handleUpdate(components);
 
 			if (isCreation) {
+				const newComponents = [
+					...structureComponents,
+					component
+				]
 				_handleAttributeComponent(component);
+				setStructureComponents(newComponents);
+				handleUpdate(newComponents);
+			} else {
+				setStructureComponents(components);
+				handleUpdate(components);
 			}
 		},
-		[handleUpdate]
+		[handleUpdate, structureComponents]
 	);
+
 
 	const handleRemove = useCallback(
 		(id) => {

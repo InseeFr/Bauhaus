@@ -38,6 +38,11 @@ export const MutualizedComponentsSelector = ({
 	const componentsWithActions = components.map((component) => ({
 		...component,
 		type: typeUriToLabel(component.type),
+		mutualized: (
+			component.validationState !== 'Unpublished'
+				? <span className="glyphicon glyphicon-ok" aria-label={D.mutualized}></span>
+				: <React.Fragment></React.Fragment>
+		),
 		concept: concepts.find(({ id }) =>
 			component.concept?.toString().includes(id?.toString())
 		)?.label,
