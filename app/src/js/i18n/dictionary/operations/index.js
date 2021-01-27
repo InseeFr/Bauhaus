@@ -168,12 +168,16 @@ const dictionary = {
 		fr: 'Organisation',
 	},
 	btnSimsVisu: {
-		en: 'Show the SIMS',
-		fr: 'Voir le SIMS',
+		en: 'Show the report',
+		fr: 'Voir le rapport',
 	},
 	btnSimsCreate: {
-		en: 'Create the SIMS',
-		fr: 'Créer le SIMS',
+		en: 'Create the report',
+		fr: 'Créer le rapport',
+	},
+	simsTitle: {
+		fr: 'Rapport qualité: ',
+		en: 'Quality report: ',
 	},
 	operationsTreeTitle: {
 		fr: 'Arbre des Opérations',
