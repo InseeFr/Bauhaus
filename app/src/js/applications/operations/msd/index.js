@@ -5,7 +5,7 @@ import { Loading, buildExtract } from '@inseefr/wilco';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
 import loadDocuments from 'js/actions/operations/documents/list';
-import D from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 
 import {
 	getOperationsDocuments,
@@ -264,8 +264,8 @@ export const mapStateToProps = (state, ownProps) => {
 			parentType = ownProps.match.params[0];
 			const [currentParent, currentParentStatus] = getCurrentParent(parentType);
 			currentSims = {
-				labelLg1: D.simsTitle + currentParent.prefLabelLg1,
-				labelLg2: D.simsTitle + currentParent.prefLabelLg2,
+				labelLg1: D1.simsTitle + currentParent.prefLabelLg1,
+				labelLg2: D2.simsTitle + currentParent.prefLabelLg2,
 			};
 			isParentLoaded =
 				currentParentStatus !== NOT_LOADED || currentParent.id === idParent;
