@@ -5,7 +5,7 @@ import { Loading, buildExtract } from '@inseefr/wilco';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
 import loadDocuments from 'js/actions/operations/documents/list';
-import D, { D1, D2 } from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 
 import {
 	getOperationsDocuments,
