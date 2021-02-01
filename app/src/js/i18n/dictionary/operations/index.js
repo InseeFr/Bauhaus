@@ -176,7 +176,7 @@ const dictionary = {
 		fr: 'Créer le rapport',
 	},
 	simsTitle: {
-		fr: 'Rapport qualité: ',
+		fr: 'Rapport qualité : ',
 		en: 'Quality report: ',
 	},
 	operationsTreeTitle: {
