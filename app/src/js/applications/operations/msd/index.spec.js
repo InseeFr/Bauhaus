@@ -68,7 +68,7 @@ describe('', () => {
 		};
 		const output = mapStateToProps(input, props);
 		expect(output.currentSims).toEqual({
-			labelLg1: 'Quality report: prefLabelLg1',
+			labelLg1: 'Rapport qualité : prefLabelLg1',
 			labelLg2: 'Quality report: prefLabelLg2',
 		});
 		expect(output.parentType).toEqual('series');
