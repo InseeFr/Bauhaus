@@ -14,11 +14,14 @@ class LoginBasicContainer extends Component {
 			updateRequested: false,
 		};
 		this.onClickValidate = (data) => {
-			const { stamp, role } = data;
-			this.props.checkAuth({ stamp, roles: role.map((r) => r.value) });
-			this.setState({
-				updateRequested: true,
-			});
+			api.postFakeUser( data).finally(() => {
+				const { stamp, role } = data;
+				this.props.checkAuth({ stamp, roles: role.map((r) => r.value) });
+				this.setState({
+					updateRequested: true,
+				});
+			})
+
 		};
 	}
 
