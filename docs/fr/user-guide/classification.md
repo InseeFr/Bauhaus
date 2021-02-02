@@ -31,7 +31,7 @@ Toute unité en ayant l'utilité peut demander la création ou la modification d
 ---
 ## <a id="Familles-series-nomenclatures">Familles/Séries/Nomenclatures/Tables de correspondances</a>
 La barre horizontale de menu en haut de la page mentionne les rubriques Familles/Séries/Nomenclatures/Tables de correspondance qui permettent de naviguer respectivement par famille, série ou au sein de l'ensemble des nomenclatures ou tables de correspondances actuellement stockées dans RMéS pour les consulter.
-![](images/barrehorizontale.png)
+<img src="../../img/classification-horizontale-menu.png" width="18">
 
 ---
 
