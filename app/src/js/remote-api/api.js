@@ -67,6 +67,16 @@ const api = {
 		const { id, role } = agent;
 		return [`users/private/delete/role/${role}/user/${id}`, undefined, () => {}];
 	},
+	postFakeUser: user =>  [
+		`users/login`,
+		{
+			headers: {
+				Accept: 'application/json',
+			},
+			body: JSON.stringify(user),
+		},
+		(res) => res.text(),
+	]
 };
 
 export default API.buildApi('', api);
