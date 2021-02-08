@@ -35,11 +35,12 @@ export const MutualizedComponentsSelector = ({
 		},
 		[handleAdd]
 	);
+
 	const componentsWithActions = components.map((component) => ({
 		...component,
 		type: typeUriToLabel(component.type),
 		mutualized: (
-			component.validationState !== 'Unpublished'
+			!!component.validationState && component.validationState !== 'Unpublished'
 				? <span className="glyphicon glyphicon-ok" aria-label={D.mutualized}></span>
 				: <React.Fragment></React.Fragment>
 		),
