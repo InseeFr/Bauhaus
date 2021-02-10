@@ -139,10 +139,12 @@ const ComponentSelector = ({
 	}
 
 	const _makeFlat = (componentsByType) => {
+		const dimensions = componentsByType[DIMENSION_PROPERTY_TYPE];
+		const measures = componentsByType[MEASURE_PROPERTY_TYPE]
 		return [
-			...componentsByType[DIMENSION_PROPERTY_TYPE].map((component, index) => ({...component, order: index + 1 })),
-			...componentsByType[MEASURE_PROPERTY_TYPE].map((component, index) => ({...component, order: index + 1 })),
-			...componentsByType[ATTRIBUTE_PROPERTY_TYPE].map((component, index) => ({...component, order: index + 1 }))
+			...dimensions.map((component, index) => ({...component, order: index + 1 })),
+			...measures.map((component, index) => ({...component, order: dimensions.length + index + 1 })),
+			...componentsByType[ATTRIBUTE_PROPERTY_TYPE].map((component, index) => ({...component, order: dimensions.length + measures.length + index + 1 }))
 		]
 	}
 
