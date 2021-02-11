@@ -76,8 +76,8 @@ const dictionary = {
 		en: 'Label',
 	},
 	mutualized: {
-		fr: 'Publié ?',
-		en: 'Published ?',
+		fr: 'Publié',
+		en: 'Published',
 	},
 	componentLabel: {
 		fr: 'Libellé du composant',
