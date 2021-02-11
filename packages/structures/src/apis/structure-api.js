@@ -5,6 +5,12 @@ const api = {
 	getMutualizedComponents: () => ['components'],
 	getStructuresForSearch: () => ['search'],
 	getMutualizedComponentsForSearch: () => ['components/search'],
+	publishMutualizedComponent: component => [
+		`components/${component.id}/publish`,
+		{
+			method: 'GET',
+		}
+	],
 	getMutualizedComponent: (id) => ['components/' + id],
 	deleteMutualizedComponent: (id) => [
 		'components/' + id,

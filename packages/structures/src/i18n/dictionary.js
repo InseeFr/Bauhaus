@@ -3,6 +3,18 @@ const dictionary = {
 		fr: 'Un composant avec la même liste de codes et le même concept existe déjà.',
 		en: 'A component with the same code list and concept already exists.'
 	},
+	errors_1004: {
+		fr: "Le propriétaire n'est pas défini.",
+		en: 'The creator is not defined.'
+	},
+	errors_1005: {
+		fr: "Le status de diffusion n'est pas défini.",
+		en: 'the Diffusion status is not defined.'
+	},
+	errors_1006: {
+		fr: 'Le concept doit être publié.',
+		en: 'The concept must be published.'
+	},
 	disseminationStatusTitle: {
 		fr: 'Status de diffusion',
 		en: 'Diffusion status',

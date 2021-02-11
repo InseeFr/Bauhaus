@@ -26,6 +26,7 @@ const ViewContainer = (props) => {
 			goBack(props, '/structures/components')();
 		});
 	}, [id, props]);
+
 	useEffect(() => {
 		Promise.all([
 			api.getMutualizedComponent(id),
@@ -44,6 +45,13 @@ const ViewContainer = (props) => {
 		return <Loading />;
 	}
 
+	const publishComponent = () => {
+		setLoading(true);
+		return api.publishMutualizedComponent(component)
+			.then(() => api.getMutualizedComponent(id))
+			.then(component => setComponent(component))
+			.finally(() => setLoading(false));
+	}
 	return (
 		<React.Fragment>
 			<ComponentTitle component={component} secondLang={secondLang} />
@@ -59,6 +67,7 @@ const ViewContainer = (props) => {
 				handleUpdate={`/structures/components/${component.id}/modify`}
 				mutualized={true}
 				updatable={true}
+				publishComponent={publishComponent}
 			/>
 		</React.Fragment>
 	);
