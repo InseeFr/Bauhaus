@@ -37,7 +37,8 @@ export const ComponentDetailView = ({
 	secondLang = false,
 	structureComponents,
 	col = 3,
-	publishComponent
+	publishComponent,
+	serverSideError
 }) => {
 
 	const typeValue = typeUriToLabel(component.type);
@@ -60,12 +61,8 @@ export const ComponentDetailView = ({
 	}, [structureComponents]);
 
 
-	const [serverSideError, setServerSideError] = useState();
 	const publish = () => {
 		publishComponent()
-			.catch(error => {
-				setServerSideError(D['errors_' + JSON.parse(error).code])
-			})
 	}
 	return (
 		<React.Fragment>
