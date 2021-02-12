@@ -64,7 +64,7 @@ export const StructureComponentsSelector = ({
 					component: {
 						...component,
 					},
-					order: components.length,
+					order: components.length + 1,
 				};
 				newComponents = [...components, newComponent];
 				setOpenPanel(false);

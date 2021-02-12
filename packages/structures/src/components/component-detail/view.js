@@ -5,6 +5,8 @@ import {
 	ActionToolbar,
 	ReturnButton,
 	DeleteButton,
+	ErrorBloc
+
 } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
 import { typeUriToLabel, getAllAttachment, getDisseminationStatus } from '../../utils';
@@ -13,6 +15,7 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 import { HTMLUtils, ValidationButton, DateUtils, PublicationMale } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
+import api from '../../apis/structure-api';
 
 export const canBeDeleted = (component) => {
 	const withoutStructuresUsingThisComponent = !component.structures || component.structures?.length === 0
@@ -34,7 +37,10 @@ export const ComponentDetailView = ({
 	secondLang = false,
 	structureComponents,
 	col = 3,
+	publishComponent,
+	serverSideError
 }) => {
+
 	const typeValue = typeUriToLabel(component.type);
 	const conceptValue = concepts.find(
 		(concept) => concept.id?.toString() === component.concept?.toString()
@@ -54,6 +60,10 @@ export const ComponentDetailView = ({
 		setAttachments(getAllAttachment(structureComponents));
 	}, [structureComponents]);
 
+
+	const publish = () => {
+		publishComponent()
+	}
 	return (
 		<React.Fragment>
 			<ActionToolbar>
@@ -61,9 +71,10 @@ export const ComponentDetailView = ({
 				{canBeDeleted(component) && (
 					<DeleteButton action={handleDelete} col={col} />
 				)}
-				<ValidationButton object={component} />
+				<ValidationButton callback={publish} object={component} />
 				{updatable && <UpdateButton action={handleUpdate} col={col} />}
 			</ActionToolbar>
+			<ErrorBloc error={serverSideError} />
 			<div className="row">
 				<Note
 					text={
