@@ -48,7 +48,7 @@ const ViewContainer = (props) => {
 	const publishComponent = () => {
 		setLoading(true);
 		return api.publishMutualizedComponent(component)
-			.then(() => api.getMutualizedComponent(id))
+			.then(() => api.getMutualizedComponent(component.id))
 			.then(component => setComponent(component))
 			.finally(() => setLoading(false));
 	}
