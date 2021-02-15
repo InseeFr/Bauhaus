@@ -11,7 +11,7 @@ import {
 import { ValidationButton } from 'bauhaus-utilities';
 import StructureAPI from '../../apis/structure-api';
 
-const Controls = ({ structure }) => {
+const Controls = ({ structure, publish }) => {
 	const { id } = structure;
 	let history = useHistory();
 	const isLocal = process.env.REACT_APP_API === 'local';
@@ -25,7 +25,7 @@ const Controls = ({ structure }) => {
 		<ActionToolbar>
 			<ReturnButton action="/structures" />
 			{isLocal && <ExportButton action={console.log} />}
-			<ValidationButton object={structure} callback={console.log} />
+			<ValidationButton object={structure} callback={publish} />
 			<DuplicateButton action={`/structures/${id}/duplicate`} />
 			<DeleteButton action={handleDelete} />
 			<UpdateButton action={`/structures/${id}/update`} />

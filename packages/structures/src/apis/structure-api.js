@@ -44,6 +44,13 @@ const api = {
 		`structure/${structureId}`,
 		(res) => res.text(),
 	],
+	publishStructure: structure => [
+		`structure/${structure.id}/publish`,
+		{
+			method: 'GET',
+		},
+		() => Promise.resolve(),
+	],
 	postStructure: (dsd) => [
 		'structure',
 		{
