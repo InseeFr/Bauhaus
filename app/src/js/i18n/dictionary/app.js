@@ -399,6 +399,18 @@ const dictionary = {
 		fr: 'Mesure',
 		en: 'Measure',
 	},
+	AttributePlural: {
+		fr: 'Attributs',
+		en: 'Attributes',
+	},
+	DimensionPlural: {
+		fr: 'Dimensions',
+		en: 'Dimensions',
+	},
+	MeasurePlural: {
+		fr: 'Mesures',
+		en: 'Measures',
+	},
 };
 
 export default dictionary;
