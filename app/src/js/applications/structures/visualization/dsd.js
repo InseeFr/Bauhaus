@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Note, Loading } from '@inseefr/wilco';
+import { Note, Loading, ErrorBloc } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
 import {
 	CheckSecondLang,
@@ -17,8 +17,9 @@ import {
 	StructuresUtils
 } from 'bauhaus-structures';
 import D from 'bauhaus-structures/src/i18n/build-dictionary';
+import api from 'bauhaus-structures/src/apis/structure-api';
 
-export const StructureView = ({secondLang, structure}) => {
+export const StructureView = ({secondLang, structure, publish, serverSideError}) => {
 	const {
 		labelLg1,
 		labelLg2,
@@ -35,8 +36,8 @@ export const StructureView = ({secondLang, structure}) => {
 				titleLg2={labelLg2}
 			/>
 			<CheckSecondLang />
-
-			<StructureVisualizationControl structure={structure} />
+			<StructureVisualizationControl structure={structure} publish={publish}/>
+			<ErrorBloc error={serverSideError} />
 			<div className="row">
 				<Note
 					text={
@@ -93,6 +94,7 @@ const Structure = () => {
 	const { dsdId } = useParams();
 	const [structure, setStructure] = useState({});
 	const [loading, setLoading] = useState(true);
+	const [serverSideError, setServerSideError] = useState();
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);
@@ -103,13 +105,23 @@ const Structure = () => {
 			.finally(() => setLoading(false));
 	}, [dsdId]);
 
-
+	const publish = () => {
+		setLoading(true);
+		setServerSideError();
+		return api.publishStructure(structure)
+			.then(() => api.getStructure(structure.id))
+			.then(component => setStructure(component))
+			.finally(() => setLoading(false))
+			.catch(error => {
+				setServerSideError(D['errors_' + JSON.parse(error).code])
+			})
+	}
 
 	if (loading) {
 		return <Loading />;
 	}
 
-	return <StructureView structure={structure} secondLang={secondLang}/>
+	return <StructureView structure={structure} secondLang={secondLang} publish={publish} serverSideError={serverSideError}/>
 };
 
 export default Structure;

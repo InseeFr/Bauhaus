@@ -8,15 +8,23 @@ const dictionary = {
 		en: 'The creator is not defined.'
 	},
 	errors_1005: {
-		fr: "Le status de diffusion n'est pas défini.",
+		fr: "Le statut de diffusion n'est pas défini.",
 		en: 'the Diffusion status is not defined.'
 	},
 	errors_1006: {
 		fr: 'Le concept doit être publié.',
 		en: 'The concept must be published.'
 	},
+	errors_1007: {
+		fr: 'La liste de codes doit être publiée.',
+		en: 'The codes list must be published.'
+	},
+	errors_1008: {
+		fr: 'Tous les composants doivent être publiés',
+		en: 'All components must be validated.'
+	},
 	disseminationStatusTitle: {
-		fr: 'Status de diffusion',
+		fr: 'Statut de diffusion',
 		en: 'Diffusion status',
 	},
 	creatorTitle: {
@@ -118,6 +126,18 @@ const dictionary = {
 	Measure: {
 		fr: 'Mesure',
 		en: 'Measure',
+	},
+	AttributePlural: {
+		fr: 'Attributs',
+		en: 'Attributes',
+	},
+	DimensionPlural: {
+		fr: 'Dimensions',
+		en: 'Dimensions',
+	},
+	MeasurePlural: {
+		fr: 'Mesures',
+		en: 'Measures',
 	},
 	codesListTitle: {
 		en: 'Code list',

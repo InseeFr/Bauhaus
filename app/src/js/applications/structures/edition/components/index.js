@@ -27,7 +27,7 @@ const Components = ({ componentDefinitions, onChange, structure = {}  }) => {
 	}, []);
 	return (
 		<>
-			<h2>{D.Dimension}</h2>
+			<h2>{D.DimensionPlural}</h2>
 			<div className="row text-left">
 				<ComponentSelector
 					componentDefinitions={componentDefinitions}
@@ -39,7 +39,7 @@ const Components = ({ componentDefinitions, onChange, structure = {}  }) => {
 					structure={structure}
 				/>
 			</div>
-			<h2>{D.Measure}</h2>
+			<h2>{D.MeasurePlural}</h2>
 			<div className="row text-left">
 				<ComponentSelector
 					componentDefinitions={componentDefinitions}
@@ -51,7 +51,7 @@ const Components = ({ componentDefinitions, onChange, structure = {}  }) => {
 					structure={structure}
 				/>
 			</div>
-			<h2>{D.Attribute}</h2>
+			<h2>{D.AttributePlural}</h2>
 			<div className="row text-left">
 				<ComponentSelector
 					componentDefinitions={componentDefinitions}
