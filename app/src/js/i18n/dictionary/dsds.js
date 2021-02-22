@@ -124,12 +124,12 @@ export default {
 		en: 'Date',
 	},
 	rangeTitle: {
-		fr: 'Portée',
-		en: 'Range',
+		fr: 'Représentation',
+		en: 'Representation',
 	},
 	rangePlaceholder: {
-		fr: 'Définir la portée du composant ...',
-		en: 'Define component range...',
+		fr: 'Définir la représentation du composant ...',
+		en: 'Define component representation...',
 	},
 	conceptTitle: {
 		fr: 'Concept',

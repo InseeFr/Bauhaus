@@ -10,6 +10,8 @@ import { ATTRIBUTE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Stores } from 'bauhaus-utilities';
+import { XSD_TYPES } from '../../utils/constants';
+import Representation from '../representation';
 
 export const StructureComponentsSelector = ({
 	hidden = false,
@@ -133,6 +135,11 @@ export const StructureComponentsSelector = ({
 		})
 		.map((componentDefinition, i) => {
 			const component = componentDefinition.component;
+			const representation = codesLists.find(
+				({ id }) => id?.toString() === component.codeList?.toString()
+			)?.label || XSD_TYPES.find(range => component.range === range.value)?.label || ''
+
+
 			return {
 				...component,
 				type: typeUriToLabel(component.type),
@@ -144,10 +151,10 @@ export const StructureComponentsSelector = ({
 				concept: concepts.find(
 					({ id }) => id?.toString() === component.concept?.toString()
 				)?.label,
-				codeList:
-					codesLists.find(
-						({ id }) => id?.toString() === component.codeList?.toString()
-					)?.label || '',
+				representation: <Representation readOnly={readOnly} component={component} codesLists={codesLists} handleCodesListDetail={() => {
+					const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
+					handleCodesListDetail(codesList)
+				}} /> ,
 				actions: (
 					<React.Fragment>
 
@@ -179,19 +186,6 @@ export const StructureComponentsSelector = ({
 								<span className="glyphicon glyphicon-minus"></span>
 							</button>
 						)}
-						{
-							!readOnly && component.codeList &&
-							<button
-								className="codes-list-detail"
-								onClick={() => {
-									const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
-									handleCodesListDetail(codesList)
-								}}
-								aria-label={D.seeCodesListDetails}
-								title={D.seeCodesListDetails}>
-								<span className="glyphicon glyphicon-th"></span>
-							</button>
-						}
 						{!readOnly && i !== 0 && (
 							<button
 								data-component-id={component.identifiant}

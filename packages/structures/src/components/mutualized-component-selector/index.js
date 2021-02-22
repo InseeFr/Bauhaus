@@ -7,6 +7,8 @@ import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 
 import PropTypes from 'prop-types';
+import Representation from '../representation';
+
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,
@@ -47,11 +49,10 @@ export const MutualizedComponentsSelector = ({
 		concept: concepts.find(({ id }) =>
 			component.concept?.toString().includes(id?.toString())
 		)?.label,
-		codeList:
-			codesLists.find(
-				({ id }) => id?.toString() === component.codeList?.toString()
-			)?.label || '',
-
+		representation: <Representation component={component} codesLists={codesLists} handleCodesListDetail={() => {
+			const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
+			handleCodesListDetail(codesList)
+		}}/>,
 		actions: (
 			<React.Fragment>
 				<button
@@ -68,18 +69,6 @@ export const MutualizedComponentsSelector = ({
 				>
 					<span className="glyphicon glyphicon-plus"></span>
 				</button>
-				{
-					component.codeList &&
-					<button
-						onClick={() => {
-							const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
-							handleCodesListDetail(codesList)
-						}}
-						aria-label={D.seeCodesListDetails}
-						title={D.seeCodesListDetails}>
-						<span className="glyphicon glyphicon-th"></span>
-					</button>
-				}
 			</React.Fragment>
 		),
 	}));
