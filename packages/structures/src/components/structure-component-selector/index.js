@@ -135,9 +135,6 @@ export const StructureComponentsSelector = ({
 		})
 		.map((componentDefinition, i) => {
 			const component = componentDefinition.component;
-			const representation = codesLists.find(
-				({ id }) => id?.toString() === component.codeList?.toString()
-			)?.label || XSD_TYPES.find(range => component.range === range.value)?.label || ''
 
 
 			return {
