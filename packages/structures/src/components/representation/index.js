@@ -10,7 +10,8 @@ const Representation = ({ component, codesLists, handleCodesListDetail, readOnly
 	if(codeList){
 		return <>
 			{codeList}
-			{!readOnly && <button
+			{!readOnly && codeList && <button
+				className="codes-list-detail"
 				onClick={handleCodesListDetail}
 				aria-label={D.seeCodesListDetails}
 				title={D.seeCodesListDetails}>
