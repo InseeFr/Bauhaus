@@ -65,7 +65,7 @@ describe('<StructureComponentsSelector />', () => {
 		{
 			altLabel: '',
 			id: components[0].codeList?.toString(),
-			label: 'Code List - Label ' + components[0].codeList,
+			label: 'Code List - Label ' + components[0].component.codeList,
 		},
 	];
 
@@ -137,7 +137,7 @@ describe('<StructureComponentsSelector />', () => {
 			</Provider>
 		);
 		fireEvent.click(
-			container.querySelector('tbody tr:nth-child(1) button:nth-child(4) span')
+			container.querySelector('tbody tr:nth-child(1) button:nth-child(3) span')
 		);
 		expect(handleDown).toHaveBeenCalled();
 	});
@@ -224,7 +224,7 @@ describe('<StructureComponentsSelector />', () => {
 			</Provider>
 		);
 
-		expect(container.querySelector('tbody tr:nth-child(2) button.codes-list-detail')).toBeNull();
+		expect(container.querySelector('tbody tr:nth-child(1) button.codes-list-detail')).toBeNull();
 
 	})
 	it('should display the code list detail button if the code list is defined', () => {
@@ -245,6 +245,7 @@ describe('<StructureComponentsSelector />', () => {
 				/>
 			</Provider>
 		);
-		expect(container.querySelector('tbody tr:nth-child(1) button.codes-list-detail')).not.toBeNull();
+		console.log(container.querySelector('tbody tr:nth-child(2)').innerHTML)
+		expect(container.querySelector('tbody tr:nth-child(2) button.codes-list-detail')).not.toBeNull();
 	})
 });

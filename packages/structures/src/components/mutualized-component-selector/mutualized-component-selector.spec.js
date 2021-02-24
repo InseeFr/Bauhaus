@@ -80,9 +80,8 @@ describe('<MutualizedComponentsSelector />', () => {
 				/>
 			</Provider>
 		);
-
 		fireEvent.click(
-			container.querySelector('tbody tr:nth-child(1) button:nth-child(1)')
+			container.querySelector('tbody tr:nth-child(1) td:nth-child(6) button:nth-child(1)')
 		);
 		expect(
 			container.querySelector('.sliding-panel-container.active')

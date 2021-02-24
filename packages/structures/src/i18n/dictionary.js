@@ -64,8 +64,8 @@ const dictionary = {
 		en: 'The concept is mandatory',
 	},
 	errorsRangeMandatory: {
-		fr: 'La portée est obligatoire',
-		en: 'The range is mandatory',
+		fr: 'La représentation est obligatoire',
+		en: 'The representation is mandatory',
 	},
 	componentTitle: {
 		fr: 'Composants',
@@ -152,8 +152,8 @@ const dictionary = {
 		fr: 'Concept',
 	},
 	rangeTitle: {
-		fr: 'Portée',
-		en: 'Range',
+		fr: 'Représentation',
+		en: 'Representation',
 	},
 	stringType: {
 		fr: 'Texte',
