@@ -90,7 +90,7 @@ class MSDContainer extends Component {
 		if (this.props.metadataStructureStatus !== LOADED) {
 			this.props.loadMetadataStructure();
 		}
-		if (this.props.mode === UPDATE && !this.props.currentSims.id) {
+		if ((this.props.mode === UPDATE || this.props.mode === VIEW) && !this.props.currentSims.id) {
 			this.props.loadSIMS(this.props.id);
 		}
 		if (!this.props.isParentLoaded) {

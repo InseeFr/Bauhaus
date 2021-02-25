@@ -47,6 +47,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
 		const publicationDisabled = HTMLUtils.containUnsupportedStyles(attr);
+		const checkStamp = stamp => attr.creators.includes(stamp);
 
 		return (
 			<div className="container">
@@ -73,7 +74,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 							/>
 						</Auth.AuthGuard>
 					)}
-					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.INDICATOR_CONTRIBUTOR]}>
+					<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.INDICATOR_CONTRIBUTOR, checkStamp]]}>
 						<ValidationButton
 							object={attr}
 							callback={(object) =>
