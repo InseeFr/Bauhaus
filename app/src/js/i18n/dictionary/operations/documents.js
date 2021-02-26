@@ -1,7 +1,7 @@
 export default {
 	document: { fr: 'Document', en: 'Document' },
 	link: { fr: 'Lien', en: 'Link' },
-	titleDocument: { fr: 'Fichier', en: 'Document' },
+	titleDocument: { fr: 'Document', en: 'Document' },
 	titleLink: { fr: 'Lien', en: 'Link' },
 	titleUpdatedDate: { fr: 'Date de mise à jour', en: 'Updated date' },
 	addDocument: {
