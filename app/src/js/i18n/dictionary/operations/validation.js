@@ -40,8 +40,8 @@ export default {
 	documents: {
 		serverSideErrors: {
 			304: {
-				en: 'You can not remove this document because it is already linked to a SIMS',
-				fr: 'Vous ne pouvez pas supprimer ce document car il est déjà associé à un SIMS',
+				en: 'Vous ne pouvez pas modifier le fichier si le document est attaché un rapport qualité. Pour modifier le fichier, veuillez tout d\'abord le retirer du rapport qualité. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+				fr: 'Vous ne pouvez pas modifier le fichier si le document est attaché un rapport qualité. Pour modifier le fichier, veuillez tout d\'abord le retirer du rapport qualité. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
 			}
 		},
 	},

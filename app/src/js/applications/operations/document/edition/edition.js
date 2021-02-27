@@ -113,9 +113,14 @@ class OperationsDocumentationEdition extends Component {
 		const { document, files, serverSideError } = this.state;
 		const isEditing = !!document.id;
 		const errors = validate(document, type, files);
-		const globalError =
-			errors.errorMessage ||
-			D.documents.serverSideErrors[serverSideError.code] || serverSideError
+
+		let globalError;
+		try {
+			globalError =
+				errors.errorMessage ||
+				D.documents.serverSideErrors[JSON.parse(serverSideError).code] || serverSideError
+		} catch (e){}
+
 
 		let updatedDate;
 		if (document.updatedDate) {
