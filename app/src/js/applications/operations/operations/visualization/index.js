@@ -53,6 +53,7 @@ class OperationVisualizationContainer extends VisualizationContainer {
 		const { serverSideError } = this.state;
 
 		if (!operation.id) return <Loading />;
+		const checkStamp = stamp => operation.series.creators.includes(stamp);
 
 		return (
 			<div className="container">
@@ -71,14 +72,14 @@ class OperationVisualizationContainer extends VisualizationContainer {
 						/>
 					)}
 					{!operation.idSims && (
-						<Auth.AuthGuard roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}>
+						<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}>
 							<Button
 								action={`/operations/operation/${operation.id}/sims/create`}
 								label={D.btnSimsCreate}
 							/>
 						</Auth.AuthGuard>
 					)}
-					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}>
+					<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}>
 						<ValidationButton
 							object={operation}
 							callback={(object) =>
@@ -87,7 +88,7 @@ class OperationVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth.AuthGuard>
 					<Auth.AuthGuard
-						roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}
+						roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}
 					>
 						<Button
 							action={`/operations/operation/${operation.id}/modify`}
