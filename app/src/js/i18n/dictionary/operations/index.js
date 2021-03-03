@@ -210,11 +210,11 @@ const dictionary = {
 	},
 	exportSimsIncludeLg1: {
 		fr: 'Inclure la langue 1',
-		en: 'Include the langue 1'
+		en: 'Include the lang 1'
 	},
 	exportSimsIncludeLg2: {
 		fr: 'Inclure la langue 2',
-		en: 'Include the langue 2'
+		en: 'Include the lang 2'
 	},
 	exportSimsIncludeEmptyMas: {
 		fr: 'Inclure les rubriques vides',
