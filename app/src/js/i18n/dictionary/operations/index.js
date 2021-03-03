@@ -208,6 +208,18 @@ const dictionary = {
 			'Vous êtes sur le point de supprimer définitivement cette documentation. Êtes-vous sûr ?',
 		en: 'You are about to permanently delete this documentation. Are you sure?',
 	},
+	exportSimsIncludeLg1: {
+		fr: 'Inclure la langue 1',
+		en: 'Include the langue 1'
+	},
+	exportSimsIncludeLg2: {
+		fr: 'Inclure la langue 2',
+		en: 'Include the langue 2'
+	},
+	exportSimsIncludeEmptyMas: {
+		fr: 'Inclure les rubriques vides',
+		en: 'Include the empty rubrics'
+	},
 	...documentsD,
 	...validationD,
 };
