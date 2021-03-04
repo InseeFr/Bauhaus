@@ -113,9 +113,9 @@ class MSDContainer extends Component {
 			this.setState({ owners })
 		})
 	}
-	exportCallback = (id) => {
+	exportCallback = (id, config) => {
 		this.setState(() => ({ exportPending: true }));
-		api.exportSims(id).then(() => {
+		api.exportSims(id, config).then(() => {
 			this.setState(() => ({ exportPending: false }));
 		});
 	};

@@ -2,8 +2,8 @@ export default {
 	getSims: (id) => [`metadataReport/${id}`],
 	getDefaultSims: () => ['metadataReport/default'],
 	getOwners: (id) => [`metadataReport/Owner/${id}`],
-	exportSims: (id) => [
-		`metadataReport/export/${id}`,
+	exportSims: (id, config) => [
+		`metadataReport/export/${id}?emptyMas=${config.emptyMas}&lg1=${config.lg1}&lg2${config.lg2}`,
 		{
 			method: 'GET',
 			headers: {

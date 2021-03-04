@@ -35,6 +35,7 @@ import {
 
 import SimsBlock from './sims-block';
 import './sims-visualisation.scss';
+import Modal from 'react-modal';
 const { RICH_TEXT } = rangeType;
 
 export default function SimsVisualisation({
@@ -51,6 +52,12 @@ export default function SimsVisualisation({
 }) {
 	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 	const [modalOpened, setModalOpened] = useState(false);
+	const [exportModalOpened, setExportModalOpened] = useState(false);
+	const [exportConfig, setExportConfig] = useState({
+		emptyMas: true,
+		lg1: true,
+		lg2: true
+	})
 
 	function MSDInformations({ msd, firstLevel = false }) {
 		return (
@@ -152,6 +159,51 @@ export default function SimsVisualisation({
 					message={D.confirmationDocumentationDelete}
 				/>
 			)}
+			{exportModalOpened && (
+				<Modal
+					className={`Modal__Bootstrap modal-dialog operations`}
+					isOpen={true}
+					ariaHideApp={false}
+				>
+					<div className="modal-content">
+						<div className="modal-header">
+							<button type="button" className="close" onClick={() => setExportModalOpened(false)}>
+								<span aria-hidden="true">&times;</span>
+								<span className="sr-only">{'btnClose'}</span>
+							</button>
+							<h4 className="modal-title">{D.btnExport}</h4>
+						</div>
+
+						<div className="modal-body">
+							<div className='row'>
+								<label className="col-md-offset-1">
+									<input type='checkbox' checked={exportConfig.emptyMas}
+												 onChange={() => setExportConfig({ ...exportConfig, emptyMas: !exportConfig.emptyMas})}/>
+												 {D.exportSimsIncludeEmptyMas}
+								</label>
+							</div>
+							<div className='row'>
+								<label className="col-md-offset-1">
+									<input type='checkbox' checked={exportConfig.lg1}
+												 onChange={() => setExportConfig({ ...exportConfig, lg1: !exportConfig.lg1})}/>
+									{D.exportSimsIncludeLg1}</label>
+							</div>
+							<div className='row'>
+								<label className="col-md-offset-1">
+									<input type='checkbox' checked={exportConfig.lg2}
+												 onChange={() => setExportConfig({ ...exportConfig, lg2: !exportConfig.lg2})}/>
+									{D.exportSimsIncludeLg2}</label>
+							</div>
+						</div>
+						<div className="modal-footer text-right">
+							<Button offset={10} action={() => {
+								exportCallback(sims.id, exportConfig)
+								setExportModalOpened(false)
+							}}>{D.yes}</Button>
+						</div>
+					</div>
+				</Modal>
+			)}
 			<ActionToolbar>
 				<ReturnButton action={() => goBack(getParentUri(sims))} />
 				<Auth.AuthGuard
@@ -192,7 +244,7 @@ export default function SimsVisualisation({
 						}
 					/>
 				</Auth.AuthGuard>
-				<ExportButton action={() => exportCallback(sims.id)} />
+				<ExportButton action={() => setExportModalOpened(true)} />
 			</ActionToolbar>
 
 			<ErrorBloc error={serverSideError} />
