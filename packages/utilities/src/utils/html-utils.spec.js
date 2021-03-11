@@ -90,7 +90,6 @@ describe('containUnsupportedStyles', () => {
 		).toBeFalsy();
 	});
 	[
-		'+value+',
 		'color-rgb(0,0,0)valuecolor-rgb(0,0,0)',
 		'bgcolor-rgb(0,0,0)valuebgcolor-rgb(0,0,0)',
 	].forEach(value => {
