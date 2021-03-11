@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-import { rangeType } from 'js/utils/msd/';
 import api from 'js/remote-api/operations-api';
 import { useHistory } from "react-router-dom";
 import { useDispatch} from 'react-redux';
@@ -14,7 +13,8 @@ import {
 	ReturnButton,
 	Panel,
 	ExportButton,
-	DeleteButton
+	DeleteButton,
+	CancelButton
 } from '@inseefr/wilco';
 
 import * as A from 'js/actions/constants';
@@ -171,12 +171,15 @@ export default function SimsVisualisation({
 						<div className="modal-header">
 							<button type="button" className="close" onClick={() => setExportModalOpened(false)}>
 								<span aria-hidden="true">&times;</span>
-								<span className="sr-only">{'btnClose'}</span>
+								<span className="sr-only">{D.btnClose}</span>
 							</button>
 							<h4 className="modal-title">{D.btnExport}</h4>
 						</div>
 
-						<div className="modal-body">
+						<div className="modal-body export-modal-body">
+							<div className='row'>
+								<p className="col-md-offset-1">{D.exportSimsTips}</p>
+							</div>
 							<div className='row'>
 								<label className="col-md-offset-1">
 									<input type='checkbox' checked={exportConfig.emptyMas}
@@ -198,7 +201,8 @@ export default function SimsVisualisation({
 							</div>
 						</div>
 						<div className="modal-footer text-right">
-							<Button offset={10} action={() => {
+							<CancelButton col={3} offset={5} action={() => setExportModalOpened(false)} />
+							<Button col={4} action={() => {
 								exportCallback(sims.id, exportConfig)
 								setExportModalOpened(false)
 							}}>{D.btnExportValidate}</Button>
