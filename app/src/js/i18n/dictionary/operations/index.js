@@ -208,6 +208,10 @@ const dictionary = {
 			'Vous êtes sur le point de supprimer définitivement cette documentation. Êtes-vous sûr ?',
 		en: 'You are about to permanently delete this documentation. Are you sure?',
 	},
+	exportSimsTips: {
+		fr: 'Veuillez sélectionner les options d\'export',
+		en: 'Please select the export options.'
+	},
 	exportSimsIncludeLg1: {
 		fr: 'Inclure la première langue',
 		en: 'Include first language'
