@@ -411,7 +411,8 @@ const dictionary = {
 		fr: 'Mesures',
 		en: 'Measures',
 	},
-	btnExport:{fr:"Exporter",en:"Export"}
+	btnExport:{fr:"Options d'export",en:"Export options"},
+	btnExportValidate:{fr:"Exporter en odt",en:"Export to odt"}
 };
 
 export default dictionary;

@@ -3,6 +3,7 @@ import {
 	StructureComponentsSelector,
 	getFormattedCodeList,
 	ComponentSpecificationModal,
+	CodesListPanel
 } from 'bauhaus-structures';
 import { ConceptsAPI } from 'bauhaus-utilities';
 
@@ -11,6 +12,11 @@ const Components = ({ componentDefinitions = []}) => {
 	const [codesLists, setCodesLists] = useState([]);
 	const [modalOpened, setModalOpened] = useState(false);
 	const [selectedComponent, setSelectedComponent] = useState({});
+
+	const [codesListNotation, setCodesListNotation] = useState(undefined);
+	const handleCodesListDetail = useCallback(notation => {
+		setCodesListNotation(notation);
+	}, [])
 
 	useEffect(() => {
 		ConceptsAPI.getConceptList().then(res => setConcepts(res));
@@ -43,7 +49,10 @@ const Components = ({ componentDefinitions = []}) => {
 				concepts={concepts}
 				codesLists={codesLists}
 				readOnly={true}
+				handleCodesListDetail={handleCodesListDetail}
 			/>
+			<CodesListPanel codesList={codesListNotation} isOpen={!!codesListNotation} handleBack={() => setCodesListNotation(undefined)}/>
+
 		</div>
 	);
 };

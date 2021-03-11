@@ -8,17 +8,17 @@ const defaultInlineStyles = {
 	Emphasis: {
 		type: 'ITALIC',
 		symbol: '*',
-	},
+	}/*,
 	STRIKETHROUGH: {
 		type: 'STRIKETHROUGH',
 		symbol: '+',
-	},
+	},*/
 };
 export const REGEXPS = [
-	{
+	/*{
 		regexp: /(\+)/,
 		type: defaultInlineStyles.STRIKETHROUGH.type,
-	},
+	},*/
 	{
 		regexp: /((bg)?color-rgb\(\d*,\d*,\d*\))/,
 	},
@@ -212,10 +212,10 @@ const parseMdLine = (line, existingEntities, extraStyles = {}) => {
 				let finalText = '';
 
 				const REGEXPS = [
-					{
+					/*{
 						regexp: /^(\+)/,
 						type: inlineStyles.STRIKETHROUGH.type,
-					},
+					},*/
 					{
 						regexp: /^((bg)?color-rgb\(\d*,\d*,\d*\))/,
 					},

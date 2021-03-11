@@ -148,7 +148,7 @@ export const StructureComponentsSelector = ({
 				concept: concepts.find(
 					({ id }) => id?.toString() === component.concept?.toString()
 				)?.label,
-				representation: <Representation readOnly={readOnly} component={component} codesLists={codesLists} handleCodesListDetail={() => {
+				representation: <Representation component={component} codesLists={codesLists} handleCodesListDetail={() => {
 					const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
 					handleCodesListDetail(codesList)
 				}} /> ,
