@@ -104,7 +104,10 @@ export default function SimsVisualisation({
 	 * The publication button should be enabled only if RICH_TEXT value do not
 	 * have unsupported styles like STRIKETHROUGH, color or background color
 	 */
-	const publicationDisabled = HTMLUtils.containUnsupportedStyles(
+	const publicationDisabled = false;
+	/*
+	HTMLUtils.containUnsupportedStyles(
+
 		Object.keys(sims.rubrics)
 			.filter((key) => sims.rubrics[key].rangeType === RICH_TEXT)
 			.reduce((acc, key) => {
@@ -115,6 +118,7 @@ export default function SimsVisualisation({
 				};
 			}, {})
 	);
+	*/
 
 	const [serverSideError, setServerSideError] = useState();
 	const publish = useCallback(
@@ -199,7 +203,7 @@ export default function SimsVisualisation({
 							<Button offset={10} action={() => {
 								exportCallback(sims.id, exportConfig)
 								setExportModalOpened(false)
-							}}>{D.yes}</Button>
+							}}>{D.btnExportValidate}</Button>
 						</div>
 					</div>
 				</Modal>

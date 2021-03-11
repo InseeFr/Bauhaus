@@ -209,12 +209,12 @@ const dictionary = {
 		en: 'You are about to permanently delete this documentation. Are you sure?',
 	},
 	exportSimsIncludeLg1: {
-		fr: 'Inclure la langue 1',
-		en: 'Include the lang 1'
+		fr: 'Inclure la première langue',
+		en: 'Include first language'
 	},
 	exportSimsIncludeLg2: {
-		fr: 'Inclure la langue 2',
-		en: 'Include the lang 2'
+		fr: 'Inclure la seconde langue',
+		en: 'Include seconde language'
 	},
 	exportSimsIncludeEmptyMas: {
 		fr: 'Inclure les rubriques vides',
