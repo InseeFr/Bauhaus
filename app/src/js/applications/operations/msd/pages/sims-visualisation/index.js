@@ -21,7 +21,6 @@ import * as A from 'js/actions/constants';
 
 import {
 	Auth,
-	HTMLUtils,
 	ValidationButton,
 	CheckSecondLang,
 	PublicationFemale,
@@ -36,7 +35,6 @@ import {
 import SimsBlock from './sims-block';
 import './sims-visualisation.scss';
 import Modal from 'react-modal';
-const { RICH_TEXT } = rangeType;
 
 export default function SimsVisualisation({
 	metadataStructure,
