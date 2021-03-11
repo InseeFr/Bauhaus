@@ -15,3 +15,4 @@ export * as StructuresUtils from './utils';
 export { default as ComponentSpecificationModal } from './components/component-specification-modal';
 
 export * as StructureConstants from './utils/constants/dsd-components';
+export { CodesListPanel } from './components/codes-list-panel/codes-list-panel';
