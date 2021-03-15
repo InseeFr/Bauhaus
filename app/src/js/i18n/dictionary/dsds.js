@@ -84,8 +84,8 @@ export default {
 	},
 
 	idTitle: {
-		fr: 'Identifiant',
-		en: 'Identifier',
+		fr: 'Notation',
+		en: 'Notation',
 	},
 	labelTitle: {
 		fr: 'Libellé',

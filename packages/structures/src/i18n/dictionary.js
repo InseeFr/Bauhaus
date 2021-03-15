@@ -172,8 +172,8 @@ const dictionary = {
 		en: 'Date',
 	},
 	idTitle: {
-		fr: 'Identifiant',
-		en: 'Identifier',
+		fr: 'Notation',
+		en: 'Notation',
 	},
 	attachmentTitle: {
 		fr: "Attachement de l'attribut",
