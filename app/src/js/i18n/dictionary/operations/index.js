@@ -210,7 +210,7 @@ const dictionary = {
 	},
 	exportSimsTips: {
 		fr: 'Veuillez sélectionner les options d\'export',
-		en: 'Please select the export options.'
+		en: 'Please select the export options'
 	},
 	exportSimsIncludeLg1: {
 		fr: 'Inclure la première langue',
@@ -218,7 +218,7 @@ const dictionary = {
 	},
 	exportSimsIncludeLg2: {
 		fr: 'Inclure la seconde langue',
-		en: 'Include seconde language'
+		en: 'Include second language'
 	},
 	exportSimsIncludeEmptyMas: {
 		fr: 'Inclure les rubriques vides',

@@ -50,6 +50,7 @@ export default withRouter(
 					/>
 					<Route path="/operations" component={getComponent('operations')} />
 					<Route path="/structures" component={getComponent('structures')} />
+					<Route path="/codelists" component={getComponent('codelists')} />
 					<Route path="*" component={NotFound} />
 				</Switch>
 			</Suspense>

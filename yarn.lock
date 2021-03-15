@@ -14134,7 +14134,7 @@ react-draft-wysiwyg@1.13.2:
     linkify-it "^2.0.3"
     prop-types "^15.6.0"
 
-react-draft-wysiwyg@1.14.5, react-draft-wysiwyg@^1.14.4:
+react-draft-wysiwyg@^1.14.4:
   version "1.14.5"
   resolved "https://registry.npmjs.org/react-draft-wysiwyg/-/react-draft-wysiwyg-1.14.5.tgz"
   integrity sha512-utbJEs91757QXYoBwKRb/4kB3JdswLlj0heUiAeXs/OxZAUISJXxLMFLBIixRlIcUnNkwxOsMikRshDMtWIS3g==
