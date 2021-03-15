@@ -53,7 +53,7 @@ function OperationsFamilyVisualization({
 				/>
 				{secondLang && (
 					<Note
-						text={HTMLUtils.renderMarkdownElement(attr.abstractLg2)}
+						text={HTMLUtils.renderMarkdownElement("En base, nous avons : <pre><code>Blablalbla </code></pre>\n")}
 						title={D2.summary}
 						lang={lg2}
 						alone={false}
