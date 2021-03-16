@@ -1,5 +1,6 @@
 export default {
 	getSeriesList: () => ['series/withSims'],
+	getUserSeriesList: (stamp) => ['series/seriesWithStamp/' + stamp],
 	getSeriesSearchList: () => ['series/advanced-search'],
 	getSerie: id => [`series/${id}`],
 	publishSeries: series => [
