@@ -80,6 +80,9 @@ export const ComponentDetailView = ({
 					text={
 						<ul>
 							<li>
+								{D1.idTitle} : {component.identifiant}
+							</li>
+							<li>
 								{D.createdDateTitle} :{' '}
 								{DateUtils.stringToDate(component.created)}
 							</li>

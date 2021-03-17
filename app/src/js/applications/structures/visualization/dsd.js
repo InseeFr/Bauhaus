@@ -43,6 +43,9 @@ export const StructureView = ({secondLang, structure, publish, serverSideError})
 					text={
 						<ul>
 							<li>
+								{D1.idTitle} : {structure.identifiant}
+							</li>
+							<li>
 								{D1.createdDateTitle} : {DateUtils.stringToDate(structure.created)}
 							</li>
 							<li>
