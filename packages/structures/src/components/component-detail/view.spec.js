@@ -182,12 +182,13 @@ describe('<ComponentDetailView />', () => {
 				handleUpdate={() => {}}
 			></ComponentDetailView>
 		);
-		expect(container.querySelector('ul li:nth-child(1)').innerHTML).toContain('Creation date : 01/01/2020');
-		expect(container.querySelector('ul li:nth-child(2)').innerHTML).toContain('Modification date : 01/01/2020');
-		expect(container.querySelector('ul li:nth-child(3)').innerHTML).toContain('Publication status : Published');
-		expect(container.querySelector('ul li:nth-child(4)').innerHTML).toContain('Creator : STAMP CREATOR');
-		expect(container.querySelector('ul li:nth-child(5)').innerHTML).toContain('Contributor : STAMP CONTRIBUTOR');
-		expect(container.querySelector('ul li:nth-child(6)').innerHTML).toContain('Diffusion status : Public generic');
+		expect(container.querySelector('ul li:nth-child(1)').innerHTML).toContain('Notation : 5e7334002a5c764f68247222');
+		expect(container.querySelector('ul li:nth-child(2)').innerHTML).toContain('Creation date : 01/01/2020');
+		expect(container.querySelector('ul li:nth-child(3)').innerHTML).toContain('Modification date : 01/01/2020');
+		expect(container.querySelector('ul li:nth-child(4)').innerHTML).toContain('Publication status : Published');
+		expect(container.querySelector('ul li:nth-child(5)').innerHTML).toContain('Creator : STAMP CREATOR');
+		expect(container.querySelector('ul li:nth-child(6)').innerHTML).toContain('Contributor : STAMP CONTRIBUTOR');
+		expect(container.querySelector('ul li:nth-child(7)').innerHTML).toContain('Diffusion status : Public generic');
 
 	})
 });
