@@ -24,6 +24,7 @@ export { default as EditorHTML } from './components/editor-html';
 export {
 	default as EditorMarkdown,
 	toolbar as EditorMarkdownToolbar,
+	DeleteButton as EditorDeleteButton
 } from './components/editor-html/editor-markdown';
 export { default as AdvancedSearchControls } from './components/advanced-search/controls';
 export * from './components/advanced-search/home-container';

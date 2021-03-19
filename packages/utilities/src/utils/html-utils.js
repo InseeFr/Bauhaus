@@ -133,8 +133,8 @@ export function mdFromEditorState(editorState) {
 
 	// Sometime the editor do not add a new line after un ordered and unordered lisr
 	// https://trello.com/c/t6jFYvMR/633-sims-rich-text
-	md = addNewLineAfter(md,/^-\s/).join('\n');
-	md = addNewLineAfter(md, /^\d./).join('\n');
+	//md = addNewLineAfter(md,/^-\s/).join('\n');
+	//md = addNewLineAfter(md, /^\d./).join('\n');
 	return md
 }
 
