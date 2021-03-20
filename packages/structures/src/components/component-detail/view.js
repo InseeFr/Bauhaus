@@ -15,7 +15,8 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 import { HTMLUtils, ValidationButton, DateUtils, PublicationMale } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
-import api from '../../apis/structure-api';
+import "./view.scss";
+import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 
 export const canBeDeleted = (component) => {
 	const withoutStructuresUsingThisComponent = !component.structures || component.structures?.length === 0
@@ -40,6 +41,7 @@ export const ComponentDetailView = ({
 	publishComponent,
 	serverSideError
 }) => {
+	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 
 	const typeValue = typeUriToLabel(component.type);
 	const conceptValue = concepts.find(
@@ -143,7 +145,17 @@ export const ComponentDetailView = ({
 			{component.range === XSD_CODE_LIST && (
 				<div className="row">
 					<Note
-						text={codeListValue}
+						text={
+							<div className="code-list-zone-view">
+								{codeListValue}
+								<button
+									type="button"
+									onClick={() => setCodesListPanelOpened(true)}
+								>
+									{D.see}
+								</button>
+							</div>
+						}
 						title={D1.codesListTitle}
 						alone={true}
 						allowEmpty={true}
@@ -225,6 +237,9 @@ export const ComponentDetailView = ({
 					</div>
 				</React.Fragment>
 			)}
+			<CodesListPanel codesList={codesLists.find((c) =>
+				(component.codeList?.id || component.codeList)?.toString().includes(c.id?.toString())
+			)} isOpen={codesListPanelOpened} handleBack={() => setCodesListPanelOpened(false)}/>
 		</React.Fragment>
 	);
 };
