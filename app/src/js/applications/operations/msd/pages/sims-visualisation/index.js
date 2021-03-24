@@ -213,7 +213,7 @@ export default function SimsVisualisation({
 			<ActionToolbar>
 				<ReturnButton action={() => goBack(getParentUri(sims))} />
 				<Auth.AuthGuard
-					roles={[Auth.ADMIN]}
+					roles={[Auth.ADMIN, CREATOR]}
 					complementaryCheck={shouldDisplayDuplicateButtonFlag}
 				>
 					<DuplicateButton

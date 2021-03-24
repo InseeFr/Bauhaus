@@ -4,14 +4,13 @@ import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
-import { EditorMarkdownToolbar, ArrayUtils } from 'bauhaus-utilities';
+import { EditorMarkdownToolbar, ArrayUtils, EditorDeleteButton } from 'bauhaus-utilities';
 import { SimsGeographyPicker } from 'bauhaus-operations';
 import { Editor } from 'react-draft-wysiwyg';
 import { Note, getLang, Select } from '@inseefr/wilco';
 import './sims-field.scss';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
-
 const SimsCodeListSelect = (props) => {
 	let value;
 	let onChange;
@@ -147,6 +146,7 @@ class SimsField extends PureComponent {
 										editorState={
 											currentSection[secondLang ? 'labelLg2' : 'labelLg1']
 										}
+										toolbarCustomButtons={[<EditorDeleteButton />]}
 										toolbar={currentToolbar}
 										toolbarClassName="home-toolbar"
 										wrapperClassName="home-wrapper"
