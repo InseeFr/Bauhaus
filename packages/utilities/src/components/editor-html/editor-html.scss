@@ -3,6 +3,11 @@
 .rdw-editor-toolbar {
 	border-style: none;
 	background: transparent;
+
+	div:last-child {
+		position: absolute;
+		right: 20px;
+	}
 }
 
 .DraftEditor-root {
