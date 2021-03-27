@@ -138,7 +138,6 @@ describe('<ComponentDetailView />', () => {
 			></ComponentDetailView>
 		);
 
-		expect(queryByText(container, component.identifiant)).not.toBeNull();
 		expect(queryByText(container, 'Dimension')).not.toBeNull();
 		expect(queryByText(container, 'Code list')).not.toBeNull();
 	});
