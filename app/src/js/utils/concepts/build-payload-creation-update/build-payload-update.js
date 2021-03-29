@@ -4,7 +4,7 @@ import {
 	processVersionableChanges,
 	keepDatableNotes,
 } from 'js/utils/concepts/notes';
-import { VERSIONING } from 'js/constants';
+import { CLOSE_MATCH, VERSIONING } from 'js/constants';
 
 //only `isValidated` is not sent
 const generalFieldsToKeep = [
@@ -25,7 +25,11 @@ export default function buildPayloadUpdate(versioning, oldConcept, concept) {
 	const { general: rawGeneral, notes, conceptsWithLinks } = concept;
 
 	const general = processGeneral(rawGeneral, generalFieldsToKeep);
-	const links = processLinks(conceptsWithLinks);
+	const links = [...processLinks(conceptsWithLinks)];
+	if(concept.equivalentLinks?.length > 0){
+		links.push(
+			concept.equivalentLinks.reduce((acc, link) => ({ typeOfLink: CLOSE_MATCH, urn: [...acc.urn, link.urn]}), {urn: []}))
+	}
 
 	return {
 		versioning: versioning === VERSIONING ? true : false,

@@ -3,10 +3,17 @@ import { Link } from 'react-router-dom';
 import { D1, D2 } from 'js/i18n';
 import { Note } from '@inseefr/wilco';
 import { ArrayUtils } from 'bauhaus-utilities';
-import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED } from 'js/constants';
+import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED, CLOSE_MATCH } from 'js/constants';
 const sortByLabelLg1 = ArrayUtils.sortArray('prefLabelLg1');
 const sortByLabelLg2 = ArrayUtils.sortArray('prefLabelLg2');
 
+const CloseMatchLinks = ({links, Dictionnary}) => {
+	return links.length > 0 && (
+		<li>{Dictionnary.equivalentTitle} :<ul>{
+			links.map(cm => <li key={cm.urn}><a href={cm.urn} target="_blank">{cm.urn}</a></li>)
+		}</ul></li>
+	)
+}
 function ConceptLinks({ secondLang, links }) {
 	var nbLinks = 0;
 
@@ -15,6 +22,7 @@ function ConceptLinks({ secondLang, links }) {
 	const references = [];
 	const replaces = [];
 	const related = [];
+	const closeMatch = [];
 
 	for (var i = 0; i < links.length; i++) {
 		if (links[i].typeOfLink === NARROWER) {
@@ -35,6 +43,10 @@ function ConceptLinks({ secondLang, links }) {
 		}
 		if (links[i].typeOfLink === RELATED) {
 			related.push(links[i]);
+			nbLinks++;
+		}
+		if (links[i].typeOfLink === CLOSE_MATCH) {
+			closeMatch.push(links[i]);
 			nbLinks++;
 		}
 	}
@@ -94,6 +106,7 @@ function ConceptLinks({ secondLang, links }) {
 							{Dictionnary.relatedTitle} :<ul>{relatedList[lang]}</ul>
 						</li>
 					)}
+					<CloseMatchLinks links={closeMatch} Dictionnary={Dictionnary}/>
 				</ul>
 			}
 			title={Dictionnary.linksTitle}

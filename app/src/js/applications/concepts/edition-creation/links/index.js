@@ -14,7 +14,10 @@ import {
 	SUCCEED,
 	RELATED,
 	NONE,
+	CLOSE_MATCH
 } from 'js/constants';
+import { EquivalentLinks } from './equivalentLinks';
+
 const linkTypes = [
 	{
 		title: D1.narrowerTitle,
@@ -36,6 +39,10 @@ const linkTypes = [
 		title: D1.relatedTitle,
 		memberType: RELATED,
 	},
+	{
+		title: D1.equivalentTitle,
+		memberType: CLOSE_MATCH,
+	},
 ];
 
 class LinksEdition extends Component {
@@ -53,6 +60,7 @@ class LinksEdition extends Component {
 					typeOfLink,
 				})),
 		};
+
 
 		this.handleSearch = label => {
 			this.setState({
@@ -116,7 +124,9 @@ class LinksEdition extends Component {
 		//if the concept already has a parent, we cannot add a parent
 		this.isAddDisabled = members => this.isPanelParent() && members.length > 0;
 	}
-
+	updateEquivalentLinks = (links) => {
+		this.props.handleChangeEquivalentLinks(links)
+	}
 	render() {
 		const { searchLabel, activeTab } = this.state;
 		const { members, hits } = this.getMembersAndHits();
@@ -153,11 +163,17 @@ class LinksEdition extends Component {
 
 		const tabs = linkTypes.map(({ title, memberType }, i) => (
 			<Tab key={title} eventKey={i} title={title} style={{ marginTop: '20px' }}>
-				<ConceptToLink
-					title={title}
-					memberEls={memberEls}
-					searchComponent={searchComponent}
-				/>
+				{
+					title !== D1.equivalentTitle ?
+						(
+							<ConceptToLink
+								title={title}
+								memberEls={memberEls}
+								searchComponent={searchComponent}
+							/>
+						) :
+						<EquivalentLinks links={this.props.equivalentLinks} updateEquivalentLinks={this.updateEquivalentLinks}/>
+				}
 			</Tab>
 		));
 
@@ -183,6 +199,7 @@ LinksEdition.propTypes = {
 	//concepts are supposed to be sorted by `label`
 	conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
 	handleChange: PropTypes.func.isRequired,
+	handleChangeEquivalentLinks: PropTypes.func.isRequired,
 };
 
 export default LinksEdition;

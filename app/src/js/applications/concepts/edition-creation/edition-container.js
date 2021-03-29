@@ -13,7 +13,7 @@ import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import { Loading, buildExtract } from '@inseefr/wilco';
-import { OK } from 'js/constants';
+import { CLOSE_MATCH, OK } from 'js/constants';
 import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
@@ -69,7 +69,6 @@ class EditionContainer extends Component {
 		if (concept && conceptList && stampList && disseminationStatusList) {
 			const { general, notes, links } = concept;
 			const conceptsWithLinks = mergeWithAllConcepts(conceptList, links);
-
 			return (
 				<ConceptEditionCreation
 					id={id}
@@ -77,6 +76,7 @@ class EditionContainer extends Component {
 					subtitle={general.prefLabelLg1}
 					general={general}
 					notes={notes}
+					equivalentLinks={concept.links.filter(link => link.typeOfLink === CLOSE_MATCH)}
 					conceptsWithLinks={conceptsWithLinks}
 					disseminationStatusList={disseminationStatusList}
 					maxLengthScopeNote={maxLengthScopeNote}

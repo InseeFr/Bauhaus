@@ -235,6 +235,10 @@ const dictionary = {
 		fr: 'Lié',
 		en: 'Related',
 	},
+	equivalentTitle: {
+		fr: 'Équivalent',
+		en: 'Equivalent'
+	},
 	// Mail
 	mailTitle: {
 		fr: 'Message',

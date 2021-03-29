@@ -5,7 +5,7 @@ import {
 	REFERENCES,
 	SUCCEED,
 	RELATED,
-	NONE,
+	NONE, CLOSE_MATCH,
 } from 'js/constants';
 
 const linkTypes = {
@@ -14,6 +14,7 @@ const linkTypes = {
 	[REFERENCES]: REFERENCES,
 	[SUCCEED]: SUCCEED,
 	[RELATED]: RELATED,
+	[CLOSE_MATCH]: CLOSE_MATCH,
 };
 
 const propTypesKindOfLink = PropTypes.oneOf([
