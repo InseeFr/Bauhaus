@@ -202,7 +202,9 @@ export default function SimsVisualisation({
 						</div>
 						<div className="modal-footer text-right">
 							<CancelButton col={3} offset={5} action={() => setExportModalOpened(false)} />
-							<Button col={4} action={() => {
+							<Button
+								disabled={!exportConfig.lg1 && !exportConfig.lg2}
+								col={4} action={() => {
 								exportCallback(sims.id, exportConfig)
 								setExportModalOpened(false)
 							}}>{D.btnExportValidate}</Button>

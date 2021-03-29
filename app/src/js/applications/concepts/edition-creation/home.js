@@ -21,7 +21,7 @@ import { withRouter } from 'react-router';
 class ConceptEditionCreation extends Component {
 	constructor(props) {
 		super(props);
-		const { general, notes, conceptsWithLinks } = props;
+		const { general, notes, conceptsWithLinks, equivalentLinks = [] } = props;
 		this.state = {
 			id: this.props.id,
 			activeTab: 0,
@@ -30,6 +30,7 @@ class ConceptEditionCreation extends Component {
 				general: { ...general },
 				notes: { ...notes },
 				conceptsWithLinks: [...conceptsWithLinks],
+				equivalentLinks: equivalentLinks
 			},
 		};
 
@@ -62,13 +63,23 @@ class ConceptEditionCreation extends Component {
 			});
 		};
 
-		this.handleChangeLinks = (newLinks) =>
+		this.handleChangeLinks = (newLinks) => {
 			this.setState({
 				data: {
 					...this.state.data,
 					conceptsWithLinks: newLinks,
 				},
 			});
+		}
+
+		this.handleChangeEquivalentLinks = (newLinks) => {
+			this.setState({
+				data: {
+					...this.state.data,
+					equivalentLinks: newLinks,
+				},
+			});
+		}
 
 		this.handleSave = () => {
 			if (this.props.creation) {
@@ -222,6 +233,8 @@ class ConceptEditionCreation extends Component {
 										conceptsWithLinks={conceptsWithLinks}
 										currentId={this.state.id}
 										handleChange={this.handleChangeLinks}
+										equivalentLinks={this.state.data.equivalentLinks}
+										handleChangeEquivalentLinks={this.handleChangeEquivalentLinks}
 									/>
 								)}
 							</Tab>

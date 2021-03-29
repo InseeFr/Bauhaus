@@ -115,14 +115,6 @@ export const ComponentDetailView = ({
 				/>
 			</div>
 			<div className="row">
-				<Note
-					text={component.identifiant}
-					title={D1.idTitle}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
-			<div className="row">
 				<Note text={typeValue} title={D1.type} alone={true} allowEmpty={true} />
 			</div>
 
