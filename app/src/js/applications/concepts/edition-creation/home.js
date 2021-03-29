@@ -64,7 +64,6 @@ class ConceptEditionCreation extends Component {
 		};
 
 		this.handleChangeLinks = (newLinks) => {
-			console.log(newLinks)
 			this.setState({
 				data: {
 					...this.state.data,

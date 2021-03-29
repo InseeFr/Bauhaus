@@ -9,8 +9,8 @@ const sortByLabelLg2 = ArrayUtils.sortArray('prefLabelLg2');
 
 const CloseMatchLinks = ({links, Dictionnary}) => {
 	return links.length > 0 && (
-		<li>{Dictionnary.equivalentTitle} :<ul>{
-			links.map(cm => <li key={cm.urn}><a href={cm.urn} target="_blank">{cm.urn}</a></li>)
+		<li>{Dictionnary.equivalentTitle} :<ul> {
+			links.map(cm => <li key={cm.urn}><a href={cm.urn} target="_blank" rel="noopener noreferrer">{cm.urn}</a></li>)
 		}</ul></li>
 	)
 }
