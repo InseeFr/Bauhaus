@@ -1,6 +1,7 @@
 import api from 'js/remote-api/operations-api';
 import * as A from 'js/actions/constants';
 import { LOADING } from 'js/constants';
+import { D1, D2 } from 'js/i18n';
 
 import { getPublishFactory } from '../utils';
 
@@ -22,8 +23,8 @@ function getFetchLabelsPromise(sims, promise) {
 	function mergeLabels(parent) {
 		return {
 			...sims,
-			labelLg1: parent.prefLabelLg1,
-			labelLg2: parent.prefLabelLg2,
+			labelLg1: D1.simsTitle + parent.prefLabelLg1,
+			labelLg2: D2.simsTitle + parent.prefLabelLg2,
 		};
 	}
 	if (sims.idOperation) {
