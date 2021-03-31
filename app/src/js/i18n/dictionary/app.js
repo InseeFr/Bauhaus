@@ -415,6 +415,10 @@ const dictionary = {
 		fr: 'Mesures',
 		en: 'Measures',
 	},
+	quitWithoutSaving: {
+		fr: 'Vous êtes sur le point de quitter cette page sans avoir sauvegarder vos modifications. Souhaitez-vous continuer ?',
+		en: 'You are leaving this page without saving your changes. Do you want to continue ?'
+	},
 	btnExport:{fr:"Options d'export",en:"Export options"},
 	btnExportValidate:{fr:"Exporter en odt",en:"Export to odt"}
 };

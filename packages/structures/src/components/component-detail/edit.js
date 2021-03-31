@@ -98,8 +98,8 @@ const DumbComponentDetailEdit = ({
 							className="form-control"
 							id="labelLg1"
 							name="labelLg1"
-							value={component.labelLg1}
 							onChange={handleChange}
+							value={component.labelLg1}
 							aria-invalid={field === 'labelLg1'}
 						/>
 					</div>
@@ -234,20 +234,24 @@ const DumbComponentDetailEdit = ({
 				<div className="row">
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
-						<EditorMarkdown
-							text={component.descriptionLg1}
-							handleChange={(value) =>
-								setComponent({ ...component, descriptionLg1: value })
-							}
+						<input
+							type="text"
+							value={component.descriptionLg1}
+							className="form-control"
+							id="descriptionLg1"
+							name="descriptionLg1"
+							onChange={handleChange}
 						/>
 					</div>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
-						<EditorMarkdown
-							text={component.descriptionLg2}
-							handleChange={(value) =>
-								setComponent({ ...component, descriptionLg2: value })
-							}
+						<input
+							type="text"
+							value={component.descriptionLg2}
+							className="form-control"
+							id="descriptionLg2"
+							name="descriptionLg2"
+							onChange={handleChange}
 						/>
 					</div>
 				</div>
