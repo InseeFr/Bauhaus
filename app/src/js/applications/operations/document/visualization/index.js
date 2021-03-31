@@ -23,6 +23,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
+import { ADMIN } from 'bauhaus-utilities/src/auth/roles';
 
 const extractId = buildExtract('id');
 
@@ -47,6 +48,24 @@ class DocumentationVisualizationContainer extends Component {
 		}
 	}
 
+	checkContributorRight = stamp => {
+		const sims = this.props.document.sims;
+		if(sims?.length === 0){
+			return true;
+		}
+		const stamps = sims.map(({creators}) => creators);
+		for(let i = 1; i < stamps.length; i++){
+			// we first check if all stamps array have the same size.
+			if(stamps[i - 1].length !== stamps[i].length){
+				return false;
+			}
+			if(stamps[i - 1].length > 0 && stamps[i - 1].filter(s => stamps[i].includes(s)).length === 0){
+				return false;
+			}
+		}
+		return stamps[0].includes(stamp);
+	}
+
 	render() {
 		const { id, document, langs, secondLang, langOptions } = this.props;
 		const type = getPath(this.props.match.path);
@@ -65,9 +84,9 @@ class DocumentationVisualizationContainer extends Component {
 
 					<Auth.AuthGuard
 						roles={[
-							Auth.ADMIN,
-							Auth.INDICATOR_CONTRIBUTOR,
-							Auth.SERIES_CONTRIBUTOR,
+							ADMIN,
+							[Auth.SERIES_CONTRIBUTOR, this.checkContributorRight],
+							[Auth.INDICATOR_CONTRIBUTOR, this.checkContributorRight]
 						]}
 					>
 						<Button
