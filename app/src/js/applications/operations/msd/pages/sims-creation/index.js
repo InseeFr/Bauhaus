@@ -4,7 +4,7 @@ import D from 'js/i18n';
 import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from 'js/utils/msd';
 import SimsDocumentField from 'js/applications/operations/msd/pages/sims-creation/sims-document-field';
-
+import { withRouter } from "react-router-dom";
 import {
 	Loading,
 	CancelButton,
@@ -45,7 +45,16 @@ class SimsCreation extends React.Component {
 
 		const flattenStructure = flattenTree(metadataStructure);
 
+		const unblock = this.props.history.block(() => {
+			if(!this.state.changed || window.confirm(D.quitWithoutSaving)){
+				unblock();
+				return true;
+			}
+			return false;
+		});
+
 		this.state = {
+			changed: false,
 			saving: false,
 			idParent:
 				this.props.mode !== DUPLICATE
@@ -74,6 +83,7 @@ class SimsCreation extends React.Component {
 	handleChange = (e) => {
 		this.setState((state) => ({
 			...state,
+			changed: true,
 			sims: {
 				...state.sims,
 				[e.id]: {
@@ -244,7 +254,7 @@ class SimsCreation extends React.Component {
 		if (this.state.saving) return <Loading textType="saving" />;
 
 		return (
-			<form>
+			<>
 				<ActionToolbar>
 					<CancelButton action={this.goBack} />
 					<SaveButton action={this.handleSubmit} col={3} />
@@ -280,9 +290,9 @@ class SimsCreation extends React.Component {
 						</div>
 					);
 				})}
-			</form>
+			</>
 		);
 	}
 }
 
-export default SimsCreation;
+export default withRouter(SimsCreation);

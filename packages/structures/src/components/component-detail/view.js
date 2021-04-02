@@ -160,7 +160,6 @@ export const ComponentDetailView = ({
 					title={D1.descriptionTitle}
 					alone={!secondLang}
 					allowEmpty={true}
-					md
 				/>
 				{secondLang && (
 					<Note
