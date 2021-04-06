@@ -109,9 +109,11 @@ class MSDContainer extends Component {
 	}
 
 	_loadOwnersList() {
-		api.getOwners(this.props.id).then(owners => {
-			this.setState({ owners })
-		})
+		if(this.props.id){
+			api.getOwners(this.props.id).then(owners => {
+				this.setState({ owners })
+			})
+		}
 	}
 	exportCallback = (id, config) => {
 		this.setState(() => ({ exportPending: true }));
