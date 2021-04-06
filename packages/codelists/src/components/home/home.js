@@ -18,8 +18,8 @@ function CodeListsList() {
 
 	useEffect(() => {
 		CodesList.getCodesLists()
-			.then((components) => {
-				setItems(components);
+			.then((codelists) => {
+				setItems(codelists);
 			})
 			.finally(() => setLoading(false));
 	}, []);
