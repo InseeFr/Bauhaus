@@ -14,7 +14,11 @@ function CodeListsList() {
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
 
-	//	const filteredItems = items.map(({ id, labelLg1, labelLg2 }) => ({ id, labelLg1 , labelLg2 }) );
+	const renamedItems = items.map(({ notation: id, labelLg1, labelLg2 }) => ({
+		id,
+		labelLg1,
+		labelLg2,
+	}));
 
 	useEffect(() => {
 		CodesList.getCodesLists()
@@ -36,13 +40,13 @@ function CodeListsList() {
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.componentTitle} col={12} offset={0} />
 					<SearchableList
-						items={items}
+						items={renamedItems}
 						childPath="codelists/components"
 						searchUrl="/codelists/components/search"
 						advancedSearch={true}
 						label="label"
 						autoFocus={true}
-						itemFormatter={(_, component) => formatLabel(component)}
+						itemFormatter={(_, codelist) => formatLabel(codelist)}
 					/>
 				</div>
 			</div>
