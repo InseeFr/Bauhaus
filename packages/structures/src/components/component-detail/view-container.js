@@ -74,6 +74,7 @@ const ViewContainer = (props) => {
 				updatable={true}
 				publishComponent={publishComponent}
 				serverSideError={serverSideError}
+				secondLang={secondLang}
 			/>
 		</React.Fragment>
 	);
