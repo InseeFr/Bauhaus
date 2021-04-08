@@ -45,9 +45,9 @@ class SimsCreation extends React.Component {
 
 		const flattenStructure = flattenTree(metadataStructure);
 
-		const unblock = this.props.history.block(() => {
+		this.unblock = this.props.history.block(() => {
 			if(!this.state.changed || window.confirm(D.quitWithoutSaving)){
-				unblock();
+				this.unblock();
 				return true;
 			}
 			return false;
@@ -101,6 +101,7 @@ class SimsCreation extends React.Component {
 	};
 
 	handleSubmit = (e) => {
+		this.unblock();
 		e.preventDefault();
 		e.stopPropagation();
 
