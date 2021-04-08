@@ -35,7 +35,7 @@ export const ComponentDetailView = ({
 	handleBack,
 	updatable,
 	mutualized = false,
-	secondLang = false,
+	secondLang,
 	structureComponents,
 	col = 3,
 	publishComponent,
@@ -243,6 +243,7 @@ ComponentDetailView.propTypes = {
 	handleBack: PropTypes.func,
 	updatable: PropTypes.bool,
 	structureComponents: PropTypes.array,
+	secondLang: PropTypes.bool
 };
 
 ComponentDetailView.defaultProps = {
