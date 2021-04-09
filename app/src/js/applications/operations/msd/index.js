@@ -128,7 +128,7 @@ class MSDContainer extends Component {
 		if (!nextProps.isParentLoaded) {
 			this._loadParent(nextProps.idParent);
 		}
-		if(this.props.mode === CREATE && nextProps.mode == VIEW){
+		if(this.props.mode === CREATE && nextProps.mode === VIEW){
 			this._loadOwnersList(nextProps.id)
 		}
 	}
