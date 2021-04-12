@@ -105,12 +105,12 @@ class MSDContainer extends Component {
 				this.setState({ defaultSimsRubrics: response})
 			})
 		}
-		this._loadOwnersList();
+		this._loadOwnersList(this.props.id);
 	}
 
-	_loadOwnersList() {
-		if(this.props.id){
-			api.getOwners(this.props.id).then(owners => {
+	_loadOwnersList(id) {
+		if(id){
+			api.getOwners(id).then(owners => {
 				this.setState({ owners })
 			})
 		}
@@ -127,6 +127,9 @@ class MSDContainer extends Component {
 		}
 		if (!nextProps.isParentLoaded) {
 			this._loadParent(nextProps.idParent);
+		}
+		if(this.props.mode === CREATE && nextProps.mode === VIEW){
+			this._loadOwnersList(nextProps.id)
 		}
 	}
 	isEditMode = () => {
