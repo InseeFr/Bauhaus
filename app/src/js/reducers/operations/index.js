@@ -47,7 +47,7 @@ function makeReducers([
 						{
 							id: action.payload.id,
 							label: action.payload.prefLabelLg1,
-							altLabel: action.payload.altLabelLg1,
+							altLabel: action.payload.altLabelLg1 || action.payload.altLabel,
 						},
 					]),
 				};
