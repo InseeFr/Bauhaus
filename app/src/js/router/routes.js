@@ -41,7 +41,7 @@ export default withRouter(
 		const modules = useSelector(state => state.app.properties.modules);
 		return (
 			<React.Fragment>
-				<Suspense fallback={<Loading />}>
+				<Suspense fallback={<></>}>
 					<Switch>
 						{error && <Route path="/" component={Error} />}
 						<Route exact path="/" render={() => getHomePage()} />
