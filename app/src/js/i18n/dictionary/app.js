@@ -62,6 +62,10 @@ const dictionary = {
 		fr: 'Page introuvable',
 		en: 'Page not found',
 	},
+	underMaintenanceTitle: {
+		fr: 'En maintenance',
+		en: 'Under maintenance',
+	},
 	multiModalNoNewBody: {
 		fr: 'Remplissez le champ précédent pour en ajouter un nouveau',
 		en: 'Complete the previous field before adding another',
