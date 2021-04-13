@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { Loading, Error } from '@inseefr/wilco';
+import { Error } from '@inseefr/wilco';
 
 import auth from 'js/applications/auth/hoc';
 
