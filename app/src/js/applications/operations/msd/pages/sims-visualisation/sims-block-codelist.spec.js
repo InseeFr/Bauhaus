@@ -25,7 +25,7 @@ describe('<SimsBlockCodeList />', () => {
 
 		expect(container.innerHTML).toBe('labelLg1 1');
 	});
-	it('should display a list if the maxOccurs property is unbounded and the value is not an array', () => {
+	it('should not display a list if the maxOccurs property is unbounded and the value is not an array', () => {
 		const { container } = render(
 			<SimsBlockCodeList
 				codesLists={{
@@ -45,7 +45,7 @@ describe('<SimsBlockCodeList />', () => {
 				multi={true}
 			/>
 		);
-		expect(container.querySelector('li').innerHTML).toBe('labelLg1 1');
+		expect(container.querySelector('li')).toBeNull();
 	});
 	it('should display a list if the maxOccurs property is unbounded and the value is an array', () => {
 		const { container } = render(
