@@ -1,10 +1,5 @@
 import { API } from 'bauhaus-utilities';
 
-const api = {
-    getMutualizedComponents: () => ['components'],
-
-    getMutualizedComponent: (id) => ['components/' + id],
-    
-};
+const api = {};
 
 export default API.buildApi('codeList', api);

@@ -38,9 +38,6 @@ export const ComponentDetailView = ({
 	publishComponent,
 	serverSideError,
 }) => {
-	/* const codeListValue = codesLists.find((concept) =>
-		component.codeList?.toString().includes(concept.id?.toString())
-	)?.label; */
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
 		component.descriptionLg1
 	);
@@ -51,15 +48,6 @@ export const ComponentDetailView = ({
 	const publish = () => {
 		publishComponent();
 	};
-
-	/* const codesData = component.map((codes) => ({
-		...codes,
-		code: codes.code,
-		labelLg1: codes.labelLg1,
-		labelLg2: codes.labelLg2,
-		descriptionLg1: codes.descriptionLg1,
-		descriptionLg2: codes.descriptionLg2,
-	})); */
 
 	return (
 		<React.Fragment>
@@ -129,16 +117,6 @@ export const ComponentDetailView = ({
 					alone={true}
 				/>
 			</div>
-			{/* {
-				<div className="row">
-					<Note
-						text={codeListValue}
-						title={D1.codesListTitle}
-						alone={true}
-						allowEmpty={true}
-					/>
-				</div>
-			} */}
 		</React.Fragment>
 	);
 };
