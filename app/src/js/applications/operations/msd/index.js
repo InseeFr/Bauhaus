@@ -101,9 +101,9 @@ class MSDContainer extends Component {
 		}
 
 		if(this.props.mode === CREATE){
-			api.getDefaultSims().then(response => {
+			/*api.getDefaultSims().then(response => {
 				this.setState({ defaultSimsRubrics: response})
-			})
+			})*/
 		}
 		this._loadOwnersList(this.props.id);
 	}
