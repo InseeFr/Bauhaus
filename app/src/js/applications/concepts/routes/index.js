@@ -27,7 +27,6 @@ import Menu from 'js/applications/concepts/menu';
 
 export default () => {
 	document.title = 'Bauhaus - ' + D.conceptsTitle;
-	document.getElementById('root-app').classList = ['concepts'];
 	return (
 		<>
 			<Menu />

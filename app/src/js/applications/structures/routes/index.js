@@ -21,7 +21,6 @@ const StructureComponent = ({ loadStampList }) => {
 		loadStampList();
 	}, [loadStampList])
 	document.title = 'Bauhaus - ' + D.structuresTitle;
-	document.getElementById('root-app').classList = ['structures'];
 	return (
 		<>
 			<Menu />

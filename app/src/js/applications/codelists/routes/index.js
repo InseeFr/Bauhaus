@@ -8,7 +8,6 @@ import D from 'js/i18n';
 const CodesListComponent = () => {
 	console.log("yo")
 	document.title = 'Bauhaus - ' + D.structuresTitle;
-	document.getElementById('root-app').classList = ['structures'];
 	return (
 		<>
 			<div className="container">

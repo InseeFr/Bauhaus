@@ -1,6 +1,6 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { Error } from '@inseefr/wilco';
+import { Error, Loading } from '@inseefr/wilco';
 
 import auth from 'js/applications/auth/hoc';
 
@@ -20,12 +20,22 @@ const pages = process.env.REACT_APP_APPLICATIONS.split(',').reduce(
 	},
 	{}
 );
+pages['habilitations'] = Habilitation;
 
 const getComponent = (pageName, modules) => {
 	if(!modules.includes(pageName)){
 		return UnderMaintenance
 	}
-	return pages[pageName] || NotFound;
+	if(!pages[pageName]){
+		return NotFound;
+	}
+	const Component = pages[pageName];
+	return () => {
+		useEffect(() => {
+			document.getElementById('root-app').classList = [pageName];
+		}, [])
+		return <Component />
+	}
 };
 
 const getHomePage = () => {
@@ -41,11 +51,11 @@ export default withRouter(
 		const modules = useSelector(state => state.app.properties.modules);
 		return (
 			<React.Fragment>
-				<Suspense fallback={<></>}>
+				<Suspense fallback={<Loading />}>
 					<Switch>
 						{error && <Route path="/" component={Error} />}
 						<Route exact path="/" render={() => getHomePage()} />
-						<Route path="/habilitation" component={Habilitation} />
+						<Route path="/habilitation" component={getComponent('habilitations', modules)} />
 						<Route
 							path="/(concept|concepts|collections|collection)"
 							component={getComponent('concepts', modules)}
