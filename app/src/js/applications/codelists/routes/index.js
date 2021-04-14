@@ -1,11 +1,15 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import { Menu, Home, CodelistComponentView } from 'bauhaus-codelists';
-import D from 'js/i18n';
+import {
+	Menu,
+	Home,
+	CodelistComponentView,
+	dictionary,
+} from 'bauhaus-codelists';
 
 const CodesListComponent = () => {
-	document.title = 'Bauhaus - ' + D.codelistsTitle;
+	document.title = 'Bauhaus - ' + dictionary.codelistsTitle.fr;
 	document.getElementById('root-app').classList = ['structures'];
 	return (
 		<>
