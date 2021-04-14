@@ -1,12 +1,20 @@
 import D from 'js/i18n';
 
 export function validate(serie) {
-	let errorMessage =
-		!serie.prefLabelLg1 || !serie.prefLabelLg2 ? D.requiredPrefLabel : '';
+	let errorMessage = '';
+
+	if(!serie.creators || serie.creators.length === 0){
+		errorMessage = D.requiredOwner;
+	}
+
+	if(!serie.prefLabelLg1 || !serie.prefLabelLg2 ){
+		errorMessage = D.requiredPrefLabel;
+	}
 
 	if (!serie.family) {
 		errorMessage = D.requiredFamily;
 	}
+
 
 	return {
 		fields: {
