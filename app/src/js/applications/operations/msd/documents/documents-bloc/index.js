@@ -97,7 +97,7 @@ export function DocumentsBloc({
 	) {
 		const id = document.uri.substr(document.uri.lastIndexOf('/') + 1);
 		const uri = isDocument(document)
-			? `${baseURI}/documents/document/${id}`
+			? `${baseURI}/documents/document/${id}/file`
 			: document.url;
 		const label =
 			document[`label${localPrefix}`] || document.labelLg1 || document.labelLg2;
