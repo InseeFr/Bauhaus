@@ -15,8 +15,9 @@ const CreatorsInput = ({ value, onChange }) => {
 	const creatorsArray = Array.isArray(value) ? value : [value];
 
 	return (
-		<label htmlFor="contributor" className="w-100">
+		<label htmlFor="contributor" className="w-100 wilco-label-required">
 			{D1.creatorTitle}
+			<span className="asterisk">*</span>
 			<SelectRmes
 				placeholder=""
 				unclearable
