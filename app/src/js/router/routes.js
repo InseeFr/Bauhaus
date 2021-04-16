@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { Error, Loading } from '@inseefr/wilco';
+import { Loading } from '@inseefr/wilco';
 
 import auth from 'js/applications/auth/hoc';
 
@@ -47,13 +47,12 @@ const getHomePage = () => {
 	);
 };
 export default withRouter(
-	auth(({ error }) => {
+	auth(() => {
 		const modules = useSelector(state => state.app.properties.modules);
 		return (
 			<React.Fragment>
 				<Suspense fallback={<Loading />}>
 					<Switch>
-						{error && <Route path="/" component={Error} />}
 						<Route exact path="/" render={() => getHomePage()} />
 						<Route path="/habilitation" component={getComponent('habilitations', modules)} />
 						<Route
