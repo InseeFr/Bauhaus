@@ -47,13 +47,12 @@ const getHomePage = () => {
 	);
 };
 export default withRouter(
-	auth(({ error }) => {
+	auth(() => {
 		const modules = useSelector(state => state.app.properties.modules);
 		return (
 			<React.Fragment>
 				<Suspense fallback={<Loading />}>
 					<Switch>
-						{error && <Route path="/" component={Error} />}
 						<Route exact path="/" render={() => getHomePage()} />
 						<Route path="/habilitation" component={getComponent('habilitations', modules)} />
 						<Route

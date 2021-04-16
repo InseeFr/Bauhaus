@@ -8,13 +8,12 @@ import 'react-app-polyfill/stable';
 
 class Root extends Component {
 	render() {
-		const { error } = this.props;
 		const footer = `${process.env.REACT_APP_NAME} - ${process.env.REACT_APP_VERSION}`;
 		return (
 			<>
 				<div id="root-app">
 					<Router>
-						<Routes error={error} />
+						<Routes />
 					</Router>
 				</div>
 				<footer className="text-center" style={{ marginTop: '50px' }}>
