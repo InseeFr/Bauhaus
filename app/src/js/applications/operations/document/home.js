@@ -78,16 +78,12 @@ function DocumentHome({ documents }) {
 
 	const onFilter = useCallback(
 		(mode) => {
-			history.push(window.location.pathname + '?page=1');
-
+			sessionStorage.setItem(sessionStorageKey, mode);
 			setFilter(mode);
+			history.replace(window.location.pathname + '?page=1');
 		},
 		[history]
 	);
-
-	useEffect(() => {
-		sessionStorage.setItem(sessionStorageKey, filter);
-	}, [filter]);
 
 	return (
 		<div className="container documents-home">
