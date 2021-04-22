@@ -44,8 +44,11 @@ class SimsCreation extends React.Component {
 		const { metadataStructure, sims = {} } = this.props;
 
 		const flattenStructure = flattenTree(metadataStructure);
+		this.unblock = this.props.history.block((location) => {
+			if(this.props.history.location?.pathname === location?.pathname){
+				return true;
+			}
 
-		this.unblock = this.props.history.block(() => {
 			if(!this.state.changed || window.confirm(D.quitWithoutSaving)){
 				this.unblock();
 				return true;

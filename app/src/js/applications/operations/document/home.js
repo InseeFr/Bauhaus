@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
@@ -78,16 +78,12 @@ function DocumentHome({ documents }) {
 
 	const onFilter = useCallback(
 		(mode) => {
-			history.push(window.location.pathname + '?page=1');
-
+			sessionStorage.setItem(sessionStorageKey, mode);
 			setFilter(mode);
+			history.replace(window.location.pathname + '?page=1');
 		},
 		[history]
 	);
-
-	useEffect(() => {
-		sessionStorage.setItem(sessionStorageKey, filter);
-	}, [filter]);
 
 	return (
 		<div className="container documents-home">

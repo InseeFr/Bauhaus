@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { Loading } from '@inseefr/wilco';
 
 import auth from 'js/applications/auth/hoc';
@@ -30,12 +30,12 @@ const getComponent = (pageName, modules) => {
 		return NotFound;
 	}
 	const Component = pages[pageName];
-	return () => {
+	return React.memo(() => {
 		useEffect(() => {
 			document.getElementById('root-app').classList = [pageName];
 		}, [])
 		return <Component />
-	}
+	})
 };
 
 const getHomePage = () => {
@@ -46,8 +46,7 @@ const getHomePage = () => {
 		<App />
 	);
 };
-export default withRouter(
-	auth(() => {
+export default auth(() => {
 		const modules = useSelector(state => state.app.properties.modules);
 		return (
 			<React.Fragment>
@@ -71,5 +70,4 @@ export default withRouter(
 				</Suspense>
 			</React.Fragment>
 		)
-	})
-);
+	});
