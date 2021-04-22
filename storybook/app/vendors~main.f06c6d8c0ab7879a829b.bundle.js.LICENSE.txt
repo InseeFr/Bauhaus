@@ -59,7 +59,7 @@ object-assign
  */
 
 /*!
- * UAParser.js v0.7.21
+ * UAParser.js v0.7.22
  * Lightweight JavaScript-based User-Agent string parser
  * https://github.com/faisalman/ua-parser-js
  *
@@ -112,7 +112,9 @@ object-assign
  * Licensed under the MIT License.
  */
 
-/** @license React v0.19.1
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/** @license React v0.20.1
  * scheduler.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -122,25 +124,7 @@ object-assign
  */
 
 /** @license React v16.13.1
- * react-dom.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-/** @license React v16.13.1
  * react-is.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-/** @license React v16.13.1
- * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -161,6 +145,24 @@ object-assign
  * react.production.min.js
  *
  * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v17.0.1
+ * react-dom.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v17.0.1
+ * react.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.

@@ -6901,7 +6901,6 @@ button.close {
   width: 16px;
 }
 .Select-loading {
-  -webkit-animation: Select-animation-spin 400ms infinite linear;
   animation: Select-animation-spin 400ms infinite linear;
   width: 16px;
   height: 16px;
@@ -6914,7 +6913,6 @@ button.close {
   vertical-align: middle;
 }
 .Select-clear-zone {
-  -webkit-animation: Select-animation-fadeIn 200ms;
   animation: Select-animation-fadeIn 200ms;
   color: #999;
   cursor: pointer;
@@ -6972,14 +6970,6 @@ button.close {
   clip: rect(0, 0, 0, 0);
   overflow: hidden;
   float: left;
-}
-@-webkit-keyframes Select-animation-fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 @keyframes Select-animation-fadeIn {
   from {
@@ -7139,11 +7129,6 @@ button.close {
 @keyframes Select-animation-spin {
   to {
     transform: rotate(1turn);
-  }
-}
-@-webkit-keyframes Select-animation-spin {
-  to {
-    -webkit-transform: rotate(1turn);
   }
 }
 
@@ -7877,4 +7862,4 @@ button.close {
 
 /*# sourceMappingURL=style.css.map*/
 
-/*# sourceMappingURL=vendors~main.2b0af894.chunk.css.map*/
+/*# sourceMappingURL=vendors~main.b60145b3.chunk.css.map*/
