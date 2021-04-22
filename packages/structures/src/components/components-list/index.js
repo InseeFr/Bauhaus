@@ -71,7 +71,7 @@ function ComponentsList() {
 							[ALL, D.all],
 							...MUTUALIZED_COMPONENT_TYPES.map((type) => [
 								type.value,
-								type.label,
+								type.labelPlural,
 							]),
 						]}
 					/>

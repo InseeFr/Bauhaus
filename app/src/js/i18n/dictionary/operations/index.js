@@ -29,10 +29,6 @@ const dictionary = {
 		fr: 'Familles - Recherche',
 		en: 'Families - Search',
 	},
-	documentsSearchTitle: {
-		fr: 'Documents/Liens - Recherche',
-		en: 'Documents/Links - Search',
-	},
 	seriesSearchTitle: {
 		fr: 'Séries - Recherche',
 		en: 'Series - Search',
@@ -45,6 +41,10 @@ const dictionary = {
 	childrenSeries: {
 		fr: 'Séries filles :',
 		en: 'Daughter series:',
+	},
+	linkedSims: {
+		fr: 'Sims associés :',
+		en: 'Linked Sims:',
 	},
 	childrenOperations: {
 		fr: 'Opérations filles :',
@@ -96,7 +96,7 @@ const dictionary = {
 	},
 	dataCollectFrequency: {
 		fr: 'Fréquence de collecte des données',
-		en: 'Data collection frequency',
+		en: 'Frequency of data collection',
 	},
 	operationType: {
 		fr: "Type d'opération",
@@ -168,12 +168,16 @@ const dictionary = {
 		fr: 'Organisation',
 	},
 	btnSimsVisu: {
-		en: 'Show the SIMS',
-		fr: 'Voir le SIMS',
+		en: 'Show the report',
+		fr: 'Voir le rapport',
 	},
 	btnSimsCreate: {
-		en: 'Create the SIMS',
-		fr: 'Créer le SIMS',
+		en: 'Create the report',
+		fr: 'Créer le rapport',
+	},
+	simsTitle: {
+		fr: 'Rapport qualité : ',
+		en: 'Quality report: ',
 	},
 	operationsTreeTitle: {
 		fr: 'Arbre des Opérations',
@@ -199,29 +203,26 @@ const dictionary = {
 		fr: 'État du SIMS',
 		en: 'State of the SIMS',
 	},
-	statusValidatedM: {
-		fr: 'Publié',
-		en: 'Published',
+	confirmationDocumentationDelete: {
+		fr:
+			'Vous êtes sur le point de supprimer définitivement cette documentation. Êtes-vous sûr ?',
+		en: 'You are about to permanently delete this documentation. Are you sure?',
 	},
-	statusValidatedF: {
-		fr: 'Publiée',
-		en: 'Published',
+	exportSimsTips: {
+		fr: 'Veuillez sélectionner les options d\'export',
+		en: 'Please select the export options'
 	},
-	statusModifiedM: {
-		fr: 'Modifié',
-		en: 'Modified',
+	exportSimsIncludeLg1: {
+		fr: 'Inclure la première langue',
+		en: 'Include first language'
 	},
-	statusModifiedF: {
-		fr: 'Modifiée',
-		en: 'Modified',
+	exportSimsIncludeLg2: {
+		fr: 'Inclure la seconde langue',
+		en: 'Include second language'
 	},
-	statusUnpublishedM: {
-		fr: 'Non Publié',
-		en: 'Published',
-	},
-	statusUnpublishedF: {
-		fr: 'Non Publiée',
-		en: 'Published',
+	exportSimsIncludeEmptyMas: {
+		fr: 'Inclure les rubriques vides',
+		en: 'Include the empty rubrics'
 	},
 	...documentsD,
 	...validationD,

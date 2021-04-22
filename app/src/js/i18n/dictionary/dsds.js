@@ -84,8 +84,8 @@ export default {
 	},
 
 	idTitle: {
-		fr: 'Identifiant',
-		en: 'Identifier',
+		fr: 'Notation',
+		en: 'Notation',
 	},
 	labelTitle: {
 		fr: 'Libellé',
@@ -124,12 +124,12 @@ export default {
 		en: 'Date',
 	},
 	rangeTitle: {
-		fr: 'Portée',
-		en: 'Range',
+		fr: 'Représentation',
+		en: 'Representation',
 	},
 	rangePlaceholder: {
-		fr: 'Définir la portée du composant ...',
-		en: 'Define component range...',
+		fr: 'Définir la représentation du composant ...',
+		en: 'Define component representation...',
 	},
 	conceptTitle: {
 		fr: 'Concept',
@@ -187,4 +187,12 @@ export default {
 		fr: "L'identifiant est obligatoire",
 		en: 'The identifier is required',
 	},
+	componentValididationStatusTitle: {
+		fr: 'État du composant',
+		en: 'Publication status',
+	},
+	errors_1003: {
+		fr: 'Une structure avec les mêmes composants existe déjà.',
+		en: 'A structure with the same components already exists.'
+	}
 };

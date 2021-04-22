@@ -7,6 +7,8 @@ import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 
 import PropTypes from 'prop-types';
+import Representation from '../representation';
+
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,
@@ -14,13 +16,14 @@ export const MutualizedComponentsSelector = ({
 	handleAdd,
 	concepts,
 	codesLists,
+	handleCodesListDetail
 }) => {
 	const [openPanel, setOpenPanel] = useState(false);
 	const [selectedComponent, setSelectedComponent] = useState(null);
 	const seeClickHandler = useCallback(
-		e => {
+		(e) => {
 			const component = components.find(
-				c => c.id === e.target.parentElement.dataset.componentId
+				(c) => c.identifiant === e.target.parentElement.dataset.componentId
 			);
 			setSelectedComponent(component);
 			setOpenPanel(true);
@@ -29,33 +32,38 @@ export const MutualizedComponentsSelector = ({
 	);
 
 	const addClickHandler = useCallback(
-		e => {
+		(e) => {
 			handleAdd(e.target.parentElement.dataset.componentId);
 		},
 		[handleAdd]
 	);
-	const componentsWithActions = components.map(component => ({
+
+	const componentsWithActions = components.map((component) => ({
 		...component,
 		type: typeUriToLabel(component.type),
+		mutualized: (
+			!!component.validationState && component.validationState !== 'Unpublished'
+				? <span className="glyphicon glyphicon-ok" aria-label={D.mutualized}></span>
+				: <React.Fragment></React.Fragment>
+		),
 		concept: concepts.find(({ id }) =>
 			component.concept?.toString().includes(id?.toString())
 		)?.label,
-		codeList:
-			codesLists.find(
-				({ id }) => id?.toString() === component.codeList?.toString()
-			)?.label || '',
-
+		representation: <Representation component={component} codesLists={codesLists} handleCodesListDetail={() => {
+			const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
+			handleCodesListDetail(codesList)
+		}}/>,
 		actions: (
 			<React.Fragment>
 				<button
-					data-component-id={component.id}
+					data-component-id={component.identifiant}
 					onClick={seeClickHandler}
 					aria-label={D.see}
 				>
 					<span className="glyphicon glyphicon-eye-open"></span>
 				</button>
 				<button
-					data-component-id={component.id}
+					data-component-id={component.identifiant}
 					onClick={addClickHandler}
 					aria-label={D.add}
 				>
@@ -77,7 +85,7 @@ export const MutualizedComponentsSelector = ({
 				search={true}
 				pagination={false}
 			/>
-			<SlidingPanel type={'right'} isOpen={openPanel} size={60}>
+			<SlidingPanel type={'right'} isOpen={openPanel} size={60} backdropClicked={() => setOpenPanel(false)}>
 				<ComponentDetail
 					component={selectedComponent}
 					codesLists={codesLists}

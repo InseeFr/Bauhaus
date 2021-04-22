@@ -11,6 +11,12 @@ const store = mockStore({
 	app: {
 		secondLang: true,
 	},
+	disseminationStatus: {
+		results: [{}]
+	},
+	stampList: {
+		results: []
+	}
 });
 
 describe('<StructureComponentsSelector />', () => {
@@ -26,6 +32,7 @@ describe('<StructureComponentsSelector />', () => {
 				concept: 439,
 				isCoded: '<SyntaxError: missing ) after argument list>)',
 				codeList: 942,
+				structures: [],
 				range: 'http://www.w3.org/2001/XMLSchema#codeList',
 			},
 			order: '1',
@@ -34,13 +41,13 @@ describe('<StructureComponentsSelector />', () => {
 			component: {
 				id: '5e7334002a5c764f68247222qqq',
 				identifiant: '5e7334002a5c764f68247222qqq',
-				labelLg1: 'veniam non irure',
+				labelLg1: 'veniam non irure 2',
 				labelLg2: 'nisi aliquip',
 				type: 'http://purl.org/linked-data/cube#dimension',
 				attachment: 'http://purl.org/linked-data/cube#Observation',
 				concept: 439,
 				isCoded: '<SyntaxError: missing ) after argument list>)',
-				codeList: 942,
+				structures: [],
 				range: 'http://www.w3.org/2001/XMLSchema#codeList',
 			},
 			order: '2',
@@ -58,7 +65,7 @@ describe('<StructureComponentsSelector />', () => {
 		{
 			altLabel: '',
 			id: components[0].codeList?.toString(),
-			label: 'Code List - Label ' + components[0].codeList,
+			label: 'Code List - Label ' + components[0].component.codeList,
 		},
 	];
 
@@ -77,6 +84,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={handleRemove}
 					handleUp={handleUp}
 					handleDown={handleDown}
+					handleCodesListDetail={() => {}}
 				/>
 			</Provider>
 		);
@@ -99,6 +107,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={handleRemove}
 					handleUp={handleUp}
 					handleDown={handleDown}
+					handleCodesListDetail={() => {}}
 				/>
 			</Provider>
 		);
@@ -123,6 +132,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={handleRemove}
 					handleUp={handleUp}
 					handleDown={handleDown}
+					handleCodesListDetail={() => {}}
 				/>
 			</Provider>
 		);
@@ -141,6 +151,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={() => {}}
 					handleUp={() => {}}
 					handleDown={() => {}}
+					handleCodesListDetail={() => {}}
 				/>
 			</Provider>
 		);
@@ -160,6 +171,8 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={() => {}}
 					handleUp={() => {}}
 					handleDown={() => {}}
+					handleCodesListDetail={() => {}}
+					structure={{}}
 				/>
 			</Provider>
 		);
@@ -180,6 +193,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={() => {}}
 					handleUp={() => {}}
 					handleDown={() => {}}
+					handleCodesListDetail={() => {}}
 				/>
 			</Provider>
 		);
@@ -191,4 +205,47 @@ describe('<StructureComponentsSelector />', () => {
 			container.querySelector('.sliding-panel-container.active')
 		).not.toBeNull();
 	});
+	it('should not display the code list detail button if the code list is undefined', () => {
+		const handleRemove = jest.fn();
+		const handleUp = jest.fn();
+		const handleDown = jest.fn();
+
+		const { container } = render(
+			<Provider store={store}>
+				<StructureComponentsSelector
+					componentDefinitions={components}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleRemove={handleRemove}
+					handleUp={handleUp}
+					handleDown={handleDown}
+					handleCodesListDetail={() => {}}
+				/>
+			</Provider>
+		);
+
+		expect(container.querySelector('tbody tr:nth-child(1) button.codes-list-detail')).toBeNull();
+
+	})
+	it('should display the code list detail button if the code list is defined', () => {
+		const handleRemove = jest.fn();
+		const handleUp = jest.fn();
+		const handleDown = jest.fn();
+
+		const { container } = render(
+			<Provider store={store}>
+				<StructureComponentsSelector
+					componentDefinitions={components}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleRemove={handleRemove}
+					handleUp={handleUp}
+					handleDown={handleDown}
+					handleCodesListDetail={() => {}}
+				/>
+			</Provider>
+		);
+		console.log(container.querySelector('tbody tr:nth-child(2)').innerHTML)
+		expect(container.querySelector('tbody tr:nth-child(2) button.codes-list-detail')).not.toBeNull();
+	})
 });

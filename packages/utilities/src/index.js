@@ -24,6 +24,7 @@ export { default as EditorHTML } from './components/editor-html';
 export {
 	default as EditorMarkdown,
 	toolbar as EditorMarkdownToolbar,
+	DeleteButton as EditorDeleteButton
 } from './components/editor-html/editor-markdown';
 export { default as AdvancedSearchControls } from './components/advanced-search/controls';
 export * from './components/advanced-search/home-container';
@@ -37,5 +38,6 @@ export { default as CheckSecondLang } from './components/check-second-lang';
 export * as Stores from './stores';
 export { default as PageTitleBlock } from './components/page-title-block';
 export { default as ConfirmationDelete } from './components/confirmation-delete';
+export { PublicationMale, PublicationFemale } from './components/status';
 
 export { useQueryParam } from './utils/hooks';

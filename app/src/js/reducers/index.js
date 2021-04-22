@@ -29,6 +29,8 @@ export default combineReducers({
 	...codesListReducers,
 	...organisationsReducers,
 	geographies: Stores.Geographies.reducer,
+	disseminationStatus: Stores.DisseminationStatus.reducer,
+	users: Stores.UsersAction.reducer,
 	remoteCalls,
 });
 
@@ -87,8 +89,6 @@ export function getCollection(state, id) {
 	};
 }
 
-export const getDisseminationStatusList = (state) =>
-	getItems(state.disseminationStatusList);
 export const getRoleList = (state) => getItems(state.roleList);
 export const getAgentList = (state) => getItems(state.agentList);
 

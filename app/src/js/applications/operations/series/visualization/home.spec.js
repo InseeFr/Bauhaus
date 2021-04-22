@@ -7,15 +7,6 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
-const store = mockStore({
-	operationsOrganisations: {
-		results: [],
-	},
-});
-const langs = {
-	lg1: 'fr',
-	lg2: 'en',
-};
 
 const organisations = [
 	{
@@ -26,6 +17,16 @@ const organisations = [
 		id: 'DG75-G001',
 	},
 ];
+const store = mockStore({
+	operationsOrganisations: {
+		results: organisations,
+	},
+});
+const langs = {
+	lg1: 'fr',
+	lg2: 'en',
+};
+
 const attr = {
 	publishers: [{ id: 'GF3C' }],
 	creators: ['DG75-G001'],
@@ -144,25 +145,7 @@ describe('SerieInformation', () => {
 		);
 	});
 
-	it('should display the list of creators if creators is an array', () => {
-		const { container } = render(
-			<Provider store={store}>
-				<MemoryRouter>
-					<OperationsSerieVisualization
-						attr={attr}
-						secondLang={true}
-						langs={langs}
-						organisations={organisations}
-					/>
-				</MemoryRouter>
-			</Provider>
-		);
-		const list = container.querySelector('#creators ul');
-		expect(list.querySelectorAll('li')).toHaveLength(1);
-		expect(list.querySelector('li').innerHTML).toEqual('DG75-G001');
-	});
-
-	it('should display the list of creators if creators is a string', () => {
+	it('should display the creator', () => {
 		const attr2 = {
 			...attr,
 			creators: attr.creators[0],
@@ -179,11 +162,10 @@ describe('SerieInformation', () => {
 				</MemoryRouter>
 			</Provider>
 		);
-		const list = container.querySelector('#creators ul');
-		expect(list.querySelectorAll('li')).toHaveLength(1);
-		expect(list.querySelector('li').innerHTML).toEqual('DG75-G001');
+		const creator = container.querySelector('#creators p');
+		expect(creator.innerHTML).toEqual('DG75-G001');
 	});
-	it('should display the list of publishers', () => {
+	it('should display the publisher', () => {
 		const { container } = render(
 			<Provider store={store}>
 				<MemoryRouter>
@@ -196,7 +178,7 @@ describe('SerieInformation', () => {
 				</MemoryRouter>
 			</Provider>
 		);
-		const list = container.querySelector('#publishers ul');
-		expect(list).toBeDefined();
+		const publisher = container.querySelector('#publishers p');
+		expect(publisher.innerHTML).toEqual('GF3C');
 	});
 });

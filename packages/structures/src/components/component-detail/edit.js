@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
 	CancelButton,
 	SaveButton,
@@ -7,21 +7,41 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { EditorMarkdown } from 'bauhaus-utilities';
+import { EditorMarkdown, Stores } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
-import { D1, D2 } from '../../i18n/build-dictionary';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
+import { default as ReactSelect } from 'react-select';
+import "./edit.scss";
+import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
 
-export const ComponentDetailEdit = ({
-	component: defaultComponent,
+
+const defaultComponent = {
+	contributor: 'DG75-H250'
+}
+const DumbComponentDetailEdit = ({
+	component: initialComponent,
 	concepts,
 	codesLists,
 	handleSave,
 	handleBack,
+	type,
+	disseminationStatusListOptions,
+	stampListOptions,
+	serverSideError
 }) => {
-	const [component, setComponent] = useState(defaultComponent || {});
+	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
+	const [component, setComponent] = useState(defaultComponent);
+	useEffect(() => {
+		setComponent({ ...initialComponent, ...defaultComponent });
+	}, [initialComponent]);
+	useEffect(() => {
+		if(!component.type && type){
+			setComponent({ ...defaultComponent, ...initialComponent, type });
+		}
+	}, [type, component, initialComponent]);
 
 	const handleChange = useCallback(
 		(e) => {
@@ -46,7 +66,6 @@ export const ComponentDetailEdit = ({
 		value: id,
 		label,
 	}));
-
 	const { field, message } = validateComponent(component);
 	return (
 		<React.Fragment>
@@ -55,7 +74,7 @@ export const ComponentDetailEdit = ({
 				<SaveButton disabled={message} action={handleSaveClick} col={3} />
 			</ActionToolbar>
 			{message && <ErrorBloc error={message} />}
-
+			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<form>
 				<div className="row">
 					<div className="col-md-12 form-group">
@@ -79,14 +98,14 @@ export const ComponentDetailEdit = ({
 							className="form-control"
 							id="labelLg1"
 							name="labelLg1"
-							value={component.labelLg1}
 							onChange={handleChange}
+							value={component.labelLg1}
 							aria-invalid={field === 'labelLg1'}
 						/>
 					</div>
 
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="labelLg1">{D2.label}</LabelRequired>
+						<LabelRequired htmlFor="labelLg2">{D2.label}</LabelRequired>
 
 						<input
 							type="text"
@@ -106,7 +125,7 @@ export const ComponentDetailEdit = ({
 							label={<LabelRequired>{D1.type}</LabelRequired>}
 							placeholder={D1.type}
 							value={MUTUALIZED_COMPONENT_TYPES.find(
-								(c) => c.value === component.type
+								(c) => c.value === (component.type)
 							)}
 							options={MUTUALIZED_COMPONENT_TYPES}
 							name="type"
@@ -146,7 +165,7 @@ export const ComponentDetailEdit = ({
 				</div>
 				{component.range === XSD_CODE_LIST && (
 					<div className="row">
-						<div className="col-md-12 form-group">
+						<div className="col-md-12 form-group code-list-zone">
 							<Select
 								type="text"
 								className="form-control"
@@ -162,46 +181,106 @@ export const ComponentDetailEdit = ({
 									setComponent({ ...component, codeList: value })
 								}
 							/>
+							<button
+								type="button"
+								disabled={!component.codeList}
+								onClick={() => setCodesListPanelOpened(true)}
+							>
+								{D.see}
+							</button>
 						</div>
 					</div>
 				)}
+				<div className="form-group">
+					<label>
+						{D1.creatorTitle}
+					</label>
+					<Select
+						className="form-control"
+						placeholder={D1.stampsPlaceholder}
+						value={stampListOptions.find(({ value }) => value === component.creator)}
+						options={stampListOptions}
+						onChange={(value) =>
+							setComponent({ ...component, creator: value })
+						}
+						searchable={true}
+					/>
+				</div>
+				<div className="form-group">
+					<label>{D1.contributorTitle}</label>
+					<ReactSelect
+						placeholder={D1.stampsPlaceholder}
+						value={stampListOptions.find(({ value }) => value === component.contributor)}
+						options={stampListOptions}
+						onChange={(value) =>
+							setComponent({ ...component, contributor: value })
+						}
+						isDisabled={true}
+					/>
+				</div>
+				<div className="form-group">
+					<label>{D1.disseminationStatusTitle}</label>
+					<Select
+						className="form-control"
+						placeholder={D1.disseminationStatusPlaceholder}
+						value={disseminationStatusListOptions.find(({ value }) => value === component.disseminationStatus)}
+						options={disseminationStatusListOptions}
+						onChange={(value) =>
+							setComponent({ ...component, disseminationStatus: value })
+						}
+						searchable={true}
+					/>
+				</div>
 				<div className="row">
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
-						<EditorMarkdown
-							text={component.descriptionLg1}
-							handleChange={(value) =>
-								setComponent({ ...component, descriptionLg1: value })
-							}
+						<input
+							type="text"
+							value={component.descriptionLg1}
+							className="form-control"
+							id="descriptionLg1"
+							name="descriptionLg1"
+							onChange={handleChange}
 						/>
 					</div>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
-						<EditorMarkdown
-							text={component.descriptionLg2}
-							handleChange={(value) =>
-								setComponent({ ...component, descriptionLg2: value })
-							}
+						<input
+							type="text"
+							value={component.descriptionLg2}
+							className="form-control"
+							id="descriptionLg2"
+							name="descriptionLg2"
+							onChange={handleChange}
 						/>
 					</div>
 				</div>
 			</form>
+			<CodesListPanel codesList={codesLists.find((c) =>
+				(component.codeList?.id || component.codeList)?.toString().includes(c.id?.toString())
+			)} isOpen={codesListPanelOpened} handleBack={() => setCodesListPanelOpened(false)}/>
 		</React.Fragment>
 	);
 };
 
-ComponentDetailEdit.propTypes = {
+DumbComponentDetailEdit.propTypes = {
 	component: PropTypes.object,
 	concepts: PropTypes.array,
 	codesLists: PropTypes.array,
+	disseminationStatusListOptions: PropTypes.array,
+	stampListOptions: PropTypes.array,
 	handleSave: PropTypes.func,
 	handleBack: PropTypes.func,
 	secondLang: PropTypes.bool,
 	structureComponents: PropTypes.array,
 };
 
-ComponentDetailEdit.defaultProps = {
+DumbComponentDetailEdit.defaultProps = {
 	structureComponents: [],
 	concepts: [],
 	codesLists: [],
+	disseminationStatusListOptions: [],
+	stampListOptions: []
 };
+
+export const ComponentDetailEdit = Stores.DisseminationStatus.withDisseminationStatusListOptions(DumbComponentDetailEdit);

@@ -5,6 +5,8 @@ import { Loading, buildExtract } from '@inseefr/wilco';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
 import loadDocuments from 'js/actions/operations/documents/list';
+import { D1, D2 } from 'js/i18n';
+
 import {
 	getOperationsDocuments,
 	getOperationsDocumentsStatus,
@@ -68,6 +70,8 @@ class MSDContainer extends Component {
 		super();
 		this.state = {
 			exportPending: false,
+			owners: [],
+			defaultSims: {}
 		};
 	}
 	_loadParent(id) {
@@ -86,7 +90,7 @@ class MSDContainer extends Component {
 		if (this.props.metadataStructureStatus !== LOADED) {
 			this.props.loadMetadataStructure();
 		}
-		if (!this.props.currentSims.id) {
+		if ((this.props.mode === UPDATE || this.props.mode === VIEW) && !this.props.currentSims.id) {
 			this.props.loadSIMS(this.props.id);
 		}
 		if (!this.props.isParentLoaded) {
@@ -95,11 +99,25 @@ class MSDContainer extends Component {
 		if (!this.props.geographiesLoaded) {
 			this.props.loadGeographies();
 		}
+
+		if(this.props.mode === CREATE){
+			/*api.getDefaultSims().then(response => {
+				this.setState({ defaultSimsRubrics: response})
+			})*/
+		}
+		this._loadOwnersList(this.props.id);
 	}
 
-	exportCallback = (id) => {
+	_loadOwnersList(id) {
+		if(id){
+			api.getOwners(id).then(owners => {
+				this.setState({ owners })
+			})
+		}
+	}
+	exportCallback = (id, config) => {
 		this.setState(() => ({ exportPending: true }));
-		api.exportSims(id).then(() => {
+		api.exportSims(id, config).then(() => {
 			this.setState(() => ({ exportPending: false }));
 		});
 	};
@@ -109,6 +127,9 @@ class MSDContainer extends Component {
 		}
 		if (!nextProps.isParentLoaded) {
 			this._loadParent(nextProps.idParent);
+		}
+		if(this.props.mode === CREATE && nextProps.mode === VIEW){
+			this._loadOwnersList(nextProps.id)
 		}
 	}
 	isEditMode = () => {
@@ -134,12 +155,11 @@ class MSDContainer extends Component {
 		} = this.props;
 		if (
 			metadataStructureStatus !== LOADED ||
-			(mode === VIEW && !currentSims.id)
+			((mode === VIEW || mode === UPDATE) && !currentSims.id)
 		)
 			return <Loading />;
 
 		if (this.state.exportPending) return <Loading textType="loadableLoading" />;
-
 		return (
 			<MSDLayout
 				metadataStructure={metadataStructure}
@@ -177,6 +197,7 @@ class MSDContainer extends Component {
 						goBack={this.goBackCallback}
 						publishSims={this.props.publishSims}
 						exportCallback={this.exportCallback}
+						owners={this.state.owners}
 					/>
 				)}
 				{this.isEditMode() && (
@@ -192,11 +213,14 @@ class MSDContainer extends Component {
 						organisations={organisations}
 						parentType={parentType}
 						documentStores={documentStores}
+						defaultSimsRubrics={this.state.defaultSimsRubrics}
 					/>
 				)}
 			</MSDLayout>
 		);
 	}
+
+
 }
 
 export const mapStateToProps = (state, ownProps) => {
@@ -245,8 +269,8 @@ export const mapStateToProps = (state, ownProps) => {
 			parentType = ownProps.match.params[0];
 			const [currentParent, currentParentStatus] = getCurrentParent(parentType);
 			currentSims = {
-				labelLg1: currentParent.prefLabelLg1,
-				labelLg2: currentParent.prefLabelLg2,
+				labelLg1: D1.simsTitle + currentParent.prefLabelLg1,
+				labelLg2: D2.simsTitle + currentParent.prefLabelLg2,
 			};
 			isParentLoaded =
 				currentParentStatus !== NOT_LOADED || currentParent.id === idParent;

@@ -5,8 +5,7 @@ import { D1, D2 } from 'js/i18n';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
-import { HTMLUtils } from 'bauhaus-utilities';
-import { PublicationMale } from 'js/applications/operations/shared/status';
+import { HTMLUtils, PublicationMale } from 'bauhaus-utilities';
 import { PublishersView, CreatorsView } from 'bauhaus-operations';
 
 function DisplayMultiLangNote({

@@ -15,23 +15,22 @@ import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
-const filterGestionnaire = ArrayUtils.filterKeyDeburr(['publishers']);
 const fields = [
 	'prefLabelLg1',
 	'typeCode',
 	'creator',
-	'dataCollector',
-	'gestionnaire',
+	'publisher',
+	'dataCollector'
 ];
 const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
 
-class SearchFormList extends AbstractAdvancedSearchComponent {
+export class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
 		prefLabelLg1: '',
 		typeCode: '',
 		creator: '',
+		publisher: '',
 		dataCollector: '',
-		gestionnaire: '',
 		organisations: [],
 	};
 
@@ -45,29 +44,31 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			typeCode,
 			creator,
 			dataCollector,
-			gestionnaire,
+			publisher,
 		} = newState;
 		return this.props.data
 			.filter(filterLabel(prefLabelLg1))
 			.filter(filterTypeCode(typeCode))
 			.filter((series) => {
 				const creators = series.creators || [];
-				// For retrocompatibility
 				const formattedCreators = Array.isArray(creators)
 					? creators
 					: [creators];
-				return (
-					!creator ||
-					formattedCreators.map((creator) => creator.id).includes(creator)
-				);
+
+				return !creator || formattedCreators.includes(creator);
 			})
-			.filter(filterGestionnaire(gestionnaire))
+			.filter((series) => {
+				const publishers = series.publishers || [];
+				const formattedPublishers = Array.isArray(publishers)
+					? publishers
+					: [publishers];
+
+				return !publisher || formattedPublishers.map(({id}) => id).includes(publisher);
+			})
 			.filter((series) => {
 				return (
 					!dataCollector ||
-					(series.dataCollectors || [])
-						.map((collector) => collector.id)
-						.includes(dataCollector)
+					(series.dataCollectors || []).map(({id}) => id).includes(dataCollector)
 				);
 			});
 	});
@@ -79,7 +80,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			typeCode,
 			creator,
 			dataCollector,
-			gestionnaire,
+			publisher,
 		} = this.state;
 		const { categories, organisations, stamps } = this.props;
 		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
@@ -121,7 +122,10 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 							<Select
 								placeholder=""
 								value={
-									categories.codes.find((code) => code.value === typeCode) || ''
+									(
+										categories.codes.find((category) => category.code === typeCode) ||
+										{}
+									).value
 								}
 								options={categories.codes.map((cat) => {
 									return { value: cat.code, label: cat.labelLg1 };
@@ -135,18 +139,17 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 				</div>
 				<div className="form-group row">
 					<div className="col-md-12">
-						<label htmlFor="typeOperation" className="w-100">
+						<label htmlFor="creator" className="w-100">
 							{D.creatorTitle}
 
 							<Select
 								placeholder=""
 								value={
-									stampsOptions.find((code) => code.value === gestionnaire) ||
-									''
+									stampsOptions.find((code) => code.value === creator) || ''
 								}
 								options={stampsOptions}
 								onChange={(value) => {
-									this.handlers.gestionnaire(value);
+									this.handlers.creator(value);
 								}}
 							/>
 						</label>
@@ -154,24 +157,25 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 				</div>
 				<div className="form-group row">
 					<div className="col-md-6">
-						<label htmlFor="typeOperation" className="w-100">
+						<label htmlFor="publisher" className="w-100">
 							{D.organisation}
 
 							<Select
 								placeholder=""
 								value={
-									organisationsOptions.find((code) => code.value === creator) ||
-									''
+									organisationsOptions.find(
+										(code) => code.value === publisher
+									) || ''
 								}
 								options={organisationsOptions}
 								onChange={(value) => {
-									this.handlers.creator(value);
+									this.handlers.publisher(value);
 								}}
 							/>
 						</label>
 					</div>
 					<div className="col-md-6">
-						<label htmlFor="typeOperation" className="w-100">
+						<label htmlFor="dataCollector" className="w-100">
 							{D.dataCollector}
 
 							<Select
@@ -207,6 +211,7 @@ class SearchListContainer extends Component {
 	render() {
 		const { data } = this.state;
 		const { categories, organisations, stamps } = this.props;
+
 		if (!data) return <Loading />;
 		return (
 			<SearchFormList

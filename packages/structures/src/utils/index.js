@@ -6,6 +6,19 @@ import {
 	MEASURE_PROPERTY_TYPE,
 } from './constants/';
 
+export const getDisseminationStatus = disseminationStatus => {
+	if(!disseminationStatus){
+		return '';
+	}
+	if(disseminationStatus.indexOf('PublicGenerique') > 0){
+		return D.DSPublicGeneriqueTitle;
+	} else if(disseminationStatus.indexOf('PublicSpecifique') > 0){
+		return D.DSPublicSpecifiqueTitle;
+	} else if(disseminationStatus.indexOf('Prive') > 0){
+		return D.DSPrivateTitle;
+	}
+}
+
 export const getAllAttachment = components => {
 	return [
 		...ATTACHMENTS,
@@ -45,13 +58,18 @@ export const defaultComponentsTableParams = [
 		width: '20%',
 	},
 	{
+		dataField: 'mutualized',
+		text: D.mutualized,
+		width: '10%',
+	},
+	{
 		dataField: 'concept',
 		text: D.conceptTitle,
 		width: '20%',
 	},
 	{
-		dataField: 'codeList',
-		text: D.codesListTitle,
+		dataField: 'representation',
+		text: D.representationTitle,
 		width: '20%',
 	},
 	{

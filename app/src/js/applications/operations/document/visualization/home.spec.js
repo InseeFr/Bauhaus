@@ -10,9 +10,10 @@ const document = {
 	uri: 'uri/page/1',
 	url: 'url',
 	updatedDate: '2019/02/01',
+	sims: []
 };
 describe('OperationsDocumentationVisualization', () => {
-	it('should display by default two notes', () => {
+	it('should display by default three notes', () => {
 		const { container } = render(
 			<OperationsDocumentationVisualization
 				secondLang={false}
@@ -21,7 +22,7 @@ describe('OperationsDocumentationVisualization', () => {
 			/>
 		);
 		const notes = container.querySelectorAll('.wilco-note');
-		expect(notes).toHaveLength(2);
+		expect(notes).toHaveLength(4);
 
 		expect(notes[0].innerHTML).toContain(document.descriptionLg1);
 
@@ -43,7 +44,7 @@ describe('OperationsDocumentationVisualization', () => {
 		);
 		const notes = container.querySelectorAll('.wilco-note');
 
-		expect(notes).toHaveLength(3);
+		expect(notes).toHaveLength(6);
 
 		expect(notes[0].innerHTML).toContain(document.descriptionLg1);
 		expect(notes[1].innerHTML).toContain(document.descriptionLg2);
@@ -61,7 +62,7 @@ describe('OperationsDocumentationVisualization', () => {
 			/>
 		);
 		const notes = container.querySelectorAll('.wilco-note');
-		expect(notes).toHaveLength(5);
+		expect(notes).toHaveLength(7);
 	});
 
 	it('should not display the date if this one is not valid', () => {

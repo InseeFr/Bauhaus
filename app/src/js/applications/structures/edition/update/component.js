@@ -3,15 +3,16 @@ import Edition from '../component';
 import { Loading } from '@inseefr/wilco';
 import { StructureAPI } from 'bauhaus-structures';
 import { useLocation, useParams } from 'react-router-dom';
+
 const Update = () => {
 	const location = useLocation();
 	const [loading, setLoading] = useState(true);
 	const { dsdId } = useParams();
 
-	const [DSD, setDSD] = useState({});
+	const [structure, setStructure] = useState({});
 	useEffect(() => {
 		StructureAPI.getStructure(dsdId)
-			.then(res => setDSD(res))
+			.then(res => setStructure(res))
 			.finally(() => {
 				setLoading(false);
 			});
@@ -20,13 +21,35 @@ const Update = () => {
 
 	if (loading) return <Loading />;
 
+	if(duplicate){
+		return (
+			<Edition
+				creation={duplicate}
+				initialStructure={{
+					identifiant: structure.identifiant,
+					labelLg1: structure.labelLg1,
+					labelLg2: structure.labelLg2,
+					id: '',
+					creator: structure.creator,
+					contributor: structure.contributor,
+					disseminationStatus: structure.disseminationStatus,
+					componentDefinitions: structure.componentDefinitions.map(cd => {
+						return {
+							component: cd.component,
+							order: cd.order,
+							required: cd.required,
+							attachment: cd.attachment
+						}
+					})
+				}}
+			/>
+		);
+	}
+
 	return (
 		<Edition
 			creation={duplicate}
-			initDSD={{
-				...DSD,
-				id: duplicate ? '' : DSD.id,
-			}}
+			initialStructure={structure}
 		/>
 	);
 };

@@ -1,4 +1,48 @@
 const dictionary = {
+	errors_1002: {
+		fr: 'Un composant avec la même liste de codes et le même concept existe déjà.',
+		en: 'A component with the same code list and concept already exists.'
+	},
+	errors_1004: {
+		fr: "Le propriétaire n'est pas défini.",
+		en: 'The creator is not defined.'
+	},
+	errors_1005: {
+		fr: "Le statut de diffusion n'est pas défini.",
+		en: 'the Diffusion status is not defined.'
+	},
+	errors_1006: {
+		fr: 'Le concept doit être publié.',
+		en: 'The concept must be published.'
+	},
+	errors_1007: {
+		fr: 'La liste de codes doit être publiée.',
+		en: 'The codes list must be published.'
+	},
+	errors_1008: {
+		fr: 'Tous les composants doivent être publiés',
+		en: 'All components must be validated.'
+	},
+	disseminationStatusTitle: {
+		fr: 'Statut de diffusion',
+		en: 'Diffusion status',
+	},
+	creatorTitle: {
+		fr: 'Propriétaire',
+		en: 'Owner',
+	},
+	contributorTitle: {
+		fr: 'Gestionnaire',
+		en: 'Contributor',
+	},
+	stampsPlaceholder: {
+		fr: 'Sélectionnez un timbre...',
+		en: 'Select stamp...',
+	},
+	disseminationStatusPlaceholder: {
+		fr: 'Sélectionnez un statut de diffusion...',
+		en: 'Select dissemination status...',
+	},
 	componentSpecificationTitle: {
 		fr: 'Spécification du Composant',
 		en: 'Component Specification',
@@ -20,8 +64,8 @@ const dictionary = {
 		en: 'The concept is mandatory',
 	},
 	errorsRangeMandatory: {
-		fr: 'La portée est obligatoire',
-		en: 'The range is mandatory',
+		fr: 'La représentation est obligatoire',
+		en: 'The representation is mandatory',
 	},
 	componentTitle: {
 		fr: 'Composants',
@@ -38,6 +82,10 @@ const dictionary = {
 	label: {
 		fr: 'Libellé',
 		en: 'Label',
+	},
+	mutualized: {
+		fr: 'Publié',
+		en: 'Published',
 	},
 	componentLabel: {
 		fr: 'Libellé du composant',
@@ -79,17 +127,33 @@ const dictionary = {
 		fr: 'Mesure',
 		en: 'Measure',
 	},
+	AttributePlural: {
+		fr: 'Attributs',
+		en: 'Attributes',
+	},
+	DimensionPlural: {
+		fr: 'Dimensions',
+		en: 'Dimensions',
+	},
+	MeasurePlural: {
+		fr: 'Mesures',
+		en: 'Measures',
+	},
 	codesListTitle: {
 		en: 'Code list',
 		fr: 'Liste de codes',
+	},
+	representationTitle: {
+		en: 'Representation',
+		fr: 'Représentation',
 	},
 	conceptTitle: {
 		en: 'Concept',
 		fr: 'Concept',
 	},
 	rangeTitle: {
-		fr: 'Portée',
-		en: 'Range',
+		fr: 'Représentation',
+		en: 'Representation',
 	},
 	stringType: {
 		fr: 'Texte',
@@ -108,8 +172,8 @@ const dictionary = {
 		en: 'Date',
 	},
 	idTitle: {
-		fr: 'Identifiant',
-		en: 'Identifier',
+		fr: 'Notation',
+		en: 'Notation',
 	},
 	attachmentTitle: {
 		fr: "Attachement de l'attribut",
@@ -146,6 +210,70 @@ const dictionary = {
 	all: {
 		fr: 'Tous',
 		en: 'All',
+	},
+	globalInformationsTitle: {
+		fr: 'Informations générales',
+		en: 'General information',
+	},
+	createdDateTitle: {
+		fr: 'Date de création',
+		en: 'Creation date',
+	},
+	modifiedDateTitle: {
+		fr: 'Date de modification',
+		en: 'Modification date',
+	},
+	componentValididationStatusTitle: {
+		fr: 'État du composant',
+		en: 'Publication status',
+	},
+	contributor: {
+		fr: 'Gestionnaire',
+		en: 'Contributor',
+	},
+	creator: {
+		fr: 'Propriétaires',
+		en: 'Creator',
+	},
+	seeCodesListDetails: {
+		fr: 'Voir les codes de cette liste',
+		en: 'see codes of this list'
+	},
+	DSPublicGeneriqueTitle: {
+		fr: 'Public générique',
+		en: 'Public generic',
+	},
+	DSPublicSpecifiqueTitle: {
+		fr: 'Public spécifique',
+		en: 'Public specific',
+	},
+	DSPrivateTitle: {
+		fr: 'Privé',
+		en: 'Private',
+	},
+	statusValidatedM: {
+		fr: 'Publié',
+		en: 'Published',
+	},
+	statusValidatedF: {
+		fr: 'Publiée',
+		en: 'Published',
+	},
+	statusModifiedM: {
+		fr: 'Provisoire, déjà publié',
+		en: 'Temporary, already published',
+	},
+	statusModifiedF: {
+		fr: 'Provisoire, déjà publiée',
+		en: 'Temporary, already published',
+	},
+	statusUnpublishedM: {
+		fr: 'Provisoire, jamais publié',
+		en: 'Temporary, never published',
+	},
+	statusUnpublishedF: {
+		fr: 'Provisoire, jamais publiée',
+		en: 'Temporary, never published',
 	},
 };
 export default dictionary;

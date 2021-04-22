@@ -36,7 +36,7 @@ class CreationContainer extends Component {
 		const { conceptList, collectionList, stampList } = this.props;
 		if (!conceptList) this.props.loadConceptList();
 		if (!collectionList) this.props.loadCollectionList();
-		if (!stampList) this.props.loadStampList();
+		if (stampList.length === 0) this.props.loadStampList();
 	}
 
 	render() {

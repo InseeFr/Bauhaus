@@ -53,7 +53,7 @@ export class MenuOperations extends Component {
 					attrs: null,
 					alignToRight: true,
 					order: 5,
-					label: `${D.titleDocument} / ${D.titleLink}`,
+					label: `${D.document} / ${D.titleLink}`,
 				},
 				operations: {
 					path: '/operations',

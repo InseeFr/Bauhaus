@@ -9,6 +9,7 @@ import {
 	SAVE_OPERATIONS_DOCUMENT_SUCCESS,
 } from 'js/actions/constants/operations/documents';
 import { isDocument } from 'js/applications/operations/document/utils';
+import { SAVE_OPERATIONS_SIMS_SUCCESS } from '../../actions/constants';
 /**
  *
  * @param {SimsDoc} state
@@ -46,7 +47,9 @@ export const operationsDocuments = function(
 				err: action.payload.err,
 			};
 		case SAVE_OPERATIONS_DOCUMENT_SUCCESS:
-			return {};
+			return {
+				status: NOT_LOADED
+			};
 		default:
 			return state;
 	}
@@ -72,6 +75,7 @@ export const operationsCurrentDocument = function(
 				err: action.payload.err,
 			};
 		case SAVE_OPERATIONS_DOCUMENT_SUCCESS:
+		case SAVE_OPERATIONS_SIMS_SUCCESS:
 			return {};
 		default:
 			return state;

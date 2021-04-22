@@ -32,7 +32,6 @@ const ConceptVisualizationControls = (props) => {
 	const contributor = authImpl.isContributor(roles);
 	const creator = authImpl.isConceptCreator(roles, stamp, conceptCreator);
 	const adminOrCreator = admin || creator;
-	//const adminOrContributorOrCreator = admin || contributor || creator;
 
 	let btns;
 

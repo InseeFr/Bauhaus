@@ -33,20 +33,20 @@ export default {
 		fr: 'La famille est obligatoire',
 		en: 'The family is required',
 	},
+	requiredOwner: {
+		fr: 'Le propriétaire est obligatoire',
+		en: 'The owner is required',
+	},
 	requiredSeries: {
 		fr: 'La série est obligatoire',
 		en: 'The series is required',
 	},
 	documents: {
 		serverSideErrors: {
-			LINK_EXISTING_URL: {
-				en: 'There already exists a link to that url:',
-				fr: 'Il y a déjà un lien avec cette url:',
-			},
-			DOCUMENT_EXISTING_FILE: {
-				en: 'There already exists a document under this name:',
-				fr: 'Il y a déjà un document avec le même nom:',
-			},
+			304: {
+				en: 'You cannot edit the file if the document has a quality report attached. To modify the file, please first remove it from the quality report. For more information, please contact the administration team',
+				fr: 'Vous ne pouvez pas modifier le fichier si le document est attaché à un rapport qualité. Pour modifier le fichier, veuillez tout d\'abord le retirer du rapport qualité. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
+			}
 		},
 	},
 };

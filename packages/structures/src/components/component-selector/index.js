@@ -4,7 +4,19 @@ import { MutualizedComponentsSelector } from '../mutualized-component-selector';
 import { StructureComponentsSelector } from '../structure-component-selector';
 import ComponentSpecificationModal from '../component-specification-modal';
 import PropTypes from 'prop-types';
-import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
+import {
+	ATTRIBUTE_PROPERTY_TYPE,
+	ATTRIBUTE_TYPE,
+	DIMENSION_PROPERTY_TYPE,
+	MEASURE_PROPERTY_TYPE,
+} from '../../utils/constants/dsd-components';
+import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
+import { OBSERVATION } from '../../utils/constants';
+
+const filterComponentDefinition = (type) => (componentDefinition) =>
+	componentDefinition?.component?.type === type;
+
+const filterComponent = (type) => (component) => component?.type === type;
 
 const ComponentSelector = ({
 	componentDefinitions,
@@ -12,9 +24,15 @@ const ComponentSelector = ({
 	concepts,
 	codesLists,
 	handleUpdate,
+	type,
+	structure
 }) => {
+	const [codesListNotation, setCodesListNotation] = useState(undefined);
+	const handleCodesListDetail = useCallback(notation => {
+		setCodesListNotation(notation);
+	}, [])
 	const [structureComponents, setStructureComponents] = useState(
-		componentDefinitions
+		[]
 	);
 
 	const [modalOpened, setModalOpened] = useState(false);
@@ -31,13 +49,13 @@ const ComponentSelector = ({
 
 	useEffect(() => {
 		setFilteredMutualizedComponents(
-			mutualizedComponents.filter((component) => {
+			mutualizedComponents.filter(filterComponent(type)).filter((component) => {
 				return !structureComponents.find(
 					({ component: c }) => c.id === component.id
 				);
 			})
 		);
-	}, [mutualizedComponents, structureComponents]);
+	}, [mutualizedComponents, structureComponents, type]);
 
 	const handleSpecificationClick = useCallback((component) => {
 		setSelectedComponent(component);
@@ -46,22 +64,30 @@ const ComponentSelector = ({
 
 	const handleCreateOrUpdate = useCallback(
 		(components, isCreation, component) => {
-			setStructureComponents(components);
-			handleUpdate(components);
 
 			if (isCreation) {
+				const componentsByType = _groupByType(structureComponents);
+				componentsByType[component.component.type].push(component);
+
+				const newComponents = _makeFlat(componentsByType)
 				_handleAttributeComponent(component);
+				setStructureComponents(newComponents);
+				handleUpdate(newComponents);
+			} else {
+				setStructureComponents(components);
+				handleUpdate(components);
 			}
 		},
-		[handleUpdate]
+		[handleUpdate, structureComponents]
 	);
+
 
 	const handleRemove = useCallback(
 		(id) => {
-			const filteredComponents = structureComponents
-				.filter(({ component }) => component.identifiant !== id)
-				.map((c, index) => ({ ...c, order: index + 1 }));
-			console.log(filteredComponents);
+			const filteredComponentsByType = _groupByType(structureComponents
+				.filter(({ component }) => component.identifiant !== id))
+
+			const filteredComponents = _makeFlat(filteredComponentsByType)
 			setStructureComponents(filteredComponents);
 			handleUpdate(filteredComponents);
 		},
@@ -76,7 +102,7 @@ const ComponentSelector = ({
 			};
 			let components;
 			components = structureComponents.map((c) => {
-				if (c.order === component.order) {
+				if (c.order === component.order && c.component.type === component.component.type) {
 					return component;
 				}
 				return c;
@@ -98,13 +124,43 @@ const ComponentSelector = ({
 		}
 	};
 
+	const _groupByType = (components) => {
+		const componentsByType = components.reduce((acc, structureComponent) => {
+			return {
+				...acc,
+				[structureComponent.component.type]: [...acc[structureComponent.component.type], structureComponent]
+			}
+		}, {
+			[ATTRIBUTE_PROPERTY_TYPE]: [],
+			[DIMENSION_PROPERTY_TYPE]: [],
+			[MEASURE_PROPERTY_TYPE]: []
+		})
+		return componentsByType;
+	}
+
+	const _makeFlat = (componentsByType) => {
+		const dimensions = componentsByType[DIMENSION_PROPERTY_TYPE];
+		const measures = componentsByType[MEASURE_PROPERTY_TYPE]
+		return [
+			...dimensions.map((component, index) => ({...component, order: index + 1 })),
+			...measures.map((component, index) => ({...component, order: dimensions.length + index + 1 })),
+			...componentsByType[ATTRIBUTE_PROPERTY_TYPE].map((component, index) => ({...component, order: dimensions.length + measures.length + index + 1 }))
+		]
+	}
+
 	const handleAdd = useCallback(
 		(id) => {
+
+			const componentsByType = _groupByType(structureComponents);
 			const component = mutualizedComponents.find((c) => c.identifiant === id);
-			const components = [
-				...structureComponents,
-				{ component, order: structureComponents.length + 1 },
-			];
+			const newStructureComponent = { component, order: componentsByType[component.type].length + 1 };
+			if(component.type === ATTRIBUTE_PROPERTY_TYPE){
+				newStructureComponent.attachment = [OBSERVATION]
+			}
+
+			componentsByType[component.type].push(newStructureComponent)
+			const components = _makeFlat(componentsByType);
+
 			setStructureComponents(components);
 			handleUpdate(components);
 
@@ -115,25 +171,31 @@ const ComponentSelector = ({
 
 	const handleUp = useCallback(
 		(id) => {
-			const index = structureComponents.findIndex(
+			const structureComponent = structureComponents.find(
 				(cs) => cs.component.identifiant === id
 			);
-			const startArray = structureComponents.slice(0, index - 1);
-			const endArray = structureComponents.slice(index + 1);
-			const components = [
+			const componentByType = _groupByType(structureComponents);
+			const componentArrayToUpdate = componentByType[structureComponent.component.type];
+
+			const index = structureComponent.order - 1;
+			const startArray = componentArrayToUpdate.slice(0, index - 1);
+			const endArray = componentArrayToUpdate.slice(index + 1);
+
+			componentByType[structureComponent.component.type] = [
 				...startArray,
 				{
-					...structureComponents[index],
+					...componentArrayToUpdate[index],
 					order: structureComponents[index - 1].order,
 				},
 				{
-					...structureComponents[index - 1],
+					...componentArrayToUpdate[index - 1],
 					order: structureComponents[index].order,
 				},
 				...endArray,
 			];
-			setStructureComponents(components);
 
+			const components = _makeFlat(componentByType)
+			setStructureComponents(components);
 			handleUpdate(components);
 		},
 
@@ -141,12 +203,17 @@ const ComponentSelector = ({
 	);
 	const handleDown = useCallback(
 		(id) => {
-			const index = structureComponents.findIndex(
+			const structureComponent = structureComponents.find(
 				(cs) => cs.component.identifiant === id
 			);
-			const startArray = structureComponents.slice(0, index);
-			const endArray = structureComponents.slice(index + 2);
-			const components = [
+			const componentByType = _groupByType(structureComponents);
+			const componentArrayToUpdate = componentByType[structureComponent.component.type];
+
+			const index = structureComponent.order - 1;
+
+			const startArray = componentArrayToUpdate.slice(0, index);
+			const endArray = componentArrayToUpdate.slice(index + 2);
+			componentByType[structureComponent.component.type] = [
 				...startArray,
 				{
 					...structureComponents[index + 1],
@@ -158,6 +225,7 @@ const ComponentSelector = ({
 				},
 				...endArray,
 			];
+			const components = _makeFlat(componentByType)
 			setStructureComponents(components);
 			handleUpdate(components);
 		},
@@ -182,13 +250,16 @@ const ComponentSelector = ({
 				hidden={false}
 				codesLists={codesLists}
 				concepts={concepts}
-				componentDefinitions={structureComponents}
+				componentDefinitions={componentDefinitions.filter(filterComponentDefinition(type))}
 				handleRemove={handleRemove}
 				handleUp={handleUp}
 				handleDown={handleDown}
 				handleCreateOrUpdate={handleCreateOrUpdate}
 				handleSpecificationClick={handleSpecificationClick}
 				readOnly={false}
+				type={type}
+				handleCodesListDetail={handleCodesListDetail}
+				structure={structure}
 			/>
 
 			<MutualizedComponentsSelector
@@ -198,7 +269,9 @@ const ComponentSelector = ({
 				components={filteredMutualizedComponents}
 				handleAdd={handleAdd}
 				readOnly={true}
+				handleCodesListDetail={handleCodesListDetail}
 			/>
+			<CodesListPanel codesList={codesListNotation} isOpen={!!codesListNotation} handleBack={() => setCodesListNotation(undefined)}/>
 		</>
 	);
 };

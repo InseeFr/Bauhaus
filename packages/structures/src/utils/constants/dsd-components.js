@@ -13,9 +13,14 @@ export const COMPONENT_TYPES = [
 
 export const ATTRIBUTE_PROPERTY_TYPE = `${QB}AttributeProperty`;
 export const MEASURE_PROPERTY_TYPE = `${QB}MeasureProperty`;
+export const DIMENSION_PROPERTY_TYPE = `${QB}DimensionProperty`;
 
 export const MUTUALIZED_COMPONENT_TYPES = [
-	{ value: ATTRIBUTE_PROPERTY_TYPE, label: D.Attribute },
-	{ value: `${QB}DimensionProperty`, label: D.Dimension },
-	{ value: MEASURE_PROPERTY_TYPE, label: D.Measure },
+	{ value: ATTRIBUTE_PROPERTY_TYPE, label: D.Attribute, labelPlural: D.AttributePlural },
+	{ value: `${QB}DimensionProperty`, label: D.Dimension, labelPlural: D.DimensionPlural },
+	{ value: MEASURE_PROPERTY_TYPE, label: D.Measure, labelPlural: D.MeasurePlural },
 ];
+
+export const DISSEMINATION_STATUS = {
+	PUBLIC_GENERIC: "http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique"
+}

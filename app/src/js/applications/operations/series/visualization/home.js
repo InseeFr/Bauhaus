@@ -6,8 +6,7 @@ import RelationsView from 'js/applications/operations/shared/relations';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
-import { PublicationFemale } from 'js/applications/operations/shared/status';
-import { HTMLUtils } from 'bauhaus-utilities';
+import { HTMLUtils, PublicationFemale } from 'bauhaus-utilities';
 import { PublishersView, CreatorsView } from 'bauhaus-operations';
 
 function OperationsSerieVisualization({

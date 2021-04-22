@@ -8,7 +8,12 @@ import { ComponentDetail } from './';
 import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
-const store = mockStore({ app: { secondLang: false } });
+const store = mockStore({
+		app: { secondLang: false },
+		disseminationStatus: {
+			results: [{}]
+		}
+});
 
 describe('<ComponentDetail />', () => {
 	const component = {
@@ -21,6 +26,7 @@ describe('<ComponentDetail />', () => {
 		isCoded: '<SyntaxError: missing ) after argument list>)',
 		codeList: 942,
 		range: 'http://www.w3.org/2001/XMLSchema#codeList',
+		structures: [],
 	};
 
 	const concepts = [

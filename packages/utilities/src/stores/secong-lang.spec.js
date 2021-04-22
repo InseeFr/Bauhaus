@@ -1,4 +1,4 @@
-import { SAVE_SECOND_LANG, saveSecondLang } from './second-lang';
+import { SAVE_SECOND_LANG, saveSecondLang, getSecondLang } from './second-lang';
 
 describe('saveSecondLang', () => {
 	test('should return the right payload', () => {
@@ -6,5 +6,12 @@ describe('saveSecondLang', () => {
 			payload: true,
 			type: SAVE_SECOND_LANG,
 		});
+	});
+});
+describe('getSecondLang', () => {
+	test('should return the secondLang', () => {
+		expect(getSecondLang({ app: { secondLang: 'secondLang' } })).toEqual(
+			'secondLang'
+		);
 	});
 });

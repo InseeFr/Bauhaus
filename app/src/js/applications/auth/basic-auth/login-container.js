@@ -14,18 +14,23 @@ class LoginBasicContainer extends Component {
 			updateRequested: false,
 		};
 		this.onClickValidate = (data) => {
-			const { stamp, role } = data;
-			this.props.checkAuth({ stamp, roles: role.map((r) => r.value) });
-			this.setState({
-				updateRequested: true,
-			});
+			api.postFakeUser( {
+				stamp: data.stamp,
+				roles: data.role.map(r => r.value)
+			}).finally(() => {
+				const { stamp, role } = data;
+				this.props.checkAuth({ stamp, roles: role.map((r) => r.value) });
+				this.setState({
+					updateRequested: true,
+				});
+			})
+
 		};
 	}
 
 	componentWillMount() {
 		const { stampList } = this.props;
 		const { roleList } = this.state;
-
 		if (!roleList) {
 			api.getRoleList().then((roleList) => {
 				this.setState({
@@ -33,7 +38,7 @@ class LoginBasicContainer extends Component {
 				});
 			});
 		}
-		if (!stampList) this.props.loadStampList();
+		if (stampList.length === 0) this.props.loadStampList();
 	}
 
 	render() {

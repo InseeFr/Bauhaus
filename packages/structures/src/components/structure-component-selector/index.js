@@ -5,10 +5,13 @@ import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
-import { XSD_CODE_LIST } from '../../utils/constants/xsd';
 import { ATTRIBUTE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
 
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { Stores } from 'bauhaus-utilities';
+import { XSD_TYPES } from '../../utils/constants';
+import Representation from '../representation';
 
 export const StructureComponentsSelector = ({
 	hidden = false,
@@ -21,13 +24,18 @@ export const StructureComponentsSelector = ({
 	concepts,
 	codesLists,
 	readOnly,
+	type,
+	handleCodesListDetail,
+	structure
 }) => {
+
 	const removeClickHandler = useCallback(
 		(e) => {
 			handleRemove(e.target.parentElement.dataset.componentId);
 		},
 		[handleRemove]
 	);
+	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
 	const [openPanel, setOpenPanel] = useState(false);
 	const [components, setComponents] = useState(defaultComponents);
 	useEffect(() => {
@@ -58,7 +66,7 @@ export const StructureComponentsSelector = ({
 					component: {
 						...component,
 					},
-					order: components.length,
+					order: components.length + 1,
 				};
 				newComponents = [...components, newComponent];
 				setOpenPanel(false);
@@ -112,9 +120,12 @@ export const StructureComponentsSelector = ({
 
 	const handleCreateComponent = useCallback((e) => {
 		e.stopPropagation();
-		setSelectedComponent({});
+		setSelectedComponent({
+			disseminationStatus: structure.disseminationStatus,
+			contributor: 'DG75-H250'
+		});
 		setOpenPanel(true);
-	}, []);
+	}, [structure]);
 
 	const componentsWithActions = components
 		.sort((cd1, cd2) => {
@@ -124,20 +135,26 @@ export const StructureComponentsSelector = ({
 		})
 		.map((componentDefinition, i) => {
 			const component = componentDefinition.component;
+
+
 			return {
 				...component,
 				type: typeUriToLabel(component.type),
+				mutualized: (
+					!!component.validationState && component.validationState !== 'Unpublished'
+						? <span className="glyphicon glyphicon-ok" aria-label={D.mutualized}></span>
+						: <React.Fragment></React.Fragment>
+				),
 				concept: concepts.find(
 					({ id }) => id?.toString() === component.concept?.toString()
 				)?.label,
-				codeList:
-					component.range !== XSD_CODE_LIST
-						? ''
-						: codesLists.find(
-								({ id }) => id?.toString() === component.codeList?.toString()
-						  )?.label,
+				representation: <Representation component={component} codesLists={codesLists} handleCodesListDetail={() => {
+					const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
+					handleCodesListDetail(codesList)
+				}} /> ,
 				actions: (
 					<React.Fragment>
+
 						<button
 							data-component-id={component.identifiant}
 							onClick={seeClickHandler}
@@ -216,7 +233,7 @@ export const StructureComponentsSelector = ({
 				search={false}
 				pagination={false}
 			/>
-			<SlidingPanel type={'right'} isOpen={openPanel} size={60}>
+			<SlidingPanel type={'right'} isOpen={openPanel} size={60} backdropClicked={() => setOpenPanel(false)}>
 				<ComponentDetail
 					component={selectedComponent}
 					codesLists={codesLists}
@@ -227,6 +244,8 @@ export const StructureComponentsSelector = ({
 					}}
 					readOnly={readOnly}
 					structureComponents={components}
+					type={type}
+					stampListOptions={stampListOptions}
 				/>
 			</SlidingPanel>
 		</CollapsiblePanel>

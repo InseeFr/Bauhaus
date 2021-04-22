@@ -56,18 +56,27 @@ const api = {
 		},
 		() => Promise.resolve(document.id),
 	],
-	getDissStatusList: () => ['disseminationStatus'],
 	getStampList: () => ['stamps'],
 	getRoleList: () => ['roles'],
 	getAgentList: () => ['agents'],
 	postAddRole: (agent) => {
 		const { id, role } = agent;
-		return [`private/add/role/${role}/user/${id}`, undefined, () => {}];
+		return [`users/private/add/role/${role}/user/${id}`, undefined, () => {}];
 	},
 	postDeleteRole: (agent) => {
 		const { id, role } = agent;
-		return [`private/delete/role/${role}/user/${id}`, undefined, () => {}];
+		return [`users/private/delete/role/${role}/user/${id}`, undefined, () => {}];
 	},
+	postFakeUser: user =>  [
+		`users/login`,
+		{
+			headers: {
+				Accept: 'application/json',
+			},
+			body: JSON.stringify(user),
+		},
+		(res) => res.text(),
+	]
 };
 
 export default API.buildApi('', api);

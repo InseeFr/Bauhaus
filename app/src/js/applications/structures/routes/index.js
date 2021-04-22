@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Menu from 'js/applications/structures/menu';
@@ -13,10 +13,14 @@ import {
 	StructuresSearch,
 } from 'bauhaus-structures';
 import D from 'js/i18n';
+import { connect } from 'react-redux';
+import loadStampList from 'js/actions/stamp';
 
-export default () => {
+const StructureComponent = ({ loadStampList }) => {
+	useEffect(() => {
+		loadStampList();
+	}, [loadStampList])
 	document.title = 'Bauhaus - ' + D.structuresTitle;
-	document.getElementById('root-app').classList = ['structures'];
 	return (
 		<>
 			<Menu />
@@ -58,3 +62,7 @@ export default () => {
 		</>
 	);
 };
+
+export default connect(undefined, {
+	loadStampList
+})(StructureComponent)

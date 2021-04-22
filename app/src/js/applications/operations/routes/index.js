@@ -18,7 +18,6 @@ class RootComponent extends Component {
 	componentDidMount() {
 		this.props.loadSetup();
 		document.title = 'Bauhaus - ' + D.operationsTitle;
-		document.getElementById('root-app').classList = ['operations'];
 	}
 	render() {
 		return (

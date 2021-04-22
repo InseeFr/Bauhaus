@@ -27,4 +27,5 @@ export const NARROWER = 'narrower';
 export const REFERENCES = 'references';
 export const SUCCEED = 'succeed';
 export const RELATED = 'related';
+export const CLOSE_MATCH = 'closeMatch';
 export const NONE = ''; //local only: to ignore concept not linked

@@ -1,7 +1,9 @@
 export default {
 	getSims: (id) => [`metadataReport/${id}`],
-	exportSims: (id) => [
-		`metadataReport/export/${id}`,
+	getDefaultSims: () => ['metadataReport/default'],
+	getOwners: (id) => [`metadataReport/Owner/${id}`],
+	exportSims: (id, config) => [
+		`metadataReport/export/${id}?emptyMas=${config.emptyMas}&lg1=${config.lg1}&lg2=${config.lg2}`,
 		{
 			method: 'GET',
 			headers: {
@@ -16,9 +18,12 @@ export default {
 			});
 		},
 	],
-
-	publishSims: (series) => [
-		`metadataReport/validate/${series.id}`,
+	deleteSims: (sims) => [
+		`metadataReport/delete/${sims.id}`,
+		(res) => res.text(),
+	],
+	publishSims: (sims) => [
+		`metadataReport/validate/${sims.id}`,
 		{ method: 'PUT' },
 		(res) => res.text(),
 	],

@@ -51,14 +51,14 @@ describe('operationsDocuments', () => {
 
 		expect(output).toEqual({ status: ERROR, err: 'err' });
 	});
-	it('should return an empty object', () => {
+	it('should return an NOT_LOADED status', () => {
 		const state = {};
 		const action = {
 			type: SAVE_OPERATIONS_DOCUMENT_SUCCESS,
 		};
 		const output = operationsDocuments(state, action);
 
-		expect(output).toEqual({});
+		expect(output).toEqual({status: "NOT_LOADED"});
 	});
 });
 

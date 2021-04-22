@@ -47,6 +47,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
 		const publicationDisabled = HTMLUtils.containUnsupportedStyles(attr);
+		const checkStamp = stamp => attr.creators.includes(stamp);
 
 		return (
 			<div className="container">
@@ -66,14 +67,14 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 						</>
 					)}
 					{!attr.idSims && (
-						<Auth.AuthGuard roles={[Auth.ADMIN, Auth.INDICATOR_CONTRIBUTOR]}>
+						<Auth.AuthGuard roles={[Auth.ADMIN]}>
 							<Button
 								action={`/operations/indicator/${attr.id}/sims/create`}
 								label={D.btnSimsCreate}
 							/>
 						</Auth.AuthGuard>
 					)}
-					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.INDICATOR_CONTRIBUTOR]}>
+					<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.INDICATOR_CONTRIBUTOR, checkStamp]]}>
 						<ValidationButton
 							object={attr}
 							callback={(object) =>
@@ -81,8 +82,6 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 							}
 							disabled={publicationDisabled}
 						/>
-					</Auth.AuthGuard>
-					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.INDICATOR_CONTRIBUTOR]}>
 						<Button
 							action={`/operations/indicator/${attr.id}/modify`}
 							label={D.btnUpdate}

@@ -1,40 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Note, Loading } from '@inseefr/wilco';
+import { Note, Loading, ErrorBloc } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
-import { CheckSecondLang, Stores, PageTitleBlock } from 'bauhaus-utilities';
+import {
+	CheckSecondLang,
+	Stores,
+	PageTitleBlock,
+	DateUtils,
+	PublicationFemale
+} from 'bauhaus-utilities';
 import Components from './components';
 import { D1, D2 } from 'js/i18n';
 import {
 	StructureAPI,
 	StructureVisualizationControl,
+	StructuresUtils
 } from 'bauhaus-structures';
+import D from 'bauhaus-structures/src/i18n/build-dictionary';
+import api from 'bauhaus-structures/src/apis/structure-api';
 
-const DSD = () => {
-	const { dsdId } = useParams();
-	const [DSD, setDSD] = useState({});
-	const [loading, setLoading] = useState(true);
-	const secondLang = useSelector(state =>
-		Stores.SecondLang.getSecondLang(state)
-	);
-
-	useEffect(() => {
-		StructureAPI.getStructure(dsdId)
-			.then(res => setDSD(res))
-			.finally(() => setLoading(false));
-	}, [dsdId]);
-
+export const StructureView = ({secondLang, structure, publish, serverSideError}) => {
 	const {
 		labelLg1,
 		labelLg2,
 		descriptionLg1,
 		descriptionLg2,
 		componentDefinitions = [],
-	} = DSD;
-
-	if (loading) {
-		return <Loading />;
-	}
+	} = structure;
 
 	return (
 		<>
@@ -44,8 +36,43 @@ const DSD = () => {
 				titleLg2={labelLg2}
 			/>
 			<CheckSecondLang />
-
-			<StructureVisualizationControl structure={DSD} />
+			<StructureVisualizationControl structure={structure} publish={publish}/>
+			<ErrorBloc error={serverSideError} />
+			<div className="row">
+				<Note
+					text={
+						<ul>
+							<li>
+								{D1.idTitle} : {structure.identifiant}
+							</li>
+							<li>
+								{D1.createdDateTitle} : {DateUtils.stringToDate(structure.created)}
+							</li>
+							<li>
+								{D1.modifiedDateTitle} : {DateUtils.stringToDate(structure.modified)}
+							</li>
+							<li>
+								{D.componentValididationStatusTitle} :{' '}
+								<PublicationFemale object={structure} />
+							</li>
+							<li>
+								{D.creator} :{' '}
+								{structure.creator}
+							</li>
+							<li>
+								{D.contributor} :{' '}
+								{structure.contributor}
+							</li>
+							<li>
+								{D.disseminationStatusTitle} :{' '}
+								{StructuresUtils.getDisseminationStatus(structure.disseminationStatus)}
+							</li>
+						</ul>
+					}
+					title={D1.globalInformationsTitle}
+					alone={true}
+				/>
+			</div>
 			<div className="row">
 				<Note
 					title={D1.descriptionTitle}
@@ -65,6 +92,39 @@ const DSD = () => {
 			<Components componentDefinitions={componentDefinitions} />
 		</>
 	);
+}
+const Structure = () => {
+	const { dsdId } = useParams();
+	const [structure, setStructure] = useState({});
+	const [loading, setLoading] = useState(true);
+	const [serverSideError, setServerSideError] = useState();
+	const secondLang = useSelector((state) =>
+		Stores.SecondLang.getSecondLang(state)
+	);
+
+	useEffect(() => {
+		StructureAPI.getStructure(dsdId)
+			.then((res) => setStructure(res))
+			.finally(() => setLoading(false));
+	}, [dsdId]);
+
+	const publish = () => {
+		setLoading(true);
+		setServerSideError();
+		return api.publishStructure(structure)
+			.then(() => api.getStructure(structure.id))
+			.then(component => setStructure(component))
+			.finally(() => setLoading(false))
+			.catch(error => {
+				setServerSideError(D['errors_' + JSON.parse(error).code])
+			})
+	}
+
+	if (loading) {
+		return <Loading />;
+	}
+
+	return <StructureView structure={structure} secondLang={secondLang} publish={publish} serverSideError={serverSideError}/>
 };
 
-export default DSD;
+export default Structure;

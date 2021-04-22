@@ -99,3 +99,12 @@ footer {
 	outline: none;
 	transition: border 0.24s ease-in-out;
 }
+
+.modal-header {
+	color: white;
+	background: var(--color-3);
+	.close {
+		opacity: 1;
+		color: white;
+	}
+}

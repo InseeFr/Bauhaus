@@ -6,7 +6,6 @@ import * as select from 'js/reducers';
 import { UPDATE_CONCEPT } from 'js/actions/constants';
 import loadConcept from 'js/actions/concepts/concept';
 import loadConceptList from 'js/actions/concepts/list';
-import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
 import updateConcept from 'js/actions/concepts/update';
 import ConceptEditionCreation from './home';
@@ -14,7 +13,7 @@ import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import { Loading, buildExtract } from '@inseefr/wilco';
-import { OK } from 'js/constants';
+import { CLOSE_MATCH, OK } from 'js/constants';
 import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
@@ -47,8 +46,8 @@ class EditionContainer extends Component {
 		} = this.props;
 		if (!concept) this.props.loadConcept(id);
 		if (!conceptList) this.props.loadConceptList();
-		if (!stampList) this.props.loadStampList();
-		if (!disseminationStatusList) this.props.loadDisseminationStatusList();
+		if (stampList.length === 0) this.props.loadStampList();
+		if (disseminationStatusList.length === 0) this.props.loadDisseminationStatusList();
 	}
 
 	render() {
@@ -70,7 +69,6 @@ class EditionContainer extends Component {
 		if (concept && conceptList && stampList && disseminationStatusList) {
 			const { general, notes, links } = concept;
 			const conceptsWithLinks = mergeWithAllConcepts(conceptList, links);
-
 			return (
 				<ConceptEditionCreation
 					id={id}
@@ -78,6 +76,7 @@ class EditionContainer extends Component {
 					subtitle={general.prefLabelLg1}
 					general={general}
 					notes={notes}
+					equivalentLinks={concept.links.filter(link => link.typeOfLink === CLOSE_MATCH)}
 					conceptsWithLinks={conceptsWithLinks}
 					disseminationStatusList={disseminationStatusList}
 					maxLengthScopeNote={maxLengthScopeNote}
@@ -99,7 +98,7 @@ const mapStateToProps = (state, ownProps) => {
 		concept: select.getConcept(state, id),
 		conceptList: select.getConceptList(state),
 		stampList: Stores.Stamps.getStampList(state),
-		disseminationStatusList: select.getDisseminationStatusList(state),
+		disseminationStatusList: Stores.DisseminationStatus.getDisseminationStatusList(state),
 		maxLengthScopeNote: Number(state.app.properties.maxLengthScopeNote),
 		updateStatus: select.getStatus(state, UPDATE_CONCEPT),
 		langs: select.getLangs(state),
@@ -109,7 +108,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
 	loadConcept,
 	loadConceptList,
-	loadDisseminationStatusList,
+	loadDisseminationStatusList: Stores.DisseminationStatus.loadDisseminationStatusList,
 	loadStampList,
 	updateConcept,
 };

@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom';
 import { CREATE_CONCEPT } from 'js/actions/constants';
 import * as select from 'js/reducers';
 import loadConceptList from 'js/actions/concepts/list';
-import loadDisseminationStatusList from 'js/actions/dissemination-status';
 import loadStampList from 'js/actions/stamp';
 import createConcept from 'js/actions/concepts/create';
 import buildPayloadCreation from 'js/utils/concepts/build-payload-creation-update/build-payload-creation';
@@ -35,8 +34,10 @@ class CreationContainer extends Component {
 	componentWillMount() {
 		const { conceptList, stampList, disseminationStatusList } = this.props;
 		if (!conceptList) this.props.loadConceptList();
-		if (!stampList) this.props.loadStampList();
-		if (!disseminationStatusList) this.props.loadDisseminationStatusList();
+		if (stampList.length === 0) this.props.loadStampList();
+		if (disseminationStatusList.length === 0){
+			this.props.loadDisseminationStatusList();
+		}
 	}
 
 	render() {
@@ -49,7 +50,6 @@ class CreationContainer extends Component {
 			creationStatus,
 			langs,
 		} = this.props;
-
 		if (this.state.creationRequested) {
 			if (creationStatus === OK) {
 				return <Redirect to={`/concept/${this.props.id}`} />;
@@ -83,7 +83,7 @@ const mapStateToProps = (state, ownProps) => {
 		concept: emptyConcept(state.app.properties.defaultContributor),
 		conceptList: select.getConceptList(state),
 		stampList: Stores.Stamps.getStampList(state),
-		disseminationStatusList: select.getDisseminationStatusList(state),
+		disseminationStatusList: Stores.DisseminationStatus.getDisseminationStatusList(state),
 		maxLengthScopeNote: Number(state.app.properties.maxLengthScopeNote),
 		id: select.getNewlyCreatedId(state),
 		creationStatus: select.getStatus(state, CREATE_CONCEPT),
@@ -93,7 +93,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
 	loadConceptList,
-	loadDisseminationStatusList,
+	loadDisseminationStatusList: Stores.DisseminationStatus.loadDisseminationStatusList,
 	loadStampList,
 	createConcept,
 };

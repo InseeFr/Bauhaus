@@ -7,6 +7,11 @@ const SimsBlockCodeList = ({ codesLists, currentSection, multi = false }) => {
 		const value = Array.isArray(currentSection.value)
 			? currentSection.value
 			: [currentSection.value];
+
+		// If the list of codes only contain one item, we do not display a list
+		if(value.length === 1){
+			return <>{codes.find(({code}) => code === value[0])?.labelLg1}</>
+		}
 		return (
 			<ul>
 				{codes

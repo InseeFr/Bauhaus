@@ -17,7 +17,7 @@ describe('reducerApp', () => {
 	test('failure action type', () => {
 		const action = { type: 'XXX_FAILURE', payload: 'payload' };
 		const result = reducerApp({ state: 'previous' }, action);
-		expect(result).toEqual({ state: 'previous', error: true });
+		expect(result).toEqual({ state: 'previous' });
 	});
 
 	test('action SAVE_SECOND_LANG', () => {

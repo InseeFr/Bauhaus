@@ -49,7 +49,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 		 * have unsupported styles like STRIKETHROUGH, color or background color
 		 */
 		const publicationDisabled = HTMLUtils.containUnsupportedStyles(attr);
-
+		const checkStamp = stamp => attr.creators.includes(stamp);
 		return (
 			<div className="container">
 				<PageTitleBlock
@@ -69,7 +69,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 					)}
 					{!attr.idSims && (
 						<Auth.AuthGuard
-							roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}
+							roles={[Auth.ADMIN]}
 							complementaryCheck={ableToCreateASimsForThisSeries}
 						>
 							<Button
@@ -78,7 +78,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 							/>
 						</Auth.AuthGuard>
 					)}
-					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}>
+					<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}>
 						<ValidationButton
 							object={attr}
 							callback={(object) =>
@@ -88,7 +88,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 						/>
 					</Auth.AuthGuard>
 					<Auth.AuthGuard
-						roles={[Auth.ADMIN, Auth.CNIS, Auth.SERIES_CONTRIBUTOR]}
+						roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}
 					>
 						<Button
 							action={`/operations/series/${attr.id}/modify`}

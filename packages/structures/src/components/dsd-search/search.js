@@ -10,24 +10,35 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	AbstractAdvancedSearchComponent,
-	ItemToSelectModel,
+	ItemToSelectModel, Stores,
 } from 'bauhaus-utilities';
+import { useSelector } from 'react-redux';
 
 const filterLabelLg1 = ArrayUtils.filterKeyDeburr(['labelLg1']);
+const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
+const filterValidationState = ArrayUtils.filterKeyDeburr(['validationState']);
+
 const filterComponentLabelLg1 = ArrayUtils.filterKeyDeburr([
 	'components.labelLg1',
 ]);
 const filterType = ArrayUtils.filterKeyDeburr(['components.type']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['components.concept']);
 
-const fields = ['labelLg1', 'componentLabelLg1', 'type', 'concept'];
+const fields = ['labelLg1', 'componentLabelLg1', 'type', 'concept', 'creator', 'validationState'];
 
+const validateStateOptions = [
+	{value: 'Unpublished', label: D.statusUnpublishedF},
+	{value: 'Modified', label: D.statusModifiedF},
+	{value: 'Validated', label: D.statusValidatedF}
+]
 export class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
 		labelLg1: '',
 		componentLabelLg1: '',
 		type: '',
 		concept: '',
+		creator: '',
+		validationState: ''
 	};
 
 	constructor(props) {
@@ -35,17 +46,19 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 	}
 
 	handlers = this.handleChange(fields, newState => {
-		const { labelLg1, componentLabelLg1, type, concept } = newState;
+		const { labelLg1, componentLabelLg1, type, concept, creator, validationState } = newState;
 		return this.props.data
 			.filter(filterLabelLg1(labelLg1))
 			.filter(filterComponentLabelLg1(componentLabelLg1))
 			.filter(filterType(type))
-			.filter(filterConcept(concept));
+			.filter(filterConcept(concept))
+			.filter(filterCreator(creator))
+			.filter(filterValidationState(validationState));
 	});
 
 	render() {
-		const { data, labelLg1, componentLabelLg1, type, concept } = this.state;
-		const { concepts } = this.props;
+		const { data, labelLg1, componentLabelLg1, type, concept, creator, validationState } = this.state;
+		const { concepts, stampListOptions } = this.props;
 		const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
 
 		const dataLinks = data.map(({ id, labelLg1 }) => (
@@ -116,6 +129,38 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 						</label>
 					</div>
 				</div>
+				<div className="row form-group">
+					<div className="col-md-6">
+						<label className="w-100">
+							{D.creator}
+							<Select
+								placeholder=""
+								value={
+									stampListOptions.find(option => option.value === creator) || ''
+								}
+								options={stampListOptions}
+								onChange={value => {
+									this.handlers.creator(value);
+								}}
+							/>
+						</label>
+					</div>
+					<div className="col-md-6">
+						<label className="w-100">
+							{D.componentValididationStatusTitle}
+							<Select
+								placeholder=""
+								value={
+									validateStateOptions.find(option => option.value === validationState) || ''
+								}
+								options={validateStateOptions}
+								onChange={value => {
+									this.handlers.validationState(value);
+								}}
+							/>
+						</label>
+					</div>
+				</div>
 			</AdvancedSearchList>
 		);
 	}
@@ -125,6 +170,7 @@ const SearchListContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [items, setItems] = useState([]);
 	const [concepts, setConcepts] = useState([]);
+	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
 
 	useEffect(() => {
 		Promise.all([api.getStructuresForSearch(), ConceptsAPI.getConceptList()])
@@ -138,7 +184,7 @@ const SearchListContainer = () => {
 		return <Loading />;
 	}
 
-	return <SearchFormList data={items} concepts={concepts} />;
+	return <SearchFormList data={items} concepts={concepts} stampListOptions={stampListOptions}/>;
 };
 
 export default SearchListContainer;

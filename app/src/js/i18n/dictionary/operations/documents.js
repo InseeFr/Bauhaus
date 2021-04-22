@@ -1,8 +1,8 @@
 export default {
 	document: { fr: 'Document', en: 'Document' },
 	link: { fr: 'Lien', en: 'Link' },
-	titleDocument: { fr: 'Documents', en: 'Documents' },
-	titleLink: { fr: 'Liens', en: 'Links' },
+	titleDocument: { fr: 'Document', en: 'Document' },
+	titleLink: { fr: 'Lien', en: 'Link' },
 	titleUpdatedDate: { fr: 'Date de mise à jour', en: 'Updated date' },
 	addDocument: {
 		fr: 'Ajoutez un document',
@@ -13,7 +13,11 @@ export default {
 		en: 'Add a link',
 	},
 	drag: {
-		fr: 'Glisser des documents ici, ou cliquez ici pour en sélectionner',
+		fr: 'Glisser un fichier ici, ou cliquez ici pour en sélectionner',
 		en: 'Drag n drop some files here, or click to select files',
+	},
+	documentsSearchTitle: {
+		fr: 'Document/Lien - Recherche',
+		en: 'Document/Link - Search',
 	},
 };

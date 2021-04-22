@@ -6,9 +6,7 @@
 	padding: 0;
 	margin-top: 20px;
 
-	ul {
-		list-style: none;
-	}
+
 }
 
 .msd__outline {
@@ -21,6 +19,10 @@
 	border-right: solid var(--color-3) 1px;
 
 	background-color: transparent;
+
+	ul {
+		list-style: none;
+	}
 
 	&_title {
 		font-size: 28px;

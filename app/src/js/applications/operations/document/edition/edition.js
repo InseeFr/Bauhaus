@@ -105,7 +105,7 @@ class OperationsDocumentationEdition extends Component {
 
 	render() {
 		const { langOptions, type } = this.props;
-		const langSelectOptions = langOptions.codes.map((lang) => {
+		const langSelectOptions = (langOptions.codes || []).map((lang) => {
 			return { value: lang.code, label: lang.labelLg1 };
 		});
 		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
@@ -113,11 +113,14 @@ class OperationsDocumentationEdition extends Component {
 		const { document, files, serverSideError } = this.state;
 		const isEditing = !!document.id;
 		const errors = validate(document, type, files);
-		const globalError =
-			errors.errorMessage ||
-			Object.keys(D.documents.serverSideErrors).reduce((acc, key) => {
-				return acc.replace(key, D.documents.serverSideErrors[key]);
-			}, serverSideError);
+
+		let globalError;
+		try {
+			globalError =
+				errors.errorMessage ||
+				D.documents.serverSideErrors[JSON.parse(serverSideError).code] || serverSideError
+		} catch (e){}
+
 
 		let updatedDate;
 		if (document.updatedDate) {

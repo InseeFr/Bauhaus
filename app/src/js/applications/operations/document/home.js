@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
@@ -26,9 +26,8 @@ const SearchableList = ({
 	const [search, handleSearch] = useState(searchValue);
 
 	const filter = filterKeyDeburr(
-		Object.keys(items[0] || {}).filter((k) => k !== 'id')
+		['label']
 	);
-
 	const hits = items.filter(filter(search));
 
 	const hitEls = hits.map((item) => (
@@ -79,16 +78,12 @@ function DocumentHome({ documents }) {
 
 	const onFilter = useCallback(
 		(mode) => {
-			history.push(window.location.pathname + '?page=1');
-
+			sessionStorage.setItem(sessionStorageKey, mode);
 			setFilter(mode);
+			history.replace(window.location.pathname + '?page=1');
 		},
 		[history]
 	);
-
-	useEffect(() => {
-		sessionStorage.setItem(sessionStorageKey, filter);
-	}, [filter]);
 
 	return (
 		<div className="container documents-home">
@@ -121,8 +116,8 @@ function DocumentHome({ documents }) {
 						currentValue={filter}
 						handleSelection={onFilter}
 						options={[
-							[DOCUMENT, D.titleDocument],
-							[BOTH, `${D.titleDocument} / ${D.titleLink}`],
+							[DOCUMENT, D.document],
+							[BOTH, `${D.document} / ${D.titleLink}`],
 							[LINK, D.titleLink],
 						]}
 					/>

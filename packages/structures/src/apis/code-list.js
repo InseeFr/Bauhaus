@@ -1,15 +1,16 @@
 import { CodesList, ArrayUtils } from 'bauhaus-utilities';
-const sortByLabel = ArrayUtils.sortArray('label');
+const sortByLabel = ArrayUtils.sortArray('labelLg1');
 
 export const getCodeList = () =>
 	CodesList.getCodesLists().then((response) => sortByLabel(response));
 
 export const getFormattedCodeList = () => {
 	return getCodeList().then((response) => {
-		return response?.map(({ uri, label }) => {
+		return response?.map(({ uri, labelLg1, notation }) => {
 			return {
 				id: uri,
-				label,
+				label: labelLg1,
+				notation,
 			};
 		});
 	});

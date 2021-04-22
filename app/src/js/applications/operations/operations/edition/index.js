@@ -1,51 +1,49 @@
-import React, { Component } from 'react';
+import React, {useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import loadOperation, {
 	saveOperation,
 } from 'js/actions/operations/operations/item';
 import * as select from 'js/reducers';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Loading, buildExtract } from '@inseefr/wilco';
 import OperationsOperationEdition from 'js/applications/operations/operations/edition/edition';
-import loadSeriesList from 'js/actions/operations/series/list';
-import { LOADED } from 'js/constants';
+import api  from 'js/remote-api/operations-api';
 
 const extractId = buildExtract('id');
 
-class OperationEditionContainer extends Component {
-	componentDidMount() {
-		if (!this.props.statusSeries !== LOADED) {
-			this.props.loadSeriesList();
+const OperationEditionContainer = (props) => {
+	const [series, setSeries] = useState([]);
+	const stamp = useSelector(state => state.app.auth.user.stamp);
+	const { loadOperation, id, operation} = props;
+
+	useEffect(() => {
+		if (!operation.id && id) {
+			loadOperation(id);
 		}
-		if (!this.props.operation.id && this.props.id) {
-			this.props.loadOperation(this.props.id);
-		}
-	}
-	render() {
-		if (!this.props.operation) return <Loading />;
-		return <OperationsOperationEdition {...this.props} />;
-	}
+	}, [operation.id, id, loadOperation]);
+
+	useEffect(() => {
+		api.getUserSeriesList(stamp).then(series => setSeries(series))
+	}, [stamp])
+	if (!operation) return <Loading />;
+
+	return <OperationsOperationEdition series={series} {...props} />;
 }
+
 
 const mapDispatchToProps = {
 	loadOperation,
 	saveOperation,
-	loadSeriesList,
 };
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const operation = id ? select.getOperation(state, id) : {};
-	const { results: series = [], status: statusSeries } = select.getSeries(
-		state
-	);
 	const langs = select.getLangs(state);
 	return {
 		id,
 		operation,
 		langs,
-		series,
-		statusSeries,
 		operationsAsyncTask: state.operationsAsyncTask,
 	};
 };

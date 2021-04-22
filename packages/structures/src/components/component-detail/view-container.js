@@ -7,18 +7,27 @@ import { ConceptsAPI, Stores } from 'bauhaus-utilities';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import D from '../../i18n/build-dictionary';
 
-const ViewContainer = props => {
+const ViewContainer = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [component, setComponent] = useState({});
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState([]);
+	const [serverSideError, setServerSideError] = useState();
 
 	const handleBack = useCallback(() => {
 		goBack(props, '/structures/components')();
 	}, [props]);
+
+	const handleDelete = useCallback(() => {
+		setLoading(true);
+		api.deleteMutualizedComponent(id).then(() => {
+			goBack(props, '/structures/components')();
+		});
+	}, [id, props]);
 
 	useEffect(() => {
 		Promise.all([
@@ -38,6 +47,16 @@ const ViewContainer = props => {
 		return <Loading />;
 	}
 
+	const publishComponent = () => {
+		setLoading(true);
+		return api.publishMutualizedComponent(component)
+			.then(() => api.getMutualizedComponent(component.id))
+			.then(component => setComponent(component))
+			.finally(() => setLoading(false))
+			.catch(error => {
+				setServerSideError(D['errors_' + JSON.parse(error).code])
+			})
+	}
 	return (
 		<React.Fragment>
 			<ComponentTitle component={component} secondLang={secondLang} />
@@ -49,9 +68,13 @@ const ViewContainer = props => {
 				component={component}
 				concepts={concepts}
 				handleBack={handleBack}
+				handleDelete={handleDelete}
 				handleUpdate={`/structures/components/${component.id}/modify`}
 				mutualized={true}
 				updatable={true}
+				publishComponent={publishComponent}
+				serverSideError={serverSideError}
+				secondLang={secondLang}
 			/>
 		</React.Fragment>
 	);

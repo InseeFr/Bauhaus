@@ -8,15 +8,17 @@ import { connect } from 'react-redux';
 import { buildExtract, Loading } from '@inseefr/wilco';
 import DocumentationEdition from 'js/applications/operations/document/edition/edition';
 import { getCurrentDocument } from 'js/reducers/operations/selector';
-import { isDocument, LINK, DOCUMENT } from '../utils';
-import { CL_FREQ } from 'js/actions/constants/codeList';
+import { loadCodesList } from 'js/actions/operations/utils/setup';
 
 const extractId = buildExtract('id');
 
 class OperationsDocumentationEditionContainer extends Component {
 	componentDidMount() {
 		if (!this.props.document.id && this.props.id) {
-			this.props.loadDocument(this.props.id);
+			this.props.loadDocument(this.props.id, this.props.type);
+		}
+		if(!this.props.langOptions.codes){
+			this.props.loadLangCodesList()
 		}
 	}
 	render() {
@@ -25,24 +27,21 @@ class OperationsDocumentationEditionContainer extends Component {
 	}
 }
 
-const mapDispatchToProps = {
-	loadDocument,
-	saveDocument,
-};
+const mapDispatchToProps = dispatch => ({
+	loadDocument:  (...args) => loadDocument(...args)(dispatch),
+	saveDocument: (...args) => saveDocument(...args)(dispatch),
+	loadLangCodesList: () => loadCodesList(['ISO-639'], dispatch)
+});
+
 
 export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 
 	const pathName = ownProps.location.pathname;
 	const document = id ? getCurrentDocument(state) : {};
-	let type;
-	if (/(link|document)\/create/.test(pathName)) {
-		type = /(link|document)\/create/.exec(pathName)[1];
-	} else if (document.uri) {
-		type = isDocument(document) ? DOCUMENT : LINK;
-	}
+	const type = /(link|document)/.exec(pathName)[1];
 	const langs = select.getLangs(state);
-	const langOptions = state.operationsCodesList.results[CL_FREQ] || {};
+	const langOptions = state.operationsCodesList.results['ISO-639'] || {};
 	return {
 		id,
 		document,
