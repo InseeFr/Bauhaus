@@ -8,7 +8,7 @@ import {
 	ErrorBloc,
 	Table,
 } from '@inseefr/wilco';
-import { D1, D2 } from '../../i18n/build-dictionary';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
 import {
 	HTMLUtils,
 	ValidationButton,
@@ -66,29 +66,29 @@ export const ComponentDetailView = ({
 						text={
 							<ul>
 								<li>
-									{D1.idTitle} : {component.notation}
+									{D.idTitle} : {component.notation}
 								</li>
 								<li>
-									{D1.createdDateTitle} :{' '}
+									{D.createdDateTitle} :{' '}
 									{DateUtils.stringToDate(component.created)}
 								</li>
 								<li>
-									{D1.modifiedDateTitle} :{' '}
+									{D.modifiedDateTitle} :{' '}
 									{DateUtils.stringToDate(component.modified)}
 								</li>
 								<li>
-									{D1.componentValididationStatusTitle} :{' '}
+									{D.componentValididationStatusTitle} :{' '}
 									<PublicationMale object={component} />
 								</li>
 								<li>
-									{D1.creator} : {component.creator}
+									{D.creator} : {component.creator}
 								</li>
 								<li>
-									{D1.contributor} : {component.contributor}
+									{D.contributor} : {component.contributor}
 								</li>
 							</ul>
 						}
-						title={D1.globalInformationsTitle}
+						title={D.globalInformationsTitle}
 						alone={true}
 					/>
 				</div>
@@ -113,7 +113,7 @@ export const ComponentDetailView = ({
 			<div className="row">
 				<Note
 					text={<Table rowParams={rowParams} data={component.codes} />}
-					title={D1.listElements}
+					title={D.listElements}
 					alone={true}
 				/>
 			</div>
