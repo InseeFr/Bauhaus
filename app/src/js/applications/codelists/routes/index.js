@@ -1,7 +1,13 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import { Menu, Home, CodelistComponentView, D } from 'bauhaus-codelists';
+import {
+	Menu,
+	Home,
+	CodelistComponentView,
+	D,
+	SearchFormList,
+} from 'bauhaus-codelists';
 
 const CodesListComponent = () => {
 	document.title = 'Bauhaus - ' + D.codelistsTitle;
@@ -17,6 +23,7 @@ const CodesListComponent = () => {
 						path="/codelists/components/:notation"
 						component={CodelistComponentView}
 					/>
+					<Route exact path="/codelists/search" component={SearchFormList} />
 				</Switch>
 			</div>
 		</>

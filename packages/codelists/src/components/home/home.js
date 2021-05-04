@@ -42,7 +42,7 @@ function CodeListsList() {
 					<SearchableList
 						items={renamedItems}
 						childPath="codelists/components"
-						searchUrl="/codelists/components/search"
+						searchUrl="/codelists/search"
 						advancedSearch={true}
 						label="label"
 						autoFocus={true}
