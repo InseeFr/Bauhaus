@@ -6,7 +6,7 @@ import {
 	VerticalMenu,
 	Loading,
 } from '@inseefr/wilco';
-import { CodesList } from 'bauhaus-utilities';
+import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
 
@@ -21,7 +21,7 @@ function CodeListsList() {
 	}));
 
 	useEffect(() => {
-		CodesList.getCodesLists()
+		API.getCodelists()
 			.then((codelists) => {
 				setItems(codelists);
 			})

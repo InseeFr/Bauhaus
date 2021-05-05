@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Loading, goBack } from '@inseefr/wilco';
 import { ComponentDetailView } from './view';
-import { CodesList, Stores } from 'bauhaus-utilities';
+import { Stores } from 'bauhaus-utilities';
+import { API } from '../../apis';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -17,7 +18,7 @@ const CodelistComponentView = (props) => {
 	}, [props]);
 
 	useEffect(() => {
-		CodesList.getCodesList(notation)
+		API.getCodelist(notation)
 			.then((codelist) => {
 				setComponent(codelist);
 			})
@@ -36,7 +37,7 @@ const CodelistComponentView = (props) => {
 				col={2}
 				component={component}
 				handleBack={handleBack}
-				handleUpdate={`/structures/components/${component.notation}/modify`}
+				handleUpdate={`/codelists/components/${component.notation}/modify`}
 				mutualized={true}
 				updatable={true}
 			/>
