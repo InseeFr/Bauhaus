@@ -8,7 +8,7 @@ import {
 	AdvancedSearchList,
 	Stores,
 } from 'bauhaus-utilities';
-import API from '../../apis';
+import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
 
@@ -126,7 +126,7 @@ const SearchListContainer = () => {
 
 	useEffect(() => {
 		API.getCodelistsForSearch()
-			.then(([codelists]) => {
+			.then((codelists) => {
 				setItems(codelists);
 			})
 			.finally(() => setLoading(false));
