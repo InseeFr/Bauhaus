@@ -12,11 +12,13 @@ import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
 
+const filterId = ArrayUtils.filterKeyDeburr(['id']);
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
+const filterCode = ArrayUtils.filterKeyDeburr(['codes/labelLg1']);
 const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
 const filterValidationState = ArrayUtils.filterKeyDeburr(['validationState']);
 
-const fields = ['labelLg1', 'creator', 'validationState'];
+const fields = ['id', 'labelLg1', 'code', 'creator', 'validationState'];
 const validateStateOptions = [
 	{ value: 'Unpublished', label: D.statusUnpublishedM },
 	{ value: 'Modified', label: D.statusModifiedM },
@@ -25,7 +27,9 @@ const validateStateOptions = [
 
 class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
+		id: '',
 		labelLg1: '',
+		code: [''],
 		creator: '',
 		validationState: '',
 	};
@@ -35,21 +39,18 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 	}
 
 	handlers = this.handleChange(fields, (newState) => {
-		const { labelLg1, creator, validationState } = newState;
+		const { id, labelLg1, code, creator, validationState } = newState;
 		return this.props.data
+			.filter(filterId(id))
 			.filter(filterLabel(labelLg1))
+			.filter(filterCode(code))
 			.filter(filterCreator(creator))
 			.filter(filterValidationState(validationState));
 	});
 
 	render() {
-		const { data, labelLg1, creator, validationState } = this.state;
+		const { data, id, labelLg1, code, creator, validationState } = this.state;
 		const { stampListOptions } = this.props;
-		/* const dataLinks = data.map(({ id, labelLg1 }) => (
-			<li key={id} className="list-group-item">
-				<Link to={`/codelists/components/${id}`}>{labelLg1}</Link>
-			</li>
-		)); */
 		const dataLinks = data.map((component) => (
 			<li key={component.id} className="list-group-item text-left">
 				<Link to={`/codelists/components/${component.id}`}>
@@ -67,10 +68,36 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 				<div className="row form-group">
 					<div className="col-md-12">
 						<label className="w-100">
+							{D.idTitle}
+							<input
+								value={id}
+								onChange={(e) => this.handlers.id(e.target.value)}
+								type="text"
+								className="form-control"
+							/>
+						</label>
+					</div>
+				</div>
+				<div className="row form-group">
+					<div className="col-md-12">
+						<label className="w-100">
 							{D.labelTitle}
 							<input
 								value={labelLg1}
 								onChange={(e) => this.handlers.labelLg1(e.target.value)}
+								type="text"
+								className="form-control"
+							/>
+						</label>
+					</div>
+				</div>
+				<div className="row form-group">
+					<div className="col-md-12">
+						<label className="w-100">
+							{D.codeTitle}
+							<input
+								value={code}
+								onChange={(e) => this.handlers.code(e.target.value)}
 								type="text"
 								className="form-control"
 							/>
