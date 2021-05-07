@@ -1,5 +1,9 @@
 const dictionary = {
 	codelistsTitle: { fr: 'Listes de codes', en: 'Code lists' },
+	codelistsSearchTitle: {
+		fr: 'Listes de codes - Recherche',
+		en: 'Code lists - Search',
+	},
 	componentTitle: {
 		fr: 'Listes de codes',
 		en: 'Codelists',
@@ -31,6 +35,10 @@ const dictionary = {
 	creator: {
 		fr: 'Propriétaires',
 		en: 'Creator',
+	},
+	labelTitle: {
+		fr: 'Libellé',
+		en: 'Label',
 	},
 	descriptionTitle: {
 		fr: 'Description',
