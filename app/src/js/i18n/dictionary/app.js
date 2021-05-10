@@ -62,6 +62,10 @@ const dictionary = {
 		fr: 'Page introuvable',
 		en: 'Page not found',
 	},
+	underMaintenanceTitle: {
+		fr: 'En maintenance',
+		en: 'Under maintenance',
+	},
 	multiModalNoNewBody: {
 		fr: 'Remplissez le champ précédent pour en ajouter un nouveau',
 		en: 'Complete the previous field before adding another',
@@ -234,6 +238,10 @@ const dictionary = {
 	relatedTitle: {
 		fr: 'Lié',
 		en: 'Related',
+	},
+	equivalentTitle: {
+		fr: 'Équivalent',
+		en: 'Equivalent'
 	},
 	// Mail
 	mailTitle: {
@@ -410,6 +418,10 @@ const dictionary = {
 	MeasurePlural: {
 		fr: 'Mesures',
 		en: 'Measures',
+	},
+	quitWithoutSaving: {
+		fr: 'Vous êtes sur le point de quitter cette page sans sauvegarder vos modifications. Souhaitez-vous continuer ?',
+		en: 'You are leaving this page without saving your changes. Do you want to continue ?'
 	},
 	btnExport:{fr:"Options d'export",en:"Export options"},
 	btnExportValidate:{fr:"Exporter en odt",en:"Export to odt"}

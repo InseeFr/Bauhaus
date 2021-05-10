@@ -15,7 +15,8 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
 import { HTMLUtils, ValidationButton, DateUtils, PublicationMale } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
-import api from '../../apis/structure-api';
+import "./view.scss";
+import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 
 export const canBeDeleted = (component) => {
 	const withoutStructuresUsingThisComponent = !component.structures || component.structures?.length === 0
@@ -34,12 +35,13 @@ export const ComponentDetailView = ({
 	handleBack,
 	updatable,
 	mutualized = false,
-	secondLang = false,
+	secondLang,
 	structureComponents,
 	col = 3,
 	publishComponent,
 	serverSideError
 }) => {
+	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 
 	const typeValue = typeUriToLabel(component.type);
 	const conceptValue = concepts.find(
@@ -80,6 +82,9 @@ export const ComponentDetailView = ({
 					text={
 						<ul>
 							<li>
+								{D1.idTitle} : {component.identifiant}
+							</li>
+							<li>
 								{D.createdDateTitle} :{' '}
 								{DateUtils.stringToDate(component.created)}
 							</li>
@@ -110,14 +115,6 @@ export const ComponentDetailView = ({
 				/>
 			</div>
 			<div className="row">
-				<Note
-					text={component.identifiant}
-					title={D1.idTitle}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</div>
-			<div className="row">
 				<Note text={typeValue} title={D1.type} alone={true} allowEmpty={true} />
 			</div>
 
@@ -140,7 +137,17 @@ export const ComponentDetailView = ({
 			{component.range === XSD_CODE_LIST && (
 				<div className="row">
 					<Note
-						text={codeListValue}
+						text={
+							<div className="code-list-zone-view">
+								{codeListValue}
+								<button
+									type="button"
+									onClick={() => setCodesListPanelOpened(true)}
+								>
+									{D.see}
+								</button>
+							</div>
+						}
 						title={D1.codesListTitle}
 						alone={true}
 						allowEmpty={true}
@@ -153,7 +160,6 @@ export const ComponentDetailView = ({
 					title={D1.descriptionTitle}
 					alone={!secondLang}
 					allowEmpty={true}
-					md
 				/>
 				{secondLang && (
 					<Note
@@ -222,6 +228,9 @@ export const ComponentDetailView = ({
 					</div>
 				</React.Fragment>
 			)}
+			<CodesListPanel codesList={codesLists.find((c) =>
+				(component.codeList?.id || component.codeList)?.toString().includes(c.id?.toString())
+			)} isOpen={codesListPanelOpened} handleBack={() => setCodesListPanelOpened(false)}/>
 		</React.Fragment>
 	);
 };
@@ -234,6 +243,7 @@ ComponentDetailView.propTypes = {
 	handleBack: PropTypes.func,
 	updatable: PropTypes.bool,
 	structureComponents: PropTypes.array,
+	secondLang: PropTypes.bool
 };
 
 ComponentDetailView.defaultProps = {

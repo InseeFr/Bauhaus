@@ -24,7 +24,7 @@ function IndicatorsHome({ indicators }) {
 						items={indicators}
 						childPath="operations/indicator"
 						label="label"
-						advancedSearch
+						advancedSearch={false}
 						searchUrl="/operations/indicators/search"
 						autoFocus={true}
 					/>

@@ -33,6 +33,10 @@ export default {
 		fr: 'La famille est obligatoire',
 		en: 'The family is required',
 	},
+	requiredOwner: {
+		fr: 'Le propriétaire est obligatoire',
+		en: 'The owner is required',
+	},
 	requiredSeries: {
 		fr: 'La série est obligatoire',
 		en: 'The series is required',

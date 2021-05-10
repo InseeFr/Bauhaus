@@ -37,6 +37,7 @@ describe('<StructureView />', () => {
 				<MemoryRouter>
 					<StructureView
 						structure={{
+							identifiant: '1234',
 							created: new Date('2020-01-01'),
 							modified: new Date('2020-01-01'),
 							validationState: 'Validated',
@@ -48,12 +49,12 @@ describe('<StructureView />', () => {
 				</MemoryRouter>
 			</Provider>
 		);
-
-		expect(container.querySelector('ul li:nth-child(1)').innerHTML).toContain('Date de création : 01/01/2020');
-		expect(container.querySelector('ul li:nth-child(2)').innerHTML).toContain('Date de modification : 01/01/2020');
-		expect(container.querySelector('ul li:nth-child(3)').innerHTML).toContain('Publication status : Published');
-		expect(container.querySelector('ul li:nth-child(4)').innerHTML).toContain('Creator : STAMP CREATOR');
-		expect(container.querySelector('ul li:nth-child(5)').innerHTML).toContain('Contributor : STAMP CONTRIBUTOR');
-		expect(container.querySelector('ul li:nth-child(6)').innerHTML).toContain('Diffusion status : Public generic');
+		expect(container.querySelector('ul li:nth-child(1)').innerHTML).toContain('1234');
+		expect(container.querySelector('ul li:nth-child(2)').innerHTML).toContain('Date de création : 01/01/2020');
+		expect(container.querySelector('ul li:nth-child(3)').innerHTML).toContain('Date de modification : 01/01/2020');
+		expect(container.querySelector('ul li:nth-child(4)').innerHTML).toContain('Publication status : Published');
+		expect(container.querySelector('ul li:nth-child(5)').innerHTML).toContain('Creator : STAMP CREATOR');
+		expect(container.querySelector('ul li:nth-child(6)').innerHTML).toContain('Contributor : STAMP CONTRIBUTOR');
+		expect(container.querySelector('ul li:nth-child(7)').innerHTML).toContain('Diffusion status : Public generic');
 	})
 })

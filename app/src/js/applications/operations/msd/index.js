@@ -101,17 +101,19 @@ class MSDContainer extends Component {
 		}
 
 		if(this.props.mode === CREATE){
-			api.getDefaultSims().then(response => {
+			/*api.getDefaultSims().then(response => {
 				this.setState({ defaultSimsRubrics: response})
-			})
+			})*/
 		}
-		this._loadOwnersList();
+		this._loadOwnersList(this.props.id);
 	}
 
-	_loadOwnersList() {
-		api.getOwners(this.props.id).then(owners => {
-			this.setState({ owners })
-		})
+	_loadOwnersList(id) {
+		if(id){
+			api.getOwners(id).then(owners => {
+				this.setState({ owners })
+			})
+		}
 	}
 	exportCallback = (id, config) => {
 		this.setState(() => ({ exportPending: true }));
@@ -125,6 +127,9 @@ class MSDContainer extends Component {
 		}
 		if (!nextProps.isParentLoaded) {
 			this._loadParent(nextProps.idParent);
+		}
+		if(this.props.mode === CREATE && nextProps.mode === VIEW){
+			this._loadOwnersList(nextProps.id)
 		}
 	}
 	isEditMode = () => {

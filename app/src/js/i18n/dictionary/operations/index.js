@@ -96,7 +96,7 @@ const dictionary = {
 	},
 	dataCollectFrequency: {
 		fr: 'Fréquence de collecte des données',
-		en: 'Data collection frequency',
+		en: 'Frequency of data collection',
 	},
 	operationType: {
 		fr: "Type d'opération",

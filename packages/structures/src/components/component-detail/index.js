@@ -32,6 +32,7 @@ export const ComponentDetail = props => {
 
 					<ComponentDetailView
 						{...props}
+						secondLang={secondLang}
 						handleUpdate={handleViewUpdate}
 						handleBack={props.handleBack}
 						updatable={!props.readOnly}

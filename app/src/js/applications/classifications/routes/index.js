@@ -20,7 +20,6 @@ import Menu from 'js/applications/classifications/menu';
 
 export default () => {
 	document.title = 'Bauhaus - ' + D.classificationsTitle;
-	document.getElementById('root-app').classList = ['classifications'];
 	return (
 		<>
 			<Menu />
