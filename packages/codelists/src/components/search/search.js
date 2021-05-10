@@ -14,7 +14,7 @@ import { formatLabel } from '../../utils';
 
 const filterId = ArrayUtils.filterKeyDeburr(['id']);
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
-const filterCode = ArrayUtils.filterKeyDeburr(['codes/labelLg1']);
+const filterCode = ArrayUtils.filterKeyDeburr(['codes.labelLg1']);
 const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
 const filterValidationState = ArrayUtils.filterKeyDeburr(['validationState']);
 
@@ -29,7 +29,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 	static defaultState = {
 		id: '',
 		labelLg1: '',
-		code: [''],
+		code: '',
 		creator: '',
 		validationState: '',
 	};
