@@ -5,8 +5,8 @@ const ComponentTitle = ({ component, secondLang }) => {
 	return (
 		<React.Fragment>
 			<PageTitleBlock
-				titleLg1={component?.codeListLabelLg1}
-				titleLg2={component?.codeListLabelLg2}
+				titleLg1={component?.labelLg1}
+				titleLg2={component?.labelLg2}
 				secondLang={secondLang}
 			/>
 			<CheckSecondLang />

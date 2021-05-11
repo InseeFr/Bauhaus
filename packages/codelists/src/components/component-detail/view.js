@@ -33,7 +33,7 @@ export const ComponentDetailView = ({
 	handleDelete,
 	handleBack,
 	updatable,
-	secondLang = false,
+	secondLang,
 	col = 3,
 	publishComponent,
 	serverSideError,
@@ -66,7 +66,7 @@ export const ComponentDetailView = ({
 						text={
 							<ul>
 								<li>
-									{D.idTitle} : {component.notation}
+									{D.idTitle} : {component.id}
 								</li>
 								<li>
 									{D.createdDateTitle} :{' '}
@@ -110,13 +110,20 @@ export const ComponentDetailView = ({
 					/>
 				)}
 			</div>
-			<div className="row">
-				<Note
-					text={<Table rowParams={rowParams} data={component.codes} />}
-					title={D.listElements}
-					alone={true}
-				/>
-			</div>
+			{
+				<div className="row">
+					<Note
+						text={
+							<Table
+								rowParams={rowParams}
+								data={Object.values(component.codes)}
+							/>
+						}
+						title={D.listElements}
+						alone={true}
+					/>
+				</div>
+			}
 		</React.Fragment>
 	);
 };

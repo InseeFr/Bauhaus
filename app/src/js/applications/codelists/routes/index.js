@@ -20,7 +20,7 @@ const CodesListComponent = () => {
 					<Route exact path="/codelists" component={Home} />
 					<Route
 						exact
-						path="/codelists/components/:notation"
+						path="/codelists/components/:id"
 						component={CodelistComponentView}
 					/>
 					<Route exact path="/codelists/search" component={SearchFormList} />

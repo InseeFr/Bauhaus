@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 
 const CodelistComponentView = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
-	const { notation } = useParams();
+	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [component, setComponent] = useState({});
 
@@ -18,12 +18,12 @@ const CodelistComponentView = (props) => {
 	}, [props]);
 
 	useEffect(() => {
-		API.getCodelist(notation)
+		API.getDetailedCodelist(id)
 			.then((codelist) => {
 				setComponent(codelist);
 			})
 			.finally(() => setLoading(false));
-	}, [notation]);
+	}, [id]);
 
 	if (loading) {
 		return <Loading />;
@@ -37,7 +37,8 @@ const CodelistComponentView = (props) => {
 				col={2}
 				component={component}
 				handleBack={handleBack}
-				handleUpdate={`/codelists/components/${component.notation}/modify`}
+				handleUpdate={`/codelists/components/${component.id}/modify`}
+				secondLang={secondLang}
 				mutualized={true}
 				updatable={true}
 			/>
