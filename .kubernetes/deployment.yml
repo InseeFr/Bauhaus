@@ -23,7 +23,3 @@ spec:
               value: 'server'
             - name: APPLICATIONS
               value: 'concepts,classifications,operations,structures'
-            - name: NAME
-              value: 'Bauhaus'
-            - name: VERSION
-              value: '3.0.0'
