@@ -11,7 +11,7 @@ const CodelistComponentView = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
-	const [component, setComponent] = useState({});
+	const [codelist, setCodelist] = useState({});
 
 	const handleBack = useCallback(() => {
 		goBack(props, '/codelists')();
@@ -20,7 +20,7 @@ const CodelistComponentView = (props) => {
 	useEffect(() => {
 		API.getDetailedCodelist(id)
 			.then((codelist) => {
-				setComponent(codelist);
+				setCodelist(codelist);
 			})
 			.finally(() => setLoading(false));
 	}, [id]);
@@ -31,13 +31,13 @@ const CodelistComponentView = (props) => {
 
 	return (
 		<React.Fragment>
-			<ComponentTitle component={component} secondLang={secondLang} />
+			<ComponentTitle component={codelist} secondLang={secondLang} />
 			<CodeListDetailView
 				{...props}
 				col={2}
-				component={component}
+				codelist={codelist}
 				handleBack={handleBack}
-				handleUpdate={`/codelists/components/${component.id}/modify`}
+				handleUpdate={`/codelists/components/${codelist.id}/modify`}
 				secondLang={secondLang}
 				mutualized={true}
 				updatable={true}

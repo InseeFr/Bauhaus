@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import { rowParams } from './code-detail';
 
 export const CodeListDetailView = ({
-	component,
+	codelist,
 	handleUpdate,
 	handleBack,
 	updatable,
@@ -28,10 +28,10 @@ export const CodeListDetailView = ({
 	serverSideError,
 }) => {
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
-		component.descriptionLg1
+		codelist.descriptionLg1
 	);
 	const descriptionLg2 = HTMLUtils.renderMarkdownElement(
-		component.descriptionLg2
+		codelist.descriptionLg2
 	);
 
 	const publish = () => {
@@ -42,7 +42,7 @@ export const CodeListDetailView = ({
 		<React.Fragment>
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
-				<ValidationButton callback={publish} object={component} />
+				<ValidationButton callback={publish} object={codelist} />
 				{updatable && <UpdateButton action={handleUpdate} col={col} />}
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
@@ -52,25 +52,25 @@ export const CodeListDetailView = ({
 						text={
 							<ul>
 								<li>
-									{D.idTitle} : {component.id}
+									{D.idTitle} : {codelist.id}
 								</li>
 								<li>
 									{D.createdDateTitle} :{' '}
-									{DateUtils.stringToDate(component.created)}
+									{DateUtils.stringToDate(codelist.created)}
 								</li>
 								<li>
 									{D.modifiedDateTitle} :{' '}
-									{DateUtils.stringToDate(component.modified)}
+									{DateUtils.stringToDate(codelist.modified)}
 								</li>
 								<li>
 									{D.codelistValidationStatusTitle} :{' '}
-									<PublicationFemale object={component} />
+									<PublicationFemale object={codelist} />
 								</li>
 								<li>
-									{D.creator} : {component.creator}
+									{D.creator} : {codelist.creator}
 								</li>
 								<li>
-									{D.contributor} : {component.contributor}
+									{D.contributor} : {codelist.contributor}
 								</li>
 							</ul>
 						}
@@ -102,7 +102,7 @@ export const CodeListDetailView = ({
 						text={
 							<Table
 								rowParams={rowParams}
-								data={Object.values(component.codes)}
+								data={Object.values(codelist.codes)}
 							/>
 						}
 						title={D.listElements}
@@ -115,17 +115,8 @@ export const CodeListDetailView = ({
 };
 
 CodeListDetailView.propTypes = {
-	component: PropTypes.object,
-	concepts: PropTypes.array,
-	codesLists: PropTypes.array,
+	codelist: PropTypes.object,
 	handleUpdate: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 	handleBack: PropTypes.func,
 	updatable: PropTypes.bool,
-	structureComponents: PropTypes.array,
-};
-
-CodeListDetailView.defaultProps = {
-	structureComponents: [],
-	concepts: [],
-	codesLists: [],
 };
