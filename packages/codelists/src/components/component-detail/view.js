@@ -4,7 +4,6 @@ import {
 	UpdateButton,
 	ActionToolbar,
 	ReturnButton,
-	DeleteButton,
 	ErrorBloc,
 	Table,
 } from '@inseefr/wilco';
@@ -13,24 +12,14 @@ import {
 	HTMLUtils,
 	ValidationButton,
 	DateUtils,
-	PublicationMale,
+	PublicationFemale,
 } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 import { rowParams } from './code-detail';
 
-export const canBeDeleted = (component) => {
-	const withoutStructuresUsingThisComponent =
-		!component.structures || component.structures?.length === 0;
-	const forbidden = ['Validated', 'Modified'];
-	return (
-		withoutStructuresUsingThisComponent &&
-		!forbidden.includes(component.validationState)
-	);
-};
 export const CodeListDetailView = ({
 	component,
 	handleUpdate,
-	handleDelete,
 	handleBack,
 	updatable,
 	secondLang,
@@ -53,9 +42,6 @@ export const CodeListDetailView = ({
 		<React.Fragment>
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
-				{canBeDeleted(component) && (
-					<DeleteButton action={handleDelete} col={col} />
-				)}
 				<ValidationButton callback={publish} object={component} />
 				{updatable && <UpdateButton action={handleUpdate} col={col} />}
 			</ActionToolbar>
@@ -78,7 +64,7 @@ export const CodeListDetailView = ({
 								</li>
 								<li>
 									{D.codelistValidationStatusTitle} :{' '}
-									<PublicationMale object={component} />
+									<PublicationFemale object={component} />
 								</li>
 								<li>
 									{D.creator} : {component.creator}
