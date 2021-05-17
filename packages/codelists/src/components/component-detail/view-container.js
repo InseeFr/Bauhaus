@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Loading, goBack } from '@inseefr/wilco';
-import { ComponentDetailView } from './view';
+import { CodeListDetailView } from './view';
 import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import ComponentTitle from './title';
@@ -32,7 +32,7 @@ const CodelistComponentView = (props) => {
 	return (
 		<React.Fragment>
 			<ComponentTitle component={component} secondLang={secondLang} />
-			<ComponentDetailView
+			<CodeListDetailView
 				{...props}
 				col={2}
 				component={component}

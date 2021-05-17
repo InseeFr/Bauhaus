@@ -27,7 +27,7 @@ export const canBeDeleted = (component) => {
 		!forbidden.includes(component.validationState)
 	);
 };
-export const ComponentDetailView = ({
+export const CodeListDetailView = ({
 	component,
 	handleUpdate,
 	handleDelete,
@@ -77,7 +77,7 @@ export const ComponentDetailView = ({
 									{DateUtils.stringToDate(component.modified)}
 								</li>
 								<li>
-									{D.componentValididationStatusTitle} :{' '}
+									{D.codelistValidationStatusTitle} :{' '}
 									<PublicationMale object={component} />
 								</li>
 								<li>
@@ -128,7 +128,7 @@ export const ComponentDetailView = ({
 	);
 };
 
-ComponentDetailView.propTypes = {
+CodeListDetailView.propTypes = {
 	component: PropTypes.object,
 	concepts: PropTypes.array,
 	codesLists: PropTypes.array,
@@ -138,7 +138,7 @@ ComponentDetailView.propTypes = {
 	structureComponents: PropTypes.array,
 };
 
-ComponentDetailView.defaultProps = {
+CodeListDetailView.defaultProps = {
 	structureComponents: [],
 	concepts: [],
 	codesLists: [],
