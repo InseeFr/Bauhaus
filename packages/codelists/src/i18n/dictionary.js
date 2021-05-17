@@ -25,8 +25,8 @@ const dictionary = {
 		en: 'Modification date',
 	},
 	codelistValidationStatusTitle: {
-		fr: 'État du composant',
-		en: 'Publication status',
+		fr: 'État de la liste de codes',
+		en: 'CodeList publication status',
 	},
 	contributor: {
 		fr: 'Gestionnaire',
