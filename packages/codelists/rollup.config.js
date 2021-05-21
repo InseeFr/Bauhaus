@@ -11,7 +11,7 @@ const { dependencies: rootDependencies } = require('../../package.json');
 export default {
 	input: 'src/index.js',
 	output: {
-		name: 'bauhaus-structures',
+		name: 'bauhaus-codelists',
 		file: 'dist/index.js',
 		format: 'cjs',
 		strict: false,
