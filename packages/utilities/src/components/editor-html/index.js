@@ -5,11 +5,14 @@ import './editor-html.scss';
 import * as HTMLUtils from '../../utils/html-utils';
 
 const toolbar = {
-	options: ['list'],
+	options: ['list', 'inline'],
 	list: {
 		inDropdown: false,
 		className: undefined,
 		options: ['unordered', 'ordered'],
+	},
+	inline: {
+		options: ['bold', 'italic'],
 	},
 };
 
