@@ -48,11 +48,13 @@ Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer 
 
 ---
 
-- [**Fonctionnalités de gestion des documentations Sims**](#gerer-sims)
+- [**Fonctionnalités de gestion des rapports qualité**](#gerer-rapport)
 
-  - [Créer une documentation Sims](#creer-sims)
-  - [Modifier une documentation Sims](#modifier-sims)
-  - [Publier une documentation Sims](#publier-sims)
+  - [Créer un rapport qualité](#creer-rapport)
+  - [Modifier un rapport qualité](#modifier-rapport)
+  - [Dupliquer un rapport qualité](#dupliquer-rapport)
+  - [Publier un rapport qualité](#publier-rapport)
+  - [Exporter un rapport qualité](#exporter-rapport)
 
 ---
 
@@ -95,10 +97,9 @@ Pour illustrer cette hiérarchie, on considérera :
 
 Un indicateur est une produit statistique qui peut être issu d'une à plusieurs sources.
 
-### Qu'est-ce qu'une documentation Sims ?
+### Qu'est-ce qu'un rapport qualité ?
 
-La documentation Sims est une norme européenne : le Single Integrated Metadata Structure (SIMS). Il contient une vingtaine de thèmes : présentation statistique, fréquence de diffusion, révision des données, traitement statistique, etc.
-Le Sims permet de décrire les opérations statistiques et indicateurs en respectant les principes du code de bonnes pratiques de la statistique européenne. Il concerne tous les producteurs de l'Insee et des SSM.
+Le rapport qualité permet de décrire les opérations statistiques et indicateurs en respectant les principes du code de bonnes pratiques de la statistique européenne. Il contient une vingtaine de thèmes : présentation statistique, fréquence de diffusion, révision des données, traitement statistique, etc. La structure du rapport s'appuie sur une norme européenne : le Single Integrated Metadata Structure (SIMS). 
 
 ## <a id="naviguer">Naviguer dans l'application</a>
 
@@ -114,13 +115,13 @@ Dans l'application, quatre grands profils d'utilisateurs ont été créés. Chac
 - **Propriétaire de série** : 
   - rechercher, modifier et publier une série dont il est propriétaire
   - rechercher, créer, modifier et publier une opération appartenant à une des séries dont il est propriétaire
-  - rechercher, créer,  modifier et publier  documentation SIMS, un document ou un lien
+  - rechercher, créer,  modifier et publier un rapport qualité, un document ou un lien
   - rechercher, créer, modifier et publier un document ou un lien.
 - **Propriétaire d'indicateur** : 
   - rechercher, modifier, publier un indicateur dont il est propriétaire
-  - rechercher, modifier, publier une documentation SIMS liée à cet indicateur
+  - rechercher, modifier, publier un rapport qualité liée à cet indicateur
   - rechercher, créer, modifier et publier un document ou un lien
-- **Invité** (profil par défaut pour tout utilisateur se connectant à l'application) : rechercher et consulter une famille d'opérations statistiques, séries d'opérations statistiques, opérations statistiques, indicateurs et une documentation Sims.
+- **Invité** (profil par défaut pour tout utilisateur se connectant à l'application) : rechercher et consulter une famille d'opérations statistiques, séries d'opérations statistiques, opérations statistiques, indicateurs et un rapport qualité.
 
 **Les boutons correspondant aux différentes fonctionnalités s'affichent en fonction du profil utilisateur.**
 
@@ -222,9 +223,9 @@ Cliquer ensuite sur la série souhaitée pour accéder à sa page de description
 
 Avant de créer une série, il est important de vérifier qu'elle n'a pas déjà été renseignée en utilisant les fonctionnalités de recherche.
 
-> Seule l'unité Qualité est habilitée à créer une série.
+> Seule l'équipe d'administration est habilitée à créer une série. Pour sa création, le producteur doit fournir les libellés français et anglais de l'opération ainsi que l'unité responsable de la gestion.
 
-La création d'une série est possible à partir de  la page d'accueil Séries.
+La création d'une série est possible à partir de la page d'accueil Séries.
 
 - Cliquer sur le bouton <span style="color: brown">Nouveau</span> à gauche de la page. La page de création de la série s'affiche alors.
 
@@ -239,7 +240,7 @@ Les champs disponibles sont les suivants :
 - L' **Organisme responsable** est l'organisme responsable de la série ;
 - Les **Partenaires** sont les organismes associés à la conception et au pilotage de la série ;
 - Les **Services collecteurs** correspond aux services réalisant la collecte ;
-- Le **Propriétaire** est l'unité responsable de la gestion et de la publication de la série ainsi que des opérations statistiques et documentations Sims qui en découlent ;
+- Le **Propriétaire** est l'unité responsable de la gestion et de la publication de la série ainsi que des opérations statistiques et rapports qualité qui en découlent. Le propriétaire est obligatoire ;
 - Le champ **Succède à** permet de préciser si une série succède à une autre. Si une Série A succède à une Série B, alors la Série B est automatiquement remplacée par la Série A ;
 - Le champ **Remplacée par** permet de préciser si une série est remplacée par une autre. Si une Série B est remplacée par une Série A, alors la Série A succède automatiquement remplacée à la la Série B ;
 - Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contributions de la série ;
@@ -367,7 +368,7 @@ Les champs disponibles sont les suivantes :
 - La **Fréquence de diffusion** correspond au *rythme* de collecte des données ;
 - L'**Organisme responsable** est l'organisme responsable de l'indicateur ;
 - Les **Partenaires** sont les organismes associés à la conception et au pilotage de l'indicateur ;
-- Le **Propriétaire** est l'unité responsable de la gestion et de la publication de l'indicateur ainsi que des opérations statistiques et documentations Sims qui en découlent ;
+- Le **Propriétaire** est l'unité responsable de la gestion et de la publication de l'indicateur ainsi que des opérations statistiques et rapports qualité qui en découlent ;
 - Le champ **Succède à** permet de préciser si un indicateur succède à un autre. Si un indicateur A succède à un indicateur B, alors l'indicateur B est automatiquement remplacé par l'indicateur A ;
 - Le champ **Remplacée par** permet de préciser si un indicateur est remplacé par un autre. Si un indicateur B est remplacé par un indicateur A, alors l'indicateur A succède automatiquement à l'indicateur B ;
 - Le champ **Produits de** permet de préciser les séries contribuant à la production de l'indicateur ;
@@ -399,46 +400,73 @@ La publication d'un indicateur est possible à partir de sa page de description.
 
 Les changements seront reportés sur insee.fr le jour suivant la publication.
 
-## <a id="gerer-sims">Gérer une documentation statistique</a>
-### <a id="creer-sims">Créer une documentation Sims</a>
+## <a id="gerer-rapport">Gérer un rapport qualité</a>
+### <a id="creer-rapport">Créer un rapport qualité</a>
 
-La création d'une documentation Sims est possible à partir de son opération.
+La création d'un rapport qualité est possible à partir de son opération.
 
-- Cliquer sur le bouton <span style="color: brown">Créer le Sims</span> en haut de la page. La page de création de la documentation Sims s'affiche alors.
+- Cliquer sur le bouton <span style="color: brown">Créer le rapport</span> en haut de la page. La page de création du rapport qualité s'affiche alors.
 
 Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'opération.
 
 Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
-Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de la documentation. Il est donc possible, si nécessaire, de créer la documentation en plusieurs étapes. Le statut de publication de la documentation passe alors en « Provisoire », jusqu'à sa publication.
+Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du rapport. Il est donc possible, si nécessaire, de créer le rapport en plusieurs étapes. Le statut de publication du rapport passe alors en « Provisoire », jusqu'à sa publication.
 
-Pour publier une documentation dans le référentiel, voir [Publier une documentation](#publier-sims).
+Pour publier un rapport dans le référentiel, voir [Publier un rapport](#publier-rapport).
 
-### <a id="modifier-sims">Modifier une documentation Sims</a>
+### <a id="modifier-rapport">Modifier un rapport qualité</a>
 
-La modification d'une documentation est possible à partir de sa page de description.
+La modification d'un rapport est possible à partir de sa page de description.
 
 - Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
-Une fois la documentation modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire, jamais publiée » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une documentation](#publier-sims)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
+Une fois le rapport modifié, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire, jamais publiée » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier un rapport](#publier-rapport)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
 
-### <a id="publier-sims">Publier une documentation Sims</a>
+### <a id="dupliquer-rapport">Dupliquer un rapport qualité</a>
+
+La duplication d'un rapport est possible à partir de sa page de description.  Seul le propriétaire du rapport (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série d'opérations statistiques), ou par délégation l'unité Qualité (après échanges de mails), est habilité à dupliquer un rapport. Il est uniquement possible de dupliquer un rapport attachée au niveau de l'opération statistiques et de l'associer à une opération statistique de la même série.
+
+- Cliquer sur le bouton <span style="color: brown">Dupliquer</span>
+- Sélectionner l'opération statistique cible
+- Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
+
+Une fois le rapport modifié, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire, jamais publiée » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier un rapport](#publier-rapport)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
+
+
+### <a id="publier-rapport">Publier un rapport qualité</a>
 L'action de publier consiste à pousser les informations saisies dans le référentiel de publication.
 
-La publication d'une documentation est possible à partir de sa page de description. Seul le propriétaire de la documentation (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série d'opérations statistiques), ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une documentation.
+La publication d'un rapport est possible à partir de sa page de description. Seul le propriétaire du rapport (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série d'opérations statistiques), ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier un rapport.
 
 - Cliquer en haut à droite sur <span style="color: brown">Publier</span> après avoir vérifié les informations saisies.
 
-Une documentation ne peut être publiée que si l'opération à laquelle elle est rattachée est déjà publiée. Sinon, publier d'abord l'opération. 
+Un rapport ne peut être publiée que si l'opération à laquelle elle est rattachée est déjà publiée. Sinon, publier d'abord l'opération. 
+
+Les changements (hors rubriques décrivant le contact) seront reportés sur insee.fr le jour suivant la publication.
+
+### <a id="exporter-rapport">Exporter un rapport qualité</a>
+L'export d'un rapport est possible à partir de sa page de description.
+
+- Cliquer en haut à droite sur le bouton <span style="color: brown">Exporter</span>. Une fenêtre s'ouvre alors.
+- Sélectionner les options proposée :
+  - Inclure ou non les rubriques vides
+  - Inclure ou non la première langue
+  - Inclure ou non la seconde langue
+- Cliquer sur Exporter
+
+Une fichier au format Open Document est alors exporté. La version actuelle de la fonctionnalité n'exporte pas les documents joints aux différentes rubriques mais seulement un descriptif du document.
+
+Un rapport ne peut être publiée que si l'opération à laquelle il est rattachée est déjà publiée. Sinon, publier d'abord l'opération. 
 
 Les changements (hors rubriques décrivant le contact) seront reportés sur insee.fr le jour suivant la publication.
 
 ## <a id="gerer-documents-liens">Fonctionnalités de gestions des documents et des liens</a>
 
-Un menu Documents/Liens, situé en haut à droite, permet de gérer des documents et des liens utiles à certaines rubriques du Sims. 
+Un menu Documents/Liens, situé en haut à droite, permet de gérer des documents et des liens utiles à certaines rubriques d'un rapport qualité. 
 
-Ces documents et liens, une fois créés sont réutilisables autant que de besoin dans les rubriques de la documentation Sims.
+Ces documents et liens, une fois créés sont réutilisables autant que de besoin dans les rubriques d'un rapport qualité.
 
 ### <a id="rechercher-document-lien">Rechercher un document ou un lien</a>
 
@@ -470,7 +498,7 @@ Les champs disponibles sont les suivants :
 - La **Langue** correspond à la langue du contenu du document. La langue est obligatoire.
 
 Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
-Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du document. Il est publié en même temps que la publication de la documentation Sims.
+Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du document. Il est publié en même temps que la publication du rapport qualité.
 
 Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents /  Liens.
 
@@ -495,7 +523,7 @@ Les champs disponibles sont les suivants :
 - La **Langue** correspond à la langue du contenu de la page sur laquelle on renvoie. La langue est obligatoire.
 
 Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
-Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du lien. Il est publié en même temps que la publication de la documentation Sims.
+Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du lien. Il est publié en même temps que la publication du rapport qualité.
 
 Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents / Liens.
 
