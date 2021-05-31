@@ -282,11 +282,13 @@
 </ul>
 <hr>
 <ul>
-<li><p><a href="#gerer-sims"><strong>Fonctionnalit&#xE9;s de gestion des documentations Sims</strong></a></p>
+<li><p><a href="#gerer-rapport"><strong>Fonctionnalit&#xE9;s de gestion des rapports qualit&#xE9;</strong></a></p>
 <ul>
-<li><a href="#creer-sims">Cr&#xE9;er une documentation Sims</a></li>
-<li><a href="#modifier-sims">Modifier une documentation Sims</a></li>
-<li><a href="#publier-sims">Publier une documentation Sims</a></li>
+<li><a href="#creer-rapport">Cr&#xE9;er un rapport qualit&#xE9;</a></li>
+<li><a href="#modifier-rapport">Modifier un rapport qualit&#xE9;</a></li>
+<li><a href="#dupliquer-rapport">Dupliquer un rapport qualit&#xE9;</a></li>
+<li><a href="#publier-rapport">Publier un rapport qualit&#xE9;</a></li>
+<li><a href="#exporter-rapport">Exporter un rapport qualit&#xE9;</a></li>
 </ul>
 </li>
 </ul>
@@ -340,9 +342,8 @@
 </ul>
 <h3 id="quest-ce-quun-indicateur-">Qu&apos;est-ce qu&apos;un indicateur ?</h3>
 <p>Un indicateur est une produit statistique qui peut &#xEA;tre issu d&apos;une &#xE0; plusieurs sources.</p>
-<h3 id="quest-ce-quune-documentation-sims-">Qu&apos;est-ce qu&apos;une documentation Sims ?</h3>
-<p>La documentation Sims est une norme europ&#xE9;enne : le Single Integrated Metadata Structure (SIMS). Il contient une vingtaine de th&#xE8;mes : pr&#xE9;sentation statistique, fr&#xE9;quence de diffusion, r&#xE9;vision des donn&#xE9;es, traitement statistique, etc.
-Le Sims permet de d&#xE9;crire les op&#xE9;rations statistiques et indicateurs en respectant les principes du code de bonnes pratiques de la statistique europ&#xE9;enne. Il concerne tous les producteurs de l&apos;Insee et des SSM.</p>
+<h3 id="quest-ce-quun-rapport-qualit&#xE9;-">Qu&apos;est-ce qu&apos;un rapport qualit&#xE9; ?</h3>
+<p>Le rapport qualit&#xE9; permet de d&#xE9;crire les op&#xE9;rations statistiques et indicateurs en respectant les principes du code de bonnes pratiques de la statistique europ&#xE9;enne. Il contient une vingtaine de th&#xE8;mes : pr&#xE9;sentation statistique, fr&#xE9;quence de diffusion, r&#xE9;vision des donn&#xE9;es, traitement statistique, etc. La structure du rapport s&apos;appuie sur une norme europ&#xE9;enne : le Single Integrated Metadata Structure (SIMS). </p>
 <h2 id="naviguer-dans-lapplication"><a id="naviguer">Naviguer dans l&apos;application</a></h2>
 <p>Pour atteindre la page d&apos;accueil du module de gestion des op&#xE9;rations statistiques, cliquer sur le pav&#xE9; <span style="color: brown">Op&#xE9;rations</span> de la page d&apos;accueil. La navigation se fait via la barre horizontale de menu en haut de la page.</p>
 <p>Un bouton <span style="color: brown">Voir l&apos;arborescence</span> disponible via les menus <span style="color: brown">Familles</span>, <span style="color: brown">S&#xE9;ries</span> et <span style="color: brown">Op&#xE9;rations</span> permet &#xE9;galement d&apos;acc&#xE9;der &#xE0; l&apos;arborescence de l&apos;ensemble des Familles/S&#xE9;ries/Op&#xE9;rations.
@@ -354,17 +355,17 @@ Dans cette arborescence, les boutons + et - permettent de d&#xE9;plier ou replie
 <li><strong>Propri&#xE9;taire de s&#xE9;rie</strong> : <ul>
 <li>rechercher, modifier et publier une s&#xE9;rie dont il est propri&#xE9;taire</li>
 <li>rechercher, cr&#xE9;er, modifier et publier une op&#xE9;ration appartenant &#xE0; une des s&#xE9;ries dont il est propri&#xE9;taire</li>
-<li>rechercher, cr&#xE9;er,  modifier et publier  documentation SIMS, un document ou un lien</li>
+<li>rechercher, cr&#xE9;er,  modifier et publier un rapport qualit&#xE9;, un document ou un lien</li>
 <li>rechercher, cr&#xE9;er, modifier et publier un document ou un lien.</li>
 </ul>
 </li>
 <li><strong>Propri&#xE9;taire d&apos;indicateur</strong> : <ul>
 <li>rechercher, modifier, publier un indicateur dont il est propri&#xE9;taire</li>
-<li>rechercher, modifier, publier une documentation SIMS li&#xE9;e &#xE0; cet indicateur</li>
+<li>rechercher, modifier, publier un rapport qualit&#xE9; li&#xE9;e &#xE0; cet indicateur</li>
 <li>rechercher, cr&#xE9;er, modifier et publier un document ou un lien</li>
 </ul>
 </li>
-<li><strong>Invit&#xE9;</strong> (profil par d&#xE9;faut pour tout utilisateur se connectant &#xE0; l&apos;application) : rechercher et consulter une famille d&apos;op&#xE9;rations statistiques, s&#xE9;ries d&apos;op&#xE9;rations statistiques, op&#xE9;rations statistiques, indicateurs et une documentation Sims.</li>
+<li><strong>Invit&#xE9;</strong> (profil par d&#xE9;faut pour tout utilisateur se connectant &#xE0; l&apos;application) : rechercher et consulter une famille d&apos;op&#xE9;rations statistiques, s&#xE9;ries d&apos;op&#xE9;rations statistiques, op&#xE9;rations statistiques, indicateurs et un rapport qualit&#xE9;.</li>
 </ul>
 <p><strong>Les boutons correspondant aux diff&#xE9;rentes fonctionnalit&#xE9;s s&apos;affichent en fonction du profil utilisateur.</strong></p>
 <p>Pour toute demande ou question, adresser un message &#xE0; la boite fonctionnelle : <strong>:DG75-Administration RM&#xE9;S</strong></p>
@@ -449,9 +450,9 @@ Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9
 <h3 id="cr&#xE9;er-une-s&#xE9;rie"><a id="creer-serie">Cr&#xE9;er une s&#xE9;rie</a></h3>
 <p>Avant de cr&#xE9;er une s&#xE9;rie, il est important de v&#xE9;rifier qu&apos;elle n&apos;a pas d&#xE9;j&#xE0; &#xE9;t&#xE9; renseign&#xE9;e en utilisant les fonctionnalit&#xE9;s de recherche.</p>
 <blockquote>
-<p>Seule l&apos;unit&#xE9; Qualit&#xE9; est habilit&#xE9;e &#xE0; cr&#xE9;er une s&#xE9;rie.</p>
+<p>Seule l&apos;&#xE9;quipe d&apos;administration est habilit&#xE9;e &#xE0; cr&#xE9;er une s&#xE9;rie. Pour sa cr&#xE9;ation, le producteur doit fournir les libell&#xE9;s fran&#xE7;ais et anglais de l&apos;op&#xE9;ration ainsi que l&apos;unit&#xE9; responsable de la gestion.</p>
 </blockquote>
-<p>La cr&#xE9;ation d&apos;une s&#xE9;rie est possible &#xE0; partir de  la page d&apos;accueil S&#xE9;ries.</p>
+<p>La cr&#xE9;ation d&apos;une s&#xE9;rie est possible &#xE0; partir de la page d&apos;accueil S&#xE9;ries.</p>
 <ul>
 <li>Cliquer sur le bouton <span style="color: brown">Nouveau</span> &#xE0; gauche de la page. La page de cr&#xE9;ation de la s&#xE9;rie s&apos;affiche alors.</li>
 </ul>
@@ -467,7 +468,7 @@ Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9
 <li>L&apos; <strong>Organisme responsable</strong> est l&apos;organisme responsable de la s&#xE9;rie ;</li>
 <li>Les <strong>Partenaires</strong> sont les organismes associ&#xE9;s &#xE0; la conception et au pilotage de la s&#xE9;rie ;</li>
 <li>Les <strong>Services collecteurs</strong> correspond aux services r&#xE9;alisant la collecte ;</li>
-<li>Le <strong>Propri&#xE9;taire</strong> est l&apos;unit&#xE9; responsable de la gestion et de la publication de la s&#xE9;rie ainsi que des op&#xE9;rations statistiques et documentations Sims qui en d&#xE9;coulent ;</li>
+<li>Le <strong>Propri&#xE9;taire</strong> est l&apos;unit&#xE9; responsable de la gestion et de la publication de la s&#xE9;rie ainsi que des op&#xE9;rations statistiques et rapports qualit&#xE9; qui en d&#xE9;coulent. Le propri&#xE9;taire est obligatoire ;</li>
 <li>Le champ <strong>Succ&#xE8;de &#xE0;</strong> permet de pr&#xE9;ciser si une s&#xE9;rie succ&#xE8;de &#xE0; une autre. Si une S&#xE9;rie A succ&#xE8;de &#xE0; une S&#xE9;rie B, alors la S&#xE9;rie B est automatiquement remplac&#xE9;e par la S&#xE9;rie A ;</li>
 <li>Le champ <strong>Remplac&#xE9;e par</strong> permet de pr&#xE9;ciser si une s&#xE9;rie est remplac&#xE9;e par une autre. Si une S&#xE9;rie B est remplac&#xE9;e par une S&#xE9;rie A, alors la S&#xE9;rie A succ&#xE8;de automatiquement remplac&#xE9;e &#xE0; la la S&#xE9;rie B ;</li>
 <li>Le champ <strong>Indicateurs produits</strong> permet de pr&#xE9;ciser les indicateurs produits &#xE0; partir de la contributions de la s&#xE9;rie ;</li>
@@ -569,7 +570,7 @@ Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9
 <li>La <strong>Fr&#xE9;quence de diffusion</strong> correspond au <em>rythme</em> de collecte des donn&#xE9;es ;</li>
 <li>L&apos;<strong>Organisme responsable</strong> est l&apos;organisme responsable de l&apos;indicateur ;</li>
 <li>Les <strong>Partenaires</strong> sont les organismes associ&#xE9;s &#xE0; la conception et au pilotage de l&apos;indicateur ;</li>
-<li>Le <strong>Propri&#xE9;taire</strong> est l&apos;unit&#xE9; responsable de la gestion et de la publication de l&apos;indicateur ainsi que des op&#xE9;rations statistiques et documentations Sims qui en d&#xE9;coulent ;</li>
+<li>Le <strong>Propri&#xE9;taire</strong> est l&apos;unit&#xE9; responsable de la gestion et de la publication de l&apos;indicateur ainsi que des op&#xE9;rations statistiques et rapports qualit&#xE9; qui en d&#xE9;coulent ;</li>
 <li>Le champ <strong>Succ&#xE8;de &#xE0;</strong> permet de pr&#xE9;ciser si un indicateur succ&#xE8;de &#xE0; un autre. Si un indicateur A succ&#xE8;de &#xE0; un indicateur B, alors l&apos;indicateur B est automatiquement remplac&#xE9; par l&apos;indicateur A ;</li>
 <li>Le champ <strong>Remplac&#xE9;e par</strong> permet de pr&#xE9;ciser si un indicateur est remplac&#xE9; par un autre. Si un indicateur B est remplac&#xE9; par un indicateur A, alors l&apos;indicateur A succ&#xE8;de automatiquement &#xE0; l&apos;indicateur B ;</li>
 <li>Le champ <strong>Produits de</strong> permet de pr&#xE9;ciser les s&#xE9;ries contribuant &#xE0; la production de l&apos;indicateur ;</li>
@@ -594,35 +595,58 @@ Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9
 <li>Cliquer en haut &#xE0; droite sur <span style="color: brown">Publier</span> apr&#xE8;s avoir v&#xE9;rifi&#xE9; les informations saisies.</li>
 </ul>
 <p>Les changements seront report&#xE9;s sur insee.fr le jour suivant la publication.</p>
-<h2 id="g&#xE9;rer-une-documentation-statistique"><a id="gerer-sims">G&#xE9;rer une documentation statistique</a></h2>
-<h3 id="cr&#xE9;er-une-documentation-sims"><a id="creer-sims">Cr&#xE9;er une documentation Sims</a></h3>
-<p>La cr&#xE9;ation d&apos;une documentation Sims est possible &#xE0; partir de son op&#xE9;ration.</p>
+<h2 id="g&#xE9;rer-un-rapport-qualit&#xE9;"><a id="gerer-rapport">G&#xE9;rer un rapport qualit&#xE9;</a></h2>
+<h3 id="cr&#xE9;er-un-rapport-qualit&#xE9;"><a id="creer-rapport">Cr&#xE9;er un rapport qualit&#xE9;</a></h3>
+<p>La cr&#xE9;ation d&apos;un rapport qualit&#xE9; est possible &#xE0; partir de son op&#xE9;ration.</p>
 <ul>
-<li>Cliquer sur le bouton <span style="color: brown">Cr&#xE9;er le Sims</span> en haut de la page. La page de cr&#xE9;ation de la documentation Sims s&apos;affiche alors.</li>
+<li>Cliquer sur le bouton <span style="color: brown">Cr&#xE9;er le rapport</span> en haut de la page. La page de cr&#xE9;ation du rapport qualit&#xE9; s&apos;affiche alors.</li>
 </ul>
 <p>Le bouton <span style="color: brown">Annuler</span> permet de revenir &#xE0; la page d&apos;accueil de l&apos;op&#xE9;ration.</p>
 <p>Le bouton <span style="color: brown">Sauvegarder</span> permet d&apos;enregistrer les donn&#xE9;es dans la base de gestion. <strong>A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqu&#xE9;s d&apos;une &#xAB; * &#xBB;, n&apos;ont pas &#xE9;t&#xE9; remplis.
-Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9;cran.</strong> Il est &#xE0; noter que la sauvegarde n&apos;entra&#xEE;ne pas la publication de la documentation. Il est donc possible, si n&#xE9;cessaire, de cr&#xE9;er la documentation en plusieurs &#xE9;tapes. Le statut de publication de la documentation passe alors en &#xAB; Provisoire &#xBB;, jusqu&apos;&#xE0; sa publication.</p>
-<p>Pour publier une documentation dans le r&#xE9;f&#xE9;rentiel, voir <a href="#publier-sims">Publier une documentation</a>.</p>
-<h3 id="modifier-une-documentation-sims"><a id="modifier-sims">Modifier une documentation Sims</a></h3>
-<p>La modification d&apos;une documentation est possible &#xE0; partir de sa page de description.</p>
+Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9;cran.</strong> Il est &#xE0; noter que la sauvegarde n&apos;entra&#xEE;ne pas la publication du rapport. Il est donc possible, si n&#xE9;cessaire, de cr&#xE9;er le rapport en plusieurs &#xE9;tapes. Le statut de publication du rapport passe alors en &#xAB; Provisoire &#xBB;, jusqu&apos;&#xE0; sa publication.</p>
+<p>Pour publier un rapport dans le r&#xE9;f&#xE9;rentiel, voir <a href="#publier-rapport">Publier un rapport</a>.</p>
+<h3 id="modifier-un-rapport-qualit&#xE9;"><a id="modifier-rapport">Modifier un rapport qualit&#xE9;</a></h3>
+<p>La modification d&apos;un rapport est possible &#xE0; partir de sa page de description.</p>
 <ul>
 <li>Cliquer en haut &#xE0; droite sur le bouton <span style="color: brown">Modifier</span></li>
 <li>Modifier les champs souhait&#xE9;s</li>
 <li>Cliquer sur le bouton <span style="color: brown">Sauvegarder</span></li>
 </ul>
-<p>Une fois la documentation modifi&#xE9;e, son statut de publication devient <strong>&#xAB; Provisoire, d&#xE9;j&#xE0; publi&#xE9;e &#xBB; ou &#xAB; Provisoire, jamais publi&#xE9;e &#xBB; si elle n&apos;a jamais &#xE9;t&#xE9; publi&#xE9;e, jusqu&apos;&#xE0; sa publication</strong>. Tant qu&apos;elle n&apos;est pas publi&#xE9;e dans le r&#xE9;f&#xE9;rentiel de publication (voir <a href="#publier-sims">Publier une documentation</a>), l&apos;ancienne version reste &#xE0; disposition des applications clientes (insee.fr, mise &#xE0; disposition et archivage...).</p>
-<h3 id="publier-une-documentation-sims"><a id="publier-sims">Publier une documentation Sims</a></h3>
+<p>Une fois le rapport modifi&#xE9;, son statut de publication devient <strong>&#xAB; Provisoire, d&#xE9;j&#xE0; publi&#xE9;e &#xBB; ou &#xAB; Provisoire, jamais publi&#xE9;e &#xBB; si elle n&apos;a jamais &#xE9;t&#xE9; publi&#xE9;e, jusqu&apos;&#xE0; sa publication</strong>. Tant qu&apos;elle n&apos;est pas publi&#xE9;e dans le r&#xE9;f&#xE9;rentiel de publication (voir <a href="#publier-rapport">Publier un rapport</a>), l&apos;ancienne version reste &#xE0; disposition des applications clientes (insee.fr, mise &#xE0; disposition et archivage...).</p>
+<h3 id="dupliquer-un-rapport-qualit&#xE9;"><a id="dupliquer-rapport">Dupliquer un rapport qualit&#xE9;</a></h3>
+<p>La duplication d&apos;un rapport est possible &#xE0; partir de sa page de description.  Seul le propri&#xE9;taire du rapport (i.e la personne d&#xE9;sign&#xE9;e dans l&apos;application comme ayant ce r&#xF4;le et appartenant &#xE0; l&apos;unit&#xE9; dont le timbre est le m&#xEA;me que le propri&#xE9;taire de la s&#xE9;rie d&apos;op&#xE9;rations statistiques), ou par d&#xE9;l&#xE9;gation l&apos;unit&#xE9; Qualit&#xE9; (apr&#xE8;s &#xE9;changes de mails), est habilit&#xE9; &#xE0; dupliquer un rapport. Il est uniquement possible de dupliquer un rapport attach&#xE9;e au niveau de l&apos;op&#xE9;ration statistiques et de l&apos;associer &#xE0; une op&#xE9;ration statistique de la m&#xEA;me s&#xE9;rie.</p>
+<ul>
+<li>Cliquer sur le bouton <span style="color: brown">Dupliquer</span></li>
+<li>S&#xE9;lectionner l&apos;op&#xE9;ration statistique cible</li>
+<li>Cliquer sur le bouton <span style="color: brown">Sauvegarder</span></li>
+</ul>
+<p>Une fois le rapport modifi&#xE9;, son statut de publication devient <strong>&#xAB; Provisoire, d&#xE9;j&#xE0; publi&#xE9;e &#xBB; ou &#xAB; Provisoire, jamais publi&#xE9;e &#xBB; si elle n&apos;a jamais &#xE9;t&#xE9; publi&#xE9;e, jusqu&apos;&#xE0; sa publication</strong>. Tant qu&apos;elle n&apos;est pas publi&#xE9;e dans le r&#xE9;f&#xE9;rentiel de publication (voir <a href="#publier-rapport">Publier un rapport</a>), l&apos;ancienne version reste &#xE0; disposition des applications clientes (insee.fr, mise &#xE0; disposition et archivage...).</p>
+<h3 id="publier-un-rapport-qualit&#xE9;"><a id="publier-rapport">Publier un rapport qualit&#xE9;</a></h3>
 <p>L&apos;action de publier consiste &#xE0; pousser les informations saisies dans le r&#xE9;f&#xE9;rentiel de publication.</p>
-<p>La publication d&apos;une documentation est possible &#xE0; partir de sa page de description. Seul le propri&#xE9;taire de la documentation (i.e la personne d&#xE9;sign&#xE9;e dans l&apos;application comme ayant ce r&#xF4;le et appartenant &#xE0; l&apos;unit&#xE9; dont le timbre est le m&#xEA;me que le propri&#xE9;taire de la s&#xE9;rie d&apos;op&#xE9;rations statistiques), ou par d&#xE9;l&#xE9;gation l&apos;unit&#xE9; Qualit&#xE9; (apr&#xE8;s &#xE9;changes de mails), est habilit&#xE9; &#xE0; publier une documentation.</p>
+<p>La publication d&apos;un rapport est possible &#xE0; partir de sa page de description. Seul le propri&#xE9;taire du rapport (i.e la personne d&#xE9;sign&#xE9;e dans l&apos;application comme ayant ce r&#xF4;le et appartenant &#xE0; l&apos;unit&#xE9; dont le timbre est le m&#xEA;me que le propri&#xE9;taire de la s&#xE9;rie d&apos;op&#xE9;rations statistiques), ou par d&#xE9;l&#xE9;gation l&apos;unit&#xE9; Qualit&#xE9; (apr&#xE8;s &#xE9;changes de mails), est habilit&#xE9; &#xE0; publier un rapport.</p>
 <ul>
 <li>Cliquer en haut &#xE0; droite sur <span style="color: brown">Publier</span> apr&#xE8;s avoir v&#xE9;rifi&#xE9; les informations saisies.</li>
 </ul>
-<p>Une documentation ne peut &#xEA;tre publi&#xE9;e que si l&apos;op&#xE9;ration &#xE0; laquelle elle est rattach&#xE9;e est d&#xE9;j&#xE0; publi&#xE9;e. Sinon, publier d&apos;abord l&apos;op&#xE9;ration. </p>
+<p>Un rapport ne peut &#xEA;tre publi&#xE9;e que si l&apos;op&#xE9;ration &#xE0; laquelle elle est rattach&#xE9;e est d&#xE9;j&#xE0; publi&#xE9;e. Sinon, publier d&apos;abord l&apos;op&#xE9;ration. </p>
+<p>Les changements (hors rubriques d&#xE9;crivant le contact) seront report&#xE9;s sur insee.fr le jour suivant la publication.</p>
+<h3 id="exporter-un-rapport-qualit&#xE9;"><a id="exporter-rapport">Exporter un rapport qualit&#xE9;</a></h3>
+<p>L&apos;export d&apos;un rapport est possible &#xE0; partir de sa page de description.</p>
+<ul>
+<li>Cliquer en haut &#xE0; droite sur le bouton <span style="color: brown">Exporter</span>. Une fen&#xEA;tre s&apos;ouvre alors.</li>
+<li>S&#xE9;lectionner les options propos&#xE9;e :<ul>
+<li>Inclure ou non les rubriques vides</li>
+<li>Inclure ou non la premi&#xE8;re langue</li>
+<li>Inclure ou non la seconde langue</li>
+</ul>
+</li>
+<li>Cliquer sur Exporter</li>
+</ul>
+<p>Une fichier au format Open Document est alors export&#xE9;. La version actuelle de la fonctionnalit&#xE9; n&apos;exporte pas les documents joints aux diff&#xE9;rentes rubriques mais seulement un descriptif du document.</p>
+<p>Un rapport ne peut &#xEA;tre publi&#xE9;e que si l&apos;op&#xE9;ration &#xE0; laquelle il est rattach&#xE9;e est d&#xE9;j&#xE0; publi&#xE9;e. Sinon, publier d&apos;abord l&apos;op&#xE9;ration. </p>
 <p>Les changements (hors rubriques d&#xE9;crivant le contact) seront report&#xE9;s sur insee.fr le jour suivant la publication.</p>
 <h2 id="fonctionnalit&#xE9;s-de-gestions-des-documents-et-des-liens"><a id="gerer-documents-liens">Fonctionnalit&#xE9;s de gestions des documents et des liens</a></h2>
-<p>Un menu Documents/Liens, situ&#xE9; en haut &#xE0; droite, permet de g&#xE9;rer des documents et des liens utiles &#xE0; certaines rubriques du Sims. </p>
-<p>Ces documents et liens, une fois cr&#xE9;&#xE9;s sont r&#xE9;utilisables autant que de besoin dans les rubriques de la documentation Sims.</p>
+<p>Un menu Documents/Liens, situ&#xE9; en haut &#xE0; droite, permet de g&#xE9;rer des documents et des liens utiles &#xE0; certaines rubriques d&apos;un rapport qualit&#xE9;. </p>
+<p>Ces documents et liens, une fois cr&#xE9;&#xE9;s sont r&#xE9;utilisables autant que de besoin dans les rubriques d&apos;un rapport qualit&#xE9;.</p>
 <h3 id="rechercher-un-document-ou-un-lien"><a id="rechercher-document-lien">Rechercher un document ou un lien</a></h3>
 <p>La page d&apos;accueil Documents / Liens, accessible &#xE0; partir de la barre horizontale de menu, propose une barre de recherche principale qui, donne acc&#xE8;s &#xE0; l&apos;ensemble des Documents et Liens enregistr&#xE9;es dans l&apos;application.</p>
 <p>Le bouton <span style="color: brown">Documents / Liens</span> permet de rechercher des documents et/ou des liens.</p>
@@ -645,7 +669,7 @@ Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9
 <li>La <strong>Langue</strong> correspond &#xE0; la langue du contenu du document. La langue est obligatoire.</li>
 </ul>
 <p>Le bouton <span style="color: brown">Sauvegarder</span> permet d&apos;enregistrer les donn&#xE9;es dans la base de gestion. <strong>A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqu&#xE9;s d&apos;une &#xAB; * &#xBB;, n&apos;ont pas &#xE9;t&#xE9; remplis.
-Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9;cran.</strong> Il est &#xE0; noter que la sauvegarde n&apos;entra&#xEE;ne pas la publication du document. Il est publi&#xE9; en m&#xEA;me temps que la publication de la documentation Sims.</p>
+Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9;cran.</strong> Il est &#xE0; noter que la sauvegarde n&apos;entra&#xEE;ne pas la publication du document. Il est publi&#xE9; en m&#xEA;me temps que la publication du rapport qualit&#xE9;.</p>
 <p>Le bouton <span style="color: brown">Annuler</span> permet de revenir &#xE0; la page d&apos;accueil de l&apos;onglet Documents /  Liens.</p>
 <h3 id="modifier-un-document"><a id="modifier-document">Modifier un document</a></h3>
 <p>La modification d&apos;un document est possible &#xE0; partir de sa page de description.</p>
@@ -668,7 +692,7 @@ Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9
 <li>La <strong>Langue</strong> correspond &#xE0; la langue du contenu de la page sur laquelle on renvoie. La langue est obligatoire.</li>
 </ul>
 <p>Le bouton <span style="color: brown">Sauvegarder</span> permet d&apos;enregistrer les donn&#xE9;es dans la base de gestion. <strong>A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqu&#xE9;s d&apos;une &#xAB; * &#xBB;, n&apos;ont pas &#xE9;t&#xE9; remplis.
-Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9;cran.</strong> Il est &#xE0; noter que la sauvegarde n&apos;entra&#xEE;ne pas la publication du lien. Il est publi&#xE9; en m&#xEA;me temps que la publication de la documentation Sims.</p>
+Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9;cran.</strong> Il est &#xE0; noter que la sauvegarde n&apos;entra&#xEE;ne pas la publication du lien. Il est publi&#xE9; en m&#xEA;me temps que la publication du rapport qualit&#xE9;.</p>
 <p>Le bouton <span style="color: brown">Annuler</span> permet de revenir &#xE0; la page d&apos;accueil de l&apos;onglet Documents / Liens.</p>
 <h3 id="modifier-un-lien"><a id="modifier-lien">Modifier un lien</a></h3>
 <p>La modification d&apos;un lien est possible &#xE0; partir de sa page de description.</p>
@@ -720,7 +744,7 @@ Penser &#xE0; sauvegarder les informations saisies avant de changer d&apos;&#xE9
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Operation","level":"2.3","depth":1,"next":{"title":"Structure","level":"2.4","depth":1,"path":"user-guide/structure.md","ref":"user-guide/structure.md","articles":[]},"previous":{"title":"Nomenclature","level":"2.2","depth":1,"path":"user-guide/classification.md","ref":"user-guide/classification.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","prism","-highlight","github","anchorjs","image-captions","include-codeblock"],"root":"./","styles":{"website":"gitbook.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"shell":"bash"}},"github":{"url":"https://github.com/InseeFr/Bauhaus/"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit This Page","base":"https://github.com/InseeFr/Bauhaus/tree/master/docs"},"theme-default":{"styles":{"website":"gitbook.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchorjs":{},"image-captions":{"variable_name":"_pictures"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[]},"title":"Bauhaus","language":"fr","gitbook":"*"},"file":{"path":"user-guide/operation.md","mtime":"2021-04-23T11:40:55.616Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2021-04-23T11:51:47.408Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Operation","level":"2.3","depth":1,"next":{"title":"Structure","level":"2.4","depth":1,"path":"user-guide/structure.md","ref":"user-guide/structure.md","articles":[]},"previous":{"title":"Nomenclature","level":"2.2","depth":1,"path":"user-guide/classification.md","ref":"user-guide/classification.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","prism","-highlight","github","anchorjs","image-captions","include-codeblock"],"root":"./","styles":{"website":"gitbook.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{"lang":{"shell":"bash"}},"github":{"url":"https://github.com/InseeFr/Bauhaus/"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit This Page","base":"https://github.com/InseeFr/Bauhaus/tree/master/docs"},"theme-default":{"styles":{"website":"gitbook.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchorjs":{},"image-captions":{"variable_name":"_pictures"}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{"_pictures":[]},"title":"Bauhaus","language":"fr","gitbook":"*"},"file":{"path":"user-guide/operation.md","mtime":"2021-05-31T22:49:31.476Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2021-05-31T23:01:24.690Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>
