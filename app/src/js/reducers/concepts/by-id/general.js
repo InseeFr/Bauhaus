@@ -5,6 +5,13 @@ import * as generalUtils from 'js/utils/concepts/general';
 export default function(state = {}, action) {
 	const { type, payload } = action;
 	switch (type) {
+		case A.DELETE_CONCEPT_SUCCESS: {
+			const { id } = payload;
+			return {
+				...state,
+				[id]: {},
+			};
+		}
 		case A.UPDATE_CONCEPT_SUCCESS: {
 			const { id } = payload;
 			return {
