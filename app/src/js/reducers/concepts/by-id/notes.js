@@ -5,6 +5,13 @@ import { ArrayUtils } from 'bauhaus-utilities';
 export default function(state = {}, action) {
 	const { type, payload } = action;
 	switch (type) {
+		case A.DELETE_CONCEPT_SUCCESS: {
+			const { id } = payload;
+			return {
+				...state,
+				[id]: {},
+			};
+		}
 		case A.LOAD_NOTES_VERSION:
 			const { id, version } = payload;
 			const otherVersions = state[id];

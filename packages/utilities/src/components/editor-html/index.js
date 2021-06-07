@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Editor } from 'react-draft-wysiwyg';
 import './editor-html.scss';
 import * as HTMLUtils from '../../utils/html-utils';
+import { DeleteButton } from './editor-markdown';
 
 const toolbar = {
 	options: ['list', 'inline'],
@@ -53,6 +54,7 @@ class EditorHTML extends Component {
 	render() {
 		return (
 			<Editor
+				toolbarCustomButtons={[<DeleteButton />]}
 				ariaLabel={this.props.ariaLabel}
 				editorState={this.state.editorState}
 				id={this.props.id}
