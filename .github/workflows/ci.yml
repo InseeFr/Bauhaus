@@ -11,7 +11,7 @@ jobs:
           node-version: 15
       - run: yarn
       # Build modules
-      - run: yarn build
+      - run: yarn build-insee
       # Build sonar reports
       - run: yarn test:coverage
       - name: Upload deploy artifact
