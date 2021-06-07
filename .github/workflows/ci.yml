@@ -18,7 +18,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: coverage
-          path: coverage/
+          path: |
+            app/coverage/
+            packages/**/coverage/
   sonarcloud:
     runs-on: ubuntu-latest
     needs: test-build
