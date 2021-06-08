@@ -64,7 +64,7 @@ export const computeDscr = (fn, [...args]) => {
 
 let saveApiURL = getEnvVar('API_BASE_HOST');
 export const getBaseURI = () => {
-	return process.env.REACT_APP_INSEE
+	return getEnvVar('INSEE')
 		? saveApiURL ||
 				fetch(apiURL).then(res => {
 					saveApiURL = res.json().then(config => config.bauhaus);
