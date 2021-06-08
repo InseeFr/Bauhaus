@@ -45,7 +45,7 @@ function getFetchLabelsPromise(sims, promise) {
 /**
  * This method is called when we need to save a SIMS.
  * If the sims passed as a parameter already have an id,
- * we will send a PUR request. If this property is not
+ * we will send a PUT request. If this property is not
  * present, a POST request will be send.
  *
  * @param {Sims} sims
