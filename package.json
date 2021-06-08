@@ -51,6 +51,7 @@
 		"webpack": "4.44.0"
 	},
 	"dependencies": {
+		"dompurify": "2.2.9",
 		"@babel/preset-react": "^7.12.13",
 		"jest-environment-jsdom-sixteen": "^1.0.3",
 		"prop-types": "15.7.2",
