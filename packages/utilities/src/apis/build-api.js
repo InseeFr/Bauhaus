@@ -62,15 +62,19 @@ export const computeDscr = (fn, [...args]) => {
 	return [url, options, thenHandler];
 };
 
-let saveApiURL = getEnvVar('API_BASE_HOST');
+let saveApiURL = '';
 export const getBaseURI = () => {
+	if (saveApiURL) return saveApiURL;
 	return getEnvVar('INSEE')
 		? saveApiURL ||
-				fetch(apiURL).then(res => {
-					saveApiURL = res.json().then(config => config.bauhaus);
+				fetch(apiURL).then((res) => {
+					saveApiURL = res.json().then((config) => config.bauhaus);
 					return saveApiURL;
 				})
-		: Promise.resolve(getEnvVar('API_BASE_HOST'));
+		: Promise.resolve(getEnvVar('API_BASE_HOST')).then((u) => {
+				saveApiURL = u;
+				return u;
+		  });
 };
 
 export const buildCall = (context, resource, fn) => {
