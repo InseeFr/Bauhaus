@@ -64,13 +64,12 @@ export const computeDscr = (fn, [...args]) => {
 
 let saveApiURL = '';
 export const getBaseURI = () => {
-	if (saveApiURL) return saveApiURL;
+	if (saveApiURL) return Promise.resolve(saveApiURL);
 	return getEnvVar('INSEE')
-		? saveApiURL ||
-				fetch(apiURL).then((res) => {
-					saveApiURL = res.json().then((config) => config.bauhaus);
-					return saveApiURL;
-				})
+		? fetch(apiURL).then((res) => {
+				saveApiURL = res.json().then((config) => config.bauhaus);
+				return saveApiURL;
+		  })
 		: Promise.resolve(getEnvVar('API_BASE_HOST')).then((u) => {
 				saveApiURL = u;
 				return u;
