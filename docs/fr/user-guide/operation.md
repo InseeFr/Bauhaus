@@ -83,7 +83,7 @@ Une opération statistique peut être définie comme l'ensemble des phases de co
 Pour illustrer cette hiérarchie, on considérera :
 - la famille d'opérations statistiques « Technologie de l'information et de la communication » comprenant trois séries d'opérations statistiques pour distinguer des grands domaines, des processus ou des objectifs :
   - la série d'opérations statistiques : « Enquête annuelle auprès des ménages sur les technologies de l'information et de la communication / TIC-ménages » comprenant une opération statistique pour distinguer le millésime :
-    - Enquête annuelle auprès des ménages sur les technologies de l'information et de la communication 2018
+    - Enquête annuelle auprès des ménages sur les technologies de l'information et de la communication 2020
   - la série d'opérations statistiques : « Enquête sur l'usage de l'informatique, des technologies de la communication et le commerce électronique dans les entreprises de moins de 10 personnes occupées / TIC-TPE » comprenant deux opérations statistiques pour distinguer chaque millésime :
     - « Enquête sur l'usage de l'informatique et des technologies de la communication dans les entreprises de moins 10 personnes (2012) »
     - « Enquête sur l'usage de l'informatique, des technologies de la communication et le commerce électronique dans les entreprises de moins de 10 personnes occupées (2016) »
@@ -92,6 +92,9 @@ Pour illustrer cette hiérarchie, on considérera :
     - « Enquête sur les technologies de l'information et de la communication dans les entreprises 2019 »
     - « Enquête sur les technologies de l'information et de la communication dans les entreprises 2018 »
     - etc. jusque 2006.
+
+**Schéma (partiel pour des questions de lisibilité) de l'exemple**
+![](../../img/arborescence-operations-fr.gif)
             
 ### Qu'est-ce qu'un indicateur ?
 
