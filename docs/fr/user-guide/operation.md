@@ -104,15 +104,14 @@ Un indicateur est une produit statistique qui peut être issu d'une à plusieurs
 
 Le rapport qualité permet de décrire les opérations statistiques et indicateurs en respectant les principes du code de bonnes pratiques de la statistique européenne. Il contient une vingtaine de thèmes : présentation statistique, fréquence de diffusion, révision des données, traitement statistique, etc. La structure du rapport s'appuie sur une norme européenne : le Single Integrated Metadata Structure (SIMS).
 
-### Le processus
+### Le processus et les différents états des objets
 
-
-
-### Les états des différents objets
+![](../../img/processus-rmes-fr.gif)
 
 Les différents objets (Famille, Série, Opération, Indicateur et Rapport qualité) peuvent avoir trois états :
 
-- 
+- "Provisoire, jamais publié"
+- "Provisoire, déjà publié"
 - "Publié"
 
 ## <a id="naviguer">Naviguer dans l'application</a>
