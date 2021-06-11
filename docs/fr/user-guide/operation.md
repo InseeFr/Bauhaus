@@ -115,9 +115,9 @@ Le processus est le suivant :
 
 Les différents objets (Famille, Série, Opération, Indicateur et Rapport qualité) peuvent avoir trois états :
 
-- "Provisoire, jamais publié". L'objet est présent dans la base de gestion mais totalement absent des référentiels de diffusion et n'est donc pas mis à disposition des clients. Il s'agit d'une version de travail en attente de publication dans les référentiels de diffusion.
-- "Provisoire, déjà publié". L'objet est présent dans la base de gestion et dans les référentiels de diffusion mais son contenu diffère. L'objet a déjà été publié par le passé mais a été modifié depuis. Il s'agit également d'une version de travail en attente de publication dans les référentiels de diffusion.
-- "Publié". L'objet est présent à l'identique dans la base de gestion et dans les deux référentiels de diffusion.
+- "**Provisoire, jamais publié**". L'objet est présent dans la base de gestion mais totalement absent des référentiels de diffusion et n'est donc pas mis à disposition des clients. Il s'agit d'une version de travail en attente de publication dans les référentiels de diffusion.
+- "**Provisoire, déjà publié**". L'objet est présent dans la base de gestion et dans les référentiels de diffusion mais son contenu diffère. L'objet a déjà été publié par le passé mais a été modifié depuis. Il s'agit également d'une version de travail en attente de publication dans les référentiels de diffusion.
+- "**Publié**". L'objet est présent à l'identique dans la base de gestion et dans les deux référentiels de diffusion.
 
 ## <a id="naviguer">Naviguer dans l'application</a>
 
