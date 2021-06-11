@@ -102,7 +102,18 @@ Un indicateur est une produit statistique qui peut être issu d'une à plusieurs
 
 ### Qu'est-ce qu'un rapport qualité ?
 
-Le rapport qualité permet de décrire les opérations statistiques et indicateurs en respectant les principes du code de bonnes pratiques de la statistique européenne. Il contient une vingtaine de thèmes : présentation statistique, fréquence de diffusion, révision des données, traitement statistique, etc. La structure du rapport s'appuie sur une norme européenne : le Single Integrated Metadata Structure (SIMS). 
+Le rapport qualité permet de décrire les opérations statistiques et indicateurs en respectant les principes du code de bonnes pratiques de la statistique européenne. Il contient une vingtaine de thèmes : présentation statistique, fréquence de diffusion, révision des données, traitement statistique, etc. La structure du rapport s'appuie sur une norme européenne : le Single Integrated Metadata Structure (SIMS).
+
+### Le processus
+
+
+
+### Les états des différents objets
+
+Les différents objets (Famille, Série, Opération, Indicateur et Rapport qualité) peuvent avoir trois états :
+
+- 
+- "Publié"
 
 ## <a id="naviguer">Naviguer dans l'application</a>
 
@@ -450,7 +461,7 @@ Un rapport ne peut être publiée que si l'opération à laquelle elle est ratta
 Les changements (hors rubriques décrivant le contact) seront reportés sur insee.fr le jour suivant la publication.
 
 ### <a id="exporter-rapport">Exporter un rapport qualité</a>
-L'export d'un rapport est possible à partir de sa page de description.
+L'export d'un rapport est possible à partir de sa page de description. L'export inclus également les informations descriptives de la série et de l'opération statistique.
 
 - Cliquer en haut à droite sur le bouton <span style="color: brown">Exporter</span>. Une fenêtre s'ouvre alors.
 - Sélectionner les options proposée :
