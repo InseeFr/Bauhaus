@@ -106,13 +106,18 @@ Le rapport qualité permet de décrire les opérations statistiques et indicateu
 
 ### Le processus et les différents états des objets
 
+Le processus est le suivant :
+- le producteur gère sa documentation dans l'application de gestion. L'information saisie demeure dans une base de gestion et reste non visible par les clients qui s'alimentent dans le référentiel de diffusion RMéS
+- le producteur publie ses modifications via l'application dans les référentiels de diffusion interne et externe.
+- les applications cientes internes et externes s'alimentent des informations présentes dans les référentiels de diffusion.
+
 ![](../../img/processus-rmes-fr.gif)
 
 Les différents objets (Famille, Série, Opération, Indicateur et Rapport qualité) peuvent avoir trois états :
 
-- "Provisoire, jamais publié"
-- "Provisoire, déjà publié"
-- "Publié"
+- "Provisoire, jamais publié". L'objet est présent dans la base de gestion mais totalement absent des référentiels de diffusion et n'est donc pas mis à disposition des clients. Il s'agit d'une version de travail en attente de publication dans les référentiels de diffusion.
+- "Provisoire, déjà publié". L'objet est présent dans la base de gestion et dans les référentiels de diffusion mais son contenu diffère. L'objet a déjà été publié par le passé mais a été modifié depuis. Il s'agit également d'une version de travail en attente de publication dans les référentiels de diffusion.
+- "Publié". L'objet est présent à l'identique dans la base de gestion et dans les deux référentiels de diffusion.
 
 ## <a id="naviguer">Naviguer dans l'application</a>
 
