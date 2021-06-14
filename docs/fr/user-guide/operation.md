@@ -1,5 +1,5 @@
 # Guide utilisateur du module Opérations statistiques de Bauhaus
-Version au 28/12/2020
+Version au 15/06/2021
 
 Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer les opérations statistiques de l'Insee et des SSM.
 ## Sommaire
@@ -431,7 +431,7 @@ Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page
 Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
 Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du rapport. Il est donc possible, si nécessaire, de créer le rapport en plusieurs étapes. Le statut de publication du rapport passe alors en « Provisoire », jusqu'à sa publication.
 
-Pour publier un rapport dans le référentiel, voir [Publier un rapport](#publier-rapport).
+Pour publier un rapport dans le référentiel, voir [Publier un rapport qualité](#publier-rapport).
 
 ### <a id="modifier-rapport">Modifier un rapport qualité</a>
 
@@ -441,7 +441,7 @@ La modification d'un rapport est possible à partir de sa page de description.
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
-Une fois le rapport modifié, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire, jamais publiée » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier un rapport](#publier-rapport)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
+Une fois le rapport modifié, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire, jamais publiée » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier un rapport qualité](#publier-rapport)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
 
 **A noter : lorsque vous modifiez un rapport, pour créer un nouveau document ou lien, il faut sortir de la page d'édition et ne pas oublier de sauvegarder** (voir [Créer un document](#creer-document) et [Créer un lien](#creer-lien))
 
@@ -489,7 +489,7 @@ Ces documents et liens, une fois créés sont réutilisables autant que de besoi
 
 ### <a id="rechercher-document-lien">Rechercher un document ou un lien</a>
 
-La page d'accueil Documents / Liens, accessible à partir de la barre horizontale de menu, propose une barre de recherche principale qui, donne accès à l'ensemble des Documents et Liens enregistrées dans l'application.
+La page d'accueil Documents / Liens, accessible à partir de la barre horizontale de menu, propose une barre de recherche principale qui, donne accès à l'ensemble des documents et liens créés dans la base de gestion des opérations statistiques RMéS. Cela signifie qu'un lien et un document peuvent être partagés entre plusieurs rapports qualité.
 
 Le bouton <span style="color: brown">Documents / Liens</span> permet de rechercher des documents et/ou des liens.
 
@@ -510,10 +510,10 @@ La création d'un document est possible à partir de la page d'accueil Documents
 - Cliquer sur le bouton <span style="color: brown">Nouveau Document</span> à gauche de la page. La page de création du document s'affiche alors.
 
 Les champs disponibles sont les suivants :
-- L'**Intitulé** est le libellé du document. Les intitulés français et anglais sont obligatoires ;
+- L'**Intitulé** est le libellé du document. Afin de faciliter la recherche d'un document, indiquer un intitulé explicite (ex : Questionnaire 2019 de l'enquête sur les technologies de l'information et de la communication et le commerce électronique (auprès des entreprises) / TIC 2019). Les intitulés français et anglais sont obligatoires ;
 - La **Description** permet de décrire le document. Il s'agit d'une information que l'on peut retrouver en infobulle ;
 - La **Date de mise à jour** est la date de dernière mise à jour du document. La date de mise à jour est obligatoire ;
-- Pour joindre un **Fichier**, se placer sur le champ ad hoc et faire un « glisser-déposer » ou cliquer dans le champ pour ajouter le document. Le document est obligatoire ;
+- Pour joindre un **Fichier**, se placer sur le champ ad hoc et faire un « glisser-déposer » ou cliquer dans le champ pour ajouter le document. Le nom du fichier peut uniquement contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas. Le document est obligatoire ;
 - La **Langue** correspond à la langue du contenu du document. La langue est obligatoire.
 
 Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
