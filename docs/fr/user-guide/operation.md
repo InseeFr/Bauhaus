@@ -102,7 +102,7 @@ Un indicateur est une produit statistique qui peut être issu d'une à plusieurs
 
 ### Qu'est-ce qu'un rapport qualité ?
 
-Le rapport qualité permet de décrire les opérations statistiques et indicateurs en respectant les principes du code de bonnes pratiques de la statistique européenne. Il contient une vingtaine de thèmes : présentation statistique, fréquence de diffusion, révision des données, traitement statistique, etc. La structure du rapport s'appuie sur une norme européenne : le Single Integrated Metadata Structure (SIMS).
+Le rapport qualité permet de décrire les opérations statistiques et indicateurs en respectant les principes du code de bonnes pratiques de la statistique européenne. Il contient une vingtaine de thèmes : présentation statistique, fréquence de diffusion, révision des données, traitement statistique, etc. La structure d'un rapport qualité est conforme au format Sims (Single Integrated Metadata Structure), adopté au niveau européen en 2015 pour les rapports qualité, et qui a été enrichi par l’Insee pour tenir compte de besoins spécifiques.
 
 ### Le processus et les différents états des objets
 
@@ -258,7 +258,7 @@ Les champs disponibles sont les suivants :
 - L' **Organisme responsable** est l'organisme responsable de la série ;
 - Les **Partenaires** sont les organismes associés à la conception et au pilotage de la série ;
 - Les **Services collecteurs** correspond aux services réalisant la collecte ;
-- Le **Propriétaire** est l'unité responsable de la gestion et de la publication de la série ainsi que des opérations statistiques et rapports qualité qui en découlent. Le propriétaire est obligatoire ;
+- Le **Propriétaire** est l'unité responsable de la gestion et de la publication de la série ainsi que des opérations statistiques et rapports qualité qui en découlent. Le propriétaire est obligatoire. Ne pas modifier le timbre propriétaire de la série au risque de perdre les droits en gestion et publication ;
 - Le champ **Succède à** permet de préciser si une série succède à une autre. Si une Série A succède à une Série B, alors la Série B est automatiquement remplacée par la Série A ;
 - Le champ **Remplacée par** permet de préciser si une série est remplacée par une autre. Si une Série B est remplacée par une Série A, alors la Série A succède automatiquement remplacée à la la Série B ;
 - Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contributions de la série ;
@@ -312,16 +312,17 @@ La création d'une opération est possible à partir de la page d'accueil Opéra
 - Cliquer sur le bouton <span style="color: brown">Nouveau</span> à gauche de la page. La page de création de l'opération s'affiche alors.
 
 Les champs disponibles sont les suivants :
- - L'opération doit être rattachée à sa **série mère**. Si la série souhaitée n'existe pas, demander sa création à l'administrateur RMéS.
- - L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires.
- - Le **Nom court** est un libellé alternatif. Il peut s'agit d‘un sigle ou d'un acronyme.
-
+- L'opération doit être rattachée à sa **série mère**. Si la série souhaitée n'existe pas, demander sa création à l'administrateur RMéS.
+- L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires.
+- Le **Nom court** est un libellé alternatif. Il peut s'agit d‘un sigle ou d'un acronyme.
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span> 
 
-Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
-Penser à sauvegarder les informations saisies avant de changer d'écran.** La sauvegarde n'entraîne pas la publication de l'opération. Il est donc possible, si nécessaire, de créer l'opération en plusieurs étapes. Le statut de publication de l'opération passe alors en « Provisoire », jusqu'à sa publication. Pour publier une opération dans le référentiel, voir [Publier une opération](#publier-operation).
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été renseignés.
+Penser à sauvegarder les informations saisies avant de changer d'écran. **La sauvegarde n'entraîne pas la publication de l'opération. Il est donc possible, si nécessaire, de créer l'opération en plusieurs étapes. Le statut de publication de l'opération passe alors en « Provisoire », jusqu'à sa publication. Pour publier une opération dans le référentiel, voir [Publier une opération](#publier-operation).
 
 Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Opérations.
+
+**A noter : suite à la création d'une opération, ne pas créer un rapport si vous souhaitez en dupliquer un existant** (voir [Dupliquer un rapport qualité](#dupliquer-rapport)).**
 
 ### <a id="modifier-operation">Modifier une opération</a>
 La modification d'une opération est possible à partir de sa page de description.
@@ -442,6 +443,8 @@ La modification d'un rapport est possible à partir de sa page de description.
 
 Une fois le rapport modifié, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire, jamais publiée » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier un rapport](#publier-rapport)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
 
+**A noter : lorsque vous modifiez un rapport, pour créer un nouveau document ou lien, il faut sortir de la page d'édition et ne pas oublier de sauvegarder** (voir [Créer un document](#creer-document) et [Créer un lien](#creer-lien))
+
 ### <a id="dupliquer-rapport">Dupliquer un rapport qualité</a>
 
 La duplication d'un rapport est possible à partir de sa page de description.  Seul le propriétaire du rapport (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série d'opérations statistiques), ou par délégation l'unité Qualité (après échanges de mails), est habilité à dupliquer un rapport. Il est uniquement possible de dupliquer un rapport attachée au niveau de l'opération statistiques et de l'associer à une opération statistique de la même série.
@@ -454,7 +457,7 @@ Une fois le rapport modifié, son statut de publication devient **« Provisoire,
 
 
 ### <a id="publier-rapport">Publier un rapport qualité</a>
-L'action de publier consiste à pousser les informations saisies dans le référentiel de publication.
+L'action de publier consiste à pousser les informations saisies dans le référentiel de diffusion. Lors de la publication d'un rapport, toutes les rubriques sont publiées exceptées les rubriques S.1.3 à S.1.8.
 
 La publication d'un rapport est possible à partir de sa page de description. Seul le propriétaire du rapport (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série d'opérations statistiques), ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier un rapport.
 
@@ -476,9 +479,7 @@ L'export d'un rapport est possible à partir de sa page de description. L'export
 
 Une fichier au format Open Document est alors exporté. La version actuelle de la fonctionnalité n'exporte pas les documents joints aux différentes rubriques mais seulement un descriptif du document.
 
-Un rapport ne peut être publiée que si l'opération à laquelle il est rattachée est déjà publiée. Sinon, publier d'abord l'opération. 
-
-Les changements (hors rubriques décrivant le contact) seront reportés sur insee.fr le jour suivant la publication.
+**A noter : dans la version actuelle, seul un descriptif des documents est exporté, les fichiers ne le sont pas (encore)**
 
 ## <a id="gerer-documents-liens">Fonctionnalités de gestions des documents et des liens</a>
 
@@ -527,6 +528,15 @@ La modification d'un document est possible à partir de sa page de description.
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
+Lorsque vous modifiez un document (libellé, description, date, langue), alors pour publier les changements, il faut publier le rapport qualité qui référence le document. Si le rapport est à l'état "Publié", le bouton n'est alors pas visible. Réalisez les actions suivantes :
+
+- cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
+- cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
+*Cette action permet de passer l'état du rapport qualité de "Publié" à "Provisoire, déjà publié" et rend alors visible le bouton "Publier"*
+- cliquer sur le bouton <span style="color: brown">Publier</span>
+
+**A noter : si un document est partagé entre plusieurs rapports qualité associés à des séries d'opérations statistiques dont les timbres propriétaires sont différents, alors vous ne pourrez pas modifier le document (cas assez rare). Pour le modifier, contacter l'équipe d'administration.**
+
 ### <a id="creer-lien">Créer un lien</a>
 Avant de créer un lien, il est important de vérifier qu'il n'a pas déjà été renseigné en utilisant les fonctionnalités de recherche.
 
@@ -551,3 +561,12 @@ La modification d'un lien est possible à partir de sa page de description.
 - Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
+
+Lorsque vous modifiez un lien (libellé, description, date, langue), alors pour publier les changements, il faut publier le rapport qualité qui référence le lien. Si le rapport est à l'état "Publié", le bouton n'est alors pas visible. Réalisez les actions suivantes :
+
+- cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
+- cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
+*Cette action permet de passer l'état du rapport qualité de "Publié" à "Provisoire, déjà publié" et rend alors visible le bouton "Publier"*
+- cliquer sur le bouton <span style="color: brown">Publier</span>
+
+**A noter : si un lien est partagé entre plusieurs rapports qualité associés à des séries d'opérations statistiques dont les timbres propriétaires sont différents, alors vous ne pourrez pas modifier le lien (cas assez rare). Pour le modifier, contacter l'équipe d'administration.**
