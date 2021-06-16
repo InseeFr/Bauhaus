@@ -582,4 +582,4 @@ Lorsque vous modifiez un lien (libellé, description, date, langue), alors pour 
 *Cette action permet de passer l'état du rapport qualité de "Publié" à "Provisoire, déjà publié" et rend alors visible le bouton "Publier"*
 - cliquer sur le bouton <span style="color: brown">Publier</span>
 
-**A noter : si un lien est partagé entre plusieurs rapports qualité associés à des séries d'opérations statistiques dont les timbres propriétaires sont différents, alors vous ne pourrez pas modifier le lien (cas assez rare). Pour le modifier, contacter l'équipe d'administration.**
+**A noter : si un lien est partagé entre plusieurs rapports qualité associés à des séries d'opérations statistiques dont les timbres propriétaires sont différents, alors vous ne pourrez pas modifier le lien (cas assez rare). Pour le modifier, contacter l'équipe d'administration.** 
