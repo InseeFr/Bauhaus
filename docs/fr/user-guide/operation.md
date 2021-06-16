@@ -5,10 +5,19 @@ Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer 
 ## Sommaire
 
 - [**Quelques notions pour bien démarrer**](#notions)
+  - [Qu'est-ce qu'une opération statistique ?](#definition-operation)
+  - [Qu'est-ce qu'un indicateur ?](#definition-indicateur)
+  - [Qu'est-ce qu'un rapport qualité ?](#definition-rapport)
+  - [Le processus et les différents états des objets](#processus-publication)
+
 
 ---
 
 - [**Naviguer dans l'application**](#naviguer)
+
+---
+
+- [**Les différents rôles dans l'application**](#roles)
 
 ---
 
@@ -69,7 +78,7 @@ Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer 
 
 ## <a id="notions">Quelques notions pour bien démarrer</a>
 
-### Qu'est-ce qu'une opération statistique ?
+### <a id=definition-operation>Qu'est-ce qu'une opération statistique ?</a>
 
 Le référentiel de métadonnées statistiques est organisé selon une arborescence :
 - Famille d'opérations statistiques
@@ -96,15 +105,15 @@ Pour illustrer cette hiérarchie, on considérera :
 **Schéma (partiel pour des questions de lisibilité) de l'exemple**
 ![](../../img/arborescence-operations-fr.gif)
             
-### Qu'est-ce qu'un indicateur ?
+<a id=definition-indicateur>### Qu'est-ce qu'un indicateur ?</a>
 
-Un indicateur est une produit statistique qui peut être issu d'une à plusieurs sources.
+Un indicateur est un produit statistique qui peut être issu d'une à plusieurs séries d'opérations statistiques. Il correspond à la documentation des indices et séries chronologiques disponibles dans la Banque de données macroéconomiques (BDM).
 
-### Qu'est-ce qu'un rapport qualité ?
+<a id=definition-rapport>### Qu'est-ce qu'un rapport qualité ?</a>
 
 Le rapport qualité permet de décrire les opérations statistiques et indicateurs en respectant les principes du code de bonnes pratiques de la statistique européenne. Il contient une vingtaine de thèmes : présentation statistique, fréquence de diffusion, révision des données, traitement statistique, etc. La structure d'un rapport qualité est conforme au format Sims (Single Integrated Metadata Structure), adopté au niveau européen en 2015 pour les rapports qualité, et qui a été enrichi par l’Insee pour tenir compte de besoins spécifiques.
 
-### Le processus et les différents états des objets
+<a id=processus-publication>### Le processus et les différents états des objets</a>
 
 Le processus est le suivant :
 - le producteur gère sa documentation dans l'application de gestion. L'information saisie demeure dans une base de gestion et reste non visible par les clients qui s'alimentent dans le référentiel de diffusion RMéS
@@ -126,22 +135,26 @@ Pour atteindre la page d'accueil du module de gestion des opérations statistiqu
 Un bouton <span style="color: brown">Voir l'arborescence</span> disponible via les menus <span style="color: brown">Familles</span>, <span style="color: brown">Séries</span> et <span style="color: brown">Opérations</span> permet également d'accéder à l'arborescence de l'ensemble des Familles/Séries/Opérations.
 Dans cette arborescence, les boutons + et - permettent de déplier ou replier l'arborescence, de la famille à l'opération concernée. Un clic sur l'objet famille, série ou opération permet d'accéder à la page de description de cet objet.
 
-Afin de garantir l'intégrité et la qualité de la base, les fonctionnalités de création et modification des familles, de création des séries et indicateurs ainsi que l'identification des propriétaires sont réservés à l'unité Qualité. Toute unité en ayant l'utilité peut demander la création d'une famille, d'une série ou d'un indicateur. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, le propriétaire ou par délégation l'unité Qualité sont habilités à publier.
+<a id=roles>## Les différentes rôles dans l'application</a>
 
-Dans l'application, quatre grands profils d'utilisateurs ont été créés. Chacun correspond à un niveau d'habilitation donnant accès à différentes fonctionnalités :
+Afin de garantir l'intégrité et la qualité du référentiel, les fonctionnalités de création et modification des familles, de création des séries et indicateurs ainsi que l'identification des propriétaires sont réservés à l'unité Qualité. Toute unité en ayant l'utilité peut demander la création d'une famille, d'une série ou d'un indicateur. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, le propriétaire ou par délégation l'unité Qualité sont habilités à publier.
+
+Dans l'application, quatre rôles ont été créés. Chacun correspond à un niveau d'habilitation donnant accès à différentes fonctionnalités :
 - **Administrateur de l'application** : accès à toutes les fonctionnalités ;
-- **Propriétaire de série** : 
-  - rechercher, modifier et publier une série dont il est propriétaire
-  - rechercher, créer, modifier et publier une opération appartenant à une des séries dont il est propriétaire
-  - rechercher, créer,  modifier et publier un rapport qualité, un document ou un lien
-  - rechercher, créer, modifier et publier un document ou un lien.
-- **Propriétaire d'indicateur** : 
-  - rechercher, modifier, publier un indicateur dont il est propriétaire
-  - rechercher, modifier, publier un rapport qualité liée à cet indicateur
+- **Gestionnaire de série** : 
+  - rechercher, modifier et publier une série dont le propriétaire de la série correspond au timbre du gestionnaire de série
+  - rechercher, créer, modifier et publier une opération appartenant à une des séries dont le propriétaire correspond au timbre du gestionnaire de série
+  - rechercher, créer,  modifier et publier un rapport qualité dont le propriétaire correspond au timbre du gestionnaire de série
+  - rechercher, créer, modifier un document ou un lien.
+- **Gestionnaire d'indicateur** : 
+  - rechercher, modifier, publier un indicateur dont le propriétaire de l'indicateur correspond au timbre du gestionnaire d'indicateur
+  - rechercher, modifier, publier un rapport qualité liée à un indicateur dont le propriétaire de l'indicateur correspond au timbre du gestionnaire d'indicateur 
   - rechercher, créer, modifier et publier un document ou un lien
-- **Invité** (profil par défaut pour tout utilisateur se connectant à l'application) : rechercher et consulter une famille d'opérations statistiques, séries d'opérations statistiques, opérations statistiques, indicateurs et un rapport qualité.
+- **Invité** (profil par défaut pour tout utilisateur se connectant à l'application) : 
+  - rechercher et consulter une famille d'opérations statistiques, séries d'opérations statistiques, opérations statistiques, indicateurs et un rapport qualité
+  - exporter un rapport qualité
 
-**Les boutons correspondant aux différentes fonctionnalités s'affichent en fonction du profil utilisateur.**
+**Les boutons correspondant aux différentes fonctionnalités s'affichent en fonction du rôle et du timbre de l'utilisateur.**
 
 Pour toute demande ou question, adresser un message à la boite fonctionnelle : **:DG75-Administration RMéS**
 
