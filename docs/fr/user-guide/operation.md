@@ -152,7 +152,7 @@ Dans l'application, quatre rôles ont été créés. Chacun correspond à un niv
   - rechercher, créer, modifier et publier un document ou un lien
 - **Invité** (profil par défaut pour tout utilisateur se connectant à l'application) : 
   - rechercher et consulter une famille d'opérations statistiques, séries d'opérations statistiques, opérations statistiques, indicateurs et un rapport qualité
-  - exporter un rapport qualité
+  - exporter un rapport qualité 
 
 **Les boutons correspondant aux différentes fonctionnalités s'affichent en fonction du rôle et du timbre de l'utilisateur.**
 
