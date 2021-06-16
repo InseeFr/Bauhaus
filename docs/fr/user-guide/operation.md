@@ -105,15 +105,15 @@ Pour illustrer cette hiérarchie, on considérera :
 **Schéma (partiel pour des questions de lisibilité) de l'exemple**
 ![](../../img/arborescence-operations-fr.gif)
             
-<a id=definition-indicateur>### Qu'est-ce qu'un indicateur ?</a>
+### <a id=definition-indicateur>Qu'est-ce qu'un indicateur ?</a>
 
 Un indicateur est un produit statistique qui peut être issu d'une à plusieurs séries d'opérations statistiques. Il correspond à la documentation des indices et séries chronologiques disponibles dans la Banque de données macroéconomiques (BDM).
 
-<a id=definition-rapport>### Qu'est-ce qu'un rapport qualité ?</a>
+### <a id=definition-rapport>Qu'est-ce qu'un rapport qualité ?</a>
 
 Le rapport qualité permet de décrire les opérations statistiques et indicateurs en respectant les principes du code de bonnes pratiques de la statistique européenne. Il contient une vingtaine de thèmes : présentation statistique, fréquence de diffusion, révision des données, traitement statistique, etc. La structure d'un rapport qualité est conforme au format Sims (Single Integrated Metadata Structure), adopté au niveau européen en 2015 pour les rapports qualité, et qui a été enrichi par l’Insee pour tenir compte de besoins spécifiques.
 
-<a id=processus-publication>### Le processus et les différents états des objets</a>
+### <a id=processus-publication>Le processus et les différents états des objets</a>
 
 Le processus est le suivant :
 - le producteur gère sa documentation dans l'application de gestion. L'information saisie demeure dans une base de gestion et reste non visible par les clients qui s'alimentent dans le référentiel de diffusion RMéS
@@ -135,7 +135,7 @@ Pour atteindre la page d'accueil du module de gestion des opérations statistiqu
 Un bouton <span style="color: brown">Voir l'arborescence</span> disponible via les menus <span style="color: brown">Familles</span>, <span style="color: brown">Séries</span> et <span style="color: brown">Opérations</span> permet également d'accéder à l'arborescence de l'ensemble des Familles/Séries/Opérations.
 Dans cette arborescence, les boutons + et - permettent de déplier ou replier l'arborescence, de la famille à l'opération concernée. Un clic sur l'objet famille, série ou opération permet d'accéder à la page de description de cet objet.
 
-<a id=roles>## Les différentes rôles dans l'application</a>
+## <a id=roles>Les différentes rôles dans l'application</a>
 
 Afin de garantir l'intégrité et la qualité du référentiel, les fonctionnalités de création et modification des familles, de création des séries et indicateurs ainsi que l'identification des propriétaires sont réservés à l'unité Qualité. Toute unité en ayant l'utilité peut demander la création d'une famille, d'une série ou d'un indicateur. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, le propriétaire ou par délégation l'unité Qualité sont habilités à publier.
 
