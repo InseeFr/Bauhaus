@@ -1,5 +1,5 @@
 # Guide utilisateur du module Opérations statistiques de Bauhaus
-Version au 15/06/2021
+Version au 16/06/2021
 
 Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer les opérations statistiques de l'Insee et des SSM.
 ## Sommaire
