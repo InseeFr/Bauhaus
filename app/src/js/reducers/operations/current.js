@@ -15,6 +15,11 @@ export const operationsSeriesCurrent = function(state = {}, action) {
 		case A.SAVE_OPERATIONS_INDICATOR_SUCCESS:
 			//When we save an item, we reset the current item stored in the store in order to send a new GET HTTP request
 			return {};
+		case A.DELETE_SIMS_SUCCESS:
+			return {
+				...state,
+				idSims: null
+			}
 		default:
 			return state;
 	}

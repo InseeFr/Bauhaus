@@ -9,6 +9,7 @@ import {
 } from '@inseefr/wilco';
 import { StructureAPI } from 'bauhaus-structures';
 import D from 'js/i18n';
+import { getEnvVar } from 'js/utils/env';
 
 const Home = () => {
 	const [DSDs, setDSDs] = useState([]);
@@ -19,7 +20,7 @@ const Home = () => {
 		});
 	}, []);
 
-	const isLocal = process.env.REACT_APP_API_MODE === 'local';
+	const isLocal = getEnvVar('API_MODE') === 'local';
 	return (
 		<div className="container">
 			<div className="row">
