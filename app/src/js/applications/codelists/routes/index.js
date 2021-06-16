@@ -5,6 +5,7 @@ import {
 	Menu,
 	Home,
 	CodelistComponentView,
+	CodelistEdit,
 	D,
 	SearchFormList,
 } from 'bauhaus-codelists';
@@ -22,6 +23,11 @@ const CodesListComponent = () => {
 						exact
 						path="/codelists/components/:id"
 						component={CodelistComponentView}
+					/>
+					<Route
+						exact
+						path="/codelists/components/:id/modify"
+						component={CodelistEdit}
 					/>
 					<Route exact path="/codelists/search" component={SearchFormList} />
 				</Switch>

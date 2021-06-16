@@ -6,6 +6,27 @@ const api = {
 	getDetailedCodelist: (id) => [`detailed/${id}`],
 	getCodelistsForSearch: () => ['search'],
 	getCodelistCode: (id, code) => [`${id}/code/${code}`],
+	postCodelist: (codelist) => [
+		'codelist',
+		{
+			headers: {
+				Accept: 'text/plain',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(codelist),
+		},
+		() => {},
+	],
+	putCodelist: (id, codelist) => [
+		`codelist/${id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(codelist),
+		},
+		() => {},
+	],
 };
 
 export default API.buildApi('codeList', api);
