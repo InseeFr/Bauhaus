@@ -8,7 +8,7 @@ import {
 	Select,
 } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
-import { validateComponent } from '../../utils';
+import { validateCodelist } from '../../utils';
 import { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
 import { default as ReactSelect } from 'react-select';
@@ -21,7 +21,6 @@ const DumbCodelistDetailEdit = ({
 	codelist: initialCodelist,
 	handleSave,
 	handleBack,
-	type,
 	disseminationStatusListOptions,
 	stampListOptions,
 	serverSideError,
@@ -30,11 +29,6 @@ const DumbCodelistDetailEdit = ({
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
 	}, [initialCodelist]);
-	useEffect(() => {
-		if (!codelist.type && type) {
-			setCodelist({ ...defaultCodelist, ...initialCodelist, type });
-		}
-	}, [type, codelist, initialCodelist]);
 
 	const handleChange = useCallback(
 		(e) => {
@@ -51,7 +45,7 @@ const DumbCodelistDetailEdit = ({
 		handleSave(codelist);
 	}, [codelist, handleSave]);
 
-	const { field, message } = validateComponent(codelist);
+	const { field, message } = validateCodelist(codelist);
 	return (
 		<React.Fragment>
 			<ActionToolbar>
@@ -77,7 +71,7 @@ const DumbCodelistDetailEdit = ({
 				</div>
 				<div className="row">
 					<div className={`col-md-6 form-group`}>
-						<LabelRequired htmlFor="labelLg1">{D1.label}</LabelRequired>
+						<LabelRequired htmlFor="labelLg1">{D1.labelTitle}</LabelRequired>
 						<input
 							type="text"
 							className="form-control"
@@ -90,7 +84,7 @@ const DumbCodelistDetailEdit = ({
 					</div>
 
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="labelLg2">{D2.label}</LabelRequired>
+						<LabelRequired htmlFor="labelLg2">{D2.labelTitle}</LabelRequired>
 
 						<input
 							type="text"
@@ -104,7 +98,7 @@ const DumbCodelistDetailEdit = ({
 				</div>
 
 				<div className="form-group">
-					<label>{D1.creatorTitle}</label>
+					<label>{D1.creator}</label>
 					<Select
 						className="form-control"
 						placeholder={D1.stampsPlaceholder}
@@ -117,7 +111,7 @@ const DumbCodelistDetailEdit = ({
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D1.contributorTitle}</label>
+					<label>{D1.contributor}</label>
 					<ReactSelect
 						placeholder={D1.stampsPlaceholder}
 						value={stampListOptions.find(
@@ -147,8 +141,8 @@ const DumbCodelistDetailEdit = ({
 				</div>
 				<div className="row">
 					<div className="col-md-6 form-group">
-						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
-						<input
+						<label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
+						<textarea
 							type="text"
 							value={codelist.descriptionLg1}
 							className="form-control"
@@ -158,8 +152,8 @@ const DumbCodelistDetailEdit = ({
 						/>
 					</div>
 					<div className="col-md-6 form-group">
-						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
-						<input
+						<label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
+						<textarea
 							type="text"
 							value={codelist.descriptionLg2}
 							className="form-control"
