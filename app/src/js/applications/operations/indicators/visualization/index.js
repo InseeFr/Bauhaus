@@ -67,7 +67,7 @@ class IndicatorVisualizationContainer extends VisualizationContainer {
 						</>
 					)}
 					{!attr.idSims && (
-						<Auth.AuthGuard roles={[Auth.ADMIN]}>
+						<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.INDICATOR_CONTRIBUTOR, checkStamp]]}>
 							<Button
 								action={`/operations/indicator/${attr.id}/sims/create`}
 								label={D.btnSimsCreate}
