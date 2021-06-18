@@ -43,10 +43,6 @@ export default {
 		fr: 'Nouvelle version',
 		en: 'New version',
 	},
-	btnPdf: {
-		fr: 'Exporter en PDF',
-		en: 'Export as PDF',
-	},
 	btnOdt: {
 		fr: 'Exporter en ODT',
 		en: 'Export as ODT',
