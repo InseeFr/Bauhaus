@@ -1,18 +1,29 @@
-import React  from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import { Home } from 'bauhaus-codelists';
-
-import D from 'js/i18n';
+import {
+	Menu,
+	Home,
+	CodelistComponentView,
+	D,
+	SearchFormList,
+} from 'bauhaus-codelists';
 
 const CodesListComponent = () => {
-	console.log("yo")
-	document.title = 'Bauhaus - ' + D.structuresTitle;
+	document.title = 'Bauhaus - ' + D.codelistsTitle;
+	document.getElementById('root-app').classList = ['structures'];
 	return (
 		<>
+			<Menu />
 			<div className="container">
 				<Switch>
 					<Route exact path="/codelists" component={Home} />
+					<Route
+						exact
+						path="/codelists/components/:id"
+						component={CodelistComponentView}
+					/>
+					<Route exact path="/codelists/search" component={SearchFormList} />
 				</Switch>
 			</div>
 		</>
