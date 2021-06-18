@@ -40,7 +40,18 @@ body {
 	--home-icon-color: var(--color-3);
 }
 
-.bauhaus-app, .habilitations {
+.codelists {
+	--color-1: #7a7491;
+	--color-2: #524978;
+	--color-3: #6c64a3;
+	--menu-active-page: var(--color-3);
+	--second-lang-bloc-title: var(--color-1);
+	--sub-title: var(--color-3);
+	--home-icon-color: var(--color-3);
+}
+
+.bauhaus-app,
+.habilitations {
 	--color-1: #775e88;
 	--color-2: #5b4867;
 	--color-3: #45374e;

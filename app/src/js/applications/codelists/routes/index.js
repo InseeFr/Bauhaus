@@ -12,7 +12,7 @@ import {
 
 const CodesListComponent = () => {
 	document.title = 'Bauhaus - ' + D.codelistsTitle;
-	document.getElementById('root-app').classList = ['structures'];
+	document.getElementById('root-app').classList = ['codelists'];
 	return (
 		<>
 			<Menu />
