@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
-import { Stores } from 'bauhaus-utilities';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
+import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { CodeListDetailEdit } from './edit';
@@ -53,16 +53,11 @@ const CodelistEdit = (props) => {
 	);
 
 	useEffect(() => {
-		if (id) {
-			API.getDetailedCodelist(id)
-				.then((codelist) => {
-					setCodelist(codelist);
-				})
-				.finally(() => setLoading(false));
-		} else {
-			setCodelist({});
-			setLoading(false);
-		}
+		API.getDetailedCodelist(id)
+			.then((codelist) => {
+				setCodelist(codelist);
+			})
+			.finally(() => setLoading(false));
 	}, [id]);
 
 	if (loading) {

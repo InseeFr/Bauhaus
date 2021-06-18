@@ -61,11 +61,11 @@ const DumbCodelistDetailEdit = ({
 						<input
 							type="text"
 							className="form-control"
-							id="identifiant"
-							name="identifiant"
-							value={codelist.identifiant}
+							id="id"
+							name="id"
+							value={codelist.id}
 							onChange={handleChange}
-							aria-invalid={field === 'identifiant'}
+							aria-invalid={field === 'id'}
 						/>
 					</div>
 				</div>
