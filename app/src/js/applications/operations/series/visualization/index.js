@@ -69,7 +69,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 					)}
 					{!attr.idSims && (
 						<Auth.AuthGuard
-							roles={[Auth.ADMIN]}
+							roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}
 							complementaryCheck={ableToCreateASimsForThisSeries}
 						>
 							<Button
@@ -87,14 +87,11 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 							disabled={publicationDisabled}
 						/>
 					</Auth.AuthGuard>
-					<Auth.AuthGuard
-						roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}
-					>
+
 						<Button
 							action={`/operations/series/${attr.id}/modify`}
 							label={D.btnUpdate}
 						/>
-					</Auth.AuthGuard>
 				</ActionToolbar>
 
 				<ErrorBloc error={serverSideError} />
