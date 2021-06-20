@@ -6,11 +6,11 @@ export const getCodeList = () =>
 
 export const getFormattedCodeList = () => {
 	return getCodeList().then((response) => {
-		return response?.map(({ uri, labelLg1, notation }) => {
+		return response?.map(({ uri, labelLg1, id }) => {
 			return {
 				id: uri,
 				label: labelLg1,
-				notation,
+				notation: id,
 			};
 		});
 	});
