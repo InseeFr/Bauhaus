@@ -10,7 +10,7 @@ class ConceptsToExport extends Component {
 			displayModal: false,
 			ids: [],
 		};
-		this.openModal = ids =>
+		this.openModal = (ids) =>
 			this.setState({
 				displayModal: true,
 				ids,
@@ -20,15 +20,11 @@ class ConceptsToExport extends Component {
 				displayModal: false,
 				ids: [],
 			});
-		this.closePdf = () => {
-			this.handleExportConceptList('application/octet-stream');
-			this.closeModal();
-		};
 		this.closeOdt = () => {
 			this.handleExportConceptList('application/vnd.oasis.opendocument.text');
 			this.closeModal();
 		};
-		this.handleExportConceptList = MimeType => {
+		this.handleExportConceptList = (MimeType) => {
 			this.props.handleExportConceptList(this.state.ids, MimeType);
 		};
 	}
@@ -42,11 +38,6 @@ class ConceptsToExport extends Component {
 				label: D.btnCancel,
 				action: this.closeModal,
 				style: 'default',
-			},
-			{
-				label: D.btnPdf,
-				action: this.closePdf,
-				style: 'primary',
 			},
 			{
 				label: D.btnOdt,
