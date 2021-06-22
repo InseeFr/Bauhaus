@@ -7,19 +7,9 @@ STORYBOOK_FOLDER="built-storybook"
 SITE_FOLDER="website"
 
 MAIN_BRANCH="master"
-UPSTREAM="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git"
-MESSAGE="Rebuild doc for revision $TRAVIS_COMMIT: $TRAVIS_COMMIT_MESSAGE"
+UPSTREAM="https://$GITHUB_TOKEN@github.com/InseeFr/Bauhaus.git"
+MESSAGE="Rebuild doc for revision"
 AUTHOR="$USER <>"
-
-if [ "$TRAVIS_PULL_REQUEST" != "false" ];then
-  echo "Documentation won't build on pull request"
-  exit 0
-fi
-
-if [ "$TRAVIS_BRANCH" != "$MAIN_BRANCH" ];then
-  echo "Documentation won't build: Not on branch $MAIN_BRANCH"
-  exit 0
-fi
 
 function setup() {
   echo "Installing Yarn and gitbook-cli"
@@ -72,3 +62,4 @@ function main() {
 }
 
 main
+
