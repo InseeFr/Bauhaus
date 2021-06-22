@@ -17,8 +17,8 @@ describe('concepts-compare', () => {
 		render(
 			<Provider store={store}>
 				<Compare
-					classificationId={'classificationId'}
-					itemId={'itemId'}
+					classificationId="classificationId"
+					itemId="itemId"
 					general={{
 						prefLabelLg1: 'prefLabelLg1',
 						isValidated: 'true',

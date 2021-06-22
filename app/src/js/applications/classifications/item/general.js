@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import { Note } from '@inseefr/wilco';
 
-export default ({ general, classificationId, itemId, secondLang, langs }) => {
+export default ({ general, classificationId, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
 	const mapping = {
 		broaderLg1: D.classificationsBroaderLevel,
