@@ -29,6 +29,7 @@ const ItemVisualization = ({
 				classificationId={classificationId}
 				itemId={itemId}
 				secondLang={secondLang}
+				langs={langs}
 			/>
 			{notes && <Notes secondLang={secondLang} notes={notes} langs={langs} />}
 			{narrowers.length !== 0 && (
