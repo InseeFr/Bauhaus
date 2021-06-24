@@ -3,14 +3,18 @@ import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import { Note } from '@inseefr/wilco';
 
-export default ({ general, classificationId, itemId, secondLang }) => {
+export default ({ general, classificationId, secondLang, langs }) => {
+	const { lg1, lg2 } = langs;
 	const mapping = {
 		broaderLg1: D.classificationsBroaderLevel,
 		itemId: D.classificationsNotationTitle,
+		altLabelLg1: D.altLabelTitle,
+		altLabelLg2: D.altLabelTitle,
 		altLabels: length => D.classificationItemAltLabels(length),
 		isValidated: D.isClassificationItemValidTitle,
 		conceptVersion: D.classificationConceptVersionTitle,
 	};
+
 	return (
 		<div className="row">
 			<Note
@@ -64,7 +68,24 @@ export default ({ general, classificationId, itemId, secondLang }) => {
 											general[fieldName]
 										)}`}</li>
 									);
-								} else {
+								}
+								if (fieldName === 'altLabelLg1') {
+									return (
+										<li>
+											{mapping[fieldName]} ({lg1}) :
+											{general.altLabelLg1}
+										</li>
+									);
+								}
+								if (fieldName === 'altLabelLg2') {
+									return (
+										<li>
+											{mapping[fieldName]} ({lg2}) :
+											{general.altLabelLg2}
+										</li>
+									);
+								}
+								else {
 									return (
 										<li
 											key={fieldName}
