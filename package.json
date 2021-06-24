@@ -9,10 +9,12 @@
 	],
 	"scripts": {
 		"start": "yarn workspace Bauhaus run start",
+		"build": "yarn workspaces run build",
 		"build-insee": "yarn workspaces run build-insee",
 		"test:coverage": "yarn workspaces run test:coverage --env=jest-environment-jsdom-sixteen",
 		"build-storybook": "yarn workspaces run build-storybook",
-		"pre-push": "yarn workspaces run lint && yarn test:coverage"
+		"pre-push": "yarn workspaces run lint && yarn test:coverage",
+		"generate-entrypoint": "node scripts/generate-entrypoint.js"
 	},
 	"resolutions": {
 		"@inseefr/wilco": "0.0.5"
@@ -25,15 +27,15 @@
 		"@storybook/addon-links": "5.3.19",
 		"@storybook/addons": "5.3.19",
 		"@storybook/react": "5.3.19",
-		"@testing-library/jest-dom": "5.11.6",
-		"@testing-library/react": "11.2.2",
-		"@testing-library/user-event": "12.5.0",
+		"@testing-library/jest-dom": "5.14.1",
+		"@testing-library/react": "11.2.7",
+		"@testing-library/user-event": "13.1.9",
 		"@types/jest": "26.0.16",
 		"babel-eslint": "^10.1.0",
 		"babel-jest": "26.0.1",
 		"babel-loader": "8.1.0",
 		"babel-polyfill": "^6.26.0",
-		"eslint": "7.12.1",
+		"eslint": "7.28.0",
 		"eslint-config-prettier": "6.15.0",
 		"eslint-config-react-app": "6.0.0",
 		"eslint-plugin-flowtype": "5.2.0",
@@ -48,9 +50,10 @@
 		"jest-localstorage-mock": "2.4.3",
 		"lcov-result-merger": "3.1.0",
 		"prettier": "2.0.5",
-		"webpack": "4.44.0"
+		"webpack": "5.39.1"
 	},
 	"dependencies": {
+		"dompurify": "2.2.9",
 		"@babel/preset-react": "^7.12.13",
 		"jest-environment-jsdom-sixteen": "^1.0.3",
 		"prop-types": "15.7.2",

@@ -5,6 +5,7 @@
 	"source": "src/index.js",
 	"license": "MIT",
 	"scripts": {
+		"build": "rollup -c rollup.config.js",
 		"build-insee": "rollup -c rollup.config.js",
 		"test": "jest --watch",
 		"build-storybook": "build-storybook -o built-storybook/storybook",

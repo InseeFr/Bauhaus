@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bauhaus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bauhaus
+  template:
+    metadata:
+      labels:
+        app: bauhaus
+    spec:
+      containers:
+        - name: bauhaus
+          image: nicolaslaval/bauhaus:3.0.5
+          env:
+            - name: API_BASE_HOST
+              value: 'https://bauhaus-api.toto.fr/api'
+            - name: API_MODE
+              # server or local
+              value: 'server'
+            - name: APPLICATIONS
+              value: 'concepts,classifications,operations,structures'

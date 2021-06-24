@@ -1,12 +1,13 @@
-import React  from 'react';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './routes';
 import bauhausLogo from 'img/logo_noir.svg';
+import { getEnvVar } from 'js/utils/env';
 
 import 'react-app-polyfill/stable';
 
-const Root = () =>  {
-	const footer = `${process.env.REACT_APP_NAME} - ${process.env.REACT_APP_VERSION}`;
+const Root = () => {
+	const footer = `${getEnvVar('NAME')} - ${getEnvVar('VERSION')}`;
 	return (
 		<>
 			<div id="root-app">
@@ -23,6 +24,6 @@ const Root = () =>  {
 			</footer>
 		</>
 	);
-}
+};
 
 export default Root;

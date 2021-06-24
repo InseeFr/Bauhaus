@@ -8,13 +8,13 @@ const CollectionsToExport = ({ collections, handleExportCollectionList }) => {
 	const [ids, setIds] = useState([]);
 
 	const handleExportCollectionListCallback = useCallback(
-		MimeType => {
+		(MimeType) => {
 			handleExportCollectionList(ids, MimeType);
 		},
 		[ids, handleExportCollectionList]
 	);
 
-	const openModal = useCallback(ids => {
+	const openModal = useCallback((ids) => {
 		setDisplayModal(true);
 		setIds(ids);
 	}, []);
@@ -23,11 +23,6 @@ const CollectionsToExport = ({ collections, handleExportCollectionList }) => {
 		setDisplayModal(false);
 		setIds([]);
 	}, []);
-
-	const closePdf = useCallback(() => {
-		handleExportCollectionListCallback('application/octet-stream');
-		closeModal();
-	}, [closeModal, handleExportCollectionListCallback]);
 
 	const closeOdt = useCallback(() => {
 		handleExportCollectionListCallback(
@@ -41,11 +36,6 @@ const CollectionsToExport = ({ collections, handleExportCollectionList }) => {
 			label: D.btnCancel,
 			action: closeModal,
 			style: 'default',
-		},
-		{
-			label: D.btnPdf,
-			action: closePdf,
-			style: 'primary',
 		},
 		{
 			label: D.btnOdt,
