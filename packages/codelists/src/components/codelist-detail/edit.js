@@ -12,10 +12,12 @@ import { validateCodelist } from '../../utils';
 import { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
 import { default as ReactSelect } from 'react-select';
+import dayjs from 'dayjs';
 import './edit.scss';
 
 const defaultCodelist = {
-	contributor: 'DG75-H250',
+	contributor: 'DG75-L201',
+	created: dayjs(),
 };
 const DumbCodelistDetailEdit = ({
 	codelist: initialCodelist,
@@ -56,8 +58,40 @@ const DumbCodelistDetailEdit = ({
 			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<form>
 				<div className="row">
+					<div className={`col-md-6 form-group`}>
+						<LabelRequired htmlFor="lastListUriSegment">
+							{D1.lastListUriSegmentTitle}
+						</LabelRequired>
+						<input
+							type="text"
+							className="form-control"
+							id="lastListUriSegment"
+							name="lastListUriSegment"
+							onChange={handleChange}
+							value={codelist.uriListe}
+							aria-invalid={field === 'lastListUriSegment'}
+						/>
+					</div>
+				</div>
+				<div className="row">
+					<div className={`col-md-6 form-group`}>
+						<LabelRequired htmlFor="lastClassUriSegment">
+							{D1.lastClassUriSegmentTitle}
+						</LabelRequired>
+						<input
+							type="text"
+							className="form-control"
+							id="lastClassUriSegment"
+							name="lastClassUriSegment"
+							onChange={handleChange}
+							value={codelist.uriClassOwl}
+							aria-invalid={field === 'lastClassUriSegment'}
+						/>
+					</div>
+				</div>
+				<div className="row">
 					<div className="col-md-12 form-group">
-						<LabelRequired htmlFor="identifiant">{D1.idTitle}</LabelRequired>
+						<LabelRequired htmlFor="id">{D1.idTitle}</LabelRequired>
 						<input
 							type="text"
 							className="form-control"
@@ -82,10 +116,8 @@ const DumbCodelistDetailEdit = ({
 							aria-invalid={field === 'labelLg1'}
 						/>
 					</div>
-
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg2">{D2.labelTitle}</LabelRequired>
-
 						<input
 							type="text"
 							className="form-control"
@@ -96,7 +128,6 @@ const DumbCodelistDetailEdit = ({
 						/>
 					</div>
 				</div>
-
 				<div className="form-group">
 					<label>{D1.creator}</label>
 					<Select

@@ -7,7 +7,7 @@ export const formatLabel = (component) => {
 
 export const validateCodelist = (component) => {
 	const validations = {
-		identifiant: 'errorsIdMandatory',
+		id: 'errorsIdMandatory',
 		labelLg1: 'errorsLabelLg1Mandatory',
 		labelLg2: 'errorsLabelLg1Mandatory',
 	};

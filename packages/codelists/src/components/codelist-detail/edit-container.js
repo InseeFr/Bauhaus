@@ -37,11 +37,7 @@ const CodelistEdit = (props) => {
 
 			request
 				.then((id = codelist.id) => {
-					return goBackOrReplace(
-						props,
-						`/structures/components/${id}`,
-						!codelist.id
-					);
+					return goBackOrReplace(props, `/${id}`, !codelist.id);
 				})
 				.catch((error) => {
 					setCodelist(codelist);

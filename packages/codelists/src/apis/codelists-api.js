@@ -7,7 +7,7 @@ const api = {
 	getCodelistsForSearch: () => ['search'],
 	getCodelistCode: (id, code) => [`${id}/code/${code}`],
 	postCodelist: (codelist) => [
-		'codelist',
+		'',
 		{
 			headers: {
 				Accept: 'text/plain',
@@ -17,8 +17,8 @@ const api = {
 		},
 		() => {},
 	],
-	putCodelist: (id, codelist) => [
-		`codelist/${id}`,
+	putCodelist: (codelist) => [
+		`${codelist.id}`,
 		{
 			headers: {
 				'Content-Type': 'application/json',
