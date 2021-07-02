@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import loadSerie, { saveSerie } from 'js/actions/operations/series/item';
 import * as select from 'js/reducers';
@@ -11,19 +11,24 @@ import { LOADED } from 'js/constants';
 
 const extractId = buildExtract('id');
 
-class OperationsSeriesEditionContainer extends Component {
-	componentWillMount() {
-		if (!this.props.statusFamilies !== LOADED) {
-			this.props.loadFamiliesList();
+
+const OperationsSeriesEditionContainer = props => {
+
+	useEffect(() => {
+		if (!props.statusFamilies !== LOADED) {
+			props.loadFamiliesList();
 		}
-		if (!this.props.serie.id && this.props.id) {
-			this.props.loadSerie(this.props.id);
+	}, [props.loadFamiliesList, props.statusFamilies])
+
+	useEffect(() => {
+		if (!props.serie.id && props.id) {
+			props.loadSerie(props.id);
 		}
-	}
-	render() {
-		if (!this.props.serie) return <Loading />;
-		return <OperationsSerieEdition {...this.props} />;
-	}
+	}, [props.loadSerie, props.id, props.serie])
+
+	if (!props.serie.id && props.id) return <Loading />;
+	return <OperationsSerieEdition {...props} />;
+
 }
 
 const mapDispatchToProps = {

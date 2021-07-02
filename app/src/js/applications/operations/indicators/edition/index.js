@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import loadIndicator, {
 	saveIndicator,
@@ -11,17 +11,15 @@ import { CL_FREQ } from 'js/actions/constants/codeList';
 
 const extractId = buildExtract('id');
 
-class OperationsIndicatorsEditionContainer extends Component {
-	componentWillMount() {
-		if (!this.props.indicator.id && this.props.id) {
-			this.props.loadIndicator(this.props.id);
+const OperationsIndicatorsEditionContainer = (props) => {
+	useEffect(() => {
+		if (!props.indicator.id && props.id) {
+			props.loadIndicator(props.id);
 		}
-	}
-	render() {
-		if (!this.props.indicator) return <Loading />;
+	}, [props.indicator, props.id, props.loadIndicator])
 
-		return <OperationsIndicatorEdition {...this.props} />;
-	}
+	if (!props.indicator.id && props.id) return <Loading />;
+	return <OperationsIndicatorEdition {...props} />;
 }
 
 const mapDispatchToProps = {
