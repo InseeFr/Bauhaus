@@ -96,7 +96,7 @@ export const CodeListDetailView = ({
 					/>
 				)}
 			</div>
-			{
+			{codelist.codes && (
 				<div className="row">
 					<Note
 						text={
@@ -109,7 +109,7 @@ export const CodeListDetailView = ({
 						alone={true}
 					/>
 				</div>
-			}
+			)}
 		</React.Fragment>
 	);
 };
