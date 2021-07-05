@@ -25,7 +25,8 @@ const OperationEditionContainer = (props) => {
 	useEffect(() => {
 		api.getUserSeriesList(stamp).then(series => setSeries(series))
 	}, [stamp])
-	if (!operation) return <Loading />;
+
+	if (!operation.id && id) return <Loading />;
 
 	return <OperationsOperationEdition series={series} {...props} />;
 }
