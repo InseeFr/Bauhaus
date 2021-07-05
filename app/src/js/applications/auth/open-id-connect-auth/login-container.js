@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Keycloak from 'keycloak';
 import { Loading } from '@inseefr/wilco';
 import { saveUserProps } from 'js/actions/app';
@@ -8,63 +8,53 @@ import { Auth } from 'bauhaus-utilities';
 
 const kcConfig = `${window.location.origin}/keycloak.json`;
 
-class LoginOpenIDConnect extends Component {
-	constructor() {
-		super();
-		this.kc = Keycloak(kcConfig);
-		this.initLogin = this.initLogin.bind(this);
-	}
-
-	initLogin() {
+const kc = Keycloak(kcConfig);
+const LoginOpenIDConnect = ({ saveUserProps, authenticated, WrappedComponent }) => {
+	const history = useHistory()
+	const initLogin = () => {
 		const redirectUri = window.location.href.replace(
 			window.location.search,
 			''
 		);
-		this.kc.redirectUri = redirectUri;
-		this.kc
+		kc.redirectUri = redirectUri;
+		kc
 			.init({
 				onLoad: 'login-required',
 				responseMode: 'query',
 				checkLoginIframe: false,
 			})
 			.success(() => {
-				this.props.saveUserProps(
-					Auth.getAuthPropsFromToken(this.kc.tokenParsed)
+				saveUserProps(
+					Auth.getAuthPropsFromToken(kc.tokenParsed)
 				);
-				this.kc.token && Auth.setToken(this.kc.token);
-				setInterval(() => this.refreshToken(), 20000);
-				const { history } = this.props;
+				kc.token && Auth.setToken(kc.token);
+				setInterval(() => refreshToken(), 20000);
 				history.push({ pathname: history.location.pathname, state: 'init' });
 			})
 			.error(e => console.log('erreur initLogin', e));
 	}
 
-	refreshToken() {
-		this.kc
+	const refreshToken = () => {
+		kc
 			.updateToken(30)
 			.success(isUpdated => {
 				if (isUpdated) {
-					this.kc.token && Auth.setToken(this.kc.token);
-					this.props.saveUserProps(
-						Auth.getAuthPropsFromToken(this.kc.tokenParsed)
+					kc.token && Auth.setToken(kc.token);
+					saveUserProps(
+						Auth.getAuthPropsFromToken(kc.tokenParsed)
 					);
 				}
 			})
 			.error(error => this.initLogin());
 	}
+	useEffect(() => {
+		initLogin();
+	}, [initLogin])
 
-	componentWillMount() {
-		this.initLogin();
-	}
-
-	render() {
-		const { authenticated } = this.props;
-		const { WrappedComponent } = this.props;
-		const token = Auth.getToken();
-		if (authenticated && token && Auth.isTokenValid(token))
-			return <WrappedComponent />;
-		return <Loading textType="authentification" />;
-	}
+	const token = Auth.getToken();
+	if (authenticated && token && Auth.isTokenValid(token))
+		return <WrappedComponent />;
+	return <Loading textType="authentification" />;
 }
 
 export const mapStateToProps = state => ({
@@ -75,9 +65,9 @@ const mapDispatchToProps = {
 	saveUserProps,
 };
 
-export default withRouter(
+export default
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
 	)(LoginOpenIDConnect)
-);
+
