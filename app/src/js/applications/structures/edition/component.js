@@ -1,11 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import { AppContext } from 'index';
 import { Input, Loading, ErrorBloc, Select } from '@inseefr/wilco';
 import Controls from './controls';
 import Components from './components';
 import { StructureAPI, StructureConstants } from 'bauhaus-structures';
-import { Stores } from 'bauhaus-utilities'
+import { Stores, AppContext } from 'bauhaus-utilities'
 import D, { D1, D2 } from 'js/i18n';
 import { useSelector, connect } from 'react-redux';
 import { default as ReactSelect } from 'react-select';
@@ -107,7 +106,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 						id="labelLg1"
 						label={
 							<>
-								{D1.labelTitle} <span className="boldRed">*</span>
+								{D1.labelTitle} ({lg1})<span className="boldRed">*</span>
 							</>
 						}
 						value={labelLg1}
@@ -120,7 +119,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 						id="labelLg2"
 						label={
 							<>
-								{D2.labelTitle} <span className="boldRed">*</span>
+								{D2.labelTitle} ({lg2})<span className="boldRed">*</span>
 							</>
 						}
 						value={labelLg2}
@@ -133,7 +132,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 				<div className="col-md-6">
 					<Input
 						id="descriptionLg1"
-						label={D1.descriptionTitle}
+						label={`${D1.descriptionTitle} (${lg1})`}
 						value={descriptionLg1}
 						onChange={(e) => onChange('descriptionLg1', e.target.value)}
 						lang={lg1}
@@ -143,7 +142,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 
 					<Input
 						id="descriptionLg2"
-						label={D1.descriptionTitle}
+						label={`${D1.descriptionTitle} (${lg2})`}
 						value={descriptionLg2}
 						onChange={(e) => onChange('descriptionLg2', e.target.value)}
 						lang={lg2}
