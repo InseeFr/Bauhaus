@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import MSDContainer, {
 	CREATE,
 	VIEW,
@@ -7,10 +7,12 @@ import MSDContainer, {
 	DUPLICATE,
 } from 'js/applications/operations/msd/';
 
+const helpUrl = 'http://metadonnees.gitlab-pages.insee.fr/rmes/offre-de-service-rmes/#pages/operation-aide.html';
 export default () => {
 	return (
 		<Switch>
-			<Route exact path="/operations/help" component={MSDContainer} />
+			<Route exact path="/operations/help" render={() => window.location.assign(helpUrl)}  />
+			<Route exact path="/operations/msd" component={MSDContainer} />
 			<Route
 				exact
 				path="/operations/help/:idSection"
