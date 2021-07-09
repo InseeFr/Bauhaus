@@ -13,18 +13,18 @@ const extractId = buildExtract('id');
 
 
 const OperationsSeriesEditionContainer = props => {
+	const { loadFamiliesList, statusFamilies, serie, id, loadSerie } = props;
+	useEffect(() => {
+		if (!statusFamilies !== LOADED) {
+			loadFamiliesList();
+		}
+	}, [loadFamiliesList, statusFamilies])
 
 	useEffect(() => {
-		if (!props.statusFamilies !== LOADED) {
-			props.loadFamiliesList();
+		if (!serie.id && id) {
+			loadSerie(id);
 		}
-	}, [props.loadFamiliesList, props.statusFamilies])
-
-	useEffect(() => {
-		if (!props.serie.id && props.id) {
-			props.loadSerie(props.id);
-		}
-	}, [props.loadSerie, props.id, props.serie])
+	}, [loadSerie, id, serie])
 
 	if (!props.serie.id && props.id) return <Loading />;
 	return <OperationsSerieEdition {...props} />;
