@@ -12,11 +12,12 @@ import { CL_FREQ } from 'js/actions/constants/codeList';
 const extractId = buildExtract('id');
 
 const OperationsIndicatorsEditionContainer = (props) => {
+	const { indicator, id, loadIndicator } = props;
 	useEffect(() => {
-		if (!props.indicator.id && props.id) {
-			props.loadIndicator(props.id);
+		if (!indicator.id && id) {
+			loadIndicator(id);
 		}
-	}, [props.indicator, props.id, props.loadIndicator])
+	}, [indicator, id, loadIndicator])
 
 	if (!props.indicator.id && props.id) return <Loading />;
 	return <OperationsIndicatorEdition {...props} />;
