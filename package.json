@@ -9,10 +9,12 @@
 	],
 	"scripts": {
 		"start": "yarn workspace Bauhaus run start",
+		"build": "yarn workspaces run build",
 		"build-insee": "yarn workspaces run build-insee",
 		"test:coverage": "yarn workspaces run test:coverage --env=jest-environment-jsdom-sixteen",
 		"build-storybook": "yarn workspaces run build-storybook",
-		"pre-push": "yarn workspaces run lint && yarn test:coverage"
+		"pre-push": "yarn workspaces run lint && yarn test:coverage",
+		"generate-entrypoint": "node scripts/generate-entrypoint.js"
 	},
 	"resolutions": {
 		"@inseefr/wilco": "0.0.5"
