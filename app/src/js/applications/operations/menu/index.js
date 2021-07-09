@@ -38,10 +38,12 @@ export class MenuOperations extends Component {
 					label: D.indicatorsTitle,
 				},
 				help: {
-					path: '/operations/help',
+					path: '//metadonnees.gitlab-pages.insee.fr/rmes/offre-de-service-rmes/#pages/operation-aide.html',
+					attrs: {
+						target: '_blank'
+					},
 					pathKey: /help/,
 					className: null,
-					attrs: null,
 					alignToRight: true,
 					order: 6,
 					label: D.help,
@@ -80,12 +82,18 @@ export class MenuOperations extends Component {
 
 	setActiveItem(nextProps, currentPaths) {
 		const paths = Object.keys(currentPaths).reduce((acc, key) => {
+			let attrs = {}
+			if(currentPaths[key].attrs?.target === '_blank'){
+				attrs = {
+					target: '_blank'
+				}
+			}
 			return {
 				...acc,
 				[key]: {
 					...currentPaths[key],
 					className: '',
-					attrs: {},
+					attrs,
 				},
 			};
 		}, {});

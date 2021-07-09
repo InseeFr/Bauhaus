@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React  from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Root from 'js/router';
@@ -7,7 +7,7 @@ import Api from 'js/remote-api/api';
 import { Error, I18NContext, BackToTop, getLang } from '@inseefr/wilco';
 import D from 'js/i18n';
 import ApplicationTitle from 'js/applications/shared/application-title';
-
+import { AppContext } from 'bauhaus-utilities';
 import '@inseefr/wilco/dist/index.css';
 import '@inseefr/iam/dist/index.css';
 import 'bauhaus-operations/dist/index.css';
@@ -16,7 +16,6 @@ import 'bauhaus-utilities/dist/index.css';
 
 import 'main.scss';
 
-export const AppContext = createContext({});
 Api.getInit()
 	.then(
 		(res) => (res.ok ? res.json() : Promise.reject(res.statusText)),

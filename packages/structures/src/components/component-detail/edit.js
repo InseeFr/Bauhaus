@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import {
 	CancelButton,
 	SaveButton,
@@ -7,7 +7,7 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { EditorMarkdown, Stores } from 'bauhaus-utilities';
+import { AppContext, Stores } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
@@ -34,6 +34,7 @@ const DumbComponentDetailEdit = ({
 }) => {
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 	const [component, setComponent] = useState(defaultComponent);
+	const { lg1, lg2 } = useContext(AppContext);
 	useEffect(() => {
 		setComponent({ ...initialComponent, ...defaultComponent });
 	}, [initialComponent]);
@@ -92,7 +93,7 @@ const DumbComponentDetailEdit = ({
 				</div>
 				<div className="row">
 					<div className={`col-md-6 form-group`}>
-						<LabelRequired htmlFor="labelLg1">{D1.label}</LabelRequired>
+						<LabelRequired htmlFor="labelLg1">{D1.label} ({lg1})</LabelRequired>
 						<input
 							type="text"
 							className="form-control"
@@ -105,7 +106,7 @@ const DumbComponentDetailEdit = ({
 					</div>
 
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="labelLg2">{D2.label}</LabelRequired>
+						<LabelRequired htmlFor="labelLg2">{D2.label} ({lg2})</LabelRequired>
 
 						<input
 							type="text"
@@ -233,7 +234,7 @@ const DumbComponentDetailEdit = ({
 				</div>
 				<div className="row">
 					<div className="col-md-6 form-group">
-						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
+						<label htmlFor="descriptionLg2">{D1.descriptionTitle} ({lg1})</label>
 						<input
 							type="text"
 							value={component.descriptionLg1}
@@ -244,7 +245,7 @@ const DumbComponentDetailEdit = ({
 						/>
 					</div>
 					<div className="col-md-6 form-group">
-						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
+						<label htmlFor="descriptionLg2">{D1.descriptionTitle} ({lg2})</label>
 						<input
 							type="text"
 							value={component.descriptionLg2}
