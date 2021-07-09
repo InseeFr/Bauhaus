@@ -2,7 +2,7 @@
 # Guide utilisateur du module Concepts de Bauhaus
 Version au 19/03/2020
 
-Le module Concepts encore appelée "Bauhaus-concepts" permet de gérer les concepts utiles à des fins statistiques.
+Le module Concepts encore appelé "Bauhaus-concepts" permet de gérer les concepts utiles à des fins statistiques.
 
 ## Sommaire
 

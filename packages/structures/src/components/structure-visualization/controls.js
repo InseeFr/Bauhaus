@@ -14,7 +14,7 @@ import StructureAPI from '../../apis/structure-api';
 const Controls = ({ structure, publish }) => {
 	const { id } = structure;
 	let history = useHistory();
-	const isLocal = process.env.REACT_APP_API === 'local';
+	const isLocal = process.env.REACT_APP_MODE === 'local';
 
 	const handleDelete = useCallback(() => {
 		StructureAPI.deleteStructure(id).finally(() => {
