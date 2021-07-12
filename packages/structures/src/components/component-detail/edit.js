@@ -160,7 +160,9 @@ const DumbComponentDetailEdit = ({
 							placeholder={D1.rangeTitle}
 							value={XSD_TYPES.find((c) => c.value === component.range)}
 							options={XSD_TYPES}
-							onChange={(value) => setComponent({ ...component, range: value })}
+							onChange={(value) => {
+								setComponent({ ...component, range: value, codeList: undefined })
+							}}
 						/>
 					</div>
 				</div>
