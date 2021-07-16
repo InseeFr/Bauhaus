@@ -1,4 +1,6 @@
 import React from 'react';
+import SortableTree from 'react-sortable-tree';
+import 'react-sortable-tree/style.css';
 import {
 	Note,
 	UpdateButton,
@@ -7,7 +9,6 @@ import {
 	ErrorBloc,
 	Table,
 } from '@inseefr/wilco';
-import D, { D1, D2 } from '../../i18n/build-dictionary';
 import {
 	HTMLUtils,
 	ValidationButton,
@@ -15,6 +16,8 @@ import {
 	PublicationFemale,
 } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
+import { treedData } from '../../utils';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { rowParams } from './code-detail';
 
 export const CodeListDetailView = ({
@@ -37,6 +40,9 @@ export const CodeListDetailView = ({
 	const publish = () => {
 		publishComponent();
 	};
+
+	const unsortedCodes = Object.values(codelist.codes);
+	const sortedCodes = unsortedCodes.sort((a, b) => (a.code > b.code ? 1 : -1));
 
 	return (
 		<React.Fragment>
@@ -99,12 +105,16 @@ export const CodeListDetailView = ({
 			{codelist.codes && (
 				<div className="row">
 					<Note
-						text={
-							<Table
-								rowParams={rowParams}
-								data={Object.values(codelist.codes)}
-							/>
-						}
+						text={<Table rowParams={rowParams} data={sortedCodes} />}
+						title={D.listElements}
+						alone={true}
+					/>
+				</div>
+			)}
+			{codelist.codes && (
+				<div className="row">
+					<Note
+						text={<SortableTree treeData={treedData(sortedCodes)} />}
 						title={D.listElements}
 						alone={true}
 					/>

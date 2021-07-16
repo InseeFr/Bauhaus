@@ -129,7 +129,7 @@ const DumbCodelistDetailEdit = ({
 					</div>
 				</div>
 				<div className="form-group">
-					<label>{D1.creator}</label>
+					<LabelRequired htmlFor="creator">{D1.creator}</LabelRequired>
 					<Select
 						className="form-control"
 						placeholder={D1.stampsPlaceholder}
@@ -156,7 +156,9 @@ const DumbCodelistDetailEdit = ({
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D1.disseminationStatusTitle}</label>
+					<LabelRequired htmlFor="disseminationStatus">
+						{D1.disseminationStatusTitle}
+					</LabelRequired>
 					<Select
 						className="form-control"
 						placeholder={D1.disseminationStatusPlaceholder}
