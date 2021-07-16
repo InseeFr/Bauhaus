@@ -69,7 +69,7 @@ const DumbComponentDetailEdit = ({
 		label,
 	}));
 	const { field, message } = validateComponent(component);
-	console.log(component)
+
 	return (
 		<React.Fragment>
 			<ActionToolbar>
