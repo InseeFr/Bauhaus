@@ -11,6 +11,8 @@ import D from '../../i18n/build-dictionary';
 
 const EditContainer = props => {
 	const { id } = useParams();
+	const urlParams = new URLSearchParams(window.location.search);
+	const type = urlParams.get('type');
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [component, setComponent] = useState({});
@@ -87,6 +89,7 @@ const EditContainer = props => {
 			mutualized={true}
 			stampListOptions={stampListOptions}
 			serverSideError={serverSideError}
+			type={type === "ALL" ? undefined : type}
 		/>
 	);
 };
