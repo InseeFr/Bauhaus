@@ -1,6 +1,4 @@
 import React from 'react';
-import SortableTree from 'react-sortable-tree';
-import 'react-sortable-tree/style.css';
 import {
 	Note,
 	UpdateButton,
@@ -17,6 +15,7 @@ import {
 } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 import { treedData } from '../../utils';
+import RmesTree from '../../utils/tree';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { rowParams } from './code-detail';
 
@@ -114,7 +113,12 @@ export const CodeListDetailView = ({
 			{codelist.codes && (
 				<div className="row">
 					<Note
-						text={<SortableTree treeData={treedData(sortedCodes)} />}
+						text={
+							<RmesTree
+								treeData={treedData(sortedCodes)}
+								linkPath={(id) => `item/${id}`}
+							/>
+						}
 						title={D.listElements}
 						alone={true}
 					/>

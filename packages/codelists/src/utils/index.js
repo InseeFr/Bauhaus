@@ -30,20 +30,16 @@ export const validateCodelist = (component) => {
 };
 
 export const treedData = (arrayData) => {
-	return (
-		/* (arrayData.length !== 0 && */
-		getTreeFromFlatData({
-			flatData: arrayData.map((n) => ({
-				id: n.code,
-				//title: '',
-				label: n.labelLg1,
-				parent: n.parents ? n.parents[0] : 'root',
-			})),
-			getKey: (node) => node.id,
-			getParentKey: (node) => node.parent,
-			rootKey: 'root',
-		})
-		/* 			) ||
-		[] */
-	);
+	if (arrayData.length === 0) return [];
+	return getTreeFromFlatData({
+		flatData: arrayData.map((n) => ({
+			id: n.code,
+			//title: '',
+			label: n.labelLg1,
+			parent: n.parents ? n.parents[0] : null,
+		})),
+		getKey: (node) => node.id,
+		getParentKey: (node) => node.parent,
+		rootKey: null,
+	});
 };
