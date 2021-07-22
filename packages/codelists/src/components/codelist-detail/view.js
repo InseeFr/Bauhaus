@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import { treedData } from '../../utils';
 import RmesTree from '../tree';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { rowParams } from './code-detail';
+import { rowParams } from './code-detail-columns';
 
 export const CodeListDetailView = ({
 	codelist,

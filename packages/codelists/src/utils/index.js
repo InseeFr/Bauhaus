@@ -31,18 +31,12 @@ export const validateCodelist = (component) => {
 
 const treeElement = (n) => {
 	if (n.parents) {
-		/* return n.parents.map((p) => ({
-			id: p || '_-_' || n.code,
-			//title: '',
-			label: n.labelLg1,
-			parent: p,
-		})); */
-		return {
+		return n.parents.map((p) => ({
 			id: n.code,
 			//title: '',
 			label: n.labelLg1,
-			parent: n.parents[0],
-		};
+			parent: p,
+		}));
 	}
 	return {
 		id: n.code,
@@ -54,17 +48,8 @@ const treeElement = (n) => {
 
 export const treedData = (arrayData) => {
 	if (arrayData.length === 0) return [];
-	console.log(arrayData.map((n) => treeElement(n)));
-	console.log(
-		arrayData.map((n) => ({
-			id: n.code,
-			//title: '',
-			label: n.labelLg1,
-			parent: n.parents ? n.parents[0] : null,
-		}))
-	);
 	return getTreeFromFlatData({
-		flatData: arrayData.map((n) => treeElement(n)),
+		flatData: arrayData.map((n) => treeElement(n)).flat(),
 		getKey: (node) => node.id,
 		getParentKey: (node) => node.parent,
 		rootKey: null,
