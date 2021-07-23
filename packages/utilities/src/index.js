@@ -3,6 +3,7 @@ import * as roles from './auth/roles';
 import AuthGuard from './auth/components/auth';
 
 import * as utils from './auth/open-id-connect-auth/token-utils';
+import { createContext } from 'react';
 export * as API from './apis/build-api';
 export {
 	default as ConceptsAPI,
@@ -41,3 +42,5 @@ export { default as ConfirmationDelete } from './components/confirmation-delete'
 export { PublicationMale, PublicationFemale } from './components/status';
 
 export { useQueryParam } from './utils/hooks';
+
+export const AppContext = createContext({});

@@ -10,7 +10,7 @@ import MSDContainer, {
 export default () => {
 	return (
 		<Switch>
-			<Route exact path="/operations/help" component={MSDContainer} />
+			<Route exact path="/operations/msd" component={MSDContainer} />
 			<Route
 				exact
 				path="/operations/help/:idSection"

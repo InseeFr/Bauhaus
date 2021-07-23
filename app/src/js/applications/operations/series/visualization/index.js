@@ -69,7 +69,7 @@ class SeriesVisualizationContainer extends VisualizationContainer {
 					)}
 					{!attr.idSims && (
 						<Auth.AuthGuard
-							roles={[Auth.ADMIN]}
+							roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}
 							complementaryCheck={ableToCreateASimsForThisSeries}
 						>
 							<Button

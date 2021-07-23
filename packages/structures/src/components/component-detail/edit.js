@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import {
 	CancelButton,
 	SaveButton,
@@ -7,7 +7,7 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { EditorMarkdown, Stores } from 'bauhaus-utilities';
+import { AppContext, Stores } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import { default as ReactSelect } from 'react-select';
 import "./edit.scss";
 import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
+import { FormGroup } from 'react-bootstrap';
 
 
 const defaultComponent = {
@@ -34,6 +35,7 @@ const DumbComponentDetailEdit = ({
 }) => {
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 	const [component, setComponent] = useState(defaultComponent);
+	const { lg1, lg2 } = useContext(AppContext);
 	useEffect(() => {
 		setComponent({ ...initialComponent, ...defaultComponent });
 	}, [initialComponent]);
@@ -67,6 +69,7 @@ const DumbComponentDetailEdit = ({
 		label,
 	}));
 	const { field, message } = validateComponent(component);
+
 	return (
 		<React.Fragment>
 			<ActionToolbar>
@@ -92,7 +95,7 @@ const DumbComponentDetailEdit = ({
 				</div>
 				<div className="row">
 					<div className={`col-md-6 form-group`}>
-						<LabelRequired htmlFor="labelLg1">{D1.label}</LabelRequired>
+						<LabelRequired htmlFor="labelLg1">{D1.label} ({lg1})</LabelRequired>
 						<input
 							type="text"
 							className="form-control"
@@ -105,7 +108,7 @@ const DumbComponentDetailEdit = ({
 					</div>
 
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="labelLg2">{D2.label}</LabelRequired>
+						<LabelRequired htmlFor="labelLg2">{D2.label} ({lg2})</LabelRequired>
 
 						<input
 							type="text"
@@ -120,17 +123,18 @@ const DumbComponentDetailEdit = ({
 
 				<div className="row">
 					<div className="col-md-12 ">
-						<Select
-							id="type"
-							label={<LabelRequired>{D1.type}</LabelRequired>}
+					<FormGroup>
+						<label><LabelRequired>{D1.type}</LabelRequired></label>
+						<ReactSelect
 							placeholder={D1.type}
 							value={MUTUALIZED_COMPONENT_TYPES.find(
 								(c) => c.value === (component.type)
 							)}
 							options={MUTUALIZED_COMPONENT_TYPES}
-							name="type"
-							onChange={(value) => setComponent({ ...component, type: value })}
+							onChange={(type) => setComponent({ ...component, type: type.value })}
+							isDisabled={!!component.id}
 						/>
+					</FormGroup>
 					</div>
 				</div>
 				<div className="row">
@@ -159,7 +163,9 @@ const DumbComponentDetailEdit = ({
 							placeholder={D1.rangeTitle}
 							value={XSD_TYPES.find((c) => c.value === component.range)}
 							options={XSD_TYPES}
-							onChange={(value) => setComponent({ ...component, range: value })}
+							onChange={(value) => {
+								setComponent({ ...component, range: value, codeList: undefined })
+							}}
 						/>
 					</div>
 				</div>
@@ -233,7 +239,7 @@ const DumbComponentDetailEdit = ({
 				</div>
 				<div className="row">
 					<div className="col-md-6 form-group">
-						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
+						<label htmlFor="descriptionLg2">{D1.descriptionTitle} ({lg1})</label>
 						<input
 							type="text"
 							value={component.descriptionLg1}
@@ -244,7 +250,7 @@ const DumbComponentDetailEdit = ({
 						/>
 					</div>
 					<div className="col-md-6 form-group">
-						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
+						<label htmlFor="descriptionLg2">{D1.descriptionTitle} ({lg2})</label>
 						<input
 							type="text"
 							value={component.descriptionLg2}

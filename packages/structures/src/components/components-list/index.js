@@ -60,7 +60,7 @@ function ComponentsList() {
 		<div className="container structures-components-list">
 			<div className="row">
 				<VerticalMenu>
-					<NewButton action="/structures/components/create" wrapper={false} />
+					<NewButton action={"/structures/components/create?type=" + encodeURIComponent(filter)} wrapper={false} />
 				</VerticalMenu>
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.componentTitle} col={12} offset={0} />

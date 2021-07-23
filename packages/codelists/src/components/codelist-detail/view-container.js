@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Loading, goBack } from '@inseefr/wilco';
-import { CodeListDetailView } from './view';
 import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import ComponentTitle from './title';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { CodeListDetailView } from './view';
 
 const CodelistComponentView = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
