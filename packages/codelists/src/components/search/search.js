@@ -76,11 +76,9 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			codeLabel,
 		} = this.state;
 		const { stampListOptions } = this.props;
-		const dataLinks = data.map((component) => (
-			<li key={component.id} className="list-group-item text-left">
-				<Link to={`/codelists/components/${component.id}`}>
-					{formatLabel(component)}
-				</Link>
+		const dataLinks = data.map((codelist) => (
+			<li key={codelist.id} className="list-group-item text-left">
+				<Link to={`/codelists/${codelist.id}`}>{formatLabel(codelist)}</Link>
 			</li>
 		));
 		return (
@@ -91,7 +89,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 				redirect={<Redirect to={'/codelists'} push />}
 			>
 				<fieldset>
-					<legend>{D.componentTitle}</legend>
+					<legend>{D.codelistTitle}</legend>
 					<div className="row form-group">
 						<div className="col-md-12">
 							<label className="w-100">

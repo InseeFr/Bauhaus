@@ -12,7 +12,7 @@ const dictionary = {
 		fr: 'Listes de codes - Recherche',
 		en: 'Code lists - Search',
 	},
-	componentTitle: {
+	codelistTitle: {
 		fr: 'Listes de codes',
 		en: 'Codelists',
 	},
@@ -56,9 +56,13 @@ const dictionary = {
 		fr: 'Eléments',
 		en: 'Elements',
 	},
-	codeTitle: {
+	codesTitle: {
 		fr: 'Codes',
 		en: 'Codes',
+	},
+	codeTitle: {
+		fr: 'Code',
+		en: 'Code',
 	},
 	codeLabel: {
 		fr: 'Libellé (fr)',

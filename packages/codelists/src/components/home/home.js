@@ -26,16 +26,16 @@ function CodeListsList() {
 		return <Loading />;
 	}
 	return (
-		<div className="container codelists-components-list">
+		<div className="container codelists-list">
 			<div className="row">
 				<VerticalMenu>
-					<NewButton action="/codelists/components/create" wrapper={false} />
+					<NewButton action="/codelists/create" wrapper={false} />
 				</VerticalMenu>
 				<div className="col-md-8 text-center pull-right">
-					<PageTitle title={D.componentTitle} col={12} offset={0} />
+					<PageTitle title={D.codelistTitle} col={12} offset={0} />
 					<SearchableList
 						items={items}
-						childPath="codelists/components"
+						childPath="codelists"
 						searchUrl="/codelists/search"
 						advancedSearch={true}
 						label="label"
