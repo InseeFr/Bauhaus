@@ -15,7 +15,7 @@ const extractId = buildExtract('id');
 const OperationsSeriesEditionContainer = props => {
 	const { loadFamiliesList, statusFamilies, serie, id, loadSerie } = props;
 	useEffect(() => {
-		if (!statusFamilies !== LOADED) {
+		if (statusFamilies !== LOADED) {
 			loadFamiliesList();
 		}
 	}, [loadFamiliesList, statusFamilies])
