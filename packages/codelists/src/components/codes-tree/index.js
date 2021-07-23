@@ -12,7 +12,9 @@ const CodesTree = ({ hidden = false, codes, tree, handleAdd }) => {
 
 	const seeClickHandler = useCallback(
 		(e) => {
-			const code = codes.find((c) => c.id === e.id);
+			const code = codes.find(
+				(c) => c.id === e.target.parentElement.dataset.id
+			);
 			setSelectedCode(code);
 			setOpenPanel(true);
 		},
