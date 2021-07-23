@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
+import D from '../../i18n/build-dictionary';
 
 const RmesTree = (props) => {
 	const [treeData, setTreeData] = useState(props.treeData);
@@ -15,9 +15,13 @@ const RmesTree = (props) => {
 				canDrop={() => false}
 				generateNodeProps={(rowInfo) => ({
 					buttons: [
-						<Link to={props.linkPath(rowInfo.node.id)}>
-							{rowInfo.node.label}
-						</Link>,
+						<button
+							data-component-id={rowInfo.node.id}
+							onClick={props.seeClickHandler}
+							aria-label={D.see}
+						>
+							<span className="glyphicon glyphicon-eye-open"></span>
+						</button>,
 					],
 				})}
 			/>

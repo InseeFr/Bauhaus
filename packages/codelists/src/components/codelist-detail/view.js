@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
 	Note,
 	UpdateButton,
@@ -13,11 +14,10 @@ import {
 	DateUtils,
 	PublicationFemale,
 } from 'bauhaus-utilities';
-import PropTypes from 'prop-types';
-import { treedData } from '../../utils';
-import RmesTree from '../tree';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { rowParams } from './code-detail-columns';
+import { treedData } from '../../utils';
+import CodesTree from '../codes-tree';
+import { rowParams } from '../code-detail/code-columns';
 
 export const CodeListDetailView = ({
 	codelist,
@@ -40,8 +40,7 @@ export const CodeListDetailView = ({
 		publishComponent();
 	};
 
-	const unsortedCodes = Object.values(codelist.codes);
-	const sortedCodes = unsortedCodes.sort((a, b) => (a.code > b.code ? 1 : -1));
+	const codes = Object.values(codelist.codes);
 
 	return (
 		<React.Fragment>
@@ -104,24 +103,20 @@ export const CodeListDetailView = ({
 			{codelist.codes && (
 				<div className="row">
 					<Note
-						text={<Table rowParams={rowParams} data={sortedCodes} />}
-						title={D.listElements}
-						alone={true}
-					/>
-				</div>
-			)}
-			{codelist.codes && sortedCodes.filter((code) => code.parents).length > 0 && (
-				<div className="row">
-					<Note
 						text={
-							<RmesTree
-								treeData={treedData(sortedCodes)}
-								linkPath={(id) => `item/${id}`}
+							<Table
+								rowParams={rowParams}
+								data={codes.sort((a, b) => (a.code > b.code ? 1 : -1))}
 							/>
 						}
 						title={D.listElements}
 						alone={true}
 					/>
+				</div>
+			)}
+			{codelist.codes && codes.filter((code) => code.parents).length > 0 && (
+				<div className="row">
+					<CodesTree codes={codes} tree={treedData(codes)} handleAdd={false} />
 				</div>
 			)}
 		</React.Fragment>

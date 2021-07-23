@@ -6,7 +6,7 @@ export const formatLabel = (component) => {
 	return <React.Fragment>{component.labelLg1}</React.Fragment>;
 };
 
-export const validateCodelist = (component) => {
+export const validateCodelist = (codelist) => {
 	const validations = {
 		id: 'errorsIdMandatory',
 		lastListUriSegment: 'lastListUriSegmentMandatory',
@@ -17,7 +17,26 @@ export const validateCodelist = (component) => {
 		disseminationStatus: 'errorsDisseminationStatusMandatory',
 	};
 
-	const field = Object.keys(validations).find((field) => !component[field]);
+	const field = Object.keys(validations).find((field) => !codelist[field]);
+
+	if (field) {
+		return {
+			field,
+			message: D[validations[field]],
+		};
+	}
+
+	return {};
+};
+
+export const validateCode = (code) => {
+	const validations = {
+		id: 'errorsIdMandatory',
+		labelLg1: 'errorsLabelLg1Mandatory',
+		labelLg2: 'errorsLabelLg1Mandatory',
+	};
+
+	const field = Object.keys(validations).find((field) => !code[field]);
 
 	if (field) {
 		return {
@@ -33,14 +52,14 @@ const treeElement = (n) => {
 	if (n.parents) {
 		return n.parents.map((p) => ({
 			id: n.code,
-			//title: '',
+			title: n.code + ' - ' + n.labelLg1,
 			label: n.labelLg1,
 			parent: p,
 		}));
 	}
 	return {
 		id: n.code,
-		//title: '',
+		title: n.code + ' - ' + n.labelLg1,
 		label: n.labelLg1,
 		parent: null,
 	};
