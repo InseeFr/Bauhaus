@@ -241,7 +241,7 @@ const dictionary = {
 	},
 	equivalentTitle: {
 		fr: 'Équivalent',
-		en: 'Equivalent'
+		en: 'Equivalent',
 	},
 	// Mail
 	mailTitle: {
@@ -278,10 +278,8 @@ const dictionary = {
 		en: 'Please select export type',
 	},
 	exportModalBody: {
-		fr: `<p>Les PDF ne sont pas modifiables.</p>
-			<p>Les ODT sont modifiables sous LibreOffice.</p>`,
-		en: `<p>PDF files can not be modified.</p>
-			<p>ODT files can be modified with LibreOffice.</p>`,
+		fr: `Les ODT sont modifiables sous LibreOffice.`,
+		en: `ODT files can be modified with LibreOffice.`,
 	},
 	// Calendar
 	calendarDays: {
@@ -420,11 +418,13 @@ const dictionary = {
 		en: 'Measures',
 	},
 	quitWithoutSaving: {
-		fr: 'Vous êtes sur le point de quitter cette page sans sauvegarder vos modifications. Souhaitez-vous continuer ?',
-		en: 'You are leaving this page without saving your changes. Do you want to continue ?'
+		fr:
+			'Vous êtes sur le point de quitter cette page sans sauvegarder vos modifications. Souhaitez-vous continuer ?',
+		en:
+			'You are leaving this page without saving your changes. Do you want to continue ?',
 	},
-	btnExport:{fr:"Options d'export",en:"Export options"},
-	btnExportValidate:{fr:"Exporter en odt",en:"Export to odt"}
+	btnExport: { fr: "Options d'export", en: 'Export options' },
+	btnExportValidate: { fr: 'Exporter en odt', en: 'Export to odt' },
 };
 
 export default dictionary;

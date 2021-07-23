@@ -7,7 +7,6 @@ import {
 	ErrorBloc,
 	Table,
 } from '@inseefr/wilco';
-import D, { D1, D2 } from '../../i18n/build-dictionary';
 import {
 	HTMLUtils,
 	ValidationButton,
@@ -15,7 +14,10 @@ import {
 	PublicationFemale,
 } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
-import { rowParams } from './code-detail';
+import { treedData } from '../../utils';
+import RmesTree from '../tree';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
+import { rowParams } from './code-detail-columns';
 
 export const CodeListDetailView = ({
 	codelist,
@@ -37,6 +39,9 @@ export const CodeListDetailView = ({
 	const publish = () => {
 		publishComponent();
 	};
+
+	const unsortedCodes = Object.values(codelist.codes);
+	const sortedCodes = unsortedCodes.sort((a, b) => (a.code > b.code ? 1 : -1));
 
 	return (
 		<React.Fragment>
@@ -96,20 +101,29 @@ export const CodeListDetailView = ({
 					/>
 				)}
 			</div>
-			{
+			{codelist.codes && (
+				<div className="row">
+					<Note
+						text={<Table rowParams={rowParams} data={sortedCodes} />}
+						title={D.listElements}
+						alone={true}
+					/>
+				</div>
+			)}
+			{codelist.codes && sortedCodes.filter((code) => code.parents).length > 0 && (
 				<div className="row">
 					<Note
 						text={
-							<Table
-								rowParams={rowParams}
-								data={Object.values(codelist.codes)}
+							<RmesTree
+								treeData={treedData(sortedCodes)}
+								linkPath={(id) => `item/${id}`}
 							/>
 						}
 						title={D.listElements}
 						alone={true}
 					/>
 				</div>
-			}
+			)}
 		</React.Fragment>
 	);
 };

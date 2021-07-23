@@ -1,5 +1,13 @@
 const dictionary = {
 	codelistsTitle: { fr: 'Listes de codes', en: 'Code lists' },
+	lastListUriSegmentTitle: {
+		fr: 'Uri Liste : commence par http://rdf.insee.fr/codes/',
+		en: 'Uri Liste : starts with http://rdf.insee.fr/codes/',
+	},
+	lastClassUriSegmentTitle: {
+		fr: 'Uri class owl : commence par http://rdf.insee.fr/codes/concept/',
+		en: 'Uri class owl : starts with http://rdf.insee.fr/codes/concept/',
+	},
 	codelistsSearchTitle: {
 		fr: 'Listes de codes - Recherche',
 		en: 'Code lists - Search',
@@ -25,8 +33,8 @@ const dictionary = {
 		en: 'Modification date',
 	},
 	codelistValidationStatusTitle: {
-		fr: 'État de la liste de codes',
-		en: 'CodeList publication status',
+		fr: 'Statut de publication',
+		en: 'Publication status',
 	},
 	contributor: {
 		fr: 'Gestionnaire',
@@ -37,12 +45,12 @@ const dictionary = {
 		en: 'Creator',
 	},
 	labelTitle: {
-		fr: 'Libellé',
-		en: 'Label',
+		fr: 'Libellé (fr)',
+		en: 'Label (en)',
 	},
 	descriptionTitle: {
-		fr: 'Description',
-		en: 'Description',
+		fr: 'Description (fr)',
+		en: 'Description (en)',
 	},
 	listElements: {
 		fr: 'Eléments',
@@ -53,12 +61,12 @@ const dictionary = {
 		en: 'Codes',
 	},
 	codeLabel: {
-		fr: 'Libellé',
-		en: 'Label',
+		fr: 'Libellé (fr)',
+		en: 'Label (en)',
 	},
 	codeDescription: {
-		fr: 'Description',
-		en: 'Description',
+		fr: 'Description (fr)',
+		en: 'Description (en)',
 	},
 	statusValidatedM: {
 		fr: 'Publié',
@@ -83,6 +91,58 @@ const dictionary = {
 	statusUnpublishedF: {
 		fr: 'Provisoire, jamais publiée',
 		en: 'Temporary, never published',
+	},
+	stampsPlaceholder: {
+		fr: 'Sélectionnez un timbre...',
+		en: 'Select stamp...',
+	},
+	disseminationStatusTitle: {
+		fr: 'Statut de diffusion',
+		en: 'Diffusion status',
+	},
+	disseminationStatusPlaceholder: {
+		fr: 'Sélectionnez un statut de diffusion...',
+		en: 'Select dissemination status...',
+	},
+	errorsIdMandatory: {
+		fr: "L'identifiant est obligatoire",
+		en: 'The id is mandatory',
+	},
+	lastListUriSegmentMandatory: {
+		fr: "L'URI de la liste est obligatoire",
+		en: 'The list URI is mandatory',
+	},
+	lastClassUriSegmentMandatory: {
+		fr: "L'URI du concept est obligatoire",
+		en: 'The concept URI is mandatory',
+	},
+	errorsLabelLg1Mandatory: {
+		fr: 'Le label est obligatoire',
+		en: 'The label is mandatory',
+	},
+	errorsCreatorMandatory: {
+		fr: 'Le propriétaire est obligatoire',
+		en: 'The creator is mandatory',
+	},
+	errorsDisseminationStatusMandatory: {
+		fr: 'Le statut de diffusion est obligatoire',
+		en: 'The dissemination status is mandatory',
+	},
+	errors_1100: {
+		fr: "L'identifiant n'est pas défini.",
+		en: 'The identifiant is not defined.',
+	},
+	errors_1101: {
+		fr: "Le libellé n'est pas défini.",
+		en: 'The label is not defined.',
+	},
+	errors_1102: {
+		fr: "Le lastListUriSegment n'est pas défini.",
+		en: 'the lastListUriSegment is not defined.',
+	},
+	errors_1103: {
+		fr: "Le lastClassUriSegment  n'est pas défini.",
+		en: 'The lastClassUriSegment is not defined.',
 	},
 };
 export default dictionary;

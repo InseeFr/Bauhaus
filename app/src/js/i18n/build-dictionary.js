@@ -3,6 +3,7 @@ import conceptsD from './dictionary/concepts';
 import classificationsD from './dictionary/classifications';
 import operationsD from './dictionary/operations/index.js';
 import DSDsD from './dictionary/dsds';
+import codelistsD from './dictionary/codelists';
 
 import {
 	createDictionary,
@@ -17,6 +18,7 @@ const dictionary = {
 	...classificationsD,
 	...operationsD,
 	...DSDsD,
+	...codelistsD,
 };
 
 export const D1 = createDictionary(firstLang, dictionary);
