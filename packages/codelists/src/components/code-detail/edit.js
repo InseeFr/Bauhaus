@@ -5,6 +5,7 @@ import {
 	ActionToolbar,
 	ErrorBloc,
 	LabelRequired,
+	Select,
 } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { validateCode } from '../../utils';
@@ -14,6 +15,7 @@ import './edit.scss';
 
 const DumbCodeDetailEdit = ({
 	code: initialCode,
+	codes,
 	handleSave,
 	handleBack,
 	serverSideError,
@@ -22,6 +24,7 @@ const DumbCodeDetailEdit = ({
 	useEffect(() => {
 		setCode({ ...initialCode });
 	}, [initialCode]);
+	const [parents, setParents] = useState(code.parents);
 
 	const handleChange = useCallback(
 		(e) => {
@@ -33,6 +36,15 @@ const DumbCodeDetailEdit = ({
 		},
 		[code]
 	);
+
+	const codesOptions = codes
+		.map((code) => {
+			return {
+				label: code.code + ' - ' + code.labelLg1,
+				value: code.code,
+			};
+		})
+		.concat({ label: '', value: null });
 
 	const handleSaveClick = useCallback(() => {
 		handleSave(code);
@@ -48,6 +60,23 @@ const DumbCodeDetailEdit = ({
 			{message && <ErrorBloc error={message} />}
 			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<form>
+				<div className="row">
+					<LabelRequired htmlFor="parents">{D.parentCodeTitle}</LabelRequired>
+					<Select
+						className="form-control"
+						placeholder={D.parentCodeTitle}
+						value={
+							codesOptions.filter(
+								({ value }) =>
+									(parents && parents.some((parent) => parent === value)) ||
+									(!parents && value === null)
+							) || null
+						}
+						options={codesOptions}
+						onChange={setParents}
+						multi
+					/>
+				</div>
 				<div className="row">
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="identifiant">{D.idTitle}</LabelRequired>

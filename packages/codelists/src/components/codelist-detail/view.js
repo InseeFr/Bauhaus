@@ -15,6 +15,7 @@ import {
 	PublicationFemale,
 } from 'bauhaus-utilities';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
+import { CollapsiblePanel } from '../collapsible-panel';
 import { treedData } from '../../utils';
 import CodesTree from '../codes-tree';
 import { rowParams } from '../code-detail/code-columns';
@@ -28,6 +29,7 @@ export const CodeListDetailView = ({
 	col = 3,
 	publishComponent,
 	serverSideError,
+	hidden = false,
 }) => {
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
 		codelist.descriptionLg1
@@ -102,21 +104,27 @@ export const CodeListDetailView = ({
 			</div>
 			{codelist.codes && (
 				<div className="row">
-					<Note
-						text={
+					<CollapsiblePanel
+						id="code-array"
+						hidden={hidden}
+						title={D.listElements}
+						children={
 							<Table
 								rowParams={rowParams}
 								data={codes.sort((a, b) => (a.code > b.code ? 1 : -1))}
 							/>
 						}
-						title={D.listElements}
-						alone={true}
 					/>
 				</div>
 			)}
 			{codelist.codes && codes.filter((code) => code.parents).length > 0 && (
 				<div className="row">
-					<CodesTree codes={codes} tree={treedData(codes)} handleAdd={false} />
+					<CodesTree
+						codes={codes}
+						tree={treedData(codes)}
+						handleAdd={false}
+						readOnly={true}
+					/>
 				</div>
 			)}
 		</React.Fragment>

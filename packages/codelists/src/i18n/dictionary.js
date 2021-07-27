@@ -56,6 +56,10 @@ const dictionary = {
 		fr: 'Eléments',
 		en: 'Elements',
 	},
+	codesTreeTitle: {
+		fr: 'Arborescence',
+		en: 'Tree structure',
+	},
 	codesTitle: {
 		fr: 'Codes',
 		en: 'Codes',
@@ -63,6 +67,10 @@ const dictionary = {
 	codeTitle: {
 		fr: 'Code',
 		en: 'Code',
+	},
+	parentCodeTitle: {
+		fr: 'Codes parents',
+		en: 'Parents codes',
 	},
 	codeLabel: {
 		fr: 'Libellé (fr)',

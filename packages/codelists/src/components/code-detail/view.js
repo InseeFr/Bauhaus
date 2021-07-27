@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	Note,
 	UpdateButton,
 	ActionToolbar,
 	ReturnButton,
 	ErrorBloc,
+	Select,
 } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
@@ -13,6 +14,7 @@ import './view.scss';
 
 export const CodeDetailView = ({
 	code,
+	codes,
 	handleUpdate,
 	handleBack,
 	updatable,
@@ -23,10 +25,21 @@ export const CodeDetailView = ({
 }) => {
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(code.descriptionLg1);
 	const descriptionLg2 = HTMLUtils.renderMarkdownElement(code.descriptionLg2);
+	const [parents, setParents] = useState(code.parents);
 
 	const publish = () => {
 		publishComponent();
 	};
+
+	const codesOptions = codes
+		.map((code) => {
+			return {
+				label: code.code + ' - ' + code.labelLg1,
+				value: code.code,
+			};
+		})
+		.concat({ label: '', value: null });
+
 	return (
 		<React.Fragment>
 			<ActionToolbar>
@@ -35,6 +48,25 @@ export const CodeDetailView = ({
 				{updatable && <UpdateButton action={handleUpdate} col={col} />}
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
+
+			<div className="row">
+				<Select
+					className="form-control"
+					label={D.parentCodeTitle}
+					value={
+						codesOptions.filter(
+							({ value }) =>
+								(parents && parents.some((parent) => parent === value)) ||
+								(!parents && value === null)
+						) || null
+					}
+					options={codesOptions}
+					disabled
+					unclearable
+					onChange={setParents}
+					multi
+				/>
+			</div>
 			<div className="row">
 				<Note text={code.id} title={D.codeTitle} alone={true} />
 			</div>
@@ -66,8 +98,10 @@ export const CodeDetailView = ({
 
 CodeDetailView.propTypes = {
 	code: PropTypes.object,
+	codes: PropTypes.object,
 	handleUpdate: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 	handleBack: PropTypes.func,
 	updatable: PropTypes.bool,
 	secondLang: PropTypes.bool,
+	publishComponent: PropTypes.func,
 };

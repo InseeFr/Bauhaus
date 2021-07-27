@@ -53,7 +53,7 @@ export const CollapsiblePanel = ({
 CollapsiblePanel.propTypes = {
 	id: PropTypes.string.isRequired,
 	title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
-	children: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
+	children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
 	hidden: PropTypes.bool,
 	collapsible: PropTypes.bool,
 };

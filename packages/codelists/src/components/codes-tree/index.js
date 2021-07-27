@@ -12,10 +12,10 @@ const CodesTree = ({ hidden = false, codes, tree, handleAdd }) => {
 
 	const seeClickHandler = useCallback(
 		(e) => {
-			const code = codes.find(
-				(c) => c.id === e.target.parentElement.dataset.id
+			const chosenCode = codes.find(
+				(c) => c.code === e.target.parentElement.dataset.componentId
 			);
-			setSelectedCode(code);
+			setSelectedCode(chosenCode);
 			setOpenPanel(true);
 		},
 		[codes]
@@ -29,23 +29,31 @@ const CodesTree = ({ hidden = false, codes, tree, handleAdd }) => {
 	); */
 
 	return (
-		<CollapsiblePanel id="code-picker" hidden={hidden} title={D.codesTitle}>
-			<RmesTree treeData={tree} seeClickHandler={seeClickHandler} />
-			<SlidingPanel
-				type={'right'}
-				isOpen={openPanel}
-				size={60}
-				backdropClicked={() => setOpenPanel(false)}
-			>
-				<CodeDetail
-					code={selectedCode}
-					handleSave={() => {}}
-					handleBack={() => {
-						setOpenPanel(false);
-					}}
-				/>
-			</SlidingPanel>
-		</CollapsiblePanel>
+		<CollapsiblePanel
+			id="code-picker"
+			hidden={hidden}
+			title={D.codesTreeTitle}
+			children={
+				<>
+					<RmesTree treeData={tree} seeClickHandler={seeClickHandler} />
+					<SlidingPanel
+						type={'right'}
+						isOpen={openPanel}
+						size={60}
+						backdropClicked={() => setOpenPanel(false)}
+					>
+						<CodeDetail
+							code={selectedCode}
+							codes={codes}
+							handleSave={() => {}}
+							handleBack={() => {
+								setOpenPanel(false);
+							}}
+						/>
+					</SlidingPanel>
+				</>
+			}
+		/>
 	);
 };
 
