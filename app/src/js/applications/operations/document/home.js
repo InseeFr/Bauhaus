@@ -30,10 +30,22 @@ const SearchableList = ({
 	);
 	const hits = items.filter(filter(search));
 
+	const formatter = content => {
+		const extraInformations = []
+		if(content.lang){
+			extraInformations.push(content.lang);
+		}
+		if(content.updatedDate){
+
+			const [year, month, day] = content.updatedDate.split('-');
+			extraInformations.push(`${day}/${month}/${year}`);
+		}
+		return `${content[label]} ${extraInformations.length > 0 ? `(${extraInformations.join(' - ')})` : ''}`;
+	}
 	const hitEls = hits.map((item) => (
 		<li key={item.id} className="list-group-item">
 			<Link to={`/${childPath(item)}/${item.id}`}>
-				{itemFormatter(item[label], item)}
+				{formatter(item)}
 			</Link>
 		</li>
 	));
