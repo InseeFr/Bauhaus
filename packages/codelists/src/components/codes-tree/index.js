@@ -6,7 +6,7 @@ import { CollapsiblePanel } from '../collapsible-panel';
 import { CodeDetail } from '../code-detail';
 import RmesTree from '../tree';
 
-const CodesTree = ({ hidden = false, codes, tree, handleAdd }) => {
+const CodesTree = ({ hidden = false, codes, tree, handleAdd, readOnly }) => {
 	const [openPanel, setOpenPanel] = useState(false);
 	const [selectedCode, setSelectedCode] = useState(null);
 
@@ -35,7 +35,11 @@ const CodesTree = ({ hidden = false, codes, tree, handleAdd }) => {
 			title={D.codesTreeTitle}
 			children={
 				<>
-					<RmesTree treeData={tree} seeClickHandler={seeClickHandler} />
+					<RmesTree
+						treeData={tree}
+						readOnly={readOnly}
+						seeClickHandler={seeClickHandler}
+					/>
 					<SlidingPanel
 						type={'right'}
 						isOpen={openPanel}
@@ -62,6 +66,7 @@ CodesTree.propTypes = {
 	codes: PropTypes.array,
 	tree: PropTypes.array,
 	handleAdd: PropTypes.bool,
+	readOnly: PropTypes.bool,
 };
 
 export default CodesTree;

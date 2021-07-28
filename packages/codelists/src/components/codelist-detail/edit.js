@@ -1,4 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
 import {
 	CancelButton,
 	SaveButton,
@@ -8,11 +10,10 @@ import {
 	Select,
 } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
-import { validateCodelist } from '../../utils';
+import { validateCodelist, treedData } from '../../utils';
 import { D1, D2 } from '../../i18n/build-dictionary';
-import PropTypes from 'prop-types';
-import { default as ReactSelect } from 'react-select';
-import dayjs from 'dayjs';
+import CodesTree from '../codes-tree';
+
 import './edit.scss';
 
 const defaultCodelist = {
@@ -28,10 +29,12 @@ const DumbCodelistDetailEdit = ({
 	serverSideError,
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
+	const { field, message } = validateCodelist(codelist);
+	const codes = codelist.codes ? Object.values(codelist.codes) : [];
+
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
 	}, [initialCodelist]);
-
 	const handleChange = useCallback(
 		(e) => {
 			const { name, value } = e.target;
@@ -42,12 +45,10 @@ const DumbCodelistDetailEdit = ({
 		},
 		[codelist]
 	);
-
 	const handleSaveClick = useCallback(() => {
 		handleSave(codelist);
 	}, [codelist, handleSave]);
 
-	const { field, message } = validateCodelist(codelist);
 	return (
 		<React.Fragment>
 			<ActionToolbar>
@@ -143,7 +144,7 @@ const DumbCodelistDetailEdit = ({
 				</div>
 				<div className="form-group">
 					<label>{D1.contributor}</label>
-					<ReactSelect
+					<Select
 						placeholder={D1.stampsPlaceholder}
 						value={stampListOptions.find(
 							({ value }) => value === codelist.contributor
@@ -152,7 +153,7 @@ const DumbCodelistDetailEdit = ({
 						onChange={(value) =>
 							setCodelist({ ...codelist, contributor: value })
 						}
-						isDisabled={true}
+						disabled={true}
 					/>
 				</div>
 				<div className="form-group">
@@ -195,6 +196,14 @@ const DumbCodelistDetailEdit = ({
 							onChange={handleChange}
 						/>
 					</div>
+				</div>
+				<div className="row">
+					<CodesTree
+						codes={codes}
+						tree={treedData(codes)}
+						handleAdd={true}
+						readOnly={false}
+					/>
 				</div>
 			</form>
 		</React.Fragment>

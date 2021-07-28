@@ -6,13 +6,15 @@ import D from '../../i18n/build-dictionary';
 const RmesTree = (props) => {
 	const [treeData, setTreeData] = useState(props.treeData);
 
+	console.log(treeData);
+	console.log(props.treeData);
 	return (
 		<div style={{ width: '100%', height: '80vh' }}>
 			<SortableTree
 				treeData={treeData}
 				onChange={(treeData) => setTreeData(treeData)}
-				canDrag={() => false}
-				canDrop={() => false}
+				canDrag={!props.readOnly}
+				canDrop={() => !props.readOnly}
 				generateNodeProps={(rowInfo) => ({
 					buttons: [
 						<button

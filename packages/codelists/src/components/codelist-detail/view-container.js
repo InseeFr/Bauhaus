@@ -37,7 +37,7 @@ const CodelistComponentView = (props) => {
 				col={2}
 				codelist={codelist}
 				handleBack={handleBack}
-				handleUpdate={`/codelists/components/${codelist.id}/modify`}
+				handleUpdate={`/codelists/${codelist.id}/modify`}
 				secondLang={secondLang}
 				mutualized={true}
 				updatable={true}

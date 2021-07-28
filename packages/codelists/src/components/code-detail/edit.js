@@ -7,10 +7,10 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
+import PropTypes from 'prop-types';
 import { Stores } from 'bauhaus-utilities';
 import { validateCode } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import PropTypes from 'prop-types';
 import './edit.scss';
 
 const DumbCodeDetailEdit = ({
@@ -44,7 +44,7 @@ const DumbCodeDetailEdit = ({
 				value: code.code,
 			};
 		})
-		.concat({ label: '', value: null });
+		.concat({ label: '', value: '' });
 
 	const handleSaveClick = useCallback(() => {
 		handleSave(code);
@@ -69,8 +69,8 @@ const DumbCodeDetailEdit = ({
 							codesOptions.filter(
 								({ value }) =>
 									(parents && parents.some((parent) => parent === value)) ||
-									(!parents && value === null)
-							) || null
+									(!parents && value === '')
+							) || ''
 						}
 						options={codesOptions}
 						onChange={setParents}

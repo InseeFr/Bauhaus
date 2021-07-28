@@ -38,7 +38,7 @@ export const CodeDetailView = ({
 				value: code.code,
 			};
 		})
-		.concat({ label: '', value: null });
+		.concat({ label: '', value: '' });
 
 	return (
 		<React.Fragment>
@@ -53,17 +53,18 @@ export const CodeDetailView = ({
 				<Select
 					className="form-control"
 					label={D.parentCodeTitle}
+					placeholder={D.parentCodeTitle}
 					value={
 						codesOptions.filter(
 							({ value }) =>
 								(parents && parents.some((parent) => parent === value)) ||
-								(!parents && value === null)
-						) || null
+								(!parents && value === '')
+						) || ''
 					}
 					options={codesOptions}
 					disabled
 					unclearable
-					onChange={setParents}
+					onChange={(parent) => setParents(...parents, parent)}
 					multi
 				/>
 			</div>
@@ -98,7 +99,7 @@ export const CodeDetailView = ({
 
 CodeDetailView.propTypes = {
 	code: PropTypes.object,
-	codes: PropTypes.object,
+	codes: PropTypes.array,
 	handleUpdate: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 	handleBack: PropTypes.func,
 	updatable: PropTypes.bool,
