@@ -7,35 +7,47 @@ import { CollapsiblePanel } from '.';
 describe('Collapsible Panel', () => {
 	it('should not be collapsible', () => {
 		const { container } = render(
-			<CollapsiblePanel id="id" title="title" collapsible={false}>
-				Children
-			</CollapsiblePanel>
+			<CollapsiblePanel
+				id="id"
+				title="title"
+				collapsible={false}
+				children={'Children'}
+			/>
 		);
 		expect(container.querySelector('#idbutton')).toBeNull();
 	});
 	it('should be expanded by default', () => {
 		const { container } = render(
-			<CollapsiblePanel id="id" title="title" hidden={false}>
-				Children
-			</CollapsiblePanel>
+			<CollapsiblePanel
+				id="id"
+				title="title"
+				hidden={false}
+				children={'Children'}
+			/>
 		);
 		expect(container.querySelector('#idbutton')).not.toBeNull();
 		expect(container.querySelector('#idbody')).not.toHaveAttribute('hidden');
 	});
 	it('should be collapsed by default', () => {
 		const { container } = render(
-			<CollapsiblePanel id="id" title="title" hidden={true}>
-				Children
-			</CollapsiblePanel>
+			<CollapsiblePanel
+				id="id"
+				title="title"
+				hidden={true}
+				children={'Children'}
+			/>
 		);
 		expect(container.querySelector('#idbutton')).not.toBeNull();
 		expect(container.querySelector('#idbody')).toHaveAttribute('hidden');
 	});
 	it('should be expanded after clicking to the button', () => {
 		const { container } = render(
-			<CollapsiblePanel id="id" title="title" hidden={false}>
-				Children
-			</CollapsiblePanel>
+			<CollapsiblePanel
+				id="id"
+				title="title"
+				hidden={false}
+				children={'Children'}
+			/>
 		);
 		expect(container.querySelector('#idbody')).not.toHaveAttribute('hidden');
 
