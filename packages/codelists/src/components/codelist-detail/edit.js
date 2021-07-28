@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
+import { default as ReactSelect } from 'react-select';
 import {
 	CancelButton,
 	SaveButton,
@@ -29,11 +30,15 @@ const DumbCodelistDetailEdit = ({
 	serverSideError,
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
+	const [codes, setCodes] = useState(
+		Object.values(defaultCodelist.codes || {})
+	);
+
 	const { field, message } = validateCodelist(codelist);
-	const codes = codelist.codes ? Object.values(codelist.codes) : [];
 
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
+		setCodes(initialCodelist.codes ? Object.values(initialCodelist.codes) : []);
 	}, [initialCodelist]);
 	const handleChange = useCallback(
 		(e) => {
@@ -48,6 +53,9 @@ const DumbCodelistDetailEdit = ({
 	const handleSaveClick = useCallback(() => {
 		handleSave(codelist);
 	}, [codelist, handleSave]);
+
+	console.log(codelist);
+	console.log(codes);
 
 	return (
 		<React.Fragment>
@@ -144,7 +152,7 @@ const DumbCodelistDetailEdit = ({
 				</div>
 				<div className="form-group">
 					<label>{D1.contributor}</label>
-					<Select
+					<ReactSelect
 						placeholder={D1.stampsPlaceholder}
 						value={stampListOptions.find(
 							({ value }) => value === codelist.contributor
@@ -153,7 +161,7 @@ const DumbCodelistDetailEdit = ({
 						onChange={(value) =>
 							setCodelist({ ...codelist, contributor: value })
 						}
-						disabled={true}
+						isDisabled={true}
 					/>
 				</div>
 				<div className="form-group">

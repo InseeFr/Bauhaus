@@ -3,6 +3,8 @@ import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 import D from '../../i18n/build-dictionary';
 
+import './tree.scss';
+
 const RmesTree = (props) => {
 	const [treeData, setTreeData] = useState(props.treeData);
 
@@ -18,6 +20,7 @@ const RmesTree = (props) => {
 				generateNodeProps={(rowInfo) => ({
 					buttons: [
 						<button
+							className="code-tree-detail"
 							data-component-id={rowInfo.node.id}
 							onClick={props.seeClickHandler}
 							aria-label={D.see}

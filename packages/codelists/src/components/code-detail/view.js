@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
 	Note,
 	UpdateButton,
 	ActionToolbar,
 	ReturnButton,
 	ErrorBloc,
-	Select,
 } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
@@ -25,20 +24,17 @@ export const CodeDetailView = ({
 }) => {
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(code.descriptionLg1);
 	const descriptionLg2 = HTMLUtils.renderMarkdownElement(code.descriptionLg2);
-	const [parents, setParents] = useState(code.parents);
 
 	const publish = () => {
 		publishComponent();
 	};
 
-	const codesOptions = codes
-		.map((code) => {
-			return {
-				label: code.code + ' - ' + code.labelLg1,
-				value: code.code,
-			};
-		})
-		.concat({ label: '', value: '' });
+	const codesOptions = codes.map((code) => {
+		return {
+			label: code.code + ' - ' + code.labelLg1,
+			value: code.code,
+		};
+	});
 
 	return (
 		<React.Fragment>
@@ -50,26 +46,26 @@ export const CodeDetailView = ({
 			<ErrorBloc error={serverSideError} />
 
 			<div className="row">
-				<Select
-					className="form-control"
-					label={D.parentCodeTitle}
-					placeholder={D.parentCodeTitle}
-					value={
-						codesOptions.filter(
-							({ value }) =>
-								(parents && parents.some((parent) => parent === value)) ||
-								(!parents && value === '')
-						) || ''
+				<Note
+					text={
+						<ul>
+							{codesOptions
+								.filter(
+									({ value }) =>
+										code.parents &&
+										code.parents.some((parent) => parent === value)
+								)
+								.map((code) => (
+									<li key={code.value}>{code.label}</li>
+								))}
+						</ul>
 					}
-					options={codesOptions}
-					disabled
-					unclearable
-					onChange={(parent) => setParents(...parents, parent)}
-					multi
+					title={D1.parentCodeTitle}
+					alone={true}
 				/>
 			</div>
 			<div className="row">
-				<Note text={code.id} title={D.codeTitle} alone={true} />
+				<Note text={code.code} title={D.codeTitle} alone={true} />
 			</div>
 			<div className="row">
 				<Note text={code.labelLg1} title={D1.codeLabel} alone={!secondLang} />

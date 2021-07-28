@@ -73,7 +73,7 @@ const DumbCodeDetailEdit = ({
 							) || ''
 						}
 						options={codesOptions}
-						onChange={setParents}
+						onChange={(parent) => setParents(...parents, parent)}
 						multi
 					/>
 				</div>
@@ -85,7 +85,7 @@ const DumbCodeDetailEdit = ({
 							className="form-control"
 							id="identifiant"
 							name="identifiant"
-							value={code.id}
+							value={code.code}
 							onChange={handleChange}
 							aria-invalid={field === 'identifiant'}
 						/>
@@ -93,7 +93,7 @@ const DumbCodeDetailEdit = ({
 				</div>
 				<div className="row">
 					<div className={`col-md-6 form-group`}>
-						<LabelRequired htmlFor="labelLg1">{D1.label}</LabelRequired>
+						<LabelRequired htmlFor="labelLg1">{D1.codeLabel}</LabelRequired>
 						<input
 							type="text"
 							className="form-control"
@@ -105,8 +105,7 @@ const DumbCodeDetailEdit = ({
 						/>
 					</div>
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="labelLg2">{D2.label}</LabelRequired>
-
+						<LabelRequired htmlFor="labelLg2">{D2.codeLabel}</LabelRequired>
 						<input
 							type="text"
 							className="form-control"
