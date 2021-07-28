@@ -29,6 +29,7 @@ const Compare = ({
 					classificationId={classificationId}
 					itemId={itemId}
 					secondLang={secondLang}
+					langs={langs}
 				/>
 				<CompareNotes
 					secondLang={secondLang}

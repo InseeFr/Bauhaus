@@ -11,5 +11,6 @@ export const XSD_TYPES = [
 	{ value: XSD_DATE, label: D.dateType },
 	{ value: XSD_FLOAT, label: D.floatType },
 	{ value: XSD_INT, label: D.intType },
+	{ value: XSD_STRING, label: D.stringType },
 	{ value: XSD_CODE_LIST, label: D.codesListTitle },
 ];
