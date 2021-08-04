@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Keycloak from 'keycloak';
@@ -10,6 +10,7 @@ const kcConfig = `${window.location.origin}/keycloak.json`;
 
 const kc = Keycloak(kcConfig);
 const LoginOpenIDConnect = ({ saveUserProps, authenticated, WrappedComponent }) => {
+	const [token, setToken] = useState(Auth.getToken())
 	const history = useHistory()
 	const refreshToken = useCallback(() => {
 		kc
@@ -42,7 +43,10 @@ const LoginOpenIDConnect = ({ saveUserProps, authenticated, WrappedComponent }) 
 				saveUserProps(
 					Auth.getAuthPropsFromToken(kc.tokenParsed)
 				);
-				kc.token && Auth.setToken(kc.token);
+				if(kc.token) {
+					Auth.setToken(kc.token);
+					setToken(kc.token)
+				}
 				setInterval(() => refreshToken(), 20000);
 				history.push({ pathname: history.location.pathname, state: 'init' });
 			})
@@ -53,7 +57,6 @@ const LoginOpenIDConnect = ({ saveUserProps, authenticated, WrappedComponent }) 
 		initLogin();
 	}, [initLogin])
 
-	const token = Auth.getToken();
 	if (authenticated && token && Auth.isTokenValid(token))
 		return <WrappedComponent />;
 	return <Loading textType="authentification" />;
