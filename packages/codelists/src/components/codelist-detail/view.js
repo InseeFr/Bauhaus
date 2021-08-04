@@ -15,7 +15,7 @@ import {
 } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 import { treedData } from '../../utils';
-import RmesTree from '../tree';
+import RmesTree from '../../utils/tree';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { rowParams } from './code-detail';
 
@@ -110,7 +110,7 @@ export const CodeListDetailView = ({
 					/>
 				</div>
 			)}
-			{codelist.codes && sortedCodes.filter((code) => code.parents).length > 0 && (
+			{codelist.codes && (
 				<div className="row">
 					<Note
 						text={
