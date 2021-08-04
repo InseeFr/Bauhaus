@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: bauhaus
-          image: nicolaslaval/bauhaus:3.0.5
+          image: nicolaslaval/bauhaus:3.0.7
           env:
             - name: API_BASE_HOST
               value: 'https://bauhaus-api.toto.fr/api'
