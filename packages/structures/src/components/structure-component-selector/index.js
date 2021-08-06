@@ -10,7 +10,6 @@ import { ATTRIBUTE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Stores } from 'bauhaus-utilities';
-import { XSD_TYPES } from '../../utils/constants';
 import Representation from '../representation';
 
 export const StructureComponentsSelector = ({
