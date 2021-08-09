@@ -5,8 +5,9 @@ import { D1, D2 } from 'js/i18n';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
-import { HTMLUtils, PublicationMale } from 'bauhaus-utilities';
+import { HTMLUtils, PublicationMale, withTitle } from 'bauhaus-utilities';
 import { PublishersView, CreatorsView } from 'bauhaus-operations';
+import D from '../../../../i18n/build-dictionary';
 
 function DisplayMultiLangNote({
 	value1,
@@ -136,4 +137,6 @@ function OperationsIndicatorVisualization(props) {
 	);
 }
 
-export default OperationsIndicatorVisualization;
+export default withTitle(OperationsIndicatorVisualization, D.operationsTitle, props => {
+	return props.attr?.prefLabelLg1;
+});
