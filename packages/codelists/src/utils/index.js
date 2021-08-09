@@ -1,4 +1,5 @@
 import React from 'react';
+import { getTreeFromFlatData } from 'react-sortable-tree';
 import D from '../i18n/build-dictionary';
 
 export const formatLabel = (component) => {
@@ -8,8 +9,12 @@ export const formatLabel = (component) => {
 export const validateCodelist = (component) => {
 	const validations = {
 		id: 'errorsIdMandatory',
+		lastListUriSegment: 'lastListUriSegmentMandatory',
+		lastClassUriSegment: 'lastClassUriSegmentMandatory',
 		labelLg1: 'errorsLabelLg1Mandatory',
 		labelLg2: 'errorsLabelLg1Mandatory',
+		creator: 'errorsCreatorMandatory',
+		disseminationStatus: 'errorsDisseminationStatusMandatory',
 	};
 
 	const field = Object.keys(validations).find((field) => !component[field]);
@@ -22,4 +27,19 @@ export const validateCodelist = (component) => {
 	}
 
 	return {};
+};
+
+export const treedData = (arrayData) => {
+	return (
+		getTreeFromFlatData({
+			flatData: arrayData.map((n) => ({
+				id: n.code,
+				label: n.labelLg1,
+				parent: n.parents ? n.parents[0] : 'root',
+			})),
+			getKey: (node) => node.id,
+			getParentKey: (node) => node.parent,
+			rootKey: 'root',
+		})
+	);
 };

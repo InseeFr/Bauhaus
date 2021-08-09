@@ -18,7 +18,7 @@ export const CodesListPanelDumb = ({ isOpen, handleBack, codesList, getCodesList
 				setCodes(sortByLabel(response.codes || []))
 			});
 		}
-	}, [codesList, isOpen])
+	}, [codesList, isOpen, getCodesList])
 	return (
 		<SlidingPanel panelClassName="codes-list-panel" type={'right'} isOpen={isOpen} size={30} >
 			<ActionToolbar>

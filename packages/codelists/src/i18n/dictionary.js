@@ -45,12 +45,12 @@ const dictionary = {
 		en: 'Creator',
 	},
 	labelTitle: {
-		fr: 'Libellé',
-		en: 'Label',
+		fr: 'Libellé (fr)',
+		en: 'Label (en)',
 	},
 	descriptionTitle: {
-		fr: 'Description',
-		en: 'Description',
+		fr: 'Description (fr)',
+		en: 'Description (en)',
 	},
 	listElements: {
 		fr: 'Eléments',
@@ -61,12 +61,12 @@ const dictionary = {
 		en: 'Codes',
 	},
 	codeLabel: {
-		fr: 'Libellé',
-		en: 'Label',
+		fr: 'Libellé (fr)',
+		en: 'Label (en)',
 	},
 	codeDescription: {
-		fr: 'Description',
-		en: 'Description',
+		fr: 'Description (fr)',
+		en: 'Description (en)',
 	},
 	statusValidatedM: {
 		fr: 'Publié',
@@ -108,9 +108,25 @@ const dictionary = {
 		fr: "L'identifiant est obligatoire",
 		en: 'The id is mandatory',
 	},
+	lastListUriSegmentMandatory: {
+		fr: "L'URI de la liste est obligatoire",
+		en: 'The list URI is mandatory',
+	},
+	lastClassUriSegmentMandatory: {
+		fr: "L'URI du concept est obligatoire",
+		en: 'The concept URI is mandatory',
+	},
 	errorsLabelLg1Mandatory: {
 		fr: 'Le label est obligatoire',
 		en: 'The label is mandatory',
+	},
+	errorsCreatorMandatory: {
+		fr: 'Le propriétaire est obligatoire',
+		en: 'The creator is mandatory',
+	},
+	errorsDisseminationStatusMandatory: {
+		fr: 'Le statut de diffusion est obligatoire',
+		en: 'The dissemination status is mandatory',
 	},
 	errors_1100: {
 		fr: "L'identifiant n'est pas défini.",
