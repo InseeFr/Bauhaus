@@ -7,9 +7,11 @@ import {
 	VerticalMenu,
 } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { Auth } from 'bauhaus-utilities';
+import { Auth, useTitle } from 'bauhaus-utilities';
 
 function IndicatorsHome({ indicators }) {
+	useTitle(D.operationsTitle, D.indicatorsTitle)
+
 	return (
 		<div className="container">
 			<div className="row">
