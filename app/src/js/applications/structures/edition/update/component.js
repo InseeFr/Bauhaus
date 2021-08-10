@@ -3,6 +3,8 @@ import Edition from '../component';
 import { Loading } from '@inseefr/wilco';
 import { StructureAPI } from 'bauhaus-structures';
 import { useLocation, useParams } from 'react-router-dom';
+import { useTitle } from 'bauhaus-utilities';
+import D from '../../../../i18n/build-dictionary';
 
 const Update = () => {
 	const location = useLocation();
@@ -10,6 +12,8 @@ const Update = () => {
 	const { dsdId } = useParams();
 
 	const [structure, setStructure] = useState({});
+	useTitle(D.structuresTitle, structure?.labelLg1);
+
 	useEffect(() => {
 		StructureAPI.getStructure(dsdId)
 			.then(res => setStructure(res))

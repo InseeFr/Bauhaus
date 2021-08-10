@@ -7,7 +7,8 @@ import {
 	Stores,
 	PageTitleBlock,
 	DateUtils,
-	PublicationFemale
+	PublicationFemale,
+	useTitle
 } from 'bauhaus-utilities';
 import Components from './components';
 import { D1, D2 } from 'js/i18n';
@@ -20,6 +21,7 @@ import D from 'bauhaus-structures/src/i18n/build-dictionary';
 import api from 'bauhaus-structures/src/apis/structure-api';
 
 export const StructureView = ({secondLang, structure, publish, serverSideError}) => {
+	useTitle(D.structuresTitle, structure?.labelLg1)
 	const {
 		labelLg1,
 		labelLg2,

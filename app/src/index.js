@@ -15,7 +15,7 @@ import 'bauhaus-structures/dist/index.css';
 import 'bauhaus-utilities/dist/index.css';
 
 import 'main.scss';
-
+console.log("lol")
 Api.getInit()
 	.then(
 		(res) => (res.ok ? res.json() : Promise.reject(res.statusText)),
