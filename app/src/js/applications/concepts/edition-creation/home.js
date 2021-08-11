@@ -17,6 +17,7 @@ import D from 'js/i18n';
 import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
 import { withRouter } from 'react-router';
+import { withTitle } from 'bauhaus-utilities';
 
 class ConceptEditionCreation extends Component {
 	constructor(props) {
@@ -275,4 +276,4 @@ ConceptEditionCreation.propTypes = {
 	langs: PropTypes.object.isRequired,
 };
 
-export default withRouter(ConceptEditionCreation);
+export default withRouter(withTitle(ConceptEditionCreation, D.conceptsTitle, props => props?.general?.prefLabelLg1 || D.createConceptTitle));
