@@ -29,6 +29,14 @@ const dictionary = {
 		fr: 'Créer une nouvelle famille',
 		en: 'Create a new family',
 	},
+	documentsCreateTitle: {
+		fr: 'Créer un nouveau document',
+		en: 'Create a new document',
+	},
+	linksCreateTitle: {
+		fr: 'Créer un nouveau lien',
+		en: 'Create a new link',
+	},
 	seriesCreateTitle: {
 		fr: 'Créer une nouvelle série',
 		en: 'Create a new series',

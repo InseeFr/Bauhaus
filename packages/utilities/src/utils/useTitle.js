@@ -7,7 +7,7 @@ export const setDocumentTitle = (application, page) => {
 export const useTitle = (application, page) => {
 	useEffect(() => {
 		setDocumentTitle(application, page)
-	}, [])
+	}, [application, page])
 }
 
 export const withTitle = (WrappedComponent, application, getPage = () => '') => props => {

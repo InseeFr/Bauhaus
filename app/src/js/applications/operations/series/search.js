@@ -1,15 +1,15 @@
 import D from 'js/i18n';
 import { Link, Redirect } from 'react-router-dom';
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loading, Select } from '@inseefr/wilco';
 import api from 'js/remote-api/operations-api';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
 	ArrayUtils,
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	Stores,
+	Stores, useTitle,
 } from 'bauhaus-utilities';
 import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
 
@@ -197,41 +197,30 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 		);
 	}
 }
-class SearchListContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {};
-	}
-	componentWillMount() {
+
+const SearchListContainer = () => {
+	useTitle(D.operationsTitle, D.seriesTitle + ' - ' + D.advancedSearch)
+
+	const [data, setData] = useState();
+	const categories = useSelector(state => state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {});
+	const organisations = useSelector(state => state.operationsOrganisations.results);
+	const stamps = useSelector(state => Stores.Stamps.getStampList(state) || []);
+
+	useEffect(() => {
 		api.getSeriesSearchList().then((data) => {
-			this.setState({ data: sortByLabel(data) });
+			setData(sortByLabel(data));
 		});
-	}
+	}, []);
 
-	render() {
-		const { data } = this.state;
-		const { categories, organisations, stamps } = this.props;
-
-		if (!data) return <Loading />;
-		return (
-			<SearchFormList
-				data={data}
-				categories={categories}
-				organisations={organisations}
-				stamps={stamps}
-			/>
-		);
-	}
+	if (!data) return <Loading />;
+	return (
+		<SearchFormList
+			data={data}
+			categories={categories}
+			organisations={organisations}
+			stamps={stamps}
+		/>
+	);
 }
 
-const mapStateToProps = (state) => {
-	const categories =
-		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
-	return {
-		categories,
-		organisations: state.operationsOrganisations.results,
-		stamps: Stores.Stamps.getStampList(state) || [],
-	};
-};
-
-export default connect(mapStateToProps)(SearchListContainer);
+export default SearchListContainer;

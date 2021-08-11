@@ -1,6 +1,6 @@
 import D from 'js/i18n';
 import { Link, Redirect } from 'react-router-dom';
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import api from 'js/remote-api/operations-api';
 
@@ -8,6 +8,7 @@ import {
 	ArrayUtils,
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
+	useTitle
 } from 'bauhaus-utilities';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
@@ -59,22 +60,20 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 		);
 	}
 }
-class SearchListContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {};
-	}
-	componentWillMount() {
-		api.getFamiliesSearchList().then(data => {
-			this.setState({ data: sortByLabel(data) });
-		});
-	}
+const SearchListContainer = () => {
+	useTitle(D.operationsTitle, D.familiesTitle + ' - ' + D.advancedSearch)
+	const [data, setData] = useState();
 
-	render() {
-		const { data } = this.state;
-		if (!data) return <Loading />;
-		return <SearchFormList data={data} />;
+	useEffect(() => {
+		api.getFamiliesSearchList().then(data => {
+			setData(sortByLabel(data));
+		});
+	}, []);
+
+	if(!data){
+		return <Loading />
 	}
+	return <SearchFormList data={data} />
 }
 
 export default SearchListContainer;
