@@ -13,7 +13,7 @@ import {
 	HTMLUtils,
 	ValidationButton,
 	DateUtils,
-	PublicationFemale,
+	PublicationFemale, useTitle,
 } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 import { treedData } from '../../utils';
@@ -30,6 +30,8 @@ export const CodeListDetailView = ({
 	publishComponent,
 	serverSideError,
 }) => {
+	useTitle(D.codelistsTitle, codelist?.labelLg1)
+
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
 		codelist.descriptionLg1
 	);

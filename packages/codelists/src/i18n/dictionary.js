@@ -1,5 +1,10 @@
 const dictionary = {
+	advancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
 	codelistsTitle: { fr: 'Listes de codes', en: 'Code lists' },
+	codelistsCreateTitle: {
+		fr: 'Créer une liste de code',
+		en: 'Create a code list',
+	},
 	lastListUriSegmentTitle: {
 		fr: 'Uri Liste : commence par http://rdf.insee.fr/codes/',
 		en: 'Uri Liste : starts with http://rdf.insee.fr/codes/',

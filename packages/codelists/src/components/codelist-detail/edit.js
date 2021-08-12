@@ -7,9 +7,9 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { Stores } from 'bauhaus-utilities';
+import { Stores, useTitle } from 'bauhaus-utilities';
 import { validateCodelist } from '../../utils';
-import { D1, D2 } from '../../i18n/build-dictionary';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
 import { default as ReactSelect } from 'react-select';
 import dayjs from 'dayjs';
@@ -27,7 +27,10 @@ const DumbCodelistDetailEdit = ({
 	stampListOptions,
 	serverSideError,
 }) => {
+
 	const [codelist, setCodelist] = useState(defaultCodelist);
+	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle)
+
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
 	}, [initialCodelist]);

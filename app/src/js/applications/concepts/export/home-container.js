@@ -8,6 +8,8 @@ import { Loading } from '@inseefr/wilco';
 import exportConceptList from 'js/actions/concepts/export-multi';
 import loadConceptList from 'js/actions/concepts/list';
 import { OK } from 'js/constants';
+import { useTitle } from 'bauhaus-utilities';
+import D from 'js/i18n';
 
 const ConceptsToExportContainer = ({
 	concepts,
@@ -15,6 +17,7 @@ const ConceptsToExportContainer = ({
 	loadConceptList,
 	exportConceptList
 	}) => {
+	useTitle(D.conceptsTitle, D.exportTitle)
 	const [exportRequested, setExportRequested] = useState(false)
 
 	useEffect(() => {
