@@ -6,7 +6,6 @@ import {
 	Home,
 	CodelistComponentView,
 	CodelistEdit,
-	D,
 	SearchFormList,
 } from 'bauhaus-codelists';
 
