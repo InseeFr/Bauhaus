@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { NOT_LOADED, LOADED } from 'js/constants';
 import { getFamilies } from 'js/reducers/index';
 
-const FamiliesHomeContainer = ({ status, loadFamiliesList, families}) => {
+export const FamiliesHomeContainer = ({ status, loadFamiliesList, families}) => {
 	useEffect(() => {
 		if(status !== LOADED){
 			loadFamiliesList()
