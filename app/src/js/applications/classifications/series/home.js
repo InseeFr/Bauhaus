@@ -2,8 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { PageTitle, SearchableList } from '@inseefr/wilco';
 import D from 'js/i18n';
+import { useTitle } from 'bauhaus-utilities';
 
 const SeriesHome = ({ series }) => {
+	useTitle(D.classificationsTitle, D.seriesTitle);
+
 	return (
 		<div className="container">
 			<div className="row">

@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { PageSubtitle, PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Members from './members';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
+import D from '../../../../i18n/build-dictionary';
 
-class SeriesVisualization extends Component {
-	render() {
-		const {
-			series: { general, members },
-			secondLang,
-			langs,
-		} = this.props;
-		const notes = {
+const SeriesVisualization = ({
+	 series: { general, members },
+	 secondLang,
+	 langs,
+ }) => {
+	useTitle(D.classificationsTitle, general?.prefLabelLg1);
+
+	const notes = {
 			scopeNoteLg1: general.scopeNoteLg1,
 			scopeNoteLg2: general.scopeNoteLg2,
 		};
@@ -34,7 +35,6 @@ class SeriesVisualization extends Component {
 				)}
 			</div>
 		);
-	}
 }
 
 export default SeriesVisualization;
