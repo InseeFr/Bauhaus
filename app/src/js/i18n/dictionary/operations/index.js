@@ -45,10 +45,6 @@ const dictionary = {
 		fr: 'Créer un nouvel indicateur',
 		en: 'Create a new indicator',
 	},
-	creatorTitle: {
-		fr: 'Propriétaires',
-		en: 'Owners',
-	},
 	operationsSearchTitle: {
 		fr: 'Opérations - Recherche',
 		en: 'Operations - Search',
