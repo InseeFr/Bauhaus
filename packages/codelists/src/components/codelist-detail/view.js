@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 import { treedData } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { rowParams } from './code-detail';
+import CodesTree from '../codes-tree';
 
 export const CodeListDetailView = ({
 	codelist,
@@ -45,7 +46,7 @@ export const CodeListDetailView = ({
 
 	const unsortedCodes = Object.values(codelist.codes);
 	const sortedCodes = unsortedCodes.sort((a, b) => (a.code > b.code ? 1 : -1));
-
+	const codes = Object.values(codelist.codes);
 	return (
 		<React.Fragment>
 			<ActionToolbar>
@@ -113,12 +114,13 @@ export const CodeListDetailView = ({
 					/>
 				</div>
 			)}
-			{codelist.codes && (
+			{codelist.codes && codes.filter((code) => code.parents).length > 0 && (
 				<div className="row">
-					<Note
-						text={<SortableTree treeData={treedData(sortedCodes)} />}
-						title={D.listElements}
-						alone={true}
+					<CodesTree
+						codes={codes}
+						tree={treedData(codes)}
+						handleAdd={false}
+						readOnly={true}
 					/>
 				</div>
 			)}
