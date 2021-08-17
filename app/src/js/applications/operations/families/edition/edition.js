@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown, PageTitleBlock } from 'bauhaus-utilities';
+import { EditorMarkdown, PageTitleBlock, withTitle } from 'bauhaus-utilities';
 import {
 	CancelButton,
 	SaveButton,
@@ -13,6 +13,7 @@ import {
 	LabelRequired,
 } from '@inseefr/wilco';
 import { validate } from './validation';
+import D from '../../../../i18n/build-dictionary';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -175,4 +176,6 @@ class OperationsFamilyEdition extends Component {
 	}
 }
 
-export default OperationsFamilyEdition;
+export default withTitle(OperationsFamilyEdition, D.operationsTitle, props => {
+	return props.family.prefLabelLg1 || D.familiesCreateTitle
+});

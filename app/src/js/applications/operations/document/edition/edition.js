@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown, PageTitleBlock } from 'bauhaus-utilities';
+import { EditorMarkdown, PageTitleBlock, withTitle } from 'bauhaus-utilities';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -281,4 +281,6 @@ class OperationsDocumentationEdition extends Component {
 	}
 }
 
-export default OperationsDocumentationEdition;
+export default withTitle(OperationsDocumentationEdition, D.operationsTitle, props => {
+	return props.document.labelLg1 || (props.type === LINK ? D.linksCreateTitle : D.documentsCreateTitle)
+});

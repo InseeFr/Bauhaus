@@ -6,12 +6,10 @@ import {
 	Home,
 	CodelistComponentView,
 	CodelistEdit,
-	D,
 	SearchFormList,
 } from 'bauhaus-codelists';
 
 const CodesListComponent = () => {
-	document.title = 'Bauhaus - ' + D.codelistsTitle;
 	document.getElementById('root-app').classList = ['codelists'];
 	return (
 		<>

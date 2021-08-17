@@ -13,7 +13,7 @@ import {
 	Select,
 } from '@inseefr/wilco';
 import { validate } from './validation';
-import { PageTitleBlock } from 'bauhaus-utilities';
+import { PageTitleBlock, withTitle } from 'bauhaus-utilities';
 
 const defaultOperation = {
 	prefLabelLg1: '',
@@ -191,4 +191,7 @@ class OperationsOperationEdition extends Component {
 	}
 }
 
-export default OperationsOperationEdition;
+export default withTitle(OperationsOperationEdition, D.operationsTitle, props => {
+	return props.operation?.prefLabelLg1 || D.operationsCreateTitle;
+});
+

@@ -7,6 +7,7 @@ import D from 'js/i18n';
 import { goBack, PageTitle, ReturnButton, ActionToolbar } from '@inseefr/wilco';
 
 import './tree.scss';
+import { useTitle } from 'bauhaus-utilities';
 
 export const formatLeaf = (
 	leaf,
@@ -63,6 +64,8 @@ export const updateTree = (treeData, leaf, familyIndex, seriesIndex) => {
 };
 
 const TreeComponent = props => {
+	useTitle(D.operationsTitle, D.operationsTreeTitle)
+
 	const [treeData, setTreeData] = useState([]);
 	const [selectedLeaf, setSelectedLeaf] = useState({});
 

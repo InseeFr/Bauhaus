@@ -6,7 +6,7 @@ import Controls from './controls';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
 import { filterKeyDate } from 'js/utils/array-utils';
-import { ArrayUtils } from 'bauhaus-utilities';
+import { ArrayUtils, withTitle } from 'bauhaus-utilities';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
 const filterAltLabel = ArrayUtils.filterKeyDeburr(['altLabel']);
@@ -293,4 +293,4 @@ ConceptSearchList.propTypes = {
 	disseminationStatusList: PropTypes.array.isRequired,
 };
 
-export default ConceptSearchList;
+export default withTitle(ConceptSearchList, D.conceptsTitle, () => D.advancedSearch);

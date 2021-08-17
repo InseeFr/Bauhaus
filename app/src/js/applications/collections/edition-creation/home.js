@@ -5,6 +5,8 @@ import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
 import MembersEdition from './members';
 import { propTypes as generalPropTypes } from 'js/utils/collections/general';
+import { withTitle } from 'bauhaus-utilities';
+import D from '../../../i18n/build-dictionary';
 
 class CollectionEditionCreation extends Component {
 	constructor(props) {
@@ -140,4 +142,4 @@ CollectionEditionCreation.propTypes = {
 	langs: PropTypes.object.isRequired,
 };
 
-export default CollectionEditionCreation;
+export default withTitle(CollectionEditionCreation, D.collectionsTitle, props => props.general.prefLabelLg1 || D.createCollectionTitle);

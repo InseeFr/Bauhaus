@@ -10,7 +10,7 @@ import {
 } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
-import { Auth, FilterToggleButtons } from 'bauhaus-utilities';
+import { Auth, FilterToggleButtons, useTitle } from 'bauhaus-utilities';
 import { Link, useHistory } from 'react-router-dom';
 
 const sessionStorageKey = 'documents-displayMode';
@@ -23,6 +23,7 @@ const SearchableList = ({
 	searchValue = '',
 	itemFormatter = (content) => content,
 }) => {
+
 	const [search, handleSearch] = useState(searchValue);
 
 	const filter = filterKeyDeburr(
@@ -75,6 +76,8 @@ const SearchableList = ({
 };
 
 function DocumentHome({ documents }) {
+	useTitle(D.operationsTitle, D.documentsTitle)
+
 	const history = useHistory();
 	const queryMode = sessionStorage.getItem(sessionStorageKey);
 

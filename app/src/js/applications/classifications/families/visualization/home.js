@@ -2,7 +2,8 @@ import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import Members from './members';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
+import D from '../../../../i18n/build-dictionary';
 
 const FamilyVisualization = ({
 	family: {
@@ -11,6 +12,8 @@ const FamilyVisualization = ({
 	},
 	secondLang,
 }) => {
+	useTitle(D.classificationsTitle, prefLabelLg1);
+
 	return (
 		<div className="container">
 			<PageTitle title={prefLabelLg1} context="classifications" />

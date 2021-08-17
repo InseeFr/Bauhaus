@@ -6,7 +6,7 @@ export const formatLabel = (component) => {
 	return <React.Fragment>{component.labelLg1}</React.Fragment>;
 };
 
-export const validateCodelist = (component) => {
+export const validateCodelist = (codelist) => {
 	const validations = {
 		id: 'errorsIdMandatory',
 		lastListUriSegment: 'lastListUriSegmentMandatory',
@@ -17,7 +17,7 @@ export const validateCodelist = (component) => {
 		disseminationStatus: 'errorsDisseminationStatusMandatory',
 	};
 
-	const field = Object.keys(validations).find((field) => !component[field]);
+	const field = Object.keys(validations).find((field) => !codelist[field]);
 
 	if (field) {
 		return {
@@ -29,17 +29,48 @@ export const validateCodelist = (component) => {
 	return {};
 };
 
+export const validateCode = (code) => {
+	const validations = {
+		id: 'errorsIdMandatory',
+		labelLg1: 'errorsLabelLg1Mandatory',
+		labelLg2: 'errorsLabelLg1Mandatory',
+	};
+
+	const field = Object.keys(validations).find((field) => !code[field]);
+
+	if (field) {
+		return {
+			field,
+			message: D[validations[field]],
+		};
+	}
+
+	return {};
+};
+
+const treeElement = (n) => {
+	if (n.parents) {
+		return n.parents.map((p) => ({
+			id: n.code,
+			title: n.code + ' - ' + n.labelLg1,
+			label: n.labelLg1,
+			parent: p,
+		}));
+	}
+	return {
+		id: n.code,
+		title: n.code + ' - ' + n.labelLg1,
+		label: n.labelLg1,
+		parent: null,
+	};
+};
+
 export const treedData = (arrayData) => {
-	return (
-		getTreeFromFlatData({
-			flatData: arrayData.map((n) => ({
-				id: n.code,
-				label: n.labelLg1,
-				parent: n.parents ? n.parents[0] : 'root',
-			})),
-			getKey: (node) => node.id,
-			getParentKey: (node) => node.parent,
-			rootKey: 'root',
-		})
-	);
+	if (arrayData.length === 0) return [];
+	return getTreeFromFlatData({
+		flatData: arrayData.map((n) => treeElement(n)).flat(),
+		getKey: (node) => node.id,
+		getParentKey: (node) => node.parent,
+		rootKey: null,
+	});
 };

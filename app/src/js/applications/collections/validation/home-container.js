@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import CollectionsToValidate from './home';
@@ -8,43 +8,37 @@ import validateCollectionList from 'js/actions/collections/validate';
 import loadCollectionValidateList from 'js/actions/collections/validate-list';
 import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
 import { OK } from 'js/constants';
-import { Auth } from 'bauhaus-utilities';
+import { Auth, useTitle } from 'bauhaus-utilities';
+import D from 'js/i18n';
 
-class CollectionsToValidateContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			validationRequested: false,
-		};
+const CollectionsToValidateContainer =
+	({ validateCollectionList, collections, loadCollectionValidateList, permission, validationStatus }) => {
+	useTitle(D.collectionsTitle, D.btnValid);
 
-		this.handleValidateCollectionList = ids => {
-			this.props.validateCollectionList(ids);
-			this.setState({
-				validationRequested: true,
-			});
-		};
-	}
-	componentWillMount() {
-		if (!this.props.collections) this.props.loadCollectionValidateList();
-	}
+	const [validationRequested, setValidationRequested] = useState(false);
 
-	render() {
-		const { validationRequested } = this.state;
-		const { collections, permission, validationStatus } = this.props;
-		if (validationRequested) {
-			if (validationStatus === OK) {
-				return <Redirect to="/collections" />;
-			} else return <Loading textType="validating" />;
-		}
-		if (!collections) return <Loading />;
-		return (
-			<CollectionsToValidate
-				collections={collections}
-				permission={permission}
-				handleValidateCollectionList={this.handleValidateCollectionList}
-			/>
-		);
+	const handleValidateCollectionList = ids => {
+		validateCollectionList(ids);
+		setValidationRequested(true)
+	};
+
+	useEffect(() => {
+		if (!collections) loadCollectionValidateList();
+	}, [collections, loadCollectionValidateList]);
+
+	if (validationRequested) {
+		if (validationStatus === OK) {
+			return <Redirect to="/collections" />;
+		} else return <Loading textType="validating" />;
 	}
+	if (!collections) return <Loading />;
+	return (
+		<CollectionsToValidate
+			collections={collections}
+			permission={permission}
+			handleValidateCollectionList={handleValidateCollectionList}
+		/>
+	);
 }
 
 const mapStateToProps = state => ({

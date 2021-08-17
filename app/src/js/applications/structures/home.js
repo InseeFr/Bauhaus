@@ -10,8 +10,10 @@ import {
 import { StructureAPI } from 'bauhaus-structures';
 import D from 'js/i18n';
 import { getEnvVar } from 'js/utils/env';
+import { useTitle } from 'bauhaus-utilities';
 
 const Home = () => {
+	useTitle(D.structuresTitle, D.structuresTitle);
 	const [DSDs, setDSDs] = useState([]);
 
 	useEffect(() => {

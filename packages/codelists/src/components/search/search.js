@@ -6,7 +6,7 @@ import {
 	ArrayUtils,
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
-	Stores,
+	Stores, useTitle,
 } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
@@ -190,6 +190,8 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 }
 
 const SearchListContainer = () => {
+	useTitle(D.codelistsTitle, D.advancedSearch)
+
 	const [loading, setLoading] = useState(true);
 	const [items, setItems] = useState([]);
 	const stampListOptions = useSelector((state) =>

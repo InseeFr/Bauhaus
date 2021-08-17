@@ -275,5 +275,11 @@ const dictionary = {
 		fr: 'Provisoire, jamais publiée',
 		en: 'Temporary, never published',
 	},
+	structuresTitle: { fr: 'Structures', en: 'Structures' },
+	structuresAdvancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
+	componentsCreateTitle: {
+		fr: 'Créer un nouveau composant',
+		en: 'Create a new component',
+	}
 };
 export default dictionary;

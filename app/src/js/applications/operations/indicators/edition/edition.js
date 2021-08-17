@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
-	PageTitleBlock,
+	PageTitleBlock, withTitle,
 } from 'bauhaus-utilities';
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 import { CL_FREQ } from 'js/actions/constants/codeList';
@@ -370,4 +370,6 @@ class OperationsIndicatorEdition extends Component {
 	}
 }
 
-export default OperationsIndicatorEdition;
+export default withTitle(OperationsIndicatorEdition, D.operationsTitle, props => {
+	return props.indicator?.prefLabelLg1 || D.indicatorsCreateTitle;
+});

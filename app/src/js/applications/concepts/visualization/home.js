@@ -12,7 +12,7 @@ import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
-import { CheckSecondLang, DateUtils, PageTitleBlock } from 'bauhaus-utilities';
+import { CheckSecondLang, DateUtils, PageTitleBlock, useTitle } from 'bauhaus-utilities';
 
 const ConceptVisualization = ({
 	id,
@@ -26,6 +26,7 @@ const ConceptVisualization = ({
 	validateConcept,
 	deleteConcept,
 }) => {
+	useTitle( D.conceptsTitle, general?.prefLabelLg1);
 	const [modalValid, setModalValid] = useState(false);
 
 	const handleClickValidation = useCallback(() => {

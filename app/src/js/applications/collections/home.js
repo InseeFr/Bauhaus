@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import {
 	PageTitle,
 	Button,
@@ -13,87 +12,67 @@ import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/c
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
 
-class CollectionsHome extends Component {
-	static propTypes = {
-		collections: PropTypes.arrayOf(collectionOverviewPropTypes.isRequired),
-		permission: permissionOverviewPropTypes.isRequired,
-	};
+const CollectionsHome = ({
+			 collections,
+			 permission: { authType, roles },
+		 }) => {
 
-	constructor() {
-		super();
-
-		this.handleClick = e => {
-			e.preventDefault();
-			this.props.history.push('/collection/create');
-		};
-		this.handleClickExport = e => {
-			e.preventDefault();
-			this.props.history.push('/collections/export');
-		};
-		this.handleClickValidate = e => {
-			e.preventDefault();
-			this.props.history.push('/collections/validation');
-		};
-	}
-
-	render() {
-		const {
-			collections,
-			permission: { authType, roles },
-		} = this.props;
-		const authImpl = check(authType);
-		const adminOrCreator = authImpl.isAdminOrCollectionCreator(roles);
-		const adminOrContributor = authImpl.isAdminOrContributor(roles);
-		return (
-			<div className="container">
-				<div className="row">
-					<VerticalMenu>
-						{adminOrContributor && (
-							<Button
-								label={
-									<React.Fragment>
+	const authImpl = check(authType);
+	const adminOrCreator = authImpl.isAdminOrCollectionCreator(roles);
+	const adminOrContributor = authImpl.isAdminOrContributor(roles);
+	return (
+		<div className="container">
+			<div className="row">
+				<VerticalMenu>
+					{adminOrContributor && (
+						<Button
+							label={
+								<React.Fragment>
 										<span
 											className="glyphicon glyphicon-plus"
 											aria-hidden="true"
 										/>
-										<span> {D.btnNewFemale}</span>
-									</React.Fragment>
-								}
-								action={this.handleClick}
-								col={8}
-								offset={2}
-							/>
-						)}
-						<ExportButton action={this.handleClickExport} col={8} offset={2} />
-						{adminOrCreator && (
-							<Button
-								label={
-									<React.Fragment>
+									<span> {D.btnNewFemale}</span>
+								</React.Fragment>
+							}
+							action="/collection/create"
+							col={8}
+							offset={2}
+						/>
+					)}
+					<ExportButton action="/collections/export" col={8} offset={2} />
+					{adminOrCreator && (
+						<Button
+							label={
+								<React.Fragment>
 										<span
 											className="glyphicon glyphicon-ok"
 											aria-hidden="true"
 										/>
-										<span> {D.btnValid}</span>
-									</React.Fragment>
-								}
-								action={this.handleClickValidate}
-								col={8}
-								offset={2}
-							/>
-						)}
-					</VerticalMenu>
-					<div className="col-md-8 text-center pull-right">
-						<PageTitle title={D.collectionSearchTitle} col={12} offset={0} />
-						<SearchableList
-							items={collections}
-							childPath="collection"
-							autoFocus={true}
+									<span> {D.btnValid}</span>
+								</React.Fragment>
+							}
+							action="/collections/validation"
+							col={8}
+							offset={2}
 						/>
-					</div>
+					)}
+				</VerticalMenu>
+				<div className="col-md-8 text-center pull-right">
+					<PageTitle title={D.collectionSearchTitle} col={12} offset={0} />
+					<SearchableList
+						items={collections}
+						childPath="collection"
+						autoFocus={true}
+					/>
 				</div>
 			</div>
-		);
-	}
+		</div>
+	);
 }
+CollectionsHome.propTypes = {
+	collections: PropTypes.arrayOf(collectionOverviewPropTypes.isRequired),
+	permission: permissionOverviewPropTypes.isRequired,
+};
 
-export default withRouter(CollectionsHome);
+export default CollectionsHome;

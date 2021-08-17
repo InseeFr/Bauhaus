@@ -13,7 +13,7 @@ import { typeUriToLabel, getAllAttachment, getDisseminationStatus } from '../../
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
-import { HTMLUtils, ValidationButton, DateUtils, PublicationMale } from 'bauhaus-utilities';
+import { HTMLUtils, ValidationButton, DateUtils, PublicationMale,useTitle } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 import "./view.scss";
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
@@ -41,6 +41,7 @@ export const ComponentDetailView = ({
 	publishComponent,
 	serverSideError
 }) => {
+	useTitle(D.componentTitle, component?.labelLg1)
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 
 	const typeValue = typeUriToLabel(component.type);
