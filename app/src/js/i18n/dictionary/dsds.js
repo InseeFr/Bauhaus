@@ -1,5 +1,9 @@
 export default {
 	structuresTitle: { fr: 'Structures', en: 'Structures' },
+	structuresCreateTitle: {
+		fr: 'Créer une nouvelle structure',
+		en: 'Create a new structure',
+	},
 	dsdsSearchTitle: {
 		fr: 'Data structure definition - Recherche',
 		en: 'Data structure definition - Search',

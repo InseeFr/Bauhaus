@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import {
 	PageTitle,
 	SearchableList,
@@ -14,68 +13,47 @@ import { propTypes as conceptOverviewPropTypes } from 'js/utils/concepts/concept
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
 
-class ConceptsHome extends Component {
-	constructor() {
-		super();
-
-		this.handleClick = e => {
-			e.preventDefault();
-			this.props.history.push('/concept/create');
-		};
-		this.handleClickExport = e => {
-			e.preventDefault();
-			this.props.history.push('/concepts/export');
-		};
-		this.handleClickValidate = e => {
-			e.preventDefault();
-			this.props.history.push('/concepts/validation');
-		};
-	}
-
-	render() {
-		const {
-			concepts,
-			permission: { authType, roles },
-		} = this.props;
-		const authImpl = check(authType);
-		const adminOrContributor = authImpl.isAdminOrContributor(roles);
-		const adminOrCreator = authImpl.isAdminOrConceptCreator(roles);
-		return (
-			<div className="container">
-				<div className="row">
-					<VerticalMenu>
-						{adminOrContributor && (
-							<NewButton action={this.handleClick} col={8} offset={2} />
-						)}
-						<ExportButton action={this.handleClickExport} col={8} offset={2} />
-						{adminOrCreator && (
-							<PublishButton
-								action={this.handleClickValidate}
-								col={8}
-								offset={2}
-							/>
-						)}
-					</VerticalMenu>
-					<div className="col-md-8 text-center pull-right">
-						<PageTitle title={D.conceptSearchTitle} col={12} offset={0} />
-						<SearchableList
-							items={concepts}
-							childPath="concept"
-							advancedSearch
-							searchUrl="/concepts/search"
-							placeholder={D.searchLabelHomePlaceholder}
-							autoFocus={true}
+const ConceptsHome = ({
+	concepts,
+	permission: { authType, roles }
+}) => {
+	const authImpl = check(authType);
+	const adminOrContributor = authImpl.isAdminOrContributor(roles);
+	const adminOrCreator = authImpl.isAdminOrConceptCreator(roles);
+	return (
+		<div className="container">
+			<div className="row">
+				<VerticalMenu>
+					{adminOrContributor && (
+						<NewButton action="/concept/create" col={8} offset={2} />
+					)}
+					<ExportButton action="/concepts/export" col={8} offset={2} />
+					{adminOrCreator && (
+						<PublishButton
+							action="/concepts/validation"
+							col={8}
+							offset={2}
 						/>
-					</div>
+					)}
+				</VerticalMenu>
+				<div className="col-md-8 text-center pull-right">
+					<PageTitle title={D.conceptSearchTitle} col={12} offset={0} />
+					<SearchableList
+						items={concepts}
+						childPath="concept"
+						advancedSearch
+						searchUrl="/concepts/search"
+						placeholder={D.searchLabelHomePlaceholder}
+						autoFocus={true}
+					/>
 				</div>
 			</div>
-		);
-	}
+		</div>
+	);
 }
-
 ConceptsHome.propTypes = {
 	concepts: PropTypes.arrayOf(conceptOverviewPropTypes.isRequired),
 	permission: permissionOverviewPropTypes.isRequired,
 };
 
-export default withRouter(ConceptsHome);
+export default ConceptsHome;

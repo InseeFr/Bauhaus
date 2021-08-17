@@ -6,7 +6,7 @@ import General from './general';
 import Notes from './notes';
 import Levels from './levels';
 import D from 'js/i18n';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
 
 const ClassificationVisualization = props => {
 	const {
@@ -15,6 +15,8 @@ const ClassificationVisualization = props => {
 		secondLang,
 		langs,
 	} = props;
+	useTitle(D.classificationsTitle, general?.prefLabelLg1);
+
 	const notes = {
 		scopeNoteLg1: general.scopeNoteLg1,
 		scopeNoteLg2: general.scopeNoteLg2,

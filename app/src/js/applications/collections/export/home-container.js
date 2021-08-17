@@ -8,6 +8,8 @@ import { Loading } from '@inseefr/wilco';
 import exportCollectionList from 'js/actions/collections/export-multi';
 import loadCollectionList from 'js/actions/collections/list';
 import { OK } from 'js/constants';
+import { useTitle } from 'bauhaus-utilities';
+import D from '../../../i18n/build-dictionary';
 
 const CollectionsToExportContainer = ({
 	collections,
@@ -15,6 +17,8 @@ const CollectionsToExportContainer = ({
 	loadCollectionList,
 	exportCollectionList,
 }) => {
+	useTitle(D.collectionsTitle, D.exportTitle)
+
 	const [exportRequested, setExportRequested] = useState(false);
 
 	const handleExportCollectionList = useCallback(

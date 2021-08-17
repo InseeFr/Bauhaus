@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as select from 'js/reducers';
@@ -8,47 +8,46 @@ import { Loading } from '@inseefr/wilco';
 import exportConceptList from 'js/actions/concepts/export-multi';
 import loadConceptList from 'js/actions/concepts/list';
 import { OK } from 'js/constants';
+import { useTitle } from 'bauhaus-utilities';
+import D from 'js/i18n';
 
-class ConceptsToExportContainer extends Component {
-	constructor() {
-		super();
-		this.state = {
-			exportRequested: false,
-		};
-		this.handleExportConceptList = (ids, MimeType) => {
-			this.props.exportConceptList(ids, MimeType);
-			this.setState({
-				exportRequested: true,
-			});
-		};
-	}
+const ConceptsToExportContainer = ({
+	concepts,
+	exportStatus,
+	loadConceptList,
+	exportConceptList
+	}) => {
+	useTitle(D.conceptsTitle, D.exportTitle)
+	const [exportRequested, setExportRequested] = useState(false)
 
-	componentWillMount() {
-		if (!this.props.concepts) this.props.loadConceptList();
-	}
-
-	render() {
-		const { concepts, exportStatus } = this.props;
-		const { exportRequested } = this.state;
-		if (exportRequested) {
-			if (exportStatus === OK) {
-				return <Redirect to="/concepts" />;
-			}
-			return <Loading textType="exporting" />;
+	useEffect(() => {
+		if(!concepts){
+			loadConceptList()
 		}
+	}, [concepts, loadConceptList]);
 
-		if (!concepts) {
-			return <Loading />;
-		}
-		return (
-			<ConceptsToExport
-				concepts={concepts}
-				handleExportConceptList={this.handleExportConceptList}
-			/>
-		);
+	const handleExportConceptList = (ids, MimeType) => {
+		exportConceptList(ids, MimeType);
+		setExportRequested(true);
 	}
+
+	if (exportRequested) {
+		if (exportStatus === OK) {
+			return <Redirect to="/concepts" />;
+		}
+		return <Loading textType="exporting" />;
+	}
+
+	if (!concepts) {
+		return <Loading />;
+	}
+	return (
+		<ConceptsToExport
+			concepts={concepts}
+			handleExportConceptList={handleExportConceptList}
+		/>
+	);
 }
-
 const mapStateToProps = state => ({
 	concepts: select.getConceptList(state),
 	exportStatus: select.getStatus(state, EXPORT_CONCEPT_LIST),

@@ -21,6 +21,34 @@ const dictionary = {
 		fr: 'Indicateurs',
 		en: 'Indicators',
 	},
+	operationsCreateTitle: {
+		fr: 'Créer une nouvelle opération',
+		en: 'Create a new operation',
+	},
+	familiesCreateTitle: {
+		fr: 'Créer une nouvelle famille',
+		en: 'Create a new family',
+	},
+	documentsCreateTitle: {
+		fr: 'Créer un nouveau document',
+		en: 'Create a new document',
+	},
+	linksCreateTitle: {
+		fr: 'Créer un nouveau lien',
+		en: 'Create a new link',
+	},
+	seriesCreateTitle: {
+		fr: 'Créer une nouvelle série',
+		en: 'Create a new series',
+	},
+	indicatorsCreateTitle: {
+		fr: 'Créer un nouvel indicateur',
+		en: 'Create a new indicator',
+	},
+	creatorTitle: {
+		fr: 'Propriétaires',
+		en: 'Owners',
+	},
 	operationsSearchTitle: {
 		fr: 'Opérations - Recherche',
 		en: 'Operations - Search',

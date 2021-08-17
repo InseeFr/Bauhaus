@@ -7,7 +7,7 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { AppContext, Stores } from 'bauhaus-utilities';
+import { AppContext, Stores, useTitle } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
@@ -36,6 +36,9 @@ const DumbComponentDetailEdit = ({
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 	const [component, setComponent] = useState(defaultComponent);
 	const { lg1, lg2 } = useContext(AppContext);
+
+	useTitle(D.componentTitle, component?.labelLg1 || D.componentsCreateTitle)
+
 	useEffect(() => {
 		setComponent({ ...initialComponent, ...defaultComponent });
 	}, [initialComponent]);

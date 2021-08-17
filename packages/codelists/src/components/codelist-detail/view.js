@@ -13,6 +13,7 @@ import {
 	ValidationButton,
 	DateUtils,
 	PublicationFemale,
+	useTitle,
 } from 'bauhaus-utilities';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
@@ -31,6 +32,8 @@ export const CodeListDetailView = ({
 	serverSideError,
 	hidden = false,
 }) => {
+	useTitle(D.codelistsTitle, codelist?.labelLg1);
+
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
 		codelist.descriptionLg1
 	);

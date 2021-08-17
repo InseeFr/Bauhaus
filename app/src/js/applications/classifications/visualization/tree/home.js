@@ -4,9 +4,11 @@ import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import DnDTree from 'js/applications/shared/tree/dnd';
 import D from 'js/i18n';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
 
 const ClassificationTree = ({ data, prefLabel }) => {
+	useTitle(D.classificationsTitle, D.classificationTreeTitle + ': ' + prefLabel);
+
 	return (
 		<div>
 			<div className="container">

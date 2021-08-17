@@ -7,7 +7,7 @@ import {
 	Loading,
 } from '@inseefr/wilco';
 import './component-list.scss';
-import { FilterToggleButtons } from 'bauhaus-utilities';
+import { FilterToggleButtons, useTitle } from 'bauhaus-utilities';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { useHistory } from 'react-router-dom';
 
@@ -19,6 +19,8 @@ const ALL = 'ALL';
 const sessionStorageKey = 'components-displayMode';
 
 function ComponentsList() {
+	useTitle(D.structuresTitle, D.componentTitle);
+
 	const history = useHistory();
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);

@@ -1,9 +1,9 @@
 import { Note } from '@inseefr/wilco';
-import { D1, D2 } from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { isDocument, isLink } from '../utils';
-import { API } from 'bauhaus-utilities';
+import { API, useTitle } from 'bauhaus-utilities';
 import RelationsView from '../../shared/relations';
 
 function formatSims(sims){
@@ -50,6 +50,7 @@ function OperationsDocumentationVisualization({
 	langs: { lg1, lg2 },
 	langOptions
 }) {
+	useTitle(D.operationsTitle, attr.labelLg1)
 	const sims = formatSims(attr.sims);
 	const [baseURI, setBaseURI] = useState('');
 	useEffect(() => {

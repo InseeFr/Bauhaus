@@ -13,6 +13,19 @@ import { validateCode } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 
+/**
+ * TODO:
+ * - Afficher le TreeView à gauche
+ * - Ajouter le formulaire vide à droite
+ * - Ajouter les boutons (qui ne font rien pour le moment)
+ * - Gérer le click sur un code -> initaliser le formulaire avec les bonnes données
+ * - Gérer l'ajout d'un nouveau code
+ * - Gérer la sauvegarde d'un code existant
+ * - Gérer la transformation TreeView -> Structure de données pour l'API
+ * - Gérer la suppression d'un code et remontée des enfants
+ * - gérer la suppression d'un code et suppression des enfants
+ * - Gérer le DragnDrop
+ */
 const DumbCodeDetailEdit = ({
 	code: initialCode,
 	codes,

@@ -9,8 +9,10 @@ import {
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
+import { useTitle } from 'bauhaus-utilities';
 
 function CodeListsList() {
+	useTitle(D.codelistsTitle, D.codelistsTitle)
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
 

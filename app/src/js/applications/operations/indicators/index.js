@@ -1,38 +1,53 @@
 import React from 'react';
-import { Loading } from '@inseefr/wilco';
-import IndicatorsHome from './home';
-import loadIndicatorsList from 'js/actions/operations/indicators/list';
-import { connect } from 'react-redux';
-import { NOT_LOADED, LOADED } from 'js/constants';
-import { Auth } from 'bauhaus-utilities';
+import PropTypes from 'prop-types';
+import {
+	PageTitle,
+	SearchableList,
+	NewButton,
+	VerticalMenu, Loading,
+} from '@inseefr/wilco';
+import D from 'js/i18n';
+import { Auth, useTitle } from 'bauhaus-utilities';
+import { LOADED, NOT_LOADED } from '../../../constants';
+import { useSelector } from 'react-redux';
 
-function IndicatorsHomeContainer({ indicators, status, permission }) {
+function IndicatorsHome() {
+	useTitle(D.operationsTitle, D.indicatorsTitle)
+
+	const { results: indicators = [], status = NOT_LOADED } = useSelector(state => state.operationsIndicatorsList)
 	if (status !== LOADED) return <Loading />;
-	return <IndicatorsHome indicators={indicators} permission={permission} />;
+
+	return (
+		<div className="container">
+			<div className="row">
+				<Auth.AuthGuard roles={[Auth.ADMIN]}>
+					<VerticalMenu>
+						<NewButton action="/operations/indicator/create" wrapper={false} />
+					</VerticalMenu>
+				</Auth.AuthGuard>
+				<div className="col-md-8 text-center pull-right operations-list">
+					<PageTitle title={D.indicatorsSearchTitle} col={12} offset={0} />
+					<SearchableList
+						items={indicators}
+						childPath="operations/indicator"
+						label="label"
+						advancedSearch={false}
+						searchUrl="/operations/indicators/search"
+						autoFocus={true}
+					/>
+				</div>
+			</div>
+		</div>
+	);
 }
 
-export const mapStateToProps = state => {
-	if (!state.operationsIndicatorsList) {
-		return {
-			status: NOT_LOADED,
-			indicators: [],
-		};
-	}
-	const { results: indicators, status, err } = state.operationsIndicatorsList;
-	const permission = Auth.getPermission(state);
-	return {
-		indicators,
-		status,
-		permission,
-		err,
-	};
+IndicatorsHome.propTypes = {
+	indicators: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.string.isRequired,
+			label: PropTypes.string.isRequired,
+		}).isRequired
+	),
 };
 
-const mapDispatchToProps = {
-	loadIndicatorsList,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(IndicatorsHomeContainer);
+export default IndicatorsHome;

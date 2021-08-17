@@ -10,11 +10,10 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { Stores } from 'bauhaus-utilities';
+import { Stores, useTitle } from 'bauhaus-utilities';
 import { validateCodelist, treedData } from '../../utils';
-import { D1, D2 } from '../../i18n/build-dictionary';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
 import CodesTree from '../codes-tree';
-
 import './edit.scss';
 
 const defaultCodelist = {
@@ -35,6 +34,8 @@ const DumbCodelistDetailEdit = ({
 	);
 
 	const { field, message } = validateCodelist(codelist);
+
+	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
