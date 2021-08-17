@@ -9,10 +9,6 @@ const dictionary = {
 		fr: 'Familles',
 		en: 'Families',
 	},
-	creatorTitle: {
-		fr: 'Propriétaires',
-		en: 'Owners',
-	},
 	seriesTitle: {
 		fr: 'Séries',
 		en: 'Series',
