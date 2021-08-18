@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import ConceptsContainer from 'js/applications/concepts/home-container';
+import Concepts from 'js/applications/concepts/home';
 import ConceptsSearchListContainer from 'js/applications/concepts/advanced-search/home-container';
 import ConceptCompareContainer from 'js/applications/concepts/compare/home-container';
 import ConceptSendContainer from 'js/applications/concepts/send/home-container';
@@ -31,7 +31,7 @@ export default () => {
 		<>
 			<Menu />
 			<Switch>
-				<Route exact path="/concepts" component={ConceptsContainer} />
+				<Route exact path="/concepts" component={Concepts} />
 				<Route
 					exact
 					path="/concepts/search"
