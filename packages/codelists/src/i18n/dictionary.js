@@ -133,6 +133,10 @@ const dictionary = {
 		fr: "L'URI du concept est obligatoire",
 		en: 'The concept URI is mandatory',
 	},
+	see: {
+		fr: 'voir détail',
+		en: 'see details',
+	},
 	errorsLabelLg1Mandatory: {
 		fr: 'Le label est obligatoire',
 		en: 'The label is mandatory',

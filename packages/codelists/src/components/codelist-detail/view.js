@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	Note,
@@ -18,8 +18,8 @@ import {
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { treedData } from '../../utils';
-import CodesTree from '../codes-tree';
 import { rowParams } from '../code-detail/code-columns';
+import CodesTreeView from './codes-tree-view';
 
 export const CodeListDetailView = ({
 	codelist,
@@ -46,6 +46,7 @@ export const CodeListDetailView = ({
 	};
 
 	const codes = Object.values(codelist.codes);
+	const [tree, setTree] = useState(treedData(codes));
 
 	return (
 		<React.Fragment>
@@ -122,9 +123,10 @@ export const CodeListDetailView = ({
 			)}
 			{codelist.codes && codes.filter((code) => code.parents).length > 0 && (
 				<div className="row">
-					<CodesTree
+					<CodesTreeView
 						codes={codes}
-						tree={treedData(codes)}
+						tree={tree}
+						handleChangeTree={(tree) => setTree(tree)}
 						handleAdd={false}
 						readOnly={true}
 					/>
