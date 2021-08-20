@@ -52,7 +52,7 @@ const SearchableList = ({
 	));
 
 	return (
-		<div className={`=text-center`}>
+		<>
 			<div className="row form-group">
 				<div className="col-md-12">
 					<input
@@ -71,7 +71,7 @@ const SearchableList = ({
 				{nbResults(hits, D)}
 			</p>
 			<Pagination itemEls={hitEls} itemsPerPage="10" />
-		</div>
+		</>
 	);
 };
 
