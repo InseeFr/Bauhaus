@@ -1,5 +1,4 @@
-import React  from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import {
 	PageTitle,
 	SearchableList,
@@ -7,16 +6,27 @@ import {
 	PublishButton,
 	ExportButton,
 	VerticalMenu,
+	Loading
 } from '@inseefr/wilco';
 import check from 'js/utils/auth';
-import { propTypes as conceptOverviewPropTypes } from 'js/utils/concepts/concept-overview';
-import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
+import { useDispatch, useSelector } from 'react-redux';
+import { Auth } from 'bauhaus-utilities';
+import loadConceptList from 'js/actions/concepts/list';
+import * as select from 'js/reducers';
 
-const ConceptsHome = ({
-	concepts,
-	permission: { authType, roles }
-}) => {
+const ConceptsHome = () => {
+	const permission = useSelector(state => Auth.getPermission(state))
+	const concepts = useSelector(state => select.getConceptList(state));
+	const dispatch = useDispatch();
+	useEffect(() => {
+		if (!concepts) {
+			dispatch(loadConceptList())
+		}
+	}, [concepts, dispatch]);
+	if (!concepts) return <Loading />;
+
+	const { authType, roles } = permission;
 	const authImpl = check(authType);
 	const adminOrContributor = authImpl.isAdminOrContributor(roles);
 	const adminOrCreator = authImpl.isAdminOrConceptCreator(roles);
@@ -51,9 +61,5 @@ const ConceptsHome = ({
 		</div>
 	);
 }
-ConceptsHome.propTypes = {
-	concepts: PropTypes.arrayOf(conceptOverviewPropTypes.isRequired),
-	permission: permissionOverviewPropTypes.isRequired,
-};
 
 export default ConceptsHome;
