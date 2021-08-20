@@ -20,6 +20,7 @@ const RmesTree = (props) => {
 							data-component-id={rowInfo.node.id}
 							onClick={props.seeClickHandler}
 							aria-label={D.see}
+							type="button"
 						>
 							<span className="glyphicon glyphicon-eye-open"></span>
 						</button>,

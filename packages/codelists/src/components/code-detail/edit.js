@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { ErrorBloc, LabelRequired, Select } from '@inseefr/wilco';
+import { ErrorBloc, LabelRequired, Select, AbstractButton, ActionToolbar, SaveButton, NewButton, DeleteButton } from '@inseefr/wilco';
 import PropTypes from 'prop-types';
 import { Stores } from 'bauhaus-utilities';
 import { validateCode } from '../../utils';
@@ -8,10 +8,6 @@ import './edit.scss';
 
 /**
  * TODO:
- * - Afficher le TreeView à gauche
- * - Ajouter le formulaire vide à droite
- * - Ajouter les boutons (qui ne font rien pour le moment)
- * - Gérer le click sur un code -> initaliser le formulaire avec les bonnes données
  * - Gérer l'ajout d'un nouveau code
  * - Gérer la sauvegarde d'un code existant
  * - Gérer la transformation TreeView -> Structure de données pour l'API
@@ -19,7 +15,7 @@ import './edit.scss';
  * - gérer la suppression d'un code et suppression des enfants
  * - Gérer le DragnDrop
  */
-const DumbCodeDetailEdit = ({ code: initialCode, codes, serverSideError }) => {
+const DumbCodeDetailEdit = ({ code: initialCode, codes, serverSideError, isCreation }) => {
 	const [code, setCode] = useState({});
 	useEffect(() => {
 		setCode({ ...initialCode });
@@ -47,27 +43,25 @@ const DumbCodeDetailEdit = ({ code: initialCode, codes, serverSideError }) => {
 		.concat({ label: '', value: '' });
 
 	const { field, message } = validateCode(code);
+	console.log(code)
 	return (
 		<React.Fragment>
 			{message && <ErrorBloc error={message} />}
 			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<form>
 				<div className="row">
-					<LabelRequired htmlFor="parents">{D.parentCodeTitle}</LabelRequired>
-					<Select
-						className="form-control"
-						placeholder={D.parentCodeTitle}
-						value={
-							codesOptions.filter(
-								({ value }) =>
-									(parents && parents.some((parent) => parent === value)) ||
-									(!parents && value === '')
-							) || ''
-						}
-						options={codesOptions}
-						onChange={(parent) => setParents(...parents, parent)}
-						multi
-					/>
+					<div className="col-md-12 form-group">
+						<LabelRequired htmlFor="parents">{D.parentCodeTitle}</LabelRequired>
+						<Select
+							className="form-control"
+							placeholder={D.parentCodeTitle}
+							value={codesOptions.filter(option => code.parents?.find(p => p === option.value))}
+
+							options={codesOptions}
+							onChange={(parent) => setParents(...parents, parent)}
+							multi
+						/>
+					</div>
 				</div>
 				<div className="row">
 					<div className="col-md-12 form-group">
@@ -133,6 +127,15 @@ const DumbCodeDetailEdit = ({ code: initialCode, codes, serverSideError }) => {
 						/>
 					</div>
 				</div>
+
+				<ActionToolbar>
+					<SaveButton disabled={message} action={() => {}} col={3} />
+					<NewButton disabled={!code.code} action={() => {}} col={3} />
+					<DeleteButton disabled={!code.code} action={() => {}} col={3} />
+					<AbstractButton icon="trash" disabled={!code.code} action={() => {}} col={4}>
+						{D.btnDeleteWithChildren}
+					</AbstractButton>
+				</ActionToolbar>
 			</form>
 		</React.Fragment>
 	);

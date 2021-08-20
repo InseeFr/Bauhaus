@@ -1,13 +1,13 @@
-.code-list-zone {
-  display: flex;
-  div:nth-child(1){
-    flex: 1;
-    margin-bottom: 0;
+.code-zone {
+  .wilco-note {
+    padding: 0;
+  }
+  .panel-body {
+    padding: .5em !important;
   }
 
-  button {
-    padding: .5em 2em;
-    margin: 0 0 0 1em;
-    align-self: flex-end;
+  .wilco-btn {
+    padding: 5px 8px;
+    font-size: 14px;
   }
 }

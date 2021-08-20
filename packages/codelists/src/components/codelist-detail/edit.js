@@ -16,6 +16,7 @@ import { validateCodelist, treedData } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import CodesTreeEdit from './codes-tree-edit';
 import './edit.scss';
+import { CollapsiblePanel } from '../collapsible-panel';
 
 const defaultCodelist = {
 	contributor: 'DG75-L201',
@@ -33,9 +34,7 @@ const DumbCodelistDetailEdit = ({
 	const [codes, setCodes] = useState(
 		Object.values(defaultCodelist.codes || {})
 	);
-	const [codeTree, setCodeTree] = useState(
-		treedData(Object.values(defaultCodelist.codes || {}))
-	);
+
 
 	const { field, message } = validateCodelist(codelist);
 
@@ -44,11 +43,6 @@ const DumbCodelistDetailEdit = ({
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
 		setCodes(initialCodelist.codes ? Object.values(initialCodelist.codes) : []);
-		setCodeTree(
-			initialCodelist.codes
-				? treedData(Object.values(initialCodelist.codes))
-				: []
-		);
 	}, [initialCodelist]);
 
 	const handleChange = useCallback(
@@ -93,7 +87,7 @@ const DumbCodelistDetailEdit = ({
 			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<form>
 				<div className="row">
-					<div className={`col-md-6 form-group`}>
+					<div className={`col-md-12 form-group`}>
 						<LabelRequired htmlFor="lastListUriSegment">
 							{D1.lastListUriSegmentTitle}
 						</LabelRequired>
@@ -108,7 +102,7 @@ const DumbCodelistDetailEdit = ({
 					</div>
 				</div>
 				<div className="row">
-					<div className={`col-md-6 form-group`}>
+					<div className={`col-md-12 form-group`}>
 						<LabelRequired htmlFor="lastClassUriSegment">
 							{D1.lastClassUriSegmentTitle}
 						</LabelRequired>
@@ -230,19 +224,22 @@ const DumbCodelistDetailEdit = ({
 						/>
 					</div>
 				</div>
-				<div className="row">
-					<CodesTreeEdit
-						codes={codes}
-						tree={codeTree}
-						handleChangeTree={(tree) => {
-							setCodeTree(tree);
-						}}
-						handleAdd={true}
-						readOnly={false}
-					/>
-					{console.log('codeTree')}
-					{console.log(codeTree)}
+				<div className="code-zone">
+					<CollapsiblePanel
+						id="code-picker"
+						hidden={false}
+						title={D.codesTreeTitle}
+						children={
+							<CodesTreeEdit
+								codes={codes}
+								handleAdd={true}
+								readOnly={false}
+							></CodesTreeEdit>
+						}>
+
+					</CollapsiblePanel>
 				</div>
+
 			</form>
 		</React.Fragment>
 	);
