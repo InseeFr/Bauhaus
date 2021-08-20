@@ -1,12 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import {
-	CancelButton,
-	SaveButton,
-	ActionToolbar,
-	ErrorBloc,
-	LabelRequired,
-	Select,
-} from '@inseefr/wilco';
+import { ErrorBloc, LabelRequired, Select } from '@inseefr/wilco';
 import PropTypes from 'prop-types';
 import { Stores } from 'bauhaus-utilities';
 import { validateCode } from '../../utils';
@@ -26,13 +19,7 @@ import './edit.scss';
  * - gérer la suppression d'un code et suppression des enfants
  * - Gérer le DragnDrop
  */
-const DumbCodeDetailEdit = ({
-	code: initialCode,
-	codes,
-	handleSave,
-	handleBack,
-	serverSideError,
-}) => {
+const DumbCodeDetailEdit = ({ code: initialCode, codes, serverSideError }) => {
 	const [code, setCode] = useState({});
 	useEffect(() => {
 		setCode({ ...initialCode });
@@ -59,17 +46,9 @@ const DumbCodeDetailEdit = ({
 		})
 		.concat({ label: '', value: '' });
 
-	const handleSaveClick = useCallback(() => {
-		handleSave(code);
-	}, [code, handleSave]);
-
 	const { field, message } = validateCode(code);
 	return (
 		<React.Fragment>
-			<ActionToolbar>
-				<CancelButton action={handleBack} col={3} />
-				<SaveButton disabled={message} action={handleSaveClick} col={3} />
-			</ActionToolbar>
 			{message && <ErrorBloc error={message} />}
 			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<form>
@@ -161,11 +140,10 @@ const DumbCodeDetailEdit = ({
 
 DumbCodeDetailEdit.propTypes = {
 	code: PropTypes.object,
-	handleSave: PropTypes.func,
-	handleBack: PropTypes.func,
 	secondLang: PropTypes.bool,
 };
 
-export const CodeDetailEdit = Stores.DisseminationStatus.withDisseminationStatusListOptions(
-	DumbCodeDetailEdit
-);
+export const CodeDetailEdit =
+	Stores.DisseminationStatus.withDisseminationStatusListOptions(
+		DumbCodeDetailEdit
+	);

@@ -17,7 +17,7 @@ const dictionary = {
 		fr: 'Listes de codes - Recherche',
 		en: 'Code lists - Search',
 	},
-	componentTitle: {
+	codelistTitle: {
 		fr: 'Listes de codes',
 		en: 'Codelists',
 	},
@@ -61,9 +61,21 @@ const dictionary = {
 		fr: 'Eléments',
 		en: 'Elements',
 	},
-	codeTitle: {
+	codesTreeTitle: {
+		fr: 'Arborescence',
+		en: 'Tree structure',
+	},
+	codesTitle: {
 		fr: 'Codes',
 		en: 'Codes',
+	},
+	codeTitle: {
+		fr: 'Code',
+		en: 'Code',
+	},
+	parentCodeTitle: {
+		fr: 'Codes parents',
+		en: 'Parents codes',
 	},
 	codeLabel: {
 		fr: 'Libellé (fr)',
@@ -120,6 +132,10 @@ const dictionary = {
 	lastClassUriSegmentMandatory: {
 		fr: "L'URI du concept est obligatoire",
 		en: 'The concept URI is mandatory',
+	},
+	see: {
+		fr: 'voir détail',
+		en: 'see details',
 	},
 	errorsLabelLg1Mandatory: {
 		fr: 'Le label est obligatoire',

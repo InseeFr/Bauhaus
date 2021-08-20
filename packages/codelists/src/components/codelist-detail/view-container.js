@@ -20,6 +20,15 @@ const CodelistComponentView = (props) => {
 	useEffect(() => {
 		API.getDetailedCodelist(id)
 			.then((codelist) => {
+				codelist.codes = Object.values(codelist.codes).reduce((acc, c) => {
+					return {
+						...acc,
+						[c.code]: {
+							...c,
+							id: c.code,
+						},
+					};
+				}, {});
 				setCodelist(codelist);
 			})
 			.finally(() => setLoading(false));
@@ -37,7 +46,7 @@ const CodelistComponentView = (props) => {
 				col={2}
 				codelist={codelist}
 				handleBack={handleBack}
-				handleUpdate={`/codelists/components/${codelist.id}/modify`}
+				handleUpdate={`/codelists/${codelist.id}/modify`}
 				secondLang={secondLang}
 				mutualized={true}
 				updatable={true}

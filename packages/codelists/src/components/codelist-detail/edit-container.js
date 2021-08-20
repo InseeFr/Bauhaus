@@ -51,6 +51,15 @@ const CodelistEdit = (props) => {
 	useEffect(() => {
 		API.getDetailedCodelist(id)
 			.then((codelist) => {
+				codelist.codes = Object.values(codelist.codes).reduce((acc, c) => {
+					return {
+						...acc,
+						[c.code]: {
+							...c,
+							id: c.code,
+						},
+					};
+				}, {});
 				setCodelist(codelist);
 			})
 			.finally(() => setLoading(false));
