@@ -31,7 +31,7 @@ export const validateCodelist = (codelist) => {
 
 export const validateCode = (code) => {
 	const validations = {
-		id: 'errorsIdMandatory',
+		code: 'errorsIdMandatory',
 		labelLg1: 'errorsLabelLg1Mandatory',
 		labelLg2: 'errorsLabelLg1Mandatory',
 	};

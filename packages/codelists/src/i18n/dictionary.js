@@ -165,6 +165,18 @@ const dictionary = {
 		fr: "Le lastClassUriSegment  n'est pas défini.",
 		en: 'The lastClassUriSegment is not defined.',
 	},
+	btnDelete: {
+		fr: 'Supprimer',
+		en: 'Delete',
+	},
+	btnCreate: {
+		fr: 'Créer',
+		en: 'Create',
+	},
+	btnSave: {
+		fr: 'Sauvegarder',
+		en: 'Save',
+	},
 	btnDeleteWithChildren: {
 		"fr": "Supprimer avec les enfants",
 		"en": "Delete with children"

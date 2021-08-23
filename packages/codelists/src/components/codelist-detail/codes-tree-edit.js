@@ -6,7 +6,7 @@ import RmesTree from '../tree';
 import { CodeDetailEdit } from '../code-detail/edit';
 import { treedData } from '../../utils';
 
-const CodesTreeEdit = ({ codes }) => {
+const CodesTreeEdit = ({ codes,deleteCode, deleteCodeWithChildren, updateCode, createCode }) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const [selectedCode, setSelectedCode] = useState(null);
 
@@ -27,7 +27,7 @@ const CodesTreeEdit = ({ codes }) => {
 
 	return (
 		<div className="row">
-			<div className="col-md-6 form-group">
+			<div className="col-md-5 form-group">
 				<RmesTree
 					treeData={tree}
 					handleChangeTree={setTree}
@@ -35,11 +35,15 @@ const CodesTreeEdit = ({ codes }) => {
 					seeClickHandler={seeClickHandler}
 				/>
 			</div>
-			<div className="col-md-6 form-group">
+			<div className="col-md-7 form-group">
 				<CodeDetailEdit
 					code={selectedCode}
 					codes={codes}
 					secondLang={secondLang}
+					deleteCode={deleteCode}
+					deleteCodeWithChildren={deleteCodeWithChildren}
+					updateCode={updateCode}
+					createCode={createCode}
 				/>
 			</div>
 		</div>

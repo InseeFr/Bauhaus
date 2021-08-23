@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import { default as ReactSelect } from 'react-select';
-/* import { getFlatDataFromTree } from 'react-sortable-tree'; */
 import {
 	CancelButton,
 	SaveButton,
@@ -35,6 +34,68 @@ const DumbCodelistDetailEdit = ({
 		Object.values(defaultCodelist.codes || {})
 	);
 
+	const deleteCode = useCallback(( { code }) => {
+		const selectedCode = codes.find(c => c.code === code)
+		const children = codes.filter(c => c.parents?.includes(code)).map(({ code }) => code);
+		const newParents = selectedCode.parents || [];
+		setCodes(codes
+							.filter(c => c.code !== code)
+							.map(c => {
+								if(children.includes(c.code)){
+									const parents = [...(c.parents || []).filter(c => c !== code), ...newParents];
+									return {
+										...c,
+										parents
+									}
+								}  else {
+									return c;
+								}
+							})
+		)
+	}, [codes]);
+
+	const deleteCodeWithChildren = useCallback((codeToDelete) => {
+		let updatedCodes = [...codes]
+
+		const deleteNodes = (currentNode) => {
+			// TODO François - Si un children a plusieurs parents, ne pas le supprimer, mais supprimer que le parent
+			updatedCodes = updatedCodes.filter(code => code.code !== currentNode.code);
+			const children = codes.filter(code => code.parents?.includes(currentNode.code)) || [];
+			children.forEach(child => deleteNodes(child));
+		}
+		deleteNodes(codeToDelete)
+		setCodes(updatedCodes);
+	}, [codes]);
+
+	const updateCode = useCallback((codeObject) => {
+		const existing = codes.find(c => c.code === codeObject.code )
+		if(!existing) {
+			// Create
+			setCodes([ ...codes.filter(c => c.code !== ''), codeObject])
+
+		} else {
+			// Update
+			setCodes(codes.map(c => {
+				if(c.code === codeObject.code){
+					return codeObject
+				}
+				return c;
+			}))
+		}
+
+	}, [codes]);
+
+	const createCode = useCallback((codeObject) => {
+		const newCode = {
+			code: '',
+			parents: [codeObject.code],
+			labelLg1: '',
+			labelLg2: '',
+			descriptionLg1: '',
+			descriptionLg2: ''
+		}
+		setCodes([ ...codes, newCode ])
+	}, [codes])
 
 	const { field, message } = validateCodelist(codelist);
 
@@ -55,24 +116,8 @@ const DumbCodelistDetailEdit = ({
 		},
 		[codelist]
 	);
-	/* const handleChangeTree = useCallback(
-		(tree) => {
-			const flat = getFlatDataFromTree(tree);
-			console.log(flat);
 
-			flat.reduce();
-			setCodelist({
-				...codelist,
-				codes: {
-					// boucle sur les codes : on garde le key, on modifie le value.parents
-					// flat.filter(id == key) pour avoir les éléments qui ont le bon identifiant
-					// on .reduce pour avoir le tableau des parents
-					// on compare avec le tableau actuel ? Puis on met à jour
-				},
-			});
-		},
-		[codelist]
-	); */
+
 	const handleSaveClick = useCallback(() => {
 		handleSave(codelist);
 	}, [codelist, handleSave]);
@@ -231,6 +276,10 @@ const DumbCodelistDetailEdit = ({
 						title={D.codesTreeTitle}
 						children={
 							<CodesTreeEdit
+								deleteCode={deleteCode}
+								deleteCodeWithChildren={deleteCodeWithChildren}
+								updateCode={updateCode}
+								createCode={createCode}
 								codes={codes}
 								handleAdd={true}
 								readOnly={false}

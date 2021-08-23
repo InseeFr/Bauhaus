@@ -8,14 +8,21 @@ import './edit.scss';
 
 /**
  * TODO:
- * - Gérer l'ajout d'un nouveau code
- * - Gérer la sauvegarde d'un code existant
- * - Gérer la transformation TreeView -> Structure de données pour l'API
- * - Gérer la suppression d'un code et remontée des enfants
- * - gérer la suppression d'un code et suppression des enfants
+ * Ne pas perdre le state du tree
+ * Reinitialiser le formulaire après la validation d'une action
+ * Ne pas pouvoir associer un code à un parent pour lequel il est deja un descendant
+ * Validation - Eviter d'avoir deux codes avec le meme code
  * - Gérer le DragnDrop
  */
-const DumbCodeDetailEdit = ({ code: initialCode, codes, serverSideError, isCreation }) => {
+const DumbCodeDetailEdit = ({
+	code: initialCode,
+	codes,
+	serverSideError,
+	deleteCode,
+	deleteCodeWithChildren,
+	updateCode,
+	createCode}) => {
+
 	const [code, setCode] = useState({});
 	useEffect(() => {
 		setCode({ ...initialCode });
@@ -58,22 +65,28 @@ const DumbCodeDetailEdit = ({ code: initialCode, codes, serverSideError, isCreat
 							value={codesOptions.filter(option => code.parents?.find(p => p === option.value))}
 
 							options={codesOptions}
-							onChange={(parent) => setParents(...parents, parent)}
+							onChange={(parents) => {
+								setCode({
+									...code,
+									parents: parents?.map(({ value }) => value) || []
+								});
+							}}
 							multi
 						/>
 					</div>
 				</div>
 				<div className="row">
 					<div className="col-md-12 form-group">
-						<LabelRequired htmlFor="identifiant">{D.idTitle}</LabelRequired>
+						<LabelRequired htmlFor="code">{D.idTitle}</LabelRequired>
 						<input
 							type="text"
 							className="form-control"
-							id="identifiant"
-							name="identifiant"
+							id="code"
+							name="code"
 							value={code.code}
 							onChange={handleChange}
-							aria-invalid={field === 'identifiant'}
+							disabled={initialCode?.code !== ''}
+							aria-invalid={field === 'code'}
 						/>
 					</div>
 				</div>
@@ -127,16 +140,21 @@ const DumbCodeDetailEdit = ({ code: initialCode, codes, serverSideError, isCreat
 						/>
 					</div>
 				</div>
-
-				<ActionToolbar>
-					<SaveButton disabled={message} action={() => {}} col={3} />
-					<NewButton disabled={!code.code} action={() => {}} col={3} />
-					<DeleteButton disabled={!code.code} action={() => {}} col={3} />
-					<AbstractButton icon="trash" disabled={!code.code} action={() => {}} col={4}>
-						{D.btnDeleteWithChildren}
-					</AbstractButton>
-				</ActionToolbar>
 			</form>
+			<ActionToolbar>
+				<button type="button" disabled={message} onClick={() => updateCode(code)} className="btn wilco-btn btn-lg col-md-12">
+					<span className="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span><span>{D.btnSave}</span>
+				</button>
+				<button type="button" disabled={!code.code} onClick={() => createCode(code)} className="btn wilco-btn btn-lg col-md-12">
+					<span className="glyphicon glyphicon-plus" aria-hidden="true"></span><span> {D.btnCreate}</span>
+				</button>
+				<button type="button" disabled={!code.code} onClick={() => deleteCode(code)} className="btn wilco-btn btn-lg col-md-12">
+					<span className="glyphicon glyphicon-trash" aria-hidden="true"></span><span> {D.btnDelete}</span>
+				</button>
+				<button type="button" icon="trash" disabled={!code.code} onClick={() => deleteCodeWithChildren(code)} className="btn wilco-btn btn-lg col-md-12">
+					<span className="glyphicon glyphicon-trash" aria-hidden="true"></span><span> {D.btnDeleteWithChildren }</span>
+				</button>
+			</ActionToolbar>
 		</React.Fragment>
 	);
 };
