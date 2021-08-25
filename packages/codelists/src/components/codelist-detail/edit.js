@@ -60,8 +60,21 @@ const DumbCodelistDetailEdit = ({
 		const deleteNodes = (currentNode) => {
 			// TODO François - Si un children a plusieurs parents, ne pas le supprimer, mais supprimer que le parent
 			updatedCodes = updatedCodes.filter(code => code.code !== currentNode.code);
-			const children = codes.filter(code => code.parents?.includes(currentNode.code)) || [];
-			children.forEach(child => deleteNodes(child));
+			const childrenToDelete = codes.filter(code => code.parent.length === 1 && code.parents?.includes(currentNode.code)) || [];
+			childrenToDelete.forEach(child => deleteNodes(child));
+
+			const childrenToUpdate = codes.filter(code => code.parent.length > 1 && code.parents?.includes(currentNode.code)) || [];
+			updatedCodes.map(updatedCode => {
+				const isPresent = childrenToUpdate.find(({ code }) => code === updatedCode);
+				if(isPresent){
+					return {
+						...updatedCode,
+						parents: updatedCode.parents.filter(({ code }) => code !== currentNode.code)
+					}
+				} else {
+					return updatedCode
+				}
+			})
 		}
 		deleteNodes(codeToDelete)
 		setCodes(updatedCodes);
