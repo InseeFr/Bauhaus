@@ -6,6 +6,18 @@ import RmesTree from '../tree';
 import { CodeDetailEdit } from '../code-detail/edit';
 import { treedData } from '../../utils';
 
+export const syncNodes = (previousNodes = [], nextNodes = []) => {
+	return nextNodes.map((node) => {
+		const previousNode = previousNodes.find(({ id }) => id === node.id);
+
+		return {
+			...node,
+			expanded: previousNode?.expanded || false,
+			children: syncNodes(previousNode?.children, node.children)
+		}
+	})
+}
+
 const CodesTreeEdit = ({ codes,deleteCode, deleteCodeWithChildren, updateCode, createCode }) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const [selectedCode, setSelectedCode] = useState(null);
@@ -16,17 +28,7 @@ const CodesTreeEdit = ({ codes,deleteCode, deleteCodeWithChildren, updateCode, c
 
 		const currentTree = treedData(Object.values(codes || {}));
 
-		function syncNodes(previousNodes = [], nextNodes = []){
-			return nextNodes.map((node) => {
-				const previousNode = previousNodes.find(({ code }) => code === node.code);
 
-				return {
-					...node,
-					expanded: previousNode?.expanded || false,
-					children: syncNodes(previousNode?.children, node.children)
-				}
-			})
-		}
 		setTree(syncNodes(tree, currentTree))
 	}, [codes]);
 
