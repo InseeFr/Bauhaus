@@ -7,6 +7,18 @@ import { CodeDetailEdit } from '../code-detail/edit';
 import { treedData } from '../../utils';
 import { emptyCode } from '../code-detail/empty-code';
 
+export const syncNodes = (previousNodes = [], nextNodes = []) => {
+	return nextNodes.map((node) => {
+		const previousNode = previousNodes.find(({ id }) => id === node.id);
+
+		return {
+			...node,
+			expanded: previousNode?.expanded || false,
+			children: syncNodes(previousNode?.children, node.children),
+		};
+	});
+};
+
 const CodesTreeEdit = ({
 	codes,
 	deleteCode,
@@ -16,12 +28,14 @@ const CodesTreeEdit = ({
 }) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const [selectedCode, setSelectedCode] = useState(emptyCode);
-
 	const [tree, setTree] = useState([]);
-	useEffect(() => {
-		setTree(treedData(Object.values(codes || {})));
-	}, [codes]);
 
+	useEffect(() => {
+		const currentTree = treedData(Object.values(codes || {}));
+		setTree(syncNodes(tree, currentTree));
+	}, [codes, tree]);
+
+	console.log(tree);
 	const seeClickHandler = useCallback(
 		(e) => {
 			const chosenCode = codes.find(

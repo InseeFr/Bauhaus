@@ -11,7 +11,7 @@ import {
 	Select,
 } from '@inseefr/wilco';
 import { Stores, useTitle } from 'bauhaus-utilities';
-import { validateCodelist, treedData } from '../../utils';
+import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import CodesTreeEdit from './codes-tree-edit';
 import './edit.scss';
@@ -34,68 +34,113 @@ const DumbCodelistDetailEdit = ({
 		Object.values(defaultCodelist.codes || {})
 	);
 
-	const deleteCode = useCallback(( { code }) => {
-		const selectedCode = codes.find(c => c.code === code)
-		const children = codes.filter(c => c.parents?.includes(code)).map(({ code }) => code);
-		const newParents = selectedCode.parents || [];
-		setCodes(codes
-							.filter(c => c.code !== code)
-							.map(c => {
-								if(children.includes(c.code)){
-									const parents = [...(c.parents || []).filter(c => c !== code), ...newParents];
-									return {
-										...c,
-										parents
-									}
-								}  else {
-									return c;
-								}
-							})
-		)
-	}, [codes]);
+	const deleteCode = useCallback(
+		({ code }) => {
+			const selectedCode = codes.find((c) => c.code === code);
+			const children = codes
+				.filter((c) => c.parents?.includes(code))
+				.map(({ code }) => code);
+			const newParents = selectedCode.parents || [];
+			setCodes(
+				codes
+					.filter((c) => c.code !== code)
+					.map((c) => {
+						if (children.includes(c.code)) {
+							const parents = [
+								...(c.parents || []).filter((c) => c !== code),
+								...newParents,
+							];
+							return {
+								...c,
+								parents,
+							};
+						} else {
+							return c;
+						}
+					})
+			);
+		},
+		[codes]
+	);
 
-	const deleteCodeWithChildren = useCallback((codeToDelete) => {
-		let updatedCodes = [...codes]
+	const deleteCodeWithChildren = useCallback(
+		(codeToDelete) => {
+			let updatedCodes = [...codes];
 
-		const deleteNodes = (currentNode) => {
-			// TODO François - Si un children a plusieurs parents, ne pas le supprimer, mais supprimer que le parent
-			updatedCodes = updatedCodes.filter(code => code.code !== currentNode.code);
-			const children = codes.filter(code => code.parents?.includes(currentNode.code)) || [];
-			children.forEach(child => deleteNodes(child));
-		}
-		deleteNodes(codeToDelete)
-		setCodes(updatedCodes);
-	}, [codes]);
+			const deleteNodes = (currentNode) => {
+				updatedCodes = updatedCodes.filter(
+					(code) => code.code !== currentNode.code
+				);
+				const childrenToDelete =
+					codes.filter(
+						(code) =>
+							code.parent.length === 1 &&
+							code.parents?.includes(currentNode.code)
+					) || [];
+				childrenToDelete.forEach((child) => deleteNodes(child));
 
-	const updateCode = useCallback((codeObject) => {
-		const existing = codes.find(c => c.code === codeObject.code )
-		if(!existing) {
-			// Create
-			setCodes([ ...codes.filter(c => c.code !== ''), codeObject])
+				const childrenToUpdate =
+					codes.filter(
+						(code) =>
+							code.parent.length > 1 && code.parents?.includes(currentNode.code)
+					) || [];
+				updatedCodes.map((updatedCode) => {
+					const isPresent = childrenToUpdate.find(
+						({ code }) => code === updatedCode
+					);
+					if (isPresent) {
+						return {
+							...updatedCode,
+							parents: updatedCode.parents.filter(
+								({ code }) => code !== currentNode.code
+							),
+						};
+					} else {
+						return updatedCode;
+					}
+				});
+			};
+			deleteNodes(codeToDelete);
+			setCodes(updatedCodes);
+		},
+		[codes]
+	);
 
-		} else {
-			// Update
-			setCodes(codes.map(c => {
-				if(c.code === codeObject.code){
-					return codeObject
-				}
-				return c;
-			}))
-		}
+	const updateCode = useCallback(
+		(codeObject) => {
+			const existing = codes.find((c) => c.code === codeObject.code);
+			if (!existing) {
+				// Create
+				setCodes([...codes.filter((c) => c.code !== ''), codeObject]);
+			} else {
+				// Update
+				setCodes(
+					codes.map((c) => {
+						if (c.code === codeObject.code) {
+							return codeObject;
+						}
+						return c;
+					})
+				);
+			}
+		},
+		[codes]
+	);
 
-	}, [codes]);
-
-	const createCode = useCallback((codeObject) => {
-		const newCode = {
-			code: '',
-			parents: [codeObject.code],
-			labelLg1: '',
-			labelLg2: '',
-			descriptionLg1: '',
-			descriptionLg2: ''
-		}
-		setCodes([ ...codes, newCode ])
-	}, [codes])
+	const createCode = useCallback(
+		(codeObject) => {
+			const newCode = {
+				code: '',
+				parents: [codeObject.code],
+				labelLg1: '',
+				labelLg2: '',
+				descriptionLg1: '',
+				descriptionLg2: '',
+			};
+			setCodes([...codes, newCode]);
+		},
+		[codes]
+	);
 
 	const { field, message } = validateCodelist(codelist);
 
@@ -116,7 +161,6 @@ const DumbCodelistDetailEdit = ({
 		},
 		[codelist]
 	);
-
 
 	const handleSaveClick = useCallback(() => {
 		handleSave(codelist);
@@ -284,11 +328,9 @@ const DumbCodelistDetailEdit = ({
 								handleAdd={true}
 								readOnly={false}
 							></CodesTreeEdit>
-						}>
-
-					</CollapsiblePanel>
+						}
+					/>
 				</div>
-
 			</form>
 		</React.Fragment>
 	);
