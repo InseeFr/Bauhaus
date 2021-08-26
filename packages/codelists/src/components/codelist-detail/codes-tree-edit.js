@@ -5,14 +5,21 @@ import { Stores } from 'bauhaus-utilities';
 import RmesTree from '../tree';
 import { CodeDetailEdit } from '../code-detail/edit';
 import { treedData } from '../../utils';
+import { emptyCode } from '../code-detail/empty-code';
 
-const CodesTreeEdit = ({ codes,deleteCode, deleteCodeWithChildren, updateCode, createCode }) => {
+const CodesTreeEdit = ({
+	codes,
+	deleteCode,
+	deleteCodeWithChildren,
+	updateCode,
+	createCode,
+}) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
-	const [selectedCode, setSelectedCode] = useState(null);
+	const [selectedCode, setSelectedCode] = useState(emptyCode);
 
-	const [tree, setTree] = useState({});
+	const [tree, setTree] = useState([]);
 	useEffect(() => {
-		setTree(treedData(Object.values(codes || {})))
+		setTree(treedData(Object.values(codes || {})));
 	}, [codes]);
 
 	const seeClickHandler = useCallback(
@@ -52,8 +59,6 @@ const CodesTreeEdit = ({ codes,deleteCode, deleteCodeWithChildren, updateCode, c
 
 CodesTreeEdit.propTypes = {
 	codes: PropTypes.array,
-	tree: PropTypes.array.isRequired,
-	handleChangeTree: PropTypes.func.isRequired,
 };
 
 export default CodesTreeEdit;

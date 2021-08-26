@@ -1,18 +1,28 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { ErrorBloc, LabelRequired, Select, AbstractButton, ActionToolbar, SaveButton, NewButton, DeleteButton } from '@inseefr/wilco';
+import {
+	ErrorBloc,
+	LabelRequired,
+	Select,
+	ActionToolbar,
+} from '@inseefr/wilco';
 import PropTypes from 'prop-types';
 import { Stores } from 'bauhaus-utilities';
 import { validateCode } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
+import { emptyCode } from './empty-code';
 import './edit.scss';
 
 /**
  * TODO:
- * Ne pas perdre le state du tree
- * Reinitialiser le formulaire après la validation d'une action
+ * 		- pour le DragnDrop : rajouter l'effet du setCodes dans ces actions
+ * Reinitialiser le formulaire après la validation d'une action -> emptyCode.js à importer dans les 2
  * Ne pas pouvoir associer un code à un parent pour lequel il est deja un descendant
  * Validation - Eviter d'avoir deux codes avec le meme code
  * - Gérer le DragnDrop
+ *
+ * - messages d'erreur (descriptionLgx : passe de null à valeur)
+ * - CSS pour libellés trop longs
+ * - suppression des enfants seulement si enfants uniques
  */
 const DumbCodeDetailEdit = ({
 	code: initialCode,
@@ -21,13 +31,12 @@ const DumbCodeDetailEdit = ({
 	deleteCode,
 	deleteCodeWithChildren,
 	updateCode,
-	createCode}) => {
-
+	createCode,
+}) => {
 	const [code, setCode] = useState({});
 	useEffect(() => {
 		setCode({ ...initialCode });
 	}, [initialCode]);
-	const [parents, setParents] = useState(code.parents);
 
 	const handleChange = useCallback(
 		(e) => {
@@ -40,6 +49,14 @@ const DumbCodeDetailEdit = ({
 		[code]
 	);
 
+	const isDescendant = (ancestor, descendant) => {
+		if (ancestor === descendant) return true;
+		if (descendant === '') return false;
+		return codes
+			.find((c) => c.code === descendant)
+			.parents?.some((parent) => isDescendant(ancestor, parent));
+	};
+
 	const codesOptions = codes
 		.map((code) => {
 			return {
@@ -50,25 +67,27 @@ const DumbCodeDetailEdit = ({
 		.concat({ label: '', value: '' });
 
 	const { field, message } = validateCode(code);
-	console.log(code)
 	return (
 		<React.Fragment>
 			{message && <ErrorBloc error={message} />}
 			{serverSideError && <ErrorBloc error={serverSideError} />}
-			<form>
+			<div>
 				<div className="row">
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="parents">{D.parentCodeTitle}</LabelRequired>
 						<Select
 							className="form-control"
 							placeholder={D.parentCodeTitle}
-							value={codesOptions.filter(option => code.parents?.find(p => p === option.value))}
-
-							options={codesOptions}
+							value={codesOptions.filter((option) =>
+								code.parents?.find((p) => p === option.value)
+							)}
+							options={codesOptions.filter(
+								(c) => !code.code || !isDescendant(code.code, c.value)
+							)}
 							onChange={(parents) => {
 								setCode({
 									...code,
-									parents: parents?.map(({ value }) => value) || []
+									parents: parents?.map(({ value }) => value) || [],
 								});
 							}}
 							multi
@@ -112,6 +131,7 @@ const DumbCodeDetailEdit = ({
 							name="labelLg2"
 							value={code.labelLg2}
 							onChange={handleChange}
+							aria-invalid={field === 'labelLg2'}
 						/>
 					</div>
 				</div>
@@ -121,7 +141,7 @@ const DumbCodeDetailEdit = ({
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
 						<input
 							type="text"
-							value={code.descriptionLg1}
+							value={code.descriptionLg1 || ''}
 							className="form-control"
 							id="descriptionLg1"
 							name="descriptionLg1"
@@ -132,7 +152,7 @@ const DumbCodeDetailEdit = ({
 						<label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
 						<input
 							type="text"
-							value={code.descriptionLg2}
+							value={code.descriptionLg2 || ''}
 							className="form-control"
 							id="descriptionLg2"
 							name="descriptionLg2"
@@ -140,19 +160,56 @@ const DumbCodeDetailEdit = ({
 						/>
 					</div>
 				</div>
-			</form>
+			</div>
 			<ActionToolbar>
-				<button type="button" disabled={message} onClick={() => updateCode(code)} className="btn wilco-btn btn-lg col-md-12">
-					<span className="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span><span>{D.btnSave}</span>
+				<button
+					type="button"
+					disabled={message}
+					onClick={() => updateCode(code)}
+					className="btn wilco-btn btn-lg col-md-12"
+				>
+					<span
+						className="glyphicon glyphicon-floppy-disk"
+						aria-hidden="true"
+					></span>
+					<span>{D.btnSave}</span>
 				</button>
-				<button type="button" disabled={!code.code} onClick={() => createCode(code)} className="btn wilco-btn btn-lg col-md-12">
-					<span className="glyphicon glyphicon-plus" aria-hidden="true"></span><span> {D.btnCreate}</span>
+				<button
+					type="button"
+					disabled={!code.code}
+					onClick={() => {
+						createCode(code);
+						setCode(codes.find((c) => c.code === ''));
+					}}
+					className="btn wilco-btn btn-lg col-md-12"
+				>
+					<span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+					<span> {D.btnCreate}</span>
 				</button>
-				<button type="button" disabled={!code.code} onClick={() => deleteCode(code)} className="btn wilco-btn btn-lg col-md-12">
-					<span className="glyphicon glyphicon-trash" aria-hidden="true"></span><span> {D.btnDelete}</span>
+				<button
+					type="button"
+					disabled={!code.code}
+					onClick={() => {
+						deleteCode(code);
+						setCode(emptyCode);
+					}}
+					className="btn wilco-btn btn-lg col-md-12"
+				>
+					<span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					<span> {D.btnDelete}</span>
 				</button>
-				<button type="button" icon="trash" disabled={!code.code} onClick={() => deleteCodeWithChildren(code)} className="btn wilco-btn btn-lg col-md-12">
-					<span className="glyphicon glyphicon-trash" aria-hidden="true"></span><span> {D.btnDeleteWithChildren }</span>
+				<button
+					type="button"
+					icon="trash"
+					disabled={!code.code}
+					onClick={() => {
+						deleteCodeWithChildren(code);
+						setCode(emptyCode);
+					}}
+					className="btn wilco-btn btn-lg col-md-12"
+				>
+					<span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					<span> {D.btnDeleteWithChildren}</span>
 				</button>
 			</ActionToolbar>
 		</React.Fragment>
