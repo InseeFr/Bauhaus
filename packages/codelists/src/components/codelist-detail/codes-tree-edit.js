@@ -33,6 +33,8 @@ const CodesTreeEdit = ({
 	useEffect(() => {
 		const currentTree = treedData(Object.values(codes || {}));
 		setTree(syncNodes(tree, currentTree));
+		// needs not to depend on tree to allow react-sortable-tree to update "expanded"
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [codes]);
 
 	console.log(tree);
