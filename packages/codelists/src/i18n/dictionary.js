@@ -125,6 +125,10 @@ const dictionary = {
 		fr: "L'identifiant est obligatoire",
 		en: 'The id is mandatory',
 	},
+	ErrorDoubleCode: {
+		fr: 'Le code créé existe déjà',
+		en: 'The created code already exists',
+	},
 	lastListUriSegmentMandatory: {
 		fr: "L'URI de la liste est obligatoire",
 		en: 'The list URI is mandatory',
@@ -178,8 +182,8 @@ const dictionary = {
 		en: 'Save',
 	},
 	btnDeleteWithChildren: {
-		"fr": "Supprimer avec les enfants",
-		"en": "Delete with children"
-	}
+		fr: 'Supprimer avec les enfants',
+		en: 'Delete with children',
+	},
 };
 export default dictionary;

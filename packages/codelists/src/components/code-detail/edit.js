@@ -20,9 +20,7 @@ import './edit.scss';
  * Validation - Eviter d'avoir deux codes avec le meme code
  * - Gérer le DragnDrop
  *
- * - messages d'erreur (descriptionLgx : passe de null à valeur)
  * - CSS pour libellés trop longs
- * - suppression des enfants seulement si enfants uniques
  */
 const DumbCodeDetailEdit = ({
 	code: initialCode,
@@ -68,7 +66,7 @@ const DumbCodeDetailEdit = ({
 		})
 		.concat({ label: '', value: '' });
 
-	const { field, message } = validateCode(code);
+	const { field, message } = validateCode(code, codes, updateMode);
 	return (
 		<React.Fragment>
 			{message && <ErrorBloc error={message} />}

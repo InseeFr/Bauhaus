@@ -29,19 +29,28 @@ export const validateCodelist = (codelist) => {
 	return {};
 };
 
-export const validateCode = (code) => {
+export const validateCode = (code, codes, updateMode) => {
 	const validations = {
 		code: 'errorsIdMandatory',
 		labelLg1: 'errorsLabelLg1Mandatory',
 		labelLg2: 'errorsLabelLg1Mandatory',
 	};
 
-	const field = Object.keys(validations).find((field) => !code[field]);
+	const emptyField = Object.keys(validations).find((field) => !code[field]);
 
-	if (field) {
+	if (emptyField) {
 		return {
-			field,
-			message: D[validations[field]],
+			emptyField,
+			message: D[validations[emptyField]],
+		};
+	}
+
+	const doubleCode = !updateMode && codes.find((c) => c.code === code.code);
+
+	if (doubleCode) {
+		return {
+			doubleCode,
+			message: D.ErrorDoubleCode,
 		};
 	}
 
