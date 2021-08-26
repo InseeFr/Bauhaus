@@ -128,15 +128,7 @@ const DumbCodelistDetailEdit = ({
 	);
 
 	const createCode = useCallback(
-		(codeObject) => {
-			const newCode = {
-				code: '',
-				parents: [codeObject.code],
-				labelLg1: '',
-				labelLg2: '',
-				descriptionLg1: '',
-				descriptionLg2: '',
-			};
+		(newCode) => {
 			setCodes([...codes, newCode]);
 		},
 		[codes]

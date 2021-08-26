@@ -1,6 +1,6 @@
 export const emptyCode = {
 	code: '',
-	parent: [],
+	parents: [],
 	labelLg1: '',
 	labelLg2: '',
 	descriptionLg1: '',

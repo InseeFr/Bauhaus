@@ -51,14 +51,14 @@ export const validateCode = (code) => {
 const treeElement = (n) => {
 	if (n.parents) {
 		return n.parents.map((p) => ({
-			id: n.code,
+			code: n.code,
 			title: n.code + ' - ' + n.labelLg1,
 			label: n.labelLg1,
 			parent: p,
 		}));
 	}
 	return {
-		id: n.code,
+		code: n.code,
 		title: n.code + ' - ' + n.labelLg1,
 		label: n.labelLg1,
 		parent: null,
@@ -69,7 +69,7 @@ export const treedData = (arrayData) => {
 	if (arrayData.length === 0) return [];
 	return getTreeFromFlatData({
 		flatData: arrayData.map((n) => treeElement(n)).flat(),
-		getKey: (node) => node.id,
+		getKey: (node) => node.code,
 		getParentKey: (node) => node.parent,
 		rootKey: null,
 	});

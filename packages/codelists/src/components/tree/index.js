@@ -17,7 +17,7 @@ const RmesTree = (props) => {
 					buttons: [
 						<button
 							className="code-tree-detail"
-							data-component-id={rowInfo.node.id}
+							data-component-id={rowInfo.node.code}
 							onClick={props.seeClickHandler}
 							aria-label={D.see}
 							type="button"

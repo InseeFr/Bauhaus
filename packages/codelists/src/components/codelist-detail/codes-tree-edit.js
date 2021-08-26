@@ -9,7 +9,7 @@ import { emptyCode } from '../code-detail/empty-code';
 
 export const syncNodes = (previousNodes = [], nextNodes = []) => {
 	return nextNodes.map((node) => {
-		const previousNode = previousNodes.find(({ id }) => id === node.id);
+		const previousNode = previousNodes.find(({ code }) => code === node.code);
 
 		return {
 			...node,
@@ -33,7 +33,7 @@ const CodesTreeEdit = ({
 	useEffect(() => {
 		const currentTree = treedData(Object.values(codes || {}));
 		setTree(syncNodes(tree, currentTree));
-	}, [codes, tree]);
+	}, [codes]);
 
 	console.log(tree);
 	const seeClickHandler = useCallback(

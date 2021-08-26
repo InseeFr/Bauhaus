@@ -34,8 +34,10 @@ const DumbCodeDetailEdit = ({
 	createCode,
 }) => {
 	const [code, setCode] = useState({});
+	const [updateMode, setUpdateMode] = useState(true);
 	useEffect(() => {
 		setCode({ ...initialCode });
+		setUpdateMode(initialCode.code);
 	}, [initialCode]);
 
 	const handleChange = useCallback(
@@ -74,7 +76,7 @@ const DumbCodeDetailEdit = ({
 			<div>
 				<div className="row">
 					<div className="col-md-12 form-group">
-						<LabelRequired htmlFor="parents">{D.parentCodeTitle}</LabelRequired>
+						<label htmlFor="parents">{D.parentCodeTitle}</label>
 						<Select
 							className="form-control"
 							placeholder={D.parentCodeTitle}
@@ -104,7 +106,7 @@ const DumbCodeDetailEdit = ({
 							name="code"
 							value={code.code}
 							onChange={handleChange}
-							disabled={initialCode?.code !== ''}
+							disabled={updateMode}
 							aria-invalid={field === 'code'}
 						/>
 					</div>
@@ -165,7 +167,10 @@ const DumbCodeDetailEdit = ({
 				<button
 					type="button"
 					disabled={message}
-					onClick={() => updateCode(code)}
+					onClick={() => {
+						updateCode(code);
+						setUpdateMode(true);
+					}}
 					className="btn wilco-btn btn-lg col-md-12"
 				>
 					<span
@@ -178,8 +183,17 @@ const DumbCodeDetailEdit = ({
 					type="button"
 					disabled={!code.code}
 					onClick={() => {
-						createCode(code);
-						setCode(codes.find((c) => c.code === ''));
+						const newCode = {
+							code: '',
+							parents: [code.code],
+							labelLg1: '',
+							labelLg2: '',
+							descriptionLg1: '',
+							descriptionLg2: '',
+						};
+						createCode(newCode);
+						setCode(newCode);
+						setUpdateMode(false);
 					}}
 					className="btn wilco-btn btn-lg col-md-12"
 				>
@@ -192,6 +206,7 @@ const DumbCodeDetailEdit = ({
 					onClick={() => {
 						deleteCode(code);
 						setCode(emptyCode);
+						setUpdateMode(false);
 					}}
 					className="btn wilco-btn btn-lg col-md-12"
 				>
@@ -205,6 +220,7 @@ const DumbCodeDetailEdit = ({
 					onClick={() => {
 						deleteCodeWithChildren(code);
 						setCode(emptyCode);
+						setUpdateMode(false);
 					}}
 					className="btn wilco-btn btn-lg col-md-12"
 				>
