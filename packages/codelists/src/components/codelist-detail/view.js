@@ -45,7 +45,7 @@ export const CodeListDetailView = ({
 		publishComponent();
 	};
 
-	const codes = Object.values(codelist.codes);
+	const codes = Object.values(codelist.codes || {});
 	const [tree, setTree] = useState(treedData(codes));
 
 	return (

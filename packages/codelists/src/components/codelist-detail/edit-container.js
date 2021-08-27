@@ -11,7 +11,7 @@ const CodelistEdit = (props) => {
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
-	const [codelist, setCodelist] = useState([]);
+	const [codelist, setCodelist] = useState({});
 	const [serverSideError, setServerSideError] = useState('');
 
 	const stampListOptions = useSelector((state) =>
@@ -51,15 +51,17 @@ const CodelistEdit = (props) => {
 	useEffect(() => {
 		API.getDetailedCodelist(id)
 			.then((codelist) => {
-				codelist.codes = Object.values(codelist.codes).reduce((acc, c) => {
-					return {
-						...acc,
-						[c.code]: {
-							...c,
-							id: c.code,
-						},
-					};
-				}, {});
+				if (codelist.codes) {
+					codelist.codes = Object.values(codelist.codes).reduce((acc, c) => {
+						return {
+							...acc,
+							[c.code]: {
+								...c,
+								id: c.code,
+							},
+						};
+					}, {});
+				}
 				setCodelist(codelist);
 			})
 			.finally(() => setLoading(false));
