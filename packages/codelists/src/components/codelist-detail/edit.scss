@@ -1,15 +1,26 @@
 .code-zone {
-  .wilco-note {
-    padding: 0;
-  }
-  .panel-body {
-    padding: .5em !important;
-  }
+	.wilco-note {
+		padding: 0;
+	}
+	.panel-body {
+		padding: 0.5em !important;
+	}
 
-  .wilco-btn {
-    padding: 5px 8px;
-    font-size: 14px;
-    flex: 1;
-    margin: .5em;
-  }
+	.wilco-btn {
+		padding: 5px 8px;
+		font-size: 14px;
+		flex: 1;
+		margin: 0.5em;
+	}
+}
+
+.rst__rowContents {
+	.rst__rowLabel {
+		order: 2;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	.rst__rowToolbar {
+		order: 1;
+	}
 }
