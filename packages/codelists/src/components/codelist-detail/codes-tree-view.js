@@ -25,8 +25,10 @@ const CodesTreeView = ({
 			const chosenCode = codes.find(
 				(c) => c.code === e.target.parentElement.dataset.componentId
 			);
-			setSelectedCode(chosenCode);
-			setOpenPanel(true);
+			if (chosenCode) {
+				setSelectedCode(chosenCode);
+				setOpenPanel(true);
+			}
 		},
 		[codes]
 	);
