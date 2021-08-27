@@ -37,13 +37,14 @@ const CodesTreeEdit = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [codes]);
 
-	console.log(tree);
 	const seeClickHandler = useCallback(
 		(e) => {
 			const chosenCode = codes.find(
 				(c) => c.code === e.target.parentElement.dataset.componentId
 			);
-			setSelectedCode(chosenCode);
+			if (chosenCode) {
+				setSelectedCode(chosenCode);
+			}
 		},
 		[codes]
 	);
