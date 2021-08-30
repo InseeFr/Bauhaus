@@ -29,19 +29,28 @@ export const validateCodelist = (codelist) => {
 	return {};
 };
 
-export const validateCode = (code) => {
+export const validateCode = (code, codes, updateMode) => {
 	const validations = {
-		id: 'errorsIdMandatory',
+		code: 'errorsIdMandatory',
 		labelLg1: 'errorsLabelLg1Mandatory',
 		labelLg2: 'errorsLabelLg1Mandatory',
 	};
 
-	const field = Object.keys(validations).find((field) => !code[field]);
+	const emptyField = Object.keys(validations).find((field) => !code[field]);
 
-	if (field) {
+	if (emptyField) {
 		return {
-			field,
-			message: D[validations[field]],
+			emptyField,
+			message: D[validations[emptyField]],
+		};
+	}
+
+	const doubleCode = !updateMode && codes.find((c) => c.code === code.code);
+
+	if (doubleCode) {
+		return {
+			doubleCode,
+			message: D.ErrorDoubleCode,
 		};
 	}
 
@@ -49,16 +58,16 @@ export const validateCode = (code) => {
 };
 
 const treeElement = (n) => {
-	if (n.parents) {
+	if (n.parents?.length > 0) {
 		return n.parents.map((p) => ({
-			id: n.code,
+			code: n.code,
 			title: n.code + ' - ' + n.labelLg1,
 			label: n.labelLg1,
 			parent: p,
 		}));
 	}
 	return {
-		id: n.code,
+		code: n.code,
 		title: n.code + ' - ' + n.labelLg1,
 		label: n.labelLg1,
 		parent: null,
@@ -69,7 +78,7 @@ export const treedData = (arrayData) => {
 	if (arrayData.length === 0) return [];
 	return getTreeFromFlatData({
 		flatData: arrayData.map((n) => treeElement(n)).flat(),
-		getKey: (node) => node.id,
+		getKey: (node) => node.code,
 		getParentKey: (node) => node.parent,
 		rootKey: null,
 	});

@@ -1,6 +1,5 @@
-import React from 'react';
-import SortableTree from 'react-sortable-tree';
-import 'react-sortable-tree/style.css';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
 	Note,
 	UpdateButton,
@@ -13,13 +12,14 @@ import {
 	HTMLUtils,
 	ValidationButton,
 	DateUtils,
-	PublicationFemale, useTitle,
+	PublicationFemale,
+	useTitle,
 } from 'bauhaus-utilities';
-import PropTypes from 'prop-types';
-import { treedData } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { rowParams } from './code-detail';
-import CodesTree from '../codes-tree';
+import { CollapsiblePanel } from '../collapsible-panel';
+import { treedData } from '../../utils';
+import { rowParams } from '../code-detail/code-columns';
+import CodesTreeView from './codes-tree-view';
 
 export const CodeListDetailView = ({
 	codelist,
@@ -30,8 +30,9 @@ export const CodeListDetailView = ({
 	col = 3,
 	publishComponent,
 	serverSideError,
+	hidden = false,
 }) => {
-	useTitle(D.codelistsTitle, codelist?.labelLg1)
+	useTitle(D.codelistsTitle, codelist?.labelLg1);
 
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
 		codelist.descriptionLg1
@@ -44,9 +45,9 @@ export const CodeListDetailView = ({
 		publishComponent();
 	};
 
-	const unsortedCodes = Object.values(codelist.codes);
-	const sortedCodes = unsortedCodes.sort((a, b) => (a.code > b.code ? 1 : -1));
-	const codes = Object.values(codelist.codes);
+	const codes = Object.values(codelist.codes || {});
+	const [tree, setTree] = useState(treedData(codes));
+
 	return (
 		<React.Fragment>
 			<ActionToolbar>
@@ -107,18 +108,25 @@ export const CodeListDetailView = ({
 			</div>
 			{codelist.codes && (
 				<div className="row">
-					<Note
-						text={<Table rowParams={rowParams} data={sortedCodes} />}
+					<CollapsiblePanel
+						id="code-array"
+						hidden={hidden}
 						title={D.listElements}
-						alone={true}
+						children={
+							<Table
+								rowParams={rowParams}
+								data={codes.sort((a, b) => (a.code > b.code ? 1 : -1))}
+							/>
+						}
 					/>
 				</div>
 			)}
 			{codelist.codes && codes.filter((code) => code.parents).length > 0 && (
 				<div className="row">
-					<CodesTree
+					<CodesTreeView
 						codes={codes}
-						tree={treedData(codes)}
+						tree={tree}
+						handleChangeTree={(tree) => setTree(tree)}
 						handleAdd={false}
 						readOnly={true}
 					/>
