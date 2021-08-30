@@ -58,7 +58,7 @@ export const validateCode = (code, codes, updateMode) => {
 };
 
 const treeElement = (n) => {
-	if (n.parents) {
+	if (n.parents?.length > 0) {
 		return n.parents.map((p) => ({
 			code: n.code,
 			title: n.code + ' - ' + n.labelLg1,

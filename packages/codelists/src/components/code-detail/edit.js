@@ -14,9 +14,6 @@ import './edit.scss';
 
 /**
  * TODO:
- * 		- pour le DragnDrop : rajouter l'effet du setCodes dans ces actions
- * Reinitialiser le formulaire après la validation d'une action -> emptyCode.js à importer dans les 2
- * Ne pas pouvoir associer un code à un parent pour lequel il est deja un descendant
  * Validation - Eviter d'avoir deux codes avec le meme code
  * - Gérer le DragnDrop
  *
@@ -196,7 +193,7 @@ const DumbCodeDetailEdit = ({
 					className="btn wilco-btn btn-lg col-md-12"
 				>
 					<span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
-					<span> {D.btnCreate}</span>
+					<span> {D.btnNew}</span>
 				</button>
 				<button
 					type="button"

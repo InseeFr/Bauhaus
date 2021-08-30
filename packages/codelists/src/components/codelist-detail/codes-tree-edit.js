@@ -8,6 +8,9 @@ import { treedData } from '../../utils';
 import { emptyCode } from '../code-detail/empty-code';
 
 export const syncNodes = (previousNodes = [], nextNodes = []) => {
+	if(previousNodes.length !== nextNodes.length){
+		return nextNodes
+	}
 	return nextNodes.map((node) => {
 		const previousNode = previousNodes.find(({ code }) => code === node.code);
 
