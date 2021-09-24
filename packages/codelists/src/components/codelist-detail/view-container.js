@@ -7,6 +7,24 @@ import { API } from '../../apis';
 import ComponentTitle from './title';
 import { CodeListDetailView } from './view';
 
+const superiorToParent = (child, parent) => {
+	return child > parent;
+};
+
+const getPosition = (codes, parentName, childPositions) => {
+	const parentPositions = codes.map(
+		([key, value]) => key === parentName && value.positions
+	);
+	return {
+		parent: parentName,
+		position: Math.min(
+			...childPositions.filter((childPos) =>
+				superiorToParent(childPos, parentPositions[0])
+			)
+		),
+	};
+};
+
 const CodelistComponentView = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const { id } = useParams();
@@ -19,19 +37,39 @@ const CodelistComponentView = (props) => {
 
 	useEffect(() => {
 		API.getDetailedCodelist(id)
-			.then((codelist) => {
-				if (codelist.codes) {
-					codelist.codes = Object.values(codelist.codes).reduce((acc, c) => {
-						return {
-							...acc,
-							[c.code]: {
-								...c,
-								id: c.code,
-							},
-						};
-					}, {});
+			.then((cl) => {
+				console.log(cl);
+				if (cl.codes) {
+					cl.codes = Object.values(cl.codes)
+						.sort((a, b) => (a.code > b.code ? 1 : -1))
+						.reduce((acc, c, i) => {
+							return {
+								...acc,
+								[c.code]: {
+									...c,
+									id: c.code,
+									parents:
+										c.parents && c.parents[0]
+											? c.parents.map((p) =>
+													getPosition(
+														Object.entries(cl.codes),
+														p,
+														/* Object.values(Object.values(c.code).positions) */
+														c.positions || [i + 1]
+													)
+											  )
+											: [
+													{
+														parent: '',
+														position: c.positions ? c.positions[0] : i + 1,
+													},
+											  ],
+								},
+							};
+						}, {});
 				}
-				setCodelist(codelist);
+				setCodelist(cl);
+				console.log(cl);
 			})
 			.finally(() => setLoading(false));
 	}, [id]);
