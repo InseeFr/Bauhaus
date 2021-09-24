@@ -51,7 +51,7 @@ const DumbCodeDetailEdit = ({
 		if (descendant === '') return false;
 		return codes
 			.find((c) => c.code === descendant)
-			.parents?.some((parent) => isDescendant(ancestor, parent));
+			.parents?.some((parent) => isDescendant(ancestor, parent.parent));
 	};
 
 	const codesOptions = codes
@@ -76,7 +76,7 @@ const DumbCodeDetailEdit = ({
 							className="form-control"
 							placeholder={D.parentCodeTitle}
 							value={codesOptions.filter((option) =>
-								code.parents?.find((p) => p === option.value)
+								code.parents?.find((p) => p.parent === option.value)
 							)}
 							options={codesOptions.filter(
 								(c) => !code.code || !isDescendant(code.code, c.value)
@@ -84,7 +84,11 @@ const DumbCodeDetailEdit = ({
 							onChange={(parents) => {
 								setCode({
 									...code,
-									parents: parents?.map(({ value }) => value) || [],
+									parents:
+										parents?.map(({ value }) => ({
+											parent: value,
+											position: 0,
+										})) || [],
 								});
 							}}
 							multi

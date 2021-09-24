@@ -38,7 +38,6 @@ const CodelistComponentView = (props) => {
 	useEffect(() => {
 		API.getDetailedCodelist(id)
 			.then((cl) => {
-				console.log(cl);
 				if (cl.codes) {
 					cl.codes = Object.values(cl.codes)
 						.sort((a, b) => (a.code > b.code ? 1 : -1))
@@ -69,7 +68,6 @@ const CodelistComponentView = (props) => {
 						}, {});
 				}
 				setCodelist(cl);
-				console.log(cl);
 			})
 			.finally(() => setLoading(false));
 	}, [id]);

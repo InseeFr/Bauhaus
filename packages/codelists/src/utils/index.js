@@ -57,29 +57,33 @@ export const validateCode = (code, codes, updateMode) => {
 	return {};
 };
 
-const treeElement = (n) => {
+const treeElement = (n, i) => {
 	if (n.parents?.length > 0) {
-		return n.parents.map((p) => ({
-			code: n.code,
-			title: n.code + ' - ' + n.labelLg1,
-			label: n.labelLg1,
-			parent: p,
-		}));
+		return n.parents.map((p) => {
+			return {
+				code: n.code,
+				title: n.code + ' - ' + n.labelLg1,
+				label: n.labelLg1,
+				parent: p.parent,
+				position: p.position,
+			};
+		});
 	}
 	return {
 		code: n.code,
 		title: n.code + ' - ' + n.labelLg1,
 		label: n.labelLg1,
-		parent: null,
+		parent: '',
+		position: n.position[0] || i + 1,
 	};
 };
 
 export const treedData = (arrayData) => {
 	if (arrayData.length === 0) return [];
 	return getTreeFromFlatData({
-		flatData: arrayData.map((n) => treeElement(n)).flat(),
+		flatData: arrayData.map((n, i) => treeElement(n, i)).flat(),
 		getKey: (node) => node.code,
 		getParentKey: (node) => node.parent,
-		rootKey: null,
+		rootKey: '',
 	});
 };

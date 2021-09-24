@@ -69,6 +69,7 @@ const CodelistEdit = (props) => {
 	useEffect(() => {
 		API.getDetailedCodelist(id)
 			.then((cl) => {
+				console.log('codelistBefore', cl);
 				if (cl.codes) {
 					cl.codes = Object.values(cl.codes)
 						.sort((a, b) => (a.code > b.code ? 1 : -1))
@@ -99,7 +100,7 @@ const CodelistEdit = (props) => {
 						}, {});
 				}
 				setCodelist(cl);
-				console.log(cl);
+				console.log('codelistAfter', cl);
 			})
 			.finally(() => setLoading(false));
 	}, [id]);

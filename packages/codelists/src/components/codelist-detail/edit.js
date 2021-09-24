@@ -74,7 +74,7 @@ const DumbCodelistDetailEdit = ({
 				const childrenToDelete =
 					codes.filter(
 						(code) =>
-							code.parent.length === 1 &&
+							code.parents.length === 1 &&
 							code.parents?.includes(currentNode.code)
 					) || [];
 				childrenToDelete.forEach((child) => deleteNodes(child));
@@ -82,7 +82,8 @@ const DumbCodelistDetailEdit = ({
 				const childrenToUpdate =
 					codes.filter(
 						(code) =>
-							code.parent.length > 1 && code.parents?.includes(currentNode.code)
+							code.parents.length > 1 &&
+							code.parents?.parent.includes(currentNode.code)
 					) || [];
 				updatedCodes.map((updatedCode) => {
 					const isPresent = childrenToUpdate.find(
@@ -92,7 +93,7 @@ const DumbCodelistDetailEdit = ({
 						return {
 							...updatedCode,
 							parents: updatedCode.parents.filter(
-								({ code }) => code !== currentNode.code
+								({ code }) => code.parent !== currentNode.code
 							),
 						};
 					} else {
