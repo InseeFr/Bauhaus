@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTreeFromFlatData } from 'react-sortable-tree';
+import { getTreeFromFlatData, getFlatDataFromTree } from 'react-sortable-tree';
 import D from '../i18n/build-dictionary';
 
 export const formatLabel = (component) => {
@@ -86,4 +86,21 @@ export const treedData = (arrayData) => {
 		getParentKey: (node) => node.parent,
 		rootKey: '',
 	});
+};
+
+export const recalculatePositions = (codes, tree) => {
+	const flattenTree = getFlatDataFromTree({
+		treeData: tree,
+		getNodeKey: ({ node }) => node.code,
+		ignoreCollapsed: false,
+	});
+	return codes.map((c) => ({
+		...c,
+		parents: flattenTree
+			.filter((treedCode) => treedCode.node.code === c.code)
+			.map((treedCode) => ({
+				parent: treedCode.parentNode ? treedCode.parentNode.code : '',
+				position: treedCode.treeIndex + 1,
+			})),
+	}));
 };

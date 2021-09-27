@@ -15,9 +15,7 @@ import './edit.scss';
 /**
  * TODO:
  * Validation - Eviter d'avoir deux codes avec le meme code
- * - Gérer le DragnDrop
- *
- * - CSS pour libellés trop longs
+ * - Gérer le DragnDrop : où et quand appeler utils/recalculatePositions, qui a besoin de codes et de tree
  */
 const DumbCodeDetailEdit = ({
 	code: initialCode,
@@ -182,9 +180,11 @@ const DumbCodeDetailEdit = ({
 					type="button"
 					disabled={!code.code}
 					onClick={() => {
+						const newCodePosition =
+							Math.max(Object.values(codes.parents).position) + 1;
 						const newCode = {
 							code: '',
-							parents: [code.code],
+							parents: [{ parent: code.code, position: newCodePosition }],
 							labelLg1: '',
 							labelLg2: '',
 							descriptionLg1: '',

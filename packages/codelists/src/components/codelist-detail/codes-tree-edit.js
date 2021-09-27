@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 import { Stores } from 'bauhaus-utilities';
 import RmesTree from '../tree';
 import { CodeDetailEdit } from '../code-detail/edit';
-import { treedData } from '../../utils';
+import { treedData, recalculatePositions } from '../../utils';
 import { emptyCode } from '../code-detail/empty-code';
 
 export const syncNodes = (previousNodes = [], nextNodes = []) => {
-	if(previousNodes.length !== nextNodes.length){
-		return nextNodes
+	if (previousNodes.length !== nextNodes.length) {
+		return nextNodes;
 	}
 	return nextNodes.map((node) => {
 		const previousNode = previousNodes.find(({ code }) => code === node.code);
@@ -17,6 +17,10 @@ export const syncNodes = (previousNodes = [], nextNodes = []) => {
 		return {
 			...node,
 			expanded: previousNode?.expanded || false,
+			position:
+				previousNode?.position || previousNodes.position
+					? Math.max(previousNodes.position) + 1
+					: 1,
 			children: syncNodes(previousNode?.children, node.children),
 		};
 	});
@@ -36,6 +40,8 @@ const CodesTreeEdit = ({
 	useEffect(() => {
 		const currentTree = treedData(Object.values(codes || {}));
 		setTree(syncNodes(tree, currentTree));
+		console.log('codesBeforeRecalc', codes);
+		console.log('recalc', recalculatePositions(codes, tree));
 		// needs not to depend on tree to allow react-sortable-tree to update "expanded"
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [codes]);
