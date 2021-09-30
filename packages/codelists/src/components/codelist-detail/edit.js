@@ -7,9 +7,9 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { Stores } from 'bauhaus-utilities';
+import { Stores, useTitle } from 'bauhaus-utilities';
 import { validateCodelist } from '../../utils';
-import { D1, D2 } from '../../i18n/build-dictionary';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
 import { default as ReactSelect } from 'react-select';
 import dayjs from 'dayjs';
@@ -27,7 +27,10 @@ const DumbCodelistDetailEdit = ({
 	stampListOptions,
 	serverSideError,
 }) => {
+
 	const [codelist, setCodelist] = useState(defaultCodelist);
+	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle)
+
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
 	}, [initialCodelist]);
@@ -129,7 +132,7 @@ const DumbCodelistDetailEdit = ({
 					</div>
 				</div>
 				<div className="form-group">
-					<label>{D1.creator}</label>
+					<LabelRequired htmlFor="creator">{D1.creator}</LabelRequired>
 					<Select
 						className="form-control"
 						placeholder={D1.stampsPlaceholder}
@@ -156,7 +159,9 @@ const DumbCodelistDetailEdit = ({
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D1.disseminationStatusTitle}</label>
+					<LabelRequired htmlFor="disseminationStatus">
+						{D1.disseminationStatusTitle}
+					</LabelRequired>
 					<Select
 						className="form-control"
 						placeholder={D1.disseminationStatusPlaceholder}

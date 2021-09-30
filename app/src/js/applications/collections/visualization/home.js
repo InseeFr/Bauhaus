@@ -7,7 +7,8 @@ import CollectionMembers from './members';
 import { propTypes as generalPropTypes } from 'js/utils/collections/general';
 import { propTypes as membersPropTypes } from 'js/utils/collections/members';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang, withTitle } from 'bauhaus-utilities';
+import D from 'js/i18n';
 
 class CollectionVisualization extends Component {
 	constructor(props) {
@@ -63,4 +64,4 @@ CollectionVisualization.propTypes = {
 	langs: PropTypes.object.isRequired,
 };
 
-export default CollectionVisualization;
+export default withTitle(CollectionVisualization, D.collectionsTitle, props => props.general.prefLabelLg1);

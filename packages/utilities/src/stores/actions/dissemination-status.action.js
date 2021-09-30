@@ -63,14 +63,15 @@ export const getDisseminationStatusListOptions = (state) => getDisseminationStat
 
 export const withDisseminationStatusListOptions = Component => {
 	const componentWithDisseminationStatus =  props => {
+		const { loadDisseminationStatusList } = props;
 		// eslint-disable-next-line react-hooks/rules-of-hooks
 		const disseminationStatusListOptions = useSelector(state => getDisseminationStatusListOptions(state));
 		// eslint-disable-next-line react-hooks/rules-of-hooks
 		useEffect(() => {
 			if(disseminationStatusListOptions.length === 0){
-				props.loadDisseminationStatusList();
+				loadDisseminationStatusList();
 			}
-		}, [disseminationStatusListOptions.length, props.loadDisseminationStatusList]);
+		}, [disseminationStatusListOptions.length, loadDisseminationStatusList]);
 
 
 		return <Component disseminationStatusListOptions={disseminationStatusListOptions} {...props} />

@@ -44,3 +44,4 @@ export { PublicationMale, PublicationFemale } from './components/status';
 export { useQueryParam } from './utils/hooks';
 
 export const AppContext = createContext({});
+export { useTitle, withTitle, setDocumentTitle } from './utils/useTitle'

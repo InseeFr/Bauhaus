@@ -87,21 +87,6 @@ export function htmlFromEditorState(editorState) {
 export function editorStateFromHtml(html) {
 	return EditorState.createWithContent(stateFromHTML(html));
 }
-function addNewLineAfter(str, regexp){
-	return str.split('\n').reduce((acc, str, index, strings) => {
-		if(regexp.test(str) && !regexp.test(strings[index + 1]) && strings[index + 1]?.trim() !== ''){
-			return [
-				...acc,
-				str,
-				''
-			]
-		}
-		return [
-			...acc,
-			str
-		]
-	}, [])
-}
 
 export function mdFromEditorState(editorState) {
 	/*
@@ -129,12 +114,7 @@ export function mdFromEditorState(editorState) {
 			})
 		}
 	}
-	let md =  draftjsToMd(content);
-
-	// Sometime the editor do not add a new line after un ordered and unordered lisr
-	// https://trello.com/c/t6jFYvMR/633-sims-rich-text
-	//md = addNewLineAfter(md,/^-\s/).join('\n');
-	//md = addNewLineAfter(md, /^\d./).join('\n');
+	const md =  draftjsToMd(content);
 	return md
 }
 

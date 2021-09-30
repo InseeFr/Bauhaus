@@ -3,7 +3,8 @@ import React from 'react';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
-import { HTMLUtils, PublicationFemale } from 'bauhaus-utilities';
+import { HTMLUtils, PublicationFemale, withTitle } from 'bauhaus-utilities';
+import D from '../../../../i18n/build-dictionary';
 
 function OperationsFamilyVisualization({
 	attr,
@@ -73,4 +74,6 @@ function OperationsFamilyVisualization({
 	);
 }
 
-export default OperationsFamilyVisualization;
+export default withTitle(OperationsFamilyVisualization, D.operationsTitle, props => {
+	return props.attr?.prefLabelLg1;
+});

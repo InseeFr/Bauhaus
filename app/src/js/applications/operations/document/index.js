@@ -33,6 +33,8 @@ export const mapStateToProps = state => {
 					id: document.id,
 					label: document.labelLg1 || document.labelLg2,
 					uri: document.uri,
+					lang: document.lang,
+					updatedDate: document.updatedDate
 				};
 			})
 		),

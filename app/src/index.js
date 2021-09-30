@@ -13,6 +13,7 @@ import '@inseefr/iam/dist/index.css';
 import 'bauhaus-operations/dist/index.css';
 import 'bauhaus-structures/dist/index.css';
 import 'bauhaus-utilities/dist/index.css';
+import 'bauhaus-codelists/dist/index.css';
 
 import 'main.scss';
 

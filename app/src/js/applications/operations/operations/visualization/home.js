@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
-import { PublicationFemale } from 'bauhaus-utilities';
+import { PublicationFemale, withTitle } from 'bauhaus-utilities';
+import D from '../../../../i18n/build-dictionary';
 
 function OperationsOperationVisualization({
 	attr,
@@ -59,4 +60,6 @@ OperationsOperationVisualization.propTypes = {
 	attr: PropTypes.object.isRequired,
 };
 
-export default OperationsOperationVisualization;
+export default withTitle(OperationsOperationVisualization, D.operationsTitle, props => {
+	return props.attr?.prefLabelLg1;
+});

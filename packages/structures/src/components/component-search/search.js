@@ -9,7 +9,7 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	AbstractAdvancedSearchComponent, Stores,
+	AbstractAdvancedSearchComponent, Stores, withTitle,
 } from 'bauhaus-utilities';
 import { useSelector } from 'react-redux';
 
@@ -158,4 +158,4 @@ const SearchListContainer = () => {
 	return <SearchFormList data={items} concepts={concepts} stampListOptions={stampListOptions}/>;
 };
 
-export default SearchListContainer;
+export default withTitle(SearchListContainer, D.componentTitle, () => D.structuresAdvancedSearch);

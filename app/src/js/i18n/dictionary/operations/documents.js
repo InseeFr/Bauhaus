@@ -20,4 +20,8 @@ export default {
 		fr: 'Document/Lien - Recherche',
 		en: 'Document/Link - Search',
 	},
+	documentsTitle: {
+		fr: 'Document/Lien',
+		en: 'Document/Link',
+	},
 };

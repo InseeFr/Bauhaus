@@ -6,8 +6,9 @@ import RelationsView from 'js/applications/operations/shared/relations';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
-import { HTMLUtils, PublicationFemale } from 'bauhaus-utilities';
+import { HTMLUtils, PublicationFemale, withTitle } from 'bauhaus-utilities';
 import { PublishersView, CreatorsView } from 'bauhaus-operations';
+import D from '../../../../i18n/build-dictionary';
 
 function OperationsSerieVisualization({
 	attr,
@@ -198,4 +199,6 @@ function OperationsSerieVisualization({
 	);
 }
 
-export default OperationsSerieVisualization;
+export default withTitle(OperationsSerieVisualization, D.operationsTitle, props => {
+	return props.attr?.prefLabelLg1;
+});

@@ -16,7 +16,7 @@ import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
-	PageTitleBlock,
+	PageTitleBlock, withTitle,
 } from 'bauhaus-utilities';
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 
@@ -491,4 +491,6 @@ class OperationsSerieEdition extends Component {
 	}
 }
 
-export default OperationsSerieEdition;
+export default withTitle(OperationsSerieEdition, D.operationsTitle, props => {
+	return props.serie?.prefLabelLg1 || D.seriesCreateTitle;
+});

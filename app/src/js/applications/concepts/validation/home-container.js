@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import ConceptsToValidate from './home';
@@ -8,43 +8,40 @@ import * as select from 'js/reducers';
 import validateConceptList from 'js/actions/concepts/validate';
 import loadConceptValidateList from 'js/actions/concepts/validate-list';
 import { OK } from 'js/constants';
-import { Auth } from 'bauhaus-utilities';
+import { Auth, useTitle } from 'bauhaus-utilities';
+import D from 'js/i18n';
 
-class ConceptsToValidateContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			validationRequested: false,
-		};
-		this.handleValidateConceptList = ids => {
-			this.props.validateConceptList(ids);
-			this.setState({
-				validationRequested: true,
-			});
-		};
-	}
-	componentWillMount() {
-		if (!this.props.concepts) this.props.loadConceptValidateList();
-	}
-	render() {
-		const { validationRequested } = this.state;
-		const { concepts, permission, validationStatus } = this.props;
-		if (validationRequested) {
-			if (validationStatus === OK) {
-				return <Redirect to="/concepts" />;
-			} else {
-				return <Loading textType="validating" />;
-			}
+const ConceptsToValidateContainer = ({
+		concepts, validateConceptList, loadConceptValidateList, permission, validationStatus
+	}) => {
+
+	useTitle(D.conceptsTitle, D.btnValid);
+	const [validationRequested, setValidationRequested] = useState(false);
+
+	const handleValidateConceptList = ids => {
+		validateConceptList(ids);
+		setValidationRequested(true)
+	};
+
+	useEffect(() => {
+		if (!concepts) loadConceptValidateList();
+	}, [concepts, loadConceptValidateList]);
+
+	if (validationRequested) {
+		if (validationStatus === OK) {
+			return <Redirect to="/concepts" />;
+		} else {
+			return <Loading textType="validating" />;
 		}
-		if (!concepts) return <Loading />;
-		return (
-			<ConceptsToValidate
-				concepts={concepts}
-				permission={permission}
-				handleValidateConceptList={this.handleValidateConceptList}
-			/>
-		);
 	}
+	if (!concepts) return <Loading />;
+	return (
+		<ConceptsToValidate
+			concepts={concepts}
+			permission={permission}
+			handleValidateConceptList={handleValidateConceptList}
+		/>
+	);
 }
 
 const mapStateToProps = state => ({

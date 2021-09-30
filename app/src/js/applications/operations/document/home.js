@@ -10,7 +10,7 @@ import {
 } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
-import { Auth, FilterToggleButtons } from 'bauhaus-utilities';
+import { Auth, FilterToggleButtons, useTitle } from 'bauhaus-utilities';
 import { Link, useHistory } from 'react-router-dom';
 
 const sessionStorageKey = 'documents-displayMode';
@@ -23,6 +23,7 @@ const SearchableList = ({
 	searchValue = '',
 	itemFormatter = (content) => content,
 }) => {
+
 	const [search, handleSearch] = useState(searchValue);
 
 	const filter = filterKeyDeburr(
@@ -30,10 +31,22 @@ const SearchableList = ({
 	);
 	const hits = items.filter(filter(search));
 
+	const formatter = content => {
+		const extraInformations = []
+		if(content.lang){
+			extraInformations.push(content.lang);
+		}
+		if(content.updatedDate){
+
+			const [year, month, day] = content.updatedDate.split('-');
+			extraInformations.push(`${day}/${month}/${year}`);
+		}
+		return `${content[label]} ${extraInformations.length > 0 ? `(${extraInformations.join(' - ')})` : ''}`;
+	}
 	const hitEls = hits.map((item) => (
 		<li key={item.id} className="list-group-item">
 			<Link to={`/${childPath(item)}/${item.id}`}>
-				{itemFormatter(item[label], item)}
+				{formatter(item)}
 			</Link>
 		</li>
 	));
@@ -63,6 +76,8 @@ const SearchableList = ({
 };
 
 function DocumentHome({ documents }) {
+	useTitle(D.operationsTitle, D.documentsTitle)
+
 	const history = useHistory();
 	const queryMode = sessionStorage.getItem(sessionStorageKey);
 
