@@ -33,10 +33,13 @@ const SimsGeographyPicker = ({ onChange, value }) => {
 						value={geographiesOptions.find(
 							({ value: gValue }) => gValue === value
 						)}
+						filterOption={(option, searchValue) => {
+							return !searchValue || option.label.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0;
+						}}
 						options={geographiesOptions}
 						onChange={(e) => onChange(e ? e.value : '')}
 						placeholder={''}
-						searchable={true}
+						isSearchable={true}
 						noResultsText={D.noResult}
 						isClearable={true}
 						formatOptionLabel={formatOptionLabel}
