@@ -12,3 +12,13 @@ Web application for the management of concepts, classifications and other statis
 The documentation can be found in the [docs](https://github.com/InseeFr/Bauhaus/tree/master/docs) folder and [browsed online](https://inseefr.github.io/Bauhaus).
 
 [Storybook](https://inseefr.github.io/Bauhaus/storybook) is also available online.
+
+## How to start
+
+```
+git clone git@github.com:InseeFr/Bauhaus.git
+cd Bauhaus
+yarn
+yarn build-insee
+yarn start
+```
