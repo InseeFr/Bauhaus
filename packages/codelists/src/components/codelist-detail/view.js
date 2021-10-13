@@ -47,7 +47,6 @@ export const CodeListDetailView = ({
 
 	const codes = Object.values(codelist.codes || {});
 	const [tree, setTree] = useState(treedData(codes));
-	console.log('tree', tree);
 
 	return (
 		<React.Fragment>

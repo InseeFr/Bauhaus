@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
+import { recalculatePositions } from '../../utils';
+import { TreeContext } from '../tree/treeContext';
 import D from '../../i18n/build-dictionary';
 import { CodeListDetailEdit } from './edit';
 
@@ -31,6 +33,7 @@ const CodelistEdit = (props) => {
 	const [saving, setSaving] = useState(false);
 	const [codelist, setCodelist] = useState({});
 	const [serverSideError, setServerSideError] = useState('');
+	const tree = useContext(TreeContext);
 
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
@@ -48,9 +51,9 @@ const CodelistEdit = (props) => {
 			let request;
 
 			if (codelist.id) {
-				request = API.putCodelist(codelist);
+				request = API.putCodelist(recalculatePositions(codelist.codes, tree));
 			} else {
-				request = API.postCodelist(codelist);
+				request = API.postCodelist(recalculatePositions(codelist.codes, tree));
 			}
 
 			request
@@ -63,13 +66,12 @@ const CodelistEdit = (props) => {
 				})
 				.finally(() => setSaving(false));
 		},
-		[props]
+		[props, tree]
 	);
 
 	useEffect(() => {
 		API.getDetailedCodelist(id)
 			.then((cl) => {
-				console.log('codelistBefore', cl);
 				if (cl.codes) {
 					cl.codes = Object.values(cl.codes)
 						.sort((a, b) => (a.code > b.code ? 1 : -1))
@@ -100,7 +102,6 @@ const CodelistEdit = (props) => {
 						}, {});
 				}
 				setCodelist(cl);
-				console.log('codelistAfter', cl);
 			})
 			.finally(() => setLoading(false));
 	}, [id]);

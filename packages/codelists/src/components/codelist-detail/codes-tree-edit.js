@@ -1,8 +1,9 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Stores } from 'bauhaus-utilities';
 import RmesTree from '../tree';
+import { TreeContext } from '../tree/treeContext';
 import { CodeDetailEdit } from '../code-detail/edit';
 import { treedData, recalculatePositions } from '../../utils';
 import { emptyCode } from '../code-detail/empty-code';
@@ -35,13 +36,11 @@ const CodesTreeEdit = ({
 }) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const [selectedCode, setSelectedCode] = useState(emptyCode);
-	const [tree, setTree] = useState([]);
+	const [tree, setTree] = useContext(TreeContext);
 
 	useEffect(() => {
 		const currentTree = treedData(Object.values(codes || {}));
 		setTree(syncNodes(tree, currentTree));
-		console.log('codesBeforeRecalc', codes);
-		console.log('recalc', recalculatePositions(codes, tree));
 		// needs not to depend on tree to allow react-sortable-tree to update "expanded"
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [codes]);
