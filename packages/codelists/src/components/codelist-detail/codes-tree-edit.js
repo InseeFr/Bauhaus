@@ -5,7 +5,7 @@ import { Stores } from 'bauhaus-utilities';
 import RmesTree from '../tree';
 import { TreeContext } from '../tree/treeContext';
 import { CodeDetailEdit } from '../code-detail/edit';
-import { treedData, recalculatePositions } from '../../utils';
+import { treedData } from '../../utils';
 import { emptyCode } from '../code-detail/empty-code';
 
 export const syncNodes = (previousNodes = [], nextNodes = []) => {
