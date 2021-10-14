@@ -55,7 +55,15 @@ const SimsGeographyField = ({ onCancel, onSave }) => {
 		<div className="w-100 container">
 			<ActionToolbar>
 				<CancelButton action={onCancel} col={3} />
-				<SaveButton action={() => console.log('onSave')} col={3} />
+				<SaveButton action={() => {
+					const formatted = {
+						labelLg1: name,
+						unions: includes.map(i => ({ uri: i.value })),
+						difference: excludes.map(i => ({ uri: i.value }))
+					}
+					console.log(formatted)
+					onSave(formatted)
+				}} col={3} />
 			</ActionToolbar>
 			<div className="row">
 				<div className={`form-group col-md-12`}>
