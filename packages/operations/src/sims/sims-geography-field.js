@@ -61,7 +61,6 @@ const SimsGeographyField = ({ onCancel, onSave }) => {
 						unions: includes.map(i => ({ uri: i.value })),
 						difference: excludes.map(i => ({ uri: i.value }))
 					}
-					console.log(formatted)
 					onSave(formatted)
 				}} col={3} />
 			</ActionToolbar>
