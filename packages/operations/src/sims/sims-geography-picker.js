@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import ReactSelect from 'react-select';
 import D from '../i18n/build-dictionary';
 import { Stores, Auth } from 'bauhaus-utilities';
@@ -9,14 +9,18 @@ import SimsGeographyField from './sims-geography-field';
 import './sims-geography-picker.scss';
 import { SimsGeographyI18NLabel } from 'bauhaus-operations';
 
-const SimsGeographyPicker = ({ onChange, value }) => {
+
+const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
 	const geographiesOptions = useSelector(Stores.Geographies.getAllOptions);
 	const [slidingModal, setSlidingModal] = useState(false);
 	const openPanel = useCallback(() => {
 		setSlidingModal(true);
 	}, []);
-	const onSave = useCallback(() => {
-		setSlidingModal(false);
+	const onSave = useCallback((territory) => {
+		Stores.Geographies.api.postFamily(territory).then(() => {
+			setSlidingModal(false);
+			loadGeographies();
+		})
 	}, []);
 	const onCancel = useCallback(() => {
 		setSlidingModal(false);
@@ -58,5 +62,9 @@ const SimsGeographyPicker = ({ onChange, value }) => {
 		</>
 	);
 };
+const mapDispatchToProps = {
+	loadGeographies: Stores.Geographies.loadGeographies,
+};
 
-export default SimsGeographyPicker;
+export default connect(undefined, mapDispatchToProps)(SimsGeographyPicker)
+
