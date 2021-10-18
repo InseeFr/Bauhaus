@@ -4,28 +4,10 @@ import { useSelector } from 'react-redux';
 import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
-import { recalculatePositions } from '../../utils';
+import { formatCodeList, recalculatePositions } from '../../utils';
 import { TreeContext } from '../tree/treeContext';
 import D from '../../i18n/build-dictionary';
 import { CodeListDetailEdit } from './edit';
-
-const superiorToParent = (child, parent) => {
-	return child > parent;
-};
-
-const getPosition = (codes, parentName, childPositions) => {
-	const parentPositions = codes.map(
-		([key, value]) => key === parentName && value.positions
-	);
-	return {
-		parent: parentName,
-		position: Math.min(
-			...childPositions.filter((childPos) =>
-				superiorToParent(childPos, parentPositions[0])
-			)
-		),
-	};
-};
 
 const CodelistEdit = (props) => {
 	const { id } = useParams();
@@ -72,36 +54,7 @@ const CodelistEdit = (props) => {
 	useEffect(() => {
 		API.getDetailedCodelist(id)
 			.then((cl) => {
-				if (cl.codes) {
-					cl.codes = Object.values(cl.codes)
-						.sort((a, b) => (a.code > b.code ? 1 : -1))
-						.reduce((acc, c, i) => {
-							return {
-								...acc,
-								[c.code]: {
-									...c,
-									id: c.code,
-									parents:
-										c.parents && c.parents[0]
-											? c.parents.map((p) =>
-													getPosition(
-														Object.entries(cl.codes),
-														p,
-														/* Object.values(Object.values(c.code).positions) */
-														c.positions || [i + 1]
-													)
-											  )
-											: [
-													{
-														parent: '',
-														position: c.positions ? c.positions[0] : i + 1,
-													},
-											  ],
-								},
-							};
-						}, {});
-				}
-				setCodelist(cl);
+				setCodelist(formatCodeList(cl));
 			})
 			.finally(() => setLoading(false));
 	}, [id]);
