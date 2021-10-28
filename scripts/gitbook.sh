@@ -6,7 +6,7 @@ DOC_FOLDER="docs"
 STORYBOOK_FOLDER="built-storybook"
 SITE_FOLDER="website"
 
-MAIN_BRANCH="master"
+MAIN_BRANCH="main"
 UPSTREAM="https://$GITHUB_TOKEN@github.com/InseeFr/Bauhaus.git"
 MESSAGE="Rebuild doc for revision"
 AUTHOR="$USER <>"
