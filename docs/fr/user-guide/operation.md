@@ -272,8 +272,8 @@ Les champs disponibles sont les suivants :
 - Les **Partenaires** sont les organismes associés à la conception et au pilotage de la série ;
 - Les **Services collecteurs** correspond aux services réalisant la collecte ;
 - Le **Propriétaire** est l'unité responsable de la gestion et de la publication de la série ainsi que des opérations statistiques et rapports qualité qui en découlent. Le propriétaire est obligatoire. Ne pas modifier le timbre propriétaire de la série au risque de perdre les droits en gestion et publication ;
-- Le champ **Succède à** permet de préciser si une série succède à une autre. Si une Série A succède à une Série B, alors la Série B est automatiquement remplacée par la Série A ;
-- Le champ **Remplacée par** permet de préciser si une série est remplacée par une autre. Si une Série B est remplacée par une Série A, alors la Série A succède automatiquement remplacée à la la Série B ;
+- Le champ **Succède à** permet de préciser si une série succède à une autre. Si une Série B succède à une Série A, alors la Série A est automatiquement remplacée par la Série B ;
+- Le champ **Remplacée par** permet de préciser si une série est remplacée par une autre. Si une Série A est remplacée par une Série B, alors la Série B succède automatiquement remplacée à la la Série A ;
 - Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contributions de la série ;
 - Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
@@ -401,8 +401,8 @@ Les champs disponibles sont les suivantes :
 - L'**Organisme responsable** est l'organisme responsable de l'indicateur ;
 - Les **Partenaires** sont les organismes associés à la conception et au pilotage de l'indicateur ;
 - Le **Propriétaire** est l'unité responsable de la gestion et de la publication de l'indicateur ainsi que des opérations statistiques et rapports qualité qui en découlent ;
-- Le champ **Succède à** permet de préciser si un indicateur succède à un autre. Si un indicateur A succède à un indicateur B, alors l'indicateur B est automatiquement remplacé par l'indicateur A ;
-- Le champ **Remplacée par** permet de préciser si un indicateur est remplacé par un autre. Si un indicateur B est remplacé par un indicateur A, alors l'indicateur A succède automatiquement à l'indicateur B ;
+- Le champ **Succède à** permet de préciser si un indicateur succède à un autre. Si un indicateur B succède à un indicateur A, alors l'indicateur A est automatiquement remplacé par l'indicateur B ;
+- Le champ **Remplacée par** permet de préciser si un indicateur est remplacé par un autre. Si un indicateur A est remplacé par un indicateur B, alors l'indicateur B succède automatiquement à l'indicateur A ;
 - Le champ **Produits de** permet de préciser les séries contribuant à la production de l'indicateur ;
 - Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
