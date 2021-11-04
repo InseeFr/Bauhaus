@@ -25,16 +25,17 @@ export const StructureComponentsSelector = ({
 	readOnly,
 	type,
 	handleCodesListDetail,
-	structure
+	structure,
 }) => {
-
 	const removeClickHandler = useCallback(
 		(e) => {
 			handleRemove(e.target.parentElement.dataset.componentId);
 		},
 		[handleRemove]
 	);
-	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
+	const stampListOptions = useSelector((state) =>
+		Stores.Stamps.getStampListOptions(state)
+	);
 	const [openPanel, setOpenPanel] = useState(false);
 	const [components, setComponents] = useState(defaultComponents);
 	useEffect(() => {
@@ -117,14 +118,17 @@ export const StructureComponentsSelector = ({
 		[handleDown]
 	);
 
-	const handleCreateComponent = useCallback((e) => {
-		e.stopPropagation();
-		setSelectedComponent({
-			disseminationStatus: structure.disseminationStatus,
-			contributor: 'DG75-H250'
-		});
-		setOpenPanel(true);
-	}, [structure]);
+	const handleCreateComponent = useCallback(
+		(e) => {
+			e.stopPropagation();
+			setSelectedComponent({
+				disseminationStatus: structure.disseminationStatus,
+				contributor: 'DG75-H250',
+			});
+			setOpenPanel(true);
+		},
+		[structure]
+	);
 
 	const componentsWithActions = components
 		.sort((cd1, cd2) => {
@@ -135,25 +139,36 @@ export const StructureComponentsSelector = ({
 		.map((componentDefinition, i) => {
 			const component = componentDefinition.component;
 
-
 			return {
 				...component,
 				type: typeUriToLabel(component.type),
-				mutualized: (
-					!!component.validationState && component.validationState !== 'Unpublished'
-						? <span className="glyphicon glyphicon-ok" aria-label={D.mutualized}></span>
-						: <React.Fragment></React.Fragment>
-				),
+				mutualized:
+					!!component.validationState &&
+					component.validationState !== 'Unpublished' ? (
+						<span
+							className="glyphicon glyphicon-ok"
+							aria-label={D.mutualized}
+						></span>
+					) : (
+						<React.Fragment></React.Fragment>
+					),
 				concept: concepts.find(
 					({ id }) => id?.toString() === component.concept?.toString()
 				)?.label,
-				representation: <Representation component={component} codesLists={codesLists} handleCodesListDetail={() => {
-					const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
-					handleCodesListDetail(codesList)
-				}} /> ,
+				representation: (
+					<Representation
+						component={component}
+						codesLists={codesLists}
+						handleCodesListDetail={() => {
+							const codesList = codesLists.find(
+								({ id }) => id?.toString() === component.codeList?.toString()
+							);
+							handleCodesListDetail(codesList);
+						}}
+					/>
+				),
 				actions: (
 					<React.Fragment>
-
 						<button
 							data-component-id={component.identifiant}
 							onClick={seeClickHandler}
@@ -177,7 +192,7 @@ export const StructureComponentsSelector = ({
 								data-component-id={component.identifiant}
 								onClick={removeClickHandler}
 								aria-label={D.remove}
-								title={D.up}
+								title={D.remove}
 							>
 								<span className="glyphicon glyphicon-minus"></span>
 							</button>
@@ -232,7 +247,12 @@ export const StructureComponentsSelector = ({
 				search={false}
 				pagination={false}
 			/>
-			<SlidingPanel type={'right'} isOpen={openPanel} size={60} backdropClicked={() => setOpenPanel(false)}>
+			<SlidingPanel
+				type={'right'}
+				isOpen={openPanel}
+				size={60}
+				backdropClicked={() => setOpenPanel(false)}
+			>
 				<ComponentDetail
 					component={selectedComponent}
 					codesLists={codesLists}

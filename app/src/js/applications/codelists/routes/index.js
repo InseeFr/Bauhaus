@@ -17,22 +17,14 @@ const CodesListComponent = () => {
 			<div className="container">
 				<Switch>
 					<Route exact path="/codelists" component={Home} />
-					<Route
-						exact
-						path="/codelists/components/create"
-						component={CodelistEdit}
-					/>
+					<Route exact path="/codelists/create" component={CodelistEdit} />
 					<Route exact path="/codelists/search" component={SearchFormList} />
 					<Route
 						exact
-						path="/codelists/components/:id"
+						path="/codelists/:id"
 						component={CodelistComponentView}
 					/>
-					<Route
-						exact
-						path="/codelists/components/:id/modify"
-						component={CodelistEdit}
-					/>
+					<Route exact path="/codelists/:id/modify" component={CodelistEdit} />
 				</Switch>
 			</div>
 		</>

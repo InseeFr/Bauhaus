@@ -1,33 +1,20 @@
 import React from 'react';
-import {
-	Note,
-	UpdateButton,
-	ActionToolbar,
-	ReturnButton,
-	ErrorBloc,
-} from '@inseefr/wilco';
+import { Note, ActionToolbar, ReturnButton, ErrorBloc } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { HTMLUtils, ValidationButton } from 'bauhaus-utilities';
+import { HTMLUtils } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 import './view.scss';
 
 export const CodeDetailView = ({
 	code,
 	codes,
-	handleUpdate,
 	handleBack,
-	updatable,
 	secondLang,
 	col = 3,
-	publishComponent,
 	serverSideError,
 }) => {
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(code.descriptionLg1);
 	const descriptionLg2 = HTMLUtils.renderMarkdownElement(code.descriptionLg2);
-
-	const publish = () => {
-		publishComponent();
-	};
 
 	const codesOptions = codes.map((code) => {
 		return {
@@ -40,8 +27,6 @@ export const CodeDetailView = ({
 		<React.Fragment>
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
-				<ValidationButton callback={publish} object={code} />
-				{updatable && <UpdateButton action={handleUpdate} col={col} />}
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
 
@@ -96,9 +81,6 @@ export const CodeDetailView = ({
 CodeDetailView.propTypes = {
 	code: PropTypes.object,
 	codes: PropTypes.array,
-	handleUpdate: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 	handleBack: PropTypes.func,
-	updatable: PropTypes.bool,
 	secondLang: PropTypes.bool,
-	publishComponent: PropTypes.func,
 };

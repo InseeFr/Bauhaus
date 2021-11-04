@@ -41,7 +41,7 @@ const SearchableList = ({
 			const [year, month, day] = content.updatedDate.split('-');
 			extraInformations.push(`${day}/${month}/${year}`);
 		}
-		return `${content[label]} ${extraInformations.length > 0 ? `(${extraInformations.join(' - ')})` : ''}`;
+		return <>{content[label]} <i>{extraInformations.length > 0 ? `(${extraInformations.join('-')})` : ''}</i></>;
 	}
 	const hitEls = hits.map((item) => (
 		<li key={item.id} className="list-group-item">
@@ -52,7 +52,7 @@ const SearchableList = ({
 	));
 
 	return (
-		<div className={`=text-center`}>
+		<>
 			<div className="row form-group">
 				<div className="col-md-12">
 					<input
@@ -71,7 +71,7 @@ const SearchableList = ({
 				{nbResults(hits, D)}
 			</p>
 			<Pagination itemEls={hitEls} itemsPerPage="10" />
-		</div>
+		</>
 	);
 };
 

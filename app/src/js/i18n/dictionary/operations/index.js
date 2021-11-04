@@ -9,10 +9,6 @@ const dictionary = {
 		fr: 'Familles',
 		en: 'Families',
 	},
-	creatorTitle: {
-		fr: 'Propriétaires',
-		en: 'Owners',
-	},
 	seriesTitle: {
 		fr: 'Séries',
 		en: 'Series',
@@ -233,20 +229,20 @@ const dictionary = {
 		en: 'You are about to permanently delete this documentation. Are you sure?',
 	},
 	exportSimsTips: {
-		fr: 'Veuillez sélectionner les options d\'export',
-		en: 'Please select the export options'
+		fr: "Veuillez sélectionner les options d'export",
+		en: 'Please select the export options',
 	},
 	exportSimsIncludeLg1: {
 		fr: 'Inclure la première langue',
-		en: 'Include first language'
+		en: 'Include first language',
 	},
 	exportSimsIncludeLg2: {
 		fr: 'Inclure la seconde langue',
-		en: 'Include second language'
+		en: 'Include second language',
 	},
 	exportSimsIncludeEmptyMas: {
 		fr: 'Inclure les rubriques vides',
-		en: 'Include the empty rubrics'
+		en: 'Include the empty rubrics',
 	},
 	...documentsD,
 	...validationD,

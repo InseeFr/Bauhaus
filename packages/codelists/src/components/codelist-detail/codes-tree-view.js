@@ -1,13 +1,23 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import SlidingPanel from 'react-sliding-side-panel';
+import { useSelector } from 'react-redux';
+import { Stores } from 'bauhaus-utilities';
 import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
-import { CodeDetail } from '../code-detail';
 import RmesTree from '../tree';
+import { CodeDetailView } from '../code-detail/view';
+import CodeTitle from '../code-detail/title';
 
-const CodesTree = ({ hidden = false, codes, tree, handleAdd, readOnly }) => {
+const CodesTreeView = ({
+	hidden = false,
+	codes,
+	tree,
+	handleChangeTree,
+	readOnly,
+}) => {
 	const [openPanel, setOpenPanel] = useState(false);
+	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const [selectedCode, setSelectedCode] = useState(null);
 
 	const seeClickHandler = useCallback(
@@ -15,18 +25,13 @@ const CodesTree = ({ hidden = false, codes, tree, handleAdd, readOnly }) => {
 			const chosenCode = codes.find(
 				(c) => c.code === e.target.parentElement.dataset.componentId
 			);
-			setSelectedCode(chosenCode);
-			setOpenPanel(true);
+			if (chosenCode) {
+				setSelectedCode(chosenCode);
+				setOpenPanel(true);
+			}
 		},
 		[codes]
 	);
-
-	/* const addClickHandler = useCallback(
-		(e) => {
-			handleAdd(e.id);
-		},
-		[handleAdd]
-	); */
 
 	return (
 		<CollapsiblePanel
@@ -37,6 +42,7 @@ const CodesTree = ({ hidden = false, codes, tree, handleAdd, readOnly }) => {
 				<>
 					<RmesTree
 						treeData={tree}
+						handleChangeTree={handleChangeTree}
 						readOnly={readOnly}
 						seeClickHandler={seeClickHandler}
 					/>
@@ -46,10 +52,11 @@ const CodesTree = ({ hidden = false, codes, tree, handleAdd, readOnly }) => {
 						size={60}
 						backdropClicked={() => setOpenPanel(false)}
 					>
-						<CodeDetail
+						<CodeTitle code={selectedCode} secondLang={secondLang} />
+						<CodeDetailView
 							code={selectedCode}
 							codes={codes}
-							handleSave={() => {}}
+							secondLang={secondLang}
 							handleBack={() => {
 								setOpenPanel(false);
 							}}
@@ -61,12 +68,12 @@ const CodesTree = ({ hidden = false, codes, tree, handleAdd, readOnly }) => {
 	);
 };
 
-CodesTree.propTypes = {
+CodesTreeView.propTypes = {
 	hidden: PropTypes.bool,
 	codes: PropTypes.array,
-	tree: PropTypes.array,
-	handleAdd: PropTypes.bool,
+	tree: PropTypes.array.isRequired,
+	handleChangeTree: PropTypes.func.isRequired,
 	readOnly: PropTypes.bool,
 };
 
-export default CodesTree;
+export default CodesTreeView;

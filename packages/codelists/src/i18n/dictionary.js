@@ -17,7 +17,7 @@ const dictionary = {
 		fr: 'Listes de codes - Recherche',
 		en: 'Code lists - Search',
 	},
-	componentTitle: {
+	codelistTitle: {
 		fr: 'Listes de codes',
 		en: 'Codelists',
 	},
@@ -61,9 +61,21 @@ const dictionary = {
 		fr: 'Eléments',
 		en: 'Elements',
 	},
-	codeTitle: {
+	codesTreeTitle: {
+		fr: 'Arborescence',
+		en: 'Tree structure',
+	},
+	codesTitle: {
 		fr: 'Codes',
 		en: 'Codes',
+	},
+	codeTitle: {
+		fr: 'Code',
+		en: 'Code',
+	},
+	parentCodeTitle: {
+		fr: 'Codes parents',
+		en: 'Parents codes',
 	},
 	codeLabel: {
 		fr: 'Libellé (fr)',
@@ -113,6 +125,10 @@ const dictionary = {
 		fr: "L'identifiant est obligatoire",
 		en: 'The id is mandatory',
 	},
+	ErrorDoubleCode: {
+		fr: 'Le code créé existe déjà',
+		en: 'The created code already exists',
+	},
 	lastListUriSegmentMandatory: {
 		fr: "L'URI de la liste est obligatoire",
 		en: 'The list URI is mandatory',
@@ -120,6 +136,10 @@ const dictionary = {
 	lastClassUriSegmentMandatory: {
 		fr: "L'URI du concept est obligatoire",
 		en: 'The concept URI is mandatory',
+	},
+	see: {
+		fr: 'voir détail',
+		en: 'see details',
 	},
 	errorsLabelLg1Mandatory: {
 		fr: 'Le label est obligatoire',
@@ -148,6 +168,22 @@ const dictionary = {
 	errors_1103: {
 		fr: "Le lastClassUriSegment  n'est pas défini.",
 		en: 'The lastClassUriSegment is not defined.',
+	},
+	btnDelete: {
+		fr: 'Supprimer',
+		en: 'Delete',
+	},
+	btnNew: {
+		fr: 'Nouveau',
+		en: 'New',
+	},
+	btnSave: {
+		fr: 'Sauvegarder',
+		en: 'Save',
+	},
+	btnDeleteWithChildren: {
+		fr: 'Supprimer avec les enfants',
+		en: 'Delete with children',
 	},
 };
 export default dictionary;

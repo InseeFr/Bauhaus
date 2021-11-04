@@ -1,4 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
+import { default as ReactSelect } from 'react-select';
 import {
 	CancelButton,
 	SaveButton,
@@ -10,10 +13,9 @@ import {
 import { Stores, useTitle } from 'bauhaus-utilities';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import PropTypes from 'prop-types';
-import { default as ReactSelect } from 'react-select';
-import dayjs from 'dayjs';
+import CodesTreeEdit from './codes-tree-edit';
 import './edit.scss';
+import { CollapsiblePanel } from '../collapsible-panel';
 
 const defaultCodelist = {
 	contributor: 'DG75-L201',
@@ -27,12 +29,118 @@ const DumbCodelistDetailEdit = ({
 	stampListOptions,
 	serverSideError,
 }) => {
-
 	const [codelist, setCodelist] = useState(defaultCodelist);
-	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle)
+	const [codes, setCodes] = useState(
+		Object.values(defaultCodelist.codes || {})
+	);
+
+	const deleteCode = useCallback(
+		({ code }) => {
+			const selectedCode = codes.find((c) => c.code === code);
+			const children = codes
+				.filter((c) => c.parents?.includes(code))
+				.map(({ code }) => code);
+			const newParents = selectedCode.parents || [];
+			setCodes(
+				codes
+					.filter((c) => c.code !== code)
+					.map((c) => {
+						if (children.includes(c.code)) {
+							const parents = [
+								...(c.parents || []).filter((c) => c !== code),
+								...newParents,
+							];
+							return {
+								...c,
+								parents,
+							};
+						} else {
+							return c;
+						}
+					})
+			);
+		},
+		[codes]
+	);
+
+	const deleteCodeWithChildren = useCallback(
+		(codeToDelete) => {
+			let updatedCodes = [...codes];
+
+			const deleteNodes = (currentNode) => {
+				updatedCodes = updatedCodes.filter(
+					(code) => code.code !== currentNode.code
+				);
+				const childrenToDelete =
+					codes.filter(
+						(code) =>
+							code.parent.length === 1 &&
+							code.parents?.includes(currentNode.code)
+					) || [];
+				childrenToDelete.forEach((child) => deleteNodes(child));
+
+				const childrenToUpdate =
+					codes.filter(
+						(code) =>
+							code.parent.length > 1 && code.parents?.includes(currentNode.code)
+					) || [];
+				updatedCodes.map((updatedCode) => {
+					const isPresent = childrenToUpdate.find(
+						({ code }) => code === updatedCode
+					);
+					if (isPresent) {
+						return {
+							...updatedCode,
+							parents: updatedCode.parents.filter(
+								({ code }) => code !== currentNode.code
+							),
+						};
+					} else {
+						return updatedCode;
+					}
+				});
+			};
+			deleteNodes(codeToDelete);
+			setCodes(updatedCodes);
+		},
+		[codes]
+	);
+
+	const updateCode = useCallback(
+		(codeObject) => {
+			const existing = codes.find((c) => c.code === codeObject.code);
+			if (!existing) {
+				// Create
+				setCodes([...codes.filter((c) => c.code !== ''), codeObject]);
+			} else {
+				// Update
+				setCodes(
+					codes.map((c) => {
+						if (c.code === codeObject.code) {
+							return codeObject;
+						}
+						return c;
+					})
+				);
+			}
+		},
+		[codes]
+	);
+
+	const createCode = useCallback(
+		(newCode) => {
+			setCodes([...codes, newCode]);
+		},
+		[codes]
+	);
+
+	const { field, message } = validateCodelist(codelist);
+
+	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
+		setCodes(initialCodelist.codes ? Object.values(initialCodelist.codes) : []);
 	}, [initialCodelist]);
 
 	const handleChange = useCallback(
@@ -50,7 +158,6 @@ const DumbCodelistDetailEdit = ({
 		handleSave(codelist);
 	}, [codelist, handleSave]);
 
-	const { field, message } = validateCodelist(codelist);
 	return (
 		<React.Fragment>
 			<ActionToolbar>
@@ -61,7 +168,7 @@ const DumbCodelistDetailEdit = ({
 			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<form>
 				<div className="row">
-					<div className={`col-md-6 form-group`}>
+					<div className={`col-md-12 form-group`}>
 						<LabelRequired htmlFor="lastListUriSegment">
 							{D1.lastListUriSegmentTitle}
 						</LabelRequired>
@@ -72,12 +179,11 @@ const DumbCodelistDetailEdit = ({
 							name="lastListUriSegment"
 							onChange={handleChange}
 							value={codelist.uriListe}
-							aria-invalid={field === 'lastListUriSegment'}
 						/>
 					</div>
 				</div>
 				<div className="row">
-					<div className={`col-md-6 form-group`}>
+					<div className={`col-md-12 form-group`}>
 						<LabelRequired htmlFor="lastClassUriSegment">
 							{D1.lastClassUriSegmentTitle}
 						</LabelRequired>
@@ -88,7 +194,6 @@ const DumbCodelistDetailEdit = ({
 							name="lastClassUriSegment"
 							onChange={handleChange}
 							value={codelist.uriClassOwl}
-							aria-invalid={field === 'lastClassUriSegment'}
 						/>
 					</div>
 				</div>
@@ -100,9 +205,9 @@ const DumbCodelistDetailEdit = ({
 							className="form-control"
 							id="id"
 							name="id"
-							value={codelist.id}
+							value={codelist.id || ''}
 							onChange={handleChange}
-							aria-invalid={field === 'id'}
+							aria-invalid={field === ''}
 						/>
 					</div>
 				</div>
@@ -115,8 +220,8 @@ const DumbCodelistDetailEdit = ({
 							id="labelLg1"
 							name="labelLg1"
 							onChange={handleChange}
-							value={codelist.labelLg1}
-							aria-invalid={field === 'labelLg1'}
+							value={codelist.labelLg1 || ''}
+							aria-invalid={field === ''}
 						/>
 					</div>
 					<div className="col-md-6 form-group">
@@ -126,8 +231,9 @@ const DumbCodelistDetailEdit = ({
 							className="form-control"
 							id="labelLg2"
 							name="labelLg2"
-							value={codelist.labelLg2}
 							onChange={handleChange}
+							value={codelist.labelLg2 || ''}
+							aria-invalid={field === ''}
 						/>
 					</div>
 				</div>
@@ -199,6 +305,24 @@ const DumbCodelistDetailEdit = ({
 						/>
 					</div>
 				</div>
+				<div className="code-zone">
+					<CollapsiblePanel
+						id="code-picker"
+						hidden={false}
+						title={D.codesTreeTitle}
+						children={
+							<CodesTreeEdit
+								deleteCode={deleteCode}
+								deleteCodeWithChildren={deleteCodeWithChildren}
+								updateCode={updateCode}
+								createCode={createCode}
+								codes={codes}
+								handleAdd={true}
+								readOnly={false}
+							></CodesTreeEdit>
+						}
+					/>
+				</div>
 			</form>
 		</React.Fragment>
 	);
@@ -218,6 +342,7 @@ DumbCodelistDetailEdit.defaultProps = {
 	stampListOptions: [],
 };
 
-export const CodeListDetailEdit = Stores.DisseminationStatus.withDisseminationStatusListOptions(
-	DumbCodelistDetailEdit
-);
+export const CodeListDetailEdit =
+	Stores.DisseminationStatus.withDisseminationStatusListOptions(
+		DumbCodelistDetailEdit
+	);
