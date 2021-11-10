@@ -25,6 +25,7 @@ const DumbCodelistDetailEdit = ({
 	codelist: initialCodelist,
 	handleSave,
 	handleBack,
+	updateMode,
 	disseminationStatusListOptions,
 	stampListOptions,
 	serverSideError,
@@ -179,7 +180,8 @@ const DumbCodelistDetailEdit = ({
 							id="lastListUriSegment"
 							name="lastListUriSegment"
 							onChange={handleChange}
-							value={codelist.uriListe}
+							value={codelist.lastListUriSegment || ''}
+							disabled={updateMode}
 						/>
 					</div>
 				</div>
@@ -194,7 +196,8 @@ const DumbCodelistDetailEdit = ({
 							id="lastClassUriSegment"
 							name="lastClassUriSegment"
 							onChange={handleChange}
-							value={codelist.uriClassOwl}
+							value={codelist.lastClassUriSegment || ''}
+							disabled={updateMode}
 						/>
 					</div>
 				</div>
@@ -317,10 +320,10 @@ const DumbCodelistDetailEdit = ({
 								deleteCodeWithChildren={deleteCodeWithChildren}
 								updateCode={updateCode}
 								createCode={createCode}
-								codes={codes}
+								codes={codes || []}
 								handleAdd={true}
 								readOnly={false}
-							></CodesTreeEdit>
+							/>
 						}
 					/>
 				</div>
@@ -335,6 +338,7 @@ DumbCodelistDetailEdit.propTypes = {
 	stampListOptions: PropTypes.array,
 	handleSave: PropTypes.func,
 	handleBack: PropTypes.func,
+	updateMode: PropTypes.bool,
 	secondLang: PropTypes.bool,
 };
 

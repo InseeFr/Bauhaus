@@ -73,7 +73,7 @@ const CodelistEdit = (props) => {
 			codelist={codelist}
 			handleBack={handleBack}
 			handleSave={handleSave}
-			mutualized={true}
+			updateMode={id !== undefined}
 			stampListOptions={stampListOptions}
 			serverSideError={serverSideError}
 		/>

@@ -181,7 +181,9 @@ const DumbCodeDetailEdit = ({
 					disabled={!code.code}
 					onClick={() => {
 						const newCodePosition =
-							Math.max(Object.values(codes.parents).position) + 1;
+							codes.parents && Object.values(codes.parents).position
+								? Math.max(Object.values(codes.parents).position) + 1
+								: 1;
 						const newCode = {
 							code: '',
 							parents: [{ parent: code.code, position: newCodePosition }],

@@ -74,7 +74,7 @@ const treeElement = (n, i) => {
 		title: n.code + ' - ' + n.labelLg1,
 		label: n.labelLg1,
 		parent: '',
-		position: n.position[0] || i + 1,
+		position: n.position ? n.position[0] : i + 1,
 	};
 };
 
@@ -94,7 +94,7 @@ export const recalculatePositions = (codes, tree) => {
 		getNodeKey: ({ node }) => node.code,
 		ignoreCollapsed: false,
 	});
-	return codes.map((c) => ({
+	return codes?.map((c) => ({
 		...c,
 		parents: flattenTree
 			.filter((treedCode) => treedCode.node.code === c.code)
