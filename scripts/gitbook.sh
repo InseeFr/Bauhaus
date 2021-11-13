@@ -45,14 +45,7 @@ function publish() {
 
   cp -R "../app/$STORYBOOK_FOLDER/storybook/." storybook/app
 
-  git init
-  git remote add upstream "$UPSTREAM"
-  git fetch --prune upstream
-  git reset upstream/gh-pages
-  git add --all .
-  if git commit --message "$MESSAGE" --author "$AUTHOR" ; then
-    git push --quiet upstream HEAD:gh-pages
-  fi
+ 
   popd
 }
 
