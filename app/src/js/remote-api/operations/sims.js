@@ -2,7 +2,7 @@ export default {
 	getSims: (id) => [`metadataReport/${id}`],
 	getDefaultSims: () => ['metadataReport/default'],
 	getOwners: (id) => [`metadataReport/Owner/${id}`],
-	exportSims: (id, config) => [
+	exportSims: (id, config, sims) => [
 		`metadataReport/export/${id}?emptyMas=${config.emptyMas}&lg1=${config.lg1}&lg2=${config.lg2}`,
 		{
 			method: 'GET',
@@ -13,8 +13,13 @@ export default {
 		},
 		(res) => {
 			return res.blob().then((blob) => {
-				var file = window.URL.createObjectURL(blob);
-				window.location.assign(file);
+				const a = document.createElement("a");
+				document.body.appendChild(a);
+				const url = window.URL.createObjectURL(blob);
+				a.href = url;
+				a.download = sims.labelLg1?.replace(/[/<>*:?|]/gi, '') + '.odt';
+				a.click();
+				window.URL.revokeObjectURL(url);
 			});
 		},
 	],
