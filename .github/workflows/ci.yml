@@ -1,4 +1,4 @@
-name: Bauhaus CI
+name: Quality
 on: [push]
 jobs:
   test-build:

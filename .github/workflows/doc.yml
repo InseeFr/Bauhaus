@@ -1,4 +1,4 @@
-name: Bauhaus CI
+name: Documentation
 on: [push]
 jobs:
   test-build:
