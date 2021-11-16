@@ -27,6 +27,10 @@ const dictionary = {
 		fr: 'Nouveau',
 		en: 'New',
 	},
+	btnSee: {
+		fr: 'Voir',
+		en: 'See',
+	},
 	include: {
 		fr: 'Inclure',
 		en: 'Include',

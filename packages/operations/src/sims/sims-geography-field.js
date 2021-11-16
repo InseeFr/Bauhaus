@@ -9,16 +9,16 @@ import {
 } from 'bauhaus-operations';
 import { useGeographies } from './hooks';
 
-const SimsGeographyField = ({ onCancel, onSave }) => {
-	const [name, setName] = useState('');
+const SimsGeographyField = ({ onCancel, onSave, territory = {}}) => {
+	const [name, setName] = useState(territory.labelLg1 ?? '');
 	const [selectedOption, setSelectedOption] = useState(null);
 	const [
 		geographies,
 		includes,
 		excludes,
 		setIncludes,
-		setExcludes,
-	] = useGeographies();
+		setExcludes
+	] = useGeographies(territory);
 	const handleSelect = useCallback(
 		(value) => {
 			const newValue = geographies.find((g) => g.value === value);
@@ -57,6 +57,7 @@ const SimsGeographyField = ({ onCancel, onSave }) => {
 				<CancelButton action={onCancel} col={3} />
 				<SaveButton action={() => {
 					const formatted = {
+						...territory,
 						labelLg1: name,
 						unions: includes.map(i => ({ uri: i.value })),
 						difference: excludes.map(i => ({ uri: i.value }))

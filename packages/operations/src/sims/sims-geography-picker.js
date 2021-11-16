@@ -11,25 +11,37 @@ import { SimsGeographyI18NLabel } from 'bauhaus-operations';
 
 
 const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
+	const [territory, setTerritory] = useState();
 	const geographiesOptions = useSelector(Stores.Geographies.getAllOptions);
 	const [slidingModal, setSlidingModal] = useState(false);
-	const openPanel = useCallback(() => {
+	const openNewPanel = useCallback(() => {
 		setSlidingModal(true);
 	}, []);
+
+	const openViewPanel = useCallback(() => {
+		setTerritory(geographiesOptions?.find(({ value: v }) => v === value)?.geography);
+		setSlidingModal(true);
+	}, [geographiesOptions, value]);
+
 	const onSave = useCallback((territory) => {
-		Stores.Geographies.api.postFamily(territory).then((uri) => {
+		const method = territory.id ?
+			Stores.Geographies.api.putTerritory(territory.id, territory) :
+			Stores.Geographies.api.postTerritory(territory);
+		method.then((uri) => {
 			setSlidingModal(false);
 			loadGeographies();
-			onChange(uri)
+			onChange(territory.uri ?? uri)
 		})
 	}, []);
 	const onCancel = useCallback(() => {
+		setTerritory(undefined);
 		setSlidingModal(false);
 	}, []);
 	const formatOptionLabel = (geography) => {
 		return <SimsGeographyI18NLabel geography={geography} />;
 	};
 
+	const shouldSeeViewButton = geographiesOptions?.find(({ value: v }) => v === value)?.typeTerritory === "Territoire Statistique";
 	return (
 		<>
 			<div className="bauhaus-sims-geography-picker">
@@ -52,13 +64,16 @@ const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
 				</div>
 
 				<Auth.AuthGuard roles={[Auth.ADMIN]}>
-					<button type="button" className="btn btn-default" onClick={openPanel}>
+					<button type="button" className="btn btn-default" onClick={openNewPanel}>
 						{D.btnNew}
 					</button>
 				</Auth.AuthGuard>
+				<button disabled={!shouldSeeViewButton} type="button" className="btn btn-default" onClick={openViewPanel}>
+					{D.btnSee}
+				</button>
 			</div>
 			<SlidingPanel type={'right'} isOpen={slidingModal} size={60} backdropClicked={() => setSlidingModal(false)}>
-				<SimsGeographyField onCancel={onCancel} onSave={onSave} />
+				<SimsGeographyField onCancel={onCancel} onSave={onSave} territory={territory}/>
 			</SlidingPanel>
 		</>
 	);
