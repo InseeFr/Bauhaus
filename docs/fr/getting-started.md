@@ -1,4 +1,4 @@
-# TEST Démarrage
+# Démarrage
 
 Bauhaus est une application Web monopage construite avec [React](https://facebook.github.io/react/) et [Redux](https://github.com/reactjs/reduxreact). Elle est packagée par [Create React App](https://github.com/facebook/create-react-app) et les styles proviennent de [Bootstrap](https://github.com/twbs/bootstrap). Pour lancer l'application en développement, vous pouvez exécuter les commandes suivantes à partir d'un terminal dans le dossier Bauhaus, et visualiser ensuite la page [http://localhost:3000](http://localhost:3000):
 
