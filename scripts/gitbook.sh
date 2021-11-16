@@ -6,6 +6,7 @@ DOC_FOLDER="docs"
 STORYBOOK_FOLDER="built-storybook"
 SITE_FOLDER="website"
 
+
 function setup() {
   echo "Installing Yarn and gitbook-cli"
   npm install -g yarn gitbook-cli
