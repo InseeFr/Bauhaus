@@ -19,9 +19,8 @@ export const syncNodes = (previousNodes = [], nextNodes = []) => {
 			...node,
 			expanded: previousNode?.expanded || false,
 			position:
-				previousNode?.position || previousNodes.position
-					? Math.max(previousNodes.position) + 1
-					: 1,
+				previousNode?.position ||
+				(previousNodes.position ? Math.max(previousNodes.position) + 1 : 1),
 			children: syncNodes(previousNode?.children, node.children),
 		};
 	});
