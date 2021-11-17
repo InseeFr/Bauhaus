@@ -64,7 +64,7 @@ const treeElement = (n, i) => {
 				code: n.code,
 				title: n.code + ' - ' + n.labelLg1,
 				label: n.labelLg1,
-				parent: p.parent,
+				parent: p.code,
 				position: p.position,
 			};
 		});
@@ -81,7 +81,10 @@ const treeElement = (n, i) => {
 export const treedData = (arrayData) => {
 	if (arrayData.length === 0) return [];
 	return getTreeFromFlatData({
-		flatData: arrayData.map((n, i) => treeElement(n, i)).flat(),
+		flatData: arrayData
+			.map((n, i) => treeElement(n, i))
+			.flat()
+			.sort((a, b) => (a.position > b.position ? 1 : -1)),
 		getKey: (node) => node.code,
 		getParentKey: (node) => node.parent,
 		rootKey: '',
@@ -105,24 +108,6 @@ export const recalculatePositions = (codes, tree) => {
 	}));
 };
 
-const superiorToParent = (child, parent) => {
-	return child > parent;
-};
-
-const getPosition = (codes, parentName, childPositions) => {
-	const parentPositions = codes.map(
-		([key, value]) => key === parentName && value.positions
-	);
-	return {
-		parent: parentName,
-		position: Math.min(
-			...childPositions.filter((childPos) =>
-				superiorToParent(childPos, parentPositions[0])
-			)
-		),
-	};
-};
-
 export const formatCodeList = (cl) => {
 	if (cl.codes) {
 		cl.codes = Object.values(cl.codes)
@@ -133,22 +118,6 @@ export const formatCodeList = (cl) => {
 					[c.code]: {
 						...c,
 						id: c.code,
-						parents:
-							c.parents && c.parents[0]
-								? c.parents.map((p) =>
-										getPosition(
-											Object.entries(cl.codes),
-											p,
-											/* Object.values(Object.values(c.code).positions) */
-											c.positions || [i + 1]
-										)
-								  )
-								: [
-										{
-											parent: '',
-											position: c.positions ? c.positions[0] : i + 1,
-										},
-								  ],
 					},
 				};
 			}, {});

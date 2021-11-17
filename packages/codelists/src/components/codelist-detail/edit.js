@@ -320,7 +320,7 @@ const DumbCodelistDetailEdit = ({
 								deleteCodeWithChildren={deleteCodeWithChildren}
 								updateCode={updateCode}
 								createCode={createCode}
-								codes={codes || []}
+								codes={codes || {}}
 								handleAdd={true}
 								readOnly={false}
 							/>
