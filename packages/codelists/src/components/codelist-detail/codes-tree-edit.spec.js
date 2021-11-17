@@ -368,16 +368,19 @@ describe('syncNodes', () => {
 		const previous = [
 			{
 				code: 1,
+				position: 1,
 				expanded: true,
 				children: [
 					{
 						label: 'label11',
 						expanded: true,
 						code: 2,
+						position: 1,
 						children: [
 							{
 								label: 'label3',
 								code: 3,
+								position: 1,
 							},
 						],
 					},
@@ -388,13 +391,16 @@ describe('syncNodes', () => {
 		const next = [
 			{
 				code: 1,
+				position: 1,
 				children: [
 					{
 						code: 2,
+						position: 1,
 						label: 'label1',
 						children: [
 							{
 								label: 'label3',
+								position: 1,
 								code: 3,
 							},
 						],
