@@ -30,6 +30,7 @@ describe('syncNodes', () => {
 		expect(syncNodes(previous, next)).toEqual([
 			{
 				code: 1,
+				position: 1,
 				expanded: true,
 				children: [
 					{
@@ -37,6 +38,7 @@ describe('syncNodes', () => {
 						label: 'label1',
 						expanded: false,
 						code: 2,
+						position: 1,
 					},
 				],
 			},
@@ -400,8 +402,8 @@ describe('syncNodes', () => {
 						children: [
 							{
 								label: 'label3',
-								position: 1,
 								code: 3,
+								position: 1,
 							},
 						],
 					},
@@ -412,6 +414,7 @@ describe('syncNodes', () => {
 		expect(syncNodes(previous, next)).toEqual([
 			{
 				code: 1,
+				position: 1,
 				expanded: true,
 				children: [
 					{
@@ -420,12 +423,14 @@ describe('syncNodes', () => {
 								children: [],
 								label: 'label3',
 								code: 3,
+								position: 1,
 								expanded: false,
 							},
 						],
 						label: 'label1',
 						expanded: true,
 						code: 2,
+						position: 1,
 					},
 				],
 			},
