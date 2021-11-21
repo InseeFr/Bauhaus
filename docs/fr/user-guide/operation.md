@@ -1,5 +1,5 @@
 # Guide utilisateur du module Opérations statistiques de Bauhaus
-Version au 16/06/2021
+Version au 15/09/2021
 
 Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer les opérations statistiques de l'Insee et des SSM.
 ## Sommaire
@@ -272,8 +272,8 @@ Les champs disponibles sont les suivants :
 - Les **Partenaires** sont les organismes associés à la conception et au pilotage de la série ;
 - Les **Services collecteurs** correspond aux services réalisant la collecte ;
 - Le **Propriétaire** est l'unité responsable de la gestion et de la publication de la série ainsi que des opérations statistiques et rapports qualité qui en découlent. Le propriétaire est obligatoire. Ne pas modifier le timbre propriétaire de la série au risque de perdre les droits en gestion et publication ;
-- Le champ **Succède à** permet de préciser si une série succède à une autre. Si une Série A succède à une Série B, alors la Série B est automatiquement remplacée par la Série A ;
-- Le champ **Remplacée par** permet de préciser si une série est remplacée par une autre. Si une Série B est remplacée par une Série A, alors la Série A succède automatiquement remplacée à la la Série B ;
+- Le champ **Succède à** permet de préciser si une série succède à une autre. Si une Série B succède à une Série A, alors la Série A est automatiquement remplacée par la Série B ;
+- Le champ **Remplacée par** permet de préciser si une série est remplacée par une autre. Si une Série A est remplacée par une Série B, alors la Série B succède automatiquement remplacée à la la Série A ;
 - Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contributions de la série ;
 - Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
@@ -401,8 +401,8 @@ Les champs disponibles sont les suivantes :
 - L'**Organisme responsable** est l'organisme responsable de l'indicateur ;
 - Les **Partenaires** sont les organismes associés à la conception et au pilotage de l'indicateur ;
 - Le **Propriétaire** est l'unité responsable de la gestion et de la publication de l'indicateur ainsi que des opérations statistiques et rapports qualité qui en découlent ;
-- Le champ **Succède à** permet de préciser si un indicateur succède à un autre. Si un indicateur A succède à un indicateur B, alors l'indicateur B est automatiquement remplacé par l'indicateur A ;
-- Le champ **Remplacée par** permet de préciser si un indicateur est remplacé par un autre. Si un indicateur B est remplacé par un indicateur A, alors l'indicateur A succède automatiquement à l'indicateur B ;
+- Le champ **Succède à** permet de préciser si un indicateur succède à un autre. Si un indicateur B succède à un indicateur A, alors l'indicateur A est automatiquement remplacé par l'indicateur B ;
+- Le champ **Remplacée par** permet de préciser si un indicateur est remplacé par un autre. Si un indicateur A est remplacé par un indicateur B, alors l'indicateur B succède automatiquement à l'indicateur A ;
 - Le champ **Produits de** permet de préciser les séries contribuant à la production de l'indicateur ;
 - Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
@@ -526,7 +526,7 @@ Les champs disponibles sont les suivants :
 - L'**Intitulé** est le libellé du document. Afin de faciliter la recherche d'un document, indiquer un intitulé explicite (ex : Questionnaire 2019 de l'enquête sur les technologies de l'information et de la communication et le commerce électronique (auprès des entreprises) / TIC 2019). Les intitulés français et anglais sont obligatoires ;
 - La **Description** permet de décrire le document. Il s'agit d'une information que l'on peut retrouver en infobulle ;
 - La **Date de mise à jour** est la date de dernière mise à jour du document. La date de mise à jour est obligatoire ;
-- Pour joindre un **Fichier**, se placer sur le champ ad hoc et faire un « glisser-déposer » ou cliquer dans le champ pour ajouter le document. Le nom du fichier peut uniquement contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas. Le document est obligatoire ;
+- Pour joindre un **Fichier**, se placer sur le champ ad hoc et faire un « glisser-déposer » ou cliquer dans le champ pour ajouter le document. Le nom du fichier peut uniquement contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas. Le fichier est obligatoire. Si malgré le respect des consignes de nommage du fichier, l'enregistrement du fichier s'avère impossible, renommer le fichier en réécrivant son nom, même à l'identique (ressaisir en écrasant le nom).
 - La **Langue** correspond à la langue du contenu du document. La langue est obligatoire.
 
 Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
@@ -582,4 +582,4 @@ Lorsque vous modifiez un lien (libellé, description, date, langue), alors pour 
 *Cette action permet de passer l'état du rapport qualité de "Publié" à "Provisoire, déjà publié" et rend alors visible le bouton "Publier"*
 - cliquer sur le bouton <span style="color: brown">Publier</span>
 
-**A noter : si un lien est partagé entre plusieurs rapports qualité associés à des séries d'opérations statistiques dont les timbres propriétaires sont différents, alors vous ne pourrez pas modifier le lien (cas assez rare). Pour le modifier, contacter l'équipe d'administration.** 
+**A noter : si un lien est partagé entre plusieurs rapports qualité associés à des séries d'opérations statistiques dont les timbres propriétaires sont différents, alors vous ne pourrez pas modifier le lien (cas assez rare). Pour le modifier, contacter l'équipe d'administration.**
