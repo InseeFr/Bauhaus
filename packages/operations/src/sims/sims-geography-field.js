@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { CancelButton, SaveButton, ActionToolbar } from '@inseefr/wilco';
+import { CancelButton, SaveButton, ActionToolbar, ErrorBloc } from '@inseefr/wilco';
 import ReactSelect from 'react-select';
 
 import D from '../i18n/build-dictionary';
@@ -8,10 +8,12 @@ import {
 	SimsGeographySelector,
 } from 'bauhaus-operations';
 import { useGeographies } from './hooks';
+import { Stores } from 'bauhaus-utilities';
 
 const SimsGeographyField = ({ onCancel, onSave, territory = {}}) => {
 	const [name, setName] = useState(territory.labelLg1 ?? '');
 	const [selectedOption, setSelectedOption] = useState(null);
+	const [serverSideError, setServerSideError] = useState("");
 	const [
 		geographies,
 		includes,
@@ -51,20 +53,29 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {}}) => {
 		[includes, setIncludes]
 	);
 
+	const save = useCallback(() => {
+		const formatted = {
+			...territory,
+			labelLg1: name,
+			unions: includes.map(i => ({ uri: i.value })),
+			difference: excludes.map(i => ({ uri: i.value }))
+		}
+
+		const method = formatted.id ?
+			Stores.Geographies.api.putTerritory(formatted.id, formatted) :
+			Stores.Geographies.api.postTerritory(formatted);
+			method.then((uri) => {
+				onSave(territory.uri ?? uri);
+			}).catch(err => setServerSideError(D.errors[JSON.parse(err).code]))
+	}, [name, includes,  excludes, onSave]);
+
 	return (
 		<div className="w-100 container">
 			<ActionToolbar>
 				<CancelButton action={onCancel} col={3} />
-				<SaveButton action={() => {
-					const formatted = {
-						...territory,
-						labelLg1: name,
-						unions: includes.map(i => ({ uri: i.value })),
-						difference: excludes.map(i => ({ uri: i.value }))
-					}
-					onSave(formatted)
-				}} col={3} />
+				<SaveButton action={save} col={3} />
 			</ActionToolbar>
+			<ErrorBloc error={serverSideError} />
 			<div className="row">
 				<div className={`form-group col-md-12`}>
 					<label className={`form-label w-100`}>

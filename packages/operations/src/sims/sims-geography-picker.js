@@ -23,16 +23,12 @@ const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
 		setSlidingModal(true);
 	}, [geographiesOptions, value]);
 
-	const onSave = useCallback((territory) => {
-		const method = territory.id ?
-			Stores.Geographies.api.putTerritory(territory.id, territory) :
-			Stores.Geographies.api.postTerritory(territory);
-		method.then((uri) => {
-			setSlidingModal(false);
-			loadGeographies();
-			onChange(territory.uri ?? uri)
-		})
+	const onSave = useCallback((territoryUri) => {
+		setSlidingModal(false);
+		loadGeographies();
+		onChange(territoryUri)
 	}, []);
+
 	const onCancel = useCallback(() => {
 		setTerritory(undefined);
 		setSlidingModal(false);
