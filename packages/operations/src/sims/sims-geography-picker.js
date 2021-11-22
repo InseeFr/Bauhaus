@@ -51,7 +51,12 @@ const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
 							({ value: gValue }) => gValue === value
 						)}
 						filterOption={(option, searchValue) => {
-							return !searchValue || option.label.toLowerCase().indexOf(searchValue.toLowerCase()) >= 0;
+							const search = searchValue.toLowerCase();
+							const label = option.data.label.toLowerCase();
+							const typeTerritory = option.data.typeTerritory.toLowerCase();
+							return !searchValue
+								|| label.indexOf(search) >= 0
+								|| typeTerritory.indexOf(search) >= 0
 						}}
 						options={geographiesOptions}
 						onChange={(e) => onChange(e ? e.value : '')}
