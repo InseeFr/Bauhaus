@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTreeFromFlatData, getFlatDataFromTree } from 'react-sortable-tree';
+import { getTreeFromFlatData } from 'react-sortable-tree';
 import D from '../i18n/build-dictionary';
 
 export const formatLabel = (component) => {
@@ -91,21 +91,43 @@ export const treedData = (arrayData) => {
 	});
 };
 
-export const recalculatePositions = (codes, tree) => {
-	const flattenTree = getFlatDataFromTree({
-		treeData: tree,
-		getNodeKey: ({ node }) => node.code,
-		ignoreCollapsed: false,
-	});
-	return codes?.map((c) => ({
-		...c,
-		parents: flattenTree
-			.filter((treedCode) => treedCode.node.code === c.code)
-			.map((treedCode) => ({
-				parent: treedCode.parentNode ? treedCode.parentNode.code : '',
-				position: treedCode.treeIndex + 1,
-			})),
-	}));
+const getFlatTree = (tree, root) => {
+	return (
+		tree &&
+		tree.children &&
+		tree.children.map((code, i) => {
+			if (code.children)
+				return [
+					{ parent: root, code: code.code, position: i },
+					getFlatTree(code, code.code),
+				];
+			return [{ parent: root, code: code.code, position: i }];
+		})
+	);
+};
+
+export const recalculatePositions = (codelist, tree) => {
+	const flattenTree = getFlatTree(tree[0][0], '').flat(10);
+	console.log(flattenTree);
+	return (
+		{
+			...codelist,
+			codes: Object.values(codelist.codes).reduce((acc, c) => {
+				return {
+					...acc,
+					[c.code]: {
+						...c,
+						parents: flattenTree
+							.filter((treedCode) => treedCode.code === c.code)
+							.map((treedCode) => ({
+								parent: treedCode.parent,
+								position: treedCode.position + 1,
+							})),
+					},
+				};
+			}, {}),
+		} || {}
+	);
 };
 
 export const formatCodeList = (cl) => {

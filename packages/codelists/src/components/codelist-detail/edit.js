@@ -39,7 +39,7 @@ const DumbCodelistDetailEdit = ({
 		({ code }) => {
 			const selectedCode = codes.find((c) => c.code === code);
 			const children = codes
-				.filter((c) => c.parents?.includes(code))
+				.filter((c) => c.parents?.some((parent) => parent.code === code))
 				.map(({ code }) => code);
 			const newParents = selectedCode.parents || [];
 			setCodes(
@@ -76,25 +76,24 @@ const DumbCodelistDetailEdit = ({
 					codes.filter(
 						(code) =>
 							code.parents.length === 1 &&
-							code.parents?.includes(currentNode.code)
+							code.parents?.some((parent) => parent.code === currentNode.code)
 					) || [];
 				childrenToDelete.forEach((child) => deleteNodes(child));
-
 				const childrenToUpdate =
 					codes.filter(
 						(code) =>
 							code.parents.length > 1 &&
-							code.parents?.parent.includes(currentNode.code)
+							code.parents?.some((parent) => parent.code === currentNode.code)
 					) || [];
 				updatedCodes.map((updatedCode) => {
 					const isPresent = childrenToUpdate.find(
-						({ code }) => code === updatedCode
+						(code) => code.code === updatedCode.code
 					);
 					if (isPresent) {
 						return {
 							...updatedCode,
 							parents: updatedCode.parents.filter(
-								({ code }) => code.parent !== currentNode.code
+								(parent) => parent.code !== currentNode.code
 							),
 						};
 					} else {
@@ -197,7 +196,7 @@ const DumbCodelistDetailEdit = ({
 							name="lastClassUriSegment"
 							onChange={handleChange}
 							value={codelist.lastClassUriSegment || ''}
-							disabled={updateMode}
+							/* disabled={updateMode} */
 						/>
 					</div>
 				</div>

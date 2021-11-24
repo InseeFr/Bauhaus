@@ -31,19 +31,23 @@ const CodelistEdit = (props) => {
 			setServerSideError('');
 
 			let request;
+			console.log('cl', codelist);
+			console.log('recalculatePosition', recalculatePositions(codelist, tree));
 
 			if (codelist.id) {
-				request = API.putCodelist(recalculatePositions(codelist.codes, tree));
+				request = API.putCodelist(recalculatePositions(codelist, tree));
 			} else {
-				request = API.postCodelist(recalculatePositions(codelist.codes, tree));
+				request = API.postCodelist(recalculatePositions(codelist, tree));
 			}
 
 			request
 				.then((id = codelist.id) => {
+					console.log('id', id);
 					return goBackOrReplace(props, `/${id}`, !codelist.id);
 				})
 				.catch((error) => {
 					setCodelist(codelist);
+					console.log('error', error);
 					setServerSideError(D['errors_' + JSON.parse(error).code]);
 				})
 				.finally(() => setSaving(false));
