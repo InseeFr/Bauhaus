@@ -67,7 +67,7 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {}}) => {
 			method.then((uri) => {
 				onSave(territory.uri ?? uri);
 			}).catch(err => setServerSideError(D.errors[JSON.parse(err).code]))
-	}, [name, includes,  excludes, onSave]);
+	}, [territory, name, includes,  excludes, onSave]);
 
 	return (
 		<div className="w-100 container">
