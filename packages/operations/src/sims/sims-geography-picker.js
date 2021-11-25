@@ -27,7 +27,7 @@ const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
 		setSlidingModal(false);
 		loadGeographies();
 		onChange(territoryUri)
-	}, []);
+	}, [loadGeographies, onChange]);
 
 	const onCancel = useCallback(() => {
 		setTerritory(undefined);
