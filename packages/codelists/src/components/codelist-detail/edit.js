@@ -85,7 +85,7 @@ const DumbCodelistDetailEdit = ({
 							code.parents.length > 1 &&
 							code.parents?.some((parent) => parent.code === currentNode.code)
 					) || [];
-				updatedCodes.map((updatedCode) => {
+				updatedCodes = updatedCodes.map((updatedCode) => {
 					const isPresent = childrenToUpdate.find(
 						(code) => code.code === updatedCode.code
 					);
