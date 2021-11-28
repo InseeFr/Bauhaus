@@ -17,6 +17,50 @@ import CodesTreeEdit from './codes-tree-edit';
 import './edit.scss';
 import { CollapsiblePanel } from '../collapsible-panel';
 
+export const deleteNodes = (codes, currentNode) => {
+	let updatedCodes = [...codes];
+
+	const deleteNode = (currentNode) => {
+		updatedCodes = updatedCodes.filter(
+			(code) => code.code !== currentNode.code
+		);
+
+		const childrenToDelete =
+			codes.filter(
+				(code) =>
+					code.parents?.length === 1 &&
+					code.parents?.includes(currentNode.code)
+			) || [];
+
+		childrenToDelete.forEach((child) => deleteNode(child));
+
+		const childrenToUpdate =
+			codes.filter(
+				(code) =>
+					code.parents?.length > 1 && code.parents?.includes(currentNode.code)
+			) || [];
+		updatedCodes = updatedCodes.map(( updatedCode ) => {
+			const isPresent = !!childrenToUpdate.find(
+				({ code }) => code === updatedCode.code
+			);
+
+			if (isPresent) {
+				return {
+					...updatedCode,
+					parents: updatedCode.parents.filter(
+						(code) => code !== currentNode.code
+					),
+				};
+			} else {
+				return updatedCode;
+			}
+		});
+	};
+	deleteNode(currentNode);
+
+	return updatedCodes
+}
+
 const defaultCodelist = {
 	contributor: 'DG75-L201',
 	created: dayjs(),
@@ -65,42 +109,7 @@ const DumbCodelistDetailEdit = ({
 
 	const deleteCodeWithChildren = useCallback(
 		(codeToDelete) => {
-			let updatedCodes = [...codes];
-
-			const deleteNodes = (currentNode) => {
-				updatedCodes = updatedCodes.filter(
-					(code) => code.code !== currentNode.code
-				);
-				const childrenToDelete =
-					codes.filter(
-						(code) =>
-							code.parent.length === 1 &&
-							code.parents?.includes(currentNode.code)
-					) || [];
-				childrenToDelete.forEach((child) => deleteNodes(child));
-
-				const childrenToUpdate =
-					codes.filter(
-						(code) =>
-							code.parent.length > 1 && code.parents?.includes(currentNode.code)
-					) || [];
-				updatedCodes.map((updatedCode) => {
-					const isPresent = childrenToUpdate.find(
-						({ code }) => code === updatedCode
-					);
-					if (isPresent) {
-						return {
-							...updatedCode,
-							parents: updatedCode.parents.filter(
-								({ code }) => code !== currentNode.code
-							),
-						};
-					} else {
-						return updatedCode;
-					}
-				});
-			};
-			deleteNodes(codeToDelete);
+			const updatedCodes = deleteNodes(codes, codeToDelete)
 			setCodes(updatedCodes);
 		},
 		[codes]
