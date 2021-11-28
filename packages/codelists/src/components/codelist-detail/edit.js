@@ -25,20 +25,17 @@ export const deleteNodes = (codes, currentNode) => {
 			(code) => code.code !== currentNode.code
 		);
 
-		const childrenToDelete =
-			codes.filter(
+		const findParent = (lengthCheck, parentNode) => {
+			return codes.filter(
 				(code) =>
-					code.parents?.length === 1 &&
-					code.parents?.includes(currentNode.code)
+					lengthCheck(code.parents?.length) &&
+					code.parents?.find(({ code }) => code === parentNode.code)
 			) || [];
 
-		childrenToDelete.forEach((child) => deleteNode(child));
+		}
+		findParent(length => length === 1, currentNode).forEach((child) => deleteNode(child));
 
-		const childrenToUpdate =
-			codes.filter(
-				(code) =>
-					code.parents?.length > 1 && code.parents?.includes(currentNode.code)
-			) || [];
+		const childrenToUpdate = findParent(length => length > 1, currentNode);
 		updatedCodes = updatedCodes.map(( updatedCode ) => {
 			const isPresent = !!childrenToUpdate.find(
 				({ code }) => code === updatedCode.code
@@ -48,7 +45,7 @@ export const deleteNodes = (codes, currentNode) => {
 				return {
 					...updatedCode,
 					parents: updatedCode.parents.filter(
-						(code) => code !== currentNode.code
+						({ code }) => code !== currentNode.code
 					),
 				};
 			} else {
