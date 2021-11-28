@@ -7,7 +7,7 @@ import './tree.scss';
 
 const RmesTree = (props) => {
 	return (
-		<div style={{ width: '100%', height: '80vh' }}>
+		<div className="code-tree" style={{ width: '100%', height: '80vh' }}>
 			<SortableTree
 				treeData={props.treeData}
 				onChange={props.handleChangeTree}

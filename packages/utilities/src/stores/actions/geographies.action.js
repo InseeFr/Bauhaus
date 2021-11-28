@@ -10,8 +10,19 @@ const LOAD_GEOGRAPHIES_ERROR = 'LOAD_GEOGRAPHIES_ERROR';
 // API
 const apiConfig = {
 	getAll: () => ['territories'],
+	postFamily: territory => [
+		`territory`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(territory),
+		},
+		res => res.text(),
+	],
+
 };
-const api = API.buildApi('geo', apiConfig);
+export const api = API.buildApi('geo', apiConfig);
 
 // Action creators
 const loadGeographiesPending = () => {

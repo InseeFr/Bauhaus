@@ -30,6 +30,7 @@ describe('syncNodes', () => {
 		expect(syncNodes(previous, next)).toEqual([
 			{
 				code: 1,
+				position: 1,
 				expanded: true,
 				children: [
 					{
@@ -37,6 +38,7 @@ describe('syncNodes', () => {
 						label: 'label1',
 						expanded: false,
 						code: 2,
+						position: 1,
 					},
 				],
 			},
@@ -50,12 +52,14 @@ describe('syncNodes', () => {
 				title: 'S.11 - Sociétés non financières',
 				label: 'Sociétés non financières',
 				parent: null,
+				position: 1,
 				children: [
 					{
 						code: 'S.11003',
 						title: 'S.11003 - Sociétés non financières sous contrôle étranger',
 						label: 'Sociétés non financières sous contrôle étranger',
 						parent: 'S.11',
+						position: 1,
 						children: [
 							{
 								code: 'IABL.11003',
@@ -63,6 +67,7 @@ describe('syncNodes', () => {
 									'IABL.11003 - IABL non financières sous contrôle étranger',
 								label: 'IABL non financières sous contrôle étranger',
 								parent: 'S.11003',
+								position: 1,
 							},
 							{
 								code: 'ISLB.11003',
@@ -70,6 +75,7 @@ describe('syncNodes', () => {
 									'ISLB.11003 - ISLB non financières sous contrôle étranger',
 								label: 'ISLB non financières sous contrôle étranger',
 								parent: 'S.11003',
+								position: 2,
 							},
 						],
 					},
@@ -78,12 +84,14 @@ describe('syncNodes', () => {
 						title: 'ISLB.11 - Institutions sans but lucratif non financières',
 						label: 'Institutions sans but lucratif non financières',
 						parent: 'S.11',
+						position: 2,
 						children: [
 							{
 								code: 'ISLB.11002',
 								title: 'ISLB.11002 - ISLB non financières privées nationales',
 								label: 'ISLB non financières privées nationales',
 								parent: 'ISLB.11',
+								position: 1,
 							},
 							{
 								code: 'ISLB.11003',
@@ -91,12 +99,14 @@ describe('syncNodes', () => {
 									'ISLB.11003 - ISLB non financières sous contrôle étranger',
 								label: 'ISLB non financières sous contrôle étranger',
 								parent: 'ISLB.11',
+								position: 2,
 							},
 							{
 								code: 'ISLB.11001',
 								title: 'ISLB.11001 - ISLB non financières publiques',
 								label: 'ISLB non financières publiques',
 								parent: 'ISLB.11',
+								position: 3,
 							},
 						],
 					},
@@ -105,18 +115,21 @@ describe('syncNodes', () => {
 						title: 'S.11002 - Sociétés non financières privées nationales',
 						label: 'Sociétés non financières privées nationales',
 						parent: 'S.11',
+						position: 3,
 						children: [
 							{
 								code: 'IABL.11002',
 								title: 'IABL.11002 - IABL non financières privées nationales',
 								label: 'IABL non financières privées nationales',
 								parent: 'S.11002',
+								position: 1,
 							},
 							{
 								code: 'ISLB.11002',
 								title: 'ISLB.11002 - ISLB non financières privées nationales',
 								label: 'ISLB non financières privées nationales',
 								parent: 'S.11002',
+								position: 2,
 							},
 						],
 					},
@@ -125,12 +138,14 @@ describe('syncNodes', () => {
 						title: 'IABL.11 - Institutions à but lucratif non financières',
 						label: 'Institutions à but lucratif non financières',
 						parent: 'S.11',
+						position: 4,
 						children: [
 							{
 								code: 'IABL.11001',
 								title: 'IABL.11001 - IABL non financières publiques',
 								label: 'IABL non financières publiques',
 								parent: 'IABL.11',
+								position: 1,
 							},
 							{
 								code: 'IABL.11003',
@@ -138,12 +153,14 @@ describe('syncNodes', () => {
 									'IABL.11003 - IABL non financières sous contrôle étranger',
 								label: 'IABL non financières sous contrôle étranger',
 								parent: 'IABL.11',
+								position: 2,
 							},
 							{
 								code: 'IABL.11002',
 								title: 'IABL.11002 - IABL non financières privées nationales',
 								label: 'IABL non financières privées nationales',
 								parent: 'IABL.11',
+								position: 3,
 							},
 						],
 					},
@@ -152,18 +169,21 @@ describe('syncNodes', () => {
 						title: 'S.11001 - Sociétés non financières publiques',
 						label: 'Sociétés non financières publiques',
 						parent: 'S.11',
+						position: 5,
 						children: [
 							{
 								code: 'IABL.11001',
 								title: 'IABL.11001 - IABL non financières publiques',
 								label: 'IABL non financières publiques',
 								parent: 'S.11001',
+								position: 1,
 							},
 							{
 								code: 'ISLB.11001',
 								title: 'ISLB.11001 - ISLB non financières publiques',
 								label: 'ISLB non financières publiques',
 								parent: 'S.11001',
+								position: 2,
 							},
 						],
 					},
@@ -176,12 +196,14 @@ describe('syncNodes', () => {
 				title: 'S.11 - Sociétés non financières',
 				label: 'Sociétés non financières',
 				parent: null,
+				position: 1,
 				children: [
 					{
 						code: 'S.11003',
 						title: 'S.11003 - Sociétés non financières sous contrôle étranger',
 						label: 'Sociétés non financières sous contrôle étranger',
 						parent: 'S.11',
+						position: 1,
 						children: [
 							{
 								code: 'IABL.11003',
@@ -189,6 +211,7 @@ describe('syncNodes', () => {
 									'IABL.11003 - IABL non financières sous contrôle étranger',
 								label: 'IABL non financières sous contrôle étranger',
 								parent: 'S.11003',
+								position: 1,
 								expanded: false,
 								children: [],
 							},
@@ -198,6 +221,7 @@ describe('syncNodes', () => {
 									'ISLB.11003 - ISLB non financières sous contrôle étranger',
 								label: 'ISLB non financières sous contrôle étranger',
 								parent: 'S.11003',
+								position: 2,
 								expanded: false,
 								children: [],
 							},
@@ -209,12 +233,14 @@ describe('syncNodes', () => {
 						title: 'ISLB.11 - Institutions sans but lucratif non financières',
 						label: 'Institutions sans but lucratif non financières',
 						parent: 'S.11',
+						position: 2,
 						children: [
 							{
 								code: 'ISLB.11002',
 								title: 'ISLB.11002 - ISLB non financières privées nationales',
 								label: 'ISLB non financières privées nationales',
 								parent: 'ISLB.11',
+								position: 1,
 								expanded: false,
 								children: [],
 							},
@@ -224,6 +250,7 @@ describe('syncNodes', () => {
 									'ISLB.11003 - ISLB non financières sous contrôle étranger',
 								label: 'ISLB non financières sous contrôle étranger',
 								parent: 'ISLB.11',
+								position: 2,
 								expanded: false,
 								children: [],
 							},
@@ -232,6 +259,7 @@ describe('syncNodes', () => {
 								title: 'ISLB.11001 - ISLB non financières publiques',
 								label: 'ISLB non financières publiques',
 								parent: 'ISLB.11',
+								position: 3,
 								expanded: false,
 								children: [],
 							},
@@ -243,12 +271,14 @@ describe('syncNodes', () => {
 						title: 'S.11002 - Sociétés non financières privées nationales',
 						label: 'Sociétés non financières privées nationales',
 						parent: 'S.11',
+						position: 3,
 						children: [
 							{
 								code: 'IABL.11002',
 								title: 'IABL.11002 - IABL non financières privées nationales',
 								label: 'IABL non financières privées nationales',
 								parent: 'S.11002',
+								position: 1,
 								expanded: false,
 								children: [],
 							},
@@ -257,6 +287,7 @@ describe('syncNodes', () => {
 								title: 'ISLB.11002 - ISLB non financières privées nationales',
 								label: 'ISLB non financières privées nationales',
 								parent: 'S.11002',
+								position: 2,
 								expanded: false,
 								children: [],
 							},
@@ -268,12 +299,14 @@ describe('syncNodes', () => {
 						title: 'IABL.11 - Institutions à but lucratif non financières',
 						label: 'Institutions à but lucratif non financières',
 						parent: 'S.11',
+						position: 4,
 						children: [
 							{
 								code: 'IABL.11001',
 								title: 'IABL.11001 - IABL non financières publiques',
 								label: 'IABL non financières publiques',
 								parent: 'IABL.11',
+								position: 1,
 								expanded: false,
 								children: [],
 							},
@@ -283,6 +316,7 @@ describe('syncNodes', () => {
 									'IABL.11003 - IABL non financières sous contrôle étranger',
 								label: 'IABL non financières sous contrôle étranger',
 								parent: 'IABL.11',
+								position: 2,
 								expanded: false,
 								children: [],
 							},
@@ -291,6 +325,7 @@ describe('syncNodes', () => {
 								title: 'IABL.11002 - IABL non financières privées nationales',
 								label: 'IABL non financières privées nationales',
 								parent: 'IABL.11',
+								position: 3,
 								expanded: false,
 								children: [],
 							},
@@ -302,12 +337,14 @@ describe('syncNodes', () => {
 						title: 'S.11001 - Sociétés non financières publiques',
 						label: 'Sociétés non financières publiques',
 						parent: 'S.11',
+						position: 5,
 						children: [
 							{
 								code: 'IABL.11001',
 								title: 'IABL.11001 - IABL non financières publiques',
 								label: 'IABL non financières publiques',
 								parent: 'S.11001',
+								position: 1,
 								expanded: false,
 								children: [],
 							},
@@ -316,6 +353,7 @@ describe('syncNodes', () => {
 								title: 'ISLB.11001 - ISLB non financières publiques',
 								label: 'ISLB non financières publiques',
 								parent: 'S.11001',
+								position: 2,
 								expanded: false,
 								children: [],
 							},
@@ -332,16 +370,19 @@ describe('syncNodes', () => {
 		const previous = [
 			{
 				code: 1,
+				position: 1,
 				expanded: true,
 				children: [
 					{
 						label: 'label11',
 						expanded: true,
 						code: 2,
+						position: 1,
 						children: [
 							{
 								label: 'label3',
 								code: 3,
+								position: 1,
 							},
 						],
 					},
@@ -352,14 +393,17 @@ describe('syncNodes', () => {
 		const next = [
 			{
 				code: 1,
+				position: 1,
 				children: [
 					{
 						code: 2,
+						position: 1,
 						label: 'label1',
 						children: [
 							{
 								label: 'label3',
 								code: 3,
+								position: 1,
 							},
 						],
 					},
@@ -370,6 +414,7 @@ describe('syncNodes', () => {
 		expect(syncNodes(previous, next)).toEqual([
 			{
 				code: 1,
+				position: 1,
 				expanded: true,
 				children: [
 					{
@@ -378,12 +423,14 @@ describe('syncNodes', () => {
 								children: [],
 								label: 'label3',
 								code: 3,
+								position: 1,
 								expanded: false,
 							},
 						],
 						label: 'label1',
 						expanded: true,
 						code: 2,
+						position: 1,
 					},
 				],
 			},

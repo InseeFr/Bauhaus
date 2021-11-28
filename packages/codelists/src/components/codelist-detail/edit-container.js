@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
+import { formatCodeList, recalculatePositions } from '../../utils';
+import { TreeContext } from '../tree/treeContext';
 import D from '../../i18n/build-dictionary';
 import { CodeListDetailEdit } from './edit';
 
@@ -13,6 +15,7 @@ const CodelistEdit = (props) => {
 	const [saving, setSaving] = useState(false);
 	const [codelist, setCodelist] = useState({});
 	const [serverSideError, setServerSideError] = useState('');
+	const tree = useContext(TreeContext);
 
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
@@ -28,41 +31,34 @@ const CodelistEdit = (props) => {
 			setServerSideError('');
 
 			let request;
+			console.log('cl', codelist);
+			console.log('recalculatePosition', recalculatePositions(codelist, tree));
 
 			if (codelist.id) {
-				request = API.putCodelist(codelist);
+				request = API.putCodelist(recalculatePositions(codelist, tree));
 			} else {
-				request = API.postCodelist(codelist);
+				request = API.postCodelist(recalculatePositions(codelist, tree));
 			}
 
 			request
 				.then((id = codelist.id) => {
+					console.log('id', id);
 					return goBackOrReplace(props, `/${id}`, !codelist.id);
 				})
 				.catch((error) => {
 					setCodelist(codelist);
+					console.log('error', error);
 					setServerSideError(D['errors_' + JSON.parse(error).code]);
 				})
 				.finally(() => setSaving(false));
 		},
-		[props]
+		[props, tree]
 	);
 
 	useEffect(() => {
 		API.getDetailedCodelist(id)
-			.then((codelist) => {
-				if (codelist.codes) {
-					codelist.codes = Object.values(codelist.codes).reduce((acc, c) => {
-						return {
-							...acc,
-							[c.code]: {
-								...c,
-								id: c.code,
-							},
-						};
-					}, {});
-				}
-				setCodelist(codelist);
+			.then((cl) => {
+				setCodelist(formatCodeList(cl));
 			})
 			.finally(() => setLoading(false));
 	}, [id]);
@@ -81,7 +77,7 @@ const CodelistEdit = (props) => {
 			codelist={codelist}
 			handleBack={handleBack}
 			handleSave={handleSave}
-			mutualized={true}
+			updateMode={id !== undefined}
 			stampListOptions={stampListOptions}
 			serverSideError={serverSideError}
 		/>

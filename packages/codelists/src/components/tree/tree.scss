@@ -1,4 +1,14 @@
-.code-tree-detail {
-	border: none;
-	background: transparent;
+
+.code-tree {
+	.code-tree-detail {
+		border: none;
+		background: transparent;
+	}
+	.rst__moveHandle, .rst__loadingHandle {
+		width: 33px;
+	}
+	.rst__rowContents {
+		min-width: auto;
+		padding: 0;
+	}
 }
