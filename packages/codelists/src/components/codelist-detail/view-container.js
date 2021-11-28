@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Loading, goBack } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
+import { formatCodeList } from '../../utils';
 import { API } from '../../apis';
 import ComponentTitle from './title';
 import { CodeListDetailView } from './view';
@@ -19,19 +20,8 @@ const CodelistComponentView = (props) => {
 
 	useEffect(() => {
 		API.getDetailedCodelist(id)
-			.then((codelist) => {
-				if (codelist.codes) {
-					codelist.codes = Object.values(codelist.codes).reduce((acc, c) => {
-						return {
-							...acc,
-							[c.code]: {
-								...c,
-								id: c.code,
-							},
-						};
-					}, {});
-				}
-				setCodelist(codelist);
+			.then((cl) => {
+				setCodelist(formatCodeList(cl));
 			})
 			.finally(() => setLoading(false));
 	}, [id]);

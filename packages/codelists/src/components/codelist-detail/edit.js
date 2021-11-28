@@ -66,6 +66,7 @@ const DumbCodelistDetailEdit = ({
 	codelist: initialCodelist,
 	handleSave,
 	handleBack,
+	updateMode,
 	disseminationStatusListOptions,
 	stampListOptions,
 	serverSideError,
@@ -79,7 +80,7 @@ const DumbCodelistDetailEdit = ({
 		({ code }) => {
 			const selectedCode = codes.find((c) => c.code === code);
 			const children = codes
-				.filter((c) => c.parents?.includes(code))
+				.filter((c) => c.parents?.some((parent) => parent.code === code))
 				.map(({ code }) => code);
 			const newParents = selectedCode.parents || [];
 			setCodes(
@@ -106,7 +107,7 @@ const DumbCodelistDetailEdit = ({
 
 	const deleteCodeWithChildren = useCallback(
 		(codeToDelete) => {
-			const updatedCodes = deleteNodes(codes, codeToDelete)
+			const updatedCodes = deleteNodes(codes, codeToDelete);
 			setCodes(updatedCodes);
 		},
 		[codes]
@@ -184,7 +185,8 @@ const DumbCodelistDetailEdit = ({
 							id="lastListUriSegment"
 							name="lastListUriSegment"
 							onChange={handleChange}
-							value={codelist.uriListe}
+							value={codelist.lastListUriSegment || ''}
+							disabled={updateMode}
 						/>
 					</div>
 				</div>
@@ -199,7 +201,8 @@ const DumbCodelistDetailEdit = ({
 							id="lastClassUriSegment"
 							name="lastClassUriSegment"
 							onChange={handleChange}
-							value={codelist.uriClassOwl}
+							value={codelist.lastClassUriSegment || ''}
+							/* disabled={updateMode} */
 						/>
 					</div>
 				</div>
@@ -322,10 +325,10 @@ const DumbCodelistDetailEdit = ({
 								deleteCodeWithChildren={deleteCodeWithChildren}
 								updateCode={updateCode}
 								createCode={createCode}
-								codes={codes}
+								codes={codes || {}}
 								handleAdd={true}
 								readOnly={false}
-							></CodesTreeEdit>
+							/>
 						}
 					/>
 				</div>
@@ -340,6 +343,7 @@ DumbCodelistDetailEdit.propTypes = {
 	stampListOptions: PropTypes.array,
 	handleSave: PropTypes.func,
 	handleBack: PropTypes.func,
+	updateMode: PropTypes.bool,
 	secondLang: PropTypes.bool,
 };
 

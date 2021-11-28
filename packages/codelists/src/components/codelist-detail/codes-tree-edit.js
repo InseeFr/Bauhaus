@@ -1,19 +1,26 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Stores } from 'bauhaus-utilities';
 import RmesTree from '../tree';
+import { TreeContext } from '../tree/treeContext';
 import { CodeDetailEdit } from '../code-detail/edit';
 import { treedData } from '../../utils';
 import { emptyCode } from '../code-detail/empty-code';
 
 export const syncNodes = (previousNodes = [], nextNodes = []) => {
+	if (previousNodes.length !== nextNodes.length) {
+		return nextNodes;
+	}
 	return nextNodes.map((node) => {
 		const previousNode = previousNodes.find(({ code }) => code === node.code);
 
 		return {
 			...node,
 			expanded: previousNode?.expanded || false,
+			position:
+				previousNode?.position ||
+				(previousNodes.position ? Math.max(previousNodes.position) + 1 : 1),
 			children: syncNodes(previousNode?.children, node.children),
 		};
 	});
@@ -28,7 +35,7 @@ const CodesTreeEdit = ({
 }) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const [selectedCode, setSelectedCode] = useState(emptyCode);
-	const [tree, setTree] = useState([]);
+	const [tree, setTree] = useContext(TreeContext);
 
 	useEffect(() => {
 		const currentTree = treedData(Object.values(codes || {}));

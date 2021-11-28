@@ -173,9 +173,9 @@ const dictionary = {
 		fr: 'Supprimer',
 		en: 'Delete',
 	},
-	btnCreate: {
-		fr: 'Créer',
-		en: 'Create',
+	btnNew: {
+		fr: 'Nouveau',
+		en: 'New',
 	},
 	btnSave: {
 		fr: 'Sauvegarder',

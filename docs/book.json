@@ -1,33 +1,33 @@
 {
-  "gitbook": "3.2.2",
-  "title": "Bauhaus",
-  "plugins": [
-    "edit-link",
-    "prism",
-    "-highlight",
-    "github",
-    "anchorjs",
-    "image-captions",
-    "include-codeblock"
-  ],
-  "root": "./",
-  "pluginsConfig": {
-    "edit-link": {
-      "base": "https://github.com/InseeFr/Bauhaus/tree/master/docs",
-      "label": "Edit This Page"
-    },
-    "github": {
-      "url": "https://github.com/InseeFr/Bauhaus/"
-    },
-    "theme-default": {
-      "styles": {
-        "website": "gitbook.css"
-      }
-    },
-    "prism": {
-      "lang": {
-        "shell": "bash"
-      }
-    }
-  }
+	"gitbook": "3.2.2",
+	"title": "Bauhaus",
+	"plugins": [
+		"edit-link",
+		"prism",
+		"-highlight",
+		"github",
+		"anchorjs",
+		"image-captions",
+		"include-codeblock"
+	],
+	"root": "./",
+	"pluginsConfig": {
+		"edit-link": {
+			"base": "https://github.com/InseeFr/Bauhaus/tree/main/docs",
+			"label": "Edit This Page"
+		},
+		"github": {
+			"url": "https://github.com/InseeFr/Bauhaus/"
+		},
+		"theme-default": {
+			"styles": {
+				"website": "gitbook.css"
+			}
+		},
+		"prism": {
+			"lang": {
+				"shell": "bash"
+			}
+		}
+	}
 }
