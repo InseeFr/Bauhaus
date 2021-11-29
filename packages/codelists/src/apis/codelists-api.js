@@ -27,6 +27,30 @@ const api = {
 		},
 		() => {},
 	],
+	getCodelistsPartial: () => ['partial'],
+	getCodelistPartial: (id) => [`partial/${id}`],
+	getCodelistsPartialForSearch: () => ['partial/search'],
+	postCodelistPartial: (codelist) => [
+		'partial',
+		{
+			headers: {
+				Accept: 'text/plain',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(codelist),
+		},
+		() => {},
+	],
+	putCodelistPartial: (codelist) => [
+		`partial/${codelist.id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(codelist),
+		},
+		() => {},
+	],
 };
 
 export default API.buildApi('codeList', api);
