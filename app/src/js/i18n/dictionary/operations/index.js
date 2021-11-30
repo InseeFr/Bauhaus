@@ -1,6 +1,10 @@
 import documentsD from 'js/i18n/dictionary/operations/documents';
 import validationD from 'js/i18n/dictionary/operations/validation';
 const dictionary = {
+	createFromAnExistingReport: {
+		fr: 'Créer à partir d\'un rapport qualité existant',
+		en: 'Create from an existing quality report'
+	},
 	operationsTitle: {
 		fr: 'Opérations',
 		en: 'Operations',

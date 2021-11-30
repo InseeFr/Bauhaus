@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
@@ -25,8 +25,11 @@ import {
 import { HTMLUtils, ArrayUtils } from 'bauhaus-utilities';
 import './sims-creation.scss';
 import { rangeType } from 'js/utils/msd/';
+import api from '../../../../../remote-api/operations-api';
 
 const { RICH_TEXT } = rangeType;
+
+
 
 class SimsCreation extends React.Component {
 	static propTypes = {
@@ -41,9 +44,6 @@ class SimsCreation extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const { metadataStructure, sims = {} } = this.props;
-
-		const flattenStructure = flattenTree(metadataStructure);
 		this.unblock = this.props.history.block((location) => {
 			if(this.props.history.location?.pathname === location?.pathname){
 				return true;
@@ -64,25 +64,30 @@ class SimsCreation extends React.Component {
 					? this.props.idParent || getParentId(this.props.sims)
 					: '',
 
-			sims: {
-				...Object.keys(flattenStructure).reduce((acc, key) => {
-					return {
-						...acc,
-						[key]: {
-							rangeType: flattenStructure[key].rangeType,
-							idAttribute: key,
-							value: '',
-							labelLg1: '',
-							labelLg2: '',
-						},
-					};
-				}, {}),
-				...removeRubricsWhenDuplicate(props.mode, sims.rubrics || this.props.defaultSimsRubrics),
-			},
+			sims: this.getDefaultSims(this.props.mode, this.props.sims.rubrics || this.props.defaultSimsRubrics),
 			secondLang: true,
 		};
 	}
 
+	getDefaultSims = (mode, rubrics) => {
+		const flattenStructure = flattenTree(this.props.metadataStructure);
+
+		return {
+			...Object.keys(flattenStructure).reduce((acc, key) => {
+				return {
+					...acc,
+					[key]: {
+						rangeType: flattenStructure[key].rangeType,
+						idAttribute: key,
+						value: '',
+						labelLg1: '',
+						labelLg2: '',
+					},
+				};
+			}, {}),
+			...removeRubricsWhenDuplicate(mode, rubrics),
+		}
+	}
 	handleChange = (e) => {
 		this.setState((state) => ({
 			...state,
@@ -117,20 +122,8 @@ class SimsCreation extends React.Component {
 		 */
 		const idParent = this.state.idParent || this.props.idParent
 
-		const rubrics = Object.values(this.state.sims).map((rubric) => {
-			if (rubric.rangeType === 'RICH_TEXT') {
-				return {
-					...rubric,
-					labelLg1: rubric.labelLg1
-						? HTMLUtils.mdFromEditorState(rubric.labelLg1)
-						: rubric.labelLg1,
-					labelLg2: rubric.labelLg2
-						? HTMLUtils.mdFromEditorState(rubric.labelLg2)
-						: rubric.labelLg2,
-				};
-			}
-			return rubric;
-		});
+
+		const rubrics = Object.values(this.state.sims).map(this.convertRubric)
 
 		const sims = {
 			id: this.props.mode !== DUPLICATE ? this.props.sims.id : '',
@@ -154,6 +147,22 @@ class SimsCreation extends React.Component {
 				: `/operations/${parentType}/${idParent}`
 		);
 	};
+
+	convertRubric = rubric => {
+		if (rubric.rangeType === 'RICH_TEXT') {
+
+			return {
+				...rubric,
+				labelLg1: rubric.labelLg1
+					? HTMLUtils.mdFromEditorState(rubric.labelLg1)
+					: rubric.labelLg1,
+				labelLg2: rubric.labelLg2
+					? HTMLUtils.mdFromEditorState(rubric.labelLg2)
+					: rubric.labelLg2,
+			};
+		}
+		return rubric;
+	}
 	render() {
 		const {
 			metadataStructure,
@@ -166,6 +175,8 @@ class SimsCreation extends React.Component {
 		} = this.props;
 		const { secondLang } = this.state;
 
+
+
 		const organisationsOptions = ArrayUtils.sortArrayByLabel(
 			organisations.map((c) => ({
 				label: c.label,
@@ -173,11 +184,20 @@ class SimsCreation extends React.Component {
 			}))
 		);
 
+
+
 		const { sims, idParent } = this.state;
 		const operationsOptions = (this.props.sims.parentsWithoutSims || []).map(
 			(op) => ({
 				label: op.labelLg1,
 				value: op.id,
+			})
+		);
+
+		const operationsWithSimsOptions = (this.props.parentWithSims || []).map(
+			(op) => ({
+				label: op.labelLg1,
+				value: op.idSims,
 			})
 		);
 		function MSDInformations(msd, handleChange, firstLevel = false) {
@@ -277,7 +297,7 @@ class SimsCreation extends React.Component {
 											});
 										}}
 									/>
-									{mode === 'DUPLICATE' && (
+									{mode === DUPLICATE && (
 										<Select
 											value={operationsOptions.find(
 												({ value }) => value === idParent
@@ -288,6 +308,28 @@ class SimsCreation extends React.Component {
 											searchable
 										/>
 									)}
+
+									{mode !== DUPLICATE && operationsWithSimsOptions.length > 0 && (
+										<Select
+											value={operationsWithSimsOptions.find(
+												({ value }) => value === idParent
+											)}
+											placeholder={D.createFromAnExistingReport}
+											options={operationsWithSimsOptions}
+											searchable
+											onChange={id => {
+												api.getSims(id).then(result => {
+													this.setState({ sims: this.getDefaultSims(DUPLICATE, result.rubrics.reduce((acc, rubric) => {
+															return {
+																...acc,
+																[rubric.idAttribute]: rubric
+															}
+														}, {})) });
+												})
+											}}
+										/>
+									)}
+
 								</React.Fragment>
 							)}
 							{MSDInformations(msd, this.handleChange, true)}
@@ -299,4 +341,22 @@ class SimsCreation extends React.Component {
 	}
 }
 
-export default withRouter(SimsCreation);
+const withParentWithSims = (Component) => {
+	return (props) => {
+		const [parentWithSims, setParentWithSims] = useState([]);
+		const parentType = props.parentType;
+		const seriesId = props.parent?.series?.id;
+		useEffect(() => {
+			if(parentType === "operation" && seriesId){
+				api.getOperationsWithReport(seriesId).then(result => {
+					setParentWithSims(result)
+				})
+
+			}
+		}, [seriesId, parentType])
+		return <Component {...props} parentWithSims={parentWithSims} />
+	}
+}
+
+const AdvancedSimsCreation = withParentWithSims(SimsCreation);
+export default withRouter(AdvancedSimsCreation);
