@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import MSDLayout from 'js/applications/operations/msd/layout/';
 import { connect } from 'react-redux';
 import { Loading, buildExtract } from '@inseefr/wilco';
@@ -74,10 +74,6 @@ class MSDContainer extends Component {
 			defaultSims: {}
 		};
 	}
-	_loadParent(id) {
-		const parentType = this.props.match.params[0];
-		return this.props[mapToParentType[parentType].load](id);
-	}
 
 	goBackCallback = (url) => {
 		this.props.history.push(url);
@@ -93,18 +89,11 @@ class MSDContainer extends Component {
 		if ((this.props.mode === UPDATE || this.props.mode === VIEW) && !this.props.currentSims.id) {
 			this.props.loadSIMS(this.props.id);
 		}
-		if (!this.props.isParentLoaded) {
-			this._loadParent(this.props.idParent);
-		}
+
 		if (!this.props.geographiesLoaded) {
 			this.props.loadGeographies();
 		}
 
-		if(this.props.mode === CREATE){
-			/*api.getDefaultSims().then(response => {
-				this.setState({ defaultSimsRubrics: response})
-			})*/
-		}
 		this._loadOwnersList(this.props.id);
 	}
 
@@ -124,9 +113,6 @@ class MSDContainer extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.currentSims.id || this.props.id !== nextProps.id) {
 			this.props.loadSIMS(nextProps.id);
-		}
-		if (!nextProps.isParentLoaded) {
-			this._loadParent(nextProps.idParent);
 		}
 		if(this.props.mode === CREATE && nextProps.mode === VIEW){
 			this._loadOwnersList(nextProps.id)
@@ -151,6 +137,7 @@ class MSDContainer extends Component {
 			currentSims,
 			organisations,
 			parentType,
+			parent,
 			documentStores,
 		} = this.props;
 		if (
@@ -202,6 +189,7 @@ class MSDContainer extends Component {
 				)}
 				{this.isEditMode() && (
 					<SimsCreation
+						parent={parent}
 						sims={currentSims}
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
@@ -260,6 +248,7 @@ export const mapStateToProps = (state, ownProps) => {
 	let currentSims = {};
 	let parentType;
 	let isParentLoaded = true;
+	let parent = {}
 	switch (ownProps.mode) {
 		case HELP:
 			currentSims = {};
@@ -268,6 +257,7 @@ export const mapStateToProps = (state, ownProps) => {
 			idParent = extractIdParent(ownProps);
 			parentType = ownProps.match.params[0];
 			const [currentParent, currentParentStatus] = getCurrentParent(parentType);
+			parent = currentParent;
 			currentSims = {
 				labelLg1: D1.simsTitle + currentParent.prefLabelLg1,
 				labelLg2: D2.simsTitle + currentParent.prefLabelLg2,
@@ -297,6 +287,7 @@ export const mapStateToProps = (state, ownProps) => {
 		codesLists: getOperationsCodesList(state),
 		organisations: getOperationsOrganisations(state),
 		parentType,
+		parent,
 	};
 };
 
@@ -312,6 +303,19 @@ const mapDispatchToProps = {
 	loadGeographies: Stores.Geographies.loadGeographies,
 };
 
+const MSDContainerWithParent = props => {
+	const { idParent } = props;
+	const parentType = props.match.params[0];
+	const load = props[mapToParentType[parentType]?.load];
+
+	useEffect(() => {
+		if(load){
+			load(idParent);
+		}
+	}, [load, idParent])
+	return <MSDContainer {...props} />
+}
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(MSDContainer)
+	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)
 );
+
