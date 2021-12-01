@@ -258,7 +258,6 @@ export const mapStateToProps = (state, ownProps) => {
 			parentType = ownProps.match.params[0];
 			const [currentParent, currentParentStatus] = getCurrentParent(parentType);
 			parent = currentParent;
-			console.log(parent, currentParent)
 			currentSims = {
 				labelLg1: D1.simsTitle + currentParent.prefLabelLg1,
 				labelLg2: D2.simsTitle + currentParent.prefLabelLg2,
