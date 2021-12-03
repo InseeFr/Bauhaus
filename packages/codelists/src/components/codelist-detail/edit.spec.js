@@ -8,7 +8,7 @@ describe("deleteNodes", () => {
 	it("should return the same array if the code to delete does not exist", () => {
 		expect(deleteNodes(codes, { code: "B"})).toEqual(codes);
 	})
-	xit("should remove the standalone code if it exists", () => {
+	it("should remove the standalone code if it exists", () => {
 		const result = deleteNodes(codes, { code: "A"});
 		expect(result.find(({ code }) => code === "A")).toBeUndefined();
 	})
