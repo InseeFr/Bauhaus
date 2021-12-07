@@ -15,8 +15,8 @@ const CodelistEdit = (props) => {
 	const [saving, setSaving] = useState(false);
 	const [codelist, setCodelist] = useState({});
 	const [serverSideError, setServerSideError] = useState('');
-	const tree = useContext(TreeContext);
-
+	const [tree] = useContext(TreeContext);
+	console.log(tree)
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
@@ -26,28 +26,23 @@ const CodelistEdit = (props) => {
 	}, [props]);
 
 	const handleSave = useCallback(
+
 		(codelist) => {
+			console.log(codelist, tree)
+			const rootNodes = tree;
+			const payload = recalculatePositions(codelist, rootNodes);
+			console.log(payload)
 			setSaving(true);
 			setServerSideError('');
 
-			let request;
-			console.log('cl', codelist);
-			console.log('recalculatePosition', recalculatePositions(codelist, tree));
+			const request = codelist.id ? API.putCodelist : API.postCodelist;
 
-			if (codelist.id) {
-				request = API.putCodelist(recalculatePositions(codelist, tree));
-			} else {
-				request = API.postCodelist(recalculatePositions(codelist, tree));
-			}
-
-			request
+			request(payload)
 				.then((id = codelist.id) => {
-					console.log('id', id);
 					return goBackOrReplace(props, `/${id}`, !codelist.id);
 				})
 				.catch((error) => {
 					setCodelist(codelist);
-					console.log('error', error);
 					setServerSideError(D['errors_' + JSON.parse(error).code]);
 				})
 				.finally(() => setSaving(false));

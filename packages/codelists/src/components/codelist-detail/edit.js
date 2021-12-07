@@ -115,6 +115,7 @@ const DumbCodelistDetailEdit = ({
 
 	const updateCode = useCallback(
 		(codeObject) => {
+			console.log(codeObject)
 			const existing = codes.find((c) => c.code === codeObject.code);
 			if (!existing) {
 				// Create

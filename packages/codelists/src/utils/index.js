@@ -8,13 +8,13 @@ export const formatLabel = (component) => {
 
 export const validateCodelist = (codelist) => {
 	const validations = {
-		id: 'errorsIdMandatory',
-		lastListUriSegment: 'lastListUriSegmentMandatory',
-		lastClassUriSegment: 'lastClassUriSegmentMandatory',
-		labelLg1: 'errorsLabelLg1Mandatory',
-		labelLg2: 'errorsLabelLg1Mandatory',
-		creator: 'errorsCreatorMandatory',
-		disseminationStatus: 'errorsDisseminationStatusMandatory',
+		//id: 'errorsIdMandatory',
+		//lastListUriSegment: 'lastListUriSegmentMandatory',
+		//lastClassUriSegment: 'lastClassUriSegmentMandatory',
+		//labelLg1: 'errorsLabelLg1Mandatory',
+		//labelLg2: 'errorsLabelLg1Mandatory',
+		//creator: 'errorsCreatorMandatory',
+		//disseminationStatus: 'errorsDisseminationStatusMandatory',
 	};
 
 	const field = Object.keys(validations).find((field) => !codelist[field]);
@@ -79,9 +79,10 @@ const treeElement = (n, i) => {
 };
 
 export const treedData = (arrayData) => {
-	if (arrayData.length === 0) return [];
+	console.log(arrayData)
 	return getTreeFromFlatData({
 		flatData: arrayData
+			.filter(code => !!code.code)
 			.map((n, i) => treeElement(n, i))
 			.flat()
 			.sort((a, b) => (a.position > b.position ? 1 : -1)),
@@ -91,28 +92,25 @@ export const treedData = (arrayData) => {
 	});
 };
 
-const getFlatTree = (tree, root) => {
-	return (
-		tree &&
-		tree.children &&
-		tree.children.map((code, i) => {
+const getFlatTree = (rootNodes, parentNode) => {
+	return rootNodes?.reduce((acc, code, i) => {
 			if (code.children)
 				return [
-					{ parent: root, code: code.code, position: i },
-					getFlatTree(code, code.code),
+					...acc,
+					{ parent: parentNode, code: code.code, position: i },
+					...getFlatTree(code.children, code.code),
 				];
-			return [{ parent: root, code: code.code, position: i }];
-		})
-	);
+			return [...acc, { parent: parentNode, code: code.code, position: i }];
+		}, []);
 };
 
-export const recalculatePositions = (codelist, tree) => {
-	const flattenTree = getFlatTree(tree[0][0], '').flat(10);
-	console.log(flattenTree);
+export const recalculatePositions = (codelist, rootNodes) => {
+	const flattenTree = getFlatTree(rootNodes, '')
+	console.log(flattenTree, codelist);
 	return (
 		{
 			...codelist,
-			codes: Object.values(codelist.codes).reduce((acc, c) => {
+			codes: Object.values(flattenTree).reduce((acc, c) => {
 				return {
 					...acc,
 					[c.code]: {
@@ -120,7 +118,7 @@ export const recalculatePositions = (codelist, tree) => {
 						parents: flattenTree
 							.filter((treedCode) => treedCode.code === c.code)
 							.map((treedCode) => ({
-								parent: treedCode.parent,
+								code: treedCode.parent,
 								position: treedCode.position + 1,
 							})),
 					},
