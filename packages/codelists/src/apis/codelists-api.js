@@ -15,7 +15,7 @@ const api = {
 			},
 			body: JSON.stringify(codelist),
 		},
-		() => {},
+		res => res.text()
 	],
 	putCodelist: (codelist) => [
 		`${codelist.id}`,
@@ -25,7 +25,7 @@ const api = {
 			},
 			body: JSON.stringify(codelist),
 		},
-		() => {},
+		res => res.text()
 	],
 };
 

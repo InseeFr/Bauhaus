@@ -61,7 +61,7 @@ const treeElement = (n, i) => {
 	if (n.parents?.length > 0) {
 		return n.parents.map((p) => {
 			return {
-				code: n.code,
+				...n,
 				title: n.code + ' - ' + n.labelLg1,
 				label: n.labelLg1,
 				parent: p.code,
@@ -70,7 +70,7 @@ const treeElement = (n, i) => {
 		});
 	}
 	return {
-		code: n.code,
+		...n,
 		title: n.code + ' - ' + n.labelLg1,
 		label: n.labelLg1,
 		parent: '',
@@ -97,16 +97,16 @@ const getFlatTree = (rootNodes, parentNode) => {
 			if (code.children)
 				return [
 					...acc,
-					{ parent: parentNode, code: code.code, position: i },
+					{ ...code, parent: parentNode, position: i },
 					...getFlatTree(code.children, code.code),
 				];
-			return [...acc, { parent: parentNode, code: code.code, position: i }];
+			return [...acc, { ...code, parent: parentNode, position: i }];
 		}, []);
 };
 
 export const recalculatePositions = (codelist, rootNodes) => {
 	const flattenTree = getFlatTree(rootNodes, '')
-	console.log(flattenTree, codelist);
+
 	return (
 		{
 			...codelist,

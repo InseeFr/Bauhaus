@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
+import { Loading, goBackOrReplace } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';
@@ -11,6 +11,7 @@ import { CodeListDetailEdit } from './edit';
 
 const CodelistEdit = (props) => {
 	const { id } = useParams();
+	const history = useHistory();
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [codelist, setCodelist] = useState({});
@@ -22,24 +23,27 @@ const CodelistEdit = (props) => {
 	);
 
 	const handleBack = useCallback(() => {
-		goBack(props, '/codelists')();
-	}, [props]);
+		history.length === 1 || history.location.state ? history.push("/codelists") : history.goBack();
+	}, [history]);
 
 	const handleSave = useCallback(
 
 		(codelist) => {
-			console.log(codelist, tree)
 			const rootNodes = tree;
 			const payload = recalculatePositions(codelist, rootNodes);
-			console.log(payload)
 			setSaving(true);
 			setServerSideError('');
 
-			const request = codelist.id ? API.putCodelist : API.postCodelist;
+			const request = id ? API.putCodelist : API.postCodelist;
 
 			request(payload)
-				.then((id = codelist.id) => {
-					return goBackOrReplace(props, `/${id}`, !codelist.id);
+				.then(() => {
+					// TODO Create custom hooks
+					if (!!id) {
+						history.length === 1 || history.location.state ? history.push(`${codelist.id}`) : history.goBack();
+					} else {
+						history.replace(`${codelist.id}`);
+					}
 				})
 				.catch((error) => {
 					setCodelist(codelist);
@@ -47,7 +51,7 @@ const CodelistEdit = (props) => {
 				})
 				.finally(() => setSaving(false));
 		},
-		[props, tree]
+		[history, tree]
 	);
 
 	useEffect(() => {
