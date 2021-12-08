@@ -6,7 +6,7 @@ import RelationsView from 'js/applications/operations/shared/relations';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
-import { HTMLUtils, PublicationFemale, withTitle } from 'bauhaus-utilities';
+import { DateUtils, HTMLUtils, PublicationFemale, withTitle } from 'bauhaus-utilities';
 import { PublishersView, CreatorsView } from 'bauhaus-operations';
 import D from '../../../../i18n/build-dictionary';
 
@@ -33,6 +33,12 @@ function OperationsSerieVisualization({
 				<Note
 					text={
 						<ul>
+							<li>
+								{D1.createdDateTitle} : {DateUtils.stringToDate(attr.created)}
+							</li>
+							<li>
+								{D1.modifiedDateTitle} : {DateUtils.stringToDate(attr.modified)}
+							</li>
 							<li>
 								{D1.seriesStatus} : <PublicationFemale object={attr} />
 							</li>

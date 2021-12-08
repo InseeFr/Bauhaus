@@ -3,7 +3,7 @@ import React from 'react';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
-import { HTMLUtils, PublicationFemale, withTitle } from 'bauhaus-utilities';
+import { DateUtils, HTMLUtils, PublicationFemale, withTitle } from 'bauhaus-utilities';
 import D from '../../../../i18n/build-dictionary';
 
 function OperationsFamilyVisualization({
@@ -17,6 +17,12 @@ function OperationsFamilyVisualization({
 				<Note
 					text={
 						<ul>
+							<li>
+								{D1.createdDateTitle} : {DateUtils.stringToDate(attr.created)}
+							</li>
+							<li>
+								{D1.modifiedDateTitle} : {DateUtils.stringToDate(attr.modified)}
+							</li>
 							<li>
 								{D1.familyStatus} : <PublicationFemale object={attr} />
 							</li>

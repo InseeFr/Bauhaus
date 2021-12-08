@@ -5,7 +5,7 @@ import { D1, D2 } from 'js/i18n';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
-import { HTMLUtils, PublicationMale, withTitle } from 'bauhaus-utilities';
+import { DateUtils, HTMLUtils, PublicationMale, withTitle } from 'bauhaus-utilities';
 import { PublishersView, CreatorsView } from 'bauhaus-operations';
 import D from '../../../../i18n/build-dictionary';
 
@@ -57,6 +57,12 @@ function OperationsIndicatorVisualization(props) {
 				<Note
 					text={
 						<ul>
+							<li>
+								{D1.createdDateTitle} : {DateUtils.stringToDate(attr.created)}
+							</li>
+							<li>
+								{D1.modifiedDateTitle} : {DateUtils.stringToDate(attr.modified)}
+							</li>
 							<li>
 								{D1.indicatorStatus} : <PublicationMale object={attr} />
 							</li>

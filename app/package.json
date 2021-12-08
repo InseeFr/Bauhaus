@@ -25,7 +25,7 @@
 		"test:coverage": "cross-env CI=true react-scripts test --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js --collectCoverageFrom=!src/types/*.js"
 	},
 	"dependencies": {
-		"@inseefr/iam": "^0.0.1-rc11",
+		"@inseefr/iam": "0.1.1",
 		"@inseefr/wilco": "0.0.5",
 		"bauhaus-operations": "^0.0.0",
 		"bauhaus-structures": "^0.0.0",

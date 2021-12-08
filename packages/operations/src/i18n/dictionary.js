@@ -1,4 +1,10 @@
 const dictionary = {
+	errors: {
+		847: {
+			fr: "Ce nom existe déjà",
+			en: "This label already exists"
+		}
+	},
 	creatorTitle: {
 		fr: 'Propriétaires',
 		en: 'Owners',
@@ -26,6 +32,10 @@ const dictionary = {
 	btnNew: {
 		fr: 'Nouveau',
 		en: 'New',
+	},
+	btnSee: {
+		fr: 'Voir',
+		en: 'See',
 	},
 	include: {
 		fr: 'Inclure',
