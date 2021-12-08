@@ -8,13 +8,13 @@ export const formatLabel = (component) => {
 
 export const validateCodelist = (codelist) => {
 	const validations = {
-		//id: 'errorsIdMandatory',
-		//lastListUriSegment: 'lastListUriSegmentMandatory',
-		//lastClassUriSegment: 'lastClassUriSegmentMandatory',
-		//labelLg1: 'errorsLabelLg1Mandatory',
-		//labelLg2: 'errorsLabelLg1Mandatory',
-		//creator: 'errorsCreatorMandatory',
-		//disseminationStatus: 'errorsDisseminationStatusMandatory',
+		id: 'errorsIdMandatory',
+		lastListUriSegment: 'lastListUriSegmentMandatory',
+		lastClassUriSegment: 'lastClassUriSegmentMandatory',
+		labelLg1: 'errorsLabelLg1Mandatory',
+		labelLg2: 'errorsLabelLg1Mandatory',
+		creator: 'errorsCreatorMandatory',
+		disseminationStatus: 'errorsDisseminationStatusMandatory',
 	};
 
 	const field = Object.keys(validations).find((field) => !codelist[field]);
@@ -79,7 +79,6 @@ const treeElement = (n, i) => {
 };
 
 export const treedData = (arrayData) => {
-	console.log(arrayData)
 	return getTreeFromFlatData({
 		flatData: arrayData
 			.filter(code => !!code.code)

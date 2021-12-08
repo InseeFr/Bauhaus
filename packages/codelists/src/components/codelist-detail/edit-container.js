@@ -17,7 +17,6 @@ const CodelistEdit = (props) => {
 	const [codelist, setCodelist] = useState({});
 	const [serverSideError, setServerSideError] = useState('');
 	const [tree] = useContext(TreeContext);
-	console.log(tree)
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
