@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
+import { Loading, goBackOrReplace } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';
@@ -11,48 +11,46 @@ import { CodeListDetailEdit } from './edit';
 
 const CodelistEdit = (props) => {
 	const { id } = useParams();
+	const history = useHistory();
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [codelist, setCodelist] = useState({});
 	const [serverSideError, setServerSideError] = useState('');
-	const tree = useContext(TreeContext);
-
+	const [tree] = useContext(TreeContext);
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
 
 	const handleBack = useCallback(() => {
-		goBack(props, '/codelists')();
-	}, [props]);
+		history.length === 1 || history.location.state ? history.push("/codelists") : history.goBack();
+	}, [history]);
 
 	const handleSave = useCallback(
+
 		(codelist) => {
+			const rootNodes = tree;
+			const payload = recalculatePositions(codelist, rootNodes);
 			setSaving(true);
 			setServerSideError('');
 
-			let request;
-			console.log('cl', codelist);
-			console.log('recalculatePosition', recalculatePositions(codelist, tree));
+			const request = id ? API.putCodelist : API.postCodelist;
 
-			if (codelist.id) {
-				request = API.putCodelist(recalculatePositions(codelist, tree));
-			} else {
-				request = API.postCodelist(recalculatePositions(codelist, tree));
-			}
-
-			request
-				.then((id = codelist.id) => {
-					console.log('id', id);
-					return goBackOrReplace(props, `/${id}`, !codelist.id);
+			request(payload)
+				.then(() => {
+					// TODO Create custom hooks
+					if (!!id) {
+						history.length === 1 || history.location.state ? history.push(`${codelist.id}`) : history.goBack();
+					} else {
+						history.replace(`${codelist.id}`);
+					}
 				})
 				.catch((error) => {
 					setCodelist(codelist);
-					console.log('error', error);
 					setServerSideError(D['errors_' + JSON.parse(error).code]);
 				})
 				.finally(() => setSaving(false));
 		},
-		[props, tree]
+		[history, tree]
 	);
 
 	useEffect(() => {

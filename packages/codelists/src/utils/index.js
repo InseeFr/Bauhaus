@@ -61,7 +61,7 @@ const treeElement = (n, i) => {
 	if (n.parents?.length > 0) {
 		return n.parents.map((p) => {
 			return {
-				code: n.code,
+				...n,
 				title: n.code + ' - ' + n.labelLg1,
 				label: n.labelLg1,
 				parent: p.code,
@@ -70,7 +70,7 @@ const treeElement = (n, i) => {
 		});
 	}
 	return {
-		code: n.code,
+		...n,
 		title: n.code + ' - ' + n.labelLg1,
 		label: n.labelLg1,
 		parent: '',
@@ -79,9 +79,9 @@ const treeElement = (n, i) => {
 };
 
 export const treedData = (arrayData) => {
-	if (arrayData.length === 0) return [];
 	return getTreeFromFlatData({
 		flatData: arrayData
+			.filter(code => !!code.code)
 			.map((n, i) => treeElement(n, i))
 			.flat()
 			.sort((a, b) => (a.position > b.position ? 1 : -1)),
@@ -91,28 +91,25 @@ export const treedData = (arrayData) => {
 	});
 };
 
-const getFlatTree = (tree, root) => {
-	return (
-		tree &&
-		tree.children &&
-		tree.children.map((code, i) => {
+const getFlatTree = (rootNodes, parentNode) => {
+	return rootNodes?.reduce((acc, code, i) => {
 			if (code.children)
 				return [
-					{ parent: root, code: code.code, position: i },
-					getFlatTree(code, code.code),
+					...acc,
+					{ ...code, parent: parentNode, position: i },
+					...getFlatTree(code.children, code.code),
 				];
-			return [{ parent: root, code: code.code, position: i }];
-		})
-	);
+			return [...acc, { ...code, parent: parentNode, position: i }];
+		}, []);
 };
 
-export const recalculatePositions = (codelist, tree) => {
-	const flattenTree = getFlatTree(tree[0][0], '').flat(10);
-	console.log(flattenTree);
+export const recalculatePositions = (codelist, rootNodes) => {
+	const flattenTree = getFlatTree(rootNodes, '')
+
 	return (
 		{
 			...codelist,
-			codes: Object.values(codelist.codes).reduce((acc, c) => {
+			codes: Object.values(flattenTree).reduce((acc, c) => {
 				return {
 					...acc,
 					[c.code]: {
@@ -120,7 +117,7 @@ export const recalculatePositions = (codelist, tree) => {
 						parents: flattenTree
 							.filter((treedCode) => treedCode.code === c.code)
 							.map((treedCode) => ({
-								parent: treedCode.parent,
+								code: treedCode.parent,
 								position: treedCode.position + 1,
 							})),
 					},
