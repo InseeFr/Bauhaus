@@ -13,6 +13,7 @@ import {
 	Select,
 	CheckSecondLang,
 } from '@inseefr/wilco';
+import { default as ReactSelect } from 'react-select';
 
 import { DUPLICATE } from 'js/applications/operations/msd';
 import {
@@ -26,6 +27,8 @@ import { HTMLUtils, ArrayUtils } from 'bauhaus-utilities';
 import './sims-creation.scss';
 import { rangeType } from 'js/utils/msd/';
 import api from '../../../../../remote-api/operations-api';
+import { D1 } from 'bauhaus-structures/src/i18n/build-dictionary';
+import { MUTUALIZED_COMPONENT_TYPES } from 'bauhaus-structures/src/utils/constants';
 
 const { RICH_TEXT } = rangeType;
 
@@ -59,6 +62,7 @@ class SimsCreation extends React.Component {
 		this.state = {
 			changed: false,
 			saving: false,
+			loading: false,
 			idParent:
 				this.props.mode !== DUPLICATE
 					? this.props.idParent || getParentId(this.props.sims)
@@ -275,6 +279,7 @@ class SimsCreation extends React.Component {
 			);
 		}
 
+		if (this.state.loading) return <Loading textType="loading" />;
 		if (this.state.saving) return <Loading textType="saving" />;
 
 		return (
@@ -310,23 +315,15 @@ class SimsCreation extends React.Component {
 									)}
 
 									{mode !== DUPLICATE && operationsWithSimsOptions.length > 0 && (
-										<Select
+										<ReactSelect
+											placeholder={D.createFromAnExistingReport}
 											value={operationsWithSimsOptions.find(
 												({ value }) => value === idParent
 											)}
-											placeholder={D.createFromAnExistingReport}
 											options={operationsWithSimsOptions}
+											onChange={this.onSiblingSimsChange()}
+											disabled={this.state.changed}
 											searchable
-											onChange={id => {
-												api.getSims(id).then(result => {
-													this.setState({ sims: this.getDefaultSims(DUPLICATE, result.rubrics.reduce((acc, rubric) => {
-															return {
-																...acc,
-																[rubric.idAttribute]: rubric
-															}
-														}, {})) });
-												})
-											}}
 										/>
 									)}
 
@@ -338,6 +335,26 @@ class SimsCreation extends React.Component {
 				})}
 			</>
 		);
+	}
+
+	onSiblingSimsChange() {
+		return sims => {
+			this.setState({ loading: true }, () => {
+				const id = sims.value;
+				api.getSims(id).then(result => {
+					this.setState({
+						loading: false,
+						sims: this.getDefaultSims(DUPLICATE, result.rubrics.reduce((acc, rubric) => {
+							return {
+								...acc,
+								[rubric.idAttribute]: rubric,
+							};
+						}, {})),
+					});
+				});
+			});
+
+		};
 	}
 }
 
