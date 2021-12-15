@@ -5,3 +5,7 @@ export { default as Home } from './components/home/home';
 export { default as SearchFormList } from './components/search/search';
 export { default as CodelistComponentView } from './components/codelist-detail/view-container';
 export { default as CodeListsEditContext } from './components/codelist-detail/edit-context';
+export { default as CodeListsPartialHome } from './components/home/partial-home';
+export { default as SearchFormPartialList } from './components/search/partial-search';
+export { default as CodelistPartialComponentView } from './components/codelist-partial-detail/view-container';
+export { default as CodeListsPartialEditContext } from './components/codelist-partial-detail/edit-context';

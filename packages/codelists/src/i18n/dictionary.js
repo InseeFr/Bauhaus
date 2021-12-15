@@ -1,9 +1,17 @@
 const dictionary = {
 	advancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
 	codelistsTitle: { fr: 'Listes de codes', en: 'Code lists' },
+	codelistsPartialTitle: {
+		fr: 'Listes de codes partielles',
+		en: 'Partial codelists',
+	},
 	codelistsCreateTitle: {
 		fr: 'Créer une liste de code',
 		en: 'Create a code list',
+	},
+	codelistsPartialCreateTitle: {
+		fr: 'Créer une liste de code partielle',
+		en: 'Create a partial code list',
 	},
 	lastListUriSegmentTitle: {
 		fr: 'Uri Liste : commence par http://rdf.insee.fr/codes/',
@@ -17,9 +25,17 @@ const dictionary = {
 		fr: 'Listes de codes - Recherche',
 		en: 'Code lists - Search',
 	},
+	codelistsPartialSearchTitle: {
+		fr: 'Listes de codes partielles - Recherche',
+		en: 'Partial code lists - Search',
+	},
 	codelistTitle: {
-		fr: 'Listes de codes',
-		en: 'Codelists',
+		fr: 'Liste de codes',
+		en: 'Codelist',
+	},
+	codelistPartialTitle: {
+		fr: 'Liste de codes partielle',
+		en: 'Partial codelist',
 	},
 	globalInformationsTitle: {
 		fr: 'Informations générales',
