@@ -4,7 +4,7 @@ import D from 'js/i18n';
 import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from 'js/utils/msd';
 import SimsDocumentField from 'js/applications/operations/msd/pages/sims-creation/sims-document-field';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 import {
 	Loading,
 	CancelButton,
@@ -27,12 +27,8 @@ import { HTMLUtils, ArrayUtils } from 'bauhaus-utilities';
 import './sims-creation.scss';
 import { rangeType } from 'js/utils/msd/';
 import api from '../../../../../remote-api/operations-api';
-import { D1 } from 'bauhaus-structures/src/i18n/build-dictionary';
-import { MUTUALIZED_COMPONENT_TYPES } from 'bauhaus-structures/src/utils/constants';
 
 const { RICH_TEXT } = rangeType;
-
-
 
 class SimsCreation extends React.Component {
 	static propTypes = {
@@ -48,11 +44,11 @@ class SimsCreation extends React.Component {
 		super(props);
 
 		this.unblock = this.props.history.block((location) => {
-			if(this.props.history.location?.pathname === location?.pathname){
+			if (this.props.history.location?.pathname === location?.pathname) {
 				return true;
 			}
 
-			if(!this.state.changed || window.confirm(D.quitWithoutSaving)){
+			if (!this.state.changed || window.confirm(D.quitWithoutSaving)) {
 				this.unblock();
 				return true;
 			}
@@ -68,7 +64,10 @@ class SimsCreation extends React.Component {
 					? this.props.idParent || getParentId(this.props.sims)
 					: '',
 
-			sims: this.getDefaultSims(this.props.mode, this.props.sims.rubrics || this.props.defaultSimsRubrics),
+			sims: this.getDefaultSims(
+				this.props.mode,
+				this.props.sims.rubrics || this.props.defaultSimsRubrics
+			),
 			secondLang: true,
 		};
 	}
@@ -90,8 +89,8 @@ class SimsCreation extends React.Component {
 				};
 			}, {}),
 			...removeRubricsWhenDuplicate(mode, rubrics),
-		}
-	}
+		};
+	};
 	handleChange = (e) => {
 		this.setState((state) => ({
 			...state,
@@ -124,10 +123,9 @@ class SimsCreation extends React.Component {
 		 * the id coming from the state is used for duplicate
 		 * the id coming from the props is during creation / update
 		 */
-		const idParent = this.state.idParent || this.props.idParent
+		const idParent = this.state.idParent || this.props.idParent;
 
-
-		const rubrics = Object.values(this.state.sims).map(this.convertRubric)
+		const rubrics = Object.values(this.state.sims).map(this.convertRubric);
 
 		const sims = {
 			id: this.props.mode !== DUPLICATE ? this.props.sims.id : '',
@@ -152,9 +150,8 @@ class SimsCreation extends React.Component {
 		);
 	};
 
-	convertRubric = rubric => {
+	convertRubric = (rubric) => {
 		if (rubric.rangeType === 'RICH_TEXT') {
-
 			return {
 				...rubric,
 				labelLg1: rubric.labelLg1
@@ -166,7 +163,7 @@ class SimsCreation extends React.Component {
 			};
 		}
 		return rubric;
-	}
+	};
 	render() {
 		const {
 			metadataStructure,
@@ -179,16 +176,12 @@ class SimsCreation extends React.Component {
 		} = this.props;
 		const { secondLang } = this.state;
 
-
-
 		const organisationsOptions = ArrayUtils.sortArrayByLabel(
 			organisations.map((c) => ({
 				label: c.label,
 				value: c.id,
 			}))
 		);
-
-
 
 		const { sims, idParent } = this.state;
 		const operationsOptions = (this.props.sims.parentsWithoutSims || []).map(
@@ -314,19 +307,19 @@ class SimsCreation extends React.Component {
 										/>
 									)}
 
-									{mode !== DUPLICATE && operationsWithSimsOptions.length > 0 && (
-										<ReactSelect
-											placeholder={D.createFromAnExistingReport}
-											value={operationsWithSimsOptions.find(
-												({ value }) => value === idParent
-											)}
-											options={operationsWithSimsOptions}
-											onChange={this.onSiblingSimsChange()}
-											disabled={this.state.changed}
-											searchable
-										/>
-									)}
-
+									{mode !== DUPLICATE &&
+										operationsWithSimsOptions.length > 0 && (
+											<ReactSelect
+												placeholder={D.createFromAnExistingReport}
+												value={operationsWithSimsOptions.find(
+													({ value }) => value === idParent
+												)}
+												options={operationsWithSimsOptions}
+												onChange={this.onSiblingSimsChange()}
+												disabled={this.state.changed}
+												searchable
+											/>
+										)}
 								</React.Fragment>
 							)}
 							{MSDInformations(msd, this.handleChange, true)}
@@ -338,22 +331,24 @@ class SimsCreation extends React.Component {
 	}
 
 	onSiblingSimsChange() {
-		return sims => {
+		return (sims) => {
 			this.setState({ loading: true }, () => {
 				const id = sims.value;
-				api.getSims(id).then(result => {
+				api.getSims(id).then((result) => {
 					this.setState({
 						loading: false,
-						sims: this.getDefaultSims(DUPLICATE, result.rubrics.reduce((acc, rubric) => {
-							return {
-								...acc,
-								[rubric.idAttribute]: rubric,
-							};
-						}, {})),
+						sims: this.getDefaultSims(
+							DUPLICATE,
+							result.rubrics.reduce((acc, rubric) => {
+								return {
+									...acc,
+									[rubric.idAttribute]: rubric,
+								};
+							}, {})
+						),
 					});
 				});
 			});
-
 		};
 	}
 }
@@ -364,16 +359,15 @@ const withParentWithSims = (Component) => {
 		const parentType = props.parentType;
 		const seriesId = props.parent?.series?.id;
 		useEffect(() => {
-			if(parentType === "operation" && seriesId){
-				api.getOperationsWithReport(seriesId).then(result => {
-					setParentWithSims(result)
-				})
-
+			if (parentType === 'operation' && seriesId) {
+				api.getOperationsWithReport(seriesId).then((result) => {
+					setParentWithSims(result);
+				});
 			}
-		}, [seriesId, parentType])
-		return <Component {...props} parentWithSims={parentWithSims} />
-	}
-}
+		}, [seriesId, parentType]);
+		return <Component {...props} parentWithSims={parentWithSims} />;
+	};
+};
 
 const AdvancedSimsCreation = withParentWithSims(SimsCreation);
 export default withRouter(AdvancedSimsCreation);
