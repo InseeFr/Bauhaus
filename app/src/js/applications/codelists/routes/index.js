@@ -7,6 +7,10 @@ import {
 	CodelistComponentView,
 	CodeListsEditContext,
 	SearchFormList,
+	CodeListsPartialHome,
+	SearchFormPartialList,
+	CodelistPartialComponentView,
+	CodeListsPartialEditContext,
 } from 'bauhaus-codelists';
 
 const CodesListComponent = () => {
@@ -32,6 +36,27 @@ const CodesListComponent = () => {
 						exact
 						path="/codelists/:id/modify"
 						component={CodeListsEditContext}
+					/>
+					<Route exact path="/codelists-partial" component={CodeListsPartialHome} />
+					<Route
+						exact
+						path="/codelists-partial/create"
+						component={CodeListsPartialEditContext}
+					/>
+					<Route
+						exact
+						path="/codelists-partial/search"
+						component={SearchFormPartialList}
+					/>
+					<Route
+						exact
+						path="/codelists-partial/:id"
+						component={CodelistPartialComponentView}
+					/>
+					<Route
+						exact
+						path="/codelists-partial/:id/modify"
+						component={CodeListsPartialEditContext}
 					/>
 				</Switch>
 			</div>
