@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Loading, goBackOrReplace } from '@inseefr/wilco';
+import { Loading } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';
@@ -9,9 +9,20 @@ import { TreeContext } from '../tree/treeContext';
 import D from '../../i18n/build-dictionary';
 import { CodeListDetailEdit } from './edit';
 
+const useBackOrReplaceHook = () => {
+	const history = useHistory();
+	return useCallback((defaultRoute, forceRedirect) => {
+		if (!!forceRedirect) {
+			history.length === 1 || history.location.state ? history.push(defaultRoute) : history.goBack();
+		} else {
+			history.replace(defaultRoute);
+		}
+	}, [history])
+}
+
 const CodelistEdit = (props) => {
 	const { id } = useParams();
-	const history = useHistory();
+	const goBackOrReplace = useBackOrReplaceHook();
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [codelist, setCodelist] = useState({});
@@ -22,8 +33,8 @@ const CodelistEdit = (props) => {
 	);
 
 	const handleBack = useCallback(() => {
-		history.length === 1 || history.location.state ? history.push("/codelists") : history.goBack();
-	}, [history]);
+		goBackOrReplace("/codelists", true);
+	}, [goBackOrReplace]);
 
 	const handleSave = useCallback(
 
@@ -37,12 +48,7 @@ const CodelistEdit = (props) => {
 
 			request(payload)
 				.then(() => {
-					// TODO Create custom hooks
-					if (!!id) {
-						history.length === 1 || history.location.state ? history.push(`${codelist.id}`) : history.goBack();
-					} else {
-						history.replace(`${codelist.id}`);
-					}
+					goBackOrReplace(`${codelist.id}`, !!id);
 				})
 				.catch((error) => {
 					setCodelist(codelist);
@@ -50,7 +56,7 @@ const CodelistEdit = (props) => {
 				})
 				.finally(() => setSaving(false));
 		},
-		[history, tree]
+		[tree, goBackOrReplace, id]
 	);
 
 	useEffect(() => {
