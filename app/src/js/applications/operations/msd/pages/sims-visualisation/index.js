@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import D from 'js/i18n';
+import D, { D1 } from 'js/i18n';
 import api from 'js/remote-api/operations-api';
 import { useHistory } from "react-router-dom";
 import { useDispatch} from 'react-redux';
@@ -24,7 +24,7 @@ import {
 	ValidationButton,
 	CheckSecondLang,
 	PublicationFemale,
-	ConfirmationDelete
+	ConfirmationDelete, DateUtils,
 } from 'bauhaus-utilities';
 import {
 	hasLabelLg2,
@@ -103,20 +103,7 @@ export default function SimsVisualisation({
 	 * have unsupported styles like STRIKETHROUGH, color or background color
 	 */
 	const publicationDisabled = false;
-	/*
-	HTMLUtils.containUnsupportedStyles(
 
-		Object.keys(sims.rubrics)
-			.filter((key) => sims.rubrics[key].rangeType === RICH_TEXT)
-			.reduce((acc, key) => {
-				return {
-					...acc,
-					[`${key}_labelLg1`]: sims.rubrics[key].labelLg1,
-					[`${key}_labelLg2`]: sims.rubrics[key].labelLg2,
-				};
-			}, {})
-	);
-	*/
 
 	const [serverSideError, setServerSideError] = useState();
 	const publish = useCallback(
@@ -263,6 +250,12 @@ export default function SimsVisualisation({
 				<Note
 					text={
 						<ul>
+							<li>
+								{D1.createdDateTitle} : {DateUtils.stringToDate(sims.created)}
+							</li>
+							<li>
+								{D1.modifiedDateTitle} : {DateUtils.stringToDate(sims.modified)}
+							</li>
 							<li>
 								{D.simsStatus} : <PublicationFemale object={sims} />
 							</li>
