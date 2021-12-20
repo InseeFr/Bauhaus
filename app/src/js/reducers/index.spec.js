@@ -16,19 +16,6 @@ describe('getLangs', () => {
 	});
 });
 
-describe('getFamily', () => {
-	it('should return an empty object if the value is undefined', () => {
-		const input = {};
-		const output = {};
-		expect(selector.getFamily(input)).toEqual(output);
-	});
-	it('should return the object', () => {
-		const input = { operationsFamiliesCurrent: 'operationsFamiliesCurrent' };
-		const output = 'operationsFamiliesCurrent';
-		expect(selector.getFamily(input)).toEqual(output);
-	});
-});
-
 describe('getSerie', () => {
 	it('should return an empty object if the value is undefined', () => {
 		const input = {};
@@ -55,18 +42,6 @@ describe('getSeries', () => {
 	});
 });
 
-describe('getFamilies', () => {
-	it('should return an empty object if the value is undefined', () => {
-		const input = {};
-		const output = {};
-		expect(selector.getFamilies(input)).toEqual(output);
-	});
-	it('should return the object', () => {
-		const input = { operationsFamiliesList: 'operationsFamiliesList' };
-		const output = 'operationsFamiliesList';
-		expect(selector.getFamilies(input)).toEqual(output);
-	});
-});
 describe('getOperations', () => {
 	it('should return an empty object if the value is undefined', () => {
 		const input = {};
