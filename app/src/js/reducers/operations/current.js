@@ -26,23 +26,6 @@ export const operationsSeriesCurrent = function(state = {}, action) {
 };
 
 /**
- * Reducer for fetching the current family displayed during the visualisation or the edition
- */
-export const operationsFamiliesCurrent = function(state = {}, action) {
-	switch (action.type) {
-		case A.LOAD_OPERATIONS_FAMILY_SUCCESS:
-			return action.payload;
-		case A.SAVE_OPERATIONS_SERIE_SUCCESS:
-		case A.DELETE_SIMS_SUCCESS:
-		case A.SAVE_OPERATIONS_FAMILY:
-		case A.PUBLISH_OPERATIONS_FAMILY_SUCCESS:
-			return {};
-		default:
-			return state;
-	}
-};
-
-/**
  * Reducer for fetching the current operation displayed during the visualisation or the edition
  */
 export const operationsOperationsCurrent = function(state = {}, action) {

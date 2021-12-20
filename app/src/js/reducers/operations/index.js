@@ -75,7 +75,6 @@ const operationsAsyncTask = function(state = false, action) {
 	switch (action.type) {
 		case A.SAVE_OPERATIONS_INDICATOR:
 		case A.SAVE_OPERATIONS_SERIE:
-		case A.SAVE_OPERATIONS_FAMILY:
 		case A.SAVE_OPERATIONS_OPERATION:
 		case A.SAVE_OPERATIONS_DOCUMENT:
 			return true;
@@ -83,8 +82,6 @@ const operationsAsyncTask = function(state = false, action) {
 		case A.SAVE_OPERATIONS_INDICATOR_FAILURE:
 		case A.SAVE_OPERATIONS_SERIE_SUCCESS:
 		case A.SAVE_OPERATIONS_SERIE_FAILURE:
-		case A.SAVE_OPERATIONS_FAMILY_SUCCESS:
-		case A.SAVE_OPERATIONS_FAMILY_FAILURE:
 		case A.SAVE_OPERATIONS_OPERATION_SUCCESS:
 		case A.SAVE_OPERATIONS_OPERATION_FAILURE:
 		case A.SAVE_OPERATIONS_DOCUMENT_SUCCESS:
@@ -95,13 +92,6 @@ const operationsAsyncTask = function(state = false, action) {
 			return state;
 	}
 };
-
-const operationsFamiliesList = makeReducers([
-	A.LOAD_OPERATIONS_FAMILIES_LIST,
-	A.LOAD_OPERATIONS_FAMILIES_LIST_SUCCESS,
-	A.LOAD_OPERATIONS_FAMILIES_LIST_FAILURE,
-	A.SAVE_OPERATIONS_FAMILY_SUCCESS,
-]);
 
 const operationsSeriesList = makeReducers([
 	A.LOAD_OPERATIONS_SERIES_LIST,
@@ -132,7 +122,6 @@ const operationsIndicatorsList = makeReducers([
 export default {
 	operationsSeriesList,
 	operationsOperationsList,
-	operationsFamiliesList,
 	operationsMetadataStructureList,
 	operationsIndicatorsList,
 	operationsAsyncTask,
