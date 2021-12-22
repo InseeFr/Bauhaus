@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import OperationsIndicatorEdition from 'js/applications/operations/indicators/edition/edition';
 import { CL_FREQ } from 'js/actions/constants/codeList';

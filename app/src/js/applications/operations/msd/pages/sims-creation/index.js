@@ -27,8 +27,6 @@ import { HTMLUtils, ArrayUtils } from 'bauhaus-utilities';
 import './sims-creation.scss';
 import { rangeType } from 'js/utils/msd/';
 import api from '../../../../../remote-api/operations-api';
-import { D1 } from 'bauhaus-structures/src/i18n/build-dictionary';
-import { MUTUALIZED_COMPONENT_TYPES } from 'bauhaus-structures/src/utils/constants';
 
 const { RICH_TEXT } = rangeType;
 

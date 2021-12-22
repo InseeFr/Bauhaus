@@ -316,7 +316,7 @@ const MSDContainerWithParent = props => {
 
 		}
 
-	}, [load, idParent])
+	}, [load, idParent, parentType])
 
 	if(loading) return <Loading textType="loadableLoading" />
 	return <MSDContainer {...props} currentSims={currentSims} parent={parent}/>

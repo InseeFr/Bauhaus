@@ -47,7 +47,7 @@ const IndicatorVisualizationContainer = (props) =>  {
 
 	useEffect(() => {
 		api.getIndicator(id).then(payload => setIndicator(payload))
-	}, [])
+	}, [id])
 
 	if (!indicator.id) return <Loading />;
 	if (publishing) return <Loading text={"publishing"} />;
