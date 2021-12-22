@@ -112,18 +112,11 @@ const operationsMetadataStructureList = makeReducers([
 	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
 	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
 ]);
-const operationsIndicatorsList = makeReducers([
-	A.LOAD_OPERATIONS_INDICATORS_LIST,
-	A.LOAD_OPERATIONS_INDICATORS_LIST_SUCCESS,
-	A.LOAD_OPERATIONS_INDICATORS_LIST_FAILURE,
-	A.SAVE_OPERATIONS_INDICATOR_SUCCESS,
-]);
 
 export default {
 	operationsSeriesList,
 	operationsOperationsList,
 	operationsMetadataStructureList,
-	operationsIndicatorsList,
 	operationsAsyncTask,
 	...currentReducers,
 	...documentsReducers,

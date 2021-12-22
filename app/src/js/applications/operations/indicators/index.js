@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
@@ -8,14 +8,19 @@ import {
 } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { Auth, useTitle } from 'bauhaus-utilities';
-import { LOADED, NOT_LOADED } from '../../../constants';
-import { useSelector } from 'react-redux';
+import api from '../../../remote-api/operations-api';
+;
 
 function IndicatorsHome() {
 	useTitle(D.operationsTitle, D.indicatorsTitle)
+	const [loading, setLoading] = useState(true);
+	const [indicators, setIndicators] = useState([]);
 
-	const { results: indicators = [], status = NOT_LOADED } = useSelector(state => state.operationsIndicatorsList)
-	if (status !== LOADED) return <Loading />;
+	useEffect(() => {
+		api.getIndicatorsList().then(payload => setIndicators(payload)).finally(() => setLoading(false))
+	}, [])
+
+	if (loading) return <Loading />;
 
 	return (
 		<div className="container">

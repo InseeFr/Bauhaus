@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import loadIndicator, {
 	saveIndicator,
@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { Loading, buildExtract } from '@inseefr/wilco';
 import OperationsIndicatorEdition from 'js/applications/operations/indicators/edition/edition';
 import { CL_FREQ } from 'js/actions/constants/codeList';
+import api from '../../../../remote-api/operations-api';
 
 const extractId = buildExtract('id');
 
@@ -19,8 +20,14 @@ const OperationsIndicatorsEditionContainer = (props) => {
 		}
 	}, [indicator, id, loadIndicator])
 
+	const [indicators, setIndicators] = useState([]);
+
+	useEffect(() => {
+		api.getIndicatorsList().then(payload => setIndicators(payload));
+	}, [])
+
 	if (!props.indicator.id && props.id) return <Loading />;
-	return <OperationsIndicatorEdition {...props} />;
+	return <OperationsIndicatorEdition {...props} indicators={indicators}/>;
 }
 
 const mapDispatchToProps = {
@@ -40,7 +47,6 @@ export const mapStateToProps = (state, ownProps) => {
 		frequencies,
 		operationsAsyncTask: state.operationsAsyncTask,
 		organisations: state.operationsOrganisations.results,
-		indicators: state.operationsIndicatorsList.results || [],
 		series: state.operationsSeriesList.results || [],
 	};
 };

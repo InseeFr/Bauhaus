@@ -114,10 +114,6 @@ export const getSeries = (state) => {
 	return state.operationsSeriesList || {};
 };
 
-export const getIndicators = (state) => {
-	return state.operationsIndicatorsList || {};
-};
-
 export const getOperations = (state) => {
 	return state.operationsOperationsList || {};
 };
