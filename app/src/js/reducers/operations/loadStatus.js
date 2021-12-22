@@ -12,7 +12,6 @@ export const operationsSimsCurrentStatus = function(
 		case A.LOAD_OPERATIONS_SIMS_SUCCESS:
 			return LOADED;
 		case A.SAVE_OPERATIONS_SIMS_SUCCESS:
-		case A.LOAD_OPERATIONS_INDICATOR_SUCCESS:
 		case A.LOAD_OPERATIONS_SERIE_SUCCESS:
 		case A.LOAD_OPERATIONS_OPERATION_SUCCESS:
 			return NOT_LOADED;
@@ -48,16 +47,6 @@ export const operationsOperationCurrentStatus = trackStatus(
 	A.SAVE_OPERATIONS_OPERATION,
 	A.SAVE_OPERATIONS_OPERATION_SUCCESS,
 	A.LOAD_OPERATIONS_OPERATION
-);
-
-/**
- * Track the loading of an indicator. Used to avoid sending multiple request simultaneously
- */
-export const operationsIndicatorCurrentStatus = trackStatus(
-	A.LOAD_OPERATIONS_INDICATOR_SUCCESS,
-	A.SAVE_OPERATIONS_INDICATOR,
-	A.SAVE_OPERATIONS_INDICATOR_SUCCESS,
-	A.LOAD_OPERATIONS_INDICATOR
 );
 
 /**

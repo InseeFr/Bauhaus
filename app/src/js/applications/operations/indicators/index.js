@@ -9,7 +9,7 @@ import {
 import D from 'js/i18n';
 import { Auth, useTitle } from 'bauhaus-utilities';
 import api from '../../../remote-api/operations-api';
-;
+
 
 function IndicatorsHome() {
 	useTitle(D.operationsTitle, D.indicatorsTitle)

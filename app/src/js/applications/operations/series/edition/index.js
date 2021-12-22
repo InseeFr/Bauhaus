@@ -14,9 +14,15 @@ const extractId = buildExtract('id');
 const OperationsSeriesEditionContainer = props => {
 	const { serie, id, loadSerie } = props;
 	const [families, setFamilies] = useState([]);
+	const [indicators, setIndicators] = useState([]);
+
 	useEffect(() => {
 		api.getFamiliesList()
 			.then(results => setFamilies(results))
+	}, [])
+	useEffect(() => {
+		api.getIndicatorsList()
+			.then(results => setIndicators(results))
 	}, [])
 
 	useEffect(() => {
@@ -26,7 +32,7 @@ const OperationsSeriesEditionContainer = props => {
 	}, [loadSerie, id, serie])
 
 	if (!props.serie.id && props.id) return <Loading />;
-	return <OperationsSerieEdition {...props} families={families}/>;
+	return <OperationsSerieEdition {...props} families={families} indicators={indicators}/>;
 
 }
 
@@ -51,7 +57,6 @@ const mapStateToProps = (state, ownProps) => {
 		frequencies,
 		operationsAsyncTask: state.operationsAsyncTask,
 		organisations: state.operationsOrganisations.results,
-		indicators: state.operationsIndicatorsList.results || [],
 		series: state.operationsSeriesList.results || [],
 	};
 };

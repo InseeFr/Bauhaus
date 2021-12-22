@@ -17,14 +17,6 @@ describe('current reducer', () => {
 			returnEmpty: ['SAVE_OPERATIONS_SIMS_SUCCESS'],
 		},
 		{
-			method: 'operationsIndicatorsCurrent',
-			returnPayload: [
-				'LOAD_OPERATIONS_INDICATOR_SUCCESS',
-				'SAVE_OPERATIONS_INDICATOR',
-			],
-			returnEmpty: ['SAVE_OPERATIONS_INDICATOR_SUCCESS'],
-		},
-		{
 			method: 'operationsSimsCurrent',
 			returnPayload: ['LOAD_OPERATIONS_SIMS_SUCCESS', 'SAVE_OPERATIONS_SIMS'],
 			returnEmpty: ['SAVE_OPERATIONS_SIMS_SUCCESS'],

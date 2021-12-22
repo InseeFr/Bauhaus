@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import MSDLayout from 'js/applications/operations/msd/layout/';
 import { connect } from 'react-redux';
 import { Loading, buildExtract } from '@inseefr/wilco';
@@ -25,7 +25,6 @@ import PropTypes from 'prop-types';
 import * as select from 'js/reducers';
 import loadOperation from 'js/actions/operations/operations/item';
 import loadSerie from 'js/actions/operations/series/item';
-import loadIndicator from 'js/actions/operations/indicators/item';
 import { Stores, PageTitleBlock } from 'bauhaus-utilities';
 import api from 'js/remote-api/operations-api';
 
@@ -44,8 +43,7 @@ const mapToParentType = {
 	operation: {
 		load: 'loadOperation',
 	},
-	series: { load: 'loadSerie' },
-	indicator: { load: 'loadIndicator' },
+	series: { load: 'loadSerie' }
 };
 class MSDContainer extends Component {
 	static propTypes = {
@@ -258,10 +256,6 @@ export const mapStateToProps = (state, ownProps) => {
 			parentType = ownProps.match.params[0];
 			const [currentParent, currentParentStatus] = getCurrentParent(parentType);
 			parent = currentParent;
-			currentSims = {
-				labelLg1: D1.simsTitle + currentParent.prefLabelLg1,
-				labelLg2: D2.simsTitle + currentParent.prefLabelLg2,
-			};
 			isParentLoaded =
 				currentParentStatus !== NOT_LOADED || currentParent.id === idParent;
 			break;
@@ -297,7 +291,6 @@ const mapDispatchToProps = {
 	saveSims,
 	loadOperation,
 	loadSerie,
-	loadIndicator,
 	publishSims,
 	loadDocuments,
 	loadGeographies: Stores.Geographies.loadGeographies,
@@ -307,13 +300,32 @@ const MSDContainerWithParent = props => {
 	const { idParent } = props;
 	const parentType = props.match.params[0];
 	const load = props[mapToParentType[parentType]?.load];
+	const [parent, setParent] = useState(props.parent)
+	const [loading, setLoading] = useState(true)
+
+	const currentSims = props.mode === CREATE ? ({
+			labelLg1: D1.simsTitle + parent.prefLabelLg1,
+			labelLg2: D2.simsTitle + parent.prefLabelLg2,
+		}) : props.currentSims
 
 	useEffect(() => {
-		if(load){
-			load(idParent);
+		// TO BE REMOVED when all cache will be deleted
+		if(parentType === "indicator"){
+			api.getIndicator(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
 		}
+		else if(load){
+			load(idParent);
+			setLoading(false)
+
+		} else {
+			setLoading(false)
+
+		}
+
 	}, [load, idParent])
-	return <MSDContainer {...props} />
+
+	if(loading) return <Loading textType="loadableLoading" />
+	return <MSDContainer {...props} currentSims={currentSims} parent={parent}/>
 }
 export default withRouter(
 	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)

@@ -74,21 +74,6 @@ describe('getIndicator', () => {
 	it('should return an empty object if the value is undefined', () => {
 		const input = {};
 		const output = {};
-		expect(selector.getIndicator(input)).toEqual(output);
-	});
-	it('should return the object', () => {
-		const input = {
-			operationsIndicatorsCurrent: 'operationsIndicatorsCurrent',
-		};
-		const output = 'operationsIndicatorsCurrent';
-		expect(selector.getIndicator(input)).toEqual(output);
-	});
-});
-
-describe('getIndicator', () => {
-	it('should return an empty object if the value is undefined', () => {
-		const input = {};
-		const output = {};
 		expect(selector.getOperationsSimsCurrent(input)).toEqual(output);
 	});
 	it('should return the object', () => {
