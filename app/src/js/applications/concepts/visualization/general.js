@@ -5,7 +5,9 @@ import { ArrayUtils, DateUtils } from 'bauhaus-utilities';
 
 function ConceptGeneral({ attr, secondLang, langs }) {
 	const { lg1, lg2 } = langs;
-	let mapping = {};
+	let mapping = {
+		id: D1.identifiantTitle
+	};
 	if (attr.altLabelLg1 && attr.altLabelLg1.length !== 0) {
 		mapping = {
 			...mapping,
@@ -21,7 +23,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 	mapping = {
 		...mapping,
 		created: D1.createdDateTitle,
-		modified: D1.modifiedDateTitle,
+		modified: D1.modifiedDateTitle
 	};
 	if (attr.valid) {
 		mapping = {
