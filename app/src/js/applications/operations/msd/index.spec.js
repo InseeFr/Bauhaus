@@ -37,43 +37,6 @@ describe('', () => {
 		expect(output.currentSims).toEqual({});
 	});
 
-	it('should return a currenSims with a default label for the CREATE MODE', () => {
-		const input = {
-			operationsMetadataStructureList: {
-				results: 'operationsMetadataStructureList',
-				status: LOADED,
-			},
-			app: {
-				lg1: 'lg1',
-				lg2: 'lg2',
-			},
-			operationsSeriesCurrentStatus: LOADED,
-			operationsDocuments: {},
-			operationsSeriesCurrent: {
-				id: 2,
-				prefLabelLg1: 'prefLabelLg1',
-				prefLabelLg2: 'prefLabelLg2',
-			},
-			geographies: {},
-		};
-
-		const props = {
-			mode: CREATE,
-			match: {
-				params: {
-					idParent: 2,
-					0: 'series',
-				},
-			},
-		};
-		const output = mapStateToProps(input, props);
-		expect(output.currentSims).toEqual({
-			labelLg1: 'Rapport qualité : prefLabelLg1',
-			labelLg2: 'Quality report: prefLabelLg2',
-		});
-		expect(output.parentType).toEqual('series');
-	});
-
 	it('should return a complete currenSims for the VIEW MODE', () => {
 		const input = {
 			operationsMetadataStructureList: {

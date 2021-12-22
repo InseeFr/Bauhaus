@@ -234,12 +234,6 @@ export const mapStateToProps = (state, ownProps) => {
 		if (parentType === 'series') {
 			return [select.getSerie(state), state.operationsSeriesCurrentStatus];
 		}
-		if (parentType === 'indicator') {
-			return [
-				select.getIndicator(state),
-				state.operationsIndicatorCurrentStatus,
-			];
-		}
 	}
 
 	let idParent;

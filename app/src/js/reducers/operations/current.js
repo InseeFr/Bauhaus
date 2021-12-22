@@ -12,6 +12,7 @@ export const operationsSeriesCurrent = function(state = {}, action) {
 		case A.SAVE_OPERATIONS_OPERATION_SUCCESS:
 		case A.SAVE_OPERATIONS_SIMS_SUCCESS:
 		case A.PUBLISH_OPERATIONS_SERIES_SUCCESS:
+			return {};
 		case A.DELETE_SIMS_SUCCESS:
 			return {
 				...state,
