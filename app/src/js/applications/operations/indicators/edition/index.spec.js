@@ -16,7 +16,6 @@ describe('OperationsIndicatorsEditionContainer', () => {
 					results: { [CL_FREQ]: { codes: [{ code: 'code' }] } },
 				},
 				operationsAsyncTask: false,
-				operationsIndicatorsList: { results: ['operationsIndicatorsList'] },
 				operationsSeriesList: { results: ['operationsSeriesList'] },
 			},
 			{ match: { params: { id: '2' } } }
@@ -25,7 +24,6 @@ describe('OperationsIndicatorsEditionContainer', () => {
 			frequencies: { codes: [{ code: 'code' }] },
 			id: '2',
 			indicator: { accrualPeriodicityCode: 'code', id: '2' },
-			indicators: ['operationsIndicatorsList'],
 			langs: { lg1: 'lg1', lg2: 'lg2' },
 			operationsAsyncTask: false,
 			organisations: ['results'],
