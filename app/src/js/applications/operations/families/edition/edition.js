@@ -14,6 +14,8 @@ import {
 } from '@inseefr/wilco';
 import { validate } from './validation';
 import D from '../../../../i18n/build-dictionary';
+import { withRouter } from 'react-router-dom';
+import api from '../../../../remote-api/operations-api';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -27,6 +29,7 @@ const defaultFamily = {
 const setInitialState = props => {
 	return {
 		serverSideError: '',
+		saving: false,
 		family: {
 			...defaultFamily,
 			...props.family,
@@ -61,24 +64,24 @@ class OperationsFamilyEdition extends Component {
 		});
 	};
 	onSubmit = () => {
+		this.setState({ saving: true })
 		const isCreation = !this.state.family.id;
 
-		this.props.saveFamily(
-			this.state.family,
-			(err, id = this.state.family.id) => {
-				if (!err) {
-					goBackOrReplace(this.props, `/operations/family/${id}`, isCreation);
-				} else {
-					this.setState({
-						serverSideError: err,
-					});
-				}
+		const method = isCreation ? 'postFamily' : 'putFamily';
+		return api[method](this.state.family).then(
+			(id = this.state.family.id) => {
+				goBackOrReplace(this.props, `/operations/family/${id}`, isCreation);
+			},
+			err => {
+				this.setState({
+					serverSideError: err,
+				});
 			}
-		);
+		).finally(() => this.setState({ saving: false }));
 	};
 
 	render() {
-		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
+		if (this.state.saving) return <Loading textType="saving" />;
 
 		const { family, serverSideError } = this.state;
 		const isEditing = !!family.id;
@@ -176,6 +179,6 @@ class OperationsFamilyEdition extends Component {
 	}
 }
 
-export default withTitle(OperationsFamilyEdition, D.operationsTitle, props => {
+export default withTitle(withRouter(OperationsFamilyEdition), D.operationsTitle, props => {
 	return props.family.prefLabelLg1 || D.familiesCreateTitle
 });

@@ -2,25 +2,6 @@ import * as reducer from './current';
 import * as A from 'js/actions/constants';
 
 describe('current reducer', () => {
-	describe('operationsFamiliesCurrent', () => {
-		it('LOAD_OPERATIONS_SERIE_SUCCESS', () => {
-			expect(
-				reducer.operationsFamiliesCurrent('state', {
-					type: A.LOAD_OPERATIONS_FAMILY_SUCCESS,
-					payload: 'payload',
-				})
-			).toEqual('payload');
-		});
-		it('SAVE_OPERATIONS_FAMILY', () => {
-			expect(
-				reducer.operationsFamiliesCurrent('state', {
-					type: A.SAVE_OPERATIONS_FAMILY,
-					payload: 'payload',
-				})
-			).toEqual({});
-		});
-	});
-
 	[
 		{
 			method: 'operationsSeriesCurrent',
