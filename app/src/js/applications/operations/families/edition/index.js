@@ -10,13 +10,13 @@ const OperationsFamilyEditionContainer = () =>  {
 	const { id } = useParams();
 	const langs = useSelector(state => select.getLangs(state))
 
-	const [family, setFamily] = useState();
+	const [family, setFamily] = useState({});
 
 	useEffect(() => {
 		api.getFamily(id).then(setFamily);
 	}, [id]);
 
-	if (!family) return <Loading />;
+	if (!family.id && id) return <Loading />;
 	return <OperationsFamilyEdition id={id} family={family} langs={langs}/>;
 }
 
