@@ -13,7 +13,9 @@ const OperationsFamilyEditionContainer = () =>  {
 	const [family, setFamily] = useState({});
 
 	useEffect(() => {
-		api.getFamily(id).then(setFamily);
+		if(id){
+			api.getFamily(id).then(setFamily);
+		}
 	}, [id]);
 
 	if (!family.id && id) return <Loading />;
