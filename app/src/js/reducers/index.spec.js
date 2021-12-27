@@ -42,18 +42,6 @@ describe('getSeries', () => {
 	});
 });
 
-describe('getOperations', () => {
-	it('should return an empty object if the value is undefined', () => {
-		const input = {};
-		const output = {};
-		expect(selector.getOperations(input)).toEqual(output);
-	});
-	it('should return the object', () => {
-		const input = { operationsOperationsList: 'operationsOperationsList' };
-		const output = 'operationsOperationsList';
-		expect(selector.getOperations(input)).toEqual(output);
-	});
-});
 
 describe('getOperation', () => {
 	it('should return an empty object if the value is undefined', () => {
