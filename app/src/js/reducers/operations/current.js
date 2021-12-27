@@ -9,7 +9,6 @@ export const operationsSeriesCurrent = function(state = {}, action) {
 		case A.SAVE_OPERATIONS_SERIE:
 			return action.payload;
 		case A.SAVE_OPERATIONS_SERIE_SUCCESS:
-		case A.SAVE_OPERATIONS_OPERATION_SUCCESS:
 		case A.SAVE_OPERATIONS_SIMS_SUCCESS:
 		case A.PUBLISH_OPERATIONS_SERIES_SUCCESS:
 			return {};
@@ -18,23 +17,6 @@ export const operationsSeriesCurrent = function(state = {}, action) {
 				...state,
 				idSims: null
 			}
-		default:
-			return state;
-	}
-};
-
-/**
- * Reducer for fetching the current operation displayed during the visualisation or the edition
- */
-export const operationsOperationsCurrent = function(state = {}, action) {
-	switch (action.type) {
-		case A.LOAD_OPERATIONS_OPERATION_SUCCESS:
-		case A.SAVE_OPERATIONS_OPERATION:
-			return action.payload;
-		case A.SAVE_OPERATIONS_OPERATION_SUCCESS:
-		case A.SAVE_OPERATIONS_SIMS_SUCCESS:
-		case A.PUBLISH_OPERATIONS_OPERATION_SUCCESS:
-			return {};
 		default:
 			return state;
 	}
@@ -50,7 +32,6 @@ export const operationsSimsCurrent = function(state = {}, action) {
 		case A.SAVE_OPERATIONS_SIMS:
 			return action.payload;
 		case A.LOAD_OPERATIONS_SERIE_SUCCESS:
-		case A.LOAD_OPERATIONS_OPERATION_SUCCESS:
 		case A.SAVE_OPERATIONS_SIMS_SUCCESS:
 		case A.PUBLISH_OPERATIONS_SIMS_SUCCESS:
 			//When we save an item, we reset the current item stored in the store in order to send a new GET HTTP request

@@ -42,22 +42,6 @@ describe('getSeries', () => {
 	});
 });
 
-
-describe('getOperation', () => {
-	it('should return an empty object if the value is undefined', () => {
-		const input = {};
-		const output = {};
-		expect(selector.getOperation(input)).toEqual(output);
-	});
-	it('should return the object', () => {
-		const input = {
-			operationsOperationsCurrent: 'operationsOperationsCurrent',
-		};
-		const output = 'operationsOperationsCurrent';
-		expect(selector.getOperation(input)).toEqual(output);
-	});
-});
-
 describe('getIndicator', () => {
 	it('should return an empty object if the value is undefined', () => {
 		const input = {};

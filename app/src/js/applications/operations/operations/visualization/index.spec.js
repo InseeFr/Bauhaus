@@ -9,9 +9,6 @@ describe('mapStateToProps', () => {
 				lg1: 'fr',
 				lg2: 'en',
 			},
-			operationsOperationsCurrent: {
-				id: '1',
-			},
 			remoteCalls: {
 				[EXPORT_VARBOOK]: {
 					status: 'status',

@@ -13,7 +13,6 @@ export const operationsSimsCurrentStatus = function(
 			return LOADED;
 		case A.SAVE_OPERATIONS_SIMS_SUCCESS:
 		case A.LOAD_OPERATIONS_SERIE_SUCCESS:
-		case A.LOAD_OPERATIONS_OPERATION_SUCCESS:
 			return NOT_LOADED;
 		case A.LOAD_OPERATIONS_SIMS:
 		case A.SAVE_OPERATIONS_SIMS:
@@ -39,15 +38,6 @@ function trackStatus(LOAD_SUCCESS, SAVE, SAVE_SUCCESS, LOAD) {
 	};
 }
 
-/**
- * Track the loading of an operation. Used to avoid sending multiple request simultaneously
- */
-export const operationsOperationCurrentStatus = trackStatus(
-	A.LOAD_OPERATIONS_OPERATION_SUCCESS,
-	A.SAVE_OPERATIONS_OPERATION,
-	A.SAVE_OPERATIONS_OPERATION_SUCCESS,
-	A.LOAD_OPERATIONS_OPERATION
-);
 
 /**
  * Track the loading of an series. Used to avoid sending multiple request simultaneously

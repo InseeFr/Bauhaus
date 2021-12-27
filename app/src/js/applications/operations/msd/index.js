@@ -23,7 +23,6 @@ import SimsVisualisation from 'js/applications/operations/msd/pages/sims-visuali
 import SimsCreation from 'js/applications/operations/msd/pages/sims-creation/';
 import PropTypes from 'prop-types';
 import * as select from 'js/reducers';
-import loadOperation from 'js/actions/operations/operations/item';
 import loadSerie from 'js/actions/operations/series/item';
 import { Stores, PageTitleBlock } from 'bauhaus-utilities';
 import api from 'js/remote-api/operations-api';
@@ -40,9 +39,6 @@ export const UPDATE = 'UPDATE';
 export const DUPLICATE = 'DUPLICATE';
 
 const mapToParentType = {
-	operation: {
-		load: 'loadOperation',
-	},
 	series: { load: 'loadSerie' }
 };
 class MSDContainer extends Component {
@@ -225,15 +221,10 @@ export const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 
 	function getCurrentParent(parentType) {
-		if (parentType === 'operation') {
-			return [
-				select.getOperation(state),
-				state.operationsIndicatorCurrentStatus,
-			];
-		}
 		if (parentType === 'series') {
 			return [select.getSerie(state), state.operationsSeriesCurrentStatus];
 		}
+		return []
 	}
 
 	let idParent;
@@ -283,7 +274,6 @@ const mapDispatchToProps = {
 	loadMetadataStructure,
 	loadSIMS,
 	saveSims,
-	loadOperation,
 	loadSerie,
 	publishSims,
 	loadDocuments,
@@ -298,15 +288,19 @@ const MSDContainerWithParent = props => {
 	const [loading, setLoading] = useState(true)
 
 	const currentSims = props.mode === CREATE ? ({
-			labelLg1: D1.simsTitle + parent.prefLabelLg1,
-			labelLg2: D2.simsTitle + parent.prefLabelLg2,
+			labelLg1: D1.simsTitle + parent?.prefLabelLg1,
+			labelLg2: D2.simsTitle + parent?.prefLabelLg2,
 		}) : props.currentSims
 
 	useEffect(() => {
 		// TO BE REMOVED when all cache will be deleted
 		if(parentType === "indicator"){
 			api.getIndicator(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
+		} else if(parentType === "operation"){
+			api.getOperation(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
 		}
+
+		//
 		else if(load){
 			load(idParent);
 			setLoading(false)

@@ -9,14 +9,6 @@ describe('current reducer', () => {
 			returnEmpty: ['SAVE_OPERATIONS_SERIE_SUCCESS'],
 		},
 		{
-			method: 'operationsOperationsCurrent',
-			returnPayload: [
-				'LOAD_OPERATIONS_OPERATION_SUCCESS',
-				'LOAD_OPERATIONS_OPERATION_SUCCESS',
-			],
-			returnEmpty: ['SAVE_OPERATIONS_SIMS_SUCCESS'],
-		},
-		{
 			method: 'operationsSimsCurrent',
 			returnPayload: ['LOAD_OPERATIONS_SIMS_SUCCESS', 'SAVE_OPERATIONS_SIMS'],
 			returnEmpty: ['SAVE_OPERATIONS_SIMS_SUCCESS'],
