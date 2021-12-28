@@ -4,11 +4,6 @@ import * as A from 'js/actions/constants';
 describe('current reducer', () => {
 	[
 		{
-			method: 'operationsSeriesCurrent',
-			returnPayload: ['LOAD_OPERATIONS_SERIE_SUCCESS', 'SAVE_OPERATIONS_SERIE'],
-			returnEmpty: ['SAVE_OPERATIONS_SERIE_SUCCESS'],
-		},
-		{
 			method: 'operationsSimsCurrent',
 			returnPayload: ['LOAD_OPERATIONS_SIMS_SUCCESS', 'SAVE_OPERATIONS_SIMS'],
 			returnEmpty: ['SAVE_OPERATIONS_SIMS_SUCCESS'],
