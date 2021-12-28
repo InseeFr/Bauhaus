@@ -73,11 +73,8 @@ function makeReducers([
  */
 const operationsAsyncTask = function(state = false, action) {
 	switch (action.type) {
-		case A.SAVE_OPERATIONS_SERIE:
 		case A.SAVE_OPERATIONS_DOCUMENT:
 			return true;
-		case A.SAVE_OPERATIONS_SERIE_SUCCESS:
-		case A.SAVE_OPERATIONS_SERIE_FAILURE:
 		case A.SAVE_OPERATIONS_DOCUMENT_SUCCESS:
 		case A.SAVE_OPERATIONS_DOCUMENT_FAILURE:
 			return false;
@@ -87,13 +84,6 @@ const operationsAsyncTask = function(state = false, action) {
 	}
 };
 
-const operationsSeriesList = makeReducers([
-	A.LOAD_OPERATIONS_SERIES_LIST,
-	A.LOAD_OPERATIONS_SERIES_LIST_SUCCESS,
-	A.LOAD_OPERATIONS_SERIES_LIST_FAILURE,
-	A.SAVE_OPERATIONS_SERIE_SUCCESS,
-]);
-
 const operationsMetadataStructureList = makeReducers([
 	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
 	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
@@ -101,7 +91,6 @@ const operationsMetadataStructureList = makeReducers([
 ]);
 
 export default {
-	operationsSeriesList,
 	operationsMetadataStructureList,
 	operationsAsyncTask,
 	...currentReducers,

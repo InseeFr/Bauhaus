@@ -1,14 +1,12 @@
 import api from 'js/remote-api/codelist-api';
 import apiOrganisations from 'js/remote-api/organisations-api';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
-import loadSeries from 'js/actions/operations/series/list';
 import loadStampList from 'js/actions/stamp';
 import * as A from 'js/actions/constants';
 
 export const loadSetup = () => (dispatch) => {
 	loadCodesList([CL_SOURCE_CATEGORY, CL_FREQ], dispatch);
 	loadOrganisations(dispatch);
-	loadSeries()(dispatch);
 	loadStampList()(dispatch);
 };
 export function loadCodesList(notations, dispatch) {

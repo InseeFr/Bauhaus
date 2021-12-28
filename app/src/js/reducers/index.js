@@ -110,9 +110,6 @@ export const getNewlyCreatedId = (state) =>
 export const getSerie = (state) => {
 	return state.operationsSeriesCurrent || {};
 };
-export const getSeries = (state) => {
-	return state.operationsSeriesList || {};
-};
 
 export const getIndicator = (state) => {
 	return state.operationsIndicatorsCurrent || {};

@@ -21,6 +21,7 @@ import {
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 
 import { validate } from './validation';
+import api from '../../../../remote-api/operations-api';
 
 const defaultSerie = {
 	id: '',
@@ -67,6 +68,7 @@ class OperationsSerieEdition extends Component {
 	setInitialState = (props) => {
 		return {
 			serverSideError: '',
+			saving: false,
 			serie: {
 				...defaultSerie,
 				...props.serie,
@@ -94,21 +96,25 @@ class OperationsSerieEdition extends Component {
 		});
 	};
 	onSubmit = () => {
+
+		this.setState({ saving: true })
 		const isCreation = !this.state.serie.id;
 
-		this.props.saveSerie(this.state.serie, (err, id = this.props.serie.id) => {
-			if (!err) {
+		const method = isCreation ? 'postSeries' : 'putSeries';
+		return api[method](this.state.serie).then(
+			(id = this.state.serie.id) => {
 				goBackOrReplace(this.props, `/operations/series/${id}`, isCreation);
-			} else {
+			},
+			err => {
 				this.setState({
 					serverSideError: err,
 				});
 			}
-		});
+		).finally(() => this.setState({ saving: false }));
 	};
 
 	render() {
-		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
+		if (this.state.saving) return <Loading textType="saving" />;
 
 		const {
 			frequencies,

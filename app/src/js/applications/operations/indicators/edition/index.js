@@ -14,9 +14,9 @@ const OperationsIndicatorsEditionContainer = (props) => {
 	const langs = useSelector(state => select.getLangs(state));
 	const frequencies = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
 	const organisations = useSelector(state => state.operationsOrganisations.results || []);
-	const series = useSelector(state => state.operationsSeriesList.results);
 
 	const [indicator, setIndicator] = useState({});
+	const [series, setSeries] = useState([]);
 
 	useEffect(() => {
 		if (id) {
@@ -30,6 +30,9 @@ const OperationsIndicatorsEditionContainer = (props) => {
 		api.getIndicatorsList().then(payload => setIndicators(payload));
 	}, [])
 
+	useEffect(() => {
+		api.getSeriesList().then(payload => setSeries(payload));
+	}, [])
 
 	if (!indicator.id && id) return <Loading />;
 	return <OperationsIndicatorEdition

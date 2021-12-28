@@ -23,7 +23,6 @@ import SimsVisualisation from 'js/applications/operations/msd/pages/sims-visuali
 import SimsCreation from 'js/applications/operations/msd/pages/sims-creation/';
 import PropTypes from 'prop-types';
 import * as select from 'js/reducers';
-import loadSerie from 'js/actions/operations/series/item';
 import { Stores, PageTitleBlock } from 'bauhaus-utilities';
 import api from 'js/remote-api/operations-api';
 
@@ -38,9 +37,6 @@ export const VIEW = 'VIEW';
 export const UPDATE = 'UPDATE';
 export const DUPLICATE = 'DUPLICATE';
 
-const mapToParentType = {
-	series: { load: 'loadSerie' }
-};
 class MSDContainer extends Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object,
@@ -220,18 +216,10 @@ export const mapStateToProps = (state, ownProps) => {
 
 	const id = extractId(ownProps);
 
-	function getCurrentParent(parentType) {
-		if (parentType === 'series') {
-			return [select.getSerie(state), state.operationsSeriesCurrentStatus];
-		}
-		return []
-	}
 
 	let idParent;
 	let currentSims = {};
 	let parentType;
-	let isParentLoaded = true;
-	let parent = {}
 	switch (ownProps.mode) {
 		case HELP:
 			currentSims = {};
@@ -239,10 +227,6 @@ export const mapStateToProps = (state, ownProps) => {
 		case CREATE:
 			idParent = extractIdParent(ownProps);
 			parentType = ownProps.match.params[0];
-			const [currentParent, currentParentStatus] = getCurrentParent(parentType);
-			parent = currentParent;
-			isParentLoaded =
-				currentParentStatus !== NOT_LOADED || currentParent.id === idParent;
 			break;
 		default:
 			currentSims = select.getOperationsSimsCurrent(state);
@@ -260,13 +244,11 @@ export const mapStateToProps = (state, ownProps) => {
 		metadataStructure,
 		metadataStructureStatus,
 		currentSims: !id || currentSims.id === id ? currentSims : {},
-		isParentLoaded,
 		id,
 		idParent,
 		codesLists: getOperationsCodesList(state),
 		organisations: getOperationsOrganisations(state),
 		parentType,
-		parent,
 	};
 };
 
@@ -274,7 +256,6 @@ const mapDispatchToProps = {
 	loadMetadataStructure,
 	loadSIMS,
 	saveSims,
-	loadSerie,
 	publishSims,
 	loadDocuments,
 	loadGeographies: Stores.Geographies.loadGeographies,
@@ -283,7 +264,6 @@ const mapDispatchToProps = {
 const MSDContainerWithParent = props => {
 	const { idParent } = props;
 	const parentType = props.match.params[0];
-	const load = props[mapToParentType[parentType]?.load];
 	const [parent, setParent] = useState(props.parent)
 	const [loading, setLoading] = useState(true)
 
@@ -298,19 +278,14 @@ const MSDContainerWithParent = props => {
 			api.getIndicator(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
 		} else if(parentType === "operation"){
 			api.getOperation(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
+		}else if(parentType === "series"){
+			api.getSerie(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
+		}
+		else {
+			setLoading(false)
 		}
 
-		//
-		else if(load){
-			load(idParent);
-			setLoading(false)
-
-		} else {
-			setLoading(false)
-
-		}
-
-	}, [load, idParent, parentType])
+	}, [idParent, parentType])
 
 	if(loading) return <Loading textType="loadableLoading" />
 	return <MSDContainer {...props} currentSims={currentSims} parent={parent}/>

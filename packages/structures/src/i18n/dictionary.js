@@ -177,7 +177,7 @@ const dictionary = {
 	},
 	territoireStatistique: {
 		fr: 'Territoire Statistique',
-		en: 'Territoire Statistique',
+		en: 'Statistical Territory',
 	},
 	idTitle: {
 		fr: 'Notation',
