@@ -175,9 +175,9 @@ const dictionary = {
 		fr: 'Date et heure',
 		en: 'Date and hour',
 	},
-	territoireStatistique: {
-		fr: 'Territoire Statistique',
-		en: 'Statistical Territory',
+	paysOuTerritoire: {
+		fr: 'Pays ou territoire',
+		en: 'Country or territory',
 	},
 	idTitle: {
 		fr: 'Notation',
