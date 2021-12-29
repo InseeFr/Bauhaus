@@ -4,12 +4,10 @@ import { connect } from 'react-redux';
 import { Loading, buildExtract } from '@inseefr/wilco';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
-import loadDocuments from 'js/actions/operations/documents/list';
 import { D1, D2 } from 'js/i18n';
+import globalApi from 'js/remote-api/api';
 
 import {
-	getOperationsDocuments,
-	getOperationsDocumentsStatus,
 	getOperationsOrganisations,
 	getOperationsCodesList,
 } from 'js/reducers/operations/selector';
@@ -23,7 +21,7 @@ import SimsVisualisation from 'js/applications/operations/msd/pages/sims-visuali
 import SimsCreation from 'js/applications/operations/msd/pages/sims-creation/';
 import PropTypes from 'prop-types';
 import * as select from 'js/reducers';
-import { Stores, PageTitleBlock } from 'bauhaus-utilities';
+import { Stores, PageTitleBlock, ArrayUtils } from 'bauhaus-utilities';
 import api from 'js/remote-api/operations-api';
 
 import { getParentType, getParentId } from './utils';
@@ -36,6 +34,7 @@ export const CREATE = 'CREATE';
 export const VIEW = 'VIEW';
 export const UPDATE = 'UPDATE';
 export const DUPLICATE = 'DUPLICATE';
+const sortByLabel = ArrayUtils.sortArray('labelLg1');
 
 class MSDContainer extends Component {
 	static propTypes = {
@@ -70,9 +69,6 @@ class MSDContainer extends Component {
 	};
 
 	componentDidMount() {
-		if (this.props.documentStoresStatus === NOT_LOADED) {
-			this.props.loadDocuments();
-		}
 		if (this.props.metadataStructureStatus !== LOADED) {
 			this.props.loadMetadataStructure();
 		}
@@ -236,8 +232,6 @@ export const mapStateToProps = (state, ownProps) => {
 	}
 
 	return {
-		documentStoresStatus: getOperationsDocumentsStatus(state),
-		documentStores: getOperationsDocuments(state, ownProps.objectType),
 		geographiesLoaded: Stores.Geographies.isLoaded(state),
 		langs: select.getLangs(state),
 		secondLang: Stores.SecondLang.getSecondLang(state),
@@ -257,7 +251,6 @@ const mapDispatchToProps = {
 	loadSIMS,
 	saveSims,
 	publishSims,
-	loadDocuments,
 	loadGeographies: Stores.Geographies.loadGeographies,
 };
 
@@ -266,6 +259,7 @@ const MSDContainerWithParent = props => {
 	const parentType = props.match.params[0];
 	const [parent, setParent] = useState(props.parent)
 	const [loading, setLoading] = useState(true)
+	const [documentStores, setDocumentStores] = useState([]);
 
 	const currentSims = props.mode === CREATE ? ({
 			labelLg1: D1.simsTitle + parent?.prefLabelLg1,
@@ -284,11 +278,22 @@ const MSDContainerWithParent = props => {
 		else {
 			setLoading(false)
 		}
-
 	}, [idParent, parentType])
 
+	useEffect(() => {
+		globalApi.getDocumentsList().then(results => {
+			setDocumentStores(sortByLabel(
+				results.map(document => {
+					return {
+						...document,
+						id: document.uri.substr(document.uri.lastIndexOf('/') + 1),
+					};
+				}))
+			)
+		})
+	}, [])
 	if(loading) return <Loading textType="loadableLoading" />
-	return <MSDContainer {...props} currentSims={currentSims} parent={parent}/>
+	return <MSDContainer {...props} documentStores={documentStores} currentSims={currentSims} parent={parent}/>
 }
 export default withRouter(
 	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)

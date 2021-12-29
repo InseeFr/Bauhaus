@@ -10,50 +10,6 @@ import {
 } from 'js/actions/constants/operations/documents';
 import { isDocument } from 'js/applications/operations/document/utils';
 import { SAVE_OPERATIONS_SIMS_SUCCESS } from '../../actions/constants';
-/**
- *
- * @param {SimsDoc} state
- * @param {*} action
- */
-export const operationsDocuments = function(
-	state = { status: NOT_LOADED, results: {} },
-	action
-) {
-	switch (action.type) {
-		case LOAD_OPERATIONS_DOCUMENTS:
-			return {
-				status: LOADING,
-			};
-		case LOAD_OPERATIONS_DOCUMENTS_SUCCESS:
-			const full = action.payload.results;
-			const [documents, links] = full.reduce(
-				(acc, element) => {
-					acc[isDocument(element) ? 0 : 1].push(element);
-					return acc;
-				},
-				[[], []]
-			);
-			return {
-				status: LOADED,
-				results: {
-					full,
-					documents,
-					links,
-				},
-			};
-		case LOAD_OPERATIONS_DOCUMENTS_FAILURE:
-			return {
-				status: ERROR,
-				err: action.payload.err,
-			};
-		case SAVE_OPERATIONS_DOCUMENT_SUCCESS:
-			return {
-				status: NOT_LOADED
-			};
-		default:
-			return state;
-	}
-};
 
 export const operationsCurrentDocument = function(
 	state = { status: NOT_LOADED, results: {} },
