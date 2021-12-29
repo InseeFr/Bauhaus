@@ -2,7 +2,6 @@ import * as A from 'js/actions/constants';
 import { LOADED, NOT_LOADED, LOADING } from 'js/constants';
 import {
 	operationsSimsCurrentStatus,
-	operationsOperationCurrentStatus,
 } from './loadStatus';
 
 describe('operationsSimsCurrentStatus reducer', () => {

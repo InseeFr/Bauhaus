@@ -1,4 +1,4 @@
-import { mapStateToProps, HELP, VIEW, CREATE } from './index';
+import { mapStateToProps, HELP, VIEW } from './index';
 import { NOT_LOADED, LOADED } from 'js/constants';
 
 describe('', () => {

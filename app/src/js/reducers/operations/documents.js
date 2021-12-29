@@ -1,14 +1,10 @@
 import { LOADED, LOADING, ERROR, NOT_LOADED } from 'js/constants';
 import {
-	LOAD_OPERATIONS_DOCUMENTS,
-	LOAD_OPERATIONS_DOCUMENTS_SUCCESS,
-	LOAD_OPERATIONS_DOCUMENTS_FAILURE,
 	LOAD_OPERATIONS_DOCUMENT,
 	LOAD_OPERATIONS_DOCUMENT_SUCCESS,
 	LOAD_OPERATIONS_DOCUMENT_FAILURE,
 	SAVE_OPERATIONS_DOCUMENT_SUCCESS,
 } from 'js/actions/constants/operations/documents';
-import { isDocument } from 'js/applications/operations/document/utils';
 import { SAVE_OPERATIONS_SIMS_SUCCESS } from '../../actions/constants';
 
 export const operationsCurrentDocument = function(
