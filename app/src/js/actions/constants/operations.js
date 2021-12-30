@@ -6,4 +6,3 @@ export const EXPORT_VARBOOK_FAILURE = 'EXPORT_VARBOOK_FAILURE';
 export * from './operations/codeList';
 export * from './operations/organisations';
 export * from './operations/sims';
-export * from './operations/documents';

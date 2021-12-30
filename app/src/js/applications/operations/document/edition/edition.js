@@ -71,7 +71,6 @@ class OperationsDocumentationEdition extends Component {
 		langs: PropTypes.object.isRequired,
 		saveDocument: PropTypes.func.isRequired,
 		type: PropTypes.oneOf([LINK, DOCUMENT]),
-		operationsAsyncTask: PropTypes.bool,
 	};
 
 	constructor(props) {

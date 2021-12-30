@@ -1,7 +1,6 @@
 import * as A from 'js/actions/constants';
 import { LOADED, LOADING, ERROR } from 'js/constants';
 import * as currentReducers from 'js/reducers/operations/current';
-import * as documentsReducers from 'js/reducers/operations/documents';
 import { ArrayUtils } from 'bauhaus-utilities';
 
 /**
@@ -57,33 +56,6 @@ function makeReducers([
 	};
 }
 
-/**
- * @typedef {Object} ActionType
- * @property {string} type
- * @property {Object} payload
- */
-
-/**
- * Reducer to store the state of any asynchronous operations.
- * The boolean state is used to display / hide a spinner
- *
- * @param {Boolean} state
- * @param {ActionType} action
- * @returns {Boolean}
- */
-const operationsAsyncTask = function(state = false, action) {
-	switch (action.type) {
-		case A.SAVE_OPERATIONS_DOCUMENT:
-			return true;
-		case A.SAVE_OPERATIONS_DOCUMENT_SUCCESS:
-		case A.SAVE_OPERATIONS_DOCUMENT_FAILURE:
-			return false;
-
-		default:
-			return state;
-	}
-};
-
 const operationsMetadataStructureList = makeReducers([
 	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
 	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
@@ -92,7 +64,5 @@ const operationsMetadataStructureList = makeReducers([
 
 export default {
 	operationsMetadataStructureList,
-	operationsAsyncTask,
 	...currentReducers,
-	...documentsReducers,
 };
