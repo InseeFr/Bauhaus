@@ -17,6 +17,7 @@ import {
 	Select,
 } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
+import api from 'js/remote-api/api';
 
 const defaultDocument = {
 	labelLg1: '',
@@ -26,6 +27,43 @@ const defaultDocument = {
 	url: '',
 	lang: '',
 };
+
+const saveDocument = (document, type, files) => {
+	const method = document.id
+		? type === LINK
+			? 'putLink'
+			: 'putDocument'
+		: type === LINK
+			? 'postLink'
+			: 'postDocument';
+
+	let body = document;
+
+	/**
+	 * If the document has no id, this is a creation
+	 * We have to send FormData kind of HTTP request.
+	 * Only File-type document has a file to upload
+	 */
+	if (!document.id) {
+		const formData = new FormData();
+		formData.append('body', JSON.stringify(document));
+
+		if (type === DOCUMENT && files[0]) {
+			formData.append('file', files[0], files[0].name);
+		}
+		body = formData;
+	}
+
+	let promise;
+	if (type === DOCUMENT && document.id && files[0] && files[0].size) {
+		const formData = new FormData();
+		formData.append('file', files[0], files[0].name);
+		promise = api.putDocumentFile(document, formData);
+	} else {
+		promise = api[method](body);
+	}
+	return promise
+}
 
 class OperationsDocumentationEdition extends Component {
 	static propTypes = {
@@ -49,6 +87,7 @@ class OperationsDocumentationEdition extends Component {
 	setInitialState = (props) => {
 		return {
 			serverSideError: '',
+			saving: false,
 			document: {
 				...defaultDocument,
 				...props.document,
@@ -82,25 +121,25 @@ class OperationsDocumentationEdition extends Component {
 	};
 
 	onSubmit = () => {
+
+		this.setState({ saving: true })
 		const isCreation = !this.state.document.id;
-		this.props.saveDocument(
-			this.state.document,
-			this.props.type,
-			this.state.files,
-			(err, id = this.state.document.id) => {
-				if (!err) {
-					goBackOrReplace(
-						this.props,
-						`/operations/${this.props.type}/${id}`,
-						isCreation
-					);
-				} else {
-					this.setState({
-						serverSideError: err,
-					});
-				}
+
+		const document = this.state.document;
+		const type = this.props.type;
+		const files = this.state.files;
+
+
+		return saveDocument(document, type, files).then(
+			(id = this.state.document.id) => {
+				goBackOrReplace(this.props, `/operations/${type}/${id}`, isCreation);
+			},
+			err => {
+				this.setState({
+					serverSideError: err,
+				});
 			}
-		);
+		).finally(() => this.setState({ saving: false }));
 	};
 
 	render() {
@@ -108,7 +147,8 @@ class OperationsDocumentationEdition extends Component {
 		const langSelectOptions = (langOptions.codes || []).map((lang) => {
 			return { value: lang.code, label: lang.labelLg1 };
 		});
-		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
+		if (this.state.saving) return <Loading textType="saving" />;
+
 
 		const { document, files, serverSideError } = this.state;
 		const isEditing = !!document.id;
