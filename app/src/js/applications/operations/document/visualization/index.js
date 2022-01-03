@@ -20,6 +20,7 @@ import { useParams, useRouteMatch, withRouter } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
 import { ADMIN } from 'bauhaus-utilities/src/auth/roles';
 import api from '../../../../remote-api/api';
+import * as select from '../../../../reducers';
 
 function getPath(path) {
 	return path.includes('document') ? 'document' : 'link';
@@ -49,7 +50,7 @@ const DocumentationVisualizationContainer = props => {
 	const { id } = useParams();
 	const { path } = useRouteMatch();
 	const type = getPath(path);
-	const langs = useSelector(state => Stores.SecondLang.getSecondLang(state));
+	const langs = useSelector(state => select.getLangs(state));
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
 	const langOptions = useSelector(state => state.operationsCodesList.results['ISO-639']);
 	const dispatch = useDispatch()
