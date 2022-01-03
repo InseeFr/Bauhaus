@@ -30,18 +30,23 @@ const Family = (props) => {
 
 	const [family, setFamily] = useState({});
 	const [serverSideError, setServerSideError] = useState();
+	const [publishing, setPublishing] = useState(false);
 
 	useEffect(() => {
 		api.getFamily(id).then(setFamily);
 	}, [id]);
 
 	const publish = useCallback(() => {
+		setPublishing(true);
+
 		api.publishFamily(family).then(() => {
 			return api.getFamily(id).then(setFamily)
 		}).catch((error) => setServerSideError(error))
+			.finally(() => setPublishing(false))
 	}, [family, id]);
 
 	if (!family.id) return <Loading />;
+	if (publishing) return <Loading text={"publishing"} />;
 
 	/*
 	 * The publication button should be enabled only if RICH_TEXT value do not
@@ -62,9 +67,7 @@ const Family = (props) => {
 				<Auth.AuthGuard roles={[Auth.ADMIN]}>
 					<ValidationButton
 						object={family}
-						callback={(object) =>
-							publish(object, props.publishFamily)
-						}
+						callback={publish}
 						disabled={publicationDisabled}
 					/>
 				</Auth.AuthGuard>

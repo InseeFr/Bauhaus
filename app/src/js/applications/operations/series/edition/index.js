@@ -1,61 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import loadSerie, { saveSerie } from 'js/actions/operations/series/item';
+import { useParams, withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
-import { connect } from 'react-redux';
-import { Loading, buildExtract } from '@inseefr/wilco';
+import { useSelector } from 'react-redux';
+import { Loading } from '@inseefr/wilco';
 import OperationsSerieEdition from 'js/applications/operations/series/edition/edition';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';
 
-const extractId = buildExtract('id');
-
-
 const OperationsSeriesEditionContainer = props => {
-	const { serie, id, loadSerie } = props;
+	const { id } = useParams();
+	const [serie, setSerie] = useState({});
+
 	const [families, setFamilies] = useState([]);
+	const [indicators, setIndicators] = useState([]);
+	const [series, setSeries] = useState([]);
+
+	const categories = useSelector(state => state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {});
+	const organisations = useSelector(state => state.operationsOrganisations.results || []);
+	const langs = useSelector(state => select.getLangs(state));
+	const frequencies = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
+
+	useEffect(() => {
+		if(id){
+			api.getSerie(id)
+				.then(results => setSerie(results))
+		}
+	}, [id])
+
 	useEffect(() => {
 		api.getFamiliesList()
 			.then(results => setFamilies(results))
 	}, [])
 
 	useEffect(() => {
-		if (!serie.id && id) {
-			loadSerie(id);
-		}
-	}, [loadSerie, id, serie])
+		api.getIndicatorsList()
+			.then(results => setIndicators(results))
+	}, []);
 
-	if (!props.serie.id && props.id) return <Loading />;
-	return <OperationsSerieEdition {...props} families={families}/>;
+	useEffect(() => {
+		api.getSeriesList()
+			.then(results => setSeries(results))
+	}, [])
+
+	if (!serie.id && id) return <Loading />;
+	return <OperationsSerieEdition {...props}
+																 id={id}
+																 serie={serie}
+																 categories={categories}
+																 organisations={organisations}
+																 series={series} families={families} indicators={indicators} langs={langs} frequencies={frequencies}/>;
 
 }
 
-const mapDispatchToProps = {
-	loadSerie,
-	saveSerie,
-};
-
-const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	const serie = id ? select.getSerie(state) : {};
-	const langs = select.getLangs(state);
-	const categories =
-		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
-	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
-
-	return {
-		id,
-		serie,
-		langs,
-		categories,
-		frequencies,
-		operationsAsyncTask: state.operationsAsyncTask,
-		organisations: state.operationsOrganisations.results,
-		indicators: state.operationsIndicatorsList.results || [],
-		series: state.operationsSeriesList.results || [],
-	};
-};
-
-export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(OperationsSeriesEditionContainer)
-);
+export default withRouter(OperationsSeriesEditionContainer);

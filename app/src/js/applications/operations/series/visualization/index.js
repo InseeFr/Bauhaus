@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useParams, withRouter } from 'react-router-dom';
 import OperationsSerieVisualization from 'js/applications/operations/series/visualization/home';
 
 import {
@@ -11,10 +11,8 @@ import {
 	Button,
 	ActionToolbar,
 	goBack,
-	buildExtract,
 	ReturnButton,
 } from '@inseefr/wilco';
-import loadSerie, { publishSeries } from 'js/actions/operations/series/item';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 
 import {
@@ -25,119 +23,105 @@ import {
 	CheckSecondLang,
 	PageTitleBlock,
 } from 'bauhaus-utilities';
-import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
+import api from '../../../../remote-api/operations-api';
 
-const extractId = buildExtract('id');
+const SeriesVisualizationContainer = (props) => {
+	const { id } = useParams();
+	const [series, setSeries] = useState({})
+	const [publishing, setPublishing] = useState(false)
+	const [serverSideError, setServerSideError] = useState()
 
-class SeriesVisualizationContainer extends VisualizationContainer {
-	render() {
-		const {
-			secondLang,
-			langs,
-			object: { ...attr },
-			frequency,
-			category,
-			organisations,
-		} = this.props;
-		const { serverSideError } = this.state;
+	const frequencies = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
+	const organisations = useSelector(state => state.operationsOrganisations.results || []);
+	const categories = useSelector(state => state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {});
+	const langs = useSelector(state => select.getLangs(state))
+	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
 
-		const ableToCreateASimsForThisSeries = (attr.operations || []).length === 0;
-		if (!attr.id) return <Loading />;
+	const frequency = frequencies.codes.find(
+		(c) => c.code === series.accrualPeriodicityCode
+	);
+	const category = categories.codes.find((c) => c.code === series.typeCode)
+	useEffect(() => {
+		api.getSerie(id).then(result => setSeries(result))
+	}, [id]);
 
-		/*
-		 * The publication button should be enabled only if RICH_TEXT value do not
-		 * have unsupported styles like STRIKETHROUGH, color or background color
-		 */
-		const publicationDisabled = HTMLUtils.containUnsupportedStyles(attr);
-		const checkStamp = stamp => attr.creators.includes(stamp);
-		return (
-			<div className="container">
-				<PageTitleBlock
-					titleLg1={attr.prefLabelLg1}
-					titleLg2={attr.prefLabelLg2}
-					secondLang={secondLang}
-				/>
+	const publish = useCallback(() => {
+		setPublishing(true);
 
-				<ActionToolbar>
-					<ReturnButton action={goBack(this.props, '/operations/series')} />
+		api.publishSeries(series).then(() => {
+			return api.getFamily(id).then(setSeries)
+		}).catch((error) => setServerSideError(error))
+			.finally(() => setPublishing(false))
+	}, [series, id]);
 
-					{attr.idSims && (
-						<Button
-							action={`/operations/sims/${attr.idSims}`}
-							label={D.btnSimsVisu}
-						/>
-					)}
-					{!attr.idSims && (
-						<Auth.AuthGuard
-							roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}
-							complementaryCheck={ableToCreateASimsForThisSeries}
-						>
-							<Button
-								action={`/operations/series/${attr.id}/sims/create`}
-								label={D.btnSimsCreate}
-							/>
-						</Auth.AuthGuard>
-					)}
-					<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}>
-						<ValidationButton
-							object={attr}
-							callback={(object) =>
-								this.publish(object, this.props.publishSeries)
-							}
-							disabled={publicationDisabled}
-						/>
-					</Auth.AuthGuard>
+	const ableToCreateASimsForThisSeries = (series.operations || []).length === 0;
+	if (!series.id) return <Loading />;
+	if (publishing) return <Loading text={"publishing"} />;
+
+	/*
+	 * The publication button should be enabled only if RICH_TEXT value do not
+	 * have unsupported styles like STRIKETHROUGH, color or background color
+	 */
+	const publicationDisabled = HTMLUtils.containUnsupportedStyles(series);
+	const checkStamp = stamp => series.creators.includes(stamp);
+	return (
+		<div className="container">
+			<PageTitleBlock
+				titleLg1={series.prefLabelLg1}
+				titleLg2={series.prefLabelLg2}
+				secondLang={secondLang}
+			/>
+
+			<ActionToolbar>
+				<ReturnButton action={goBack(props, '/operations/series')} />
+
+				{series.idSims && (
+					<Button
+						action={`/operations/sims/${series.idSims}`}
+						label={D.btnSimsVisu}
+					/>
+				)}
+				{!series.idSims && (
 					<Auth.AuthGuard
 						roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}
+						complementaryCheck={ableToCreateASimsForThisSeries}
 					>
 						<Button
-							action={`/operations/series/${attr.id}/modify`}
-							label={D.btnUpdate}
+							action={`/operations/series/${series.id}/sims/create`}
+							label={D.btnSimsCreate}
 						/>
 					</Auth.AuthGuard>
-				</ActionToolbar>
+				)}
+				<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}>
+					<ValidationButton
+						object={series}
+						callback={publish}
+						disabled={publicationDisabled}
+					/>
+				</Auth.AuthGuard>
+				<Auth.AuthGuard
+					roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}
+				>
+					<Button
+						action={`/operations/series/${series.id}/modify`}
+						label={D.btnUpdate}
+					/>
+				</Auth.AuthGuard>
+			</ActionToolbar>
 
-				<ErrorBloc error={serverSideError} />
+			<ErrorBloc error={serverSideError} />
 
-				<CheckSecondLang />
-				<OperationsSerieVisualization
-					secondLang={secondLang}
-					attr={attr}
-					langs={langs}
-					frequency={frequency}
-					category={category}
-					organisations={organisations}
-				/>
-			</div>
-		);
-	}
+			<CheckSecondLang />
+			<OperationsSerieVisualization
+				secondLang={secondLang}
+				attr={series}
+				langs={langs}
+				frequency={frequency}
+				category={category}
+				organisations={organisations}
+			/>
+		</div>
+	);
 }
 
-const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	const serie = select.getSerie(state);
-	const categories =
-		state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {};
-	const frequencies = state.operationsCodesList.results[CL_FREQ] || {};
-	const organisations = state.operationsOrganisations.results || [];
-
-	return {
-		id,
-		object: serie.id === id ? serie : {},
-		langs: select.getLangs(state),
-		secondLang: Stores.SecondLang.getSecondLang(state),
-		frequency: frequencies.codes.find(
-			(c) => c.code === serie.accrualPeriodicityCode
-		),
-		category: categories.codes.find((c) => c.code === serie.typeCode),
-		organisations,
-	};
-};
-const mapDispatchToProps = {
-	load: loadSerie,
-	publishSeries,
-};
-
-export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(SeriesVisualizationContainer)
-);
+export default withRouter(SeriesVisualizationContainer);

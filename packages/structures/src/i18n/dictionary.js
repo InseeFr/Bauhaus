@@ -171,6 +171,14 @@ const dictionary = {
 		fr: 'Date',
 		en: 'Date',
 	},
+	dateTimeType: {
+		fr: 'Date et heure',
+		en: 'Date and hour',
+	},
+	paysOuTerritoire: {
+		fr: 'Pays ou territoire',
+		en: 'Country or territory',
+	},
 	idTitle: {
 		fr: 'Notation',
 		en: 'Notation',

@@ -29,62 +29,6 @@ describe('getSerie', () => {
 	});
 });
 
-describe('getSeries', () => {
-	it('should return an empty object if the value is undefined', () => {
-		const input = {};
-		const output = {};
-		expect(selector.getSeries(input)).toEqual(output);
-	});
-	it('should return the object', () => {
-		const input = { operationsSeriesList: 'operationsSeriesList' };
-		const output = 'operationsSeriesList';
-		expect(selector.getSeries(input)).toEqual(output);
-	});
-});
-
-describe('getOperations', () => {
-	it('should return an empty object if the value is undefined', () => {
-		const input = {};
-		const output = {};
-		expect(selector.getOperations(input)).toEqual(output);
-	});
-	it('should return the object', () => {
-		const input = { operationsOperationsList: 'operationsOperationsList' };
-		const output = 'operationsOperationsList';
-		expect(selector.getOperations(input)).toEqual(output);
-	});
-});
-
-describe('getOperation', () => {
-	it('should return an empty object if the value is undefined', () => {
-		const input = {};
-		const output = {};
-		expect(selector.getOperation(input)).toEqual(output);
-	});
-	it('should return the object', () => {
-		const input = {
-			operationsOperationsCurrent: 'operationsOperationsCurrent',
-		};
-		const output = 'operationsOperationsCurrent';
-		expect(selector.getOperation(input)).toEqual(output);
-	});
-});
-
-describe('getIndicator', () => {
-	it('should return an empty object if the value is undefined', () => {
-		const input = {};
-		const output = {};
-		expect(selector.getIndicator(input)).toEqual(output);
-	});
-	it('should return the object', () => {
-		const input = {
-			operationsIndicatorsCurrent: 'operationsIndicatorsCurrent',
-		};
-		const output = 'operationsIndicatorsCurrent';
-		expect(selector.getIndicator(input)).toEqual(output);
-	});
-});
-
 describe('getIndicator', () => {
 	it('should return an empty object if the value is undefined', () => {
 		const input = {};

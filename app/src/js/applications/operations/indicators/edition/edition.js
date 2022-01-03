@@ -13,6 +13,7 @@ import Control from 'js/applications/operations/indicators/edition/control';
 import SelectRmes from 'js/applications/shared/select-rmes';
 import { validate } from 'js/applications/operations/indicators/edition/validation';
 import { Loading, goBackOrReplace } from '@inseefr/wilco';
+import api from '../../../../remote-api/operations-api';
 
 const defaultIndicator = {
 	prefLabelLg1: '',
@@ -65,6 +66,7 @@ class OperationsIndicatorEdition extends Component {
 	setInitialState = (props) => {
 		return {
 			serverSideError: '',
+			saving: false,
 			indicator: {
 				...defaultIndicator,
 				...props.indicator,
@@ -85,21 +87,24 @@ class OperationsIndicatorEdition extends Component {
 	};
 
 	onSubmit = () => {
+		this.setState({ saving: true })
 		const isCreation = !this.state.indicator.id;
 
-		this.props.saveIndicator(this.state.indicator, (err, id) => {
-			if (!err) {
+		const method = isCreation ? 'postIndicator' : 'putIndicator';
+		return api[method](this.state.indicator).then(
+			(id = this.state.indicator.id) => {
 				goBackOrReplace(this.props, `/operations/indicator/${id}`, isCreation);
-			} else {
+			},
+			err => {
 				this.setState({
 					serverSideError: err,
 				});
 			}
-		});
+		).finally(() => this.setState({ saving: false }));
 	};
 
 	render() {
-		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
+		if (this.state.saving) return <Loading textType="saving" />;
 
 		const { frequencies, organisations, indicators, series } = this.props;
 		const isUpdate = !!this.state.indicator.id;
