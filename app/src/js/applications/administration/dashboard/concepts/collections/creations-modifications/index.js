@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 	const [dateFilter, setDateFilter] = useState();
 	const history = useHistory();
-	const onRowClick = concept => history.push(`/collection/${concept.id}`)
+	const onRowClick = (event, collection) => history.push(`/collection/${collection.id}`)
 
 	const variable = type === 'creations' ? 'created' : 'modified';
 	const typeByLang =
