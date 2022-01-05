@@ -28,12 +28,6 @@ const classificationsSeriesList = listReducer([
 	A.LOAD_CLASSIFICATIONS_SERIES_LIST_FAILURE,
 ]);
 
-const classificationsList = listReducer([
-	A.LOAD_CLASSIFICATIONS_LIST,
-	A.LOAD_CLASSIFICATIONS_LIST_SUCCESS,
-	A.LOAD_CLASSIFICATIONS_LIST_FAILURE,
-]);
-
 const classificationsCorrespondencesList = listReducer([
 	A.LOAD_CLASSIFICATION_CORRESPONDENCE_LIST,
 	A.LOAD_CLASSIFICATION_CORRESPONDENCE_LIST_SUCCESS,
@@ -43,7 +37,6 @@ const classificationsCorrespondencesList = listReducer([
 export default {
 	classificationsFamiliesList,
 	classificationsSeriesList,
-	classificationsList,
 	classificationsCorrespondencesList,
 	classificationFamilyGeneral,
 	classificationFamilyMembers,

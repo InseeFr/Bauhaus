@@ -12,7 +12,7 @@ const CollectionsHomeContainer = ( { collections, loadCollectionList }) =>  {
 		if (!collections) {
 			loadCollectionList();
 		}
-	}, [collections]);
+	}, [collections, loadCollectionList]);
 
 	if (!collections) {
 		return <Loading />;
