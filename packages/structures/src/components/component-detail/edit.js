@@ -10,7 +10,7 @@ import {
 import { AppContext, Stores, useTitle } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
-import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
+import { XSD_CODE_LIST, XSD_DATE, XSD_DATE_TIME, XSD_FLOAT, XSD_INT, IGEO_PAYS_OU_TERRITOIRE, XSD_STRING, XSD_TYPES } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
 import { default as ReactSelect } from 'react-select';
@@ -172,9 +172,125 @@ const DumbComponentDetailEdit = ({
 						/>
 					</div>
 				</div>
+				{(component.range === XSD_DATE || component.range === XSD_DATE_TIME) && (
+					<div className='row'>
+						<div className='col-md-offset-1 col-md-11 form-group'>
+							<label htmlFor="format">{D1.formatTitle}</label>
+							<input
+								type="text"
+								value={component.pattern}
+								className="form-control"
+								id="pattern"
+								name="pattern"
+								onChange={handleChange}
+							/>
+						</div>
+					</div>
+				)}
+				{(component.range === XSD_STRING) && (
+					<>
+						<div className='row'>
+							<div className='col-md-offset-1 col-md-11 form-group'>
+								<label htmlFor="minLength">{D1.minLength}</label>
+								<input
+									type="number"
+									value={component.minLength}
+									className="form-control"
+									id="minLength"
+									name="minLength"
+									onChange={handleChange}
+								/>
+							</div>
+						</div>
+						<div className='row'>
+							<div className='col-md-offset-1 col-md-11 form-group'>
+								<label htmlFor="maxLength">{D1.maxLength}</label>
+								<input
+									type="number"
+									value={component.maxLength}
+									className="form-control"
+									id="maxLength"
+									name="maxLength"
+									onChange={handleChange}
+								/>
+							</div>
+						</div>
+
+						<div className='row'>
+
+							<div className='col-md-offset-1 col-md-11 form-group'>
+								<label htmlFor="format">{D1.formatTitle}</label>
+								<input
+									type="text"
+									value={component.pattern}
+									className="form-control"
+									id="pattern"
+									name="pattern"
+									onChange={handleChange}
+								/>
+							</div>
+						</div>
+					</>
+				)}
+				{(component.range === XSD_INT || component.range === XSD_FLOAT) && (
+					<>
+						<div className='row'>
+							<div className='col-md-offset-1 col-md-11 form-group'>
+								<label htmlFor="minLength">{D1.minLength}</label>
+								<input
+									type="number"
+									value={component.minLength}
+									className="form-control"
+									id="minLength"
+									name="minLength"
+									onChange={handleChange}
+								/>
+							</div>
+						</div>
+						<div className='row'>
+							<div className='col-md-offset-1 col-md-11 form-group'>
+								<label htmlFor="maxLength">{D1.maxLength}</label>
+								<input
+									type="number"
+									value={component.maxLength}
+									className="form-control"
+									id="maxLength"
+									name="maxLength"
+									onChange={handleChange}
+								/>
+							</div>
+						</div>
+						<div className='row'>
+							<div className='col-md-offset-1 col-md-11 form-group'>
+								<label htmlFor="minInclusive">{D1.minInclusive}</label>
+								<input
+									type="number"
+									value={component.minInclusive}
+									className="form-control"
+									id="minInclusive"
+									name="minInclusive"
+									onChange={handleChange}
+								/>
+							</div>
+						</div>
+						<div className='row'>
+							<div className='col-md-offset-1 col-md-11 form-group'>
+								<label htmlFor="maxInclusive">{D1.maxInclusive}</label>
+								<input
+									type="number"
+									value={component.maxInclusive}
+									className="form-control"
+									id="maxInclusive"
+									name="maxInclusive"
+									onChange={handleChange}
+								/>
+							</div>
+						</div>
+					</>
+				)}
 				{component.range === XSD_CODE_LIST && (
 					<div className="row">
-						<div className="col-md-12 form-group code-list-zone">
+						<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
 							<Select
 								type="text"
 								className="form-control"
