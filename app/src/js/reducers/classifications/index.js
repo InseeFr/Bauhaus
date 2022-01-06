@@ -16,18 +16,6 @@ import classificationsCorrespondenceGeneral from './correspondence/general';
 import classificationsCorrespondenceAssociations from './correspondence/associations';
 import classificationsCorrespondenceAssociation from './correspondence/association';
 
-const classificationsFamiliesList = listReducer([
-	A.LOAD_CLASSIFICATIONS_FAMILIES_LIST,
-	A.LOAD_CLASSIFICATIONS_FAMILIES_LIST_SUCCESS,
-	A.LOAD_CLASSIFICATIONS_FAMILIES_LIST_FAILURE,
-]);
-
-const classificationsSeriesList = listReducer([
-	A.LOAD_CLASSIFICATIONS_SERIES_LIST,
-	A.LOAD_CLASSIFICATIONS_SERIES_LIST_SUCCESS,
-	A.LOAD_CLASSIFICATIONS_SERIES_LIST_FAILURE,
-]);
-
 const classificationsCorrespondencesList = listReducer([
 	A.LOAD_CLASSIFICATION_CORRESPONDENCE_LIST,
 	A.LOAD_CLASSIFICATION_CORRESPONDENCE_LIST_SUCCESS,
@@ -35,8 +23,6 @@ const classificationsCorrespondencesList = listReducer([
 ]);
 
 export default {
-	classificationsFamiliesList,
-	classificationsSeriesList,
 	classificationsCorrespondencesList,
 	classificationFamilyGeneral,
 	classificationFamilyMembers,
