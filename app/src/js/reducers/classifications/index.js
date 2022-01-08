@@ -1,7 +1,5 @@
 import listReducer from '../utils/list-reducer';
 import * as A from 'js/actions/constants';
-import classificationSeriesGeneral from './series/general';
-import classificationSeriesMembers from './series/members';
 import classificationGeneral from './classification/general';
 import classificationItems from './items';
 import classificationLevels from './classification/levels';
@@ -22,8 +20,6 @@ const classificationsCorrespondencesList = listReducer([
 
 export default {
 	classificationsCorrespondencesList,
-	classificationSeriesGeneral,
-	classificationSeriesMembers,
 	classificationGeneral,
 	classificationItems,
 	classificationLevels,
