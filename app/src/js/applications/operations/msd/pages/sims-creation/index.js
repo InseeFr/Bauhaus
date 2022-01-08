@@ -366,7 +366,11 @@ const withParentWithSims = (Component) => {
 				api.getOperationsWithReport(seriesId).then(result => {
 					setParentWithSims(result)
 				})
-
+			}
+			else if(parentType === "indicator"){
+				api.getIndicatorsListWithSims().then(result => {
+					setParentWithSims(result)
+				})
 			}
 		}, [seriesId, parentType])
 		return <Component {...props} parentWithSims={parentWithSims} />
