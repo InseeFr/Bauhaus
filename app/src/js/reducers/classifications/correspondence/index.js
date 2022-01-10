@@ -16,6 +16,3 @@ export function getCorrespondence(state, id) {
 	};
 }
 
-export function getCorrespondencesList(state) {
-	return state.classificationsCorrespondencesList;
-}
