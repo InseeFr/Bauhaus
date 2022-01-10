@@ -15,10 +15,34 @@ const api = {
 			},
 			body: JSON.stringify(codelist),
 		},
-		() => {},
+		res => res.text()
 	],
 	putCodelist: (codelist) => [
 		`${codelist.id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(codelist),
+		},
+		res => res.text()
+	],
+	getCodelistsPartial: () => ['partial'],
+	getCodelistPartial: (id) => [`partial/${id}`],
+	getCodelistsPartialForSearch: () => ['partial/search'],
+	postCodelistPartial: (codelist) => [
+		'partial',
+		{
+			headers: {
+				Accept: 'text/plain',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(codelist),
+		},
+		() => {},
+	],
+	putCodelistPartial: (codelist) => [
+		`partial/${codelist.id}`,
 		{
 			headers: {
 				'Content-Type': 'application/json',

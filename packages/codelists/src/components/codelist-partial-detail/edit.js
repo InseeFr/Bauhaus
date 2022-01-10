@@ -14,55 +14,14 @@ import { Stores, useTitle } from 'bauhaus-utilities';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import CodesTreeEdit from './codes-tree-edit';
-import './edit.scss';
+import '../codelist-detail/edit.scss';
 import { CollapsiblePanel } from '../collapsible-panel';
-
-export const deleteNodes = (codes, currentNode) => {
-	let updatedCodes = [...codes];
-
-	const deleteNode = (currentNode) => {
-		updatedCodes = updatedCodes.filter(
-			(code) => code.code !== currentNode.code
-		);
-
-		const findParent = (lengthCheck, parentNode) => {
-			return codes.filter(
-				(code) =>
-					lengthCheck(code.parents?.length) &&
-					code.parents?.find(({ code }) => code === parentNode.code)
-			) || [];
-
-		}
-		findParent(length => length === 1, currentNode).forEach((child) => deleteNode(child));
-
-		const childrenToUpdate = findParent(length => length > 1, currentNode);
-		updatedCodes = updatedCodes.map(( updatedCode ) => {
-			const isPresent = !!childrenToUpdate.find(
-				({ code }) => code === updatedCode.code
-			);
-
-			if (isPresent) {
-				return {
-					...updatedCode,
-					parents: updatedCode.parents.filter(
-						({ code }) => code !== currentNode.code
-					),
-				};
-			} else {
-				return updatedCode;
-			}
-		});
-	};
-	deleteNode(currentNode);
-
-	return updatedCodes
-}
 
 const defaultCodelist = {
 	contributor: 'DG75-L201',
 	created: dayjs(),
 };
-const DumbCodelistDetailEdit = ({
+const DumbCodelistPartialDetailEdit = ({
 	codelist: initialCodelist,
 	handleSave,
 	handleBack,
@@ -107,7 +66,42 @@ const DumbCodelistDetailEdit = ({
 
 	const deleteCodeWithChildren = useCallback(
 		(codeToDelete) => {
-			const updatedCodes = deleteNodes(codes, codeToDelete);
+			let updatedCodes = [...codes];
+
+			const deleteNodes = (currentNode) => {
+				updatedCodes = updatedCodes.filter(
+					(code) => code.code !== currentNode.code
+				);
+				const childrenToDelete =
+					codes.filter(
+						(code) =>
+							code.parents.length === 1 &&
+							code.parents?.some((parent) => parent.code === currentNode.code)
+					) || [];
+				childrenToDelete.forEach((child) => deleteNodes(child));
+				const childrenToUpdate =
+					codes.filter(
+						(code) =>
+							code.parents.length > 1 &&
+							code.parents?.some((parent) => parent.code === currentNode.code)
+					) || [];
+				updatedCodes = updatedCodes.map((updatedCode) => {
+					const isPresent = childrenToUpdate.find(
+						(code) => code.code === updatedCode.code
+					);
+					if (isPresent) {
+						return {
+							...updatedCode,
+							parents: updatedCode.parents.filter(
+								(parent) => parent.code !== currentNode.code
+							),
+						};
+					} else {
+						return updatedCode;
+					}
+				});
+			};
+			deleteNodes(codeToDelete);
 			setCodes(updatedCodes);
 		},
 		[codes]
@@ -115,7 +109,6 @@ const DumbCodelistDetailEdit = ({
 
 	const updateCode = useCallback(
 		(codeObject) => {
-			console.log(codeObject)
 			const existing = codes.find((c) => c.code === codeObject.code);
 			if (!existing) {
 				// Create
@@ -338,7 +331,7 @@ const DumbCodelistDetailEdit = ({
 	);
 };
 
-DumbCodelistDetailEdit.propTypes = {
+DumbCodelistPartialDetailEdit.propTypes = {
 	component: PropTypes.object,
 	disseminationStatusListOptions: PropTypes.array,
 	stampListOptions: PropTypes.array,
@@ -348,12 +341,12 @@ DumbCodelistDetailEdit.propTypes = {
 	secondLang: PropTypes.bool,
 };
 
-DumbCodelistDetailEdit.defaultProps = {
+DumbCodelistPartialDetailEdit.defaultProps = {
 	disseminationStatusListOptions: [],
 	stampListOptions: [],
 };
 
-export const CodeListDetailEdit =
+export const CodeListPartialDetailEdit =
 	Stores.DisseminationStatus.withDisseminationStatusListOptions(
-		DumbCodelistDetailEdit
+		DumbCodelistPartialDetailEdit
 	);

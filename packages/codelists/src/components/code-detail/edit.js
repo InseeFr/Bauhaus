@@ -15,9 +15,7 @@ import './edit.scss';
 /**
  * TODO:
  * Validation - Eviter d'avoir deux codes avec le meme code
- * - Gérer le DragnDrop
- *
- * - CSS pour libellés trop longs
+ * - Gérer le DragnDrop : où et quand appeler utils/recalculatePositions, qui a besoin de codes et de tree
  */
 const DumbCodeDetailEdit = ({
 	code: initialCode,
@@ -51,7 +49,7 @@ const DumbCodeDetailEdit = ({
 		if (descendant === '') return false;
 		return codes
 			.find((c) => c.code === descendant)
-			.parents?.some((parent) => isDescendant(ancestor, parent));
+			.parents?.some((parent) => isDescendant(ancestor, parent.code));
 	};
 
 	const codesOptions = codes
@@ -76,7 +74,7 @@ const DumbCodeDetailEdit = ({
 							className="form-control"
 							placeholder={D.parentCodeTitle}
 							value={codesOptions.filter((option) =>
-								code.parents?.find((p) => p === option.value)
+								code.parents?.find((p) => p.code === option.value)
 							)}
 							options={codesOptions.filter(
 								(c) => !code.code || !isDescendant(code.code, c.value)
@@ -84,7 +82,11 @@ const DumbCodeDetailEdit = ({
 							onChange={(parents) => {
 								setCode({
 									...code,
-									parents: parents?.map(({ value }) => value) || [],
+									parents:
+										parents?.map(({ value }) => ({
+											code: value,
+											position: 0,
+										})) || [],
 								});
 							}}
 							multi
@@ -99,7 +101,7 @@ const DumbCodeDetailEdit = ({
 							className="form-control"
 							id="code"
 							name="code"
-							value={code.code}
+							value={code.code || ''}
 							onChange={handleChange}
 							disabled={updateMode}
 							aria-invalid={field === 'code'}
@@ -114,8 +116,8 @@ const DumbCodeDetailEdit = ({
 							className="form-control"
 							id="labelLg1"
 							name="labelLg1"
+							value={code.labelLg1 || ''}
 							onChange={handleChange}
-							value={code.labelLg1}
 							aria-invalid={field === 'labelLg1'}
 						/>
 					</div>
@@ -126,7 +128,7 @@ const DumbCodeDetailEdit = ({
 							className="form-control"
 							id="labelLg2"
 							name="labelLg2"
-							value={code.labelLg2}
+							value={code.labelLg2 || ''}
 							onChange={handleChange}
 							aria-invalid={field === 'labelLg2'}
 						/>
@@ -178,9 +180,13 @@ const DumbCodeDetailEdit = ({
 					type="button"
 					disabled={!code.code}
 					onClick={() => {
+						const newCodePosition =
+							codes.parents && Object.values(codes.parents).position
+								? Math.max(Object.values(codes.parents).position) + 1
+								: 1;
 						const newCode = {
 							code: '',
-							parents: [code.code],
+							parents: [{ code: code.code, position: newCodePosition }],
 							labelLg1: '',
 							labelLg2: '',
 							descriptionLg1: '',

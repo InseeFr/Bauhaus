@@ -38,7 +38,7 @@ export const CodeDetailView = ({
 								.filter(
 									({ value }) =>
 										code.parents &&
-										code.parents.some((parent) => parent === value)
+										code.parents.some((parent) => parent.code === value)
 								)
 								.map((code) => (
 									<li key={code.value}>{code.label}</li>

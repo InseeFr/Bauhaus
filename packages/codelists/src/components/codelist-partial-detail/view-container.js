@@ -5,10 +5,10 @@ import { Loading, goBack } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { formatCodeList } from '../../utils';
 import { API } from '../../apis';
-import ComponentTitle from './title';
-import { CodeListDetailView } from './view';
+import ComponentTitle from '../codelist-detail/title';
+import { CodeListPartialDetailView } from './view';
 
-const CodelistComponentView = (props) => {
+const CodelistPartialComponentView = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
@@ -19,7 +19,7 @@ const CodelistComponentView = (props) => {
 	}, [props]);
 
 	useEffect(() => {
-		API.getDetailedCodelist(id)
+		API.getCodelistPartial(id)
 			.then((cl) => {
 				setCodelist(formatCodeList(cl));
 			})
@@ -33,12 +33,12 @@ const CodelistComponentView = (props) => {
 	return (
 		<React.Fragment>
 			<ComponentTitle component={codelist} secondLang={secondLang} />
-			<CodeListDetailView
+			<CodeListPartialDetailView
 				{...props}
 				col={2}
 				codelist={codelist}
 				handleBack={handleBack}
-				handleUpdate={`/codelists/${codelist.id}/modify`}
+				handleUpdate={`/codelists-partial/${codelist.id}/modify`}
 				secondLang={secondLang}
 				mutualized={true}
 				updatable={true}
@@ -47,4 +47,4 @@ const CodelistComponentView = (props) => {
 	);
 };
 
-export default CodelistComponentView;
+export default CodelistPartialComponentView;
