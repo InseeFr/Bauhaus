@@ -1,55 +1,30 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import FamilyVisualization from './home';
-import { buildExtract, Loading } from '@inseefr/wilco';
-import loadFamily from 'js/actions/classifications/families/family';
-import * as select from 'js/reducers/classifications/family';
+import { Loading } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
+import { useParams } from 'react-router-dom';
+import api from '../../../../remote-api/classifications-api';
 
-const extractId = buildExtract('id');
+const FamilyVisualizationContainer = () => {
+	const { id } = useParams();
+	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state))
+	const [family, setFamily] = useState();
+	useEffect(() => {
 
-class FamilyVisualizationContainer extends Component {
-	static propTypes = {
-		match: PropTypes.shape({
-			params: PropTypes.shape({
-				id: PropTypes.string.isRequired,
-			}),
-		}),
-	};
+		Promise.all([
+			api.getFamilyGeneral(id),
+			api.getFamilyMembers(id)
+		]).then(([ general, members ]) => {
+			setFamily({
+				general: general ?? {},
+				members: members ?? []
+			})
+		})
+	}, [id]);
 
-	constructor(props) {
-		super();
-	}
-	componentWillMount() {
-		const { family, id } = this.props;
-		if (!family) this.props.loadFamily(id);
-	}
-	render() {
-		const { family, secondLang } = this.props;
-		if (!family) return <Loading />;
-		return <FamilyVisualization family={family} secondLang={secondLang} />;
-	}
+	if (!family) return <Loading />;
+	return <FamilyVisualization family={family} secondLang={secondLang} />;
 }
-
-const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	const family = select.getFamily(state, id);
-	const secondLang = Stores.SecondLang.getSecondLang(state);
-	return {
-		id,
-		family,
-		secondLang,
-	};
-};
-
-const mapDispatchToProps = {
-	loadFamily,
-};
-
-FamilyVisualizationContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(FamilyVisualizationContainer);
 
 export default FamilyVisualizationContainer;

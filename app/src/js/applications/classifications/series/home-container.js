@@ -1,46 +1,21 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import SeriesHome from './home';
-import { NOT_LOADED } from 'js/constants';
-import loadSeriesList from 'js/actions/classifications/series/list';
-import { getClassificationsSeriesList } from 'js/reducers/classifications/series/selector';
+import api from 'js/remote-api/classifications-api';
 
-class SeriesHomeContainer extends Component {
-	componentWillMount() {
-		if (!this.props.series) {
-			this.props.loadSeriesList();
-		}
+const SeriesHomeContainer = () => {
+	const [series, setSeries] = useState([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		api.getSeriesList().then(result => setSeries(result)).finally(() => setLoading(false));
+	}, []);
+
+	if(loading){
+		return <Loading />
 	}
-	render() {
-		const { series } = this.props;
-		if (!series) return <Loading />;
-		return <SeriesHome series={series} />;
-	}
+
+	return <SeriesHome series={series} />;
 }
 
-export const mapStateToProps = state => {
-	const classificationsSeriesList = getClassificationsSeriesList(state);
-	if (!classificationsSeriesList) {
-		return {
-			status: NOT_LOADED,
-			series: [],
-		};
-	}
-	let { results: series, status, err } = classificationsSeriesList;
-
-	return {
-		series,
-		status,
-		err,
-	};
-};
-
-const mapDispatchToProps = {
-	loadSeriesList,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(SeriesHomeContainer);
+export default SeriesHomeContainer;

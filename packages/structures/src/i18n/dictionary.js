@@ -139,6 +139,34 @@ const dictionary = {
 		fr: 'Mesures',
 		en: 'Measures',
 	},
+	formatTitle: {
+		fr: 'Format',
+		en: 'Format'
+	},
+	regexpTitle: {
+		fr: 'Expression régulière',
+		en: 'Regular Expression'
+	},
+	minLength: {
+		fr: 'Longueur minimale',
+		en: 'Minimal size'
+	},
+	maxLength: {
+		fr: 'Longueur maximale',
+		en: 'Minimal size'
+	},
+	minInclusive: {
+		fr: 'Valeur minimale',
+		en: 'Minimal value'
+	},
+	maxInclusive: {
+		fr: 'Valeur maximale',
+		en: 'Minimal value'
+	},
+	constraints: {
+		fr: 'Contraintes',
+		en: 'Constraints'
+	},
 	codesListTitle: {
 		en: 'Code list',
 		fr: 'Liste de codes',

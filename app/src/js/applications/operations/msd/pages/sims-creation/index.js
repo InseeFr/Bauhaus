@@ -359,10 +359,15 @@ const withParentWithSims = (Component) => {
 		const parentType = props.parentType;
 		const seriesId = props.parent?.series?.id;
 		useEffect(() => {
-			if (parentType === 'operation' && seriesId) {
-				api.getOperationsWithReport(seriesId).then((result) => {
-					setParentWithSims(result);
-				});
+			if(parentType === "operation" && seriesId){
+				api.getOperationsWithReport(seriesId).then(result => {
+					setParentWithSims(result)
+				})
+			}
+			else if(parentType === "indicator"){
+				api.getIndicatorsListWithSims().then(result => {
+					setParentWithSims(result)
+				})
 			}
 		}, [seriesId, parentType]);
 		return <Component {...props} parentWithSims={parentWithSims} />;
