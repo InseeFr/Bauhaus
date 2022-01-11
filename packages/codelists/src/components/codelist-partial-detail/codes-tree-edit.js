@@ -26,13 +26,7 @@ export const syncNodes = (previousNodes = [], nextNodes = []) => {
 	});
 };
 
-const CodesTreeEdit = ({
-	codes,
-	deleteCode,
-	deleteCodeWithChildren,
-	updateCode,
-	createCode,
-}) => {
+const CodesTreeEdit = ({ codes, deleteCode, updateCode, createCode }) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const [selectedCode, setSelectedCode] = useState(emptyCode);
 	const [tree, setTree] = useContext(TreeContext);
@@ -72,7 +66,6 @@ const CodesTreeEdit = ({
 					codes={codes}
 					secondLang={secondLang}
 					deleteCode={deleteCode}
-					deleteCodeWithChildren={deleteCodeWithChildren}
 					updateCode={updateCode}
 					createCode={createCode}
 				/>

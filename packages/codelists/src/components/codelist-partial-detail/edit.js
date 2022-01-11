@@ -17,6 +17,50 @@ import CodesTreeEdit from './codes-tree-edit';
 import '../codelist-detail/edit.scss';
 import { CollapsiblePanel } from '../collapsible-panel';
 
+export const deleteNodes = (codes, currentNode) => {
+	let updatedCodes = [...codes];
+
+	const deleteNode = (currentNode) => {
+		updatedCodes = updatedCodes.filter(
+			(code) => code.code !== currentNode.code
+		);
+
+		const findParent = (lengthCheck, parentNode) => {
+			return (
+				codes.filter(
+					(code) =>
+						lengthCheck(code.parents?.length) &&
+						code.parents?.find(({ code }) => code === parentNode.code)
+				) || []
+			);
+		};
+		findParent((length) => length === 1, currentNode).forEach((child) =>
+			deleteNode(child)
+		);
+
+		const childrenToUpdate = findParent((length) => length > 1, currentNode);
+		updatedCodes = updatedCodes.map((updatedCode) => {
+			const isPresent = !!childrenToUpdate.find(
+				({ code }) => code === updatedCode.code
+			);
+
+			if (isPresent) {
+				return {
+					...updatedCode,
+					parents: updatedCode.parents.filter(
+						({ code }) => code !== currentNode.code
+					),
+				};
+			} else {
+				return updatedCode;
+			}
+		});
+	};
+	deleteNode(currentNode);
+
+	return updatedCodes;
+};
+
 const defaultCodelist = {
 	contributor: 'DG75-L201',
 	created: dayjs(),
@@ -36,72 +80,8 @@ const DumbCodelistPartialDetailEdit = ({
 	);
 
 	const deleteCode = useCallback(
-		({ code }) => {
-			const selectedCode = codes.find((c) => c.code === code);
-			const children = codes
-				.filter((c) => c.parents?.some((parent) => parent.code === code))
-				.map(({ code }) => code);
-			const newParents = selectedCode.parents || [];
-			setCodes(
-				codes
-					.filter((c) => c.code !== code)
-					.map((c) => {
-						if (children.includes(c.code)) {
-							const parents = [
-								...(c.parents || []).filter((c) => c !== code),
-								...newParents,
-							];
-							return {
-								...c,
-								parents,
-							};
-						} else {
-							return c;
-						}
-					})
-			);
-		},
-		[codes]
-	);
-
-	const deleteCodeWithChildren = useCallback(
 		(codeToDelete) => {
-			let updatedCodes = [...codes];
-
-			const deleteNodes = (currentNode) => {
-				updatedCodes = updatedCodes.filter(
-					(code) => code.code !== currentNode.code
-				);
-				const childrenToDelete =
-					codes.filter(
-						(code) =>
-							code.parents.length === 1 &&
-							code.parents?.some((parent) => parent.code === currentNode.code)
-					) || [];
-				childrenToDelete.forEach((child) => deleteNodes(child));
-				const childrenToUpdate =
-					codes.filter(
-						(code) =>
-							code.parents.length > 1 &&
-							code.parents?.some((parent) => parent.code === currentNode.code)
-					) || [];
-				updatedCodes = updatedCodes.map((updatedCode) => {
-					const isPresent = childrenToUpdate.find(
-						(code) => code.code === updatedCode.code
-					);
-					if (isPresent) {
-						return {
-							...updatedCode,
-							parents: updatedCode.parents.filter(
-								(parent) => parent.code !== currentNode.code
-							),
-						};
-					} else {
-						return updatedCode;
-					}
-				});
-			};
-			deleteNodes(codeToDelete);
+			const updatedCodes = deleteNodes(codes, codeToDelete);
 			setCodes(updatedCodes);
 		},
 		[codes]
@@ -316,7 +296,6 @@ const DumbCodelistPartialDetailEdit = ({
 						children={
 							<CodesTreeEdit
 								deleteCode={deleteCode}
-								deleteCodeWithChildren={deleteCodeWithChildren}
 								updateCode={updateCode}
 								createCode={createCode}
 								codes={codes || {}}

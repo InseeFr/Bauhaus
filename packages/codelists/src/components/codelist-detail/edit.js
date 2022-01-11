@@ -26,17 +26,20 @@ export const deleteNodes = (codes, currentNode) => {
 		);
 
 		const findParent = (lengthCheck, parentNode) => {
-			return codes.filter(
-				(code) =>
-					lengthCheck(code.parents?.length) &&
-					code.parents?.find(({ code }) => code === parentNode.code)
-			) || [];
+			return (
+				codes.filter(
+					(code) =>
+						lengthCheck(code.parents?.length) &&
+						code.parents?.find(({ code }) => code === parentNode.code)
+				) || []
+			);
+		};
+		findParent((length) => length === 1, currentNode).forEach((child) =>
+			deleteNode(child)
+		);
 
-		}
-		findParent(length => length === 1, currentNode).forEach((child) => deleteNode(child));
-
-		const childrenToUpdate = findParent(length => length > 1, currentNode);
-		updatedCodes = updatedCodes.map(( updatedCode ) => {
+		const childrenToUpdate = findParent((length) => length > 1, currentNode);
+		updatedCodes = updatedCodes.map((updatedCode) => {
 			const isPresent = !!childrenToUpdate.find(
 				({ code }) => code === updatedCode.code
 			);
@@ -55,8 +58,8 @@ export const deleteNodes = (codes, currentNode) => {
 	};
 	deleteNode(currentNode);
 
-	return updatedCodes
-}
+	return updatedCodes;
+};
 
 const defaultCodelist = {
 	contributor: 'DG75-L201',
@@ -115,7 +118,6 @@ const DumbCodelistDetailEdit = ({
 
 	const updateCode = useCallback(
 		(codeObject) => {
-			console.log(codeObject)
 			const existing = codes.find((c) => c.code === codeObject.code);
 			if (!existing) {
 				// Create
