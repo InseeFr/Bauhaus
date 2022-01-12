@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Loading, goBack } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
-import { formatCodeList } from '../../utils';
+import { formatPartialCodeList } from '../../utils';
 import { API } from '../../apis';
 import ComponentTitle from '../codelist-detail/title';
 import { CodeListPartialDetailView } from './view';
@@ -21,7 +21,11 @@ const CodelistPartialComponentView = (props) => {
 	useEffect(() => {
 		API.getCodelistPartial(id)
 			.then((cl) => {
-				setCodelist(formatCodeList(cl));
+				const splitParent = cl.iriParent.split('/');
+				const idParent = splitParent[splitParent.length - 1];
+				API.getDetailedCodelist(idParent).then((parentCl) => {
+					setCodelist(formatPartialCodeList(cl, parentCl));
+				});
 			})
 			.finally(() => setLoading(false));
 	}, [id]);

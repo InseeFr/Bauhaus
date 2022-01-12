@@ -11,11 +11,10 @@ import {
 	Select,
 } from '@inseefr/wilco';
 import { Stores, useTitle } from 'bauhaus-utilities';
-import { validateCodelist } from '../../utils';
+import Picker from 'js/applications/shared/picker-page';
+import { validatePartialCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import CodesTreeEdit from './codes-tree-edit';
 import '../codelist-detail/edit.scss';
-import { CollapsiblePanel } from '../collapsible-panel';
 
 export const deleteNodes = (codes, currentNode) => {
 	let updatedCodes = [...codes];
@@ -72,6 +71,7 @@ const DumbCodelistPartialDetailEdit = ({
 	updateMode,
 	disseminationStatusListOptions,
 	stampListOptions,
+	globalCodeListOptions,
 	serverSideError,
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
@@ -79,7 +79,7 @@ const DumbCodelistPartialDetailEdit = ({
 		Object.values(defaultCodelist.codes || {})
 	);
 
-	const deleteCode = useCallback(
+	/* const deleteCode = useCallback(
 		(codeToDelete) => {
 			const updatedCodes = deleteNodes(codes, codeToDelete);
 			setCodes(updatedCodes);
@@ -113,9 +113,9 @@ const DumbCodelistPartialDetailEdit = ({
 			setCodes([...codes, newCode]);
 		},
 		[codes]
-	);
+	); */
 
-	const { field, message } = validateCodelist(codelist);
+	const { field, message } = validatePartialCodelist(codelist);
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
@@ -149,38 +149,6 @@ const DumbCodelistPartialDetailEdit = ({
 			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<form>
 				<div className="row">
-					<div className={`col-md-12 form-group`}>
-						<LabelRequired htmlFor="lastListUriSegment">
-							{D1.lastListUriSegmentTitle}
-						</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
-							id="lastListUriSegment"
-							name="lastListUriSegment"
-							onChange={handleChange}
-							value={codelist.lastListUriSegment || ''}
-							disabled={updateMode}
-						/>
-					</div>
-				</div>
-				<div className="row">
-					<div className={`col-md-12 form-group`}>
-						<LabelRequired htmlFor="lastClassUriSegment">
-							{D1.lastClassUriSegmentTitle}
-						</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
-							id="lastClassUriSegment"
-							name="lastClassUriSegment"
-							onChange={handleChange}
-							value={codelist.lastClassUriSegment || ''}
-							/* disabled={updateMode} */
-						/>
-					</div>
-				</div>
-				<div className="row">
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="id">{D1.idTitle}</LabelRequired>
 						<input
@@ -191,6 +159,27 @@ const DumbCodelistPartialDetailEdit = ({
 							value={codelist.id || ''}
 							onChange={handleChange}
 							aria-invalid={field === ''}
+							disabled={updateMode}
+						/>
+					</div>
+				</div>
+				<div className="row">
+					<div className={`col-md-12 form-group`}>
+						<LabelRequired htmlFor="lastListUriSegment">
+							{D1.parentCodelist}
+						</LabelRequired>
+						<Select
+							className="form-control"
+							placeholder={D1.parentCodelistPlaceholder}
+							value={globalCodeListOptions?.find(
+								({ value }) => value === codelist.parentCode
+							)}
+							options={globalCodeListOptions}
+							onChange={(value) =>
+								setCodelist({ ...codelist, parentCode: value })
+							}
+							searchable={true}
+							disabled={updateMode}
 						/>
 					</div>
 				</div>
@@ -288,7 +277,16 @@ const DumbCodelistPartialDetailEdit = ({
 						/>
 					</div>
 				</div>
-				<div className="code-zone">
+				{codelist.parentCode && (
+					<Picker
+						items={codes}
+						title={D.stampsPlaceholder}
+						panelTitle={D.disseminationStatusTitle}
+						labelWarning={D.disseminationStatusPlaceholder}
+						context="concepts"
+					/>
+				)}
+				{/* <div className="code-zone">
 					<CollapsiblePanel
 						id="code-picker"
 						hidden={false}
@@ -304,7 +302,7 @@ const DumbCodelistPartialDetailEdit = ({
 							/>
 						}
 					/>
-				</div>
+				</div> */}
 			</form>
 		</React.Fragment>
 	);
@@ -314,6 +312,7 @@ DumbCodelistPartialDetailEdit.propTypes = {
 	component: PropTypes.object,
 	disseminationStatusListOptions: PropTypes.array,
 	stampListOptions: PropTypes.array,
+	globalCodeListOptions: PropTypes.array,
 	handleSave: PropTypes.func,
 	handleBack: PropTypes.func,
 	updateMode: PropTypes.bool,
@@ -323,6 +322,7 @@ DumbCodelistPartialDetailEdit.propTypes = {
 DumbCodelistPartialDetailEdit.defaultProps = {
 	disseminationStatusListOptions: [],
 	stampListOptions: [],
+	globalCodeListOptions: [],
 };
 
 export const CodeListPartialDetailEdit =

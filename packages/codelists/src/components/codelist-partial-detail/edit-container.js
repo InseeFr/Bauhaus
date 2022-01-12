@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
-import { formatCodeList, recalculatePositions } from '../../utils';
+import { formatPartialCodeList, recalculatePositions } from '../../utils';
 import { TreeContext } from '../tree/treeContext';
 import D from '../../i18n/build-dictionary';
 import { CodeListPartialDetailEdit } from './edit';
@@ -28,9 +28,11 @@ const useBackOrReplaceHook = () => {
 const CodelistPartialEdit = (props) => {
 	const { id } = useParams();
 	const goBackOrReplace = useBackOrReplaceHook();
-	const [loading, setLoading] = useState(true);
+	const [loadingList, setLoadingList] = useState(true);
+	const [loadingLists, setLoadingLists] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [codelist, setCodelist] = useState({});
+	const [globalCodeListOptions, setGlobalCodeListOptions] = useState({});
 	const [serverSideError, setServerSideError] = useState('');
 	const [tree] = useContext(TreeContext);
 	const stampListOptions = useSelector((state) =>
@@ -64,14 +66,30 @@ const CodelistPartialEdit = (props) => {
 	);
 
 	useEffect(() => {
+		API.getCodelists()
+			.then((codelists) => {
+				setGlobalCodeListOptions(
+					Object.values(codelists).map((cl) => {
+						return { value: cl.id, label: cl.labelLg1 };
+					})
+				);
+			})
+			.finally(() => setLoadingLists(false));
+	}, []);
+
+	useEffect(() => {
 		API.getCodelistPartial(id)
 			.then((cl) => {
-				setCodelist(formatCodeList(cl));
+				const splitParent = cl.iriParent.split('/');
+				const idParent = splitParent[splitParent.length - 1];
+				API.getDetailedCodelist(idParent).then((parentCl) => {
+					setCodelist(formatPartialCodeList(cl, parentCl));
+				});
 			})
-			.finally(() => setLoading(false));
+			.finally(() => setLoadingList(false));
 	}, [id]);
 
-	if (loading) {
+	if (loadingList || loadingLists) {
 		return <Loading />;
 	}
 	if (saving) {
@@ -87,6 +105,7 @@ const CodelistPartialEdit = (props) => {
 			handleSave={handleSave}
 			updateMode={id !== undefined}
 			stampListOptions={stampListOptions}
+			globalCodeListOptions={globalCodeListOptions}
 			serverSideError={serverSideError}
 		/>
 	);

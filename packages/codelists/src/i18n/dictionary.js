@@ -37,6 +37,14 @@ const dictionary = {
 		fr: 'Liste de codes partielle',
 		en: 'Partial codelist',
 	},
+	parentCodelist: {
+		fr: 'Liste parent',
+		en: 'Parent codelist',
+	},
+	parentCodelistPlaceholder: {
+		fr: 'Sélectionnez une liste de codes parent...',
+		en: 'Select parent codelist...',
+	},
 	globalInformationsTitle: {
 		fr: 'Informations générales',
 		en: 'General information',
@@ -140,6 +148,10 @@ const dictionary = {
 	errorsIdMandatory: {
 		fr: "L'identifiant est obligatoire",
 		en: 'The id is mandatory',
+	},
+	errorsParentCodelistMandadory: {
+		fr: 'La liste de codes parent est obligatoire',
+		en: 'The parent codelist is mandatory',
 	},
 	ErrorDoubleCode: {
 		fr: 'Le code créé existe déjà',

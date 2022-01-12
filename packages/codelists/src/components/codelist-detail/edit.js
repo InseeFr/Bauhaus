@@ -205,7 +205,7 @@ const DumbCodelistDetailEdit = ({
 							name="lastClassUriSegment"
 							onChange={handleChange}
 							value={codelist.lastClassUriSegment || ''}
-							/* disabled={updateMode} */
+							disabled={updateMode}
 						/>
 					</div>
 				</div>
