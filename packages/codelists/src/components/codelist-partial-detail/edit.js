@@ -11,9 +11,10 @@ import {
 	Select,
 } from '@inseefr/wilco';
 import { Stores, useTitle } from 'bauhaus-utilities';
-import Picker from 'js/applications/shared/picker-page';
-import { validatePartialCodelist } from '../../utils';
+import { API } from '../../apis';
+import { validatePartialCodelist, treedData } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
+import CodesTreeView from '../codelist-detail/codes-tree-view';
 import '../codelist-detail/edit.scss';
 
 export const deleteNodes = (codes, currentNode) => {
@@ -75,9 +76,12 @@ const DumbCodelistPartialDetailEdit = ({
 	serverSideError,
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
-	const [codes, setCodes] = useState(
+	const [parentCodes, setParentCodes] = useState([]);
+	/* const [codes, setCodes] = useState(
 		Object.values(defaultCodelist.codes || {})
 	);
+	 const [tree, setTree] = useState(treedData(codes)); */
+	const [parentTree, setParentTree] = useState(treedData(parentCodes));
 
 	/* const deleteCode = useCallback(
 		(codeToDelete) => {
@@ -119,10 +123,31 @@ const DumbCodelistPartialDetailEdit = ({
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
+	const handleParentCode = useCallback((code) => {
+		API.getDetailedCodelist(code).then((codelist) => {
+			setParentCodes(Object.values(codelist.codes));
+			setParentTree(treedData(Object.values(codelist.codes)));
+		});
+	}, []);
+
+	const handleParent = useCallback(
+		(value) => {
+			setCodelist({ ...codelist, parentCode: value });
+			handleParentCode(value);
+		},
+		[codelist, handleParentCode]
+	);
+
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
-		setCodes(initialCodelist.codes ? Object.values(initialCodelist.codes) : []);
-	}, [initialCodelist]);
+		/* setCodes(Object.values(initialCodelist.codes || {})); */
+		if (initialCodelist.parentCode) {
+			handleParentCode(initialCodelist.parentCode);
+		} else {
+			setParentCodes([]);
+			setParentTree({});
+		}
+	}, [initialCodelist, handleParentCode]);
 
 	const handleChange = useCallback(
 		(e) => {
@@ -165,7 +190,7 @@ const DumbCodelistPartialDetailEdit = ({
 				</div>
 				<div className="row">
 					<div className={`col-md-12 form-group`}>
-						<LabelRequired htmlFor="lastListUriSegment">
+						<LabelRequired htmlFor="parentCode">
 							{D1.parentCodelist}
 						</LabelRequired>
 						<Select
@@ -175,9 +200,7 @@ const DumbCodelistPartialDetailEdit = ({
 								({ value }) => value === codelist.parentCode
 							)}
 							options={globalCodeListOptions}
-							onChange={(value) =>
-								setCodelist({ ...codelist, parentCode: value })
-							}
+							onChange={handleParent}
 							searchable={true}
 							disabled={updateMode}
 						/>
@@ -277,15 +300,38 @@ const DumbCodelistPartialDetailEdit = ({
 						/>
 					</div>
 				</div>
-				{codelist.parentCode && (
-					<Picker
+				{
+					codelist.parentCode && (
+						<div className="row">
+							<div className="col-md-6 form-group">
+								<CodesTreeView
+									codes={parentCodes}
+									tree={parentTree}
+									handleChangeTree={(tree) => setParentTree(tree)}
+									handleAdd={false}
+									readOnly={true}
+								/>
+							</div>
+							{/* <div className="col-md-6 form-group">
+								<CodesTreeView
+									codes={codes}
+									tree={tree}
+									handleChangeTree={(tree) => setTree(tree)}
+									handleAdd={false}
+									readOnly={true}
+								/>
+							</div> */}
+						</div>
+					)
+
+					/* <Picker
 						items={codes}
 						title={D.stampsPlaceholder}
 						panelTitle={D.disseminationStatusTitle}
 						labelWarning={D.disseminationStatusPlaceholder}
 						context="concepts"
-					/>
-				)}
+					/> */
+				}
 				{/* <div className="code-zone">
 					<CollapsiblePanel
 						id="code-picker"
