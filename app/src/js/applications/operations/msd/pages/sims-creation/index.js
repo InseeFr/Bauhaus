@@ -361,9 +361,15 @@ const withParentWithSims = (Component) => {
 		const [parentWithSims, setParentWithSims] = useState([]);
 		const parentType = props.parentType;
 		const seriesId = props.parent?.series?.id;
+		const familyId = props.parent?.family?.id;
 		useEffect(() => {
 			if(parentType === "operation" && seriesId){
 				api.getOperationsWithReport(seriesId).then(result => {
+					setParentWithSims(result)
+				})
+			}
+			else if(parentType === "series" && familyId){
+				api.getSeriesWithReport(familyId).then(result => {
 					setParentWithSims(result)
 				})
 			}
@@ -372,7 +378,7 @@ const withParentWithSims = (Component) => {
 					setParentWithSims(result)
 				})
 			}
-		}, [seriesId, parentType])
+		}, [seriesId, parentType, familyId])
 		return <Component {...props} parentWithSims={parentWithSims} />
 	}
 }
