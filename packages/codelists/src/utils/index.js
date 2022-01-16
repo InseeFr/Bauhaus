@@ -57,29 +57,89 @@ export const validateCode = (code, codes, updateMode) => {
 	return {};
 };
 
-const treeElement = (n) => {
+const treeElement = (n, i) => {
 	if (n.parents?.length > 0) {
-		return n.parents.map((p) => ({
-			code: n.code,
-			title: n.code + ' - ' + n.labelLg1,
-			label: n.labelLg1,
-			parent: p,
-		}));
+		return n.parents.map((p) => {
+			return {
+				...n,
+				title: n.code + ' - ' + n.labelLg1,
+				label: n.labelLg1,
+				parent: p.code,
+				position: p.position,
+			};
+		});
 	}
 	return {
-		code: n.code,
+		...n,
 		title: n.code + ' - ' + n.labelLg1,
 		label: n.labelLg1,
-		parent: null,
+		parent: '',
+		position: n.position ? n.position[0] : i + 1,
 	};
 };
 
 export const treedData = (arrayData) => {
-	if (arrayData.length === 0) return [];
 	return getTreeFromFlatData({
-		flatData: arrayData.map((n) => treeElement(n)).flat(),
+		flatData: arrayData
+			.filter(code => !!code.code)
+			.map((n, i) => treeElement(n, i))
+			.flat()
+			.sort((a, b) => (a.position > b.position ? 1 : -1)),
 		getKey: (node) => node.code,
 		getParentKey: (node) => node.parent,
-		rootKey: null,
+		rootKey: '',
 	});
+};
+
+const getFlatTree = (rootNodes, parentNode) => {
+	return rootNodes?.reduce((acc, code, i) => {
+			if (code.children)
+				return [
+					...acc,
+					{ ...code, parent: parentNode, position: i },
+					...getFlatTree(code.children, code.code),
+				];
+			return [...acc, { ...code, parent: parentNode, position: i }];
+		}, []);
+};
+
+export const recalculatePositions = (codelist, rootNodes) => {
+	const flattenTree = getFlatTree(rootNodes, '')
+
+	return (
+		{
+			...codelist,
+			codes: Object.values(flattenTree).reduce((acc, c) => {
+				return {
+					...acc,
+					[c.code]: {
+						...c,
+						parents: flattenTree
+							.filter((treedCode) => treedCode.code === c.code)
+							.map((treedCode) => ({
+								code: treedCode.parent,
+								position: treedCode.position + 1,
+							})),
+					},
+				};
+			}, {}),
+		} || {}
+	);
+};
+
+export const formatCodeList = (cl) => {
+	if (cl.codes) {
+		cl.codes = Object.values(cl.codes)
+			.sort((a, b) => (a.code > b.code ? 1 : -1))
+			.reduce((acc, c, i) => {
+				return {
+					...acc,
+					[c.code]: {
+						...c,
+						id: c.code,
+					},
+				};
+			}, {});
+	}
+	return cl;
 };

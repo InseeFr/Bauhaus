@@ -74,7 +74,7 @@ export default auth(() => {
 						component={getComponent('structures', modules)}
 					/>
 					<Route
-						path="/codelists"
+						path="/(codelists|codelists-partial)"
 						component={getComponent('codelists', modules)}
 					/>
 					<Route path="*" component={NotFound} />
