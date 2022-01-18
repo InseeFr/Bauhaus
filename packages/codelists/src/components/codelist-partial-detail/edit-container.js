@@ -78,15 +78,20 @@ const CodelistPartialEdit = (props) => {
 	}, []);
 
 	useEffect(() => {
-		API.getCodelistPartial(id)
-			.then((cl) => {
-				const splitParent = cl.iriParent.split('/');
-				const idParent = splitParent[splitParent.length - 1];
-				API.getDetailedCodelist(idParent).then((parentCl) => {
-					setCodelist(formatPartialCodeList(cl, parentCl));
-				});
-			})
-			.finally(() => setLoadingList(false));
+		if (id) {
+			API.getCodelistPartial(id)
+				.then((cl) => {
+					const splitParent = cl.iriParent.split('/');
+					const idParent = splitParent[splitParent.length - 1];
+					API.getDetailedCodelist(idParent).then((parentCl) => {
+						setCodelist(formatPartialCodeList(cl, parentCl));
+					});
+				})
+				.finally(() => setLoadingList(false));
+		} else {
+			setCodelist({});
+			setLoadingList(false);
+		}
 	}, [id]);
 
 	if (loadingList || loadingLists) {

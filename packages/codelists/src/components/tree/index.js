@@ -15,15 +15,39 @@ const RmesTree = (props) => {
 				canDrop={() => !props.readOnly}
 				generateNodeProps={(rowInfo) => ({
 					buttons: [
-						<button
-							className="code-tree-detail"
-							data-component-id={rowInfo.node.code}
-							onClick={props.seeClickHandler}
-							aria-label={D.see}
-							type="button"
-						>
-							<span className="glyphicon glyphicon-eye-open"></span>
-						</button>,
+						props.addHandler && (
+							<button
+								className="code-tree-detail"
+								data-component-id={rowInfo.node.code}
+								onClick={props.addHandler}
+								aria-label={D.add}
+								type="button"
+							>
+								<span className="glyphicon glyphicon-plus"></span>
+							</button>
+						),
+						props.removeHandler && (
+							<button
+								className="code-tree-detail"
+								data-component-id={rowInfo.node.code}
+								onClick={props.removeHandler}
+								aria-label={D.remove}
+								type="button"
+							>
+								<span className="glyphicon glyphicon-minus"></span>
+							</button>
+						),
+						props.seeClickHandler && (
+							<button
+								className="code-tree-detail"
+								data-component-id={rowInfo.node.code}
+								onClick={props.seeClickHandler}
+								aria-label={D.see}
+								type="button"
+							>
+								<span className="glyphicon glyphicon-eye-open"></span>
+							</button>
+						),
 					],
 				})}
 			/>

@@ -169,6 +169,22 @@ const dictionary = {
 		fr: 'voir détail',
 		en: 'see details',
 	},
+	add: {
+		fr: 'ajouter à la liste partielle',
+		en: 'add to partial list',
+	},
+	remove: {
+		fr: 'supprimer de la liste partielle',
+		en: 'remove from partial list',
+	},
+	globalCodesTreeTitle: {
+		fr: 'Liste de codes globale',
+		en: 'Global codelist',
+	},
+	partialCodesTreeTitle: {
+		fr: 'Liste de codes partielle',
+		en: 'Partial codelist',
+	},
 	errorsLabelLg1Mandatory: {
 		fr: 'Le label est obligatoire',
 		en: 'The label is mandatory',

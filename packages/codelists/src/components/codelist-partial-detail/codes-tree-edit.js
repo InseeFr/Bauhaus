@@ -1,42 +1,25 @@
-import React, { useCallback, useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import SlidingPanel from 'react-sliding-side-panel';
+import { Panel } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
+import D from '../../i18n/build-dictionary';
+import { CollapsiblePanel } from '../collapsible-panel';
 import RmesTree from '../tree';
-import { TreeContext } from '../tree/treeContext';
-import { CodeDetailEdit } from '../code-detail/edit';
-import { treedData } from '../../utils';
-import { emptyCode } from '../code-detail/empty-code';
+import { CodeDetailView } from '../code-detail/view';
+import CodeTitle from '../code-detail/title';
 
-export const syncNodes = (previousNodes = [], nextNodes = []) => {
-	if (previousNodes.length !== nextNodes.length) {
-		return nextNodes;
-	}
-	return nextNodes.map((node) => {
-		const previousNode = previousNodes.find(({ code }) => code === node.code);
-
-		return {
-			...node,
-			expanded: previousNode?.expanded || false,
-			position:
-				previousNode?.position ||
-				(previousNodes.position ? Math.max(previousNodes.position) + 1 : 1),
-			children: syncNodes(previousNode?.children, node.children),
-		};
-	});
-};
-
-const CodesTreeEdit = ({ codes, deleteCode, updateCode, createCode }) => {
+const PartialCodesTreeEdit = ({
+	hidden = false,
+	codes,
+	tree,
+	handleChangeTree,
+	readOnly,
+}) => {
+	const [openPanel, setOpenPanel] = useState(false);
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
-	const [selectedCode, setSelectedCode] = useState(emptyCode);
-	const [tree, setTree] = useContext(TreeContext);
-
-	useEffect(() => {
-		const currentTree = treedData(Object.values(codes || {}));
-		setTree(syncNodes(tree, currentTree));
-		// needs not to depend on tree to allow react-sortable-tree to update "expanded"
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [codes]);
+	const [selectedCode, setSelectedCode] = useState(null);
 
 	const seeClickHandler = useCallback(
 		(e) => {
@@ -45,37 +28,68 @@ const CodesTreeEdit = ({ codes, deleteCode, updateCode, createCode }) => {
 			);
 			if (chosenCode) {
 				setSelectedCode(chosenCode);
+				setOpenPanel(true);
 			}
 		},
 		[codes]
 	);
 
 	return (
-		<div className="row">
-			<div className="col-md-5 form-group">
-				<RmesTree
-					treeData={tree}
-					handleChangeTree={setTree}
-					readOnly={false}
-					seeClickHandler={seeClickHandler}
-				/>
-			</div>
-			<div className="col-md-7 form-group">
-				<CodeDetailEdit
-					code={selectedCode}
-					codes={codes}
-					secondLang={secondLang}
-					deleteCode={deleteCode}
-					updateCode={updateCode}
-					createCode={createCode}
-				/>
-			</div>
-		</div>
+		<CollapsiblePanel
+			id="code-picker"
+			hidden={hidden}
+			title={D.codesTreeTitle}
+			children={
+				<>
+					<div className="col-md-6 form-group">
+						<Panel title={D.partialCodesTreeTitle}>
+							<RmesTree
+								treeData={tree}
+								handleChangeTree={() => {}}
+								readOnly={true}
+							/>
+						</Panel>
+					</div>
+					<div className="col-md-6 form-group">
+						<Panel title={D.globalCodesTreeTitle}>
+							<RmesTree
+								treeData={tree}
+								handleChangeTree={handleChangeTree}
+								readOnly={readOnly}
+								seeClickHandler={seeClickHandler}
+								addHandler={() => {}}
+								removeHandler={() => {}}
+							/>
+						</Panel>
+						<SlidingPanel
+							type={'left'}
+							isOpen={openPanel}
+							size={60}
+							backdropClicked={() => setOpenPanel(false)}
+						>
+							<CodeTitle code={selectedCode} secondLang={secondLang} />
+							<CodeDetailView
+								code={selectedCode}
+								codes={codes}
+								secondLang={secondLang}
+								handleBack={() => {
+									setOpenPanel(false);
+								}}
+							/>
+						</SlidingPanel>
+					</div>
+				</>
+			}
+		/>
 	);
 };
 
-CodesTreeEdit.propTypes = {
+PartialCodesTreeEdit.propTypes = {
+	hidden: PropTypes.bool,
 	codes: PropTypes.array,
+	tree: PropTypes.array.isRequired,
+	handleChangeTree: PropTypes.func.isRequired,
+	readOnly: PropTypes.bool,
 };
 
-export default CodesTreeEdit;
+export default PartialCodesTreeEdit;
