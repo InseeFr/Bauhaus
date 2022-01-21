@@ -107,7 +107,7 @@ Pour illustrer cette hiérarchie, on considérera :
             
 ### <a id=definition-indicateur>Qu'est-ce qu'un indicateur ?</a>
 
-Un indicateur est un produit statistique qui peut être issu d'une à plusieurs séries d'opérations statistiques. Il correspond à la documentation des indices et séries chronologiques disponibles dans la Banque de données macroéconomiques (BDM).
+Un indicateur est un produit statistique qui peut être issu d'une à plusieurs sources.
 
 ### <a id=definition-rapport>Qu'est-ce qu'un rapport qualité ?</a>
 
@@ -116,9 +116,9 @@ Le rapport qualité permet de décrire les opérations statistiques et indicateu
 ### <a id=processus-publication>Le processus et les différents états des objets</a>
 
 Le processus est le suivant :
-- le producteur gère sa documentation dans l'application de gestion. L'information saisie demeure dans une base de gestion et reste non visible par les clients qui s'alimentent dans le référentiel de diffusion RMéS
+- le producteur gère sa documentation dans l'application de gestion. L'information saisie demeure dans une base de gestion et reste non visible par les clients qui s'alimentent dans le référentiel de diffusion RMéS.
 - le producteur publie ses modifications via l'application dans les référentiels de diffusion interne et externe.
-- les applications cientes internes et externes s'alimentent des informations présentes dans les référentiels de diffusion.
+- les applications clientes internes et externes s'alimentent des informations présentes dans les référentiels de diffusion.
 
 ![](../../img/processus-rmes-fr.gif)
 
@@ -135,26 +135,23 @@ Pour atteindre la page d'accueil du module de gestion des opérations statistiqu
 Un bouton <span style="color: brown">Voir l'arborescence</span> disponible via les menus <span style="color: brown">Familles</span>, <span style="color: brown">Séries</span> et <span style="color: brown">Opérations</span> permet également d'accéder à l'arborescence de l'ensemble des Familles/Séries/Opérations.
 Dans cette arborescence, les boutons + et - permettent de déplier ou replier l'arborescence, de la famille à l'opération concernée. Un clic sur l'objet famille, série ou opération permet d'accéder à la page de description de cet objet.
 
-## <a id=roles>Les différentes rôles dans l'application</a>
+Afin de garantir l'intégrité et la qualité de la base, les fonctionnalités de création et modification des familles, de création des séries et indicateurs ainsi que l'identification des propriétaires sont réservés à l'unité Qualité. Toute unité en ayant l'utilité peut demander la création d'une famille, d'une série ou d'un indicateur. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, le propriétaire ou par délégation l'unité Qualité sont habilités à publier.
 
-Afin de garantir l'intégrité et la qualité du référentiel, les fonctionnalités de création et modification des familles, de création des séries et indicateurs ainsi que l'identification des propriétaires sont réservés à l'unité Qualité. Toute unité en ayant l'utilité peut demander la création d'une famille, d'une série ou d'un indicateur. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, le propriétaire ou par délégation l'unité Qualité sont habilités à publier.
-
-Dans l'application, quatre rôles ont été créés. Chacun correspond à un niveau d'habilitation donnant accès à différentes fonctionnalités :
+Dans l'application, quatre grands profils d'utilisateurs ont été créés. Chacun correspond à un niveau d'habilitation donnant accès à différentes fonctionnalités :
 - **Administrateur de l'application** : accès à toutes les fonctionnalités ;
-- **Gestionnaire de série** : 
-  - rechercher, modifier et publier une série dont le propriétaire de la série correspond au timbre du gestionnaire de série
-  - rechercher, créer, modifier et publier une opération appartenant à une des séries dont le propriétaire correspond au timbre du gestionnaire de série
-  - rechercher, créer,  modifier et publier un rapport qualité dont le propriétaire correspond au timbre du gestionnaire de série
-  - rechercher, créer, modifier un document ou un lien.
-- **Gestionnaire d'indicateur** : 
-  - rechercher, modifier, publier un indicateur dont le propriétaire de l'indicateur correspond au timbre du gestionnaire d'indicateur
-  - rechercher, modifier, publier un rapport qualité liée à un indicateur dont le propriétaire de l'indicateur correspond au timbre du gestionnaire d'indicateur 
+- **Propriétaire de série** : 
+  - rechercher, modifier et publier une série dont il est propriétaire
+  - rechercher, créer, modifier et publier une opération appartenant à une des séries dont il est propriétaire
+  - rechercher, créer, modifier et publier un rapport qualité, un document ou un lien
   - rechercher, créer, modifier et publier un document ou un lien
-- **Invité** (profil par défaut pour tout utilisateur se connectant à l'application) : 
-  - rechercher et consulter une famille d'opérations statistiques, séries d'opérations statistiques, opérations statistiques, indicateurs et un rapport qualité
-  - exporter un rapport qualité 
+- **Propriétaire d'indicateur** : 
+  - rechercher, modifier, publier un indicateur dont il est propriétaire
+  - rechercher, modifier, publier un rapport qualité lié à cet indicateur
+  - rechercher, créer, modifier et publier un document ou un lien
+- **Invité** (profil par défaut pour tout utilisateur se connectant à l'application) :
+  - rechercher et consulter une famille d'opérations statistiques, séries d'opérations statistiques, opérations statistiques, indicateurs et un rapport qualité.
 
-**Les boutons correspondant aux différentes fonctionnalités s'affichent en fonction du rôle et du timbre de l'utilisateur.**
+**Les boutons correspondant aux différentes fonctionnalités s'affichent en fonction du profil utilisateur.**
 
 Pour toute demande ou question, adresser un message à la boite fonctionnelle : **:DG75-Administration RMéS**
 
@@ -172,7 +169,7 @@ La page d'accueil Familles, accessible à partir de la barre horizontale de menu
 Cliquer ensuite sur la famille souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
 **(2)** La recherche avancée est disponible en cliquant sur <span style="color: brown">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités dans les champs** :
-- **Intitulé** : saisir le nom du concept ;
+- **Libellé** : saisir le nom ;
 - **Thème** : sélectionner le thème.
 
 La recherche se lance automatiquement à mesure que des critères sont renseignés dans les différents champs. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de familles trouvées.
@@ -196,8 +193,7 @@ Les champs disponibles sont les suivants :
 
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span> 
 
-Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
-Penser à sauvegarder les informations saisies avant de changer d'écran.** La sauvegarde n'entraîne pas la publication de la famille. Il est donc possible, si nécessaire, de créer la famille en plusieurs étapes. Le statut de publication de la famille passe alors en « Provisoire », jusqu'à sa publication. Pour publier une famille dans le référentiel, voir [Publier une famille](#publier-famille).
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis. Penser à sauvegarder les informations saisies avant de changer d'écran.** La sauvegarde n'entraîne pas la publication de la famille. Il est donc possible, si nécessaire, de créer la famille en plusieurs étapes. Le statut de publication de la famille passe alors en « Provisoire », jusqu'à sa publication. Pour publier une famille dans le référentiel, voir [Publier une famille](#publier-famille).
 
 Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Familles.
 
@@ -211,7 +207,7 @@ La modification d'une famille est possible à partir de sa page de description.
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
-Une fois la famille modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une famille](#publier-famille)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
+Une fois la famille modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une famille](#publier-famille)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage, etc.).
 
 ### <a id="publier-famille">Publier une famille</a>
 
@@ -238,11 +234,11 @@ La recherche se lance automatiquement à mesure que des caractères sont saisis 
 
 Cliquer ensuite sur la série souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
-**(2)** La recherche avancée est disponible en cliquant sur <span style="color: brown">**Recherche avancée**</span>. Pour affiner la sélection,**renseigner les filtres souhaités** dans les champs :
+**(2)** La recherche avancée est disponible en cliquant sur <span style="color: brown">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités** dans les champs :
 
 - **Libellé** : saisir le nom de la série;
 - **Type d'opération** : sélectionner le type d'opération dans le menu déroulant
-- **Gestionnaire** : sélectionner le gestionnaire dans le menu déroulant
+- **Propriétaire** : sélectionner le propriétaire dans le menu déroulant
 - **Organisme responsable** : sélectionner l'organisme responsable dans le menu déroulant
 - **Services collecteurs** : sélectionner le service collecteur dans le menu déroulant.
 
@@ -270,28 +266,27 @@ Les champs disponibles sont les suivants :
 - La **Fréquence de collecte** correspond au *rythme* de collecte des données ;
 - L' **Organisme responsable** est l'organisme responsable de la série ;
 - Les **Partenaires** sont les organismes associés à la conception et au pilotage de la série ;
-- Les **Services collecteurs** correspond aux services réalisant la collecte ;
+- Les **Services collecteurs** correspondent aux services réalisant la collecte ;
 - Le **Propriétaire** est l'unité responsable de la gestion et de la publication de la série ainsi que des opérations statistiques et rapports qualité qui en découlent. Le propriétaire est obligatoire. Ne pas modifier le timbre propriétaire de la série au risque de perdre les droits en gestion et publication ;
-- Le champ **Succède à** permet de préciser si une série succède à une autre. Si une Série B succède à une Série A, alors la Série A est automatiquement remplacée par la Série B ;
-- Le champ **Remplacée par** permet de préciser si une série est remplacée par une autre. Si une Série A est remplacée par une Série B, alors la Série B succède automatiquement remplacée à la la Série A ;
-- Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contributions de la série ;
+- Le champ **Succède à** permet de préciser si une série succède à une autre. Si une Série A succède à une Série B, alors la Série B est automatiquement remplacée par la Série A ;
+- Le champ **Remplacée par** permet de préciser si une série est remplacée par une autre. Si une Série A est remplacée par une Série B, alors la Série A est automatiquement remplacée par la Série B ;
+- Le champ **Indicateurs produits** permet de préciser les indicateurs produits à partir de la contribution de la série ;
 - Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
-Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.
-Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de la série. Il est donc possible, si nécessaire, de créer la série en plusieurs étapes. Le statut de publication de la série passe alors en « Provisoire », jusqu'à sa publication.
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis. Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication de la série. Il est donc possible, si nécessaire, de créer la série en plusieurs étapes. Le statut de publication de la série passe alors en « Provisoire », jusqu'à sa publication.
 
 Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Séries.
 
 Pour publier une série dans le référentiel, voir [Publier une série](#publier-serie).
 
 ### <a id="modifier-serie">Modifier une série</a>
-La modification d'une série est possible à partir de sa page de description. Seul le propriétaire de la série, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une série.
+La modification d'une série est possible à partir de sa page de description. Seul le propriétaire de la série, ou par délégation l'unité Qualité (après échanges de mails), est habilité à modifier une série.
 
 - Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
 - Modifier les champs souhaités
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
-Une fois la série modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir Publier une série), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
+Une fois la série modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir Publier une série), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage, etc.).
 
 ### <a id="publier-serie">Publier une série</a>
 L'action de publier consiste à pousser les informations saisies dans le référentiel de publication.
