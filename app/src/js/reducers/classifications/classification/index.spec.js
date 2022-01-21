@@ -1,14 +1,4 @@
-import { getClassificationsFamiliesList, getClassification } from './';
-
-describe('getClassificationsFamiliesList', () => {
-	it('should return getClassificationsFamiliesList', () => {
-		const input = {
-			classificationsFamiliesList: 'classificationsFamiliesList',
-		};
-		const output = 'classificationsFamiliesList';
-		expect(getClassificationsFamiliesList(input)).toEqual(output);
-	});
-});
+import { getClassification } from './';
 
 describe('getClassification', () => {
 	it('should return undefined if the general is undefined', () => {

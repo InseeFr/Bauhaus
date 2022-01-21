@@ -1,15 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import MSDLayout from 'js/applications/operations/msd/layout/';
 import { connect } from 'react-redux';
 import { Loading, buildExtract } from '@inseefr/wilco';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
-import loadDocuments from 'js/actions/operations/documents/list';
 import { D1, D2 } from 'js/i18n';
+import globalApi from 'js/remote-api/api';
 
 import {
-	getOperationsDocuments,
-	getOperationsDocumentsStatus,
 	getOperationsOrganisations,
 	getOperationsCodesList,
 } from 'js/reducers/operations/selector';
@@ -23,10 +21,7 @@ import SimsVisualisation from 'js/applications/operations/msd/pages/sims-visuali
 import SimsCreation from 'js/applications/operations/msd/pages/sims-creation/';
 import PropTypes from 'prop-types';
 import * as select from 'js/reducers';
-import loadOperation from 'js/actions/operations/operations/item';
-import loadSerie from 'js/actions/operations/series/item';
-import loadIndicator from 'js/actions/operations/indicators/item';
-import { Stores, PageTitleBlock } from 'bauhaus-utilities';
+import { Stores, PageTitleBlock, ArrayUtils } from 'bauhaus-utilities';
 import api from 'js/remote-api/operations-api';
 
 import { getParentType, getParentId } from './utils';
@@ -39,14 +34,8 @@ export const CREATE = 'CREATE';
 export const VIEW = 'VIEW';
 export const UPDATE = 'UPDATE';
 export const DUPLICATE = 'DUPLICATE';
+const sortByLabel = ArrayUtils.sortArray('labelLg1');
 
-const mapToParentType = {
-	operation: {
-		load: 'loadOperation',
-	},
-	series: { load: 'loadSerie' },
-	indicator: { load: 'loadIndicator' },
-};
 class MSDContainer extends Component {
 	static propTypes = {
 		metadataStructure: PropTypes.object,
@@ -74,37 +63,23 @@ class MSDContainer extends Component {
 			defaultSims: {}
 		};
 	}
-	_loadParent(id) {
-		const parentType = this.props.match.params[0];
-		return this.props[mapToParentType[parentType].load](id);
-	}
 
 	goBackCallback = (url) => {
 		this.props.history.push(url);
 	};
 
 	componentDidMount() {
-		if (this.props.documentStoresStatus === NOT_LOADED) {
-			this.props.loadDocuments();
-		}
 		if (this.props.metadataStructureStatus !== LOADED) {
 			this.props.loadMetadataStructure();
 		}
 		if ((this.props.mode === UPDATE || this.props.mode === VIEW) && !this.props.currentSims.id) {
 			this.props.loadSIMS(this.props.id);
 		}
-		if (!this.props.isParentLoaded) {
-			this._loadParent(this.props.idParent);
-		}
+
 		if (!this.props.geographiesLoaded) {
 			this.props.loadGeographies();
 		}
 
-		if(this.props.mode === CREATE){
-			/*api.getDefaultSims().then(response => {
-				this.setState({ defaultSimsRubrics: response})
-			})*/
-		}
 		this._loadOwnersList(this.props.id);
 	}
 
@@ -115,18 +90,15 @@ class MSDContainer extends Component {
 			})
 		}
 	}
-	exportCallback = (id, config) => {
+	exportCallback = (id, config, sims) => {
 		this.setState(() => ({ exportPending: true }));
-		api.exportSims(id, config).then(() => {
+		api.exportSims(id, config, sims).then(() => {
 			this.setState(() => ({ exportPending: false }));
 		});
 	};
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.currentSims.id || this.props.id !== nextProps.id) {
 			this.props.loadSIMS(nextProps.id);
-		}
-		if (!nextProps.isParentLoaded) {
-			this._loadParent(nextProps.idParent);
 		}
 		if(this.props.mode === CREATE && nextProps.mode === VIEW){
 			this._loadOwnersList(nextProps.id)
@@ -151,6 +123,7 @@ class MSDContainer extends Component {
 			currentSims,
 			organisations,
 			parentType,
+			parent,
 			documentStores,
 		} = this.props;
 		if (
@@ -202,6 +175,7 @@ class MSDContainer extends Component {
 				)}
 				{this.isEditMode() && (
 					<SimsCreation
+						parent={parent}
 						sims={currentSims}
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
@@ -238,28 +212,10 @@ export const mapStateToProps = (state, ownProps) => {
 
 	const id = extractId(ownProps);
 
-	function getCurrentParent(parentType) {
-		if (parentType === 'operation') {
-			return [
-				select.getOperation(state),
-				state.operationsIndicatorCurrentStatus,
-			];
-		}
-		if (parentType === 'series') {
-			return [select.getSerie(state), state.operationsSeriesCurrentStatus];
-		}
-		if (parentType === 'indicator') {
-			return [
-				select.getIndicator(state),
-				state.operationsIndicatorCurrentStatus,
-			];
-		}
-	}
 
 	let idParent;
 	let currentSims = {};
 	let parentType;
-	let isParentLoaded = true;
 	switch (ownProps.mode) {
 		case HELP:
 			currentSims = {};
@@ -267,13 +223,6 @@ export const mapStateToProps = (state, ownProps) => {
 		case CREATE:
 			idParent = extractIdParent(ownProps);
 			parentType = ownProps.match.params[0];
-			const [currentParent, currentParentStatus] = getCurrentParent(parentType);
-			currentSims = {
-				labelLg1: D1.simsTitle + currentParent.prefLabelLg1,
-				labelLg2: D2.simsTitle + currentParent.prefLabelLg2,
-			};
-			isParentLoaded =
-				currentParentStatus !== NOT_LOADED || currentParent.id === idParent;
 			break;
 		default:
 			currentSims = select.getOperationsSimsCurrent(state);
@@ -283,15 +232,12 @@ export const mapStateToProps = (state, ownProps) => {
 	}
 
 	return {
-		documentStoresStatus: getOperationsDocumentsStatus(state),
-		documentStores: getOperationsDocuments(state, ownProps.objectType),
 		geographiesLoaded: Stores.Geographies.isLoaded(state),
 		langs: select.getLangs(state),
 		secondLang: Stores.SecondLang.getSecondLang(state),
 		metadataStructure,
 		metadataStructureStatus,
 		currentSims: !id || currentSims.id === id ? currentSims : {},
-		isParentLoaded,
 		id,
 		idParent,
 		codesLists: getOperationsCodesList(state),
@@ -304,14 +250,52 @@ const mapDispatchToProps = {
 	loadMetadataStructure,
 	loadSIMS,
 	saveSims,
-	loadOperation,
-	loadSerie,
-	loadIndicator,
 	publishSims,
-	loadDocuments,
 	loadGeographies: Stores.Geographies.loadGeographies,
 };
 
+const MSDContainerWithParent = props => {
+	const { idParent } = props;
+	const parentType = props.match.params[0];
+	const [parent, setParent] = useState(props.parent)
+	const [loading, setLoading] = useState(true)
+	const [documentStores, setDocumentStores] = useState([]);
+
+	const currentSims = props.mode === CREATE ? ({
+			labelLg1: D1.simsTitle + parent?.prefLabelLg1,
+			labelLg2: D2.simsTitle + parent?.prefLabelLg2,
+		}) : props.currentSims
+
+	useEffect(() => {
+		// TO BE REMOVED when all cache will be deleted
+		if(parentType === "indicator"){
+			api.getIndicator(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
+		} else if(parentType === "operation"){
+			api.getOperation(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
+		}else if(parentType === "series"){
+			api.getSerie(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
+		}
+		else {
+			setLoading(false)
+		}
+	}, [idParent, parentType])
+
+	useEffect(() => {
+		globalApi.getDocumentsList().then(results => {
+			setDocumentStores(sortByLabel(
+				results.map(document => {
+					return {
+						...document,
+						id: document.uri.substr(document.uri.lastIndexOf('/') + 1),
+					};
+				}))
+			)
+		})
+	}, [])
+	if(loading) return <Loading textType="loadableLoading" />
+	return <MSDContainer {...props} documentStores={documentStores} currentSims={currentSims} parent={parent}/>
+}
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(MSDContainer)
+	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)
 );
+

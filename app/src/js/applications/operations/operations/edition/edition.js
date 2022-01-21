@@ -14,6 +14,7 @@ import {
 } from '@inseefr/wilco';
 import { validate } from './validation';
 import { PageTitleBlock, withTitle } from 'bauhaus-utilities';
+import api from '../../../../remote-api/operations-api';
 
 const defaultOperation = {
 	prefLabelLg1: '',
@@ -41,6 +42,7 @@ class OperationsOperationEdition extends Component {
 	setInitialState = props => {
 		return {
 			serverSideError: '',
+			saving: false,
 			operation: {
 				...defaultOperation,
 				...props.operation,
@@ -68,28 +70,24 @@ class OperationsOperationEdition extends Component {
 		});
 	};
 	onSubmit = () => {
+		this.setState({ saving: true })
 		const isCreation = !this.state.operation.id;
 
-		this.props.saveOperation(
-			this.state.operation,
-			(err, id = this.state.operation.id) => {
-				if (!err) {
-					goBackOrReplace(
-						this.props,
-						`/operations/operation/${id}`,
-						isCreation
-					);
-				} else {
-					this.setState({
-						serverSideError: err,
-					});
-				}
+		const method = isCreation ? 'postOperation' : 'putOperation';
+		return api[method](this.state.operation).then(
+			(id = this.state.operation.id) => {
+				goBackOrReplace(this.props, `/operations/operation/${id}`, isCreation);
+			},
+			err => {
+				this.setState({
+					serverSideError: err,
+				});
 			}
-		);
+		).finally(() => this.setState({ saving: false }));
 	};
 
 	render() {
-		if (this.props.operationsAsyncTask) return <Loading textType="saving" />;
+		if (this.state.saving) return <Loading textType="saving" />;
 
 		const seriesOptions = this.props.series
 			.filter(series => !series.idSims)

@@ -129,7 +129,28 @@ export const ComponentDetailView = ({
 			</div>
 			<div className="row">
 				<Note
-					text={XSD_TYPES.find((type) => type.value === component.range)?.label}
+					text={
+						<>
+							{XSD_TYPES.find((type) => type.value === component.range)?.label}
+							<ul>
+								{
+									component.pattern && <li>{D.formatTitle}: {component.pattern}</li>
+								}
+								{
+									component.minLength && <li>{D.minLength}: {component.minLength}</li>
+								}
+								{
+									component.maxLength && <li>{D.maxLength}: {component.maxLength}</li>
+								}
+								{
+									component.minInclusive && <li>{D.minInclusive}: {component.minInclusive}</li>
+								}
+								{
+									component.maxInclusive && <li>{D.maxInclusive}: {component.maxInclusive}</li>
+								}
+							</ul>
+						</>
+					}
 					title={D1.rangeTitle}
 					alone={true}
 					allowEmpty={true}

@@ -1,25 +1,18 @@
-import React from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import PropTypes from 'prop-types';
-
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useParams, withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
-import { EXPORT_VARBOOK } from 'js/actions/constants';
 
 import {
 	Loading,
 	ErrorBloc,
 	Button,
 	ActionToolbar,
-	buildExtract,
 	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
 import OperationsOperationVisualization from './home';
-import exportVariableBook from 'js/actions/operations/export-varBook';
-import loadOperation, {
-	publishOperation,
-} from 'js/actions/operations/operations/item';
 import D from 'js/i18n';
 
 import {
@@ -29,110 +22,102 @@ import {
 	CheckSecondLang,
 	PageTitleBlock,
 } from 'bauhaus-utilities';
-import VisualizationContainer from 'js/applications/operations/shared/vizualisation-container';
+import api from '../../../../remote-api/operations-api';
 
-const extractId = buildExtract('id');
 
-class OperationVisualizationContainer extends VisualizationContainer {
-	static propTypes = {
-		object: PropTypes.object.isRequired,
-		id: PropTypes.string.isRequired,
-		exportVariableBook: PropTypes.func,
-		exportStatus: PropTypes.string,
-		langs: PropTypes.object,
-		secondLang: PropTypes.bool,
-	};
+const OperationVisualizationContainer = (props) => {
+	const { id } = useParams();
+	const [operation, setOperation] = useState({});
+	const langs = useSelector(state => select.getLangs(state));
+	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state))
+	const [serverSideError, setServerSideError] = useState();
+	const [publishing, setPublishing] = useState(false);
 
-	render() {
-		const {
-			id,
-			object: { ...operation },
-			langs,
-			secondLang,
-		} = this.props;
-		const { serverSideError } = this.state;
 
-		if (!operation.id) return <Loading />;
-		const checkStamp = stamp => operation.series.creators.includes(stamp);
+	useEffect(() => {
+		if (id) {
+			api.getOperation(id).then(result => {
+				setOperation(result)
+			})
+		}
+	}, [id]);
 
-		return (
-			<div className="container">
-				<PageTitleBlock
-					titleLg1={operation.prefLabelLg1}
-					titleLg2={operation.prefLabelLg2}
-					secondLang={secondLang}
-				/>
-				<ActionToolbar>
-					<ReturnButton action={goBack(this.props, '/operations/operations')} />
+	const publish = useCallback(() => {
+		setPublishing(true);
 
-					{operation.idSims && (
-						<Button
-							action={`/operations/sims/${operation.idSims}`}
-							label={D.btnSimsVisu}
-						/>
-					)}
-					{!operation.idSims && (
-						<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}>
-							<Button
-								action={`/operations/operation/${operation.id}/sims/create`}
-								label={D.btnSimsCreate}
-							/>
-						</Auth.AuthGuard>
-					)}
+		api.publishOperation(operation).then(() => {
+			return api.getOperation(id).then(setOperation)
+		}).catch((error) => setServerSideError(error))
+			.finally(() => setPublishing(false))
+	}, [operation, id]);
+
+
+	if (!operation.id) return <Loading />;
+	if (publishing) return <Loading text={"publishing"} />;
+
+	const checkStamp = stamp => operation.series.creators.includes(stamp);
+
+	return (
+		<div className="container">
+			<PageTitleBlock
+				titleLg1={operation.prefLabelLg1}
+				titleLg2={operation.prefLabelLg2}
+				secondLang={secondLang}
+			/>
+			<ActionToolbar>
+				<ReturnButton action={goBack(props, '/operations/operations')} />
+
+				{operation.idSims && (
+					<Button
+						action={`/operations/sims/${operation.idSims}`}
+						label={D.btnSimsVisu}
+					/>
+				)}
+				{!operation.idSims && (
 					<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}>
-						<ValidationButton
-							object={operation}
-							callback={(object) =>
-								this.publish(object, this.props.publishOperation)
-							}
-						/>
-					</Auth.AuthGuard>
-					<Auth.AuthGuard
-						roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}
-					>
 						<Button
-							action={`/operations/operation/${operation.id}/modify`}
-							label={D.btnUpdate}
+							action={`/operations/operation/${operation.id}/sims/create`}
+							label={D.btnSimsCreate}
 						/>
 					</Auth.AuthGuard>
-				</ActionToolbar>
+				)}
+				<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}>
+					<ValidationButton
+						object={operation}
+						callback={publish}
+					/>
+				</Auth.AuthGuard>
+				<Auth.AuthGuard
+					roles={[Auth.ADMIN, [Auth.SERIES_CONTRIBUTOR, checkStamp]]}
+				>
+					<Button
+						action={`/operations/operation/${operation.id}/modify`}
+						label={D.btnUpdate}
+					/>
+				</Auth.AuthGuard>
+			</ActionToolbar>
 
-				<ErrorBloc error={serverSideError} />
+			<ErrorBloc error={serverSideError} />
 
-				<CheckSecondLang />
+			<CheckSecondLang />
 
-				<OperationsOperationVisualization
-					id={id}
-					attr={operation}
-					langs={langs}
-					secondLang={secondLang}
-				/>
-			</div>
-		);
-	}
+			<OperationsOperationVisualization
+				id={id}
+				attr={operation}
+				langs={langs}
+				secondLang={secondLang}
+			/>
+		</div>
+	);
 }
 
-export const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	const operation = select.getOperation(state);
-	return {
-		id,
-		object: id === operation.id ? operation : {},
-		exportStatus: select.getStatus(state, EXPORT_VARBOOK),
-		langs: select.getLangs(state),
-		secondLang: Stores.SecondLang.getSecondLang(state),
-	};
+OperationVisualizationContainer.propTypes = {
+	operation: PropTypes.object.isRequired,
+	id: PropTypes.string.isRequired,
+	exportVariableBook: PropTypes.func,
+	exportStatus: PropTypes.string,
+	langs: PropTypes.object,
+	secondLang: PropTypes.bool,
 };
-
-const mapDispatchToProps = {
-	exportVariableBook,
-	load: loadOperation,
-	publishOperation,
-};
-
-OperationVisualizationContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(OperationVisualizationContainer);
 
 export default withRouter(OperationVisualizationContainer);

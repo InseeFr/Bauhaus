@@ -31,4 +31,7 @@ export default {
 	getOperationsWithoutReport: idSerie => [
 		`series/${idSerie}/operationsWithoutReport`,
 	],
+	getOperationsWithReport: idSerie => [
+		`series/${idSerie}/operationsWithReport`,
+	],
 };

@@ -1,44 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
-import FamiliesHome from './home';
-import loadFamiliesList from 'js/actions/operations/families/list';
-import { connect } from 'react-redux';
-import { NOT_LOADED, LOADED } from 'js/constants';
-import { getFamilies } from 'js/reducers/index';
+import api from '../../../remote-api/operations-api';
+import { Auth, useTitle } from 'bauhaus-utilities';
+import D from '../../../i18n/build-dictionary';
+import OperationsObjectHome from '../shared/list';
 
-export const FamiliesHomeContainer = ({ status, loadFamiliesList, families}) => {
+export const FamiliesHomeContainer = () => {
+	const [loading, setLoading] = useState(true);
+	const [families, setFamilies] = useState([]);
+	useTitle(D.operationsTitle, D.familiesTitle)
+
 	useEffect(() => {
-		if(status !== LOADED){
-			loadFamiliesList()
-		}
-	}, [status, loadFamiliesList])
+		api.getFamiliesList()
+			.then(results => setFamilies(results))
+			.finally(() => setLoading(false))
+	}, [])
 
-	if (status !== LOADED) return <Loading />;
-	return <FamiliesHome families={families} />;
+	if (loading) return <Loading />;
+
+
+	return (
+		<OperationsObjectHome
+			items={families}
+			roles={[Auth.ADMIN]}
+			title={D.familiesSearchTitle}
+			childPath="operations/family"
+			searchURL="/operations/families/search"
+			createURL="/operations/family/create"
+		/>
+	);
 }
 
-export const mapStateToProps = state => {
-	const operationsFamiliesList = getFamilies(state);
-	if (!operationsFamiliesList.results) {
-		return {
-			status: NOT_LOADED,
-			families: [],
-		};
-	}
-	const { results: families, status, err } = operationsFamiliesList;
 
-	return {
-		families,
-		status,
-		err,
-	};
-};
-
-const mapDispatchToProps = {
-	loadFamiliesList,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(FamiliesHomeContainer);
+export default FamiliesHomeContainer;

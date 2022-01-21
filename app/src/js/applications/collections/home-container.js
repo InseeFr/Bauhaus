@@ -1,44 +1,36 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect, useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import CollectionsHome from './home';
-import { NOT_LOADED } from 'js/constants';
 import loadCollectionList from 'js/actions/collections/list';
 import { Auth } from 'bauhaus-utilities';
 
-class CollectionsHomeContainer extends Component {
-	componentWillMount() {
-		if (!this.props.collections) {
-			this.props.loadCollectionList();
-		}
-	}
+const CollectionsHomeContainer = ( { collections, loadCollectionList }) =>  {
+	const permission = useSelector(state => Auth.getPermission(state));
 
-	render() {
-		const { collections, permission } = this.props;
-
+	useEffect(() => {
 		if (!collections) {
-			return <Loading />;
+			loadCollectionList();
 		}
-		return (
-			<CollectionsHome collections={collections} permission={permission} />
-		);
+	}, [collections, loadCollectionList]);
+
+	if (!collections) {
+		return <Loading />;
 	}
+	return (
+		<CollectionsHome collections={collections} permission={permission} />
+	);
 }
 
 const mapStateToProps = state => {
-	const permission = Auth.getPermission(state);
 	if (!state.collectionList) {
 		return {
-			status: NOT_LOADED,
 			collections: [],
 		};
 	}
-	let { results: collections, status, err } = state.collectionList;
+	let { results: collections } = state.collectionList;
 	return {
 		collections,
-		permission,
-		status,
-		err,
 	};
 };
 

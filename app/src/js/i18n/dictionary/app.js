@@ -87,7 +87,7 @@ const dictionary = {
 		fr: 'Export',
 		en: 'Export',
 	},
-	idTitle: {
+	identifiantTitle: {
 		fr: 'Identifiant',
 		en: 'Identifier',
 	},

@@ -6,10 +6,6 @@ DOC_FOLDER="docs"
 STORYBOOK_FOLDER="built-storybook"
 SITE_FOLDER="website"
 
-MAIN_BRANCH="main"
-UPSTREAM="https://$GITHUB_TOKEN@github.com/InseeFr/Bauhaus.git"
-MESSAGE="Rebuild doc for revision"
-AUTHOR="$USER <>"
 
 function setup() {
   echo "Installing Yarn and gitbook-cli"
@@ -24,10 +20,6 @@ function buildDocumentation() {
   popd
 }
 
-function buildStoryBook(){
-  echo "Building storybook"
-  yarn build-storybook
-}
 
 function publish() {
   echo "Start Publishing"
@@ -39,26 +31,12 @@ function publish() {
 
   cp -a "../$DOC_FOLDER/_book/." .
 
-
-  mkdir storybook
-  mkdir storybook/app
-
-  cp -R "../app/$STORYBOOK_FOLDER/storybook/." storybook/app
-
-  git init
-  git remote add upstream "$UPSTREAM"
-  git fetch --prune upstream
-  git reset upstream/gh-pages
-  git add --all .
-  if git commit --message "$MESSAGE" --author "$AUTHOR" ; then
-    git push --quiet upstream HEAD:gh-pages
-  fi
   popd
 }
 
 function main() {
   echo "Building everything"
-  setup && buildDocumentation && buildStoryBook && publish
+  setup && buildDocumentation && publish
 }
 
 main

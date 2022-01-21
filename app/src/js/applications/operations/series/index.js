@@ -1,36 +1,18 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import SeriesHome from './home';
-import { NOT_LOADED, LOADED } from 'js/constants';
-import loadSeriesList from 'js/actions/operations/series/list';
+import api from '../../../remote-api/operations-api';
 
-function SeriesHomeContainer({ series, status }) {
-	if (status !== LOADED) return <Loading />;
+function SeriesHomeContainer() {
+	const [series, setSeries] = useState([])
+	const [loading, setLoading] = useState(true)
+	useEffect(() => {
+		api.getSeriesList().then(result => setSeries(result)).finally(() => setLoading(false))
+	})
+	if (loading) return <Loading />;
 	return <SeriesHome series={series} />;
 }
 
-const mapStateToProps = state => {
-	if (!state.operationsSeriesList) {
-		return {
-			status: NOT_LOADED,
-			series: [],
-		};
-	}
-	const { results: series, status, err } = state.operationsSeriesList;
+//operationsSeriesList
 
-	return {
-		series,
-		status,
-		err,
-	};
-};
-
-const mapDispatchToProps = {
-	loadSeriesList,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(SeriesHomeContainer);
+export default SeriesHomeContainer

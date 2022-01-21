@@ -1,45 +1,25 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import loadFamily, { saveFamily } from 'js/actions/operations/families/item';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
-import { connect } from 'react-redux';
-import { Loading, buildExtract } from '@inseefr/wilco';
+import { useSelector } from 'react-redux';
+import { Loading  } from '@inseefr/wilco';
 import OperationsFamilyEdition from 'js/applications/operations/families/edition/edition';
+import api from '../../../../remote-api/operations-api';
 
-const extractId = buildExtract('id');
+const OperationsFamilyEditionContainer = () =>  {
+	const { id } = useParams();
+	const langs = useSelector(state => select.getLangs(state))
 
-class OperationsFamilyEditionContainer extends Component {
-	componentDidMount() {
-		if (!this.props.family.id && this.props.id) {
-			this.props.loadFamily(this.props.id);
+	const [family, setFamily] = useState({});
+
+	useEffect(() => {
+		if(id){
+			api.getFamily(id).then(setFamily);
 		}
-	}
-	render() {
-		if (!this.props.family) return <Loading />;
-		return <OperationsFamilyEdition {...this.props} />;
-	}
+	}, [id]);
+
+	if (!family.id && id) return <Loading />;
+	return <OperationsFamilyEdition id={id} family={family} langs={langs}/>;
 }
 
-const mapDispatchToProps = {
-	loadFamily,
-	saveFamily,
-};
-
-export const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	const family = id ? select.getFamily(state) : {};
-	const langs = select.getLangs(state);
-	return {
-		id,
-		family,
-		langs,
-		operationsAsyncTask: state.operationsAsyncTask,
-	};
-};
-
-export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(OperationsFamilyEditionContainer)
-);
+export default OperationsFamilyEditionContainer;

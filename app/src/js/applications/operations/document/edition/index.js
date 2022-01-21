@@ -1,60 +1,49 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import loadDocument, {
-	saveDocument,
-} from 'js/actions/operations/documents/item';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useParams, withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
-import { connect } from 'react-redux';
-import { buildExtract, Loading } from '@inseefr/wilco';
+import { useDispatch, useSelector } from 'react-redux';
+import { Loading } from '@inseefr/wilco';
 import DocumentationEdition from 'js/applications/operations/document/edition/edition';
-import { getCurrentDocument } from 'js/reducers/operations/selector';
 import { loadCodesList } from 'js/actions/operations/utils/setup';
+import api from '../../../../remote-api/api';
 
-const extractId = buildExtract('id');
+const OperationsDocumentationEditionContainer = props => {
+	const { id } = useParams();
+	const { pathname } = useLocation();
+	const type = /(link|document)/.exec(pathname)[1];
 
-class OperationsDocumentationEditionContainer extends Component {
-	componentDidMount() {
-		if (!this.props.document.id && this.props.id) {
-			this.props.loadDocument(this.props.id, this.props.type);
+	const langs = useSelector(state => select.getLangs(state));
+	const langOptions = useSelector(state => state.operationsCodesList.results['ISO-639'] || {});
+	const dispatch = useDispatch();
+
+	const [document, setDocument] = useState({ })
+
+	useEffect(() => {
+		if(id && type) {
+			api.getDocument(id, type).then(results => {
+				setDocument({
+					...results,
+					id: results.uri.substr(results.uri.lastIndexOf('/') + 1),
+				})
+			})
 		}
-		if(!this.props.langOptions.codes){
-			this.props.loadLangCodesList()
+	}, [id, type])
+
+	useEffect(() => {
+		if(!langOptions.notation){
+			loadCodesList(['ISO-639'], dispatch)
 		}
-	}
-	render() {
-		if (!this.props.document) return <Loading />;
-		return <DocumentationEdition {...this.props} />;
-	}
+	}, [langOptions, dispatch])
+
+	if (!document.id && id) return <Loading />;
+
+	return <DocumentationEdition
+		langs={langs}
+		document={document}
+		langOptions={langOptions}
+		id={id}
+		type={type}
+		{...props} />
 }
 
-const mapDispatchToProps = dispatch => ({
-	loadDocument:  (...args) => loadDocument(...args)(dispatch),
-	saveDocument: (...args) => saveDocument(...args)(dispatch),
-	loadLangCodesList: () => loadCodesList(['ISO-639'], dispatch)
-});
-
-
-export const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-
-	const pathName = ownProps.location.pathname;
-	const document = id ? getCurrentDocument(state) : {};
-	const type = /(link|document)/.exec(pathName)[1];
-	const langs = select.getLangs(state);
-	const langOptions = state.operationsCodesList.results['ISO-639'] || {};
-	return {
-		id,
-		document,
-		langs,
-		operationsAsyncTask: state.operationsAsyncTask,
-		type,
-		langOptions,
-	};
-};
-
-export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(OperationsDocumentationEditionContainer)
-);
+export default withRouter(OperationsDocumentationEditionContainer);

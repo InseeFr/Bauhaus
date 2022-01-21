@@ -10,7 +10,7 @@ const LOAD_GEOGRAPHIES_ERROR = 'LOAD_GEOGRAPHIES_ERROR';
 // API
 const apiConfig = {
 	getAll: () => ['territories'],
-	postFamily: territory => [
+	postTerritory: territory => [
 		`territory`,
 		{
 			headers: {
@@ -20,7 +20,16 @@ const apiConfig = {
 		},
 		res => res.text(),
 	],
-
+	putTerritory: (id, territory) => [
+		`territory/` + id,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(territory),
+		},
+		res => res.text(),
+	],
 };
 export const api = API.buildApi('geo', apiConfig);
 
@@ -85,11 +94,13 @@ export const getAllOptions = createSelector(getAll, (geographies) => {
 		.sort((g1, g2) => {
 			return g1.labelLg1.toLowerCase().localeCompare(g2.labelLg1.toLowerCase());
 		})
-		.map(({ uri, labelLg1, labelLg2, typeTerritory }) => ({
-			label: labelLg1,
-			labelLg2: labelLg2,
-			value: uri,
-			typeTerritory: typeTerritory,
+		.map((geography) => ({
+			label: geography.labelLg1,
+			labelLg2: geography.labelLg2,
+			value: geography.uri,
+			typeTerritory: geography.typeTerritory,
+			id: geography.id,
+			geography
 		}));
 });
 

@@ -1,50 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import CorrespondencesHome from './home';
-import { NOT_LOADED } from 'js/constants';
-import loadCorrespondencesList from 'js/actions/classifications/correspondences/list';
-import { getCorrespondencesList } from 'js/reducers/classifications/correspondence';
+import api from '../../../remote-api/classifications-api';
+import { ArrayUtils } from 'bauhaus-utilities';
 
-class CorrespondencesHomeContainer extends Component {
-	componentWillMount() {
-		if (!this.props.correspondences) {
-			this.props.loadCorrespondencesList();
-		}
-	}
-	render() {
-		const { correspondences } = this.props;
-		if (!correspondences) return <Loading />;
-		return <CorrespondencesHome correspondences={correspondences} />;
-	}
+const CorrespondencesHomeContainer = () => {
+	const [correspondences, setCorrespondences] = useState();
+
+	useEffect(() => {
+		api.getCorrespondencesList().then(results => {
+			setCorrespondences(ArrayUtils.sortArrayByLabel(results))
+		})
+	}, [])
+
+	if (!correspondences) return <Loading />;
+	return <CorrespondencesHome correspondences={correspondences} />;
+
 }
-
-export const mapStateToProps = state => {
-	const classificationsCorrespondencesList = getCorrespondencesList(state);
-	if (!classificationsCorrespondencesList) {
-		return {
-			status: NOT_LOADED,
-			correspondences: [],
-		};
-	}
-	let {
-		results: correspondences,
-		status,
-		err,
-	} = classificationsCorrespondencesList;
-
-	return {
-		correspondences,
-		status,
-		err,
-	};
-};
-
-const mapDispatchToProps = {
-	loadCorrespondencesList,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(CorrespondencesHomeContainer);
+export default CorrespondencesHomeContainer

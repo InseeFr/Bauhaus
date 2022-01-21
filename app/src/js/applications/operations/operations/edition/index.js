@@ -1,26 +1,25 @@
 import React, {useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import loadOperation, {
-	saveOperation,
-} from 'js/actions/operations/operations/item';
+import { useParams, withRouter } from 'react-router-dom';
 import * as select from 'js/reducers';
-import { connect, useSelector } from 'react-redux';
-import { Loading, buildExtract } from '@inseefr/wilco';
+import { useSelector } from 'react-redux';
+import { Loading } from '@inseefr/wilco';
 import OperationsOperationEdition from 'js/applications/operations/operations/edition/edition';
 import api  from 'js/remote-api/operations-api';
 
-const extractId = buildExtract('id');
-
 const OperationEditionContainer = (props) => {
+	const { id } = useParams();
 	const [series, setSeries] = useState([]);
+	const [operation, setOperation] = useState({});
 	const stamp = useSelector(state => state.app.auth.user.stamp);
-	const { loadOperation, id, operation} = props;
+	const langs = useSelector(state => select.getLangs(state));
 
 	useEffect(() => {
-		if (!operation.id && id) {
-			loadOperation(id);
+		if (id) {
+			api.getOperation(id).then(result => {
+				setOperation(result)
+			})
 		}
-	}, [operation.id, id, loadOperation]);
+	}, [id]);
 
 	useEffect(() => {
 		api.getUserSeriesList(stamp).then(series => setSeries(series))
@@ -28,30 +27,7 @@ const OperationEditionContainer = (props) => {
 
 	if (!operation.id && id) return <Loading />;
 
-	return <OperationsOperationEdition series={series} {...props} />;
+	return <OperationsOperationEdition series={series} langs={langs} id={id} operation={operation} {...props} />;
 }
 
-
-const mapDispatchToProps = {
-	loadOperation,
-	saveOperation,
-};
-
-const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	const operation = id ? select.getOperation(state, id) : {};
-	const langs = select.getLangs(state);
-	return {
-		id,
-		operation,
-		langs,
-		operationsAsyncTask: state.operationsAsyncTask,
-	};
-};
-
-export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(OperationEditionContainer)
-);
+export default withRouter(OperationEditionContainer);

@@ -1,14 +1,5 @@
-import { getCorrespondencesList, getCorrespondence } from '.';
+import {getCorrespondence } from '.';
 
-describe('getCorrespondencesList', () => {
-	it('should return the classificationsCorrespondencesList object', () => {
-		const input = {
-			classificationsCorrespondencesList: 'classificationsCorrespondencesList',
-		};
-		const output = 'classificationsCorrespondencesList';
-		expect(getCorrespondencesList(input)).toEqual(output);
-	});
-});
 describe('getCorrespondence', () => {
 	it('should return the correspondence object', () => {
 		const input = {

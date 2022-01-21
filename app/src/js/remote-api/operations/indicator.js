@@ -1,5 +1,6 @@
 export default {
 	getIndicatorsList: () => ['indicators'],
+	getIndicatorsListWithSims: () => ['indicators/withSims'],
 	getIndicatorsSearchList: () => ['indicators/advanced-search'],
 	publishIndicator: series => [
 		`indicator/validate/${series.id}`,

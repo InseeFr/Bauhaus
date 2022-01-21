@@ -17,6 +17,14 @@ const MenuCodelists = ({ location }) => {
 			label: D.codelistsTitle,
 			order: 0,
 		},
+		{
+			path: '/codelists-partial',
+			pathKey: 'codelists-partial',
+			className: null,
+			attrs: null,
+			label: D.codelistsPartialTitle,
+			order: 0,
+		},
 	];
 
 	const currentPath = paths.find((path) => {
