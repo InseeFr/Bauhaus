@@ -11,11 +11,55 @@ import {
 	Select,
 } from '@inseefr/wilco';
 import { Stores, useTitle } from 'bauhaus-utilities';
-import { validateCodelist } from '../../utils';
+import { API } from '../../apis';
+import { validatePartialCodelist, treedData } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import CodesTreeEdit from './codes-tree-edit';
+import PartialCodesTreeEdit from './codes-tree-edit';
 import '../codelist-detail/edit.scss';
-import { CollapsiblePanel } from '../collapsible-panel';
+
+export const deleteNodes = (codes, currentNode) => {
+	let updatedCodes = [...codes];
+
+	const deleteNode = (currentNode) => {
+		updatedCodes = updatedCodes.filter(
+			(code) => code.code !== currentNode.code
+		);
+
+		const findParent = (lengthCheck, parentNode) => {
+			return (
+				codes.filter(
+					(code) =>
+						lengthCheck(code.parents?.length) &&
+						code.parents?.find(({ code }) => code === parentNode.code)
+				) || []
+			);
+		};
+		findParent((length) => length === 1, currentNode).forEach((child) =>
+			deleteNode(child)
+		);
+
+		const childrenToUpdate = findParent((length) => length > 1, currentNode);
+		updatedCodes = updatedCodes.map((updatedCode) => {
+			const isPresent = !!childrenToUpdate.find(
+				({ code }) => code === updatedCode.code
+			);
+
+			if (isPresent) {
+				return {
+					...updatedCode,
+					parents: updatedCode.parents.filter(
+						({ code }) => code !== currentNode.code
+					),
+				};
+			} else {
+				return updatedCode;
+			}
+		});
+	};
+	deleteNode(currentNode);
+
+	return updatedCodes;
+};
 
 const defaultCodelist = {
 	contributor: 'DG75-L201',
@@ -28,80 +72,20 @@ const DumbCodelistPartialDetailEdit = ({
 	updateMode,
 	disseminationStatusListOptions,
 	stampListOptions,
+	globalCodeListOptions,
 	serverSideError,
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
-	const [codes, setCodes] = useState(
+	const [parentCodes, setParentCodes] = useState(null);
+	/* const [codes, setCodes] = useState(
 		Object.values(defaultCodelist.codes || {})
 	);
+	 const [tree, setTree] = useState(treedData(codes)); */
+	const [parentTree, setParentTree] = useState(null);
 
-	const deleteCode = useCallback(
-		({ code }) => {
-			const selectedCode = codes.find((c) => c.code === code);
-			const children = codes
-				.filter((c) => c.parents?.some((parent) => parent.code === code))
-				.map(({ code }) => code);
-			const newParents = selectedCode.parents || [];
-			setCodes(
-				codes
-					.filter((c) => c.code !== code)
-					.map((c) => {
-						if (children.includes(c.code)) {
-							const parents = [
-								...(c.parents || []).filter((c) => c !== code),
-								...newParents,
-							];
-							return {
-								...c,
-								parents,
-							};
-						} else {
-							return c;
-						}
-					})
-			);
-		},
-		[codes]
-	);
-
-	const deleteCodeWithChildren = useCallback(
+	/* const deleteCode = useCallback(
 		(codeToDelete) => {
-			let updatedCodes = [...codes];
-
-			const deleteNodes = (currentNode) => {
-				updatedCodes = updatedCodes.filter(
-					(code) => code.code !== currentNode.code
-				);
-				const childrenToDelete =
-					codes.filter(
-						(code) =>
-							code.parents.length === 1 &&
-							code.parents?.some((parent) => parent.code === currentNode.code)
-					) || [];
-				childrenToDelete.forEach((child) => deleteNodes(child));
-				const childrenToUpdate =
-					codes.filter(
-						(code) =>
-							code.parents.length > 1 &&
-							code.parents?.some((parent) => parent.code === currentNode.code)
-					) || [];
-				updatedCodes = updatedCodes.map((updatedCode) => {
-					const isPresent = childrenToUpdate.find(
-						(code) => code.code === updatedCode.code
-					);
-					if (isPresent) {
-						return {
-							...updatedCode,
-							parents: updatedCode.parents.filter(
-								(parent) => parent.code !== currentNode.code
-							),
-						};
-					} else {
-						return updatedCode;
-					}
-				});
-			};
-			deleteNodes(codeToDelete);
+			const updatedCodes = deleteNodes(codes, codeToDelete);
 			setCodes(updatedCodes);
 		},
 		[codes]
@@ -133,16 +117,37 @@ const DumbCodelistPartialDetailEdit = ({
 			setCodes([...codes, newCode]);
 		},
 		[codes]
-	);
+	); */
 
-	const { field, message } = validateCodelist(codelist);
+	const { field, message } = validatePartialCodelist(codelist);
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
+	const handleParentCode = useCallback((code) => {
+		API.getDetailedCodelist(code).then((codelist) => {
+			setParentCodes(Object.values(codelist.codes));
+			setParentTree(treedData(Object.values(codelist.codes || {})));
+		});
+	}, []);
+
+	const handleParent = useCallback(
+		(value) => {
+			setCodelist({ ...codelist, parentCode: value });
+			handleParentCode(value);
+		},
+		[codelist, handleParentCode]
+	);
+
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
-		setCodes(initialCodelist.codes ? Object.values(initialCodelist.codes) : []);
-	}, [initialCodelist]);
+		/* setCodes(Object.values(initialCodelist.codes || {})); */
+		if (initialCodelist.parentCode) {
+			handleParentCode(initialCodelist.parentCode);
+		} else {
+			setParentCodes([]);
+			setParentTree([]);
+		}
+	}, [initialCodelist, handleParentCode]);
 
 	const handleChange = useCallback(
 		(e) => {
@@ -169,38 +174,6 @@ const DumbCodelistPartialDetailEdit = ({
 			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<form>
 				<div className="row">
-					<div className={`col-md-12 form-group`}>
-						<LabelRequired htmlFor="lastListUriSegment">
-							{D1.lastListUriSegmentTitle}
-						</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
-							id="lastListUriSegment"
-							name="lastListUriSegment"
-							onChange={handleChange}
-							value={codelist.lastListUriSegment || ''}
-							disabled={updateMode}
-						/>
-					</div>
-				</div>
-				<div className="row">
-					<div className={`col-md-12 form-group`}>
-						<LabelRequired htmlFor="lastClassUriSegment">
-							{D1.lastClassUriSegmentTitle}
-						</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
-							id="lastClassUriSegment"
-							name="lastClassUriSegment"
-							onChange={handleChange}
-							value={codelist.lastClassUriSegment || ''}
-							/* disabled={updateMode} */
-						/>
-					</div>
-				</div>
-				<div className="row">
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="id">{D1.idTitle}</LabelRequired>
 						<input
@@ -211,6 +184,25 @@ const DumbCodelistPartialDetailEdit = ({
 							value={codelist.id || ''}
 							onChange={handleChange}
 							aria-invalid={field === ''}
+							disabled={updateMode}
+						/>
+					</div>
+				</div>
+				<div className="row">
+					<div className={`col-md-12 form-group`}>
+						<LabelRequired htmlFor="parentCode">
+							{D1.parentCodelist}
+						</LabelRequired>
+						<Select
+							className="form-control"
+							placeholder={D1.parentCodelistPlaceholder}
+							value={globalCodeListOptions?.find(
+								({ value }) => value === codelist.parentCode
+							)}
+							options={globalCodeListOptions}
+							onChange={handleParent}
+							searchable={true}
+							disabled={updateMode}
 						/>
 					</div>
 				</div>
@@ -308,24 +300,17 @@ const DumbCodelistPartialDetailEdit = ({
 						/>
 					</div>
 				</div>
-				<div className="code-zone">
-					<CollapsiblePanel
-						id="code-picker"
-						hidden={false}
-						title={D.codesTreeTitle}
-						children={
-							<CodesTreeEdit
-								deleteCode={deleteCode}
-								deleteCodeWithChildren={deleteCodeWithChildren}
-								updateCode={updateCode}
-								createCode={createCode}
-								codes={codes || {}}
-								handleAdd={true}
-								readOnly={false}
-							/>
-						}
-					/>
-				</div>
+				{codelist.parentCode && parentCodes && parentTree && (
+					<div className="row">
+						<PartialCodesTreeEdit
+							codes={parentCodes}
+							tree={parentTree}
+							handleChangeTree={(tree) => setParentTree(tree)}
+							handleAdd={false}
+							readOnly={true}
+						/>
+					</div>
+				)}
 			</form>
 		</React.Fragment>
 	);
@@ -335,6 +320,7 @@ DumbCodelistPartialDetailEdit.propTypes = {
 	component: PropTypes.object,
 	disseminationStatusListOptions: PropTypes.array,
 	stampListOptions: PropTypes.array,
+	globalCodeListOptions: PropTypes.array,
 	handleSave: PropTypes.func,
 	handleBack: PropTypes.func,
 	updateMode: PropTypes.bool,
@@ -344,6 +330,7 @@ DumbCodelistPartialDetailEdit.propTypes = {
 DumbCodelistPartialDetailEdit.defaultProps = {
 	disseminationStatusListOptions: [],
 	stampListOptions: [],
+	globalCodeListOptions: [],
 };
 
 export const CodeListPartialDetailEdit =

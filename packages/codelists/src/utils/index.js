@@ -29,6 +29,28 @@ export const validateCodelist = (codelist) => {
 	return {};
 };
 
+export const validatePartialCodelist = (codelist) => {
+	const validations = {
+		id: 'errorsIdMandatory',
+		parentCode: 'errorsParentCodelistMandadory',
+		labelLg1: 'errorsLabelLg1Mandatory',
+		labelLg2: 'errorsLabelLg1Mandatory',
+		creator: 'errorsCreatorMandatory',
+		disseminationStatus: 'errorsDisseminationStatusMandatory',
+	};
+
+	const field = Object.keys(validations).find((field) => !codelist[field]);
+
+	if (field) {
+		return {
+			field,
+			message: D[validations[field]],
+		};
+	}
+
+	return {};
+};
+
 export const validateCode = (code, codes, updateMode) => {
 	const validations = {
 		code: 'errorsIdMandatory',
@@ -81,7 +103,7 @@ const treeElement = (n, i) => {
 export const treedData = (arrayData) => {
 	return getTreeFromFlatData({
 		flatData: arrayData
-			.filter(code => !!code.code)
+			.filter((code) => !!code.code)
 			.map((n, i) => treeElement(n, i))
 			.flat()
 			.sort((a, b) => (a.position > b.position ? 1 : -1)),
@@ -93,18 +115,18 @@ export const treedData = (arrayData) => {
 
 const getFlatTree = (rootNodes, parentNode) => {
 	return rootNodes?.reduce((acc, code, i) => {
-			if (code.children)
-				return [
-					...acc,
-					{ ...code, parent: parentNode, position: i },
-					...getFlatTree(code.children, code.code),
-				];
-			return [...acc, { ...code, parent: parentNode, position: i }];
-		}, []);
+		if (code.children)
+			return [
+				...acc,
+				{ ...code, parent: parentNode, position: i },
+				...getFlatTree(code.children, code.code),
+			];
+		return [...acc, { ...code, parent: parentNode, position: i }];
+	}, []);
 };
 
 export const recalculatePositions = (codelist, rootNodes) => {
-	const flattenTree = getFlatTree(rootNodes, '')
+	const flattenTree = getFlatTree(rootNodes, '');
 
 	return (
 		{
@@ -131,7 +153,7 @@ export const formatCodeList = (cl) => {
 	if (cl.codes) {
 		cl.codes = Object.values(cl.codes)
 			.sort((a, b) => (a.code > b.code ? 1 : -1))
-			.reduce((acc, c, i) => {
+			.reduce((acc, c) => {
 				return {
 					...acc,
 					[c.code]: {
@@ -142,4 +164,25 @@ export const formatCodeList = (cl) => {
 			}, {});
 	}
 	return cl;
+};
+
+export const formatPartialCodeList = (cl, parentCl) => {
+	if (cl.codes) {
+		cl.codes = Object.values(cl.codes)
+			.sort((a, b) => (a.code > b.code ? 1 : -1))
+			.reduce((acc, c) => {
+				return {
+					...acc,
+					[c.code]: {
+						...c,
+						id: c.code,
+					},
+				};
+			}, {});
+	}
+	return {
+		...cl,
+		parentCode: parentCl.code,
+		parentLabel: parentCl.labelLg1,
+	};
 };
