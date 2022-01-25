@@ -12,7 +12,11 @@ import {
 } from '@inseefr/wilco';
 import { Stores, useTitle } from 'bauhaus-utilities';
 import { API } from '../../apis';
-import { validatePartialCodelist, treedData } from '../../utils';
+import {
+	validatePartialCodelist,
+	treedData,
+	partialInGlobalCodes,
+} from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PartialCodesTreeEdit from './codes-tree-edit';
 import '../codelist-detail/edit.scss';
@@ -123,12 +127,20 @@ const DumbCodelistPartialDetailEdit = ({
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
-	const handleParentCode = useCallback((code) => {
-		API.getDetailedCodelist(code).then((codelist) => {
-			setParentCodes(Object.values(codelist.codes));
-			setParentTree(treedData(Object.values(codelist.codes || {})));
-		});
-	}, []);
+	const handleParentCode = useCallback(
+		(code) => {
+			API.getDetailedCodelist(code).then((parentCL) => {
+				const globalWithPartialCodes =
+					partialInGlobalCodes(
+						Object.values(parentCL.codes || {}),
+						Object.values(codelist.codes || {})
+					) || [];
+				setParentCodes(globalWithPartialCodes);
+				setParentTree(treedData(globalWithPartialCodes));
+			});
+		},
+		[codelist.codes]
+	);
 
 	const handleParent = useCallback(
 		(value) => {

@@ -44,7 +44,7 @@ const PartialCodesTreeEdit = ({
 					<div className="col-md-6 form-group">
 						<Panel title={D.partialCodesTreeTitle}>
 							<RmesTree
-								treeData={tree}
+								treeData={tree.filter((code) => code.isPartial)}
 								handleChangeTree={() => {}}
 								readOnly={true}
 							/>
