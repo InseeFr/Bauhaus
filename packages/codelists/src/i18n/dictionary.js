@@ -169,13 +169,21 @@ const dictionary = {
 		fr: 'voir détail',
 		en: 'see details',
 	},
+	addAll: {
+		fr: 'Ajouter tous les codes à la liste partielle',
+		en: 'Add all codes to partial list',
+	},
+	removeAll: {
+		fr: 'Supprimer tous les codes de la liste partielle',
+		en: 'Remove all codes from partial list',
+	},
 	add: {
-		fr: 'ajouter à la liste partielle',
-		en: 'add to partial list',
+		fr: 'Ajouter à la liste partielle',
+		en: 'Add to partial list',
 	},
 	remove: {
-		fr: 'supprimer de la liste partielle',
-		en: 'remove from partial list',
+		fr: 'Supprimer de la liste partielle',
+		en: 'Remove from partial list',
 	},
 	globalCodesTreeTitle: {
 		fr: 'Liste de codes globale',

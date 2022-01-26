@@ -81,48 +81,7 @@ const DumbCodelistPartialDetailEdit = ({
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
 	const [parentCodes, setParentCodes] = useState(null);
-	/* const [codes, setCodes] = useState(
-		Object.values(defaultCodelist.codes || {})
-	);
-	 const [tree, setTree] = useState(treedData(codes)); */
 	const [parentTree, setParentTree] = useState(null);
-
-	/* const deleteCode = useCallback(
-		(codeToDelete) => {
-			const updatedCodes = deleteNodes(codes, codeToDelete);
-			setCodes(updatedCodes);
-		},
-		[codes]
-	);
-
-	const updateCode = useCallback(
-		(codeObject) => {
-			const existing = codes.find((c) => c.code === codeObject.code);
-			if (!existing) {
-				// Create
-				setCodes([...codes.filter((c) => c.code !== ''), codeObject]);
-			} else {
-				// Update
-				setCodes(
-					codes.map((c) => {
-						if (c.code === codeObject.code) {
-							return codeObject;
-						}
-						return c;
-					})
-				);
-			}
-		},
-		[codes]
-	);
-
-	const createCode = useCallback(
-		(newCode) => {
-			setCodes([...codes, newCode]);
-		},
-		[codes]
-	); */
-
 	const { field, message } = validatePartialCodelist(codelist);
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
@@ -151,7 +110,6 @@ const DumbCodelistPartialDetailEdit = ({
 
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
-		/* setCodes(Object.values(initialCodelist.codes || {})); */
 		if (initialCodelist.parentCode) {
 			handleParentCode(initialCodelist.parentCode);
 		} else {
@@ -178,19 +136,37 @@ const DumbCodelistPartialDetailEdit = ({
 		[codelist]
 	);
 
+	const addAllClickHandler = useCallback(() => {
+		setParentCodes(
+			parentCodes.map((c) => {
+				return { ...c, isPartial: true };
+			})
+		);
+	}, [parentCodes]);
+
+	const removeAllClickHandler = useCallback(() => {
+		setParentCodes(
+			parentCodes.map((c) => {
+				return { ...c, isPartial: false };
+			})
+		);
+	}, [parentCodes]);
+
 	const addClickHandler = useCallback(
 		(e) => {
 			const currentCode = parentCodes.find(
 				(c) => c.code === e.target.parentElement.dataset.componentId
 			);
-			setParentCodes(
-				parentCodes.map((c) => {
-					if (c.code === currentCode.code) {
-						return { ...c, isPartial: true };
-					}
-					return c;
-				})
-			);
+			if (currentCode) {
+				setParentCodes(
+					parentCodes.map((c) => {
+						if (c.code === currentCode.code) {
+							return { ...c, isPartial: true };
+						}
+						return c;
+					})
+				);
+			}
 		},
 		[parentCodes]
 	);
@@ -200,21 +176,23 @@ const DumbCodelistPartialDetailEdit = ({
 			const currentCode = parentCodes.find(
 				(c) => c.code === e.target.parentElement.dataset.componentId
 			);
-			setParentCodes(
-				parentCodes.map((c) => {
-					if (c.code === currentCode.code) {
-						return { ...c, isPartial: false };
-					}
-					return c;
-				})
-			);
+			if (currentCode) {
+				setParentCodes(
+					parentCodes.map((c) => {
+						if (c.code === currentCode.code) {
+							return { ...c, isPartial: false };
+						}
+						return c;
+					})
+				);
+			}
 		},
 		[parentCodes]
 	);
 
 	const handleSaveClick = useCallback(() => {
-		handleSave(codelist);
-	}, [codelist, handleSave]);
+		handleSave(codelist, parentCodes);
+	}, [codelist, parentCodes, handleSave]);
 
 	return (
 		<React.Fragment>
@@ -358,6 +336,8 @@ const DumbCodelistPartialDetailEdit = ({
 							codes={parentCodes}
 							tree={parentTree}
 							handleChangeTree={(tree) => setParentTree(tree)}
+							addAllClickHandler={addAllClickHandler}
+							removeAllClickHandler={removeAllClickHandler}
 							addClickHandler={addClickHandler}
 							removeClickHandler={removeClickHandler}
 							readOnly={true}

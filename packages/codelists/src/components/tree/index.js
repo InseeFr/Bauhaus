@@ -23,7 +23,7 @@ const RmesTree = (props) => {
 								aria-label={D.add}
 								type="button"
 							>
-								<span className="glyphicon glyphicon-plus"></span>
+								<span className="glyphicon glyphicon-unchecked"></span>
 							</button>
 						),
 						props.removeHandler && rowInfo.node.isPartial && (
@@ -34,7 +34,7 @@ const RmesTree = (props) => {
 								aria-label={D.remove}
 								type="button"
 							>
-								<span className="glyphicon glyphicon-minus"></span>
+								<span className="glyphicon glyphicon-check"></span>
 							</button>
 						),
 						props.seeClickHandler && (

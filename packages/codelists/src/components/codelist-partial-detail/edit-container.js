@@ -34,7 +34,6 @@ const CodelistPartialEdit = (props) => {
 	const [codelist, setCodelist] = useState({});
 	const [globalCodeListOptions, setGlobalCodeListOptions] = useState({});
 	const [serverSideError, setServerSideError] = useState('');
-	const [tree] = useContext(TreeContext);
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
@@ -43,13 +42,22 @@ const CodelistPartialEdit = (props) => {
 		goBackOrReplace('/codelists-partial', true);
 	}, [goBackOrReplace]);
 
+	const codeWithoutIsPartial = (code) => {
+		const { isPartial, ...restOfCode } = code;
+		return restOfCode;
+	};
+
 	const handleSave = useCallback(
-		(codelist) => {
-			const rootNodes = tree;
-			const payload = recalculatePositions(codelist, rootNodes);
+		(codelist, parentCodes) => {
 			setSaving(true);
 			setServerSideError('');
-
+			const payload = {
+				...codelist,
+				codes: parentCodes
+					.filter((code) => code.isPartial)
+					.map((code) => codeWithoutIsPartial(code)),
+			};
+			console.log('payload', payload);
 			const request = id ? API.putCodelistPartial : API.postCodelistPartial;
 
 			request(payload)
@@ -62,7 +70,7 @@ const CodelistPartialEdit = (props) => {
 				})
 				.finally(() => setSaving(false));
 		},
-		[tree, goBackOrReplace, id]
+		[goBackOrReplace, id]
 	);
 
 	useEffect(() => {
@@ -70,7 +78,10 @@ const CodelistPartialEdit = (props) => {
 			.then((codelists) => {
 				setGlobalCodeListOptions(
 					Object.values(codelists).map((cl) => {
-						return { value: cl.id, label: cl.labelLg1 };
+						return {
+							value: cl.id,
+							label: cl.labelLg1,
+						};
 					})
 				);
 			})
