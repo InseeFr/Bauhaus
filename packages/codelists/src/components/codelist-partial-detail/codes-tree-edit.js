@@ -15,6 +15,8 @@ const PartialCodesTreeEdit = ({
 	codes,
 	tree,
 	handleChangeTree,
+	addClickHandler,
+	removeClickHandler,
 	readOnly,
 }) => {
 	const [openPanel, setOpenPanel] = useState(false);
@@ -57,8 +59,8 @@ const PartialCodesTreeEdit = ({
 								handleChangeTree={handleChangeTree}
 								readOnly={readOnly}
 								seeClickHandler={seeClickHandler}
-								addHandler={() => {}}
-								removeHandler={() => {}}
+								addHandler={addClickHandler}
+								removeHandler={removeClickHandler}
 							/>
 						</Panel>
 						<SlidingPanel
@@ -89,6 +91,8 @@ PartialCodesTreeEdit.propTypes = {
 	codes: PropTypes.array,
 	tree: PropTypes.array.isRequired,
 	handleChangeTree: PropTypes.func.isRequired,
+	addClickHandler: PropTypes.func.isRequired,
+	removeClickHandler: PropTypes.func.isRequired,
 	readOnly: PropTypes.bool,
 };
 
