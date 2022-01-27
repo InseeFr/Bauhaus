@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
-import { formatPartialCodeList, recalculatePositions } from '../../utils';
-import { TreeContext } from '../tree/treeContext';
+import { formatPartialCodeList } from '../../utils';
 import D from '../../i18n/build-dictionary';
 import { CodeListPartialDetailEdit } from './edit';
 
@@ -42,11 +41,6 @@ const CodelistPartialEdit = (props) => {
 		goBackOrReplace('/codelists-partial', true);
 	}, [goBackOrReplace]);
 
-	const codeWithoutIsPartial = (code) => {
-		const { isPartial, ...restOfCode } = code;
-		return restOfCode;
-	};
-
 	const handleSave = useCallback(
 		(codelist, parentCodes) => {
 			setSaving(true);
@@ -55,7 +49,14 @@ const CodelistPartialEdit = (props) => {
 				...codelist,
 				codes: parentCodes
 					.filter((code) => code.isPartial)
-					.map((code) => codeWithoutIsPartial(code)),
+					.reduce((acc, c) => {
+						return {
+							...acc,
+							[c.code]: {
+								...c,
+							},
+						};
+					}, {}),
 			};
 			console.log('payload', payload);
 			const request = id ? API.putCodelistPartial : API.postCodelistPartial;
@@ -81,6 +82,7 @@ const CodelistPartialEdit = (props) => {
 						return {
 							value: cl.id,
 							label: cl.labelLg1,
+							iriParent: cl.uri,
 						};
 					})
 				);

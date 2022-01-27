@@ -21,50 +21,6 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PartialCodesTreeEdit from './codes-tree-edit';
 import '../codelist-detail/edit.scss';
 
-export const deleteNodes = (codes, currentNode) => {
-	let updatedCodes = [...codes];
-
-	const deleteNode = (currentNode) => {
-		updatedCodes = updatedCodes.filter(
-			(code) => code.code !== currentNode.code
-		);
-
-		const findParent = (lengthCheck, parentNode) => {
-			return (
-				codes.filter(
-					(code) =>
-						lengthCheck(code.parents?.length) &&
-						code.parents?.find(({ code }) => code === parentNode.code)
-				) || []
-			);
-		};
-		findParent((length) => length === 1, currentNode).forEach((child) =>
-			deleteNode(child)
-		);
-
-		const childrenToUpdate = findParent((length) => length > 1, currentNode);
-		updatedCodes = updatedCodes.map((updatedCode) => {
-			const isPresent = !!childrenToUpdate.find(
-				({ code }) => code === updatedCode.code
-			);
-
-			if (isPresent) {
-				return {
-					...updatedCode,
-					parents: updatedCode.parents.filter(
-						({ code }) => code !== currentNode.code
-					),
-				};
-			} else {
-				return updatedCode;
-			}
-		});
-	};
-	deleteNode(currentNode);
-
-	return updatedCodes;
-};
-
 const defaultCodelist = {
 	contributor: 'DG75-L201',
 	created: dayjs(),
@@ -102,10 +58,16 @@ const DumbCodelistPartialDetailEdit = ({
 
 	const handleParent = useCallback(
 		(value) => {
-			setCodelist({ ...codelist, parentCode: value });
+			setCodelist({
+				...codelist,
+				parentCode: value,
+				iriParent: globalCodeListOptions?.find(
+					(parentCL) => parentCL.value === value
+				).iriParent,
+			});
 			handleParentCode(value);
 		},
-		[codelist, handleParentCode]
+		[codelist, handleParentCode, globalCodeListOptions]
 	);
 
 	useEffect(() => {
