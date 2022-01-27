@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	PageTitle,
 	SearchableList,
@@ -11,20 +11,25 @@ import {
 import check from 'js/utils/auth';
 import D from 'js/i18n';
 import { useDispatch, useSelector } from 'react-redux';
-import { Auth } from 'bauhaus-utilities';
+import { ArrayUtils, Auth } from 'bauhaus-utilities';
 import loadConceptList from 'js/actions/concepts/list';
 import * as select from 'js/reducers';
+import api from '../../remote-api/concepts-api';
 
 const ConceptsHome = () => {
 	const permission = useSelector(state => Auth.getPermission(state))
-	const concepts = useSelector(state => select.getConceptList(state));
-	const dispatch = useDispatch();
+	const [concepts, setConcepts] = useState([])
+	const [loading, setLoading] = useState(true);
+
 	useEffect(() => {
-		if (!concepts) {
-			dispatch(loadConceptList())
-		}
-	}, [concepts, dispatch]);
-	if (!concepts) return <Loading />;
+		api.getConceptList()
+			.then(body => {
+				setConcepts(ArrayUtils.sortArrayByLabel(body));
+			})
+			.finally(() => setLoading(false))
+	}, []);
+
+	if (loading) return <Loading />;
 
 	const { authType, roles } = permission;
 	const authImpl = check(authType);
