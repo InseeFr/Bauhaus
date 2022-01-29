@@ -10,10 +10,8 @@ import {
 } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import D from 'js/i18n';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ArrayUtils, Auth } from 'bauhaus-utilities';
-import loadConceptList from 'js/actions/concepts/list';
-import * as select from 'js/reducers';
 import api from '../../remote-api/concepts-api';
 
 const ConceptsHome = () => {
