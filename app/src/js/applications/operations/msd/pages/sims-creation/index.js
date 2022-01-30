@@ -312,7 +312,7 @@ class SimsCreation extends React.Component {
 										/>
 									)}
 
-									{mode !== DUPLICATE && operationsWithSimsOptions.length > 0 && (
+									{mode !== DUPLICATE && (
 										<ReactSelect
 											placeholder={D.createFromAnExistingReport}
 											value={operationsWithSimsOptions.find(
@@ -379,7 +379,7 @@ const withParentWithSims = (Component) => {
 				})
 			}
 		}, [seriesId, parentType, familyId])
-		return <Component {...props} parentWithSims={parentWithSims} />
+		return <Component {...props} parentWithSims={parentWithSims}/>
 	}
 }
 
