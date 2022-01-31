@@ -220,28 +220,28 @@ const dictionary = {
 	...btnD,
 	// Links
 	narrowerTitle: {
-		fr: 'Parent',
-		en: 'Parent',
+		fr: 'A pour enfant',
+		en: 'Has child',
 	},
 	broaderTitle: {
-		fr: 'Enfant',
-		en: 'Child',
+		fr: 'A pour parent',
+		en: 'Has parent',
 	},
 	referencesTitle: {
-		fr: 'Référence',
+		fr: 'Reference',
 		en: 'References',
 	},
 	replacesTitle: {
 		fr: 'Remplace',
-		en: 'Replaces',
+		en: 'Remplaces',
 	},
 	relatedTitle: {
-		fr: 'Lié',
-		en: 'Related',
+		fr: 'Est lié à',
+		en: 'Is related to',
 	},
 	equivalentTitle: {
-		fr: 'Équivalent',
-		en: 'Equivalent',
+		fr: 'Correspond à',
+		en: 'Matches',
 	},
 	// Mail
 	mailTitle: {

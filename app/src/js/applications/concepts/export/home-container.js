@@ -6,25 +6,26 @@ import { EXPORT_CONCEPT_LIST } from 'js/actions/constants';
 import ConceptsToExport from './home';
 import { Loading } from '@inseefr/wilco';
 import exportConceptList from 'js/actions/concepts/export-multi';
-import loadConceptList from 'js/actions/concepts/list';
 import { OK } from 'js/constants';
-import { useTitle } from 'bauhaus-utilities';
+import { ArrayUtils, useTitle } from 'bauhaus-utilities';
 import D from 'js/i18n';
+import api from '../../../remote-api/concepts-api';
 
 const ConceptsToExportContainer = ({
-	concepts,
 	exportStatus,
-	loadConceptList,
 	exportConceptList
 	}) => {
+
 	useTitle(D.conceptsTitle, D.exportTitle)
 	const [exportRequested, setExportRequested] = useState(false)
+	const [concepts, setConcepts] = useState([])
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		if(!concepts){
-			loadConceptList()
-		}
-	}, [concepts, loadConceptList]);
+		api.getConceptList().then(results => {
+			setConcepts(ArrayUtils.sortArrayByLabel(results));
+		}).finally(() => setLoading(false))
+	}, [])
 
 	const handleExportConceptList = (ids, MimeType) => {
 		exportConceptList(ids, MimeType);
@@ -38,9 +39,10 @@ const ConceptsToExportContainer = ({
 		return <Loading textType="exporting" />;
 	}
 
-	if (!concepts) {
+	if (loading) {
 		return <Loading />;
 	}
+
 	return (
 		<ConceptsToExport
 			concepts={concepts}
@@ -49,12 +51,10 @@ const ConceptsToExportContainer = ({
 	);
 }
 const mapStateToProps = state => ({
-	concepts: select.getConceptList(state),
 	exportStatus: select.getStatus(state, EXPORT_CONCEPT_LIST),
 });
 
 const mapDispatchToProps = {
-	loadConceptList,
 	exportConceptList,
 };
 

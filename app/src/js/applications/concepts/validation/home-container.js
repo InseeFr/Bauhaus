@@ -1,40 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 import ConceptsToValidate from './home';
 import { Loading } from '@inseefr/wilco';
-import { VALIDATE_CONCEPT_LIST } from 'js/actions/constants';
-import * as select from 'js/reducers';
-import validateConceptList from 'js/actions/concepts/validate';
-import loadConceptValidateList from 'js/actions/concepts/validate-list';
-import { OK } from 'js/constants';
-import { Auth, useTitle } from 'bauhaus-utilities';
+import { OK, PENDING } from 'js/constants';
+import { ArrayUtils, Auth, useTitle } from 'bauhaus-utilities';
 import D from 'js/i18n';
+import api from '../../../remote-api/concepts-api';
 
-const ConceptsToValidateContainer = ({
-		concepts, validateConceptList, loadConceptValidateList, permission, validationStatus
-	}) => {
+const ConceptsToValidateContainer = () => {
 
 	useTitle(D.conceptsTitle, D.btnValid);
-	const [validationRequested, setValidationRequested] = useState(false);
+	const permission = useSelector(state => Auth.getPermission(state))
+	const [loading, setLoading] = useState(true);
+	const [exporting, setExporting] = useState();
+	const [concepts, setConcepts] = useState([])
 
 	const handleValidateConceptList = ids => {
-		validateConceptList(ids);
-		setValidationRequested(true)
+		setExporting(PENDING);
+		api.putConceptValidList(ids).finally(() => setExporting(OK));
 	};
 
 	useEffect(() => {
-		if (!concepts) loadConceptValidateList();
-	}, [concepts, loadConceptValidateList]);
+		api.getConceptValidateList().then(body => {
+			setConcepts(ArrayUtils.sortArrayByLabel(body))
+		}).finally(() => setLoading(false));
+	}, []);
 
-	if (validationRequested) {
-		if (validationStatus === OK) {
-			return <Redirect to="/concepts" />;
-		} else {
-			return <Loading textType="validating" />;
-		}
+	if (exporting === OK) {
+		return <Redirect to="/concepts" />;
+	} else if(exporting === PENDING) {
+		return <Loading textType="validating" />;
 	}
-	if (!concepts) return <Loading />;
+
+	if (loading) return <Loading />;
 	return (
 		<ConceptsToValidate
 			concepts={concepts}
@@ -44,18 +43,4 @@ const ConceptsToValidateContainer = ({
 	);
 }
 
-const mapStateToProps = state => ({
-	concepts: select.getConceptValidateList(state),
-	permission: Auth.getPermission(state),
-	validationStatus: select.getStatus(state, VALIDATE_CONCEPT_LIST),
-});
-
-const mapDispatchToProps = {
-	loadConceptValidateList,
-	validateConceptList,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(ConceptsToValidateContainer);
+export default ConceptsToValidateContainer;

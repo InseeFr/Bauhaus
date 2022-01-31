@@ -13,7 +13,7 @@ export const apiConfig = {
 	getDisseminationStatus: () => [''],
 };
 
-const api = buildApi('disseminationStatus', apiConfig);
+export const api = buildApi('disseminationStatus', apiConfig);
 
 export const reducer = (state = {}, { type, payload }) => {
 	switch (type) {
