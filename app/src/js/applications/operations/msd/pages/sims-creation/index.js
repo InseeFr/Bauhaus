@@ -201,7 +201,7 @@ class SimsCreation extends React.Component {
 				label: op.labelLg1,
 				value: op.idSims,
 			})
-		);
+		).sort((o1, o2) => o1.label.toLowerCase().localeCompare(o2.label.toLowerCase()));
 		function MSDInformations(msd, handleChange, firstLevel = false) {
 			return (
 				<React.Fragment key={msd.idMas}>
