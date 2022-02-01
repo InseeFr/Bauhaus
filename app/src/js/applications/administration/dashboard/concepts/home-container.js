@@ -1,41 +1,49 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
-import * as select from 'js/reducers';
 import Dashboard from './home';
-import loadConceptSearchList from 'js/actions/concepts/search-list';
-import loadCollectionDashboardList from 'js/actions/dashboard/collections';
+import api from '../../../../remote-api/concepts-api';
+import { ArrayUtils } from 'bauhaus-utilities';
 
-class DashboardContainer extends Component {
-	componentWillMount() {
-		const { conceptSearchList, collectionDashboardList } = this.props;
-		if (!conceptSearchList) this.props.loadConceptSearchList();
-		if (!collectionDashboardList) this.props.loadCollectionDashboardList();
-	}
-
-	render() {
-		const { conceptSearchList, collectionDashboardList } = this.props;
-		if (!conceptSearchList || !collectionDashboardList) return <Loading />;
-
-		return (
-			<Dashboard
-				conceptsData={conceptSearchList}
-				collectionsData={collectionDashboardList}
-			/>
-		);
-	}
-}
-
-const mapStateToProps = state => ({
-	conceptSearchList: select.getConceptSearchList(state),
-	collectionDashboardList: select.getCollectionDashboardList(state),
-});
-const mapDispatchToProps = {
-	loadConceptSearchList,
-	loadCollectionDashboardList,
+const emptyItem = {
+	id: '',
+	label: '',
+	created: '',
+	modified: '',
+	disseminationStatus: '',
+	validationStatus: '',
+	definition: '',
+	creator: '',
+	isTopConceptOf: '',
+	valid: '',
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(DashboardContainer);
+const DashboardContainer = () => {
+	const [loading, setLoading] = useState(true);
+	const [concepts, setConcepts] = useState([]);
+	const [collections, setCollections] = useState([]);
+
+	useEffect(() => {
+		Promise.all([
+			api.getConceptSearchList(),
+			api.getCollectionDashboardList()
+		]).then(([ conceptsList, collectionsList ]) => {
+
+			setConcepts(ArrayUtils.sortArrayByLabel(conceptsList).map(concept =>
+				Object.assign({}, emptyItem, concept)
+			))
+
+			setCollections(ArrayUtils.sortArrayByLabel(collectionsList));
+		}).finally(() => setLoading(false))
+	}, [])
+	if(loading){
+		return <Loading />;
+	}
+
+	return (
+		<Dashboard
+			conceptsData={concepts}
+			collectionsData={collections}
+		/>
+	);
+}
+export default DashboardContainer;
