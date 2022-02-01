@@ -31,7 +31,7 @@ const CodelistPartialEdit = (props) => {
 	const [loadingLists, setLoadingLists] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [codelist, setCodelist] = useState({});
-	const [globalCodeListOptions, setGlobalCodeListOptions] = useState({});
+	const [globalCodeListOptions, setGlobalCodeListOptions] = useState([]);
 	const [serverSideError, setServerSideError] = useState('');
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
@@ -58,9 +58,7 @@ const CodelistPartialEdit = (props) => {
 						};
 					}, {}),
 			};
-			console.log('payload', payload);
 			const request = id ? API.putCodelistPartial : API.postCodelistPartial;
-
 			request(payload)
 				.then(() => {
 					goBackOrReplace(`${codelist.id}`, !!id);
@@ -91,11 +89,12 @@ const CodelistPartialEdit = (props) => {
 	}, []);
 
 	useEffect(() => {
-		if (id) {
+		if (id && globalCodeListOptions && globalCodeListOptions[0]) {
 			API.getCodelistPartial(id)
 				.then((cl) => {
-					const splitParent = cl.iriParent.split('/');
-					const idParent = splitParent[splitParent.length - 1];
+					const idParent = globalCodeListOptions.find(
+						(parent) => parent.iriParent === cl.iriParent
+					).value;
 					API.getDetailedCodelist(idParent).then((parentCl) => {
 						setCodelist(formatPartialCodeList(cl, parentCl));
 					});
@@ -105,7 +104,7 @@ const CodelistPartialEdit = (props) => {
 			setCodelist({});
 			setLoadingList(false);
 		}
-	}, [id]);
+	}, [id, globalCodeListOptions]);
 
 	if (loadingList || loadingLists) {
 		return <Loading />;

@@ -182,7 +182,7 @@ export const formatPartialCodeList = (cl, parentCl) => {
 	}
 	return {
 		...cl,
-		parentCode: parentCl.code,
+		parentCode: parentCl.id,
 		parentLabel: parentCl.labelLg1,
 	};
 };
