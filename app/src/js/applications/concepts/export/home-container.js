@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import * as select from 'js/reducers';
-import { EXPORT_CONCEPT_LIST } from 'js/actions/constants';
+import { useHistory } from 'react-router-dom';
 import ConceptsToExport from './home';
-import { Loading } from '@inseefr/wilco';
-import exportConceptList from 'js/actions/concepts/export-multi';
-import { OK } from 'js/constants';
+import { getContentDisposition, Loading } from '@inseefr/wilco';
 import { ArrayUtils, useTitle } from 'bauhaus-utilities';
 import D from 'js/i18n';
 import api from '../../../remote-api/concepts-api';
+import FileSaver from 'file-saver';
 
-const ConceptsToExportContainer = ({
-	exportStatus,
-	exportConceptList
-	}) => {
+const ConceptsToExportContainer = () => {
 
-	useTitle(D.conceptsTitle, D.exportTitle)
-	const [exportRequested, setExportRequested] = useState(false)
+	useTitle(D.conceptsTitle, D.exportTitle);
+	const history = useHistory();
 	const [concepts, setConcepts] = useState([])
 	const [loading, setLoading] = useState(true);
+	const [exporting, setExporting] = useState(false);
 
 	useEffect(() => {
 		api.getConceptList().then(results => {
@@ -28,17 +22,29 @@ const ConceptsToExportContainer = ({
 	}, [])
 
 	const handleExportConceptList = (ids, MimeType) => {
-		exportConceptList(ids, MimeType);
-		setExportRequested(true);
+		Promise.all(ids.map(id => {
+			let fileName;
+			api
+				.getConceptExport(id, MimeType)
+				.then(res => {
+					fileName = getContentDisposition(
+						res.headers.get('Content-Disposition')
+					)[1];
+					return res;
+				})
+				.then(res => res.blob())
+				.then(blob => {
+					return FileSaver.saveAs(blob, fileName);
+				});
+		}))
+		.then(() => history.push("/concepts"))
+		.finally(() => setExporting(false))
 	}
 
-	if (exportRequested) {
-		if (exportStatus === OK) {
-			return <Redirect to="/concepts" />;
-		}
-		return <Loading textType="exporting" />;
-	}
 
+	if(exporting){
+		return <Loading textType={"exporting"} />;
+	}
 	if (loading) {
 		return <Loading />;
 	}
@@ -50,15 +56,5 @@ const ConceptsToExportContainer = ({
 		/>
 	);
 }
-const mapStateToProps = state => ({
-	exportStatus: select.getStatus(state, EXPORT_CONCEPT_LIST),
-});
 
-const mapDispatchToProps = {
-	exportConceptList,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(ConceptsToExportContainer);
+export default ConceptsToExportContainer
