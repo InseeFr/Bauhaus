@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import * as select from 'js/reducers';
 import { Loading } from '@inseefr/wilco';
@@ -20,7 +20,7 @@ const CollectionVisualizationContainer = () => {
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
 	const langs = useSelector(state => select.getLangs(state))
 
-	const fetchData = () => {
+	const fetchData = useCallback(() => {
 		Promise.all([
 			api.getCollectionGeneral(id),
 			api.getCollectionMembersList(id),
@@ -29,11 +29,11 @@ const CollectionVisualizationContainer = () => {
 			setCollection({ general, members});
 			setStamps(stamps);
 		}).finally(() => setLoading(false))
-	}
+	}, [id]);
 
 	useEffect(() => {
 		fetchData();
-	}, [])
+	}, [fetchData])
 
 	const handleCollectionValidation = (id) => {
 		setSaving(true)
