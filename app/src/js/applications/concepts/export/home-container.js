@@ -24,7 +24,7 @@ const ConceptsToExportContainer = () => {
 	const handleExportConceptList = (ids, MimeType) => {
 		Promise.all(ids.map(id => {
 			let fileName;
-			api
+			return api
 				.getConceptExport(id, MimeType)
 				.then(res => {
 					fileName = getContentDisposition(

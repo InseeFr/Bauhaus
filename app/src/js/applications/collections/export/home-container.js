@@ -35,7 +35,7 @@ const CollectionsToExportContainer = () => {
 				.then(() => history.push("/collections"))
 				.finally(() => setExporting(false))
 		},
-		[]
+		[history]
 	);
 
 
