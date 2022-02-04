@@ -182,7 +182,26 @@ export const formatPartialCodeList = (cl, parentCl) => {
 	}
 	return {
 		...cl,
-		parentCode: parentCl.code,
+		parentCode: parentCl.id,
 		parentLabel: parentCl.labelLg1,
 	};
+};
+
+export const partialInGlobalCodes = (parentCL, childCl) => {
+	return parentCL
+		.sort((a, b) => (a.code > b.code ? 1 : -1))
+		.reduce((acc, c) => {
+			return [
+				...acc,
+				{
+					...c,
+					id: c.code,
+					isPartial:
+						childCl.filter(
+							(partial) =>
+								partial.code === c.code && partial.parent === c.parent
+						).length > 0,
+				},
+			];
+		}, []);
 };

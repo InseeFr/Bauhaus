@@ -12,54 +12,14 @@ import {
 } from '@inseefr/wilco';
 import { Stores, useTitle } from 'bauhaus-utilities';
 import { API } from '../../apis';
-import { validatePartialCodelist, treedData } from '../../utils';
+import {
+	validatePartialCodelist,
+	treedData,
+	partialInGlobalCodes,
+} from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PartialCodesTreeEdit from './codes-tree-edit';
 import '../codelist-detail/edit.scss';
-
-export const deleteNodes = (codes, currentNode) => {
-	let updatedCodes = [...codes];
-
-	const deleteNode = (currentNode) => {
-		updatedCodes = updatedCodes.filter(
-			(code) => code.code !== currentNode.code
-		);
-
-		const findParent = (lengthCheck, parentNode) => {
-			return (
-				codes.filter(
-					(code) =>
-						lengthCheck(code.parents?.length) &&
-						code.parents?.find(({ code }) => code === parentNode.code)
-				) || []
-			);
-		};
-		findParent((length) => length === 1, currentNode).forEach((child) =>
-			deleteNode(child)
-		);
-
-		const childrenToUpdate = findParent((length) => length > 1, currentNode);
-		updatedCodes = updatedCodes.map((updatedCode) => {
-			const isPresent = !!childrenToUpdate.find(
-				({ code }) => code === updatedCode.code
-			);
-
-			if (isPresent) {
-				return {
-					...updatedCode,
-					parents: updatedCode.parents.filter(
-						({ code }) => code !== currentNode.code
-					),
-				};
-			} else {
-				return updatedCode;
-			}
-		});
-	};
-	deleteNode(currentNode);
-
-	return updatedCodes;
-};
 
 const defaultCodelist = {
 	contributor: 'DG75-L201',
@@ -77,77 +37,55 @@ const DumbCodelistPartialDetailEdit = ({
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
 	const [parentCodes, setParentCodes] = useState(null);
-	/* const [codes, setCodes] = useState(
-		Object.values(defaultCodelist.codes || {})
-	);
-	 const [tree, setTree] = useState(treedData(codes)); */
 	const [parentTree, setParentTree] = useState(null);
-
-	/* const deleteCode = useCallback(
-		(codeToDelete) => {
-			const updatedCodes = deleteNodes(codes, codeToDelete);
-			setCodes(updatedCodes);
-		},
-		[codes]
-	);
-
-	const updateCode = useCallback(
-		(codeObject) => {
-			const existing = codes.find((c) => c.code === codeObject.code);
-			if (!existing) {
-				// Create
-				setCodes([...codes.filter((c) => c.code !== ''), codeObject]);
-			} else {
-				// Update
-				setCodes(
-					codes.map((c) => {
-						if (c.code === codeObject.code) {
-							return codeObject;
-						}
-						return c;
-					})
-				);
-			}
-		},
-		[codes]
-	);
-
-	const createCode = useCallback(
-		(newCode) => {
-			setCodes([...codes, newCode]);
-		},
-		[codes]
-	); */
-
 	const { field, message } = validatePartialCodelist(codelist);
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
-	const handleParentCode = useCallback((code) => {
-		API.getDetailedCodelist(code).then((codelist) => {
-			setParentCodes(Object.values(codelist.codes));
-			setParentTree(treedData(Object.values(codelist.codes || {})));
-		});
-	}, []);
+	const handleParentCode = useCallback(
+		(code) => {
+			API.getDetailedCodelist(code).then((parentCL) => {
+				const globalWithPartialCodes =
+					partialInGlobalCodes(
+						Object.values(parentCL.codes || {}),
+						Object.values(codelist.codes || {})
+					) || [];
+				setParentCodes(globalWithPartialCodes);
+			});
+		},
+		[codelist.codes]
+	);
 
 	const handleParent = useCallback(
 		(value) => {
-			setCodelist({ ...codelist, parentCode: value });
+			setCodelist({
+				...codelist,
+				parentCode: value,
+				iriParent: globalCodeListOptions?.find(
+					(parentCL) => parentCL.value === value
+				).iriParent,
+			});
 			handleParentCode(value);
 		},
-		[codelist, handleParentCode]
+		[codelist, handleParentCode, globalCodeListOptions]
 	);
 
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
-		/* setCodes(Object.values(initialCodelist.codes || {})); */
 		if (initialCodelist.parentCode) {
 			handleParentCode(initialCodelist.parentCode);
 		} else {
 			setParentCodes([]);
-			setParentTree([]);
 		}
 	}, [initialCodelist, handleParentCode]);
+
+	useEffect(() => {
+		if (parentCodes) {
+			setParentTree(treedData(parentCodes));
+		} else {
+			setParentTree([]);
+		}
+	}, [parentCodes]);
 
 	const handleChange = useCallback(
 		(e) => {
@@ -160,9 +98,63 @@ const DumbCodelistPartialDetailEdit = ({
 		[codelist]
 	);
 
+	const addAllClickHandler = useCallback(() => {
+		setParentCodes(
+			parentCodes.map((c) => {
+				return { ...c, isPartial: true };
+			})
+		);
+	}, [parentCodes]);
+
+	const removeAllClickHandler = useCallback(() => {
+		setParentCodes(
+			parentCodes.map((c) => {
+				return { ...c, isPartial: false };
+			})
+		);
+	}, [parentCodes]);
+
+	const addClickHandler = useCallback(
+		(e) => {
+			const currentCode = parentCodes.find(
+				(c) => c.code === e.target.parentElement.dataset.componentId
+			);
+			if (currentCode) {
+				setParentCodes(
+					parentCodes.map((c) => {
+						if (c.code === currentCode.code) {
+							return { ...c, isPartial: true };
+						}
+						return c;
+					})
+				);
+			}
+		},
+		[parentCodes]
+	);
+
+	const removeClickHandler = useCallback(
+		(e) => {
+			const currentCode = parentCodes.find(
+				(c) => c.code === e.target.parentElement.dataset.componentId
+			);
+			if (currentCode) {
+				setParentCodes(
+					parentCodes.map((c) => {
+						if (c.code === currentCode.code) {
+							return { ...c, isPartial: false };
+						}
+						return c;
+					})
+				);
+			}
+		},
+		[parentCodes]
+	);
+
 	const handleSaveClick = useCallback(() => {
-		handleSave(codelist);
-	}, [codelist, handleSave]);
+		handleSave(codelist, parentCodes);
+	}, [codelist, parentCodes, handleSave]);
 
 	return (
 		<React.Fragment>
@@ -306,7 +298,10 @@ const DumbCodelistPartialDetailEdit = ({
 							codes={parentCodes}
 							tree={parentTree}
 							handleChangeTree={(tree) => setParentTree(tree)}
-							handleAdd={false}
+							addAllClickHandler={addAllClickHandler}
+							removeAllClickHandler={removeAllClickHandler}
+							addClickHandler={addClickHandler}
+							removeClickHandler={removeClickHandler}
 							readOnly={true}
 						/>
 					</div>

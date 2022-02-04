@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { API } from '../../apis';
-import { formatPartialCodeList, recalculatePositions } from '../../utils';
-import { TreeContext } from '../tree/treeContext';
+import { formatPartialCodeList } from '../../utils';
 import D from '../../i18n/build-dictionary';
 import { CodeListPartialDetailEdit } from './edit';
 
@@ -32,9 +31,8 @@ const CodelistPartialEdit = (props) => {
 	const [loadingLists, setLoadingLists] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [codelist, setCodelist] = useState({});
-	const [globalCodeListOptions, setGlobalCodeListOptions] = useState({});
+	const [globalCodeListOptions, setGlobalCodeListOptions] = useState([]);
 	const [serverSideError, setServerSideError] = useState('');
-	const [tree] = useContext(TreeContext);
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
@@ -44,14 +42,23 @@ const CodelistPartialEdit = (props) => {
 	}, [goBackOrReplace]);
 
 	const handleSave = useCallback(
-		(codelist) => {
-			const rootNodes = tree;
-			const payload = recalculatePositions(codelist, rootNodes);
+		(codelist, parentCodes) => {
 			setSaving(true);
 			setServerSideError('');
-
+			const payload = {
+				...codelist,
+				codes: parentCodes
+					.filter((code) => code.isPartial)
+					.reduce((acc, c) => {
+						return {
+							...acc,
+							[c.code]: {
+								...c,
+							},
+						};
+					}, {}),
+			};
 			const request = id ? API.putCodelistPartial : API.postCodelistPartial;
-
 			request(payload)
 				.then(() => {
 					goBackOrReplace(`${codelist.id}`, !!id);
@@ -62,7 +69,7 @@ const CodelistPartialEdit = (props) => {
 				})
 				.finally(() => setSaving(false));
 		},
-		[tree, goBackOrReplace, id]
+		[goBackOrReplace, id]
 	);
 
 	useEffect(() => {
@@ -70,7 +77,11 @@ const CodelistPartialEdit = (props) => {
 			.then((codelists) => {
 				setGlobalCodeListOptions(
 					Object.values(codelists).map((cl) => {
-						return { value: cl.id, label: cl.labelLg1 };
+						return {
+							value: cl.id,
+							label: cl.labelLg1,
+							iriParent: cl.uri,
+						};
 					})
 				);
 			})
@@ -78,11 +89,12 @@ const CodelistPartialEdit = (props) => {
 	}, []);
 
 	useEffect(() => {
-		if (id) {
+		if (id && globalCodeListOptions && globalCodeListOptions[0]) {
 			API.getCodelistPartial(id)
 				.then((cl) => {
-					const splitParent = cl.iriParent.split('/');
-					const idParent = splitParent[splitParent.length - 1];
+					const idParent = globalCodeListOptions.find(
+						(parent) => parent.iriParent === cl.iriParent
+					).value;
 					API.getDetailedCodelist(idParent).then((parentCl) => {
 						setCodelist(formatPartialCodeList(cl, parentCl));
 					});
@@ -92,7 +104,7 @@ const CodelistPartialEdit = (props) => {
 			setCodelist({});
 			setLoadingList(false);
 		}
-	}, [id]);
+	}, [id, globalCodeListOptions]);
 
 	if (loadingList || loadingLists) {
 		return <Loading />;
