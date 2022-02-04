@@ -228,7 +228,7 @@ const dictionary = {
 		en: 'Has parent',
 	},
 	referencesTitle: {
-		fr: 'Reference',
+		fr: 'Référence',
 		en: 'References',
 	},
 	replacesTitle: {
