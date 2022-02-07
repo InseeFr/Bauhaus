@@ -233,7 +233,7 @@ const dictionary = {
 	},
 	replacesTitle: {
 		fr: 'Remplace',
-		en: 'Remplaces',
+		en: 'Replaces',
 	},
 	relatedTitle: {
 		fr: 'Est lié à',
