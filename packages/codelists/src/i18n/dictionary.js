@@ -37,6 +37,14 @@ const dictionary = {
 		fr: 'Liste de codes partielle',
 		en: 'Partial codelist',
 	},
+	parentCodelist: {
+		fr: 'Liste parent',
+		en: 'Parent codelist',
+	},
+	parentCodelistPlaceholder: {
+		fr: 'Sélectionnez une liste de codes parent...',
+		en: 'Select parent codelist...',
+	},
 	globalInformationsTitle: {
 		fr: 'Informations générales',
 		en: 'General information',
@@ -141,6 +149,10 @@ const dictionary = {
 		fr: "L'identifiant est obligatoire",
 		en: 'The id is mandatory',
 	},
+	errorsParentCodelistMandadory: {
+		fr: 'La liste de codes parent est obligatoire',
+		en: 'The parent codelist is mandatory',
+	},
 	ErrorDoubleCode: {
 		fr: 'Le code créé existe déjà',
 		en: 'The created code already exists',
@@ -156,6 +168,30 @@ const dictionary = {
 	see: {
 		fr: 'voir détail',
 		en: 'see details',
+	},
+	addAll: {
+		fr: 'Ajouter tous les codes à la liste partielle',
+		en: 'Add all codes to partial list',
+	},
+	removeAll: {
+		fr: 'Supprimer tous les codes de la liste partielle',
+		en: 'Remove all codes from partial list',
+	},
+	add: {
+		fr: 'Ajouter à la liste partielle',
+		en: 'Add to partial list',
+	},
+	remove: {
+		fr: 'Supprimer de la liste partielle',
+		en: 'Remove from partial list',
+	},
+	globalCodesTreeTitle: {
+		fr: 'Liste de codes globale',
+		en: 'Global codelist',
+	},
+	partialCodesTreeTitle: {
+		fr: 'Liste de codes partielle',
+		en: 'Partial codelist',
 	},
 	errorsLabelLg1Mandatory: {
 		fr: 'Le label est obligatoire',
