@@ -39,11 +39,11 @@
 		"eslint-config-prettier": "6.15.0",
 		"eslint-config-react-app": "6.0.0",
 		"eslint-plugin-flowtype": "5.2.0",
-		"eslint-plugin-import": "2.22.1",
+		"eslint-plugin-import": "^2.25.4",
 		"eslint-plugin-jest-dom": "3.2.4",
-		"eslint-plugin-jsx-a11y": "6.4.1",
-		"eslint-plugin-react": "7.21.5",
-		"eslint-plugin-react-hooks": "4.2.0",
+		"eslint-plugin-jsx-a11y": "^6.5.1",
+		"eslint-plugin-react": "^7.28.0",
+		"eslint-plugin-react-hooks": "^4.3.0",
 		"eslint-plugin-testing-library": "3.9.2",
 		"husky": "4.3.0",
 		"jest": "26.6.0",
@@ -59,10 +59,10 @@
 		"prop-types": "^15.8.1",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
-		"react-redux": "7.2.0",
+		"react-redux": "^7.2.6",
 		"react-router-dom": "5.2.0",
-		"redux": "4.0.5",
-		"rollup": "^2.66.1"
+		"redux": "4.1.2",
+		"rollup": "^2.67.0"
 	},
 	"husky": {
 		"hooks": {

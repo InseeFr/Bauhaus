@@ -228,12 +228,12 @@ const dictionary = {
 		en: 'Has parent',
 	},
 	referencesTitle: {
-		fr: 'Reference',
+		fr: 'Référence',
 		en: 'References',
 	},
 	replacesTitle: {
 		fr: 'Remplace',
-		en: 'Remplaces',
+		en: 'Replaces',
 	},
 	relatedTitle: {
 		fr: 'Est lié à',
