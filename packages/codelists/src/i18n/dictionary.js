@@ -205,21 +205,9 @@ const dictionary = {
 		fr: 'Le statut de diffusion est obligatoire',
 		en: 'The dissemination status is mandatory',
 	},
-	errors_1100: {
-		fr: "L'identifiant n'est pas défini.",
-		en: 'The identifiant is not defined.',
-	},
 	errors_1101: {
-		fr: "Le libellé n'est pas défini.",
-		en: 'The label is not defined.',
-	},
-	errors_1102: {
-		fr: "Le lastListUriSegment n'est pas défini.",
-		en: 'the lastListUriSegment is not defined.',
-	},
-	errors_1103: {
-		fr: "Le lastClassUriSegment  n'est pas défini.",
-		en: 'The lastClassUriSegment is not defined.',
+		fr: 'La liste de codes existe déjà.',
+		en: 'The codelist already exists.',
 	},
 	btnDelete: {
 		fr: 'Supprimer',
