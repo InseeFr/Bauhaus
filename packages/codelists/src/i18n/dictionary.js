@@ -37,6 +37,14 @@ const dictionary = {
 		fr: 'Liste de codes partielle',
 		en: 'Partial codelist',
 	},
+	parentCodelist: {
+		fr: 'Liste parent',
+		en: 'Parent codelist',
+	},
+	parentCodelistPlaceholder: {
+		fr: 'Sélectionnez une liste de codes parent...',
+		en: 'Select parent codelist...',
+	},
 	globalInformationsTitle: {
 		fr: 'Informations générales',
 		en: 'General information',
@@ -141,6 +149,10 @@ const dictionary = {
 		fr: "L'identifiant est obligatoire",
 		en: 'The id is mandatory',
 	},
+	errorsParentCodelistMandadory: {
+		fr: 'La liste de codes parent est obligatoire',
+		en: 'The parent codelist is mandatory',
+	},
 	ErrorDoubleCode: {
 		fr: 'Le code créé existe déjà',
 		en: 'The created code already exists',
@@ -157,6 +169,30 @@ const dictionary = {
 		fr: 'voir détail',
 		en: 'see details',
 	},
+	addAll: {
+		fr: 'Ajouter tous les codes à la liste partielle',
+		en: 'Add all codes to partial list',
+	},
+	removeAll: {
+		fr: 'Supprimer tous les codes de la liste partielle',
+		en: 'Remove all codes from partial list',
+	},
+	add: {
+		fr: 'Ajouter à la liste partielle',
+		en: 'Add to partial list',
+	},
+	remove: {
+		fr: 'Supprimer de la liste partielle',
+		en: 'Remove from partial list',
+	},
+	globalCodesTreeTitle: {
+		fr: 'Liste de codes globale',
+		en: 'Global codelist',
+	},
+	partialCodesTreeTitle: {
+		fr: 'Liste de codes partielle',
+		en: 'Partial codelist',
+	},
 	errorsLabelLg1Mandatory: {
 		fr: 'Le label est obligatoire',
 		en: 'The label is mandatory',
@@ -169,21 +205,9 @@ const dictionary = {
 		fr: 'Le statut de diffusion est obligatoire',
 		en: 'The dissemination status is mandatory',
 	},
-	errors_1100: {
-		fr: "L'identifiant n'est pas défini.",
-		en: 'The identifiant is not defined.',
-	},
 	errors_1101: {
-		fr: "Le libellé n'est pas défini.",
-		en: 'The label is not defined.',
-	},
-	errors_1102: {
-		fr: "Le lastListUriSegment n'est pas défini.",
-		en: 'the lastListUriSegment is not defined.',
-	},
-	errors_1103: {
-		fr: "Le lastClassUriSegment  n'est pas défini.",
-		en: 'The lastClassUriSegment is not defined.',
+		fr: 'La liste de codes existe déjà.',
+		en: 'The codelist already exists.',
 	},
 	btnDelete: {
 		fr: 'Supprimer',

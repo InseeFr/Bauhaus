@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react';
-import { connect, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import CollectionsHome from './home';
-import loadCollectionList from 'js/actions/collections/list';
-import { Auth } from 'bauhaus-utilities';
+import { ArrayUtils, Auth } from 'bauhaus-utilities';
+import api from '../../remote-api/concepts-api';
 
-const CollectionsHomeContainer = ( { collections, loadCollectionList }) =>  {
+const CollectionsHomeContainer = () =>  {
 	const permission = useSelector(state => Auth.getPermission(state));
-
+	const [loading, setLoading] = useState(true);
+	const [collections, setCollections] = useState([]);
 	useEffect(() => {
-		if (!collections) {
-			loadCollectionList();
-		}
-	}, [collections, loadCollectionList]);
+		api.getCollectionList().then(body => {
+			setCollections(ArrayUtils.sortArrayByLabel(body))
+		}).finally(() => setLoading(false))
+	}, []);
 
-	if (!collections) {
+	if (loading) {
 		return <Loading />;
 	}
 	return (
@@ -22,23 +23,4 @@ const CollectionsHomeContainer = ( { collections, loadCollectionList }) =>  {
 	);
 }
 
-const mapStateToProps = state => {
-	if (!state.collectionList) {
-		return {
-			collections: [],
-		};
-	}
-	let { results: collections } = state.collectionList;
-	return {
-		collections,
-	};
-};
-
-const mapDispatchToProps = {
-	loadCollectionList,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(CollectionsHomeContainer);
+export default CollectionsHomeContainer

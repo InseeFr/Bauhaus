@@ -1,46 +1,52 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import CollectionsToExport from './home';
-import * as select from 'js/reducers';
-import { EXPORT_COLLECTION_LIST } from 'js/actions/constants';
-import { Loading } from '@inseefr/wilco';
-import exportCollectionList from 'js/actions/collections/export-multi';
-import loadCollectionList from 'js/actions/collections/list';
-import { OK } from 'js/constants';
-import { useTitle } from 'bauhaus-utilities';
+import { getContentDisposition, Loading } from '@inseefr/wilco';
+import { ArrayUtils, useTitle } from 'bauhaus-utilities';
 import D from '../../../i18n/build-dictionary';
+import api from '../../../remote-api/concepts-api';
+import FileSaver from 'file-saver';
 
-const CollectionsToExportContainer = ({
-	collections,
-	exportStatus,
-	loadCollectionList,
-	exportCollectionList,
-}) => {
+const CollectionsToExportContainer = () => {
 	useTitle(D.collectionsTitle, D.exportTitle)
-
-	const [exportRequested, setExportRequested] = useState(false);
+	const history = useHistory();
+	const [collections, setCollections] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [exporting, setExporting] = useState(false);
 
 	const handleExportCollectionList = useCallback(
 		(ids, MimeType) => {
-			exportCollectionList(ids, MimeType);
-			setExportRequested(true);
+			setExporting(true);
+			Promise.all(ids.map(id => {
+				let fileName;
+				return api
+					.getCollectionExport(id, MimeType)
+					.then(res => {
+						fileName = getContentDisposition(
+							res.headers.get('Content-Disposition')
+						)[1];
+						return res;
+					})
+					.then(res => res.blob())
+					.then(blob => {
+						return FileSaver.saveAs(blob, fileName);
+					});
+			}))
+				.then(() => history.push("/collections"))
+				.finally(() => setExporting(false))
 		},
-		[exportCollectionList]
+		[history]
 	);
 
+
 	useEffect(() => {
-		if (!collections) loadCollectionList();
-	}, [collections, loadCollectionList]);
+		api.getCollectionList()
+			.then(body => setCollections(ArrayUtils.sortArrayByLabel(body)))
+			.finally(() => setLoading(false))
+	}, [])
 
-	if (exportRequested) {
-		if (exportStatus === OK) {
-			return <Redirect to="/collections" />;
-		}
-		return <Loading textType="exporting" />;
-	}
-
-	if (!collections) return <Loading />;
+	if(exporting) return <Loading textType="exporting" />;
+	if (loading) return <Loading />;
 	return (
 		<CollectionsToExport
 			collections={collections}
@@ -49,17 +55,4 @@ const CollectionsToExportContainer = ({
 	);
 };
 
-const mapStateToProps = state => ({
-	collections: select.getCollectionList(state),
-	exportStatus: select.getStatus(state, EXPORT_COLLECTION_LIST),
-});
-
-const mapDispatchToProps = {
-	loadCollectionList,
-	exportCollectionList,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(CollectionsToExportContainer);
+export default CollectionsToExportContainer;

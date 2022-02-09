@@ -1,48 +1,28 @@
-import React, { useCallback, useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import SlidingPanel from 'react-sliding-side-panel';
+import { ActionToolbar, Panel } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
+import D from '../../i18n/build-dictionary';
+import { CollapsiblePanel } from '../collapsible-panel';
 import RmesTree from '../tree';
-import { TreeContext } from '../tree/treeContext';
-import { CodeDetailEdit } from '../code-detail/edit';
-import { treedData } from '../../utils';
-import { emptyCode } from '../code-detail/empty-code';
+import { CodeDetailView } from '../code-detail/view';
+import CodeTitle from '../code-detail/title';
 
-export const syncNodes = (previousNodes = [], nextNodes = []) => {
-	if (previousNodes.length !== nextNodes.length) {
-		return nextNodes;
-	}
-	return nextNodes.map((node) => {
-		const previousNode = previousNodes.find(({ code }) => code === node.code);
-
-		return {
-			...node,
-			expanded: previousNode?.expanded || false,
-			position:
-				previousNode?.position ||
-				(previousNodes.position ? Math.max(previousNodes.position) + 1 : 1),
-			children: syncNodes(previousNode?.children, node.children),
-		};
-	});
-};
-
-const CodesTreeEdit = ({
+const PartialCodesTreeEdit = ({
+	hidden = false,
 	codes,
-	deleteCode,
-	deleteCodeWithChildren,
-	updateCode,
-	createCode,
+	tree,
+	handleChangeTree,
+	addClickHandler,
+	removeClickHandler,
+	addAllClickHandler,
+	removeAllClickHandler,
 }) => {
+	const [openPanel, setOpenPanel] = useState(false);
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
-	const [selectedCode, setSelectedCode] = useState(emptyCode);
-	const [tree, setTree] = useContext(TreeContext);
-
-	useEffect(() => {
-		const currentTree = treedData(Object.values(codes || {}));
-		setTree(syncNodes(tree, currentTree));
-		// needs not to depend on tree to allow react-sortable-tree to update "expanded"
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [codes]);
+	const [selectedCode, setSelectedCode] = useState(null);
 
 	const seeClickHandler = useCallback(
 		(e) => {
@@ -51,38 +31,98 @@ const CodesTreeEdit = ({
 			);
 			if (chosenCode) {
 				setSelectedCode(chosenCode);
+				setOpenPanel(true);
 			}
 		},
 		[codes]
 	);
 
 	return (
-		<div className="row">
-			<div className="col-md-5 form-group">
-				<RmesTree
-					treeData={tree}
-					handleChangeTree={setTree}
-					readOnly={false}
-					seeClickHandler={seeClickHandler}
-				/>
-			</div>
-			<div className="col-md-7 form-group">
-				<CodeDetailEdit
-					code={selectedCode}
-					codes={codes}
-					secondLang={secondLang}
-					deleteCode={deleteCode}
-					deleteCodeWithChildren={deleteCodeWithChildren}
-					updateCode={updateCode}
-					createCode={createCode}
-				/>
-			</div>
-		</div>
+		<CollapsiblePanel
+			id="code-picker"
+			hidden={hidden}
+			title={D.codesTreeTitle}
+			children={
+				<React.Fragment>
+					<ActionToolbar>
+						<div className="col-md-1"></div>
+						<button
+							type="button"
+							onClick={addAllClickHandler}
+							className="btn wilco-btn btn-lg btn-block col-md-3"
+						>
+							<span
+								className="glyphicon glyphicon-plus"
+								aria-hidden="true"
+							></span>
+							<span>{D.addAll}</span>
+						</button>
+						<div className="col-md-1"></div>
+						<button
+							type="button"
+							onClick={removeAllClickHandler}
+							className="btn wilco-btn btn-lg btn-block col-md-3"
+						>
+							<span
+								className="glyphicon glyphicon-minus"
+								aria-hidden="true"
+							></span>
+							<span>{D.removeAll}</span>
+						</button>
+						<div className="col-md-4"></div>
+					</ActionToolbar>
+					<div className="col-md-6 form-group">
+						<Panel title={D.partialCodesTreeTitle}>
+							<RmesTree
+								treeData={tree.filter((code) => code.isPartial)}
+								handleChangeTree={() => {}}
+								readOnly={true}
+							/>
+						</Panel>
+					</div>
+					<div className="col-md-6 form-group">
+						<Panel title={D.globalCodesTreeTitle}>
+							<RmesTree
+								treeData={tree}
+								handleChangeTree={handleChangeTree}
+								readOnly={true}
+								seeClickHandler={seeClickHandler}
+								addHandler={addClickHandler}
+								removeHandler={removeClickHandler}
+							/>
+						</Panel>
+						<SlidingPanel
+							type={'left'}
+							isOpen={openPanel}
+							size={60}
+							backdropClicked={() => setOpenPanel(false)}
+						>
+							<CodeTitle code={selectedCode} secondLang={secondLang} />
+							<CodeDetailView
+								code={selectedCode}
+								codes={codes}
+								secondLang={secondLang}
+								handleBack={() => {
+									setOpenPanel(false);
+								}}
+							/>
+						</SlidingPanel>
+					</div>
+				</React.Fragment>
+			}
+		/>
 	);
 };
 
-CodesTreeEdit.propTypes = {
+PartialCodesTreeEdit.propTypes = {
+	hidden: PropTypes.bool,
 	codes: PropTypes.array,
+	tree: PropTypes.array.isRequired,
+	handleChangeTree: PropTypes.func.isRequired,
+	addClickHandler: PropTypes.func.isRequired,
+	removeClickHandler: PropTypes.func.isRequired,
+	addAllClickHandler: PropTypes.func.isRequired,
+	removeAllClickHandler: PropTypes.func.isRequired,
 };
 
-export default CodesTreeEdit;
+export default PartialCodesTreeEdit;

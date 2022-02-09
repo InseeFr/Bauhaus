@@ -1,37 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import CollectionsToValidate from './home';
 import { Loading } from '@inseefr/wilco';
-import * as select from 'js/reducers';
-import validateCollectionList from 'js/actions/collections/validate';
-import loadCollectionValidateList from 'js/actions/collections/validate-list';
-import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
-import { OK } from 'js/constants';
-import { Auth, useTitle } from 'bauhaus-utilities';
+import { ArrayUtils, Auth, useTitle } from 'bauhaus-utilities';
 import D from 'js/i18n';
+import api from '../../../remote-api/concepts-api';
 
-const CollectionsToValidateContainer =
-	({ validateCollectionList, collections, loadCollectionValidateList, permission, validationStatus }) => {
+const CollectionsToValidateContainer = () => {
 	useTitle(D.collectionsTitle, D.btnValid);
 
-	const [validationRequested, setValidationRequested] = useState(false);
+	const permission = useSelector(state => Auth.getPermission(state));
+	const [loading, setLoading] = useState(true);
+	const [saving, setSaving] = useState(false);
+	const [collections, setCollections] = useState([]);
+	const history = useHistory();
 
 	const handleValidateCollectionList = ids => {
-		validateCollectionList(ids);
-		setValidationRequested(true)
+		setSaving(true)
+		api.putCollectionValidList(ids)
+			.then(() => setSaving(false))
+			.finally(() => history.push("/collections"))
 	};
 
 	useEffect(() => {
-		if (!collections) loadCollectionValidateList();
-	}, [collections, loadCollectionValidateList]);
+		api.getCollectionValidateList()
+			.then(results => setCollections(ArrayUtils.sortArrayByLabel(results)))
+			.then(() => setLoading(false))
+	}, []);
 
-	if (validationRequested) {
-		if (validationStatus === OK) {
-			return <Redirect to="/collections" />;
-		} else return <Loading textType="validating" />;
-	}
-	if (!collections) return <Loading />;
+	if(saving) return <Loading textType="validating" />;
+	if (loading) return <Loading />;
 	return (
 		<CollectionsToValidate
 			collections={collections}
@@ -41,18 +40,4 @@ const CollectionsToValidateContainer =
 	);
 }
 
-const mapStateToProps = state => ({
-	collections: select.getCollectionValidateList(state),
-	permission: Auth.getPermission(state),
-	validationStatus: select.getStatus(state, VALIDATE_COLLECTION_LIST),
-});
-
-const mapDispatchToProps = {
-	loadCollectionValidateList,
-	validateCollectionList,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(CollectionsToValidateContainer);
+export default CollectionsToValidateContainer;

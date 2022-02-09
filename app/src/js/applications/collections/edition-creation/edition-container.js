@@ -1,128 +1,81 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
-import { UPDATE_COLLECTION } from 'js/actions/constants';
-import loadCollection from 'js/actions/collections/collection';
-import loadCollectionList from 'js/actions/collections/list';
-import loadConceptList from 'js/actions/concepts/list';
-import loadStampList from 'js/actions/stamp';
-import updateCollection from 'js/actions/collections/update';
 import CollectionEditionCreation from './home';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import D from 'js/i18n';
-import { Loading, buildExtract, cleanId } from '@inseefr/wilco';
-import { OK } from 'js/constants';
-import { Stores } from 'bauhaus-utilities';
+import { Loading, cleanId } from '@inseefr/wilco';
+import { ArrayUtils } from 'bauhaus-utilities';
+import api from '../../../remote-api/concepts-api';
+import globalApi from '../../../remote-api/api';
 
-const extractId = buildExtract('id');
+const EditionContainer = () => {
+	const { id } = useParams();
+	const history = useHistory();
+	const langs = useSelector(state => select.getLangs(state));
 
-class EditionContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			updateRequested: false,
-			id: '',
-		};
+	const [loadingCollection, setLoadingCollection] = useState(true);
+	const [loadingExtraData, setLoadingExtraData] = useState(true);
+	const [saving, setSaving] = useState(false);
 
-		this.handleUpdate = (data) => {
-			this.props.updateCollection(
-				data.general.id,
-				buildPayload(data, 'UPDATE')
-			);
-			this.setState({
-				updateRequested: true,
-				id: data.general.id,
-			});
-		};
+	const [collection, setCollection] = useState({ })
+	const [collectionList, setCollectionList] = useState([])
+	const [conceptList, setConceptList] = useState([])
+	const [stampList, setStampList] = useState([])
+
+	useEffect(() => {
+		Promise.all([
+			api.getCollectionGeneral(id),
+			api.getCollectionMembersList(id)
+		]).then(([general, members]) => {
+			setCollection({ general, members });
+		}).finally(() => setLoadingCollection(false))
+	}, [id])
+
+	useEffect(() => {
+		Promise.all([
+			globalApi.getStampList(),
+			api.getConceptList(),
+			api.getCollectionList()
+		]).then(([ stampsList, conceptsList, collectionsList ]) => {
+			setStampList(stampsList)
+			setConceptList(ArrayUtils.sortArrayByLabel(conceptsList))
+			setCollectionList(ArrayUtils.sortArrayByLabel(collectionsList))
+		}).finally(() => setLoadingExtraData(false))
+	}, []);
+
+	const handleUpdate = useCallback((data) => {
+		setSaving(true);
+		api.putCollection(data.general.id, buildPayload(data, 'UPDATE'))
+			.then(() => {
+				history.push(`/collection/${cleanId(id)}`)
+			})
+			.finally(() => setSaving(false))
+	}, [history, id]);
+
+	if(saving){
+		return <Loading textType="saving" />
+	}
+	if(loadingCollection || loadingExtraData){
+		return <Loading />
 	}
 
-	componentWillMount() {
-		const {
-			id,
-			collection,
-			collectionList,
-			conceptList,
-			stampList,
-		} = this.props;
-		if (!collection) this.props.loadCollection(id);
-		if (!collectionList) this.props.loadCollectionList();
-		if (!conceptList) this.props.loadConceptList();
-		if (stampList.length === 0) this.props.loadStampList();
-	}
+	const { general, members } = collection;
 
-	render() {
-		const {
-			collection,
-			collectionList,
-			conceptList,
-			stampList,
-			updateStatus,
-			langs,
-		} = this.props;
-
-		if (this.state.updateRequested) {
-			if (this.props.updateStatus === OK) {
-				return <Redirect to={`/collection/${cleanId(this.state.id)}`} />;
-			} else {
-				return <Loading textType="saving" />;
-			}
-		}
-		if (collection && collectionList && conceptList && stampList) {
-			const { general, members } = collection;
-
-			return (
-				<CollectionEditionCreation
-					title={D.updateCollectionTitle}
-					subtitle={general.prefLabelLg1}
-					general={general}
-					members={members}
-					collectionList={collectionList}
-					conceptList={conceptList}
-					stampList={stampList}
-					isActionProcessed={updateStatus}
-					save={this.handleUpdate}
-					langs={langs}
-				/>
-			);
-		}
-		return <Loading />;
-	}
+	return (
+		<CollectionEditionCreation
+			title={D.updateCollectionTitle}
+			subtitle={general.prefLabelLg1}
+			general={general}
+			members={members}
+			collectionList={collectionList}
+			conceptList={conceptList}
+			stampList={stampList}
+			save={handleUpdate}
+			langs={langs}
+		/>
+	);
 }
-
-const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	return {
-		id,
-		collection: select.getCollection(state, id),
-		collectionList: select.getCollectionList(state),
-		conceptList: select.getConceptList(state),
-		stampList: Stores.Stamps.getStampList(state),
-		updateStatus: select.getStatus(state, UPDATE_COLLECTION),
-		langs: select.getLangs(state),
-	};
-};
-
-const mapDispatchToProps = {
-	loadCollection,
-	loadCollectionList,
-	loadConceptList,
-	loadStampList,
-	updateCollection,
-};
-
-EditionContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(EditionContainer);
-
-EditionContainer.propTypes = {
-	match: PropTypes.shape({
-		params: PropTypes.shape({
-			id: PropTypes.string.isRequired,
-		}),
-	}),
-};
 
 export default EditionContainer;

@@ -1,110 +1,66 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
-import { VALIDATE_COLLECTION_LIST } from 'js/actions/constants';
-import validateCollection from 'js/actions/collections/validate';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import * as select from 'js/reducers';
-import loadCollections from 'js/actions/collections/collection';
-import loadStampList from 'js/actions/stamp';
-import { Loading, buildExtract } from '@inseefr/wilco';
+import { Loading } from '@inseefr/wilco';
 import CollectionVisualization from './home';
-import { OK } from 'js/constants';
 import { Auth, Stores } from 'bauhaus-utilities';
+import { useParams } from 'react-router-dom';
+import api from '../../../remote-api/concepts-api';
+import globalApi from '../../../remote-api/api';
 
-const extractId = buildExtract('id');
+const CollectionVisualizationContainer = () => {
+	const { id } = useParams();
+	const [collection, setCollection] = useState();
+	const [loading, setLoading] = useState(true);
+	const [saving, setSaving] = useState(false);
+	const [stamps, setStamps] = useState();
 
-class CollectionVisualizationContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			validationRequested: false,
-		};
-		this.handleCollectionValidation = (id) => {
-			this.props.validateCollection(id);
-			this.setState({
-				validationRequested: true,
-			});
-		};
+
+	const permission = useSelector(state => Auth.getPermission(state));
+	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
+	const langs = useSelector(state => select.getLangs(state))
+
+	const fetchData = useCallback(() => {
+		Promise.all([
+			api.getCollectionGeneral(id),
+			api.getCollectionMembersList(id),
+			globalApi.getStampList()
+		]).then(([general, members, stamps]) => {
+			setCollection({ general, members});
+			setStamps(stamps);
+		}).finally(() => setLoading(false))
+	}, [id]);
+
+	useEffect(() => {
+		fetchData();
+	}, [fetchData])
+
+	const handleCollectionValidation = (id) => {
+		setSaving(true)
+		api.putCollectionValidList([id])
+			.then(() => fetchData())
+			.finally(() => setSaving(false));
 	}
-	componentWillMount() {
-		const { id, collection, stampList } = this.props;
-		if (!collection) this.props.loadCollections(id);
-		if (stampList.length === 0) this.props.loadStampList();
+	if(loading){
+		return <Loading />
 	}
 
-	componentWillReceiveProps({ id, validationStatus }) {
-		if (id !== this.props.id) {
-			this.props.loadCollections(id);
-		}
-		if (this.state.validationRequested && validationStatus === OK) {
-			//validation has been processed successfully, we can show the
-			//component again
-			this.setState({
-				validationRequested: false,
-			});
-			//we need to load the collection again
-			this.props.loadCollections(id);
-		}
+	if(saving){
+		return <Loading textType="validating" />
 	}
-	render() {
-		const { validationRequested } = this.state;
-		const { validationStatus, langs } = this.props;
-		if (validationRequested && validationStatus !== OK) {
-			//if validation is OK: nothing to do. We stay on this page and the collection will
-			//be loaded automatically (since the entries for the given collection in the store will
-			//be deleted).
-			if (validationStatus !== OK) return <Loading textType="validating" />;
-		}
-		const { id, permission, collection, stampList, secondLang } = this.props;
-		if (collection && stampList) {
-			const { general, members } = collection;
-			return (
-				<CollectionVisualization
-					id={id}
-					permission={permission}
-					general={general}
-					members={members}
-					stampList={stampList}
-					validateCollection={this.handleCollectionValidation}
-					validationStatus={validationStatus}
-					secondLang={secondLang}
-					langs={langs}
-				/>
-			);
-		}
-		return <Loading />;
-	}
+	const { general, members } = collection;
+
+	return (
+		<CollectionVisualization
+			id={id}
+			permission={permission}
+			general={general}
+			members={members}
+			stampList={stamps}
+			validateCollection={handleCollectionValidation}
+			secondLang={secondLang}
+			langs={langs}
+		/>
+	);
 }
-
-const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	return {
-		id,
-		permission: Auth.getPermission(state),
-		secondLang: Stores.SecondLang.getSecondLang(state),
-		collection: select.getCollection(state, id),
-		stampList: Stores.Stamps.getStampList(state),
-		validationStatus: select.getStatus(state, VALIDATE_COLLECTION_LIST),
-		langs: select.getLangs(state),
-	};
-};
-
-const mapDispatchToProps = {
-	loadCollections,
-	loadStampList,
-	validateCollection: (id) => validateCollection([id]),
-};
-
-CollectionVisualizationContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(CollectionVisualizationContainer);
-
-CollectionVisualizationContainer.propTypes = {
-	match: PropTypes.shape({
-		params: PropTypes.shape({
-			id: PropTypes.string.isRequired,
-		}),
-	}),
-};
 export default CollectionVisualizationContainer;

@@ -10,7 +10,14 @@
 		"jsx-a11y/href-no-hash": 0,
 		"no-useless-escape": "off",
 		"no-duplicate-imports": "error",
-		"import/no-anonymous-default-export": 0
+		"import/no-anonymous-default-export": 0,
+		"testing-library/no-container": 0,
+		"testing-library/no-node-access": 0,
+		"testing-library/render-result-naming-convention": 0,
+		"testing-library/prefer-screen-queries": 0,
+		"testing-library/prefer-presence-queries": 0,
+		"testing-library/no-unnecessary-act": 0,
+		"testing-library/no-wait-for-multiple-assertions": 0
 	},
 	"settings": {
 		"react": {

@@ -120,9 +120,6 @@ class LinksEdition extends Component {
 			};
 		};
 		this.getActualType = () => linkTypes[this.state.activeTab].memberType;
-		this.isPanelParent = () => this.getActualType() === NARROWER;
-		//if the concept already has a parent, we cannot add a parent
-		this.isAddDisabled = members => this.isPanelParent() && members.length > 0;
 	}
 	updateEquivalentLinks = (links) => {
 		this.props.handleChangeEquivalentLinks(links)
@@ -141,15 +138,13 @@ class LinksEdition extends Component {
 				handleClick={removeMember}
 			/>
 		));
-		//if a concept already has a parent, no other parent can be added.
-		const handleClickAdd = !this.isAddDisabled(members) ? addMember : undefined;
 		const hitEls = hits.map(({ id, label }) => (
 			<PickerItem
 				key={id}
 				id={id}
 				label={label}
 				logo={LogoAdd}
-				handleClick={handleClickAdd}
+				handleClick={addMember}
 			/>
 		));
 
@@ -193,10 +188,6 @@ class LinksEdition extends Component {
 }
 
 LinksEdition.propTypes = {
-	//all concepts not referenced by the actual concept, and hence which can
-	//be added as a parent, a child, a reference, a successor or a related
-	//concept.
-	//concepts are supposed to be sorted by `label`
 	conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
 	handleChange: PropTypes.func.isRequired,
 	handleChangeEquivalentLinks: PropTypes.func.isRequired,

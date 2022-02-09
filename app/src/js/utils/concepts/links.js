@@ -6,6 +6,7 @@ import {
 	SUCCEED,
 	RELATED,
 	NONE, CLOSE_MATCH,
+	IS_REPLACED_BY
 } from 'js/constants';
 
 const linkTypes = {
@@ -15,6 +16,8 @@ const linkTypes = {
 	[SUCCEED]: SUCCEED,
 	[RELATED]: RELATED,
 	[CLOSE_MATCH]: CLOSE_MATCH,
+	[IS_REPLACED_BY]: IS_REPLACED_BY,
+
 };
 
 const propTypesKindOfLink = PropTypes.oneOf([
@@ -24,6 +27,7 @@ const propTypesKindOfLink = PropTypes.oneOf([
 	SUCCEED,
 	RELATED,
 	NONE,
+	IS_REPLACED_BY
 ]);
 
 export const propTypes = PropTypes.arrayOf(

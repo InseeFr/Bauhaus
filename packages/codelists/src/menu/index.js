@@ -10,20 +10,20 @@ const MenuCodelists = ({ location }) => {
 
 	const paths = [
 		{
-			path: '/codelists',
-			pathKey: 'codelists',
-			className: null,
-			attrs: null,
-			label: D.codelistsTitle,
-			order: 0,
-		},
-		{
 			path: '/codelists-partial',
 			pathKey: 'codelists-partial',
 			className: null,
 			attrs: null,
 			label: D.codelistsPartialTitle,
-			order: 0,
+			order: 2,
+		},
+		{
+			path: '/codelists',
+			pathKey: 'codelists',
+			className: null,
+			attrs: null,
+			label: D.codelistsTitle,
+			order: 1,
 		},
 	];
 

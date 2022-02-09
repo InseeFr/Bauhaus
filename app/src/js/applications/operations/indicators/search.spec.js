@@ -1,6 +1,6 @@
 import { SearchFormList } from './search';
 import React from 'react';
-import { render, fireEvent, waitForElement } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 const data = [
 	{
@@ -351,7 +351,7 @@ describe('<SearchFormList />', () => {
 
 		const listOptions = container.querySelector('label[for="creator"] input');
 		fireEvent.keyDown(listOptions, { key: 'ArrowDown' });
-		const option = await waitForElement(() => findByText('DG57-C060'));
+		const option = await findByText('DG57-C060');
 		fireEvent.click(option);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
@@ -369,7 +369,7 @@ describe('<SearchFormList />', () => {
 
 		const listOptions = container.querySelector('label[for="publisher"] input');
 		fireEvent.keyDown(listOptions, { key: 'ArrowDown' });
-		const option = await waitForElement(() => findByText('DG75-L002'));
+		const option = await findByText('DG75-L002');
 		fireEvent.click(option);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});

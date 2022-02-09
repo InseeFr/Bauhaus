@@ -1,101 +1,69 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { CREATE_COLLECTION } from 'js/actions/constants';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import * as select from 'js/reducers';
-import loadConceptList from 'js/actions/concepts/list';
-import loadCollectionList from 'js/actions/collections/list';
-import loadStampList from 'js/actions/stamp';
-import createCollection from 'js/actions/collections/create';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import CollectionEditionCreation from './home';
 import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
 import { cleanId, Loading } from '@inseefr/wilco';
-import { OK } from 'js/constants';
-import { Stores } from 'bauhaus-utilities';
+import { ArrayUtils } from 'bauhaus-utilities';
+import globalApi from '../../../remote-api/api';
+import api from '../../../remote-api/concepts-api';
 
-class CreationContainer extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			creationRequested: false,
-			id: '',
-		};
+const CreationContainer = () => {
+	const history = useHistory()
+	const langs = useSelector(state => select.getLangs(state));
+	const collection = useSelector(state => emptyCollection(state.app.properties.defaultContributor));
 
-		this.handleCreation = (data) => {
-			this.props.createCollection(buildPayload(data, 'CREATE'));
-			this.setState({
-				creationRequested: true,
-				id: data.general.id,
-			});
-		};
+	const [loading, setLoading] = useState(true);
+	const [saving, setSaving] = useState(false);
+
+	const [collectionList, setCollectionList] = useState([])
+	const [conceptList, setConceptList] = useState([])
+	const [stampList, setStampList] = useState([])
+
+	useEffect(() => {
+		Promise.all([
+			globalApi.getStampList(),
+			api.getConceptList(),
+			api.getCollectionList()
+		]).then(([ stampsList, conceptsList, collectionsList ]) => {
+			setStampList(stampsList)
+			setConceptList(ArrayUtils.sortArrayByLabel(conceptsList))
+			setCollectionList(ArrayUtils.sortArrayByLabel(collectionsList))
+		}).finally(() => setLoading(false))
+	}, []);
+
+	const handleCreation = useCallback((data) => {
+		setSaving(true);
+		api.postCollection(buildPayload(data, 'CREATE'))
+			.then(() => {
+				history.push(`/collection/${cleanId(data.general.id)}`)
+			})
+			.finally(() => setSaving(false))
+	}, [history]);
+
+	if(saving){
+		return <Loading textType="saving" />;
+	}
+	if(loading){
+		return <Loading />
 	}
 
-	componentWillMount() {
-		const { conceptList, collectionList, stampList } = this.props;
-		if (!conceptList) this.props.loadConceptList();
-		if (!collectionList) this.props.loadCollectionList();
-		if (stampList.length === 0) this.props.loadStampList();
-	}
-
-	render() {
-		const {
-			collection,
-			collectionList,
-			conceptList,
-			stampList,
-			creationStatus,
-			langs,
-		} = this.props;
-
-		if (this.state.creationRequested) {
-			if (creationStatus === OK) {
-				return <Redirect to={`/collection/${cleanId(this.state.id)}`} />;
-			} else return <Loading textType="saving" />;
-		}
-		if (conceptList && stampList) {
-			const { general, members } = collection;
-			return (
-				<CollectionEditionCreation
-					creation
-					title={D.createCollectionTitle}
-					general={general}
-					members={members}
-					collectionList={collectionList}
-					conceptList={conceptList}
-					stampList={stampList}
-					isActionProcessed={creationStatus}
-					save={this.handleCreation}
-					langs={langs}
-				/>
-			);
-		}
-		return <Loading />;
-	}
+	const { general, members } = collection;
+	return (
+		<CollectionEditionCreation
+			creation
+			title={D.createCollectionTitle}
+			general={general}
+			members={members}
+			collectionList={collectionList}
+			conceptList={conceptList}
+			stampList={stampList}
+			save={handleCreation}
+			langs={langs}
+		/>
+	);
 }
-
-const mapStateToProps = (state, ownProps) => {
-	return {
-		collection: emptyCollection(state.app.properties.defaultContributor),
-		collectionList: select.getCollectionList(state),
-		conceptList: select.getConceptList(state),
-		stampList: Stores.Stamps.getStampList(state),
-		creationStatus: select.getStatus(state, CREATE_COLLECTION),
-		langs: select.getLangs(state),
-	};
-};
-
-const mapDispatchToProps = {
-	loadConceptList,
-	loadCollectionList,
-	loadStampList,
-	createCollection,
-};
-
-CreationContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(CreationContainer);
-
 export default CreationContainer;
