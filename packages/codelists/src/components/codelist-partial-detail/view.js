@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
 	Note,
@@ -44,7 +45,6 @@ export const CodeListPartialDetailView = ({
 	const publish = () => {
 		publishComponent();
 	};
-
 	const codes = Object.values(codelist.codes || {});
 	const [tree, setTree] = useState(treedData(codes));
 
@@ -63,6 +63,12 @@ export const CodeListPartialDetailView = ({
 							<ul>
 								<li>
 									{D.idTitle} : {codelist.id}
+								</li>
+								<li>
+									{D.parentCodelist} :{' '}
+									<Link to={`/codelists/${codelist.parentCode}`}>
+										{codelist.parentLabel}
+									</Link>
 								</li>
 								<li>
 									{D.createdDateTitle} :{' '}
