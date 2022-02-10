@@ -51,7 +51,6 @@ const ConceptVisualizationContainer = () => {
 					links,
 				})
 			})
-
 			const notes$ = Promise.all(
 				ArrayUtils.range(1, +conceptVersion + 1).map(version => {
 					return api.getNoteVersionList(id, version).then((notes) => ([ version, formatNotes(notes) ]))
@@ -117,18 +116,6 @@ const ConceptVisualizationContainer = () => {
 		conceptVersion === '1'
 	)
 		return <ConceptVisualizationStandBy general={general} />;
-
-	if (
-		conceptVersion !== '1' &&
-		isValidated === 'false' &&
-		!adminOrContributorOrConceptCreator
-	) {
-		general.isValidated = 'true';
-		general.conceptVersion = (general.conceptVersion - 1).toString();
-		notes = allNotes[general.conceptVersion];
-	}
-
-
 
 	return (
 		<ConceptVisualization
