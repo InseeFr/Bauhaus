@@ -58,7 +58,7 @@
 		"cypress": "4.11.0",
 		"cypress-axe": "0.8.1",
 		"lcov-result-merger": "^3.1.0",
-		"node-sass": "4.14.1",
+		"node-sass": "7.0.0",
 		"redux-mock-store": "^1.5.4",
 		"start-server-and-test": "1.11.0",
 		"term-size": "^1.2.0"
