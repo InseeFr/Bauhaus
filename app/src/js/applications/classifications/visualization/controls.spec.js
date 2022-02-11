@@ -5,6 +5,8 @@ import { MemoryRouter } from 'react-router-dom';
 
 describe('classification-visualization-controls', () => {
 	it('renders without crashing', () => {
-		render(<Controls />, { wrapper: MemoryRouter });
+		render(<Controls classification={{}} publish={() => {}} />, {
+			wrapper: MemoryRouter,
+		});
 	});
 });

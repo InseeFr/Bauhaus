@@ -33,6 +33,7 @@ describe('classification-home', () => {
 					classification={classification}
 					langs={langs}
 					secondLang={false}
+					loadClassification={() => {}}
 				/>
 			</Provider>,
 			{ wrapper: MemoryRouter }
