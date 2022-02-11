@@ -16,6 +16,7 @@ const ClassificationVisualization = (props) => {
 		secondLang,
 		langs,
 		loadClassification,
+		permission,
 	} = props;
 	useTitle(D.classificationsTitle, general?.prefLabelLg1);
 
@@ -60,7 +61,11 @@ const ClassificationVisualization = (props) => {
 					</Link>
 				</div>
 			</div>
-			<Controls classification={general} publish={publish} />
+			<Controls
+				classification={general}
+				publish={publish}
+				permission={permission}
+			/>
 			<CheckSecondLang />
 			<ErrorBloc error={serverSideError} />
 			<General general={general} secondLang={secondLang} langs={langs} />

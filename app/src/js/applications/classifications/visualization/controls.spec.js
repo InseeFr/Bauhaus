@@ -5,8 +5,15 @@ import { MemoryRouter } from 'react-router-dom';
 
 describe('classification-visualization-controls', () => {
 	it('renders without crashing', () => {
-		render(<Controls classification={{}} publish={() => {}} />, {
-			wrapper: MemoryRouter,
-		});
+		render(
+			<Controls
+				classification={{}}
+				publish={() => {}}
+				permission={{ authType: '', roles: [''] }}
+			/>,
+			{
+				wrapper: MemoryRouter,
+			}
+		);
 	});
 });

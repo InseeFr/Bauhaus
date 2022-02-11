@@ -1,18 +1,19 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import ClassificationVisualization from './home';
 import { buildExtract, Loading } from '@inseefr/wilco';
 import loadClassification from 'js/actions/classifications/classification';
 import * as mainSelect from 'js/reducers';
 import * as select from 'js/reducers/classifications/classification';
-import { Stores } from 'bauhaus-utilities';
+import { Stores, Auth } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
 const ClassificationVisualizationContainer = (props) => {
 	const { classification, id, secondLang, langs } = props;
 	if (!classification) props.loadClassification(id);
+	const permission = useSelector((state) => Auth.getPermission(state));
 
 	if (id !== props.id) {
 		props.loadClassification(id);
@@ -26,6 +27,7 @@ const ClassificationVisualizationContainer = (props) => {
 			secondLang={secondLang}
 			langs={langs}
 			loadClassification={loadClassification}
+			permission={permission}
 		/>
 	);
 };

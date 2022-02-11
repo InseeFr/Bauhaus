@@ -34,6 +34,7 @@ describe('classification-home', () => {
 					langs={langs}
 					secondLang={false}
 					loadClassification={() => {}}
+					permission={{ authType: '', roles: [''] }}
 				/>
 			</Provider>,
 			{ wrapper: MemoryRouter }
