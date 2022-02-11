@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import ClassificationVisualization from './home';
@@ -10,32 +10,25 @@ import { Stores } from 'bauhaus-utilities';
 
 const extractId = buildExtract('id');
 
-class ClassificationVisualizationContainer extends Component {
-	constructor(props) {
-		super();
+const ClassificationVisualizationContainer = (props) => {
+	const { classification, id, secondLang, langs } = props;
+	if (!classification) props.loadClassification(id);
+
+	if (id !== props.id) {
+		props.loadClassification(id);
 	}
-	componentWillMount() {
-		const { classification, id } = this.props;
-		if (!classification) this.props.loadClassification(id);
-	}
-	componentWillReceiveProps({ id }) {
-		if (id !== this.props.id) {
-			this.props.loadClassification(id);
-		}
-	}
-	render() {
-		const { classification, id, secondLang, langs } = this.props;
-		if (!classification) return <Loading />;
-		return (
-			<ClassificationVisualization
-				classification={classification}
-				classificationId={id}
-				secondLang={secondLang}
-				langs={langs}
-			/>
-		);
-	}
-}
+
+	if (!classification) return <Loading />;
+	return (
+		<ClassificationVisualization
+			classification={classification}
+			classificationId={id}
+			secondLang={secondLang}
+			langs={langs}
+			loadClassification={loadClassification}
+		/>
+	);
+};
 
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
@@ -54,7 +47,7 @@ const mapDispatchToProps = {
 	loadClassification,
 };
 
-ClassificationVisualizationContainer = connect(
+export default connect(
 	mapStateToProps,
 	mapDispatchToProps
 )(ClassificationVisualizationContainer);
@@ -66,4 +59,3 @@ ClassificationVisualizationContainer.propTypes = {
 		}),
 	}),
 };
-export default ClassificationVisualizationContainer;
