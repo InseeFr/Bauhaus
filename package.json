@@ -12,7 +12,6 @@
 		"build": "yarn workspaces run build",
 		"build-insee": "yarn workspaces run build-insee",
 		"test:coverage": "yarn workspaces run test:coverage --env=jest-environment-jsdom-sixteen",
-		"build-storybook": "yarn workspaces run build-storybook",
 		"pre-push": "yarn workspaces run lint && yarn test:coverage",
 		"generate-entrypoint": "node scripts/generate-entrypoint.js"
 	},
@@ -22,11 +21,6 @@
 	"devDependencies": {
 		"@babel/core": "^7.16.12",
 		"@babel/preset-env": "^7.16.11",
-		"@storybook/addon-actions": "5.3.19",
-		"@storybook/addon-knobs": "5.3.19",
-		"@storybook/addon-links": "5.3.19",
-		"@storybook/addons": "5.3.19",
-		"@storybook/react": "5.3.19",
 		"@testing-library/jest-dom": "^5.16.1",
 		"@testing-library/react": "^12.1.2",
 		"@testing-library/user-event": "^13.5.0",
@@ -53,8 +47,8 @@
 		"webpack": "^5.68.0"
 	},
 	"dependencies": {
-		"dompurify": "2.2.9",
 		"@babel/preset-react": "^7.16.7",
+		"dompurify": "2.2.9",
 		"jest-environment-jsdom-sixteen": "^1.0.3",
 		"prop-types": "^15.8.1",
 		"react": "17.0.2",
