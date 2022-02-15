@@ -13,7 +13,8 @@
 		"build-insee": "yarn workspaces run build-insee",
 		"test:coverage": "yarn workspaces run test:coverage --env=jest-environment-jsdom-sixteen",
 		"pre-push": "yarn workspaces run lint && yarn test:coverage",
-		"generate-entrypoint": "node scripts/generate-entrypoint.js"
+		"generate-entrypoint": "node scripts/generate-entrypoint.js",
+		"prepare": "husky install"
 	},
 	"resolutions": {
 		"@inseefr/wilco": "0.0.5"
@@ -39,7 +40,7 @@
 		"eslint-plugin-react": "^7.28.0",
 		"eslint-plugin-react-hooks": "^4.3.0",
 		"eslint-plugin-testing-library": "3.9.2",
-		"husky": "4.3.0",
+		"husky": "^7.0.4",
 		"jest": "26.6.0",
 		"jest-localstorage-mock": "2.4.3",
 		"lcov-result-merger": "3.1.0",
@@ -57,11 +58,6 @@
 		"react-router-dom": "5.2.0",
 		"redux": "4.1.2",
 		"rollup": "^2.67.0"
-	},
-	"husky": {
-		"hooks": {
-			"pre-push": "yarn pre-push"
-		}
 	},
 	"prettier": {
 		"bracketSpacing": true,
