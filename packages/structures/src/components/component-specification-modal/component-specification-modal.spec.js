@@ -43,6 +43,6 @@ describe('<ComponentSpecificationModal />', () => {
 				structureComponents={structureComponents}
 			/>
 		);
-		expect(getAllByText('DataSet')).toHaveLength(1);
+		expect(getAllByText('DataSet')).toBeInTheDocument();
 	});
 });
