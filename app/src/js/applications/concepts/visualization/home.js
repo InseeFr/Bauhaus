@@ -38,9 +38,9 @@ const ConceptVisualization = ({
 		setModalValid(false);
 	}, []);
 	const handleConfirmValidation = useCallback(() => {
-		this.handleCancelValidation();
+		handleCancelValidation();
 		validateConcept(id);
-	}, [id, validateConcept]);
+	}, [id, validateConcept, handleCancelValidation]);
 	const handleClickDeletion = useCallback(() => {
 		deleteConcept(id);
 	}, [id, deleteConcept]);

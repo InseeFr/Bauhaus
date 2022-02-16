@@ -8,8 +8,6 @@
 		"build": "rollup -c rollup.config.js",
 		"build-insee": "rollup -c rollup.config.js",
 		"test": "jest --watch",
-		"build-storybook": "build-storybook -o built-storybook/storybook",
-		"start-storybook": "start-storybook -p 9999",
 		"test:coverage": "jest --coverage",
 		"lint": "eslint src"
 	},

@@ -1,7 +1,7 @@
 import { SearchFormList } from './search';
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 const data = [
 	{
 		prefLabelLg1: 'Base non-salariés',
