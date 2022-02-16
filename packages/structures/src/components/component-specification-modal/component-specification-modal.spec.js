@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentSpecificationModalBody } from '.';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
 describe('<ComponentSpecificationModal />', () => {
 	beforeEach(() => {
@@ -36,13 +36,13 @@ describe('<ComponentSpecificationModal />', () => {
 		fireEvent.click(container.querySelector('.modal-footer button'));
 		expect(onSave).toHaveBeenCalled();
 	});
-	it('should display the component specification', () => {
-		const { getAllByText } = render(
+	it('should display the component specification', async () => {
+		render(
 			<ComponentSpecificationModalBody
 				specification={specification}
 				structureComponents={structureComponents}
 			/>
 		);
-		expect(getAllByText('DataSet')).toBeInTheDocument();
+		await screen.findByText("DataSet");
 	});
 });
