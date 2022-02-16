@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'js/applications/shared/input-multi-modal-rmes/input-multi-modal-rmes';
-import flag from 'js/applications/shared/flag/flag';
 import D, { D1, D2 } from 'js/i18n';
 
 class InputMultiRmes extends Component {
@@ -88,7 +87,6 @@ class InputMultiRmes extends Component {
 	render() {
 		const {
 			label,
-			langs: { lg1, lg2 },
 		} = this.props;
 		const { arrayLg1, arrayLg2, modalAdd, modalDelete, modalLast } = this.state;
 
@@ -106,14 +104,14 @@ class InputMultiRmes extends Component {
 			<div className="row">
 				<div className={`form-group col-md-6`}>
 					<label>
-						{D1[label]} ( {flag(lg1)} ) {button('Lg1', 'minus')}{' '}
+						{D1[label]} {button('Lg1', 'minus')}{' '}
 						{button('Lg1', 'plus')}
 					</label>
 					{altLg1}
 				</div>
 				<div className={`form-group col-md-6`}>
 					<label>
-						{D2[label]} ( {flag(lg2)} ) {button('Lg2', 'minus')}{' '}
+						{D2[label]} {button('Lg2', 'minus')}{' '}
 						{button('Lg2', 'plus')}
 					</label>
 					{altLg2}
