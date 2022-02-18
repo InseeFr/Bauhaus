@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom';
 import OperationsIndicatorsContainer from 'js/applications/operations/indicators/';
 import OperationIndicatorContainer from 'js/applications/operations/indicators/visualization/';
 import OperationsIndicatorEditionContainer from 'js/applications/operations/indicators/edition';
-import OperationsIndicatorsSearchContainer from 'js/applications/operations/indicators/search';
 
 export default () => {
 	return (
@@ -12,11 +11,6 @@ export default () => {
 				exact
 				path="/operations/indicators"
 				component={OperationsIndicatorsContainer}
-			/>
-			<Route
-				exact
-				path="/operations/indicators/search"
-				component={OperationsIndicatorsSearchContainer}
 			/>
 			<Route
 				exact
