@@ -34,6 +34,7 @@
 		"lodash.deburr": "^4.1.0",
 		"react-draft-wysiwyg": "^1.14.4",
 		"react-is": "^16.13.1",
+		"react-select": "1.1.0",
 		"reselect": "^4.1.5"
 	}
 }

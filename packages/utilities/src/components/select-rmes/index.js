@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import D from 'js/i18n';
+import D from '../../i18n/build-dictionary';
 import 'react-select/dist/react-select.css';
 import './select-rmes.scss';
 
