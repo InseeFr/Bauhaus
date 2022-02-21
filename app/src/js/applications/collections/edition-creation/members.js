@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {
 	Panel,
 	Pagination,
-	LogoAdd,
-	LogoDel,
+	AddLogo,
+	DelLogo,
 	PickerItem,
 	filterDeburr,
 	arrayDifferenceByID,
@@ -109,7 +109,7 @@ class CollectionMembersEdition extends Component {
 				key={id}
 				id={id}
 				label={label}
-				logo={LogoAdd}
+				logo={AddLogo}
 				handleClick={this.addConcept}
 			/>
 		));
@@ -119,7 +119,7 @@ class CollectionMembersEdition extends Component {
 				key={id}
 				id={id}
 				label={label}
-				logo={LogoDel}
+				logo={DelLogo}
 				handleClick={this.removeConcept}
 			/>
 		));

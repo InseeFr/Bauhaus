@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import SelectRmes from 'js/applications/shared/select-rmes';
-import { Stores } from 'bauhaus-utilities';
+import { Stores, SelectRmes } from 'bauhaus-utilities';
 import { D1 } from '../i18n/build-dictionary';
 
 const CreatorsInput = ({ value, onChange }) => {
