@@ -5,7 +5,7 @@ import { D1 } from 'js/i18n';
 import ConceptToLink from './concept-to-link';
 import SearchConceptsByLabel from './search-concepts-by-label';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
-import { LogoAdd, LogoDel, PickerItem, filterDeburr } from '@inseefr/wilco';
+import { AddLogo, DelLogo, PickerItem, filterDeburr } from '@inseefr/wilco';
 
 import {
 	BROADER,
@@ -134,7 +134,7 @@ class LinksEdition extends Component {
 				key={id}
 				id={id}
 				label={label}
-				logo={LogoDel}
+				logo={DelLogo}
 				handleClick={removeMember}
 			/>
 		));
@@ -143,7 +143,7 @@ class LinksEdition extends Component {
 				key={id}
 				id={id}
 				label={label}
-				logo={LogoAdd}
+				logo={AddLogo}
 				handleClick={addMember}
 			/>
 		));
