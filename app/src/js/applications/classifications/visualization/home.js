@@ -43,7 +43,7 @@ const ClassificationVisualization = (props) => {
 			.finally(() => setPublishing(false));
 	}, [general, classificationId, loadClassification]);
 
-	if (publishing) return <Loading text={'publishing'} />;
+	if (publishing) return <Loading text="publishing" />;
 
 	return (
 		<div className="container">
