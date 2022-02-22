@@ -52,6 +52,9 @@ const dictionary = {
 		fr: 'Provisoire, jamais publiée',
 		en: 'Temporary, never published',
 	},
-
+	noResult: {
+		fr: 'Aucun résultat',
+		en: 'No results',
+	},
 };
 export default dictionary;

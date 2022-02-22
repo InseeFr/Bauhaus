@@ -8,7 +8,7 @@ function SeriesHomeContainer() {
 	const [loading, setLoading] = useState(true)
 	useEffect(() => {
 		api.getSeriesList().then(result => setSeries(result)).finally(() => setLoading(false))
-	})
+	}, [])
 	if (loading) return <Loading />;
 	return <SeriesHome series={series} />;
 }

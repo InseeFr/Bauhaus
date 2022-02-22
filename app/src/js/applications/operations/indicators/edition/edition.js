@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
-	PageTitleBlock, withTitle,
+	PageTitleBlock, withTitle, SelectRmes
 } from 'bauhaus-utilities';
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/applications/shared/input-rmes';
 import Control from 'js/applications/operations/indicators/edition/control';
-import SelectRmes from 'js/applications/shared/select-rmes';
 import { validate } from 'js/applications/operations/indicators/edition/validation';
 import { Loading, goBackOrReplace } from '@inseefr/wilco';
 import api from '../../../../remote-api/operations-api';

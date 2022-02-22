@@ -37,7 +37,6 @@ function IndicatorsHome() {
 						childPath="operations/indicator"
 						label="label"
 						advancedSearch={false}
-						searchUrl="/operations/indicators/search"
 						autoFocus={true}
 					/>
 				</div>

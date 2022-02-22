@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import flag from 'js/applications/shared/flag/flag';
 
 function InputRmes({
 	colMd,
 	value,
 	label,
-	lang,
 	star,
 	hiddenStar,
 	disabled,
@@ -18,8 +16,7 @@ function InputRmes({
 	return (
 		<div className={`form-group col-md-${colMd || 12}`}>
 			<label className={`form-label ${className}`}>
-				{label} {flag(lang) ? '( ' : null} {flag(lang)}{' '}
-				{flag(lang) ? ' )' : null}
+				{label}
 				{star && <span className="boldRed">*</span>}
 				{hiddenStar && <span className="boldWhite">*</span>}
 				<input

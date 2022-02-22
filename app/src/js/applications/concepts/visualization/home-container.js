@@ -6,7 +6,7 @@ import check from 'js/utils/auth';
 import { Loading } from '@inseefr/wilco';
 import ConceptVisualization from './home';
 import ConceptVisualizationStandBy from './stand-by';
-import { ArrayUtils, Auth, HTMLUtils, Stores } from 'bauhaus-utilities';
+import { Auth, HTMLUtils, Stores } from 'bauhaus-utilities';
 import api from '../../../remote-api/concepts-api';
 import { emptyNotes } from '../../../utils/concepts/notes';
 
@@ -35,13 +35,12 @@ const ConceptVisualizationContainer = () => {
 	const [deleting, setDeleting] = useState(false);
 
 	const [concept, setConcept] = useState({});
-	const [allNotes, setAllNotes] = useState({});
 	const [error, setError] = useState();
 
 	const fetchConcept = (id) => {
-		api.getConceptGeneral(id).then(general => {
+		return api.getConceptGeneral(id).then(general => {
 			const { conceptVersion } = general;
-			const concept$ = Promise.all([
+			return Promise.all([
 				api.getNoteVersionList(id, conceptVersion),
 				api.getConceptLinkList(id)
 			]).then(([notes, links]) => {
@@ -51,22 +50,7 @@ const ConceptVisualizationContainer = () => {
 					links,
 				})
 			})
-
-			const notes$ = Promise.all(
-				ArrayUtils.range(1, +conceptVersion + 1).map(version => {
-					return api.getNoteVersionList(id, version).then((notes) => ([ version, formatNotes(notes) ]))
-				})
-			).then(versionsAndNotes => {
-				setAllNotes(versionsAndNotes.reduce((acc, versionAndNotes) => {
-					return {
-						...acc,
-						[versionAndNotes[0]]: versionAndNotes[1]
-					}
-				}, {}))
-			})
-
-			Promise.all([concept$, notes$]).finally(() => setLoading(false));
-		})
+		}).finally(() => setLoading(false));
 	}
 	useEffect(() => {
 		fetchConcept(id)
@@ -117,18 +101,6 @@ const ConceptVisualizationContainer = () => {
 		conceptVersion === '1'
 	)
 		return <ConceptVisualizationStandBy general={general} />;
-
-	if (
-		conceptVersion !== '1' &&
-		isValidated === 'false' &&
-		!adminOrContributorOrConceptCreator
-	) {
-		general.isValidated = 'true';
-		general.conceptVersion = (general.conceptVersion - 1).toString();
-		notes = allNotes[general.conceptVersion];
-	}
-
-
 
 	return (
 		<ConceptVisualization
