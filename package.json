@@ -57,7 +57,7 @@
 		"react-redux": "^7.2.6",
 		"react-router-dom": "5.2.0",
 		"redux": "4.1.2",
-		"rollup": "^2.67.3"
+		"rollup": "^2.68.0"
 	},
 	"prettier": {
 		"bracketSpacing": true,
