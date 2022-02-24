@@ -1,22 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import ClassificationVisualization from './home';
-import { buildExtract, Loading } from '@inseefr/wilco';
+import { Loading } from '@inseefr/wilco';
 import loadClassification from 'js/actions/classifications/classification';
-import * as mainSelect from 'js/reducers';
 import * as select from 'js/reducers/classifications/classification';
 import { Stores, Auth } from 'bauhaus-utilities';
-
-const extractId = buildExtract('id');
+import api from 'js/remote-api/classifications-api';
 
 const ClassificationVisualizationContainer = (props) => {
-	const { classification, id, secondLang, langs } = props;
-	if (!classification) props.loadClassification(id);
+	const { id } = useParams();
+	const [loading, setLoading] = useState(true);
+	const langs = useSelector((state) => select.getLangs(state));
+	const secondLang = useSelector((state) =>
+		Stores.SecondLang.getSecondLang(state)
+	);
+	const [classification, setClassification] = useState([]);
 	const permission = useSelector((state) => Auth.getPermission(state));
 
-	if (id !== props.id) {
-		props.loadClassification(id);
+	useEffect(() => {
+		api
+			.getClassification(id)
+			.then((classification) => setClassification(classification))
+			.finally(() => setLoading(false));
+	}, [id]);
+
+	if (loading) {
+		return <Loading />;
 	}
 
 	if (!classification) return <Loading />;
@@ -31,28 +42,6 @@ const ClassificationVisualizationContainer = (props) => {
 		/>
 	);
 };
-
-const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	const classification = select.getClassification(state, id);
-	const secondLang = Stores.SecondLang.getSecondLang(state);
-	const langs = mainSelect.getLangs(state);
-	return {
-		id,
-		classification,
-		secondLang,
-		langs,
-	};
-};
-
-const mapDispatchToProps = {
-	loadClassification,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(ClassificationVisualizationContainer);
 
 ClassificationVisualizationContainer.propTypes = {
 	match: PropTypes.shape({
