@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import Root from 'js/router';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
-import { Error, I18NContext, BackToTop, getLang } from '@inseefr/wilco';
+import { PageTitle, I18NContext, BackToTop, getLang } from '@inseefr/wilco';
 import D from 'js/i18n';
 import ApplicationTitle from 'js/applications/shared/application-title';
 import { AppContext } from 'bauhaus-utilities';
@@ -16,6 +16,17 @@ import 'bauhaus-utilities/dist/index.css';
 import 'bauhaus-codelists/dist/index.css';
 
 import 'main.scss';
+
+const Error = ({ home }) => {
+	return (
+		<div>
+			<div className="container">
+				<h1 className="text-center">{D.errorTitle}</h1>
+				<p className="text-center">{D.errorBody}</p>
+			</div>
+		</div>
+	);
+};
 
 Api.getInit()
 	.then(
