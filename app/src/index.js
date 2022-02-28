@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import Root from 'js/router';
 import configureStore from 'js/store/configure-store';
 import Api from 'js/remote-api/api';
-import { PageTitle, I18NContext, BackToTop, getLang } from '@inseefr/wilco';
+import { I18NContext, BackToTop, getLang } from '@inseefr/wilco';
 import D from 'js/i18n';
 import ApplicationTitle from 'js/applications/shared/application-title';
 import { AppContext } from 'bauhaus-utilities';
