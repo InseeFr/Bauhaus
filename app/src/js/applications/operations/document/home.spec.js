@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import DocumentHome from './home';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -34,10 +34,10 @@ describe('DocumentHome', () => {
 		expect(container.querySelectorAll('ul')).toHaveLength(1);
 	});
 
-	[ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR].forEach(right => {
-		it('should display two Add buttons if the user is an ' + right, () => {
+	for(let right of [ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]){
+		it('should display two Add buttons if the user is an ' + right, async () => {
 			const store = mockStore({ users: { results: {stamp: 'stamp'}}, app: { auth: { user: { roles: [right] } } } });
-			const { getByText } = render(
+			render(
 				<Provider store={store}>
 					<DocumentHome documents={[]} />
 				</Provider>,
@@ -45,14 +45,14 @@ describe('DocumentHome', () => {
 					wrapper: MemoryRouter,
 				}
 			);
-			expect(getByText("New Document")).toBeDefined();
-			expect(getByText("New Link")).toBeDefined();
+			await screen.findByText("New Document")
+			await screen.findByText("New Link")
 		})
-	})
+	}
 
 	it('should not display any Add button if the user is an the right role,', () => {
 		const store = mockStore({ users: { results: {stamp: 'stamp'}}, app: { auth: { user: { roles: ["other"] } } } });
-		const { queryByText } = render(
+		render(
 			<Provider store={store}>
 				<DocumentHome documents={[]} />
 			</Provider>,
@@ -60,7 +60,9 @@ describe('DocumentHome', () => {
 				wrapper: MemoryRouter,
 			}
 		);
-		expect(queryByText("New Document")).toBeNull();
-		expect(queryByText("New Link")).toBeNull();
+		// eslint-disable-next-line jest-dom/prefer-in-document
+		expect(screen.queryByText("New Document")).toBeNull();
+		// eslint-disable-next-line jest-dom/prefer-in-document
+		expect(screen.queryByText("New Link")).toBeNull();
 	})
 });

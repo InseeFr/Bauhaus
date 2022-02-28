@@ -92,7 +92,7 @@ describe('<ComponentDetailView />', () => {
 			></ComponentDetailView>
 		);
 
-		expect(queryByText(container, 'Update')).toBeNull();
+		expect(queryByText(container, 'Update')).not.toBeInTheDocument();
 	});
 	it('should call handleBack', () => {
 		const handleBack = jest.fn();
@@ -138,8 +138,8 @@ describe('<ComponentDetailView />', () => {
 			></ComponentDetailView>
 		);
 
-		expect(queryByText(container, 'Dimension')).not.toBeNull();
-		expect(queryByText(container, 'Code list')).not.toBeNull();
+		expect(queryByText(container, 'Dimension')).toBeInTheDocument();
+		expect(queryByText(container, 'Code list')).toBeInTheDocument();
 	});
 	it('should display the attachment if the type is an attribute', () => {
 		const { container } = render(
@@ -154,7 +154,7 @@ describe('<ComponentDetailView />', () => {
 				handleUpdate={() => {}}
 			></ComponentDetailView>
 		);
-		expect(queryByText(container, 'Observation')).not.toBeNull();
+		expect(queryByText(container, 'Observation')).toBeInTheDocument();
 	});
 
 	it('should not display the codeList if the range is  not an XSD_CODE_LIST', () => {
@@ -168,7 +168,7 @@ describe('<ComponentDetailView />', () => {
 			></ComponentDetailView>
 		);
 
-		expect(queryByText(container, 'Code List - Label 492')).toBeNull();
+		expect(queryByText(container, 'Code List - Label 492')).not.toBeInTheDocument();
 	});
 
 	it("should display the general informations block", () => {

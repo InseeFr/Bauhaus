@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { LogoWarning } from '@inseefr/wilco';
 import ModifyNotes from './modify-notes';
-import flag from 'js/applications/shared/flag/flag';
 import { HTMLUtils } from 'bauhaus-utilities';
 
-function NoteOneLangEdition({ lang, note, handleChange, maxLength }) {
+function NoteOneLangEdition({ note, handleChange, maxLength }) {
 	const noteLength = HTMLUtils.htmlLength(note);
 	const checkLength = maxLength && (
 		<div>
@@ -18,7 +17,6 @@ function NoteOneLangEdition({ lang, note, handleChange, maxLength }) {
 
 	return (
 		<div className="form-group text-center">
-			<label>{flag(lang)}</label>
 			<ModifyNotes note={note} handleChange={handleChange} />
 			{checkLength}
 		</div>

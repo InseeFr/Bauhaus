@@ -22,7 +22,7 @@ function App() {
 						<h2 className="items page-title page-title-link">
 							{D[app + 'Title']}
 						</h2>
-						<img src={require(`img/${app}_blanc.svg`)} alt={app} />
+						<img src={require(`img/${app}_blanc.svg`).default} alt={app} />
 					</Link>
 				</div>
 			);

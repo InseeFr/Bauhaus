@@ -46,6 +46,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 			dataCollector,
 			publisher,
 		} = newState;
+
 		return this.props.data
 			.filter(filterLabel(prefLabelLg1))
 			.filter(filterTypeCode(typeCode))
@@ -66,9 +67,13 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 				return !publisher || formattedPublishers.map(({id}) => id).includes(publisher);
 			})
 			.filter((series) => {
+				const dataCollectors = series.dataCollectors || [];
+				const formattedDataCollectors = Array.isArray(dataCollectors)
+					? dataCollectors
+					: [dataCollectors];
 				return (
 					!dataCollector ||
-					(series.dataCollectors || []).map(({id}) => id).includes(dataCollector)
+					formattedDataCollectors.map(({id}) => id).includes(dataCollector)
 				);
 			});
 	});

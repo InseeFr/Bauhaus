@@ -131,8 +131,8 @@ const dictionary = {
 		en: 'Replaces',
 	},
 	replacedBy: {
-		fr: 'Remplacée par',
-		en: 'Replaced by',
+		fr: 'Est remplacée par',
+		en: 'Is replaced by',
 	},
 	indicators: {
 		fr: 'Indicateurs produits',

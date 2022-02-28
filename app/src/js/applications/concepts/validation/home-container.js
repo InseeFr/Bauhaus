@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router';
+import { Redirect } from 'react-router-dom';
 import ConceptsToValidate from './home';
 import { Loading } from '@inseefr/wilco';
 import { OK, PENDING } from 'js/constants';

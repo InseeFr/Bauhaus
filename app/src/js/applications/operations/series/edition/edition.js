@@ -11,12 +11,11 @@ import {
 	goBackOrReplace,
 	LabelRequired,
 } from '@inseefr/wilco';
-import SelectRmes from 'js/applications/shared/select-rmes';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
-	PageTitleBlock, withTitle,
+	PageTitleBlock, withTitle, SelectRmes
 } from 'bauhaus-utilities';
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 
