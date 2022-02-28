@@ -5,14 +5,14 @@ import { useSelector } from 'react-redux';
 import ClassificationVisualization from './home';
 import { Loading } from '@inseefr/wilco';
 import loadClassification from 'js/actions/classifications/classification';
-import * as select from 'js/reducers/classifications/classification';
+import * as mainSelect from 'js/reducers';
 import { Stores, Auth } from 'bauhaus-utilities';
 import api from 'js/remote-api/classifications-api';
 
 const ClassificationVisualizationContainer = (props) => {
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => mainSelect.getLangs(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);
@@ -42,6 +42,8 @@ const ClassificationVisualizationContainer = (props) => {
 		/>
 	);
 };
+
+export default ClassificationVisualizationContainer;
 
 ClassificationVisualizationContainer.propTypes = {
 	match: PropTypes.shape({
