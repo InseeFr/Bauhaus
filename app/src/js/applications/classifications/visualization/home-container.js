@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { PropTypes } from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ClassificationVisualization from './home';
 import { Loading } from '@inseefr/wilco';
-import loadClassification from 'js/actions/classifications/classification';
 import * as mainSelect from 'js/reducers';
 import { Stores, Auth } from 'bauhaus-utilities';
 import api from 'js/remote-api/classifications-api';
@@ -18,17 +17,40 @@ const ClassificationVisualizationContainer = (props) => {
 	);
 	const [classification, setClassification] = useState([]);
 	const permission = useSelector((state) => Auth.getPermission(state));
+	const [publishing, setPublishing] = useState(false);
+	const [serverSideError, setServerSideError] = useState();
+
+	const getClassification = (id) => {
+		Promise.all([
+			api.getClassificationGeneral(id),
+			api.getClassificationLevels(id),
+		])
+			.then(([general, levels]) => {
+				setClassification({ general, levels });
+			})
+			.finally(() => setLoading(false));
+	};
+
+	const publish = useCallback(() => {
+		setPublishing(true);
+		api
+			.publishClassification(classification.general)
+			.then(() => {
+				return getClassification(id);
+			})
+			.catch((error) => setServerSideError(error))
+			.finally(() => setPublishing(false));
+	}, [id, classification.general]);
 
 	useEffect(() => {
-		api
-			.getClassification(id)
-			.then((classification) => setClassification(classification))
-			.finally(() => setLoading(false));
+		getClassification(id);
 	}, [id]);
 
 	if (loading) {
 		return <Loading />;
 	}
+
+	if (publishing) return <Loading text="publishing" />;
 
 	if (!classification) return <Loading />;
 	return (
@@ -37,8 +59,9 @@ const ClassificationVisualizationContainer = (props) => {
 			classificationId={id}
 			secondLang={secondLang}
 			langs={langs}
-			loadClassification={loadClassification}
 			permission={permission}
+			publish={publish}
+			serverSideError={serverSideError}
 		/>
 	);
 };

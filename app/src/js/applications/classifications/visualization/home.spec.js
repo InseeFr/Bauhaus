@@ -31,10 +31,12 @@ describe('classification-home', () => {
 			<Provider store={store}>
 				<Home
 					classification={classification}
+					classificationId={'classificationId'}
 					langs={langs}
 					secondLang={false}
-					loadClassification={() => {}}
 					permission={{ authType: '', roles: [''] }}
+					publish={() => {}}
+					serverSideError={''}
 				/>
 			</Provider>,
 			{ wrapper: MemoryRouter }

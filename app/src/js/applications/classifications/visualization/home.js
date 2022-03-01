@@ -1,13 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { PageSubtitle, PageTitle, Loading, ErrorBloc } from '@inseefr/wilco';
+import { PageSubtitle, PageTitle, ErrorBloc } from '@inseefr/wilco';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Levels from './levels';
 import D from 'js/i18n';
 import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
-import api from 'js/remote-api/classifications-api';
 
 const ClassificationVisualization = (props) => {
 	const {
@@ -15,8 +14,9 @@ const ClassificationVisualization = (props) => {
 		classificationId,
 		secondLang,
 		langs,
-		loadClassification,
 		permission,
+		publish,
+		serverSideError,
 	} = props;
 	useTitle(D.classificationsTitle, general?.prefLabelLg1);
 
@@ -28,22 +28,6 @@ const ClassificationVisualization = (props) => {
 		descriptionLg1: general.descriptionLg1,
 		descriptionLg2: general.descriptionLg2,
 	};
-	const [publishing, setPublishing] = useState(false);
-	const [serverSideError, setServerSideError] = useState();
-
-	const publish = useCallback(() => {
-		setPublishing(true);
-
-		api
-			.publishClassification(general)
-			.then(() => {
-				loadClassification(classificationId);
-			})
-			.catch((error) => setServerSideError(error))
-			.finally(() => setPublishing(false));
-	}, [general, classificationId, loadClassification]);
-
-	if (publishing) return <Loading text="publishing" />;
 
 	return (
 		<div className="container">
