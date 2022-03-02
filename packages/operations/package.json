@@ -15,7 +15,7 @@
 		"@babel/plugin-proposal-class-properties": "^7.16.7",
 		"@babel/plugin-transform-react-jsx": "^7.17.3",
 		"identity-obj-proxy": "^3.0.0",
-		"rollup": "^2.67.3",
+		"rollup": "^2.68.0",
 		"rollup-plugin-babel": "^4.4.0",
 		"rollup-plugin-commonjs": "^10.1.0",
 		"rollup-plugin-node-builtins": "^2.1.2",
