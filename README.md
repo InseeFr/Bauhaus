@@ -22,3 +22,12 @@ yarn
 yarn build-insee
 yarn start
 ```
+
+## Issues
+
+If you are using, you should install the following dependency. 
+
+```
+yarn global add windows-build-tools
+
+```
