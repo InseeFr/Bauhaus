@@ -45,10 +45,11 @@ const PartialCodesTreeEdit = ({
 			children={
 				<React.Fragment>
 					<ActionToolbar>
+						<div className="col-md-1"></div>
 						<button
 							type="button"
 							onClick={addAllClickHandler}
-							className="btn wilco-btn btn-lg col-md-6"
+							className="btn wilco-btn btn-lg btn-block col-md-3"
 						>
 							<span
 								className="glyphicon glyphicon-plus"
@@ -56,10 +57,11 @@ const PartialCodesTreeEdit = ({
 							></span>
 							<span>{D.addAll}</span>
 						</button>
+						<div className="col-md-1"></div>
 						<button
 							type="button"
 							onClick={removeAllClickHandler}
-							className="btn wilco-btn btn-lg col-md-6"
+							className="btn wilco-btn btn-lg btn-block col-md-3"
 						>
 							<span
 								className="glyphicon glyphicon-minus"
@@ -67,6 +69,7 @@ const PartialCodesTreeEdit = ({
 							></span>
 							<span>{D.removeAll}</span>
 						</button>
+						<div className="col-md-4"></div>
 					</ActionToolbar>
 					<div className="col-md-6 form-group">
 						<Panel title={D.partialCodesTreeTitle}>
