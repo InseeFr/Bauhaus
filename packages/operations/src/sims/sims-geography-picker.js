@@ -48,28 +48,30 @@ const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
 		<>
 			<div className="bauhaus-sims-geography-picker">
 				<div className="form-group">
-					<ReactSelect
-						value={geographiesOptions.find(
-							({ value: gValue }) => gValue === value
-						)}
-						filterOption={(option, searchValue) => {
-							const search = searchValue.toLowerCase();
-							const label = option.label.toLowerCase();
-							const typeTerritory = option.typeTerritory.toLowerCase();
-							return (
-								!searchValue ||
-								label.indexOf(search) >= 0 ||
-								typeTerritory.indexOf(search) >= 0
-							);
-						}}
-						options={geographiesOptions}
-						onChange={(e) => onChange(e ? e.value : '')}
-						placeholder={''}
-						isSearchable={true}
-						noResultsText={D.noResult}
-						isClearable={true}
-						formatOptionLabel={formatOptionLabel}
-					/>
+					{territory && (
+						<ReactSelect
+							value={geographiesOptions.find(
+								({ value: gValue }) => gValue === value
+							)}
+							filterOption={(option, searchValue) => {
+								const search = searchValue.toLowerCase();
+								const label = option.data.label.toLowerCase();
+								const typeTerritory = option.data.typeTerritory.toLowerCase();
+								return (
+									!searchValue ||
+									label.indexOf(search) >= 0 ||
+									typeTerritory.indexOf(search) >= 0
+								);
+							}}
+							options={geographiesOptions}
+							onChange={(e) => onChange(e ? e.value : '')}
+							placeholder={''}
+							isSearchable={true}
+							noResultsText={D.noResult}
+							isClearable={true}
+							formatOptionLabel={formatOptionLabel}
+						/>
+					)}
 				</div>
 
 				<Auth.AuthGuard roles={[Auth.ADMIN]}>
