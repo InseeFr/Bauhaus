@@ -245,11 +245,10 @@ const dictionary = {
 			return `<p>Bonjour,</p>
           <p>Vous trouverez ci-joint la description du concept « <b>
           ${prefLabelLg1}
-          </b> » ${inseeText} extraite de la base RMéS-Concepts.</p>
+          </b> » ${inseeText} extraite de la base RMéS-Bauhaus Concepts.</p>
           ${validText}
-          <p>Pour toute demande concernant ce concept merci de répondre via la boîte fonctionnelle :DG75-Administration RMéS <a href="mailto:dg75-administration-rmes@insee.fr">dg75-administration-rmes@insee.fr<a>.</p>
+          <p>Pour toute demande concernant ce concept, merci d’utiliser la boîte fonctionnelle <a href="mailto:dg75-administration-rmes@insee.fr">dg75-administration-rmes@insee.fr<a>.</p>
           <p>L'équipe RMéS<br/>
-          Insee - DG<br/>
           DMCSI - Unité Qualité</p>`;
 		},
 		en: (params) => {
@@ -296,11 +295,10 @@ const dictionary = {
 			return `<p>Bonjour,</p>
 	          <p>Vous trouverez ci-joint la composition de la collection de concepts « <b>
 	          ${prefLabelLg1}
-	          </b> » ${inseeText} extraite de la base RMéS-Concepts.</p>
+	          </b> » ${inseeText} extraite de la base RMéS-Bauhaus Concepts.</p>
 	          ${validText}
-	          <p>Pour toute demande concernant cette collection merci de répondre via la boîte fonctionnelle :DG75 RMéS-Concepts et définitions.</p>
+	          <p>Pour toute demande concernant cette collection, merci d’utiliser la boîte fonctionnelle <a href="mailto:dg75-administration-rmes@insee.fr">dg75-administration-rmes@insee.fr<a>.</p>
 	          <p>L'équipe RMéS<br/>
-	          Insee - DG<br/>
 	          DMCSI - Unité Qualité</p>`;
 		},
 		en: (params) => {
