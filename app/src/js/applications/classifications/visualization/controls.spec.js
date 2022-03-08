@@ -7,20 +7,15 @@ import Controls from './controls';
 
 const mockStore = configureStore([]);
 const store = mockStore({
-	app: {
-		secondLang: true,
-	},
+	users: { results: { stamp: 'stamp' } },
+	app: { secondLang: true, auth: { type: '', user: { roles: [] } } },
 });
 
 describe('classification-visualization-controls', () => {
 	it('renders without crashing', () => {
 		render(
 			<Provider store={store}>
-				<Controls
-					classification={{}}
-					publish={() => {}}
-					permission={{ authType: '', roles: [''] }}
-				/>
+				<Controls classification={{}} publish={() => {}} />
 			</Provider>,
 			{
 				wrapper: MemoryRouter,

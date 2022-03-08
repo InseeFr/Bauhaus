@@ -7,9 +7,8 @@ import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
 const store = mockStore({
-	app: {
-		secondLang: true,
-	},
+	users: { results: { stamp: 'stamp' } },
+	app: { secondLang: true, auth: { type: '', user: { roles: [] } } },
 });
 
 const classification = {
@@ -26,7 +25,7 @@ const classification = {
 const langs = { lg1: 'fr', lg2: 'en' };
 
 describe('classification-home', () => {
-	it('renders without crashing', () => {
+	it('renders without crashing', async () => {
 		render(
 			<Provider store={store}>
 				<Home
@@ -34,7 +33,6 @@ describe('classification-home', () => {
 					classificationId={'classificationId'}
 					langs={langs}
 					secondLang={false}
-					permission={{ authType: '', roles: [''] }}
 					publish={() => {}}
 					serverSideError={''}
 				/>
