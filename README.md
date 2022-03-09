@@ -15,10 +15,21 @@ The documentation can be found in the [docs](https://github.com/InseeFr/Bauhaus/
 
 ## How to start
 
+The application is tested on Node.js 14 and 16.
+
 ```
 git clone git@github.com:InseeFr/Bauhaus.git
 cd Bauhaus
 yarn
 yarn build-insee
 yarn start
+```
+
+## Issues
+
+If you are using, you should install the following dependency. 
+
+```
+yarn global add windows-build-tools
+
 ```

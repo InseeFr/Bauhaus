@@ -4,11 +4,14 @@ jobs:
   test-build:
     name: Test & build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 14, 16 ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 14.17.0
+          node-version: ${{ matrix.node }}
       - run: yarn
       # Build modules
       - run: yarn build-insee
