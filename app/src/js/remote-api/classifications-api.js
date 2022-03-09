@@ -5,13 +5,13 @@ const api = {
 	getSeriesList: () => ['series'],
 	getList: () => [''],
 	getCorrespondencesList: () => ['correspondences'],
-	getFamilyGeneral: id => [`family/${id}`],
-	getFamilyMembers: id => [`family/${id}/members`],
-	getSeriesGeneral: id => [`series/${id}`],
-	getSeriesMembers: id => [`series/${id}/members`],
-	getClassificationGeneral: id => [`classification/${id}`],
-	getClassificationItems: id => [`classification/${id}/items`],
-	getClassificationLevels: id => [`classification/${id}/levels`],
+	getFamilyGeneral: (id) => [`family/${id}`],
+	getFamilyMembers: (id) => [`family/${id}/members`],
+	getSeriesGeneral: (id) => [`series/${id}`],
+	getSeriesMembers: (id) => [`series/${id}/members`],
+	getClassificationGeneral: (id) => [`classification/${id}`],
+	getClassificationItems: (id) => [`classification/${id}/items`],
+	getClassificationLevels: (id) => [`classification/${id}/levels`],
 	getClassificationLevelGeneral: (classificationId, levelId) => [
 		`classification/${classificationId}/level/${levelId}`,
 	],
@@ -27,14 +27,19 @@ const api = {
 	getClassificationItemNarrowers: (classificationId, itemId) => [
 		`classification/${classificationId}/item/${itemId}/narrowers`,
 	],
-	getCorrespondenceGeneral: correspondenceId => [
+	getCorrespondenceGeneral: (correspondenceId) => [
 		`correspondence/${correspondenceId}`,
 	],
-	getCorrespondenceAssociations: correspondenceId => [
+	getCorrespondenceAssociations: (correspondenceId) => [
 		`correspondence/${correspondenceId}/associations`,
 	],
 	getCorrespondenceAssociation: (correspondenceId, associationId) => [
 		`correspondence/${correspondenceId}/association/${associationId}`,
+	],
+	publishClassification: (classification) => [
+		`classification/validate/${classification.id}`,
+		{ method: 'PUT' },
+		(res) => res.text(),
 	],
 };
 
