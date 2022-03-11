@@ -134,6 +134,10 @@ const dictionary = {
 		fr: 'Est remplacée par',
 		en: 'Is replaced by',
 	},
+	replacedByMasc: {
+		fr: 'Est remplacé par',
+		en: 'Is replaced by',
+	},
 	indicators: {
 		fr: 'Indicateurs produits',
 		en: 'Indicators produced',
