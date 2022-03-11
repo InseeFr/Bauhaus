@@ -41,7 +41,7 @@ const LinksList = ({ links, lang, alone, Dictionnary = D1 }) => {
 				<InternalLinks links={links[REFERENCES]} title={Dictionnary.referencesTitle} labelProperty={labelProperty} />
 				<InternalLinks links={links[SUCCEED]} title={Dictionnary.replacesTitle} labelProperty={labelProperty} />
 				<InternalLinks links={links[RELATED]} title={Dictionnary.relatedTitle} labelProperty={labelProperty} />
-				<InternalLinks links={links[IS_REPLACED_BY]} title={Dictionnary.replacedBy} labelProperty={labelProperty} />
+				<InternalLinks links={links[IS_REPLACED_BY]} title={Dictionnary.replacedByMasc} labelProperty={labelProperty} />
 				<CloseMatchLinks links={links.closeMatch} Dictionnary={Dictionnary} />
 			</dl>
 		}
