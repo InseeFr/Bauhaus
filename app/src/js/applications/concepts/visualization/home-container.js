@@ -5,7 +5,6 @@ import * as select from 'js/reducers';
 import check from 'js/utils/auth';
 import { Loading } from '@inseefr/wilco';
 import ConceptVisualization from './home';
-import ConceptVisualizationStandBy from './stand-by';
 import { Auth, HTMLUtils, Stores } from 'bauhaus-utilities';
 import api from '../../../remote-api/concepts-api';
 import { emptyNotes } from '../../../utils/concepts/notes';
@@ -95,12 +94,6 @@ const ConceptVisualizationContainer = () => {
 		stamp,
 		creator
 	);
-	if (
-		!adminOrContributorOrConceptCreator &&
-		isValidated === 'false' &&
-		conceptVersion === '1'
-	)
-		return <ConceptVisualizationStandBy general={general} />;
 
 	return (
 		<ConceptVisualization
