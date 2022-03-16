@@ -1,6 +1,6 @@
 {
 	"name": "Bauhaus",
-	"version": "3.0.16",
+	"version": "3.0.17",
 	"description": "Web application for the management of concepts, classifications and other statistical objects",
 	"repository": {
 		"type": "git",
@@ -21,7 +21,7 @@
 	},
 	"dependencies": {
 		"@inseefr/iam": "0.1.1",
-		"@inseefr/wilco": "0.0.5",
+		"@inseefr/wilco": "0.0.7",
 		"bauhaus-operations": "^0.0.0",
 		"bauhaus-structures": "^0.0.0",
 		"bootstrap": "3.4.1",

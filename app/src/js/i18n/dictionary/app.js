@@ -1,5 +1,6 @@
 import btnD from './generic/btn';
 const dictionary = {
+	errorTitle: {fr:"Erreur",en:"Error"},
 	langs: {
 		fr: 'Français',
 		en: 'English',
@@ -80,8 +81,8 @@ const dictionary = {
 	},
 
 	errorBody: {
-		fr: 'Veuillez contacter :DR59-SINL-Equipe-maintenance-RMeS',
-		en: 'Please contact :DR59-SINL-Equipe-maintenance-RMeS',
+		fr: 'Veuillez contacter l\'équipe RMéS dg75-administration-rmes@insee.fr',
+		en: 'Please contact the team RMéS dg75-administration-rmes@insee.fr',
 	},
 	exportTitle: {
 		fr: 'Export',

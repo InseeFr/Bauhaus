@@ -15,7 +15,7 @@
 		"@babel/plugin-proposal-class-properties": "^7.16.7",
 		"@babel/plugin-transform-react-jsx": "^7.17.3",
 		"identity-obj-proxy": "^3.0.0",
-		"rollup": "^2.67.3",
+		"rollup": "^2.68.0",
 		"rollup-plugin-babel": "^4.4.0",
 		"rollup-plugin-commonjs": "^10.1.0",
 		"rollup-plugin-node-builtins": "^2.1.2",
@@ -24,7 +24,7 @@
 		"rollup-plugin-replace": "^2.2.0"
 	},
 	"dependencies": {
-		"@inseefr/wilco": "0.0.5",
+		"@inseefr/wilco": "0.0.7",
 		"dayjs": "^1.10.7",
 		"draft-js": "0.10.4",
 		"draft-js-export-html": "1.4.1",
