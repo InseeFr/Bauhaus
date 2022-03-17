@@ -65,8 +65,8 @@ const ConceptVisualizationControls = (props) => {
 		}
 	} else if (creator) {
 		btns = isValidated
-			? [cancel, compare, send]
-			: [cancel, compare, send, validate];
+			? [cancel, compare, send, update]
+			: [cancel, compare, send, update, validate];
 	} else {
 		btns = [cancel, compare];
 	}
