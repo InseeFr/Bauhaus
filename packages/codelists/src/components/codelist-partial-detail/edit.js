@@ -9,16 +9,13 @@ import {
 	ErrorBloc,
 	LabelRequired,
 	Select,
+	Button,
 } from '@inseefr/wilco';
 import { Stores, useTitle } from 'bauhaus-utilities';
+import Picker from './picker';
 import { API } from '../../apis';
-import {
-	validatePartialCodelist,
-	treedData,
-	partialInGlobalCodes,
-} from '../../utils';
+import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import PartialCodesTreeEdit from './codes-tree-edit';
 import '../codelist-detail/edit.scss';
 
 const defaultCodelist = {
@@ -37,7 +34,6 @@ const DumbCodelistPartialDetailEdit = ({
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
 	const [parentCodes, setParentCodes] = useState(null);
-	const [parentTree, setParentTree] = useState(null);
 	const { field, message } = validatePartialCodelist(codelist);
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
@@ -79,14 +75,6 @@ const DumbCodelistPartialDetailEdit = ({
 		}
 	}, [initialCodelist, handleParentCode]);
 
-	useEffect(() => {
-		if (parentCodes) {
-			setParentTree(treedData(parentCodes));
-		} else {
-			setParentTree([]);
-		}
-	}, [parentCodes]);
-
 	const handleChange = useCallback(
 		(e) => {
 			const { name, value } = e.target;
@@ -115,39 +103,29 @@ const DumbCodelistPartialDetailEdit = ({
 	}, [parentCodes]);
 
 	const addClickHandler = useCallback(
-		(e) => {
-			const currentCode = parentCodes.find(
-				(c) => c.code === e.target.parentElement.dataset.componentId
+		(currentCode) => {
+			setParentCodes(
+				parentCodes.map((c) => {
+					if (c.code === currentCode) {
+						return { ...c, isPartial: true };
+					}
+					return c;
+				})
 			);
-			if (currentCode) {
-				setParentCodes(
-					parentCodes.map((c) => {
-						if (c.code === currentCode.code) {
-							return { ...c, isPartial: true };
-						}
-						return c;
-					})
-				);
-			}
 		},
 		[parentCodes]
 	);
 
 	const removeClickHandler = useCallback(
-		(e) => {
-			const currentCode = parentCodes.find(
-				(c) => c.code === e.target.parentElement.dataset.componentId
+		(currentCode) => {
+			setParentCodes(
+				parentCodes.map((c) => {
+					if (c.code === currentCode) {
+						return { ...c, isPartial: false };
+					}
+					return c;
+				})
 			);
-			if (currentCode) {
-				setParentCodes(
-					parentCodes.map((c) => {
-						if (c.code === currentCode.code) {
-							return { ...c, isPartial: false };
-						}
-						return c;
-					})
-				);
-			}
 		},
 		[parentCodes]
 	);
@@ -292,20 +270,31 @@ const DumbCodelistPartialDetailEdit = ({
 						/>
 					</div>
 				</div>
-				{codelist.parentCode && parentCodes && parentTree && (
-					<div className="row">
-						<PartialCodesTreeEdit
-							codes={parentCodes}
-							tree={parentTree}
-							handleChangeTree={(tree) => setParentTree(tree)}
-							addAllClickHandler={addAllClickHandler}
-							removeAllClickHandler={removeAllClickHandler}
-							addClickHandler={addClickHandler}
-							removeClickHandler={removeClickHandler}
-							readOnly={true}
-						/>
-					</div>
-				)}
+				<div>
+					{parentCodes && (
+						<div className="container">
+							<ActionToolbar>
+								<Button
+									key={`removeAll`}
+									onClick={removeAllClickHandler}
+									col={4}
+								>
+									{D.removeAll}
+								</Button>
+
+								<Button key={`addAll`} onClick={addAllClickHandler} col={4}>
+									{D.addAll}
+								</Button>
+							</ActionToolbar>
+							<Picker
+								panelTitle={D.codelistPartialTitle}
+								codes={parentCodes}
+								addAction={addClickHandler}
+								removeAction={removeClickHandler}
+							/>
+						</div>
+					)}
+				</div>
 			</form>
 		</React.Fragment>
 	);
