@@ -196,6 +196,7 @@ export const partialInGlobalCodes = (parentCL, childCl) => {
 				{
 					...c,
 					id: c.code,
+					label: c.labelLg1,
 					isPartial:
 						childCl.filter(
 							(partial) =>

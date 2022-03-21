@@ -276,13 +276,13 @@ const DumbCodelistPartialDetailEdit = ({
 							<ActionToolbar>
 								<Button
 									key={`removeAll`}
-									onClick={removeAllClickHandler}
-									col={4}
+									action={removeAllClickHandler}
+									col={5}
 								>
 									{D.removeAll}
 								</Button>
 
-								<Button key={`addAll`} onClick={addAllClickHandler} col={4}>
+								<Button key={`addAll`} action={addAllClickHandler} col={5}>
 									{D.addAll}
 								</Button>
 							</ActionToolbar>

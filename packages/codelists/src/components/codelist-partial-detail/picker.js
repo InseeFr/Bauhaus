@@ -16,29 +16,29 @@ const Picker = ({ panelTitle, codes, addAction, removeAction }) => {
 	const getCodesByStatus = () => {
 		const check = filterDeburr(searchLabel);
 		return codes.reduce(
-			(byStatus, { code, labelLg1, isPartial }) => {
-				if (isPartial) byStatus.selected.push({ code, labelLg1 });
-				else check(labelLg1) && byStatus.toSelect.push({ code, labelLg1 });
+			(byStatus, { id, label, isPartial }) => {
+				if (isPartial) byStatus.selected.push({ id, label });
+				else check(label) && byStatus.toSelect.push({ id, label });
 				return byStatus;
 			},
 			{ toSelect: [], selected: [] }
 		);
 	};
 	const { toSelect, selected } = getCodesByStatus();
-	const toAddElements = toSelect.map(({ code, labelLg1 }) => (
+	const toAddElements = toSelect.map(({ id, label }) => (
 		<PickerItem
-			key={code}
-			id={code}
-			label={labelLg1}
+			key={id}
+			id={id}
+			label={label}
 			logo={AddLogo}
 			handleClick={addAction}
 		/>
 	));
-	const addedElements = selected.map(({ code, labelLg1 }) => (
+	const addedElements = selected.map(({ id, label }) => (
 		<PickerItem
-			key={code}
-			id={code}
-			label={labelLg1}
+			key={id}
+			id={id}
+			label={label}
 			logo={DelLogo}
 			handleClick={removeAction}
 		/>
@@ -67,8 +67,8 @@ Picker.propTypes = {
 	panelTitle: PropTypes.string.isRequired,
 	codes: PropTypes.arrayOf(
 		PropTypes.shape({
-			code: PropTypes.string.isRequired,
-			labelLg1: PropTypes.string.isRequired,
+			id: PropTypes.string.isRequired,
+			label: PropTypes.string.isRequired,
 		})
 	).isRequired,
 	addAction: PropTypes.func.isRequired,
