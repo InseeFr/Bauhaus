@@ -10,7 +10,7 @@ import {
 import { AppContext, Stores, useTitle } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
-import { XSD_CODE_LIST, XSD_DATE, XSD_DATE_TIME, XSD_FLOAT, XSD_INT, XSD_STRING, XSD_TYPES } from '../../utils/constants/xsd';
+import { XSD_CODE_LIST, XSD_DATE, XSD_DATE_TIME, XSD_FLOAT, XSD_INTEGER, XSD_STRING, XSD_TYPES } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
 import { default as ReactSelect } from 'react-select';
@@ -232,7 +232,7 @@ const DumbComponentDetailEdit = ({
 						</div>
 					</>
 				)}
-				{(component.range === XSD_INT || component.range === XSD_FLOAT) && (
+				{(component.range === XSD_INTEGER || component.range === XSD_FLOAT) && (
 					<>
 						<div className='row'>
 							<div className='col-md-offset-1 col-md-11 form-group'>
