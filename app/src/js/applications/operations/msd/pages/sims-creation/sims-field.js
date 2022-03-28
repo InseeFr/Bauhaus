@@ -235,7 +235,7 @@ export const SimsFieldTitleIndicatorBridge = ({ msd, currentSection, organisatio
 			break;
 		case RICH_TEXT:
 			value = currentSection[secondLang ? 'labelLg2' : 'labelLg1']
-			isEmpty = !value.getCurrentContent || !value.getCurrentContent().hasText();
+			isEmpty = !value?.getCurrentContent || !value.getCurrentContent().hasText();
 			break;
 		case GEOGRAPHY:
 			value = currentSection.uri;
