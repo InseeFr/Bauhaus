@@ -9,7 +9,6 @@ import {
 	ErrorBloc,
 	LabelRequired,
 	Select,
-	Button,
 } from '@inseefr/wilco';
 import { Stores, useTitle } from 'bauhaus-utilities';
 import Picker from './picker';
@@ -33,7 +32,7 @@ const DumbCodelistPartialDetailEdit = ({
 	serverSideError,
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
-	const [parentCodes, setParentCodes] = useState(null);
+	const [parentCodes, setParentCodes] = useState([]);
 	const { field, message } = validatePartialCodelist(codelist);
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
@@ -87,19 +86,17 @@ const DumbCodelistPartialDetailEdit = ({
 	);
 
 	const addAllClickHandler = useCallback(() => {
-		setParentCodes(
-			parentCodes.map((c) => {
-				return { ...c, isPartial: true };
-			})
-		);
+		const selectedParents = parentCodes.map((c) => {
+			return { ...c, isPartial: true };
+		});
+		setParentCodes(selectedParents);
 	}, [parentCodes]);
 
 	const removeAllClickHandler = useCallback(() => {
-		setParentCodes(
-			parentCodes.map((c) => {
-				return { ...c, isPartial: false };
-			})
-		);
+		const unselectedParents = parentCodes.map((c) => {
+			return { ...c, isPartial: false };
+		});
+		setParentCodes(unselectedParents);
 	}, [parentCodes]);
 
 	const addClickHandler = useCallback(
@@ -223,7 +220,7 @@ const DumbCodelistPartialDetailEdit = ({
 							({ value }) => value === codelist.contributor
 						)}
 						options={stampListOptions}
-						onChange={(value) =>
+						onChange={({ value }) =>
 							setCodelist({ ...codelist, contributor: value })
 						}
 						isDisabled={true}
@@ -272,27 +269,14 @@ const DumbCodelistPartialDetailEdit = ({
 				</div>
 				<div>
 					{parentCodes && (
-						<div className="container">
-							<ActionToolbar>
-								<Button
-									key={`removeAll`}
-									action={removeAllClickHandler}
-									col={5}
-								>
-									{D.removeAll}
-								</Button>
-
-								<Button key={`addAll`} action={addAllClickHandler} col={5}>
-									{D.addAll}
-								</Button>
-							</ActionToolbar>
-							<Picker
-								panelTitle={D.codelistPartialTitle}
-								codes={parentCodes}
-								addAction={addClickHandler}
-								removeAction={removeClickHandler}
-							/>
-						</div>
+						<Picker
+							panelTitle={D.codelistPartialTitle}
+							codes={parentCodes}
+							addAll={addAllClickHandler}
+							removeAll={removeAllClickHandler}
+							addAction={addClickHandler}
+							removeAction={removeClickHandler}
+						/>
 					)}
 				</div>
 			</form>

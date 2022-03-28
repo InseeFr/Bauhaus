@@ -8,9 +8,18 @@ import {
 	DelLogo,
 	filterDeburr,
 	PickerItem,
+	ActionToolbar,
+	Button,
 } from '@inseefr/wilco';
 
-const Picker = ({ panelTitle, codes, addAction, removeAction }) => {
+const Picker = ({
+	panelTitle,
+	codes,
+	addAll,
+	removeAll,
+	addAction,
+	removeAction,
+}) => {
 	const [searchLabel, setSearchLabel] = useState('');
 
 	const getCodesByStatus = () => {
@@ -45,19 +54,30 @@ const Picker = ({ panelTitle, codes, addAction, removeAction }) => {
 	));
 
 	return (
-		<div className="row">
-			<div className="col-md-6">
-				<Panel title={panelTitle}>{addedElements}</Panel>
-			</div>
-			<div className="col-md-6 text-center">
-				<input
-					value={searchLabel}
-					onChange={(e) => setSearchLabel(e.target.value)}
-					type="text"
-					placeholder={D.searchLabelPlaceholder}
-					className="form-control"
-				/>
-				<Pagination itemEls={toAddElements} itemsPerPage="10" />
+		<div className="container">
+			<ActionToolbar>
+				<Button key={`removeAll`} action={removeAll} col={5}>
+					{D.removeAll}
+				</Button>
+
+				<Button key={`addAll`} action={addAll} col={5}>
+					{D.addAll}
+				</Button>
+			</ActionToolbar>
+			<div className="row">
+				<div className="col-md-6">
+					<Panel title={panelTitle}>{addedElements}</Panel>
+				</div>
+				<div className="col-md-6 text-center">
+					<input
+						value={searchLabel}
+						onChange={(e) => setSearchLabel(e.target.value)}
+						type="text"
+						placeholder={D.searchLabelPlaceholder}
+						className="form-control"
+					/>
+					<Pagination itemEls={toAddElements} itemsPerPage="10" />
+				</div>
 			</div>
 		</div>
 	);
@@ -71,6 +91,8 @@ Picker.propTypes = {
 			label: PropTypes.string.isRequired,
 		})
 	).isRequired,
+	addAll: PropTypes.func.isRequired,
+	removeAll: PropTypes.func.isRequired,
 	addAction: PropTypes.func.isRequired,
 	removeAction: PropTypes.func.isRequired,
 };
