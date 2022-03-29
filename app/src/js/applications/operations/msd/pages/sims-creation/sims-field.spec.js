@@ -57,6 +57,7 @@ describe('Sims Field', () => {
 			container.querySelectorAll('input[data-formattedvalue]')
 		).toHaveLength(1);
 	});
+
 	it('when rangeType === RICH_TEXT, should display a EditorMarkdown', () => {
 		const { container } = render(
 			<Provider store={store}>

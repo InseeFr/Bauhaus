@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
-import check from 'js/utils/auth';
 import { Loading } from '@inseefr/wilco';
 import ConceptVisualization from './home';
 import { Auth, HTMLUtils, Stores } from 'bauhaus-utilities';
@@ -85,15 +84,6 @@ const ConceptVisualizationContainer = () => {
 
 	const { general, links } = concept;
 	let { notes } = concept;
-
-	const { conceptVersion, isValidated, creator } = general;
-	const { authType, roles, stamp } = permission;
-	const authImpl = check(authType);
-	const adminOrContributorOrConceptCreator = authImpl.isAdminOrContributorOrConceptCreator(
-		roles,
-		stamp,
-		creator
-	);
 
 	return (
 		<ConceptVisualization
