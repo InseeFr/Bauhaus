@@ -264,9 +264,8 @@ const dictionary = {
           ${prefLabelLg1}
           </b>” ${inseeText} extracted from the RMéS-Concepts repository.</p>
           ${validText}
-          <p>For any request concerning this concept please answer via the functional mail box :DG75-Administration RMéS <a href="mailto:dg75-administration-rmes@insee.fr">dg75-administration-rmes@insee.fr<a>.</p>
+          <p>For any request concerning this concept please answer via the functional mail box <a href="mailto:dg75-administration-rmes@insee.fr">dg75-administration-rmes@insee.fr<a>.</p>
           <p>The RMéS team<br/>
-          Insee - DG<br/>
           DMCSI - Quality Unit</p>`;
 		},
 	},
