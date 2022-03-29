@@ -9,7 +9,6 @@ import SimsGeographyField from './sims-geography-field';
 import './sims-geography-picker.scss';
 import { SimsGeographyI18NLabel } from 'bauhaus-operations';
 
-
 const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
 	const [territory, setTerritory] = useState();
 	const geographiesOptions = useSelector(Stores.Geographies.getAllOptions);
@@ -19,15 +18,20 @@ const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
 	}, []);
 
 	const openViewPanel = useCallback(() => {
-		setTerritory(geographiesOptions?.find(({ value: v }) => v === value)?.geography);
+		setTerritory(
+			geographiesOptions?.find(({ value: v }) => v === value)?.geography
+		);
 		setSlidingModal(true);
 	}, [geographiesOptions, value]);
 
-	const onSave = useCallback((territoryUri) => {
-		setSlidingModal(false);
-		loadGeographies();
-		onChange(territoryUri)
-	}, [loadGeographies, onChange]);
+	const onSave = useCallback(
+		(territoryUri) => {
+			setSlidingModal(false);
+			loadGeographies();
+			onChange(territoryUri);
+		},
+		[loadGeographies, onChange]
+	);
 
 	const onCancel = useCallback(() => {
 		setTerritory(undefined);
@@ -37,7 +41,9 @@ const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
 		return <SimsGeographyI18NLabel geography={geography} />;
 	};
 
-	const shouldSeeViewButton = geographiesOptions?.find(({ value: v }) => v === value)?.typeTerritory === "Territoire Statistique";
+	const shouldSeeViewButton =
+		geographiesOptions?.find(({ value: v }) => v === value)?.typeTerritory ===
+		'Territoire Statistique';
 	return (
 		<>
 			<div className="bauhaus-sims-geography-picker">
@@ -65,16 +71,34 @@ const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
 				</div>
 
 				<Auth.AuthGuard roles={[Auth.ADMIN]}>
-					<button type="button" className="btn btn-default" onClick={openNewPanel}>
+					<button
+						type="button"
+						className="btn btn-default"
+						onClick={openNewPanel}
+					>
 						{D.btnNew}
 					</button>
 				</Auth.AuthGuard>
-				<button disabled={!shouldSeeViewButton} type="button" className="btn btn-default" onClick={openViewPanel}>
+				<button
+					disabled={!shouldSeeViewButton}
+					type="button"
+					className="btn btn-default"
+					onClick={openViewPanel}
+				>
 					{D.btnSee}
 				</button>
 			</div>
-			<SlidingPanel type={'right'} isOpen={slidingModal} size={60} backdropClicked={() => setSlidingModal(false)}>
-				<SimsGeographyField onCancel={onCancel} onSave={onSave} territory={territory}/>
+			<SlidingPanel
+				type={'right'}
+				isOpen={slidingModal}
+				size={60}
+				backdropClicked={() => setSlidingModal(false)}
+			>
+				<SimsGeographyField
+					onCancel={onCancel}
+					onSave={onSave}
+					territory={territory}
+				/>
 			</SlidingPanel>
 		</>
 	);
@@ -83,5 +107,4 @@ const mapDispatchToProps = {
 	loadGeographies: Stores.Geographies.loadGeographies,
 };
 
-export default connect(undefined, mapDispatchToProps)(SimsGeographyPicker)
-
+export default connect(undefined, mapDispatchToProps)(SimsGeographyPicker);

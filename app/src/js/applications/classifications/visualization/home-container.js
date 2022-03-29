@@ -1,63 +1,72 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import ClassificationVisualization from './home';
-import { buildExtract, Loading } from '@inseefr/wilco';
-import loadClassification from 'js/actions/classifications/classification';
+import { Loading } from '@inseefr/wilco';
 import * as mainSelect from 'js/reducers';
-import * as select from 'js/reducers/classifications/classification';
-import { Stores } from 'bauhaus-utilities';
+import { Stores, Auth } from 'bauhaus-utilities';
+import api from 'js/remote-api/classifications-api';
 
-const extractId = buildExtract('id');
+const ClassificationVisualizationContainer = (props) => {
+	const { id } = useParams();
+	const [loading, setLoading] = useState(true);
+	const langs = useSelector((state) => mainSelect.getLangs(state));
+	const secondLang = useSelector((state) =>
+		Stores.SecondLang.getSecondLang(state)
+	);
+	const [classification, setClassification] = useState([]);
+	const permission = useSelector((state) => Auth.getPermission(state));
+	const [publishing, setPublishing] = useState(false);
+	const [serverSideError, setServerSideError] = useState();
 
-class ClassificationVisualizationContainer extends Component {
-	constructor(props) {
-		super();
-	}
-	componentWillMount() {
-		const { classification, id } = this.props;
-		if (!classification) this.props.loadClassification(id);
-	}
-	componentWillReceiveProps({ id }) {
-		if (id !== this.props.id) {
-			this.props.loadClassification(id);
-		}
-	}
-	render() {
-		const { classification, id, secondLang, langs } = this.props;
-		if (!classification) return <Loading />;
-		return (
-			<ClassificationVisualization
-				classification={classification}
-				classificationId={id}
-				secondLang={secondLang}
-				langs={langs}
-			/>
-		);
-	}
-}
-
-const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	const classification = select.getClassification(state, id);
-	const secondLang = Stores.SecondLang.getSecondLang(state);
-	const langs = mainSelect.getLangs(state);
-	return {
-		id,
-		classification,
-		secondLang,
-		langs,
+	const getClassification = (id) => {
+		Promise.all([
+			api.getClassificationGeneral(id),
+			api.getClassificationLevels(id),
+		])
+			.then(([general, levels]) => {
+				setClassification({ general, levels });
+			})
+			.finally(() => setLoading(false));
 	};
+
+	const publish = useCallback(() => {
+		setPublishing(true);
+		api
+			.publishClassification(classification.general)
+			.then(() => {
+				return getClassification(id);
+			})
+			.catch((error) => setServerSideError(error))
+			.finally(() => setPublishing(false));
+	}, [id, classification.general]);
+
+	useEffect(() => {
+		getClassification(id);
+	}, [id]);
+
+	if (loading) {
+		return <Loading />;
+	}
+
+	if (publishing) return <Loading text="publishing" />;
+
+	if (!classification) return <Loading />;
+	return (
+		<ClassificationVisualization
+			classification={classification}
+			classificationId={id}
+			secondLang={secondLang}
+			langs={langs}
+			permission={permission}
+			publish={publish}
+			serverSideError={serverSideError}
+		/>
+	);
 };
 
-const mapDispatchToProps = {
-	loadClassification,
-};
-
-ClassificationVisualizationContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(ClassificationVisualizationContainer);
+export default ClassificationVisualizationContainer;
 
 ClassificationVisualizationContainer.propTypes = {
 	match: PropTypes.shape({
@@ -66,4 +75,3 @@ ClassificationVisualizationContainer.propTypes = {
 		}),
 	}),
 };
-export default ClassificationVisualizationContainer;
