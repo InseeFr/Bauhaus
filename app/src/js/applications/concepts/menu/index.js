@@ -22,7 +22,6 @@ export const MenuConcepts = ({ location, permission: { authType, roles } }) => {
 			attrs: null,
 			label: D.administrationTitle,
 			order: 3,
-			shouldBeDisplayed: adminOrContributor,
 			alignToRight: true,
 		},
 		{
