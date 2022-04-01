@@ -9,6 +9,7 @@ import { SimsGeographyPicker } from 'bauhaus-operations';
 import { Editor } from 'react-draft-wysiwyg';
 import { Note, getLang, Select } from '@inseefr/wilco';
 import './sims-field.scss';
+import { SimsFieldTitle } from '../../sims-field-title';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 const SimsCodeListSelect = (props) => {
@@ -205,64 +206,4 @@ class SimsField extends PureComponent {
 	}
 }
 
-const SimsFieldTitle = ({ msd, secondLang, currentSection, organisationsOptions }) => {
-	return (
-		<>
-			<SimsFieldTitleIndicatorBridge msd={msd} currentSection={currentSection} secondLang={secondLang} organisationsOptions={organisationsOptions}/> {msd.idMas} - {msd[secondLang ? 'masLabelLg2' : 'masLabelLg1']}
-		</>
-	)
-}
-
-
-export const SimsFieldTitleIndicatorBridge = ({ msd, currentSection, organisationsOptions, secondLang }) => {
-	let value;
-	let isEmpty;
-
-	switch (msd.rangeType){
-		case TEXT:
-			value = currentSection[secondLang ? 'labelLg2' : 'labelLg1'];
-			isEmpty = !value
-			break;
-		case ORGANIZATION:
-			value = organisationsOptions.find(
-				({ value }) => value === currentSection.value
-			)
-			isEmpty = !value
-			break;
-		case Date:
-			value = currentSection.value;
-			isEmpty = !value
-			break;
-		case RICH_TEXT:
-			value = currentSection[secondLang ? 'labelLg2' : 'labelLg1']
-			isEmpty = !value?.getCurrentContent || !value.getCurrentContent().hasText();
-			break;
-		case GEOGRAPHY:
-			value = currentSection.uri;
-			isEmpty = !value
-			break;
-		case CODE_LIST:
-			value = currentSection.value;
-			isEmpty = !value || value.length === 0
-			break;
-		default:
-			value = currentSection.value;
-			isEmpty = !value
-	}
-
-	return <SimsFieldTitleIndicator msd={msd} isEmpty={isEmpty} />
-}
-
-export const SimsFieldTitleIndicator = ({ msd, isEmpty }) => {
-	if(msd.minOccurs !== "1"){
-		return <></>
-	}
-
-	if(isEmpty){
-		return (<span ariaLabel={D.essentialRubricKo} title={D.essentialRubricKo}>⚠️</span>)
-	}
-
-	return (<span ariaLabel={D.essentialRubricOk} title={D.essentialRubricOk}>✅</span>)
-
-}
 export default SimsField;
