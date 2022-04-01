@@ -29,14 +29,8 @@ const defaultDocument = {
 };
 
 const saveDocument = (document, type, files) => {
-	const method = document.id
-		? type === LINK
-			? 'putLink'
-			: 'putDocument'
-		: type === LINK
-			? 'postLink'
-			: 'postDocument';
-
+	const method =
+		(document.id ? 'put' : 'post') + (type === LINK ? 'Link' : 'Document');
 	let body = document;
 
 	/**
@@ -58,18 +52,17 @@ const saveDocument = (document, type, files) => {
 	if (type === DOCUMENT && document.id && files[0] && files[0].size) {
 		const formData = new FormData();
 		formData.append('file', files[0], files[0].name);
-		promise = api.putDocumentFile(document, formData);
+		promise = (api.putDocumentFile(document, formData), api[method](body));
 	} else {
 		promise = api[method](body);
 	}
-	return promise
-}
+	return promise;
+};
 
 class OperationsDocumentationEdition extends Component {
 	static propTypes = {
 		document: PropTypes.object.isRequired,
 		langs: PropTypes.object.isRequired,
-		saveDocument: PropTypes.func.isRequired,
 		type: PropTypes.oneOf([LINK, DOCUMENT]),
 	};
 
@@ -120,25 +113,24 @@ class OperationsDocumentationEdition extends Component {
 	};
 
 	onSubmit = () => {
-
-		this.setState({ saving: true })
+		this.setState({ saving: true });
 		const isCreation = !this.state.document.id;
-
 		const document = this.state.document;
 		const type = this.props.type;
 		const files = this.state.files;
 
-
-		return saveDocument(document, type, files).then(
-			(id = this.state.document.id) => {
-				goBackOrReplace(this.props, `/operations/${type}/${id}`, isCreation);
-			},
-			err => {
-				this.setState({
-					serverSideError: err,
-				});
-			}
-		).finally(() => this.setState({ saving: false }));
+		return saveDocument(document, type, files)
+			.then(
+				(id = this.state.document.id) => {
+					goBackOrReplace(this.props, `/operations/${type}/${id}`, isCreation);
+				},
+				(err) => {
+					this.setState({
+						serverSideError: err,
+					});
+				}
+			)
+			.finally(() => this.setState({ saving: false }));
 	};
 
 	render() {
@@ -148,7 +140,6 @@ class OperationsDocumentationEdition extends Component {
 		});
 		if (this.state.saving) return <Loading textType="saving" />;
 
-
 		const { document, files, serverSideError } = this.state;
 		const isEditing = !!document.id;
 		const errors = validate(document, type, files);
@@ -157,9 +148,9 @@ class OperationsDocumentationEdition extends Component {
 		try {
 			globalError =
 				errors.errorMessage ||
-				D.documents.serverSideErrors[JSON.parse(serverSideError).code] || serverSideError
-		} catch (e){}
-
+				D.documents.serverSideErrors[JSON.parse(serverSideError).code] ||
+				serverSideError;
+		} catch (e) {}
 
 		let updatedDate;
 		if (document.updatedDate) {
@@ -320,6 +311,13 @@ class OperationsDocumentationEdition extends Component {
 	}
 }
 
-export default withTitle(OperationsDocumentationEdition, D.operationsTitle, props => {
-	return props.document.labelLg1 || (props.type === LINK ? D.linksCreateTitle : D.documentsCreateTitle)
-});
+export default withTitle(
+	OperationsDocumentationEdition,
+	D.operationsTitle,
+	(props) => {
+		return (
+			props.document.labelLg1 ||
+			(props.type === LINK ? D.linksCreateTitle : D.documentsCreateTitle)
+		);
+	}
+);

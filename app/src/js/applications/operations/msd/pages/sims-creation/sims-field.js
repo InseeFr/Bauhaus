@@ -98,11 +98,36 @@ class SimsField extends PureComponent {
 			...EditorMarkdownToolbar,
 			options: ['list', 'inline'],
 		};
+
+		let value;
+		switch (msd.rangeType){
+			case TEXT:
+				value = currentSection[secondLang ? 'labelLg2' : 'labelLg1'];
+				break;
+			case ORGANIZATION:
+				value = organisationsOptions.find(
+					({ value }) => value === currentSection.value
+				)
+				break;
+			case Date:
+				value = currentSection.value;
+				break;
+			case RICH_TEXT:
+				value = currentSection[secondLang ? 'labelLg2' : 'labelLg1']
+				break;
+			case GEOGRAPHY:
+				value = currentSection.uri;
+				break;
+			case CODE_LIST:
+				value = currentSection.value;
+				break;
+			default:
+				value = currentSection.value;
+		}
+
 		return (
 			<Note
-				title={`${msd.idMas} - ${
-					msd[secondLang ? 'masLabelLg2' : 'masLabelLg1']
-				}`}
+				title={<SimsFieldTitle currentSection={currentSection} msd={msd} secondLang={secondLang} organisationsOptions={organisationsOptions}/>}
 				alone={alone}
 				lang={lang}
 				text={
@@ -111,7 +136,7 @@ class SimsField extends PureComponent {
 							{msd.rangeType === TEXT && (
 								<InputRmes
 									id={msd.idMas}
-									value={currentSection[secondLang ? 'labelLg2' : 'labelLg1']}
+									value={value}
 									handleChange={this.handleTextInput}
 									arias={{
 										'aria-label': D.simsValue,
@@ -123,9 +148,7 @@ class SimsField extends PureComponent {
 								<Select
 									placeholder=""
 									className="form-control"
-									value={organisationsOptions.find(
-										({ value }) => value === currentSection.value
-									)}
+									value={value}
 									options={organisationsOptions}
 									onChange={this.handleCodeListInput}
 								/>
@@ -135,7 +158,7 @@ class SimsField extends PureComponent {
 									aria-label={D.simsValue}
 									id={msd.idMas}
 									colMd={12}
-									value={currentSection.value}
+									value={value}
 									onChange={this.handleCodeListInput}
 								/>
 							)}
@@ -143,9 +166,7 @@ class SimsField extends PureComponent {
 							{msd.rangeType === RICH_TEXT && (
 								<>
 									<Editor
-										editorState={
-											currentSection[secondLang ? 'labelLg2' : 'labelLg1']
-										}
+										editorState={value}
 										toolbarCustomButtons={[<EditorDeleteButton />]}
 										toolbar={currentToolbar}
 										toolbarClassName="home-toolbar"
@@ -172,7 +193,7 @@ class SimsField extends PureComponent {
 
 							{msd.rangeType === GEOGRAPHY && (
 								<SimsGeographyPicker
-									value={currentSection.uri}
+									value={value}
 									onChange={this.handleGeography}
 								/>
 							)}
@@ -184,4 +205,64 @@ class SimsField extends PureComponent {
 	}
 }
 
+const SimsFieldTitle = ({ msd, secondLang, currentSection, organisationsOptions }) => {
+	return (
+		<>
+			<SimsFieldTitleIndicatorBridge msd={msd} currentSection={currentSection} secondLang={secondLang} organisationsOptions={organisationsOptions}/> {msd.idMas} - {msd[secondLang ? 'masLabelLg2' : 'masLabelLg1']}
+		</>
+	)
+}
+
+
+export const SimsFieldTitleIndicatorBridge = ({ msd, currentSection, organisationsOptions, secondLang }) => {
+	let value;
+	let isEmpty;
+
+	switch (msd.rangeType){
+		case TEXT:
+			value = currentSection[secondLang ? 'labelLg2' : 'labelLg1'];
+			isEmpty = !value
+			break;
+		case ORGANIZATION:
+			value = organisationsOptions.find(
+				({ value }) => value === currentSection.value
+			)
+			isEmpty = !value
+			break;
+		case Date:
+			value = currentSection.value;
+			isEmpty = !value
+			break;
+		case RICH_TEXT:
+			value = currentSection[secondLang ? 'labelLg2' : 'labelLg1']
+			isEmpty = !value?.getCurrentContent || !value.getCurrentContent().hasText();
+			break;
+		case GEOGRAPHY:
+			value = currentSection.uri;
+			isEmpty = !value
+			break;
+		case CODE_LIST:
+			value = currentSection.value;
+			isEmpty = !value || value.length === 0
+			break;
+		default:
+			value = currentSection.value;
+			isEmpty = !value
+	}
+
+	return <SimsFieldTitleIndicator msd={msd} isEmpty={isEmpty} />
+}
+
+export const SimsFieldTitleIndicator = ({ msd, isEmpty }) => {
+	if(msd.minOccurs !== "1"){
+		return <></>
+	}
+
+	if(isEmpty){
+		return (<span ariaLabel={D.essentialRubricKo} title={D.essentialRubricKo}>⚠️</span>)
+	}
+
+	return (<span ariaLabel={D.essentialRubricOk} title={D.essentialRubricOk}>✅</span>)
+
+}
 export default SimsField;

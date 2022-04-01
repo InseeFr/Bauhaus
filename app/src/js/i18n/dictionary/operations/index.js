@@ -170,7 +170,14 @@ const dictionary = {
 		en: 'Value',
 		fr: 'Valeur',
 	},
-
+	essentialRubricKo: {
+		en: 'This rubric is an essantial rubric. You should define a value.',
+		fr: 'Cette rubrique est une rubrique essentielle; Vous devriez lui définir une valeur',
+	},
+	essentialRubricOk: {
+		en: 'This rubric is an essantial rubric',
+		fr: 'Cette rubrique est une rubrique essentielle',
+	},
 	helpPresentational: {
 		en: 'Presentational attribut',
 		fr: 'Attribut présentationnel',
