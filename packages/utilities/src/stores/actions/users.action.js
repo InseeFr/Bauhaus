@@ -56,7 +56,10 @@ export const reducer = (state = {}, { type, payload }) => {
 };
 
 // loader
-export const loadUserStamp = () => (dispatch) => {
+export const loadUserStamp = () => (dispatch, getState) => {
+	if(isLoading(getState())){
+		return;
+	}
 	dispatch(loadUserStampPending());
 	return api.getStamp().then(
 		(results) => {
