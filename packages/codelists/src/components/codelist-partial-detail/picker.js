@@ -9,8 +9,8 @@ import {
 	filterDeburr,
 	PickerItem,
 	ActionToolbar,
-	Button,
 } from '@inseefr/wilco';
+import '../codelist-detail/edit.scss';
 
 const Picker = ({
 	panelTitle,
@@ -56,13 +56,23 @@ const Picker = ({
 	return (
 		<div className="container">
 			<ActionToolbar>
-				<Button key={`removeAll`} action={removeAll} col={5}>
+				<button
+					type="button"
+					key={`removeAll`}
+					className="btn wilco-btn btn-lg col-md-4"
+					onClick={removeAll}
+				>
 					{D.removeAll}
-				</Button>
+				</button>
 
-				<Button key={`addAll`} action={addAll} col={5}>
+				<button
+					type="button"
+					key={`addAll`}
+					className="btn wilco-btn btn-lg col-md-4"
+					onClick={addAll}
+				>
 					{D.addAll}
-				</Button>
+				</button>
 			</ActionToolbar>
 			<div className="row">
 				<div className="col-md-6">
