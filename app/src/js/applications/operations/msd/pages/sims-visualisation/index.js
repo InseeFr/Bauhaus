@@ -35,6 +35,7 @@ import {
 import SimsBlock from './sims-block';
 import './sims-visualisation.scss';
 import Modal from 'react-modal';
+import { SimsFieldTitle } from '../../sims-field-title';
 
 export default function SimsVisualisation({
 	metadataStructure,
@@ -67,7 +68,7 @@ export default function SimsVisualisation({
 				)}
 				<div className="sims-row" key={msd.idMas} id={msd.idMas}>
 					{!msd.isPresentational && (
-						<Panel title={`${msd.idMas} - ${msd.masLabelLg1}`}>
+						<Panel title={<SimsFieldTitle secondLang={false} msd={msd} currentSection={sims.rubrics[msd.idMas]} />}>
 							<SimsBlock
 								msd={msd}
 								isSecondLang={false}
