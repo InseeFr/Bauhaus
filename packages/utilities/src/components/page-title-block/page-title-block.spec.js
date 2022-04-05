@@ -5,7 +5,7 @@ import PageTitleBlock from './';
 describe('page-title-bloc', () => {
 	it('renders one PageTitle only is secondLang is false', () => {
 		const { container } = render(<PageTitleBlock titleLg1="titleLg1" />);
-		expect(container.querySelectorAll('h1')).toHaveLength(1);
+		expect(container.querySelectorAll('h2')).toHaveLength(1);
 		expect(container.querySelectorAll('.wilco-page-subtitle')).toHaveLength(0);
 	});
 
@@ -13,7 +13,7 @@ describe('page-title-bloc', () => {
 		const { container } = render(
 			<PageTitleBlock titleLg1="titleLg1" secondLang={true} />
 		);
-		expect(container.querySelectorAll('h1')).toHaveLength(1);
+		expect(container.querySelectorAll('h2')).toHaveLength(1);
 		expect(container.querySelectorAll('.wilco-page-subtitle')).toHaveLength(0);
 	});
 
@@ -25,7 +25,7 @@ describe('page-title-bloc', () => {
 				secondLang={true}
 			/>
 		);
-		expect(container.querySelectorAll('h1')).toHaveLength(1);
+		expect(container.querySelectorAll('h2')).toHaveLength(1);
 		expect(container.querySelectorAll('.wilco-page-subtitle')).toHaveLength(1);
 	});
 });
