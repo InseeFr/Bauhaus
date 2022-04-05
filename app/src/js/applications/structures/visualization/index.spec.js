@@ -29,7 +29,7 @@ describe('<StructureView />', () => {
 			</Provider>
 		);
 
-		expect(container.querySelector('h1').innerHTML).toEqual('labelLg1');
+		expect(container.querySelector('h2').innerHTML).toEqual('labelLg1');
 	})
 	it("should display the general informations block", () => {
 		const { container } = render(
