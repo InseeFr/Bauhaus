@@ -225,5 +225,9 @@ const dictionary = {
 		fr: 'Supprimer avec les enfants',
 		en: 'Delete with children',
 	},
+	searchLabelPlaceholder: {
+		fr: 'Libellé...',
+		en: 'Label...',
+	},
 };
 export default dictionary;
