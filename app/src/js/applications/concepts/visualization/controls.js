@@ -6,6 +6,7 @@ import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
 import { ConfirmationDelete } from 'bauhaus-utilities';
+
 const ConceptVisualizationControls = (props) => {
 	const {
 		isValidated,
@@ -29,7 +30,7 @@ const ConceptVisualizationControls = (props) => {
 
 	const authImpl = check(authType);
 	const admin = authImpl.isAdmin(roles);
-	const contributor = authImpl.isContributor(roles);
+	const contributor = authImpl.isContributor(roles, stamp, conceptCreator);
 	const creator = authImpl.isConceptCreator(roles, stamp, conceptCreator);
 	const adminOrCreator = admin || creator;
 
@@ -45,9 +46,6 @@ const ConceptVisualizationControls = (props) => {
 			: [`/concept/${id}/compare`, D.btnCompare];
 	const erase = adminOrCreator && [() => setModalOpened(true), D.btnDelete];
 
-	console.log({
-		roles, stamp, conceptCreator, creator, contributor, isValidated, isValidOutOfDate
-	})
 	if ((creator && contributor)) {
 		if (isValidOutOfDate) {
 			btns = isValidated

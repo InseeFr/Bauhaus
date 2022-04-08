@@ -2,8 +2,11 @@ import * as R from 'bauhaus-utilities/src/auth/roles';
 
 export const isAdmin = (roles) => roles.includes(R.ADMIN);
 
-export const isContributor = (roles) => roles.includes(R.CONCEPTS_CONTRIBUTOR);
-
+export const isContributor = (roles, stamp, conceptCreator) =>  {
+	return roles.includes(R.CONCEPTS_CONTRIBUTOR) || (
+		roles.includes(R.CONCEPT_CONTRIBUTOR) && stamp === conceptCreator
+	)
+}
 export const isConceptCreator = (roles, stamp, conceptCreator) =>
 	roles.includes(R.CONCEPTS_CREATOR) && stamp === conceptCreator;
 
