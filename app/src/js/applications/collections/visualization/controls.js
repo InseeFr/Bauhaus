@@ -18,7 +18,7 @@ class CollectionVisualizationControls extends Component {
 
 		const authImpl = check(authType);
 		const admin = authImpl.isAdmin(roles);
-		const contributor = authImpl.isContributor(roles);
+		const contributor = authImpl.isContributor(roles, stamp, collectionCreator);
 		const creator = authImpl.isCollectionCreator(
 			roles,
 			stamp,
