@@ -27,6 +27,7 @@ import { HTMLUtils, ArrayUtils } from 'bauhaus-utilities';
 import './sims-creation.scss';
 import { rangeType } from 'js/utils/msd/';
 import api from '../../../../../remote-api/operations-api';
+import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 
 const { RICH_TEXT } = rangeType;
 
@@ -286,6 +287,8 @@ class SimsCreation extends React.Component {
 					<CancelButton action={this.goBack} />
 					<SaveButton action={this.handleSubmit} col={3} />
 				</ActionToolbar>
+
+				<RubricEssentialMsg />
 
 				{Object.values(metadataStructure).map((msd, index) => {
 					return (

@@ -36,6 +36,8 @@ import SimsBlock from './sims-block';
 import './sims-visualisation.scss';
 import Modal from 'react-modal';
 import { SimsFieldTitle } from '../../sims-field-title';
+import { useSimsContext } from '../../context';
+import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 
 export default function SimsVisualisation({
 	metadataStructure,
@@ -49,6 +51,7 @@ export default function SimsVisualisation({
 	exportCallback,
 	owners =  []
 }) {
+
 	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 	const [modalOpened, setModalOpened] = useState(false);
 	const [exportModalOpened, setExportModalOpened] = useState(false);
@@ -246,6 +249,8 @@ export default function SimsVisualisation({
 			<ErrorBloc error={serverSideError} />
 
 			<CheckSecondLang />
+
+			<RubricEssentialMsg />
 
 			<div className="row">
 				<Note
