@@ -36,7 +36,6 @@ import SimsBlock from './sims-block';
 import './sims-visualisation.scss';
 import Modal from 'react-modal';
 import { SimsFieldTitle } from '../../sims-field-title';
-import { useSimsContext } from '../../context';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 
 export default function SimsVisualisation({

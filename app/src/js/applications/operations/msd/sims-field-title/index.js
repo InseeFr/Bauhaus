@@ -47,7 +47,7 @@ export const SimsFieldTitleIndicatorBridge = ({ msd, currentSection, secondLang 
 	return <SimsFieldTitleIndicator msd={msd} isEmpty={isEmpty} />
 }
 
-export const isEssentialRubricOk = (msd, currentSection) => {
+export const isEssentialRubricKo = (msd, currentSection) => {
 	let isEmpty;
 	if(!currentSection){
 		isEmpty = true;

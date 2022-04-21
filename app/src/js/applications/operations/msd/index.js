@@ -26,7 +26,7 @@ import api from 'js/remote-api/operations-api';
 
 import { getParentType, getParentId } from './utils';
 import './msd.scss';
-import { isEssentialRubricOk } from './sims-field-title';
+import { isEssentialRubricKo } from './sims-field-title';
 import { SimsContextProvider } from './context'
 const extractId = buildExtract('id');
 const extractIdParent = buildExtract('idParent');
@@ -148,7 +148,7 @@ class MSDContainer extends Component {
 			const flatMetadataStructure = makeMetadatastructureFlat(Object.values(metadataStructure));
 			essentialRubricContext = flatMetadataStructure.reduce((acc, msd) => {
 				if(msd.minOccurs === "1") {
-					msd.essentialRubricKo = isEssentialRubricOk(msd, currentSims.rubrics[msd.idMas])
+					msd.essentialRubricKo = isEssentialRubricKo(msd, currentSims.rubrics[msd.idMas])
 				}
 				return {
 					...acc,
