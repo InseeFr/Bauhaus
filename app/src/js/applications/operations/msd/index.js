@@ -26,6 +26,8 @@ import api from 'js/remote-api/operations-api';
 
 import { getParentType, getParentId } from './utils';
 import './msd.scss';
+import { isEssentialRubricKo } from './sims-field-title';
+import { SimsContextProvider } from './context'
 const extractId = buildExtract('id');
 const extractIdParent = buildExtract('idParent');
 
@@ -35,6 +37,7 @@ export const VIEW = 'VIEW';
 export const UPDATE = 'UPDATE';
 export const DUPLICATE = 'DUPLICATE';
 const sortByLabel = ArrayUtils.sortArray('labelLg1');
+
 
 class MSDContainer extends Component {
 	static propTypes = {
@@ -133,6 +136,28 @@ class MSDContainer extends Component {
 			return <Loading />;
 
 		if (this.state.exportPending) return <Loading textType="loadableLoading" />;
+
+		let essentialRubricContext = {};
+		if(mode === VIEW || this.isEditMode()){
+			const makeMetadatastructureFlat = items => {
+				if(!items || items.length === 0){
+					return items;
+				}
+				return [...items, ...makeMetadatastructureFlat(items.map(item => Object.values(item.children)).flat())]
+			}
+			const flatMetadataStructure = makeMetadatastructureFlat(Object.values(metadataStructure));
+			essentialRubricContext = flatMetadataStructure.reduce((acc, msd) => {
+				if(msd.minOccurs === "1") {
+					msd.essentialRubricKo = isEssentialRubricKo(msd, currentSims.rubrics[msd.idMas])
+				}
+				return {
+					...acc,
+					[msd.idMas]: {
+						...msd
+					}
+				}
+			}, {})
+		}
 		return (
 			<MSDLayout
 				metadataStructure={metadataStructure}
@@ -159,21 +184,24 @@ class MSDContainer extends Component {
 				)}
 
 				{mode === VIEW && (
-					<SimsVisualisation
-						sims={currentSims}
-						metadataStructure={metadataStructure}
-						codesLists={codesLists}
-						organisations={organisations}
-						currentSection={this.props.match.params.idSection}
-						langs={langs}
-						secondLang={secondLang}
-						goBack={this.goBackCallback}
-						publishSims={this.props.publishSims}
-						exportCallback={this.exportCallback}
-						owners={this.state.owners}
-					/>
+					<SimsContextProvider value={essentialRubricContext}>
+						<SimsVisualisation
+							sims={currentSims}
+							metadataStructure={metadataStructure}
+							codesLists={codesLists}
+							organisations={organisations}
+							currentSection={this.props.match.params.idSection}
+							langs={langs}
+							secondLang={secondLang}
+							goBack={this.goBackCallback}
+							publishSims={this.props.publishSims}
+							exportCallback={this.exportCallback}
+							owners={this.state.owners}
+						/>
+					</SimsContextProvider>
 				)}
 				{this.isEditMode() && (
+					<SimsContextProvider value={essentialRubricContext}>
 					<SimsCreation
 						parent={parent}
 						sims={currentSims}
@@ -189,6 +217,7 @@ class MSDContainer extends Component {
 						documentStores={documentStores}
 						defaultSimsRubrics={this.state.defaultSimsRubrics}
 					/>
+					</SimsContextProvider>
 				)}
 			</MSDLayout>
 		);

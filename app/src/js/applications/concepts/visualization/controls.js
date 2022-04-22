@@ -46,7 +46,7 @@ const ConceptVisualizationControls = (props) => {
 			: [`/concept/${id}/compare`, D.btnCompare];
 	const erase = adminOrCreator && [() => setModalOpened(true), D.btnDelete];
 
-	if ((creator && contributor)) {
+	if (admin || (creator && contributor)) {
 		if (isValidOutOfDate) {
 			btns = isValidated
 				? [cancel, compare, send, erase]
