@@ -148,7 +148,7 @@ class MSDContainer extends Component {
 			const flatMetadataStructure = makeMetadatastructureFlat(Object.values(metadataStructure));
 			essentialRubricContext = flatMetadataStructure.reduce((acc, msd) => {
 				if(msd.minOccurs === "1") {
-					msd.essentialRubricKo = isEssentialRubricKo(msd, currentSims.rubrics[msd.idMas])
+					msd.essentialRubricKo = isEssentialRubricKo(msd, currentSims.rubrics?.[msd.idMas])
 				}
 				return {
 					...acc,
