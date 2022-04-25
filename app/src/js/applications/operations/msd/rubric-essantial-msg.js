@@ -8,11 +8,12 @@ export const RubricEssentialMsg = () => {
 	const numberOfEssantialRubrics = Object.values(simsContext).filter(rubric => rubric.minOccurs === "1").length;
 	const numberOfEssantialRubricsOK = numberOfEssantialRubrics - numberOfEssantialRubricsKO;
 
+	const i18nkey = numberOfEssantialRubricsOK === 1 ? D.essentialRubricMsg : D.essentialRubricMsgPlural;
 	return (
 		<div className="row">
 			<Note
 				text={
-					D.essentialRubricMsg(numberOfEssantialRubricsOK, numberOfEssantialRubrics)
+					i18nkey(numberOfEssantialRubricsOK, numberOfEssantialRubrics)
 				}
 				title={D.essentialRubric}
 				alone={true}
