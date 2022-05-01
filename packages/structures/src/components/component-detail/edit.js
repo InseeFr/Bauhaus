@@ -17,11 +17,118 @@ import { default as ReactSelect } from 'react-select';
 import "./edit.scss";
 import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
 import { FormGroup } from 'react-bootstrap';
-
+import { API } from 'bauhaus-codelists'
 
 const defaultComponent = {
 	contributor: 'DG75-H250'
 }
+
+const CodeListFormInput = ({ component, codesLists, setComponent }) => {
+	const [codesFullListPanelOpened, setFullCodesListPanelOpened] = useState(false);
+	const [codesPartialListPanelOpened, setPartialCodesListPanelOpened] = useState(false);
+	const [partials, setPartials] = useState([])
+	const fullCodeListValue = component.fullCodeListValue ? component.fullCodeListValue : component.codeList;
+	const currentCodeList = component.codeList;
+
+	const [partialCodesLists, setPartialCodesLists] = useState([]);
+
+	useEffect(() => {
+		API.getCodelistsPartial().then(response => {
+			setPartialCodesLists(response)
+		})
+	}, [])
+
+	useEffect(() => {
+		if(fullCodeListValue){
+			const fullCodeLists = [...codesLists, ...partialCodesLists.map(l => ({ id: l.uri, label: l.labelLg1, notation: l.id}))]
+			const list = fullCodeLists.find(list => list.id === fullCodeListValue)
+			if(list){
+				API.getPartialsByParent(list.notation).then(partials => setPartials(partials))
+			}
+		}
+	}, [fullCodeListValue])
+
+	const codeListOptions = codesLists.map(({ id, label }) => ({
+		value: id,
+		label,
+	}));
+	const partialsOptions = partials?.map(({ iri, labelLg1 }) => ({
+		value: iri,
+		label: labelLg1,
+	}));
+
+	return (
+		<>
+				<div className="row">
+					<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
+						<Select
+							type="text"
+							className="form-control"
+							id="codeList"
+							name="codeList"
+							label={D1.codesListTitle}
+							placeholder={D1.codesListTitle}
+							options={codeListOptions}
+							value={codeListOptions.find((c) =>
+								fullCodeListValue?.toString() === c.value?.toString()
+							)}
+							onChange={(value) =>
+								setComponent({ ...component, fullCodeListValue: value, codeList: undefined })
+							}
+						/>
+						<button
+							type="button"
+							disabled={!fullCodeListValue}
+							onClick={() => setFullCodesListPanelOpened(true)}
+						>
+							{D.see}
+						</button>
+					</div>
+				</div>
+				{ partials.length > 0 && (
+						<div className="row">
+							<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
+								<Select
+									type="text"
+									className="form-control"
+									id="partialCodelist"
+									name="partialCodelist"
+									label={D1.codelistsPartialTitle}
+									placeholder={D1.codelistsPartialTitle}
+									options={partialsOptions}
+									value={partialsOptions.find((c) =>
+										currentCodeList?.toString() === c.value?.toString()
+									)}
+									onChange={(value) =>
+										setComponent({ ...component, codeList: value })
+									}
+								/>
+								<button
+									type="button"
+									disabled={!currentCodeList}
+									onClick={() => setPartialCodesListPanelOpened(true)}
+								>
+									{D.see}
+								</button>
+							</div>
+						</div>
+					)
+				}
+			<CodesListPanel codesList={codesLists.find((c) =>
+				(fullCodeListValue?.id || fullCodeListValue)?.toString().includes(c.id?.toString())
+			)} isOpen={codesFullListPanelOpened} handleBack={() => setFullCodesListPanelOpened(false)}/>
+
+			<CodesListPanel codesList={{
+				notation: partials.find((c) =>
+					(currentCodeList?.id || currentCodeList)?.toString().includes(c.iri?.toString())
+				)?.id
+			}} isOpen={codesPartialListPanelOpened} handleBack={() => setPartialCodesListPanelOpened(false)}/>
+
+
+		</>
+	)
+}
+
 const DumbComponentDetailEdit = ({
 	component: initialComponent,
 	concepts,
@@ -33,10 +140,8 @@ const DumbComponentDetailEdit = ({
 	stampListOptions,
 	serverSideError
 }) => {
-	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 	const [component, setComponent] = useState(defaultComponent);
 	const { lg1, lg2 } = useContext(AppContext);
-
 	useTitle(D.componentTitle, component?.labelLg1 || D.componentsCreateTitle)
 
 	useEffect(() => {
@@ -67,10 +172,7 @@ const DumbComponentDetailEdit = ({
 		value: id,
 		label,
 	}));
-	const codeListOptions = codesLists.map(({ id, label }) => ({
-		value: id,
-		label,
-	}));
+
 	const { field, message } = validateComponent(component);
 
 	return (
@@ -288,34 +390,7 @@ const DumbComponentDetailEdit = ({
 						</div>
 					</>
 				)}
-				{component.range === XSD_CODE_LIST && (
-					<div className="row">
-						<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
-							<Select
-								type="text"
-								className="form-control"
-								id="codeList"
-								name="codeList"
-								label={D1.codesListTitle}
-								placeholder={D1.codesListTitle}
-								options={codeListOptions}
-								value={codeListOptions.find((c) =>
-									component.codeList?.toString().includes(c.value?.toString())
-								)}
-								onChange={(value) =>
-									setComponent({ ...component, codeList: value })
-								}
-							/>
-							<button
-								type="button"
-								disabled={!component.codeList}
-								onClick={() => setCodesListPanelOpened(true)}
-							>
-								{D.see}
-							</button>
-						</div>
-					</div>
-				)}
+				{component.range === XSD_CODE_LIST && <CodeListFormInput component={component} codesLists={codesLists} setComponent={setComponent}/>}
 				<div className="form-group">
 					<label>
 						{D1.creatorTitle}
@@ -381,9 +456,6 @@ const DumbComponentDetailEdit = ({
 					</div>
 				</div>
 			</form>
-			<CodesListPanel codesList={codesLists.find((c) =>
-				(component.codeList?.id || component.codeList)?.toString().includes(c.id?.toString())
-			)} isOpen={codesListPanelOpened} handleBack={() => setCodesListPanelOpened(false)}/>
 		</React.Fragment>
 	);
 };
