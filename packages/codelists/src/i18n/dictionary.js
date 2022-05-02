@@ -209,6 +209,10 @@ const dictionary = {
 		fr: 'La liste de codes existe déjà.',
 		en: 'The codelist already exists.',
 	},
+	errors_1102: {
+		fr: 'Une liste de codes ne peut pas être créée sans code.',
+		en: 'A codeList should contain at least one Code.',
+	},
 	btnDelete: {
 		fr: 'Supprimer',
 		en: 'Delete',
