@@ -8,13 +8,14 @@
 		"app"
 	],
 	"scripts": {
-		"start": "yarn workspace Bauhaus run start",
-		"build": "yarn workspaces run build",
-		"build-insee": "yarn workspaces run build-insee",
+		"copy": "copyfiles -f ./node_modules/@axa-fr/react-oidc-context/dist/OidcServiceWorker.js ./app/public && copyfiles -f -s ./node_modules/@axa-fr/react-oidc-context/dist/OidcTrustedDomains.js ./app/public",
+		"start": "yarn copy && yarn workspace Bauhaus run start",
+		"build": "yarn copy && yarn workspaces run build",
+		"build-insee": "yarn copy && yarn workspaces run build-insee",
 		"test:coverage": "yarn workspaces run test:coverage --env=jest-environment-jsdom-sixteen",
 		"pre-push": "yarn workspaces run lint && yarn test:coverage",
 		"generate-entrypoint": "node scripts/generate-entrypoint.js",
-		"prepare": "husky install"
+		"prepare": "husky install && yarn copy"
 	},
 	"resolutions": {
 		"@inseefr/wilco": "0.0.7",
@@ -51,7 +52,9 @@
 		"webpack": "^5.70.0"
 	},
 	"dependencies": {
+		"@axa-fr/react-oidc-context": "^5.5.1",
 		"@babel/preset-react": "^7.16.7",
+		"copyfiles": "^2.4.1",
 		"dompurify": "2.2.9",
 		"jest-environment-jsdom-sixteen": "^1.0.3",
 		"prop-types": "^15.8.1",

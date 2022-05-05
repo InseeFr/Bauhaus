@@ -1,12 +1,33 @@
-import React, { useEffect, useCallback, useState } from 'react';
-import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import Keycloak from 'keycloak';
+import React from 'react';
 import { Loading } from '@inseefr/wilco';
-import { saveUserProps } from 'js/actions/app';
-import { Auth } from 'bauhaus-utilities';
+import { OidcProvider, useOidcIdToken, useOidcUser } from '@axa-fr/react-oidc-context';
 
-const kcConfig = `${window.location.origin}/keycloak.json`;
+const configuration = {
+	client_id: 'interactive.public.short',
+	redirect_uri: 'http://localhost:3000',
+	scope: 'openid email inseeRoleApplicatif inseeTimbre profile',
+	authority: 'https://auth.insee.test/auth',
+	//service_worker_relative_url:'/OidcServiceWorker.js',
+	service_worker_only:false,
+};
+
+const LoginOpenIDConnect = ({ WrappedComponent }) => {
+	const{ idToken, idTokenPayload } = useOidcIdToken();
+
+	if(!idToken){
+		return <Loading textType="authentification" />;
+	}
+
+	console.log({ idToken, idTokenPayload })
+	return (
+		<OidcProvider configuration={configuration}>
+			<WrappedComponent />
+		</OidcProvider>
+	)
+};
+
+export default LoginOpenIDConnect
+/*
 
 const kc = Keycloak(kcConfig);
 const LoginOpenIDConnect = ({ saveUserProps, authenticated, WrappedComponent }) => {
@@ -76,3 +97,4 @@ export default
 		mapDispatchToProps
 	)(LoginOpenIDConnect)
 
+*/

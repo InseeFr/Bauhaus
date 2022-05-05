@@ -8,7 +8,7 @@ import { Auth } from 'bauhaus-utilities';
 
 const auth = WrappedComponent => {
 	const AuthComponent = ({ authType, roles }) => {
-		if (authType === Impl.OPEN_ID_CONNECT_AUTH)
+		if (true)
 			return <LoginOpenIDConnect WrappedComponent={WrappedComponent} />;
 
 		if (roles) return <WrappedComponent />;
