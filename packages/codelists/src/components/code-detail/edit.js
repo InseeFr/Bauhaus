@@ -59,7 +59,7 @@ const DumbCodeDetailEdit = ({
 				value: code.code,
 			};
 		})
-		.concat({ label: '', value: '' });
+		.concat({ label: ' - ', value: '' });
 
 	const { field, message } = validateCode(code, codes, updateMode);
 	return (

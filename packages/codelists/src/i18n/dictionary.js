@@ -17,6 +17,10 @@ const dictionary = {
 		fr: 'Uri Liste : commence par http://rdf.insee.fr/codes/',
 		en: 'Uri Liste : starts with http://rdf.insee.fr/codes/',
 	},
+	lastCodeUriSegmentTitle: {
+		fr: "Uri des codes, singulier de l'URI de la liste : commence par http://rdf.insee.fr/codes/",
+		en: 'Uri of codes, singular from list URI : starts with http://rdf.insee.fr/codes/',
+	},
 	lastClassUriSegmentTitle: {
 		fr: 'Uri class owl : commence par http://rdf.insee.fr/codes/concept/',
 		en: 'Uri class owl : starts with http://rdf.insee.fr/codes/concept/',
@@ -160,6 +164,10 @@ const dictionary = {
 	lastListUriSegmentMandatory: {
 		fr: "L'URI de la liste est obligatoire",
 		en: 'The list URI is mandatory',
+	},
+	lastCodeUriSegmentMandatory: {
+		fr: "L'URI des codes de la liste est obligatoire",
+		en: 'The codes URI is mandatory',
 	},
 	lastClassUriSegmentMandatory: {
 		fr: "L'URI du concept est obligatoire",
