@@ -53,6 +53,7 @@ const DumbCodeDetailEdit = ({
 	};
 
 	const codesOptions = codes
+		.filter(({ code }) => code !== '')
 		.map((code) => {
 			return {
 				label: code.code + ' - ' + code.labelLg1,
