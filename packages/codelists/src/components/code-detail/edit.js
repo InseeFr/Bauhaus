@@ -186,7 +186,14 @@ const DumbCodeDetailEdit = ({
 								: 1;
 						const newCode = {
 							code: '',
-							parents: [{ code: code.code, position: newCodePosition }],
+							parents: code.parents
+								? Object.values(code.parents).map((parent) => {
+										return {
+											code: parent.code || '',
+											position: newCodePosition,
+										};
+								  })
+								: [{ code: '', position: newCodePosition }],
 							labelLg1: '',
 							labelLg2: '',
 							descriptionLg1: '',
