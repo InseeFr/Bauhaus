@@ -221,6 +221,18 @@ const dictionary = {
 		fr: 'Une liste de codes ne peut pas être créée sans code.',
 		en: 'A codeList should contain at least one Code.',
 	},
+	errors_1103: {
+		fr: "La liste de codes n'a pas pu être supprimée : elle a déjà été publiée.",
+		en: 'The codeList could not be removed: it is already published.',
+	},
+	errors_1104: {
+		fr: "La liste de codes n'a pas pu être supprimée : une autre liste de codes dépend d'elle.",
+		en: 'The codeList could not be removed: another codeList depends on it.',
+	},
+	confirmationCodelistDelete: {
+		fr: 'Vous êtes sur le point de supprimer définitivement cette liste de codes. Êtes-vous sûr ?',
+		en: 'You are about to permanently delete this codelist. Are you sure?',
+	},
 	btnDelete: {
 		fr: 'Supprimer',
 		en: 'Delete',

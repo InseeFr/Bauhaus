@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
 	Note,
 	UpdateButton,
+	DeleteButton,
 	ActionToolbar,
 	ReturnButton,
 	ErrorBloc,
@@ -15,6 +16,7 @@ import {
 	DateUtils,
 	PublicationFemale,
 	useTitle,
+	ConfirmationDelete,
 } from 'bauhaus-utilities';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
@@ -23,8 +25,13 @@ import { rowParams } from '../code-detail/code-columns';
 export const CodeListPartialDetailView = ({
 	codelist,
 	handleUpdate,
+	handleDelete,
 	handleBack,
 	updatable,
+	deletable,
+	modalOpened,
+	handleYes,
+	handleNo,
 	secondLang,
 	col = 3,
 	publishComponent,
@@ -47,10 +54,19 @@ export const CodeListPartialDetailView = ({
 
 	return (
 		<React.Fragment>
+			{modalOpened && (
+				<ConfirmationDelete
+					className="codelists"
+					handleNo={handleNo}
+					handleYes={handleYes}
+					message={D.confirmationCodelistDelete}
+				/>
+			)}
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
 				<ValidationButton callback={publish} object={codelist} />
 				{updatable && <UpdateButton action={handleUpdate} col={col} />}
+				{deletable && <DeleteButton action={handleDelete} col={col} />}
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
 			{
