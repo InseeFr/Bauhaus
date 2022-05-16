@@ -17,6 +17,10 @@ const dictionary = {
 		fr: 'Uri Liste : commence par http://rdf.insee.fr/codes/',
 		en: 'Uri Liste : starts with http://rdf.insee.fr/codes/',
 	},
+	lastCodeUriSegmentTitle: {
+		fr: "Uri des codes, singulier de l'URI de la liste : commence par http://rdf.insee.fr/codes/",
+		en: 'Uri of codes, singular from list URI : starts with http://rdf.insee.fr/codes/',
+	},
 	lastClassUriSegmentTitle: {
 		fr: 'Uri class owl : commence par http://rdf.insee.fr/codes/concept/',
 		en: 'Uri class owl : starts with http://rdf.insee.fr/codes/concept/',
@@ -161,6 +165,10 @@ const dictionary = {
 		fr: "L'URI de la liste est obligatoire",
 		en: 'The list URI is mandatory',
 	},
+	lastCodeUriSegmentMandatory: {
+		fr: "L'URI des codes de la liste est obligatoire",
+		en: 'The codes URI is mandatory',
+	},
 	lastClassUriSegmentMandatory: {
 		fr: "L'URI du concept est obligatoire",
 		en: 'The concept URI is mandatory',
@@ -209,6 +217,22 @@ const dictionary = {
 		fr: 'La liste de codes existe déjà.',
 		en: 'The codelist already exists.',
 	},
+	errors_1102: {
+		fr: 'Une liste de codes ne peut pas être créée sans code.',
+		en: 'A codeList should contain at least one Code.',
+	},
+	errors_1103: {
+		fr: "La liste de codes n'a pas pu être supprimée : elle a déjà été publiée.",
+		en: 'The codeList could not be removed: it is already published.',
+	},
+	errors_1104: {
+		fr: "La liste de codes n'a pas pu être supprimée : une autre liste de codes dépend d'elle.",
+		en: 'The codeList could not be removed: another codeList depends on it.',
+	},
+	confirmationCodelistDelete: {
+		fr: 'Vous êtes sur le point de supprimer définitivement cette liste de codes. Êtes-vous sûr ?',
+		en: 'You are about to permanently delete this codelist. Are you sure?',
+	},
 	btnDelete: {
 		fr: 'Supprimer',
 		en: 'Delete',
@@ -224,6 +248,10 @@ const dictionary = {
 	btnDeleteWithChildren: {
 		fr: 'Supprimer avec les enfants',
 		en: 'Delete with children',
+	},
+	searchLabelPlaceholder: {
+		fr: 'Libellé...',
+		en: 'Label...',
 	},
 };
 export default dictionary;
