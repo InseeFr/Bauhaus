@@ -19,18 +19,6 @@ const filterValidationStatus = ArrayUtils.filterKeyDeburr(['validationStatus']);
 const filterCreatedDate = filterKeyDate(['created']);
 const filterModifiedDate = filterKeyDate(['modified']);
 
-const fields = [
-	'label',
-	'altLabel',
-	'definition',
-	'creator',
-	'disseminationStatus',
-	'validationStatus',
-	'dateCreatedStart',
-	'dateCreatedEnd',
-	'dateModifiedStart',
-	'dateModifiedEnd',
-];
 
 const defaultFormState = {
 	label: '',
@@ -63,7 +51,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 		const uri = document.URL;
 		const search = new URL(uri).searchParams;
 
-		const queryForm = { ...form }
+		const queryForm = { ...defaultFormState }
 		for(let [key, value] of search.entries()){
 			queryForm[key] = value;
 		}
