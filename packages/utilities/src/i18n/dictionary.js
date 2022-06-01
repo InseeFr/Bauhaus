@@ -1,4 +1,10 @@
 const dictionary = {
+	pagination: {
+		goTo: {
+			en: 'Go to page',
+			fr: 'Allez à la page',
+		},
+	},
 	btnReinitialize: {
 		fr: 'Réinitialiser',
 		en: 'Reinitialize',
