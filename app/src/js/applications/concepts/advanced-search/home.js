@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
-import { PageTitle, Pagination, NumberResult, Select } from '@inseefr/wilco';
+import { PageTitle, NumberResult, Select } from '@inseefr/wilco';
 import Controls from './controls';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
 import { filterKeyDate } from 'js/utils/array-utils';
-import { ArrayUtils, withTitle } from 'bauhaus-utilities';
+import { ArrayUtils, withTitle, Pagination } from 'bauhaus-utilities';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
 const filterAltLabel = ArrayUtils.filterKeyDeburr(['altLabel']);
@@ -18,7 +18,6 @@ const filterDisseminationStatus = ArrayUtils.filterKeyDeburr([
 const filterValidationStatus = ArrayUtils.filterKeyDeburr(['validationStatus']);
 const filterCreatedDate = filterKeyDate(['created']);
 const filterModifiedDate = filterKeyDate(['modified']);
-
 
 const defaultFormState = {
 	label: '',
@@ -119,7 +118,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 			<div className="container">
 				<PageTitle title={D.conceptSearchTitle} />
 				<Controls
-					onClickReturn={() => {}}
+					onClickReturn={() => history.push("/concepts")}
 					initializeState={initializeState}
 				/>
 				<div className="row form-group">
