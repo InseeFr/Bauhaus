@@ -49,7 +49,7 @@ const SeriesVisualizationContainer = (props) => {
 		setPublishing(true);
 
 		api.publishSeries(series).then(() => {
-			return api.getFamily(id).then(setSeries)
+			return api.getSerie(id).then(setSeries)
 		}).catch((error) => setServerSideError(error))
 			.finally(() => setPublishing(false))
 	}, [series, id]);
