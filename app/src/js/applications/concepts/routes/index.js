@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom';
 import Concepts from 'js/applications/concepts/home';
 import ConceptsSearchListContainer from 'js/applications/concepts/advanced-search/home-container';
 import ConceptCompareContainer from 'js/applications/concepts/compare/home-container';
-import ConceptSendContainer from 'js/applications/concepts/send/home-container';
 import ConceptCreationContainer from 'js/applications/concepts/edition-creation/creation-container';
 import ConceptEditionContainer from 'js/applications/concepts/edition-creation/edition-container';
 
@@ -13,7 +12,6 @@ import ConceptsToValidateContainer from 'js/applications/concepts/validation/hom
 import ConceptsToExportContainer from 'js/applications/concepts/export/home-container';
 import CollectionsContainer from 'js/applications/collections/home-container';
 import CollectionVisualizationContainer from 'js/applications/collections/visualization/home-container';
-import CollectionSendContainer from 'js/applications/collections/send/home-container';
 import CollectionCreationContainer from 'js/applications/collections/edition-creation/creation-container';
 import CollectionEditionContainer from 'js/applications/collections/edition-creation/edition-container';
 import CollectionsToValidateContainer from 'js/applications/collections/validation/home-container';
@@ -53,11 +51,6 @@ export default () => {
 				/>
 				<Route
 					exact
-					path="/concept/:id/send"
-					component={ConceptSendContainer}
-				/>
-				<Route
-					exact
 					path="/concept/:id/modify"
 					component={ConceptEditionContainer}
 				/>
@@ -81,11 +74,6 @@ export default () => {
 					exact
 					path="/collection/:id"
 					component={CollectionVisualizationContainer}
-				/>
-				<Route
-					exact
-					path="/collection/:id/send"
-					component={CollectionSendContainer}
 				/>
 				<Route
 					exact

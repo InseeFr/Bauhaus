@@ -426,6 +426,10 @@ const dictionary = {
 	},
 	btnExport: { fr: "Options d'export", en: 'Export options' },
 	btnExportValidate: { fr: 'Exporter en odt', en: 'Export to odt' },
+	btnExporter: {
+		fr: 'Exporter',
+		en: 'Export',
+	},
 	advancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
 
 };
