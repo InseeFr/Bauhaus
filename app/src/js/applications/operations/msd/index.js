@@ -129,6 +129,7 @@ class MSDContainer extends Component {
 			parent,
 			documentStores,
 		} = this.props;
+
 		if (
 			metadataStructureStatus !== LOADED ||
 			((mode === VIEW || mode === UPDATE) && !currentSims.id)
@@ -146,9 +147,13 @@ class MSDContainer extends Component {
 				return [...items, ...makeMetadatastructureFlat(items.map(item => Object.values(item.children)).flat())]
 			}
 			const flatMetadataStructure = makeMetadatastructureFlat(Object.values(metadataStructure));
+
+
 			essentialRubricContext = flatMetadataStructure.reduce((acc, msd) => {
+
 				if(msd.minOccurs === "1") {
-					msd.essentialRubricKo = isEssentialRubricKo(msd, currentSims.rubrics?.[msd.idMas])
+					msd.essentialRubricKoLg1 = isEssentialRubricKo(msd, currentSims.rubrics?.[msd.idMas], false)
+					msd.essentialRubricKoLg2 = isEssentialRubricKo(msd, currentSims.rubrics?.[msd.idMas], true)
 				}
 				return {
 					...acc,

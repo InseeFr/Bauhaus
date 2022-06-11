@@ -176,8 +176,7 @@ class SimsCreation extends React.Component {
 			geographiesOptions = [],
 			documentStores,
 		} = this.props;
-		const { secondLang } = this.state;
-
+		const { secondLang, sims, idParent } = this.state;
 
 
 		const organisationsOptions = ArrayUtils.sortArrayByLabel(
@@ -189,7 +188,6 @@ class SimsCreation extends React.Component {
 
 
 
-		const { sims, idParent } = this.state;
 		const operationsOptions = (this.props.sims.parentsWithoutSims || []).map(
 			(op) => ({
 				label: op.labelLg1,
@@ -288,7 +286,7 @@ class SimsCreation extends React.Component {
 					<SaveButton action={this.handleSubmit} col={3} />
 				</ActionToolbar>
 
-				<RubricEssentialMsg />
+				<RubricEssentialMsg secondLang={secondLang}/>
 
 				{Object.values(metadataStructure).map((msd, index) => {
 					return (
