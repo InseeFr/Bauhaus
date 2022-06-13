@@ -1,48 +1,90 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Button, ActionToolbar } from '@inseefr/wilco';
+import { ActionToolbar, Button, getContentDisposition } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
+import ModalRmes from '../../shared/modal-rmes/modal-rmes';
+import api from '../../../remote-api/concepts-api';
+import FileSaver from 'file-saver';
 
-class CollectionVisualizationControls extends Component {
-	render() {
-		const {
-			isValidated,
-			permission: { authType, roles, stamp },
-			creator: collectionCreator,
-			id,
-			handleValidation,
-		} = this.props;
+const CollectionVisualizationControls = ({
+		 isValidated,
+		 permission: { authType, roles, stamp },
+		 creator: collectionCreator,
+		 id,
+		 handleValidation,
+	 }) => {
 
-		const authImpl = check(authType);
-		const admin = authImpl.isAdmin(roles);
-		const contributor = authImpl.isContributor(roles, stamp, collectionCreator);
-		const creator = authImpl.isCollectionCreator(
-			roles,
-			stamp,
-			collectionCreator
-		);
+	const [displayModal, setDisplayModal] = useState(false);
 
-		let btns;
+	const authImpl = check(authType);
+	const admin = authImpl.isAdmin(roles);
+	const contributor = authImpl.isContributor(roles, stamp, collectionCreator);
+	const creator = authImpl.isCollectionCreator(
+		roles,
+		stamp,
+		collectionCreator,
+	);
 
-		const cancel = [`/collections`, D.btnReturn];
-		const send = [`/collection/${id}/send`, D.btnSend];
-		const validate = [handleValidation, D.btnValid];
-		const update = [`/collection/${id}/modify`, D.btnUpdate];
+	let btns;
 
-		if (admin || creator) {
-			btns = isValidated
-				? [cancel, send, update]
-				: [cancel, send, update, validate];
-		} else if (contributor) {
-			btns = [cancel, send, update];
-		} else {
-			btns = [cancel];
-		}
+	const exportConcept = [() => setDisplayModal(true), D.btnExporter];
+	const cancel = [`/collections`, D.btnReturn];
+	const validate = [handleValidation, D.btnValid];
+	const update = [`/collection/${id}/modify`, D.btnUpdate];
 
-		return (
+	if (admin || creator) {
+		btns = isValidated
+			? [cancel, exportConcept, update]
+			: [cancel, exportConcept, update, validate];
+	} else if (contributor) {
+		btns = [cancel, exportConcept, update];
+	} else {
+		btns = [cancel];
+	}
+
+	const modalButtons = [
+		{
+			label: D.btnCancel,
+			action: () => setDisplayModal(false),
+			style: 'default',
+		},
+		{
+			label: D.btnOdt,
+			action: () => {
+				let fileName;
+				return api
+					.getCollectionExport(id, 'application/vnd.oasis.opendocument.text')
+					.then(res => {
+						fileName = getContentDisposition(
+							res.headers.get('Content-Disposition')
+						)[1];
+						return res;
+					})
+					.then(res => res.blob())
+					.then(blob => {
+						return FileSaver.saveAs(blob, fileName);
+					})
+					.finally(() => {
+						setDisplayModal(false)
+					})
+			},
+			style: 'primary',
+		},
+	];
+
+	return (
+		<>
+			<ModalRmes
+				id="export-concept-modal"
+				isOpen={displayModal}
+				title={D.exportModalTitle}
+				body={D.exportModalBody}
+				modalButtons={modalButtons}
+				closeCancel={() => setDisplayModal(false)}
+			/>
 			<ActionToolbar>
 				{btns.map((btn, i) => {
 					if (!btn) return null;
@@ -50,9 +92,9 @@ class CollectionVisualizationControls extends Component {
 					return btn && <Button key={label} action={action} label={label} />;
 				})}
 			</ActionToolbar>
-		);
-	}
-}
+		</>
+	);
+};
 
 CollectionVisualizationControls.propTypes = {
 	id: PropTypes.string.isRequired,

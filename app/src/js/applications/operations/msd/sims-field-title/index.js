@@ -47,38 +47,41 @@ export const SimsFieldTitleIndicatorBridge = ({ msd, currentSection, secondLang 
 	return <SimsFieldTitleIndicator msd={msd} isEmpty={isEmpty} />
 }
 
-export const isEssentialRubricKo = (msd, currentSection) => {
-	let isEmpty;
+export const isEssentialRubricKo = (msd, currentSection, secondLang) => {
 	if(!currentSection){
-		isEmpty = true;
+		return true;
 	} else {
+		if(secondLang){
+			switch (msd.rangeType){
+				case TEXT:
+					return !currentSection?.labelLg2 || currentSection?.labelLg2 === '';
+				case RICH_TEXT:
+					const richTextValueLg2 = currentSection.labelLg2;
+					return !richTextValueLg2?.getCurrentContent || !richTextValueLg2.getCurrentContent().hasText();
+				default:
+					return false
+			}
+		}
+
 		switch (msd.rangeType){
 			case TEXT:
-				isEmpty = !currentSection?.labelLg2 || !currentSection?.labelLg1;
-				break;
+				return !currentSection?.labelLg1;
 			case ORGANIZATION:
-				isEmpty = !currentSection.value
-				break;
+				return !currentSection.value
 			case Date:
-				isEmpty = !currentSection.value
-				break;
+				return !currentSection.value
 			case RICH_TEXT:
 				const richTextValueLg1 = currentSection.labelLg1;
-				const richTextValueLg2 = currentSection.labelLg2;
-				isEmpty = !richTextValueLg1?.getCurrentContent || !richTextValueLg1.getCurrentContent().hasText()  || !richTextValueLg2?.getCurrentContent || !richTextValueLg2.getCurrentContent().hasText();
-				break;
+				return !richTextValueLg1?.getCurrentContent || !richTextValueLg1.getCurrentContent().hasText();
 			case GEOGRAPHY:
-				isEmpty = !currentSection.uri
-				break;
+				return !currentSection.uri
 			case CODE_LIST:
 				const value = currentSection.value;
-				isEmpty = !value || value.length === 0
-				break;
+				return !value || value.length === 0
 			default:
-				isEmpty = !currentSection.value
+				return !currentSection.value
 		}
 	}
-	return isEmpty;
 }
 
 export const SimsFieldTitleIndicator = ({ msd, isEmpty }) => {

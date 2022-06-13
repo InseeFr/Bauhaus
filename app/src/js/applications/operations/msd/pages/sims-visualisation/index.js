@@ -121,7 +121,6 @@ export default function SimsVisualisation({
 	);
 
 	const checkStamp = stamp => owners.includes(stamp);
-
 	/**
 	 * Handle the deletion of a SIMS.
 	 */
@@ -248,8 +247,7 @@ export default function SimsVisualisation({
 			<ErrorBloc error={serverSideError} />
 
 			<CheckSecondLang />
-
-			<RubricEssentialMsg />
+			<RubricEssentialMsg secondLang={secondLang}/>
 
 			<div className="row">
 				<Note
