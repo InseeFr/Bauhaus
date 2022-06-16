@@ -70,7 +70,6 @@ export const Index = ({ location: { pathname, search }, itemEls, itemsPerPage })
 
 	return (
 		<Fragment>
-			TEST
 			<ul className="list-group">{currentItems}</ul>
 			{pageNumbers.length > 1 && (
 				<div>
