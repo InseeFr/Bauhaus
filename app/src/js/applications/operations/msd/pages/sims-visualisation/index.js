@@ -82,7 +82,7 @@ export default function SimsVisualisation({
 						</Panel>
 					)}
 					{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
-						<Panel title={`${msd.idMas} - ${msd.masLabelLg2}`}>
+						<Panel title={<SimsFieldTitle secondLang={true} msd={msd} currentSection={sims.rubrics[msd.idMas]} />}>
 							<SimsBlock
 								msd={msd}
 								isSecondLang={true}
