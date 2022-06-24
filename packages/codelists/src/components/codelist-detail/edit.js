@@ -82,28 +82,30 @@ const DumbCodelistDetailEdit = ({
 	const deleteCode = useCallback(
 		({ code }) => {
 			const selectedCode = codes.find((c) => c.code === code);
-			const children = codes
-				.filter((c) => c.parents?.some((parent) => parent.code === code))
-				.map(({ code }) => code);
-			const newParents = selectedCode.parents || [];
-			setCodes(
-				codes
-					.filter((c) => c.code !== code)
-					.map((c) => {
-						if (children.includes(c.code)) {
-							const parents = [
-								...(c.parents || []).filter((c) => c !== code),
-								...newParents,
-							];
-							return {
-								...c,
-								parents,
-							};
-						} else {
-							return c;
-						}
-					})
-			);
+			if (selectedCode) {
+				const children = codes
+					.filter((c) => c.parents?.some((parent) => parent.code === code))
+					.map(({ code }) => code);
+				const newParents = selectedCode.parents || [];
+				setCodes(
+					codes
+						.filter((c) => c.code !== code)
+						.map((c) => {
+							if (children.includes(c.code)) {
+								const parents = [
+									...(c.parents || []).filter((c) => c !== code),
+									...newParents,
+								];
+								return {
+									...c,
+									parents,
+								};
+							} else {
+								return c;
+							}
+						})
+				);
+			}
 		},
 		[codes]
 	);
@@ -189,7 +191,23 @@ const DumbCodelistDetailEdit = ({
 							name="lastListUriSegment"
 							onChange={handleChange}
 							value={codelist.lastListUriSegment || ''}
-							disabled={updateMode}
+							disabled={updateMode && codelist.lastListUriSegment !== ''}
+						/>
+					</div>
+				</div>
+				<div className="row">
+					<div className={`col-md-12 form-group`}>
+						<LabelRequired htmlFor="lastCodeUriSegment">
+							{D1.lastCodeUriSegmentTitle}
+						</LabelRequired>
+						<input
+							type="text"
+							className="form-control"
+							id="lastCodeUriSegment"
+							name="lastCodeUriSegment"
+							onChange={handleChange}
+							value={codelist.lastCodeUriSegment || ''}
+							disabled={updateMode && codelist.lastCodeUriSegment !== ''}
 						/>
 					</div>
 				</div>
@@ -205,7 +223,7 @@ const DumbCodelistDetailEdit = ({
 							name="lastClassUriSegment"
 							onChange={handleChange}
 							value={codelist.lastClassUriSegment || ''}
-							disabled={updateMode}
+							disabled={updateMode && codelist.lastClassUriSegment !== ''}
 						/>
 					</div>
 				</div>

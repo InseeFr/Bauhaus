@@ -10,6 +10,7 @@ export const validateCodelist = (codelist) => {
 	const validations = {
 		id: 'errorsIdMandatory',
 		lastListUriSegment: 'lastListUriSegmentMandatory',
+		lastCodeUriSegment: 'lastCodeUriSegmentMandatory',
 		lastClassUriSegment: 'lastClassUriSegmentMandatory',
 		labelLg1: 'errorsLabelLg1Mandatory',
 		labelLg2: 'errorsLabelLg1Mandatory',
@@ -142,6 +143,7 @@ export const recalculatePositions = (codelist, rootNodes) => {
 								code: treedCode.parent,
 								position: treedCode.position + 1,
 							})),
+						lastCodeUriSegment: codelist.lastCodeUriSegment,
 					},
 				};
 			}, {}),
@@ -150,6 +152,9 @@ export const recalculatePositions = (codelist, rootNodes) => {
 };
 
 export const formatCodeList = (cl) => {
+	cl.lastCodeUriSegment = cl.codes
+		? Object.values(cl.codes)[0].lastCodeUriSegment
+		: '';
 	if (cl.codes) {
 		cl.codes = Object.values(cl.codes)
 			.sort((a, b) => (a.code > b.code ? 1 : -1))

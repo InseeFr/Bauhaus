@@ -16,7 +16,7 @@ const api = {
 			},
 			body: JSON.stringify(codelist),
 		},
-		res => res.text()
+		(res) => res.text(),
 	],
 	putCodelist: (codelist) => [
 		`${codelist.id}`,
@@ -26,8 +26,9 @@ const api = {
 			},
 			body: JSON.stringify(codelist),
 		},
-		res => res.text()
+		(res) => res.text(),
 	],
+	deleteCodelist: (id) => [id, {}, () => Promise.resolve()],
 	getCodelistsPartial: () => ['partial'],
 	getCodelistPartial: (id) => [`partial/${id}`],
 	getCodelistsPartialForSearch: () => ['partial/search'],
@@ -52,6 +53,7 @@ const api = {
 		},
 		() => {},
 	],
+	deleteCodelistPartial: (id) => ['partial/' + id, {}, () => Promise.resolve()],
 };
 
 export default API.buildApi('codeList', api);
