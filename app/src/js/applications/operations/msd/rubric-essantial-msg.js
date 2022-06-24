@@ -1,5 +1,5 @@
 import { Note } from '@inseefr/wilco';
-import D from '../../../i18n/build-dictionary';
+import D, {D2} from '../../../i18n/build-dictionary';
 import { useSimsContext } from './context';
 
 export const RubricEssentialMsg = ({ secondLang }) => {
@@ -27,7 +27,7 @@ export const RubricEssentialMsg = ({ secondLang }) => {
 					text={
 						i18nkeyLg2(numberOfEssantialRubricsOKLg2, numberOfEssantialRubrics)
 					}
-					title={D.essentialRubric}
+					title={D2.essentialRubric}
 					alone={!secondLang}
 				/>
 			)}
