@@ -11,7 +11,13 @@ export const SimsFieldTitle = ({ msd, secondLang, currentSection }) => {
 	)
 }
 
-
+const checkRichText = richText => {
+	if(richText?.getCurrentContent){
+		return !richText?.getCurrentContent || !richText.getCurrentContent().hasText();
+	} else {
+		return richText === '' || !richText
+	}
+}
 export const SimsFieldTitleIndicatorBridge = ({ msd, currentSection, secondLang }) => {
 	let isEmpty;
 	if(!currentSection){
@@ -29,7 +35,7 @@ export const SimsFieldTitleIndicatorBridge = ({ msd, currentSection, secondLang 
 				break;
 			case RICH_TEXT:
 				const richTextValue = currentSection[secondLang ? 'labelLg2' : 'labelLg1']
-				isEmpty = !richTextValue?.getCurrentContent || !richTextValue.getCurrentContent().hasText();
+				isEmpty = checkRichText(richTextValue);
 				break;
 			case GEOGRAPHY:
 				isEmpty = !currentSection.uri
@@ -57,7 +63,7 @@ export const isEssentialRubricKo = (msd, currentSection, secondLang) => {
 					return !currentSection?.labelLg2 || currentSection?.labelLg2 === '';
 				case RICH_TEXT:
 					const richTextValueLg2 = currentSection.labelLg2;
-					return !richTextValueLg2?.getCurrentContent || !richTextValueLg2.getCurrentContent().hasText();
+					return checkRichText(richTextValueLg2);
 				default:
 					return false
 			}
@@ -72,7 +78,7 @@ export const isEssentialRubricKo = (msd, currentSection, secondLang) => {
 				return !currentSection.value
 			case RICH_TEXT:
 				const richTextValueLg1 = currentSection.labelLg1;
-				return !richTextValueLg1?.getCurrentContent || !richTextValueLg1.getCurrentContent().hasText();
+				return checkRichText(richTextValueLg1);
 			case GEOGRAPHY:
 				return !currentSection.uri
 			case CODE_LIST:
