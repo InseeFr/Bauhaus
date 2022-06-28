@@ -69,6 +69,10 @@ export const StructureView = ({secondLang, structure, publish, serverSideError})
 								{D.disseminationStatusTitle} :{' '}
 								{StructuresUtils.getDisseminationStatus(structure.disseminationStatus)}
 							</li>
+							<li>
+								{D1.processusTitle} :{' '}
+								{structure.isRequiredBy}
+							</li>
 						</ul>
 					}
 					title={D1.globalInformationsTitle}
