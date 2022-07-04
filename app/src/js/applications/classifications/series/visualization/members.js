@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Panel } from '@inseefr/wilco';
+import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 
 export default ({ members, secondLang }) => {
@@ -23,17 +23,13 @@ export default ({ members, secondLang }) => {
 	const isMembersLg2 = membersLg2.filter(m => m !== null).length !== 0;
 	return (
 		<div className="row">
-			<div className={`col-md-${secondLang ? 6 : 12}`}>
-				<Panel title={D1.childrenClassifications}>
-					<ul>{membersLg1}</ul>
-				</Panel>
-			</div>
+			<Note title={D1.childrenClassifications} alone={!secondLang} text={
+				<ul>{membersLg1}</ul>
+			}/>
 			{secondLang && isMembersLg2 && (
-				<div className="col-md-6">
-					<Panel title={D2.childrenClassifications}>
-						<ul>{membersLg2}</ul>
-					</Panel>
-				</div>
+				<Note title={D2.childrenClassifications} alone={false} text={
+					<ul>{membersLg2}</ul>
+				}/>
 			)}
 		</div>
 	);

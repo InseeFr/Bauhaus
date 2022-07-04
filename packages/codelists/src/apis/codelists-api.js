@@ -4,6 +4,7 @@ const api = {
 	getCodelists: () => [''],
 	getCodelist: (id) => [`${id}`],
 	getDetailedCodelist: (id) => [`detailed/${id}`],
+	getPartialsByParent: (parentCode) => [`partials/${parentCode}`],
 	getCodelistsForSearch: () => ['search'],
 	getCodelistCode: (id, code) => [`${id}/code/${code}`],
 	postCodelist: (codelist) => [

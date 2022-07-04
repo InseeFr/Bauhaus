@@ -1,4 +1,20 @@
 const dictionary = {
+	geography: {
+		labelWithStartDate: {
+			en: (label, startDate) => `${label} [since ${startDate}]`,
+			fr: (label, startDate) => `${label} [depuis le ${startDate}]`
+		},
+		labelWithStartDateAndEndDate: {
+			en: (label, startDate, endDate) => `${label} [since ${startDate} until ${endDate}]`,
+			fr: (label, startDate, endDate) => `${label} [depuis le ${startDate} jusqu'au ${endDate}]`
+		}
+	},
+	pagination: {
+		goTo: {
+			en: 'Go to page',
+			fr: 'Allez à la page',
+		},
+	},
 	btnReinitialize: {
 		fr: 'Réinitialiser',
 		en: 'Reinitialize',

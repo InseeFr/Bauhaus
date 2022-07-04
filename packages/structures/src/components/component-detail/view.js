@@ -17,6 +17,7 @@ import { HTMLUtils, ValidationButton, DateUtils, PublicationMale,useTitle } from
 import PropTypes from 'prop-types';
 import "./view.scss";
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
+import { API } from 'bauhaus-codelists'
 
 export const canBeDeleted = (component) => {
 	const withoutStructuresUsingThisComponent = !component.structures || component.structures?.length === 0
@@ -43,14 +44,23 @@ export const ComponentDetailView = ({
 }) => {
 	useTitle(D.componentTitle, component?.labelLg1)
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
+	const [partialCodesLists, setPartialCodesLists] = useState([]);
 
+	useEffect(() => {
+		API.getCodelistsPartial().then(response => {
+			setPartialCodesLists(response)
+		})
+	}, [])
 	const typeValue = typeUriToLabel(component.type);
 	const conceptValue = concepts.find(
 		(concept) => concept.id?.toString() === component.concept?.toString()
 	)?.label;
-	const codeListValue = codesLists.find((concept) =>
-		component.codeList?.toString().includes(concept.id?.toString())
+
+	const fullCodeLists = [...codesLists, ...partialCodesLists.map(l => ({ id: l.uri, label: l.labelLg1, notation: l.id}))]
+	const codeListValue = fullCodeLists.find((concept) =>
+		component.codeList?.toString() === concept.id?.toString()
 	)?.label;
+
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
 		component.descriptionLg1
 	);
@@ -250,8 +260,8 @@ export const ComponentDetailView = ({
 					</div>
 				</React.Fragment>
 			)}
-			<CodesListPanel codesList={codesLists.find((c) =>
-				(component.codeList?.id || component.codeList)?.toString().includes(c.id?.toString())
+			<CodesListPanel codesList={fullCodeLists.find((c) =>
+				(component.codeList?.id || component.codeList)?.toString() === c.id?.toString()
 			)} isOpen={codesListPanelOpened} handleBack={() => setCodesListPanelOpened(false)}/>
 		</React.Fragment>
 	);

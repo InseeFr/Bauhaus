@@ -150,6 +150,10 @@ const dictionary = {
 		fr: 'Sélectionnez un timbre...',
 		en: 'Select stamp...',
 	},
+	processusTitle: {
+		fr: 'Processus utilisant cette structure',
+		en: 'Process using this structure',
+	},
 	disseminationStatusPlaceholder: {
 		fr: 'Sélectionnez un statut de diffusion...',
 		en: 'Select dissemination status...',
@@ -426,6 +430,10 @@ const dictionary = {
 	},
 	btnExport: { fr: "Options d'export", en: 'Export options' },
 	btnExportValidate: { fr: 'Exporter en odt', en: 'Export to odt' },
+	btnExporter: {
+		fr: 'Exporter',
+		en: 'Export',
+	},
 	advancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
 
 };

@@ -27,6 +27,7 @@ import { HTMLUtils, ArrayUtils } from 'bauhaus-utilities';
 import './sims-creation.scss';
 import { rangeType } from 'js/utils/msd/';
 import api from '../../../../../remote-api/operations-api';
+import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 
 const { RICH_TEXT } = rangeType;
 
@@ -175,8 +176,7 @@ class SimsCreation extends React.Component {
 			geographiesOptions = [],
 			documentStores,
 		} = this.props;
-		const { secondLang } = this.state;
-
+		const { secondLang, sims, idParent } = this.state;
 
 
 		const organisationsOptions = ArrayUtils.sortArrayByLabel(
@@ -188,7 +188,6 @@ class SimsCreation extends React.Component {
 
 
 
-		const { sims, idParent } = this.state;
 		const operationsOptions = (this.props.sims.parentsWithoutSims || []).map(
 			(op) => ({
 				label: op.labelLg1,
@@ -286,6 +285,8 @@ class SimsCreation extends React.Component {
 					<CancelButton action={this.goBack} />
 					<SaveButton action={this.handleSubmit} col={3} />
 				</ActionToolbar>
+
+				<RubricEssentialMsg secondLang={secondLang}/>
 
 				{Object.values(metadataStructure).map((msd, index) => {
 					return (

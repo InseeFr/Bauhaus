@@ -10,6 +10,12 @@ import { useSelector, connect } from 'react-redux';
 import { default as ReactSelect } from 'react-select';
 import 'react-select/dist/react-select.css';
 
+const isRequiredBys = [
+	'Melodi-Chargement',
+	'Melodi-Diffusion',
+	'Melodi-Diffusion-SDMX'
+];
+
 const defaultDSD = {
 	id: '',
 	labelLg1: '',
@@ -19,6 +25,7 @@ const defaultDSD = {
 	disseminationStatus: StructureConstants.DISSEMINATION_STATUS.PUBLIC_GENERIC,
 	contributor: 'DG75-H250',
 	componentDefinitions: [],
+	isRequiredBy: '',
 };
 
 export const validate = (structure) => {
@@ -33,6 +40,7 @@ export const validate = (structure) => {
 
 const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) => {
 	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
+	const isRequiredBysOptions = isRequiredBys.map(value => ({ label: value, value}));
 	const disseminationStatusListOptions = useSelector(state => Stores.DisseminationStatus.getDisseminationStatusListOptions(state));
 	useEffect(() => {
 		if(disseminationStatusListOptions.length === 0){
@@ -59,7 +67,8 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 		componentDefinitions = [],
 		creator,
 		contributor,
-		disseminationStatus
+		disseminationStatus,
+		isRequiredBy
 	} = structure;
 
 	useEffect(() => {
@@ -177,10 +186,21 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 				<label>{D1.disseminationStatusTitle}</label>
 				<Select
 					className="form-control"
-					placeholder={D1.disseminationStatusPlaceholder}
+					placeholder={D1.disseminationStatusTitle}
 					value={disseminationStatusListOptions.find(({ value }) => value === disseminationStatus)}
 					options={disseminationStatusListOptions}
 					onChange={(value) => onChange('disseminationStatus', value)}
+					searchable={true}
+				/>
+			</div>
+			<div className="form-group">
+				<label>{D1.processusTitle}</label>
+				<Select
+					className="form-control"
+					placeholder={D1.processusTitle}
+					value={isRequiredBysOptions.find(({ value }) => value === isRequiredBy)}
+					options={isRequiredBysOptions}
+					onChange={(value) => onChange('isRequiredBy', value)}
 					searchable={true}
 				/>
 			</div>

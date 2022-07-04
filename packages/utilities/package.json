@@ -25,7 +25,7 @@
 	},
 	"dependencies": {
 		"@inseefr/wilco": "0.0.7",
-		"dayjs": "^1.10.7",
+		"dayjs": "^1.11.0",
 		"draft-js": "0.10.4",
 		"draft-js-export-html": "1.4.1",
 		"draft-js-import-html": "1.2.1",

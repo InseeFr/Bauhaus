@@ -170,6 +170,18 @@ const dictionary = {
 		en: 'Value',
 		fr: 'Valeur',
 	},
+	essentialRubric: {
+		en: 'Essential rubrics',
+		fr: 'Rubriques essentielles',
+	},
+	essentialRubricMsgPlural: {
+		fr: (nb, total) => `Vous avez rempli ${nb} rubriques essentielles sur ${total}.`,
+		en: (nb, total) => `You have completed ${nb} out of ${total} essential items.`,
+	},
+	essentialRubricMsg: {
+		fr: (nb, total) => `Vous avez rempli 1 rubrique essentielle sur ${total}`,
+		en: (nb, total) => `You have completed 1 out of ${total} essential items.`,
+	},
 	essentialRubricKo: {
 		en: 'This rubric is an essantial rubric. You should define a value.',
 		fr: 'Cette rubrique est une rubrique essentielle; Vous devriez lui définir une valeur',

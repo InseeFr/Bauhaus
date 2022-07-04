@@ -22,7 +22,7 @@ export const CodesListPanelDumb = ({ isOpen, handleBack, codesList, getCodesList
 	return (
 		<SlidingPanel panelClassName="codes-list-panel" type={'right'} isOpen={isOpen} size={30} >
 			<ActionToolbar>
-				<CancelButton action={handleBack} col={12} />
+				<CancelButton type="button" action={handleBack} col={12} />
 			</ActionToolbar>
 			<ul className="list-group">
 				{codes.map(({ code, labelLg1 }) => {

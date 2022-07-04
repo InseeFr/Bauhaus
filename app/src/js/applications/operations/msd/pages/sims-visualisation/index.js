@@ -35,6 +35,8 @@ import {
 import SimsBlock from './sims-block';
 import './sims-visualisation.scss';
 import Modal from 'react-modal';
+import { SimsFieldTitle } from '../../sims-field-title';
+import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 
 export default function SimsVisualisation({
 	metadataStructure,
@@ -48,6 +50,7 @@ export default function SimsVisualisation({
 	exportCallback,
 	owners =  []
 }) {
+
 	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 	const [modalOpened, setModalOpened] = useState(false);
 	const [exportModalOpened, setExportModalOpened] = useState(false);
@@ -67,7 +70,7 @@ export default function SimsVisualisation({
 				)}
 				<div className="sims-row" key={msd.idMas} id={msd.idMas}>
 					{!msd.isPresentational && (
-						<Panel title={`${msd.idMas} - ${msd.masLabelLg1}`}>
+						<Panel title={<SimsFieldTitle secondLang={false} msd={msd} currentSection={sims.rubrics[msd.idMas]} />}>
 							<SimsBlock
 								msd={msd}
 								isSecondLang={false}
@@ -79,7 +82,7 @@ export default function SimsVisualisation({
 						</Panel>
 					)}
 					{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
-						<Panel title={`${msd.idMas} - ${msd.masLabelLg2}`}>
+						<Panel title={<SimsFieldTitle secondLang={true} msd={msd} currentSection={sims.rubrics[msd.idMas]} />}>
 							<SimsBlock
 								msd={msd}
 								isSecondLang={true}
@@ -118,7 +121,6 @@ export default function SimsVisualisation({
 	);
 
 	const checkStamp = stamp => owners.includes(stamp);
-
 	/**
 	 * Handle the deletion of a SIMS.
 	 */
@@ -245,6 +247,7 @@ export default function SimsVisualisation({
 			<ErrorBloc error={serverSideError} />
 
 			<CheckSecondLang />
+			<RubricEssentialMsg secondLang={secondLang}/>
 
 			<div className="row">
 				<Note
