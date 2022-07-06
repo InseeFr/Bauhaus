@@ -72,5 +72,13 @@ const dictionary = {
 		fr: 'Aucun résultat',
 		en: 'No results',
 	},
+	advancedSearchTitle: {
+		fr: 'Recherche avancée',
+		en: 'Advanced search',
+	},
+	itemPerPagePlaceholder: {
+		fr: 'Nombre d\'éléments par page',
+		en: 'Number of elements per page'
+	}
 };
 export default dictionary;

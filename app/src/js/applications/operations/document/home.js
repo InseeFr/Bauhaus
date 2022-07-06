@@ -4,13 +4,12 @@ import {
 	PageTitle,
 	NewButton,
 	VerticalMenu,
-	Pagination,
 	filterKeyDeburr,
 	nbResults,
 } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
-import { Auth, FilterToggleButtons, useTitle } from 'bauhaus-utilities';
+import { Auth, FilterToggleButtons, useTitle, Pagination } from 'bauhaus-utilities';
 import { Link, useHistory } from 'react-router-dom';
 
 const sessionStorageKey = 'documents-displayMode';
@@ -70,7 +69,7 @@ const SearchableList = ({
 			<p className="text-center" aria-live="assertive">
 				{nbResults(hits, D)}
 			</p>
-			<Pagination itemEls={hitEls} itemsPerPage="10" />
+			<Pagination itemEls={hitEls} />
 		</>
 	);
 };

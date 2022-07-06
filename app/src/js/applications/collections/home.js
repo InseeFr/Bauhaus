@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
 	PageTitle,
 	Button,
-	SearchableList,
 	VerticalMenu,
 	ExportButton,
 } from '@inseefr/wilco';
@@ -11,6 +10,7 @@ import check from 'js/utils/auth';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
+import { SearchableList} from 'bauhaus-utilities';
 
 const CollectionsHome = ({
 			 collections,

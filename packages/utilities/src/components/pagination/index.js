@@ -1,37 +1,57 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import Link from '../link';
 import queryString from 'query-string';
 import './pagination.scss';
 import D from '../../i18n/build-dictionary';
+import { default as ReactSelect } from 'react-select';
+import { D1 } from 'bauhaus-codelists/src/i18n/build-dictionary';
+
 function checkInvalidPage(targetPage, listSize) {
 	return targetPage === 0 || targetPage > listSize;
 }
+
+const numberPerPageOptions = [
+	{value: 10, label: 10},
+	{value: 25, label: 25},
+	{value: 100, label: 100}
+	]
 /**
  * Component used to display a pagination block for a list.
  *	itemEls: The list of item we want to paginate
  *	itemsPerPage: The number of element per page
  *	context: The context of the page. Used for theming
  */
-export const Index = ({ location: { pathname, search }, itemEls, itemsPerPage }) => {
+export const Index = ({ location: { pathname, search }, itemEls }) => {
+	const history = useHistory();
+
+	const [numberPerPage, setNumberPerPage] = useState(10);
 	const paginationD = D.pagination || {};
 	const ariaLabel = number => `${paginationD.goTo} ${number}`;
-	if (!itemsPerPage) return null;
 
 	const queryParams = queryString.parse(search);
 	let currentPage = parseInt(queryParams.page || '1', 10);
 
-	if (itemEls.length < (itemsPerPage * (currentPage - 1))) {
+	const url = document.URL
+	useEffect(() => {
+		const search = new URL(url).searchParams;
+
+		if(search.has('perPage')){
+			setNumberPerPage(parseInt(search.get('perPage'), 10));
+		}
+	}, [url])
+
+	if (itemEls.length < (numberPerPage * (currentPage - 1))) {
 		currentPage = 1;
 	}
-	const indexOfLastItem = currentPage * itemsPerPage;
-	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+	const indexOfLastItem = currentPage * numberPerPage;
+	const indexOfFirstItem = indexOfLastItem - numberPerPage;
 	const currentItems = itemEls.slice(indexOfFirstItem, indexOfLastItem);
 
 	// Logic for displaying page numbers
 	const pageNumbers = [];
-	for (let i = 1; i <= Math.ceil(itemEls.length / itemsPerPage); i++) {
+	for (let i = 1; i <= Math.ceil(itemEls.length / numberPerPage); i++) {
 		pageNumbers.push(i);
 	}
 
@@ -51,7 +71,12 @@ export const Index = ({ location: { pathname, search }, itemEls, itemsPerPage })
 		pathnamePrefix += (queryParameters + "&");
 	}
 
-	console.log(pathnamePrefix);
+	const onItemPerPageChange = ({ value }) => {
+		const searchParams = new URLSearchParams(window.location.search);
+		searchParams.set('perPage', value);
+		history.replace(pathname + "?" + searchParams.toString());
+	}
+	console.log('render')
 	const renderPageNumbers = pageNumbers
 		.filter(number => number - 3 < currentPage && number + 3 > currentPage)
 		.map(number => {
@@ -70,53 +95,61 @@ export const Index = ({ location: { pathname, search }, itemEls, itemsPerPage })
 
 	return (
 		<Fragment>
-			TEST
 			<ul className="list-group">{currentItems}</ul>
 			{pageNumbers.length > 1 && (
 				<div>
-					<ul className={`wilco-pagination`}>
-						<li>
-							<Link
-								to={`${pathnamePrefix}page=1`}
-								aria-label={ariaLabel(1)}
-								disabled={isDisabled(currentPage - 1)}
-							>
-								<span aria-hidden="true">&laquo;</span>
-								<span className="sr-only">First</span>
-							</Link>
-						</li>
-						<li>
-							<Link
-								to={`${pathnamePrefix}page=${currentPage - 1}`}
-								aria-label={ariaLabel(currentPage - 1)}
-								disabled={isDisabled(currentPage - 1)}
-							>
-								<span aria-hidden="true">&lt;</span>
-								<span className="sr-only">Previous</span>
-							</Link>
-						</li>
-						{renderPageNumbers}
-						<li>
-							<Link
-								to={`${pathnamePrefix}page=${currentPage + 1}`}
-								aria-label={ariaLabel(currentPage + 1)}
-								disabled={isDisabled(currentPage + 1)}
-							>
-								<span aria-hidden="true">&gt;</span>
-								<span className="sr-only">Next</span>
-							</Link>
-						</li>
-						<li>
-							<Link
-								aria-label={ariaLabel(pageNumbers[pageNumbers.length - 1])}
-								to={`${pathnamePrefix}page=${pageNumbers[pageNumbers.length - 1]}`}
-								disabled={isDisabled(currentPage + 1)}
-							>
-								<span aria-hidden="true">&raquo;</span>
-								<span className="sr-only">Last</span>
-							</Link>
-						</li>
-					</ul>
+					<div className='col-md-3 pull-left wilco-pagination'>
+						<ReactSelect
+							placeholder={D1.itemPerPagePlaceholder}
+							value={numberPerPageOptions.find(
+								({ value }) => value === numberPerPage
+							)}
+							options={numberPerPageOptions}
+							onChange={onItemPerPageChange}
+							clearable={false}
+						/>
+					</div>
+					<div className='col-md-9' style={ { padding: 0 }}>
+						<ul className={`wilco-pagination pull-right`}>
+							<li>
+								<Link
+									to={`${pathnamePrefix}page=1&perPage${numberPerPage}`}
+									aria-label={ariaLabel(1)}
+									disabled={isDisabled(currentPage - 1)}
+								>
+									<span aria-hidden="true">&laquo;</span>
+								</Link>
+							</li>
+							<li>
+								<Link
+									to={`${pathnamePrefix}page=${currentPage - 1}&perPage${numberPerPage}`}
+									aria-label={ariaLabel(currentPage - 1)}
+									disabled={isDisabled(currentPage - 1)}
+								>
+									<span aria-hidden="true">&lt;</span>
+								</Link>
+							</li>
+							{renderPageNumbers}
+							<li>
+								<Link
+									to={`${pathnamePrefix}page=${currentPage + 1}&perPage${numberPerPage}`}
+									aria-label={ariaLabel(currentPage + 1)}
+									disabled={isDisabled(currentPage + 1)}
+								>
+									<span aria-hidden="true">&gt;</span>
+								</Link>
+							</li>
+							<li>
+								<Link
+									aria-label={ariaLabel(pageNumbers[pageNumbers.length - 1])}
+									to={`${pathnamePrefix}page=${pageNumbers[pageNumbers.length - 1]}&perPage${numberPerPage}`}
+									disabled={isDisabled(currentPage + 1)}
+								>
+									<span aria-hidden="true">&raquo;</span>
+								</Link>
+							</li>
+						</ul>
+					</div>
 				</div>
 			)}
 		</Fragment>

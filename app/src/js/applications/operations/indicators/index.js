@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
-	SearchableList,
 	NewButton,
 	VerticalMenu, Loading,
 } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { Auth, useTitle } from 'bauhaus-utilities';
+import { Auth, useTitle, SearchableList } from 'bauhaus-utilities';
 import api from '../../../remote-api/operations-api';
 
 

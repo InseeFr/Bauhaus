@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
 	NewButton,
-	SearchableList,
 	PageTitle,
 	VerticalMenu,
 	Loading,
 } from '@inseefr/wilco';
 import './component-list.scss';
-import { FilterToggleButtons, useTitle } from 'bauhaus-utilities';
+import { FilterToggleButtons, useTitle, SearchableList } from 'bauhaus-utilities';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { useHistory } from 'react-router-dom';
 

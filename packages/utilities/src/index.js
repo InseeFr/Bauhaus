@@ -33,6 +33,7 @@ export { default as AdvancedSearchList } from './components/advanced-search/home
 export * as ItemToSelectModel from './utils/item-to-select-model';
 export { default as ValidationButton } from './components/validationButton';
 export { default as FilterToggleButtons } from './components/filter-toggle-buttons';
+export { default as SearchableList } from './components/searchable-list';
 
 export { default as CheckSecondLang } from './components/check-second-lang';
 
