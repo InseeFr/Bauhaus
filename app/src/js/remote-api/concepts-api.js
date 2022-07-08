@@ -50,11 +50,21 @@ const api = {
 		//do not process response
 		() => {},
 	],
-	getConceptExport: (id, MimeType) => [
+	getConceptExportZip: (ids) => [
+		`concept/export-zip/${ids.join(',')}`,
+		{
+			headers: {
+				Accept: "application/octet-stream",
+				'Content-Type': 'text/plain',
+			},
+		},
+		res => res,
+	],
+	getConceptExport: (id) => [
 		`concept/export/${id}`,
 		{
 			headers: {
-				Accept: MimeType,
+				Accept: "application/octet-stream",
 				'Content-Type': 'text/plain',
 			},
 		},

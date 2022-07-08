@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
 	PageTitle,
-	SearchableList,
 	NewButton,
 	PublishButton,
 	ExportButton,
@@ -11,7 +10,7 @@ import {
 import check from 'js/utils/auth';
 import D from 'js/i18n';
 import { useSelector } from 'react-redux';
-import { ArrayUtils, Auth } from 'bauhaus-utilities';
+import { ArrayUtils, Auth, SearchableList } from 'bauhaus-utilities';
 import api from '../../remote-api/concepts-api';
 
 const ConceptsHome = () => {

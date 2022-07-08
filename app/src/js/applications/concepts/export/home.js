@@ -20,14 +20,13 @@ class ConceptsToExport extends Component {
 				displayModal: false,
 				ids: [],
 			});
-		this.closeOdt = () => {
-			this.handleExportConceptList('application/vnd.oasis.opendocument.text');
-			this.closeModal();
-		};
-		this.handleExportConceptList = (MimeType) => {
-			this.props.handleExportConceptList(this.state.ids, MimeType);
-		};
+
 	}
+
+	closeOdt = () => {
+		this.props.handleExportConceptList(this.state.ids);
+		this.closeModal();
+	};
 
 	render() {
 		const { concepts } = this.props;

@@ -4,7 +4,7 @@ import { getContentDisposition } from '@inseefr/wilco';
 import FileSaver from 'file-saver';
 
 export default (id, MimeType) => dispatch => {
-	var fileName = '';
+	let fileName = '';
 	dispatch({
 		type: A.EXPORT_VARBOOK,
 		payload: { id, MimeType },

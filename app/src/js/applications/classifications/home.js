@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PageTitle, SearchableList } from '@inseefr/wilco';
+import { PageTitle } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { useTitle } from 'bauhaus-utilities';
+import { useTitle, SearchableList } from 'bauhaus-utilities';
 
 const ClassificationsHome = ({ classifications }) => {
 	useTitle(D.classificationsTitle, D.classificationsTitle);

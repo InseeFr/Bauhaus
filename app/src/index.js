@@ -17,7 +17,7 @@ import 'bauhaus-codelists/dist/index.css';
 
 import 'main.scss';
 
-const Error = ({ home }) => {
+const Error = () => {
 	return (
 		<div>
 			<div className="container">

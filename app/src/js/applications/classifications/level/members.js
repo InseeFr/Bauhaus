@@ -1,7 +1,7 @@
 import React from 'react';
-import { Note, SearchableList } from '@inseefr/wilco';
+import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
-
+import { SearchableList } from 'bauhaus-utilities'
 export default ({ members, classificationId, secondLang }) => {
 	const membersLg1 = members.map(({ id, labelLg1 }, i) => ({
 		id,

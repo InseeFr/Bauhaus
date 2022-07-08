@@ -1,12 +1,11 @@
 import React from 'react';
 import {
 	NewButton,
-	SearchableList,
 	PageTitle,
 	Button,
 	VerticalMenu,
 } from '@inseefr/wilco';
-import { Auth } from 'bauhaus-utilities';
+import { Auth, SearchableList } from 'bauhaus-utilities';
 import D from 'js/i18n';
 
 function OperationsObjectHome({
