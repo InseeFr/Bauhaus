@@ -20,8 +20,6 @@ const numberPerPageOptions = [
 /**
  * Component used to display a pagination block for a list.
  *	itemEls: The list of item we want to paginate
- *	itemsPerPage: The number of element per page
- *	context: The context of the page. Used for theming
  */
 export const Index = ({ location: { pathname, search }, itemEls }) => {
 	const history = useHistory();
@@ -76,7 +74,7 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 		searchParams.set('perPage', value);
 		history.replace(pathname + "?" + searchParams.toString());
 	}
-	console.log('render')
+
 	const renderPageNumbers = pageNumbers
 		.filter(number => number - 3 < currentPage && number + 3 > currentPage)
 		.map(number => {
@@ -158,7 +156,6 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 
 Index.propTypes = {
 	itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
-	itemsPerPage: PropTypes.string.isRequired,
 };
 
 export default withRouter(Index);

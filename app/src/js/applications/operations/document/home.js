@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
@@ -10,7 +10,7 @@ import {
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
 import { Auth, FilterToggleButtons, useTitle, Pagination } from 'bauhaus-utilities';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 const sessionStorageKey = 'documents-displayMode';
 const SearchableList = ({
@@ -20,10 +20,26 @@ const SearchableList = ({
 	label,
 	autoFocus,
 	searchValue = '',
-	itemFormatter = (content) => content,
 }) => {
+	const history = useHistory();
+	const location = useLocation();
 
-	const [search, handleSearch] = useState(searchValue);
+	const [search, setSearch] = useState(searchValue);
+
+	const url = document.URL
+	useEffect(() => {
+		const searchQuery = new URL(url).searchParams;
+
+		if(searchQuery.has('search')){
+			setSearch(searchQuery.get('search'));
+		}
+	}, [url])
+
+	const handleSearch = value => {
+		const searchParams = new URLSearchParams(window.location.search);
+		searchParams.set('search', value);
+		history.replace(location.pathname + "?" + searchParams.toString());
+	}
 
 	const filter = filterKeyDeburr(
 		['label']
