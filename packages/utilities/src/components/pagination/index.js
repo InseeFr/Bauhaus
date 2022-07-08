@@ -76,7 +76,6 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 		searchParams.set('perPage', value);
 		history.replace(pathname + "?" + searchParams.toString());
 	}
-	console.log('render')
 	const renderPageNumbers = pageNumbers
 		.filter(number => number - 3 < currentPage && number + 3 > currentPage)
 		.map(number => {
