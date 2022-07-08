@@ -13,8 +13,7 @@ export default (classificationId, itemId, lastVersion) => dispatch => {
 		ArrayUtils.range(1, lastVersion).map(version =>
 			dispatch(loadNotesByVersion(classificationId, itemId, version))
 		)
-	).then(
-		results =>
+	).then(() =>
 			dispatch({
 				type: A.LOAD_CLASSIFICATION_ITEM_NOTES_ALL_SUCCESS,
 				classificationId,

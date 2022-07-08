@@ -18,7 +18,7 @@ describe('SIMS actions', () => {
 	});
 	describe('get a sims', () => {
 		beforeEach(() => {
-			api.getOperation = jest.fn((id) =>
+			api.getOperation = jest.fn(() =>
 				Promise.resolve({ series: { id: 2 } })
 			);
 			api.getOperationsWithoutReport = jest.fn(() => ['value1']);
@@ -118,7 +118,7 @@ describe('SIMS actions', () => {
 			});
 		});
 		it('should call dispatch LOAD_OPERATIONS_SIMS_LIST_FAILURE action with the error if the status is not LOADING', async () => {
-			api.getSims = function (id) {
+			api.getSims = function () {
 				return Promise.reject('error');
 			};
 			const getState = () => {
@@ -140,10 +140,10 @@ describe('SIMS actions', () => {
 		const sims = { id: 1, label: 'aaa' };
 
 		beforeEach(() => {
-			api.putSims = jest.fn((id) => {
+			api.putSims = jest.fn(() => {
 				return Promise.resolve('');
 			});
-			api.postSims = jest.fn((id) => {
+			api.postSims = jest.fn(() => {
 				return Promise.resolve('');
 			});
 			api.getOperation = jest.fn(() => Promise.resolve('result get operation'));
@@ -156,7 +156,7 @@ describe('SIMS actions', () => {
 			${'getOperation'} | ${'idOperation'}
 			${'getSerie'}     | ${'idSeries'}
 			${'getIndicator'} | ${'idIndicator'}
-		`('get labels from parent', ({ method, id, expected }) => {
+		`('get labels from parent', ({ method, id }) => {
 			const apis = ['getOperation', 'getSerie', 'getIndicator'];
 
 			it(`should call ${method} if the labelLg1 is not defined and if the ${id} is defined`, async () => {

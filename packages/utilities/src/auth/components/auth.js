@@ -31,7 +31,7 @@ export function AuthDumb({
 	isLoading
 }) {
 	useEffect(() => {
-		if(!userStamp && !isLoading){
+		if(userStamp === undefined && !isLoading){
 			loadUserStamp(userStamp);
 		}
 	}, [userStamp, isLoading, loadUserStamp])
