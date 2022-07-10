@@ -143,6 +143,7 @@ describe('<SearchFormList />', () => {
 					organisations={organisations}
 					stamps={stamps}
 					categories={categories}
+					setSearch={jest.fn()}
 				/>
 			</MemoryRouter>
 		);
@@ -158,6 +159,7 @@ describe('<SearchFormList />', () => {
 					organisations={organisations}
 					stamps={stamps}
 					categories={categories}
+					setSearch={jest.fn()}
 				/>
 			</MemoryRouter>
 		);
@@ -173,6 +175,7 @@ describe('<SearchFormList />', () => {
 					organisations={organisations}
 					stamps={stamps}
 					categories={categories}
+					setSearch={jest.fn()}
 				/>
 			</MemoryRouter>
 		);
@@ -192,6 +195,7 @@ describe('<SearchFormList />', () => {
 					organisations={organisations}
 					stamps={stamps}
 					categories={categories}
+					setSearch={jest.fn()}
 				/>
 			</MemoryRouter>
 		);
@@ -211,6 +215,7 @@ describe('<SearchFormList />', () => {
 					organisations={organisations}
 					stamps={stamps}
 					categories={categories}
+					setSearch={jest.fn()}
 				/>
 			</MemoryRouter>
 		);
