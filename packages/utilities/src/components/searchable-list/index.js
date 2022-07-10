@@ -20,7 +20,7 @@ const useUrlQueryParameter = (key, defaultValue = '') => {
 		if(searchQuery.has(key)){
 			setSearch(searchQuery.get(key));
 		}
-	}, [url])
+	}, [url, key])
 
 	const setValueToQueryParameters = value => {
 		const searchParams = new URLSearchParams(window.location.search);
