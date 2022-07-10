@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
 	Note,
 	UpdateButton,
+	DeleteButton,
 	ActionToolbar,
 	ReturnButton,
 	ErrorBloc,
@@ -15,18 +16,22 @@ import {
 	DateUtils,
 	PublicationFemale,
 	useTitle,
+	ConfirmationDelete,
 } from 'bauhaus-utilities';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
-import { treedData } from '../../utils';
 import { rowParams } from '../code-detail/code-columns';
-import CodesTreeView from '../codelist-detail/codes-tree-view';
 
 export const CodeListPartialDetailView = ({
 	codelist,
 	handleUpdate,
+	handleDelete,
 	handleBack,
 	updatable,
+	deletable,
+	modalOpened,
+	handleYes,
+	handleNo,
 	secondLang,
 	col = 3,
 	publishComponent,
@@ -46,14 +51,22 @@ export const CodeListPartialDetailView = ({
 		publishComponent();
 	};
 	const codes = Object.values(codelist.codes || {});
-	const [tree, setTree] = useState(treedData(codes));
 
 	return (
 		<React.Fragment>
+			{modalOpened && (
+				<ConfirmationDelete
+					className="codelists"
+					handleNo={handleNo}
+					handleYes={handleYes}
+					message={D.confirmationCodelistDelete}
+				/>
+			)}
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
 				<ValidationButton callback={publish} object={codelist} />
 				{updatable && <UpdateButton action={handleUpdate} col={col} />}
+				{deletable && <DeleteButton action={handleDelete} col={col} />}
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
 			{
@@ -124,17 +137,6 @@ export const CodeListPartialDetailView = ({
 								data={codes.sort((a, b) => (a.code > b.code ? 1 : -1))}
 							/>
 						}
-					/>
-				</div>
-			)}
-			{codelist.codes && codes.filter((code) => code.parents).length > 0 && (
-				<div className="row">
-					<CodesTreeView
-						codes={codes}
-						tree={tree}
-						handleChangeTree={(tree) => setTree(tree)}
-						handleAdd={false}
-						readOnly={true}
 					/>
 				</div>
 			)}

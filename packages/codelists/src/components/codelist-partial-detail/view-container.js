@@ -5,6 +5,7 @@ import { Loading, goBack } from '@inseefr/wilco';
 import { Stores } from 'bauhaus-utilities';
 import { formatPartialCodeList } from '../../utils';
 import { API } from '../../apis';
+import D from '../../i18n/build-dictionary';
 import ComponentTitle from '../codelist-detail/title';
 import { CodeListPartialDetailView } from './view';
 
@@ -14,10 +15,27 @@ const CodelistPartialComponentView = (props) => {
 	const [loading, setLoading] = useState(true);
 	const [codelists, setCodelists] = useState([]);
 	const [codelist, setCodelist] = useState({});
+	const [modalOpened, setModalOpened] = useState(false);
+	const [serverSideError, setServerSideError] = useState('');
 
 	const handleBack = useCallback(() => {
 		goBack(props, '/codelists')();
 	}, [props]);
+
+	const handleDelete = useCallback(() => {
+		setLoading(true);
+		API.deleteCodelistPartial(id)
+			.then(() => {
+				setLoading(false);
+				setModalOpened(false);
+				goBack(props, '/codelists')();
+			})
+			.catch((error) => {
+				setServerSideError(D['errors_' + JSON.parse(error).code]);
+				setLoading(false);
+				setModalOpened(false);
+			});
+	}, [id, props]);
 
 	useEffect(() => {
 		API.getCodelists().then((codelists) => {
@@ -53,9 +71,15 @@ const CodelistPartialComponentView = (props) => {
 				codelist={codelist}
 				handleBack={handleBack}
 				handleUpdate={`/codelists-partial/${codelist.id}/modify`}
+				handleDelete={() => setModalOpened(true)}
+				deletable
+				modalOpened={modalOpened}
+				handleYes={handleDelete}
+				handleNo={() => setModalOpened(false)}
 				secondLang={secondLang}
 				mutualized={true}
 				updatable={true}
+				serverSideError={serverSideError}
 			/>
 		</React.Fragment>
 	);

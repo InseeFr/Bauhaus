@@ -35,7 +35,6 @@ const ConceptsToExportContainer = () => {
 				fileName = getContentDisposition(
 					res.headers.get('Content-Disposition')
 				)[1];
-				console.log(fileName)
 				return res;
 			})
 			.then(res => res.blob())
