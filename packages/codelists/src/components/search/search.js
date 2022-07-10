@@ -6,7 +6,7 @@ import {
 	ArrayUtils,
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
-	Stores, useTitle,
+	Stores, useTitle, useUrlQueryParameters,
 } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
@@ -33,18 +33,21 @@ const validateStateOptions = [
 	{ value: 'Validated', label: D.statusValidatedM },
 ];
 
-class SearchFormList extends AbstractAdvancedSearchComponent {
-	static defaultState = {
-		id: '',
-		labelLg1: '',
-		code: '',
-		codeLabel: '',
-		creator: '',
-		validationState: '',
-	};
+const defaultState = {
+	id: '',
+	labelLg1: '',
+	code: '',
+	codeLabel: '',
+	creator: '',
+	validationState: '',
+};
 
+class SearchFormList extends AbstractAdvancedSearchComponent {
 	constructor(props) {
-		super(props, SearchFormList.defaultState);
+		super(props, {
+			...defaultState,
+			...props.search
+		});
 	}
 
 	handlers = this.handleChange(fields, (newState) => {
@@ -56,18 +59,18 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			code,
 			codeLabel,
 		} = newState;
-		return this.props.data
-			.filter(filterId(id))
-			.filter(filterLabel(labelLg1))
-			.filter(filterCode(code))
-			.filter(filterCodeLabel(codeLabel))
-			.filter(filterCreator(creator))
-			.filter(filterValidationState(validationState));
+		this.props.setSearch({
+			id,
+			labelLg1,
+			creator,
+			validationState,
+			code,
+			codeLabel,
+		});
 	});
 
 	render() {
 		const {
-			data,
 			id,
 			labelLg1,
 			creator,
@@ -75,8 +78,17 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			code,
 			codeLabel,
 		} = this.state;
-		const { stampListOptions } = this.props;
-		const dataLinks = data.map((codelist) => (
+		const { stampListOptions, data } = this.props;
+
+		const filteredData = data
+			.filter(filterId(id))
+			.filter(filterLabel(labelLg1))
+			.filter(filterCode(code))
+			.filter(filterCodeLabel(codeLabel))
+			.filter(filterCreator(creator))
+			.filter(filterValidationState(validationState));
+
+		const dataLinks = filteredData.map((codelist) => (
 			<li key={codelist.id} className="list-group-item text-left">
 				<Link to={`/codelists/${codelist.id}`}>{formatLabel(codelist)}</Link>
 			</li>
@@ -195,6 +207,7 @@ const SearchListContainer = () => {
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
+	const [search, setSearch] = useUrlQueryParameters(defaultState)
 
 	useEffect(() => {
 		API.getCodelistsForSearch()
@@ -206,7 +219,7 @@ const SearchListContainer = () => {
 	if (loading) {
 		return <Loading />;
 	}
-	return <SearchFormList data={items} stampListOptions={stampListOptions} />;
+	return <SearchFormList data={items} stampListOptions={stampListOptions} search={search} setSearch={setSearch} />;
 };
 
 export default SearchListContainer;

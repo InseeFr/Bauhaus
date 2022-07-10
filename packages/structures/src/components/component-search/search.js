@@ -9,7 +9,7 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	AbstractAdvancedSearchComponent, Stores, withTitle,
+	AbstractAdvancedSearchComponent, Stores, withTitle, useUrlQueryParameters,
 } from 'bauhaus-utilities';
 import { useSelector } from 'react-redux';
 
@@ -26,33 +26,40 @@ const validateStateOptions = [
 	{value: 'Validated', label: D.statusValidatedM}
 ]
 
+const defaultState = {
+	labelLg1: '',
+	concept: '',
+	creator: '',
+	validationState: ''
+};
+
 export class SearchFormList extends AbstractAdvancedSearchComponent {
-	static defaultState = {
-		labelLg1: '',
-		concept: '',
-		creator: '',
-		validationState: ''
-	};
 
 	constructor(props) {
-		super(props, SearchFormList.defaultState);
+		super(props, {
+			...defaultState,
+			...props.search
+		});
 	}
 
 	handlers = this.handleChange(fields, newState => {
 		const { labelLg1, concept, creator, validationState } = newState;
-		return this.props.data
+		this.props.setSearch({ labelLg1, concept, creator, validationState })
+	});
+
+	render() {
+		const { labelLg1, concept, creator, validationState } = this.state;
+		const { concepts, stampListOptions, data } = this.props;
+
+
+		const filteredData = data
 			.filter(filterConcept(concept))
 			.filter(filterLabel(labelLg1))
 			.filter(filterCreator(creator))
 			.filter(filterValidationState(validationState));
-	});
-
-	render() {
-		const { data, labelLg1, concept, creator, validationState } = this.state;
-		const { concepts, stampListOptions } = this.props;
 
 		const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
-		const dataLinks = data.map(component => (
+		const dataLinks = filteredData.map(component => (
 			<li key={component.id} className="list-group-item text-left">
 				<Link to={`/structures/components/${component.id}`}>
 					{formatLabel(component)}
@@ -140,6 +147,7 @@ const SearchListContainer = () => {
 	const [items, setItems] = useState([]);
 	const [concepts, setConcepts] = useState([]);
 	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
+	const [search, setSearch] = useUrlQueryParameters(defaultState)
 
 	useEffect(() => {
 		Promise.all([
@@ -155,7 +163,7 @@ const SearchListContainer = () => {
 	if (loading) {
 		return <Loading />;
 	}
-	return <SearchFormList data={items} concepts={concepts} stampListOptions={stampListOptions}/>;
+	return <SearchFormList search={search} setSearch={setSearch} data={items} concepts={concepts} stampListOptions={stampListOptions}/>;
 };
 
 export default withTitle(SearchListContainer, D.componentTitle, () => D.structuresAdvancedSearch);

@@ -11,7 +11,7 @@ import {
 	AdvancedSearchList,
 	AbstractAdvancedSearchComponent,
 	ItemToSelectModel, Stores,
-	withTitle
+	withTitle, useUrlQueryParameters,
 } from 'bauhaus-utilities';
 import { useSelector } from 'react-redux';
 
@@ -32,37 +32,46 @@ const validateStateOptions = [
 	{value: 'Modified', label: D.statusModifiedF},
 	{value: 'Validated', label: D.statusValidatedF}
 ]
+
+const defaultState = {
+	labelLg1: '',
+	componentLabelLg1: '',
+	type: '',
+	concept: '',
+	creator: '',
+	validationState: ''
+};
+
 export class SearchFormList extends AbstractAdvancedSearchComponent {
-	static defaultState = {
-		labelLg1: '',
-		componentLabelLg1: '',
-		type: '',
-		concept: '',
-		creator: '',
-		validationState: ''
-	};
+
 
 	constructor(props) {
-		super(props, SearchFormList.defaultState);
+		super(props, {
+			...defaultState,
+			...props.search
+		});
 	}
 
 	handlers = this.handleChange(fields, newState => {
 		const { labelLg1, componentLabelLg1, type, concept, creator, validationState } = newState;
-		return this.props.data
+		this.props.setSearch({ labelLg1, componentLabelLg1, type, concept, creator, validationState });
+
+	});
+
+	render() {
+		const { labelLg1, componentLabelLg1, type, concept, creator, validationState } = this.state;
+		const { concepts, stampListOptions, data } = this.props;
+		const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
+
+		const filteredData = data
 			.filter(filterLabelLg1(labelLg1))
 			.filter(filterComponentLabelLg1(componentLabelLg1))
 			.filter(filterType(type))
 			.filter(filterConcept(concept))
 			.filter(filterCreator(creator))
 			.filter(filterValidationState(validationState));
-	});
 
-	render() {
-		const { data, labelLg1, componentLabelLg1, type, concept, creator, validationState } = this.state;
-		const { concepts, stampListOptions } = this.props;
-		const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
-
-		const dataLinks = data.map(({ id, labelLg1 }) => (
+		const dataLinks = filteredData.map(({ id, labelLg1 }) => (
 			<li key={id} className="list-group-item text-left">
 				<Link to={'/structures/' + id}>{labelLg1}</Link>
 			</li>
@@ -172,6 +181,7 @@ const SearchListContainer = () => {
 	const [items, setItems] = useState([]);
 	const [concepts, setConcepts] = useState([]);
 	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
+	const [search, setSearch] = useUrlQueryParameters(defaultState)
 
 	useEffect(() => {
 		Promise.all([api.getStructuresForSearch(), ConceptsAPI.getConceptList()])
@@ -185,7 +195,7 @@ const SearchListContainer = () => {
 		return <Loading />;
 	}
 
-	return <SearchFormList data={items} concepts={concepts} stampListOptions={stampListOptions}/>;
+	return <SearchFormList search={search} setSearch={setSearch} data={items} concepts={concepts} stampListOptions={stampListOptions}/>;
 };
 
 export default withTitle(SearchListContainer, D.structuresTitle, () => D.structuresAdvancedSearch);
