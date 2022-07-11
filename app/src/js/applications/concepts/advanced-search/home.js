@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import { PageTitle, NumberResult, Select } from '@inseefr/wilco';
@@ -6,7 +6,7 @@ import Controls from './controls';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
 import { filterKeyDate } from 'js/utils/array-utils';
-import { ArrayUtils, withTitle, Pagination } from 'bauhaus-utilities';
+import { ArrayUtils, withTitle, Pagination, useUrlQueryParameters } from 'bauhaus-utilities';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
 const filterAltLabel = ArrayUtils.filterKeyDeburr(['altLabel']);
@@ -33,40 +33,17 @@ const defaultFormState = {
 }
 
 const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusList }) => {
-	const [form, setForm] = useState(defaultFormState)
-	const history = useHistory();
+	const [form, setForm] = useUrlQueryParameters(defaultFormState)
 	const initializeState = () => setForm(defaultFormState)
+	const history = useHistory();
 
 	const handleChange = (property, stateChange) => {
 		const newForm = {
 			...form,
 			[property]: stateChange
 		};
-		writeToUrl(newForm);
 		setForm(newForm);
 	};
-
-	useEffect(() => {
-		const uri = document.URL;
-		const search = new URL(uri).searchParams;
-
-		const queryForm = { ...defaultFormState }
-		for(let [key, value] of search.entries()){
-			queryForm[key] = value;
-		}
-		setForm(queryForm)
-	}, [])
-
-
-	const writeToUrl = form => {
-		const url = new URL(document.URL);
-		const search = url.searchParams;
-		Object.entries(form).forEach(([key, value]) => {
-			search.set(key, value)
-		})
-		url.search = search.toString();
-		history.replace(url.pathname + url.search)
-	}
 
 	const {
 		label,

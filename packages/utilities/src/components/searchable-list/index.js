@@ -1,9 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import Pagination from '../pagination';
 import { filterKeyDeburr, nbResults } from '../../utils/array-utils';
 import D from '../../i18n/build-dictionary';
+
+
+
+const useUrlQueryParameter = (key, defaultValue = '') => {
+	const history = useHistory();
+	const location = useLocation();
+
+	const [search, setSearch] = useState(defaultValue);
+
+	const url = document.URL
+	useEffect(() => {
+		const searchQuery = new URL(url).searchParams;
+
+		if(searchQuery.has(key)){
+			setSearch(searchQuery.get(key));
+		}
+	}, [url, key])
+
+	const setValueToQueryParameters = value => {
+		const searchParams = new URLSearchParams(window.location.search);
+		searchParams.set('search', value);
+		history.replace(location.pathname + "?" + searchParams.toString());
+	}
+	return [search, setValueToQueryParameters]
+}
 
 const SearchableList = ({
 													items = [],
@@ -15,10 +40,12 @@ const SearchableList = ({
 													colOff,
 													label,
 													autoFocus,
-													searchValue = '',
-													itemFormatter = (content, item) => content,
+													itemFormatter = (content) => content,
 												}) => {
-	const [search, handleSearch] = useState(searchValue);
+
+	const [search, handleSearch] = useUrlQueryParameter('search')
+
+
 
 	const filter = filterKeyDeburr(
 		Object.keys(items[0] || {}).filter((k) => k !== 'id')

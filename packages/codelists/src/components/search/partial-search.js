@@ -7,7 +7,7 @@ import {
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
 	Stores,
-	useTitle,
+	useTitle, useUrlQueryParameters,
 } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
@@ -34,37 +34,42 @@ const validateStateOptions = [
 	{ value: 'Validated', label: D.statusValidatedM },
 ];
 
-class SearchFormPartialList extends AbstractAdvancedSearchComponent {
-	static defaultState = {
-		id: '',
-		labelLg1: '',
-		code: '',
-		codeLabel: '',
-		creator: '',
-		validationState: '',
-	};
+const defaultState = {
+	id: '',
+	labelLg1: '',
+	code: '',
+	codeLabel: '',
+	creator: '',
+	validationState: '',
+};
 
+class SearchFormPartialList extends AbstractAdvancedSearchComponent {
 	constructor(props) {
-		super(props, SearchFormPartialList.defaultState);
+		super(props, {
+			...defaultState,
+			...props.search
+		});
 	}
 
 	handlers = this.handleChange(fields, (newState) => {
 		const { id, labelLg1, creator, validationState, code, codeLabel } =
 			newState;
-		return this.props.data
+		this.props.setSearch({ id, labelLg1, creator, validationState, code, codeLabel })
+	});
+
+	render() {
+		const { id, labelLg1, creator, validationState, code, codeLabel } =
+			this.state;
+		const { stampListOptions, data } = this.props;
+		const filteredData = data
 			.filter(filterId(id))
 			.filter(filterLabel(labelLg1))
 			.filter(filterCode(code))
 			.filter(filterCodeLabel(codeLabel))
 			.filter(filterCreator(creator))
 			.filter(filterValidationState(validationState));
-	});
 
-	render() {
-		const { data, id, labelLg1, creator, validationState, code, codeLabel } =
-			this.state;
-		const { stampListOptions } = this.props;
-		const dataLinks = data.map((codelist) => (
+		const dataLinks = filteredData.map((codelist) => (
 			<li key={codelist.id} className="list-group-item text-left">
 				<Link to={`/codelists-partial/${codelist.id}`}>
 					{formatLabel(codelist)}
@@ -185,6 +190,7 @@ const SearchFormPartialListContainer = () => {
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
+	const [search, setSearch] = useUrlQueryParameters(defaultState)
 
 	useEffect(() => {
 		API.getCodelistsPartialForSearch()
@@ -197,7 +203,7 @@ const SearchFormPartialListContainer = () => {
 		return <Loading />;
 	}
 	return (
-		<SearchFormPartialList data={items} stampListOptions={stampListOptions} />
+		<SearchFormPartialList data={items} stampListOptions={stampListOptions} search={search} setSearch={setSearch}/>
 	);
 };
 

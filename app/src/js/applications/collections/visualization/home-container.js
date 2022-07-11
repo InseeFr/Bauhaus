@@ -25,9 +25,9 @@ const CollectionVisualizationContainer = () => {
 			api.getCollectionGeneral(id),
 			api.getCollectionMembersList(id),
 			globalApi.getStampList()
-		]).then(([general, members, stamps]) => {
-			setCollection({ general, members});
-			setStamps(stamps);
+		]).then(([generalValue, membersValue, stampsValue]) => {
+			setCollection({ general: generalValue, members: membersValue});
+			setStamps(stampsValue);
 		}).finally(() => setLoading(false))
 	}, [id]);
 
