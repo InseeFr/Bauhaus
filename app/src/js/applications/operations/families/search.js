@@ -30,7 +30,6 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 	}
 
 	handlers = this.handleChange(fields, newState => {
-		console.log("newState", newState)
 		const { prefLabelLg1 } = newState;
 		this.props.setSearch({ prefLabelLg1 })
 	});
