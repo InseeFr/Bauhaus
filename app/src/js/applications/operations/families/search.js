@@ -20,9 +20,6 @@ const defaultState = {
 	prefLabelLg1: '',
 };
 
-// Code List
-// Code List Partielle
-
 class SearchFormList extends AbstractAdvancedSearchComponent {
 
 	constructor(props) {
@@ -33,6 +30,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 	}
 
 	handlers = this.handleChange(fields, newState => {
+		console.log("newState", newState)
 		const { prefLabelLg1 } = newState;
 		this.props.setSearch({ prefLabelLg1 })
 	});
@@ -71,8 +69,13 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 		);
 	}
 }
-const SearchListContainer = () => {
+
+const SearchListWithUrlQueryParameter = ({ data }) => {
 	const [search, setSearch] = useUrlQueryParameters(defaultState)
+	return <SearchFormList data={data} search={search} setSearch={setSearch}/>
+}
+
+const SearchListContainer = () => {
 	useTitle(D.operationsTitle, D.familiesTitle + ' - ' + D.advancedSearch)
 	const [data, setData] = useState();
 
@@ -85,7 +88,9 @@ const SearchListContainer = () => {
 	if(!data){
 		return <Loading />
 	}
-	return <SearchFormList data={data} search={search} setSearch={setSearch}/>
+	return <SearchListWithUrlQueryParameter data={data} />
 }
+
+
 
 export default SearchListContainer;
