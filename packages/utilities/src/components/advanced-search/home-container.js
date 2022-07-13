@@ -36,5 +36,6 @@ export class AbstractAdvancedSearchComponent extends Component {
 	handleChange = (fields, filterData) =>
 		handleFieldChange(fields, stateChange => {
 			this.setState(stateChange);
+			filterData(stateChange);
 		});
 }
