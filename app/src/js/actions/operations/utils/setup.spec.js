@@ -17,7 +17,7 @@ describe('setup operations', () => {
 			});
 		});
 		it('should call dispatch LOAD_OPERATIONS_CODES_LIST_FAILURE action with the right operation', async () => {
-			api.getCodesList = function(id) {
+			api.getCodesList = function() {
 				return Promise.reject({ err: 'err' });
 			};
 			await loadCodesList(['notation'], dispatch);
@@ -29,7 +29,7 @@ describe('setup operations', () => {
 	});
 	describe('loadOrganisations', () => {
 		it('should call dispatch LOAD_OPERATIONS_ORGANISATIONS_SUCCESS action with the right operation', async () => {
-			apiOrganisations.getOrganisations = function(id) {
+			apiOrganisations.getOrganisations = function() {
 				return Promise.resolve({ label: 'bbb' });
 			};
 			await loadOrganisations(dispatch);
@@ -39,7 +39,7 @@ describe('setup operations', () => {
 			});
 		});
 		it('should call dispatch LOAD_OPERATIONS_ORGANISATIONS_FAILURE action with the right operation', async () => {
-			apiOrganisations.getOrganisations = function(id) {
+			apiOrganisations.getOrganisations = function() {
 				return Promise.reject({ err: 'err' });
 			};
 			await loadOrganisations(dispatch);
