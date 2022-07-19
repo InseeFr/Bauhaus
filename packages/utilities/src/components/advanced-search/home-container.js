@@ -31,7 +31,6 @@ export class AbstractAdvancedSearchComponent extends Component {
 			...this.emptyState,
 		};
 	};
-	initializeState = () => this.setState(this.getEmptyState());
 
 	handleChange = (fields, filterData) =>
 		handleFieldChange(fields, stateChange => {

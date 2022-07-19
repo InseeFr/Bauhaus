@@ -18,7 +18,6 @@ export const FamiliesHomeContainer = () => {
 
 	if (loading) return <Loading />;
 
-
 	return (
 		<OperationsObjectHome
 			items={families}

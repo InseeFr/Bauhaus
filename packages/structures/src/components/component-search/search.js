@@ -48,9 +48,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 	});
 
 	render() {
-		const { labelLg1, concept, creator, validationState } = this.state;
-		const { concepts, stampListOptions, data } = this.props;
-
+		const { concepts, stampListOptions, data, reset, search: {labelLg1, concept, creator, validationState} } = this.props;
 
 		const filteredData = data
 			.filter(filterConcept(concept))
@@ -70,7 +68,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 			<AdvancedSearchList
 				title={D.componentsSearchTitle}
 				data={dataLinks}
-				initializeState={this.initializeState}
+				initializeState={reset}
 				redirect={<Redirect to={'/structures/components'} push />}
 			>
 				<div className="row form-group">
@@ -147,7 +145,7 @@ const SearchListContainer = () => {
 	const [items, setItems] = useState([]);
 	const [concepts, setConcepts] = useState([]);
 	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
-	const [search, setSearch] = useUrlQueryParameters(defaultState)
+	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
 
 	useEffect(() => {
 		Promise.all([
@@ -163,7 +161,7 @@ const SearchListContainer = () => {
 	if (loading) {
 		return <Loading />;
 	}
-	return <SearchFormList search={search} setSearch={setSearch} data={items} concepts={concepts} stampListOptions={stampListOptions}/>;
+	return <SearchFormList search={search} setSearch={setSearch} reset={reset} data={items} concepts={concepts} stampListOptions={stampListOptions}/>;
 };
 
 export default withTitle(SearchListContainer, D.componentTitle, () => D.structuresAdvancedSearch);

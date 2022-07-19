@@ -33,8 +33,7 @@ const defaultFormState = {
 }
 
 const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusList }) => {
-	const [form, setForm] = useUrlQueryParameters(defaultFormState)
-	const initializeState = () => setForm(defaultFormState)
+	const [form, setForm, reset] = useUrlQueryParameters(defaultFormState)
 	const history = useHistory();
 
 	const handleChange = (property, stateChange) => {
@@ -96,7 +95,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 				<PageTitle title={D.conceptSearchTitle} />
 				<Controls
 					onClickReturn={() => history.push("/concepts")}
-					initializeState={initializeState}
+					initializeState={reset}
 				/>
 				<div className="row form-group">
 					<div className="col-md-12">

@@ -58,9 +58,7 @@ class SearchFormPartialList extends AbstractAdvancedSearchComponent {
 	});
 
 	render() {
-		const { id, labelLg1, creator, validationState, code, codeLabel } =
-			this.state;
-		const { stampListOptions, data } = this.props;
+		const { stampListOptions, data, reset, search:  { id, labelLg1, creator, validationState, code, codeLabel }} = this.props;
 		const filteredData = data
 			.filter(filterId(id))
 			.filter(filterLabel(labelLg1))
@@ -80,7 +78,7 @@ class SearchFormPartialList extends AbstractAdvancedSearchComponent {
 			<AdvancedSearchList
 				title={D.codelistsPartialSearchTitle}
 				data={dataLinks}
-				initializeState={this.initializeState}
+				initializeState={reset}
 				redirect={<Redirect to={'/codelists-partial'} push />}
 			>
 				<fieldset>
@@ -190,7 +188,7 @@ const SearchFormPartialListContainer = () => {
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
-	const [search, setSearch] = useUrlQueryParameters(defaultState)
+	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
 
 	useEffect(() => {
 		API.getCodelistsPartialForSearch()
@@ -203,7 +201,7 @@ const SearchFormPartialListContainer = () => {
 		return <Loading />;
 	}
 	return (
-		<SearchFormPartialList data={items} stampListOptions={stampListOptions} search={search} setSearch={setSearch}/>
+		<SearchFormPartialList data={items} stampListOptions={stampListOptions} search={search} setSearch={setSearch} reset={reset}/>
 	);
 };
 
