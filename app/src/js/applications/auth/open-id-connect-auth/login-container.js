@@ -23,7 +23,7 @@ const LoginOpenIDConnect = ({ saveUserProps, authenticated, WrappedComponent }) 
 					);
 				}
 			})
-			.error(error => this.initLogin());
+			.error(() => this.initLogin());
 	}, [saveUserProps])
 
 

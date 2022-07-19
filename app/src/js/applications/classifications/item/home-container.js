@@ -21,7 +21,7 @@ class ItemVisualizationContainer extends Component {
 		}),
 	};
 	constructor(props) {
-		super();
+		super(props);
 	}
 	componentWillMount() {
 		const { classificationId, itemId, item } = this.props;

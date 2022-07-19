@@ -12,7 +12,7 @@ const extractLevelId = buildExtract('levelId');
 
 class LevelVisualizationContainer extends Component {
 	constructor(props) {
-		super();
+		super(props);
 	}
 	componentWillMount() {
 		const { classificationId, levelId, level } = this.props;

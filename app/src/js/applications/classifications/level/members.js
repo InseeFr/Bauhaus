@@ -3,13 +3,13 @@ import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import { SearchableList } from 'bauhaus-utilities'
 export default ({ members, classificationId, secondLang }) => {
-	const membersLg1 = members.map(({ id, labelLg1 }, i) => ({
+	const membersLg1 = members.map(({ id, labelLg1 }) => ({
 		id,
 		label: `${id} - ${labelLg1}`,
 	}));
 	let membersLg2 = [];
 	if (secondLang && members[0].labelLg2 !== undefined) {
-		membersLg2 = members.map(({ id, labelLg2 }, i) => ({
+		membersLg2 = members.map(({ id, labelLg2 }) => ({
 			id,
 			label: `${id} - ${labelLg2}`,
 		}));
