@@ -1,10 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
-import adminLogo from 'img/admin.svg';
 import { getEnvVar } from 'js/utils/env';
-
-import { Auth } from 'bauhaus-utilities';
 import 'bootstrap/dist/css/bootstrap.css';
 import './app.scss';
 
@@ -31,16 +28,6 @@ function App() {
 	return (
 		<div className="home-page-links home-page-links__grid-3">
 			{apps}
-			<Auth.AuthGuard roles={[Auth.ADMIN]}>
-				<div className="bauhaus-app">
-					<Link to="/habilitation">
-						<h2 className="items page-title page-title-link">
-							{D.authorizationManagementTitle}
-						</h2>
-						<img src={adminLogo} alt="Roles" className="img" />
-					</Link>
-				</div>
-			</Auth.AuthGuard>
 		</div>
 	);
 }
