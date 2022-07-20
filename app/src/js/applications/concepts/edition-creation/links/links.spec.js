@@ -8,7 +8,8 @@ describe('concept-edition-creation-links', () => {
 		render(
 			<ConceptLinks
 				conceptsWithLinks={[]}
-				handleChange={() => console.log('save')}
+				handleChange={jest.fn()}
+				handleChangeEquivalentLinks={jest.fn()}
 			/>,
 			{ wrapper: MemoryRouter }
 		);

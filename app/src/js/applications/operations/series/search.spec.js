@@ -1,6 +1,6 @@
 import { SearchFormList } from './search';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 const data = [
 	{
@@ -130,6 +130,7 @@ describe('<SearchFormList />', () => {
 					organisations={organisations}
 					stamps={stamps}
 					categories={categories}
+					search={{}}
 				/>
 			</MemoryRouter>
 		);
@@ -144,11 +145,10 @@ describe('<SearchFormList />', () => {
 					stamps={stamps}
 					categories={categories}
 					setSearch={jest.fn()}
+					search={{prefLabelLg1: 'Base'}}
 				/>
 			</MemoryRouter>
 		);
-		const input = container.querySelector('input');
-		fireEvent.change(input, { target: { value: 'Base' } });
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
 	it('should filter by typeCode', () => {
@@ -160,15 +160,14 @@ describe('<SearchFormList />', () => {
 					stamps={stamps}
 					categories={categories}
 					setSearch={jest.fn()}
+					search={{typeCode: 'S'}}
 				/>
 			</MemoryRouter>
 		);
-		const input = container.querySelector('input');
-		fireEvent.change(input, { target: { value: 'Enquete' } });
 		expect(container.querySelectorAll('li')).toHaveLength(3);
 	});
 	it('should filter by creators', async () => {
-		const { container, findByText } = render(
+		const { container } = render(
 			<MemoryRouter>
 				<SearchFormList
 					data={data}
@@ -176,19 +175,16 @@ describe('<SearchFormList />', () => {
 					stamps={stamps}
 					categories={categories}
 					setSearch={jest.fn()}
+					search={{creator: 'DG57-C003'}}
 				/>
 			</MemoryRouter>
 		);
 
-		const listOptions = container.querySelector('label[for="creator"] input');
-		fireEvent.keyDown(listOptions, { key: 'ArrowDown' });
-		const option = await findByText('DG57-C003');
-		fireEvent.click(option);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
 
 	it('should filter by publishers', async () => {
-		const { container, findByText } = render(
+		const { container } = render(
 			<MemoryRouter>
 				<SearchFormList
 					data={data}
@@ -196,19 +192,16 @@ describe('<SearchFormList />', () => {
 					stamps={stamps}
 					categories={categories}
 					setSearch={jest.fn()}
+					search={{publisher: 'Acoss'}}
 				/>
 			</MemoryRouter>
 		);
 
-		const listOptions = container.querySelector('label[for="publisher"] input');
-		fireEvent.keyDown(listOptions, { key: 'ArrowDown' });
-		const option = await findByText('Acoss');
-		fireEvent.click(option);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
 
 	it('should filter by dataCollector', async () => {
-		const { container, findByText } = render(
+		const { container } = render(
 			<MemoryRouter>
 				<SearchFormList
 					data={data}
@@ -216,6 +209,7 @@ describe('<SearchFormList />', () => {
 					stamps={stamps}
 					categories={categories}
 					setSearch={jest.fn()}
+					search={{ dataCollector: 'DG75-A040'}}
 				/>
 			</MemoryRouter>
 		);
@@ -223,9 +217,6 @@ describe('<SearchFormList />', () => {
 		const listOptions = container.querySelector(
 			'label[for="dataCollector"] input'
 		);
-		fireEvent.keyDown(listOptions, { key: 'ArrowDown' });
-		const option = await findByText('DG75-A040');
-		fireEvent.click(option);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
 });
