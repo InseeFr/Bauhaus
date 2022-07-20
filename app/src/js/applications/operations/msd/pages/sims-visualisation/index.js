@@ -270,9 +270,6 @@ export default function SimsVisualisation({
 			</div>
 
 			{Object.values(metadataStructure).map((msd) => {
-				if (currentSection && msd.idMas !== currentSection) {
-					return null;
-				}
 				return <MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />;
 			})}
 		</>
