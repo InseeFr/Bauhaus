@@ -70,15 +70,14 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 	});
 
 	render() {
-		const {
+		const { stampListOptions, data, reset, search:  {
 			id,
 			labelLg1,
 			creator,
 			validationState,
 			code,
 			codeLabel,
-		} = this.state;
-		const { stampListOptions, data } = this.props;
+		}} = this.props;
 
 		const filteredData = data
 			.filter(filterId(id))
@@ -97,7 +96,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			<AdvancedSearchList
 				title={D.codelistsSearchTitle}
 				data={dataLinks}
-				initializeState={this.initializeState}
+				initializeState={reset}
 				redirect={<Redirect to={'/codelists'} push />}
 			>
 				<fieldset>
@@ -207,7 +206,7 @@ const SearchListContainer = () => {
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
-	const [search, setSearch] = useUrlQueryParameters(defaultState)
+	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
 
 	useEffect(() => {
 		API.getCodelistsForSearch()
@@ -219,7 +218,7 @@ const SearchListContainer = () => {
 	if (loading) {
 		return <Loading />;
 	}
-	return <SearchFormList data={items} stampListOptions={stampListOptions} search={search} setSearch={setSearch} />;
+	return <SearchFormList data={items} stampListOptions={stampListOptions} search={search} setSearch={setSearch} reset={reset}/>;
 };
 
 export default SearchListContainer;

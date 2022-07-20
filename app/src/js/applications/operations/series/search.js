@@ -61,15 +61,14 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 	});
 
 	render() {
-		const {
+
+		const { categories, organisations, stamps, data, reset, search: {
 			prefLabelLg1,
 			typeCode,
 			creator,
 			dataCollector,
 			publisher,
-		} = this.state;
-
-		const { categories, organisations, stamps, data } = this.props;
+		} } = this.props;
 		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 		const stampsOptions = stamps.map((stamp) => ({
 			value: stamp,
@@ -116,7 +115,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 			<AdvancedSearchList
 				title={D.seriesSearchTitle}
 				data={dataLinks}
-				initializeState={this.initializeState}
+				initializeState={reset}
 				redirect={<Redirect to={'/operations/series'} push />}
 			>
 				<div className="row form-group">
@@ -218,7 +217,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 
 const SearchListContainer = () => {
 	useTitle(D.operationsTitle, D.seriesTitle + ' - ' + D.advancedSearch)
-	const [search, setSearch] = useUrlQueryParameters(defaultState)
+	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
 	const [data, setData] = useState();
 	const categories = useSelector(state => state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {});
 	const organisations = useSelector(state => state.operationsOrganisations.results);
@@ -237,7 +236,7 @@ const SearchListContainer = () => {
 			categories={categories}
 			organisations={organisations}
 			stamps={stamps}
-			search={search} setSearch={setSearch}
+			search={search} setSearch={setSearch} reset={reset}
 		/>
 	);
 }

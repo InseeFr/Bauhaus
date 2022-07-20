@@ -16,7 +16,7 @@ describe('CodesListPanel', () => {
 	it('should not call the API if the panel is closed', () => {
 		const handleBack = jest.fn()
 
-		const getCodesList = jest.fn().mockImplementation((notification) => {
+		const getCodesList = jest.fn().mockImplementation(() => {
 			return Promise.resolve({ codes: []})
 		})
 		render(<CodesListPanel codesList={{notation: 'notation'}} isOpen={false} getCodesList={getCodesList} handleBack={handleBack}/>);
@@ -25,7 +25,7 @@ describe('CodesListPanel', () => {
 	it('should call the API if the panel is opened', () => {
 		const handleBack = jest.fn()
 
-		const getCodesList = jest.fn().mockImplementation((notification) => {
+		const getCodesList = jest.fn().mockImplementation(() => {
 			return Promise.resolve({ codes: []})
 		})
 		act(() => {
@@ -42,7 +42,7 @@ describe('CodesListPanel', () => {
 	it('should display the sorted list of codes', async () => {
 		const handleBack = jest.fn()
 
-		const getCodesList = jest.fn().mockImplementation((notification) => {
+		const getCodesList = jest.fn().mockImplementation(() => {
 			return Promise.resolve({ codes: [
 				{code: 'B', labelLg1: 'labelLg2'},
 				{code: 'A', labelLg1: 'labelLg1'}

@@ -11,9 +11,6 @@ const extractClassificationId = buildExtract('classificationId');
 const extractLevelId = buildExtract('levelId');
 
 class LevelVisualizationContainer extends Component {
-	constructor(props) {
-		super();
-	}
 	componentWillMount() {
 		const { classificationId, levelId, level } = this.props;
 		if (!level) this.props.loadLevel(classificationId, levelId);

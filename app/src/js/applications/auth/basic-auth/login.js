@@ -16,7 +16,7 @@ class LoginBasic extends Component {
 
 	handleChangeRole = (role) => this.setState({ role });
 	handleChangeStamp = (stamp) => this.setState({ stamp });
-	onClickValidate = (e) => {
+	onClickValidate = () => {
 		const { role, stamp } = this.state;
 		this.props.checkAuth({ role, stamp });
 	};

@@ -18,6 +18,10 @@ export default (defaultValue) => {
 		setSearch(values)
 	}, [url])
 
+	const reset = () => {
+		history.replace(location.pathname );
+	}
+
 	const setValuesToQueryParameters = values => {
 		const searchParams = new URLSearchParams(window.location.search);
 		Object.entries(values).forEach(([key, value]) => {
@@ -25,5 +29,5 @@ export default (defaultValue) => {
 		})
 		history.replace(location.pathname + "?" + searchParams.toString());
 	}
-	return [search, setValuesToQueryParameters]
+	return [search, setValuesToQueryParameters, reset]
 }

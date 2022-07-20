@@ -35,8 +35,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 	});
 
 	render() {
-		const { prefLabelLg1 } = this.state;
-		const { data } = this.props;
+		const { data, search: { prefLabelLg1 }, reset } = this.props;
 		const filteredData = data.filter(filterLabel(prefLabelLg1));
 
 		const dataLinks = filteredData.map(({ id, prefLabelLg1 }) => (
@@ -48,7 +47,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			<AdvancedSearchList
 				title={D.familiesSearchTitle}
 				data={dataLinks}
-				initializeState={this.initializeState}
+				initializeState={reset}
 				redirect={<Redirect to={'/operations/families'} push />}
 			>
 				<div className="row form-group">
@@ -70,8 +69,8 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 }
 
 const SearchListWithUrlQueryParameter = ({ data }) => {
-	const [search, setSearch] = useUrlQueryParameters(defaultState)
-	return <SearchFormList data={data} search={search} setSearch={setSearch}/>
+	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
+	return <SearchFormList data={data} search={search} setSearch={setSearch} reset={reset}/>
 }
 
 const SearchListContainer = () => {
