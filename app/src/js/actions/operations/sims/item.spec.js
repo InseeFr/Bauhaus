@@ -165,7 +165,7 @@ describe('SIMS actions', () => {
 						...sims,
 						[id]: 1,
 					},
-					() => {}
+					jest.fn()
 				)(dispatch);
 
 				apis
@@ -182,7 +182,7 @@ describe('SIMS actions', () => {
 						...sims,
 						labelLg1: 'labelLg1',
 					},
-					() => {}
+					jest.fn()
 				)(dispatch);
 				apis.forEach((method) => {
 					expect(api[method]).not.toHaveBeenCalled();
@@ -194,7 +194,7 @@ describe('SIMS actions', () => {
 					{
 						...sims,
 					},
-					() => {}
+					jest.fn()
 				)(dispatch);
 				expect(api.getOperation).not.toHaveBeenCalled();
 				expect(api.getSerie).not.toHaveBeenCalled();
@@ -203,7 +203,7 @@ describe('SIMS actions', () => {
 		});
 
 		it('should call putSims method and dispatch SAVE_OPERATIONS_SIMS_SUCCESS action with the udpated sims', async () => {
-			await saveSims(sims, () => {})(dispatch);
+			await saveSims(sims, jest.fn())(dispatch);
 
 			expect(api.putSims).toHaveBeenCalled();
 			expect(api.postSims).not.toHaveBeenCalled();
@@ -219,7 +219,7 @@ describe('SIMS actions', () => {
 
 		it('should call postSims method and dispatch SAVE_OPERATIONS_SIMS_SUCCESS action with the udpated sims', async () => {
 			const creationSims = { label: 'label' };
-			await saveSims(creationSims, () => {})(dispatch);
+			await saveSims(creationSims, jest.fn())(dispatch);
 
 			expect(api.postSims).toHaveBeenCalled();
 			expect(api.putSims).not.toHaveBeenCalled();
