@@ -65,7 +65,19 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 										</li>
 									);
 								}
-								if (['created', 'modified', 'valid'].includes(fieldName)) {
+								if (['created', 'modified'].includes(fieldName)) {
+									if(!attr[fieldName]){
+										return null;
+									}
+									return (
+										<li key={fieldName}>
+											{`${mapping[fieldName]} : ${DateUtils.stringToDate(
+												attr[fieldName]
+											)}`}
+										</li>
+									);
+								}
+								if (['valid'].includes(fieldName)) {
 									return (
 										<li key={fieldName}>
 											{`${mapping[fieldName]} : ${DateUtils.stringToDate(

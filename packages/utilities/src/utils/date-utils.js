@@ -22,7 +22,12 @@ export const today = () =>
 		.locale(getLang())
 		.format('L');
 
-export const stringToDate = (string, lang) =>
-	dayjs(string)
+export const stringToDate = (string, lang) => {
+	if(!string){
+		return ''
+	}
+	return dayjs(string)
 		.locale(lang || getLang())
 		.format('L');
+}
+

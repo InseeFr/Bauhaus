@@ -17,12 +17,12 @@ function OperationsFamilyVisualization({
 				<Note
 					text={
 						<ul>
-							<li>
+							{attr.created && (<li>
 								{D1.createdDateTitle} : {DateUtils.stringToDate(attr.created)}
-							</li>
-							<li>
+							</li>)}
+							{(attr.modified && <li>
 								{D1.modifiedDateTitle} : {DateUtils.stringToDate(attr.modified)}
-							</li>
+							</li>)}
 							<li>
 								{D1.familyStatus} : <PublicationFemale object={attr} />
 							</li>

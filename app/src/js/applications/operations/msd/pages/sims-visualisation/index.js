@@ -253,12 +253,12 @@ export default function SimsVisualisation({
 				<Note
 					text={
 						<ul>
-							<li>
+							{sims.created && (<li>
 								{D1.createdDateTitle} : {DateUtils.stringToDate(sims.created)}
-							</li>
-							<li>
+							</li>)}
+							{(sims.modified && <li>
 								{D1.modifiedDateTitle} : {DateUtils.stringToDate(sims.modified)}
-							</li>
+							</li>)}
 							<li>
 								{D.simsStatus} : <PublicationFemale object={sims} />
 							</li>
