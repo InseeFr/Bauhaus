@@ -96,10 +96,10 @@ export const ComponentDetailView = ({
 								{D1.idTitle} : {component.identifiant}
 							</li>
 							{component.created && (<li>
-								{D1.createdDateTitle} : {DateUtils.stringToDate(component.created)}
+								{D.createdDateTitle} : {DateUtils.stringToDate(component.created)}
 							</li>)}
 							{(component.modified && <li>
-								{D1.modifiedDateTitle} : {DateUtils.stringToDate(component.modified)}
+								{D.modifiedDateTitle} : {DateUtils.stringToDate(component.modified)}
 							</li>)}
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
