@@ -15,7 +15,7 @@ describe('classification-visualization-controls', () => {
 	it('renders without crashing', () => {
 		render(
 			<Provider store={store}>
-				<Controls classification={{}} publish={() => {}} />
+				<Controls classification={{}} publish={jest.fn()} />
 			</Provider>,
 			{
 				wrapper: MemoryRouter,

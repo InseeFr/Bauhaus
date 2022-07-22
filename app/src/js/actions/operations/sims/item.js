@@ -63,14 +63,14 @@ export const saveSims = (sims, callback) => (dispatch) => {
 		type: A.SAVE_OPERATIONS_SIMS,
 		payload: sims,
 	});
-	return promise.then((sims) => {
-		return api[method](sims).then(
+	return promise.then((s) => {
+		return api[method](s).then(
 			(results) => {
 				dispatch({
 					type: A.SAVE_OPERATIONS_SIMS_SUCCESS,
-					payload: sims,
+					payload: s,
 				});
-				callback(results || sims.id);
+				callback(results || s.id);
 			},
 			(err) => {
 				dispatch({
