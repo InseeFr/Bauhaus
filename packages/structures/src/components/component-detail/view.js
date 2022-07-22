@@ -95,14 +95,12 @@ export const ComponentDetailView = ({
 							<li>
 								{D1.idTitle} : {component.identifiant}
 							</li>
-							<li>
-								{D.createdDateTitle} :{' '}
-								{DateUtils.stringToDate(component.created)}
-							</li>
-							<li>
-								{D.modifiedDateTitle} :{' '}
-								{DateUtils.stringToDate(component.modified)}
-							</li>
+							{component.created && (<li>
+								{D.createdDateTitle} : {DateUtils.stringToDate(component.created)}
+							</li>)}
+							{(component.modified && <li>
+								{D.modifiedDateTitle} : {DateUtils.stringToDate(component.modified)}
+							</li>)}
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
 								<PublicationMale object={component} />

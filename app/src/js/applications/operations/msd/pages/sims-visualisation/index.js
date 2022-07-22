@@ -253,12 +253,12 @@ export default function SimsVisualisation({
 				<Note
 					text={
 						<ul>
-							<li>
+							{sims.created && (<li>
 								{D1.createdDateTitle} : {DateUtils.stringToDate(sims.created)}
-							</li>
-							<li>
+							</li>)}
+							{(sims.modified && <li>
 								{D1.modifiedDateTitle} : {DateUtils.stringToDate(sims.modified)}
-							</li>
+							</li>)}
 							<li>
 								{D.simsStatus} : <PublicationFemale object={sims} />
 							</li>
@@ -270,9 +270,6 @@ export default function SimsVisualisation({
 			</div>
 
 			{Object.values(metadataStructure).map((msd) => {
-				if (currentSection && msd.idMas !== currentSection) {
-					return null;
-				}
 				return <MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />;
 			})}
 		</>

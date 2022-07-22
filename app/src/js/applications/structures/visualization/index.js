@@ -47,12 +47,12 @@ export const StructureView = ({secondLang, structure, publish, serverSideError})
 							<li>
 								{D1.idTitle} : {structure.identifiant}
 							</li>
-							<li>
+							{structure.created && (<li>
 								{D1.createdDateTitle} : {DateUtils.stringToDate(structure.created)}
-							</li>
-							<li>
+							</li>)}
+							{(structure.modified && <li>
 								{D1.modifiedDateTitle} : {DateUtils.stringToDate(structure.modified)}
-							</li>
+							</li>)}
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
 								<PublicationFemale object={structure} />

@@ -83,14 +83,12 @@ export const CodeListPartialDetailView = ({
 										{codelist.parentLabel}
 									</Link>
 								</li>
-								<li>
-									{D.createdDateTitle} :{' '}
-									{DateUtils.stringToDate(codelist.created)}
-								</li>
-								<li>
-									{D.modifiedDateTitle} :{' '}
-									{DateUtils.stringToDate(codelist.modified)}
-								</li>
+								{codelist.created && (<li>
+									{D1.createdDateTitle} : {DateUtils.stringToDate(codelist.created)}
+								</li>)}
+								{(codelist.modified && <li>
+									{D1.modifiedDateTitle} : {DateUtils.stringToDate(codelist.modified)}
+								</li>)}
 								<li>
 									{D.codelistValidationStatusTitle} :{' '}
 									<PublicationFemale object={codelist} />

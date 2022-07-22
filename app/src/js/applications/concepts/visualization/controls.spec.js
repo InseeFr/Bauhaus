@@ -9,9 +9,9 @@ describe('concept-visualization-controls', () => {
 			<ConceptVisualizationControls
 				id="id"
 				creator="creator"
-				isValidated="false"
+				isValidated={false}
 				conceptVersion="1"
-				handleValidation={() => console.log('validate')}
+				handleValidation={jest.fn()}
 				permission={{ authType: '', roles: [''] }}
 			/>,
 			{ wrapper: MemoryRouter }

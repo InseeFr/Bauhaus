@@ -23,6 +23,9 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 							{Object.keys(mapping).map(fieldName => {
 								if (attr.hasOwnProperty(fieldName) && attr[fieldName] !== '') {
 									if (fieldName === 'created' || fieldName === 'modified') {
+										if(!attr[fieldName]){
+											return null;
+										}
 										return (
 											<li key={fieldName}>{`${
 												mapping[fieldName]
