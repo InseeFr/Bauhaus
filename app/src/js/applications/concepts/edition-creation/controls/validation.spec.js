@@ -15,7 +15,6 @@ describe('second without first', () => {
 });
 
 describe('validate', () => {
-	it('should return undefined', () => {});
 	it('should return duplicatedLabel', () => {
 		expect(
 			validate(

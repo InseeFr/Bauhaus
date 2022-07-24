@@ -3,7 +3,7 @@
 const id = Math.round(new Date().getTime() / 1000).toString();
 
 const keepAliveJsonFilename = "OidcKeepAliveServiceWorker.json";
-const handleInstall = (event) => {
+const handleInstall = () => {
     console.log('[OidcServiceWorker] service worker installed ' + id);
     self.skipWaiting();
 };
@@ -61,7 +61,7 @@ function hideTokens(currentDatabaseElement) {
 
 const getCurrentDatabasesTokenEndpoint = (database, url) => {
     const databases = [];
-    for (const [key, value] of Object.entries(database)) {
+    for (const [_key, value] of Object.entries(database)) {
         if(value && value.oidcServerConfiguration !=null && url.startsWith(value.oidcServerConfiguration.tokenEndpoint)){
             databases.push(value);
         }
