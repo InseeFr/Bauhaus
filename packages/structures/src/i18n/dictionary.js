@@ -27,6 +27,10 @@ const dictionary = {
 		fr: 'Statut de diffusion',
 		en: 'Diffusion status',
 	},
+	btnCancel: {
+		fr: 'Annuler',
+		en: 'Cancel',
+	},
 	creatorTitle: {
 		fr: 'Propriétaire',
 		en: 'Owner',
