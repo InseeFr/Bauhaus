@@ -11,12 +11,12 @@
 export default function describeHandlers(fields) {
 	// `setState` will be assigned with the returned function
 	let futureSetState;
-	const handlers = fields.reduce((handlers, field) => {
+	const handlersValue = fields.reduce((handlers, field) => {
 		handlers[field] = value => futureSetState({ [field]: value });
 		return handlers;
 	}, {});
 	return setState => {
 		futureSetState = setState;
-		return handlers;
+		return handlersValue;
 	};
 }
