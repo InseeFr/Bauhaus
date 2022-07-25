@@ -23,7 +23,9 @@ const Components = ({ componentDefinitions = []}) => {
 	}, []);
 
 	useEffect(() => {
-		getFormattedCodeList().then(res => setCodesLists(res));
+		getFormattedCodeList().then(res => {
+			setCodesLists(res)
+		});
 	}, []);
 
 	const handleSpecificationClick = useCallback(component => {

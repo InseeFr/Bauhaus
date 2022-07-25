@@ -10,8 +10,8 @@ describe('concept-edition-creation-controls-layout', () => {
 				message="message"
 				saveEnabled={false}
 				conceptsWithLinks={[]}
-				handleSave={() => console.log('validate')}
-				redirectCancel={() => {}}
+				handleSave={jest.fn()}
+				redirectCancel={jest.fn()}
 			/>,
 			{ wrapper: MemoryRouter }
 		);

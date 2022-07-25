@@ -33,7 +33,7 @@ describe('classification-home', () => {
 					classificationId={'classificationId'}
 					langs={langs}
 					secondLang={false}
-					publish={() => {}}
+					publish={jest.fn()}
 					serverSideError={''}
 				/>
 			</Provider>,
