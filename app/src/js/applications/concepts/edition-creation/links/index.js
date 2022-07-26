@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tabs, Tab } from 'react-bootstrap';
+import { Tab, Tabs } from 'react-bootstrap';
 import { D1 } from 'js/i18n';
 import ConceptToLink from './concept-to-link';
 import SearchConceptsByLabel from './search-concepts-by-label';
 import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
-import { AddLogo, DelLogo, PickerItem, filterDeburr } from '@inseefr/wilco';
+import { AddLogo, DelLogo, filterDeburr, PickerItem } from '@inseefr/wilco';
 
-import {
-	BROADER,
-	NARROWER,
-	REFERENCES,
-	SUCCEED,
-	RELATED,
-	NONE,
-	CLOSE_MATCH
-} from 'js/constants';
+import { BROADER, CLOSE_MATCH, NARROWER, NONE, REFERENCES, RELATED, SUCCEED } from 'js/constants';
 import { EquivalentLinks } from './equivalentLinks';
 
 const linkTypes = [
@@ -74,29 +66,25 @@ class LinksEdition extends Component {
 			});
 
 		this.addMember = id => {
-			//avoid mutating the array
-			const conceptsWithLinks = this.state.conceptsWithLinks.map(concept => {
+			this.updateConceptsWithLinks(this.state.conceptsWithLinks.map(concept => {
 				if (concept.id === id)
 					return {
 						...concept,
 						typeOfLink: this.getActualType(),
 					};
 				return concept;
-			});
-			this.updateConceptsWithLinks(conceptsWithLinks);
+			}));
 		};
 
 		this.removeMember = id => {
-			//avoid mutating the initial array
-			const conceptsWithLinks = this.state.conceptsWithLinks.map(concept => {
+			this.updateConceptsWithLinks(this.state.conceptsWithLinks.map(concept => {
 				if (concept.id === id)
 					return {
 						...concept,
 						typeOfLink: NONE,
 					};
 				return concept;
-			});
-			this.updateConceptsWithLinks(conceptsWithLinks);
+			}));
 		};
 
 		this.updateConceptsWithLinks = conceptsWithLinks => {
@@ -121,9 +109,11 @@ class LinksEdition extends Component {
 		};
 		this.getActualType = () => linkTypes[this.state.activeTab].memberType;
 	}
+
 	updateEquivalentLinks = (links) => {
-		this.props.handleChangeEquivalentLinks(links)
-	}
+		this.props.handleChangeEquivalentLinks(links);
+	};
+
 	render() {
 		const { searchLabel, activeTab } = this.state;
 		const { members, hits } = this.getMembersAndHits();
@@ -167,15 +157,15 @@ class LinksEdition extends Component {
 								searchComponent={searchComponent}
 							/>
 						) :
-						<EquivalentLinks links={this.props.equivalentLinks} updateEquivalentLinks={this.updateEquivalentLinks}/>
+						<EquivalentLinks links={this.props.equivalentLinks} updateEquivalentLinks={this.updateEquivalentLinks} />
 				}
 			</Tab>
 		));
 
 		return (
-			<ul className="nav nav-tabs nav-justified">
+			<ul className='nav nav-tabs nav-justified'>
 				<Tabs
-					id="kindOfLink"
+					id='kindOfLink'
 					activeKey={activeTab}
 					onSelect={this.handleSelectTab}
 					justified
