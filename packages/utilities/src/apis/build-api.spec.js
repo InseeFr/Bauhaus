@@ -57,7 +57,7 @@ describe('build call', () => {
 describe('build api', () => {
 	it('takes an object and returns an object with the same properties', () => {
 		expect(
-			buildApi('http://localhost:8080', { getSomething: () => {} })
+			buildApi('http://localhost:8080', { getSomething: jest.fn() })
 		).toHaveProperty('getSomething');
 	});
 	buildApi('http://localhost:8080', { getSomething: () => ['people'] });

@@ -11,7 +11,7 @@ describe('AuthDumb', () => {
 				fallback={'fallback'}
 				userRoles={['roles']}
 				roles={['roles1']}
-				loadUserStamp={() => {}}
+				loadUserStamp={jest.fn()}
 			>Children</AuthDumb>);
 		expect(container.innerHTML).toEqual('fallback');
 	});
@@ -22,7 +22,7 @@ describe('AuthDumb', () => {
 				fallback={'fallback'}
 				userRoles={['roles']}
 				roles={['roles']}
-				loadUserStamp={() => {}}
+				loadUserStamp={jest.fn()}
 			>Children</AuthDumb>);
 		expect(container.innerHTML).toEqual('Children');
 	});
@@ -34,7 +34,7 @@ describe('AuthDumb', () => {
 				fallback={'fallback'}
 				userRoles={['roles']}
 				roles={[['roles', () => true]]}
-				loadUserStamp={() => {}}
+				loadUserStamp={jest.fn()}
 			>Children</AuthDumb>);
 		expect(container.innerHTML).toEqual('Children');
 	});
@@ -46,7 +46,7 @@ describe('AuthDumb', () => {
 				fallback={'fallback'}
 				userRoles={['roles']}
 				roles={[['roles', () => false]]}
-				loadUserStamp={() => {}}
+				loadUserStamp={jest.fn()}
 			>Children</AuthDumb>);
 		expect(container.innerHTML).toEqual('fallback');
 	});

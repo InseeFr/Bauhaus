@@ -115,3 +115,8 @@ footer {
 	top: 0;
 	z-index: 100;
 }
+
+.DraftEditor-root {
+	max-height: 100px;
+	overflow: scroll;
+}

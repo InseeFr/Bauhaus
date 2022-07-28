@@ -190,10 +190,10 @@ describe('<StructureComponentsSelector />', () => {
 					componentDefinitions={components}
 					concepts={concepts}
 					codesLists={codesLists}
-					handleRemove={() => {}}
-					handleUp={() => {}}
-					handleDown={() => {}}
-					handleCodesListDetail={() => {}}
+					handleRemove={jest.fn()}
+					handleUp={jest.fn()}
+					handleDown={jest.fn()}
+					handleCodesListDetail={jest.fn()}
 				/>
 			</Provider>
 		);
@@ -219,7 +219,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={handleRemove}
 					handleUp={handleUp}
 					handleDown={handleDown}
-					handleCodesListDetail={() => {}}
+					handleCodesListDetail={jest.fn()}
 				/>
 			</Provider>
 		);
@@ -241,7 +241,7 @@ describe('<StructureComponentsSelector />', () => {
 					handleRemove={handleRemove}
 					handleUp={handleUp}
 					handleDown={handleDown}
-					handleCodesListDetail={() => {}}
+					handleCodesListDetail={jest.fn()}
 				/>
 			</Provider>
 		);

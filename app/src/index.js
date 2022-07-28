@@ -9,7 +9,6 @@ import D from 'js/i18n';
 import ApplicationTitle from 'js/applications/shared/application-title';
 import { AppContext } from 'bauhaus-utilities';
 import '@inseefr/wilco/dist/index.css';
-import '@inseefr/iam/dist/index.css';
 import 'bauhaus-operations/dist/index.css';
 import 'bauhaus-structures/dist/index.css';
 import 'bauhaus-utilities/dist/index.css';
