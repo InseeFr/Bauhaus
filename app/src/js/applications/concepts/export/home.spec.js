@@ -8,7 +8,7 @@ describe('concept-export', () => {
 		render(
 			<ExportConcept
 				concepts={[]}
-				handleExportConceptList={(a, b) => console.log('export')}
+				handleExportConceptList={jest.fn()}
 			/>,
 			{ wrapper: MemoryRouter }
 		);

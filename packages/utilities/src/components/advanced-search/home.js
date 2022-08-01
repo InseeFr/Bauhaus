@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { PageTitle, Pagination, NumberResult } from '@inseefr/wilco';
+import { PageTitle, NumberResult } from '@inseefr/wilco';
+import Pagination from '../pagination';
 import AdvancedSearchControls from '../advanced-search/controls';
 const AdvancedSearchList = ({
 	title,
