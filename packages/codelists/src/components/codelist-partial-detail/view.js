@@ -13,7 +13,6 @@ import {
 import {
 	HTMLUtils,
 	ValidationButton,
-	DateUtils,
 	PublicationFemale,
 	useTitle,
 	ConfirmationDelete, CreationUpdateItems,
