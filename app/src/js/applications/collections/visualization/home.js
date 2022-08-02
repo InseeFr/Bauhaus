@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { PropTypes } from 'prop-types';
 import { PageTitle, PageSubtitle } from '@inseefr/wilco';
 import CollectionVisualizationControls from './controls';
@@ -10,51 +10,45 @@ import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permissi
 import { CheckSecondLang, withTitle } from 'bauhaus-utilities';
 import D from 'js/i18n';
 
-class CollectionVisualization extends Component {
-	constructor(props) {
-		super(props);
-		this.handleClickValid = () => {
-			this.props.validateCollection(this.props.id);
-		};
-	}
+const CollectionVisualization = ({ id, permission, general, members, secondLang, langs, validateCollection }) => {
+	const { isValidated, creator } = general;
 
-	render() {
-		const { id, permission, general, members, secondLang, langs } = this.props;
-		const { isValidated, creator } = general;
+	const handleClickValid = () => {
+		validateCollection(id);
+	};
 
-		return (
-			<div>
-				<div className="container">
-					<PageTitle title={general.prefLabelLg1} />
-					{secondLang && general.prefLabelLg2 && (
-						<PageSubtitle subTitle={general.prefLabelLg2} />
-					)}
-					<CollectionVisualizationControls
-						id={id}
-						permission={permission}
-						creator={creator}
-						isValidated={isValidated === 'true'}
-						handleValidation={this.handleClickValid}
-					/>
-					<CheckSecondLang />
-					<CollectionGeneral
-						attr={general}
-						secondLang={secondLang}
-						langs={langs}
-					/>
-					<CollectionMembers
-						members={members}
-						secondLang={secondLang}
-						langs={langs}
-					/>
-				</div>
+	return (
+		<div>
+			<div className="container">
+				<PageTitle title={general.prefLabelLg1} />
+				{secondLang && general.prefLabelLg2 && (
+					<PageSubtitle subTitle={general.prefLabelLg2} />
+				)}
+				<CollectionVisualizationControls
+					id={id}
+					permission={permission}
+					creator={creator}
+					isValidated={isValidated === 'true'}
+					handleValidation={handleClickValid}
+				/>
+				<CheckSecondLang />
+				<CollectionGeneral
+					attr={general}
+					secondLang={secondLang}
+					langs={langs}
+				/>
+				<CollectionMembers
+					members={members}
+					secondLang={secondLang}
+					langs={langs}
+				/>
 			</div>
-		);
-	}
+		</div>
+	);
 }
 
 CollectionVisualization.propTypes = {
-	id: PropTypes.string, // not available for creation
+	id: PropTypes.string,
 	permission: permissionOverviewPropTypes.isRequired,
 	secondLang: PropTypes.bool.isRequired,
 	general: generalPropTypes.isRequired,
