@@ -13,7 +13,7 @@ import { typeUriToLabel, getAllAttachment, getDisseminationStatus } from '../../
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
-import { HTMLUtils, ValidationButton, DateUtils, PublicationMale,useTitle } from 'bauhaus-utilities';
+import { HTMLUtils, ValidationButton, CreationUpdateItems, PublicationMale,useTitle } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 import "./view.scss";
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
@@ -27,6 +27,9 @@ export const canBeDeleted = (component) => {
 		!forbidden.includes(component.validationState)
 	);
 };
+
+
+
 export const ComponentDetailView = ({
 	component,
 	concepts,
@@ -95,12 +98,7 @@ export const ComponentDetailView = ({
 							<li>
 								{D1.idTitle} : {component.identifiant}
 							</li>
-							{component.created && (<li>
-								{D.createdDateTitle} : {DateUtils.stringToDate(component.created)}
-							</li>)}
-							{(component.modified && <li>
-								{D.modifiedDateTitle} : {DateUtils.stringToDate(component.modified)}
-							</li>)}
+							<CreationUpdateItems creation={component.created} update={component.modified} />
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
 								<PublicationMale object={component} />

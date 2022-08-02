@@ -255,10 +255,6 @@ const dictionary = {
 		fr: 'Informations générales',
 		en: 'General information',
 	},
-	createdDateTitle: {
-		fr: 'Date de création',
-		en: 'Creation date',
-	},
 	modifiedDateTitle: {
 		fr: 'Date de modification',
 		en: 'Modification date',
