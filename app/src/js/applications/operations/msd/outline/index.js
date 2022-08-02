@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { toggleOpen, isOpen } from 'js/applications/operations/msd/utils';
-import { HashLink as Link } from 'react-router-hash-link';
 import OutlineBlock from 'js/applications/operations/msd/outline/outline-block';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
 
 import './style.scss';
+import { OutlineButtonWithScroll } from './outline-button-with-scroll';
 
 const Outline = ({ storeCollapseState, metadataStructure, baseUrl = '/operations/help/', disableSectionAnchor }) => {
 	const [opened, setOpened] = useState(storeCollapseState && isOpen(metadataStructure.idMas));
@@ -18,14 +18,10 @@ const Outline = ({ storeCollapseState, metadataStructure, baseUrl = '/operations
 	return (
 		<li>
 			<div className="msd__outline-primary-item">
-				<Link
-					to={`${baseUrl}${
-						disableSectionAnchor ? '' : metadataStructure.idMas
-					}#${metadataStructure.idMas}`}
-				>
+				<OutlineButtonWithScroll id={metadataStructure.idMas} baseUrl={`${baseUrl}${disableSectionAnchor ? '' : metadataStructure.idMas}`}>
 					{metadataStructure.idMas} -{' '}
 					{metadataStructure.masLabelBasedOnCurrentLang}
-				</Link>
+				</OutlineButtonWithScroll>
 
 				{Object.keys(metadataStructure.children).length > 0 && (
 					<button

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { HashLink as Link } from 'react-router-hash-link';
 import { toggleOpen, isOpen } from 'js/applications/operations/msd/utils';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
+import { OutlineButtonWithScroll } from './outline-button-with-scroll';
 
 export const OutlineBlock = ({ secondary, parent, baseUrl, disableSectionAnchor = false, children }) => {
 	const [childrenDictionary, setChildrenDictionary] = useState(Object.keys(children).reduce((acc, childId) => {
@@ -35,6 +35,7 @@ export const OutlineBlock = ({ secondary, parent, baseUrl, disableSectionAnchor 
 			{childrenArray.map((child) => {
 				return (
 					<li key={child.idMas} className="help-item">
+						<div className="msd__item-buttons">
 						{Object.keys(child.children).length > 0 && (
 							<button
 								className="msd__item-updown"
@@ -49,14 +50,10 @@ export const OutlineBlock = ({ secondary, parent, baseUrl, disableSectionAnchor 
 									/>
 							</button>
 						)}
-						<Link
-							smooth
-							to={`${baseUrl}${disableSectionAnchor ? '' : parent}#${
-								child.idMas
-							}`}
-						>
+						<OutlineButtonWithScroll id={child.idMas} baseUrl={`${baseUrl}${disableSectionAnchor ? '' : parent}`}>
 							{child.idMas} - {child.masLabelBasedOnCurrentLang}
-						</Link>
+						</OutlineButtonWithScroll>
+						</div>
 						{child.opened && (
 							<OutlineBlock
 								children={child.children}
