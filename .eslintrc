@@ -5,7 +5,7 @@
 		"plugin:testing-library/react",
 		"plugin:jest-dom/recommended"
 	],
-	"plugins": ["react-hooks", "testing-library", "jest-dom"],
+	"plugins": ["testing-library", "jest-dom"],
 	"rules": {
 		"jsx-a11y/href-no-hash": 0,
 		"no-useless-escape": "off",
