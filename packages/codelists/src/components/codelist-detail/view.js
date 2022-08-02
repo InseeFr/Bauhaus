@@ -80,7 +80,7 @@ export const CodeListDetailView = ({
 								<li>
 									{D.idTitle} : {codelist.id}
 								</li>
-								<CreationUpdateItems creation={codeList.created} update={codelist.modified} />
+								<CreationUpdateItems creation={codelist.created} update={codelist.modified} />
 								<li>
 									{D.codelistValidationStatusTitle} :{' '}
 									<PublicationFemale object={codelist} />
