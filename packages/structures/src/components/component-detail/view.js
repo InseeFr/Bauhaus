@@ -6,18 +6,18 @@ import {
 	ReturnButton,
 	DeleteButton,
 	ErrorBloc
-
 } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
 import { typeUriToLabel, getAllAttachment, getDisseminationStatus } from '../../utils';
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { ATTRIBUTE_TYPE } from '../../utils/constants/dsd-components';
-import { HTMLUtils, ValidationButton, CreationUpdateItems, PublicationMale,useTitle } from 'bauhaus-utilities';
+import { ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
+import { HTMLUtils, ValidationButton, CreationUpdateItems, PublicationMale,useTitle, Row } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 import "./view.scss";
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from 'bauhaus-codelists'
+import api from '../../apis/structure-api';
 
 export const canBeDeleted = (component) => {
 	const withoutStructuresUsingThisComponent = !component.structures || component.structures?.length === 0
@@ -28,7 +28,55 @@ export const canBeDeleted = (component) => {
 	);
 };
 
+export const MeasureAttributeCodeValue = ({ value, attribute, codesLists }) => {
+	const [codesList, setCodesList] = useState();
+	const codeListNotation = codesLists.find(cl => cl.id === attribute.codeList)?.notation;
 
+	useEffect(() => {
+		API.getCodelist(codeListNotation).then(cl => setCodesList(cl))
+	}, [codeListNotation])
+
+	if(!codesList){
+		return null;
+	}
+
+	const code = codesList.codes.find(c => c.iri === value);
+	return <React.Fragment>{ code?.labelLg1 }</React.Fragment>
+};
+
+export const MeasureAttributeValue = ({ value, attribute, codesLists }) => {
+	if(attribute.range === XSD_CODE_LIST){
+		return <MeasureAttributeCodeValue value={value} attribute={attribute} codesLists={codesLists}/>
+	}
+	return <React.Fragment>{ value }</React.Fragment>
+}
+export const MeasureAttribute = ({ attribute, value, attributes, codesLists }) => {
+	const attributeId = attributes.find(a => a.iri === attribute)?.id
+	const [fullAttribute, setFullAttribute] = useState();
+
+	useEffect(() => {
+		api.getMutualizedComponent(attributeId).then(body => setFullAttribute(body))
+	}, [attributeId]);
+
+	if(!fullAttribute){
+		return null;
+	}
+
+	return <React.Fragment>{fullAttribute?.labelLg1}: <MeasureAttributeValue value={value} attribute={fullAttribute} codesLists={codesLists}/></React.Fragment>
+}
+export const MeasureAttributes = ({ measure, attributes, codesLists }) => {
+	const measureAttributes = Object.keys(measure).filter(key => key.indexOf("attribute_") === 0).map(key => {
+		const index = key.substr(key.indexOf("_") + 1);
+		return [measure["attribute_" + index], measure["attributeValue_" + index]]
+	})
+	return (
+		<ul>
+			{
+				measureAttributes.map(([ key, value ]) => <li key={key}><MeasureAttribute attribute={key} value={value} attributes={attributes} codesLists={codesLists}/></li>)
+			}
+		</ul>
+	)
+}
 
 export const ComponentDetailView = ({
 	component,
@@ -43,7 +91,8 @@ export const ComponentDetailView = ({
 	structureComponents,
 	col = 3,
 	publishComponent,
-	serverSideError
+	serverSideError,
+	attributes
 }) => {
 	useTitle(D.componentTitle, component?.labelLg1)
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
@@ -60,8 +109,8 @@ export const ComponentDetailView = ({
 	)?.label;
 
 	const fullCodeLists = [...codesLists, ...partialCodesLists.map(l => ({ id: l.uri, label: l.labelLg1, notation: l.id}))]
-	const codeListValue = fullCodeLists.find((concept) =>
-		component.codeList?.toString() === concept.id?.toString()
+	const codeListValue = fullCodeLists.find((codelist) =>
+		component.codeList?.toString() === codelist.id?.toString()
 	)?.label;
 
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
@@ -198,6 +247,14 @@ export const ComponentDetailView = ({
 					/>
 				)}
 			</div>
+			{component.type === MEASURE_PROPERTY_TYPE && <Row>
+				<Note
+					text={<MeasureAttributes measure={component} attributes={attributes} codesLists={codesLists}/>}
+					title={D1.Attribute}
+					alone={true}
+					allowEmpty={true}
+				/>
+			</Row>}
 			{mutualized && component.structures?.length > 0 && (
 				<div className="row">
 					<Note

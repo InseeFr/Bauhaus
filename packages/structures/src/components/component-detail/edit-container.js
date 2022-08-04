@@ -19,6 +19,7 @@ const EditContainer = props => {
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState([]);
 	const [serverSideError, setServerSideError] = useState('');
+	const [attributes, setAttributes] = useState([]);
 
 	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
 
@@ -59,11 +60,13 @@ const EditContainer = props => {
 			: Promise.resolve({});
 		Promise.all([
 			getComponent,
+			api.getMutualizedAttributes(),
 			ConceptsAPI.getConceptList(),
 			getFormattedCodeList(),
 		])
-			.then(([component, concepts, codesLists]) => {
+			.then(([component, attributes, concepts, codesLists]) => {
 				setComponent(component);
+				setAttributes(attributes)
 				setConcepts(concepts);
 				setCodesLists(codesLists);
 			})
@@ -88,6 +91,7 @@ const EditContainer = props => {
 			handleSave={handleSave}
 			mutualized={true}
 			stampListOptions={stampListOptions}
+			attributes={attributes}
 			serverSideError={serverSideError}
 			type={type === "ALL" ? undefined : type}
 		/>

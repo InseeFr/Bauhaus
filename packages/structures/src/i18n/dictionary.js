@@ -131,6 +131,10 @@ const dictionary = {
 		fr: 'Mesure',
 		en: 'Measure',
 	},
+	Value: {
+		fr: 'Valeur',
+		en: 'Value',
+	},
 	AttributePlural: {
 		fr: 'Attributs',
 		en: 'Attributes',
