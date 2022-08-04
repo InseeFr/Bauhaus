@@ -3,10 +3,13 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './routes';
 import bauhausLogo from 'img/logo_noir.svg';
 import { getEnvVar } from 'js/utils/env';
+import D from 'js/i18n';
 
 import 'react-app-polyfill/stable';
+import { useSelector } from 'react-redux';
 
 const Root = () => {
+	const authorizationHost = useSelector(state => state.app.properties.authorizationHost);
 	const footer = `${getEnvVar('NAME')} - ${getEnvVar('VERSION')}`;
 	return (
 		<>
@@ -21,6 +24,7 @@ const Root = () => {
 
 					{footer}
 				</p>
+				<p><a target="_blank" href={authorizationHost}>{D.authorizationTitle}</a> </p>
 			</footer>
 		</>
 	);
