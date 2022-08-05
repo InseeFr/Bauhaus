@@ -122,7 +122,7 @@ export const ComponentDetailView = ({
 	const [attachments, setAttachments] = useState([]);
 
 	useEffect(() => {
-		setAttachments(getAllAttachment(structureComponents));
+		setAttachments(getAllAttachment(structureComponents, { component }));
 	}, [structureComponents]);
 
 

@@ -3,18 +3,28 @@ import D from '../../i18n/build-dictionary';
 import { Select } from '@inseefr/wilco';
 import { getAllAttachment } from '../../utils';
 import './component-specification-form.scss';
+import { MEASURE_PROPERTY_TYPE } from '../../utils/constants';
+import Api from '../../apis/structure-api';
 
 export const ComponentSpecificationForm = ({
 	structureComponents,
+	selectedComponent,
 	component,
 	onChange,
 	disabled = false,
 }) => {
 	const [attachments, setAttachments] = useState([]);
 	useEffect(() => {
-		setAttachments(getAllAttachment(structureComponents));
 	}, [structureComponents]);
 
+	useEffect(() => {
+		Promise.all(structureComponents
+			.filter(c => c.component.type === MEASURE_PROPERTY_TYPE)
+			.map(measure => Api.getMutualizedComponent(measure.component.id)))
+			.then(measures => {
+				setAttachments(getAllAttachment(measures, selectedComponent));
+			})
+	}, [])
 	return (
 		<React.Fragment>
 			<div className="row bauhaus-component-specification-form">
