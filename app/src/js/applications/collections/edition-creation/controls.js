@@ -11,9 +11,8 @@ import D from 'js/i18n';
 import { ArrayUtils } from 'bauhaus-utilities';
 import { propTypes as generalPropTypes } from 'js/utils/collections/general';
 
-function CollectionEditionCreationControls({
+function Controls({
 	general,
-	creation,
 	collectionList,
 	initialId,
 	initialPrefLabelLg1,
@@ -51,10 +50,10 @@ function CollectionEditionCreationControls({
 	);
 }
 
-CollectionEditionCreationControls.propTypes = {
+Controls.propTypes = {
 	general: generalPropTypes.isRequired,
 	handleSave: PropTypes.func.isRequired,
 	redirectCancel: PropTypes.func.isRequired,
 };
 
-export default CollectionEditionCreationControls;
+export default Controls;

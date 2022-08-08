@@ -1,5 +1,4 @@
 import React  from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Root from 'js/router';
 import configureStore from 'js/store/configure-store';
@@ -13,6 +12,7 @@ import 'bauhaus-operations/dist/index.css';
 import 'bauhaus-structures/dist/index.css';
 import 'bauhaus-utilities/dist/index.css';
 import 'bauhaus-codelists/dist/index.css';
+import { createRoot } from 'react-dom/client';
 
 import 'main.scss';
 
@@ -51,7 +51,10 @@ const renderApp = (Component, initState, props) => {
 			error: false,
 		},
 	});
-	ReactDOM.render(
+
+	const container = document.getElementById('root');
+	const root = createRoot(container);
+	root.render(
 		<Provider store={store}>
 			<AppContext.Provider value={{ lg1, lg2 }}>
 				<I18NContext.Provider value={D}>
@@ -62,7 +65,6 @@ const renderApp = (Component, initState, props) => {
 					</main>
 				</I18NContext.Provider>
 			</AppContext.Provider>
-		</Provider>,
-		document.getElementById('root')
+		</Provider>
 	);
 };

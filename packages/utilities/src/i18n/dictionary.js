@@ -79,6 +79,14 @@ const dictionary = {
 	itemPerPagePlaceholder: {
 		fr: 'Nombre d\'éléments par page',
 		en: 'Number of elements per page'
-	}
+	},
+	createdDateTitle: {
+		fr: 'Date de création',
+		en: 'Creation date',
+	},
+	modifiedDateTitle: {
+		fr: 'Date de modification',
+		en: 'Modification date',
+	},
 };
 export default dictionary;

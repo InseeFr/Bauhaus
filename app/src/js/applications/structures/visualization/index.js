@@ -6,9 +6,8 @@ import {
 	CheckSecondLang,
 	Stores,
 	PageTitleBlock,
-	DateUtils,
 	PublicationFemale,
-	useTitle
+	useTitle, CreationUpdateItems,
 } from 'bauhaus-utilities';
 import Components from './components';
 import { D1, D2 } from 'js/i18n';
@@ -47,12 +46,7 @@ export const StructureView = ({secondLang, structure, publish, serverSideError})
 							<li>
 								{D1.idTitle} : {structure.identifiant}
 							</li>
-							{structure.created && (<li>
-								{D1.createdDateTitle} : {DateUtils.stringToDate(structure.created)}
-							</li>)}
-							{(structure.modified && <li>
-								{D1.modifiedDateTitle} : {DateUtils.stringToDate(structure.modified)}
-							</li>)}
+							<CreationUpdateItems creation={structure.created} update={structure.modified} />
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
 								<PublicationFemale object={structure} />

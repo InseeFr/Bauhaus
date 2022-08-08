@@ -8,6 +8,7 @@ import './component-specification-modal.scss';
 export const ComponentSpecificationModalBody = ({
 	specification: defaultSpecification,
 	structureComponents,
+	selectedComponent,
 	onClose,
 	onSave,
 	disabled = false,
@@ -30,6 +31,7 @@ export const ComponentSpecificationModalBody = ({
 				<ComponentSpecificationForm
 					onChange={setSpecification}
 					component={specification}
+					selectedComponent={selectedComponent}
 					structureComponents={structureComponents}
 				/>
 			</div>

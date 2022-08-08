@@ -17,6 +17,7 @@ const ViewContainer = (props) => {
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState([]);
 	const [serverSideError, setServerSideError] = useState();
+	const [attributes, setAttributes] = useState([]);
 
 	const handleBack = useCallback(() => {
 		goBack(props, '/structures/components')();
@@ -32,11 +33,13 @@ const ViewContainer = (props) => {
 	useEffect(() => {
 		Promise.all([
 			api.getMutualizedComponent(id),
+			api.getMutualizedAttributes(),
 			ConceptsAPI.getConceptList(),
 			getFormattedCodeList(),
 		])
-			.then(([component, concepts, codesLists]) => {
+			.then(([component, attributes, concepts, codesLists]) => {
 				setComponent(component);
+				setAttributes(attributes);
 				setConcepts(concepts);
 				setCodesLists(codesLists);
 			})
@@ -75,6 +78,7 @@ const ViewContainer = (props) => {
 				publishComponent={publishComponent}
 				serverSideError={serverSideError}
 				secondLang={secondLang}
+				attributes={attributes}
 			/>
 		</React.Fragment>
 	);

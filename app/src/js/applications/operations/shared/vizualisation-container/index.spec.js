@@ -47,7 +47,7 @@ describe('VisualizationContainer', () => {
 			component.setState = jest.fn();
 			const callback = jest
 				.fn()
-				.mockImplementation((object, callback) => callback('error'));
+				.mockImplementation((_object, callback) => callback('error'));
 			const object = { id: '1' };
 			component.publish(object, callback);
 			expect(component.setState).toHaveBeenCalledWith({
@@ -64,7 +64,7 @@ describe('VisualizationContainer', () => {
 			component.setState = jest.fn();
 			const callback = jest
 				.fn()
-				.mockImplementation((object, callback) => callback(null, 'value'));
+				.mockImplementation((_object, callback) => callback(null, 'value'));
 			const object = { id: '1' };
 			component.publish(object, callback);
 			expect(component.setState).not.toHaveBeenCalled();

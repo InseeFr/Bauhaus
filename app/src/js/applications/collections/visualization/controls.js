@@ -86,7 +86,7 @@ const CollectionVisualizationControls = ({
 				closeCancel={() => setDisplayModal(false)}
 			/>
 			<ActionToolbar>
-				{btns.map((btn, i) => {
+				{btns.map((btn) => {
 					if (!btn) return null;
 					const [action, label] = btn;
 					return btn && <Button key={label} action={action} label={label} />;

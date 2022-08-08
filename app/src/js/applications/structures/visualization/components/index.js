@@ -37,6 +37,7 @@ const Components = ({ componentDefinitions = []}) => {
 			{modalOpened && (
 				<ComponentSpecificationModal
 					onClose={() => setModalOpened(false)}
+					selectedComponent={selectedComponent}
 					structureComponents={componentDefinitions}
 					disabled={true}
 					specification={{

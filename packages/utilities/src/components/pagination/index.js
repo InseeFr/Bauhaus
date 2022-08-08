@@ -68,7 +68,6 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 	if (queryParameters !== "") {
 		pathnamePrefix += (queryParameters + "&");
 	}
-
 	const onItemPerPageChange = ({ value }) => {
 		const searchParams = new URLSearchParams(window.location.search);
 		searchParams.set('perPage', value);

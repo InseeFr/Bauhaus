@@ -12,6 +12,7 @@ import {
 } from '../../utils/constants/dsd-components';
 import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
 import { OBSERVATION } from '../../utils/constants';
+import Api from "../../apis/structure-api";
 
 const filterComponentDefinition = (type) => (componentDefinition) =>
 	componentDefinition?.component?.type === type;
@@ -148,23 +149,50 @@ const ComponentSelector = ({
 		]
 	}
 
+	const addComponent = (structureComponents, components) => {
+		const componentsToAdd = Array.isArray(components) ? components: [components];
+		const componentsByType = _groupByType(structureComponents);
+		componentsToAdd.forEach((component, i) => {
+			const newStructureComponent = { component, order: componentsByType[component.type].length + 1 };
+
+			// If the main component added is an attribute, we add the Observation attachment
+			if(component.type === ATTRIBUTE_PROPERTY_TYPE){
+				if(i === 0){
+					newStructureComponent.attachment = [OBSERVATION]
+				} else {
+					// Else this is a linked attribute to a measure
+					newStructureComponent.attachment = [components[0].id]
+				}
+			}
+			componentsByType[component.type].push(newStructureComponent)
+
+		})
+
+		const flatComponents = _makeFlat(componentsByType);
+
+		setStructureComponents(flatComponents);
+		handleUpdate(flatComponents);
+
+		_handleAttributeComponent(componentsToAdd[0]);
+	}
 	const handleAdd = useCallback(
 		(id) => {
-
-			const componentsByType = _groupByType(structureComponents);
 			const component = mutualizedComponents.find((c) => c.identifiant === id);
-			const newStructureComponent = { component, order: componentsByType[component.type].length + 1 };
-			if(component.type === ATTRIBUTE_PROPERTY_TYPE){
-				newStructureComponent.attachment = [OBSERVATION]
+			if(component.type === MEASURE_PROPERTY_TYPE){
+				Api.getMutualizedComponent(component.id).then(fullComponent => {
+					const componentsToAdd = [component];
+					Object.keys(fullComponent).filter(key => key.indexOf("attribute_") === 0).forEach((iri) => {
+						const attribute = mutualizedComponents.find(c => c.iri === fullComponent[iri]);
+						console.log(attribute, iri, mutualizedComponents);
+
+						componentsToAdd.push(attribute);
+					})
+					addComponent(structureComponents, componentsToAdd);
+
+				})
+			} else {
+				addComponent(structureComponents, component);
 			}
-
-			componentsByType[component.type].push(newStructureComponent)
-			const components = _makeFlat(componentsByType);
-
-			setStructureComponents(components);
-			handleUpdate(components);
-
-			_handleAttributeComponent(component);
 		},
 		[handleUpdate, mutualizedComponents, structureComponents]
 	);
@@ -238,6 +266,7 @@ const ComponentSelector = ({
 				<ComponentSpecificationModal
 					onClose={() => setModalOpened(false)}
 					structureComponents={structureComponents}
+					selectedComponent={selectedComponent}
 					specification={{
 						attachment: selectedComponent.attachment,
 						required: selectedComponent.required,

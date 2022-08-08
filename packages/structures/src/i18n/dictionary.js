@@ -131,6 +131,10 @@ const dictionary = {
 		fr: 'Mesure',
 		en: 'Measure',
 	},
+	Value: {
+		fr: 'Valeur',
+		en: 'Value',
+	},
 	AttributePlural: {
 		fr: 'Attributs',
 		en: 'Attributes',
@@ -254,10 +258,6 @@ const dictionary = {
 	globalInformationsTitle: {
 		fr: 'Informations générales',
 		en: 'General information',
-	},
-	createdDateTitle: {
-		fr: 'Date de création',
-		en: 'Creation date',
 	},
 	modifiedDateTitle: {
 		fr: 'Date de modification',

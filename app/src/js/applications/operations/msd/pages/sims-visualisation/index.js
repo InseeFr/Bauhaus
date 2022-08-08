@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import D, { D1 } from 'js/i18n';
+import D from 'js/i18n';
 import api from 'js/remote-api/operations-api';
 import { useHistory } from "react-router-dom";
 import { useDispatch} from 'react-redux';
@@ -24,7 +24,7 @@ import {
 	ValidationButton,
 	CheckSecondLang,
 	PublicationFemale,
-	ConfirmationDelete, DateUtils,
+	ConfirmationDelete, CreationUpdateItems,
 } from 'bauhaus-utilities';
 import {
 	hasLabelLg2,
@@ -57,7 +57,8 @@ export default function SimsVisualisation({
 	const [exportConfig, setExportConfig] = useState({
 		emptyMas: true,
 		lg1: true,
-		lg2: true
+		lg2: true,
+		document: true,
 	})
 
 	function MSDInformations({ msd, firstLevel = false }) {
@@ -188,6 +189,12 @@ export default function SimsVisualisation({
 												 onChange={() => setExportConfig({ ...exportConfig, lg2: !exportConfig.lg2})}/>
 									{D.exportSimsIncludeLg2}</label>
 							</div>
+							<div className='row'>
+								<label className="col-md-offset-1">
+									<input type='checkbox' checked={exportConfig.document}
+												 onChange={() => setExportConfig({ ...exportConfig, document: !exportConfig.document})}/>
+									{D.exportDocument}</label>
+							</div>
 						</div>
 						<div className="modal-footer text-right">
 							<CancelButton col={3} offset={5} action={() => setExportModalOpened(false)} />
@@ -244,34 +251,32 @@ export default function SimsVisualisation({
 				<ExportButton action={() => setExportModalOpened(true)} />
 			</ActionToolbar>
 
-			<ErrorBloc error={serverSideError} />
+			<div>
+				<ErrorBloc error={serverSideError} />
 
-			<CheckSecondLang />
-			<RubricEssentialMsg secondLang={secondLang}/>
+				<CheckSecondLang />
+				<RubricEssentialMsg secondLang={secondLang}/>
 
-			<div className="row">
-				<Note
-					text={
-						<ul>
-							{sims.created && (<li>
-								{D1.createdDateTitle} : {DateUtils.stringToDate(sims.created)}
-							</li>)}
-							{(sims.modified && <li>
-								{D1.modifiedDateTitle} : {DateUtils.stringToDate(sims.modified)}
-							</li>)}
-							<li>
-								{D.simsStatus} : <PublicationFemale object={sims} />
-							</li>
-						</ul>
-					}
-					title={D.globalInformationsTitle}
-					alone={true}
-				/>
+				<div className="row">
+					<Note
+						text={
+							<ul>
+								<CreationUpdateItems creation={sims.created} update={sims.modified} />
+								<li>
+									{D.simsStatus} : <PublicationFemale object={sims} />
+								</li>
+							</ul>
+						}
+						title={D.globalInformationsTitle}
+						alone={true}
+					/>
+				</div>
+
+				{Object.values(metadataStructure).map((msd) => {
+					return <MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />;
+				})}
 			</div>
 
-			{Object.values(metadataStructure).map((msd) => {
-				return <MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />;
-			})}
 		</>
 	);
 }
