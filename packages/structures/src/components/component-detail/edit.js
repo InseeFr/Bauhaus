@@ -47,7 +47,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 				API.getPartialsByParent(list.notation).then(partials => setPartials(partials))
 			}
 		}
-	}, [fullCodeListValue])
+	}, [fullCodeListValue, codesLists, partialCodesLists])
 
 	const codeListOptions = codesLists.map(({ id, label }) => ({
 		value: id,

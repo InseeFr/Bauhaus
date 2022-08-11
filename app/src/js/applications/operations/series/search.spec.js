@@ -214,9 +214,6 @@ describe('<SearchFormList />', () => {
 			</MemoryRouter>
 		);
 
-		const listOptions = container.querySelector(
-			'label[for="dataCollector"] input'
-		);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
 });

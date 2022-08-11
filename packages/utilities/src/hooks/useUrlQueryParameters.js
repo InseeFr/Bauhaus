@@ -16,7 +16,7 @@ export default (defaultValue) => {
 			values[key] = value;
 		}
 		setSearch(values)
-	}, [url])
+	}, [url, defaultValue])
 
 	const reset = () => {
 		history.replace(location.pathname );
