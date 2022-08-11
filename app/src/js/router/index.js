@@ -24,7 +24,7 @@ const Root = () => {
 
 					{footer}
 				</p>
-				<p><a target="_blank" href={authorizationHost}>{D.authorizationTitle}</a> </p>
+				<p><a rel="noreferrer noopener" target="_blank" href={authorizationHost}>{D.authorizationTitle}</a> </p>
 			</footer>
 		</>
 	);

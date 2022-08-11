@@ -3,7 +3,6 @@ import D from '../i18n/build-dictionary';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
 	ATTACHMENTS,
-	MEASURE_PROPERTY_TYPE, ATTRIBUTE_PROPERTY_TYPE,
 } from './constants/';
 
 export const getDisseminationStatus = disseminationStatus => {

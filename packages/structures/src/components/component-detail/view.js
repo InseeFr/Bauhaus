@@ -123,7 +123,7 @@ export const ComponentDetailView = ({
 
 	useEffect(() => {
 		setAttachments(getAllAttachment(structureComponents, { component }));
-	}, [structureComponents]);
+	}, [structureComponents, component]);
 
 
 	const publish = () => {

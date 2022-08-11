@@ -14,8 +14,6 @@ export const ComponentSpecificationForm = ({
 	disabled = false,
 }) => {
 	const [attachments, setAttachments] = useState([]);
-	useEffect(() => {
-	}, [structureComponents]);
 
 	useEffect(() => {
 		Promise.all(structureComponents
@@ -24,7 +22,8 @@ export const ComponentSpecificationForm = ({
 			.then(measures => {
 				setAttachments(getAllAttachment(measures, selectedComponent));
 			})
-	}, [])
+	}, [structureComponents, selectedComponent])
+
 	return (
 		<React.Fragment>
 			<div className="row bauhaus-component-specification-form">

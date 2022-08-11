@@ -149,7 +149,7 @@ const ComponentSelector = ({
 		]
 	}
 
-	const addComponent = (structureComponents, components) => {
+	const addComponent = useCallback((structureComponents, components) => {
 		const componentsToAdd = Array.isArray(components) ? components: [components];
 		const componentsByType = _groupByType(structureComponents);
 		componentsToAdd.forEach((component, i) => {
@@ -174,7 +174,7 @@ const ComponentSelector = ({
 		handleUpdate(flatComponents);
 
 		_handleAttributeComponent(componentsToAdd[0]);
-	}
+	}, [handleUpdate]);
 	const handleAdd = useCallback(
 		(id) => {
 			const component = mutualizedComponents.find((c) => c.identifiant === id);
@@ -194,7 +194,7 @@ const ComponentSelector = ({
 				addComponent(structureComponents, component);
 			}
 		},
-		[handleUpdate, mutualizedComponents, structureComponents]
+		[mutualizedComponents, structureComponents, addComponent]
 	);
 
 	const handleUp = useCallback(
