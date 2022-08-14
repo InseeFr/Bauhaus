@@ -1,4 +1,4 @@
-import { screen, render } from '@testing-library/react';
+import { screen, render, fireEvent } from '@testing-library/react';
 import Representation from './index';
 import React from 'react';
 import { XSD_CODE_LIST, XSD_STRING } from '../../utils/constants';
@@ -21,7 +21,7 @@ describe('Representation', () => {
 		await screen.findByText('String')
 	})
 
-	it('should display a buttun with the codeList', async () => {
+	it('should display a button with the codeList', async () => {
 		const component = {
 			range: XSD_CODE_LIST,
 			codeList: 'id'
@@ -37,6 +37,9 @@ describe('Representation', () => {
 			/>
 		);
 		await screen.findByText('label');
-		await screen.findByRole('button');
+		const button = await screen.findByRole('button');
+
+		fireEvent.click(button)
+		expect(handleCodesListDetail).toHaveBeenCalled()
 	})
 })
