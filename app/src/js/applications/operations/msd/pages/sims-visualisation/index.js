@@ -25,6 +25,7 @@ import {
 	CheckSecondLang,
 	PublicationFemale,
 	ConfirmationDelete, CreationUpdateItems,
+	Row
 } from 'bauhaus-utilities';
 import {
 	hasLabelLg2,
@@ -40,7 +41,6 @@ import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 
 export default function SimsVisualisation({
 	metadataStructure,
-	currentSection,
 	codesLists,
 	sims = {},
 	secondLang,
@@ -251,17 +251,17 @@ export default function SimsVisualisation({
 				<ExportButton action={() => setExportModalOpened(true)} />
 			</ActionToolbar>
 
-			<div>
+			<Row>
 				<ErrorBloc error={serverSideError} />
 
 				<CheckSecondLang />
 				<RubricEssentialMsg secondLang={secondLang}/>
 
-				<div className="row">
+				<Row>
 					<Note
 						text={
 							<ul>
-								<CreationUpdateItems creation={sims.created} update={sims.modified} />
+								<CreationUpdateItems creation={sims.created} update={sims.updated} />
 								<li>
 									{D.simsStatus} : <PublicationFemale object={sims} />
 								</li>
@@ -270,12 +270,12 @@ export default function SimsVisualisation({
 						title={D.globalInformationsTitle}
 						alone={true}
 					/>
-				</div>
+				</Row>
 
 				{Object.values(metadataStructure).map((msd) => {
 					return <MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />;
 				})}
-			</div>
+			</Row>
 
 		</>
 	);
@@ -288,7 +288,6 @@ function shouldDisplayTitleForPrimaryItem(msd) {
 }
 SimsVisualisation.propTypes = {
 	metadataStructure: PropTypes.object.isRequired,
-	currentSection: PropTypes.string,
 	codesLists: PropTypes.object.isRequired,
 	sims: PropTypes.object.isRequired,
 	goBack: PropTypes.func,
