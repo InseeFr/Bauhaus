@@ -44,7 +44,7 @@ const CodelistEdit = (props) => {
 			setSaving(true);
 			setServerSideError('');
 
-			const request = codelist.id ? API.putCodelist : API.postCodelist;
+			const request = id ? API.putCodelist : API.postCodelist;
 
 			request(payload)
 				.then(() => {
