@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import { checkAuth } from 'js/actions/app';
@@ -8,16 +8,14 @@ import {
 	SERIES_CONTRIBUTOR,
 } from 'bauhaus-utilities/src/auth/roles';
 
-class LoginNoAuth extends Component {
-	componentWillMount() {
-		this.props.checkAuth({
+const LoginNoAuth = ({ checkAuth }) => {
+	useEffect(() => {
+		checkAuth({
 			stamp: 'XXXXXX',
 			roles: [ADMIN, SERIES_CONTRIBUTOR, INDICATOR_CONTRIBUTOR],
 		});
-	}
-	render() {
-		return <Loading textType="authentification" />;
-	}
+	}, [checkAuth])
+	return <Loading textType="authentification" />;
 }
 
 const mapDispatchToProps = {
