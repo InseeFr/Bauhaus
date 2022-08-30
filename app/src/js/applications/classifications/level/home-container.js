@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import LevelVisualization from './home';
@@ -10,21 +10,15 @@ import { Stores } from 'bauhaus-utilities';
 const extractClassificationId = buildExtract('classificationId');
 const extractLevelId = buildExtract('levelId');
 
-class LevelVisualizationContainer extends Component {
-	componentWillMount() {
-		const { classificationId, levelId, level } = this.props;
-		if (!level) this.props.loadLevel(classificationId, levelId);
-	}
-	componentWillReceiveProps({ levelId }) {
-		if (levelId !== this.props.levelId) {
-			this.props.loadLevel(this.props.classificationId, levelId);
-		}
-	}
-	render() {
-		const { level, secondLang } = this.props;
-		if (!level) return <Loading />;
-		return <LevelVisualization level={level} secondLang={secondLang} />;
-	}
+const LevelVisualizationContainer = ({ classificationId, levelId, level, loadLevel, secondLang }) => {
+
+	const currentLevelId = level?.id;
+	useEffect(() => {
+		if (currentLevelId !== levelId) loadLevel(classificationId, levelId);
+	}, [currentLevelId, classificationId, levelId, loadLevel])
+
+	if (!level) return <Loading />;
+	return <LevelVisualization level={level} secondLang={secondLang} />;
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -44,11 +38,6 @@ const mapDispatchToProps = {
 	loadLevel,
 };
 
-LevelVisualizationContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(LevelVisualizationContainer);
-
 LevelVisualizationContainer.propTypes = {
 	match: PropTypes.shape({
 		params: PropTypes.shape({
@@ -57,4 +46,7 @@ LevelVisualizationContainer.propTypes = {
 		}),
 	}),
 };
-export default LevelVisualizationContainer;
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(LevelVisualizationContainer);
