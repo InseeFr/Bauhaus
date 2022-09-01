@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import LevelVisualization from './home';
-import { buildExtract, Loading } from '@inseefr/wilco';
+import { Loading } from '@inseefr/wilco';
 import loadLevel from 'js/actions/classifications/level';
 import * as select from 'js/reducers/classifications/level';
 import { Stores } from 'bauhaus-utilities';
+import { useParams } from 'react-router-dom';
 
-const extractClassificationId = buildExtract('classificationId');
-const extractLevelId = buildExtract('levelId');
-
-const LevelVisualizationContainer = ({ classificationId, levelId, level, loadLevel, secondLang }) => {
+const LevelVisualizationContainer = ({ loadLevel }) => {
+	const { classificationId, levelId } = useParams();
+	const level = useSelector(state => select.getLevel(state, classificationId, levelId));
+	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
 
 	const currentLevelId = level?.id;
 	useEffect(() => {
@@ -21,32 +22,14 @@ const LevelVisualizationContainer = ({ classificationId, levelId, level, loadLev
 	return <LevelVisualization level={level} secondLang={secondLang} />;
 }
 
-const mapStateToProps = (state, ownProps) => {
-	const classificationId = extractClassificationId(ownProps);
-	const levelId = extractLevelId(ownProps);
-	const level = select.getLevel(state, classificationId, levelId);
-	const secondLang = Stores.SecondLang.getSecondLang(state);
-	return {
-		classificationId,
-		levelId,
-		level,
-		secondLang,
-	};
-};
-
 const mapDispatchToProps = {
 	loadLevel,
 };
 
 LevelVisualizationContainer.propTypes = {
-	match: PropTypes.shape({
-		params: PropTypes.shape({
-			classificationId: PropTypes.string.isRequired,
-			levelId: PropTypes.string.isRequired,
-		}),
-	}),
+	loadLevel: PropTypes.func.isRequired
 };
 export default connect(
-	mapStateToProps,
+	undefined,
 	mapDispatchToProps
 )(LevelVisualizationContainer);
