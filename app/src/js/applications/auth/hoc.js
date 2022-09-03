@@ -1,7 +1,6 @@
 import React  from 'react';
 import { connect } from 'react-redux';
 import LoginNoAuth from 'js/applications/auth/no-auth/login';
-import LoginBasic from 'js/applications/auth/basic-auth/login-container';
 import LoginOpenIDConnect from 'js/applications/auth/open-id-connect-auth/login-container';
 import * as Impl from 'js/utils/auth/auth-impl';
 import { Auth } from 'bauhaus-utilities';
@@ -15,8 +14,6 @@ const auth = WrappedComponent => {
 		switch (authType) {
 			case Impl.NO_AUTH:
 				return <LoginNoAuth	 />;
-			case Impl.BASIC_AUTH:
-				return <LoginBasic />;
 			default:
 				return <div>Error</div>;
 		}
