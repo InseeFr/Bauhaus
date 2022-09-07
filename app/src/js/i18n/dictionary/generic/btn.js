@@ -67,4 +67,8 @@ export default {
 		fr: 'Supprimer',
 		en: 'Delete',
 	},
+	btnSave: {
+		fr: 'Sauvegarder',
+		en: 'Save',
+	}
 };
