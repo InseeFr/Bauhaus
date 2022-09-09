@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import ClassificationsHome from './home';
 import api from 'js/remote-api/classifications-api';
-import { useQuery } from '@tanstack/react-query'
 
 const ClassificationsHomeContainer = () =>  {
+	const [loading, setLoading] = useState(true);
+	const [classifications, setClassifications] = useState();
 
-	const { isLoading, data: classifications } = useQuery(['classifications'], api.getList)
+	useEffect(() => {
+		api.getList().then(result => setClassifications(result)).finally(() => setLoading(false))
+	}, [])
 
-	if (isLoading) return <Loading />;
+	if (loading) return <Loading />;
 	return <ClassificationsHome classifications={classifications} />;
 }
 

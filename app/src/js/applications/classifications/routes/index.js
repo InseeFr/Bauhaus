@@ -17,7 +17,6 @@ import ClassificationsCorrespondenceContainer from 'js/applications/classificati
 import ClassificationsCorrespondenceAssociationContainer from 'js/applications/classifications/correspondences/association/home-container';
 import D from 'js/i18n';
 import Menu from 'js/applications/classifications/menu';
-import { ClassificationEdition } from '../edition';
 
 export default () => {
 	document.title = 'Bauhaus - ' + D.classificationsTitle;
@@ -54,11 +53,6 @@ export default () => {
 					exact
 					path="/classifications/classification/:id"
 					component={ClassificationContainer}
-				/>
-				<Route
-					exact
-					path="/classifications/classification/:id/modify"
-					component={ClassificationEdition}
 				/>
 				<Route
 					exact

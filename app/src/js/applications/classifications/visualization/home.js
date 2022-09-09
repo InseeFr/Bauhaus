@@ -14,6 +14,7 @@ const ClassificationVisualization = (props) => {
 		classificationId,
 		secondLang,
 		langs,
+		permission,
 		publish,
 		serverSideError,
 	} = props;
@@ -47,6 +48,7 @@ const ClassificationVisualization = (props) => {
 			<Controls
 				classification={general}
 				publish={publish}
+				permission={permission}
 			/>
 			<CheckSecondLang />
 			<ErrorBloc error={serverSideError} />

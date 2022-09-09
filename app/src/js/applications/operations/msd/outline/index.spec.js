@@ -17,6 +17,18 @@ const metadataStructureClosed = {
 };
 
 describe('Outline', () => {
+	it('should display the information', () => {
+		const { container } = render(
+			<Outline
+				metadataStructure={metadataStructureOpened}
+				storeCollapseState
+			/>,
+			{ wrapper: MemoryRouter }
+		);
+		const link = container.querySelector('a');
+		expect(link).toBeDefined();
+		expect(link.href).toContain('/operations/help/1#1');
+	});
 	it('should displayed a collapsed block', () => {
 		const { container } = render(
 			<Outline
@@ -42,7 +54,37 @@ describe('Outline', () => {
 		expect(container.querySelectorAll('.glyphicon-chevron-up').length).toBe(1);
 		expect(container.querySelectorAll('.msd__item').length).toBe(1);
 	});
+	it('should become a collapsed block if we click on the button', () => {
+		const { container } = render(
+			<Outline
+				metadataStructure={metadataStructureClosed}
+				storeCollapseState
+			/>,
+			{ wrapper: MemoryRouter }
+		);
+		expect(container.querySelectorAll('.glyphicon-chevron-down').length).toBe(
+			1
+		);
+		expect(container.querySelectorAll('.msd__item').length).toBe(0);
 
+		fireEvent.click(container.querySelector('button'));
+
+		expect(container.querySelectorAll('.glyphicon-chevron-up').length).toBe(1);
+		expect(container.querySelectorAll('.msd__item').length).toBe(1);
+	});
+	it('should not use anchor', () => {
+		const { container } = render(
+			<Outline
+				disableSectionAnchor
+				metadataStructure={metadataStructureOpened}
+				storeCollapseState
+			/>,
+			{ wrapper: MemoryRouter }
+		);
+		const link = container.querySelector('a');
+		expect(link).toBeDefined();
+		expect(link.href).toContain('/operations/help/#1');
+	});
 
 	it('should not store the collapse status', () => {
 		const { container } = render(

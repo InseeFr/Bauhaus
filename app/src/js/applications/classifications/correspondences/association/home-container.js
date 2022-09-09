@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Loading, buildExtract } from '@inseefr/wilco';
 import AssociationHome from './home';
@@ -10,21 +10,24 @@ import { Stores } from 'bauhaus-utilities';
 const extractCorrespondenceId = buildExtract('correspondenceId');
 const extractAssociationId = buildExtract('associationId');
 
-const AssociationHomeContainer = ({ association, secondLang, langs, correspondenceId, associationId, loadCorrespondenceAssociation }) => {
-	useEffect(() => {
+class AssociationHomeContainer extends Component {
+	componentWillMount() {
+		const { association, correspondenceId, associationId } = this.props;
 		if (!association) {
-			loadCorrespondenceAssociation(correspondenceId, associationId);
+			this.props.loadCorrespondenceAssociation(correspondenceId, associationId);
 		}
-	}, [association, loadCorrespondenceAssociation, correspondenceId, associationId, ])
-
-	if (!association) return <Loading />;
-	return (
-		<AssociationHome
-			association={association}
-			secondLang={secondLang}
-			langs={langs}
-		/>
-	);
+	}
+	render() {
+		const { association, secondLang, langs } = this.props;
+		if (!association) return <Loading />;
+		return (
+			<AssociationHome
+				association={association}
+				secondLang={secondLang}
+				langs={langs}
+			/>
+		);
+	}
 }
 
 const mapStateToProps = (state, ownProps) => {
