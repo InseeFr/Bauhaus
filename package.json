@@ -11,7 +11,7 @@
 		"start": "yarn workspace Bauhaus run start",
 		"build": "yarn workspaces run build",
 		"build-insee": "yarn workspaces run build-insee",
-		"test:coverage": "yarn workspaces run test:coverage --env=jest-environment-jsdom-sixteen",
+		"test:coverage": "yarn workspaces run test:coverage",
 		"pre-push": "yarn workspaces run lint && yarn test:coverage",
 		"generate-entrypoint": "node scripts/generate-entrypoint.js",
 		"prepare": "husky install"
@@ -51,11 +51,13 @@
 	},
 	"dependencies": {
 		"@babel/preset-react": "^7.16.7",
+		"@tanstack/react-query": "^4.2.3",
 		"dompurify": "2.2.9",
-		"jest-environment-jsdom-sixteen": "^1.0.3",
+		"nock": "^13.2.9",
 		"prop-types": "^15.8.1",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
+		"react-hook-form": "^7.34.2",
 		"react-redux": "^7.2.6",
 		"react-router-dom": "5.2.0",
 		"redux": "^4.2.0",

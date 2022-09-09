@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Loading } from '@inseefr/wilco';
 import SeriesHome from './home';
 import api from 'js/remote-api/classifications-api';
+import { useQuery } from '@tanstack/react-query';
 
 const SeriesHomeContainer = () => {
-	const [series, setSeries] = useState([]);
-	const [loading, setLoading] = useState(true);
+	const { isLoading, data: series } = useQuery(['classifications-series'], () => {
+		return api.getSeriesList()
+	});
 
-	useEffect(() => {
-		api.getSeriesList().then(result => setSeries(result)).finally(() => setLoading(false));
-	}, []);
-
-	if(loading){
+	if(isLoading){
 		return <Loading />
 	}
 
