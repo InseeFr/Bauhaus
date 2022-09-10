@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import Outline from './index';
 import { MemoryRouter } from 'react-router-dom';
 jest.mock('js/applications/operations/msd/utils');
