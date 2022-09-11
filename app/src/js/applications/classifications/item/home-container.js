@@ -1,7 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-import React  from 'react';
 import { connect, useSelector } from 'react-redux';
 import ItemVisualization from './home';
 import { Loading } from '@inseefr/wilco';
