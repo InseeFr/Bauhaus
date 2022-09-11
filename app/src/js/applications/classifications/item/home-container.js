@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
 import ItemVisualization from './home';
-import { buildExtract, Loading } from '@inseefr/wilco';
+import { Loading } from '@inseefr/wilco';
 import loadItem from 'js/actions/classifications/item';
 import * as select from 'js/reducers/classifications/item';
 import * as mainSelect from 'js/reducers';
@@ -50,9 +49,7 @@ const mapDispatchToProps = {
 	loadItem,
 };
 
-ItemVisualizationContainer = connect(
+export default connect(
 	undefined,
 	mapDispatchToProps
-)(ItemVisualizationContainer);
-
-export default ItemVisualizationContainer;
+)(ItemVisualizationContainer);;
