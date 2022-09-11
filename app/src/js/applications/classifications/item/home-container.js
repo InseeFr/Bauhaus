@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import ItemVisualization from './home';
-import { Loading } from '@inseefr/wilco';
+import { buildExtract, Loading } from '@inseefr/wilco';
 import loadItem from 'js/actions/classifications/item';
 import * as select from 'js/reducers/classifications/item';
 import * as mainSelect from 'js/reducers';
 import { Stores } from 'bauhaus-utilities';
+
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../remote-api/classifications-api';
@@ -42,17 +43,16 @@ const ItemVisualizationContainer = ({ loadItem }) => {
 	return (
 		<ItemVisualization item={fullItem} secondLang={secondLang} langs={langs} />
 	);
-}
 
-ItemVisualizationContainer.propTypes = {
-	loadItem: PropTypes.func
-};
+}
 
 const mapDispatchToProps = {
 	loadItem,
 };
 
-export default connect(
+ItemVisualizationContainer = connect(
 	undefined,
 	mapDispatchToProps
 )(ItemVisualizationContainer);
+
+export default ItemVisualizationContainer;

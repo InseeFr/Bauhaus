@@ -13,18 +13,8 @@ import 'bauhaus-structures/dist/index.css';
 import 'bauhaus-utilities/dist/index.css';
 import 'bauhaus-codelists/dist/index.css';
 import { createRoot } from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import 'main.scss';
-
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			staleTime: Infinity
-		}
-	}
-})
-
 
 const Error = () => {
 	return (
@@ -65,18 +55,16 @@ const renderApp = (Component, initState, props) => {
 	const container = document.getElementById('root');
 	const root = createRoot(container);
 	root.render(
-		<QueryClientProvider client={queryClient}>
-			<Provider store={store}>
-				<AppContext.Provider value={{ lg1, lg2 }}>
-					<I18NContext.Provider value={D}>
-						<ApplicationTitle />
-						<main>
-							<Component {...props} />
-							<BackToTop />
-						</main>
-					</I18NContext.Provider>
-				</AppContext.Provider>
-			</Provider>
-		</QueryClientProvider>
+		<Provider store={store}>
+			<AppContext.Provider value={{ lg1, lg2 }}>
+				<I18NContext.Provider value={D}>
+					<ApplicationTitle />
+					<main>
+						<Component {...props} />
+						<BackToTop />
+					</main>
+				</I18NContext.Provider>
+			</AppContext.Provider>
+		</Provider>
 	);
 };

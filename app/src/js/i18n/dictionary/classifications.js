@@ -159,18 +159,6 @@ const dictionary = {
 		fr: 'Arbre de la nomenclature',
 		en: 'Classification tree',
 	},
-	additionalMaterialHttp: {
-		fr: 'Le document lié doit être une URL',
-		en: 'Additional material must be an URL',
-	},
-	legalMaterialHttp: {
-		fr: 'Les textes légaux doivent être une URL',
-		en: 'Legal material must be an URL',
-	},
-	homepageHttp: {
-		fr: 'L\'Url de diffusion de la nomenclature doit être une URL',
-		en: 'The Classification diffusion Url must be an URL',
-	},
 };
 
 export default dictionary;

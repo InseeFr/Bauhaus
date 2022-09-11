@@ -46,20 +46,10 @@ const api = {
 	getCorrespondenceAssociation: (correspondenceId, associationId) => [
 		`correspondence/${correspondenceId}/association/${associationId}`,
 	],
-	publishClassification: (id) => [
-		`classification/${id}/validate`,
+	publishClassification: (classification) => [
+		`classification/validate/${classification.id}`,
 		{ method: 'PUT' },
 		(res) => res.text(),
-	],
-	putClassification: (classification) => [
-		`classification/${classification.id}`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(classification),
-		},
-		() => Promise.resolve(classification.id),
 	],
 };
 
