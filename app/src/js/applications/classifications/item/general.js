@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import { Note } from '@inseefr/wilco';
+import { Row } from 'bauhaus-utilities';
 
 export default ({ general, classificationId, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
@@ -16,11 +17,11 @@ export default ({ general, classificationId, secondLang, langs }) => {
 	};
 
 	return (
-		<div className="row">
+		<Row>
 			<Note
 				text={
 					<ul>
-						{Object.keys(mapping).map(fieldName => {
+						{Object.keys(mapping).map((fieldName) => {
 							if (general.hasOwnProperty(fieldName) && general[fieldName]) {
 								if (fieldName === 'broaderLg1') {
 									return (
@@ -71,7 +72,7 @@ export default ({ general, classificationId, secondLang, langs }) => {
 								}
 								if (fieldName === 'altLabelLg1') {
 									return (
-										<li>
+										<li key={fieldName}>
 											{mapping[fieldName]} ({lg1}) :
 											{general.altLabelLg1}
 										</li>
@@ -79,7 +80,7 @@ export default ({ general, classificationId, secondLang, langs }) => {
 								}
 								if (fieldName === 'altLabelLg2') {
 									return (
-										<li>
+										<li key={fieldName}>
 											{mapping[fieldName]} ({lg2}) :
 											{general.altLabelLg2}
 										</li>
@@ -100,6 +101,6 @@ export default ({ general, classificationId, secondLang, langs }) => {
 				alone={true}
 				allowEmpty={true}
 			/>
-		</div>
+		</Row>
 	);
 };

@@ -21,6 +21,16 @@ const api = {
 	getClassificationItemGeneral: (classificationId, itemId) => [
 		`classification/${classificationId}/item/${itemId}`,
 	],
+	putClassificationItemGeneral: (classificationId, itemId, item) => [
+		`classification/${classificationId}/item/${itemId}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(item),
+		},
+		() => Promise.resolve(item.id)
+	],
 	getClassificationItemNotes: (classificationId, itemId, conceptVersion) => [
 		`classification/${classificationId}/item/${itemId}/notes/${conceptVersion}`,
 	],
