@@ -39,6 +39,28 @@ const ClassificationItemEdition = () => {
 
 	const errorMessage = Object.values(errors)?.[0]?.message;
 
+	const formatAndSave = value => {
+		value.altLabels = general.altLabels.map((altLabel) => {
+			const newAltLabel = {
+				...altLabel
+			}
+			if(value['altLabelsLg1_' + altLabel.length]){
+				newAltLabel.shortLabelLg1 = value['altLabelsLg1_' + altLabel.length]
+			}
+			if(value['altLabelsLg2_' + altLabel.length]){
+				newAltLabel.shortLabelLg2 = value['altLabelsLg2_' + altLabel.length]
+			}
+			return newAltLabel;
+		});
+
+		Object.entries(value).forEach(([ key, v]) => {
+			if(key.indexOf("altLabelsLg1_") === 0 || key.indexOf("altLabelsLg2_") === 0){
+				delete value[key]
+			}
+		})
+
+		save({ ...general, ...value})
+	}
 	return (
 		<div className='container editor-container'>
 			<PageTitleBlock
@@ -47,7 +69,7 @@ const ClassificationItemEdition = () => {
 				secondLang={true}
 			/>
 
-			<form onSubmit={handleSubmit(value => save({ ...general, ...value}))}>
+		<form onSubmit={handleSubmit(value => formatAndSave(value))}>
 				<ActionToolbar>
 					<div className='col-md-2'>
 						<button onClick={goBack({ history }, '/classifications')} className='btn wilco-btn btn-lg col-md-12'
@@ -117,6 +139,37 @@ const ClassificationItemEdition = () => {
 						/>
 					</div>
 				</Row>
+
+
+				{ general.altLabels.map(({ length, shortLabelLg1, shortLabelLg2}, index) => {
+					return (
+						<Row key={index}>
+							<div className="form-group col-md-6">
+								<label htmlFor={'altLabelsLg1_' + length}>{D1.classificationItemAltLabels(length)}</label>
+								<input
+									type="text"
+									className="form-control"
+									id={'altLabelsLg1_' + length}
+									{...register('altLabelsLg1_' + length)}
+									defaultValue={shortLabelLg1}
+								/>
+							</div>
+							{
+								shortLabelLg2 && (<div className="form-group col-md-6">
+									<label htmlFor={'altLabelsLg2_' + length}>{D2.classificationItemAltLabels(length)}</label>
+									<input
+										type="text"
+										className="form-control"
+										id={'altLabelsLg2_' + length}
+										{...register('altLabelsLg2_' + length)}
+										defaultValue={shortLabelLg2}
+									/>
+								</div>)
+							}
+						</Row>
+					)
+				})}
+
 			</form>
 		</div>
 	)
