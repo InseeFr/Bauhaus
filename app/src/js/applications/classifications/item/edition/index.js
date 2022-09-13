@@ -155,7 +155,7 @@ const ClassificationItemEdition = () => {
 								/>
 							</div>
 							{
-								shortLabelLg2 && (<div className="form-group col-md-6">
+								<div className="form-group col-md-6">
 									<label htmlFor={'altLabelsLg2_' + length}>{D2.classificationItemAltLabels(length)}</label>
 									<input
 										type="text"
@@ -164,7 +164,7 @@ const ClassificationItemEdition = () => {
 										{...register('altLabelsLg2_' + length)}
 										defaultValue={shortLabelLg2}
 									/>
-								</div>)
+								</div>
 							}
 						</Row>
 					)
