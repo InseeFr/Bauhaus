@@ -133,6 +133,7 @@ class SimsCreation extends React.Component {
 			labelLg1: this.props.mode !== DUPLICATE ? this.props.sims.labelLg1 : '',
 			labelLg2: this.props.mode !== DUPLICATE ? this.props.sims.labelLg2 : '',
 			[getParentIdName(this.props.parentType)]: idParent,
+			created: this.props.mode !== DUPLICATE ? this.props.sims.created : '',
 			rubrics,
 		};
 		this.props.onSubmit(sims, (id) => {

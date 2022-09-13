@@ -3,6 +3,7 @@ import { API } from 'bauhaus-utilities';
 const api = {
 	getStructures: () => [''],
 	getMutualizedComponents: () => ['components'],
+	getMutualizedAttributes: () => ['attributes'],
 	getStructuresForSearch: () => ['search'],
 	getMutualizedComponentsForSearch: () => ['components/search'],
 	publishMutualizedComponent: component => [

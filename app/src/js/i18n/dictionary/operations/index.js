@@ -179,8 +179,8 @@ const dictionary = {
 		en: (nb, total) => `You have completed ${nb} out of ${total} essential items.`,
 	},
 	essentialRubricMsg: {
-		fr: (nb, total) => `Vous avez rempli 1 rubrique essentielle sur ${total}`,
-		en: (nb, total) => `You have completed 1 out of ${total} essential items.`,
+		fr: (_nb, total) => `Vous avez rempli 1 rubrique essentielle sur ${total}`,
+		en: (_nb, total) => `You have completed 1 out of ${total} essential items.`,
 	},
 	essentialRubricKo: {
 		en: 'This rubric is an essantial rubric. You should define a value.',
@@ -266,6 +266,10 @@ const dictionary = {
 	exportSimsIncludeLg2: {
 		fr: 'Inclure la seconde langue',
 		en: 'Include second language',
+	},
+	exportDocument: {
+		fr: 'Exporter les documents',
+		en: 'Export documents',
 	},
 	exportSimsIncludeEmptyMas: {
 		fr: 'Inclure les rubriques vides',

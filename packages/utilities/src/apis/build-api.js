@@ -10,17 +10,6 @@ export const removeTrailingSlash = url => url.replace(/\/$/, '');
 
 export const buildApi = (context, api) => {
 	return Object.keys(api).reduce((apiFns, resource) => {
-		/*try {
-			const mockPath = context === '' ? 'index' : context;
-			const mocks = require('./mocks/' + mockPath);
-			console.debug(mockPath, resource);
-			if (mocks[resource]) {
-				apiFns[resource] = mocks[resource];
-			}
-		} catch (e) {
-			console.log(`The API ${context} do not have any mock file`);
-		}*/
-
 		if (!apiFns[resource]) {
 			apiFns[resource] = buildCall(context, resource, api[resource]);
 		}
@@ -112,7 +101,7 @@ const patterns = [
  * Takes a string and returns an HTTP verb
  */
 export const guessMethod = name => {
-	const matchPattern = patterns.find(([method, pattern]) => pattern.test(name));
+	const matchPattern = patterns.find(([_method, pattern]) => pattern.test(name));
 	if (!matchPattern)
 		throw new Error(`Could not guess http method from \`${name}\``);
 	const [method] = matchPattern;

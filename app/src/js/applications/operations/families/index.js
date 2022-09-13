@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import api from '../../../remote-api/operations-api';
-import { Auth, useTitle } from 'bauhaus-utilities';
+import { ArrayUtils, Auth, useTitle } from 'bauhaus-utilities';
 import D from '../../../i18n/build-dictionary';
 import OperationsObjectHome from '../shared/list';
 
@@ -12,12 +12,11 @@ export const FamiliesHomeContainer = () => {
 
 	useEffect(() => {
 		api.getFamiliesList()
-			.then(results => setFamilies(results))
+			.then(results => setFamilies(ArrayUtils.sortArray('label')(results)))
 			.finally(() => setLoading(false))
 	}, [])
 
 	if (loading) return <Loading />;
-
 
 	return (
 		<OperationsObjectHome

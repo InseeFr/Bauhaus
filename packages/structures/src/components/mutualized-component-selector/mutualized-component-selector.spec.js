@@ -6,7 +6,11 @@ import configureStore from 'redux-mock-store';
 import { MutualizedComponentsSelector } from '.';
 
 const mockStore = configureStore([]);
-const store = mockStore({});
+const store = mockStore({
+	app: {
+		secondLang: false
+	}
+});
 
 describe('<MutualizedComponentsSelector />', () => {
 	const components = [

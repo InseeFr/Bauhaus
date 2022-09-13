@@ -1,12 +1,9 @@
-import React from 'react';
 import { D1, D2 } from 'js/i18n';
 import { Note } from '@inseefr/wilco';
-import { DateUtils } from 'bauhaus-utilities';
+import { CreationUpdateItems } from 'bauhaus-utilities';
 
 function CollectionGeneral({ attr, secondLang, langs }) {
 	const mapping = {
-		created: D1.createdDateTitle,
-		modified: D1.modifiedDateTitle,
 		creator: D1.creatorTitle,
 		contributor: D1.contributorTitle,
 		isValidated: D1.isCollectionValidTitle,
@@ -20,15 +17,10 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 					alone={true}
 					text={
 						<ul>
+							<CreationUpdateItems creation={attr.created} update={attr.modified} />
 							{Object.keys(mapping).map(fieldName => {
 								if (attr.hasOwnProperty(fieldName) && attr[fieldName] !== '') {
-									if (fieldName === 'created' || fieldName === 'modified') {
-										return (
-											<li key={fieldName}>{`${
-												mapping[fieldName]
-											} : ${DateUtils.stringToDate(attr[fieldName])}`}</li>
-										);
-									} else if (fieldName === 'isValidated') {
+									if (fieldName === 'isValidated') {
 										return (
 											<li key={fieldName}>{`${mapping[fieldName]} : ${
 												attr[fieldName] === 'false'

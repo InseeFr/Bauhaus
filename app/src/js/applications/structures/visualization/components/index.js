@@ -23,7 +23,9 @@ const Components = ({ componentDefinitions = []}) => {
 	}, []);
 
 	useEffect(() => {
-		getFormattedCodeList().then(res => setCodesLists(res));
+		getFormattedCodeList().then(res => {
+			setCodesLists(res)
+		});
 	}, []);
 
 	const handleSpecificationClick = useCallback(component => {
@@ -35,6 +37,7 @@ const Components = ({ componentDefinitions = []}) => {
 			{modalOpened && (
 				<ComponentSpecificationModal
 					onClose={() => setModalOpened(false)}
+					selectedComponent={selectedComponent}
 					structureComponents={componentDefinitions}
 					disabled={true}
 					specification={{

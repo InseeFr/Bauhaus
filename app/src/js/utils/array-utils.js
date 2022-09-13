@@ -7,7 +7,7 @@ export const filterKeyDate = key => (start, end) => item => {
 
 export const creatSelectList = max => {
 	const result = [];
-	for (var i = 1; i <= max; i++) {
+	for (let i = 1; i <= max; i++) {
 		result.push(
 			<option value={i} key={i}>
 				{i}
@@ -19,7 +19,7 @@ export const creatSelectList = max => {
 
 export const creatSelectListSelectedLast = max => {
 	const result = [];
-	for (var i = 1; i < max; i++) {
+	for (let i = 1; i < max; i++) {
 		result.push(
 			<option value={i} key={i}>
 				{i}

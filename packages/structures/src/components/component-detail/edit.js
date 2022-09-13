@@ -7,9 +7,9 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { AppContext, Stores, useTitle } from 'bauhaus-utilities';
+import { AppContext, Stores, useTitle, Row, ArrayUtils } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
-import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
+import { MUTUALIZED_COMPONENT_TYPES, MEASURE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_DATE, XSD_DATE_TIME, XSD_FLOAT, XSD_INTEGER, XSD_STRING, XSD_TYPES } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
@@ -18,6 +18,7 @@ import "./edit.scss";
 import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
 import { FormGroup } from 'react-bootstrap';
 import { API } from 'bauhaus-codelists'
+import api from '../../apis/structure-api';
 
 const defaultComponent = {
 	contributor: 'DG75-H250'
@@ -46,7 +47,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 				API.getPartialsByParent(list.notation).then(partials => setPartials(partials))
 			}
 		}
-	}, [fullCodeListValue])
+	}, [fullCodeListValue, codesLists, partialCodesLists])
 
 	const codeListOptions = codesLists.map(({ id, label }) => ({
 		value: id,
@@ -56,6 +57,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 		value: iri,
 		label: labelLg1,
 	}));
+
 
 	return (
 		<>
@@ -136,6 +138,7 @@ const DumbComponentDetailEdit = ({
 	handleSave,
 	handleBack,
 	type,
+  attributes,
 	disseminationStatusListOptions,
 	stampListOptions,
 	serverSideError
@@ -174,6 +177,30 @@ const DumbComponentDetailEdit = ({
 	}));
 
 	const { field, message } = validateComponent(component);
+
+
+	const attributesKeys = Object.keys({
+		'attribute_0': '', 'attributeValue_0': '', ...component
+	}).filter(key => key.indexOf('attribute_') === 0);
+
+	if(!!component['attributeValue_' + (attributesKeys.length - 1)]){
+		component['attribute_' + attributesKeys.length] = ''
+		component['attributeValue_' + attributesKeys.length] = ''
+	}
+
+	const onComponentTypeChange = (type) => {
+		// Each time we change the type of a component, we remove all linked attributes
+		const newComponentWithoutAttributes = Object.keys(component).reduce((acc, key) => {
+			if(key.indexOf('attribute_') === 0 || key.indexOf('attributeValue_') === 0){
+				return acc;
+			}
+			return {
+				...acc,
+				[key]: component[key]
+			}
+		}, {})
+		setComponent({ ...newComponentWithoutAttributes, type: type.value })
+	}
 
 	return (
 		<React.Fragment>
@@ -226,7 +253,7 @@ const DumbComponentDetailEdit = ({
 					</div>
 				</div>
 
-				<div className="row">
+				<Row>
 					<div className="col-md-12 ">
 					<FormGroup>
 						<label><LabelRequired>{D1.type}</LabelRequired></label>
@@ -236,13 +263,13 @@ const DumbComponentDetailEdit = ({
 								(c) => c.value === (component.type)
 							)}
 							options={MUTUALIZED_COMPONENT_TYPES}
-							onChange={(type) => setComponent({ ...component, type: type.value })}
+							onChange={onComponentTypeChange}
 							isDisabled={!!component.id}
 						/>
 					</FormGroup>
 					</div>
-				</div>
-				<div className="row">
+				</Row>
+				<Row>
 					<div className="col-md-12">
 						<Select
 							id="concept"
@@ -258,8 +285,8 @@ const DumbComponentDetailEdit = ({
 							}
 						/>
 					</div>
-				</div>
-				<div className="row">
+				</Row>
+				<Row>
 					<div className="col-md-12">
 						<Select
 							id="range"
@@ -273,9 +300,9 @@ const DumbComponentDetailEdit = ({
 							}}
 						/>
 					</div>
-				</div>
+				</Row>
 				{(component.range === XSD_DATE || component.range === XSD_DATE_TIME) && (
-					<div className='row'>
+					<Row>
 						<div className='col-md-offset-1 col-md-11 form-group'>
 							<label htmlFor="format">{D1.formatTitle}</label>
 							<input
@@ -287,11 +314,11 @@ const DumbComponentDetailEdit = ({
 								onChange={handleChange}
 							/>
 						</div>
-					</div>
+					</Row>
 				)}
 				{(component.range === XSD_STRING) && (
 					<>
-						<div className='row'>
+						<Row>
 							<div className='col-md-offset-1 col-md-11 form-group'>
 								<label htmlFor="minLength">{D1.minLength}</label>
 								<input
@@ -303,8 +330,8 @@ const DumbComponentDetailEdit = ({
 									onChange={handleChange}
 								/>
 							</div>
-						</div>
-						<div className='row'>
+						</Row>
+						<Row>
 							<div className='col-md-offset-1 col-md-11 form-group'>
 								<label htmlFor="maxLength">{D1.maxLength}</label>
 								<input
@@ -316,9 +343,9 @@ const DumbComponentDetailEdit = ({
 									onChange={handleChange}
 								/>
 							</div>
-						</div>
+						</Row>
 
-						<div className='row'>
+						<Row>
 
 							<div className='col-md-offset-1 col-md-11 form-group'>
 								<label htmlFor="format">{D1.formatTitle}</label>
@@ -331,7 +358,7 @@ const DumbComponentDetailEdit = ({
 									onChange={handleChange}
 								/>
 							</div>
-						</div>
+						</Row>
 					</>
 				)}
 				{(component.range === XSD_INTEGER || component.range === XSD_FLOAT) && (
@@ -431,7 +458,7 @@ const DumbComponentDetailEdit = ({
 						searchable={true}
 					/>
 				</div>
-				<div className="row">
+				<Row>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle} ({lg1})</label>
 						<input
@@ -454,11 +481,108 @@ const DumbComponentDetailEdit = ({
 							onChange={handleChange}
 						/>
 					</div>
-				</div>
+				</Row>
+
+
+				{ component.type === MEASURE_PROPERTY_TYPE && <AttributesArray onChange={value => {
+					const newComponent = { ...component, ...value };
+					setComponent({ ...newComponent });
+
+				}} component={component} attributes={attributes} codesLists={codesLists} />}
 			</form>
 		</React.Fragment>
 	);
 };
+
+const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
+	const componentAttributes = Object.keys({
+	'attribute_0': '', 'attributeValue_0': '', ...component
+	}).filter(key => key.indexOf('attribute_') === 0);
+
+	const attributesListOptions = attributes.map(c => ({ value: c.iri, label: c.labelLg1}))
+
+	return componentAttributes.map((attribute, index) => {
+		const attributeId = attributes.find(a => a.iri === component["attribute_" + index])?.id
+		return (
+			<Row key={index}>
+				<div className="col-md-6 form-group">
+					<label htmlFor="attribute">{D1.Attribute}</label>
+					<Select
+						className="form-control"
+						placeholder={D1.attributePlaceholder}
+						value={attributesListOptions.find(({ value }) => value === component["attribute_" + index])}
+						options={attributesListOptions}
+						onChange={(value) =>
+							onChange({ ["attribute_" + index]: value })
+						}
+						searchable={true}
+					/>
+				</div>
+				{
+					!!component["attribute_" + index] && <AttributeValue onChange={(value) => onChange({ ["attributeValue_" + index]: value })} value={component["attributeValue_" + index]} selectedAttribute={component["attribute_" + index]} codesLists={codesLists} attributeId={attributeId}/>
+				}
+			</Row>
+		)
+	})
+}
+
+const AttributeTextValue = ({ onChange, value }) => {
+	return (
+		<div className="col-md-6 form-group">
+			<label htmlFor="attributeValue">{D1.Value}</label>
+			<input
+				type="text"
+				value={value}
+				className="form-control"
+				id="attributeValue"
+				name="attributeValue"
+				onChange={(e) => onChange(e.target.value)}
+			/>
+		</div>
+	)
+}
+
+const sortByLabel = ArrayUtils.sortArray('label');
+const AttributeCodeList = ({ onChange, value, codeListIri, codesLists }) => {
+	const [codesList, setCodesList] = useState();
+	const codeListNotation = codesLists.find(cl => cl.id === codeListIri)?.notation;
+
+	useEffect(() => {
+		API.getCodelist(codeListNotation).then(cl => setCodesList(cl))
+	}, [codeListNotation])
+
+	if(!codesList){
+		return null;
+	}
+	const codesOptions = sortByLabel(codesList.codes?.map(code => ({ value: code.iri, label: code.labelLg1})));
+	return (
+		<div className="col-md-6 form-group">
+			<label htmlFor="attributeValue">{D1.Value}</label>
+			<Select
+				className="form-control"
+				placeholder={D1.Value}
+				value={codesOptions.find(option => option.value === value)}
+				options={codesOptions}
+				onChange={onChange}
+				searchable={true}
+			/>
+		</div>
+	)
+}
+const AttributeValue = ({ onChange, value, selectedAttribute, codesLists, attributeId}) => {
+	const [attribute, setAttribute] = useState();
+	useEffect(() => {
+		api.getMutualizedComponent(attributeId).then(body => setAttribute(body))
+	}, [attributeId]);
+
+	if(!attribute){
+		return null;
+	}
+	if(attribute.range === XSD_CODE_LIST){
+		return <AttributeCodeList onChange={onChange} value={value} codeListIri={attribute.codeList} codesLists={codesLists}/>
+	}
+	return <AttributeTextValue onChange={onChange} value={value}/>
+}
 
 DumbComponentDetailEdit.propTypes = {
 	component: PropTypes.object,

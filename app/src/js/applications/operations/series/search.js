@@ -9,12 +9,22 @@ import {
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	Stores, useTitle,
+	Stores, useTitle, useUrlQueryParameters,
 } from 'bauhaus-utilities';
 import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
+
+const defaultState = {
+	prefLabelLg1: '',
+	typeCode: '',
+	creator: '',
+	publisher: '',
+	dataCollector: '',
+	organisations: [],
+};
+
 const fields = [
 	'prefLabelLg1',
 	'typeCode',
@@ -25,17 +35,11 @@ const fields = [
 const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
 
 export class SearchFormList extends AbstractAdvancedSearchComponent {
-	static defaultState = {
-		prefLabelLg1: '',
-		typeCode: '',
-		creator: '',
-		publisher: '',
-		dataCollector: '',
-		organisations: [],
-	};
-
 	constructor(props) {
-		super(props, SearchFormList.defaultState);
+		super(props, {
+			...defaultState,
+			...props.search
+		});
 	}
 
 	handlers = this.handleChange(fields, (newState) => {
@@ -47,7 +51,31 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 			publisher,
 		} = newState;
 
-		return this.props.data
+		this.props.setSearch({
+			prefLabelLg1,
+			typeCode,
+			creator,
+			dataCollector,
+			publisher,
+		})
+	});
+
+	render() {
+
+		const { categories, organisations, stamps, data, reset, search: {
+			prefLabelLg1,
+			typeCode,
+			creator,
+			dataCollector,
+			publisher,
+		} } = this.props;
+		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
+		const stampsOptions = stamps.map((stamp) => ({
+			value: stamp,
+			label: stamp,
+		}));
+
+		const filteredData = data
 			.filter(filterLabel(prefLabelLg1))
 			.filter(filterTypeCode(typeCode))
 			.filter((series) => {
@@ -76,25 +104,9 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 					formattedDataCollectors.map(({id}) => id).includes(dataCollector)
 				);
 			});
-	});
 
-	render() {
-		const {
-			data,
-			prefLabelLg1,
-			typeCode,
-			creator,
-			dataCollector,
-			publisher,
-		} = this.state;
-		const { categories, organisations, stamps } = this.props;
-		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
-		const stampsOptions = stamps.map((stamp) => ({
-			value: stamp,
-			label: stamp,
-		}));
 
-		const dataLinks = data.map(({ id, prefLabelLg1 }) => (
+		const dataLinks = filteredData.map(({ id, prefLabelLg1 }) => (
 			<li key={id} className="list-group-item">
 				<Link to={`/operations/series/${id}`}>{prefLabelLg1}</Link>
 			</li>
@@ -103,7 +115,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 			<AdvancedSearchList
 				title={D.seriesSearchTitle}
 				data={dataLinks}
-				initializeState={this.initializeState}
+				initializeState={reset}
 				redirect={<Redirect to={'/operations/series'} push />}
 			>
 				<div className="row form-group">
@@ -205,7 +217,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 
 const SearchListContainer = () => {
 	useTitle(D.operationsTitle, D.seriesTitle + ' - ' + D.advancedSearch)
-
+	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
 	const [data, setData] = useState();
 	const categories = useSelector(state => state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {});
 	const organisations = useSelector(state => state.operationsOrganisations.results);
@@ -224,6 +236,7 @@ const SearchListContainer = () => {
 			categories={categories}
 			organisations={organisations}
 			stamps={stamps}
+			search={search} setSearch={setSearch} reset={reset}
 		/>
 	);
 }

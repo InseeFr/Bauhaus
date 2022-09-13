@@ -21,22 +21,26 @@ const ConceptsToExportContainer = () => {
 		}).finally(() => setLoading(false))
 	}, [])
 
-	const handleExportConceptList = (ids, MimeType) => {
-		Promise.all(ids.map(id => {
-			let fileName;
-			return api
-				.getConceptExport(id, MimeType)
-				.then(res => {
-					fileName = getContentDisposition(
-						res.headers.get('Content-Disposition')
-					)[1];
-					return res;
-				})
-				.then(res => res.blob())
-				.then(blob => {
-					return FileSaver.saveAs(blob, fileName);
-				});
-		}))
+	const handleExportConceptList = (ids) => {
+		setExporting(true)
+		let promise;
+
+		if(ids.length === 1){
+			promise = api.getConceptExport(ids[0])
+		} else {
+			promise = api.getConceptExportZip(ids)
+		}
+		let fileName;
+		return promise.then(res => {
+				fileName = getContentDisposition(
+					res.headers.get('Content-Disposition')
+				)[1];
+				return res;
+			})
+			.then(res => res.blob())
+			.then(blob => {
+				return FileSaver.saveAs(blob, fileName);
+			})
 		.then(() => history.push("/concepts"))
 		.finally(() => setExporting(false))
 	}

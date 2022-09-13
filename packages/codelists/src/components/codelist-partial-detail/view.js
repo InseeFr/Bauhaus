@@ -13,10 +13,9 @@ import {
 import {
 	HTMLUtils,
 	ValidationButton,
-	DateUtils,
 	PublicationFemale,
 	useTitle,
-	ConfirmationDelete,
+	ConfirmationDelete, CreationUpdateItems,
 } from 'bauhaus-utilities';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
@@ -83,14 +82,7 @@ export const CodeListPartialDetailView = ({
 										{codelist.parentLabel}
 									</Link>
 								</li>
-								<li>
-									{D.createdDateTitle} :{' '}
-									{DateUtils.stringToDate(codelist.created)}
-								</li>
-								<li>
-									{D.modifiedDateTitle} :{' '}
-									{DateUtils.stringToDate(codelist.modified)}
-								</li>
+								<CreationUpdateItems creation={codelist.created} update={codelist.modified} />
 								<li>
 									{D.codelistValidationStatusTitle} :{' '}
 									<PublicationFemale object={codelist} />

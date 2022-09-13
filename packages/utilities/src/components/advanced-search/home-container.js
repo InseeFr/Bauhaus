@@ -6,6 +6,7 @@ const handleFieldChange = (fields, handleChange) =>
 		return handlers;
 	}, {});
 
+
 export class AbstractAdvancedSearchComponent extends Component {
 	constructor(props, emptyState) {
 		super(props);
@@ -30,11 +31,10 @@ export class AbstractAdvancedSearchComponent extends Component {
 			...this.emptyState,
 		};
 	};
-	initializeState = () => this.setState(this.getEmptyState());
+
 	handleChange = (fields, filterData) =>
 		handleFieldChange(fields, stateChange => {
-			const newState = Object.assign(this.state, stateChange);
-			const data = filterData(newState);
-			this.setState(Object.assign(stateChange, { data }));
+			this.setState(stateChange);
+			filterData(stateChange);
 		});
 }

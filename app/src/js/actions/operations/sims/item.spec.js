@@ -18,7 +18,7 @@ describe('SIMS actions', () => {
 	});
 	describe('get a sims', () => {
 		beforeEach(() => {
-			api.getOperation = jest.fn((id) =>
+			api.getOperation = jest.fn(() =>
 				Promise.resolve({ series: { id: 2 } })
 			);
 			api.getOperationsWithoutReport = jest.fn(() => ['value1']);
@@ -118,7 +118,7 @@ describe('SIMS actions', () => {
 			});
 		});
 		it('should call dispatch LOAD_OPERATIONS_SIMS_LIST_FAILURE action with the error if the status is not LOADING', async () => {
-			api.getSims = function (id) {
+			api.getSims = function () {
 				return Promise.reject('error');
 			};
 			const getState = () => {
@@ -140,10 +140,10 @@ describe('SIMS actions', () => {
 		const sims = { id: 1, label: 'aaa' };
 
 		beforeEach(() => {
-			api.putSims = jest.fn((id) => {
+			api.putSims = jest.fn(() => {
 				return Promise.resolve('');
 			});
-			api.postSims = jest.fn((id) => {
+			api.postSims = jest.fn(() => {
 				return Promise.resolve('');
 			});
 			api.getOperation = jest.fn(() => Promise.resolve('result get operation'));
@@ -156,7 +156,7 @@ describe('SIMS actions', () => {
 			${'getOperation'} | ${'idOperation'}
 			${'getSerie'}     | ${'idSeries'}
 			${'getIndicator'} | ${'idIndicator'}
-		`('get labels from parent', ({ method, id, expected }) => {
+		`('get labels from parent', ({ method, id }) => {
 			const apis = ['getOperation', 'getSerie', 'getIndicator'];
 
 			it(`should call ${method} if the labelLg1 is not defined and if the ${id} is defined`, async () => {
@@ -165,7 +165,7 @@ describe('SIMS actions', () => {
 						...sims,
 						[id]: 1,
 					},
-					() => {}
+					jest.fn()
 				)(dispatch);
 
 				apis
@@ -182,7 +182,7 @@ describe('SIMS actions', () => {
 						...sims,
 						labelLg1: 'labelLg1',
 					},
-					() => {}
+					jest.fn()
 				)(dispatch);
 				apis.forEach((method) => {
 					expect(api[method]).not.toHaveBeenCalled();
@@ -194,7 +194,7 @@ describe('SIMS actions', () => {
 					{
 						...sims,
 					},
-					() => {}
+					jest.fn()
 				)(dispatch);
 				expect(api.getOperation).not.toHaveBeenCalled();
 				expect(api.getSerie).not.toHaveBeenCalled();
@@ -203,7 +203,7 @@ describe('SIMS actions', () => {
 		});
 
 		it('should call putSims method and dispatch SAVE_OPERATIONS_SIMS_SUCCESS action with the udpated sims', async () => {
-			await saveSims(sims, () => {})(dispatch);
+			await saveSims(sims, jest.fn())(dispatch);
 
 			expect(api.putSims).toHaveBeenCalled();
 			expect(api.postSims).not.toHaveBeenCalled();
@@ -219,7 +219,7 @@ describe('SIMS actions', () => {
 
 		it('should call postSims method and dispatch SAVE_OPERATIONS_SIMS_SUCCESS action with the udpated sims', async () => {
 			const creationSims = { label: 'label' };
-			await saveSims(creationSims, () => {})(dispatch);
+			await saveSims(creationSims, jest.fn())(dispatch);
 
 			expect(api.postSims).toHaveBeenCalled();
 			expect(api.putSims).not.toHaveBeenCalled();

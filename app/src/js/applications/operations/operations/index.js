@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import OperationsHome from './home';
 import api from '../../../remote-api/operations-api';
+import { ArrayUtils } from 'bauhaus-utilities';
 
 const OperationsHomeContainer = () => {
 	const [operations, setOperations] = useState([]);
@@ -9,7 +10,7 @@ const OperationsHomeContainer = () => {
 
 	useEffect(() => {
 		api.getOperationsList()
-			.then(result => setOperations(result))
+			.then(result => setOperations(ArrayUtils.sortArray('label')(result)))
 			.finally(() => setLoading(false));
 	}, [])
 

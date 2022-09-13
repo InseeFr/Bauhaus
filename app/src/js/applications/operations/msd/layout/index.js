@@ -41,11 +41,11 @@ class MSDComponent extends Component {
 		const { status } = this.state;
 
 		const styleSummary = {
-			width: status === STATUS.BOTH ? '25%' : '100%',
+			width: status === STATUS.BOTH ? '30%' : '100%',
 			display: status === STATUS.CONTENT ? 'none' : 'block',
 		};
 		const styleContent = {
-			width: status === STATUS.BOTH ? '75%' : '100%',
+			width: status === STATUS.BOTH ? '70%' : '100%',
 			display: status === STATUS.SUMMARY ? 'none' : 'block',
 		};
 		const {

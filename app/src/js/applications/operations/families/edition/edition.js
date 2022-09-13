@@ -40,7 +40,6 @@ class OperationsFamilyEdition extends Component {
 	static propTypes = {
 		family: PropTypes.object.isRequired,
 		langs: PropTypes.object.isRequired,
-		saveFamily: PropTypes.func.isRequired,
 	};
 
 	constructor(props) {

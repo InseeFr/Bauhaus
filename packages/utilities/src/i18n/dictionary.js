@@ -72,5 +72,21 @@ const dictionary = {
 		fr: 'Aucun résultat',
 		en: 'No results',
 	},
+	advancedSearchTitle: {
+		fr: 'Recherche avancée',
+		en: 'Advanced search',
+	},
+	itemPerPagePlaceholder: {
+		fr: 'Nombre d\'éléments par page',
+		en: 'Number of elements per page'
+	},
+	createdDateTitle: {
+		fr: 'Date de création',
+		en: 'Creation date',
+	},
+	modifiedDateTitle: {
+		fr: 'Date de modification',
+		en: 'Modification date',
+	},
 };
 export default dictionary;

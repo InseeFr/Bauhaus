@@ -1,3 +1,4 @@
+
 .msd__outline-primary-item {
 	padding: 15px 10px;
 	margin-top: 30px;
@@ -38,11 +39,22 @@
 	}
 
 	li {
+		display: flex;
+		flex-direction: column;
 		text-transform: none;
-		padding: 0 10px 0 20px;
-		margin: 15px 0;
 		color: #337ab7;
 		border-radius: 0;
+
+		.msd__item-buttons {
+			display: flex;
+			flex-direction: row;
+			padding: 0 5px !important;
+			min-width: 0;
+			.btn {
+				padding: 5px 0 !important;
+				font-size: .9em;
+			}
+		}
 	}
 	&-updown {
 		display: inline-block;
@@ -52,6 +64,5 @@
 		background-color: transparent;
 		color: black;
 		padding-right: 5px;
-		margin-left: -19px;
 	}
 }

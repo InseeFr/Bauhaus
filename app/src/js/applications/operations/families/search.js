@@ -8,30 +8,37 @@ import {
 	ArrayUtils,
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
-	useTitle
+	useTitle,
+	useUrlQueryParameters
 } from 'bauhaus-utilities';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const fields = ['prefLabelLg1'];
 const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
 
+const defaultState = {
+	prefLabelLg1: '',
+};
+
 class SearchFormList extends AbstractAdvancedSearchComponent {
-	static defaultState = {
-		prefLabelLg1: '',
-	};
 
 	constructor(props) {
-		super(props, SearchFormList.defaultState);
+		super(props, {
+			...defaultState,
+			...props.search
+		});
 	}
 
 	handlers = this.handleChange(fields, newState => {
 		const { prefLabelLg1 } = newState;
-		return this.props.data.filter(filterLabel(prefLabelLg1));
+		this.props.setSearch({ prefLabelLg1 })
 	});
 
 	render() {
-		const { data, prefLabelLg1 } = this.state;
-		const dataLinks = data.map(({ id, prefLabelLg1 }) => (
+		const { data, search: { prefLabelLg1 }, reset } = this.props;
+		const filteredData = data.filter(filterLabel(prefLabelLg1));
+
+		const dataLinks = filteredData.map(({ id, prefLabelLg1 }) => (
 			<li key={id} className="list-group-item">
 				<Link to={`/operations/family/${id}`}>{prefLabelLg1}</Link>
 			</li>
@@ -40,7 +47,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 			<AdvancedSearchList
 				title={D.familiesSearchTitle}
 				data={dataLinks}
-				initializeState={this.initializeState}
+				initializeState={reset}
 				redirect={<Redirect to={'/operations/families'} push />}
 			>
 				<div className="row form-group">
@@ -60,6 +67,12 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 		);
 	}
 }
+
+const SearchListWithUrlQueryParameter = ({ data }) => {
+	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
+	return <SearchFormList data={data} search={search} setSearch={setSearch} reset={reset}/>
+}
+
 const SearchListContainer = () => {
 	useTitle(D.operationsTitle, D.familiesTitle + ' - ' + D.advancedSearch)
 	const [data, setData] = useState();
@@ -73,7 +86,9 @@ const SearchListContainer = () => {
 	if(!data){
 		return <Loading />
 	}
-	return <SearchFormList data={data} />
+	return <SearchListWithUrlQueryParameter data={data} />
 }
+
+
 
 export default SearchListContainer;

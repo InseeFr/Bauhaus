@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
 	PageTitle,
-	SearchableList,
 	VerticalMenu,
 	ExportButton,
 	NewButton,
@@ -10,7 +9,7 @@ import {
 import { StructureAPI } from 'bauhaus-structures';
 import D from 'js/i18n';
 import { getEnvVar } from 'js/utils/env';
-import { useTitle } from 'bauhaus-utilities';
+import { useTitle, SearchableList } from 'bauhaus-utilities';
 
 const Home = () => {
 	useTitle(D.structuresTitle, D.structuresTitle);

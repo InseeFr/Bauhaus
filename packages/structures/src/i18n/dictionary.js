@@ -27,6 +27,10 @@ const dictionary = {
 		fr: 'Statut de diffusion',
 		en: 'Diffusion status',
 	},
+	btnCancel: {
+		fr: 'Annuler',
+		en: 'Cancel',
+	},
 	creatorTitle: {
 		fr: 'Propriétaire',
 		en: 'Owner',
@@ -126,6 +130,10 @@ const dictionary = {
 	Measure: {
 		fr: 'Mesure',
 		en: 'Measure',
+	},
+	Value: {
+		fr: 'Valeur',
+		en: 'Value',
 	},
 	AttributePlural: {
 		fr: 'Attributs',
@@ -250,10 +258,6 @@ const dictionary = {
 	globalInformationsTitle: {
 		fr: 'Informations générales',
 		en: 'General information',
-	},
-	createdDateTitle: {
-		fr: 'Date de création',
-		en: 'Creation date',
 	},
 	modifiedDateTitle: {
 		fr: 'Date de modification',

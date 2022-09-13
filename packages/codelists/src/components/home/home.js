@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
 	NewButton,
-	SearchableList,
 	PageTitle,
 	VerticalMenu,
 	Loading,
@@ -9,7 +8,7 @@ import {
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import { useTitle } from 'bauhaus-utilities';
+import { useTitle, SearchableList } from 'bauhaus-utilities';
 
 function CodeListsList() {
 	useTitle(D.codelistsTitle, D.codelistsTitle)

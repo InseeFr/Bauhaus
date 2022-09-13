@@ -8,7 +8,6 @@ import NotFound, { UnderMaintenance } from 'js/applications/shared/not-found/';
 import { getEnvVar } from 'js/utils/env';
 
 import App from 'js/app';
-import Habilitation from 'js/applications/habilitation';
 import { useSelector } from 'react-redux';
 
 const pages = getEnvVar('APPLICATIONS')
@@ -20,7 +19,6 @@ const pages = getEnvVar('APPLICATIONS')
 			[app]: lazy(() => import('js/applications/' + app + '/routes')),
 		};
 	}, {});
-pages['habilitations'] = Habilitation;
 
 const getComponent = (pageName, modules) => {
 	if (!modules.includes(pageName)) {
@@ -53,10 +51,6 @@ export default auth(() => {
 			<Suspense fallback={<Loading />}>
 				<Switch>
 					<Route exact path="/" render={() => getHomePage()} />
-					<Route
-						path="/habilitation"
-						component={getComponent('habilitations', modules)}
-					/>
 					<Route
 						path="/(concept|concepts|collections|collection)"
 						component={getComponent('concepts', modules)}

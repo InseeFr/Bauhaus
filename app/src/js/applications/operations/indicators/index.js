@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
-	SearchableList,
 	NewButton,
 	VerticalMenu, Loading,
 } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { Auth, useTitle } from 'bauhaus-utilities';
+import { Auth, useTitle, SearchableList, ArrayUtils } from 'bauhaus-utilities';
 import api from '../../../remote-api/operations-api';
 
 
@@ -17,7 +16,7 @@ function IndicatorsHome() {
 	const [indicators, setIndicators] = useState([]);
 
 	useEffect(() => {
-		api.getIndicatorsList().then(payload => setIndicators(payload)).finally(() => setLoading(false))
+		api.getIndicatorsList().then(payload => setIndicators(ArrayUtils.sortArray('label')(payload))).finally(() => setLoading(false))
 	}, [])
 
 	if (loading) return <Loading />;

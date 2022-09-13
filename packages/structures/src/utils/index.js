@@ -3,7 +3,6 @@ import D from '../i18n/build-dictionary';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
 	ATTACHMENTS,
-	MEASURE_PROPERTY_TYPE,
 } from './constants/';
 
 export const getDisseminationStatus = disseminationStatus => {
@@ -19,12 +18,24 @@ export const getDisseminationStatus = disseminationStatus => {
 	}
 }
 
-export const getAllAttachment = components => {
+export const getAllAttachment = (measures, specification) => {
+	const measuresOptions = measures.map(c => ({ value: c.id, label: c.labelLg1 }));
+
+	// We find one measure linked to the attribute
+	const measureWithThisAttribute = measures.find(measure => {
+		return !!Object.keys(measure).filter(key => key.indexOf("attribute_") === 0).find(key => {
+			return measure[key] === specification.component.iri;
+		})
+	})
+
+	// If this measure exists, this attribute can only have a measure as an attachment
+	if(!!measureWithThisAttribute){
+		return measuresOptions;
+	}
+
 	return [
 		...ATTACHMENTS,
-		...components
-			.filter(c => c.component.type === MEASURE_PROPERTY_TYPE)
-			.map(c => ({ value: c.component.id, label: c.component.labelLg1 })),
+		...measuresOptions,
 	];
 };
 export const formatLabel = component => {

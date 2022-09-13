@@ -1,6 +1,6 @@
 import D from 'js/i18n';
 import { DSURLToLabel } from '@inseefr/wilco';
-import { DateUtils } from 'bauhaus-utilities';
+import { DateItem, DateUtils } from 'bauhaus-utilities';
 
 export const rowParams = {
 	creations: [
@@ -29,7 +29,7 @@ export const rowParams = {
 			text: D.createdDateTitle,
 			width: '17%',
 			sort: true,
-			formatter: d => DateUtils.stringToDate(d),
+			formatter: d => <DateItem date={d}/>,
 		},
 		{
 			dataField: 'validationStatus',

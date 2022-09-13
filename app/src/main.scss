@@ -108,3 +108,24 @@ footer {
 		color: white;
 	}
 }
+
+.wilco-action-toolbar {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+.ReactModal__Overlay {
+	z-index: 20;
+}
+
+.DraftEditor-root {
+	max-height: 100px;
+	overflow: scroll;
+}
+
+.sr-only {
+	position: absolute;
+	top: 0;
+	left: -3000px;
+}

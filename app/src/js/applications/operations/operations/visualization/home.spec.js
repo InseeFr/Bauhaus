@@ -16,11 +16,11 @@ describe('OperationVisualization', () => {
 		const { container } = render(
 			<OperationsOperationVisualization
 				attr={attr}
-				exportVarBook={() => {}}
+				exportVarBook={jest.fn()}
 				langs={langs}
 				secondLang={false}
 				isModalOpen={false}
-				closeModal={() => {}}
+				closeModal={jest.fn()}
 			/>
 		);
 		expect(
@@ -39,10 +39,10 @@ describe('OperationVisualization', () => {
 			<OperationsOperationVisualization
 				attr={attr}
 				secondLang={true}
-				exportVarBook={() => {}}
+				exportVarBook={jest.fn()}
 				langs={langs}
 				isModalOpen={false}
-				closeModal={() => {}}
+				closeModal={jest.fn()}
 			/>
 		);
 

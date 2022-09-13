@@ -9,7 +9,7 @@ describe('collection-export', () => {
 			<MemoryRouter>
 				<ExportCollection
 					collections={[]}
-					handleExportCollectionList={(a, b) => console.log('export')}
+					handleExportCollectionList={jest.fn()}
 				/>
 			</MemoryRouter>
 		);

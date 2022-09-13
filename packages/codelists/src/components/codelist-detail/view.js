@@ -12,7 +12,7 @@ import {
 import {
 	HTMLUtils,
 	ValidationButton,
-	DateUtils,
+	CreationUpdateItems,
 	PublicationFemale,
 	useTitle,
 	ConfirmationDelete,
@@ -80,14 +80,7 @@ export const CodeListDetailView = ({
 								<li>
 									{D.idTitle} : {codelist.id}
 								</li>
-								<li>
-									{D.createdDateTitle} :{' '}
-									{DateUtils.stringToDate(codelist.created)}
-								</li>
-								<li>
-									{D.modifiedDateTitle} :{' '}
-									{DateUtils.stringToDate(codelist.modified)}
-								</li>
+								<CreationUpdateItems creation={codelist.created} update={codelist.modified} />
 								<li>
 									{D.codelistValidationStatusTitle} :{' '}
 									<PublicationFemale object={codelist} />

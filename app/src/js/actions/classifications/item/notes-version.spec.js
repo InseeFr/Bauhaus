@@ -10,7 +10,7 @@ describe('Notes versions actions', () => {
 
 	describe('get a notes', () => {
 		it('should call dispatch LOAD_CLASSIFICATION_ITEM_NOTES_VERSION_SUCCESS action with the right notes if the status is not LOADING', async () => {
-			api.getClassificationItemNotes = function(id) {
+			api.getClassificationItemNotes = function() {
 				return Promise.resolve({ 1: '1' });
 			};
 			const classificationId = 'classificationId';
@@ -47,7 +47,7 @@ describe('Notes versions actions', () => {
 			});
 		});
 		it('should call dispatch LOAD_CLASSIFICATION_ITEM_NOTES_VERSION_FAILURE action with the error  if the status is not LOADING', async () => {
-			api.getClassificationItemNotes = function(id) {
+			api.getClassificationItemNotes = function() {
 				return Promise.reject('error');
 			};
 			const classificationId = 'classificationId';

@@ -1,18 +1,19 @@
 @import 'src/styles/tools.scss';
+.container.msd__container {
+	width: 1300px;
+}
 
 .msd__container {
 	position: relative;
 	display: block;
 	padding: 0;
 	margin-top: 20px;
-
-
 }
 
 .msd__outline {
 	box-sizing: border-box;
 	float: left;
-	width: 33%;
+	width: 40%;
 	margin: 0;
 	overflow: hidden;
 	padding: 70px 20px 20px 20px;
@@ -57,7 +58,7 @@
 	&_alone {
 		box-sizing: border-box;
 		float: right;
-		width: 67%;
+		width: 60%;
 		margin: 0;
 		padding: 0;
 		padding: 70px 20px 20px 20px;
@@ -94,7 +95,7 @@
 		text-transform: uppercase;
 		width: 50px;
 		height: 30px;
-		left: calc(25% - 30px);
+		left: calc(30% - 30px);
 		border-radius: 2px;
 		display: table;
 
