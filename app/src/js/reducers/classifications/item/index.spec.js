@@ -33,20 +33,14 @@ describe('classification-item-selector', () => {
 								2: { status: LOADED, results: 'nafr2 - A - notes v2' },
 							},
 						},
-					},
-					classificationItemNarrowers: {
-						nafr2: {
-							A: { status: LOADED, results: 'narrowers' },
-						},
-					},
+					}
 				},
 				'nafr2',
 				'A'
 			);
 			expect(result).toEqual({
 				general: { prefLabelLg1: 'label', conceptVersion: 2 },
-				notes: 'nafr2 - A - notes v2',
-				narrowers: 'narrowers',
+				notes: 'nafr2 - A - notes v2'
 			});
 		});
 		test('getItem selector should extract results', () => {
@@ -67,20 +61,14 @@ describe('classification-item-selector', () => {
 								2: { status: LOADED, results: 'nafr2 - A - notes v2' },
 							},
 						},
-					},
-					classificationItemNarrowers: {
-						nafr2: {
-							A: { status: LOADED, results: 'narrowers' },
-						},
-					},
+					}
 				},
 				'nafr2',
 				'A'
 			);
 			expect(result).toEqual({
 				general: { prefLabelLg1: 'label', conceptVersion: 2 },
-				notes: 'nafr2 - A - notes v2',
-				narrowers: 'narrowers',
+				notes: 'nafr2 - A - notes v2'
 			});
 		});
 	});
@@ -149,12 +137,7 @@ describe('classification-item-selector', () => {
 								2: { status: LOADED, results: 'nafr2 - A - notes v2' },
 							},
 						},
-					},
-					classificationItemNarrowers: {
-						nafr2: {
-							A: { status: LOADED, results: 'narrowers' },
-						},
-					},
+					}
 				},
 				'nafr2',
 				'A'
@@ -162,7 +145,6 @@ describe('classification-item-selector', () => {
 			expect(result).toEqual({
 				general: { prefLabelLg1: 'label', conceptVersion: 2 },
 				notes: 'nafr2 - A - notes v2',
-				narrowers: 'narrowers',
 			});
 		});
 	});
