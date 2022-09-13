@@ -9,23 +9,17 @@ export function getItem(state, classificationId, itemId) {
 		itemId
 	);
 	if (!general) return;
-	const narrowers = getNarrowers(
-		state.classificationItemNarrowers,
-		classificationId,
-		itemId
-	);
-	if (!narrowers) return;
+
 	const notes = getNotes(
 		state.classificationItemNotes,
 		classificationId,
 		itemId,
 		general.conceptVersion
 	);
-	if (!notes) return { general, narrowers };
+	if (!notes) return { general };
 	return {
 		general,
 		notes,
-		narrowers,
 	};
 }
 

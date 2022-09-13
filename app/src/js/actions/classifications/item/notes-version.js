@@ -24,7 +24,7 @@ export default (classificationId, itemId, version) => dispatch => {
 						{},
 						emptyNotes,
 						Object.keys(notes).reduce((formatted, noteName) => {
-							formatted[noteName] = HTMLUtils.rmesHtmlToRawHtml(
+							formatted[noteName] = HTMLUtils.markdownToHtml(
 								notes[noteName]
 							);
 							return formatted;

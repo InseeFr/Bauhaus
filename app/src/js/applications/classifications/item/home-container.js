@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import ItemVisualization from './home';
 import { Loading } from '@inseefr/wilco';
@@ -15,6 +15,12 @@ const ItemVisualizationContainer = ({ loadItem }) => {
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
 	const langs = useSelector(state => mainSelect.getLangs(state));
 
+	useEffect(() => {
+		if(classificationId && itemId){
+			loadItem(classificationId, itemId)
+		}
+	},[classificationId, itemId, loadItem])
+
 	const { isLoading: isGeneralLoading, data: general } = useQuery(['classifications-item-general', classificationId, itemId], () => {
 		return api.getClassificationItemGeneral(classificationId, itemId);
 	});
@@ -23,8 +29,8 @@ const ItemVisualizationContainer = ({ loadItem }) => {
 	});
 	const item = useSelector(state => select.getItem(state, classificationId, itemId));
 
-
 	if (isGeneralLoading || isNarrowersLoading) return <Loading />;
+
 
 	// TODO to be removed when notes will be moved away from the Readux Store
 	const fullItem = {
@@ -32,6 +38,7 @@ const ItemVisualizationContainer = ({ loadItem }) => {
 		general,
 		narrowers
 	}
+
 	return (
 		<ItemVisualization item={fullItem} secondLang={secondLang} langs={langs} />
 	);

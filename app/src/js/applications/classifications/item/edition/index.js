@@ -141,7 +141,7 @@ const ClassificationItemEdition = () => {
 				</Row>
 
 
-				{ general.altLabels.map(({ length, shortLabelLg1, shortLabelLg2}, index) => {
+				{ general.altLabels?.map(({ length, shortLabelLg1, shortLabelLg2}, index) => {
 					return (
 						<Row key={index}>
 							<div className="form-group col-md-6">
