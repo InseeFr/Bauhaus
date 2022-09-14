@@ -29,7 +29,7 @@ const ItemVisualizationContainer = ({ loadItem }) => {
 	});
 	const item = useSelector(state => select.getItem(state, classificationId, itemId));
 
-	if (isGeneralLoading || isNarrowersLoading) return <Loading />;
+	if (!item || isGeneralLoading || isNarrowersLoading) return <Loading />;
 
 
 	// TODO to be removed when notes will be moved away from the Readux Store

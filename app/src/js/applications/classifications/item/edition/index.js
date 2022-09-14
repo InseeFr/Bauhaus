@@ -53,7 +53,7 @@ const ClassificationItemEdition = () => {
 			return newAltLabel;
 		});
 
-		Object.entries(value).forEach(([ key, v]) => {
+		Object.entries(value).forEach(([key]) => {
 			if(key.indexOf("altLabelsLg1_") === 0 || key.indexOf("altLabelsLg2_") === 0){
 				delete value[key]
 			}
@@ -150,7 +150,7 @@ const ClassificationItemEdition = () => {
 									type="text"
 									className="form-control"
 									id={'altLabelsLg1_' + length}
-									{...register('altLabelsLg1_' + length)}
+									{...register('altLabelsLg1_' + length, { maxLength: { value: Number(length), message: D1.classificationItemAltError(length)}})}
 									defaultValue={shortLabelLg1}
 								/>
 							</div>
@@ -161,7 +161,7 @@ const ClassificationItemEdition = () => {
 										type="text"
 										className="form-control"
 										id={'altLabelsLg2_' + length}
-										{...register('altLabelsLg2_' + length)}
+										{...register('altLabelsLg2_' + length, { maxLength: { value: Number(length), message: D1.classificationItemAltError(length)}})}
 										defaultValue={shortLabelLg2}
 									/>
 								</div>

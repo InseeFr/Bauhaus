@@ -1,5 +1,4 @@
 import classificationGeneral from './classification/general';
-import classificationItems from './items';
 import classificationLevels from './classification/levels';
 import classificationLevelGeneral from './level/general';
 import classificationLevelMembers from './level/members';
@@ -12,7 +11,6 @@ import classificationsCorrespondenceAssociation from './correspondence/associati
 
 export default {
 	classificationGeneral,
-	classificationItems,
 	classificationLevels,
 	classificationLevelGeneral,
 	classificationLevelMembers,
