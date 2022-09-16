@@ -1,10 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../../../../remote-api/classifications-api';
 import { ActionToolbar, ErrorBloc, goBack, LabelRequired, Loading } from '@inseefr/wilco';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { PageTitleBlock, Row } from 'bauhaus-utilities';
 import { useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
+import useClassificationItem from '../hook';
 
 const ClassificationItemEdition = () => {
 	const history = useHistory();
@@ -21,13 +22,11 @@ const ClassificationItemEdition = () => {
 			.putClassificationItemGeneral(classificationId, itemId, general)
 	}, {
 		onSuccess: () => {
-			queryClient.invalidateQueries(['classifications-item-general', classificationId, itemId]);
+			queryClient.invalidateQueries(['classifications-item', classificationId, itemId]);
 		}
 	})
 
-	const { isLoading, data: general } = useQuery(['classifications-item-general', classificationId, itemId], () => {
-		return api.getClassificationItemGeneral(classificationId, itemId);
-	});
+	const { isLoading, item } = useClassificationItem(classificationId, itemId);
 
 	if (isLoading) return <Loading />;
 
@@ -61,6 +60,8 @@ const ClassificationItemEdition = () => {
 
 		save({ ...general, ...value})
 	}
+
+	const { general } = item;
 	return (
 		<div className='container editor-container'>
 			<PageTitleBlock
