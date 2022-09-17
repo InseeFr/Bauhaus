@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../remote-api/classifications-api';
-import { ArrayUtils, HTMLUtils } from 'bauhaus-utilities';
+import { ArrayUtils } from 'bauhaus-utilities';
 import { emptyNotes } from '../utils/item/notes';
 
 const useClassificationItem = (classificationId, itemId, current) => {
-	const { isLoading, data: item } = useQuery(['classifications-item', classificationId, itemId], async () => {
+	const { isLoading, isPreviousData, data: item } = useQuery(['classifications-item', classificationId, itemId], async () => {
 		const [general, narrowers] = await Promise.all([
 			api.getClassificationItemGeneral(classificationId, itemId),
 			api.getClassificationItemNarrowers(classificationId, itemId)
@@ -18,19 +18,13 @@ const useClassificationItem = (classificationId, itemId, current) => {
 						return {
 							version,
 							...emptyNotes,
-							...Object.keys(note).reduce((acc, noteName) => {
-								return {
-									...acc,
-									[noteName]: HTMLUtils.markdownToHtml(note[noteName])
-								}
-							}, {})
+							...note
 						}
 					})
 
 				})
 			)
 		}
-
 		const formattedNotes = notes.reduce((acc, note) => ({ ...acc, [note.version]: note}), {});
 		return { general, notes: formattedNotes, narrowers };
 	});
@@ -41,11 +35,11 @@ const useClassificationItem = (classificationId, itemId, current) => {
 			item: {
 				general: item?.general,
 				narrowers: item?.narrowers,
-				notes: item?.notes[item?.general?.conceptVersion] ?? {}
+				notes: item?.notes?.[item?.general?.conceptVersion] ?? {}
 			}
 		}
 	}
-	return { isLoading, item }
+	return { isLoading, isPreviousData,  item }
 }
 
 export default useClassificationItem;

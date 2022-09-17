@@ -14,7 +14,7 @@ const ItemVisualizationContainer = () => {
 
 	const { isLoading, item } = useClassificationItem(classificationId, itemId, true);
 
-	if (isLoading) return <Loading />;
+	if (isLoading || !item.general) return <Loading />;
 
 	return (
 		<ItemVisualization item={item} secondLang={secondLang} langs={langs} />

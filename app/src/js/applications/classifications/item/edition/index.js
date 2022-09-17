@@ -2,17 +2,27 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../../../../remote-api/classifications-api';
 import { ActionToolbar, ErrorBloc, goBack, LabelRequired, Loading } from '@inseefr/wilco';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
-import { PageTitleBlock, Row } from 'bauhaus-utilities';
-import { useForm } from 'react-hook-form';
+import { EditorMarkdown, PageTitleBlock, Row } from 'bauhaus-utilities';
+import { Controller, useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import useClassificationItem from '../hook';
+import React from 'react';
+
+const titleMapping = {
+	definition: 'classificationsDefinition',
+	scopeNote: 'classificationsScopeNote',
+	coreContentNote: 'classificationsCoreContentNote',
+	additionalContentNote: 'classificationsAdditionalContentNote',
+	exclusionNote: 'classificationsExclusionNote',
+	changeNote: 'classificationsChangeNote'
+};
 
 const ClassificationItemEdition = () => {
 	const history = useHistory();
 	const queryClient = useQueryClient()
 	const { classificationId, itemId } = useParams();
 
-	const { register, handleSubmit, formState: { errors } } = useForm({
+	const { register, handleSubmit, formState: { errors }, control } = useForm({
 		criteriaMode: 'firstError',
 		mode: 'all',
 	});
@@ -22,46 +32,59 @@ const ClassificationItemEdition = () => {
 			.putClassificationItemGeneral(classificationId, itemId, general)
 	}, {
 		onSuccess: () => {
-			queryClient.invalidateQueries(['classifications-item', classificationId, itemId]);
+			queryClient.refetchQueries(['classifications-item', classificationId, itemId]);
 		}
 	})
 
-	const { isLoading, item } = useClassificationItem(classificationId, itemId);
+	const { isLoading, item } = useClassificationItem(classificationId, itemId, true);
 
 	if (isLoading) return <Loading />;
 
-	if(isSaving) return <Loading textType="saving" />;
+	if (isSaving) return <Loading textType="saving" />;
 
-	if(isSavingSuccess){
-		return <Redirect to={'/classifications/classification/' + classificationId + '/item/' + itemId}/>
+	if (isSavingSuccess) {
+		return <Redirect to={'/classifications/classification/' + classificationId + '/item/' + itemId} />
 	}
 
 	const errorMessage = Object.values(errors)?.[0]?.message;
+	const { general, notes } = item;
 
 	const formatAndSave = value => {
 		value.altLabels = general.altLabels.map((altLabel) => {
 			const newAltLabel = {
 				...altLabel
 			}
-			if(value['altLabelsLg1_' + altLabel.length]){
+			if (value['altLabelsLg1_' + altLabel.length]) {
 				newAltLabel.shortLabelLg1 = value['altLabelsLg1_' + altLabel.length]
 			}
-			if(value['altLabelsLg2_' + altLabel.length]){
+			if (value['altLabelsLg2_' + altLabel.length]) {
 				newAltLabel.shortLabelLg2 = value['altLabelsLg2_' + altLabel.length]
 			}
 			return newAltLabel;
 		});
 
 		Object.entries(value).forEach(([key]) => {
-			if(key.indexOf("altLabelsLg1_") === 0 || key.indexOf("altLabelsLg2_") === 0){
+			if (key.indexOf("altLabelsLg1_") === 0 || key.indexOf("altLabelsLg2_") === 0) {
 				delete value[key]
 			}
 		})
-
-		save({ ...general, ...value})
+		queryClient.setQueriesData(['classifications-item', classificationId, itemId], { })
+		save({ ...general, ...notes, ...value })
 	}
 
-	const { general } = item;
+
+
+	const notesGroupByKey = Object.keys(notes).filter(noteKey => noteKey !== 'version').reduce((acc, noteKey) => {
+		const prefixNoteKey = noteKey.replace("Lg1", "").replace("Lg2", "").replace("Uri", "").replace("Date", "");
+		return {
+			...acc,
+			[prefixNoteKey]: {
+				...(acc[prefixNoteKey] ?? {}),
+				[noteKey]: notes[noteKey]
+			}
+		}
+	}, {});
+
 	return (
 		<div className='container editor-container'>
 			<PageTitleBlock
@@ -70,7 +93,7 @@ const ClassificationItemEdition = () => {
 				secondLang={true}
 			/>
 
-		<form onSubmit={handleSubmit(value => formatAndSave(value))}>
+			<form onSubmit={handleSubmit(value => formatAndSave(value))}>
 				<ActionToolbar>
 					<div className='col-md-2'>
 						<button onClick={goBack({ history }, '/classifications')} className='btn wilco-btn btn-lg col-md-12'
@@ -142,7 +165,7 @@ const ClassificationItemEdition = () => {
 				</Row>
 
 
-				{ general.altLabels?.map(({ length, shortLabelLg1, shortLabelLg2}, index) => {
+				{general.altLabels?.map(({ length, shortLabelLg1, shortLabelLg2 }, index) => {
 					return (
 						<Row key={index}>
 							<div className="form-group col-md-6">
@@ -151,7 +174,12 @@ const ClassificationItemEdition = () => {
 									type="text"
 									className="form-control"
 									id={'altLabelsLg1_' + length}
-									{...register('altLabelsLg1_' + length, { maxLength: { value: Number(length), message: D1.classificationItemAltError(length)}})}
+									{...register('altLabelsLg1_' + length, {
+										maxLength: {
+											value: Number(length),
+											message: D1.classificationItemAltError(length)
+										}
+									})}
 									defaultValue={shortLabelLg1}
 								/>
 							</div>
@@ -162,7 +190,12 @@ const ClassificationItemEdition = () => {
 										type="text"
 										className="form-control"
 										id={'altLabelsLg2_' + length}
-										{...register('altLabelsLg2_' + length, { maxLength: { value: Number(length), message: D1.classificationItemAltError(length)}})}
+										{...register('altLabelsLg2_' + length, {
+											maxLength: {
+												value: Number(length),
+												message: D1.classificationItemAltError(length)
+											}
+										})}
 										defaultValue={shortLabelLg2}
 									/>
 								</div>
@@ -170,7 +203,62 @@ const ClassificationItemEdition = () => {
 						</Row>
 					)
 				})}
+				{
+					Object.entries(notesGroupByKey).map(([key, values], index) => {
+						const keyLg1 = `${key}Lg1`;
+						const keyLg2 = `${key}Lg2`;
+						const keyLg1Uri = `${keyLg1}Uri`;
+						const keyLg2Uri = `${keyLg2}Uri`;
+						if (!values[keyLg1Uri] && !values[keyLg2Uri]) {
+							return null;
+						}
 
+						return (
+							<Row key={index}>
+								<div className="form-group col-md-6">
+									{
+										values[keyLg1Uri] && (
+											<>
+												<label htmlFor={keyLg1}>{D1[titleMapping[key]]}</label>
+												<Controller
+													name={keyLg1}
+													control={control}
+													defaultValue={values[keyLg1]}
+													render={({ field: { onChange, value } }) => {
+														return <EditorMarkdown
+															text={value}
+															handleChange={onChange}
+														/>
+													}}
+												/>
+											</>
+										)
+									}
+								</div>
+								<div className="form-group col-md-6">
+									{
+										values[keyLg2Uri] && (
+											<>
+												<label htmlFor={keyLg2}>{D2[titleMapping[key]]}</label>
+												<Controller
+													name={keyLg2}
+													control={control}
+													defaultValue={values[keyLg2]}
+													render={({ field: { onChange, value } }) => {
+														return <EditorMarkdown
+															text={value}
+															handleChange={onChange}
+														/>
+													}}
+												/>
+											</>
+										)
+									}
+								</div>
+							</Row>
+						)
+					})
+				}
 			</form>
 		</div>
 	)

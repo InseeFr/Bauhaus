@@ -13,6 +13,7 @@ const NoteVisualization = ({ params, langs, secondLang }) => (
 						title={D1[note.title]}
 						lang={langs.lg1}
 						alone={!secondLang}
+						md
 					/>
 					{secondLang && (
 						<ExplanatoryNote
@@ -20,6 +21,7 @@ const NoteVisualization = ({ params, langs, secondLang }) => (
 							title={D2[note.title]}
 							lang={langs.lg2}
 							alone={false}
+							md
 						/>
 					)}
 				</Row>
