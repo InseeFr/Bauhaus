@@ -10,7 +10,7 @@ import {
 import { AppContext, Stores, useTitle, Row, ArrayUtils } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES, MEASURE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
-import { XSD_CODE_LIST, XSD_DATE, XSD_DATE_TIME, XSD_FLOAT, XSD_INTEGER, XSD_STRING, XSD_TYPES } from '../../utils/constants/xsd';
+import { XSD_CODE_LIST, XSD_DATE, XSD_DATE_TIME, XSD_FLOAT, XSD_INTEGER, XSD_STRING, XSD_TYPES, IGEO_PAYS_OU_TERRITOIRE } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import PropTypes from 'prop-types';
 import { default as ReactSelect } from 'react-select';
@@ -22,6 +22,16 @@ import api from '../../apis/structure-api';
 
 const defaultComponent = {
 	contributor: 'DG75-H250'
+}
+
+const linkedAttributeLabelMapping = {
+	[XSD_INTEGER]: D.insertIntValue,
+	[XSD_FLOAT]: D.insertFloatValue,
+	[XSD_DATE]: D.insertDateValue,
+	[XSD_DATE_TIME]: D.insertDateValue,
+	[XSD_STRING]: D.insertTextValue,
+	[IGEO_PAYS_OU_TERRITOIRE]: D.insertGeographyValue,
+	[XSD_CODE_LIST]: D.insertModalityValue
 }
 
 const CodeListFormInput = ({ component, codesLists, setComponent }) => {
@@ -526,10 +536,10 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
 	})
 }
 
-const AttributeTextValue = ({ onChange, value }) => {
+const AttributeTextValue = ({ onChange, value, label }) => {
 	return (
 		<div className="col-md-6 form-group">
-			<label htmlFor="attributeValue">{D1.Value}</label>
+			<label htmlFor="attributeValue">{label ?? D1.Value}</label>
 			<input
 				type="text"
 				value={value}
@@ -543,7 +553,7 @@ const AttributeTextValue = ({ onChange, value }) => {
 }
 
 const sortByLabel = ArrayUtils.sortArray('label');
-const AttributeCodeList = ({ onChange, value, codeListIri, codesLists }) => {
+const AttributeCodeList = ({ onChange, value, codeListIri, codesLists, label }) => {
 	const [codesList, setCodesList] = useState();
 	const codeListNotation = codesLists.find(cl => cl.id === codeListIri)?.notation;
 
@@ -557,7 +567,7 @@ const AttributeCodeList = ({ onChange, value, codeListIri, codesLists }) => {
 	const codesOptions = sortByLabel(codesList.codes?.map(code => ({ value: code.iri, label: code.labelLg1})));
 	return (
 		<div className="col-md-6 form-group">
-			<label htmlFor="attributeValue">{D1.Value}</label>
+			<label htmlFor="attributeValue">{label ?? D1.Value}</label>
 			<Select
 				className="form-control"
 				placeholder={D1.Value}
@@ -569,6 +579,7 @@ const AttributeCodeList = ({ onChange, value, codeListIri, codesLists }) => {
 		</div>
 	)
 }
+
 const AttributeValue = ({ onChange, value, selectedAttribute, codesLists, attributeId}) => {
 	const [attribute, setAttribute] = useState();
 	useEffect(() => {
@@ -578,10 +589,11 @@ const AttributeValue = ({ onChange, value, selectedAttribute, codesLists, attrib
 	if(!attribute){
 		return null;
 	}
+
 	if(attribute.range === XSD_CODE_LIST){
-		return <AttributeCodeList onChange={onChange} value={value} codeListIri={attribute.codeList} codesLists={codesLists}/>
+		return <AttributeCodeList label={linkedAttributeLabelMapping[attribute.range]} onChange={onChange} value={value} codeListIri={attribute.codeList} codesLists={codesLists}/>
 	}
-	return <AttributeTextValue onChange={onChange} value={value}/>
+	return <AttributeTextValue label={linkedAttributeLabelMapping[attribute.range]} onChange={onChange} value={value}/>
 }
 
 DumbComponentDetailEdit.propTypes = {
