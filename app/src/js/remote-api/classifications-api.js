@@ -21,6 +21,16 @@ const api = {
 	getClassificationItemGeneral: (classificationId, itemId) => [
 		`classification/${classificationId}/item/${itemId}`,
 	],
+	putClassificationItemGeneral: (classificationId, itemId, item) => [
+		`classification/${classificationId}/item/${itemId}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(item),
+		},
+		() => Promise.resolve(item.id)
+	],
 	getClassificationItemNotes: (classificationId, itemId, conceptVersion) => [
 		`classification/${classificationId}/item/${itemId}/notes/${conceptVersion}`,
 	],
@@ -36,10 +46,20 @@ const api = {
 	getCorrespondenceAssociation: (correspondenceId, associationId) => [
 		`correspondence/${correspondenceId}/association/${associationId}`,
 	],
-	publishClassification: (classification) => [
-		`classification/validate/${classification.id}`,
+	publishClassification: (id) => [
+		`classification/${id}/validate`,
 		{ method: 'PUT' },
 		(res) => res.text(),
+	],
+	putClassification: (classification) => [
+		`classification/${classification.id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(classification),
+		},
+		() => Promise.resolve(classification.id),
 	],
 };
 

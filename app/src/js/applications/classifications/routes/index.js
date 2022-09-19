@@ -11,12 +11,14 @@ import ClassificationItemsContainer from 'js/applications/classifications/visual
 import ClassificationTreeContainer from 'js/applications/classifications/visualization/tree/home-container';
 import ClassificationLevelContainer from 'js/applications/classifications/level/home-container';
 import ClassificationItemContainer from 'js/applications/classifications/item/home-container';
+import ClassificationItemEdition from 'js/applications/classifications/item/edition'
 import ClassificationItemCompareContainer from 'js/applications/classifications/item/compare/home-container';
 import ClassificationsCorrespondencesContainer from 'js/applications/classifications/correspondences/home-container';
 import ClassificationsCorrespondenceContainer from 'js/applications/classifications/correspondences/visualization/home-container';
 import ClassificationsCorrespondenceAssociationContainer from 'js/applications/classifications/correspondences/association/home-container';
 import D from 'js/i18n';
 import Menu from 'js/applications/classifications/menu';
+import { ClassificationEdition } from '../edition';
 
 export default () => {
 	document.title = 'Bauhaus - ' + D.classificationsTitle;
@@ -56,6 +58,11 @@ export default () => {
 				/>
 				<Route
 					exact
+					path="/classifications/classification/:id/modify"
+					component={ClassificationEdition}
+				/>
+				<Route
+					exact
 					path="/classifications/classification/:id/items"
 					component={ClassificationItemsContainer}
 				/>
@@ -73,6 +80,11 @@ export default () => {
 					exact
 					path="/classifications/classification/:classificationId/item/:itemId"
 					component={ClassificationItemContainer}
+				/>
+				<Route
+					exact
+					path="/classifications/classification/:classificationId/item/:itemId/modify"
+					component={ClassificationItemEdition}
 				/>
 				<Route
 					exact

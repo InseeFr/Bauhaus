@@ -32,13 +32,13 @@ const ItemVisualization = ({
 				langs={langs}
 			/>
 			{notes && <Notes secondLang={secondLang} notes={notes} langs={langs} />}
-			{narrowers.length !== 0 && (
-				<Narrowers
-					narrowers={narrowers}
-					classificationId={classificationId}
-					secondLang={secondLang}
-				/>
-			)}
+
+			<Narrowers
+				narrowers={narrowers}
+				classificationId={classificationId}
+				secondLang={secondLang}
+			/>
+
 		</div>
 	);
 };

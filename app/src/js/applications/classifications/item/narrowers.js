@@ -4,7 +4,11 @@ import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 
 export default ({ narrowers, classificationId, secondLang }) => {
-	const narrowersLg1 = narrowers.map((n, i) => (
+	if(!narrowers || narrowers?.length === 0){
+		return null;
+	}
+
+	const narrowersLg1 = narrowers?.map((n, i) => (
 		<li key={i}>
 			<Link
 				to={`/classifications/classification/${classificationId}/item/${n.id}`}
@@ -15,7 +19,7 @@ export default ({ narrowers, classificationId, secondLang }) => {
 	));
 	let narrowersLg2 = [];
 	if (secondLang)
-		narrowersLg2 = narrowers.map((n, i) =>
+		narrowersLg2 = narrowers?.map((n, i) =>
 			n.labelLg2 ? (
 				<li key={i}>
 					<Link

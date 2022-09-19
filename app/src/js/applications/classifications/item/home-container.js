@@ -1,72 +1,24 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
+import React  from 'react';
+import { useSelector } from 'react-redux';
 import ItemVisualization from './home';
-import { buildExtract, Loading } from '@inseefr/wilco';
-import loadItem from 'js/actions/classifications/item';
-import * as select from 'js/reducers/classifications/item';
+import { Loading } from '@inseefr/wilco';
 import * as mainSelect from 'js/reducers';
 import { Stores } from 'bauhaus-utilities';
+import { useParams } from 'react-router-dom';
+import useClassificationItem from './hook';
 
-const extractClassificationId = buildExtract('classificationId');
-const extractItemId = buildExtract('itemId');
+const ItemVisualizationContainer = () => {
+	const { classificationId, itemId } = useParams();
+	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
+	const langs = useSelector(state => mainSelect.getLangs(state));
 
-class ItemVisualizationContainer extends Component {
-	static propTypes = {
-		match: PropTypes.shape({
-			params: PropTypes.shape({
-				classificationId: PropTypes.string.isRequired,
-				itemId: PropTypes.string.isRequired,
-			}),
-		}),
-	};
+	const { isLoading, item } = useClassificationItem(classificationId, itemId, true);
 
-	componentWillMount() {
-		const { classificationId, itemId, item } = this.props;
-		if (!item) this.props.loadItem(classificationId, itemId);
-	}
-	componentWillReceiveProps({ classificationId, itemId }) {
-		if (
-			itemId !== this.props.itemId &&
-			classificationId !== this.props.classificationId
-		) {
-			this.props.loadItem(classificationId, itemId);
-		}
-		if (itemId !== this.props.itemId) {
-			this.props.loadItem(this.props.classificationId, itemId);
-		}
-	}
-	render() {
-		const { item, secondLang, langs } = this.props;
-		if (!item) return <Loading />;
-		return (
-			<ItemVisualization item={item} secondLang={secondLang} langs={langs} />
-		);
-	}
+	if (isLoading || !item.general) return <Loading />;
+
+	return (
+		<ItemVisualization item={item} secondLang={secondLang} langs={langs} />
+	);
 }
-
-const mapStateToProps = (state, ownProps) => {
-	const classificationId = extractClassificationId(ownProps);
-	const itemId = extractItemId(ownProps);
-	const item = select.getItem(state, classificationId, itemId);
-	const secondLang = Stores.SecondLang.getSecondLang(state);
-	const langs = mainSelect.getLangs(state);
-	return {
-		classificationId,
-		itemId,
-		item,
-		secondLang,
-		langs,
-	};
-};
-
-const mapDispatchToProps = {
-	loadItem,
-};
-
-ItemVisualizationContainer = connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(ItemVisualizationContainer);
 
 export default ItemVisualizationContainer;

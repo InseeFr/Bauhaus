@@ -1,78 +1,41 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Loading, buildExtract } from '@inseefr/wilco';
+import React  from 'react';
+import { useSelector } from 'react-redux';
+import { Loading } from '@inseefr/wilco';
 import HomeGeneral from './home-general';
 import HomeAssociations from './home-associations';
-import { getCorrespondence } from 'js/reducers/classifications/correspondence';
-import loadCorrespondenceGeneral from 'js/actions/classifications/correspondences/general';
-import loadCorrespondenceAssociations from 'js/actions/classifications/correspondences/associations';
 import * as select from 'js/reducers';
 import { Stores } from 'bauhaus-utilities';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import api from 'js/remote-api/classifications-api';
 
-const extractId = buildExtract('id');
+const CorrespondencesHomeContainer = () => {
+	const { id } = useParams();
+	const {data: correspondence, isLoading} = useQuery(['correspondance-general', id], () => api.getCorrespondenceGeneral(id));
+	const {data: associations} = useQuery(['correspondance-associations', id], () => api.getCorrespondenceAssociations(id));
 
-class CorrespondencesHomeContainer extends Component {
-	componentWillMount() {
-		const { id, correspondence, associations } = this.props;
-		if (!correspondence) {
-			this.props.loadCorrespondenceGeneral(id);
-		}
-		if (!associations) {
-			this.props.loadCorrespondenceAssociations(id);
-		}
-	}
-	render() {
-		const { id, correspondence, associations, secondLang, langs } = this.props;
-		if (!correspondence) return <Loading />;
-		if (correspondence && !associations)
-			return (
-				<div className="container">
-					<HomeGeneral
-						correspondence={correspondence}
-						secondLang={secondLang}
-						langs={langs}
-					/>
-					<Loading />
-				</div>
-			);
-		return (
-			<div className="container">
-				<HomeGeneral
-					correspondence={correspondence}
-					secondLang={secondLang}
-					langs={langs}
-				/>
+	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
+	const langs = useSelector(state => select.getLangs(state));
+
+	if (isLoading) return <Loading />;
+
+	return (
+		<div className="container">
+			<HomeGeneral
+				correspondence={correspondence}
+				secondLang={secondLang}
+				langs={langs}
+			/>
+			{ !associations ? <Loading /> : (
 				<HomeAssociations
 					id={id}
 					associations={associations}
 					correspondence={correspondence}
 					secondLang={secondLang}
 				/>
-			</div>
-		);
-	}
+			)}
+		</div>
+	);
 }
 
-const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	const { correspondence, associations } = getCorrespondence(state, id);
-	const secondLang = Stores.SecondLang.getSecondLang(state);
-	const langs = select.getLangs(state);
-	return {
-		id,
-		correspondence,
-		associations,
-		secondLang,
-		langs,
-	};
-};
-
-const mapDispatchToProps = {
-	loadCorrespondenceGeneral,
-	loadCorrespondenceAssociations,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(CorrespondencesHomeContainer);
+export default CorrespondencesHomeContainer
