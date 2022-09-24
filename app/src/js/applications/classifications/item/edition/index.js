@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../../../../remote-api/classifications-api';
 import { ActionToolbar, ErrorBloc, goBack, LabelRequired, Loading } from '@inseefr/wilco';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
@@ -7,6 +7,8 @@ import { Controller, useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import useClassificationItem from '../hook';
 import React from 'react';
+import { default as ReactSelect } from 'react-select';
+import { fetchingPreviousLevels } from '../client';
 
 const titleMapping = {
 	definition: 'classificationsDefinition',
@@ -38,7 +40,16 @@ const ClassificationItemEdition = () => {
 
 	const { isLoading, item } = useClassificationItem(classificationId, itemId, true);
 
-	if (isLoading) return <Loading />;
+	const { data: previousLevels = [], isLoading: isPreviousLevelsLoading } = useQuery(['classification-parent-levels', classificationId, itemId], () => {
+		return fetchingPreviousLevels(classificationId, item.general)
+	}, {
+		enabled: !!item.general,
+	})
+
+	const previousLevelsOptions = previousLevels.map(previousLevel => ({ value: previousLevel.item, label: previousLevel.labelLg1}));
+	console.log(previousLevelsOptions);
+
+	if (isLoading || isPreviousLevelsLoading) return <Loading />;
 
 	if (isSaving) return <Loading textType="saving" />;
 
@@ -50,7 +61,7 @@ const ClassificationItemEdition = () => {
 	const { general, notes } = item;
 
 	const formatAndSave = value => {
-		value.altLabels = general.altLabels.map((altLabel) => {
+		value.altLabels = general.altLabels?.map((altLabel) => {
 			const newAltLabel = {
 				...altLabel
 			}
@@ -163,8 +174,25 @@ const ClassificationItemEdition = () => {
 						/>
 					</div>
 				</Row>
+				<Row>
 
-
+				</Row>
+				<div className="form-group">
+					<label>{D.classificationsBroaderLevel}</label>
+					<Controller
+						name="broaderURI"
+						control={control}
+						defaultValue={general.broaderURI}
+						render={({ field: { onChange, value } }) => {
+							return <ReactSelect
+								value={previousLevelsOptions.find(option => option.value === value)}
+								options={previousLevelsOptions}
+								onChange={option => onChange(option.value)}
+								clearable={false}
+							/>
+						}}
+					/>
+				</div>
 				{general.altLabels?.map(({ length, shortLabelLg1, shortLabelLg2 }, index) => {
 					return (
 						<Row key={index}>
