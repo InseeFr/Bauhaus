@@ -25,6 +25,15 @@ yarn build-insee
 yarn start
 ```
 
+## Docker
+
+You can also run the application thanks to **Docker**
+
+```shell
+docker build --file Dockerfile.dev -t bauhaus:front .
+docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3000:3000 bauhaus:front
+```
+
 ## Issues
 
 If you are using, you should install the following dependency. 
