@@ -2,8 +2,11 @@ const hasDocument = (sims, withDocument) => {
 	if(!withDocument){
 		return false;
 	}
+	// We activate the download of a ZIP with documents only if we have at least on file using the file:// protocol.
 	const hasDocument = Object.values(sims.rubrics).filter(rubric => {
-		return rubric.documentsLg1?.find(doc => doc.uri.indexOf("/documents/") >= 0)
+		return rubric.documentsLg1?.find(doc => {
+			return doc.url.indexOf("file") === 0
+		})
 	})?.length > 0
 
 	return hasDocument
