@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Keycloak from 'keycloak';
 import { Loading } from '@inseefr/wilco';
-import { saveUserProps } from 'js/actions/app';
 import { Auth } from 'bauhaus-utilities';
+import { saveUserProps } from '../../../store/users';
 
 const kcConfig = `${window.location.origin}/keycloak.json`;
 
