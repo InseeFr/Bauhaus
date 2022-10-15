@@ -4,6 +4,10 @@ import { ArrayUtils } from 'bauhaus-utilities';
 export const fetchingPreviousLevels = (classificationId, general) => {
 	const levels = ['sections', 'divisions', 'groupes', 'classes', 'categories'];
 
+	if(!general.broaderURI){
+		return Promise.resolve([]);
+	}
+
 	const currentLevel = general.broaderURI.substring(general.broaderURI.indexOf(classificationId) + classificationId.length + 1, general.broaderURI.lastIndexOf('/'));
 	const previousLevel = levels[levels.findIndex(level => level.indexOf(currentLevel) === 0)]
 
