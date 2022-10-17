@@ -14,6 +14,7 @@ import 'bauhaus-utilities/dist/index.css';
 import 'bauhaus-codelists/dist/index.css';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import loadDevTools from './dev-tools/load';
 
 import 'main.scss';
 
@@ -48,8 +49,6 @@ Api.getInit()
 	.then((res) => renderApp(Root, res));
 
 const renderApp = (Component, initState, props) => {
-	document.querySelector('html').setAttribute('lang', getLang());
-
 	const { authType: type, lg1, lg2, ...properties } = initState;
 	const store = configureStore({
 		app: {
@@ -62,21 +61,26 @@ const renderApp = (Component, initState, props) => {
 		},
 	});
 
-	const container = document.getElementById('root');
-	const root = createRoot(container);
-	root.render(
-		<QueryClientProvider client={queryClient}>
-			<Provider store={store}>
-				<AppContext.Provider value={{ lg1, lg2 }}>
-					<I18NContext.Provider value={D}>
-						<ApplicationTitle />
-						<main>
-							<Component {...props} />
-							<BackToTop />
-						</main>
-					</I18NContext.Provider>
-				</AppContext.Provider>
-			</Provider>
-		</QueryClientProvider>
-	);
+	loadDevTools(store, () => {
+		document.querySelector('html').setAttribute('lang', getLang());
+
+		const container = document.getElementById('root');
+		const root = createRoot(container);
+		root.render(
+			<QueryClientProvider client={queryClient}>
+				<Provider store={store}>
+					<AppContext.Provider value={{ lg1, lg2 }}>
+						<I18NContext.Provider value={D}>
+							<ApplicationTitle />
+							<main>
+								<Component {...props} />
+								<BackToTop />
+							</main>
+						</I18NContext.Provider>
+					</AppContext.Provider>
+				</Provider>
+			</QueryClientProvider>
+		);
+	})
+
 };

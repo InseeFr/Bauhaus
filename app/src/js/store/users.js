@@ -1,5 +1,20 @@
-import * as A from 'js/actions/constants';
 import { Stores } from 'bauhaus-utilities';
+
+export const CHECK_AUTH = 'CHECK_AUTH';
+export const SAVE_USER_PROPS = 'SAVE_USER_PROPS';
+
+export const saveUserProps = props => {
+	return {
+		type: SAVE_USER_PROPS,
+		payload: props,
+	};
+};
+
+export const checkAuth = body => ({
+	type: CHECK_AUTH,
+	payload: body,
+});
+
 export default function(state = {}, action) {
 	const { type, payload } = action;
 	switch (type) {
@@ -9,13 +24,13 @@ export default function(state = {}, action) {
 				secondLang: payload,
 			};
 		}
-		case A.SAVE_USER_PROPS: {
+		case SAVE_USER_PROPS: {
 			return {
 				...state,
 				auth: { ...state.auth, user: payload },
 			};
 		}
-		case A.CHECK_AUTH: {
+		case CHECK_AUTH: {
 			return {
 				...state,
 				auth: { ...state.auth, user: payload },
