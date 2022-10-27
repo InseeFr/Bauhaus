@@ -120,7 +120,7 @@ const menuItems = {
 	},
 };
 
-const MenuOperations = (props) => {
+export const MenuOperations = (props) => {
 	const paths = useMemo(() => {
 		return setActiveItem(props, menuItems)
 	}, [props])
