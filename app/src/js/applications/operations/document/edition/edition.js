@@ -1,4 +1,4 @@
-import React, { Component, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import { EditorMarkdown, PageTitleBlock, withTitle } from 'bauhaus-utilities';
@@ -19,7 +19,7 @@ import {
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import api from 'js/remote-api/api';
 
-const defaultDocument = {
+const initDocument = {
 	labelLg1: '',
 	labelLg2: '',
 	descriptionLg1: '',
@@ -65,7 +65,7 @@ const OperationsDocumentationEdition = (props) => {
 
 	const defaultDocument = useMemo(() => {
 		return {
-			...defaultDocument,
+			...initDocument,
 			...documentProps
 		}
 	}, [document])
