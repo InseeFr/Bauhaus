@@ -144,8 +144,8 @@ const dictionary = {
 		en: length => `Short title (${length})`,
 	},
 	classificationItemAltError: {
-		fr: length => `Le titre abrégé doit contenir maximum ${length} caractères`,
-		en: length => `The short title should contain ${length} characters max`,
+		fr: length => `Le titre abrégé (${length}) doit contenir maximum ${length} caractères`,
+		en: length => `The short title (${length}) should contain ${length} characters max`,
 	},
 	classificationConceptVersionTitle: {
 		fr: 'Version du poste',
