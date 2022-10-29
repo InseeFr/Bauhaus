@@ -1,5 +1,4 @@
 function load (store, callback){
-	console.log(process.env)
 	if (process.env.REACT_APP_DEV_TOOLS_ENABLED === 'true') {
 		import('./dev-tools')
 			.then(mod => mod.install(store))
