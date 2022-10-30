@@ -149,6 +149,14 @@ function OperationsDocumentationVisualization({
 
 OperationsDocumentationVisualization.propTypes = {
 	attr: PropTypes.object.isRequired,
+	id: PropTypes.string,
+	secondLang: PropTypes.bool,
+	langs: PropTypes.shape({
+		lg1: PropTypes.string,
+		lg2: PropTypes.string
+	}),
+	langOptions: PropTypes.object
 };
 
 export default OperationsDocumentationVisualization;
+
