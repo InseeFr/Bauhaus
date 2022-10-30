@@ -1,4 +1,4 @@
-import React, { Component, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Menu } from '@inseefr/wilco';
