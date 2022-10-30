@@ -68,7 +68,7 @@ const OperationsDocumentationEdition = (props) => {
 			...initDocument,
 			...documentProps
 		}
-	}, [document])
+	}, [documentProps])
 	const [serverSideError, setServerSideError] = useState('');
 	const [saving, setSaving] = useState(false);
 	const [document, setDocument] = useState(defaultDocument);
