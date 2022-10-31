@@ -9,14 +9,20 @@ import D from '../../i18n/build-dictionary';
 
 const sortByLabel = ArrayUtils.sortArray('labelLg1');
 
-export const CodesListPanel = props => <CodesListPanelDumb {...props} getCodesList={CodesList.getCodesList}/>
-export const CodesListPanelDumb = ({ isOpen, handleBack, codesList, getCodesList }) => {
+export const CodesListPanel = props => <CodesListPanelDumb {...props} getCodesList={CodesList.getCodesList} getPartialCodesList={CodesList.getPartialCodesList}/>
+export const CodesListPanelDumb = ({ isOpen, handleBack, codesList, getCodesList, getPartialCodesList }) => {
 	const [codes, setCodes] = useState([])
 	useEffect(() => {
 		if(codesList && isOpen){
-			getCodesList(codesList.notation).then((response) => {
-				setCodes(sortByLabel(response.codes || []))
-			});
+
+			Promise.all([
+				getCodesList(codesList.notation),
+				getPartialCodesList(codesList.notation)
+			]).then(([ codesList, partialCodesList]) => {
+
+				const codes = codesList.codes ?? Object.values(partialCodesList.codes ?? {}) ?? []
+				setCodes(sortByLabel(codes || []))
+			})
 		}
 	}, [codesList, isOpen, getCodesList])
 	return (
