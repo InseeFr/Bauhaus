@@ -1,16 +1,16 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Stores, SelectRmes } from 'bauhaus-utilities';
+import { SelectRmes, StampsApi } from 'bauhaus-utilities';
 import { D1 } from '../i18n/build-dictionary';
+import { useQuery } from '@tanstack/react-query';
 
 const CreatorsInput = ({ value, onChange }) => {
-	const stamps = useSelector(
-		(state) => Stores.Stamps.getStampList(state) || []
-	);
-	const stampsOptions = stamps.map((stamp) => ({
-		value: stamp,
-		label: stamp,
-	}));
+	const { data: stampsOptions } = useQuery(['stamps'], () => {
+		return StampsApi.getStamps().then(stamps => stamps.map(stamp => ({
+			value: stamp,
+			label: stamp
+		})))
+	})
+
 	const creatorsArray = Array.isArray(value) ? value : [value];
 
 	return (
