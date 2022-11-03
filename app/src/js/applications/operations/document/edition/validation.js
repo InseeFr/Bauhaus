@@ -30,6 +30,16 @@ function haveFiles(files = []) {
 	return files.length > 0;
 }
 
+function checkUrl (url) {
+	let givenURL
+	try {
+		givenURL = new URL (url);
+	} catch (error) {
+		return false;
+	}
+	return givenURL.protocol === "http:" || givenURL.protocol === "https:";
+}
+
 /**
  * Check if the document or link we want to add is valid.
  *
@@ -48,7 +58,7 @@ export function validate(document, type, files) {
 	} else if (type === LINK && !document.url) {
 		errorMessage = D.requiredUrl;
 		fields.url = true;
-	} else if (type === LINK && !/https*\:\/\//.test(document.url)) {
+	} else if (type === LINK && !checkUrl(document.url)) {
 		errorMessage = D.badUrl;
 		fields.url = true;
 	} else if (type === DOCUMENT && !document.updatedDate) {
