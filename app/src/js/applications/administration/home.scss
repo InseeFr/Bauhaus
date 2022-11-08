@@ -1,14 +1,12 @@
-.admin-home .items {
-	display: inline-block;
-	width: 35%;
-	margin-left: 5%;
-	margin-right: 5%;
-	margin-top: 10%;
-}
+.admin-home {
+	h2 {
+		display: inline-block;
+		width: 35%;
+		margin: 10% 5% 0 5%;
+	}
 
-.admin-home .img {
-	width: 25%;
-	margin-left: 10%;
-	margin-right: 10%;
-	margin-top: 2%;
+	img {
+		width: 25%;
+		margin: 2% 10% 0 10%;
+	}
 }

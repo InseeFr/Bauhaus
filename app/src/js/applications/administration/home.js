@@ -11,14 +11,14 @@ function AdministrationHome() {
 			<PageTitle title="Administration" />
 			<div className="text-center">
 				<Link to="/concepts/administration/dashboard">
-					<h2 className="items page-title page-title-link">
+					<h2 className="page-title page-title-link">
 						{D.dashboardTitle}
 					</h2>
 				</Link>
 			</div>
 			<div className="text-center">
 				<Link to="/concepts/administration/dashboard">
-					<img src={dashBoardLogo} alt="Dashboard" className="img" />
+					<img src={dashBoardLogo} alt="Dashboard"/>
 				</Link>
 			</div>
 		</div>
