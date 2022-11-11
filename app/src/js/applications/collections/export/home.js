@@ -3,15 +3,21 @@ import Picker from 'js/applications/shared/picker-page';
 import D from 'js/i18n';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 
-const CollectionsToExport = ({ collections, handleExportCollectionList }) => {
+const CollectionsToExport = ({ collections, handleOdtExportCollectionList, handleOdsExportCollectionList }) => {
 	const [displayModal, setDisplayModal] = useState(false);
 	const [ids, setIds] = useState([]);
 
-	const handleExportCollectionListCallback = useCallback(
+	const handleOdtExportCollectionListCallback = useCallback(
 		(MimeType) => {
-			handleExportCollectionList(ids, MimeType);
+			handleOdtExportCollectionList(ids, MimeType);
 		},
-		[ids, handleExportCollectionList]
+		[ids, handleOdtExportCollectionList]
+	);
+	const handleOdsExportCollectionListCallback = useCallback(
+		(MimeType) => {
+			handleOdsExportCollectionList(ids, MimeType);
+		},
+		[ids, handleOdsExportCollectionList]
 	);
 
 	const openModal = useCallback((ids) => {
@@ -25,11 +31,18 @@ const CollectionsToExport = ({ collections, handleExportCollectionList }) => {
 	}, []);
 
 	const closeOdt = useCallback(() => {
-		handleExportCollectionListCallback(
+		handleOdtExportCollectionListCallback(
 			'application/vnd.oasis.opendocument.text'
 		);
 		closeModal();
-	}, [closeModal, handleExportCollectionListCallback]);
+	}, [closeModal, handleOdtExportCollectionListCallback]);
+
+	const closeOds = useCallback(() => {
+		handleOdsExportCollectionListCallback(
+			'application/vnd.oasis.opendocument.text'
+		);
+		closeModal();
+	}, [closeModal, handleOdsExportCollectionListCallback]);
 
 	const modalButtons = [
 		{
@@ -40,6 +53,11 @@ const CollectionsToExport = ({ collections, handleExportCollectionList }) => {
 		{
 			label: D.btnOdt,
 			action: closeOdt,
+			style: 'primary',
+		},
+		{
+			label: D.btnOds,
+			action: closeOds,
 			style: 'primary',
 		},
 	];
