@@ -11,8 +11,6 @@ Web application for the management of concepts, classifications and other statis
 
 The documentation can be found in the [docs](https://github.com/InseeFr/Bauhaus/tree/main/docs) folder and [browsed online](https://inseefr.github.io/Bauhaus).
 
-[Storybook](https://inseefr.github.io/Bauhaus/storybook) is also available online.
-
 ## How to start
 
 The application is tested on Node.js 14 and 16.
