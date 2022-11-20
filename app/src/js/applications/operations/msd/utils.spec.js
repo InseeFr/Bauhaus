@@ -56,7 +56,7 @@ describe('shouldDisplayDuplicateButton', () => {
 	});
 });
 
-describe('shouldDisplayDuplicateButton', () => {
+describe('hasLabelLg2', () => {
 	it('should return true if the section is a TEXT', () => {
 		const input = { rangeType: TEXT };
 		expect(hasLabelLg2(input)).toBeTruthy();
