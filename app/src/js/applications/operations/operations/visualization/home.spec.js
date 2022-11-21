@@ -24,8 +24,8 @@ describe('OperationVisualization', () => {
 			/>
 		);
 		expect(
-			container.querySelectorAll('.row:first-child .wilco-note').length
-		).toBe(1);
+			container.querySelectorAll('.row:first-child .wilco-note')
+		).toHaveLength(1);
 	});
 
 	it('should renderer all informations for the second lang', () => {

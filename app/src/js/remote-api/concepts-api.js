@@ -125,6 +125,16 @@ const api = {
 		},
 		res => res,
 	],
+	getCollectionExportByType: (id, MimeType, type) => [
+		`collection/export/${id}/${type}`,
+		{
+			headers: {
+				Accept: MimeType,
+				'Content-Type': 'text/plain',
+			},
+		},
+		res => res,
+	],
 	postCollectionSend: (id, mailInfo) => [
 		`collection/send/${id}`,
 		{

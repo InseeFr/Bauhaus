@@ -54,7 +54,7 @@ describe('DocumentsBloc', () => {
 		expect(container.querySelectorAll('.documentsbloc')).toHaveLength(0);
 	});
 
-	it('should display nothing if the documents props is an empty array', () => {
+	it('should display three items', () => {
 		const { container } = render(
 			<DocumentsBloc documents={documents} documentStores={documents} />
 		);

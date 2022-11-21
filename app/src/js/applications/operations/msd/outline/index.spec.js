@@ -25,10 +25,10 @@ describe('Outline', () => {
 			/>,
 			{ wrapper: MemoryRouter }
 		);
-		expect(container.querySelectorAll('.glyphicon-chevron-down').length).toBe(
+		expect(container.querySelectorAll('.glyphicon-chevron-down')).toHaveLength(
 			1
 		);
-		expect(container.querySelectorAll('.msd__item').length).toBe(0);
+		expect(container.querySelectorAll('.msd__item')).toHaveLength(0);
 	});
 
 	it('should display a expanded block', () => {
@@ -39,8 +39,8 @@ describe('Outline', () => {
 			/>,
 			{ wrapper: MemoryRouter }
 		);
-		expect(container.querySelectorAll('.glyphicon-chevron-up').length).toBe(1);
-		expect(container.querySelectorAll('.msd__item').length).toBe(1);
+		expect(container.querySelectorAll('.glyphicon-chevron-up')).toHaveLength(1);
+		expect(container.querySelectorAll('.msd__item')).toHaveLength(1);
 	});
 
 
@@ -49,7 +49,7 @@ describe('Outline', () => {
 			<Outline metadataStructure={metadataStructureOpened} />,
 			{ wrapper: MemoryRouter }
 		);
-		expect(container.querySelectorAll('.glyphicon-chevron-up').length).toBe(0);
-		expect(container.querySelectorAll('.msd__item').length).toBe(0);
+		expect(container.querySelectorAll('.glyphicon-chevron-up')).toHaveLength(0);
+		expect(container.querySelectorAll('.msd__item')).toHaveLength(0);
 	});
 });
