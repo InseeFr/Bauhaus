@@ -66,7 +66,7 @@ export const MeasureAttribute = ({ attribute, value, attributes, codesLists }) =
 }
 export const MeasureAttributes = ({ measure, attributes, codesLists }) => {
 	const measureAttributes = Object.keys(measure).filter(key => key.indexOf("attribute_") === 0).map(key => {
-		const index = key.substr(key.indexOf("_") + 1);
+		const index = key.substring(key.indexOf("_") + 1);
 		return [measure["attribute_" + index], measure["attributeValue_" + index]]
 	})
 	return (
