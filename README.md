@@ -11,8 +11,6 @@ Web application for the management of concepts, classifications and other statis
 
 The documentation can be found in the [docs](https://github.com/InseeFr/Bauhaus/tree/main/docs) folder and [browsed online](https://inseefr.github.io/Bauhaus).
 
-[Storybook](https://inseefr.github.io/Bauhaus/storybook) is also available online.
-
 ## How to start
 
 The application is tested on Node.js 14 and 16.
@@ -23,6 +21,15 @@ cd Bauhaus
 yarn
 yarn build-insee
 yarn start
+```
+
+## Docker
+
+You can also run the application thanks to **Docker**
+
+```shell
+docker build --file Dockerfile.dev -t bauhaus:front .
+docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3000:3000 bauhaus:front
 ```
 
 ## Issues

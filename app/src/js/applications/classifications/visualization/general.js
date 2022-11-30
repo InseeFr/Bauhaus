@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import D from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 import { DSURLToLabel, Note } from '@inseefr/wilco';
-import { DateUtils } from 'bauhaus-utilities';
+import { DateUtils, HTMLUtils, Row } from 'bauhaus-utilities';
 
 export default ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
@@ -40,7 +40,8 @@ export default ({ general, secondLang, langs }) => {
 		homepage: D.homepageTitle,
 	};
 	return (
-		<div className="row">
+		<>
+		<Row>
 			<Note
 				title={D.globalInformationsTitle}
 				alone={true}
@@ -195,6 +196,23 @@ export default ({ general, secondLang, langs }) => {
 					</ul>
 				}
 			></Note>
-		</div>
+		</Row>
+		<Row>
+			<Note
+				title={D1.descriptionTitle}
+				text={HTMLUtils.renderMarkdownElement(general.descriptionLg1)}
+				alone={!secondLang}
+				allowEmpty={true}
+			/>
+			{secondLang && (
+				<Note
+					title={D2.descriptionTitle}
+					text={HTMLUtils.renderMarkdownElement(general.descriptionLg2)}
+					alone={false}
+					allowEmpty={true}
+				/>
+			)}
+		</Row>
+	</>
 	);
 };

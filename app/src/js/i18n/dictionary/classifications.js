@@ -143,6 +143,10 @@ const dictionary = {
 		fr: length => `Titre abrégé (${length})`,
 		en: length => `Short title (${length})`,
 	},
+	classificationItemAltError: {
+		fr: length => `Le titre abrégé (${length}) doit contenir maximum ${length} caractères`,
+		en: length => `The short title (${length}) should contain ${length} characters max`,
+	},
 	classificationConceptVersionTitle: {
 		fr: 'Version du poste',
 		en: 'Item version',
@@ -158,6 +162,18 @@ const dictionary = {
 	classificationTreeTitle: {
 		fr: 'Arbre de la nomenclature',
 		en: 'Classification tree',
+	},
+	additionalMaterialHttp: {
+		fr: 'Le document lié doit être une URL',
+		en: 'Additional material must be an URL',
+	},
+	legalMaterialHttp: {
+		fr: 'Les textes légaux doivent être une URL',
+		en: 'Legal material must be an URL',
+	},
+	homepageHttp: {
+		fr: 'L\'Url de diffusion de la nomenclature doit être une URL',
+		en: 'The Classification diffusion Url must be an URL',
 	},
 };
 

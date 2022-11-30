@@ -1,0 +1,15 @@
+FROM node:14-alpine
+
+WORKDIR /app
+
+COPY package.json ./
+COPY yarn.lock ./
+
+# add app
+COPY . ./
+
+RUN yarn
+RUN yarn build
+
+# start app
+CMD ["yarn", "start"]

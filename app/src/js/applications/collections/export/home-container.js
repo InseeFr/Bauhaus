@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import CollectionsToExport from './home';
 import { getContentDisposition, Loading } from '@inseefr/wilco';
@@ -14,13 +14,13 @@ const CollectionsToExportContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [exporting, setExporting] = useState(false);
 
-	const handleExportCollectionList = useCallback(
-		(ids, MimeType) => {
+	const handleExportCollectionList = type => {
+		return (ids, MimeType) => {
 			setExporting(true);
 			Promise.all(ids.map(id => {
 				let fileName;
 				return api
-					.getCollectionExport(id, MimeType)
+					.getCollectionExportByType(id, MimeType, type)
 					.then(res => {
 						fileName = getContentDisposition(
 							res.headers.get('Content-Disposition')
@@ -34,10 +34,8 @@ const CollectionsToExportContainer = () => {
 			}))
 				.then(() => history.push("/collections"))
 				.finally(() => setExporting(false))
-		},
-		[history]
-	);
-
+		}
+	}
 
 	useEffect(() => {
 		api.getCollectionList()
@@ -50,7 +48,8 @@ const CollectionsToExportContainer = () => {
 	return (
 		<CollectionsToExport
 			collections={collections}
-			handleExportCollectionList={handleExportCollectionList}
+			handleOdtExportCollectionList={handleExportCollectionList('odt')}
+			handleOdsExportCollectionList={handleExportCollectionList('ods')}
 		/>
 	);
 };

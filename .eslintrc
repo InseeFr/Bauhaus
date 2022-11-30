@@ -5,7 +5,7 @@
 		"plugin:testing-library/react",
 		"plugin:jest-dom/recommended"
 	],
-	"plugins": ["testing-library", "jest-dom"],
+	"plugins": ["testing-library", "jest-dom", "jest"],
 	"rules": {
 		"jsx-a11y/href-no-hash": 0,
 		"no-useless-escape": "off",
@@ -17,7 +17,12 @@
 		"testing-library/prefer-screen-queries": 0,
 		"testing-library/prefer-presence-queries": 0,
 		"testing-library/no-unnecessary-act": 0,
-		"testing-library/no-wait-for-multiple-assertions": 0
+		"testing-library/no-wait-for-multiple-assertions": 0,
+		"jest/no-disabled-tests": "error",
+		"jest/no-focused-tests": "error",
+		"jest/no-identical-title": "error",
+		"jest/prefer-to-have-length": "warn",
+		"jest/valid-expect": "error"
 	},
 	"settings": {
 		"react": {

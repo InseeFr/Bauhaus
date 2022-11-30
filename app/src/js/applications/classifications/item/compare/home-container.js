@@ -1,67 +1,32 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { Loading, buildExtract } from '@inseefr/wilco';
+import React  from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { Loading } from '@inseefr/wilco';
 import Compare from './home';
-import loadItem from 'js/actions/classifications/item';
-import * as select from 'js/reducers/classifications/item';
 import * as mainSelect from 'js/reducers';
 import { Stores } from 'bauhaus-utilities';
+import useClassificationItem from '../hook';
 
-const extractClassificationId = buildExtract('classificationId');
-const extractItemId = buildExtract('itemId');
+const CompareContainer = () => {
+	const { classificationId, itemId } = useParams();
 
-class CompareContainer extends Component {
-	static propTypes = {
-		classificationId: PropTypes.string.isRequired,
-		itemId: PropTypes.string.isRequired,
-	};
+	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
+	const langs = useSelector(state => mainSelect.getLangs(state));
 
-	componentWillMount() {
-		const { classificationId, itemId, item } = this.props;
-		if (!item) {
-			this.props.loadItem(classificationId, itemId);
-		}
-	}
+	const { isLoading, item } = useClassificationItem(classificationId, itemId);
 
-	render() {
-		let { classificationId, itemId, item, secondLang, langs } = this.props;
-		if (!item) return <Loading />;
-		const { general, notes } = item;
-		return (
-			<Compare
-				classificationId={classificationId}
-				itemId={itemId}
-				general={general}
-				notes={notes}
-				secondLang={secondLang}
-				langs={langs}
-			/>
-		);
-	}
+	if (isLoading) return <Loading />;
+
+	return (
+		<Compare
+			classificationId={classificationId}
+			itemId={itemId}
+			general={item.general}
+			notes={item.notes}
+			secondLang={secondLang}
+			langs={langs}
+		/>
+	);
 }
 
-const mapStateToProps = (state, ownProps) => {
-	const classificationId = extractClassificationId(ownProps);
-	const itemId = extractItemId(ownProps);
-	const item = select.getFullItem(state, classificationId, itemId);
-	const secondLang = Stores.SecondLang.getSecondLang(state);
-	const langs = mainSelect.getLangs(state);
-	return {
-		classificationId,
-		itemId,
-		item,
-		secondLang,
-		langs,
-	};
-};
-
-const mapDispatchToProps = {
-	loadItem,
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(withRouter(CompareContainer));
+export default CompareContainer;

@@ -1,13 +1,12 @@
 import { getItems } from './utils/list-reducer';
 import { combineReducers } from 'redux';
-import app from './app';
+import app from '../store/users';
 import sharedReducers from './shared';
 import classificationsReducers from './classifications';
 import operationsReducers from './operations';
 import codesListReducers from './operations/codesList';
 import organisationsReducers from './operations/organisations';
 import { Stores } from 'bauhaus-utilities';
-
 import remoteCalls from './remote-calls';
 
 export default combineReducers({

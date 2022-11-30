@@ -35,6 +35,7 @@ class CompareNotes extends Component {
 		const { select1, select2 } = this.state;
 		const notesVersion1 = buildNotes(notes[select1]);
 		const notesVersion2 = buildNotes(notes[select2]);
+
 		return (
 			<div>
 				<div className="row">

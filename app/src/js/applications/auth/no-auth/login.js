@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
-import { checkAuth } from 'js/actions/app';
 import {
 	ADMIN,
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
 } from 'bauhaus-utilities/src/auth/roles';
+import { checkAuth } from '../../../store/users';
 
 const LoginNoAuth = ({ checkAuth }) => {
 	useEffect(() => {

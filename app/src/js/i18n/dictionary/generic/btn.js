@@ -47,6 +47,10 @@ export default {
 		fr: 'Exporter en ODT',
 		en: 'Export as ODT',
 	},
+	btnOds: {
+		fr: 'Exporter en ODS',
+		en: 'Export as ODS',
+	},
 	btnSend: {
 		fr: 'Envoyer',
 		en: 'Send',
@@ -67,4 +71,8 @@ export default {
 		fr: 'Supprimer',
 		en: 'Delete',
 	},
+	btnSave: {
+		fr: 'Sauvegarder',
+		en: 'Save',
+	}
 };
