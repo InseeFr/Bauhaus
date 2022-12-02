@@ -42,7 +42,7 @@ const CollectionVisualizationControls = ({
 	} else if (contributor) {
 		btns = [cancel, exportConcept, update];
 	} else {
-		btns = [cancel];
+		btns = [cancel, exportConcept];
 	}
 
 	const modalButtons = [
