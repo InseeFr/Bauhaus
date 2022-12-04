@@ -9,7 +9,19 @@ import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore([]);
 const store = mockStore({
-		app: { secondLang: false },
+	users: {
+		results: {
+			stamp: 'stamp'
+		}
+	},
+	app: {
+		secondLang: false,
+		auth: {
+			user: {
+				roles: []
+			}
+		}
+	},
 		disseminationStatus: {
 			results: [{}]
 		}
