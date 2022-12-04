@@ -6,7 +6,7 @@ import {
 	Loading,
 } from '@inseefr/wilco';
 import './component-list.scss';
-import { FilterToggleButtons, useTitle, SearchableList } from 'bauhaus-utilities';
+import { FilterToggleButtons, useTitle, SearchableList, Auth } from 'bauhaus-utilities';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { useHistory } from 'react-router-dom';
 
@@ -61,7 +61,7 @@ function ComponentsList() {
 		<div className="container structures-components-list">
 			<div className="row">
 				<VerticalMenu>
-					<NewButton action={"/structures/components/create?type=" + encodeURIComponent(filter)} wrapper={false} />
+					<Auth.AuthGuard roles={[Auth.ADMIN]}><NewButton action={"/structures/components/create?type=" + encodeURIComponent(filter)} wrapper={false} /></Auth.AuthGuard>
 				</VerticalMenu>
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.componentTitle} col={12} offset={0} />

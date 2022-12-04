@@ -12,7 +12,15 @@ import { typeUriToLabel, getAllAttachment, getDisseminationStatus } from '../../
 import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
-import { HTMLUtils, ValidationButton, CreationUpdateItems, PublicationMale,useTitle, Row } from 'bauhaus-utilities';
+import {
+	HTMLUtils,
+	ValidationButton,
+	CreationUpdateItems,
+	PublicationMale,
+	useTitle,
+	Row,
+	Auth,
+} from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 import "./view.scss";
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
@@ -134,10 +142,10 @@ export const ComponentDetailView = ({
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
 				{canBeDeleted(component) && (
-					<DeleteButton action={handleDelete} col={col} />
+					<Auth.AuthGuard roles={[Auth.ADMIN]}><DeleteButton action={handleDelete} col={col} /></Auth.AuthGuard>
 				)}
-				<ValidationButton callback={publish} object={component} />
-				{updatable && <UpdateButton action={handleUpdate} col={col} />}
+				<Auth.AuthGuard roles={[Auth.ADMIN]}><ValidationButton callback={publish} object={component} /></Auth.AuthGuard>
+				{updatable && <Auth.AuthGuard roles={[Auth.ADMIN]}><UpdateButton action={handleUpdate} col={col} /></Auth.AuthGuard>}
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
 			<div className="row">

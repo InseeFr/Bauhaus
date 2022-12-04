@@ -8,7 +8,7 @@ import {
 	DeleteButton,
 	DuplicateButton,
 } from '@inseefr/wilco';
-import { ValidationButton } from 'bauhaus-utilities';
+import { Auth, ValidationButton } from 'bauhaus-utilities';
 import StructureAPI from '../../apis/structure-api';
 
 const Controls = ({ structure, publish }) => {
@@ -25,10 +25,10 @@ const Controls = ({ structure, publish }) => {
 		<ActionToolbar>
 			<ReturnButton action="/structures" />
 			{isLocal && <ExportButton action={console.log} />}
-			<ValidationButton object={structure} callback={publish} />
-			<DuplicateButton action={`/structures/${id}/duplicate`} />
-			<DeleteButton action={handleDelete} />
-			<UpdateButton action={`/structures/${id}/update`} />
+			<Auth.AuthGuard roles={[Auth.ADMIN]}><ValidationButton object={structure} callback={publish} /></Auth.AuthGuard>
+			<Auth.AuthGuard roles={[Auth.ADMIN]}><DuplicateButton action={`/structures/${id}/duplicate`} /></Auth.AuthGuard>
+			<Auth.AuthGuard roles={[Auth.ADMIN]}><DeleteButton action={handleDelete} /></Auth.AuthGuard>
+			<Auth.AuthGuard roles={[Auth.ADMIN]}><UpdateButton action={`/structures/${id}/update`} /></Auth.AuthGuard>
 		</ActionToolbar>
 	);
 };
