@@ -28,21 +28,21 @@ const CollectionVisualizationControls = ({
 		collectionCreator,
 	);
 
-	let btns;
 
 	const exportConcept = [() => setDisplayModal(true), D.btnExporter];
 	const cancel = [`/collections`, D.btnReturn];
 	const validate = [handleValidation, D.btnValid];
 	const update = [`/collection/${id}/modify`, D.btnUpdate];
 
+	const btns = [cancel, exportConcept]
 	if (admin || creator) {
-		btns = isValidated
-			? [cancel, exportConcept, update]
-			: [cancel, exportConcept, update, validate];
+		btns.push(update);
+
+		if(!isValidated){
+			btns.push(validate)
+		}
 	} else if (contributor) {
-		btns = [cancel, exportConcept, update];
-	} else {
-		btns = [cancel, exportConcept];
+		btns.push(update);
 	}
 
 	const modalButtons = [
