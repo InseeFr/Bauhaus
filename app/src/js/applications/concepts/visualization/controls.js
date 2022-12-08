@@ -73,7 +73,7 @@ const ConceptVisualizationControls = (props) => {
 			? [cancel, compare, exportConcept, update]
 			: [cancel, compare, exportConcept, update, validate];
 	} else {
-		btns = [cancel, compare];
+		btns = [cancel, compare, exportConcept];
 	}
 
 	const modalButtons = [

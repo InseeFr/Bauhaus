@@ -267,6 +267,14 @@ const dictionary = {
 		fr: 'Inclure la seconde langue',
 		en: 'Include second language',
 	},
+	exportLg1: {
+		fr: 'Première langue',
+		en: 'First language',
+	},
+	exportLg2: {
+		fr: 'Seconde langue',
+		en: 'Second language',
+	},
 	exportDocument: {
 		fr: 'Exporter les documents',
 		en: 'Export documents',

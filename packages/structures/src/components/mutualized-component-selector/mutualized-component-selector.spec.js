@@ -7,9 +7,19 @@ import { MutualizedComponentsSelector } from '.';
 
 const mockStore = configureStore([]);
 const store = mockStore({
+	users: {
+		results: {
+			stamp: 'stamp'
+		}
+	},
 	app: {
-		secondLang: false
-	}
+		secondLang: true,
+		auth: {
+			user: {
+				roles: []
+			}
+		}
+	},
 });
 
 describe('<MutualizedComponentsSelector />', () => {

@@ -9,7 +9,7 @@ import {
 import { StructureAPI } from 'bauhaus-structures';
 import D from 'js/i18n';
 import { getEnvVar } from 'js/utils/env';
-import { useTitle, SearchableList } from 'bauhaus-utilities';
+import { useTitle, SearchableList, Auth } from 'bauhaus-utilities';
 
 const Home = () => {
 	useTitle(D.structuresTitle, D.structuresTitle);
@@ -26,13 +26,15 @@ const Home = () => {
 		<div className="container">
 			<div className="row">
 				<VerticalMenu>
-					<NewButton
-						label={D.btnNewFemale}
-						action="/structures/create"
-						col={8}
-						offset={2}
-						wrapper={false}
-					/>
+					<Auth.AuthGuard roles={[Auth.ADMIN]}>
+						<NewButton
+							label={D.btnNewFemale}
+							action="/structures/create"
+							col={8}
+							offset={2}
+							wrapper={false}
+						/>
+					</Auth.AuthGuard>
 					{isLocal && (
 						<ImportButton
 							label={D.btnImport}

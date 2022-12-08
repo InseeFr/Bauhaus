@@ -1,29 +1,47 @@
 import '@testing-library/jest-dom';
 import React from 'react';
-import {
-	render,
-	fireEvent,
-	getByText,
-	queryByText,
-} from '@testing-library/react';
+import { fireEvent, getByText, queryByText, render } from '@testing-library/react';
+import configureStore from 'redux-mock-store';
 
-import { ComponentDetailView, canBeDeleted } from './view';
+import { canBeDeleted, ComponentDetailView } from './view';
+import { Provider } from 'react-redux';
+import { Auth } from 'bauhaus-utilities';
+
+const mockStore = configureStore([]);
+const store = mockStore({
+	users: {
+		results: {
+			stamp: 'stamp',
+		},
+	},
+	app: {
+		secondLang: true,
+		auth: {
+			user: {
+				roles: [Auth.ADMIN],
+			},
+		},
+	},
+	stampList: {
+		results: [],
+	},
+});
 
 describe('canBeDeleted', () => {
 	it('can delete if the component is unpublished', () => {
 		expect(
-			canBeDeleted({ validationState: 'Unpublished', structures: [] })
+			canBeDeleted({ validationState: 'Unpublished', structures: [] }),
 		).toBeTruthy();
 	});
 	it('cannot delete if the component is Validated', () => {
 		expect(
-			canBeDeleted({ validationState: 'Validated', structures: [] })
+			canBeDeleted({ validationState: 'Validated', structures: [] }),
 		).toBeFalsy();
 	});
 
 	it('cannot delete if the component is Modified', () => {
 		expect(
-			canBeDeleted({ validationState: 'Modified', structures: [] })
+			canBeDeleted({ validationState: 'Modified', structures: [] }),
 		).toBeFalsy();
 	});
 
@@ -32,7 +50,7 @@ describe('canBeDeleted', () => {
 			canBeDeleted({
 				validationState: 'Unpublished',
 				structures: [{ validationState: 'Validated' }],
-			})
+			}),
 		).toBeFalsy();
 	});
 
@@ -41,7 +59,7 @@ describe('canBeDeleted', () => {
 			canBeDeleted({
 				validationState: 'Unpublished',
 				structures: [{ validationState: 'Modified' }],
-			})
+			}),
 		).toBeFalsy();
 	});
 });
@@ -63,7 +81,7 @@ describe('<ComponentDetailView />', () => {
 		modified: new Date('2020-01-01'),
 		contributor: 'STAMP CONTRIBUTOR',
 		creator: 'STAMP CREATOR',
-		disseminationStatus: "http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique"
+		disseminationStatus: 'http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique',
 	};
 
 	const concepts = [
@@ -82,14 +100,18 @@ describe('<ComponentDetailView />', () => {
 	];
 	it('should display  the update button if the component is updatable', () => {
 		const { container } = render(
-			<ComponentDetailView
-				component={component}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleBack={() => {}}
-				handleUpdate={() => {}}
-				updatable={false}
-			></ComponentDetailView>
+			<Provider store={store}>
+				<ComponentDetailView
+					component={component}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleBack={() => {
+					}}
+					handleUpdate={() => {
+					}}
+					updatable={false}
+				></ComponentDetailView>
+			</Provider>,
 		);
 
 		expect(queryByText(container, 'Update')).not.toBeInTheDocument();
@@ -97,13 +119,16 @@ describe('<ComponentDetailView />', () => {
 	it('should call handleBack', () => {
 		const handleBack = jest.fn();
 		const { container } = render(
-			<ComponentDetailView
-				component={component}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleBack={handleBack}
-				handleUpdate={() => {}}
-			></ComponentDetailView>
+			<Provider store={store}>
+				<ComponentDetailView
+					component={component}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleBack={handleBack}
+					handleUpdate={() => {
+					}}
+				></ComponentDetailView>
+			</Provider>,
 		);
 		fireEvent.click(getByText(container, 'Back'));
 
@@ -113,14 +138,17 @@ describe('<ComponentDetailView />', () => {
 		const handleUpdate = jest.fn();
 
 		const { container } = render(
-			<ComponentDetailView
-				component={component}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleBack={() => {}}
-				handleUpdate={handleUpdate}
-				updatable={true}
-			></ComponentDetailView>
+			<Provider store={store}>
+				<ComponentDetailView
+					component={component}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleBack={() => {
+					}}
+					handleUpdate={handleUpdate}
+					updatable={true}
+				></ComponentDetailView>
+			</Provider>,
 		);
 
 		fireEvent.click(getByText(container, 'Update'));
@@ -129,13 +157,17 @@ describe('<ComponentDetailView />', () => {
 	});
 	it('should display the main values', () => {
 		const { container } = render(
-			<ComponentDetailView
-				component={component}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleBack={() => {}}
-				handleUpdate={() => {}}
-			></ComponentDetailView>
+			<Provider store={store}>
+				<ComponentDetailView
+					component={component}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleBack={() => {
+					}}
+					handleUpdate={() => {
+					}}
+				></ComponentDetailView>
+			</Provider>,
 		);
 
 		expect(queryByText(container, 'Dimension')).toBeInTheDocument();
@@ -143,43 +175,55 @@ describe('<ComponentDetailView />', () => {
 	});
 	it('should display the attachment if the type is an attribute', () => {
 		const { container } = render(
-			<ComponentDetailView
-				component={{
-					...component,
-					type: 'http://purl.org/linked-data/cube#attribute',
-				}}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleBack={() => {}}
-				handleUpdate={() => {}}
-			></ComponentDetailView>
+			<Provider store={store}>
+				<ComponentDetailView
+					component={{
+						...component,
+						type: 'http://purl.org/linked-data/cube#attribute',
+					}}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleBack={() => {
+					}}
+					handleUpdate={() => {
+					}}
+				></ComponentDetailView>
+			</Provider>,
 		);
 		expect(queryByText(container, 'Observation')).toBeInTheDocument();
 	});
 
 	it('should not display the codeList if the range is  not an XSD_CODE_LIST', () => {
 		const { container } = render(
-			<ComponentDetailView
-				component={{ ...component, range: 'fake' }}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleBack={() => {}}
-				handleUpdate={() => {}}
-			></ComponentDetailView>
+			<Provider store={store}>
+				<ComponentDetailView
+					component={{ ...component, range: 'fake' }}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleBack={() => {
+					}}
+					handleUpdate={() => {
+					}}
+				></ComponentDetailView>
+			</Provider>,
 		);
 
 		expect(queryByText(container, 'Code List - Label 492')).not.toBeInTheDocument();
 	});
 
-	it("should display the general informations block", () => {
+	it('should display the general informations block', () => {
 		const { container } = render(
-			<ComponentDetailView
-				component={{ ...component, range: 'fake' }}
-				concepts={concepts}
-				codesLists={codesLists}
-				handleBack={() => {}}
-				handleUpdate={() => {}}
-			></ComponentDetailView>
+			<Provider store={store}>
+				<ComponentDetailView
+					component={{ ...component, range: 'fake' }}
+					concepts={concepts}
+					codesLists={codesLists}
+					handleBack={() => {
+					}}
+					handleUpdate={() => {
+					}}
+				></ComponentDetailView>
+			</Provider>,
 		);
 		expect(container.querySelector('ul li:nth-child(1)').innerHTML).toContain('Notation : 5e7334002a5c764f68247222');
 		expect(container.querySelector('ul li:nth-child(2)').innerHTML).toContain('Creation date : 01/01/2020');
@@ -189,5 +233,5 @@ describe('<ComponentDetailView />', () => {
 		expect(container.querySelector('ul li:nth-child(6)').innerHTML).toContain('Contributor : STAMP CONTRIBUTOR');
 		expect(container.querySelector('ul li:nth-child(7)').innerHTML).toContain('Diffusion status : Public generic');
 
-	})
+	});
 });

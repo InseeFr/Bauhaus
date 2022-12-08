@@ -5,9 +5,9 @@ import { ActionToolbar, Button, getContentDisposition } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
-import ModalRmes from '../../shared/modal-rmes/modal-rmes';
 import api from '../../../remote-api/concepts-api';
 import FileSaver from 'file-saver';
+import { CollectionExportModal } from '../modal';
 
 const CollectionVisualizationControls = ({
 		 isValidated,
@@ -28,63 +28,51 @@ const CollectionVisualizationControls = ({
 		collectionCreator,
 	);
 
-	let btns;
 
 	const exportConcept = [() => setDisplayModal(true), D.btnExporter];
 	const cancel = [`/collections`, D.btnReturn];
 	const validate = [handleValidation, D.btnValid];
 	const update = [`/collection/${id}/modify`, D.btnUpdate];
 
+	const btns = [cancel, exportConcept]
 	if (admin || creator) {
-		btns = isValidated
-			? [cancel, exportConcept, update]
-			: [cancel, exportConcept, update, validate];
+		btns.push(update);
+
+		if(!isValidated){
+			btns.push(validate)
+		}
 	} else if (contributor) {
-		btns = [cancel, exportConcept, update];
-	} else {
-		btns = [cancel];
+		btns.push(update);
 	}
 
-	const modalButtons = [
-		{
-			label: D.btnCancel,
-			action: () => setDisplayModal(false),
-			style: 'default',
-		},
-		{
-			label: D.btnOdt,
-			action: () => {
-				let fileName;
-				return api
-					.getCollectionExport(id, 'application/vnd.oasis.opendocument.text')
-					.then(res => {
-						fileName = getContentDisposition(
-							res.headers.get('Content-Disposition')
-						)[1];
-						return res;
-					})
-					.then(res => res.blob())
-					.then(blob => {
-						return FileSaver.saveAs(blob, fileName);
-					})
-					.finally(() => {
-						setDisplayModal(false)
-					})
-			},
-			style: 'primary',
-		},
-	];
+	const handleExportCollectionList = type => {
+		return (ids, MimeType, lang) => {
+			const promise = api.getCollectionExportByType(ids[0], MimeType, type, lang);
+			let fileName;
+			return promise.then(res => {
+				fileName = getContentDisposition(
+					res.headers.get('Content-Disposition')
+				)[1];
+				return res;
+			})
+				.then(res => res.blob())
+				.then(blob => {
+					return FileSaver.saveAs(blob, fileName);
+				})
+		}
+	}
 
 	return (
 		<>
-			<ModalRmes
-				id="export-concept-modal"
-				isOpen={displayModal}
-				title={D.exportModalTitle}
-				body={D.exportModalBody}
-				modalButtons={modalButtons}
-				closeCancel={() => setDisplayModal(false)}
-			/>
+			{
+				displayModal && (
+					<CollectionExportModal
+						ids={[id]}
+						exportOds={handleExportCollectionList('ods')}
+						exportOdt={handleExportCollectionList('odt')}
+						close={() => setDisplayModal(false)}></CollectionExportModal>
+				)
+			}
 			<ActionToolbar>
 				{btns.map((btn) => {
 					if (!btn) return null;
