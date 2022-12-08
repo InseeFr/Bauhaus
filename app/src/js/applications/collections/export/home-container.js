@@ -15,25 +15,23 @@ const CollectionsToExportContainer = () => {
 	const [exporting, setExporting] = useState(false);
 
 	const handleExportCollectionList = type => {
-		return (ids, MimeType) => {
+		return (ids, MimeType, lang) => {
 			setExporting(true);
 			Promise.all(ids.map(id => {
 				let fileName;
-				return api
-					.getCollectionExportByType(id, MimeType, type)
-					.then(res => {
-						fileName = getContentDisposition(
-							res.headers.get('Content-Disposition')
-						)[1];
-						return res;
-					})
+				return api.getCollectionExportByType(id, MimeType, type, lang).then(res => {
+					fileName = getContentDisposition(
+						res.headers.get('Content-Disposition')
+					)[1];
+					return res;
+				})
 					.then(res => res.blob())
 					.then(blob => {
 						return FileSaver.saveAs(blob, fileName);
 					});
 			}))
 				.then(() => history.push("/collections"))
-				.finally(() => setExporting(false))
+				.finally(() => setExporting(false));
 		}
 	}
 
@@ -48,8 +46,8 @@ const CollectionsToExportContainer = () => {
 	return (
 		<CollectionsToExport
 			collections={collections}
-			handleOdtExportCollectionList={handleExportCollectionList('odt')}
-			handleOdsExportCollectionList={handleExportCollectionList('ods')}
+			exportOdt={handleExportCollectionList('odt')}
+			exportOdt={handleExportCollectionList('ods')}
 		/>
 	);
 };

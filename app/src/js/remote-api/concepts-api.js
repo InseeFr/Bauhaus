@@ -115,6 +115,16 @@ const api = {
 	],
 	getCollectionGeneral: id => [`collection/${id}`],
 	getCollectionMembersList: id => [`collection/${id}/members`],
+	getCollectionExportZipByType: (ids, type) => [
+		`collection/export-zip/${ids.join(',')}/${type}`,
+		{
+			headers: {
+				Accept: "application/octet-stream",
+				'Content-Type': 'text/plain',
+			},
+		},
+		res => res,
+	],
 	getCollectionExport: (id, MimeType) => [
 		`collection/export/${id}`,
 		{
@@ -125,8 +135,8 @@ const api = {
 		},
 		res => res,
 	],
-	getCollectionExportByType: (id, MimeType, type) => [
-		`collection/export/${id}/${type}`,
+	getCollectionExportByType: (id, MimeType, type, lang) => [
+		`collection/export/${id}/${type}?langue=${lang}`,
 		{
 			headers: {
 				Accept: MimeType,
