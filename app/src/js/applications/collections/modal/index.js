@@ -25,7 +25,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 			lang
 		);
 		close();
-	}, [close, handleOdtExportCollectionListCallback]);
+	}, [close, lang, handleOdtExportCollectionListCallback]);
 
 	const closeOds = useCallback(() => {
 		handleOdsExportCollectionListCallback(
