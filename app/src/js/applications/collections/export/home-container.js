@@ -47,7 +47,7 @@ const CollectionsToExportContainer = () => {
 		<CollectionsToExport
 			collections={collections}
 			exportOdt={handleExportCollectionList('odt')}
-			exportOdt={handleExportCollectionList('ods')}
+			exportOds={handleExportCollectionList('ods')}
 		/>
 	);
 };
