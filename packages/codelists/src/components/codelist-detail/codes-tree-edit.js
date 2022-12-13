@@ -47,7 +47,7 @@ const CodesTreeEdit = ({
 	const seeClickHandler = useCallback(
 		(e) => {
 			const chosenCode = codes.find(
-				(c) => c.code === e.target.parentElement.dataset.componentId
+				(c) => c.code === (e.target.parentElement.dataset.componentId ?? e.target.dataset.componentId)
 			);
 			if (chosenCode) {
 				setSelectedCode(chosenCode);
