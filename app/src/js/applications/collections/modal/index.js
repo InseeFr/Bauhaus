@@ -27,6 +27,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 		close();
 	}, [close, handleOdtExportCollectionListCallback, lang]);
 
+
 	const closeOds = useCallback(() => {
 		handleOdsExportCollectionListCallback(
 			'application/vnd.oasis.opendocument.text'
