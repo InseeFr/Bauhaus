@@ -15,23 +15,32 @@ const CollectionsToExportContainer = () => {
 	const [exporting, setExporting] = useState(false);
 
 	const handleExportCollectionList = type => {
-		return (ids, MimeType, lang) => {
+		return (ids, MimeType, lang = "lg1") => {
 			setExporting(true);
-			Promise.all(ids.map(id => {
+
+			let promise;
+			if(ids.length > 1){
+				promise = api.getCollectionExportZipByType(ids, type, lang)
+			} else if(ids.length === 1){
+				promise = api.getCollectionExportByType(ids[0], MimeType, type, lang);
+			}
+
+			if(!!promise){
 				let fileName;
-				return api.getCollectionExportByType(id, MimeType, type, lang).then(res => {
-					fileName = getContentDisposition(
-						res.headers.get('Content-Disposition')
-					)[1];
-					return res;
-				})
+				promise
+					.then(res => {
+						fileName = getContentDisposition(
+							res.headers.get('Content-Disposition')
+						)[1];
+						return res;
+					})
 					.then(res => res.blob())
 					.then(blob => {
 						return FileSaver.saveAs(blob, fileName);
-					});
-			}))
-				.then(() => history.push("/collections"))
-				.finally(() => setExporting(false));
+					})
+					.then(() => history.push("/collections"))
+					.finally(() => setExporting(false));
+			}
 		}
 	}
 

@@ -46,7 +46,7 @@ const CollectionVisualizationControls = ({
 	}
 
 	const handleExportCollectionList = type => {
-		return (ids, MimeType, lang) => {
+		return (ids, MimeType, lang = "lg1") => {
 			const promise = api.getCollectionExportByType(ids[0], MimeType, type, lang);
 			let fileName;
 			return promise.then(res => {

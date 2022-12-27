@@ -41,8 +41,8 @@ const ConceptsToExportContainer = () => {
 			.then(blob => {
 				return FileSaver.saveAs(blob, fileName);
 			})
-		.then(() => history.push("/concepts"))
-		.finally(() => setExporting(false))
+			.then(() => history.push("/concepts"))
+			.finally(() => setExporting(false))
 	}
 
 

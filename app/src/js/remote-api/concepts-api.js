@@ -115,8 +115,8 @@ const api = {
 	],
 	getCollectionGeneral: id => [`collection/${id}`],
 	getCollectionMembersList: id => [`collection/${id}/members`],
-	getCollectionExportZipByType: (ids, type) => [
-		`collection/export-zip/${ids.join(',')}/${type}`,
+	getCollectionExportZipByType: (ids, type, lang) => [
+		`collection/export-zip/${ids.join(',')}/${type}?langue=${lang}`,
 		{
 			headers: {
 				Accept: "application/octet-stream",
