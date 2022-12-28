@@ -4,7 +4,8 @@ import CollectionsToExport from './home';
 import { getContentDisposition, Loading } from '@inseefr/wilco';
 import { ArrayUtils, useTitle } from 'bauhaus-utilities';
 import D from '../../../i18n/build-dictionary';
-import api from '../../../remote-api/concepts-api';
+import api from '../../../remote-api/concepts-collection-api';
+import apiConcepts from '../../../remote-api/concepts-api';
 import FileSaver from 'file-saver';
 
 const CollectionsToExportContainer = () => {
@@ -15,14 +16,14 @@ const CollectionsToExportContainer = () => {
 	const [exporting, setExporting] = useState(false);
 
 	const handleExportCollectionList = type => {
-		return (ids, MimeType, lang = "lg1") => {
+		return (ids, MimeType, lang = "lg1", withConcepts) => {
 			setExporting(true);
 
 			let promise;
 			if(ids.length > 1){
-				promise = api.getCollectionExportZipByType(ids, type, lang)
+				promise = api.getCollectionExportZipByType(ids, type, lang, withConcepts)
 			} else if(ids.length === 1){
-				promise = api.getCollectionExportByType(ids[0], MimeType, type, lang);
+				promise = api.getCollectionExportByType(ids[0], MimeType, type, lang, withConcepts);
 			}
 
 			if(!!promise){
@@ -45,7 +46,7 @@ const CollectionsToExportContainer = () => {
 	}
 
 	useEffect(() => {
-		api.getCollectionList()
+		apiConcepts.getCollectionList()
 			.then(body => setCollections(ArrayUtils.sortArrayByLabel(body)))
 			.finally(() => setLoading(false))
 	}, [])
