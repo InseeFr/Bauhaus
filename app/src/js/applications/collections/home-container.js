@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import CollectionsHome from './home';
 import { ArrayUtils, Auth } from 'bauhaus-utilities';
-import api from '../../remote-api/concepts-api';
+import api from '../../remote-api/concepts-collection-api';
 
 const CollectionsHomeContainer = () =>  {
 	const permission = useSelector(state => Auth.getPermission(state));

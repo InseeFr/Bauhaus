@@ -5,7 +5,6 @@ import { getContentDisposition, Loading } from '@inseefr/wilco';
 import { ArrayUtils, useTitle } from 'bauhaus-utilities';
 import D from '../../../i18n/build-dictionary';
 import api from '../../../remote-api/concepts-collection-api';
-import apiConcepts from '../../../remote-api/concepts-api';
 import FileSaver from 'file-saver';
 
 const CollectionsToExportContainer = () => {
@@ -46,7 +45,7 @@ const CollectionsToExportContainer = () => {
 	}
 
 	useEffect(() => {
-		apiConcepts.getCollectionList()
+		api.getCollectionList()
 			.then(body => setCollections(ArrayUtils.sortArrayByLabel(body)))
 			.finally(() => setLoading(false))
 	}, [])

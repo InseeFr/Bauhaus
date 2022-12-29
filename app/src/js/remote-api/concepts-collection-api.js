@@ -1,6 +1,7 @@
 import { API } from 'bauhaus-utilities';
 
 const api = {
+	getCollectionList: () => ['collections'],
 	getCollectionExportZipByType: (ids, type, lang = "lg1", withConcepts = false) => [
 		`export-zip/${ids.join(',')}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
 		{
