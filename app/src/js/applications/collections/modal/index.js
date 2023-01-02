@@ -2,19 +2,21 @@ import D from '../../../i18n/build-dictionary';
 import { Button } from '@inseefr/wilco';
 import Modal from 'react-modal';
 import React, { useCallback, useState } from 'react';
+import './index.scss';
 
 export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 	const [lang, setLang] = useState('lg1');
+	const [withConcepts, setWithConcepts] = useState(false);
 
 	const handleOdtExportCollectionListCallback = useCallback(
-		(MimeType, lang) => {
-			exportOdt(ids, MimeType, lang);
+		(MimeType, lang, withConcepts) => {
+			exportOdt(ids, MimeType, lang, withConcepts);
 		},
 		[ids, exportOdt]
 	);
 	const handleOdsExportCollectionListCallback = useCallback(
-		(MimeType) => {
-			exportOds(ids, MimeType);
+		(MimeType, withConcepts) => {
+			exportOds(ids, MimeType, withConcepts);
 		},
 		[ids, exportOds]
 	);
@@ -22,22 +24,24 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 	const closeOdt = useCallback(() => {
 		handleOdtExportCollectionListCallback(
 			'application/vnd.oasis.opendocument.text',
-			lang
+			lang,
+			withConcepts
 		);
 		close();
-	}, [close, handleOdtExportCollectionListCallback, lang]);
+	}, [close, handleOdtExportCollectionListCallback, lang, withConcepts]);
 
 
 	const closeOds = useCallback(() => {
 		handleOdsExportCollectionListCallback(
-			'application/vnd.oasis.opendocument.text'
+			'application/vnd.oasis.opendocument.text',
+			withConcepts
 		);
 		close();
-	}, [close, handleOdsExportCollectionListCallback]);
+	}, [close, handleOdsExportCollectionListCallback, withConcepts]);
 
 	return (
 		<Modal
-			className={`Modal__Bootstrap modal-dialog operations`}
+			className={`Modal__Bootstrap modal-dialog operations collections-modal`}
 			isOpen={true}
 			ariaHideApp={false}
 		>
@@ -52,6 +56,16 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 
 				<div className="modal-body export-modal-body">
 					<div className='row'>
+						<div className='col-md-offset-1'>
+							<input id="withConcepts" type='checkbox' checked={withConcepts === true} onChange={() => setWithConcepts(!withConcepts)}/>
+							<label className="col-md-offset-1" htmlFor="withConcepts">
+								{D.exportConcepts}
+							</label>
+						</div>
+
+					</div>
+					<fieldset className='row'>
+						<legend>{D.exportLgTitle}</legend>
 						<div className="col-md-offset-1 form-check">
 							<input checked={lang === 'lg1'} className="form-check-input" type="radio" name="lang" id="lg1"
 										 onClick={() => setLang('lg1')} />
@@ -66,7 +80,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 								{D.exportLg2}
 							</label>
 						</div>
-					</div>
+					</fieldset>
 				</div>
 
 

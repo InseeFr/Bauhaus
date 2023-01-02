@@ -5,7 +5,7 @@ import { ActionToolbar, Button, getContentDisposition } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
-import api from '../../../remote-api/concepts-api';
+import api from '../../../remote-api/concepts-collection-api';
 import FileSaver from 'file-saver';
 import { CollectionExportModal } from '../modal';
 
@@ -15,6 +15,7 @@ const CollectionVisualizationControls = ({
 		 creator: collectionCreator,
 		 id,
 		 handleValidation,
+		 setExporting
 	 }) => {
 
 	const [displayModal, setDisplayModal] = useState(false);
@@ -46,8 +47,9 @@ const CollectionVisualizationControls = ({
 	}
 
 	const handleExportCollectionList = type => {
-		return (ids, MimeType, lang) => {
-			const promise = api.getCollectionExportByType(ids[0], MimeType, type, lang);
+		return (ids, MimeType, lang = "lg1", withConcepts) => {
+			setExporting(true);
+			const promise = api.getCollectionExportByType(ids[0], MimeType, type, lang, withConcepts);
 			let fileName;
 			return promise.then(res => {
 				fileName = getContentDisposition(
@@ -55,10 +57,11 @@ const CollectionVisualizationControls = ({
 				)[1];
 				return res;
 			})
-				.then(res => res.blob())
-				.then(blob => {
-					return FileSaver.saveAs(blob, fileName);
-				})
+			.then(res => res.blob())
+			.then(blob => {
+				return FileSaver.saveAs(blob, fileName);
+			})
+			.finally(() => setExporting(false))
 		}
 	}
 

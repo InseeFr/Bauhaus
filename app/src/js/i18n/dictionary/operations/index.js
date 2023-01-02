@@ -267,6 +267,10 @@ const dictionary = {
 		fr: 'Inclure la seconde langue',
 		en: 'Include second language',
 	},
+	exportLgTitle: {
+		fr: 'Selectionnez la langue ',
+		en: 'Select the	 language',
+	},
 	exportLg1: {
 		fr: 'Première langue',
 		en: 'First language',
@@ -274,6 +278,10 @@ const dictionary = {
 	exportLg2: {
 		fr: 'Seconde langue',
 		en: 'Second language',
+	},
+	exportConcepts: {
+		fr: 'Exporter les concepts',
+		en: 'Export concepts',
 	},
 	exportDocument: {
 		fr: 'Exporter les documents',

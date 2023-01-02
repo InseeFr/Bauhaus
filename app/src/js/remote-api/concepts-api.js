@@ -81,7 +81,6 @@ const api = {
 		},
 	],
 	// Collections
-	getCollectionList: () => ['collections'],
 	getCollectionDashboardList: () => ['collections/dashboard'],
 	getCollectionValidateList: () => ['collections/toValidate'],
 	postCollection: collection => [
@@ -115,46 +114,6 @@ const api = {
 	],
 	getCollectionGeneral: id => [`collection/${id}`],
 	getCollectionMembersList: id => [`collection/${id}/members`],
-	getCollectionExportZipByType: (ids, type) => [
-		`collection/export-zip/${ids.join(',')}/${type}`,
-		{
-			headers: {
-				Accept: "application/octet-stream",
-				'Content-Type': 'text/plain',
-			},
-		},
-		res => res,
-	],
-	getCollectionExport: (id, MimeType) => [
-		`collection/export/${id}`,
-		{
-			headers: {
-				Accept: MimeType,
-				'Content-Type': 'text/plain',
-			},
-		},
-		res => res,
-	],
-	getCollectionExportByType: (id, MimeType, type, lang) => [
-		`collection/export/${id}/${type}?langue=${lang}`,
-		{
-			headers: {
-				Accept: MimeType,
-				'Content-Type': 'text/plain',
-			},
-		},
-		res => res,
-	],
-	postCollectionSend: (id, mailInfo) => [
-		`collection/send/${id}`,
-		{
-			headers: {
-				Accept: 'text/plain',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(mailInfo),
-		},
-	],
 };
 
 export default API.buildApi('concepts', api);
