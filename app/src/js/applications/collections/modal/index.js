@@ -16,7 +16,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 	);
 	const handleOdsExportCollectionListCallback = useCallback(
 		(MimeType, withConcepts) => {
-			exportOds(ids, MimeType, withConcepts);
+			exportOds(ids, MimeType, lang, withConcepts);
 		},
 		[ids, exportOds]
 	);
@@ -68,13 +68,13 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 						<legend>{D.exportLgTitle}</legend>
 						<div className="col-md-offset-1 form-check">
 							<input checked={lang === 'lg1'} className="form-check-input" type="radio" name="lang" id="lg1"
-										 onClick={() => setLang('lg1')} />
+										 onChange={() => setLang('lg1')} />
 							<label className="form-check-label col-md-offset-1" htmlFor="lg1">
 								{D.exportLg1}
 							</label>
 						</div>
 						<div className="form-check col-md-offset-1">
-							<input onClick={() => setLang('lg2')} checked={lang === 'lg2'} className="form-check-input" type="radio" name="lang" id="lg2"
+							<input onChange={() => setLang('lg2')} checked={lang === 'lg2'} className="form-check-input" type="radio" name="lang" id="lg2"
 							/>
 							<label className="form-check-label col-md-offset-1" htmlFor="lg2">
 								{D.exportLg2}
