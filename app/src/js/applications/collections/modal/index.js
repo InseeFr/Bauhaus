@@ -15,7 +15,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 		[ids, exportOdt]
 	);
 	const handleOdsExportCollectionListCallback = useCallback(
-		(MimeType, withConcepts) => {
+		(MimeType, lang, withConcepts) => {
 			exportOds(ids, MimeType, lang, withConcepts);
 		},
 		[ids, exportOds]
@@ -34,10 +34,11 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 	const closeOds = useCallback(() => {
 		handleOdsExportCollectionListCallback(
 			'application/vnd.oasis.opendocument.text',
+			lang,
 			withConcepts
 		);
 		close();
-	}, [close, handleOdsExportCollectionListCallback, withConcepts]);
+	}, [close, handleOdsExportCollectionListCallback, lang, withConcepts]);
 
 	return (
 		<Modal
