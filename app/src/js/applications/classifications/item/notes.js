@@ -20,6 +20,7 @@ function ClassificationNotes({ secondLang, notes, langs }) {
 			langs={langs}
 			secondLang={secondLang}
 			context="classifications"
+			md
 		/>
 	);
 }
