@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown, PageTitleBlock, withTitle } from 'bauhaus-utilities';
+import { EditorMarkdown, PageTitleBlock, withTitle, ErrorBloc } from 'bauhaus-utilities';
 import {
 	CancelButton,
 	SaveButton,
 	Loading,
-	ErrorBloc,
 	ActionToolbar,
 	goBackOrReplace,
 	goBack,
@@ -100,10 +99,10 @@ class OperationsFamilyEdition extends Component {
 
 				<ActionToolbar>
 					<CancelButton action={goBack(this.props, '/operations/families')} />
-
-					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
+					<SaveButton action={this.onSubmit} disabled={errors.errorMessage.length > 0} />
 				</ActionToolbar>
-				<ErrorBloc error={globalError} />
+
+				<ErrorBloc error={globalError} D={D}/>
 
 				<form>
 					<div className="row">
