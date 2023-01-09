@@ -7,10 +7,6 @@ export default {
 		fr: 'La langue est obligatoire',
 		en: 'The language is required',
 	},
-	requiredUrl: {
-		fr: "L'URL est obligatoire",
-		en: 'The link is required',
-	},
 	badUrl: {
 		fr: "L'URL n'est valide",
 		en: 'The link is not valid',
