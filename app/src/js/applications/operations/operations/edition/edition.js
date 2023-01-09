@@ -5,7 +5,6 @@ import {
 	CancelButton,
 	SaveButton,
 	Loading,
-	ErrorBloc,
 	ActionToolbar,
 	goBack,
 	goBackOrReplace,
@@ -13,7 +12,7 @@ import {
 	Select,
 } from '@inseefr/wilco';
 import { validate } from './validation';
-import { PageTitleBlock, withTitle } from 'bauhaus-utilities';
+import { PageTitleBlock, withTitle, ErrorBloc } from 'bauhaus-utilities';
 import api from '../../../../remote-api/operations-api';
 
 const defaultOperation = {
@@ -98,8 +97,7 @@ class OperationsOperationEdition extends Component {
 		const series = operation.series || { id: '' };
 		const isEditing = !!operation.id;
 
-		const errors = validate(operation);
-		const globalError = errors.errorMessage || serverSideError;
+		const clientSideErrors = validate(operation);
 		return (
 			<div className="container editor-container">
 				{isEditing && (
@@ -113,10 +111,11 @@ class OperationsOperationEdition extends Component {
 				<ActionToolbar>
 					<CancelButton action={goBack(this.props, '/operations/operations')} />
 
-					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
+					<SaveButton action={this.onSubmit} disabled={clientSideErrors.errorMessage.length > 0} />
 				</ActionToolbar>
 
-				<ErrorBloc error={globalError} />
+				{clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} D={D}/>}
+				{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 
 				<form>
 					{!isEditing && (
@@ -146,7 +145,7 @@ class OperationsOperationEdition extends Component {
 								id="prefLabelLg1"
 								value={operation.prefLabelLg1}
 								onChange={this.onChange}
-								aria-invalid={errors.fields.prefLabelLg1}
+								aria-invalid={clientSideErrors.fields.prefLabelLg1}
 							/>
 						</div>
 						<div className="form-group col-md-6">
@@ -157,7 +156,7 @@ class OperationsOperationEdition extends Component {
 								id="prefLabelLg2"
 								value={operation.prefLabelLg2}
 								onChange={this.onChange}
-								aria-invalid={errors.fields.prefLabelLg2}
+								aria-invalid={clientSideErrors.fields.prefLabelLg2}
 							/>
 						</div>
 					</div>

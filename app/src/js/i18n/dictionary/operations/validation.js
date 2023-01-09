@@ -33,10 +33,6 @@ export default {
 		fr: 'Le propriétaire est obligatoire',
 		en: 'The owner is required',
 	},
-	requiredSeries: {
-		fr: 'La série est obligatoire',
-		en: 'The series is required',
-	},
 	documents: {
 		serverSideErrors: {
 			304: {
