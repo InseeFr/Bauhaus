@@ -5,7 +5,6 @@ import {
 	Loading,
 	CancelButton,
 	SaveButton,
-	ErrorBloc,
 	ActionToolbar,
 	goBack,
 	goBackOrReplace,
@@ -15,7 +14,7 @@ import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
-	PageTitleBlock, withTitle, SelectRmes
+	PageTitleBlock, withTitle, SelectRmes, ErrorBloc
 } from 'bauhaus-utilities';
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 

@@ -435,7 +435,10 @@ const dictionary = {
 		en: 'Export',
 	},
 	advancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
-
+	mandatoryProperty: {
+		fr: (propertyName) => `La propriété <strong>${propertyName}</strong> est obligatoire.`,
+		en: (propertyName) => `The property <strong>${propertyName}</strong> is required.`,
+	},
 };
 
 export default dictionary;

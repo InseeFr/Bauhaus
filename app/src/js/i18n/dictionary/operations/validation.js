@@ -29,10 +29,6 @@ export default {
 		en:
 			'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 	},
-	requiredFamily: {
-		fr: 'La famille est obligatoire',
-		en: 'The family is required',
-	},
 	requiredOwner: {
 		fr: 'Le propriétaire est obligatoire',
 		en: 'The owner is required',
