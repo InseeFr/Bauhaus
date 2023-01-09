@@ -84,8 +84,7 @@ class OperationsFamilyEdition extends Component {
 		const { family, serverSideError } = this.state;
 		const isEditing = !!family.id;
 
-		const errors = validate(family);
-		const globalError = errors.errorMessage || serverSideError;
+		const clientSideErrors = validate(family);
 
 		return (
 			<div className="container editor-container">
@@ -99,10 +98,11 @@ class OperationsFamilyEdition extends Component {
 
 				<ActionToolbar>
 					<CancelButton action={goBack(this.props, '/operations/families')} />
-					<SaveButton action={this.onSubmit} disabled={errors.errorMessage.length > 0} />
+					<SaveButton action={this.onSubmit} disabled={clientSideErrors.errorMessage.length > 0} />
 				</ActionToolbar>
 
-				<ErrorBloc error={globalError} D={D}/>
+				{ clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} D={D}/> }
+				{ serverSideError && <ErrorBloc error={[serverSideError]} D={D}/> }
 
 				<form>
 					<div className="row">
@@ -114,7 +114,7 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg1"
 								value={this.state.family.prefLabelLg1}
 								onChange={this.onChange}
-								aria-invalid={errors.fields.prefLabelLg1}
+								aria-invalid={clientSideErrors.fields.prefLabelLg1}
 							/>
 						</div>
 						<div className="col-md-6 form-group">
@@ -125,7 +125,7 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg2"
 								value={family.prefLabelLg2}
 								onChange={this.onChange}
-								aria-invalid={errors.fields.prefLabelLg2}
+								aria-invalid={clientSideErrors.fields.prefLabelLg2}
 							/>
 						</div>
 					</div>
