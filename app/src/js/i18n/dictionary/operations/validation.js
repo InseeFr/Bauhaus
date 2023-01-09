@@ -29,10 +29,6 @@ export default {
 		en:
 			'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 	},
-	requiredOwner: {
-		fr: 'Le propriétaire est obligatoire',
-		en: 'The owner is required',
-	},
 	documents: {
 		serverSideErrors: {
 			304: {
