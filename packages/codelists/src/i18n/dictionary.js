@@ -253,5 +253,10 @@ const dictionary = {
 		fr: 'Libellé...',
 		en: 'Label...',
 	},
+	//tODO find a solution in order to avoid this duplicated key
+	mandatoryProperty: {
+		fr: propertyName => `La propriété <strong>${propertyName}</strong> est obligatoire.`,
+		en: propertyName => `The property <strong>${propertyName}</strong> is required.`
+	}
 };
 export default dictionary;

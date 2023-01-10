@@ -1,6 +1,7 @@
 import React from 'react';
 import { getTreeFromFlatData } from 'react-sortable-tree';
 import D from '../i18n/build-dictionary';
+import { D1, D2 } from 'Bauhaus/src/js/i18n';
 
 export const formatLabel = (component) => {
 	return <React.Fragment>{component.labelLg1}</React.Fragment>;
@@ -53,31 +54,28 @@ export const validatePartialCodelist = (codelist) => {
 };
 
 export const validateCode = (code, codes, updateMode) => {
-	const validations = {
-		code: 'errorsIdMandatory',
-		labelLg1: 'errorsLabelLg1Mandatory',
-		labelLg2: 'errorsLabelLg1Mandatory',
-	};
+	const errors = [];
 
-	const emptyField = Object.keys(validations).find((field) => !code[field]);
+	if(!code.code){
+		errors.push(D.mandatoryProperty(D.idTitle));
+	}
+	if(!code.labelLg1){
+		errors.push(D.mandatoryProperty(D1.labelTitle));
+	}
 
-	if (emptyField) {
-		return {
-			emptyField,
-			message: D[validations[emptyField]],
-		};
+	if(!code.labelLg2){
+		errors.push(D.mandatoryProperty(D2.labelTitle));
 	}
 
 	const doubleCode = !updateMode && codes.find((c) => c.code === code.code);
 
 	if (doubleCode) {
-		return {
-			doubleCode,
-			message: D.ErrorDoubleCode,
-		};
+		errors.push(D.ErrorDoubleCode);
 	}
 
-	return {};
+	return {
+		errors
+	};
 };
 
 const treeElement = (n, i) => {
