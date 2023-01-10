@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Input, Loading, ErrorBloc, Select } from '@inseefr/wilco';
+import { Input, Loading, Select } from '@inseefr/wilco';
 import Controls from './controls';
 import Components from './components';
 import { StructureAPI, StructureConstants } from 'bauhaus-structures';
-import { Stores, AppContext } from 'bauhaus-utilities'
+import { Stores, AppContext, ErrorBloc } from 'bauhaus-utilities'
 import D, { D1, D2 } from 'js/i18n';
 import { useSelector, connect } from 'react-redux';
 import { default as ReactSelect } from 'react-select';
@@ -28,13 +28,18 @@ const defaultDSD = {
 	isRequiredBy: '',
 };
 
-export const validate = (structure) => {
-	const { identifiant, labelLg1, labelLg2 } = structure;
+export const validate = ({ identifiant, labelLg1, labelLg2 }) => {
+	const errors = [];
 	if (!identifiant) {
-		return D.requiredId;
-	} else if (!labelLg1 || !labelLg2) {
-		return D.requiredLabel;
+		errors.push(D.mandatoryProperty(D.idTitle));
 	}
+	if (!labelLg1) {
+		errors.push(D.mandatoryProperty(D1.labelTitle));
+	}
+	if (!labelLg2) {
+		errors.push(D.mandatoryProperty(D2.labelTitle));
+	}
+	return errors;
 };
 
 
@@ -78,7 +83,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 	if (redirectId) return <Redirect to={`/structures/${redirectId}`} />;
 	if (loading) return <Loading textType={'saving'} />;
 
-	const errorMessage = validate(structure);
+	const clientSideErrors = validate(structure);
 
 	return (
 		<>
@@ -92,12 +97,13 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 					).then((id) => {
 						setRedirectId(id);
 					}).catch(error => {
-						setServerSideError(D['errors_' + JSON.parse(error).code])
+						setServerSideError(error)
 					}).finally(() => setLoading(false))
 				}}
-				disabledSave={errorMessage}
+				disabledSave={clientSideErrors.length > 0}
 			/>
-			<ErrorBloc error={errorMessage || serverSideError} />
+			{ clientSideErrors && <ErrorBloc error={clientSideErrors} D={D}/>}
+			{ serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 			<Input
 				id="id"
 				label={

@@ -1,3 +1,4 @@
+//TO BE DELETED
 export default {
 	errors_1002: {
 		fr: 'Un composant avec la même liste de codes et le même concept existe déjà.',
