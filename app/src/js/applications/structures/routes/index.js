@@ -54,9 +54,9 @@ const StructureComponent = ({ loadStampList }) => {
 						component={StructuresComponentEdit}
 					/>
 					<Route exact path="/structures/create" component={Create} />
-					<Route exact path="/structures/:dsdId/update" component={Update} />
-					<Route exact path="/structures/:dsdId/duplicate" component={Update} />
-					<Route exact path="/structures/:dsdId" component={Visualization} />
+					<Route exact path="/structures/:structureId/update" component={Update} />
+					<Route exact path="/structures/:structureId/duplicate" component={Update} />
+					<Route exact path="/structures/:structureId" component={Visualization} />
 				</Switch>
 			</div>
 		</>

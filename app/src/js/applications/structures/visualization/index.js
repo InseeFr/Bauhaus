@@ -94,7 +94,7 @@ export const StructureView = ({secondLang, structure, publish, serverSideError})
 	);
 }
 const Structure = () => {
-	const { dsdId } = useParams();
+	const { structureId } = useParams();
 	const [structure, setStructure] = useState({});
 	const [loading, setLoading] = useState(true);
 	const [serverSideError, setServerSideError] = useState();
@@ -103,10 +103,10 @@ const Structure = () => {
 	);
 
 	useEffect(() => {
-		StructureAPI.getStructure(dsdId)
+		StructureAPI.getStructure(structureId)
 			.then((res) => setStructure(res))
 			.finally(() => setLoading(false));
-	}, [dsdId]);
+	}, [structureId]);
 
 	const publish = () => {
 		setLoading(true);
