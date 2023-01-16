@@ -5,7 +5,6 @@ import { StampsApi } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';
 import { TreeContext } from '../tree/treeContext';
-import D from '../../i18n/build-dictionary';
 import { CodeListDetailEdit } from './edit';
 import { useQuery } from '@tanstack/react-query';
 
