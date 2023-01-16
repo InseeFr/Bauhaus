@@ -5,8 +5,8 @@ describe('validation', function() {
 		expect(validate({ prefLabelLg2: 'prefLabelLg2' })).toEqual({
 			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
 			fields: {
-				'prefLabelLg1': true,
-				'prefLabelLg2': false,
+				'prefLabelLg1': 'The property <strong>Intitulé</strong> is required.',
+				'prefLabelLg2': '',
 			},
 		});
 	});
@@ -14,8 +14,8 @@ describe('validation', function() {
 		expect(validate({ prefLabelLg1: 'prefLabelLg1' })).toEqual({
 			errorMessage: ['The property <strong>Title</strong> is required.'],
 			fields: {
-				'prefLabelLg1': false,
-				'prefLabelLg2': true,
+				'prefLabelLg1': '',
+				'prefLabelLg2': 'The property <strong>Title</strong> is required.',
 			},
 		});
 	});
@@ -26,8 +26,8 @@ describe('validation', function() {
 				'The property <strong>Title</strong> is required.'
 			],
 			fields: {
-				'prefLabelLg1': true,
-				'prefLabelLg2': true,
+				'prefLabelLg1': 'The property <strong>Intitulé</strong> is required.',
+				'prefLabelLg2': 'The property <strong>Title</strong> is required.',
 			},
 		});
 	});
@@ -38,8 +38,8 @@ describe('validation', function() {
 		})).toEqual({
 			errorMessage: [],
 			fields: {
-				'prefLabelLg1': false,
-				'prefLabelLg2': false,
+				'prefLabelLg1': '',
+				'prefLabelLg2': '',
 			},
 		});
 	});
