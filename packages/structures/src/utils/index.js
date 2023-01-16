@@ -1,5 +1,5 @@
 import React from 'react';
-import D from '../i18n/build-dictionary';
+import D, {D1, D2} from '../i18n/build-dictionary';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
 	ATTACHMENTS,
@@ -91,21 +91,22 @@ export const defaultComponentsTableParams = [
 ];
 
 export const validateComponent = component => {
-	const validations = {
-		identifiant: 'errorsIdMandatory',
-		labelLg1: 'errorsLabelLg1Mandatory',
-		labelLg2: 'errorsLabelLg1Mandatory',
-		type: 'errorsTypeMandatory',
-	};
+	const errors = [];
 
-	const field = Object.keys(validations).find(field => !component[field]);
-
-	if (field) {
-		return {
-			field,
-			message: D[validations[field]],
-		};
+	if(!component.identifiant){
+		errors.push(D.mandatoryProperty(D.idTitle));
+	}
+	if(!component.labelLg1){
+		errors.push(D.mandatoryProperty(D1.label));
+	}
+	if(!component.labelLg2){
+		errors.push(D.mandatoryProperty(D2.label));
+	}
+	if(!component.type){
+		errors.push(D.mandatoryProperty(D1.type));
 	}
 
-	return {};
+	return {
+		errors
+	};
 };

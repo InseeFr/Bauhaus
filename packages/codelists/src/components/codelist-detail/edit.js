@@ -6,11 +6,10 @@ import {
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
-	ErrorBloc,
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { Stores, useTitle } from 'bauhaus-utilities';
+import { Stores, useTitle, ErrorBloc } from 'bauhaus-utilities';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import CodesTreeEdit from './codes-tree-edit';
@@ -146,7 +145,7 @@ const DumbCodelistDetailEdit = ({
 		[codes]
 	);
 
-	const { field, message } = validateCodelist(codelist);
+	const { errors: clientSideErrors } = validateCodelist(codelist);
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
@@ -174,10 +173,10 @@ const DumbCodelistDetailEdit = ({
 		<React.Fragment>
 			<ActionToolbar>
 				<CancelButton action={handleBack} col={3} />
-				<SaveButton disabled={message} action={handleSaveClick} col={3} />
+				<SaveButton disabled={clientSideErrors.length > 0} action={handleSaveClick} col={3} />
 			</ActionToolbar>
-			{message && <ErrorBloc error={message} />}
-			{serverSideError && <ErrorBloc error={serverSideError} />}
+			{clientSideErrors && <ErrorBloc error={clientSideErrors} D={D}/>}
+			{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 			<form>
 				<div className="row">
 					<div className={`col-md-12 form-group`}>
@@ -237,7 +236,6 @@ const DumbCodelistDetailEdit = ({
 							name="id"
 							value={codelist.id || ''}
 							onChange={handleChange}
-							aria-invalid={field === ''}
 						/>
 					</div>
 				</div>
@@ -251,7 +249,6 @@ const DumbCodelistDetailEdit = ({
 							name="labelLg1"
 							onChange={handleChange}
 							value={codelist.labelLg1 || ''}
-							aria-invalid={field === ''}
 						/>
 					</div>
 					<div className="col-md-6 form-group">
@@ -263,7 +260,6 @@ const DumbCodelistDetailEdit = ({
 							name="labelLg2"
 							onChange={handleChange}
 							value={codelist.labelLg2 || ''}
-							aria-invalid={field === ''}
 						/>
 					</div>
 				</div>

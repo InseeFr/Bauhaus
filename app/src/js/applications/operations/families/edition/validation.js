@@ -11,8 +11,8 @@ export function validate({ prefLabelLg1, prefLabelLg2 }) {
 	}
 	return {
 		fields: {
-			prefLabelLg1: !prefLabelLg1,
-			prefLabelLg2: !prefLabelLg2,
+			prefLabelLg1: !prefLabelLg1 ? D.mandatoryProperty(D1.title) : '',
+			prefLabelLg2: !prefLabelLg2 ? D.mandatoryProperty(D2.title) : '',
 		},
 		errorMessage: errorMessages
 	};

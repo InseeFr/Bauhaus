@@ -69,7 +69,7 @@ const CodelistPartialEdit = (props) => {
 				})
 				.catch((error) => {
 					setCodelist(codelist);
-					setServerSideError(D['errors_' + JSON.parse(error).code]);
+					setServerSideError(error);
 				})
 				.finally(() => setSaving(false));
 		},

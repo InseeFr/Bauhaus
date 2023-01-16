@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './errors-bloc.scss';
 
+export const ClientSideError = ({ error }) => {
+	return error ? <div className='text-danger' dangerouslySetInnerHTML={{ __html: error }}></div> : null;
+}
+export const GlobalClientSideErrorBloc = ({ clientSideErrors, D }) => {
+	return clientSideErrors?.length > 0 ? <div className="bauhaus-error-bloc alert alert-danger" role="alert">{<div dangerouslySetInnerHTML={{ __html: D.errors.GlobalClientSideErrorBloc }} /> || <span style={{ whiteSpace: 'pre-wrap' }}> </span>}</div> : null
+}
 const ErrorBloc = ({ error, D }) => {
 	const errors = Array.isArray(error) ? error : [error];
 
@@ -9,9 +15,15 @@ const ErrorBloc = ({ error, D }) => {
 		let errorMsg;
 		try {
 			const parsedError = JSON.parse(e);
-			errorMsg = parsedError.code
-				? D.errors[parsedError.code](parsedError)
-				: parsedError.message;
+
+			if(parsedError.code && D.errors[parsedError.code]){
+				errorMsg = D.errors[parsedError.code](parsedError);
+			} else if(parsedError.message && D.errors[parsedError.message]){
+				errorMsg = D.errors[parsedError.message](parsedError);
+			}
+			else {
+				errorMsg = parsedError.message
+			}
 		} catch (error) {
 			errorMsg = e;
 		}
