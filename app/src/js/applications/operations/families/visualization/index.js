@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import {
 	Button,
 	Loading,
-	ErrorBloc,
 	ActionToolbar,
 	goBack,
 	ReturnButton,
@@ -21,6 +20,7 @@ import {
 	ValidationButton,
 	CheckSecondLang,
 	PageTitleBlock,
+	ErrorBloc
 } from 'bauhaus-utilities';
 
 const Family = (props) => {
@@ -79,7 +79,7 @@ const Family = (props) => {
 				</Auth.AuthGuard>
 			</ActionToolbar>
 
-			<ErrorBloc error={serverSideError} />
+			{ serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 
 			<CheckSecondLang />
 

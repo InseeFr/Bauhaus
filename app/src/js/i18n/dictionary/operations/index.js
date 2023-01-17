@@ -9,6 +9,10 @@ const dictionary = {
 		fr: 'Opérations',
 		en: 'Operations',
 	},
+	familyTitle: {
+		fr: 'Famille',
+		en: 'Family',
+	},
 	familiesTitle: {
 		fr: 'Familles',
 		en: 'Families',

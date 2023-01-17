@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
-	PageTitleBlock, withTitle, SelectRmes
+	PageTitleBlock, withTitle, SelectRmes, ErrorBloc
 } from 'bauhaus-utilities';
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 import { CL_FREQ } from 'js/actions/constants/codeList';
@@ -135,8 +135,7 @@ class OperationsIndicatorEdition extends Component {
 			indicatorsOptions,
 			seriesOptions
 		);
-		const errors = validate(this.state.indicator);
-		const globalError = errors.errorMessage || this.state.serverSideError;
+		const clientSideErrors = validate(this.state.indicator);
 
 		return (
 			<div className="container editor-container">
@@ -150,8 +149,10 @@ class OperationsIndicatorEdition extends Component {
 				<Control
 					indicator={this.state.indicator}
 					onSubmit={this.onSubmit}
-					errorMessage={globalError}
+					disabled={clientSideErrors.length > 0}
 				/>
+				{clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} D={D}/>}
+				{this.state.serverSideError && <ErrorBloc error={this.state.serverSideError} D={D}/>}
 
 				<form>
 					<h4 className="text-center">
@@ -165,7 +166,7 @@ class OperationsIndicatorEdition extends Component {
 							star
 							handleChange={this.onChanges.prefLabelLg1}
 							arias={{
-								'aria-invalid': errors.fields.prefLabelLg1,
+								'aria-invalid': clientSideErrors.fields.prefLabelLg1,
 							}}
 							className="w-100"
 						/>
@@ -176,7 +177,7 @@ class OperationsIndicatorEdition extends Component {
 							star
 							handleChange={this.onChanges.prefLabelLg2}
 							arias={{
-								'aria-invalid': errors.fields.prefLabelLg2,
+								'aria-invalid': clientSideErrors.fields.prefLabelLg2,
 							}}
 							className="w-100"
 						/>

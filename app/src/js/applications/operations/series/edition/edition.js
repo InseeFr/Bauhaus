@@ -5,7 +5,6 @@ import {
 	Loading,
 	CancelButton,
 	SaveButton,
-	ErrorBloc,
 	ActionToolbar,
 	goBack,
 	goBackOrReplace,
@@ -15,7 +14,7 @@ import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
-	PageTitleBlock, withTitle, SelectRmes
+	PageTitleBlock, withTitle, SelectRmes, ErrorBloc
 } from 'bauhaus-utilities';
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 
@@ -160,8 +159,8 @@ class OperationsSerieEdition extends Component {
 			seriesOptions
 		);
 
-		const errors = validate(serie);
-		const globalError = errors.errorMessage || this.state.serverSideError;
+		const clientSideErrors = validate(serie);
+		const serverSideError = this.state.serverSideError;
 
 		return (
 			<div className="container editor-container">
@@ -175,10 +174,10 @@ class OperationsSerieEdition extends Component {
 
 				<ActionToolbar>
 					<CancelButton action={goBack(this.props, '/operations/series')} />
-					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
+					<SaveButton action={this.onSubmit} disabled={clientSideErrors.errorMessage.length > 0} />
 				</ActionToolbar>
-				<ErrorBloc error={globalError} />
-
+				{ clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} D={D}/> }
+				{ serverSideError && <ErrorBloc error={[serverSideError]} D={D}/> }
 				<form>
 					{!isEditing && (
 						<div className="row">
@@ -206,7 +205,7 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg1"
 								value={serie.prefLabelLg1}
 								onChange={this.onChange}
-								aria-invalid={errors.fields.prefLabelLg1}
+								aria-invalid={clientSideErrors.fields.prefLabelLg1}
 							/>
 						</div>
 						<div className="form-group col-md-6">
@@ -217,7 +216,7 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg2"
 								value={serie.prefLabelLg2}
 								onChange={this.onChange}
-								aria-invalid={errors.fields.prefLabelLg2}
+								aria-invalid={clientSideErrors.fields.prefLabelLg2}
 							/>
 						</div>
 					</div>

@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { PropTypes } from 'prop-types';
-import { ErrorBloc } from '@inseefr/wilco';
 import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
@@ -11,7 +10,7 @@ import { buildNotes, propTypes as notePropTypes } from 'js/utils/concepts/notes'
 import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
-import { CheckSecondLang, DateUtils, PageTitleBlock, useTitle } from 'bauhaus-utilities';
+import { CheckSecondLang, DateUtils, PageTitleBlock, useTitle, ErrorBloc } from 'bauhaus-utilities';
 import NoteVisualization from '../../shared/note-visualization';
 
 const ConceptVisualization = ({
@@ -77,7 +76,7 @@ const ConceptVisualization = ({
 					handleValidation={handleClickValidation}
 					handleDeletion={handleClickDeletion}
 				/>
-				<ErrorBloc error={serverSideError} />
+				{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 				<CheckSecondLang />
 
 				<ConceptGeneral secondLang={secondLang} attr={general} langs={langs} />

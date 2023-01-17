@@ -6,7 +6,6 @@ import * as select from 'js/reducers';
 
 import {
 	Loading,
-	ErrorBloc,
 	Button,
 	ActionToolbar,
 	goBack,
@@ -21,6 +20,7 @@ import {
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
+	ErrorBloc
 } from 'bauhaus-utilities';
 import api from '../../../../remote-api/operations-api';
 
@@ -97,7 +97,7 @@ const OperationVisualizationContainer = (props) => {
 				</Auth.AuthGuard>
 			</ActionToolbar>
 
-			<ErrorBloc error={serverSideError} />
+			{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 
 			<CheckSecondLang />
 

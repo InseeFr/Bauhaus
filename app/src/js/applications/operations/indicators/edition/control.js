@@ -1,27 +1,19 @@
 import React from 'react';
-import {
-	CancelButton,
-	SaveButton,
-	ErrorBloc,
-	ActionToolbar,
-} from '@inseefr/wilco';
+import { ActionToolbar, CancelButton, SaveButton } from '@inseefr/wilco';
 
-function Control({ onSubmit, indicator, errorMessage }) {
+function Control({ onSubmit, indicator, disabled }) {
 	return (
-		<>
-			<ActionToolbar>
-				<CancelButton
-					action={
-						indicator.id
-							? `/operations/indicator/${indicator.id}`
-							: `/operations/indicators`
-					}
-				/>
+		<ActionToolbar>
+			<CancelButton
+				action={
+					indicator.id
+						? `/operations/indicator/${indicator.id}`
+						: `/operations/indicators`
+				}
+			/>
 
-				<SaveButton action={onSubmit} disabled={errorMessage} />
-			</ActionToolbar>
-			<ErrorBloc error={errorMessage} />
-		</>
+			<SaveButton action={onSubmit} disabled={disabled} />
+		</ActionToolbar>
 	);
 }
 

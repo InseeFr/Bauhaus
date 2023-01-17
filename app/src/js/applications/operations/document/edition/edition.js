@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown, PageTitleBlock, withTitle } from 'bauhaus-utilities';
+import { EditorMarkdown, PageTitleBlock, withTitle, ErrorBloc } from 'bauhaus-utilities';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -9,7 +9,6 @@ import {
 	goBack,
 	goBackOrReplace,
 	Loading,
-	ErrorBloc,
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
@@ -115,15 +114,7 @@ const OperationsDocumentationEdition = (props) => {
 	if (saving) return <Loading textType="saving" />;
 
 	const isEditing = !!document.id;
-	const errors = validate(document, type, files);
-
-	let globalError;
-	try {
-		globalError =
-			errors.errorMessage ||
-			D.documents.serverSideErrors[JSON.parse(serverSideError).code] ||
-			serverSideError;
-	} catch (e) {}
+	const clientSideErrors = validate(document, type, files);
 
 	let updatedDate;
 	if (document.updatedDate) {
@@ -143,9 +134,10 @@ const OperationsDocumentationEdition = (props) => {
 
 			<ActionToolbar>
 				<CancelButton action={goBack(props, '/operations/documents')} />
-				<SaveButton action={onSubmit} disabled={errors.errorMessage} />
+				<SaveButton action={onSubmit} disabled={clientSideErrors.errorMessage.length > 0} />
 			</ActionToolbar>
-			<ErrorBloc error={globalError} />
+			{clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} D={D}/>}
+			{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 
 			<form>
 				<div className="row">
@@ -157,7 +149,7 @@ const OperationsDocumentationEdition = (props) => {
 							id="labelLg1"
 							value={document.labelLg1}
 							onChange={onChange}
-							aria-invalid={errors.fields.labelLg1}
+							aria-invalid={clientSideErrors.fields.labelLg1}
 						/>
 					</div>
 					<div className="col-md-6 form-group">
@@ -168,7 +160,7 @@ const OperationsDocumentationEdition = (props) => {
 							id="labelLg2"
 							value={document.labelLg2}
 							onChange={onChange}
-							aria-invalid={errors.fields.labelLg2}
+							aria-invalid={clientSideErrors.fields.labelLg2}
 						/>
 					</div>
 				</div>
@@ -202,7 +194,7 @@ const OperationsDocumentationEdition = (props) => {
 								id="url"
 								value={document.url}
 								onChange={onChange}
-								aria-invalid={errors.fields.url}
+								aria-invalid={clientSideErrors.fields.url}
 							/>
 						</div>
 					</div>
@@ -234,7 +226,7 @@ const OperationsDocumentationEdition = (props) => {
 									>
 										<input
 											{...getInputProps()}
-											aria-invalid={errors.fields.file}
+											aria-invalid={clientSideErrors.fields.file}
 										/>
 										<p>{D.drag}</p>
 									</div>
