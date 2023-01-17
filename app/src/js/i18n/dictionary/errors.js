@@ -16,6 +16,45 @@ export default {
 			en: () =>
 				'The <strong>Title</strong> property is already used by another family.',
 		},
+
+		"406_OPERATION_SERIES_OPERATION_SERIES_EXISTING_PREF_LABEL_LG1": {
+			fr: () =>
+				'La propriété <strong>Intitulé</strong> est déjà utilisée par une autre série.',
+			en: () =>
+				'The <strong>Intitulé</strong> property is already used by another series.',
+		},
+		"406_OPERATION_SERIES_OPERATION_SERIES_EXISTING_PREF_LABEL_LG2": {
+			fr: () =>
+				'La propriété <strong>Title</strong> est déjà utilisée par une autre série.',
+			en: () =>
+				'The <strong>Title</strong> property is already used by another series.',
+		},
+
+		"406_OPERATION_OPERATION_OPERATION_OPERATION_EXISTING_PREF_LABEL_LG1": {
+			fr: () =>
+				'La propriété <strong>Intitulé</strong> est déjà utilisée par une autre opération.',
+			en: () =>
+				'The <strong>Intitulé</strong> property is already used by another operation.',
+		},
+		"406_OPERATION_OPERATION_OPERATION_OPERATION_EXISTING_PREF_LABEL_LG2": {
+			fr: () =>
+				'La propriété <strong>Title</strong> est déjà utilisée par une autre opération.',
+			en: () =>
+				'The <strong>Title</strong> property is already used by another operation.',
+		},
+
+		"406_OPERATION_INDICATOR_OPERATION_INDICATOR_EXISTING_PREF_LABEL_LG1": {
+			fr: () =>
+				'La propriété <strong>Intitulé</strong> est déjà utilisée par un autre indicateur.',
+			en: () =>
+				'The <strong>Intitulé</strong> property is already used by another indicator.',
+		},
+		"406_OPERATION_INDICATOR_OPERATION_INDICATOR_EXISTING_PREF_LABEL_LG2": {
+			fr: () =>
+				'La propriété <strong>Title</strong> est déjà utilisée par un autre indicateur.',
+			en: () =>
+				'The <strong>Title</strong> property is already used by another indicator.',
+		},
 		101: {
 			fr: () =>
 				'Vous ne disposez pas des autorisation requises pour la création d’un concept. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
