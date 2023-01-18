@@ -1,5 +1,60 @@
 export default {
 	errors: {
+		GlobalClientSideErrorBloc: {
+			fr: 'Vous avez des erreurs dans ce formulaire.',
+			en: 'You have errors in this form.'
+		},
+		"406_OPERATION_FAMILY_OPERATION_FAMILY_EXISTING_PREF_LABEL_LG1": {
+			fr: () =>
+				'La propriété <strong>Intitulé</strong> est déjà utilisée par une autre famille.',
+			en: () =>
+				'The <strong>Intitulé</strong> property is already used by another family.',
+		},
+		"406_OPERATION_FAMILY_OPERATION_FAMILY_EXISTING_PREF_LABEL_LG2": {
+			fr: () =>
+				'La propriété <strong>Title</strong> est déjà utilisée par une autre famille.',
+			en: () =>
+				'The <strong>Title</strong> property is already used by another family.',
+		},
+
+		"406_OPERATION_SERIES_OPERATION_SERIES_EXISTING_PREF_LABEL_LG1": {
+			fr: () =>
+				'La propriété <strong>Intitulé</strong> est déjà utilisée par une autre série.',
+			en: () =>
+				'The <strong>Intitulé</strong> property is already used by another series.',
+		},
+		"406_OPERATION_SERIES_OPERATION_SERIES_EXISTING_PREF_LABEL_LG2": {
+			fr: () =>
+				'La propriété <strong>Title</strong> est déjà utilisée par une autre série.',
+			en: () =>
+				'The <strong>Title</strong> property is already used by another series.',
+		},
+
+		"406_OPERATION_OPERATION_OPERATION_OPERATION_EXISTING_PREF_LABEL_LG1": {
+			fr: () =>
+				'La propriété <strong>Intitulé</strong> est déjà utilisée par une autre opération.',
+			en: () =>
+				'The <strong>Intitulé</strong> property is already used by another operation.',
+		},
+		"406_OPERATION_OPERATION_OPERATION_OPERATION_EXISTING_PREF_LABEL_LG2": {
+			fr: () =>
+				'La propriété <strong>Title</strong> est déjà utilisée par une autre opération.',
+			en: () =>
+				'The <strong>Title</strong> property is already used by another operation.',
+		},
+
+		"406_OPERATION_INDICATOR_OPERATION_INDICATOR_EXISTING_PREF_LABEL_LG1": {
+			fr: () =>
+				'La propriété <strong>Intitulé</strong> est déjà utilisée par un autre indicateur.',
+			en: () =>
+				'The <strong>Intitulé</strong> property is already used by another indicator.',
+		},
+		"406_OPERATION_INDICATOR_OPERATION_INDICATOR_EXISTING_PREF_LABEL_LG2": {
+			fr: () =>
+				'La propriété <strong>Title</strong> est déjà utilisée par un autre indicateur.',
+			en: () =>
+				'The <strong>Title</strong> property is already used by another indicator.',
+		},
 		101: {
 			fr: () =>
 				'Vous ne disposez pas des autorisation requises pour la création d’un concept. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
@@ -274,5 +329,45 @@ export default {
 			en: () =>
 				'You do not have the required permissions for mailing a collection. For more information, please contact the management team.',
 		},
+		1002: {
+			fr: 'Un composant avec la même liste de codes et le même concept existe déjà.',
+			en: 'A component with the same code list and concept already exists.'
+		},
+		1004: {
+			fr: () => "Le propriétaire n'est pas défini.",
+			en: () => 'The creator is not defined.'
+		},
+		1005: {
+			fr: () => "Le statut de diffusion n'est pas défini.",
+			en: () => 'the Diffusion status is not defined.'
+		},
+		1006: {
+			fr: () => 'Le concept doit être publié.',
+			en: () => 'The concept must be published.'
+		},
+		1007: {
+			fr: () => 'La liste de codes doit être publiée.',
+			en: () => 'The codes list must be published.'
+		},
+		1008: {
+			fr: () => 'Tous les composants doivent être publiés',
+			en: () => 'All components must be validated.'
+		},
+		1101: {
+			fr: 'La liste de codes existe déjà.',
+			en: 'The codelist already exists.',
+		},
+		1102: {
+			fr: 'Une liste de codes ne peut pas être créée sans code.',
+			en: 'A codeList should contain at least one Code.',
+		},
+		1103: {
+			fr: "La liste de codes n'a pas pu être supprimée : elle a déjà été publiée.",
+			en: 'The codeList could not be removed: it is already published.',
+		},
+		1104: {
+			fr: "La liste de codes n'a pas pu être supprimée : une autre liste de codes dépend d'elle.",
+			en: 'The codeList could not be removed: another codeList depends on it.',
+		}
 	},
 };

@@ -1,12 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import {
-	ErrorBloc,
 	LabelRequired,
 	Select,
 	ActionToolbar,
 } from '@inseefr/wilco';
 import PropTypes from 'prop-types';
-import { Stores } from 'bauhaus-utilities';
+import { Stores, ErrorBloc } from 'bauhaus-utilities';
 import { validateCode } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { emptyCode } from './empty-code';
@@ -62,11 +61,11 @@ const DumbCodeDetailEdit = ({
 		})
 		.concat({ label: ' - ', value: '' });
 
-	const { field, message } = validateCode(code, codes, updateMode);
+	const { errors: clientSideErrors } = validateCode(code, codes, updateMode);
 	return (
 		<React.Fragment>
-			{message && <ErrorBloc error={message} />}
-			{serverSideError && <ErrorBloc error={serverSideError} />}
+			{clientSideErrors && <ErrorBloc error={clientSideErrors} D={D}/>}
+			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 			<div>
 				<div className="row">
 					<div className="col-md-12 form-group">
@@ -105,7 +104,6 @@ const DumbCodeDetailEdit = ({
 							value={code.code || ''}
 							onChange={handleChange}
 							disabled={updateMode}
-							aria-invalid={field === 'code'}
 						/>
 					</div>
 				</div>
@@ -119,7 +117,6 @@ const DumbCodeDetailEdit = ({
 							name="labelLg1"
 							value={code.labelLg1 || ''}
 							onChange={handleChange}
-							aria-invalid={field === 'labelLg1'}
 						/>
 					</div>
 					<div className="col-md-6 form-group">
@@ -131,7 +128,6 @@ const DumbCodeDetailEdit = ({
 							name="labelLg2"
 							value={code.labelLg2 || ''}
 							onChange={handleChange}
-							aria-invalid={field === 'labelLg2'}
 						/>
 					</div>
 				</div>
@@ -164,7 +160,7 @@ const DumbCodeDetailEdit = ({
 			<ActionToolbar>
 				<button
 					type="button"
-					disabled={message}
+					disabled={clientSideErrors.length > 0}
 					onClick={() => {
 						updateCode(code);
 						setUpdateMode(true);

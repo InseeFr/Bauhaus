@@ -6,11 +6,10 @@ import {
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
-	ErrorBloc,
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { Stores, useTitle } from 'bauhaus-utilities';
+import { Stores, useTitle, ErrorBloc } from 'bauhaus-utilities';
 import Picker from './picker';
 import { API } from '../../apis';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
@@ -33,7 +32,7 @@ const DumbCodelistPartialDetailEdit = ({
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
 	const [parentCodes, setParentCodes] = useState([]);
-	const { field, message } = validatePartialCodelist(codelist);
+	const { errors: clientServerError } = validatePartialCodelist(codelist);
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
@@ -135,10 +134,10 @@ const DumbCodelistPartialDetailEdit = ({
 		<React.Fragment>
 			<ActionToolbar>
 				<CancelButton action={handleBack} col={3} />
-				<SaveButton disabled={message} action={handleSaveClick} col={3} />
+				<SaveButton disabled={clientServerError.length > 0} action={handleSaveClick} col={3} />
 			</ActionToolbar>
-			{message && <ErrorBloc error={message} />}
-			{serverSideError && <ErrorBloc error={serverSideError} />}
+			{clientServerError && <ErrorBloc error={clientServerError} D={D}/>}
+			{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 			<form>
 				<div className="row">
 					<div className="col-md-12 form-group">
@@ -150,7 +149,6 @@ const DumbCodelistPartialDetailEdit = ({
 							name="id"
 							value={codelist.id || ''}
 							onChange={handleChange}
-							aria-invalid={field === ''}
 							disabled={updateMode}
 						/>
 					</div>
@@ -183,7 +181,6 @@ const DumbCodelistPartialDetailEdit = ({
 							name="labelLg1"
 							onChange={handleChange}
 							value={codelist.labelLg1 || ''}
-							aria-invalid={field === ''}
 						/>
 					</div>
 					<div className="col-md-6 form-group">
@@ -195,7 +192,6 @@ const DumbCodelistPartialDetailEdit = ({
 							name="labelLg2"
 							onChange={handleChange}
 							value={codelist.labelLg2 || ''}
-							aria-invalid={field === ''}
 						/>
 					</div>
 				</div>

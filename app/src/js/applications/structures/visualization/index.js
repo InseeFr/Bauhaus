@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Note, Loading, ErrorBloc } from '@inseefr/wilco';
+import { Note, Loading } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
 import {
 	CheckSecondLang,
 	Stores,
 	PageTitleBlock,
 	PublicationFemale,
-	useTitle, CreationUpdateItems,
+	useTitle, CreationUpdateItems, ErrorBloc
 } from 'bauhaus-utilities';
 import Components from './components';
 import { D1, D2 } from 'js/i18n';
@@ -38,7 +38,7 @@ export const StructureView = ({secondLang, structure, publish, serverSideError})
 			/>
 			<CheckSecondLang />
 			<StructureVisualizationControl structure={structure} publish={publish}/>
-			<ErrorBloc error={serverSideError} />
+			{serverSideError && <ErrorBloc error={serverSideError} D={D}/> }
 			<div className="row">
 				<Note
 					text={
@@ -94,7 +94,7 @@ export const StructureView = ({secondLang, structure, publish, serverSideError})
 	);
 }
 const Structure = () => {
-	const { dsdId } = useParams();
+	const { structureId } = useParams();
 	const [structure, setStructure] = useState({});
 	const [loading, setLoading] = useState(true);
 	const [serverSideError, setServerSideError] = useState();
@@ -103,10 +103,10 @@ const Structure = () => {
 	);
 
 	useEffect(() => {
-		StructureAPI.getStructure(dsdId)
+		StructureAPI.getStructure(structureId)
 			.then((res) => setStructure(res))
 			.finally(() => setLoading(false));
-	}, [dsdId]);
+	}, [structureId]);
 
 	const publish = () => {
 		setLoading(true);

@@ -3,11 +3,10 @@ import {
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
-	ErrorBloc,
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { AppContext, Stores, useTitle, Row, ArrayUtils } from 'bauhaus-utilities';
+import { AppContext, Stores, useTitle, Row, ArrayUtils, ErrorBloc } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES, MEASURE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_DATE, XSD_DATE_TIME, XSD_FLOAT, XSD_INTEGER, XSD_STRING, XSD_TYPES, IGEO_PAYS_OU_TERRITOIRE } from '../../utils/constants/xsd';
@@ -186,7 +185,7 @@ const DumbComponentDetailEdit = ({
 		label,
 	}));
 
-	const { field, message } = validateComponent(component);
+	const { errors: clientSideError } = validateComponent(component);
 
 
 	const attributesKeys = Object.keys({
@@ -216,10 +215,10 @@ const DumbComponentDetailEdit = ({
 		<React.Fragment>
 			<ActionToolbar>
 				<CancelButton action={handleBack} col={3} />
-				<SaveButton disabled={message} action={handleSaveClick} col={3} />
+				<SaveButton disabled={clientSideError.length > 0} action={handleSaveClick} col={3} />
 			</ActionToolbar>
-			{message && <ErrorBloc error={message} />}
-			{serverSideError && <ErrorBloc error={serverSideError} />}
+			{clientSideError && <ErrorBloc error={clientSideError} D={D}/>}
+			{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 			<form>
 				<div className="row">
 					<div className="col-md-12 form-group">
@@ -231,7 +230,6 @@ const DumbComponentDetailEdit = ({
 							name="identifiant"
 							value={component.identifiant}
 							onChange={handleChange}
-							aria-invalid={field === 'identifiant'}
 						/>
 					</div>
 				</div>
@@ -245,7 +243,6 @@ const DumbComponentDetailEdit = ({
 							name="labelLg1"
 							onChange={handleChange}
 							value={component.labelLg1}
-							aria-invalid={field === 'labelLg1'}
 						/>
 					</div>
 

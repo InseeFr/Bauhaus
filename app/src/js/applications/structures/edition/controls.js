@@ -8,11 +8,11 @@ import {
 } from '@inseefr/wilco';
 
 const Controls = ({ creation, save, disabledSave }) => {
-	const { dsdId } = useParams();
+	const { structureId } = useParams();
 	return (
 		<ActionToolbar>
 			<ReturnButton
-				action={creation ? '/structures' : `/structures/${cleanId(dsdId)}`}
+				action={creation ? '/structures' : `/structures/${cleanId(structureId)}`}
 			/>
 
 			<SaveButton action={save} disabled={disabledSave} />

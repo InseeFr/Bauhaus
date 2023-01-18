@@ -36,10 +36,6 @@ const dictionary = {
 		fr: "L'identifiant est obligatoire",
 		en: 'The id is mandatory',
 	},
-	errorsTypeMandatory: {
-		fr: 'Le type est obligatoire',
-		en: 'The type is mandatory',
-	},
 	errorsLabelLg1Mandatory: {
 		fr: 'Le label est obligatoire',
 		en: 'The label is mandatory',

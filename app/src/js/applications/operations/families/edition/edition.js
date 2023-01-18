@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown, PageTitleBlock, withTitle, ErrorBloc } from 'bauhaus-utilities';
+import { EditorMarkdown, PageTitleBlock, withTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError, Row } from 'bauhaus-utilities';
 import {
 	CancelButton,
 	SaveButton,
@@ -27,8 +27,10 @@ const defaultFamily = {
 
 const setInitialState = props => {
 	return {
+		clientSideErrors: { },
 		serverSideError: '',
 		saving: false,
+		submitting: false,
 		family: {
 			...defaultFamily,
 			...props.family,
@@ -53,38 +55,48 @@ class OperationsFamilyEdition extends Component {
 	}
 
 	onChange = e => {
-		this.setState({
+		this.setState(state => ({
 			serverSideError: '',
+			submitting: true,
+			clientSideErrors: {
+				...state.clientSideErrors,
+				errorMessage: []
+			},
 			family: {
 				...this.state.family,
 				[e.target.id]: e.target.value,
 			},
-		});
+		}));
 	};
 	onSubmit = () => {
-		this.setState({ saving: true })
-		const isCreation = !this.state.family.id;
+		const clientSideErrors = validate(this.state.family);
+		if(clientSideErrors.errorMessage?.length > 0){
+			this.setState({
+				submitting: true,
+				clientSideErrors
+			})
+		} else {
+			this.setState({ saving: true });
+			const isCreation = !this.state.family.id;
 
-		const method = isCreation ? 'postFamily' : 'putFamily';
-		return api[method](this.state.family).then(
-			(id = this.state.family.id) => {
-				goBackOrReplace(this.props, `/operations/family/${id}`, isCreation);
-			},
-			err => {
-				this.setState({
-					serverSideError: err,
-				});
-			}
-		).finally(() => this.setState({ saving: false }));
-	};
+			const method = isCreation ? 'postFamily' : 'putFamily';
+			return api[method](this.state.family).then(
+				(id = this.state.family.id) => {
+					goBackOrReplace(this.props, `/operations/family/${id}`, isCreation);
+				},
+				err => {
+					this.setState({
+						serverSideError: err,
+					});
+				}
+			).finally(() => this.setState({ saving: false }));
+		}	};
 
 	render() {
 		if (this.state.saving) return <Loading textType="saving" />;
 
 		const { family, serverSideError } = this.state;
 		const isEditing = !!family.id;
-
-		const clientSideErrors = validate(family);
 
 		return (
 			<div className="container editor-container">
@@ -98,14 +110,14 @@ class OperationsFamilyEdition extends Component {
 
 				<ActionToolbar>
 					<CancelButton action={goBack(this.props, '/operations/families')} />
-					<SaveButton action={this.onSubmit} disabled={clientSideErrors.errorMessage.length > 0} />
+					<SaveButton action={this.onSubmit} disabled={this.state.clientSideErrors.errorMessage?.length > 0} />
 				</ActionToolbar>
 
-				{ clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} D={D}/> }
+				{ this.state.submitting && this.state.clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={this.state.clientSideErrors.errorMessage} D={D}/> }
 				{ serverSideError && <ErrorBloc error={[serverSideError]} D={D}/> }
 
 				<form>
-					<div className="row">
+					<Row>
 						<div className="col-md-6 form-group">
 							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
 							<input
@@ -114,8 +126,9 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg1"
 								value={this.state.family.prefLabelLg1}
 								onChange={this.onChange}
-								aria-invalid={clientSideErrors.fields.prefLabelLg1}
+								aria-invalid={this.state.clientSideErrors.fields?.prefLabelLg1}
 							/>
+							<ClientSideError error={this.state.clientSideErrors?.fields?.prefLabelLg1}></ClientSideError>
 						</div>
 						<div className="col-md-6 form-group">
 							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
@@ -125,11 +138,12 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg2"
 								value={family.prefLabelLg2}
 								onChange={this.onChange}
-								aria-invalid={clientSideErrors.fields.prefLabelLg2}
+								aria-invalid={this.state.clientSideErrors.fields?.prefLabelLg2}
 							/>
+							<ClientSideError error={this.state.clientSideErrors?.fields?.prefLabelLg2}></ClientSideError>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="col-md-6 form-group">
 							<label htmlFor="themeLg1">{D1.theme}</label>
 							<input
@@ -150,8 +164,8 @@ class OperationsFamilyEdition extends Component {
 								onChange={this.onChange}
 							/>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="col-md-6 form-group">
 							<label htmlFor="abstractLg1">{D1.summary}</label>
 							<EditorMarkdown
@@ -170,7 +184,7 @@ class OperationsFamilyEdition extends Component {
 								}
 							/>
 						</div>
-					</div>
+					</Row>
 				</form>
 			</div>
 		);
