@@ -14,7 +14,7 @@ import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
-	PageTitleBlock, withTitle, SelectRmes, ErrorBloc
+	PageTitleBlock, withTitle, SelectRmes, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError
 } from 'bauhaus-utilities';
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 
@@ -66,6 +66,8 @@ class OperationsSerieEdition extends Component {
 	setInitialState = (props) => {
 		return {
 			serverSideError: '',
+			clientSideErrors: {},
+			submitting: false,
 			saving: false,
 			serie: {
 				...defaultSerie,
@@ -85,30 +87,42 @@ class OperationsSerieEdition extends Component {
 				},
 			};
 		}
-		this.setState({
+		this.setState(state => ({
 			serverSideError: '',
+			submitting: true,
+			clientSideErrors: {
+				...state.clientSideErrors,
+				errorMessage: []
+			},
 			serie: {
 				...this.state.serie,
 				...override,
 			},
-		});
+		}));
 	};
 	onSubmit = () => {
+		const clientSideErrors = validate(this.state.serie);
+		if(clientSideErrors.errorMessage?.length > 0){
+			this.setState({
+				submitting: true,
+				clientSideErrors
+			})
+		} else {
+			this.setState({ saving: true })
+			const isCreation = !this.state.serie.id;
 
-		this.setState({ saving: true })
-		const isCreation = !this.state.serie.id;
-
-		const method = isCreation ? 'postSeries' : 'putSeries';
-		return api[method](this.state.serie).then(
-			(id = this.state.serie.id) => {
-				goBackOrReplace(this.props, `/operations/series/${id}`, isCreation);
-			},
-			err => {
-				this.setState({
-					serverSideError: err,
-				});
-			}
-		).finally(() => this.setState({ saving: false }));
+			const method = isCreation ? 'postSeries' : 'putSeries';
+			return api[method](this.state.serie).then(
+				(id = this.state.serie.id) => {
+					goBackOrReplace(this.props, `/operations/series/${id}`, isCreation);
+				},
+				err => {
+					this.setState({
+						serverSideError: err,
+					});
+				}
+			).finally(() => this.setState({ saving: false }));
+		}
 	};
 
 	render() {
@@ -159,7 +173,6 @@ class OperationsSerieEdition extends Component {
 			seriesOptions
 		);
 
-		const clientSideErrors = validate(serie);
 		const serverSideError = this.state.serverSideError;
 
 		return (
@@ -174,9 +187,9 @@ class OperationsSerieEdition extends Component {
 
 				<ActionToolbar>
 					<CancelButton action={goBack(this.props, '/operations/series')} />
-					<SaveButton action={this.onSubmit} disabled={clientSideErrors.errorMessage.length > 0} />
+					<SaveButton action={this.onSubmit} disabled={this.state.clientSideErrors.errorMessage?.length > 0} />
 				</ActionToolbar>
-				{ clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} D={D}/> }
+				{ this.state.submitting && this.state.clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={this.state.clientSideErrors.errorMessage} D={D}/> }
 				{ serverSideError && <ErrorBloc error={[serverSideError]} D={D}/> }
 				<form>
 					{!isEditing && (
@@ -193,6 +206,7 @@ class OperationsSerieEdition extends Component {
 										})
 									}
 								/>
+								<ClientSideError id="family-error" error={this.state.clientSideErrors?.fields?.family}></ClientSideError>
 							</div>
 						</div>
 					)}
@@ -205,8 +219,10 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg1"
 								value={serie.prefLabelLg1}
 								onChange={this.onChange}
-								aria-invalid={clientSideErrors.fields.prefLabelLg1}
+								aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg1}
+								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg1 ? 'prefLabelLg1-error' : null}
 							/>
+							<ClientSideError id="prefLabelLg1-error" error={this.state.clientSideErrors?.fields?.prefLabelLg1}></ClientSideError>
 						</div>
 						<div className="form-group col-md-6">
 							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
@@ -216,8 +232,10 @@ class OperationsSerieEdition extends Component {
 								id="prefLabelLg2"
 								value={serie.prefLabelLg2}
 								onChange={this.onChange}
-								aria-invalid={clientSideErrors.fields.prefLabelLg2}
+								aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg2}
+								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg2 ? 'prefLabelLg2-error' : null}
 							/>
+							<ClientSideError id="prefLabelLg2-error" error={this.state.clientSideErrors?.fields?.prefLabelLg2}></ClientSideError>
 						</div>
 					</div>
 					<div className="row">
@@ -399,6 +417,7 @@ class OperationsSerieEdition extends Component {
 									})
 								}
 							/>
+							<ClientSideError id="creators-error" error={this.state.clientSideErrors?.fields?.creators}></ClientSideError>
 						</div>
 					</div>
 					<div className="row">
