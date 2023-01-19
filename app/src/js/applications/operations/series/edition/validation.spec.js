@@ -5,9 +5,10 @@ describe('validation', function() {
 		expect(validate({ prefLabelLg2: 'prefLabelLg2', family: 'family', creators: ['creator'] })).toEqual({
 			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
 			fields: {
-				'family': false,
-				'prefLabelLg1': true,
-				'prefLabelLg2': false,
+				'creators': '',
+				'family': '',
+				'prefLabelLg1': 'The property <strong>Intitulé</strong> is required.',
+				'prefLabelLg2': '',
 			},
 		});
 	});
@@ -15,24 +16,26 @@ describe('validation', function() {
 		expect(validate({ prefLabelLg1: 'prefLabelLg1', family: 'family', creators: ['creator'] })).toEqual({
 			errorMessage: ['The property <strong>Title</strong> is required.'],
 			fields: {
-				'family': false,
-				'prefLabelLg1': false,
-				'prefLabelLg2': true,
+				'creators': '',
+				'family': '',
+				'prefLabelLg1': '',
+				'prefLabelLg2': 'The property <strong>Title</strong> is required.',
 			},
 		});
 	});
 	it('should return an error for prefLabelLg1 and prefLabelLg2', function() {
-		expect(validate({ })).toEqual({
+		expect(validate({})).toEqual({
 			errorMessage: [
 				'The property <strong>Propriétaire</strong> is required.',
 				'The property <strong>Intitulé</strong> is required.',
 				'The property <strong>Title</strong> is required.',
-				'The property <strong>Famille</strong> is required.'
+				'The property <strong>Famille</strong> is required.',
 			],
 			fields: {
-				'family': true,
-				'prefLabelLg1': true,
-				'prefLabelLg2': true,
+				'creators': 'The property <strong>Propriétaire</strong> is required.',
+				'family': 'The property <strong>Famille</strong> is required.',
+				'prefLabelLg1': 'The property <strong>Intitulé</strong> is required.',
+				'prefLabelLg2': 'The property <strong>Title</strong> is required.',
 			},
 		});
 	});
@@ -41,13 +44,14 @@ describe('validation', function() {
 			prefLabelLg1: 'prefLabelLg2',
 			prefLabelLg2: 'prefLabelLg2',
 			family: 'family',
-			creators: ['creator']
+			creators: ['creator'],
 		})).toEqual({
 			errorMessage: [],
 			fields: {
-				'family': false,
-				'prefLabelLg1': false,
-				'prefLabelLg2': false,
+				'creators': '',
+				'family': '',
+				'prefLabelLg1': '',
+				'prefLabelLg2': '',
 			},
 		});
 	});
