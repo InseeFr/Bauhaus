@@ -127,7 +127,7 @@ class OperationsFamilyEdition extends Component {
 								value={this.state.family.prefLabelLg1}
 								onChange={this.onChange}
 								aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg1}
-								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg1 ? 'prefLabelLg2-error' : null}
+								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg1 ? 'prefLabelLg1-error' : null}
 							/>
 							<ClientSideError id="prefLabelLg1-error" error={this.state.clientSideErrors?.fields?.prefLabelLg1}></ClientSideError>
 						</div>

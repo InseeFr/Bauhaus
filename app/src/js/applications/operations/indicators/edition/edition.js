@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
-	PageTitleBlock, withTitle, SelectRmes, ErrorBloc
+	PageTitleBlock, withTitle, SelectRmes, ErrorBloc,
+	GlobalClientSideErrorBloc, ClientSideError
 } from 'bauhaus-utilities';
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 import { CL_FREQ } from 'js/actions/constants/codeList';
@@ -65,6 +66,8 @@ class OperationsIndicatorEdition extends Component {
 	setInitialState = (props) => {
 		return {
 			serverSideError: '',
+			clientSideErrors: { },
+			submitting: false,
 			saving: false,
 			indicator: {
 				...defaultIndicator,
@@ -75,31 +78,44 @@ class OperationsIndicatorEdition extends Component {
 
 	onChange = (selector) => {
 		return (value) => {
-			this.setState({
+			this.setState(state => ({
 				serverSideError: '',
+				submitting: true,
+				clientSideErrors: {
+					...state.clientSideErrors,
+					errorMessage: []
+				},
 				indicator: {
 					...this.state.indicator,
 					[selector]: value,
 				},
-			});
+			}));
 		};
 	};
 
 	onSubmit = () => {
-		this.setState({ saving: true })
-		const isCreation = !this.state.indicator.id;
+		const clientSideErrors = validate(this.state.indicator);
+		if(clientSideErrors.errorMessage?.length > 0){
+			this.setState({
+				submitting: true,
+				clientSideErrors
+			})
+		} else {
+			this.setState({ saving: true })
+			const isCreation = !this.state.indicator.id;
 
-		const method = isCreation ? 'postIndicator' : 'putIndicator';
-		return api[method](this.state.indicator).then(
-			(id = this.state.indicator.id) => {
-				goBackOrReplace(this.props, `/operations/indicator/${id}`, isCreation);
-			},
-			err => {
-				this.setState({
-					serverSideError: err,
-				});
-			}
-		).finally(() => this.setState({ saving: false }));
+			const method = isCreation ? 'postIndicator' : 'putIndicator';
+			return api[method](this.state.indicator).then(
+				(id = this.state.indicator.id) => {
+					goBackOrReplace(this.props, `/operations/indicator/${id}`, isCreation);
+				},
+				err => {
+					this.setState({
+						serverSideError: err,
+					});
+				}
+			).finally(() => this.setState({ saving: false }));
+		}
 	};
 
 	render() {
@@ -135,7 +151,6 @@ class OperationsIndicatorEdition extends Component {
 			indicatorsOptions,
 			seriesOptions
 		);
-		const clientSideErrors = validate(this.state.indicator);
 
 		return (
 			<div className="container editor-container">
@@ -149,9 +164,9 @@ class OperationsIndicatorEdition extends Component {
 				<Control
 					indicator={this.state.indicator}
 					onSubmit={this.onSubmit}
-					disabled={clientSideErrors.length > 0}
+					disabled={this.state.clientSideErrors.errorMessage?.length > 0}
 				/>
-				{clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} D={D}/>}
+				{ this.state.submitting && this.state.clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={this.state.clientSideErrors.errorMessage} D={D}/> }
 				{this.state.serverSideError && <ErrorBloc error={this.state.serverSideError} D={D}/>}
 
 				<form>
@@ -166,9 +181,11 @@ class OperationsIndicatorEdition extends Component {
 							star
 							handleChange={this.onChanges.prefLabelLg1}
 							arias={{
-								'aria-invalid': clientSideErrors.fields.prefLabelLg1,
+								'aria-invalid': !!this.state.clientSideErrors.fields?.prefLabelLg1,
+								'aria-describedby': !!this.state.clientSideErrors.fields?.prefLabelLg1 ? 'prefLabelLg1-error' : null,
 							}}
 							className="w-100"
+							errorBlock={<ClientSideError id="prefLabelLg1-error" error={this.state.clientSideErrors?.fields?.prefLabelLg1}></ClientSideError>}
 						/>
 						<InputRmes
 							colMd={6}
@@ -177,9 +194,12 @@ class OperationsIndicatorEdition extends Component {
 							star
 							handleChange={this.onChanges.prefLabelLg2}
 							arias={{
-								'aria-invalid': clientSideErrors.fields.prefLabelLg2,
+								'aria-invalid': !!this.state.clientSideErrors.fields?.prefLabelLg2,
+								'aria-describedby': !!this.state.clientSideErrors.fields?.prefLabelLg2 ? 'prefLabelLg2-error' : null,
 							}}
 							className="w-100"
+							errorBlock={<ClientSideError id="prefLabelLg2-error" error={this.state.clientSideErrors?.fields?.prefLabelLg2}></ClientSideError>}
+
 						/>
 					</div>
 					<div className="row">
@@ -261,6 +281,8 @@ class OperationsIndicatorEdition extends Component {
 								value={indicator.creators}
 								onChange={(value) => this.onChange('creators')(value)}
 							/>
+							<ClientSideError id="creators-error" error={this.state.clientSideErrors?.fields?.creators}></ClientSideError>
+
 						</div>
 					</div>
 					<div className="row">

@@ -15,8 +15,9 @@ export function validate({ prefLabelLg1, prefLabelLg2, creators }) {
 
 	return {
 		fields: {
-			prefLabelLg1: !prefLabelLg1,
-			prefLabelLg2: !prefLabelLg2,
+			prefLabelLg1: !prefLabelLg1 ? D.mandatoryProperty(D1.title) : '',
+			prefLabelLg2: !prefLabelLg2 ? D.mandatoryProperty(D2.title) : '',
+			creators: (!creators || creators.length === 0) ? D.mandatoryProperty(D.creatorTitle) : '',
 		},
 		errorMessage: errorMessages
 	};
