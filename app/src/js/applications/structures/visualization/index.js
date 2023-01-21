@@ -18,6 +18,7 @@ import {
 } from 'bauhaus-structures';
 import D from 'bauhaus-structures/src/i18n/build-dictionary';
 import api from 'bauhaus-structures/src/apis/structure-api';
+import mainDictionary from '../../../i18n/build-dictionary';
 
 export const StructureView = ({secondLang, structure, publish, serverSideError}) => {
 	useTitle(D.structuresTitle, structure?.labelLg1)
@@ -38,7 +39,7 @@ export const StructureView = ({secondLang, structure, publish, serverSideError})
 			/>
 			<CheckSecondLang />
 			<StructureVisualizationControl structure={structure} publish={publish}/>
-			{serverSideError && <ErrorBloc error={serverSideError} D={D}/> }
+			{serverSideError && <ErrorBloc error={serverSideError} D={mainDictionary}/> }
 			<div className="row">
 				<Note
 					text={
@@ -116,7 +117,7 @@ const Structure = () => {
 			.then(component => setStructure(component))
 			.finally(() => setLoading(false))
 			.catch(error => {
-				setServerSideError(D['errors_' + JSON.parse(error).code])
+				setServerSideError(error)
 			})
 	}
 
