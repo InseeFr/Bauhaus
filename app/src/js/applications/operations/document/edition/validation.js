@@ -54,42 +54,42 @@ export function validate(document, type, files) {
 
 	if(!document.labelLg1){
 		errorMessages.push(D.mandatoryProperty(D1.title));
-		fields.prefLabelLg1 = true;
+		fields.labelLg1 = D.mandatoryProperty(D1.title);
 	}
 
 	if(!document.labelLg2){
 		errorMessages.push(D.mandatoryProperty(D2.title));
-		fields.prefLabelLg2 = true;
+		fields.labelLg2 = D.mandatoryProperty(D2.title);
 	}
 
 	if (type === LINK && !document.url) {
 		errorMessages.push(D.mandatoryProperty(D.titleLink));
-		fields.url = true;
+		fields.url = D.mandatoryProperty(D.titleLink);
 	}
 
 	if (type === LINK && !checkUrl(document.url)) {
 		errorMessages.push(D.badUrl);
-		fields.url = true;
+		fields.url = D.badUrl;
 	}
 
 	if (type === DOCUMENT && !document.updatedDate) {
 		errorMessages.push(D.requiredUpdatedDate);
-		fields.updatedDate = true;
+		fields.updatedDate = D.requiredUpdatedDate;
 	}
 
 	if (type === DOCUMENT && !haveFiles(files)) {
 		errorMessages.push(D.requiredFile);
-		fields.file = true;
+		fields.file = D.requiredFile;
 	}
 
 	if (type === DOCUMENT && haveInvalidFilesName(files)) {
 		errorMessages.push(D.wrongFileName);
-		fields.file = true;
+		fields.file = D.wrongFileName;
 	}
 
 	if (!document.lang) {
 		errorMessages.push(D.requiredLang);
-		fields.lang = true;
+		fields.lang = D.requiredLang;
 	}
 
 	return {
