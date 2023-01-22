@@ -79,27 +79,33 @@ export const validatePartialCodelist = (codelist) => {
 };
 
 export const validateCode = (code, codes, updateMode) => {
-	const errors = [];
+	const errorMessage = [];
+	const fields = {};
 
 	if(!code.code){
-		errors.push(D.mandatoryProperty(D.idTitle));
+		errorMessage.push(D.mandatoryProperty(D.idTitle));
+		fields.code = D.mandatoryProperty(D.idTitle);
 	}
 	if(!code.labelLg1){
-		errors.push(D.mandatoryProperty(D1.labelTitle));
+		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
+		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
 	}
 
 	if(!code.labelLg2){
-		errors.push(D.mandatoryProperty(D2.labelTitle));
+		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
+		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
 	}
 
 	const doubleCode = !updateMode && codes.find((c) => c.code === code.code);
 
 	if (doubleCode) {
-		errors.push(D.ErrorDoubleCode);
+		errorMessage.push(D.ErrorDoubleCode);
+		fields.code = D.ErrorDoubleCode;
 	}
 
 	return {
-		errors
+		fields,
+		errorMessage
 	};
 };
 

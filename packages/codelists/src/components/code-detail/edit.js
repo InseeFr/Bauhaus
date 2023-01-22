@@ -5,17 +5,12 @@ import {
 	ActionToolbar,
 } from '@inseefr/wilco';
 import PropTypes from 'prop-types';
-import { Stores, ErrorBloc } from 'bauhaus-utilities';
+import { Stores, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError } from 'bauhaus-utilities';
 import { validateCode } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { emptyCode } from './empty-code';
 import './edit.scss';
 
-/**
- * TODO:
- * Validation - Eviter d'avoir deux codes avec le meme code
- * - Gérer le DragnDrop : où et quand appeler utils/recalculatePositions, qui a besoin de codes et de tree
- */
 const DumbCodeDetailEdit = ({
 	code: initialCode,
 	codes,
@@ -26,6 +21,9 @@ const DumbCodeDetailEdit = ({
 	createCode,
 }) => {
 	const [code, setCode] = useState({});
+	const [clientSideErrors, setClientSideErrors] = useState({});
+	const [submitting, setSubmitting] = useState(false);
+
 	const [updateMode, setUpdateMode] = useState(true);
 	useEffect(() => {
 		setCode({ ...initialCode });
@@ -35,6 +33,10 @@ const DumbCodeDetailEdit = ({
 	const handleChange = useCallback(
 		(e) => {
 			const { name, value } = e.target;
+			setClientSideErrors({
+				...clientSideErrors,
+				errorMessage: []
+			})
 			setCode({
 				...code,
 				[name]: value,
@@ -61,10 +63,21 @@ const DumbCodeDetailEdit = ({
 		})
 		.concat({ label: ' - ', value: '' });
 
-	const { errors: clientSideErrors } = validateCode(code, codes, updateMode);
+	const save = () => {
+		const clientSideErrors = validateCode(code, codes, updateMode);
+		if(clientSideErrors.errorMessage?.length > 0){
+			setSubmitting(true);
+			setClientSideErrors(clientSideErrors);
+		} else {
+			setClientSideErrors({})
+			updateCode(code);
+			setUpdateMode(true);
+		}
+	}
+
 	return (
 		<React.Fragment>
-			{clientSideErrors && <ErrorBloc error={clientSideErrors} D={D}/>}
+			{ submitting && clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} D={D}/> }
 			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 			<div>
 				<div className="row">
@@ -104,7 +117,10 @@ const DumbCodeDetailEdit = ({
 							value={code.code || ''}
 							onChange={handleChange}
 							disabled={updateMode}
+							aria-invalid={!!clientSideErrors.fields?.code}
+							aria-describedby={!!clientSideErrors.fields?.code ? 'code-error' : null}
 						/>
+						<ClientSideError id="code-error" error={clientSideErrors?.fields?.code}></ClientSideError>
 					</div>
 				</div>
 				<div className="row">
@@ -117,7 +133,10 @@ const DumbCodeDetailEdit = ({
 							name="labelLg1"
 							value={code.labelLg1 || ''}
 							onChange={handleChange}
+							aria-invalid={!!clientSideErrors.fields?.labelLg1}
+							aria-describedby={!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
 						/>
+						<ClientSideError id="labelLg1-error" error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg2">{D2.codeLabel}</LabelRequired>
@@ -128,7 +147,10 @@ const DumbCodeDetailEdit = ({
 							name="labelLg2"
 							value={code.labelLg2 || ''}
 							onChange={handleChange}
+							aria-invalid={!!clientSideErrors.fields?.labelLg2}
+							aria-describedby={!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
 						/>
+						<ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
 					</div>
 				</div>
 
@@ -161,10 +183,7 @@ const DumbCodeDetailEdit = ({
 				<button
 					type="button"
 					disabled={clientSideErrors.length > 0}
-					onClick={() => {
-						updateCode(code);
-						setUpdateMode(true);
-					}}
+					onClick={save}
 					className="btn wilco-btn btn-lg col-md-12"
 				>
 					<span
