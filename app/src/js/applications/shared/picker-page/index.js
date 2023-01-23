@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import D from 'js/i18n';
+import {ErrorBloc} from 'bauhaus-utilities'
 import {
 	PageTitle,
 	ExportButton,
 	Pagination,
 	Panel,
-	ErrorBloc,
 	AddLogo,
 	DelLogo,
 	PickerItem,
@@ -37,9 +37,10 @@ const Picker = ({
 }) => {
 	const [search, setSearch] = useState('');
 	const [items, setItems] = useState(trackItems(itemsProps ?? []));
-
+    const [clientSideErrors, setClientSideErrors] = useState('');
 	const handleChange = searchLabel => setSearch(searchLabel);
 	const addItem = id => {
+        setClientSideErrors('');
 		setItems(items.map(item => {
 			if (item.id === id) item.isAdded = true;
 			return item;
@@ -47,6 +48,7 @@ const Picker = ({
 	}
 
 	const removeItem = id => {
+        setClientSideErrors('');
 		setItems(items.map(item => {
 			if (item.id === id) item.isAdded = false;
 			return item;
@@ -54,9 +56,15 @@ const Picker = ({
 	}
 
 	const handleClickValid = e => {
-		const added = items.filter(({ isAdded }) => isAdded);
-		const addedIds = added.map(({ id }) => id);
-		handleAction(addedIds);
+        const message = added.length === 0 ? labelWarning : '';
+        if(!!message){
+            setClientSideErrors(message)
+        } else {
+            const added = items.filter(({ isAdded }) => isAdded);
+            const addedIds = added.map(({ id }) => id);
+            handleAction(addedIds);
+        }
+
 	};
 
 	const getItemsByStatus = () => {
@@ -93,15 +101,12 @@ const Picker = ({
 		/>
 	));
 
-	//The user has to add at least one item
-	const message = added.length === 0 ? labelWarning : '';
-
 	const controls = (
 		<ActionToolbar>
 			<ReturnButton action={`/${context}`} />
 			<ValidationButton
 				action={handleClickValid}
-				disabled={added.length === 0}
+				disabled={!!clientSideErrors}
 			/>
 		</ActionToolbar>
 	);
@@ -111,7 +116,7 @@ const Picker = ({
 			<div className="container">
 				<PageTitle title={title} />
 				{controls}
-				<ErrorBloc error={message} />
+                {clientSideErrors && <ErrorBloc error={clientSideErrors} />}
 
 				<div className="row">
 					<div className="col-md-6">
@@ -119,9 +124,9 @@ const Picker = ({
 					</div>
 					<div className="col-md-6 text-center">
 						<input
-							value={search}
+                             type="text"
+                             value={search}
 							onChange={e => handleChange(e.target.value)}
-							type="text"
 							placeholder={D.searchLabelPlaceholder}
 							className="form-control"
 						/>
