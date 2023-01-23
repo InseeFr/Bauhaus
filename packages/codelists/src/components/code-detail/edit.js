@@ -23,9 +23,9 @@ const DumbCodeDetailEdit = ({
 	const [code, setCode] = useState({});
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
-
 	const [updateMode, setUpdateMode] = useState(true);
-	useEffect(() => {
+
+    useEffect(() => {
 		setCode({ ...initialCode });
 		setUpdateMode(initialCode.code);
 	}, [initialCode]);
@@ -36,7 +36,7 @@ const DumbCodeDetailEdit = ({
 			setClientSideErrors({
 				...clientSideErrors,
 				errorMessage: []
-			})
+			});
 			setCode({
 				...code,
 				[name]: value,

@@ -283,7 +283,6 @@ const DumbCodelistPartialDetailEdit = ({
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
 						<textarea
-							type="text"
 							value={codelist.descriptionLg1}
 							className="form-control"
 							id="descriptionLg1"
@@ -294,7 +293,6 @@ const DumbCodelistPartialDetailEdit = ({
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
 						<textarea
-							type="text"
 							value={codelist.descriptionLg2}
 							className="form-control"
 							id="descriptionLg2"

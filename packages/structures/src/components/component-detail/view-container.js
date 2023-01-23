@@ -56,9 +56,7 @@ const ViewContainer = (props) => {
 			.then(() => api.getMutualizedComponent(component.id))
 			.then(component => setComponent(component))
 			.finally(() => setLoading(false))
-			.catch(error => {
-				setServerSideError(D['errors_' + JSON.parse(error).code])
-			})
+			.catch(setServerSideError)
 	}
 	return (
 		<React.Fragment>
