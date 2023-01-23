@@ -8,9 +8,8 @@ import {
 } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
 import { typeUriToLabel, getAllAttachment, getDisseminationStatus } from '../../utils';
-import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
+import { XSD_CODE_LIST, XSD_TYPES, ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from '../../utils/constants';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
 import {
 	HTMLUtils,
 	ValidationButton,

@@ -12,7 +12,7 @@ import {
 import { Stores, useTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError } from 'bauhaus-utilities';
 import Picker from './picker';
 import { API } from '../../apis';
-import { validatePartialCodelist, partialInGlobalCodes, validateCodelist } from '../../utils';
+import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import '../codelist-detail/edit.scss';
 import MainDictionary from '../../../../../app/src/js/i18n/build-dictionary';
@@ -88,7 +88,7 @@ const DumbCodelistPartialDetailEdit = ({
 				[name]: value,
 			});
 		},
-		[codelist]
+		[clientSideErrors, codelist]
 	);
 
 	const addAllClickHandler = useCallback(() => {

@@ -169,7 +169,7 @@ const DumbCodelistDetailEdit = ({
 				[name]: value,
 			});
 		},
-		[codelist]
+		[clientSideErrors, codelist]
 	);
 
 	const handleSaveClick = useCallback(() => {

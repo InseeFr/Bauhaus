@@ -42,7 +42,7 @@ const DumbCodeDetailEdit = ({
 				[name]: value,
 			});
 		},
-		[code]
+		[clientSideErrors, code]
 	);
 
 	const isDescendant = (ancestor, descendant) => {
