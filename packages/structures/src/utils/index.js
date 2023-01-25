@@ -91,22 +91,28 @@ export const defaultComponentsTableParams = [
 ];
 
 export const validateComponent = component => {
-	const errors = [];
+    const errorMessage = [];
+    const fields = {};
 
-	if(!component.identifiant){
-		errors.push(D.mandatoryProperty(D.idTitle));
-	}
-	if(!component.labelLg1){
-		errors.push(D.mandatoryProperty(D1.label));
-	}
-	if(!component.labelLg2){
-		errors.push(D.mandatoryProperty(D2.label));
-	}
-	if(!component.type){
-		errors.push(D.mandatoryProperty(D1.type));
-	}
+    if  (!component.identifiant)  {
+        errorMessage.push(D.mandatoryProperty(D.idTitle));
+        fields.identifiant = D.mandatoryProperty(D.idTitle);
+    }
+    if  (!component.labelLg1)  {
+        errorMessage.push(D.mandatoryProperty(D1.label));
+        fields.labelLg1 = D.mandatoryProperty(D1.label);
+    }
+    if  (!component.labelLg2)  {
+        errorMessage.push(D.mandatoryProperty(D2.label));
+        fields.labelLg2 = D.mandatoryProperty(D2.label);
+    }
+    if  (!component.type)  {
+        errorMessage.push(D.mandatoryProperty(D1.type));
+        fields.type = D.mandatoryProperty(D.type);
+    }
 
-	return {
-		errors
-	};
+    return {
+        errorMessage,
+        fields,
+    };
 };

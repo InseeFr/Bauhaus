@@ -12,6 +12,7 @@ function InputRmes({
 	handleChange,
 	arias,
 	className = '',
+	errorBlock = <></>
 }) {
 	return (
 		<div className={`form-group col-md-${colMd || 12}`}>
@@ -28,6 +29,7 @@ function InputRmes({
 					{...arias}
 				/>
 			</label>
+			{errorBlock}
 		</div>
 	);
 }

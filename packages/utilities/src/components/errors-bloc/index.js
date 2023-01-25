@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './errors-bloc.scss';
 
-export const ClientSideError = ({ error }) => {
-	return error ? <div className='text-danger' dangerouslySetInnerHTML={{ __html: error }}></div> : null;
+export const ClientSideError = ({ error, id }) => {
+	return error ? <div id={id} className='text-danger' dangerouslySetInnerHTML={{ __html: error }}></div> : null;
 }
 export const GlobalClientSideErrorBloc = ({ clientSideErrors, D }) => {
 	return clientSideErrors?.length > 0 ? <div className="bauhaus-error-bloc alert alert-danger" role="alert">{<div dangerouslySetInnerHTML={{ __html: D.errors.GlobalClientSideErrorBloc }} /> || <span style={{ whiteSpace: 'pre-wrap' }}> </span>}</div> : null

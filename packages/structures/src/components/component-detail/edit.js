@@ -6,7 +6,7 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { AppContext, Stores, useTitle, Row, ArrayUtils, ErrorBloc } from 'bauhaus-utilities';
+import { AppContext, Stores, useTitle, Row, ArrayUtils, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError } from 'bauhaus-utilities';
 import { validateComponent } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES, MEASURE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
 import { XSD_CODE_LIST, XSD_DATE, XSD_DATE_TIME, XSD_FLOAT, XSD_INTEGER, XSD_STRING, XSD_TYPES, IGEO_PAYS_OU_TERRITOIRE } from '../../utils/constants/xsd';
@@ -153,6 +153,9 @@ const DumbComponentDetailEdit = ({
 	serverSideError
 }) => {
 	const [component, setComponent] = useState(defaultComponent);
+    const [clientSideErrors, setClientSideErrors] = useState({});
+    const [submitting, setSubmitting] = useState(false);
+
 	const { lg1, lg2 } = useContext(AppContext);
 	useTitle(D.componentTitle, component?.labelLg1 || D.componentsCreateTitle)
 
@@ -168,25 +171,33 @@ const DumbComponentDetailEdit = ({
 	const handleChange = useCallback(
 		(e) => {
 			const { name, value } = e.target;
+            setClientSideErrors({
+                ...clientSideErrors,
+                errorMessage: []
+            });
 			setComponent({
 				...component,
 				[name]: value,
 			});
 		},
-		[component]
+        [component, clientSideErrors]
 	);
 
 	const handleSaveClick = useCallback(() => {
-		handleSave(component);
+        const clientSideErrors = validateComponent(component);
+        if(clientSideErrors.errorMessage?.length > 0){
+            setSubmitting(true);
+            setClientSideErrors(clientSideErrors);
+        } else {
+            setClientSideErrors({})
+            handleSave(component);
+        }
 	}, [component, handleSave]);
 
 	const conceptOptions = concepts.map(({ id, label }) => ({
 		value: id,
 		label,
 	}));
-
-	const { errors: clientSideError } = validateComponent(component);
-
 
 	const attributesKeys = Object.keys({
 		'attribute_0': '', 'attributeValue_0': '', ...component
@@ -215,10 +226,10 @@ const DumbComponentDetailEdit = ({
 		<React.Fragment>
 			<ActionToolbar>
 				<CancelButton action={handleBack} col={3} />
-				<SaveButton disabled={clientSideError.length > 0} action={handleSaveClick} col={3} />
+                <SaveButton disabled={clientSideErrors.errorMessage?.length > 0} action={handleSaveClick} col={3} />
 			</ActionToolbar>
-			{clientSideError && <ErrorBloc error={clientSideError} D={D}/>}
-			{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
+			{ submitting && clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} D={D}/> }
+            {serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 			<form>
 				<div className="row">
 					<div className="col-md-12 form-group">
@@ -230,7 +241,10 @@ const DumbComponentDetailEdit = ({
 							name="identifiant"
 							value={component.identifiant}
 							onChange={handleChange}
-						/>
+                            aria-invalid={!!clientSideErrors.fields?.identifiant}
+                            aria-describedby={!!clientSideErrors.fields?.identifiant ? 'identifiant-error' : null}
+                        />
+                        <ClientSideError id="identifiant-error" error={clientSideErrors?.fields?.identifiant}></ClientSideError>
 					</div>
 				</div>
 				<div className="row">
@@ -243,7 +257,10 @@ const DumbComponentDetailEdit = ({
 							name="labelLg1"
 							onChange={handleChange}
 							value={component.labelLg1}
-						/>
+                            aria-invalid={!!clientSideErrors.fields?.labelLg1}
+                            aria-describedby={!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
+                        />
+                        <ClientSideError id="labelLg1-error" error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
 					</div>
 
 					<div className="col-md-6 form-group">
@@ -256,7 +273,10 @@ const DumbComponentDetailEdit = ({
 							name="labelLg2"
 							value={component.labelLg2}
 							onChange={handleChange}
-						/>
+                            aria-invalid={!!clientSideErrors.fields?.labelLg2}
+                            aria-describedby={!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
+                        />
+                        <ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
 					</div>
 				</div>
 
@@ -273,6 +293,7 @@ const DumbComponentDetailEdit = ({
 							onChange={onComponentTypeChange}
 							isDisabled={!!component.id}
 						/>
+                        <ClientSideError id="type-error" error={clientSideErrors?.fields?.type}></ClientSideError>
 					</FormGroup>
 					</div>
 				</Row>

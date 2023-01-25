@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PageSubtitle, PageTitle, ErrorBloc } from '@inseefr/wilco';
+import { PageSubtitle, PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Levels from './levels';
 import D from 'js/i18n';
-import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
+import { CheckSecondLang, useTitle, ErrorBloc } from 'bauhaus-utilities';
 
 const ClassificationVisualization = (props) => {
 	const {
@@ -49,7 +49,7 @@ const ClassificationVisualization = (props) => {
 				publish={publish}
 			/>
 			<CheckSecondLang />
-			<ErrorBloc error={serverSideError} />
+            {serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 			<General general={general} secondLang={secondLang} langs={langs} />
 			{notes.scopeNoteLg1 && (
 				<Notes notes={notes} secondLang={secondLang} langs={langs} />

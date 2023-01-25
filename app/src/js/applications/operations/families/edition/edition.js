@@ -126,9 +126,10 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg1"
 								value={this.state.family.prefLabelLg1}
 								onChange={this.onChange}
-								aria-invalid={this.state.clientSideErrors.fields?.prefLabelLg1}
+								aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg1}
+								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg1 ? 'prefLabelLg1-error' : null}
 							/>
-							<ClientSideError error={this.state.clientSideErrors?.fields?.prefLabelLg1}></ClientSideError>
+							<ClientSideError id="prefLabelLg1-error" error={this.state.clientSideErrors?.fields?.prefLabelLg1}></ClientSideError>
 						</div>
 						<div className="col-md-6 form-group">
 							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
@@ -138,9 +139,10 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg2"
 								value={family.prefLabelLg2}
 								onChange={this.onChange}
-								aria-invalid={this.state.clientSideErrors.fields?.prefLabelLg2}
+								aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg2}
+								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg2 ? 'prefLabelLg2-error' : null}
 							/>
-							<ClientSideError error={this.state.clientSideErrors?.fields?.prefLabelLg2}></ClientSideError>
+							<ClientSideError id="prefLabelLg2-error" error={this.state.clientSideErrors?.fields?.prefLabelLg2}></ClientSideError>
 						</div>
 					</Row>
 					<Row>

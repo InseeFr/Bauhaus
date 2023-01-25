@@ -237,6 +237,12 @@ const dictionary = {
 	mandatoryProperty: {
 		fr: propertyName => `La propriété <strong>${propertyName}</strong> est obligatoire.`,
 		en: propertyName => `The property <strong>${propertyName}</strong> is required.`
+	},
+	errors: {
+		GlobalClientSideErrorBloc: {
+			fr: 'Vous avez des erreurs dans ce formulaire.',
+			en: 'You have errors in this form.'
+		},
 	}
 };
 export default dictionary;

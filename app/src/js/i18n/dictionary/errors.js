@@ -4,6 +4,18 @@ export default {
 			fr: 'Vous avez des erreurs dans ce formulaire.',
 			en: 'You have errors in this form.'
 		},
+		"406_OPERATION_DOCUMENT_OPERATION_DOCUMENT_LINK_EXISTING_LABEL_LG1": {
+			fr: () =>
+				'La propriété <strong>Intitulé</strong> est déjà utilisée par un autre document ou lien.',
+			en: () =>
+				'The <strong>Intitulé</strong> property is already used by another document or link.',
+		},
+		"406_OPERATION_DOCUMENT_OPERATION_DOCUMENT_LINK_EXISTING_LABEL_LG2": {
+			fr: () =>
+				'La propriété <strong>Title</strong> est déjà utilisée par un autre document ou lien.',
+			en: () =>
+				'The <strong>Title</strong> property is already used by another document or link.',
+		},
 		"406_OPERATION_FAMILY_OPERATION_FAMILY_EXISTING_PREF_LABEL_LG1": {
 			fr: () =>
 				'La propriété <strong>Intitulé</strong> est déjà utilisée par une autre famille.',
@@ -354,20 +366,20 @@ export default {
 			en: () => 'All components must be validated.'
 		},
 		1101: {
-			fr: 'La liste de codes existe déjà.',
-			en: 'The codelist already exists.',
+			fr: () => 'La liste de codes existe déjà.',
+			en: () => 'The codelist already exists.',
 		},
 		1102: {
-			fr: 'Une liste de codes ne peut pas être créée sans code.',
-			en: 'A codeList should contain at least one Code.',
+			fr: () => 'Une liste de codes ne peut pas être créée sans code.',
+			en: () => 'A codeList should contain at least one Code.',
 		},
 		1103: {
-			fr: "La liste de codes n'a pas pu être supprimée : elle a déjà été publiée.",
-			en: 'The codeList could not be removed: it is already published.',
+			fr: () => "La liste de codes n'a pas pu être supprimée : elle a déjà été publiée.",
+			en: () => 'The codeList could not be removed: it is already published.',
 		},
 		1104: {
-			fr: "La liste de codes n'a pas pu être supprimée : une autre liste de codes dépend d'elle.",
-			en: 'The codeList could not be removed: another codeList depends on it.',
+			fr: () => "La liste de codes n'a pas pu être supprimée : une autre liste de codes dépend d'elle.",
+			en: () => 'The codeList could not be removed: another codeList depends on it.',
 		}
 	},
 };

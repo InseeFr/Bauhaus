@@ -7,99 +7,123 @@ export const formatLabel = (component) => {
 };
 
 export const validateCodelist = (codelist) => {
-	const errors = [];
+	const errorMessage = [];
+	const fields = {};
 
 	if(!codelist.lastListUriSegment){
-		errors.push(D.mandatoryProperty(D.lastListUriSegmentTitle));
+		errorMessage.push(D.mandatoryProperty(D.lastListUriSegmentTitle));
+		fields.lastListUriSegment = D.mandatoryProperty(D.lastListUriSegmentTitle);
 	}
 
 	if(!codelist.lastCodeUriSegment){
-		errors.push(D.mandatoryProperty(D.lastCodeUriSegmentTitle));
+		errorMessage.push(D.mandatoryProperty(D.lastCodeUriSegmentTitle));
+		fields.lastCodeUriSegment = D.mandatoryProperty(D.lastCodeUriSegmentTitle);
 	}
 
 	if(!codelist.lastClassUriSegment){
-		errors.push(D.mandatoryProperty(D.lastClassUriSegmentTitle));
+		errorMessage.push(D.mandatoryProperty(D.lastClassUriSegmentTitle));
+		fields.lastClassUriSegment = D.mandatoryProperty(D.lastClassUriSegmentTitle);
 	}
 
 	if(!codelist.id){
-		errors.push(D.mandatoryProperty(D.idTitle));
+		errorMessage.push(D.mandatoryProperty(D.idTitle));
+		fields.id = D.mandatoryProperty(D.idTitle);
 	}
 
 	if(!codelist.labelLg1){
-		errors.push(D.mandatoryProperty(D1.labelTitle));
+		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
+		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
 	}
 
 	if(!codelist.labelLg2){
-		errors.push(D.mandatoryProperty(D2.labelTitle));
+		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
+		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
 	}
 
 	if(!codelist.creator){
-		errors.push(D.mandatoryProperty(D2.creator));
+		errorMessage.push(D.mandatoryProperty(D2.creator));
+		fields.creator = D.mandatoryProperty(D2.creator);
 	}
 
 	if(!codelist.disseminationStatus){
-		errors.push(D.mandatoryProperty(D.disseminationStatusTitle));
+		errorMessage.push(D.mandatoryProperty(D.disseminationStatusTitle));
+		fields.disseminationStatus = D.mandatoryProperty(D.disseminationStatusTitle);
 	}
 
 	return {
-		errors
+		errorMessage,
+		fields
 	};
 };
 
 export const validatePartialCodelist = (codelist) => {
-	const errors = [];
+	const errorMessage = [];
+	const fields = {};
 
 	if(!codelist.id){
-		errors.push(D.mandatoryProperty(D.idTitle));
+		errorMessage.push(D.mandatoryProperty(D.idTitle));
+		fields.id = D.mandatoryProperty(D.idTitle);
 	}
 
 	if(!codelist.parentCode){
-		errors.push(D.mandatoryProperty(D.parentCodelist));
+		errorMessage.push(D.mandatoryProperty(D.parentCodelist));
+		fields.parentCode = D.mandatoryProperty(D.parentCodelist);
 	}
 
 	if(!codelist.labelLg1){
-		errors.push(D.mandatoryProperty(D1.labelTitle));
+		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
+		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
 	}
 
 	if(!codelist.labelLg2){
-		errors.push(D.mandatoryProperty(D2.labelTitle));
+		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
+		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
 	}
 
 	if(!codelist.creator){
-		errors.push(D.mandatoryProperty(D.creator));
+		errorMessage.push(D.mandatoryProperty(D.creator));
+		fields.creator = D.mandatoryProperty(D.creator);
 	}
 
 	if(!codelist.disseminationStatus){
-		errors.push(D.mandatoryProperty(D.disseminationStatusTitle));
+		errorMessage.push(D.mandatoryProperty(D.disseminationStatusTitle));
+		fields.disseminationStatus = D.mandatoryProperty(D.disseminationStatusTitle)
 	}
 
 	return {
-		errors
+		errorMessage,
+		fields
 	};
 };
 
 export const validateCode = (code, codes, updateMode) => {
-	const errors = [];
+	const errorMessage = [];
+	const fields = {};
 
 	if(!code.code){
-		errors.push(D.mandatoryProperty(D.idTitle));
+		errorMessage.push(D.mandatoryProperty(D.idTitle));
+		fields.code = D.mandatoryProperty(D.idTitle);
 	}
 	if(!code.labelLg1){
-		errors.push(D.mandatoryProperty(D1.labelTitle));
+		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
+		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
 	}
 
 	if(!code.labelLg2){
-		errors.push(D.mandatoryProperty(D2.labelTitle));
+		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
+		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
 	}
 
 	const doubleCode = !updateMode && codes.find((c) => c.code === code.code);
 
 	if (doubleCode) {
-		errors.push(D.ErrorDoubleCode);
+		errorMessage.push(D.ErrorDoubleCode);
+		fields.code = D.ErrorDoubleCode;
 	}
 
 	return {
-		errors
+		fields,
+		errorMessage
 	};
 };
 

@@ -7,7 +7,6 @@ import { ConceptsAPI, Stores } from 'bauhaus-utilities';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import D from '../../i18n/build-dictionary';
 
 const ViewContainer = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
@@ -56,9 +55,7 @@ const ViewContainer = (props) => {
 			.then(() => api.getMutualizedComponent(component.id))
 			.then(component => setComponent(component))
 			.finally(() => setLoading(false))
-			.catch(error => {
-				setServerSideError(D['errors_' + JSON.parse(error).code])
-			})
+			.catch(setServerSideError)
 	}
 	return (
 		<React.Fragment>
