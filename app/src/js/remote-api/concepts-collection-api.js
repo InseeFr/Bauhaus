@@ -3,7 +3,7 @@ import { API } from 'bauhaus-utilities';
 const api = {
 	getCollectionList: () => ['collections'],
 	getCollectionExportZipByType: (ids, type, lang = "lg1", withConcepts = false) => [
-		`export-zip/${ids.join(',')}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
+        `export-zip/${ids.join('_AND_')}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
 		{
 			headers: {
 				Accept: "application/octet-stream",
