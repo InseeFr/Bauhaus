@@ -203,12 +203,12 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 			</div>
 			<div className='form-group'>
 				<label>{D1.contributorTitle}</label>
-				<ReactSelect
+				<Select
 					placeholder={D1.stampsPlaceholder}
 					value={stampListOptions.find(({ value }) => value === contributor)}
 					options={stampListOptions}
+					searchable={true}
 					onChange={(value) => onChange('contributor', value)}
-					disabled={true}
 				/>
 			</div>
 
