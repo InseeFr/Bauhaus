@@ -4,6 +4,10 @@ import component from './component';
 const dictionary = {
 	...errors,
 	...component,
+	altLabel: {
+		fr: 'Nom court',
+		en: 'Short name',
+	},
 	disseminationStatusTitle: {
 		fr: 'Statut de diffusion',
 		en: 'Diffusion status',
