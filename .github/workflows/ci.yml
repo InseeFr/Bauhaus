@@ -1,5 +1,11 @@
 name: Quality
-on: [push]
+on:
+  push:
+    branches:
+      - main
+      - 'feat/**'
+      - docker
+
 jobs:
   test-build:
     name: Test & build
