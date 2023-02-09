@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ 14, 16 ]
+        node: [ 18, 19 ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -14,7 +14,7 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: yarn
       # Build modules
-      - run: yarn build-insee
+      - run: yarn build
       # Build sonar reports
       - run: yarn test:coverage
       - name: Upload deploy artifact

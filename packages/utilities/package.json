@@ -6,8 +6,7 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "rollup -c rollup.config.js",
-		"build-insee": "rollup -c rollup.config.js",
-		"test": "jest --watch",
+		"test": "jest",
 		"test:coverage": "jest --coverage",
 		"lint": "eslint src"
 	},
