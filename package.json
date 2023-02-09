@@ -12,7 +12,7 @@
     "lint": "npx nx run-many --target=lint",
     "build": "npx nx run-many --target=build",
     "test:coverage": "npx nx run-many --target=test:coverage",
-    "pre-push": "yarn workspaces run lint && yarn test:coverage",
+    "pre-push": "yarn lint && yarn test:coverage",
     "generate-entrypoint": "node scripts/generate-entrypoint.js",
     "prepare": "husky install"
   },
