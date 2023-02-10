@@ -37,22 +37,32 @@ const Picker = ({
 }) => {
 	const [search, setSearch] = useState('');
 	const [items, setItems] = useState(trackItems(itemsProps ?? []));
-    const [clientSideErrors, setClientSideErrors] = useState('');
+	const [clientSideErrors, setClientSideErrors] = useState('');
+
 	const handleChange = searchLabel => setSearch(searchLabel);
+
+	const handleUpdateIds = () => {
+		const added = items.filter(({ isAdded }) => isAdded);
+		const addedIds = added.map(({ id }) => id);
+		handleAction(addedIds);
+	}
+
 	const addItem = id => {
-        setClientSideErrors('');
+		setClientSideErrors('');
 		setItems(items.map(item => {
 			if (item.id === id) item.isAdded = true;
 			return item;
-		}))
+		}));
+		handleUpdateIds();
 	}
 
 	const removeItem = id => {
-        setClientSideErrors('');
-		setItems(items.map(item => {
-			if (item.id === id) item.isAdded = false;
-			return item;
-		}))
+      setClientSideErrors('');
+			setItems(items.map(item => {
+				if (item.id === id) item.isAdded = false;
+				return item;
+			}));
+		handleUpdateIds();
 	}
 
 	const handleClickValid = e => {
@@ -60,9 +70,7 @@ const Picker = ({
         if(!!message){
             setClientSideErrors(message)
         } else {
-            const added = items.filter(({ isAdded }) => isAdded);
-            const addedIds = added.map(({ id }) => id);
-            handleAction(addedIds);
+					handleUpdateIds()
         }
 
 	};
@@ -116,7 +124,7 @@ const Picker = ({
 			<div className="container">
 				<PageTitle title={title} />
 				{controls}
-                {clientSideErrors && <ErrorBloc error={clientSideErrors} />}
+        {clientSideErrors && <ErrorBloc error={clientSideErrors} />}
 
 				<div className="row">
 					<div className="col-md-6">
