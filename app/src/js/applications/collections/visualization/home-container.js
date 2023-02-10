@@ -10,7 +10,7 @@ import globalApi from '../../../remote-api/api';
 
 const CollectionVisualizationContainer = () => {
 	const { id } = useParams();
-	const [collection, setCollection] = useState();
+	const [collection, setCollection] = useState({});
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [stamps, setStamps] = useState();
@@ -24,7 +24,7 @@ const CollectionVisualizationContainer = () => {
 		Promise.all([
 			api.getCollectionGeneral(id),
 			api.getCollectionMembersList(id),
-			globalApi.getStampList()
+			//globalApi.getStampList()
 		]).then(([generalValue, membersValue, stampsValue]) => {
 			setCollection({ general: generalValue, members: membersValue});
 			setStamps(stampsValue);
