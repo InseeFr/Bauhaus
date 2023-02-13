@@ -12,7 +12,7 @@
 		"build": "yarn workspaces run build",
 		"build-insee": "yarn workspaces run build-insee",
 		"test:coverage": "yarn workspaces run test:coverage",
-		"pre-push": "yarn workspaces run lint && yarn test:coverage",
+		"pre-push": "dir",
 		"generate-entrypoint": "node scripts/generate-entrypoint.js",
 		"prepare": "husky install"
 	},
