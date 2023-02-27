@@ -35,6 +35,7 @@ jobs:
           path: |
             app/coverage/
             packages/**/coverage/
+            app/build/
   sonarcloud:
     runs-on: ubuntu-latest
     needs: test-build
@@ -61,7 +62,7 @@ jobs:
         id: download
         uses: actions/download-artifact@v2
         with:
-          name: build
+          name: coverage
           path: build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
