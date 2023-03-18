@@ -155,6 +155,10 @@ const dictionary = {
 		fr: 'État du poste',
 		en: 'State of the item',
 	},
+	classificationStatus: {
+		fr: 'État de la nomenclature',
+		en: 'State of the classification',
+	},
 	classificationItemIsValidated: {
 		fr: bool => `${bool ? 'Validé' : 'Provisoire'}`,
 		en: bool => `${bool ? 'Validated' : 'Provisional'}`,
