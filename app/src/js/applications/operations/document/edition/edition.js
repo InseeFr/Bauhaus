@@ -160,6 +160,7 @@ const OperationsDocumentationEdition = (props) => {
 	return (
 		<div className="container editor-container">
 			<ModalRmes
+				id="updating-document-modal"
 				isOpen={validationModalDisplayed}
 				title={D.confirmation}
 				modalButtons={modalButtons}
@@ -168,7 +169,7 @@ const OperationsDocumentationEdition = (props) => {
 				<>
 					<p>{isDocument(document) ? D.warningDocumentWithSimsPrefix : D.warningLinkWithSimsPrefix}</p>
 					<ul>
-						{ document.sims?.map(sims => <li>{sims.labelLg1}</li>)}
+						{ document.sims?.map(sims => <li key={sims.id}>{sims.labelLg1}</li>)}
 					</ul>
 					<p>{D.warningDocumentLinksWithSimsSuffix}</p>
 				</>
