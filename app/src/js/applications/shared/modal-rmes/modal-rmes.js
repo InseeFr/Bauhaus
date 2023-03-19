@@ -12,6 +12,7 @@ function ModalRmes({
 	footer,
 	closeCancel,
 	modalButtons,
+	children
 }) {
 	const buttons = modalButtons.map((b, i) => (
 		<button
@@ -47,6 +48,11 @@ function ModalRmes({
 								__html: DOMPurify.sanitize(body),
 							}}
 						/>
+					</div>
+				)}
+				{children && (
+					<div className="modal-body">
+						{children}
 					</div>
 				)}
 				<div className="modal-footer">
