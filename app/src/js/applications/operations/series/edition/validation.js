@@ -1,27 +1,30 @@
-import D from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 
-export function validate(serie) {
-	let errorMessage = '';
+export function validate({ creators, prefLabelLg1, prefLabelLg2, family }) {
+	const errorMessages = [];
 
-	if(!serie.creators || serie.creators.length === 0){
-		errorMessage = D.requiredOwner;
+	if(!creators || creators.length === 0){
+		errorMessages.push(D.mandatoryProperty(D1.creatorTitle))
 	}
 
-	if(!serie.prefLabelLg1 || !serie.prefLabelLg2 ){
-		errorMessage = D.requiredPrefLabel;
+	if(!prefLabelLg1){
+		errorMessages.push(D.mandatoryProperty(D1.title))
+	}
+	if(!prefLabelLg2){
+		errorMessages.push(D.mandatoryProperty(D2.title))
 	}
 
-	if (!serie.family) {
-		errorMessage = D.requiredFamily;
+	if (!family) {
+		errorMessages.push(D.mandatoryProperty(D1.familyTitle))
 	}
-
 
 	return {
 		fields: {
-			prefLabelLg1: !serie.prefLabelLg1,
-			prefLabelLg2: !serie.prefLabelLg2,
-			family: !serie.family,
+			creators: (!creators || creators.length === 0) ? D.mandatoryProperty(D1.creatorTitle) : '',
+			prefLabelLg1: !prefLabelLg1 ? D.mandatoryProperty(D1.title) : '',
+			prefLabelLg2: !prefLabelLg2 ? D.mandatoryProperty(D2.title) : '',
+			family: !family ? D.mandatoryProperty(D1.familyTitle) : '',
 		},
-		errorMessage,
+		errorMessage: errorMessages,
 	};
 }

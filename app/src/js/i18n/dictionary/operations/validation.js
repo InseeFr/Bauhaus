@@ -7,10 +7,6 @@ export default {
 		fr: 'La langue est obligatoire',
 		en: 'The language is required',
 	},
-	requiredUrl: {
-		fr: "L'URL est obligatoire",
-		en: 'The link is required',
-	},
 	badUrl: {
 		fr: "L'URL n'est valide",
 		en: 'The link is not valid',
@@ -28,18 +24,6 @@ export default {
 			'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
 		en:
 			'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
-	},
-	requiredFamily: {
-		fr: 'La famille est obligatoire',
-		en: 'The family is required',
-	},
-	requiredOwner: {
-		fr: 'Le propriétaire est obligatoire',
-		en: 'The owner is required',
-	},
-	requiredSeries: {
-		fr: 'La série est obligatoire',
-		en: 'The series is required',
 	},
 	documents: {
 		serverSideErrors: {

@@ -59,6 +59,7 @@ const ConceptVisualizationContainer = () => {
 
 		api.putConceptValidList([id])
 			.then(() => fetchConcept(id))
+			.catch(e => setError(e))
 			.finally(() => {
 				setPublishing(false);
 			})

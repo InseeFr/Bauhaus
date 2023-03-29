@@ -9,18 +9,18 @@ import D from '../../../../i18n/build-dictionary';
 const Update = () => {
 	const location = useLocation();
 	const [loading, setLoading] = useState(true);
-	const { dsdId } = useParams();
+	const { structureId } = useParams();
 
 	const [structure, setStructure] = useState({});
 	useTitle(D.structuresTitle, structure?.labelLg1);
 
 	useEffect(() => {
-		StructureAPI.getStructure(dsdId)
+		StructureAPI.getStructure(structureId)
 			.then(res => setStructure(res))
 			.finally(() => {
 				setLoading(false);
 			});
-	}, [dsdId]);
+	}, [structureId]);
 	const duplicate = location.pathname.indexOf('/duplicate') >= 0;
 
 	if (loading) return <Loading />;

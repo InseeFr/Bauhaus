@@ -5,19 +5,27 @@ import {
 	ActionToolbar,
 	ReturnButton,
 	DeleteButton,
-	ErrorBloc
 } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
 import { typeUriToLabel, getAllAttachment, getDisseminationStatus } from '../../utils';
-import { XSD_CODE_LIST, XSD_TYPES } from '../../utils/constants/xsd';
+import { XSD_CODE_LIST, XSD_TYPES, ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from '../../utils/constants';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
-import { HTMLUtils, ValidationButton, CreationUpdateItems, PublicationMale,useTitle, Row } from 'bauhaus-utilities';
+import {
+	HTMLUtils,
+	ValidationButton,
+	CreationUpdateItems,
+	PublicationMale,
+	useTitle,
+    ErrorBloc,
+	Row,
+	Auth,
+} from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
 import "./view.scss";
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from 'bauhaus-codelists'
 import api from '../../apis/structure-api';
+import MainDictionary from '../../../../../app/src/js/i18n/build-dictionary';
 
 export const canBeDeleted = (component) => {
 	const withoutStructuresUsingThisComponent = !component.structures || component.structures?.length === 0
@@ -134,12 +142,12 @@ export const ComponentDetailView = ({
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
 				{canBeDeleted(component) && (
-					<DeleteButton action={handleDelete} col={col} />
+					<Auth.AuthGuard roles={[Auth.ADMIN]}><DeleteButton action={handleDelete} col={col} /></Auth.AuthGuard>
 				)}
-				<ValidationButton callback={publish} object={component} />
-				{updatable && <UpdateButton action={handleUpdate} col={col} />}
+				<Auth.AuthGuard roles={[Auth.ADMIN]}><ValidationButton callback={publish} object={component} /></Auth.AuthGuard>
+				{updatable && <Auth.AuthGuard roles={[Auth.ADMIN]}><UpdateButton action={handleUpdate} col={col} /></Auth.AuthGuard>}
 			</ActionToolbar>
-			<ErrorBloc error={serverSideError} />
+            {serverSideError && <ErrorBloc error={serverSideError} D={MainDictionary}/>}
 			<div className="row">
 				<Note
 					text={

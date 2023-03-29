@@ -1,18 +1,17 @@
 import React, { useState, useCallback } from 'react';
 import { PropTypes } from 'prop-types';
-import { ErrorBloc } from '@inseefr/wilco';
 import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
-import ConceptNotes from './notes';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 import D from 'js/i18n';
 import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
-import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
+import { buildNotes, propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
-import { CheckSecondLang, DateUtils, PageTitleBlock, useTitle } from 'bauhaus-utilities';
+import { CheckSecondLang, DateUtils, PageTitleBlock, useTitle, ErrorBloc } from 'bauhaus-utilities';
+import NoteVisualization from '../../shared/note-visualization';
 
 const ConceptVisualization = ({
 	id,
@@ -77,12 +76,16 @@ const ConceptVisualization = ({
 					handleValidation={handleClickValidation}
 					handleDeletion={handleClickDeletion}
 				/>
-				<ErrorBloc error={serverSideError} />
+				{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 				<CheckSecondLang />
 
 				<ConceptGeneral secondLang={secondLang} attr={general} langs={langs} />
 				<ConceptLinks secondLang={secondLang} links={links} />
-				<ConceptNotes secondLang={secondLang} notes={notes} langs={langs} />
+				<NoteVisualization
+					params={buildNotes(notes)}
+					langs={langs}
+					secondLang={secondLang}
+				/>
 			</div>
 			<ModalRmes
 				id="validation-concept-modal"

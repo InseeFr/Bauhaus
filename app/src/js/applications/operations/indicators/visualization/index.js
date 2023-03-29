@@ -7,7 +7,6 @@ import OperationsIndicatorVisualization from 'js/applications/operations/indicat
 import {
 	Loading,
 	Button,
-	ErrorBloc,
 	ActionToolbar,
 	goBack,
 	ReturnButton,
@@ -22,6 +21,7 @@ import {
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
+	ErrorBloc
 } from 'bauhaus-utilities';
 
 const IndicatorVisualizationContainer = (props) =>  {
@@ -97,7 +97,7 @@ const IndicatorVisualizationContainer = (props) =>  {
 					/>
 				</Auth.AuthGuard>
 			</ActionToolbar>
-			<ErrorBloc error={serverSideError} />
+			{ serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 
 			<CheckSecondLang />
 			<OperationsIndicatorVisualization

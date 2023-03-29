@@ -1,83 +1,130 @@
 import React from 'react';
 import { getTreeFromFlatData } from 'react-sortable-tree';
-import D from '../i18n/build-dictionary';
+import D, { D1, D2 } from '../i18n/build-dictionary';
 
 export const formatLabel = (component) => {
 	return <React.Fragment>{component.labelLg1}</React.Fragment>;
 };
 
 export const validateCodelist = (codelist) => {
-	const validations = {
-		id: 'errorsIdMandatory',
-		lastListUriSegment: 'lastListUriSegmentMandatory',
-		lastCodeUriSegment: 'lastCodeUriSegmentMandatory',
-		lastClassUriSegment: 'lastClassUriSegmentMandatory',
-		labelLg1: 'errorsLabelLg1Mandatory',
-		labelLg2: 'errorsLabelLg1Mandatory',
-		creator: 'errorsCreatorMandatory',
-		disseminationStatus: 'errorsDisseminationStatusMandatory',
-	};
+	const errorMessage = [];
+	const fields = {};
 
-	const field = Object.keys(validations).find((field) => !codelist[field]);
-
-	if (field) {
-		return {
-			field,
-			message: D[validations[field]],
-		};
+	if(!codelist.lastListUriSegment){
+		errorMessage.push(D.mandatoryProperty(D.lastListUriSegmentTitle));
+		fields.lastListUriSegment = D.mandatoryProperty(D.lastListUriSegmentTitle);
 	}
 
-	return {};
+	if(!codelist.lastCodeUriSegment){
+		errorMessage.push(D.mandatoryProperty(D.lastCodeUriSegmentTitle));
+		fields.lastCodeUriSegment = D.mandatoryProperty(D.lastCodeUriSegmentTitle);
+	}
+
+	if(!codelist.lastClassUriSegment){
+		errorMessage.push(D.mandatoryProperty(D.lastClassUriSegmentTitle));
+		fields.lastClassUriSegment = D.mandatoryProperty(D.lastClassUriSegmentTitle);
+	}
+
+	if(!codelist.id){
+		errorMessage.push(D.mandatoryProperty(D.idTitle));
+		fields.id = D.mandatoryProperty(D.idTitle);
+	}
+
+	if(!codelist.labelLg1){
+		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
+		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
+	}
+
+	if(!codelist.labelLg2){
+		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
+		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
+	}
+
+	if(!codelist.creator){
+		errorMessage.push(D.mandatoryProperty(D2.creator));
+		fields.creator = D.mandatoryProperty(D2.creator);
+	}
+
+	if(!codelist.disseminationStatus){
+		errorMessage.push(D.mandatoryProperty(D.disseminationStatusTitle));
+		fields.disseminationStatus = D.mandatoryProperty(D.disseminationStatusTitle);
+	}
+
+	return {
+		errorMessage,
+		fields
+	};
 };
 
 export const validatePartialCodelist = (codelist) => {
-	const validations = {
-		id: 'errorsIdMandatory',
-		parentCode: 'errorsParentCodelistMandadory',
-		labelLg1: 'errorsLabelLg1Mandatory',
-		labelLg2: 'errorsLabelLg1Mandatory',
-		creator: 'errorsCreatorMandatory',
-		disseminationStatus: 'errorsDisseminationStatusMandatory',
-	};
+	const errorMessage = [];
+	const fields = {};
 
-	const field = Object.keys(validations).find((field) => !codelist[field]);
-
-	if (field) {
-		return {
-			field,
-			message: D[validations[field]],
-		};
+	if(!codelist.id){
+		errorMessage.push(D.mandatoryProperty(D.idTitle));
+		fields.id = D.mandatoryProperty(D.idTitle);
 	}
 
-	return {};
+	if(!codelist.parentCode){
+		errorMessage.push(D.mandatoryProperty(D.parentCodelist));
+		fields.parentCode = D.mandatoryProperty(D.parentCodelist);
+	}
+
+	if(!codelist.labelLg1){
+		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
+		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
+	}
+
+	if(!codelist.labelLg2){
+		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
+		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
+	}
+
+	if(!codelist.creator){
+		errorMessage.push(D.mandatoryProperty(D.creator));
+		fields.creator = D.mandatoryProperty(D.creator);
+	}
+
+	if(!codelist.disseminationStatus){
+		errorMessage.push(D.mandatoryProperty(D.disseminationStatusTitle));
+		fields.disseminationStatus = D.mandatoryProperty(D.disseminationStatusTitle)
+	}
+
+	return {
+		errorMessage,
+		fields
+	};
 };
 
 export const validateCode = (code, codes, updateMode) => {
-	const validations = {
-		code: 'errorsIdMandatory',
-		labelLg1: 'errorsLabelLg1Mandatory',
-		labelLg2: 'errorsLabelLg1Mandatory',
-	};
+	const errorMessage = [];
+	const fields = {};
 
-	const emptyField = Object.keys(validations).find((field) => !code[field]);
+	if(!code.code){
+		errorMessage.push(D.mandatoryProperty(D.idTitle));
+		fields.code = D.mandatoryProperty(D.idTitle);
+	}
+	if(!code.labelLg1){
+		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
+		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
+	}
 
-	if (emptyField) {
-		return {
-			emptyField,
-			message: D[validations[emptyField]],
-		};
+	if(!code.labelLg2){
+		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
+		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
 	}
 
 	const doubleCode = !updateMode && codes.find((c) => c.code === code.code);
 
 	if (doubleCode) {
-		return {
-			doubleCode,
-			message: D.ErrorDoubleCode,
-		};
+		errorMessage.push(D.ErrorDoubleCode);
+		fields.code = D.ErrorDoubleCode;
 	}
 
-	return {};
+	return {
+		fields,
+		errorMessage
+	};
 };
 
 const treeElement = (n, i) => {

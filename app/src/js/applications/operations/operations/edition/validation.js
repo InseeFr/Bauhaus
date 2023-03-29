@@ -1,20 +1,23 @@
-import D from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 
-export function validate(operation) {
-	let errorMessage =
-		!operation.prefLabelLg1 || !operation.prefLabelLg2
-			? D.requiredPrefLabel
-			: '';
+export function validate({ prefLabelLg1, prefLabelLg2, series }) {
+	const errorMessages = [];
+	if(!prefLabelLg1){
+		errorMessages.push(D.mandatoryProperty(D1.title))
+	}
+	if(!prefLabelLg2){
+		errorMessages.push(D.mandatoryProperty(D2.title))
+	}
 
-	if (!operation.series) {
-		errorMessage = D.requiredSeries;
+	if (!series) {
+		errorMessages.push(D.mandatoryProperty(D1.seriesTitle));
 	}
 	return {
 		fields: {
-			prefLabelLg1: !operation.prefLabelLg1,
-			prefLabelLg2: !operation.prefLabelLg2,
-			series: !operation.series,
+			prefLabelLg1: !prefLabelLg1 ? D.mandatoryProperty(D1.title) : '',
+			prefLabelLg2: !prefLabelLg2 ? D.mandatoryProperty(D2.title) : '',
+			series: !series ? D.mandatoryProperty(D1.seriesTitle) : '',
 		},
-		errorMessage,
+		errorMessage: errorMessages,
 	};
 }

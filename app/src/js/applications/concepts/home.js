@@ -30,15 +30,14 @@ const ConceptsHome = () => {
 
 	const { authType, roles } = permission;
 	const authImpl = check(authType);
-	const adminOrContributor = authImpl.isAdminOrContributor(roles);
 	const adminOrCreator = authImpl.isAdminOrConceptCreator(roles);
 	return (
 		<div className="container">
 			<div className="row">
 				<VerticalMenu>
-					{adminOrContributor && (
+					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}>
 						<NewButton action="/concept/create" col={8} offset={2} />
-					)}
+					</Auth.AuthGuard>
 					<ExportButton action="/concepts/export" col={8} offset={2} />
 					{adminOrCreator && (
 						<PublishButton

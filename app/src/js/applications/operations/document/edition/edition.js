@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown, PageTitleBlock, withTitle } from 'bauhaus-utilities';
+import { EditorMarkdown, PageTitleBlock, withTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError, Row } from 'bauhaus-utilities';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -9,7 +9,6 @@ import {
 	goBack,
 	goBackOrReplace,
 	Loading,
-	ErrorBloc,
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
@@ -70,7 +69,9 @@ const OperationsDocumentationEdition = (props) => {
 		}
 	}, [documentProps])
 	const [serverSideError, setServerSideError] = useState('');
+	const [clientSideErrors, setClientSideErrors] = useState({ });
 	const [saving, setSaving] = useState(false);
+	const [submitting, setSubmitting] = useState(false);
 	const [document, setDocument] = useState(defaultDocument);
 	const [files, setFiles] = useState(document.url ? [{ name: document.url }] : []);
 
@@ -86,6 +87,10 @@ const OperationsDocumentationEdition = (props) => {
 
 	const onChange = (e) => {
 		setServerSideError('');
+		setClientSideErrors({
+			...clientSideErrors,
+			errorMessage: []
+		})
 		setDocument({
 			...document,
 			[e.target.id]: e.target.value
@@ -93,19 +98,25 @@ const OperationsDocumentationEdition = (props) => {
 	};
 
 	const onSubmit = () => {
-		setSaving(true)
-		const isCreation = !document.id;
+		const clientSideErrors = validate(document, type, files);
+		if (clientSideErrors.errorMessage?.length > 0) {
+			setSubmitting(true);
+			setClientSideErrors(clientSideErrors);
+		} else {
+			setSaving(true);
+			const isCreation = !document.id;
 
-		return saveDocument(document, type, files)
-			.then(
-				(id = document.id) => {
-					goBackOrReplace(props, `/operations/${type}/${id}`, isCreation);
-				},
-				(err) => {
-					setServerSideError(err)
-				}
-			)
-			.finally(() => setSaving(false));
+			saveDocument(document, type, files)
+				.then(
+					(id = document.id) => {
+						goBackOrReplace(props, `/operations/${type}/${id}`, isCreation);
+					},
+					(err) => {
+						setServerSideError(err);
+					},
+				)
+				.finally(() => setSaving(false));
+		}
 	};
 
 	const langSelectOptions = (langOptions.codes || []).map((lang) => {
@@ -115,15 +126,6 @@ const OperationsDocumentationEdition = (props) => {
 	if (saving) return <Loading textType="saving" />;
 
 	const isEditing = !!document.id;
-	const errors = validate(document, type, files);
-
-	let globalError;
-	try {
-		globalError =
-			errors.errorMessage ||
-			D.documents.serverSideErrors[JSON.parse(serverSideError).code] ||
-			serverSideError;
-	} catch (e) {}
 
 	let updatedDate;
 	if (document.updatedDate) {
@@ -143,12 +145,13 @@ const OperationsDocumentationEdition = (props) => {
 
 			<ActionToolbar>
 				<CancelButton action={goBack(props, '/operations/documents')} />
-				<SaveButton action={onSubmit} disabled={errors.errorMessage} />
+				<SaveButton action={onSubmit} disabled={clientSideErrors.errorMessage?.length > 0} />
 			</ActionToolbar>
-			<ErrorBloc error={globalError} />
+			{ submitting && clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} D={D}/> }
+			{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 
 			<form>
-				<div className="row">
+				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
 						<input
@@ -157,8 +160,10 @@ const OperationsDocumentationEdition = (props) => {
 							id="labelLg1"
 							value={document.labelLg1}
 							onChange={onChange}
-							aria-invalid={errors.fields.labelLg1}
+							aria-invalid={!!clientSideErrors.fields?.labelLg1}
+							aria-describedby={!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
 						/>
+						<ClientSideError id="labelLg1-error" error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
@@ -168,11 +173,13 @@ const OperationsDocumentationEdition = (props) => {
 							id="labelLg2"
 							value={document.labelLg2}
 							onChange={onChange}
-							aria-invalid={errors.fields.labelLg2}
+							aria-invalid={!!clientSideErrors.fields?.labelLg2}
+							aria-describedby={!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
 						/>
+						<ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
 					</div>
-				</div>
-				<div className="row">
+				</Row>
+				<Row>
 					<div className="col-md-6 form-group">
 						<label htmlFor="abstractLg1">{D1.descriptionTitle}</label>
 						<EditorMarkdown
@@ -191,9 +198,9 @@ const OperationsDocumentationEdition = (props) => {
 							}
 						/>
 					</div>
-				</div>
+				</Row>
 				{type === LINK && (
-					<div className="row">
+					<Row>
 						<div className="col-md-12 form-group">
 							<LabelRequired htmlFor="url">{D1.titleLink}</LabelRequired>
 							<input
@@ -202,13 +209,15 @@ const OperationsDocumentationEdition = (props) => {
 								id="url"
 								value={document.url}
 								onChange={onChange}
-								aria-invalid={errors.fields.url}
+								aria-invalid={!!clientSideErrors.fields?.url}
+								aria-describedby={!!clientSideErrors.fields?.url ? 'url-error' : null}
 							/>
+							<ClientSideError id="url-error" error={clientSideErrors?.fields?.url}></ClientSideError>
 						</div>
-					</div>
+					</Row>
 				)}
 				{type === DOCUMENT && (
-					<div className="row">
+					<Row>
 						<div className="col-md-12 form-group">
 							<LabelRequired>{D1.titleUpdatedDate}</LabelRequired>
 							<DatePickerRmes
@@ -219,11 +228,12 @@ const OperationsDocumentationEdition = (props) => {
 								}}
 								placement="top"
 							/>
+							<ClientSideError id="updatedDate-error" error={clientSideErrors?.fields?.updatedDate}></ClientSideError>
 						</div>
-					</div>
+					</Row>
 				)}
 				{type === DOCUMENT && files.length === 0 && (
-					<div className="row">
+					<Row>
 						<div className="col-md-12 form-group">
 							<Dropzone onDrop={uploadFile} multiple={false}>
 								{({ getRootProps, getInputProps }) => (
@@ -234,14 +244,18 @@ const OperationsDocumentationEdition = (props) => {
 									>
 										<input
 											{...getInputProps()}
-											aria-invalid={errors.fields.file}
+											aria-invalid={!!clientSideErrors.fields?.file}
+											aria-describedby={!!clientSideErrors.fields?.file ? 'file-error' : null}
 										/>
 										<p>{D.drag}</p>
 									</div>
 								)}
 							</Dropzone>
+							<ClientSideError id="file-error" error={clientSideErrors?.fields?.file}></ClientSideError>
+
 						</div>
-					</div>
+
+					</Row>
 				)}
 
 				{type === DOCUMENT && files.length > 0 && (
@@ -261,7 +275,7 @@ const OperationsDocumentationEdition = (props) => {
 						))}
 					</div>
 				)}
-				<div className="row">
+				<Row>
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="lang">{D1.langTitle}</LabelRequired>
 
@@ -276,8 +290,9 @@ const OperationsDocumentationEdition = (props) => {
 								onChange({ target: { value, id: 'lang' } });
 							}}
 						/>
+						<ClientSideError id="lang-error" error={clientSideErrors?.fields?.lang}></ClientSideError>
 					</div>
-				</div>
+				</Row>
 			</form>
 		</div>
 	);

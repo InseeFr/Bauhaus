@@ -7,7 +7,6 @@ import OperationsSerieVisualization from 'js/applications/operations/series/visu
 
 import {
 	Loading,
-	ErrorBloc,
 	Button,
 	ActionToolbar,
 	goBack,
@@ -22,6 +21,7 @@ import {
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
+	ErrorBloc
 } from 'bauhaus-utilities';
 import api from '../../../../remote-api/operations-api';
 
@@ -109,7 +109,7 @@ const SeriesVisualizationContainer = (props) => {
 				</Auth.AuthGuard>
 			</ActionToolbar>
 
-			<ErrorBloc error={serverSideError} />
+			{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 
 			<CheckSecondLang />
 			<OperationsSerieVisualization

@@ -1,5 +1,5 @@
 import React from 'react';
-import D from '../i18n/build-dictionary';
+import D, {D1, D2} from '../i18n/build-dictionary';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
 	ATTACHMENTS,
@@ -91,21 +91,28 @@ export const defaultComponentsTableParams = [
 ];
 
 export const validateComponent = component => {
-	const validations = {
-		identifiant: 'errorsIdMandatory',
-		labelLg1: 'errorsLabelLg1Mandatory',
-		labelLg2: 'errorsLabelLg1Mandatory',
-		type: 'errorsTypeMandatory',
-	};
+    const errorMessage = [];
+    const fields = {};
 
-	const field = Object.keys(validations).find(field => !component[field]);
+    if  (!component.identifiant)  {
+        errorMessage.push(D.mandatoryProperty(D.idTitle));
+        fields.identifiant = D.mandatoryProperty(D.idTitle);
+    }
+    if  (!component.labelLg1)  {
+        errorMessage.push(D.mandatoryProperty(D1.label));
+        fields.labelLg1 = D.mandatoryProperty(D1.label);
+    }
+    if  (!component.labelLg2)  {
+        errorMessage.push(D.mandatoryProperty(D2.label));
+        fields.labelLg2 = D.mandatoryProperty(D2.label);
+    }
+    if  (!component.type)  {
+        errorMessage.push(D.mandatoryProperty(D1.type));
+        fields.type = D.mandatoryProperty(D.type);
+    }
 
-	if (field) {
-		return {
-			field,
-			message: D[validations[field]],
-		};
-	}
-
-	return {};
+    return {
+        errorMessage,
+        fields,
+    };
 };

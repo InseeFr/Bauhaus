@@ -5,7 +5,6 @@ import {
 	CancelButton,
 	SaveButton,
 	Loading,
-	ErrorBloc,
 	ActionToolbar,
 	goBack,
 	goBackOrReplace,
@@ -13,7 +12,7 @@ import {
 	Select,
 } from '@inseefr/wilco';
 import { validate } from './validation';
-import { PageTitleBlock, withTitle } from 'bauhaus-utilities';
+import { PageTitleBlock, withTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError } from 'bauhaus-utilities';
 import api from '../../../../remote-api/operations-api';
 
 const defaultOperation = {
@@ -42,7 +41,9 @@ class OperationsOperationEdition extends Component {
 	setInitialState = props => {
 		return {
 			serverSideError: '',
+			clientSideErrors: { },
 			saving: false,
+			submitting: false,
 			operation: {
 				...defaultOperation,
 				...props.operation,
@@ -61,29 +62,42 @@ class OperationsOperationEdition extends Component {
 				},
 			};
 		}
-		this.setState({
+		this.setState(state => ({
 			serverSideError: '',
+			submitting: true,
+			clientSideErrors: {
+				...state.clientSideErrors,
+				errorMessage: []
+			},
 			operation: {
 				...this.state.operation,
 				...override,
 			},
-		});
+		}));
 	};
 	onSubmit = () => {
-		this.setState({ saving: true })
-		const isCreation = !this.state.operation.id;
+		const clientSideErrors = validate(this.state.operation);
+		if(clientSideErrors.errorMessage?.length > 0){
+			this.setState({
+				submitting: true,
+				clientSideErrors
+			})
+		} else {
+			this.setState({ saving: true })
+			const isCreation = !this.state.operation.id;
 
-		const method = isCreation ? 'postOperation' : 'putOperation';
-		return api[method](this.state.operation).then(
-			(id = this.state.operation.id) => {
-				goBackOrReplace(this.props, `/operations/operation/${id}`, isCreation);
-			},
-			err => {
-				this.setState({
-					serverSideError: err,
-				});
-			}
-		).finally(() => this.setState({ saving: false }));
+			const method = isCreation ? 'postOperation' : 'putOperation';
+			return api[method](this.state.operation).then(
+				(id = this.state.operation.id) => {
+					goBackOrReplace(this.props, `/operations/operation/${id}`, isCreation);
+				},
+				err => {
+					this.setState({
+						serverSideError: err,
+					});
+				}
+			).finally(() => this.setState({ saving: false }));
+		}
 	};
 
 	render() {
@@ -98,8 +112,6 @@ class OperationsOperationEdition extends Component {
 		const series = operation.series || { id: '' };
 		const isEditing = !!operation.id;
 
-		const errors = validate(operation);
-		const globalError = errors.errorMessage || serverSideError;
 		return (
 			<div className="container editor-container">
 				{isEditing && (
@@ -113,10 +125,11 @@ class OperationsOperationEdition extends Component {
 				<ActionToolbar>
 					<CancelButton action={goBack(this.props, '/operations/operations')} />
 
-					<SaveButton action={this.onSubmit} disabled={errors.errorMessage} />
+					<SaveButton action={this.onSubmit} disabled={this.state.clientSideErrors.errorMessage?.length > 0} />
 				</ActionToolbar>
 
-				<ErrorBloc error={globalError} />
+				{ this.state.submitting && this.state.clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={this.state.clientSideErrors.errorMessage} D={D}/> }
+				{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 
 				<form>
 					{!isEditing && (
@@ -133,6 +146,7 @@ class OperationsOperationEdition extends Component {
 										})
 									}
 								/>
+								<ClientSideError id="series-error" error={this.state.clientSideErrors?.fields?.series}></ClientSideError>
 							</div>
 						</div>
 					)}
@@ -146,8 +160,10 @@ class OperationsOperationEdition extends Component {
 								id="prefLabelLg1"
 								value={operation.prefLabelLg1}
 								onChange={this.onChange}
-								aria-invalid={errors.fields.prefLabelLg1}
+								aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg1}
+								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg1 ? 'prefLabelLg1-error' : null}
 							/>
+							<ClientSideError id="prefLabelLg1-error" error={this.state.clientSideErrors?.fields?.prefLabelLg1}></ClientSideError>
 						</div>
 						<div className="form-group col-md-6">
 							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
@@ -157,8 +173,10 @@ class OperationsOperationEdition extends Component {
 								id="prefLabelLg2"
 								value={operation.prefLabelLg2}
 								onChange={this.onChange}
-								aria-invalid={errors.fields.prefLabelLg2}
+								aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg2}
+								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg2 ? 'prefLabelLg2-error' : null}
 							/>
+							<ClientSideError id="prefLabelLg2-error" error={this.state.clientSideErrors?.fields?.prefLabelLg2}></ClientSideError>
 						</div>
 					</div>
 					<div className="row">

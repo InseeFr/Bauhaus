@@ -1,4 +1,4 @@
-import D from 'js/i18n';
+import D, { D1, D2 } from 'js/i18n';
 import { LINK, DOCUMENT } from '../utils';
 
 /* eslint-disable no-useless-escape */
@@ -50,36 +50,50 @@ function checkUrl (url) {
  */
 export function validate(document, type, files) {
 	const fields = {};
-	let errorMessage = '';
-	if (!document.labelLg1 || !document.labelLg2) {
-		errorMessage = D.requiredPrefLabel;
-		fields.prefLabelLg1 = !document.labelLg1;
-		fields.prefLabelLg2 = !document.labelLg2;
-	} else if (type === LINK && !document.url) {
-		errorMessage = D.requiredUrl;
-		fields.url = true;
-	} else if (type === LINK && !checkUrl(document.url)) {
-		errorMessage = D.badUrl;
-		fields.url = true;
-	} else if (type === DOCUMENT && !document.updatedDate) {
-		errorMessage = D.requiredUpdatedDate;
-		fields.updatedDate = true;
-	} else if (type === DOCUMENT && !haveFiles(files)) {
-		return {
-			errorMessage: D.requiredFile,
-			fields: { file: true },
-		};
-	} else if (type === DOCUMENT && haveInvalidFilesName(files)) {
-		return {
-			errorMessage: D.wrongFileName,
-			fields: { file: true },
-		};
-	} else if (!document.lang) {
-		errorMessage = D.requiredLang;
-		fields.lang = true;
+	let errorMessages = [];
+
+	if(!document.labelLg1){
+		errorMessages.push(D.mandatoryProperty(D1.title));
+		fields.labelLg1 = D.mandatoryProperty(D1.title);
 	}
+
+	if(!document.labelLg2){
+		errorMessages.push(D.mandatoryProperty(D2.title));
+		fields.labelLg2 = D.mandatoryProperty(D2.title);
+	}
+
+	if (type === LINK && !document.url) {
+		errorMessages.push(D.mandatoryProperty(D.titleLink));
+		fields.url = D.mandatoryProperty(D.titleLink);
+	}
+
+	if (type === LINK && !checkUrl(document.url)) {
+		errorMessages.push(D.badUrl);
+		fields.url = D.badUrl;
+	}
+
+	if (type === DOCUMENT && !document.updatedDate) {
+		errorMessages.push(D.requiredUpdatedDate);
+		fields.updatedDate = D.requiredUpdatedDate;
+	}
+
+	if (type === DOCUMENT && !haveFiles(files)) {
+		errorMessages.push(D.requiredFile);
+		fields.file = D.requiredFile;
+	}
+
+	if (type === DOCUMENT && haveInvalidFilesName(files)) {
+		errorMessages.push(D.wrongFileName);
+		fields.file = D.wrongFileName;
+	}
+
+	if (!document.lang) {
+		errorMessages.push(D.requiredLang);
+		fields.lang = D.requiredLang;
+	}
+
 	return {
 		fields,
-		errorMessage,
+		errorMessage: errorMessages,
 	};
 }

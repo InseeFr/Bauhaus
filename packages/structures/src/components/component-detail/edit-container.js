@@ -6,7 +6,6 @@ import { getFormattedCodeList } from '../../apis/code-list';
 import { ConceptsAPI, Stores } from 'bauhaus-utilities';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import D from '../../i18n/build-dictionary';
 
 
 const EditContainer = props => {
@@ -48,7 +47,7 @@ const EditContainer = props => {
 				);
 			}).catch(error => {
 				setComponent(component);
-				setServerSideError(D['errors_' + JSON.parse(error).code])
+				setServerSideError(error)
 			}).finally(() => setSaving(false))
 		},
 		[props]

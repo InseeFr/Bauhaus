@@ -4,7 +4,7 @@ import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import { D1, D2 } from 'js/i18n';
 import { Row } from 'bauhaus-utilities';
 
-const NoteVisualization = ({ params, langs, secondLang }) => (
+const NoteVisualization = ({ params, langs, secondLang, md }) => (
 	<>
 		{params.filter(note => !!note.lg1).map((note, i) => (
 				<Row key={`note-visualization-${i}`}>
@@ -13,7 +13,7 @@ const NoteVisualization = ({ params, langs, secondLang }) => (
 						title={D1[note.title]}
 						lang={langs.lg1}
 						alone={!secondLang}
-						md
+						md={md}
 					/>
 					{secondLang && (
 						<ExplanatoryNote
@@ -21,7 +21,7 @@ const NoteVisualization = ({ params, langs, secondLang }) => (
 							title={D2[note.title]}
 							lang={langs.lg2}
 							alone={false}
-							md
+							md={md}
 						/>
 					)}
 				</Row>

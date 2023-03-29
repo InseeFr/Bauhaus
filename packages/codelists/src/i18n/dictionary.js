@@ -209,26 +209,6 @@ const dictionary = {
 		fr: 'Le propriétaire est obligatoire',
 		en: 'The creator is mandatory',
 	},
-	errorsDisseminationStatusMandatory: {
-		fr: 'Le statut de diffusion est obligatoire',
-		en: 'The dissemination status is mandatory',
-	},
-	errors_1101: {
-		fr: 'La liste de codes existe déjà.',
-		en: 'The codelist already exists.',
-	},
-	errors_1102: {
-		fr: 'Une liste de codes ne peut pas être créée sans code.',
-		en: 'A codeList should contain at least one Code.',
-	},
-	errors_1103: {
-		fr: "La liste de codes n'a pas pu être supprimée : elle a déjà été publiée.",
-		en: 'The codeList could not be removed: it is already published.',
-	},
-	errors_1104: {
-		fr: "La liste de codes n'a pas pu être supprimée : une autre liste de codes dépend d'elle.",
-		en: 'The codeList could not be removed: another codeList depends on it.',
-	},
 	confirmationCodelistDelete: {
 		fr: 'Vous êtes sur le point de supprimer définitivement cette liste de codes. Êtes-vous sûr ?',
 		en: 'You are about to permanently delete this codelist. Are you sure?',
@@ -253,5 +233,16 @@ const dictionary = {
 		fr: 'Libellé...',
 		en: 'Label...',
 	},
+	//TODO find a solution in order to avoid this duplicated key
+	mandatoryProperty: {
+		fr: propertyName => `La propriété <strong>${propertyName}</strong> est obligatoire.`,
+		en: propertyName => `The property <strong>${propertyName}</strong> is required.`
+	},
+	errors: {
+		GlobalClientSideErrorBloc: {
+			fr: 'Vous avez des erreurs dans ce formulaire.',
+			en: 'You have errors in this form.'
+		},
+	}
 };
 export default dictionary;

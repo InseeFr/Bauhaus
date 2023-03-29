@@ -4,7 +4,6 @@ import { Loading } from '@inseefr/wilco';
 import { StampsApi } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import { formatPartialCodeList } from '../../utils';
-import D from '../../i18n/build-dictionary';
 import { CodeListPartialDetailEdit } from './edit';
 import { useQuery } from '@tanstack/react-query';
 
@@ -69,7 +68,7 @@ const CodelistPartialEdit = (props) => {
 				})
 				.catch((error) => {
 					setCodelist(codelist);
-					setServerSideError(D['errors_' + JSON.parse(error).code]);
+					setServerSideError(error);
 				})
 				.finally(() => setSaving(false));
 		},

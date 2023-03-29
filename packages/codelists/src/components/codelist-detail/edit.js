@@ -6,16 +6,16 @@ import {
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
-	ErrorBloc,
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { Stores, useTitle } from 'bauhaus-utilities';
+import { Stores, useTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError } from 'bauhaus-utilities';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import CodesTreeEdit from './codes-tree-edit';
 import './edit.scss';
 import { CollapsiblePanel } from '../collapsible-panel';
+import MainDictionary from '../../../../../app/src/js/i18n/build-dictionary';
 
 export const deleteNodes = (codes, currentNode) => {
 	let updatedCodes = [...codes];
@@ -75,6 +75,9 @@ const DumbCodelistDetailEdit = ({
 	serverSideError,
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
+	const [clientSideErrors, setClientSideErrors] = useState({});
+	const [submitting, setSubmitting] = useState(false);
+
 	const [codes, setCodes] = useState(
 		Object.values(defaultCodelist.codes || {})
 	);
@@ -146,8 +149,6 @@ const DumbCodelistDetailEdit = ({
 		[codes]
 	);
 
-	const { field, message } = validateCodelist(codelist);
-
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
 	useEffect(() => {
@@ -158,26 +159,38 @@ const DumbCodelistDetailEdit = ({
 	const handleChange = useCallback(
 		(e) => {
 			const { name, value } = e.target;
+			setClientSideErrors({
+				...clientSideErrors,
+				errorMessage: []
+			})
+
 			setCodelist({
 				...codelist,
 				[name]: value,
 			});
 		},
-		[codelist]
+		[clientSideErrors, codelist]
 	);
 
 	const handleSaveClick = useCallback(() => {
-		handleSave(codelist);
+		const clientSideErrors = validateCodelist(codelist);
+		if(clientSideErrors.errorMessage?.length > 0){
+			setSubmitting(true);
+			setClientSideErrors(clientSideErrors);
+		} else {
+			setClientSideErrors({});
+			handleSave(codelist);
+		}
 	}, [codelist, handleSave]);
 
 	return (
 		<React.Fragment>
 			<ActionToolbar>
 				<CancelButton action={handleBack} col={3} />
-				<SaveButton disabled={message} action={handleSaveClick} col={3} />
+				<SaveButton disabled={clientSideErrors.errorMessage?.length > 0} action={handleSaveClick} col={3} />
 			</ActionToolbar>
-			{message && <ErrorBloc error={message} />}
-			{serverSideError && <ErrorBloc error={serverSideError} />}
+			{ submitting && clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} D={D}/> }
+			{serverSideError && <ErrorBloc error={serverSideError} D={MainDictionary}/>}
 			<form>
 				<div className="row">
 					<div className={`col-md-12 form-group`}>
@@ -192,7 +205,10 @@ const DumbCodelistDetailEdit = ({
 							onChange={handleChange}
 							value={codelist.lastListUriSegment || ''}
 							disabled={updateMode && codelist.lastListUriSegment !== ''}
+							aria-invalid={!!clientSideErrors.fields?.lastListUriSegment}
+							aria-describedby={!!clientSideErrors.fields?.lastListUriSegment ? 'lastListUriSegment-error' : null}
 						/>
+						<ClientSideError id="lastListUriSegment-error" error={clientSideErrors?.fields?.lastListUriSegment}></ClientSideError>
 					</div>
 				</div>
 				<div className="row">
@@ -208,7 +224,10 @@ const DumbCodelistDetailEdit = ({
 							onChange={handleChange}
 							value={codelist.lastCodeUriSegment || ''}
 							disabled={updateMode && codelist.lastCodeUriSegment !== ''}
+							aria-invalid={!!clientSideErrors.fields?.lastCodeUriSegment}
+							aria-describedby={!!clientSideErrors.fields?.lastCodeUriSegment ? 'lastCodeUriSegment-error' : null}
 						/>
+						<ClientSideError id="lastCodeUriSegment-error" error={clientSideErrors?.fields?.lastCodeUriSegment}></ClientSideError>
 					</div>
 				</div>
 				<div className="row">
@@ -224,7 +243,10 @@ const DumbCodelistDetailEdit = ({
 							onChange={handleChange}
 							value={codelist.lastClassUriSegment || ''}
 							disabled={updateMode && codelist.lastClassUriSegment !== ''}
+							aria-invalid={!!clientSideErrors.fields?.lastClassUriSegment}
+							aria-describedby={!!clientSideErrors.fields?.lastClassUriSegment ? 'lastClassUriSegment-error' : null}
 						/>
+						<ClientSideError id="lastClassUriSegment-error" error={clientSideErrors?.fields?.lastClassUriSegment}></ClientSideError>
 					</div>
 				</div>
 				<div className="row">
@@ -237,8 +259,10 @@ const DumbCodelistDetailEdit = ({
 							name="id"
 							value={codelist.id || ''}
 							onChange={handleChange}
-							aria-invalid={field === ''}
+							aria-invalid={!!clientSideErrors.fields?.id}
+							aria-describedby={!!clientSideErrors.fields?.id ? 'id-error' : null}
 						/>
+						<ClientSideError id="id-error" error={clientSideErrors?.fields?.id}></ClientSideError>
 					</div>
 				</div>
 				<div className="row">
@@ -251,8 +275,10 @@ const DumbCodelistDetailEdit = ({
 							name="labelLg1"
 							onChange={handleChange}
 							value={codelist.labelLg1 || ''}
-							aria-invalid={field === ''}
+							aria-invalid={!!clientSideErrors.fields?.labelLg1}
+							aria-describedby={!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
 						/>
+						<ClientSideError id="labelLg1-error" error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg2">{D2.labelTitle}</LabelRequired>
@@ -263,8 +289,10 @@ const DumbCodelistDetailEdit = ({
 							name="labelLg2"
 							onChange={handleChange}
 							value={codelist.labelLg2 || ''}
-							aria-invalid={field === ''}
+							aria-invalid={!!clientSideErrors.fields?.labelLg2}
+							aria-describedby={!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
 						/>
+						<ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
 					</div>
 				</div>
 				<div className="form-group">
@@ -276,9 +304,16 @@ const DumbCodelistDetailEdit = ({
 							({ value }) => value === codelist.creator
 						)}
 						options={stampListOptions}
-						onChange={(value) => setCodelist({ ...codelist, creator: value })}
+						onChange={(value) => {
+							setCodelist({ ...codelist, creator: value });
+							setClientSideErrors({
+								...clientSideErrors,
+								errorMessage: []
+							})
+						}}
 						searchable={true}
 					/>
+					<ClientSideError id="creator-error" error={clientSideErrors?.fields?.creator}></ClientSideError>
 				</div>
 				<div className="form-group">
 					<label>{D1.contributor}</label>
@@ -305,11 +340,16 @@ const DumbCodelistDetailEdit = ({
 							({ value }) => value === codelist.disseminationStatus
 						)}
 						options={disseminationStatusListOptions}
-						onChange={(value) =>
+						onChange={(value) => {
 							setCodelist({ ...codelist, disseminationStatus: value })
-						}
+							setClientSideErrors({
+								...clientSideErrors,
+								errorMessage: []
+							})
+						}}
 						searchable={true}
 					/>
+					<ClientSideError id="disseminationStatus-error" error={clientSideErrors?.fields?.disseminationStatus}></ClientSideError>
 				</div>
 				<div className="row">
 					<div className="col-md-6 form-group">

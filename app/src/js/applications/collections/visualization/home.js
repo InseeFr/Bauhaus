@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { PageTitle, PageSubtitle } from '@inseefr/wilco';
+import { PageTitle, PageSubtitle, Loading } from '@inseefr/wilco';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 import CollectionMembers from './members';
@@ -12,10 +12,13 @@ import D from 'js/i18n';
 
 const CollectionVisualization = ({ id, permission, general, members, secondLang, langs, validateCollection }) => {
 	const { isValidated, creator } = general;
+	const [exporting, setExporting] = useState(false);
 
 	const handleClickValid = () => {
 		validateCollection(id);
 	};
+
+	if(exporting) return <Loading textType="exporting" />;
 
 	return (
 		<div>
@@ -30,6 +33,7 @@ const CollectionVisualization = ({ id, permission, general, members, secondLang,
 					creator={creator}
 					isValidated={isValidated === 'true'}
 					handleValidation={handleClickValid}
+					setExporting={setExporting}
 				/>
 				<CheckSecondLang />
 				<CollectionGeneral

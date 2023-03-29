@@ -9,6 +9,10 @@ const dictionary = {
 		fr: 'Opérations',
 		en: 'Operations',
 	},
+	familyTitle: {
+		fr: 'Famille',
+		en: 'Family',
+	},
 	familiesTitle: {
 		fr: 'Familles',
 		en: 'Families',
@@ -266,6 +270,22 @@ const dictionary = {
 	exportSimsIncludeLg2: {
 		fr: 'Inclure la seconde langue',
 		en: 'Include second language',
+	},
+	exportLgTitle: {
+		fr: 'Selectionnez la langue ',
+		en: 'Select the	 language',
+	},
+	exportLg1: {
+		fr: 'Première langue',
+		en: 'First language',
+	},
+	exportLg2: {
+		fr: 'Seconde langue',
+		en: 'Second language',
+	},
+	exportConcepts: {
+		fr: 'Exporter les concepts',
+		en: 'Export concepts',
 	},
 	exportDocument: {
 		fr: 'Exporter les documents',

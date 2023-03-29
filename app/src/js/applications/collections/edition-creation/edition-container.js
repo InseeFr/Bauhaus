@@ -8,6 +8,7 @@ import D from 'js/i18n';
 import { Loading, cleanId } from '@inseefr/wilco';
 import { ArrayUtils } from 'bauhaus-utilities';
 import api from '../../../remote-api/concepts-api';
+import apiCollections from '../../../remote-api/concepts-collection-api';
 import globalApi from '../../../remote-api/api';
 
 const EditionContainer = () => {
@@ -37,7 +38,7 @@ const EditionContainer = () => {
 		Promise.all([
 			globalApi.getStampList(),
 			api.getConceptList(),
-			api.getCollectionList()
+			apiCollections.getCollectionList()
 		]).then(([ stampsList, conceptsList, collectionsList ]) => {
 			setStampList(stampsList)
 			setConceptList(ArrayUtils.sortArrayByLabel(conceptsList))

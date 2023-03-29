@@ -7,7 +7,6 @@ import { useDispatch} from 'react-redux';
 import {
 	Button,
 	DuplicateButton,
-	ErrorBloc,
 	Note,
 	ActionToolbar,
 	ReturnButton,
@@ -25,7 +24,8 @@ import {
 	CheckSecondLang,
 	PublicationFemale,
 	ConfirmationDelete, CreationUpdateItems,
-	Row
+	Row,
+    ErrorBloc
 } from 'bauhaus-utilities';
 import {
 	hasLabelLg2,
@@ -252,7 +252,7 @@ export default function SimsVisualisation({
 			</ActionToolbar>
 
 			<Row>
-				<ErrorBloc error={serverSideError} />
+                {serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 
 				<CheckSecondLang />
 				<RubricEssentialMsg secondLang={secondLang}/>

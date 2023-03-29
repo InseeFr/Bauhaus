@@ -81,7 +81,6 @@ const api = {
 		},
 	],
 	// Collections
-	getCollectionList: () => ['collections'],
 	getCollectionDashboardList: () => ['collections/dashboard'],
 	getCollectionValidateList: () => ['collections/toValidate'],
 	postCollection: collection => [
@@ -115,36 +114,6 @@ const api = {
 	],
 	getCollectionGeneral: id => [`collection/${id}`],
 	getCollectionMembersList: id => [`collection/${id}/members`],
-	getCollectionExport: (id, MimeType) => [
-		`collection/export/${id}`,
-		{
-			headers: {
-				Accept: MimeType,
-				'Content-Type': 'text/plain',
-			},
-		},
-		res => res,
-	],
-	getCollectionExportByType: (id, MimeType, type) => [
-		`collection/export/${id}/${type}`,
-		{
-			headers: {
-				Accept: MimeType,
-				'Content-Type': 'text/plain',
-			},
-		},
-		res => res,
-	],
-	postCollectionSend: (id, mailInfo) => [
-		`collection/send/${id}`,
-		{
-			headers: {
-				Accept: 'text/plain',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(mailInfo),
-		},
-	],
 };
 
 export default API.buildApi('concepts', api);

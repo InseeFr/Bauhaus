@@ -53,3 +53,5 @@ export { useTitle, withTitle, setDocumentTitle } from './utils/useTitle'
 export { default as SelectRmes} from './components/select-rmes';
 
 export { default as useUrlQueryParameters } from './hooks/useUrlQueryParameters';
+export { default as ErrorBloc, GlobalClientSideErrorBloc, ClientSideError} from './components/errors-bloc';
+

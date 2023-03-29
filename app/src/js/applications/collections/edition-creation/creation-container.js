@@ -10,6 +10,7 @@ import { cleanId, Loading } from '@inseefr/wilco';
 import { ArrayUtils } from 'bauhaus-utilities';
 import globalApi from '../../../remote-api/api';
 import api from '../../../remote-api/concepts-api';
+import apiCollections from '../../../remote-api/concepts-collection-api';
 
 const CreationContainer = () => {
 	const history = useHistory()
@@ -27,7 +28,7 @@ const CreationContainer = () => {
 		Promise.all([
 			globalApi.getStampList(),
 			api.getConceptList(),
-			api.getCollectionList()
+			apiCollections.getCollectionList()
 		]).then(([ stampsList, conceptsList, collectionsList ]) => {
 			setStampList(stampsList)
 			setConceptList(ArrayUtils.sortArrayByLabel(conceptsList))
