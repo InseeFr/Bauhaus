@@ -43,6 +43,9 @@ const Components = ({ componentDefinitions = []}) => {
 					specification={{
 						attachment: selectedComponent.attachment,
 						required: selectedComponent.required,
+						notation: selectedComponent.notation,
+						labelLg1: selectedComponent.labelLg1,
+						labelLg2: selectedComponent.labelLg2,
 					}}
 				/>
 			)}
