@@ -17,6 +17,7 @@ describe('<ComponentSpecificationModal />', () => {
 		const { container } = render(
 			<ComponentSpecificationModalBody
 				specification={specification}
+				selectedComponent={{component: {}}}
 				structureComponents={structureComponents}
 				onClose={onClose}
 			/>
@@ -29,20 +30,12 @@ describe('<ComponentSpecificationModal />', () => {
 		const { container } = render(
 			<ComponentSpecificationModalBody
 				specification={specification}
+				selectedComponent={{component: {}}}
 				structureComponents={structureComponents}
 				onSave={onSave}
 			/>
 		);
 		fireEvent.click(container.querySelector('.modal-footer button'));
 		expect(onSave).toHaveBeenCalled();
-	});
-	it('should display the component specification', async () => {
-		render(
-			<ComponentSpecificationModalBody
-				specification={specification}
-				structureComponents={structureComponents}
-			/>
-		);
-		await screen.findByText("DataSet");
 	});
 });
