@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import D from '../../i18n/build-dictionary';
+import D, {D1, D2} from '../../i18n/build-dictionary';
 import { Select } from '@inseefr/wilco';
 import { getAllAttachment } from '../../utils';
 import './component-specification-form.scss';
-import { MEASURE_PROPERTY_TYPE } from '../../utils/constants';
+import { ATTRIBUTE_PROPERTY_TYPE, MEASURE_PROPERTY_TYPE } from '../../utils/constants';
 import Api from '../../apis/structure-api';
 
 export const ComponentSpecificationForm = ({
@@ -14,7 +14,6 @@ export const ComponentSpecificationForm = ({
 	disabled = false,
 }) => {
 	const [attachments, setAttachments] = useState([]);
-
 	useEffect(() => {
 		Promise.all(structureComponents
 			.filter(c => c.component.type === MEASURE_PROPERTY_TYPE)
@@ -26,64 +25,124 @@ export const ComponentSpecificationForm = ({
 
 	return (
 		<React.Fragment>
-			<div className="row bauhaus-component-specification-form">
-				<div className="col-md-12">
-					<Select
-						id="attachment"
-						name="attachment"
-						label={D.attachmentTitle}
-						placeholder={D.attachmentTitle}
-						value={attachments.filter((c) =>
-							component.attachment?.some((a) => a.includes(c.value))
-						)}
-						multi
-						options={attachments}
-						onChange={(value) => {
+			<div className="row">
+				<div className='col-md-12'>
+				<label htmlFor="component-specification-notation">{D.idTitle}</label>
+				<input
+					type="text"
+					className="form-control"
+					value={component.notation}
+					name="component-specification-notation"
+					id="component-specification-notation"
+					onChange={(e) => {
+						onChange({
+							...component,
+							notation: e.target.value,
+						});
+					}}
+					disabled={disabled}
+				/>
+				</div>
+			</div>
+			<div className="row">
+				<div className='col-md-6'>
+				<label htmlFor="component-specification-labelLg1">{D1.label}</label>
+				<input
+					type="text"
+					className="form-control"
+					value={component.labelLg1}
+					name="component-specification-labelLg1"
+					id="component-specification-labelLg1"
+					onChange={(e) => {
+						onChange({
+							...component,
+							labelLg1: e.target.value,
+						});
+					}}
+					disabled={disabled}
+				/>
+				</div>
+				<div className='col-md-6'>
+					<label htmlFor="component-specification-labelLg1">{D2.label}</label>
+					<input
+						type="text"
+						className="form-control"
+						value={component.labelLg2}
+						name="component-specification-labelLg2"
+						id="component-specification-labelLg2"
+						onChange={(e) => {
 							onChange({
 								...component,
-								attachment: value?.map((v) => v.value),
+								labelLg2: e.target.value,
 							});
 						}}
 						disabled={disabled}
 					/>
 				</div>
 			</div>
-			<div className="row">
-				<fieldset className="col-md-12 checkbox ">
-					<legend>{D.requiredSpecificationTitle}</legend>
 
-					<label className="radio-inline">
-						<input
-							type="radio"
-							checked={component.required}
-							name="required"
-							onChange={() => {
+			{ selectedComponent.component.type === ATTRIBUTE_PROPERTY_TYPE &&
+				<>
+					<div className="row bauhaus-component-specification-form">
+						<div className="col-md-12">
+						<Select
+							id="attachment"
+							name="attachment"
+							label={D.attachmentTitle}
+							placeholder={D.attachmentTitle}
+							value={attachments.filter((c) =>
+								component.attachment?.some((a) => a.includes(c.value))
+							)}
+							multi
+							options={attachments}
+							onChange={(value) => {
 								onChange({
 									...component,
-									required: true,
+									attachment: value?.map((v) => v.value),
 								});
 							}}
 							disabled={disabled}
 						/>
-						{D.yes}
-					</label>
-					<label className="radio-inline">
-						<input
-							type="radio"
-							checked={!component.required}
-							name="required"
-							onChange={() => {
-								onChange({
-									...component,
-									required: false,
-								});
-							}}
-							disabled={disabled}
-						/>
-						{D.no}
-					</label>
-				</fieldset>
-			</div>
+					</div>
+					</div>
+					<div className="row">
+						<fieldset className="col-md-12 checkbox ">
+							<legend>{D.requiredSpecificationTitle}</legend>
+
+							<label className="radio-inline">
+								<input
+									type="radio"
+									checked={component.required}
+									name="required"
+									onChange={() => {
+										onChange({
+											...component,
+											required: true,
+										});
+									}}
+									disabled={disabled}
+								/>
+								{D.yes}
+							</label>
+							<label className="radio-inline">
+								<input
+									type="radio"
+									checked={!component.required}
+									name="required"
+									onChange={() => {
+										onChange({
+											...component,
+											required: false,
+										});
+									}}
+									disabled={disabled}
+								/>
+								{D.no}
+							</label>
+						</fieldset>
+					</div>
+				</>
+			}
 		</React.Fragment>
 	);
 };
