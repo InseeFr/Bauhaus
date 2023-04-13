@@ -1,8 +1,16 @@
 import { useClassification, useUpdateClassification } from '../hooks';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
-import { ActionToolbar, ErrorBloc, goBack, LabelRequired, Loading } from '@inseefr/wilco';
+import { ActionToolbar, goBack, LabelRequired, Loading } from '@inseefr/wilco';
 import React from 'react';
-import { EditorMarkdown, PageTitleBlock, Row, Stores, useTitle } from 'bauhaus-utilities';
+import {
+	ClientSideError,
+	EditorMarkdown,
+	GlobalClientSideErrorBloc,
+	PageTitleBlock,
+	Row,
+	Stores,
+	useTitle,
+} from 'bauhaus-utilities';
 import { useForm, Controller } from 'react-hook-form';
 import { default as ReactSelect } from 'react-select';
 import organisationApi from '../../../remote-api/organisations-api'
@@ -14,9 +22,8 @@ import generalApi from '../../../remote-api/api';
 export const ClassificationEdition = () => {
 	const history = useHistory();
 	const { id } = useParams();
-
 	const { register, handleSubmit, formState: { errors }, control } = useForm({
-		criteriaMode: 'firstError',
+		criteriaMode: 'all',
 		mode: 'all',
 	});
 
@@ -57,8 +64,7 @@ export const ClassificationEdition = () => {
 		return <Redirect to={'/classifications/classification/' + id}/>
 	}
 
-	const errorMessage = Object.values(errors)?.[0]?.message;
-
+	console.log(errors)
 	return (
 		<div className='container editor-container'>
 			<PageTitleBlock
@@ -91,7 +97,7 @@ export const ClassificationEdition = () => {
 					</div>
 				</ActionToolbar>
 
-				<ErrorBloc error={errorMessage} />
+				{ <GlobalClientSideErrorBloc clientSideErrors={Object.values(errors)} D={D}/> }
 
 				<Row>
 					<div className='col-md-6 form-group'>
@@ -102,7 +108,10 @@ export const ClassificationEdition = () => {
 							id="prefLabelLg1"
 							{...register('prefLabelLg1', { required: D.requiredPrefLabel })}
 							defaultValue={classification.general.prefLabelLg1}
+							aria-describedby="prefLabelLg1-error"
+							aria-invalid={!!errors?.prefLabelLg1?.message}
 						/>
+						<ClientSideError id="prefLabelLg1-error" error={errors?.prefLabelLg1?.message}></ClientSideError>
 					</div>
 					<div className='col-md-6 form-group'>
 						<LabelRequired htmlFor='prefLabelLg2'>{D2.title}</LabelRequired>
@@ -112,7 +121,10 @@ export const ClassificationEdition = () => {
 							id="prefLabelLg2"
 							{...register('prefLabelLg2', { required: D.requiredPrefLabel })}
 							defaultValue={classification.general.prefLabelLg2}
+							aria-describedby="prefLabelLg2-error"
+							aria-invalid={!!errors?.prefLabelLg2?.message}
 						/>
+						<ClientSideError id="prefLabelLg2-error" error={errors?.prefLabelLg2?.message}></ClientSideError>
 					</div>
 				</Row>
 				<Row>
@@ -289,7 +301,10 @@ export const ClassificationEdition = () => {
 							}
 						})}
 						defaultValue={classification.general.additionalMaterial}
+						aria-describedby="additionalMaterial-error"
+						aria-invalid={!!errors?.additionalMaterial?.message}
 					/>
+					<ClientSideError id="additionalMaterial-error" error={errors?.additionalMaterial?.message}></ClientSideError>
 				</div>
 				<div className="form-group">
 					<label htmlFor="legalMaterial">{D1.legalMaterialTitle}</label>
@@ -304,7 +319,10 @@ export const ClassificationEdition = () => {
 							}
 						})}
 						defaultValue={classification.general.legalMaterial}
+						aria-describedby="legalMaterial-error"
+						aria-invalid={!!errors?.legalMaterial?.message}
 					/>
+					<ClientSideError id="legalMaterial-error" error={errors?.legalMaterial?.message}></ClientSideError>
 				</div>
 				<div className="form-group">
 					<label htmlFor="homepage">{D1.homepageTitle}</label>
@@ -319,7 +337,10 @@ export const ClassificationEdition = () => {
 							}
 						})}
 						defaultValue={classification.general.homepage}
+						aria-describedby="homepage-error"
+						aria-invalid={!!errors?.homepage?.message}
 					/>
+					<ClientSideError id="homepage-error" error={errors?.homepage?.message}></ClientSideError>
 				</div>
 				{
 					(classification.general.scopeNoteUriLg1 || classification.general.scopeNoteUriLg2) && <>
