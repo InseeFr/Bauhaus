@@ -14,14 +14,13 @@ const CollectionsToExport = ({ collections, exportOdt, exportOds }) => {
 
 	const closeModal = useCallback(() => {
 		setDisplayModal(false);
-		setIds([]);
 	}, []);
 
 	return (
 
 		<div>
 			{
-				displayModal && <CollectionExportModal ids={ids} close={closeModal} exportOdt={exportOdt} exportOds={exportOds}></CollectionExportModal>
+				displayModal && <CollectionExportModal app="concepts" ids={ids} close={closeModal} exportOdt={exportOdt} exportOds={exportOds}></CollectionExportModal>
 			}
 
 			<Picker

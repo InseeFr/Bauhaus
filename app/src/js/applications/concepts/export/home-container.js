@@ -1,35 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
 import ConceptsToExport from './home';
 import { getContentDisposition, Loading } from '@inseefr/wilco';
 import { ArrayUtils, useTitle } from 'bauhaus-utilities';
 import D from 'js/i18n';
 import api from '../../../remote-api/concepts-api';
 import FileSaver from 'file-saver';
+import { useQuery } from '@tanstack/react-query';
 
 const ConceptsToExportContainer = () => {
 
 	useTitle(D.conceptsTitle, D.exportTitle);
-	const history = useHistory();
-	const [concepts, setConcepts] = useState([])
-	const [loading, setLoading] = useState(true);
 	const [exporting, setExporting] = useState(false);
 
-	useEffect(() => {
-		api.getConceptList().then(results => {
-			setConcepts(ArrayUtils.sortArrayByLabel(results));
-		}).finally(() => setLoading(false))
-	}, [])
+	const { isLoading, data: concepts } = useQuery(['concepts'], () => {
+		return api.getConceptList().then(results => ArrayUtils.sortArrayByLabel(results))
+	});
 
-	const handleExportConceptList = (ids) => {
+	const handleExportConceptList = type => (ids, lang, withConcepts) => {
 		setExporting(true)
-		let promise;
-
-		if(ids.length === 1){
-			promise = api.getConceptExport(ids[0])
-		} else {
-			promise = api.getConceptExportZip(ids)
-		}
+		const promise = api.getConceptExportZipType(ids, type, lang, withConcepts)
+		
 		let fileName;
 		return promise.then(res => {
 				fileName = getContentDisposition(
@@ -41,7 +31,6 @@ const ConceptsToExportContainer = () => {
 			.then(blob => {
 				return FileSaver.saveAs(blob, fileName);
 			})
-			.then(() => history.push("/concepts"))
 			.finally(() => setExporting(false))
 	}
 
@@ -49,14 +38,15 @@ const ConceptsToExportContainer = () => {
 	if(exporting){
 		return <Loading textType={"exporting"} />;
 	}
-	if (loading) {
+	if (isLoading) {
 		return <Loading />;
 	}
 
 	return (
 		<ConceptsToExport
 			concepts={concepts}
-			handleExportConceptList={handleExportConceptList}
+			handleExportConceptListOdt={handleExportConceptList('odt')}
+			handleExportConceptListOds={handleExportConceptList('ods')}
 		/>
 	);
 }
