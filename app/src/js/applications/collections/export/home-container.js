@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import CollectionsToExport from './home';
 import { getContentDisposition, Loading } from '@inseefr/wilco';
 import { ArrayUtils, useTitle } from 'bauhaus-utilities';
@@ -9,7 +8,6 @@ import FileSaver from 'file-saver';
 
 const CollectionsToExportContainer = () => {
 	useTitle(D.collectionsTitle, D.exportTitle)
-	const history = useHistory();
 	const [collections, setCollections] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [exporting, setExporting] = useState(false);
@@ -38,7 +36,6 @@ const CollectionsToExportContainer = () => {
 					.then(blob => {
 						return FileSaver.saveAs(blob, fileName);
 					})
-					.then(() => history.push("/collections"))
 					.finally(() => setExporting(false));
 			}
 		}

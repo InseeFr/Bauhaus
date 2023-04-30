@@ -1,12 +1,12 @@
 import D from '../../../i18n/build-dictionary';
 import { Button } from '@inseefr/wilco';
 import Modal from 'react-modal';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import './index.scss';
 
-export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
+export const CollectionExportModal = ({ close, ids, exportOdt, exportOds, app = "operations", withConcepts: defaultWithConcepts }) => {
 	const [lang, setLang] = useState('lg1');
-	const [withConcepts, setWithConcepts] = useState(false);
+	const [withConcepts, setWithConcepts] = useState(defaultWithConcepts ?? false);
 
 	const handleOdtExportCollectionListCallback = useCallback(
 		(MimeType, lang, withConcepts) => {
@@ -42,9 +42,13 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 
 	return (
 		<Modal
-			className={`Modal__Bootstrap modal-dialog operations collections-modal`}
+			className={`Modal__Bootstrap modal-dialog ${app} collections-modal`}
 			isOpen={true}
 			ariaHideApp={false}
+			shouldCloseOnEsc={true}
+			shouldCloseOnOverlayClick={true}
+			shouldFocusAfterRender={true}
+			shouldReturnFocusAfterClose={true}
 		>
 			<div className="modal-content">
 				<div className="modal-header">
