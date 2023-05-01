@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import Picker from 'js/applications/shared/picker-page';
 import D from 'js/i18n';
 import { CollectionExportModal } from '../modal';
