@@ -14,4 +14,17 @@ describe('collection-export', () => {
 			</MemoryRouter>
 		);
 	});
+
+	it('should display the export title', async () => {
+		const { container } = render(
+			<MemoryRouter>
+				<ExportCollection
+					collections={[]}
+					handleExportCollectionList={jest.fn()}
+				/>
+			</MemoryRouter>
+		);
+
+		expect(container.querySelector('h1').innerHTML).toBe('Export')
+	})
 });
