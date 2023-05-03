@@ -15,7 +15,7 @@ The documentation can be found in the [docs](https://github.com/InseeFr/Bauhaus/
 
 The application is tested on Node.js 14 and 16.
 
-```
+```shell
 git clone git@github.com:InseeFr/Bauhaus.git
 cd Bauhaus
 yarn
@@ -36,7 +36,7 @@ docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3000:3000 bauhaus:fro
 
 If you are using, you should install the following dependency. 
 
-```
+```shell
 yarn global add windows-build-tools
 
 ```
