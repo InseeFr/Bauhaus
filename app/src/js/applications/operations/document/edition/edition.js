@@ -3,8 +3,10 @@ import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import { EditorMarkdown, PageTitleBlock, withTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError, Row } from 'bauhaus-utilities';
 import { validate } from 'js/applications/operations/document/edition/validation';
-import { LINK, DOCUMENT } from '../utils';
+import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
+import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
+
 import {
 	goBack,
 	goBackOrReplace,
@@ -72,6 +74,7 @@ const OperationsDocumentationEdition = (props) => {
 	const [clientSideErrors, setClientSideErrors] = useState({ });
 	const [saving, setSaving] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
+	const [validationModalDisplayed, setValidationModalDisplayed] = useState(false);
 	const [document, setDocument] = useState(defaultDocument);
 	const [files, setFiles] = useState(document.url ? [{ name: document.url }] : []);
 
@@ -97,25 +100,30 @@ const OperationsDocumentationEdition = (props) => {
 		});
 	};
 
+	const saveDocumentOrLink = () => {
+		setSaving(true);
+		const isCreation = !document.id;
+
+		saveDocument(document, type, files)
+			.then(
+				(id = document.id) => {
+					goBackOrReplace(props, `/operations/${type}/${id}`, isCreation);
+				},
+				(err) => {
+					setServerSideError(err);
+				},
+			)
+			.finally(() => setSaving(false));
+	}
 	const onSubmit = () => {
 		const clientSideErrors = validate(document, type, files);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
+		} else if(document.sims.length > 0){
+			setValidationModalDisplayed(true);
 		} else {
-			setSaving(true);
-			const isCreation = !document.id;
-
-			saveDocument(document, type, files)
-				.then(
-					(id = document.id) => {
-						goBackOrReplace(props, `/operations/${type}/${id}`, isCreation);
-					},
-					(err) => {
-						setServerSideError(err);
-					},
-				)
-				.finally(() => setSaving(false));
+			saveDocumentOrLink()
 		}
 	};
 
@@ -133,8 +141,39 @@ const OperationsDocumentationEdition = (props) => {
 		updatedDate = `${year}-${month}-${day}T23:00:00.000Z`;
 	}
 
+	const modalButtons = [
+		{
+			label: D.btnCancel,
+			action: () => setValidationModalDisplayed(false),
+			style: 'default',
+		},
+		{
+			label: D.btnSave,
+			action: () => {
+				saveDocumentOrLink()
+				setValidationModalDisplayed(false)
+			},
+			style: 'primary',
+		},
+	];
+
 	return (
 		<div className="container editor-container">
+			<ModalRmes
+				id="updating-document-modal"
+				isOpen={validationModalDisplayed}
+				title={D.confirmation}
+				modalButtons={modalButtons}
+				closeCancel={() => setValidationModalDisplayed(false)}
+			>
+				<>
+					<p>{isDocument(document) ? D.warningDocumentWithSimsPrefix : D.warningLinkWithSimsPrefix}</p>
+					<ul>
+						{ document.sims?.map(sims => <li key={sims.id}>{sims.labelLg1}</li>)}
+					</ul>
+					<p>{D.warningDocumentLinksWithSimsSuffix}</p>
+				</>
+			</ModalRmes>
 			{isEditing && (
 				<PageTitleBlock
 					titleLg1={documentProps.labelLg1}

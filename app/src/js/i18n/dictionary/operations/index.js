@@ -74,6 +74,22 @@ const dictionary = {
 		fr: 'Sims associés :',
 		en: 'Linked Sims:',
 	},
+	confirmation: {
+		fr: 'Confirmation',
+		en: 'Confirm',
+	},
+	warningDocumentWithSimsPrefix: {
+		fr: 'Ce document est déjà utilisé dans les Sims suivants',
+		en: 'This document is already used by the following sims',
+	},
+	warningDocumentLinksWithSimsSuffix: {
+		fr: 'Si vous cliquez sur "Oui", il sera définitivement modifié dans tous les Sims associés. Voulez-vous continuer ?',
+		en: 'If you click on "Yes", it will be modified on the linked Sims. Do you want to continue?',
+	},
+	warningLinkWithSimsPrefix: {
+		fr: 'Ce lien est déjà utilisé dans les Sims suivants',
+		en: 'This link is already used by the following sims',
+	},
 	childrenOperations: {
 		fr: 'Opérations filles :',
 		en: 'Daughter operations:',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ModalRmes from './modal-rmes';
+import Modal from './modal-rmes';
 
 const onClick = () => '';
 const modalButtons = [
@@ -19,7 +19,7 @@ const modalButtons = [
 describe('modal', () => {
 	it('renders without crashing', () => {
 		render(
-			<ModalRmes
+			<Modal
 				id="id"
 				isOpen={true}
 				title="title"
