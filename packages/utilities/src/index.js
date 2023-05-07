@@ -4,6 +4,7 @@ import AuthGuard from './auth/components/auth';
 
 import * as utils from './auth/open-id-connect-auth/token-utils';
 import { createContext } from 'react';
+import { useHistory } from 'react-router-dom';
 export * as API from './apis/build-api';
 export {
 	default as ConceptsAPI,
@@ -55,3 +56,12 @@ export { default as SelectRmes} from './components/select-rmes';
 export { default as useUrlQueryParameters } from './hooks/useUrlQueryParameters';
 export { default as ErrorBloc, GlobalClientSideErrorBloc, ClientSideError} from './components/errors-bloc';
 
+export const useRedirectWithDefault = (defaultRedirection) => {
+	const history = useHistory();
+
+	return () => {
+		return history.length === 1 || history.location.state
+			? history.push(defaultRedirection)
+			: history.goBack();
+	};
+};

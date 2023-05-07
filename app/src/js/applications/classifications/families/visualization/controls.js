@@ -1,13 +1,15 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { goBack, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { useRedirectWithDefault } from 'bauhaus-utilities';
 
-function FamilyControls(props) {
+
+function FamilyControls() {
+	const redirect = useRedirectWithDefault(`/classifications/families`);
 	return (
 		<ActionToolbar>
-			<ReturnButton action={goBack(props, `/classifications/families`)} />
+			<ReturnButton action={() => redirect()} />
 		</ActionToolbar>
 	);
 }
 
-export default withRouter(FamilyControls);
+export default FamilyControls;
