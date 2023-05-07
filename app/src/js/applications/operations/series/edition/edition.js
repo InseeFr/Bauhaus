@@ -237,7 +237,7 @@ class OperationsSerieEdition extends Component {
 									!!this.state.clientSideErrors.fields?.prefLabelLg1
 								}
 								aria-describedby={
-									!!this.state.clientSideErrors.fields?.prefLabelLg1
+									this.state.clientSideErrors.fields?.prefLabelLg1
 										? 'prefLabelLg1-error'
 										: null
 								}
@@ -259,7 +259,7 @@ class OperationsSerieEdition extends Component {
 									!!this.state.clientSideErrors.fields?.prefLabelLg2
 								}
 								aria-describedby={
-									!!this.state.clientSideErrors.fields?.prefLabelLg2
+									this.state.clientSideErrors.fields?.prefLabelLg2
 										? 'prefLabelLg2-error'
 										: null
 								}
