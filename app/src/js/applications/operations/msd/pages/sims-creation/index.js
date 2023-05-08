@@ -4,7 +4,7 @@ import D from 'js/i18n';
 import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from 'js/utils/msd';
 import SimsDocumentField from 'js/applications/operations/msd/pages/sims-creation/sims-document-field';
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
 	Loading,
 	CancelButton,
@@ -385,5 +385,7 @@ const withParentWithSims = (Component) => {
 	}
 }
 
-const AdvancedSimsCreation = withParentWithSims(SimsCreation);
-export default withRouter(AdvancedSimsCreation);
+export default withParentWithSims(props => {
+	const history = useHistory();
+	return <SimsCreation {...props} history={history} />
+});

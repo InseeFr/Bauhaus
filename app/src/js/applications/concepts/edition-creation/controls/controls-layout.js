@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import {
 	CancelButton,
 	ErrorBloc,
 	ActionToolbar,
 	SaveButton,
 } from '@inseefr/wilco';
+import { useRedirectWithDefault } from 'bauhaus-utilities';
 
 const ConceptCreateControlLayout = ({
 	message,
@@ -14,10 +14,11 @@ const ConceptCreateControlLayout = ({
 	saveEnabled,
 	redirectCancel,
 }) => {
+	const goBack = useRedirectWithDefault('concepts');
 	return (
 		<>
 			<ActionToolbar>
-				<CancelButton action={redirectCancel} />
+				<CancelButton action={goBack} />
 				<SaveButton action={handleSave} disabled={!saveEnabled} />
 			</ActionToolbar>
 			<ErrorBloc error={message} />
@@ -29,7 +30,6 @@ ConceptCreateControlLayout.propTypes = {
 	message: PropTypes.string,
 	saveEnabled: PropTypes.bool.isRequired,
 	handleSave: PropTypes.func.isRequired,
-	redirectCancel: PropTypes.func.isRequired,
 };
 
-export default withRouter(ConceptCreateControlLayout);
+export default ConceptCreateControlLayout;

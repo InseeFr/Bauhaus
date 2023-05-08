@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import D from 'js/i18n';
 import { useSelector } from 'react-redux';
 import * as select from 'js/reducers';
@@ -8,7 +8,6 @@ import {
 	Loading,
 	Button,
 	ActionToolbar,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
 import api from '../../../../remote-api/operations-api';
@@ -21,11 +20,13 @@ import {
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc
+	ErrorBloc,
+	useRedirectWithDefault
 } from 'bauhaus-utilities';
 
-const IndicatorVisualizationContainer = (props) =>  {
+const IndicatorVisualizationContainer = () =>  {
 	const { id } = useParams();
+	const goBack = useRedirectWithDefault('/operations/indicators');
 
 	const langs = useSelector(state => select.getLangs(state));
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
@@ -68,7 +69,7 @@ const IndicatorVisualizationContainer = (props) =>  {
 				secondLang={secondLang}
 			/>
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations/indicators')} />
+				<ReturnButton action={goBack} />
 				{indicator.idSims && (
 					<>
 						<Button
@@ -111,4 +112,4 @@ const IndicatorVisualizationContainer = (props) =>  {
 	);
 }
 
-export default withRouter(IndicatorVisualizationContainer);
+export default IndicatorVisualizationContainer;

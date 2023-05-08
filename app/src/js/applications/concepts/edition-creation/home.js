@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
-import { PageTitle, goBack } from '@inseefr/wilco';
+import { PageTitle } from '@inseefr/wilco';
 import ConceptCreateControl from './controls';
 import GeneralEdition from './general';
 import NotesEdition from './notes';
@@ -16,7 +16,6 @@ import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links
 import D from 'js/i18n';
 import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
-import { withRouter } from 'react-router-dom';
 import { withTitle } from 'bauhaus-utilities';
 
 class ConceptEditionCreation extends Component {
@@ -196,7 +195,6 @@ class ConceptEditionCreation extends Component {
 							conceptsWithLinks={conceptsWithLinks}
 							maxLengthScopeNote={maxLengthScopeNote}
 							handleSave={this.handleSave}
-							redirectCancel={goBack(this.props, 'concepts')}
 						/>
 					)}
 					<ul className="nav nav-tabs nav-justified">
@@ -276,4 +274,4 @@ ConceptEditionCreation.propTypes = {
 	langs: PropTypes.object.isRequired,
 };
 
-export default withRouter(withTitle(ConceptEditionCreation, D.conceptsTitle, props => props?.general?.prefLabelLg1 || D.createConceptTitle));
+export default withTitle(ConceptEditionCreation, D.conceptsTitle, props => props?.general?.prefLabelLg1 || D.createConceptTitle);

@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { goBack, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { useLocation } from 'react-router-dom';
+import { useRedirectWithDefault } from 'bauhaus-utilities';
 
-function ClassificationControls(props) {
-	const location = props.history.location.pathname;
-	const nextLocation = location.replace('/tree', '');
+function ClassificationControls() {
+	const location = useLocation();
+	const goBack = useRedirectWithDefault(location.pathname.replace('/tree', ''));
 
 	return (
 		<ActionToolbar>
-			<ReturnButton action={goBack(props, nextLocation)} />
+			<ReturnButton action={goBack} />
 		</ActionToolbar>
 	);
 }
@@ -18,4 +19,4 @@ ClassificationControls.propTypes = {
 	id: PropTypes.string,
 };
 
-export default withRouter(ClassificationControls);
+export default ClassificationControls;

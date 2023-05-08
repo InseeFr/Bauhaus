@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Table, NumberResult } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
@@ -50,4 +50,4 @@ const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 	);
 }
 
-export default withRouter(CollectionsCreationsModifications);
+export default CollectionsCreationsModifications;

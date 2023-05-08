@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Link from '../link';
 import queryString from 'query-string';
 import './pagination.scss';
@@ -21,8 +21,10 @@ const numberPerPageOptions = [
  * Component used to display a pagination block for a list.
  *	itemEls: The list of item we want to paginate
  */
-export const Index = ({ location: { pathname, search }, itemEls }) => {
+export const Index = ({ itemEls }) => {
 	const history = useHistory();
+	const location = useLocation();
+	const { pathname, search } = location;
 
 	const [numberPerPage, setNumberPerPage] = useState(10);
 	const paginationD = D.pagination || {};
@@ -157,4 +159,4 @@ Index.propTypes = {
 	itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
 };
 
-export default withRouter(Index);
+export default Index;

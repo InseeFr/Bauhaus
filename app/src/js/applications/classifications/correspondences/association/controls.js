@@ -1,20 +1,17 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { goBack, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { useRedirectWithDefault } from 'bauhaus-utilities';
 
 function CorrespondenceControls(props) {
 	const { correspondenceId } = props;
-
+	const goBack = useRedirectWithDefault(
+		`/classifications/correspondence/${correspondenceId}`
+	);
 	return (
 		<ActionToolbar>
-			<ReturnButton
-				action={goBack(
-					props,
-					`/classifications/correspondence/${correspondenceId}`
-				)}
-			/>
+			<ReturnButton action={goBack} />
 		</ActionToolbar>
 	);
 }
 
-export default withRouter(CorrespondenceControls);
+export default CorrespondenceControls;

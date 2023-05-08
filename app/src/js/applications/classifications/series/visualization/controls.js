@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { goBack, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { useRedirectWithDefault } from 'bauhaus-utilities';
 
-function SeriesControls(props) {
+function SeriesControls() {
+	const goBack = useRedirectWithDefault(`/classifications/series`);
 	return (
 		<ActionToolbar>
-			<ReturnButton action={goBack(props, `/classifications/series`)} />
+			<ReturnButton action={goBack} />
 		</ActionToolbar>
 	);
 }
@@ -15,4 +16,4 @@ SeriesControls.propTypes = {
 	id: PropTypes.string,
 };
 
-export default withRouter(SeriesControls);
+export default SeriesControls;

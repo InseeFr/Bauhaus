@@ -13,7 +13,6 @@ function ConceptCreateControl({
 	conceptsWithLinks,
 	maxLengthScopeNote,
 	handleSave,
-	redirectCancel,
 }) {
 	const errorMessage = validate(
 		oldGeneral,
@@ -28,7 +27,6 @@ function ConceptCreateControl({
 			handleSave={handleSave}
 			message={errorMessage}
 			saveEnabled={!errorMessage}
-			redirectCancel={redirectCancel}
 		/>
 	);
 }
@@ -39,6 +37,5 @@ ConceptCreateControl.propTypes = {
 	notes: notesPropTypes.isRequired,
 	conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
 	handleSave: PropTypes.func.isRequired,
-	redirectCancel: PropTypes.func.isRequired,
 };
 export default ConceptCreateControl;

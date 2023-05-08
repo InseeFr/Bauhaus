@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Menu } from '@inseefr/wilco';
 import D from 'js/i18n';
@@ -40,7 +40,7 @@ export class MenuOperations extends Component {
 				help: {
 					path: '//metadonnees.gitlab-pages.insee.fr/rmes/offre-de-service-rmes/#pages/operation-aide',
 					attrs: {
-						target: '_blank'
+						target: '_blank',
 					},
 					pathKey: /help/,
 					className: null,
@@ -82,11 +82,11 @@ export class MenuOperations extends Component {
 
 	setActiveItem(nextProps, currentPaths) {
 		const paths = Object.keys(currentPaths).reduce((acc, key) => {
-			let attrs = {}
-			if(currentPaths[key].attrs?.target === '_blank'){
+			let attrs = {};
+			if (currentPaths[key].attrs?.target === '_blank') {
 				attrs = {
-					target: '_blank'
-				}
+					target: '_blank',
+				};
 			}
 			return {
 				...acc,
@@ -144,8 +144,9 @@ export class MenuOperations extends Component {
 	}
 }
 
-export default withRouter(
-	connect(state => {
-		return { sims: getOperationsSimsCurrent(state) };
-	})(MenuOperations)
-);
+export default connect((state) => {
+	return { sims: getOperationsSimsCurrent(state) };
+})((props) => {
+	const location = useLocation();
+	return <MenuOperations {...props} location={location} />;
+});

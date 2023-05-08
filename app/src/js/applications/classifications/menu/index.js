@@ -1,10 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { Menu } from '@inseefr/wilco';
 import D from 'js/i18n';
+import { useLocation } from 'react-router-dom';
 const defaultAttrs = { 'aria-current': 'page' };
 
-const MenuClassifications = ({ location }) => {
+const MenuClassifications = () => {
+	const location = useLocation();
 	const activePath = location.pathname;
 	if (activePath === '/') return null;
 
@@ -54,4 +55,4 @@ const MenuClassifications = ({ location }) => {
 	return <Menu paths={paths} />;
 };
 
-export default withRouter(MenuClassifications);
+export default MenuClassifications;

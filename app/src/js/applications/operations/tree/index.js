@@ -4,10 +4,10 @@ import 'react-sortable-tree/style.css';
 import { Link } from 'react-router-dom';
 import api from 'js/remote-api/operations-api';
 import D from 'js/i18n';
-import { goBack, PageTitle, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { PageTitle, ReturnButton, ActionToolbar } from '@inseefr/wilco';
 
 import './tree.scss';
-import { useTitle } from 'bauhaus-utilities';
+import { useRedirectWithDefault, useTitle } from 'bauhaus-utilities';
 
 export const formatLeaf = (
 	leaf,
@@ -63,14 +63,15 @@ export const updateTree = (treeData, leaf, familyIndex, seriesIndex) => {
 	});
 };
 
-const TreeComponent = props => {
-	useTitle(D.operationsTitle, D.operationsTreeTitle)
+const TreeComponent = () => {
+	useTitle(D.operationsTitle, D.operationsTreeTitle);
 
+	const goBack = useRedirectWithDefault('/operations');
 	const [treeData, setTreeData] = useState([]);
 	const [selectedLeaf, setSelectedLeaf] = useState({});
 
 	useEffect(() => {
-		api.getFamiliesList().then(data => {
+		api.getFamiliesList().then((data) => {
 			setTreeData(
 				data.map((d, index) =>
 					formatLeaf(d, index, undefined, '/operations/family/')
@@ -122,21 +123,21 @@ const TreeComponent = props => {
 		<div className="container">
 			<PageTitle title={D.operationsTreeTitle} col={12} offset={0} />
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations')} />
+				<ReturnButton action={goBack} />
 			</ActionToolbar>
 			<div className="row">
 				<div className="col-md-12 text-center pull-right operations-list">
 					<div style={{ height: '100vh' }}>
 						<SortableTree
 							treeData={treeData}
-							onChange={treeData => setTreeData(treeData)}
-							onVisibilityToggle={visibilityToggleEvent => {
+							onChange={(treeData) => setTreeData(treeData)}
+							onVisibilityToggle={(visibilityToggleEvent) => {
 								setSelectedLeaf(visibilityToggleEvent);
 							}}
 							canDrag={false}
 							canDrop={() => false}
 							canNodeHaveChildren={() => true}
-							generateNodeProps={rowInfo => ({
+							generateNodeProps={(rowInfo) => ({
 								buttons: [
 									!rowInfo.node.url && <em>{D.loadableLoading}</em>,
 									rowInfo.node.url && (

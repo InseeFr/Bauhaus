@@ -1,17 +1,14 @@
 import React  from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { goBack, Button, ActionToolbar } from '@inseefr/wilco';
+import { Button, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { Auth } from 'bauhaus-utilities';
+import { Auth, useRedirectWithDefault } from 'bauhaus-utilities';
 
-const ItemControls = (props) =>  {
-	const { classificationId, itemId, version } = props;
+const ItemControls = ({ classificationId, itemId, version }) =>  {
+	const goBack = useRedirectWithDefault(`/classifications/classification/${classificationId}/items`);
+
 	const cancel = [
-		goBack(
-			props,
-			`/classifications/classification/${classificationId}/items`
-		),
+		goBack,
 		D.btnReturn,
 	];
 	const compare =
@@ -46,4 +43,4 @@ ItemControls.propTypes = {
 	version: PropTypes.string,
 };
 
-export default withRouter(ItemControls);
+export default ItemControls;

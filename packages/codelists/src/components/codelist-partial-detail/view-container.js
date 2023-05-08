@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Loading, goBack } from '@inseefr/wilco';
-import { Stores } from 'bauhaus-utilities';
+import { Loading } from '@inseefr/wilco';
+import { Stores, useRedirectWithDefault } from 'bauhaus-utilities';
 import { formatPartialCodeList } from '../../utils';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
@@ -17,10 +17,8 @@ const CodelistPartialComponentView = (props) => {
 	const [codelist, setCodelist] = useState({});
 	const [modalOpened, setModalOpened] = useState(false);
 	const [serverSideError, setServerSideError] = useState('');
-
-	const handleBack = useCallback(() => {
-		goBack(props, '/codelists')();
-	}, [props]);
+	const goBack = useRedirectWithDefault();
+	const handleBack = goBack('/codelists');
 
 	const handleDelete = useCallback(() => {
 		setLoading(true);
@@ -28,14 +26,14 @@ const CodelistPartialComponentView = (props) => {
 			.then(() => {
 				setLoading(false);
 				setModalOpened(false);
-				goBack(props, '/codelists')();
+				goBack('/codelists');
 			})
 			.catch((error) => {
 				setServerSideError(D['errors_' + JSON.parse(error).code]);
 				setLoading(false);
 				setModalOpened(false);
 			});
-	}, [id, props]);
+	}, [id, goBack]);
 
 	useEffect(() => {
 		API.getCodelists().then((codelists) => {

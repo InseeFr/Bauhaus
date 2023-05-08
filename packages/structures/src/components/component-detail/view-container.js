@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Loading, goBack } from '@inseefr/wilco';
+import { Loading } from '@inseefr/wilco';
 import { ComponentDetailView } from './view';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI, Stores } from 'bauhaus-utilities';
+import { ConceptsAPI, Stores, useRedirectWithDefault } from 'bauhaus-utilities';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -17,17 +17,16 @@ const ViewContainer = (props) => {
 	const [codesLists, setCodesLists] = useState([]);
 	const [serverSideError, setServerSideError] = useState();
 	const [attributes, setAttributes] = useState([]);
+	const goBack = useRedirectWithDefault();
+	const handleBack = goBack('/structures/components');
 
-	const handleBack = useCallback(() => {
-		goBack(props, '/structures/components')();
-	}, [props]);
 
 	const handleDelete = useCallback(() => {
 		setLoading(true);
 		api.deleteMutualizedComponent(id).then(() => {
-			goBack(props, '/structures/components')();
+			goBack('/structures/components');
 		});
-	}, [id, props]);
+	}, [id, goBack]);
 
 	useEffect(() => {
 		Promise.all([

@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../../../../remote-api/classifications-api';
-import { ActionToolbar, ErrorBloc, goBack, LabelRequired, Loading } from '@inseefr/wilco';
-import { Redirect, useHistory, useParams } from 'react-router-dom';
-import { EditorMarkdown, PageTitleBlock, Row } from 'bauhaus-utilities';
+import { ActionToolbar, ErrorBloc, LabelRequired, Loading } from '@inseefr/wilco';
+import { Redirect, useParams } from 'react-router-dom';
+import { EditorMarkdown, PageTitleBlock, Row, useRedirectWithDefault } from 'bauhaus-utilities';
 import { Controller, useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import useClassificationItem from '../hook';
@@ -20,7 +20,7 @@ const titleMapping = {
 };
 
 const ClassificationItemEdition = () => {
-	const history = useHistory();
+	const goBack = useRedirectWithDefault('/classifications');
 	const queryClient = useQueryClient()
 	const { classificationId, itemId } = useParams();
 
@@ -107,7 +107,7 @@ const ClassificationItemEdition = () => {
 			<form onSubmit={handleSubmit(value => formatAndSave(value))}>
 				<ActionToolbar>
 					<div className='col-md-2'>
-						<button onClick={goBack({ history }, '/classifications')} className='btn wilco-btn btn-lg col-md-12'
+						<button onClick={goBack} className='btn wilco-btn btn-lg col-md-12'
 										type='button'>
 					<span
 						className={`glyphicon glyphicon-floppy-remove`}

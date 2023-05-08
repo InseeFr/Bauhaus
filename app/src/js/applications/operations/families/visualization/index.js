@@ -6,7 +6,6 @@ import {
 	Button,
 	Loading,
 	ActionToolbar,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
 import api from 'js/remote-api/operations-api';
@@ -20,11 +19,14 @@ import {
 	ValidationButton,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc
+	ErrorBloc,
+	useRedirectWithDefault
 } from 'bauhaus-utilities';
 
 const Family = (props) => {
 	const { id } = useParams();
+	const goBack = useRedirectWithDefault('/operations/families');
+
 	const langs = useSelector(state => select.getLangs(state))
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state))
 
@@ -62,7 +64,7 @@ const Family = (props) => {
 			/>
 
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations/families')} />
+				<ReturnButton action={goBack} />
 
 				<Auth.AuthGuard roles={[Auth.ADMIN]}>
 					<ValidationButton

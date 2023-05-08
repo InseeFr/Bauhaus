@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { goBack, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { useRedirectWithDefault } from 'bauhaus-utilities';
 
-function LevelControls(props) {
-	const { id } = props;
-
+function LevelControls({ id }) {
+	const goBack = useRedirectWithDefault(
+		`/classifications/classification/${id}`
+	);
 	return (
 		<ActionToolbar>
-			<ReturnButton
-				action={goBack(props, `/classifications/classification/${id}`)}
-			/>
+			<ReturnButton action={goBack} />
 		</ActionToolbar>
 	);
 }
@@ -18,4 +17,4 @@ function LevelControls(props) {
 LevelControls.propTypes = {
 	id: PropTypes.string.isRequired,
 };
-export default withRouter(LevelControls);
+export default LevelControls;

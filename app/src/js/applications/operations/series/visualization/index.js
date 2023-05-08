@@ -2,14 +2,13 @@ import React, { useEffect, useState, useCallback } from 'react';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { useSelector } from 'react-redux';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import OperationsSerieVisualization from 'js/applications/operations/series/visualization/home';
 
 import {
 	Loading,
 	Button,
 	ActionToolbar,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
@@ -21,11 +20,13 @@ import {
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc
+	ErrorBloc,
+	useRedirectWithDefault
 } from 'bauhaus-utilities';
 import api from '../../../../remote-api/operations-api';
 
-const SeriesVisualizationContainer = (props) => {
+const SeriesVisualizationContainer = () => {
+	const goBack = useRedirectWithDefault('/operations/series');
 	const { id } = useParams();
 	const [series, setSeries] = useState({})
 	const [publishing, setPublishing] = useState(false)
@@ -73,7 +74,7 @@ const SeriesVisualizationContainer = (props) => {
 			/>
 
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations/series')} />
+				<ReturnButton action={goBack} />
 
 				{series.idSims && (
 					<Button
@@ -124,4 +125,4 @@ const SeriesVisualizationContainer = (props) => {
 	);
 }
 
-export default withRouter(SeriesVisualizationContainer);
+export default SeriesVisualizationContainer;

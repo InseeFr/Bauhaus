@@ -1,25 +1,24 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { goBack, ReturnButton, Button, ActionToolbar } from '@inseefr/wilco';
-import { ValidationButton, Auth } from 'bauhaus-utilities';
+import { ReturnButton, Button, ActionToolbar } from '@inseefr/wilco';
+import {
+	ValidationButton,
+	Auth,
+	useRedirectWithDefault,
+} from 'bauhaus-utilities';
 import D from 'js/i18n';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 
-
-const ClassificationControls = (props) => {
-	const { classification, publish } = props;
-
-	const location = props.history.location.pathname;
-	const treeLocation = `${location}/tree`;
+const ClassificationControls = ({ classification, publish }) => {
+	const location = useLocation();
+	const goBack = useRedirectWithDefault('/classifications');
+	const treeLocation = `${location.pathname}/tree`;
 
 	return (
 		<ActionToolbar>
-			<ReturnButton action={goBack(props, `/classifications`)} />
+			<ReturnButton action={goBack} />
 			<Auth.AuthGuard roles={[Auth.ADMIN]}>
-				<ValidationButton
-					object={classification}
-					callback={publish}
-				/>
+				<ValidationButton object={classification} callback={publish} />
 			</Auth.AuthGuard>
 			<Auth.AuthGuard roles={[Auth.ADMIN]}>
 				<Button
@@ -37,4 +36,4 @@ ClassificationControls.propTypes = {
 	publish: PropTypes.func.isRequired,
 };
 
-export default withRouter(ClassificationControls);
+export default ClassificationControls;

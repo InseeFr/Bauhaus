@@ -1,18 +1,23 @@
 import React, { useEffect }  from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import ClassificationTree from './home';
-import { buildExtract, Loading } from '@inseefr/wilco';
+import { Loading } from '@inseefr/wilco';
 import loadClassificationGeneral from 'js/actions/classifications/general';
 import * as selectG from 'js/reducers/classifications/classification/general';
 import { getTreeFromFlatData } from 'react-sortable-tree';
 import { Stores } from 'bauhaus-utilities';
 import api from 'js/remote-api/classifications-api';
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
 
-const extractId = buildExtract('id');
 
-const ClassificationTreeContainer = ({ id, loadClassificationGeneral, general, secondLang }) => {
+const ClassificationTreeContainer = ({ loadClassificationGeneral }) => {
+	const {id} = useParams();
+
 	const { isLoading, data: flatTree } = useQuery(['classification-items', id], () => api.getClassificationItems(id))
+
+	const general = useSelector(state => selectG.getGeneral(state.classificationGeneral, id));
+	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state))
 
 	useEffect(() => {
 		loadClassificationGeneral(id);
@@ -47,23 +52,14 @@ const ClassificationTreeContainer = ({ id, loadClassificationGeneral, general, s
 }
 
 
-const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
-	const general = selectG.getGeneral(state.classificationGeneral, id);
-	const secondLang = Stores.SecondLang.getSecondLang(state);
-	return {
-		id,
-		general,
-		secondLang,
-	};
-};
+
 
 const mapDispatchToProps = {
 	loadClassificationGeneral,
 };
 
 const ClassificationTreeReduxContainer = connect(
-	mapStateToProps,
+	undefined,
 	mapDispatchToProps
 )(ClassificationTreeContainer);
 

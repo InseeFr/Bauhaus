@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from 'react';
 import MSDLayout from 'js/applications/operations/msd/layout/';
 import { connect } from 'react-redux';
-import { Loading, buildExtract } from '@inseefr/wilco';
+import { Loading } from '@inseefr/wilco';
 import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
 import { D1, D2 } from 'js/i18n';
@@ -15,7 +15,7 @@ import loadSIMS, {
 	saveSims,
 	publishSims,
 } from 'js/actions/operations/sims/item';
-import { withRouter } from 'react-router-dom';
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import MSDHelp from 'js/applications/operations/msd/pages/help';
 import SimsVisualisation from 'js/applications/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/applications/operations/msd/pages/sims-creation/';
@@ -28,8 +28,7 @@ import { getParentType, getParentId } from './utils';
 import './msd.scss';
 import { isEssentialRubricKo } from './sims-field-title';
 import { SimsContextProvider } from './context'
-const extractId = buildExtract('id');
-const extractIdParent = buildExtract('idParent');
+
 
 export const HELP = 'HELP';
 export const CREATE = 'CREATE';
@@ -166,7 +165,7 @@ class MSDContainer extends Component {
 		return (
 			<MSDLayout
 				metadataStructure={metadataStructure}
-				currentSection={this.props.match.params.idSection}
+				currentSection={this.props.params.idSection}
 				storeCollapseState={mode === HELP}
 				baseUrl={baseUrl}
 				disableSectionAnchor={disableSectionAnchor}
@@ -182,7 +181,7 @@ class MSDContainer extends Component {
 					<MSDHelp
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
-						currentSection={this.props.match.params.idSection}
+						currentSection={this.props.params.idSection}
 						langs={langs}
 						organisations={organisations}
 					/>
@@ -195,7 +194,7 @@ class MSDContainer extends Component {
 							metadataStructure={metadataStructure}
 							codesLists={codesLists}
 							organisations={organisations}
-							currentSection={this.props.match.params.idSection}
+							currentSection={this.props.params.idSection}
 							langs={langs}
 							secondLang={secondLang}
 							goBack={this.goBackCallback}
@@ -244,7 +243,7 @@ export const mapStateToProps = (state, ownProps) => {
 		status: metadataStructureStatus,
 	} = state.operationsMetadataStructureList;
 
-	const id = extractId(ownProps);
+	const id = ownProps.id;
 
 
 	let idParent;
@@ -255,8 +254,8 @@ export const mapStateToProps = (state, ownProps) => {
 			currentSims = {};
 			break;
 		case CREATE:
-			idParent = extractIdParent(ownProps);
-			parentType = ownProps.match.params[0];
+			idParent = ownProps.idParent;
+			parentType = ownProps.params[0];
 			break;
 		default:
 			currentSims = select.getOperationsSimsCurrent(state);
@@ -290,7 +289,7 @@ const mapDispatchToProps = {
 
 const MSDContainerWithParent = props => {
 	const { idParent } = props;
-	const parentType = props.match.params[0];
+	const parentType = props.params[0];
 	const [parent, setParent] = useState(props.parent)
 	const [loading, setLoading] = useState(true)
 	const [documentStores, setDocumentStores] = useState([]);
@@ -329,7 +328,9 @@ const MSDContainerWithParent = props => {
 	if(loading) return <Loading textType="loadableLoading" />
 	return <MSDContainer {...props} documentStores={documentStores} currentSims={currentSims} parent={parent}/>
 }
-export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)
-);
-
+export default connect(mapStateToProps, mapDispatchToProps)((props) => {
+	const { id, idParent } = useParams();
+	const history = useHistory();
+	const match = useRouteMatch();
+	return <MSDContainerWithParent {...props} history={history} id={id} idParent={idParent} params={match.params}/>
+})

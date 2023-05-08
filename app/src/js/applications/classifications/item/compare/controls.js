@@ -1,16 +1,17 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { Button, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
+import { useRedirectWithDefault } from 'bauhaus-utilities';
+import { useLocation } from 'react-router-dom';
 
-function Controls(props) {
-	const location = props.history.location.pathname;
-	const nexLocation = location.replace('/compare', '');
+function Controls() {
+	const location = useLocation();
+	const goBack = useRedirectWithDefault(location.pathname.replace('/compare', ''))
 	return (
 		<ActionToolbar>
-			<Button label={D.btnReturnCurrent} action={nexLocation} col={3} />
+			<Button label={D.btnReturnCurrent} action={goBack} col={3} />
 		</ActionToolbar>
 	);
 }
 
-export default withRouter(Controls);
+export default Controls;

@@ -1,8 +1,8 @@
 import { useClassification, useUpdateClassification } from '../hooks';
-import { useHistory, useParams, Redirect } from 'react-router-dom';
-import { ActionToolbar, ErrorBloc, goBack, LabelRequired, Loading } from '@inseefr/wilco';
+import { useParams, Redirect } from 'react-router-dom';
+import { ActionToolbar, ErrorBloc, LabelRequired, Loading } from '@inseefr/wilco';
 import React from 'react';
-import { EditorMarkdown, PageTitleBlock, Row, Stores, useTitle } from 'bauhaus-utilities';
+import { EditorMarkdown, PageTitleBlock, Row, Stores, useRedirectWithDefault, useTitle } from 'bauhaus-utilities';
 import { useForm, Controller } from 'react-hook-form';
 import { default as ReactSelect } from 'react-select';
 import organisationApi from '../../../remote-api/organisations-api'
@@ -12,7 +12,7 @@ import api from '../../../remote-api/classifications-api';
 import generalApi from '../../../remote-api/api';
 
 export const ClassificationEdition = () => {
-	const history = useHistory();
+	const goBack = useRedirectWithDefault('/classifications');
 	const { id } = useParams();
 
 	const { register, handleSubmit, formState: { errors }, control } = useForm({
@@ -70,7 +70,7 @@ export const ClassificationEdition = () => {
 			<form onSubmit={handleSubmit(value => save({ general: { ...classification.general, ...value }, levels: classification.levels}))}>
 				<ActionToolbar>
 					<div className='col-md-2'>
-						<button onClick={goBack({ history }, '/classifications')} className='btn wilco-btn btn-lg col-md-12'
+						<button onClick={goBack} className='btn wilco-btn btn-lg col-md-12'
 										type='button'>
 					<span
 						className={`glyphicon glyphicon-floppy-remove`}

@@ -1,27 +1,25 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { goBack, Button, ActionToolbar, getContentDisposition } from '@inseefr/wilco';
+import { Button, ActionToolbar, getContentDisposition } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
-import { ConfirmationDelete } from 'bauhaus-utilities';
+import { ConfirmationDelete, useRedirectWithDefault } from 'bauhaus-utilities';
 import ModalRmes from '../../shared/modal-rmes/modal-rmes';
 import api from '../../../remote-api/concepts-api';
 import FileSaver from 'file-saver';
 
-const ConceptVisualizationControls = (props) => {
-	const {
-		isValidated,
-		isValidOutOfDate,
-		conceptVersion,
-		id,
-		permission: { authType, roles, stamp },
-		creator: conceptCreator,
-		handleValidation,
-		handleDeletion,
-	} = props;
-
+const ConceptVisualizationControls = ({
+	isValidated,
+	isValidOutOfDate,
+	conceptVersion,
+	id,
+	permission: { authType, roles, stamp },
+	creator: conceptCreator,
+	handleValidation,
+	handleDeletion,
+}) => {
+	const goBack = useRedirectWithDefault('/concepts');
 	const [displayModal, setDisplayModal] = useState(false);
 	const [modalOpened, setModalOpened] = useState(false);
 	const handleNo = useCallback(() => {
@@ -40,7 +38,7 @@ const ConceptVisualizationControls = (props) => {
 
 	let btns;
 
-	const cancel = [goBack(props, `/concepts`), D.btnReturn];
+	const cancel = [goBack, D.btnReturn];
 	const validate = adminOrCreator && [handleValidation, D.btnValid];
 	const update = [`/concept/${id}/modify`, D.btnUpdate];
 	const compare =
@@ -88,19 +86,19 @@ const ConceptVisualizationControls = (props) => {
 				let fileName;
 				return api
 					.getConceptExport(id, 'application/vnd.oasis.opendocument.text')
-					.then(res => {
+					.then((res) => {
 						fileName = getContentDisposition(
 							res.headers.get('Content-Disposition')
 						)[1];
 						return res;
 					})
-					.then(res => res.blob())
-					.then(blob => {
+					.then((res) => res.blob())
+					.then((blob) => {
 						return FileSaver.saveAs(blob, fileName);
 					})
 					.finally(() => {
-						setDisplayModal(false)
-					})
+						setDisplayModal(false);
+					});
 			},
 			style: 'primary',
 		},
@@ -143,4 +141,4 @@ ConceptVisualizationControls.propTypes = {
 	handleValidation: PropTypes.func.isRequired,
 };
 
-export default withRouter(ConceptVisualizationControls);
+export default ConceptVisualizationControls;

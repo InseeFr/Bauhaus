@@ -6,14 +6,22 @@ import {
 	SaveButton,
 	Loading,
 	ActionToolbar,
-	goBack,
-	goBackOrReplace,
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
 import { validate } from './validation';
-import { PageTitleBlock, withTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError } from 'bauhaus-utilities';
+import { PageTitleBlock, withTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError, useRedirectWithDefault } from 'bauhaus-utilities';
 import api from '../../../../remote-api/operations-api';
+
+const OperationControls = ({ onSubmit, onSubmitDisabled }) => {
+	const goBack = useRedirectWithDefault('/operations/operations');
+	return (
+		<ActionToolbar>
+			<CancelButton action={goBack} />
+			<SaveButton action={onSubmit} disabled={onSubmitDisabled} />
+		</ActionToolbar>
+	);
+};
 
 const defaultOperation = {
 	prefLabelLg1: '',
@@ -89,7 +97,7 @@ class OperationsOperationEdition extends Component {
 			const method = isCreation ? 'postOperation' : 'putOperation';
 			return api[method](this.state.operation).then(
 				(id = this.state.operation.id) => {
-					goBackOrReplace(this.props, `/operations/operation/${id}`, isCreation);
+					this.props.goBackOrReplace(`/operations/operation/${id}`, isCreation);
 				},
 				err => {
 					this.setState({
@@ -121,12 +129,12 @@ class OperationsOperationEdition extends Component {
 						secondLang={true}
 					/>
 				)}
-
-				<ActionToolbar>
-					<CancelButton action={goBack(this.props, '/operations/operations')} />
-
-					<SaveButton action={this.onSubmit} disabled={this.state.clientSideErrors.errorMessage?.length > 0} />
-				</ActionToolbar>
+				<OperationControls
+					onSubmit={this.onSubmit}
+					onSubmitDisabled={
+						this.state.clientSideErrors.errorMessage?.length > 0
+					}
+				></OperationControls>
 
 				{ this.state.submitting && this.state.clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={this.state.clientSideErrors.errorMessage} D={D}/> }
 				{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}

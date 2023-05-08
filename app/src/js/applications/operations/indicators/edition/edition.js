@@ -12,7 +12,7 @@ import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/applications/shared/input-rmes';
 import Control from 'js/applications/operations/indicators/edition/control';
 import { validate } from 'js/applications/operations/indicators/edition/validation';
-import { Loading, goBackOrReplace } from '@inseefr/wilco';
+import { Loading } from '@inseefr/wilco';
 import api from '../../../../remote-api/operations-api';
 
 const defaultIndicator = {
@@ -107,7 +107,7 @@ class OperationsIndicatorEdition extends Component {
 			const method = isCreation ? 'postIndicator' : 'putIndicator';
 			return api[method](this.state.indicator).then(
 				(id = this.state.indicator.id) => {
-					goBackOrReplace(this.props, `/operations/indicator/${id}`, isCreation);
+					this.props.goBackOrReplace(`/operations/indicator/${id}`, isCreation);
 				},
 				err => {
 					this.setState({

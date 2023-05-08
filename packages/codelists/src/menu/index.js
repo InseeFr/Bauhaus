@@ -1,10 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { Menu } from '@inseefr/wilco';
 import D from '../i18n/build-dictionary';
+import { useLocation } from 'react-router-dom';
 const defaultAttrs = { 'aria-current': 'page' };
 
-const MenuCodelists = ({ location }) => {
+const MenuCodelists = () => {
+	const location = useLocation();
 	const activePath = location.pathname;
 	if (activePath === '/') return null;
 
@@ -38,4 +39,4 @@ const MenuCodelists = ({ location }) => {
 	return <Menu paths={paths} />;
 };
 
-export default withRouter(MenuCodelists);
+export default MenuCodelists;

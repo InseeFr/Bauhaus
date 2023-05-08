@@ -1,14 +1,13 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
 
 import {
 	Loading,
 	Button,
 	ActionToolbar,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
 import OperationsOperationVisualization from './home';
@@ -20,13 +19,15 @@ import {
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc
+	ErrorBloc,
+	useRedirectWithDefault
 } from 'bauhaus-utilities';
 import api from '../../../../remote-api/operations-api';
 
 
-const OperationVisualizationContainer = (props) => {
+const OperationVisualizationContainer = () => {
 	const { id } = useParams();
+	const goBack = useRedirectWithDefault('/operations/operations')
 	const [operation, setOperation] = useState({});
 	const langs = useSelector(state => select.getLangs(state));
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state))
@@ -65,7 +66,7 @@ const OperationVisualizationContainer = (props) => {
 				secondLang={secondLang}
 			/>
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations/operations')} />
+				<ReturnButton action={goBack} />
 
 				{operation.idSims && (
 					<Button
@@ -120,4 +121,4 @@ OperationVisualizationContainer.propTypes = {
 	secondLang: PropTypes.bool,
 };
 
-export default withRouter(OperationVisualizationContainer);
+export default OperationVisualizationContainer;
