@@ -206,7 +206,7 @@ const DumbCodelistDetailEdit = ({
 							value={codelist.lastListUriSegment || ''}
 							disabled={updateMode && codelist.lastListUriSegment !== ''}
 							aria-invalid={!!clientSideErrors.fields?.lastListUriSegment}
-							aria-describedby={!!clientSideErrors.fields?.lastListUriSegment ? 'lastListUriSegment-error' : null}
+							aria-describedby={clientSideErrors.fields?.lastListUriSegment ? 'lastListUriSegment-error' : null}
 						/>
 						<ClientSideError id="lastListUriSegment-error" error={clientSideErrors?.fields?.lastListUriSegment}></ClientSideError>
 					</div>
@@ -225,7 +225,7 @@ const DumbCodelistDetailEdit = ({
 							value={codelist.lastCodeUriSegment || ''}
 							disabled={updateMode && codelist.lastCodeUriSegment !== ''}
 							aria-invalid={!!clientSideErrors.fields?.lastCodeUriSegment}
-							aria-describedby={!!clientSideErrors.fields?.lastCodeUriSegment ? 'lastCodeUriSegment-error' : null}
+							aria-describedby={clientSideErrors.fields?.lastCodeUriSegment ? 'lastCodeUriSegment-error' : null}
 						/>
 						<ClientSideError id="lastCodeUriSegment-error" error={clientSideErrors?.fields?.lastCodeUriSegment}></ClientSideError>
 					</div>
@@ -244,7 +244,7 @@ const DumbCodelistDetailEdit = ({
 							value={codelist.lastClassUriSegment || ''}
 							disabled={updateMode && codelist.lastClassUriSegment !== ''}
 							aria-invalid={!!clientSideErrors.fields?.lastClassUriSegment}
-							aria-describedby={!!clientSideErrors.fields?.lastClassUriSegment ? 'lastClassUriSegment-error' : null}
+							aria-describedby={clientSideErrors.fields?.lastClassUriSegment ? 'lastClassUriSegment-error' : null}
 						/>
 						<ClientSideError id="lastClassUriSegment-error" error={clientSideErrors?.fields?.lastClassUriSegment}></ClientSideError>
 					</div>
@@ -260,7 +260,7 @@ const DumbCodelistDetailEdit = ({
 							value={codelist.id || ''}
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.id}
-							aria-describedby={!!clientSideErrors.fields?.id ? 'id-error' : null}
+							aria-describedby={clientSideErrors.fields?.id ? 'id-error' : null}
 						/>
 						<ClientSideError id="id-error" error={clientSideErrors?.fields?.id}></ClientSideError>
 					</div>
@@ -276,7 +276,7 @@ const DumbCodelistDetailEdit = ({
 							onChange={handleChange}
 							value={codelist.labelLg1 || ''}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
-							aria-describedby={!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
+							aria-describedby={clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
 						/>
 						<ClientSideError id="labelLg1-error" error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
 					</div>
@@ -290,7 +290,7 @@ const DumbCodelistDetailEdit = ({
 							onChange={handleChange}
 							value={codelist.labelLg2 || ''}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
-							aria-describedby={!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
+							aria-describedby={clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
 						/>
 						<ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
 					</div>

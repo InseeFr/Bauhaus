@@ -118,7 +118,7 @@ const DumbCodeDetailEdit = ({
 							onChange={handleChange}
 							disabled={updateMode}
 							aria-invalid={!!clientSideErrors.fields?.code}
-							aria-describedby={!!clientSideErrors.fields?.code ? 'code-error' : null}
+							aria-describedby={clientSideErrors.fields?.code ? 'code-error' : null}
 						/>
 						<ClientSideError id="code-error" error={clientSideErrors?.fields?.code}></ClientSideError>
 					</div>
@@ -134,7 +134,7 @@ const DumbCodeDetailEdit = ({
 							value={code.labelLg1 || ''}
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
-							aria-describedby={!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
+							aria-describedby={clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
 						/>
 						<ClientSideError id="labelLg1-error" error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
 					</div>
@@ -148,7 +148,7 @@ const DumbCodeDetailEdit = ({
 							value={code.labelLg2 || ''}
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
-							aria-describedby={!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
+							aria-describedby={clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
 						/>
 						<ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
 					</div>

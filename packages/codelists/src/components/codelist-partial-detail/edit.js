@@ -167,7 +167,7 @@ const DumbCodelistPartialDetailEdit = ({
 							onChange={handleChange}
 							disabled={updateMode}
 							aria-invalid={!!clientSideErrors.fields?.id}
-							aria-describedby={!!clientSideErrors.fields?.id ? 'id-error' : null}
+							aria-describedby={clientSideErrors.fields?.id ? 'id-error' : null}
 						/>
 						<ClientSideError id="id-error" error={clientSideErrors?.fields?.id}></ClientSideError>
 					</div>
@@ -203,7 +203,7 @@ const DumbCodelistPartialDetailEdit = ({
 							onChange={handleChange}
 							value={codelist.labelLg1 || ''}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
-							aria-describedby={!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
+							aria-describedby={clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
 						/>
 						<ClientSideError id="labelLg1-error" error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
 					</div>
@@ -217,7 +217,7 @@ const DumbCodelistPartialDetailEdit = ({
 							onChange={handleChange}
 							value={codelist.labelLg2 || ''}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
-							aria-describedby={!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
+							aria-describedby={clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
 						/>
 						<ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
 					</div>

@@ -242,7 +242,7 @@ const DumbComponentDetailEdit = ({
 							value={component.identifiant}
 							onChange={handleChange}
                             aria-invalid={!!clientSideErrors.fields?.identifiant}
-                            aria-describedby={!!clientSideErrors.fields?.identifiant ? 'identifiant-error' : null}
+                            aria-describedby={clientSideErrors.fields?.identifiant ? 'identifiant-error' : null}
                         />
                         <ClientSideError id="identifiant-error" error={clientSideErrors?.fields?.identifiant}></ClientSideError>
 					</div>
@@ -258,7 +258,7 @@ const DumbComponentDetailEdit = ({
 							onChange={handleChange}
 							value={component.labelLg1}
                             aria-invalid={!!clientSideErrors.fields?.labelLg1}
-                            aria-describedby={!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
+                            aria-describedby={clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
                         />
                         <ClientSideError id="labelLg1-error" error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
 					</div>
@@ -274,7 +274,7 @@ const DumbComponentDetailEdit = ({
 							value={component.labelLg2}
 							onChange={handleChange}
                             aria-invalid={!!clientSideErrors.fields?.labelLg2}
-                            aria-describedby={!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
+                            aria-describedby={clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
                         />
                         <ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
 					</div>

@@ -182,7 +182,7 @@ class OperationsIndicatorEdition extends Component {
 							handleChange={this.onChanges.prefLabelLg1}
 							arias={{
 								'aria-invalid': !!this.state.clientSideErrors.fields?.prefLabelLg1,
-								'aria-describedby': !!this.state.clientSideErrors.fields?.prefLabelLg1 ? 'prefLabelLg1-error' : null,
+								'aria-describedby': this.state.clientSideErrors.fields?.prefLabelLg1 ? 'prefLabelLg1-error' : null,
 							}}
 							className="w-100"
 							errorBlock={<ClientSideError id="prefLabelLg1-error" error={this.state.clientSideErrors?.fields?.prefLabelLg1}></ClientSideError>}
@@ -195,7 +195,7 @@ class OperationsIndicatorEdition extends Component {
 							handleChange={this.onChanges.prefLabelLg2}
 							arias={{
 								'aria-invalid': !!this.state.clientSideErrors.fields?.prefLabelLg2,
-								'aria-describedby': !!this.state.clientSideErrors.fields?.prefLabelLg2 ? 'prefLabelLg2-error' : null,
+								'aria-describedby': this.state.clientSideErrors.fields?.prefLabelLg2 ? 'prefLabelLg2-error' : null,
 							}}
 							className="w-100"
 							errorBlock={<ClientSideError id="prefLabelLg2-error" error={this.state.clientSideErrors?.fields?.prefLabelLg2}></ClientSideError>}

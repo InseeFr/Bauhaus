@@ -134,7 +134,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 				onChange={(e) => onChange('identifiant', e.target.value)}
 				disabled={!creation}
 				aria-invalid={!!clientSideError.fields?.identifiant}
-				aria-describedby={!!clientSideError.fields?.identifiant ? 'identifiant-error' : null}
+				aria-describedby={clientSideError.fields?.identifiant ? 'identifiant-error' : null}
 			/>
 			<ClientSideError id='identifiant-error' error={clientSideError?.fields?.identifiant}></ClientSideError>
 
@@ -148,7 +148,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 						value={labelLg1}
 						onChange={(e) => onChange('labelLg1', e.target.value)}
 						aria-invalid={!!clientSideError.fields?.labelLg1}
-						aria-describedby={!!clientSideError.fields?.labelLg1 ? 'labelLg1-error' : null}
+						aria-describedby={clientSideError.fields?.labelLg1 ? 'labelLg1-error' : null}
 					/>
 					<ClientSideError id='labelLg1-error' error={clientSideError?.fields?.labelLg1}></ClientSideError>
 				</div>
@@ -161,7 +161,7 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 						value={labelLg2}
 						onChange={(e) => onChange('labelLg2', e.target.value)}
 						aria-invalid={!!clientSideError.fields?.labelLg2}
-						aria-describedby={!!clientSideError.fields?.labelLg2 ? 'labelLg2-error' : null}
+						aria-describedby={clientSideError.fields?.labelLg2 ? 'labelLg2-error' : null}
 					/>
 					<ClientSideError id='labelLg2-error' error={clientSideError?.fields?.labelLg2}></ClientSideError>
 

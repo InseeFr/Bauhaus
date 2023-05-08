@@ -169,7 +169,7 @@ class OperationsOperationEdition extends Component {
 								value={operation.prefLabelLg1}
 								onChange={this.onChange}
 								aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg1}
-								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg1 ? 'prefLabelLg1-error' : null}
+								aria-describedby={this.state.clientSideErrors.fields?.prefLabelLg1 ? 'prefLabelLg1-error' : null}
 							/>
 							<ClientSideError id="prefLabelLg1-error" error={this.state.clientSideErrors?.fields?.prefLabelLg1}></ClientSideError>
 						</div>
@@ -182,7 +182,7 @@ class OperationsOperationEdition extends Component {
 								value={operation.prefLabelLg2}
 								onChange={this.onChange}
 								aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg2}
-								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg2 ? 'prefLabelLg2-error' : null}
+								aria-describedby={this.state.clientSideErrors.fields?.prefLabelLg2 ? 'prefLabelLg2-error' : null}
 							/>
 							<ClientSideError id="prefLabelLg2-error" error={this.state.clientSideErrors?.fields?.prefLabelLg2}></ClientSideError>
 						</div>
