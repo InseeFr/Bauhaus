@@ -13,7 +13,8 @@ const CodelistPartialComponentView = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
-	const [codelists, setCodelists] = useState([]);
+	const [publishing, setPublishing] = useState(false);
+	const [codelists, setCodelists] = useState([	]);
 	const [codelist, setCodelist] = useState({});
 	const [modalOpened, setModalOpened] = useState(false);
 	const [serverSideError, setServerSideError] = useState('');
@@ -21,6 +22,33 @@ const CodelistPartialComponentView = (props) => {
 	const handleBack = useCallback(() => {
 		goBack(props, '/codelists')();
 	}, [props]);
+
+	const fetchCodeList = id => {
+		return API.getCodelistPartial(id)
+			.then((cl) => {
+				const idParent = codelists.find(
+					(codelist) => codelist.uri === cl.iriParent
+				)?.id;
+
+				if(!idParent){
+					return;
+				}
+				return API.getDetailedCodelist(idParent).then((parentCl) => {
+					setCodelist(formatPartialCodeList(cl, parentCl));
+				});
+			});
+	}
+
+	const publish = () => {
+		setPublishing(true);
+
+		API.publishPartialCodelist(id).then(() => {
+			return fetchCodeList(id)
+		}).catch((error) => {
+			setServerSideError(error)
+		})
+		.finally(() => setPublishing(false))
+	};
 
 	const handleDelete = useCallback(() => {
 		setLoading(true);
@@ -43,17 +71,10 @@ const CodelistPartialComponentView = (props) => {
 		});
 	}, []);
 
+
 	useEffect(() => {
 		if (codelists && codelists[0]) {
-			API.getCodelistPartial(id)
-				.then((cl) => {
-					const idParent = codelists.find(
-						(codelist) => codelist.uri === cl.iriParent
-					).id;
-					API.getDetailedCodelist(idParent).then((parentCl) => {
-						setCodelist(formatPartialCodeList(cl, parentCl));
-					});
-				})
+			fetchCodeList(id)
 				.finally(() => setLoading(false));
 		}
 	}, [id, codelists]);
@@ -61,6 +82,7 @@ const CodelistPartialComponentView = (props) => {
 	if (loading) {
 		return <Loading />;
 	}
+	if (publishing) return <Loading text={"publishing"} />;
 
 	return (
 		<React.Fragment>
@@ -80,6 +102,7 @@ const CodelistPartialComponentView = (props) => {
 				mutualized={true}
 				updatable={true}
 				serverSideError={serverSideError}
+				publishComponent={publish}
 			/>
 		</React.Fragment>
 	);
