@@ -15,8 +15,7 @@ const isRequiredBys = [
 	'Melodi-Diffusion-SDMX',
 ];
 
-const defaultDSD = {
-	id: '',
+const defaultDSD = {	id: '',
 	labelLg1: '',
 	labelLg2: '',
 	descriptionLg1: '',
