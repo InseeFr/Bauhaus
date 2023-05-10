@@ -24,7 +24,7 @@ const CollectionVisualizationContainer = () => {
 		Promise.all([
 			api.getCollectionGeneral(id),
 			api.getCollectionMembersList(id),
-			//globalApi.getStampList()
+			globalApi.getStampList()
 		]).then(([generalValue, membersValue, stampsValue]) => {
 			setCollection({ general: generalValue, members: membersValue});
 			setStamps(stampsValue);
