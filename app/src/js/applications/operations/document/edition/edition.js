@@ -57,10 +57,10 @@ const saveDocument = (document, type, files) => {
 	}
 
 	let promise;
-	if (type === DOCUMENT && document.id && files[0] && files[0].size) {
+	if (type === DOCUMENT && document.id && files[0]?.size) {
 		const formData = new FormData();
 		formData.append('file', files[0], files[0].name);
-		promise = (api.putDocumentFile(document, formData), api[method](body));
+		promise = api[method](body).then((id) => api.putDocumentFile(document, formData).then(() => id));
 	} else {
 		promise = api[method](body);
 	}
