@@ -3,6 +3,11 @@ import { API } from 'bauhaus-utilities';
 const api = {
 	getCodelists: () => [''],
 	getCodelist: (id) => [`${id}`],
+	publishCodelist: id => [
+		`validate/${id}`,
+		{ method: 'PUT' },
+		res => res.text(),
+	],
 	getDetailedCodelist: (id) => [`detailed/${id}`],
 	getPartialsByParent: (parentCode) => [`partials/${parentCode}`],
 	getCodelistsForSearch: () => ['search'],
@@ -31,6 +36,11 @@ const api = {
 	deleteCodelist: (id) => [id, {}, () => Promise.resolve()],
 	getCodelistsPartial: () => ['partial'],
 	getCodelistPartial: (id) => [`partial/${id}`],
+	publishPartialCodelist: id => [
+		`partial/validate/${id}`,
+		{ method: 'PUT' },
+		res => res.text(),
+	],
 	getCodelistsPartialForSearch: () => ['partial/search'],
 	postCodelistPartial: (codelist) => [
 		'partial',

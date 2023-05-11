@@ -7,7 +7,6 @@ import { StructureAPI, StructureConstants } from 'bauhaus-structures';
 import { AppContext, ClientSideError, ErrorBloc, GlobalClientSideErrorBloc, Stores, Row } from 'bauhaus-utilities';
 import D, { D1, D2 } from 'js/i18n';
 import { connect, useSelector } from 'react-redux';
-import { default as ReactSelect } from 'react-select';
 import 'react-select/dist/react-select.css';
 
 const isRequiredBys = [
@@ -16,8 +15,7 @@ const isRequiredBys = [
 	'Melodi-Diffusion-SDMX',
 ];
 
-const defaultDSD = {
-	id: '',
+const defaultDSD = {	id: '',
 	labelLg1: '',
 	labelLg2: '',
 	descriptionLg1: '',

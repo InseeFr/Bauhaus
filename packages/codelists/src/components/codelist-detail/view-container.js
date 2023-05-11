@@ -8,11 +8,13 @@ import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import ComponentTitle from './title';
 import { CodeListDetailView } from './view';
+import api from 'Bauhaus/src/js/remote-api/operations-api';
 
 const CodelistComponentView = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
+	const [publishing, setPublishing] = useState(false);
 	const [codelist, setCodelist] = useState({});
 	const [modalOpened, setModalOpened] = useState(false);
 	const [serverSideError, setServerSideError] = useState('');
@@ -20,6 +22,19 @@ const CodelistComponentView = (props) => {
 	const handleBack = useCallback(() => {
 		goBack(props, '/codelists')();
 	}, [props]);
+
+	const publish = () => {
+		setPublishing(true);
+
+		API.publishCodelist(id).then(() => {
+			return API.getDetailedCodelist(id).then((cl) => {
+				setCodelist(formatCodeList(cl));
+			})
+		}).catch((error) => {
+			setServerSideError(error)
+		})
+		.finally(() => setPublishing(false))
+	};
 
 	const handleDelete = useCallback(() => {
 		setLoading(true);
@@ -47,6 +62,7 @@ const CodelistComponentView = (props) => {
 	if (loading) {
 		return <Loading />;
 	}
+	if (publishing) return <Loading text={"publishing"} />;
 
 	return (
 		<React.Fragment>
@@ -66,6 +82,7 @@ const CodelistComponentView = (props) => {
 				mutualized={true}
 				updatable={true}
 				serverSideError={serverSideError}
+				publishComponent={publish}
 			/>
 		</React.Fragment>
 	);
