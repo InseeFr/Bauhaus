@@ -22,7 +22,7 @@ const pages = getEnvVar('APPLICATIONS')
 
 const getComponent = (pageName, modules) => {
 	if (!modules.includes(pageName)) {
-		//return UnderMaintenance;
+		return UnderMaintenance;
 	}
 	if (!pages[pageName]) {
 		return NotFound;
