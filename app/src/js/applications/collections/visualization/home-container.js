@@ -10,7 +10,7 @@ import globalApi from '../../../remote-api/api';
 
 const CollectionVisualizationContainer = () => {
 	const { id } = useParams();
-	const [collection, setCollection] = useState();
+	const [collection, setCollection] = useState({});
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [stamps, setStamps] = useState();
