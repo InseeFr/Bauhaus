@@ -18,6 +18,7 @@ import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
 import { withRouter } from 'react-router-dom';
 import { withTitle } from 'bauhaus-utilities';
+import validate from './controls/validation';
 
 class ConceptEditionCreation extends Component {
 	constructor(props) {
@@ -184,17 +185,21 @@ class ConceptEditionCreation extends Component {
 			},
 		];
 
+		const errorMessage = validate(
+			this.getOriginalData().general,
+			general,
+			notes,
+			conceptsWithLinks,
+			maxLengthScopeNote
+		);
+
 		return (
 			<div>
 				<div className="container">
 					<PageTitle title={title} subtitle={subtitle} />
 					{this.props.general.contributor && (
 						<ConceptCreateControl
-							oldGeneral={this.getOriginalData().general}
-							general={general}
-							notes={notes}
-							conceptsWithLinks={conceptsWithLinks}
-							maxLengthScopeNote={maxLengthScopeNote}
+							errorMessage={errorMessage}
 							handleSave={this.handleSave}
 							redirectCancel={goBack(this.props, 'concepts')}
 						/>
@@ -214,6 +219,7 @@ class ConceptEditionCreation extends Component {
 										stampList={stampList}
 										disseminationStatusList={disseminationStatusList}
 										langs={langs}
+										errorMessage={errorMessage}
 									/>
 								)}
 							</Tab>
@@ -225,6 +231,7 @@ class ConceptEditionCreation extends Component {
 										maxLengthScopeNote={maxLengthScopeNote}
 										disseminationStatus={general.disseminationStatus}
 										langs={langs}
+										errorMessage={errorMessage}
 									/>
 								)}
 							</Tab>

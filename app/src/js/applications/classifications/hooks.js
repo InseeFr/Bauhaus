@@ -29,7 +29,7 @@ export const usePublishClassification = id => {
 
 export const useUpdateClassification = (id) => {
 	const queryClient = useQueryClient()
-	const { isLoading: isSaving, mutate: save, error, isSuccess: isSavingSuccess } = useMutation((classification) => {
+	const { isLoading: isSaving, mutate: save, error, isSuccess: isSavingSuccess, status } = useMutation((classification) => {
 		return api
 			.putClassification(classification.general)
 	}, {
@@ -37,5 +37,5 @@ export const useUpdateClassification = (id) => {
 			queryClient.invalidateQueries(['classifications', id]);
 		}
 	})
-	return { isSaving, save, error, isSavingSuccess };
+	return { isSaving, save, error, isSavingSuccess, status };
 }
