@@ -63,7 +63,11 @@ export const validatePartialCodelist = (codelist) => {
 	if(!codelist.id){
 		errorMessage.push(D.mandatoryProperty(D.idTitle));
 		fields.id = D.mandatoryProperty(D.idTitle);
+	} else if(!/^[a-zA-Z0-9_]*$/.test(codelist.id)){
+		errorMessage.push(D.validCharactersProperty(D1.idTitle));
+		fields.id = D.validCharactersProperty(D1.idTitle);
 	}
+
 
 	if(!codelist.parentCode){
 		errorMessage.push(D.mandatoryProperty(D.parentCodelist));

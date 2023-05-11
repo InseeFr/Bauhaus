@@ -238,6 +238,10 @@ const dictionary = {
 		fr: propertyName => `La propriété <strong>${propertyName}</strong> est obligatoire.`,
 		en: propertyName => `The property <strong>${propertyName}</strong> is required.`
 	},
+	validCharactersProperty: {
+		fr: propertyName => `La propriété <strong>${propertyName}</strong> possède des caractères invalid.`,
+		en: propertyName => `The property <strong>${propertyName}</strong> has invalid characters.`
+	},
 	errors: {
 		GlobalClientSideErrorBloc: {
 			fr: 'Vous avez des erreurs dans ce formulaire.',
