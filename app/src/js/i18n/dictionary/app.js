@@ -434,6 +434,22 @@ const dictionary = {
 		fr: 'Exporter',
 		en: 'Export',
 	},
+	btnOdsExporter: {
+		fr: 'Exporter en ODS',
+		en: 'Export as ODS',
+	},
+	btnOdtLg1Exporter: {
+		fr: 'Exporter en ODT (Première langue)',
+		en: 'Export as ODT (First language)',
+	},
+	btnOdtLg2Exporter: {
+		fr: 'Exporter en ODT (Seconde langue)',
+		en: 'Export as ODT (Second language)',
+	},
+	btnCollectionConceptExporter: {
+		fr: 'Exporter les concepts membres de la collection',
+		en: 'Export the Collection concept members',
+	},
 	advancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
 	mandatoryProperty: {
 		fr: (propertyName) => `La propriété <strong>${propertyName}</strong> est obligatoire.`,
