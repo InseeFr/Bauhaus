@@ -20,7 +20,7 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translateY(-20px);
+  transform: translateY(-5px);
   transition: 0.23s linear;
   border: 1px solid #dedede;
   position: absolute;
@@ -32,7 +32,6 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   padding: 0;
-  transform: translateY(-5px);
   z-index: 999;
 }
 
