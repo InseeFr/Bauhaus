@@ -3,31 +3,30 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import {
 	CancelButton,
-	ErrorBloc,
 	ActionToolbar,
 	SaveButton,
 } from '@inseefr/wilco';
+import { GlobalClientSideErrorBloc } from 'bauhaus-utilities';
+import D from '../../../../i18n/build-dictionary';
 
 const ConceptCreateControlLayout = ({
-	message,
+	errors,
 	handleSave,
-	saveEnabled,
 	redirectCancel,
 }) => {
 	return (
 		<>
 			<ActionToolbar>
 				<CancelButton action={redirectCancel} />
-				<SaveButton action={handleSave} disabled={!saveEnabled} />
+				<SaveButton action={handleSave} disabled={errors?.errorMessage?.length > 0} />
 			</ActionToolbar>
-			<ErrorBloc error={message} />
+			{ <GlobalClientSideErrorBloc clientSideErrors={errors?.errorMessage} D={D}/> }
 		</>
 	);
 };
 
 ConceptCreateControlLayout.propTypes = {
-	message: PropTypes.string,
-	saveEnabled: PropTypes.bool.isRequired,
+	errors: PropTypes.any,
 	handleSave: PropTypes.func.isRequired,
 	redirectCancel: PropTypes.func.isRequired,
 };

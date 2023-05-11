@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'react-modal';
+import ReactModal from 'react-modal';
 import DOMPurify from 'dompurify';
 import D from 'js/i18n';
 
-function ModalRmes({
+function Modal({
 	id,
 	isOpen,
 	title,
@@ -12,6 +12,7 @@ function ModalRmes({
 	footer,
 	closeCancel,
 	modalButtons,
+	children
 }) {
 	const buttons = modalButtons.map((b, i) => (
 		<button
@@ -25,7 +26,7 @@ function ModalRmes({
 		</button>
 	));
 	return (
-		<Modal
+		<ReactModal
 			className="Modal__Bootstrap modal-dialog"
 			isOpen={isOpen}
 			onRequestClose={closeCancel}
@@ -49,6 +50,11 @@ function ModalRmes({
 						/>
 					</div>
 				)}
+				{children && (
+					<div className="modal-body">
+						{children}
+					</div>
+				)}
 				<div className="modal-footer">
 					<div className="text-center">{buttons}</div>
 					{footer && (
@@ -62,17 +68,21 @@ function ModalRmes({
 					)}
 				</div>
 			</div>
-		</Modal>
+		</ReactModal>
 	);
 }
 
-ModalRmes.propTypes = {
+Modal.propTypes = {
 	id: PropTypes.string.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	title: PropTypes.string.isRequired,
 	body: PropTypes.string,
 	footer: PropTypes.string,
 	closeCancel: PropTypes.func.isRequired,
+	children: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.node),
+		PropTypes.node
+	]),
 	modalButtons: PropTypes.arrayOf(
 		PropTypes.shape({
 			label: PropTypes.string.isRequired,
@@ -83,4 +93,4 @@ ModalRmes.propTypes = {
 	).isRequired,
 };
 
-export default ModalRmes;
+export default Modal;
