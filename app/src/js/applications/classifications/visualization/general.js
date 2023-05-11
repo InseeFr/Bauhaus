@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import D, { D1, D2 } from 'js/i18n';
 import { DSURLToLabel, Note } from '@inseefr/wilco';
-import { DateUtils, HTMLUtils, Row } from 'bauhaus-utilities';
+import { DateUtils, HTMLUtils, PublicationFemale, Row } from 'bauhaus-utilities';
 
 export default ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
@@ -193,10 +193,14 @@ export default ({ general, secondLang, langs }) => {
 								}
 							} else return null;
 						})}
+						<li>
+							{D1.classificationStatus} : <PublicationFemale object={general} />
+						</li>
 					</ul>
 				}
 			></Note>
 		</Row>
+
 		<Row>
 			<Note
 				title={D1.descriptionTitle}
