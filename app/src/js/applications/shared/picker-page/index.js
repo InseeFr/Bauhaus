@@ -70,7 +70,7 @@ const Picker = ({
         if(!!message){
             setClientSideErrors(message)
         } else {
-					handleUpdateIds()
+			handleUpdateIds()
         }
 
 	};
