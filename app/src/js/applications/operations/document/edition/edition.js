@@ -161,7 +161,7 @@ const OperationsDocumentationEdition = (props) => {
 		<div className="container editor-container">
 			<ModalRmes
 				id="updating-document-modal"
-				isOpen={true}
+				isOpen={validationModalDisplayed}
 				title={D.confirmation}
 				modalButtons={modalButtons}
 				closeCancel={() => setValidationModalDisplayed(false)}

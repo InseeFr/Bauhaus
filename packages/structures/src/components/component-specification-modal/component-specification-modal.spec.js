@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentSpecificationModalBody } from '.';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 describe('<ComponentSpecificationModal />', () => {
 	beforeEach(() => {
@@ -43,6 +43,7 @@ describe('<ComponentSpecificationModal />', () => {
 				structureComponents={structureComponents}
 			/>
 		);
+		// eslint-disable-next-line no-restricted-globals
 		await screen.findByText("DataSet");
 	});
 });
