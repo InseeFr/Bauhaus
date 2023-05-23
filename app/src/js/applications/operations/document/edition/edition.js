@@ -143,12 +143,12 @@ const OperationsDocumentationEdition = (props) => {
 
 	const modalButtons = [
 		{
-			label: D.btnCancel,
+			label: D.no,
 			action: () => setValidationModalDisplayed(false),
 			style: 'default',
 		},
 		{
-			label: D.btnSave,
+			label: D.yes,
 			action: () => {
 				saveDocumentOrLink()
 				setValidationModalDisplayed(false)
@@ -161,7 +161,7 @@ const OperationsDocumentationEdition = (props) => {
 		<div className="container editor-container">
 			<ModalRmes
 				id="updating-document-modal"
-				isOpen={validationModalDisplayed}
+				isOpen={true}
 				title={D.confirmation}
 				modalButtons={modalButtons}
 				closeCancel={() => setValidationModalDisplayed(false)}
