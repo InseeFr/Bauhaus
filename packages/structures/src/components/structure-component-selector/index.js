@@ -5,7 +5,6 @@ import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
-import { ATTRIBUTE_PROPERTY_TYPE } from '../../utils/constants/dsd-components';
 
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
@@ -177,8 +176,7 @@ export const StructureComponentsSelector = ({
 						>
 							<span className="glyphicon glyphicon-eye-open"></span>
 						</button>
-						{component.type === ATTRIBUTE_PROPERTY_TYPE && (
-							<button
+						<button
 								data-component-id={component.identifiant}
 								onClick={specificationClickHandler}
 								aria-label={D.componentSpecificationTitle}
@@ -186,7 +184,6 @@ export const StructureComponentsSelector = ({
 							>
 								<span className="glyphicon glyphicon-cog"></span>
 							</button>
-						)}
 						{!readOnly && (
 							<button
 								data-component-id={component.identifiant}

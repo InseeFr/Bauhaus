@@ -33,8 +33,8 @@
 		"babel-jest": "^27.5.1",
 		"babel-loader": "8.1.0",
 		"babel-polyfill": "^6.26.0",
-		"eslint": "^8.35.0",
-		"eslint-config-prettier": "^8.6.0",
+		"eslint": "^8.40.0",
+		"eslint-config-prettier": "^8.8.0",
 		"eslint-config-react-app": "^7.0.1",
 		"eslint-plugin-flowtype": "^8.0.3",
 		"eslint-plugin-import": "^2.27.5",
@@ -47,7 +47,7 @@
 		"jest-localstorage-mock": "^2.4.19",
 		"node-fetch": "^3.2.5",
 		"prettier": "^2.8.0",
-		"webpack": "^5.75.0",
+		"webpack": "^5.76.0",
 		"whatwg-fetch": "^3.6.2"
 	},
 	"dependencies": {

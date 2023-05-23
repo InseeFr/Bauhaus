@@ -20,8 +20,6 @@ const ClassificationControls = (props) => {
 					object={classification}
 					callback={publish}
 				/>
-			</Auth.AuthGuard>
-			<Auth.AuthGuard roles={[Auth.ADMIN]}>
 				<Button
 					action={`/classifications/classification/${classification.id}/modify`}
 					label={D.btnUpdate}

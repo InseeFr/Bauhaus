@@ -17,6 +17,7 @@ describe('<ComponentSpecificationModal />', () => {
 		const { container } = render(
 			<ComponentSpecificationModalBody
 				specification={specification}
+				selectedComponent={{component: {}}}
 				structureComponents={structureComponents}
 				onClose={onClose}
 			/>
@@ -29,6 +30,7 @@ describe('<ComponentSpecificationModal />', () => {
 		const { container } = render(
 			<ComponentSpecificationModalBody
 				specification={specification}
+				selectedComponent={{component: {}}}
 				structureComponents={structureComponents}
 				onSave={onSave}
 			/>

@@ -7,6 +7,7 @@ import { ConceptsAPI, Stores } from 'bauhaus-utilities';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import * as select from 'Bauhaus/src/js/reducers';
 
 const ViewContainer = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
@@ -17,6 +18,7 @@ const ViewContainer = (props) => {
 	const [codesLists, setCodesLists] = useState([]);
 	const [serverSideError, setServerSideError] = useState();
 	const [attributes, setAttributes] = useState([]);
+	const langs = useSelector(state => select.getLangs(state))
 
 	const handleBack = useCallback(() => {
 		goBack(props, '/structures/components')();
@@ -76,6 +78,7 @@ const ViewContainer = (props) => {
 				serverSideError={serverSideError}
 				secondLang={secondLang}
 				attributes={attributes}
+				langs={langs}
 			/>
 		</React.Fragment>
 	);

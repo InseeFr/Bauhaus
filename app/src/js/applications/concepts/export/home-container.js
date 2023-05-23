@@ -1,64 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import ConceptsToExport from './home';
+import { useState } from 'react';
+import Picker from '../../shared/picker-page';
 import { getContentDisposition, Loading } from '@inseefr/wilco';
 import { ArrayUtils, useTitle } from 'bauhaus-utilities';
 import D from 'js/i18n';
 import api from '../../../remote-api/concepts-api';
 import FileSaver from 'file-saver';
+import { useQuery } from '@tanstack/react-query';
+import ExportButtons from 'js/applications/collections/export-buttons';
+import { useHistory } from 'react-router-dom';
 
 const ConceptsToExportContainer = () => {
-
 	useTitle(D.conceptsTitle, D.exportTitle);
-	const history = useHistory();
-	const [concepts, setConcepts] = useState([])
-	const [loading, setLoading] = useState(true);
 	const [exporting, setExporting] = useState(false);
+	const [ids, setIds] = useState([]);
+	const history = useHistory();
 
-	useEffect(() => {
-		api.getConceptList().then(results => {
-			setConcepts(ArrayUtils.sortArrayByLabel(results));
-		}).finally(() => setLoading(false))
-	}, [])
+	const { isLoading, data: concepts } = useQuery(['concepts'], () => {
+		return api
+			.getConceptList()
+			.then((results) => ArrayUtils.sortArrayByLabel(results));
+	});
 
-	const handleExportConceptList = (ids) => {
-		setExporting(true)
-		let promise;
+	const exportConcept = (type, withConcepts, lang = 'lg1') => {
+		setExporting(true);
+		const promise = api.getConceptExportZipType(ids, type, lang, withConcepts);
 
-		if(ids.length === 1){
-			promise = api.getConceptExport(ids[0])
-		} else {
-			promise = api.getConceptExportZip(ids)
-		}
 		let fileName;
-		return promise.then(res => {
+		return promise
+			.then((res) => {
 				fileName = getContentDisposition(
 					res.headers.get('Content-Disposition')
 				)[1];
 				return res;
 			})
-			.then(res => res.blob())
-			.then(blob => {
+			.then((res) => res.blob())
+			.then((blob) => {
 				return FileSaver.saveAs(blob, fileName);
 			})
-			.then(() => history.push("/concepts"))
-			.finally(() => setExporting(false))
-	}
+			.then(() => history.push('/concepts'))
+			.finally(() => setExporting(false));
+	};
 
 
-	if(exporting){
-		return <Loading textType={"exporting"} />;
+
+	if (exporting) {
+		return <Loading textType={'exporting'} />;
 	}
-	if (loading) {
+	if (isLoading) {
 		return <Loading />;
 	}
 
 	return (
-		<ConceptsToExport
-			concepts={concepts}
-			handleExportConceptList={handleExportConceptList}
+		<Picker
+			items={concepts}
+			title={D.exportTitle}
+			panelTitle={D.conceptsExportPanelTitle}
+			labelWarning={D.hasNotConceptToExport}
+			handleAction={(value) => setIds(value)}
+			context="concepts"
+			ValidationButton={() => (
+				<ExportButtons
+					ids={ids}
+					exporting={setExporting}
+					exportHandler={exportConcept}
+				/>
+			)}
 		/>
 	);
-}
+};
 
-export default ConceptsToExportContainer
+export default ConceptsToExportContainer;

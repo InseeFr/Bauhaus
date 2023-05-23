@@ -1,4 +1,3 @@
-import React  from 'react';
 import { Provider } from 'react-redux';
 import Root from 'js/router';
 import configureStore from 'js/store/configure-store';

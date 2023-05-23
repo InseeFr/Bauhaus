@@ -247,7 +247,7 @@ const DumbComponentDetailEdit = ({
                         <ClientSideError id="identifiant-error" error={clientSideErrors?.fields?.identifiant}></ClientSideError>
 					</div>
 				</div>
-				<div className="row">
+				<Row>
 					<div className={`col-md-6 form-group`}>
 						<LabelRequired htmlFor="labelLg1">{D1.label} ({lg1})</LabelRequired>
 						<input
@@ -265,7 +265,6 @@ const DumbComponentDetailEdit = ({
 
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg2">{D2.label} ({lg2})</LabelRequired>
-
 						<input
 							type="text"
 							className="form-control"
@@ -278,7 +277,34 @@ const DumbComponentDetailEdit = ({
                         />
                         <ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
 					</div>
-				</div>
+				</Row>
+
+				<Row>
+					<div className="col-md-6 form-group">
+						<LabelRequired htmlFor="altLabelLg1">{D1.altLabel} ({lg1})</LabelRequired>
+						<input
+							type="text"
+							className="form-control"
+							id="altLabelLg1"
+							name="altLabelLg1"
+							onChange={handleChange}
+							value={component.altLabelLg1}
+						/>
+					</div>
+
+					<div className="col-md-6 form-group">
+						<LabelRequired htmlFor="altLabelLg2">{D2.altLabel} ({lg2})</LabelRequired>
+
+						<input
+							type="text"
+							className="form-control"
+							id="altLabelLg2"
+							name="altLabelLg2"
+							value={component.altLabelLg2}
+							onChange={handleChange}
+						/>
+					</div>
+				</Row>
 
 				<Row>
 					<div className="col-md-12 ">
