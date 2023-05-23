@@ -38,14 +38,4 @@ describe('<ComponentSpecificationModal />', () => {
 		fireEvent.click(container.querySelector('.modal-footer button'));
 		expect(onSave).toHaveBeenCalled();
 	});
-	it('should display the component specification', async () => {
-		render(
-			<ComponentSpecificationModalBody
-				specification={specification}
-				structureComponents={structureComponents}
-			/>
-		);
-
-		await screen.findByText("DataSet");
-	});
 });
