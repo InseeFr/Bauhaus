@@ -50,8 +50,8 @@ const api = {
 		//do not process response
 		() => {},
 	],
-	getConceptExportZip: (ids) => [
-		`concept/export-zip/${ids.join(',')}`,
+	getConceptExportZipType: (ids, type, lang, withConcepts) => [
+		`concept/export-zip/${ids.join('_AND_')}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
 		{
 			headers: {
 				Accept: "application/octet-stream",

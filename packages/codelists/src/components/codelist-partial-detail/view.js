@@ -15,7 +15,7 @@ import {
 	ValidationButton,
 	PublicationFemale,
 	useTitle,
-	ConfirmationDelete, CreationUpdateItems,
+	ConfirmationDelete, CreationUpdateItems, Auth,
 } from 'bauhaus-utilities';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
@@ -63,9 +63,11 @@ export const CodeListPartialDetailView = ({
 			)}
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
-				<ValidationButton callback={publish} object={codelist} />
-				{updatable && <UpdateButton action={handleUpdate} col={col} />}
-				{deletable && <DeleteButton action={handleDelete} col={col} />}
+				<Auth.AuthGuard roles={[Auth.ADMIN]}>
+					<ValidationButton callback={publish} object={codelist} />
+					{updatable && <UpdateButton action={handleUpdate} col={col} />}
+					{deletable && <DeleteButton action={handleDelete} col={col} />}
+				</Auth.AuthGuard>
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
 			{

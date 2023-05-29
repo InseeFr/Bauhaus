@@ -1,4 +1,4 @@
-export const isAdmin = () => true;
+export const isAdmin = () => true
 export const isContributor = () => true;
 export const isConceptCreator = () => true;
 export const filterConceptsToValidate = (concepts) => concepts;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 import Picker from 'js/applications/shared/picker-page';
 import check from 'js/utils/auth';
@@ -6,54 +6,46 @@ import D from 'js/i18n';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
 import { PublishButton } from '@inseefr/wilco';
 
-class ConceptsToValidate extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			modalValid: false,
-			idWithValid: [],
-		};
+const ConceptsToValidate = ({ handleValidateConceptList, concepts, permission: { authType, roles, stamp } }) => {
+	const [modalValid, setModalValid] = useState(false);
+	const [idWithValid, setIdWithValid] = useState([]);
+	const [ids, setIds] = useState([]);
 
-		this.handleValidateConceptList = ids => {
-			this.props.handleValidateConceptList(ids);
-		};
-		this.handleClickValidation = ids => {
-			this.setState({ ids });
-			const idWithValid = ids.reduce((_, id) => {
-				const { label: prefLabelLg1, valid } = this.props.concepts.find(
-					c => c.id === id
-				);
-				if (valid) _.push({ prefLabelLg1, valid });
-				return _;
-			}, []);
-			idWithValid.length === 0
-				? this.handleValidateConceptList(ids)
-				: this.setState({ idWithValid, modalValid: true });
-		};
-		this.handleCancelValidation = () => this.setState({ modalValid: false });
-		this.handleConfirmValidation = () => {
-			this.handleCancelValidation();
-			this.handleValidateConceptList(this.state.ids);
-		};
+	const handleClickValidation = ids => {
+		setIds(ids);
+		const idWithValid = ids.reduce((_, id) => {
+			const { label: prefLabelLg1, valid } = concepts.find(
+				c => c.id === id
+			);
+			if (valid) _.push({ prefLabelLg1, valid });
+			return _;
+		}, []);
+
+		if(idWithValid.length === 0){
+			handleValidateConceptList(ids)
+		} else {
+			setIdWithValid(idWithValid);
+			setModalValid(true)
+		}
 	}
 
-	render() {
-		const { modalValid, idWithValid } = this.state;
-		const {
-			concepts,
-			permission: { authType, roles, stamp },
-		} = this.props;
-		const authImpl = check(authType);
+	const handleCancelValidation = () => setModalValid(false);
+	const handleConfirmValidation = () => {
+		handleCancelValidation();
+		handleValidateConceptList(ids);
+	};
+
+	const authImpl = check(authType);
 
 		const modalButtons = [
 			{
 				label: D.btnCancel,
-				action: this.handleCancelValidation,
+				action: handleCancelValidation,
 				style: 'primary',
 			},
 			{
 				label: D.btnValid,
-				action: this.handleConfirmValidation,
+				action: handleConfirmValidation,
 				style: 'primary',
 			},
 		];
@@ -71,7 +63,7 @@ class ConceptsToValidate extends Component {
 					panelTitle={D.conceptsToValidPanelTitle}
 					labelWarning={D.hasNotConceptToValid}
 					ValidationButton={PublishButton}
-					handleAction={this.handleClickValidation}
+					handleAction={handleClickValidation}
 					context="concepts"
 				/>
 				<ModalRmes
@@ -80,11 +72,11 @@ class ConceptsToValidate extends Component {
 					title="Confirmation de la validation"
 					body={getModalMessage(idWithValid)}
 					modalButtons={modalButtons}
-					closeCancel={this.handleCancelValidation}
+					closeCancel={handleCancelValidation}
 				/>
 			</div>
 		);
-	}
 }
+
 
 export default ConceptsToValidate;

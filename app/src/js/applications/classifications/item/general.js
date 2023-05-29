@@ -66,7 +66,7 @@ export default ({ general, classificationId, secondLang, langs }) => {
 										<li key={fieldName}>{`${
 											mapping[fieldName]
 										} : ${D.classificationItemIsValidated(
-											general[fieldName]
+											general[fieldName] === "true"
 										)}`}</li>
 									);
 								}
