@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ 18 ]
+        node: [ 19 ]
     steps:
       - name: Check Branches 
         uses: actions/github-script@v6
