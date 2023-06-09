@@ -26,8 +26,8 @@ const CollectionVisualizationControls = ({
 	);
 
 
-	const validate = <Button action={handleValidation} label={D.btnValid} />;
-	const update = <Button action={`/collection/${id}/modify`} label={D.btnUpdate} />;
+	const validate = <Button key="validate" action={handleValidation} label={D.btnValid} />;
+	const update = <Button key="update" action={`/collection/${id}/modify`} label={D.btnUpdate} />;
 
 	const btns = []
 	if (admin || creator) {
