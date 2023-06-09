@@ -1,7 +1,15 @@
 import React, { useMemo, useState } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown, PageTitleBlock, withTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError, Row } from 'bauhaus-utilities';
+import {
+	EditorMarkdown,
+	PageTitleBlock,
+	withTitle,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+	Row,
+} from 'bauhaus-utilities';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -53,13 +61,52 @@ const saveDocument = (document, type, files) => {
 	if (type === DOCUMENT && document.id && files[0]?.size) {
 		const formData = new FormData();
 		formData.append('file', files[0], files[0].name);
-		promise = api[method](body).then((id) => api.putDocumentFile(document, formData).then(() => id));
+		promise = api[method](body).then((id) =>
+			api.putDocumentFile(document, formData).then(() => id)
+		);
 	} else {
 		promise = api[method](body);
 	}
 	return promise;
 };
 
+export const ConfirmationModal = ({ document, isOpen, onYes, onNo }) => {
+	const modalButtons = [
+		{
+			label: D.no,
+			action: onNo,
+			style: 'default',
+		},
+		{
+			label: D.yes,
+			action: onYes,
+			style: 'primary',
+		},
+	];
+	return (
+		<ModalRmes
+			id="updating-document-modal"
+			isOpen={isOpen}
+			title={D.confirmation}
+			modalButtons={modalButtons}
+			closeCancel={onNo}
+		>
+			<>
+				<p>
+					{isDocument(document)
+						? D.warningDocumentWithSimsPrefix
+						: D.warningLinkWithSimsPrefix}
+				</p>
+				<ul>
+					{document.sims?.map((sims) => (
+						<li key={sims.id}>{sims.labelLg1}</li>
+					))}
+				</ul>
+				<p>{D.warningDocumentLinksWithSimsSuffix}</p>
+			</>
+		</ModalRmes>
+	);
+};
 
 const OperationsDocumentationEdition = (props) => {
 	const { document: documentProps, type, langOptions } = props;
@@ -67,16 +114,19 @@ const OperationsDocumentationEdition = (props) => {
 	const defaultDocument = useMemo(() => {
 		return {
 			...initDocument,
-			...documentProps
-		}
-	}, [documentProps])
+			...documentProps,
+		};
+	}, [documentProps]);
 	const [serverSideError, setServerSideError] = useState('');
-	const [clientSideErrors, setClientSideErrors] = useState({ });
+	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [saving, setSaving] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
-	const [validationModalDisplayed, setValidationModalDisplayed] = useState(false);
+	const [validationModalDisplayed, setValidationModalDisplayed] =
+		React.useState(false);
 	const [document, setDocument] = useState(defaultDocument);
-	const [files, setFiles] = useState(document.url ? [{ name: document.url }] : []);
+	const [files, setFiles] = useState(
+		document.url ? [{ name: document.url }] : []
+	);
 
 	const uploadFile = (files) => {
 		setServerSideError('');
@@ -86,17 +136,17 @@ const OperationsDocumentationEdition = (props) => {
 	const removeFile = () => {
 		setServerSideError('');
 		setFiles([]);
-	}
+	};
 
 	const onChange = (e) => {
 		setServerSideError('');
 		setClientSideErrors({
 			...clientSideErrors,
-			errorMessage: []
-		})
+			errorMessage: [],
+		});
 		setDocument({
 			...document,
-			[e.target.id]: e.target.value
+			[e.target.id]: e.target.value,
 		});
 	};
 
@@ -111,19 +161,19 @@ const OperationsDocumentationEdition = (props) => {
 				},
 				(err) => {
 					setServerSideError(err);
-				},
+				}
 			)
 			.finally(() => setSaving(false));
-	}
+	};
 	const onSubmit = () => {
 		const clientSideErrors = validate(document, type, files);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
-		} else if(document.sims.length > 0){
+		} else if (document.sims.length > 0) {
 			setValidationModalDisplayed(true);
 		} else {
-			saveDocumentOrLink()
+			saveDocumentOrLink();
 		}
 	};
 
@@ -141,39 +191,17 @@ const OperationsDocumentationEdition = (props) => {
 		updatedDate = `${year}-${month}-${day}T23:00:00.000Z`;
 	}
 
-	const modalButtons = [
-		{
-			label: D.no,
-			action: () => setValidationModalDisplayed(false),
-			style: 'default',
-		},
-		{
-			label: D.yes,
-			action: () => {
-				saveDocumentOrLink()
-				setValidationModalDisplayed(false)
-			},
-			style: 'primary',
-		},
-	];
-
 	return (
 		<div className="container editor-container">
-			<ModalRmes
-				id="updating-document-modal"
+			<ConfirmationModal 
+				document={document}
 				isOpen={validationModalDisplayed}
-				title={D.confirmation}
-				modalButtons={modalButtons}
-				closeCancel={() => setValidationModalDisplayed(false)}
-			>
-				<>
-					<p>{isDocument(document) ? D.warningDocumentWithSimsPrefix : D.warningLinkWithSimsPrefix}</p>
-					<ul>
-						{ document.sims?.map(sims => <li key={sims.id}>{sims.labelLg1}</li>)}
-					</ul>
-					<p>{D.warningDocumentLinksWithSimsSuffix}</p>
-				</>
-			</ModalRmes>
+				onNo={() => setValidationModalDisplayed(false)}
+				onYes={() => {
+					saveDocumentOrLink();
+					setValidationModalDisplayed(false);
+				}}
+				></ConfirmationModal>
 			{isEditing && (
 				<PageTitleBlock
 					titleLg1={documentProps.labelLg1}
@@ -184,10 +212,18 @@ const OperationsDocumentationEdition = (props) => {
 
 			<ActionToolbar>
 				<CancelButton action={goBack(props, '/operations/documents')} />
-				<SaveButton action={onSubmit} disabled={clientSideErrors.errorMessage?.length > 0} />
+				<SaveButton
+					action={onSubmit}
+					disabled={clientSideErrors.errorMessage?.length > 0}
+				/>
 			</ActionToolbar>
-			{ submitting && clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} D={D}/> }
-			{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
+			{submitting && clientSideErrors && (
+				<GlobalClientSideErrorBloc
+					clientSideErrors={clientSideErrors.errorMessage}
+					D={D}
+				/>
+			)}
+			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 
 			<form>
 				<Row>
@@ -200,9 +236,14 @@ const OperationsDocumentationEdition = (props) => {
 							value={document.labelLg1}
 							onChange={onChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
-							aria-describedby={!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
+							aria-describedby={
+								!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+							}
 						/>
-						<ClientSideError id="labelLg1-error" error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
+						<ClientSideError
+							id="labelLg1-error"
+							error={clientSideErrors?.fields?.labelLg1}
+						></ClientSideError>
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
@@ -213,9 +254,14 @@ const OperationsDocumentationEdition = (props) => {
 							value={document.labelLg2}
 							onChange={onChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
-							aria-describedby={!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
+							aria-describedby={
+								!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+							}
 						/>
-						<ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
+						<ClientSideError
+							id="labelLg2-error"
+							error={clientSideErrors?.fields?.labelLg2}
+						></ClientSideError>
 					</div>
 				</Row>
 				<Row>
@@ -249,9 +295,14 @@ const OperationsDocumentationEdition = (props) => {
 								value={document.url}
 								onChange={onChange}
 								aria-invalid={!!clientSideErrors.fields?.url}
-								aria-describedby={!!clientSideErrors.fields?.url ? 'url-error' : null}
+								aria-describedby={
+									!!clientSideErrors.fields?.url ? 'url-error' : null
+								}
 							/>
-							<ClientSideError id="url-error" error={clientSideErrors?.fields?.url}></ClientSideError>
+							<ClientSideError
+								id="url-error"
+								error={clientSideErrors?.fields?.url}
+							></ClientSideError>
 						</div>
 					</Row>
 				)}
@@ -267,7 +318,10 @@ const OperationsDocumentationEdition = (props) => {
 								}}
 								placement="top"
 							/>
-							<ClientSideError id="updatedDate-error" error={clientSideErrors?.fields?.updatedDate}></ClientSideError>
+							<ClientSideError
+								id="updatedDate-error"
+								error={clientSideErrors?.fields?.updatedDate}
+							></ClientSideError>
 						</div>
 					</Row>
 				)}
@@ -284,16 +338,19 @@ const OperationsDocumentationEdition = (props) => {
 										<input
 											{...getInputProps()}
 											aria-invalid={!!clientSideErrors.fields?.file}
-											aria-describedby={!!clientSideErrors.fields?.file ? 'file-error' : null}
+											aria-describedby={
+												!!clientSideErrors.fields?.file ? 'file-error' : null
+											}
 										/>
 										<p>{D.drag}</p>
 									</div>
 								)}
 							</Dropzone>
-							<ClientSideError id="file-error" error={clientSideErrors?.fields?.file}></ClientSideError>
-
+							<ClientSideError
+								id="file-error"
+								error={clientSideErrors?.fields?.file}
+							></ClientSideError>
 						</div>
-
 					</Row>
 				)}
 
@@ -329,13 +386,16 @@ const OperationsDocumentationEdition = (props) => {
 								onChange({ target: { value, id: 'lang' } });
 							}}
 						/>
-						<ClientSideError id="lang-error" error={clientSideErrors?.fields?.lang}></ClientSideError>
+						<ClientSideError
+							id="lang-error"
+							error={clientSideErrors?.fields?.lang}
+						></ClientSideError>
 					</div>
 				</Row>
 			</form>
 		</div>
 	);
-}
+};
 
 OperationsDocumentationEdition.propTypes = {
 	document: PropTypes.object.isRequired,
