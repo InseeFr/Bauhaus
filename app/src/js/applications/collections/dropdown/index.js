@@ -39,7 +39,7 @@ const ExportButton = ({ actions }) => {
 	}
 	useEffect(() => {
 		if(open){
-			dropdownRef.current.querySelector("ul button")?.focus();
+			dropdownRef.current.querySelector("li *")?.focus();
 		}
 	}, [open]);
 
