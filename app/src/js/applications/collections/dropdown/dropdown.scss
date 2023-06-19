@@ -65,9 +65,18 @@
 }
 
 .dropdown__info ul li {
-  padding: 10px 16px;
+  padding: 0;
   border-bottom: 1px solid #e9edff;
   font-size: 14px;
+  display: flex;
+}
+.dropdown__info ul button {
+  padding: 10px 0 10px 16px;
+  width: 100%;
+}
+
+.dropdown__info ul button:hover, .dropdown__info ul button:focus {
+  background-color: var(--color-1);
 }
 
 .dropdown__info ul li:last-child {

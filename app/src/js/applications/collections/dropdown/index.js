@@ -30,8 +30,22 @@ const useOutsideClick = (el, initialState) => {
 const ExportButton = ({ actions }) => {
 	const dropdownRef = useRef(null);
 	const [open, setOpen] = useOutsideClick(dropdownRef, false);
+
+	const onKeyDown = e => {
+		if(open && e.key === "Escape"){
+			setOpen(false);
+			dropdownRef.current.querySelector("button").focus();
+		}
+	}
+	useEffect(() => {
+		if(open){
+			dropdownRef.current.querySelector("li *")?.focus();
+		}
+	}, [open]);
+
+
 	return (
-		<div className="dropdown col-md-2" ref={dropdownRef}>
+		<div className="dropdown col-md-2" ref={dropdownRef} onKeyDown={onKeyDown}>
 			<Button col={12} action={() => setOpen(!open)} label={D.btnExporter} />
 			<div
 
