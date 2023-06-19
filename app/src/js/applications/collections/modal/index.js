@@ -2,7 +2,6 @@ import D from '../../../i18n/build-dictionary';
 import { Button } from '@inseefr/wilco';
 import Modal from 'react-modal';
 import { useCallback, useState } from 'react';
-//import './index.scss';
 
 export const CollectionExportModal = ({ close, ids, exportOdt, exportOds, app = "operations", withConcepts: defaultWithConcepts }) => {
 	const [lang, setLang] = useState('lg1');
