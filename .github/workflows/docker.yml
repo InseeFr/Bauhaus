@@ -2,7 +2,7 @@ name: Docker
 on:
   push:
     branches: 
-      - '424-***'
+      - 424-add-job-docker-for-kube-deployment
   pull_request:
     branches:    
       - main
