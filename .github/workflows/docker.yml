@@ -9,8 +9,8 @@ on:
       - acceptance
 
 jobs:
-  test-build:
-    name: Test & build
+  build:
+    name: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,42 +22,22 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: yarn
       - run: yarn build-insee
-      - run: yarn test:coverage
       - name: Upload deploy artifact
         uses: actions/upload-artifact@v2
         with:
-          name: coverage
+          name: build
           path: |
-            app/coverage/
-            packages/**/coverage/
-            app/build/
-  sonarcloud:
-    runs-on: ubuntu-latest
-    needs: test-build
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Download coverage artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: coverage
-          path: coverage
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            app/build
   docker:
     runs-on: ubuntu-latest
-    needs: test-build
+    needs: build
     steps:
       - uses: actions/checkout@v2
       - name: Download build
         id: download
         uses: actions/download-artifact@v2
         with:
-          name: coverage
+          name: build
           path: build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -73,5 +53,4 @@ jobs:
         with:
           push: true
           file: Dockerfile
-          tags: inseefr/bauhaus:latest    
-
+          tags: inseefr/bauhaus:latest
