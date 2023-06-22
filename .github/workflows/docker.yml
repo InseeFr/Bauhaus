@@ -25,9 +25,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: yarn
-      # Build modules
       - run: yarn build-insee
-      # Build sonar reports
       - run: yarn test:coverage
       - name: Upload deploy artifact
         uses: actions/upload-artifact@v2
@@ -36,6 +34,7 @@ jobs:
           path: |
             app/coverage/
             packages/**/coverage/
+            app/build/
   sonarcloud:
     runs-on: ubuntu-latest
     needs: test-build
