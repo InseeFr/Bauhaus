@@ -57,7 +57,6 @@ CollectionVisualization.propTypes = {
 	secondLang: PropTypes.bool.isRequired,
 	general: generalPropTypes.isRequired,
 	members: membersPropTypes.isRequired,
-	stampList: PropTypes.array.isRequired,
 	validateCollection: PropTypes.func.isRequired,
 	langs: PropTypes.object.isRequired,
 };

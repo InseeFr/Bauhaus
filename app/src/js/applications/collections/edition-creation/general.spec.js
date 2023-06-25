@@ -8,7 +8,6 @@ describe('collection-edition-creation-general', () => {
 		render(
 			<CollectionGeneral
 				general={empty()}
-				stampList={[]}
 				handleChange={() => console.log('save')}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 			/>
