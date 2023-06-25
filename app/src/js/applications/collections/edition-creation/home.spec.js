@@ -4,6 +4,8 @@ import Collection from './home';
 import { empty } from 'js/utils/collections/general';
 import { MemoryRouter } from 'react-router-dom';
 
+jest.mock('./general', () => () => <></>)
+
 describe('collection-edition-creation', () => {
 	it('renders without crashing', () => {
 		render(
