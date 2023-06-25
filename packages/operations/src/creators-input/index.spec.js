@@ -8,6 +8,7 @@ jest.mock('@tanstack/react-query', () => ({
 	}
 }));
 
+
 describe('CreatorsInput', () => {
 	it('should have a hidden input with the current value with multi=true', () => {
 		const { container } = render(<CreatorsInput value="VALUE" onChange={jest.fn()} multi/>);
