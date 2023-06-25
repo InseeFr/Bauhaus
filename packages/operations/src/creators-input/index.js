@@ -28,7 +28,6 @@ const CreatorsInput = ({ value, onChange, multi }) => {
 				options={stampsOptions}
 				onChange={(value) => {
 					if(multi === false){
-						console.log(value)
 						onChange(value)
 					} else {
 						onChange(value.map((v) => v.value))
