@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D, { D1, D2 } from 'js/i18n';
-import { Select } from '@inseefr/wilco';
 import InputRmes from 'js/applications/shared/input-rmes';
 import {
 	propTypes as generalPropTypes,
 	fields as generalFields,
 } from 'js/utils/collections/general';
-
+import { CreatorsInput } from 'bauhaus-operations'
 const handleFieldChange = handleChange =>
 	generalFields.reduce((handlers, fieldName) => {
 		handlers[fieldName] = value => handleChange({ [fieldName]: value });
@@ -17,7 +16,6 @@ const handleFieldChange = handleChange =>
 function CollectionGeneralEdition({
 	general,
 	creation,
-	stampList,
 	handleChange,
 	langs,
 }) {
@@ -31,10 +29,7 @@ function CollectionGeneralEdition({
 		descriptionLg2,
 	} = general;
 	const { lg1, lg2 } = langs;
-	const stampListOptions = stampList.map(stamp => ({
-		label: stamp,
-		value: stamp,
-	}));
+
 	const handlers = handleFieldChange(handleChange);
 	return (
 		<div>
@@ -75,16 +70,10 @@ function CollectionGeneralEdition({
 			</div>
 
 			<div className="form-group">
-				<label>
-					{D1.creatorTitle} <span className="boldRed">*</span>
-				</label>
-				<Select
-					className="form-control"
-					placeholder={D1.stampsPlaceholder}
-					value={stampListOptions.find(value => value === creator)}
-					options={stampListOptions}
+				<CreatorsInput
+					multi={false}
+					value={creator}
 					onChange={handlers.creator}
-					searchable={true}
 				/>
 			</div>
 			<div className="form-group">
@@ -122,7 +111,6 @@ CollectionGeneralEdition.propTypes = {
 	general: generalPropTypes.isRequired,
 	creation: PropTypes.bool,
 	handleChange: PropTypes.func.isRequired,
-	stampList: PropTypes.array.isRequired,
 	langs: PropTypes.object.isRequired,
 };
 

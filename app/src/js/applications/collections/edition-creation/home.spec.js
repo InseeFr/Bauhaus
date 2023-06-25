@@ -13,7 +13,6 @@ describe('collection-edition-creation', () => {
 				members={[]}
 				collectionList={[]}
 				conceptList={[]}
-				stampList={[]}
 				save={() => console.log('save')}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 			/>,
