@@ -11,7 +11,10 @@ const CreatorsInput = ({ value, onChange, multi }) => {
 		})))
 	})
 
-	const creatorsArray = multi === false ? value : (Array.isArray(value) ? value : [value]);
+	let creatorsArray = value;
+	if(multi !== false && !Array.isArray(value)){
+		creatorsArray = [value];
+	}
 
 	return (
 		<label className="w-100 wilco-label-required">
