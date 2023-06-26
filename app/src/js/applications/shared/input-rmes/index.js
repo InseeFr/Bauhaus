@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { RequiredIcon } from 'bauhaus-utilities';
 
 function InputRmes({
 	colMd,
@@ -18,7 +19,7 @@ function InputRmes({
 		<div className={`form-group col-md-${colMd || 12}`}>
 			<label className={`form-label ${className}`}>
 				{label}
-				{star && <span className="boldRed">*</span>}
+				{star && <RequiredIcon />}
 				{hiddenStar && <span className="boldWhite">*</span>}
 				<input
 					type={password ? 'password' : 'text'}

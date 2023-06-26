@@ -5,7 +5,7 @@ import {
 	EditorMarkdown,
 	ItemToSelectModel,
 	PageTitleBlock, withTitle, SelectRmes, ErrorBloc,
-	GlobalClientSideErrorBloc, ClientSideError
+	GlobalClientSideErrorBloc, ClientSideError, RequiredIcon
 } from 'bauhaus-utilities';
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 import { CL_FREQ } from 'js/actions/constants/codeList';
@@ -171,7 +171,7 @@ class OperationsIndicatorEdition extends Component {
 
 				<form>
 					<h4 className="text-center">
-						( <span className="boldRed">*</span> : {D.requiredFields})
+						( <RequiredIcon /> : {D.requiredFields})
 					</h4>
 					<div className="row">
 						<InputRmes
