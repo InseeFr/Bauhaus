@@ -7,7 +7,7 @@ import {
 	propTypes as generalPropTypes,
 	fields as generalFields,
 } from 'js/utils/collections/general';
-
+import { RequiredIcon } from 'bauhaus-utilities'
 const handleFieldChange = handleChange =>
 	generalFields.reduce((handlers, fieldName) => {
 		handlers[fieldName] = value => handleChange({ [fieldName]: value });
@@ -39,7 +39,7 @@ function CollectionGeneralEdition({
 	return (
 		<div>
 			<h4 className="text-center">
-				( <span className="boldRed">*</span> : {D.requiredFields})
+				( <RequiredIcon /> : {D.requiredFields})
 			</h4>
 			<div className="row">
 				<InputRmes
@@ -76,7 +76,7 @@ function CollectionGeneralEdition({
 
 			<div className="form-group">
 				<label>
-					{D1.creatorTitle} <span className="boldRed">*</span>
+					{D1.creatorTitle} <RequiredIcon />
 				</label>
 				<Select
 					className="form-control"

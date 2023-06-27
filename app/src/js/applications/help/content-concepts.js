@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Tabs from 'js/applications/shared/tabs';
 import D from 'js/i18n';
 import { AddLogo, DelLogo } from '@inseefr/wilco';
+import { RequiredIcon } from 'bauhaus-utilities';
 
 export const content = [
 	{
@@ -251,7 +252,7 @@ export const content = [
 							La sauvegarde n’est pas possible tant que les champs obligatoires
 							ne sont pas remplis
 						</b>{' '}
-						(champs marqués d’une <span className="boldRed">*</span>).
+						(champs marqués d’une <RequiredIcon />).
 					</p>
 					<Tabs
 						tabs={[
@@ -821,7 +822,7 @@ export const content = [
 							La sauvegarde n’est pas possible tant que les champs obligatoires
 							ne sont pas remplis
 						</b>{' '}
-						(champs marqués d’une <span className="boldRed">*</span>).
+						(champs marqués d’une <RequiredIcon />).
 					</p>
 					<p>
 						Pour sélectionner les concepts à inclure dans la collection les
