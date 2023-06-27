@@ -9,7 +9,7 @@ import {
 	fields as generalFields,
 } from 'js/utils/concepts/general';
 import { Select, LabelRequired } from '@inseefr/wilco';
-import { RequiredIcon, ClientSideError } from 'bauhaus-utilities';
+import { ClientSideError, RequiredIcon } from 'bauhaus-utilities';
 
 const handleFieldChange = handleChange =>
 	generalFields.reduce((handlers, fieldName) => {
