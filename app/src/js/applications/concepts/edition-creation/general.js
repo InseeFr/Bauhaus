@@ -9,7 +9,7 @@ import {
 	fields as generalFields,
 } from 'js/utils/concepts/general';
 import { Select, LabelRequired } from '@inseefr/wilco';
-import { ClientSideError } from 'bauhaus-utilities';
+import { ClientSideError, RequiredIcon } from 'bauhaus-utilities';
 
 const handleFieldChange = handleChange =>
 	generalFields.reduce((handlers, fieldName) => {
@@ -51,7 +51,7 @@ function ConceptGeneralEdition({
 	return (
 		<div>
 			<h4 className="text-center">
-				( <span className="boldRed">*</span> : {D.requiredFields})
+				( <RequiredIcon /> : {D.requiredFields})
 			</h4>
 			<div className="row">
 				<InputRmes
