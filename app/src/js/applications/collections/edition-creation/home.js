@@ -72,7 +72,6 @@ class CollectionEditionCreation extends Component {
 
 	render() {
 		const {
-			stampList,
 			title,
 			subtitle,
 			collectionList,
@@ -115,7 +114,6 @@ class CollectionEditionCreation extends Component {
 						general={general}
 						creation={creation}
 						handleChange={this.handleChangeGeneral}
-						stampList={stampList}
 						langs={langs}
 					/>
 					<MembersEdition
@@ -137,7 +135,6 @@ CollectionEditionCreation.propTypes = {
 	members: PropTypes.array.isRequired,
 	collectionList: PropTypes.array.isRequired,
 	conceptList: PropTypes.array.isRequired,
-	stampList: PropTypes.array.isRequired,
 	save: PropTypes.func.isRequired,
 	langs: PropTypes.object.isRequired,
 };

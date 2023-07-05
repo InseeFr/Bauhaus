@@ -9,7 +9,6 @@ import { Loading, cleanId } from '@inseefr/wilco';
 import { ArrayUtils } from 'bauhaus-utilities';
 import api from '../../../remote-api/concepts-api';
 import apiCollections from '../../../remote-api/concepts-collection-api';
-import globalApi from '../../../remote-api/api';
 
 const EditionContainer = () => {
 	const { id } = useParams();
@@ -23,7 +22,6 @@ const EditionContainer = () => {
 	const [collection, setCollection] = useState({ })
 	const [collectionList, setCollectionList] = useState([])
 	const [conceptList, setConceptList] = useState([])
-	const [stampList, setStampList] = useState([])
 
 	useEffect(() => {
 		Promise.all([
@@ -36,11 +34,9 @@ const EditionContainer = () => {
 
 	useEffect(() => {
 		Promise.all([
-			globalApi.getStampList(),
 			api.getConceptList(),
 			apiCollections.getCollectionList()
-		]).then(([ stampsList, conceptsList, collectionsList ]) => {
-			setStampList(stampsList)
+		]).then(([ conceptsList, collectionsList ]) => {
 			setConceptList(ArrayUtils.sortArrayByLabel(conceptsList))
 			setCollectionList(ArrayUtils.sortArrayByLabel(collectionsList))
 		}).finally(() => setLoadingExtraData(false))
@@ -72,7 +68,6 @@ const EditionContainer = () => {
 			members={members}
 			collectionList={collectionList}
 			conceptList={conceptList}
-			stampList={stampList}
 			save={handleUpdate}
 			langs={langs}
 		/>
