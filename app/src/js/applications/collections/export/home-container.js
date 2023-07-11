@@ -67,6 +67,7 @@ const CollectionsToExportContainer = () => {
 			ValidationButton={() => (
 				<ExportButtons
 					ids={ids}
+					disabled={ids.length < 1}
 					exporting={setExporting}
 					exportHandler={exportCollection}
 				/>
