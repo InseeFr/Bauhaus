@@ -48,9 +48,10 @@ export default function SimsVisualisation({
 	organisations,
 	publishSims,
 	exportCallback,
+	missingDocuments,
+	documentStores,
 	owners =  []
 }) {
-
 	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 	const [modalOpened, setModalOpened] = useState(false);
 	const [exportModalOpened, setExportModalOpened] = useState(false);
@@ -141,6 +142,7 @@ export default function SimsVisualisation({
 	const CREATOR = sims.idIndicator
 		? [Auth.INDICATOR_CONTRIBUTOR, checkStamp]
 		: [Auth.SERIES_CONTRIBUTOR, checkStamp];
+	
 	return (
 		<>
 			{modalOpened && (
@@ -252,6 +254,7 @@ export default function SimsVisualisation({
 			</ActionToolbar>
 
 			<Row>
+				{missingDocuments?.size > 0 && <ErrorBloc error={D.missingDocumentWhenExportingSims(Array.from(missingDocuments).map(id => documentStores.find(d => d.id === id)?.labelLg1))} D={D}/>}
                 {serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
 
 				<CheckSecondLang />
