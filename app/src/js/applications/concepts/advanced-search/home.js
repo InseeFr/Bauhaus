@@ -32,7 +32,7 @@ const defaultFormState = {
 	validationStatus: '',
 }
 
-const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusList }) => {
+const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusList, onExport }) => {
 	const [form, setForm, reset] = useUrlQueryParameters(defaultFormState)
 	const history = useHistory();
 
@@ -96,6 +96,8 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 				<Controls
 					onClickReturn={() => history.push("/concepts")}
 					initializeState={reset}
+					onExport={onExport}
+					conceptsList={hits}
 				/>
 				<div className="row form-group">
 					<div className="col-md-12">
