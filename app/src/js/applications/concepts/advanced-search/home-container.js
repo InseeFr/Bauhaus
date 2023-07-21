@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Loading } from '@inseefr/wilco';
+import { getContentDisposition, Loading } from '@inseefr/wilco';
 import ConceptSearchList from './home';
 import { ArrayUtils, Stores } from 'bauhaus-utilities';
 import api from '../../../remote-api/concepts-api';
 import apiGlobal from '../../../remote-api/api';
+import FileSaver from 'file-saver';
 
 const emptyItem = {
 	id: '',
@@ -20,6 +21,7 @@ const emptyItem = {
 
 const ConceptSearchListContainer = () => {
 	const [ loading, setLoading ] = useState(true);
+	const [ exporting, setExporting ] = useState(false);
 	const [ conceptSearchList, setConceptSearchList ] = useState([]);
 	const [ stampList, setStampList ] = useState([]);
 	const [ disseminationStatusList, setDisseminationStatusList ] = useState([]);
@@ -38,8 +40,31 @@ const ConceptSearchListContainer = () => {
 		}).finally(() => setLoading(false))
 	}, []);
 
+	const exportHandler = (ids, type, withConcepts, lang = 'lg1') => {
+		setExporting(true);
+		const promise = api.getConceptExportZipType(ids, type, lang, withConcepts);
+
+		let fileName;
+		return promise
+			.then((res) => {
+				fileName = getContentDisposition(
+					res.headers.get('Content-Disposition')
+				)[1];
+				return res;
+			})
+			.then((res) => res.blob())
+			.then((blob) => {
+				return FileSaver.saveAs(blob, fileName);
+			})
+			.finally(() => setExporting(false));
+	}
+
 	if(loading){
 		return <Loading />
+	}
+
+	if(exporting){
+		return <Loading textType="exporting"/>
 	}
 
 	return (
@@ -47,6 +72,7 @@ const ConceptSearchListContainer = () => {
 			conceptSearchList={conceptSearchList}
 			stampList={stampList}
 			disseminationStatusList={disseminationStatusList}
+			onExport={exportHandler}
 		/>
 	);
 }
