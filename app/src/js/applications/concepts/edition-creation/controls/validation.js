@@ -1,5 +1,5 @@
 import { HTMLUtils } from 'bauhaus-utilities';
-import D from 'js/i18n';
+import D, { D1 } from 'js/i18n';
 
 export const scndWithoutFirst = (first, second) => {
 	return !HTMLUtils.htmlIsEmpty(second) && HTMLUtils.htmlIsEmpty(first);
@@ -23,30 +23,36 @@ export default (
 	conceptsWithLinks,
 	maxLengthScopeNote
 ) => {
+	const errorMessage = [];
+	const fields = {};
+
 	const isPrefLabelLg1Existing = checkPrefLabelLg1Existing(
 		conceptsWithLinks,
 		newGeneral.prefLabelLg1,
 		oldGeneral.prefLabelLg1
 	);
 
+	if(!newGeneral.prefLabelLg1){
+		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
+		fields.prefLabelLg1 = D.mandatoryProperty(D1.labelTitle);
+	}
 	if (isPrefLabelLg1Existing) {
-		return D.duplicatedLabel;
+		errorMessage.push(D.duplicatedLabel);
+		fields.prefLabelLg1 = D.duplicatedLabel;
 	}
 
-	const isMissingConcept = !(
-		newGeneral.prefLabelLg1 &&
-		newGeneral.creator &&
-		newGeneral.disseminationStatus
-	);
-
-	if (isMissingConcept) {
-		return D.incompleteConcept;
+	if(!newGeneral.creator){
+		errorMessage.push(D.mandatoryProperty(D.creatorTitle));
+		fields.creator = D.mandatoryProperty(D.creatorTitle);
+	}
+	if(!newGeneral.disseminationStatus){
+		errorMessage.push(D.mandatoryProperty(D.disseminationStatusTitle));
+		fields.disseminationStatus = D.mandatoryProperty(D.disseminationStatusTitle);
 	}
 
-	const isDefinitionLg1Empty = HTMLUtils.htmlIsEmpty(notes.definitionLg1);
-
-	if (isDefinitionLg1Empty) {
-		return D.emptyDefinitionLg1;
+	if (HTMLUtils.htmlIsEmpty(notes.definitionLg1)) {
+		errorMessage.push(D.emptyDefinitionLg1);
+		fields.definitionLg1 = D.emptyDefinitionLg1
 	}
 
 	const isStatusPublicAndEmptyScopeNote =
@@ -54,7 +60,8 @@ export default (
 		HTMLUtils.htmlIsEmpty(notes.scopeNoteLg1);
 
 	if (isStatusPublicAndEmptyScopeNote) {
-		return D.emptyScopeNoteLg1;
+		errorMessage.push(D.emptyScopeNoteLg1);
+		fields.scopeNoteLg1 = D.emptyScopeNoteLg1
 	}
 
 	const hasScopeNoteLg2NotLg1 = scndWithoutFirst(
@@ -63,14 +70,17 @@ export default (
 	);
 
 	if (hasScopeNoteLg2NotLg1) {
-		return D.hasScopeNoteLg2NotLg1;
+		errorMessage.push(D.hasScopeNoteLg2NotLg1);
+		fields.scopeNoteLg1 = D.hasScopeNoteLg2NotLg1
 	}
-	const isScopeNoteTooLong =
-		HTMLUtils.htmlLength(notes.scopeNoteLg1) > maxLengthScopeNote ||
-		HTMLUtils.htmlLength(notes.scopeNoteLg2) > maxLengthScopeNote;
 
-	if (isScopeNoteTooLong) {
-		return D.tooLongScopeNote(maxLengthScopeNote);
+	if (HTMLUtils.htmlLength(notes.scopeNoteLg1) > maxLengthScopeNote) {
+		errorMessage.push(D.tooLongScopeNote(maxLengthScopeNote));
+		fields.scopeNoteLg1 = D.tooLongScopeNote(maxLengthScopeNote)
+	}
+	if (HTMLUtils.htmlLength(notes.scopeNoteLg2) > maxLengthScopeNote) {
+		errorMessage.push(D.tooLongScopeNote(maxLengthScopeNote));
+		fields.scopeNoteLg2 = D.tooLongScopeNote(maxLengthScopeNote)
 	}
 
 	const hasEditorialNoteLg2NotLg1 = scndWithoutFirst(
@@ -79,7 +89,8 @@ export default (
 	);
 
 	if (hasEditorialNoteLg2NotLg1) {
-		return D.hasEditorialNoteLg2NotLg1;
+		errorMessage.push(D.hasEditorialNoteLg2NotLg1);
+		fields.editorialNoteLg1 = D.hasEditorialNoteLg2NotLg1
 	}
 
 	const hasChangeNoteLg2NotLg1 = scndWithoutFirst(
@@ -88,6 +99,9 @@ export default (
 	);
 
 	if (hasChangeNoteLg2NotLg1) {
-		return D.hasChangeNoteLg2NotLg1;
+		errorMessage.push(D.hasChangeNoteLg2NotLg1);
+		fields.changeNoteLg1 = D.hasChangeNoteLg2NotLg1
 	}
+
+	return { errorMessage, fields }
 };
