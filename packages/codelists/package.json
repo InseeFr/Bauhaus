@@ -25,7 +25,7 @@
 	},
 	"dependencies": {
 		"bauhaus-utilities": "^0.0.0",
-		"react-is": "^16.13.1",
+		"react-is": "^18.2.0",
 		"react-sliding-side-panel": "^1.0.14",
 		"react-sortable-tree": "2.1.0"
 	}
