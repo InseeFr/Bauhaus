@@ -102,6 +102,8 @@ const OperationsDocumentationEdition = (props) => {
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
+		} else if (document.sims?.length > 0) {
+			setValidationModalDisplayed(true);
 		} else {
 			setSaving(true);
 			const isCreation = !document.id;
@@ -135,6 +137,15 @@ const OperationsDocumentationEdition = (props) => {
 
 	return (
 		<div className="container editor-container">
+			<ConfirmationModal
+				document={document}
+				isOpen={validationModalDisplayed}
+				onNo={() => setValidationModalDisplayed(false)}
+				onYes={() => {
+					saveDocumentOrLink();
+					setValidationModalDisplayed(false);
+				}}
+				></ConfirmationModal>
 			{isEditing && (
 				<PageTitleBlock
 					titleLg1={documentProps.labelLg1}
