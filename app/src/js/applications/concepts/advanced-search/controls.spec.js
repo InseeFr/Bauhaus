@@ -8,6 +8,7 @@ describe('concepts-advanced-search-controls', () => {
 			<Controls
 				onClickReturn={() => console.log('return')}
 				initializeState={() => console.log('init state')}
+				conceptsList={[]}
 			/>
 		);
 	});
