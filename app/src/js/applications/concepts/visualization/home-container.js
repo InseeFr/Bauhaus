@@ -7,6 +7,7 @@ import ConceptVisualization from './home';
 import { Auth, HTMLUtils, Stores } from 'bauhaus-utilities';
 import api from '../../../remote-api/concepts-api';
 import { emptyNotes } from '../../../utils/concepts/notes';
+import { LoadingProvider } from './loading';
 
 const formatNotes = notes => {
 	return Object.assign(
@@ -28,10 +29,7 @@ const ConceptVisualizationContainer = () => {
 	const permission = useSelector(state => Auth.getPermission(state));
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
 
-	const [loading, setLoading] = useState(true);
-	const [publishing, setPublishing] = useState(false);
-	const [deleting, setDeleting] = useState(false);
-
+	const [loading, setLoading] = useState('loading');
 	const [concept, setConcept] = useState({});
 	const [error, setError] = useState();
 
@@ -48,57 +46,53 @@ const ConceptVisualizationContainer = () => {
 					links,
 				})
 			})
-		}).finally(() => setLoading(false));
+		}).finally(() => setLoading());
 	}
 	useEffect(() => {
 		fetchConcept(id)
 	}, [id])
 
 	const handleConceptValidation = useCallback((id) => {
-		setPublishing(true);
+		setLoading('validating');
 
 		api.putConceptValidList([id])
 			.then(() => fetchConcept(id))
 			.catch(e => setError(e))
 			.finally(() => {
-				setPublishing(false);
+				setLoading();
 			})
 	}, []);
 
 	const handleConceptDeletion = useCallback(() => {
-		setDeleting(true)
+		setLoading('deleting')
 		api.deleteConcept(id)
 			.then(() => history.push(`/concepts`))
 			.catch(e => setError(e))
-			.finally(() => setDeleting(false))
+			.finally(() => setLoading())
 	}, [history, id]);
 
-	if(deleting){
-		return <Loading text="deleting" />;
-	}
-	if(publishing){
-		return <Loading textType="validating" />;
-	}
-	if(loading){
-		return <Loading />
+	if(!!loading){
+		return <Loading textType={loading}/>
 	}
 
 	const { general, links } = concept;
 	let { notes } = concept;
 
 	return (
-		<ConceptVisualization
-			id={id}
-			permission={permission}
-			general={general}
-			notes={notes}
-			links={links}
-			validateConcept={handleConceptValidation}
-			deleteConcept={handleConceptDeletion}
-			secondLang={secondLang}
-			langs={langs}
-			serverSideError={error}
-		/>
+		<LoadingProvider value={{ loading, setLoading }}>
+			<ConceptVisualization
+				id={id}
+				permission={permission}
+				general={general}
+				notes={notes}
+				links={links}
+				validateConcept={handleConceptValidation}
+				deleteConcept={handleConceptDeletion}
+				secondLang={secondLang}
+				langs={langs}
+				serverSideError={error}
+			/>
+		</LoadingProvider>
 	);
 
 }
