@@ -2277,13 +2277,6 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.5.tgz#75a2a8e7d8ab4b230414505d92335d1dcb53a6df"
   integrity sha512-L28j2FcJfSZOnL1WBjDYp2vUHCeIFlyYI/53EwD/rKUBQ7MtUUfbQWiyKJGpcnv4/WgrhWsFKrcPstcAt/J0tQ==
 
-"@types/react-dom@^16.9.8":
-  version "16.9.19"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.19.tgz#6a139c26b02dec533a7fa131f084561babb10a8f"
-  integrity sha512-xC8D280Bf6p0zguJ8g62jcEOKZiUbx9sIe6O3tT/lKfR87A7A6g65q13z6D5QUMIa/6yFPkNhqjF5z/VVZEYqQ==
-  dependencies:
-    "@types/react" "^16"
-
 "@types/react-dom@^18.0.0":
   version "18.2.7"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.2.7.tgz#67222a08c0a6ae0a0da33c3532348277c70abb63"
@@ -2301,26 +2294,10 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
-"@types/react-transition-group@^4.4.0":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.6.tgz#18187bcda5281f8e10dfc48f0943e2fdf4f75e2e"
-  integrity sha512-VnCdSxfcm08KjsJVQcfBmhEQAPnLB8G08hAxn39azX1qYBQ/5RVQuoHuKIcfKOdncuaUvEpFKFzEvbtIMsfVew==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react@*":
   version "18.2.18"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.18.tgz#c8b233919eef1bdc294f6f34b37f9727ad677516"
   integrity sha512-da4NTSeBv/P34xoZPhtcLkmZuJ+oYaCxHmyHzwaDQo9RQPBeXV+06gEk2FpqEcsX9XrnNLvRpVh6bdavDSjtiQ==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@^16", "@types/react@^16.9.46":
-  version "16.14.43"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.43.tgz#bc6e7a0e99826809591d38ddf1193955de32c446"
-  integrity sha512-7zdjv7jvoLLQg1tTvpQsm+hyNUMT2mPlNV1+d0I8fbGhkJl82spopMyBlu4wb1dviZAxpGdk5eHu/muacknnfw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -12113,7 +12090,7 @@ react-dnd@2.5.4:
     lodash "^4.2.0"
     prop-types "^15.5.10"
 
-react-dom@18.2.0, react-dom@^16.13.1:
+react-dom@18.2.0, react-dom@^17.0.1:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
@@ -12364,18 +12341,14 @@ react-select@^3.0.4:
     react-input-autosize "^3.0.0"
     react-transition-group "^4.3.0"
 
-react-sliding-side-panel@^1.0.14:
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/react-sliding-side-panel/-/react-sliding-side-panel-1.1.8.tgz#c873a6a7b8c4d297897f1648937e3f18b0ef3f7c"
-  integrity sha512-G11bdjK3lyddKV8PINhrwVPTfkq9O15dMgM1bvIqwNCN2MOfiEvrjIdL7aR8SbAO7eFHIsPGNr1J4JToMLiFyw==
+react-sliding-side-panel@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-sliding-side-panel/-/react-sliding-side-panel-2.0.3.tgz#c1442ebe3c7e4e8d003f8907c13df430c3648653"
+  integrity sha512-5uujAqwu9XhTPmlvP58TDjHMusFTg3/AE4ROxU8GG+cEUHNq4s43mAiLOZa1gHu39jCLMlSgzHT7fsKQrTutYg==
   dependencies:
-    "@types/react" "^16.9.46"
-    "@types/react-dom" "^16.9.8"
-    "@types/react-transition-group" "^4.4.0"
-    react "^16.13.1"
-    react-dom "^16.13.1"
+    react "^17.0.1"
+    react-dom "^17.0.1"
     react-transition-group "^4.4.1"
-    typescript "^3.9.7"
 
 react-sortable-tree@2.1.0:
   version "2.1.0"
@@ -12432,7 +12405,7 @@ react-virtualized@^9.18.5:
     prop-types "^15.7.2"
     react-lifecycles-compat "^3.0.4"
 
-react@18.2.0, react@^16.13.1:
+react@18.2.0, react@^17.0.1:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
@@ -14498,11 +14471,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
-
-typescript@^3.9.7:
-  version "3.9.10"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.10.tgz#70f3910ac7a51ed6bef79da7800690b19bf778b8"
-  integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
 
 ua-parser-js@^0.7.30:
   version "0.7.35"

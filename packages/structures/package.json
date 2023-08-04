@@ -27,6 +27,6 @@
 		"bauhaus-utilities": "^0.0.0",
 		"bauhaus-codelists": "^0.0.0",
 		"react-is": "^16.13.1",
-		"react-sliding-side-panel": "^1.0.14"
+		"react-sliding-side-panel": "^2.0.3"
 	}
 }
