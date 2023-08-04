@@ -447,8 +447,8 @@ const dictionary = {
 		en: 'Export as ODT (Second language)',
 	},
 	btnCollectionConceptExporter: {
-		fr: 'Exporter les concepts membres de la collection',
-		en: 'Export the Collection concept members',
+		fr: 'Exporter les fiches des concepts de la sélection',
+		en: 'Export the concepts of the selected collections',
 	},
 	advancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
 	mandatoryProperty: {
