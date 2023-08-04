@@ -7,13 +7,13 @@ jest.mock('js/applications/operations/msd/utils');
 const metadataStructureOpened = {
 	idMas: '1',
 	masLabelLg1: 'masLabelLg1',
-	children: { '1': { idMas: '2', children: [] } },
+	children: { '1': { idMas: '2', children: {} } },
 };
 
 const metadataStructureClosed = {
 	idMas: '2',
 	masLabelLg1: 'masLabelLg1',
-	children: { '1': { idMas: '1', children: [] } },
+	children: { '1': { idMas: '1', children: {} } },
 };
 
 describe('Outline', () => {

@@ -9,7 +9,7 @@ import {
 	fields as generalFields,
 } from 'js/utils/concepts/general';
 import { Select, LabelRequired } from '@inseefr/wilco';
-import { RequiredIcon } from 'bauhaus-utilities';
+import { RequiredIcon, ClientSideError } from 'bauhaus-utilities';
 
 const handleFieldChange = handleChange =>
 	generalFields.reduce((handlers, fieldName) => {
@@ -23,6 +23,7 @@ function ConceptGeneralEdition({
 	disseminationStatusList,
 	handleChange,
 	langs,
+	errorMessage
 }) {
 	const {
 		prefLabelLg1,
@@ -61,7 +62,9 @@ function ConceptGeneralEdition({
 					value={prefLabelLg1}
 					handleChange={handlers.prefLabelLg1}
 					className="w-100"
+					errorBlock={<ClientSideError id="prefLabelLg1-error" error={errorMessage?.fields?.prefLabelLg1}></ClientSideError>}
 				/>
+
 				<InputRmes
 					colMd={6}
 					label={D2.labelTitle}
@@ -89,6 +92,8 @@ function ConceptGeneralEdition({
 					options={stampListOptions}
 					onChange={handlers.creator}
 				/>
+				<ClientSideError id="creator-error" error={errorMessage?.fields?.creator}></ClientSideError>
+
 			</div>
 			<div className="form-group">
 				<label>{D1.contributorTitle}</label>
@@ -112,6 +117,8 @@ function ConceptGeneralEdition({
 					onChange={handlers.disseminationStatus}
 					searchable={true}
 				/>
+				<ClientSideError id="disseminationStatus-error" error={errorMessage?.fields?.disseminationStatus}></ClientSideError>
+
 			</div>
 			<div className="form-group">
 				<label>{D1.additionalMaterialTitle}</label>
