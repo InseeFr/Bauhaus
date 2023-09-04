@@ -13,7 +13,23 @@ const LoginOpenIDConnect = ({ saveUserProps, authenticated, WrappedComponent }) 
 	const [token, setToken] = useState(Auth.getToken())
 	const history = useHistory();
 
+
+
 	const initLogin = useCallback(() => {
+		const refreshToken = () => {
+			kc
+				.updateToken(30)
+				.success(isUpdated => {
+					if (isUpdated) {
+						kc.token && Auth.setToken(kc.token);
+						saveUserProps(
+							Auth.getAuthPropsFromToken(kc.tokenParsed)
+						);
+					}
+				})
+				.error(() => initLogin());
+		}
+
 		const redirectUri = window.location.href.replace(
 			window.location.search,
 			''
@@ -37,25 +53,9 @@ const LoginOpenIDConnect = ({ saveUserProps, authenticated, WrappedComponent }) 
 				history.push({ pathname: history.location.pathname, state: 'init' });
 			})
 			.error(e => console.log('erreur initLogin', e));
-	}, [history, refreshToken, saveUserProps]);
-
-	
-	const refreshToken = useCallback(() => {
-		kc
-			.updateToken(30)
-			.success(isUpdated => {
-				if (isUpdated) {
-					kc.token && Auth.setToken(kc.token);
-					saveUserProps(
-						Auth.getAuthPropsFromToken(kc.tokenParsed)
-					);
-				}
-			})
-			.error(() => initLogin());
-	}, [saveUserProps, initLogin])
+	}, [history, saveUserProps]);
 
 
-	
 	useEffect(() => {
 		initLogin();
 	}, [initLogin])
