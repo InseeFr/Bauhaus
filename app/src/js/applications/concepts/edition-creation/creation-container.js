@@ -26,6 +26,12 @@ const CreationContainer = () => {
 	const [disseminationStatus, setDisseminationStatus] = useState([])
 
 	useEffect(() => {
+		Stores.DisseminationStatus.api.getDisseminationStatus().then((disseminationStatusList) => {
+			setDisseminationStatus(disseminationStatusList)
+		}).finally(() => setLoading(false))
+	}, [])
+
+	useEffect(() => {
 		Promise.all([
 			api.getConceptList(),
 			globalApi.getStampList(),
