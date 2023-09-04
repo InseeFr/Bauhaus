@@ -1,5 +1,12 @@
 name: Quality
-on: [push]
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - acceptance
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   test-build:
     name: Test & build
