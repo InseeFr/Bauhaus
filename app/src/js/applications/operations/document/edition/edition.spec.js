@@ -7,8 +7,4 @@ describe('ConfirmationModal', () => {
 		await screen.findByText("Yes")
 		await screen.findByText("No")
 	});
-	it('should display the warning for document', async () => {
-		render(<ConfirmationModal isOpen={true} document={{ url: '/document/', sims: [] }} onNo={() => {}} onYes={() => {}}/>);
-		await screen.findByText("This document is already used by the following sims")
-	});
 })

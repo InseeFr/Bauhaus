@@ -60,7 +60,7 @@ const saveDocument = (document, type, files) => {
 	return promise;
 };
 
-const ConfirmationModal = ({ document, isOpen, onYes, onNo }) => {
+export const ConfirmationModal = ({ document, isOpen, onYes, onNo }) => {
 	const modalButtons = [
 		{
 			label: D.no,
