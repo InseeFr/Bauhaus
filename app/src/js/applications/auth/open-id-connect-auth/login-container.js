@@ -24,7 +24,7 @@ const LoginOpenIDConnect = ({ saveUserProps, authenticated, WrappedComponent }) 
 				}
 			})
 			.error(() => initLogin());
-	}, [saveUserProps])
+	}, [saveUserProps, initLogin])
 
 
 	const initLogin = useCallback(() => {
