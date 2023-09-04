@@ -1,5 +1,10 @@
 name: Quality
 on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - acceptance
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
