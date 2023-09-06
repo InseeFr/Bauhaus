@@ -71,7 +71,7 @@ const ConceptVisualizationContainer = () => {
 			.finally(() => setLoading())
 	}, [history, id]);
 
-	if(!!loading){
+	if(loading){
 		return <Loading textType={loading}/>
 	}
 
