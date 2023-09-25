@@ -52,6 +52,7 @@
 	},
 	"dependencies": {
 		"@babel/preset-react": "^7.16.7",
+		"@sentry/react": "^7.59.3",
 		"@tanstack/react-query": "^4.12.0",
 		"dompurify": "2.2.9",
 		"nock": "^13.2.9",
