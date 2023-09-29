@@ -17,7 +17,7 @@ import {
 } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import api from 'js/remote-api/api';
-import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
+import Modal from 'react-modal';
 
 
 const initDocument = {
@@ -70,34 +70,60 @@ export const ConfirmationModal = ({ document, isOpen, onYes, onNo }) => {
 		{
 			label: D.yes,
 			action: onYes,
-			style: 'primary',
+			style: 'default',
 		},
 	];
+
+	const buttons = modalButtons.map((b, i) => (
+		<button
+			key={`${b.label}`}
+			type="button"
+			className={`btn btn-${b.style} btn-lg`}
+			onClick={b.action}
+			disabled={b.disabled}
+		>
+			{b.label}
+		</button>
+	));
+
 	return (
-		<ModalRmes
+		<Modal
+			className="Modal__Bootstrap modal-dialog operations"
 			id="updating-document-modal"
 			isOpen={isOpen}
-			title={D.confirmation}
-			modalButtons={modalButtons}
-			closeCancel={onNo}
+			onRequestClose={onNo}
+			ariaHideApp={false}
 		>
-			<>
-				<p>
-					{isDocument(document)
-						? D.warningDocumentWithSimsPrefix
-						: D.warningLinkWithSimsPrefix}
-				</p>
-				<ul>
-					{document.sims?.map((sims) => (
-						<li key={sims.id}>{sims.labelLg1}</li>
-					))}
-				</ul>
-				<p>{D.warningDocumentLinksWithSimsSuffix}</p>
-			</>
-		</ModalRmes>
-	);
+			<div className="modal-content">
+				<div className="modal-header">
+					<button type="button" className="close" onClick={onNo}>
+						<span aria-hidden="true">&times;</span>
+						<span className="sr-only">{D.btnClose}</span>
+					</button>
+					<h4 className="modal-title">{D.confirmation}</h4>
+				</div>
+				<div className="modal-body">
+					<p>
+						{isDocument(document)
+							? D.warningDocumentWithSimsPrefix
+							: D.warningLinkWithSimsPrefix}
+					</p>
+					<ul>
+						{document.sims?.map((sims) => (
+							<li key={sims.id}>{sims.labelLg1}</li>
+						))}
+					</ul>
+					<p>{D.warningDocumentLinksWithSimsSuffix}</p>
+				</div>
+				<div className="modal-footer">
+					{buttons}
+				</div>
+			</div>
+		</Modal>
+	)
 };
 
+//	<!--div className="text-center">{modalButtons}</div-->
 
 const OperationsDocumentationEdition = (props) => {
 	const { document: documentProps, type, langOptions } = props;
