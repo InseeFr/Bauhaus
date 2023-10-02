@@ -42,6 +42,12 @@ const EditionContainer = () => {
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
 	const [saving, setSaving] = useState(false);
 
+	useEffect(() => {
+		Stores.DisseminationStatus.api.getDisseminationStatus().then((disseminationStatusList) => {
+			setDisseminationStatus(disseminationStatusList)
+		}).finally(() => setLoading(false))
+	}, [])
+
 
 	useEffect(() => {
 		api.getConceptGeneral(id).then(general => {
@@ -64,11 +70,9 @@ const EditionContainer = () => {
 		Promise.all([
 			api.getConceptList(),
 			globalApi.getStampList(),
-			Stores.DisseminationStatus.api.getDisseminationStatus()
-		]).then(([conceptsList, stampsList, disseminationStatusList]) => {
+		]).then(([conceptsList, stampsList]) => {
 			setConcepts(ArrayUtils.sortArrayByLabel(conceptsList))
 			setStamps(stampsList);
-			setDisseminationStatus(disseminationStatusList)
 		}).finally(() => setLoadingExtraData(false))
 	}, [])
 
