@@ -1,7 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import CreatorsInput from './index';
-import selectEvent from 'react-select-event'
 
 jest.mock('@tanstack/react-query', () => ({
 	useQuery: ([_key]) => {
