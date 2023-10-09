@@ -100,7 +100,8 @@ export const ComponentDetailView = ({
 	col = 3,
 	publishComponent,
 	serverSideError,
-	attributes
+	attributes,
+	langs: { lg1, lg2 },
 }) => {
 	useTitle(D.componentTitle, component?.labelLg1)
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
@@ -181,7 +182,24 @@ export const ComponentDetailView = ({
 			<div className="row">
 				<Note text={typeValue} title={D1.type} alone={true} allowEmpty={true} />
 			</div>
-
+			<div className="row">
+				<Note
+					text={component.altLabelLg1}
+					title={D1.altLabel}
+					lang={lg1}
+					alone={!secondLang}
+					allowEmpty={true}
+				/>
+				{secondLang && (
+					<Note
+						text={component.altLabelLg2}
+						title={D2.altLabel}
+						lang={lg2}
+						alone={false}
+						allowEmpty={true}
+					/>
+				)}
+			</div>
 			<div className="row">
 				<Note
 					text={conceptValue}

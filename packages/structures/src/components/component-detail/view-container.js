@@ -17,6 +17,10 @@ const ViewContainer = (props) => {
 	const [codesLists, setCodesLists] = useState([]);
 	const [serverSideError, setServerSideError] = useState();
 	const [attributes, setAttributes] = useState([]);
+	const langs = useSelector(state => {
+		const { lg1, lg2 } = state.app;
+		return { lg1, lg2 }
+	})
 
 	const handleBack = useCallback(() => {
 		goBack(props, '/structures/components')();
@@ -76,6 +80,7 @@ const ViewContainer = (props) => {
 				serverSideError={serverSideError}
 				secondLang={secondLang}
 				attributes={attributes}
+				langs={langs}
 			/>
 		</React.Fragment>
 	);
