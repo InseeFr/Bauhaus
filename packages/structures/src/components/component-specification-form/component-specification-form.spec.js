@@ -1,5 +1,5 @@
 import React from 'react';
-import { findByLabelText, getByLabelText, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { ComponentSpecificationForm } from './index';
 
 describe('ComponentSpecificationForm', () => {
@@ -9,5 +9,17 @@ describe('ComponentSpecificationForm', () => {
 		await screen.findByLabelText("Notation")
 		await screen.findByLabelText("Libellé")
 		await screen.findByLabelText("Label")
+	});
+
+	[['Notation', 'notation'], ['Libellé', 'labelLg1'], ['Label', 'labelLg2']].forEach(([label, propertyName]) => {
+		it(`should call onChange if the ${propertyName} changed`, async () => {
+			const component = {}
+			const onChange = jest.fn();
+			render(<ComponentSpecificationForm component={component} structureComponents={[]} selectedComponent={{ component }} onChange={onChange}/>);
+			const input = await screen.findByLabelText(label);
+			fireEvent.change(input, { target: { value: 'value' }});
+			expect(onChange).toHaveBeenCalledWith({[propertyName]: "value"})
+		})
 	})
+
 })

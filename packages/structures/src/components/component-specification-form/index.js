@@ -63,7 +63,7 @@ export const ComponentSpecificationForm = ({
 				/>
 				</div>
 				<div className='col-md-6'>
-					<label htmlFor="component-specification-labelLg1">{D2.label}</label>
+					<label htmlFor="component-specification-labelLg2">{D2.label}</label>
 					<input
 						type="text"
 						className="form-control"
