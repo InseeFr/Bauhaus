@@ -33,7 +33,9 @@ const Picker = ({
 			panelTitle,
 			labelWarning,
 			context,
-			ValidationButton
+			ValidationButton,
+			disabled,
+			disabledWarningMessage
 }) => {
 	const [search, setSearch] = useState('');
 	const [items, setItems] = useState(trackItems(itemsProps ?? []));
@@ -125,7 +127,7 @@ const Picker = ({
 				<PageTitle title={title} />
 				{controls}
         {clientSideErrors && <ErrorBloc error={clientSideErrors} />}
-
+				{disabled && <ErrorBloc error={disabledWarningMessage} />}
 				<div className="row">
 					<div className="col-md-6">
 						<Panel title={panelTitle}>{addedEls}</Panel>
