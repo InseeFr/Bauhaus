@@ -162,6 +162,8 @@ Picker.propTypes = {
 	), //not required since this component can be created before the items are
 	ValidationButton: PropTypes.func,
 	handleAction: PropTypes.func.isRequired,
+	disabled: PropTypes.bool,
+	disabledWarningMessage: PropTypes.string,
 	context: PropTypes.oneOf([
 		'',
 		'concepts',
