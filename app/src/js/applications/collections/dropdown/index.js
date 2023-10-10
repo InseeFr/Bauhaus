@@ -45,7 +45,7 @@ const ExportButton = ({ actions, disabled = false }) => {
 
 
 	return (
-		<div className="dropdown col-md-2" ref={dropdownRef} onKeyDown={onKeyDown}>
+		<div ref={dropdownRef} onKeyDown={onKeyDown}>
 			<Button disabled={disabled} col={12} action={() => setOpen(!open)} label={D.btnExporter} />
 			<div
 
