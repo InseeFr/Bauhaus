@@ -8,7 +8,6 @@ import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
 import { cleanId, Loading } from '@inseefr/wilco';
 import { ArrayUtils } from 'bauhaus-utilities';
-import globalApi from '../../../remote-api/api';
 import api from '../../../remote-api/concepts-api';
 import apiCollections from '../../../remote-api/concepts-collection-api';
 
@@ -22,15 +21,12 @@ const CreationContainer = () => {
 
 	const [collectionList, setCollectionList] = useState([])
 	const [conceptList, setConceptList] = useState([])
-	const [stampList, setStampList] = useState([])
 
 	useEffect(() => {
 		Promise.all([
-			globalApi.getStampList(),
 			api.getConceptList(),
 			apiCollections.getCollectionList()
-		]).then(([ stampsList, conceptsList, collectionsList ]) => {
-			setStampList(stampsList)
+		]).then(([ conceptsList, collectionsList ]) => {
 			setConceptList(ArrayUtils.sortArrayByLabel(conceptsList))
 			setCollectionList(ArrayUtils.sortArrayByLabel(collectionsList))
 		}).finally(() => setLoading(false))
@@ -61,7 +57,6 @@ const CreationContainer = () => {
 			members={members}
 			collectionList={collectionList}
 			conceptList={conceptList}
-			stampList={stampList}
 			save={handleCreation}
 			langs={langs}
 		/>

@@ -6,14 +6,12 @@ import CollectionVisualization from './home';
 import { Auth, Stores } from 'bauhaus-utilities';
 import { useParams } from 'react-router-dom';
 import api from '../../../remote-api/concepts-api';
-import globalApi from '../../../remote-api/api';
 
 const CollectionVisualizationContainer = () => {
 	const { id } = useParams();
 	const [collection, setCollection] = useState({});
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
-	const [stamps, setStamps] = useState();
 
 
 	const permission = useSelector(state => Auth.getPermission(state));
@@ -24,10 +22,8 @@ const CollectionVisualizationContainer = () => {
 		Promise.all([
 			api.getCollectionGeneral(id),
 			api.getCollectionMembersList(id),
-			globalApi.getStampList()
-		]).then(([generalValue, membersValue, stampsValue]) => {
+		]).then(([generalValue, membersValue]) => {
 			setCollection({ general: generalValue, members: membersValue});
-			setStamps(stampsValue);
 		}).finally(() => setLoading(false))
 	}, [id]);
 
@@ -56,7 +52,6 @@ const CollectionVisualizationContainer = () => {
 			permission={permission}
 			general={general}
 			members={members}
-			stampList={stamps}
 			validateCollection={handleCollectionValidation}
 			secondLang={secondLang}
 			langs={langs}

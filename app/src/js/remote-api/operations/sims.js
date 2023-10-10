@@ -17,31 +17,35 @@ export default {
 	getDefaultSims: () => ['metadataReport/default'],
 	getOwners: (id) => [`metadataReport/Owner/${id}`],
 	exportSims: (id, config, sims) => [
-		`metadataReport/export/${id}?emptyMas=${config.emptyMas}&lg1=${config.lg1}&lg2=${config.lg2}&document=${hasDocument(sims, config.document
-		)}`,
+		`metadataReport/export/${id}?emptyMas=${config.emptyMas}&lg1=${config.lg1}&lg2=${config.lg2}&document=${hasDocument(sims, config.document)}`,
 		{
 			method: 'GET',
+			mode: 'cors',
 			headers: {
 				Accept: 'application/vnd.oasis.opendocument.text',
 				'Content-Type': 'text/plain',
 			},
 		},
-		(res) => {
-			return res.blob().then((blob) => {
-				const a = document.createElement("a");
-				document.body.appendChild(a);
-				const url = window.URL.createObjectURL(blob);
-				a.href = url;
+		async (res) => {
+			const blob = await res.blob();
+			const a = document.createElement("a");
+			document.body.appendChild(a);
+			const url = window.URL.createObjectURL(blob);
+			a.href = url;
 
-				const fileName = sims.labelLg1?.replace(/[/<>*:?|]/gi, '');
-				if(hasDocument(sims, config.document)){
-					a.download = fileName + '.zip';
-				} else {
-					a.download = fileName + '.odt';
-				}
-				a.click();
-				window.URL.revokeObjectURL(url);
-			});
+			const fileName = sims.labelLg1?.replace(/[/<>*:?|]/gi, '');
+			if(hasDocument(sims, config.document)){
+				a.download = fileName + '.zip';
+			} else {
+				a.download = fileName + '.odt';
+			}
+			a.click();
+			window.URL.revokeObjectURL(url);
+
+			if(res.headers.get('X-Missing-Documents')){
+				return new Set(res.headers.get('X-Missing-Documents').split(','))
+			}
+			return new Set();
 		},
 	],
 	deleteSims: (sims) => [

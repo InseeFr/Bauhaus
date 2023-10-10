@@ -5,9 +5,17 @@ const dictionary = {
 			en: "This label already exists"
 		}
 	},
-	creatorTitle: {
+	creatorsTitle: {
 		fr: 'Propriétaires',
 		en: 'Owners',
+	},
+	creatorTitle: {
+		fr: 'Propriétaire',
+		en: 'Owner',
+	},
+	stampsPlaceholder: {
+		fr: 'Sélectionnez un timbre...',
+		en: 'Select stamp...',
 	},
 	organisation: {
 		fr: 'Organisme responsable',
