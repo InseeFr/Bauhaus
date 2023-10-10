@@ -67,14 +67,12 @@ const CollectionsToExportContainer = () => {
 			disabled={ids.length < 1}
 			disabledWarningMessage={D.classificationWarningMessageWhenExporting}
 			ValidationButton={() => (
-				<>
-					<ExportButtons
-						ids={ids}
-						disabled={ids.length < 1}
-						exporting={setExporting}
-						exportHandler={exportCollection}
-					/>
-				</>
+				<ExportButtons
+					ids={ids}
+					disabled={ids.length < 1}
+					exporting={setExporting}
+					exportHandler={exportCollection}
+				/>
 			)}
 		/>
 	);

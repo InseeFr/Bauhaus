@@ -63,7 +63,8 @@ class MSDContainer extends Component {
 		this.state = {
 			exportPending: false,
 			owners: [],
-			defaultSims: {}
+			defaultSims: {},
+			missingDocuments: new Set()
 		};
 	}
 
@@ -94,11 +95,12 @@ class MSDContainer extends Component {
 		}
 	}
 	exportCallback = (id, config, sims) => {
-		this.setState(() => ({ exportPending: true }));
-		api.exportSims(id, config, sims).then(() => {
-			this.setState(() => ({ exportPending: false }));
+		this.setState(() => ({ exportPending: true, missingDocuments: new Set() }));
+		api.exportSims(id, config, sims).then((missingDocuments) => {
+			this.setState(() => ({ exportPending: false, missingDocuments }));
 		});
 	};
+
 	componentWillReceiveProps(nextProps) {
 		if (!nextProps.currentSims.id || this.props.id !== nextProps.id) {
 			this.props.loadSIMS(nextProps.id);
@@ -201,6 +203,8 @@ class MSDContainer extends Component {
 							goBack={this.goBackCallback}
 							publishSims={this.props.publishSims}
 							exportCallback={this.exportCallback}
+							missingDocuments={this.state.missingDocuments}
+							documentStores={documentStores}
 							owners={this.state.owners}
 						/>
 					</SimsContextProvider>

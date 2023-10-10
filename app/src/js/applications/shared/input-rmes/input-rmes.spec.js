@@ -26,12 +26,12 @@ describe('inputMulti', () => {
 		const { container } = render(
 			<InputRmes handleChange={handleChange} star />
 		);
-		expect(container.querySelector('.boldRed').innerHTML).toBe('*');
+		expect(container.querySelector('.required-icon').innerHTML).toBe('*');
 	});
 
 	it('returns non-starry component', () => {
 		const { container } = render(<InputRmes handleChange={handleChange} />);
-		expect(container.querySelectorAll('.boldRed')).toHaveLength(0);
+		expect(container.querySelectorAll('.required-icon')).toHaveLength(0);
 	});
 
 	it('should trigger the change event', () => {
