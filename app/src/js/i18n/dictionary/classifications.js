@@ -179,10 +179,6 @@ const dictionary = {
 		fr: 'L\'Url de diffusion de la nomenclature doit être une URL',
 		en: 'The Classification diffusion Url must be an URL',
 	},
-	classificationWarningMessageWhenExporting: {
-		fr: 'Vous devez sélectionner au minimum un élément',
-		en: 'You must select at least one item',
-	},
 };
 
 export default dictionary;

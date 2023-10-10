@@ -65,7 +65,7 @@ const CollectionsToExportContainer = () => {
 			handleAction={(value) => setIds(value)}
 			context="collections"
 			disabled={ids.length < 1}
-			disabledWarningMessage={D.classificationWarningMessageWhenExporting}
+			disabledWarningMessage={D.hasNotCollectionToExport}
 			ValidationButton={() => (
 				<ExportButtons
 					ids={ids}
