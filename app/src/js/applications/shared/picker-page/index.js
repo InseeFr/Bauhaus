@@ -128,7 +128,6 @@ const Picker = ({
 				{controls}
 				{clientSideErrors && <ErrorBloc error={clientSideErrors} />}
 				{disabled && <ErrorBloc error={disabledWarningMessage} />}
-
 				<div className="row">
 					<div className="col-md-6">
 						<Panel title={panelTitle}>{addedEls}</Panel>
