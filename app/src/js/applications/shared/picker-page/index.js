@@ -126,7 +126,7 @@ const Picker = ({
 			<div className="container">
 				<PageTitle title={title} />
 				{controls}
-        {clientSideErrors && <ErrorBloc error={clientSideErrors} />}
+				{clientSideErrors && <ErrorBloc error={clientSideErrors} />}
 				{disabled && <ErrorBloc error={disabledWarningMessage} />}
 				<div className="row">
 					<div className="col-md-6">
@@ -161,6 +161,8 @@ Picker.propTypes = {
 	), //not required since this component can be created before the items are
 	ValidationButton: PropTypes.func,
 	handleAction: PropTypes.func.isRequired,
+	disabled: PropTypes.bool,
+	disabledWarningMessage: PropTypes.string,
 	context: PropTypes.oneOf([
 		'',
 		'concepts',
