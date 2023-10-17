@@ -28,18 +28,16 @@ const CreationContainer = () => {
 	useEffect(() => {
 		Stores.DisseminationStatus.api.getDisseminationStatus().then((disseminationStatusList) => {
 			setDisseminationStatus(disseminationStatusList)
-		}).finally(() => setLoading(false))
+		})
 	}, [])
 
 	useEffect(() => {
 		Promise.all([
 			api.getConceptList(),
 			globalApi.getStampList(),
-			Stores.DisseminationStatus.api.getDisseminationStatus()
-		]).then(([conceptsList, stampsList, disseminationStatusList]) => {
+		]).then(([conceptsList, stampsList]) => {
 			setConcepts(ArrayUtils.sortArrayByLabel(conceptsList))
 			setStamps(stampsList);
-			setDisseminationStatus(disseminationStatusList)
 		}).finally(() => setLoading(false))
 	}, [])
 
