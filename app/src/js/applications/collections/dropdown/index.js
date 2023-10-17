@@ -27,7 +27,7 @@ const useOutsideClick = (el, initialState) => {
 	return [isActive, setIsActive];
 };
 
-const ExportButton = ({ actions }) => {
+const ExportButton = ({ actions, disabled = false }) => {
 	const dropdownRef = useRef(null);
 	const [open, setOpen] = useOutsideClick(dropdownRef, false);
 
@@ -46,7 +46,7 @@ const ExportButton = ({ actions }) => {
 
 	return (
 		<div className="dropdown col-md-2" ref={dropdownRef} onKeyDown={onKeyDown}>
-			<Button col={12} action={() => setOpen(!open)} label={D.btnExporter} />
+			<Button disabled={disabled} col={12} action={() => setOpen(!open)} label={D.btnExporter} />
 			<div
 
 				className={`dropdown__content ${open ? "active" : "inactive"}`}
