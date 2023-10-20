@@ -45,7 +45,7 @@ const getHomePage = () => {
 	);
 };
 export default auth(() => {
-	const modules = useSelector(state => state.app.properties.modules);
+	const modules = useSelector(state => ["datasets", ...state.app.properties.modules]);
 	return (
 		<React.Fragment>
 			<Suspense fallback={<Loading />}>
@@ -66,6 +66,10 @@ export default auth(() => {
 					<Route
 						path="/structures"
 						component={getComponent('structures', modules)}
+					/>
+					<Route
+						path="/datasets"
+						component={getComponent('datasets', modules)}
 					/>
 					<Route
 						path="/(codelists|codelists-partial)"

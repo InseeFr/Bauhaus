@@ -91,7 +91,7 @@ const EditionContainer = () => {
 	}
 
 	const { general, notes, links } = concept;
-	const conceptsWithLinks = mergeWithAllConcepts(concepts, links);
+	const conceptsWithLinks = mergeWithAllConcepts(concepts, links ?? []);
 	return (
 		<ConceptEditionCreation
 			id={id}
