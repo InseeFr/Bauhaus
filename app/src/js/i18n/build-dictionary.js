@@ -5,6 +5,7 @@ import operationsD from './dictionary/operations/index.js';
 import DSDsD from './dictionary/dsds';
 import codelistsD from './dictionary/codelists';
 import errors from './dictionary/errors';
+import datasets from './dictionary/datasets';
 
 import {
 	createDictionary,
@@ -21,6 +22,7 @@ const dictionary = {
 	...DSDsD,
 	...codelistsD,
 	...errors,
+	...datasets
 };
 
 export const D1 = createDictionary(firstLang, dictionary);
