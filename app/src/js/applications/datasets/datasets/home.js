@@ -2,7 +2,7 @@ import api from '../../../remote-api/datasets-api';
 import { useQuery } from '@tanstack/react-query';
 import { NewButton, PageTitle, VerticalMenu } from '@inseefr/wilco';
 import D from '../../../i18n/build-dictionary';
-import { Auth, SearchableList } from 'bauhaus-utilities';
+import { Auth, SearchableList, Row } from 'bauhaus-utilities';
 import React from 'react';
 
 export const DatasetHome = () => {
@@ -13,7 +13,7 @@ export const DatasetHome = () => {
 
 	return (
 		<div className='container'>
-			<div className='row'>
+			<Row>
 				<VerticalMenu>
 					<Auth.AuthGuard roles={[Auth.ADMIN]}>
 						<NewButton
@@ -35,7 +35,7 @@ export const DatasetHome = () => {
 						itemFormatter={(_, dataset) => dataset.label}
 					/>
 				</div>
-			</div>
+			</Row>
 		</div>
 			)
 }

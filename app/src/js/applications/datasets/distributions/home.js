@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../remote-api/distributions-api';
 import { NewButton, PageTitle, VerticalMenu } from '@inseefr/wilco';
-import { Auth, SearchableList } from 'bauhaus-utilities';
+import { Auth, SearchableList, Row } from 'bauhaus-utilities';
 import D from '../../../i18n/build-dictionary';
 import React from 'react';
 
@@ -13,7 +13,7 @@ export const DistributionHome = () => {
 
 	return (
 		<div className='container'>
-			<div className='row'>
+			<Row>
 				<VerticalMenu>
 					<Auth.AuthGuard roles={[Auth.ADMIN]}>
 						<NewButton
@@ -35,7 +35,7 @@ export const DistributionHome = () => {
 						itemFormatter={(_, dataset) => dataset.labelLg1}
 					/>
 				</div>
-			</div>
+			</Row>
 		</div>
 	)
 }
