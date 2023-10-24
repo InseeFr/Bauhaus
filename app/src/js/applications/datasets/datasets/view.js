@@ -6,6 +6,7 @@ import {
 	CheckSecondLang, DateUtils, HTMLUtils,
 	PageTitleBlock,
 	Stores,
+	Row
 } from 'bauhaus-utilities';
 import React from 'react';
 import { ActionToolbar, Button, DSURLToLabel, goBack, Loading, Note, ReturnButton } from '@inseefr/wilco';
@@ -68,7 +69,7 @@ export const DatasetView = (props) => {
 
 			<CheckSecondLang />
 
-			<div className="row">
+			<Row>
 			<Note
 				text={
 					<ul>
@@ -85,8 +86,8 @@ export const DatasetView = (props) => {
 				title={D1.globalInformationsTitle}
 				alone={true}
 			/>
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note
 					text={HTMLUtils.renderMarkdownElement(dataset.descriptionLg1)}
 					title={D1.descriptionTitle}
@@ -103,7 +104,7 @@ export const DatasetView = (props) => {
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 		</div>
 	);
 }

@@ -53,9 +53,6 @@ export function validate({ creator, contributor, disseminationStatus, labelLg1, 
 }
 
 
-/**
- * 	<li>{D.theme} : { dataset.theme} </li>
- */
 export const DatasetEdit = (props) => {
 	const { id } = useParams();
 	const isEditing = !!id;

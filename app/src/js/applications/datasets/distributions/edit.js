@@ -98,7 +98,6 @@ export const DistributionEdit = (props) => {
 
 	const onSubmit = () => {
 		const clientSideErrors = validate(editingDistribution);
-		console.log(clientSideErrors)
 		if(clientSideErrors.errorMessage?.length > 0){
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
