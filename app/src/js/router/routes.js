@@ -45,7 +45,7 @@ const getHomePage = () => {
 	);
 };
 export default auth(() => {
-	const modules = useSelector(state => state.app.properties.modules);
+	const modules = useSelector(state => ["datasets", ...state.app.properties.modules]);
 	return (
 		<React.Fragment>
 			<Suspense fallback={<Loading />}>

@@ -45,7 +45,7 @@ const EditionContainer = () => {
 	useEffect(() => {
 		Stores.DisseminationStatus.api.getDisseminationStatus().then((disseminationStatusList) => {
 			setDisseminationStatus(disseminationStatusList)
-		}).finally(() => setLoading(false))
+		})
 	}, [])
 
 

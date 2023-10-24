@@ -58,11 +58,14 @@ const ConceptsToExportContainer = () => {
 			labelWarning={D.hasNotConceptToExport}
 			handleAction={(value) => setIds(value)}
 			context="concepts"
+			disabled={ids.length < 1}
+			disabledWarningMessage={D.hasNotConceptToExport}
 			ValidationButton={() => (
 				<ExportButtons
 					ids={ids}
 					exporting={setExporting}
 					exportHandler={exportConcept}
+					disabled={ids.length < 1}
 				/>
 			)}
 		/>
