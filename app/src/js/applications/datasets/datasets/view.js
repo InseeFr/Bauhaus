@@ -52,7 +52,7 @@ export const DatasetView = (props) => {
 		<div className='container'>
 			<PageTitleBlock
 				titleLg1={dataset.labelLg1}
-				titleLg2={dataset.labelLg1}
+				titleLg2={dataset.labelLg2}
 				secondLang={secondLang}
 			/>
 
@@ -77,7 +77,7 @@ export const DatasetView = (props) => {
 						<li>{D.contributorTitle} : { dataset.contributor} </li>
 						<li>{D.disseminationStatusTitle} : { DSURLToLabel(dataset.disseminationStatus)} </li>
 						<li>{D.theme} : { themesOptions?.find(theme => theme.value === dataset.theme)?.label} </li>
-						<li>{D.generatedBy} : <Link to={`/operations/series/${dataset.idSeries}`}>{ dataset?.serie?.prefLabelLg1 }</Link></li>
+						<li>{D.generatedBy2} : <Link to={`/operations/series/${dataset.idSeries}`}>{ dataset?.serie?.prefLabelLg1 }</Link></li>
 						<li>{D.createdDateTitle} : { DateUtils.stringToDate(dataset.created) } </li>
 						<li>{D.modifiedDateTitle} : { DateUtils.stringToDate(dataset.updated) } </li>
 
