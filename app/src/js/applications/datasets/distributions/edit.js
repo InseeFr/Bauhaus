@@ -135,6 +135,10 @@ export const DistributionEdit = (props) => {
 							options={datasetsOptions}
 							onChange={(choice) => {
 								setEditingDistribution({ ...editingDistribution, idDataset: choice.value})
+								setClientSideErrors(clientSideErrors => ({
+									...clientSideErrors,
+									errorMessage: []
+								}));
 							}}
 						/>
 						<ClientSideError error={clientSideErrors?.fields?.idDataset}></ClientSideError>
@@ -148,7 +152,13 @@ export const DistributionEdit = (props) => {
 							className="form-control"
 							id="labelLg1"
 							value={editingDistribution.labelLg1}
-							onChange={(e) => setEditingDistribution({ ...editingDistribution, labelLg1: e.target.value})}
+							onChange={(e) => {
+								setEditingDistribution({ ...editingDistribution, labelLg1: e.target.value})
+								setClientSideErrors(clientSideErrors => ({
+									...clientSideErrors,
+									errorMessage: []
+								}));
+							}}
 						/>
 						<ClientSideError error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
 					</div>
@@ -159,7 +169,13 @@ export const DistributionEdit = (props) => {
 							className="form-control"
 							id="labelLg2"
 							value={editingDistribution.labelLg2}
-							onChange={(e) => setEditingDistribution({ ...editingDistribution, labelLg2: e.target.value})}
+							onChange={(e) => {
+								setEditingDistribution({ ...editingDistribution, labelLg2: e.target.value})
+								setClientSideErrors(clientSideErrors => ({
+									...clientSideErrors,
+									errorMessage: []
+								}));
+							}}
 						/>
 						<ClientSideError error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
 					</div>
