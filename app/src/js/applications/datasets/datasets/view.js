@@ -52,7 +52,7 @@ export const DatasetView = (props) => {
 		<div className='container'>
 			<PageTitleBlock
 				titleLg1={dataset.labelLg1}
-				titleLg2={dataset.labelLg1}
+				titleLg2={dataset.labelLg2}
 				secondLang={secondLang}
 			/>
 

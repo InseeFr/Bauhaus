@@ -22,7 +22,7 @@ import {
 	StampsApi, Stores,
 } from 'bauhaus-utilities';
 
-export function validate({ creator, contributor, disseminationStatus, labelLg1, labelLg2 }) {
+export function validate({ creator, contributor, disseminationStatus, labelLg1, labelLg2, idSerie }) {
 
 	const errorMessages = [];
 	if(!labelLg1){
@@ -32,13 +32,16 @@ export function validate({ creator, contributor, disseminationStatus, labelLg1, 
 		errorMessages.push(D.mandatoryProperty(D2.title))
 	}
 	if(!creator){
-		errorMessages.push(D.mandatoryProperty(D2.creatorTitle))
+		errorMessages.push(D.mandatoryProperty(D1.creatorTitle))
 	}
 	if(!contributor){
-		errorMessages.push(D.mandatoryProperty(D2.contributorTitle))
+		errorMessages.push(D.mandatoryProperty(D1.contributorTitle))
 	}
 	if(!disseminationStatus){
-		errorMessages.push(D.mandatoryProperty(D2.disseminationStatusTitle))
+		errorMessages.push(D.mandatoryProperty(D1.disseminationStatusTitle))
+	}
+	if(!idSerie){
+		errorMessages.push(D.mandatoryProperty(D1.generatedBy))
 	}
 	return {
 		fields: {
@@ -47,6 +50,7 @@ export function validate({ creator, contributor, disseminationStatus, labelLg1, 
 			creator: !labelLg2 ? D.mandatoryProperty(D1.creatorTitle) : '',
 			contributor: !contributor ? D.mandatoryProperty(D1.contributorTitle) : '',
 			disseminationStatus: !disseminationStatus ? D.mandatoryProperty(D1.disseminationStatusTitle) : '',
+			idSerie: !idSerie ? D.mandatoryProperty(D1.generatedBy) : '',
 		},
 		errorMessage: errorMessages
 	};
@@ -163,7 +167,13 @@ export const DatasetEdit = (props) => {
 							className="form-control"
 							id="labelLg1"
 							value={editingDataset.labelLg1}
-							onChange={(e) => setEditingDataset({ ...editingDataset, labelLg1: e.target.value})}
+							onChange={(e) => {
+								setEditingDataset({ ...editingDataset, labelLg1: e.target.value});
+								setClientSideErrors(clientSideErrors => ({
+									...clientSideErrors,
+									errorMessage: []
+								}));
+							}}
 						/>
 						<ClientSideError error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
 					</div>
@@ -174,7 +184,13 @@ export const DatasetEdit = (props) => {
 							className="form-control"
 							id="labelLg2"
 							value={editingDataset.labelLg2}
-							onChange={(e) => setEditingDataset({ ...editingDataset, labelLg2: e.target.value})}
+							onChange={(e) => {
+								setEditingDataset({ ...editingDataset, labelLg2: e.target.value})
+								setClientSideErrors(clientSideErrors => ({
+									...clientSideErrors,
+									errorMessage: []
+								}));
+							}}
 						/>
 						<ClientSideError error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
 					</div>
@@ -184,14 +200,26 @@ export const DatasetEdit = (props) => {
 						<label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
 						<EditorMarkdown
 							text={editingDataset.descriptionLg1}
-							handleChange={value => setEditingDataset({ ...editingDataset, descriptionLg1: value})}
+							handleChange={value => {
+								setEditingDataset({ ...editingDataset, descriptionLg1: value})
+								setClientSideErrors(clientSideErrors => ({
+									...clientSideErrors,
+									errorMessage: []
+								}));
+							}}
 						/>
 					</div>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
 						<EditorMarkdown
 							text={editingDataset.descriptionLg2}
-							handleChange={value => setEditingDataset({ ...editingDataset, descriptionLg2: value})}
+							handleChange={value => {
+								setEditingDataset({ ...editingDataset, descriptionLg2: value})
+								setClientSideErrors(clientSideErrors => ({
+									...clientSideErrors,
+									errorMessage: []
+								}));
+							}}
 						/>
 					</div>
 				</Row>
@@ -209,9 +237,14 @@ export const DatasetEdit = (props) => {
 								options={stampsOptions}
 								onChange={(value) => {
 									setEditingDataset({ ...editingDataset, creator: value})
+									setClientSideErrors(clientSideErrors => ({
+										...clientSideErrors,
+										errorMessage: []
+									}));
 								}}
 							/>
 						</label>
+						<ClientSideError error={clientSideErrors?.fields?.creator}></ClientSideError>
 					</div>
 				</Row>
 
@@ -227,15 +260,22 @@ export const DatasetEdit = (props) => {
 								options={stampsOptions}
 								onChange={(value) => {
 									setEditingDataset({ ...editingDataset, contributor: value})
+									setClientSideErrors(clientSideErrors => ({
+										...clientSideErrors,
+										errorMessage: []
+									}));
 								}}
 							/>
 						</label>
+						<ClientSideError error={clientSideErrors?.fields?.contributor}></ClientSideError>
+
 					</div>
 				</Row>
 				<Row>
 					<div className="col-md-12 form-group">
 						<label className="w-100 wilco-label-required">
 							{D1.generatedBy }
+							<span className="asterisk">*</span>
 							<SelectRmes
 								unclearable
 								multi={false}
@@ -243,15 +283,18 @@ export const DatasetEdit = (props) => {
 								options={seriesOptions}
 								onChange={(value) => {
 									setEditingDataset({ ...editingDataset, idSerie: value})
+									setClientSideErrors({});
 								}}
 							/>
 						</label>
+						<ClientSideError error={clientSideErrors?.fields?.idSerie}></ClientSideError>
 					</div>
 				</Row>
 				<Row>
 					<div className="col-md-12 form-group">
 						<label className="w-100 wilco-label-required">
 							{D1.disseminationStatusTitle }
+							<span className="asterisk">*</span>
 							<SelectRmes
 								unclearable
 								multi={false}
@@ -259,9 +302,11 @@ export const DatasetEdit = (props) => {
 								options={disseminationStatusOptions}
 								onChange={(value) => {
 									setEditingDataset({ ...editingDataset, disseminationStatus: value})
+									setClientSideErrors({});
 								}}
 							/>
 						</label>
+						<ClientSideError error={clientSideErrors?.fields?.disseminationStatus}></ClientSideError>
 					</div>
 				</Row>
 				<Row>
@@ -275,6 +320,7 @@ export const DatasetEdit = (props) => {
 								options={themesOptions}
 								onChange={(value) => {
 									setEditingDataset({ ...editingDataset, theme: value})
+									setClientSideErrors({});
 								}}
 							/>
 						</label>
