@@ -9,6 +9,7 @@ const api = {
 		res => res.text(),
 	],
 	getDetailedCodelist: (id) => [`detailed/${id}`],
+	getCodesDetailedCodelist: (id, page) => [`detailed/${id}/codes?page=` + page],
 	getPartialsByParent: (parentCode) => [`partials/${parentCode}`],
 	getCodelistsForSearch: () => ['search'],
 	getCodelistCode: (id, code) => [`${id}/code/${code}`],

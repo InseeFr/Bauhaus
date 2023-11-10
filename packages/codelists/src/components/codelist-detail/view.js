@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
 	Note,
@@ -7,7 +7,6 @@ import {
 	ActionToolbar,
 	ReturnButton,
 	ErrorBloc,
-	Table,
 } from '@inseefr/wilco';
 import {
 	HTMLUtils,
@@ -18,48 +17,45 @@ import {
 	ConfirmationDelete, Auth,
 } from 'bauhaus-utilities';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { CollapsiblePanel } from '../collapsible-panel';
-import { treedData } from '../../utils';
-import { rowParams } from '../code-detail/code-columns';
-import CodesTreeView from './codes-tree-view';
+
+import "./view.scss"
+import { CodesCollapsiblePanel } from './codes-panel';
 
 export const CodeListDetailView = ({
-	codelist,
-	handleUpdate,
-	handleBack,
-	handleDelete,
-	updatable,
-	deletable,
-	modalOpened,
-	handleYes,
-	handleNo,
-	secondLang,
-	col = 3,
-	publishComponent,
-	serverSideError,
-	hidden = false,
-}) => {
+																		 codelist,
+																		 handleUpdate,
+																		 handleBack,
+																		 handleDelete,
+																		 updatable,
+																		 deletable,
+																		 modalOpened,
+																		 handleYes,
+																		 handleNo,
+																		 secondLang,
+																		 col = 3,
+																		 publishComponent,
+																		 serverSideError,
+																		 hidden = false,
+																	 }) => {
+
 	useTitle(D.codelistsTitle, codelist?.labelLg1);
 
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
-		codelist.descriptionLg1
+		codelist.descriptionLg1,
 	);
 	const descriptionLg2 = HTMLUtils.renderMarkdownElement(
-		codelist.descriptionLg2
+		codelist.descriptionLg2,
 	);
 
 	const publish = () => {
 		publishComponent();
 	};
 
-	const codes = Object.values(codelist.codes || {});
-	const [tree, setTree] = useState(treedData(codes));
-
 	return (
 		<React.Fragment>
 			{modalOpened && (
 				<ConfirmationDelete
-					className="codelists"
+					className='codelists'
 					handleNo={handleNo}
 					handleYes={handleYes}
 					message={D.confirmationCodelistDelete}
@@ -75,7 +71,7 @@ export const CodeListDetailView = ({
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
 			{
-				<div className="row">
+				<div className='row'>
 					<Note
 						text={
 							<ul>
@@ -100,7 +96,7 @@ export const CodeListDetailView = ({
 					/>
 				</div>
 			}
-			<div className="row">
+			<div className='row'>
 				<Note
 					text={descriptionLg1}
 					title={D1.descriptionTitle}
@@ -117,32 +113,8 @@ export const CodeListDetailView = ({
 					/>
 				)}
 			</div>
-			{codelist.codes && (
-				<div className="row">
-					<CollapsiblePanel
-						id="code-array"
-						hidden={hidden}
-						title={D.listElements}
-						children={
-							<Table
-								rowParams={rowParams}
-								data={codes.sort((a, b) => (a.code > b.code ? 1 : -1))}
-							/>
-						}
-					/>
-				</div>
-			)}
-			{codelist.codes && codes.filter((code) => code.parents).length > 0 && (
-				<div className="row">
-					<CodesTreeView
-						codes={codes}
-						tree={tree}
-						handleChangeTree={(tree) => setTree(tree)}
-						handleAdd={false}
-						readOnly={true}
-					/>
-				</div>
-			)}
+			<CodesCollapsiblePanel codelist={codelist} hidden={hidden} />
+
 		</React.Fragment>
 	);
 };

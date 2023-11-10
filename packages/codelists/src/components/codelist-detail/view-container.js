@@ -8,7 +8,6 @@ import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import ComponentTitle from './title';
 import { CodeListDetailView } from './view';
-import api from 'Bauhaus/src/js/remote-api/operations-api';
 
 const CodelistComponentView = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
