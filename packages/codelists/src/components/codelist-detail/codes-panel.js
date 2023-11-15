@@ -268,7 +268,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 				title={
 					<React.Fragment>
 						{D.codesTitle}
-						{editable && (
+						{editable && !!codelist.lastCodeUriSegment && (
 							<button
 								id="add-code"
 								type="button"
