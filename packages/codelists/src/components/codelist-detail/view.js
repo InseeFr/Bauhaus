@@ -15,6 +15,7 @@ import {
 	PublicationFemale,
 	useTitle,
 	ConfirmationDelete, Auth,
+	Row
 } from 'bauhaus-utilities';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 
@@ -71,7 +72,7 @@ export const CodeListDetailView = ({
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
 			{
-				<div className='row'>
+				<Row>
 					<Note
 						text={
 							<ul>
@@ -94,9 +95,9 @@ export const CodeListDetailView = ({
 						title={D.globalInformationsTitle}
 						alone={true}
 					/>
-				</div>
+				</Row>
 			}
-			<div className='row'>
+			<Row>
 				<Note
 					text={descriptionLg1}
 					title={D1.descriptionTitle}
@@ -112,8 +113,8 @@ export const CodeListDetailView = ({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
-			<CodesCollapsiblePanel codelist={codelist} hidden={hidden} />
+			</Row>
+			<CodesCollapsiblePanel codelist={codelist} hidden={hidden} editable={false} />
 
 		</React.Fragment>
 	);

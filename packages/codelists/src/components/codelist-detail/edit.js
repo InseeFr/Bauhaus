@@ -259,8 +259,9 @@ const DumbCodelistDetailEdit = ({
 						/>
 					</div>
 				</div>
-				<CodesCollapsiblePanel codelist={codelist} />
 			</form>
+			<CodesCollapsiblePanel codelist={codelist} editable={true}/>
+
 		</React.Fragment>
 	);
 };
