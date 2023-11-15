@@ -21,11 +21,6 @@ import SlidingPanel from 'react-sliding-side-panel';
 import './codes-panel.scss';
 import { validateCode } from '../../utils';
 
-//TODO VALIDATION
-// call delete
-// API.deleteCodesDetailedCodelist / post / put
-// call update
-// call create
 const CodeSlidingPanel = ({
 	code: initialCode,
 	handleBack,
