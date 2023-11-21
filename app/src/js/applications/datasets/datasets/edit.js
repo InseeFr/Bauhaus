@@ -43,14 +43,15 @@ export function validate({
 	if (!creator) {
 		errorMessages.push(D.mandatoryProperty(D1.creatorTitle));
 	}
-	if (!contributor) {
-		errorMessages.push(D.mandatoryProperty(D1.contributorTitle));
+
+	if(!contributor){
+		errorMessages.push(D.mandatoryProperty(D1.contributorTitle))
 	}
-	if (!disseminationStatus) {
-		errorMessages.push(D.mandatoryProperty(D1.disseminationStatusTitle));
+	if(!disseminationStatus){
+		errorMessages.push(D.mandatoryProperty(D1.disseminationStatusTitle))
 	}
-	if (!idSerie) {
-		errorMessages.push(D.mandatoryProperty(D1.generatedBy));
+	if(!idSerie){
+		errorMessages.push(D.mandatoryProperty(D1.generatedBy))
 	}
 	return {
 		fields: {

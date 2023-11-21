@@ -118,6 +118,7 @@ export const DatasetView = (props) => {
 					title={D1.globalInformationsTitle}
 					alone={true}
 				/>
+
 			</Row>
 			<Row>
 				<Note
