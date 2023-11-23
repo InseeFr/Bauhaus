@@ -12,54 +12,9 @@ import {
 import { Stores, useTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError } from 'bauhaus-utilities';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import CodesTreeEdit from './codes-tree-edit';
 import './edit.scss';
-import { CollapsiblePanel } from '../collapsible-panel';
 import MainDictionary from '../../../../../app/src/js/i18n/build-dictionary';
-
-export const deleteNodes = (codes, currentNode) => {
-	let updatedCodes = [...codes];
-
-	const deleteNode = (currentNode) => {
-		updatedCodes = updatedCodes.filter(
-			(code) => code.code !== currentNode.code
-		);
-
-		const findParent = (lengthCheck, parentNode) => {
-			return (
-				codes.filter(
-					(code) =>
-						lengthCheck(code.parents?.length) &&
-						code.parents?.find(({ code }) => code === parentNode.code)
-				) || []
-			);
-		};
-		findParent((length) => length === 1, currentNode).forEach((child) =>
-			deleteNode(child)
-		);
-
-		const childrenToUpdate = findParent((length) => length > 1, currentNode);
-		updatedCodes = updatedCodes.map((updatedCode) => {
-			const isPresent = !!childrenToUpdate.find(
-				({ code }) => code === updatedCode.code
-			);
-
-			if (isPresent) {
-				return {
-					...updatedCode,
-					parents: updatedCode.parents.filter(
-						({ code }) => code !== currentNode.code
-					),
-				};
-			} else {
-				return updatedCode;
-			}
-		});
-	};
-	deleteNode(currentNode);
-
-	return updatedCodes;
-};
+import { CodesCollapsiblePanel } from './codes-panel';
 
 const defaultCodelist = {
 	contributor: 'DG75-L201',
@@ -78,82 +33,11 @@ const DumbCodelistDetailEdit = ({
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
 
-	const [codes, setCodes] = useState(
-		Object.values(defaultCodelist.codes || {})
-	);
-
-	const deleteCode = useCallback(
-		({ code }) => {
-			const selectedCode = codes.find((c) => c.code === code);
-			if (selectedCode) {
-				const children = codes
-					.filter((c) => c.parents?.some((parent) => parent.code === code))
-					.map(({ code }) => code);
-				const newParents = selectedCode.parents || [];
-				setCodes(
-					codes
-						.filter((c) => c.code !== code)
-						.map((c) => {
-							if (children.includes(c.code)) {
-								const parents = [
-									...(c.parents || []).filter((c) => c !== code),
-									...newParents,
-								];
-								return {
-									...c,
-									parents,
-								};
-							} else {
-								return c;
-							}
-						})
-				);
-			}
-		},
-		[codes]
-	);
-
-	const deleteCodeWithChildren = useCallback(
-		(codeToDelete) => {
-			const updatedCodes = deleteNodes(codes, codeToDelete);
-			setCodes(updatedCodes);
-		},
-		[codes]
-	);
-
-	const updateCode = useCallback(
-		(codeObject) => {
-			const existing = codes.find((c) => c.code === codeObject.code);
-			if (!existing) {
-				// Create
-				setCodes([...codes.filter((c) => c.code !== ''), codeObject]);
-			} else {
-				// Update
-				setCodes(
-					codes.map((c) => {
-						if (c.code === codeObject.code) {
-							return codeObject;
-						}
-						return c;
-					})
-				);
-			}
-		},
-		[codes]
-	);
-
-	const createCode = useCallback(
-		(newCode) => {
-			setCodes([...codes, newCode]);
-		},
-		[codes]
-	);
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
 	useEffect(() => {
 		setCodelist({ ...initialCodelist, ...defaultCodelist });
-		setCodes(initialCodelist.codes ? Object.values(initialCodelist.codes) : []);
 	}, [initialCodelist]);
 
 	const handleChange = useCallback(
@@ -375,25 +259,9 @@ const DumbCodelistDetailEdit = ({
 						/>
 					</div>
 				</div>
-				<div className="code-zone">
-					<CollapsiblePanel
-						id="code-picker"
-						hidden={false}
-						title={D.codesTreeTitle}
-						children={
-							<CodesTreeEdit
-								deleteCode={deleteCode}
-								deleteCodeWithChildren={deleteCodeWithChildren}
-								updateCode={updateCode}
-								createCode={createCode}
-								codes={codes || {}}
-								handleAdd={true}
-								readOnly={false}
-							/>
-						}
-					/>
-				</div>
 			</form>
+			<CodesCollapsiblePanel codelist={codelist} editable={true}/>
+
 		</React.Fragment>
 	);
 };
