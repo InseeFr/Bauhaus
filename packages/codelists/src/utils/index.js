@@ -10,49 +10,53 @@ export const validateCodelist = (codelist) => {
 	const errorMessage = [];
 	const fields = {};
 
-	if(!codelist.lastListUriSegment){
+	if (!codelist.lastListUriSegment) {
 		errorMessage.push(D.mandatoryProperty(D.lastListUriSegmentTitle));
 		fields.lastListUriSegment = D.mandatoryProperty(D.lastListUriSegmentTitle);
 	}
 
-	if(!codelist.lastCodeUriSegment){
+	if (!codelist.lastCodeUriSegment) {
 		errorMessage.push(D.mandatoryProperty(D.lastCodeUriSegmentTitle));
 		fields.lastCodeUriSegment = D.mandatoryProperty(D.lastCodeUriSegmentTitle);
 	}
 
-	if(!codelist.lastClassUriSegment){
+	if (!codelist.lastClassUriSegment) {
 		errorMessage.push(D.mandatoryProperty(D.lastClassUriSegmentTitle));
-		fields.lastClassUriSegment = D.mandatoryProperty(D.lastClassUriSegmentTitle);
+		fields.lastClassUriSegment = D.mandatoryProperty(
+			D.lastClassUriSegmentTitle
+		);
 	}
 
-	if(!codelist.id){
+	if (!codelist.id) {
 		errorMessage.push(D.mandatoryProperty(D.idTitle));
 		fields.id = D.mandatoryProperty(D.idTitle);
 	}
 
-	if(!codelist.labelLg1){
+	if (!codelist.labelLg1) {
 		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
 		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
 	}
 
-	if(!codelist.labelLg2){
+	if (!codelist.labelLg2) {
 		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
 		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
 	}
 
-	if(!codelist.creator){
+	if (!codelist.creator) {
 		errorMessage.push(D.mandatoryProperty(D2.creator));
 		fields.creator = D.mandatoryProperty(D2.creator);
 	}
 
-	if(!codelist.disseminationStatus){
+	if (!codelist.disseminationStatus) {
 		errorMessage.push(D.mandatoryProperty(D.disseminationStatusTitle));
-		fields.disseminationStatus = D.mandatoryProperty(D.disseminationStatusTitle);
+		fields.disseminationStatus = D.mandatoryProperty(
+			D.disseminationStatusTitle
+		);
 	}
 
 	return {
 		errorMessage,
-		fields
+		fields,
 	};
 };
 
@@ -60,43 +64,44 @@ export const validatePartialCodelist = (codelist) => {
 	const errorMessage = [];
 	const fields = {};
 
-	if(!codelist.id){
+	if (!codelist.id) {
 		errorMessage.push(D.mandatoryProperty(D.idTitle));
 		fields.id = D.mandatoryProperty(D.idTitle);
-	} else if(!/^[a-zA-Z0-9_]*$/.test(codelist.id)){
+	} else if (!/^[a-zA-Z0-9_]*$/.test(codelist.id)) {
 		errorMessage.push(D.validCharactersProperty(D1.idTitle));
 		fields.id = D.validCharactersProperty(D1.idTitle);
 	}
 
-
-	if(!codelist.parentCode){
+	if (!codelist.parentCode) {
 		errorMessage.push(D.mandatoryProperty(D.parentCodelist));
 		fields.parentCode = D.mandatoryProperty(D.parentCodelist);
 	}
 
-	if(!codelist.labelLg1){
+	if (!codelist.labelLg1) {
 		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
 		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
 	}
 
-	if(!codelist.labelLg2){
+	if (!codelist.labelLg2) {
 		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
 		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
 	}
 
-	if(!codelist.creator){
+	if (!codelist.creator) {
 		errorMessage.push(D.mandatoryProperty(D.creator));
 		fields.creator = D.mandatoryProperty(D.creator);
 	}
 
-	if(!codelist.disseminationStatus){
+	if (!codelist.disseminationStatus) {
 		errorMessage.push(D.mandatoryProperty(D.disseminationStatusTitle));
-		fields.disseminationStatus = D.mandatoryProperty(D.disseminationStatusTitle)
+		fields.disseminationStatus = D.mandatoryProperty(
+			D.disseminationStatusTitle
+		);
 	}
 
 	return {
 		errorMessage,
-		fields
+		fields,
 	};
 };
 
@@ -104,16 +109,16 @@ export const validateCode = (code, codes, updateMode) => {
 	const errorMessage = [];
 	const fields = {};
 
-	if(!code.code){
+	if (!code.code) {
 		errorMessage.push(D.mandatoryProperty(D.idTitle));
 		fields.code = D.mandatoryProperty(D.idTitle);
 	}
-	if(!code.labelLg1){
+	if (!code.labelLg1) {
 		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
 		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
 	}
 
-	if(!code.labelLg2){
+	if (!code.labelLg2) {
 		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
 		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
 	}
@@ -127,7 +132,7 @@ export const validateCode = (code, codes, updateMode) => {
 
 	return {
 		fields,
-		errorMessage
+		errorMessage,
 	};
 };
 
@@ -203,9 +208,6 @@ export const recalculatePositions = (codelist, rootNodes) => {
 };
 
 export const formatCodeList = (cl) => {
-	cl.lastCodeUriSegment = cl.codes
-		? Object.values(cl.codes)[0].lastCodeUriSegment
-		: '';
 	if (cl.codes) {
 		cl.codes = Object.values(cl.codes)
 			.sort((a, b) => (a.code > b.code ? 1 : -1))

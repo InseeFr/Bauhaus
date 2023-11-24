@@ -62,14 +62,13 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {}}) => {
 			unions: includes.map(i => ({ uri: i.value })),
 			difference: excludes.map(i => ({ uri: i.value }))
 		}
-
 		const method = formatted.id ?
 			Stores.Geographies.api.putTerritory(formatted.id, formatted) :
 			Stores.Geographies.api.postTerritory(formatted);
 			method.then((uri) => {
 				onSave(territory.uri ?? uri);
 			}).catch(err => setServerSideError(D.errors[JSON.parse(err).code]))
-	}, [territory, name, includes,  excludes, onSave]);
+	}, [territory, name, nameLg2, includes,  excludes, onSave]);
 
 	return (
 		<div className="w-100 container">

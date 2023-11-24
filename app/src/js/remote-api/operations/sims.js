@@ -30,13 +30,17 @@ export default {
 			const blob = await res.blob();
 			const a = document.createElement("a");
 			document.body.appendChild(a);
+
 			const url = window.URL.createObjectURL(blob);
 			a.href = url;
 
-			const fileName = sims.labelLg1?.replace(/[/<>*:?|]/gi, '');
 			if(hasDocument(sims, config.document)){
+				const header = res.headers.get('Content-Disposition');
+				const parts = header.split(';');
+				const fileName = parts[1].split('=')[1]?.replace(/\"/, "");
 				a.download = fileName + '.zip';
 			} else {
+				const fileName = sims.labelLg1?.replace(/[/<>*:?|]/gi, '');
 				a.download = fileName + '.odt';
 			}
 			a.click();
