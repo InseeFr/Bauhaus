@@ -55,7 +55,7 @@ Promise.all([apiInit, configuration])
 		renderApp(Root, { state: apiInit, configuration })
 	)
 	.catch((err) => {
-		renderApp(Error, {}, { home: true });
+		renderApp(Error, { state: {}, configuration: {} }, { home: true });
 		return Promise.reject(err.toString());
 	});
 
