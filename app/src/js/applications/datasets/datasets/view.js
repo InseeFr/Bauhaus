@@ -137,6 +137,42 @@ export const DatasetView = (props) => {
 					/>
 				)}
 			</Row>
+			<Row>
+				<Note
+					text={HTMLUtils.renderMarkdownElement(dataset.abstractLg1)}
+					title={D1.datasetsAbstract}
+					lang={lg1}
+					alone={!secondLang}
+					allowEmpty={true}
+				/>
+				{secondLang && (
+					<Note
+						text={HTMLUtils.renderMarkdownElement(dataset.abstractLg2)}
+						title={D2.datasetsAbstract}
+						lang={lg2}
+						alone={false}
+						allowEmpty={true}
+					/>
+				)}
+			</Row>
+			<Row>
+				<Note
+					text={HTMLUtils.renderMarkdownElement(dataset.cautionLg1)}
+					title={D1.datasetsCaution}
+					lang={lg1}
+					alone={!secondLang}
+					allowEmpty={true}
+				/>
+				{secondLang && (
+					<Note
+						text={HTMLUtils.renderMarkdownElement(dataset.cautionLg2)}
+						title={D2.datasetsCaution}
+						lang={lg2}
+						alone={false}
+						allowEmpty={true}
+					/>
+				)}
+			</Row>
 		</div>
 	);
 };
