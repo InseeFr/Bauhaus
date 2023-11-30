@@ -8,6 +8,14 @@ const dictionary = {
 		fr: 'Informations Statistiques',
 		en: 'Statistical Information',
 	},
+	datasetsAbstract: {
+		fr: 'Résumé',
+		en: 'Abstract',
+	},
+	datasetsCaution: {
+		fr: 'Avertissement',
+		en: 'Caution',
+	},
 };
 
 export default dictionary;
