@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../../../remote-api/datasets-api';
 import operationSeries from '../../../remote-api/operations-api';
+import './edit.scss';
+
 import {
 	ActionToolbar,
 	CancelButton,
@@ -24,51 +26,248 @@ import {
 } from 'bauhaus-utilities';
 import ReactSelect from 'react-select';
 import { useThemes } from './useThemes';
-
-export function validate({
-	creator,
-	contributor,
-	disseminationStatus,
-	labelLg1,
-	labelLg2,
-	idSerie,
-}) {
-	const errorMessages = [];
-	if (!labelLg1) {
-		errorMessages.push(D.mandatoryProperty(D1.title));
-	}
-	if (!labelLg2) {
-		errorMessages.push(D.mandatoryProperty(D2.title));
-	}
-	if (!creator) {
-		errorMessages.push(D.mandatoryProperty(D1.creatorTitle));
-	}
-
-	if(!contributor){
-		errorMessages.push(D.mandatoryProperty(D1.contributorTitle))
-	}
-	if(!disseminationStatus){
-		errorMessages.push(D.mandatoryProperty(D1.disseminationStatusTitle))
-	}
-	if(!idSerie){
-		errorMessages.push(D.mandatoryProperty(D1.generatedBy))
-	}
-	return {
-		fields: {
-			labelLg1: !labelLg1 ? D.mandatoryProperty(D1.title) : '',
-			labelLg2: !labelLg2 ? D.mandatoryProperty(D2.title) : '',
-			creator: !labelLg2 ? D.mandatoryProperty(D1.creatorTitle) : '',
-			contributor: !contributor ? D.mandatoryProperty(D1.contributorTitle) : '',
-			disseminationStatus: !disseminationStatus
-				? D.mandatoryProperty(D1.disseminationStatusTitle)
-				: '',
-			idSerie: !idSerie ? D.mandatoryProperty(D1.generatedBy) : '',
-		},
-		errorMessage: errorMessages,
-	};
-}
+import { validate } from './validation';
+import { LayoutWithLateralMenu } from './layout-with-lateral-menu';
 
 export const DatasetEdit = (props) => {
+	const layoutConfiguration = {
+		globalInformation: {
+			title: D.globalInformationsTitle,
+			children: {
+				globalInformation: {
+					title: D.globalInformationsTitle,
+					content: () => (
+						<>
+							<Row>
+								<div className="col-md-6 form-group">
+									<LabelRequired htmlFor="labelLg1">{D1.title}</LabelRequired>
+									<input
+										type="text"
+										className="form-control"
+										id="labelLg1"
+										value={editingDataset.labelLg1}
+										onChange={(e) => {
+											setEditingDataset({
+												...editingDataset,
+												labelLg1: e.target.value,
+											});
+											setClientSideErrors((clientSideErrors) => ({
+												...clientSideErrors,
+												errorMessage: [],
+											}));
+										}}
+									/>
+									<ClientSideError
+										error={clientSideErrors?.fields?.labelLg1}
+									></ClientSideError>
+								</div>
+								<div className="col-md-6 form-group">
+									<LabelRequired htmlFor="labelLg2">{D2.title}</LabelRequired>
+									<input
+										type="text"
+										className="form-control"
+										id="labelLg2"
+										value={editingDataset.labelLg2}
+										onChange={(e) => {
+											setEditingDataset({
+												...editingDataset,
+												labelLg2: e.target.value,
+											});
+											setClientSideErrors((clientSideErrors) => ({
+												...clientSideErrors,
+												errorMessage: [],
+											}));
+										}}
+									/>
+									<ClientSideError
+										error={clientSideErrors?.fields?.labelLg2}
+									></ClientSideError>
+								</div>
+							</Row>
+
+							<Row>
+								<div className="col-md-12 form-group">
+									<label className="w-100 wilco-label-required">
+										{D1.creatorTitle}
+										<span className="asterisk">*</span>
+										<ReactSelect
+											placeholder={D1.stampsPlaceholder}
+											unclearable
+											multi={false}
+											value={editingDataset.creator}
+											options={stampsOptions}
+											onChange={({ value }) => {
+												setEditingDataset({
+													...editingDataset,
+													creator: value,
+												});
+												setClientSideErrors((clientSideErrors) => ({
+													...clientSideErrors,
+													errorMessage: [],
+												}));
+											}}
+										/>
+									</label>
+									<ClientSideError
+										error={clientSideErrors?.fields?.creator}
+									></ClientSideError>
+								</div>
+							</Row>
+
+							<Row>
+								<div className="col-md-12 form-group">
+									<label className="w-100 wilco-label-required">
+										{D1.contributorTitle}
+										<span className="asterisk">*</span>
+										<ReactSelect
+											unclearable
+											multi={false}
+											value={editingDataset.contributor}
+											options={stampsOptions}
+											onChange={({ value }) => {
+												setEditingDataset({
+													...editingDataset,
+													contributor: value,
+												});
+												setClientSideErrors((clientSideErrors) => ({
+													...clientSideErrors,
+													errorMessage: [],
+												}));
+											}}
+										/>
+									</label>
+									<ClientSideError
+										error={clientSideErrors?.fields?.contributor}
+									></ClientSideError>
+								</div>
+							</Row>
+							<Row>
+								<div className="col-md-12 form-group">
+									<label className="w-100 wilco-label-required">
+										{D1.generatedBy}
+										<span className="asterisk">*</span>
+										<ReactSelect
+											unclearable
+											multi={false}
+											value={editingDataset.idSerie}
+											options={seriesOptions}
+											onChange={({ value }) => {
+												setEditingDataset({
+													...editingDataset,
+													idSerie: value,
+												});
+												setClientSideErrors({});
+											}}
+										/>
+									</label>
+									<ClientSideError
+										error={clientSideErrors?.fields?.idSerie}
+									></ClientSideError>
+								</div>
+							</Row>
+							<Row>
+								<div className="col-md-12 form-group">
+									<label className="w-100 wilco-label-required">
+										{D1.disseminationStatusTitle}
+										<span className="asterisk">*</span>
+										<ReactSelect
+											unclearable
+											multi={false}
+											value={editingDataset.disseminationStatus}
+											options={disseminationStatusOptions}
+											onChange={({ value }) => {
+												setEditingDataset({
+													...editingDataset,
+													disseminationStatus: value,
+												});
+												setClientSideErrors({});
+											}}
+										/>
+									</label>
+									<ClientSideError
+										error={clientSideErrors?.fields?.disseminationStatus}
+									></ClientSideError>
+								</div>
+							</Row>
+							<Row>
+								<div className="col-md-12 form-group">
+									<label className="w-100 wilco-label-required">
+										{D1.theme}
+										<ReactSelect
+											unclearable
+											multi={true}
+											value={editingDataset.themes}
+											options={themesOptions}
+											onChange={(values) => {
+												setEditingDataset({
+													...editingDataset,
+													themes: values.map(({ value }) => value),
+												});
+												setClientSideErrors({});
+											}}
+										/>
+									</label>
+								</div>
+							</Row>
+						</>
+					),
+				},
+			},
+		},
+		notes: {
+			title: D.notesTitle,
+			children: {
+				notes: {
+					title: D.notesTitle,
+					content: () => (
+						<Row>
+							<div className="col-md-6 form-group">
+								<label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
+								<EditorMarkdown
+									text={editingDataset.descriptionLg1}
+									handleChange={(value) => {
+										setEditingDataset({
+											...editingDataset,
+											descriptionLg1: value,
+										});
+										setClientSideErrors((clientSideErrors) => ({
+											...clientSideErrors,
+											errorMessage: [],
+										}));
+									}}
+								/>
+							</div>
+							<div className="col-md-6 form-group">
+								<label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
+								<EditorMarkdown
+									text={editingDataset.descriptionLg2}
+									handleChange={(value) => {
+										setEditingDataset({
+											...editingDataset,
+											descriptionLg2: value,
+										});
+										setClientSideErrors((clientSideErrors) => ({
+											...clientSideErrors,
+											errorMessage: [],
+										}));
+									}}
+								/>
+							</div>
+						</Row>
+					),
+				},
+			},
+		},
+		staticsInformations: {
+			title: D.staticsInformations,
+			children: {
+				staticsInformations: {
+					title: D.staticsInformations,
+					content: () => <></>,
+				},
+			},
+		},
+	};
 	const { id } = useParams();
 	const isEditing = !!id;
 
@@ -160,8 +359,18 @@ export const DatasetEdit = (props) => {
 		}
 	};
 
+	const allChildrenItems = Object.values(layoutConfiguration).reduce(
+		(acc, configuration) => {
+			return {
+				...acc,
+				...configuration.children,
+			};
+		},
+		{}
+	);
+
 	return (
-		<div className="container editor-container">
+		<div className="editor-container dataset-container">
 			{isEditing && (
 				<PageTitleBlock
 					titleLg1={dataset.labelLg1}
@@ -183,197 +392,11 @@ export const DatasetEdit = (props) => {
 					D={D}
 				/>
 			)}
+
 			<form>
-				<Row>
-					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="labelLg1">{D1.title}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
-							id="labelLg1"
-							value={editingDataset.labelLg1}
-							onChange={(e) => {
-								setEditingDataset({
-									...editingDataset,
-									labelLg1: e.target.value,
-								});
-								setClientSideErrors((clientSideErrors) => ({
-									...clientSideErrors,
-									errorMessage: [],
-								}));
-							}}
-						/>
-						<ClientSideError
-							error={clientSideErrors?.fields?.labelLg1}
-						></ClientSideError>
-					</div>
-					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="labelLg2">{D2.title}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
-							id="labelLg2"
-							value={editingDataset.labelLg2}
-							onChange={(e) => {
-								setEditingDataset({
-									...editingDataset,
-									labelLg2: e.target.value,
-								});
-								setClientSideErrors((clientSideErrors) => ({
-									...clientSideErrors,
-									errorMessage: [],
-								}));
-							}}
-						/>
-						<ClientSideError
-							error={clientSideErrors?.fields?.labelLg2}
-						></ClientSideError>
-					</div>
-				</Row>
-				<Row>
-					<div className="col-md-6 form-group">
-						<label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
-						<EditorMarkdown
-							text={editingDataset.descriptionLg1}
-							handleChange={(value) => {
-								setEditingDataset({ ...editingDataset, descriptionLg1: value });
-								setClientSideErrors((clientSideErrors) => ({
-									...clientSideErrors,
-									errorMessage: [],
-								}));
-							}}
-						/>
-					</div>
-					<div className="col-md-6 form-group">
-						<label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
-						<EditorMarkdown
-							text={editingDataset.descriptionLg2}
-							handleChange={(value) => {
-								setEditingDataset({ ...editingDataset, descriptionLg2: value });
-								setClientSideErrors((clientSideErrors) => ({
-									...clientSideErrors,
-									errorMessage: [],
-								}));
-							}}
-						/>
-					</div>
-				</Row>
-
-				<Row>
-					<div className="col-md-12 form-group">
-						<label className="w-100 wilco-label-required">
-							{D1.creatorTitle}
-							<span className="asterisk">*</span>
-							<ReactSelect
-								placeholder={D1.stampsPlaceholder}
-								unclearable
-								multi={false}
-								value={editingDataset.creator}
-								options={stampsOptions}
-								onChange={({ value }) => {
-									setEditingDataset({ ...editingDataset, creator: value });
-									setClientSideErrors((clientSideErrors) => ({
-										...clientSideErrors,
-										errorMessage: [],
-									}));
-								}}
-							/>
-						</label>
-						<ClientSideError
-							error={clientSideErrors?.fields?.creator}
-						></ClientSideError>
-					</div>
-				</Row>
-
-				<Row>
-					<div className="col-md-12 form-group">
-						<label className="w-100 wilco-label-required">
-							{D1.contributorTitle}
-							<span className="asterisk">*</span>
-							<ReactSelect
-								unclearable
-								multi={false}
-								value={editingDataset.contributor}
-								options={stampsOptions}
-								onChange={({ value }) => {
-									setEditingDataset({ ...editingDataset, contributor: value });
-									setClientSideErrors((clientSideErrors) => ({
-										...clientSideErrors,
-										errorMessage: [],
-									}));
-								}}
-							/>
-						</label>
-						<ClientSideError
-							error={clientSideErrors?.fields?.contributor}
-						></ClientSideError>
-					</div>
-				</Row>
-				<Row>
-					<div className="col-md-12 form-group">
-						<label className="w-100 wilco-label-required">
-							{D1.generatedBy}
-							<span className="asterisk">*</span>
-							<ReactSelect
-								unclearable
-								multi={false}
-								value={editingDataset.idSerie}
-								options={seriesOptions}
-								onChange={({ value }) => {
-									setEditingDataset({ ...editingDataset, idSerie: value });
-									setClientSideErrors({});
-								}}
-							/>
-						</label>
-						<ClientSideError
-							error={clientSideErrors?.fields?.idSerie}
-						></ClientSideError>
-					</div>
-				</Row>
-				<Row>
-					<div className="col-md-12 form-group">
-						<label className="w-100 wilco-label-required">
-							{D1.disseminationStatusTitle}
-							<span className="asterisk">*</span>
-							<ReactSelect
-								unclearable
-								multi={false}
-								value={editingDataset.disseminationStatus}
-								options={disseminationStatusOptions}
-								onChange={({ value }) => {
-									setEditingDataset({
-										...editingDataset,
-										disseminationStatus: value,
-									});
-									setClientSideErrors({});
-								}}
-							/>
-						</label>
-						<ClientSideError
-							error={clientSideErrors?.fields?.disseminationStatus}
-						></ClientSideError>
-					</div>
-				</Row>
-				<Row>
-					<div className="col-md-12 form-group">
-						<label className="w-100 wilco-label-required">
-							{D1.theme}
-							<ReactSelect
-								unclearable
-								multi={true}
-								value={editingDataset.themes}
-								options={themesOptions}
-								onChange={(values) => {
-									setEditingDataset({
-										...editingDataset,
-										themes: values.map(({ value }) => value),
-									});
-									setClientSideErrors({});
-								}}
-							/>
-						</label>
-					</div>
-				</Row>
+				<LayoutWithLateralMenu layoutConfiguration={layoutConfiguration}>
+					{(key) => allChildrenItems[key].content()}
+				</LayoutWithLateralMenu>
 			</form>
 		</div>
 	);

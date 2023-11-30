@@ -56,7 +56,7 @@ export default auth(() => {
 	if (!homePage) {
 		return null;
 	}
-	console.log(pages);
+
 	return (
 		<React.Fragment>
 			<Suspense fallback={<Loading />}>
