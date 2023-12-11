@@ -1,14 +1,14 @@
 import D, { D1, D2 } from '../../../i18n/build-dictionary';
 
 export function validate({
-	creator,
-	contributor,
+	catalogRecord,
 	disseminationStatus,
 	labelLg1,
 	labelLg2,
 	idSerie,
 }) {
 	const errorMessages = [];
+	const { creator, contributor } = catalogRecord ?? {};
 	if (!labelLg1) {
 		errorMessages.push(D.mandatoryProperty(D1.title));
 	}

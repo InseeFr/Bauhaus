@@ -16,6 +16,14 @@ const dictionary = {
 		fr: 'Avertissement',
 		en: 'Caution',
 	},
+	datasetsDataProvider: {
+		fr: 'Fournisseur des données',
+		en: 'Data provider',
+	},
+	datasetsUpdatedDate: {
+		fr: 'Date de modification',
+		en: 'Modification date',
+	},
 };
 
 export default dictionary;

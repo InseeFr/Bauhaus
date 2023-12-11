@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import api from '../../../remote-api/datasets-api';
+import api from '../../../remote-api/themes-api';
 import React from 'react';
 
 export const useThemes = () =>
