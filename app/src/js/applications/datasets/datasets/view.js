@@ -25,9 +25,17 @@ import api from '../../../remote-api/datasets-api';
 import operationApi from '../../../remote-api/operations-api';
 import { useQuery } from '@tanstack/react-query';
 import { useThemes } from './useThemes';
+import apiOrganisations from '../../../remote-api/organisations-api';
 
 export const DatasetView = (props) => {
 	const { id } = useParams();
+
+	const { data: organisations } = useQuery({
+		queryFn: () => {
+			return apiOrganisations.getOrganisations();
+		},
+		queryKey: ['organisations'],
+	});
 
 	const { data: dataset, isLoading } = useQuery({
 		queryKey: ['datasets', id],
@@ -81,10 +89,21 @@ export const DatasetView = (props) => {
 					text={
 						<ul>
 							<li>
-								{D.creatorTitle} : {dataset.creator}{' '}
+								{D.creatorTitle} : {dataset.catalogRecord?.creator}{' '}
 							</li>
 							<li>
-								{D.contributorTitle} : {dataset.contributor}{' '}
+								{D.contributorTitle} : {dataset.catalogRecord?.contributor}{' '}
+							</li>
+							<li>
+								{D.datasetsDataProvider} :
+								<ul>
+									{dataset.creators?.map((creator) => {
+										const creatorLabel = organisations.find(
+											(o) => o.id === creator
+										)?.label;
+										return <li key={creator}>{creatorLabel}</li>;
+									})}
+								</ul>
 							</li>
 							<li>
 								{D.disseminationStatusTitle} :{' '}
@@ -107,11 +126,12 @@ export const DatasetView = (props) => {
 								</Link>
 							</li>
 							<li>
-								{D.createdDateTitle} : {DateUtils.stringToDate(dataset.created)}{' '}
+								{D.createdDateTitle} :{' '}
+								{DateUtils.stringToDate(dataset.catalogRecord?.created)}{' '}
 							</li>
 							<li>
 								{D.modifiedDateTitle} :{' '}
-								{DateUtils.stringToDate(dataset.updated)}{' '}
+								{DateUtils.stringToDate(dataset.catalogRecord?.updated)}{' '}
 							</li>
 						</ul>
 					}
