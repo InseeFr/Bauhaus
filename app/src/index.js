@@ -12,24 +12,24 @@ import 'bauhaus-structures/dist/index.css';
 import 'bauhaus-utilities/dist/index.css';
 import 'bauhaus-codelists/dist/index.css';
 import { createRoot } from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import loadDevTools from './dev-tools/load';
 import * as Sentry from '@sentry/react';
 
 import 'main.scss';
+import { apiURL } from 'bauhaus-utilities/src/apis/build-api';
 
 Sentry.init({
-	dsn: "https://57eb7cf936ad4c9198267ec7cd0031aa@o364590.ingest.sentry.io/4505557438169088",
+	dsn: 'https://57eb7cf936ad4c9198267ec7cd0031aa@o364590.ingest.sentry.io/4505557438169088',
 });
 
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
-			staleTime: Infinity
-		}
-	}
-})
-
+			staleTime: Infinity,
+		},
+	},
+});
 
 const Error = () => {
 	return (
@@ -42,18 +42,25 @@ const Error = () => {
 	);
 };
 
-Api.getInit()
-	.then(
-		(res) => (res.ok ? res.json() : Promise.reject(res.statusText)),
-		(err) => {
-			renderApp(Error, {}, { home: true });
-			return Promise.reject(err.toString());
-		}
-	)
-	.then((res) => renderApp(Root, res));
+const apiInit = Api.getInit().then((res) =>
+	res.ok ? res.json() : Promise.reject(res.statusText)
+);
 
-const renderApp = (Component, initState, props) => {
-	const { authType: type, lg1, lg2, ...properties } = initState;
+const configuration = fetch(apiURL).then((res) =>
+	res.ok ? res.json() : Promise.resolve({})
+);
+
+Promise.all([apiInit, configuration])
+	.then(([apiInit, configuration]) =>
+		renderApp(Root, { state: apiInit, configuration })
+	)
+	.catch((err) => {
+		renderApp(Error, { state: {}, configuration: {} }, { home: true });
+		return Promise.reject(err.toString());
+	});
+
+const renderApp = (Component, { state, configuration }, props) => {
+	const { authType: type, lg1, lg2, ...properties } = state;
 
 	const store = configureStore({
 		app: {
@@ -63,10 +70,11 @@ const renderApp = (Component, initState, props) => {
 			properties,
 			secondLang: false,
 			error: false,
+			configuration,
 		},
 	});
 
-	loadDevTools(store, () => {
+	loadDevTools(store, configuration, () => {
 		document.querySelector('html').setAttribute('lang', getLang());
 
 		const container = document.getElementById('root');
@@ -86,6 +94,5 @@ const renderApp = (Component, initState, props) => {
 				</Provider>
 			</QueryClientProvider>
 		);
-	})
-
+	});
 };

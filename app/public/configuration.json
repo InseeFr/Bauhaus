@@ -1,3 +1,4 @@
 {
-	"bauhaus": "BAUHAUS_API_URL"
+	"bauhaus": "BAUHAUS_API_URL",
+	"DEV_TOOLS_ENABLED": true
 }

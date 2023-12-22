@@ -3,8 +3,7 @@ import { API } from 'bauhaus-utilities';
 const api = {
 	getAll: () => [''],
 	getById: (id) => [id],
-	getThemes: () => ["themes"],
-	putDataset: dataset => [
+	putDataset: (dataset) => [
 		dataset.id,
 		{
 			headers: {
@@ -14,7 +13,7 @@ const api = {
 		},
 		() => Promise.resolve(dataset.id),
 	],
-	postDataset: dataset => [
+	postDataset: (dataset) => [
 		'',
 		{
 			headers: {
@@ -22,9 +21,8 @@ const api = {
 			},
 			body: JSON.stringify(dataset),
 		},
-		res => res.text(),
+		(res) => res.text(),
 	],
 };
 
 export default API.buildApi('datasets', api);
-
