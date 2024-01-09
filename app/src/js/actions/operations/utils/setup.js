@@ -1,8 +1,8 @@
-import api from 'js/remote-api/codelist-api';
 import apiOrganisations from 'js/remote-api/organisations-api';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import loadStampList from 'js/actions/stamp';
 import * as A from 'js/actions/constants';
+import { CodesList } from 'bauhaus-utilities';
 
 export const loadSetup = () => (dispatch) => {
 	loadCodesList([CL_SOURCE_CATEGORY, CL_FREQ], dispatch);
@@ -11,13 +11,16 @@ export const loadSetup = () => (dispatch) => {
 };
 export function loadCodesList(notations, dispatch) {
 	notations.forEach((notation) => {
-		return api.getCodesList(notation).then(
-			(results) =>
+		return Promise.all([
+			CodesList.getCodesList(notation),
+			CodesList.getCodesListCodes(notation, 1, 0),
+		]).then(
+			([codesList, codes]) =>
 				dispatch({
 					type: A.LOAD_OPERATIONS_CODES_LIST_SUCCESS,
 					payload: {
-						codes: [],
-						...results,
+						codes: codes.items ?? [],
+						...codesList,
 					},
 				}),
 			(err) =>
