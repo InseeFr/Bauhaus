@@ -34,7 +34,7 @@
 		"react-bootstrap": "0.31.5",
 		"react-d3-tree": "1.10.3",
 		"react-draft-wysiwyg": "1.14.6",
-		"react-dropzone": "11.0.1",
+		"react-dropzone": "14.2.3",
 		"react-modal": "^3.14.4",
 		"react-router-hash-link": "1.2.0",
 		"react-scripts": "4.0.3",
