@@ -2,16 +2,17 @@ import React, { useState, useCallback } from 'react';
 import { CancelButton, SaveButton, ActionToolbar, ErrorBloc } from '@inseefr/wilco';
 import ReactSelect from 'react-select';
 
-import D from '../i18n/build-dictionary';
+import D, {D1, D2} from '../i18n/build-dictionary';
 import {
 	SimsGeographyI18NLabel,
 	SimsGeographySelector,
 } from 'bauhaus-operations';
 import { useGeographies } from './hooks';
-import { Stores } from 'bauhaus-utilities';
+import { Stores, Row } from 'bauhaus-utilities';
 
 const SimsGeographyField = ({ onCancel, onSave, territory = {}}) => {
 	const [name, setName] = useState(territory.labelLg1 ?? '');
+	const [nameLg2, setNameLg2] = useState(territory.labelLg2 ?? '');
 	const [selectedOption, setSelectedOption] = useState(null);
 	const [serverSideError, setServerSideError] = useState("");
 	const [
@@ -57,17 +58,17 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {}}) => {
 		const formatted = {
 			...territory,
 			labelLg1: name,
+			labelLg2: nameLg2,
 			unions: includes.map(i => ({ uri: i.value })),
 			difference: excludes.map(i => ({ uri: i.value }))
 		}
-
 		const method = formatted.id ?
 			Stores.Geographies.api.putTerritory(formatted.id, formatted) :
 			Stores.Geographies.api.postTerritory(formatted);
 			method.then((uri) => {
 				onSave(territory.uri ?? uri);
 			}).catch(err => setServerSideError(D.errors[JSON.parse(err).code]))
-	}, [territory, name, includes,  excludes, onSave]);
+	}, [territory, name, nameLg2, includes,  excludes, onSave]);
 
 	return (
 		<div className="w-100 container">
@@ -76,10 +77,10 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {}}) => {
 				<SaveButton action={save} col={3} />
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
-			<div className="row">
-				<div className={`form-group col-md-12`}>
-					<label className={`form-label w-100`}>
-						{D.simsGeographyZoneName}
+			<Row>
+				<div className="form-group col-md-6">
+					<label className="form-label w-100">
+						{D1.simsGeographyZoneName}
 						<input
 							value={name}
 							className="form-control"
@@ -87,7 +88,17 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {}}) => {
 						/>
 					</label>
 				</div>
-			</div>
+				<div className="form-group col-md-6">
+					<label className="form-label w-100">
+						{D2.simsGeographyZoneName}
+						<input
+							value={nameLg2}
+							className="form-control"
+							onChange={(e) => setNameLg2(e.target.value)}
+						/>
+					</label>
+				</div>
+			</Row>
 			<div className="bauhaus-sims-geography-field">
 				<div className="form-group">
 					<ReactSelect
