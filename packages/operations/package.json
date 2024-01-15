@@ -31,7 +31,7 @@
 		"draft-js": "0.10.4",
 		"draft-js-export-html": "1.4.1",
 		"draft-js-import-html": "1.2.1",
-		"draftjs-md-converter": "1.1.1",
+		"draftjs-md-converter": "1.5.2",
 		"lodash.deburr": "^4.1.0",
 		"react-draft-wysiwyg": "^1.14.4",
 		"react-is": "^16.13.1"
