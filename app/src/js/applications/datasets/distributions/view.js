@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../../../remote-api/distributions-api';
 import { useSelector } from 'react-redux';
 import * as select from '../../../reducers';
-import { Auth, CheckSecondLang, DateUtils, HTMLUtils, PageTitleBlock, Stores } from 'bauhaus-utilities';
+import { Auth, CheckSecondLang, DateUtils, HTMLUtils, PageTitleBlock, Stores, Row } from 'bauhaus-utilities';
 import { ActionToolbar, Button, goBack, Loading, Note, ReturnButton } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../i18n/build-dictionary';
 import React from 'react';
@@ -43,7 +43,7 @@ export const DistributionView = (props) => {
 
 			<CheckSecondLang />
 
-			<div className="row">
+			<Row>
 				<Note
 					text={
 						<ul>
@@ -57,8 +57,8 @@ export const DistributionView = (props) => {
 					title={D1.globalInformationsTitle}
 					alone={true}
 				/>
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note
 					text={HTMLUtils.renderMarkdownElement(distribution.descriptionLg1)}
 					title={D1.descriptionTitle}
@@ -75,7 +75,7 @@ export const DistributionView = (props) => {
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 		</div>
 	);
 
