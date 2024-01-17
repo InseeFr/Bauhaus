@@ -13,7 +13,7 @@ import {
 } from '@inseefr/wilco';
 import api from '../../../../remote-api/operations-api';
 
-import { CL_FREQ } from 'js/actions/constants/codeList';
+// import { CL_FREQ } from 'js/actions/constants/codeList';
 import {
 	Auth,
 	HTMLUtils,
@@ -21,15 +21,26 @@ import {
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc
+	ErrorBloc,
+	CodesList
 } from 'bauhaus-utilities';
+import { useQuery } from '@tanstack/react-query';
 
 const IndicatorVisualizationContainer = (props) =>  {
+
+	const { data: frequency } = useQuery({
+		queryKey: ['codelist', 'CL_FREQ'],
+		queryFn: () => {
+			CodesList.getCodesList('CL_FREQ')
+			CodesList.getCodesListCodes('CL_FREQ', 1, 0)
+		}
+	})
+
 	const { id } = useParams();
 
 	const langs = useSelector(state => select.getLangs(state));
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
-	const frequency = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
+	// const frequency = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
 	const organisations = useSelector(state => state.operationsOrganisations.results || []);
 
 	const [indicator, setIndicator] = useState({});
