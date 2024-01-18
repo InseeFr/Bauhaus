@@ -16,8 +16,8 @@ import Dropzone from 'react-dropzone';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 
 import {
-	goBack,
-	goBackOrReplace,
+	// goBack,
+	// goBackOrReplace,
 	Loading,
 	CancelButton,
 	SaveButton,
@@ -25,6 +25,9 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
+
+import { useGoBack, useGoBackOrReplace } from 'js/hooks/hooks';
+
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import api from 'js/remote-api/api';
 
@@ -109,6 +112,8 @@ export const ConfirmationModal = ({ document, isOpen, onYes, onNo }) => {
 };
 
 const OperationsDocumentationEdition = (props) => {
+	const goBack = useGoBack('/operations/documents')
+
 	const { document: documentProps, type, langOptions } = props;
 
 	const defaultDocument = useMemo(() => {
@@ -157,7 +162,9 @@ const OperationsDocumentationEdition = (props) => {
 		saveDocument(document, type, files)
 			.then(
 				(id = document.id) => {
-					goBackOrReplace(props, `/operations/${type}/${id}`, isCreation);
+					// eslint-disable-next-line react-hooks/rules-of-hooks
+					const goBackOrReplace = useGoBackOrReplace(`/operations/${type}/${id}`, isCreation)
+					goBackOrReplace();
 				},
 				(err) => {
 					setServerSideError(err);
@@ -211,7 +218,7 @@ const OperationsDocumentationEdition = (props) => {
 			)}
 
 			<ActionToolbar>
-				<CancelButton action={goBack(props, '/operations/documents')} />
+				<CancelButton action={goBack()} />
 				<SaveButton
 					action={onSubmit}
 					disabled={clientSideErrors.errorMessage?.length > 0}

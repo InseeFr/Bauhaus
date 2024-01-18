@@ -1,17 +1,23 @@
 import { useHistory } from "react-router-dom";
 
-export function useGoBack() {
+export function useGoBack(defaultRedirection) {
     const history = useHistory()
 
     return function() {
-        return history === true
+        return history.length === 1 || history.location.state
+		? history.push(defaultRedirection)
+		: history.goBack()
     }
 }
 
-export function useGoBackOrReplace() {
+export function useGoBackOrReplace(redirectUrl, shouldReplace = false) {
     const history = useHistory()
 
-    return function() {
-        return history === true
+    const goBack = useGoBack(redirectUrl)
+
+    if (shouldReplace) {
+        history.replace(redirectUrl)
+    } else {
+        goBack()
     }
 }
