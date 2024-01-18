@@ -8,9 +8,11 @@ import {
 	Loading,
 	Button,
 	ActionToolbar,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
+
+import { useGoBack } from 'js/hooks/hooks';
+
 import api from '../../../../remote-api/operations-api';
 
 import { CL_FREQ } from 'js/actions/constants/codeList';
@@ -24,7 +26,9 @@ import {
 	ErrorBloc
 } from 'bauhaus-utilities';
 
-const IndicatorVisualizationContainer = (props) =>  {
+const IndicatorVisualizationContainer = () =>  {
+	const goBack = useGoBack()
+
 	const { id } = useParams();
 
 	const langs = useSelector(state => select.getLangs(state));
@@ -68,7 +72,7 @@ const IndicatorVisualizationContainer = (props) =>  {
 				secondLang={secondLang}
 			/>
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations/indicators')} />
+				<ReturnButton action={goBack('/operations/indicators')} />
 				{indicator.idSims && (
 					<>
 						<Button

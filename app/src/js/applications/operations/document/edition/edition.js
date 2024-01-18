@@ -16,8 +16,6 @@ import Dropzone from 'react-dropzone';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 
 import {
-	// goBack,
-	// goBackOrReplace,
 	Loading,
 	CancelButton,
 	SaveButton,

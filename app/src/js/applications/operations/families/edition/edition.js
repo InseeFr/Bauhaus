@@ -37,7 +37,7 @@ const setInitialState = props => {
 		},
 	};
 };
-class OperationsFamilyEdition extends Component {
+class OperationsFamilyEdition extends Component { // composant classe où il faut utiliser le hook useGoBack
 	static propTypes = {
 		family: PropTypes.object.isRequired,
 		langs: PropTypes.object.isRequired,

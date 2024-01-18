@@ -33,7 +33,7 @@ const { RICH_TEXT } = rangeType;
 
 
 
-class SimsCreation extends React.Component {
+class SimsCreation extends React.Component { // composant classe où il faut utiliser le hook useGoBack
 	static propTypes = {
 		metadataStructure: PropTypes.object.isRequired,
 		codesLists: PropTypes.object.isRequired,

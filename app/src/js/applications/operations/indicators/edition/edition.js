@@ -26,7 +26,7 @@ const defaultIndicator = {
 	historyNoteLg2: '',
 	accrualPeriodicityList: CL_FREQ,
 };
-class OperationsIndicatorEdition extends Component {
+class OperationsIndicatorEdition extends Component { // composant classe où il faut utiliser le hook useGoBack
 	static propTypes = {
 		indicator: PropTypes.object.isRequired,
 		langs: PropTypes.object.isRequired,

@@ -39,7 +39,7 @@ const defaultSerie = {
 	accrualPeriodicityList: CL_FREQ,
 	typeList: CL_SOURCE_CATEGORY,
 };
-class OperationsSerieEdition extends Component {
+class OperationsSerieEdition extends Component { // composant classe où il faut utiliser le hook useGoBack
 	static defaultProps = {
 		organisation: [],
 		indicators: [],

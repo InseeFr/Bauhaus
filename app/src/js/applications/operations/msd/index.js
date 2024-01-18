@@ -39,7 +39,7 @@ export const DUPLICATE = 'DUPLICATE';
 const sortByLabel = ArrayUtils.sortArray('labelLg1');
 
 
-class MSDContainer extends Component {
+class MSDContainer extends Component { // composant classe où il faut utiliser le hook useGoBack
 	static propTypes = {
 		metadataStructure: PropTypes.object,
 		metadataStructureStatus: PropTypes.oneOf([LOADED, NOT_LOADED, LOADING]),

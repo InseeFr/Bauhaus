@@ -8,9 +8,11 @@ import {
 	Loading,
 	Button,
 	ActionToolbar,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
+
+import { useGoBack } from 'js/hooks/hooks';
+
 import OperationsOperationVisualization from './home';
 import D from 'js/i18n';
 
@@ -25,7 +27,9 @@ import {
 import api from '../../../../remote-api/operations-api';
 
 
-const OperationVisualizationContainer = (props) => {
+const OperationVisualizationContainer = () => {
+	const goBack = useGoBack()
+
 	const { id } = useParams();
 	const [operation, setOperation] = useState({});
 	const langs = useSelector(state => select.getLangs(state));
@@ -65,7 +69,7 @@ const OperationVisualizationContainer = (props) => {
 				secondLang={secondLang}
 			/>
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations/operations')} />
+				<ReturnButton action={goBack('/operations/operations')} />
 
 				{operation.idSims && (
 					<Button

@@ -21,7 +21,7 @@ const defaultOperation = {
 	altLabelLg1: '',
 	altLabelLg2: '',
 };
-class OperationsOperationEdition extends Component {
+class OperationsOperationEdition extends Component { // composant classe où il faut utiliser le hook useGoBack
 	static propTypes = {
 		operation: PropTypes.object.isRequired,
 		langs: PropTypes.object.isRequired,

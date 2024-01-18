@@ -2,9 +2,11 @@ import {
 	Loading,
 	Button,
 	ActionToolbar,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
+
+import { useGoBack } from 'js/hooks/hooks';
+
 import {
 	Auth,
 	CheckSecondLang,
@@ -46,7 +48,9 @@ const checkContributorRight = (document) => {
 	}
 }
 
-const DocumentationVisualizationContainer = props => {
+const DocumentationVisualizationContainer = () => {
+	const goBack = useGoBack()
+
 	const { id } = useParams();
 	const { path } = useRouteMatch();
 	const type = getPath(path);
@@ -84,7 +88,7 @@ const DocumentationVisualizationContainer = props => {
 			/>
 
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations/documents')} />
+				<ReturnButton action={goBack('/operations/documents')} />
 
 				<Auth.AuthGuard
 					roles={[

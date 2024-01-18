@@ -4,7 +4,9 @@ import 'react-sortable-tree/style.css';
 import { Link } from 'react-router-dom';
 import api from 'js/remote-api/operations-api';
 import D from 'js/i18n';
-import { goBack, PageTitle, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { PageTitle, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+
+import { useGoBack } from 'js/hooks/hooks';
 
 import './tree.scss';
 import { useTitle } from 'bauhaus-utilities';
@@ -63,7 +65,9 @@ export const updateTree = (treeData, leaf, familyIndex, seriesIndex) => {
 	});
 };
 
-const TreeComponent = props => {
+const TreeComponent = () => {
+	const goBack = useGoBack()
+
 	useTitle(D.operationsTitle, D.operationsTreeTitle)
 
 	const [treeData, setTreeData] = useState([]);
@@ -122,7 +126,7 @@ const TreeComponent = props => {
 		<div className="container">
 			<PageTitle title={D.operationsTreeTitle} col={12} offset={0} />
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations')} />
+				<ReturnButton action={goBack('/operations')} />
 			</ActionToolbar>
 			<div className="row">
 				<div className="col-md-12 text-center pull-right operations-list">

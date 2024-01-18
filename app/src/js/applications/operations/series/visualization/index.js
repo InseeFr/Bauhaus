@@ -9,9 +9,11 @@ import {
 	Loading,
 	Button,
 	ActionToolbar,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
+
+import { useGoBack } from 'js/hooks/hooks';
+
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 
 import {
@@ -25,7 +27,9 @@ import {
 } from 'bauhaus-utilities';
 import api from '../../../../remote-api/operations-api';
 
-const SeriesVisualizationContainer = (props) => {
+const SeriesVisualizationContainer = () => {
+	const goBack = useGoBack()
+
 	const { id } = useParams();
 	const [series, setSeries] = useState({})
 	const [publishing, setPublishing] = useState(false)
@@ -73,7 +77,7 @@ const SeriesVisualizationContainer = (props) => {
 			/>
 
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations/series')} />
+				<ReturnButton action={goBack('/operations/series')} />
 
 				{series.idSims && (
 					<Button
