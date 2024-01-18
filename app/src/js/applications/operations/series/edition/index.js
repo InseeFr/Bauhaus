@@ -52,4 +52,4 @@ const OperationsSeriesEditionContainer = props => {
 
 }
 
-export default withRouter(OperationsSeriesEditionContainer);
+export default withRouter(OperationsSeriesEditionContainer); // withRouter à supprimer une fois fini

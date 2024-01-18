@@ -144,7 +144,7 @@ export class MenuOperations extends Component {
 	}
 }
 
-export default withRouter(
+export default withRouter( // withRouter à supprimer une fois fini
 	connect(state => {
 		return { sims: getOperationsSimsCurrent(state) };
 	})(MenuOperations)

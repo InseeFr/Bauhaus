@@ -45,4 +45,4 @@ const OperationsIndicatorsEditionContainer = (props) => {
 		{...props} />;
 }
 
-export default withRouter(OperationsIndicatorsEditionContainer);
+export default withRouter(OperationsIndicatorsEditionContainer); // withRouter à supprimer une fois fini

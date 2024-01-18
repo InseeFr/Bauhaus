@@ -30,4 +30,4 @@ const OperationEditionContainer = (props) => {
 	return <OperationsOperationEdition series={series} langs={langs} id={id} operation={operation} {...props} />;
 }
 
-export default withRouter(OperationEditionContainer);
+export default withRouter(OperationEditionContainer); // withRouter à supprimer une fois fini

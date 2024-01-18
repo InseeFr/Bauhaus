@@ -386,4 +386,4 @@ const withParentWithSims = (Component) => {
 }
 
 const AdvancedSimsCreation = withParentWithSims(SimsCreation);
-export default withRouter(AdvancedSimsCreation);
+export default withRouter(AdvancedSimsCreation); // withRouter à supprimer une fois fini

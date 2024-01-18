@@ -124,4 +124,4 @@ OperationVisualizationContainer.propTypes = {
 	secondLang: PropTypes.bool,
 };
 
-export default withRouter(OperationVisualizationContainer);
+export default withRouter(OperationVisualizationContainer); // withRouter à supprimer une fois fini

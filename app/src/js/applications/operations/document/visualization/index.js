@@ -116,4 +116,4 @@ const DocumentationVisualizationContainer = () => {
 	);
 }
 
-export default withRouter(DocumentationVisualizationContainer);
+export default withRouter(DocumentationVisualizationContainer); // withRouter à supprimer une fois fini

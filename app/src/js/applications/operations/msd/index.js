@@ -333,7 +333,7 @@ const MSDContainerWithParent = props => {
 	if(loading) return <Loading textType="loadableLoading" />
 	return <MSDContainer {...props} documentStores={documentStores} currentSims={currentSims} parent={parent}/>
 }
-export default withRouter(
+export default withRouter( // withRouter à supprimer une fois fini
 	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)
 );
 

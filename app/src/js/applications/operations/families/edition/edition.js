@@ -193,6 +193,6 @@ class OperationsFamilyEdition extends Component { // composant classe où il fau
 	}
 }
 
-export default withTitle(withRouter(OperationsFamilyEdition), D.operationsTitle, props => {
+export default withTitle(withRouter(OperationsFamilyEdition), D.operationsTitle, props => { // withRouter à supprimer une fois fini
 	return props.family.prefLabelLg1 || D.familiesCreateTitle
 });

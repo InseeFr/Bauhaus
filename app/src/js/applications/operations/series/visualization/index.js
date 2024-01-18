@@ -128,4 +128,4 @@ const SeriesVisualizationContainer = () => {
 	);
 }
 
-export default withRouter(SeriesVisualizationContainer);
+export default withRouter(SeriesVisualizationContainer); // withRouter à supprimer une fois fini

@@ -115,4 +115,4 @@ const IndicatorVisualizationContainer = () =>  {
 	);
 }
 
-export default withRouter(IndicatorVisualizationContainer);
+export default withRouter(IndicatorVisualizationContainer); // withRouter à supprimer une fois fini
