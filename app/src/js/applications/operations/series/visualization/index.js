@@ -77,7 +77,7 @@ const SeriesVisualizationContainer = () => {
 			/>
 
 			<ActionToolbar>
-				<ReturnButton action={goBack('/operations/series')} />
+				<ReturnButton action={() => goBack('/operations/series')} />
 
 				{series.idSims && (
 					<Button

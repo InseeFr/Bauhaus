@@ -69,7 +69,7 @@ const OperationVisualizationContainer = () => {
 				secondLang={secondLang}
 			/>
 			<ActionToolbar>
-				<ReturnButton action={goBack('/operations/operations')} />
+				<ReturnButton action={() => goBack('/operations/operations')} />
 
 				{operation.idSims && (
 					<Button

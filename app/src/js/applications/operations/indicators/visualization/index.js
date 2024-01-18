@@ -72,7 +72,7 @@ const IndicatorVisualizationContainer = () =>  {
 				secondLang={secondLang}
 			/>
 			<ActionToolbar>
-				<ReturnButton action={goBack('/operations/indicators')} />
+				<ReturnButton action={() => goBack('/operations/indicators')} />
 				{indicator.idSims && (
 					<>
 						<Button

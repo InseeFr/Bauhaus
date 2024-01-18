@@ -88,7 +88,7 @@ const DocumentationVisualizationContainer = () => {
 			/>
 
 			<ActionToolbar>
-				<ReturnButton action={goBack('/operations/documents')} />
+				<ReturnButton action={() => goBack('/operations/documents')} />
 
 				<Auth.AuthGuard
 					roles={[

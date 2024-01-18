@@ -66,7 +66,7 @@ const Family = () => {
 			/>
 
 			<ActionToolbar>
-				<ReturnButton action={goBack('/operations/families')} />
+				<ReturnButton action={() => goBack('/operations/families')} />
 
 				<Auth.AuthGuard roles={[Auth.ADMIN]}>
 					<ValidationButton

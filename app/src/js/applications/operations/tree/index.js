@@ -126,7 +126,7 @@ const TreeComponent = () => {
 		<div className="container">
 			<PageTitle title={D.operationsTreeTitle} col={12} offset={0} />
 			<ActionToolbar>
-				<ReturnButton action={goBack('/operations')} />
+				<ReturnButton action={() => goBack('/operations')} />
 			</ActionToolbar>
 			<div className="row">
 				<div className="col-md-12 text-center pull-right operations-list">
