@@ -9,8 +9,8 @@
 	],
 	"scripts": {
 		"start": "NODE_OPTIONS=--openssl-legacy-provider yarn workspace Bauhaus run start",
-		"build": "yarn workspaces run build",
-		"build-insee": "yarn workspaces run build-insee",
+		"build": "NODE_OPTIONS=--openssl-legacy-provider yarn workspaces run build",
+		"build-insee": "NODE_OPTIONS=--openssl-legacy-provider yarn workspaces run build-insee",
 		"test:coverage": "yarn workspaces run test:coverage",
 		"pre-push": "yarn workspaces run lint && yarn test:coverage",
 		"generate-entrypoint": "node scripts/generate-entrypoint.js",
