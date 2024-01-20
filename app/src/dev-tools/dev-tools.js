@@ -93,7 +93,7 @@ function install(store) {
 	const devToolsRoot = document.createElement('div');
 	document.body.appendChild(devToolsRoot);
 	const root = createRoot(devToolsRoot);
-	root.render(<DevTools />, devToolsRoot);
+	root.render(<DevTools />);
 }
 
 export { install };
