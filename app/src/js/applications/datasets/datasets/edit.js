@@ -126,6 +126,80 @@ export const DatasetEdit = (props) => {
 								<Row>
 									<div className="col-md-12 form-group">
 										<label className="w-100 wilco-label-required">
+											{D1.datasetsDataProvider}
+											<ReactSelect
+												placeholder={D1.stampsPlaceholder}
+												unclearable
+												multi={true}
+												value={editingDataset.creators}
+												options={organisationsOptions}
+												onChange={(values) => {
+													setEditingDataset({
+														...editingDataset,
+														creators: values.map((v) => v.value),
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.generatedBy}
+											<span className="asterisk">*</span>
+											<ReactSelect
+												unclearable
+												multi={false}
+												value={editingDataset.idSerie}
+												options={seriesOptions}
+												onChange={({ value }) => {
+													setEditingDataset({
+														...editingDataset,
+														idSerie: value,
+													});
+													setClientSideErrors({});
+												}}
+											/>
+										</label>
+										<ClientSideError
+											error={clientSideErrors?.fields?.idSerie}
+										></ClientSideError>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.theme}
+											<ReactSelect
+												unclearable
+												multi={true}
+												value={editingDataset.themes}
+												options={themesOptions}
+												onChange={(values) => {
+													setEditingDataset({
+														...editingDataset,
+														themes: values.map(({ value }) => value),
+													});
+													setClientSideErrors({});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+							</>
+						);
+					},
+				},
+				globalInternalManagementTitle: {
+					title: D.globalInternalManagementTitle,
+					content: () => {
+						return (
+							<>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
 											{D1.creatorTitle}
 											<span className="asterisk">*</span>
 											<ReactSelect
@@ -185,51 +259,7 @@ export const DatasetEdit = (props) => {
 										></ClientSideError>
 									</div>
 								</Row>
-								<Row>
-									<div className="col-md-12 form-group">
-										<label className="w-100 wilco-label-required">
-											{D1.datasetsDataProvider}
-											<ReactSelect
-												placeholder={D1.stampsPlaceholder}
-												unclearable
-												multi={true}
-												value={editingDataset.creators}
-												options={organisationsOptions}
-												onChange={(values) => {
-													setEditingDataset({
-														...editingDataset,
-														creators: values.map((v) => v.value),
-													});
-												}}
-											/>
-										</label>
-									</div>
-								</Row>
 
-								<Row>
-									<div className="col-md-12 form-group">
-										<label className="w-100 wilco-label-required">
-											{D1.generatedBy}
-											<span className="asterisk">*</span>
-											<ReactSelect
-												unclearable
-												multi={false}
-												value={editingDataset.idSerie}
-												options={seriesOptions}
-												onChange={({ value }) => {
-													setEditingDataset({
-														...editingDataset,
-														idSerie: value,
-													});
-													setClientSideErrors({});
-												}}
-											/>
-										</label>
-										<ClientSideError
-											error={clientSideErrors?.fields?.idSerie}
-										></ClientSideError>
-									</div>
-								</Row>
 								<Row>
 									<div className="col-md-12 form-group">
 										<label className="w-100 wilco-label-required">
@@ -252,26 +282,6 @@ export const DatasetEdit = (props) => {
 										<ClientSideError
 											error={clientSideErrors?.fields?.disseminationStatus}
 										></ClientSideError>
-									</div>
-								</Row>
-								<Row>
-									<div className="col-md-12 form-group">
-										<label className="w-100 wilco-label-required">
-											{D1.theme}
-											<ReactSelect
-												unclearable
-												multi={true}
-												value={editingDataset.themes}
-												options={themesOptions}
-												onChange={(values) => {
-													setEditingDataset({
-														...editingDataset,
-														themes: values.map(({ value }) => value),
-													});
-													setClientSideErrors({});
-												}}
-											/>
-										</label>
 									</div>
 								</Row>
 							</>

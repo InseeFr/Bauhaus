@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 
 const getComponent = (pageName, pages, activeModules) => {
 	if (!activeModules.includes(pageName)) {
-		return UnderMaintenance;
+		//return UnderMaintenance;
 	}
 	if (!pages[pageName]) {
 		return NotFound;

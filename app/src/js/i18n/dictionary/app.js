@@ -1,6 +1,6 @@
 import btnD from './generic/btn';
 const dictionary = {
-	errorTitle: {fr:"Erreur",en:"Error"},
+	errorTitle: { fr: 'Erreur', en: 'Error' },
 	langs: {
 		fr: 'Français',
 		en: 'English',
@@ -81,7 +81,7 @@ const dictionary = {
 	},
 
 	errorBody: {
-		fr: 'Veuillez contacter l\'équipe RMéS dg75-administration-rmes@insee.fr',
+		fr: "Veuillez contacter l'équipe RMéS dg75-administration-rmes@insee.fr",
 		en: 'Please contact the team RMéS dg75-administration-rmes@insee.fr',
 	},
 	exportTitle: {
@@ -213,6 +213,10 @@ const dictionary = {
 	globalInformationsTitle: {
 		fr: 'Informations générales',
 		en: 'General information',
+	},
+	globalInternalManagementTitle: {
+		fr: 'Gestion Interne',
+		en: 'Internal management',
 	},
 	notesTitle: {
 		fr: 'Notes',
@@ -423,10 +427,8 @@ const dictionary = {
 		en: 'Measures',
 	},
 	quitWithoutSaving: {
-		fr:
-			'Vous êtes sur le point de quitter cette page sans sauvegarder vos modifications. Souhaitez-vous continuer ?',
-		en:
-			'You are leaving this page without saving your changes. Do you want to continue ?',
+		fr: 'Vous êtes sur le point de quitter cette page sans sauvegarder vos modifications. Souhaitez-vous continuer ?',
+		en: 'You are leaving this page without saving your changes. Do you want to continue ?',
 	},
 	btnExport: { fr: "Options d'export", en: 'Export options' },
 	btnExportValidate: { fr: 'Exporter en odt', en: 'Export to odt' },
@@ -452,8 +454,10 @@ const dictionary = {
 	},
 	advancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
 	mandatoryProperty: {
-		fr: (propertyName) => `La propriété <strong>${propertyName}</strong> est obligatoire.`,
-		en: (propertyName) => `The property <strong>${propertyName}</strong> is required.`,
+		fr: (propertyName) =>
+			`La propriété <strong>${propertyName}</strong> est obligatoire.`,
+		en: (propertyName) =>
+			`The property <strong>${propertyName}</strong> is required.`,
 	},
 };
 
