@@ -21,29 +21,12 @@ import {
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc,
-	CodesList
+	ErrorBloc
 } from 'bauhaus-utilities';
 import api from '../../../../remote-api/operations-api';
-import { useQuery } from '@tanstack/react-query';
+import { useQueryCodesList } from 'js/hooks/hooks';
 
 const SeriesVisualizationContainer = (props) => {
-
-	const { data: frequencies } = useQuery({
-		queryKey: ['codelist', 'CL_FREQ'],
-		queryFn: () => {
-			CodesList.getCodesList('CL_FREQ')
-			CodesList.getCodesListCodes('CL_FREQ', 1, 0)
-		}
-	});
-
-	const { data: categories } = useQuery({
-		queryKey: ['codelist', 'CL_SOURCE_CATEGORY'],
-		queryFn: () => {
-			CodesList.getCodesList('CL_SOURCE_CATEGORY')
-			CodesList.getCodesListCodes('CL_SOURCE_CATEGORY', 1, 0)
-		}
-	});
 
 	const { id } = useParams();
 	const [series, setSeries] = useState({})
@@ -51,8 +34,10 @@ const SeriesVisualizationContainer = (props) => {
 	const [serverSideError, setServerSideError] = useState()
 
 	// const frequencies = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
+	const frequencies = useQueryCodesList('CL_FREQ')
 	const organisations = useSelector(state => state.operationsOrganisations.results || []);
 	// const categories = useSelector(state => state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {});
+	const categories = useQueryCodesList('CL_SOURCE_CATEGORY')
 	const langs = useSelector(state => select.getLangs(state))
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
 

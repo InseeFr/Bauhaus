@@ -21,26 +21,18 @@ import {
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc,
-	CodesList
+	ErrorBloc
 } from 'bauhaus-utilities';
-import { useQuery } from '@tanstack/react-query';
+import { useQueryCodesList } from 'js/hooks/hooks';
 
 const IndicatorVisualizationContainer = (props) =>  {
-
-	const { data: frequency } = useQuery({
-		queryKey: ['codelist', 'CL_FREQ'],
-		queryFn: () => {
-			CodesList.getCodesList('CL_FREQ')
-			CodesList.getCodesListCodes('CL_FREQ', 1, 0)
-		}
-	})
 
 	const { id } = useParams();
 
 	const langs = useSelector(state => select.getLangs(state));
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
 	// const frequency = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
+	const frequency = useQueryCodesList('CL_FREQ')
 	const organisations = useSelector(state => state.operationsOrganisations.results || []);
 
 	const [indicator, setIndicator] = useState({});

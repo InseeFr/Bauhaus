@@ -6,23 +6,15 @@ import { Loading } from '@inseefr/wilco';
 import OperationsIndicatorEdition from 'js/applications/operations/indicators/edition/edition';
 // import { CL_FREQ } from 'js/actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';
-import { useQuery } from '@tanstack/react-query';
-import { CodesList } from 'bauhaus-utilities';
+import { useQueryCodesList } from 'js/hooks/hooks';
 
 const OperationsIndicatorsEditionContainer = (props) => {
-
-	const { data: frequencies } = useQuery({
-		queryKey: ['codelist', 'CL_FREQ'],
-		queryFn: () => {
-			CodesList.getCodesList('CL_FREQ')
-			CodesList.getCodesListCodes('CL_FREQ', 1, 0)
-		}
-	})
 
 	const { id } = useParams();
 
 	const langs = useSelector(state => select.getLangs(state));
 	// const frequencies = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
+	const frequencies = useQueryCodesList('CL_FREQ')
 	const organisations = useSelector(state => state.operationsOrganisations.results || []);
 
 	const [indicator, setIndicator] = useState({});

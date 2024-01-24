@@ -9,11 +9,12 @@ import {
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	Stores, useTitle, useUrlQueryParameters,
-	CodesList
+	Stores,
+	useTitle,
+	useUrlQueryParameters
 } from 'bauhaus-utilities';
 // import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
-import { useQuery } from '@tanstack/react-query';
+import { useQueryCodesList } from 'js/hooks/hooks';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
@@ -219,18 +220,11 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 
 const SearchListContainer = () => {
 
-	const { data: categories } = useQuery({
-		queryKey: ['codelist', 'CL_SOURCE_CATEGORY'],
-		queryFn: () => {
-			CodesList.getCodesList('CL_SOURCE_CATEGORY')
-			CodesList.getCodesListCodes('CL_SOURCE_CATEGORY', 1, 0)
-		}
-	});
-
 	useTitle(D.operationsTitle, D.seriesTitle + ' - ' + D.advancedSearch)
 	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
 	const [data, setData] = useState();
 	// const categories = useSelector(state => state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {});
+	const categories = useQueryCodesList('CL_SOURCE_CATEGORY')
 	const organisations = useSelector(state => state.operationsOrganisations.results);
 	const stamps = useSelector(state => Stores.Stamps.getStampList(state) || []);
 
