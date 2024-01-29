@@ -7,8 +7,6 @@ import {
 	SaveButton,
 	Loading,
 	ActionToolbar,
-	goBackOrReplace,
-	goBack,
 	LabelRequired,
 } from '@inseefr/wilco';
 import { validate } from './validation';
@@ -37,7 +35,7 @@ const setInitialState = props => {
 		},
 	};
 };
-class OperationsFamilyEdition extends Component { // composant classe où il faut utiliser le hook useGoBack
+class OperationsFamilyEdition extends Component {
 	static propTypes = {
 		family: PropTypes.object.isRequired,
 		langs: PropTypes.object.isRequired,
@@ -82,7 +80,7 @@ class OperationsFamilyEdition extends Component { // composant classe où il fau
 			const method = isCreation ? 'postFamily' : 'putFamily';
 			return api[method](this.state.family).then(
 				(id = this.state.family.id) => {
-					goBackOrReplace(this.props, `/operations/family/${id}`, isCreation);
+					this.props.goBack(`/operations/family/${id}`, isCreation);
 				},
 				err => {
 					this.setState({
@@ -94,6 +92,8 @@ class OperationsFamilyEdition extends Component { // composant classe où il fau
 
 	render() {
 		if (this.state.saving) return <Loading textType="saving" />;
+
+		const {goBack} = this.props
 
 		const { family, serverSideError } = this.state;
 		const isEditing = !!family.id;
@@ -109,7 +109,7 @@ class OperationsFamilyEdition extends Component { // composant classe où il fau
 				)}
 
 				<ActionToolbar>
-					<CancelButton action={goBack(this.props, '/operations/families')} />
+					<CancelButton action={() => goBack('/operations/families')} />
 					<SaveButton action={this.onSubmit} disabled={this.state.clientSideErrors.errorMessage?.length > 0} />
 				</ActionToolbar>
 

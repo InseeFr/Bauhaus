@@ -6,8 +6,6 @@ import {
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
-	goBack,
-	goBackOrReplace,
 	LabelRequired,
 } from '@inseefr/wilco';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
@@ -39,7 +37,7 @@ const defaultSerie = {
 	accrualPeriodicityList: CL_FREQ,
 	typeList: CL_SOURCE_CATEGORY,
 };
-class OperationsSerieEdition extends Component { // composant classe où il faut utiliser le hook useGoBack
+class OperationsSerieEdition extends Component {
 	static defaultProps = {
 		organisation: [],
 		indicators: [],
@@ -120,7 +118,7 @@ class OperationsSerieEdition extends Component { // composant classe où il faut
 			return api[method](this.state.serie)
 				.then(
 					(id = this.state.serie.id) => {
-						goBackOrReplace(this.props, `/operations/series/${id}`, isCreation);
+						this.props.goBack(`/operations/series/${id}`, isCreation);
 					},
 					(err) => {
 						this.setState({
@@ -135,7 +133,7 @@ class OperationsSerieEdition extends Component { // composant classe où il faut
 	render() {
 		if (this.state.saving) return <Loading textType="saving" />;
 
-		const { frequencies, categories, organisations, indicators, series } =
+		const { frequencies, categories, organisations, indicators, series, goBack } =
 			this.props;
 
 		const serie = {
@@ -189,7 +187,7 @@ class OperationsSerieEdition extends Component { // composant classe où il faut
 				)}
 
 				<ActionToolbar>
-					<CancelButton action={goBack(this.props, '/operations/series')} />
+					<CancelButton action={() => goBack('/operations/series')} />
 					<SaveButton
 						action={this.onSubmit}
 						disabled={this.state.clientSideErrors.errorMessage?.length > 0}

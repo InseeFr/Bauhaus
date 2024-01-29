@@ -6,8 +6,11 @@ import { Loading } from '@inseefr/wilco';
 import OperationsSerieEdition from 'js/applications/operations/series/edition/edition';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';
+import { useGoBack } from 'js/hooks/hooks';
 
 const OperationsSeriesEditionContainer = props => {
+	const goBack = useGoBack()
+
 	const { id } = useParams();
 	const [serie, setSerie] = useState({});
 
@@ -48,7 +51,7 @@ const OperationsSeriesEditionContainer = props => {
 																 serie={serie}
 																 categories={categories}
 																 organisations={organisations}
-																 series={series} families={families} indicators={indicators} langs={langs} frequencies={frequencies}/>;
+																 series={series} families={families} indicators={indicators} langs={langs} frequencies={frequencies} goBack={goBack}/>;
 
 }
 

@@ -6,8 +6,6 @@ import {
 	SaveButton,
 	Loading,
 	ActionToolbar,
-	goBack,
-	goBackOrReplace,
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
@@ -21,7 +19,7 @@ const defaultOperation = {
 	altLabelLg1: '',
 	altLabelLg2: '',
 };
-class OperationsOperationEdition extends Component { // composant classe où il faut utiliser le hook useGoBack
+class OperationsOperationEdition extends Component {
 	static propTypes = {
 		operation: PropTypes.object.isRequired,
 		langs: PropTypes.object.isRequired,
@@ -89,7 +87,7 @@ class OperationsOperationEdition extends Component { // composant classe où il 
 			const method = isCreation ? 'postOperation' : 'putOperation';
 			return api[method](this.state.operation).then(
 				(id = this.state.operation.id) => {
-					goBackOrReplace(this.props, `/operations/operation/${id}`, isCreation);
+					this.props.goBack(`/operations/operation/${id}`, isCreation);
 				},
 				err => {
 					this.setState({
@@ -102,6 +100,8 @@ class OperationsOperationEdition extends Component { // composant classe où il 
 
 	render() {
 		if (this.state.saving) return <Loading textType="saving" />;
+
+		const {goBack} = this.props
 
 		const seriesOptions = this.props.series
 			.filter(series => !series.idSims)
@@ -123,7 +123,7 @@ class OperationsOperationEdition extends Component { // composant classe où il 
 				)}
 
 				<ActionToolbar>
-					<CancelButton action={goBack(this.props, '/operations/operations')} />
+					<CancelButton action={() => goBack('/operations/operations')} />
 
 					<SaveButton action={this.onSubmit} disabled={this.state.clientSideErrors.errorMessage?.length > 0} />
 				</ActionToolbar>

@@ -5,8 +5,11 @@ import { useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import OperationsOperationEdition from 'js/applications/operations/operations/edition/edition';
 import api  from 'js/remote-api/operations-api';
+import { useGoBack } from 'js/hooks/hooks';
 
 const OperationEditionContainer = (props) => {
+	const goBack = useGoBack()
+
 	const { id } = useParams();
 	const [series, setSeries] = useState([]);
 	const [operation, setOperation] = useState({});
@@ -27,7 +30,7 @@ const OperationEditionContainer = (props) => {
 
 	if (!operation.id && id) return <Loading />;
 
-	return <OperationsOperationEdition series={series} langs={langs} id={id} operation={operation} {...props} />;
+	return <OperationsOperationEdition series={series} langs={langs} id={id} operation={operation} goBack={goBack} {...props} />;
 }
 
 export default withRouter(OperationEditionContainer); // withRouter à supprimer une fois fini

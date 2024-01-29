@@ -44,7 +44,7 @@ export default function SimsVisualisation({
 	codesLists,
 	sims = {},
 	secondLang,
-	goBack, // syntaxe à creuser
+	goBack,
 	organisations,
 	publishSims,
 	exportCallback,

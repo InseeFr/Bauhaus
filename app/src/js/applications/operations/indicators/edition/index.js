@@ -6,9 +6,11 @@ import { Loading } from '@inseefr/wilco';
 import OperationsIndicatorEdition from 'js/applications/operations/indicators/edition/edition';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';
-
+import { useGoBack } from 'js/hooks/hooks';
 
 const OperationsIndicatorsEditionContainer = (props) => {
+	const goBack = useGoBack()
+
 	const { id } = useParams();
 
 	const langs = useSelector(state => select.getLangs(state));
@@ -42,6 +44,7 @@ const OperationsIndicatorsEditionContainer = (props) => {
 		organisations={organisations}
 		frequencies={frequencies}
 		indicator={indicator}
+		goBack={goBack}
 		{...props} />;
 }
 
