@@ -12,7 +12,7 @@ import {
 	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
-// import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
+import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 
 import {
 	Auth,
@@ -33,11 +33,9 @@ const SeriesVisualizationContainer = (props) => {
 	const [publishing, setPublishing] = useState(false)
 	const [serverSideError, setServerSideError] = useState()
 
-	// const frequencies = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
-	const frequencies = useQueryCodesList('CL_FREQ')
+	const frequencies = useQueryCodesList(CL_FREQ)
 	const organisations = useSelector(state => state.operationsOrganisations.results || []);
-	// const categories = useSelector(state => state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {});
-	const categories = useQueryCodesList('CL_SOURCE_CATEGORY')
+	const categories = useQueryCodesList(CL_SOURCE_CATEGORY)
 	const langs = useSelector(state => select.getLangs(state))
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
 

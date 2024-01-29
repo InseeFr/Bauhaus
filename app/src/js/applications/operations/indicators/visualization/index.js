@@ -13,7 +13,7 @@ import {
 } from '@inseefr/wilco';
 import api from '../../../../remote-api/operations-api';
 
-// import { CL_FREQ } from 'js/actions/constants/codeList';
+import { CL_FREQ } from 'js/actions/constants/codeList';
 import {
 	Auth,
 	HTMLUtils,
@@ -31,8 +31,7 @@ const IndicatorVisualizationContainer = (props) =>  {
 
 	const langs = useSelector(state => select.getLangs(state));
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
-	// const frequency = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
-	const frequency = useQueryCodesList('CL_FREQ')
+	const frequency = useQueryCodesList(CL_FREQ)
 	const organisations = useSelector(state => state.operationsOrganisations.results || []);
 
 	const [indicator, setIndicator] = useState({});
