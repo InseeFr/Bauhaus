@@ -27,6 +27,12 @@ const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
 			staleTime: Infinity,
+			refetchInterval: false,
+			refetchOnMount: false,
+			refetchOnWindowFocus: false,
+			refetchOnReconnect: false,
+			refetchIntervalInBackground: false,
+			cacheTime: Infinity,
 		},
 	},
 });

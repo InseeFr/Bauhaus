@@ -29,14 +29,56 @@ import { useThemes } from './useThemes';
 import { validate } from './validation';
 import { LayoutWithLateralMenu } from './layout-with-lateral-menu';
 import apiOrganisations from '../../../remote-api/organisations-api';
+import { withCodesLists } from '../../../hooks/hooks';
+import { StructureAPI } from 'bauhaus-structures';
+import { TemporalField } from './components/temporalField';
 
-export const DatasetEdit = (props) => {
+const convertCodesListsToSelectOption = (codesList) =>
+	codesList?.codes?.map((code) => ({
+		value: code.iri,
+		label: code.labelLg1,
+	})) ?? [];
+
+const Dataset = (props) => {
+	const [archivageUnits, setArchivageUnits] = useState([]);
+
+	useEffect(() => {
+		api.getArchivageUnits().then(setArchivageUnits);
+	}, []);
+
+	const clAccessRightsOptions = convertCodesListsToSelectOption(
+		props['CL_ACCESS_RIGHTS']
+	);
+	const clFreqOptions = convertCodesListsToSelectOption(props['CL_FREQ']);
+	const clConfStatusOptions = convertCodesListsToSelectOption(
+		props['CL_CONF_STATUS']
+	);
+	const clDataTypes = convertCodesListsToSelectOption(props['CL_DATA_TYPES']);
+	const clStatUnit = convertCodesListsToSelectOption(props['CL_STAT_UNIT']);
+	const clProcessStep = convertCodesListsToSelectOption(
+		props['CL_PROCESS_STEP']
+	);
+	const clGeo = convertCodesListsToSelectOption(props['CL_GEO']);
+	const clGeoType = convertCodesListsToSelectOption(props['CL_TYPE_GEO']);
+
 	const { data: organisations } = useQuery({
 		queryFn: () => {
 			return apiOrganisations.getOrganisations();
 		},
 		queryKey: ['organisations'],
 	});
+
+	const { data: structures } = useQuery({
+		queryKey: ['structures'],
+		queryFn: () => {
+			console.log('get structures');
+			return StructureAPI.getStructures();
+		},
+	});
+
+	const structuresOptions =
+		structures?.map(({ iri, labelLg1 }) => ({ value: iri, label: labelLg1 })) ??
+		[];
 
 	const organisationsOptions =
 		organisations?.map(({ id, label }) => ({ value: id, label })) ?? [];
@@ -48,13 +90,19 @@ export const DatasetEdit = (props) => {
 				globalInformation: {
 					title: D.globalInformationsTitle,
 					content: () => {
-						let formattedUpdatedDate = '';
-						if (dataset?.updated) {
-							const d = new Date(editingDataset.updated);
-							formattedUpdatedDate = `${d.getFullYear()}-${
-								d.getMonth() + 1
-							}-${d.getDate()}`;
+						if (editingDataset?.updated) {
+							editingDataset.updated = editingDataset.updated.substring(
+								0,
+								(editingDataset.updated = editingDataset.update.indexOf('T'))
+							);
 						}
+						if (editingDataset?.issued) {
+							editingDataset.issued = editingDataset.issued.substring(
+								0,
+								(editingDataset.updated = editingDataset.update.indexOf('T'))
+							);
+						}
+
 						return (
 							<>
 								<Row>
@@ -103,7 +151,38 @@ export const DatasetEdit = (props) => {
 										></ClientSideError>
 									</div>
 								</Row>
-
+								<Row>
+									<div className="col-md-6 form-group">
+										<label htmlFor="subtitleLg1">{D1.datasetsSubtitle}</label>
+										<input
+											type="text"
+											className="form-control"
+											id="subtitleLg1"
+											value={editingDataset.subTitleLg1}
+											onChange={(e) => {
+												setEditingDataset({
+													...editingDataset,
+													subTitleLg1: e.target.value,
+												});
+											}}
+										/>
+									</div>
+									<div className="col-md-6 form-group">
+										<label htmlFor="subtitleLg2">{D2.datasetsSubtitle}</label>
+										<input
+											type="text"
+											className="form-control"
+											id="subtitleLg2"
+											value={editingDataset.subTitleLg2}
+											onChange={(e) => {
+												setEditingDataset({
+													...editingDataset,
+													subTitleLg2: e.target.value,
+												});
+											}}
+										/>
+									</div>
+								</Row>
 								<Row>
 									<div className="col-md-12 form-group">
 										<label className="w-100 wilco-label-required">
@@ -111,7 +190,7 @@ export const DatasetEdit = (props) => {
 											<input
 												type="date"
 												className="form-control"
-												value={formattedUpdatedDate}
+												value={editingDataset.updated}
 												onChange={(e) => {
 													setEditingDataset({
 														...editingDataset,
@@ -122,14 +201,285 @@ export const DatasetEdit = (props) => {
 										</label>
 									</div>
 								</Row>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsFirstDiffusion}
+											<input
+												type="date"
+												className="form-control"
+												value={editingDataset.issued}
+												onChange={(e) => {
+													setEditingDataset({
+														...editingDataset,
+														issued: e.target.value,
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
 
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsAccessRights}
+											<ReactSelect
+												value={editingDataset.accessRights}
+												options={clAccessRightsOptions}
+												onChange={({ value }) => {
+													setEditingDataset({
+														...editingDataset,
+														accessRights: value,
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsUpdateFrequency}
+											<ReactSelect
+												value={editingDataset.accrualPeriodicity}
+												options={clFreqOptions}
+												onChange={({ value }) => {
+													setEditingDataset({
+														...editingDataset,
+														accrualPeriodicity: value,
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsConfidentialityStatus}
+											<ReactSelect
+												value={editingDataset.confidentialityStatus}
+												options={clConfStatusOptions}
+												onChange={({ value }) => {
+													setEditingDataset({
+														...editingDataset,
+														confidentialityStatus: value,
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsSpacialCoverage}
+											<ReactSelect
+												value={editingDataset.spacialCoverage}
+												options={clGeo}
+												onChange={({ value }) => {
+													setEditingDataset({
+														...editingDataset,
+														spacialCoverage: value,
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsSpacialResolutions}
+											<ReactSelect
+												value={editingDataset.spacialResolutions}
+												options={clGeoType}
+												multi={true}
+												onChange={(values) => {
+													setEditingDataset({
+														...editingDataset,
+														spacialResolutions: values.map(
+															({ value }) => value
+														),
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-12 from-group ">
+										<label htmlFor="observationNumber">
+											{D1.datasetsNumberObservations}
+										</label>
+										<input
+											type="number"
+											className="form-control"
+											id="observationNumber"
+											value={editingDataset.observationNumber}
+											onChange={(e) => {
+												setEditingDataset({
+													...editingDataset,
+													observationNumber: e.target.value,
+												});
+											}}
+										/>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-12 from-group ">
+										<label htmlFor="timeSeriesNumber">
+											{D1.datasetsNumberTimeSeries}
+										</label>
+										<input
+											type="number"
+											className="form-control"
+											id="timeSeriesNumber"
+											value={editingDataset.timeSeriesNumber}
+											onChange={(e) => {
+												setEditingDataset({
+													...editingDataset,
+													timeSeriesNumber: e.target.value,
+												});
+											}}
+										/>
+									</div>
+								</Row>
+
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsDataProvider}
+											<ReactSelect
+												unclearable
+												multi={true}
+												value={editingDataset.creators}
+												options={organisationsOptions}
+												onChange={(values) => {
+													setEditingDataset({
+														...editingDataset,
+														creators: values.map((v) => v.value),
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsPublicationProvider}
+											<ReactSelect
+												unclearable
+												value={editingDataset.publisher}
+												options={organisationsOptions}
+												onChange={({ value }) => {
+													setEditingDataset({
+														...editingDataset,
+														publisher: value,
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.generatedBy}
+											<span className="asterisk">*</span>
+											<ReactSelect
+												unclearable
+												multi={false}
+												value={editingDataset.idSerie}
+												options={seriesOptions}
+												onChange={({ value }) => {
+													setEditingDataset({
+														...editingDataset,
+														idSerie: value,
+													});
+													setClientSideErrors({});
+												}}
+											/>
+										</label>
+										<ClientSideError
+											error={clientSideErrors?.fields?.idSerie}
+										></ClientSideError>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.theme}
+											<ReactSelect
+												unclearable
+												multi={true}
+												value={editingDataset.themes}
+												options={themesOptions}
+												onChange={(values) => {
+													setEditingDataset({
+														...editingDataset,
+														themes: values.map(({ value }) => value),
+													});
+													setClientSideErrors({});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-6 form-group">
+										<label htmlFor="landingPageLg1">
+											{D1.datasetsLandingPage}
+										</label>
+										<input
+											type="text"
+											className="form-control"
+											id="landingPageLg1"
+											value={editingDataset.landingPageLg1}
+											onChange={(e) => {
+												setEditingDataset({
+													...editingDataset,
+													landingPageLg1: e.target.value,
+												});
+											}}
+										/>
+									</div>
+									<div className="col-md-6 form-group">
+										<label htmlFor="landingPageLg2">
+											{D2.datasetsLandingPage}
+										</label>
+										<input
+											type="text"
+											className="form-control"
+											id="landingPageLg2"
+											value={editingDataset.landingPageLg2}
+											onChange={(e) => {
+												setEditingDataset({
+													...editingDataset,
+													landingPageLg2: e.target.value,
+												});
+											}}
+										/>
+									</div>
+								</Row>
+							</>
+						);
+					},
+				},
+				globalInternalManagementTitle: {
+					title: D.globalInternalManagementTitle,
+					content: () => {
+						return (
+							<>
 								<Row>
 									<div className="col-md-12 form-group">
 										<label className="w-100 wilco-label-required">
 											{D1.creatorTitle}
 											<span className="asterisk">*</span>
 											<ReactSelect
-												placeholder={D1.stampsPlaceholder}
 												unclearable
 												multi={false}
 												value={editingDataset.catalogRecord?.creator}
@@ -185,51 +535,7 @@ export const DatasetEdit = (props) => {
 										></ClientSideError>
 									</div>
 								</Row>
-								<Row>
-									<div className="col-md-12 form-group">
-										<label className="w-100 wilco-label-required">
-											{D1.datasetsDataProvider}
-											<ReactSelect
-												placeholder={D1.stampsPlaceholder}
-												unclearable
-												multi={true}
-												value={editingDataset.creators}
-												options={organisationsOptions}
-												onChange={(values) => {
-													setEditingDataset({
-														...editingDataset,
-														creators: values.map((v) => v.value),
-													});
-												}}
-											/>
-										</label>
-									</div>
-								</Row>
 
-								<Row>
-									<div className="col-md-12 form-group">
-										<label className="w-100 wilco-label-required">
-											{D1.generatedBy}
-											<span className="asterisk">*</span>
-											<ReactSelect
-												unclearable
-												multi={false}
-												value={editingDataset.idSerie}
-												options={seriesOptions}
-												onChange={({ value }) => {
-													setEditingDataset({
-														...editingDataset,
-														idSerie: value,
-													});
-													setClientSideErrors({});
-												}}
-											/>
-										</label>
-										<ClientSideError
-											error={clientSideErrors?.fields?.idSerie}
-										></ClientSideError>
-									</div>
-								</Row>
 								<Row>
 									<div className="col-md-12 form-group">
 										<label className="w-100 wilco-label-required">
@@ -254,21 +560,39 @@ export const DatasetEdit = (props) => {
 										></ClientSideError>
 									</div>
 								</Row>
+
 								<Row>
 									<div className="col-md-12 form-group">
 										<label className="w-100 wilco-label-required">
-											{D1.theme}
+											{D1.datasetProcessStep}
 											<ReactSelect
 												unclearable
-												multi={true}
-												value={editingDataset.themes}
-												options={themesOptions}
-												onChange={(values) => {
+												multi={false}
+												value={editingDataset.processStep}
+												options={clProcessStep}
+												onChange={({ value }) => {
 													setEditingDataset({
 														...editingDataset,
-														themes: values.map(({ value }) => value),
+														processStep: value,
 													});
-													setClientSideErrors({});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsArchiveUnit}
+											<ReactSelect
+												unclearable
+												value={editingDataset.archiveUnit}
+												options={archivageUnits}
+												onChange={({ value }) => {
+													setEditingDataset({
+														...editingDataset,
+														archiveUnit: value,
+													});
 												}}
 											/>
 										</label>
@@ -399,7 +723,103 @@ export const DatasetEdit = (props) => {
 			children: {
 				staticsInformations: {
 					title: D.staticsInformations,
-					content: () => <></>,
+					content: () => {
+						return (
+							<>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsType}
+											<ReactSelect
+												value={editingDataset.type}
+												options={clDataTypes}
+												onChange={({ value }) => {
+													setEditingDataset({
+														...editingDataset,
+														type: value,
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsStatisticalUnits}
+											<ReactSelect
+												value={editingDataset.statisticalUnit}
+												multi={true}
+												options={clStatUnit}
+												onChange={(values) => {
+													setEditingDataset({
+														...editingDataset,
+														statisticalUnit: values.map(({ value }) => value),
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsDataStructure}
+											<ReactSelect
+												value={editingDataset.dataStructure}
+												options={structuresOptions}
+												onChange={({ value }) => {
+													setEditingDataset({
+														...editingDataset,
+														dataStructure: value,
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+
+								<Row>
+									<TemporalField
+										temporalCoverageDataType={
+											editingDataset.temporalCoverageDataType
+										}
+										temporalCoverageStartDate={
+											editingDataset.temporalCoverageStartDate
+										}
+										temporalCoverageEndDate={
+											editingDataset.temporalCoverageEndDate
+										}
+										updateTemporalCoverage={(temporalCoverage) => {
+											setEditingDataset({
+												...editingDataset,
+												...temporalCoverage,
+											});
+										}}
+									/>
+								</Row>
+
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsTemporalResolution}
+											<ReactSelect
+												value={editingDataset.temporalResolution}
+												options={clFreqOptions}
+												onChange={({ value }) => {
+													setEditingDataset({
+														...editingDataset,
+														temporalResolution: value,
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+							</>
+						);
+					},
 				},
 			},
 		},
@@ -538,3 +958,14 @@ export const DatasetEdit = (props) => {
 		</div>
 	);
 };
+
+export const DatasetEdit = withCodesLists([
+	'CL_ACCESS_RIGHTS',
+	'CL_FREQ',
+	'CL_CONF_STATUS',
+	'CL_DATA_TYPES',
+	'CL_STAT_UNIT',
+	'CL_PROCESS_STEP',
+	'CL_GEO',
+	'CL_TYPE_GEO',
+])(Dataset);

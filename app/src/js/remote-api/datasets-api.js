@@ -2,6 +2,7 @@ import { API } from 'bauhaus-utilities';
 
 const api = {
 	getAll: () => [''],
+	getArchivageUnits: () => ['archivageUnits'],
 	getById: (id) => [id],
 	putDataset: (dataset) => [
 		dataset.id,
