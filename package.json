@@ -8,9 +8,9 @@
 		"app"
 	],
 	"scripts": {
-		"start": "NODE_OPTIONS=--openssl-legacy-provider yarn workspace Bauhaus run start",
-		"build": "NODE_OPTIONS=--openssl-legacy-provider yarn workspaces run build",
-		"build-insee": "NODE_OPTIONS=--openssl-legacy-provider yarn workspaces run build-insee",
+		"start": "cross-env NODE_OPTIONS=--openssl-legacy-provider yarn workspace Bauhaus run start",
+		"build": "cross-env NODE_OPTIONS=--openssl-legacy-provider yarn workspaces run build",
+		"build-insee": "cross-env NODE_OPTIONS=--openssl-legacy-provider yarn workspaces run build-insee",
 		"test:coverage": "yarn workspaces run test:coverage",
 		"pre-push": "yarn workspaces run lint && yarn test:coverage",
 		"generate-entrypoint": "node scripts/generate-entrypoint.js",
@@ -33,6 +33,7 @@
 		"babel-jest": "^27.5.1",
 		"babel-loader": "8.1.0",
 		"babel-polyfill": "^6.26.0",
+		"cross-env": "^7.0.3",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-config-react-app": "^7.0.1",
