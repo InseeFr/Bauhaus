@@ -1,22 +1,49 @@
-import D, {D1, D2} from 'js/i18n';
-import { z } from "zod"
+import D, { D1, D2 } from 'js/i18n';
+import { z } from 'zod';
 
-const mySchema = z.coerce.boolean()
+const formatValidation = (ZodObject) => (values) => {
+	const ZodError = ZodObject.safeParse(values);
+	const defaultFields = Object.keys(Family.shape).reduce(
+		(acc, key) => ({
+			...acc,
+			[key]: '',
+		}),
+		{}
+	);
 
-export function validate({ prefLabelLg1, prefLabelLg2 }) {
-	const fields = {}
-	const errorMessages = [];
-
-	if(!mySchema.parse(prefLabelLg1)){
-		errorMessages.push(D.mandatoryProperty(D1.title))
-		fields.prefLabelLg1 = D.mandatoryProperty(D1.title)
+	if (ZodError.success) {
+		return {
+			errorMessage: [],
+			fields: defaultFields,
+		};
 	}
-	if(!mySchema.parse(prefLabelLg2)){
-		errorMessages.push(D.mandatoryProperty(D2.title))
-		fields.prefLabelLg2 = D.mandatoryProperty(D2.title)
-	}
+
+	const fields = {
+		...defaultFields,
+		...ZodError.error.issues.reduce((acc, error) => {
+			return {
+				...acc,
+				[error.path]: error.message,
+			};
+		}, {}),
+	};
+
+	const errorMessages = ZodError.error.issues.map((error) => error.message);
 	return {
 		fields,
-		errorMessage: errorMessages
+		errorMessage: errorMessages,
 	};
+};
+
+const Family = z.object({
+	prefLabelLg1: z.string({
+		required_error: D.mandatoryProperty(D1.title),
+	}),
+	prefLabelLg2: z.string({
+		required_error: D.mandatoryProperty(D2.title),
+	}),
+});
+
+export function validate(family) {
+	return formatValidation(Family)(family);
 }
