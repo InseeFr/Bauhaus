@@ -42,6 +42,4 @@ const Family = z.object({
 	prefLabelLg2: z.string().min(1, {message: D.mandatoryProperty(D2.title)}),
 });
 
-export function validate(family) {
-	return formatValidation(Family)(family);
-}
+export const validate = formatValidation(Family)
