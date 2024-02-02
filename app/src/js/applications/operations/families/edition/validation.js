@@ -3,7 +3,8 @@ import { z } from 'zod';
 
 const formatValidation = (ZodObject) => (values) => {
 	const ZodError = ZodObject.safeParse(values);
-	const defaultFields = Object.keys(Family.shape).reduce(
+
+	const defaultFields = Object.keys(ZodObject.shape).reduce(
 		(acc, key) => ({
 			...acc,
 			[key]: '',
@@ -13,35 +14,32 @@ const formatValidation = (ZodObject) => (values) => {
 
 	if (ZodError.success) {
 		return {
-			errorMessage: [],
 			fields: defaultFields,
+			errorMessage: [],
 		};
 	}
 
 	const fields = {
 		...defaultFields,
-		...ZodError.error.issues.reduce((acc, error) => {
-			return {
-				...acc,
-				[error.path]: error.message,
-			};
-		}, {}),
-	};
+		...ZodError.error.issues.reduce(
+		(acc, error) => ({
+			...acc,
+			[error.path]: error.message,
+		}),
+		{}
+	)};
 
-	const errorMessages = ZodError.error.issues.map((error) => error.message);
+	const errorMessage = ZodError.error.issues.map((error) => error.message);
+
 	return {
 		fields,
-		errorMessage: errorMessages,
+		errorMessage,
 	};
 };
 
 const Family = z.object({
-	prefLabelLg1: z.string({
-		required_error: D.mandatoryProperty(D1.title),
-	}),
-	prefLabelLg2: z.string({
-		required_error: D.mandatoryProperty(D2.title),
-	}),
+	prefLabelLg1: z.string().min(1, {message: D.mandatoryProperty(D1.title)}),
+	prefLabelLg2: z.string().min(1, {message: D.mandatoryProperty(D2.title)}),
 });
 
 export function validate(family) {
