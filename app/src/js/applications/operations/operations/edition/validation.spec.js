@@ -23,11 +23,11 @@ describe('validate', () => {
 	});
 	it('should return an error if the series is not defined', () => {
 		expect(validate({ prefLabelLg1: 'prefLabelLg1',  prefLabelLg2: 'prefLabelLg2' })).toEqual({
-			errorMessage: ['The property <strong>Series</strong> is required.'],
+			errorMessage: ['The property <strong>Séries</strong> is required.'],
 			fields: {
 				prefLabelLg1: '',
 				prefLabelLg2: '',
-                series: 'The property <strong>Series</strong> is required.'
+                series: 'The property <strong>Séries</strong> is required.'
 			},
 		});
 	});
