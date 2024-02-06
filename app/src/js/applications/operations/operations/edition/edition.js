@@ -52,7 +52,6 @@ class OperationsOperationEdition extends Component {
 	};
 
 	onChange = e => {
-		console.log(e.target.value)
 		let override = {
 			[e.target.id]: e.target.value,
 		};
@@ -77,7 +76,6 @@ class OperationsOperationEdition extends Component {
 		}));
 	};
 	onSubmit = () => {
-		console.log(this.state.operation)
 		const clientSideErrors = validate(this.state.operation);
 		if(clientSideErrors.errorMessage?.length > 0){
 			this.setState({

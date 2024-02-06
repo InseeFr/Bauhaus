@@ -32,10 +32,7 @@ describe('validation', function() {
 		});
 	});
 	it('should return no errors', function() {
-		expect(validate({
-			prefLabelLg1: 'prefLabelLg2',
-			prefLabelLg2: 'prefLabelLg2'
-		})).toEqual({
+		expect(validate({ prefLabelLg1: 'prefLabelLg2', prefLabelLg2: 'prefLabelLg2'})).toEqual({
 			errorMessage: [],
 			fields: {
 				'prefLabelLg1': '',

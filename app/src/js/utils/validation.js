@@ -1,4 +1,3 @@
-
 export const formatValidation = (ZodObject) => (values) => {
 	const ZodError = ZodObject.safeParse(values);
     console.log(ZodError)
