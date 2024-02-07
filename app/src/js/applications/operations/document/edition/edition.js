@@ -139,6 +139,7 @@ const OperationsDocumentationEdition = (props) => {
 	};
 
 	const onChange = (e) => {
+		console.log(e.target.value)
 		setServerSideError('');
 		setClientSideErrors({
 			...clientSideErrors,
@@ -165,7 +166,9 @@ const OperationsDocumentationEdition = (props) => {
 			)
 			.finally(() => setSaving(false));
 	};
+	
 	const onSubmit = () => {
+		console.log(document, type, files)
 		const clientSideErrors = validate(document, type, files);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);

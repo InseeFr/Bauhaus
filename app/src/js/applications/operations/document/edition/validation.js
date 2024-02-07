@@ -1,7 +1,7 @@
 import D, { D1, D2 } from 'js/i18n';
 import { LINK, DOCUMENT } from '../utils';
-
-/* eslint-disable no-useless-escape */
+import { formatValidation } from 'js/utils/validation';
+import { z } from 'zod';
 
 /**
  * Check if the name of every file is invalid
@@ -30,7 +30,7 @@ function haveFiles(files = []) {
 	return files.length > 0;
 }
 
-function checkUrl (url) {
+function checkUrl(url) {
 	let givenURL
 	try {
 		givenURL = new URL (url);
@@ -40,14 +40,6 @@ function checkUrl (url) {
 	return givenURL.protocol === "http:" || givenURL.protocol === "https:";
 }
 
-/**
- * Check if the document or link we want to add is valid.
- *
- * @param {any} document the content of the form
- * @param {string} type the type of document
- * @param {{name: string}[]=} files the files we want to upload
- * @returns {{fields: any, errorMessage: string}}
- */
 export function validate(document, type, files) {
 	const fields = {};
 	let errorMessages = [];
@@ -94,6 +86,28 @@ export function validate(document, type, files) {
 
 	return {
 		fields,
-		errorMessage: errorMessages,
+		errorMessages,
 	};
 }
+
+const Link = z.object({
+	prefLabelLg1: z.string().min(1, {message: D.mandatoryProperty(D1.title)}),
+	prefLabelLg2: z.string().min(1, {message: D.mandatoryProperty(D2.title)}),
+	lang: z.string({
+		required_error: D.requiredLang
+	}).min(1, {
+		message: D.requiredLang
+	}),
+});
+
+const Document = z.object({
+	prefLabelLg1: z.string().min(1, {message: D.mandatoryProperty(D1.title)}),
+	prefLabelLg2: z.string().min(1, {message: D.mandatoryProperty(D2.title)}),
+	lang: z.string({
+		required_error: D.requiredLang
+	}).min(1, {
+		message: D.requiredLang
+	}),
+});
+
+export const validate2 = formatValidation(true ? Link : Document)
