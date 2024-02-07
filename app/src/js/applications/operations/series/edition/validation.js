@@ -1,49 +1,33 @@
 import D, { D1, D2 } from 'js/i18n';
+import { formatValidation } from 'js/utils/validation';
+import { z } from 'zod';
 
-const listOfExtraMandatoryFields = (process.env.REACT_APP_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS ?? "").split(',')
-
-const fieldToTitleMapping = {
-	creators: D1.creatorTitle,
-	prefLabelLg1: D1.title,
-	prefLabelLg2: D2.title,
-	family: D1.familyTitle,
-	typeCode: D1.operationType,
-	accrualPeriodicityCode: D1.dataCollectFrequency
-}
-
+const listOfExtraMandatoryFields = (process.env.REACT_APP_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS ?? "").split(',');
 export const isMandatoryField = fieldName => listOfExtraMandatoryFields.indexOf(fieldName) >= 0;
 
-export function validate({ creators, prefLabelLg1, prefLabelLg2, family, ...otherFields }) {
-	const fields = {}
-	const errorMessage = [];
+const Serie = z.object({
+	prefLabelLg1: z.string().min(1, {message: D.mandatoryProperty(D1.title)}),
+	prefLabelLg2: z.string().min(1, {message: D.mandatoryProperty(D2.title)}),
+	creators: z.string({
+		required_error: D.mandatoryProperty(D.creatorTitle)
+	}).array().nonempty({
+		message: D.mandatoryProperty(D.creatorTitle)
+	}),
+	typeCode: z.string({
+		required_error: D.mandatoryProperty(D1.operationType)
+	}).min(1, {
+		message: D.mandatoryProperty(D1.operationType)
+	}),
+	accrualPeriodicityCode: z.string({
+		required_error: D.mandatoryProperty(D1.dataCollectFrequency)
+	}).min(1, {
+		message: D.mandatoryProperty(D1.dataCollectFrequency)
+	}),
+	family: z.object({
+		id: z.string(),
+	}, {
+		required_error: D.mandatoryProperty(D1.familyTitle)
+	}),
+});
 
-	if(!creators || creators.length === 0){
-		errorMessage.push(D.mandatoryProperty(fieldToTitleMapping.creators));
-		fields.creators = D.mandatoryProperty(fieldToTitleMapping.creators);
-	}
-
-	if(!prefLabelLg1){
-		errorMessage.push(D.mandatoryProperty(fieldToTitleMapping.prefLabelLg1));
-		fields.prefLabelLg1 = D.mandatoryProperty(fieldToTitleMapping.prefLabelLg1);
-	}
-	if(!prefLabelLg2){
-		errorMessage.push(D.mandatoryProperty(fieldToTitleMapping.prefLabelLg2));
-		fields.prefLabelLg2 = D.mandatoryProperty(fieldToTitleMapping.prefLabelLg2);
-	}
-
-	if (!family) {
-		errorMessage.push(D.mandatoryProperty(fieldToTitleMapping.family));
-		fields.family = D.mandatoryProperty(fieldToTitleMapping.family);
-	}
-
-	listOfExtraMandatoryFields.forEach(extraMandatoryField => {
-		if(!otherFields[extraMandatoryField]){
-			errorMessage.push(D.mandatoryProperty(fieldToTitleMapping[extraMandatoryField] ?? ""));
-			fields[extraMandatoryField] = D.mandatoryProperty(fieldToTitleMapping[extraMandatoryField] ?? "");
-		}
-	})
-	return {
-		fields,
-		errorMessage,
-	};
-}
+export const validate = formatValidation(Serie)

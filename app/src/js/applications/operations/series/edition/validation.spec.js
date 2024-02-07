@@ -4,6 +4,7 @@ describe('validation', function () {
 	it('should return an error for prefLabelLg1', function () {
 		expect(
 			validate({
+				prefLabelLg1: '',
 				prefLabelLg2: 'prefLabelLg2',
 				family: 'family',
 				creators: ['creator'],
@@ -21,6 +22,7 @@ describe('validation', function () {
 		expect(
 			validate({
 				prefLabelLg1: 'prefLabelLg1',
+				prefLabelLg2: '',
 				family: 'family',
 				creators: ['creator'],
 				accrualPeriodicityCode: 'accrualPeriodicityCode',
@@ -33,9 +35,11 @@ describe('validation', function () {
 			},
 		});
 	});
-	it('should return an error for prefLabelLg1 and prefLabelLg2', function () {
+	it('should return an error for prefLabelLg1, prefLabelLg2, family and creators', function () {
 		expect(
 			validate({
+				prefLabelLg1: '',
+				prefLabelLg2: '',
 				accrualPeriodicityCode: 'accrualPeriodicityCode',
 				typeCode: 'typeCode',
 			})
