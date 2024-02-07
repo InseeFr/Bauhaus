@@ -2,7 +2,7 @@ import { validate } from './validation';
 
 describe('validate', () => {
 	it('should return an error if the prefLabelLg1 is not defined', () => {
-		expect(validate({ prefLabelLg1: '', prefLabelLg2: 'prefLabelLg2', series: {id: "i"} })).toEqual({
+		expect(validate({ prefLabelLg1: '', prefLabelLg2: 'prefLabelLg2', series: {id: 'i'} })).toEqual({
 			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
 			fields: {
 				prefLabelLg1: 'The property <strong>Intitulé</strong> is required.',
@@ -12,7 +12,7 @@ describe('validate', () => {
 		});
 	});
 	it('should return an error if the prefLabelLg2 is not defined', () => {
-		expect(validate({ prefLabelLg1: 'prefLabelLg1', prefLabelLg2: '', series: {id: "i"} })).toEqual({
+		expect(validate({ prefLabelLg1: 'prefLabelLg1', prefLabelLg2: '', series: {id: 'i'} })).toEqual({
 			errorMessage: ['The property <strong>Title</strong> is required.'],
 			fields: {
 				prefLabelLg1: '',
@@ -33,7 +33,7 @@ describe('validate', () => {
 	});
 	it('should return nothing if there is no errors', () => {
 		expect(
-			validate({ prefLabelLg1: 'prefLabelLg1', prefLabelLg2: 'prefLabelLg2', series: {id: "i"} })
+			validate({ prefLabelLg1: 'prefLabelLg1', prefLabelLg2: 'prefLabelLg2', series: {id: 'i'} })
 		).toEqual({
 			errorMessage: [],
 			fields: {
