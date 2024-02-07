@@ -7,7 +7,6 @@ import { StructureAPI, StructureConstants } from 'bauhaus-structures';
 import { AppContext, ClientSideError, ErrorBloc, GlobalClientSideErrorBloc, Stores, Row } from 'bauhaus-utilities';
 import D, { D1, D2 } from 'js/i18n';
 import { connect, useSelector } from 'react-redux';
-import { default as ReactSelect } from 'react-select';
 import 'react-select/dist/react-select.css';
 
 const isRequiredBys = [
@@ -203,12 +202,12 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 			</div>
 			<div className='form-group'>
 				<label>{D1.contributorTitle}</label>
-				<ReactSelect
+				<Select
 					placeholder={D1.stampsPlaceholder}
 					value={stampListOptions.find(({ value }) => value === contributor)}
 					options={stampListOptions}
+					searchable={true}
 					onChange={(value) => onChange('contributor', value)}
-					disabled={true}
 				/>
 			</div>
 

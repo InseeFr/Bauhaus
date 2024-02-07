@@ -19,6 +19,8 @@ import {
 } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import api from 'js/remote-api/api';
+import Modal from 'react-modal';
+
 
 const initDocument = {
 	labelLg1: '',
@@ -60,6 +62,70 @@ const saveDocument = (document, type, files) => {
 	return promise;
 };
 
+export const ConfirmationModal = ({ document, isOpen, onYes, onNo }) => {
+	const modalButtons = [
+		{
+			label: D.no,
+			action: onNo,
+			style: 'default',
+		},
+		{
+			label: D.yes,
+			action: onYes,
+			style: 'default',
+		},
+	];
+
+	const buttons = modalButtons.map((b, i) => (
+		<button
+			key={`${b.label}`}
+			type="button"
+			className={`btn btn-${b.style} btn-lg`}
+			onClick={b.action}
+			disabled={b.disabled}
+		>
+			{b.label}
+		</button>
+	));
+
+	return (
+		<Modal
+			className="Modal__Bootstrap modal-dialog operations"
+			id="updating-document-modal"
+			isOpen={isOpen}
+			onRequestClose={onNo}
+			ariaHideApp={false}
+		>
+			<div className="modal-content">
+				<div className="modal-header">
+					<button type="button" className="close" onClick={onNo}>
+						<span aria-hidden="true">&times;</span>
+						<span className="sr-only">{D.btnClose}</span>
+					</button>
+					<h4 className="modal-title">{D.confirmation}</h4>
+				</div>
+				<div className="modal-body">
+					<p>
+						{isDocument(document)
+							? D.warningDocumentWithSimsPrefix
+							: D.warningLinkWithSimsPrefix}
+					</p>
+					<ul>
+						{document.sims?.map((sims) => (
+							<li key={sims.id}>{sims.labelLg1}</li>
+						))}
+					</ul>
+					<p>{D.warningDocumentLinksWithSimsSuffix}</p>
+				</div>
+				<div className="modal-footer">
+					{buttons}
+				</div>
+			</div>
+		</Modal>
+	)
+};
+
+//	<!--div className="text-center">{modalButtons}</div-->
 
 const OperationsDocumentationEdition = (props) => {
 	const { document: documentProps, type, langOptions } = props;
@@ -77,6 +143,7 @@ const OperationsDocumentationEdition = (props) => {
 	const [validationModalDisplayed, setValidationModalDisplayed] = useState(false);
 	const [document, setDocument] = useState(defaultDocument);
 	const [files, setFiles] = useState(document.url ? [{ name: document.url }] : []);
+	const [validationModalDisplayed, setValidationModalDisplayed] = useState(false);
 
 	const uploadFile = (files) => {
 		setServerSideError('');
@@ -115,12 +182,13 @@ const OperationsDocumentationEdition = (props) => {
 			)
 			.finally(() => setSaving(false));
 	}
+
 	const onSubmit = () => {
 		const clientSideErrors = validate(document, type, files);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
-		} else if(document.sims.length > 0){
+		} else if(document.sims?.length > 0){
 			setValidationModalDisplayed(true);
 		} else {
 			saveDocumentOrLink()
@@ -159,21 +227,15 @@ const OperationsDocumentationEdition = (props) => {
 
 	return (
 		<div className="container editor-container">
-			<ModalRmes
-				id="updating-document-modal"
+			<ConfirmationModal
+				document={document}
 				isOpen={validationModalDisplayed}
-				title={D.confirmation}
-				modalButtons={modalButtons}
-				closeCancel={() => setValidationModalDisplayed(false)}
-			>
-				<>
-					<p>{isDocument(document) ? D.warningDocumentWithSimsPrefix : D.warningLinkWithSimsPrefix}</p>
-					<ul>
-						{ document.sims?.map(sims => <li key={sims.id}>{sims.labelLg1}</li>)}
-					</ul>
-					<p>{D.warningDocumentLinksWithSimsSuffix}</p>
-				</>
-			</ModalRmes>
+				onNo={() => setValidationModalDisplayed(false)}
+				onYes={() => {
+					saveDocumentOrLink();
+					setValidationModalDisplayed(false);
+				}}
+				></ConfirmationModal>
 			{isEditing && (
 				<PageTitleBlock
 					titleLg1={documentProps.labelLg1}

@@ -33,6 +33,18 @@ const dictionary = {
 		fr: 'Administration',
 		en: 'Administration',
 	},
+	confirmation: {
+		fr: 'Confirmation',
+		en: 'Confirm'
+	},
+	warningDocumentWithSimsPrefix: {
+		fr: 'Ce document est déjà utilisé dans les Sims suivants',
+		en: 'This document is already used by the following sims'
+	},
+	warningDocumentLinksWithSimsSuffix: {
+		fr: 'Si vous cliquez sur "Oui", il sera définitivement modifié dans tous les Sims associés. Voulez-vous continuer ?',
+		en: 'If you click on "Yes", it will be modified on the linked Sims. Do you want to continue?'
+	},
 
 	noResult: {
 		fr: 'Aucun résultat',

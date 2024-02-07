@@ -6,11 +6,12 @@ import check from 'js/utils/auth';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
 import { ConfirmationDelete } from 'bauhaus-utilities';
-import ModalRmes from '../../shared/modal-rmes/modal-rmes';
 import api from '../../../remote-api/concepts-api';
 import FileSaver from 'file-saver';
+import { useLoading } from './loading';
 
 const ConceptVisualizationControls = (props) => {
+	const { setLoading } = useLoading();
 	const {
 		isValidated,
 		isValidOutOfDate,
@@ -22,7 +23,6 @@ const ConceptVisualizationControls = (props) => {
 		handleDeletion,
 	} = props;
 
-	const [displayModal, setDisplayModal] = useState(false);
 	const [modalOpened, setModalOpened] = useState(false);
 	const handleNo = useCallback(() => {
 		setModalOpened(false);
@@ -48,7 +48,24 @@ const ConceptVisualizationControls = (props) => {
 			? null
 			: [`/concept/${id}/compare`, D.btnCompare];
 	const erase = adminOrCreator && [() => setModalOpened(true), D.btnDelete];
-	const exportConcept = [() => setDisplayModal(true), D.btnExporter];
+
+	const exportConcept = [() => {
+		setLoading('exporting')
+		let fileName;
+		return api
+			.getConceptExport(id, 'application/vnd.oasis.opendocument.text')
+			.then(res => {
+				fileName = getContentDisposition(
+					res.headers.get('Content-Disposition')
+				)[1];
+				return res;
+			})
+			.then(res => res.blob())
+			.then(blob => {
+				return FileSaver.saveAs(blob, fileName);
+			})
+			.finally(() => setLoading())
+	}, D.btnExporter];
 
 	if (admin || (creator && contributor)) {
 		if (isValidOutOfDate) {
@@ -76,46 +93,8 @@ const ConceptVisualizationControls = (props) => {
 		btns = [cancel, compare, exportConcept];
 	}
 
-	const modalButtons = [
-		{
-			label: D.btnCancel,
-			action: () => setDisplayModal(false),
-			style: 'default',
-		},
-		{
-			label: D.btnOdt,
-			action: () => {
-				let fileName;
-				return api
-					.getConceptExport(id, 'application/vnd.oasis.opendocument.text')
-					.then(res => {
-						fileName = getContentDisposition(
-							res.headers.get('Content-Disposition')
-						)[1];
-						return res;
-					})
-					.then(res => res.blob())
-					.then(blob => {
-						return FileSaver.saveAs(blob, fileName);
-					})
-					.finally(() => {
-						setDisplayModal(false)
-					})
-			},
-			style: 'primary',
-		},
-	];
-
 	return (
 		<>
-			<ModalRmes
-				id="export-concept-modal"
-				isOpen={displayModal}
-				title={D.exportModalTitle}
-				body={D.exportModalBody}
-				modalButtons={modalButtons}
-				closeCancel={() => setDisplayModal(false)}
-			/>
 			{modalOpened && (
 				<ConfirmationDelete
 					className="concepts"
