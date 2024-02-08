@@ -1,6 +1,5 @@
 export const formatValidation = (ZodObject) => (values) => {
 	const ZodError = ZodObject.safeParse(values);
-    console.log(ZodError)
 
 	const defaultFields = Object.keys(ZodObject.shape).reduce(
 		(acc, key) => ({

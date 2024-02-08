@@ -139,7 +139,6 @@ const OperationsDocumentationEdition = (props) => {
 	};
 
 	const onChange = (e) => {
-		console.log(e.target.value)
 		setServerSideError('');
 		setClientSideErrors({
 			...clientSideErrors,
@@ -168,8 +167,11 @@ const OperationsDocumentationEdition = (props) => {
 	};
 	
 	const onSubmit = () => {
-		console.log(document, type, files)
-		const clientSideErrors = validate(document, type, files);
+		const newdocument = {
+			...document,
+			files
+		}
+		const clientSideErrors = validate(newdocument, type);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
@@ -334,8 +336,8 @@ const OperationsDocumentationEdition = (props) => {
 									>
 										<input
 											{...getInputProps()}
-											aria-invalid={!!clientSideErrors.fields?.file}
-											aria-describedby={clientSideErrors.fields?.file ? 'file-error' : null}
+											aria-invalid={!!clientSideErrors.fields?.files}
+											aria-describedby={clientSideErrors.fields?.files ? 'file-error' : null}
 										/>
 										<p>{D.drag}</p>
 									</div>
@@ -343,7 +345,7 @@ const OperationsDocumentationEdition = (props) => {
 							</Dropzone>
 							<ClientSideError
 								id="file-error"
-								error={clientSideErrors?.fields?.file}
+								error={clientSideErrors?.fields?.files}
 							></ClientSideError>
 						</div>
 					</Row>
