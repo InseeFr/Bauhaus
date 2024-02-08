@@ -36,7 +36,7 @@
 		"react-draft-wysiwyg": "1.14.6",
 		"react-dropzone": "11.0.1",
 		"react-modal": "^3.14.4",
-		"react-router-hash-link": "1.2.0",
+		"react-router-hash-link": "2.4.3",
 		"react-scripts": "4.0.3",
 		"react-select": "1.1.0",
 		"react-sortable-tree": "2.1.0",
