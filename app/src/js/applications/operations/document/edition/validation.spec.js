@@ -35,12 +35,12 @@ describe('validation', function () {
             'link',
             )
 		).toEqual({
-			errorMessage: ["L'URL n'est pas valide"],
+			errorMessage: ['The link is not valid'],
 			fields: {
-				prefLabelLg1: '',
-				prefLabelLg2: '',
+				labelLg1: '',
+				labelLg2: '',
 				lang: '',
-				url: "L'URL n'est pas valide",
+				url: 'The link is not valid',
 			},
 		});
 	});
@@ -57,12 +57,12 @@ describe('validation', function () {
             )
 		).toEqual({
 			errorMessage: [
-				'La langue est obligatoire',
+				'The language is required',
 			],
 			fields: {
 				labelLg1: '',
 				labelLg2: '',
-				lang: 'La langue est obligatoire',
+				lang: 'The language is required',
 				updatedDate: '',
                 files: '',
 			},
@@ -80,13 +80,13 @@ describe('validation', function () {
             )
 		).toEqual({
 			errorMessage: [
-				'La date de mise à jour est obligatoire',
+				'The update date is required',
 			],
 			fields: {
 				labelLg1: '',
 				labelLg2: '',
 				lang: '',
-				updatedDate: 'La date de mise à jour est obligatoire',
+				updatedDate: 'The update date is required',
                 files: '',
 			},
 		});
@@ -104,14 +104,15 @@ describe('validation', function () {
             )
 		).toEqual({
 			errorMessage: [
-				'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
+				'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 			],
 			fields: {
 				labelLg1: '',
 				labelLg2: '',
 				lang: '',
 				updatedDate: '',
-                files: 'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
+				files: '',
+                "files,0,name": 'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
 			},
 		});
 	});
