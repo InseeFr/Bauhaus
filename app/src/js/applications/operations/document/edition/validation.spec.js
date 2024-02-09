@@ -112,7 +112,7 @@ describe('validation', function () {
 				lang: '',
 				updatedDate: '',
 				files: '',
-                "files,0,name": 'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
+                "files,0,name": 'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 			},
 		});
 	});
