@@ -21,7 +21,7 @@ export const formatValidation = (ZodObject) => (values) => {
 		...ZodError.error.issues.reduce(
             (acc, error) => ({
                 ...acc,
-                [error.path]: error.message,
+                [error.path.substring(0, error.path.indexOf(','))]: error.message,
             }),
 		    {}
         )
