@@ -9,7 +9,6 @@ export const loadSetup = () => (dispatch) => {
 	loadOrganisations(dispatch);
 	loadStampList()(dispatch);
 };
-
 export function loadCodesList(notations, dispatch) {
 	notations.forEach((notation) => {
 		return Promise.all([
