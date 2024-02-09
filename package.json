@@ -52,7 +52,7 @@
 	"dependencies": {
 		"@babel/preset-react": "^7.16.7",
 		"@sentry/react": "^7.59.3",
-		"@tanstack/react-query": "^4.12.0",
+		"@tanstack/react-query": "^5.18.1",
 		"dompurify": "2.2.9",
 		"prop-types": "^15.8.1",
 		"react": "18.2.0",
