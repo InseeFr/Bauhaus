@@ -40,7 +40,7 @@ describe('validation', function () {
 				prefLabelLg1: '',
 				prefLabelLg2: '',
 				lang: '',
-				url: "L'URL n'est valide",
+				url: "L'URL n'est pas valide",
 			},
 		});
 	});
@@ -50,8 +50,8 @@ describe('validation', function () {
 				labelLg1: 'labelLg1',
 				labelLg2: 'labelLg2',
 				lang: '',
-				updateDate: 'd',
-                fields: [{name: 'f/a-z0_9.'}],
+				updatedDate: 'd',
+                files: [{name: 'path/correct-file_name.123'}],
 			},
             'document'
             )
@@ -63,8 +63,55 @@ describe('validation', function () {
 				labelLg1: '',
 				labelLg2: '',
 				lang: 'La langue est obligatoire',
-				updateDate: '',
-                fields: '',
+				updatedDate: '',
+                files: '',
+			},
+		});
+	});
+	it('should return an error for updateDate', function () {
+		expect(
+			validate({
+				labelLg1: 'labelLg1',
+				labelLg2: 'labelLg2',
+				lang: 'l',
+                files: [{name: 'path/correct-file_name.123'}],
+			},
+            'document'
+            )
+		).toEqual({
+			errorMessage: [
+				'La date de mise à jour est obligatoire',
+			],
+			fields: {
+				labelLg1: '',
+				labelLg2: '',
+				lang: '',
+				updatedDate: 'La date de mise à jour est obligatoire',
+                files: '',
+			},
+		});
+	});
+	it('should return an error for file', function () {
+		expect(
+			validate({
+				labelLg1: 'labelLg1',
+				labelLg2: 'labelLg2',
+				lang: 'l',
+				updatedDate: 'd',
+                files: [{name: 'path/wrong&file@name!'}],
+			},
+            'document'
+            )
+		).toEqual({
+			errorMessage: [
+				'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
+			],
+			fields: {
+				labelLg1: '',
+				labelLg2: '',
+				lang: '',
+				updatedDate: '',
+                files: 'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
 			},
 		});
 	});
@@ -94,8 +141,8 @@ describe('validation', function () {
 				labelLg1: 'labelLg2',
 				labelLg2: 'labelLg2',
 				lang: 'l',
-				updateDate: 'd',
-                fields: [{name: 'f/a-z0_9.'}],
+				updatedDate: 'd',
+                files: [{name: 'path/correct-file_name.123'}],
 			},
             'document',
             )
@@ -105,8 +152,8 @@ describe('validation', function () {
 				labelLg1: '',
 				labelLg2: '',
 				lang: '',
-				updateDate: '',
-                fields: '',
+				updatedDate: '',
+                files: '',
 			},
 		});
 	});
