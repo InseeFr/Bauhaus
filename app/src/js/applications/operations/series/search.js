@@ -14,7 +14,7 @@ import {
 	useUrlQueryParameters
 } from 'bauhaus-utilities';
 import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
-import { useQueryCodesList } from 'js/hooks/hooks';
+import { useCodesList } from 'js/hooks/hooks';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
@@ -223,7 +223,7 @@ const SearchListContainer = () => {
 	useTitle(D.operationsTitle, D.seriesTitle + ' - ' + D.advancedSearch)
 	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
 	const [data, setData] = useState();
-	const categories = useQueryCodesList(CL_SOURCE_CATEGORY)
+	const categories = useCodesList(CL_SOURCE_CATEGORY)
 	const organisations = useSelector(state => state.operationsOrganisations.results);
 	const stamps = useSelector(state => Stores.Stamps.getStampList(state) || []);
 

@@ -6,7 +6,7 @@ import { Loading } from '@inseefr/wilco';
 import OperationsSerieEdition from 'js/applications/operations/series/edition/edition';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';
-import { useQueryCodesList } from 'js/hooks/hooks';
+import { useCodesList } from 'js/hooks/hooks';
 
 const OperationsSeriesEditionContainer = props => {
 
@@ -17,10 +17,10 @@ const OperationsSeriesEditionContainer = props => {
 	const [indicators, setIndicators] = useState([]);
 	const [series, setSeries] = useState([]);
 
-	const categories = useQueryCodesList(CL_SOURCE_CATEGORY)
+	const categories = useCodesList(CL_SOURCE_CATEGORY)
 	const organisations = useSelector(state => state.operationsOrganisations.results || []);
 	const langs = useSelector(state => select.getLangs(state));
-	const frequencies = useQueryCodesList(CL_FREQ)
+	const frequencies = useCodesList(CL_FREQ)
 
 	useEffect(() => {
 		if(id){

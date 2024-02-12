@@ -23,7 +23,7 @@ import {
 	PageTitleBlock,
 	ErrorBloc
 } from 'bauhaus-utilities';
-import { useQueryCodesList } from 'js/hooks/hooks';
+import { useCodesList } from 'js/hooks/hooks';
 
 const IndicatorVisualizationContainer = (props) =>  {
 
@@ -31,7 +31,7 @@ const IndicatorVisualizationContainer = (props) =>  {
 
 	const langs = useSelector(state => select.getLangs(state));
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
-	const frequency = useQueryCodesList(CL_FREQ)
+	const frequency = useCodesList(CL_FREQ)
 	const organisations = useSelector(state => state.operationsOrganisations.results || []);
 
 	const [indicator, setIndicator] = useState({});

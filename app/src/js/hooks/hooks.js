@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { CodesList } from "bauhaus-utilities";
 
-export function useQueryCodesList(notation) {
+export function useCodesList(notation) {
 
     const { data } = useQuery({
 		queryKey: ['codelist', notation],
@@ -10,10 +10,10 @@ export function useQueryCodesList(notation) {
                 CodesList.getCodesList(notation),
                 CodesList.getCodesListCodes(notation, 1, 0)
             ]).then(
-                ([codesList, codes]) => [
-                    codes.items ?? [],
+                ([codesList, codes]) => ({
+                    codes: codes.items ?? [],
                     ...codesList
-                ]
+                })
             )
 		}
 	})

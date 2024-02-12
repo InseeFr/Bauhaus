@@ -24,7 +24,7 @@ import {
 	ErrorBloc
 } from 'bauhaus-utilities';
 import api from '../../../../remote-api/operations-api';
-import { useQueryCodesList } from 'js/hooks/hooks';
+import { useCodesList } from 'js/hooks/hooks';
 
 const SeriesVisualizationContainer = (props) => {
 
@@ -33,9 +33,9 @@ const SeriesVisualizationContainer = (props) => {
 	const [publishing, setPublishing] = useState(false)
 	const [serverSideError, setServerSideError] = useState()
 
-	const frequencies = useQueryCodesList(CL_FREQ)
+	const frequencies = useCodesList(CL_FREQ)
 	const organisations = useSelector(state => state.operationsOrganisations.results || []);
-	const categories = useQueryCodesList(CL_SOURCE_CATEGORY)
+	const categories = useCodesList(CL_SOURCE_CATEGORY)
 	const langs = useSelector(state => select.getLangs(state))
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
 
