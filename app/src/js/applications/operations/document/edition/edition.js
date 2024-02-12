@@ -352,20 +352,26 @@ const OperationsDocumentationEdition = (props) => {
 				)}
 
 				{type === DOCUMENT && files.length > 0 && (
-					<div className="panel panel-default">
-						{files.map((file) => (
-							<div className="panel-body" key={file.name}>
-								{file.name}
-								<button
-									onClick={removeFile}
-									type="button"
-									className="close"
-									aria-label="Close"
-								>
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-						))}
+					<div>
+						<div className="panel panel-default">
+							{files.map((file) => (
+								<div className="panel-body" key={file.name}>
+									{file.name}
+									<button
+										onClick={removeFile}
+										type="button"
+										className="close"
+										aria-label="Close"
+									>
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							))}
+						</div>
+						<ClientSideError
+							id="file-error"
+							error={clientSideErrors?.fields?.files}
+						></ClientSideError>
 					</div>
 				)}
 				<Row>

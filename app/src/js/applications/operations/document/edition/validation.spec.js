@@ -111,8 +111,7 @@ describe('validation', function () {
 				labelLg2: '',
 				lang: '',
 				updatedDate: '',
-				files: '',
-                "files,0,name": 'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
+				files: 'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 			},
 		});
 	});
