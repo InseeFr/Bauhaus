@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
@@ -48,4 +48,4 @@ const OperationsIndicatorsEditionContainer = (props) => {
 		{...props} />;
 }
 
-export default withRouter(OperationsIndicatorsEditionContainer); // withRouter à supprimer une fois fini
+export default OperationsIndicatorsEditionContainer;

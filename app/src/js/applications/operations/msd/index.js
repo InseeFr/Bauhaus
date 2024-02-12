@@ -15,7 +15,6 @@ import loadSIMS, {
 	saveSims,
 	publishSims,
 } from 'js/actions/operations/sims/item';
-import { withRouter } from 'react-router-dom';
 import MSDHelp from 'js/applications/operations/msd/pages/help';
 import SimsVisualisation from 'js/applications/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/applications/operations/msd/pages/sims-creation/';
@@ -335,7 +334,5 @@ const MSDContainerWithParent = props => {
 	if(loading) return <Loading textType="loadableLoading" />
 	return <MSDContainer {...props} documentStores={documentStores} currentSims={currentSims} parent={parent} goBack={goBack}/>
 }
-export default withRouter( // withRouter à supprimer une fois fini
-	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent);
 

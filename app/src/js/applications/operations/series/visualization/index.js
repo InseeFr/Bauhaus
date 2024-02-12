@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { useSelector } from 'react-redux';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import OperationsSerieVisualization from 'js/applications/operations/series/visualization/home';
 
 import {
@@ -128,4 +128,4 @@ const SeriesVisualizationContainer = () => {
 	);
 }
 
-export default withRouter(SeriesVisualizationContainer); // withRouter à supprimer une fois fini
+export default SeriesVisualizationContainer;

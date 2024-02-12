@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
 
 import {
@@ -124,4 +124,4 @@ OperationVisualizationContainer.propTypes = {
 	secondLang: PropTypes.bool,
 };
 
-export default withRouter(OperationVisualizationContainer); // withRouter à supprimer une fois fini
+export default OperationVisualizationContainer;

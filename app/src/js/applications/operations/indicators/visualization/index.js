@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import D from 'js/i18n';
 import { useSelector } from 'react-redux';
 import * as select from 'js/reducers';
@@ -115,4 +115,4 @@ const IndicatorVisualizationContainer = () =>  {
 	);
 }
 
-export default withRouter(IndicatorVisualizationContainer); // withRouter à supprimer une fois fini
+export default IndicatorVisualizationContainer;

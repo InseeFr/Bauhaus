@@ -11,7 +11,6 @@ import {
 } from '@inseefr/wilco';
 import { validate } from './validation';
 import D from '../../../../i18n/build-dictionary';
-import { withRouter } from 'react-router-dom';
 import api from '../../../../remote-api/operations-api';
 
 const defaultFamily = {
@@ -193,6 +192,6 @@ class OperationsFamilyEdition extends Component {
 	}
 }
 
-export default withTitle(withRouter(OperationsFamilyEdition), D.operationsTitle, props => { // withRouter à supprimer une fois fini
+export default withTitle(OperationsFamilyEdition, D.operationsTitle, props => {
 	return props.family.prefLabelLg1 || D.familiesCreateTitle
 });

@@ -4,7 +4,6 @@ import D from 'js/i18n';
 import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from 'js/utils/msd';
 import SimsDocumentField from 'js/applications/operations/msd/pages/sims-creation/sims-document-field';
-import { withRouter } from "react-router-dom";
 import {
 	Loading,
 	CancelButton,
@@ -386,4 +385,4 @@ const withParentWithSims = (Component) => {
 }
 
 const AdvancedSimsCreation = withParentWithSims(SimsCreation);
-export default withRouter(AdvancedSimsCreation); // withRouter à supprimer une fois fini
+export default AdvancedSimsCreation;
