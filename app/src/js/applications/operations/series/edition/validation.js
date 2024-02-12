@@ -2,12 +2,12 @@ import D, { D1, D2 } from 'js/i18n';
 import { formatValidation } from 'js/utils/validation';
 import { z } from 'zod';
 
-const listOfExtraMandatoryFields = (process.env.REACT_APP_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS ?? "").split(',');
+const listOfExtraMandatoryFields = (process.env.REACT_APP_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS ?? "").split(',')
 
 const fieldToTitleMapping = {
 	typeCode: D1.operationType,
 	accrualPeriodicityCode: D1.dataCollectFrequency
-};
+}
 
 export const isMandatoryField = fieldName => listOfExtraMandatoryFields.indexOf(fieldName) >= 0;
 
