@@ -8,7 +8,7 @@ export default {
 		en: 'The language is required',
 	},
 	badUrl: {
-		fr: "L'URL n'est valide",
+		fr: "L'URL n'est pas valide",
 		en: 'The link is not valid',
 	},
 	requiredFile: {
