@@ -8,6 +8,8 @@ describe('validation', function() {
 				prefLabelLg2: 'prefLabelLg2',
 				creators: ['creator'],
 				family: {id: 'i'},
+				accrualPeriodicityCode: 'accrualPeriodicityCode',
+				typeCode: 'typeCode',
 			})
 		).toEqual({
 			errorMessage: [
@@ -18,6 +20,8 @@ describe('validation', function() {
 				prefLabelLg2: '',
 				creators: '',
 				family: '',
+				accrualPeriodicityCode: '',
+				typeCode: '',
 			},
 		});
 	});
@@ -28,6 +32,8 @@ describe('validation', function() {
 				prefLabelLg2: '',
 				creators: ['creator'],
 				family: {id: 'i'},
+				accrualPeriodicityCode: 'accrualPeriodicityCode',
+				typeCode: 'typeCode',
 			})
 		).toEqual({
 			errorMessage: [
@@ -38,6 +44,8 @@ describe('validation', function() {
 				prefLabelLg2: 'The property <strong>Title</strong> is required.',
 				creators: '',
 				family: '',
+				accrualPeriodicityCode: '',
+				typeCode: '',
 			},
 		});
 	});
@@ -46,6 +54,8 @@ describe('validation', function() {
 			validate({
 				prefLabelLg1: '',
 				prefLabelLg2: '',
+				accrualPeriodicityCode: 'accrualPeriodicityCode',
+				typeCode: 'typeCode',
 			})
 		).toEqual({
 			errorMessage: [
@@ -59,6 +69,8 @@ describe('validation', function() {
 				prefLabelLg2: 'The property <strong>Title</strong> is required.',
 				creators: 'The property <strong>Owner</strong> is required.',
 				family: 'The property <strong>Famille</strong> is required.',
+				accrualPeriodicityCode: '',
+				typeCode: '',
 			},
 		});
 	});
@@ -69,6 +81,8 @@ describe('validation', function() {
 				prefLabelLg2: 'prefLabelLg2',
 				family: {id: 'i'},
 				creators: ['creator'],
+				accrualPeriodicityCode: 'accrualPeriodicityCode',
+				typeCode: 'typeCode',
 			})
 		).toEqual({
 			errorMessage: [],
@@ -77,6 +91,8 @@ describe('validation', function() {
 				prefLabelLg2: '',
 				creators: '',
 				family: '',
+				accrualPeriodicityCode: '',
+				typeCode: '',
 			},
 		});
 	});
