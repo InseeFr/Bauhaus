@@ -80,6 +80,10 @@ export default auth(() => {
 						component={getComponent('structures', pages, activeModules)}
 					/>
 					<Route
+						path="/datasets"
+						component={getComponent('datasets', pages, activeModules)}
+					/>
+					<Route
 						path="/(codelists|codelists-partial)"
 						component={getComponent('codelists', pages, activeModules)}
 					/>
