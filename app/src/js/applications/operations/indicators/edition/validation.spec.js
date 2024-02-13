@@ -2,7 +2,7 @@ import { validate } from './validation';
 
 describe('validate', () => {
 	it('should return an error if the prefLabelLg1 is not defined', () => {
-		expect(validate({ prefLabelLg2: 'prefLabelLg2', creators: ['c'] })).toEqual({
+		expect(validate({ prefLabelLg1: '', prefLabelLg2: 'prefLabelLg2', creators: ['c'] })).toEqual({
 			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
 			fields: {
 				creators: "",
@@ -12,7 +12,7 @@ describe('validate', () => {
 		});
 	});
 	it('should return an error if the prefLabelLg2 is not defined', () => {
-		expect(validate({ prefLabelLg1: 'prefLabelLg1', creators: ['c'] })).toEqual({
+		expect(validate({ prefLabelLg1: 'prefLabelLg1', prefLabelLg2: '', creators: ['c'] })).toEqual({
 			errorMessage: ['The property <strong>Title</strong> is required.'],
 			fields: {
 				creators: "",
