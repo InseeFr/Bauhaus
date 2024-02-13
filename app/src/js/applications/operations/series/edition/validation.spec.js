@@ -2,7 +2,12 @@ import { validate } from './validation';
 
 describe('validation', function() {
 	it('should return an error for prefLabelLg1', function() {
-		expect(validate({ prefLabelLg2: 'prefLabelLg2', family: 'family', creators: ['creator'] })).toEqual({
+		expect(validate({
+			prefLabelLg1: '',
+			prefLabelLg2: 'prefLabelLg2',
+			family: {id: 'i'},
+			creators: ['creator'],
+		})).toEqual({
 			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
 			fields: {
 				'creators': '',
@@ -13,7 +18,12 @@ describe('validation', function() {
 		});
 	});
 	it('should return an error for prefLabelLg2', function() {
-		expect(validate({ prefLabelLg1: 'prefLabelLg1', family: 'family', creators: ['creator'] })).toEqual({
+		expect(validate({
+			prefLabelLg1: 'prefLabelLg1',
+			prefLabelLg2: '',
+			family: {id: 'i'},
+			creators: ['creator'],
+		})).toEqual({
 			errorMessage: ['The property <strong>Title</strong> is required.'],
 			fields: {
 				'creators': '',
@@ -23,8 +33,11 @@ describe('validation', function() {
 			},
 		});
 	});
-	it('should return an error for prefLabelLg1 and prefLabelLg2', function() {
-		expect(validate({})).toEqual({
+	it('should return an error for prefLabelLg1, prefLabelLg2, family and creators', function() {
+		expect(validate({
+			prefLabelLg1: '',
+			prefLabelLg2: '',
+		})).toEqual({
 			errorMessage: [
 				'The property <strong>Propriétaire</strong> is required.',
 				'The property <strong>Intitulé</strong> is required.',
@@ -39,11 +52,11 @@ describe('validation', function() {
 			},
 		});
 	});
-	it('should return no errors', function() {
+	it('should return no error', function() {
 		expect(validate({
 			prefLabelLg1: 'prefLabelLg2',
 			prefLabelLg2: 'prefLabelLg2',
-			family: 'family',
+			family: {id: 'i'},
 			creators: ['creator'],
 		})).toEqual({
 			errorMessage: [],
