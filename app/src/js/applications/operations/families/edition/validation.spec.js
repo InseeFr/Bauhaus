@@ -31,7 +31,7 @@ describe('validation', function() {
 			},
 		});
 	});
-	it('should return no errors', function() {
+	it('should return no error', function() {
 		expect(validate({
 			prefLabelLg1: 'prefLabelLg2',
 			prefLabelLg2: 'prefLabelLg2'

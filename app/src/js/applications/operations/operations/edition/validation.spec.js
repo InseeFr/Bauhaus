@@ -31,7 +31,7 @@ describe('validate', () => {
 			},
 		});
 	});
-	it('should return nothing if there is no errors', () => {
+	it('should return no error', () => {
 		expect(
 			validate({ prefLabelLg1: 'prefLabelLg1', prefLabelLg2: 'prefLabelLg2', series: {id: 'i'} })
 		).toEqual({
