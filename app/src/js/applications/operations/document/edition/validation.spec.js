@@ -94,7 +94,7 @@ describe('validation', function () {
 				'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 			],
 			fields: {
-				files: 'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
+				file: 'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 			},
 		});
 	});
