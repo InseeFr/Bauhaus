@@ -17,29 +17,21 @@ let Serie = z.object({
 	}),
 });
 
+const listOfExtraMandatoryFields = (process.env.REACT_APP_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS ?? "").split(',')
 
-// ----------------------------------------------------------------------
-// PAS ENCORE DE PRISE EN COMPTE DES CHAMPS EXTRA AVEC LA VARIABLE D'ENV:
-// ----------------------------------------------------------------------
+export const isMandatoryField = fieldName => listOfExtraMandatoryFields.indexOf(fieldName) >= 0
 
-// const listOfExtraMandatoryFields = (process.env.REACT_APP_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS ?? "").split(',')
+const fieldToTitleMapping = {
+	typeCode: D1.operationType,
+	accrualPeriodicityCode: D1.dataCollectFrequency
+}
 
-// export const isMandatoryField = fieldName => listOfExtraMandatoryFields.indexOf(fieldName) >= 0
-
-// const fieldToTitleMapping = {
-// 	typeCode: D1.operationType,
-// 	accrualPeriodicityCode: D1.dataCollectFrequency
-// }
-
-// listOfExtraMandatoryFields.forEach(extraMandatoryField => {
-// 	Serie = Serie.setKey(extraMandatoryField, z.string({
-// 		required_error: D.mandatoryProperty(fieldToTitleMapping[extraMandatoryField] ?? "")
-// 	}).min(1, {
-// 		message: D.mandatoryProperty(fieldToTitleMapping[extraMandatoryField] ?? "")
-// 	}))
-// })
-
-// ----------------------------------------------------------------------
-
+listOfExtraMandatoryFields.forEach(extraMandatoryField => {
+	Serie = Serie.setKey(extraMandatoryField, z.string({
+		required_error: D.mandatoryProperty(fieldToTitleMapping[extraMandatoryField] ?? "")
+	}).min(1, {
+		message: D.mandatoryProperty(fieldToTitleMapping[extraMandatoryField] ?? "")
+	}))
+})
 
 export const validate = formatValidation(Serie)

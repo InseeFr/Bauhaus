@@ -18,7 +18,7 @@ import {
 } from 'bauhaus-utilities';
 import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
 
-import { validate } from './validation';
+import { isMandatoryField, validate } from './validation';
 import api from '../../../../remote-api/operations-api';
 
 const defaultSerie = {
@@ -302,45 +302,64 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="typeOperation" className="w-100">
-								{D1.operationType}
-								<SelectRmes
-									placeholder=""
-									unclearable
-									value={serie.typeCode}
-									options={categories.codes.map((cat) => {
-										return { value: cat.code, label: cat.labelLg1 };
-									})}
-									onChange={(value) =>
-										this.onChange({
-											target: { value, id: 'typeCode' },
-										})
-									}
-								/>
-							</label>
+							{ isMandatoryField('typeCode') ? (
+								<LabelRequired htmlFor="typeCode">
+									{D1.operationType}
+								</LabelRequired>
+							) : (
+								<label htmlFor="typeCode" className="w-100">
+									{D1.operationType}
+								</label>
+							) }
+							<SelectRmes
+								placeholder=""
+								unclearable
+								value={serie.typeCode}
+								options={categories.codes.map((cat) => {
+									return { value: cat.code, label: cat.labelLg1 };
+								})}
+								onChange={(value) =>
+									this.onChange({
+										target: { value, id: 'typeCode' },
+									})
+								}
+							/>
+							<ClientSideError
+								id="typeCode-error"
+								error={this.state.clientSideErrors?.fields?.typeCode}
+							></ClientSideError>
 						</div>
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							<label htmlFor="accrualPeriodicity" className="w-100">
-								{D1.dataCollectFrequency}
-								<SelectRmes
-									placeholder=""
-									unclearable
-									value={serie.accrualPeriodicityCode}
-									options={frequencies.codes.map((cat) => {
-										return { value: cat.code, label: cat.labelLg1 };
-									})}
-									onChange={(value) =>
-										this.onChange({
-											target: { value, id: 'accrualPeriodicityCode' },
-										})
-									}
-								/>
-							</label>
+							{ isMandatoryField('accrualPeriodicityCode') ? (
+								<LabelRequired htmlFor="accrualPeriodicityCode">
+									{D1.dataCollectFrequency}
+								</LabelRequired>
+							) : (
+								<label htmlFor="accrualPeriodicityCode" className="w-100">
+									{D1.dataCollectFrequency}
+								</label>
+							) }
+							<SelectRmes
+								placeholder=""
+								unclearable
+								value={serie.accrualPeriodicityCode}
+								options={frequencies.codes.map((cat) => {
+									return { value: cat.code, label: cat.labelLg1 };
+								})}
+								onChange={(value) =>
+									this.onChange({
+										target: { value, id: 'accrualPeriodicityCode' },
+									})
+								}
+							/>
+							<ClientSideError
+								id="accrualPeriodicityCode-error"
+								error={this.state.clientSideErrors?.fields?.accrualPeriodicityCode}
+							></ClientSideError>
 						</div>
 					</div>
-
 					<div className="row">
 						<div className="form-group col-md-12">
 							<PublishersInput
