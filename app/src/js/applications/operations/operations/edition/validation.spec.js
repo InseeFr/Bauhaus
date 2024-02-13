@@ -1,9 +1,17 @@
 import { validate } from './validation';
 
-describe('validate', () => {
-	it('should return an error if the prefLabelLg1 is not defined', () => {
-		expect(validate({ prefLabelLg1: '', prefLabelLg2: 'prefLabelLg2', series: {id: 'i'} })).toEqual({
-			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
+describe('validate', function() {
+	it('should return an error for prefLabelLg1', function() {
+		expect(
+            validate({
+                prefLabelLg1: '',
+                prefLabelLg2: 'prefLabelLg2',
+                series: {id: 'i'},
+            })
+        ).toEqual({
+			errorMessage: [
+                'The property <strong>Intitulé</strong> is required.',
+            ],
 			fields: {
 				prefLabelLg1: 'The property <strong>Intitulé</strong> is required.',
 				prefLabelLg2: '',
@@ -11,9 +19,17 @@ describe('validate', () => {
 			},
 		});
 	});
-	it('should return an error if the prefLabelLg2 is not defined', () => {
-		expect(validate({ prefLabelLg1: 'prefLabelLg1', prefLabelLg2: '', series: {id: 'i'} })).toEqual({
-			errorMessage: ['The property <strong>Title</strong> is required.'],
+	it('should return an error for prefLabelLg2', function() {
+		expect(
+            validate({
+                prefLabelLg1: 'prefLabelLg1',
+                prefLabelLg2: '',
+                series: {id: 'i'},
+            })
+        ).toEqual({
+			errorMessage: [
+                'The property <strong>Title</strong> is required.',
+            ],
 			fields: {
 				prefLabelLg1: '',
 				prefLabelLg2: 'The property <strong>Title</strong> is required.',
@@ -21,8 +37,13 @@ describe('validate', () => {
 			},
 		});
 	});
-	it('should return an error if the series is not defined', () => {
-		expect(validate({ prefLabelLg1: 'prefLabelLg1',  prefLabelLg2: 'prefLabelLg2' })).toEqual({
+	it('should return an error for series', function() {
+		expect(
+            validate({
+                prefLabelLg1: 'prefLabelLg1',
+                prefLabelLg2: 'prefLabelLg2'
+            })
+        ).toEqual({
 			errorMessage: ['The property <strong>Séries</strong> is required.'],
 			fields: {
 				prefLabelLg1: '',
@@ -31,9 +52,13 @@ describe('validate', () => {
 			},
 		});
 	});
-	it('should return no error', () => {
+	it('should return no error', function() {
 		expect(
-			validate({ prefLabelLg1: 'prefLabelLg1', prefLabelLg2: 'prefLabelLg2', series: {id: 'i'} })
+			validate({
+                prefLabelLg1: 'prefLabelLg1',
+                prefLabelLg2: 'prefLabelLg2',
+                series: {id: 'i'},
+            })
 		).toEqual({
 			errorMessage: [],
 			fields: {
