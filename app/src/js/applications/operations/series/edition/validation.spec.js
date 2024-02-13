@@ -39,9 +39,9 @@ describe('validation', function() {
 			prefLabelLg2: '',
 		})).toEqual({
 			errorMessage: [
-				'The property <strong>Owner</strong> is required.',
 				'The property <strong>Intitulé</strong> is required.',
 				'The property <strong>Title</strong> is required.',
+				'The property <strong>Owner</strong> is required.',
 				'The property <strong>Famille</strong> is required.',
 			],
 			fields: {
