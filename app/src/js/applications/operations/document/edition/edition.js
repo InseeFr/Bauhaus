@@ -182,7 +182,11 @@ const OperationsDocumentationEdition = (props) => {
 
 
 	const onSubmit = () => {
-		const clientSideErrors = validate(document, type, files);
+		const newdocument = {
+			...document,
+			files
+		}
+		const clientSideErrors = validate(newdocument, type);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
@@ -327,35 +331,37 @@ const OperationsDocumentationEdition = (props) => {
 									>
 										<input
 											{...getInputProps()}
-											aria-invalid={!!clientSideErrors.fields?.file}
-											aria-describedby={!!clientSideErrors.fields?.file ? 'file-error' : null}
+											aria-invalid={!!clientSideErrors.fields?.files}
+											aria-describedby={!!clientSideErrors.fields?.files ? 'file-error' : null}
 										/>
 										<p>{D.drag}</p>
 									</div>
 								)}
 							</Dropzone>
-							<ClientSideError id="file-error" error={clientSideErrors?.fields?.file}></ClientSideError>
-
+							<ClientSideError id="file-error" error={clientSideErrors?.fields?.files}></ClientSideError>
 						</div>
 
 					</Row>
 				)}
 
 				{type === DOCUMENT && files.length > 0 && (
-					<div className="panel panel-default">
-						{files.map((file) => (
-							<div className="panel-body" key={file.name}>
-								{file.name}
-								<button
-									onClick={removeFile}
-									type="button"
-									className="close"
-									aria-label="Close"
-								>
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-						))}
+					<div>
+						<div className="panel panel-default">
+							{files.map((file) => (
+								<div className="panel-body" key={file.name}>
+									{file.name}
+									<button
+										onClick={removeFile}
+										type="button"
+										className="close"
+										aria-label="Close"
+									>
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							))}
+						</div>
+						<ClientSideError id="file-error" error={clientSideErrors?.fields?.files}></ClientSideError>
 					</div>
 				)}
 				<Row>

@@ -18,7 +18,9 @@ describe('validation', function () {
             ],
 			fields: {
 				labelLg1: 'The property <strong>Intitulé</strong> is required.',
-				labelLg2: 'The property <strong>Title</strong> is required.'
+				labelLg2: 'The property <strong>Title</strong> is required.',
+				lang: '',
+				url: '',
 			},
 		});
 	});
@@ -35,6 +37,9 @@ describe('validation', function () {
 		).toEqual({
 			errorMessage: ['The link is not valid'],
 			fields: {
+				labelLg1: '',
+				labelLg2: '',
+				lang: '',
 				url: 'The link is not valid',
 			},
 		});
@@ -46,16 +51,20 @@ describe('validation', function () {
 				labelLg2: 'labelLg2',
 				lang: '',
 				updatedDate: 'd',
+                files: [{name: 'path/correct-file_name.123'}],
 			},
-            'document',
-            [{name: 'path/correct-file_name.123'}],
+            'document'
             )
 		).toEqual({
 			errorMessage: [
 				'The language is required',
 			],
 			fields: {
+				labelLg1: '',
+				labelLg2: '',
 				lang: 'The language is required',
+				updatedDate: '',
+                files: '',
 			},
 		});
 	});
@@ -65,16 +74,20 @@ describe('validation', function () {
 				labelLg1: 'labelLg1',
 				labelLg2: 'labelLg2',
 				lang: 'l',
+                files: [{name: 'path/correct-file_name.123'}],
 			},
-            'document',
-            [{name: 'path/correct-file_name.123'}],
+            'document'
             )
 		).toEqual({
 			errorMessage: [
 				'The update date is required',
 			],
 			fields: {
+				labelLg1: '',
+				labelLg2: '',
+				lang: '',
 				updatedDate: 'The update date is required',
+                files: '',
 			},
 		});
 	});
@@ -85,16 +98,20 @@ describe('validation', function () {
 				labelLg2: 'labelLg2',
 				lang: 'l',
 				updatedDate: 'd',
+                files: [{name: 'path/wrong&file@name!'}],
 			},
-            'document',
-            [{name: 'path/wrong&file@name!'}],
+            'document'
             )
 		).toEqual({
 			errorMessage: [
 				'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 			],
 			fields: {
-				file: 'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
+				labelLg1: '',
+				labelLg2: '',
+				lang: '',
+				updatedDate: '',
+				files: 'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 			},
 		});
 	});
@@ -110,7 +127,12 @@ describe('validation', function () {
             )
 		).toEqual({
 			errorMessage: [],
-			fields: {},
+			fields: {
+				labelLg1: '',
+				labelLg2: '',
+				lang: '',
+				url: '',
+			},
 		});
 	});
     it('should return no error either', function () {
@@ -120,13 +142,19 @@ describe('validation', function () {
 				labelLg2: 'labelLg2',
 				lang: 'l',
 				updatedDate: 'd',
+                files: [{name: 'path/correct-file_name.123'}],
 			},
             'document',
-            [{name: 'path/correct-file_name.123'}],
             )
 		).toEqual({
 			errorMessage: [],
-			fields: {},
+			fields: {
+				labelLg1: '',
+				labelLg2: '',
+				lang: '',
+				updatedDate: '',
+                files: '',
+			},
 		});
 	});
 });
