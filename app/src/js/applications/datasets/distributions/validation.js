@@ -3,9 +3,6 @@ import D, { D1, D2 } from '../../../i18n/build-dictionary';
 // import { z } from 'zod';
 
 // const Distribution = z.object({
-//     idDataset: z.number({
-//         required_error: D.mandatoryProperty(D1.datasetsTitle)
-//     }),
 // 	labelLg1: z.string({
 //         required_error: D.mandatoryProperty(D1.title)
 //     }).min(1, {

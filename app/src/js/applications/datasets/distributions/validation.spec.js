@@ -5,7 +5,7 @@ describe('validation', function() {
 		expect(
 			validate({
 				labelLg2: 'labelLg2',
-                idDataset: 0,
+                idDataset: 'id',
 			})
 		).toEqual({
 			errorMessage: [
@@ -22,7 +22,7 @@ describe('validation', function() {
 		expect(
 			validate({
 				labelLg1: 'labelLg1',
-				idDataset: 0,
+				idDataset: 'id',
 			})
 		).toEqual({
 			errorMessage: [
@@ -43,21 +43,21 @@ describe('validation', function() {
 			})
 		).toEqual({
 			errorMessage: [
-				'The property <strong>Identifiant</strong> is required.',
+				'The property <strong>Jeu de Données</strong> is required.',
 			],
 			fields: {
 				labelLg1: '',
 				labelLg2: '',
-                idDataset: 'The property <strong>Identifiant</strong> is required.',
+                idDataset: 'The property <strong>Jeu de Données</strong> is required.',
 			},
 		});
 	});
 	it('should return no error', function() {
 		expect(
 			validate({
-			labelLg1: 'labelLg2',
-			labelLg2: 'labelLg2',
-            idDataset: 0,
+                labelLg1: 'labelLg2',
+                labelLg2: 'labelLg2',
+                idDataset: 'id',
 			})
 		).toEqual({
 			errorMessage: [],
