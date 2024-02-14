@@ -17,14 +17,14 @@ let Serie = z.object({
 	}),
 });
 
-const listOfExtraMandatoryFields = (process.env.REACT_APP_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS ?? "").split(',')
+export const listOfExtraMandatoryFields = (process.env.REACT_APP_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS ?? '').split(',');
 
-export const isMandatoryField = fieldName => listOfExtraMandatoryFields.indexOf(fieldName) >= 0
+export const isMandatoryField = (fieldName) => listOfExtraMandatoryFields.indexOf(fieldName) >= 0;
 
 const fieldToTitleMapping = {
 	typeCode: D1.operationType,
-	accrualPeriodicityCode: D1.dataCollectFrequency
-}
+	accrualPeriodicityCode: D1.dataCollectFrequency,
+};
 
 listOfExtraMandatoryFields.forEach(extraMandatoryField => {
 	Serie = Serie.setKey(extraMandatoryField, z.string({

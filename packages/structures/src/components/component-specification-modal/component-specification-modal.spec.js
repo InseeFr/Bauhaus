@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentSpecificationModalBody } from '.';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 describe('<ComponentSpecificationModal />', () => {
 	beforeEach(() => {
@@ -17,7 +17,7 @@ describe('<ComponentSpecificationModal />', () => {
 		const { container } = render(
 			<ComponentSpecificationModalBody
 				specification={specification}
-				selectedComponent={{component: {}}}
+				selectedComponent={{ component: {} }}
 				structureComponents={structureComponents}
 				onClose={onClose}
 			/>
@@ -30,7 +30,7 @@ describe('<ComponentSpecificationModal />', () => {
 		const { container } = render(
 			<ComponentSpecificationModalBody
 				specification={specification}
-				selectedComponent={{component: {}}}
+				selectedComponent={{ component: {} }}
 				structureComponents={structureComponents}
 				onSave={onSave}
 			/>
