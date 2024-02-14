@@ -48,7 +48,7 @@ export function validate({
 		fields: {
 			labelLg1: !labelLg1 ? D.mandatoryProperty(D1.title) : '',
 			labelLg2: !labelLg2 ? D.mandatoryProperty(D2.title) : '',
-			creator: !labelLg2 ? D.mandatoryProperty(D1.creatorTitle) : '',
+			creator: !creator ? D.mandatoryProperty(D1.creatorTitle) : '',
 			contributor: !contributor ? D.mandatoryProperty(D1.contributorTitle) : '',
 			disseminationStatus: !disseminationStatus
 				? D.mandatoryProperty(D1.disseminationStatusTitle)
