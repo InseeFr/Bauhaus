@@ -1,4 +1,21 @@
 import D, { D1, D2 } from '../../../i18n/build-dictionary';
+// import { formatValidation } from 'js/utils/validation';
+// import { z } from 'zod';
+
+// const Dataset = z.object({
+// 	labelLg1: z.string({
+//         required_error: D.mandatoryProperty(D1.title)
+//     }).min(1, {
+//         message: D.mandatoryProperty(D1.title)
+//     }),
+// 	labelLg2: z.string({
+//         required_error: D.mandatoryProperty(D2.title)
+//     }).min(1, {
+//         message: D.mandatoryProperty(D2.title)
+//     }),
+// });
+
+// export const validate = formatValidation(Dataset);
 
 export function validate({
 	catalogRecord,
@@ -40,4 +57,4 @@ export function validate({
 		},
 		errorMessage: errorMessages,
 	};
-}
+};
