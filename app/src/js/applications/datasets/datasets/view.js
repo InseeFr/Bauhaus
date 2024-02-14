@@ -34,7 +34,6 @@ const Dataset = (props) => {
 	const { data: structures } = useQuery({
 		queryKey: ['structures'],
 		queryFn: () => {
-			console.log('get structures');
 			return StructureAPI.getStructures();
 		},
 	});

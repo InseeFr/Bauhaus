@@ -386,23 +386,22 @@ const Dataset = (props) => {
 
 								<Row>
 									<div className="col-md-12 form-group">
-										<label className="w-100 wilco-label-required">
+										<LabelRequired>
 											{D1.generatedBy}
-											<span className="asterisk">*</span>
-											<ReactSelect
-												unclearable
-												multi={false}
-												value={editingDataset.idSerie}
-												options={seriesOptions}
-												onChange={({ value }) => {
-													setEditingDataset({
-														...editingDataset,
-														idSerie: value,
-													});
-													setClientSideErrors({});
-												}}
-											/>
-										</label>
+										</LabelRequired>
+										<ReactSelect
+											unclearable
+											multi={false}
+											value={editingDataset.idSerie}
+											options={seriesOptions}
+											onChange={({ value }) => {
+												setEditingDataset({
+													...editingDataset,
+													idSerie: value,
+												});
+												setClientSideErrors({});
+											}}
+										/>
 										<ClientSideError
 											error={clientSideErrors?.fields?.idSerie}
 										></ClientSideError>
@@ -475,29 +474,28 @@ const Dataset = (props) => {
 							<>
 								<Row>
 									<div className="col-md-12 form-group">
-										<label className="w-100 wilco-label-required">
+										<LabelRequired>
 											{D1.creatorTitle}
-											<span className="asterisk">*</span>
-											<ReactSelect
-												unclearable
-												multi={false}
-												value={editingDataset.catalogRecord?.creator}
-												options={stampsOptions}
-												onChange={({ value }) => {
-													setEditingDataset({
-														...editingDataset,
-														catalogRecord: {
-															...(editingDataset.catalogRecord ?? {}),
-															creator: value,
-														},
-													});
-													setClientSideErrors((clientSideErrors) => ({
-														...clientSideErrors,
-														errorMessage: [],
-													}));
-												}}
-											/>
-										</label>
+										</LabelRequired>
+										<ReactSelect
+											unclearable
+											multi={false}
+											value={editingDataset.catalogRecord?.creator}
+											options={stampsOptions}
+											onChange={({ value }) => {
+												setEditingDataset({
+													...editingDataset,
+													catalogRecord: {
+														...(editingDataset.catalogRecord ?? {}),
+														creator: value,
+													},
+												});
+												setClientSideErrors((clientSideErrors) => ({
+													...clientSideErrors,
+													errorMessage: [],
+												}));
+											}}
+										/>
 										<ClientSideError
 											error={clientSideErrors?.fields?.creator}
 										></ClientSideError>
@@ -506,29 +504,29 @@ const Dataset = (props) => {
 
 								<Row>
 									<div className="col-md-12 form-group">
-										<label className="w-100 wilco-label-required">
+										<LabelRequired>
 											{D1.contributorTitle}
-											<span className="asterisk">*</span>
-											<ReactSelect
-												unclearable
-												multi={false}
-												value={editingDataset.catalogRecord?.contributor}
-												options={stampsOptions}
-												onChange={({ value }) => {
-													setEditingDataset({
-														...editingDataset,
-														catalogRecord: {
-															...(editingDataset.catalogRecord ?? {}),
-															contributor: value,
-														},
-													});
-													setClientSideErrors((clientSideErrors) => ({
-														...clientSideErrors,
-														errorMessage: [],
-													}));
-												}}
-											/>
-										</label>
+
+										</LabelRequired>
+										<ReactSelect
+											unclearable
+											multi={false}
+											value={editingDataset.catalogRecord?.contributor}
+											options={stampsOptions}
+											onChange={({ value }) => {
+												setEditingDataset({
+													...editingDataset,
+													catalogRecord: {
+														...(editingDataset.catalogRecord ?? {}),
+														contributor: value,
+													},
+												});
+												setClientSideErrors((clientSideErrors) => ({
+													...clientSideErrors,
+													errorMessage: [],
+												}));
+											}}
+										/>
 										<ClientSideError
 											error={clientSideErrors?.fields?.contributor}
 										></ClientSideError>
@@ -537,23 +535,22 @@ const Dataset = (props) => {
 
 								<Row>
 									<div className="col-md-12 form-group">
-										<label className="w-100 wilco-label-required">
+										<LabelRequired>
 											{D1.disseminationStatusTitle}
-											<span className="asterisk">*</span>
-											<ReactSelect
-												unclearable
-												multi={false}
-												value={editingDataset.disseminationStatus}
-												options={disseminationStatusOptions}
-												onChange={({ value }) => {
-													setEditingDataset({
-														...editingDataset,
-														disseminationStatus: value,
-													});
-													setClientSideErrors({});
-												}}
-											/>
-										</label>
+										</LabelRequired>
+										<ReactSelect
+											unclearable
+											multi={false}
+											value={editingDataset.disseminationStatus}
+											options={disseminationStatusOptions}
+											onChange={({ value }) => {
+												setEditingDataset({
+													...editingDataset,
+													disseminationStatus: value,
+												});
+												setClientSideErrors({});
+											}}
+										/>
 										<ClientSideError
 											error={clientSideErrors?.fields?.disseminationStatus}
 										></ClientSideError>
