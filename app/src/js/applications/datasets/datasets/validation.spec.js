@@ -44,10 +44,8 @@ describe('validation', function() {
 			fields: {
 				labelLg1: '',
 				labelLg2: 'The property <strong>Title</strong> is required.',
-                catalogRecord: {
-                    creator: 'c',
-                    contributor: 'c',
-                },
+                creator: '',
+                contributor: '',
                 disseminationStatus: '',
                 idSerie: '',
 			},
