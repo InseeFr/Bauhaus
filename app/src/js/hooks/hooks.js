@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { CodesList } from 'bauhaus-utilities';
 
@@ -36,8 +37,20 @@ export const withCodesLists = (notations) => {
 					[notation]: codesLists[index].data,
 				};
 			}, {});
-			console.log(codesListsProps);
 			return <Component {...props} {...codesListsProps} />;
 		};
 	};
+};
+
+export function useGoBack() {
+    const history = useHistory();
+
+    return function(redirectUrl, shouldReplace = false) {
+        if (shouldReplace) {
+            return history.replace(redirectUrl);
+        }
+        return history.length === 1 || history.location.state
+		? history.push(redirectUrl)
+		: history.goBack();
+    };
 };
