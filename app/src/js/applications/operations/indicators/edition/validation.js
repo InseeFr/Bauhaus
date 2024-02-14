@@ -1,24 +1,15 @@
 import D, { D1, D2 } from 'js/i18n';
+import { formatValidation } from 'js/utils/validation';
+import { z } from 'zod';
 
-export function validate({ prefLabelLg1, prefLabelLg2, creators }) {
-	const errorMessages = [];
-	if(!prefLabelLg1){
-		errorMessages.push(D.mandatoryProperty(D1.title))
-	}
-	if(!prefLabelLg2){
-		errorMessages.push(D.mandatoryProperty(D2.title))
-	}
+const Indicator = z.object({
+	prefLabelLg1: z.string().min(1, {message: D.mandatoryProperty(D1.title)}),
+	prefLabelLg2: z.string().min(1, {message: D.mandatoryProperty(D2.title)}),
+	creators: z.string({
+		required_error: D.mandatoryProperty(D.creatorTitle)
+	}).array().nonempty({
+		message: D.mandatoryProperty(D.creatorTitle)
+	}),
+});
 
-	if(!creators || creators.length === 0){
-		errorMessages.push(D.mandatoryProperty(D.creatorTitle));
-	}
-
-	return {
-		fields: {
-			prefLabelLg1: !prefLabelLg1 ? D.mandatoryProperty(D1.title) : '',
-			prefLabelLg2: !prefLabelLg2 ? D.mandatoryProperty(D2.title) : '',
-			creators: (!creators || creators.length === 0) ? D.mandatoryProperty(D.creatorTitle) : '',
-		},
-		errorMessage: errorMessages
-	};
-}
+export const validate = formatValidation(Indicator)
