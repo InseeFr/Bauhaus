@@ -5,8 +5,10 @@ describe('validation', function() {
 		expect(
 			validate({
 				labelLg2: 'labelLg2',
-                creator: 'c',
-                contributor: 'c',
+                catalogRecord: {
+                    creator: 'c',
+                    contributor: 'c',
+                },
                 disseminationStatus: 'status',
                 idSerie: 'id',
 			})
@@ -28,8 +30,10 @@ describe('validation', function() {
 		expect(
 			validate({
 				labelLg1: 'labelLg1',
-                creator: 'c',
-                contributor: 'c',
+                catalogRecord: {
+                    creator: 'c',
+                    contributor: 'c',
+                },
                 disseminationStatus: 'status',
                 idSerie: 'id',
 			})
@@ -40,8 +44,10 @@ describe('validation', function() {
 			fields: {
 				labelLg1: '',
 				labelLg2: 'The property <strong>Title</strong> is required.',
-                creator: '',
-                contributor: '',
+                catalogRecord: {
+                    creator: 'c',
+                    contributor: 'c',
+                },
                 disseminationStatus: '',
                 idSerie: '',
 			},
@@ -75,8 +81,10 @@ describe('validation', function() {
 			validate({
                 labelLg1: 'labelLg2',
                 labelLg2: 'labelLg2',
-                creator: 'c',
-                contributor: 'c',
+                catalogRecord: {
+                    creator: 'c',
+                    contributor: 'c',
+                },
                 disseminationStatus: 'status',
                 idSerie: 'id',
 			})
