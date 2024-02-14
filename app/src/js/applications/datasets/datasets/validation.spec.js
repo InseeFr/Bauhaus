@@ -5,8 +5,8 @@ describe('validation', function() {
 		expect(
 			validate({
 				labelLg2: 'labelLg2',
-                creator: ['c'],
-                contributor: ['c'],
+                creator: 'c',
+                contributor: 'c',
                 disseminationStatus: 'status',
                 idSerie: 'id',
 			})
@@ -28,8 +28,8 @@ describe('validation', function() {
 		expect(
 			validate({
 				labelLg1: 'labelLg1',
-                creator: ['c'],
-                contributor: ['c'],
+                creator: 'c',
+                contributor: 'c',
                 disseminationStatus: 'status',
                 idSerie: 'id',
 			})
@@ -75,8 +75,8 @@ describe('validation', function() {
 			validate({
                 labelLg1: 'labelLg2',
                 labelLg2: 'labelLg2',
-                creator: ['c'],
-                contributor: ['c'],
+                creator: 'c',
+                contributor: 'c',
                 disseminationStatus: 'status',
                 idSerie: 'id',
 			})
