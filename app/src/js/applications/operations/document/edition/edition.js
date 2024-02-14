@@ -5,9 +5,8 @@ import { EditorMarkdown, PageTitleBlock, withTitle, ErrorBloc, GlobalClientSideE
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
+import { useGoBack } from 'js/hooks/hooks';
 import {
-	goBack,
-	goBackOrReplace,
 	Loading,
 	CancelButton,
 	SaveButton,
@@ -128,6 +127,8 @@ export const ConfirmationModal = ({ document, isOpen, onYes, onNo }) => {
 const OperationsDocumentationEdition = (props) => {
 	const { document: documentProps, type, langOptions } = props;
 
+	const goBack = useGoBack();
+
 	const defaultDocument = useMemo(() => {
 		return {
 			...initDocument,
@@ -171,7 +172,7 @@ const OperationsDocumentationEdition = (props) => {
 		saveDocument(document, type, files)
 			.then(
 				(id = document.id) => {
-					goBackOrReplace(props, `/operations/${type}/${id}`, isCreation);
+					goBack(`/operations/${type}/${id}`, isCreation);
 				},
 				(err) => {
 					setServerSideError(err);
@@ -227,7 +228,7 @@ const OperationsDocumentationEdition = (props) => {
 			)}
 
 			<ActionToolbar>
-				<CancelButton action={goBack(props, '/operations/documents')} />
+				<CancelButton action={() => goBack('/operations/documents')} />
 				<SaveButton action={onSubmit} disabled={clientSideErrors.errorMessage?.length > 0} />
 			</ActionToolbar>
 			{ submitting && clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} D={D}/> }

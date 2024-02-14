@@ -6,9 +6,9 @@ import {
 	Button,
 	Loading,
 	ActionToolbar,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
+import { useGoBack } from 'js/hooks/hooks';
 import api from 'js/remote-api/operations-api';
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -23,10 +23,11 @@ import {
 	ErrorBloc
 } from 'bauhaus-utilities';
 
-const Family = (props) => {
+const Family = () => {
 	const { id } = useParams();
 	const langs = useSelector(state => select.getLangs(state))
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state))
+	const goBack = useGoBack();
 
 	const [family, setFamily] = useState({});
 	const [serverSideError, setServerSideError] = useState();
@@ -62,7 +63,7 @@ const Family = (props) => {
 			/>
 
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations/families')} />
+				<ReturnButton action={() => goBack('/operations/families')} />
 
 				<Auth.AuthGuard roles={[Auth.ADMIN]}>
 					<ValidationButton
