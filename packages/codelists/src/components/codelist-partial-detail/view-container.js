@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Loading, goBack } from '@inseefr/wilco';
-import { Stores } from 'bauhaus-utilities';
+import { CodesList, Stores } from 'bauhaus-utilities';
 import { formatPartialCodeList } from '../../utils';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
@@ -14,7 +14,7 @@ const CodelistPartialComponentView = (props) => {
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [publishing, setPublishing] = useState(false);
-	const [codelists, setCodelists] = useState([	]);
+	const [codelists, setCodelists] = useState([]);
 	const [codelist, setCodelist] = useState({});
 	const [modalOpened, setModalOpened] = useState(false);
 	const [serverSideError, setServerSideError] = useState('');
@@ -23,31 +23,32 @@ const CodelistPartialComponentView = (props) => {
 		goBack(props, '/codelists')();
 	}, [props]);
 
-	const fetchCodeList = id => {
-		return API.getCodelistPartial(id)
-			.then((cl) => {
-				const idParent = codelists.find(
-					(codelist) => codelist.uri === cl.iriParent
-				)?.id;
+	const fetchCodeList = (id) => {
+		return API.getCodelistPartial(id).then((cl) => {
+			const idParent = codelists.find(
+				(codelist) => codelist.uri === cl.iriParent
+			)?.id;
 
-				if(!idParent){
-					return;
-				}
-				return API.getDetailedCodelist(idParent).then((parentCl) => {
-					setCodelist(formatPartialCodeList(cl, parentCl));
-				});
+			if (!idParent) {
+				return;
+			}
+			return CodesList.getCodesListCodes(idParent, 1, 0).then((codes) => {
+				setCodelist(formatPartialCodeList(cl, codes.items));
 			});
-	}
+		});
+	};
 
 	const publish = () => {
 		setPublishing(true);
 
-		API.publishPartialCodelist(id).then(() => {
-			return fetchCodeList(id)
-		}).catch((error) => {
-			setServerSideError(error)
-		})
-		.finally(() => setPublishing(false))
+		API.publishPartialCodelist(id)
+			.then(() => {
+				return fetchCodeList(id);
+			})
+			.catch((error) => {
+				setServerSideError(error);
+			})
+			.finally(() => setPublishing(false));
 	};
 
 	const handleDelete = useCallback(() => {
@@ -71,18 +72,16 @@ const CodelistPartialComponentView = (props) => {
 		});
 	}, []);
 
-
 	useEffect(() => {
 		if (codelists && codelists[0]) {
-			fetchCodeList(id)
-				.finally(() => setLoading(false));
+			fetchCodeList(id).finally(() => setLoading(false));
 		}
 	}, [id, codelists]);
 
 	if (loading) {
 		return <Loading />;
 	}
-	if (publishing) return <Loading text={"publishing"} />;
+	if (publishing) return <Loading text={'publishing'} />;
 
 	return (
 		<React.Fragment>

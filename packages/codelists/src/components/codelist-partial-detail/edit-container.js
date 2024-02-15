@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Loading } from '@inseefr/wilco';
-import { StampsApi } from 'bauhaus-utilities';
+import { CodesList, StampsApi } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import { formatPartialCodeList } from '../../utils';
 import { CodeListPartialDetailEdit } from './edit';
@@ -34,11 +34,13 @@ const CodelistPartialEdit = (props) => {
 	const [serverSideError, setServerSideError] = useState('');
 
 	const { data: stampListOptions } = useQuery(['stamps'], () => {
-		return StampsApi.getStamps().then(stamps => stamps.map(stamp => ({
-			value: stamp,
-			label: stamp
-		})))
-	})
+		return StampsApi.getStamps().then((stamps) =>
+			stamps.map((stamp) => ({
+				value: stamp,
+				label: stamp,
+			}))
+		);
+	});
 
 	const handleBack = useCallback(() => {
 		goBackOrReplace('/codelists-partial', true);
@@ -98,8 +100,8 @@ const CodelistPartialEdit = (props) => {
 					const idParent = globalCodeListOptions.find(
 						(parent) => parent.iriParent === cl.iriParent
 					).value;
-					API.getDetailedCodelist(idParent).then((parentCl) => {
-						setCodelist(formatPartialCodeList(cl, parentCl));
+					return CodesList.getCodesListCodes(idParent, 1, 0).then((codes) => {
+						setCodelist(formatPartialCodeList(cl, codes.items));
 					});
 				})
 				.finally(() => setLoadingList(false));

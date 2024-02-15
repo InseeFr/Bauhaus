@@ -35,7 +35,7 @@ const api = {
 		(res) => res.text(),
 	],
 	getCodesDetailedCodelist: (id, page) => [`detailed/${id}/codes?page=${page}`],
-	getPartialsByParent: (parentCode) => [`partials/${parentCode}`],
+	getPartialsByParent: (parentCode) => [`partials/parent/${parentCode}`],
 	getCodelistsForSearch: () => ['search'],
 	getCodelistCode: (id, code) => [`${id}/code/${code}`],
 	postCodelist: (codelist) => [
