@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import D from 'js/i18n';
-import {ErrorBloc} from 'bauhaus-utilities'
+import { ErrorBloc } from 'bauhaus-utilities';
 import {
 	PageTitle,
 	ExportButton,
@@ -15,7 +15,7 @@ import {
 	ReturnButton,
 } from '@inseefr/wilco';
 
-const trackItems = items => {
+const trackItems = (items) => {
 	return (
 		items &&
 		items.map(({ id, label }) => ({
@@ -27,44 +27,57 @@ const trackItems = items => {
 };
 
 const Picker = ({
-			items: itemsProps,
-			handleAction,
-			title,
-			panelTitle,
-			labelWarning,
-			context,
-			ValidationButton
+	items: itemsProps,
+	handleAction,
+	title,
+	panelTitle,
+	labelWarning,
+	context,
+	ValidationButton,
+	disabled,
+	disabledWarningMessage,
 }) => {
 	const [search, setSearch] = useState('');
 	const [items, setItems] = useState(trackItems(itemsProps ?? []));
-    const [clientSideErrors, setClientSideErrors] = useState('');
-	const handleChange = searchLabel => setSearch(searchLabel);
-	const addItem = id => {
-        setClientSideErrors('');
-		setItems(items.map(item => {
-			if (item.id === id) item.isAdded = true;
-			return item;
-		}))
-	}
+	const [clientSideErrors, setClientSideErrors] = useState('');
 
-	const removeItem = id => {
-        setClientSideErrors('');
-		setItems(items.map(item => {
-			if (item.id === id) item.isAdded = false;
-			return item;
-		}))
-	}
+	const handleChange = (searchLabel) => setSearch(searchLabel);
 
-	const handleClickValid = e => {
-        const message = added.length === 0 ? labelWarning : '';
-        if(!!message){
-            setClientSideErrors(message)
-        } else {
-            const added = items.filter(({ isAdded }) => isAdded);
-            const addedIds = added.map(({ id }) => id);
-            handleAction(addedIds);
-        }
+	const handleUpdateIds = () => {
+		const added = items.filter(({ isAdded }) => isAdded);
+		const addedIds = added.map(({ id }) => id);
+		handleAction(addedIds);
+	};
 
+	const addItem = (id) => {
+		setClientSideErrors('');
+		setItems(
+			items.map((item) => {
+				if (item.id === id) item.isAdded = true;
+				return item;
+			})
+		);
+		handleUpdateIds();
+	};
+
+	const removeItem = (id) => {
+		setClientSideErrors('');
+		setItems(
+			items.map((item) => {
+				if (item.id === id) item.isAdded = false;
+				return item;
+			})
+		);
+		handleUpdateIds();
+	};
+
+	const handleClickValid = (e) => {
+		const message = added.length === 0 ? labelWarning : '';
+		if (!!message) {
+			setClientSideErrors(message);
+		} else {
+			handleUpdateIds();
+		}
 	};
 
 	const getItemsByStatus = () => {
@@ -116,17 +129,17 @@ const Picker = ({
 			<div className="container">
 				<PageTitle title={title} />
 				{controls}
-                {clientSideErrors && <ErrorBloc error={clientSideErrors} />}
-
+				{clientSideErrors && <ErrorBloc error={clientSideErrors} />}
+				{disabled && <ErrorBloc error={disabledWarningMessage} />}
 				<div className="row">
 					<div className="col-md-6">
 						<Panel title={panelTitle}>{addedEls}</Panel>
 					</div>
 					<div className="col-md-6 text-center">
 						<input
-                             type="text"
-                             value={search}
-							onChange={e => handleChange(e.target.value)}
+							type="text"
+							value={search}
+							onChange={(e) => handleChange(e.target.value)}
 							placeholder={D.searchLabelPlaceholder}
 							className="form-control"
 						/>
@@ -136,8 +149,7 @@ const Picker = ({
 			</div>
 		</div>
 	);
-
-}
+};
 
 Picker.propTypes = {
 	title: PropTypes.string.isRequired,
@@ -151,6 +163,8 @@ Picker.propTypes = {
 	), //not required since this component can be created before the items are
 	ValidationButton: PropTypes.func,
 	handleAction: PropTypes.func.isRequired,
+	disabled: PropTypes.bool,
+	disabledWarningMessage: PropTypes.string,
 	context: PropTypes.oneOf([
 		'',
 		'concepts',
