@@ -187,7 +187,7 @@ const dictionary = {
 		en: 'Creation date',
 	},
 	modifiedDateTitle: {
-		fr: 'Date de modification',
+			fr: 'Date de modification',
 		en: 'Modification date',
 	},
 	validDateTitle: {

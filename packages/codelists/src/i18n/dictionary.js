@@ -97,6 +97,10 @@ const dictionary = {
 		fr: 'Codes',
 		en: 'Codes',
 	},
+	addCodeTitle: {
+		fr: 'Ajouter un code',
+		en: 'Add a code',
+	},
 	codeTitle: {
 		fr: 'Code',
 		en: 'Code',

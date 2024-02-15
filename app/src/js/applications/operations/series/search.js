@@ -9,9 +9,12 @@ import {
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	Stores, useTitle, useUrlQueryParameters,
+	Stores,
+	useTitle,
+	useUrlQueryParameters,
 } from 'bauhaus-utilities';
 import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
+import { useCodesList } from '../../../hooks/hooks';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
@@ -30,7 +33,7 @@ const fields = [
 	'typeCode',
 	'creator',
 	'publisher',
-	'dataCollector'
+	'dataCollector',
 ];
 const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
 
@@ -38,18 +41,13 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 	constructor(props) {
 		super(props, {
 			...defaultState,
-			...props.search
+			...props.search,
 		});
 	}
 
 	handlers = this.handleChange(fields, (newState) => {
-		const {
-			prefLabelLg1,
-			typeCode,
-			creator,
-			dataCollector,
-			publisher,
-		} = newState;
+		const { prefLabelLg1, typeCode, creator, dataCollector, publisher } =
+			newState;
 
 		this.props.setSearch({
 			prefLabelLg1,
@@ -57,18 +55,18 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 			creator,
 			dataCollector,
 			publisher,
-		})
+		});
 	});
 
 	render() {
-
-		const { categories, organisations, stamps, data, reset, search: {
-			prefLabelLg1,
-			typeCode,
-			creator,
-			dataCollector,
-			publisher,
-		} } = this.props;
+		const {
+			categories,
+			organisations,
+			stamps,
+			data,
+			reset,
+			search: { prefLabelLg1, typeCode, creator, dataCollector, publisher },
+		} = this.props;
 		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 		const stampsOptions = stamps.map((stamp) => ({
 			value: stamp,
@@ -92,7 +90,10 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 					? publishers
 					: [publishers];
 
-				return !publisher || formattedPublishers.map(({id}) => id).includes(publisher);
+				return (
+					!publisher ||
+					formattedPublishers.map(({ id }) => id).includes(publisher)
+				);
 			})
 			.filter((series) => {
 				const dataCollectors = series.dataCollectors || [];
@@ -101,10 +102,9 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 					: [dataCollectors];
 				return (
 					!dataCollector ||
-					formattedDataCollectors.map(({id}) => id).includes(dataCollector)
+					formattedDataCollectors.map(({ id }) => id).includes(dataCollector)
 				);
 			});
-
 
 		const dataLinks = filteredData.map(({ id, prefLabelLg1 }) => (
 			<li key={id} className="list-group-item">
@@ -140,11 +140,12 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 								placeholder=""
 								value={
 									(
-										categories.codes.find((category) => category.code === typeCode) ||
-										{}
+										categories.codes.find(
+											(category) => category.code === typeCode
+										) || {}
 									).value
 								}
-								options={categories.codes.map((cat) => {
+								options={categories?.codes?.map((cat) => {
 									return { value: cat.code, label: cat.labelLg1 };
 								})}
 								onChange={(value) => {
@@ -216,12 +217,16 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 }
 
 const SearchListContainer = () => {
-	useTitle(D.operationsTitle, D.seriesTitle + ' - ' + D.advancedSearch)
-	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
+	useTitle(D.operationsTitle, D.seriesTitle + ' - ' + D.advancedSearch);
+	const [search, setSearch, reset] = useUrlQueryParameters(defaultState);
 	const [data, setData] = useState();
-	const categories = useSelector(state => state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {});
-	const organisations = useSelector(state => state.operationsOrganisations.results);
-	const stamps = useSelector(state => Stores.Stamps.getStampList(state) || []);
+	const categories = useCodesList(CL_SOURCE_CATEGORY);
+	const organisations = useSelector(
+		(state) => state.operationsOrganisations.results
+	);
+	const stamps = useSelector(
+		(state) => Stores.Stamps.getStampList(state) || []
+	);
 
 	useEffect(() => {
 		api.getSeriesSearchList().then((data) => {
@@ -236,9 +241,11 @@ const SearchListContainer = () => {
 			categories={categories}
 			organisations={organisations}
 			stamps={stamps}
-			search={search} setSearch={setSearch} reset={reset}
+			search={search}
+			setSearch={setSearch}
+			reset={reset}
 		/>
 	);
-}
+};
 
 export default SearchListContainer;

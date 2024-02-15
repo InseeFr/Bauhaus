@@ -48,7 +48,6 @@ class OperationsSerieEdition extends Component {
 	static propTypes = {
 		serie: PropTypes.object.isRequired,
 		langs: PropTypes.object.isRequired,
-		saveSerie: PropTypes.func.isRequired,
 		categories: PropTypes.object.isRequired,
 		frequencies: PropTypes.object.isRequired,
 
@@ -334,7 +333,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							{ isMandatoryField('typeCode') ? (
+							{isMandatoryField('typeCode') ? (
 								<LabelRequired htmlFor="typeCode">
 									{D1.operationType}
 								</LabelRequired>
@@ -342,12 +341,12 @@ class OperationsSerieEdition extends Component {
 								<label htmlFor="typeCode" className="w-100">
 									{D1.operationType}
 								</label>
-							) }
+							)}
 							<SelectRmes
 								placeholder=""
 								unclearable
 								value={serie.typeCode}
-								options={categories.codes.map((cat) => {
+								options={categories?.codes?.map((cat) => {
 									return { value: cat.code, label: cat.labelLg1 };
 								})}
 								onChange={(value) =>
@@ -364,7 +363,7 @@ class OperationsSerieEdition extends Component {
 					</div>
 					<div className="row">
 						<div className="form-group col-md-12">
-							{ isMandatoryField('accrualPeriodicityCode') ? (
+							{isMandatoryField('accrualPeriodicityCode') ? (
 								<LabelRequired htmlFor="accrualPeriodicityCode">
 									{D1.dataCollectFrequency}
 								</LabelRequired>
@@ -372,12 +371,12 @@ class OperationsSerieEdition extends Component {
 								<label htmlFor="accrualPeriodicityCode" className="w-100">
 									{D1.dataCollectFrequency}
 								</label>
-							) }
+							)}
 							<SelectRmes
 								placeholder=""
 								unclearable
 								value={serie.accrualPeriodicityCode}
-								options={frequencies.codes.map((cat) => {
+								options={frequencies?.codes?.map((cat) => {
 									return { value: cat.code, label: cat.labelLg1 };
 								})}
 								onChange={(value) =>
@@ -388,7 +387,9 @@ class OperationsSerieEdition extends Component {
 							/>
 							<ClientSideError
 								id="accrualPeriodicityCode-error"
-								error={this.state.clientSideErrors?.fields?.accrualPeriodicityCode}
+								error={
+									this.state.clientSideErrors?.fields?.accrualPeriodicityCode
+								}
 							></ClientSideError>
 						</div>
 					</div>
