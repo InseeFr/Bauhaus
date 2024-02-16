@@ -11,12 +11,13 @@ const fetchCodeList = (notation) => {
 	}));
 };
 
+const defaultCodesList = { codes: [] };
 export const useCodesList = (notation) => {
 	const { data } = useQuery({
 		queryKey: ['codelist', notation],
 		queryFn: () => fetchCodeList(notation),
 	});
-	return data;
+	return data ?? defaultCodesList;
 };
 
 export const useCodesLists = (notations) => {
