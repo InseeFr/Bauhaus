@@ -903,6 +903,7 @@ const Dataset = (props) => {
 	}
 
 	const onSubmit = () => {
+		console.log(editingDataset)
 		const clientSideErrors = validate(editingDataset);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);

@@ -19,4 +19,4 @@ const Dataset = z.object({
 	idSerie: z.string({required_error: D.mandatoryProperty(D1.generatedBy)}),
 });
 
-export const validate = ({catalogRecord, ...otherFields}) => formatValidation(Dataset)({creator: catalogRecord['creator'], contributor: catalogRecord['contributor'], ...otherFields});
+export const validate = ({catalogRecord, ...otherFields}) => formatValidation(Dataset)({creator: catalogRecord?.creator, contributor: catalogRecord?.contributor, ...otherFields});
