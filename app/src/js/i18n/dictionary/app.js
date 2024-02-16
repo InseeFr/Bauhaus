@@ -443,6 +443,22 @@ const dictionary = {
 		en: 'You are leaving this page without saving your changes. Do you want to continue ?',
 	},
 	btnExport: { fr: "Options d'export", en: 'Export options' },
+	btnOdsExporter: {
+		fr: 'Exporter en ODS',
+		en: 'Export as ODS',
+	},
+	btnOdtLg1Exporter: {
+		fr: 'Exporter en ODT (Première langue)',
+		en: 'Export as ODT (First language)',
+	},
+	btnOdtLg2Exporter: {
+		fr: 'Exporter en ODT (Seconde langue)',
+		en: 'Export as ODT (Second language)',
+	},
+	btnCollectionConceptExporter: {
+		fr: 'Exporter les fiches des concepts de la sélection',
+		en: 'Export the concepts of the selected collections',
+	},
 	btnExportValidate: { fr: 'Exporter en odt', en: 'Export to odt' },
 	btnExporter: {
 		fr: 'Exporter',

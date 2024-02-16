@@ -6,7 +6,12 @@ import Controls from './controls';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
 import { filterKeyDate } from 'js/utils/array-utils';
-import { ArrayUtils, withTitle, Pagination, useUrlQueryParameters } from 'bauhaus-utilities';
+import {
+	ArrayUtils,
+	withTitle,
+	Pagination,
+	useUrlQueryParameters,
+} from 'bauhaus-utilities';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
 const filterAltLabel = ArrayUtils.filterKeyDeburr(['altLabel']);
@@ -30,16 +35,21 @@ const defaultFormState = {
 	dateModifiedEnd: '',
 	disseminationStatus: '',
 	validationStatus: '',
-}
+};
 
-const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusList }) => {
-	const [form, setForm, reset] = useUrlQueryParameters(defaultFormState)
+const ConceptSearchList = ({
+	conceptSearchList,
+	stampList,
+	disseminationStatusList,
+	onExport,
+}) => {
+	const [form, setForm, reset] = useUrlQueryParameters(defaultFormState);
 	const history = useHistory();
 
 	const handleChange = (property, stateChange) => {
 		const newForm = {
 			...form,
-			[property]: stateChange
+			[property]: stateChange,
 		};
 		setForm(newForm);
 	};
@@ -67,11 +77,10 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 		.filter(filterCreatedDate(dateCreatedStart, dateCreatedEnd))
 		.filter(filterModifiedDate(dateModifiedStart, dateModifiedEnd));
 
-
 	const disseminationStatusListOptions = disseminationStatusList.map(
 		({ label, url: value }) => ({ label, value })
 	);
-	const stampListOptions = stampList.map(stamp => {
+	const stampListOptions = stampList.map((stamp) => {
 		return {
 			label: stamp,
 			value: stamp,
@@ -94,14 +103,16 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 			<div className="container">
 				<PageTitle title={D.conceptSearchTitle} />
 				<Controls
-					onClickReturn={() => history.push("/concepts")}
+					onClickReturn={() => history.push('/concepts')}
 					initializeState={reset}
+					onExport={onExport}
+					conceptsList={hits}
 				/>
 				<div className="row form-group">
 					<div className="col-md-12">
 						<input
 							value={label}
-							onChange={e => handleChange("label", e.target.value)}
+							onChange={(e) => handleChange('label', e.target.value)}
 							type="text"
 							placeholder={D.searchLabelPlaceholder}
 							className="form-control"
@@ -112,7 +123,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 					<div className="col-md-12">
 						<input
 							value={altLabel}
-							onChange={e => handleChange('altLabel', e.target.value)}
+							onChange={(e) => handleChange('altLabel', e.target.value)}
 							type="text"
 							placeholder={D.searchAltLabelPlaceholder}
 							className="form-control"
@@ -123,7 +134,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 					<div className="col-md-12">
 						<input
 							value={definition}
-							onChange={e => handleChange('definition', e.target.value)}
+							onChange={(e) => handleChange('definition', e.target.value)}
 							type="text"
 							placeholder={D.searchDefinitionPlaceholder}
 							className="form-control"
@@ -139,7 +150,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 								stampListOptions.find(({ value }) => value === creator) || ''
 							}
 							options={stampListOptions}
-							onChange={value => handleChange('creator', value)}
+							onChange={(value) => handleChange('creator', value)}
 						/>
 					</div>
 					<div className="col-md-4">
@@ -152,7 +163,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 								) || ''
 							}
 							options={disseminationStatusListOptions}
-							onChange={value => handleChange('disseminationStatus', value)}
+							onChange={(value) => handleChange('disseminationStatus', value)}
 						/>
 					</div>
 					<div className="col-md-4">
@@ -165,7 +176,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 								) || ''
 							}
 							options={validationStatusOptions}
-							onChange={value => handleChange('validationStatus', value)}
+							onChange={(value) => handleChange('validationStatus', value)}
 						/>
 					</div>
 				</div>
@@ -176,7 +187,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 					<div className="col-md-4">
 						<DatePickerRmes
 							value={dateCreatedStart}
-							onChange={value => handleChange('dateCreatedStart', value)}
+							onChange={(value) => handleChange('dateCreatedStart', value)}
 							placement="bottom"
 						/>
 					</div>
@@ -186,7 +197,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 					<div className="col-md-4">
 						<DatePickerRmes
 							value={dateCreatedEnd}
-							onChange={value => handleChange('dateCreatedEnd', value)}
+							onChange={(value) => handleChange('dateCreatedEnd', value)}
 							placement="bottom"
 						/>
 					</div>
@@ -198,7 +209,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 					<div className="col-md-4">
 						<DatePickerRmes
 							value={dateModifiedStart}
-							onChange={value => handleChange('dateModifiedStart', value)}
+							onChange={(value) => handleChange('dateModifiedStart', value)}
 							placement="bottom"
 						/>
 					</div>
@@ -208,7 +219,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 					<div className="col-md-4">
 						<DatePickerRmes
 							value={dateModifiedEnd}
-							onChange={value => handleChange('dateModifiedEnd', value)}
+							onChange={(value) => handleChange('dateModifiedEnd', value)}
 							placement="bottom"
 						/>
 					</div>
@@ -226,7 +237,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, disseminationStatusLi
 			</div>
 		</div>
 	);
-}
+};
 const propTypesGeneralForSearch = PropTypes.shape({
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string,
@@ -245,4 +256,8 @@ ConceptSearchList.propTypes = {
 	disseminationStatusList: PropTypes.array.isRequired,
 };
 
-export default withTitle(ConceptSearchList, D.conceptsTitle, () => D.advancedSearch);
+export default withTitle(
+	ConceptSearchList,
+	D.conceptsTitle,
+	() => D.advancedSearch
+);

@@ -4,10 +4,10 @@ const api = {
 	...ConceptsAPIRoutes,
 	getConceptSearchList: () => ['advanced-search'],
 	getConceptValidateList: () => ['toValidate'],
-	getConceptGeneral: id => [`concept/${id}`],
-	getConceptLinkList: id => [`concept/${id}/links`],
+	getConceptGeneral: (id) => [`concept/${id}`],
+	getConceptLinkList: (id) => [`concept/${id}/links`],
 	getNoteVersionList: (id, version) => [`concept/${id}/notes/${version}`],
-	postConcept: concept => [
+	postConcept: (concept) => [
 		'concept',
 		{
 			headers: {
@@ -16,8 +16,8 @@ const api = {
 			},
 			body: JSON.stringify(concept),
 		},
-		res =>
-			res.text(id => ({
+		(res) =>
+			res.text((id) => ({
 				id,
 				concept,
 			})),
@@ -32,7 +32,7 @@ const api = {
 		},
 		() => {},
 	],
-	deleteConcept: id => [
+	deleteConcept: (id) => [
 		`${id}`,
 		{
 			headers: {
@@ -42,7 +42,7 @@ const api = {
 		},
 		() => {},
 	],
-	putConceptValidList: ids => [
+	putConceptValidList: (ids) => [
 		`validate/${ids}`,
 		{
 			body: JSON.stringify(ids),
@@ -50,25 +50,37 @@ const api = {
 		//do not process response
 		() => {},
 	],
+	getConceptExportZipType: (ids, type, lang, withConcepts) => [
+		`concept/export-zip/${ids.join(
+			'_AND_'
+		)}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
+		{
+			headers: {
+				Accept: 'application/octet-stream',
+				'Content-Type': 'text/plain',
+			},
+		},
+		(res) => res,
+	],
 	getConceptExportZip: (ids) => [
 		`concept/export-zip/${ids.join(',')}`,
 		{
 			headers: {
-				Accept: "application/octet-stream",
+				Accept: 'application/octet-stream',
 				'Content-Type': 'text/plain',
 			},
 		},
-		res => res,
+		(res) => res,
 	],
 	getConceptExport: (id) => [
 		`concept/export/${id}`,
 		{
 			headers: {
-				Accept: "application/octet-stream",
+				Accept: 'application/octet-stream',
 				'Content-Type': 'text/plain',
 			},
 		},
-		res => res,
+		(res) => res,
 	],
 	postConceptSend: (id, mailInfo) => [
 		`concept/send/${id}`,
@@ -83,7 +95,7 @@ const api = {
 	// Collections
 	getCollectionDashboardList: () => ['collections/dashboard'],
 	getCollectionValidateList: () => ['collections/toValidate'],
-	postCollection: collection => [
+	postCollection: (collection) => [
 		'collection',
 		{
 			headers: {
@@ -104,7 +116,7 @@ const api = {
 		},
 		() => {},
 	],
-	putCollectionValidList: ids => [
+	putCollectionValidList: (ids) => [
 		`collections/validate/${ids}`,
 		{
 			body: JSON.stringify(ids),
@@ -112,8 +124,8 @@ const api = {
 		//do not process resspoonse
 		() => {},
 	],
-	getCollectionGeneral: id => [`collection/${id}`],
-	getCollectionMembersList: id => [`collection/${id}/members`],
+	getCollectionGeneral: (id) => [`collection/${id}`],
+	getCollectionMembersList: (id) => [`collection/${id}/members`],
 };
 
 export default API.buildApi('concepts', api);
