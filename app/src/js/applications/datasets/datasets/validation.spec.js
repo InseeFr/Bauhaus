@@ -6,8 +6,8 @@ describe('validation', function() {
 			validate({
 				labelLg2: 'labelLg2',
                 catalogRecord: {
-                    creator: 'c',
-                    contributor: 'c',
+                    creator: 'creator',
+                    contributor: 'contributor',
                 },
                 disseminationStatus: 'status',
                 idSerie: 'id',
@@ -31,8 +31,8 @@ describe('validation', function() {
 			validate({
 				labelLg1: 'labelLg1',
                 catalogRecord: {
-                    creator: 'c',
-                    contributor: 'c',
+                    creator: 'creator',
+                    contributor: 'contributor',
                 },
                 disseminationStatus: 'status',
                 idSerie: 'id',
@@ -80,8 +80,8 @@ describe('validation', function() {
                 labelLg1: 'labelLg2',
                 labelLg2: 'labelLg2',
                 catalogRecord: {
-                    creator: 'c',
-                    contributor: 'c',
+                    creator: 'creator',
+                    contributor: 'contributor',
                 },
                 disseminationStatus: 'status',
                 idSerie: 'id',
