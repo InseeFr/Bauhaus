@@ -365,9 +365,9 @@ const DumbComponentDetailEdit = ({
 
 				<Row>
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="altLabelLg1">
+						<label htmlFor="altLabelLg1">
 							{D1.altLabel} ({lg1})
-						</LabelRequired>
+						</label>
 						<input
 							type="text"
 							className="form-control"
@@ -379,9 +379,9 @@ const DumbComponentDetailEdit = ({
 					</div>
 
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="altLabelLg2">
+						<label htmlFor="altLabelLg2">
 							{D2.altLabel} ({lg2})
-						</LabelRequired>
+						</label>
 
 						<input
 							type="text"
