@@ -291,7 +291,7 @@ const mapDispatchToProps = {
 	loadGeographies: Stores.Geographies.loadGeographies,
 };
 
-const MSDContainerWithParent = props => {
+const MSDContainerWithParent = (props) => {
 	const { idParent } = props;
 	const parentType = props.match.params[0];
 	const [parent, setParent] = useState(props.parent)
