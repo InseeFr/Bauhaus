@@ -24,7 +24,7 @@ import {
 } from 'bauhaus-utilities';
 import api from '../../../../remote-api/operations-api';
 
-const SeriesVisualizationContainer = (props) => {
+const SeriesVisualizationContainer = () => {
 	const { id } = useParams();
 	const [series, setSeries] = useState({})
 	const [publishing, setPublishing] = useState(false)
