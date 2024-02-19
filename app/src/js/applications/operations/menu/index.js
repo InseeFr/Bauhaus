@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Menu } from '@inseefr/wilco';
 import D from 'js/i18n';
@@ -144,8 +143,6 @@ export class MenuOperations extends Component {
 	}
 }
 
-export default withRouter(
-	connect(state => {
-		return { sims: getOperationsSimsCurrent(state) };
-	})(MenuOperations)
-);
+export default connect(state => {
+	return { sims: getOperationsSimsCurrent(state) };
+})(MenuOperations);
