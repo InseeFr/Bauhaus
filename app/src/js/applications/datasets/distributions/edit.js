@@ -22,27 +22,7 @@ import datasetApi from '../../../remote-api/datasets/datasets-api';
 import { D1, D2 } from '../../../i18n';
 import { default as ReactSelect } from 'react-select';
 import D from '../../../i18n/build-dictionary';
-
-export function validate({ idDataset, labelLg1, labelLg2 }) {
-	const errorMessages = [];
-	if (!idDataset) {
-		errorMessages.push(D.mandatoryProperty(D1.datasetsTitle));
-	}
-	if (!labelLg1) {
-		errorMessages.push(D.mandatoryProperty(D1.title));
-	}
-	if (!labelLg2) {
-		errorMessages.push(D.mandatoryProperty(D2.title));
-	}
-	return {
-		fields: {
-			labelLg1: !labelLg1 ? D.mandatoryProperty(D1.title) : '',
-			labelLg2: !labelLg2 ? D.mandatoryProperty(D2.title) : '',
-			idDataset: !idDataset ? D.mandatoryProperty(D1.datasetsTitle) : '',
-		},
-		errorMessage: errorMessages,
-	};
-}
+import { validate } from './validation';
 
 export const DistributionEdit = (props) => {
 	const { id } = useParams();
