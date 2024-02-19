@@ -8,7 +8,7 @@ import { ComponentDetail } from '../component-detail';
 
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Stores } from 'bauhaus-utilities';
+import { Auth, Stores } from 'bauhaus-utilities';
 import Representation from '../representation';
 
 export const StructureComponentsSelector = ({
@@ -177,13 +177,13 @@ export const StructureComponentsSelector = ({
 							<span className="glyphicon glyphicon-eye-open"></span>
 						</button>
 						<button
-								data-component-id={component.identifiant}
-								onClick={specificationClickHandler}
-								aria-label={D.componentSpecificationTitle}
-								title={D.componentSpecificationTitle}
-							>
-								<span className="glyphicon glyphicon-cog"></span>
-							</button>
+							data-component-id={component.identifiant}
+							onClick={specificationClickHandler}
+							aria-label={D.componentSpecificationTitle}
+							title={D.componentSpecificationTitle}
+						>
+							<span className="glyphicon glyphicon-cog"></span>
+						</button>
 						{!readOnly && (
 							<button
 								data-component-id={component.identifiant}
@@ -227,13 +227,15 @@ export const StructureComponentsSelector = ({
 				<React.Fragment>
 					{D.componentTitle}{' '}
 					{!readOnly && (
-						<button
-							id="add-component"
-							aria-label={D.addComponentTitle}
-							onClick={handleCreateComponent}
-						>
-							<span className="glyphicon glyphicon-plus"></span>
-						</button>
+						<Auth.AuthGuard roles={[Auth.ADMIN]}>
+							<button
+								id="add-component"
+								aria-label={D.addComponentTitle}
+								onClick={handleCreateComponent}
+							>
+								<span className="glyphicon glyphicon-plus"></span>
+							</button>
+						</Auth.AuthGuard>
 					)}
 				</React.Fragment>
 			}
