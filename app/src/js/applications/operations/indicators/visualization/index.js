@@ -21,16 +21,21 @@ import {
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc
+	ErrorBloc,
 } from 'bauhaus-utilities';
+import { useCodesList } from '../../../../hooks/hooks';
 
-const IndicatorVisualizationContainer = (props) =>  {
+const IndicatorVisualizationContainer = (props) => {
 	const { id } = useParams();
 
-	const langs = useSelector(state => select.getLangs(state));
-	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
-	const frequency = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
-	const organisations = useSelector(state => state.operationsOrganisations.results || []);
+	const langs = useSelector((state) => select.getLangs(state));
+	const secondLang = useSelector((state) =>
+		Stores.SecondLang.getSecondLang(state)
+	);
+	const frequency = useCodesList(CL_FREQ);
+	const organisations = useSelector(
+		(state) => state.operationsOrganisations.results || []
+	);
 
 	const [indicator, setIndicator] = useState({});
 
@@ -39,26 +44,28 @@ const IndicatorVisualizationContainer = (props) =>  {
 
 	const publish = useCallback(() => {
 		setPublishing(true);
-		api.publishIndicator(indicator).then(() => {
-			return api.getIndicator(id).then(setIndicator)
-		}).catch((error) => setServerSideError(error))
-			.finally(() => setPublishing(false))
+		api
+			.publishIndicator(indicator)
+			.then(() => {
+				return api.getIndicator(id).then(setIndicator);
+			})
+			.catch((error) => setServerSideError(error))
+			.finally(() => setPublishing(false));
 	}, [indicator, id]);
 
 	useEffect(() => {
-		api.getIndicator(id).then(payload => setIndicator(payload))
-	}, [id])
+		api.getIndicator(id).then((payload) => setIndicator(payload));
+	}, [id]);
 
 	if (!indicator.id) return <Loading />;
-	if (publishing) return <Loading text={"publishing"} />;
-
+	if (publishing) return <Loading text={'publishing'} />;
 
 	/*
 	 * The publication button should be enabled only if RICH_TEXT value do not
 	 * have unsupported styles like STRIKETHROUGH, color or background color
 	 */
 	const publicationDisabled = HTMLUtils.containUnsupportedStyles(indicator);
-	const checkStamp = stamp => indicator.creators.includes(stamp);
+	const checkStamp = (stamp) => indicator.creators.includes(stamp);
 
 	return (
 		<div className="container">
@@ -78,14 +85,18 @@ const IndicatorVisualizationContainer = (props) =>  {
 					</>
 				)}
 				{!indicator.idSims && (
-					<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.INDICATOR_CONTRIBUTOR, checkStamp]]}>
+					<Auth.AuthGuard
+						roles={[Auth.ADMIN, [Auth.INDICATOR_CONTRIBUTOR, checkStamp]]}
+					>
 						<Button
 							action={`/operations/indicator/${indicator.id}/sims/create`}
 							label={D.btnSimsCreate}
 						/>
 					</Auth.AuthGuard>
 				)}
-				<Auth.AuthGuard roles={[Auth.ADMIN, [Auth.INDICATOR_CONTRIBUTOR, checkStamp]]}>
+				<Auth.AuthGuard
+					roles={[Auth.ADMIN, [Auth.INDICATOR_CONTRIBUTOR, checkStamp]]}
+				>
 					<ValidationButton
 						object={indicator}
 						callback={publish}
@@ -97,7 +108,7 @@ const IndicatorVisualizationContainer = (props) =>  {
 					/>
 				</Auth.AuthGuard>
 			</ActionToolbar>
-			{ serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
+			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 
 			<CheckSecondLang />
 			<OperationsIndicatorVisualization
@@ -109,6 +120,6 @@ const IndicatorVisualizationContainer = (props) =>  {
 			/>
 		</div>
 	);
-}
+};
 
 export default withRouter(IndicatorVisualizationContainer);

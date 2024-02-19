@@ -11,4 +11,9 @@ export const rowParams = [
 	{ dataField: 'labelLg2', text: D2.codeLabel, width: '16%' },
 	{ dataField: 'descriptionLg1', text: D1.codeDescription, width: '30%' },
 	{ dataField: 'descriptionLg2', text: D2.codeDescription, width: '30%' },
+	{
+		dataField: 'actions',
+		text: '',
+		width: '20%',
+	}
 ];

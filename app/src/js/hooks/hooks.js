@@ -3,18 +3,21 @@ import { CodesList } from 'bauhaus-utilities';
 
 const fetchCodeList = (notation) => {
 	return Promise.all([
-		CodesList.getCodesList(notation) /*,
-		CodesList.getCodesListCodes(notation, 1, 0),*/,
+		CodesList.getCodesList(notation),
+		CodesList.getCodesListCodes(notation, 1, 0),
 	]).then(([codesList, codes]) => ({
-		/*codes: codes.items ?? [],*/ ...codesList,
+		codes: codes.items ?? [],
+		...codesList,
 	}));
 };
 
+const defaultCodesList = { codes: [] };
 export const useCodesList = (notation) => {
-	return useQuery({
+	const { data } = useQuery({
 		queryKey: ['codelist', notation],
 		queryFn: () => fetchCodeList(notation),
 	});
+	return data ?? defaultCodesList;
 };
 
 export const useCodesLists = (notations) => {
@@ -36,7 +39,6 @@ export const withCodesLists = (notations) => {
 					[notation]: codesLists[index].data,
 				};
 			}, {});
-			console.log(codesListsProps);
 			return <Component {...props} {...codesListsProps} />;
 		};
 	};

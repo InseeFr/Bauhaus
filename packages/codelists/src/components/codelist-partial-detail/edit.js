@@ -9,7 +9,14 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import { Stores, useTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError } from 'bauhaus-utilities';
+import {
+	Stores,
+	useTitle,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+	CodesList,
+} from 'bauhaus-utilities';
 import Picker from './picker';
 import { API } from '../../apis';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
@@ -40,10 +47,10 @@ const DumbCodelistPartialDetailEdit = ({
 
 	const handleParentCode = useCallback(
 		(code) => {
-			API.getDetailedCodelist(code).then((parentCL) => {
+			CodesList.getCodesListCodes(code, 1, 0).then((codes) => {
 				const globalWithPartialCodes =
 					partialInGlobalCodes(
-						Object.values(parentCL.codes || {}),
+						Object.values(codes.items || {}),
 						Object.values(codelist.codes || {})
 					) || [];
 				setParentCodes(globalWithPartialCodes);
@@ -80,7 +87,7 @@ const DumbCodelistPartialDetailEdit = ({
 			const { name, value } = e.target;
 			setClientSideErrors({
 				...clientSideErrors,
-				errorMessage: []
+				errorMessage: [],
 			});
 
 			setCodelist({
@@ -136,24 +143,34 @@ const DumbCodelistPartialDetailEdit = ({
 	const handleSaveClick = useCallback(() => {
 		const clientSideErrors = validatePartialCodelist(codelist);
 
-		if(clientSideErrors.errorMessage?.length > 0){
+		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
 		} else {
 			setClientSideErrors({});
 			handleSave(codelist, parentCodes);
 		}
-
 	}, [codelist, parentCodes, handleSave]);
 
 	return (
 		<React.Fragment>
 			<ActionToolbar>
 				<CancelButton action={handleBack} col={3} />
-				<SaveButton disabled={clientSideErrors.errorMessage?.length > 0} action={handleSaveClick} col={3} />
+				<SaveButton
+					disabled={clientSideErrors.errorMessage?.length > 0}
+					action={handleSaveClick}
+					col={3}
+				/>
 			</ActionToolbar>
-			{ submitting && clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} D={D}/> }
-			{serverSideError && <ErrorBloc error={serverSideError} D={MainDictionary}/>}
+			{submitting && clientSideErrors && (
+				<GlobalClientSideErrorBloc
+					clientSideErrors={clientSideErrors.errorMessage}
+					D={D}
+				/>
+			)}
+			{serverSideError && (
+				<ErrorBloc error={serverSideError} D={MainDictionary} />
+			)}
 			<form>
 				<div className="row">
 					<div className="col-md-12 form-group">
@@ -167,9 +184,14 @@ const DumbCodelistPartialDetailEdit = ({
 							onChange={handleChange}
 							disabled={updateMode}
 							aria-invalid={!!clientSideErrors.fields?.id}
-							aria-describedby={!!clientSideErrors.fields?.id ? 'id-error' : null}
+							aria-describedby={
+								!!clientSideErrors.fields?.id ? 'id-error' : null
+							}
 						/>
-						<ClientSideError id="id-error" error={clientSideErrors?.fields?.id}></ClientSideError>
+						<ClientSideError
+							id="id-error"
+							error={clientSideErrors?.fields?.id}
+						></ClientSideError>
 					</div>
 				</div>
 				<div className="row">
@@ -188,8 +210,10 @@ const DumbCodelistPartialDetailEdit = ({
 							searchable={true}
 							disabled={updateMode}
 						/>
-						<ClientSideError id="parentCode-error" error={clientSideErrors?.fields?.parentCode}></ClientSideError>
-
+						<ClientSideError
+							id="parentCode-error"
+							error={clientSideErrors?.fields?.parentCode}
+						></ClientSideError>
 					</div>
 				</div>
 				<div className="row">
@@ -203,9 +227,14 @@ const DumbCodelistPartialDetailEdit = ({
 							onChange={handleChange}
 							value={codelist.labelLg1 || ''}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
-							aria-describedby={!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
+							aria-describedby={
+								!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+							}
 						/>
-						<ClientSideError id="labelLg1-error" error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
+						<ClientSideError
+							id="labelLg1-error"
+							error={clientSideErrors?.fields?.labelLg1}
+						></ClientSideError>
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg2">{D2.labelTitle}</LabelRequired>
@@ -217,9 +246,14 @@ const DumbCodelistPartialDetailEdit = ({
 							onChange={handleChange}
 							value={codelist.labelLg2 || ''}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
-							aria-describedby={!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
+							aria-describedby={
+								!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+							}
 						/>
-						<ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
+						<ClientSideError
+							id="labelLg2-error"
+							error={clientSideErrors?.fields?.labelLg2}
+						></ClientSideError>
 					</div>
 				</div>
 				<div className="form-group">
@@ -235,12 +269,15 @@ const DumbCodelistPartialDetailEdit = ({
 							setCodelist({ ...codelist, creator: value });
 							setClientSideErrors({
 								...clientSideErrors,
-								errorMessage: []
-							})
+								errorMessage: [],
+							});
 						}}
 						searchable={true}
 					/>
-					<ClientSideError id="creator-error" error={clientSideErrors?.fields?.creator}></ClientSideError>
+					<ClientSideError
+						id="creator-error"
+						error={clientSideErrors?.fields?.creator}
+					></ClientSideError>
 				</div>
 				<div className="form-group">
 					<label>{D1.contributor}</label>
@@ -271,13 +308,15 @@ const DumbCodelistPartialDetailEdit = ({
 							setCodelist({ ...codelist, disseminationStatus: value });
 							setClientSideErrors({
 								...clientSideErrors,
-								errorMessage: []
-							})
+								errorMessage: [],
+							});
 						}}
 						searchable={true}
 					/>
-					<ClientSideError id="disseminationStatus-error" error={clientSideErrors?.fields?.disseminationStatus}></ClientSideError>
-
+					<ClientSideError
+						id="disseminationStatus-error"
+						error={clientSideErrors?.fields?.disseminationStatus}
+					></ClientSideError>
 				</div>
 				<div className="row">
 					<div className="col-md-6 form-group">

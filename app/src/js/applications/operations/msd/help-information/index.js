@@ -29,7 +29,7 @@ export default function HelpInformation({ msd, codesLists, organisations }) {
 
 				{msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (
 					<ul className="list-group">
-						{codesLists[msd.codeList].codes.map(code => (
+						{codesLists[msd.codeList]?.codes.map((code) => (
 							<li className="list-group-item" key={code.code}>
 								{code.labelLg1}
 							</li>
@@ -38,7 +38,7 @@ export default function HelpInformation({ msd, codesLists, organisations }) {
 				)}
 				{msd.rangeType === ORGANIZATION && (
 					<ul className="list-group">
-						{organisations.map(orga => (
+						{organisations.map((orga) => (
 							<li className="list-group-item" key={orga.id}>
 								{orga.label}
 							</li>
