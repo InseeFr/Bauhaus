@@ -1,4 +1,4 @@
-import { validate } from './component';
+import { validate } from './validation';
 
 describe('<Edition />', () => {
 	it('should return an error if the id is not defined', () => {
