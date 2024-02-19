@@ -2,14 +2,13 @@ import React, { useEffect, useState, useCallback } from 'react';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { useSelector } from 'react-redux';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import OperationsSerieVisualization from 'js/applications/operations/series/visualization/home';
-
+import { useGoBack } from 'js/hooks/hooks';
 import {
 	Loading,
 	Button,
 	ActionToolbar,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
@@ -36,6 +35,8 @@ const SeriesVisualizationContainer = (props) => {
 	const categories = useSelector(state => state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {});
 	const langs = useSelector(state => select.getLangs(state))
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
+
+	const goBack = useGoBack();
 
 	const frequency = frequencies.codes.find(
 		(c) => c.code === series.accrualPeriodicityCode
@@ -73,7 +74,7 @@ const SeriesVisualizationContainer = (props) => {
 			/>
 
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations/series')} />
+				<ReturnButton action={() => goBack('/operations/series')} />
 
 				{series.idSims && (
 					<Button
@@ -124,4 +125,4 @@ const SeriesVisualizationContainer = (props) => {
 	);
 }
 
-export default withRouter(SeriesVisualizationContainer);
+export default SeriesVisualizationContainer;
