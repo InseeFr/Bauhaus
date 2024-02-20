@@ -18,7 +18,7 @@ import {
 } from 'bauhaus-structures';
 import D from 'bauhaus-structures/src/i18n/build-dictionary';
 import api from 'bauhaus-structures/src/apis/structure-api';
-import mainDictionary from '../../../i18n/build-dictionary';
+import mainDictionary from 'js/i18n/build-dictionary';
 
 export const StructureView = ({secondLang, structure, publish, serverSideError}) => {
 	useTitle(D.structuresTitle, structure?.labelLg1)

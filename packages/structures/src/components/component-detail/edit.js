@@ -16,7 +16,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 } from 'bauhaus-utilities';
-import { validateComponent } from '../../utils';
+import { validate } from '../../../../../app/src/js/applications/structures/components/edition/validation'
 import {
 	MUTUALIZED_COMPONENT_TYPES,
 	MEASURE_PROPERTY_TYPE,
@@ -230,7 +230,8 @@ const DumbComponentDetailEdit = ({
 	);
 
 	const handleSaveClick = useCallback(() => {
-		const clientSideErrors = validateComponent(component);
+		console.log(component)
+		const clientSideErrors = validate(component);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
@@ -365,9 +366,9 @@ const DumbComponentDetailEdit = ({
 
 				<Row>
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="altLabelLg1">
+						<label htmlFor="altLabelLg1">
 							{D1.altLabel} ({lg1})
-						</LabelRequired>
+						</label>
 						<input
 							type="text"
 							className="form-control"
@@ -379,9 +380,9 @@ const DumbComponentDetailEdit = ({
 					</div>
 
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="altLabelLg2">
+						<label htmlFor="altLabelLg2">
 							{D2.altLabel} ({lg2})
-						</LabelRequired>
+						</label>
 
 						<input
 							type="text"

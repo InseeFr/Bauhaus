@@ -4,7 +4,7 @@ import { Loading } from '@inseefr/wilco';
 import { StructureAPI } from 'bauhaus-structures';
 import { useLocation, useParams } from 'react-router-dom';
 import { useTitle } from 'bauhaus-utilities';
-import D from '../../../../i18n/build-dictionary';
+import D from 'js/i18n';
 
 const Update = () => {
 	const location = useLocation();
