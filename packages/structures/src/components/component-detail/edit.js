@@ -230,7 +230,6 @@ const DumbComponentDetailEdit = ({
 	);
 
 	const handleSaveClick = useCallback(() => {
-		console.log(component)
 		const clientSideErrors = validate(component);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
