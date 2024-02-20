@@ -1,10 +1,26 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import MenuCodelists from '.';
 import { MemoryRouter } from 'react-router-dom';
 
-describe('menu-codelists', () => {
-	it('renders without crashing', () => {
-		render(<MenuCodelists />, { wrapper: MemoryRouter });
+import configureStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+import { Auth } from 'bauhaus-utilities';
+
+const mockStore = configureStore([]);
+
+describe('Menu Code List', () => {
+	it('Should not crash', () => {
+		const store = mockStore({
+			app: { auth: { user: { roles: [Auth.ADMIN] } } },
+		});
+
+		render(
+			<Provider store={store}>
+				<MemoryRouter>
+					<MenuCodelists />
+				</MemoryRouter>
+			</Provider>
+		);
 	});
 });
