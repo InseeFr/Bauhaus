@@ -1,10 +1,24 @@
 import React from 'react';
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import D from 'js/i18n';
+import ExportButtons from '../../collections/export-buttons';
 
-export default ({ onClickReturn, initializeState }) => (
+export default ({ onClickReturn, initializeState, onExport, conceptsList }) => (
 	<ActionToolbar>
 		<ReturnButton action={onClickReturn} />
+		<ExportButtons
+			offset={6}
+			ids={conceptsList.map((c) => c.id)}
+			exporting={() => {}}
+			exportHandler={(type, withConcepts, lang) =>
+				onExport(
+					conceptsList.map((c) => c.id),
+					type,
+					withConcepts,
+					lang
+				)
+			}
+		/>
 		<Button
 			label={
 				<React.Fragment>
@@ -13,7 +27,6 @@ export default ({ onClickReturn, initializeState }) => (
 				</React.Fragment>
 			}
 			action={initializeState}
-			offset={8}
 		/>
 	</ActionToolbar>
 );

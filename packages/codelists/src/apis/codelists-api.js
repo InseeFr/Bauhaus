@@ -3,8 +3,39 @@ import { API } from 'bauhaus-utilities';
 const api = {
 	getCodelists: () => [''],
 	getCodelist: (id) => [`${id}`],
+	publishCodelist: (id) => [
+		`validate/${id}`,
+		{ method: 'PUT' },
+		(res) => res.text(),
+	],
 	getDetailedCodelist: (id) => [`detailed/${id}`],
-	getPartialsByParent: (parentCode) => [`partials/${parentCode}`],
+	postCodesDetailedCodelist: (id, code) => [
+		`detailed/${id}/codes`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(code),
+		},
+		(res) => res.text(),
+	],
+	putCodesDetailedCodelist: (id, code) => [
+		`detailed/${id}/codes/${code.code}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(code),
+		},
+		(res) => res.text(),
+	],
+	deleteCodesDetailedCodelist: (id, code) => [
+		`detailed/${id}/codes/${code.code}`,
+		{},
+		(res) => res.text(),
+	],
+	getCodesDetailedCodelist: (id, page) => [`detailed/${id}/codes?page=${page}`],
+	getPartialsByParent: (parentCode) => [`partials/parent/${parentCode}`],
 	getCodelistsForSearch: () => ['search'],
 	getCodelistCode: (id, code) => [`${id}/code/${code}`],
 	postCodelist: (codelist) => [
@@ -31,6 +62,11 @@ const api = {
 	deleteCodelist: (id) => [id, {}, () => Promise.resolve()],
 	getCodelistsPartial: () => ['partial'],
 	getCodelistPartial: (id) => [`partial/${id}`],
+	publishPartialCodelist: (id) => [
+		`partial/validate/${id}`,
+		{ method: 'PUT' },
+		(res) => res.text(),
+	],
 	getCodelistsPartialForSearch: () => ['partial/search'],
 	postCodelistPartial: (codelist) => [
 		'partial',

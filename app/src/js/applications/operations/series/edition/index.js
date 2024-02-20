@@ -7,8 +7,9 @@ import OperationsSerieEdition from 'js/applications/operations/series/edition/ed
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';
 import { useGoBack } from 'js/hooks/hooks';
+import { useCodesList } from '../../../../hooks/hooks';
 
-const OperationsSeriesEditionContainer = props => {
+const OperationsSeriesEditionContainer = (props) => {
 	const { id } = useParams();
 	const [serie, setSerie] = useState({});
 
@@ -16,43 +17,50 @@ const OperationsSeriesEditionContainer = props => {
 	const [indicators, setIndicators] = useState([]);
 	const [series, setSeries] = useState([]);
 
-	const categories = useSelector(state => state.operationsCodesList.results[CL_SOURCE_CATEGORY] || {});
-	const organisations = useSelector(state => state.operationsOrganisations.results || []);
-	const langs = useSelector(state => select.getLangs(state));
-	const frequencies = useSelector(state => state.operationsCodesList.results[CL_FREQ] || {});
+	const frequencies = useCodesList(CL_FREQ);
+	const categories = useCodesList(CL_SOURCE_CATEGORY);
+	const organisations = useSelector(
+		(state) => state.operationsOrganisations.results || []
+	);
+	const langs = useSelector((state) => select.getLangs(state));
 
 	const goBack = useGoBack();
 
 	useEffect(() => {
-		if(id){
-			api.getSerie(id)
-				.then(results => setSerie(results))
+		if (id) {
+			api.getSerie(id).then((results) => setSerie(results));
 		}
-	}, [id])
+	}, [id]);
 
 	useEffect(() => {
-		api.getFamiliesList()
-			.then(results => setFamilies(results))
-	}, [])
-
-	useEffect(() => {
-		api.getIndicatorsList()
-			.then(results => setIndicators(results))
+		api.getFamiliesList().then((results) => setFamilies(results));
 	}, []);
 
 	useEffect(() => {
-		api.getSeriesList()
-			.then(results => setSeries(results))
-	}, [])
+		api.getIndicatorsList().then((results) => setIndicators(results));
+	}, []);
+
+	useEffect(() => {
+		api.getSeriesList().then((results) => setSeries(results));
+	}, []);
 
 	if (!serie.id && id) return <Loading />;
-	return <OperationsSerieEdition {...props}
-																 id={id}
-																 serie={serie}
-																 categories={categories}
-																 organisations={organisations}
-																 series={series} families={families} indicators={indicators} langs={langs} frequencies={frequencies} goBack={goBack}/>;
-
-}
+  
+	return (
+		<OperationsSerieEdition
+			{...props}
+			id={id}
+			serie={serie}
+			categories={categories}
+			organisations={organisations}
+			series={series}
+			families={families}
+			indicators={indicators}
+			langs={langs}
+			frequencies={frequencies}
+      goBack={goBack}
+		/>
+	);
+};
 
 export default OperationsSeriesEditionContainer;
