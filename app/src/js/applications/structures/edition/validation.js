@@ -1,21 +1,11 @@
 import D, { D1, D2 } from 'js/i18n';
+import { formatValidation } from 'js/utils/validation';
+import { z } from 'zod';
 
-export const validate = ({ identifiant, labelLg1, labelLg2 }) => {
-	const errorMessage = [];
-	if (!identifiant) {
-		errorMessage.push(D.mandatoryProperty(D.idTitle));
-	}
-	if (!labelLg1) {
-		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
-	}
-	if (!labelLg2) {
-		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
-	}
-	return {
-		errorMessage, fields: {
-			identifiant: !identifiant ? D.mandatoryProperty(D.idTitle) : '',
-			labelLg1: !labelLg1 ? D.mandatoryProperty(D1.labelTitle) : '',
-			labelLg2: !labelLg2 ? D.mandatoryProperty(D2.labelTitle) : '',
-		},
-	};
-};
+const Structure = z.object({
+	identifiant: z.string().min(1, { message: D.mandatoryProperty(D.idTitle) }),
+	labelLg1: z.string().min(1, { message: D.mandatoryProperty(D1.labelTitle) }),
+	labelLg2: z.string().min(1, { message: D.mandatoryProperty(D2.labelTitle) }),
+});
+
+export const validate = formatValidation(Structure);

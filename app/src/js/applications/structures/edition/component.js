@@ -17,7 +17,7 @@ const isRequiredBys = [
 ];
 
 const defaultDSD = {
-	id: '',
+	identifiant: '',
 	labelLg1: '',
 	labelLg2: '',
 	descriptionLg1: '',

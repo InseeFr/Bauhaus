@@ -1,44 +1,74 @@
 import { validate } from './validation';
 
-describe('<Edition />', () => {
-	it('should return an error if the id is not defined', () => {
-		expect(validate({
-			labelLg1: 'label',
-			labelLg2: 'label',
-		})).toEqual({
-			'errorMessage': ['The property <strong>Notation</strong> is required.'],
-			'fields': { 'identifiant': 'The property <strong>Notation</strong> is required.', 'labelLg1': '', 'labelLg2': '' },
-		});
-	});
-	it('should return an error if the labelLg1 is not defined', () => {
+describe('validation', function() {
+	it('should return an error for id', function()  {
 		expect(
 			validate({
-				identifiant: '1',
-				labelLg2: 'label',
-			}),
+				identifiant: '',
+				labelLg1: 'labelLg1',
+				labelLg2: 'labelLg2',
+			})
 		).toEqual({
-			'errorMessage': ['The property <strong>Libellé</strong> is required.'],
-			'fields': { 'identifiant': '', 'labelLg1': 'The property <strong>Libellé</strong> is required.', 'labelLg2': '' },
+			errorMessage: [
+				'The property <strong>Notation</strong> is required.',
+			],
+			fields: {
+				'identifiant': 'The property <strong>Notation</strong> is required.',
+				'labelLg1': '',
+				'labelLg2': '',
+			},
 		});
 	});
-	it('should return an error if the labelLg2 is not defined', () => {
+	it('should return an error for labelLg1', function() {
 		expect(
 			validate({
-				identifiant: '1',
-				labelLg1: 'label',
-			}),
+				identifiant: 'id',
+				labelLg1: '',
+				labelLg2: 'labelLg2',
+			})
 		).toEqual({
-			'errorMessage': ['The property <strong>Label</strong> is required.'],
-			'fields': { 'identifiant': '', 'labelLg1': '', 'labelLg2': 'The property <strong>Label</strong> is required.' },
+			errorMessage: [
+				'The property <strong>Libellé</strong> is required.',
+			],
+			fields: {
+				'identifiant': '',
+				'labelLg1': 'The property <strong>Libellé</strong> is required.',
+				'labelLg2': '',
+			},
 		});
 	});
-	it('should not return any error', () => {
+	it('should return an error for labelLg2', function() {
 		expect(
 			validate({
-				identifiant: '1',
-				labelLg1: 'label',
-				labelLg2: 'label',
-			}),
-		).toEqual({ 'errorMessage': [], 'fields': { 'identifiant': '', 'labelLg1': '', 'labelLg2': '' } });
+				identifiant: 'id',
+				labelLg1: 'labelLg1',
+				labelLg2: '',
+			})
+		).toEqual({
+			errorMessage: [
+				'The property <strong>Label</strong> is required.',
+			],
+			fields: {
+				'identifiant': '',
+				'labelLg1': '',
+				'labelLg2': 'The property <strong>Label</strong> is required.',
+			},
+		});
+	});
+	it('should not return any error', function() {
+		expect(
+			validate({
+				identifiant: 'id',
+				labelLg1: 'labelLg1',
+				labelLg2: 'labelLg2',
+			})
+		).toEqual({
+			errorMessage: [],
+			fields: {
+				'identifiant': '',
+				'labelLg1': '',
+				'labelLg2': ''
+			}
+		});
 	});
 });
