@@ -265,7 +265,7 @@ const DumbCodelistDetailEdit = ({
 						onChange={(value) =>
 							setCodelist({ ...codelist, contributor: value })
 						}
-						isDisabled={true}
+						// isDisabled={true}
 					/>
 				</div>
 				<div className="form-group">
