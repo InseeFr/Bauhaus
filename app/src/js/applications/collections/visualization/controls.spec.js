@@ -9,7 +9,7 @@ describe('collection-visualization-controls', () => {
 			<CollectionVisualizationControls
 				id="id"
 				isValidated={false}
-				handleValidation={() => console.log('validate')}
+				handleValidation={jest.fn()}
 				permission={{ authType: '', roles: [''] }}
 			/>,
 			{ wrapper: MemoryRouter }

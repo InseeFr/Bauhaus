@@ -15,7 +15,7 @@ describe('collection-edition-creation', () => {
 				members={[]}
 				collectionList={[]}
 				conceptList={[]}
-				save={() => console.log('save')}
+				save={jest.fn()}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 			/>,
 			{ wrapper: MemoryRouter }

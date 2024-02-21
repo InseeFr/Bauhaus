@@ -10,7 +10,7 @@ describe('concept-edition-creation-general', () => {
 				general={empty()}
 				stampList={[]}
 				disseminationStatusList={[]}
-				handleChange={() => console.log('save')}
+				handleChange={jest.fn()}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 			/>
 		);

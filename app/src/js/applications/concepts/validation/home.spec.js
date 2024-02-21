@@ -9,7 +9,7 @@ describe('concept-validation', () => {
 			<ConceptValidation
 				concepts={[]}
 				permission={{ authType: '', roles: [''] }}
-				handleValidateConceptList={() => console.log('validation')}
+				handleValidateConceptList={jest.fn()}
 			/>,
 			{ wrapper: MemoryRouter }
 		);

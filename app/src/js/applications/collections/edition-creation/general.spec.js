@@ -11,7 +11,7 @@ describe('collection-edition-creation-general', () => {
 		render(
 			<CollectionGeneral
 				general={empty()}
-				handleChange={() => console.log('save')}
+				handleChange={jest.fn()}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 			/>
 		);

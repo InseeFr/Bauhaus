@@ -10,7 +10,7 @@ describe('collection-edition-creation-controls', () => {
 			<Controls
 				general={empty()}
 				collectionList={[]}
-				handleSave={() => console.log('save')}
+				handleSave={jest.fn()}
 				redirectCancel={() => 'collections'}
 			/>,
 			{ wrapper: MemoryRouter }

@@ -2,10 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ModifyNotes from './modify-notes';
 
-const handle = () => console.log('change');
-
 describe('modify-notes', () => {
 	it('renders without crashing', () => {
-		render(<ModifyNotes handleChange={handle} />);
+		render(<ModifyNotes handleChange={jest.fn()} />);
 	});
 });
