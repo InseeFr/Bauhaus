@@ -13,9 +13,9 @@ describe('validation', function() {
 				'The property <strong>Notation</strong> is required.',
 			],
 			fields: {
-				'identifiant': 'The property <strong>Notation</strong> is required.',
-				'labelLg1': '',
-				'labelLg2': '',
+				identifiant: 'The property <strong>Notation</strong> is required.',
+				labelLg1: '',
+				labelLg2: '',
 			},
 		});
 	});
@@ -31,9 +31,9 @@ describe('validation', function() {
 				'The property <strong>Libellé</strong> is required.',
 			],
 			fields: {
-				'identifiant': '',
-				'labelLg1': 'The property <strong>Libellé</strong> is required.',
-				'labelLg2': '',
+				identifiant: '',
+				labelLg1: 'The property <strong>Libellé</strong> is required.',
+				labelLg2: '',
 			},
 		});
 	});
@@ -49,9 +49,9 @@ describe('validation', function() {
 				'The property <strong>Label</strong> is required.',
 			],
 			fields: {
-				'identifiant': '',
-				'labelLg1': '',
-				'labelLg2': 'The property <strong>Label</strong> is required.',
+				identifiant: '',
+				labelLg1: '',
+				labelLg2: 'The property <strong>Label</strong> is required.',
 			},
 		});
 	});
@@ -65,9 +65,9 @@ describe('validation', function() {
 		).toEqual({
 			errorMessage: [],
 			fields: {
-				'identifiant': '',
-				'labelLg1': '',
-				'labelLg2': ''
+				identifiant: '',
+				labelLg1: '',
+				labelLg2: '',
 			}
 		});
 	});
