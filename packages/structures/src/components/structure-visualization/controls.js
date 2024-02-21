@@ -25,6 +25,7 @@ const Controls = ({ structure, publish }) => {
 		<ActionToolbar>
 			<ReturnButton action="/structures" />
 			{isLocal && <ExportButton action={console.log} />}
+			{/* ??? */}
 			<Auth.AuthGuard roles={[Auth.ADMIN]}><ValidationButton object={structure} callback={publish} /></Auth.AuthGuard>
 			<Auth.AuthGuard roles={[Auth.ADMIN]}><DuplicateButton action={`/structures/${id}/duplicate`} /></Auth.AuthGuard>
 			<Auth.AuthGuard roles={[Auth.ADMIN]}><DeleteButton action={handleDelete} /></Auth.AuthGuard>

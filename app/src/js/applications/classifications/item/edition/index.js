@@ -47,7 +47,6 @@ const ClassificationItemEdition = () => {
 	})
 
 	const previousLevelsOptions = previousLevels.map(previousLevel => ({ value: previousLevel.item, label: previousLevel.labelLg1}));
-	console.log(previousLevelsOptions);
 
 	if (isLoading || isPreviousLevelsLoading) return <Loading />;
 

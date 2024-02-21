@@ -4,12 +4,12 @@ const id = Math.round(new Date().getTime() / 1000).toString();
 
 const keepAliveJsonFilename = "OidcKeepAliveServiceWorker.json";
 const handleInstall = () => {
-    console.log('[OidcServiceWorker] service worker installed ' + id);
+    console.log('[OidcServiceWorker] service worker installed ' + id); // ???
     self.skipWaiting();
 };
 
 const handleActivate = () => {
-    console.log('[OidcServiceWorker] service worker activated ' + id);
+    console.log('[OidcServiceWorker] service worker activated ' + id); // ???
     self.clients.claim();
 };
 

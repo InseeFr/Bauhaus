@@ -766,7 +766,6 @@ const Dataset = (props) => {
 												value={editingDataset.dataStructure}
 												options={structuresOptions}
 												onChange={({ value }) => {
-													console.log(value);
 													setEditingDataset({
 														...editingDataset,
 														dataStructure: value,

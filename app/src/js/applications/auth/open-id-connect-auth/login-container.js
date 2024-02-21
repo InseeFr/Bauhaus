@@ -52,7 +52,7 @@ const LoginOpenIDConnect = ({ saveUserProps, authenticated, WrappedComponent }) 
 				setInterval(() => refreshToken(), 20000);
 				history.push({ pathname: history.location.pathname, state: 'init' });
 			})
-			.error(e => console.log('erreur initLogin', e));
+			.error(e => console.log('erreur initLogin', e)); // ???
 	}, [history, saveUserProps]);
 
 
