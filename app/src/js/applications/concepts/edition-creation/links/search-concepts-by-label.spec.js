@@ -9,7 +9,7 @@ describe('concept-edition-creation-search-concepts-by-label', () => {
 			<SearchConceptsByLabel
 				searchLabel="label"
 				hitEls={[]}
-				handleSearch={() => console.log('save')}
+				handleSearch={jest.fn()}
 			/>,
 			{ wrapper: MemoryRouter }
 		);

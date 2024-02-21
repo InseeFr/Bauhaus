@@ -64,7 +64,6 @@ export const ClassificationEdition = () => {
 		return <Redirect to={'/classifications/classification/' + id}/>
 	}
 
-	console.log(errors)
 	return (
 		<div className='container editor-container'>
 			<PageTitleBlock

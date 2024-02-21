@@ -9,7 +9,7 @@ describe('concept-edition-creation-notes', () => {
 			<ConceptNotes
 				notes={emptyNotes}
 				disseminationStatus=""
-				handleChange={() => console.log('save')}
+				handleChange={jest.fn()}
 				langs={{ lg1: 'fr', lg2: 'en' }}
 			/>
 		);

@@ -6,8 +6,8 @@ describe('concepts-advanced-search-controls', () => {
 	it('renders without crashing', () => {
 		render(
 			<Controls
-				onClickReturn={() => console.log('return')}
-				initializeState={() => console.log('init state')}
+				onClickReturn={jest.fn()}
+				initializeState={jest.fn()}
 			/>
 		);
 	});

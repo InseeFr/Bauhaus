@@ -13,7 +13,7 @@ describe('picker-page', () => {
 				panelTitle="panelTitle"
 				labelWarning="labelWarning"
 				labelValidateButton="labelValidateButton"
-				handleAction={() => console.log('action')}
+				handleAction={jest.fn()}
 				context="concepts"
 			/>,
 			{

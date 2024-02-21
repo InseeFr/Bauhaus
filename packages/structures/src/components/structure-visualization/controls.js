@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import {
 	ActionToolbar,
 	ReturnButton,
-	ExportButton,
 	UpdateButton,
 	DeleteButton,
 	DuplicateButton,
@@ -14,7 +13,6 @@ import StructureAPI from '../../apis/structure-api';
 const Controls = ({ structure, publish }) => {
 	const { id } = structure;
 	let history = useHistory();
-	const isLocal = process.env.REACT_APP_MODE === 'local';
 
 	const handleDelete = useCallback(() => {
 		StructureAPI.deleteStructure(id).finally(() => {
@@ -24,7 +22,6 @@ const Controls = ({ structure, publish }) => {
 	return (
 		<ActionToolbar>
 			<ReturnButton action="/structures" />
-			{isLocal && <ExportButton action={console.log} />}
 			<Auth.AuthGuard roles={[Auth.ADMIN]}><ValidationButton object={structure} callback={publish} /></Auth.AuthGuard>
 			<Auth.AuthGuard roles={[Auth.ADMIN]}><DuplicateButton action={`/structures/${id}/duplicate`} /></Auth.AuthGuard>
 			<Auth.AuthGuard roles={[Auth.ADMIN]}><DeleteButton action={handleDelete} /></Auth.AuthGuard>
