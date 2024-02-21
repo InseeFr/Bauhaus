@@ -131,7 +131,7 @@ export const DistributionEdit = (props) => {
 							onChange={(choice) => {
 								setEditingDistribution({
 									...editingDistribution,
-									idDataset: choice.value,
+									idDataset: choice?.value,
 								});
 								setClientSideErrors((clientSideErrors) => ({
 									...clientSideErrors,

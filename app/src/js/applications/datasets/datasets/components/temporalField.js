@@ -27,11 +27,11 @@ export const TemporalField = ({
 					<ReactSelect
 						value={temporalCoverageDataType}
 						options={datasetsTemporalCoverageOptions}
-						onChange={({ value }) => {
+						onChange={(option) => {
 							updateTemporalCoverage({
 								temporalCoverageStartDate,
 								temporalCoverageEndDate,
-								temporalCoverageDataType: value,
+								temporalCoverageDataType: option?.value,
 							});
 						}}
 					/>

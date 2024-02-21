@@ -18,7 +18,6 @@ import {
 	CodesList,
 } from 'bauhaus-utilities';
 import Picker from './picker';
-import { API } from '../../apis';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import '../codelist-detail/edit.scss';
@@ -287,10 +286,10 @@ const DumbCodelistPartialDetailEdit = ({
 							({ value }) => value === codelist.contributor
 						)}
 						options={stampListOptions}
-						onChange={({ value }) =>
-							setCodelist({ ...codelist, contributor: value })
+						onChange={(option) =>
+							setCodelist({ ...codelist, contributor: option?.value })
 						}
-						isDisabled={true}
+						disabled={true}
 					/>
 				</div>
 				<div className="form-group">
