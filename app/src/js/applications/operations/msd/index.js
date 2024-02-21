@@ -28,6 +28,8 @@ import { getParentType, getParentId } from './utils';
 import './msd.scss';
 import { isEssentialRubricKo } from './sims-field-title';
 import { SimsContextProvider } from './context'
+import { useGoBack } from 'js/hooks/hooks';
+
 const extractId = buildExtract('id');
 const extractIdParent = buildExtract('idParent');
 
@@ -67,10 +69,6 @@ class MSDContainer extends Component {
 			missingDocuments: new Set()
 		};
 	}
-
-	goBackCallback = (url) => {
-		this.props.history.push(url);
-	};
 
 	componentDidMount() {
 		if (this.props.metadataStructureStatus !== LOADED) {
@@ -130,6 +128,7 @@ class MSDContainer extends Component {
 			parentType,
 			parent,
 			documentStores,
+			goBack,
 		} = this.props;
 
 		if (
@@ -200,7 +199,7 @@ class MSDContainer extends Component {
 							currentSection={this.props.match.params.idSection}
 							langs={langs}
 							secondLang={secondLang}
-							goBack={this.goBackCallback}
+							goBack={goBack}
 							publishSims={this.props.publishSims}
 							exportCallback={this.exportCallback}
 							missingDocuments={this.state.missingDocuments}
@@ -219,7 +218,7 @@ class MSDContainer extends Component {
 						onSubmit={saveSims}
 						idParent={idParent}
 						langs={langs}
-						goBack={this.goBackCallback}
+						goBack={goBack}
 						mode={mode}
 						organisations={organisations}
 						parentType={parentType}
@@ -292,12 +291,14 @@ const mapDispatchToProps = {
 	loadGeographies: Stores.Geographies.loadGeographies,
 };
 
-const MSDContainerWithParent = props => {
+const MSDContainerWithParent = (props) => {
 	const { idParent } = props;
-	const parentType = props.match.params[0];
+	const parentType = props.match.params[0]; // withRouter utile
 	const [parent, setParent] = useState(props.parent)
 	const [loading, setLoading] = useState(true)
 	const [documentStores, setDocumentStores] = useState([]);
+
+	const goBack = useGoBack();
 
 	const currentSims = props.mode === CREATE ? ({
 			labelLg1: D1.simsTitle + parent?.prefLabelLg1,
@@ -331,7 +332,7 @@ const MSDContainerWithParent = props => {
 		})
 	}, [])
 	if(loading) return <Loading textType="loadableLoading" />
-	return <MSDContainer {...props} documentStores={documentStores} currentSims={currentSims} parent={parent}/>
+	return <MSDContainer {...props} documentStores={documentStores} currentSims={currentSims} parent={parent} goBack={goBack}/>
 }
 export default withRouter(
 	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)

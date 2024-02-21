@@ -46,8 +46,8 @@ class SimsCreation extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.unblock = this.props.history.block((location) => {
-			if(this.props.history.location?.pathname === location?.pathname){
+		this.unblock = this.props.history.block((location) => { // withRouter utile
+			if(this.props.history.location?.pathname === location?.pathname){ // withRouter utile
 				return true;
 			}
 

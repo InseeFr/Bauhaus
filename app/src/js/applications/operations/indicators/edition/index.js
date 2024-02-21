@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import OperationsIndicatorEdition from 'js/applications/operations/indicators/edition/edition';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';
+import { useGoBack } from 'js/hooks/hooks';
 import { useCodesList } from '../../../../hooks/hooks';
 
 const OperationsIndicatorsEditionContainer = (props) => {
@@ -16,6 +17,8 @@ const OperationsIndicatorsEditionContainer = (props) => {
 	const organisations = useSelector(
 		(state) => state.operationsOrganisations.results || []
 	);
+
+	const goBack = useGoBack();
 
 	const [indicator, setIndicator] = useState({});
 	const [series, setSeries] = useState([]);
@@ -37,6 +40,7 @@ const OperationsIndicatorsEditionContainer = (props) => {
 	}, []);
 
 	if (!indicator.id && id) return <Loading />;
+  
 	return (
 		<OperationsIndicatorEdition
 			series={series}
@@ -45,9 +49,10 @@ const OperationsIndicatorsEditionContainer = (props) => {
 			organisations={organisations}
 			frequencies={frequencies}
 			indicator={indicator}
+      goBack={goBack}
 			{...props}
 		/>
 	);
 };
 
-export default withRouter(OperationsIndicatorsEditionContainer);
+export default OperationsIndicatorsEditionContainer;
