@@ -68,9 +68,9 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 	if (queryParameters !== "") {
 		pathnamePrefix += (queryParameters + "&");
 	}
-	const onItemPerPageChange = ({ value }) => {
+	const onItemPerPageChange = (option) => {
 		const searchParams = new URLSearchParams(window.location.search);
-		searchParams.set('perPage', value);
+		searchParams.set('perPage', option?.value);
 		history.replace(pathname + "?" + searchParams.toString());
 	}
 

@@ -256,7 +256,7 @@ const DumbComponentDetailEdit = ({
 		component['attributeValue_' + attributesKeys.length] = '';
 	}
 
-	const onComponentTypeChange = (type) => {
+	const onComponentTypeChange = (option) => {
 		// Each time we change the type of a component, we remove all linked attributes
 		const newComponentWithoutAttributes = Object.keys(component).reduce(
 			(acc, key) => {
@@ -273,7 +273,7 @@ const DumbComponentDetailEdit = ({
 			},
 			{}
 		);
-		setComponent({ ...newComponentWithoutAttributes, type: type.value });
+		setComponent({ ...newComponentWithoutAttributes, type: option?.value });
 	};
 
 	return (
@@ -596,10 +596,10 @@ const DumbComponentDetailEdit = ({
 							({ value }) => value === component.contributor
 						)}
 						options={stampListOptions}
-						onChange={(value) =>
-							setComponent({ ...component, contributor: value })
+						onChange={(option) =>
+							setComponent({ ...component, contributor: option?.value })
 						}
-						isDisabled={true}
+						disabled={true}
 					/>
 				</div>
 				<div className="form-group">
