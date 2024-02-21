@@ -262,10 +262,10 @@ const DumbCodelistDetailEdit = ({
 							({ value }) => value === codelist.contributor
 						)}
 						options={stampListOptions}
-						onChange={(value) =>
-							setCodelist({ ...codelist, contributor: value })
+						onChange={(option) =>
+							setCodelist({ ...codelist, contributor: option?.value })
 						}
-						// isDisabled={true}
+						disabled={true}
 					/>
 				</div>
 				<div className="form-group">

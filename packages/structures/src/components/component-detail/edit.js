@@ -596,10 +596,10 @@ const DumbComponentDetailEdit = ({
 							({ value }) => value === component.contributor
 						)}
 						options={stampListOptions}
-						onChange={(value) =>
-							setComponent({ ...component, contributor: value })
+						onChange={(option) =>
+							setComponent({ ...component, contributor: option?.value })
 						}
-						// isDisabled={true}
+						disabled={true}
 					/>
 				</div>
 				<div className="form-group">
