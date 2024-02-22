@@ -16,7 +16,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 } from 'bauhaus-utilities';
-import { validateComponent } from '../../utils';
+import { validate } from '../../../../../app/src/js/applications/structures/components/edition/validation'
 import {
 	MUTUALIZED_COMPONENT_TYPES,
 	MEASURE_PROPERTY_TYPE,
@@ -230,7 +230,7 @@ const DumbComponentDetailEdit = ({
 	);
 
 	const handleSaveClick = useCallback(() => {
-		const clientSideErrors = validateComponent(component);
+		const clientSideErrors = validate(component);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);

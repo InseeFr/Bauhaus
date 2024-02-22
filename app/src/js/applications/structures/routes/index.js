@@ -5,6 +5,7 @@ import Menu from 'js/applications/structures/menu';
 import Home from 'js/applications/structures/home/home';
 import Visualization from 'js/applications/structures/visualization';
 import { Create, Update } from 'js/applications/structures/edition';
+
 import {
 	StructuresComponentsList,
 	StructuresComponentsSearch,
