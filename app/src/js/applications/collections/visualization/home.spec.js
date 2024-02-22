@@ -22,7 +22,7 @@ describe('collection-visualization', () => {
 					general={empty()}
 					members={[]}
 					stampList={[]}
-					validateCollection={() => console.log('validate')}
+					validateCollection={jest.fn()}
 					secondLang={true}
 					langs={{ lg1: 'fr', lg2: 'en' }}
 					permission={{ authType: '', roles: [''] }}

@@ -6,8 +6,6 @@ import {
 	SaveButton,
 	Loading,
 	ActionToolbar,
-	goBack,
-	goBackOrReplace,
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
@@ -89,7 +87,7 @@ class OperationsOperationEdition extends Component {
 			const method = isCreation ? 'postOperation' : 'putOperation';
 			return api[method](this.state.operation).then(
 				(id = this.state.operation.id) => {
-					goBackOrReplace(this.props, `/operations/operation/${id}`, isCreation);
+					this.props.goBack(`/operations/operation/${id}`, isCreation);
 				},
 				err => {
 					this.setState({
@@ -112,6 +110,8 @@ class OperationsOperationEdition extends Component {
 		const series = operation.series || { id: '' };
 		const isEditing = !!operation.id;
 
+		const {goBack} = this.props;
+
 		return (
 			<div className="container editor-container">
 				{isEditing && (
@@ -123,7 +123,7 @@ class OperationsOperationEdition extends Component {
 				)}
 
 				<ActionToolbar>
-					<CancelButton action={goBack(this.props, '/operations/operations')} />
+					<CancelButton action={() => goBack('/operations/operations')} />
 
 					<SaveButton action={this.onSubmit} disabled={this.state.clientSideErrors.errorMessage?.length > 0} />
 				</ActionToolbar>

@@ -24,7 +24,7 @@ describe('concept-visualization', () => {
 					links={[]}
 					stampList={[]}
 					disseminationStatusList={[]}
-					validateConcept={() => console.log('validate')}
+					validateConcept={jest.fn()}
 					secondLang={true}
 					langs={{ lg1: 'fr', lg2: 'en' }}
 					permission={{ authType: '', roles: [''] }}

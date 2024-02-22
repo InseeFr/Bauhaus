@@ -227,10 +227,10 @@ const Dataset = (props) => {
 											<ReactSelect
 												value={editingDataset.accessRights}
 												options={clAccessRightsOptions}
-												onChange={({ value }) => {
+												onChange={(option) => {
 													setEditingDataset({
 														...editingDataset,
-														accessRights: value,
+														accessRights: option?.value,
 													});
 												}}
 											/>
@@ -244,10 +244,10 @@ const Dataset = (props) => {
 											<ReactSelect
 												value={editingDataset.accrualPeriodicity}
 												options={clFreqOptions}
-												onChange={({ value }) => {
+												onChange={(option) => {
 													setEditingDataset({
 														...editingDataset,
-														accrualPeriodicity: value,
+														accrualPeriodicity: option?.value,
 													});
 												}}
 											/>
@@ -261,10 +261,10 @@ const Dataset = (props) => {
 											<ReactSelect
 												value={editingDataset.confidentialityStatus}
 												options={clConfStatusOptions}
-												onChange={({ value }) => {
+												onChange={(option) => {
 													setEditingDataset({
 														...editingDataset,
-														confidentialityStatus: value,
+														confidentialityStatus: option?.value,
 													});
 												}}
 											/>
@@ -278,10 +278,10 @@ const Dataset = (props) => {
 											<ReactSelect
 												value={editingDataset.spacialCoverage}
 												options={clGeo}
-												onChange={({ value }) => {
+												onChange={(option) => {
 													setEditingDataset({
 														...editingDataset,
-														spacialCoverage: value,
+														spacialCoverage: option?.value,
 													});
 												}}
 											/>
@@ -374,10 +374,10 @@ const Dataset = (props) => {
 												unclearable
 												value={editingDataset.publisher}
 												options={organisationsOptions}
-												onChange={({ value }) => {
+												onChange={(option) => {
 													setEditingDataset({
 														...editingDataset,
-														publisher: value,
+														publisher: option?.value,
 													});
 												}}
 											/>
@@ -393,10 +393,10 @@ const Dataset = (props) => {
 											multi={false}
 											value={editingDataset.idSerie}
 											options={seriesOptions}
-											onChange={({ value }) => {
+											onChange={(option) => {
 												setEditingDataset({
 													...editingDataset,
-													idSerie: value,
+													idSerie: option?.value,
 												});
 												setClientSideErrors({});
 											}}
@@ -479,12 +479,12 @@ const Dataset = (props) => {
 											multi={false}
 											value={editingDataset.catalogRecord?.creator}
 											options={stampsOptions}
-											onChange={({ value }) => {
+											onChange={(option) => {
 												setEditingDataset({
 													...editingDataset,
 													catalogRecord: {
 														...(editingDataset.catalogRecord ?? {}),
-														creator: value,
+														creator: option?.value,
 													},
 												});
 												setClientSideErrors((clientSideErrors) => ({
@@ -507,12 +507,12 @@ const Dataset = (props) => {
 											multi={false}
 											value={editingDataset.catalogRecord?.contributor}
 											options={stampsOptions}
-											onChange={({ value }) => {
+											onChange={(option) => {
 												setEditingDataset({
 													...editingDataset,
 													catalogRecord: {
 														...(editingDataset.catalogRecord ?? {}),
-														contributor: value,
+														contributor: option?.value,
 													},
 												});
 												setClientSideErrors((clientSideErrors) => ({
@@ -535,10 +535,10 @@ const Dataset = (props) => {
 											multi={false}
 											value={editingDataset.disseminationStatus}
 											options={disseminationStatusOptions}
-											onChange={({ value }) => {
+											onChange={(option) => {
 												setEditingDataset({
 													...editingDataset,
-													disseminationStatus: value,
+													disseminationStatus: option?.value,
 												});
 												setClientSideErrors({});
 											}}
@@ -558,10 +558,10 @@ const Dataset = (props) => {
 												multi={false}
 												value={editingDataset.processStep}
 												options={clProcessStep}
-												onChange={({ value }) => {
+												onChange={(option) => {
 													setEditingDataset({
 														...editingDataset,
-														processStep: value,
+														processStep: option?.value,
 													});
 												}}
 											/>
@@ -576,10 +576,10 @@ const Dataset = (props) => {
 												unclearable
 												value={editingDataset.archiveUnit}
 												options={archivageUnits}
-												onChange={({ value }) => {
+												onChange={(option) => {
 													setEditingDataset({
 														...editingDataset,
-														archiveUnit: value,
+														archiveUnit: option?.value,
 													});
 												}}
 											/>
@@ -721,10 +721,10 @@ const Dataset = (props) => {
 											<ReactSelect
 												value={editingDataset.type}
 												options={clDataTypes}
-												onChange={({ value }) => {
+												onChange={(option) => {
 													setEditingDataset({
 														...editingDataset,
-														type: value,
+														type: option?.value,
 													});
 												}}
 											/>
@@ -757,11 +757,10 @@ const Dataset = (props) => {
 											<ReactSelect
 												value={editingDataset.dataStructure}
 												options={structuresOptions}
-												onChange={({ value }) => {
-													console.log(value);
+												onChange={(option) => {
 													setEditingDataset({
 														...editingDataset,
-														dataStructure: value,
+														dataStructure: option?.value,
 													});
 												}}
 											/>
@@ -796,10 +795,10 @@ const Dataset = (props) => {
 											<ReactSelect
 												value={editingDataset.temporalResolution}
 												options={clFreqOptions}
-												onChange={({ value }) => {
+												onChange={(option) => {
 													setEditingDataset({
 														...editingDataset,
-														temporalResolution: value,
+														temporalResolution: option?.value,
 													});
 												}}
 											/>

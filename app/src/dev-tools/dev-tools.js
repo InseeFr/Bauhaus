@@ -12,7 +12,6 @@ const options = [ADMIN, CONCEPTS_CREATOR, COLLECTIONS_CREATOR, CONCEPTS_CONTRIBU
 
 function install(store) {
 	import('./dev-tools.scss');
-	console.log(store.getState())
 	window.devToolsEnabled = true
 	// load local dev tools if it's there
 	// NOTE: this is using some webpack-sepecific features.

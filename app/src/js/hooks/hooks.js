@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { CodesList } from 'bauhaus-utilities';
 
@@ -11,12 +12,13 @@ const fetchCodeList = (notation) => {
 	}));
 };
 
+const defaultCodesList = { codes: [] };
 export const useCodesList = (notation) => {
 	const { data } = useQuery({
 		queryKey: ['codelist', notation],
 		queryFn: () => fetchCodeList(notation),
 	});
-	return data;
+	return data ?? defaultCodesList;
 };
 
 export const useCodesLists = (notations) => {
@@ -41,4 +43,17 @@ export const withCodesLists = (notations) => {
 			return <Component {...props} {...codesListsProps} />;
 		};
 	};
+};
+
+export function useGoBack() {
+    const history = useHistory();
+
+    return function(redirectUrl, shouldReplace = false) {
+        if (shouldReplace) {
+            return history.replace(redirectUrl);
+        }
+        return history.length === 1 || history.location.state
+		? history.push(redirectUrl)
+		: history.goBack();
+    };
 };

@@ -2,9 +2,9 @@ import {
 	Loading,
 	Button,
 	ActionToolbar,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
+import { useGoBack } from 'js/hooks/hooks';
 import {
 	Auth,
 	CheckSecondLang,
@@ -16,7 +16,7 @@ import { loadCodesList } from 'js/actions/operations/utils/setup';
 import D from 'js/i18n';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useRouteMatch, withRouter } from 'react-router-dom';
+import { useParams, useRouteMatch } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
 import { ADMIN } from 'bauhaus-utilities/src/auth/roles';
 import api from '../../../../remote-api/api';
@@ -46,7 +46,7 @@ const checkContributorRight = (document) => {
 	}
 }
 
-const DocumentationVisualizationContainer = props => {
+const DocumentationVisualizationContainer = () => {
 	const { id } = useParams();
 	const { path } = useRouteMatch();
 	const type = getPath(path);
@@ -54,7 +54,7 @@ const DocumentationVisualizationContainer = props => {
 	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
 	const langOptions = useSelector(state => state.operationsCodesList.results['ISO-639']);
 	const dispatch = useDispatch()
-
+	const goBack = useGoBack();
 
 
 	const [document, setDocument] = useState({ })
@@ -84,7 +84,7 @@ const DocumentationVisualizationContainer = props => {
 			/>
 
 			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/operations/documents')} />
+				<ReturnButton action={() => goBack('/operations/documents')} />
 
 				<Auth.AuthGuard
 					roles={[
@@ -112,4 +112,4 @@ const DocumentationVisualizationContainer = props => {
 	);
 }
 
-export default withRouter(DocumentationVisualizationContainer);
+export default DocumentationVisualizationContainer;

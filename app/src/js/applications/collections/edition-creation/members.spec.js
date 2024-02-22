@@ -9,7 +9,7 @@ describe('collection-edition-creation-members', () => {
 			<CollectionMembers
 				members={[]}
 				conceptList={[]}
-				handleChange={() => console.log('save')}
+				handleChange={jest.fn()}
 			/>,
 			{ wrapper: MemoryRouter }
 		);

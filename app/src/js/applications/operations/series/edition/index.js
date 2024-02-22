@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import OperationsSerieEdition from 'js/applications/operations/series/edition/edition';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';
+import { useGoBack } from 'js/hooks/hooks';
 import { useCodesList } from '../../../../hooks/hooks';
 
 const OperationsSeriesEditionContainer = (props) => {
@@ -22,6 +23,8 @@ const OperationsSeriesEditionContainer = (props) => {
 		(state) => state.operationsOrganisations.results || []
 	);
 	const langs = useSelector((state) => select.getLangs(state));
+
+	const goBack = useGoBack();
 
 	useEffect(() => {
 		if (id) {
@@ -42,6 +45,7 @@ const OperationsSeriesEditionContainer = (props) => {
 	}, []);
 
 	if (!serie.id && id) return <Loading />;
+  
 	return (
 		<OperationsSerieEdition
 			{...props}
@@ -54,8 +58,9 @@ const OperationsSeriesEditionContainer = (props) => {
 			indicators={indicators}
 			langs={langs}
 			frequencies={frequencies}
+      goBack={goBack}
 		/>
 	);
 };
 
-export default withRouter(OperationsSeriesEditionContainer);
+export default OperationsSeriesEditionContainer;

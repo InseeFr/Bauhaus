@@ -9,7 +9,7 @@ describe('collection-validation', () => {
 			<CollectionValidation
 				collections={[]}
 				permission={{ authType: '', roles: [''] }}
-				handleValidateCollectionList={() => console.log('validation')}
+				handleValidateCollectionList={jest.fn()}
 			/>,
 			{ wrapper: MemoryRouter }
 		);

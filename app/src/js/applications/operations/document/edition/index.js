@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams, withRouter } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { useDispatch, useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
@@ -46,4 +46,4 @@ const OperationsDocumentationEditionContainer = props => {
 		{...props} />
 }
 
-export default withRouter(OperationsDocumentationEditionContainer);
+export default OperationsDocumentationEditionContainer;

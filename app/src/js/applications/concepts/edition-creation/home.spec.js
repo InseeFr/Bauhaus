@@ -17,7 +17,7 @@ describe('concept-edition-creation', () => {
 					conceptsWithLinks={[]}
 					stampList={[]}
 					disseminationStatusList={[]}
-					save={() => console.log('save')}
+					save={jest.fn()}
 					langs={{ lg1: 'fr', lg2: 'en' }}
 				/>
 			</MemoryRouter>

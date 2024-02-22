@@ -7,13 +7,10 @@ import {
 	SaveButton,
 	Loading,
 	ActionToolbar,
-	goBackOrReplace,
-	goBack,
 	LabelRequired,
 } from '@inseefr/wilco';
 import { validate } from './validation';
 import D from '../../../../i18n/build-dictionary';
-import { withRouter } from 'react-router-dom';
 import api from '../../../../remote-api/operations-api';
 
 const defaultFamily = {
@@ -82,7 +79,7 @@ class OperationsFamilyEdition extends Component {
 			const method = isCreation ? 'postFamily' : 'putFamily';
 			return api[method](this.state.family).then(
 				(id = this.state.family.id) => {
-					goBackOrReplace(this.props, `/operations/family/${id}`, isCreation);
+					this.props.goBack(`/operations/family/${id}`, isCreation);
 				},
 				err => {
 					this.setState({
@@ -95,6 +92,7 @@ class OperationsFamilyEdition extends Component {
 	render() {
 		if (this.state.saving) return <Loading textType="saving" />;
 
+		const {goBack} = this.props;
 		const { family, serverSideError } = this.state;
 		const isEditing = !!family.id;
 
@@ -109,7 +107,7 @@ class OperationsFamilyEdition extends Component {
 				)}
 
 				<ActionToolbar>
-					<CancelButton action={goBack(this.props, '/operations/families')} />
+					<CancelButton action={() => goBack('/operations/families')} />
 					<SaveButton action={this.onSubmit} disabled={this.state.clientSideErrors.errorMessage?.length > 0} />
 				</ActionToolbar>
 
@@ -193,6 +191,6 @@ class OperationsFamilyEdition extends Component {
 	}
 }
 
-export default withTitle(withRouter(OperationsFamilyEdition), D.operationsTitle, props => {
+export default withTitle(OperationsFamilyEdition, D.operationsTitle, props => {
 	return props.family.prefLabelLg1 || D.familiesCreateTitle
 });
