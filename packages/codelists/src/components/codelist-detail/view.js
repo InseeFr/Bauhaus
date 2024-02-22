@@ -1,51 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-	Note,
-	UpdateButton,
-	DeleteButton,
-	ActionToolbar,
-	ReturnButton,
-	ErrorBloc,
-} from '@inseefr/wilco';
+import { Note, ErrorBloc } from '@inseefr/wilco';
 import {
 	HTMLUtils,
-	ValidationButton,
 	CreationUpdateItems,
 	PublicationFemale,
 	useTitle,
-	ConfirmationDelete, Auth,
-	Row
+	ConfirmationDelete,
+	Row,
 } from 'bauhaus-utilities';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 
-import "./view.scss"
+import './view.scss';
 import { CodesCollapsiblePanel } from './codes-panel';
+import { ViewMenu } from './menu';
 
 export const CodeListDetailView = ({
-																		 codelist,
-																		 handleUpdate,
-																		 handleBack,
-																		 handleDelete,
-																		 updatable,
-																		 deletable,
-																		 modalOpened,
-																		 handleYes,
-																		 handleNo,
-																		 secondLang,
-																		 col = 3,
-																		 publishComponent,
-																		 serverSideError,
-																		 hidden = false,
-																	 }) => {
-
+	codelist,
+	handleUpdate,
+	handleBack,
+	handleDelete,
+	updatable,
+	deletable,
+	modalOpened,
+	handleYes,
+	handleNo,
+	secondLang,
+	col = 3,
+	publishComponent,
+	serverSideError,
+	hidden = false,
+}) => {
 	useTitle(D.codelistsTitle, codelist?.labelLg1);
 
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
-		codelist.descriptionLg1,
+		codelist.descriptionLg1
 	);
 	const descriptionLg2 = HTMLUtils.renderMarkdownElement(
-		codelist.descriptionLg2,
+		codelist.descriptionLg2
 	);
 
 	const publish = () => {
@@ -56,20 +48,23 @@ export const CodeListDetailView = ({
 		<React.Fragment>
 			{modalOpened && (
 				<ConfirmationDelete
-					className='codelists'
+					className="codelists"
 					handleNo={handleNo}
 					handleYes={handleYes}
 					message={D.confirmationCodelistDelete}
 				/>
 			)}
-			<ActionToolbar>
-				<ReturnButton action={handleBack} col={col} />
-				<Auth.AuthGuard roles={[Auth.ADMIN]}>
-					<ValidationButton callback={publish} object={codelist} />
-					{updatable && <UpdateButton action={handleUpdate} col={col} />}
-					{deletable && <DeleteButton action={handleDelete} col={col} />}
-				</Auth.AuthGuard>
-			</ActionToolbar>
+			<ViewMenu
+				handleUpdate={handleUpdate}
+				col={col}
+				handleDelete={handleDelete}
+				handleBack={handleBack}
+				updatable={updatable}
+				publish={publish}
+				codelist={codelist}
+				deletable={deletable}
+			></ViewMenu>
+
 			<ErrorBloc error={serverSideError} />
 			{
 				<Row>
@@ -79,7 +74,10 @@ export const CodeListDetailView = ({
 								<li>
 									{D.idTitle} : {codelist.id}
 								</li>
-								<CreationUpdateItems creation={codelist.created} update={codelist.modified} />
+								<CreationUpdateItems
+									creation={codelist.created}
+									update={codelist.modified}
+								/>
 								<li>
 									{D.codelistValidationStatusTitle} :{' '}
 									<PublicationFemale object={codelist} />
@@ -114,8 +112,11 @@ export const CodeListDetailView = ({
 					/>
 				)}
 			</Row>
-			<CodesCollapsiblePanel codelist={codelist} hidden={hidden} editable={false} />
-
+			<CodesCollapsiblePanel
+				codelist={codelist}
+				hidden={hidden}
+				editable={false}
+			/>
 		</React.Fragment>
 	);
 };

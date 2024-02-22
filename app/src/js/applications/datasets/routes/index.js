@@ -1,12 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import { DatasetHome } from '../datasets/home';
+import { DatasetHome } from '../datasets/home/home';
 import { DatasetEdit } from '../datasets/edit';
-import { DatasetView } from '../datasets/view';
-import { DistributionHome } from '../distributions/home';
+import { DatasetView } from '../datasets/view/view';
+import { DistributionHome } from '../distributions/home/home';
 import { DistributionEdit } from '../distributions/edit';
-import { DistributionView } from '../distributions/view';
+import { DistributionView } from '../distributions/view/view';
 import DatasetsMenu from './menu';
 
 const rootApp = document.getElementById('root-app');

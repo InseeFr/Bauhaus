@@ -1,8 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import * as select from '../../../reducers';
+import * as select from '../../../../reducers';
 import {
-	Auth,
 	CheckSecondLang,
 	DateUtils,
 	HTMLUtils,
@@ -11,23 +10,16 @@ import {
 	Row,
 } from 'bauhaus-utilities';
 import React, { useEffect, useState } from 'react';
-import {
-	ActionToolbar,
-	Button,
-	DSURLToLabel,
-	goBack,
-	Loading,
-	Note,
-	ReturnButton,
-} from '@inseefr/wilco';
-import D, { D1, D2 } from '../../../i18n/build-dictionary';
-import api from '../../../remote-api/datasets/datasets-api';
-import operationApi from '../../../remote-api/operations-api';
+import { DSURLToLabel, Loading, Note } from '@inseefr/wilco';
+import D, { D1, D2 } from '../../../../i18n/build-dictionary';
+import api from '../../../../remote-api/datasets/datasets-api';
 import { StructureAPI } from 'bauhaus-structures';
 import { useQuery } from '@tanstack/react-query';
-import { useThemes } from './useThemes';
-import apiOrganisations from '../../../remote-api/organisations-api';
-import { withCodesLists } from '../../../hooks/hooks';
+import { useThemes } from '../useThemes';
+import apiOrganisations from '../../../../remote-api/organisations-api';
+import { withCodesLists } from '../../../../hooks/hooks';
+import { useDataset } from '../../hooks';
+import { ViewMenu } from './menu';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -50,22 +42,7 @@ const Dataset = (props) => {
 		queryKey: ['organisations'],
 	});
 
-	const { data: dataset, isLoading } = useQuery({
-		queryKey: ['datasets', id],
-		queryFn: () =>
-			api.getById(id).then((dataset) => {
-				if (!!dataset.idSerie) {
-					return operationApi.getSerie(dataset.idSerie).then((serie) => {
-						return {
-							...dataset,
-							serie,
-						};
-					});
-				}
-
-				return dataset;
-			}),
-	});
+	const { data: dataset, isLoading } = useDataset(id);
 
 	const { data: themesOptions = [] } = useThemes();
 
@@ -84,17 +61,7 @@ const Dataset = (props) => {
 				secondLang={secondLang}
 			/>
 
-			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/datasets')} />
-
-				<Auth.AuthGuard roles={[Auth.ADMIN]}>
-					<Button
-						action={`/datasets/${dataset.id}/modify`}
-						label={D.btnUpdate}
-					/>
-				</Auth.AuthGuard>
-			</ActionToolbar>
-
+			<ViewMenu dataset={dataset} {...props} />
 			<CheckSecondLang />
 
 			<Row>

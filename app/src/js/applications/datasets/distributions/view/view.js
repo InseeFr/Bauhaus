@@ -1,10 +1,7 @@
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import api from '../../../remote-api/datasets/distributions-api';
 import { useSelector } from 'react-redux';
-import * as select from '../../../reducers';
+import * as select from '../../../../reducers';
 import {
-	Auth,
 	CheckSecondLang,
 	DateUtils,
 	HTMLUtils,
@@ -12,31 +9,27 @@ import {
 	Stores,
 	Row,
 } from 'bauhaus-utilities';
-import {
-	ActionToolbar,
-	Button,
-	goBack,
-	Loading,
-	Note,
-	ReturnButton,
-} from '@inseefr/wilco';
-import D, { D1, D2 } from '../../../i18n/build-dictionary';
+import { Loading, Note } from '@inseefr/wilco';
+import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import React from 'react';
+import { useDataset, useDistribution } from '../../hooks';
+import { ViewMenu } from './menu';
 
 export const DistributionView = (props) => {
 	const { id } = useParams();
 
-	const { data: distribution, isLoading } = useQuery({
-		queryKey: ['distributions', id],
-		queryFn: () => api.getById(id),
-	});
+	const { data: distribution, isLoading } = useDistribution(id);
+
+	const { data: dataset, isLoading: isLoadingDataSet } = useDataset(
+		distribution?.idDataset
+	);
 
 	const { lg1, lg2 } = useSelector((state) => select.getLangs(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);
 
-	if (isLoading) return <Loading />;
+	if (isLoading || isLoadingDataSet) return <Loading />;
 
 	return (
 		<div className="container">
@@ -46,16 +39,7 @@ export const DistributionView = (props) => {
 				secondLang={secondLang}
 			/>
 
-			<ActionToolbar>
-				<ReturnButton action={goBack(props, '/datasets/distributions')} />
-
-				<Auth.AuthGuard roles={[Auth.ADMIN]}>
-					<Button
-						action={`/datasets/distributions/${distribution.id}/modify`}
-						label={D.btnUpdate}
-					/>
-				</Auth.AuthGuard>
-			</ActionToolbar>
+			<ViewMenu distribution={distribution} dataset={dataset} {...props} />
 
 			<CheckSecondLang />
 

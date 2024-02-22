@@ -9,8 +9,11 @@ import {
 } from '@inseefr/wilco';
 import { Auth, ValidationButton } from 'bauhaus-utilities';
 import StructureAPI from '../../apis/structure-api';
+import { useSelector } from 'react-redux';
 
 const Controls = ({ structure, publish }) => {
+	const permission = useSelector(Auth.getPermission);
+
 	const { id } = structure;
 	let history = useHistory();
 
@@ -19,13 +22,28 @@ const Controls = ({ structure, publish }) => {
 			history.push('/structures');
 		});
 	}, [id, history]);
+
+	const hasRightsBasedOnStamp =
+		permission?.stamp === structure?.contributor &&
+		permission?.roles?.includes(Auth.STRUCTURE_CONTRIBUTOR);
+	const isAdmin = permission?.roles?.includes(Auth.ADMIN);
 	return (
 		<ActionToolbar>
 			<ReturnButton action="/structures" />
-			<Auth.AuthGuard roles={[Auth.ADMIN]}><ValidationButton object={structure} callback={publish} /></Auth.AuthGuard>
-			<Auth.AuthGuard roles={[Auth.ADMIN]}><DuplicateButton action={`/structures/${id}/duplicate`} /></Auth.AuthGuard>
-			<Auth.AuthGuard roles={[Auth.ADMIN]}><DeleteButton action={handleDelete} /></Auth.AuthGuard>
-			<Auth.AuthGuard roles={[Auth.ADMIN]}><UpdateButton action={`/structures/${id}/update`} /></Auth.AuthGuard>
+			{(isAdmin || hasRightsBasedOnStamp) && (
+				<ValidationButton object={structure} callback={publish} />
+			)}
+			{(isAdmin || hasRightsBasedOnStamp) && (
+				<DuplicateButton action={`/structures/${id}/duplicate`} />
+			)}
+			{(isAdmin ||
+				(hasRightsBasedOnStamp &&
+					structure.validationState === 'Unpublished')) && (
+				<DeleteButton action={handleDelete} />
+			)}
+			{(isAdmin || hasRightsBasedOnStamp) && (
+				<UpdateButton action={`/structures/${id}/update`} />
+			)}
 		</ActionToolbar>
 	);
 };

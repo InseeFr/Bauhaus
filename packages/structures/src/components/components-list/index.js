@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-	NewButton,
-	PageTitle,
-	VerticalMenu,
-	Loading,
-} from '@inseefr/wilco';
+import { PageTitle, Loading } from '@inseefr/wilco';
 import './component-list.scss';
-import { FilterToggleButtons, useTitle, SearchableList, Auth } from 'bauhaus-utilities';
+import {
+	FilterToggleButtons,
+	useTitle,
+	SearchableList,
+} from 'bauhaus-utilities';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { useHistory } from 'react-router-dom';
 
 import { formatLabel } from '../../utils';
 import api from '../../apis/structure-api';
 import D from '../../i18n/build-dictionary';
+import { HomePageMenu } from './menu';
 
 const ALL = 'ALL';
 const sessionStorageKey = 'components-displayMode';
@@ -60,9 +60,7 @@ function ComponentsList() {
 	return (
 		<div className="container structures-components-list">
 			<div className="row">
-				<VerticalMenu>
-					<Auth.AuthGuard roles={[Auth.ADMIN]}><NewButton action={"/structures/components/create?type=" + encodeURIComponent(filter)} wrapper={false} /></Auth.AuthGuard>
-				</VerticalMenu>
+				<HomePageMenu filter={filter} />
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.componentTitle} col={12} offset={0} />
 					<FilterToggleButtons

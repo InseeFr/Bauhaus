@@ -26,7 +26,7 @@ export { default as EditorHTML } from './components/editor-html';
 export {
 	default as EditorMarkdown,
 	toolbar as EditorMarkdownToolbar,
-	DeleteButton as EditorDeleteButton
+	DeleteButton as EditorDeleteButton,
 } from './components/editor-html/editor-markdown';
 export { default as AdvancedSearchControls } from './components/advanced-search/controls';
 export * from './components/advanced-search/home-container';
@@ -35,7 +35,10 @@ export * as ItemToSelectModel from './utils/item-to-select-model';
 export { default as ValidationButton } from './components/validationButton';
 export { default as FilterToggleButtons } from './components/filter-toggle-buttons';
 export { default as SearchableList } from './components/searchable-list';
-export { DateItem, default as CreationUpdateItems } from './components/creation-update-items';
+export {
+	DateItem,
+	default as CreationUpdateItems,
+} from './components/creation-update-items';
 export * from './components/Layout';
 
 export { default as CheckSecondLang } from './components/check-second-lang';
@@ -49,9 +52,14 @@ export { PublicationMale, PublicationFemale } from './components/status';
 export { useQueryParam } from './utils/hooks';
 
 export const AppContext = createContext({});
-export { useTitle, withTitle, setDocumentTitle } from './utils/useTitle'
-export { default as SelectRmes} from './components/select-rmes';
+export { useTitle, withTitle, setDocumentTitle } from './utils/useTitle';
+export { default as SelectRmes } from './components/select-rmes';
 
 export { default as useUrlQueryParameters } from './hooks/useUrlQueryParameters';
-export { default as ErrorBloc, GlobalClientSideErrorBloc, ClientSideError} from './components/errors-bloc';
+export {
+	default as ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+} from './components/errors-bloc';
 export { default as RequiredIcon } from './components/required-icon';
+export { RBACMock } from './utils/testing';
