@@ -60,7 +60,7 @@ function ComponentsList() {
 	return (
 		<div className="container structures-components-list">
 			<div className="row">
-				<HomePageMenu filter={filter}></HomePageMenu>
+				<HomePageMenu filter={filter} />
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.componentTitle} col={12} offset={0} />
 					<FilterToggleButtons

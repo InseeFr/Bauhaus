@@ -14,9 +14,9 @@ const LoginNoAuth = ({ checkAuth }) => {
 			stamp: 'XXXXXX',
 			roles: [ADMIN, SERIES_CONTRIBUTOR, INDICATOR_CONTRIBUTOR],
 		});
-	}, [checkAuth])
+	}, [checkAuth]);
 	return <Loading textType="authentification" />;
-}
+};
 
 const mapDispatchToProps = {
 	checkAuth,

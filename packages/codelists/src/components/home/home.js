@@ -25,7 +25,7 @@ function CodeListsList() {
 	return (
 		<div className="container codelists-list">
 			<div className="row">
-				<HomePageMenu></HomePageMenu>
+				<HomePageMenu />
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.codelistTitle} col={12} offset={0} />
 					<SearchableList

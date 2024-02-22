@@ -17,7 +17,7 @@ const Home = () => {
 	return (
 		<div className="container">
 			<div className="row">
-				<HomePageMenu></HomePageMenu>
+				<HomePageMenu />
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.dsdsSearchTitle} col={12} offset={0} />
 					<SearchableList

@@ -7,7 +7,7 @@ describe('Components Home Page Menu', () => {
 	it('an admin can create a new component if he does not have the Gestionnaire_structures_RMESGNCS role', () => {
 		render(
 			<RBACMock roles={[Auth.ADMIN]}>
-				<HomePageMenu></HomePageMenu>
+				<HomePageMenu />
 			</RBACMock>
 		);
 
@@ -17,7 +17,7 @@ describe('Components Home Page Menu', () => {
 	it('an admin can create a new component if he does have the Gestionnaire_structures_RMESGNCS role', () => {
 		render(
 			<RBACMock roles={[Auth.ADMIN, Auth.STRUCTURE_CONTRIBUTOR]}>
-				<HomePageMenu></HomePageMenu>
+				<HomePageMenu />
 			</RBACMock>
 		);
 
@@ -27,7 +27,7 @@ describe('Components Home Page Menu', () => {
 	it('a user with Gestionnaire_structures_RMESGNCS role can create a component', () => {
 		render(
 			<RBACMock roles={[Auth.STRUCTURE_CONTRIBUTOR]}>
-				<HomePageMenu></HomePageMenu>
+				<HomePageMenu />
 			</RBACMock>
 		);
 
@@ -37,7 +37,7 @@ describe('Components Home Page Menu', () => {
 	it('a user without Admin or  Gestionnaire_structures_RMESGNCS role cannot create a component', () => {
 		render(
 			<RBACMock roles={[]}>
-				<HomePageMenu></HomePageMenu>
+				<HomePageMenu />
 			</RBACMock>
 		);
 

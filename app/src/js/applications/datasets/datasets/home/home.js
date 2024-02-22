@@ -11,7 +11,7 @@ export const DatasetHome = () => {
 	return (
 		<div className="container">
 			<Row>
-				<HomePageMenu></HomePageMenu>
+				<HomePageMenu />
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.datasetsTitle} col={12} offset={0} />
 					<SearchableList

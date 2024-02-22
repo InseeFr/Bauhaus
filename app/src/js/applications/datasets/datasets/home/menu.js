@@ -1,6 +1,6 @@
 import { Auth } from 'bauhaus-utilities';
 import { NewButton, VerticalMenu } from '@inseefr/wilco';
-import D from '../../../../i18n/build-dictionary';
+import D from 'js/i18n/build-dictionary';
 
 export const HomePageMenu = () => {
 	return (
