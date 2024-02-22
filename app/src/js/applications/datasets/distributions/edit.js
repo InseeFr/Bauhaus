@@ -16,12 +16,12 @@ import {
 } from '@inseefr/wilco';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../../../remote-api/datasets/distributions-api';
-import datasetApi from '../../../remote-api/datasets/datasets-api';
 import { D1, D2 } from '../../../i18n';
 import { default as ReactSelect } from 'react-select';
 import D from '../../../i18n/build-dictionary';
+import { useDatasets, useDistribution } from '../hooks';
 
 export function validate({ idDataset, labelLg1, labelLg2 }) {
 	const errorMessages = [];
@@ -52,21 +52,14 @@ export const DistributionEdit = (props) => {
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
 
-	const { data: distribution, status } = useQuery({
-		enabled: isEditing,
-		queryKey: ['distributions', id],
-		queryFn: () => api.getById(id),
-	});
+	const { data: distribution, status } = useDistribution(id);
+	const { data: datasets } = useDatasets();
+
 	useEffect(() => {
 		if (status === 'success') {
 			setEditingDistribution(distribution);
 		}
 	}, [status, distribution]);
-
-	const { data: datasets } = useQuery({
-		queryFn: () => datasetApi.getAll(),
-		queryKey: ['datasets'],
-	});
 
 	const datasetsOptions =
 		datasets?.map((dataset) => ({
@@ -80,9 +73,8 @@ export const DistributionEdit = (props) => {
 		(id) => {
 			if (isEditing) {
 				return api.putDistribution(editingDistribution);
-			} else {
-				return api.postDistribution(editingDistribution);
 			}
+			return api.postDistribution(editingDistribution);
 		},
 		{
 			onSuccess: (id) => {

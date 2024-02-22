@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Menu from 'js/applications/structures/menu';
-import Home from 'js/applications/structures/home';
+import Home from 'js/applications/structures/home/home';
 import Visualization from 'js/applications/structures/visualization';
 import { Create, Update } from 'js/applications/structures/edition';
 import {
@@ -19,7 +19,7 @@ import loadStampList from 'js/actions/stamp';
 const StructureComponent = ({ loadStampList }) => {
 	useEffect(() => {
 		loadStampList();
-	}, [loadStampList])
+	}, [loadStampList]);
 	document.title = 'Bauhaus - ' + D.structuresTitle;
 	return (
 		<>
@@ -54,9 +54,21 @@ const StructureComponent = ({ loadStampList }) => {
 						component={StructuresComponentEdit}
 					/>
 					<Route exact path="/structures/create" component={Create} />
-					<Route exact path="/structures/:structureId/update" component={Update} />
-					<Route exact path="/structures/:structureId/duplicate" component={Update} />
-					<Route exact path="/structures/:structureId" component={Visualization} />
+					<Route
+						exact
+						path="/structures/:structureId/update"
+						component={Update}
+					/>
+					<Route
+						exact
+						path="/structures/:structureId/duplicate"
+						component={Update}
+					/>
+					<Route
+						exact
+						path="/structures/:structureId"
+						component={Visualization}
+					/>
 				</Switch>
 			</div>
 		</>
@@ -64,5 +76,5 @@ const StructureComponent = ({ loadStampList }) => {
 };
 
 export default connect(undefined, {
-	loadStampList
-})(StructureComponent)
+	loadStampList,
+})(StructureComponent);

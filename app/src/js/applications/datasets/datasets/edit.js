@@ -32,6 +32,7 @@ import apiOrganisations from '../../../remote-api/organisations-api';
 import { withCodesLists } from '../../../hooks/hooks';
 import { StructureAPI } from 'bauhaus-structures';
 import { TemporalField } from './components/temporalField';
+import { useDataset } from '../hooks';
 
 const convertCodesListsToSelectOption = (codesList) =>
 	codesList?.codes?.map((code) => ({
@@ -386,9 +387,7 @@ const Dataset = (props) => {
 
 								<Row>
 									<div className="col-md-12 form-group">
-										<LabelRequired>
-											{D1.generatedBy}
-										</LabelRequired>
+										<LabelRequired>{D1.generatedBy}</LabelRequired>
 										<ReactSelect
 											unclearable
 											multi={false}
@@ -474,9 +473,7 @@ const Dataset = (props) => {
 							<>
 								<Row>
 									<div className="col-md-12 form-group">
-										<LabelRequired>
-											{D1.creatorTitle}
-										</LabelRequired>
+										<LabelRequired>{D1.creatorTitle}</LabelRequired>
 										<ReactSelect
 											unclearable
 											multi={false}
@@ -504,10 +501,7 @@ const Dataset = (props) => {
 
 								<Row>
 									<div className="col-md-12 form-group">
-										<LabelRequired>
-											{D1.contributorTitle}
-
-										</LabelRequired>
+										<LabelRequired>{D1.contributorTitle}</LabelRequired>
 										<ReactSelect
 											unclearable
 											multi={false}
@@ -535,9 +529,7 @@ const Dataset = (props) => {
 
 								<Row>
 									<div className="col-md-12 form-group">
-										<LabelRequired>
-											{D1.disseminationStatusTitle}
-										</LabelRequired>
+										<LabelRequired>{D1.disseminationStatusTitle}</LabelRequired>
 										<ReactSelect
 											unclearable
 											multi={false}
@@ -862,11 +854,7 @@ const Dataset = (props) => {
 		}
 	);
 
-	const { data: dataset, status } = useQuery({
-		enabled: isEditing,
-		queryKey: ['datasets', id],
-		queryFn: () => api.getById(id),
-	});
+	const { data: dataset, status } = useDataset(id);
 
 	useEffect(() => {
 		if (status === 'success') {
@@ -878,11 +866,11 @@ const Dataset = (props) => {
 
 	const { isLoading: isSaving, mutate: save } = useMutation(
 		(id) => {
+			const formattedDataset = { themes: [], ...editingDataset };
 			if (isEditing) {
-				return api.putDataset({ themes: [], ...editingDataset });
-			} else {
-				return api.postDataset({ themes: [], ...editingDataset });
+				return api.putDataset(formattedDataset);
 			}
+			return api.postDataset(formattedDataset);
 		},
 		{
 			onSuccess: (id) => {

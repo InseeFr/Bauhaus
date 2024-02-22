@@ -1,90 +1,119 @@
 import React, { useState, useEffect } from 'react';
-import {
-	Note,
-	UpdateButton,
-	ActionToolbar,
-	ReturnButton,
-	DeleteButton,
-} from '@inseefr/wilco';
+import { Note } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
-import { typeUriToLabel, getAllAttachment, getDisseminationStatus } from '../../utils';
-import { XSD_CODE_LIST, XSD_TYPES, ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from '../../utils/constants';
+import {
+	typeUriToLabel,
+	getAllAttachment,
+	getDisseminationStatus,
+} from '../../utils';
+import {
+	XSD_CODE_LIST,
+	XSD_TYPES,
+	ATTRIBUTE_TYPE,
+	MEASURE_PROPERTY_TYPE,
+} from '../../utils/constants';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import {
 	HTMLUtils,
-	ValidationButton,
 	CreationUpdateItems,
 	PublicationMale,
 	useTitle,
-    ErrorBloc,
+	ErrorBloc,
 	Row,
-	Auth,
 } from 'bauhaus-utilities';
 import PropTypes from 'prop-types';
-import "./view.scss";
+import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
-import { API } from 'bauhaus-codelists'
+import { API } from 'bauhaus-codelists';
 import api from '../../apis/structure-api';
 import MainDictionary from '../../../../../app/src/js/i18n/build-dictionary';
-
-export const canBeDeleted = (component) => {
-	const withoutStructuresUsingThisComponent = !component.structures || component.structures?.length === 0
-	const forbidden = ['Validated', 'Modified'];
-	return (
-		withoutStructuresUsingThisComponent &&
-		!forbidden.includes(component.validationState)
-	);
-};
+import { ViewMenu } from './menu';
 
 export const MeasureAttributeCodeValue = ({ value, attribute, codesLists }) => {
 	const [codesList, setCodesList] = useState();
-	const codeListNotation = codesLists.find(cl => cl.id === attribute.codeList)?.notation;
+	const codeListNotation = codesLists.find(
+		(cl) => cl.id === attribute.codeList
+	)?.notation;
 
 	useEffect(() => {
-		API.getCodelist(codeListNotation).then(cl => setCodesList(cl))
-	}, [codeListNotation])
+		API.getCodelist(codeListNotation).then((cl) => setCodesList(cl));
+	}, [codeListNotation]);
 
-	if(!codesList){
+	if (!codesList) {
 		return null;
 	}
 
-	const code = codesList.codes.find(c => c.iri === value);
-	return <React.Fragment>{ code?.labelLg1 }</React.Fragment>
+	const code = codesList.codes.find((c) => c.iri === value);
+	return <React.Fragment>{code?.labelLg1}</React.Fragment>;
 };
 
 export const MeasureAttributeValue = ({ value, attribute, codesLists }) => {
-	if(attribute.range === XSD_CODE_LIST){
-		return <MeasureAttributeCodeValue value={value} attribute={attribute} codesLists={codesLists}/>
+	if (attribute.range === XSD_CODE_LIST) {
+		return (
+			<MeasureAttributeCodeValue
+				value={value}
+				attribute={attribute}
+				codesLists={codesLists}
+			/>
+		);
 	}
-	return <React.Fragment>{ value }</React.Fragment>
-}
-export const MeasureAttribute = ({ attribute, value, attributes, codesLists }) => {
-	const attributeId = attributes.find(a => a.iri === attribute)?.id
+	return <React.Fragment>{value}</React.Fragment>;
+};
+export const MeasureAttribute = ({
+	attribute,
+	value,
+	attributes,
+	codesLists,
+}) => {
+	const attributeId = attributes.find((a) => a.iri === attribute)?.id;
 	const [fullAttribute, setFullAttribute] = useState();
 
 	useEffect(() => {
-		api.getMutualizedComponent(attributeId).then(body => setFullAttribute(body))
+		api
+			.getMutualizedComponent(attributeId)
+			.then((body) => setFullAttribute(body));
 	}, [attributeId]);
 
-	if(!fullAttribute){
+	if (!fullAttribute) {
 		return null;
 	}
 
-	return <React.Fragment>{fullAttribute?.labelLg1}: <MeasureAttributeValue value={value} attribute={fullAttribute} codesLists={codesLists}/></React.Fragment>
-}
+	return (
+		<React.Fragment>
+			{fullAttribute?.labelLg1}:{' '}
+			<MeasureAttributeValue
+				value={value}
+				attribute={fullAttribute}
+				codesLists={codesLists}
+			/>
+		</React.Fragment>
+	);
+};
 export const MeasureAttributes = ({ measure, attributes, codesLists }) => {
-	const measureAttributes = Object.keys(measure).filter(key => key.indexOf("attribute_") === 0).map(key => {
-		const index = key.substring(key.indexOf("_") + 1);
-		return [measure["attribute_" + index], measure["attributeValue_" + index]]
-	})
+	const measureAttributes = Object.keys(measure)
+		.filter((key) => key.indexOf('attribute_') === 0)
+		.map((key) => {
+			const index = key.substring(key.indexOf('_') + 1);
+			return [
+				measure['attribute_' + index],
+				measure['attributeValue_' + index],
+			];
+		});
 	return (
 		<ul>
-			{
-				measureAttributes.map(([ key, value ]) => <li key={key}><MeasureAttribute attribute={key} value={value} attributes={attributes} codesLists={codesLists}/></li>)
-			}
+			{measureAttributes.map(([key, value]) => (
+				<li key={key}>
+					<MeasureAttribute
+						attribute={key}
+						value={value}
+						attributes={attributes}
+						codesLists={codesLists}
+					/>
+				</li>
+			))}
 		</ul>
-	)
-}
+	);
+};
 
 export const ComponentDetailView = ({
 	component,
@@ -103,23 +132,30 @@ export const ComponentDetailView = ({
 	attributes,
 	langs: { lg1, lg2 },
 }) => {
-	useTitle(D.componentTitle, component?.labelLg1)
+	useTitle(D.componentTitle, component?.labelLg1);
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 	const [partialCodesLists, setPartialCodesLists] = useState([]);
 
 	useEffect(() => {
-		API.getCodelistsPartial().then(response => {
-			setPartialCodesLists(response)
-		})
-	}, [])
+		API.getCodelistsPartial().then((response) => {
+			setPartialCodesLists(response);
+		});
+	}, []);
 	const typeValue = typeUriToLabel(component.type);
 	const conceptValue = concepts.find(
 		(concept) => concept.id?.toString() === component.concept?.toString()
 	)?.label;
 
-	const fullCodeLists = [...codesLists, ...partialCodesLists.map(l => ({ id: l.uri, label: l.labelLg1, notation: l.id}))]
-	const codeListValue = fullCodeLists.find((codelist) =>
-		component.codeList?.toString() === codelist.id?.toString()
+	const fullCodeLists = [
+		...codesLists,
+		...partialCodesLists.map((l) => ({
+			id: l.uri,
+			label: l.labelLg1,
+			notation: l.id,
+		})),
+	];
+	const codeListValue = fullCodeLists.find(
+		(codelist) => component.codeList?.toString() === codelist.id?.toString()
 	)?.label;
 
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
@@ -134,21 +170,24 @@ export const ComponentDetailView = ({
 		setAttachments(getAllAttachment(structureComponents, { component }));
 	}, [structureComponents, component]);
 
-
 	const publish = () => {
-		publishComponent()
-	}
+		publishComponent();
+	};
 	return (
 		<React.Fragment>
-			<ActionToolbar>
-				<ReturnButton action={handleBack} col={col} />
-				{canBeDeleted(component) && (
-					<Auth.AuthGuard roles={[Auth.ADMIN]}><DeleteButton action={handleDelete} col={col} /></Auth.AuthGuard>
-				)}
-				<Auth.AuthGuard roles={[Auth.ADMIN]}><ValidationButton callback={publish} object={component} /></Auth.AuthGuard>
-				{updatable && <Auth.AuthGuard roles={[Auth.ADMIN]}><UpdateButton action={handleUpdate} col={col} /></Auth.AuthGuard>}
-			</ActionToolbar>
-            {serverSideError && <ErrorBloc error={serverSideError} D={MainDictionary}/>}
+			<ViewMenu
+				component={component}
+				handleBack={handleBack}
+				handleDelete={handleDelete}
+				handleUpdate={handleUpdate}
+				publish={publish}
+				updatable={updatable}
+				col={col}
+			></ViewMenu>
+
+			{serverSideError && (
+				<ErrorBloc error={serverSideError} D={MainDictionary} />
+			)}
 			<div className="row">
 				<Note
 					text={
@@ -156,18 +195,19 @@ export const ComponentDetailView = ({
 							<li>
 								{D1.idTitle} : {component.identifiant}
 							</li>
-							<CreationUpdateItems creation={component.created} update={component.modified} />
+							<CreationUpdateItems
+								creation={component.created}
+								update={component.modified}
+							/>
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
 								<PublicationMale object={component} />
 							</li>
 							<li>
-								{D.creator} :{' '}
-								{component.creator}
+								{D.creator} : {component.creator}
 							</li>
 							<li>
-								{D.contributor} :{' '}
-								{component.contributor}
+								{D.contributor} : {component.contributor}
 							</li>
 							<li>
 								{D.disseminationStatusTitle} :{' '}
@@ -214,21 +254,31 @@ export const ComponentDetailView = ({
 						<>
 							{XSD_TYPES.find((type) => type.value === component.range)?.label}
 							<ul>
-								{
-									component.pattern && <li>{D.formatTitle}: {component.pattern}</li>
-								}
-								{
-									component.minLength && <li>{D.minLength}: {component.minLength}</li>
-								}
-								{
-									component.maxLength && <li>{D.maxLength}: {component.maxLength}</li>
-								}
-								{
-									component.minInclusive && <li>{D.minInclusive}: {component.minInclusive}</li>
-								}
-								{
-									component.maxInclusive && <li>{D.maxInclusive}: {component.maxInclusive}</li>
-								}
+								{component.pattern && (
+									<li>
+										{D.formatTitle}: {component.pattern}
+									</li>
+								)}
+								{component.minLength && (
+									<li>
+										{D.minLength}: {component.minLength}
+									</li>
+								)}
+								{component.maxLength && (
+									<li>
+										{D.maxLength}: {component.maxLength}
+									</li>
+								)}
+								{component.minInclusive && (
+									<li>
+										{D.minInclusive}: {component.minInclusive}
+									</li>
+								)}
+								{component.maxInclusive && (
+									<li>
+										{D.maxInclusive}: {component.maxInclusive}
+									</li>
+								)}
 							</ul>
 						</>
 					}
@@ -273,14 +323,22 @@ export const ComponentDetailView = ({
 					/>
 				)}
 			</div>
-			{component.type === MEASURE_PROPERTY_TYPE && <Row>
-				<Note
-					text={<MeasureAttributes measure={component} attributes={attributes} codesLists={codesLists}/>}
-					title={D1.Attribute}
-					alone={true}
-					allowEmpty={true}
-				/>
-			</Row>}
+			{component.type === MEASURE_PROPERTY_TYPE && (
+				<Row>
+					<Note
+						text={
+							<MeasureAttributes
+								measure={component}
+								attributes={attributes}
+								codesLists={codesLists}
+							/>
+						}
+						title={D1.Attribute}
+						alone={true}
+						allowEmpty={true}
+					/>
+				</Row>
+			)}
 			{mutualized && component.structures?.length > 0 && (
 				<div className="row">
 					<Note
@@ -339,9 +397,15 @@ export const ComponentDetailView = ({
 					</div>
 				</React.Fragment>
 			)}
-			<CodesListPanel codesList={fullCodeLists.find((c) =>
-				(component.codeList?.id || component.codeList)?.toString() === c.id?.toString()
-			)} isOpen={codesListPanelOpened} handleBack={() => setCodesListPanelOpened(false)}/>
+			<CodesListPanel
+				codesList={fullCodeLists.find(
+					(c) =>
+						(component.codeList?.id || component.codeList)?.toString() ===
+						c.id?.toString()
+				)}
+				isOpen={codesListPanelOpened}
+				handleBack={() => setCodesListPanelOpened(false)}
+			/>
 		</React.Fragment>
 	);
 };
@@ -354,7 +418,7 @@ ComponentDetailView.propTypes = {
 	handleBack: PropTypes.func,
 	updatable: PropTypes.bool,
 	structureComponents: PropTypes.array,
-	secondLang: PropTypes.bool
+	secondLang: PropTypes.bool,
 };
 
 ComponentDetailView.defaultProps = {

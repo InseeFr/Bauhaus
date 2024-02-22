@@ -7,13 +7,13 @@ export const mapStateToProps = (state) => {
 	return {
 		userRoles: getPermission(state).roles,
 		userStamp: UsersAction.getStamp(state),
-		isLoading: UsersAction.isLoading(state)
+		isLoading: UsersAction.isLoading(state),
 	};
 };
 
 const mapDispatchToProps = {
-	loadUserStamp: UsersAction.loadUserStamp
-}
+	loadUserStamp: UsersAction.loadUserStamp,
+};
 /**
  * <AuthDumb
  * 	roles: ['ADMIN', ['CONTRIBUTOR', stamp => isUserStampValid()]]>
@@ -28,19 +28,19 @@ export function AuthDumb({
 	fallback = null,
 	complementaryCheck = true,
 	loadUserStamp,
-	isLoading
+	isLoading,
 }) {
 	useEffect(() => {
-		if(userStamp === undefined && !isLoading){
+		if (userStamp === undefined && !isLoading) {
 			loadUserStamp(userStamp);
 		}
-	}, [userStamp, isLoading, loadUserStamp])
+	}, [userStamp, isLoading, loadUserStamp]);
 	const isAuthorized = !!roles.find((role) => {
-		if(Array.isArray(role)){
-			const [r, check] = role
+		if (Array.isArray(role)) {
+			const [r, check] = role;
 			return userRoles.includes(r) && check(userStamp);
 		}
-		return userRoles.includes(role)
+		return userRoles.includes(role);
 	});
 	if (!isAuthorized || !complementaryCheck) {
 		return fallback;

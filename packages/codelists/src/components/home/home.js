@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {
-	NewButton,
-	PageTitle,
-	VerticalMenu,
-	Loading,
-} from '@inseefr/wilco';
+import { PageTitle, Loading } from '@inseefr/wilco';
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import { useTitle, SearchableList, Auth } from 'bauhaus-utilities';
+import { useTitle, SearchableList } from 'bauhaus-utilities';
+import { HomePageMenu } from './menu';
 
 function CodeListsList() {
-	useTitle(D.codelistsTitle, D.codelistsTitle)
+	useTitle(D.codelistsTitle, D.codelistsTitle);
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -29,11 +25,7 @@ function CodeListsList() {
 	return (
 		<div className="container codelists-list">
 			<div className="row">
-				<VerticalMenu>
-					<Auth.AuthGuard roles={[Auth.ADMIN]}>
-						<NewButton action="/codelists/create" wrapper={false} />
-					</Auth.AuthGuard>
-				</VerticalMenu>
+				<HomePageMenu></HomePageMenu>
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.codelistTitle} col={12} offset={0} />
 					<SearchableList
