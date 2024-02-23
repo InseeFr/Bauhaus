@@ -3,6 +3,7 @@ import { API } from 'bauhaus-utilities';
 const api = {
 	getAll: () => [''],
 	getById: (id) => [id],
+	getDatasets: () => ['datasets'],
 	putDistribution: (distribution) => [
 		distribution.id,
 		{

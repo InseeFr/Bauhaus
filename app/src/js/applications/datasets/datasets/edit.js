@@ -2,7 +2,7 @@ import D, { D1, D2 } from '../../../i18n/build-dictionary';
 import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import api from '../../../remote-api/datasets/datasets-api';
+import api from '../api/datasets-api';
 import operationSeries from '../../../remote-api/operations-api';
 import './edit.scss';
 

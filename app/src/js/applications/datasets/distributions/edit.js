@@ -17,11 +17,11 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '../../../remote-api/datasets/distributions-api';
+import api from '../api/distributions-api';
 import { D1, D2 } from '../../../i18n';
 import { default as ReactSelect } from 'react-select';
 import D from '../../../i18n/build-dictionary';
-import { useDatasets, useDistribution } from '../hooks';
+import { useDatasetsForDistributions, useDistribution } from '../hooks';
 import { validate } from './validation';
 
 export const DistributionEdit = (props) => {
@@ -33,7 +33,7 @@ export const DistributionEdit = (props) => {
 	const [submitting, setSubmitting] = useState(false);
 
 	const { data: distribution, status } = useDistribution(id);
-	const { data: datasets } = useDatasets();
+	const { data: datasets } = useDatasetsForDistributions();
 
 	useEffect(() => {
 		if (status === 'success') {

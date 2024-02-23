@@ -1,12 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
-import datasetApi from '../../remote-api/datasets/datasets-api';
+import datasetApi from './api/datasets-api';
 import operationApi from '../../remote-api/operations-api';
-import distributionApi from '../../remote-api/datasets/distributions-api';
+import distributionApi from './api/distributions-api';
 
 export const useDatasets = () => {
 	return useQuery({
 		queryFn: () => datasetApi.getAll(),
 		queryKey: ['datasets'],
+	});
+};
+
+export const useDatasetsForDistributions = () => {
+	return useQuery({
+		queryFn: () => distributionApi.getDatasets(),
+		queryKey: ['datasets-distributions'],
 	});
 };
 
