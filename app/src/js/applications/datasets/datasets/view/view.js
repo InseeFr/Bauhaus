@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { DSURLToLabel, Loading, Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
-import api from '../../../../remote-api/datasets/datasets-api';
+import api from '../../api/datasets-api';
 import { StructureAPI } from 'bauhaus-structures';
 import { useQuery } from '@tanstack/react-query';
 import { useThemes } from '../useThemes';
