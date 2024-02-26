@@ -49,7 +49,7 @@ const OperationsIndicatorsEditionContainer = (props) => {
 			organisations={organisations}
 			frequencies={frequencies}
 			indicator={indicator}
-      goBack={goBack}
+      		goBack={goBack}
 			{...props}
 		/>
 	);
