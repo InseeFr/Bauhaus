@@ -173,7 +173,6 @@ class OperationsIndicatorEdition extends Component {
 					/>
 				)}
 				<Control
-					indicator={this.state.indicator}
 					onSubmit={this.onSubmit}
 					disabled={this.state.clientSideErrors.errorMessage?.length > 0}
 				/>

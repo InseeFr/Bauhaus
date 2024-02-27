@@ -1,15 +1,14 @@
 import React from 'react';
 import { ActionToolbar, CancelButton, SaveButton } from '@inseefr/wilco';
+import { useGoBack } from 'js/hooks/hooks';
 
-function Control({ onSubmit, indicator, disabled }) {
+function Control({ onSubmit, disabled }) {
+	const goBack = useGoBack();
+	
 	return (
 		<ActionToolbar>
 			<CancelButton
-				action={
-					indicator.id
-						? `/operations/indicator/${indicator.id}`
-						: `/operations/indicators`
-				}
+				action={() => goBack('/operations/indicators')}
 			/>
 
 			<SaveButton action={onSubmit} disabled={disabled} />

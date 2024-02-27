@@ -46,14 +46,14 @@ export const withCodesLists = (notations) => {
 };
 
 export function useGoBack() {
-    const history = useHistory();
+	const history = useHistory();
 
-    return function(redirectUrl, shouldReplace = false) {
-        if (shouldReplace) {
-            return history.replace(redirectUrl);
-        }
-        return history.length === 1 || history.location.state
-		? history.push(redirectUrl)
-		: history.goBack();
-    };
-};
+	return function (redirectUrl, shouldReplace = false) {
+		if (shouldReplace) {
+			return history.replace(redirectUrl);
+		}
+		return history.length === 1 || history.location.state
+			? history.push(redirectUrl)
+			: history.goBack();
+	};
+}
