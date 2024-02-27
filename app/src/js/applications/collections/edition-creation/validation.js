@@ -23,7 +23,10 @@ export const validate = (
 	if (
 		id !== initialId &&
 		ArrayUtils.arrayKeepUniqueField(collectionList, 'id').indexOf(
-			deburr(id.toLowerCase())
+			id
+				.toLowerCase()
+				.normalize('NFD')
+				.replace(/\p{Diacritic}/gu, '')
 		) !== -1
 	) {
 		message = D.duplicatedId;
