@@ -7,48 +7,40 @@ describe('validation', function () {
 				{
 					id: 'id',
 					prefLabelLg1: 'prefLabelLg1',
-					creator: '',
 				},
 				[],
 				'id',
 				'prefLabelLg1'
 			)
-		).toEqual({
-			message:
-				'Remplissez les champs requis pour pouvoir sauvegarder cette collection',
-		});
+		).toEqual('Complete required fields in order to save this collection');
 	});
 	it('message should say duplicated id', function () {
 		expect(
 			validate(
 				{
-					id: 'éxèmplê',
+					id: 'éXèmplê',
 					prefLabelLg1: 'prefLabelLg1',
 					creator: 'creator',
 				},
-				['exemple'],
+				[{ id: 'exemple' }],
 				'id',
 				'prefLabelLg1'
 			)
-		).toEqual({
-			message: "L'identifiant choisi existe déjà",
-		});
+		).toEqual('This identifier already exists');
 	});
 	it('message should say duplicated label', function () {
 		expect(
 			validate(
 				{
 					id: 'id',
-					prefLabelLg1: 'éxèmplê',
+					prefLabelLg1: 'éXèmplê',
 					creator: 'creator',
 				},
-				['exemple'],
+				[{ label: 'exemple' }],
 				'id',
 				'prefLabelLg1'
 			)
-		).toEqual({
-			message: 'Le libellé choisi existe déjà',
-		});
+		).toEqual('This label already exists');
 	});
 	it('message should be empty', function () {
 		expect(
@@ -62,8 +54,6 @@ describe('validation', function () {
 				'id',
 				'prefLabelLg1'
 			)
-		).toEqual({
-			message: '',
-		});
+		).toEqual('');
 	});
 });
