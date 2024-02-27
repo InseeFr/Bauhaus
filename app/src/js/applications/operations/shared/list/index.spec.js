@@ -9,7 +9,7 @@ import { MasculineButton } from 'bauhaus-utilities';
 
 const createStore = (roles = []) => {
 	const mockStore = configureStore([]);
-	mockStore({
+	return mockStore({
 		users: { results: { stamp: 'stamp' } },
 		app: { auth: { user: { roles } } },
 	});
