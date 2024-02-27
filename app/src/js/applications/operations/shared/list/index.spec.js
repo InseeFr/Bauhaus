@@ -5,18 +5,24 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { MasculineButton } from 'bauhaus-utilities';
 
-const mockStore = configureStore([]);
-
+const createStore = (roles = []) => {
+	const mockStore = configureStore([]);
+	mockStore({
+		users: { results: { stamp: 'stamp' } },
+		app: { auth: { user: { roles } } },
+	});
+};
 describe('Operation Home', () => {
 	it('should display the PageTitle component', () => {
-		const store = mockStore({ users: { results: { stamp: 'stamp' }}, app: { auth: { user: { roles: [] } } } });
+		const store = createStore();
 
 		const { container } = render(
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
-					createURL=""
+					createButton={<MasculineButton action={''}></MasculineButton>}
 					searchURL=""
 					childPath=""
 					roles={[]}
@@ -28,13 +34,13 @@ describe('Operation Home', () => {
 		expect(container.querySelectorAll('h1')).toHaveLength(1);
 	});
 	it('should display the SearchableList component', () => {
-		const store = mockStore({ users: { results: { stamp: 'stamp' }}, app: { auth: { user: { roles: [] } } } });
+		const store = createStore();
 
 		const { container } = render(
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
-					createURL=""
+					createButton={<MasculineButton action={''}></MasculineButton>}
 					searchURL=""
 					childPath=""
 					roles={[]}
@@ -46,13 +52,13 @@ describe('Operation Home', () => {
 	});
 
 	it('should always display the Tree button', async () => {
-		const store = mockStore({ users: { results: { stamp: 'stamp' }}, app: { auth: { user: { roles: [] } } } });
+		const store = createStore();
 
 		render(
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
-					createURL=""
+					createButton={<MasculineButton action={''}></MasculineButton>}
 					searchURL=""
 					childPath=""
 					roles={[]}
@@ -60,41 +66,41 @@ describe('Operation Home', () => {
 			</Provider>,
 			{ wrapper: MemoryRouter }
 		);
-		await screen.findByText("View tree")
+		await screen.findByText('View tree');
 	});
 	it('should display the New button if the user has the right role', async () => {
-		const store = mockStore({ users: { results: { stamp: 'stamp' }}, app: { auth: { user: { roles: ["role"] } } } });
+		const store = createStore(['role']);
 
 		render(
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
-					createURL=""
+					createButton={<MasculineButton action={''}></MasculineButton>}
 					searchURL=""
 					childPath=""
-					roles={["role"]}
+					roles={['role']}
 				/>
 			</Provider>,
 			{ wrapper: MemoryRouter }
 		);
-		await screen.findByText("New");
+		await screen.findByText('New');
 	});
 	it('should not display the New button if the user does not have the right role', () => {
-		const store = mockStore({ users: { results: { stamp: 'stamp' }}, app: { auth: { user: { roles: ["role"] } } } });
+		const store = createStore(['role']);
 
 		const { queryByText } = render(
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
-					createURL=""
+					createButton={<MasculineButton action={''}></MasculineButton>}
 					searchURL=""
 					childPath=""
-					roles={["role1"]}
+					roles={['role1']}
 				/>
 			</Provider>,
 			{ wrapper: MemoryRouter }
 		);
 		// eslint-disable-next-line
-		expect(queryByText("New")).toBeNull();
+		expect(queryByText('New')).toBeNull();
 	});
 });

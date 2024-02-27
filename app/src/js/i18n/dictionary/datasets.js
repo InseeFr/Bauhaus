@@ -1,8 +1,14 @@
 const dictionary = {
-	datasetsTitle: { fr: 'Jeux de Données', en: 'Dataset' },
-	distributionsTitle: { fr: 'Distributions', en: 'Distributions' },
-	datasetsHomePageTitle: { fr: 'Jeux de Données - Recherche', en: 'Dataset - Search' },
-	distributionsHomePageTitle: { fr: 'Distributions - Recherche', en: 'Distributions - Search' },
+	datasetsTitle: { fr: 'Jeu de Données', en: 'Dataset' },
+	distributionsTitle: { fr: 'Distribution', en: 'Distributions' },
+	datasetsHomePageTitle: {
+		fr: 'Jeux de Données - Recherche',
+		en: 'Dataset - Search',
+	},
+	distributionsHomePageTitle: {
+		fr: 'Distributions - Recherche',
+		en: 'Distributions - Search',
+	},
 	formatTitle: { fr: 'Format', en: 'Format' },
 	tailleTitle: { fr: 'Taille', en: 'Size' },
 	downloadUrlTitle: { fr: 'URL de téléchargement', en: 'Download URL' },
