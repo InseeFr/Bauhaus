@@ -23,6 +23,22 @@ yarn build-insee
 yarn start
 ```
 
+You can run all tests suites for all modules with this command. You need to run at least once `yarn build-insee`.
+
+```shell
+yarn test:coverage
+```
+
+Or if you want to run tests for a specific module, you can run one of the following commands. These commands will activate the `watch` mode, and you will be able to selecta a subset of tests you want to run.
+
+```shell
+yarn workspace Bauhaus run test --watchAll   
+yarn workspace bauhaus-codelists run test --watchAll
+yarn workspace bauhaus-operations run test --watchAll 
+yarn workspace bauhaus-structures run test --watchAll 
+yarn workspace bauhaus-utilities run test --watchAll 
+```
+
 ## Docker
 
 You can also run the application thanks to **Docker**
