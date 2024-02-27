@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import D from 'js/i18n';
-import { Auth, useTitle } from 'bauhaus-utilities';
+import { Auth, useTitle, FeminineButton } from 'bauhaus-utilities';
 import OperationsObjectHome from 'js/applications/operations/shared/list';
 
 function OperationsHome({ operations }) {
@@ -13,8 +13,8 @@ function OperationsHome({ operations }) {
 			roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}
 			title={D.operationsSearchTitle}
 			childPath="operations/operation"
-			createURL="/operations/operation/create"
 			advancedSearch={false}
+			createButton={<FeminineButton action="/operations/operation/create" />}
 		/>
 	);
 }

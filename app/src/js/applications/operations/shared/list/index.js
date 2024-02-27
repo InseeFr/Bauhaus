@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-	NewButton,
 	PageTitle,
 	Button,
 	VerticalMenu,
@@ -14,15 +13,15 @@ function OperationsObjectHome({
 	title,
 	childPath,
 	searchURL,
-	createURL,
 	advancedSearch = true,
+	createButton
 }) {
 	return (
 		<div className="container">
 			<div className="row">
 					<VerticalMenu>
 						<Auth.AuthGuard roles={roles}>
-							<NewButton action={createURL} wrapper={false} />
+							{ createButton }
 						</Auth.AuthGuard>
 						<Button wrapper={false} action="/operations/tree">
 							{D.btnTree}

@@ -33,6 +33,7 @@ export * from './components/advanced-search/home-container';
 export { default as AdvancedSearchList } from './components/advanced-search/home';
 export * as ItemToSelectModel from './utils/item-to-select-model';
 export { default as ValidationButton } from './components/validationButton';
+export { FeminineButton, MasculineButton } from './components/newButton';
 export { default as FilterToggleButtons } from './components/filter-toggle-buttons';
 export { default as SearchableList } from './components/searchable-list';
 export {

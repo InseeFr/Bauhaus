@@ -7,14 +7,6 @@ export default {
 		fr: 'Retour à la version courante',
 		en: 'Back to current version',
 	},
-	btnNewMale: {
-		fr: 'Nouveau',
-		en: 'New',
-	},
-	btnNewFemale: {
-		fr: 'Nouvelle',
-		en: 'New',
-	},
 	btnUpdate: {
 		fr: 'Modifier',
 		en: 'Update',

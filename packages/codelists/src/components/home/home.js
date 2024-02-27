@@ -27,7 +27,7 @@ function CodeListsList() {
 			<div className="row">
 				<HomePageMenu />
 				<div className="col-md-8 text-center pull-right">
-					<PageTitle title={D.codelistTitle} col={12} offset={0} />
+					<PageTitle title={D.codelistHomePageTitle} col={12} offset={0} />
 					<SearchableList
 						items={items}
 						childPath="codelists"

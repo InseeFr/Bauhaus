@@ -1,4 +1,8 @@
 const dictionary = {
+	btnNewLink: {
+		fr: 'Nouveau lien',
+		en: 'New link',
+	},
 	conceptsTitle: {
 		fr: 'Concepts',
 		en: 'Concepts',
@@ -129,8 +133,7 @@ const dictionary = {
 		en: 'Complete required fields in order to save this concept',
 	},
 	incompleteCollection: {
-		fr:
-			'Remplissez les champs requis pour pouvoir sauvegarder cette collection',
+		fr: 'Remplissez les champs requis pour pouvoir sauvegarder cette collection',
 		en: 'Complete required fields in order to save this collection',
 	},
 	emptyDefinitionLg1: {
@@ -138,14 +141,11 @@ const dictionary = {
 		en: 'The concept must have a definition',
 	},
 	emptyScopeNoteLg1: {
-		fr:
-			'Le statut de diffusion étant public, la définition courte française doit être renseignée',
-		en:
-			'As dissemination status is public, short definition has to be completed',
+		fr: 'Le statut de diffusion étant public, la définition courte française doit être renseignée',
+		en: 'As dissemination status is public, short definition has to be completed',
 	},
 	hasScopeNoteLg2NotLg1: {
-		fr:
-			'La définition courte ne peut être renseignée que dans la seconde langue',
+		fr: 'La définition courte ne peut être renseignée que dans la seconde langue',
 		en: 'The short definition can only be completed in the second language',
 	},
 	hasEditorialNoteLg2NotLg1: {
@@ -153,8 +153,7 @@ const dictionary = {
 		en: 'The editorial note can only be completed in the second language',
 	},
 	hasChangeNoteLg2NotLg1: {
-		fr:
-			'La note de changement ne peut être renseignée que dans la seconde langue',
+		fr: 'La note de changement ne peut être renseignée que dans la seconde langue',
 		en: 'The change note can only be completed in the second language',
 	},
 	tooLongScopeNote: {

@@ -14,6 +14,4 @@ function SeriesHomeContainer() {
 	return <SeriesHome series={series} />;
 }
 
-//operationsSeriesList
-
 export default SeriesHomeContainer

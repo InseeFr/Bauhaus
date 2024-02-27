@@ -2,14 +2,13 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
-	NewButton,
 	VerticalMenu,
 	filterKeyDeburr,
 	nbResults,
 } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
-import { Auth, FilterToggleButtons, useTitle, Pagination } from 'bauhaus-utilities';
+import { Auth, FilterToggleButtons, useTitle, Pagination, MasculineButton } from 'bauhaus-utilities';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
 const sessionStorageKey = 'documents-displayMode';
@@ -130,11 +129,11 @@ function DocumentHome({ documents }) {
 							['/operations/document/create', D.document],
 							['/operations/link/create', D.link],
 						].map(([url, title], index) => (
-							<NewButton
+							<MasculineButton
 								key={index}
 								action={url}
 								wrapper={false}
-								label={`${D.btnNewMale} ${title}`}
+								suffix={title}
 							/>
 						))}
 					</VerticalMenu>

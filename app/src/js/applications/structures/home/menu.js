@@ -1,8 +1,7 @@
-import { Auth } from 'bauhaus-utilities';
+import { Auth, FeminineButton } from 'bauhaus-utilities';
 import {
 	ExportButton,
 	ImportButton,
-	NewButton,
 	VerticalMenu,
 } from '@inseefr/wilco';
 import D from '../../../i18n/build-dictionary';
@@ -15,12 +14,8 @@ export const HomePageMenu = () => {
 	return (
 		<VerticalMenu>
 			<Auth.AuthGuard roles={[Auth.ADMIN, Auth.STRUCTURE_CONTRIBUTOR]}>
-				<NewButton
-					label={D.btnNewFemale}
+				<FeminineButton
 					action="/structures/create"
-					col={8}
-					offset={2}
-					wrapper={false}
 				/>
 			</Auth.AuthGuard>
 			{isLocal && (

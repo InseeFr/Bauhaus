@@ -1,17 +1,12 @@
-import { Auth } from 'bauhaus-utilities';
-import { NewButton, VerticalMenu } from '@inseefr/wilco';
-import D from 'js/i18n/build-dictionary';
+import { Auth, MasculineButton } from 'bauhaus-utilities';
+import { VerticalMenu } from '@inseefr/wilco';
 
 export const HomePageMenu = () => {
 	return (
 		<VerticalMenu>
 			<Auth.AuthGuard roles={[Auth.ADMIN, Auth.DATASET_CONTRIBUTOR]}>
-				<NewButton
-					label={D.btnNewFemale}
+				<MasculineButton
 					action="/datasets/create"
-					col={8}
-					offset={2}
-					wrapper={false}
 				/>
 			</Auth.AuthGuard>
 		</VerticalMenu>

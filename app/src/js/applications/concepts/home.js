@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
 	PageTitle,
-	NewButton,
 	PublishButton,
 	ExportButton,
 	VerticalMenu,
@@ -10,7 +9,7 @@ import {
 import check from 'js/utils/auth';
 import D from 'js/i18n';
 import { useSelector } from 'react-redux';
-import { ArrayUtils, Auth, SearchableList } from 'bauhaus-utilities';
+import { ArrayUtils, Auth, SearchableList, MasculineButton } from 'bauhaus-utilities';
 import api from '../../remote-api/concepts-api';
 
 const ConceptsHome = () => {
@@ -36,14 +35,15 @@ const ConceptsHome = () => {
 			<div className="row">
 				<VerticalMenu>
 					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}>
-						<NewButton action="/concept/create" col={8} offset={2} />
+						<MasculineButton action="/concept/create"/>
 					</Auth.AuthGuard>
-					<ExportButton action="/concepts/export" col={8} offset={2} />
+					<ExportButton action="/concepts/export" wrapper={false}/>
 					{adminOrCreator && (
 						<PublishButton
 							action="/concepts/validation"
 							col={8}
 							offset={2}
+							wrapper={false}
 						/>
 					)}
 				</VerticalMenu>
