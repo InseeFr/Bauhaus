@@ -5,8 +5,8 @@ export default {
 		en: 'Create a new structure',
 	},
 	dsdsSearchTitle: {
-		fr: 'Data structure definition - Recherche',
-		en: 'Data structure definition - Search',
+		fr: 'Structures - Recherche',
+		en: 'Structures - Search',
 	},
 	initApp: {
 		fr: "Initialisation de l'application ...",

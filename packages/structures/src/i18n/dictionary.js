@@ -56,6 +56,10 @@ const dictionary = {
 		fr: 'Composants',
 		en: 'Components',
 	},
+	componentHomePageTitle: {
+		fr: 'Composants - Recherche',
+		en: 'Components - Search',
+	},
 	addComponentTitle: {
 		fr: 'Ajouter un composant',
 		en: 'Add a component',

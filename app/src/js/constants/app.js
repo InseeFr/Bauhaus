@@ -1,11 +1,5 @@
-// TEMP roles
-export const NOT_AUTH = 'NONE';
-export const GESTIONNAIRE = 'GESTIONNAIRE';
-export const PRODUCTEUR = 'PRODUCTEUR';
-
 export const LOADING = 'LOADING';
 export const LOADED = 'LOADED';
-export const PARTIAL_LOADED = 'PARTIAL_LOADED';
 export const ERROR = 'ERROR';
 
 export const NOT_LOADED = 'NOT_LOADED';
@@ -17,9 +11,6 @@ export const KO = 'KO';
 
 export const VERSIONING = 'VERSIONING';
 export const NO_VERSIONING = 'NO_VERSIONING';
-
-export const EXPORT_CONCEPTS = 'EXPORT_CONCEPTS';
-export const VALIDATE_CONCEPTS = 'VALIDATE_CONCEPTS';
 
 //type of link (the value is recognized by the server)
 export const BROADER = 'broader';

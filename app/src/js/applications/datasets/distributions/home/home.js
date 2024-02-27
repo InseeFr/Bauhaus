@@ -13,7 +13,7 @@ export const DistributionHome = () => {
 			<Row>
 				<HomePageMenu />
 				<div className="col-md-8 text-center pull-right">
-					<PageTitle title={D.distributionsTitle} col={12} offset={0} />
+					<PageTitle title={D.distributionsHomePageTitle} col={12} offset={0} />
 					<SearchableList
 						items={data ?? []}
 						childPath="datasets/distributions"

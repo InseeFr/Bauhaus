@@ -13,7 +13,7 @@ export const DatasetHome = () => {
 			<Row>
 				<HomePageMenu />
 				<div className="col-md-8 text-center pull-right">
-					<PageTitle title={D.datasetsTitle} col={12} offset={0} />
+					<PageTitle title={D.datasetsHomePageTitle} col={12} offset={0} />
 					<SearchableList
 						items={data ?? []}
 						childPath="datasets"

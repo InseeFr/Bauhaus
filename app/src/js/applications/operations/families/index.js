@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import api from '../../../remote-api/operations-api';
-import { ArrayUtils, Auth, useTitle } from 'bauhaus-utilities';
+import { ArrayUtils, Auth, FeminineButton, useTitle } from 'bauhaus-utilities';
 import D from '../../../i18n/build-dictionary';
 import OperationsObjectHome from '../shared/list';
 
@@ -25,7 +25,7 @@ export const FamiliesHomeContainer = () => {
 			title={D.familiesSearchTitle}
 			childPath="operations/family"
 			searchURL="/operations/families/search"
-			createURL="/operations/family/create"
+			createButton={<FeminineButton action="/operations/family/create" />}
 		/>
 	);
 }

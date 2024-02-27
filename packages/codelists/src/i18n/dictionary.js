@@ -1,6 +1,7 @@
 const dictionary = {
 	advancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
 	codelistsTitle: { fr: 'Listes de codes', en: 'Code lists' },
+	codelistHomePageTitle: { fr: 'Listes de codes - Recherche', en: 'Code lists - Search' },
 	codelistsPartialTitle: {
 		fr: 'Listes de codes partielles',
 		en: 'Partial codelists',
@@ -220,10 +221,6 @@ const dictionary = {
 	btnDelete: {
 		fr: 'Supprimer',
 		en: 'Delete',
-	},
-	btnNew: {
-		fr: 'Nouveau',
-		en: 'New',
 	},
 	btnSave: {
 		fr: 'Sauvegarder',

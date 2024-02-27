@@ -62,7 +62,7 @@ function ComponentsList() {
 			<div className="row">
 				<HomePageMenu filter={filter} />
 				<div className="col-md-8 text-center pull-right">
-					<PageTitle title={D.componentTitle} col={12} offset={0} />
+					<PageTitle title={D.componentHomePageTitle} col={12} offset={0} />
 					<FilterToggleButtons
 						currentValue={filter}
 						handleSelection={onFilter}

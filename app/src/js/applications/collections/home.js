@@ -10,7 +10,7 @@ import check from 'js/utils/auth';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
 import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
-import { SearchableList} from 'bauhaus-utilities';
+import { SearchableList, FeminineButton} from 'bauhaus-utilities';
 
 const CollectionsHome = ({
 			 collections,
@@ -25,22 +25,9 @@ const CollectionsHome = ({
 			<div className="row">
 				<VerticalMenu>
 					{adminOrContributor && (
-						<Button
-							label={
-								<React.Fragment>
-										<span
-											className="glyphicon glyphicon-plus"
-											aria-hidden="true"
-										/>
-									<span> {D.btnNewFemale}</span>
-								</React.Fragment>
-							}
-							action="/collection/create"
-							col={8}
-							offset={2}
-						/>
+						<FeminineButton action="/collection/create" />
 					)}
-					<ExportButton action="/collections/export" col={8} offset={2} />
+					<ExportButton action="/collections/export" wrapper={false} />
 					{adminOrCreator && (
 						<Button
 							label={
@@ -53,8 +40,7 @@ const CollectionsHome = ({
 								</React.Fragment>
 							}
 							action="/collections/validation"
-							col={8}
-							offset={2}
+							wrapper={false}
 						/>
 					)}
 				</VerticalMenu>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-	NewButton,
 	PageTitle,
 	VerticalMenu,
 	Loading,
@@ -8,7 +7,7 @@ import {
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import { useTitle, SearchableList, Auth } from 'bauhaus-utilities';
+import { useTitle, SearchableList, Auth, FeminineButton } from 'bauhaus-utilities';
 
 function CodeListsPartialHome() {
 	useTitle(D.codelistsPartialTitle, D.codelistsPartialTitle);
@@ -31,11 +30,11 @@ function CodeListsPartialHome() {
 			<div className="row">
 				<VerticalMenu>
 					<Auth.AuthGuard roles={[Auth.ADMIN]}>
-						<NewButton action="/codelists-partial/create" wrapper={false} />
+						<FeminineButton action="/codelists-partial/create" />
 					</Auth.AuthGuard>
 				</VerticalMenu>
 				<div className="col-md-8 text-center pull-right">
-					<PageTitle title={D.codelistTitle} col={12} offset={0} />
+					<PageTitle title={D.codelistHomePageTitle} col={12} offset={0} />
 					<SearchableList
 						items={items}
 						childPath="codelists-partial"

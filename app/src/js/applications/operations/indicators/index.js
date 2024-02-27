@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	PageTitle,
-	NewButton,
 	VerticalMenu, Loading,
 } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { Auth, useTitle, SearchableList, ArrayUtils } from 'bauhaus-utilities';
+import { Auth, useTitle, SearchableList, ArrayUtils, MasculineButton } from 'bauhaus-utilities';
 import api from '../../../remote-api/operations-api';
 
 
@@ -26,7 +25,7 @@ function IndicatorsHome() {
 			<div className="row">
 				<Auth.AuthGuard roles={[Auth.ADMIN]}>
 					<VerticalMenu>
-						<NewButton action="/operations/indicator/create" wrapper={false} />
+						<MasculineButton action="/operations/indicator/create" />
 					</VerticalMenu>
 				</Auth.AuthGuard>
 				<div className="col-md-8 text-center pull-right operations-list">
