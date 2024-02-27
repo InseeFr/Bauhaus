@@ -54,6 +54,6 @@ describe('validation', function () {
 				'id',
 				'prefLabelLg1'
 			)
-		).toEqual('');
+		).toEqual();
 	});
 });
