@@ -91,7 +91,7 @@ const DumbCodelistPartialDetailEdit = ({
 			setParentCodes([]);
 		}
 
-	}, [initialCodelist, isContributor, stamp, handleParentCode()]);
+	}, [initialCodelist, isContributor, stamp, handleParentCode]);
 
 
 	const handleChange = useCallback(

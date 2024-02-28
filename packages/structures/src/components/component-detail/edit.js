@@ -219,7 +219,7 @@ const DumbComponentDetailEdit = ({
 
 	useEffect(() => {
 		if (!component.type && type) {
-			setComponent({ ...defaultComponent, ...initialComponent, type });
+			setComponent({ ...initialComponent, type });
 		}
 	}, [type, component, initialComponent]);
 
