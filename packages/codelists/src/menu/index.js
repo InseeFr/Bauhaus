@@ -36,7 +36,7 @@ const MenuCodelists = ({ location }) => {
 	}
 
 	const currentPath = paths.find((path) => {
-		return location.pathname.includes(path.pathKey);
+		return location.pathname === '/' + path.pathKey;
 	});
 	if (currentPath) {
 		currentPath.className = 'active';

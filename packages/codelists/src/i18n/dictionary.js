@@ -1,10 +1,23 @@
 const dictionary = {
-	advancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
-	codelistsTitle: { fr: 'Listes de codes', en: 'Code lists' },
-	codelistHomePageTitle: { fr: 'Listes de codes - Recherche', en: 'Code lists - Search' },
+	advancedSearch: {
+		fr: 'Recherche Avancée',
+		en: 'Advanced Search',
+	},
+	codelistsTitle: {
+		fr: 'Listes de codes',
+		en: 'Code lists',
+	},
+	codelistHomePageTitle: {
+		fr: 'Listes de codes - Recherche',
+		en: 'Code lists - Search',
+	},
 	codelistsPartialTitle: {
 		fr: 'Listes de codes partielles',
 		en: 'Partial codelists',
+	},
+	codelistPartialHomePageTitle: {
+		fr: 'Listes de codes partielles - Recherche',
+		en: 'Partial code lists - Search',
 	},
 	codelistsCreateTitle: {
 		fr: 'Créer une liste de code',
@@ -236,18 +249,22 @@ const dictionary = {
 	},
 	//TODO find a solution in order to avoid this duplicated key
 	mandatoryProperty: {
-		fr: propertyName => `La propriété <strong>${propertyName}</strong> est obligatoire.`,
-		en: propertyName => `The property <strong>${propertyName}</strong> is required.`
+		fr: (propertyName) =>
+			`La propriété <strong>${propertyName}</strong> est obligatoire.`,
+		en: (propertyName) =>
+			`The property <strong>${propertyName}</strong> is required.`,
 	},
 	validCharactersProperty: {
-		fr: propertyName => `La propriété <strong>${propertyName}</strong> possède des caractères invalid.`,
-		en: propertyName => `The property <strong>${propertyName}</strong> has invalid characters.`
+		fr: (propertyName) =>
+			`La propriété <strong>${propertyName}</strong> possède des caractères invalid.`,
+		en: (propertyName) =>
+			`The property <strong>${propertyName}</strong> has invalid characters.`,
 	},
 	errors: {
 		GlobalClientSideErrorBloc: {
 			fr: 'Vous avez des erreurs dans ce formulaire.',
-			en: 'You have errors in this form.'
+			en: 'You have errors in this form.',
 		},
-	}
+	},
 };
 export default dictionary;

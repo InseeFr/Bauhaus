@@ -6,7 +6,9 @@ import {
 	ArrayUtils,
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
-	Stores, useTitle, useUrlQueryParameters,
+	Stores,
+	useTitle,
+	useUrlQueryParameters,
 } from 'bauhaus-utilities';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
@@ -46,19 +48,13 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 	constructor(props) {
 		super(props, {
 			...defaultState,
-			...props.search
+			...props.search,
 		});
 	}
 
 	handlers = this.handleChange(fields, (newState) => {
-		const {
-			id,
-			labelLg1,
-			creator,
-			validationState,
-			code,
-			codeLabel,
-		} = newState;
+		const { id, labelLg1, creator, validationState, code, codeLabel } =
+			newState;
 		this.props.setSearch({
 			id,
 			labelLg1,
@@ -70,14 +66,12 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 	});
 
 	render() {
-		const { stampListOptions, data, reset, search:  {
-			id,
-			labelLg1,
-			creator,
-			validationState,
-			code,
-			codeLabel,
-		}} = this.props;
+		const {
+			stampListOptions,
+			data,
+			reset,
+			search: { id, labelLg1, creator, validationState, code, codeLabel },
+		} = this.props;
 
 		const filteredData = data
 			.filter(filterId(id))
@@ -199,14 +193,14 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 }
 
 const SearchListContainer = () => {
-	useTitle(D.codelistsTitle, D.advancedSearch)
+	useTitle(D.codelistsTitle, D.advancedSearch);
 
 	const [loading, setLoading] = useState(true);
 	const [items, setItems] = useState([]);
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
-	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
+	const [search, setSearch, reset] = useUrlQueryParameters(defaultState);
 
 	useEffect(() => {
 		API.getCodelistsForSearch()
@@ -218,7 +212,15 @@ const SearchListContainer = () => {
 	if (loading) {
 		return <Loading />;
 	}
-	return <SearchFormList data={items} stampListOptions={stampListOptions} search={search} setSearch={setSearch} reset={reset}/>;
+	return (
+		<SearchFormList
+			data={items}
+			stampListOptions={stampListOptions}
+			search={search}
+			setSearch={setSearch}
+			reset={reset}
+		/>
+	);
 };
 
 export default SearchListContainer;
