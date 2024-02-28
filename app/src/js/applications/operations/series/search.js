@@ -65,7 +65,13 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 			stamps,
 			data,
 			reset,
-			search: { prefLabelLg1, typeCode, creator, dataCollector, publisher },
+			search: {
+				prefLabelLg1 = '',
+				typeCode = '',
+				creator = '',
+				dataCollector = '',
+				publisher = '',
+			},
 		} = this.props;
 		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 		const stampsOptions = stamps.map((stamp) => ({
