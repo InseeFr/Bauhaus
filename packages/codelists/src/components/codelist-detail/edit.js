@@ -14,16 +14,18 @@ import {
 	useTitle,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-	ClientSideError,
+	ClientSideError, Auth,
 } from 'bauhaus-utilities';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 import MainDictionary from '../../../../../app/src/js/i18n/build-dictionary';
 import { CodesCollapsiblePanel } from './codes-panel';
+import { useSelector } from 'react-redux';
+
+
 
 const defaultCodelist = {
-	contributor: 'DG75-L201',
 	created: dayjs(),
 };
 const DumbCodelistDetailEdit = ({
@@ -41,9 +43,22 @@ const DumbCodelistDetailEdit = ({
 
 	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
 
+	const permission = useSelector(Auth.getPermission);
+	const stamp = permission?.stamp;
+	const isContributor = permission?.roles?.includes(Auth.CODELIST_CONTRIBUTOR) && !permission?.roles?.includes(Auth.ADMIN);
+
+
 	useEffect(() => {
-		setCodelist({ ...initialCodelist, ...defaultCodelist });
-	}, [initialCodelist]);
+		let codesList = { ...initialCodelist, ...defaultCodelist };
+
+		if(!codesList.id){
+			codesList.contributor = isContributor ? stamp : "DG75-L201";
+		}
+
+		setCodelist(codesList);
+
+	}, [initialCodelist, isContributor, stamp]);
+
 
 	const handleChange = useCallback(
 		(e) => {

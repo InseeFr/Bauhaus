@@ -16,6 +16,7 @@ import {
 	SaveButton,
 } from '@inseefr/wilco';
 import {
+	Auth,
 	ClientSideError,
 	EditorMarkdown,
 	GlobalClientSideErrorBloc,
@@ -33,6 +34,7 @@ import { withCodesLists } from '../../../hooks/hooks';
 import { StructureAPI } from 'bauhaus-structures';
 import { TemporalField } from './components/temporalField';
 import { useDataset } from '../hooks';
+import { useSelector } from 'react-redux';
 
 const convertCodesListsToSelectOption = (codesList) =>
 	codesList?.codes?.map((code) => ({
@@ -855,11 +857,21 @@ const Dataset = (props) => {
 
 	const { data: dataset, status } = useDataset(id);
 
+	const permission = useSelector(Auth.getPermission);
+	const stamp = permission?.stamp;
+	const isContributor = permission?.roles?.includes(Auth.DATASET_CONTRIBUTOR) && !permission?.roles?.includes(Auth.ADMIN);
+
 	useEffect(() => {
 		if (status === 'success') {
 			setEditingDataset(dataset);
+		} else if(isContributor && !id){
+			setEditingDataset({
+				catalogRecord: {
+					contributor: stamp
+				}
+			})
 		}
-	}, [status, dataset]);
+	}, [status, dataset, id, isContributor, stamp]);
 
 	const queryClient = useQueryClient();
 
