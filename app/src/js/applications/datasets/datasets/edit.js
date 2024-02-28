@@ -90,18 +90,20 @@ const Dataset = (props) => {
 				globalInformation: {
 					title: D.globalInformationsTitle,
 					content: () => {
-						if (editingDataset?.updated) {
+
+						if (editingDataset?.updated && editingDataset.updated.includes("T")) {
 							editingDataset.updated = editingDataset.updated.substring(
 								0,
-								(editingDataset.updated = editingDataset.update.indexOf('T'))
+								editingDataset.updated.indexOf('T')
 							);
 						}
-						if (editingDataset?.issued) {
+						if (editingDataset?.issued && editingDataset.issued.includes("T")) {
 							editingDataset.issued = editingDataset.issued.substring(
 								0,
-								(editingDataset.updated = editingDataset.update.indexOf('T'))
+								editingDataset.issued.indexOf('T')
 							);
 						}
+						console.log(editingDataset)
 
 						return (
 							<>
