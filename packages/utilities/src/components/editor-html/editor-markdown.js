@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'react-draft-wysiwyg';
 import './editor-html.scss';
@@ -29,59 +29,43 @@ export const toolbar = {
 	},
 };
 
-class EditorMarkdown extends Component {
-	static propTypes = {
-		text: PropTypes.string,
-		handleChange: PropTypes.func.isRequired,
-	};
+const EditorMarkdown = ({ text, handleChange }) =>  {
 
-	constructor(props) {
-		super(props);
-		const { text } = props;
-		this.state = {
-			editorState: HTMLUtils.editorStateFromMd(text || ''),
-			text,
-		};
+	const [editorState, setEditorState] = useState(HTMLUtils.editorStateFromMd(''));
+	const editorRef = useRef();
 
-		this.editorRef = React.createRef();
-	}
+	useEffect(() => {
+		setEditorState(HTMLUtils.editorStateFromMd(text || ''));
+	}, [text]);
 
-	handleChange = editorState => {
-		this.setState({
-			editorState,
-		});
-	};
-	handleLeave = () => {
-		this.props.handleChange(
-			HTMLUtils.mdFromEditorState(this.state.editorState)
+	const handleLeave = () => {
+		handleChange(
+			HTMLUtils.mdFromEditorState(editorState)
 		);
 	};
 
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			editorState: HTMLUtils.editorStateFromMd(nextProps.text || ''),
-		});
-	}
-
-	render() {
-		return (
-			<Editor
-				toolbarCustomButtons={[<DeleteButton />]}
-				ref={this.editorRef}
-				editorState={this.state.editorState}
-				toolbar={toolbar}
-				toolbarClassName="home-toolbar"
-				wrapperClassName="home-wrapper"
-				editorClassName="home-editor"
-				onEditorStateChange={this.handleChange}
-				onBlur={this.handleLeave}
-				stripPastedStyles={true}
-				localization={{
-					locale: getLang(),
-				}}
-			/>
-		);
-	}
+	return (
+		<Editor
+			toolbarCustomButtons={[<DeleteButton />]}
+			ref={editorRef}
+			editorState={editorState}
+			toolbar={toolbar}
+			toolbarClassName="home-toolbar"
+			wrapperClassName="home-wrapper"
+			editorClassName="home-editor"
+			onEditorStateChange={setEditorState}
+			onBlur={handleLeave}
+			stripPastedStyles={true}
+			localization={{
+				locale: getLang(),
+			}}
+		/>
+	);
 }
+
+EditorMarkdown.propTypes = {
+	text: PropTypes.string,
+	handleChange: PropTypes.func.isRequired,
+};
 
 export default EditorMarkdown;

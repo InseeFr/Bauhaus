@@ -8,17 +8,9 @@ const defaultInlineStyles = {
 	Emphasis: {
 		type: 'ITALIC',
 		symbol: '*',
-	}/*,
-	STRIKETHROUGH: {
-		type: 'STRIKETHROUGH',
-		symbol: '+',
-	},*/
+	}
 };
 export const REGEXPS = [
-	/*{
-		regexp: /(\+)/,
-		type: defaultInlineStyles.STRIKETHROUGH.type,
-	},*/
 	{
 		regexp: /((bg)?color-rgb\(\d*,\d*,\d*\))/,
 	},
@@ -182,18 +174,25 @@ const parseMdLine = (line, existingEntities, extraStyles = {}) => {
 				break;
 			default:
 		}
-		if (!videoShortcodeRegEx.test(child.raw) && child.children && style) {
-			const rawLength = getRawLength(child.children);
-			addInlineStyleRange(text.length, rawLength, style.type);
+
+		const shouldManagerSubChildren = !videoShortcodeRegEx.test(child.raw);
+		if (shouldManagerSubChildren && child.children) {
+
+			if(child.type === "LinkReference"){
+				text += "["
+			}
+			if(style){
+				const rawLength = getRawLength(child.children);
+				addInlineStyleRange(text.length, rawLength, style.type);
+			}
 			const newStyle = inlineStyles[child.type];
 			child.children.forEach(grandChild => {
 				parseChildren(grandChild, newStyle);
 			});
-		} else if (!videoShortcodeRegEx.test(child.raw) && child.children) {
-			const newStyle = inlineStyles[child.type];
-			child.children.forEach(grandChild => {
-				parseChildren(grandChild, newStyle);
-			});
+
+			if(child.type === "LinkReference"){
+				text += "]"
+			}
 		} else {
 			if (style) {
 				addInlineStyleRange(text.length, child.value.length, style.type);
@@ -206,27 +205,26 @@ const parseMdLine = (line, existingEntities, extraStyles = {}) => {
 				);
 			}
 
-			if (child.type === 'Str') {
+
+
+			if (child.type === 'Str' || child.type === 'LinkReference') {
+				const value = child.type === 'LinkReference' ? child.raw : child.value;
 				let i = 0;
 				let startIndex = null;
 				let finalText = '';
 
 				const REGEXPS = [
-					/*{
-						regexp: /^(\+)/,
-						type: inlineStyles.STRIKETHROUGH.type,
-					},*/
 					{
 						regexp: /^((bg)?color-rgb\(\d*,\d*,\d*\))/,
 					},
 				];
 
 				let removedSymbolLength = 0;
-				const regexpPredicate = reg => reg.regexp.test(child.value.substr(i));
-				while (i < child.value.length) {
+				const regexpPredicate = reg => reg.regexp.test(value.substr(i));
+				while (i < value.length) {
 					const regexpConfig = REGEXPS.find(regexpPredicate);
 					if (regexpConfig) {
-						const matches = child.value.substr(i).match(regexpConfig.regexp);
+						const matches = value.substr(i).match(regexpConfig.regexp);
 						const symbol = matches[1];
 						if (startIndex === null) {
 							startIndex = i + text.length - removedSymbolLength;
@@ -247,14 +245,15 @@ const parseMdLine = (line, existingEntities, extraStyles = {}) => {
 							i += symbol.length - 1;
 						}
 					} else {
-						finalText += child.value[i];
+						finalText += value[i];
 					}
 
 					i++;
 				}
 
 				text = `${text}${finalText}`;
-			} else {
+			}
+			else {
 				text = `${text}${
 					child.type === 'Image' || videoShortcodeRegEx.test(child.raw)
 						? ' '
@@ -291,7 +290,6 @@ export function mdToDraftjs(mdString, extraStyles) {
 	const paragraphs = splitMdBlocks(mdString);
 	const blocks = [];
 	let entityMap = {};
-
 	paragraphs.forEach(paragraph => {
 		const result = parseMdLine(paragraph, entityMap, extraStyles);
 		blocks.push({

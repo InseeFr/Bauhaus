@@ -114,12 +114,14 @@ export function mdFromEditorState(editorState) {
 			})
 		}
 	}
-	const md =  draftjsToMd(content);
+	const md =  draftjsToMd(content)
 	return md
 }
 
 export function editorStateFromMd(md = '') {
-	return EditorState.createWithContent(convertFromRaw(mdToDraftjs(md)));
+	const mdToDraftJs = mdToDraftjs(md);
+	const convertedFromRaw = convertFromRaw(mdToDraftJs)
+	return EditorState.createWithContent(convertedFromRaw);
 }
 
 export function markdownToHtml(markdown) {
