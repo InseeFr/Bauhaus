@@ -14,7 +14,7 @@ import {
 	ArrayUtils,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-	ClientSideError,
+	ClientSideError, Auth,
 } from 'bauhaus-utilities';
 import { validate } from '../../../../../app/src/js/applications/structures/components/edition/validation'
 import {
@@ -39,10 +39,7 @@ import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { FormGroup } from 'react-bootstrap';
 import { API } from 'bauhaus-codelists';
 import api from '../../apis/structure-api';
-
-const defaultComponent = {
-	contributor: 'DG75-H250',
-};
+import { useSelector } from 'react-redux';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -198,19 +195,31 @@ const DumbComponentDetailEdit = ({
 	stampListOptions,
 	serverSideError,
 }) => {
-	const [component, setComponent] = useState(defaultComponent);
+	const [component, setComponent] = useState({});
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
 
 	const { lg1, lg2 } = useContext(AppContext);
 	useTitle(D.componentTitle, component?.labelLg1 || D.componentsCreateTitle);
 
+	const permission = useSelector(Auth.getPermission);
+	const stamp = permission?.stamp;
+	const isContributor = permission?.roles?.includes(Auth.STRUCTURE_CONTRIBUTOR) && !permission?.roles?.includes(Auth.ADMIN);
+
 	useEffect(() => {
-		setComponent({ ...initialComponent, ...defaultComponent });
-	}, [initialComponent]);
+		let component = { ...initialComponent  };
+
+		if(!component.id){
+			component.contributor = isContributor ? stamp : "DG75-H250";
+		}
+
+		setComponent(component);
+
+	}, [initialComponent, isContributor, stamp]);
+
 	useEffect(() => {
 		if (!component.type && type) {
-			setComponent({ ...defaultComponent, ...initialComponent, type });
+			setComponent({ ...initialComponent, type });
 		}
 	}, [type, component, initialComponent]);
 

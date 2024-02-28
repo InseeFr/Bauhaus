@@ -52,7 +52,7 @@ export const LayoutWithLateralMenu = ({ children, layoutConfiguration }) => {
 							const opened = !runtimeLayoutConfiguration[key].closed;
 
 							return (
-								<li>
+								<li key={key}>
 									<div className="layout_with_lateral_menu__outline__main_item">
 										{configuration.title}
 										<CollapsibleTrigger
@@ -66,7 +66,7 @@ export const LayoutWithLateralMenu = ({ children, layoutConfiguration }) => {
 											{Object.entries(configuration.children ?? {}).map(
 												([key2, configuration2]) => {
 													return (
-														<li>
+														<li key={key2}>
 															<button
 																type="button"
 																className={

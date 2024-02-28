@@ -4,7 +4,15 @@ import { Input, LabelRequired, Loading, Select } from '@inseefr/wilco';
 import Controls from './controls';
 import Components from './components';
 import { StructureAPI, StructureConstants } from 'bauhaus-structures';
-import { AppContext, ClientSideError, ErrorBloc, GlobalClientSideErrorBloc, Stores, Row } from 'bauhaus-utilities';
+import {
+	AppContext,
+	ClientSideError,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	Stores,
+	Row,
+	Auth,
+} from 'bauhaus-utilities';
 import D, { D1, D2 } from 'js/i18n';
 import { connect, useSelector } from 'react-redux';
 import 'react-select/dist/react-select.css';
@@ -68,9 +76,18 @@ const Edition = ({ creation, initialStructure, loadDisseminationStatusList }) =>
 		isRequiredBy,
 	} = structure;
 
+	const permission = useSelector(Auth.getPermission);
+	const stamp = permission?.stamp;
+	const isContributor = permission?.roles?.includes(Auth.STRUCTURE_CONTRIBUTOR) && !permission?.roles?.includes(Auth.ADMIN);
+
 	useEffect(() => {
-		setStructure({ ...defaultDSD, ...initialStructure });
-	}, [initialStructure]);
+		let structure = { ...defaultDSD, ...initialStructure };
+
+		if(isContributor && creation){
+			structure.contributor = stamp;
+		}
+		setStructure(structure);
+	}, [initialStructure, isContributor, stamp, creation]);
 
 	if (redirectId) return <Redirect to={`/structures/${redirectId}`} />;
 	if (loading) return <Loading textType={'saving'} />;
