@@ -13,11 +13,11 @@ export const sortArray =
 	(arr, desc = false) => {
 		const order = desc ? 1 : -1;
 		return arr.sort((a, b) => {
-			const aUp = a[key]
+			const aUp = (a[key] ?? '')
 				.toLowerCase()
 				.normalize('NFD')
 				.replace(/\p{Diacritic}/gu, '');
-			const bUp = b[key]
+			const bUp = (b[key] ?? '')
 				.toLowerCase()
 				.normalize('NFD')
 				.replace(/\p{Diacritic}/gu, '');
@@ -42,7 +42,7 @@ export const filterKeyDeburr = (keys) => (rawStr) => {
 		return getValue(item[first], rest.join('.'));
 	}
 
-	const str = rawStr
+	const str = (rawStr ?? '')
 		.toLocaleLowerCase()
 		.normalize('NFD')
 		.replace(/\p{Diacritic}/gu, '');
@@ -75,7 +75,7 @@ export const arrayToString = (array) =>
 
 export const arrayKeepUniqueField = (array, field) =>
 	array.map((item) =>
-		item[field]
+		(item[field] ?? '')
 			.toLowerCase()
 			.normalize('NFD')
 			.replace(/\p{Diacritic}/gu, '')
