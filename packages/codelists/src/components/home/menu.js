@@ -5,7 +5,7 @@ import { VerticalMenu } from '@inseefr/wilco';
 export const HomePageMenu = () => {
 	return (
 		<VerticalMenu>
-			<Auth.AuthGuard roles={[Auth.ADMIN, Auth.CODELIST_CONTRIBUTOR]}>
+			<Auth.AuthGuard roles={[Auth.ADMIN]}>
 				<FeminineButton action="/codelists/create" />
 			</Auth.AuthGuard>
 		</VerticalMenu>

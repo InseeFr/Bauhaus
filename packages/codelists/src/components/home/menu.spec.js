@@ -24,14 +24,14 @@ describe('Codes List Home Page Menu', () => {
 		screen.getByText('New');
 	});
 
-	it('a user with Gestionnaire_liste_codes_RMESGNCS role can create a codes list', () => {
+	it('a user with Gestionnaire_liste_codes_RMESGNCS role can not create a codes list', () => {
 		render(
 			<RBACMock roles={[Auth.CODELIST_CONTRIBUTOR]}>
 				<HomePageMenu />
 			</RBACMock>
 		);
 
-		screen.getByText('New');
+		expect(screen.queryByText('New')).toBeNull();
 	});
 
 	it('a user without Admin or  Gestionnaire_liste_codes_RMESGNCS role cannot create a codes list', () => {
