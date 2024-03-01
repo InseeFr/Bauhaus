@@ -61,6 +61,7 @@ export const DistributionEdit = (props) => {
 				if (isEditing) {
 					queryClient.invalidateQueries(['distributions', id]);
 				}
+				queryClient.invalidateQueries(['distributions']);
 
 				goBackOrReplace(props, `/datasets/distributions/${id}`, !isEditing);
 			},
