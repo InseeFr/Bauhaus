@@ -25,7 +25,7 @@ const MenuCodelists = ({ location }) => {
 	];
 
 	if (permission.roles.includes(Auth.ADMIN)) {
-		paths.push({
+		paths.unshift({
 			path: '/codelists-partial',
 			pathKey: 'codelists-partial',
 			className: null,
@@ -36,7 +36,7 @@ const MenuCodelists = ({ location }) => {
 	}
 
 	const currentPath = paths.find((path) => {
-		return location.pathname === '/' + path.pathKey;
+		return location.pathname.includes(path.pathKey);
 	});
 	if (currentPath) {
 		currentPath.className = 'active';
