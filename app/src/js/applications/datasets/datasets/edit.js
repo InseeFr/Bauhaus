@@ -107,7 +107,6 @@ const Dataset = (props) => {
 								editingDataset.issued.indexOf('T')
 							);
 						}
-						console.log(editingDataset);
 
 						return (
 							<>
