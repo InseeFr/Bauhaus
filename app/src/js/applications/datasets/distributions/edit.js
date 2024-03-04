@@ -111,11 +111,9 @@ export const DistributionEdit = (props) => {
 			<form>
 				<Row>
 					<div className="col-md-12 form-group">
-						<LabelRequired htmlFor="idDataset">
-							{D1.datasetsTitle}
-						</LabelRequired>
+						<LabelRequired htmlFor="idDataset">{D1.datasetTitle}</LabelRequired>
 						<ReactSelect
-							placeholder={D1.datasetsTitle}
+							placeholder={D1.datasetTitle}
 							value={datasetsOptions.find(
 								({ value }) => value === editingDistribution.idDataset
 							)}
