@@ -92,20 +92,21 @@ const Dataset = (props) => {
 				globalInformation: {
 					title: D.globalInformationsTitle,
 					content: () => {
-
-						if (editingDataset?.updated && editingDataset.updated.includes("T")) {
+						if (
+							editingDataset?.updated &&
+							editingDataset.updated.includes('T')
+						) {
 							editingDataset.updated = editingDataset.updated.substring(
 								0,
 								editingDataset.updated.indexOf('T')
 							);
 						}
-						if (editingDataset?.issued && editingDataset.issued.includes("T")) {
+						if (editingDataset?.issued && editingDataset.issued.includes('T')) {
 							editingDataset.issued = editingDataset.issued.substring(
 								0,
 								editingDataset.issued.indexOf('T')
 							);
 						}
-						console.log(editingDataset)
 
 						return (
 							<>
@@ -861,17 +862,19 @@ const Dataset = (props) => {
 
 	const permission = useSelector(Auth.getPermission);
 	const stamp = permission?.stamp;
-	const isContributor = permission?.roles?.includes(Auth.DATASET_CONTRIBUTOR) && !permission?.roles?.includes(Auth.ADMIN);
+	const isContributor =
+		permission?.roles?.includes(Auth.DATASET_CONTRIBUTOR) &&
+		!permission?.roles?.includes(Auth.ADMIN);
 
 	useEffect(() => {
 		if (status === 'success') {
 			setEditingDataset(dataset);
-		} else if(isContributor && !id){
+		} else if (isContributor && !id) {
 			setEditingDataset({
 				catalogRecord: {
-					contributor: stamp
-				}
-			})
+					contributor: stamp,
+				},
+			});
 		}
 	}, [status, dataset, id, isContributor, stamp]);
 
@@ -890,6 +893,7 @@ const Dataset = (props) => {
 				if (isEditing) {
 					queryClient.invalidateQueries(['datasets', id]);
 				}
+				queryClient.invalidateQueries(['datasets']);
 
 				goBackOrReplace(props, `/datasets/${id}`, !isEditing);
 			},
