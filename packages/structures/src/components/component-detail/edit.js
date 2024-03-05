@@ -610,7 +610,6 @@ const DumbComponentDetailEdit = ({
 						onChange={(option) =>
 							setComponent({ ...component, contributor: option?.value })
 						}
-						disabled={false}
 					/>
 				</div>
 				<div className="form-group">

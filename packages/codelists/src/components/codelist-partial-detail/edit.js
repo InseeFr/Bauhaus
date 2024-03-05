@@ -302,7 +302,6 @@ const DumbCodelistPartialDetailEdit = ({
 						onChange={(option) =>
 							setCodelist({ ...codelist, contributor: option?.value })
 						}
-						disabled={false}
 					/>
 				</div>
 				<div className="form-group">
