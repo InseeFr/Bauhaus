@@ -14,9 +14,10 @@ import {
 	ArrayUtils,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-	ClientSideError, Auth,
+	ClientSideError,
+	Auth,
 } from 'bauhaus-utilities';
-import { validate } from '../../../../../app/src/js/applications/structures/components/edition/validation'
+import { validate } from '../../../../../app/src/js/applications/structures/components/edition/validation';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
 	MEASURE_PROPERTY_TYPE,
@@ -204,17 +205,18 @@ const DumbComponentDetailEdit = ({
 
 	const permission = useSelector(Auth.getPermission);
 	const stamp = permission?.stamp;
-	const isContributor = permission?.roles?.includes(Auth.STRUCTURE_CONTRIBUTOR) && !permission?.roles?.includes(Auth.ADMIN);
+	const isContributor =
+		permission?.roles?.includes(Auth.STRUCTURE_CONTRIBUTOR) &&
+		!permission?.roles?.includes(Auth.ADMIN);
 
 	useEffect(() => {
-		let component = { ...initialComponent  };
+		let component = { ...initialComponent };
 
-		if(!component.id){
-			component.contributor = isContributor ? stamp : "DG75-H250";
+		if (!component.id) {
+			component.contributor = isContributor ? stamp : 'DG75-H250';
 		}
 
 		setComponent(component);
-
 	}, [initialComponent, isContributor, stamp]);
 
 	useEffect(() => {
@@ -608,7 +610,7 @@ const DumbComponentDetailEdit = ({
 						onChange={(option) =>
 							setComponent({ ...component, contributor: option?.value })
 						}
-						disabled={true}
+						disabled={false}
 					/>
 				</div>
 				<div className="form-group">

@@ -15,7 +15,8 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-	CodesList, Auth,
+	CodesList,
+	Auth,
 } from 'bauhaus-utilities';
 import Picker from './picker';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
@@ -74,14 +75,15 @@ const DumbCodelistPartialDetailEdit = ({
 
 	const permission = useSelector(Auth.getPermission);
 	const stamp = permission?.stamp;
-	const isContributor = permission?.roles?.includes(Auth.CODELIST_CONTRIBUTOR) && !permission?.roles?.includes(Auth.ADMIN);
-
+	const isContributor =
+		permission?.roles?.includes(Auth.CODELIST_CONTRIBUTOR) &&
+		!permission?.roles?.includes(Auth.ADMIN);
 
 	useEffect(() => {
 		let codesList = { ...initialCodelist, ...defaultCodelist };
 
-		if(!codesList.id){
-			codesList.contributor = isContributor ? stamp : "DG75-L201";
+		if (!codesList.id) {
+			codesList.contributor = isContributor ? stamp : 'DG75-L201';
 		}
 
 		setCodelist(codesList);
@@ -90,9 +92,7 @@ const DumbCodelistPartialDetailEdit = ({
 		} else {
 			setParentCodes([]);
 		}
-
 	}, [initialCodelist, isContributor, stamp, handleParentCode]);
-
 
 	const handleChange = useCallback(
 		(e) => {
@@ -302,7 +302,7 @@ const DumbCodelistPartialDetailEdit = ({
 						onChange={(option) =>
 							setCodelist({ ...codelist, contributor: option?.value })
 						}
-						disabled={true}
+						disabled={false}
 					/>
 				</div>
 				<div className="form-group">

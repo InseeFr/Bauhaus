@@ -14,7 +14,8 @@ import {
 	useTitle,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-	ClientSideError, Auth,
+	ClientSideError,
+	Auth,
 } from 'bauhaus-utilities';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
@@ -22,8 +23,6 @@ import './edit.scss';
 import MainDictionary from '../../../../../app/src/js/i18n/build-dictionary';
 import { CodesCollapsiblePanel } from './codes-panel';
 import { useSelector } from 'react-redux';
-
-
 
 const defaultCodelist = {
 	created: dayjs(),
@@ -45,20 +44,19 @@ const DumbCodelistDetailEdit = ({
 
 	const permission = useSelector(Auth.getPermission);
 	const stamp = permission?.stamp;
-	const isContributor = permission?.roles?.includes(Auth.CODELIST_CONTRIBUTOR) && !permission?.roles?.includes(Auth.ADMIN);
-
+	const isContributor =
+		permission?.roles?.includes(Auth.CODELIST_CONTRIBUTOR) &&
+		!permission?.roles?.includes(Auth.ADMIN);
 
 	useEffect(() => {
 		let codesList = { ...initialCodelist, ...defaultCodelist };
 
-		if(!codesList.id){
-			codesList.contributor = isContributor ? stamp : "DG75-L201";
+		if (!codesList.id) {
+			codesList.contributor = isContributor ? stamp : 'DG75-L201';
 		}
 
 		setCodelist(codesList);
-
 	}, [initialCodelist, isContributor, stamp]);
-
 
 	const handleChange = useCallback(
 		(e) => {
@@ -280,7 +278,7 @@ const DumbCodelistDetailEdit = ({
 						onChange={(option) =>
 							setCodelist({ ...codelist, contributor: option?.value })
 						}
-						disabled={true}
+						disabled={false}
 					/>
 				</div>
 				<div className="form-group">
