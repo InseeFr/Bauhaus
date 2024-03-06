@@ -19,13 +19,13 @@ export const formatValidation = (ZodObject) => (values) => {
 	const fields = {
 		...defaultFields,
 		...ZodError.error.issues.reduce(
-            (acc, error) => ({
-                ...acc,
-                [error.path[0]]: error.message,
-            }),
-		    {}
-        )
-    };
+			(acc, error) => ({
+				...acc,
+				[error.path[0]]: error.message,
+			}),
+			{}
+		),
+	};
 
 	const errorMessage = ZodError.error.issues.map((error) => error.message);
 
