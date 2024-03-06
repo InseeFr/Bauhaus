@@ -1,21 +1,22 @@
 import { validate } from './validation';
 
-describe('validation', function() {
-	it('should return an error for labelLg1 and labelLg2', function() {
+describe('validation', function () {
+	it('should return an error for labelLg1 and labelLg2', function () {
 		expect(
-			validate({
-				labelLg1: '',
-				labelLg2: '',
-				lang: 'l',
-				url: 'http://u',
-			},
-            'link',
-            )
+			validate(
+				{
+					labelLg1: '',
+					labelLg2: '',
+					lang: 'l',
+					url: 'http://u',
+				},
+				'link'
+			)
 		).toEqual({
 			errorMessage: [
-                'The property <strong>Intitulé</strong> is required.',
-                'The property <strong>Title</strong> is required.',
-            ],
+				'The property <strong>Intitulé</strong> is required.',
+				'The property <strong>Title</strong> is required.',
+			],
 			fields: {
 				labelLg1: 'The property <strong>Intitulé</strong> is required.',
 				labelLg2: 'The property <strong>Title</strong> is required.',
@@ -24,20 +25,19 @@ describe('validation', function() {
 			},
 		});
 	});
-	it('should return an error for url', function() {
+	it('should return an error for url', function () {
 		expect(
-			validate({
-				labelLg1: 'labelLg1',
-				labelLg2: 'labelLg2',
-				lang: 'l',
-				url: 'mailto:you',
-			},
-            'link',
-            )
+			validate(
+				{
+					labelLg1: 'labelLg1',
+					labelLg2: 'labelLg2',
+					lang: 'l',
+					url: 'mailto:you',
+				},
+				'link'
+			)
 		).toEqual({
-			errorMessage: [
-                'The link is not valid',
-            ],
+			errorMessage: ['The link is not valid'],
 			fields: {
 				labelLg1: '',
 				labelLg2: '',
@@ -46,64 +46,63 @@ describe('validation', function() {
 			},
 		});
 	});
-	it('should return an error for lang', function() {
+	it('should return an error for lang', function () {
 		expect(
-			validate({
-				labelLg1: 'labelLg1',
-				labelLg2: 'labelLg2',
-				lang: '',
-				updatedDate: 'd',
-                files: [{name: 'path/correct-file_name.123'}],
-			},
-            'document',
-            )
+			validate(
+				{
+					labelLg1: 'labelLg1',
+					labelLg2: 'labelLg2',
+					lang: '',
+					updatedDate: 'd',
+					files: [{ name: 'path/correct-file_name.123' }],
+				},
+				'document'
+			)
 		).toEqual({
-			errorMessage: [
-				'The language is required',
-			],
+			errorMessage: ['The language is required'],
 			fields: {
 				labelLg1: '',
 				labelLg2: '',
 				lang: 'The language is required',
 				updatedDate: '',
-                files: '',
+				files: '',
 			},
 		});
 	});
-	it('should return an error for updateDate', function() {
+	it('should return an error for updateDate', function () {
 		expect(
-			validate({
-				labelLg1: 'labelLg1',
-				labelLg2: 'labelLg2',
-				lang: 'l',
-                files: [{name: 'path/correct-file_name.123'}],
-			},
-            'document',
-            )
+			validate(
+				{
+					labelLg1: 'labelLg1',
+					labelLg2: 'labelLg2',
+					lang: 'l',
+					files: [{ name: 'path/correct-file_name.123' }],
+				},
+				'document'
+			)
 		).toEqual({
-			errorMessage: [
-				'The update date is required',
-			],
+			errorMessage: ['The update date is required'],
 			fields: {
 				labelLg1: '',
 				labelLg2: '',
 				lang: '',
 				updatedDate: 'The update date is required',
-                files: '',
+				files: '',
 			},
 		});
 	});
-	it('should return an error for file', function() {
+	it('should return an error for file', function () {
 		expect(
-			validate({
-				labelLg1: 'labelLg1',
-				labelLg2: 'labelLg2',
-				lang: 'l',
-				updatedDate: 'd',
-                files: [{name: 'path/wrong&file@name!'}],
-			},
-            'document',
-            )
+			validate(
+				{
+					labelLg1: 'labelLg1',
+					labelLg2: 'labelLg2',
+					lang: 'l',
+					updatedDate: 'd',
+					files: [{ name: 'path/wrong&file@name!' }],
+				},
+				'document'
+			)
 		).toEqual({
 			errorMessage: [
 				'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
@@ -113,20 +112,22 @@ describe('validation', function() {
 				labelLg2: '',
 				lang: '',
 				updatedDate: '',
-				files: 'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
+				files:
+					'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 			},
 		});
 	});
-	it('should return no error', function() {
+	it('should return no error', function () {
 		expect(
-			validate({
-				labelLg1: 'labelLg2',
-				labelLg2: 'labelLg2',
-				lang: 'l',
-				url: 'http://u',
-			},
-            'link',
-            )
+			validate(
+				{
+					labelLg1: 'labelLg2',
+					labelLg2: 'labelLg2',
+					lang: 'l',
+					url: 'http://u',
+				},
+				'link'
+			)
 		).toEqual({
 			errorMessage: [],
 			fields: {
@@ -137,17 +138,18 @@ describe('validation', function() {
 			},
 		});
 	});
-    it('should return no error either', function() {
+	it('should return no error either', function () {
 		expect(
-			validate({
-				labelLg1: 'labelLg2',
-				labelLg2: 'labelLg2',
-				lang: 'l',
-				updatedDate: 'd',
-                files: [{name: 'path/correct-file_name.123'}],
-			},
-            'document',
-            )
+			validate(
+				{
+					labelLg1: 'labelLg2',
+					labelLg2: 'labelLg2',
+					lang: 'l',
+					updatedDate: 'd',
+					files: [{ name: 'correct-file_name.123' }],
+				},
+				'document'
+			)
 		).toEqual({
 			errorMessage: [],
 			fields: {
@@ -155,7 +157,7 @@ describe('validation', function() {
 				labelLg2: '',
 				lang: '',
 				updatedDate: '',
-                files: '',
+				files: '',
 			},
 		});
 	});
