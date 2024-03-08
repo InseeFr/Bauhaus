@@ -20,7 +20,7 @@
 		"@inseefr/wilco": "0.0.7",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
-		"react-router-dom": "5.2.0"
+		"react-router-dom": "6.22.3"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.17.4",
@@ -59,7 +59,7 @@
 		"react-dom": "18.2.0",
 		"react-hook-form": "^7.34.2",
 		"react-redux": "^7.2.6",
-		"react-router-dom": "5.2.0",
+		"react-router-dom": "6.22.3",
 		"redux": "^4.2.0",
 		"rollup": "^2.70.1"
 	},
