@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PageSubtitle, PageTitle } from '@inseefr/wilco';
-import Controls from './controls';
+import Menu from './menu';
 import General from './general';
 import Notes from './notes';
 import Levels from './levels';
@@ -44,12 +44,9 @@ const ClassificationVisualization = (props) => {
 					</Link>
 				</div>
 			</div>
-			<Controls
-				classification={general}
-				publish={publish}
-			/>
+			<Menu classification={general} publish={publish} />
 			<CheckSecondLang />
-            {serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
+			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 			<General general={general} secondLang={secondLang} langs={langs} />
 			{notes.scopeNoteLg1 && (
 				<Notes notes={notes} secondLang={secondLang} langs={langs} />
