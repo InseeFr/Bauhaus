@@ -1,4 +1,3 @@
-import { getItems } from './utils/list-reducer';
 import { combineReducers } from 'redux';
 import app from '../store/users';
 import sharedReducers from './shared';
@@ -22,9 +21,6 @@ export default combineReducers({
 	remoteCalls,
 });
 
-export const getRoleList = (state) => getItems(state.roleList);
-export const getAgentList = (state) => getItems(state.agentList);
-
 export const getLangs = (state) => {
 	const { lg1, lg2 } = state.app;
 	return { lg1, lg2 };
@@ -38,7 +34,6 @@ export const getError = (state, op) =>
 
 export const getNewlyCreatedId = (state) =>
 	Stores.RemoteCalls.getNewlyCreatedId(state.remoteCalls);
-
 
 export const getSerie = (state) => {
 	return state.operationsSeriesCurrent || {};
