@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { PageTitle } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { useTitle, SearchableList } from 'bauhaus-utilities';
+import { useTitle, SearchableList, Row } from 'bauhaus-utilities';
 
 const ClassificationsHome = ({ classifications }) => {
 	useTitle(D.classificationsTitle, D.classificationsTitle);
 
 	return (
 		<div className="container">
-			<div className="row">
+			<Row>
 				<div className="col-md-8 col-md-offset-2 text-center">
 					<PageTitle title={D.classificationsSearchTitle} col={12} offset={0} />
 					<SearchableList
@@ -18,7 +18,7 @@ const ClassificationsHome = ({ classifications }) => {
 						autoFocus={true}
 					/>
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 };
