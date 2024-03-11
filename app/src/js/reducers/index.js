@@ -1,4 +1,3 @@
-import { getItems } from './utils/list-reducer';
 import { combineReducers } from 'redux';
 import app from '../store/users';
 import sharedReducers from './shared';
