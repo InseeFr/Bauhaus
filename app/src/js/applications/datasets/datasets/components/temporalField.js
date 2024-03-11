@@ -19,6 +19,29 @@ export const TemporalField = ({
 	temporalCoverageDataType,
 	updateTemporalCoverage,
 }) => {
+	const formatYearTypeValue = (year) => new Date(`${year}-01-01`);
+	const getDefaultValueForYearCoverageType = () => {
+		return new Date().getFullYear();
+	};
+	const onTemporalCoverageChange = ({ value }) => {
+		if (value?.endsWith('date')) {
+			updateTemporalCoverage({
+				temporalCoverageStartDate: '',
+				temporalCoverageEndDate: '',
+				temporalCoverageDataType: value,
+			});
+		} else {
+			updateTemporalCoverage({
+				temporalCoverageStartDate: formatYearTypeValue(
+					getDefaultValueForYearCoverageType()
+				),
+				temporalCoverageEndDate: formatYearTypeValue(
+					getDefaultValueForYearCoverageType()
+				),
+				temporalCoverageDataType: value,
+			});
+		}
+	};
 	return (
 		<>
 			<div className="col-md-4 form-group">
@@ -27,13 +50,8 @@ export const TemporalField = ({
 					<ReactSelect
 						value={temporalCoverageDataType}
 						options={datasetsTemporalCoverageOptions}
-						onChange={(option) => {
-							updateTemporalCoverage({
-								temporalCoverageStartDate,
-								temporalCoverageEndDate,
-								temporalCoverageDataType: option?.value,
-							});
-						}}
+						clearable={false}
+						onChange={onTemporalCoverageChange}
 					/>
 				</label>
 			</div>
@@ -86,14 +104,16 @@ export const TemporalField = ({
 								value={
 									temporalCoverageStartDate
 										? new Date(temporalCoverageStartDate).getFullYear()
-										: new Date().getFullYear()
+										: getDefaultValueForYearCoverageType()
 								}
 								onChange={(e) => {
 									updateTemporalCoverage({
-										temporalCoverageEndDate: e.target.value,
+										temporalCoverageEndDate: formatYearTypeValue(
+											e.target.value
+										),
 										temporalCoverageDataType,
-										temporalCoverageStartDate: new Date(
-											`${e.target.value}-01-01`
+										temporalCoverageStartDate: formatYearTypeValue(
+											e.target.value
 										),
 									});
 								}}
@@ -109,14 +129,16 @@ export const TemporalField = ({
 								value={
 									temporalCoverageEndDate
 										? new Date(temporalCoverageEndDate).getFullYear()
-										: new Date().getFullYear()
+										: getDefaultValueForYearCoverageType()
 								}
 								onChange={(e) => {
 									updateTemporalCoverage({
-										temporalCoverageStartDate: e.target.value,
+										temporalCoverageStartDate: formatYearTypeValue(
+											e.target.value
+										),
 										temporalCoverageDataType,
-										temporalCoverageEndDate: new Date(
-											`${e.target.value}-01-01`
+										temporalCoverageEndDate: formatYearTypeValue(
+											e.target.value
 										),
 									});
 								}}
