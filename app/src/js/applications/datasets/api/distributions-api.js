@@ -4,6 +4,7 @@ const api = {
 	getAll: () => [''],
 	getById: (id) => [id],
 	getDatasets: () => ['datasets'],
+	publish: (id) => [`${id}/validate`, { method: 'PUT' }, (res) => res.text()],
 	putDistribution: (distribution) => [
 		distribution.id,
 		{

@@ -10,7 +10,7 @@ import D from '../../../../i18n/build-dictionary';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-export const ViewMenu = ({ dataset, ...props }) => {
+export const ViewMenu = ({ dataset, onPublish, ...props }) => {
 	const permission = useSelector(Auth.getPermission);
 
 	const hasDatasetRightsBasedOnStamp =
@@ -23,7 +23,7 @@ export const ViewMenu = ({ dataset, ...props }) => {
 			<ReturnButton action={goBack(props, '/datasets')} />
 
 			{(isAdmin || hasDatasetRightsBasedOnStamp) && (
-				<ValidationButton object={dataset} callback={() => {}} />
+				<ValidationButton object={dataset} callback={onPublish} />
 			)}
 			{(isAdmin ||
 				(hasDatasetRightsBasedOnStamp &&
