@@ -25,7 +25,7 @@
 		"bauhaus-structures": "^0.0.0",
 		"bootstrap": "3.4.1",
 		"create-react-class": "^15.6.3",
-		"dompurify": "2.2.9",
+		"dompurify": "3.0.9",
 		"file-saver": "1.3.3",
 		"keycloak": "1.2.0",
 		"lodash.deburr": "4.1.0",
