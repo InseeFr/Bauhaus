@@ -14,6 +14,8 @@ import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import React from 'react';
 import { useDataset, useDistribution } from '../../hooks';
 import { ViewMenu } from './menu';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import distributionApi from '../../api/distributions-api';
 
 export const DistributionView = (props) => {
 	const { id } = useParams();
@@ -29,7 +31,21 @@ export const DistributionView = (props) => {
 		Stores.SecondLang.getSecondLang(state)
 	);
 
+	const queryClient = useQueryClient();
+
+	const { isLoading: isPublishing, mutate: publish } = useMutation(
+		() => {
+			return distributionApi.publish(id);
+		},
+		{
+			onSuccess: (id) => {
+				queryClient.invalidateQueries(['distributions', id]);
+			},
+		}
+	);
+
 	if (isLoading || isLoadingDataSet) return <Loading />;
+	if (isPublishing) return <Loading text="publishing" />;
 
 	return (
 		<div className="container">
@@ -39,7 +55,12 @@ export const DistributionView = (props) => {
 				secondLang={secondLang}
 			/>
 
-			<ViewMenu distribution={distribution} dataset={dataset} {...props} />
+			<ViewMenu
+				distribution={distribution}
+				dataset={dataset}
+				onPublish={publish}
+				{...props}
+			/>
 
 			<CheckSecondLang />
 

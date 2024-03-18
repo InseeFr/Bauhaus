@@ -14,7 +14,7 @@ import { DSURLToLabel, Loading, Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import api from '../../api/datasets-api';
 import { StructureAPI } from 'bauhaus-structures';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useThemes } from '../useThemes';
 import apiOrganisations from '../../../../remote-api/organisations-api';
 import { withCodesLists } from '../../../../hooks/hooks';
@@ -50,8 +50,21 @@ const Dataset = (props) => {
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);
+	const queryClient = useQueryClient();
+
+	const { isLoading: isPublishing, mutate: publish } = useMutation(
+		() => {
+			return api.publish(id);
+		},
+		{
+			onSuccess: (id) => {
+				queryClient.invalidateQueries(['datasets', id]);
+			},
+		}
+	);
 
 	if (isLoading) return <Loading />;
+	if (isPublishing) return <Loading text="publishing" />;
 
 	return (
 		<div className="container">
@@ -61,7 +74,7 @@ const Dataset = (props) => {
 				secondLang={secondLang}
 			/>
 
-			<ViewMenu dataset={dataset} {...props} />
+			<ViewMenu dataset={dataset} {...props} onPublish={publish} />
 			<CheckSecondLang />
 
 			<Row>
