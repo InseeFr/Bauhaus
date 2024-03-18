@@ -9,13 +9,13 @@
 	"license": "MIT",
 	"author": "INSEE (http://www.insee.fr)",
 	"scripts": {
-		"build": "cross-env REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts build",
-		"build-insee": "cross-env REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name REACT_APP_INSEE=true react-scripts build && npm run create-zip",
+		"pre-script": "cross-env NODE_OPTIONS=--openssl-legacy-provider REACT_APP_VERSION=$(node -pe 'require(\"../package.json\").version') REACT_APP_NAME=$npm_package_name",
+		"build": "npm run pre-script && react-scripts build",
+		"build-insee": "npm run pre-script && cross-env REACT_APP_INSEE=true react-scripts build && npm run create-zip",
 		"create-zip": "cd build && bestzip build.zip *",
 		"eject": "react-scripts eject",
 		"lint": "eslint src",
-		"start": "cross-env NODE_OPTIONS=--openssl-legacy-provider REACT_APP_NAME=$npm_package_name REACT_APP_VERSION=$npm_package_version react-scripts start",
-		"start-https": "cross-env HTTPS=true REACT_APP_VERSION=$npm_package_version REACT_APP_NAME=$npm_package_name react-scripts start",
+		"start": "npm run pre-script -- react-scripts start",
 		"test": "react-scripts test",
 		"test:coverage": "cross-env CI=true react-scripts test --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js --collectCoverageFrom=!src/types/*.js"
 	},
