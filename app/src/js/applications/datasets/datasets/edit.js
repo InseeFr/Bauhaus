@@ -83,7 +83,7 @@ const Dataset = (props) => {
 		[];
 
 	const organisationsOptions =
-		organisations?.map(({ id, label }) => ({ value: id, label })) ?? [];
+		organisations?.map(({ iri, label }) => ({ value: iri, label })) ?? [];
 
 	const layoutConfiguration = {
 		globalInformation: {
