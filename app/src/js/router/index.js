@@ -18,7 +18,6 @@ const RBACLink = ({ children }) => {
 		'VERSION'
 	)} - API ${version}`;
 
-	console.log(process.env);
 	const location = useLocation();
 	const isHomePage = location.pathname === '/';
 
