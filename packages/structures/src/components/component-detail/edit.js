@@ -679,13 +679,13 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
 		...component,
 	}).filter((key) => key.indexOf('attribute_') === 0);
 
-	const attributesListOptions = attributes.map((c) => ({
+	const attributesListOptions = (attributes ?? []).map((c) => ({
 		value: c.iri,
 		label: c.labelLg1,
 	}));
 
 	return componentAttributes.map((attribute, index) => {
-		const attributeId = attributes.find(
+		const attributeId = (attributes ?? []).find(
 			(a) => a.iri === component['attribute_' + index]
 		)?.id;
 		return (
