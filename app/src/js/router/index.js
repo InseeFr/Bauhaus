@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router,useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import Routes from './routes';
 import bauhausLogo from 'img/logo_noir.svg';
 import { getEnvVar } from 'js/utils/env';
@@ -9,20 +9,21 @@ import 'react-app-polyfill/stable';
 import { useSelector } from 'react-redux';
 import { Auth } from 'bauhaus-utilities';
 
-const footer = `${getEnvVar('NAME')} - ${getEnvVar('VERSION')}`;
-
-
 const RBACLink = ({ children }) => {
-	const authorizationHost = useSelector(state => state.app.properties.authorizationHost);
+	const authorizationHost = useSelector(
+		(state) => state.app.properties.authorizationHost
+	);
+	const version = useSelector((state) => state.app.version);
+	const footer = `${getEnvVar('NAME')} - Front ${getEnvVar(
+		'VERSION'
+	)} - API ${version}`;
 
 	const location = useLocation();
 	const isHomePage = location.pathname === '/';
 
 	return (
 		<>
-			<div id="root-app">
-				{children}
-			</div>
+			<div id="root-app">{children}</div>
 
 			<footer className="text-center" style={{ marginTop: '50px' }}>
 				<p>
@@ -31,12 +32,22 @@ const RBACLink = ({ children }) => {
 					{footer}
 				</p>
 				<Auth.AuthGuard roles={[Auth.ADMIN]}>
-					{isHomePage && <p><a rel='noreferrer noopener' target='_blank' href={authorizationHost}>{D.authorizationTitle}</a></p>}
+					{isHomePage && (
+						<p>
+							<a
+								rel="noreferrer noopener"
+								target="_blank"
+								href={authorizationHost}
+							>
+								{D.authorizationTitle}
+							</a>
+						</p>
+					)}
 				</Auth.AuthGuard>
 			</footer>
 		</>
-	)
-}
+	);
+};
 const Root = () => {
 	return (
 		<Router>
