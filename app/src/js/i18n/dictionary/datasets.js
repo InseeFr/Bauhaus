@@ -85,6 +85,10 @@ const dictionary = {
 		fr: 'Zone géographique couverte',
 		en: 'Spatial coverage',
 	},
+	datasetsSpacialTemporal: {
+		fr: 'Millésime géographique',
+		en: 'Geographical vintage',
+	},
 	datasetsSpacialResolutions: {
 		fr: 'Résolution géographique',
 		en: 'Spatial resolution',

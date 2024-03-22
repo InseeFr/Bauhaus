@@ -755,6 +755,26 @@ const Dataset = (props) => {
 										</label>
 									</div>
 								</Row>
+
+								<Row>
+									<div className="col-md-12 form-group">
+										<label className="w-100 wilco-label-required">
+											{D1.datasetsSpacialTemporal}
+											<input
+												type="date"
+												className="form-control"
+												value={editingDataset.spacialTemporal}
+												onChange={(e) => {
+													setEditingDataset({
+														...editingDataset,
+														spacialTemporal: e.target.value,
+													});
+												}}
+											/>
+										</label>
+									</div>
+								</Row>
+
 								<Row>
 									<div className="col-md-12 form-group">
 										<label className="w-100 wilco-label-required">
