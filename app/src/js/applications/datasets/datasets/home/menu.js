@@ -5,9 +5,7 @@ export const HomePageMenu = () => {
 	return (
 		<VerticalMenu>
 			<Auth.AuthGuard roles={[Auth.ADMIN, Auth.DATASET_CONTRIBUTOR]}>
-				<MasculineButton
-					action="/datasets/create"
-				/>
+				<MasculineButton action="/datasets/create" />
 			</Auth.AuthGuard>
 		</VerticalMenu>
 	);
