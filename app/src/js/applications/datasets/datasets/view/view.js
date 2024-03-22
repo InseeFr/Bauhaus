@@ -133,6 +133,12 @@ const Dataset = (props) => {
 									}
 								</li>
 							)}
+							{dataset.spacialTemporal && (
+								<li>
+									{D.datasetsSpacialTemporal} :{' '}
+									{DateUtils.stringToDate(dataset.spacialTemporal)}
+								</li>
+							)}
 							{dataset.spacialResolutions && (
 								<li>
 									{D.datasetsSpacialResolutions} :{' '}

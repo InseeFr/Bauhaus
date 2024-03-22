@@ -34,8 +34,8 @@ const dictionary = {
 		en: 'Organization responsible for publishing data\n',
 	},
 	datasetsUpdatedDate: {
-		fr: 'Date de modification',
-		en: 'Modification date',
+		fr: 'Date de modification des données',
+		en: 'Modification date of the data',
 	},
 	datasetProcessStep: {
 		fr: 'Processus utilisant les données',
@@ -50,12 +50,12 @@ const dictionary = {
 		en: 'Access Rights',
 	},
 	datasetsFirstDiffusion: {
-		fr: 'Date de première diffusion',
-		en: 'Date of the first diffusion',
+		fr: 'Date de première diffusion des données',
+		en: 'Date of the first diffusion of the data',
 	},
 	datasetsType: {
-		fr: 'Type',
-		en: 'Type',
+		fr: 'Type de données',
+		en: 'Data Type',
 	},
 	datasetsStatisticalUnits: {
 		fr: 'Unités statistiques',
@@ -84,6 +84,10 @@ const dictionary = {
 	datasetsSpacialCoverage: {
 		fr: 'Zone géographique couverte',
 		en: 'Spatial coverage',
+	},
+	datasetsSpacialTemporal: {
+		fr: 'Millésime géographique',
+		en: 'Geographical vintage',
 	},
 	datasetsSpacialResolutions: {
 		fr: 'Résolution géographique',
