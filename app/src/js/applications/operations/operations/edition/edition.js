@@ -135,6 +135,7 @@ class OperationsOperationEdition extends Component {
 					{!isEditing && (
 						<div className="row">
 							<div className="form-group col-md-12">
+								<LabelRequired htmlFor="???">Série</LabelRequired> //must be changed properly
 								<Select
 									placeholder={D.seriesTitle}
 									unclearable
