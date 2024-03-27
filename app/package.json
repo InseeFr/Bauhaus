@@ -9,12 +9,11 @@
 	"license": "MIT",
 	"author": "INSEE (http://www.insee.fr)",
 	"scripts": {
-		"pre-script": "cross-env NODE_OPTIONS=--openssl-legacy-provider REACT_APP_VERSION=$(node -pe 'require(\"../package.json\").version') REACT_APP_NAME=$npm_package_name",
-		"build-insee": "yarn pre-script react-scripts build && npm run create-zip",
+		"build-insee": "cross-env NODE_OPTIONS=--openssl-legacy-provider REACT_APP_VERSION=$(node -pe 'require(\"../package.json\").version') REACT_APP_NAME=$npm_package_name react-scripts build && npm run create-zip",
 		"create-zip": "cd build && bestzip build.zip *",
 		"eject": "react-scripts eject",
 		"lint": "eslint src",
-		"start": "yarn pre-script -- react-scripts start",
+		"start": "cross-env NODE_OPTIONS=--openssl-legacy-provider REACT_APP_VERSION=$(node -pe 'require(\"../package.json\").version') REACT_APP_NAME=$npm_package_name react-scripts start",
 		"test": "react-scripts test",
 		"test:coverage": "cross-env CI=true react-scripts test --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js --collectCoverageFrom=!src/types/*.js"
 	},
