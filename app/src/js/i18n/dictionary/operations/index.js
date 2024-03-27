@@ -17,6 +17,10 @@ const dictionary = {
 		fr: 'Familles',
 		en: 'Families',
 	},
+	serieTitle: {
+		fr: 'Série',
+		en: 'Serie',
+	},
 	seriesTitle: {
 		fr: 'Séries',
 		en: 'Series',

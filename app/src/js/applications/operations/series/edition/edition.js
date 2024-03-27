@@ -203,7 +203,7 @@ class OperationsSerieEdition extends Component {
 					{!isEditing && (
 						<div className="row">
 							<div className="form-group col-md-12">
-								<LabelRequired htmlFor="???">Famille</LabelRequired> //must be changed properly
+								<LabelRequired>{D.familyTitle}</LabelRequired>
 								<SelectRmes
 									placeholder={D.familiesTitle}
 									unclearable
