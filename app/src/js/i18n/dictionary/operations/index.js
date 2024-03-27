@@ -2,8 +2,8 @@ import documentsD from 'js/i18n/dictionary/operations/documents';
 import validationD from 'js/i18n/dictionary/operations/validation';
 const dictionary = {
 	createFromAnExistingReport: {
-		fr: 'Créer à partir d\'un rapport qualité existant',
-		en: 'Create from an existing quality report'
+		fr: "Créer à partir d'un rapport qualité existant",
+		en: 'Create from an existing quality report',
 	},
 	operationsTitle: {
 		fr: 'Opérations',
@@ -183,8 +183,10 @@ const dictionary = {
 		fr: 'Rubriques essentielles',
 	},
 	essentialRubricMsgPlural: {
-		fr: (nb, total) => `Vous avez rempli ${nb} rubriques essentielles sur ${total}.`,
-		en: (nb, total) => `You have completed ${nb} out of ${total} essential items.`,
+		fr: (nb, total) =>
+			`Vous avez rempli ${nb} rubriques essentielles sur ${total}.`,
+		en: (nb, total) =>
+			`You have completed ${nb} out of ${total} essential items.`,
 	},
 	essentialRubricMsg: {
 		fr: (_nb, total) => `Vous avez rempli 1 rubrique essentielle sur ${total}`,
@@ -259,8 +261,7 @@ const dictionary = {
 		en: 'State of the SIMS',
 	},
 	confirmationDocumentationDelete: {
-		fr:
-			'Vous êtes sur le point de supprimer définitivement cette documentation. Êtes-vous sûr ?',
+		fr: 'Vous êtes sur le point de supprimer définitivement cette documentation. Êtes-vous sûr ?',
 		en: 'You are about to permanently delete this documentation. Are you sure?',
 	},
 	exportSimsTips: {
