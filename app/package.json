@@ -10,11 +10,11 @@
 	"author": "INSEE (http://www.insee.fr)",
 	"scripts": {
 		"pre-script": "cross-env NODE_OPTIONS=--openssl-legacy-provider REACT_APP_VERSION=$(node -pe 'require(\"../package.json\").version') REACT_APP_NAME=$npm_package_name",
-		"build-insee": "npm run pre-script && cross-env REACT_APP_INSEE=true react-scripts build && npm run create-zip",
+		"build-insee": "yarn pre-script -- cross-env REACT_APP_INSEE=true react-scripts build && npm run create-zip",
 		"create-zip": "cd build && bestzip build.zip *",
 		"eject": "react-scripts eject",
 		"lint": "eslint src",
-		"start": "npm run pre-script -- react-scripts start",
+		"start": "yarn pre-script -- react-scripts start",
 		"test": "react-scripts test",
 		"test:coverage": "cross-env CI=true react-scripts test --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js --collectCoverageFrom=!src/types/*.js"
 	},
