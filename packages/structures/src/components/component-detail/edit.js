@@ -408,9 +408,7 @@ const DumbComponentDetailEdit = ({
 				<Row>
 					<div className="col-md-12 ">
 						<FormGroup>
-							<label>
-								<LabelRequired>{D1.type}</LabelRequired>
-							</label>
+							<LabelRequired>{D1.type}</LabelRequired>
 							<ReactSelect
 								placeholder={D1.type}
 								value={MUTUALIZED_COMPONENT_TYPES.find(

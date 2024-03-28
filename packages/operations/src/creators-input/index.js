@@ -2,6 +2,7 @@ import React from 'react';
 import { SelectRmes, StampsApi } from 'bauhaus-utilities';
 import { D1 } from '../i18n/build-dictionary';
 import { useQuery } from '@tanstack/react-query';
+import { LabelRequired } from '@inseefr/wilco';
 
 const CreatorsInput = ({ value, onChange, multi }) => {
 	const { data: stampsOptions = [] } = useQuery(['stamps'], () => {
@@ -17,9 +18,8 @@ const CreatorsInput = ({ value, onChange, multi }) => {
 	}
 
 	return (
-		<label className="w-100 wilco-label-required">
-			{multi === false ? D1.creatorTitle : D1.creatorsTitle}
-			<span className="asterisk">*</span>
+		<div>
+			<LabelRequired>{multi === false ? D1.creatorTitle : D1.creatorsTitle}</LabelRequired>
 			<SelectRmes
 				placeholder={D1.stampsPlaceholder}
 				unclearable
@@ -34,7 +34,7 @@ const CreatorsInput = ({ value, onChange, multi }) => {
 					}
 				}}
 			/>
-		</label>
+		</div>
 	);
 };
 
