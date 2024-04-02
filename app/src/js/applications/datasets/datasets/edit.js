@@ -85,12 +85,17 @@ const Dataset = (props) => {
 	const organisationsOptions =
 		organisations?.map(({ iri, label }) => ({ value: iri, label })) ?? [];
 
+	const [clientSideErrors, setClientSideErrors] = useState({});
+
 	const layoutConfiguration = {
 		globalInformation: {
 			title: D.globalInformationsTitle,
 			children: {
 				globalInformation: {
 					title: D.globalInformationsTitle,
+					isInError:
+						clientSideErrors?.fields?.labelLg1 ||
+						clientSideErrors?.fields?.labelLg2,
 					content: () => {
 						if (
 							editingDataset?.updated &&
@@ -342,6 +347,11 @@ const Dataset = (props) => {
 				},
 				globalInternalManagementTitle: {
 					title: D.globalInternalManagementTitle,
+					isInError:
+						clientSideErrors?.fields?.contributor ||
+						clientSideErrors?.fields?.creator ||
+						clientSideErrors?.fields?.disseminationStatus ||
+						clientSideErrors?.fields?.idSerie,
 					content: () => {
 						return (
 							<>
@@ -844,7 +854,6 @@ const Dataset = (props) => {
 	const isEditing = !!id;
 
 	const [editingDataset, setEditingDataset] = useState({});
-	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
 
 	const { data: stampsOptions = [] } = useQuery(['stamps'], () => {

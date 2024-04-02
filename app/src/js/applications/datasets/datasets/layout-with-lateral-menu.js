@@ -16,6 +16,19 @@ export const CollapsibleTrigger = ({ opened, onClick }) => {
 		</button>
 	);
 };
+
+export const MenuTabInErrorIndicator = ({ isInError }) => {
+	if (isInError) {
+		return (
+			<span ariaLabel={D.menuTabKo} title={D.menuTabKo}>
+				⚠️
+			</span>
+		);
+	}
+
+	return <></>;
+};
+
 export const LayoutWithLateralMenu = ({ children, layoutConfiguration }) => {
 	const [runtimeLayoutConfiguration, setRuntimeLayoutConfiguration] =
 		useState(layoutConfiguration);
@@ -77,6 +90,9 @@ export const LayoutWithLateralMenu = ({ children, layoutConfiguration }) => {
 																onClick={() => setCurrentOpenedPanelKey(key2)}
 															>
 																{configuration2.title}
+																<MenuTabInErrorIndicator
+																	isInError={configuration2.isInError}
+																/>
 															</button>
 														</li>
 													);

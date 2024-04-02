@@ -4,7 +4,11 @@ import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
-import { EditorMarkdownToolbar, ArrayUtils, EditorDeleteButton } from 'bauhaus-utilities';
+import {
+	EditorMarkdownToolbar,
+	ArrayUtils,
+	EditorDeleteButton,
+} from 'bauhaus-utilities';
 import { SimsGeographyPicker } from 'bauhaus-operations';
 import { Editor } from 'react-draft-wysiwyg';
 import { Note, getLang, Select } from '@inseefr/wilco';
@@ -101,20 +105,20 @@ class SimsField extends PureComponent {
 		};
 
 		let value;
-		switch (msd.rangeType){
+		switch (msd.rangeType) {
 			case TEXT:
 				value = currentSection[secondLang ? 'labelLg2' : 'labelLg1'];
 				break;
 			case ORGANIZATION:
 				value = organisationsOptions.find(
 					({ value }) => value === currentSection.value
-				)
+				);
 				break;
 			case Date:
 				value = currentSection.value;
 				break;
 			case RICH_TEXT:
-				value = currentSection[secondLang ? 'labelLg2' : 'labelLg1']
+				value = currentSection[secondLang ? 'labelLg2' : 'labelLg1'];
 				break;
 			case GEOGRAPHY:
 				value = currentSection.uri;
@@ -128,7 +132,14 @@ class SimsField extends PureComponent {
 
 		return (
 			<Note
-				title={<SimsFieldTitle currentSection={currentSection} msd={msd} secondLang={secondLang} organisationsOptions={organisationsOptions}/>}
+				title={
+					<SimsFieldTitle
+						currentSection={currentSection}
+						msd={msd}
+						secondLang={secondLang}
+						organisationsOptions={organisationsOptions}
+					/>
+				}
 				alone={alone}
 				lang={lang}
 				text={

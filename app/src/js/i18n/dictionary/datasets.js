@@ -125,6 +125,10 @@ const dictionary = {
 		fr: 'Structure de données',
 		en: 'Data structure',
 	},
+	menuTabKo: {
+		en: 'Errors occur in this tab',
+		fr: 'Il y a des erreurs dans cet onglet',
+	},
 };
 
 export default dictionary;
