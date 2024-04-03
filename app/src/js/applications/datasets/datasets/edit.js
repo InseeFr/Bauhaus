@@ -87,15 +87,18 @@ const Dataset = (props) => {
 
 	const [clientSideErrors, setClientSideErrors] = useState({});
 
+	const hasErrors = (keys) => {
+		const fieldsInError = keys.filter((key) => clientSideErrors.fields?.[key]);
+		return fieldsInError.length > 0;
+	};
+
 	const layoutConfiguration = {
 		globalInformation: {
 			title: D.globalInformationsTitle,
 			children: {
 				globalInformation: {
 					title: D.globalInformationsTitle,
-					isInError:
-						clientSideErrors.fields?.labelLg1 ||
-						clientSideErrors.fields?.labelLg2,
+					isInError: hasErrors(['labelLg1', 'labelLg2']),
 					content: () => {
 						if (
 							editingDataset?.updated &&
@@ -346,11 +349,12 @@ const Dataset = (props) => {
 				},
 				globalInternalManagementTitle: {
 					title: D.globalInternalManagementTitle,
-					isInError:
-						clientSideErrors.fields?.contributor ||
-						clientSideErrors.fields?.creator ||
-						clientSideErrors.fields?.disseminationStatus ||
-						clientSideErrors.fields?.idSerie,
+					isInError: hasErrors([
+						'contributor',
+						'creator',
+						'disseminationStatus',
+						'idSerie',
+					]),
 					content: () => {
 						return (
 							<>
