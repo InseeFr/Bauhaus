@@ -94,8 +94,8 @@ const Dataset = (props) => {
 				globalInformation: {
 					title: D.globalInformationsTitle,
 					isInError:
-						clientSideErrors?.fields?.labelLg1 ||
-						clientSideErrors?.fields?.labelLg2,
+						clientSideErrors.fields?.labelLg1 ||
+						clientSideErrors.fields?.labelLg2,
 					content: () => {
 						if (
 							editingDataset?.updated &&
@@ -299,7 +299,6 @@ const Dataset = (props) => {
 														...editingDataset,
 														themes: values.map(({ value }) => value),
 													});
-													setClientSideErrors({});
 												}}
 											/>
 										</label>
@@ -348,10 +347,10 @@ const Dataset = (props) => {
 				globalInternalManagementTitle: {
 					title: D.globalInternalManagementTitle,
 					isInError:
-						clientSideErrors?.fields?.contributor ||
-						clientSideErrors?.fields?.creator ||
-						clientSideErrors?.fields?.disseminationStatus ||
-						clientSideErrors?.fields?.idSerie,
+						clientSideErrors.fields?.contributor ||
+						clientSideErrors.fields?.creator ||
+						clientSideErrors.fields?.disseminationStatus ||
+						clientSideErrors.fields?.idSerie,
 					content: () => {
 						return (
 							<>
@@ -424,7 +423,10 @@ const Dataset = (props) => {
 													...editingDataset,
 													disseminationStatus: option?.value,
 												});
-												setClientSideErrors({});
+												setClientSideErrors((clientSideErrors) => ({
+													...clientSideErrors,
+													errorMessage: [],
+												}));
 											}}
 										/>
 										<ClientSideError
@@ -446,7 +448,10 @@ const Dataset = (props) => {
 													...editingDataset,
 													idSerie: option?.value,
 												});
-												setClientSideErrors({});
+												setClientSideErrors((clientSideErrors) => ({
+													...clientSideErrors,
+													errorMessage: [],
+												}));
 											}}
 										/>
 										<ClientSideError
@@ -551,10 +556,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												abstractLg1: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
@@ -567,10 +568,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												abstractLg2: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
@@ -585,10 +582,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												descriptionLg1: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
@@ -601,10 +594,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												descriptionLg2: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
@@ -620,10 +609,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												cautionLg1: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
@@ -636,10 +621,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												cautionLg2: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
