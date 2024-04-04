@@ -9,7 +9,7 @@ COPY yarn.lock ./
 COPY . ./
 
 RUN yarn
-RUN yarn build
+RUN yarn build-insee
 
 # start app
 CMD ["yarn", "start"]
