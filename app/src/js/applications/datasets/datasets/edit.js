@@ -85,12 +85,20 @@ const Dataset = (props) => {
 	const organisationsOptions =
 		organisations?.map(({ iri, label }) => ({ value: iri, label })) ?? [];
 
+	const [clientSideErrors, setClientSideErrors] = useState({});
+
+	const hasErrors = (keys) => {
+		const fieldsInError = keys.filter((key) => clientSideErrors.fields?.[key]);
+		return fieldsInError.length > 0;
+	};
+
 	const layoutConfiguration = {
 		globalInformation: {
 			title: D.globalInformationsTitle,
 			children: {
 				globalInformation: {
 					title: D.globalInformationsTitle,
+					isInError: hasErrors(['labelLg1', 'labelLg2']),
 					content: () => {
 						if (
 							editingDataset?.updated &&
@@ -294,7 +302,6 @@ const Dataset = (props) => {
 														...editingDataset,
 														themes: values.map(({ value }) => value),
 													});
-													setClientSideErrors({});
 												}}
 											/>
 										</label>
@@ -342,6 +349,12 @@ const Dataset = (props) => {
 				},
 				globalInternalManagementTitle: {
 					title: D.globalInternalManagementTitle,
+					isInError: hasErrors([
+						'contributor',
+						'creator',
+						'disseminationStatus',
+						'idSerie',
+					]),
 					content: () => {
 						return (
 							<>
@@ -414,7 +427,10 @@ const Dataset = (props) => {
 													...editingDataset,
 													disseminationStatus: option?.value,
 												});
-												setClientSideErrors({});
+												setClientSideErrors((clientSideErrors) => ({
+													...clientSideErrors,
+													errorMessage: [],
+												}));
 											}}
 										/>
 										<ClientSideError
@@ -436,7 +452,10 @@ const Dataset = (props) => {
 													...editingDataset,
 													idSerie: option?.value,
 												});
-												setClientSideErrors({});
+												setClientSideErrors((clientSideErrors) => ({
+													...clientSideErrors,
+													errorMessage: [],
+												}));
 											}}
 										/>
 										<ClientSideError
@@ -541,10 +560,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												abstractLg1: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
@@ -557,10 +572,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												abstractLg2: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
@@ -575,10 +586,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												descriptionLg1: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
@@ -591,10 +598,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												descriptionLg2: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
@@ -610,10 +613,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												cautionLg1: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
@@ -626,10 +625,6 @@ const Dataset = (props) => {
 												...editingDataset,
 												cautionLg2: value,
 											});
-											setClientSideErrors((clientSideErrors) => ({
-												...clientSideErrors,
-												errorMessage: [],
-											}));
 										}}
 									/>
 								</div>
@@ -844,7 +839,6 @@ const Dataset = (props) => {
 	const isEditing = !!id;
 
 	const [editingDataset, setEditingDataset] = useState({});
-	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
 
 	const { data: stampsOptions = [] } = useQuery(['stamps'], () => {
