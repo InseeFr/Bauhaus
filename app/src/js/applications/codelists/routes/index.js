@@ -12,9 +12,12 @@ import {
 	CodelistPartialComponentView,
 	CodelistPartialEdit,
 } from 'bauhaus-codelists';
+import D from 'bauhaus-codelists/src/i18n/build-dictionary';
 
 const CodesListComponent = () => {
 	document.getElementById('root-app').classList = ['codelists'];
+
+	document.title = 'Bauhaus - ' + D.codelistsTitle;
 	return (
 		<>
 			<Menu />
