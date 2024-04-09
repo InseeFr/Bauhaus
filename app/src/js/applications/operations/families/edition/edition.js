@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
-import { EditorMarkdown, PageTitleBlock, withTitle, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError, Row } from 'bauhaus-utilities';
+import {
+	EditorMarkdown,
+	PageTitleBlock,
+	withTitle,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+	Row,
+} from 'bauhaus-utilities';
 import {
 	CancelButton,
 	SaveButton,
@@ -22,9 +30,9 @@ const defaultFamily = {
 	abstractLg2: '',
 };
 
-const setInitialState = props => {
+const setInitialState = (props) => {
 	return {
-		clientSideErrors: { },
+		clientSideErrors: {},
 		serverSideError: '',
 		saving: false,
 		submitting: false,
@@ -51,13 +59,13 @@ class OperationsFamilyEdition extends Component {
 		} else return null;
 	}
 
-	onChange = e => {
-		this.setState(state => ({
+	onChange = (e) => {
+		this.setState((state) => ({
 			serverSideError: '',
 			submitting: true,
 			clientSideErrors: {
 				...state.clientSideErrors,
-				errorMessage: []
+				errorMessage: [],
 			},
 			family: {
 				...this.state.family,
@@ -67,32 +75,35 @@ class OperationsFamilyEdition extends Component {
 	};
 	onSubmit = () => {
 		const clientSideErrors = validate(this.state.family);
-		if(clientSideErrors.errorMessage?.length > 0){
+		if (clientSideErrors.errorMessage?.length > 0) {
 			this.setState({
 				submitting: true,
-				clientSideErrors
-			})
+				clientSideErrors,
+			});
 		} else {
 			this.setState({ saving: true });
 			const isCreation = !this.state.family.id;
 
 			const method = isCreation ? 'postFamily' : 'putFamily';
-			return api[method](this.state.family).then(
-				(id = this.state.family.id) => {
-					this.props.goBack(`/operations/family/${id}`, isCreation);
-				},
-				err => {
-					this.setState({
-						serverSideError: err,
-					});
-				}
-			).finally(() => this.setState({ saving: false }));
-		}	};
+			return api[method](this.state.family)
+				.then(
+					(id = this.state.family.id) => {
+						this.props.goBack(`/operations/family/${id}`, isCreation);
+					},
+					(err) => {
+						this.setState({
+							serverSideError: err,
+						});
+					}
+				)
+				.finally(() => this.setState({ saving: false }));
+		}
+	};
 
 	render() {
 		if (this.state.saving) return <Loading textType="saving" />;
 
-		const {goBack} = this.props;
+		const { goBack } = this.props;
 		const { family, serverSideError } = this.state;
 		const isEditing = !!family.id;
 
@@ -108,11 +119,19 @@ class OperationsFamilyEdition extends Component {
 
 				<ActionToolbar>
 					<CancelButton action={() => goBack('/operations/families')} />
-					<SaveButton action={this.onSubmit} disabled={this.state.clientSideErrors.errorMessage?.length > 0} />
+					<SaveButton
+						action={this.onSubmit}
+						disabled={this.state.clientSideErrors.errorMessage?.length > 0}
+					/>
 				</ActionToolbar>
 
-				{ this.state.submitting && this.state.clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={this.state.clientSideErrors.errorMessage} D={D}/> }
-				{ serverSideError && <ErrorBloc error={[serverSideError]} D={D}/> }
+				{this.state.submitting && this.state.clientSideErrors && (
+					<GlobalClientSideErrorBloc
+						clientSideErrors={this.state.clientSideErrors.errorMessage}
+						D={D}
+					/>
+				)}
+				{serverSideError && <ErrorBloc error={[serverSideError]} D={D} />}
 
 				<form>
 					<Row>
@@ -124,10 +143,19 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg1"
 								value={this.state.family.prefLabelLg1}
 								onChange={this.onChange}
-								aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg1}
-								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg1 ? 'prefLabelLg1-error' : null}
+								aria-invalid={
+									!!this.state.clientSideErrors.fields?.prefLabelLg1
+								}
+								aria-describedby={
+									!!this.state.clientSideErrors.fields?.prefLabelLg1
+										? 'prefLabelLg1-error'
+										: null
+								}
 							/>
-							<ClientSideError id="prefLabelLg1-error" error={this.state.clientSideErrors?.fields?.prefLabelLg1}></ClientSideError>
+							<ClientSideError
+								id="prefLabelLg1-error"
+								error={this.state.clientSideErrors?.fields?.prefLabelLg1}
+							></ClientSideError>
 						</div>
 						<div className="col-md-6 form-group">
 							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
@@ -137,10 +165,19 @@ class OperationsFamilyEdition extends Component {
 								id="prefLabelLg2"
 								value={family.prefLabelLg2}
 								onChange={this.onChange}
-								aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg2}
-								aria-describedby={!!this.state.clientSideErrors.fields?.prefLabelLg2 ? 'prefLabelLg2-error' : null}
+								aria-invalid={
+									!!this.state.clientSideErrors.fields?.prefLabelLg2
+								}
+								aria-describedby={
+									!!this.state.clientSideErrors.fields?.prefLabelLg2
+										? 'prefLabelLg2-error'
+										: null
+								}
 							/>
-							<ClientSideError id="prefLabelLg2-error" error={this.state.clientSideErrors?.fields?.prefLabelLg2}></ClientSideError>
+							<ClientSideError
+								id="prefLabelLg2-error"
+								error={this.state.clientSideErrors?.fields?.prefLabelLg2}
+							></ClientSideError>
 						</div>
 					</Row>
 					<Row>
@@ -170,7 +207,7 @@ class OperationsFamilyEdition extends Component {
 							<label htmlFor="abstractLg1">{D1.summary}</label>
 							<EditorMarkdown
 								text={family.abstractLg1}
-								handleChange={value =>
+								handleChange={(value) =>
 									this.onChange({ target: { value, id: 'abstractLg1' } })
 								}
 							/>
@@ -179,7 +216,7 @@ class OperationsFamilyEdition extends Component {
 							<label htmlFor="abstractLg2">{D2.summary}</label>
 							<EditorMarkdown
 								text={family.abstractLg2}
-								handleChange={value =>
+								handleChange={(value) =>
 									this.onChange({ target: { value, id: 'abstractLg2' } })
 								}
 							/>
@@ -191,6 +228,10 @@ class OperationsFamilyEdition extends Component {
 	}
 }
 
-export default withTitle(OperationsFamilyEdition, D.operationsTitle, props => {
-	return props.family.prefLabelLg1 || D.familiesCreateTitle
-});
+export default withTitle(
+	OperationsFamilyEdition,
+	D.familiesTitle + ' - ' + D.operationsTitle,
+	(props) => {
+		return props.family.prefLabelLg1 || D.familiesCreateTitle;
+	}
+);

@@ -132,8 +132,14 @@ class OperationsSerieEdition extends Component {
 	render() {
 		if (this.state.saving) return <Loading textType="saving" />;
 
-		const { frequencies, categories, organisations, indicators, series, goBack } =
-			this.props;
+		const {
+			frequencies,
+			categories,
+			organisations,
+			indicators,
+			series,
+			goBack,
+		} = this.props;
 
 		const serie = {
 			...this.state.serie,
@@ -567,6 +573,10 @@ class OperationsSerieEdition extends Component {
 	}
 }
 
-export default withTitle(OperationsSerieEdition, D.operationsTitle, (props) => {
-	return props.serie?.prefLabelLg1 || D.seriesCreateTitle;
-});
+export default withTitle(
+	OperationsSerieEdition,
+	D.seriesTitle + ' - ' + D.operationsTitle,
+	(props) => {
+		return props.serie?.prefLabelLg1 || D.seriesCreateTitle;
+	}
+);

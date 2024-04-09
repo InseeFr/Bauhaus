@@ -12,7 +12,7 @@ const HomeGeneral = ({ correspondence, secondLang, langs: { lg1, lg2 } }) => {
 		correspondence;
 	const title = secondLang ? labelLg2 : labelLg1;
 
-	useTitle(D.correspondencesTitle + ' - ' + D.classificationsTitle, labelLg1);
+	useTitle(D.correspondencesTitle, labelLg1);
 
 	return (
 		<div>

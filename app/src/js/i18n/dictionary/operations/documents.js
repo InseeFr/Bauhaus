@@ -1,7 +1,13 @@
 export default {
 	missingDocumentWhenExportingSims: {
-		fr: (documentNames) => "L’exportation du rapport avec tous les documents inclus est incomplète. Il vous manque les documents suivants : <ul><li>" + documentNames?.join('</li><li>') + "</ul>",
-		en: (documentNames) => "The export of this report with all included documents is incomplete. There is the following missing documents : <ul><li>" + documentNames?.join('</li><li>') + "</ul>"
+		fr: (documentNames) =>
+			'L’exportation du rapport avec tous les documents inclus est incomplète. Il vous manque les documents suivants : <ul><li>' +
+			documentNames?.join('</li><li>') +
+			'</ul>',
+		en: (documentNames) =>
+			'The export of this report with all included documents is incomplete. There is the following missing documents : <ul><li>' +
+			documentNames?.join('</li><li>') +
+			'</ul>',
 	},
 	document: { fr: 'Document', en: 'Document' },
 	link: { fr: 'Lien', en: 'Link' },

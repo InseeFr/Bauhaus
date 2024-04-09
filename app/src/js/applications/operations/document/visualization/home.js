@@ -2,38 +2,38 @@ import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from 'js/i18n';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { isDocument, isLink } from '../utils';
+import { LINK, isDocument, isLink } from '../utils';
 import { API, useTitle } from 'bauhaus-utilities';
 import RelationsView from '../../shared/relations';
 
-function formatSims(sims){
+function formatSims(sims) {
 	const simsObject = sims.reduce((acc, s) => {
-		if(acc[s.id]){
+		if (acc[s.id]) {
 			return {
 				...acc,
 				[s.id]: {
 					...acc[s.id],
-					rubrics: [...acc[s.id].rubrics, s.simsRubricId]
-				}
-			}
+					rubrics: [...acc[s.id].rubrics, s.simsRubricId],
+				},
+			};
 		} else {
 			return {
 				...acc,
 				[s.id]: {
 					...s,
-					rubrics: [s.simsRubricId]
-				}
-			}
+					rubrics: [s.simsRubricId],
+				},
+			};
 		}
-	}, {})
+	}, {});
 
-	return Object.values(simsObject).map(s => {
+	return Object.values(simsObject).map((s) => {
 		return {
 			...s,
 			labelLg1: s.labelLg1 + ` (${s.rubrics?.join(', ')})`,
 			labelLg2: s.labelLg2 + ` (${s.rubrics?.join(', ')})`,
-		}
-	})
+		};
+	});
 }
 /**
  * @typedef OperationsDocumentationVisualizationProps
@@ -48,9 +48,10 @@ function OperationsDocumentationVisualization({
 	attr,
 	secondLang,
 	langs: { lg1, lg2 },
-	langOptions
+	langOptions,
+	type,
 }) {
-	useTitle(D.operationsTitle, attr.labelLg1)
+	useTitle(type === LINK ? D.titleLink : D.titleDocument, attr.labelLg1);
 	const sims = formatSims(attr.sims);
 	const [baseURI, setBaseURI] = useState('');
 	useEffect(() => {
@@ -127,7 +128,8 @@ function OperationsDocumentationVisualization({
 			<div className="row">
 				<Note
 					text={
-						langOptions?.codes?.find(option => option.code === attr.lang)?.labelLg1
+						langOptions?.codes?.find((option) => option.code === attr.lang)
+							?.labelLg1
 					}
 					title={D1.langTitle}
 					lang={lg1}
@@ -153,10 +155,9 @@ OperationsDocumentationVisualization.propTypes = {
 	secondLang: PropTypes.bool,
 	langs: PropTypes.shape({
 		lg1: PropTypes.string,
-		lg2: PropTypes.string
+		lg2: PropTypes.string,
 	}),
-	langOptions: PropTypes.object
+	langOptions: PropTypes.object,
 };
 
 export default OperationsDocumentationVisualization;
-

@@ -3,7 +3,12 @@ import React from 'react';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
-import { HTMLUtils, PublicationFemale, withTitle, CreationUpdateItems } from 'bauhaus-utilities';
+import {
+	HTMLUtils,
+	PublicationFemale,
+	withTitle,
+	CreationUpdateItems,
+} from 'bauhaus-utilities';
 import D from '../../../../i18n/build-dictionary';
 
 function OperationsFamilyVisualization({
@@ -17,7 +22,10 @@ function OperationsFamilyVisualization({
 				<Note
 					text={
 						<ul>
-							<CreationUpdateItems creation={attr.created} update={attr.modified} />
+							<CreationUpdateItems
+								creation={attr.created}
+								update={attr.modified}
+							/>
 							<li>
 								{D1.familyStatus} : <PublicationFemale object={attr} />
 							</li>
@@ -75,6 +83,10 @@ function OperationsFamilyVisualization({
 	);
 }
 
-export default withTitle(OperationsFamilyVisualization, D.operationsTitle, props => {
-	return props.attr?.prefLabelLg1;
-});
+export default withTitle(
+	OperationsFamilyVisualization,
+	D.familiesTitle + ' - ' + D.operationsTitle,
+	(props) => {
+		return props.attr?.prefLabelLg1;
+	}
+);
