@@ -4,6 +4,7 @@ import {
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
 	Row,
+	useTitle,
 } from 'bauhaus-utilities';
 import {
 	ActionToolbar,
@@ -66,6 +67,11 @@ export const DistributionEdit = (props) => {
 				goBackOrReplace(props, `/datasets/distributions/${id}`, !isEditing);
 			},
 		}
+	);
+
+	useTitle(
+		D.distributionsTitle,
+		editingDistribution?.labelLg1 || D.distributionsCreateTitle
 	);
 
 	if (!distribution && isEditing) {

@@ -1,5 +1,5 @@
 import { PageTitle } from '@inseefr/wilco';
-import { SearchableList, Row } from 'bauhaus-utilities';
+import { SearchableList, Row, useTitle } from 'bauhaus-utilities';
 import D from '../../../../i18n/build-dictionary';
 import React from 'react';
 import { useDistributions } from '../../hooks';
@@ -7,6 +7,8 @@ import { HomePageMenu } from './menu';
 
 export const DistributionHome = () => {
 	const { data } = useDistributions();
+
+	useTitle(D.datasetsTitle, D.distributionsTitle);
 
 	return (
 		<div className="container">

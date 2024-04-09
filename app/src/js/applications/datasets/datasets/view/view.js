@@ -8,6 +8,7 @@ import {
 	PageTitleBlock,
 	Stores,
 	Row,
+	useTitle,
 } from 'bauhaus-utilities';
 import React, { useEffect, useState } from 'react';
 import { DSURLToLabel, Loading, Note } from '@inseefr/wilco';
@@ -62,6 +63,8 @@ const Dataset = (props) => {
 			},
 		}
 	);
+
+	useTitle(D.datasetsTitle, dataset?.labelLg1);
 
 	if (isLoading) return <Loading />;
 	if (isPublishing) return <Loading text="publishing" />;
