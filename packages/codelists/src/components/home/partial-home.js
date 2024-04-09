@@ -11,7 +11,7 @@ import {
 } from 'bauhaus-utilities';
 
 function CodeListsPartialHome() {
-	useTitle(D.codelistsPartialTitle, D.codelistsPartialTitle);
+	useTitle(D.codelistsTitle, D.codelistsPartialTitle);
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
 
