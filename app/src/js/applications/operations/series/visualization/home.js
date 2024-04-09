@@ -6,7 +6,12 @@ import RelationsView from 'js/applications/operations/shared/relations';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
-import { CreationUpdateItems, HTMLUtils, PublicationFemale, withTitle } from 'bauhaus-utilities';
+import {
+	CreationUpdateItems,
+	HTMLUtils,
+	PublicationFemale,
+	withTitle,
+} from 'bauhaus-utilities';
 import { PublishersView, CreatorsView } from 'bauhaus-operations';
 import D from '../../../../i18n/build-dictionary';
 
@@ -33,7 +38,10 @@ function OperationsSerieVisualization({
 				<Note
 					text={
 						<ul>
-							<CreationUpdateItems creation={attr.created} update={attr.modified} />
+							<CreationUpdateItems
+								creation={attr.created}
+								update={attr.modified}
+							/>
 							<li>
 								{D1.seriesStatus} : <PublicationFemale object={attr} />
 							</li>
@@ -200,6 +208,10 @@ function OperationsSerieVisualization({
 	);
 }
 
-export default withTitle(OperationsSerieVisualization, D.operationsTitle, props => {
-	return props.attr?.prefLabelLg1;
-});
+export default withTitle(
+	OperationsSerieVisualization,
+	D.seriesTitle + ' - ' + D.operationsTitle,
+	(props) => {
+		return props.attr?.prefLabelLg1;
+	}
+);

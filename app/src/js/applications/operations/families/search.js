@@ -9,7 +9,7 @@ import {
 	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
 	useTitle,
-	useUrlQueryParameters
+	useUrlQueryParameters,
 } from 'bauhaus-utilities';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
@@ -21,21 +21,24 @@ const defaultState = {
 };
 
 class SearchFormList extends AbstractAdvancedSearchComponent {
-
 	constructor(props) {
 		super(props, {
 			...defaultState,
-			...props.search
+			...props.search,
 		});
 	}
 
-	handlers = this.handleChange(fields, newState => {
+	handlers = this.handleChange(fields, (newState) => {
 		const { prefLabelLg1 } = newState;
-		this.props.setSearch({ prefLabelLg1 })
+		this.props.setSearch({ prefLabelLg1 });
 	});
 
 	render() {
-		const { data, search: { prefLabelLg1 }, reset } = this.props;
+		const {
+			data,
+			search: { prefLabelLg1 },
+			reset,
+		} = this.props;
 		const filteredData = data.filter(filterLabel(prefLabelLg1));
 
 		const dataLinks = filteredData.map(({ id, prefLabelLg1 }) => (
@@ -56,7 +59,7 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 							{D.labelTitle}
 							<input
 								value={prefLabelLg1}
-								onChange={e => this.handlers.prefLabelLg1(e.target.value)}
+								onChange={(e) => this.handlers.prefLabelLg1(e.target.value)}
 								type="text"
 								className="form-control"
 							/>
@@ -69,26 +72,31 @@ class SearchFormList extends AbstractAdvancedSearchComponent {
 }
 
 const SearchListWithUrlQueryParameter = ({ data }) => {
-	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
-	return <SearchFormList data={data} search={search} setSearch={setSearch} reset={reset}/>
-}
+	const [search, setSearch, reset] = useUrlQueryParameters(defaultState);
+	return (
+		<SearchFormList
+			data={data}
+			search={search}
+			setSearch={setSearch}
+			reset={reset}
+		/>
+	);
+};
 
 const SearchListContainer = () => {
-	useTitle(D.operationsTitle, D.familiesTitle + ' - ' + D.advancedSearch)
+	useTitle(D.familiesTitle + ' - ' + D.operationsTitle, D.advancedSearch);
 	const [data, setData] = useState();
 
 	useEffect(() => {
-		api.getFamiliesSearchList().then(data => {
+		api.getFamiliesSearchList().then((data) => {
 			setData(sortByLabel(data));
 		});
 	}, []);
 
-	if(!data){
-		return <Loading />
+	if (!data) {
+		return <Loading />;
 	}
-	return <SearchListWithUrlQueryParameter data={data} />
-}
-
-
+	return <SearchListWithUrlQueryParameter data={data} />;
+};
 
 export default SearchListContainer;

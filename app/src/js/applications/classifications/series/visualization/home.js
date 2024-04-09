@@ -8,33 +8,34 @@ import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
 import D from '../../../../i18n/build-dictionary';
 
 const SeriesVisualization = ({
-	 series: { general, members },
-	 secondLang,
-	 langs,
- }) => {
-	useTitle(D.classificationsTitle, general?.prefLabelLg1);
+	series: { general, members },
+	secondLang,
+	langs,
+}) => {
+	useTitle(
+		D.seriesTitle + ' - ' + D.classificationsTitle,
+		general?.prefLabelLg1
+	);
 
 	const notes = {
-			scopeNoteLg1: general.scopeNoteLg1,
-			scopeNoteLg2: general.scopeNoteLg2,
-		};
-		return (
-			<div className="container">
-				<PageTitle title={general.prefLabelLg1} />
-				{general.prefLabelLg2 && (
-					<PageSubtitle subTitle={general.prefLabelLg2} />
-				)}
-				<Controls />
-				<CheckSecondLang />
-				<General general={general} secondLang={secondLang} langs={langs} />
-				{notes.scopeNoteLg1 && (
-					<Notes notes={notes} secondLang={secondLang} langs={langs} />
-				)}
-				{members.length !== 0 && (
-					<Members members={members} secondLang={secondLang} />
-				)}
-			</div>
-		);
-}
+		scopeNoteLg1: general.scopeNoteLg1,
+		scopeNoteLg2: general.scopeNoteLg2,
+	};
+	return (
+		<div className="container">
+			<PageTitle title={general.prefLabelLg1} />
+			{general.prefLabelLg2 && <PageSubtitle subTitle={general.prefLabelLg2} />}
+			<Controls />
+			<CheckSecondLang />
+			<General general={general} secondLang={secondLang} langs={langs} />
+			{notes.scopeNoteLg1 && (
+				<Notes notes={notes} secondLang={secondLang} langs={langs} />
+			)}
+			{members.length !== 0 && (
+				<Members members={members} secondLang={secondLang} />
+			)}
+		</div>
+	);
+};
 
 export default SeriesVisualization;

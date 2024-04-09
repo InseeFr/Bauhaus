@@ -113,10 +113,7 @@ class OperationsIndicatorEdition extends Component {
 			return api[method](this.state.indicator)
 				.then(
 					(id = this.state.indicator.id) => {
-						this.props.goBack(
-							`/operations/indicator/${id}`,
-							isCreation
-						);
+						this.props.goBack(`/operations/indicator/${id}`, isCreation);
 					},
 					(err) => {
 						this.setState({
@@ -435,7 +432,7 @@ class OperationsIndicatorEdition extends Component {
 
 export default withTitle(
 	OperationsIndicatorEdition,
-	D.operationsTitle,
+	D.indicatorsTitle,
 	(props) => {
 		return props.indicator?.prefLabelLg1 || D.indicatorsCreateTitle;
 	}

@@ -24,6 +24,7 @@ import {
 	Row,
 	StampsApi,
 	Stores,
+	useTitle,
 } from 'bauhaus-utilities';
 import ReactSelect from 'react-select';
 import { useThemes } from './useThemes';
@@ -916,6 +917,8 @@ const Dataset = (props) => {
 			},
 		}
 	);
+
+	useTitle(D.datasetsTitle, editingDataset?.labelLg1 || D.datasetsCreateTitle);
 
 	if (!dataset && isEditing) {
 		return <Loading />;

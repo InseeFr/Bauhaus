@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import {
 	EditorMarkdown,
 	PageTitleBlock,
-	withTitle,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	Row,
+	useTitle,
 } from 'bauhaus-utilities';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
@@ -131,6 +131,12 @@ export const ConfirmationModal = ({ document, isOpen, onYes, onNo }) => {
 
 const OperationsDocumentationEdition = (props) => {
 	const { document: documentProps, type, langOptions } = props;
+	useTitle(
+		type === LINK ? D.titleLink : D.titleDocument,
+		props.document.labelLg1 || type === LINK
+			? D.linksCreateTitle
+			: D.documentsCreateTitle
+	);
 
 	const goBack = useGoBack();
 
@@ -438,13 +444,4 @@ OperationsDocumentationEdition.propTypes = {
 	type: PropTypes.oneOf([LINK, DOCUMENT]),
 };
 
-export default withTitle(
-	OperationsDocumentationEdition,
-	D.operationsTitle,
-	(props) => {
-		return (
-			props.document.labelLg1 ||
-			(props.type === LINK ? D.linksCreateTitle : D.documentsCreateTitle)
-		);
-	}
-);
+export default OperationsDocumentationEdition;

@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { PageTitle } from '@inseefr/wilco';
 import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
 import D from 'js/i18n';
-import { SearchableList } from 'bauhaus-utilities';
+import { SearchableList, useTitle } from 'bauhaus-utilities';
 import { Menu } from './menu';
 
 const CollectionsHome = ({ collections }) => {
+	useTitle(D.conceptsTitle, D.collectionsTitle);
 	return (
 		<div className="container">
 			<div className="row">

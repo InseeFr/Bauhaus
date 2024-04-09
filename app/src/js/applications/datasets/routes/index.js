@@ -8,13 +8,14 @@ import { DistributionHome } from '../distributions/home/home';
 import { DistributionEdit } from '../distributions/edit';
 import { DistributionView } from '../distributions/view/view';
 import DatasetsMenu from './menu';
+import D from 'js/i18n';
 
 const rootApp = document.getElementById('root-app');
 const DatasetsComponent = () => {
 	if (rootApp) {
 		rootApp.classList = ['datasets'];
 	}
-
+	document.title = 'Bauhaus - ' + D.datasetsTitle;
 	return (
 		<>
 			<DatasetsMenu />

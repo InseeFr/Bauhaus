@@ -4,25 +4,33 @@ import {
 	PublishButton,
 	ExportButton,
 	VerticalMenu,
-	Loading
+	Loading,
 } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import D from 'js/i18n';
 import { useSelector } from 'react-redux';
-import { ArrayUtils, Auth, SearchableList, MasculineButton } from 'bauhaus-utilities';
+import {
+	ArrayUtils,
+	Auth,
+	SearchableList,
+	MasculineButton,
+	useTitle,
+} from 'bauhaus-utilities';
 import api from '../../remote-api/concepts-api';
 
 const ConceptsHome = () => {
-	const permission = useSelector(state => Auth.getPermission(state))
-	const [concepts, setConcepts] = useState([])
+	useTitle(D.conceptsTitle, D.conceptsTitle);
+	const permission = useSelector((state) => Auth.getPermission(state));
+	const [concepts, setConcepts] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		api.getConceptList()
-			.then(body => {
+		api
+			.getConceptList()
+			.then((body) => {
 				setConcepts(ArrayUtils.sortArrayByLabel(body));
 			})
-			.finally(() => setLoading(false))
+			.finally(() => setLoading(false));
 	}, []);
 
 	if (loading) return <Loading />;
@@ -35,9 +43,9 @@ const ConceptsHome = () => {
 			<div className="row">
 				<VerticalMenu>
 					<Auth.AuthGuard roles={[Auth.ADMIN, Auth.SERIES_CONTRIBUTOR]}>
-						<MasculineButton action="/concept/create"/>
+						<MasculineButton action="/concept/create" />
 					</Auth.AuthGuard>
-					<ExportButton action="/concepts/export" wrapper={false}/>
+					<ExportButton action="/concepts/export" wrapper={false} />
 					{adminOrCreator && (
 						<PublishButton
 							action="/concepts/validation"
@@ -61,6 +69,6 @@ const ConceptsHome = () => {
 			</div>
 		</div>
 	);
-}
+};
 
 export default ConceptsHome;

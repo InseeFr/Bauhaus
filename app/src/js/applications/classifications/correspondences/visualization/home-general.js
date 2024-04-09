@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import { PageTitle, Note } from '@inseefr/wilco';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
@@ -7,20 +7,12 @@ import { D1, D2 } from 'js/i18n';
 import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
 import D from '../../../../i18n/build-dictionary';
 
-const HomeGeneral = ({
-	 correspondence,
-	 secondLang,
-	 langs: { lg1, lg2 },
- }) =>  {
-	const {
-		labelLg1,
-		labelLg2,
-		firstClassLabelLg2,
-		secondClassLabelLg2,
-	} = correspondence;
+const HomeGeneral = ({ correspondence, secondLang, langs: { lg1, lg2 } }) => {
+	const { labelLg1, labelLg2, firstClassLabelLg2, secondClassLabelLg2 } =
+		correspondence;
 	const title = secondLang ? labelLg2 : labelLg1;
 
-	useTitle(D.classificationsTitle, labelLg1);
+	useTitle(D.correspondencesTitle, labelLg1);
 
 	return (
 		<div>
@@ -39,27 +31,27 @@ const HomeGeneral = ({
 				)}
 			</div>
 			<span>
-					{correspondence.descriptionLg1 && (
-						<div className="row">
+				{correspondence.descriptionLg1 && (
+					<div className="row">
+						<ExplanatoryNote
+							text={correspondence.descriptionLg1}
+							title={D1.classificationsDescription}
+							lang={lg1}
+							alone={!secondLang}
+						/>
+						{secondLang && (
 							<ExplanatoryNote
-								text={correspondence.descriptionLg1}
-								title={D1.classificationsDescription}
-								lang={lg1}
-								alone={!secondLang}
+								text={correspondence.descriptionLg2}
+								title={D2.classificationsDescription}
+								lang={lg2}
+								alone={false}
 							/>
-							{secondLang && (
-								<ExplanatoryNote
-									text={correspondence.descriptionLg2}
-									title={D2.classificationsDescription}
-									lang={lg2}
-									alone={false}
-								/>
-							)}
-						</div>
-					)}
-				</span>
+						)}
+					</div>
+				)}
+			</span>
 		</div>
 	);
-}
+};
 
 export default HomeGeneral;

@@ -217,7 +217,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 }
 
 const SearchListContainer = () => {
-	useTitle(D.operationsTitle, D.seriesTitle + ' - ' + D.advancedSearch);
+	useTitle(D.seriesTitle + ' - ' + D.operationsTitle, D.advancedSearch);
 	const [search, setSearch, reset] = useUrlQueryParameters(defaultState);
 	const [data, setData] = useState();
 	const categories = useCodesList(CL_SOURCE_CATEGORY);

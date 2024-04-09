@@ -15,7 +15,9 @@ import {
 	ValidationButton,
 	PublicationFemale,
 	useTitle,
-	ConfirmationDelete, CreationUpdateItems, Auth,
+	ConfirmationDelete,
+	CreationUpdateItems,
+	Auth,
 } from 'bauhaus-utilities';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
@@ -37,7 +39,7 @@ export const CodeListPartialDetailView = ({
 	serverSideError,
 	hidden = false,
 }) => {
-	useTitle(D.codelistPartialTitle, codelist?.labelLg1);
+	useTitle(D.codelistsPartialTitle, codelist?.labelLg1);
 
 	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
 		codelist.descriptionLg1
@@ -84,7 +86,10 @@ export const CodeListPartialDetailView = ({
 										{codelist.parentLabel}
 									</Link>
 								</li>
-								<CreationUpdateItems creation={codelist.created} update={codelist.modified} />
+								<CreationUpdateItems
+									creation={codelist.created}
+									update={codelist.modified}
+								/>
 								<li>
 									{D.codelistValidationStatusTitle} :{' '}
 									<PublicationFemale object={codelist} />

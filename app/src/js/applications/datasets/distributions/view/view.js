@@ -8,6 +8,7 @@ import {
 	PageTitleBlock,
 	Stores,
 	Row,
+	useTitle,
 } from 'bauhaus-utilities';
 import { Loading, Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
@@ -43,6 +44,8 @@ export const DistributionView = (props) => {
 			},
 		}
 	);
+
+	useTitle(D.distributionsTitle, distribution?.labelLg1);
 
 	if (isLoading || isLoadingDataSet) return <Loading />;
 	if (isPublishing) return <Loading text="publishing" />;

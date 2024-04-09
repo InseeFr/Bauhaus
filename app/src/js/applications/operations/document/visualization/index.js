@@ -1,9 +1,4 @@
-import {
-	Loading,
-	Button,
-	ActionToolbar,
-	ReturnButton,
-} from '@inseefr/wilco';
+import { Loading, Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import { useGoBack } from 'js/hooks/hooks';
 import {
 	Auth,
@@ -27,51 +22,57 @@ function getPath(path) {
 }
 
 const checkContributorRight = (document) => {
-	return stamp => {
+	return (stamp) => {
 		const sims = document.sims;
-		if(sims?.length === 0){
+		if (sims?.length === 0) {
 			return true;
 		}
-		const stamps = sims.map(({creators}) => creators);
-		for(let i = 1; i < stamps.length; i++){
+		const stamps = sims.map(({ creators }) => creators);
+		for (let i = 1; i < stamps.length; i++) {
 			// we first check if all stamps array have the same size.
-			if(stamps[i - 1].length !== stamps[i].length){
+			if (stamps[i - 1].length !== stamps[i].length) {
 				return false;
 			}
-			if(stamps[i - 1].length > 0 && stamps[i - 1].filter(s => stamps[i].includes(s)).length === 0){
+			if (
+				stamps[i - 1].length > 0 &&
+				stamps[i - 1].filter((s) => stamps[i].includes(s)).length === 0
+			) {
 				return false;
 			}
 		}
 		return stamps[0].includes(stamp);
-	}
-}
+	};
+};
 
 const DocumentationVisualizationContainer = () => {
 	const { id } = useParams();
 	const { path } = useRouteMatch();
 	const type = getPath(path);
-	const langs = useSelector(state => select.getLangs(state));
-	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
-	const langOptions = useSelector(state => state.operationsCodesList.results['ISO-639']);
-	const dispatch = useDispatch()
+	const langs = useSelector((state) => select.getLangs(state));
+	const secondLang = useSelector((state) =>
+		Stores.SecondLang.getSecondLang(state)
+	);
+	const langOptions = useSelector(
+		(state) => state.operationsCodesList.results['ISO-639']
+	);
+	const dispatch = useDispatch();
 	const goBack = useGoBack();
 
-
-	const [document, setDocument] = useState({ })
+	const [document, setDocument] = useState({});
 	useEffect(() => {
-		api.getDocument(id, type).then(results => {
+		api.getDocument(id, type).then((results) => {
 			setDocument({
 				...results,
 				id: results.uri.substr(results.uri.lastIndexOf('/') + 1),
-			})
-		})
-	}, [id, type])
+			});
+		});
+	}, [id, type]);
 
 	useEffect(() => {
-		if(!langOptions){
-			loadCodesList(['ISO-639'], dispatch)
+		if (!langOptions) {
+			loadCodesList(['ISO-639'], dispatch);
 		}
-	}, [langOptions, dispatch])
+	}, [langOptions, dispatch]);
 
 	if (!document.id) return <Loading />;
 
@@ -90,7 +91,7 @@ const DocumentationVisualizationContainer = () => {
 					roles={[
 						ADMIN,
 						[Auth.SERIES_CONTRIBUTOR, checkContributorRight(document)],
-						[Auth.INDICATOR_CONTRIBUTOR, checkContributorRight(document)]
+						[Auth.INDICATOR_CONTRIBUTOR, checkContributorRight(document)],
 					]}
 				>
 					<Button
@@ -107,9 +108,10 @@ const DocumentationVisualizationContainer = () => {
 				langs={langs}
 				secondLang={secondLang}
 				langOptions={langOptions}
+				type={type}
 			/>
 		</div>
 	);
-}
+};
 
 export default DocumentationVisualizationContainer;
