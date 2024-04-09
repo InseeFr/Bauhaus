@@ -12,7 +12,7 @@ const FamilyVisualization = ({
 	},
 	secondLang,
 }) => {
-	useTitle(D.classificationsTitle, prefLabelLg1);
+	useTitle(D.familiesTitle + ' - ' + D.classificationsTitle, prefLabelLg1);
 
 	return (
 		<div className="container">
