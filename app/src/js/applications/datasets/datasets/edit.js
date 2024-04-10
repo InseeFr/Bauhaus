@@ -123,6 +123,7 @@ const Dataset = (props) => {
 									<div className="col-md-6 form-group">
 										<LabelRequired htmlFor="labelLg1">{D1.title}</LabelRequired>
 										<input
+											key={'labelLg1'}
 											type="text"
 											className="form-control"
 											id="labelLg1"
@@ -355,10 +356,37 @@ const Dataset = (props) => {
 						'creator',
 						'disseminationStatus',
 						'idSerie',
+						'altIdentifier',
 					]),
 					content: () => {
 						return (
 							<>
+								<Row>
+									<div className="col-md-12 form-group">
+										<label htmlFor="altIdentifier">{D1.datasetsAltId}</label>
+										<input
+											key={'altIdentifier'}
+											type="text"
+											className="form-control"
+											id="altIdentifier"
+											value={editingDataset.altIdentifier}
+											onChange={(e) => {
+												setEditingDataset({
+													...editingDataset,
+													altIdentifier: e.target.value,
+												});
+												setClientSideErrors((clientSideErrors) => ({
+													...clientSideErrors,
+													errorMessage: [],
+												}));
+											}}
+										/>
+										<ClientSideError
+											error={clientSideErrors?.fields?.altIdentifier}
+										></ClientSideError>
+									</div>
+								</Row>
+
 								<Row>
 									<div className="col-md-12 form-group">
 										<LabelRequired>{D1.creatorTitle}</LabelRequired>
@@ -840,6 +868,7 @@ const Dataset = (props) => {
 	const isEditing = !!id;
 
 	const [editingDataset, setEditingDataset] = useState({});
+	console.log(editingDataset);
 	const [submitting, setSubmitting] = useState(false);
 
 	const { data: stampsOptions = [] } = useQuery(['stamps'], () => {

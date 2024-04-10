@@ -137,6 +137,14 @@ const dictionary = {
 		en: 'Errors occur in this tab',
 		fr: 'Il y a des erreurs dans cet onglet',
 	},
+	datasetsAltId: {
+		fr: 'Identifiant alternatif',
+		en: 'Alternative identifier',
+	},
+	altIdError: {
+		fr: "L'identifiant ne respecte pas les caractères autorisés : a-z, A-Z, 0-9, - et _",
+		en: 'The identifier does not respect authorized characters : a-z, A-Z, 0-9, - and _',
+	},
 };
 
 export default dictionary;
