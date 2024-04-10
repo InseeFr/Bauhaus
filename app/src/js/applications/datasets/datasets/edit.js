@@ -868,7 +868,6 @@ const Dataset = (props) => {
 	const isEditing = !!id;
 
 	const [editingDataset, setEditingDataset] = useState({});
-	console.log(editingDataset);
 	const [submitting, setSubmitting] = useState(false);
 
 	const { data: stampsOptions = [] } = useQuery(['stamps'], () => {
