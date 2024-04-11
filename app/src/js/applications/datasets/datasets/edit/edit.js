@@ -1,9 +1,11 @@
 import D from 'js/i18n';
-import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '../api/datasets-api';
-import './edit.scss';
+import { useDataset } from '../../hooks';
+import api from '../../api/datasets-api';
+
 import {
 	ActionToolbar,
 	CancelButton,
@@ -18,19 +20,15 @@ import {
 	PageTitleBlock,
 	useTitle,
 } from 'bauhaus-utilities';
-import { validate } from './validation';
+import { GlobalInformation } from './tabs/global-information';
+import { InternalManagement } from './tabs/internal-management';
+import { Notes } from './tabs/notes';
+import { StatisticalInformation } from './tabs/statistical-information';
 import { LayoutWithLateralMenu } from './layout-with-lateral-menu';
-import { useDataset } from '../hooks';
-import { useSelector } from 'react-redux';
-import {
-	GlobalInformation,
-	InternalManagement,
-	Notes,
-	StaticsInformations,
-} from './edit-tabs';
-import { withCodesLists } from 'js/hooks/hooks';
+import { validate } from './validation';
+import './edit.scss';
 
-const Dataset = (props) => {
+export const DatasetEdit = (props) => {
 	const { id } = useParams();
 	const isEditing = !!id;
 
@@ -77,8 +75,8 @@ const Dataset = (props) => {
 						);
 					},
 				},
-				globalInternalManagementTitle: {
-					title: D.globalInternalManagementTitle,
+				internalManagement: {
+					title: D.internalManagementTitle,
 					isInError: hasErrors([
 						'contributor',
 						'creator',
@@ -111,13 +109,13 @@ const Dataset = (props) => {
 				},
 			},
 		},
-		staticsInformations: {
-			title: D.staticsInformations,
+		statisticalInformation: {
+			title: D.statisticalInformation,
 			children: {
-				staticsInformations: {
-					title: D.staticsInformations,
+				statisticalInformation: {
+					title: D.statisticalInformation,
 					content: () => (
-						<StaticsInformations
+						<StatisticalInformation
 							editingDataset={editingDataset}
 							setEditingDataset={setEditingDataset}
 						/>
@@ -231,14 +229,3 @@ const Dataset = (props) => {
 		</div>
 	);
 };
-
-export const DatasetEdit = withCodesLists([
-	'CL_ACCESS_RIGHTS',
-	'CL_FREQ',
-	'CL_CONF_STATUS',
-	'CL_DATA_TYPES',
-	'CL_STAT_UNIT',
-	'CL_PROCESS_STEP',
-	'CL_GEO',
-	'CL_TYPE_GEO',
-])(Dataset);

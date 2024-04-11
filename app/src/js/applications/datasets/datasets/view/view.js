@@ -282,7 +282,7 @@ const Dataset = (props) => {
 							)}
 						</ul>
 					}
-					title={D1.globalInternalManagementTitle}
+					title={D1.internalManagementTitle}
 					alone={true}
 				/>
 			</Row>
@@ -402,7 +402,7 @@ const Dataset = (props) => {
 							)}
 						</ul>
 					}
-					title={D1.staticsInformations}
+					title={D1.statisticalInformation}
 					alone={true}
 				/>
 			</Row>
