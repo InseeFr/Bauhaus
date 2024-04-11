@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import { DatasetHome } from '../datasets/home/home';
-import { DatasetEdit } from '../datasets/edit';
+import { DatasetEdit } from '../datasets/edit/edit';
 import { DatasetView } from '../datasets/view/view';
 import { DistributionHome } from '../distributions/home/home';
 import { DistributionEdit } from '../distributions/edit';

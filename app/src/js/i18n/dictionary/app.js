@@ -187,7 +187,7 @@ const dictionary = {
 		en: 'Creation date',
 	},
 	modifiedDateTitle: {
-			fr: 'Date de modification',
+		fr: 'Date de modification',
 		en: 'Modification date',
 	},
 	validDateTitle: {
@@ -226,7 +226,7 @@ const dictionary = {
 		fr: 'Informations générales',
 		en: 'General information',
 	},
-	globalInternalManagementTitle: {
+	internalManagementTitle: {
 		fr: 'Gestion Interne',
 		en: 'Internal management',
 	},

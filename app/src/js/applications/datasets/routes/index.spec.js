@@ -4,7 +4,7 @@ import DatasetsComponent from './index';
 
 jest.mock('./menu', () => () => 'Menu');
 jest.mock('../datasets/home/home', () => () => 'DatasetHome');
-jest.mock('../datasets/edit', () => () => 'DatasetEdit');
+jest.mock('../datasets/edit/edit', () => () => 'DatasetEdit');
 jest.mock('../datasets/view/view', () => () => 'DatasetView');
 jest.mock('../distributions/home/home', () => () => 'DistributionHome');
 jest.mock('../distributions/edit', () => () => 'DistributionEdit');
