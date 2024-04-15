@@ -209,6 +209,7 @@ class OperationsSerieEdition extends Component {
 					{!isEditing && (
 						<div className="row">
 							<div className="form-group col-md-12">
+								<LabelRequired>{D.familyTitle}</LabelRequired>
 								<SelectRmes
 									placeholder={D.familiesTitle}
 									unclearable

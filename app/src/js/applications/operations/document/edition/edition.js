@@ -363,6 +363,7 @@ const OperationsDocumentationEdition = (props) => {
 				{type === DOCUMENT && files.length === 0 && (
 					<Row>
 						<div className="col-md-12 form-group">
+							<LabelRequired>{D.file}</LabelRequired>
 							<Dropzone onDrop={uploadFile} multiple={false}>
 								{({ getRootProps, getInputProps }) => (
 									<div
@@ -391,6 +392,7 @@ const OperationsDocumentationEdition = (props) => {
 
 				{type === DOCUMENT && files.length > 0 && (
 					<div>
+						<LabelRequired>{D.file}</LabelRequired>
 						<div className="panel panel-default">
 							{files.map((file) => (
 								<div className="panel-body" key={file.name}>

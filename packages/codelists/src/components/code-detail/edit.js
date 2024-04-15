@@ -1,11 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import {
-	LabelRequired,
-	Select,
-	ActionToolbar,
-} from '@inseefr/wilco';
+import { LabelRequired, Select, ActionToolbar } from '@inseefr/wilco';
 import PropTypes from 'prop-types';
-import { Stores, ErrorBloc, GlobalClientSideErrorBloc, ClientSideError } from 'bauhaus-utilities';
+import {
+	Stores,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+} from 'bauhaus-utilities';
 import { validateCode } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { emptyCode } from './empty-code';
@@ -25,7 +26,7 @@ const DumbCodeDetailEdit = ({
 	const [submitting, setSubmitting] = useState(false);
 	const [updateMode, setUpdateMode] = useState(true);
 
-    useEffect(() => {
+	useEffect(() => {
 		setCode({ ...initialCode });
 		setUpdateMode(initialCode.code);
 	}, [initialCode]);
@@ -35,7 +36,7 @@ const DumbCodeDetailEdit = ({
 			const { name, value } = e.target;
 			setClientSideErrors({
 				...clientSideErrors,
-				errorMessage: []
+				errorMessage: [],
 			});
 			setCode({
 				...code,
@@ -65,19 +66,24 @@ const DumbCodeDetailEdit = ({
 
 	const save = () => {
 		const clientSideErrors = validateCode(code, codes, updateMode);
-		if(clientSideErrors.errorMessage?.length > 0){
+		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
 		} else {
-			setClientSideErrors({})
+			setClientSideErrors({});
 			updateCode(code);
 			setUpdateMode(true);
 		}
-	}
+	};
 
 	return (
 		<React.Fragment>
-			{ submitting && clientSideErrors && <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} D={D}/> }
+			{submitting && clientSideErrors && (
+				<GlobalClientSideErrorBloc
+					clientSideErrors={clientSideErrors.errorMessage}
+					D={D}
+				/>
+			)}
 			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 			<div>
 				<div className="row">
@@ -118,9 +124,14 @@ const DumbCodeDetailEdit = ({
 							onChange={handleChange}
 							disabled={updateMode}
 							aria-invalid={!!clientSideErrors.fields?.code}
-							aria-describedby={!!clientSideErrors.fields?.code ? 'code-error' : null}
+							aria-describedby={
+								!!clientSideErrors.fields?.code ? 'code-error' : null
+							}
 						/>
-						<ClientSideError id="code-error" error={clientSideErrors?.fields?.code}></ClientSideError>
+						<ClientSideError
+							id="code-error"
+							error={clientSideErrors?.fields?.code}
+						></ClientSideError>
 					</div>
 				</div>
 				<div className="row">
@@ -134,9 +145,14 @@ const DumbCodeDetailEdit = ({
 							value={code.labelLg1 || ''}
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
-							aria-describedby={!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null}
+							aria-describedby={
+								!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+							}
 						/>
-						<ClientSideError id="labelLg1-error" error={clientSideErrors?.fields?.labelLg1}></ClientSideError>
+						<ClientSideError
+							id="labelLg1-error"
+							error={clientSideErrors?.fields?.labelLg1}
+						></ClientSideError>
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg2">{D2.codeLabel}</LabelRequired>
@@ -148,9 +164,14 @@ const DumbCodeDetailEdit = ({
 							value={code.labelLg2 || ''}
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
-							aria-describedby={!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null}
+							aria-describedby={
+								!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+							}
 						/>
-						<ClientSideError id="labelLg2-error" error={clientSideErrors?.fields?.labelLg2}></ClientSideError>
+						<ClientSideError
+							id="labelLg2-error"
+							error={clientSideErrors?.fields?.labelLg2}
+						></ClientSideError>
 					</div>
 				</div>
 

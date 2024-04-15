@@ -1,8 +1,13 @@
 import React, { useState, useCallback } from 'react';
-import { CancelButton, SaveButton, ActionToolbar, ErrorBloc } from '@inseefr/wilco';
+import {
+	CancelButton,
+	SaveButton,
+	ActionToolbar,
+	ErrorBloc,
+} from '@inseefr/wilco';
 import ReactSelect from 'react-select';
 
-import D, {D1, D2} from '../i18n/build-dictionary';
+import D, { D1, D2 } from '../i18n/build-dictionary';
 import {
 	SimsGeographyI18NLabel,
 	SimsGeographySelector,
@@ -10,18 +15,13 @@ import {
 import { useGeographies } from './hooks';
 import { Stores, Row } from 'bauhaus-utilities';
 
-const SimsGeographyField = ({ onCancel, onSave, territory = {}}) => {
+const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 	const [name, setName] = useState(territory.labelLg1 ?? '');
 	const [nameLg2, setNameLg2] = useState(territory.labelLg2 ?? '');
 	const [selectedOption, setSelectedOption] = useState(null);
-	const [serverSideError, setServerSideError] = useState("");
-	const [
-		geographies,
-		includes,
-		excludes,
-		setIncludes,
-		setExcludes
-	] = useGeographies(territory);
+	const [serverSideError, setServerSideError] = useState('');
+	const [geographies, includes, excludes, setIncludes, setExcludes] =
+		useGeographies(territory);
 	const handleSelect = useCallback(
 		(value) => {
 			const newValue = geographies.find((g) => g.value === value);
@@ -59,16 +59,18 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {}}) => {
 			...territory,
 			labelLg1: name,
 			labelLg2: nameLg2,
-			unions: includes.map(i => ({ uri: i.value })),
-			difference: excludes.map(i => ({ uri: i.value }))
-		}
-		const method = formatted.id ?
-			Stores.Geographies.api.putTerritory(formatted.id, formatted) :
-			Stores.Geographies.api.postTerritory(formatted);
-			method.then((uri) => {
+			unions: includes.map((i) => ({ uri: i.value })),
+			difference: excludes.map((i) => ({ uri: i.value })),
+		};
+		const method = formatted.id
+			? Stores.Geographies.api.putTerritory(formatted.id, formatted)
+			: Stores.Geographies.api.postTerritory(formatted);
+		method
+			.then((uri) => {
 				onSave(territory.uri ?? uri);
-			}).catch(err => setServerSideError(D.errors[JSON.parse(err).code]))
-	}, [territory, name, nameLg2, includes,  excludes, onSave]);
+			})
+			.catch((err) => setServerSideError(D.errors[JSON.parse(err).code]));
+	}, [territory, name, nameLg2, includes, excludes, onSave]);
 
 	return (
 		<div className="w-100 container">
