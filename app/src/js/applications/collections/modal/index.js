@@ -30,7 +30,6 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 		close();
 	}, [close, handleOdtExportCollectionListCallback, lang, withConcepts]);
 
-
 	const closeOds = useCallback(() => {
 		handleOdsExportCollectionListCallback(
 			'application/vnd.oasis.opendocument.text',
@@ -56,26 +55,42 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 				</div>
 
 				<div className="modal-body export-modal-body">
-					<div className='row'>
-						<div className='col-md-offset-1'>
-							<input id="withConcepts" type='checkbox' checked={withConcepts === true} onChange={() => setWithConcepts(!withConcepts)}/>
+					<div className="row">
+						<div className="col-md-offset-1">
+							<input
+								id="withConcepts"
+								type="checkbox"
+								checked={withConcepts === true}
+								onChange={() => setWithConcepts(!withConcepts)}
+							/>
 							<label className="col-md-offset-1" htmlFor="withConcepts">
 								{D.exportConcepts}
 							</label>
 						</div>
-
 					</div>
-					<fieldset className='row'>
+					<fieldset className="row">
 						<legend>{D.exportLgTitle}</legend>
 						<div className="col-md-offset-1 form-check">
-							<input checked={lang === 'lg1'} className="form-check-input" type="radio" name="lang" id="lg1"
-										 onChange={() => setLang('lg1')} />
+							<input
+								checked={lang === 'lg1'}
+								className="form-check-input"
+								type="radio"
+								name="lang"
+								id="lg1"
+								onChange={() => setLang('lg1')}
+							/>
 							<label className="form-check-label col-md-offset-1" htmlFor="lg1">
 								{D.exportLg1}
 							</label>
 						</div>
 						<div className="form-check col-md-offset-1">
-							<input onChange={() => setLang('lg2')} checked={lang === 'lg2'} className="form-check-input" type="radio" name="lang" id="lg2"
+							<input
+								onChange={() => setLang('lg2')}
+								checked={lang === 'lg2'}
+								className="form-check-input"
+								type="radio"
+								name="lang"
+								id="lg2"
 							/>
 							<label className="form-check-label col-md-offset-1" htmlFor="lg2">
 								{D.exportLg2}
@@ -84,21 +99,25 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 					</fieldset>
 				</div>
 
-
-
 				<div className="modal-footer text-right">
 					<Button
-						col={6} action={() => {
-						closeOdt()
-					}}>{D.btnOdt}</Button>
+						col={6}
+						action={() => {
+							closeOdt();
+						}}
+					>
+						{D.btnOdt}
+					</Button>
 					<Button
-						col={6} action={() => {
-						closeOds()
-					}}>{D.btnOds}</Button>
+						col={6}
+						action={() => {
+							closeOds();
+						}}
+					>
+						{D.btnOds}
+					</Button>
 				</div>
-
 			</div>
 		</Modal>
-	)
-}
-//where?
+	);
+};

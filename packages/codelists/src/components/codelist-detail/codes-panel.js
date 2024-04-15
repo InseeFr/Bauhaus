@@ -365,4 +365,3 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 		</Row>
 	);
 };
-//where?
