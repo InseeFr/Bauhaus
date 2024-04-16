@@ -25,7 +25,7 @@ const Link = Base.extend({
 const File = z.object({
 	name: z
 		.string()
-		.regex(/^.*\/?[a-zA-Z0-9-_.]+$/, { message: D.wrongFileName }),
+		.regex(/^(.+\/)?[a-zA-Z0-9-_.]+$/, { message: D.wrongFileName }),
 });
 
 const Document = Base.extend({

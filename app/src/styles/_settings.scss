@@ -16,7 +16,7 @@ body {
 	--color-1: #91b5d0;
 	--color-2: #425d84;
 	--color-3: #5f7a96;
-	--menu-active-page: #425d84;
+	--menu-active-page: var(--color-2);
 	--second-lang-bloc-title: var(--color-1);
 	--sub-title: var(--color-2);
 	--home-icon-color: var(--color-3);

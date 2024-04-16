@@ -99,7 +99,7 @@ describe('validation', function () {
 					labelLg2: 'labelLg2',
 					lang: 'l',
 					updatedDate: 'd',
-					files: [{ name: 'path/wrong&file@name!' }],
+					files: [{ name: 'path/wrong&file@name!.png' }],
 				},
 				'document'
 			)
