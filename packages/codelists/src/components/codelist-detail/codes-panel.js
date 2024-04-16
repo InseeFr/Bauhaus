@@ -218,6 +218,9 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 	const codesWithActions = (codes.items ?? []).map((code) => {
 		return {
 			...code,
+			broader: code.broader?.length > 0 ? code.broader.join(',') : '',
+			narrower: code.narrower?.length > 0 ? code.narrower.join(',') : '',
+			closeMatch: code.closeMatch?.length > 0 ? code.closeMatch.join(',') : '',
 			actions: (
 				<React.Fragment>
 					{editable && (

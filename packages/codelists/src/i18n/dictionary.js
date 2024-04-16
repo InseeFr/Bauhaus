@@ -3,6 +3,18 @@ const dictionary = {
 		fr: 'Recherche Avancée',
 		en: 'Advanced Search',
 	},
+	codelistBroader: {
+		fr: 'Parents',
+		en: 'Parents',
+	},
+	codelistNarrower: {
+		fr: 'Enfants',
+		en: 'Children',
+	},
+	codelistCloseMatch: {
+		fr: 'Équivalents',
+		en: 'Matches',
+	},
 	codelistsTitle: {
 		fr: 'Listes de codes',
 		en: 'Code lists',

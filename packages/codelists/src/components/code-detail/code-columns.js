@@ -9,11 +9,12 @@ export const rowParams = [
 	},
 	{ dataField: 'labelLg1', text: D1.codeLabel, width: '16%' },
 	{ dataField: 'labelLg2', text: D2.codeLabel, width: '16%' },
-	{ dataField: 'descriptionLg1', text: D1.codeDescription, width: '30%' },
-	{ dataField: 'descriptionLg2', text: D2.codeDescription, width: '30%' },
+	{ dataField: 'broader', text: D1.codelistBroader, width: '30%' },
+	{ dataField: 'narrower', text: D1.codelistNarrower, width: '30%' },
+	{ dataField: 'closeMatch', text: D1.codelistCloseMatch, width: '30%' },
 	{
 		dataField: 'actions',
 		text: '',
 		width: '20%',
-	}
+	},
 ];
