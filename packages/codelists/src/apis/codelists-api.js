@@ -35,6 +35,12 @@ const api = {
 		(res) => res.text(),
 	],
 	getCodesDetailedCodelist: (id, page) => [`detailed/${id}/codes?page=${page}`],
+	getCodesByLabel: (id, value) => [
+		`detailed/${id}/codes?page=1&search=labelLg1:${value}`,
+	],
+	getCodesByCode: (id, value) => [
+		`detailed/${id}/codes?page=1&search=code:${value}`,
+	],
 	getPartialsByParent: (parentCode) => [`partials/parent/${parentCode}`],
 	getCodelistsForSearch: () => ['search'],
 	getCodelistCode: (id, code) => [`${id}/code/${code}`],

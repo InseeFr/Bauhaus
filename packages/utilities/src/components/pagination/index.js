@@ -13,10 +13,10 @@ function checkInvalidPage(targetPage, listSize) {
 }
 
 const numberPerPageOptions = [
-	{value: 10, label: 10},
-	{value: 25, label: 25},
-	{value: 100, label: 100}
-	]
+	{ value: 10, label: 10 },
+	{ value: 25, label: 25 },
+	{ value: 100, label: 100 },
+];
 /**
  * Component used to display a pagination block for a list.
  *	itemEls: The list of item we want to paginate
@@ -26,21 +26,21 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 
 	const [numberPerPage, setNumberPerPage] = useState(10);
 	const paginationD = D.pagination || {};
-	const ariaLabel = number => `${paginationD.goTo} ${number}`;
+	const ariaLabel = (number) => `${paginationD.goTo} ${number}`;
 
 	const queryParams = queryString.parse(search);
 	let currentPage = parseInt(queryParams.page || '1', 10);
 
-	const url = document.URL
+	const url = document.URL;
 	useEffect(() => {
 		const search = new URL(url).searchParams;
 
-		if(search.has('perPage')){
+		if (search.has('perPage')) {
 			setNumberPerPage(parseInt(search.get('perPage'), 10));
 		}
-	}, [url])
+	}, [url]);
 
-	if (itemEls.length < (numberPerPage * (currentPage - 1))) {
+	if (itemEls.length < numberPerPage * (currentPage - 1)) {
 		currentPage = 1;
 	}
 	const indexOfLastItem = currentPage * numberPerPage;
@@ -61,22 +61,22 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 		return checkInvalidPage(targetPage, pageNumbers.length);
 	}
 
-	let pathnamePrefix = pathname + "?";
+	let pathnamePrefix = pathname + '?';
 	const searchParams = new URLSearchParams(window.location.search);
-	searchParams.delete("page");
+	searchParams.delete('page');
 	const queryParameters = searchParams.toString();
-	if (queryParameters !== "") {
-		pathnamePrefix += (queryParameters + "&");
+	if (queryParameters !== '') {
+		pathnamePrefix += queryParameters + '&';
 	}
 	const onItemPerPageChange = (option) => {
 		const searchParams = new URLSearchParams(window.location.search);
 		searchParams.set('perPage', option?.value);
-		history.replace(pathname + "?" + searchParams.toString());
-	}
+		history.replace(pathname + '?' + searchParams.toString());
+	};
 
 	const renderPageNumbers = pageNumbers
-		.filter(number => number - 3 < currentPage && number + 3 > currentPage)
-		.map(number => {
+		.filter((number) => number - 3 < currentPage && number + 3 > currentPage)
+		.map((number) => {
 			return (
 				<li className={isActivePage(number) ? 'active' : ''} key={number}>
 					<Link
@@ -95,7 +95,7 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 			<ul className="list-group">{currentItems}</ul>
 			{pageNumbers.length > 1 && (
 				<div>
-					<div className='col-md-3 pull-left wilco-pagination'>
+					<div className="col-md-3 pull-left wilco-pagination">
 						<ReactSelect
 							placeholder={D1.itemPerPagePlaceholder}
 							value={numberPerPageOptions.find(
@@ -106,7 +106,7 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 							clearable={false}
 						/>
 					</div>
-					<div className='col-md-9' style={ { padding: 0 }}>
+					<div className="col-md-9" style={{ padding: 0 }}>
 						<ul className={`wilco-pagination pull-right`}>
 							<li>
 								<Link
@@ -119,7 +119,9 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 							</li>
 							<li>
 								<Link
-									to={`${pathnamePrefix}page=${currentPage - 1}&perPage${numberPerPage}`}
+									to={`${pathnamePrefix}page=${
+										currentPage - 1
+									}&perPage${numberPerPage}`}
 									aria-label={ariaLabel(currentPage - 1)}
 									disabled={isDisabled(currentPage - 1)}
 								>
@@ -129,7 +131,9 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 							{renderPageNumbers}
 							<li>
 								<Link
-									to={`${pathnamePrefix}page=${currentPage + 1}&perPage${numberPerPage}`}
+									to={`${pathnamePrefix}page=${
+										currentPage + 1
+									}&perPage${numberPerPage}`}
 									aria-label={ariaLabel(currentPage + 1)}
 									disabled={isDisabled(currentPage + 1)}
 								>
@@ -139,7 +143,9 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 							<li>
 								<Link
 									aria-label={ariaLabel(pageNumbers[pageNumbers.length - 1])}
-									to={`${pathnamePrefix}page=${pageNumbers[pageNumbers.length - 1]}&perPage${numberPerPage}`}
+									to={`${pathnamePrefix}page=${
+										pageNumbers[pageNumbers.length - 1]
+									}&perPage${numberPerPage}`}
 									disabled={isDisabled(currentPage + 1)}
 								>
 									<span aria-hidden="true">&raquo;</span>
@@ -150,7 +156,7 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 				</div>
 			)}
 		</Fragment>
-	)
+	);
 };
 
 Index.propTypes = {
