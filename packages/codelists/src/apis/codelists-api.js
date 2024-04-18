@@ -35,11 +35,14 @@ const api = {
 		(res) => res.text(),
 	],
 	getCodesDetailedCodelist: (id, page) => [`detailed/${id}/codes?page=${page}`],
+	getCodesByCode: (id, value) => [
+		`detailed/${id}/codes?page=1&search=code:${value}`,
+	],
 	getCodesByLabel: (id, value) => [
 		`detailed/${id}/codes?page=1&search=labelLg1:${value}`,
 	],
-	getCodesByCode: (id, value) => [
-		`detailed/${id}/codes?page=1&search=code:${value}`,
+	getCodesByCodeAndLabel: (id, valueCode, valueLabel) => [
+		`detailed/${id}/codes?page=1&search=code:${valueCode}&search=labelLg1:${valueLabel}`,
 	],
 	getPartialsByParent: (parentCode) => [`partials/parent/${parentCode}`],
 	getCodelistsForSearch: () => ['search'],

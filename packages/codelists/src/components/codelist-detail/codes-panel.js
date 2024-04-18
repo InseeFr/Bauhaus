@@ -171,16 +171,28 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 
 	const handleSearchCode = (value) => {
 		setsearchCode(value);
-		API.getCodesByCode(codelist.id, value).then((cl) => {
-			setCodes(cl ?? {});
-		});
+		searchLabel
+			? API.getCodesByCodeAndLabel(codelist.id, value, searchLabel).then(
+					(cl) => {
+						setCodes(cl ?? {});
+					}
+			  )
+			: API.getCodesByCode(codelist.id, value).then((cl) => {
+					setCodes(cl ?? {});
+			  });
 	};
 
 	const handleSearchLabel = (value) => {
 		setSearchLabel(value);
-		API.getCodesByLabel(codelist.id, value).then((cl) => {
-			setCodes(cl ?? {});
-		});
+		searchCode
+			? API.getCodesByCodeAndLabel(codelist.id, searchCode, value).then(
+					(cl) => {
+						setCodes(cl ?? {});
+					}
+			  )
+			: API.getCodesByLabel(codelist.id, value).then((cl) => {
+					setCodes(cl ?? {});
+			  });
 	};
 
 	useEffect(() => {
