@@ -166,6 +166,27 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 	const [codes, setCodes] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 
+	const [searchCode, setSearchCode] = useState('');
+	const [searchLabel, setSearchLabel] = useState('');
+
+	const handleSearch = (type, valueCode, valueLabel) => {
+		const [handledValue, otherValue, setSearch, getCodesBySearch] =
+			type === 'code'
+				? [valueCode, searchLabel, setSearchCode, API.getCodesByCode]
+				: [valueLabel, searchCode, setSearchLabel, API.getCodesByLabel];
+
+		setSearch(handledValue);
+		otherValue
+			? API.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then(
+					(cl) => {
+						setCodes(cl ?? {});
+					}
+			  )
+			: getCodesBySearch(codelist.id, handledValue).then((cl) => {
+					setCodes(cl ?? {});
+			  });
+	};
+
 	useEffect(() => {
 		if (currentPage > 0) {
 			API.getCodesDetailedCodelist(codelist.id, currentPage).then((cl) => {
@@ -281,6 +302,33 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 				collapsible={false}
 				children={
 					<Fragment>
+						<Row>
+							<div className="col-md-6 form-group">
+								<label htmlFor="search-code">{D.codesSearchByCode}</label>
+								<input
+									type="text"
+									className="form-control"
+									id="search-code"
+									value={searchCode}
+									onChange={(e) =>
+										handleSearch('code', e.target.value, searchLabel)
+									}
+								/>
+							</div>
+							<div className="col-md-6 form-group">
+								<label htmlFor="search-label">{D.codesSearchByLabel}</label>
+								<input
+									type="text"
+									className="form-control"
+									id="search-label"
+									value={searchLabel}
+									onChange={(e) =>
+										handleSearch('label', searchCode, e.target.value)
+									}
+								/>
+							</div>
+						</Row>
+
 						<Table rowParams={rowParams} data={codesWithActions} />
 
 						{numberOfPages > 1 && (

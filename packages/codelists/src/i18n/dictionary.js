@@ -259,6 +259,14 @@ const dictionary = {
 		fr: 'Libellé...',
 		en: 'Label...',
 	},
+	codesSearchByCode: {
+		fr: 'Rechercher sur les codes :',
+		en: 'Search on codes :',
+	},
+	codesSearchByLabel: {
+		fr: 'Rechercher sur les libellés :',
+		en: 'Search on labels :',
+	},
 	//TODO find a solution in order to avoid this duplicated key
 	mandatoryProperty: {
 		fr: (propertyName) =>
