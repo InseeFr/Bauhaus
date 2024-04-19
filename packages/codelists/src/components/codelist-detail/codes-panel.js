@@ -170,18 +170,18 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 	const [searchLabel, setSearchLabel] = useState('');
 
 	const handleSearch = (type, valueCode, valueLabel) => {
-		const [value, otherValue, setSearch, getCodesBySearch] =
+		const [handledValue, otherValue, setSearch, getCodesBySearch] =
 			type === 'code'
 				? [valueCode, valueLabel, setSearchCode, API.getCodesByCode]
 				: [valueLabel, valueCode, setSearchLabel, API.getCodesByLabel];
-		setSearch(value);
+		setSearch(handledValue);
 		otherValue
 			? API.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then(
 					(cl) => {
 						setCodes(cl ?? {});
 					}
 			  )
-			: getCodesBySearch(codelist.id, value).then((cl) => {
+			: getCodesBySearch(codelist.id, handledValue).then((cl) => {
 					setCodes(cl ?? {});
 			  });
 	};
