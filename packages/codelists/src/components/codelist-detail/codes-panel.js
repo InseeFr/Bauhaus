@@ -166,31 +166,22 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 	const [codes, setCodes] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 
-	const [searchCode, setsearchCode] = useState('');
+	const [searchCode, setSearchCode] = useState('');
 	const [searchLabel, setSearchLabel] = useState('');
 
-	const handleSearchCode = (value) => {
-		setsearchCode(value);
-		searchLabel
-			? API.getCodesByCodeAndLabel(codelist.id, value, searchLabel).then(
+	const handleSearch = (type, valueCode, valueLabel) => {
+		const [value, otherValue, setSearch, getCodesBySearch] =
+			type === 'code'
+				? [valueCode, valueLabel, setSearchCode, API.getCodesByCode]
+				: [valueLabel, valueCode, setSearchLabel, API.getCodesByLabel];
+		setSearch(value);
+		otherValue
+			? API.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then(
 					(cl) => {
 						setCodes(cl ?? {});
 					}
 			  )
-			: API.getCodesByCode(codelist.id, value).then((cl) => {
-					setCodes(cl ?? {});
-			  });
-	};
-
-	const handleSearchLabel = (value) => {
-		setSearchLabel(value);
-		searchCode
-			? API.getCodesByCodeAndLabel(codelist.id, searchCode, value).then(
-					(cl) => {
-						setCodes(cl ?? {});
-					}
-			  )
-			: API.getCodesByLabel(codelist.id, value).then((cl) => {
+			: getCodesBySearch(codelist.id, value).then((cl) => {
 					setCodes(cl ?? {});
 			  });
 	};
@@ -318,7 +309,9 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 									className="form-control"
 									id="search-code"
 									value={searchCode}
-									onChange={(e) => handleSearchCode(e.target.value)}
+									onChange={(e) =>
+										handleSearch('code', e.target.value, searchLabel)
+									}
 								/>
 							</div>
 							<div className="col-md-6 form-group">
@@ -328,7 +321,9 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 									className="form-control"
 									id="search-label"
 									value={searchLabel}
-									onChange={(e) => handleSearchLabel(e.target.value)}
+									onChange={(e) =>
+										handleSearch('label', searchCode, e.target.value)
+									}
 								/>
 							</div>
 						</Row>
