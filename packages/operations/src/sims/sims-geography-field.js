@@ -4,6 +4,7 @@ import {
 	SaveButton,
 	ActionToolbar,
 	ErrorBloc,
+	LabelRequired,
 } from '@inseefr/wilco';
 import ReactSelect from 'react-select';
 
@@ -81,24 +82,24 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 			<ErrorBloc error={serverSideError} />
 			<Row>
 				<div className="form-group col-md-6">
-					<label className="form-label w-100">
+					<LabelRequired className="form-label w-100">
 						{D1.simsGeographyZoneName}
-						<input
-							value={name}
-							className="form-control"
-							onChange={(e) => setName(e.target.value)}
-						/>
-					</label>
+					</LabelRequired>
+					<input
+						value={name}
+						className="form-control"
+						onChange={(e) => setName(e.target.value)}
+					/>
 				</div>
 				<div className="form-group col-md-6">
-					<label className="form-label w-100">
+					<LabelRequired className="form-label w-100">
 						{D2.simsGeographyZoneName}
-						<input
-							value={nameLg2}
-							className="form-control"
-							onChange={(e) => setNameLg2(e.target.value)}
-						/>
-					</label>
+					</LabelRequired>
+					<input
+						value={nameLg2}
+						className="form-control"
+						onChange={(e) => setNameLg2(e.target.value)}
+					/>
 				</div>
 			</Row>
 			<div className="bauhaus-sims-geography-field">

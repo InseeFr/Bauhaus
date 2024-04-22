@@ -1,9 +1,9 @@
 const dictionary = {
 	errors: {
 		847: {
-			fr: "Ce nom existe déjà",
-			en: "This label already exists"
-		}
+			fr: 'Ce nom existe déjà',
+			en: 'This label already exists',
+		},
 	},
 	creatorsTitle: {
 		fr: 'Propriétaires',
@@ -26,7 +26,7 @@ const dictionary = {
 		en: 'Delete',
 	},
 	includedZone: {
-		fr: 'Zones géographiques inclues',
+		fr: 'Zones géographiques incluses',
 		en: 'Geographical zones included',
 	},
 	excludedZone: {
