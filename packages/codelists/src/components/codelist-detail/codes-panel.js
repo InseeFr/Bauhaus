@@ -166,6 +166,8 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 	const [codes, setCodes] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 
+	const [sort, setSort] = useState(null);
+
 	const [searchCode, setSearchCode] = useState('');
 	const [searchLabel, setSearchLabel] = useState('');
 
