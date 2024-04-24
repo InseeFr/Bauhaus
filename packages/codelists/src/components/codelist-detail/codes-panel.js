@@ -166,14 +166,13 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 	const [codes, setCodes] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 
-	const [sort, setSort] = useState('');
+	const [sort, setSort] = useState('code');
 
-	const handleClick = (column) => {
-		setSort(column);
+	useEffect(() => {
 		API.getSortedCodes(codelist.id, sort).then((cl) => {
 			setCodes(cl ?? {});
 		});
-	};
+	}, [codelist.id, sort]);
 
 	const tableHead = rowParams.map(
 		({ dataField, text, classifiable, ...rowParam }) => ({
@@ -183,12 +182,19 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 					{text}
 					<button
 						type="button"
-						onClick={() => handleClick(dataField)}
+						onClick={() =>
+							sort === dataField ? setSort('code') : setSort(dataField)
+						}
 						aria-label={D.sort}
 						title={D.sort}
-						disabled //waiting
 					>
-						<span className="glyphicon glyphicon-triangle-bottom"></span>
+						<span
+							className={
+								sort === dataField
+									? 'glyphicon glyphicon-triangle-top'
+									: 'glyphicon glyphicon-triangle-bottom'
+							}
+						></span>
 					</button>
 				</React.Fragment>
 			) : (
