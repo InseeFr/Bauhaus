@@ -44,6 +44,7 @@ const api = {
 	getCodesByCodeAndLabel: (id, valueCode, valueLabel) => [
 		`detailed/${id}/codes?page=1&search=code:${valueCode}&search=labelLg1:${valueLabel}`,
 	],
+	getSortedCodes: (id, sort) => [`detailed/${id}/codes?sort=${sort}`],
 	getPartialsByParent: (parentCode) => [`partials/parent/${parentCode}`],
 	getCodelistsForSearch: () => ['search'],
 	getCodelistCode: (id, code) => [`${id}/code/${code}`],
