@@ -207,6 +207,10 @@ const dictionary = {
 		fr: 'voir détail',
 		en: 'see details',
 	},
+	sort: {
+		fr: 'trier',
+		en: 'sort',
+	},
 	addAll: {
 		fr: 'Ajouter tous les codes à la liste partielle',
 		en: 'Add all codes to partial list',

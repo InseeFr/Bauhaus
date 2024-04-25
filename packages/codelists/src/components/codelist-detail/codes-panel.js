@@ -166,6 +166,44 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 	const [codes, setCodes] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 
+	const [sort, setSort] = useState('code');
+
+	useEffect(() => {
+		API.getSortedCodes(codelist.id, sort).then((cl) => {
+			setCodes(cl ?? {});
+		});
+	}, [codelist.id, sort]);
+
+	const tableHead = rowParams.map(
+		({ dataField, text, classifiable, ...rowParam }) => ({
+			dataField,
+			text: classifiable ? (
+				<React.Fragment>
+					{text}
+					<button
+						type="button"
+						onClick={() =>
+							sort === dataField ? setSort('code') : setSort(dataField)
+						}
+						aria-label={D.sort}
+						title={D.sort}
+					>
+						<span
+							className={
+								sort === dataField
+									? 'glyphicon glyphicon-triangle-top'
+									: 'glyphicon glyphicon-triangle-bottom'
+							}
+						></span>
+					</button>
+				</React.Fragment>
+			) : (
+				text
+			),
+			...rowParam,
+		})
+	);
+
 	const [searchCode, setSearchCode] = useState('');
 	const [searchLabel, setSearchLabel] = useState('');
 
@@ -329,7 +367,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 							</div>
 						</Row>
 
-						<Table rowParams={rowParams} data={codesWithActions} />
+						<Table rowParams={tableHead} data={codesWithActions} />
 
 						{numberOfPages > 1 && (
 							<div
