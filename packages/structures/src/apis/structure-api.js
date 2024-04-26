@@ -6,10 +6,10 @@ const api = {
 	getMutualizedAttributes: () => ['attributes'],
 	getStructuresForSearch: () => ['search'],
 	getMutualizedComponentsForSearch: () => ['components/search'],
-	publishMutualizedComponent: component => [
+	publishMutualizedComponent: (component) => [
 		`components/${component.id}/publish`,
 		{
-			method: 'GET',
+			method: 'PUT',
 		},
 		() => Promise.resolve(),
 	],
@@ -45,10 +45,10 @@ const api = {
 		`structure/${structureId}`,
 		(res) => res.text(),
 	],
-	publishStructure: structure => [
+	publishStructure: (structure) => [
 		`structure/${structure.id}/publish`,
 		{
-			method: 'GET',
+			method: 'PUT',
 		},
 		() => Promise.resolve(),
 	],
