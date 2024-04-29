@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import dayjs from 'dayjs';
-import { default as ReactSelect } from 'react-select';
 import {
 	CancelButton,
 	SaveButton,
@@ -16,6 +15,7 @@ import {
 	ClientSideError,
 	CodesList,
 	Auth,
+	SelectRmes,
 } from 'bauhaus-utilities';
 import Picker from './picker';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
@@ -295,15 +295,14 @@ const DumbCodelistPartialDetailEdit = ({
 				</div>
 				<div className="form-group">
 					<label>{D1.contributor}</label>
-					<ReactSelect
+					<SelectRmes
 						placeholder={D1.stampsPlaceholder}
-						value={stampListOptions.find(
-							({ value }) => value === codelist.contributor
-						)}
+						value={codelist.contributor}
 						options={stampListOptions}
 						onChange={(option) =>
-							setCodelist({ ...codelist, contributor: option?.value })
+							setCodelist({ ...codelist, contributor: option })
 						}
+						multi
 					/>
 				</div>
 				<div className="form-group">

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Input, LabelRequired, Loading, Select } from '@inseefr/wilco';
+import { Input, LabelRequired, Loading } from '@inseefr/wilco';
 import Controls from './controls';
 import Components from './components';
 import StructureAPI from '../apis/structure-api';
@@ -13,6 +13,7 @@ import {
 	Stores,
 	Row,
 	Auth,
+	SelectRmes,
 } from 'bauhaus-utilities';
 import D, { D1, D2 } from 'js/i18n';
 import { connect, useSelector } from 'react-redux';
@@ -60,7 +61,7 @@ const Edition = ({
 
 	const { lg1, lg2 } = useContext(AppContext);
 
-	const [structure, setStructure] = useState(() => defaultDSD);
+	const [structure, setStructure] = useState(defaultDSD);
 	const [loading, setLoading] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
 
@@ -219,50 +220,48 @@ const Edition = ({
 			</Row>
 			<div className="form-group">
 				<label>{D1.creatorTitle}</label>
-				<Select
-					className="form-control"
+				<SelectRmes
 					placeholder={D1.stampsPlaceholder}
 					value={stampListOptions.find(({ value }) => value === creator)}
 					options={stampListOptions}
 					onChange={(value) => onChange('creator', value)}
-					searchable={true}
+					searchable
 				/>
 			</div>
 			<div className="form-group">
 				<label>{D1.contributorTitle}</label>
-				<Select
+				<SelectRmes
 					placeholder={D1.stampsPlaceholder}
-					value={stampListOptions.find(({ value }) => value === contributor)}
+					value={contributor}
 					options={stampListOptions}
-					searchable={true}
 					onChange={(value) => onChange('contributor', value)}
+					searchable
+					multi
 				/>
 			</div>
 
 			<div className="form-group">
 				<label>{D1.disseminationStatusTitle}</label>
-				<Select
-					className="form-control"
+				<SelectRmes
 					placeholder={D1.disseminationStatusTitle}
 					value={disseminationStatusListOptions.find(
 						({ value }) => value === disseminationStatus
 					)}
 					options={disseminationStatusListOptions}
 					onChange={(value) => onChange('disseminationStatus', value)}
-					searchable={true}
+					searchable
 				/>
 			</div>
 			<div className="form-group">
 				<label>{D1.processusTitle}</label>
-				<Select
-					className="form-control"
+				<SelectRmes
 					placeholder={D1.processusTitle}
 					value={isRequiredBysOptions.find(
 						({ value }) => value === isRequiredBy
 					)}
 					options={isRequiredBysOptions}
 					onChange={(value) => onChange('isRequiredBy', value)}
-					searchable={true}
+					searchable
 				/>
 			</div>
 			<Components

@@ -16,6 +16,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	Auth,
+	SelectRmes,
 } from 'bauhaus-utilities';
 import { validate } from '../edition/validation';
 import {
@@ -33,7 +34,6 @@ import {
 	IGEO_PAYS_OU_TERRITOIRE,
 } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { default as ReactSelect } from 'react-select';
 import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { FormGroup } from 'react-bootstrap';
@@ -283,7 +283,7 @@ const DumbComponentDetailEdit = ({
 			},
 			{}
 		);
-		setComponent({ ...newComponentWithoutAttributes, type: option?.value });
+		setComponent({ ...newComponentWithoutAttributes, type: option });
 	};
 
 	return (
@@ -408,7 +408,7 @@ const DumbComponentDetailEdit = ({
 					<div className="col-md-12 ">
 						<FormGroup>
 							<LabelRequired>{D1.type}</LabelRequired>
-							<ReactSelect
+							<SelectRmes
 								placeholder={D1.type}
 								value={MUTUALIZED_COMPONENT_TYPES.find(
 									(c) => c.value === component.type
@@ -598,15 +598,14 @@ const DumbComponentDetailEdit = ({
 				</div>
 				<div className="form-group">
 					<label>{D1.contributorTitle}</label>
-					<ReactSelect
+					<SelectRmes
 						placeholder={D1.stampsPlaceholder}
-						value={stampListOptions.find(
-							({ value }) => value === component.contributor
-						)}
+						value={component.contributor}
 						options={stampListOptions}
 						onChange={(option) =>
-							setComponent({ ...component, contributor: option?.value })
+							setComponent({ ...component, contributor: option })
 						}
+						multi
 					/>
 				</div>
 				<div className="form-group">
