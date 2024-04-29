@@ -114,7 +114,7 @@ class SimsField extends PureComponent {
 					({ value }) => value === currentSection.value
 				);
 				break;
-			case Date:
+			case DATE:
 				value = currentSection.value;
 				break;
 			case RICH_TEXT:
@@ -172,6 +172,7 @@ class SimsField extends PureComponent {
 									colMd={12}
 									value={value}
 									onChange={this.handleCodeListInput}
+									secondLang={secondLang}
 								/>
 							)}
 

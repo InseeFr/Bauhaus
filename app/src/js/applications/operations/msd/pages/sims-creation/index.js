@@ -244,6 +244,8 @@ class SimsCreation extends React.Component {
 									lang={lg2}
 									alone={false}
 									organisationsOptions={organisationsOptions}
+									geographiesOptions={geographiesOptions}
+									unbounded={msd.maxOccurs === 'unbounded'}
 								/>
 							)}
 						</div>

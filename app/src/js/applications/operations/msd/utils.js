@@ -2,7 +2,7 @@ import { rangeType } from 'js/utils/msd/';
 import { DUPLICATE } from 'js/applications/operations/msd';
 import { HTMLUtils } from 'bauhaus-utilities';
 
-const { RICH_TEXT, TEXT } = rangeType;
+const { RICH_TEXT, TEXT, ORGANIZATION, DATE, GEOGRAPHY, CODE_LIST } = rangeType;
 
 export const HELP_COLLAPSED = 'HELP_COLLAPSED';
 
@@ -30,7 +30,15 @@ export function toggleOpen(id) {
  * @returns {Boolean}
  */
 export function hasLabelLg2(section) {
-	return section.rangeType === TEXT || section.rangeType === RICH_TEXT;
+	const sectionsWhichDisplayLg2 = [
+		TEXT,
+		RICH_TEXT,
+		ORGANIZATION,
+		DATE,
+		GEOGRAPHY,
+		CODE_LIST,
+	];
+	return sectionsWhichDisplayLg2.includes(section.rangeType);
 }
 
 /**
