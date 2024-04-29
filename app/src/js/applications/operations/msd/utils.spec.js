@@ -6,7 +6,7 @@ import {
 	getParentUri,
 } from './utils';
 import { rangeType } from 'js/utils/msd/';
-const { RICH_TEXT, TEXT, DATE } = rangeType;
+const { RICH_TEXT, TEXT, REPORTED_ATTRIBUTE } = rangeType;
 
 describe('isOpen', () => {
 	beforeEach(() => {
@@ -65,8 +65,8 @@ describe('hasLabelLg2', () => {
 		const input = { rangeType: RICH_TEXT };
 		expect(hasLabelLg2(input)).toBeTruthy();
 	});
-	it('should return false if the section is a DATE', () => {
-		const input = { rangeType: DATE };
+	it('should return false if the section is a REPORTED_ATTRIBUTE', () => {
+		const input = { rangeType: REPORTED_ATTRIBUTE };
 		expect(hasLabelLg2(input)).toBeFalsy();
 	});
 });
