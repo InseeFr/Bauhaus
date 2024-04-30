@@ -98,6 +98,12 @@ class SimsField extends PureComponent {
 				value: c.code,
 			}))
 		);
+		const codesListOptionsLg2 = ArrayUtils.sortArrayByLabel(
+			codes.map((c) => ({
+				label: c.labelLg2,
+				value: c.code,
+			}))
+		);
 
 		const currentToolbar = {
 			...EditorMarkdownToolbar,
@@ -198,7 +204,7 @@ class SimsField extends PureComponent {
 								<SimsCodeListSelect
 									aria-label={codesList.codeListLabelLg1}
 									currentSection={currentSection}
-									options={codesListOptions}
+									options={secondLang ? codesListOptionsLg2 : codesListOptions}
 									onChange={this.handleCodeListInput}
 									multi={unbounded}
 								/>
@@ -208,6 +214,7 @@ class SimsField extends PureComponent {
 								<SimsGeographyPicker
 									value={value}
 									onChange={this.handleGeography}
+									secondLang={secondLang}
 								/>
 							)}
 						</span>

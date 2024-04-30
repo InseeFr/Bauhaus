@@ -40,7 +40,7 @@ const OperationsIndicatorsEditionContainer = (props) => {
 	}, []);
 
 	if (!indicator.id && id) return <Loading />;
-  
+
 	return (
 		<OperationsIndicatorEdition
 			series={series}
@@ -49,7 +49,7 @@ const OperationsIndicatorsEditionContainer = (props) => {
 			organisations={organisations}
 			frequencies={frequencies}
 			indicator={indicator}
-      		goBack={goBack}
+			goBack={goBack}
 			{...props}
 		/>
 	);
