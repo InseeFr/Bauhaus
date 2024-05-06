@@ -1,10 +1,10 @@
 import React from 'react';
 import DatePicker from 'react-16-bootstrap-date-picker';
-import D from 'js/i18n';
+import { D1, D2 } from 'js/i18n';
 
-function DatePickerRmes({ value, onChange, placement }) {
-	const days = D.calendarDays;
-	const months = D.calendarMonths;
+function DatePickerRmes({ value, onChange, placement, secondLang = false }) {
+	const days = secondLang ? D2.calendarDays : D1.calendarDays;
+	const months = secondLang ? D2.calendarMonths : D1.calendarMonths;
 
 	return (
 		<DatePicker

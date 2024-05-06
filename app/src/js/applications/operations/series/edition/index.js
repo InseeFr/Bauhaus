@@ -45,7 +45,7 @@ const OperationsSeriesEditionContainer = (props) => {
 	}, []);
 
 	if (!serie.id && id) return <Loading />;
-  
+
 	return (
 		<OperationsSerieEdition
 			{...props}
@@ -58,7 +58,7 @@ const OperationsSeriesEditionContainer = (props) => {
 			indicators={indicators}
 			langs={langs}
 			frequencies={frequencies}
-      goBack={goBack}
+			goBack={goBack}
 		/>
 	);
 };

@@ -182,7 +182,7 @@ class SimsCreation extends React.Component {
 
 		const organisationsOptions = ArrayUtils.sortArrayByLabel(
 			organisations.map((c) => ({
-				label: c.label,
+				label: c.label, // no labelLg2 in organisations ?
 				value: c.id,
 			}))
 		);
@@ -244,6 +244,8 @@ class SimsCreation extends React.Component {
 									lang={lg2}
 									alone={false}
 									organisationsOptions={organisationsOptions}
+									geographiesOptions={geographiesOptions}
+									unbounded={msd.maxOccurs === 'unbounded'}
 								/>
 							)}
 						</div>

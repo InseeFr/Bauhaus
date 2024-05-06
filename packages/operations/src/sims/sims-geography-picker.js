@@ -10,29 +10,41 @@ import './sims-geography-picker.scss';
 import { SimsGeographyI18NLabel } from 'bauhaus-operations';
 
 const accentsMap = new Map([
-	["A", "Á|À|Ã|Â|Ä"],
-	["a", "á|à|ã|â|ä"],
-	["E", "É|È|Ê|Ë"],
-	["e", "é|è|ê|ë"],
-	["I", "Í|Ì|Î|Ï"],
-	["i", "í|ì|î|ï"],
-	["O", "Ó|Ò|Ô|Õ|Ö"],
-	["o", "ó|ò|ô|õ|ö"],
-	["U", "Ú|Ù|Û|Ü"],
-	["u", "ú|ù|û|ü"],
-	["C", "Ç"],
-	["c", "ç"],
-	["N", "Ñ"],
-	["n", "ñ"]
+	['A', 'Á|À|Ã|Â|Ä'],
+	['a', 'á|à|ã|â|ä'],
+	['E', 'É|È|Ê|Ë'],
+	['e', 'é|è|ê|ë'],
+	['I', 'Í|Ì|Î|Ï'],
+	['i', 'í|ì|î|ï'],
+	['O', 'Ó|Ò|Ô|Õ|Ö'],
+	['o', 'ó|ò|ô|õ|ö'],
+	['U', 'Ú|Ù|Û|Ü'],
+	['u', 'ú|ù|û|ü'],
+	['C', 'Ç'],
+	['c', 'ç'],
+	['N', 'Ñ'],
+	['n', 'ñ'],
 ]);
 
-const reducer = (acc, [key]) => acc.replace(new RegExp(accentsMap.get(key), "g"), key);
+const reducer = (acc, [key]) =>
+	acc.replace(new RegExp(accentsMap.get(key), 'g'), key);
 
 export const removeAccents = (text) => [...accentsMap].reduce(reducer, text);
 
-const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
+const SimsGeographyPicker = ({
+	onChange,
+	value,
+	loadGeographies,
+	secondLang = false,
+}) => {
 	const [territory, setTerritory] = useState();
 	const geographiesOptions = useSelector(Stores.Geographies.getAllOptions);
+	const geographiesOptionsLg2 = geographiesOptions.map((g) => ({
+		id: g.id,
+		label: g.labelLg2 ?? '',
+		value: g.value,
+		typeTerritory: g.typeTerritory,
+	}));
 	const [slidingModal, setSlidingModal] = useState(false);
 	const openNewPanel = useCallback(() => {
 		setSlidingModal(true);
@@ -70,18 +82,28 @@ const SimsGeographyPicker = ({ onChange, value, loadGeographies }) => {
 			<div className="bauhaus-sims-geography-picker">
 				<div className="form-group">
 					<ReactSelect
-						value={geographiesOptions.find(
-							({ value: gValue }) => gValue === value
-						)}
+						value={
+							secondLang
+								? geographiesOptionsLg2.find(
+										({ value: gValue }) => gValue === value
+								  )
+								: geographiesOptions.find(
+										({ value: gValue }) => gValue === value
+								  )
+						}
 						filterOption={(option, searchValue) => {
 							const search = removeAccents(searchValue.toLowerCase());
 							const label = removeAccents(option?.label.toLowerCase());
-							const typeTerritory = removeAccents(option?.typeTerritory.toLowerCase());
-							return !searchValue
-								|| label.indexOf(search) >= 0
-								|| typeTerritory.indexOf(search) >= 0
+							const typeTerritory = removeAccents(
+								option?.typeTerritory.toLowerCase()
+							);
+							return (
+								!searchValue ||
+								label.indexOf(search) >= 0 ||
+								typeTerritory.indexOf(search) >= 0
+							);
 						}}
-						options={geographiesOptions}
+						options={secondLang ? geographiesOptionsLg2 : geographiesOptions}
 						onChange={(e) => onChange(e ? e.value : '')}
 						placeholder={''}
 						isSearchable={true}
