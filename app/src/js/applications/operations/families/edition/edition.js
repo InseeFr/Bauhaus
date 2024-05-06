@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { D1, D2 } from 'js/i18n';
-import PropTypes from 'prop-types';
 import {
 	EditorMarkdown,
 	PageTitleBlock,
@@ -43,11 +42,6 @@ const setInitialState = (props) => {
 	};
 };
 class OperationsFamilyEdition extends Component {
-	static propTypes = {
-		family: PropTypes.object.isRequired,
-		langs: PropTypes.object.isRequired,
-	};
-
 	constructor(props) {
 		super(props);
 		this.state = setInitialState(props);

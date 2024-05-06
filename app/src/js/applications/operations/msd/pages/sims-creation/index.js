@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from 'js/utils/msd';
@@ -32,15 +31,6 @@ import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 const { RICH_TEXT } = rangeType;
 
 class SimsCreation extends React.Component {
-	static propTypes = {
-		metadataStructure: PropTypes.object.isRequired,
-		codesLists: PropTypes.object.isRequired,
-		sims: PropTypes.object,
-		onSubmit: PropTypes.func.isRequired,
-		goBack: PropTypes.func,
-		mode: PropTypes.string,
-	};
-
 	constructor(props) {
 		super(props);
 

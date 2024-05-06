@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from '../general';
@@ -41,15 +40,6 @@ const Compare = ({
 			</div>
 		</div>
 	);
-};
-
-Compare.propTypes = {
-	classificationId: PropTypes.string.isRequired,
-	itemId: PropTypes.string.isRequired,
-	general: PropTypes.object.isRequired,
-	notes: PropTypes.object.isRequired,
-	secondLang: PropTypes.bool.isRequired,
-	langs: PropTypes.object.isRequired,
 };
 
 export default Compare;

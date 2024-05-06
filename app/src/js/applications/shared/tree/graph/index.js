@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Tree } from 'react-d3-tree';
 
 class RmesTree extends Component {
@@ -21,7 +20,7 @@ class RmesTree extends Component {
 			return (
 				<div
 					style={{ width: '100%', height: '100vh' }}
-					ref={tc => (this.treeContainer = tc)}
+					ref={(tc) => (this.treeContainer = tc)}
 				>
 					<Tree
 						data={data}
@@ -34,9 +33,5 @@ class RmesTree extends Component {
 		return <div>Wait</div>;
 	}
 }
-
-RmesTree.propTypes = {
-	data: PropTypes.object.isRequired,
-};
 
 export default RmesTree;

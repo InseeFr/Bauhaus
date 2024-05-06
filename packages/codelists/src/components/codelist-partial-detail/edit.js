@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import { default as ReactSelect } from 'react-select';
 import {
@@ -369,17 +368,6 @@ const DumbCodelistPartialDetailEdit = ({
 			</form>
 		</React.Fragment>
 	);
-};
-
-DumbCodelistPartialDetailEdit.propTypes = {
-	component: PropTypes.object,
-	disseminationStatusListOptions: PropTypes.array,
-	stampListOptions: PropTypes.array,
-	globalCodeListOptions: PropTypes.array,
-	handleSave: PropTypes.func,
-	handleBack: PropTypes.func,
-	updateMode: PropTypes.bool,
-	secondLang: PropTypes.bool,
 };
 
 DumbCodelistPartialDetailEdit.defaultProps = {

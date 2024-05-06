@@ -1,9 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { goBack, Button, ActionToolbar, getContentDisposition } from '@inseefr/wilco';
+import {
+	goBack,
+	Button,
+	ActionToolbar,
+	getContentDisposition,
+} from '@inseefr/wilco';
 import check from 'js/utils/auth';
-import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
 import D from 'js/i18n';
 import { ConfirmationDelete } from 'bauhaus-utilities';
 import api from '../../../remote-api/concepts-api';
@@ -49,23 +52,26 @@ const ConceptVisualizationControls = (props) => {
 			: [`/concept/${id}/compare`, D.btnCompare];
 	const erase = adminOrCreator && [() => setModalOpened(true), D.btnDelete];
 
-	const exportConcept = [() => {
-		setLoading('exporting')
-		let fileName;
-		return api
-			.getConceptExport(id, 'application/vnd.oasis.opendocument.text')
-			.then(res => {
-				fileName = getContentDisposition(
-					res.headers.get('Content-Disposition')
-				)[1];
-				return res;
-			})
-			.then(res => res.blob())
-			.then(blob => {
-				return FileSaver.saveAs(blob, fileName);
-			})
-			.finally(() => setLoading())
-	}, D.btnExporter];
+	const exportConcept = [
+		() => {
+			setLoading('exporting');
+			let fileName;
+			return api
+				.getConceptExport(id, 'application/vnd.oasis.opendocument.text')
+				.then((res) => {
+					fileName = getContentDisposition(
+						res.headers.get('Content-Disposition')
+					)[1];
+					return res;
+				})
+				.then((res) => res.blob())
+				.then((blob) => {
+					return FileSaver.saveAs(blob, fileName);
+				})
+				.finally(() => setLoading());
+		},
+		D.btnExporter,
+	];
 
 	if (admin || (creator && contributor)) {
 		if (isValidOutOfDate) {
@@ -111,15 +117,6 @@ const ConceptVisualizationControls = (props) => {
 			</ActionToolbar>
 		</>
 	);
-};
-
-ConceptVisualizationControls.propTypes = {
-	id: PropTypes.string.isRequired,
-	permission: permissionOverviewPropTypes,
-	creator: PropTypes.string.isRequired,
-	isValidated: PropTypes.bool.isRequired,
-	conceptVersion: PropTypes.string.isRequired,
-	handleValidation: PropTypes.func.isRequired,
 };
 
 export default withRouter(ConceptVisualizationControls);

@@ -1,6 +1,5 @@
 import {
 	buildFields,
-	buildPropTypes,
 	buildEmpty,
 	buildEmptyWithContributor,
 } from '@inseefr/wilco';
@@ -22,9 +21,7 @@ export const fieldsWithRequired = [
 
 export const fields = buildFields(fieldsWithRequired);
 
-export const propTypes = buildPropTypes(fieldsWithRequired);
-
 export const empty = () => buildEmpty(fieldsWithRequired);
 
-export const emptyWithContributor = defaultContributor =>
+export const emptyWithContributor = (defaultContributor) =>
 	buildEmptyWithContributor(fieldsWithRequired, defaultContributor);

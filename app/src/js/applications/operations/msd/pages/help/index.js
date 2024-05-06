@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import HelpInformation from 'js/applications/operations/msd/help-information';
-import { Note }  from '@inseefr/wilco';
+import { Note } from '@inseefr/wilco';
 
 export default function MSDHelp({
 	metadataStructure,
@@ -27,22 +26,16 @@ export default function MSDHelp({
 						lang={lg1}
 					/>
 				</div>
-				{Object.values(msd.children).map(child => (
+				{Object.values(msd.children).map((child) => (
 					<MSDInformations key={child.idMas} msd={child} />
 				))}
 			</React.Fragment>
 		);
 	}
-	return Object.values(metadataStructure).map(msd => {
+	return Object.values(metadataStructure).map((msd) => {
 		if (currentSection && msd.idMas !== currentSection) {
 			return null;
 		}
 		return <MSDInformations key={msd.idMas} msd={msd} />;
 	});
 }
-
-MSDHelp.propTypes = {
-	metadataStructure: PropTypes.object.isRequired,
-	currentSection: PropTypes.string,
-	codesLists: PropTypes.object.isRequired,
-};

@@ -6,9 +6,7 @@ import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 
-import PropTypes from 'prop-types';
 import Representation from '../representation';
-
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,
@@ -16,7 +14,7 @@ export const MutualizedComponentsSelector = ({
 	handleAdd,
 	concepts,
 	codesLists,
-	handleCodesListDetail
+	handleCodesListDetail,
 }) => {
 	const [openPanel, setOpenPanel] = useState(false);
 	const [selectedComponent, setSelectedComponent] = useState(null);
@@ -41,18 +39,31 @@ export const MutualizedComponentsSelector = ({
 	const componentsWithActions = components.map((component) => ({
 		...component,
 		type: typeUriToLabel(component.type),
-		mutualized: (
-			!!component.validationState && component.validationState !== 'Unpublished'
-				? <span className="glyphicon glyphicon-ok" aria-label={D.mutualized}></span>
-				: <React.Fragment></React.Fragment>
-		),
+		mutualized:
+			!!component.validationState &&
+			component.validationState !== 'Unpublished' ? (
+				<span
+					className="glyphicon glyphicon-ok"
+					aria-label={D.mutualized}
+				></span>
+			) : (
+				<React.Fragment></React.Fragment>
+			),
 		concept: concepts.find(({ id }) =>
 			component.concept?.toString().includes(id?.toString())
 		)?.label,
-		representation: <Representation component={component} codesLists={codesLists} handleCodesListDetail={() => {
-			const codesList = codesLists.find(({id}) => id?.toString() === component.codeList?.toString())
-			handleCodesListDetail(codesList)
-		}}/>,
+		representation: (
+			<Representation
+				component={component}
+				codesLists={codesLists}
+				handleCodesListDetail={() => {
+					const codesList = codesLists.find(
+						({ id }) => id?.toString() === component.codeList?.toString()
+					);
+					handleCodesListDetail(codesList);
+				}}
+			/>
+		),
 		actions: (
 			<React.Fragment>
 				<button
@@ -85,7 +96,12 @@ export const MutualizedComponentsSelector = ({
 				search={true}
 				pagination={false}
 			/>
-			<SlidingPanel type={'right'} isOpen={openPanel} size={60} backdropClicked={() => setOpenPanel(false)}>
+			<SlidingPanel
+				type={'right'}
+				isOpen={openPanel}
+				size={60}
+				backdropClicked={() => setOpenPanel(false)}
+			>
 				<ComponentDetail
 					component={selectedComponent}
 					codesLists={codesLists}
@@ -100,12 +116,4 @@ export const MutualizedComponentsSelector = ({
 			</SlidingPanel>
 		</CollapsiblePanel>
 	);
-};
-
-MutualizedComponentsSelector.propTypes = {
-	hidden: PropTypes.bool,
-	components: PropTypes.array,
-	handleAdd: PropTypes.func,
-	concepts: PropTypes.array,
-	codesLists: PropTypes.array,
 };

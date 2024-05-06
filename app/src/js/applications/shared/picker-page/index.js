@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { PropTypes } from 'prop-types';
 import D from 'js/i18n';
 import { ErrorBloc } from 'bauhaus-utilities';
 import {
@@ -151,28 +150,6 @@ const Picker = ({
 	);
 };
 
-Picker.propTypes = {
-	title: PropTypes.string.isRequired,
-	panelTitle: PropTypes.string.isRequired,
-	labelWarning: PropTypes.string.isRequired,
-	items: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		})
-	), //not required since this component can be created before the items are
-	ValidationButton: PropTypes.func,
-	handleAction: PropTypes.func.isRequired,
-	disabled: PropTypes.bool,
-	disabledWarningMessage: PropTypes.string,
-	context: PropTypes.oneOf([
-		'',
-		'concepts',
-		'collections',
-		'classifications',
-		'operations',
-	]).isRequired,
-};
 Picker.defaultProps = {
 	ValidationButton: ExportButton,
 };

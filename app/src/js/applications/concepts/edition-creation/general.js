@@ -1,19 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import D, { D1, D2 } from 'js/i18n';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
 import InputMultiRmes from 'js/applications/shared/input-multi-rmes';
-import {
-	propTypes as generalPropTypes,
-	fields as generalFields,
-} from 'js/utils/concepts/general';
+import { fields as generalFields } from 'js/utils/concepts/general';
 import { Select, LabelRequired } from '@inseefr/wilco';
 import { RequiredIcon, ClientSideError } from 'bauhaus-utilities';
 
-const handleFieldChange = handleChange =>
+const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {
-		handlers[fieldName] = value => handleChange({ [fieldName]: value });
+		handlers[fieldName] = (value) => handleChange({ [fieldName]: value });
 		return handlers;
 	}, {});
 
@@ -23,7 +19,7 @@ function ConceptGeneralEdition({
 	disseminationStatusList,
 	handleChange,
 	langs,
-	errorMessage
+	errorMessage,
 }) {
 	const {
 		prefLabelLg1,
@@ -38,7 +34,7 @@ function ConceptGeneralEdition({
 	} = general;
 
 	const handlers = handleFieldChange(handleChange);
-	const stampListOptions = stampList.map(stamp => ({
+	const stampListOptions = stampList.map((stamp) => ({
 		label: stamp,
 		value: stamp,
 	}));
@@ -62,7 +58,12 @@ function ConceptGeneralEdition({
 					value={prefLabelLg1}
 					handleChange={handlers.prefLabelLg1}
 					className="w-100"
-					errorBlock={<ClientSideError id="prefLabelLg1-error" error={errorMessage?.fields?.prefLabelLg1}></ClientSideError>}
+					errorBlock={
+						<ClientSideError
+							id="prefLabelLg1-error"
+							error={errorMessage?.fields?.prefLabelLg1}
+						></ClientSideError>
+					}
 				/>
 
 				<InputRmes
@@ -92,8 +93,10 @@ function ConceptGeneralEdition({
 					options={stampListOptions}
 					onChange={handlers.creator}
 				/>
-				<ClientSideError id="creator-error" error={errorMessage?.fields?.creator}></ClientSideError>
-
+				<ClientSideError
+					id="creator-error"
+					error={errorMessage?.fields?.creator}
+				></ClientSideError>
 			</div>
 			<div className="form-group">
 				<label>{D1.contributorTitle}</label>
@@ -117,8 +120,10 @@ function ConceptGeneralEdition({
 					onChange={handlers.disseminationStatus}
 					searchable={true}
 				/>
-				<ClientSideError id="disseminationStatus-error" error={errorMessage?.fields?.disseminationStatus}></ClientSideError>
-
+				<ClientSideError
+					id="disseminationStatus-error"
+					error={errorMessage?.fields?.disseminationStatus}
+				></ClientSideError>
 			</div>
 			<div className="form-group">
 				<label>{D1.additionalMaterialTitle}</label>
@@ -129,7 +134,7 @@ function ConceptGeneralEdition({
 						type="text"
 						className="form-control"
 						value={additionalMaterial.replace('http://', '')}
-						onChange={e => handlers.additionalMaterial(e.target.value)}
+						onChange={(e) => handlers.additionalMaterial(e.target.value)}
 					/>
 				</div>
 			</div>
@@ -144,13 +149,5 @@ function ConceptGeneralEdition({
 		</div>
 	);
 }
-
-ConceptGeneralEdition.propTypes = {
-	general: generalPropTypes.isRequired,
-	handleChange: PropTypes.func.isRequired,
-	stampList: PropTypes.array.isRequired,
-	disseminationStatusList: PropTypes.array.isRequired,
-	langs: PropTypes.object.isRequired,
-};
 
 export default ConceptGeneralEdition;

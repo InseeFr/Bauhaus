@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { PropTypes } from 'prop-types';
 import D from '../../i18n/build-dictionary';
 import {
 	Pagination,
@@ -92,20 +91,5 @@ const Picker = ({
 		</div>
 	);
 };
-
-Picker.propTypes = {
-	panelTitle: PropTypes.string.isRequired,
-	codes: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		})
-	).isRequired,
-	addAll: PropTypes.func.isRequired,
-	removeAll: PropTypes.func.isRequired,
-	addAction: PropTypes.func.isRequired,
-	removeAction: PropTypes.func.isRequired,
-};
-Picker.defaultProps = {};
 
 export default Picker;

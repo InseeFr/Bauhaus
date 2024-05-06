@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Editor } from 'react-draft-wysiwyg';
 import './editor-html.scss';
 import * as HTMLUtils from '../../utils/html-utils';
@@ -24,7 +23,7 @@ class EditorHTML extends Component {
 		this.state = {
 			editorState: HTMLUtils.editorStateFromHtml(text || ''),
 		};
-		this.handleChange = editorState => {
+		this.handleChange = (editorState) => {
 			this.setState({
 				editorState,
 			});
@@ -67,12 +66,5 @@ class EditorHTML extends Component {
 		);
 	}
 }
-
-EditorHTML.propTypes = {
-	text: PropTypes.string,
-	handleChange: PropTypes.func.isRequired,
-	//if smart is set to true, the editor will not react when receiving new props
-	smart: PropTypes.bool,
-};
 
 export default EditorHTML;

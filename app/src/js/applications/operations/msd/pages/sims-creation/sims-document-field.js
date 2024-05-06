@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { isLink, isDocument } from 'js/applications/operations/document/utils';
 import DocumentsBloc from '../../documents/documents-bloc';
-import PropTypes from 'prop-types';
 
 export const SimsDocumentField = ({
 	documentStores,
@@ -65,12 +64,6 @@ export const SimsDocumentField = ({
 			</div>
 		</>
 	);
-};
-
-SimsDocumentField.propTypes = {
-	msd: PropTypes.object.isRequired,
-	currentSection: PropTypes.object,
-	handleChange: PropTypes.func,
 };
 
 export default React.memo(

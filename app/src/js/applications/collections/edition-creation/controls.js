@@ -5,8 +5,6 @@ import {
 	ActionToolbar,
 	SaveButton,
 } from '@inseefr/wilco';
-import PropTypes from 'prop-types';
-import { propTypes as generalPropTypes } from 'js/utils/collections/general';
 import { validate } from './validation';
 
 function Controls({
@@ -34,11 +32,5 @@ function Controls({
 		</>
 	);
 }
-
-Controls.propTypes = {
-	general: generalPropTypes.isRequired,
-	handleSave: PropTypes.func.isRequired,
-	redirectCancel: PropTypes.func.isRequired,
-};
 
 export default Controls;

@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import D, { D1, D2 } from 'js/i18n';
-import PropTypes from 'prop-types';
 import {
 	EditorMarkdown,
 	PageTitleBlock,
@@ -438,12 +437,6 @@ const OperationsDocumentationEdition = (props) => {
 			</form>
 		</div>
 	);
-};
-
-OperationsDocumentationEdition.propTypes = {
-	document: PropTypes.object.isRequired,
-	langs: PropTypes.object.isRequired,
-	type: PropTypes.oneOf([LINK, DOCUMENT]),
 };
 
 export default OperationsDocumentationEdition;

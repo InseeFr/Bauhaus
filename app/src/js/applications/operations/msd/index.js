@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from 'react';
 import MSDLayout from 'js/applications/operations/msd/layout/';
 import { connect } from 'react-redux';
 import { Loading, buildExtract } from '@inseefr/wilco';
-import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
+import { NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
 import { D1, D2 } from 'js/i18n';
 import globalApi from 'js/remote-api/api';
@@ -19,7 +19,6 @@ import { withRouter } from 'react-router-dom';
 import MSDHelp from 'js/applications/operations/msd/pages/help';
 import SimsVisualisation from 'js/applications/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/applications/operations/msd/pages/sims-creation/';
-import PropTypes from 'prop-types';
 import * as select from 'js/reducers';
 import { Stores, PageTitleBlock, ArrayUtils } from 'bauhaus-utilities';
 import api from 'js/remote-api/operations-api';
@@ -27,7 +26,7 @@ import api from 'js/remote-api/operations-api';
 import { getParentType, getParentId } from './utils';
 import './msd.scss';
 import { isEssentialRubricKo } from './sims-field-title';
-import { SimsContextProvider } from './context'
+import { SimsContextProvider } from './context';
 import { useGoBack } from 'js/hooks/hooks';
 
 const extractId = buildExtract('id');
@@ -40,22 +39,7 @@ export const UPDATE = 'UPDATE';
 export const DUPLICATE = 'DUPLICATE';
 const sortByLabel = ArrayUtils.sortArray('labelLg1');
 
-
 class MSDContainer extends Component {
-	static propTypes = {
-		metadataStructure: PropTypes.object,
-		metadataStructureStatus: PropTypes.oneOf([LOADED, NOT_LOADED, LOADING]),
-		codesLists: PropTypes.object,
-		mode: PropTypes.oneOf([HELP, VIEW, CREATE, UPDATE, DUPLICATE]),
-		baseUrl: PropTypes.string,
-		id: PropTypes.string,
-		saveSims: PropTypes.func,
-		idParent: PropTypes.string,
-		disableSectionAnchor: PropTypes.bool,
-		langs: PropTypes.object,
-		secondLang: PropTypes.bool,
-		currentSims: PropTypes.object,
-	};
 	static defaultProps = {
 		currentSims: {},
 	};
@@ -66,7 +50,7 @@ class MSDContainer extends Component {
 			exportPending: false,
 			owners: [],
 			defaultSims: {},
-			missingDocuments: new Set()
+			missingDocuments: new Set(),
 		};
 	}
 
@@ -74,7 +58,10 @@ class MSDContainer extends Component {
 		if (this.props.metadataStructureStatus !== LOADED) {
 			this.props.loadMetadataStructure();
 		}
-		if ((this.props.mode === UPDATE || this.props.mode === VIEW) && !this.props.currentSims.id) {
+		if (
+			(this.props.mode === UPDATE || this.props.mode === VIEW) &&
+			!this.props.currentSims.id
+		) {
 			this.props.loadSIMS(this.props.id);
 		}
 
@@ -86,10 +73,10 @@ class MSDContainer extends Component {
 	}
 
 	_loadOwnersList(id) {
-		if(id){
-			api.getOwners(id).then(owners => {
-				this.setState({ owners })
-			})
+		if (id) {
+			api.getOwners(id).then((owners) => {
+				this.setState({ owners });
+			});
 		}
 	}
 	exportCallback = (id, config, sims) => {
@@ -103,8 +90,8 @@ class MSDContainer extends Component {
 		if (!nextProps.currentSims.id || this.props.id !== nextProps.id) {
 			this.props.loadSIMS(nextProps.id);
 		}
-		if(this.props.mode === CREATE && nextProps.mode === VIEW){
-			this._loadOwnersList(nextProps.id)
+		if (this.props.mode === CREATE && nextProps.mode === VIEW) {
+			this._loadOwnersList(nextProps.id);
 		}
 	}
 	isEditMode = () => {
@@ -140,29 +127,42 @@ class MSDContainer extends Component {
 		if (this.state.exportPending) return <Loading textType="loadableLoading" />;
 
 		let essentialRubricContext = {};
-		if(mode === VIEW || this.isEditMode()){
-			const makeMetadatastructureFlat = items => {
-				if(!items || items.length === 0){
+		if (mode === VIEW || this.isEditMode()) {
+			const makeMetadatastructureFlat = (items) => {
+				if (!items || items.length === 0) {
 					return items;
 				}
-				return [...items, ...makeMetadatastructureFlat(items.map(item => Object.values(item.children)).flat())]
-			}
-			const flatMetadataStructure = makeMetadatastructureFlat(Object.values(metadataStructure));
-
+				return [
+					...items,
+					...makeMetadatastructureFlat(
+						items.map((item) => Object.values(item.children)).flat()
+					),
+				];
+			};
+			const flatMetadataStructure = makeMetadatastructureFlat(
+				Object.values(metadataStructure)
+			);
 
 			essentialRubricContext = flatMetadataStructure.reduce((acc, msd) => {
-
-				if(msd.minOccurs === "1") {
-					msd.essentialRubricKoLg1 = isEssentialRubricKo(msd, currentSims.rubrics?.[msd.idMas], false)
-					msd.essentialRubricKoLg2 = isEssentialRubricKo(msd, currentSims.rubrics?.[msd.idMas], true)
+				if (msd.minOccurs === '1') {
+					msd.essentialRubricKoLg1 = isEssentialRubricKo(
+						msd,
+						currentSims.rubrics?.[msd.idMas],
+						false
+					);
+					msd.essentialRubricKoLg2 = isEssentialRubricKo(
+						msd,
+						currentSims.rubrics?.[msd.idMas],
+						true
+					);
 				}
 				return {
 					...acc,
 					[msd.idMas]: {
-						...msd
-					}
-				}
-			}, {})
+						...msd,
+					},
+				};
+			}, {});
 		}
 		return (
 			<MSDLayout
@@ -210,28 +210,26 @@ class MSDContainer extends Component {
 				)}
 				{this.isEditMode() && (
 					<SimsContextProvider value={essentialRubricContext}>
-					<SimsCreation
-						parent={parent}
-						sims={currentSims}
-						metadataStructure={metadataStructure}
-						codesLists={codesLists}
-						onSubmit={saveSims}
-						idParent={idParent}
-						langs={langs}
-						goBack={goBack}
-						mode={mode}
-						organisations={organisations}
-						parentType={parentType}
-						documentStores={documentStores}
-						defaultSimsRubrics={this.state.defaultSimsRubrics}
-					/>
+						<SimsCreation
+							parent={parent}
+							sims={currentSims}
+							metadataStructure={metadataStructure}
+							codesLists={codesLists}
+							onSubmit={saveSims}
+							idParent={idParent}
+							langs={langs}
+							goBack={goBack}
+							mode={mode}
+							organisations={organisations}
+							parentType={parentType}
+							documentStores={documentStores}
+							defaultSimsRubrics={this.state.defaultSimsRubrics}
+						/>
 					</SimsContextProvider>
 				)}
 			</MSDLayout>
 		);
 	}
-
-
 }
 
 export const mapStateToProps = (state, ownProps) => {
@@ -242,13 +240,10 @@ export const mapStateToProps = (state, ownProps) => {
 		};
 	}
 
-	const {
-		results: metadataStructure,
-		status: metadataStructureStatus,
-	} = state.operationsMetadataStructureList;
+	const { results: metadataStructure, status: metadataStructureStatus } =
+		state.operationsMetadataStructureList;
 
 	const id = extractId(ownProps);
-
 
 	let idParent;
 	let currentSims = {};
@@ -294,47 +289,67 @@ const mapDispatchToProps = {
 const MSDContainerWithParent = (props) => {
 	const { idParent } = props;
 	const parentType = props.match.params[0]; // withRouter utile
-	const [parent, setParent] = useState(props.parent)
-	const [loading, setLoading] = useState(true)
+	const [parent, setParent] = useState(props.parent);
+	const [loading, setLoading] = useState(true);
 	const [documentStores, setDocumentStores] = useState([]);
 
 	const goBack = useGoBack();
 
-	const currentSims = props.mode === CREATE ? ({
-			labelLg1: D1.simsTitle + parent?.prefLabelLg1,
-			labelLg2: D2.simsTitle + parent?.prefLabelLg2,
-		}) : props.currentSims
+	const currentSims =
+		props.mode === CREATE
+			? {
+					labelLg1: D1.simsTitle + parent?.prefLabelLg1,
+					labelLg2: D2.simsTitle + parent?.prefLabelLg2,
+			  }
+			: props.currentSims;
 
 	useEffect(() => {
 		// TO BE REMOVED when all cache will be deleted
-		if(parentType === "indicator"){
-			api.getIndicator(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
-		} else if(parentType === "operation"){
-			api.getOperation(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
-		}else if(parentType === "series"){
-			api.getSerie(idParent).then(payload => setParent(payload)).finally(() => setLoading(false))
+		if (parentType === 'indicator') {
+			api
+				.getIndicator(idParent)
+				.then((payload) => setParent(payload))
+				.finally(() => setLoading(false));
+		} else if (parentType === 'operation') {
+			api
+				.getOperation(idParent)
+				.then((payload) => setParent(payload))
+				.finally(() => setLoading(false));
+		} else if (parentType === 'series') {
+			api
+				.getSerie(idParent)
+				.then((payload) => setParent(payload))
+				.finally(() => setLoading(false));
+		} else {
+			setLoading(false);
 		}
-		else {
-			setLoading(false)
-		}
-	}, [idParent, parentType])
+	}, [idParent, parentType]);
 
 	useEffect(() => {
-		globalApi.getDocumentsList().then(results => {
-			setDocumentStores(sortByLabel(
-				results.map(document => {
-					return {
-						...document,
-						id: document.uri.substr(document.uri.lastIndexOf('/') + 1),
-					};
-				}))
-			)
-		})
-	}, [])
-	if(loading) return <Loading textType="loadableLoading" />
-	return <MSDContainer {...props} documentStores={documentStores} currentSims={currentSims} parent={parent} goBack={goBack}/>
-}
+		globalApi.getDocumentsList().then((results) => {
+			setDocumentStores(
+				sortByLabel(
+					results.map((document) => {
+						return {
+							...document,
+							id: document.uri.substr(document.uri.lastIndexOf('/') + 1),
+						};
+					})
+				)
+			);
+		});
+	}, []);
+	if (loading) return <Loading textType="loadableLoading" />;
+	return (
+		<MSDContainer
+			{...props}
+			documentStores={documentStores}
+			currentSims={currentSims}
+			parent={parent}
+			goBack={goBack}
+		/>
+	);
+};
 export default withRouter(
 	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)
 );
-

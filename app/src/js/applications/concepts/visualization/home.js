@@ -1,16 +1,18 @@
 import React, { useState, useCallback } from 'react';
-import { PropTypes } from 'prop-types';
 import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 import D from 'js/i18n';
-import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
-import { buildNotes, propTypes as notePropTypes } from 'js/utils/concepts/notes';
-import { propTypesBilingual as linksPropTypes } from 'js/utils/concepts/links';
-import { propTypes as permissionOverviewPropTypes } from 'js/utils/auth/permission-overview';
+import { buildNotes } from 'js/utils/concepts/notes';
 import { getModalMessage } from 'js/utils/concepts/build-validation-message';
-import { CheckSecondLang, DateUtils, PageTitleBlock, useTitle, ErrorBloc } from 'bauhaus-utilities';
+import {
+	CheckSecondLang,
+	DateUtils,
+	PageTitleBlock,
+	useTitle,
+	ErrorBloc,
+} from 'bauhaus-utilities';
 import NoteVisualization from '../../shared/note-visualization';
 
 const ConceptVisualization = ({
@@ -25,7 +27,7 @@ const ConceptVisualization = ({
 	validateConcept,
 	deleteConcept,
 }) => {
-	useTitle( D.conceptsTitle, general?.prefLabelLg1);
+	useTitle(D.conceptsTitle, general?.prefLabelLg1);
 	const [modalValid, setModalValid] = useState(false);
 
 	const handleClickValidation = useCallback(() => {
@@ -76,7 +78,7 @@ const ConceptVisualization = ({
 					handleValidation={handleClickValidation}
 					handleDeletion={handleClickDeletion}
 				/>
-				{serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
+				{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 				<CheckSecondLang />
 
 				<ConceptGeneral secondLang={secondLang} attr={general} langs={langs} />
@@ -99,16 +101,6 @@ const ConceptVisualization = ({
 			/>
 		</>
 	);
-};
-
-ConceptVisualization.propTypes = {
-	id: PropTypes.string, // not available for creation
-	permission: permissionOverviewPropTypes.isRequired,
-	general: generalPropTypes.isRequired,
-	notes: notePropTypes.isRequired,
-	links: linksPropTypes.isRequired,
-	validateConcept: PropTypes.func.isRequired,
-	langs: PropTypes.object.isRequired,
 };
 
 export default ConceptVisualization;

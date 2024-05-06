@@ -1,9 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
-import { CreationUpdateItems, PublicationFemale, withTitle } from 'bauhaus-utilities';
+import {
+	CreationUpdateItems,
+	PublicationFemale,
+	withTitle,
+} from 'bauhaus-utilities';
 import D from '../../../../i18n/build-dictionary';
 
 function OperationsOperationVisualization({
@@ -17,7 +20,10 @@ function OperationsOperationVisualization({
 				<Note
 					text={
 						<ul>
-							<CreationUpdateItems creation={attr.created} update={attr.modified} />
+							<CreationUpdateItems
+								creation={attr.created}
+								update={attr.modified}
+							/>
 							<li>
 								{D1.operationStatus} : <PublicationFemale object={attr} />
 							</li>
@@ -57,10 +63,10 @@ function OperationsOperationVisualization({
 	);
 }
 
-OperationsOperationVisualization.propTypes = {
-	attr: PropTypes.object.isRequired,
-};
-
-export default withTitle(OperationsOperationVisualization, D.operationsTitle, props => {
-	return props.attr?.prefLabelLg1;
-});
+export default withTitle(
+	OperationsOperationVisualization,
+	D.operationsTitle,
+	(props) => {
+		return props.attr?.prefLabelLg1;
+	}
+);

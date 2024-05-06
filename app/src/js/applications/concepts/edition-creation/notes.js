@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
 import NoteEdition from 'js/applications/shared/note-edition';
 import { D1 } from 'js/i18n';
-import { propTypes as notePropTypes } from 'js/utils/concepts/notes';
 import { HTMLUtils } from 'bauhaus-utilities';
 
-const noteTypes = maxLengthScopeNote => [
+const noteTypes = (maxLengthScopeNote) => [
 	{
 		rawTitle: 'conceptsScopeNote',
 		// should be highlighted only if `scopeNoteLg1` is empty and
 		//`disseminationStatus.includes('Public')`
-		redLg1Empty: disseminationStatus => disseminationStatus.includes('Public'),
+		redLg1Empty: (disseminationStatus) =>
+			disseminationStatus.includes('Public'),
 		noteLg1Name: 'scopeNoteLg1',
 		noteLg2Name: 'scopeNoteLg2',
 		maxLength: maxLengthScopeNote,
@@ -38,8 +37,8 @@ const noteTypes = maxLengthScopeNote => [
 const handleFieldChange = (handleChange, maxLengthScopeNote) =>
 	noteTypes(maxLengthScopeNote).reduce(
 		(handlers, { noteLg1Name, noteLg2Name }) => {
-			handlers[noteLg1Name] = value => handleChange({ [noteLg1Name]: value });
-			handlers[noteLg2Name] = value => handleChange({ [noteLg2Name]: value });
+			handlers[noteLg1Name] = (value) => handleChange({ [noteLg1Name]: value });
+			handlers[noteLg2Name] = (value) => handleChange({ [noteLg2Name]: value });
 			return handlers;
 		},
 		{}
@@ -51,8 +50,7 @@ const NotesEdition = ({
 	maxLengthScopeNote,
 	langs,
 	handleChange,
-}) =>  {
-
+}) => {
 	const [activeTab, setActiveTab] = useState(0);
 	const handlers = handleFieldChange(handleChange, maxLengthScopeNote);
 
@@ -111,12 +109,6 @@ const NotesEdition = ({
 			</Tabs>
 		</ul>
 	);
-}
-NotesEdition.propTypes = {
-	conceptGeneral: notePropTypes,
-	disseminationStatus: PropTypes.string.isRequired,
-	handleChange: PropTypes.func.isRequired,
-	langs: PropTypes.object.isRequired,
 };
 
 export default NotesEdition;

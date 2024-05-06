@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
@@ -52,14 +51,6 @@ const SimsCodeListSelect = (props) => {
 };
 
 class SimsField extends PureComponent {
-	static propTypes = {
-		msd: PropTypes.object.isRequired,
-		currentSection: PropTypes.object,
-		codesLists: PropTypes.object.isRequired,
-		handleChange: PropTypes.func,
-		secondLang: PropTypes.bool,
-	};
-
 	_handleChange(override) {
 		this.props.handleChange({
 			id: this.props.msd.idMas,

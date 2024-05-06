@@ -1,22 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
 
 class TabsRmes extends Component {
-	static propTypes = {
-		tabs: PropTypes.arrayOf(
-			PropTypes.shape({
-				title: PropTypes.string.isRequired,
-				content: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
-					.isRequired,
-			})
-		),
-	};
-	
 	constructor(props) {
 		super();
 		this.state = { activeTab: 0 };
-		this.selectTab = tabIndex =>
+		this.selectTab = (tabIndex) =>
 			this.setState({
 				activeTab: tabIndex,
 			});
@@ -47,5 +36,5 @@ class TabsRmes extends Component {
 		);
 	}
 }
- 
+
 export default TabsRmes;

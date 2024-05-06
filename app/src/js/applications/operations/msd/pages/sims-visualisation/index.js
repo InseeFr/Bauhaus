@@ -1,9 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import api from 'js/remote-api/operations-api';
-import { useHistory } from "react-router-dom";
-import { useDispatch} from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
 	Button,
 	DuplicateButton,
@@ -13,7 +12,7 @@ import {
 	Panel,
 	ExportButton,
 	DeleteButton,
-	CancelButton
+	CancelButton,
 } from '@inseefr/wilco';
 
 import * as A from 'js/actions/constants';
@@ -23,9 +22,10 @@ import {
 	ValidationButton,
 	CheckSecondLang,
 	PublicationFemale,
-	ConfirmationDelete, CreationUpdateItems,
+	ConfirmationDelete,
+	CreationUpdateItems,
 	Row,
-    ErrorBloc
+	ErrorBloc,
 } from 'bauhaus-utilities';
 import {
 	hasLabelLg2,
@@ -50,7 +50,7 @@ export default function SimsVisualisation({
 	exportCallback,
 	missingDocuments,
 	documentStores,
-	owners =  []
+	owners = [],
 }) {
 	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 	const [modalOpened, setModalOpened] = useState(false);
@@ -60,7 +60,7 @@ export default function SimsVisualisation({
 		lg1: true,
 		lg2: true,
 		document: true,
-	})
+	});
 
 	function MSDInformations({ msd, firstLevel = false }) {
 		return (
@@ -72,7 +72,15 @@ export default function SimsVisualisation({
 				)}
 				<div className="sims-row" key={msd.idMas} id={msd.idMas}>
 					{!msd.isPresentational && (
-						<Panel title={<SimsFieldTitle secondLang={false} msd={msd} currentSection={sims.rubrics[msd.idMas]} />}>
+						<Panel
+							title={
+								<SimsFieldTitle
+									secondLang={false}
+									msd={msd}
+									currentSection={sims.rubrics[msd.idMas]}
+								/>
+							}
+						>
 							<SimsBlock
 								msd={msd}
 								isSecondLang={false}
@@ -84,7 +92,15 @@ export default function SimsVisualisation({
 						</Panel>
 					)}
 					{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
-						<Panel title={<SimsFieldTitle secondLang={true} msd={msd} currentSection={sims.rubrics[msd.idMas]} />}>
+						<Panel
+							title={
+								<SimsFieldTitle
+									secondLang={true}
+									msd={msd}
+									currentSection={sims.rubrics[msd.idMas]}
+								/>
+							}
+						>
 							<SimsBlock
 								msd={msd}
 								isSecondLang={true}
@@ -109,7 +125,6 @@ export default function SimsVisualisation({
 	 */
 	const publicationDisabled = false;
 
-
 	const [serverSideError, setServerSideError] = useState();
 	const publish = useCallback(
 		(object) => {
@@ -122,7 +137,7 @@ export default function SimsVisualisation({
 		[publishSims]
 	);
 
-	const checkStamp = stamp => owners.includes(stamp);
+	const checkStamp = (stamp) => owners.includes(stamp);
 	/**
 	 * Handle the deletion of a SIMS.
 	 */
@@ -130,19 +145,18 @@ export default function SimsVisualisation({
 	const dispatch = useDispatch();
 	const handleNo = () => {
 		setModalOpened(false);
-	}
+	};
 	const handleYes = () => {
-		api.deleteSims(sims)
-			.finally(async () => {
-				await dispatch({ type: A.DELETE_SIMS_SUCCESS })
-				setModalOpened(false);
-				history.push(`/operations/series/${sims.idSeries}`)
-			})
-	}
+		api.deleteSims(sims).finally(async () => {
+			await dispatch({ type: A.DELETE_SIMS_SUCCESS });
+			setModalOpened(false);
+			history.push(`/operations/series/${sims.idSeries}`);
+		});
+	};
 	const CREATOR = sims.idIndicator
 		? [Auth.INDICATOR_CONTRIBUTOR, checkStamp]
 		: [Auth.SERIES_CONTRIBUTOR, checkStamp];
-	
+
 	return (
 		<>
 			{modalOpened && (
@@ -161,7 +175,11 @@ export default function SimsVisualisation({
 				>
 					<div className="modal-content">
 						<div className="modal-header">
-							<button type="button" className="close" onClick={() => setExportModalOpened(false)}>
+							<button
+								type="button"
+								className="close"
+								onClick={() => setExportModalOpened(false)}
+							>
 								<span aria-hidden="true">&times;</span>
 								<span className="sr-only">{D.btnClose}</span>
 							</button>
@@ -169,43 +187,86 @@ export default function SimsVisualisation({
 						</div>
 
 						<div className="modal-body export-modal-body">
-							<div className='row'>
+							<div className="row">
 								<p className="col-md-offset-1">{D.exportSimsTips}</p>
 							</div>
-							<div className='row'>
+							<div className="row">
 								<label className="col-md-offset-1">
-									<input type='checkbox' checked={exportConfig.emptyMas}
-												 onChange={() => setExportConfig({ ...exportConfig, emptyMas: !exportConfig.emptyMas})}/>
-												 {D.exportSimsIncludeEmptyMas}
+									<input
+										type="checkbox"
+										checked={exportConfig.emptyMas}
+										onChange={() =>
+											setExportConfig({
+												...exportConfig,
+												emptyMas: !exportConfig.emptyMas,
+											})
+										}
+									/>
+									{D.exportSimsIncludeEmptyMas}
 								</label>
 							</div>
-							<div className='row'>
+							<div className="row">
 								<label className="col-md-offset-1">
-									<input type='checkbox' checked={exportConfig.lg1}
-												 onChange={() => setExportConfig({ ...exportConfig, lg1: !exportConfig.lg1})}/>
-									{D.exportSimsIncludeLg1}</label>
+									<input
+										type="checkbox"
+										checked={exportConfig.lg1}
+										onChange={() =>
+											setExportConfig({
+												...exportConfig,
+												lg1: !exportConfig.lg1,
+											})
+										}
+									/>
+									{D.exportSimsIncludeLg1}
+								</label>
 							</div>
-							<div className='row'>
+							<div className="row">
 								<label className="col-md-offset-1">
-									<input type='checkbox' checked={exportConfig.lg2}
-												 onChange={() => setExportConfig({ ...exportConfig, lg2: !exportConfig.lg2})}/>
-									{D.exportSimsIncludeLg2}</label>
+									<input
+										type="checkbox"
+										checked={exportConfig.lg2}
+										onChange={() =>
+											setExportConfig({
+												...exportConfig,
+												lg2: !exportConfig.lg2,
+											})
+										}
+									/>
+									{D.exportSimsIncludeLg2}
+								</label>
 							</div>
-							<div className='row'>
+							<div className="row">
 								<label className="col-md-offset-1">
-									<input type='checkbox' checked={exportConfig.document}
-												 onChange={() => setExportConfig({ ...exportConfig, document: !exportConfig.document})}/>
-									{D.exportDocument}</label>
+									<input
+										type="checkbox"
+										checked={exportConfig.document}
+										onChange={() =>
+											setExportConfig({
+												...exportConfig,
+												document: !exportConfig.document,
+											})
+										}
+									/>
+									{D.exportDocument}
+								</label>
 							</div>
 						</div>
 						<div className="modal-footer text-right">
-							<CancelButton col={3} offset={5} action={() => setExportModalOpened(false)} />
+							<CancelButton
+								col={3}
+								offset={5}
+								action={() => setExportModalOpened(false)}
+							/>
 							<Button
 								disabled={!exportConfig.lg1 && !exportConfig.lg2}
-								col={4} action={() => {
-								exportCallback(sims.id, exportConfig, sims)
-								setExportModalOpened(false)
-							}}>{D.btnExportValidate}</Button>
+								col={4}
+								action={() => {
+									exportCallback(sims.id, exportConfig, sims);
+									setExportModalOpened(false);
+								}}
+							>
+								{D.btnExportValidate}
+							</Button>
 						</div>
 					</div>
 				</Modal>
@@ -221,17 +282,13 @@ export default function SimsVisualisation({
 						col={3}
 					/>
 				</Auth.AuthGuard>
-				<Auth.AuthGuard roles={[Auth.ADMIN]} complementaryCheck={!!sims.idSeries}>
-					<DeleteButton
-						action={() => setModalOpened(true)}
-					/>
-				</Auth.AuthGuard>
 				<Auth.AuthGuard
-					roles={[
-						Auth.ADMIN,
-						CREATOR
-					]}
+					roles={[Auth.ADMIN]}
+					complementaryCheck={!!sims.idSeries}
 				>
+					<DeleteButton action={() => setModalOpened(true)} />
+				</Auth.AuthGuard>
+				<Auth.AuthGuard roles={[Auth.ADMIN, CREATOR]}>
 					<ValidationButton
 						object={sims}
 						callback={(object) => publish(object)}
@@ -254,17 +311,29 @@ export default function SimsVisualisation({
 			</ActionToolbar>
 
 			<Row>
-				{missingDocuments?.size > 0 && <ErrorBloc error={D.missingDocumentWhenExportingSims(Array.from(missingDocuments).map(id => documentStores.find(d => d.id === id)?.labelLg1))} D={D}/>}
-                {serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
+				{missingDocuments?.size > 0 && (
+					<ErrorBloc
+						error={D.missingDocumentWhenExportingSims(
+							Array.from(missingDocuments).map(
+								(id) => documentStores.find((d) => d.id === id)?.labelLg1
+							)
+						)}
+						D={D}
+					/>
+				)}
+				{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 
 				<CheckSecondLang />
-				<RubricEssentialMsg secondLang={secondLang}/>
+				<RubricEssentialMsg secondLang={secondLang} />
 
 				<Row>
 					<Note
 						text={
 							<ul>
-								<CreationUpdateItems creation={sims.created} update={sims.updated} />
+								<CreationUpdateItems
+									creation={sims.created}
+									update={sims.updated}
+								/>
 								<li>
 									{D.simsStatus} : <PublicationFemale object={sims} />
 								</li>
@@ -276,10 +345,11 @@ export default function SimsVisualisation({
 				</Row>
 
 				{Object.values(metadataStructure).map((msd) => {
-					return <MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />;
+					return (
+						<MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />
+					);
 				})}
 			</Row>
-
 		</>
 	);
 }
@@ -289,9 +359,3 @@ function shouldDisplayTitleForPrimaryItem(msd) {
 		(!msd.isPresentational && Object.keys(msd.children).length === 0)
 	);
 }
-SimsVisualisation.propTypes = {
-	metadataStructure: PropTypes.object.isRequired,
-	codesLists: PropTypes.object.isRequired,
-	sims: PropTypes.object.isRequired,
-	goBack: PropTypes.func,
-};

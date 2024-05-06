@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
 import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import ConceptGeneral from '../visualization/general';
@@ -33,14 +31,6 @@ const ConceptCompare = ({ id, conceptGeneral, notes, secondLang, langs }) => {
 			</div>
 		</div>
 	);
-};
-
-ConceptCompare.propTypes = {
-	id: PropTypes.string.isRequired,
-	conceptGeneral: generalPropTypes,
-	notes: PropTypes.object.isRequired,
-	secondLang: PropTypes.bool.isRequired,
-	langs: PropTypes.object.isRequired,
 };
 
 export default ConceptCompare;

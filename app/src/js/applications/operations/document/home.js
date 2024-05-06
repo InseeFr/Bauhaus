@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import {
 	PageTitle,
 	VerticalMenu,
@@ -8,7 +7,13 @@ import {
 } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
-import { Auth, FilterToggleButtons, useTitle, Pagination, MasculineButton } from 'bauhaus-utilities';
+import {
+	Auth,
+	FilterToggleButtons,
+	useTitle,
+	Pagination,
+	MasculineButton,
+} from 'bauhaus-utilities';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
 const sessionStorageKey = 'documents-displayMode';
@@ -25,43 +30,47 @@ const SearchableList = ({
 
 	const [search, setSearch] = useState(searchValue);
 
-	const url = document.URL
+	const url = document.URL;
 	useEffect(() => {
 		const searchQuery = new URL(url).searchParams;
 
-		if(searchQuery.has('search')){
+		if (searchQuery.has('search')) {
 			setSearch(searchQuery.get('search'));
 		}
-	}, [url])
+	}, [url]);
 
-	const handleSearch = value => {
+	const handleSearch = (value) => {
 		const searchParams = new URLSearchParams(window.location.search);
 		searchParams.set('search', value);
-		history.replace(location.pathname + "?" + searchParams.toString());
-	}
+		history.replace(location.pathname + '?' + searchParams.toString());
+	};
 
-	const filter = filterKeyDeburr(
-		['label']
-	);
+	const filter = filterKeyDeburr(['label']);
 	const hits = items.filter(filter(search));
 
-	const formatter = content => {
-		const extraInformations = []
-		if(content.lang){
+	const formatter = (content) => {
+		const extraInformations = [];
+		if (content.lang) {
 			extraInformations.push(content.lang);
 		}
-		if(content.updatedDate){
-
+		if (content.updatedDate) {
 			const [year, month, day] = content.updatedDate.split('-');
 			extraInformations.push(`${day}/${month}/${year}`);
 		}
-		return <>{content[label]} <i>{extraInformations.length > 0 ? `(${extraInformations.join('-')})` : ''}</i></>;
-	}
+		return (
+			<>
+				{content[label]}{' '}
+				<i>
+					{extraInformations.length > 0
+						? `(${extraInformations.join('-')})`
+						: ''}
+				</i>
+			</>
+		);
+	};
 	const hitEls = hits.map((item) => (
 		<li key={item.id} className="list-group-item">
-			<Link to={`/${childPath(item)}/${item.id}`}>
-				{formatter(item)}
-			</Link>
+			<Link to={`/${childPath(item)}/${item.id}`}>{formatter(item)}</Link>
 		</li>
 	));
 
@@ -90,7 +99,7 @@ const SearchableList = ({
 };
 
 function DocumentHome({ documents }) {
-	useTitle(D.operationsTitle, D.documentsTitle)
+	useTitle(D.operationsTitle, D.documentsTitle);
 
 	const history = useHistory();
 	const queryMode = sessionStorage.getItem(sessionStorageKey);
@@ -166,15 +175,5 @@ function DocumentHome({ documents }) {
 		</div>
 	);
 }
-
-DocumentHome.propTypes = {
-	documents: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-			uri: PropTypes.string.isRequired,
-		}).isRequired
-	),
-};
 
 export default DocumentHome;

@@ -1,17 +1,13 @@
-import React  from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { goBack, Button, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { Auth } from 'bauhaus-utilities';
 
-const ItemControls = (props) =>  {
+const ItemControls = (props) => {
 	const { classificationId, itemId, version } = props;
 	const cancel = [
-		goBack(
-			props,
-			`/classifications/classification/${classificationId}/items`
-		),
+		goBack(props, `/classifications/classification/${classificationId}/items`),
 		D.btnReturn,
 	];
 	const compare =
@@ -20,7 +16,7 @@ const ItemControls = (props) =>  {
 			: [
 					`/classifications/classification/${classificationId}/item/${itemId}/compare`,
 					D.btnCompare,
-				];
+			  ];
 	const btns = [cancel, compare];
 
 	return (
@@ -38,12 +34,6 @@ const ItemControls = (props) =>  {
 			</Auth.AuthGuard>
 		</ActionToolbar>
 	);
-}
-
-ItemControls.propTypes = {
-	classificationId: PropTypes.string.isRequired,
-	itemId: PropTypes.string.isRequired,
-	version: PropTypes.string,
 };
 
 export default withRouter(ItemControls);

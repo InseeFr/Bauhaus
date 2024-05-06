@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Outline from 'js/applications/operations/msd/outline/';
 import D from 'js/i18n';
-import PropTypes from 'prop-types';
 
 import './style.scss';
 
@@ -11,14 +10,6 @@ const STATUS = {
 	CONTENT: 'CONTENT',
 };
 class MSDComponent extends Component {
-	static propTypes = {
-		metadataStructure: PropTypes.object.isRequired,
-		storeCollapseState: PropTypes.bool,
-		children: PropTypes.array,
-		baseUrl: PropTypes.string,
-		disableSectionAnchor: PropTypes.bool,
-	};
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -28,7 +19,7 @@ class MSDComponent extends Component {
 
 	changeStatus(status) {
 		localStorage.setItem('HELP_VIEW', status);
-		this.setState(previousState => ({
+		this.setState((previousState) => ({
 			status,
 		}));
 	}
@@ -61,7 +52,7 @@ class MSDComponent extends Component {
 					<div className="msd__outline_title">{D.helpSummary}</div>
 					<nav className="msd__outline-container">
 						<ul className="msd__outline-content">
-							{Object.values(metadataStructure).map(metadata => (
+							{Object.values(metadataStructure).map((metadata) => (
 								<Outline
 									key={metadata.idMas}
 									storeCollapseState={storeCollapseState}

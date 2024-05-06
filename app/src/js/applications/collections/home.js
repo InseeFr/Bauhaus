@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { PageTitle } from '@inseefr/wilco';
-import { propTypes as collectionOverviewPropTypes } from 'js/utils/collections/collection-overview';
 import D from 'js/i18n';
 import { SearchableList, useTitle } from 'bauhaus-utilities';
 import { Menu } from './menu';
@@ -23,9 +21,6 @@ const CollectionsHome = ({ collections }) => {
 			</div>
 		</div>
 	);
-};
-CollectionsHome.propTypes = {
-	collections: PropTypes.arrayOf(collectionOverviewPropTypes.isRequired),
 };
 
 export default CollectionsHome;

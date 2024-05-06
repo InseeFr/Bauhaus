@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import {
 	Note,
 	UpdateButton,
@@ -141,11 +140,4 @@ export const CodeListPartialDetailView = ({
 			)}
 		</React.Fragment>
 	);
-};
-
-CodeListPartialDetailView.propTypes = {
-	codelist: PropTypes.object,
-	handleUpdate: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-	handleBack: PropTypes.func,
-	updatable: PropTypes.bool,
 };

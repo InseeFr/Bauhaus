@@ -1,4 +1,4 @@
-import { buildPropTypes, buildEmpty } from '@inseefr/wilco';
+import { buildEmpty } from '@inseefr/wilco';
 
 export const fieldsWithRequired = [
 	['correspondenceId', true],
@@ -20,7 +20,5 @@ export const fieldsWithRequired = [
 	['targetItemLabelLg1', true],
 	['targetItemLabelLg2', false],
 ];
-
-export const propTypes = buildPropTypes(fieldsWithRequired);
 
 export const empty = () => buildEmpty(fieldsWithRequired);

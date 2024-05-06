@@ -6,7 +6,6 @@ import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Auth, Stores } from 'bauhaus-utilities';
 import Representation from '../representation';
@@ -268,14 +267,4 @@ export const StructureComponentsSelector = ({
 			</SlidingPanel>
 		</CollapsiblePanel>
 	);
-};
-
-StructureComponentsSelector.propTypes = {
-	hidden: PropTypes.bool,
-	components: PropTypes.array,
-	handleRemove: PropTypes.func,
-	handleUp: PropTypes.func,
-	handleDown: PropTypes.func,
-	concepts: PropTypes.array,
-	codesLists: PropTypes.array,
 };
