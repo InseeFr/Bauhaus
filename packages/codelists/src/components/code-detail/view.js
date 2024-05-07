@@ -2,7 +2,6 @@ import React from 'react';
 import { Note, ActionToolbar, ReturnButton, ErrorBloc } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { HTMLUtils } from 'bauhaus-utilities';
-import PropTypes from 'prop-types';
 import './view.scss';
 
 export const CodeDetailView = ({
@@ -76,11 +75,4 @@ export const CodeDetailView = ({
 			</div>
 		</React.Fragment>
 	);
-};
-
-CodeDetailView.propTypes = {
-	code: PropTypes.object,
-	codes: PropTypes.array,
-	handleBack: PropTypes.func,
-	secondLang: PropTypes.bool,
 };

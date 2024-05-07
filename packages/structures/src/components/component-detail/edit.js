@@ -33,7 +33,6 @@ import {
 	IGEO_PAYS_OU_TERRITOIRE,
 } from '../../utils/constants/xsd';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import PropTypes from 'prop-types';
 import { default as ReactSelect } from 'react-select';
 import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
@@ -805,18 +804,6 @@ const AttributeValue = ({
 			value={value}
 		/>
 	);
-};
-
-DumbComponentDetailEdit.propTypes = {
-	component: PropTypes.object,
-	concepts: PropTypes.array,
-	codesLists: PropTypes.array,
-	disseminationStatusListOptions: PropTypes.array,
-	stampListOptions: PropTypes.array,
-	handleSave: PropTypes.func,
-	handleBack: PropTypes.func,
-	secondLang: PropTypes.bool,
-	structureComponents: PropTypes.array,
 };
 
 DumbComponentDetailEdit.defaultProps = {

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import NoteOneLangEdition from './note-one-lang-edition';
 import D from 'js/i18n';
 
@@ -42,14 +41,5 @@ function NoteEdition({
 		</div>
 	);
 }
-
-NoteEdition.propTypes = {
-	noteLg1: PropTypes.string,
-	noteLg2: PropTypes.string,
-	handleChangeLg1: PropTypes.func.isRequired,
-	handleChangeLg2: PropTypes.func.isRequired,
-	maxLength: PropTypes.number, // if not set, unbounded
-	langs: PropTypes.object.isRequired,
-};
 
 export default NoteEdition;

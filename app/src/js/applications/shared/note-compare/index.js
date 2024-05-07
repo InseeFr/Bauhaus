@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import {
@@ -86,13 +85,4 @@ class CompareNotes extends Component {
 		);
 	}
 }
-
-CompareNotes.propTypes = {
-	secondLang: PropTypes.bool.isRequired,
-	notes: PropTypes.object.isRequired,
-	langs: PropTypes.object.isRequired,
-	version: PropTypes.number.isRequired,
-	buildNotes: PropTypes.func.isRequired,
-};
-
 export default CompareNotes;

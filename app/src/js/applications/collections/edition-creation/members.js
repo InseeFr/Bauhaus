@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { AddLogo, arrayDifferenceByID, DelLogo, filterDeburr, Pagination, Panel, PickerItem } from '@inseefr/wilco';
+import {
+	AddLogo,
+	arrayDifferenceByID,
+	DelLogo,
+	filterDeburr,
+	Pagination,
+	Panel,
+	PickerItem,
+} from '@inseefr/wilco';
 
 import D, { D1 } from 'js/i18n';
 
-
-const extractMembers = concepts => {
+const extractMembers = (concepts) => {
 	return concepts.reduce((members, { id, label, isAdded }) => {
 		if (isAdded) members.push({ id, label });
 		return members;
@@ -23,7 +29,7 @@ const trackPotentialsConcepts = (conceptList, memberList) => {
 		}))
 	);
 };
-const trackMembers = memberList => {
+const trackMembers = (memberList) => {
 	return (
 		memberList &&
 		memberList.map(({ id, label }) => ({
@@ -39,11 +45,15 @@ const trackConcepts = (potentialList, memberList) => {
 
 const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 	const [searchLabel, setSearchLabel] = useState('');
-	const [concepts, setConcepts] = useState(trackConcepts(trackPotentialsConcepts(conceptList, members),
-		trackMembers(members)));
+	const [concepts, setConcepts] = useState(
+		trackConcepts(
+			trackPotentialsConcepts(conceptList, members),
+			trackMembers(members)
+		)
+	);
 
-	const addConcept = id => {
-		const conceptsToAdd = concepts.map(concept => {
+	const addConcept = (id) => {
+		const conceptsToAdd = concepts.map((concept) => {
 			if (concept.id === id) concept.isAdded = true;
 			return concept;
 		});
@@ -51,8 +61,8 @@ const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 		handleChange(extractMembers(concepts));
 	};
 
-	const removeConcept = id => {
-		const conceptsToDel = concepts.map(concept => {
+	const removeConcept = (id) => {
+		const conceptsToDel = concepts.map((concept) => {
 			if (concept.id === id) concept.isAdded = false;
 			return concept;
 		});
@@ -68,7 +78,7 @@ const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 				else check(label) && byStatus.toAdd.push({ id, label });
 				return byStatus;
 			},
-			{ toAdd: [], added: [] },
+			{ toAdd: [], added: [] }
 		);
 	};
 
@@ -95,28 +105,22 @@ const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 	));
 
 	return (
-		<div className='row'>
-			<div className='col-md-6'>
+		<div className="row">
+			<div className="col-md-6">
 				<Panel title={D1.collectionMembersPanelTitle}>{addedEls}</Panel>
 			</div>
-			<div className='col-md-6 text-center'>
+			<div className="col-md-6 text-center">
 				<input
 					value={searchLabel}
-					onChange={e => setSearchLabel(e.target.value)}
-					type='text'
+					onChange={(e) => setSearchLabel(e.target.value)}
+					type="text"
 					placeholder={D.searchLabelPlaceholder}
-					className='form-control'
+					className="form-control"
 				/>
-				<Pagination itemEls={toAddEls} itemsPerPage='10' />
+				<Pagination itemEls={toAddEls} itemsPerPage="10" />
 			</div>
 		</div>
 	);
-};
-
-CollectionMembersEdition.propTypes = {
-	members: PropTypes.array.isRequired,
-	conceptList: PropTypes.array.isRequired,
-	handleChange: PropTypes.func.isRequired,
 };
 
 export default CollectionMembersEdition;

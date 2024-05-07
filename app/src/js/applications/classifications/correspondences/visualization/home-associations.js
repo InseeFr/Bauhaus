@@ -1,10 +1,7 @@
-import React  from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Note, Table } from '@inseefr/wilco';
 import D, { D1 } from 'js/i18n';
-import { propTypes as associationsPropTypes } from 'js/applications/classifications/utils/correspondence/associations';
-import { propTypes as correspondencePropTypes } from 'js/applications/classifications/utils/correspondence/general';
 import { ArrayUtils } from 'bauhaus-utilities';
 
 const sortById = ArrayUtils.sortArray('id');
@@ -21,7 +18,7 @@ const HomeAssociations = ({ id, associations, correspondence, secondLang }) => {
 	const { sourceLabelLg2, targetLabelLg2 } = associations[0];
 	if (secondLang && !sourceLabelLg2 && !targetLabelLg2) return null;
 
-	const data = sortById(associations).map(a => {
+	const data = sortById(associations).map((a) => {
 		const [idS, idT] = a.id.split('-');
 		return {
 			source: `${idS} - ${
@@ -38,15 +35,17 @@ const HomeAssociations = ({ id, associations, correspondence, secondLang }) => {
 	const rowParams = [
 		{
 			dataField: 'source',
-			text: `${D.sourceClassificationTitle}${sourceLabel &&
-			` : ${sourceLabel}`}`,
+			text: `${D.sourceClassificationTitle}${
+				sourceLabel && ` : ${sourceLabel}`
+			}`,
 			width: '50%',
 			isKey: true,
 		},
 		{
 			dataField: 'target',
-			text: `${D.targetClassificationTitle}${sourceLabel &&
-			` : ${targetLabel}`}`,
+			text: `${D.targetClassificationTitle}${
+				sourceLabel && ` : ${targetLabel}`
+			}`,
 			width: '50%',
 		},
 	];
@@ -59,9 +58,7 @@ const HomeAssociations = ({ id, associations, correspondence, secondLang }) => {
 						data={data}
 						search={true}
 						pagination={true}
-						onRowClick={(_, row) =>
-							history.push(`${id}/association/${row.id}`)
-						}
+						onRowClick={(_, row) => history.push(`${id}/association/${row.id}`)}
 						align="left"
 					/>
 				}
@@ -71,12 +68,6 @@ const HomeAssociations = ({ id, associations, correspondence, secondLang }) => {
 			/>
 		</div>
 	);
-}
-
-HomeAssociations.propTypes = {
-	id: PropTypes.string.isRequired,
-	associations: associationsPropTypes.isRequired,
-	correspondence: correspondencePropTypes.isRequired,
-	secondLang: PropTypes.bool.isRequired,
 };
-export default HomeAssociations
+
+export default HomeAssociations;

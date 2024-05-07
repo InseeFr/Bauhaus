@@ -3,16 +3,15 @@ import './component-selector.scss';
 import { MutualizedComponentsSelector } from '../mutualized-component-selector';
 import { StructureComponentsSelector } from '../structure-component-selector';
 import ComponentSpecificationModal from '../component-specification-modal';
-import PropTypes from 'prop-types';
 import {
 	ATTRIBUTE_PROPERTY_TYPE,
 	ATTRIBUTE_TYPE,
 	DIMENSION_PROPERTY_TYPE,
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants/dsd-components';
-import { CodesListPanel } from "../codes-list-panel/codes-list-panel"
+import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { OBSERVATION } from '../../utils/constants';
-import Api from "../../apis/structure-api";
+import Api from '../../apis/structure-api';
 
 const filterComponentDefinition = (type) => (componentDefinition) =>
 	componentDefinition?.component?.type === type;
@@ -26,23 +25,19 @@ const ComponentSelector = ({
 	codesLists,
 	handleUpdate,
 	type,
-	structure
+	structure,
 }) => {
 	const [codesListNotation, setCodesListNotation] = useState(undefined);
-	const handleCodesListDetail = useCallback(notation => {
+	const handleCodesListDetail = useCallback((notation) => {
 		setCodesListNotation(notation);
-	}, [])
-	const [structureComponents, setStructureComponents] = useState(
-		[]
-	);
+	}, []);
+	const [structureComponents, setStructureComponents] = useState([]);
 
 	const [modalOpened, setModalOpened] = useState(false);
 	const [selectedComponent, setSelectedComponent] = useState({});
 
-	const [
-		filteredMutualizedComponents,
-		setFilteredMutualizedComponents,
-	] = useState(mutualizedComponents);
+	const [filteredMutualizedComponents, setFilteredMutualizedComponents] =
+		useState(mutualizedComponents);
 
 	useEffect(() => {
 		setStructureComponents(componentDefinitions);
@@ -65,12 +60,11 @@ const ComponentSelector = ({
 
 	const handleCreateOrUpdate = useCallback(
 		(components, isCreation, component) => {
-
 			if (isCreation) {
 				const componentsByType = _groupByType(structureComponents);
 				componentsByType[component.component.type].push(component);
 
-				const newComponents = _makeFlat(componentsByType)
+				const newComponents = _makeFlat(componentsByType);
 				_handleAttributeComponent(component);
 				setStructureComponents(newComponents);
 				handleUpdate(newComponents);
@@ -82,13 +76,15 @@ const ComponentSelector = ({
 		[handleUpdate, structureComponents]
 	);
 
-
 	const handleRemove = useCallback(
 		(id) => {
-			const filteredComponentsByType = _groupByType(structureComponents
-				.filter(({ component }) => component.identifiant !== id))
+			const filteredComponentsByType = _groupByType(
+				structureComponents.filter(
+					({ component }) => component.identifiant !== id
+				)
+			);
 
-			const filteredComponents = _makeFlat(filteredComponentsByType)
+			const filteredComponents = _makeFlat(filteredComponentsByType);
 			setStructureComponents(filteredComponents);
 			handleUpdate(filteredComponents);
 		},
@@ -103,7 +99,10 @@ const ComponentSelector = ({
 			};
 			let components;
 			components = structureComponents.map((c) => {
-				if (c.order === component.order && c.component.type === component.component.type) {
+				if (
+					c.order === component.order &&
+					c.component.type === component.component.type
+				) {
 					return component;
 				}
 				return c;
@@ -126,69 +125,94 @@ const ComponentSelector = ({
 	};
 
 	const _groupByType = (components) => {
-		const componentsByType = components.reduce((acc, structureComponent) => {
-			return {
-				...acc,
-				[structureComponent.component.type]: [...acc[structureComponent.component.type], structureComponent]
+		const componentsByType = components.reduce(
+			(acc, structureComponent) => {
+				return {
+					...acc,
+					[structureComponent.component.type]: [
+						...acc[structureComponent.component.type],
+						structureComponent,
+					],
+				};
+			},
+			{
+				[ATTRIBUTE_PROPERTY_TYPE]: [],
+				[DIMENSION_PROPERTY_TYPE]: [],
+				[MEASURE_PROPERTY_TYPE]: [],
 			}
-		}, {
-			[ATTRIBUTE_PROPERTY_TYPE]: [],
-			[DIMENSION_PROPERTY_TYPE]: [],
-			[MEASURE_PROPERTY_TYPE]: []
-		})
+		);
 		return componentsByType;
-	}
+	};
 
 	const _makeFlat = (componentsByType) => {
 		const dimensions = componentsByType[DIMENSION_PROPERTY_TYPE];
-		const measures = componentsByType[MEASURE_PROPERTY_TYPE]
+		const measures = componentsByType[MEASURE_PROPERTY_TYPE];
 		return [
-			...dimensions.map((component, index) => ({...component, order: index + 1 })),
-			...measures.map((component, index) => ({...component, order: dimensions.length + index + 1 })),
-			...componentsByType[ATTRIBUTE_PROPERTY_TYPE].map((component, index) => ({...component, order: dimensions.length + measures.length + index + 1 }))
-		]
-	}
+			...dimensions.map((component, index) => ({
+				...component,
+				order: index + 1,
+			})),
+			...measures.map((component, index) => ({
+				...component,
+				order: dimensions.length + index + 1,
+			})),
+			...componentsByType[ATTRIBUTE_PROPERTY_TYPE].map((component, index) => ({
+				...component,
+				order: dimensions.length + measures.length + index + 1,
+			})),
+		];
+	};
 
-	const addComponent = useCallback((structureComponents, components) => {
-		const componentsToAdd = Array.isArray(components) ? components: [components];
-		const componentsByType = _groupByType(structureComponents);
-		componentsToAdd.forEach((component, i) => {
-			const newStructureComponent = { component, order: componentsByType[component.type].length + 1 };
+	const addComponent = useCallback(
+		(structureComponents, components) => {
+			const componentsToAdd = Array.isArray(components)
+				? components
+				: [components];
+			const componentsByType = _groupByType(structureComponents);
+			componentsToAdd.forEach((component, i) => {
+				const newStructureComponent = {
+					component,
+					order: componentsByType[component.type].length + 1,
+				};
 
-			// If the main component added is an attribute, we add the Observation attachment
-			if(component.type === ATTRIBUTE_PROPERTY_TYPE){
-				if(i === 0){
-					newStructureComponent.attachment = [OBSERVATION]
-				} else {
-					// Else this is a linked attribute to a measure
-					newStructureComponent.attachment = [components[0].id]
+				// If the main component added is an attribute, we add the Observation attachment
+				if (component.type === ATTRIBUTE_PROPERTY_TYPE) {
+					if (i === 0) {
+						newStructureComponent.attachment = [OBSERVATION];
+					} else {
+						// Else this is a linked attribute to a measure
+						newStructureComponent.attachment = [components[0].id];
+					}
 				}
-			}
-			componentsByType[component.type].push(newStructureComponent)
+				componentsByType[component.type].push(newStructureComponent);
+			});
 
-		})
+			const flatComponents = _makeFlat(componentsByType);
 
-		const flatComponents = _makeFlat(componentsByType);
+			setStructureComponents(flatComponents);
+			handleUpdate(flatComponents);
 
-		setStructureComponents(flatComponents);
-		handleUpdate(flatComponents);
-
-		_handleAttributeComponent(componentsToAdd[0]);
-	}, [handleUpdate]);
+			_handleAttributeComponent(componentsToAdd[0]);
+		},
+		[handleUpdate]
+	);
 	const handleAdd = useCallback(
 		(id) => {
 			const component = mutualizedComponents.find((c) => c.identifiant === id);
-			if(component.type === MEASURE_PROPERTY_TYPE){
-				Api.getMutualizedComponent(component.id).then(fullComponent => {
+			if (component.type === MEASURE_PROPERTY_TYPE) {
+				Api.getMutualizedComponent(component.id).then((fullComponent) => {
 					const componentsToAdd = [component];
-					Object.keys(fullComponent).filter(key => key.indexOf("attribute_") === 0).forEach((iri) => {
-						const attribute = mutualizedComponents.find(c => c.iri === fullComponent[iri]);
+					Object.keys(fullComponent)
+						.filter((key) => key.indexOf('attribute_') === 0)
+						.forEach((iri) => {
+							const attribute = mutualizedComponents.find(
+								(c) => c.iri === fullComponent[iri]
+							);
 
-						componentsToAdd.push(attribute);
-					})
+							componentsToAdd.push(attribute);
+						});
 					addComponent(structureComponents, componentsToAdd);
-
-				})
+				});
 			} else {
 				addComponent(structureComponents, component);
 			}
@@ -202,7 +226,8 @@ const ComponentSelector = ({
 				(cs) => cs.component.identifiant === id
 			);
 			const componentByType = _groupByType(structureComponents);
-			const componentArrayToUpdate = componentByType[structureComponent.component.type];
+			const componentArrayToUpdate =
+				componentByType[structureComponent.component.type];
 
 			const index = structureComponent.order - 1;
 			const startArray = componentArrayToUpdate.slice(0, index - 1);
@@ -221,7 +246,7 @@ const ComponentSelector = ({
 				...endArray,
 			];
 
-			const components = _makeFlat(componentByType)
+			const components = _makeFlat(componentByType);
 			setStructureComponents(components);
 			handleUpdate(components);
 		},
@@ -234,7 +259,8 @@ const ComponentSelector = ({
 				(cs) => cs.component.identifiant === id
 			);
 			const componentByType = _groupByType(structureComponents);
-			const componentArrayToUpdate = componentByType[structureComponent.component.type];
+			const componentArrayToUpdate =
+				componentByType[structureComponent.component.type];
 
 			const index = structureComponent.order - 1;
 
@@ -252,7 +278,7 @@ const ComponentSelector = ({
 				},
 				...endArray,
 			];
-			const components = _makeFlat(componentByType)
+			const components = _makeFlat(componentByType);
 			setStructureComponents(components);
 			handleUpdate(components);
 		},
@@ -281,7 +307,9 @@ const ComponentSelector = ({
 				hidden={false}
 				codesLists={codesLists}
 				concepts={concepts}
-				componentDefinitions={componentDefinitions.filter(filterComponentDefinition(type))}
+				componentDefinitions={componentDefinitions.filter(
+					filterComponentDefinition(type)
+				)}
 				handleRemove={handleRemove}
 				handleUp={handleUp}
 				handleDown={handleDown}
@@ -302,17 +330,13 @@ const ComponentSelector = ({
 				readOnly={true}
 				handleCodesListDetail={handleCodesListDetail}
 			/>
-			<CodesListPanel codesList={codesListNotation} isOpen={!!codesListNotation} handleBack={() => setCodesListNotation(undefined)}/>
+			<CodesListPanel
+				codesList={codesListNotation}
+				isOpen={!!codesListNotation}
+				handleBack={() => setCodesListNotation(undefined)}
+			/>
 		</>
 	);
-};
-
-ComponentSelector.propTypes = {
-	components: PropTypes.array,
-	mutualizedComponents: PropTypes.array,
-	concepts: PropTypes.array,
-	codesLists: PropTypes.array,
-	handleUpdate: PropTypes.func,
 };
 
 ComponentSelector.defaultProps = {

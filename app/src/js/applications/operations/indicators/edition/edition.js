@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
-import PropTypes from 'prop-types';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
@@ -32,14 +31,6 @@ const defaultIndicator = {
 	accrualPeriodicityList: CL_FREQ,
 };
 class OperationsIndicatorEdition extends Component {
-	static propTypes = {
-		indicator: PropTypes.object.isRequired,
-		langs: PropTypes.object.isRequired,
-		saveIndicator: PropTypes.func.isRequired,
-		frequencies: PropTypes.object.isRequired,
-		stamps: PropTypes.arrayOf(PropTypes.string),
-	};
-
 	constructor(props) {
 		super(props);
 		this.state = this.setInitialState(props);

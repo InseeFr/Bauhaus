@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Select from 'react-select';
 import D from '../../i18n/build-dictionary';
 import 'react-select/dist/react-select.css';
@@ -26,11 +25,6 @@ SelectRmes.defaultProps = {
 	multi: false,
 	searchable: true,
 	disabled: false,
-};
-
-SelectRmes.propTypes = {
-	onChange: PropTypes.func.isRequired,
-	unclearable: PropTypes.bool,
 };
 
 export default SelectRmes;

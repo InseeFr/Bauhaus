@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import { objectFromKeys, buildEmptyNotes } from '@inseefr/wilco';
+import { buildEmptyNotes } from '@inseefr/wilco';
 import { HTMLUtils } from 'bauhaus-utilities';
 
 export const versionableNotes = [
@@ -19,7 +18,7 @@ export const fields = allNotes;
 
 export const emptyNotes = buildEmptyNotes(fields);
 
-export const buildNotes = n => [
+export const buildNotes = (n) => [
 	{ lg1: n.scopeNoteLg1, lg2: n.scopeNoteLg2, title: 'conceptsScopeNote' },
 	{ lg1: n.definitionLg1, lg2: n.definitionLg2, title: 'conceptsDefinition' },
 	{
@@ -30,10 +29,10 @@ export const buildNotes = n => [
 	{ lg1: n.changeNoteLg1, lg2: n.changeNoteLg2, title: 'conceptsChangeNote' },
 ];
 
-export const capitalizeFirst = str =>
+export const capitalizeFirst = (str) =>
 	str.charAt(0).toUpperCase() + str.slice(1);
 
-export const createNotes = notes => {};
+export const createNotes = (notes) => {};
 
 export const processChanges = (oldNotes, notes, fields) =>
 	fields.reduce((changes, noteType) => {
@@ -68,7 +67,7 @@ export const processDatableChanges = (oldNotes, notes) =>
 	processChanges(oldNotes, notes, datableNotes);
 export const processAllChanges = (oldNotes, notes) =>
 	processChanges(oldNotes, notes, allNotes);
-export const keepDatableNotes = notes => processNotes(notes, datableNotes);
+export const keepDatableNotes = (notes) => processNotes(notes, datableNotes);
 
 const versionImpactingNotes = [
 	'scopeNoteLg1',
@@ -79,7 +78,3 @@ const versionImpactingNotes = [
 export const areNotesImpactingVersionChanged = (oldNotes, notes) => {
 	return processChanges(oldNotes, notes, versionImpactingNotes).length > 0;
 };
-
-export const propTypes = PropTypes.shape(
-	objectFromKeys(fields, PropTypes.string)
-);

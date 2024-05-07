@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
 import {
 	BROADER,
 	NARROWER,
 	REFERENCES,
 	SUCCEED,
 	RELATED,
-	NONE, CLOSE_MATCH,
-	IS_REPLACED_BY
+	NONE,
+	CLOSE_MATCH,
+	IS_REPLACED_BY,
 } from 'js/constants';
 
 const linkTypes = {
@@ -17,37 +17,9 @@ const linkTypes = {
 	[RELATED]: RELATED,
 	[CLOSE_MATCH]: CLOSE_MATCH,
 	[IS_REPLACED_BY]: IS_REPLACED_BY,
-
 };
 
-const propTypesKindOfLink = PropTypes.oneOf([
-	BROADER,
-	NARROWER,
-	REFERENCES,
-	SUCCEED,
-	RELATED,
-	NONE,
-	IS_REPLACED_BY
-]);
-
-export const propTypes = PropTypes.arrayOf(
-	PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		label: PropTypes.string.isRequired,
-		typeOfLink: propTypesKindOfLink,
-	})
-);
-
-export const propTypesBilingual = PropTypes.arrayOf(
-	PropTypes.shape({
-		id: PropTypes.string.isRequired,
-		prefLabelLg1: PropTypes.string.isRequired,
-		prefLabelLg2: PropTypes.string.isRequired,
-		typeOfLink: propTypesKindOfLink,
-	})
-);
-
-const getType = typeOfLink => {
+const getType = (typeOfLink) => {
 	const type = linkTypes[typeOfLink];
 	if (type) return type;
 	throw new TypeError(

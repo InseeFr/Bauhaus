@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { PropTypes } from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import LevelVisualization from './home';
 import { Loading } from '@inseefr/wilco';
@@ -10,25 +9,26 @@ import { useParams } from 'react-router-dom';
 
 const LevelVisualizationContainer = ({ loadLevel }) => {
 	const { classificationId, levelId } = useParams();
-	const level = useSelector(state => select.getLevel(state, classificationId, levelId));
-	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
+	const level = useSelector((state) =>
+		select.getLevel(state, classificationId, levelId)
+	);
+	const secondLang = useSelector((state) =>
+		Stores.SecondLang.getSecondLang(state)
+	);
 
 	const currentLevelId = level?.id;
 	useEffect(() => {
 		if (currentLevelId !== levelId) loadLevel(classificationId, levelId);
-	}, [currentLevelId, classificationId, levelId, loadLevel])
+	}, [currentLevelId, classificationId, levelId, loadLevel]);
 
 	if (!level) return <Loading />;
 	return <LevelVisualization level={level} secondLang={secondLang} />;
-}
+};
 
 const mapDispatchToProps = {
 	loadLevel,
 };
 
-LevelVisualizationContainer.propTypes = {
-	loadLevel: PropTypes.func.isRequired
-};
 export default connect(
 	undefined,
 	mapDispatchToProps

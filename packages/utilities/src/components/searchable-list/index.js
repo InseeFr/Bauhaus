@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import Pagination from '../pagination';
 import { filterKeyDeburr, nbResults } from '../../utils/array-utils';
@@ -99,18 +98,6 @@ const SearchableList = ({
 SearchableList.defaultProps = {
 	label: 'label',
 	autoFocus: false,
-};
-
-SearchableList.propTypes = {
-	items: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
-	childPath: PropTypes.string.isRequired,
-	advancedSearch: PropTypes.bool,
-	searchUrl: PropTypes.string,
-	placeholder: PropTypes.string,
-	col: PropTypes.number,
-	colOff: PropTypes.number,
-	label: PropTypes.string,
-	autoFocus: PropTypes.bool,
 };
 
 export default SearchableList;

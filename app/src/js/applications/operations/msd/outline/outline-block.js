@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
 import { toggleOpen, isOpen } from 'js/applications/operations/msd/utils';
-import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { OutlineButtonWithScroll } from './outline-button-with-scroll';
 
-export const OutlineBlock = ({ secondary, parent, baseUrl, disableSectionAnchor = false, children }) => {
-	const [childrenDictionary, setChildrenDictionary] = useState(Object.keys(children).reduce((acc, childId) => {
-		return {
-			...acc,
-			[childId]: {
-				...children[childId],
-				opened: isOpen(childId),
-			},
-		};
-	}, {}));
+export const OutlineBlock = ({
+	secondary,
+	parent,
+	baseUrl,
+	disableSectionAnchor = false,
+	children,
+}) => {
+	const [childrenDictionary, setChildrenDictionary] = useState(
+		Object.keys(children).reduce((acc, childId) => {
+			return {
+				...acc,
+				[childId]: {
+					...children[childId],
+					opened: isOpen(childId),
+				},
+			};
+		}, {})
+	);
 
 	const expandOrCollapseItem = ({ currentTarget: { id } }) => {
 		toggleOpen(id);
@@ -22,8 +29,8 @@ export const OutlineBlock = ({ secondary, parent, baseUrl, disableSectionAnchor 
 			[id]: {
 				...childrenDictionary[id],
 				opened: !childrenDictionary[id].opened,
-			}
-		})
+			},
+		});
 	};
 
 	if (Object.keys(childrenDictionary).length <= 0) return null;
@@ -36,23 +43,26 @@ export const OutlineBlock = ({ secondary, parent, baseUrl, disableSectionAnchor 
 				return (
 					<li key={child.idMas} className="help-item">
 						<div className="msd__item-buttons">
-						{Object.keys(child.children).length > 0 && (
-							<button
-								className="msd__item-updown"
-								title={child.opened ? D.hide : D.display}
-								id={child.idMas}
-								onClick={expandOrCollapseItem}
-							>
+							{Object.keys(child.children).length > 0 && (
+								<button
+									className="msd__item-updown"
+									title={child.opened ? D.hide : D.display}
+									id={child.idMas}
+									onClick={expandOrCollapseItem}
+								>
 									<span
 										className={`glyphicon glyphicon-chevron-${
 											child.opened ? 'up' : 'down'
 										}`}
 									/>
-							</button>
-						)}
-						<OutlineButtonWithScroll id={child.idMas} baseUrl={`${baseUrl}${disableSectionAnchor ? '' : parent}`}>
-							{child.idMas} - {child.masLabelBasedOnCurrentLang}
-						</OutlineButtonWithScroll>
+								</button>
+							)}
+							<OutlineButtonWithScroll
+								id={child.idMas}
+								baseUrl={`${baseUrl}${disableSectionAnchor ? '' : parent}`}
+							>
+								{child.idMas} - {child.masLabelBasedOnCurrentLang}
+							</OutlineButtonWithScroll>
 						</div>
 						{child.opened && (
 							<OutlineBlock
@@ -68,14 +78,6 @@ export const OutlineBlock = ({ secondary, parent, baseUrl, disableSectionAnchor 
 			})}
 		</ul>
 	);
-}
-
-OutlineBlock.propTypes = {
-	secondary: PropTypes.bool,
-	parent: PropTypes.string,
-	baseUrl: PropTypes.string,
-	disableSectionAnchor: PropTypes.bool,
-	children: PropTypes.object
 };
 
 export default OutlineBlock;

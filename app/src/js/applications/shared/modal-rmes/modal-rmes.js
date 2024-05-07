@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import DOMPurify from 'dompurify';
 import D from 'js/i18n';
@@ -65,22 +64,5 @@ function ModalRmes({
 		</Modal>
 	);
 }
-
-ModalRmes.propTypes = {
-	id: PropTypes.string.isRequired,
-	isOpen: PropTypes.bool.isRequired,
-	title: PropTypes.string.isRequired,
-	body: PropTypes.string,
-	footer: PropTypes.string,
-	closeCancel: PropTypes.func.isRequired,
-	modalButtons: PropTypes.arrayOf(
-		PropTypes.shape({
-			label: PropTypes.string.isRequired,
-			action: PropTypes.func.isRequired,
-			style: PropTypes.string.isRequired,
-			disabled: PropTypes.bool,
-		})
-	).isRequired,
-};
 
 export default ModalRmes;

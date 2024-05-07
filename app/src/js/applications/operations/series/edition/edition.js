@@ -1,5 +1,4 @@
 import D, { D1, D2 } from 'js/i18n';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
 	Loading,
@@ -42,16 +41,6 @@ class OperationsSerieEdition extends Component {
 		organisation: [],
 		indicators: [],
 		series: [],
-	};
-	static propTypes = {
-		serie: PropTypes.object.isRequired,
-		langs: PropTypes.object.isRequired,
-		categories: PropTypes.object.isRequired,
-		frequencies: PropTypes.object.isRequired,
-
-		organisation: PropTypes.array.isRequired,
-		indicators: PropTypes.array.isRequired,
-		series: PropTypes.array.isRequired,
 	};
 
 	constructor(props) {

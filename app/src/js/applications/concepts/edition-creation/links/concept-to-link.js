@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Panel }  from '@inseefr/wilco';
+import { Panel } from '@inseefr/wilco';
 
 function ConceptToLink({ title, memberEls, searchComponent }) {
 	return (
@@ -12,11 +11,5 @@ function ConceptToLink({ title, memberEls, searchComponent }) {
 		</div>
 	);
 }
-
-ConceptToLink.propTypes = {
-	title: PropTypes.string.isRequired,
-	memberEls: PropTypes.arrayOf(PropTypes.element).isRequired,
-	searchComponent: PropTypes.element.isRequired,
-};
 
 export default ConceptToLink;

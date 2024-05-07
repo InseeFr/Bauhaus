@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import D from 'js/i18n';
 
@@ -35,10 +34,5 @@ function InputMultiModal({ body, close }) {
 		</Modal>
 	);
 }
-
-InputMultiModal.propTypes = {
-	body: PropTypes.string.isRequired,
-	close: PropTypes.func.isRequired,
-};
 
 export default InputMultiModal;

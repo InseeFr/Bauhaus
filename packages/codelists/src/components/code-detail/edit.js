@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { LabelRequired, Select, ActionToolbar } from '@inseefr/wilco';
-import PropTypes from 'prop-types';
 import {
 	Stores,
 	ErrorBloc,
@@ -275,11 +274,6 @@ const DumbCodeDetailEdit = ({
 			</ActionToolbar>
 		</React.Fragment>
 	);
-};
-
-DumbCodeDetailEdit.propTypes = {
-	code: PropTypes.object,
-	secondLang: PropTypes.bool,
 };
 
 export const CodeDetailEdit =

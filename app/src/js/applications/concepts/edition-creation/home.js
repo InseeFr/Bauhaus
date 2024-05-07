@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'react-bootstrap';
 import { PageTitle, goBack } from '@inseefr/wilco';
 import ConceptCreateControl from './controls';
@@ -7,12 +6,7 @@ import GeneralEdition from './general';
 import NotesEdition from './notes';
 import LinksEdition from './links';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
-import { propTypes as generalPropTypes } from 'js/utils/concepts/general';
-import {
-	propTypes as notePropTypes,
-	areNotesImpactingVersionChanged,
-} from 'js/utils/concepts/notes';
-import { propTypes as conceptsWithLinksPropTypes } from 'js/utils/concepts/links';
+import { areNotesImpactingVersionChanged } from 'js/utils/concepts/notes';
 import D from 'js/i18n';
 import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
@@ -32,7 +26,7 @@ class ConceptEditionCreation extends Component {
 				general: { ...general },
 				notes: { ...notes },
 				conceptsWithLinks: [...conceptsWithLinks],
-				equivalentLinks: equivalentLinks
+				equivalentLinks: equivalentLinks,
 			},
 		};
 
@@ -72,7 +66,7 @@ class ConceptEditionCreation extends Component {
 					conceptsWithLinks: newLinks,
 				},
 			});
-		}
+		};
 
 		this.handleChangeEquivalentLinks = (newLinks) => {
 			this.setState({
@@ -81,7 +75,7 @@ class ConceptEditionCreation extends Component {
 					equivalentLinks: newLinks,
 				},
 			});
-		}
+		};
 
 		this.handleSave = () => {
 			if (this.props.creation) {
@@ -242,7 +236,9 @@ class ConceptEditionCreation extends Component {
 										currentId={this.state.id}
 										handleChange={this.handleChangeLinks}
 										equivalentLinks={this.state.data.equivalentLinks}
-										handleChangeEquivalentLinks={this.handleChangeEquivalentLinks}
+										handleChangeEquivalentLinks={
+											this.handleChangeEquivalentLinks
+										}
 									/>
 								)}
 							</Tab>
@@ -269,18 +265,10 @@ class ConceptEditionCreation extends Component {
 	}
 }
 
-ConceptEditionCreation.propTypes = {
-	id: PropTypes.string, // not available for creation
-	creation: PropTypes.bool,
-	title: PropTypes.string.isRequired,
-	subtitle: PropTypes.string,
-	general: generalPropTypes.isRequired,
-	notes: notePropTypes.isRequired,
-	conceptsWithLinks: conceptsWithLinksPropTypes.isRequired,
-	stampList: PropTypes.array.isRequired,
-	disseminationStatusList: PropTypes.array.isRequired,
-	save: PropTypes.func.isRequired,
-	langs: PropTypes.object.isRequired,
-};
-
-export default withRouter(withTitle(ConceptEditionCreation, D.conceptsTitle, props => props?.general?.prefLabelLg1 || D.createConceptTitle));
+export default withRouter(
+	withTitle(
+		ConceptEditionCreation,
+		D.conceptsTitle,
+		(props) => props?.general?.prefLabelLg1 || D.createConceptTitle
+	)
+);

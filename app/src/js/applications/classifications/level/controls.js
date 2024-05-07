@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { goBack, ReturnButton, ActionToolbar } from '@inseefr/wilco';
 
@@ -15,7 +14,4 @@ function LevelControls(props) {
 	);
 }
 
-LevelControls.propTypes = {
-	id: PropTypes.string.isRequired,
-};
 export default withRouter(LevelControls);

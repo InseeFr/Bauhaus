@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import D from 'js/i18n';
@@ -26,16 +25,6 @@ const ClassificationTree = ({ items, subtitle, classificationId }) => {
 			</div>
 		</div>
 	);
-};
-
-ClassificationTree.propTypes = {
-	items: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		}).isRequired
-	),
-	classificationId: PropTypes.string.isRequired,
 };
 
 export default ClassificationTree;

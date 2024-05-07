@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { PageTitle } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { useTitle, SearchableList } from 'bauhaus-utilities';
@@ -20,15 +19,6 @@ const CorrespondencesHome = ({ correspondences }) => {
 			</div>
 		</div>
 	);
-};
-
-CorrespondencesHome.propTypes = {
-	items: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		}).isRequired
-	),
 };
 
 export default CorrespondencesHome;

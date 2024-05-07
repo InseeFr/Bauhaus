@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { PageTitle } from '@inseefr/wilco';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
 import MembersEdition from './members';
-import { propTypes as generalPropTypes } from 'js/utils/collections/general';
 import { withTitle } from 'bauhaus-utilities';
 import D from '../../../i18n/build-dictionary';
 
@@ -26,7 +24,7 @@ class CollectionEditionCreation extends Component {
 
 		//update should look like `{ prefLabelLg2: 'something new' }` (we can
 		//set mutliple properties at the same time)
-		this.handleChangeGeneral = update => {
+		this.handleChangeGeneral = (update) => {
 			const data = this.state.data;
 			const general = data.general;
 			const newData = Object.assign(data, {
@@ -45,7 +43,7 @@ class CollectionEditionCreation extends Component {
 		// - NONE to something (PARENT, CHILD...) if it has been added.
 		//It should not be switched directle from something to something else since
 		//the UI does not expose this scenario (we can only remove or add).
-		this.handleChangeMembers = newMembers =>
+		this.handleChangeMembers = (newMembers) =>
 			this.setState({
 				data: {
 					...this.state.data,
@@ -71,21 +69,13 @@ class CollectionEditionCreation extends Component {
 	}
 
 	render() {
-		const {
-			title,
-			subtitle,
-			collectionList,
-			conceptList,
-			creation,
-			langs,
-		} = this.props;
+		const { title, subtitle, collectionList, conceptList, creation, langs } =
+			this.props;
 		const {
 			data: { general, members },
 		} = this.state;
-		const {
-			id: initialId,
-			prefLabelLg1: initialPrefLabelLg1,
-		} = this.props.general;
+		const { id: initialId, prefLabelLg1: initialPrefLabelLg1 } =
+			this.props.general;
 
 		return (
 			<div>
@@ -127,16 +117,8 @@ class CollectionEditionCreation extends Component {
 	}
 }
 
-CollectionEditionCreation.propTypes = {
-	creation: PropTypes.bool,
-	title: PropTypes.string.isRequired,
-	subtitle: PropTypes.string,
-	general: generalPropTypes.isRequired,
-	members: PropTypes.array.isRequired,
-	collectionList: PropTypes.array.isRequired,
-	conceptList: PropTypes.array.isRequired,
-	save: PropTypes.func.isRequired,
-	langs: PropTypes.object.isRequired,
-};
-
-export default withTitle(CollectionEditionCreation, D.collectionsTitle, props => props.general.prefLabelLg1 || D.createCollectionTitle);
+export default withTitle(
+	CollectionEditionCreation,
+	D.collectionsTitle,
+	(props) => props.general.prefLabelLg1 || D.createCollectionTitle
+);

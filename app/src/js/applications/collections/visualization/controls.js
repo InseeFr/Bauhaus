@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { ActionToolbar, Button, getContentDisposition } from '@inseefr/wilco';
 import check from 'js/utils/auth';
@@ -89,12 +88,6 @@ const CollectionVisualizationControls = ({
 			</ActionToolbar>
 		</>
 	);
-};
-
-CollectionVisualizationControls.propTypes = {
-	id: PropTypes.string.isRequired,
-	isValidated: PropTypes.bool.isRequired,
-	handleValidation: PropTypes.func.isRequired,
 };
 
 export default withRouter(CollectionVisualizationControls);

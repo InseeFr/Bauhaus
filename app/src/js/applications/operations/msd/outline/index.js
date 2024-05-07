@@ -1,24 +1,35 @@
 import React, { useState } from 'react';
 import { toggleOpen, isOpen } from 'js/applications/operations/msd/utils';
 import OutlineBlock from 'js/applications/operations/msd/outline/outline-block';
-import PropTypes from 'prop-types';
 import D from 'js/i18n';
 
 import './style.scss';
 import { OutlineButtonWithScroll } from './outline-button-with-scroll';
 
-const Outline = ({ storeCollapseState, metadataStructure, baseUrl = '/operations/help/', disableSectionAnchor }) => {
-	const [opened, setOpened] = useState(storeCollapseState && isOpen(metadataStructure.idMas));
+const Outline = ({
+	storeCollapseState,
+	metadataStructure,
+	baseUrl = '/operations/help/',
+	disableSectionAnchor,
+}) => {
+	const [opened, setOpened] = useState(
+		storeCollapseState && isOpen(metadataStructure.idMas)
+	);
 
 	const expandOrCollapseItem = () => {
-		setOpened(!opened)
+		setOpened(!opened);
 		storeCollapseState && toggleOpen(metadataStructure.idMas);
 	};
 
 	return (
 		<li>
 			<div className="msd__outline-primary-item">
-				<OutlineButtonWithScroll id={metadataStructure.idMas} baseUrl={`${baseUrl}${disableSectionAnchor ? '' : metadataStructure.idMas}`}>
+				<OutlineButtonWithScroll
+					id={metadataStructure.idMas}
+					baseUrl={`${baseUrl}${
+						disableSectionAnchor ? '' : metadataStructure.idMas
+					}`}
+				>
 					{metadataStructure.idMas} -{' '}
 					{metadataStructure.masLabelBasedOnCurrentLang}
 				</OutlineButtonWithScroll>
@@ -29,11 +40,11 @@ const Outline = ({ storeCollapseState, metadataStructure, baseUrl = '/operations
 						title={opened ? D.hide : D.display}
 						onClick={expandOrCollapseItem}
 					>
-							<span
-								className={` glyphicon glyphicon-chevron-${
-									opened ? 'up' : 'down'
-								}`}
-							/>
+						<span
+							className={` glyphicon glyphicon-chevron-${
+								opened ? 'up' : 'down'
+							}`}
+						/>
 					</button>
 				)}
 			</div>
@@ -49,13 +60,6 @@ const Outline = ({ storeCollapseState, metadataStructure, baseUrl = '/operations
 			)}
 		</li>
 	);
-}
-
-Outline.propTypes = {
-	storeCollapseState: PropTypes.bool,
-	metadataStructure: PropTypes.object.isRequired,
-	baseUrl: PropTypes.string,
-	disableSectionAnchor: PropTypes.bool
 };
 
 export default Outline;

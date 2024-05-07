@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { Auth, useTitle, FeminineButton } from 'bauhaus-utilities';
 
 import OperationsObjectHome from 'js/applications/operations/shared/list';
 
 function SeriesHome({ series }) {
-	useTitle(D.operationsTitle, D.seriesTitle)
+	useTitle(D.operationsTitle, D.seriesTitle);
 
 	return (
 		<OperationsObjectHome
@@ -19,14 +18,5 @@ function SeriesHome({ series }) {
 		/>
 	);
 }
-
-SeriesHome.propTypes = {
-	series: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		}).isRequired
-	),
-};
 
 export default SeriesHome;

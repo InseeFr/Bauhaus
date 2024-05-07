@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import D from 'js/i18n';
 import { Auth, useTitle, FeminineButton } from 'bauhaus-utilities';
 import OperationsObjectHome from 'js/applications/operations/shared/list';
 
 function OperationsHome({ operations }) {
-	useTitle(D.operationsTitle, D.operationsTitle)
+	useTitle(D.operationsTitle, D.operationsTitle);
 
 	return (
 		<OperationsObjectHome
@@ -18,14 +17,5 @@ function OperationsHome({ operations }) {
 		/>
 	);
 }
-
-OperationsHome.propTypes = {
-	operations: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.string.isRequired,
-			label: PropTypes.string.isRequired,
-		}).isRequired
-	),
-};
 
 export default OperationsHome;

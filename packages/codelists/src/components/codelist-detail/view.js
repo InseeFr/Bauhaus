@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Note, ErrorBloc } from '@inseefr/wilco';
 import {
 	HTMLUtils,
@@ -119,11 +118,4 @@ export const CodeListDetailView = ({
 			/>
 		</React.Fragment>
 	);
-};
-
-CodeListDetailView.propTypes = {
-	codelist: PropTypes.object,
-	handleUpdate: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-	handleBack: PropTypes.func,
-	updatable: PropTypes.bool,
 };

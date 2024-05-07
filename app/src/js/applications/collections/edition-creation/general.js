@@ -1,25 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import D, { D1, D2 } from 'js/i18n';
 import InputRmes from 'js/applications/shared/input-rmes';
-import {
-	propTypes as generalPropTypes,
-	fields as generalFields,
-} from 'js/utils/collections/general';
-import { RequiredIcon } from 'bauhaus-utilities'
-import { CreatorsInput } from 'bauhaus-operations'
-const handleFieldChange = handleChange =>
+import { fields as generalFields } from 'js/utils/collections/general';
+import { RequiredIcon } from 'bauhaus-utilities';
+import { CreatorsInput } from 'bauhaus-operations';
+const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {
-		handlers[fieldName] = value => handleChange({ [fieldName]: value });
+		handlers[fieldName] = (value) => handleChange({ [fieldName]: value });
 		return handlers;
 	}, {});
 
-function CollectionGeneralEdition({
-	general,
-	creation,
-	handleChange,
-	langs,
-}) {
+function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 	const {
 		id,
 		prefLabelLg1,
@@ -107,12 +98,5 @@ function CollectionGeneralEdition({
 		</div>
 	);
 }
-
-CollectionGeneralEdition.propTypes = {
-	general: generalPropTypes.isRequired,
-	creation: PropTypes.bool,
-	handleChange: PropTypes.func.isRequired,
-	langs: PropTypes.object.isRequired,
-};
 
 export default CollectionGeneralEdition;

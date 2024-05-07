@@ -1,4 +1,4 @@
-import { buildPropTypes, buildEmpty } from '@inseefr/wilco';
+import { buildEmpty } from '@inseefr/wilco';
 
 export const fieldsWithRequired = [
 	['id', true],
@@ -17,7 +17,5 @@ export const fieldsWithRequired = [
 	['secondAltLabelLg1', false],
 	['secondAltLabelLg2', false],
 ];
-
-export const propTypes = buildPropTypes(fieldsWithRequired);
 
 export const empty = () => buildEmpty(fieldsWithRequired);

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link, useHistory } from 'react-router-dom';
 import { PageTitle, NumberResult, Select } from '@inseefr/wilco';
 import Controls from './controls';
@@ -237,23 +236,6 @@ const ConceptSearchList = ({
 			</div>
 		</div>
 	);
-};
-const propTypesGeneralForSearch = PropTypes.shape({
-	id: PropTypes.string.isRequired,
-	label: PropTypes.string,
-	altLabel: PropTypes.string,
-	definition: PropTypes.string,
-	created: PropTypes.string,
-	modified: PropTypes.string,
-	creator: PropTypes.string,
-	disseminationStatus: PropTypes.string,
-	validationStatus: PropTypes.string,
-});
-
-ConceptSearchList.propTypes = {
-	conceptSearchList: PropTypes.arrayOf(propTypesGeneralForSearch).isRequired,
-	stampList: PropTypes.array.isRequired,
-	disseminationStatusList: PropTypes.array.isRequired,
 };
 
 export default withTitle(

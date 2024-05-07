@@ -21,7 +21,6 @@ import {
 	ErrorBloc,
 	Row,
 } from 'bauhaus-utilities';
-import PropTypes from 'prop-types';
 import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from 'bauhaus-codelists';
@@ -408,17 +407,6 @@ export const ComponentDetailView = ({
 			/>
 		</React.Fragment>
 	);
-};
-
-ComponentDetailView.propTypes = {
-	component: PropTypes.object,
-	concepts: PropTypes.array,
-	codesLists: PropTypes.array,
-	handleUpdate: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-	handleBack: PropTypes.func,
-	updatable: PropTypes.bool,
-	structureComponents: PropTypes.array,
-	secondLang: PropTypes.bool,
 };
 
 ComponentDetailView.defaultProps = {

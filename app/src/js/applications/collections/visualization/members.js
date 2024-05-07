@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import { ArrayUtils, Row } from 'bauhaus-utilities';
-import PropTypes from 'prop-types';
 
 const sortByLabelLg1 = ArrayUtils.sortArray('prefLabelLg1');
 
@@ -14,12 +13,12 @@ function CollectionMembers({ members, secondLang, langs: { lg1, lg2 } }) {
 	 */
 	const sortMembers = sortByLabelLg1(members);
 
-	const memberListLg1 = sortMembers.map(item => (
+	const memberListLg1 = sortMembers.map((item) => (
 		<li key={item.id}>
 			<Link to={'/concept/' + item.id}>{item.prefLabelLg1}</Link>
 		</li>
 	));
-	const memberListLg2 = sortMembers.map(item => (
+	const memberListLg2 = sortMembers.map((item) => (
 		<li key={item.id}>
 			<Link to={'/concept/' + item.id}>{item.prefLabelLg2}</Link>
 		</li>
@@ -44,16 +43,5 @@ function CollectionMembers({ members, secondLang, langs: { lg1, lg2 } }) {
 		</Row>
 	);
 }
-CollectionMembers.propTypes = {
-	secondLang: PropTypes.bool,
-	members: PropTypes.arrayOf(PropTypes.shape({
-		id: PropTypes.string,
-		prefLabelLg1: PropTypes.string.isRequired,
-		prefLabelLg2: PropTypes.string
-	})).isRequired,
-	langs: PropTypes.shape({
-		lg1: PropTypes.string.isRequired,
-		lg2: PropTypes.string.isRequired
-	}).isRequired
-}
+
 export default CollectionMembers;

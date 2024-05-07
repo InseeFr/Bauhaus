@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useHistory, withRouter } from 'react-router-dom';
 import Link from '../link';
 import queryString from 'query-string';
@@ -157,10 +156,6 @@ export const Index = ({ location: { pathname, search }, itemEls }) => {
 			)}
 		</Fragment>
 	);
-};
-
-Index.propTypes = {
-	itemEls: PropTypes.arrayOf(PropTypes.element).isRequired,
 };
 
 export default withRouter(Index);

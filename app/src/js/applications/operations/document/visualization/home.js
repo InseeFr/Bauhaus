@@ -1,6 +1,5 @@
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from 'js/i18n';
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { LINK, isDocument, isLink } from '../utils';
 import { API, useTitle } from 'bauhaus-utilities';
@@ -148,16 +147,5 @@ function OperationsDocumentationVisualization({
 		</React.Fragment>
 	);
 }
-
-OperationsDocumentationVisualization.propTypes = {
-	attr: PropTypes.object.isRequired,
-	id: PropTypes.string,
-	secondLang: PropTypes.bool,
-	langs: PropTypes.shape({
-		lg1: PropTypes.string,
-		lg2: PropTypes.string,
-	}),
-	langOptions: PropTypes.object,
-};
 
 export default OperationsDocumentationVisualization;

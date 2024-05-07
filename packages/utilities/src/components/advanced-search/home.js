@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { PageTitle, NumberResult } from '@inseefr/wilco';
 import Pagination from '../pagination';
 import AdvancedSearchControls from '../advanced-search/controls';
@@ -34,10 +33,6 @@ const AdvancedSearchList = ({
 			</div>
 		</div>
 	);
-};
-
-AdvancedSearchList.propTypes = {
-	data: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default AdvancedSearchList;
