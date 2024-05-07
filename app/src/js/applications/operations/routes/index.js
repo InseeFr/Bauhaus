@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { loadSetup } from 'js/actions/operations/utils/setup';
 
@@ -14,36 +14,30 @@ import IndicatorRoutes from 'js/applications/operations/routes/indicator';
 import SimsRoutes from 'js/applications/operations/routes/sims';
 import Menu from 'js/applications/operations/menu';
 import OperationsTreeContainer from 'js/applications/operations/tree';
-class RootComponent extends Component {
-	componentDidMount() {
-		this.props.loadSetup();
-		document.title = 'Bauhaus - ' + D.operationsTitle;
-	}
-	render() {
-		return (
-			<>
-				<Menu />
-				<FamilyRoutes />
-				<SeriesRoutes />
-				<OperationsRoutes />
-				<IndicatorRoutes />
-				<DocumentRoutes />
-				<SimsRoutes />
-				<Route
-					exact
-					path="/operations/tree"
-					component={OperationsTreeContainer}
-				/>
-			</>
-		);
-	}
-}
-const mapDispatchToProps = {
-	loadSetup,
-};
-const ConnectedRootComponent = connect(
-	undefined,
-	mapDispatchToProps
-)(RootComponent);
 
-export default () => <Route path="/" component={ConnectedRootComponent} />;
+const RootComponent = () => {
+	const dispatch = useDispatch();
+	useEffect(() => {
+		document.title = 'Bauhaus - ' + D.operationsTitle;
+		dispatch(loadSetup());
+	}, [dispatch]);
+
+	return (
+		<>
+			<Menu />
+			<FamilyRoutes />
+			<SeriesRoutes />
+			<OperationsRoutes />
+			<IndicatorRoutes />
+			<DocumentRoutes />
+			<SimsRoutes />
+			<Route
+				exact
+				path="/operations/tree"
+				component={OperationsTreeContainer}
+			/>
+		</>
+	);
+};
+
+export default () => <Route path="/" component={RootComponent} />;
