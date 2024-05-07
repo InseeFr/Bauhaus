@@ -1,8 +1,9 @@
 name: Docker
 on:
-  push:
-    branches: 
-      - Kubernetes
+  release:
+    types: [created]
+    branches:
+      - main
 
 jobs:
   build:
