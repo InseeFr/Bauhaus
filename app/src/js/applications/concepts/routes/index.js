@@ -16,7 +16,6 @@ import CollectionCreationContainer from 'js/applications/collections/edition-cre
 import CollectionEditionContainer from 'js/applications/collections/edition-creation/edition-container';
 import CollectionsToValidateContainer from 'js/applications/collections/validation/home-container';
 import CollectionsToExportContainer from 'js/applications/collections/export/home-container';
-import Help from 'js/applications/help/home';
 import Administration from 'js/applications/administration/home';
 import ConceptsDashboard from 'js/applications/administration/dashboard/concepts/home-container';
 import D from 'js/i18n';
@@ -90,7 +89,6 @@ export default () => {
 					path="/collections/export"
 					component={CollectionsToExportContainer}
 				/>
-				<Route exact path="/concepts/help/:id" component={Help} />
 				<Route
 					exact
 					path="/concepts/administration"
