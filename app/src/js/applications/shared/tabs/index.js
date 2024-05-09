@@ -13,3 +13,5 @@ export const TabsRmes = ({ tabs }) => {
 		</Tabs>
 	);
 };
+
+export default TabsRmes;
