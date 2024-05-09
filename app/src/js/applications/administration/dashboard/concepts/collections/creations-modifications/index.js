@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Table, NumberResult } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
@@ -9,19 +9,28 @@ import dayjs from 'dayjs';
 const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 	const [dateFilter, setDateFilter] = useState();
 	const history = useHistory();
-	const onRowClick = (_event, collection) => history.push(`/collection/${collection.id}`)
+	const onRowClick = (_event, collection) =>
+		history.push(`/collection/${collection.id}`);
 
 	const variable = type === 'creations' ? 'created' : 'modified';
 	const typeByLang =
 		type === 'creations' ? D.creationsTitle : D.modificationsTitle;
 
-	const data = !dateFilter ? collectionsData : collectionsData.filter(concept => dayjs(concept[variable]).isAfter(dayjs(dateFilter).subtract(1, 'days'))).map(d => ({
-		...d,
-		isValidated:
-			d.isValidated === 'true'
-				? D.collectionStatusValid
-				: D.collectionStatusProvisional,
-	}));
+	const data = !dateFilter
+		? collectionsData
+		: collectionsData
+				.filter((concept) =>
+					dayjs(concept[variable]).isAfter(
+						dayjs(dateFilter).subtract(1, 'days')
+					)
+				)
+				.map((d) => ({
+					...d,
+					isValidated:
+						d.isValidated === 'true'
+							? D.collectionStatusValid
+							: D.collectionStatusProvisional,
+				}));
 	return (
 		<div>
 			<div className="row" style={{ marginTop: '2%' }}>
@@ -48,6 +57,6 @@ const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 			/>
 		</div>
 	);
-}
+};
 
-export default withRouter(CollectionsCreationsModifications);
+export default CollectionsCreationsModifications;

@@ -1,10 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Button, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
 
-function Controls(props) {
-	const location = props.history.location.pathname;
+function Controls() {
+	const history = useHistory();
+	const location = history.location.pathname;
 	const nexLocation = location.replace('/compare', '');
 	return (
 		<ActionToolbar>
@@ -13,4 +14,4 @@ function Controls(props) {
 	);
 }
 
-export default withRouter(Controls);
+export default Controls;
