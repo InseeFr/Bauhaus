@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import * as select from '../../../../reducers';
 import {
@@ -20,6 +20,7 @@ import distributionApi from '../../api/distributions-api';
 
 export const DistributionView = (props) => {
 	const { id } = useParams();
+	const history = useHistory();
 
 	const { data: distribution, isLoading } = useDistribution(id);
 
@@ -45,9 +46,23 @@ export const DistributionView = (props) => {
 		}
 	);
 
+	const { isLoading: isDeleting, mutate: remove } = useMutation(
+		() => {
+			return distributionApi.deleteDistribution(id);
+		},
+		{
+			onSuccess: (id) => {
+				return Promise.all([
+					queryClient.invalidateQueries(['distributions', id]),
+					queryClient.invalidateQueries(['distributions']),
+				]).then(() => history.push('/datasets/distributions'));
+			},
+		}
+	);
+
 	useTitle(D.distributionsTitle, distribution?.labelLg1);
 
-	if (isLoading || isLoadingDataSet) return <Loading />;
+	if (isLoading || isLoadingDataSet || isDeleting) return <Loading />;
 	if (isPublishing) return <Loading text="publishing" />;
 
 	return (
@@ -62,6 +77,7 @@ export const DistributionView = (props) => {
 				distribution={distribution}
 				dataset={dataset}
 				onPublish={publish}
+				onDelete={remove}
 				{...props}
 			/>
 

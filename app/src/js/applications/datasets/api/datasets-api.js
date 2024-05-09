@@ -25,6 +25,7 @@ const api = {
 		},
 		(res) => res.text(),
 	],
+	deleteDataset: (id) => [`${id}`, (res) => res.text()],
 };
 
 export default API.buildApi('datasets', api);
