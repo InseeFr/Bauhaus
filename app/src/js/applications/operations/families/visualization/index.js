@@ -2,12 +2,7 @@ import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import {
-	Button,
-	Loading,
-	ActionToolbar,
-	ReturnButton,
-} from '@inseefr/wilco';
+import { Button, Loading, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import { useGoBack } from 'js/hooks/hooks';
 import api from 'js/remote-api/operations-api';
 
@@ -20,13 +15,15 @@ import {
 	ValidationButton,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc
+	ErrorBloc,
 } from 'bauhaus-utilities';
 
 const Family = () => {
 	const { id } = useParams();
-	const langs = useSelector(state => select.getLangs(state))
-	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state))
+	const langs = useSelector((state) => select.getLangs(state));
+	const secondLang = useSelector((state) =>
+		Stores.SecondLang.getSecondLang(state)
+	);
 	const goBack = useGoBack();
 
 	const [family, setFamily] = useState({});
@@ -40,14 +37,17 @@ const Family = () => {
 	const publish = useCallback(() => {
 		setPublishing(true);
 
-		api.publishFamily(family).then(() => {
-			return api.getFamily(id).then(setFamily)
-		}).catch((error) => setServerSideError(error))
-			.finally(() => setPublishing(false))
+		api
+			.publishFamily(family)
+			.then(() => {
+				return api.getFamily(id).then(setFamily);
+			})
+			.catch((error) => setServerSideError(error))
+			.finally(() => setPublishing(false));
 	}, [family, id]);
 
 	if (!family.id) return <Loading />;
-	if (publishing) return <Loading text={"publishing"} />;
+	if (publishing) return <Loading text={'publishing'} />;
 
 	/*
 	 * The publication button should be enabled only if RICH_TEXT value do not
@@ -55,13 +55,12 @@ const Family = () => {
 	 */
 	const publicationDisabled = HTMLUtils.containUnsupportedStyles(family);
 	return (
-		<div className='container'>
+		<div className="container">
 			<PageTitleBlock
 				titleLg1={family.prefLabelLg1}
 				titleLg2={family.prefLabelLg2}
 				secondLang={secondLang}
 			/>
-
 			<ActionToolbar>
 				<ReturnButton action={() => goBack('/operations/families')} />
 
@@ -79,11 +78,9 @@ const Family = () => {
 					/>
 				</Auth.AuthGuard>
 			</ActionToolbar>
-
-			{ serverSideError && <ErrorBloc error={serverSideError} D={D}/>}
-
+			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
+			`
 			<CheckSecondLang />
-
 			<OperationsFamilyVisualization
 				secondLang={secondLang}
 				attr={family}

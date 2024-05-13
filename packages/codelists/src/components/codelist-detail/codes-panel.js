@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { API } from '../../apis';
 import {
-	Auth,
 	ClientSideError,
 	GlobalClientSideErrorBloc,
 	Row,
@@ -9,23 +8,18 @@ import {
 import { CollapsiblePanel } from '../collapsible-panel';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { rowParams } from '../code-detail/code-columns';
-import {
-	ActionToolbar,
-	LabelRequired,
-	ReturnButton,
-	SaveButton,
-	Table,
-	UpdateButton,
-} from '@inseefr/wilco';
+import { LabelRequired, Table } from '@inseefr/wilco';
 import SlidingPanel from 'react-sliding-side-panel';
 import './codes-panel.scss';
 import { validateCode } from '../../utils';
-
+import { CodesPanelAddButton } from './codes-panel-add-button';
+import { CodeSlidingPanelMenu } from './code-sliding-panel-menu';
 const CodeSlidingPanel = ({
 	code: initialCode,
 	handleBack,
 	handleSave,
 	creation,
+	codelist,
 }) => {
 	const [code, setCode] = useState({});
 	const [clientSideErrors, setClientSideErrors] = useState({});
@@ -59,13 +53,13 @@ const CodeSlidingPanel = ({
 	};
 	return (
 		<React.Fragment>
-			<ActionToolbar>
-				<ReturnButton action={handleBack} col={6} />
-				<Auth.AuthGuard roles={[Auth.ADMIN]}>
-					{!creation && <UpdateButton action={handleSubmit} col={6} />}
-					{creation && <SaveButton action={handleSubmit} col={6} />}
-				</Auth.AuthGuard>
-			</ActionToolbar>
+			<CodeSlidingPanelMenu
+				codelist={codelist}
+				handleSubmit={handleSubmit}
+				handleBack={handleBack}
+				creation={creation}
+			/>
+
 			{submitting && clientSideErrors && (
 				<GlobalClientSideErrorBloc
 					clientSideErrors={clientSideErrors.errorMessage}
@@ -325,15 +319,12 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 				title={
 					<React.Fragment>
 						{D.codesTitle}
-						{editable && !!codelist.lastCodeUriSegment && (
-							<button
-								id="add-code"
-								type="button"
-								aria-label={D.addCodeTitle}
-								onClick={onHandlePanel}
-							>
-								<span className="glyphicon glyphicon-plus"></span>
-							</button>
+
+						{editable && (
+							<CodesPanelAddButton
+								codelist={codelist}
+								onHandlePanel={onHandlePanel}
+							/>
 						)}
 					</React.Fragment>
 				}
@@ -428,6 +419,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 				<div id="code-edit-panel">
 					<CodeSlidingPanel
 						code={selectedCode}
+						codelist={codelist}
 						creation={!selectedCode.code}
 						handleBack={() => {
 							setSelectedCode({});
