@@ -169,7 +169,7 @@ class SimsCreation extends React.Component {
 			documentStores,
 		} = this.props;
 		const { secondLang, sims, idParent } = this.state;
-		console.log(organisations);
+		console.log(organisations); // no labelLg2
 		const organisationsOptions = ArrayUtils.sortArrayByLabel(
 			organisations.map((c) => ({
 				label: c.label,
