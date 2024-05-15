@@ -169,10 +169,17 @@ class SimsCreation extends React.Component {
 			documentStores,
 		} = this.props;
 		const { secondLang, sims, idParent } = this.state;
-
+		console.log(organisations);
 		const organisationsOptions = ArrayUtils.sortArrayByLabel(
 			organisations.map((c) => ({
-				label: c.label, // no labelLg2 in organisations ?
+				label: c.label,
+				value: c.id,
+			}))
+		);
+
+		const organisationsOptionsLg2 = ArrayUtils.sortArrayByLabel(
+			organisations.map((c) => ({
+				label: c.labelLg2,
 				value: c.id,
 			}))
 		);
@@ -233,7 +240,7 @@ class SimsCreation extends React.Component {
 									secondLang={true}
 									lang={lg2}
 									alone={false}
-									organisationsOptions={organisationsOptions}
+									organisationsOptions={organisationsOptionsLg2}
 									geographiesOptions={geographiesOptions}
 									unbounded={msd.maxOccurs === 'unbounded'}
 								/>
