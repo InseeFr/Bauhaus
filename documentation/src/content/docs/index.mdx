@@ -1,0 +1,45 @@
+---
+title: Welcome to Bauhaus
+description: Bauhaus is a web application for the management of concepts, classifications and other statistical objects.
+template: splash
+hero:
+  actions:
+    - text: Github Repository
+      link: https://github.com/InseeFr/Bauhaus
+      icon: right-arrow
+      variant: primary
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+## Next steps
+
+<CardGrid stagger>
+	<LinkCard
+      title="Getting Started"
+      description="Learn how to start using Bauhaus as a developer"
+      href="/guides/getting-started/"
+    />
+    <LinkCard
+      title="User Guide - Concept"
+      description="Learn how to use the Concept Module"
+      href="/guides/user-guide/concept"
+    />
+    <LinkCard
+          title="User Guide - Classification"
+          description="Learn how to use the Classification Module"
+          href="/guides/user-guide/classification"
+        />
+    <LinkCard
+          title="User Guide - Operation"
+          description="Learn how to use the Operation Module"
+          href="/guides/user-guide/operation"
+        />
+    <LinkCard
+          title="User Guide - Structure"
+          description="Learn how to use the Structure Module"
+          href="/guides/user-guide/structure"
+        />
+
+
+</CardGrid>
