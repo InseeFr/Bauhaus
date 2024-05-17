@@ -1,13 +1,14 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { Menu } from '@inseefr/wilco';
 import D from '../i18n/build-dictionary';
 import { Auth } from 'bauhaus-utilities';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 const defaultAttrs = { 'aria-current': 'page' };
 
-const MenuCodelists = ({ location }) => {
+const MenuCodelists = () => {
+	const location = useLocation();
 	const permission = useSelector((state) => Auth.getPermission(state));
 
 	const activePath = location.pathname;
@@ -46,4 +47,4 @@ const MenuCodelists = ({ location }) => {
 	return <Menu paths={paths} />;
 };
 
-export default withRouter(MenuCodelists);
+export default MenuCodelists;

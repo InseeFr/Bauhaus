@@ -40,7 +40,7 @@ export class MenuOperations extends Component {
 				help: {
 					path: '//metadonnees.gitlab-pages.insee.fr/rmes/offre-de-service-rmes/#pages/operation-aide',
 					attrs: {
-						target: '_blank'
+						target: '_blank',
 					},
 					pathKey: /help/,
 					className: null,
@@ -82,11 +82,11 @@ export class MenuOperations extends Component {
 
 	setActiveItem(nextProps, currentPaths) {
 		const paths = Object.keys(currentPaths).reduce((acc, key) => {
-			let attrs = {}
-			if(currentPaths[key].attrs?.target === '_blank'){
+			let attrs = {};
+			if (currentPaths[key].attrs?.target === '_blank') {
 				attrs = {
-					target: '_blank'
-				}
+					target: '_blank',
+				};
 			}
 			return {
 				...acc,
@@ -125,7 +125,8 @@ export class MenuOperations extends Component {
 			}
 		} else {
 			for (let key in paths) {
-				if (paths[key]['pathKey'].test(nextProps.location.pathname)) { // withRouter utile
+				if (paths[key]['pathKey'].test(nextProps.location.pathname)) {
+					// withRouter utile
 					paths[key]['className'] = ACTIVE;
 					paths[key]['attrs'] = defaultAttrs;
 
@@ -145,7 +146,7 @@ export class MenuOperations extends Component {
 }
 
 export default withRouter(
-	connect(state => {
+	connect((state) => {
 		return { sims: getOperationsSimsCurrent(state) };
 	})(MenuOperations)
 );

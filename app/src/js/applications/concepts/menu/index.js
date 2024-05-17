@@ -1,10 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import D from 'js/i18n';
 import { getLang, Menu } from '@inseefr/wilco';
+import { useLocation } from 'react-router-dom';
 const defaultAttrs = { 'aria-current': 'page' };
 
-export const MenuConcepts = ({ location }) => {
+export const MenuConcepts = () => {
+	const location = useLocation();
 	const activePath = location.pathname;
 	if (activePath === '/') return null;
 
@@ -46,7 +47,7 @@ export const MenuConcepts = ({ location }) => {
 		},
 	];
 
-	const currentPath = paths.find(path => {
+	const currentPath = paths.find((path) => {
 		return location.pathname.includes(path.pathKey);
 	});
 	if (currentPath) {
@@ -60,4 +61,4 @@ export const MenuConcepts = ({ location }) => {
 	return <Menu paths={paths} />;
 };
 
-export default withRouter(MenuConcepts);
+export default MenuConcepts;

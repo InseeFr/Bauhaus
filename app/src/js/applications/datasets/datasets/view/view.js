@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import * as select from '../../../../reducers';
 import {
@@ -24,6 +24,7 @@ import { ViewMenu } from './menu';
 
 const Dataset = (props) => {
 	const { id } = useParams();
+	const history = useHistory();
 	const { data: structures } = useQuery({
 		queryKey: ['structures'],
 		queryFn: () => {
@@ -64,9 +65,23 @@ const Dataset = (props) => {
 		}
 	);
 
+	const { isLoading: isDeleting, mutate: remove } = useMutation(
+		() => {
+			return api.deleteDataset(id);
+		},
+		{
+			onSuccess: (id) => {
+				return Promise.all([
+					queryClient.invalidateQueries(['dataset', id]),
+					queryClient.invalidateQueries(['dataset']),
+				]).then(() => history.push('/datasets'));
+			},
+		}
+	);
+
 	useTitle(D.datasetsTitle, dataset?.labelLg1);
 
-	if (isLoading) return <Loading />;
+	if (isLoading || isDeleting) return <Loading />;
 	if (isPublishing) return <Loading text="publishing" />;
 
 	return (
@@ -77,7 +92,12 @@ const Dataset = (props) => {
 				secondLang={secondLang}
 			/>
 
-			<ViewMenu dataset={dataset} {...props} onPublish={publish} />
+			<ViewMenu
+				dataset={dataset}
+				{...props}
+				onPublish={publish}
+				onDelete={remove}
+			/>
 			<CheckSecondLang />
 
 			<Row>

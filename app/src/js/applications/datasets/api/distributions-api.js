@@ -25,6 +25,7 @@ const api = {
 		},
 		(res) => res.text(),
 	],
+	deleteDistribution: (id) => [`${id}`, (res) => res.text()],
 };
 
 export default API.buildApi('distribution', api);

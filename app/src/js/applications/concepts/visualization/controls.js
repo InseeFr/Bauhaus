@@ -1,30 +1,25 @@
 import React, { useCallback, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import {
-	goBack,
-	Button,
-	ActionToolbar,
-	getContentDisposition,
-} from '@inseefr/wilco';
+import { Button, ActionToolbar, getContentDisposition } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import D from 'js/i18n';
 import { ConfirmationDelete } from 'bauhaus-utilities';
 import api from '../../../remote-api/concepts-api';
 import FileSaver from 'file-saver';
 import { useLoading } from './loading';
+import { useGoBack } from '../../../hooks/hooks';
 
-const ConceptVisualizationControls = (props) => {
+const ConceptVisualizationControls = ({
+	isValidated,
+	isValidOutOfDate,
+	conceptVersion,
+	id,
+	permission: { authType, roles, stamp },
+	creator: conceptCreator,
+	handleValidation,
+	handleDeletion,
+}) => {
 	const { setLoading } = useLoading();
-	const {
-		isValidated,
-		isValidOutOfDate,
-		conceptVersion,
-		id,
-		permission: { authType, roles, stamp },
-		creator: conceptCreator,
-		handleValidation,
-		handleDeletion,
-	} = props;
+	const goBack = useGoBack();
 
 	const [modalOpened, setModalOpened] = useState(false);
 	const handleNo = useCallback(() => {
@@ -43,7 +38,7 @@ const ConceptVisualizationControls = (props) => {
 
 	let btns;
 
-	const cancel = [goBack(props, `/concepts`), D.btnReturn];
+	const cancel = [() => goBack(`/concepts`), D.btnReturn];
 	const validate = adminOrCreator && [handleValidation, D.btnValid];
 	const update = [`/concept/${id}/modify`, D.btnUpdate];
 	const compare =
@@ -119,4 +114,4 @@ const ConceptVisualizationControls = (props) => {
 	);
 };
 
-export default withRouter(ConceptVisualizationControls);
+export default ConceptVisualizationControls;

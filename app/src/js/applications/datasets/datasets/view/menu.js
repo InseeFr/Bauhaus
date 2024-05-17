@@ -10,7 +10,7 @@ import D from '../../../../i18n/build-dictionary';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-export const ViewMenu = ({ dataset, onPublish, ...props }) => {
+export const ViewMenu = ({ dataset, onPublish, onDelete, ...props }) => {
 	const permission = useSelector(Auth.getPermission);
 
 	const hasDatasetRightsBasedOnStamp =
@@ -28,7 +28,7 @@ export const ViewMenu = ({ dataset, onPublish, ...props }) => {
 			{(isAdmin ||
 				(hasDatasetRightsBasedOnStamp &&
 					dataset.validationState === 'Unpublished')) && (
-				<DeleteButton action={() => {}} />
+				<DeleteButton action={onDelete} />
 			)}
 			{(isAdmin || hasDatasetRightsBasedOnStamp) && (
 				<Button action={`/datasets/${dataset.id}/modify`} label={D.btnUpdate} />
