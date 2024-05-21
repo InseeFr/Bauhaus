@@ -41,6 +41,7 @@ const SearchableList = ({
 	itemFormatter = (content) => content,
 }) => {
 	const [search, handleSearch] = useUrlQueryParameter('search');
+	const [input, setInput] = useState(search);
 
 	const filter = filterKeyDeburr(
 		Object.keys(items[0] || {}).filter((k) => k !== 'id')
@@ -64,8 +65,11 @@ const SearchableList = ({
 			<div className="row form-group">
 				<div className="col-md-12">
 					<input
-						value={search}
-						onChange={(e) => handleSearch(e.target.value)}
+						value={input}
+						onChange={(e) => {
+							setInput(e.target.value);
+							handleSearch(e.target.value);
+						}}
 						type="text"
 						placeholder={D.searchLabelPlaceholder || placeholder}
 						className="form-control"
