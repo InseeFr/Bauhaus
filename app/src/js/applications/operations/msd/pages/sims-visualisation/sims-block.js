@@ -45,16 +45,21 @@ const SimsBlock = ({
 							codesLists={codesLists}
 							currentSection={currentSection}
 							multi={unbounded}
+							isSecondLang={isSecondLang}
 						/>
 					)}
 				{currentSection.rangeType === ORGANIZATION && (
 					<SimsBlockOrganisation
 						organisations={organisations}
 						currentSection={currentSection}
+						isSecondLang={isSecondLang}
 					/>
 				)}
 				{currentSection.rangeType === GEOGRAPHY && (
-					<SimsBlockGeography currentSection={currentSection} />
+					<SimsBlockGeography
+						currentSection={currentSection}
+						isSecondLang={isSecondLang}
+					/>
 				)}
 			</>
 		)
