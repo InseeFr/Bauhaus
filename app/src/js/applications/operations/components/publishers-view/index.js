@@ -1,6 +1,6 @@
 import React from 'react';
 import { Note } from '@inseefr/wilco';
-import { D1 } from '../i18n/build-dictionary';
+import { D1 } from '../../i18n/build-dictionary';
 import { useSelector } from 'react-redux';
 
 const PublishersView = ({ publishers, lg1 }) => {
@@ -16,13 +16,15 @@ const PublishersView = ({ publishers, lg1 }) => {
 	return (
 		<Note
 			text={
-				publishersArray.length === 1
-					? (<p>{publishersArray[0].label}</p>)
-					: (<ul>
+				publishersArray.length === 1 ? (
+					<p>{publishersArray[0].label}</p>
+				) : (
+					<ul>
 						{publishersArray.map(({ label }, index) => (
 							<li key={index}>{label}</li>
 						))}
-					</ul>)
+					</ul>
+				)
 			}
 			title={D1.organisation}
 			lang={lg1}

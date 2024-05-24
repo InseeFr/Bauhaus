@@ -18,7 +18,8 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 } from 'bauhaus-utilities';
-import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
+import PublishersInput from 'js/applications/operations/components/publishers-input';
+import CreatorsInput from 'js/components/creators-input';
 
 import { isMandatoryField, validate } from './validation';
 import api from '../../../../remote-api/operations-api';

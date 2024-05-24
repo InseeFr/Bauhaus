@@ -8,7 +8,7 @@ import {
 	ArrayUtils,
 	EditorDeleteButton,
 } from 'bauhaus-utilities';
-import { SimsGeographyPicker } from 'bauhaus-operations';
+import SimsGeographyPicker from 'js/applications/operations/components/sims/sims-geography-picker';
 import { Editor } from 'react-draft-wysiwyg';
 import { Note, getLang, Select } from '@inseefr/wilco';
 import './sims-field.scss';
