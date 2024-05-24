@@ -25,7 +25,7 @@ import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from 'bauhaus-codelists';
 import api from '../../apis/structure-api';
-import MainDictionary from '../../../../../app/src/js/i18n/build-dictionary';
+import MainDictionary from '../../../../i18n/build-dictionary';
 import { ViewMenu } from './menu';
 
 export const MeasureAttributeCodeValue = ({ value, attribute, codesLists }) => {

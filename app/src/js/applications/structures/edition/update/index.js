@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Edition from '../component';
 import { Loading } from '@inseefr/wilco';
-import { StructureAPI } from 'bauhaus-structures';
+import StructureAPI from '../../apis/structure-api';
 import { useLocation, useParams } from 'react-router-dom';
 import { useTitle } from 'bauhaus-utilities';
 import D from 'js/i18n';
@@ -16,7 +16,7 @@ const Update = () => {
 
 	useEffect(() => {
 		StructureAPI.getStructure(structureId)
-			.then(res => setStructure(res))
+			.then((res) => setStructure(res))
 			.finally(() => {
 				setLoading(false);
 			});
@@ -25,7 +25,7 @@ const Update = () => {
 
 	if (loading) return <Loading />;
 
-	if(duplicate){
+	if (duplicate) {
 		return (
 			<Edition
 				creation={duplicate}
@@ -37,25 +37,20 @@ const Update = () => {
 					creator: structure.creator,
 					contributor: structure.contributor,
 					disseminationStatus: structure.disseminationStatus,
-					componentDefinitions: structure.componentDefinitions.map(cd => {
+					componentDefinitions: structure.componentDefinitions.map((cd) => {
 						return {
 							component: cd.component,
 							order: cd.order,
 							required: cd.required,
-							attachment: cd.attachment
-						}
-					})
+							attachment: cd.attachment,
+						};
+					}),
 				}}
 			/>
 		);
 	}
 
-	return (
-		<Edition
-			creation={duplicate}
-			initialStructure={structure}
-		/>
-	);
+	return <Edition creation={duplicate} initialStructure={structure} />;
 };
 
 export default Update;

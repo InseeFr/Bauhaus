@@ -1,34 +1,33 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {
-	StructureComponentsSelector,
-	getFormattedCodeList,
-	ComponentSpecificationModal,
-	CodesListPanel
-} from 'bauhaus-structures';
+
+import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
+import ComponentSpecificationModal from '../../components/component-selector/index';
+import StructureComponentsSelector from '../../components/component-specification-modal/index';
+import { getFormattedCodeList } from '../../apis/code-list';
 import { ConceptsAPI } from 'bauhaus-utilities';
 
-const Components = ({ componentDefinitions = []}) => {
+const Components = ({ componentDefinitions = [] }) => {
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState([]);
 	const [modalOpened, setModalOpened] = useState(false);
 	const [selectedComponent, setSelectedComponent] = useState({});
 
 	const [codesListNotation, setCodesListNotation] = useState(undefined);
-	const handleCodesListDetail = useCallback(notation => {
+	const handleCodesListDetail = useCallback((notation) => {
 		setCodesListNotation(notation);
-	}, [])
-
-	useEffect(() => {
-		ConceptsAPI.getConceptList().then(res => setConcepts(res));
 	}, []);
 
 	useEffect(() => {
-		getFormattedCodeList().then(res => {
-			setCodesLists(res)
+		ConceptsAPI.getConceptList().then((res) => setConcepts(res));
+	}, []);
+
+	useEffect(() => {
+		getFormattedCodeList().then((res) => {
+			setCodesLists(res);
 		});
 	}, []);
 
-	const handleSpecificationClick = useCallback(component => {
+	const handleSpecificationClick = useCallback((component) => {
 		setSelectedComponent(component);
 		setModalOpened(true);
 	}, []);
@@ -57,8 +56,11 @@ const Components = ({ componentDefinitions = []}) => {
 				readOnly={true}
 				handleCodesListDetail={handleCodesListDetail}
 			/>
-			<CodesListPanel codesList={codesListNotation} isOpen={!!codesListNotation} handleBack={() => setCodesListNotation(undefined)}/>
-
+			<CodesListPanel
+				codesList={codesListNotation}
+				isOpen={!!codesListNotation}
+				handleBack={() => setCodesListNotation(undefined)}
+			/>
 		</div>
 	);
 };

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import ComponentSelector from '../../components/component-selector';
 import {
-	StructureAPI,
-	ComponentSelector,
-	getFormattedCodeList,
-	StructureConstants,
-} from 'bauhaus-structures';
+	ATTRIBUTE_PROPERTY_TYPE,
+	DIMENSION_PROPERTY_TYPE,
+	MEASURE_PROPERTY_TYPE,
+} from '../../utils/constants';
+import StructureAPI from '../../apis/structure-api';
+import { getFormattedCodeList } from '../../apis/code-list';
 import { ConceptsAPI } from 'bauhaus-utilities';
 import D from 'js/i18n';
 
-const Components = ({ componentDefinitions, onChange, structure = {}  }) => {
+const Components = ({ componentDefinitions, onChange, structure = {} }) => {
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState([]);
 	const [mutualizedComponents, setMutualizedComponents] = useState([]);
@@ -34,7 +36,7 @@ const Components = ({ componentDefinitions, onChange, structure = {}  }) => {
 					concepts={concepts}
 					codesLists={codesLists}
 					mutualizedComponents={mutualizedComponents}
-					type={StructureConstants.DIMENSION_PROPERTY_TYPE}
+					type={DIMENSION_PROPERTY_TYPE}
 					handleUpdate={onChange}
 					structure={structure}
 				/>
@@ -46,7 +48,7 @@ const Components = ({ componentDefinitions, onChange, structure = {}  }) => {
 					concepts={concepts}
 					codesLists={codesLists}
 					mutualizedComponents={mutualizedComponents}
-					type={StructureConstants.MEASURE_PROPERTY_TYPE}
+					type={MEASURE_PROPERTY_TYPE}
 					handleUpdate={onChange}
 					structure={structure}
 				/>
@@ -58,7 +60,7 @@ const Components = ({ componentDefinitions, onChange, structure = {}  }) => {
 					concepts={concepts}
 					codesLists={codesLists}
 					mutualizedComponents={mutualizedComponents}
-					type={StructureConstants.ATTRIBUTE_PROPERTY_TYPE}
+					type={ATTRIBUTE_PROPERTY_TYPE}
 					handleUpdate={onChange}
 					structure={structure}
 				/>

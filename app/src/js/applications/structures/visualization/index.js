@@ -7,21 +7,25 @@ import {
 	Stores,
 	PageTitleBlock,
 	PublicationFemale,
-	useTitle, CreationUpdateItems, ErrorBloc
+	useTitle,
+	CreationUpdateItems,
+	ErrorBloc,
 } from 'bauhaus-utilities';
 import Components from './components';
 import { D1, D2 } from 'js/i18n';
-import {
-	StructureAPI,
-	StructureVisualizationControl,
-	StructuresUtils
-} from 'bauhaus-structures';
-import D from 'bauhaus-structures/src/i18n/build-dictionary';
-import api from 'bauhaus-structures/src/apis/structure-api';
+import { getDisseminationStatus } from '../utils/';
+import StructureVisualizationControl from '../components/structure-visualization/controls';
+import D from '../i18n/build-dictionary';
+import StructureAPI from '../apis/structure-api';
 import mainDictionary from 'js/i18n/build-dictionary';
 
-export const StructureView = ({secondLang, structure, publish, serverSideError}) => {
-	useTitle(D.structuresTitle, structure?.labelLg1)
+export const StructureView = ({
+	secondLang,
+	structure,
+	publish,
+	serverSideError,
+}) => {
+	useTitle(D.structuresTitle, structure?.labelLg1);
 	const {
 		labelLg1,
 		labelLg2,
@@ -38,8 +42,10 @@ export const StructureView = ({secondLang, structure, publish, serverSideError})
 				titleLg2={labelLg2}
 			/>
 			<CheckSecondLang />
-			<StructureVisualizationControl structure={structure} publish={publish}/>
-			{serverSideError && <ErrorBloc error={serverSideError} D={mainDictionary}/> }
+			<StructureVisualizationControl structure={structure} publish={publish} />
+			{serverSideError && (
+				<ErrorBloc error={serverSideError} D={mainDictionary} />
+			)}
 			<div className="row">
 				<Note
 					text={
@@ -47,26 +53,26 @@ export const StructureView = ({secondLang, structure, publish, serverSideError})
 							<li>
 								{D1.idTitle} : {structure.identifiant}
 							</li>
-							<CreationUpdateItems creation={structure.created} update={structure.modified} />
+							<CreationUpdateItems
+								creation={structure.created}
+								update={structure.modified}
+							/>
 							<li>
 								{D.componentValididationStatusTitle} :{' '}
 								<PublicationFemale object={structure} />
 							</li>
 							<li>
-								{D.creator} :{' '}
-								{structure.creator}
+								{D.creator} : {structure.creator}
 							</li>
 							<li>
-								{D.contributor} :{' '}
-								{structure.contributor}
+								{D.contributor} : {structure.contributor}
 							</li>
 							<li>
 								{D.disseminationStatusTitle} :{' '}
-								{StructuresUtils.getDisseminationStatus(structure.disseminationStatus)}
+								{getDisseminationStatus(structure.disseminationStatus)}
 							</li>
 							<li>
-								{D1.processusTitle} :{' '}
-								{structure.isRequiredBy}
+								{D1.processusTitle} : {structure.isRequiredBy}
 							</li>
 						</ul>
 					}
@@ -93,7 +99,7 @@ export const StructureView = ({secondLang, structure, publish, serverSideError})
 			<Components componentDefinitions={componentDefinitions} />
 		</>
 	);
-}
+};
 const Structure = () => {
 	const { structureId } = useParams();
 	const [structure, setStructure] = useState({});
@@ -112,20 +118,27 @@ const Structure = () => {
 	const publish = () => {
 		setLoading(true);
 		setServerSideError();
-		return api.publishStructure(structure)
-			.then(() => api.getStructure(structure.id))
-			.then(component => setStructure(component))
+		return StructureAPI.publishStructure(structure)
+			.then(() => StructureAPI.getStructure(structure.id))
+			.then((component) => setStructure(component))
 			.finally(() => setLoading(false))
-			.catch(error => {
-				setServerSideError(error)
-			})
-	}
+			.catch((error) => {
+				setServerSideError(error);
+			});
+	};
 
 	if (loading) {
 		return <Loading />;
 	}
 
-	return <StructureView structure={structure} secondLang={secondLang} publish={publish} serverSideError={serverSideError}/>
+	return (
+		<StructureView
+			structure={structure}
+			secondLang={secondLang}
+			publish={publish}
+			serverSideError={serverSideError}
+		/>
+	);
 };
 
 export default Structure;

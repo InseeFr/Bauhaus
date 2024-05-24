@@ -5,14 +5,12 @@ import Menu from 'js/applications/structures/menu';
 import Home from 'js/applications/structures/home/home';
 import Visualization from 'js/applications/structures/visualization';
 import { Create, Update } from 'js/applications/structures/edition';
+import StructuresComponentsList from '../components/components-list';
+import StructuresComponentsSearch from '../components/component-search/search';
+import StructuresSearch from '../components/structure-search/search';
+import StructuresComponentView from '../components/component-detail/view-container';
+import StructuresComponentEdit from '../components/component-detail/edit-container';
 
-import {
-	StructuresComponentsList,
-	StructuresComponentsSearch,
-	StructuresComponentView,
-	StructuresComponentEdit,
-	StructuresSearch,
-} from 'bauhaus-structures';
 import D from 'js/i18n';
 import { connect } from 'react-redux';
 import loadStampList from 'js/actions/stamp';

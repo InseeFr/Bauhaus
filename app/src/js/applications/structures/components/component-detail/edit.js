@@ -17,7 +17,7 @@ import {
 	ClientSideError,
 	Auth,
 } from 'bauhaus-utilities';
-import { validate } from '../../../../../app/src/js/applications/structures/components/edition/validation';
+import { validate } from '../edition/validation';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
 	MEASURE_PROPERTY_TYPE,

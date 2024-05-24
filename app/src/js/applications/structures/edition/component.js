@@ -3,7 +3,8 @@ import { Redirect } from 'react-router-dom';
 import { Input, LabelRequired, Loading, Select } from '@inseefr/wilco';
 import Controls from './controls';
 import Components from './components';
-import { StructureAPI, StructureConstants } from 'bauhaus-structures';
+import StructureAPI from '../apis/structure-api';
+import { DISSEMINATION_STATUS } from '../utils/constants';
 import {
 	AppContext,
 	ClientSideError,
@@ -30,7 +31,7 @@ const defaultDSD = {
 	labelLg2: '',
 	descriptionLg1: '',
 	descriptionLg2: '',
-	disseminationStatus: StructureConstants.DISSEMINATION_STATUS.PUBLIC_GENERIC,
+	disseminationStatus: DISSEMINATION_STATUS.PUBLIC_GENERIC,
 	contributor: 'DG75-H250',
 	componentDefinitions: [],
 	isRequiredBy: '',
