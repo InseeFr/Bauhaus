@@ -8,11 +8,9 @@ import {
 } from '@inseefr/wilco';
 import ReactSelect from 'react-select';
 
-import D, { D1, D2 } from '../i18n/build-dictionary';
-import {
-	SimsGeographyI18NLabel,
-	SimsGeographySelector,
-} from 'bauhaus-operations';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
+import SimsGeographyI18NLabel from './sims-geography-i18n-label';
+import SimsGeographySelector from './sims-geography-selector';
 import { useGeographies } from './hooks';
 import { Stores, Row } from 'bauhaus-utilities';
 

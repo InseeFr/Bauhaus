@@ -11,7 +11,8 @@ import {
 	PublicationMale,
 	withTitle,
 } from 'bauhaus-utilities';
-import { PublishersView, CreatorsView } from 'bauhaus-operations';
+import PublishersView from 'js/applications/operations/components/publishers-view';
+import CreatorsView from 'js/applications/operations/components/creators-view';
 import D from '../../../../i18n/build-dictionary';
 
 function DisplayMultiLangNote({

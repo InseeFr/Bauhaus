@@ -11,7 +11,8 @@ import {
 	ClientSideError,
 	RequiredIcon,
 } from 'bauhaus-utilities';
-import { PublishersInput, CreatorsInput } from 'bauhaus-operations';
+import PublishersInput from 'js/applications/operations/components/publishers-input';
+import CreatorsInput from 'js/components/creators-input';
 import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/applications/shared/input-rmes';
 import Control from 'js/applications/operations/indicators/edition/control';

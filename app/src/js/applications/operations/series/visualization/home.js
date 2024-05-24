@@ -12,7 +12,8 @@ import {
 	PublicationFemale,
 	withTitle,
 } from 'bauhaus-utilities';
-import { PublishersView, CreatorsView } from 'bauhaus-operations';
+import CreatorsView from 'js/applications/operations/components/creators-view';
+import PublishersView from 'js/applications/operations/components/publishers-view';
 import D from '../../../../i18n/build-dictionary';
 
 function OperationsSerieVisualization({

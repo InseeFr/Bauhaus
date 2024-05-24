@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { ItemToSelectModel, SelectRmes } from 'bauhaus-utilities';
-import { D1 } from '../i18n/build-dictionary';
+import { D1 } from '../../i18n/build-dictionary';
 
 const PublishersInput = ({ value, onChange }) => {
 	const organisations = useSelector(

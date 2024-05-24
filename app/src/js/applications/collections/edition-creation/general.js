@@ -3,7 +3,8 @@ import D, { D1, D2 } from 'js/i18n';
 import InputRmes from 'js/applications/shared/input-rmes';
 import { fields as generalFields } from 'js/utils/collections/general';
 import { RequiredIcon } from 'bauhaus-utilities';
-import { CreatorsInput } from 'bauhaus-operations';
+import CreatorsInput from 'js/components/creators-input';
+
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {
 		handlers[fieldName] = (value) => handleChange({ [fieldName]: value });

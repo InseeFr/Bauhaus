@@ -3,9 +3,10 @@ import { render } from '@testing-library/react';
 import CollectionGeneral from './general';
 import { empty } from 'js/utils/collections/general';
 
-jest.mock('bauhaus-operations', () => ({
-	CreatorsInput: () => <></>
-}))
+jest.mock('js/components/creators-input', () => ({
+	__esModule: true,
+	default: () => <></>,
+}));
 describe('collection-edition-creation-general', () => {
 	it('renders without crashing', () => {
 		render(
