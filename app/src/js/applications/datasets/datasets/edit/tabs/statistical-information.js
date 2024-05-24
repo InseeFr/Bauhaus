@@ -2,7 +2,7 @@ import { D1 } from 'js/i18n';
 import { useQuery } from '@tanstack/react-query';
 import { withCodesLists } from 'js/hooks/hooks';
 import ReactSelect from 'react-select';
-import { StructureAPI } from 'bauhaus-structures';
+import StructureAPI from '../../../../structures/apis/structure-api';
 import { Row } from 'bauhaus-utilities';
 import { TemporalField } from '../../components/temporalField';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
