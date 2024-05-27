@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
-import ComponentSpecificationModal from '../../components/component-selector/index';
-import StructureComponentsSelector from '../../components/component-specification-modal/index';
+import { StructureComponentsSelector } from '../../components/structure-component-selector/index';
+import ComponentSpecificationModal from '../../components/component-specification-modal/index';
 import { getFormattedCodeList } from '../../apis/code-list';
 import { ConceptsAPI } from 'bauhaus-utilities';
 
