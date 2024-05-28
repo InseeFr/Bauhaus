@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import { PageTitle, goBack } from '@inseefr/wilco';
+import { PageTitle } from '@inseefr/wilco';
 import ConceptCreateControl from './controls';
 import GeneralEdition from './general';
 import NotesEdition from './notes';
@@ -10,7 +10,6 @@ import { areNotesImpactingVersionChanged } from 'js/utils/concepts/notes';
 import D from 'js/i18n';
 import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
-import { withRouter } from 'react-router-dom';
 import { withTitle } from 'bauhaus-utilities';
 import validate from './controls/validation';
 
@@ -195,7 +194,6 @@ class ConceptEditionCreation extends Component {
 						<ConceptCreateControl
 							errorMessage={errorMessage}
 							handleSave={this.handleSave}
-							redirectCancel={goBack(this.props, 'concepts')}
 						/>
 					)}
 					<ul className="nav nav-tabs nav-justified">
@@ -265,10 +263,8 @@ class ConceptEditionCreation extends Component {
 	}
 }
 
-export default withRouter(
-	withTitle(
-		ConceptEditionCreation,
-		D.conceptsTitle,
-		(props) => props?.general?.prefLabelLg1 || D.createConceptTitle
-	)
+export default withTitle(
+	ConceptEditionCreation,
+	D.conceptsTitle,
+	(props) => props?.general?.prefLabelLg1 || D.createConceptTitle
 );

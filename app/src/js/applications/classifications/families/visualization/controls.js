@@ -1,13 +1,14 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { goBack, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { useGoBack } from '../../../../hooks/hooks';
 
-function FamilyControls(props) {
+function FamilyControls() {
+	const goBack = useGoBack();
 	return (
 		<ActionToolbar>
-			<ReturnButton action={goBack(props, `/classifications/families`)} />
+			<ReturnButton action={() => goBack(`/classifications/families`)} />
 		</ActionToolbar>
 	);
 }
 
-export default withRouter(FamilyControls);
+export default FamilyControls;

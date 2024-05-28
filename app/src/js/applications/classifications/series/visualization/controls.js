@@ -1,13 +1,14 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { goBack, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { useGoBack } from '../../../../hooks/hooks';
 
-function SeriesControls(props) {
+function SeriesControls() {
+	const goBack = useGoBack();
 	return (
 		<ActionToolbar>
-			<ReturnButton action={goBack(props, `/classifications/series`)} />
+			<ReturnButton action={() => goBack(`/classifications/series`)} />
 		</ActionToolbar>
 	);
 }
 
-export default withRouter(SeriesControls);
+export default SeriesControls;

@@ -1,15 +1,15 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { goBack, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { useGoBack } from 'js/hooks/hooks';
 
-function CorrespondenceControls(props) {
+function CorrespondenceControls() {
+	const goBack = useGoBack();
+
 	return (
 		<ActionToolbar>
-			<ReturnButton
-				action={goBack(props, `/classifications/correspondences`)}
-			/>
+			<ReturnButton action={() => goBack(`/classifications/correspondences`)} />
 		</ActionToolbar>
 	);
 }
 
-export default withRouter(CorrespondenceControls);
+export default CorrespondenceControls;
