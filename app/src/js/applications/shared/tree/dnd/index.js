@@ -1,6 +1,6 @@
-import React, { useState }  from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import SortableTree  from 'react-sortable-tree';
+import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 import './dnd.scss';
 
@@ -11,10 +11,10 @@ const RmesTree = ({ treeData, canDrag, linkPath }) => {
 		<div style={{ width: '100%', height: '80vh' }}>
 			<SortableTree
 				treeData={tree}
-				onChange={treeData => setTree(treeData)}
+				onChange={(treeData) => setTree(treeData)}
 				canDrag={canDrag || false}
 				canDrop={() => false}
-				generateNodeProps={rowInfo => ({
+				generateNodeProps={(rowInfo) => ({
 					buttons: [
 						<Link to={linkPath(rowInfo.node.id)}>{rowInfo.node.label}</Link>,
 					],
@@ -22,7 +22,6 @@ const RmesTree = ({ treeData, canDrag, linkPath }) => {
 			/>
 		</div>
 	);
-}
+};
 
 export default RmesTree;
-
