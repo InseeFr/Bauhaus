@@ -1,6 +1,6 @@
 import { processLinks, processGeneral } from './shared';
 import { takeKeys } from '@inseefr/wilco';
-import { HTMLUtils } from 'bauhaus-utilities';
+import { HTMLUtils } from 'js/utils';
 
 const generalFieldsToKeep = [
 	'prefLabelLg1',
@@ -42,7 +42,7 @@ export default function buildPayloadCreation(concept) {
 	}, []);
 
 	const datableNotes = ['changeNoteLg1', 'changeNoteLg2']
-		.map(noteType => {
+		.map((noteType) => {
 			const content = notes[noteType];
 			if (content)
 				return {
@@ -52,7 +52,7 @@ export default function buildPayloadCreation(concept) {
 			return null;
 		})
 		//remove empty notes
-		.filter(note => note);
+		.filter((note) => note);
 
 	return {
 		...general,

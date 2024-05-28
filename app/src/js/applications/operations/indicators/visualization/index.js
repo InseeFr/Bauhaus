@@ -4,12 +4,7 @@ import D from 'js/i18n';
 import { useSelector } from 'react-redux';
 import * as select from 'js/reducers';
 import OperationsIndicatorVisualization from 'js/applications/operations/indicators/visualization/general';
-import {
-	Loading,
-	Button,
-	ActionToolbar,
-	ReturnButton,
-} from '@inseefr/wilco';
+import { Loading, Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import { useGoBack } from 'js/hooks/hooks';
 import api from '../../../../remote-api/operations-api';
 
@@ -22,7 +17,7 @@ import {
 	CheckSecondLang,
 	PageTitleBlock,
 	ErrorBloc,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import { useCodesList } from '../../../../hooks/hooks';
 
 const IndicatorVisualizationContainer = () => {

@@ -3,7 +3,7 @@ import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import DnDTree from 'js/applications/shared/tree/dnd';
 import D from 'js/i18n';
-import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
+import { CheckSecondLang, useTitle } from 'js/utils';
 
 const ClassificationTree = ({ data, prefLabel }) => {
 	useTitle(

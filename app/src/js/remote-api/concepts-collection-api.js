@@ -1,18 +1,31 @@
-import { API } from 'bauhaus-utilities';
+import { API } from 'js/utils';
 
 const api = {
 	getCollectionList: () => ['collections'],
-	getCollectionExportZipByType: (ids, type, lang = "lg1", withConcepts = false) => [
-        `export-zip/${ids.join('_AND_')}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
+	getCollectionExportZipByType: (
+		ids,
+		type,
+		lang = 'lg1',
+		withConcepts = false
+	) => [
+		`export-zip/${ids.join(
+			'_AND_'
+		)}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
 		{
 			headers: {
-				Accept: "application/octet-stream",
+				Accept: 'application/octet-stream',
 				'Content-Type': 'text/plain',
 			},
 		},
-		res => res,
+		(res) => res,
 	],
-	getCollectionExportByType: (id, MimeType, type, lang = "lg1", withConcepts = false) => [
+	getCollectionExportByType: (
+		id,
+		MimeType,
+		type,
+		lang = 'lg1',
+		withConcepts = false
+	) => [
 		`export/${id}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
 		{
 			headers: {
@@ -20,8 +33,8 @@ const api = {
 				'Content-Type': 'text/plain',
 			},
 		},
-		res => res,
-	]
+		(res) => res,
+	],
 };
 
 export default API.buildApi('concepts-collections', api);

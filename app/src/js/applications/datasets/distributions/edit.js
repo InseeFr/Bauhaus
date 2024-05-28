@@ -5,7 +5,7 @@ import {
 	PageTitleBlock,
 	Row,
 	useTitle,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import {
 	ActionToolbar,
 	CancelButton,

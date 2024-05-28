@@ -1,7 +1,7 @@
 import React from 'react';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import { D1, D2 } from 'js/i18n';
-import { Row } from 'bauhaus-utilities';
+import { Row } from 'js/utils';
 
 const NoteVisualization = ({ params, langs, secondLang, md }) => (
 	<>

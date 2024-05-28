@@ -4,7 +4,7 @@ import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import { D2, D1 } from 'js/i18n';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang } from 'js/utils';
 
 export default ({ association, secondLang, langs }) => {
 	const {

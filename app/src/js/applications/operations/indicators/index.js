@@ -7,7 +7,7 @@ import {
 	SearchableList,
 	ArrayUtils,
 	MasculineButton,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import api from '../../../remote-api/operations-api';
 
 function IndicatorsHome() {

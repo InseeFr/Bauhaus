@@ -1,6 +1,6 @@
 import { D1, D2 } from 'js/i18n';
 import { Note } from '@inseefr/wilco';
-import { CreationUpdateItems } from 'bauhaus-utilities';
+import { CreationUpdateItems } from 'js/utils';
 
 function CollectionGeneral({ attr, secondLang, langs }) {
 	const mapping = {
@@ -17,8 +17,11 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 					alone={true}
 					text={
 						<ul>
-							<CreationUpdateItems creation={attr.created} update={attr.modified} />
-							{Object.keys(mapping).map(fieldName => {
+							<CreationUpdateItems
+								creation={attr.created}
+								update={attr.modified}
+							/>
+							{Object.keys(mapping).map((fieldName) => {
 								if (attr.hasOwnProperty(fieldName) && attr[fieldName] !== '') {
 									if (fieldName === 'isValidated') {
 										return (

@@ -4,7 +4,6 @@
 	"license": "MIT",
 	"private": true,
 	"workspaces": [
-		"packages/*",
 		"app"
 	],
 	"scripts": {
@@ -60,16 +59,23 @@
 		"@babel/preset-react": "^7.16.7",
 		"@sentry/react": "^7.59.3",
 		"@tanstack/react-query": "^4.12.0",
+		"dayjs": "^1.11.6",
 		"dompurify": "2.2.9",
+		"draft-js": "0.10.4",
+		"draft-js-export-html": "1.4.1",
+		"draft-js-import-html": "1.2.1",
+		"draftjs-md-converter": "1.1.1",
+		"jwt-decode": "^3.1.2",
 		"path-browserify": "^1.0.1",
 		"prop-types": "^15.8.1",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"react-hook-form": "^7.34.2",
+		"react-sliding-side-panel": "^1.0.14",
 		"react-redux": "^7.2.6",
 		"react-router-dom": "5.2.0",
+		"reselect": "^4.1.5",
 		"redux": "^4.2.0",
-		"rollup": "^2.70.1",
 		"zod": "^3.22.4"
 	},
 	"prettier": {

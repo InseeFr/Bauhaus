@@ -1,18 +1,17 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import {
-	Menu,
-	Home,
-	CodelistComponentView,
-	CodeListsEditContext,
-	SearchFormList,
-	CodeListsPartialHome,
-	SearchFormPartialList,
-	CodelistPartialComponentView,
-	CodelistPartialEdit,
-} from 'bauhaus-codelists';
-import D from 'bauhaus-codelists/src/i18n/build-dictionary';
+import Menu from '../menu';
+import Home from '../components/home/home';
+import CodeListsPartialHome from '../components/home/partial-home';
+import SearchFormList from '../components/search/search';
+import SearchFormPartialList from '../components/search/partial-search';
+import CodesListView from '../components/codelist-detail/view-container';
+import CodesListEdit from '../components/codelist-detail/edit-context';
+import PartialCodesListView from '../components/codelist-partial-detail/view-container';
+import PartialCodesListEdit from '../components/codelist-partial-detail/edit-container';
+
+import D from '../i18n/build-dictionary';
 
 const CodesListComponent = () => {
 	document.getElementById('root-app').classList = ['codelists'];
@@ -24,22 +23,10 @@ const CodesListComponent = () => {
 			<div className="container">
 				<Switch>
 					<Route exact path="/codelists" component={Home} />
-					<Route
-						exact
-						path="/codelists/create"
-						component={CodeListsEditContext}
-					/>
+					<Route exact path="/codelists/create" component={CodesListEdit} />
 					<Route exact path="/codelists/search" component={SearchFormList} />
-					<Route
-						exact
-						path="/codelists/:id"
-						component={CodelistComponentView}
-					/>
-					<Route
-						exact
-						path="/codelists/:id/modify"
-						component={CodeListsEditContext}
-					/>
+					<Route exact path="/codelists/:id" component={CodesListView} />
+					<Route exact path="/codelists/:id/modify" component={CodesListEdit} />
 					<Route
 						exact
 						path="/codelists-partial"
@@ -48,7 +35,7 @@ const CodesListComponent = () => {
 					<Route
 						exact
 						path="/codelists-partial/create"
-						component={CodelistPartialEdit}
+						component={PartialCodesListEdit}
 					/>
 					<Route
 						exact
@@ -58,12 +45,12 @@ const CodesListComponent = () => {
 					<Route
 						exact
 						path="/codelists-partial/:id"
-						component={CodelistPartialComponentView}
+						component={PartialCodesListView}
 					/>
 					<Route
 						exact
 						path="/codelists-partial/:id/modify"
-						component={CodelistPartialEdit}
+						component={PartialCodesListEdit}
 					/>
 				</Switch>
 			</div>

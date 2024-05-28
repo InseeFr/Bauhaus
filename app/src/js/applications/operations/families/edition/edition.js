@@ -8,7 +8,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	Row,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import {
 	CancelButton,
 	SaveButton,

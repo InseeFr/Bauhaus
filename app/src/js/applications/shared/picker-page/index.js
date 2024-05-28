@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import D from 'js/i18n';
-import { ErrorBloc } from 'bauhaus-utilities';
+import { ErrorBloc } from 'js/utils';
 import {
 	PageTitle,
 	ExportButton,

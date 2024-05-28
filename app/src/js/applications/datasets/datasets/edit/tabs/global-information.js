@@ -5,7 +5,7 @@ import { withCodesLists } from 'js/hooks/hooks';
 import apiOrganisations from 'js/remote-api/organisations-api';
 import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
-import { ClientSideError, Row } from 'bauhaus-utilities';
+import { ClientSideError, Row } from 'js/utils';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
 
 const GlobalInformationTab = ({

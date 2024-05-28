@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { goBack, ReturnButton, Button, ActionToolbar } from '@inseefr/wilco';
-import { ValidationButton, Auth } from 'bauhaus-utilities';
+import { ValidationButton, Auth } from 'js/utils';
 import D from 'js/i18n';
 
 const ClassificationControls = (props) => {

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import * as select from 'js/reducers';
 import { Loading } from '@inseefr/wilco';
 import CollectionVisualization from './home';
-import { Auth, Stores } from 'bauhaus-utilities';
+import { Auth, Stores } from 'js/utils';
 import { useParams } from 'react-router-dom';
 import api from '../../../remote-api/concepts-api';
 
@@ -13,36 +13,40 @@ const CollectionVisualizationContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 
-
-	const permission = useSelector(state => Auth.getPermission(state));
-	const secondLang = useSelector(state => Stores.SecondLang.getSecondLang(state));
-	const langs = useSelector(state => select.getLangs(state))
+	const permission = useSelector((state) => Auth.getPermission(state));
+	const secondLang = useSelector((state) =>
+		Stores.SecondLang.getSecondLang(state)
+	);
+	const langs = useSelector((state) => select.getLangs(state));
 
 	const fetchData = useCallback(() => {
 		Promise.all([
 			api.getCollectionGeneral(id),
 			api.getCollectionMembersList(id),
-		]).then(([generalValue, membersValue]) => {
-			setCollection({ general: generalValue, members: membersValue});
-		}).finally(() => setLoading(false))
+		])
+			.then(([generalValue, membersValue]) => {
+				setCollection({ general: generalValue, members: membersValue });
+			})
+			.finally(() => setLoading(false));
 	}, [id]);
 
 	useEffect(() => {
 		fetchData();
-	}, [fetchData])
+	}, [fetchData]);
 
 	const handleCollectionValidation = (id) => {
-		setSaving(true)
-		api.putCollectionValidList([id])
+		setSaving(true);
+		api
+			.putCollectionValidList([id])
 			.then(() => fetchData())
 			.finally(() => setSaving(false));
-	}
-	if(loading){
-		return <Loading />
+	};
+	if (loading) {
+		return <Loading />;
 	}
 
-	if(saving){
-		return <Loading textType="validating" />
+	if (saving) {
+		return <Loading textType="validating" />;
 	}
 	const { general, members } = collection;
 
@@ -57,5 +61,5 @@ const CollectionVisualizationContainer = () => {
 			langs={langs}
 		/>
 	);
-}
+};
 export default CollectionVisualizationContainer;

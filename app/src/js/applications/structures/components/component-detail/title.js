@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckSecondLang, PageTitleBlock } from 'bauhaus-utilities';
+import { CheckSecondLang, PageTitleBlock } from 'js/utils';
 
 const ComponentTitle = ({ component, secondLang }) => {
 	return (

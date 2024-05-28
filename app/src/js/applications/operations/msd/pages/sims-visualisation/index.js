@@ -26,7 +26,7 @@ import {
 	CreationUpdateItems,
 	Row,
 	ErrorBloc,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import {
 	hasLabelLg2,
 	shouldDisplayDuplicateButton,

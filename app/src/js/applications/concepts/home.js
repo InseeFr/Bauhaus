@@ -15,7 +15,7 @@ import {
 	SearchableList,
 	MasculineButton,
 	useTitle,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import api from '../../remote-api/concepts-api';
 
 const ConceptsHome = () => {

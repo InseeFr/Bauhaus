@@ -7,7 +7,7 @@ import api from '../../../remote-api/concepts-collection-api';
 import FileSaver from 'file-saver';
 import { CollectionExportModal } from '../modal';
 import { useSelector } from 'react-redux';
-import { Auth } from 'bauhaus-utilities';
+import { Auth } from 'js/utils';
 
 const CollectionVisualizationControls = ({
 	isValidated,

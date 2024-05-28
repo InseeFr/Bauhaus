@@ -3,7 +3,7 @@ import { PageTitle, PageSubtitle, Loading } from '@inseefr/wilco';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 import CollectionMembers from './members';
-import { CheckSecondLang, withTitle } from 'bauhaus-utilities';
+import { CheckSecondLang, withTitle } from 'js/utils';
 import D from 'js/i18n';
 
 const CollectionVisualization = ({

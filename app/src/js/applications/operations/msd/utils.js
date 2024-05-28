@@ -1,6 +1,6 @@
 import { rangeType } from 'js/utils/msd/';
 import { DUPLICATE } from 'js/applications/operations/msd';
-import { HTMLUtils } from 'bauhaus-utilities';
+import { HTMLUtils } from 'js/utils';
 
 const { RICH_TEXT, TEXT, ORGANIZATION, DATE, GEOGRAPHY, CODE_LIST } = rangeType;
 

@@ -10,7 +10,7 @@ import {
 	useTitle,
 	CreationUpdateItems,
 	ErrorBloc,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import Components from './components';
 import { D1, D2 } from 'js/i18n';
 import { getDisseminationStatus } from '../utils/';

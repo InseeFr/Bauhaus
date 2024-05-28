@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Menu from './menu';
-import { RBACMock, Auth } from 'bauhaus-utilities';
+import { RBACMock, Auth } from 'js/utils';
 
 const classification = { id: 'pcs2020' };
 

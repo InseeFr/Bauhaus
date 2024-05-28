@@ -13,7 +13,7 @@ import {
 	Stores,
 	Row,
 	Auth,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import D, { D1, D2 } from 'js/i18n';
 import { connect, useSelector } from 'react-redux';
 import 'react-select/dist/react-select.css';

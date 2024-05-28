@@ -6,7 +6,7 @@ import General from './general';
 import Notes from './notes';
 import Levels from './levels';
 import D from 'js/i18n';
-import { CheckSecondLang, useTitle, ErrorBloc } from 'bauhaus-utilities';
+import { CheckSecondLang, useTitle, ErrorBloc } from 'js/utils';
 
 const ClassificationVisualization = (props) => {
 	const {

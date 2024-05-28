@@ -3,7 +3,7 @@ import { LOADING } from 'js/constants';
 import D, { D1, D2 } from 'js/i18n';
 import { getLang } from '@inseefr/wilco';
 import React, { useState, useEffect } from 'react';
-import { API, ArrayUtils } from 'bauhaus-utilities';
+import { API, ArrayUtils } from 'js/utils';
 import './style.scss';
 import { isLink, isDocument } from 'js/applications/operations/document/utils';
 

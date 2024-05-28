@@ -2,7 +2,7 @@ import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import D from 'js/i18n';
-import { CheckSecondLang, SearchableList } from 'bauhaus-utilities';
+import { CheckSecondLang, SearchableList } from 'js/utils';
 
 const ClassificationTree = ({ items, subtitle, classificationId }) => {
 	return (

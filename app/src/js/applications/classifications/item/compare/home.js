@@ -4,7 +4,7 @@ import Controls from './controls';
 import General from '../general';
 import CompareNotes from 'js/applications/shared/note-compare';
 import { buildNotes } from 'js/applications/classifications/utils/classification/notes';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang } from 'js/utils';
 
 const Compare = ({
 	classificationId,

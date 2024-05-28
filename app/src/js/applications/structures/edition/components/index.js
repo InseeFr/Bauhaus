@@ -7,7 +7,7 @@ import {
 } from '../../utils/constants';
 import StructureAPI from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI } from 'bauhaus-utilities';
+import { ConceptsAPI } from 'js/utils';
 import D from 'js/i18n';
 
 const Components = ({ componentDefinitions, onChange, structure = {} }) => {

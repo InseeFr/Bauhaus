@@ -2,7 +2,7 @@ import apiOrganisations from 'js/remote-api/organisations-api';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import loadStampList from 'js/actions/stamp';
 import * as A from 'js/actions/constants';
-import { CodesList } from 'bauhaus-utilities';
+import { CodesList } from '../../../utils';
 
 export const loadSetup = () => (dispatch) => {
 	loadCodesList([CL_SOURCE_CATEGORY, CL_FREQ], dispatch);

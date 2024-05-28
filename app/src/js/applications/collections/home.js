@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { SearchableList, useTitle } from 'bauhaus-utilities';
+import { SearchableList, useTitle } from 'js/utils';
 import { Menu } from './menu';
 
 const CollectionsHome = ({ collections }) => {

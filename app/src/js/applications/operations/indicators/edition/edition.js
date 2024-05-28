@@ -10,7 +10,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	RequiredIcon,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import PublishersInput from 'js/applications/operations/components/publishers-input';
 import CreatorsInput from 'js/components/creators-input';
 import { CL_FREQ } from 'js/actions/constants/codeList';

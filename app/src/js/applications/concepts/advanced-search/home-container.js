@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getContentDisposition, Loading } from '@inseefr/wilco';
 import ConceptSearchList from './home';
-import { ArrayUtils, Stores } from 'bauhaus-utilities';
+import { ArrayUtils, Stores } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import apiGlobal from '../../../remote-api/api';
 import FileSaver from 'file-saver';

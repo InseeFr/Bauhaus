@@ -10,7 +10,7 @@ import {
 	AdvancedSearchList,
 	useTitle,
 	useUrlQueryParameters,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const fields = ['prefLabelLg1'];

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { useTitle, SearchableList } from 'bauhaus-utilities';
+import { useTitle, SearchableList } from 'js/utils';
 
 const SeriesHome = ({ series }) => {
 	useTitle(D.classificationsTitle, D.seriesTitle);

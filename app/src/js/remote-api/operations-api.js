@@ -1,4 +1,4 @@
-import { API } from 'bauhaus-utilities';
+import { API } from 'js/utils';
 import simsApi from './operations/sims';
 import indicatorApi from './operations/indicator';
 import familyApi from './operations/family';
@@ -23,7 +23,7 @@ const api = {
 				'Content-Type': 'text/plain',
 			},
 		},
-		res => res,
+		(res) => res,
 	],
 };
 

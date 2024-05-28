@@ -8,7 +8,7 @@ import {
 	ClientSideError,
 	Row,
 	useTitle,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import { validate } from 'js/applications/operations/document/edition/validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';

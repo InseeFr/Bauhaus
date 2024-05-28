@@ -1,7 +1,7 @@
-import { API } from 'bauhaus-utilities';
+import { API } from 'js/utils';
 
 const api = {
-	getCodesList: notation => [`${notation}`],
+	getCodesList: (notation) => [`${notation}`],
 	getCode: (notation, code) => [`${notation}/code/${code}`],
 };
 

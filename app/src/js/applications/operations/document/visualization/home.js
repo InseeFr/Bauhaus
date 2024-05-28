@@ -2,7 +2,7 @@ import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from 'js/i18n';
 import React, { useEffect, useState } from 'react';
 import { LINK, isDocument, isLink } from '../utils';
-import { API, useTitle } from 'bauhaus-utilities';
+import { API, useTitle } from 'js/utils';
 import RelationsView from '../../shared/relations';
 
 function formatSims(sims) {

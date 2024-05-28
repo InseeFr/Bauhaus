@@ -19,7 +19,7 @@ import {
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
 	useTitle,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import { GlobalInformation } from './tabs/global-information';
 import { InternalManagement } from './tabs/internal-management';
 import { Notes } from './tabs/notes';

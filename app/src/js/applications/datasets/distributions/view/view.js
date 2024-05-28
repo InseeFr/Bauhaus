@@ -9,7 +9,7 @@ import {
 	Stores,
 	Row,
 	useTitle,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import { Loading, Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import React from 'react';

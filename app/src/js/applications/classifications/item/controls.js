@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { goBack, Button, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { Auth } from 'bauhaus-utilities';
+import { Auth } from 'js/utils';
 
 const ItemControls = (props) => {
 	const { classificationId, itemId, version } = props;

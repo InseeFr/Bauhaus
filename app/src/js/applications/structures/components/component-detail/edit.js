@@ -16,7 +16,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	Auth,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import { validate } from '../edition/validation';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
@@ -37,7 +37,7 @@ import { default as ReactSelect } from 'react-select';
 import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { FormGroup } from 'react-bootstrap';
-import { API } from 'bauhaus-codelists';
+import { API } from '../../../codelists/apis';
 import api from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
 

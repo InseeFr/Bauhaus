@@ -1,11 +1,11 @@
 import * as A from 'js/actions/constants';
 import { LOADED, ERROR } from 'js/constants';
-import { ArrayUtils } from 'bauhaus-utilities';
+import { ArrayUtils } from 'js/utils';
 
 const defaultState = {
 	results: [],
 };
-const operationsOrganisations = function(state = defaultState, action) {
+const operationsOrganisations = function (state = defaultState, action) {
 	switch (action.type) {
 		case A.LOAD_OPERATIONS_ORGANISATIONS_SUCCESS:
 			return {

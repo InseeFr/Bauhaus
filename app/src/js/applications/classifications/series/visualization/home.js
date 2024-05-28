@@ -4,7 +4,7 @@ import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Members from './members';
-import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
+import { CheckSecondLang, useTitle } from 'js/utils';
 import D from '../../../../i18n/build-dictionary';
 
 const SeriesVisualization = ({

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { Menu } from './menu';
-import { Auth, RBACMock } from 'bauhaus-utilities';
-import { COLLECTIONS_CREATOR } from 'bauhaus-utilities/src/auth/roles';
+import { Auth, RBACMock } from 'js/utils';
+import { COLLECTIONS_CREATOR } from 'js/utils/auth/roles';
 
 describe('Distributions Home Page Menu', () => {
 	it('an admin can create a new collection if he does not have the Gestionnaire_ensemble_concepts_RMESGNCS role', () => {

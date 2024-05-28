@@ -8,7 +8,7 @@ import {
 	PublicationFemale,
 	withTitle,
 	CreationUpdateItems,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import D from '../../../../i18n/build-dictionary';
 
 function OperationsFamilyVisualization({

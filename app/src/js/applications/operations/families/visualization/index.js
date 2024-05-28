@@ -16,7 +16,7 @@ import {
 	CheckSecondLang,
 	PageTitleBlock,
 	ErrorBloc,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 
 const Family = () => {
 	const { id } = useParams();

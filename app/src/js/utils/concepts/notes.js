@@ -1,5 +1,5 @@
 import { buildEmptyNotes } from '@inseefr/wilco';
-import { HTMLUtils } from 'bauhaus-utilities';
+import { HTMLUtils } from 'js/utils';
 
 export const versionableNotes = [
 	'scopeNoteLg1',

@@ -1,4 +1,4 @@
-import { API, ConceptsAPIRoutes } from 'bauhaus-utilities';
+import { API, ConceptsAPIRoutes } from 'js/utils';
 
 const api = {
 	...ConceptsAPIRoutes,

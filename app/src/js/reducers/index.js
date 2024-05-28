@@ -5,7 +5,7 @@ import classificationsReducers from './classifications';
 import operationsReducers from './operations';
 import codesListReducers from './operations/codesList';
 import organisationsReducers from './operations/organisations';
-import { Stores } from 'bauhaus-utilities';
+import { Stores } from 'js/utils';
 import remoteCalls from './remote-calls';
 
 export default combineReducers({

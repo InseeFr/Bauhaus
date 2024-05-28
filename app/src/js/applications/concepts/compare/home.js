@@ -4,7 +4,7 @@ import Controls from './controls';
 import ConceptGeneral from '../visualization/general';
 import CompareNotes from 'js/applications/shared/note-compare';
 import { buildNotes } from 'js/utils/concepts/notes';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang } from 'js/utils';
 
 const ConceptCompare = ({ id, conceptGeneral, notes, secondLang, langs }) => {
 	const { prefLabelLg1, prefLabelLg2 } = conceptGeneral;

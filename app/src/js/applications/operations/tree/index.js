@@ -8,7 +8,7 @@ import { PageTitle, ReturnButton, ActionToolbar } from '@inseefr/wilco';
 import { useGoBack } from 'js/hooks/hooks';
 
 import './tree.scss';
-import { useTitle } from 'bauhaus-utilities';
+import { useTitle } from 'js/utils';
 
 export const formatLeaf = (
 	leaf,
@@ -65,7 +65,7 @@ export const updateTree = (treeData, leaf, familyIndex, seriesIndex) => {
 };
 
 const TreeComponent = () => {
-	useTitle(D.operationsTitle, D.operationsTreeTitle)
+	useTitle(D.operationsTitle, D.operationsTreeTitle);
 
 	const [treeData, setTreeData] = useState([]);
 	const [selectedLeaf, setSelectedLeaf] = useState({});
@@ -73,7 +73,7 @@ const TreeComponent = () => {
 	const goBack = useGoBack();
 
 	useEffect(() => {
-		api.getFamiliesList().then(data => {
+		api.getFamiliesList().then((data) => {
 			setTreeData(
 				data.map((d, index) =>
 					formatLeaf(d, index, undefined, '/operations/family/')
@@ -132,14 +132,14 @@ const TreeComponent = () => {
 					<div style={{ height: '100vh' }}>
 						<SortableTree
 							treeData={treeData}
-							onChange={treeData => setTreeData(treeData)}
-							onVisibilityToggle={visibilityToggleEvent => {
+							onChange={(treeData) => setTreeData(treeData)}
+							onVisibilityToggle={(visibilityToggleEvent) => {
 								setSelectedLeaf(visibilityToggleEvent);
 							}}
 							canDrag={false}
 							canDrop={() => false}
 							canNodeHaveChildren={() => true}
-							generateNodeProps={rowInfo => ({
+							generateNodeProps={(rowInfo) => ({
 								buttons: [
 									!rowInfo.node.url && <em>{D.loadableLoading}</em>,
 									rowInfo.node.url && (

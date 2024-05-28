@@ -8,7 +8,7 @@ import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import { Loading } from '@inseefr/wilco';
 import { CLOSE_MATCH } from 'js/constants';
-import { ArrayUtils, HTMLUtils, Stores } from 'bauhaus-utilities';
+import { ArrayUtils, HTMLUtils, Stores } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import globalApi from '../../../remote-api/api';
 import { emptyNotes } from '../../../utils/concepts/notes';

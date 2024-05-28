@@ -5,7 +5,7 @@ import {
 	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
-import { Auth, ValidationButton } from 'bauhaus-utilities';
+import { Auth, ValidationButton } from 'js/utils';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import D from '../../../../i18n/build-dictionary';

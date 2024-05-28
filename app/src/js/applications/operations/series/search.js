@@ -12,7 +12,7 @@ import {
 	Stores,
 	useTitle,
 	useUrlQueryParameters,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
 import { useCodesList } from '../../../hooks/hooks';
 

@@ -1,5 +1,5 @@
 import D from 'js/i18n';
-import { DateItem } from 'bauhaus-utilities';
+import { DateItem } from 'js/utils';
 
 export const rowParams = {
 	creations: [
@@ -27,7 +27,7 @@ export const rowParams = {
 			text: D.createdDateTitle,
 			width: '17%',
 			sort: true,
-			formatter: d => <DateItem date={d}/>,
+			formatter: (d) => <DateItem date={d} />,
 		},
 		{
 			dataField: 'isValidated',
@@ -61,7 +61,7 @@ export const rowParams = {
 			text: D.createdDateTitle,
 			width: '17%',
 			sort: true,
-			formatter: d => <DateItem date={d}/>,
+			formatter: (d) => <DateItem date={d} />,
 		},
 		{
 			dataField: 'isValidated',

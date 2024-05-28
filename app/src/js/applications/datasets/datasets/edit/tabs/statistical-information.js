@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { withCodesLists } from 'js/hooks/hooks';
 import ReactSelect from 'react-select';
 import StructureAPI from '../../../../structures/apis/structure-api';
-import { Row } from 'bauhaus-utilities';
+import { Row } from 'js/utils';
 import { TemporalField } from '../../components/temporalField';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
 

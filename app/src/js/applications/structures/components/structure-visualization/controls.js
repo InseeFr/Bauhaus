@@ -7,7 +7,7 @@ import {
 	DeleteButton,
 	DuplicateButton,
 } from '@inseefr/wilco';
-import { Auth, ValidationButton } from 'bauhaus-utilities';
+import { Auth, ValidationButton } from 'js/utils';
 import StructureAPI from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
 

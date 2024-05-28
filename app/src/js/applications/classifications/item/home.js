@@ -4,7 +4,7 @@ import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Narrowers from './narrowers';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang } from 'js/utils';
 
 const ItemVisualization = ({
 	item: { general, notes, narrowers },
@@ -38,7 +38,6 @@ const ItemVisualization = ({
 				classificationId={classificationId}
 				secondLang={secondLang}
 			/>
-
 		</div>
 	);
 };

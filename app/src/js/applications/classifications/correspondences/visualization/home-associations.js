@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Note, Table } from '@inseefr/wilco';
 import D, { D1 } from 'js/i18n';
-import { ArrayUtils } from 'bauhaus-utilities';
+import { ArrayUtils } from 'js/utils';
 
 const sortById = ArrayUtils.sortArray('id');
 

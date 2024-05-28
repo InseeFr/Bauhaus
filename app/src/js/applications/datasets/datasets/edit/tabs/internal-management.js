@@ -6,7 +6,7 @@ import api from '../../../api/datasets-api';
 import operationSeries from 'js/remote-api/operations-api';
 import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
-import { ClientSideError, Row, StampsApi, Stores } from 'bauhaus-utilities';
+import { ClientSideError, Row, StampsApi, Stores } from 'js/utils';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
 
 const InternalManagementTab = ({
