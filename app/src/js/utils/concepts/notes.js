@@ -32,8 +32,6 @@ export const buildNotes = (n) => [
 export const capitalizeFirst = (str) =>
 	str.charAt(0).toUpperCase() + str.slice(1);
 
-export const createNotes = (notes) => {};
-
 export const processChanges = (oldNotes, notes, fields) =>
 	fields.reduce((changes, noteType) => {
 		const oldContent = oldNotes[noteType];

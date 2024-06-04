@@ -51,7 +51,7 @@ export const DistributionEdit = (props) => {
 	const queryClient = useQueryClient();
 
 	const { isLoading: isSaving, mutate: save } = useMutation(
-		(id) => {
+		() => {
 			if (isEditing) {
 				return api.putDistribution(editingDistribution);
 			}

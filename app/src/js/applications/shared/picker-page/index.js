@@ -70,7 +70,7 @@ const Picker = ({
 		handleUpdateIds();
 	};
 
-	const handleClickValid = (e) => {
+	const handleClickValid = () => {
 		const message = added.length === 0 ? labelWarning : '';
 		if (!!message) {
 			setClientSideErrors(message);

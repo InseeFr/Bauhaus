@@ -148,7 +148,7 @@ export const DatasetEdit = (props) => {
 	const queryClient = useQueryClient();
 
 	const { isLoading: isSaving, mutate: save } = useMutation(
-		(id) => {
+		() => {
 			const formattedDataset = { themes: [], ...editingDataset };
 			if (isEditing) {
 				return api.putDataset(formattedDataset);

@@ -79,7 +79,7 @@ export const ConfirmationModal = ({ document, isOpen, onYes, onNo }) => {
 		},
 	];
 
-	const buttons = modalButtons.map((b, i) => (
+	const buttons = modalButtons.map((b) => (
 		<button
 			key={`${b.label}`}
 			type="button"
