@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Loading, Deleting, Publishing } from './Loading';
+import { Loading, Deleting, Publishing } from './loading';
 import D from '../i18n';
 
 jest.mock('../i18n', () => ({
