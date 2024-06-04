@@ -8,7 +8,7 @@ import { PageTitle, ReturnButton, ActionToolbar } from '@inseefr/wilco';
 import { useGoBack } from 'js/hooks/hooks';
 
 import './tree.scss';
-import { useTitle } from 'js/utils';
+import { Row, useTitle } from 'js/utils';
 
 export const formatLeaf = (
 	leaf,
@@ -127,7 +127,7 @@ const TreeComponent = () => {
 			<ActionToolbar>
 				<ReturnButton action={() => goBack('/operations')} />
 			</ActionToolbar>
-			<div className="row">
+			<Row>
 				<div className="col-md-12 text-center pull-right operations-list">
 					<div style={{ height: '100vh' }}>
 						<SortableTree
@@ -141,7 +141,6 @@ const TreeComponent = () => {
 							canNodeHaveChildren={() => true}
 							generateNodeProps={(rowInfo) => ({
 								buttons: [
-									!rowInfo.node.url && <em>{D.loadableLoading}</em>,
 									rowInfo.node.url && (
 										<Link to={rowInfo.node.url}>
 											{rowInfo.node.label || rowInfo.node.labelLg1}
@@ -152,7 +151,7 @@ const TreeComponent = () => {
 						/>
 					</div>
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 };
