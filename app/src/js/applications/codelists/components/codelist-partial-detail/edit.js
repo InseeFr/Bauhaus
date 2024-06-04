@@ -22,7 +22,7 @@ import Picker from './picker';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import '../codelist-detail/edit.scss';
-import MainDictionary from '../../../../i18n/build-dictionary';
+import MainDictionary from 'js/i18n/build-dictionary';
 import { useSelector } from 'react-redux';
 
 const defaultCodelist = {
@@ -309,7 +309,7 @@ const DumbCodelistPartialDetailEdit = ({
 				</div>
 				<div className="form-group">
 					<LabelRequired htmlFor="disseminationStatus">
-						{D1.disseminationStatusTitle}
+						{MainDictionary.disseminationStatusTitle}
 					</LabelRequired>
 					<Select
 						className="form-control"

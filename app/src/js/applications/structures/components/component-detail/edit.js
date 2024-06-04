@@ -40,6 +40,7 @@ import { FormGroup } from 'react-bootstrap';
 import { API } from '../../../codelists/apis';
 import api from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
+import MainDictionary from 'js/i18n/build-dictionary';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -610,7 +611,7 @@ const DumbComponentDetailEdit = ({
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D1.disseminationStatusTitle}</label>
+					<label>{MainDictionary.disseminationStatusTitle}</label>
 					<Select
 						className="form-control"
 						placeholder={D1.disseminationStatusPlaceholder}

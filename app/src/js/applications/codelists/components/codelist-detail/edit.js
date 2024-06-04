@@ -282,7 +282,7 @@ const DumbCodelistDetailEdit = ({
 				</div>
 				<div className="form-group">
 					<LabelRequired htmlFor="disseminationStatus">
-						{D1.disseminationStatusTitle}
+						{MainDictionary.disseminationStatusTitle}
 					</LabelRequired>
 					<Select
 						className="form-control"

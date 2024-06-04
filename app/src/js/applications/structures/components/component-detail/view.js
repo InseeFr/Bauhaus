@@ -209,7 +209,7 @@ export const ComponentDetailView = ({
 								{D.contributor} : {component.contributor}
 							</li>
 							<li>
-								{D.disseminationStatusTitle} :{' '}
+								{MainDictionary.disseminationStatusTitle} :{' '}
 								{getDisseminationStatus(component.disseminationStatus)}
 							</li>
 						</ul>

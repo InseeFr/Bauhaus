@@ -1,6 +1,7 @@
 import React from 'react';
 import { getTreeFromFlatData } from 'react-sortable-tree';
 import D, { D1, D2 } from '../i18n/build-dictionary';
+import MainDictionary from 'js/i18n/build-dictionary';
 
 export const formatLabel = (component) => {
 	return <React.Fragment>{component.labelLg1}</React.Fragment>;
@@ -48,9 +49,11 @@ export const validateCodelist = (codelist) => {
 	}
 
 	if (!codelist.disseminationStatus) {
-		errorMessage.push(D.mandatoryProperty(D.disseminationStatusTitle));
+		errorMessage.push(
+			D.mandatoryProperty(MainDictionary.disseminationStatusTitle)
+		);
 		fields.disseminationStatus = D.mandatoryProperty(
-			D.disseminationStatusTitle
+			MainDictionary.disseminationStatusTitle
 		);
 	}
 
@@ -93,9 +96,11 @@ export const validatePartialCodelist = (codelist) => {
 	}
 
 	if (!codelist.disseminationStatus) {
-		errorMessage.push(D.mandatoryProperty(D.disseminationStatusTitle));
+		errorMessage.push(
+			D.mandatoryProperty(MainDictionary.disseminationStatusTitle)
+		);
 		fields.disseminationStatus = D.mandatoryProperty(
-			D.disseminationStatusTitle
+			MainDictionary.disseminationStatusTitle
 		);
 	}
 
