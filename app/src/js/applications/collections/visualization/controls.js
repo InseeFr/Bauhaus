@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import { ActionToolbar, Button, getContentDisposition } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import D from 'js/i18n';
@@ -90,4 +89,4 @@ const CollectionVisualizationControls = ({
 	);
 };
 
-export default withRouter(CollectionVisualizationControls);
+export default CollectionVisualizationControls;
