@@ -3,6 +3,7 @@ import { Button } from '@inseefr/wilco';
 import Modal from 'react-modal';
 import React, { useCallback, useState } from 'react';
 import './index.scss';
+import { Row } from '../../../utils';
 
 export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 	const [lang, setLang] = useState('lg1');
@@ -55,7 +56,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 				</div>
 
 				<div className="modal-body export-modal-body">
-					<div className="row">
+					<Row>
 						<div className="col-md-offset-1">
 							<input
 								id="withConcepts"
@@ -67,7 +68,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 								{D.exportConcepts}
 							</label>
 						</div>
-					</div>
+					</Row>
 					<fieldset className="row">
 						<legend>{D.exportLgTitle}</legend>
 						<div className="col-md-offset-1 form-check">

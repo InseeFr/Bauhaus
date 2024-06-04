@@ -5,6 +5,7 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
+	Row,
 } from 'js/utils';
 import { validateCode } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
@@ -85,7 +86,7 @@ const DumbCodeDetailEdit = ({
 			)}
 			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 			<div>
-				<div className="row">
+				<Row>
 					<div className="col-md-12 form-group">
 						<label htmlFor="parents">{D.parentCodeTitle}</label>
 						<Select
@@ -110,8 +111,8 @@ const DumbCodeDetailEdit = ({
 							multi
 						/>
 					</div>
-				</div>
-				<div className="row">
+				</Row>
+				<Row>
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="code">{D.idTitle}</LabelRequired>
 						<input
@@ -132,9 +133,9 @@ const DumbCodeDetailEdit = ({
 							error={clientSideErrors?.fields?.code}
 						></ClientSideError>
 					</div>
-				</div>
-				<div className="row">
-					<div className={`col-md-6 form-group`}>
+				</Row>
+				<Row>
+					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg1">{D1.codeLabel}</LabelRequired>
 						<input
 							type="text"
@@ -172,9 +173,9 @@ const DumbCodeDetailEdit = ({
 							error={clientSideErrors?.fields?.labelLg2}
 						></ClientSideError>
 					</div>
-				</div>
+				</Row>
 
-				<div className="row">
+				<Row>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
 						<input
@@ -197,7 +198,7 @@ const DumbCodeDetailEdit = ({
 							onChange={handleChange}
 						/>
 					</div>
-				</div>
+				</Row>
 			</div>
 			<ActionToolbar>
 				<button

@@ -16,6 +16,7 @@ import {
 	ClientSideError,
 	CodesList,
 	Auth,
+	Row,
 } from 'js/utils';
 import Picker from './picker';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
@@ -186,7 +187,7 @@ const DumbCodelistPartialDetailEdit = ({
 				<ErrorBloc error={serverSideError} D={MainDictionary} />
 			)}
 			<form>
-				<div className="row">
+				<Row>
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="id">{D1.idTitle}</LabelRequired>
 						<input
@@ -207,8 +208,8 @@ const DumbCodelistPartialDetailEdit = ({
 							error={clientSideErrors?.fields?.id}
 						></ClientSideError>
 					</div>
-				</div>
-				<div className="row">
+				</Row>
+				<Row>
 					<div className={`col-md-12 form-group`}>
 						<LabelRequired htmlFor="parentCode">
 							{D1.parentCodelist}
@@ -229,9 +230,9 @@ const DumbCodelistPartialDetailEdit = ({
 							error={clientSideErrors?.fields?.parentCode}
 						></ClientSideError>
 					</div>
-				</div>
-				<div className="row">
-					<div className={`col-md-6 form-group`}>
+				</Row>
+				<Row>
+					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg1">{D1.labelTitle}</LabelRequired>
 						<input
 							type="text"
@@ -269,7 +270,7 @@ const DumbCodelistPartialDetailEdit = ({
 							error={clientSideErrors?.fields?.labelLg2}
 						></ClientSideError>
 					</div>
-				</div>
+				</Row>
 				<div className="form-group">
 					<LabelRequired htmlFor="creator">{D1.creator}</LabelRequired>
 					<Select
@@ -331,7 +332,7 @@ const DumbCodelistPartialDetailEdit = ({
 						error={clientSideErrors?.fields?.disseminationStatus}
 					></ClientSideError>
 				</div>
-				<div className="row">
+				<Row>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
 						<textarea
@@ -352,7 +353,7 @@ const DumbCodelistPartialDetailEdit = ({
 							onChange={handleChange}
 						/>
 					</div>
-				</div>
+				</Row>
 				<div>
 					{parentCodes && (
 						<Picker

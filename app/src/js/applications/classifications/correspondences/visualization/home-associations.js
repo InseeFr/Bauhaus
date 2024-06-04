@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Note, Table } from '@inseefr/wilco';
 import D, { D1 } from 'js/i18n';
-import { ArrayUtils } from 'js/utils';
+import { ArrayUtils, Row } from 'js/utils';
 
 const sortById = ArrayUtils.sortArray('id');
 
@@ -50,7 +50,7 @@ const HomeAssociations = ({ id, associations, correspondence, secondLang }) => {
 		},
 	];
 	return (
-		<div className="row">
+		<Row>
 			<Note
 				text={
 					<Table
@@ -66,7 +66,7 @@ const HomeAssociations = ({ id, associations, correspondence, secondLang }) => {
 				alone={true}
 				allowEmpty={true}
 			/>
-		</div>
+		</Row>
 	);
 };
 

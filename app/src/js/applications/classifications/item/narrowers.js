@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
+import { Row } from '../../../utils';
 
 export default ({ narrowers, classificationId, secondLang }) => {
-	if(!narrowers || narrowers?.length === 0){
+	if (!narrowers || narrowers?.length === 0) {
 		return null;
 	}
 
@@ -30,9 +31,9 @@ export default ({ narrowers, classificationId, secondLang }) => {
 				</li>
 			) : null
 		);
-	const isMembersLg2 = narrowersLg2.filter(m => m !== null).length !== 0;
+	const isMembersLg2 = narrowersLg2.filter((m) => m !== null).length !== 0;
 	return (
-		<div className="row">
+		<Row>
 			<Note
 				text={<ul>{narrowersLg1}</ul>}
 				title={D1.classificationsNarrowerItems}
@@ -47,6 +48,6 @@ export default ({ narrowers, classificationId, secondLang }) => {
 					allowEmpty={true}
 				/>
 			)}
-		</div>
+		</Row>
 	);
 };

@@ -15,6 +15,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	Auth,
+	Row,
 } from 'js/utils';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
@@ -104,8 +105,8 @@ const DumbCodelistDetailEdit = ({
 				<ErrorBloc error={serverSideError} D={MainDictionary} />
 			)}
 			<form>
-				<div className="row">
-					<div className={`col-md-12 form-group`}>
+				<Row>
+					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="lastListUriSegment">
 							{D1.lastListUriSegmentTitle}
 						</LabelRequired>
@@ -129,9 +130,9 @@ const DumbCodelistDetailEdit = ({
 							error={clientSideErrors?.fields?.lastListUriSegment}
 						></ClientSideError>
 					</div>
-				</div>
-				<div className="row">
-					<div className={`col-md-12 form-group`}>
+				</Row>
+				<Row>
+					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="lastCodeUriSegment">
 							{D1.lastCodeUriSegmentTitle}
 						</LabelRequired>
@@ -155,9 +156,9 @@ const DumbCodelistDetailEdit = ({
 							error={clientSideErrors?.fields?.lastCodeUriSegment}
 						></ClientSideError>
 					</div>
-				</div>
-				<div className="row">
-					<div className={`col-md-12 form-group`}>
+				</Row>
+				<Row>
+					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="lastClassUriSegment">
 							{D1.lastClassUriSegmentTitle}
 						</LabelRequired>
@@ -181,8 +182,8 @@ const DumbCodelistDetailEdit = ({
 							error={clientSideErrors?.fields?.lastClassUriSegment}
 						></ClientSideError>
 					</div>
-				</div>
-				<div className="row">
+				</Row>
+				<Row>
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="id">{D1.idTitle}</LabelRequired>
 						<input
@@ -202,9 +203,9 @@ const DumbCodelistDetailEdit = ({
 							error={clientSideErrors?.fields?.id}
 						></ClientSideError>
 					</div>
-				</div>
-				<div className="row">
-					<div className={`col-md-6 form-group`}>
+				</Row>
+				<Row>
+					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg1">{D1.labelTitle}</LabelRequired>
 						<input
 							type="text"
@@ -242,7 +243,7 @@ const DumbCodelistDetailEdit = ({
 							error={clientSideErrors?.fields?.labelLg2}
 						></ClientSideError>
 					</div>
-				</div>
+				</Row>
 				<div className="form-group">
 					<LabelRequired htmlFor="creator">{D1.creator}</LabelRequired>
 					<Select
@@ -304,7 +305,7 @@ const DumbCodelistDetailEdit = ({
 						error={clientSideErrors?.fields?.disseminationStatus}
 					></ClientSideError>
 				</div>
-				<div className="row">
+				<Row>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
 						<textarea
@@ -327,7 +328,7 @@ const DumbCodelistDetailEdit = ({
 							onChange={handleChange}
 						/>
 					</div>
-				</div>
+				</Row>
 			</form>
 			{updateMode && (
 				<CodesCollapsiblePanel codelist={codelist} editable={true} />

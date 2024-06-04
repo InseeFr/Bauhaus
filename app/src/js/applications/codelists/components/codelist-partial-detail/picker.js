@@ -10,6 +10,7 @@ import {
 	ActionToolbar,
 } from '@inseefr/wilco';
 import '../codelist-detail/edit.scss';
+import { Row } from '../../../../utils';
 
 const Picker = ({
 	panelTitle,
@@ -73,7 +74,7 @@ const Picker = ({
 					{D.addAll}
 				</button>
 			</ActionToolbar>
-			<div className="row">
+			<Row>
 				<div className="col-md-6">
 					<Panel title={panelTitle}>{addedElements}</Panel>
 				</div>
@@ -87,7 +88,7 @@ const Picker = ({
 					/>
 					<Pagination itemEls={toAddElements} itemsPerPage="10" />
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 };

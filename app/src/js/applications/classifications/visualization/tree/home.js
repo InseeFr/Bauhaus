@@ -3,7 +3,7 @@ import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import DnDTree from 'js/applications/shared/tree/dnd';
 import D from 'js/i18n';
-import { CheckSecondLang, useTitle } from 'js/utils';
+import { CheckSecondLang, Row, useTitle } from 'js/utils';
 
 const ClassificationTree = ({ data, prefLabel }) => {
 	useTitle(
@@ -19,11 +19,11 @@ const ClassificationTree = ({ data, prefLabel }) => {
 				<CheckSecondLang />
 
 				{data.length !== 0 && (
-					<div className="row">
+					<Row>
 						<div className="col-md-12">
 							<DnDTree treeData={data} linkPath={(id) => `item/${id}`} />
 						</div>
-					</div>
+					</Row>
 				)}
 			</div>
 		</div>

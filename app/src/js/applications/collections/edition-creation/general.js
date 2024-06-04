@@ -2,7 +2,7 @@ import React from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import InputRmes from 'js/applications/shared/input-rmes';
 import { fields as generalFields } from 'js/utils/collections/general';
-import { RequiredIcon } from 'js/utils';
+import { RequiredIcon, Row } from 'js/utils';
 import CreatorsInput from 'js/components/creators-input';
 
 const handleFieldChange = (handleChange) =>
@@ -29,7 +29,7 @@ function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 			<h4 className="text-center">
 				( <RequiredIcon /> : {D.requiredFields})
 			</h4>
-			<div className="row">
+			<Row>
 				<InputRmes
 					colMd={12}
 					label={D1.idTitle}
@@ -40,8 +40,8 @@ function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 					handleChange={handlers.id}
 					className="w-100"
 				/>
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<InputRmes
 					colMd={6}
 					label={D1.labelTitle}
@@ -60,7 +60,7 @@ function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 					handleChange={handlers.prefLabelLg2}
 					className="w-100"
 				/>
-			</div>
+			</Row>
 
 			<div className="form-group">
 				<CreatorsInput
@@ -78,7 +78,7 @@ function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 					disabled
 				/>
 			</div>
-			<div className="row">
+			<Row>
 				<InputRmes
 					colMd={6}
 					label={D1.descriptionTitle}
@@ -95,7 +95,7 @@ function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 					handleChange={handlers.descriptionLg2}
 					className="w-100"
 				/>
-			</div>
+			</Row>
 		</div>
 	);
 }

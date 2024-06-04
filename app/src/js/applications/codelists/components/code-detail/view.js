@@ -1,7 +1,7 @@
 import React from 'react';
 import { Note, ActionToolbar, ReturnButton, ErrorBloc } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { HTMLUtils } from 'js/utils';
+import { HTMLUtils, Row } from 'js/utils';
 import './view.scss';
 
 export const CodeDetailView = ({
@@ -29,7 +29,7 @@ export const CodeDetailView = ({
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
 
-			<div className="row">
+			<Row>
 				<Note
 					text={
 						<ul>
@@ -47,17 +47,17 @@ export const CodeDetailView = ({
 					title={D1.parentCodeTitle}
 					alone={true}
 				/>
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note text={code.code} title={D.codeTitle} alone={true} />
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note text={code.labelLg1} title={D1.codeLabel} alone={!secondLang} />
 				{secondLang && (
 					<Note text={code.labelLg2} title={D2.codeLabel} alone={false} />
 				)}
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note
 					text={descriptionLg1}
 					title={D1.codeDescription}
@@ -72,7 +72,7 @@ export const CodeDetailView = ({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 		</React.Fragment>
 	);
 };

@@ -6,7 +6,7 @@ import General from './general';
 import Notes from './notes';
 import Levels from './levels';
 import D from 'js/i18n';
-import { CheckSecondLang, useTitle, ErrorBloc } from 'js/utils';
+import { CheckSecondLang, useTitle, ErrorBloc, Row } from 'js/utils';
 
 const ClassificationVisualization = (props) => {
 	const {
@@ -32,7 +32,7 @@ const ClassificationVisualization = (props) => {
 		<div className="container">
 			<PageTitle title={general.prefLabelLg1} />
 			{general.prefLabelLg2 && <PageSubtitle subTitle={general.prefLabelLg2} />}
-			<div className="row">
+			<Row>
 				<div className="col-md-12 text-center">
 					<Link
 						to={`/classifications/classification/${classificationId}/items`}
@@ -43,7 +43,7 @@ const ClassificationVisualization = (props) => {
 						</h3>
 					</Link>
 				</div>
-			</div>
+			</Row>
 			<Menu classification={general} publish={publish} />
 			<CheckSecondLang />
 			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}

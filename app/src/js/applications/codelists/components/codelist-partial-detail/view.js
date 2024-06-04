@@ -17,6 +17,7 @@ import {
 	ConfirmationDelete,
 	CreationUpdateItems,
 	Auth,
+	Row,
 } from 'js/utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
@@ -72,7 +73,7 @@ export const CodeListPartialDetailView = ({
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
 			{
-				<div className="row">
+				<Row>
 					<Note
 						text={
 							<ul>
@@ -104,9 +105,9 @@ export const CodeListPartialDetailView = ({
 						title={D.globalInformationsTitle}
 						alone={true}
 					/>
-				</div>
+				</Row>
 			}
-			<div className="row">
+			<Row>
 				<Note
 					text={descriptionLg1}
 					title={D1.descriptionTitle}
@@ -122,9 +123,9 @@ export const CodeListPartialDetailView = ({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 			{codelist.codes && (
-				<div className="row">
+				<Row>
 					<CollapsiblePanel
 						id="code-array"
 						hidden={hidden}
@@ -136,7 +137,7 @@ export const CodeListPartialDetailView = ({
 							/>
 						}
 					/>
-				</div>
+				</Row>
 			)}
 		</React.Fragment>
 	);

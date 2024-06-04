@@ -3,7 +3,7 @@ import { PageTitle, VerticalMenu, Loading } from '@inseefr/wilco';
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import { useTitle, SearchableList, Auth, FeminineButton } from 'js/utils';
+import { useTitle, SearchableList, Auth, FeminineButton, Row } from 'js/utils';
 
 function CodeListsPartialHome() {
 	useTitle(D.codelistsTitle, D.codelistsPartialTitle);
@@ -23,7 +23,7 @@ function CodeListsPartialHome() {
 	}
 	return (
 		<div className="container codelists-list">
-			<div className="row">
+			<Row>
 				<VerticalMenu>
 					<Auth.AuthGuard roles={[Auth.ADMIN]}>
 						<FeminineButton action="/codelists-partial/create" />
@@ -45,7 +45,7 @@ function CodeListsPartialHome() {
 						itemFormatter={(_, codelist) => formatLabel(codelist)}
 					/>
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 }

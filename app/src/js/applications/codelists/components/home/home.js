@@ -3,7 +3,7 @@ import { PageTitle, Loading } from '@inseefr/wilco';
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import { useTitle, SearchableList } from 'js/utils';
+import { useTitle, SearchableList, Row } from 'js/utils';
 import { HomePageMenu } from './menu';
 
 function CodeListsList() {
@@ -24,7 +24,7 @@ function CodeListsList() {
 	}
 	return (
 		<div className="container codelists-list">
-			<div className="row">
+			<Row>
 				<HomePageMenu />
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.codelistHomePageTitle} col={12} offset={0} />
@@ -38,7 +38,7 @@ function CodeListsList() {
 						itemFormatter={(_, codelist) => formatLabel(codelist)}
 					/>
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 }
