@@ -316,6 +316,7 @@ class SimsCreation extends React.Component {
 
 									{mode !== DUPLICATE && (
 										<ReactSelect
+											className="bauhaus-sims-duplicate"
 											placeholder={D.createFromAnExistingReport}
 											value={operationsWithSimsOptions.find(
 												({ value }) => value === idParent
@@ -324,6 +325,7 @@ class SimsCreation extends React.Component {
 											onChange={this.onSiblingSimsChange()}
 											disabled={this.state.changed}
 											searchable
+											autofocus
 										/>
 									)}
 								</React.Fragment>
