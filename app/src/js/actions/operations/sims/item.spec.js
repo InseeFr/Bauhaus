@@ -152,10 +152,10 @@ describe('SIMS actions', () => {
 		});
 
 		describe.each`
-			method            | id
-			${'getOperation'} | ${'idOperation'}
-			${'getSerie'}     | ${'idSeries'}
-			${'getIndicator'} | ${'idIndicator'}
+			method                | id
+			${'getOperation'}     | ${'idOperation'}
+			${'getSerie'}         | ${'idSeries'}
+			${'getIndicatorById'} | ${'idIndicator'}
 		`('get labels from parent', ({ method, id }) => {
 			const apis = ['getOperation', 'getSerie', 'getIndicatorById'];
 

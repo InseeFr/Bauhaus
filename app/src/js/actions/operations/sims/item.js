@@ -37,7 +37,7 @@ function getFetchLabelsPromise(sims, promise) {
 	}
 	if (sims.idIndicator) {
 		return api
-			.getIndicator(sims.idIndicator)
+			.getIndicatorById(sims.idIndicator)
 			.then((parent) => mergeLabels(parent));
 	}
 	return promise;
