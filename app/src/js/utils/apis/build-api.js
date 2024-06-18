@@ -6,7 +6,7 @@ import { getEnvVar } from '../utils/env';
 
 const apiURL = `${window.location.origin}/configuration.json`;
 
-export const removeTrailingSlash = url => url.replace(/\/$/, '');
+export const removeTrailingSlash = (url) => url.replace(/\/$/, '');
 
 export const buildApi = (context, api) => {
 	return Object.keys(api).reduce((apiFns, resource) => {
@@ -25,7 +25,7 @@ export const defaultOptions = {
 	},
 };
 
-export const defaultThenHandler = res => res.json();
+export const defaultThenHandler = (res) => res.json();
 
 export const computeDscr = (fn, [...args]) => {
 	const dscr = fn(...args);
@@ -77,14 +77,14 @@ export const buildCall = (context, resource, fn) => {
 			`${baseURI}${context ? `/${context}` : ''}`
 		);
 
-		const url = `${baseHost}/${path}`;
+		const url = path !== '' ? `${baseHost}/${path}` : baseHost;
 
 		return fetch(url, options).then(
-			res => {
+			(res) => {
 				if (res.ok) return Promise.resolve(res).then(thenHandler);
-				else return res.text().then(text => Promise.reject(text));
+				else return res.text().then((text) => Promise.reject(text));
 			},
-			err => {
+			(err) => {
 				return Promise.reject(err.toString());
 			}
 		);
@@ -100,8 +100,10 @@ const patterns = [
 /**
  * Takes a string and returns an HTTP verb
  */
-export const guessMethod = name => {
-	const matchPattern = patterns.find(([_method, pattern]) => pattern.test(name));
+export const guessMethod = (name) => {
+	const matchPattern = patterns.find(([_method, pattern]) =>
+		pattern.test(name)
+	);
 	if (!matchPattern)
 		throw new Error(`Could not guess http method from \`${name}\``);
 	const [method] = matchPattern;
