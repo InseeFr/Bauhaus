@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { PageTitle, Loading } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { ArrayUtils, SearchableList, useTitle } from 'bauhaus-utilities';
 import api from '../../remote-api/concepts-api';
 import { Menu } from './menu';
+import { SearchableList, useTitle } from '../../utils';
+import * as ArrayUtils from '../../utils/utils/array-utils';
 
 const ConceptsHome = () => {
 	useTitle(D.conceptsTitle, D.conceptsTitle);

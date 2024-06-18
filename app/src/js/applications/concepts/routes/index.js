@@ -19,7 +19,7 @@ import CollectionsToExportContainer from 'js/applications/collections/export/hom
 import Administration from 'js/applications/administration/home';
 import ConceptsDashboard from 'js/applications/administration/dashboard/concepts/home-container';
 import D from 'js/i18n';
-import Menu from 'js/applications/concepts/menu';
+import { Menu } from '../menu';
 
 export default () => {
 	document.title = 'Bauhaus - ' + D.conceptsTitle;

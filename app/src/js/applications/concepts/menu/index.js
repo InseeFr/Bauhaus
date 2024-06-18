@@ -4,7 +4,7 @@ import { getLang, Menu } from '@inseefr/wilco';
 import { useLocation } from 'react-router-dom';
 const defaultAttrs = { 'aria-current': 'page' };
 
-export const MenuConcepts = () => {
+const MenuConcepts = () => {
 	const location = useLocation();
 	const activePath = location.pathname;
 	if (activePath === '/') return null;
