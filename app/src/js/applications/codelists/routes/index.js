@@ -11,12 +11,9 @@ import CodesListEdit from '../components/codelist-detail/edit-context';
 import PartialCodesListView from '../components/codelist-partial-detail/view-container';
 import PartialCodesListEdit from '../components/codelist-partial-detail/edit-container';
 
-import D from '../i18n/build-dictionary';
-
 const CodesListComponent = () => {
 	document.getElementById('root-app').classList = ['codelists'];
 
-	document.title = 'Bauhaus - ' + D.codelistsTitle;
 	return (
 		<>
 			<Menu />
