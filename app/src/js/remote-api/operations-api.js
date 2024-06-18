@@ -1,14 +1,13 @@
 import { API } from 'js/utils';
 import simsApi from './operations/sims';
 import indicatorApi from './operations/indicator';
-import familyApi from './operations/family';
 import seriesApi from './operations/series';
 import operationsApi from './operations/operation';
 
 const api = {
 	...simsApi,
 	...indicatorApi,
-	...familyApi,
+	...API.generateGenericApiEndpoints('families', 'family'),
 	...seriesApi,
 	...operationsApi,
 

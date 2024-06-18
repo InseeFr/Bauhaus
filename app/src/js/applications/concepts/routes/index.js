@@ -18,7 +18,7 @@ import CollectionsToValidateContainer from 'js/applications/collections/validati
 import CollectionsToExportContainer from 'js/applications/collections/export/home-container';
 import Administration from 'js/applications/administration/home';
 import ConceptsDashboard from 'js/applications/administration/dashboard/concepts/home-container';
-import { Menu } from '../menu';
+import Menu from '../menu/index';
 
 export default () => {
 	return (

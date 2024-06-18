@@ -78,7 +78,7 @@ class OperationsFamilyEdition extends Component {
 			this.setState({ saving: true });
 			const isCreation = !this.state.family.id;
 
-			const method = isCreation ? 'postFamily' : 'putFamily';
+			const method = isCreation ? 'createFamily' : 'updateFamily';
 			return api[method](this.state.family)
 				.then(
 					(id = this.state.family.id) => {

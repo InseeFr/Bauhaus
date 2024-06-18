@@ -17,7 +17,7 @@ function IndicatorsHome() {
 
 	useEffect(() => {
 		api
-			.getIndicatorsList()
+			.getAllIndicators()
 			.then((payload) => setIndicators(ArrayUtils.sortArray('label')(payload)))
 			.finally(() => setLoading(false));
 	}, []);

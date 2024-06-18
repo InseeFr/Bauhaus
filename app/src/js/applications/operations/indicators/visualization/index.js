@@ -44,14 +44,14 @@ const IndicatorVisualizationContainer = () => {
 		api
 			.publishIndicator(indicator)
 			.then(() => {
-				return api.getIndicator(id).then(setIndicator);
+				return api.getIndicatorById(id).then(setIndicator);
 			})
 			.catch((error) => setServerSideError(error))
 			.finally(() => setPublishing(false));
 	}, [indicator, id]);
 
 	useEffect(() => {
-		api.getIndicator(id).then((payload) => setIndicator(payload));
+		api.getIndicatorById(id).then((payload) => setIndicator(payload));
 	}, [id]);
 
 	if (!indicator.id) return <Loading />;

@@ -88,7 +88,7 @@ const SearchListContainer = () => {
 	const [data, setData] = useState();
 
 	useEffect(() => {
-		api.getFamiliesSearchList().then((data) => {
+		api.getAllFamiliesForAdvancedSearch().then((data) => {
 			setData(sortByLabel(data));
 		});
 	}, []);

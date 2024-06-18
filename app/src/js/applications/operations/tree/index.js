@@ -73,7 +73,7 @@ const TreeComponent = () => {
 	const goBack = useGoBack();
 
 	useEffect(() => {
-		api.getFamiliesList().then((data) => {
+		api.getAllFamilies().then((data) => {
 			setTreeData(
 				data.map((d, index) =>
 					formatLeaf(d, index, undefined, '/operations/family/')
@@ -93,7 +93,7 @@ const TreeComponent = () => {
 
 			if (expanded && !node.childrenFetched) {
 				if (isFamily) {
-					api.getFamily(node.id).then(({ series = [] }) => {
+					api.getFamilyById(node.id).then(({ series = [] }) => {
 						setTreeData(
 							updateTree(
 								treeData,

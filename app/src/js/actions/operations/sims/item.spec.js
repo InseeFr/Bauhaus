@@ -18,9 +18,7 @@ describe('SIMS actions', () => {
 	});
 	describe('get a sims', () => {
 		beforeEach(() => {
-			api.getOperation = jest.fn(() =>
-				Promise.resolve({ series: { id: 2 } })
-			);
+			api.getOperation = jest.fn(() => Promise.resolve({ series: { id: 2 } }));
 			api.getOperationsWithoutReport = jest.fn(() => ['value1']);
 		});
 
@@ -148,7 +146,9 @@ describe('SIMS actions', () => {
 			});
 			api.getOperation = jest.fn(() => Promise.resolve('result get operation'));
 			api.getSerie = jest.fn(() => Promise.resolve('result get serie'));
-			api.getIndicator = jest.fn(() => Promise.resolve('result get indicator'));
+			api.getIndicatorById = jest.fn(() =>
+				Promise.resolve('result get indicator')
+			);
 		});
 
 		describe.each`
@@ -157,7 +157,7 @@ describe('SIMS actions', () => {
 			${'getSerie'}     | ${'idSeries'}
 			${'getIndicator'} | ${'idIndicator'}
 		`('get labels from parent', ({ method, id }) => {
-			const apis = ['getOperation', 'getSerie', 'getIndicator'];
+			const apis = ['getOperation', 'getSerie', 'getIndicatorById'];
 
 			it(`should call ${method} if the labelLg1 is not defined and if the ${id} is defined`, async () => {
 				await saveSims(
@@ -198,7 +198,7 @@ describe('SIMS actions', () => {
 				)(dispatch);
 				expect(api.getOperation).not.toHaveBeenCalled();
 				expect(api.getSerie).not.toHaveBeenCalled();
-				expect(api.getIndicator).not.toHaveBeenCalled();
+				expect(api.getIndicatorById).not.toHaveBeenCalled();
 			});
 		});
 

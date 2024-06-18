@@ -307,7 +307,7 @@ const MSDContainerWithParent = (props) => {
 		// TO BE REMOVED when all cache will be deleted
 		if (parentType === 'indicator') {
 			api
-				.getIndicator(idParent)
+				.getIndicatorById(idParent)
 				.then((payload) => setParent(payload))
 				.finally(() => setLoading(false));
 		} else if (parentType === 'operation') {

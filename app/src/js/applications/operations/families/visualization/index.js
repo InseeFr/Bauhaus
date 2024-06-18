@@ -31,7 +31,7 @@ const Family = () => {
 	const [publishing, setPublishing] = useState(false);
 
 	useEffect(() => {
-		api.getFamily(id).then(setFamily);
+		api.getFamilyById(id).then(setFamily);
 	}, [id]);
 
 	const publish = useCallback(() => {
@@ -40,7 +40,7 @@ const Family = () => {
 		api
 			.publishFamily(family)
 			.then(() => {
-				return api.getFamily(id).then(setFamily);
+				return api.getFamilyById(id).then(setFamily);
 			})
 			.catch((error) => setServerSideError(error))
 			.finally(() => setPublishing(false));

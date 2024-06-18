@@ -12,7 +12,7 @@ export const FamiliesHomeContainer = () => {
 
 	useEffect(() => {
 		api
-			.getFamiliesList()
+			.getAllFamilies()
 			.then((results) => setFamilies(ArrayUtils.sortArray('label')(results)))
 			.finally(() => setLoading(false));
 	}, []);

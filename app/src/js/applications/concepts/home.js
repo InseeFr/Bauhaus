@@ -3,7 +3,7 @@ import { PageTitle, Loading } from '@inseefr/wilco';
 import D from 'js/i18n';
 import api from '../../remote-api/concepts-api';
 import { Menu } from './menu';
-import { SearchableList, useTitle } from '../../utils';
+import { Row, SearchableList, useTitle } from '../../utils';
 import * as ArrayUtils from '../../utils/utils/array-utils';
 
 const ConceptsHome = () => {
@@ -24,9 +24,8 @@ const ConceptsHome = () => {
 
 	return (
 		<div className="container">
-			<div className="row">
+			<Row>
 				<Menu />
-
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.conceptSearchTitle} col={12} offset={0} />
 					<SearchableList
@@ -38,7 +37,7 @@ const ConceptsHome = () => {
 						autoFocus={true}
 					/>
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 };

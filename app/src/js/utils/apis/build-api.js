@@ -4,6 +4,53 @@ import {
 } from '../auth/open-id-connect-auth/token-utils';
 import { getEnvVar } from '../utils/env';
 
+export const generateGenericApiEndpoints = (
+	pluralPrefix = '',
+	singularPrefix = ''
+) => {
+	const capitalizedPluralPrefix =
+		pluralPrefix.charAt(0).toUpperCase() + pluralPrefix.slice(1);
+	const capitalizedSingularPrefix =
+		singularPrefix.charAt(0).toUpperCase() + singularPrefix.slice(1);
+
+	return {
+		[`getAll${capitalizedPluralPrefix}`]: () => [pluralPrefix],
+		[`getAll${capitalizedPluralPrefix}ForAdvancedSearch`]: () => [
+			`${pluralPrefix}/advanced-search`,
+		],
+		[`get${capitalizedSingularPrefix}ById`]: (id) => [
+			`${singularPrefix}/${id}`,
+		],
+		[`create${capitalizedSingularPrefix}`]: (object) => [
+			singularPrefix,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(object),
+			},
+			(res) => res.text(),
+		],
+		[`update${capitalizedSingularPrefix}`]: (object) => [
+			`${singularPrefix}/${object.id}`,
+			{
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(object),
+			},
+			() => Promise.resolve(object.id),
+		],
+		[`publish${capitalizedSingularPrefix}`]: (object) => [
+			`${singularPrefix}/validate/${object.id}`,
+			{ method: 'PUT' },
+			(res) => res.text(),
+		],
+	};
+};
+
 const apiURL = `${window.location.origin}/configuration.json`;
 
 export const removeTrailingSlash = (url) => url.replace(/\/$/, '');

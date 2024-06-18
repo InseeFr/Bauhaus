@@ -101,7 +101,7 @@ class OperationsIndicatorEdition extends Component {
 			this.setState({ saving: true });
 			const isCreation = !this.state.indicator.id;
 
-			const method = isCreation ? 'postIndicator' : 'putIndicator';
+			const method = isCreation ? 'createIndicator' : 'updateIndicator';
 			return api[method](this.state.indicator)
 				.then(
 					(id = this.state.indicator.id) => {
