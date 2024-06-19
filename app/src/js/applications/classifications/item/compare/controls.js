@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Button, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
 
