@@ -68,9 +68,7 @@ export default ({ general, secondLang, langs }) => {
 			if (fieldName === 'altLabelLg2' && !secondLang) {
 				return null;
 			}
-			if (fieldName === 'altLabelLg2' && !secondLang) {
-				return null;
-			}
+
 			if (fieldName.includes('altLabel')) {
 				return (
 					<li key={fieldName}>
