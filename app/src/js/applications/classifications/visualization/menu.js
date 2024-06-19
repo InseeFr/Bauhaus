@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { ReturnButton, Button, ActionToolbar } from '@inseefr/wilco';
 import { ValidationButton, Auth } from 'js/utils';
 import D from 'js/i18n';
@@ -7,9 +7,8 @@ import { useGoBack } from '../../../hooks/hooks';
 
 const ClassificationControls = ({ classification, publish }) => {
 	const goBack = useGoBack();
-	const history = useHistory();
-	const location = history.location.pathname;
-	const treeLocation = `${location}/tree`;
+	const location = useLocation();
+	const treeLocation = `${location.pathname}/tree`;
 
 	return (
 		<ActionToolbar>

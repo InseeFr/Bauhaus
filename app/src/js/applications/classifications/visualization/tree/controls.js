@@ -1,13 +1,12 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
 import { useGoBack } from '../../../../hooks/hooks';
 
 function ClassificationControls() {
-	const history = useHistory();
+	const location = useLocation();
 	const goBack = useGoBack();
-	const location = history.location.pathname;
-	const nextLocation = location.replace('/tree', '');
+	const nextLocation = location.pathname.replace('/tree', '');
 
 	return (
 		<ActionToolbar>
