@@ -13,7 +13,7 @@ jest.mock('@tanstack/react-query', () => ({
 	},
 }));
 
-jest.mock('bauhaus-utilities', () => ({
+jest.mock('js/utils', () => ({
 	SelectRmes: ({ value, onChange, multi }) => {
 		return (
 			<ul>

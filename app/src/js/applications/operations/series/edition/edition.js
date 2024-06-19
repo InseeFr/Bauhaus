@@ -17,7 +17,7 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import PublishersInput from 'js/applications/operations/components/publishers-input';
 import CreatorsInput from 'js/components/creators-input';
 

@@ -3,7 +3,7 @@ import { Loading, goBack } from '@inseefr/wilco';
 import { ComponentDetailView } from './view';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI, Stores } from 'bauhaus-utilities';
+import { ConceptsAPI, Stores } from 'js/utils';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -17,10 +17,10 @@ const ViewContainer = (props) => {
 	const [codesLists, setCodesLists] = useState([]);
 	const [serverSideError, setServerSideError] = useState();
 	const [attributes, setAttributes] = useState([]);
-	const langs = useSelector(state => {
+	const langs = useSelector((state) => {
 		const { lg1, lg2 } = state.app;
-		return { lg1, lg2 }
-	})
+		return { lg1, lg2 };
+	});
 
 	const handleBack = useCallback(() => {
 		goBack(props, '/structures/components')();
@@ -55,12 +55,13 @@ const ViewContainer = (props) => {
 
 	const publishComponent = () => {
 		setLoading(true);
-		return api.publishMutualizedComponent(component)
+		return api
+			.publishMutualizedComponent(component)
 			.then(() => api.getMutualizedComponent(component.id))
-			.then(component => setComponent(component))
+			.then((component) => setComponent(component))
 			.finally(() => setLoading(false))
-			.catch(setServerSideError)
-	}
+			.catch(setServerSideError);
+	};
 	return (
 		<React.Fragment>
 			<ComponentTitle component={component} secondLang={secondLang} />

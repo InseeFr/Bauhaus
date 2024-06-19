@@ -8,49 +8,57 @@ import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import emptyConcept from 'js/utils/concepts/empty-concept';
 import { Loading } from '@inseefr/wilco';
-import { ArrayUtils, Stores } from 'bauhaus-utilities';
+import { ArrayUtils, Stores } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import globalApi from '../../../remote-api/api';
 
-
 const CreationContainer = () => {
-	const langs = useSelector(state => select.getLangs(state));
-	const maxLengthScopeNote = useSelector(state => Number(state.app.properties.maxLengthScopeNote));
+	const langs = useSelector((state) => select.getLangs(state));
+	const maxLengthScopeNote = useSelector((state) =>
+		Number(state.app.properties.maxLengthScopeNote)
+	);
 
 	const history = useHistory();
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 
-	const [concepts, setConcepts] = useState([])
-	const [stamps, setStamps] = useState([])
-	const [disseminationStatus, setDisseminationStatus] = useState([])
+	const [concepts, setConcepts] = useState([]);
+	const [stamps, setStamps] = useState([]);
+	const [disseminationStatus, setDisseminationStatus] = useState([]);
 
 	useEffect(() => {
 		Promise.all([
 			api.getConceptList(),
 			globalApi.getStampList(),
-			Stores.DisseminationStatus.api.getDisseminationStatus()
-		]).then(([conceptsList, stampsList, disseminationStatusList]) => {
-			setConcepts(ArrayUtils.sortArrayByLabel(conceptsList))
-			setStamps(stampsList);
-			setDisseminationStatus(disseminationStatusList)
-		}).finally(() => setLoading(false))
-	}, [])
+			Stores.DisseminationStatus.api.getDisseminationStatus(),
+		])
+			.then(([conceptsList, stampsList, disseminationStatusList]) => {
+				setConcepts(ArrayUtils.sortArrayByLabel(conceptsList));
+				setStamps(stampsList);
+				setDisseminationStatus(disseminationStatusList);
+			})
+			.finally(() => setLoading(false));
+	}, []);
 
+	const concept = useSelector((state) =>
+		emptyConcept(state.app.properties.defaultContributor)
+	);
 
-	const concept = useSelector(state => emptyConcept(state.app.properties.defaultContributor));
+	const handleCreation = useCallback(
+		(data) => {
+			setSaving(true);
+			api
+				.postConcept(buildPayloadCreation(data))
+				.then((id) => history.push(`/concept/${id}`))
+				.finally(() => setSaving(false));
+		},
+		[history]
+	);
 
-	const handleCreation = useCallback((data) => {
-		setSaving(true);
-		api.postConcept(buildPayloadCreation(data))
-			.then((id) => history.push(`/concept/${id}`))
-			.finally(() => setSaving(false))
-	}, [history])
-
-	if(loading){
-		return <Loading />
+	if (loading) {
+		return <Loading />;
 	}
-	if(saving){
+	if (saving) {
 		return <Loading textType="saving" />;
 	}
 
@@ -70,5 +78,5 @@ const CreationContainer = () => {
 			langs={langs}
 		/>
 	);
-}
+};
 export default CreationContainer;

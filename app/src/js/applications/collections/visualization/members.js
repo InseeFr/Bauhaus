@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
-import { ArrayUtils, Row } from 'bauhaus-utilities';
+import { ArrayUtils, Row } from 'js/utils';
 
 const sortByLabelLg1 = ArrayUtils.sortArray('prefLabelLg1');
 

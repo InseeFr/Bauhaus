@@ -7,21 +7,25 @@ const Representation = ({ component, codesLists, handleCodesListDetail }) => {
 		({ id }) => id?.toString() === component.codeList?.toString()
 	)?.label;
 
-	if(codeList){
-		return <>
-			{codeList}
-			{codeList && <button
-				className="codes-list-detail"
-				onClick={handleCodesListDetail}
-				aria-label={D.seeCodesListDetails}
-				title={D.seeCodesListDetails}>
-				<span className="glyphicon glyphicon-th"></span>
-			</button>}
-
-		</>
+	if (codeList) {
+		return (
+			<>
+				{codeList}
+				<button
+					className="codes-list-detail"
+					onClick={handleCodesListDetail}
+					aria-label={D.seeCodesListDetails}
+					title={D.seeCodesListDetails}
+				>
+					<span className="glyphicon glyphicon-th"></span>
+				</button>
+			</>
+		);
 	}
 
-	return XSD_TYPES.find(range => component.range === range.value)?.label || '';
-}
+	return (
+		XSD_TYPES.find((range) => component.range === range.value)?.label || ''
+	);
+};
 
 export default Representation;

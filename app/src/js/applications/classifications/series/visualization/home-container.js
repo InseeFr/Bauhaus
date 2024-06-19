@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import SeriesVisualization from './home';
 import { Loading } from '@inseefr/wilco';
 import * as select from 'js/reducers';
-import { Stores } from 'bauhaus-utilities';
+import { Stores } from 'js/utils';
 import { useParams } from 'react-router-dom';
 import api from '../../../../remote-api/classifications-api';
 

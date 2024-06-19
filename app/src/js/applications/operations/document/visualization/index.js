@@ -1,11 +1,6 @@
 import { Loading, Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import { useGoBack } from 'js/hooks/hooks';
-import {
-	Auth,
-	CheckSecondLang,
-	Stores,
-	PageTitleBlock,
-} from 'bauhaus-utilities';
+import { Auth, CheckSecondLang, Stores, PageTitleBlock } from 'js/utils';
 import { loadCodesList } from 'js/actions/operations/utils/setup';
 
 import D from 'js/i18n';
@@ -13,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
-import { ADMIN } from 'bauhaus-utilities/src/auth/roles';
+import { ADMIN } from 'js/utils/auth/roles';
 import api from '../../../../remote-api/api';
 import * as select from '../../../../reducers';
 

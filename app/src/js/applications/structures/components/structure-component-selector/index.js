@@ -7,7 +7,7 @@ import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 
 import { useSelector } from 'react-redux';
-import { Auth, Stores } from 'bauhaus-utilities';
+import { Auth, Stores } from 'js/utils';
 import Representation from '../representation';
 
 export const StructureComponentsSelector = ({

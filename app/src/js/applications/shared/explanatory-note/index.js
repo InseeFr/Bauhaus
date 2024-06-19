@@ -1,7 +1,7 @@
 import React from 'react';
 import { Note } from '@inseefr/wilco';
 import DOMPurify from 'dompurify';
-import { HTMLUtils } from 'bauhaus-utilities';
+import { HTMLUtils } from 'js/utils';
 
 export const ExplanatoryNote = ({ text, title, alone, md }) => {
 	const cl = alone ? 'col-md-12' : 'col-md-6';

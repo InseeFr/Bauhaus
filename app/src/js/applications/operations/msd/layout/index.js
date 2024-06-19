@@ -19,7 +19,7 @@ class MSDComponent extends Component {
 
 	changeStatus(status) {
 		localStorage.setItem('HELP_VIEW', status);
-		this.setState((previousState) => ({
+		this.setState(() => ({
 			status,
 		}));
 	}

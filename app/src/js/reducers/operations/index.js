@@ -1,7 +1,7 @@
 import * as A from 'js/actions/constants';
 import { LOADED, LOADING, ERROR } from 'js/constants';
 import * as currentReducers from 'js/reducers/operations/current';
-import { ArrayUtils } from 'bauhaus-utilities';
+import { ArrayUtils } from 'js/utils';
 
 /**
  *
@@ -13,7 +13,7 @@ function makeReducers([
 	GET_ITEMS_FAILURE,
 	SAVE_ITEM_SUCCESS,
 ]) {
-	return function(state = {}, action) {
+	return function (state = {}, action) {
 		switch (action.type) {
 			case GET_ITEMS:
 				return {
@@ -38,7 +38,9 @@ function makeReducers([
 				 *
 				 * Finally, we should sort by label again
 				 */
-				const tail = state.results.filter(obj => obj.id !== action.payload.id);
+				const tail = state.results.filter(
+					(obj) => obj.id !== action.payload.id
+				);
 				return {
 					status: state.status,
 					results: ArrayUtils.sortArrayByLabel([

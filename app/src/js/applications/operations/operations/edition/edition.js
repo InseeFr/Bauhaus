@@ -15,7 +15,7 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import api from '../../../../remote-api/operations-api';
 
 const defaultOperation = {

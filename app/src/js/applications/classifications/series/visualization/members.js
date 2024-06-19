@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
+import { Row } from '../../../../utils';
 
 export default ({ members, secondLang }) => {
 	const membersLg1 = members.map((m, i) => (
@@ -20,17 +21,21 @@ export default ({ members, secondLang }) => {
 				</li>
 			) : null
 		);
-	const isMembersLg2 = membersLg2.filter(m => m !== null).length !== 0;
+	const isMembersLg2 = membersLg2.filter((m) => m !== null).length !== 0;
 	return (
-		<div className="row">
-			<Note title={D1.childrenClassifications} alone={!secondLang} text={
-				<ul>{membersLg1}</ul>
-			}/>
+		<Row>
+			<Note
+				title={D1.childrenClassifications}
+				alone={!secondLang}
+				text={<ul>{membersLg1}</ul>}
+			/>
 			{secondLang && isMembersLg2 && (
-				<Note title={D2.childrenClassifications} alone={false} text={
-					<ul>{membersLg2}</ul>
-				}/>
+				<Note
+					title={D2.childrenClassifications}
+					alone={false}
+					text={<ul>{membersLg2}</ul>}
+				/>
 			)}
-		</div>
+		</Row>
 	);
 };

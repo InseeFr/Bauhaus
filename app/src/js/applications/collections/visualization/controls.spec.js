@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import CollectionVisualizationControls from './controls';
-import { RBACMock, Auth } from 'bauhaus-utilities';
+import { RBACMock, Auth } from 'js/utils';
 
 describe('collection-visualization-controls', () => {
 	it('a user can go back ', () => {

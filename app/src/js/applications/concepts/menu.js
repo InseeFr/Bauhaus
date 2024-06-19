@@ -1,8 +1,8 @@
-import { Auth, MasculineButton } from 'bauhaus-utilities';
 import { ExportButton, PublishButton, VerticalMenu } from '@inseefr/wilco';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import check from '../../utils/auth';
+import { Auth, MasculineButton } from '../../utils';
 
 export const Menu = () => {
 	const permission = useSelector((state) => Auth.getPermission(state));

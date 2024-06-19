@@ -1,6 +1,6 @@
 import { PageTitle } from '@inseefr/wilco';
 import D from '../../../../i18n/build-dictionary';
-import { SearchableList, Row, useTitle } from 'bauhaus-utilities';
+import { SearchableList, Row, useTitle } from 'js/utils';
 import React from 'react';
 import { useDatasets } from '../../hooks';
 import { HomePageMenu } from './menu';

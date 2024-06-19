@@ -1,7 +1,7 @@
 import React from 'react';
 import { LogoWarning } from '@inseefr/wilco';
 import ModifyNotes from './modify-notes';
-import { HTMLUtils } from 'bauhaus-utilities';
+import { HTMLUtils } from 'js/utils';
 
 function NoteOneLangEdition({ note, handleChange, maxLength }) {
 	const noteLength = HTMLUtils.htmlLength(note);

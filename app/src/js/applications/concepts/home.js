@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { PageTitle, Loading } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { ArrayUtils, SearchableList, useTitle } from 'bauhaus-utilities';
 import api from '../../remote-api/concepts-api';
 import { Menu } from './menu';
+import { Row, SearchableList, useTitle } from '../../utils';
+import * as ArrayUtils from '../../utils/utils/array-utils';
 
 const ConceptsHome = () => {
 	useTitle(D.conceptsTitle, D.conceptsTitle);
@@ -23,7 +24,7 @@ const ConceptsHome = () => {
 
 	return (
 		<div className="container">
-			<div className="row">
+			<Row>
 				<Menu />
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.conceptSearchTitle} col={12} offset={0} />
@@ -36,7 +37,7 @@ const ConceptsHome = () => {
 						autoFocus={true}
 					/>
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 };

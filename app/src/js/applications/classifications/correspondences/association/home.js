@@ -4,7 +4,7 @@ import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import { D2, D1 } from 'js/i18n';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang, Row } from 'js/utils';
 
 export default ({ association, secondLang, langs }) => {
 	const {
@@ -24,7 +24,7 @@ export default ({ association, secondLang, langs }) => {
 			<CorrespondenceControls correspondenceId={correspondenceId} />
 			<CheckSecondLang />
 
-			<div className="row">
+			<Row>
 				{(!secondLang ||
 					(secondLang && sourceItemLabelLg2 && targetItemLabelLg2)) && (
 					<Note
@@ -34,10 +34,10 @@ export default ({ association, secondLang, langs }) => {
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 			<span>
 				{scopeNoteLg1 && (
-					<div className="row">
+					<Row>
 						<ExplanatoryNote
 							text={scopeNoteLg1}
 							title={D1.classificationsDescription}
@@ -52,7 +52,7 @@ export default ({ association, secondLang, langs }) => {
 								alone={false}
 							/>
 						)}
-					</div>
+					</Row>
 				)}
 			</span>
 		</div>

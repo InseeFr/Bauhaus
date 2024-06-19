@@ -3,7 +3,7 @@ import { PageTitle, PageSubtitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from './general';
 import Members from './members';
-import { CheckSecondLang } from 'bauhaus-utilities';
+import { CheckSecondLang } from 'js/utils';
 
 const LevelVisualization = ({ level: { general, members }, secondLang }) => {
 	const { classificationId } = general;

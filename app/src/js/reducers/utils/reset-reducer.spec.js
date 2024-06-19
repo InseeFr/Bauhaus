@@ -2,7 +2,7 @@ import { handleReset } from './reset-reducer';
 
 describe('handleReset', () => {
 	const state = { state: 'previous' };
-	const defaultReducer = (state, action) => state;
+	const defaultReducer = (state) => state;
 	const actions = ['XXX', 'YYY'];
 	const resetReducer = handleReset(defaultReducer, actions);
 	test('handleReset should return reducer with undefined state', () => {

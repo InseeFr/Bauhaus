@@ -1,17 +1,17 @@
-import { ArrayUtils } from 'bauhaus-utilities';
+import { ArrayUtils } from '../../../utils';
 
-export default (remoteCall, LOADING, SUCCESS, FAILURE) => dispatch => {
+export default (remoteCall, LOADING, SUCCESS, FAILURE) => (dispatch) => {
 	dispatch({
 		type: LOADING,
 		payload: {},
 	});
 	return remoteCall().then(
-		results =>
+		(results) =>
 			dispatch({
 				type: SUCCESS,
 				payload: { results: ArrayUtils.sortArrayByLabel(results) },
 			}),
-		err =>
+		(err) =>
 			dispatch({
 				type: FAILURE,
 				payload: { err },
@@ -29,54 +29,53 @@ export default (remoteCall, LOADING, SUCCESS, FAILURE) => dispatch => {
  * @param {*} FAILURE The name of the action if this is an error
  */
 export const getPublishFactory = (remoteCall, LOADING, SUCCESS, FAILURE) => {
-	return (object, callback = () => {}) => dispatch => {
+	return (object, callback = () => {}) =>
+		(dispatch) => {
+			dispatch({
+				type: LOADING,
+				payload: {},
+			});
+
+			return remoteCall(object).then(
+				(results) => {
+					dispatch({
+						type: SUCCESS,
+						payload: results,
+					});
+					callback(null, results);
+				},
+				(err) => {
+					dispatch({
+						type: FAILURE,
+						payload: { err },
+					});
+					callback(err);
+				}
+			);
+		};
+};
+
+export const getItemFactory =
+	(remoteCall, LOADING, SUCCESS, FAILURE) => (id) => (dispatch, getState) => {
+		if (getState().operationsOperationCurrentStatus === LOADING) {
+			return;
+		}
 		dispatch({
 			type: LOADING,
-			payload: {},
+			payload: {
+				id,
+			},
 		});
-
-		return remoteCall(object).then(
-			results => {
+		return remoteCall(id).then(
+			(results) =>
 				dispatch({
 					type: SUCCESS,
 					payload: results,
-				});
-				callback(null, results);
-			},
-			err => {
+				}),
+			(err) =>
 				dispatch({
 					type: FAILURE,
 					payload: { err },
-				});
-				callback(err);
-			}
+				})
 		);
 	};
-};
-
-export const getItemFactory = (remoteCall, LOADING, SUCCESS, FAILURE) => id => (
-	dispatch,
-	getState
-) => {
-	if (getState().operationsOperationCurrentStatus === LOADING) {
-		return;
-	}
-	dispatch({
-		type: LOADING,
-		payload: {
-			id,
-		},
-	});
-	return remoteCall(id).then(
-		results =>
-			dispatch({
-				type: SUCCESS,
-				payload: results,
-			}),
-		err =>
-			dispatch({
-				type: FAILURE,
-				payload: { err },
-			})
-	);
-};

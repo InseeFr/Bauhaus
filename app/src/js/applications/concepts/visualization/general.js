@@ -1,12 +1,12 @@
 import React from 'react';
 import { D1 } from 'js/i18n';
 import { DSURLToLabel, Note } from '@inseefr/wilco';
-import { ArrayUtils, DateUtils } from 'bauhaus-utilities';
+import { ArrayUtils, DateUtils } from 'js/utils';
 
 function ConceptGeneral({ attr, secondLang, langs }) {
 	const { lg1, lg2 } = langs;
 	let mapping = {
-		id: D1.identifiantTitle
+		id: D1.identifiantTitle,
 	};
 	if (attr.altLabelLg1 && attr.altLabelLg1.length !== 0) {
 		mapping = {
@@ -23,7 +23,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 	mapping = {
 		...mapping,
 		created: D1.createdDateTitle,
-		modified: D1.modifiedDateTitle
+		modified: D1.modifiedDateTitle,
 	};
 	if (attr.valid) {
 		mapping = {
@@ -51,7 +51,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 			<Note
 				text={
 					<ul>
-						{Object.keys(mapping).map(fieldName => {
+						{Object.keys(mapping).map((fieldName) => {
 							if (attr.hasOwnProperty(fieldName)) {
 								if (fieldName === 'altLabelLg2' && !secondLang) {
 									return null;
@@ -66,7 +66,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 									);
 								}
 								if (['created', 'modified'].includes(fieldName)) {
-									if(!attr[fieldName]){
+									if (!attr[fieldName]) {
 										return null;
 									}
 									return (

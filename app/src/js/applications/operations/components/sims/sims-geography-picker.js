@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import ReactSelect from 'react-select';
 import D from '../../i18n/build-dictionary';
-import { Stores, Auth } from 'bauhaus-utilities';
+import { Stores, Auth } from 'js/utils';
 import SlidingPanel from 'react-sliding-side-panel';
 import SimsGeographyField from './sims-geography-field';
 

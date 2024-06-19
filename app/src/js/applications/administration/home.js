@@ -4,7 +4,7 @@ import dashBoardLogo from 'img/dashboard.png';
 import { PageTitle } from '@inseefr/wilco';
 import D from 'js/i18n';
 import './home.scss';
-import { useTitle } from 'bauhaus-utilities';
+import { useTitle } from '../../utils';
 
 function AdministrationHome() {
 	useTitle(D.conceptsTitle, D.administrationTitle);

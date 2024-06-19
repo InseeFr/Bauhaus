@@ -10,7 +10,7 @@ import {
 	withTitle,
 	Pagination,
 	useUrlQueryParameters,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
 const filterAltLabel = ArrayUtils.filterKeyDeburr(['altLabel']);

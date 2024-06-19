@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import { useQueries, useQuery } from '@tanstack/react-query';
-import { CodesList } from 'bauhaus-utilities';
+import { CodesList } from 'js/utils';
 
 const fetchCodeList = (notation) => {
 	return Promise.all([

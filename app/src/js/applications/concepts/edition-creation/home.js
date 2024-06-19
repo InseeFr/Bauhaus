@@ -11,7 +11,7 @@ import D from 'js/i18n';
 import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
 import { VERSIONING, NO_VERSIONING } from 'js/constants';
 import { withRouter } from 'react-router-dom';
-import { withTitle } from 'bauhaus-utilities';
+import { withTitle } from 'js/utils';
 import validate from './controls/validation';
 
 class ConceptEditionCreation extends Component {

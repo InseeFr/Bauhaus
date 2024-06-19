@@ -1,13 +1,14 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { goBack, Button, ActionToolbar } from '@inseefr/wilco';
+import { Button, ActionToolbar } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { Auth } from 'bauhaus-utilities';
+import { Auth } from 'js/utils';
+import { useGoBack } from '../../../hooks/hooks';
 
-const ItemControls = (props) => {
-	const { classificationId, itemId, version } = props;
+const ItemControls = ({ classificationId, itemId, version }) => {
+	const goBack = useGoBack();
+
 	const cancel = [
-		goBack(props, `/classifications/classification/${classificationId}/items`),
+		() => goBack(`/classifications/classification/${classificationId}/items`),
 		D.btnReturn,
 	];
 	const compare =
@@ -36,4 +37,4 @@ const ItemControls = (props) => {
 	);
 };
 
-export default withRouter(ItemControls);
+export default ItemControls;

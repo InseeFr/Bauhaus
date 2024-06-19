@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
+import { Row } from '../../../utils';
 
 export default ({ levels, classificationId, secondLang }) => {
 	const levelsLg1 = levels.map((m, i) => (
@@ -26,9 +27,9 @@ export default ({ levels, classificationId, secondLang }) => {
 				</li>
 			) : null
 		);
-	const isMembersLg2 = levelsLg2.filter(m => m !== null).length !== 0;
+	const isMembersLg2 = levelsLg2.filter((m) => m !== null).length !== 0;
 	return (
-		<div className="row">
+		<Row>
 			<Note
 				alone={!(secondLang && isMembersLg2)}
 				title={D1.classificationLevelsTitle}
@@ -41,6 +42,6 @@ export default ({ levels, classificationId, secondLang }) => {
 					text={levelsLg2}
 				></Note>
 			)}
-		</div>
+		</Row>
 	);
 };

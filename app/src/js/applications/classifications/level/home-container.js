@@ -4,7 +4,7 @@ import LevelVisualization from './home';
 import { Loading } from '@inseefr/wilco';
 import loadLevel from 'js/actions/classifications/level';
 import * as select from 'js/reducers/classifications/level';
-import { Stores } from 'bauhaus-utilities';
+import { Stores } from 'js/utils';
 import { useParams } from 'react-router-dom';
 
 const LevelVisualizationContainer = ({ loadLevel }) => {

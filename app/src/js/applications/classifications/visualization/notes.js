@@ -1,6 +1,7 @@
 import React from 'react';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import { D1, D2 } from 'js/i18n';
+import { Row } from '../../../utils';
 
 export default ({
 	notes: {
@@ -17,7 +18,7 @@ export default ({
 	<div>
 		<span>
 			{descriptionLg1 && (
-				<div className="row">
+				<Row>
 					<ExplanatoryNote
 						text={descriptionLg1}
 						title={D1.classificationsDescription}
@@ -34,12 +35,12 @@ export default ({
 							md
 						/>
 					)}
-				</div>
+				</Row>
 			)}
 		</span>
 		<span>
 			{scopeNoteLg1 && (
-				<div className="row">
+				<Row>
 					<ExplanatoryNote
 						text={scopeNoteLg1}
 						title={D1.classificationsScopeNote}
@@ -56,12 +57,12 @@ export default ({
 							md
 						/>
 					)}
-				</div>
+				</Row>
 			)}
 		</span>
 		<span>
 			{changeNoteLg1 && (
-				<div className="row">
+				<Row>
 					<ExplanatoryNote
 						text={changeNoteLg1}
 						title={D1.classificationsChangeNote()}
@@ -78,7 +79,7 @@ export default ({
 							md
 						/>
 					)}
-				</div>
+				</Row>
 			)}
 		</span>
 	</div>

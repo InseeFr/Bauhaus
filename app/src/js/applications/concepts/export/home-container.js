@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Picker from '../../shared/picker-page';
 import { getContentDisposition, Loading } from '@inseefr/wilco';
-import { ArrayUtils, useTitle } from 'bauhaus-utilities';
+import { ArrayUtils, useTitle } from 'js/utils';
 import D from 'js/i18n';
 import api from '../../../remote-api/concepts-api';
 import FileSaver from 'file-saver';

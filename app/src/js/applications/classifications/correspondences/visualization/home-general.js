@@ -4,7 +4,7 @@ import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import { D1, D2 } from 'js/i18n';
-import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
+import { CheckSecondLang, Row, useTitle } from 'js/utils';
 import D from '../../../../i18n/build-dictionary';
 
 const HomeGeneral = ({ correspondence, secondLang, langs: { lg1, lg2 } }) => {
@@ -19,7 +19,7 @@ const HomeGeneral = ({ correspondence, secondLang, langs: { lg1, lg2 } }) => {
 			{title && <PageTitle title={title} />}
 			<CorrespondenceControls />
 			<CheckSecondLang />
-			<div className="row">
+			<Row>
 				{(!secondLang ||
 					(secondLang && (firstClassLabelLg2 || secondClassLabelLg2))) && (
 					<Note
@@ -29,10 +29,10 @@ const HomeGeneral = ({ correspondence, secondLang, langs: { lg1, lg2 } }) => {
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 			<span>
 				{correspondence.descriptionLg1 && (
-					<div className="row">
+					<Row>
 						<ExplanatoryNote
 							text={correspondence.descriptionLg1}
 							title={D1.classificationsDescription}
@@ -47,7 +47,7 @@ const HomeGeneral = ({ correspondence, secondLang, langs: { lg1, lg2 } }) => {
 								alone={false}
 							/>
 						)}
-					</div>
+					</Row>
 				)}
 			</span>
 		</div>

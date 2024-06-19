@@ -3,7 +3,7 @@ import Edition from '../component';
 import { Loading } from '@inseefr/wilco';
 import StructureAPI from '../../apis/structure-api';
 import { useLocation, useParams } from 'react-router-dom';
-import { useTitle } from 'bauhaus-utilities';
+import { useTitle } from 'js/utils';
 import D from 'js/i18n';
 
 const Update = () => {

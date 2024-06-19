@@ -1,7 +1,7 @@
 import { Loading, getContentDisposition } from '@inseefr/wilco';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { ArrayUtils, useTitle } from 'bauhaus-utilities';
+import { ArrayUtils, useTitle } from 'js/utils';
 import D from '../../../i18n/build-dictionary';
 import api from '../../../remote-api/concepts-collection-api';
 import Picker from '../../shared/picker-page';

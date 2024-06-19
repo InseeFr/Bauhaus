@@ -7,7 +7,7 @@ import ConceptsCreationsModifications from './concepts/creations-modifications';
 import CollectionsSummary from './collections/summary';
 import CollectionsCreationsModifications from './collections/creations-modifications';
 import D from 'js/i18n';
-import { useTitle } from 'bauhaus-utilities';
+import { useTitle } from '../../../../utils';
 
 function ConceptsDashboard({ conceptsData, collectionsData }) {
 	useTitle(D.conceptsTitle, D.administrationTitle);

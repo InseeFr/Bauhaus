@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import Dashboard from './home';
 import api from '../../../../remote-api/concepts-api';
-import { ArrayUtils } from 'bauhaus-utilities';
+import { ArrayUtils } from '../../../../utils';
 
 const emptyItem = {
 	id: '',
@@ -23,27 +23,22 @@ const DashboardContainer = () => {
 	const [collections, setCollections] = useState([]);
 
 	useEffect(() => {
-		Promise.all([
-			api.getConceptSearchList(),
-			api.getCollectionDashboardList()
-		]).then(([ conceptsList, collectionsList ]) => {
+		Promise.all([api.getConceptSearchList(), api.getCollectionDashboardList()])
+			.then(([conceptsList, collectionsList]) => {
+				setConcepts(
+					ArrayUtils.sortArrayByLabel(conceptsList).map((concept) =>
+						Object.assign({}, emptyItem, concept)
+					)
+				);
 
-			setConcepts(ArrayUtils.sortArrayByLabel(conceptsList).map(concept =>
-				Object.assign({}, emptyItem, concept)
-			))
-
-			setCollections(ArrayUtils.sortArrayByLabel(collectionsList));
-		}).finally(() => setLoading(false))
-	}, [])
-	if(loading){
+				setCollections(ArrayUtils.sortArrayByLabel(collectionsList));
+			})
+			.finally(() => setLoading(false));
+	}, []);
+	if (loading) {
 		return <Loading />;
 	}
 
-	return (
-		<Dashboard
-			conceptsData={concepts}
-			collectionsData={collections}
-		/>
-	);
-}
+	return <Dashboard conceptsData={concepts} collectionsData={collections} />;
+};
 export default DashboardContainer;

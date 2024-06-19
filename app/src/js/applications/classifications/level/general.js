@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import { Note } from '@inseefr/wilco';
+import { Row } from '../../../utils';
 
 export default ({ general, classificationId, secondLang }) => {
 	const mapping = {
@@ -12,11 +13,11 @@ export default ({ general, classificationId, secondLang }) => {
 		notationPattern: D.classificationsNotationPatternTitle,
 	};
 	return (
-		<div className="row">
+		<Row>
 			<Note
 				text={
 					<ul>
-						{Object.keys(mapping).map(fieldName => {
+						{Object.keys(mapping).map((fieldName) => {
 							if (general.hasOwnProperty(fieldName) && general[fieldName]) {
 								if (fieldName === 'broaderLg1') {
 									return (
@@ -78,6 +79,6 @@ export default ({ general, classificationId, secondLang }) => {
 				alone={true}
 				allowEmpty={true}
 			/>
-		</div>
+		</Row>
 	);
 };

@@ -4,7 +4,7 @@ import { CodesListPanel } from '../../components/codes-list-panel/codes-list-pan
 import { StructureComponentsSelector } from '../../components/structure-component-selector/index';
 import ComponentSpecificationModal from '../../components/component-specification-modal/index';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI } from 'bauhaus-utilities';
+import { ConceptsAPI } from 'js/utils';
 
 const Components = ({ componentDefinitions = [] }) => {
 	const [concepts, setConcepts] = useState([]);

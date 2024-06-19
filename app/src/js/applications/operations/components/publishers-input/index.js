@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { ItemToSelectModel, SelectRmes } from 'bauhaus-utilities';
+import { ItemToSelectModel, SelectRmes } from 'js/utils';
 import { D1 } from '../../i18n/build-dictionary';
 
 const PublishersInput = ({ value, onChange }) => {

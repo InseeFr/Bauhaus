@@ -7,7 +7,7 @@ import D from 'js/i18n';
 
 import 'react-app-polyfill/stable';
 import { useSelector } from 'react-redux';
-import { Auth } from 'bauhaus-utilities';
+import { Auth } from 'js/utils';
 
 const RBACLink = ({ children }) => {
 	const authorizationHost = useSelector(

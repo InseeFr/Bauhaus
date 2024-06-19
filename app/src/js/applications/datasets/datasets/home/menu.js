@@ -1,4 +1,4 @@
-import { Auth, MasculineButton } from 'bauhaus-utilities';
+import { Auth, MasculineButton } from 'js/utils';
 import { VerticalMenu } from '@inseefr/wilco';
 
 export const HomePageMenu = () => {

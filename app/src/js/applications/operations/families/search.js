@@ -10,7 +10,7 @@ import {
 	AdvancedSearchList,
 	useTitle,
 	useUrlQueryParameters,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const fields = ['prefLabelLg1'];
@@ -88,7 +88,7 @@ const SearchListContainer = () => {
 	const [data, setData] = useState();
 
 	useEffect(() => {
-		api.getFamiliesSearchList().then((data) => {
+		api.getAllFamiliesForAdvancedSearch().then((data) => {
 			setData(sortByLabel(data));
 		});
 	}, []);

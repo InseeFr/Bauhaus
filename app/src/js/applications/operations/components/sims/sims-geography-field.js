@@ -12,7 +12,7 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import SimsGeographySelector from './sims-geography-selector';
 import { useGeographies } from './hooks';
-import { Stores, Row } from 'bauhaus-utilities';
+import { Stores, Row } from 'js/utils';
 
 const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 	const [name, setName] = useState(territory.labelLg1 ?? '');

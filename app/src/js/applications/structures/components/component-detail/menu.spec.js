@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Auth, RBACMock } from 'bauhaus-utilities';
+import { Auth, RBACMock } from 'js/utils';
 import { ViewMenu } from './menu';
 describe('Component View Menu', () => {
 	it('a user can only see the go back button', () => {
