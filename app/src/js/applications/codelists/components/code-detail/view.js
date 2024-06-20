@@ -1,4 +1,3 @@
-import React from 'react';
 import { Note, ActionToolbar, ReturnButton, ErrorBloc } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { HTMLUtils, Row } from 'js/utils';
@@ -23,7 +22,7 @@ export const CodeDetailView = ({
 	});
 
 	return (
-		<React.Fragment>
+		<>
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
 			</ActionToolbar>
@@ -73,6 +72,6 @@ export const CodeDetailView = ({
 					/>
 				)}
 			</Row>
-		</React.Fragment>
+		</>
 	);
 };

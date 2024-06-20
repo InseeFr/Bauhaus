@@ -76,7 +76,7 @@ describe('<StructureView />', () => {
 			'Creator : STAMP CREATOR'
 		);
 		expect(container.querySelector('ul li:nth-child(6)').innerHTML).toContain(
-			'Contributor : STAMP CONTRIBUTOR'
+			'Contributor :<ul><li>STAMP CONTRIBUTOR</li></ul>'
 		);
 		expect(container.querySelector('ul li:nth-child(7)').innerHTML).toContain(
 			'Dissemination status : Public generic'

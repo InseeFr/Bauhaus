@@ -7,7 +7,7 @@ describe('validation', function () {
 				labelLg2: 'labelLg2',
 				catalogRecord: {
 					creator: 'creator',
-					contributor: 'contributor',
+					contributor: ['contributor'],
 				},
 				disseminationStatus: 'status',
 				idSerie: 'id',
@@ -31,7 +31,7 @@ describe('validation', function () {
 				labelLg1: 'labelLg1',
 				catalogRecord: {
 					creator: 'creator',
-					contributor: 'contributor',
+					contributor: ['contributor'],
 				},
 				disseminationStatus: 'status',
 				idSerie: 'id',
@@ -54,6 +54,7 @@ describe('validation', function () {
 			validate({
 				labelLg1: 'labelLg2',
 				labelLg2: 'labelLg2',
+				contributor: [],
 			})
 		).toEqual({
 			errorMessage: [
@@ -81,7 +82,7 @@ describe('validation', function () {
 				labelLg2: 'labelLg2',
 				catalogRecord: {
 					creator: 'creator',
-					contributor: 'contributor',
+					contributor: ['contributor'],
 				},
 				disseminationStatus: 'status',
 				idSerie: 'id',

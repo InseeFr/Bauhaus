@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react';
+import { useState, useCallback, useEffect, useContext } from 'react';
 import {
 	CancelButton,
 	SaveButton,
@@ -8,7 +8,6 @@ import {
 } from '@inseefr/wilco';
 import {
 	AppContext,
-	Stores,
 	useTitle,
 	Row,
 	ArrayUtils,
@@ -36,11 +35,13 @@ import {
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
-import { FormGroup } from 'react-bootstrap';
 import { API } from '../../../codelists/apis';
 import api from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
 import MainDictionary from 'js/i18n/build-dictionary';
+import { convertToArrayIfDefined } from '../../../../utils/array-utils';
+import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
+import { ContributorsInput } from '../../../../utils/contributors/contributors';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -184,16 +185,15 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 	);
 };
 
-const DumbComponentDetailEdit = ({
+export const DumbComponentDetailEdit = ({
 	component: initialComponent,
-	concepts,
-	codesLists,
+	concepts = [],
+	codesLists = [],
 	handleSave,
 	handleBack,
 	type,
 	attributes,
-	disseminationStatusListOptions,
-	stampListOptions,
+	stampListOptions = [],
 	serverSideError,
 }) => {
 	const [component, setComponent] = useState({});
@@ -213,7 +213,9 @@ const DumbComponentDetailEdit = ({
 		let component = { ...initialComponent };
 
 		if (!component.id) {
-			component.contributor = isContributor ? stamp : 'DG75-H250';
+			component.contributor = isContributor ? [stamp] : ['DG75-H250'];
+		} else {
+			component.contributor = convertToArrayIfDefined(component.contributor);
 		}
 
 		setComponent(component);
@@ -288,7 +290,7 @@ const DumbComponentDetailEdit = ({
 	};
 
 	return (
-		<React.Fragment>
+		<>
 			<ActionToolbar>
 				<CancelButton action={handleBack} col={3} />
 				<SaveButton
@@ -406,23 +408,21 @@ const DumbComponentDetailEdit = ({
 				</Row>
 
 				<Row>
-					<div className="col-md-12 ">
-						<FormGroup>
-							<LabelRequired>{D1.type}</LabelRequired>
-							<SelectRmes
-								placeholder={D1.type}
-								value={MUTUALIZED_COMPONENT_TYPES.find(
-									(c) => c.value === component.type
-								)}
-								options={MUTUALIZED_COMPONENT_TYPES}
-								onChange={onComponentTypeChange}
-								isDisabled={!!component.id}
-							/>
-							<ClientSideError
-								id="type-error"
-								error={clientSideErrors?.fields?.type}
-							></ClientSideError>
-						</FormGroup>
+					<div className="col-md-12 form-group">
+						<LabelRequired>{D1.type}</LabelRequired>
+						<SelectRmes
+							placeholder={D1.type}
+							value={MUTUALIZED_COMPONENT_TYPES.find(
+								(c) => c.value === component.type
+							)}
+							options={MUTUALIZED_COMPONENT_TYPES}
+							onChange={onComponentTypeChange}
+							isDisabled={!!component.id}
+						/>
+						<ClientSideError
+							id="type-error"
+							error={clientSideErrors?.fields?.type}
+						></ClientSideError>
 					</div>
 				</Row>
 				<Row>
@@ -598,31 +598,25 @@ const DumbComponentDetailEdit = ({
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D1.contributorTitle}</label>
-					<SelectRmes
-						placeholder={D1.stampsPlaceholder}
+					<ContributorsInput
+						stampListOptions={stampListOptions}
 						value={component.contributor}
-						options={stampListOptions}
-						onChange={(option) =>
-							setComponent({ ...component, contributor: option })
+						handleChange={(values) =>
+							setComponent({
+								...component,
+								contributor: values,
+							})
 						}
-						multi
 					/>
 				</div>
 				<div className="form-group">
-					<label>{MainDictionary.disseminationStatusTitle}</label>
-					<Select
-						className="form-control"
-						placeholder={D1.disseminationStatusPlaceholder}
-						value={disseminationStatusListOptions.find(
-							({ value }) => value === component.disseminationStatus
-						)}
-						options={disseminationStatusListOptions}
-						onChange={(value) =>
+					<DisseminationStatusInput
+						value={component.disseminationStatus}
+						handleChange={(value) =>
 							setComponent({ ...component, disseminationStatus: value })
 						}
-						searchable={true}
 					/>
+					<label>{MainDictionary.disseminationStatusTitle}</label>
 				</div>
 				<Row>
 					<div className="col-md-6 form-group">
@@ -665,7 +659,7 @@ const DumbComponentDetailEdit = ({
 					/>
 				)}
 			</form>
-		</React.Fragment>
+		</>
 	);
 };
 
@@ -805,16 +799,3 @@ const AttributeValue = ({
 		/>
 	);
 };
-
-DumbComponentDetailEdit.defaultProps = {
-	structureComponents: [],
-	concepts: [],
-	codesLists: [],
-	disseminationStatusListOptions: [],
-	stampListOptions: [],
-};
-
-export const ComponentDetailEdit =
-	Stores.DisseminationStatus.withDisseminationStatusListOptions(
-		DumbComponentDetailEdit
-	);

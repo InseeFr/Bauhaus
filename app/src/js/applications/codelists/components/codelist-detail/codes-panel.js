@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { API } from '../../apis';
 import { ClientSideError, GlobalClientSideErrorBloc, Row } from 'js/utils';
 import { CollapsiblePanel } from '../collapsible-panel';
@@ -48,7 +48,7 @@ const CodeSlidingPanel = ({
 		}
 	};
 	return (
-		<React.Fragment>
+		<>
 			<CodeSlidingPanelMenu
 				codelist={codelist}
 				handleSubmit={handleSubmit}
@@ -148,7 +148,7 @@ const CodeSlidingPanel = ({
 					/>
 				</div>
 			</Row>
-		</React.Fragment>
+		</>
 	);
 };
 
@@ -168,7 +168,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 		({ dataField, text, classifiable, ...rowParam }) => ({
 			dataField,
 			text: classifiable ? (
-				<React.Fragment>
+				<>
 					{text}
 					<button
 						type="button"
@@ -186,7 +186,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 							}
 						></span>
 					</button>
-				</React.Fragment>
+				</>
 			) : (
 				text
 			),
@@ -271,7 +271,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 			narrower: code.narrower?.length > 0 ? code.narrower.join(',') : '',
 			closeMatch: code.closeMatch?.length > 0 ? code.closeMatch.join(',') : '',
 			actions: (
-				<React.Fragment>
+				<>
 					{editable && (
 						<button
 							type="button"
@@ -302,7 +302,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 							<span className="glyphicon glyphicon-minus"></span>
 						</button>
 					)}
-				</React.Fragment>
+				</>
 			),
 		};
 	});
@@ -313,7 +313,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 				id="code-panel"
 				hidden={hidden}
 				title={
-					<React.Fragment>
+					<>
 						{D.codesTitle}
 
 						{editable && (
@@ -322,11 +322,11 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 								onHandlePanel={onHandlePanel}
 							/>
 						)}
-					</React.Fragment>
+					</>
 				}
 				collapsible={false}
 				children={
-					<Fragment>
+					<>
 						<Row>
 							<div className="col-md-6 form-group">
 								<label htmlFor="search-code">{D.codesSearchByCode}</label>
@@ -402,7 +402,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 								</ul>
 							</div>
 						)}
-					</Fragment>
+					</>
 				}
 			/>
 

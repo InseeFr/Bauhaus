@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Loading, goBack } from '@inseefr/wilco';
@@ -66,7 +66,7 @@ const CodelistComponentView = (props) => {
 	if (publishing) return <Loading text={'publishing'} />;
 
 	return (
-		<React.Fragment>
+		<>
 			<ComponentTitle component={codelist} secondLang={secondLang} />
 			<CodeListDetailView
 				{...props}
@@ -85,7 +85,7 @@ const CodelistComponentView = (props) => {
 				serverSideError={serverSideError}
 				publishComponent={publish}
 			/>
-		</React.Fragment>
+		</>
 	);
 };
 

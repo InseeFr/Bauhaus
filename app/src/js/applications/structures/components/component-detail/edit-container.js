@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
-import { ComponentDetailEdit } from './edit';
+import { DumbComponentDetailEdit } from './edit';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
 import { ConceptsAPI, Stores } from 'js/utils';
@@ -84,7 +84,7 @@ const EditContainer = (props) => {
 	}
 
 	return (
-		<ComponentDetailEdit
+		<DumbComponentDetailEdit
 			{...props}
 			col={2}
 			codesLists={codesLists}

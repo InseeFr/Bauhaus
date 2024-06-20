@@ -5,8 +5,10 @@ import { withCodesLists } from 'js/hooks/hooks';
 import api from '../../../api/datasets-api';
 import operationSeries from 'js/remote-api/operations-api';
 import { LabelRequired } from '@inseefr/wilco';
-import { ClientSideError, Row, StampsApi, Stores, SelectRmes } from 'js/utils';
+import { ClientSideError, Row, StampsApi, SelectRmes } from 'js/utils';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
+import { DisseminationStatusInput } from '../../../../../utils/dissemination-status/disseminationStatus';
+import { ContributorsInput } from '../../../../../utils/contributors/contributors';
 
 const InternalManagementTab = ({
 	editingDataset,
@@ -23,20 +25,6 @@ const InternalManagementTab = ({
 			}))
 		);
 	});
-
-	const { data: disseminationStatusOptions = [] } = useQuery(
-		['dissemination-status'],
-		() => {
-			return Stores.DisseminationStatus.api
-				.getDisseminationStatus()
-				.then((status) =>
-					status.map((d) => ({
-						value: d.url,
-						label: d.label,
-					}))
-				);
-		}
-	);
 
 	const { data: seriesOptions = [] } = useQuery(['series'], () => {
 		return operationSeries.getSeriesList().then((stamps) =>
@@ -120,18 +108,15 @@ const InternalManagementTab = ({
 
 			<Row>
 				<div className="col-md-12 form-group">
-					<LabelRequired>{D1.contributorTitle}</LabelRequired>
-					<SelectRmes
-						unclearable
-						multi
+					<ContributorsInput
+						stampListOptions={stampsOptions}
 						value={editingDataset.catalogRecord?.contributor}
-						options={stampsOptions}
-						onChange={(option) => {
+						handleChange={(values) => {
 							setEditingDataset({
 								...editingDataset,
 								catalogRecord: {
 									...(editingDataset.catalogRecord ?? {}),
-									contributor: option,
+									contributor: values,
 								},
 							});
 							setClientSideErrors((clientSideErrors) => ({
@@ -148,15 +133,12 @@ const InternalManagementTab = ({
 
 			<Row>
 				<div className="col-md-12 form-group">
-					<LabelRequired>{D1.disseminationStatusTitle}</LabelRequired>
-					<SelectRmes
-						unclearable
+					<DisseminationStatusInput
 						value={editingDataset.disseminationStatus}
-						options={disseminationStatusOptions}
-						onChange={(option) => {
+						handleChange={(value) => {
 							setEditingDataset({
 								...editingDataset,
-								disseminationStatus: option,
+								disseminationStatus: value,
 							});
 							setClientSideErrors((clientSideErrors) => ({
 								...clientSideErrors,
@@ -196,8 +178,9 @@ const InternalManagementTab = ({
 
 			<Row>
 				<div className="col-md-12 form-group">
-					<label className="w-100 wilco-label-required"></label>
-					{D1.datasetsAccessRights}
+					<label className="w-100 wilco-label-required">
+						{D1.datasetsAccessRights}
+					</label>
 					<SelectRmes
 						value={editingDataset.accessRights}
 						options={clAccessRightsOptions}
@@ -213,8 +196,9 @@ const InternalManagementTab = ({
 
 			<Row>
 				<div className="col-md-12 form-group">
-					<label className="w-100 wilco-label-required"></label>
-					{D1.datasetsConfidentialityStatus}
+					<label className="w-100 wilco-label-required">
+						{D1.datasetsConfidentialityStatus}
+					</label>
 					<SelectRmes
 						value={editingDataset.confidentialityStatus}
 						options={clConfStatusOptions}
@@ -230,8 +214,9 @@ const InternalManagementTab = ({
 
 			<Row>
 				<div className="col-md-12 form-group">
-					<label className="w-100 wilco-label-required"></label>
-					{D1.datasetProcessStep}
+					<label className="w-100 wilco-label-required">
+						{D1.datasetProcessStep}
+					</label>
 					<SelectRmes
 						unclearable
 						value={editingDataset.processStep}
@@ -247,8 +232,9 @@ const InternalManagementTab = ({
 			</Row>
 			<Row>
 				<div className="col-md-12 form-group">
-					<label className="w-100 wilco-label-required"></label>
-					{D1.datasetsArchiveUnit}
+					<label className="w-100 wilco-label-required">
+						{D1.datasetsArchiveUnit}
+					</label>
 					<SelectRmes
 						unclearable
 						value={editingDataset.archiveUnit}

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import SlidingPanel from 'react-sliding-side-panel';
 import { typeUriToLabel, defaultComponentsTableParams } from '../../utils';
 import D from '../../i18n/build-dictionary';
@@ -148,7 +148,7 @@ export const StructureComponentsSelector = ({
 							aria-label={D.mutualized}
 						></span>
 					) : (
-						<React.Fragment></React.Fragment>
+						<></>
 					),
 				concept: concepts.find(
 					({ id }) => id?.toString() === component.concept?.toString()
@@ -166,7 +166,7 @@ export const StructureComponentsSelector = ({
 					/>
 				),
 				actions: (
-					<React.Fragment>
+					<>
 						<button
 							data-component-id={component.identifiant}
 							onClick={seeClickHandler}
@@ -213,7 +213,7 @@ export const StructureComponentsSelector = ({
 								<span className="glyphicon glyphicon-arrow-down"></span>
 							</button>
 						)}
-					</React.Fragment>
+					</>
 				),
 			};
 		});
@@ -223,7 +223,7 @@ export const StructureComponentsSelector = ({
 			hidden={hidden}
 			collapsible={false}
 			title={
-				<React.Fragment>
+				<>
 					{D.componentTitle}{' '}
 					{!readOnly && (
 						<Auth.AuthGuard roles={[Auth.ADMIN]}>
@@ -236,7 +236,7 @@ export const StructureComponentsSelector = ({
 							</button>
 						</Auth.AuthGuard>
 					)}
-				</React.Fragment>
+				</>
 			}
 		>
 			<Table

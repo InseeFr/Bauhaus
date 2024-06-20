@@ -11,7 +11,7 @@ import {
 	useTitle,
 } from 'js/utils';
 import React, { useEffect, useState } from 'react';
-import { DSURLToLabel, Note } from '@inseefr/wilco';
+import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import api from '../../api/datasets-api';
 import StructureAPI from '../../../structures/apis/structure-api';
@@ -26,6 +26,8 @@ import {
 	Publishing,
 	Loading,
 } from '../../../../new-architecture/components/loading/loading';
+import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
+import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -280,12 +282,15 @@ const Dataset = (props) => {
 								{D.creatorTitle} : {dataset.catalogRecord?.creator}{' '}
 							</li>
 							<li>
-								{D.contributorTitle} : {dataset.catalogRecord?.contributor}{' '}
+								<ContributorsVisualisation
+									contributors={dataset.catalogRecord?.contributor}
+								/>
 							</li>
 
 							<li>
-								{D.disseminationStatusTitle} :{' '}
-								{DSURLToLabel(dataset.disseminationStatus)}{' '}
+								<DisseminationStatusVisualisation
+									disseminationStatus={dataset.disseminationStatus}
+								/>
 							</li>
 							{dataset.processStep && (
 								<li>

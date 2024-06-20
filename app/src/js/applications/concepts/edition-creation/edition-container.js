@@ -8,7 +8,7 @@ import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import { Loading } from '@inseefr/wilco';
 import { CLOSE_MATCH } from 'js/constants';
-import { ArrayUtils, HTMLUtils, Stores } from 'js/utils';
+import { ArrayUtils, HTMLUtils } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import globalApi from '../../../remote-api/api';
 import { emptyNotes } from '../../../utils/concepts/notes';
@@ -36,7 +36,6 @@ const EditionContainer = () => {
 	const [concept, setConcept] = useState({});
 	const [concepts, setConcepts] = useState([]);
 	const [stamps, setStamps] = useState([]);
-	const [disseminationStatus, setDisseminationStatus] = useState([]);
 
 	const [loading, setLoading] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
@@ -62,15 +61,10 @@ const EditionContainer = () => {
 	}, [id]);
 
 	useEffect(() => {
-		Promise.all([
-			api.getConceptList(),
-			globalApi.getStampList(),
-			Stores.DisseminationStatus.api.getDisseminationStatus(),
-		])
-			.then(([conceptsList, stampsList, disseminationStatusList]) => {
+		Promise.all([api.getConceptList(), globalApi.getStampList()])
+			.then(([conceptsList, stampsList]) => {
 				setConcepts(ArrayUtils.sortArrayByLabel(conceptsList));
 				setStamps(stampsList);
-				setDisseminationStatus(disseminationStatusList);
 			})
 			.finally(() => setLoadingExtraData(false));
 	}, []);
@@ -106,7 +100,6 @@ const EditionContainer = () => {
 				(link) => link.typeOfLink === CLOSE_MATCH
 			)}
 			conceptsWithLinks={conceptsWithLinks}
-			disseminationStatusList={disseminationStatus}
 			maxLengthScopeNote={maxLengthScopeNote}
 			stampList={stamps}
 			save={handleUpdate}

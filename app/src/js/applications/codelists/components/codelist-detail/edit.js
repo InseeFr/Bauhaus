@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import dayjs from 'dayjs';
 import {
 	CancelButton,
@@ -8,14 +8,12 @@ import {
 	Select,
 } from '@inseefr/wilco';
 import {
-	Stores,
 	useTitle,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	Auth,
 	Row,
-	SelectRmes,
 } from 'js/utils';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
@@ -23,17 +21,18 @@ import './edit.scss';
 import MainDictionary from '../../../../i18n/build-dictionary';
 import { CodesCollapsiblePanel } from './codes-panel';
 import { useSelector } from 'react-redux';
+import { ContributorsInput } from '../../../../utils/contributors/contributors';
+import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
 
 const defaultCodelist = {
 	created: dayjs(),
 };
-const DumbCodelistDetailEdit = ({
+export const DumbCodelistDetailEdit = ({
 	codelist: initialCodelist,
 	handleSave,
 	handleBack,
 	updateMode,
-	disseminationStatusListOptions,
-	stampListOptions,
+	stampListOptions = [],
 	serverSideError,
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
@@ -86,7 +85,7 @@ const DumbCodelistDetailEdit = ({
 	}, [codelist, handleSave]);
 
 	return (
-		<React.Fragment>
+		<>
 			<ActionToolbar>
 				<CancelButton action={handleBack} col={3} />
 				<SaveButton
@@ -268,37 +267,26 @@ const DumbCodelistDetailEdit = ({
 					></ClientSideError>
 				</div>
 				<div className="form-group">
-					<label>{D1.contributor}</label>
-					<SelectRmes
-						placeholder={D1.stampsPlaceholder}
+					<ContributorsInput
+						stampListOptions={stampListOptions}
 						value={codelist.contributor}
-						options={stampListOptions}
-						onChange={(option) =>
-							setCodelist({ ...codelist, contributor: option })
+						handleChange={(values) =>
+							setCodelist({ ...codelist, contributor: values })
 						}
-						multi
 					/>
 				</div>
 				<div className="form-group">
-					<LabelRequired htmlFor="disseminationStatus">
-						{MainDictionary.disseminationStatusTitle}
-					</LabelRequired>
-					<Select
-						className="form-control"
-						placeholder={D1.disseminationStatusPlaceholder}
-						value={disseminationStatusListOptions.find(
-							({ value }) => value === codelist.disseminationStatus
-						)}
-						options={disseminationStatusListOptions}
-						onChange={(value) => {
+					<DisseminationStatusInput
+						value={codelist.disseminationStatus}
+						handleChange={(value) => {
 							setCodelist({ ...codelist, disseminationStatus: value });
 							setClientSideErrors({
 								...clientSideErrors,
 								errorMessage: [],
 							});
 						}}
-						searchable={true}
 					/>
+
 					<ClientSideError
 						id="disseminationStatus-error"
 						error={clientSideErrors?.fields?.disseminationStatus}
@@ -332,16 +320,6 @@ const DumbCodelistDetailEdit = ({
 			{updateMode && (
 				<CodesCollapsiblePanel codelist={codelist} editable={true} />
 			)}
-		</React.Fragment>
+		</>
 	);
 };
-
-DumbCodelistDetailEdit.defaultProps = {
-	disseminationStatusListOptions: [],
-	stampListOptions: [],
-};
-
-export const CodeListDetailEdit =
-	Stores.DisseminationStatus.withDisseminationStatusListOptions(
-		DumbCodelistDetailEdit
-	);

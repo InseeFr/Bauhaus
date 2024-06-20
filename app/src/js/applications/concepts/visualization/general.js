@@ -1,7 +1,8 @@
 import React from 'react';
 import { D1 } from 'js/i18n';
-import { DSURLToLabel, Note } from '@inseefr/wilco';
+import { Note } from '@inseefr/wilco';
 import { ArrayUtils, DateUtils } from 'js/utils';
+import { DisseminationStatusVisualisation } from '../../../utils/dissemination-status/disseminationStatus';
 
 function ConceptGeneral({ attr, secondLang, langs }) {
 	const { lg1, lg2 } = langs;
@@ -101,9 +102,9 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 								if (fieldName === 'disseminationStatus') {
 									return (
 										<li key={fieldName}>
-											{`${mapping[fieldName]} : ${DSURLToLabel(
-												attr[fieldName]
-											)}`}
+											<DisseminationStatusVisualisation
+												disseminationStatus={attr[fieldName]}
+											/>
 										</li>
 									);
 								} else if (fieldName === 'isValidated') {

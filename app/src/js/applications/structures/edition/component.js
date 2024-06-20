@@ -16,10 +16,11 @@ import {
 	SelectRmes,
 } from 'js/utils';
 import D, { D1, D2 } from 'js/i18n';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import 'react-select/dist/react-select.css';
 import { validate } from './validation';
-import MainDictionary from 'js/i18n/build-dictionary';
+import { ContributorsInput } from '../../../utils/contributors/contributors';
+import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
 
 const isRequiredBys = [
 	'Melodi-Chargement',
@@ -34,16 +35,12 @@ const defaultDSD = {
 	descriptionLg1: '',
 	descriptionLg2: '',
 	disseminationStatus: DISSEMINATION_STATUS.PUBLIC_GENERIC,
-	contributor: 'DG75-H250',
+	contributor: ['DG75-H250'],
 	componentDefinitions: [],
 	isRequiredBy: '',
 };
 
-const Edition = ({
-	creation,
-	initialStructure,
-	loadDisseminationStatusList,
-}) => {
+const Edition = ({ creation, initialStructure }) => {
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
@@ -51,14 +48,6 @@ const Edition = ({
 		label: value,
 		value,
 	}));
-	const disseminationStatusListOptions = useSelector((state) =>
-		Stores.DisseminationStatus.getDisseminationStatusListOptions(state)
-	);
-	useEffect(() => {
-		if (disseminationStatusListOptions.length === 0) {
-			loadDisseminationStatusList();
-		}
-	}, [disseminationStatusListOptions.length, loadDisseminationStatusList]);
 
 	const { lg1, lg2 } = useContext(AppContext);
 
@@ -230,36 +219,20 @@ const Edition = ({
 				/>
 			</div>
 			<div className="form-group">
-				<label>{D1.contributorTitle}</label>
-				<SelectRmes
-					placeholder={D1.stampsPlaceholder}
+				<ContributorsInput
 					value={contributor}
-					options={stampListOptions}
-					onChange={(value) => onChange('contributor', value)}
-					searchable
-					multi
+					handleChange={(values) => onChange('contributor', values)}
+					stampListOptions={stampListOptions}
 				/>
 			</div>
 
 			<div className="form-group">
-<<<<<<< HEAD
-				<label>{D1.disseminationStatusTitle}</label>
-				<SelectRmes
-					placeholder={D1.disseminationStatusTitle}
-=======
-				<label>{MainDictionary.disseminationStatusTitle}</label>
-				<Select
-					className="form-control"
-					placeholder={MainDictionary.disseminationStatusTitle}
->>>>>>> main
-					value={disseminationStatusListOptions.find(
-						({ value }) => value === disseminationStatus
-					)}
-					options={disseminationStatusListOptions}
-					onChange={(value) => onChange('disseminationStatus', value)}
-					searchable
+				<DisseminationStatusInput
+					value={disseminationStatus}
+					handleChange={(value) => onChange('disseminationStatus', value)}
 				/>
 			</div>
+
 			<div className="form-group">
 				<label>{D1.processusTitle}</label>
 				<SelectRmes
@@ -282,7 +255,4 @@ const Edition = ({
 	);
 };
 
-export default connect(undefined, {
-	loadDisseminationStatusList:
-		Stores.DisseminationStatus.loadDisseminationStatusList,
-})(Edition);
+export default Edition;

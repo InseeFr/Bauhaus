@@ -59,7 +59,7 @@ export default auth(() => {
 	}
 
 	return (
-		<React.Fragment>
+		<>
 			<Suspense fallback={<Loading />}>
 				<Switch>
 					<Route exact path="/" render={() => homePage} />
@@ -90,6 +90,6 @@ export default auth(() => {
 					<Route path="*" component={NotFound} />
 				</Switch>
 			</Suspense>
-		</React.Fragment>
+		</>
 	);
 });

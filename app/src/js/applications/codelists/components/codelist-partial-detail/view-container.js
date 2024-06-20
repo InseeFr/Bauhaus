@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { CodesList, Stores } from 'js/utils';
@@ -89,7 +89,7 @@ const CodelistPartialComponentView = (props) => {
 	if (publishing) return <Publishing />;
 
 	return (
-		<React.Fragment>
+		<>
 			<ComponentTitle component={codelist} secondLang={secondLang} />
 			<CodeListPartialDetailView
 				{...props}
@@ -108,7 +108,7 @@ const CodelistPartialComponentView = (props) => {
 				serverSideError={serverSideError}
 				publishComponent={publish}
 			/>
-		</React.Fragment>
+		</>
 	);
 };
 

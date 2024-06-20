@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import {
 	Note,
@@ -22,6 +21,8 @@ import {
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { rowParams } from '../code-detail/code-columns';
+import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
+import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 
 export const CodeListPartialDetailView = ({
 	codelist,
@@ -54,7 +55,7 @@ export const CodeListPartialDetailView = ({
 	const codes = Object.values(codelist.codes || {});
 
 	return (
-		<React.Fragment>
+		<>
 			{modalOpened && (
 				<ConfirmationDelete
 					className="codelists"
@@ -98,7 +99,14 @@ export const CodeListPartialDetailView = ({
 									{D.creator} : {codelist.creator}
 								</li>
 								<li>
-									{D.contributor} : {codelist.contributor}
+									<ContributorsVisualisation
+										contributors={codelist.contributor}
+									/>
+								</li>
+								<li>
+									<DisseminationStatusVisualisation
+										disseminationStatus={codelist.disseminationStatus}
+									/>
 								</li>
 							</ul>
 						}
@@ -139,6 +147,6 @@ export const CodeListPartialDetailView = ({
 					/>
 				</Row>
 			)}
-		</React.Fragment>
+		</>
 	);
 };

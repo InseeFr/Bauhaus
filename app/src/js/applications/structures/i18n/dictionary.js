@@ -260,18 +260,6 @@ const dictionary = {
 		fr: 'Voir les codes de cette liste',
 		en: 'see codes of this list',
 	},
-	DSPublicGeneriqueTitle: {
-		fr: 'Public générique',
-		en: 'Public generic',
-	},
-	DSPublicSpecifiqueTitle: {
-		fr: 'Public spécifique',
-		en: 'Public specific',
-	},
-	DSPrivateTitle: {
-		fr: 'Privé',
-		en: 'Private',
-	},
 	statusValidatedM: {
 		fr: 'Publié',
 		en: 'Published',

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
@@ -8,6 +6,7 @@ import {
 	PublicationFemale,
 	withTitle,
 	CreationUpdateItems,
+	Row,
 } from 'js/utils';
 import D from '../../../../i18n/build-dictionary';
 
@@ -18,7 +17,7 @@ function OperationsFamilyVisualization({
 }) {
 	return (
 		<>
-			<div className="row">
+			<Row>
 				<Note
 					text={
 						<ul>
@@ -34,8 +33,8 @@ function OperationsFamilyVisualization({
 					title={D1.globalInformationsTitle}
 					alone={true}
 				/>
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note
 					text={attr.themeLg1}
 					title={D1.theme}
@@ -51,9 +50,9 @@ function OperationsFamilyVisualization({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 
-			<div className="row">
+			<Row>
 				<Note
 					text={HTMLUtils.renderMarkdownElement(attr.abstractLg1)}
 					title={D1.summary}
@@ -70,7 +69,7 @@ function OperationsFamilyVisualization({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 			<RelationsView
 				children={attr.series}
 				childrenTitle={'childrenSeries'}

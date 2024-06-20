@@ -293,7 +293,7 @@ class SimsCreation extends React.Component {
 					return (
 						<div key={msd.idMas} className="bauhaus-sims-creation">
 							{index === 0 && (
-								<React.Fragment>
+								<>
 									<CheckSecondLang
 										secondLang={secondLang}
 										onChange={() => {
@@ -326,7 +326,7 @@ class SimsCreation extends React.Component {
 											searchable
 										/>
 									)}
-								</React.Fragment>
+								</>
 							)}
 							{MSDInformations(msd, this.handleChange, true)}
 						</div>

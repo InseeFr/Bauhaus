@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Note } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
-import {
-	typeUriToLabel,
-	getAllAttachment,
-	getDisseminationStatus,
-} from '../../utils';
+import { typeUriToLabel, getAllAttachment } from '../../utils';
 import {
 	XSD_CODE_LIST,
 	XSD_TYPES,
@@ -24,100 +20,16 @@ import {
 import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from '../../../codelists/apis';
-import api from '../../apis/structure-api';
 import MainDictionary from '../../../../i18n/build-dictionary';
 import { ViewMenu } from './menu';
-
-export const MeasureAttributeCodeValue = ({ value, attribute, codesLists }) => {
-	const [codesList, setCodesList] = useState();
-	const codeListNotation = codesLists.find(
-		(cl) => cl.id === attribute.codeList
-	)?.notation;
-
-	useEffect(() => {
-		API.getCodelist(codeListNotation).then((cl) => setCodesList(cl));
-	}, [codeListNotation]);
-
-	if (!codesList) {
-		return null;
-	}
-
-	const code = codesList.codes.find((c) => c.iri === value);
-	return <React.Fragment>{code?.labelLg1}</React.Fragment>;
-};
-
-export const MeasureAttributeValue = ({ value, attribute, codesLists }) => {
-	if (attribute.range === XSD_CODE_LIST) {
-		return (
-			<MeasureAttributeCodeValue
-				value={value}
-				attribute={attribute}
-				codesLists={codesLists}
-			/>
-		);
-	}
-	return <React.Fragment>{value}</React.Fragment>;
-};
-export const MeasureAttribute = ({
-	attribute,
-	value,
-	attributes,
-	codesLists,
-}) => {
-	const attributeId = attributes.find((a) => a.iri === attribute)?.id;
-	const [fullAttribute, setFullAttribute] = useState();
-
-	useEffect(() => {
-		api
-			.getMutualizedComponent(attributeId)
-			.then((body) => setFullAttribute(body));
-	}, [attributeId]);
-
-	if (!fullAttribute) {
-		return null;
-	}
-
-	return (
-		<React.Fragment>
-			{fullAttribute?.labelLg1}:{' '}
-			<MeasureAttributeValue
-				value={value}
-				attribute={fullAttribute}
-				codesLists={codesLists}
-			/>
-		</React.Fragment>
-	);
-};
-export const MeasureAttributes = ({ measure, attributes, codesLists }) => {
-	const measureAttributes = Object.keys(measure)
-		.filter((key) => key.indexOf('attribute_') === 0)
-		.map((key) => {
-			const index = key.substring(key.indexOf('_') + 1);
-			return [
-				measure['attribute_' + index],
-				measure['attributeValue_' + index],
-			];
-		});
-	return (
-		<ul>
-			{measureAttributes.map(([key, value]) => (
-				<li key={key}>
-					<MeasureAttribute
-						attribute={key}
-						value={value}
-						attributes={attributes}
-						codesLists={codesLists}
-					/>
-				</li>
-			))}
-		</ul>
-	);
-};
+import { MeasureAttributes } from './visualisation/measureAttributes';
+import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
+import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 
 export const ComponentDetailView = ({
 	component,
-	concepts,
-	codesLists,
+	concepts = [],
+	codesLists = [],
 	handleUpdate,
 	handleDelete,
 	handleBack,
@@ -173,7 +85,7 @@ export const ComponentDetailView = ({
 		publishComponent();
 	};
 	return (
-		<React.Fragment>
+		<>
 			<ViewMenu
 				component={component}
 				handleBack={handleBack}
@@ -187,7 +99,7 @@ export const ComponentDetailView = ({
 			{serverSideError && (
 				<ErrorBloc error={serverSideError} D={MainDictionary} />
 			)}
-			<div className="row">
+			<Row>
 				<Note
 					text={
 						<ul>
@@ -206,22 +118,25 @@ export const ComponentDetailView = ({
 								{D.creator} : {component.creator}
 							</li>
 							<li>
-								{D.contributor} : {component.contributor}
+								<ContributorsVisualisation
+									contributors={component.contributor}
+								/>
 							</li>
 							<li>
-								{MainDictionary.disseminationStatusTitle} :{' '}
-								{getDisseminationStatus(component.disseminationStatus)}
+								<DisseminationStatusVisualisation
+									disseminationStatus={component.disseminationStatus}
+								/>
 							</li>
 						</ul>
 					}
 					title={D.globalInformationsTitle}
 					alone={true}
 				/>
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note text={typeValue} title={D1.type} alone={true} allowEmpty={true} />
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note
 					text={component.altLabelLg1}
 					title={D1.altLabel}
@@ -238,16 +153,16 @@ export const ComponentDetailView = ({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note
 					text={conceptValue}
 					title={D1.conceptTitle}
 					alone={true}
 					allowEmpty={true}
 				/>
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note
 					text={
 						<>
@@ -285,9 +200,9 @@ export const ComponentDetailView = ({
 					alone={true}
 					allowEmpty={true}
 				/>
-			</div>
+			</Row>
 			{component.range === XSD_CODE_LIST && (
-				<div className="row">
+				<Row>
 					<Note
 						text={
 							<div className="code-list-zone-view">
@@ -304,9 +219,9 @@ export const ComponentDetailView = ({
 						alone={true}
 						allowEmpty={true}
 					/>
-				</div>
+				</Row>
 			)}
-			<div className="row">
+			<Row>
 				<Note
 					text={descriptionLg1}
 					title={D1.descriptionTitle}
@@ -321,7 +236,7 @@ export const ComponentDetailView = ({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 			{component.type === MEASURE_PROPERTY_TYPE && (
 				<Row>
 					<Note
@@ -339,7 +254,7 @@ export const ComponentDetailView = ({
 				</Row>
 			)}
 			{mutualized && component.structures?.length > 0 && (
-				<div className="row">
+				<Row>
 					<Note
 						text={
 							<ul>
@@ -358,14 +273,14 @@ export const ComponentDetailView = ({
 						alone={true}
 						allowEmpty={true}
 					/>
-				</div>
+				</Row>
 			)}
 			{component.type === ATTRIBUTE_TYPE && !mutualized && (
-				<React.Fragment>
+				<>
 					<hr />
 					<h4>{D1.componentSpecificationTitle}</h4>
 
-					<div className="row">
+					<Row>
 						<Note
 							text={
 								<ul>
@@ -385,16 +300,16 @@ export const ComponentDetailView = ({
 							alone={true}
 							allowEmpty={true}
 						/>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<Note
 							text={component.required ? D.yes : D.no}
 							title={D1.requiredSpecificationTitle}
 							alone={true}
 							allowEmpty={true}
 						/>
-					</div>
-				</React.Fragment>
+					</Row>
+				</>
 			)}
 			<CodesListPanel
 				codesList={fullCodeLists.find(
@@ -405,12 +320,6 @@ export const ComponentDetailView = ({
 				isOpen={codesListPanelOpened}
 				handleBack={() => setCodesListPanelOpened(false)}
 			/>
-		</React.Fragment>
+		</>
 	);
-};
-
-ComponentDetailView.defaultProps = {
-	structureComponents: [],
-	concepts: [],
-	codesLists: [],
 };

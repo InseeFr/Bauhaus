@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { ComponentDetailEdit } from './edit';
+import { useCallback, useState } from 'react';
+import { DumbComponentDetailEdit } from './edit';
 import { ComponentDetailView } from './view';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
@@ -27,7 +27,7 @@ export const ComponentDetail = (props) => {
 	return (
 		<div className="container">
 			{mode === 'VIEW' && (
-				<React.Fragment>
+				<>
 					<ComponentTitle component={props.component} secondLang={secondLang} />
 
 					<ComponentDetailView
@@ -37,10 +37,10 @@ export const ComponentDetail = (props) => {
 						handleBack={props.handleBack}
 						updatable={!props.readOnly}
 					/>
-				</React.Fragment>
+				</>
 			)}
 			{mode === 'EDIT' && (
-				<ComponentDetailEdit
+				<DumbComponentDetailEdit
 					{...props}
 					handleSave={handleEditUpdate}
 					handleBack={handleEditBack}

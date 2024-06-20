@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
@@ -9,6 +7,7 @@ import {
 	CreationUpdateItems,
 	HTMLUtils,
 	PublicationMale,
+	Row,
 	withTitle,
 } from 'js/utils';
 import PublishersView from 'js/applications/operations/components/publishers-view';
@@ -28,7 +27,7 @@ function DisplayMultiLangNote({
 	const body2 = md ? HTMLUtils.renderMarkdownElement(value2) : value2;
 
 	return (
-		<div className="row">
+		<Row>
 			<Note
 				text={body1}
 				title={D1[title]}
@@ -45,7 +44,7 @@ function DisplayMultiLangNote({
 					allowEmpty={true}
 				/>
 			)}
-		</div>
+		</Row>
 	);
 }
 
@@ -58,8 +57,8 @@ function OperationsIndicatorVisualization(props) {
 	);
 
 	return (
-		<React.Fragment>
-			<div className="row">
+		<>
+			<Row>
 				<Note
 					text={
 						<ul>
@@ -75,7 +74,7 @@ function OperationsIndicatorVisualization(props) {
 					title={D1.globalInformationsTitle}
 					alone={true}
 				/>
-			</div>
+			</Row>
 			<DisplayMultiLangNote
 				value1={attr.altLabelLg1}
 				value2={attr.altLabelLg2}
@@ -105,12 +104,12 @@ function OperationsIndicatorVisualization(props) {
 				langs={langs}
 				secondLang={secondLang}
 			/>
-			<div className="row">
+			<Row>
 				<PublishersView publishers={attr.publishers} />
-			</div>
-			<div className="row" data-cy="proprietaires">
+			</Row>
+			<Row>
 				<CreatorsView creators={attr.creators} />
-			</div>
+			</Row>
 			<DisplayLinks
 				links={contributors}
 				title={'stakeholders'}
@@ -143,7 +142,7 @@ function OperationsIndicatorVisualization(props) {
 			/>
 
 			<SeeAlso links={seeAlso} langs={langs} secondLang={secondLang} />
-		</React.Fragment>
+		</>
 	);
 }
 
