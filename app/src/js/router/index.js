@@ -1,15 +1,20 @@
-import React from 'react';
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import Routes from './routes';
 import bauhausLogo from 'img/logo_noir.svg';
 import { getEnvVar } from 'js/utils/env';
-import D from 'js/i18n';
-
+import D from 'js/new-architecture/i18n';
 import 'react-app-polyfill/stable';
 import { useSelector } from 'react-redux';
 import { Auth } from 'js/utils';
+import { removeToken } from '../utils/auth/open-id-connect-auth/token-utils';
 
-const RBACLink = ({ children }) => {
+const logout = () => {
+	removeToken();
+	window.location = window.location.origin;
+};
+
+export const RBACLink = ({ children }) => {
+	const location = useLocation();
 	const authorizationHost = useSelector(
 		(state) => state.app.properties.authorizationHost
 	);
@@ -18,7 +23,6 @@ const RBACLink = ({ children }) => {
 		'VERSION'
 	)} - API ${version}`;
 
-	const location = useLocation();
 	const isHomePage = location.pathname === '/';
 
 	return (
@@ -28,22 +32,27 @@ const RBACLink = ({ children }) => {
 			<footer className="text-center" style={{ marginTop: '50px' }}>
 				<p>
 					<img width="100" src={bauhausLogo} alt="application logo" />
-
 					{footer}
 				</p>
-				<Auth.AuthGuard roles={[Auth.ADMIN]}>
-					{isHomePage && (
-						<p>
+				<div
+					style={{ display: 'flex', 'justify-content': 'center', gap: '5px' }}
+				>
+					<button onClick={logout} className="btn btn-primary">
+						{D.authentication.logout}
+					</button>
+					<Auth.AuthGuard roles={[Auth.ADMIN]}>
+						{isHomePage && (
 							<a
+								className="btn btn-primary"
 								rel="noreferrer noopener"
 								target="_blank"
 								href={authorizationHost}
 							>
-								{D.authorizationTitle}
+								{D.authentication.title}
 							</a>
-						</p>
-					)}
-				</Auth.AuthGuard>
+						)}
+					</Auth.AuthGuard>
+				</div>
 			</footer>
 		</>
 	);
