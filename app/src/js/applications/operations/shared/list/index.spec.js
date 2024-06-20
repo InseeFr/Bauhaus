@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { MasculineButton } from 'bauhaus-utilities';
+import { MasculineButton } from 'js/utils';
 
 const createStore = (roles = []) => {
 	const mockStore = configureStore([]);

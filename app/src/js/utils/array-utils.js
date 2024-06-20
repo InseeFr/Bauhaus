@@ -1,11 +1,11 @@
 import React from 'react';
-import { DateUtils } from 'bauhaus-utilities';
+import { DateUtils } from '../utils';
 
-export const filterKeyDate = key => (start, end) => item => {
+export const filterKeyDate = (key) => (start, end) => (item) => {
 	return !item[key] || DateUtils.isDateIn(item[key], start, end);
 };
 
-export const creatSelectList = max => {
+export const creatSelectList = (max) => {
 	const result = [];
 	for (let i = 1; i <= max; i++) {
 		result.push(
@@ -17,7 +17,7 @@ export const creatSelectList = max => {
 	return result;
 };
 
-export const creatSelectListSelectedLast = max => {
+export const creatSelectListSelectedLast = (max) => {
 	const result = [];
 	for (let i = 1; i < max; i++) {
 		result.push(
@@ -37,6 +37,6 @@ export const creatSelectListSelectedLast = max => {
 //Get members of concept
 export const getMembers = (linksArray, typeOfLink) => {
 	return linksArray
-		.filter(link => link.conceptLink === typeOfLink)
+		.filter((link) => link.conceptLink === typeOfLink)
 		.map(({ idLinked, prefLabelLg1 }) => ({ id: idLinked, prefLabelLg1 }));
 };

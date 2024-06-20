@@ -9,9 +9,9 @@ import {
 	Stores,
 	Row,
 	useTitle,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import React, { useEffect, useState } from 'react';
-import { DSURLToLabel, Loading, Note } from '@inseefr/wilco';
+import { DSURLToLabel, Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import api from '../../api/datasets-api';
 import StructureAPI from '../../../structures/apis/structure-api';
@@ -21,6 +21,11 @@ import apiOrganisations from '../../../../remote-api/organisations-api';
 import { withCodesLists } from '../../../../hooks/hooks';
 import { useDataset } from '../../hooks';
 import { ViewMenu } from './menu';
+import {
+	Deleting,
+	Publishing,
+	Loading,
+} from '../../../../new-architecture/components/loading/loading';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -81,8 +86,9 @@ const Dataset = (props) => {
 
 	useTitle(D.datasetsTitle, dataset?.labelLg1);
 
-	if (isLoading || isDeleting) return <Loading />;
-	if (isPublishing) return <Loading text="publishing" />;
+	if (isLoading) return <Loading />;
+	if (isDeleting) return <Deleting />;
+	if (isPublishing) return <Publishing />;
 
 	return (
 		<div className="container">

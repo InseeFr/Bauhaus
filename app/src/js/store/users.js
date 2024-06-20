@@ -1,21 +1,21 @@
-import { Stores } from 'bauhaus-utilities';
+import { Stores } from '../utils';
 
 export const CHECK_AUTH = 'CHECK_AUTH';
 export const SAVE_USER_PROPS = 'SAVE_USER_PROPS';
 
-export const saveUserProps = props => {
+export const saveUserProps = (props) => {
 	return {
 		type: SAVE_USER_PROPS,
 		payload: props,
 	};
 };
 
-export const checkAuth = body => ({
+export const checkAuth = (body) => ({
 	type: CHECK_AUTH,
 	payload: body,
 });
 
-export default function(state = {}, action) {
+export default function (state = {}, action) {
 	const { type, payload } = action;
 	switch (type) {
 		case Stores.SecondLang.SAVE_SECOND_LANG: {

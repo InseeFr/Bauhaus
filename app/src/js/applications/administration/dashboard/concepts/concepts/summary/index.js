@@ -3,7 +3,7 @@ import { Table } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { rowParams, buildData } from './summary-data';
 import { rowParamsStamps, buildDataStamps } from './stamps-data';
-import { DateUtils } from 'bauhaus-utilities';
+import { DateUtils } from 'js/utils';
 
 function ConceptsSummary({ conceptsData }) {
 	const data = buildData(conceptsData);

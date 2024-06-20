@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import { ActionToolbar, Button, getContentDisposition } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import D from 'js/i18n';
@@ -7,7 +6,7 @@ import api from '../../../remote-api/concepts-collection-api';
 import FileSaver from 'file-saver';
 import { CollectionExportModal } from '../modal';
 import { useSelector } from 'react-redux';
-import { Auth } from 'bauhaus-utilities';
+import { Auth } from 'js/utils';
 
 const CollectionVisualizationControls = ({
 	isValidated,
@@ -90,4 +89,4 @@ const CollectionVisualizationControls = ({
 	);
 };
 
-export default withRouter(CollectionVisualizationControls);
+export default CollectionVisualizationControls;

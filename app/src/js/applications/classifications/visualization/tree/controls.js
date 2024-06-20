@@ -1,16 +1,18 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { goBack, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { useLocation } from 'react-router-dom';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { useGoBack } from '../../../../hooks/hooks';
 
-function ClassificationControls(props) {
-	const location = props.history.location.pathname;
-	const nextLocation = location.replace('/tree', '');
+function ClassificationControls() {
+	const location = useLocation();
+	const goBack = useGoBack();
+	const nextLocation = location.pathname.replace('/tree', '');
 
 	return (
 		<ActionToolbar>
-			<ReturnButton action={goBack(props, nextLocation)} />
+			<ReturnButton action={() => goBack(nextLocation)} />
 		</ActionToolbar>
 	);
 }
 
-export default withRouter(ClassificationControls);
+export default ClassificationControls;

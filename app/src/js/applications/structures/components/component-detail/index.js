@@ -3,9 +3,9 @@ import { ComponentDetailEdit } from './edit';
 import { ComponentDetailView } from './view';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
-import { Stores } from 'bauhaus-utilities';
+import { Stores } from 'js/utils';
 
-export const ComponentDetail = props => {
+export const ComponentDetail = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 
 	const [mode, setMode] = useState(
@@ -14,7 +14,7 @@ export const ComponentDetail = props => {
 
 	const handleViewUpdate = useCallback(() => setMode('EDIT'), []);
 	const handleEditUpdate = useCallback(
-		component => {
+		(component) => {
 			props.handleSave(component);
 			setMode('VIEW');
 		},

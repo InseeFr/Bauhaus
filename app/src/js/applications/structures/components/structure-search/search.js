@@ -10,9 +10,11 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	AbstractAdvancedSearchComponent,
-	ItemToSelectModel, Stores,
-	withTitle, useUrlQueryParameters,
-} from 'bauhaus-utilities';
+	ItemToSelectModel,
+	Stores,
+	withTitle,
+	useUrlQueryParameters,
+} from 'js/utils';
 import { useSelector } from 'react-redux';
 
 const filterLabelLg1 = ArrayUtils.filterKeyDeburr(['labelLg1']);
@@ -25,13 +27,20 @@ const filterComponentLabelLg1 = ArrayUtils.filterKeyDeburr([
 const filterType = ArrayUtils.filterKeyDeburr(['components.type']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['components.concept']);
 
-const fields = ['labelLg1', 'componentLabelLg1', 'type', 'concept', 'creator', 'validationState'];
+const fields = [
+	'labelLg1',
+	'componentLabelLg1',
+	'type',
+	'concept',
+	'creator',
+	'validationState',
+];
 
 const validateStateOptions = [
-	{value: 'Unpublished', label: D.statusUnpublishedF},
-	{value: 'Modified', label: D.statusModifiedF},
-	{value: 'Validated', label: D.statusValidatedF}
-]
+	{ value: 'Unpublished', label: D.statusUnpublishedF },
+	{ value: 'Modified', label: D.statusModifiedF },
+	{ value: 'Validated', label: D.statusValidatedF },
+];
 
 const defaultState = {
 	labelLg1: '',
@@ -39,27 +48,51 @@ const defaultState = {
 	type: '',
 	concept: '',
 	creator: '',
-	validationState: ''
+	validationState: '',
 };
 
 export class SearchFormList extends AbstractAdvancedSearchComponent {
-
-
 	constructor(props) {
 		super(props, {
 			...defaultState,
-			...props.search
+			...props.search,
 		});
 	}
 
-	handlers = this.handleChange(fields, newState => {
-		const { labelLg1, componentLabelLg1, type, concept, creator, validationState } = newState;
-		this.props.setSearch({ labelLg1, componentLabelLg1, type, concept, creator, validationState });
-
+	handlers = this.handleChange(fields, (newState) => {
+		const {
+			labelLg1,
+			componentLabelLg1,
+			type,
+			concept,
+			creator,
+			validationState,
+		} = newState;
+		this.props.setSearch({
+			labelLg1,
+			componentLabelLg1,
+			type,
+			concept,
+			creator,
+			validationState,
+		});
 	});
 
 	render() {
-		const { concepts, stampListOptions, data, reset, search: { labelLg1, componentLabelLg1, type, concept, creator, validationState }} = this.props;
+		const {
+			concepts,
+			stampListOptions,
+			data,
+			reset,
+			search: {
+				labelLg1,
+				componentLabelLg1,
+				type,
+				concept,
+				creator,
+				validationState,
+			},
+		} = this.props;
 		const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
 
 		const filteredData = data
@@ -88,7 +121,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 							{D.label}
 							<input
 								value={labelLg1}
-								onChange={e => this.handlers.labelLg1(e.target.value)}
+								onChange={(e) => this.handlers.labelLg1(e.target.value)}
 								className="form-control"
 							/>
 						</label>
@@ -100,7 +133,9 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 							{D.componentLabel}
 							<input
 								value={componentLabelLg1}
-								onChange={e => this.handlers.componentLabelLg1(e.target.value)}
+								onChange={(e) =>
+									this.handlers.componentLabelLg1(e.target.value)
+								}
 								className="form-control"
 							/>
 						</label>
@@ -113,10 +148,10 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 							<Select
 								placeholder=""
 								value={
-									COMPONENT_TYPES.find(option => option.value === type) || ''
+									COMPONENT_TYPES.find((option) => option.value === type) || ''
 								}
 								options={COMPONENT_TYPES}
-								onChange={value => {
+								onChange={(value) => {
 									this.handlers.type(value);
 								}}
 							/>
@@ -128,10 +163,11 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 							<Select
 								placeholder=""
 								value={
-									conceptsOptions.find(option => option.value === concept) || ''
+									conceptsOptions.find((option) => option.value === concept) ||
+									''
 								}
 								options={conceptsOptions}
-								onChange={value => {
+								onChange={(value) => {
 									this.handlers.concept(value);
 								}}
 							/>
@@ -145,10 +181,11 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 							<Select
 								placeholder=""
 								value={
-									stampListOptions.find(option => option.value === creator) || ''
+									stampListOptions.find((option) => option.value === creator) ||
+									''
 								}
 								options={stampListOptions}
-								onChange={value => {
+								onChange={(value) => {
 									this.handlers.creator(value);
 								}}
 							/>
@@ -160,10 +197,12 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 							<Select
 								placeholder=""
 								value={
-									validateStateOptions.find(option => option.value === validationState) || ''
+									validateStateOptions.find(
+										(option) => option.value === validationState
+									) || ''
 								}
 								options={validateStateOptions}
-								onChange={value => {
+								onChange={(value) => {
 									this.handlers.validationState(value);
 								}}
 							/>
@@ -179,8 +218,10 @@ const SearchListContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [items, setItems] = useState([]);
 	const [concepts, setConcepts] = useState([]);
-	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
-	const [search, setSearch, reset] = useUrlQueryParameters(defaultState)
+	const stampListOptions = useSelector((state) =>
+		Stores.Stamps.getStampListOptions(state)
+	);
+	const [search, setSearch, reset] = useUrlQueryParameters(defaultState);
 
 	useEffect(() => {
 		Promise.all([api.getStructuresForSearch(), ConceptsAPI.getConceptList()])
@@ -194,7 +235,20 @@ const SearchListContainer = () => {
 		return <Loading />;
 	}
 
-	return <SearchFormList search={search} setSearch={setSearch} reset={reset} data={items} concepts={concepts} stampListOptions={stampListOptions}/>;
+	return (
+		<SearchFormList
+			search={search}
+			setSearch={setSearch}
+			reset={reset}
+			data={items}
+			concepts={concepts}
+			stampListOptions={stampListOptions}
+		/>
+	);
 };
 
-export default withTitle(SearchListContainer, D.structuresTitle, () => D.structuresAdvancedSearch);
+export default withTitle(
+	SearchListContainer,
+	D.structuresTitle,
+	() => D.structuresAdvancedSearch
+);

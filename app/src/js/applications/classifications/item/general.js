@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import { Note } from '@inseefr/wilco';
-import { Row } from 'bauhaus-utilities';
+import { Row } from 'js/utils';
 
 export default ({ general, classificationId, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
@@ -11,7 +11,7 @@ export default ({ general, classificationId, secondLang, langs }) => {
 		itemId: D.classificationsNotationTitle,
 		altLabelLg1: D.altLabelTitle,
 		altLabelLg2: D.altLabelTitle,
-		altLabels: length => D.classificationItemAltLabels(length),
+		altLabels: (length) => D.classificationItemAltLabels(length),
 		isValidated: D.isClassificationItemValidTitle,
 		conceptVersion: D.classificationConceptVersionTitle,
 	};
@@ -66,27 +66,24 @@ export default ({ general, classificationId, secondLang, langs }) => {
 										<li key={fieldName}>{`${
 											mapping[fieldName]
 										} : ${D.classificationItemIsValidated(
-											general[fieldName] === "true"
+											general[fieldName] === 'true'
 										)}`}</li>
 									);
 								}
 								if (fieldName === 'altLabelLg1') {
 									return (
 										<li key={fieldName}>
-											{mapping[fieldName]} ({lg1}) :
-											{general.altLabelLg1}
+											{mapping[fieldName]} ({lg1}) :{general.altLabelLg1}
 										</li>
 									);
 								}
 								if (fieldName === 'altLabelLg2') {
 									return (
 										<li key={fieldName}>
-											{mapping[fieldName]} ({lg2}) :
-											{general.altLabelLg2}
+											{mapping[fieldName]} ({lg2}) :{general.altLabelLg2}
 										</li>
 									);
-								}
-								else {
+								} else {
 									return (
 										<li
 											key={fieldName}

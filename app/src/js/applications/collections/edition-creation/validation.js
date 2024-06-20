@@ -1,5 +1,5 @@
 import D from 'js/i18n';
-import { ArrayUtils } from 'bauhaus-utilities';
+import { ArrayUtils } from 'js/utils';
 
 export const validate = (
 	{ id, prefLabelLg1, creator },

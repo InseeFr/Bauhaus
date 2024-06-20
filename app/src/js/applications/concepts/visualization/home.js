@@ -12,7 +12,7 @@ import {
 	PageTitleBlock,
 	useTitle,
 	ErrorBloc,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import NoteVisualization from '../../shared/note-visualization';
 
 const ConceptVisualization = ({

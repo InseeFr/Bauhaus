@@ -20,10 +20,10 @@ import {
 	useTitle,
 	ErrorBloc,
 	Row,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
-import { API } from 'bauhaus-codelists';
+import { API } from '../../../codelists/apis';
 import api from '../../apis/structure-api';
 import MainDictionary from '../../../../i18n/build-dictionary';
 import { ViewMenu } from './menu';
@@ -209,7 +209,7 @@ export const ComponentDetailView = ({
 								{D.contributor} : {component.contributor}
 							</li>
 							<li>
-								{D.disseminationStatusTitle} :{' '}
+								{MainDictionary.disseminationStatusTitle} :{' '}
 								{getDisseminationStatus(component.disseminationStatus)}
 							</li>
 						</ul>

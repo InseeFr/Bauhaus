@@ -10,14 +10,14 @@ import {
 	useTitle,
 	CreationUpdateItems,
 	ErrorBloc,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import Components from './components';
 import { D1, D2 } from 'js/i18n';
 import { getDisseminationStatus } from '../utils/';
 import StructureVisualizationControl from '../components/structure-visualization/controls';
 import D from '../i18n/build-dictionary';
 import StructureAPI from '../apis/structure-api';
-import mainDictionary from 'js/i18n/build-dictionary';
+import MainDictionary from 'js/i18n/build-dictionary';
 
 export const StructureView = ({
 	secondLang,
@@ -44,7 +44,7 @@ export const StructureView = ({
 			<CheckSecondLang />
 			<StructureVisualizationControl structure={structure} publish={publish} />
 			{serverSideError && (
-				<ErrorBloc error={serverSideError} D={mainDictionary} />
+				<ErrorBloc error={serverSideError} D={MainDictionary} />
 			)}
 			<div className="row">
 				<Note
@@ -68,7 +68,7 @@ export const StructureView = ({
 								{D.contributor} : {structure.contributor}
 							</li>
 							<li>
-								{D.disseminationStatusTitle} :{' '}
+								{MainDictionary.disseminationStatusTitle} :{' '}
 								{getDisseminationStatus(structure.disseminationStatus)}
 							</li>
 							<li>

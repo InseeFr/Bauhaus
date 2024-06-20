@@ -79,7 +79,7 @@ describe('<StructureView />', () => {
 			'Contributor : STAMP CONTRIBUTOR'
 		);
 		expect(container.querySelector('ul li:nth-child(7)').innerHTML).toContain(
-			'Diffusion status : Public generic'
+			'Dissemination status : Public generic'
 		);
 	});
 });

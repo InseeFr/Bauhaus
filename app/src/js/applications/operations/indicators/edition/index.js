@@ -25,14 +25,14 @@ const OperationsIndicatorsEditionContainer = (props) => {
 
 	useEffect(() => {
 		if (id) {
-			api.getIndicator(id).then((payload) => setIndicator(payload));
+			api.getIndicatorById(id).then((payload) => setIndicator(payload));
 		}
 	}, [id]);
 
 	const [indicators, setIndicators] = useState([]);
 
 	useEffect(() => {
-		api.getIndicatorsList().then((payload) => setIndicators(payload));
+		api.getAllIndicators().then((payload) => setIndicators(payload));
 	}, []);
 
 	useEffect(() => {

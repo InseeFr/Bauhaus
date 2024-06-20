@@ -33,11 +33,11 @@ const OperationsSeriesEditionContainer = (props) => {
 	}, [id]);
 
 	useEffect(() => {
-		api.getFamiliesList().then((results) => setFamilies(results));
+		api.getAllFamilies().then((results) => setFamilies(results));
 	}, []);
 
 	useEffect(() => {
-		api.getIndicatorsList().then((results) => setIndicators(results));
+		api.getAllIndicators().then((results) => setIndicators(results));
 	}, []);
 
 	useEffect(() => {

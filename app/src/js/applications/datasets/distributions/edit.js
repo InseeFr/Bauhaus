@@ -5,7 +5,7 @@ import {
 	PageTitleBlock,
 	Row,
 	useTitle,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import {
 	ActionToolbar,
 	CancelButton,
@@ -51,7 +51,7 @@ export const DistributionEdit = (props) => {
 	const queryClient = useQueryClient();
 
 	const { isLoading: isSaving, mutate: save } = useMutation(
-		(id) => {
+		() => {
 			if (isEditing) {
 				return api.putDistribution(editingDistribution);
 			}

@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux';
 
 import { loadSetup } from 'js/actions/operations/utils/setup';
 
-import D from 'js/i18n';
-
 import FamilyRoutes from 'js/applications/operations/routes/family';
 import SeriesRoutes from 'js/applications/operations/routes/series';
 import OperationsRoutes from 'js/applications/operations/routes/operation';
@@ -18,7 +16,6 @@ import OperationsTreeContainer from 'js/applications/operations/tree';
 const RootComponent = () => {
 	const dispatch = useDispatch();
 	useEffect(() => {
-		document.title = 'Bauhaus - ' + D.operationsTitle;
 		dispatch(loadSetup());
 	}, [dispatch]);
 

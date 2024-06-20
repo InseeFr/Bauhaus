@@ -13,7 +13,7 @@ import {
 	useTitle,
 	Pagination,
 	MasculineButton,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
 const sessionStorageKey = 'documents-displayMode';

@@ -2,7 +2,7 @@ import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import Members from './members';
-import { CheckSecondLang, useTitle } from 'bauhaus-utilities';
+import { CheckSecondLang, useTitle } from 'js/utils';
 import D from '../../../../i18n/build-dictionary';
 
 const FamilyVisualization = ({

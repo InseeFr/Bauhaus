@@ -10,7 +10,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	RequiredIcon,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import PublishersInput from 'js/applications/operations/components/publishers-input';
 import CreatorsInput from 'js/components/creators-input';
 import { CL_FREQ } from 'js/actions/constants/codeList';
@@ -101,7 +101,7 @@ class OperationsIndicatorEdition extends Component {
 			this.setState({ saving: true });
 			const isCreation = !this.state.indicator.id;
 
-			const method = isCreation ? 'postIndicator' : 'putIndicator';
+			const method = isCreation ? 'createIndicator' : 'updateIndicator';
 			return api[method](this.state.indicator)
 				.then(
 					(id = this.state.indicator.id) => {

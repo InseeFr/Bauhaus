@@ -4,13 +4,13 @@ import D from 'js/i18n';
 import 'bootstrap/dist/css/bootstrap.css';
 import './app.scss';
 import { useSelector } from 'react-redux';
+import { useTitle } from './utils';
 
 function App() {
+	useTitle();
 	const modules = useSelector((state) => {
 		return state.app.properties?.modules ?? [];
 	});
-
-	document.title = 'Bauhaus';
 
 	const apps = modules.map((appName) => {
 		const app = appName.trim();

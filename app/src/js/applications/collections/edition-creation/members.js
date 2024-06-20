@@ -10,6 +10,7 @@ import {
 } from '@inseefr/wilco';
 
 import D, { D1 } from 'js/i18n';
+import { Row } from '../../../utils';
 
 const extractMembers = (concepts) => {
 	return concepts.reduce((members, { id, label, isAdded }) => {
@@ -105,7 +106,7 @@ const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 	));
 
 	return (
-		<div className="row">
+		<Row>
 			<div className="col-md-6">
 				<Panel title={D1.collectionMembersPanelTitle}>{addedEls}</Panel>
 			</div>
@@ -119,7 +120,7 @@ const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 				/>
 				<Pagination itemEls={toAddEls} itemsPerPage="10" />
 			</div>
-		</div>
+		</Row>
 	);
 };
 

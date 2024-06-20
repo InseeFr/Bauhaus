@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import StructureAPI from '../apis/structure-api';
 import D from 'js/i18n';
-import { useTitle, SearchableList } from 'bauhaus-utilities';
+import { useTitle, SearchableList } from 'js/utils';
 import { HomePageMenu } from './menu';
 const Home = () => {
 	useTitle(D.structuresTitle, D.structuresTitle);

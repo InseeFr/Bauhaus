@@ -1,4 +1,4 @@
-import { Auth, MasculineButton } from 'bauhaus-utilities';
+import { Auth, MasculineButton } from 'js/utils';
 import React from 'react';
 import { VerticalMenu } from '@inseefr/wilco';
 export const HomePageMenu = ({ filter }) => {

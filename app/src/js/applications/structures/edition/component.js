@@ -14,11 +14,12 @@ import {
 	Row,
 	Auth,
 	SelectRmes,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import D, { D1, D2 } from 'js/i18n';
 import { connect, useSelector } from 'react-redux';
 import 'react-select/dist/react-select.css';
 import { validate } from './validation';
+import MainDictionary from 'js/i18n/build-dictionary';
 
 const isRequiredBys = [
 	'Melodi-Chargement',
@@ -241,9 +242,16 @@ const Edition = ({
 			</div>
 
 			<div className="form-group">
+<<<<<<< HEAD
 				<label>{D1.disseminationStatusTitle}</label>
 				<SelectRmes
 					placeholder={D1.disseminationStatusTitle}
+=======
+				<label>{MainDictionary.disseminationStatusTitle}</label>
+				<Select
+					className="form-control"
+					placeholder={MainDictionary.disseminationStatusTitle}
+>>>>>>> main
 					value={disseminationStatusListOptions.find(
 						({ value }) => value === disseminationStatus
 					)}

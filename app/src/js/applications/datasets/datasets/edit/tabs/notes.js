@@ -1,5 +1,5 @@
 import { D1, D2 } from 'js/i18n';
-import { EditorMarkdown, Row } from 'bauhaus-utilities';
+import { EditorMarkdown, Row } from 'js/utils';
 
 export const Notes = ({ editingDataset, setEditingDataset }) => {
 	return (

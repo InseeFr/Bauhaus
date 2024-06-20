@@ -3,12 +3,11 @@ import { Loading, goBack, goBackOrReplace } from '@inseefr/wilco';
 import { ComponentDetailEdit } from './edit';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI, Stores } from 'bauhaus-utilities';
+import { ConceptsAPI, Stores } from 'js/utils';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-
-const EditContainer = props => {
+const EditContainer = (props) => {
 	const { id } = useParams();
 	const urlParams = new URLSearchParams(window.location.search);
 	const type = urlParams.get('type');
@@ -20,7 +19,9 @@ const EditContainer = props => {
 	const [serverSideError, setServerSideError] = useState('');
 	const [attributes, setAttributes] = useState([]);
 
-	const stampListOptions = useSelector(state => Stores.Stamps.getStampListOptions(state));
+	const stampListOptions = useSelector((state) =>
+		Stores.Stamps.getStampListOptions(state)
+	);
 
 	const handleBack = useCallback(() => {
 		goBack(props, '/structures/components')();
@@ -39,16 +40,19 @@ const EditContainer = props => {
 				request = api.postMutualizedComponent(component);
 			}
 
-			request.then((id = component.id) => {
-				return goBackOrReplace(
-					props,
-					`/structures/components/${id}`,
-					!component.id
-				);
-			}).catch(error => {
-				setComponent(component);
-				setServerSideError(error)
-			}).finally(() => setSaving(false))
+			request
+				.then((id = component.id) => {
+					return goBackOrReplace(
+						props,
+						`/structures/components/${id}`,
+						!component.id
+					);
+				})
+				.catch((error) => {
+					setComponent(component);
+					setServerSideError(error);
+				})
+				.finally(() => setSaving(false));
 		},
 		[props]
 	);
@@ -65,7 +69,7 @@ const EditContainer = props => {
 		])
 			.then(([component, attributes, concepts, codesLists]) => {
 				setComponent(component);
-				setAttributes(attributes)
+				setAttributes(attributes);
 				setConcepts(concepts);
 				setCodesLists(codesLists);
 			})
@@ -92,7 +96,7 @@ const EditContainer = props => {
 			stampListOptions={stampListOptions}
 			attributes={attributes}
 			serverSideError={serverSideError}
-			type={type === "ALL" ? undefined : type}
+			type={type === 'ALL' ? undefined : type}
 		/>
 	);
 };

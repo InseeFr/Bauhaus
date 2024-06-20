@@ -2,10 +2,13 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import {
-	ADMIN, CODELIST_CONTRIBUTOR, DATASET_CONTRIBUTOR,
+	ADMIN,
+	CODELIST_CONTRIBUTOR,
+	DATASET_CONTRIBUTOR,
 	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR, STRUCTURE_CONTRIBUTOR,
-} from 'bauhaus-utilities/src/auth/roles';
+	SERIES_CONTRIBUTOR,
+	STRUCTURE_CONTRIBUTOR,
+} from 'js/utils/auth/roles';
 import { checkAuth } from '../../../store/users';
 
 const LoginNoAuth = ({ checkAuth }) => {
@@ -18,7 +21,8 @@ const LoginNoAuth = ({ checkAuth }) => {
 				DATASET_CONTRIBUTOR,
 				STRUCTURE_CONTRIBUTOR,
 				SERIES_CONTRIBUTOR,
-				INDICATOR_CONTRIBUTOR],
+				INDICATOR_CONTRIBUTOR,
+			],
 		});
 	}, [checkAuth]);
 	return <Loading textType="authentification" />;

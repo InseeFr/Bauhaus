@@ -7,45 +7,50 @@ import CollectionEditionCreation from './home';
 import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
 import { cleanId, Loading } from '@inseefr/wilco';
-import { ArrayUtils } from 'bauhaus-utilities';
+import { ArrayUtils } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import apiCollections from '../../../remote-api/concepts-collection-api';
 
 const CreationContainer = () => {
-	const history = useHistory()
-	const langs = useSelector(state => select.getLangs(state));
-	const collection = useSelector(state => emptyCollection(state.app.properties.defaultContributor));
+	const history = useHistory();
+	const langs = useSelector((state) => select.getLangs(state));
+	const collection = useSelector((state) =>
+		emptyCollection(state.app.properties.defaultContributor)
+	);
 
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 
-	const [collectionList, setCollectionList] = useState([])
-	const [conceptList, setConceptList] = useState([])
+	const [collectionList, setCollectionList] = useState([]);
+	const [conceptList, setConceptList] = useState([]);
 
 	useEffect(() => {
-		Promise.all([
-			api.getConceptList(),
-			apiCollections.getCollectionList()
-		]).then(([ conceptsList, collectionsList ]) => {
-			setConceptList(ArrayUtils.sortArrayByLabel(conceptsList))
-			setCollectionList(ArrayUtils.sortArrayByLabel(collectionsList))
-		}).finally(() => setLoading(false))
+		Promise.all([api.getConceptList(), apiCollections.getCollectionList()])
+			.then(([conceptsList, collectionsList]) => {
+				setConceptList(ArrayUtils.sortArrayByLabel(conceptsList));
+				setCollectionList(ArrayUtils.sortArrayByLabel(collectionsList));
+			})
+			.finally(() => setLoading(false));
 	}, []);
 
-	const handleCreation = useCallback((data) => {
-		setSaving(true);
-		api.postCollection(buildPayload(data, 'CREATE'))
-			.then(() => {
-				history.push(`/collection/${cleanId(data.general.id)}`)
-			})
-			.finally(() => setSaving(false))
-	}, [history]);
+	const handleCreation = useCallback(
+		(data) => {
+			setSaving(true);
+			api
+				.postCollection(buildPayload(data, 'CREATE'))
+				.then(() => {
+					history.push(`/collection/${cleanId(data.general.id)}`);
+				})
+				.finally(() => setSaving(false));
+		},
+		[history]
+	);
 
-	if(saving){
+	if (saving) {
 		return <Loading textType="saving" />;
 	}
-	if(loading){
-		return <Loading />
+	if (loading) {
+		return <Loading />;
 	}
 
 	const { general, members } = collection;
@@ -61,5 +66,5 @@ const CreationContainer = () => {
 			langs={langs}
 		/>
 	);
-}
+};
 export default CreationContainer;

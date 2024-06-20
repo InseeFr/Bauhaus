@@ -8,10 +8,6 @@ const dictionary = {
 		fr: 'Nom court',
 		en: 'Short name',
 	},
-	disseminationStatusTitle: {
-		fr: 'Statut de diffusion',
-		en: 'Diffusion status',
-	},
 	btnCancel: {
 		fr: 'Annuler',
 		en: 'Cancel',
@@ -134,31 +130,31 @@ const dictionary = {
 	},
 	formatTitle: {
 		fr: 'Format',
-		en: 'Format'
+		en: 'Format',
 	},
 	regexpTitle: {
 		fr: 'Expression régulière',
-		en: 'Regular Expression'
+		en: 'Regular Expression',
 	},
 	minLength: {
 		fr: 'Longueur minimale',
-		en: 'Minimal size'
+		en: 'Minimal size',
 	},
 	maxLength: {
 		fr: 'Longueur maximale',
-		en: 'Minimal size'
+		en: 'Minimal size',
 	},
 	minInclusive: {
 		fr: 'Valeur minimale',
-		en: 'Minimal value'
+		en: 'Minimal value',
 	},
 	maxInclusive: {
 		fr: 'Valeur maximale',
-		en: 'Minimal value'
+		en: 'Minimal value',
 	},
 	constraints: {
 		fr: 'Contraintes',
-		en: 'Constraints'
+		en: 'Constraints',
 	},
 	codesListTitle: {
 		en: 'Code list',
@@ -262,7 +258,7 @@ const dictionary = {
 	},
 	seeCodesListDetails: {
 		fr: 'Voir les codes de cette liste',
-		en: 'see codes of this list'
+		en: 'see codes of this list',
 	},
 	DSPublicGeneriqueTitle: {
 		fr: 'Public générique',
@@ -305,6 +301,6 @@ const dictionary = {
 	componentsCreateTitle: {
 		fr: 'Créer un nouveau composant',
 		en: 'Create a new component',
-	}
+	},
 };
 export default dictionary;

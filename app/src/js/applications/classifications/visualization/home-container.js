@@ -1,14 +1,13 @@
-import React  from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ClassificationVisualization from './home';
 import { Loading } from '@inseefr/wilco';
 import * as mainSelect from 'js/reducers';
-import { Stores, Auth } from 'bauhaus-utilities';
+import { Stores, Auth } from 'js/utils';
 import { useClassification, usePublishClassification } from '../hooks';
 
 const ClassificationVisualizationContainer = () => {
-
 	const { id } = useParams();
 	const langs = useSelector((state) => mainSelect.getLangs(state));
 	const secondLang = useSelector((state) =>
@@ -18,7 +17,6 @@ const ClassificationVisualizationContainer = () => {
 
 	const { isLoading, classification } = useClassification(id);
 	const { isPublishing, publish, error } = usePublishClassification();
-
 
 	if (isLoading) {
 		return <Loading />;
@@ -41,4 +39,3 @@ const ClassificationVisualizationContainer = () => {
 };
 
 export default ClassificationVisualizationContainer;
-

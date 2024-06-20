@@ -360,11 +360,6 @@ const dictionary = {
 		en: 'Select a role...',
 	},
 
-	loadableLoading: {
-		fr: 'Chargement en cours...',
-		en: 'Loading in progress...',
-	},
-
 	authorizationManagementTitle: {
 		fr: 'Habilitations',
 		en: 'Authorization',

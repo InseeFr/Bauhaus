@@ -1,17 +1,16 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { goBack, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { useGoBack } from '../../../hooks/hooks';
 
-function LevelControls(props) {
-	const { id } = props;
-
+function LevelControls({ id }) {
+	const goBack = useGoBack();
 	return (
 		<ActionToolbar>
 			<ReturnButton
-				action={goBack(props, `/classifications/classification/${id}`)}
+				action={() => goBack(`/classifications/classification/${id}`)}
 			/>
 		</ActionToolbar>
 	);
 }
 
-export default withRouter(LevelControls);
+export default LevelControls;

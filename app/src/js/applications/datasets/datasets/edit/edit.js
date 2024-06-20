@@ -19,7 +19,7 @@ import {
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
 	useTitle,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import { GlobalInformation } from './tabs/global-information';
 import { InternalManagement } from './tabs/internal-management';
 import { Notes } from './tabs/notes';
@@ -148,7 +148,7 @@ export const DatasetEdit = (props) => {
 	const queryClient = useQueryClient();
 
 	const { isLoading: isSaving, mutate: save } = useMutation(
-		(id) => {
+		() => {
 			const formattedDataset = { themes: [], ...editingDataset };
 			if (isEditing) {
 				return api.putDataset(formattedDataset);

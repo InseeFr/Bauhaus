@@ -22,7 +22,7 @@ import {
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
 } from 'js/applications/operations/msd/utils';
-import { HTMLUtils, ArrayUtils } from 'bauhaus-utilities';
+import { HTMLUtils, ArrayUtils } from 'js/utils';
 import './sims-creation.scss';
 import { rangeType } from 'js/utils/msd/';
 import api from '../../../../../remote-api/operations-api';

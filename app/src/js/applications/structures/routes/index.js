@@ -11,7 +11,6 @@ import StructuresSearch from '../components/structure-search/search';
 import StructuresComponentView from '../components/component-detail/view-container';
 import StructuresComponentEdit from '../components/component-detail/edit-container';
 
-import D from 'js/i18n';
 import { connect } from 'react-redux';
 import loadStampList from 'js/actions/stamp';
 
@@ -19,7 +18,7 @@ const StructureComponent = ({ loadStampList }) => {
 	useEffect(() => {
 		loadStampList();
 	}, [loadStampList]);
-	document.title = 'Bauhaus - ' + D.structuresTitle;
+
 	return (
 		<>
 			<Menu />

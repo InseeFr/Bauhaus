@@ -20,7 +20,7 @@ import MSDHelp from 'js/applications/operations/msd/pages/help';
 import SimsVisualisation from 'js/applications/operations/msd/pages/sims-visualisation/';
 import SimsCreation from 'js/applications/operations/msd/pages/sims-creation/';
 import * as select from 'js/reducers';
-import { Stores, PageTitleBlock, ArrayUtils } from 'bauhaus-utilities';
+import { Stores, PageTitleBlock, ArrayUtils } from 'js/utils';
 import api from 'js/remote-api/operations-api';
 
 import { getParentType, getParentId } from './utils';
@@ -307,7 +307,7 @@ const MSDContainerWithParent = (props) => {
 		// TO BE REMOVED when all cache will be deleted
 		if (parentType === 'indicator') {
 			api
-				.getIndicator(idParent)
+				.getIndicatorById(idParent)
 				.then((payload) => setParent(payload))
 				.finally(() => setLoading(false));
 		} else if (parentType === 'operation') {

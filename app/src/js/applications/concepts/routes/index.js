@@ -18,11 +18,9 @@ import CollectionsToValidateContainer from 'js/applications/collections/validati
 import CollectionsToExportContainer from 'js/applications/collections/export/home-container';
 import Administration from 'js/applications/administration/home';
 import ConceptsDashboard from 'js/applications/administration/dashboard/concepts/home-container';
-import D from 'js/i18n';
-import Menu from 'js/applications/concepts/menu';
+import Menu from '../menu/index';
 
 export default () => {
-	document.title = 'Bauhaus - ' + D.conceptsTitle;
 	return (
 		<>
 			<Menu />

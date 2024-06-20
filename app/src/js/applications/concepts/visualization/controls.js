@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Button, ActionToolbar, getContentDisposition } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import D from 'js/i18n';
-import { ConfirmationDelete } from 'bauhaus-utilities';
+import { ConfirmationDelete } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import FileSaver from 'file-saver';
 import { useLoading } from './loading';

@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { ADMIN } from 'bauhaus-utilities/src/auth/roles';
+import { ADMIN } from 'js/utils/auth/roles';
 
 const mockStore = configureStore([]);
 const store = mockStore({
@@ -14,9 +14,9 @@ const store = mockStore({
 		secondLang: true,
 		auth: {
 			user: {
-				roles: [ADMIN]
-			}
-		}
+				roles: [ADMIN],
+			},
+		},
 	},
 });
 

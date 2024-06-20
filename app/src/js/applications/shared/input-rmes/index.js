@@ -1,5 +1,5 @@
 import React from 'react';
-import { RequiredIcon } from 'bauhaus-utilities';
+import { RequiredIcon } from 'js/utils';
 
 function InputRmes({
 	colMd,

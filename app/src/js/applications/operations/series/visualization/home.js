@@ -11,7 +11,7 @@ import {
 	HTMLUtils,
 	PublicationFemale,
 	withTitle,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import CreatorsView from 'js/applications/operations/components/creators-view';
 import PublishersView from 'js/applications/operations/components/publishers-view';
 import D from '../../../../i18n/build-dictionary';

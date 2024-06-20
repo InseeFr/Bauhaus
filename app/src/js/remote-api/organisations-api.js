@@ -1,4 +1,4 @@
-import { API } from 'bauhaus-utilities';
+import { API } from 'js/utils';
 
 const api = {
 	getOrganisations: () => [''],

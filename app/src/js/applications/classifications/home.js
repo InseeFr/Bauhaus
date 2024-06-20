@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import D from 'js/i18n';
-import { useTitle, SearchableList, Row } from 'bauhaus-utilities';
+import { useTitle, SearchableList, Row } from 'js/utils';
 
 const ClassificationsHome = ({ classifications }) => {
 	useTitle(D.classificationsTitle, D.classificationsTitle);

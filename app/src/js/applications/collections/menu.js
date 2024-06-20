@@ -1,4 +1,4 @@
-import { Auth, FeminineButton } from 'bauhaus-utilities';
+import { Auth, FeminineButton } from 'js/utils';
 import React from 'react';
 import D from '../../i18n/build-dictionary';
 import check from '../../utils/auth';

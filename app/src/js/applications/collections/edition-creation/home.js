@@ -3,7 +3,7 @@ import { PageTitle } from '@inseefr/wilco';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
 import MembersEdition from './members';
-import { withTitle } from 'bauhaus-utilities';
+import { withTitle } from 'js/utils';
 import D from '../../../i18n/build-dictionary';
 
 class CollectionEditionCreation extends Component {

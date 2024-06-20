@@ -1,4 +1,4 @@
-import { API } from 'bauhaus-utilities';
+import { API } from 'js/utils';
 
 const api = {
 	getFamiliesList: () => ['families'],
@@ -29,7 +29,7 @@ const api = {
 			},
 			body: JSON.stringify(item),
 		},
-		() => Promise.resolve(item.id)
+		() => Promise.resolve(item.id),
 	],
 	getClassificationItemNotes: (classificationId, itemId, conceptVersion) => [
 		`classification/${classificationId}/item/${itemId}/notes/${conceptVersion}`,

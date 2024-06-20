@@ -17,7 +17,7 @@ import {
 	ClientSideError,
 	Auth,
 	SelectRmes,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import { validate } from '../edition/validation';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
@@ -37,9 +37,10 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { FormGroup } from 'react-bootstrap';
-import { API } from 'bauhaus-codelists';
+import { API } from '../../../codelists/apis';
 import api from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
+import MainDictionary from 'js/i18n/build-dictionary';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -609,7 +610,7 @@ const DumbComponentDetailEdit = ({
 					/>
 				</div>
 				<div className="form-group">
-					<label>{D1.disseminationStatusTitle}</label>
+					<label>{MainDictionary.disseminationStatusTitle}</label>
 					<Select
 						className="form-control"
 						placeholder={D1.disseminationStatusPlaceholder}

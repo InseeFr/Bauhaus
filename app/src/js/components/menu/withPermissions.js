@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Auth } from 'bauhaus-utilities';
+import { Auth } from 'js/utils';
 
 export function withPermissions(WrappedComponent) {
 	const mapStateToProps = (state) => {

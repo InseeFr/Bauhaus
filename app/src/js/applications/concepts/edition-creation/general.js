@@ -5,7 +5,7 @@ import InputRmes from 'js/applications/shared/input-rmes';
 import InputMultiRmes from 'js/applications/shared/input-multi-rmes';
 import { fields as generalFields } from 'js/utils/concepts/general';
 import { Select, LabelRequired } from '@inseefr/wilco';
-import { RequiredIcon, ClientSideError } from 'bauhaus-utilities';
+import { RequiredIcon, ClientSideError } from 'js/utils';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {

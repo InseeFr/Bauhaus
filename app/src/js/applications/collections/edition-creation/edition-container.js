@@ -6,56 +6,61 @@ import CollectionEditionCreation from './home';
 import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import D from 'js/i18n';
 import { Loading, cleanId } from '@inseefr/wilco';
-import { ArrayUtils } from 'bauhaus-utilities';
+import { ArrayUtils } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import apiCollections from '../../../remote-api/concepts-collection-api';
 
 const EditionContainer = () => {
 	const { id } = useParams();
 	const history = useHistory();
-	const langs = useSelector(state => select.getLangs(state));
+	const langs = useSelector((state) => select.getLangs(state));
 
 	const [loadingCollection, setLoadingCollection] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
 	const [saving, setSaving] = useState(false);
 
-	const [collection, setCollection] = useState({ })
-	const [collectionList, setCollectionList] = useState([])
-	const [conceptList, setConceptList] = useState([])
+	const [collection, setCollection] = useState({});
+	const [collectionList, setCollectionList] = useState([]);
+	const [conceptList, setConceptList] = useState([]);
 
 	useEffect(() => {
 		Promise.all([
 			api.getCollectionGeneral(id),
-			api.getCollectionMembersList(id)
-		]).then(([general, members]) => {
-			setCollection({ general, members });
-		}).finally(() => setLoadingCollection(false))
-	}, [id])
+			api.getCollectionMembersList(id),
+		])
+			.then(([general, members]) => {
+				setCollection({ general, members });
+			})
+			.finally(() => setLoadingCollection(false));
+	}, [id]);
 
 	useEffect(() => {
-		Promise.all([
-			api.getConceptList(),
-			apiCollections.getCollectionList()
-		]).then(([ conceptsList, collectionsList ]) => {
-			setConceptList(ArrayUtils.sortArrayByLabel(conceptsList))
-			setCollectionList(ArrayUtils.sortArrayByLabel(collectionsList))
-		}).finally(() => setLoadingExtraData(false))
+		Promise.all([api.getConceptList(), apiCollections.getCollectionList()])
+			.then(([conceptsList, collectionsList]) => {
+				setConceptList(ArrayUtils.sortArrayByLabel(conceptsList));
+				setCollectionList(ArrayUtils.sortArrayByLabel(collectionsList));
+			})
+			.finally(() => setLoadingExtraData(false));
 	}, []);
 
-	const handleUpdate = useCallback((data) => {
-		setSaving(true);
-		api.putCollection(data.general.id, buildPayload(data, 'UPDATE'))
-			.then(() => {
-				history.push(`/collection/${cleanId(id)}`)
-			})
-			.finally(() => setSaving(false))
-	}, [history, id]);
+	const handleUpdate = useCallback(
+		(data) => {
+			setSaving(true);
+			api
+				.putCollection(data.general.id, buildPayload(data, 'UPDATE'))
+				.then(() => {
+					history.push(`/collection/${cleanId(id)}`);
+				})
+				.finally(() => setSaving(false));
+		},
+		[history, id]
+	);
 
-	if(saving){
-		return <Loading textType="saving" />
+	if (saving) {
+		return <Loading textType="saving" />;
 	}
-	if(loadingCollection || loadingExtraData){
-		return <Loading />
+	if (loadingCollection || loadingExtraData) {
+		return <Loading />;
 	}
 
 	const { general, members } = collection;
@@ -72,6 +77,6 @@ const EditionContainer = () => {
 			langs={langs}
 		/>
 	);
-}
+};
 
 export default EditionContainer;

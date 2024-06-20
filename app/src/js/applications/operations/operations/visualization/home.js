@@ -2,11 +2,7 @@ import React from 'react';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
-import {
-	CreationUpdateItems,
-	PublicationFemale,
-	withTitle,
-} from 'bauhaus-utilities';
+import { CreationUpdateItems, PublicationFemale, withTitle } from 'js/utils';
 import D from '../../../../i18n/build-dictionary';
 
 function OperationsOperationVisualization({

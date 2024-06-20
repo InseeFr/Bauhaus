@@ -4,12 +4,7 @@ import D from 'js/i18n';
 import { useSelector } from 'react-redux';
 import * as select from 'js/reducers';
 import OperationsIndicatorVisualization from 'js/applications/operations/indicators/visualization/general';
-import {
-	Loading,
-	Button,
-	ActionToolbar,
-	ReturnButton,
-} from '@inseefr/wilco';
+import { Loading, Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import { useGoBack } from 'js/hooks/hooks';
 import api from '../../../../remote-api/operations-api';
 
@@ -22,7 +17,7 @@ import {
 	CheckSecondLang,
 	PageTitleBlock,
 	ErrorBloc,
-} from 'bauhaus-utilities';
+} from 'js/utils';
 import { useCodesList } from '../../../../hooks/hooks';
 
 const IndicatorVisualizationContainer = () => {
@@ -49,14 +44,14 @@ const IndicatorVisualizationContainer = () => {
 		api
 			.publishIndicator(indicator)
 			.then(() => {
-				return api.getIndicator(id).then(setIndicator);
+				return api.getIndicatorById(id).then(setIndicator);
 			})
 			.catch((error) => setServerSideError(error))
 			.finally(() => setPublishing(false));
 	}, [indicator, id]);
 
 	useEffect(() => {
-		api.getIndicator(id).then((payload) => setIndicator(payload));
+		api.getIndicatorById(id).then((payload) => setIndicator(payload));
 	}, [id]);
 
 	if (!indicator.id) return <Loading />;
