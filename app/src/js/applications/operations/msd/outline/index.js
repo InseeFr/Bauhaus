@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { toggleOpen, isOpen } from 'js/applications/operations/msd/utils';
 import OutlineBlock from 'js/applications/operations/msd/outline/outline-block';
 import D from 'js/i18n';

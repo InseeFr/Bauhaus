@@ -1,4 +1,3 @@
-import React from 'react';
 import { MeasureAttribute } from './measureAttribute';
 
 export const MeasureAttributes = ({ measure, attributes, codesLists }) => {

@@ -1,5 +1,4 @@
 import D from '../../../../i18n/build-dictionary';
-import React from 'react';
 import { rangeType } from 'js/utils/msd/';
 const { RICH_TEXT, TEXT, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ComponentSelector from '../../components/component-selector';
 import {
 	ATTRIBUTE_PROPERTY_TYPE,

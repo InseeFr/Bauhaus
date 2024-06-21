@@ -1,4 +1,3 @@
-import React from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';

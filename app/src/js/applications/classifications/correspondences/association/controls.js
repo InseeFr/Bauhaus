@@ -1,4 +1,3 @@
-import React from 'react';
 import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
 import { useGoBack } from '../../../../hooks/hooks';
 

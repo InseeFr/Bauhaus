@@ -2,7 +2,6 @@ import D from 'js/i18n';
 import { convertToArrayIfDefined } from '../array-utils';
 import { D1 } from '../../applications/structures/i18n/build-dictionary';
 import { SelectRmes } from '../index';
-import React from 'react';
 import { LabelRequired } from '@inseefr/wilco';
 
 export const ContributorsVisualisation = ({ contributors }) => {

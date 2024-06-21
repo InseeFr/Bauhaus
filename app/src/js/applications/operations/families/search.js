@@ -1,6 +1,6 @@
 import D from 'js/i18n';
 import { Link, Redirect } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import api from 'js/remote-api/operations-api';
 

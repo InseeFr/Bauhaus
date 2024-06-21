@@ -1,4 +1,3 @@
-import React from 'react';
 import { LogoWarning } from '@inseefr/wilco';
 import ModifyNotes from './modify-notes';
 import { HTMLUtils } from 'js/utils';

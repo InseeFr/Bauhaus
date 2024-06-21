@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import D, { D1, D2 } from 'js/i18n';
 import { DSURLToLabel, Note } from '@inseefr/wilco';

@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactLoading from 'react-loading';
 import './loading.scss';
 import D from '../i18n';

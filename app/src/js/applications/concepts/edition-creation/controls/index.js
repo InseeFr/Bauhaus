@@ -1,4 +1,3 @@
-import React from 'react';
 import ConceptCreateControlLayout from './controls-layout';
 
 function ConceptCreateControl({ handleSave, redirectCancel, errorMessage }) {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 
@@ -7,7 +6,7 @@ export const generalFields = (correspondence, secondLang) => {
 		firstClassLabelLg1: D.sourceClassificationTitle,
 		secondClassLabelLg1: D.targetClassificationTitle,
 	};
-	const content = Object.keys(mapping).map(fieldName => {
+	const content = Object.keys(mapping).map((fieldName) => {
 		const {
 			firstClassLabelLg1,
 			firstClassLabelLg2,
@@ -19,9 +18,7 @@ export const generalFields = (correspondence, secondLang) => {
 				<li key={fieldName}>
 					{mapping[fieldName]} :{' '}
 					<Link
-						to={`/classifications/classification/${
-							correspondence.idFirstClass
-						}`}
+						to={`/classifications/classification/${correspondence.idFirstClass}`}
 					>
 						{secondLang ? firstClassLabelLg2 : firstClassLabelLg1}
 					</Link>
@@ -33,9 +30,7 @@ export const generalFields = (correspondence, secondLang) => {
 				<li key={fieldName}>
 					{mapping[fieldName]} :{' '}
 					<Link
-						to={`/classifications/classification/${
-							correspondence.idSecondClass
-						}`}
+						to={`/classifications/classification/${correspondence.idSecondClass}`}
 					>
 						{secondLang ? secondClassLabelLg2 : secondClassLabelLg1}
 					</Link>

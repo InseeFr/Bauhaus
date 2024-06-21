@@ -1,4 +1,3 @@
-import React from 'react';
 import { PageTitle, Button, VerticalMenu } from '@inseefr/wilco';
 import { Auth, SearchableList } from 'js/utils';
 import D from 'js/i18n';

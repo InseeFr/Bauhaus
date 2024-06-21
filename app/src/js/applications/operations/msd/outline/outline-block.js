@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { toggleOpen, isOpen } from 'js/applications/operations/msd/utils';
 import D from 'js/i18n';
 import { OutlineButtonWithScroll } from './outline-button-with-scroll';

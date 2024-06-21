@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PageTitle, PageSubtitle, Loading } from '@inseefr/wilco';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';

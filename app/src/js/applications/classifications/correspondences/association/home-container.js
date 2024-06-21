@@ -1,4 +1,3 @@
-import React from 'react';
 import { Loading } from '@inseefr/wilco';
 import AssociationHome from './home';
 import * as mainSelect from 'js/reducers';

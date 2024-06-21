@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Button, ActionToolbar, getContentDisposition } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import D from 'js/i18n';

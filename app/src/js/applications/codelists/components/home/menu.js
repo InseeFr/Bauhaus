@@ -1,5 +1,4 @@
 import { Auth, FeminineButton } from 'js/utils';
-import React from 'react';
 import { VerticalMenu } from '@inseefr/wilco';
 
 export const HomePageMenu = () => {

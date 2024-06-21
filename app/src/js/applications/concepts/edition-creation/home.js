@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import { PageTitle, goBack } from '@inseefr/wilco';
 import ConceptCreateControl from './controls';

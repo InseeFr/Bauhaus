@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
 import { StructureComponentsSelector } from '../../components/structure-component-selector/index';

@@ -1,5 +1,4 @@
 import { Link as ReactLink } from 'react-router-dom';
-import React from 'react';
 
 export default ({ to, disabled, children, className, ...rest }) => {
 	if (disabled) {

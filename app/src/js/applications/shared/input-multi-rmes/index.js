@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Modal from 'js/applications/shared/input-multi-modal-rmes/input-multi-modal-rmes';
 import D, { D1, D2 } from 'js/i18n';
 

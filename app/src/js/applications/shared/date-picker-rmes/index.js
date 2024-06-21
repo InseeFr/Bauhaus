@@ -1,4 +1,3 @@
-import React from 'react';
 import DatePicker from 'react-16-bootstrap-date-picker';
 import { D1, D2 } from 'js/i18n';
 

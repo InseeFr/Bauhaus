@@ -1,4 +1,3 @@
-import React from 'react';
 import { PageTitle, PageSubtitle } from '@inseefr/wilco';
 import Controls from './controls';
 import General from './general';

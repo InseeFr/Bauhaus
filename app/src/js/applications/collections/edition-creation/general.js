@@ -1,4 +1,3 @@
-import React from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import InputRmes from 'js/applications/shared/input-rmes';
 import { fields as generalFields } from 'js/utils/collections/general';

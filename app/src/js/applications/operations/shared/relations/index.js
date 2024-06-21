@@ -1,4 +1,3 @@
-import React from 'react';
 import { Note } from '@inseefr/wilco';
 import './relations.scss';
 import { Link } from 'react-router-dom';
@@ -31,12 +30,12 @@ export function RelationsViewPerLgContent({
 					</p>
 					<ul>
 						{children
-							.sort(function(a, b) {
+							.sort(function (a, b) {
 								return a[`label${langSuffix}`].localeCompare(
 									b[`label${langSuffix}`]
 								);
 							})
-							.map(item => (
+							.map((item) => (
 								<li key={item.id}>
 									<Link to={`/operations/${childrenPath}/${item.id}`}>
 										{item[`label${langSuffix}`]}

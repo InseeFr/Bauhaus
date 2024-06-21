@@ -1,4 +1,3 @@
-import React from 'react';
 import bauhausLogo from 'img/logo.svg';
 import D from 'js/i18n';
 import './index.scss';

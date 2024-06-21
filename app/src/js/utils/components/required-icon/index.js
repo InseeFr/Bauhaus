@@ -1,4 +1,3 @@
-import React from 'react';
-import "./requiredIcon.scss";
+import './requiredIcon.scss';
 
-export default () => <span className="required-icon">*</span>
+export default () => <span className="required-icon">*</span>;

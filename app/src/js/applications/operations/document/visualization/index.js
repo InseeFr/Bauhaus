@@ -4,7 +4,7 @@ import { Auth, CheckSecondLang, Stores, PageTitleBlock } from 'js/utils';
 import { loadCodesList } from 'js/actions/operations/utils/setup';
 
 import D from 'js/i18n';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';

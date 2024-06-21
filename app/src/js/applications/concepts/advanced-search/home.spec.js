@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import AdvancedSearch from './home';
 import { MemoryRouter } from 'react-router-dom';

@@ -1,4 +1,3 @@
-import React from 'react';
 import Picker from 'js/applications/shared/picker-page';
 import D from 'js/i18n';
 import check from 'js/utils/auth';

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Tree } from 'react-d3-tree';
 
 class RmesTree extends Component {

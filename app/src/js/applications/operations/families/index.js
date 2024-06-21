@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import api from '../../../remote-api/operations-api';
 import { ArrayUtils, Auth, FeminineButton, useTitle } from 'js/utils';

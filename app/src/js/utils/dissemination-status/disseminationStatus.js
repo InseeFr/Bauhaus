@@ -1,7 +1,6 @@
 import D from 'js/i18n';
 import { Stores } from 'js/utils';
 import { LabelRequired, Select } from '@inseefr/wilco';
-import React from 'react';
 
 export const getDisseminationStatus = (disseminationStatus) => {
 	if (!disseminationStatus) {

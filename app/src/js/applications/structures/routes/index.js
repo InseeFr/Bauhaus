@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Menu from 'js/applications/structures/menu';

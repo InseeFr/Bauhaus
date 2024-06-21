@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import { Auth } from 'js/utils';
-import React from 'react';
 import {
 	ActionToolbar,
 	ReturnButton,

@@ -12,7 +12,6 @@ import { EditorMarkdown, PageTitleBlock, Row } from 'js/utils';
 import { Controller, useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import useClassificationItem from '../hook';
-import React from 'react';
 import { default as ReactSelect } from 'react-select';
 import { fetchingPreviousLevels } from '../client';
 

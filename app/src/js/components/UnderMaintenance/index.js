@@ -1,4 +1,3 @@
-import React from 'react';
 import PageTitle from '../page-title';
 import D from '../build-dictionary';
 

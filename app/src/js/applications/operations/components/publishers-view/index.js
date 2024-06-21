@@ -1,4 +1,3 @@
-import React from 'react';
 import { Note } from '@inseefr/wilco';
 import { D1 } from '../../i18n/build-dictionary';
 import { useSelector } from 'react-redux';

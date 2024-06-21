@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loading } from '@inseefr/wilco';
 import CollectionsHome from './home';
 import { ArrayUtils } from 'js/utils';

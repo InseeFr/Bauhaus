@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { ReturnButton, Button, ActionToolbar } from '@inseefr/wilco';
 import { ValidationButton, Auth } from 'js/utils';

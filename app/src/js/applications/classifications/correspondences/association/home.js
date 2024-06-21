@@ -1,4 +1,3 @@
-import React from 'react';
 import { PageTitle, Note } from '@inseefr/wilco';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';

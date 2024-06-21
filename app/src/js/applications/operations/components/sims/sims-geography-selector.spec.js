@@ -1,4 +1,3 @@
-import React from 'react';
 import SimsGeographySelector from './sims-geography-selector';
 import { render } from '@testing-library/react';
 

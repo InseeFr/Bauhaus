@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { Component, Fragment, useEffect, useState } from 'react';
 import D from 'js/i18n';
 import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from 'js/utils/msd';
@@ -30,7 +30,7 @@ import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 
 const { RICH_TEXT } = rangeType;
 
-class SimsCreation extends React.Component {
+class SimsCreation extends Component {
 	constructor(props) {
 		super(props);
 
@@ -202,7 +202,7 @@ class SimsCreation extends React.Component {
 
 		function MSDInformations(msd, handleChange, firstLevel = false) {
 			return (
-				<React.Fragment key={msd.idMas}>
+				<Fragment key={msd.idMas}>
 					{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
 						<h3 className="col-md-12 sims-title">
 							{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
@@ -273,7 +273,7 @@ class SimsCreation extends React.Component {
 					{Object.values(msd.children).map((child) =>
 						MSDInformations(child, handleChange)
 					)}
-				</React.Fragment>
+				</Fragment>
 			);
 		}
 

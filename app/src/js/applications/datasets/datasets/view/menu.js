@@ -7,7 +7,6 @@ import {
 } from '@inseefr/wilco';
 import { Auth, ValidationButton } from 'js/utils';
 import D from '../../../../i18n/build-dictionary';
-import React from 'react';
 import { useSelector } from 'react-redux';
 
 export const ViewMenu = ({ dataset, onPublish, onDelete, ...props }) => {

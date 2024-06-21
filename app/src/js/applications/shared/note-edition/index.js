@@ -1,4 +1,3 @@
-import React from 'react';
 import NoteOneLangEdition from './note-one-lang-edition';
 import D from 'js/i18n';
 

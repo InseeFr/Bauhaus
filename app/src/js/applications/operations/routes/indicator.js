@@ -1,4 +1,3 @@
-import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import OperationsIndicatorsContainer from 'js/applications/operations/indicators/';
 import OperationIndicatorContainer from 'js/applications/operations/indicators/visualization/';

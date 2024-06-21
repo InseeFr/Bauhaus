@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { Loading } from '@inseefr/wilco';
 import HomeGeneral from './home-general';

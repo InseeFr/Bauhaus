@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
 
-import React from 'react';
 import Field from './sims-field';
 import { render } from '@testing-library/react';
 import { rangeType } from 'js/utils/msd/';

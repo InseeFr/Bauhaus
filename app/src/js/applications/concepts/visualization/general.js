@@ -1,4 +1,3 @@
-import React from 'react';
 import { D1 } from 'js/i18n';
 import { Note } from '@inseefr/wilco';
 import { ArrayUtils, DateUtils } from 'js/utils';

@@ -1,4 +1,4 @@
-import React, { useId, useState } from 'react';
+import { useId, useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 
 const TabsRmes = ({ tabs }) => {

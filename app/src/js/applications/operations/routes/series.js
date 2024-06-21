@@ -1,4 +1,3 @@
-import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import OperationsSeriesContainer from 'js/applications/operations/series/';
 import OperationsSeriesVisualizationContainer from 'js/applications/operations/series/visualization/';

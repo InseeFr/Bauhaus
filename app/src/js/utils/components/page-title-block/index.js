@@ -1,5 +1,3 @@
-import React from 'react';
-
 function PageTitleBlock({ titleLg1, titleLg2, secondLang }) {
 	return (
 		<>

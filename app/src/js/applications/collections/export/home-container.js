@@ -1,5 +1,5 @@
 import { Loading, getContentDisposition } from '@inseefr/wilco';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ArrayUtils, useTitle } from 'js/utils';
 import D from '../../../i18n/build-dictionary';

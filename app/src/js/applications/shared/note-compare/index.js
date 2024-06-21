@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import D from 'js/i18n';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import {

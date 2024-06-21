@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { PageTitle, VerticalMenu, Loading } from '@inseefr/wilco';
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';

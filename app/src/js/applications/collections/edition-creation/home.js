@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';

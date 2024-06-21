@@ -1,4 +1,3 @@
-import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { Row, SearchableList, useTitle } from 'js/utils';

@@ -1,5 +1,4 @@
 import ReactSelect from 'react-select';
-import React from 'react';
 import D, { D1 } from '../../../../i18n/build-dictionary';
 
 const datasetsTemporalCoverageOptions = [

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import './editor-html.scss';
 import * as HTMLUtils from '../../utils/html-utils';

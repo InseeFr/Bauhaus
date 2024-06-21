@@ -1,4 +1,3 @@
-import React from 'react';
 import './filter-toggle-buttons.scss';
 
 const FilterToggleButtons = ({ options, currentValue, handleSelection }) => {

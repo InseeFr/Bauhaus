@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import ConceptGeneral from './general';
 import { empty } from 'js/utils/concepts/general';

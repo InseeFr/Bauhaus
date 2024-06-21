@@ -1,5 +1,5 @@
 import D from 'js/i18n';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './layout-with-lateral-menu.scss';
 
 const styleContent = {

@@ -1,6 +1,5 @@
 import { Auth } from 'js/utils';
 import D from '../../i18n/build-dictionary';
-import React from 'react';
 import { useSelector } from 'react-redux';
 
 export const CodesPanelAddButton = ({ codelist, onHandlePanel }) => {

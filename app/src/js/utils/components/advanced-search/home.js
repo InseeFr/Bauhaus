@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PageTitle, NumberResult } from '@inseefr/wilco';
 import Pagination from '../pagination';
 import AdvancedSearchControls from '../advanced-search/controls';

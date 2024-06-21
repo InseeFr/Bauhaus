@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import ConceptEditionCreation from './home';
 import { empty } from 'js/utils/concepts/general';

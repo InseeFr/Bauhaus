@@ -1,4 +1,3 @@
-import React from 'react';
 import D from 'js/i18n';
 import { getLang, Menu } from '@inseefr/wilco';
 import { useLocation } from 'react-router-dom';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import Members from './members';
 import { MemoryRouter } from 'react-router-dom';

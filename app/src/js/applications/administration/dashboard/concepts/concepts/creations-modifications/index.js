@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useHistory, withRouter } from 'react-router-dom';
 import { Table, NumberResult } from '@inseefr/wilco';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
@@ -10,20 +10,28 @@ const ConceptsCreationsModifications = ({ conceptsData, type }) => {
 	const [dateFilter, setDateFilter] = useState();
 	const history = useHistory();
 	const onRowClick = (event, concept) => {
-		history.push(`/concept/${concept.id}`)
-	}
+		history.push(`/concept/${concept.id}`);
+	};
 
 	const variable = type === 'creations' ? 'created' : 'modified';
 	const typeByLang =
 		type === 'creations' ? D.creationsTitle : D.modificationsTitle;
 
-	const data = !dateFilter ? conceptsData : conceptsData.filter(concept => dayjs(concept[variable]).isAfter(dayjs(dateFilter).subtract(1, 'days'))).map(d => ({
-		...d,
-		validationStatus:
-			d.validationStatus === 'true'
-				? D.conceptStatusValid
-				: D.conceptStatusProvisional,
-	}));
+	const data = !dateFilter
+		? conceptsData
+		: conceptsData
+				.filter((concept) =>
+					dayjs(concept[variable]).isAfter(
+						dayjs(dateFilter).subtract(1, 'days')
+					)
+				)
+				.map((d) => ({
+					...d,
+					validationStatus:
+						d.validationStatus === 'true'
+							? D.conceptStatusValid
+							: D.conceptStatusProvisional,
+				}));
 	return (
 		<div>
 			<div className="row" style={{ marginTop: '2%' }}>
@@ -50,6 +58,6 @@ const ConceptsCreationsModifications = ({ conceptsData, type }) => {
 			/>
 		</div>
 	);
-}
+};
 
 export default withRouter(ConceptsCreationsModifications);

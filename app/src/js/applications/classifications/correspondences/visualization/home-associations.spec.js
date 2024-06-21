@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import HomeAssociations from './home-associations';
 import { MemoryRouter } from 'react-router-dom';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { StructureView } from './index';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';

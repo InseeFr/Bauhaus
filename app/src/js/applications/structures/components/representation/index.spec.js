@@ -1,12 +1,11 @@
 import { screen, render, fireEvent } from '@testing-library/react';
 import Representation from './index';
-import React from 'react';
 import { XSD_CODE_LIST, XSD_STRING } from '../../utils/constants';
 
 describe('Representation', () => {
 	it('should display the label of a XSD_TYPES', async () => {
 		const component = {
-			range: XSD_STRING
+			range: XSD_STRING,
 		};
 		const codesLists = [];
 		const handleCodesListDetail = jest.fn();
@@ -18,13 +17,13 @@ describe('Representation', () => {
 				handleCodesListDetail={handleCodesListDetail}
 			/>
 		);
-		await screen.findByText('String')
-	})
+		await screen.findByText('String');
+	});
 
 	it('should display a button with the codeList', async () => {
 		const component = {
 			range: XSD_CODE_LIST,
-			codeList: 'id'
+			codeList: 'id',
 		};
 		const codesLists = [{ id: 'id', label: 'label' }];
 		const handleCodesListDetail = jest.fn();
@@ -39,7 +38,7 @@ describe('Representation', () => {
 		await screen.findByText('label');
 		const button = await screen.findByRole('button');
 
-		fireEvent.click(button)
-		expect(handleCodesListDetail).toHaveBeenCalled()
-	})
-})
+		fireEvent.click(button);
+		expect(handleCodesListDetail).toHaveBeenCalled();
+	});
+});

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { D1, D2 } from 'js/i18n';
 import {
 	EditorMarkdown,

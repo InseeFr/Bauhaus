@@ -1,4 +1,3 @@
-import React from 'react';
 import Select from 'react-select';
 import D from '../../i18n/build-dictionary';
 import 'react-select/dist/react-select.css';

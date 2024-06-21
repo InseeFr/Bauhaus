@@ -1,4 +1,3 @@
-import React from 'react';
 import { Note } from '@inseefr/wilco';
 import DOMPurify from 'dompurify';
 import { HTMLUtils } from 'js/utils';

@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useMemo } from 'react';
+import { Suspense, lazy, useEffect, useMemo, memo } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Loading } from '@inseefr/wilco';
 
@@ -17,7 +17,7 @@ const getComponent = (pageName, pages, activeModules) => {
 		return NotFound;
 	}
 	const Component = pages[pageName];
-	return React.memo(() => {
+	return memo(() => {
 		useEffect(() => {
 			document.getElementById('root-app').classList = [pageName];
 		}, []);

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import MSDContainer, {
 	CREATE,
@@ -19,13 +18,11 @@ export default () => {
 			<Route
 				exact
 				path="/operations/(operation|series|indicator)/:idParent/sims/create"
-				render={props => {
+				render={(props) => {
 					return (
 						<MSDContainer
 							mode={CREATE}
-							baseUrl={`/operations/${props.match.params[0]}/${
-								props.match.params.idParent
-							}/sims/create`}
+							baseUrl={`/operations/${props.match.params[0]}/${props.match.params.idParent}/sims/create`}
 							disableSectionAnchor
 						/>
 					);
@@ -34,7 +31,7 @@ export default () => {
 			<Route
 				exact
 				path="/operations/sims/:id"
-				render={props => (
+				render={(props) => (
 					<MSDContainer
 						mode={VIEW}
 						baseUrl={`/operations/sims/${props.match.params.id}/section/`}
@@ -44,7 +41,7 @@ export default () => {
 			<Route
 				exact
 				path="/operations/sims/:id/modify"
-				render={props => (
+				render={(props) => (
 					<MSDContainer
 						mode={UPDATE}
 						disableSectionAnchor
@@ -55,7 +52,7 @@ export default () => {
 			<Route
 				exact
 				path="/operations/sims/:id/duplicate"
-				render={props => (
+				render={(props) => (
 					<MSDContainer
 						mode={DUPLICATE}
 						disableSectionAnchor
@@ -66,7 +63,7 @@ export default () => {
 			<Route
 				exact
 				path="/operations/sims/:id/section/:idSection"
-				render={props => (
+				render={(props) => (
 					<MSDContainer
 						mode={VIEW}
 						baseUrl={`/operations/sims/${props.match.params.id}/section/`}

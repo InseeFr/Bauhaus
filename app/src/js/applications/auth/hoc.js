@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import LoginNoAuth from 'js/applications/auth/no-auth/login';
 import LoginOpenIDConnect from 'js/applications/auth/open-id-connect-auth/login-container';

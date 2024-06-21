@@ -1,4 +1,3 @@
-import React from 'react';
 import { ComponentSpecificationModalBody } from '.';
 import { render, fireEvent } from '@testing-library/react';
 

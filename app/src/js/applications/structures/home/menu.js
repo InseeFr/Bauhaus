@@ -1,7 +1,6 @@
 import { Auth, FeminineButton } from 'js/utils';
 import { ExportButton, ImportButton, VerticalMenu } from '@inseefr/wilco';
 import D from '../../../i18n/build-dictionary';
-import React from 'react';
 import { getEnvVar } from '../../../utils/env';
 
 export const HomePageMenu = () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PageTitle, Loading } from '@inseefr/wilco';
 import D from 'js/i18n';
 import api from '../../remote-api/concepts-api';

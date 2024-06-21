@@ -12,7 +12,6 @@ import {
 } from 'js/utils';
 import { Loading, Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
-import React from 'react';
 import { useDataset, useDistribution } from '../../hooks';
 import { ViewMenu } from './menu';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 
@@ -21,7 +20,7 @@ export const generalFields = (association, secondLang) => {
 		targetClassAltLabelLg1,
 		targetClassAltLabelLg2,
 	} = association;
-	const content = Object.keys(mapping).map(fieldName => {
+	const content = Object.keys(mapping).map((fieldName) => {
 		if (fieldName === 'sourceItemLabelLg1' && association[fieldName]) {
 			return (
 				<li key={fieldName}>

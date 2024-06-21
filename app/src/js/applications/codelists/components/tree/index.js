@@ -1,4 +1,3 @@
-import React from 'react';
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 import D from '../../i18n/build-dictionary';

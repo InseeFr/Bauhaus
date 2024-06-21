@@ -10,7 +10,7 @@ import {
 	Row,
 	useTitle,
 } from 'js/utils';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import api from '../../api/datasets-api';

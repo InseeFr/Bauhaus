@@ -1,4 +1,3 @@
-import React from 'react';
 import { Panel } from '@inseefr/wilco';
 
 function ConceptToLink({ title, memberEls, searchComponent }) {

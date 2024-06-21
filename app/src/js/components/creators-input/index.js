@@ -1,4 +1,3 @@
-import React from 'react';
 import { SelectRmes, StampsApi } from 'js/utils';
 import { D1 } from '../i18n/build-dictionary';
 import { useQuery } from '@tanstack/react-query';
