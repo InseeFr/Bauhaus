@@ -5,6 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { CL_FREQ } from '../../../../actions/constants/codeList';
 
 const mockStore = configureStore([]);
 const store = mockStore({
@@ -33,7 +34,7 @@ const indicator = {
 			type: 'indicator',
 		},
 	],
-	accrualPeriodicityList: 'CL_FREQ',
+	accrualPeriodicityList: CL_FREQ,
 	seeAlso: [
 		{
 			labelLg2: 'Building Index base 2010',

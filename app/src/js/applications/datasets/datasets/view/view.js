@@ -28,6 +28,7 @@ import {
 } from '../../../../new-architecture/components/loading/loading';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
+import { CL_FREQ } from '../../../../actions/constants/codeList';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -138,7 +139,7 @@ const Dataset = (props) => {
 								<li>
 									{D.datasetsUpdateFrequency} :{' '}
 									{
-										props['CL_FREQ']?.codes?.find(
+										props[CL_FREQ]?.codes?.find(
 											(t) => t.iri === dataset.accrualPeriodicity
 										)?.labelLg1
 									}
@@ -425,7 +426,7 @@ const Dataset = (props) => {
 								<li>
 									{D.datasetsTemporalResolution} :{' '}
 									{
-										props['CL_FREQ']?.codes?.find(
+										props[CL_FREQ]?.codes?.find(
 											(t) => t.iri === dataset.temporalResolution
 										)?.labelLg1
 									}
@@ -443,7 +444,7 @@ const Dataset = (props) => {
 
 export const DatasetView = withCodesLists([
 	'CL_ACCESS_RIGHTS',
-	'CL_FREQ',
+	CL_FREQ,
 	'CL_CONF_STATUS',
 	'CL_DATA_TYPES',
 	'CL_STAT_UNIT',
