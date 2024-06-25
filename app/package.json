@@ -10,8 +10,7 @@
 	"author": "INSEE (http://www.insee.fr)",
 	"scripts": {
 		"pre-script": "cross-env NODE_OPTIONS=--openssl-legacy-provider REACT_APP_VERSION=$(node ./scripts/getVersion.js) REACT_APP_NAME=$npm_package_name",
-		"build-insee": "yarn pre-script cross-env REACT_APP_INSEE=true react-scripts build && yarn create-zip",
-		"create-zip": "cd build && bestzip build.zip *",
+		"build-insee": "yarn pre-script cross-env REACT_APP_INSEE=true react-scripts build",
 		"eject": "react-scripts eject",
 		"lint": "eslint src",
 		"start": "yarn pre-script react-scripts start",
@@ -38,7 +37,6 @@
 		"redux-thunk": "^2.4.2"
 	},
 	"devDependencies": {
-		"bestzip": "^2.1.2",
 		"coveralls": "3.1.0",
 		"cross-env": "7.0.2",
 		"redux-mock-store": "^1.5.4",
