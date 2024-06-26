@@ -1,143 +1,79 @@
 import { getTreeFromFlatData } from 'react-sortable-tree';
 import D, { D1, D2 } from '../i18n/build-dictionary';
 import MainDictionary from 'js/i18n/build-dictionary';
+import { formatValidation } from '../../../utils/validation';
+import { z } from 'zod';
 
 export const formatLabel = (component) => {
 	return <>{component.labelLg1}</>;
 };
 
-export const validateCodelist = (codelist) => {
-	const errorMessage = [];
-	const fields = {};
-
-	if (!codelist.lastListUriSegment) {
-		errorMessage.push(D.mandatoryProperty(D.lastListUriSegmentTitle));
-		fields.lastListUriSegment = D.mandatoryProperty(D.lastListUriSegmentTitle);
-	}
-
-	if (!codelist.lastCodeUriSegment) {
-		errorMessage.push(D.mandatoryProperty(D.lastCodeUriSegmentTitle));
-		fields.lastCodeUriSegment = D.mandatoryProperty(D.lastCodeUriSegmentTitle);
-	}
-
-	if (!codelist.lastClassUriSegment) {
-		errorMessage.push(D.mandatoryProperty(D.lastClassUriSegmentTitle));
-		fields.lastClassUriSegment = D.mandatoryProperty(
-			D.lastClassUriSegmentTitle
-		);
-	}
-
-	if (!codelist.id) {
-		errorMessage.push(D.mandatoryProperty(D.idTitle));
-		fields.id = D.mandatoryProperty(D.idTitle);
-	}
-
-	if (!codelist.labelLg1) {
-		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
-		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
-	}
-
-	if (!codelist.labelLg2) {
-		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
-		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
-	}
-
-	if (!codelist.creator) {
-		errorMessage.push(D.mandatoryProperty(D2.creator));
-		fields.creator = D.mandatoryProperty(D2.creator);
-	}
-
-	if (!codelist.disseminationStatus) {
-		errorMessage.push(
-			D.mandatoryProperty(MainDictionary.disseminationStatusTitle)
-		);
-		fields.disseminationStatus = D.mandatoryProperty(
+const CodesList = z.object({
+	lastListUriSegment: z.string({
+		required_error: D.mandatoryProperty(D.lastListUriSegmentTitle),
+	}),
+	lastCodeUriSegment: z.string({
+		required_error: D.mandatoryProperty(D.lastCodeUriSegmentTitle),
+	}),
+	lastClassUriSegment: z.string({
+		required_error: D.mandatoryProperty(D.lastClassUriSegmentTitle),
+	}),
+	id: z.string({ required_error: D.mandatoryProperty(D.idTitle) }),
+	labelLg1: z.string({ required_error: D.mandatoryProperty(D1.labelTitle) }),
+	labelLg2: z.string({ required_error: D.mandatoryProperty(D2.labelTitle) }),
+	creator: z.string({ required_error: D.mandatoryProperty(D.creator) }),
+	disseminationStatus: z.string({
+		required_error: D.mandatoryProperty(
 			MainDictionary.disseminationStatusTitle
-		);
-	}
+		),
+	}),
+});
+export const validateCodelist = (codelist) =>
+	formatValidation(CodesList)(codelist);
 
-	return {
-		errorMessage,
-		fields,
-	};
-};
-
-export const validatePartialCodelist = (codelist) => {
-	const errorMessage = [];
-	const fields = {};
-
-	if (!codelist.id) {
-		errorMessage.push(D.mandatoryProperty(D.idTitle));
-		fields.id = D.mandatoryProperty(D.idTitle);
-	} else if (!/^[a-zA-Z0-9_]*$/.test(codelist.id)) {
-		errorMessage.push(D.validCharactersProperty(D1.idTitle));
-		fields.id = D.validCharactersProperty(D1.idTitle);
-	}
-
-	if (!codelist.parentCode) {
-		errorMessage.push(D.mandatoryProperty(D.parentCodelist));
-		fields.parentCode = D.mandatoryProperty(D.parentCodelist);
-	}
-
-	if (!codelist.labelLg1) {
-		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
-		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
-	}
-
-	if (!codelist.labelLg2) {
-		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
-		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
-	}
-
-	if (!codelist.creator) {
-		errorMessage.push(D.mandatoryProperty(D.creator));
-		fields.creator = D.mandatoryProperty(D.creator);
-	}
-
-	if (!codelist.disseminationStatus) {
-		errorMessage.push(
-			D.mandatoryProperty(MainDictionary.disseminationStatusTitle)
-		);
-		fields.disseminationStatus = D.mandatoryProperty(
+const PartialCodesList = z.object({
+	id: z
+		.string({
+			required_error: D.mandatoryProperty(D.idTitle),
+		})
+		.regex(/^[a-zA-Z0-9_]*$/, D.validCharactersProperty(D1.idTitle)),
+	parentCode: z.string({
+		required_error: D.mandatoryProperty(D.parentCodelist),
+	}),
+	labelLg1: z.string({
+		required_error: D.mandatoryProperty(D1.labelTitle),
+	}),
+	labelLg2: z.string({
+		required_error: D.mandatoryProperty(D2.labelTitle),
+	}),
+	creator: z.string({
+		required_error: D.mandatoryProperty(D.creator),
+	}),
+	disseminationStatus: z.string({
+		required_error: D.mandatoryProperty(
 			MainDictionary.disseminationStatusTitle
-		);
-	}
+		),
+	}),
+});
+export const validatePartialCodelist = (codelist) =>
+	formatValidation(PartialCodesList)(codelist);
 
-	return {
-		errorMessage,
-		fields,
-	};
-};
+const Code = (shouldCheckDuplicate, codes) =>
+	z.object({
+		code: z.string({ required_error: D.mandatoryProperty(D.idTitle) }).refine(
+			(value) => {
+				return !shouldCheckDuplicate || !codes.find((c) => c.code === value);
+			},
+			{
+				message: D.ErrorDoubleCode,
+			}
+		),
+		labelLg1: z.string({ required_error: D.mandatoryProperty(D1.labelTitle) }),
+		labelLg2: z.string({ required_error: D.mandatoryProperty(D2.labelTitle) }),
+	});
 
 export const validateCode = (code, codes, updateMode) => {
-	const errorMessage = [];
-	const fields = {};
-
-	if (!code.code) {
-		errorMessage.push(D.mandatoryProperty(D.idTitle));
-		fields.code = D.mandatoryProperty(D.idTitle);
-	}
-	if (!code.labelLg1) {
-		errorMessage.push(D.mandatoryProperty(D1.labelTitle));
-		fields.labelLg1 = D.mandatoryProperty(D1.labelTitle);
-	}
-
-	if (!code.labelLg2) {
-		errorMessage.push(D.mandatoryProperty(D2.labelTitle));
-		fields.labelLg2 = D.mandatoryProperty(D2.labelTitle);
-	}
-
-	const doubleCode = !updateMode && codes.find((c) => c.code === code.code);
-
-	if (doubleCode) {
-		errorMessage.push(D.ErrorDoubleCode);
-		fields.code = D.ErrorDoubleCode;
-	}
-
-	return {
-		fields,
-		errorMessage,
-	};
+	return formatValidation(Code(!updateMode, codes))(code);
 };
 
 const treeElement = (n, i) => {
