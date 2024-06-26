@@ -27,7 +27,6 @@
 		"keycloak": "1.2.0",
 		"react-16-bootstrap-date-picker": "5.1.2",
 		"react-bootstrap": "0.31.5",
-		"react-d3-tree": "1.10.3",
 		"react-draft-wysiwyg": "1.14.6",
 		"react-dropzone": "11.0.1",
 		"react-modal": "^3.14.4",
