@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Loading, goBack } from '@inseefr/wilco';
 import { ComponentDetailView } from './view';
 import api from '../../apis/structure-api';
@@ -41,7 +41,9 @@ const ViewContainer = (props) => {
 			getFormattedCodeList(),
 		])
 			.then(([component, attributes, concepts, codesLists]) => {
-				setComponent(component);
+				setComponent({
+					...component,
+				});
 				setAttributes(attributes);
 				setConcepts(concepts);
 				setCodesLists(codesLists);
@@ -63,7 +65,7 @@ const ViewContainer = (props) => {
 			.catch(setServerSideError);
 	};
 	return (
-		<React.Fragment>
+		<>
 			<ComponentTitle component={component} secondLang={secondLang} />
 
 			<ComponentDetailView
@@ -83,7 +85,7 @@ const ViewContainer = (props) => {
 				attributes={attributes}
 				langs={langs}
 			/>
-		</React.Fragment>
+		</>
 	);
 };
 

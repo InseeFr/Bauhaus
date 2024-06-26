@@ -1,7 +1,7 @@
 import D from '../../../i18n/build-dictionary';
 import { Button } from '@inseefr/wilco';
 import Modal from 'react-modal';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import './index.scss';
 import { Row } from '../../../utils';
 

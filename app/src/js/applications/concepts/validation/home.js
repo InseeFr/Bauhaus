@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
 import Picker from 'js/applications/shared/picker-page';
 import check from 'js/utils/auth';
@@ -14,14 +14,14 @@ class ConceptsToValidate extends Component {
 			idWithValid: [],
 		};
 
-		this.handleValidateConceptList = ids => {
+		this.handleValidateConceptList = (ids) => {
 			this.props.handleValidateConceptList(ids);
 		};
-		this.handleClickValidation = ids => {
+		this.handleClickValidation = (ids) => {
 			this.setState({ ids });
 			const idWithValid = ids.reduce((_, id) => {
 				const { label: prefLabelLg1, valid } = this.props.concepts.find(
-					c => c.id === id
+					(c) => c.id === id
 				);
 				if (valid) _.push({ prefLabelLg1, valid });
 				return _;

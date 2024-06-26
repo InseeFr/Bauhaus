@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { LabelRequired, Select, ActionToolbar } from '@inseefr/wilco';
 import {
 	Stores,
@@ -77,7 +77,7 @@ const DumbCodeDetailEdit = ({
 	};
 
 	return (
-		<React.Fragment>
+		<>
 			{submitting && clientSideErrors && (
 				<GlobalClientSideErrorBloc
 					clientSideErrors={clientSideErrors.errorMessage}
@@ -273,7 +273,7 @@ const DumbCodeDetailEdit = ({
 					<span> {D.btnDeleteWithChildren}</span>
 				</button>
 			</ActionToolbar>
-		</React.Fragment>
+		</>
 	);
 };
 

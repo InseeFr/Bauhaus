@@ -1,4 +1,3 @@
-import React from 'react';
 import { Note, ErrorBloc } from '@inseefr/wilco';
 import {
 	HTMLUtils,
@@ -13,6 +12,8 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './view.scss';
 import { CodesCollapsiblePanel } from './codes-panel';
 import { ViewMenu } from './menu';
+import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
+import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 
 export const CodeListDetailView = ({
 	codelist,
@@ -44,7 +45,7 @@ export const CodeListDetailView = ({
 	};
 
 	return (
-		<React.Fragment>
+		<>
 			{modalOpened && (
 				<ConfirmationDelete
 					className="codelists"
@@ -85,7 +86,14 @@ export const CodeListDetailView = ({
 									{D.creator} : {codelist.creator}
 								</li>
 								<li>
-									{D.contributor} : {codelist.contributor}
+									<ContributorsVisualisation
+										contributors={codelist.contributor}
+									/>
+								</li>
+								<li>
+									<DisseminationStatusVisualisation
+										disseminationStatus={codelist.disseminationStatus}
+									/>
 								</li>
 							</ul>
 						}
@@ -116,6 +124,6 @@ export const CodeListDetailView = ({
 				hidden={hidden}
 				editable={false}
 			/>
-		</React.Fragment>
+		</>
 	);
 };

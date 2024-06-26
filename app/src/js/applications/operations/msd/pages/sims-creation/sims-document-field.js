@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { isLink, isDocument } from 'js/applications/operations/document/utils';
 import DocumentsBloc from '../../documents/documents-bloc';
 
@@ -66,7 +66,7 @@ export const SimsDocumentField = ({
 	);
 };
 
-export default React.memo(
+export default memo(
 	SimsDocumentField,
 	(prevProps, nextProps) =>
 		prevProps.documentStores.length === nextProps.documentStores.length &&

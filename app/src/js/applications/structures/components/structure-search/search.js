@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Select, Loading } from '@inseefr/wilco';
 import D from '../../i18n/build-dictionary';

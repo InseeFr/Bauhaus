@@ -1,4 +1,3 @@
-import React from 'react';
 import { AuthDumb, mapStateToProps } from './auth';
 import { LOADING } from '../../stores/constants';
 import { render } from '@testing-library/react';
@@ -12,7 +11,10 @@ describe('AuthDumb', () => {
 				userRoles={['roles']}
 				roles={['roles1']}
 				loadUserStamp={jest.fn()}
-			>Children</AuthDumb>);
+			>
+				Children
+			</AuthDumb>
+		);
 		expect(container.innerHTML).toEqual('fallback');
 	});
 	it('should return the children if the user is authorized', () => {
@@ -23,7 +25,10 @@ describe('AuthDumb', () => {
 				userRoles={['roles']}
 				roles={['roles']}
 				loadUserStamp={jest.fn()}
-			>Children</AuthDumb>);
+			>
+				Children
+			</AuthDumb>
+		);
 		expect(container.innerHTML).toEqual('Children');
 	});
 
@@ -35,7 +40,10 @@ describe('AuthDumb', () => {
 				userRoles={['roles']}
 				roles={[['roles', () => true]]}
 				loadUserStamp={jest.fn()}
-			>Children</AuthDumb>);
+			>
+				Children
+			</AuthDumb>
+		);
 		expect(container.innerHTML).toEqual('Children');
 	});
 
@@ -47,7 +55,10 @@ describe('AuthDumb', () => {
 				userRoles={['roles']}
 				roles={[['roles', () => false]]}
 				loadUserStamp={jest.fn()}
-			>Children</AuthDumb>);
+			>
+				Children
+			</AuthDumb>
+		);
 		expect(container.innerHTML).toEqual('fallback');
 	});
 });
@@ -60,14 +71,14 @@ describe('mapStateToProps', () => {
 					user: {
 						roles: 'roles',
 					},
-				}
+				},
 			},
 			users: {
 				status: LOADING,
 				results: {
-					stamp: 'stamp'
-				}
-			}
+					stamp: 'stamp',
+				},
+			},
 		};
 		expect(mapStateToProps(state)).toEqual({
 			userRoles: 'roles',

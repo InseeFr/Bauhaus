@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PageTitle, VerticalMenu, Loading } from '@inseefr/wilco';
 import D from 'js/i18n';
 import {

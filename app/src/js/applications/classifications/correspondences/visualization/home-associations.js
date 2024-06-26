@@ -1,4 +1,3 @@
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Note, Table } from '@inseefr/wilco';
 import D, { D1 } from 'js/i18n';

@@ -1,4 +1,3 @@
-import React from 'react';
 import HelpInformation from 'js/applications/operations/msd/help-information';
 import { Note } from '@inseefr/wilco';
 
@@ -11,7 +10,7 @@ export default function MSDHelp({
 }) {
 	function MSDInformations({ msd }) {
 		return (
-			<React.Fragment>
+			<>
 				<div className="row" key={msd.idMas} id={msd.idMas}>
 					<Note
 						title={`${msd.idMas} - ${msd.masLabelLg1}`}
@@ -29,7 +28,7 @@ export default function MSDHelp({
 				{Object.values(msd.children).map((child) => (
 					<MSDInformations key={child.idMas} msd={child} />
 				))}
-			</React.Fragment>
+			</>
 		);
 	}
 	return Object.values(metadataStructure).map((msd) => {

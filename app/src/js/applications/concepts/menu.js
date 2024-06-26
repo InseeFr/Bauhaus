@@ -1,5 +1,4 @@
 import { ExportButton, PublishButton, VerticalMenu } from '@inseefr/wilco';
-import React from 'react';
 import { useSelector } from 'react-redux';
 import check from '../../utils/auth';
 import { Auth, MasculineButton } from '../../utils';

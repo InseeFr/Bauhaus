@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Loading } from '@inseefr/wilco';
 import { CodesList, StampsApi } from 'js/utils';
 import { API } from '../../apis';
 import { formatPartialCodeList } from '../../utils';
-import { CodeListPartialDetailEdit } from './edit';
+import { DumbCodelistPartialDetailEdit } from './edit';
 import { useQuery } from '@tanstack/react-query';
 
 const useBackOrReplaceHook = () => {
@@ -119,7 +119,7 @@ const CodelistPartialEdit = (props) => {
 	}
 
 	return (
-		<CodeListPartialDetailEdit
+		<DumbCodelistPartialDetailEdit
 			{...props}
 			col={2}
 			codelist={codelist}

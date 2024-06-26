@@ -1,7 +1,5 @@
 import D from '../../../i18n/build-dictionary';
 import ExportButton from '../dropdown';
-import React from 'react';
-
 export default ({ exportHandler, disabled }) => {
 	return (
 		<ExportButton

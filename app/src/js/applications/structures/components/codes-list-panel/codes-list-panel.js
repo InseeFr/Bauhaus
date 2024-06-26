@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import SlidingPanel from 'react-sliding-side-panel';
 import { CodesList, ArrayUtils } from 'js/utils';
 import './codes-list-panel.scss';

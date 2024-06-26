@@ -1,4 +1,3 @@
-import React from 'react';
 import './errors-bloc.scss';
 
 export const ClientSideError = ({ error, id }) => {

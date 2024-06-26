@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Input, LabelRequired, Loading, Select } from '@inseefr/wilco';
+import { Input, LabelRequired, Loading } from '@inseefr/wilco';
 import Controls from './controls';
 import Components from './components';
 import StructureAPI from '../apis/structure-api';
@@ -13,12 +13,14 @@ import {
 	Stores,
 	Row,
 	Auth,
+	SelectRmes,
 } from 'js/utils';
 import D, { D1, D2 } from 'js/i18n';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import 'react-select/dist/react-select.css';
 import { validate } from './validation';
-import MainDictionary from 'js/i18n/build-dictionary';
+import { ContributorsInput } from '../../../utils/contributors/contributors';
+import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
 
 const isRequiredBys = [
 	'Melodi-Chargement',
@@ -33,16 +35,12 @@ const defaultDSD = {
 	descriptionLg1: '',
 	descriptionLg2: '',
 	disseminationStatus: DISSEMINATION_STATUS.PUBLIC_GENERIC,
-	contributor: 'DG75-H250',
+	contributor: ['DG75-H250'],
 	componentDefinitions: [],
 	isRequiredBy: '',
 };
 
-const Edition = ({
-	creation,
-	initialStructure,
-	loadDisseminationStatusList,
-}) => {
+const Edition = ({ creation, initialStructure }) => {
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
@@ -50,18 +48,10 @@ const Edition = ({
 		label: value,
 		value,
 	}));
-	const disseminationStatusListOptions = useSelector((state) =>
-		Stores.DisseminationStatus.getDisseminationStatusListOptions(state)
-	);
-	useEffect(() => {
-		if (disseminationStatusListOptions.length === 0) {
-			loadDisseminationStatusList();
-		}
-	}, [disseminationStatusListOptions.length, loadDisseminationStatusList]);
 
 	const { lg1, lg2 } = useContext(AppContext);
 
-	const [structure, setStructure] = useState(() => defaultDSD);
+	const [structure, setStructure] = useState(defaultDSD);
 	const [loading, setLoading] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
 
@@ -220,50 +210,39 @@ const Edition = ({
 			</Row>
 			<div className="form-group">
 				<label>{D1.creatorTitle}</label>
-				<Select
-					className="form-control"
+				<SelectRmes
 					placeholder={D1.stampsPlaceholder}
 					value={stampListOptions.find(({ value }) => value === creator)}
 					options={stampListOptions}
 					onChange={(value) => onChange('creator', value)}
-					searchable={true}
+					searchable
 				/>
 			</div>
 			<div className="form-group">
-				<label>{D1.contributorTitle}</label>
-				<Select
-					placeholder={D1.stampsPlaceholder}
-					value={stampListOptions.find(({ value }) => value === contributor)}
-					options={stampListOptions}
-					searchable={true}
-					onChange={(value) => onChange('contributor', value)}
+				<ContributorsInput
+					value={contributor}
+					handleChange={(values) => onChange('contributor', values)}
+					stampListOptions={stampListOptions}
 				/>
 			</div>
 
 			<div className="form-group">
-				<label>{MainDictionary.disseminationStatusTitle}</label>
-				<Select
-					className="form-control"
-					placeholder={MainDictionary.disseminationStatusTitle}
-					value={disseminationStatusListOptions.find(
-						({ value }) => value === disseminationStatus
-					)}
-					options={disseminationStatusListOptions}
-					onChange={(value) => onChange('disseminationStatus', value)}
-					searchable={true}
+				<DisseminationStatusInput
+					value={disseminationStatus}
+					handleChange={(value) => onChange('disseminationStatus', value)}
 				/>
 			</div>
+
 			<div className="form-group">
 				<label>{D1.processusTitle}</label>
-				<Select
-					className="form-control"
+				<SelectRmes
 					placeholder={D1.processusTitle}
 					value={isRequiredBysOptions.find(
 						({ value }) => value === isRequiredBy
 					)}
 					options={isRequiredBysOptions}
 					onChange={(value) => onChange('isRequiredBy', value)}
-					searchable={true}
+					searchable
 				/>
 			</div>
 			<Components
@@ -276,7 +255,4 @@ const Edition = ({
 	);
 };
 
-export default connect(undefined, {
-	loadDisseminationStatusList:
-		Stores.DisseminationStatus.loadDisseminationStatusList,
-})(Edition);
+export default Edition;

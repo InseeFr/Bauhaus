@@ -1,4 +1,3 @@
-import React from 'react';
 import { Table } from '@inseefr/wilco';
 import D from 'js/i18n';
 import { rowParams, buildData } from './summary-data';

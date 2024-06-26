@@ -15,9 +15,10 @@ const Dataset = z.object({
 		.optional()
 		.or(z.literal('')),
 	creator: z.string({ required_error: D.mandatoryProperty(D1.creatorTitle) }),
-	contributor: z.string({
-		required_error: D.mandatoryProperty(D1.contributorTitle),
-	}),
+	contributor: z
+		.string()
+		.array()
+		.min(1, D.mandatoryProperty(D1.contributorTitle)),
 	disseminationStatus: z.string({
 		required_error: D.mandatoryProperty(D1.disseminationStatusTitle),
 	}),

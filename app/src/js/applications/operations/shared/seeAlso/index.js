@@ -1,4 +1,3 @@
-import React from 'react';
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from 'js/i18n';
 import { Link } from 'react-router-dom';
@@ -11,7 +10,7 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 					<li>
 						{title}
 						<ul>
-							{seeAlso.map(link => (
+							{seeAlso.map((link) => (
 								<li key={link.id}>
 									<Link to={`${path}/${link.id}`}>{link[label]}</Link>
 								</li>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pagination } from '@inseefr/wilco';
 import D from 'js/i18n';
 

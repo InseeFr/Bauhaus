@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import 'bootstrap/dist/css/bootstrap.css';

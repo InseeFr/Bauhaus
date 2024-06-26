@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import D from 'js/i18n';
 import api from 'js/remote-api/operations-api';
 import { useHistory } from 'react-router-dom';

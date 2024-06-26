@@ -1,4 +1,3 @@
-import React from 'react';
 import Modal from 'react-modal';
 import DOMPurify from 'dompurify';
 import D from 'js/i18n';

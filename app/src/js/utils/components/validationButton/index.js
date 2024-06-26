@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { PublishButton } from '@inseefr/wilco';
 
 const ValidationButton = ({ object = {}, callback, disabled = false }) => {

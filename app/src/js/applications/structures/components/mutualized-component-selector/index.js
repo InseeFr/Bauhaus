@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import SlidingPanel from 'react-sliding-side-panel';
 import { typeUriToLabel, defaultComponentsTableParams } from '../../utils';
 import D from '../../i18n/build-dictionary';
@@ -47,7 +47,7 @@ export const MutualizedComponentsSelector = ({
 					aria-label={D.mutualized}
 				></span>
 			) : (
-				<React.Fragment></React.Fragment>
+				<></>
 			),
 		concept: concepts.find(({ id }) =>
 			component.concept?.toString().includes(id?.toString())
@@ -65,7 +65,7 @@ export const MutualizedComponentsSelector = ({
 			/>
 		),
 		actions: (
-			<React.Fragment>
+			<>
 				<button
 					data-component-id={component.identifiant}
 					onClick={seeClickHandler}
@@ -80,7 +80,7 @@ export const MutualizedComponentsSelector = ({
 				>
 					<span className="glyphicon glyphicon-plus"></span>
 				</button>
-			</React.Fragment>
+			</>
 		),
 	}));
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSecondLang, saveSecondLang } from '../../stores/second-lang';
 import { CheckSecondLang } from '@inseefr/wilco';
@@ -9,7 +8,7 @@ const CheckSecondLangContainer = () => {
 	return (
 		<CheckSecondLang
 			secondLang={secondLang}
-			onChange={e => dispatch(saveSecondLang(e))}
+			onChange={(e) => dispatch(saveSecondLang(e))}
 		/>
 	);
 };

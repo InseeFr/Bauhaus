@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import {
 	EditorMarkdown,

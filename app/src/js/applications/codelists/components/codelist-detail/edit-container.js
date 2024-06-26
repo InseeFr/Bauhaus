@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Loading } from '@inseefr/wilco';
 import { StampsApi } from 'js/utils';
 import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';
 import { TreeContext } from '../tree/treeContext';
-import { CodeListDetailEdit } from './edit';
+import { DumbCodelistDetailEdit } from './edit';
 import { useQuery } from '@tanstack/react-query';
 
 const useBackOrReplaceHook = () => {
@@ -84,7 +84,7 @@ const CodelistEdit = (props) => {
 	}
 
 	return (
-		<CodeListDetailEdit
+		<DumbCodelistDetailEdit
 			{...props}
 			col={2}
 			codelist={codelist}

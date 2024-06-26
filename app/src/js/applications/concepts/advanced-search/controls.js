@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import D from 'js/i18n';
 import ExportButtons from '../../collections/export-buttons';
@@ -21,10 +20,10 @@ export default ({ onClickReturn, initializeState, onExport, conceptsList }) => (
 		/>
 		<Button
 			label={
-				<React.Fragment>
+				<>
 					<span className="glyphicon glyphicon-flash" aria-hidden="true" />
 					<span> {D.btnReinitialize}</span>
-				</React.Fragment>
+				</>
 			}
 			action={initializeState}
 		/>

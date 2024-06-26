@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import Routes from './routes';
 import bauhausLogo from 'img/logo_noir.svg';

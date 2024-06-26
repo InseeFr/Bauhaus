@@ -1,4 +1,3 @@
-import React from 'react';
 import { rangeType } from 'js/utils/msd/';
 
 import SimsBlockText from './sims-block-text';

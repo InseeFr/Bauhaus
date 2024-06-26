@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Auth, RBACMock } from 'js/utils';
 import Controls from './controls';

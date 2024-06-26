@@ -1,9 +1,13 @@
-import React from 'react';
 import { Button } from '@inseefr/wilco';
 import Modal from 'react-modal';
 import D from '../../i18n/build-dictionary';
 
-const ConfirmationDelete = ({ className, handleNo, handleYes, message = D.confirmationConceptDelete }) => {
+const ConfirmationDelete = ({
+	className,
+	handleNo,
+	handleYes,
+	message = D.confirmationConceptDelete,
+}) => {
 	return (
 		<Modal
 			className={`Modal__Bootstrap modal-dialog ${className}`}

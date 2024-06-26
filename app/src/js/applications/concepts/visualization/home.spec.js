@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import ConceptVisualization from './home';
 import { empty } from 'js/utils/concepts/general';
@@ -9,8 +8,8 @@ import configureStore from 'redux-mock-store';
 const mockStore = configureStore([]);
 const store = mockStore({
 	app: {
-		secondLang: true
-	}
+		secondLang: true,
+	},
 });
 
 describe('concept-visualization', () => {

@@ -1,6 +1,6 @@
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from 'js/i18n';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LINK, isDocument, isLink } from '../utils';
 import { API, useTitle } from 'js/utils';
 import RelationsView from '../../shared/relations';
@@ -57,7 +57,7 @@ function OperationsDocumentationVisualization({
 		API.getBaseURI().then((uri) => setBaseURI(uri));
 	});
 	return (
-		<React.Fragment>
+		<>
 			<div className="row">
 				<Note
 					text={attr.descriptionLg1}
@@ -144,7 +144,7 @@ function OperationsDocumentationVisualization({
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>
-		</React.Fragment>
+		</>
 	);
 }
 

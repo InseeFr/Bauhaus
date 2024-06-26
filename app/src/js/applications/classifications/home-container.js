@@ -1,4 +1,3 @@
-import React from 'react';
 import { Loading } from '@inseefr/wilco';
 import ClassificationsHome from './home';
 import api from 'js/remote-api/classifications-api';

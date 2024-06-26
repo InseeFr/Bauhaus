@@ -1,4 +1,3 @@
-import React from 'react';
 import D from 'js/i18n';
 import { Auth, useTitle, FeminineButton } from 'js/utils';
 

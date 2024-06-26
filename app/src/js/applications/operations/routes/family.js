@@ -1,4 +1,3 @@
-import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import OperationsFamiliesSearchContainer from 'js/applications/operations/families/search';
 import OperationsFamiliesContainer from 'js/applications/operations/families/';

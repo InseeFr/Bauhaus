@@ -1,4 +1,3 @@
-import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { CancelButton, ActionToolbar, SaveButton } from '@inseefr/wilco';
 import { GlobalClientSideErrorBloc } from 'js/utils';

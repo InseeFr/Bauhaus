@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import Home from './home';
 import * as associationUtils from 'js/applications/classifications/utils/correspondence/association';

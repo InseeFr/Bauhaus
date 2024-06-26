@@ -1,5 +1,4 @@
 import '@testing-library/jest-dom';
-import React from 'react';
 import OperationsDocumentationVisualization from './home';
 import { render } from '@testing-library/react';
 
@@ -10,7 +9,7 @@ const document = {
 	uri: 'uri/page/1',
 	url: 'url',
 	updatedDate: '2019/02/01',
-	sims: []
+	sims: [],
 };
 describe('OperationsDocumentationVisualization', () => {
 	it('should display by default three notes', () => {

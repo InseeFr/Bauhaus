@@ -1,4 +1,3 @@
-import React from 'react';
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import D from '../../i18n/build-dictionary';
 

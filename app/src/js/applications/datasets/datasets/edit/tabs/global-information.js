@@ -7,6 +7,7 @@ import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
 import { ClientSideError, Row } from 'js/utils';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
+import { CL_FREQ } from '../../../../../actions/constants/codeList';
 
 const GlobalInformationTab = ({
 	editingDataset,
@@ -15,7 +16,7 @@ const GlobalInformationTab = ({
 	setClientSideErrors,
 	...props
 }) => {
-	const clFreqOptions = convertCodesListsToSelectOption(props['CL_FREQ']);
+	const clFreqOptions = convertCodesListsToSelectOption(props[CL_FREQ]);
 
 	const { data: organisations } = useQuery({
 		queryFn: () => {
@@ -255,6 +256,6 @@ const GlobalInformationTab = ({
 	);
 };
 
-export const GlobalInformation = withCodesLists(['CL_FREQ'])(
+export const GlobalInformation = withCodesLists([CL_FREQ])(
 	GlobalInformationTab
 );

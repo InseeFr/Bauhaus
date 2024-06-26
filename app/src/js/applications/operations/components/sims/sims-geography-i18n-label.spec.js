@@ -1,4 +1,3 @@
-import React from 'react';
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import { render } from '@testing-library/react';
 

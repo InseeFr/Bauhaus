@@ -1,4 +1,3 @@
-import React from 'react';
 import ControlsLayout from './controls-layout';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';

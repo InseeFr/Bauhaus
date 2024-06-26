@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import { PageTitle, goBack } from '@inseefr/wilco';
 import ConceptCreateControl from './controls';
@@ -144,15 +144,8 @@ class ConceptEditionCreation extends Component {
 	}
 
 	render() {
-		const {
-			stampList,
-			disseminationStatusList,
-			maxLengthScopeNote,
-			title,
-			subtitle,
-			creation,
-			langs,
-		} = this.props;
+		const { stampList, maxLengthScopeNote, title, subtitle, creation, langs } =
+			this.props;
 
 		const {
 			activeTab,
@@ -211,7 +204,6 @@ class ConceptEditionCreation extends Component {
 										general={general}
 										handleChange={this.handleChangeGeneral}
 										stampList={stampList}
-										disseminationStatusList={disseminationStatusList}
 										langs={langs}
 										errorMessage={errorMessage}
 									/>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Menu } from '@inseefr/wilco';
 import D from '../i18n/build-dictionary';
 import { Auth } from 'js/utils';

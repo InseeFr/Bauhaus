@@ -1,4 +1,3 @@
-import React from 'react';
 import D from 'js/i18n';
 import { rangeType } from 'js/utils/msd/';
 const { CODE_LIST, ORGANIZATION } = rangeType;

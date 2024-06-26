@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import NoteEdition from 'js/applications/shared/note-edition';
 import { D1 } from 'js/i18n';

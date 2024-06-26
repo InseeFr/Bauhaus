@@ -1,4 +1,3 @@
-import React from 'react';
 import { RequiredIcon } from 'js/utils';
 
 function InputRmes({

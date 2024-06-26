@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import SearchConceptsByLabel from './search-concepts-by-label';
 import { MemoryRouter } from 'react-router-dom';

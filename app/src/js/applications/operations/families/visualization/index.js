@@ -6,7 +6,7 @@ import { Button, Loading, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import { useGoBack } from 'js/hooks/hooks';
 import api from 'js/remote-api/operations-api';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import OperationsFamilyVisualization from 'js/applications/operations/families/visualization/visualization';
 import {
 	Auth,

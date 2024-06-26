@@ -1,5 +1,4 @@
 import { Auth, FeminineButton } from 'js/utils';
-import React from 'react';
 import D from '../../i18n/build-dictionary';
 import check from '../../utils/auth';
 import { Button, VerticalMenu, ExportButton } from '@inseefr/wilco';
@@ -19,10 +18,10 @@ export const Menu = () => {
 			{adminOrCreator && (
 				<Button
 					label={
-						<React.Fragment>
+						<>
 							<span className="glyphicon glyphicon-ok" aria-hidden="true" />
 							<span> {D.btnValid}</span>
-						</React.Fragment>
+						</>
 					}
 					action="/collections/validation"
 					wrapper={false}

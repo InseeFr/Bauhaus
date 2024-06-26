@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import D from 'js/i18n';
 import { Menu } from '@inseefr/wilco';
 import { useLocation } from 'react-router-dom';
@@ -50,9 +50,9 @@ const MenuDSDs = () => {
 		}
 
 		return paths;
-	}, [pathname])
+	}, [pathname]);
 
 	return <Menu paths={Object.values(paths)} />;
-}
+};
 
 export default MenuDSDs;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import './editor-html.scss';
 import { getLang } from '@inseefr/wilco';

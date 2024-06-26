@@ -1,4 +1,3 @@
-import React from 'react';
 import Controls from './controls';
 import { render } from '@testing-library/react';
 import { empty } from 'js/utils/collections/general';

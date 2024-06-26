@@ -1,4 +1,3 @@
-import React from 'react';
 import { EditorHTML } from 'js/utils';
 
 function ModifyNotes({ note, handleChange }) {

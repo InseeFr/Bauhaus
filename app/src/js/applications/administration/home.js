@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import dashBoardLogo from 'img/dashboard.png';
 import { PageTitle } from '@inseefr/wilco';

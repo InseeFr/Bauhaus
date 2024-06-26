@@ -1,2 +1,3 @@
-import React from 'react';
-export const TreeContext = React.createContext();
+import { createContext } from 'react';
+
+export const TreeContext = createContext();

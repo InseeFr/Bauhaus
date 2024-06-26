@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import Outline from './index';
 import { MemoryRouter } from 'react-router-dom';
@@ -7,13 +6,13 @@ jest.mock('js/applications/operations/msd/utils');
 const metadataStructureOpened = {
 	idMas: '1',
 	masLabelLg1: 'masLabelLg1',
-	children: { '1': { idMas: '2', children: {} } },
+	children: { 1: { idMas: '2', children: {} } },
 };
 
 const metadataStructureClosed = {
 	idMas: '2',
 	masLabelLg1: 'masLabelLg1',
-	children: { '1': { idMas: '1', children: {} } },
+	children: { 1: { idMas: '1', children: {} } },
 };
 
 describe('Outline', () => {
@@ -42,7 +41,6 @@ describe('Outline', () => {
 		expect(container.querySelectorAll('.glyphicon-chevron-up')).toHaveLength(1);
 		expect(container.querySelectorAll('.msd__item')).toHaveLength(1);
 	});
-
 
 	it('should not store the collapse status', () => {
 		const { container } = render(

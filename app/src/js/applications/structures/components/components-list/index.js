@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { PageTitle, Loading } from '@inseefr/wilco';
 import './component-list.scss';
 import { FilterToggleButtons, useTitle, SearchableList } from 'js/utils';

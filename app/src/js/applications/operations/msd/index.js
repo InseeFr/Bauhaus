@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import { Component, useEffect, useState } from 'react';
 import MSDLayout from 'js/applications/operations/msd/layout/';
 import { connect } from 'react-redux';
 import { Loading, buildExtract } from '@inseefr/wilco';

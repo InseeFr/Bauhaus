@@ -1,4 +1,3 @@
-import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import OperationsDocumentsContainer from 'js/applications/operations/document/';
 import OperationsDocumentationEditionContainer from 'js/applications/operations/document/edition';

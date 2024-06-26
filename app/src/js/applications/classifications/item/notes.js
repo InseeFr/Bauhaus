@@ -1,4 +1,3 @@
-import React from 'react';
 import NoteVisualization from 'js/applications/shared/note-visualization';
 import { buildNotes } from 'js/applications/classifications/utils/classification/notes';
 import D, { D2 } from 'js/i18n';

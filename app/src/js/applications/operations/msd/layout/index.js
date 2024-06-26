@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Outline from 'js/applications/operations/msd/outline/';
 import D from 'js/i18n';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import D, { D1, D2 } from 'js/i18n';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import InputRmes from 'js/applications/shared/input-rmes';
@@ -6,6 +5,7 @@ import InputMultiRmes from 'js/applications/shared/input-multi-rmes';
 import { fields as generalFields } from 'js/utils/concepts/general';
 import { Select, LabelRequired } from '@inseefr/wilco';
 import { RequiredIcon, ClientSideError } from 'js/utils';
+import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {
@@ -16,7 +16,6 @@ const handleFieldChange = (handleChange) =>
 function ConceptGeneralEdition({
 	general,
 	stampList,
-	disseminationStatusList,
 	handleChange,
 	langs,
 	errorMessage,
@@ -38,12 +37,7 @@ function ConceptGeneralEdition({
 		label: stamp,
 		value: stamp,
 	}));
-	const disseminationStatusListOptions = disseminationStatusList.map(
-		({ url: value, label }) => ({
-			label,
-			value,
-		})
-	);
+
 	return (
 		<div>
 			<h4 className="text-center">
@@ -108,18 +102,11 @@ function ConceptGeneralEdition({
 				/>
 			</div>
 			<div className="form-group">
-				<LabelRequired>{D1.disseminationStatusTitle}</LabelRequired>
+				<DisseminationStatusInput
+					value={disseminationStatus}
+					handleChange={handlers.disseminationStatus}
+				></DisseminationStatusInput>
 
-				<Select
-					className="form-control"
-					placeholder={D.disseminationStatusPlaceholder}
-					value={disseminationStatusListOptions.find(
-						({ value }) => value === disseminationStatus
-					)}
-					options={disseminationStatusListOptions}
-					onChange={handlers.disseminationStatus}
-					searchable={true}
-				/>
 				<ClientSideError
 					id="disseminationStatus-error"
 					error={errorMessage?.fields?.disseminationStatus}

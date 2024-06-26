@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { useSelector } from 'react-redux';

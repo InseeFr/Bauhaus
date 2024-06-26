@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as select from 'js/reducers';
@@ -8,7 +8,7 @@ import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import emptyConcept from 'js/utils/concepts/empty-concept';
 import { Loading } from '@inseefr/wilco';
-import { ArrayUtils, Stores } from 'js/utils';
+import { ArrayUtils } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import globalApi from '../../../remote-api/api';
 
@@ -24,18 +24,12 @@ const CreationContainer = () => {
 
 	const [concepts, setConcepts] = useState([]);
 	const [stamps, setStamps] = useState([]);
-	const [disseminationStatus, setDisseminationStatus] = useState([]);
 
 	useEffect(() => {
-		Promise.all([
-			api.getConceptList(),
-			globalApi.getStampList(),
-			Stores.DisseminationStatus.api.getDisseminationStatus(),
-		])
-			.then(([conceptsList, stampsList, disseminationStatusList]) => {
+		Promise.all([api.getConceptList(), globalApi.getStampList()])
+			.then(([conceptsList, stampsList]) => {
 				setConcepts(ArrayUtils.sortArrayByLabel(conceptsList));
 				setStamps(stampsList);
-				setDisseminationStatus(disseminationStatusList);
 			})
 			.finally(() => setLoading(false));
 	}, []);
@@ -71,7 +65,6 @@ const CreationContainer = () => {
 			general={general}
 			notes={notes}
 			conceptsWithLinks={conceptsWithLinks}
-			disseminationStatusList={disseminationStatus}
 			maxLengthScopeNote={maxLengthScopeNote}
 			stampList={stamps}
 			save={handleCreation}

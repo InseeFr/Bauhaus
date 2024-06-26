@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import ConceptVisualizationControls from './controls';
 import { MemoryRouter } from 'react-router-dom';
@@ -27,14 +26,14 @@ describe('concept-visualization-controls', () => {
 		api.getConceptExport = jest.fn().mockImplementation(() => {
 			return Promise.resolve({
 				headers: {
-					get(){
-						return 'attachment; filename="filename.jpg"'
+					get() {
+						return 'attachment; filename="filename.jpg"';
 					},
 				},
-				blob(){
-					return Promise.resolve('blob')
-				}
-			})
+				blob() {
+					return Promise.resolve('blob');
+				},
+			});
 		});
 
 		render(
@@ -52,6 +51,9 @@ describe('concept-visualization-controls', () => {
 		const exportButton = await screen.findByText('Export');
 		fireEvent.click(exportButton);
 
-		expect(api.getConceptExport).toHaveBeenCalledWith("id", "application/vnd.oasis.opendocument.text");
-	})
+		expect(api.getConceptExport).toHaveBeenCalledWith(
+			'id',
+			'application/vnd.oasis.opendocument.text'
+		);
+	});
 });

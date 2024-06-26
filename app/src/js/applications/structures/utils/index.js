@@ -1,58 +1,43 @@
-import React from 'react';
 import D from '../i18n/build-dictionary';
-import {
-	MUTUALIZED_COMPONENT_TYPES,
-	ATTACHMENTS,
-} from './constants/';
+import { MUTUALIZED_COMPONENT_TYPES, ATTACHMENTS } from './constants/';
 
-export const getDisseminationStatus = disseminationStatus => {
-	if(!disseminationStatus){
-		return '';
-	}
-	if(disseminationStatus.indexOf('PublicGenerique') > 0){
-		return D.DSPublicGeneriqueTitle;
-	} else if(disseminationStatus.indexOf('PublicSpecifique') > 0){
-		return D.DSPublicSpecifiqueTitle;
-	} else if(disseminationStatus.indexOf('Prive') > 0){
-		return D.DSPrivateTitle;
-	}
-}
-
-export const getAllAttachment = (measures, specification) => {
-	const measuresOptions = measures.map(c => ({ value: c.id, label: c.labelLg1 }));
-
+export const getAllAttachment = (measures = [], specification) => {
 	// We find one measure linked to the attribute
-	const measureWithThisAttribute = measures.find(measure => {
-		return !!Object.keys(measure).filter(key => key.indexOf("attribute_") === 0).find(key => {
-			return measure[key] === specification.component.iri;
-		})
-	})
+	const measureWithThisAttribute = measures.find((measure) => {
+		return !!Object.keys(measure)
+			.filter((key) => key.indexOf('attribute_') === 0)
+			.find((key) => {
+				return measure[key] === specification.component.iri;
+			});
+	});
+
+	const measuresOptions = measures.map((c) => ({
+		value: c.id,
+		label: c.labelLg1,
+	}));
 
 	// If this measure exists, this attribute can only have a measure as an attachment
-	if(!!measureWithThisAttribute){
+	if (!!measureWithThisAttribute) {
 		return measuresOptions;
 	}
 
-	return [
-		...ATTACHMENTS,
-		...measuresOptions,
-	];
+	return [...ATTACHMENTS, ...measuresOptions];
 };
-export const formatLabel = component => {
+export const formatLabel = (component) => {
 	return (
-		<React.Fragment>
+		<>
 			{component.labelLg1}
 			<span className="badge badge-pill" style={{ marginLeft: '1em' }}>
 				{
-					MUTUALIZED_COMPONENT_TYPES.find(c => c.value === component.type)
+					MUTUALIZED_COMPONENT_TYPES.find((c) => c.value === component.type)
 						?.label
 				}
 			</span>
-		</React.Fragment>
+		</>
 	);
 };
 export const typeUriToLabel = (uri = '') => {
-	return MUTUALIZED_COMPONENT_TYPES.find(component => component.value === uri)
+	return MUTUALIZED_COMPONENT_TYPES.find((component) => component.value === uri)
 		?.label;
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import D from 'js/i18n';
 import { CLOSE_MATCH } from '../../../../constants';
 import './equivalentLinks.scss';

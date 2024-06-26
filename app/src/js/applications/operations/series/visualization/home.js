@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
@@ -10,6 +8,7 @@ import {
 	CreationUpdateItems,
 	HTMLUtils,
 	PublicationFemale,
+	Row,
 	withTitle,
 } from 'js/utils';
 import CreatorsView from 'js/applications/operations/components/creators-view';
@@ -34,8 +33,8 @@ function OperationsSerieVisualization({
 		(d) => organisations.find((orga) => orga.id === d.id) || {}
 	);
 	return (
-		<React.Fragment>
-			<div className="row">
+		<>
+			<Row>
 				<Note
 					text={
 						<ul>
@@ -51,8 +50,8 @@ function OperationsSerieVisualization({
 					title={D1.globalInformationsTitle}
 					alone={true}
 				/>
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note
 					text={attr.altLabelLg1}
 					title={D1.altLabel}
@@ -69,8 +68,8 @@ function OperationsSerieVisualization({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
-			<div className="row">
+			</Row>
+			<Row>
 				<Note
 					text={HTMLUtils.renderMarkdownElement(attr.abstractLg1)}
 					title={D1.summary}
@@ -87,9 +86,9 @@ function OperationsSerieVisualization({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 
-			<div className="row">
+			<Row>
 				<Note
 					text={HTMLUtils.renderMarkdownElement(attr.historyNoteLg1)}
 					title={D1.history}
@@ -106,9 +105,9 @@ function OperationsSerieVisualization({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 
-			<div className="row">
+			<Row>
 				<Note
 					text={category.labelLg1}
 					title={D1.operationType}
@@ -125,9 +124,9 @@ function OperationsSerieVisualization({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 
-			<div className="row">
+			<Row>
 				<Note
 					text={frequency.labelLg1}
 					title={D1.dataCollectFrequency}
@@ -144,7 +143,7 @@ function OperationsSerieVisualization({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 
 			<div id="publishers" className="row">
 				<PublishersView publishers={attr.publishers} lg1={lg1} />
@@ -205,7 +204,7 @@ function OperationsSerieVisualization({
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>
-		</React.Fragment>
+		</>
 	);
 }
 

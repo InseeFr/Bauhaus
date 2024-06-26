@@ -1,4 +1,3 @@
-import React from "react";
 import { render } from '@testing-library/react';
 import ViewContainer from './view-container';
 import configureStore from 'redux-mock-store';
@@ -13,10 +12,16 @@ const store = mockStore({
 });
 
 jest.mock('./view', () => ({
-	ComponentDetailView: () => <></>
-}))
+	ComponentDetailView: () => <></>,
+}));
 describe('ViewContainer', () => {
 	it('should display altLabel label', () => {
-		render(<MemoryRouter><Provider store={store}><ViewContainer /></Provider></MemoryRouter>);
-	})
-})
+		render(
+			<MemoryRouter>
+				<Provider store={store}>
+					<ViewContainer />
+				</Provider>
+			</MemoryRouter>
+		);
+	});
+});

@@ -6,6 +6,7 @@ import StructureAPI from '../../../../structures/apis/structure-api';
 import { Row } from 'js/utils';
 import { TemporalField } from '../../components/temporalField';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
+import { CL_FREQ } from '../../../../../actions/constants/codeList';
 
 const StatisticalInformationTab = ({
 	editingDataset,
@@ -26,7 +27,7 @@ const StatisticalInformationTab = ({
 
 	const clStatUnit = convertCodesListsToSelectOption(props['CL_STAT_UNIT']);
 
-	const clFreqOptions = convertCodesListsToSelectOption(props['CL_FREQ']);
+	const clFreqOptions = convertCodesListsToSelectOption(props[CL_FREQ]);
 
 	const clGeo = convertCodesListsToSelectOption(props['CL_GEO']);
 
@@ -219,7 +220,7 @@ const StatisticalInformationTab = ({
 export const StatisticalInformation = withCodesLists([
 	'CL_DATA_TYPES',
 	'CL_STAT_UNIT',
-	'CL_FREQ',
+	CL_FREQ,
 	'CL_GEO',
 	'CL_TYPE_GEO',
 ])(StatisticalInformationTab);

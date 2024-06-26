@@ -4,10 +4,11 @@ import { useQuery } from '@tanstack/react-query';
 import { withCodesLists } from 'js/hooks/hooks';
 import api from '../../../api/datasets-api';
 import operationSeries from 'js/remote-api/operations-api';
-import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
-import { ClientSideError, Row, StampsApi, Stores } from 'js/utils';
+import { ClientSideError, Row, StampsApi, SelectRmes } from 'js/utils';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
+import { DisseminationStatusInput } from '../../../../../utils/dissemination-status/disseminationStatus';
+import { ContributorsInput } from '../../../../../utils/contributors/contributors';
 
 const InternalManagementTab = ({
 	editingDataset,
@@ -24,20 +25,6 @@ const InternalManagementTab = ({
 			}))
 		);
 	});
-
-	const { data: disseminationStatusOptions = [] } = useQuery(
-		['dissemination-status'],
-		() => {
-			return Stores.DisseminationStatus.api
-				.getDisseminationStatus()
-				.then((status) =>
-					status.map((d) => ({
-						value: d.url,
-						label: d.label,
-					}))
-				);
-		}
-	);
 
 	const { data: seriesOptions = [] } = useQuery(['series'], () => {
 		return operationSeries.getSeriesList().then((stamps) =>
@@ -95,9 +82,8 @@ const InternalManagementTab = ({
 			<Row>
 				<div className="col-md-12 form-group">
 					<LabelRequired>{D1.creatorTitle}</LabelRequired>
-					<ReactSelect
+					<SelectRmes
 						unclearable
-						multi={false}
 						value={editingDataset.catalogRecord?.creator}
 						options={stampsOptions}
 						onChange={(option) => {
@@ -105,7 +91,7 @@ const InternalManagementTab = ({
 								...editingDataset,
 								catalogRecord: {
 									...(editingDataset.catalogRecord ?? {}),
-									creator: option?.value,
+									creator: option,
 								},
 							});
 							setClientSideErrors((clientSideErrors) => ({
@@ -122,18 +108,15 @@ const InternalManagementTab = ({
 
 			<Row>
 				<div className="col-md-12 form-group">
-					<LabelRequired>{D1.contributorTitle}</LabelRequired>
-					<ReactSelect
-						unclearable
-						multi={false}
+					<ContributorsInput
+						stampListOptions={stampsOptions}
 						value={editingDataset.catalogRecord?.contributor}
-						options={stampsOptions}
-						onChange={(option) => {
+						handleChange={(values) => {
 							setEditingDataset({
 								...editingDataset,
 								catalogRecord: {
 									...(editingDataset.catalogRecord ?? {}),
-									contributor: option?.value,
+									contributor: values,
 								},
 							});
 							setClientSideErrors((clientSideErrors) => ({
@@ -150,16 +133,12 @@ const InternalManagementTab = ({
 
 			<Row>
 				<div className="col-md-12 form-group">
-					<LabelRequired>{D1.disseminationStatusTitle}</LabelRequired>
-					<ReactSelect
-						unclearable
-						multi={false}
+					<DisseminationStatusInput
 						value={editingDataset.disseminationStatus}
-						options={disseminationStatusOptions}
-						onChange={(option) => {
+						handleChange={(value) => {
 							setEditingDataset({
 								...editingDataset,
-								disseminationStatus: option?.value,
+								disseminationStatus: value,
 							});
 							setClientSideErrors((clientSideErrors) => ({
 								...clientSideErrors,
@@ -176,15 +155,14 @@ const InternalManagementTab = ({
 			<Row>
 				<div className="col-md-12 form-group">
 					<LabelRequired>{D1.generatedBy}</LabelRequired>
-					<ReactSelect
+					<SelectRmes
 						unclearable
-						multi={false}
 						value={editingDataset.idSerie}
 						options={seriesOptions}
 						onChange={(option) => {
 							setEditingDataset({
 								...editingDataset,
-								idSerie: option?.value,
+								idSerie: option,
 							});
 							setClientSideErrors((clientSideErrors) => ({
 								...clientSideErrors,
@@ -202,17 +180,17 @@ const InternalManagementTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsAccessRights}
-						<ReactSelect
-							value={editingDataset.accessRights}
-							options={clAccessRightsOptions}
-							onChange={(option) => {
-								setEditingDataset({
-									...editingDataset,
-									accessRights: option?.value,
-								});
-							}}
-						/>
 					</label>
+					<SelectRmes
+						value={editingDataset.accessRights}
+						options={clAccessRightsOptions}
+						onChange={(option) => {
+							setEditingDataset({
+								...editingDataset,
+								accessRights: option,
+							});
+						}}
+					/>
 				</div>
 			</Row>
 
@@ -220,17 +198,17 @@ const InternalManagementTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsConfidentialityStatus}
-						<ReactSelect
-							value={editingDataset.confidentialityStatus}
-							options={clConfStatusOptions}
-							onChange={(option) => {
-								setEditingDataset({
-									...editingDataset,
-									confidentialityStatus: option?.value,
-								});
-							}}
-						/>
 					</label>
+					<SelectRmes
+						value={editingDataset.confidentialityStatus}
+						options={clConfStatusOptions}
+						onChange={(option) => {
+							setEditingDataset({
+								...editingDataset,
+								confidentialityStatus: option,
+							});
+						}}
+					/>
 				</div>
 			</Row>
 
@@ -238,37 +216,36 @@ const InternalManagementTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetProcessStep}
-						<ReactSelect
-							unclearable
-							multi={false}
-							value={editingDataset.processStep}
-							options={clProcessStep}
-							onChange={(option) => {
-								setEditingDataset({
-									...editingDataset,
-									processStep: option?.value,
-								});
-							}}
-						/>
 					</label>
+					<SelectRmes
+						unclearable
+						value={editingDataset.processStep}
+						options={clProcessStep}
+						onChange={(option) => {
+							setEditingDataset({
+								...editingDataset,
+								processStep: option,
+							});
+						}}
+					/>
 				</div>
 			</Row>
 			<Row>
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsArchiveUnit}
-						<ReactSelect
-							unclearable
-							value={editingDataset.archiveUnit}
-							options={archivageUnits}
-							onChange={(option) => {
-								setEditingDataset({
-									...editingDataset,
-									archiveUnit: option?.value,
-								});
-							}}
-						/>
 					</label>
+					<SelectRmes
+						unclearable
+						value={editingDataset.archiveUnit}
+						options={archivageUnits}
+						onChange={(option) => {
+							setEditingDataset({
+								...editingDataset,
+								archiveUnit: option,
+							});
+						}}
+					/>
 				</div>
 			</Row>
 		</>

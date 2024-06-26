@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Menu } from '@inseefr/wilco';
 import D from 'js/i18n';

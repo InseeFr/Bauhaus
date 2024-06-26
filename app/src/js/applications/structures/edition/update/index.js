@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Edition from '../component';
 import { Loading } from '@inseefr/wilco';
 import StructureAPI from '../../apis/structure-api';

@@ -1,5 +1,5 @@
 import D, { D1, D2 } from 'js/i18n';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import {
 	Loading,
 	CancelButton,

@@ -10,8 +10,8 @@ import {
 	Row,
 	useTitle,
 } from 'js/utils';
-import React, { useEffect, useState } from 'react';
-import { DSURLToLabel, Note } from '@inseefr/wilco';
+import { useEffect, useState } from 'react';
+import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import api from '../../api/datasets-api';
 import StructureAPI from '../../../structures/apis/structure-api';
@@ -26,6 +26,9 @@ import {
 	Publishing,
 	Loading,
 } from '../../../../new-architecture/components/loading/loading';
+import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
+import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
+import { CL_FREQ } from '../../../../actions/constants/codeList';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -136,7 +139,7 @@ const Dataset = (props) => {
 								<li>
 									{D.datasetsUpdateFrequency} :{' '}
 									{
-										props['CL_FREQ']?.codes?.find(
+										props[CL_FREQ]?.codes?.find(
 											(t) => t.iri === dataset.accrualPeriodicity
 										)?.labelLg1
 									}
@@ -280,12 +283,15 @@ const Dataset = (props) => {
 								{D.creatorTitle} : {dataset.catalogRecord?.creator}{' '}
 							</li>
 							<li>
-								{D.contributorTitle} : {dataset.catalogRecord?.contributor}{' '}
+								<ContributorsVisualisation
+									contributors={dataset.catalogRecord?.contributor}
+								/>
 							</li>
 
 							<li>
-								{D.disseminationStatusTitle} :{' '}
-								{DSURLToLabel(dataset.disseminationStatus)}{' '}
+								<DisseminationStatusVisualisation
+									disseminationStatus={dataset.disseminationStatus}
+								/>
 							</li>
 							{dataset.processStep && (
 								<li>
@@ -420,7 +426,7 @@ const Dataset = (props) => {
 								<li>
 									{D.datasetsTemporalResolution} :{' '}
 									{
-										props['CL_FREQ']?.codes?.find(
+										props[CL_FREQ]?.codes?.find(
 											(t) => t.iri === dataset.temporalResolution
 										)?.labelLg1
 									}
@@ -438,7 +444,7 @@ const Dataset = (props) => {
 
 export const DatasetView = withCodesLists([
 	'CL_ACCESS_RIGHTS',
-	'CL_FREQ',
+	CL_FREQ,
 	'CL_CONF_STATUS',
 	'CL_DATA_TYPES',
 	'CL_STAT_UNIT',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Note, Loading } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
@@ -13,11 +13,12 @@ import {
 } from 'js/utils';
 import Components from './components';
 import { D1, D2 } from 'js/i18n';
-import { getDisseminationStatus } from '../utils/';
 import StructureVisualizationControl from '../components/structure-visualization/controls';
 import D from '../i18n/build-dictionary';
 import StructureAPI from '../apis/structure-api';
 import MainDictionary from 'js/i18n/build-dictionary';
+import { DisseminationStatusVisualisation } from '../../../utils/dissemination-status/disseminationStatus';
+import { ContributorsVisualisation } from '../../../utils/contributors/contributors';
 
 export const StructureView = ({
 	secondLang,
@@ -65,11 +66,14 @@ export const StructureView = ({
 								{D.creator} : {structure.creator}
 							</li>
 							<li>
-								{D.contributor} : {structure.contributor}
+								<ContributorsVisualisation
+									contributors={structure.contributor}
+								/>
 							</li>
 							<li>
-								{MainDictionary.disseminationStatusTitle} :{' '}
-								{getDisseminationStatus(structure.disseminationStatus)}
+								<DisseminationStatusVisualisation
+									disseminationStatus={structure.disseminationStatus}
+								/>
 							</li>
 							<li>
 								{D1.processusTitle} : {structure.isRequiredBy}

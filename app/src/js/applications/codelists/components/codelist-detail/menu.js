@@ -1,5 +1,4 @@
 import { Auth, ValidationButton } from 'js/utils';
-import React from 'react';
 import {
 	ActionToolbar,
 	DeleteButton,

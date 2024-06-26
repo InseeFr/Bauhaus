@@ -1,4 +1,3 @@
-import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import Controls from './controls';
 import DnDTree from 'js/applications/shared/tree/dnd';

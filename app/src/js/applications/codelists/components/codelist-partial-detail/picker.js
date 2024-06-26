@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import D from '../../i18n/build-dictionary';
 import {
 	Pagination,
