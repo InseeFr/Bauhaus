@@ -28,6 +28,8 @@ Les tests unitaires sont exécutés lorsque nous faisons un `git push`
 
 Pour produire la version de production, lancez la commande `yarn build`. Vous pouvez désormais servir le contenu du dossier `dist` avec le serveur web de votre choix.
 
+Pour les besoins de déploiement à l'INSEE, la CI devra utiliser la commande `yarn build-insee`. Cette commande va également créer une archive (zip) content le projet afin de le déployer. 
+
 ### Docker
 
 Vous pouvez également builder un container Docker :
