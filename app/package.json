@@ -19,7 +19,6 @@
 		"test:coverage": "cross-env CI=true react-scripts test --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js --collectCoverageFrom=!src/types/*.js"
 	},
 	"dependencies": {
-		"@inseefr/wilco": "0.0.7",
 		"bootstrap": "3.4.1",
 		"create-react-class": "^15.6.3",
 		"dompurify": "2.2.9",
@@ -35,13 +34,6 @@
 		"react-sortable-tree": "2.1.0",
 		"redux-logger": "3.0.6",
 		"redux-thunk": "^2.4.2"
-	},
-	"devDependencies": {
-		"bestzip": "^2.1.2",
-		"coveralls": "3.1.0",
-		"cross-env": "7.0.2",
-		"redux-mock-store": "^1.5.4",
-		"term-size": "^1.2.0"
 	},
 	"browserslist": [
 		">0.2%",
