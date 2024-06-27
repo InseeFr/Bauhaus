@@ -7,6 +7,10 @@ import { Stores } from 'js/utils';
 
 export const ComponentDetail = (props) => {
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
+	const langs = useSelector((state) => {
+		const { lg1, lg2 } = state.app;
+		return { lg1, lg2 };
+	});
 
 	const [mode, setMode] = useState(
 		!props.component?.labelLg1 ? 'EDIT' : 'VIEW'
@@ -24,6 +28,7 @@ export const ComponentDetail = (props) => {
 		() => (!props.component.labelLg1 ? props.handleBack() : setMode('VIEW')),
 		[props]
 	);
+
 	return (
 		<div className="container">
 			{mode === 'VIEW' && (
@@ -36,6 +41,7 @@ export const ComponentDetail = (props) => {
 						handleUpdate={handleViewUpdate}
 						handleBack={props.handleBack}
 						updatable={!props.readOnly}
+						langs={langs}
 					/>
 				</>
 			)}
@@ -49,5 +55,3 @@ export const ComponentDetail = (props) => {
 		</div>
 	);
 };
-
-//
