@@ -1,0 +1,15 @@
+name: Documentation
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  deploy:
+    name: Deploy to GH Pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: ./scripts/documentation.sh
