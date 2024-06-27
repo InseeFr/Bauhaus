@@ -29,8 +29,8 @@
 		"not op_mini all"
 	],
 	"resolutions": {
-		"react": "18.3.0",
-		"react-dom": "18.3.0",
+		"react": "18.3.1",
+		"react-dom": "18.3.1",
 		"react-router-dom": "5.2.0",
 		"underscore": "1.13.6",
 		"@babel/traverse": "7.24.1",
@@ -93,10 +93,10 @@
 		"jwt-decode": "^3.1.2",
 		"keycloak": "1.2.0",
 		"path-browserify": "^1.0.1",
-		"react": "18.3.0",
+		"react": "18.3.1",
 		"react-16-bootstrap-date-picker": "5.1.2",
 		"react-bootstrap": "0.31.5",
-		"react-dom": "18.3.0",
+		"react-dom": "18.3.1",
 		"react-draft-wysiwyg": "1.14.6",
 		"react-dropzone": "11.0.1",
 		"react-hook-form": "^7.34.2",
