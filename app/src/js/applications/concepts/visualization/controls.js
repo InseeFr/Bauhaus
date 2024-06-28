@@ -6,7 +6,7 @@ import { ConfirmationDelete } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import { useLoading } from './loading';
 import { useGoBack } from '../../../hooks/hooks';
-import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
+import { saveFileFromHttpResponse } from 'js/new-architecture/utils/files';
 
 const ConceptVisualizationControls = ({
 	isValidated,
