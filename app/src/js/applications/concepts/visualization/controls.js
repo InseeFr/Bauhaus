@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react';
-import { Button, ActionToolbar, getContentDisposition } from '@inseefr/wilco';
+import { Button, ActionToolbar } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import D from 'js/i18n';
 import { ConfirmationDelete } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
-import FileSaver from 'file-saver';
 import { useLoading } from './loading';
 import { useGoBack } from '../../../hooks/hooks';
+import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
 
 const ConceptVisualizationControls = ({
 	isValidated,
@@ -50,19 +50,9 @@ const ConceptVisualizationControls = ({
 	const exportConcept = [
 		() => {
 			setLoading('exporting');
-			let fileName;
 			return api
 				.getConceptExport(id, 'application/vnd.oasis.opendocument.text')
-				.then((res) => {
-					fileName = getContentDisposition(
-						res.headers.get('Content-Disposition')
-					)[1];
-					return res;
-				})
-				.then((res) => res.blob())
-				.then((blob) => {
-					return FileSaver.saveAs(blob, fileName);
-				})
+				.then(saveFileFromHttpResponse)
 				.finally(() => setLoading());
 		},
 		D.btnExporter,

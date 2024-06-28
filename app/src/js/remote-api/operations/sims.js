@@ -1,23 +1,28 @@
+import { saveFileFromHttpResponse } from '../../new-architecture/utils/files';
+
 const hasDocument = (sims, withDocument) => {
-	if(!withDocument){
+	if (!withDocument) {
 		return false;
 	}
 	// We activate the download of a ZIP with documents only if we have at least on file using the file:// protocol.
-	const hasDocument = Object.values(sims.rubrics).filter(rubric => {
-		return rubric.documentsLg1?.find(doc => {
-			return doc.url.indexOf("file") === 0
-		})
-	})?.length > 0
+	const hasDocument =
+		Object.values(sims.rubrics).filter((rubric) => {
+			return rubric.documentsLg1?.find((doc) => {
+				return doc.url.indexOf('file') === 0;
+			});
+		})?.length > 0;
 
-	return hasDocument
-}
+	return hasDocument;
+};
 
 export default {
 	getSims: (id) => [`metadataReport/${id}`],
 	getDefaultSims: () => ['metadataReport/default'],
 	getOwners: (id) => [`metadataReport/Owner/${id}`],
 	exportSims: (id, config, sims) => [
-		`metadataReport/export/${id}?emptyMas=${config.emptyMas}&lg1=${config.lg1}&lg2=${config.lg2}&document=${hasDocument(sims, config.document)}`,
+		`metadataReport/export/${id}?emptyMas=${config.emptyMas}&lg1=${
+			config.lg1
+		}&lg2=${config.lg2}&document=${hasDocument(sims, config.document)}`,
 		{
 			method: 'GET',
 			mode: 'cors',
@@ -26,24 +31,11 @@ export default {
 				'Content-Type': 'text/plain',
 			},
 		},
-		async (res) => {
-			const blob = await res.blob();
-			const a = document.createElement("a");
-			document.body.appendChild(a);
-			const url = window.URL.createObjectURL(blob);
-			a.href = url;
+		async (response) => {
+			await saveFileFromHttpResponse(response);
 
-			const fileName = sims.labelLg1?.replace(/[/<>*:?|]/gi, '');
-			if(hasDocument(sims, config.document)){
-				a.download = fileName + '.zip';
-			} else {
-				a.download = fileName + '.odt';
-			}
-			a.click();
-			window.URL.revokeObjectURL(url);
-
-			if(res.headers.get('X-Missing-Documents')){
-				return new Set(res.headers.get('X-Missing-Documents').split(','))
+			if (response.headers.get('X-Missing-Documents')) {
+				return new Set(response.headers.get('X-Missing-Documents').split(','));
 			}
 			return new Set();
 		},
