@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Select } from '@inseefr/wilco';
+import Select from 'react-select';
 import { Link, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -136,8 +136,8 @@ class SearchFormPartialList extends AbstractAdvancedSearchComponent {
 										) || ''
 									}
 									options={stampListOptions}
-									onChange={(value) => {
-										this.handlers.creator(value);
+									onChange={(option) => {
+										this.handlers.creator(option?.value ?? '');
 									}}
 								/>
 							</label>
@@ -153,8 +153,8 @@ class SearchFormPartialList extends AbstractAdvancedSearchComponent {
 										) || ''
 									}
 									options={validateStateOptions}
-									onChange={(value) => {
-										this.handlers.validationState(value);
+									onChange={(option) => {
+										this.handlers.validationState(option?.value ?? '');
 									}}
 								/>
 							</label>
