@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import Dashboard from './home';
 import api from '../../../../remote-api/concepts-api';
 import { ArrayUtils } from '../../../../utils';

@@ -4,7 +4,8 @@ import D from 'js/i18n';
 import { useSelector } from 'react-redux';
 import * as select from 'js/reducers';
 import OperationsIndicatorVisualization from 'js/applications/operations/indicators/visualization/general';
-import { Loading, Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
+import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import { useGoBack } from 'js/hooks/hooks';
 import api from '../../../../remote-api/operations-api';
 

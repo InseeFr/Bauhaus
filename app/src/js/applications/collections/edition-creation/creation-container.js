@@ -6,7 +6,9 @@ import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import CollectionEditionCreation from './home';
 import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
-import { cleanId, Loading } from '@inseefr/wilco';
+import { cleanId } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import { ArrayUtils } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import apiCollections from '../../../remote-api/concepts-collection-api';

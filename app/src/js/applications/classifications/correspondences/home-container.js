@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import CorrespondencesHome from './home';
 import api from '../../../remote-api/classifications-api';
 import { ArrayUtils } from 'js/utils';

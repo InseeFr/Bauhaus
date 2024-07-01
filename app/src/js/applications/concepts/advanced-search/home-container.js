@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getContentDisposition, Loading } from '@inseefr/wilco';
+import { getContentDisposition } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import ConceptSearchList from './home';
 import { ArrayUtils, Stores } from 'js/utils';
 import api from '../../../remote-api/concepts-api';

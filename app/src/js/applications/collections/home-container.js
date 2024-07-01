@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import CollectionsHome from './home';
 import { ArrayUtils } from 'js/utils';
 import api from '../../remote-api/concepts-collection-api';

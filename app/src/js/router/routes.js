@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useMemo, memo } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 
 import auth from 'js/applications/auth/hoc';
 

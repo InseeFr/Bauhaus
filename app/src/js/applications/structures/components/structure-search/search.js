@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { Select, Loading } from '@inseefr/wilco';
+import { Select } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import D from '../../i18n/build-dictionary';
 import { COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import api from '../../apis/structure-api';

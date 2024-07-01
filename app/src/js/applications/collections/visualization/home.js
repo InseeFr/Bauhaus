@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { PageTitle, PageSubtitle, Loading } from '@inseefr/wilco';
+import { PageTitle, PageSubtitle } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 import CollectionMembers from './members';

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { PageTitle, VerticalMenu, Loading } from '@inseefr/wilco';
+import { PageTitle, VerticalMenu } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import D from 'js/i18n';
 import {
 	Auth,

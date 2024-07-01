@@ -1,4 +1,6 @@
-import { Loading, getContentDisposition } from '@inseefr/wilco';
+import { getContentDisposition } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ArrayUtils, useTitle } from 'js/utils';

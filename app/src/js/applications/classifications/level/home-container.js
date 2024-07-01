@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import LevelVisualization from './home';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import loadLevel from 'js/actions/classifications/level';
 import * as select from 'js/reducers/classifications/level';
 import { Stores } from 'js/utils';

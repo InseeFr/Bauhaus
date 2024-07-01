@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Input, LabelRequired, Loading } from '@inseefr/wilco';
+import { Input, LabelRequired } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import Controls from './controls';
 import Components from './components';
 import StructureAPI from '../apis/structure-api';

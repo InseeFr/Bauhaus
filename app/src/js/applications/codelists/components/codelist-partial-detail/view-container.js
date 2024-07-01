@@ -13,7 +13,7 @@ import {
 	Deleting,
 	Publishing,
 	Loading,
-} from '../../../../new-architecture/components/loading/loading';
+} from 'js/new-architecture/components/loading/loading';
 
 const CodelistPartialComponentView = (props) => {
 	const goBack = useGoBack();

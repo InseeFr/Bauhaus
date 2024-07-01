@@ -1,4 +1,4 @@
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import AssociationHome from './home';
 import * as mainSelect from 'js/reducers';
 import { Stores } from 'js/utils';
