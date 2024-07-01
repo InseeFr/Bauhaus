@@ -28,7 +28,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/config/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Add entrypoint
-COPY --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/app/entrypoint.sh /entrypoint.sh
+COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/app/entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
 
