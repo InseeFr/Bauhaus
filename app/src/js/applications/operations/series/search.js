@@ -37,7 +37,6 @@ const fields = [
 	'publisher',
 	'dataCollector',
 ];
-const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
 
 export class SearchFormList extends AbstractAdvancedSearchComponent {
 	constructor(props) {
@@ -231,9 +230,7 @@ const SearchListContainer = () => {
 	);
 
 	useEffect(() => {
-		api.getSeriesSearchList().then((data) => {
-			setData(sortByLabel(data));
-		});
+		api.getSeriesSearchList().then(setData);
 	}, []);
 
 	if (!data) return <Loading />;

@@ -8,7 +8,6 @@ import D from 'js/i18n';
 import { cleanId } from '@inseefr/wilco';
 import { Loading } from 'js/new-architecture/components/loading/loading';
 
-import { ArrayUtils } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import apiCollections from '../../../remote-api/concepts-collection-api';
 
@@ -39,8 +38,8 @@ const EditionContainer = () => {
 	useEffect(() => {
 		Promise.all([api.getConceptList(), apiCollections.getCollectionList()])
 			.then(([conceptsList, collectionsList]) => {
-				setConceptList(ArrayUtils.sortArrayByLabel(conceptsList));
-				setCollectionList(ArrayUtils.sortArrayByLabel(collectionsList));
+				setConceptList(conceptsList);
+				setCollectionList(collectionsList);
 			})
 			.finally(() => setLoadingExtraData(false));
 	}, []);

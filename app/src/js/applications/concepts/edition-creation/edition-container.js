@@ -8,7 +8,7 @@ import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import { Loading } from 'js/new-architecture/components/loading/loading';
 import { CLOSE_MATCH } from 'js/constants';
-import { ArrayUtils, HTMLUtils } from 'js/utils';
+import { HTMLUtils } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import globalApi from '../../../remote-api/api';
 import { emptyNotes } from '../../../utils/concepts/notes';
@@ -63,7 +63,7 @@ const EditionContainer = () => {
 	useEffect(() => {
 		Promise.all([api.getConceptList(), globalApi.getStampList()])
 			.then(([conceptsList, stampsList]) => {
-				setConcepts(ArrayUtils.sortArrayByLabel(conceptsList));
+				setConcepts(conceptsList);
 				setStamps(stampsList);
 			})
 			.finally(() => setLoadingExtraData(false));

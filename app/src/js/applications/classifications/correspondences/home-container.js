@@ -2,15 +2,12 @@ import { useEffect, useState } from 'react';
 import { Loading } from 'js/new-architecture/components/loading/loading';
 import CorrespondencesHome from './home';
 import api from '../../../remote-api/classifications-api';
-import { ArrayUtils } from 'js/utils';
 
 const CorrespondencesHomeContainer = () => {
 	const [correspondences, setCorrespondences] = useState();
 
 	useEffect(() => {
-		api.getCorrespondencesList().then((results) => {
-			setCorrespondences(ArrayUtils.sortArrayByLabel(results));
-		});
+		api.getCorrespondencesList().then(setCorrespondences);
 	}, []);
 
 	if (!correspondences) return <Loading />;

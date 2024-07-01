@@ -6,7 +6,6 @@ import D from 'js/i18n';
 import api from '../../remote-api/concepts-api';
 import { Menu } from './menu';
 import { Row, SearchableList, useTitle } from '../../utils';
-import * as ArrayUtils from '../../utils/utils/array-utils';
 
 const ConceptsHome = () => {
 	useTitle(D.conceptsTitle, D.conceptsTitle);
@@ -16,9 +15,7 @@ const ConceptsHome = () => {
 	useEffect(() => {
 		api
 			.getConceptList()
-			.then((body) => {
-				setConcepts(ArrayUtils.sortArrayByLabel(body));
-			})
+			.then(setConcepts)
 			.finally(() => setLoading(false));
 	}, []);
 

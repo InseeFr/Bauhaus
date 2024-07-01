@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Loading } from 'js/new-architecture/components/loading/loading';
 import Dashboard from './home';
 import api from '../../../../remote-api/concepts-api';
-import { ArrayUtils } from '../../../../utils';
 
 const emptyItem = {
 	id: '',
@@ -26,12 +25,10 @@ const DashboardContainer = () => {
 		Promise.all([api.getConceptSearchList(), api.getCollectionDashboardList()])
 			.then(([conceptsList, collectionsList]) => {
 				setConcepts(
-					ArrayUtils.sortArrayByLabel(conceptsList).map((concept) =>
-						Object.assign({}, emptyItem, concept)
-					)
+					conceptsList.map((concept) => Object.assign({}, emptyItem, concept))
 				);
 
-				setCollections(ArrayUtils.sortArrayByLabel(collectionsList));
+				setCollections(collectionsList);
 			})
 			.finally(() => setLoading(false));
 	}, []);

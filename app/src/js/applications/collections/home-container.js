@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Loading } from 'js/new-architecture/components/loading/loading';
 import CollectionsHome from './home';
-import { ArrayUtils } from 'js/utils';
 import api from '../../remote-api/concepts-collection-api';
 
 const CollectionsHomeContainer = () => {
@@ -10,9 +9,7 @@ const CollectionsHomeContainer = () => {
 	useEffect(() => {
 		api
 			.getCollectionList()
-			.then((body) => {
-				setCollections(ArrayUtils.sortArrayByLabel(body));
-			})
+			.then(setCollections)
 			.finally(() => setLoading(false));
 	}, []);
 

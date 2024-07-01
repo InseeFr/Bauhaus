@@ -3,7 +3,7 @@ import { Loading } from 'js/new-architecture/components/loading/loading';
 
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { ArrayUtils, useTitle } from 'js/utils';
+import { useTitle } from 'js/utils';
 import D from '../../../i18n/build-dictionary';
 import api from '../../../remote-api/concepts-collection-api';
 import Picker from '../../shared/picker-page';
@@ -21,7 +21,7 @@ const CollectionsToExportContainer = () => {
 	useEffect(() => {
 		api
 			.getCollectionList()
-			.then((body) => setCollections(ArrayUtils.sortArrayByLabel(body)))
+			.then(setCollections)
 			.finally(() => setLoading(false));
 	}, []);
 
