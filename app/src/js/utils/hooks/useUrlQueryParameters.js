@@ -1,33 +1,35 @@
 import { useHistory, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+const computeFromUrl = (defaultValue) => {
+	const url = document.URL;
+	const searchQuery = new URL(url).searchParams;
+
+	const values = { ...defaultValue };
+	for (let [key, value] of searchQuery.entries()) {
+		values[key] = value;
+	}
+	return values;
+};
 
 export default (defaultValue) => {
 	const history = useHistory();
 	const location = useLocation();
 
-	const [search, setSearch] = useState(defaultValue);
-
-	const url = document.URL
-	useEffect(() => {
-		const searchQuery = new URL(url).searchParams;
-
-		const values = { ...defaultValue }
-		for(let [key, value] of searchQuery.entries()){
-			values[key] = value;
-		}
-		setSearch(values)
-	}, [url, defaultValue])
+	const [search, setSearch] = useState(computeFromUrl(defaultValue));
 
 	const reset = () => {
-		history.replace(location.pathname );
-	}
+		setSearch(defaultValue);
+		history.replace(location.pathname);
+	};
 
-	const setValuesToQueryParameters = values => {
+	const setValuesToQueryParameters = (values) => {
+		setSearch(values);
 		const searchParams = new URLSearchParams(window.location.search);
 		Object.entries(values).forEach(([key, value]) => {
-			searchParams.set(key, value ?? '')
-		})
-		history.replace(location.pathname + "?" + searchParams.toString());
-	}
-	return [search, setValuesToQueryParameters, reset]
-}
+			searchParams.set(key, value ?? '');
+		});
+		history.replace(location.pathname + '?' + searchParams.toString());
+	};
+	return [search, setValuesToQueryParameters, reset];
+};

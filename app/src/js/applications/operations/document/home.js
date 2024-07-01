@@ -16,6 +16,25 @@ import {
 } from 'js/utils';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
+const formatter = (content, label) => {
+	const extraInformations = [];
+	if (content.lang) {
+		extraInformations.push(content.lang);
+	}
+	if (content.updatedDate) {
+		const [year, month, day] = content.updatedDate.split('-');
+		extraInformations.push(`${day}/${month}/${year}`);
+	}
+	return (
+		<>
+			{content[label]}{' '}
+			<i>
+				{extraInformations.length > 0 ? `(${extraInformations.join('-')})` : ''}
+			</i>
+		</>
+	);
+};
+
 const sessionStorageKey = 'documents-displayMode';
 const SearchableList = ({
 	items = [],
@@ -48,29 +67,11 @@ const SearchableList = ({
 	const filter = filterKeyDeburr(['label']);
 	const hits = items.filter(filter(search));
 
-	const formatter = (content) => {
-		const extraInformations = [];
-		if (content.lang) {
-			extraInformations.push(content.lang);
-		}
-		if (content.updatedDate) {
-			const [year, month, day] = content.updatedDate.split('-');
-			extraInformations.push(`${day}/${month}/${year}`);
-		}
-		return (
-			<>
-				{content[label]}{' '}
-				<i>
-					{extraInformations.length > 0
-						? `(${extraInformations.join('-')})`
-						: ''}
-				</i>
-			</>
-		);
-	};
 	const hitEls = hits.map((item) => (
 		<li key={item.id} className="list-group-item">
-			<Link to={`/${childPath(item)}/${item.id}`}>{formatter(item)}</Link>
+			<Link to={`/${childPath(item)}/${item.id}`}>
+				{formatter(item, label)}
+			</Link>
 		</li>
 	));
 
@@ -80,7 +81,10 @@ const SearchableList = ({
 				<div className="col-md-12">
 					<input
 						value={search}
-						onChange={(e) => handleSearch(e.target.value)}
+						onChange={(e) => {
+							handleSearch(e.target.value);
+							setSearch(e.target.value);
+						}}
 						type="text"
 						placeholder={D.searchLabelPlaceholder || placeholder}
 						className="form-control"
