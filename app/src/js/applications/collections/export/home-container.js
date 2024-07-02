@@ -1,61 +1,25 @@
-import { Loading, getContentDisposition } from '@inseefr/wilco';
-import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { ArrayUtils, useTitle } from 'js/utils';
+import { useState } from 'react';
+import { useTitle } from 'js/utils';
 import D from '../../../i18n/build-dictionary';
-import api from '../../../remote-api/concepts-collection-api';
 import Picker from '../../shared/picker-page';
 import ExportButtons from '../export-buttons';
-import FileSaver from 'file-saver';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+import {
+	useCollectionExporter,
+	useCollections,
+} from 'js/new-architecture/utils/hooks/collections';
 
 const CollectionsToExportContainer = () => {
 	useTitle(D.collectionsTitle, D.exportTitle);
-	const history = useHistory();
 	const [ids, setIds] = useState([]);
-	const [collections, setCollections] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [exporting, setExporting] = useState(false);
 
-	useEffect(() => {
-		api
-			.getCollectionList()
-			.then((body) => setCollections(ArrayUtils.sortArrayByLabel(body)))
-			.finally(() => setLoading(false));
-	}, []);
+	const { data: collections, isLoading } = useCollections();
+	const { mutate: exportCollection, isLoading: isExporting } =
+		useCollectionExporter();
 
-	if (exporting) return <Loading textType="exporting" />;
-	if (loading) return <Loading />;
+	if (isExporting) return <Loading textType="exporting" />;
+	if (isLoading) return <Loading />;
 
-	const exportCollection = (type, withConcepts, lang = 'lg1') => {
-		setExporting(true);
-		let promise;
-		if (ids.length > 1) {
-			promise = api.getCollectionExportZipByType(ids, type, lang, withConcepts);
-		} else if (ids.length === 1) {
-			promise = api.getCollectionExportByType(
-				ids[0],
-				'application/vnd.oasis.opendocument.text',
-				type,
-				lang,
-				withConcepts
-			);
-		}
-
-		let fileName;
-		return promise
-			.then((res) => {
-				fileName = getContentDisposition(
-					res.headers.get('Content-Disposition')
-				)[1];
-				return res;
-			})
-			.then((res) => res.blob())
-			.then((blob) => {
-				return FileSaver.saveAs(blob, fileName);
-			})
-			.then(() => history.push('/collections'))
-			.finally(() => setExporting(false));
-	};
 	return (
 		<Picker
 			items={collections}
@@ -70,8 +34,9 @@ const CollectionsToExportContainer = () => {
 				<ExportButtons
 					ids={ids}
 					disabled={ids.length < 1}
-					exporting={setExporting}
-					exportHandler={exportCollection}
+					exportHandler={(type, withConcepts, lang = 'lg1') =>
+						exportCollection({ ids, type, withConcepts, lang })
+					}
 				/>
 			)}
 		/>
