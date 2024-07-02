@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
-import MembersEdition from './members';
+import MembersEdition from 'js/new-architecture/modules-concepts/collections/edition/members';
 import { withTitle } from 'js/utils';
 import D from '../../../i18n/build-dictionary';
 

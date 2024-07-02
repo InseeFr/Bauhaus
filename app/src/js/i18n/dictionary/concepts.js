@@ -80,10 +80,6 @@ const dictionary = {
 		fr: 'Ajouter au moins un concept à publier',
 		en: 'Add at least one concept to publish',
 	},
-	collectionMembersPanelTitle: {
-		fr: 'Concepts membres de la collection',
-		en: 'Collection concept members',
-	},
 	conceptStandBy: {
 		fr: 'Le concept est en cours de la publication par',
 		en: 'The concept is being published by',
