@@ -271,7 +271,6 @@ export const DumbCodelistDetailEdit = ({
 						stampListOptions={stampListOptions}
 						value={codelist.contributor}
 						handleChange={(values) => {
-							console.log(values);
 							setCodelist({ ...codelist, contributor: values });
 						}}
 					/>
