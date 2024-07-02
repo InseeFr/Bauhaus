@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import HomeGeneral from './home-general';
 import HomeAssociations from './home-associations';
 import * as select from 'js/reducers';

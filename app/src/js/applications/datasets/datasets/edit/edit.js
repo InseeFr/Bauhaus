@@ -5,13 +5,13 @@ import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useDataset } from '../../hooks';
 import api from '../../api/datasets-api';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 
 import {
 	ActionToolbar,
 	CancelButton,
 	goBack,
 	goBackOrReplace,
-	Loading,
 	SaveButton,
 } from '@inseefr/wilco';
 import {

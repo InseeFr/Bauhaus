@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { useGoBack } from 'js/hooks/hooks';
-import { Loading, Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import OperationsOperationVisualization from './home';
 import D from 'js/i18n';
 

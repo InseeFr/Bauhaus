@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { useDispatch, useSelector } from 'react-redux';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import DocumentationEdition from 'js/applications/operations/document/edition/edition';
 import { loadCodesList } from 'js/actions/operations/utils/setup';
 import api from '../../../../remote-api/api';

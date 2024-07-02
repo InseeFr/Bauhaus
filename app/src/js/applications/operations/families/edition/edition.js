@@ -9,10 +9,11 @@ import {
 	ClientSideError,
 	Row,
 } from 'js/utils';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import {
 	CancelButton,
 	SaveButton,
-	Loading,
 	ActionToolbar,
 	LabelRequired,
 } from '@inseefr/wilco';

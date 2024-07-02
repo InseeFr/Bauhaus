@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import { StampsApi } from 'js/utils';
 import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';

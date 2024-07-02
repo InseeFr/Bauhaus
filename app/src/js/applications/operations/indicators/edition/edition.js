@@ -17,7 +17,7 @@ import { CL_FREQ } from 'js/actions/constants/codeList';
 import InputRmes from 'js/applications/shared/input-rmes';
 import Control from 'js/applications/operations/indicators/edition/control';
 import { validate } from 'js/applications/operations/indicators/edition/validation';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import api from '../../../../remote-api/operations-api';
 
 const defaultIndicator = {

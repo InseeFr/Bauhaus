@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { useSelector } from 'react-redux';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import OperationsOperationEdition from 'js/applications/operations/operations/edition/edition';
 import api from 'js/remote-api/operations-api';
 import { useGoBack } from 'js/hooks/hooks';

@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Select, Loading } from '@inseefr/wilco';
+import Select from 'react-select';
+
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import { Link, Redirect } from 'react-router-dom';
 import api from '../../apis/structure-api';
 import D from '../../i18n/build-dictionary';
@@ -104,8 +107,8 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 									''
 								}
 								options={conceptsOptions}
-								onChange={(value) => {
-									this.handlers.concept(value);
+								onChange={(option) => {
+									this.handlers.concept(option?.value ?? '');
 								}}
 							/>
 						</label>
@@ -122,8 +125,8 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 									''
 								}
 								options={stampListOptions}
-								onChange={(value) => {
-									this.handlers.creator(value);
+								onChange={(option) => {
+									this.handlers.creator(option?.value ?? '');
 								}}
 							/>
 						</label>
@@ -139,8 +142,8 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 									) || ''
 								}
 								options={validateStateOptions}
-								onChange={(value) => {
-									this.handlers.validationState(value);
+								onChange={(option) => {
+									this.handlers.validationState(option?.value ?? '');
 								}}
 							/>
 						</label>

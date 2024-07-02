@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Loading, goBack } from '@inseefr/wilco';
+import { goBack } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import { Stores } from 'js/utils';
 import { formatCodeList } from '../../utils';
 import { API } from '../../apis';

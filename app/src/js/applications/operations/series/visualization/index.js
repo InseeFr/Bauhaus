@@ -5,7 +5,9 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import OperationsSerieVisualization from 'js/applications/operations/series/visualization/home';
 import { useGoBack } from 'js/hooks/hooks';
-import { Loading, Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
+import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 
 import {

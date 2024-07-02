@@ -2,7 +2,7 @@ import { useEffect, useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Keycloak from 'keycloak';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import { Auth } from 'js/utils';
 import { saveUserProps } from '../../../store/users';
 

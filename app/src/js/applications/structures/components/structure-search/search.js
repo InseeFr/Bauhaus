@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { Select, Loading } from '@inseefr/wilco';
+import Select from 'react-select';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import D from '../../i18n/build-dictionary';
 import { COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import api from '../../apis/structure-api';
@@ -60,6 +62,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 	}
 
 	handlers = this.handleChange(fields, (newState) => {
+		console.log({ newState });
 		const {
 			labelLg1,
 			componentLabelLg1,
@@ -151,8 +154,8 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 									COMPONENT_TYPES.find((option) => option.value === type) || ''
 								}
 								options={COMPONENT_TYPES}
-								onChange={(value) => {
-									this.handlers.type(value);
+								onChange={(option) => {
+									this.handlers.type(option?.value ?? '');
 								}}
 							/>
 						</label>
@@ -167,8 +170,8 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 									''
 								}
 								options={conceptsOptions}
-								onChange={(value) => {
-									this.handlers.concept(value);
+								onChange={(option) => {
+									this.handlers.concept(option?.value ?? '');
 								}}
 							/>
 						</label>
@@ -185,8 +188,8 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 									''
 								}
 								options={stampListOptions}
-								onChange={(value) => {
-									this.handlers.creator(value);
+								onChange={(option) => {
+									this.handlers.creator(option?.value ?? '');
 								}}
 							/>
 						</label>
@@ -202,7 +205,7 @@ export class SearchFormList extends AbstractAdvancedSearchComponent {
 									) || ''
 								}
 								options={validateStateOptions}
-								onChange={(value) => {
+								onChange={({ value }) => {
 									this.handlers.validationState(value);
 								}}
 							/>

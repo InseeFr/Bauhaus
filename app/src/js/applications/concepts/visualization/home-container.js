@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import ConceptVisualization from './home';
 import { Auth, HTMLUtils, Stores } from 'js/utils';
 import api from '../../../remote-api/concepts-api';

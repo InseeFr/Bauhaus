@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as select from 'js/reducers';
 import { useSelector } from 'react-redux';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import OperationsSerieEdition from 'js/applications/operations/series/edition/edition';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';

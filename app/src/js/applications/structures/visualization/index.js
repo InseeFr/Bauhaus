@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Note, Loading } from '@inseefr/wilco';
+import { Note } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import { useSelector } from 'react-redux';
 import {
 	CheckSecondLang,

@@ -1,5 +1,6 @@
 import { Link, useHistory } from 'react-router-dom';
-import { PageTitle, NumberResult, Select } from '@inseefr/wilco';
+import { PageTitle, NumberResult } from '@inseefr/wilco';
+import Select from 'react-select';
 import Controls from './controls';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import D from 'js/i18n';
@@ -142,18 +143,18 @@ const ConceptSearchList = ({
 				<div className="row form-group">
 					<div className="col-md-4">
 						<Select
-							className="form-control"
 							placeholder={D.stampsPlaceholder}
 							value={
 								stampListOptions.find(({ value }) => value === creator) || ''
 							}
 							options={stampListOptions}
-							onChange={(value) => handleChange('creator', value)}
+							onChange={(option) =>
+								handleChange('creator', option?.value ?? '')
+							}
 						/>
 					</div>
 					<div className="col-md-4">
 						<Select
-							className="form-control"
 							placeholder={D.disseminationStatusPlaceholder}
 							value={
 								disseminationStatusListOptions.find(
@@ -161,12 +162,13 @@ const ConceptSearchList = ({
 								) || ''
 							}
 							options={disseminationStatusListOptions}
-							onChange={(value) => handleChange('disseminationStatus', value)}
+							onChange={(option) =>
+								handleChange('disseminationStatus', option?.value ?? '')
+							}
 						/>
 					</div>
 					<div className="col-md-4">
 						<Select
-							className="form-control"
 							placeholder={D.validationStatusPlaceholder}
 							value={
 								validationStatusOptions.find(
@@ -174,7 +176,9 @@ const ConceptSearchList = ({
 								) || ''
 							}
 							options={validationStatusOptions}
-							onChange={(value) => handleChange('validationStatus', value)}
+							onChange={(option) =>
+								handleChange('validationStatus', option?.value ?? '')
+							}
 						/>
 					</div>
 				</div>

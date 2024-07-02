@@ -13,8 +13,9 @@ import { validate } from 'js/applications/operations/document/edition/validation
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
 import { useGoBack } from 'js/hooks/hooks';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import {
-	Loading,
 	CancelButton,
 	SaveButton,
 	ActionToolbar,

@@ -1,4 +1,6 @@
-import { Loading, Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
+import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import { useGoBack } from 'js/hooks/hooks';
 import { Auth, CheckSecondLang, Stores, PageTitleBlock } from 'js/utils';
 import { loadCodesList } from 'js/actions/operations/utils/setup';

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import ConceptsToValidate from './home';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import { OK, PENDING } from 'js/constants';
 import { ArrayUtils, Auth, useTitle } from 'js/utils';
 import D from 'js/i18n';

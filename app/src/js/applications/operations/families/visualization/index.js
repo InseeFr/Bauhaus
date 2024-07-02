@@ -2,7 +2,9 @@ import D from 'js/i18n';
 import * as select from 'js/reducers';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Button, Loading, ActionToolbar, ReturnButton } from '@inseefr/wilco';
+import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import { useGoBack } from 'js/hooks/hooks';
 import api from 'js/remote-api/operations-api';
 

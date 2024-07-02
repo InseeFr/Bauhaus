@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import api from '../../../remote-api/operations-api';
 import { ArrayUtils, Auth, FeminineButton, useTitle } from 'js/utils';
 import D from '../../../i18n/build-dictionary';

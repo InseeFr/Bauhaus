@@ -1,7 +1,9 @@
 import D from 'js/i18n';
 import { Link, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Loading, Select } from '@inseefr/wilco';
+import { Select } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import api from 'js/remote-api/operations-api';
 import { useSelector } from 'react-redux';
 import {
@@ -35,7 +37,6 @@ const fields = [
 	'publisher',
 	'dataCollector',
 ];
-const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
 
 export class SearchFormList extends AbstractAdvancedSearchComponent {
 	constructor(props) {
@@ -229,9 +230,7 @@ const SearchListContainer = () => {
 	);
 
 	useEffect(() => {
-		api.getSeriesSearchList().then((data) => {
-			setData(sortByLabel(data));
-		});
+		api.getSeriesSearchList().then(setData);
 	}, []);
 
 	if (!data) return <Loading />;

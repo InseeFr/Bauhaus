@@ -7,7 +7,7 @@ import ConceptEditionCreation from './home';
 import { mergeWithAllConcepts } from 'js/utils/concepts/links';
 import D from 'js/i18n';
 import emptyConcept from 'js/utils/concepts/empty-concept';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import { ArrayUtils } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import globalApi from '../../../remote-api/api';

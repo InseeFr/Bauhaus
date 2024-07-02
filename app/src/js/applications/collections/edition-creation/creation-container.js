@@ -6,8 +6,9 @@ import buildPayload from 'js/utils/collections/build-payload/build-payload';
 import CollectionEditionCreation from './home';
 import D from 'js/i18n';
 import emptyCollection from 'js/utils/collections/empty-collection';
-import { cleanId, Loading } from '@inseefr/wilco';
-import { ArrayUtils } from 'js/utils';
+import { cleanId } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import api from '../../../remote-api/concepts-api';
 import apiCollections from '../../../remote-api/concepts-collection-api';
 
@@ -27,8 +28,8 @@ const CreationContainer = () => {
 	useEffect(() => {
 		Promise.all([api.getConceptList(), apiCollections.getCollectionList()])
 			.then(([conceptsList, collectionsList]) => {
-				setConceptList(ArrayUtils.sortArrayByLabel(conceptsList));
-				setCollectionList(ArrayUtils.sortArrayByLabel(collectionsList));
+				setConceptList(conceptsList);
+				setCollectionList(collectionsList);
 			})
 			.finally(() => setLoading(false));
 	}, []);

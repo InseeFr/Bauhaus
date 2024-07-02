@@ -4,8 +4,9 @@ import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field
 import { flattenTree } from 'js/utils/msd';
 import SimsDocumentField from 'js/applications/operations/msd/pages/sims-creation/sims-document-field';
 import { withRouter } from 'react-router-dom';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import {
-	Loading,
 	CancelButton,
 	ActionToolbar,
 	SaveButton,

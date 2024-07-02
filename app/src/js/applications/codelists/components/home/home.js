@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { PageTitle, Loading } from '@inseefr/wilco';
+import { PageTitle } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';

@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Loading, goBack } from '@inseefr/wilco';
+import { goBack } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import { ComponentDetailView } from './view';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';

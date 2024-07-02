@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Select, Loading } from '@inseefr/wilco';
+import Select from 'react-select';
 import { Link, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -13,6 +13,7 @@ import {
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 
 const filterId = ArrayUtils.filterKeyDeburr(['id']);
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
@@ -135,8 +136,8 @@ class SearchFormPartialList extends AbstractAdvancedSearchComponent {
 										) || ''
 									}
 									options={stampListOptions}
-									onChange={(value) => {
-										this.handlers.creator(value);
+									onChange={(option) => {
+										this.handlers.creator(option?.value ?? '');
 									}}
 								/>
 							</label>
@@ -152,8 +153,8 @@ class SearchFormPartialList extends AbstractAdvancedSearchComponent {
 										) || ''
 									}
 									options={validateStateOptions}
-									onChange={(value) => {
-										this.handlers.validationState(value);
+									onChange={(option) => {
+										this.handlers.validationState(option?.value ?? '');
 									}}
 								/>
 							</label>
@@ -206,14 +207,14 @@ const SearchFormPartialListContainer = () => {
 
 	useEffect(() => {
 		API.getCodelistsPartialForSearch()
-			.then((codelists) => {
-				setItems(codelists);
-			})
+			.then(setItems)
 			.finally(() => setLoading(false));
 	}, []);
+
 	if (loading) {
 		return <Loading />;
 	}
+
 	return (
 		<SearchFormPartialList
 			data={items}
