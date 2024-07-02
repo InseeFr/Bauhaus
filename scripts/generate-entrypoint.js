@@ -1,11 +1,11 @@
 var fs = require('fs');
 
-fs.readFile('app/.env', 'utf8', function(_, contents) {
+fs.readFile('.env', 'utf8', function (_, contents) {
 	const content = contents
 		.split('\n')
-		.filter(line => !line.startsWith('#'))
-		.map(line => line.split('='))
-		.filter(data => data.length === 2)
+		.filter((line) => !line.startsWith('#'))
+		.map((line) => line.split('='))
+		.filter((data) => data.length === 2)
 		.map(
 			([key]) =>
 				`echo "window._env_['${key.replace(
@@ -18,5 +18,5 @@ fs.readFile('app/.env', 'utf8', function(_, contents) {
 		);
 
 	const fullFile = ['#!/bin/sh', ...content, 'exec "$@"'].join('\n');
-	fs.writeFileSync('app/entrypoint.sh', fullFile, 'utf8');
+	fs.writeFileSync('entrypoint.sh', fullFile, 'utf8');
 });
