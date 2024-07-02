@@ -5,20 +5,20 @@ import D from '../i18n';
 const getText = (textType, D) => {
 	switch (textType) {
 		case 'authentification':
-			return D.loadableAuth;
+			return D.loading.auth;
 		case 'saving':
-			return D.loadableSaving;
+			return D.loading.saving;
 		case 'deleting':
-			return D.loadableDeleting;
+			return D.loading.deleting;
 		case 'sending':
-			return D.loadableSending;
+			return D.loading.sending;
 		case 'exporting':
-			return D.loadableExporting;
+			return D.loading.exporting;
 		case 'validating':
-			return D.loadableValidating;
+			return D.loading.validating;
 		case 'loading':
 		default:
-			return D.loadableLoading;
+			return D.loading.loading;
 	}
 };
 

@@ -3,13 +3,15 @@ import { Loading, Deleting, Publishing } from './loading';
 import D from '../i18n';
 
 jest.mock('../i18n', () => ({
-	loadableAuth: 'Authenticating...',
-	loadableSaving: 'Saving...',
-	loadableDeleting: 'Deleting...',
-	loadableSending: 'Sending...',
-	loadableExporting: 'Exporting...',
-	loadableValidating: 'Validating...',
-	loadableLoading: 'Loading...',
+	loading: {
+		auth: 'Authenticating...',
+		saving: 'Saving...',
+		deleting: 'Deleting...',
+		sending: 'Sending...',
+		exporting: 'Exporting...',
+		validating: 'Validating...',
+		loading: 'Loading...',
+	},
 }));
 
 describe('Loading Component', () => {
