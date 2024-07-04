@@ -1,9 +1,10 @@
 import { Component } from 'react';
 import D, { D1, D2 } from 'js/i18n';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import {
 	CancelButton,
 	SaveButton,
-	Loading,
 	ActionToolbar,
 	LabelRequired,
 	Select,

@@ -1,7 +1,6 @@
 import D from 'js/i18n';
 import { Link, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Loading } from '@inseefr/wilco';
 import api from 'js/remote-api/operations-api';
 
 import {
@@ -11,10 +10,10 @@ import {
 	useTitle,
 	useUrlQueryParameters,
 } from 'js/utils';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const fields = ['prefLabelLg1'];
-const sortByLabel = ArrayUtils.sortArray('prefLabelLg1');
 
 const defaultState = {
 	prefLabelLg1: '',
@@ -88,9 +87,7 @@ const SearchListContainer = () => {
 	const [data, setData] = useState();
 
 	useEffect(() => {
-		api.getAllFamiliesForAdvancedSearch().then((data) => {
-			setData(sortByLabel(data));
-		});
+		api.getAllFamiliesForAdvancedSearch().then(setData);
 	}, []);
 
 	if (!data) {

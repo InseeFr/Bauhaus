@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getContentDisposition, Loading } from '@inseefr/wilco';
+import { getContentDisposition } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import ConceptSearchList from './home';
-import { ArrayUtils, Stores } from 'js/utils';
+import { Stores } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import apiGlobal from '../../../remote-api/api';
 import FileSaver from 'file-saver';
@@ -34,9 +35,7 @@ const ConceptSearchListContainer = () => {
 		])
 			.then(([concepts, stamps, disseminations]) => {
 				setConceptSearchList(
-					ArrayUtils.sortArrayByLabel(concepts).map((concept) =>
-						Object.assign({}, emptyItem, concept)
-					)
+					concepts.map((concept) => Object.assign({}, emptyItem, concept))
 				);
 				setStampList(stamps);
 				setDisseminationStatusList(disseminations);

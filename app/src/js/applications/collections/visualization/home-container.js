@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import * as select from 'js/reducers';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import CollectionVisualization from './home';
 import { Auth, Stores } from 'js/utils';
 import { useParams } from 'react-router-dom';

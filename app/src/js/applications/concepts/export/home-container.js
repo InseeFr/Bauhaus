@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Picker from '../../shared/picker-page';
-import { getContentDisposition, Loading } from '@inseefr/wilco';
+import { getContentDisposition } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import { ArrayUtils, useTitle } from 'js/utils';
 import D from 'js/i18n';
 import api from '../../../remote-api/concepts-api';

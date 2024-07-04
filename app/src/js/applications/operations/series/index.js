@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import SeriesHome from './home';
 import api from '../../../remote-api/operations-api';
 import { ArrayUtils } from 'js/utils';

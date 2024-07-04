@@ -5,8 +5,9 @@ import {
 	ErrorBloc,
 	goBack,
 	LabelRequired,
-	Loading,
 } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { EditorMarkdown, PageTitleBlock, Row } from 'js/utils';
 import { Controller, useForm } from 'react-hook-form';

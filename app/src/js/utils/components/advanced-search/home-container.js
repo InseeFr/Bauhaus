@@ -2,10 +2,9 @@ import { Component } from 'react';
 
 const handleFieldChange = (fields, handleChange) =>
 	fields.reduce((handlers, field) => {
-		handlers[field] = value => handleChange({ [field]: value });
+		handlers[field] = (value) => handleChange({ [field]: value });
 		return handlers;
 	}, {});
-
 
 export class AbstractAdvancedSearchComponent extends Component {
 	constructor(props, emptyState) {
@@ -33,8 +32,7 @@ export class AbstractAdvancedSearchComponent extends Component {
 	};
 
 	handleChange = (fields, filterData) =>
-		handleFieldChange(fields, stateChange => {
-			this.setState(stateChange);
-			filterData(stateChange);
+		handleFieldChange(fields, (stateChange) => {
+			this.setState(stateChange, () => filterData(this.state));
 		});
 }

@@ -25,7 +25,7 @@ import {
 	Deleting,
 	Publishing,
 	Loading,
-} from '../../../../new-architecture/components/loading/loading';
+} from 'js/new-architecture/components/loading/loading';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import { CL_FREQ } from '../../../../actions/constants/codeList';

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CollectionsToValidate from './home';
-import { Loading } from '@inseefr/wilco';
-import { ArrayUtils, Auth, useTitle } from 'js/utils';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Auth, useTitle } from 'js/utils';
 import D from 'js/i18n';
 import api from '../../../remote-api/concepts-api';
 
@@ -27,7 +27,7 @@ const CollectionsToValidateContainer = () => {
 	useEffect(() => {
 		api
 			.getCollectionValidateList()
-			.then((results) => setCollections(ArrayUtils.sortArrayByLabel(results)))
+			.then(setCollections)
 			.then(() => setLoading(false));
 	}, []);
 

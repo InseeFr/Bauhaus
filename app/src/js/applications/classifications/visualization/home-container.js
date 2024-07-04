@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ClassificationVisualization from './home';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import * as mainSelect from 'js/reducers';
 import { Stores, Auth } from 'js/utils';
 import { useClassification, usePublishClassification } from '../hooks';
