@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '@inseefr/wilco';
 import DocumentHome from './home';
 import { ArrayUtils } from 'js/utils';
 import api from 'js/remote-api/api';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 const sortByLabel = ArrayUtils.sortArray('label');
 
 const OperationsDocumentsContainer = () => {

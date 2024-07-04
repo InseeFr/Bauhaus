@@ -1,7 +1,9 @@
 import { Component, useEffect, useState } from 'react';
 import MSDLayout from 'js/applications/operations/msd/layout/';
 import { connect } from 'react-redux';
-import { Loading, buildExtract } from '@inseefr/wilco';
+import { buildExtract } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import { NOT_LOADED, LOADED } from 'js/constants';
 import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
 import { D1, D2 } from 'js/i18n';

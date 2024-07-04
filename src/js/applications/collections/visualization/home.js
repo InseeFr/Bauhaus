@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { PageTitle, PageSubtitle, Loading } from '@inseefr/wilco';
+import { PageTitle, PageSubtitle } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
-import CollectionMembers from './members';
+import CollectionMembers from 'js/new-architecture/modules-concepts/collections/visualisation/members';
 import { CheckSecondLang, withTitle } from 'js/utils';
 import D from 'js/i18n';
 
@@ -45,11 +47,7 @@ const CollectionVisualization = ({
 					secondLang={secondLang}
 					langs={langs}
 				/>
-				<CollectionMembers
-					members={members}
-					secondLang={secondLang}
-					langs={langs}
-				/>
+				<CollectionMembers members={members} secondLang={secondLang} />
 			</div>
 		</div>
 	);

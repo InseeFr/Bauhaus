@@ -3,36 +3,38 @@ import {
 	firstLang,
 	getLang,
 	secondLang,
-} from '@inseefr/wilco';
+} from 'js/new-architecture/utils/dictionnary';
 
 const dictionary = {
-	loadableAuth: {
-		fr: 'Authentification en cours...',
-		en: 'Authentication in progress...',
-	},
-	loadableSaving: {
-		fr: 'Sauvegarde en cours...',
-		en: 'Saving in progress...',
-	},
-	loadableSending: {
-		fr: 'Envoi en cours...',
-		en: 'Sending in progress...',
-	},
-	loadableExporting: {
-		fr: 'Export en cours...',
-		en: 'Export in progress...',
-	},
-	loadableValidating: {
-		fr: 'Publication en cours ...',
-		en: 'Publish in progress ...',
-	},
-	loadableLoading: {
-		fr: 'Chargement en cours...',
-		en: 'Loading in progress...',
-	},
-	loadableDeleting: {
-		fr: 'Suppression en cours...',
-		en: 'Deleting in progress...',
+	loading: {
+		auth: {
+			fr: 'Authentification en cours...',
+			en: 'Authentication in progress...',
+		},
+		saving: {
+			fr: 'Sauvegarde en cours...',
+			en: 'Saving in progress...',
+		},
+		sending: {
+			fr: 'Envoi en cours...',
+			en: 'Sending in progress...',
+		},
+		exporting: {
+			fr: 'Export en cours...',
+			en: 'Export in progress...',
+		},
+		validating: {
+			fr: 'Publication en cours ...',
+			en: 'Publish in progress ...',
+		},
+		loading: {
+			fr: 'Chargement en cours...',
+			en: 'Loading in progress...',
+		},
+		deleting: {
+			fr: 'Suppression en cours...',
+			en: 'Deleting in progress...',
+		},
 	},
 };
 

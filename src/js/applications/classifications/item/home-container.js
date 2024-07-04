@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import ItemVisualization from './home';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import * as mainSelect from 'js/reducers';
 import { Stores } from 'js/utils';
 import { useParams } from 'react-router-dom';

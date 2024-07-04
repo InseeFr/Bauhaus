@@ -4,8 +4,9 @@ import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field
 import { flattenTree } from 'js/utils/msd';
 import SimsDocumentField from 'js/applications/operations/msd/pages/sims-creation/sims-document-field';
 import { withRouter } from 'react-router-dom';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import {
-	Loading,
 	CancelButton,
 	ActionToolbar,
 	SaveButton,
@@ -316,6 +317,7 @@ class SimsCreation extends Component {
 
 									{mode !== DUPLICATE && (
 										<ReactSelect
+											className="bauhaus-sims-duplicate"
 											placeholder={D.createFromAnExistingReport}
 											value={operationsWithSimsOptions.find(
 												({ value }) => value === idParent
@@ -324,6 +326,7 @@ class SimsCreation extends Component {
 											onChange={this.onSiblingSimsChange()}
 											disabled={this.state.changed}
 											searchable
+											autofocus
 										/>
 									)}
 								</>

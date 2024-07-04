@@ -9,8 +9,11 @@ import {
 	PickerItem,
 } from '@inseefr/wilco';
 
-import D, { D1 } from 'js/i18n';
-import { Row } from '../../../utils';
+import MainDictonary from 'js/i18n';
+import { D1 } from 'js/new-architecture/modules-concepts/i18n';
+import { Row } from 'js/utils';
+import { TextInput } from 'js/new-architecture/components/form/input';
+import { Column } from 'js/new-architecture/components/layout';
 
 const extractMembers = (concepts) => {
 	return concepts.reduce((members, { id, label, isAdded }) => {
@@ -107,19 +110,19 @@ const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 
 	return (
 		<Row>
-			<div className="col-md-6">
-				<Panel title={D1.collectionMembersPanelTitle}>{addedEls}</Panel>
-			</div>
-			<div className="col-md-6 text-center">
-				<input
+			<Column>
+				<Panel title={D1.collectionMembersPanelTitle(addedEls.length)}>
+					{addedEls}
+				</Panel>
+			</Column>
+			<Column>
+				<TextInput
 					value={searchLabel}
 					onChange={(e) => setSearchLabel(e.target.value)}
-					type="text"
-					placeholder={D.searchLabelPlaceholder}
-					className="form-control"
+					placeholder={MainDictonary.searchLabelPlaceholder}
 				/>
 				<Pagination itemEls={toAddEls} itemsPerPage="10" />
-			</div>
+			</Column>
 		</Row>
 	);
 };

@@ -1,6 +1,7 @@
 import { useClassification, useUpdateClassification } from '../hooks';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
-import { ActionToolbar, goBack, LabelRequired, Loading } from '@inseefr/wilco';
+import { ActionToolbar, goBack, LabelRequired } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import {
 	ClientSideError,
 	EditorMarkdown,

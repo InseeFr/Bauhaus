@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { getContentDisposition, Loading } from '@inseefr/wilco';
+
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import ConceptSearchList from './home';
-import { ArrayUtils, Stores } from 'js/utils';
+import { Stores } from 'js/utils';
 import api from '../../../remote-api/concepts-api';
 import apiGlobal from '../../../remote-api/api';
-import FileSaver from 'file-saver';
+import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
 
 const emptyItem = {
 	id: '',
@@ -34,9 +35,7 @@ const ConceptSearchListContainer = () => {
 		])
 			.then(([concepts, stamps, disseminations]) => {
 				setConceptSearchList(
-					ArrayUtils.sortArrayByLabel(concepts).map((concept) =>
-						Object.assign({}, emptyItem, concept)
-					)
+					concepts.map((concept) => Object.assign({}, emptyItem, concept))
 				);
 				setStampList(stamps);
 				setDisseminationStatusList(disseminations);
@@ -48,18 +47,8 @@ const ConceptSearchListContainer = () => {
 		setExporting(true);
 		const promise = api.getConceptExportZipType(ids, type, lang, withConcepts);
 
-		let fileName;
 		return promise
-			.then((res) => {
-				fileName = getContentDisposition(
-					res.headers.get('Content-Disposition')
-				)[1];
-				return res;
-			})
-			.then((res) => res.blob())
-			.then((blob) => {
-				return FileSaver.saveAs(blob, fileName);
-			})
+			.then(saveFileFromHttpResponse)
 			.finally(() => setExporting(false));
 	};
 

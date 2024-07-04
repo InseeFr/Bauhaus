@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import ClassificationTree from './home';
-import { buildExtract, Loading } from '@inseefr/wilco';
+import { buildExtract } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+
 import loadClassificationGeneral from 'js/actions/classifications/general';
 import * as selectG from 'js/reducers/classifications/classification/general';
 import { getTreeFromFlatData } from 'react-sortable-tree';
