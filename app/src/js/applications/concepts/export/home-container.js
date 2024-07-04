@@ -1,49 +1,24 @@
 import { useState } from 'react';
 import Picker from '../../shared/picker-page';
-import { getContentDisposition } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import { ArrayUtils, useTitle } from 'js/utils';
+import { useTitle } from 'js/utils';
 import D from 'js/i18n';
-import api from '../../../remote-api/concepts-api';
-import FileSaver from 'file-saver';
-import { useQuery } from '@tanstack/react-query';
 import ExportButtons from 'js/applications/collections/export-buttons';
-import { useHistory } from 'react-router-dom';
+import { Loading } from 'js/new-architecture/components/loading/loading';
+import {
+	useConceptExporter,
+	useConcepts,
+} from '../../../new-architecture/utils/hooks/concepts';
 
 const ConceptsToExportContainer = () => {
 	useTitle(D.conceptsTitle, D.exportTitle);
-	const [exporting, setExporting] = useState(false);
 	const [ids, setIds] = useState([]);
-	const history = useHistory();
 
-	const { isLoading, data: concepts } = useQuery(['concepts'], () => {
-		return api
-			.getConceptList()
-			.then((results) => ArrayUtils.sortArrayByLabel(results));
-	});
+	const { mutate: exportConcept, isLoading: isExporting } =
+		useConceptExporter();
+	const { isLoading, data: concepts } = useConcepts();
 
-	const exportConcept = (type, withConcepts, lang = 'lg1') => {
-		setExporting(true);
-		const promise = api.getConceptExportZipType(ids, type, lang, withConcepts);
-
-		let fileName;
-		return promise
-			.then((res) => {
-				fileName = getContentDisposition(
-					res.headers.get('Content-Disposition')
-				)[1];
-				return res;
-			})
-			.then((res) => res.blob())
-			.then((blob) => {
-				return FileSaver.saveAs(blob, fileName);
-			})
-			.then(() => history.push('/concepts'))
-			.finally(() => setExporting(false));
-	};
-
-	if (exporting) {
-		return <Loading textType={'exporting'} />;
+	if (isExporting) {
+		return <Loading textType="exporting" />;
 	}
 	if (isLoading) {
 		return <Loading />;
@@ -62,8 +37,9 @@ const ConceptsToExportContainer = () => {
 			ValidationButton={() => (
 				<ExportButtons
 					ids={ids}
-					exporting={setExporting}
-					exportHandler={exportConcept}
+					exportHandler={(type, withConcepts, lang = 'lg1') =>
+						exportConcept({ ids, type, withConcepts, lang })
+					}
 					disabled={ids.length < 1}
 				/>
 			)}

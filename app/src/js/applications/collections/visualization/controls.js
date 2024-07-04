@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { ActionToolbar, Button, getContentDisposition } from '@inseefr/wilco';
+import { ActionToolbar, Button } from '@inseefr/wilco';
 import check from 'js/utils/auth';
 import D from 'js/i18n';
 import api from '../../../remote-api/concepts-collection-api';
-import FileSaver from 'file-saver';
 import { CollectionExportModal } from '../modal';
 import { useSelector } from 'react-redux';
 import { Auth } from 'js/utils';
+import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
 
 const CollectionVisualizationControls = ({
 	isValidated,
@@ -52,18 +52,9 @@ const CollectionVisualizationControls = ({
 				lang,
 				withConcepts
 			);
-			let fileName;
+
 			return promise
-				.then((res) => {
-					fileName = getContentDisposition(
-						res.headers.get('Content-Disposition')
-					)[1];
-					return res;
-				})
-				.then((res) => res.blob())
-				.then((blob) => {
-					return FileSaver.saveAs(blob, fileName);
-				})
+				.then(saveFileFromHttpResponse)
 				.finally(() => setExporting(false));
 		};
 	};
