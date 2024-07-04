@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Edition from '../component';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import StructureAPI from '../../apis/structure-api';
 import { useLocation, useParams } from 'react-router-dom';
 import { useTitle } from 'js/utils';

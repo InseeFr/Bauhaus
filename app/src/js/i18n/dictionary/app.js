@@ -25,10 +25,6 @@ const dictionary = {
 		fr: 'Cacher',
 		en: 'Hide',
 	},
-	authorizationTitle: {
-		fr: 'Habilitations',
-		en: 'Authorizations',
-	},
 	administrationTitle: {
 		fr: 'Administration',
 		en: 'Administration',

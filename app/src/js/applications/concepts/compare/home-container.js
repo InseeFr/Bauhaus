@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Loading } from '@inseefr/wilco';
+import { Loading } from 'js/new-architecture/components/loading/loading';
 import ConceptCompare from './home';
 import * as select from 'js/reducers';
 import { ArrayUtils, HTMLUtils, Stores } from 'js/utils';

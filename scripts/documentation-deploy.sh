@@ -5,15 +5,6 @@ set -e
 DOC_FOLDER="documentation"
 SITE_FOLDER="website"
 
-function buildDocumentation() {
-  echo "Running gitbook install and build"
-  pushd "$DOC_FOLDER"
-  npm i
-  npm build
-  popd
-}
-
-
 function publish() {
   echo "Start Publishing"
 
@@ -29,7 +20,7 @@ function publish() {
 
 function main() {
   echo "Building everything"
-  buildDocumentation && publish
+  publish
 }
 
 main

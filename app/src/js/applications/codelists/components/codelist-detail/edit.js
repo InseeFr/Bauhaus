@@ -51,7 +51,7 @@ export const DumbCodelistDetailEdit = ({
 		let codesList = { ...initialCodelist, ...defaultCodelist };
 
 		if (!codesList.id) {
-			codesList.contributor = isContributor ? stamp : 'DG75-L201';
+			codesList.contributor = isContributor ? [stamp] : ['DG75-L201'];
 		}
 
 		setCodelist(codesList);
@@ -270,9 +270,9 @@ export const DumbCodelistDetailEdit = ({
 					<ContributorsInput
 						stampListOptions={stampListOptions}
 						value={codelist.contributor}
-						handleChange={(values) =>
-							setCodelist({ ...codelist, contributor: values })
-						}
+						handleChange={(values) => {
+							setCodelist({ ...codelist, contributor: values });
+						}}
 					/>
 				</div>
 				<div className="form-group">
