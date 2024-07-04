@@ -4,6 +4,7 @@ import {
 	getLang,
 	secondLang,
 } from './utils/dictionnary';
+import { Dictionary } from 'js/new-architecture/utils/types';
 
 const dictionary = {
 	authentication: {
@@ -18,7 +19,7 @@ const dictionary = {
 	},
 };
 
-export const D1 = createDictionary(firstLang, dictionary);
-export const D2 = createDictionary(secondLang, dictionary);
+export const D1: Dictionary = createDictionary(firstLang, dictionary);
+export const D2: Dictionary = createDictionary(secondLang, dictionary);
 
 export default getLang() === firstLang ? D1 : D2;
