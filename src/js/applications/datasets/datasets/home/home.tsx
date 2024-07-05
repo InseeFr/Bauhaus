@@ -1,13 +1,19 @@
+import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import D from '../../../../i18n/build-dictionary';
 import { SearchableList, Row, useTitle } from 'js/utils';
 import { useDatasets } from '../../hooks';
 import { HomePageMenu } from './menu';
+import { Loading } from '../../../../new-architecture/components';
 
 export const DatasetHome = () => {
-	const { data } = useDatasets();
+	const { data, isLoading } = useDatasets();
 
 	useTitle(D.datasetsTitle, D.datasetsTitle);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<div className="container">
@@ -20,7 +26,7 @@ export const DatasetHome = () => {
 						childPath="datasets"
 						autoFocus={true}
 						advancedSearch={false}
-						itemFormatter={(_, dataset) => dataset.label}
+						itemFormatter={(_: any, dataset: any) => dataset.label}
 					/>
 				</div>
 			</Row>

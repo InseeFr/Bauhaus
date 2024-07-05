@@ -71,7 +71,7 @@ export const Notes = ({ editingDataset, setEditingDataset }) => {
 					/>
 				</div>
 				<div className="col-md-6 form-group">
-					<label htmlFor="cautionLg2">{D2.datasetsAbstract}</label>
+					<label htmlFor="cautionLg2">{D2.datasetsCaution}</label>
 					<EditorMarkdown
 						text={editingDataset.cautionLg2}
 						handleChange={(value) => {
