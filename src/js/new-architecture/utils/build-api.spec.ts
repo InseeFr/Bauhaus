@@ -15,8 +15,8 @@ describe('guess method from end point', () => {
 	});
 });
 
-const handler = res => res.text().then(id => id);
-const postCommentFn = (username, info) => [
+const handler = (res: Response) => res.text().then((id) => id);
+const postCommentFn = (username: string, info: unknown) => [
 	`comment/${username}`,
 	{
 		method: 'POST',

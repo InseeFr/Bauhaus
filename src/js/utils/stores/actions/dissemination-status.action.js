@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { buildApi } from '../../apis/build-api';
+import { buildApi } from 'js/new-architecture/utils/build-api';
 import { ERROR, LOADED, LOADING } from '../constants';
 import { connect, useSelector } from 'react-redux';
 

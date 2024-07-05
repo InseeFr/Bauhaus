@@ -2,7 +2,7 @@ import testingLibrary from "eslint-plugin-testing-library";
 import jestDom from "eslint-plugin-jest-dom";
 import jest from "eslint-plugin-jest";
 import globals from "globals";
-import babelParser from "@babel/eslint-parser";
+import parser from "@typescript-eslint/parser";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
@@ -30,17 +30,8 @@ export default [
                 ...globals.mocha,
             },
 
-            parser: babelParser,
-            ecmaVersion: 2018,
-            sourceType: "module",
+            parser: parser,
 
-            parserOptions: {
-                requireConfigFile: false,
-
-                babelOptions: {
-                    presets: ["@babel/preset-react"],
-                },
-            },
         },
 
         settings: {

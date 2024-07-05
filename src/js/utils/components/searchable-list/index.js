@@ -31,14 +31,14 @@ const useUrlQueryParameter = (key, defaultValue = '') => {
 const SearchableList = ({
 	items = [],
 	advancedSearch = false,
-	searchUrl,
-	placeholder,
+	searchUrl = '',
+	placeholder = undefined,
 	childPath,
-	col,
-	colOff,
+	col = undefined,
+	colOff = undefined,
 	label,
 	autoFocus,
-	itemFormatter = (content) => content,
+	itemFormatter = (content, _object) => content,
 }) => {
 	const [search, handleSearch] = useUrlQueryParameter('search');
 	const [input, setInput] = useState(search);

@@ -1,4 +1,4 @@
-import { generateGenericApiEndpoints } from '../../utils/apis/build-api';
+import { generateGenericApiEndpoints } from 'js/new-architecture/utils/build-api';
 
 export default {
 	...generateGenericApiEndpoints('indicators', 'indicator'),

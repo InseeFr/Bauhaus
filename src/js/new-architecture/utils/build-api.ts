@@ -1,8 +1,8 @@
 import {
 	getToken,
 	isTokenValid,
-} from '../auth/open-id-connect-auth/token-utils';
-import { getEnvVar } from '../utils/env';
+} from '../../utils/auth/open-id-connect-auth/token-utils';
+import { getEnvVar } from '../../utils/env';
 
 export const generateGenericApiEndpoints = (
 	pluralPrefix = '',
@@ -18,10 +18,10 @@ export const generateGenericApiEndpoints = (
 		[`getAll${capitalizedPluralPrefix}ForAdvancedSearch`]: () => [
 			`${pluralPrefix}/advanced-search`,
 		],
-		[`get${capitalizedSingularPrefix}ById`]: (id) => [
+		[`get${capitalizedSingularPrefix}ById`]: (id: string) => [
 			`${singularPrefix}/${id}`,
 		],
-		[`create${capitalizedSingularPrefix}`]: (object) => [
+		[`create${capitalizedSingularPrefix}`]: (object: unknown) => [
 			singularPrefix,
 			{
 				method: 'POST',
@@ -30,9 +30,9 @@ export const generateGenericApiEndpoints = (
 				},
 				body: JSON.stringify(object),
 			},
-			(res) => res.text(),
+			(res: Response) => res.text(),
 		],
-		[`update${capitalizedSingularPrefix}`]: (object) => [
+		[`update${capitalizedSingularPrefix}`]: (object: { id: string }) => [
 			`${singularPrefix}/${object.id}`,
 			{
 				method: 'PUT',
@@ -43,20 +43,20 @@ export const generateGenericApiEndpoints = (
 			},
 			() => Promise.resolve(object.id),
 		],
-		[`publish${capitalizedSingularPrefix}`]: (object) => [
+		[`publish${capitalizedSingularPrefix}`]: (object: { id: string }) => [
 			`${singularPrefix}/validate/${object.id}`,
 			{ method: 'PUT' },
-			(res) => res.text(),
+			(res: Response) => res.text(),
 		],
 	};
 };
 
 const apiURL = `${window.location.origin}/configuration.json`;
 
-export const removeTrailingSlash = (url) => url.replace(/\/$/, '');
+export const removeTrailingSlash = (url: string) => url.replace(/\/$/, '');
 
-export const buildApi = (context, api) => {
-	return Object.keys(api).reduce((apiFns, resource) => {
+export const buildApi = (context: string, api: any): any => {
+	return Object.keys(api).reduce((apiFns: any, resource) => {
 		if (!apiFns[resource]) {
 			apiFns[resource] = buildCall(context, resource, api[resource]);
 		}
@@ -72,9 +72,9 @@ export const defaultOptions = {
 	},
 };
 
-export const defaultThenHandler = (res) => res.json();
+export const defaultThenHandler = (res: Response) => res.json();
 
-export const computeDscr = (fn, [...args]) => {
+export const computeDscr = (fn: any, [...args]) => {
 	const dscr = fn(...args);
 	if (!Array.isArray(dscr)) {
 		throw new Error(
@@ -103,8 +103,10 @@ export const getBaseURI = () => {
 	if (saveApiURL) return Promise.resolve(saveApiURL);
 	return getEnvVar('INSEE')
 		? fetch(apiURL).then((res) => {
-				saveApiURL = res.json().then((config) => config.bauhaus);
-				return saveApiURL;
+				return res.json().then((config) => {
+					saveApiURL = config.bauhaus;
+					return config.bauhaus;
+				});
 		  })
 		: Promise.resolve(getEnvVar('API_BASE_HOST')).then((u) => {
 				saveApiURL = u;
@@ -112,8 +114,8 @@ export const getBaseURI = () => {
 		  });
 };
 
-export const buildCall = (context, resource, fn) => {
-	return async (...args) => {
+export const buildCall = (context: string, resource: string, fn: any) => {
+	return async (...args: any[]) => {
 		let [path, options, thenHandler] = computeDscr(fn, args);
 		if (!options.method) {
 			options.method = guessMethod(resource);
@@ -138,17 +140,18 @@ export const buildCall = (context, resource, fn) => {
 	};
 };
 
-const patterns = [
-	['GET', /^get/i],
-	['PUT', /^put/i],
-	['POST', /post/i],
-	['DELETE', /delete/i],
-];
+const patterns = {
+	GET: /^get/i,
+	PUT: /^put/i,
+	POST: /^post/i,
+	DELETE: /^delete/i,
+};
+
 /**
  * Takes a string and returns an HTTP verb
  */
-export const guessMethod = (name) => {
-	const matchPattern = patterns.find(([_method, pattern]) =>
+export const guessMethod = (name: string) => {
+	const matchPattern = Object.entries(patterns).find(([_method, pattern]) =>
 		pattern.test(name)
 	);
 	if (!matchPattern)

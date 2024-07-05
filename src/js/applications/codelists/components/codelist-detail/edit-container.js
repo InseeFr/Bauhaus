@@ -27,7 +27,7 @@ const useBackOrReplaceHook = () => {
 const CodelistEdit = (props) => {
 	const { id } = useParams();
 	const goBackOrReplace = useBackOrReplaceHook();
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(!!id);
 	const [saving, setSaving] = useState(false);
 	const [codelist, setCodelist] = useState({});
 	const [serverSideError, setServerSideError] = useState('');
@@ -69,11 +69,13 @@ const CodelistEdit = (props) => {
 	);
 
 	useEffect(() => {
-		API.getDetailedCodelist(id)
-			.then((cl) => {
-				setCodelist(formatCodeList(cl));
-			})
-			.finally(() => setLoading(false));
+		if (!!id) {
+			API.getDetailedCodelist(id)
+				.then((cl) => {
+					setCodelist(formatCodeList(cl));
+				})
+				.finally(() => setLoading(false));
+		}
 	}, [id]);
 
 	if (loading) {
