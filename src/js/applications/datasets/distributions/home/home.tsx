@@ -1,14 +1,19 @@
+import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import { SearchableList, Row, useTitle } from 'js/utils';
 import D from '../../../../i18n/build-dictionary';
 import { useDistributions } from '../../hooks';
 import { HomePageMenu } from './menu';
+import { Loading } from '../../../../new-architecture/components';
 
 export const DistributionHome = () => {
-	const { data } = useDistributions();
+	const { data, isLoading } = useDistributions();
 
 	useTitle(D.datasetsTitle, D.distributionsTitle);
 
+	if (isLoading) {
+		return <Loading />;
+	}
 	return (
 		<div className="container">
 			<Row>

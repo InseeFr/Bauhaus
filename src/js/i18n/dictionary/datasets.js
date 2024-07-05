@@ -31,7 +31,7 @@ const dictionary = {
 	},
 	datasetsCaution: {
 		fr: 'Avertissement',
-		en: 'Caution',
+		en: 'Warning',
 	},
 	datasetsDataProvider: {
 		fr: 'Organisme responsable de la fourniture des données',

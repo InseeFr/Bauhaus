@@ -29,6 +29,12 @@ import {
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
+import {
+	Creators,
+	Organization,
+	Organizations,
+} from '../../../../new-architecture/components/data/creators';
+import { ConditionalDisplay } from '../../../../new-architecture/components/data/conditional-display';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -121,10 +127,13 @@ const Dataset = (props) => {
 								{D.modifiedDateTitle} :{' '}
 								{DateUtils.stringToDate(dataset.catalogRecord?.updated)}{' '}
 							</li>
-							<li>
-								{D.datasetsFirstDiffusion} :{' '}
-								{DateUtils.stringToDate(dataset?.issued)}{' '}
-							</li>
+							<ConditionalDisplay data={dataset?.issued}>
+								<li>
+									{D.datasetsFirstDiffusion} :{' '}
+									{DateUtils.stringToDate(dataset?.issued)}{' '}
+								</li>
+							</ConditionalDisplay>
+
 							{dataset.accessRights && (
 								<li>
 									{D.datasetsAccessRights} :{' '}
@@ -155,83 +164,43 @@ const Dataset = (props) => {
 									}
 								</li>
 							)}
-							{dataset.spacialCoverage && (
+							<ConditionalDisplay data={dataset.creators}>
 								<li>
-									{D.datasetsSpacialCoverage} :{' '}
-									{
-										props['CL_GEO']?.codes?.find(
-											(t) => t.iri === dataset.spacialCoverage
-										)?.labelLg1
-									}
+									{D.datasetsDataProvider} :
+									<Organizations
+										creators={dataset.creators}
+										organizations={organisations}
+									/>
 								</li>
-							)}
-							{dataset.spacialTemporal && (
-								<li>
-									{D.datasetsSpacialTemporal} :{' '}
-									{DateUtils.stringToDate(dataset.spacialTemporal)}
-								</li>
-							)}
-							{dataset.spacialResolutions && (
-								<li>
-									{D.datasetsSpacialResolutions} :{' '}
-									<ul>
-										{dataset.spacialResolutions?.map((spacialResolution) => {
-											return (
-												<li>
-													{
-														props['CL_TYPE_GEO']?.codes?.find(
-															(t) => t.iri === spacialResolution
-														)?.labelLg1
-													}
-												</li>
-											);
-										})}
-									</ul>
-								</li>
-							)}
-							{dataset.observationNumber && (
-								<li>
-									{D.datasetsNumberObservations} : {dataset.observationNumber}
-								</li>
-							)}
-							{dataset.timeSeriesNumber && (
-								<li>
-									{D.datasetsNumberTimeSeries} : {dataset.timeSeriesNumber}
-								</li>
-							)}
+							</ConditionalDisplay>
 
-							<li>
-								{D.datasetsDataProvider} :
-								<ul>
-									{dataset.creators?.map((creator) => {
-										const creatorLabel = organisations.find(
-											(o) => o.id === creator
-										)?.label;
-										return <li key={creator}>{creatorLabel}</li>;
-									})}
-								</ul>
-							</li>
 							{dataset.publisher && (
 								<li>
-									{D.datasetsPublicationProvider} : {dataset.publisher}{' '}
+									{D.datasetsPublicationProvider} :{' '}
+									<Organization
+										creator={dataset.publisher}
+										organizations={organisations}
+									/>
 								</li>
 							)}
 							<li>
 								{D.generatedBy} :{' '}
-								<Link to={`/operations/series/${dataset.idSeries}`}>
+								<Link to={`/operations/series/${dataset.idSerie}`}>
 									{dataset?.serie?.prefLabelLg1}
 								</Link>
 							</li>
-							<li>
-								{D.theme} :
-								<ul>
-									{dataset.themes.map((theme) => (
-										<li key={theme}>
-											{themesOptions?.find((t) => t.value === theme)?.label}
-										</li>
-									))}
-								</ul>
-							</li>
+							<ConditionalDisplay data={dataset.themes}>
+								<li>
+									{D.theme} :
+									<ul>
+										{dataset.themes.map((theme) => (
+											<li key={theme}>
+												{themesOptions?.find((t) => t.value === theme)?.label}
+											</li>
+										))}
+									</ul>
+								</li>
+							</ConditionalDisplay>
 						</ul>
 					}
 					title={D1.globalInformationsTitle}
@@ -387,7 +356,7 @@ const Dataset = (props) => {
 									}
 								</li>
 							)}
-							{dataset.statisticalUnit && (
+							<ConditionalDisplay data={dataset.statisticalUnit}>
 								<li>
 									{D.datasetsStatisticalUnits} :{' '}
 									{
@@ -404,7 +373,7 @@ const Dataset = (props) => {
 										</ul>
 									}
 								</li>
-							)}
+							</ConditionalDisplay>
 							{dataset.dataStructure && (
 								<li>
 									{D.datasetsDataStructure} :{' '}
@@ -430,6 +399,53 @@ const Dataset = (props) => {
 											(t) => t.iri === dataset.temporalResolution
 										)?.labelLg1
 									}
+								</li>
+							)}
+
+							{dataset.spacialCoverage && (
+								<li>
+									{D.datasetsSpacialCoverage} :{' '}
+									{
+										props['CL_GEO']?.codes?.find(
+											(t) => t.iri === dataset.spacialCoverage
+										)?.labelLg1
+									}
+								</li>
+							)}
+							{dataset.spacialTemporal && (
+								<li>
+									{D.datasetsSpacialTemporal} :{' '}
+									{DateUtils.stringToDate(dataset.spacialTemporal)}
+								</li>
+							)}
+
+							<ConditionalDisplay data={dataset.spacialResolutions}>
+								<li>
+									{D.datasetsSpacialResolutions} :{' '}
+									<ul>
+										{dataset.spacialResolutions?.map((spacialResolution) => {
+											return (
+												<li>
+													{
+														props['CL_TYPE_GEO']?.codes?.find(
+															(t) => t.iri === spacialResolution
+														)?.labelLg1
+													}
+												</li>
+											);
+										})}
+									</ul>
+								</li>
+							</ConditionalDisplay>
+
+							{dataset.observationNumber && (
+								<li>
+									{D.datasetsNumberObservations} : {dataset.observationNumber}
+								</li>
+							)}
+							{dataset.timeSeriesNumber && (
+								<li>
+									{D.datasetsNumberTimeSeries} : {dataset.timeSeriesNumber}
 								</li>
 							)}
 						</ul>

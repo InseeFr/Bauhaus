@@ -32,7 +32,7 @@ const SearchableList = ({
 	items = [],
 	advancedSearch = false,
 	searchUrl = '',
-	placeholder = undefined,
+	placeholder = '',
 	childPath,
 	col = undefined,
 	colOff = undefined,
