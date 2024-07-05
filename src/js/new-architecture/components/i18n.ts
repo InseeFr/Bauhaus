@@ -4,6 +4,7 @@ import {
 	getLang,
 	secondLang,
 } from 'js/new-architecture/utils/dictionnary';
+import { Dictionary } from 'js/new-architecture/utils/types';
 
 const dictionary = {
 	loading: {
@@ -37,8 +38,6 @@ const dictionary = {
 		},
 	},
 };
-
-export type Dictionary = Record<string, string>;
 
 export const D1: Dictionary = createDictionary(firstLang, dictionary);
 export const D2: Dictionary = createDictionary(secondLang, dictionary);
