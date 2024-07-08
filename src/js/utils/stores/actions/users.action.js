@@ -1,4 +1,4 @@
-import * as API from '../../apis/build-api';
+import * as API from 'js/new-architecture/utils/build-api';
 import { LOADING, LOADED, ERROR } from '../constants';
 
 // Constants
@@ -11,7 +11,6 @@ const apiConfig = {
 	getStamp: () => ['stamp'],
 };
 const api = API.buildApi('users', apiConfig);
-
 
 // Action creators
 const loadUserStampPending = () => {
@@ -57,7 +56,7 @@ export const reducer = (state = {}, { type, payload }) => {
 
 // loader
 export const loadUserStamp = () => (dispatch, getState) => {
-	if(isLoading(getState())){
+	if (isLoading(getState())) {
 		return;
 	}
 	dispatch(loadUserStampPending());
@@ -72,8 +71,8 @@ export const loadUserStamp = () => (dispatch, getState) => {
 // Selectors
 export const getStamp = (state) => state.users?.results?.stamp;
 export const isLoaded = (state) => {
-	return state.users === {}
-}
+	return state.users === {};
+};
 export const isLoading = (state) => {
 	return state.users.status === LOADING;
-}
+};

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import { Loading } from 'js/new-architecture/components/loading/loading';
 
@@ -15,7 +15,7 @@ function CodeListsList() {
 
 	useEffect(() => {
 		API.getCodelists()
-			.then((codelists) => {
+			.then((codelists: any) => {
 				setItems(codelists);
 			})
 			.finally(() => setLoading(false));
