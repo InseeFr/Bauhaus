@@ -1,33 +1,12 @@
-import { useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import Pagination from '../pagination';
 import { filterKeyDeburr, nbResults } from '../../utils/array-utils';
 import D from '../../i18n/build-dictionary';
+import useUrlQueryParameters from '../../hooks/useUrlQueryParameters';
 
-const useUrlQueryParameter = (key, defaultValue = '') => {
-	const history = useHistory();
-	const location = useLocation();
-
-	const [search, setSearch] = useState(defaultValue);
-
-	const url = document.URL;
-	useEffect(() => {
-		const searchQuery = new URL(url).searchParams;
-
-		if (searchQuery.has(key)) {
-			setSearch(searchQuery.get(key));
-		}
-	}, [url, key]);
-
-	const setValueToQueryParameters = (value) => {
-		const searchParams = new URLSearchParams(window.location.search);
-		searchParams.set('search', value);
-		history.replace(location.pathname + '?' + searchParams.toString());
-	};
-
-	return [search, setValueToQueryParameters];
+const defautState = {
+	search: '',
 };
-
 const SearchableList = ({
 	items = [],
 	advancedSearch = false,
@@ -36,12 +15,11 @@ const SearchableList = ({
 	childPath,
 	col = undefined,
 	colOff = undefined,
-	label,
-	autoFocus,
+	label = 'label',
+	autoFocus = false,
 	itemFormatter = (content, _object) => content,
 }) => {
-	const [search, handleSearch] = useUrlQueryParameter('search');
-	const [input, setInput] = useState(search);
+	const [{ search }, handleSearch] = useUrlQueryParameters(defautState);
 
 	const filter = filterKeyDeburr(
 		Object.keys(items[0] || {}).filter((k) => k !== 'id')
@@ -65,10 +43,9 @@ const SearchableList = ({
 			<div className="row form-group">
 				<div className="col-md-12">
 					<input
-						value={input}
+						value={search}
 						onChange={(e) => {
-							setInput(e.target.value);
-							handleSearch(e.target.value);
+							handleSearch({ search: e.target.value });
 						}}
 						type="text"
 						placeholder={D.searchLabelPlaceholder || placeholder}
@@ -98,10 +75,4 @@ const SearchableList = ({
 		</div>
 	);
 };
-
-SearchableList.defaultProps = {
-	label: 'label',
-	autoFocus: false,
-};
-
 export default SearchableList;
