@@ -12,8 +12,8 @@ import {
 	ItemToSelectModel,
 	Stores,
 	useTitle,
-	useUrlQueryParameters,
 } from 'js/utils';
+import useUrlQueryParameters from 'js/utils/hooks/useUrlQueryParameters';
 import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
 import { useCodesList } from '../../../hooks/hooks';
 import { Column } from '../../../new-architecture/components/layout';
