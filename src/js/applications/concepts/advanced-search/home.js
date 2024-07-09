@@ -42,16 +42,9 @@ const ConceptSearchList = ({
 	disseminationStatusList,
 	onExport,
 }) => {
-	const [form, setForm, reset] = useUrlQueryParameters(defaultFormState);
+	const [form, _setForm, reset, handleChange] =
+		useUrlQueryParameters(defaultFormState);
 	const history = useHistory();
-
-	const handleChange = (property, stateChange) => {
-		const newForm = {
-			...form,
-			[property]: stateChange,
-		};
-		setForm(newForm);
-	};
 
 	const {
 		label,
