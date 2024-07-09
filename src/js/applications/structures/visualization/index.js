@@ -7,7 +7,6 @@ import {
 	CheckSecondLang,
 	Stores,
 	PageTitleBlock,
-	PublicationFemale,
 	useTitle,
 	CreationUpdateItems,
 	ErrorBloc,
@@ -20,6 +19,7 @@ import StructureAPI from '../apis/structure-api';
 import MainDictionary from 'js/i18n/build-dictionary';
 import { DisseminationStatusVisualisation } from '../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../utils/contributors/contributors';
+import { PublicationFemale } from '../../../new-architecture/components';
 
 export const StructureView = ({
 	secondLang,

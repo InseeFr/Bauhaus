@@ -15,6 +15,7 @@ import { formatLabel } from '../../utils';
 import { Loading } from 'js/new-architecture/components/loading/loading';
 import { Column } from '../../../../new-architecture/components/layout';
 import { TextInput } from '../../../../new-architecture/components/form/input';
+import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 
 const filterId = ArrayUtils.filterKeyDeburr(['id']);
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
@@ -22,12 +23,6 @@ const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
 const filterValidationState = ArrayUtils.filterKeyDeburr(['validationState']);
 const filterCode = ArrayUtils.filterKeyDeburr(['codes.code']);
 const filterCodeLabel = ArrayUtils.filterKeyDeburr(['codes.labelLg1']);
-
-const validateStateOptions = [
-	{ value: 'Unpublished', label: D.statusUnpublishedM },
-	{ value: 'Modified', label: D.statusModifiedM },
-	{ value: 'Validated', label: D.statusValidatedM },
-];
 
 const defaultFormState = {
 	id: '',

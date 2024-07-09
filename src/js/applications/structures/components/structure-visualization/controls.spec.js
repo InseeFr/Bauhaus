@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { Auth, RBACMock } from 'js/utils';
 import Controls from './controls';
+import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 describe('Structure View Menu', () => {
 	it('a user can only see the go back button', () => {
 		const structure = { id: '1' };
@@ -37,7 +38,7 @@ describe('Structure View Menu', () => {
 		const structure = {
 			id: '1',
 			contributor: 'INSEE',
-			validationState: 'Unpublished',
+			validationState: UNPUBLISHED,
 		};
 
 		render(

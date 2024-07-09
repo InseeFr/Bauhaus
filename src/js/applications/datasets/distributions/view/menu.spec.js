@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { ViewMenu } from './menu';
 import { Auth, RBACMock } from 'js/utils';
+import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 
 describe('Distribution View Menu', () => {
 	it('a user can only see the go back button', () => {
@@ -36,7 +37,7 @@ describe('Distribution View Menu', () => {
 
 	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish, delete and update a distribution if the stamp is correct and validationState is unpublished', () => {
 		const dataset = {
-			validationState: 'Unpublished',
+			validationState: UNPUBLISHED,
 			catalogRecord: { contributor: 'INSEE' },
 		};
 		const distribution = {};

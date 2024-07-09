@@ -19,17 +19,12 @@ import {
 import { useSelector } from 'react-redux';
 import { Column } from '../../../../new-architecture/components/layout';
 import { TextInput } from '../../../../new-architecture/components/form/input';
+import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['concept']);
 const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
 const filterValidationState = ArrayUtils.filterKeyDeburr(['validationState']);
-
-const validateStateOptions = [
-	{ value: 'Unpublished', label: D.statusUnpublishedM },
-	{ value: 'Modified', label: D.statusModifiedM },
-	{ value: 'Validated', label: D.statusValidatedM },
-];
 
 const defaultFormState = {
 	labelLg1: '',

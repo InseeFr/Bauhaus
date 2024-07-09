@@ -10,6 +10,7 @@ import {
 import { Auth, ValidationButton } from 'js/utils';
 import StructureAPI from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
+import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 
 const Controls = ({ structure, publish }) => {
 	const permission = useSelector(Auth.getPermission);
@@ -38,7 +39,7 @@ const Controls = ({ structure, publish }) => {
 			)}
 			{(isAdmin ||
 				(hasRightsBasedOnStamp &&
-					structure.validationState === 'Unpublished')) && (
+					structure.validationState === UNPUBLISHED)) && (
 				<DeleteButton action={handleDelete} />
 			)}
 			{(isAdmin || hasRightsBasedOnStamp) && (

@@ -47,7 +47,6 @@ export * as Stores from './stores';
 export { default as PageTitleBlock } from './components/page-title-block';
 export { default as ConfirmationDelete } from './components/confirmation-delete';
 export { default as Pagination } from './components/pagination';
-export { PublicationMale, PublicationFemale } from './components/status';
 
 export { useQueryParam } from './utils/hooks';
 

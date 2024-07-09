@@ -2,7 +2,6 @@ import { Note, ErrorBloc } from '@inseefr/wilco';
 import {
 	HTMLUtils,
 	CreationUpdateItems,
-	PublicationFemale,
 	useTitle,
 	ConfirmationDelete,
 	Row,
@@ -14,6 +13,7 @@ import { CodesCollapsiblePanel } from './codes-panel';
 import { ViewMenu } from './menu';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
+import { PublicationFemale } from '../../../../new-architecture/components';
 
 export const CodeListDetailView = ({
 	codelist,

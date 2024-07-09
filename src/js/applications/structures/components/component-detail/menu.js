@@ -6,6 +6,7 @@ import {
 	UpdateButton,
 } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
+import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 
 const canBeDeleted = (component) => {
 	const withoutStructuresUsingThisComponent =
@@ -40,7 +41,7 @@ export const ViewMenu = ({
 			{canBeDeleted(component) &&
 				(isAdmin ||
 					(hasRightsBasedOnStamp &&
-						component.validationState === 'Unpublished')) && (
+						component.validationState === UNPUBLISHED)) && (
 					<DeleteButton action={handleDelete} col={col} />
 				)}
 
