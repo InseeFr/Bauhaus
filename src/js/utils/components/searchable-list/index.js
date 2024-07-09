@@ -1,4 +1,4 @@
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Pagination from '../pagination';
 import { filterKeyDeburr, nbResults } from '../../utils/array-utils';
 import D from '../../i18n/build-dictionary';
