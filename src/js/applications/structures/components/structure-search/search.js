@@ -18,6 +18,7 @@ import {
 } from 'js/utils';
 import { useSelector } from 'react-redux';
 import { Column } from '../../../../new-architecture/components/layout';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const filterLabelLg1 = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
@@ -83,10 +84,9 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 				<div className="col-md-12">
 					<label className="w-100">
 						{D.label}
-						<input
+						<TextInput
 							value={labelLg1}
 							onChange={(e) => handleChange('labelLg1', e.target.value)}
-							className="form-control"
 						/>
 					</label>
 				</div>
@@ -95,12 +95,11 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 				<div className="col-md-12">
 					<label className="w-100">
 						{D.componentLabel}
-						<input
+						<TextInput
 							value={componentLabelLg1}
 							onChange={(e) =>
 								handleChange('componentLabelLg1', e.target.value)
 							}
-							className="form-control"
 						/>
 					</label>
 				</div>

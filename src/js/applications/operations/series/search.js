@@ -17,6 +17,7 @@ import {
 import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
 import { useCodesList } from '../../../hooks/hooks';
 import { Column } from '../../../new-architecture/components/layout';
+import { TextInput } from '../../../new-architecture/components/form/input';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
@@ -88,11 +89,9 @@ export const SearchFormList = ({ categories, organisations, stamps, data }) => {
 				<div className="col-md-12">
 					<label className="w-100">
 						{D.labelTitle}
-						<input
+						<TextInput
 							value={prefLabelLg1}
 							onChange={(e) => handleChange('prefLabelLg1', e.target.value)}
-							type="text"
-							className="form-control"
 						/>
 					</label>
 				</div>

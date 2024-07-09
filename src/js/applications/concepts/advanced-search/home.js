@@ -11,7 +11,7 @@ import {
 	Pagination,
 	useUrlQueryParameters,
 } from 'js/utils';
-
+import { TextInput } from '../../../new-architecture/components/form/input';
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
 const filterAltLabel = ArrayUtils.filterKeyDeburr(['altLabel']);
 const filterDefinition = ArrayUtils.filterKeyDeburr(['definition']);
@@ -102,34 +102,28 @@ const ConceptSearchList = ({
 				/>
 				<div className="row form-group">
 					<div className="col-md-12">
-						<input
+						<TextInput
 							value={label}
 							onChange={(e) => handleChange('label', e.target.value)}
-							type="text"
 							placeholder={D.searchLabelPlaceholder}
-							className="form-control"
 						/>
 					</div>
 				</div>
 				<div className="row form-group">
 					<div className="col-md-12">
-						<input
+						<TextInput
 							value={altLabel}
 							onChange={(e) => handleChange('altLabel', e.target.value)}
-							type="text"
 							placeholder={D.searchAltLabelPlaceholder}
-							className="form-control"
 						/>
 					</div>
 				</div>
 				<div className="row form-group">
 					<div className="col-md-12">
-						<input
+						<TextInput
 							value={definition}
 							onChange={(e) => handleChange('definition', e.target.value)}
-							type="text"
 							placeholder={D.searchDefinitionPlaceholder}
-							className="form-control"
 						/>
 					</div>
 				</div>

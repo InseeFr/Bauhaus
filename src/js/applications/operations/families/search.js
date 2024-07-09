@@ -10,6 +10,7 @@ import {
 	useUrlQueryParameters,
 } from 'js/utils';
 import { Loading } from 'js/new-architecture/components/loading/loading';
+import { TextInput } from '../../../new-architecture/components/form/input';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 
@@ -41,11 +42,9 @@ const SearchFormList = ({ data }) => {
 				<div className="col-md-12">
 					<label className="w-100">
 						{D.labelTitle}
-						<input
+						<TextInput
 							value={prefLabelLg1}
 							onChange={(e) => handleChange('prefLabelLg1', e.target.value)}
-							type="text"
-							className="form-control"
 						/>
 					</label>
 				</div>

@@ -14,6 +14,7 @@ import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
 import { Loading } from 'js/new-architecture/components/loading/loading';
 import { Column } from '../../../../new-architecture/components/layout';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const filterId = ArrayUtils.filterKeyDeburr(['id']);
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
@@ -71,11 +72,9 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
 					<div className="col-md-12">
 						<label className="w-100">
 							{D.idTitle}
-							<input
+							<TextInput
 								value={id}
 								onChange={(e) => handleChange('id', e.target.value)}
-								type="text"
-								className="form-control"
 							/>
 						</label>
 					</div>
@@ -84,11 +83,9 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
 					<div className="col-md-12">
 						<label className="w-100">
 							{D.labelTitle}
-							<input
+							<TextInput
 								value={labelLg1}
 								onChange={(e) => handleChange('labelLg1', e.target.value)}
-								type="text"
-								className="form-control"
 							/>
 						</label>
 					</div>
@@ -135,11 +132,9 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
 					<div className="col-md-12">
 						<label className="w-100">
 							{D.idTitle}
-							<input
+							<TextInput
 								value={code}
 								onChange={(e) => handleChange('code', e.target.value)}
-								type="text"
-								className="form-control"
 							/>
 						</label>
 					</div>
@@ -148,11 +143,9 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
 					<div className="col-md-12">
 						<label className="w-100">
 							{D.labelTitle}
-							<input
+							<TextInput
 								value={codeLabel}
 								onChange={(e) => handleChange('codeLabel', e.target.value)}
-								type="text"
-								className="form-control"
 							/>
 						</label>
 					</div>
