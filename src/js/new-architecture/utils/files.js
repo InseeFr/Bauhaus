@@ -8,7 +8,6 @@ export const getContentDisposition = (disposition) => {
 };
 
 export const saveFileFromHttpResponse = (response) => {
-	response.headers.forEach(console.log);
 	const fileName = getContentDisposition(
 		response.headers.get('Content-Disposition')
 	);

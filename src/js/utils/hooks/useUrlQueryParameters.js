@@ -19,7 +19,6 @@ export default (defaultValue) => {
 	const [search, setSearch] = useState(computeFromUrl(defaultValue));
 
 	const handleChange = (property, stateChange) => {
-		console.log({ property, stateChange });
 		const newForm = {
 			...search,
 			[property]: stateChange,
