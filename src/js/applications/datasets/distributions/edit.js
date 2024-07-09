@@ -25,6 +25,7 @@ import { default as ReactSelect } from 'react-select';
 import D from '../../../i18n/build-dictionary';
 import { useDatasetsForDistributions, useDistribution } from '../hooks';
 import { validate } from './validation';
+import { TextInput } from '../../../new-architecture/components/form/input';
 
 export const DistributionEdit = (props) => {
 	const { id } = useParams();
@@ -145,9 +146,7 @@ export const DistributionEdit = (props) => {
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg1">{D1.title}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg1"
 							value={editingDistribution.labelLg1}
 							onChange={(e) => {
@@ -167,9 +166,7 @@ export const DistributionEdit = (props) => {
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg2">{D2.title}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg2"
 							value={editingDistribution.labelLg2}
 							onChange={(e) => {
@@ -217,9 +214,7 @@ export const DistributionEdit = (props) => {
 				<Row>
 					<div className="col-md-12 form-group">
 						<label htmlFor="format">{D1.formatTitle}</label>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="format"
 							value={editingDistribution.format}
 							onChange={(e) =>

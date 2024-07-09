@@ -3,6 +3,7 @@ import InputRmes from 'js/applications/shared/input-rmes';
 import { fields as generalFields } from 'js/utils/collections/general';
 import { RequiredIcon, Row } from 'js/utils';
 import CreatorsInput from 'js/components/creators-input';
+import { TextInput } from '../../../new-architecture/components/form/input';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {
@@ -70,12 +71,7 @@ function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 			</div>
 			<div className="form-group">
 				<label>{D1.contributorTitle}</label>
-				<input
-					type="text"
-					className="form-control"
-					defaultValue={contributor}
-					disabled
-				/>
+				<TextInput defaultValue={contributor} disabled />
 			</div>
 			<Row>
 				<InputRmes

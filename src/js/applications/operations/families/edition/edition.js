@@ -20,6 +20,7 @@ import {
 import { validate } from './validation';
 import D from '../../../../i18n/build-dictionary';
 import api from '../../../../remote-api/operations-api';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -132,9 +133,7 @@ class OperationsFamilyEdition extends Component {
 					<Row>
 						<div className="col-md-6 form-group">
 							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="prefLabelLg1"
 								value={this.state.family.prefLabelLg1}
 								onChange={this.onChange}
@@ -154,9 +153,7 @@ class OperationsFamilyEdition extends Component {
 						</div>
 						<div className="col-md-6 form-group">
 							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="prefLabelLg2"
 								value={family.prefLabelLg2}
 								onChange={this.onChange}
@@ -178,9 +175,7 @@ class OperationsFamilyEdition extends Component {
 					<Row>
 						<div className="col-md-6 form-group">
 							<label htmlFor="themeLg1">{D1.theme}</label>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="themeLg1"
 								value={family.themeLg1}
 								onChange={this.onChange}
@@ -188,9 +183,7 @@ class OperationsFamilyEdition extends Component {
 						</div>
 						<div className="col-md-6 form-group">
 							<label htmlFor="themeLg2">{D2.theme}</label>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="themeLg2"
 								value={family.themeLg2}
 								onChange={this.onChange}

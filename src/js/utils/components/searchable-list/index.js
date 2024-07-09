@@ -3,6 +3,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import Pagination from '../pagination';
 import { filterKeyDeburr, nbResults } from '../../utils/array-utils';
 import D from '../../i18n/build-dictionary';
+import { TextInput } from '../../../new-architecture/components/form/input';
 
 const useUrlQueryParameter = (key, defaultValue = '') => {
 	const history = useHistory();
@@ -64,15 +65,13 @@ const SearchableList = ({
 		<div className={`${colSize} ${colOffset}`}>
 			<div className="row form-group">
 				<div className="col-md-12">
-					<input
+					<TextInput
 						value={input}
 						onChange={(e) => {
 							setInput(e.target.value);
 							handleSearch(e.target.value);
 						}}
-						type="text"
 						placeholder={D.searchLabelPlaceholder || placeholder}
-						className="form-control"
 						aria-label={D.search}
 						autoFocus={autoFocus}
 					/>

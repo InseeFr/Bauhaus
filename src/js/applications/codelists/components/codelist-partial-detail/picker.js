@@ -11,6 +11,7 @@ import {
 } from '@inseefr/wilco';
 import '../codelist-detail/edit.scss';
 import { Row } from '../../../../utils';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const Picker = ({
 	panelTitle,
@@ -79,12 +80,10 @@ const Picker = ({
 					<Panel title={panelTitle}>{addedElements}</Panel>
 				</div>
 				<div className="col-md-6 text-center">
-					<input
+					<TextInput
 						value={searchLabel}
 						onChange={(e) => setSearchLabel(e.target.value)}
-						type="text"
 						placeholder={D.searchLabelPlaceholder}
-						className="form-control"
 					/>
 					<Pagination itemEls={toAddElements} itemsPerPage="10" />
 				</div>

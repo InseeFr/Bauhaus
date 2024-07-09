@@ -23,6 +23,7 @@ import { CodesCollapsiblePanel } from './codes-panel';
 import { useSelector } from 'react-redux';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const defaultCodelist = {
 	created: dayjs(),
@@ -109,9 +110,7 @@ export const DumbCodelistDetailEdit = ({
 						<LabelRequired htmlFor="lastListUriSegment">
 							{D1.lastListUriSegmentTitle}
 						</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="lastListUriSegment"
 							name="lastListUriSegment"
 							onChange={handleChange}
@@ -135,9 +134,7 @@ export const DumbCodelistDetailEdit = ({
 						<LabelRequired htmlFor="lastCodeUriSegment">
 							{D1.lastCodeUriSegmentTitle}
 						</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="lastCodeUriSegment"
 							name="lastCodeUriSegment"
 							onChange={handleChange}
@@ -161,9 +158,7 @@ export const DumbCodelistDetailEdit = ({
 						<LabelRequired htmlFor="lastClassUriSegment">
 							{D1.lastClassUriSegmentTitle}
 						</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="lastClassUriSegment"
 							name="lastClassUriSegment"
 							onChange={handleChange}
@@ -185,9 +180,7 @@ export const DumbCodelistDetailEdit = ({
 				<Row>
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="id">{D1.idTitle}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="id"
 							name="id"
 							value={codelist.id || ''}
@@ -206,9 +199,7 @@ export const DumbCodelistDetailEdit = ({
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg1">{D1.labelTitle}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg1"
 							name="labelLg1"
 							onChange={handleChange}
@@ -225,9 +216,7 @@ export const DumbCodelistDetailEdit = ({
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg2">{D2.labelTitle}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg2"
 							name="labelLg2"
 							onChange={handleChange}
@@ -296,7 +285,6 @@ export const DumbCodelistDetailEdit = ({
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
 						<textarea
-							type="text"
 							value={codelist.descriptionLg1}
 							className="form-control"
 							id="descriptionLg1"
@@ -307,7 +295,6 @@ export const DumbCodelistDetailEdit = ({
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
 						<textarea
-							type="text"
 							value={codelist.descriptionLg2}
 							className="form-control"
 							id="descriptionLg2"

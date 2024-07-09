@@ -23,6 +23,7 @@ import 'react-select/dist/react-select.css';
 import { validate } from './validation';
 import { ContributorsInput } from '../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
+import { TextInput } from '../../../new-architecture/components/form/input';
 
 const isRequiredBys = [
 	'Melodi-Chargement',
@@ -135,9 +136,7 @@ const Edition = ({ creation, initialStructure }) => {
 			)}
 			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 			<LabelRequired htmlFor="identifiant">{D1.idTitle}</LabelRequired>
-			<input
-				type="text"
-				className="form-control"
+			<TextInput
 				id="identifiant"
 				value={identifiant}
 				onChange={(e) => onChange('identifiant', e.target.value)}
@@ -155,9 +154,7 @@ const Edition = ({ creation, initialStructure }) => {
 			<Row>
 				<div className="col-md-6">
 					<LabelRequired htmlFor="labelLg1">{D1.labelTitle}</LabelRequired>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="labelLg1"
 						value={labelLg1}
 						onChange={(e) => onChange('labelLg1', e.target.value)}
@@ -173,9 +170,7 @@ const Edition = ({ creation, initialStructure }) => {
 				</div>
 				<div className="col-md-6">
 					<LabelRequired htmlFor="labelLg1">{D2.labelTitle}</LabelRequired>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="labelLg2"
 						value={labelLg2}
 						onChange={(e) => onChange('labelLg2', e.target.value)}

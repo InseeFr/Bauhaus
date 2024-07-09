@@ -8,6 +8,7 @@ import {
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
 import Api from '../../apis/structure-api';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 export const ComponentSpecificationForm = ({
 	structureComponents,
@@ -32,9 +33,7 @@ export const ComponentSpecificationForm = ({
 			<div className="row">
 				<div className="col-md-12">
 					<label htmlFor="component-specification-notation">{D.idTitle}</label>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						value={component.notation}
 						name="component-specification-notation"
 						id="component-specification-notation"
@@ -51,9 +50,7 @@ export const ComponentSpecificationForm = ({
 			<div className="row">
 				<div className="col-md-6">
 					<label htmlFor="component-specification-labelLg1">{D1.label}</label>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						value={component.labelLg1}
 						name="component-specification-labelLg1"
 						id="component-specification-labelLg1"
@@ -68,9 +65,7 @@ export const ComponentSpecificationForm = ({
 				</div>
 				<div className="col-md-6">
 					<label htmlFor="component-specification-labelLg2">{D2.label}</label>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						value={component.labelLg2}
 						name="component-specification-labelLg2"
 						id="component-specification-labelLg2"

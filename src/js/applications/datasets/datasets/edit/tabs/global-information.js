@@ -8,6 +8,7 @@ import { LabelRequired } from '@inseefr/wilco';
 import { ClientSideError, Row } from 'js/utils';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
 import { CL_FREQ } from '../../../../../actions/constants/codeList';
+import { TextInput } from '../../../../../new-architecture/components/form/input';
 
 const GlobalInformationTab = ({
 	editingDataset,
@@ -34,9 +35,7 @@ const GlobalInformationTab = ({
 			<Row>
 				<div className="col-md-6 form-group">
 					<LabelRequired htmlFor="labelLg1">{D1.title}</LabelRequired>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="labelLg1"
 						value={editingDataset.labelLg1}
 						onChange={(e) => {
@@ -56,9 +55,7 @@ const GlobalInformationTab = ({
 				</div>
 				<div className="col-md-6 form-group">
 					<LabelRequired htmlFor="labelLg2">{D2.title}</LabelRequired>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="labelLg2"
 						value={editingDataset.labelLg2}
 						onChange={(e) => {
@@ -80,9 +77,7 @@ const GlobalInformationTab = ({
 			<Row>
 				<div className="col-md-6 form-group">
 					<label htmlFor="subtitleLg1">{D1.datasetsSubtitle}</label>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="subtitleLg1"
 						value={editingDataset.subTitleLg1}
 						onChange={(e) => {
@@ -95,9 +90,7 @@ const GlobalInformationTab = ({
 				</div>
 				<div className="col-md-6 form-group">
 					<label htmlFor="subtitleLg2">{D2.datasetsSubtitle}</label>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="subtitleLg2"
 						value={editingDataset.subTitleLg2}
 						onChange={(e) => {
@@ -223,9 +216,7 @@ const GlobalInformationTab = ({
 			<Row>
 				<div className="col-md-6 form-group">
 					<label htmlFor="landingPageLg1">{D1.datasetsLandingPage}</label>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="landingPageLg1"
 						value={editingDataset.landingPageLg1}
 						onChange={(e) => {
@@ -238,9 +229,7 @@ const GlobalInformationTab = ({
 				</div>
 				<div className="col-md-6 form-group">
 					<label htmlFor="landingPageLg2">{D2.datasetsLandingPage}</label>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="landingPageLg2"
 						value={editingDataset.landingPageLg2}
 						onChange={(e) => {

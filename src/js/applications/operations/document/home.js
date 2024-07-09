@@ -15,6 +15,7 @@ import {
 	MasculineButton,
 } from 'js/utils';
 import { Link, useHistory, useLocation } from 'react-router-dom';
+import { TextInput } from '../../../new-architecture/components/form/input';
 
 const formatter = (content, label) => {
 	const extraInformations = [];
@@ -79,15 +80,13 @@ const SearchableList = ({
 		<>
 			<div className="row form-group">
 				<div className="col-md-12">
-					<input
+					<TextInput
 						value={search}
 						onChange={(e) => {
 							handleSearch(e.target.value);
 							setSearch(e.target.value);
 						}}
-						type="text"
 						placeholder={D.searchLabelPlaceholder || placeholder}
-						className="form-control"
 						aria-label={D.search}
 						autoFocus={autoFocus}
 					/>

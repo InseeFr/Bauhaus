@@ -33,7 +33,6 @@ export default (defaultValue) => {
 	};
 
 	const setValuesToQueryParameters = (values) => {
-		console.log({ values });
 		setSearch(values);
 		const searchParams = new URLSearchParams(window.location.search);
 		Object.entries(values).forEach(([key, value]) => {

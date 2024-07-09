@@ -25,6 +25,7 @@ import {
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import api from 'js/remote-api/api';
 import Modal from 'react-modal';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const initDocument = {
 	labelLg1: '',
@@ -264,9 +265,7 @@ const OperationsDocumentationEdition = (props) => {
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg1"
 							value={document.labelLg1}
 							onChange={onChange}
@@ -282,9 +281,7 @@ const OperationsDocumentationEdition = (props) => {
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg2"
 							value={document.labelLg2}
 							onChange={onChange}
@@ -323,9 +320,7 @@ const OperationsDocumentationEdition = (props) => {
 					<Row>
 						<div className="col-md-12 form-group">
 							<LabelRequired htmlFor="url">{D1.titleLink}</LabelRequired>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="url"
 								value={document.url}
 								onChange={onChange}

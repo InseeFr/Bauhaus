@@ -18,6 +18,7 @@ import {
 	ClientSideError,
 } from 'js/utils';
 import api from '../../../../remote-api/operations-api';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const defaultOperation = {
 	prefLabelLg1: '',
@@ -168,9 +169,7 @@ class OperationsOperationEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-6">
 							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="prefLabelLg1"
 								value={operation.prefLabelLg1}
 								onChange={this.onChange}
@@ -190,9 +189,7 @@ class OperationsOperationEdition extends Component {
 						</div>
 						<div className="form-group col-md-6">
 							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="prefLabelLg2"
 								value={operation.prefLabelLg2}
 								onChange={this.onChange}
@@ -214,9 +211,7 @@ class OperationsOperationEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-6">
 							<label htmlFor="altLabelLg1">{D1.altLabel}</label>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="altLabelLg1"
 								value={operation.altLabelLg1}
 								onChange={this.onChange}
@@ -224,9 +219,7 @@ class OperationsOperationEdition extends Component {
 						</div>
 						<div className="form-group col-md-6">
 							<label htmlFor="altLabelLg2">{D2.altLabel}</label>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="altLabelLg2"
 								value={operation.altLabelLg2}
 								onChange={this.onChange}

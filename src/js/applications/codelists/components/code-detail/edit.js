@@ -11,6 +11,7 @@ import { validateCode } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { emptyCode } from './empty-code';
 import './edit.scss';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const DumbCodeDetailEdit = ({
 	code: initialCode,
@@ -115,9 +116,7 @@ const DumbCodeDetailEdit = ({
 				<Row>
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="code">{D.idTitle}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="code"
 							name="code"
 							value={code.code || ''}
@@ -137,9 +136,7 @@ const DumbCodeDetailEdit = ({
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg1">{D1.codeLabel}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg1"
 							name="labelLg1"
 							value={code.labelLg1 || ''}
@@ -156,9 +153,7 @@ const DumbCodeDetailEdit = ({
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg2">{D2.codeLabel}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg2"
 							name="labelLg2"
 							value={code.labelLg2 || ''}
@@ -178,10 +173,8 @@ const DumbCodeDetailEdit = ({
 				<Row>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D1.descriptionTitle}</label>
-						<input
-							type="text"
+						<TextInput
 							value={code.descriptionLg1 || ''}
-							className="form-control"
 							id="descriptionLg1"
 							name="descriptionLg1"
 							onChange={handleChange}
@@ -189,10 +182,8 @@ const DumbCodeDetailEdit = ({
 					</div>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
-						<input
-							type="text"
+						<TextInput
 							value={code.descriptionLg2 || ''}
-							className="form-control"
 							id="descriptionLg2"
 							name="descriptionLg2"
 							onChange={handleChange}

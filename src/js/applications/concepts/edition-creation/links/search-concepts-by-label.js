@@ -1,15 +1,14 @@
 import { Pagination } from '@inseefr/wilco';
 import D from 'js/i18n';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const SearchConceptsByLabel = ({ searchLabel, handleSearch, hitEls }) => {
 	return (
 		<div>
-			<input
+			<TextInput
 				value={searchLabel}
 				onChange={(e) => handleSearch(e.target.value)}
-				type="text"
 				placeholder={D.searchLabelPlaceholder}
-				className="form-control"
 			/>
 			<Pagination itemEls={hitEls} itemsPerPage="10" />
 		</div>
