@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { PageTitle } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
 import MembersEdition from 'js/new-architecture/modules-concepts/collections/edition/members';

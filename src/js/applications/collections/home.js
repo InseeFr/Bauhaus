@@ -1,4 +1,4 @@
-import { PageTitle } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
 import D from 'js/i18n';
 import { Row, SearchableList, useTitle } from 'js/utils';
 import { Menu } from './menu';

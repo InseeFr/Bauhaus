@@ -1,4 +1,5 @@
-import { PageTitle, PageSubtitle } from '@inseefr/wilco';
+import { PageSubtitle } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';

@@ -1,4 +1,4 @@
-import { PageTitle } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
 import Controls from './controls';
 import TabsRmes from 'js/applications/shared/tabs-rmes/tabs-rmes';
 import ConceptsSummary from './concepts/summary';

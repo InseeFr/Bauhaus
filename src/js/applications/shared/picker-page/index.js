@@ -2,7 +2,6 @@ import { useState } from 'react';
 import D from 'js/i18n';
 import { ErrorBloc } from 'js/utils';
 import {
-	PageTitle,
 	ExportButton,
 	Pagination,
 	Panel,
@@ -13,7 +12,7 @@ import {
 	filterDeburr,
 	ReturnButton,
 } from '@inseefr/wilco';
-import { TextInput } from '../../../new-architecture/components/form/input';
+import { TextInput, PageTitle } from '../../../new-architecture/components';
 
 const trackItems = (items) => {
 	return (

@@ -1,4 +1,6 @@
-import { PageTitle, Button, VerticalMenu } from '@inseefr/wilco';
+import { Button, VerticalMenu } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
+
 import { Auth, SearchableList } from 'js/utils';
 import D from 'js/i18n';
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { PageTitle, VerticalMenu } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { VerticalMenu } from '@inseefr/wilco';
+import { PageTitle, Loading } from 'js/new-architecture/components';
 
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';

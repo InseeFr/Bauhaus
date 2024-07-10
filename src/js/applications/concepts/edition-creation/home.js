@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import { PageTitle, goBack } from '@inseefr/wilco';
+import { goBack } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
+
 import ConceptCreateControl from './controls';
 import GeneralEdition from './general';
 import NotesEdition from './notes';

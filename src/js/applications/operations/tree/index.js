@@ -4,7 +4,9 @@ import 'react-sortable-tree/style.css';
 import { Link } from 'react-router-dom';
 import api from 'js/remote-api/operations-api';
 import D from 'js/i18n';
-import { PageTitle, ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
+
 import { useGoBack } from 'js/hooks/hooks';
 
 import './tree.scss';

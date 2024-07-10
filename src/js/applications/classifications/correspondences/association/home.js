@@ -1,4 +1,5 @@
-import { PageTitle, Note } from '@inseefr/wilco';
+import { Note } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';

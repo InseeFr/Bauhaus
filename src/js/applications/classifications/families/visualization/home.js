@@ -1,4 +1,4 @@
-import { PageTitle } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
 import Controls from './controls';
 import Members from './members';
 import { CheckSecondLang, useTitle } from 'js/utils';

@@ -1,4 +1,4 @@
-import { PageTitle } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
 import Controls from './controls';
 import DnDTree from 'js/applications/shared/tree/dnd';
 import D from 'js/i18n';

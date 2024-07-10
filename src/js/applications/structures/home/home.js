@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PageTitle } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
 import StructureAPI from '../apis/structure-api';
 import D from 'js/i18n';
 import { useTitle, SearchableList } from 'js/utils';
