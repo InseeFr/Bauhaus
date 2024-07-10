@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Input, LabelRequired } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { LabelRequired } from '@inseefr/wilco';
+import { Loading, TextInput } from 'js/new-architecture/components';
 
 import Controls from './controls';
 import Components from './components';
@@ -23,6 +23,7 @@ import 'react-select/dist/react-select.css';
 import { validate } from './validation';
 import { ContributorsInput } from '../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
+
 import { TextInput } from '../../../new-architecture/components';
 
 const isRequiredBys = [
@@ -30,6 +31,7 @@ const isRequiredBys = [
 	'Melodi-Diffusion',
 	'Melodi-Diffusion-SDMX',
 ];
+
 
 const defaultDSD = {
 	identifiant: '',
@@ -47,10 +49,6 @@ const Edition = ({ creation, initialStructure }) => {
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
-	const isRequiredBysOptions = isRequiredBys.map((value) => ({
-		label: value,
-		value,
-	}));
 
 	const { lg1, lg2 } = useContext(AppContext);
 
@@ -187,21 +185,23 @@ const Edition = ({ creation, initialStructure }) => {
 			</Row>
 			<Row>
 				<div className="col-md-6">
-					<Input
+					<label htmlFor="descriptionLg1">
+						{D1.descriptionTitle} ({lg1})
+					</label>
+					<TextInput
 						id="descriptionLg1"
-						label={`${D1.descriptionTitle} (${lg1})`}
 						value={descriptionLg1}
 						onChange={(e) => onChange('descriptionLg1', e.target.value)}
-						lang={lg1}
 					/>
 				</div>
 				<div className="col-md-6">
-					<Input
+					<label htmlFor="descriptionLg2">
+						{D1.descriptionTitle} ({lg2})
+					</label>
+					<TextInput
 						id="descriptionLg2"
-						label={`${D1.descriptionTitle} (${lg2})`}
 						value={descriptionLg2}
 						onChange={(e) => onChange('descriptionLg2', e.target.value)}
-						lang={lg2}
 					/>
 				</div>
 			</Row>
@@ -230,18 +230,6 @@ const Edition = ({ creation, initialStructure }) => {
 				/>
 			</div>
 
-			<div className="form-group">
-				<label>{D1.processusTitle}</label>
-				<SelectRmes
-					placeholder={D1.processusTitle}
-					value={isRequiredBysOptions.find(
-						({ value }) => value === isRequiredBy
-					)}
-					options={isRequiredBysOptions}
-					onChange={(value) => onChange('isRequiredBy', value)}
-					searchable
-				/>
-			</div>
 			<Components
 				creation={creation}
 				componentDefinitions={componentDefinitions}

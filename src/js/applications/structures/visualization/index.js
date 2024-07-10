@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading, PublicationFemale } from 'js/new-architecture/components';
 import { useSelector } from 'react-redux';
 import {
 	CheckSecondLang,
@@ -19,7 +19,6 @@ import StructureAPI from '../apis/structure-api';
 import MainDictionary from 'js/i18n/build-dictionary';
 import { DisseminationStatusVisualisation } from '../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../utils/contributors/contributors';
-import { PublicationFemale } from '../../../new-architecture/components';
 
 export const StructureView = ({
 	secondLang,
@@ -75,9 +74,6 @@ export const StructureView = ({
 								<DisseminationStatusVisualisation
 									disseminationStatus={structure.disseminationStatus}
 								/>
-							</li>
-							<li>
-								{D1.processusTitle} : {structure.isRequiredBy}
 							</li>
 						</ul>
 					}
