@@ -1,6 +1,5 @@
 import D from 'js/new-architecture/i18n';
 
-console.log({ D });
 export const UNPUBLISHED = 'Unpublished';
 export const MODIFIED = 'Modified';
 export const VALIDATED = 'Validated';
