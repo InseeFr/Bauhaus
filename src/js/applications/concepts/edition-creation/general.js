@@ -6,7 +6,7 @@ import { fields as generalFields } from 'js/utils/concepts/general';
 import { Select, LabelRequired } from '@inseefr/wilco';
 import { RequiredIcon, ClientSideError } from 'js/utils';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
-import { TextInput } from '../../../new-architecture/components/form/input';
+import { TextInput } from '../../../new-architecture/components';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {

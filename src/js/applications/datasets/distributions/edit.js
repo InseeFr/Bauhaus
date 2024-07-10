@@ -25,7 +25,7 @@ import { default as ReactSelect } from 'react-select';
 import D from '../../../i18n/build-dictionary';
 import { useDatasetsForDistributions, useDistribution } from '../hooks';
 import { validate } from './validation';
-import { TextInput } from '../../../new-architecture/components/form/input';
+import { TextInput } from '../../../new-architecture/components';
 
 export const DistributionEdit = (props) => {
 	const { id } = useParams();

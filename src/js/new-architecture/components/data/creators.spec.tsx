@@ -31,10 +31,8 @@ describe('Organizations component', () => {
 	});
 
 	it('renders nothing when creators list is empty', () => {
-		const creators: string[] = [];
-
 		const { container } = render(
-			<Organizations creators={creators} organizations={organizations} />
+			<Organizations creators={[]} organizations={organizations} />
 		);
 
 		expect(container.querySelector('li')).toBeNull();

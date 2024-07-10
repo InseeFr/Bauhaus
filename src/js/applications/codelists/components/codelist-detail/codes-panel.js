@@ -10,7 +10,7 @@ import './codes-panel.scss';
 import { validateCode } from '../../utils';
 import { CodesPanelAddButton } from './codes-panel-add-button';
 import { CodeSlidingPanelMenu } from './code-sliding-panel-menu';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import { TextInput } from '../../../../new-architecture/components';
 const CodeSlidingPanel = ({
 	code: initialCode,
 	handleBack,

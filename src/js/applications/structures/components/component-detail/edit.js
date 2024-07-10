@@ -21,8 +21,6 @@ import { validate } from '../edition/validation';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
 	MEASURE_PROPERTY_TYPE,
-} from '../../utils/constants/dsd-components';
-import {
 	XSD_CODE_LIST,
 	XSD_DATE,
 	XSD_DATE_TIME,
@@ -31,7 +29,8 @@ import {
 	XSD_STRING,
 	XSD_TYPES,
 	IGEO_PAYS_OU_TERRITOIRE,
-} from '../../utils/constants/xsd';
+} from '../../utils/constants';
+
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
@@ -42,7 +41,7 @@ import MainDictionary from 'js/i18n/build-dictionary';
 import { convertToArrayIfDefined } from '../../../../utils/array-utils';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import { TextInput } from '../../../../new-architecture/components';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -742,13 +741,7 @@ const AttributeCodeList = ({
 	);
 };
 
-const AttributeValue = ({
-	onChange,
-	value,
-	selectedAttribute,
-	codesLists,
-	attributeId,
-}) => {
+const AttributeValue = ({ onChange, value, codesLists, attributeId }) => {
 	const [attribute, setAttribute] = useState();
 	useEffect(() => {
 		api.getMutualizedComponent(attributeId).then((body) => setAttribute(body));

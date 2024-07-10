@@ -20,7 +20,7 @@ import {
 import { validate } from './validation';
 import D from '../../../../i18n/build-dictionary';
 import api from '../../../../remote-api/operations-api';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import { TextInput } from '../../../../new-architecture/components';
 
 const defaultFamily = {
 	prefLabelLg1: '',

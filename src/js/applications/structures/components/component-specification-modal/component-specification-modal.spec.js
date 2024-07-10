@@ -9,7 +9,6 @@ describe('<ComponentSpecificationModal />', () => {
 		required: true,
 		attachment: ['http://purl.org/linked-data/cube#DataSet'],
 	};
-	const structureComponents = [];
 
 	it('should call the onClose prop', () => {
 		const onClose = jest.fn();
@@ -17,7 +16,7 @@ describe('<ComponentSpecificationModal />', () => {
 			<ComponentSpecificationModalBody
 				specification={specification}
 				selectedComponent={{ component: {} }}
-				structureComponents={structureComponents}
+				structureComponents={[]}
 				onClose={onClose}
 			/>
 		);
@@ -30,7 +29,7 @@ describe('<ComponentSpecificationModal />', () => {
 			<ComponentSpecificationModalBody
 				specification={specification}
 				selectedComponent={{ component: {} }}
-				structureComponents={structureComponents}
+				structureComponents={[]}
 				onSave={onSave}
 			/>
 		);

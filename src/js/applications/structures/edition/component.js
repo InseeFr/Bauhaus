@@ -23,7 +23,7 @@ import 'react-select/dist/react-select.css';
 import { validate } from './validation';
 import { ContributorsInput } from '../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
-import { TextInput } from '../../../new-architecture/components/form/input';
+import { TextInput } from '../../../new-architecture/components';
 
 const isRequiredBys = [
 	'Melodi-Chargement',
