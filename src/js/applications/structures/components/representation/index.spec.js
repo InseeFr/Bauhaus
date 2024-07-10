@@ -7,13 +7,12 @@ describe('Representation', () => {
 		const component = {
 			range: XSD_STRING,
 		};
-		const codesLists = [];
 		const handleCodesListDetail = jest.fn();
 
 		render(
 			<Representation
 				component={component}
-				codesLists={codesLists}
+				codesLists={[]}
 				handleCodesListDetail={handleCodesListDetail}
 			/>
 		);

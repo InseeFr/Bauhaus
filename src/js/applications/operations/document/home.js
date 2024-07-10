@@ -1,10 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
-import {
-	PageTitle,
-	VerticalMenu,
-	filterKeyDeburr,
-	nbResults,
-} from '@inseefr/wilco';
+import { VerticalMenu, filterKeyDeburr, nbResults } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
+
 import D from 'js/i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
 import {

@@ -25,7 +25,7 @@ import {
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
 import api from 'js/remote-api/api';
 import Modal from 'react-modal';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import { TextInput } from '../../../../new-architecture/components';
 
 const initDocument = {
 	labelLg1: '',

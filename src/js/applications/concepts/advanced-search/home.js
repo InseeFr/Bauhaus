@@ -1,5 +1,7 @@
 import { Link, useHistory } from 'react-router-dom';
-import { PageTitle, NumberResult } from '@inseefr/wilco';
+import { NumberResult } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
+
 import Select from 'react-select';
 import Controls from './controls';
 import DatePickerRmes from 'js/applications/shared/date-picker-rmes';

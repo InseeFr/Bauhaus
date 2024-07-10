@@ -1,4 +1,4 @@
-import { PageTitle } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
 import Controls from './controls';
 import ConceptGeneral from '../visualization/general';
 import CompareNotes from 'js/applications/shared/note-compare';

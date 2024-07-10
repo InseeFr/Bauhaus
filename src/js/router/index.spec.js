@@ -15,12 +15,7 @@ jest.mock('react-router-dom', () => ({
 jest.mock('js/utils/env', () => ({
 	getEnvVar: (key) => (key === 'NAME' ? 'TestApp' : '1.0.0'),
 }));
-jest.mock('js/new-architecture/i18n', () => ({
-	authentication: {
-		logout: 'Logout',
-		title: 'Admin Page',
-	},
-}));
+
 jest.mock('js/utils');
 jest.mock('../utils/auth/open-id-connect-auth/token-utils', () => ({
 	removeToken: jest.fn(),

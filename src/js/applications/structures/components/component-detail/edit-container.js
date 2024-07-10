@@ -4,7 +4,7 @@ import { Loading } from 'js/new-architecture/components/loading/loading';
 import { goBack, goBackOrReplace } from '@inseefr/wilco';
 import { DumbComponentDetailEdit } from './edit';
 import api from '../../apis/structure-api';
-import { getFormattedCodeList } from '../../apis/code-list';
+import { getFormattedCodeList } from '../../apis';
 import { ConceptsAPI, Stores } from 'js/utils';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';

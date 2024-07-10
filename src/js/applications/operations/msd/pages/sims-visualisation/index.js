@@ -147,8 +147,8 @@ export default function SimsVisualisation({
 		setModalOpened(false);
 	};
 	const handleYes = () => {
-		api.deleteSims(sims).finally(async () => {
-			await dispatch({ type: A.DELETE_SIMS_SUCCESS });
+		api.deleteSims(sims).finally(() => {
+			dispatch({ type: A.DELETE_SIMS_SUCCESS });
 			setModalOpened(false);
 			history.push(`/operations/series/${sims.idSeries}`);
 		});

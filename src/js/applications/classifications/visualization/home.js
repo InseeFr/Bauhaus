@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { PageSubtitle, PageTitle } from '@inseefr/wilco';
+import { PageSubtitle } from '@inseefr/wilco';
+import { PageTitle } from 'js/new-architecture/components';
 import Menu from './menu';
 import General from './general';
 import Notes from './notes';

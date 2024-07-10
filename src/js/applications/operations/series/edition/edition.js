@@ -24,7 +24,7 @@ import CreatorsInput from 'js/components/creators-input';
 
 import { isMandatoryField, validate } from './validation';
 import api from '../../../../remote-api/operations-api';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import { TextInput } from '../../../../new-architecture/components';
 
 const defaultSerie = {
 	id: '',

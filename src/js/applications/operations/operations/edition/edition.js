@@ -18,7 +18,7 @@ import {
 	ClientSideError,
 } from 'js/utils';
 import api from '../../../../remote-api/operations-api';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import { TextInput } from '../../../../new-architecture/components';
 
 const defaultOperation = {
 	prefLabelLg1: '',

@@ -30,7 +30,6 @@ import { DisseminationStatusVisualisation } from '../../../../utils/disseminatio
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
 import {
-	Creators,
 	Organization,
 	Organizations,
 } from '../../../../new-architecture/components/data/creators';

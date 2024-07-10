@@ -8,7 +8,7 @@ import { LabelRequired } from '@inseefr/wilco';
 import { ClientSideError, Row } from 'js/utils';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
 import { CL_FREQ } from '../../../../../actions/constants/codeList';
-import { TextInput } from '../../../../../new-architecture/components/form/input';
+import { TextInput } from '../../../../../new-architecture/components';
 
 const GlobalInformationTab = ({
 	editingDataset,

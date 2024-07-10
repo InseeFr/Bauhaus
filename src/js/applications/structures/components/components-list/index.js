@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import { PageTitle } from '@inseefr/wilco';
+import { PageTitle, Loading } from 'js/new-architecture/components';
 import './component-list.scss';
 import { FilterToggleButtons, useTitle, SearchableList } from 'js/utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';

@@ -23,7 +23,7 @@ import { CodesCollapsiblePanel } from './codes-panel';
 import { useSelector } from 'react-redux';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import { TextInput } from '../../../../new-architecture/components';
 
 const defaultCodelist = {
 	created: dayjs(),

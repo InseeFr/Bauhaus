@@ -1,6 +1,6 @@
 import { SearchFormList } from './search';
 import { render } from '@testing-library/react';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
