@@ -1,6 +1,6 @@
 {
 	"name": "bauhaus",
-	"version": "3.21.0",
+	"version": "3.22.0",
 	"description": "Web application for the management of concepts, classifications and other statistical objects",
 	"repository": {
 		"type": "git",
