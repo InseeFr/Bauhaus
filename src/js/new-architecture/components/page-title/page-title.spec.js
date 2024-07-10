@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import PageTitle from '.';
+import { PageTitle } from '.';
 
 describe('page-title', () => {
 	it('renders without crashing', () => {
