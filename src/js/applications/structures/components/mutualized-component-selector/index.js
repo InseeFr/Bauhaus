@@ -7,6 +7,7 @@ import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 
 import Representation from '../representation';
+import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,
@@ -41,7 +42,7 @@ export const MutualizedComponentsSelector = ({
 		type: typeUriToLabel(component.type),
 		mutualized:
 			!!component.validationState &&
-			component.validationState !== 'Unpublished' ? (
+			component.validationState !== UNPUBLISHED ? (
 				<span
 					className="glyphicon glyphicon-ok"
 					aria-label={D.mutualized}

@@ -159,18 +159,6 @@ const dictionary = {
 		fr: 'Provisoire, déjà publiée',
 		en: 'Temporary, already published',
 	},
-	statusUnpublishedM: {
-		fr: 'Provisoire, jamais publié',
-		en: 'Temporary, never published',
-	},
-	statusUnpublishedF: {
-		fr: 'Provisoire, jamais publiée',
-		en: 'Temporary, never published',
-	},
-	stampsPlaceholder: {
-		fr: 'Sélectionnez un timbre...',
-		en: 'Select stamp...',
-	},
 	disseminationStatusPlaceholder: {
 		fr: 'Sélectionnez un statut de diffusion...',
 		en: 'Select dissemination status...',

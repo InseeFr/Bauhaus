@@ -18,6 +18,7 @@ import D, { D1, D2 } from 'js/i18n';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../remote-api/classifications-api';
 import generalApi from '../../../remote-api/api';
+import { TextInput } from '../../../new-architecture/components/form/input';
 
 export const ClassificationEdition = () => {
 	const history = useHistory();
@@ -129,9 +130,7 @@ export const ClassificationEdition = () => {
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="prefLabelLg1"
 							{...register('prefLabelLg1', { required: D.requiredPrefLabel })}
 							defaultValue={classification.general.prefLabelLg1}
@@ -145,9 +144,7 @@ export const ClassificationEdition = () => {
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="prefLabelLg2"
 							{...register('prefLabelLg2', { required: D.requiredPrefLabel })}
 							defaultValue={classification.general.prefLabelLg2}
@@ -163,9 +160,7 @@ export const ClassificationEdition = () => {
 				<Row>
 					<div className="form-group col-md-6">
 						<label htmlFor="altLabelLg1">{D1.altLabel}</label>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="altLabelLg1"
 							{...register('altLabelLg1')}
 							defaultValue={classification.general.altLabelLg1}
@@ -173,9 +168,7 @@ export const ClassificationEdition = () => {
 					</div>
 					<div className="form-group col-md-6">
 						<label htmlFor="altLabelLg2">{D2.altLabel}</label>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="altLabelLg2"
 							{...register('altLabelLg2')}
 							defaultValue={classification.general.altLabelLg2}

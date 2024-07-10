@@ -24,6 +24,7 @@ import MainDictionary from 'js/i18n/build-dictionary';
 import { useSelector } from 'react-redux';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const defaultCodelist = {
 	created: dayjs(),
@@ -189,9 +190,7 @@ export const DumbCodelistPartialDetailEdit = ({
 				<Row>
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="id">{D1.idTitle}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="id"
 							name="id"
 							value={codelist.id || ''}
@@ -233,9 +232,7 @@ export const DumbCodelistPartialDetailEdit = ({
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg1">{D1.labelTitle}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg1"
 							name="labelLg1"
 							onChange={handleChange}
@@ -252,9 +249,7 @@ export const DumbCodelistPartialDetailEdit = ({
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg2">{D2.labelTitle}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg2"
 							name="labelLg2"
 							onChange={handleChange}

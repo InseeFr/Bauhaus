@@ -15,6 +15,7 @@ import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import useClassificationItem from '../hook';
 import { default as ReactSelect } from 'react-select';
 import { fetchingPreviousLevels } from '../client';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const titleMapping = {
 	definition: 'classificationsDefinition',
@@ -190,9 +191,7 @@ const ClassificationItemEdition = () => {
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="prefLabelLg1"
 							{...register('prefLabelLg1', { required: D.requiredPrefLabel })}
 							defaultValue={general.prefLabelLg1}
@@ -200,9 +199,7 @@ const ClassificationItemEdition = () => {
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="prefLabelLg2"
 							{...register('prefLabelLg2', { required: D.requiredPrefLabel })}
 							defaultValue={general.prefLabelLg2}
@@ -212,9 +209,7 @@ const ClassificationItemEdition = () => {
 				<Row>
 					<div className="form-group col-md-6">
 						<label htmlFor="altLabelLg1">{D1.altLabel}</label>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="altLabelLg1"
 							{...register('altLabelLg1')}
 							defaultValue={general.altLabelLg1}
@@ -222,9 +217,7 @@ const ClassificationItemEdition = () => {
 					</div>
 					<div className="form-group col-md-6">
 						<label htmlFor="altLabelLg2">{D2.altLabel}</label>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="altLabelLg2"
 							{...register('altLabelLg2')}
 							defaultValue={general.altLabelLg2}
@@ -260,9 +253,7 @@ const ClassificationItemEdition = () => {
 									<label htmlFor={'altLabelsLg1_' + length}>
 										{D1.classificationItemAltLabels(length)}
 									</label>
-									<input
-										type="text"
-										className="form-control"
+									<TextInput
 										id={'altLabelsLg1_' + length}
 										{...register('altLabelsLg1_' + length, {
 											maxLength: {
@@ -278,9 +269,7 @@ const ClassificationItemEdition = () => {
 										<label htmlFor={'altLabelsLg2_' + length}>
 											{D2.classificationItemAltLabels(length)}
 										</label>
-										<input
-											type="text"
-											className="form-control"
+										<TextInput
 											id={'altLabelsLg2_' + length}
 											{...register('altLabelsLg2_' + length, {
 												maxLength: {

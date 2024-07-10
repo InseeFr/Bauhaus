@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { Auth, RBACMock } from 'js/utils';
 import { ViewMenu } from './menu';
+import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 describe('Codes List View Menu', () => {
 	it('a user can only see the go back button', () => {
 		const codesList = { id: '1' };
@@ -51,7 +52,7 @@ describe('Codes List View Menu', () => {
 		const codesList = {
 			id: '1',
 			contributor: 'INSEE',
-			validationState: 'Unpublished',
+			validationState: UNPUBLISHED,
 		};
 
 		render(

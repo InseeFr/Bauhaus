@@ -6,6 +6,7 @@ import {
 	UpdateButton,
 } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
+import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 
 export const ViewMenu = ({
 	col,
@@ -35,7 +36,7 @@ export const ViewMenu = ({
 			{deletable &&
 				(isAdmin ||
 					(hasRightsBasedOnStamp &&
-						codelist.validationState === 'Unpublished')) && (
+						codelist.validationState === UNPUBLISHED)) && (
 					<DeleteButton action={handleDelete} col={col} />
 				)}
 

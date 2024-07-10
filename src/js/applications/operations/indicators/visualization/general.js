@@ -3,16 +3,11 @@ import { D1, D2 } from 'js/i18n';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
-import {
-	CreationUpdateItems,
-	HTMLUtils,
-	PublicationMale,
-	Row,
-	withTitle,
-} from 'js/utils';
+import { CreationUpdateItems, HTMLUtils, Row, withTitle } from 'js/utils';
 import PublishersView from 'js/applications/operations/components/publishers-view';
 import CreatorsView from 'js/applications/operations/components/creators-view';
 import D from '../../../../i18n/build-dictionary';
+import { PublicationMale } from '../../../../new-architecture/components';
 
 function DisplayMultiLangNote({
 	value1,

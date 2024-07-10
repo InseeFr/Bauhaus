@@ -12,147 +12,121 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	AbstractAdvancedSearchComponent,
 	Stores,
 	withTitle,
 	useUrlQueryParameters,
 } from 'js/utils';
 import { useSelector } from 'react-redux';
+import { Column } from '../../../../new-architecture/components/layout';
+import { TextInput } from '../../../../new-architecture/components/form/input';
+import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['concept']);
 const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
 const filterValidationState = ArrayUtils.filterKeyDeburr(['validationState']);
 
-const fields = ['labelLg1', 'concept', 'creator', 'validationState'];
-
-const validateStateOptions = [
-	{ value: 'Unpublished', label: D.statusUnpublishedM },
-	{ value: 'Modified', label: D.statusModifiedM },
-	{ value: 'Validated', label: D.statusValidatedM },
-];
-
-const defaultState = {
+const defaultFormState = {
 	labelLg1: '',
 	concept: '',
 	creator: '',
 	validationState: '',
 };
 
-export class SearchFormList extends AbstractAdvancedSearchComponent {
-	constructor(props) {
-		super(props, {
-			...defaultState,
-			...props.search,
-		});
-	}
+export const SearchFormList = ({ concepts, stampListOptions, data }) => {
+	const [form, _setForm, reset, handleChange] =
+		useUrlQueryParameters(defaultFormState);
 
-	handlers = this.handleChange(fields, (newState) => {
-		const { labelLg1, concept, creator, validationState } = newState;
-		this.props.setSearch({ labelLg1, concept, creator, validationState });
-	});
+	const { labelLg1, concept, creator, validationState } = form;
 
-	render() {
-		const {
-			concepts,
-			stampListOptions,
-			data,
-			reset,
-			search: { labelLg1, concept, creator, validationState },
-		} = this.props;
+	const filteredData = data
+		.filter(filterConcept(concept))
+		.filter(filterLabel(labelLg1))
+		.filter(filterCreator(creator))
+		.filter(filterValidationState(validationState));
 
-		const filteredData = data
-			.filter(filterConcept(concept))
-			.filter(filterLabel(labelLg1))
-			.filter(filterCreator(creator))
-			.filter(filterValidationState(validationState));
-
-		const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
-		const dataLinks = filteredData.map((component) => (
-			<li key={component.id} className="list-group-item text-left">
-				<Link to={`/structures/components/${component.id}`}>
-					{formatLabel(component)}
-				</Link>
-			</li>
-		));
-		return (
-			<AdvancedSearchList
-				title={D.componentsSearchTitle}
-				data={dataLinks}
-				initializeState={reset}
-				redirect={<Redirect to={'/structures/components'} push />}
-			>
-				<div className="row form-group">
-					<div className="col-md-12">
-						<label className="w-100">
-							{D.label}
-							<input
-								value={labelLg1}
-								onChange={(e) => this.handlers.labelLg1(e.target.value)}
-								type="text"
-								className="form-control"
-							/>
-						</label>
-					</div>
+	const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
+	const dataLinks = filteredData.map((component) => (
+		<li key={component.id} className="list-group-item text-left">
+			<Link to={`/structures/components/${component.id}`}>
+				{formatLabel(component)}
+			</Link>
+		</li>
+	));
+	return (
+		<AdvancedSearchList
+			title={D.componentsSearchTitle}
+			data={dataLinks}
+			initializeState={reset}
+			redirect={<Redirect to={'/structures/components'} push />}
+		>
+			<div className="row form-group">
+				<div className="col-md-12">
+					<label className="w-100">
+						{D.label}
+						<TextInput
+							value={labelLg1}
+							onChange={(e) => handleChange('labelLg1', e.target.value)}
+						/>
+					</label>
 				</div>
-				<div className="row form-group">
-					<div className="col-md-12">
-						<label className="w-100">
-							{D.conceptTitle}
+			</div>
+			<div className="row form-group">
+				<div className="col-md-12">
+					<label className="w-100">
+						{D.conceptTitle}
 
-							<Select
-								placeholder=""
-								value={
-									conceptsOptions.find((option) => option.value === concept) ||
-									''
-								}
-								options={conceptsOptions}
-								onChange={(option) => {
-									this.handlers.concept(option?.value ?? '');
-								}}
-							/>
-						</label>
-					</div>
+						<Select
+							placeholder=""
+							value={
+								conceptsOptions.find((option) => option.value === concept) || ''
+							}
+							options={conceptsOptions}
+							onChange={(option) => {
+								handleChange('concept', option?.value ?? '');
+							}}
+						/>
+					</label>
 				</div>
-				<div className="row form-group">
-					<div className="col-md-6">
-						<label className="w-100">
-							{D.creator}
-							<Select
-								placeholder=""
-								value={
-									stampListOptions.find((option) => option.value === creator) ||
-									''
-								}
-								options={stampListOptions}
-								onChange={(option) => {
-									this.handlers.creator(option?.value ?? '');
-								}}
-							/>
-						</label>
-					</div>
-					<div className="col-md-6">
-						<label className="w-100">
-							{D.componentValididationStatusTitle}
-							<Select
-								placeholder=""
-								value={
-									validateStateOptions.find(
-										(option) => option.value === validationState
-									) || ''
-								}
-								options={validateStateOptions}
-								onChange={(option) => {
-									this.handlers.validationState(option?.value ?? '');
-								}}
-							/>
-						</label>
-					</div>
-				</div>
-			</AdvancedSearchList>
-		);
-	}
-}
+			</div>
+			<div className="row form-group">
+				<Column>
+					<label className="w-100">
+						{D.creator}
+						<Select
+							placeholder=""
+							value={
+								stampListOptions.find((option) => option.value === creator) ||
+								''
+							}
+							options={stampListOptions}
+							onChange={(option) => {
+								handleChange('creator', option?.value ?? '');
+							}}
+						/>
+					</label>
+				</Column>
+				<Column>
+					<label className="w-100">
+						{D.componentValididationStatusTitle}
+						<Select
+							placeholder=""
+							value={
+								validateStateOptions.find(
+									(option) => option.value === validationState
+								) || ''
+							}
+							options={validateStateOptions}
+							onChange={(option) => {
+								handleChange('validationState', option?.value ?? '');
+							}}
+						/>
+					</label>
+				</Column>
+			</div>
+		</AdvancedSearchList>
+	);
+};
 
 const SearchListContainer = () => {
 	const [loading, setLoading] = useState(true);
@@ -161,8 +135,6 @@ const SearchListContainer = () => {
 	const stampListOptions = useSelector((state) =>
 		Stores.Stamps.getStampListOptions(state)
 	);
-	const [search, setSearch, reset] = useUrlQueryParameters(defaultState);
-
 	useEffect(() => {
 		Promise.all([
 			api.getMutualizedComponentsForSearch(),
@@ -179,9 +151,6 @@ const SearchListContainer = () => {
 	}
 	return (
 		<SearchFormList
-			search={search}
-			setSearch={setSearch}
-			reset={reset}
 			data={items}
 			concepts={concepts}
 			stampListOptions={stampListOptions}

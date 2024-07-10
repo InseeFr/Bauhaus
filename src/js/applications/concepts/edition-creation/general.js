@@ -6,6 +6,7 @@ import { fields as generalFields } from 'js/utils/concepts/general';
 import { Select, LabelRequired } from '@inseefr/wilco';
 import { RequiredIcon, ClientSideError } from 'js/utils';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
+import { TextInput } from '../../../new-architecture/components/form/input';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {
@@ -94,12 +95,7 @@ function ConceptGeneralEdition({
 			</div>
 			<div className="form-group">
 				<label>{D1.contributorTitle}</label>
-				<input
-					type="text"
-					className="form-control"
-					defaultValue={contributor}
-					disabled
-				/>
+				<TextInput defaultValue={contributor} disabled />
 			</div>
 			<div className="form-group">
 				<DisseminationStatusInput
@@ -117,9 +113,7 @@ function ConceptGeneralEdition({
 				<div className="input-group">
 					<span className="input-group-addon">http://</span>
 
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						value={additionalMaterial.replace('http://', '')}
 						onChange={(e) => handlers.additionalMaterial(e.target.value)}
 					/>

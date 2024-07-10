@@ -13,6 +13,7 @@ import {
 	filterDeburr,
 	ReturnButton,
 } from '@inseefr/wilco';
+import { TextInput } from '../../../new-architecture/components/form/input';
 
 const trackItems = (items) => {
 	return (
@@ -135,12 +136,10 @@ const Picker = ({
 						<Panel title={panelTitle}>{addedEls}</Panel>
 					</div>
 					<div className="col-md-6 text-center">
-						<input
-							type="text"
+						<TextInput
 							value={search}
 							onChange={(e) => handleChange(e.target.value)}
 							placeholder={D.searchLabelPlaceholder}
-							className="form-control"
 						/>
 						<Pagination itemEls={toAddEls} itemsPerPage="10" />
 					</div>

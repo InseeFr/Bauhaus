@@ -21,7 +21,6 @@ import {
 	Auth,
 	ValidationButton,
 	CheckSecondLang,
-	PublicationFemale,
 	ConfirmationDelete,
 	CreationUpdateItems,
 	Row,
@@ -38,6 +37,7 @@ import './sims-visualisation.scss';
 import Modal from 'react-modal';
 import { SimsFieldTitle } from '../../sims-field-title';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
+import { PublicationFemale } from '../../../../../new-architecture/components';
 
 export default function SimsVisualisation({
 	metadataStructure,

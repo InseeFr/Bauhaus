@@ -9,6 +9,7 @@ import { ComponentDetail } from '../component-detail';
 import { useSelector } from 'react-redux';
 import { Auth, Stores } from 'js/utils';
 import Representation from '../representation';
+import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 
 export const StructureComponentsSelector = ({
 	hidden = false,
@@ -142,7 +143,7 @@ export const StructureComponentsSelector = ({
 				type: typeUriToLabel(component.type),
 				mutualized:
 					!!component.validationState &&
-					component.validationState !== 'Unpublished' ? (
+					component.validationState !== UNPUBLISHED ? (
 						<span
 							className="glyphicon glyphicon-ok"
 							aria-label={D.mutualized}

@@ -11,7 +11,6 @@ import {
 import {
 	HTMLUtils,
 	ValidationButton,
-	PublicationFemale,
 	useTitle,
 	ConfirmationDelete,
 	CreationUpdateItems,
@@ -23,6 +22,7 @@ import { CollapsiblePanel } from '../collapsible-panel';
 import { rowParams } from '../code-detail/code-columns';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
+import { PublicationFemale } from '../../../../new-architecture/components';
 
 export const CodeListPartialDetailView = ({
 	codelist,

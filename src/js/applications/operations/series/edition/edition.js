@@ -24,6 +24,7 @@ import CreatorsInput from 'js/components/creators-input';
 
 import { isMandatoryField, validate } from './validation';
 import api from '../../../../remote-api/operations-api';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const defaultSerie = {
 	id: '',
@@ -222,9 +223,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-6">
 							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="prefLabelLg1"
 								value={serie.prefLabelLg1}
 								onChange={this.onChange}
@@ -244,9 +243,7 @@ class OperationsSerieEdition extends Component {
 						</div>
 						<div className="form-group col-md-6">
 							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="prefLabelLg2"
 								value={serie.prefLabelLg2}
 								onChange={this.onChange}
@@ -268,9 +265,7 @@ class OperationsSerieEdition extends Component {
 					<div className="row">
 						<div className="form-group col-md-6">
 							<label htmlFor="altLabelLg1">{D1.altLabel}</label>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="altLabelLg1"
 								value={serie.altLabelLg1}
 								onChange={this.onChange}
@@ -278,9 +273,7 @@ class OperationsSerieEdition extends Component {
 						</div>
 						<div className="form-group col-md-6">
 							<label htmlFor="altLabel2">{D2.altLabel}</label>
-							<input
-								type="text"
-								className="form-control"
+							<TextInput
 								id="altLabelLg2"
 								value={serie.altLabelLg2}
 								onChange={this.onChange}

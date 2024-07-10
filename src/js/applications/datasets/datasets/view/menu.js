@@ -8,6 +8,7 @@ import {
 import { Auth, ValidationButton } from 'js/utils';
 import D from '../../../../i18n/build-dictionary';
 import { useSelector } from 'react-redux';
+import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 
 export const ViewMenu = ({ dataset, onPublish, onDelete, ...props }) => {
 	const permission = useSelector(Auth.getPermission);
@@ -26,7 +27,7 @@ export const ViewMenu = ({ dataset, onPublish, onDelete, ...props }) => {
 			)}
 			{(isAdmin ||
 				(hasDatasetRightsBasedOnStamp &&
-					dataset.validationState === 'Unpublished')) && (
+					dataset.validationState === UNPUBLISHED)) && (
 				<DeleteButton action={onDelete} />
 			)}
 			{(isAdmin || hasDatasetRightsBasedOnStamp) && (

@@ -12,7 +12,6 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import {
 	HTMLUtils,
 	CreationUpdateItems,
-	PublicationMale,
 	useTitle,
 	ErrorBloc,
 	Row,
@@ -25,6 +24,7 @@ import { ViewMenu } from './menu';
 import { MeasureAttributes } from './visualisation/measureAttributes';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
+import { PublicationMale } from '../../../../new-architecture/components';
 
 export const ComponentDetailView = ({
 	component,

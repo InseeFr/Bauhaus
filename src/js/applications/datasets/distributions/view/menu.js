@@ -8,6 +8,7 @@ import {
 import { Auth, ValidationButton } from 'js/utils';
 import { useSelector } from 'react-redux';
 import D from '../../../../i18n/build-dictionary';
+import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 
 export const ViewMenu = ({
 	distribution,
@@ -32,7 +33,7 @@ export const ViewMenu = ({
 			)}
 			{(isAdmin ||
 				(hasDatasetRightsBasedOnStamp &&
-					dataset.validationState === 'Unpublished')) && (
+					dataset.validationState === UNPUBLISHED)) && (
 				<DeleteButton action={onDelete} />
 			)}
 			{(isAdmin || hasDatasetRightsBasedOnStamp) && (

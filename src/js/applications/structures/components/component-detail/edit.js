@@ -42,6 +42,7 @@ import MainDictionary from 'js/i18n/build-dictionary';
 import { convertToArrayIfDefined } from '../../../../utils/array-utils';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -104,9 +105,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 		<>
 			<div className="row">
 				<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
-					<Select
-						type="text"
-						className="form-control"
+					<TextInput
 						id="codeList"
 						name="codeList"
 						label={D1.codesListTitle}
@@ -136,7 +135,6 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 				<div className="row">
 					<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
 						<Select
-							type="text"
 							className="form-control"
 							id="partialCodelist"
 							name="partialCodelist"
@@ -310,9 +308,7 @@ export const DumbComponentDetailEdit = ({
 				<div className="row">
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="identifiant">{D1.idTitle}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="identifiant"
 							name="identifiant"
 							value={component.identifiant}
@@ -335,9 +331,7 @@ export const DumbComponentDetailEdit = ({
 						<LabelRequired htmlFor="labelLg1">
 							{D1.label} ({lg1})
 						</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg1"
 							name="labelLg1"
 							onChange={handleChange}
@@ -357,9 +351,7 @@ export const DumbComponentDetailEdit = ({
 						<LabelRequired htmlFor="labelLg2">
 							{D2.label} ({lg2})
 						</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="labelLg2"
 							name="labelLg2"
 							value={component.labelLg2}
@@ -381,9 +373,7 @@ export const DumbComponentDetailEdit = ({
 						<label htmlFor="altLabelLg1">
 							{D1.altLabel} ({lg1})
 						</label>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="altLabelLg1"
 							name="altLabelLg1"
 							onChange={handleChange}
@@ -396,9 +386,7 @@ export const DumbComponentDetailEdit = ({
 							{D2.altLabel} ({lg2})
 						</label>
 
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="altLabelLg2"
 							name="altLabelLg2"
 							value={component.altLabelLg2}
@@ -466,10 +454,8 @@ export const DumbComponentDetailEdit = ({
 					<Row>
 						<div className="col-md-offset-1 col-md-11 form-group">
 							<label htmlFor="format">{D1.formatTitle}</label>
-							<input
-								type="text"
+							<TextInput
 								value={component.pattern}
-								className="form-control"
 								id="pattern"
 								name="pattern"
 								onChange={handleChange}
@@ -509,10 +495,8 @@ export const DumbComponentDetailEdit = ({
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="format">{D1.formatTitle}</label>
-								<input
-									type="text"
+								<TextInput
 									value={component.pattern}
-									className="form-control"
 									id="pattern"
 									name="pattern"
 									onChange={handleChange}
@@ -623,10 +607,8 @@ export const DumbComponentDetailEdit = ({
 						<label htmlFor="descriptionLg2">
 							{D1.descriptionTitle} ({lg1})
 						</label>
-						<input
-							type="text"
+						<TextInput
 							value={component.descriptionLg1}
-							className="form-control"
 							id="descriptionLg1"
 							name="descriptionLg1"
 							onChange={handleChange}
@@ -636,10 +618,8 @@ export const DumbComponentDetailEdit = ({
 						<label htmlFor="descriptionLg2">
 							{D1.descriptionTitle} ({lg2})
 						</label>
-						<input
-							type="text"
+						<TextInput
 							value={component.descriptionLg2}
-							className="form-control"
 							id="descriptionLg2"
 							name="descriptionLg2"
 							onChange={handleChange}
@@ -714,10 +694,8 @@ const AttributeTextValue = ({ onChange, value, label }) => {
 	return (
 		<div className="col-md-6 form-group">
 			<label htmlFor="attributeValue">{label ?? D1.Value}</label>
-			<input
-				type="text"
+			<TextInput
 				value={value}
-				className="form-control"
 				id="attributeValue"
 				name="attributeValue"
 				onChange={(e) => onChange(e.target.value)}

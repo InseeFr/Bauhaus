@@ -17,6 +17,38 @@ const dictionary = {
 			en: 'Authorizations',
 		},
 	},
+	validationState: {
+		validated: {
+			m: {
+				fr: 'Publié',
+				en: 'Published',
+			},
+			f: {
+				fr: 'Publiée',
+				en: 'Published',
+			},
+		},
+		modified: {
+			m: {
+				fr: 'Provisoire, déjà publié',
+				en: 'Temporary, already published',
+			},
+			f: {
+				fr: 'Provisoire, déjà publiée',
+				en: 'Temporary, already published',
+			},
+		},
+		unpublished: {
+			m: {
+				fr: 'Provisoire, jamais publié',
+				en: 'Temporary, never published',
+			},
+			f: {
+				fr: 'Provisoire, jamais publiée',
+				en: 'Temporary, never published',
+			},
+		},
+	},
 };
 
 export const D1: Dictionary = createDictionary(firstLang, dictionary);

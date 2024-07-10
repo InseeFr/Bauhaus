@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import Pagination from '../pagination';
 import { filterKeyDeburr, nbResults } from '../../utils/array-utils';
 import D from '../../i18n/build-dictionary';
+import { TextInput } from '../../../new-architecture/components/form/input';
 import useUrlQueryParameters from '../../hooks/useUrlQueryParameters';
 
 const defautState = {
@@ -42,14 +43,12 @@ const SearchableList = ({
 		<div className={`${colSize} ${colOffset}`}>
 			<div className="row form-group">
 				<div className="col-md-12">
-					<input
+					<TextInput
 						value={search}
 						onChange={(e) => {
 							handleSearch({ search: e.target.value });
 						}}
-						type="text"
 						placeholder={D.searchLabelPlaceholder || placeholder}
-						className="form-control"
 						aria-label={D.search}
 						autoFocus={autoFocus}
 					/>

@@ -9,6 +9,7 @@ import { ClientSideError, Row, StampsApi, SelectRmes } from 'js/utils';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
 import { DisseminationStatusInput } from '../../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsInput } from '../../../../../utils/contributors/contributors';
+import { TextInput } from '../../../../../new-architecture/components/form/input';
 
 const InternalManagementTab = ({
 	editingDataset,
@@ -57,9 +58,7 @@ const InternalManagementTab = ({
 			<Row>
 				<div className="col-md-12 form-group">
 					<label htmlFor="altIdentifier">{D1.datasetsAltId}</label>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="altIdentifier"
 						value={editingDataset.altIdentifier}
 						onChange={(e) => {

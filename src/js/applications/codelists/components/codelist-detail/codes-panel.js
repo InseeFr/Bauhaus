@@ -10,6 +10,7 @@ import './codes-panel.scss';
 import { validateCode } from '../../utils';
 import { CodesPanelAddButton } from './codes-panel-add-button';
 import { CodeSlidingPanelMenu } from './code-sliding-panel-menu';
+import { TextInput } from '../../../../new-architecture/components/form/input';
 const CodeSlidingPanel = ({
 	code: initialCode,
 	handleBack,
@@ -65,10 +66,8 @@ const CodeSlidingPanel = ({
 			<Row>
 				<div className="col-md-12 form-group">
 					<LabelRequired htmlFor="code">{D1.codeTitle}</LabelRequired>
-					<input
+					<TextInput
 						disabled={!creation}
-						type="text"
-						className="form-control"
 						id="code"
 						name="code"
 						onChange={handleChange}
@@ -87,9 +86,7 @@ const CodeSlidingPanel = ({
 			<Row>
 				<div className="col-md-6 form-group">
 					<LabelRequired htmlFor="labelLg1">{D1.labelTitle}</LabelRequired>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="labelLg1"
 						name="labelLg1"
 						onChange={handleChange}
@@ -106,9 +103,7 @@ const CodeSlidingPanel = ({
 				</div>
 				<div className="col-md-6 form-group">
 					<LabelRequired htmlFor="labelLg2">{D2.labelTitle}</LabelRequired>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="labelLg2"
 						name="labelLg2"
 						onChange={handleChange}
@@ -127,9 +122,7 @@ const CodeSlidingPanel = ({
 			<Row>
 				<div className="col-md-6 form-group">
 					<label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="descriptionLg1"
 						name="descriptionLg1"
 						onChange={handleChange}
@@ -138,9 +131,7 @@ const CodeSlidingPanel = ({
 				</div>
 				<div className="col-md-6 form-group">
 					<label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
-					<input
-						type="text"
-						className="form-control"
+					<TextInput
 						id="descriptionLg2"
 						name="descriptionLg2"
 						onChange={handleChange}
@@ -330,9 +321,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 						<Row>
 							<div className="col-md-6 form-group">
 								<label htmlFor="search-code">{D.codesSearchByCode}</label>
-								<input
-									type="text"
-									className="form-control"
+								<TextInput
 									id="search-code"
 									value={searchCode}
 									onChange={(e) =>
@@ -342,9 +331,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 							</div>
 							<div className="col-md-6 form-group">
 								<label htmlFor="search-label">{D.codesSearchByLabel}</label>
-								<input
-									type="text"
-									className="form-control"
+								<TextInput
 									id="search-label"
 									value={searchLabel}
 									onChange={(e) =>

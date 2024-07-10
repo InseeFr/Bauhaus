@@ -5,80 +5,51 @@ import api from 'js/remote-api/operations-api';
 
 import {
 	ArrayUtils,
-	AbstractAdvancedSearchComponent,
 	AdvancedSearchList,
 	useTitle,
 	useUrlQueryParameters,
 } from 'js/utils';
 import { Loading } from 'js/new-architecture/components/loading/loading';
+import { TextInput } from '../../../new-architecture/components/form/input';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
-const fields = ['prefLabelLg1'];
 
-const defaultState = {
+const defaultFormState = {
 	prefLabelLg1: '',
 };
 
-class SearchFormList extends AbstractAdvancedSearchComponent {
-	constructor(props) {
-		super(props, {
-			...defaultState,
-			...props.search,
-		});
-	}
+const SearchFormList = ({ data }) => {
+	const [form, _setForm, reset, handleChange] =
+		useUrlQueryParameters(defaultFormState);
 
-	handlers = this.handleChange(fields, (newState) => {
-		const { prefLabelLg1 } = newState;
-		this.props.setSearch({ prefLabelLg1 });
-	});
+	const { prefLabelLg1 } = form;
 
-	render() {
-		const {
-			data,
-			search: { prefLabelLg1 },
-			reset,
-		} = this.props;
-		const filteredData = data.filter(filterLabel(prefLabelLg1));
+	const filteredData = data.filter(filterLabel(prefLabelLg1));
 
-		const dataLinks = filteredData.map(({ id, prefLabelLg1 }) => (
-			<li key={id} className="list-group-item">
-				<Link to={`/operations/family/${id}`}>{prefLabelLg1}</Link>
-			</li>
-		));
-		return (
-			<AdvancedSearchList
-				title={D.familiesSearchTitle}
-				data={dataLinks}
-				initializeState={reset}
-				redirect={<Redirect to={'/operations/families'} push />}
-			>
-				<div className="row form-group">
-					<div className="col-md-12">
-						<label className="w-100">
-							{D.labelTitle}
-							<input
-								value={prefLabelLg1}
-								onChange={(e) => this.handlers.prefLabelLg1(e.target.value)}
-								type="text"
-								className="form-control"
-							/>
-						</label>
-					</div>
-				</div>
-			</AdvancedSearchList>
-		);
-	}
-}
-
-const SearchListWithUrlQueryParameter = ({ data }) => {
-	const [search, setSearch, reset] = useUrlQueryParameters(defaultState);
+	const dataLinks = filteredData.map(({ id, prefLabelLg1 }) => (
+		<li key={id} className="list-group-item">
+			<Link to={`/operations/family/${id}`}>{prefLabelLg1}</Link>
+		</li>
+	));
 	return (
-		<SearchFormList
-			data={data}
-			search={search}
-			setSearch={setSearch}
-			reset={reset}
-		/>
+		<AdvancedSearchList
+			title={D.familiesSearchTitle}
+			data={dataLinks}
+			initializeState={reset}
+			redirect={<Redirect to={'/operations/families'} push />}
+		>
+			<div className="row form-group">
+				<div className="col-md-12">
+					<label className="w-100">
+						{D.labelTitle}
+						<TextInput
+							value={prefLabelLg1}
+							onChange={(e) => handleChange('prefLabelLg1', e.target.value)}
+						/>
+					</label>
+				</div>
+			</div>
+		</AdvancedSearchList>
 	);
 };
 
@@ -93,7 +64,7 @@ const SearchListContainer = () => {
 	if (!data) {
 		return <Loading />;
 	}
-	return <SearchListWithUrlQueryParameter data={data} />;
+	return <SearchFormList data={data} />;
 };
 
 export default SearchListContainer;

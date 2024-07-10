@@ -18,6 +18,14 @@ export default (defaultValue) => {
 
 	const [search, setSearch] = useState(computeFromUrl(defaultValue));
 
+	const handleChange = (property, stateChange) => {
+		const newForm = {
+			...search,
+			[property]: stateChange,
+		};
+		setValuesToQueryParameters(newForm);
+	};
+
 	const reset = () => {
 		setSearch(defaultValue);
 		history.replace(location.pathname);
@@ -31,5 +39,5 @@ export default (defaultValue) => {
 		});
 		history.replace(location.pathname + '?' + searchParams.toString());
 	};
-	return [search, setValuesToQueryParameters, reset];
+	return [search, setValuesToQueryParameters, reset, handleChange];
 };
