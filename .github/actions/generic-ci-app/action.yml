@@ -1,0 +1,16 @@
+name: 'Build Application'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+    - name: 🏗️ Generate Bauhaus
+      shell: bash
+      run: yarn
+    - name: 🧪 Running ESLint
+      shell: bash
+      run: yarn lint
+    - name: 🧪 Running unit tests
+      shell: bash
+      run: yarn test:coverage

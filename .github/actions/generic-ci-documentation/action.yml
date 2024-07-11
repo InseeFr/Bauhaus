@@ -1,5 +1,4 @@
 name: 'Build Documentation'
-description: 'Greet someone'
 runs:
   using: "composite"
   steps:
