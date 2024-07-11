@@ -6,9 +6,12 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
 jobs:
   test-build:
-    name: Test & build
+    name: Test & Build & Deploy Sonar report
     runs-on: ubuntu-latest
     strategy:
       matrix:
