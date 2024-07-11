@@ -8,5 +8,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use local hello-world-action
+      - name: Use Generic CI For Documentation
         uses: ./.github/actions/generic-ci-documentation
