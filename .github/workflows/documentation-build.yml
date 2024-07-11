@@ -12,9 +12,3 @@ jobs:
         with:
           node-version: 22
       - run: ./scripts/documentation-build.sh
-      - run: ./scripts/documentation-deploy.sh
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./website
