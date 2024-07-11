@@ -1,4 +1,4 @@
-name: Documentation
+name: Build Documentation on PR
 on:
   pull_request:
     types: [ opened, synchronize, reopened ]
@@ -12,3 +12,8 @@ jobs:
         with:
           node-version: 22
       - run: ./scripts/documentation-build.sh
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./website
