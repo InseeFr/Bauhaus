@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/new-architecture/modules-concepts/i18n';
-import { ArrayUtils, Row } from 'js/utils';
+import { ArrayUtils } from 'js/utils';
+import { Row } from 'js/new-architecture/components';
 
 const sortByLabelLg1 = ArrayUtils.sortArray('prefLabelLg1');
 const renderMemberList = (sortedMembers, label) =>

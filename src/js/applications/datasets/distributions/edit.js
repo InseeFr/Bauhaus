@@ -3,7 +3,6 @@ import {
 	EditorMarkdown,
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
-	Row,
 	useTitle,
 } from 'js/utils';
 import {
@@ -14,7 +13,7 @@ import {
 	LabelRequired,
 	SaveButton,
 } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading, TextInput, Row } from 'js/new-architecture/components';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -25,7 +24,6 @@ import { default as ReactSelect } from 'react-select';
 import D from '../../../i18n/build-dictionary';
 import { useDatasetsForDistributions, useDistribution } from '../hooks';
 import { validate } from './validation';
-import { TextInput } from '../../../new-architecture/components';
 
 export const DistributionEdit = (props) => {
 	const { id } = useParams();

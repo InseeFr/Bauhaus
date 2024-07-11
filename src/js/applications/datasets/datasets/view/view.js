@@ -7,7 +7,6 @@ import {
 	HTMLUtils,
 	PageTitleBlock,
 	Stores,
-	Row,
 	useTitle,
 } from 'js/utils';
 import { useEffect, useState } from 'react';
@@ -25,15 +24,15 @@ import {
 	Deleting,
 	Publishing,
 	Loading,
-} from 'js/new-architecture/components/loading/loading';
+	Row,
+	ConditionalDisplay,
+	Organization,
+	Organizations,
+} from 'js/new-architecture/components';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
-import {
-	Organization,
-	Organizations,
-} from '../../../../new-architecture/components/data/creators';
-import { ConditionalDisplay } from '../../../../new-architecture/components/data/conditional-display';
+import {} from '../../../../new-architecture/components/data/creators';
 
 const Dataset = (props) => {
 	const { id } = useParams();

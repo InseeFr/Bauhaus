@@ -11,9 +11,7 @@ import {
 
 import MainDictonary from 'js/i18n';
 import { D1 } from 'js/new-architecture/modules-concepts/i18n';
-import { Row } from 'js/utils';
-import { TextInput } from 'js/new-architecture/components/form/input';
-import { Column } from 'js/new-architecture/components/layout';
+import { Column, TextInput, Row } from 'js/new-architecture/components';
 
 const extractMembers = (concepts) => {
 	return concepts.reduce((members, { id, label, isAdded }) => {

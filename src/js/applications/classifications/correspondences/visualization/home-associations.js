@@ -1,7 +1,8 @@
 import { useHistory } from 'react-router-dom';
 import { Note, Table } from '@inseefr/wilco';
 import D, { D1 } from 'js/i18n';
-import { ArrayUtils, Row } from 'js/utils';
+import { ArrayUtils } from 'js/utils';
+import { Row } from 'js/new-architecture/components';
 
 const sortById = ArrayUtils.sortArray('id');
 

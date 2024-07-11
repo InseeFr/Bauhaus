@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { LabelRequired } from '@inseefr/wilco';
-import { Loading, TextInput } from 'js/new-architecture/components';
+import { Loading, TextInput, Row } from 'js/new-architecture/components';
 
 import Controls from './controls';
 import Components from './components';
@@ -13,7 +13,6 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	Stores,
-	Row,
 	Auth,
 	SelectRmes,
 } from 'js/utils';
@@ -23,15 +22,6 @@ import 'react-select/dist/react-select.css';
 import { validate } from './validation';
 import { ContributorsInput } from '../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
-
-import { TextInput } from '../../../new-architecture/components';
-
-const isRequiredBys = [
-	'Melodi-Chargement',
-	'Melodi-Diffusion',
-	'Melodi-Diffusion-SDMX',
-];
-
 
 const defaultDSD = {
 	identifiant: '',

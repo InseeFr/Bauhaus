@@ -9,7 +9,6 @@ import {
 import {
 	AppContext,
 	useTitle,
-	Row,
 	ArrayUtils,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
@@ -17,6 +16,7 @@ import {
 	Auth,
 	SelectRmes,
 } from 'js/utils';
+import { Row } from '../../../../new-architecture/components';
 import { validate } from '../edition/validation';
 import {
 	MUTUALIZED_COMPONENT_TYPES,

@@ -9,13 +9,7 @@ import {
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import {
-	HTMLUtils,
-	CreationUpdateItems,
-	useTitle,
-	ErrorBloc,
-	Row,
-} from 'js/utils';
+import { HTMLUtils, CreationUpdateItems, useTitle, ErrorBloc } from 'js/utils';
 import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from '../../../codelists/apis';
@@ -24,7 +18,7 @@ import { ViewMenu } from './menu';
 import { MeasureAttributes } from './visualisation/measureAttributes';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
-import { PublicationMale } from '../../../../new-architecture/components';
+import { PublicationMale, Row } from '../../../../new-architecture/components';
 
 export const ComponentDetailView = ({
 	component,

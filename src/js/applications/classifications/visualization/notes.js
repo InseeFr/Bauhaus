@@ -1,7 +1,6 @@
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import { D1, D2 } from 'js/i18n';
-import { Row } from '../../../utils';
-
+import { Row } from 'js/new-architecture/components';
 export default ({
 	notes: {
 		scopeNoteLg1,

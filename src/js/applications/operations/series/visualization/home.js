@@ -4,11 +4,14 @@ import RelationsView from 'js/applications/operations/shared/relations';
 import DisplayLinks from 'js/applications/operations/shared/links/';
 import SeeAlso from 'js/applications/operations/shared/seeAlso';
 import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
-import { CreationUpdateItems, HTMLUtils, Row, withTitle } from 'js/utils';
+import { CreationUpdateItems, HTMLUtils, withTitle } from 'js/utils';
 import CreatorsView from 'js/applications/operations/components/creators-view';
 import PublishersView from 'js/applications/operations/components/publishers-view';
 import D from '../../../../i18n/build-dictionary';
-import { PublicationFemale } from '../../../../new-architecture/components';
+import {
+	PublicationFemale,
+	Row,
+} from '../../../../new-architecture/components';
 
 function OperationsSerieVisualization({
 	attr,

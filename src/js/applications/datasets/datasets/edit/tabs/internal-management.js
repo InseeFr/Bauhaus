@@ -5,11 +5,11 @@ import { withCodesLists } from 'js/hooks/hooks';
 import api from '../../../api/datasets-api';
 import operationSeries from 'js/remote-api/operations-api';
 import { LabelRequired } from '@inseefr/wilco';
-import { ClientSideError, Row, StampsApi, SelectRmes } from 'js/utils';
+import { ClientSideError, StampsApi, SelectRmes } from 'js/utils';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
 import { DisseminationStatusInput } from '../../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsInput } from '../../../../../utils/contributors/contributors';
-import { TextInput } from '../../../../../new-architecture/components/form/input';
+import { TextInput, Row } from '../../../../../new-architecture/components';
 
 const InternalManagementTab = ({
 	editingDataset,

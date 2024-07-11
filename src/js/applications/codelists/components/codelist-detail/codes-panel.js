@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { API } from '../../apis';
-import { ClientSideError, GlobalClientSideErrorBloc, Row } from 'js/utils';
+import { ClientSideError, GlobalClientSideErrorBloc } from 'js/utils';
 import { CollapsiblePanel } from '../collapsible-panel';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { rowParams } from '../code-detail/code-columns';
@@ -10,7 +10,7 @@ import './codes-panel.scss';
 import { validateCode } from '../../utils';
 import { CodesPanelAddButton } from './codes-panel-add-button';
 import { CodeSlidingPanelMenu } from './code-sliding-panel-menu';
-import { TextInput } from '../../../../new-architecture/components';
+import { TextInput, Row } from '../../../../new-architecture/components';
 const CodeSlidingPanel = ({
 	code: initialCode,
 	handleBack,
