@@ -10,9 +10,6 @@ jobs:
   build:
     name: Test & Build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [ 20 ]
     steps:
       - uses: actions/checkout@v2
       - name: Use Generic CI For Building the Application
