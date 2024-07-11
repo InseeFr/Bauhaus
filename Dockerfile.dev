@@ -21,14 +21,14 @@ ENV NGINX_GROUP=nginx
 USER $NGINX_USER_ID
 
 # Ajout du build au dossier root de nginx
-COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/app/build /usr/share/nginx/html
+COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/build /usr/share/nginx/html
 
 # Copie de la configuration nginx
 RUN rm /etc/nginx/conf.d/default.conf
 COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/config/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Add entrypoint
-COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/app/entrypoint.sh /entrypoint.sh
+COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
 
