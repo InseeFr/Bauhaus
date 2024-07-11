@@ -10,3 +10,4 @@ jobs:
       - uses: actions/checkout@v4
       - name: Use Generic CI For Documentation
         uses: ./.github/actions/generic-ci-documentation
+      - run: ls
