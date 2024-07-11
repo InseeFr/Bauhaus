@@ -6,4 +6,6 @@ runs:
     - uses: actions/setup-node@v4
       with:
         node-version: 22
-    - run: ./scripts/documentation-build.sh
+    - name: Generate Astro Documentation
+      shell: bash
+      run: ./scripts/documentation-build.sh
