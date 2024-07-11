@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - "main"
+    paths:
+      - .github/
+      - documentation/**
 jobs:
   deploy:
     name: Deploy to GH Pages

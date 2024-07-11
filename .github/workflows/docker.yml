@@ -4,7 +4,8 @@ on:
     types: [created]
     branches:
       - main
-
+    paths-ignore:
+      - documentation/**
 jobs:
   build:
     name: Test & Build
