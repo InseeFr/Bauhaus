@@ -1,0 +1,9 @@
+name: 'Build Documentation'
+description: 'Greet someone'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+    - run: ./scripts/documentation-build.sh
