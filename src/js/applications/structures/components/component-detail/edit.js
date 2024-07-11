@@ -16,7 +16,6 @@ import {
 	Auth,
 	SelectRmes,
 } from 'js/utils';
-import { Row } from '../../../../new-architecture/components';
 import { validate } from '../edition/validation';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
@@ -41,7 +40,7 @@ import MainDictionary from 'js/i18n/build-dictionary';
 import { convertToArrayIfDefined } from '../../../../utils/array-utils';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';
-import { TextInput } from '../../../../new-architecture/components';
+import { TextInput, Row } from '../../../../new-architecture/components';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
