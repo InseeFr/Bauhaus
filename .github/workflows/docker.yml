@@ -4,21 +4,16 @@ on:
     types: [created]
     branches:
       - main
-
+    paths-ignore:
+      - documentation/**
 jobs:
   build:
-    name: build
+    name: Test & Build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [ 20 ]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-      - run: yarn
-      - run: yarn build-insee
+      - name: Use Generic CI For Building the Application
+        uses: ./.github/actions/generic-ci-app
       - name: Upload deploy artifact
         uses: actions/upload-artifact@v2
         with:
