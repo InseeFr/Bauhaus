@@ -1,9 +1,7 @@
 import { render } from '@testing-library/react';
 import { DocumentsBloc } from './index';
-import { ArrayUtils } from 'js/utils';
+import { ArrayUtils } from '../../../../../utils';
 import { getLang } from '@inseefr/wilco';
-
-jest.mock('js/applications/operations/msd/utils');
 
 const documents = [
 	{

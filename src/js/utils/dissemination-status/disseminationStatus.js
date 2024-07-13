@@ -1,5 +1,5 @@
-import D from 'js/i18n';
-import { Stores } from 'js/utils';
+import D from '../../i18n';
+import { Stores } from '../../utils';
 import { LabelRequired, Select } from '@inseefr/wilco';
 
 export const getDisseminationStatus = (disseminationStatus) => {

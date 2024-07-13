@@ -1,4 +1,4 @@
-import { Auth, ValidationButton } from 'js/utils';
+import { Auth, ValidationButton } from '../../../../utils';
 import {
 	ActionToolbar,
 	DeleteButton,

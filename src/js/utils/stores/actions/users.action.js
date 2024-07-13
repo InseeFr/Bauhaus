@@ -1,4 +1,4 @@
-import * as API from 'js/new-architecture/utils/build-api';
+import * as API from '../../../new-architecture/utils/build-api';
 import { LOADING, LOADED, ERROR } from '../constants';
 
 // Constants

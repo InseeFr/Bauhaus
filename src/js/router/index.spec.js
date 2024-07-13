@@ -5,18 +5,18 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { RBACLink } from '.';
 import { removeToken } from '../utils/auth/open-id-connect-auth/token-utils';
-import D from 'js/new-architecture/i18n';
-import { Auth } from 'js/utils';
+import D from '../new-architecture/i18n';
+import { Auth } from '../utils';
 
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'),
 	useLocation: jest.fn(),
 }));
-jest.mock('js/utils/env', () => ({
+jest.mock('../utils/env', () => ({
 	getEnvVar: (key) => (key === 'NAME' ? 'TestApp' : '1.0.0'),
 }));
 
-jest.mock('js/utils');
+jest.mock('../utils');
 jest.mock('../utils/auth/open-id-connect-auth/token-utils', () => ({
 	removeToken: jest.fn(),
 }));

@@ -1,25 +1,25 @@
 import { Switch, Route } from 'react-router-dom';
 
-import Concepts from 'js/applications/concepts/home';
-import ConceptsSearchListContainer from 'js/applications/concepts/advanced-search/home-container';
-import ConceptCompareContainer from 'js/applications/concepts/compare/home-container';
-import ConceptCreationContainer from 'js/applications/concepts/edition-creation/creation-container';
-import ConceptEditionContainer from 'js/applications/concepts/edition-creation/edition-container';
+import Concepts from '../../../applications/concepts/home';
+import ConceptsSearchListContainer from '../../../applications/concepts/advanced-search/home-container';
+import ConceptCompareContainer from '../../../applications/concepts/compare/home-container';
+import ConceptCreationContainer from '../../../applications/concepts/edition-creation/creation-container';
+import ConceptEditionContainer from '../../../applications/concepts/edition-creation/edition-container';
 
-import ConceptVisualizationContainer from 'js/applications/concepts/visualization/home-container';
-import ConceptsToValidateContainer from 'js/applications/concepts/validation/home-container';
-import ConceptsToExportContainer from 'js/applications/concepts/export/home-container';
-import CollectionsContainer from 'js/applications/collections/home-container';
-import CollectionVisualizationContainer from 'js/applications/collections/visualization/home-container';
-import CollectionCreationContainer from 'js/applications/collections/edition-creation/creation-container';
-import CollectionEditionContainer from 'js/applications/collections/edition-creation/edition-container';
-import CollectionsToValidateContainer from 'js/applications/collections/validation/home-container';
-import CollectionsToExportContainer from 'js/applications/collections/export/home-container';
-import Administration from 'js/applications/administration/home';
-import ConceptsDashboard from 'js/applications/administration/dashboard/concepts/home-container';
+import ConceptVisualizationContainer from '../../../applications/concepts/visualization/home-container';
+import ConceptsToValidateContainer from '../../../applications/concepts/validation/home-container';
+import ConceptsToExportContainer from '../../../applications/concepts/export/home-container';
+import CollectionsContainer from '../../../applications/collections/home-container';
+import CollectionVisualizationContainer from '../../../applications/collections/visualization/home-container';
+import CollectionCreationContainer from '../../../applications/collections/edition-creation/creation-container';
+import CollectionEditionContainer from '../../../applications/collections/edition-creation/edition-container';
+import CollectionsToValidateContainer from '../../../applications/collections/validation/home-container';
+import CollectionsToExportContainer from '../../../applications/collections/export/home-container';
+import Administration from '../../../applications/administration/home';
+import ConceptsDashboard from '../../../applications/administration/dashboard/concepts/home-container';
 import Menu from '../menu/index';
 
-export default () => {
+const Routes = () => {
 	return (
 		<>
 			<Menu />
@@ -101,3 +101,5 @@ export default () => {
 		</>
 	);
 };
+
+export default Routes;

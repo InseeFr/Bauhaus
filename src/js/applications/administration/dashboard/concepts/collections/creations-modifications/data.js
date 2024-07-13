@@ -1,5 +1,5 @@
-import D from 'js/i18n';
-import { DateItem } from 'js/utils';
+import D from '../../../../../../i18n';
+import { DateItem } from '../../../../../../utils';
 
 export const rowParams = {
 	creations: [

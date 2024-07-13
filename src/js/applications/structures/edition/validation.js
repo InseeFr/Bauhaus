@@ -1,5 +1,5 @@
-import D, { D1, D2 } from 'js/i18n';
-import { formatValidation } from 'js/utils/validation';
+import D, { D1, D2 } from '../../../i18n';
+import { formatValidation } from '../../../utils/validation';
 import { z } from 'zod';
 
 const Structure = z.object({

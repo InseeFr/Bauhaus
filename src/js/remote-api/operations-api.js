@@ -1,4 +1,4 @@
-import { API } from 'js/utils';
+import { API } from '../utils';
 import simsApi from './operations/sims';
 import indicatorApi from './operations/indicator';
 import seriesApi from './operations/series';

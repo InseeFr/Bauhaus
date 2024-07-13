@@ -1,8 +1,8 @@
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../../new-architecture/components';
 import Controls from './controls';
-import DnDTree from 'js/applications/shared/tree/dnd';
-import D from 'js/i18n';
-import { CheckSecondLang, Row, useTitle } from 'js/utils';
+import DnDTree from '../../../../applications/shared/tree/dnd';
+import D from '../../../../i18n';
+import { CheckSecondLang, Row, useTitle } from '../../../../utils';
 
 const ClassificationTree = ({ data, prefLabel }) => {
 	useTitle(

@@ -16,7 +16,7 @@ import {
 	ClientSideError,
 	Auth,
 	SelectRmes,
-} from 'js/utils';
+} from '../../../../utils';
 import { validate } from '../edition/validation';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
@@ -37,7 +37,7 @@ import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from '../../../codelists/apis';
 import api from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
-import MainDictionary from 'js/i18n/build-dictionary';
+import MainDictionary from '../../../../i18n/build-dictionary';
 import { convertToArrayIfDefined } from '../../../../utils/array-utils';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';

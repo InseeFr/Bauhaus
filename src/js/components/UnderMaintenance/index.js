@@ -1,7 +1,7 @@
 import PageTitle from '../page-title';
 import D from '../build-dictionary';
 
-export default ({ home }) => {
+const UnderMaintenance = ({ home }) => {
 	return (
 		<div>
 			{home && <h1 className="text-center page-title">{D.welcome}</h1>}
@@ -12,3 +12,5 @@ export default ({ home }) => {
 		</div>
 	);
 };
+
+export default UnderMaintenance;

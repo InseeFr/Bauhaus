@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useHistory, withRouter } from 'react-router-dom';
 import { Table, NumberResult } from '@inseefr/wilco';
-import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
-import D from 'js/i18n';
+import DatePickerRmes from '../../../../../../applications/shared/date-picker-rmes';
+import D from '../../../../../../i18n';
 import { rowParams } from './data';
 import dayjs from 'dayjs';
 

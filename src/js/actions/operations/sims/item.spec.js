@@ -1,10 +1,10 @@
 import get, { saveSims } from './item';
-import * as A from 'js/actions/constants';
-import api from 'js/remote-api/operations-api';
-import { LOADING, NOT_LOADED } from 'js/constants';
+import * as A from '../../../actions/constants';
+import api from '../../../remote-api/operations-api';
+import { LOADING, NOT_LOADED } from '../../../constants';
 
 const dispatch = jest.fn();
-jest.mock('js/remote-api/operations-api');
+jest.mock('../../../remote-api/operations-api');
 
 describe('SIMS actions', () => {
 	beforeEach(() => dispatch.mockClear());

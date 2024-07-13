@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../new-architecture/components';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
-import MembersEdition from 'js/new-architecture/modules-concepts/collections/edition/members';
-import { withTitle } from 'js/utils';
+import MembersEdition from '../../../new-architecture/modules-concepts/collections/edition/members';
+import { withTitle } from '../../../utils';
 import D from '../../../i18n/build-dictionary';
 
 class CollectionEditionCreation extends Component {

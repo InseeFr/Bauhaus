@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import CollectionGeneralVisualization from './general';
-import { empty } from 'js/utils/collections/general';
+import { empty } from '../../../utils/collections/general';
 
 describe('collection-visualization-general', () => {
 	it('renders without crashing', () => {

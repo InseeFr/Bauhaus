@@ -1,14 +1,14 @@
 import { PureComponent } from 'react';
-import D from 'js/i18n';
-import { rangeType } from 'js/utils/msd/';
-import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
-import InputRmes from 'js/applications/shared/input-rmes';
+import D from '../../../../../i18n';
+import { rangeType } from '../../../../../utils/msd/';
+import DatePickerRmes from '../../../../../applications/shared/date-picker-rmes';
+import InputRmes from '../../../../../applications/shared/input-rmes';
 import {
 	EditorMarkdownToolbar,
 	ArrayUtils,
 	EditorDeleteButton,
-} from 'js/utils';
-import SimsGeographyPicker from 'js/applications/operations/components/sims/sims-geography-picker';
+} from '../../../../../utils';
+import SimsGeographyPicker from '../../../../../applications/operations/components/sims/sims-geography-picker';
 import { Editor } from 'react-draft-wysiwyg';
 import { Note, getLang, Select } from '@inseefr/wilco';
 import './sims-field.scss';

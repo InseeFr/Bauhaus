@@ -4,7 +4,7 @@ import AuthGuard from './auth/components/auth';
 
 import * as utils from './auth/open-id-connect-auth/token-utils';
 import { createContext } from 'react';
-export * as API from 'js/new-architecture/utils/build-api';
+export * as API from '../new-architecture/utils/build-api';
 export {
 	default as ConceptsAPI,
 	api as ConceptsAPIRoutes,

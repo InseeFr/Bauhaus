@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { HomePageMenu } from './menu';
-import { Auth, RBACMock } from 'js/utils';
+import { Auth, RBACMock } from '../../../../utils';
 
 describe('Components Home Page Menu', () => {
 	it('an admin can create a new component if he does not have the Gestionnaire_structures_RMESGNCS role', () => {

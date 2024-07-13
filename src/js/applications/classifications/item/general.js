@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import D from 'js/i18n';
+import D from '../../../i18n';
 import { Note } from '@inseefr/wilco';
-import { Row } from 'js/utils';
+import { Row } from '../../../utils';
 
-export default ({ general, classificationId, secondLang, langs }) => {
+const General = ({ general, classificationId, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
 	const mapping = {
 		broaderLg1: D.classificationsBroaderLevel,
@@ -100,3 +100,5 @@ export default ({ general, classificationId, secondLang, langs }) => {
 		</Row>
 	);
 };
+
+export default General;

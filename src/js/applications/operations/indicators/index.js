@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { VerticalMenu } from '@inseefr/wilco';
-import { PageTitle, Loading } from 'js/new-architecture/components';
+import { PageTitle, Loading } from '../../../new-architecture/components';
 
-import D from 'js/i18n';
+import D from '../../../i18n';
 import {
 	Auth,
 	useTitle,
 	SearchableList,
 	ArrayUtils,
 	MasculineButton,
-} from 'js/utils';
+} from '../../../utils';
 import api from '../../../remote-api/operations-api';
 
 function IndicatorsHome() {

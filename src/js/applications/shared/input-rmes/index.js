@@ -1,4 +1,4 @@
-import { RequiredIcon } from 'js/utils';
+import { RequiredIcon } from '../../../utils';
 
 function InputRmes({
 	colMd,

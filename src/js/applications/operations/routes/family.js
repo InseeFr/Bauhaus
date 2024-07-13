@@ -1,12 +1,12 @@
 import { Switch, Route } from 'react-router-dom';
-import OperationsFamiliesSearchContainer from 'js/applications/operations/families/search';
-import OperationsFamiliesContainer from 'js/applications/operations/families/';
+import OperationsFamiliesSearchContainer from '../../../applications/operations/families/search';
+import OperationsFamiliesContainer from '../../../applications/operations/families/';
 
-import OperationsFamilyVisualizationContainer from 'js/applications/operations/families/visualization/';
+import OperationsFamilyVisualizationContainer from '../../../applications/operations/families/visualization/';
 
-import OperationsFamilyEditionContainer from 'js/applications/operations/families/edition';
+import OperationsFamilyEditionContainer from '../../../applications/operations/families/edition';
 
-export default () => {
+const Routes = () => {
 	return (
 		<Switch>
 			<Route
@@ -37,3 +37,5 @@ export default () => {
 		</Switch>
 	);
 };
+
+export default Routes;

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import NoteEdition from 'js/applications/shared/note-edition';
-import { D1 } from 'js/i18n';
-import { HTMLUtils } from 'js/utils';
+import NoteEdition from '../../../applications/shared/note-edition';
+import { D1 } from '../../../i18n';
+import { HTMLUtils } from '../../../utils';
 
 const noteTypes = (maxLengthScopeNote) => [
 	{

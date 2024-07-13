@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
-import { Loading, PublicationFemale } from 'js/new-architecture/components';
+import {
+	Loading,
+	PublicationFemale,
+} from '../../../new-architecture/components';
 import { useSelector } from 'react-redux';
 import {
 	CheckSecondLang,
@@ -10,13 +13,13 @@ import {
 	useTitle,
 	CreationUpdateItems,
 	ErrorBloc,
-} from 'js/utils';
+} from '../../../utils';
 import Components from './components';
-import { D1, D2 } from 'js/i18n';
+import { D1, D2 } from '../../../i18n';
 import StructureVisualizationControl from '../components/structure-visualization/controls';
 import D from '../i18n/build-dictionary';
 import StructureAPI from '../apis/structure-api';
-import MainDictionary from 'js/i18n/build-dictionary';
+import MainDictionary from '../../../i18n/build-dictionary';
 import { DisseminationStatusVisualisation } from '../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../utils/contributors/contributors';
 

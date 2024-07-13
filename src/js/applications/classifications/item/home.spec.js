@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { ADMIN } from 'js/utils/auth/roles';
+import { ADMIN } from '../../../utils/auth/roles';
 
 const mockStore = configureStore([]);
 const store = mockStore({

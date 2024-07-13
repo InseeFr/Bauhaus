@@ -1,4 +1,4 @@
-import { DateUtils } from 'js/utils';
+import { DateUtils } from '../../utils';
 
 export const getModalMessage = (array) =>
 	array.reduce((message, { prefLabelLg1, valid }) => {

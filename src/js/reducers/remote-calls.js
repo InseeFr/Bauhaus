@@ -1,5 +1,5 @@
-import { PENDING, OK, KO } from 'js/constants';
-import * as A from 'js/actions/constants';
+import { PENDING, OK, KO } from '../constants';
+import * as A from '../actions/constants';
 
 const trackResetReducer = (state = {}, actions) => {
 	const newState = Object.keys(state).reduce((acc, value) => {
@@ -15,65 +15,67 @@ const trackResetReducer = (state = {}, actions) => {
 	return newState;
 };
 
-export const trackActionReducer = actions => (state = {}, action) => {
-	const startActions = [];
-	const successActions = [];
-	const failActions = [];
-	const resetActions = [];
+export const trackActionReducer =
+	(actions) =>
+	(state = {}, action) => {
+		const startActions = [];
+		const successActions = [];
+		const failActions = [];
+		const resetActions = [];
 
-	actions.forEach(([start, sucess, fail, reset = []]) => {
-		startActions.push(start);
-		successActions.push(sucess);
-		failActions.push(fail);
-		resetActions.push(...reset);
-	});
+		actions.forEach(([start, sucess, fail, reset = []]) => {
+			startActions.push(start);
+			successActions.push(sucess);
+			failActions.push(fail);
+			resetActions.push(...reset);
+		});
 
-	if (startActions.indexOf(action.type) !== -1) {
-		return {
-			...state,
-			[action.type]: {
-				status: PENDING,
-				...action.payload,
-			},
-		};
-	} else {
-		const actionIndex = successActions.indexOf(action.type);
-		const failIndex = failActions.indexOf(action.type);
-		if (actionIndex !== -1) {
+		if (startActions.indexOf(action.type) !== -1) {
 			return {
 				...state,
-				[startActions[actionIndex]]: {
-					status: OK,
+				[action.type]: {
+					status: PENDING,
 					...action.payload,
 				},
 			};
+		} else {
+			const actionIndex = successActions.indexOf(action.type);
+			const failIndex = failActions.indexOf(action.type);
+			if (actionIndex !== -1) {
+				return {
+					...state,
+					[startActions[actionIndex]]: {
+						status: OK,
+						...action.payload,
+					},
+				};
+			}
+			if (failIndex !== -1) {
+				return {
+					...state,
+					[startActions[failIndex]]: {
+						status: KO,
+						...action.payload,
+					},
+				};
+			}
 		}
-		if (failIndex !== -1) {
-			return {
-				...state,
-				[startActions[failIndex]]: {
-					status: KO,
-					...action.payload,
-				},
-			};
+
+		if (resetActions.includes(action.type)) {
+			const stateToDelete = actions
+				.filter((actions) => {
+					return actions[3]?.includes(action.type);
+				})
+				.reduce(
+					(acc, actions) => [...acc, actions[0], actions[1], actions[2]],
+					[]
+				);
+
+			return trackResetReducer(state, stateToDelete);
 		}
-	}
 
-	if (resetActions.includes(action.type)) {
-		const stateToDelete = actions
-			.filter(actions => {
-				return actions[3]?.includes(action.type);
-			})
-			.reduce(
-				(acc, actions) => [...acc, actions[0], actions[1], actions[2]],
-				[]
-			);
-
-		return trackResetReducer(state, stateToDelete);
-	}
-
-	return state;
-};
+		return state;
+	};
 
 /**
  * Reducer to keep track of POST and PUT calls

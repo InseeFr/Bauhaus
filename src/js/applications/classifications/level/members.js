@@ -1,7 +1,7 @@
 import { Note } from '@inseefr/wilco';
-import { D1, D2 } from 'js/i18n';
-import { SearchableList } from 'js/utils';
-export default ({ members, classificationId, secondLang }) => {
+import { D1, D2 } from '../../../i18n';
+import { SearchableList } from '../../../utils';
+const Members = ({ members, classificationId, secondLang }) => {
 	const membersLg1 = members.map(({ id, labelLg1 }) => ({
 		id,
 		label: `${id} - ${labelLg1}`,
@@ -47,3 +47,5 @@ export default ({ members, classificationId, secondLang }) => {
 		</div>
 	);
 };
+
+export default Members;

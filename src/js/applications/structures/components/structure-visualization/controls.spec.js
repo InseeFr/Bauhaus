@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Auth, RBACMock } from 'js/utils';
+import { Auth, RBACMock } from '../../../../utils';
 import Controls from './controls';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 describe('Structure View Menu', () => {

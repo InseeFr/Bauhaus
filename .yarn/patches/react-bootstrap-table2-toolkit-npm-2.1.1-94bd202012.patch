@@ -1,0 +1,36 @@
+diff --git a/lib/src/search/SearchBar.js b/lib/src/search/SearchBar.js
+index f52e73e056f5382fa999fe78b5a4268f96134727..bc51ffff1cf5bb71c7e478f00136128049fdea0a 100644
+--- a/lib/src/search/SearchBar.js
++++ b/lib/src/search/SearchBar.js
+@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", {
+
+ var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+-var _arguments = arguments; /* eslint camelcase: 0 */
+ /* eslint no-return-assign: 0 */
+
+ var _react = require('react');
+@@ -28,12 +27,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function"
+ var handleDebounce = function handleDebounce(func, wait, immediate) {
+   var timeout = void 0;
+
+-  return function () {
++  return function (...args) {
+     var later = function later() {
+       timeout = null;
+
+       if (!immediate) {
+-        func.apply(undefined, _arguments);
++        func.apply(undefined, args);
+       }
+     };
+
+@@ -44,7 +43,7 @@ var handleDebounce = function handleDebounce(func, wait, immediate) {
+     timeout = setTimeout(later, wait || 0);
+
+     if (callNow) {
+-      func.appy(undefined, _arguments);
++      func.apply(undefined, args);
+     }
+   };
+ };

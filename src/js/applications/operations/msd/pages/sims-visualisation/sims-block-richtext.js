@@ -1,6 +1,9 @@
-import { HTMLUtils } from 'js/utils';
-import DocumentsBloc from 'js/applications/operations/msd/documents/documents-bloc/index.js';
-import { isLink, isDocument } from 'js/applications/operations/document/utils';
+import { HTMLUtils } from '../../../../../utils';
+import DocumentsBloc from '../../../../../applications/operations/msd/documents/documents-bloc/index.js';
+import {
+	isLink,
+	isDocument,
+} from '../../../../../applications/operations/document/utils';
 
 const SimsBlockRichText = ({ currentSection, isSecondLang }) => {
 	const suffix = isSecondLang ? 'Lg2' : 'Lg1';

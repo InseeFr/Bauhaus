@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Select from 'react-select';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import D from '../../i18n/build-dictionary';
 import { COMPONENT_TYPES } from '../../utils/constants/dsd-components';
@@ -15,7 +15,7 @@ import {
 	Stores,
 	withTitle,
 	useUrlQueryParameters,
-} from 'js/utils';
+} from '../../../../utils';
 import { useSelector } from 'react-redux';
 import { Column } from '../../../../new-architecture/components/layout';
 import { TextInput } from '../../../../new-architecture/components/form/input';
@@ -41,8 +41,7 @@ const defaultFormState = {
 };
 
 export const SearchFormList = ({ concepts, stampListOptions, data }) => {
-	const [form, _setForm, reset, handleChange] =
-		useUrlQueryParameters(defaultFormState);
+	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const {
 		labelLg1,

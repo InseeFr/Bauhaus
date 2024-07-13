@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 import api from '../../../remote-api/operations-api';
-import { ArrayUtils, Auth, FeminineButton, useTitle } from 'js/utils';
+import { ArrayUtils, Auth, FeminineButton, useTitle } from '../../../utils';
 import D from '../../../i18n/build-dictionary';
 import OperationsObjectHome from '../shared/list';
 
@@ -14,7 +14,7 @@ export const FamiliesHomeContainer = () => {
 		api
 			.getAllFamilies()
 			.then((results) => setFamilies(ArrayUtils.sortArray('label')(results)))
-			.finally(() => setLoading(false));
+			.finally(() => setLoading(true));
 	}, []);
 
 	if (loading) return <Loading />;

@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { goBack } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import { ComponentDetailView } from './view';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI, Stores } from 'js/utils';
+import { ConceptsAPI, Stores } from '../../../../utils';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';

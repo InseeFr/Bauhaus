@@ -1,4 +1,4 @@
-import { NONE } from 'js/constants';
+import { NONE } from '../../../constants';
 import { takeKeys, prefixWithHttp } from '@inseefr/wilco';
 
 export function processLinks(conceptsWithLinks) {

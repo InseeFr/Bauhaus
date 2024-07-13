@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
 import { VerticalMenu } from '@inseefr/wilco';
-import { PageTitle, Loading } from 'js/new-architecture/components';
+import { PageTitle, Loading } from '../../../../new-architecture/components';
 
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import { useTitle, SearchableList, Auth, FeminineButton, Row } from 'js/utils';
+import {
+	useTitle,
+	SearchableList,
+	Auth,
+	FeminineButton,
+	Row,
+} from '../../../../utils';
 
 function CodeListsPartialHome() {
 	useTitle(D.codelistsTitle, D.codelistsPartialTitle);

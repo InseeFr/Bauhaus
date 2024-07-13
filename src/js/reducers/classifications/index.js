@@ -6,7 +6,7 @@ import classificationsCorrespondenceGeneral from './correspondence/general';
 import classificationsCorrespondenceAssociations from './correspondence/associations';
 import classificationsCorrespondenceAssociation from './correspondence/association';
 
-export default {
+const reducers = {
 	classificationGeneral,
 	classificationLevels,
 	classificationLevelGeneral,
@@ -15,3 +15,5 @@ export default {
 	classificationsCorrespondenceAssociations,
 	classificationsCorrespondenceAssociation,
 };
+
+export default reducers;

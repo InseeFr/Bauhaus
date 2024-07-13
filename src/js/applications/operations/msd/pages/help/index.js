@@ -1,4 +1,4 @@
-import HelpInformation from 'js/applications/operations/msd/help-information';
+import HelpInformation from '../../../../../applications/operations/msd/help-information';
 import { Note } from '@inseefr/wilco';
 
 export default function MSDHelp({

@@ -1,11 +1,11 @@
-import D from 'js/i18n';
+import D from '../../../../i18n';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useDataset } from '../../hooks';
 import api from '../../api/datasets-api';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import {
 	ActionToolbar,
@@ -19,7 +19,7 @@ import {
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
 	useTitle,
-} from 'js/utils';
+} from '../../../../utils';
 import { GlobalInformation } from './tabs/global-information';
 import { InternalManagement } from './tabs/internal-management';
 import { Notes } from './tabs/notes';

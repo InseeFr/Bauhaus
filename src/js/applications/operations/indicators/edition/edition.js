@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import D, { D1, D2 } from 'js/i18n';
+import D, { D1, D2 } from '../../../../i18n';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
@@ -10,14 +10,14 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	RequiredIcon,
-} from 'js/utils';
-import PublishersInput from 'js/applications/operations/components/publishers-input';
-import CreatorsInput from 'js/components/creators-input';
-import { CL_FREQ } from 'js/actions/constants/codeList';
-import InputRmes from 'js/applications/shared/input-rmes';
-import Control from 'js/applications/operations/indicators/edition/control';
-import { validate } from 'js/applications/operations/indicators/edition/validation';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+} from '../../../../utils';
+import PublishersInput from '../../../../applications/operations/components/publishers-input';
+import CreatorsInput from '../../../../components/creators-input';
+import { CL_FREQ } from '../../../../actions/constants/codeList';
+import InputRmes from '../../../../applications/shared/input-rmes';
+import Control from '../../../../applications/operations/indicators/edition/control';
+import { validate } from '../../../../applications/operations/indicators/edition/validation';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 import api from '../../../../remote-api/operations-api';
 
 const defaultIndicator = {

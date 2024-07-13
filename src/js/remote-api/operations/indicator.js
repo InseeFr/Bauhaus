@@ -1,6 +1,8 @@
-import { generateGenericApiEndpoints } from 'js/new-architecture/utils/build-api';
+import { generateGenericApiEndpoints } from '../../new-architecture/utils/build-api';
 
-export default {
+const api = {
 	...generateGenericApiEndpoints('indicators', 'indicator'),
 	getIndicatorsListWithSims: () => ['indicators/withSims'],
 };
+
+export default api;

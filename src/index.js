@@ -12,7 +12,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import loadDevTools from './dev-tools/load';
 import * as Sentry from '@sentry/react';
 
-import 'main.scss';
+import './main.scss';
 
 Sentry.init({
 	dsn: 'https://57eb7cf936ad4c9198267ec7cd0031aa@o364590.ingest.sentry.io/4505557438169088',

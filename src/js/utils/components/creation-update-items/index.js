@@ -8,7 +8,7 @@ export const DateItem = ({ date }) => {
 	return stringToDate(date);
 };
 
-export default ({ creation, update }) => {
+const CreationUpdateItem = ({ creation, update }) => {
 	return (
 		<>
 			<li>
@@ -20,3 +20,5 @@ export default ({ creation, update }) => {
 		</>
 	);
 };
+
+export default CreationUpdateItem;

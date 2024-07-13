@@ -1,4 +1,4 @@
-import { Auth, FeminineButton } from 'js/utils';
+import { Auth, FeminineButton } from '../../utils';
 import D from '../../i18n/build-dictionary';
 import check from '../../utils/auth';
 import { Button, VerticalMenu, ExportButton } from '@inseefr/wilco';

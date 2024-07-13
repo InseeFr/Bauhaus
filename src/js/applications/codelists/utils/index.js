@@ -1,6 +1,6 @@
 import { getTreeFromFlatData } from 'react-sortable-tree';
 import D, { D1, D2 } from '../i18n/build-dictionary';
-import MainDictionary from 'js/i18n/build-dictionary';
+import MainDictionary from '../../../i18n/build-dictionary';
 import { formatValidation } from '../../../utils/validation';
 import { z } from 'zod';
 

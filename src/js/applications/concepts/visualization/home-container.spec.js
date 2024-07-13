@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import api from '../../../remote-api/concepts-api';
-import * as R from 'js/utils/auth/roles';
+import * as R from '../../../utils/auth/roles';
 
 jest.mock('../../../remote-api/concepts-api');
 

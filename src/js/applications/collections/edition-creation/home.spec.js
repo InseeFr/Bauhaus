@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import Collection from './home';
-import { empty } from 'js/utils/collections/general';
+import { empty } from '../../../utils/collections/general';
 import { MemoryRouter } from 'react-router-dom';
 
 jest.mock('./general', () => () => <></>);

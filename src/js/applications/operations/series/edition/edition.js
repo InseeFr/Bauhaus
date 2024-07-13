@@ -1,6 +1,6 @@
-import D, { D1, D2 } from 'js/i18n';
+import D, { D1, D2 } from '../../../../i18n';
 import { Component } from 'react';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import {
 	CancelButton,
@@ -8,7 +8,10 @@ import {
 	ActionToolbar,
 	LabelRequired,
 } from '@inseefr/wilco';
-import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
+import {
+	CL_SOURCE_CATEGORY,
+	CL_FREQ,
+} from '../../../../actions/constants/codeList';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
@@ -18,9 +21,9 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-} from 'js/utils';
-import PublishersInput from 'js/applications/operations/components/publishers-input';
-import CreatorsInput from 'js/components/creators-input';
+} from '../../../../utils';
+import PublishersInput from '../../../../applications/operations/components/publishers-input';
+import CreatorsInput from '../../../../components/creators-input';
 
 import { isMandatoryField, validate } from './validation';
 import api from '../../../../remote-api/operations-api';

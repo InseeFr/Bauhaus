@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import D from 'js/i18n';
-import { ErrorBloc } from 'js/utils';
+import D from '../../../i18n';
+import { ErrorBloc } from '../../../utils';
 import {
 	ExportButton,
 	Pagination,

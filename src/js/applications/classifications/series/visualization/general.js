@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import D from 'js/i18n';
+import D from '../../../../i18n';
 import { Note } from '@inseefr/wilco';
 import { Row } from '../../../../utils';
 
-export default ({ general, secondLang, langs }) => {
+const General = ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
 	let mapping = {};
 	if (general.familyLg1) {
@@ -95,3 +95,5 @@ export default ({ general, secondLang, langs }) => {
 		</Row>
 	);
 };
+
+export default General;

@@ -1,9 +1,9 @@
-import D from 'js/new-architecture/i18n';
+import D from '../../../new-architecture/i18n';
 import {
 	MODIFIED,
 	UNPUBLISHED,
 	VALIDATED,
-} from 'js/new-architecture/model/ValidationState';
+} from '../../../new-architecture/model/ValidationState';
 
 type ValidationState = typeof MODIFIED | typeof UNPUBLISHED | typeof VALIDATED;
 type PublicationType = {

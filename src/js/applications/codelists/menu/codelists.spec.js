@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { Auth } from 'js/utils';
+import { Auth } from '../../../utils';
 
 const mockStore = configureStore([]);
 

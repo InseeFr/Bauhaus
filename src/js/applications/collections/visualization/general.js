@@ -1,6 +1,6 @@
-import { D1, D2 } from 'js/i18n';
+import { D1, D2 } from '../../../i18n';
 import { Note } from '@inseefr/wilco';
-import { CreationUpdateItems } from 'js/utils';
+import { CreationUpdateItems } from '../../../utils';
 
 function CollectionGeneral({ attr, secondLang, langs }) {
 	const mapping = {

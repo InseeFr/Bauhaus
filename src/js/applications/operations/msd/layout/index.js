@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import Outline from 'js/applications/operations/msd/outline/';
-import D from 'js/i18n';
+import Outline from '../../../../applications/operations/msd/outline/';
+import D from '../../../../i18n';
 
 import './style.scss';
 

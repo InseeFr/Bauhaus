@@ -1,4 +1,4 @@
-import { API } from 'js/utils';
+import { API } from '../utils';
 
 const api = {
 	getOrganisations: () => [''],

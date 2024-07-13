@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import D from 'js/i18n';
-import api from 'js/remote-api/operations-api';
+import D from '../../../../../i18n';
+import api from '../../../../../remote-api/operations-api';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
@@ -15,7 +15,7 @@ import {
 	CancelButton,
 } from '@inseefr/wilco';
 
-import * as A from 'js/actions/constants';
+import * as A from '../../../../../actions/constants';
 
 import {
 	Auth,
@@ -25,12 +25,12 @@ import {
 	CreationUpdateItems,
 	Row,
 	ErrorBloc,
-} from 'js/utils';
+} from '../../../../../utils';
 import {
 	hasLabelLg2,
 	shouldDisplayDuplicateButton,
 	getParentUri,
-} from 'js/applications/operations/msd/utils';
+} from '../../../../../applications/operations/msd/utils';
 
 import SimsBlock from './sims-block';
 import './sims-visualisation.scss';

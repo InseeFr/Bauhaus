@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ClassificationItems from './home';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import { Stores } from 'js/utils';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Stores } from '../../../../utils';
 import { useParams } from 'react-router-dom';
 import api from '../../../../remote-api/classifications-api';
 

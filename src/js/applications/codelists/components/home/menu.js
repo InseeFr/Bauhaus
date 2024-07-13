@@ -1,4 +1,4 @@
-import { Auth, FeminineButton } from 'js/utils';
+import { Auth, FeminineButton } from '../../../../utils';
 import { VerticalMenu } from '@inseefr/wilco';
 
 export const HomePageMenu = () => {

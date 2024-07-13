@@ -1,6 +1,6 @@
-import { D1 } from 'js/i18n';
+import { D1 } from '../../../i18n';
 import { Note } from '@inseefr/wilco';
-import { ArrayUtils, DateUtils } from 'js/utils';
+import { ArrayUtils, DateUtils } from '../../../utils';
 import { DisseminationStatusVisualisation } from '../../../utils/dissemination-status/disseminationStatus';
 
 function ConceptGeneral({ attr, secondLang, langs }) {

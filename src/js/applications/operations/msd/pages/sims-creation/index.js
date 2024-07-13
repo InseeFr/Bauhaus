@@ -1,10 +1,10 @@
 import { Component, Fragment, useEffect, useState } from 'react';
-import D from 'js/i18n';
-import Field from 'js/applications/operations/msd/pages/sims-creation/sims-field';
-import { flattenTree } from 'js/utils/msd';
-import SimsDocumentField from 'js/applications/operations/msd/pages/sims-creation/sims-document-field';
+import D from '../../../../../i18n';
+import Field from '../../../../../applications/operations/msd/pages/sims-creation/sims-field';
+import { flattenTree } from '../../../../../utils/msd';
+import SimsDocumentField from '../../../../../applications/operations/msd/pages/sims-creation/sims-document-field';
 import { withRouter } from 'react-router-dom';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../../new-architecture/components/loading/loading';
 
 import {
 	CancelButton,
@@ -15,17 +15,17 @@ import {
 } from '@inseefr/wilco';
 import { default as ReactSelect } from 'react-select';
 
-import { DUPLICATE } from 'js/applications/operations/msd';
+import { DUPLICATE } from '../../../../../applications/operations/msd';
 import {
 	hasLabelLg2,
 	getParentId,
 	getParentIdName,
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
-} from 'js/applications/operations/msd/utils';
-import { HTMLUtils, ArrayUtils } from 'js/utils';
+} from '../../../../../applications/operations/msd/utils';
+import { HTMLUtils, ArrayUtils } from '../../../../../utils';
 import './sims-creation.scss';
-import { rangeType } from 'js/utils/msd/';
+import { rangeType } from '../../../../../utils/msd/';
 import api from '../../../../../remote-api/operations-api';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 

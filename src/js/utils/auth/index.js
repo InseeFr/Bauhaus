@@ -1,5 +1,7 @@
 import * as OpenIDConnectAuthUtils from './open-id-connect-auth/utils';
 
-export default () => {
+const auth = () => {
 	return OpenIDConnectAuthUtils;
 };
+
+export default auth;

@@ -1,4 +1,4 @@
-import D from 'js/new-architecture/i18n';
+import D from '../i18n';
 
 export const UNPUBLISHED = 'Unpublished';
 export const MODIFIED = 'Modified';

@@ -14,7 +14,7 @@ import {
 	ClientSideError,
 	Auth,
 	Row,
-} from 'js/utils';
+} from '../../../../utils';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';

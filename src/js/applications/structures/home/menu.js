@@ -1,4 +1,4 @@
-import { Auth, FeminineButton } from 'js/utils';
+import { Auth, FeminineButton } from '../../../utils';
 import { ExportButton, ImportButton, VerticalMenu } from '@inseefr/wilco';
 import D from '../../../i18n/build-dictionary';
 import { getEnvVar } from '../../../utils/env';

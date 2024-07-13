@@ -1,4 +1,4 @@
-import api from 'js/remote-api/concepts-api';
+import api from '../remote-api/concepts-api';
 import buildLoadAction from './utils/build-async-action';
 import * as A from './constants';
 

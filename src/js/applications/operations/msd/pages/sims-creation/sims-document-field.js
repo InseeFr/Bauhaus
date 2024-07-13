@@ -1,5 +1,8 @@
 import { memo, useCallback } from 'react';
-import { isLink, isDocument } from 'js/applications/operations/document/utils';
+import {
+	isLink,
+	isDocument,
+} from '../../../../../applications/operations/document/utils';
 import DocumentsBloc from '../../documents/documents-bloc';
 
 export const SimsDocumentField = ({

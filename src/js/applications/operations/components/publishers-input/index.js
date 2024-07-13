@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { ItemToSelectModel, SelectRmes } from 'js/utils';
+import { ItemToSelectModel, SelectRmes } from '../../../../utils';
 import { D1 } from '../../i18n/build-dictionary';
 
 const PublishersInput = ({ value, onChange }) => {

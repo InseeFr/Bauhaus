@@ -1,6 +1,6 @@
-import D, { D1, D2 } from 'js/i18n';
+import D, { D1, D2 } from '../../../../i18n';
 import { LINK } from '../utils';
-import { formatValidation } from 'js/utils/validation';
+import { formatValidation } from '../../../../utils/validation';
 import { z } from 'zod';
 
 const Base = z.object({

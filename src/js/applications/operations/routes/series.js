@@ -1,10 +1,10 @@
 import { Switch, Route } from 'react-router-dom';
-import OperationsSeriesContainer from 'js/applications/operations/series/';
-import OperationsSeriesVisualizationContainer from 'js/applications/operations/series/visualization/';
-import OperationsSeriesEditionContainer from 'js/applications/operations/series/edition';
-import OperationsSeriesSearchContainer from 'js/applications/operations/series/search';
+import OperationsSeriesContainer from '../../../applications/operations/series/';
+import OperationsSeriesVisualizationContainer from '../../../applications/operations/series/visualization/';
+import OperationsSeriesEditionContainer from '../../../applications/operations/series/edition';
+import OperationsSeriesSearchContainer from '../../../applications/operations/series/search';
 
-export default () => {
+const Routes = () => {
 	return (
 		<Switch>
 			<Route
@@ -35,3 +35,5 @@ export default () => {
 		</Switch>
 	);
 };
+
+export default Routes;

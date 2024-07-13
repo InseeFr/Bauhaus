@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import * as select from 'js/reducers';
-import buildPayload from 'js/utils/collections/build-payload/build-payload';
+import * as select from '../../../reducers';
+import buildPayload from '../../../utils/collections/build-payload/build-payload';
 import CollectionEditionCreation from './home';
-import D from 'js/i18n';
-import emptyCollection from 'js/utils/collections/empty-collection';
+import D from '../../../i18n';
+import emptyCollection from '../../../utils/collections/empty-collection';
 import { cleanId } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 
 import api from '../../../remote-api/concepts-api';
 import apiCollections from '../../../remote-api/concepts-collection-api';

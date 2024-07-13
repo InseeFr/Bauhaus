@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { empty } from 'js/utils/concepts/general';
+import { empty } from '../../../../utils/concepts/general';
 import Controls from './';
 import { MemoryRouter } from 'react-router-dom';
 

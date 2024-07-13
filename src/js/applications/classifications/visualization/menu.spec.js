@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import Menu from './menu';
-import { RBACMock, Auth } from 'js/utils';
+import { RBACMock, Auth } from '../../../utils';
 
 const classification = { id: 'pcs2020' };
 
@@ -40,7 +40,6 @@ describe('classification-visualization-controls', () => {
 			</RBACMock>
 		);
 		const link = await screen.findByText('Update');
-		// eslint-disable-next-line jest-dom/prefer-to-have-attribute
 		expect(link.getAttribute('href')).toEqual(
 			'/classifications/classification/pcs2020/modify'
 		);

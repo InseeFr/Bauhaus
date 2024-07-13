@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Menu from 'js/applications/structures/menu';
-import Home from 'js/applications/structures/home/home';
-import Visualization from 'js/applications/structures/visualization';
-import { Create, Update } from 'js/applications/structures/edition';
+import Menu from '../../../applications/structures/menu';
+import Home from '../../../applications/structures/home/home';
+import Visualization from '../../../applications/structures/visualization';
+import { Create, Update } from '../../../applications/structures/edition';
 import StructuresComponentsList from '../components/components-list';
 import StructuresComponentsSearch from '../components/component-search/search';
 import StructuresSearch from '../components/structure-search/search';
@@ -12,7 +12,7 @@ import StructuresComponentView from '../components/component-detail/view-contain
 import StructuresComponentEdit from '../components/component-detail/edit-container';
 
 import { connect } from 'react-redux';
-import loadStampList from 'js/actions/stamp';
+import loadStampList from '../../../actions/stamp';
 
 const StructureComponent = ({ loadStampList }) => {
 	useEffect(() => {

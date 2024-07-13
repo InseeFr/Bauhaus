@@ -1,5 +1,5 @@
 import { mapStateToProps, HELP, VIEW } from './index';
-import { NOT_LOADED, LOADED } from 'js/constants';
+import { NOT_LOADED, LOADED } from '../../../constants';
 
 describe('', () => {
 	it('should return NOT_LOADED for the metadataStructureStatus', () => {

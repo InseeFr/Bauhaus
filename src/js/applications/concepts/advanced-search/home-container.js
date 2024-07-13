@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 import ConceptSearchList from './home';
-import { Stores } from 'js/utils';
+import { Stores } from '../../../utils';
 import api from '../../../remote-api/concepts-api';
 import apiGlobal from '../../../remote-api/api';
 import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';

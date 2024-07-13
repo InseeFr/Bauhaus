@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
-import { D1, D2 } from 'js/i18n';
+import { D1, D2 } from '../../../i18n';
 import { Row } from '../../../utils';
 
-export default ({ narrowers, classificationId, secondLang }) => {
+const Narrowers = ({ narrowers, classificationId, secondLang }) => {
 	if (!narrowers || narrowers?.length === 0) {
 		return null;
 	}
@@ -50,3 +50,5 @@ export default ({ narrowers, classificationId, secondLang }) => {
 		</Row>
 	);
 };
+
+export default Narrowers;

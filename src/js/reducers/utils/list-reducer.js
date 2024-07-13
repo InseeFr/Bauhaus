@@ -1,7 +1,7 @@
-import { LOADED, LOADING, ERROR } from 'js/constants';
+import { LOADED, LOADING, ERROR } from '../../constants';
 
 export default function listReducer([load, success, failure]) {
-	return function(state = {}, action) {
+	return function (state = {}, action) {
 		switch (action.type) {
 			case load:
 				return {
@@ -23,4 +23,4 @@ export default function listReducer([load, success, failure]) {
 	};
 }
 
-export const getItems = state => state.results;
+export const getItems = (state) => state.results;

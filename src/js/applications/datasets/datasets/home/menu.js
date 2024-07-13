@@ -1,4 +1,4 @@
-import { Auth, MasculineButton } from 'js/utils';
+import { Auth, MasculineButton } from '../../../../utils';
 import { VerticalMenu } from '@inseefr/wilco';
 
 export const HomePageMenu = () => {

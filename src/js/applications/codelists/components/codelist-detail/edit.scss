@@ -26,6 +26,13 @@
 	}
 }
 .wilco-action-toolbar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	flex-wrap: wrap;
+
 	&::before {
 		content: none;
 	}
@@ -33,12 +40,6 @@
 		content: none;
 	}
 
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	margin-top: 15px;
-	margin-bottom: 15px;
-	flex-wrap: wrap;
 
 	> div {
 		flex-grow: 1;

@@ -1,5 +1,5 @@
 import D, { D1, D2 } from '../../../i18n/build-dictionary';
-import { formatValidation } from 'js/utils/validation';
+import { formatValidation } from '../../../utils/validation';
 import { z } from 'zod';
 
 const Distribution = z.object({

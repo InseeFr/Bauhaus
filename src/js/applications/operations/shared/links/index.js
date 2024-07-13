@@ -1,6 +1,6 @@
 import { Note } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
-import { D1, D2 } from 'js/i18n';
+import { D1, D2 } from '../../../../i18n';
 
 function DisplayLinks({
 	links = [],

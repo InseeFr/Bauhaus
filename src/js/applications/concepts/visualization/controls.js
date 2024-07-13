@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react';
 import { Button, ActionToolbar } from '@inseefr/wilco';
-import check from 'js/utils/auth';
-import D from 'js/i18n';
-import { ConfirmationDelete } from 'js/utils';
+import check from '../../../utils/auth';
+import D from '../../../i18n';
+import { ConfirmationDelete } from '../../../utils';
 import api from '../../../remote-api/concepts-api';
 import { useLoading } from './loading';
 import { useGoBack } from '../../../hooks/hooks';
-import { saveFileFromHttpResponse } from 'js/new-architecture/utils/files';
+import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
 
 const ConceptVisualizationControls = ({
 	isValidated,

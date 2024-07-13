@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import Home from './home';
-import * as associationUtils from 'js/applications/classifications/utils/correspondence/association';
+import * as associationUtils from '../../../../applications/classifications/utils/correspondence/association';
 import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';

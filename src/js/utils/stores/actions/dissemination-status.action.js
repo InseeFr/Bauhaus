@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { buildApi } from 'js/new-architecture/utils/build-api';
+import { buildApi } from '../../../new-architecture/utils/build-api';
 import { ERROR, LOADED, LOADING } from '../constants';
 import { connect, useSelector } from 'react-redux';
 
@@ -66,7 +66,7 @@ export const getDisseminationStatusListOptions = (state) =>
 	}));
 
 export const withDisseminationStatusListOptions = (Component) => {
-	const componentWithDisseminationStatus = (props) => {
+	const ComponentWithDisseminationStatus = (props) => {
 		const { loadDisseminationStatusList } = props;
 		const disseminationStatusListOptions = useSelector((state) =>
 			getDisseminationStatusListOptions(state)
@@ -87,5 +87,5 @@ export const withDisseminationStatusListOptions = (Component) => {
 	};
 	return connect(undefined, {
 		loadDisseminationStatusList,
-	})(componentWithDisseminationStatus);
+	})(ComponentWithDisseminationStatus);
 };

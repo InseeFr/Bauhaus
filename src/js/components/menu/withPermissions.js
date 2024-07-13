@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { Auth } from 'js/utils';
+import { Auth } from '../../../utils';
 
 export function withPermissions(WrappedComponent) {
 	const mapStateToProps = (state) => {

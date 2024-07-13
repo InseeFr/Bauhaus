@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import SlidingPanel from 'react-sliding-side-panel';
-import { CodesList, ArrayUtils } from 'js/utils';
+import { CodesList, ArrayUtils } from '../../../../utils';
 import './codes-list-panel.scss';
 import { ActionToolbar } from '@inseefr/wilco';
 import D from '../../i18n/build-dictionary';

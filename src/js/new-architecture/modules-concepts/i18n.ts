@@ -4,7 +4,7 @@ import {
 	getLang,
 	secondLang,
 } from '@inseefr/wilco';
-import { Dictionary } from 'js/new-architecture/utils/types';
+import { Dictionary } from '../utils/types';
 
 const dictionary = {
 	collectionMembersPanelTitle: {

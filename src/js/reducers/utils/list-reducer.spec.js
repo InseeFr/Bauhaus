@@ -1,5 +1,5 @@
 import listReducer from './list-reducer';
-import { LOADED, LOADING, ERROR } from 'js/constants';
+import { LOADED, LOADING, ERROR } from '../../constants';
 
 describe('listReducer', () => {
 	const reducer = listReducer(['load', 'success', 'failure']);

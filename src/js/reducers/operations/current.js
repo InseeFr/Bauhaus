@@ -1,9 +1,9 @@
-import * as A from 'js/actions/constants';
+import * as A from '../../actions/constants';
 
 /**
  * Reducer for fetching the current indicator displayed during the visualisation or the edition
  */
-export const operationsSimsCurrent = function(state = {}, action) {
+export const operationsSimsCurrent = function (state = {}, action) {
 	switch (action.type) {
 		case A.LOAD_OPERATIONS_SIMS_SUCCESS:
 		case A.SAVE_OPERATIONS_SIMS:

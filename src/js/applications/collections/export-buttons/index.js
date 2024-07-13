@@ -1,6 +1,6 @@
 import D from '../../../i18n/build-dictionary';
 import ExportButton from '../dropdown';
-export default ({ exportHandler, disabled }) => {
+const ExportButtons = ({ exportHandler, disabled }) => {
 	return (
 		<ExportButton
 			disabled={disabled}
@@ -37,3 +37,4 @@ export default ({ exportHandler, disabled }) => {
 		></ExportButton>
 	);
 };
+export default ExportButtons;

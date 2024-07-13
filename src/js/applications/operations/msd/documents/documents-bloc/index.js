@@ -1,11 +1,14 @@
-import spinner from 'img/spinner.svg';
-import { LOADING } from 'js/constants';
-import D, { D1, D2 } from 'js/i18n';
+import spinner from '../../../../../../img/spinner.svg';
+import { LOADING } from '../../../../../constants';
+import D, { D1, D2 } from '../../../../../i18n';
 import { getLang } from '@inseefr/wilco';
 import { useState, useEffect } from 'react';
-import { API, ArrayUtils } from 'js/utils';
+import { API, ArrayUtils } from '../../../../../utils';
 import './style.scss';
-import { isLink, isDocument } from 'js/applications/operations/document/utils';
+import {
+	isLink,
+	isDocument,
+} from '../../../../../applications/operations/document/utils';
 
 function getAsideToTheDocument(document) {
 	let updatedDate;

@@ -1,12 +1,12 @@
 import { Note } from '@inseefr/wilco';
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../../new-architecture/components';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
-import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
-import { D2, D1 } from 'js/i18n';
-import { CheckSecondLang, Row } from 'js/utils';
+import { ExplanatoryNote } from '../../../../applications/shared/explanatory-note';
+import { D2, D1 } from '../../../../i18n';
+import { CheckSecondLang, Row } from '../../../../utils';
 
-export default ({ association, secondLang, langs }) => {
+const Home = ({ association, secondLang, langs }) => {
 	const {
 		labelLg1,
 		labelLg2,
@@ -58,3 +58,5 @@ export default ({ association, secondLang, langs }) => {
 		</div>
 	);
 };
+
+export default Home;

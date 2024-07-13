@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { PageSubtitle } from '@inseefr/wilco';
-import { PageTitle, Loading } from 'js/new-architecture/components';
+import { PageTitle, Loading } from '../../../new-architecture/components';
 
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
-import CollectionMembers from 'js/new-architecture/modules-concepts/collections/visualisation/members';
-import { CheckSecondLang, withTitle } from 'js/utils';
-import D from 'js/i18n';
+import CollectionMembers from '../../../new-architecture/modules-concepts/collections/visualisation/members';
+import { CheckSecondLang, withTitle } from '../../../utils';
+import D from '../../../i18n';
 
 const CollectionVisualization = ({
 	id,

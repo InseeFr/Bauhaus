@@ -1,10 +1,10 @@
 import { Note } from '@inseefr/wilco';
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../../new-architecture/components';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
-import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
-import { D1, D2 } from 'js/i18n';
-import { CheckSecondLang, Row, useTitle } from 'js/utils';
+import { ExplanatoryNote } from '../../../../applications/shared/explanatory-note';
+import { D1, D2 } from '../../../../i18n';
+import { CheckSecondLang, Row, useTitle } from '../../../../utils';
 import D from '../../../../i18n/build-dictionary';
 
 const HomeGeneral = ({ correspondence, secondLang, langs: { lg1, lg2 } }) => {

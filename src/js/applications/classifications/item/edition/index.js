@@ -6,10 +6,10 @@ import {
 	goBack,
 	LabelRequired,
 } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import { Redirect, useHistory, useParams } from 'react-router-dom';
-import { EditorMarkdown, PageTitleBlock, Row } from 'js/utils';
+import { EditorMarkdown, PageTitleBlock, Row } from '../../../../utils';
 import { Controller, useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import useClassificationItem from '../hook';

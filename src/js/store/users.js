@@ -15,7 +15,7 @@ export const checkAuth = (body) => ({
 	payload: body,
 });
 
-export default function (state = {}, action) {
+const UserReducer = (state = {}, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case Stores.SecondLang.SAVE_SECOND_LANG: {
@@ -39,4 +39,6 @@ export default function (state = {}, action) {
 		default:
 			return state;
 	}
-}
+};
+
+export default UserReducer;

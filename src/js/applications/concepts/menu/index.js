@@ -1,4 +1,4 @@
-import D from 'js/i18n';
+import D from '../../../i18n';
 import { getLang, Menu } from '@inseefr/wilco';
 import { useLocation } from 'react-router-dom';
 const defaultAttrs = { 'aria-current': 'page' };

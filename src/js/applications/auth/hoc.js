@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import LoginNoAuth from 'js/applications/auth/no-auth/login';
-import LoginOpenIDConnect from 'js/applications/auth/open-id-connect-auth/login-container';
-import * as Impl from 'js/utils/auth/auth-impl';
-import { Auth } from 'js/utils';
+import LoginNoAuth from '../../applications/auth/no-auth/login';
+import LoginOpenIDConnect from '../../applications/auth/open-id-connect-auth/login-container';
+import * as Impl from '../../utils/auth/auth-impl';
+import { Auth } from '../../utils';
 
 const auth = (WrappedComponent) => {
 	const AuthComponent = ({ authType, roles }) => {

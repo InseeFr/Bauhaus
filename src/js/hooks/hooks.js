@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import { useQueries, useQuery } from '@tanstack/react-query';
-import { CodesList } from 'js/utils';
+import { CodesList } from '../utils';
 
 const fetchCodeList = (notation) => {
 	return Promise.all([

@@ -7,7 +7,7 @@ import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 
 import { useSelector } from 'react-redux';
-import { Auth, Stores } from 'js/utils';
+import { Auth, Stores } from '../../../../utils';
 import Representation from '../representation';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 

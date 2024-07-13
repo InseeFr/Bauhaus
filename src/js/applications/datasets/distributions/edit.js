@@ -5,7 +5,7 @@ import {
 	PageTitleBlock,
 	Row,
 	useTitle,
-} from 'js/utils';
+} from '../../../utils';
 import {
 	ActionToolbar,
 	CancelButton,
@@ -14,7 +14,6 @@ import {
 	LabelRequired,
 	SaveButton,
 } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -25,7 +24,7 @@ import { default as ReactSelect } from 'react-select';
 import D from '../../../i18n/build-dictionary';
 import { useDatasetsForDistributions, useDistribution } from '../hooks';
 import { validate } from './validation';
-import { TextInput } from '../../../new-architecture/components';
+import { TextInput, Loading } from '../../../new-architecture/components';
 
 export const DistributionEdit = (props) => {
 	const { id } = useParams();

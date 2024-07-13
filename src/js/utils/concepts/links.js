@@ -7,7 +7,7 @@ import {
 	NONE,
 	CLOSE_MATCH,
 	IS_REPLACED_BY,
-} from 'js/constants';
+} from '../../constants';
 
 const linkTypes = {
 	[BROADER]: BROADER,

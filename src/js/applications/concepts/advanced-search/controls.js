@@ -1,8 +1,13 @@
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
-import D from 'js/i18n';
+import D from '../../../i18n';
 import ExportButtons from '../../collections/export-buttons';
 
-export default ({ onClickReturn, initializeState, onExport, conceptsList }) => (
+const Controls = ({
+	onClickReturn,
+	initializeState,
+	onExport,
+	conceptsList,
+}) => (
 	<ActionToolbar>
 		<ReturnButton action={onClickReturn} />
 		<ExportButtons
@@ -29,3 +34,5 @@ export default ({ onClickReturn, initializeState, onExport, conceptsList }) => (
 		/>
 	</ActionToolbar>
 );
+
+export default Controls;

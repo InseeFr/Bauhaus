@@ -1,5 +1,5 @@
-import D from 'js/i18n';
-import { rangeType } from 'js/utils/msd/';
+import D from '../../../../i18n';
+import { rangeType } from '../../../../utils/msd/';
 const { CODE_LIST, ORGANIZATION } = rangeType;
 
 export default function HelpInformation({ msd, codesLists, organisations }) {

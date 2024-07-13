@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import { VerticalMenu, filterKeyDeburr, nbResults } from '@inseefr/wilco';
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle, TextInput } from '../../../new-architecture/components';
 
-import D from 'js/i18n';
+import D from '../../../i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
 import {
 	Auth,
@@ -10,9 +10,8 @@ import {
 	useTitle,
 	Pagination,
 	MasculineButton,
-} from 'js/utils';
+} from '../../../utils';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { TextInput } from '../../../new-architecture/components/form/input';
 
 const formatter = (content, label) => {
 	const extraInformations = [];

@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import Outline from './index';
 import { MemoryRouter } from 'react-router-dom';
-jest.mock('js/applications/operations/msd/utils');
+jest.mock('../../../../applications/operations/msd/utils');
 
 const metadataStructureOpened = {
 	idMas: '1',

@@ -1,7 +1,7 @@
 import reducerClassificationGeneral, { getGeneral } from './general';
-import * as A from 'js/actions/constants';
-import { LOADED } from 'js/constants';
-import * as generalUtils from 'js/applications/classifications/utils/classification/general';
+import * as A from '../../../actions/constants';
+import { LOADED } from '../../../constants';
+import * as generalUtils from '../../../applications/classifications/utils/classification/general';
 
 describe('reducerClassificationGeneral', () => {
 	test('action UPDATE_CLASSIFICATION_SUCCESS', () => {

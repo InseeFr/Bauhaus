@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { ViewMenu } from './menu';
-import { Auth, RBACMock } from 'js/utils';
+import { Auth, RBACMock } from '../../../../utils';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 
 describe('Distribution View Menu', () => {

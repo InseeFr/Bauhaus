@@ -7,7 +7,7 @@ import {
 	ADMIN,
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
-} from 'js/utils/auth/roles';
+} from '../../../utils/auth/roles';
 
 const mockStore = configureStore([]);
 

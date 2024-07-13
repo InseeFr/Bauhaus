@@ -1,7 +1,7 @@
 import { useClassification, useUpdateClassification } from '../hooks';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
 import { ActionToolbar, goBack, LabelRequired } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 import {
 	ClientSideError,
 	EditorMarkdown,
@@ -10,11 +10,11 @@ import {
 	Row,
 	Stores,
 	useTitle,
-} from 'js/utils';
+} from '../../../utils';
 import { useForm, Controller } from 'react-hook-form';
 import { default as ReactSelect } from 'react-select';
 import organisationApi from '../../../remote-api/organisations-api';
-import D, { D1, D2 } from 'js/i18n';
+import D, { D1, D2 } from '../../../i18n';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../remote-api/classifications-api';
 import generalApi from '../../../remote-api/api';

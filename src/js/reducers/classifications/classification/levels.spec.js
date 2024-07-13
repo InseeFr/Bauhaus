@@ -1,6 +1,6 @@
 import reducerClassificationLevels, { getLevels } from './levels';
-import * as A from 'js/actions/constants';
-import { LOADED } from 'js/constants';
+import * as A from '../../../actions/constants';
+import { LOADED } from '../../../constants';
 
 describe('reducerSeriesMembers', () => {
 	test('action LOAD_CLASSIFICATION_LEVELS_SUCCESS', () => {

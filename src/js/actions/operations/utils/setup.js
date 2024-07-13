@@ -1,7 +1,10 @@
-import apiOrganisations from 'js/remote-api/organisations-api';
-import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
-import loadStampList from 'js/actions/stamp';
-import * as A from 'js/actions/constants';
+import apiOrganisations from '../../../remote-api/organisations-api';
+import {
+	CL_SOURCE_CATEGORY,
+	CL_FREQ,
+} from '../../../actions/constants/codeList';
+import loadStampList from '../../../actions/stamp';
+import * as A from '../../../actions/constants';
 import { CodesList } from '../../../utils';
 
 export const loadSetup = () => (dispatch) => {

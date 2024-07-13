@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { LabelRequired } from '@inseefr/wilco';
-import { Loading, TextInput } from 'js/new-architecture/components';
+import { Loading, TextInput } from '../../../new-architecture/components';
 
 import Controls from './controls';
 import Components from './components';
@@ -16,20 +16,13 @@ import {
 	Row,
 	Auth,
 	SelectRmes,
-} from 'js/utils';
-import D, { D1, D2 } from 'js/i18n';
+} from '../../../utils';
+import D, { D1, D2 } from '../../../i18n';
 import { useSelector } from 'react-redux';
 import 'react-select/dist/react-select.css';
 import { validate } from './validation';
 import { ContributorsInput } from '../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
-
-const isRequiredBys = [
-	'Melodi-Chargement',
-	'Melodi-Diffusion',
-	'Melodi-Diffusion-SDMX',
-];
-
 
 const defaultDSD = {
 	identifiant: '',
@@ -75,7 +68,6 @@ const Edition = ({ creation, initialStructure }) => {
 		creator,
 		contributor,
 		disseminationStatus,
-		isRequiredBy,
 	} = structure;
 
 	const permission = useSelector(Auth.getPermission);

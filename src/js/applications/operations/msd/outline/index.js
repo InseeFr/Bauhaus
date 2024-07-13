@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { toggleOpen, isOpen } from 'js/applications/operations/msd/utils';
-import OutlineBlock from 'js/applications/operations/msd/outline/outline-block';
-import D from 'js/i18n';
+import {
+	toggleOpen,
+	isOpen,
+} from '../../../../applications/operations/msd/utils';
+import OutlineBlock from '../../../../applications/operations/msd/outline/outline-block';
+import D from '../../../../i18n';
 
 import './style.scss';
 import { OutlineButtonWithScroll } from './outline-button-with-scroll';

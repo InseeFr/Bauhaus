@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import * as select from 'js/reducers';
+import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import OperationsFamilyEdition from 'js/applications/operations/families/edition/edition';
+import { Loading } from '../../../../new-architecture/components';
+import OperationsFamilyEdition from '../../../../applications/operations/families/edition/edition';
 import api from '../../../../remote-api/operations-api';
-import { useGoBack } from 'js/hooks/hooks';
+import { useGoBack } from '../../../../hooks/hooks';
 
 const OperationsFamilyEditionContainer = () => {
 	const { id } = useParams();

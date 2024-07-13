@@ -1,10 +1,10 @@
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 import AssociationHome from './home';
-import * as mainSelect from 'js/reducers';
-import { Stores } from 'js/utils';
+import * as mainSelect from '../../../../reducers';
+import { Stores } from '../../../../utils';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import api from 'js/remote-api/classifications-api';
+import api from '../../../../remote-api/classifications-api';
 import { useSelector } from 'react-redux';
 
 const AssociationHomeContainer = () => {

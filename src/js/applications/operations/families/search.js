@@ -1,16 +1,15 @@
-import D from 'js/i18n';
+import D from '../../../i18n';
 import { Link, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import api from 'js/remote-api/operations-api';
+import api from '../../../remote-api/operations-api';
 
 import {
 	ArrayUtils,
 	AdvancedSearchList,
 	useTitle,
 	useUrlQueryParameters,
-} from 'js/utils';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import { TextInput } from '../../../new-architecture/components/form/input';
+} from '../../../utils';
+import { Loading, TextInput } from '../../../new-architecture/components';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 
@@ -19,8 +18,7 @@ const defaultFormState = {
 };
 
 const SearchFormList = ({ data }) => {
-	const [form, _setForm, reset, handleChange] =
-		useUrlQueryParameters(defaultFormState);
+	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const { prefLabelLg1 } = form;
 

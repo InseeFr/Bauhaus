@@ -3,8 +3,8 @@ import {
 	firstLang,
 	getLang,
 	secondLang,
-} from 'js/new-architecture/utils/dictionnary';
-import { Dictionary } from 'js/new-architecture/utils/types';
+} from '../../new-architecture/utils/dictionnary';
+import { Dictionary } from '../../new-architecture/utils/types';
 
 const dictionary = {
 	loading: {

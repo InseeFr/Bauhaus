@@ -2,10 +2,10 @@ import validator, {
 	scndWithoutFirst,
 	checkPrefLabelLg1Existing,
 } from './validation';
-import { HTMLUtils } from 'js/utils';
-import D, { D1 } from 'js/i18n';
+import { HTMLUtils } from '../../../../utils';
+import D, { D1 } from '../../../../i18n';
 
-jest.mock('js/utils', () => ({
+jest.mock('../../../../utils', () => ({
 	HTMLUtils: {
 		htmlIsEmpty: jest.fn(),
 		htmlLength: jest.fn(),

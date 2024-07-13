@@ -1,9 +1,9 @@
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../../new-architecture/components';
 import Controls from './controls';
 import General from '../general';
-import CompareNotes from 'js/applications/shared/note-compare';
-import { buildNotes } from 'js/applications/classifications/utils/classification/notes';
-import { CheckSecondLang } from 'js/utils';
+import CompareNotes from '../../../../applications/shared/note-compare';
+import { buildNotes } from '../../../../applications/classifications/utils/classification/notes';
+import { CheckSecondLang } from '../../../../utils';
 
 const Compare = ({
 	classificationId,

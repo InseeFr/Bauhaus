@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 import OperationsHome from './home';
 import api from '../../../remote-api/operations-api';
-import { ArrayUtils } from 'js/utils';
+import { ArrayUtils } from '../../../utils';
 
 const OperationsHomeContainer = () => {
 	const [operations, setOperations] = useState([]);

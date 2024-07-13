@@ -2,8 +2,8 @@ import { useEffect, useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Keycloak from 'keycloak';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import { Auth } from 'js/utils';
+import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Auth } from '../../../utils';
 import { saveUserProps } from '../../../store/users';
 
 const kcConfig = `${window.location.origin}/keycloak.json`;

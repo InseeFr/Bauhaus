@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import ConceptVisualization from './home';
-import { empty } from 'js/utils/concepts/general';
+import { empty } from '../../../utils/concepts/general';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';

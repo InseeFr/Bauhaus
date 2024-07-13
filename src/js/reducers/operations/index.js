@@ -1,7 +1,7 @@
-import * as A from 'js/actions/constants';
-import { LOADED, LOADING, ERROR } from 'js/constants';
-import * as currentReducers from 'js/reducers/operations/current';
-import { ArrayUtils } from 'js/utils';
+import * as A from '../../actions/constants';
+import { LOADED, LOADING, ERROR } from '../../constants';
+import * as currentReducers from '../../reducers/operations/current';
+import { ArrayUtils } from '../../utils';
 
 /**
  *
@@ -64,7 +64,9 @@ const operationsMetadataStructureList = makeReducers([
 	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
 ]);
 
-export default {
+const operations = {
 	operationsMetadataStructureList,
 	...currentReducers,
 };
+
+export default operations;

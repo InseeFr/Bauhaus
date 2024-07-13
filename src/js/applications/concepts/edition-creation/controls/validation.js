@@ -1,5 +1,5 @@
-import { HTMLUtils } from 'js/utils';
-import D, { D1 } from 'js/i18n';
+import { HTMLUtils } from '../../../../utils';
+import D, { D1 } from '../../../../i18n';
 
 export const scndWithoutFirst = (first, second) => {
 	return !HTMLUtils.htmlIsEmpty(second) && HTMLUtils.htmlIsEmpty(first);
@@ -16,7 +16,7 @@ export const checkPrefLabelLg1Existing = (
 	);
 };
 
-export default (
+const validate = (
 	oldGeneral,
 	newGeneral,
 	notes,
@@ -107,3 +107,5 @@ export default (
 
 	return { errorMessage, fields };
 };
+
+export default validate;

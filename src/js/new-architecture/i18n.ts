@@ -4,7 +4,7 @@ import {
 	getLang,
 	secondLang,
 } from './utils/dictionnary';
-import { Dictionary } from 'js/new-architecture/utils/types';
+import { Dictionary } from '../new-architecture/utils/types';
 
 const dictionary = {
 	authentication: {

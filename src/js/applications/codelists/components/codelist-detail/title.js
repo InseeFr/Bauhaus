@@ -1,4 +1,4 @@
-import { CheckSecondLang, PageTitleBlock } from 'js/utils';
+import { CheckSecondLang, PageTitleBlock } from '../../../../utils';
 const ComponentTitle = ({ component, secondLang }) => {
 	return (
 		<>

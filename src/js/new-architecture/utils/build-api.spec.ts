@@ -47,7 +47,7 @@ describe('build call', () => {
 				text: resPromise,
 			})
 		);
-		window.fetch = fetch;
+		window.fetch = fetch as any;
 		const remoteCall = buildCall('context', 'postComment', postCommentFn);
 		expect.assertions(1);
 		return expect(remoteCall('john', 'some text')).resolves.toEqual(42);

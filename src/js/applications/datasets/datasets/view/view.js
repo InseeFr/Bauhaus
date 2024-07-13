@@ -9,7 +9,7 @@ import {
 	Stores,
 	Row,
 	useTitle,
-} from 'js/utils';
+} from '../../../../utils';
 import { useEffect, useState } from 'react';
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
@@ -25,7 +25,7 @@ import {
 	Deleting,
 	Publishing,
 	Loading,
-} from 'js/new-architecture/components/loading/loading';
+} from '../../../../new-architecture/components/loading/loading';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import { CL_FREQ } from '../../../../actions/constants/codeList';

@@ -1,6 +1,6 @@
 import Controls from './controls';
 import { render } from '@testing-library/react';
-import { empty } from 'js/utils/collections/general';
+import { empty } from '../../../utils/collections/general';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('collection-edition-creation-controls', () => {

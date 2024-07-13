@@ -1,5 +1,5 @@
-import { D1, D2 } from 'js/i18n';
-import { EditorMarkdown, Row } from 'js/utils';
+import { D1, D2 } from '../../../../../i18n';
+import { EditorMarkdown, Row } from '../../../../../utils';
 
 export const Notes = ({ editingDataset, setEditingDataset }) => {
 	return (

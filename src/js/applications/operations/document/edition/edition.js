@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import D, { D1, D2 } from 'js/i18n';
+import D, { D1, D2 } from '../../../../i18n';
 import {
 	EditorMarkdown,
 	PageTitleBlock,
@@ -8,12 +8,12 @@ import {
 	ClientSideError,
 	Row,
 	useTitle,
-} from 'js/utils';
-import { validate } from 'js/applications/operations/document/edition/validation';
+} from '../../../../utils';
+import { validate } from '../../../../applications/operations/document/edition/validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
-import { useGoBack } from 'js/hooks/hooks';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { useGoBack } from '../../../../hooks/hooks';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import {
 	CancelButton,
@@ -22,8 +22,8 @@ import {
 	LabelRequired,
 	Select,
 } from '@inseefr/wilco';
-import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
-import api from 'js/remote-api/api';
+import DatePickerRmes from '../../../../applications/shared/date-picker-rmes';
+import api from '../../../../remote-api/api';
 import Modal from 'react-modal';
 import { TextInput } from '../../../../new-architecture/components';
 

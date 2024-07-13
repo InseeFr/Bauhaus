@@ -1,4 +1,4 @@
-import { SelectRmes, StampsApi } from 'js/utils';
+import { SelectRmes, StampsApi } from '../../utils';
 import { D1 } from '../i18n/build-dictionary';
 import { useQuery } from '@tanstack/react-query';
 import { LabelRequired } from '@inseefr/wilco';

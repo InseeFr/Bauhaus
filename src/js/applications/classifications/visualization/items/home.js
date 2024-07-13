@@ -1,7 +1,7 @@
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../../new-architecture/components';
 import Controls from './controls';
-import D from 'js/i18n';
-import { CheckSecondLang, Row, SearchableList } from 'js/utils';
+import D from '../../../../i18n';
+import { CheckSecondLang, Row, SearchableList } from '../../../../utils';
 
 const ClassificationTree = ({ items, subtitle, classificationId }) => {
 	return (

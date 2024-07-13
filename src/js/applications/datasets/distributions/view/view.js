@@ -9,8 +9,8 @@ import {
 	Stores,
 	Row,
 	useTitle,
-} from 'js/utils';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+} from '../../../../utils';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';

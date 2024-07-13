@@ -1,8 +1,8 @@
-import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
-import { D1, D2 } from 'js/i18n';
+import { ExplanatoryNote } from '../../../applications/shared/explanatory-note';
+import { D1, D2 } from '../../../i18n';
 import { Row } from '../../../utils';
 
-export default ({
+const Notes = ({
 	notes: {
 		scopeNoteLg1,
 		scopeNoteLg2,
@@ -83,3 +83,5 @@ export default ({
 		</span>
 	</div>
 );
+
+export default Notes;

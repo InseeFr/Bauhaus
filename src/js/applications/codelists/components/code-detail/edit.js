@@ -6,7 +6,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	Row,
-} from 'js/utils';
+} from '../../../../utils';
 import { validateCode } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { emptyCode } from './empty-code';

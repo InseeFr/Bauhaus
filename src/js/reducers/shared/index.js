@@ -1,5 +1,5 @@
 import listReducer from '../utils/list-reducer';
-import * as A from 'js/actions/constants';
+import * as A from '../../actions/constants';
 
 const stampList = listReducer([
 	A.LOAD_STAMP_LIST,
@@ -7,7 +7,8 @@ const stampList = listReducer([
 	A.LOAD_STAMP_LIST_FAILURE,
 ]);
 
-export default {
+const stamp = {
 	stampList,
 };
 
+export default stamp;

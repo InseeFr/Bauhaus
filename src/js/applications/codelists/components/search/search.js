@@ -8,13 +8,12 @@ import {
 	Stores,
 	useTitle,
 	useUrlQueryParameters,
-} from 'js/utils';
+} from '../../../../utils';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
-import { Loading } from 'js/new-architecture/components/loading/loading';
 import { Column } from '../../../../new-architecture/components/layout';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import { TextInput, Loading } from '../../../../new-architecture/components';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 
 const filterId = ArrayUtils.filterKeyDeburr(['id']);
@@ -34,8 +33,7 @@ const defaultFormState = {
 };
 
 const SearchFormList = ({ stampListOptions, data }) => {
-	const [form, _setForm, reset, handleChange] =
-		useUrlQueryParameters(defaultFormState);
+	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const { id, labelLg1, creator, validationState, code, codeLabel } = form;
 

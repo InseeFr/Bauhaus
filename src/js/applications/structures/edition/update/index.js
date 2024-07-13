@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import Edition from '../component';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 import StructureAPI from '../../apis/structure-api';
 import { useLocation, useParams } from 'react-router-dom';
-import { useTitle } from 'js/utils';
-import D from 'js/i18n';
+import { useTitle } from '../../../../utils';
+import D from '../../../../i18n';
 
 const Update = () => {
 	const location = useLocation();

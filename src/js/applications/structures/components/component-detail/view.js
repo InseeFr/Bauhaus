@@ -15,7 +15,7 @@ import {
 	useTitle,
 	ErrorBloc,
 	Row,
-} from 'js/utils';
+} from '../../../../utils';
 import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from '../../../codelists/apis';

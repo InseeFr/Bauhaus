@@ -1,6 +1,6 @@
 import { Note } from '@inseefr/wilco';
 import DOMPurify from 'dompurify';
-import { HTMLUtils } from 'js/utils';
+import { HTMLUtils } from '../../../utils';
 
 export const ExplanatoryNote = ({ text, title, alone, md }) => {
 	const cl = alone ? 'col-md-12' : 'col-md-6';

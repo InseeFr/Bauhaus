@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Menu } from './menu';
-import { Auth, RBACMock } from 'js/utils';
+import { Auth, RBACMock } from '../../utils';
 
 describe('Distributions Home Page Menu', () => {
 	it('an admin can create a new collection if he does not have the Gestionnaire_ensemble_concepts_RMESGNCS role', () => {

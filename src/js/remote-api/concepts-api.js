@@ -1,4 +1,4 @@
-import { API, ConceptsAPIRoutes } from 'js/utils';
+import { API, ConceptsAPIRoutes } from '../utils';
 
 const api = {
 	...ConceptsAPIRoutes,

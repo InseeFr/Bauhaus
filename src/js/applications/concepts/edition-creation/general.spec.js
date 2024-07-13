@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import ConceptGeneral from './general';
-import { empty } from 'js/utils/concepts/general';
+import { empty } from '../../../utils/concepts/general';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 

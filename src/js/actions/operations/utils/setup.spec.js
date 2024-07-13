@@ -1,6 +1,6 @@
 import { loadOrganisations } from './setup';
-import * as A from 'js/actions/constants';
-import apiOrganisations from 'js/remote-api/organisations-api';
+import * as A from '../../../actions/constants';
+import apiOrganisations from '../../../remote-api/organisations-api';
 
 const dispatch = jest.fn();
 describe('setup operations', () => {

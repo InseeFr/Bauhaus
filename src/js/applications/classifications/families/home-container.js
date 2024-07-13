@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 import FamiliesHome from './home';
-import api from 'js/remote-api/classifications-api';
+import api from '../../../remote-api/classifications-api';
 
 export const FamiliesHomeContainer = () => {
 	const [families, setFamilies] = useState([]);

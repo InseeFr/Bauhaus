@@ -9,11 +9,11 @@ import {
 	PickerItem,
 } from '@inseefr/wilco';
 
-import MainDictonary from 'js/i18n';
-import { D1 } from 'js/new-architecture/modules-concepts/i18n';
-import { Row } from 'js/utils';
-import { TextInput } from 'js/new-architecture/components/form/input';
-import { Column } from 'js/new-architecture/components/layout';
+import MainDictonary from '../../../../i18n';
+import { D1 } from '../../../../new-architecture/modules-concepts/i18n';
+import { Row } from '../../../../utils';
+import { TextInput } from '../../../../new-architecture/components/form/input';
+import { Column } from '../../../../new-architecture/components/layout';
 
 const extractMembers = (concepts) => {
 	return concepts.reduce((members, { id, label, isAdded }) => {

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
-import { D1, D2 } from 'js/i18n';
+import { D1, D2 } from '../../../../i18n';
 import { Row } from '../../../../utils';
 
-export default ({ members, secondLang }) => {
+const Members = ({ members, secondLang }) => {
 	const membersLg1 = members.map((m, i) => (
 		<li key={i}>
 			<Link to={`/classifications/series/${m.id}`}>{m.labelLg1}</Link>
@@ -36,3 +36,5 @@ export default ({ members, secondLang }) => {
 		</Row>
 	);
 };
+
+export default Members;

@@ -1,14 +1,14 @@
-export default {
+const api = {
 	getOperationsList: () => ['operations'],
 
 	getOperationsSearchList: () => ['operations/advanced-search'],
-	getOperation: id => [`operation/${id}`],
-	publishOperation: operation => [
+	getOperation: (id) => [`operation/${id}`],
+	publishOperation: (operation) => [
 		`operation/validate/${operation.id}`,
 		{ method: 'PUT' },
-		res => res.text(),
+		(res) => res.text(),
 	],
-	putOperation: operation => [
+	putOperation: (operation) => [
 		`operation/${operation.id}`,
 		{
 			headers: {
@@ -18,7 +18,7 @@ export default {
 		},
 		() => Promise.resolve(operation.id),
 	],
-	postOperation: operation => [
+	postOperation: (operation) => [
 		`operation`,
 		{
 			headers: {
@@ -26,12 +26,14 @@ export default {
 			},
 			body: JSON.stringify(operation),
 		},
-		res => res.text(),
+		(res) => res.text(),
 	],
-	getOperationsWithoutReport: idSerie => [
+	getOperationsWithoutReport: (idSerie) => [
 		`series/${idSerie}/operationsWithoutReport`,
 	],
-	getOperationsWithReport: idSerie => [
+	getOperationsWithReport: (idSerie) => [
 		`series/${idSerie}/operationsWithReport`,
 	],
 };
+
+export default api;

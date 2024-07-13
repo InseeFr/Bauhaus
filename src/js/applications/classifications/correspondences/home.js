@@ -1,6 +1,6 @@
-import { PageTitle } from 'js/new-architecture/components';
-import D from 'js/i18n';
-import { useTitle, SearchableList, Row } from 'js/utils';
+import { PageTitle } from '../../../new-architecture/components';
+import D from '../../../i18n';
+import { useTitle, SearchableList, Row } from '../../../utils';
 
 const CorrespondencesHome = ({ correspondences }) => {
 	useTitle(D.classificationsTitle, D.correspondencesTitle);

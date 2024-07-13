@@ -1,9 +1,9 @@
 import { Switch, Route } from 'react-router-dom';
-import OperationsIndicatorsContainer from 'js/applications/operations/indicators/';
-import OperationIndicatorContainer from 'js/applications/operations/indicators/visualization/';
-import OperationsIndicatorEditionContainer from 'js/applications/operations/indicators/edition';
+import OperationsIndicatorsContainer from '../../../applications/operations/indicators/';
+import OperationIndicatorContainer from '../../../applications/operations/indicators/visualization/';
+import OperationsIndicatorEditionContainer from '../../../applications/operations/indicators/edition';
 
-export default () => {
+const Routes = () => {
 	return (
 		<Switch>
 			<Route
@@ -30,3 +30,5 @@ export default () => {
 		</Switch>
 	);
 };
+
+export default Routes;

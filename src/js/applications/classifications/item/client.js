@@ -1,5 +1,5 @@
 import api from '../../../remote-api/classifications-api';
-import { ArrayUtils } from 'js/utils';
+import { ArrayUtils } from '../../../utils';
 
 export const fetchingPreviousLevels = (classificationId, general) => {
 	const levels = ['sections', 'divisions', 'groupes', 'classes', 'categories'];

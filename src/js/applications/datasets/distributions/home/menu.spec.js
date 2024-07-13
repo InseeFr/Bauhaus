@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { HomePageMenu } from './menu';
-import { Auth, RBACMock } from 'js/utils';
+import { Auth, RBACMock } from '../../../../utils';
 
 describe('Distributions Home Page Menu', () => {
 	it('an admin can create a new distribution if he does not have the Gestionnaire_jeu_donnees_RMESGNCS role', () => {

@@ -1,5 +1,5 @@
-import { PageTitle } from 'js/new-architecture/components';
-import D from 'js/i18n';
+import { PageTitle } from '../../../new-architecture/components';
+import D from '../../../i18n';
 
 const NotFound = ({ label = D.notFoundTitle }) => (
 	<div className="container not-found">

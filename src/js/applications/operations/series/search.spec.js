@@ -5,7 +5,7 @@ import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../actions/constants/codeList';
-import useUrlQueryParameters from 'js/utils/hooks/useUrlQueryParameters';
+import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
 
 const data = [
 	{
@@ -129,12 +129,12 @@ const categories = {
 	codes: [{ code: 'S', labelLg2: 'Survey', labelLg1: 'Enquete' }],
 };
 
-jest.mock('js/utils/hooks/useUrlQueryParameters');
+jest.mock('../../../utils/hooks/useUrlQueryParameters');
 
 describe('<SearchFormList />', () => {
 	it('should return all data when the form is empty', () => {
-		const search = {};
-		useUrlQueryParameters.mockReturnValue([search]);
+		const form = {};
+		useUrlQueryParameters.mockReturnValue({ form });
 
 		const { container } = render(
 			<MemoryRouter>
@@ -150,8 +150,8 @@ describe('<SearchFormList />', () => {
 	});
 
 	it('should filter by prefLabelLg1', () => {
-		const search = { prefLabelLg1: 'Base' };
-		useUrlQueryParameters.mockReturnValue([search]);
+		const form = { prefLabelLg1: 'Base' };
+		useUrlQueryParameters.mockReturnValue({ form });
 
 		const { container } = render(
 			<MemoryRouter>
@@ -166,8 +166,8 @@ describe('<SearchFormList />', () => {
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
 	it('should filter by typeCode', () => {
-		const search = { typeCode: 'S' };
-		useUrlQueryParameters.mockReturnValue([search]);
+		const form = { typeCode: 'S' };
+		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = render(
 			<MemoryRouter>
 				<SearchFormList
@@ -181,8 +181,8 @@ describe('<SearchFormList />', () => {
 		expect(container.querySelectorAll('li')).toHaveLength(3);
 	});
 	it('should filter by creators', async () => {
-		const search = { creator: 'DG57-C003' };
-		useUrlQueryParameters.mockReturnValue([search]);
+		const form = { creator: 'DG57-C003' };
+		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = render(
 			<MemoryRouter>
 				<SearchFormList
@@ -198,8 +198,8 @@ describe('<SearchFormList />', () => {
 	});
 
 	it('should filter by publishers', async () => {
-		const search = { publisher: 'Acoss' };
-		useUrlQueryParameters.mockReturnValue([search]);
+		const form = { publisher: 'Acoss' };
+		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = render(
 			<MemoryRouter>
 				<SearchFormList
@@ -215,8 +215,8 @@ describe('<SearchFormList />', () => {
 	});
 
 	it('should filter by dataCollector', async () => {
-		const search = { dataCollector: 'DG75-A040' };
-		useUrlQueryParameters.mockReturnValue([search]);
+		const form = { dataCollector: 'DG75-A040' };
+		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = render(
 			<MemoryRouter>
 				<SearchFormList

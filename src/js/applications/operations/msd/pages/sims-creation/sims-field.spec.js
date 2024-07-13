@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 
 import Field from './sims-field';
 import { render } from '@testing-library/react';
-import { rangeType } from 'js/utils/msd/';
+import { rangeType } from '../../../../../utils/msd/';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 

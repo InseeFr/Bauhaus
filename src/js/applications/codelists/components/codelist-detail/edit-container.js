@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import { StampsApi } from 'js/utils';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { StampsApi } from '../../../../utils';
 import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';
 import { TreeContext } from '../tree/treeContext';

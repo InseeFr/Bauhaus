@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
-import Picker from 'js/applications/shared/picker-page';
-import check from 'js/utils/auth';
-import D from 'js/i18n';
-import { getModalMessage } from 'js/utils/concepts/build-validation-message';
+import ModalRmes from '../../../applications/shared/modal-rmes/modal-rmes';
+import Picker from '../../../applications/shared/picker-page';
+import check from '../../../utils/auth';
+import D from '../../../i18n';
+import { getModalMessage } from '../../../utils/concepts/build-validation-message';
 import { PublishButton } from '@inseefr/wilco';
 
 class ConceptsToValidate extends Component {

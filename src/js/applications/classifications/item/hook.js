@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../remote-api/classifications-api';
-import { ArrayUtils } from 'js/utils';
+import { ArrayUtils } from '../../../utils';
 import { emptyNotes } from '../utils/item/notes';
 
 const useClassificationItem = (classificationId, itemId, current) => {

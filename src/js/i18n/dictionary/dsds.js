@@ -1,4 +1,4 @@
-export default {
+const messages = {
 	structuresTitle: { fr: 'Structures', en: 'Structures' },
 	structuresCreateTitle: {
 		fr: 'Créer une nouvelle structure',
@@ -189,6 +189,8 @@ export default {
 	},
 	errors_1003: {
 		fr: 'Une structure avec les mêmes composants existe déjà.',
-		en: 'A structure with the same components already exists.'
-	}
+		en: 'A structure with the same components already exists.',
+	},
 };
+
+export default messages;

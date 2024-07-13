@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import LevelVisualization from './home';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import loadLevel from 'js/actions/classifications/level';
-import * as select from 'js/reducers/classifications/level';
-import { Stores } from 'js/utils';
+import { Loading } from '../../../new-architecture/components/loading/loading';
+import loadLevel from '../../../actions/classifications/level';
+import * as select from '../../../reducers/classifications/level';
+import { Stores } from '../../../utils';
 import { useParams } from 'react-router-dom';
 
 const LevelVisualizationContainer = ({ loadLevel }) => {

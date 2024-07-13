@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import Controls from './controls';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import { ADMIN } from 'js/utils/auth/roles';
+import { ADMIN } from '../../../utils/auth/roles';
 import { Provider } from 'react-redux';
 
 const mockStore = configureStore([]);

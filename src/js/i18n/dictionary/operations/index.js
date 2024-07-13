@@ -1,5 +1,5 @@
-import documentsD from 'js/i18n/dictionary/operations/documents';
-import validationD from 'js/i18n/dictionary/operations/validation';
+import documentsD from '../../../i18n/dictionary/operations/documents';
+import validationD from '../../../i18n/dictionary/operations/validation';
 const dictionary = {
 	createFromAnExistingReport: {
 		fr: "Créer à partir d'un rapport qualité existant",

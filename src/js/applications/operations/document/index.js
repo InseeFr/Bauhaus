@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import DocumentHome from './home';
-import { ArrayUtils } from 'js/utils';
-import api from 'js/remote-api/api';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { ArrayUtils } from '../../../utils';
+import api from '../../../remote-api/api';
+import { Loading } from '../../../new-architecture/components';
 const sortByLabel = ArrayUtils.sortArray('label');
 
 const OperationsDocumentsContainer = () => {

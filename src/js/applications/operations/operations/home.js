@@ -1,6 +1,6 @@
-import D from 'js/i18n';
-import { Auth, useTitle, FeminineButton } from 'js/utils';
-import OperationsObjectHome from 'js/applications/operations/shared/list';
+import D from '../../../i18n';
+import { Auth, useTitle, FeminineButton } from '../../../utils';
+import OperationsObjectHome from '../../../applications/operations/shared/list';
 
 function OperationsHome({ operations }) {
 	useTitle(D.operationsTitle, D.operationsTitle);

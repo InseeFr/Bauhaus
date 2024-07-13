@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import D from 'js/i18n';
+import D from '../../../../i18n';
 import { ActionToolbar } from '@inseefr/wilco';
 
 function Controls() {

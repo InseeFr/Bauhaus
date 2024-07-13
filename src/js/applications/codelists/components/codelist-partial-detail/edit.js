@@ -15,12 +15,12 @@ import {
 	CodesList,
 	Auth,
 	Row,
-} from 'js/utils';
+} from '../../../../utils';
 import Picker from './picker';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import '../codelist-detail/edit.scss';
-import MainDictionary from 'js/i18n/build-dictionary';
+import MainDictionary from '../../../../i18n/build-dictionary';
 import { useSelector } from 'react-redux';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';

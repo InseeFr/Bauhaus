@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { D1, D2 } from 'js/i18n';
+import { D1, D2 } from '../../../../i18n';
 import {
 	EditorMarkdown,
 	PageTitleBlock,
@@ -8,8 +8,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	Row,
-} from 'js/utils';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+} from '../../../../utils';
 
 import {
 	CancelButton,
@@ -20,7 +19,7 @@ import {
 import { validate } from './validation';
 import D from '../../../../i18n/build-dictionary';
 import api from '../../../../remote-api/operations-api';
-import { TextInput } from '../../../../new-architecture/components';
+import { TextInput, Loading } from '../../../../new-architecture/components';
 
 const defaultFamily = {
 	prefLabelLg1: '',

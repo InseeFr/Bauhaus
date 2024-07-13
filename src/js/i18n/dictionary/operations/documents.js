@@ -1,4 +1,4 @@
-export default {
+const messages = {
 	missingDocumentWhenExportingSims: {
 		fr: (documentNames) =>
 			'L’exportation du rapport avec tous les documents inclus est incomplète. Il vous manque les documents suivants : <ul><li>' +
@@ -36,3 +36,5 @@ export default {
 		en: 'Document/Link',
 	},
 };
+
+export default messages;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import D from '../../../../i18n/build-dictionary';
-import { SearchableList, Row, useTitle } from 'js/utils';
+import { SearchableList, Row, useTitle } from '../../../../utils';
 import { useDatasets } from '../../hooks';
 import { HomePageMenu } from './menu';
 import { Loading } from '../../../../new-architecture/components';

@@ -1,6 +1,6 @@
 import Modal from 'react-modal';
 import DOMPurify from 'dompurify';
-import D from 'js/i18n';
+import D from '../../../i18n';
 
 function ModalRmes({
 	id,
