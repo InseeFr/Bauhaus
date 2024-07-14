@@ -14,7 +14,7 @@
 		"pre-script": "cross-env NODE_OPTIONS=--openssl-legacy-provider REACT_APP_VERSION=$(node ./scripts/getVersion.js) REACT_APP_NAME=$npm_package_name",
 		"build-insee": "yarn pre-script cross-env REACT_APP_INSEE=true react-scripts build && yarn create-zip",
 		"create-zip": "cd build && bestzip build.zip *",
-		"lint": "eslint src",
+		"lint": "npx eslint src",
 		"start": "yarn pre-script react-scripts start",
 		"test": "react-scripts test",
 		"test:coverage": "cross-env CI=true react-scripts test --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js --collectCoverageFrom=!src/types/*.js",
