@@ -17,7 +17,7 @@
 		"lint": "npx eslint src",
 		"start": "yarn pre-script react-scripts start",
 		"test": "react-scripts test",
-		"test:coverage": "cross-env CI=true react-scripts test --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/*.spec.js --collectCoverageFrom=!src/**/*.stories.js --collectCoverageFrom=!src/types/*.js",
+		"test:coverage": "cross-env CI=true react-scripts test --coverage",
 		"pre-push": "yarn lint && yarn test:coverage",
 		"generate-entrypoint": "node scripts/generate-entrypoint.js",
 		"prepare": "husky"
