@@ -32,7 +32,6 @@ import {
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
-import {} from '../../../../new-architecture/components/data/creators';
 
 const Dataset = (props) => {
 	const { id } = useParams();
