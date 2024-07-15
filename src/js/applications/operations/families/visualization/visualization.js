@@ -1,9 +1,12 @@
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
 import RelationsView from 'js/applications/operations/shared/relations';
-import { HTMLUtils, withTitle, CreationUpdateItems, Row } from 'js/utils';
+import { HTMLUtils, withTitle, CreationUpdateItems } from 'js/utils';
 import D from '../../../../i18n/build-dictionary';
-import { PublicationFemale } from '../../../../new-architecture/components';
+import {
+	PublicationFemale,
+	Row,
+} from '../../../../new-architecture/components';
 
 function OperationsFamilyVisualization({
 	attr,

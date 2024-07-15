@@ -1,7 +1,7 @@
 import D from 'js/i18n';
 import { Link, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Select } from '@inseefr/wilco';
+import Select from 'js/utils/components/select-rmes';
 import { Loading } from 'js/new-architecture/components/loading/loading';
 
 import api from 'js/remote-api/operations-api';

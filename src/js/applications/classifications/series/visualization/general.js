@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import D from 'js/i18n';
 import { Note } from '@inseefr/wilco';
-import { Row } from '../../../../utils';
-
+import { Row } from 'js/new-architecture/components';
 export default ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
 	let mapping = {};

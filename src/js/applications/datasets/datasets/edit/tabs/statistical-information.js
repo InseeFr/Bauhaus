@@ -3,11 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { withCodesLists } from 'js/hooks/hooks';
 import ReactSelect from 'react-select';
 import StructureAPI from '../../../../structures/apis/structure-api';
-import { Row } from 'js/utils';
 import { TemporalField } from '../../components/temporalField';
 import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
 import { CL_FREQ } from '../../../../../actions/constants/codeList';
-
+import { Row } from 'js/new-architecture/components';
 const StatisticalInformationTab = ({
 	editingDataset,
 	setEditingDataset,

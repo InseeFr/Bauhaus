@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from 'js/i18n';
-import { Row } from '../../../../utils';
+import { Row } from 'js/new-architecture/components';
 
 export default ({ members, secondLang }) => {
 	const membersLg1 = members.map((m, i) => (

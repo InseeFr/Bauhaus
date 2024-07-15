@@ -1,6 +1,6 @@
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import { D1, D2 } from 'js/i18n';
-import { Row } from 'js/utils';
+import { Row } from 'js/new-architecture/components';
 
 const NoteVisualization = ({ params, langs, secondLang, md }) => (
 	<>

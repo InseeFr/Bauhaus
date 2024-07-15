@@ -1,7 +1,8 @@
 import { Note, ActionToolbar, ReturnButton, ErrorBloc } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { HTMLUtils, Row } from 'js/utils';
+import { HTMLUtils } from 'js/utils';
 import './view.scss';
+import { Row } from 'js/new-architecture/components';
 
 export const CodeDetailView = ({
 	code,

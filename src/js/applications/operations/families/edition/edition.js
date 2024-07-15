@@ -7,9 +7,7 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-	Row,
 } from 'js/utils';
-import { Loading } from 'js/new-architecture/components/loading/loading';
 
 import {
 	CancelButton,
@@ -20,7 +18,11 @@ import {
 import { validate } from './validation';
 import D from '../../../../i18n/build-dictionary';
 import api from '../../../../remote-api/operations-api';
-import { TextInput } from '../../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	Loading,
+} from '../../../../new-architecture/components';
 
 const defaultFamily = {
 	prefLabelLg1: '',

@@ -1,10 +1,10 @@
 import { Note } from '@inseefr/wilco';
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle, Row } from 'js/new-architecture/components';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
 import { D2, D1 } from 'js/i18n';
-import { CheckSecondLang, Row } from 'js/utils';
+import { CheckSecondLang } from 'js/utils';
 
 export default ({ association, secondLang, langs }) => {
 	const {

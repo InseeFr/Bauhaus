@@ -10,9 +10,10 @@ import {
 } from 'js/utils';
 import SimsGeographyPicker from 'js/applications/operations/components/sims/sims-geography-picker';
 import { Editor } from 'react-draft-wysiwyg';
-import { Note, getLang, Select } from '@inseefr/wilco';
+import { Note, getLang } from '@inseefr/wilco';
 import './sims-field.scss';
 import { SimsFieldTitle } from '../../sims-field-title';
+import Select from 'js/utils/components/select-rmes';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 const SimsCodeListSelect = (props) => {
@@ -41,7 +42,6 @@ const SimsCodeListSelect = (props) => {
 		<Select
 			placeholder=""
 			aria-label={props['aria-label']}
-			className="form-control"
 			value={value}
 			options={props.options}
 			onChange={onChange}
@@ -156,7 +156,6 @@ class SimsField extends PureComponent {
 							{msd.rangeType === ORGANIZATION && (
 								<Select
 									placeholder=""
-									className="form-control"
 									value={value}
 									options={organisationsOptions}
 									onChange={this.handleCodeListInput}

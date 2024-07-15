@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { Select } from '@inseefr/wilco';
+import Select from 'js/utils/components/select-rmes';
 import { getAllAttachment } from '../../utils';
 import './component-specification-form.scss';
 import {
@@ -8,7 +8,11 @@ import {
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
 import Api from '../../apis/structure-api';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import {
+	TextInput,
+	Column,
+	Row,
+} from '../../../../new-architecture/components';
 
 export const ComponentSpecificationForm = ({
 	structureComponents,
@@ -30,7 +34,7 @@ export const ComponentSpecificationForm = ({
 
 	return (
 		<>
-			<div className="row">
+			<Row>
 				<div className="col-md-12">
 					<label htmlFor="component-specification-notation">{D.idTitle}</label>
 					<TextInput
@@ -46,9 +50,9 @@ export const ComponentSpecificationForm = ({
 						disabled={disabled}
 					/>
 				</div>
-			</div>
-			<div className="row">
-				<div className="col-md-6">
+			</Row>
+			<Row>
+				<Column>
 					<label htmlFor="component-specification-labelLg1">{D1.label}</label>
 					<TextInput
 						value={component.labelLg1}
@@ -62,8 +66,8 @@ export const ComponentSpecificationForm = ({
 						}}
 						disabled={disabled}
 					/>
-				</div>
-				<div className="col-md-6">
+				</Column>
+				<Column>
 					<label htmlFor="component-specification-labelLg2">{D2.label}</label>
 					<TextInput
 						value={component.labelLg2}
@@ -77,17 +81,15 @@ export const ComponentSpecificationForm = ({
 						}}
 						disabled={disabled}
 					/>
-				</div>
-			</div>
+				</Column>
+			</Row>
 
 			{selectedComponent.component.type === ATTRIBUTE_PROPERTY_TYPE && (
 				<>
 					<div className="row bauhaus-component-specification-form">
-						<div className="col-md-12">
+						<label className="col-md-12">
+							{D.attachmentTitle}
 							<Select
-								id="attachment"
-								name="attachment"
-								label={D.attachmentTitle}
 								placeholder={D.attachmentTitle}
 								value={attachments.filter((c) =>
 									component.attachment?.some((a) => a.includes(c.value))
@@ -102,9 +104,9 @@ export const ComponentSpecificationForm = ({
 								}}
 								disabled={disabled}
 							/>
-						</div>
+						</label>
 					</div>
-					<div className="row">
+					<Row>
 						<fieldset className="col-md-12 checkbox ">
 							<legend>{D.requiredSpecificationTitle}</legend>
 
@@ -139,7 +141,7 @@ export const ComponentSpecificationForm = ({
 								{D.no}
 							</label>
 						</fieldset>
-					</div>
+					</Row>
 				</>
 			)}
 		</>

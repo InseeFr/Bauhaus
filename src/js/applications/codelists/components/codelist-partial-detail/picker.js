@@ -10,8 +10,7 @@ import {
 	ActionToolbar,
 } from '@inseefr/wilco';
 import '../codelist-detail/edit.scss';
-import { Row } from '../../../../utils';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import { TextInput, Row } from '../../../../new-architecture/components';
 
 const Picker = ({
 	panelTitle,

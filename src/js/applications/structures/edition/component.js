@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { LabelRequired } from '@inseefr/wilco';
-import { Loading, TextInput } from 'js/new-architecture/components';
+import { Loading, TextInput, Row } from 'js/new-architecture/components';
 
 import Controls from './controls';
 import Components from './components';
@@ -13,7 +13,6 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	Stores,
-	Row,
 	Auth,
 	SelectRmes,
 } from 'js/utils';
