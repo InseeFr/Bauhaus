@@ -1,7 +1,7 @@
 import D, { D1, D2 } from '../../../../i18n';
 import { LINK } from '../utils';
-import { formatValidation } from '../../../../utils/validation';
 import { z } from 'zod';
+import { formatValidation } from '../../../../new-architecture/utils/validation';
 
 const Base = z.object({
 	labelLg1: z.string().min(1, { message: D.mandatoryProperty(D1.title) }),

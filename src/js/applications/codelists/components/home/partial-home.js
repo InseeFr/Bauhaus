@@ -5,13 +5,8 @@ import { PageTitle, Loading } from '../../../../new-architecture/components';
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import {
-	useTitle,
-	SearchableList,
-	Auth,
-	FeminineButton,
-	Row,
-} from '../../../../utils';
+import { useTitle, SearchableList, Auth, Row } from '../../../../utils';
+import { FeminineButton } from '../../../../new-architecture/components/new-button';
 
 function CodeListsPartialHome() {
 	useTitle(D.codelistsTitle, D.codelistsPartialTitle);

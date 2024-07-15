@@ -3,12 +3,13 @@ import { LOADING } from '../../../../../constants';
 import D, { D1, D2 } from '../../../../../i18n';
 import { getLang } from '@inseefr/wilco';
 import { useState, useEffect } from 'react';
-import { API, ArrayUtils } from '../../../../../utils';
+import { ArrayUtils } from '../../../../../utils';
 import './style.scss';
 import {
 	isLink,
 	isDocument,
 } from '../../../../../applications/operations/document/utils';
+import { getBaseURI } from '../../../../../new-architecture/sdk';
 
 function getAsideToTheDocument(document) {
 	let updatedDate;
@@ -67,7 +68,7 @@ export function DocumentsBloc({
 
 	const [baseURI, setBaseURI] = useState('');
 	useEffect(() => {
-		API.getBaseURI().then((uri) => setBaseURI(uri));
+		getBaseURI().then((uri) => setBaseURI(uri));
 	});
 
 	const currentDocuments = ArrayUtils.sortArray(`label` + localPrefix)(

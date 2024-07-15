@@ -1,7 +1,8 @@
 import D from '../../../i18n';
-import { Auth, useTitle, FeminineButton } from '../../../utils';
+import { Auth, useTitle } from '../../../utils';
 
 import OperationsObjectHome from '../../../applications/operations/shared/list';
+import { FeminineButton } from '../../../new-architecture/components/new-button';
 
 function SeriesHome({ series }) {
 	useTitle(D.operationsTitle, D.seriesTitle);

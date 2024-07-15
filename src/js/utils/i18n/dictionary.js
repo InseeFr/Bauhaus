@@ -1,12 +1,4 @@
 const dictionary = {
-	btnNewMasculine: {
-		fr: 'Nouveau',
-		en: 'New',
-	},
-	btnNewFeminine: {
-		fr: 'Nouvelle',
-		en: 'New',
-	},
 	geography: {
 		labelWithStartDate: {
 			en: (label, startDate) => `${label} [since ${startDate}]`,

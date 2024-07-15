@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { buildApi } from '../../../new-architecture/utils/build-api';
 import { ERROR, LOADED, LOADING } from '../constants';
 import { connect, useSelector } from 'react-redux';
+import { buildApi } from '../../../new-architecture/sdk';
 
 export const LOAD_DISSEMINATION_STATUS_LIST = 'LOAD_DISSEMINATION_STATUS_LIST';
 export const LOAD_DISSEMINATION_STATUS_LIST_SUCCESS =

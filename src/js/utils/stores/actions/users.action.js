@@ -1,5 +1,5 @@
-import * as API from '../../../new-architecture/utils/build-api';
 import { LOADING, LOADED, ERROR } from '../constants';
+import { buildApi } from '../../../new-architecture/sdk';
 
 // Constants
 const LOAD_USER_STAMP = 'LOAD_USER_STAMP';
@@ -10,7 +10,7 @@ const LOAD_USER_STAMP_ERROR = 'LOAD_USER_STAMP_ERROR';
 const apiConfig = {
 	getStamp: () => ['stamp'],
 };
-const api = API.buildApi('users', apiConfig);
+const api = buildApi('users', apiConfig);
 
 // Action creators
 const loadUserStampPending = () => {

@@ -1,4 +1,5 @@
-import { API, ConceptsAPIRoutes } from '../utils';
+import { ConceptsAPIRoutes } from '../utils';
+import { buildApi } from '../new-architecture/sdk';
 
 const api = {
 	...ConceptsAPIRoutes,
@@ -128,4 +129,4 @@ const api = {
 	getCollectionMembersList: (id) => [`collection/${id}/members`],
 };
 
-export default API.buildApi('concepts', api);
+export default buildApi('concepts', api);

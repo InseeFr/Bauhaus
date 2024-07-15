@@ -1,4 +1,4 @@
-import { buildApi } from '../../../new-architecture/utils/build-api';
+import { buildApi } from '../../../new-architecture/sdk';
 
 const api = {
 	getCodelists: () => [''],
@@ -114,6 +114,6 @@ const api = {
 		{},
 		() => Promise.resolve(),
 	],
-};
+} as const;
 
 export default buildApi('codeList', api);

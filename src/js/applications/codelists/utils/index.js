@@ -1,8 +1,8 @@
 import { getTreeFromFlatData } from 'react-sortable-tree';
 import D, { D1, D2 } from '../i18n/build-dictionary';
 import MainDictionary from '../../../i18n/build-dictionary';
-import { formatValidation } from '../../../utils/validation';
 import { z } from 'zod';
+import { formatValidation } from '../../../new-architecture/utils/validation';
 
 export const formatLabel = (component) => {
 	return <>{component.labelLg1}</>;

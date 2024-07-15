@@ -4,7 +4,6 @@ import AuthGuard from './auth/components/auth';
 
 import * as utils from './auth/open-id-connect-auth/token-utils';
 import { createContext } from 'react';
-export * as API from '../new-architecture/utils/build-api';
 export {
 	default as ConceptsAPI,
 	api as ConceptsAPIRoutes,
@@ -28,12 +27,9 @@ export {
 	toolbar as EditorMarkdownToolbar,
 	DeleteButton as EditorDeleteButton,
 } from './components/editor-html/editor-markdown';
-export { default as AdvancedSearchControls } from './components/advanced-search/controls';
 export { default as AdvancedSearchList } from './components/advanced-search/home';
 export * as ItemToSelectModel from './utils/item-to-select-model';
 export { default as ValidationButton } from './components/validationButton';
-export { FeminineButton, MasculineButton } from './components/newButton';
-export { default as FilterToggleButtons } from './components/filter-toggle-buttons';
 export { default as SearchableList } from './components/searchable-list';
 export {
 	DateItem,

@@ -1,11 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { PageTitle, Loading } from '../../../../new-architecture/components';
 import './component-list.scss';
-import {
-	FilterToggleButtons,
-	useTitle,
-	SearchableList,
-} from '../../../../utils';
+import { useTitle, SearchableList } from '../../../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { useHistory } from 'react-router-dom';
 
@@ -13,6 +9,7 @@ import { formatLabel } from '../../utils';
 import api from '../../apis/structure-api';
 import D from '../../i18n/build-dictionary';
 import { HomePageMenu } from './menu';
+import FilterToggleButtons from '../../../../new-architecture/components/filter-toggle-buttons';
 
 const ALL = 'ALL';
 const sessionStorageKey = 'components-displayMode';

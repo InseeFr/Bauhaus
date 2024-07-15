@@ -55,7 +55,10 @@ const apiURL = `${window.location.origin}/configuration.json`;
 
 export const removeTrailingSlash = (url: string) => url.replace(/\/$/, '');
 
-export const buildApi = (context: string, api: any): any => {
+export const buildApi = <T extends Record<string, any>>(
+	context: string,
+	api: T
+): Record<keyof T, () => Promise<unknown>> => {
 	return Object.keys(api).reduce((apiFns: any, resource) => {
 		if (!apiFns[resource]) {
 			apiFns[resource] = buildCall(context, resource, api[resource]);

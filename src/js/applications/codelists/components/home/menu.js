@@ -1,5 +1,6 @@
-import { Auth, FeminineButton } from '../../../../utils';
+import { Auth } from '../../../../utils';
 import { VerticalMenu } from '@inseefr/wilco';
+import { FeminineButton } from '../../../../new-architecture/components/new-button';
 
 export const HomePageMenu = () => {
 	return (

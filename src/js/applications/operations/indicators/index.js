@@ -3,14 +3,9 @@ import { VerticalMenu } from '@inseefr/wilco';
 import { PageTitle, Loading } from '../../../new-architecture/components';
 
 import D from '../../../i18n';
-import {
-	Auth,
-	useTitle,
-	SearchableList,
-	ArrayUtils,
-	MasculineButton,
-} from '../../../utils';
+import { Auth, useTitle, SearchableList, ArrayUtils } from '../../../utils';
 import api from '../../../remote-api/operations-api';
+import { MasculineButton } from '../../../new-architecture/components/new-button';
 
 function IndicatorsHome() {
 	useTitle(D.operationsTitle, D.indicatorsTitle);

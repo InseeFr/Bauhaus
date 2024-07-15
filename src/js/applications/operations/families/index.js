@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Loading } from '../../../new-architecture/components/loading/loading';
 import api from '../../../remote-api/operations-api';
-import { ArrayUtils, Auth, FeminineButton, useTitle } from '../../../utils';
+import { ArrayUtils, Auth, useTitle } from '../../../utils';
 import D from '../../../i18n/build-dictionary';
 import OperationsObjectHome from '../shared/list';
+import { FeminineButton } from '../../../new-architecture/components/new-button';
 
 export const FamiliesHomeContainer = () => {
 	const [loading, setLoading] = useState(true);

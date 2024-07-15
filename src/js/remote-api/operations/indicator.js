@@ -1,4 +1,4 @@
-import { generateGenericApiEndpoints } from '../../new-architecture/utils/build-api';
+import { generateGenericApiEndpoints } from '../../new-architecture/sdk';
 
 const api = {
 	...generateGenericApiEndpoints('indicators', 'indicator'),

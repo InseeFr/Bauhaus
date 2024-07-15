@@ -22,7 +22,7 @@ export const DatasetHome = () => {
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.datasetsHomePageTitle} col={12} offset={0} />
 					<SearchableList
-						items={data ?? []}
+						items={(data as any) ?? []}
 						childPath="datasets"
 						autoFocus={true}
 						advancedSearch={false}

@@ -1,4 +1,4 @@
-import { API } from '../utils';
+import { buildApi } from '../new-architecture/sdk';
 
 const api = {
 	getInit: () => [
@@ -59,4 +59,4 @@ const api = {
 	getStampList: () => ['stamps'],
 };
 
-export default API.buildApi('', api);
+export default buildApi('', api);

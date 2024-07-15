@@ -7,6 +7,16 @@ import {
 import { Dictionary } from '../../new-architecture/utils/types';
 
 const dictionary = {
+	btnNew: {
+		masculine: {
+			fr: 'Nouveau',
+			en: 'New',
+		},
+		feminine: {
+			fr: 'Nouvelle',
+			en: 'New',
+		},
+	},
 	loading: {
 		auth: {
 			fr: 'Authentification en cours...',

@@ -21,7 +21,7 @@ export const DistributionHome = () => {
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.distributionsHomePageTitle} col={12} offset={0} />
 					<SearchableList
-						items={data ?? []}
+						items={(data as any) ?? []}
 						childPath="datasets/distributions"
 						autoFocus={true}
 						advancedSearch={false}
