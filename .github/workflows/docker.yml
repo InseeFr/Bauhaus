@@ -17,8 +17,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-      - run: yarn
-      - run: yarn build-insee
+      - run: npm i --force
+      - run: npm run build-insee
       - name: Upload deploy artifact
         uses: actions/upload-artifact@v2
         with:

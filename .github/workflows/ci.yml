@@ -18,11 +18,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-      - run: yarn
+      - run: npm i --force
       # Build modules
-      - run: yarn build-insee
+      - run: npm run build-insee
       # Build sonar reports
-      - run: yarn test:coverage
+      - run: npm run test:coverage
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
