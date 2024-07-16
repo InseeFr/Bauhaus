@@ -4,6 +4,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from '../../../store/configure-store';
 
+jest.mock('./components');
+
 const store = configureStore({
 	users: {
 		results: {
