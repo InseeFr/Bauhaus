@@ -1,16 +1,14 @@
-import { render } from '@testing-library/react';
 import CollectionMembers from './members';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../tests-utils/render';
 
 describe('collection-edition-creation-members', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<CollectionMembers
 				members={[]}
 				conceptList={[]}
 				handleChange={jest.fn()}
-			/>,
-			{ wrapper: MemoryRouter }
+			/>
 		);
 	});
 });

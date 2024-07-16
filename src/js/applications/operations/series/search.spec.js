@@ -1,11 +1,10 @@
 import { SearchFormList } from './search';
-import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../actions/constants/codeList';
 import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 const data = [
 	{
@@ -136,15 +135,13 @@ describe('<SearchFormList />', () => {
 		const form = {};
 		useUrlQueryParameters.mockReturnValue({ form });
 
-		const { container } = render(
-			<MemoryRouter>
-				<SearchFormList
-					data={data}
-					organisations={organisations}
-					stamps={stamps}
-					categories={categories}
-				/>
-			</MemoryRouter>
+		const { container } = renderWithRouter(
+			<SearchFormList
+				data={data}
+				organisations={organisations}
+				stamps={stamps}
+				categories={categories}
+			/>
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(6);
 	});
@@ -153,45 +150,39 @@ describe('<SearchFormList />', () => {
 		const form = { prefLabelLg1: 'Base' };
 		useUrlQueryParameters.mockReturnValue({ form });
 
-		const { container } = render(
-			<MemoryRouter>
-				<SearchFormList
-					data={data}
-					organisations={organisations}
-					stamps={stamps}
-					categories={categories}
-				/>
-			</MemoryRouter>
+		const { container } = renderWithRouter(
+			<SearchFormList
+				data={data}
+				organisations={organisations}
+				stamps={stamps}
+				categories={categories}
+			/>
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
 	it('should filter by typeCode', () => {
 		const form = { typeCode: 'S' };
 		useUrlQueryParameters.mockReturnValue({ form });
-		const { container } = render(
-			<MemoryRouter>
-				<SearchFormList
-					data={data}
-					organisations={organisations}
-					stamps={stamps}
-					categories={categories}
-				/>
-			</MemoryRouter>
+		const { container } = renderWithRouter(
+			<SearchFormList
+				data={data}
+				organisations={organisations}
+				stamps={stamps}
+				categories={categories}
+			/>
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(3);
 	});
 	it('should filter by creators', async () => {
 		const form = { creator: 'DG57-C003' };
 		useUrlQueryParameters.mockReturnValue({ form });
-		const { container } = render(
-			<MemoryRouter>
-				<SearchFormList
-					data={data}
-					organisations={organisations}
-					stamps={stamps}
-					categories={categories}
-				/>
-			</MemoryRouter>
+		const { container } = renderWithRouter(
+			<SearchFormList
+				data={data}
+				organisations={organisations}
+				stamps={stamps}
+				categories={categories}
+			/>
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
@@ -200,15 +191,13 @@ describe('<SearchFormList />', () => {
 	it('should filter by publishers', async () => {
 		const form = { publisher: 'Acoss' };
 		useUrlQueryParameters.mockReturnValue({ form });
-		const { container } = render(
-			<MemoryRouter>
-				<SearchFormList
-					data={data}
-					organisations={organisations}
-					stamps={stamps}
-					categories={categories}
-				/>
-			</MemoryRouter>
+		const { container } = renderWithRouter(
+			<SearchFormList
+				data={data}
+				organisations={organisations}
+				stamps={stamps}
+				categories={categories}
+			/>
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
@@ -217,15 +206,13 @@ describe('<SearchFormList />', () => {
 	it('should filter by dataCollector', async () => {
 		const form = { dataCollector: 'DG75-A040' };
 		useUrlQueryParameters.mockReturnValue({ form });
-		const { container } = render(
-			<MemoryRouter>
-				<SearchFormList
-					data={data}
-					organisations={organisations}
-					stamps={stamps}
-					categories={categories}
-				/>
-			</MemoryRouter>
+		const { container } = renderWithRouter(
+			<SearchFormList
+				data={data}
+				organisations={organisations}
+				stamps={stamps}
+				categories={categories}
+			/>
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);

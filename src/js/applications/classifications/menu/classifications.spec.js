@@ -1,9 +1,8 @@
-import { render } from '@testing-library/react';
 import MenuClassifications from '.';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('menu-classifications', () => {
 	it('renders without crashing', () => {
-		render(<MenuClassifications />, { wrapper: MemoryRouter });
+		renderWithRouter(<MenuClassifications />);
 	});
 });

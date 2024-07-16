@@ -1,12 +1,10 @@
-import { render } from '@testing-library/react';
 import { MenuOperations } from '.';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('menu-operations', () => {
 	it('renders without crashing', () => {
-		render(
-			<MenuOperations location={{ pathname: '/location' }} permission={{}} />,
-			{ wrapper: MemoryRouter }
+		renderWithRouter(
+			<MenuOperations location={{ pathname: '/location' }} permission={{}} />
 		);
 	});
 });

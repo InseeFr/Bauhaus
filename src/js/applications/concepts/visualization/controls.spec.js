@@ -1,12 +1,11 @@
-import { render } from '@testing-library/react';
 import ConceptVisualizationControls from './controls';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 jest.mock('../../../remote-api/concepts-api');
 
 describe('concept-visualization-controls', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<ConceptVisualizationControls
 				id="id"
 				creator="creator"
@@ -14,8 +13,7 @@ describe('concept-visualization-controls', () => {
 				conceptVersion="1"
 				handleValidation={jest.fn()}
 				permission={{ authType: '', roles: [''] }}
-			/>,
-			{ wrapper: MemoryRouter }
+			/>
 		);
 	});
 });

@@ -1,8 +1,7 @@
-import { render } from '@testing-library/react';
 import HomeGeneral from './home-general';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from '../../../../store/configure-store';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 const store = configureStore({
 	app: {
@@ -21,17 +20,14 @@ const correspondence = {
 
 describe('correspondence-home-general', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<Provider store={store}>
 				<HomeGeneral
 					correspondence={correspondence}
 					secondLang={true}
 					langs={{ lg1: 'fr', lg2: 'en' }}
 				/>
-			</Provider>,
-			{
-				wrapper: MemoryRouter,
-			}
+			</Provider>
 		);
 	});
 });

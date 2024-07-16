@@ -1,11 +1,8 @@
-import { render } from '@testing-library/react';
 import MenuDSDs from '.';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('menu-dsds', () => {
 	it('renders without crashing', () => {
-		render(<MenuDSDs />, {
-			wrapper: MemoryRouter,
-		});
+		renderWithRouter(<MenuDSDs />);
 	});
 });

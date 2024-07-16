@@ -1,11 +1,10 @@
-import { render } from '@testing-library/react';
 import { empty } from '../../../../utils/concepts/general';
 import Controls from './';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 describe('concept-edition-creation-controls', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<Controls
 				oldGeneral={empty()}
 				general={empty()}
@@ -13,8 +12,7 @@ describe('concept-edition-creation-controls', () => {
 				conceptsWithLinks={[]}
 				handleSave={jest.fn()}
 				redirectCancel={jest.fn()}
-			/>,
-			{ wrapper: MemoryRouter }
+			/>
 		);
 	});
 });

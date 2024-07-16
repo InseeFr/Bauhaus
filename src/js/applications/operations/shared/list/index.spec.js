@@ -1,10 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import OperationsObjectHome from './index';
-import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import { MasculineButton } from '../../../../new-architecture/components/new-button';
 import configureStore from '../../../../store/configure-store';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 const createStore = (roles = []) => {
 	return configureStore({
@@ -16,7 +16,7 @@ describe('Operation Home', () => {
 	it('should display the PageTitle component', () => {
 		const store = createStore();
 
-		const { container } = render(
+		const { container } = renderWithRouter(
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
@@ -25,8 +25,7 @@ describe('Operation Home', () => {
 					childPath=""
 					roles={[]}
 				/>
-			</Provider>,
-			{ wrapper: MemoryRouter }
+			</Provider>
 		);
 
 		expect(container.querySelectorAll('h1')).toHaveLength(1);
@@ -34,7 +33,7 @@ describe('Operation Home', () => {
 	it('should display the SearchableList component', () => {
 		const store = createStore();
 
-		const { container } = render(
+		const { container } = renderWithRouter(
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
@@ -43,8 +42,7 @@ describe('Operation Home', () => {
 					childPath=""
 					roles={[]}
 				/>
-			</Provider>,
-			{ wrapper: MemoryRouter }
+			</Provider>
 		);
 		expect(container.querySelectorAll('.list-group')).toHaveLength(1);
 	});
@@ -52,7 +50,7 @@ describe('Operation Home', () => {
 	it('should always display the Tree button', async () => {
 		const store = createStore();
 
-		render(
+		renderWithRouter(
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
@@ -61,15 +59,14 @@ describe('Operation Home', () => {
 					childPath=""
 					roles={[]}
 				/>
-			</Provider>,
-			{ wrapper: MemoryRouter }
+			</Provider>
 		);
 		await screen.findByText('View tree');
 	});
 	it('should display the New button if the user has the right role', async () => {
 		const store = createStore(['role']);
 
-		render(
+		renderWithRouter(
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
@@ -78,15 +75,14 @@ describe('Operation Home', () => {
 					childPath=""
 					roles={['role']}
 				/>
-			</Provider>,
-			{ wrapper: MemoryRouter }
+			</Provider>
 		);
 		await screen.findByText('New');
 	});
 	it('should not display the New button if the user does not have the right role', () => {
 		const store = createStore(['role']);
 
-		const { queryByText } = render(
+		const { queryByText } = renderWithRouter(
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
@@ -95,8 +91,7 @@ describe('Operation Home', () => {
 					childPath=""
 					roles={['role1']}
 				/>
-			</Provider>,
-			{ wrapper: MemoryRouter }
+			</Provider>
 		);
 		expect(queryByText('New')).toBeNull();
 	});

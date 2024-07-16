@@ -1,9 +1,8 @@
-import { render } from '@testing-library/react';
 import ConceptVisualization from './home';
 import { empty } from '../../../utils/concepts/general';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from '../../../store/configure-store';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 const store = configureStore({
 	app: {
@@ -13,7 +12,7 @@ const store = configureStore({
 
 describe('concept-visualization', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<Provider store={store}>
 				<ConceptVisualization
 					id="id"
@@ -27,8 +26,7 @@ describe('concept-visualization', () => {
 					langs={{ lg1: 'fr', lg2: 'en' }}
 					permission={{ authType: '', roles: [''] }}
 				/>
-			</Provider>,
-			{ wrapper: MemoryRouter }
+			</Provider>
 		);
 	});
 });

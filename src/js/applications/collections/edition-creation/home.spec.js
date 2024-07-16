@@ -1,13 +1,12 @@
-import { render } from '@testing-library/react';
 import Collection from './home';
 import { empty } from '../../../utils/collections/general';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 jest.mock('./general', () => () => <></>);
 
 describe('collection-edition-creation', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<Collection
 				title=""
 				general={empty()}
@@ -16,8 +15,7 @@ describe('collection-edition-creation', () => {
 				conceptList={[]}
 				save={jest.fn()}
 				langs={{ lg1: 'fr', lg2: 'en' }}
-			/>,
-			{ wrapper: MemoryRouter }
+			/>
 		);
 	});
 });

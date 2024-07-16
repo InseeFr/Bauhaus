@@ -1,6 +1,4 @@
-import { render } from '@testing-library/react';
 import OperationsSerieVisualization from './home';
-import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import {
@@ -8,6 +6,7 @@ import {
 	CL_SOURCE_CATEGORY,
 } from '../../../../actions/constants/codeList';
 import configureStore from '../../../../store/configure-store';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 const organisations = [
 	{
@@ -98,47 +97,41 @@ const attr = {
 };
 describe('SerieInformation', () => {
 	it('should show the right number of Note component when the second lang is not selected', () => {
-		const { container } = render(
+		const { container } = renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<OperationsSerieVisualization
-						attr={attr}
-						langs={langs}
-						secondLang={false}
-						organisations={organisations}
-					/>
-				</MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr}
+					langs={langs}
+					secondLang={false}
+					organisations={organisations}
+				/>
 			</Provider>
 		);
 		expect(container.querySelectorAll('.wilco-note')).toHaveLength(15);
 	});
 
 	it('should show the right number of Note component when the second lang is selected', () => {
-		const { container } = render(
+		const { container } = renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<OperationsSerieVisualization
-						attr={attr}
-						secondLang={true}
-						langs={langs}
-						organisations={organisations}
-					/>
-				</MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr}
+					secondLang={true}
+					langs={langs}
+					organisations={organisations}
+				/>
 			</Provider>
 		);
 		expect(container.querySelectorAll('.wilco-note')).toHaveLength(25);
 	});
 	it('should show the right number of DisplayLinks component', () => {
-		const { container } = render(
+		const { container } = renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<OperationsSerieVisualization
-						attr={attr}
-						secondLang={true}
-						langs={langs}
-						organisations={organisations}
-					/>
-				</MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr}
+					secondLang={true}
+					langs={langs}
+					organisations={organisations}
+				/>
 			</Provider>
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
@@ -151,32 +144,28 @@ describe('SerieInformation', () => {
 			...attr,
 			creators: attr.creators[0],
 		};
-		const { container } = render(
+		const { container } = renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<OperationsSerieVisualization
-						attr={attr2}
-						secondLang={true}
-						langs={langs}
-						organisations={organisations}
-					/>
-				</MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr2}
+					secondLang={true}
+					langs={langs}
+					organisations={organisations}
+				/>
 			</Provider>
 		);
 		const creator = container.querySelector('#creators p');
 		expect(creator.innerHTML).toEqual('DG75-G001');
 	});
 	it('should display the publisher', () => {
-		const { container } = render(
+		const { container } = renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<OperationsSerieVisualization
-						attr={attr}
-						secondLang={true}
-						langs={langs}
-						organisations={organisations}
-					/>
-				</MemoryRouter>
+				<OperationsSerieVisualization
+					attr={attr}
+					secondLang={true}
+					langs={langs}
+					organisations={organisations}
+				/>
 			</Provider>
 		);
 		const publisher = container.querySelector('#publishers p');

@@ -1,10 +1,9 @@
-import { render } from '@testing-library/react';
 import MenuCodelists from '.';
-import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import { Auth } from '../../../utils';
 import configureStore from '../../../store/configure-store';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('Menu Code List', () => {
 	it('Should not crash', () => {
@@ -12,11 +11,9 @@ describe('Menu Code List', () => {
 			app: { auth: { user: { roles: [Auth.ADMIN] } } },
 		});
 
-		render(
+		renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<MenuCodelists />
-				</MemoryRouter>
+				<MenuCodelists />
 			</Provider>
 		);
 	});

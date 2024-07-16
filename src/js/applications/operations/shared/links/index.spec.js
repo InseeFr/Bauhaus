@@ -1,6 +1,5 @@
 import DisplayLinks from './index';
-import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 const langs = {
 	lg1: 'fr',
@@ -10,18 +9,16 @@ const langs = {
 describe('DisplayLinks', () => {
 	it('should display a list if we have multiple item', () => {
 		const links = [{ id: 1 }, { id: 2 }];
-		const { container } = render(
-			<DisplayLinks links={links} langs={langs} path="series/" title="home" />,
-			{ wrapper: MemoryRouter }
+		const { container } = renderWithRouter(
+			<DisplayLinks links={links} langs={langs} path="series/" title="home" />
 		);
 		expect(container.innerHTML).toContain('<li><a href="/series/1">');
 		expect(container.innerHTML).toContain('<li><a href="/series/2">');
 	});
 	it('should display a paragraph if we have only one item', () => {
 		const links = [{ id: 1 }];
-		const { container } = render(
-			<DisplayLinks links={links} langs={langs} path="series/" title="home" />,
-			{ wrapper: MemoryRouter }
+		const { container } = renderWithRouter(
+			<DisplayLinks links={links} langs={langs} path="series/" title="home" />
 		);
 
 		expect(container.innerHTML).toContain(
@@ -30,15 +27,14 @@ describe('DisplayLinks', () => {
 	});
 	it('should not display a link', () => {
 		const links = [{ id: 1, labelLg1: 'labelLg1' }];
-		const { container } = render(
+		const { container } = renderWithRouter(
 			<DisplayLinks
 				links={links}
 				langs={langs}
 				path="series/"
 				displayLink={false}
 				title="home"
-			/>,
-			{ wrapper: MemoryRouter }
+			/>
 		);
 		expect(container.innerHTML).toContain('<p>labelLg1');
 	});

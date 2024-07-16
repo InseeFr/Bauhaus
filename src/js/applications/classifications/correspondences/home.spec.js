@@ -1,13 +1,10 @@
-import { render } from '@testing-library/react';
 import Home from './home';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 const correspondences = [{ id: '1', label: 'Correspondence 1' }];
 
 describe('correspondences-home', () => {
 	it('renders without crashing', () => {
-		render(<Home correspondences={correspondences} />, {
-			wrapper: MemoryRouter,
-		});
+		renderWithRouter(<Home correspondences={correspondences} />);
 	});
 });

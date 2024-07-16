@@ -1,9 +1,8 @@
-import { render } from '@testing-library/react';
 import NotFound from '.';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('not-found', () => {
 	it('renders without crashing', () => {
-		render(<NotFound />, { wrapper: MemoryRouter });
+		renderWithRouter(<NotFound />);
 	});
 });

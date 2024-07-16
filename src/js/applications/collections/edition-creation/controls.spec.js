@@ -1,18 +1,16 @@
 import Controls from './controls';
-import { render } from '@testing-library/react';
 import { empty } from '../../../utils/collections/general';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('collection-edition-creation-controls', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<Controls
 				general={empty()}
 				collectionList={[]}
 				handleSave={jest.fn()}
 				redirectCancel={() => 'collections'}
-			/>,
-			{ wrapper: MemoryRouter }
+			/>
 		);
 	});
 });

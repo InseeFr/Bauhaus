@@ -1,8 +1,7 @@
-import { render } from '@testing-library/react';
 import ViewContainer from './view-container';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
 import configureStore from '../../../../store/configure-store';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 const store = configureStore({
 	app: {
@@ -15,12 +14,10 @@ jest.mock('./view', () => ({
 }));
 describe('ViewContainer', () => {
 	it('should display altLabel label', () => {
-		render(
-			<MemoryRouter>
-				<Provider store={store}>
-					<ViewContainer />
-				</Provider>
-			</MemoryRouter>
+		renderWithRouter(
+			<Provider store={store}>
+				<ViewContainer />
+			</Provider>
 		);
 	});
 });

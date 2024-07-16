@@ -1,9 +1,8 @@
-import { render } from '@testing-library/react';
 import ConceptCompare from './controls';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('concept-visualization-compare-controls', () => {
 	it('renders without crashing', () => {
-		render(<ConceptCompare />, { wrapper: MemoryRouter });
+		renderWithRouter(<ConceptCompare />);
 	});
 });

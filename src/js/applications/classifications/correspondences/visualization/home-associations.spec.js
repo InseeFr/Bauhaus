@@ -1,6 +1,5 @@
-import { render } from '@testing-library/react';
 import HomeAssociations from './home-associations';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 const associations = [
 	{
@@ -23,16 +22,13 @@ const correspondence = {
 
 describe('correspondence-home-associations', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<HomeAssociations
 				id="id"
 				associations={associations}
 				correspondence={correspondence}
 				secondLang={false}
-			/>,
-			{
-				wrapper: MemoryRouter,
-			}
+			/>
 		);
 	});
 });

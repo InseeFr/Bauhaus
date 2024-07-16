@@ -1,10 +1,10 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import ConceptVisualizationContainer from './home-container';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import api from '../../../remote-api/concepts-api';
 import * as R from '../../../utils/auth/roles';
 import configureStore from '../../../store/configure-store';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 jest.mock('../../../remote-api/concepts-api');
 
@@ -35,11 +35,9 @@ describe('ConceptVisualizationContainer', () => {
 		api.getConceptLinkList = jest.fn().mockImplementation(() => {
 			return Promise.resolve([]);
 		});
-		render(
+		renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<ConceptVisualizationContainer />
-				</MemoryRouter>
+				<ConceptVisualizationContainer />
 			</Provider>
 		);
 
@@ -63,11 +61,9 @@ describe('ConceptVisualizationContainer', () => {
 			return Promise.resolve();
 		});
 
-		render(
+		renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<ConceptVisualizationContainer />
-				</MemoryRouter>
+				<ConceptVisualizationContainer />
 			</Provider>
 		);
 
@@ -94,11 +90,9 @@ describe('ConceptVisualizationContainer', () => {
 			return Promise.resolve();
 		});
 
-		render(
+		renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<ConceptVisualizationContainer />
-				</MemoryRouter>
+				<ConceptVisualizationContainer />
 			</Provider>
 		);
 

@@ -1,12 +1,9 @@
-import { render } from '@testing-library/react';
 import Home from './home';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 const series = [{ id: '1', label: 'Series 1' }];
 
 describe('classification-series-home', () => {
 	it('renders without crashing', () => {
-		render(<Home series={series} secondLang={true} />, {
-			wrapper: MemoryRouter,
-		});
+		renderWithRouter(<Home series={series} secondLang={true} />);
 	});
 });

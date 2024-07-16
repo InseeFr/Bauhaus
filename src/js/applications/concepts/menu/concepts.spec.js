@@ -1,15 +1,13 @@
-import { render } from '@testing-library/react';
 import MenuConcepts from '.';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('menu-concepts', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<MenuConcepts
 				location={{ pathname: '/location' }}
 				permission={{ authType: 'authType', roles: [] }}
-			/>,
-			{ wrapper: MemoryRouter }
+			/>
 		);
 	});
 });

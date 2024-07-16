@@ -1,9 +1,8 @@
-import { render } from '@testing-library/react';
 import Controls from './controls';
-import { MemoryRouter } from 'react-router-dom';
 import { ADMIN } from '../../../utils/auth/roles';
 import { Provider } from 'react-redux';
 import configureStore from '../../../store/configure-store';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 const store = configureStore({
 	users: { results: { stamp: 'stamp' } },
@@ -19,13 +18,10 @@ const store = configureStore({
 
 describe('classification-item-controls', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<Provider store={store}>
 				<Controls classificationId="nafr2" itemId="A" version={'1'} />
-			</Provider>,
-			{
-				wrapper: MemoryRouter,
-			}
+			</Provider>
 		);
 	});
 });

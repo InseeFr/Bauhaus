@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { ClassificationEdition } from './index';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
 import configureStore from '../../../store/configure-store';
+import { MemoryRouter } from 'react-router-dom';
 
 const classification = {
 	isLoading: false,
