@@ -1,6 +1,7 @@
 .code-list-zone {
   display: flex;
-  div:nth-child(1){
+  margin-top: 1em;
+  > div {
     flex: 1;
     margin-bottom: 0;
   }

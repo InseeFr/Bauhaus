@@ -4,7 +4,6 @@ import {
 	SaveButton,
 	ActionToolbar,
 	LabelRequired,
-	Select,
 } from '@inseefr/wilco';
 import {
 	AppContext,
@@ -36,7 +35,6 @@ import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from '../../../codelists/apis';
 import api from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
-import MainDictionary from '../../../../i18n/build-dictionary';
 import { convertToArrayIfDefined } from '../../../../utils/array-utils';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';
@@ -103,10 +101,8 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 		<>
 			<div className="row">
 				<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
-					<TextInput
-						id="codeList"
-						name="codeList"
-						label={D1.codesListTitle}
+					<label>{D1.codesListTitle}</label>
+					<SelectRmes
 						placeholder={D1.codesListTitle}
 						options={codeListOptions}
 						value={codeListOptions.find(
@@ -132,11 +128,8 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 			{partials.length > 0 && (
 				<div className="row">
 					<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
-						<Select
-							className="form-control"
-							id="partialCodelist"
-							name="partialCodelist"
-							label={D1.codelistsPartialTitle}
+						<label>{D1.codelistsPartialTitle}</label>
+						<SelectRmes
 							placeholder={D1.codelistsPartialTitle}
 							options={partialsOptions}
 							value={partialsOptions.find(
@@ -413,10 +406,8 @@ export const DumbComponentDetailEdit = ({
 				</Row>
 				<Row>
 					<div className="col-md-12">
-						<Select
-							id="concept"
-							name="concept"
-							label={D1.conceptTitle}
+						<label>{D1.conceptTitle}</label>
+						<SelectRmes
 							placeholder={D1.conceptTitle}
 							options={conceptOptions}
 							value={conceptOptions.find(
@@ -430,10 +421,8 @@ export const DumbComponentDetailEdit = ({
 				</Row>
 				<Row>
 					<div className="col-md-12">
-						<Select
-							id="range"
-							name="range"
-							label={D1.rangeTitle}
+						<label>{D1.rangeTitle}</label>
+						<SelectRmes
 							placeholder={D1.rangeTitle}
 							value={XSD_TYPES.find((c) => c.value === component.range)}
 							options={XSD_TYPES}
@@ -568,8 +557,7 @@ export const DumbComponentDetailEdit = ({
 				)}
 				<div className="form-group">
 					<label>{D1.creatorTitle}</label>
-					<Select
-						className="form-control"
+					<SelectRmes
 						placeholder={D1.stampsPlaceholder}
 						value={stampListOptions.find(
 							({ value }) => value === component.creator
@@ -598,7 +586,6 @@ export const DumbComponentDetailEdit = ({
 							setComponent({ ...component, disseminationStatus: value })
 						}
 					/>
-					<label>{MainDictionary.disseminationStatusTitle}</label>
 				</div>
 				<Row>
 					<div className="col-md-6 form-group">
@@ -661,8 +648,7 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
 			<Row key={index}>
 				<div className="col-md-6 form-group">
 					<label htmlFor="attribute">{D1.Attribute}</label>
-					<Select
-						className="form-control"
+					<SelectRmes
 						placeholder={D1.attributePlaceholder}
 						value={attributesListOptions.find(
 							({ value }) => value === component['attribute_' + index]
@@ -728,8 +714,7 @@ const AttributeCodeList = ({
 	return (
 		<div className="col-md-6 form-group">
 			<label htmlFor="attributeValue">{label ?? D1.Value}</label>
-			<Select
-				className="form-control"
+			<SelectRmes
 				placeholder={D1.Value}
 				value={codesOptions.find((option) => option.value === value)}
 				options={codesOptions}
