@@ -9,7 +9,6 @@ import {
 import {
 	AppContext,
 	useTitle,
-	Row,
 	ArrayUtils,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
@@ -41,7 +40,7 @@ import MainDictionary from '../../../../i18n/build-dictionary';
 import { convertToArrayIfDefined } from '../../../../utils/array-utils';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';
-import { TextInput } from '../../../../new-architecture/components';
+import { TextInput, Row } from '../../../../new-architecture/components';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,

@@ -6,14 +6,12 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-	Row,
 	useTitle,
 } from '../../../../utils';
 import { validate } from '../../../../applications/operations/document/edition/validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
 import { useGoBack } from '../../../../hooks/hooks';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import {
 	CancelButton,
@@ -25,7 +23,11 @@ import {
 import DatePickerRmes from '../../../../applications/shared/date-picker-rmes';
 import api from '../../../../remote-api/api';
 import Modal from 'react-modal';
-import { TextInput } from '../../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	Loading,
+} from '../../../../new-architecture/components';
 
 const initDocument = {
 	labelLg1: '',

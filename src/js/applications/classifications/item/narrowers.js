@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from '../../../i18n';
-import { Row } from '../../../utils';
+import { Row } from '../../../new-architecture/components';
 
 const Narrowers = ({ narrowers, classificationId, secondLang }) => {
 	if (!narrowers || narrowers?.length === 0) {

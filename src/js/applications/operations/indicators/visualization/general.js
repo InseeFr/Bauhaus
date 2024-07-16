@@ -3,16 +3,11 @@ import { D1, D2 } from '../../../../i18n';
 import { getSeeAlsoByType } from '../../../../applications/operations/shared/links/utils';
 import DisplayLinks from '../../../../applications/operations/shared/links/';
 import SeeAlso from '../../../../applications/operations/shared/seeAlso';
-import {
-	CreationUpdateItems,
-	HTMLUtils,
-	Row,
-	withTitle,
-} from '../../../../utils';
+import { CreationUpdateItems, HTMLUtils, withTitle } from '../../../../utils';
 import PublishersView from '../../../../applications/operations/components/publishers-view';
 import CreatorsView from '../../../../applications/operations/components/creators-view';
 import D from '../../../../i18n/build-dictionary';
-import { PublicationMale } from '../../../../new-architecture/components';
+import { PublicationMale, Row } from '../../../../new-architecture/components';
 
 function DisplayMultiLangNote({
 	value1,

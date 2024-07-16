@@ -7,7 +7,6 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-	Row,
 } from '../../../../utils';
 
 import {
@@ -19,7 +18,11 @@ import {
 import { validate } from './validation';
 import D from '../../../../i18n/build-dictionary';
 import api from '../../../../remote-api/operations-api';
-import { TextInput, Loading } from '../../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	Loading,
+} from '../../../../new-architecture/components';
 
 const defaultFamily = {
 	prefLabelLg1: '',

@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { VerticalMenu } from '@inseefr/wilco';
-import { PageTitle, Loading } from '../../../../new-architecture/components';
+import {
+	PageTitle,
+	Loading,
+	Row,
+} from '../../../../new-architecture/components';
 
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import { useTitle, SearchableList, Auth, Row } from '../../../../utils';
+import { useTitle, SearchableList, Auth } from '../../../../utils';
 import { FeminineButton } from '../../../../new-architecture/components/new-button';
 
 function CodeListsPartialHome() {

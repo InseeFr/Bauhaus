@@ -4,25 +4,21 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - documentation/**
   pull_request:
     types: [opened, synchronize, reopened]
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
 jobs:
   test-build:
-    name: Test & build
+    name: Test & Build & Deploy Sonar report
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [ 20, 21, 22 ]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-      - run: npm i --force
-      # Build modules
-      - run: npm run build-insee
-      # Build sonar reports
-      - run: npm run test:coverage
+      - name: Use Generic CI For Building the Application
+        uses: ./.github/actions/generic-ci-app
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:

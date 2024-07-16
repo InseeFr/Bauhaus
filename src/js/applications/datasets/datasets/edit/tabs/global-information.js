@@ -5,10 +5,10 @@ import { withCodesLists } from '../../../../../hooks/hooks';
 import apiOrganisations from '../../../../../remote-api/organisations-api';
 import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
-import { ClientSideError, Row } from '../../../../../utils';
+import { ClientSideError } from '../../../../../utils';
 import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
 import { CL_FREQ } from '../../../../../actions/constants/codeList';
-import { TextInput } from '../../../../../new-architecture/components';
+import { TextInput, Row } from '../../../../../new-architecture/components';
 
 const GlobalInformationTab = ({
 	editingDataset,

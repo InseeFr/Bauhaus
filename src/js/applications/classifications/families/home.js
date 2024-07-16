@@ -1,6 +1,6 @@
-import { PageTitle } from '../../../new-architecture/components';
+import { PageTitle, Row } from '../../../new-architecture/components';
 import D from '../../../i18n';
-import { useTitle, SearchableList, Row } from '../../../utils';
+import { useTitle, SearchableList } from '../../../utils';
 
 const FamiliesHome = ({ families }) => {
 	useTitle(D.classificationsTitle, D.familiesTitle);

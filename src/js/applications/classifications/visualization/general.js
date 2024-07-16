@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import D, { D1, D2 } from '../../../i18n';
 import { DSURLToLabel, Note } from '@inseefr/wilco';
-import { DateUtils, HTMLUtils, Row } from '../../../utils';
+import { DateUtils, HTMLUtils } from '../../../utils';
+import { Row } from '../../../new-architecture/components';
 
 const General = ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;

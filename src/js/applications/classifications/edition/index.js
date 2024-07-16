@@ -1,13 +1,11 @@
 import { useClassification, useUpdateClassification } from '../hooks';
 import { useHistory, useParams, Redirect } from 'react-router-dom';
 import { ActionToolbar, goBack, LabelRequired } from '@inseefr/wilco';
-import { Loading } from '../../../new-architecture/components/loading/loading';
 import {
 	ClientSideError,
 	EditorMarkdown,
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
-	Row,
 	Stores,
 	useTitle,
 } from '../../../utils';
@@ -17,7 +15,7 @@ import organisationApi from '../../../remote-api/organisations-api';
 import D, { D1, D2 } from '../../../i18n';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../remote-api/classifications-api';
-import { TextInput } from '../../../new-architecture/components/form/input';
+import { TextInput, Row, Loading } from '../../../new-architecture/components';
 import { useStampsOptions } from '../../../new-architecture/utils/hooks/stamps';
 
 export const ClassificationEdition = () => {

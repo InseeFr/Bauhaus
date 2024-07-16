@@ -1,8 +1,8 @@
 import D from '../../../i18n';
 import { Link, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Select } from '@inseefr/wilco';
 import { Loading } from '../../../new-architecture/components/loading/loading';
+import Select from '../../../utils/components/select-rmes';
 
 import api from '../../../remote-api/operations-api';
 import { useSelector } from 'react-redux';

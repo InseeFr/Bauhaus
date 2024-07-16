@@ -3,7 +3,7 @@ import { Button } from '@inseefr/wilco';
 import Modal from 'react-modal';
 import { useCallback, useState } from 'react';
 import './index.scss';
-import { Row } from '../../../utils';
+import { Row } from '../../../new-architecture/components';
 
 export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 	const [lang, setLang] = useState('lg1');

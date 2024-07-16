@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { PageTitle, Loading } from '../../new-architecture/components';
+import { PageTitle, Loading, Row } from '../../new-architecture/components';
 import D from '../../i18n';
 import api from '../../remote-api/concepts-api';
 import { Menu } from './menu';
-import { Row, SearchableList, useTitle } from '../../utils';
+import { SearchableList, useTitle } from '../../utils';
 
 const ConceptsHome = () => {
 	useTitle(D.conceptsTitle, D.conceptsTitle);

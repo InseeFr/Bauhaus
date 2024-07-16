@@ -11,9 +11,11 @@ import {
 
 import MainDictonary from '../../../../i18n';
 import { D1 } from '../../../../new-architecture/modules-concepts/i18n';
-import { Row } from '../../../../utils';
-import { TextInput } from '../../../../new-architecture/components/form/input';
-import { Column } from '../../../../new-architecture/components/layout';
+import {
+	Column,
+	TextInput,
+	Row,
+} from '../../../../new-architecture/components';
 
 const extractMembers = (concepts) => {
 	return concepts.reduce((members, { id, label, isAdded }) => {

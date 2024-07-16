@@ -1,6 +1,6 @@
-import { PageTitle } from '../../new-architecture/components';
 import D from '../../i18n';
-import { Row, SearchableList, useTitle } from '../../utils';
+import { SearchableList, useTitle } from '../../utils';
+import { PageTitle, Row } from '../../new-architecture/components';
 import { Menu } from './menu';
 
 const CollectionsHome = ({ collections }) => {

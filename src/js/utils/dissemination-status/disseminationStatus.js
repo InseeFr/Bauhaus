@@ -1,6 +1,7 @@
 import D from '../../i18n';
 import { Stores } from '../../utils';
-import { LabelRequired, Select } from '@inseefr/wilco';
+import { LabelRequired } from '@inseefr/wilco';
+import Select from '../../utils/components/select-rmes';
 
 export const getDisseminationStatus = (disseminationStatus) => {
 	if (!disseminationStatus) {
@@ -31,14 +32,12 @@ export const DisseminationStatusInput =
 				<>
 					<LabelRequired>{D.disseminationStatusTitle}</LabelRequired>
 					<Select
-						className="form-control"
 						placeholder={D.disseminationStatusPlaceholder}
 						value={disseminationStatusListOptions.find(
 							({ value: v }) => v === value
 						)}
 						options={disseminationStatusListOptions}
 						onChange={handleChange}
-						searchable={true}
 					/>
 				</>
 			);

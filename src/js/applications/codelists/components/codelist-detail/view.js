@@ -4,7 +4,6 @@ import {
 	CreationUpdateItems,
 	useTitle,
 	ConfirmationDelete,
-	Row,
 } from '../../../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 
@@ -13,7 +12,10 @@ import { CodesCollapsiblePanel } from './codes-panel';
 import { ViewMenu } from './menu';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
-import { PublicationFemale } from '../../../../new-architecture/components';
+import {
+	PublicationFemale,
+	Row,
+} from '../../../../new-architecture/components';
 
 export const CodeListDetailView = ({
 	codelist,

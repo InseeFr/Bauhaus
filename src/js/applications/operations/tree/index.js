@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 import api from '../../../remote-api/operations-api';
 import D from '../../../i18n';
 import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
-import { PageTitle } from '../../../new-architecture/components';
+import { PageTitle, Row } from '../../../new-architecture/components';
 
 import { useGoBack } from '../../../hooks/hooks';
 
 import './tree.scss';
-import { Row, useTitle } from '../../../utils';
+import { useTitle } from '../../../utils';
 
 export const formatLeaf = (
 	leaf,

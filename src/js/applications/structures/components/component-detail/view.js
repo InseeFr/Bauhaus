@@ -14,7 +14,6 @@ import {
 	CreationUpdateItems,
 	useTitle,
 	ErrorBloc,
-	Row,
 } from '../../../../utils';
 import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
@@ -24,7 +23,7 @@ import { ViewMenu } from './menu';
 import { MeasureAttributes } from './visualisation/measureAttributes';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
-import { PublicationMale } from '../../../../new-architecture/components';
+import { PublicationMale, Row } from '../../../../new-architecture/components';
 
 export const ComponentDetailView = ({
 	component,

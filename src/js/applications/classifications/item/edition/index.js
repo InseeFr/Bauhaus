@@ -6,16 +6,20 @@ import {
 	goBack,
 	LabelRequired,
 } from '@inseefr/wilco';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import { Redirect, useHistory, useParams } from 'react-router-dom';
-import { EditorMarkdown, PageTitleBlock, Row } from '../../../../utils';
+import { EditorMarkdown, PageTitleBlock } from '../../../../utils';
+
 import { Controller, useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import useClassificationItem from '../hook';
 import { default as ReactSelect } from 'react-select';
 import { fetchingPreviousLevels } from '../client';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import {
+	TextInput,
+	Loading,
+	Row,
+} from '../../../../new-architecture/components';
 
 const titleMapping = {
 	definition: 'classificationsDefinition',

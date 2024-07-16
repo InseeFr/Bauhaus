@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { PageTitle } from '@inseefr/wilco';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import {
+	Loading,
+	Row,
+} from '../../../../new-architecture/components/';
 
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import { useTitle, SearchableList, Row } from '../../../../utils';
+import { useTitle, SearchableList } from '../../../../utils';
 import { HomePageMenu } from './menu';
 
 function CodeListsList() {

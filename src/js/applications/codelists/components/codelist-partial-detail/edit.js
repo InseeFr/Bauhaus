@@ -14,7 +14,6 @@ import {
 	ClientSideError,
 	CodesList,
 	Auth,
-	Row,
 } from '../../../../utils';
 import Picker from './picker';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
@@ -24,7 +23,7 @@ import MainDictionary from '../../../../i18n/build-dictionary';
 import { useSelector } from 'react-redux';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
-import { TextInput } from '../../../../new-architecture/components';
+import { TextInput, Row } from '../../../../new-architecture/components';
 
 const defaultCodelist = {
 	created: dayjs(),

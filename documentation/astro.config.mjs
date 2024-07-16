@@ -3,9 +3,12 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+	base: 'Bauhaus',
+	trailingSlash: "always",
 	integrations: [
 		starlight({
 			title: 'Bauhaus',
+
 			defaultLocale: 'root',
 
 			locales: {
@@ -23,12 +26,12 @@ export default defineConfig({
 					label: 'Developer Guide',
 					items: [
 						// Each item here is one entry in the navigation menu.
-						{ label: 'Getting Started', link: '/guides/getting-started/' },
+						{ label: 'Getting Started', link: import.meta.env.BASE_URL + 'guides/getting-started/' },
 					],
 				},
 				{
 					label: 'User Guide',
-					autogenerate: { directory: '/guides/user-guide' },
+					autogenerate: { directory: import.meta.env.BASE_URL + 'guides/user-guide' },
 				},
 			],
 		}),

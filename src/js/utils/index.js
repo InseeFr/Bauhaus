@@ -35,7 +35,6 @@ export {
 	DateItem,
 	default as CreationUpdateItems,
 } from './components/creation-update-items';
-export * from './components/Layout';
 
 export { default as CheckSecondLang } from './components/check-second-lang';
 

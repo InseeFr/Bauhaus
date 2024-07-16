@@ -7,10 +7,9 @@ import {
 	HTMLUtils,
 	PageTitleBlock,
 	Stores,
-	Row,
 	useTitle,
 } from '../../../../utils';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Loading, Row } from '../../../../new-architecture/components';
 
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';

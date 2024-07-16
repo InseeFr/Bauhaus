@@ -3,10 +3,11 @@ import DatePickerRmes from '../../../applications/shared/date-picker-rmes';
 import InputRmes from '../../../applications/shared/input-rmes';
 import InputMultiRmes from '../../../applications/shared/input-multi-rmes';
 import { fields as generalFields } from '../../../utils/concepts/general';
-import { Select, LabelRequired } from '@inseefr/wilco';
 import { RequiredIcon, ClientSideError } from '../../../utils';
+import { LabelRequired } from '@inseefr/wilco';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
 import { TextInput } from '../../../new-architecture/components';
+import Select from './../../../utils/components/select-rmes';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {
@@ -82,7 +83,6 @@ function ConceptGeneralEdition({
 			<div className="form-group">
 				<LabelRequired>{D1.creatorTitle}</LabelRequired>
 				<Select
-					className="form-control"
 					placeholder={D.stampsPlaceholder}
 					value={stampListOptions.find(({ value }) => value === creator)}
 					options={stampListOptions}

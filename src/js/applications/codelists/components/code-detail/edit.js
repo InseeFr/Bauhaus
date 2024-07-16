@@ -1,17 +1,17 @@
 import { useState, useCallback, useEffect } from 'react';
-import { LabelRequired, Select, ActionToolbar } from '@inseefr/wilco';
+import { LabelRequired, ActionToolbar } from '@inseefr/wilco';
 import {
 	Stores,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-	Row,
 } from '../../../../utils';
 import { validateCode } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { emptyCode } from './empty-code';
 import './edit.scss';
-import { TextInput } from '../../../../new-architecture/components';
+import { TextInput, Row } from '../../../../new-architecture/components';
+import Select from 'js/utils/components/select-rmes';
 
 const DumbCodeDetailEdit = ({
 	code: initialCode,
@@ -91,7 +91,6 @@ const DumbCodeDetailEdit = ({
 					<div className="col-md-12 form-group">
 						<label htmlFor="parents">{D.parentCodeTitle}</label>
 						<Select
-							className="form-control"
 							placeholder={D.parentCodeTitle}
 							value={codesOptions.filter((option) =>
 								code.parents?.find((p) => p.code === option.value)
