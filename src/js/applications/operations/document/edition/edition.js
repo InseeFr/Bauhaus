@@ -18,7 +18,6 @@ import {
 	SaveButton,
 	ActionToolbar,
 	LabelRequired,
-	Select,
 } from '@inseefr/wilco';
 import DatePickerRmes from '../../../../applications/shared/date-picker-rmes';
 import api from '../../../../remote-api/api';
@@ -28,6 +27,7 @@ import {
 	Row,
 	Loading,
 } from '../../../../new-architecture/components';
+import Select from '../../../../utils/components/select-rmes';
 
 const initDocument = {
 	labelLg1: '',

@@ -46,18 +46,22 @@ const MenuConcepts = () => {
 	const activePath = location.pathname;
 	if (activePath === '/') return null;
 
-	const currentPath = paths.find((path) => {
-		return location.pathname.includes(path.pathKey);
-	});
-	if (currentPath) {
-		currentPath.className = 'active';
-		currentPath.attrs = {
-			...currentPath.attrs,
-			...defaultAttrs,
-		};
-	}
+	const currentPaths = paths.map((path) => {
+		if (!location.pathname.includes(path.pathKey)) {
+			return path;
+		}
 
-	return <Menu paths={paths} />;
+		return {
+			...path,
+			className: 'active',
+			attrs: {
+				...path.attrs,
+				...defaultAttrs,
+			},
+		};
+	});
+
+	return <Menu paths={currentPaths} />;
 };
 
 export default MenuConcepts;

@@ -3,5 +3,6 @@ export * from './data/creators';
 export * from './form/input';
 export * from './layout/';
 export * from './loading/loading';
+export * from './new-button';
 export * from './status';
 export * from './page-title';

@@ -12,8 +12,8 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	withTitle,
 	useUrlQueryParameters,
+	withTitle,
 } from '../../../../utils';
 import { Column } from '../../../../new-architecture/components/layout';
 import { TextInput } from '../../../../new-architecture/components/form/input';

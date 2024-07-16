@@ -6,7 +6,6 @@ import {
 	SaveButton,
 	ActionToolbar,
 	LabelRequired,
-	Select,
 } from '@inseefr/wilco';
 import { validate } from './validation';
 import {
@@ -18,6 +17,7 @@ import {
 } from '../../../../utils';
 import api from '../../../../remote-api/operations-api';
 import { TextInput, Loading } from '../../../../new-architecture/components';
+import Select from '../../../../utils/components/select-rmes';
 
 const defaultOperation = {
 	prefLabelLg1: '',

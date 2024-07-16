@@ -138,5 +138,8 @@ export function markdownToHtml(markdown) {
 }
 
 export function renderMarkdownElement(value) {
+	if (value === null) {
+		return '';
+	}
 	return <div dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }} />;
 }

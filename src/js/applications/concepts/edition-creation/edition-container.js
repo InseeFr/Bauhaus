@@ -10,9 +10,9 @@ import { Loading } from '../../../new-architecture/components/loading/loading';
 import { CLOSE_MATCH } from '../../../constants';
 import { HTMLUtils } from '../../../utils';
 import api from '../../../remote-api/concepts-api';
-import globalApi from '../../../remote-api/api';
 import { emptyNotes } from '../../../utils/concepts/notes';
 import * as generalUtils from '../../../utils/concepts/general';
+import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 
 const formatNotes = (notes) => {
 	return Object.assign(
@@ -35,11 +35,12 @@ const EditionContainer = () => {
 
 	const [concept, setConcept] = useState({});
 	const [concepts, setConcepts] = useState([]);
-	const [stamps, setStamps] = useState([]);
 
 	const [loading, setLoading] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
 	const [saving, setSaving] = useState(false);
+
+	const { data: stamps = [] } = useStamps();
 
 	useEffect(() => {
 		api
@@ -61,11 +62,9 @@ const EditionContainer = () => {
 	}, [id]);
 
 	useEffect(() => {
-		Promise.all([api.getConceptList(), globalApi.getStampList()])
-			.then(([conceptsList, stampsList]) => {
-				setConcepts(conceptsList);
-				setStamps(stampsList);
-			})
+		api
+			.getConceptList()
+			.then(setConcepts)
 			.finally(() => setLoadingExtraData(false));
 	}, []);
 

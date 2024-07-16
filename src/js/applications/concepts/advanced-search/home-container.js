@@ -32,7 +32,7 @@ const ConceptSearchListContainer = () => {
 			api.getConceptSearchList(),
 			Stores.DisseminationStatus.api.getDisseminationStatus(),
 		])
-			.then(([concepts, stamps, disseminations]) => {
+			.then(([concepts, disseminations]) => {
 				setConceptSearchList(
 					concepts.map((concept) => Object.assign({}, emptyItem, concept))
 				);

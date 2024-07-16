@@ -34,9 +34,7 @@ export const RBACLink = ({ children }) => {
 					<img width="100" src={bauhausLogo} alt="application logo" />
 					{footer}
 				</p>
-				<div
-					style={{ display: 'flex', 'justify-content': 'center', gap: '5px' }}
-				>
+				<div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
 					<button onClick={logout} className="btn btn-primary">
 						{D.authentication.logout}
 					</button>
