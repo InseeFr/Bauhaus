@@ -67,30 +67,27 @@ const Dataset = (props) => {
 	);
 	const queryClient = useQueryClient();
 
-	const { isLoading: isPublishing, mutate: publish } = useMutation(
-		() => {
+	const { isLoading: isPublishing, mutate: publish } = useMutation({
+		mutationFn: () => {
 			return api.publish(id);
 		},
-		{
-			onSuccess: (id) => {
-				queryClient.invalidateQueries(['datasets', id]);
-			},
-		}
-	);
 
-	const { isLoading: isDeleting, mutate: remove } = useMutation(
-		() => {
+		onSuccess: (id) => {
+			queryClient.invalidateQueries(['datasets', id]);
+		},
+	});
+
+	const { isLoading: isDeleting, mutate: remove } = useMutation({
+		mutationFn: () => {
 			return api.deleteDataset(id);
 		},
-		{
-			onSuccess: (id) => {
-				return Promise.all([
-					queryClient.invalidateQueries(['dataset', id]),
-					queryClient.invalidateQueries(['dataset']),
-				]).then(() => history.push('/datasets'));
-			},
-		}
-	);
+		onSuccess: (id) => {
+			return Promise.all([
+				queryClient.invalidateQueries(['dataset', id]),
+				queryClient.invalidateQueries(['dataset']),
+			]).then(() => history.push('/datasets'));
+		},
+	});
 
 	useTitle(D.datasetsTitle, dataset?.labelLg1);
 

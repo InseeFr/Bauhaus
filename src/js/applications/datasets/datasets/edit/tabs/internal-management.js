@@ -5,16 +5,12 @@ import { withCodesLists } from '../../../../../hooks/hooks';
 import api from '../../../api/datasets-api';
 import operationSeries from '../../../../../remote-api/operations-api';
 import { LabelRequired } from '@inseefr/wilco';
-import {
-	ClientSideError,
-	Row,
-	StampsApi,
-	SelectRmes,
-} from '../../../../../utils';
+import { ClientSideError, Row, SelectRmes } from '../../../../../utils';
 import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
 import { DisseminationStatusInput } from '../../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsInput } from '../../../../../utils/contributors/contributors';
 import { TextInput } from '../../../../../new-architecture/components/form/input';
+import { useStampsOptions } from '../../../../../new-architecture/utils/hooks/stamps';
 
 const InternalManagementTab = ({
 	editingDataset,
@@ -23,22 +19,18 @@ const InternalManagementTab = ({
 	setClientSideErrors,
 	...props
 }) => {
-	const { data: stampsOptions = [] } = useQuery(['stamps'], () => {
-		return StampsApi.getStamps().then((stamps) =>
-			stamps.map((stamp) => ({
-				value: stamp,
-				label: stamp,
-			}))
-		);
-	});
+	const stampsOptions = useStampsOptions();
 
-	const { data: seriesOptions = [] } = useQuery(['series'], () => {
-		return operationSeries.getSeriesList().then((stamps) =>
-			stamps.map((serie) => ({
-				value: serie.id,
-				label: serie.label,
-			}))
-		);
+	const { data: seriesOptions = [] } = useQuery({
+		queryKey: ['series'],
+		queryFn: () => {
+			return operationSeries.getSeriesList().then((stamps) =>
+				stamps.map((serie) => ({
+					value: serie.id,
+					label: serie.label,
+				}))
+			);
+		},
 	});
 
 	const clAccessRightsOptions = convertCodesListsToSelectOption(

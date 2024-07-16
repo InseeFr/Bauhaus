@@ -3,10 +3,8 @@ import Home from './home';
 import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-
-const mockStore = configureStore([]);
-const store = mockStore({
+import configureStore from '../../../store/configure-store';
+const store = configureStore({
 	app: {
 		secondLang: true,
 	},

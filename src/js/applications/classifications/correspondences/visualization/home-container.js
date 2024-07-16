@@ -10,14 +10,14 @@ import api from '../../../../remote-api/classifications-api';
 
 const CorrespondencesHomeContainer = () => {
 	const { id } = useParams();
-	const { data: correspondence, isLoading } = useQuery(
-		['correspondance-general', id],
-		() => api.getCorrespondenceGeneral(id)
-	);
-	const { data: associations } = useQuery(
-		['correspondance-associations', id],
-		() => api.getCorrespondenceAssociations(id)
-	);
+	const { data: correspondence, isLoading } = useQuery({
+		queryKey: ['correspondance-general', id],
+		queryFn: () => api.getCorrespondenceGeneral(id),
+	});
+	const { data: associations } = useQuery({
+		queryKey: ['correspondance-associations', id],
+		queryFn: () => api.getCorrespondenceAssociations(id),
+	});
 
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)

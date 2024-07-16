@@ -4,12 +4,12 @@ import api from '../../../remote-api/classifications-api';
 import { useQuery } from '@tanstack/react-query';
 
 const SeriesHomeContainer = () => {
-	const { isLoading, data: series } = useQuery(
-		['classifications-series'],
-		() => {
+	const { isLoading, data: series } = useQuery({
+		queryKey: ['classifications-series'],
+		queryFn: () => {
 			return api.getSeriesList();
-		}
-	);
+		},
+	});
 
 	if (isLoading) {
 		return <Loading />;

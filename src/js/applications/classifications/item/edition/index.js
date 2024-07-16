@@ -45,24 +45,23 @@ const ClassificationItemEdition = () => {
 		isLoading: isSaving,
 		mutate: save,
 		isSuccess: isSavingSuccess,
-	} = useMutation(
-		(general) => {
+	} = useMutation({
+		mutationFn: (general) => {
 			return api.putClassificationItemGeneral(
 				classificationId,
 				itemId,
 				general
 			);
 		},
-		{
-			onSuccess: () => {
-				queryClient.refetchQueries([
-					'classifications-item',
-					classificationId,
-					itemId,
-				]);
-			},
-		}
-	);
+
+		onSuccess: () => {
+			queryClient.refetchQueries([
+				'classifications-item',
+				classificationId,
+				itemId,
+			]);
+		},
+	});
 
 	const { isLoading, item } = useClassificationItem(
 		classificationId,
@@ -71,15 +70,13 @@ const ClassificationItemEdition = () => {
 	);
 
 	const { data: previousLevels = [], isLoading: isPreviousLevelsLoading } =
-		useQuery(
-			['classification-parent-levels', classificationId, itemId],
-			() => {
+		useQuery({
+			queryKey: ['classification-parent-levels', classificationId, itemId],
+			queryFn: () => {
 				return fetchingPreviousLevels(classificationId, item.general);
 			},
-			{
-				enabled: !!item.general,
-			}
-		);
+			enabled: !!item.general,
+		});
 
 	const previousLevelsOptions = previousLevels.map((previousLevel) => ({
 		value: previousLevel.item,

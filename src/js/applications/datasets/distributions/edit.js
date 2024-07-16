@@ -51,24 +51,23 @@ export const DistributionEdit = (props) => {
 
 	const queryClient = useQueryClient();
 
-	const { isLoading: isSaving, mutate: save } = useMutation(
-		() => {
+	const { isLoading: isSaving, mutate: save } = useMutation({
+		mutationFn: () => {
 			if (isEditing) {
 				return api.putDistribution(editingDistribution);
 			}
 			return api.postDistribution(editingDistribution);
 		},
-		{
-			onSuccess: (id) => {
-				if (isEditing) {
-					queryClient.invalidateQueries(['distributions', id]);
-				}
-				queryClient.invalidateQueries(['distributions']);
 
-				goBackOrReplace(props, `/datasets/distributions/${id}`, !isEditing);
-			},
-		}
-	);
+		onSuccess: (id) => {
+			if (isEditing) {
+				queryClient.invalidateQueries(['distributions', id]);
+			}
+			queryClient.invalidateQueries(['distributions']);
+
+			goBackOrReplace(props, `/datasets/distributions/${id}`, !isEditing);
+		},
+	});
 
 	useTitle(
 		D.distributionsTitle,

@@ -147,25 +147,24 @@ export const DatasetEdit = (props) => {
 
 	const queryClient = useQueryClient();
 
-	const { isLoading: isSaving, mutate: save } = useMutation(
-		() => {
+	const { isLoading: isSaving, mutate: save } = useMutation({
+		mutationFn: () => {
 			const formattedDataset = { themes: [], ...editingDataset };
 			if (isEditing) {
 				return api.putDataset(formattedDataset);
 			}
 			return api.postDataset(formattedDataset);
 		},
-		{
-			onSuccess: (id) => {
-				if (isEditing) {
-					queryClient.invalidateQueries(['datasets', id]);
-				}
-				queryClient.invalidateQueries(['datasets']);
 
-				goBackOrReplace(props, `/datasets/${id}`, !isEditing);
-			},
-		}
-	);
+		onSuccess: (id) => {
+			if (isEditing) {
+				queryClient.invalidateQueries(['datasets', id]);
+			}
+			queryClient.invalidateQueries(['datasets']);
+
+			goBackOrReplace(props, `/datasets/${id}`, !isEditing);
+		},
+	});
 
 	useTitle(D.datasetsTitle, editingDataset?.labelLg1 || D.datasetsCreateTitle);
 

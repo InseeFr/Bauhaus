@@ -3,12 +3,11 @@ import OperationsObjectHome from './index';
 import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { MasculineButton } from '../../../../new-architecture/components/new-button';
+import configureStore from '../../../../store/configure-store';
 
 const createStore = (roles = []) => {
-	const mockStore = configureStore([]);
-	return mockStore({
+	return configureStore({
 		users: { results: { stamp: 'stamp' } },
 		app: { auth: { user: { roles } } },
 	});

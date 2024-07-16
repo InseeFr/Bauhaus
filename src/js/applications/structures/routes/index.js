@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Menu from '../../../applications/structures/menu';
@@ -11,14 +10,7 @@ import StructuresSearch from '../components/structure-search/search';
 import StructuresComponentView from '../components/component-detail/view-container';
 import StructuresComponentEdit from '../components/component-detail/edit-container';
 
-import { connect } from 'react-redux';
-import loadStampList from '../../../actions/stamp';
-
-const StructureComponent = ({ loadStampList }) => {
-	useEffect(() => {
-		loadStampList();
-	}, [loadStampList]);
-
+const StructureComponent = () => {
 	return (
 		<>
 			<Menu />
@@ -73,6 +65,4 @@ const StructureComponent = ({ loadStampList }) => {
 	);
 };
 
-export default connect(undefined, {
-	loadStampList,
-})(StructureComponent);
+export default StructureComponent;

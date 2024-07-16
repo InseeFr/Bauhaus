@@ -1,15 +1,14 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import ConceptVisualizationContainer from './home-container';
 import { MemoryRouter } from 'react-router-dom';
-import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import api from '../../../remote-api/concepts-api';
 import * as R from '../../../utils/auth/roles';
+import configureStore from '../../../store/configure-store';
 
 jest.mock('../../../remote-api/concepts-api');
 
-const mockStore = configureStore([]);
-const store = mockStore({
+const store = configureStore({
 	app: {
 		auth: {
 			type: 'type',

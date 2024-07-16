@@ -5,11 +5,10 @@ import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
-
-import { useSelector } from 'react-redux';
-import { Auth, Stores } from '../../../../utils';
+import { Auth } from '../../../../utils';
 import Representation from '../representation';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
+import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 
 export const StructureComponentsSelector = ({
 	hidden = false,
@@ -32,9 +31,7 @@ export const StructureComponentsSelector = ({
 		},
 		[handleRemove]
 	);
-	const stampListOptions = useSelector((state) =>
-		Stores.Stamps.getStampListOptions(state)
-	);
+	const stampListOptions = useStampsOptions();
 	const [openPanel, setOpenPanel] = useState(false);
 	const [components, setComponents] = useState(defaultComponents);
 	useEffect(() => {

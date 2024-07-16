@@ -3,13 +3,11 @@ import OperationsSerieVisualization from './home';
 import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../../actions/constants/codeList';
-
-const mockStore = configureStore([]);
+import configureStore from '../../../../store/configure-store';
 
 const organisations = [
 	{
@@ -20,7 +18,7 @@ const organisations = [
 		id: 'DG75-G001',
 	},
 ];
-const store = mockStore({
+const store = configureStore({
 	operationsOrganisations: {
 		results: organisations,
 	},

@@ -3,14 +3,12 @@ import {
 	CL_SOURCE_CATEGORY,
 	CL_FREQ,
 } from '../../../actions/constants/codeList';
-import loadStampList from '../../../actions/stamp';
 import * as A from '../../../actions/constants';
 import { CodesList } from '../../../utils';
 
 export const loadSetup = () => (dispatch) => {
 	loadCodesList([CL_SOURCE_CATEGORY, CL_FREQ], dispatch);
 	loadOrganisations(dispatch);
-	loadStampList()(dispatch);
 };
 export function loadCodesList(notations, dispatch) {
 	notations.forEach((notation) => {

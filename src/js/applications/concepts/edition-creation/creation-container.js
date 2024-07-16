@@ -10,7 +10,7 @@ import emptyConcept from '../../../utils/concepts/empty-concept';
 import { Loading } from '../../../new-architecture/components/loading/loading';
 import { ArrayUtils } from '../../../utils';
 import api from '../../../remote-api/concepts-api';
-import globalApi from '../../../remote-api/api';
+import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 
 const CreationContainer = () => {
 	const langs = useSelector((state) => select.getLangs(state));
@@ -23,13 +23,13 @@ const CreationContainer = () => {
 	const [saving, setSaving] = useState(false);
 
 	const [concepts, setConcepts] = useState([]);
-	const [stamps, setStamps] = useState([]);
+
+	const { data: stamps = [] } = useStamps();
 
 	useEffect(() => {
-		Promise.all([api.getConceptList(), globalApi.getStampList()])
+		Promise.all([api.getConceptList()])
 			.then(([conceptsList, stampsList]) => {
 				setConcepts(ArrayUtils.sortArrayByLabel(conceptsList));
-				setStamps(stampsList);
 			})
 			.finally(() => setLoading(false));
 	}, []);

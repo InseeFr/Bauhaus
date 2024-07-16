@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Select from 'react-select';
-import { useSelector } from 'react-redux';
 import {
 	ArrayUtils,
 	AdvancedSearchList,
-	Stores,
 	useTitle,
 	useUrlQueryParameters,
 } from '../../../../utils';
@@ -15,6 +13,7 @@ import { formatLabel } from '../../utils';
 import { Column } from '../../../../new-architecture/components/layout';
 import { TextInput, Loading } from '../../../../new-architecture/components';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
+import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 
 const filterId = ArrayUtils.filterKeyDeburr(['id']);
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
@@ -151,9 +150,7 @@ const SearchListContainer = () => {
 
 	const [loading, setLoading] = useState(true);
 	const [items, setItems] = useState([]);
-	const stampListOptions = useSelector((state) =>
-		Stores.Stamps.getStampListOptions(state)
-	);
+	const stampListOptions = useStampsOptions();
 
 	useEffect(() => {
 		API.getCodelistsForSearch()

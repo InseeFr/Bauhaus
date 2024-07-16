@@ -2,18 +2,16 @@ import { render, screen } from '@testing-library/react';
 import DocumentHome from './home';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import {
 	ADMIN,
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
 } from '../../../utils/auth/roles';
-
-const mockStore = configureStore([]);
+import configureStore from '../../../store/configure-store';
 
 describe('DocumentHome', () => {
 	it('should display the PageTitle component', () => {
-		const store = mockStore({
+		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
 			app: { auth: { user: { roles: [] } } },
 		});
@@ -28,7 +26,7 @@ describe('DocumentHome', () => {
 		expect(container.querySelectorAll('h1')).toHaveLength(1);
 	});
 	it('should display the SearchableList component', () => {
-		const store = mockStore({
+		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
 			app: { auth: { user: { roles: [] } } },
 		});
@@ -47,7 +45,7 @@ describe('DocumentHome', () => {
 		it(
 			'should display two Add buttons if the user is an ' + right,
 			async () => {
-				const store = mockStore({
+				const store = configureStore({
 					users: { results: { stamp: 'stamp' } },
 					app: { auth: { user: { roles: [right] } } },
 				});
@@ -66,7 +64,7 @@ describe('DocumentHome', () => {
 	}
 
 	it('should not display any Add button if the user is an the right role,', () => {
-		const store = mockStore({
+		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
 			app: { auth: { user: { roles: ['other'] } } },
 		});

@@ -19,10 +19,10 @@ const ClassificationTreeContainer = ({
 	general,
 	secondLang,
 }) => {
-	const { isLoading, data: flatTree } = useQuery(
-		['classification-items', id],
-		() => api.getClassificationItems(id)
-	);
+	const { isLoading, data: flatTree } = useQuery({
+		queryKey: ['classification-items', id],
+		queryFn: () => api.getClassificationItems(id),
+	});
 
 	useEffect(() => {
 		loadClassificationGeneral(id);

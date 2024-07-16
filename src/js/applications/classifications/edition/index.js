@@ -17,8 +17,8 @@ import organisationApi from '../../../remote-api/organisations-api';
 import D, { D1, D2 } from '../../../i18n';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../remote-api/classifications-api';
-import generalApi from '../../../remote-api/api';
 import { TextInput } from '../../../new-architecture/components/form/input';
+import { useStampsOptions } from '../../../new-architecture/utils/hooks/stamps';
 
 export const ClassificationEdition = () => {
 	const history = useHistory();
@@ -38,34 +38,38 @@ export const ClassificationEdition = () => {
 
 	const { save, isSavingSuccess, isSaving } = useUpdateClassification(id);
 
-	const { data: series } = useQuery(['classifications-series'], () => {
-		return api.getSeriesList();
+	const { data: series } = useQuery({
+		queryKey: ['classifications-series'],
+		queryFn: () => {
+			return api.getSeriesList();
+		},
 	});
 	const seriesOptions =
 		series?.map(({ id, label }) => ({ value: id, label })) ?? [];
 
-	const { data: disseminationStatus } = useQuery(
-		['dissemination-status'],
-		() => {
+	const { data: disseminationStatus } = useQuery({
+		queryKey: ['dissemination-status'],
+		queryFn: () => {
 			return Stores.DisseminationStatus.api.getDisseminationStatus();
-		}
-	);
+		},
+	});
 	const disseminationStatusOptions =
 		disseminationStatus?.map(({ url, label }) => ({ value: url, label })) ?? [];
 
-	const { data: organisations } = useQuery(['organization'], () => {
-		return organisationApi.getOrganisations();
+	const { data: organisations } = useQuery({
+		queryKey: ['organization'],
+		queryFn: () => {
+			return organisationApi.getOrganisations();
+		},
 	});
 	const organisationsOptions =
 		organisations?.map(({ id, label }) => ({ value: id, label })) ?? [];
 
-	const { data: stamps } = useQuery(['stamps'], () => {
-		return generalApi.getStampList();
+	const stampsOptions = useStampsOptions();
+	const { data: classifications } = useQuery({
+		queryKey: ['classifications'],
+		queryFn: api.getList,
 	});
-	const stampsOptions =
-		stamps?.map((stamp) => ({ value: stamp, label: stamp })) ?? [];
-
-	const { data: classifications } = useQuery(['classifications'], api.getList);
 	const classificationsOptions =
 		classifications
 			?.filter((classification) => classification.id !== id)

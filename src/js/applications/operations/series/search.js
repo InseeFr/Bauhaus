@@ -10,7 +10,6 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	Stores,
 	useTitle,
 } from '../../../utils';
 import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
@@ -18,6 +17,7 @@ import { CL_SOURCE_CATEGORY } from '../../../actions/constants/codeList';
 import { useCodesList } from '../../../hooks/hooks';
 import { Column } from '../../../new-architecture/components/layout';
 import { TextInput } from '../../../new-architecture/components/form/input';
+import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
@@ -183,9 +183,7 @@ const SearchListContainer = () => {
 	const organisations = useSelector(
 		(state) => state.operationsOrganisations.results
 	);
-	const stamps = useSelector(
-		(state) => Stores.Stamps.getStampList(state) || []
-	);
+	const { data: stamps = [] } = useStamps();
 
 	useEffect(() => {
 		api.getSeriesSearchList().then(setData);

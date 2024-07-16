@@ -12,7 +12,6 @@ import {
 	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-	Stores,
 	Row,
 	Auth,
 	SelectRmes,
@@ -23,6 +22,7 @@ import 'react-select/dist/react-select.css';
 import { validate } from './validation';
 import { ContributorsInput } from '../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
+import { useStampsOptions } from '../../../new-architecture/utils/hooks/stamps';
 
 const defaultDSD = {
 	identifiant: '',
@@ -37,9 +37,7 @@ const defaultDSD = {
 };
 
 const Edition = ({ creation, initialStructure }) => {
-	const stampListOptions = useSelector((state) =>
-		Stores.Stamps.getStampListOptions(state)
-	);
+	const stampListOptions = useStampsOptions();
 
 	const { lg1, lg2 } = useContext(AppContext);
 

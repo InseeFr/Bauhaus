@@ -4,8 +4,8 @@ import { Loading } from '../../../new-architecture/components/loading/loading';
 import ConceptSearchList from './home';
 import { Stores } from '../../../utils';
 import api from '../../../remote-api/concepts-api';
-import apiGlobal from '../../../remote-api/api';
 import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
+import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 
 const emptyItem = {
 	id: '',
@@ -23,21 +23,19 @@ const emptyItem = {
 const ConceptSearchListContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [conceptSearchList, setConceptSearchList] = useState([]);
-	const [stampList, setStampList] = useState([]);
 	const [disseminationStatusList, setDisseminationStatusList] = useState([]);
 	const [exporting, setExporting] = useState(false);
+	const { data: stampList = [] } = useStamps();
 
 	useEffect(() => {
 		Promise.all([
 			api.getConceptSearchList(),
-			apiGlobal.getStampList(),
 			Stores.DisseminationStatus.api.getDisseminationStatus(),
 		])
 			.then(([concepts, stamps, disseminations]) => {
 				setConceptSearchList(
 					concepts.map((concept) => Object.assign({}, emptyItem, concept))
 				);
-				setStampList(stamps);
 				setDisseminationStatusList(disseminations);
 			})
 			.finally(() => setLoading(false));

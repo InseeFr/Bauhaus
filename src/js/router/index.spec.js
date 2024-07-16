@@ -2,11 +2,11 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { RBACLink } from '.';
 import { removeToken } from '../utils/auth/open-id-connect-auth/token-utils';
 import D from '../new-architecture/i18n';
 import { Auth } from '../utils';
+import configureStore from '../store/configure-store';
 
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'),
@@ -16,14 +16,19 @@ jest.mock('../utils/env', () => ({
 	getEnvVar: (key) => (key === 'NAME' ? 'TestApp' : '1.0.0'),
 }));
 
-jest.mock('../utils');
 jest.mock('../utils/auth/open-id-connect-auth/token-utils', () => ({
 	removeToken: jest.fn(),
 }));
 
-const mockStore = configureStore([]);
-const store = mockStore({
+const store = configureStore({
 	app: {
+		auth: {
+			type: 'type',
+			user: {
+				roles: [],
+				stamp: 'stamp',
+			},
+		},
 		properties: {
 			authorizationHost: 'http://auth-host.com',
 		},

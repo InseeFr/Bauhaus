@@ -57,4 +57,3 @@ export {
 	ClientSideError,
 } from './components/errors-bloc';
 export { default as RequiredIcon } from './components/required-icon';
-export { RBACMock } from './utils/testing';

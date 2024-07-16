@@ -1,12 +1,11 @@
 import { render } from '@testing-library/react';
 import Controls from './controls';
 import { MemoryRouter } from 'react-router-dom';
-import configureStore from 'redux-mock-store';
 import { ADMIN } from '../../../utils/auth/roles';
 import { Provider } from 'react-redux';
+import configureStore from '../../../store/configure-store';
 
-const mockStore = configureStore([]);
-const store = mockStore({
+const store = configureStore({
 	users: { results: { stamp: 'stamp' } },
 	app: {
 		secondLang: true,

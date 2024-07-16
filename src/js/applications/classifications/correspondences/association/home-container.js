@@ -14,10 +14,11 @@ const AssociationHomeContainer = () => {
 	);
 	const langs = useSelector((state) => mainSelect.getLangs(state));
 
-	const { isLoading, data: association } = useQuery(
-		['correspondences-association', correspondenceId, associationId],
-		() => api.getCorrespondenceAssociation(correspondenceId, associationId)
-	);
+	const { isLoading, data: association } = useQuery({
+		queryKey: ['correspondences-association', correspondenceId, associationId],
+		queryFn: () =>
+			api.getCorrespondenceAssociation(correspondenceId, associationId),
+	});
 
 	if (isLoading) return <Loading />;
 	return (

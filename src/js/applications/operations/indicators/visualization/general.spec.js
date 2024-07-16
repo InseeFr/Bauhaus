@@ -3,11 +3,10 @@ import OperationsIndicatorVisualization from './general';
 import { MemoryRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
+import configureStore from '../../../../store/configure-store';
 
-const mockStore = configureStore([]);
-const store = mockStore({
+const store = configureStore({
 	operationsOrganisations: {
 		results: [],
 	},

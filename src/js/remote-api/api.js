@@ -56,7 +56,6 @@ const api = {
 		},
 		() => Promise.resolve(document.id),
 	],
-	getStampList: () => ['stamps'],
 };
 
 export default buildApi('', api);

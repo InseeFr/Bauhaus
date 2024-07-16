@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Loading } from '../../../../new-architecture/components/loading/loading';
-import { StampsApi } from '../../../../utils';
 import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';
 import { TreeContext } from '../tree/treeContext';
 import { DumbCodelistDetailEdit } from './edit';
-import { useQuery } from '@tanstack/react-query';
+import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 
 const useBackOrReplaceHook = () => {
 	const history = useHistory();
@@ -33,14 +32,7 @@ const CodelistEdit = (props) => {
 	const [serverSideError, setServerSideError] = useState('');
 	const [tree] = useContext(TreeContext);
 
-	const { data: stampListOptions } = useQuery(['stamps'], () => {
-		return StampsApi.getStamps().then((stamps) =>
-			stamps.map((stamp) => ({
-				value: stamp,
-				label: stamp,
-			}))
-		);
-	});
+	const stampListOptions = useStampsOptions();
 
 	const handleBack = useCallback(() => {
 		goBackOrReplace('/codelists', true);

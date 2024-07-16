@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { ViewMenu } from './menu';
-import { Auth, RBACMock } from '../../../../utils';
+import { Auth } from '../../../../utils';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
+import { RBACMock } from '../../../../utils/utils/testing';
 
 describe('Distribution View Menu', () => {
 	it('a user can only see the go back button', () => {

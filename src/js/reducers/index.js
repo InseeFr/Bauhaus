@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import app from '../store/users';
-import sharedReducers from './shared';
 import classificationsReducers from './classifications';
 import operationsReducers from './operations';
 import codesListReducers from './operations/codesList';
@@ -10,7 +9,6 @@ import remoteCalls from './remote-calls';
 
 export default combineReducers({
 	app,
-	...sharedReducers,
 	...classificationsReducers,
 	...operationsReducers,
 	...codesListReducers,

@@ -12,14 +12,13 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	Stores,
 	withTitle,
 	useUrlQueryParameters,
 } from '../../../../utils';
-import { useSelector } from 'react-redux';
 import { Column } from '../../../../new-architecture/components/layout';
 import { TextInput } from '../../../../new-architecture/components/form/input';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
+import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 
 const filterLabelLg1 = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);
@@ -173,9 +172,7 @@ const SearchListContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [items, setItems] = useState([]);
 	const [concepts, setConcepts] = useState([]);
-	const stampListOptions = useSelector((state) =>
-		Stores.Stamps.getStampListOptions(state)
-	);
+	const stampListOptions = useStampsOptions();
 
 	useEffect(() => {
 		Promise.all([api.getStructuresForSearch(), ConceptsAPI.getConceptList()])
