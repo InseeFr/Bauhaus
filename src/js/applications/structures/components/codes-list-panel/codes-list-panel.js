@@ -7,33 +7,17 @@ import D from '../../i18n/build-dictionary';
 
 const sortByLabel = ArrayUtils.sortArray('labelLg1');
 
-export const CodesListPanel = (props) => (
-	<CodesListPanelDumb
-		{...props}
-		getCodesList={CodesList.getCodesList}
-		getPartialCodesList={CodesList.getPartialCodesList}
-	/>
-);
-export const CodesListPanelDumb = ({
-	isOpen,
-	handleBack,
-	codesList,
-	getCodesList,
-	getPartialCodesList,
-}) => {
+export const CodesListPanel = ({ isOpen, handleBack, codesList }) => {
 	const [codes, setCodes] = useState([]);
+	const notation = codesList?.notation;
+
 	useEffect(() => {
-		if (codesList && isOpen) {
-			Promise.all([
-				getCodesList(codesList.notation),
-				getPartialCodesList(codesList.notation),
-			]).then(([codesList, partialCodesList]) => {
-				const codes =
-					codesList.codes ?? Object.values(partialCodesList.codes ?? {}) ?? [];
-				setCodes(sortByLabel(codes || []));
+		if (notation && isOpen) {
+			CodesList.getCodesListCodes(notation, 1, 0).then((codes) => {
+				setCodes(sortByLabel(codes?.items || []));
 			});
 		}
-	}, [codesList, isOpen, getCodesList, getPartialCodesList]);
+	}, [notation, isOpen]);
 	return (
 		<SlidingPanel
 			panelClassName="codes-list-panel"
