@@ -1,11 +1,9 @@
-import { render } from '@testing-library/react';
 import ViewContainer from './view-container';
-import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import configureStore from '../../../../store/configure-store';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
-const mockStore = configureStore([]);
-const store = mockStore({
+const store = configureStore({
 	app: {
 		secondLang: true,
 	},
@@ -16,12 +14,10 @@ jest.mock('./view', () => ({
 }));
 describe('ViewContainer', () => {
 	it('should display altLabel label', () => {
-		render(
-			<MemoryRouter>
-				<Provider store={store}>
-					<ViewContainer />
-				</Provider>
-			</MemoryRouter>
+		renderWithRouter(
+			<Provider store={store}>
+				<ViewContainer />
+			</Provider>
 		);
 	});
 });

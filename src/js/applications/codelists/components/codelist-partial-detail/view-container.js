@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { CodesList, Stores } from 'js/utils';
+import { CodesList, Stores } from '../../../../utils';
 import { formatPartialCodeList } from '../../utils';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
@@ -13,7 +13,7 @@ import {
 	Deleting,
 	Publishing,
 	Loading,
-} from 'js/new-architecture/components/loading/loading';
+} from '../../../../new-architecture/components/loading/loading';
 
 const CodelistPartialComponentView = (props) => {
 	const goBack = useGoBack();

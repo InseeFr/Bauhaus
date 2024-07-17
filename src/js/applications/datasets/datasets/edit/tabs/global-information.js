@@ -1,12 +1,12 @@
-import { D1, D2 } from 'js/i18n';
+import { D1, D2 } from '../../../../../i18n';
 import { useQuery } from '@tanstack/react-query';
 import { useThemes } from '../../useThemes';
-import { withCodesLists } from 'js/hooks/hooks';
-import apiOrganisations from 'js/remote-api/organisations-api';
+import { withCodesLists } from '../../../../../hooks/hooks';
+import apiOrganisations from '../../../../../remote-api/organisations-api';
 import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
-import { ClientSideError } from 'js/utils';
-import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
+import { ClientSideError } from '../../../../../utils';
+import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
 import { CL_FREQ } from '../../../../../actions/constants/codeList';
 import { TextInput, Row } from '../../../../../new-architecture/components';
 

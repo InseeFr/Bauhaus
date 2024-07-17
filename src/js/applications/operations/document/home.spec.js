@@ -1,44 +1,36 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import DocumentHome from './home';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import {
 	ADMIN,
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
-} from 'js/utils/auth/roles';
-
-const mockStore = configureStore([]);
+} from '../../../utils/auth/roles';
+import configureStore from '../../../store/configure-store';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('DocumentHome', () => {
 	it('should display the PageTitle component', () => {
-		const store = mockStore({
+		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
 			app: { auth: { user: { roles: [] } } },
 		});
-		const { container } = render(
+		const { container } = renderWithRouter(
 			<Provider store={store}>
 				<DocumentHome documents={[]} />
-			</Provider>,
-			{
-				wrapper: MemoryRouter,
-			}
+			</Provider>
 		);
 		expect(container.querySelectorAll('h1')).toHaveLength(1);
 	});
 	it('should display the SearchableList component', () => {
-		const store = mockStore({
+		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
 			app: { auth: { user: { roles: [] } } },
 		});
-		const { container } = render(
+		const { container } = renderWithRouter(
 			<Provider store={store}>
 				<DocumentHome documents={[]} />
-			</Provider>,
-			{
-				wrapper: MemoryRouter,
-			}
+			</Provider>
 		);
 		expect(container.querySelectorAll('ul')).toHaveLength(1);
 	});
@@ -47,17 +39,14 @@ describe('DocumentHome', () => {
 		it(
 			'should display two Add buttons if the user is an ' + right,
 			async () => {
-				const store = mockStore({
+				const store = configureStore({
 					users: { results: { stamp: 'stamp' } },
 					app: { auth: { user: { roles: [right] } } },
 				});
-				render(
+				renderWithRouter(
 					<Provider store={store}>
 						<DocumentHome documents={[]} />
-					</Provider>,
-					{
-						wrapper: MemoryRouter,
-					}
+					</Provider>
 				);
 				await screen.findByText('New Document');
 				await screen.findByText('New Link');
@@ -66,17 +55,14 @@ describe('DocumentHome', () => {
 	}
 
 	it('should not display any Add button if the user is an the right role,', () => {
-		const store = mockStore({
+		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
 			app: { auth: { user: { roles: ['other'] } } },
 		});
-		render(
+		renderWithRouter(
 			<Provider store={store}>
 				<DocumentHome documents={[]} />
-			</Provider>,
-			{
-				wrapper: MemoryRouter,
-			}
+			</Provider>
 		);
 		expect(screen.queryByText('New Document')).toBeNull();
 		expect(screen.queryByText('New Link')).toBeNull();

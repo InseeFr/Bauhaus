@@ -1,8 +1,8 @@
-import * as A from 'js/actions/constants';
-import { LOADED, LOADING } from 'js/constants';
-import * as associationUtils from 'js/applications/classifications/utils/correspondence/association';
+import * as A from '../../../actions/constants';
+import { LOADED, LOADING } from '../../../constants';
+import * as associationUtils from '../../../applications/classifications/utils/correspondence/association';
 
-export default function(state = {}, action) {
+const reducers = (state = {}, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case A.LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION: {
@@ -35,8 +35,9 @@ export default function(state = {}, action) {
 		default:
 			return state;
 	}
-}
+};
 
+export default reducers;
 export const getAssociation = (state, correspondenceId, associationId) =>
 	state.classificationsCorrespondenceAssociation[correspondenceId] &&
 	state.classificationsCorrespondenceAssociation[correspondenceId][

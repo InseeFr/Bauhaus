@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
-import { D1 } from 'js/i18n';
+import { D1 } from '../../../../i18n';
 import ConceptToLink from './concept-to-link';
 import SearchConceptsByLabel from './search-concepts-by-label';
 import { AddLogo, DelLogo, filterDeburr, PickerItem } from '@inseefr/wilco';
@@ -13,7 +13,7 @@ import {
 	REFERENCES,
 	RELATED,
 	SUCCEED,
-} from 'js/constants';
+} from '../../../../constants';
 import { EquivalentLinks } from './equivalentLinks';
 
 const linkTypes = [

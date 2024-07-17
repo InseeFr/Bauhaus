@@ -1,15 +1,15 @@
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 import SeriesHome from './home';
-import api from 'js/remote-api/classifications-api';
+import api from '../../../remote-api/classifications-api';
 import { useQuery } from '@tanstack/react-query';
 
 const SeriesHomeContainer = () => {
-	const { isLoading, data: series } = useQuery(
-		['classifications-series'],
-		() => {
+	const { isLoading, data: series } = useQuery({
+		queryKey: ['classifications-series'],
+		queryFn: () => {
 			return api.getSeriesList();
-		}
-	);
+		},
+	});
 
 	if (isLoading) {
 		return <Loading />;

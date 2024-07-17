@@ -1,4 +1,4 @@
-import D from 'js/i18n';
+import D from '../../../../../../i18n';
 
 export const rowParamsStamps = [
 	{
@@ -16,10 +16,10 @@ export const rowParamsStamps = [
 	},
 ];
 
-export const buildDataStamps = d =>
+export const buildDataStamps = (d) =>
 	d.reduce((_, c) => {
 		/*Init array element with stamp*/
-		if (!_.filter(e => e.stamp === c.creator).length)
+		if (!_.filter((e) => e.stamp === c.creator).length)
 			_.push({
 				stamp: c.creator,
 				total: 0,
@@ -28,6 +28,6 @@ export const buildDataStamps = d =>
 				private: 0,
 			});
 		/*Increase values*/
-		_.find(e => e.stamp === c.creator).total++;
+		_.find((e) => e.stamp === c.creator).total++;
 		return _;
 	}, []); // sort by stamp

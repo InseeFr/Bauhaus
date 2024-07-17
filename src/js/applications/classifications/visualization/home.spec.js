@@ -1,11 +1,9 @@
-import { render } from '@testing-library/react';
 import Home from './home';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
+import configureStore from '../../../store/configure-store';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
-const mockStore = configureStore([]);
-const store = mockStore({
+const store = configureStore({
 	users: { results: { stamp: 'stamp' } },
 	app: { secondLang: true, auth: { type: '', user: { roles: [] } } },
 });
@@ -25,7 +23,7 @@ const langs = { lg1: 'fr', lg2: 'en' };
 
 describe('classification-home', () => {
 	it('renders without crashing', async () => {
-		render(
+		renderWithRouter(
 			<Provider store={store}>
 				<Home
 					classification={classification}
@@ -35,8 +33,7 @@ describe('classification-home', () => {
 					publish={jest.fn()}
 					serverSideError={''}
 				/>
-			</Provider>,
-			{ wrapper: MemoryRouter }
+			</Provider>
 		);
 	});
 });

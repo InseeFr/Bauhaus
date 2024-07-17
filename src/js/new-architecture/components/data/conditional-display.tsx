@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 
 type ConditionalDisplayTypes = PropsWithChildren<{
 	data?: Array<unknown> | string;
@@ -11,10 +11,15 @@ export const ConditionalDisplay = ({
 	if (data === undefined) {
 		return null;
 	}
-
 	if (Array.isArray(data)) {
-		return data.length === 0 ? null : children;
+		if (data.length === 0) {
+			return null;
+		}
 	}
 
-	return !data ? null : children;
+	if (data === '') {
+		return null;
+	}
+
+	return <>{children}</>;
 };

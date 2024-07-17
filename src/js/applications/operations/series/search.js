@@ -1,23 +1,23 @@
-import D from 'js/i18n';
+import D from '../../../i18n';
 import { Link, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Select from 'js/utils/components/select-rmes';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
+import Select from '../../../utils/components/select-rmes';
 
-import api from 'js/remote-api/operations-api';
+import api from '../../../remote-api/operations-api';
 import { useSelector } from 'react-redux';
 import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	Stores,
 	useTitle,
-} from 'js/utils';
-import useUrlQueryParameters from 'js/utils/hooks/useUrlQueryParameters';
-import { CL_SOURCE_CATEGORY } from 'js/actions/constants/codeList';
+} from '../../../utils';
+import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
+import { CL_SOURCE_CATEGORY } from '../../../actions/constants/codeList';
 import { useCodesList } from '../../../hooks/hooks';
 import { Column } from '../../../new-architecture/components/layout';
 import { TextInput } from '../../../new-architecture/components/form/input';
+import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
@@ -31,8 +31,7 @@ const defaultFormState = {
 };
 
 export const SearchFormList = ({ categories, organisations, stamps, data }) => {
-	const [form, _setForm, reset, handleChange] =
-		useUrlQueryParameters(defaultFormState);
+	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const { prefLabelLg1, typeCode, creator, publisher, dataCollector } = form;
 
@@ -184,9 +183,7 @@ const SearchListContainer = () => {
 	const organisations = useSelector(
 		(state) => state.operationsOrganisations.results
 	);
-	const stamps = useSelector(
-		(state) => Stores.Stamps.getStampList(state) || []
-	);
+	const { data: stamps = [] } = useStamps();
 
 	useEffect(() => {
 		api.getSeriesSearchList().then(setData);

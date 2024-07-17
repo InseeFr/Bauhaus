@@ -8,8 +8,8 @@ import {
 	PageTitleBlock,
 	Stores,
 	useTitle,
-} from 'js/utils';
-import { Loading, Row } from 'js/new-architecture/components';
+} from '../../../../utils';
+import { Loading, Row } from '../../../../new-architecture/components';
 
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
@@ -35,30 +35,28 @@ export const DistributionView = (props) => {
 
 	const queryClient = useQueryClient();
 
-	const { isLoading: isPublishing, mutate: publish } = useMutation(
-		() => {
+	const { isLoading: isPublishing, mutate: publish } = useMutation({
+		mutationFn: () => {
 			return distributionApi.publish(id);
 		},
-		{
-			onSuccess: (id) => {
-				queryClient.invalidateQueries(['distributions', id]);
-			},
-		}
-	);
 
-	const { isLoading: isDeleting, mutate: remove } = useMutation(
-		() => {
+		onSuccess: (id) => {
+			queryClient.invalidateQueries(['distributions', id]);
+		},
+	});
+
+	const { isLoading: isDeleting, mutate: remove } = useMutation({
+		mutationFn: () => {
 			return distributionApi.deleteDistribution(id);
 		},
-		{
-			onSuccess: (id) => {
-				return Promise.all([
-					queryClient.invalidateQueries(['distributions', id]),
-					queryClient.invalidateQueries(['distributions']),
-				]).then(() => history.push('/datasets/distributions'));
-			},
-		}
-	);
+
+		onSuccess: (id) => {
+			return Promise.all([
+				queryClient.invalidateQueries(['distributions', id]),
+				queryClient.invalidateQueries(['distributions']),
+			]).then(() => history.push('/datasets/distributions'));
+		},
+	});
 
 	useTitle(D.distributionsTitle, distribution?.labelLg1);
 

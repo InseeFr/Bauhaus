@@ -1,9 +1,9 @@
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../new-architecture/components';
 import Controls from './controls';
 import ConceptGeneral from '../visualization/general';
-import CompareNotes from 'js/applications/shared/note-compare';
-import { buildNotes } from 'js/utils/concepts/notes';
-import { CheckSecondLang } from 'js/utils';
+import CompareNotes from '../../../applications/shared/note-compare';
+import { buildNotes } from '../../../utils/concepts/notes';
+import { CheckSecondLang } from '../../../utils';
 
 const ConceptCompare = ({ conceptGeneral, notes, secondLang, langs }) => {
 	const { prefLabelLg1, prefLabelLg2 } = conceptGeneral;

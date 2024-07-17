@@ -1,13 +1,11 @@
 import { Component } from 'react';
-import D, { D1, D2 } from 'js/i18n';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import D, { D1, D2 } from '../../../../i18n';
 
 import {
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
 	LabelRequired,
-	Select,
 } from '@inseefr/wilco';
 import { validate } from './validation';
 import {
@@ -16,9 +14,10 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-} from 'js/utils';
+} from '../../../../utils';
 import api from '../../../../remote-api/operations-api';
-import { TextInput } from '../../../../new-architecture/components';
+import { TextInput, Loading } from '../../../../new-architecture/components';
+import Select from '../../../../utils/components/select-rmes';
 
 const defaultOperation = {
 	prefLabelLg1: '',

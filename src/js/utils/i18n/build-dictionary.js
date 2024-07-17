@@ -5,7 +5,7 @@ import {
 	firstLang,
 	secondLang,
 	getLang,
-} from 'js/new-architecture/utils/dictionnary';
+} from '../../new-architecture/utils/dictionnary';
 
 export const D1 = createDictionary(firstLang, dictionary);
 export const D2 = createDictionary(secondLang, dictionary);

@@ -1,4 +1,4 @@
-import { API } from 'js/utils';
+import { buildApi } from '../new-architecture/sdk';
 
 const api = {
 	getCollectionList: () => ['collections'],
@@ -37,4 +37,4 @@ const api = {
 	],
 };
 
-export default API.buildApi('concepts-collections', api);
+export default buildApi('concepts-collections', api);

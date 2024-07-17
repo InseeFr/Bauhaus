@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import * as select from 'js/reducers';
+import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import OperationsIndicatorEdition from 'js/applications/operations/indicators/edition/edition';
-import { CL_FREQ } from 'js/actions/constants/codeList';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
+import OperationsIndicatorEdition from '../../../../applications/operations/indicators/edition/edition';
+import { CL_FREQ } from '../../../../actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';
-import { useGoBack } from 'js/hooks/hooks';
+import { useGoBack } from '../../../../hooks/hooks';
 import { useCodesList } from '../../../../hooks/hooks';
 
 const OperationsIndicatorsEditionContainer = (props) => {

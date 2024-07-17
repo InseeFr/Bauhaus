@@ -1,6 +1,6 @@
-import D from 'js/i18n';
+import D from '../../../../../../i18n';
 import { DSURLToLabel } from '@inseefr/wilco';
-import { DateItem, DateUtils } from 'js/utils';
+import { DateItem, DateUtils } from '../../../../../../utils';
 
 export const rowParams = {
 	creations: [

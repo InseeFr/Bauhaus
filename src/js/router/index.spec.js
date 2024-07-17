@@ -1,29 +1,34 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { RBACLink } from '.';
 import { removeToken } from '../utils/auth/open-id-connect-auth/token-utils';
-import D from 'js/new-architecture/i18n';
-import { Auth } from 'js/utils';
+import D from '../new-architecture/i18n';
+import { Auth } from '../utils';
+import configureStore from '../store/configure-store';
+import { renderWithRouter } from '../new-architecture/tests-utils/render';
 
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'),
 	useLocation: jest.fn(),
 }));
-jest.mock('js/utils/env', () => ({
+jest.mock('../utils/env', () => ({
 	getEnvVar: (key) => (key === 'NAME' ? 'TestApp' : '1.0.0'),
 }));
 
-jest.mock('js/utils');
 jest.mock('../utils/auth/open-id-connect-auth/token-utils', () => ({
 	removeToken: jest.fn(),
 }));
 
-const mockStore = configureStore([]);
-const store = mockStore({
+const store = configureStore({
 	app: {
+		auth: {
+			type: 'type',
+			user: {
+				roles: [],
+				stamp: 'stamp',
+			},
+		},
 		properties: {
 			authorizationHost: 'http://auth-host.com',
 		},
@@ -41,13 +46,11 @@ describe('RBACLink Component', () => {
 	it('should render children and footer correctly', () => {
 		useLocationMock.mockReturnValue({ pathname: '/' });
 
-		render(
+		renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<RBACLink>
-						<div>Child Component</div>
-					</RBACLink>
-				</MemoryRouter>
+				<RBACLink>
+					<div>Child Component</div>
+				</RBACLink>
 			</Provider>
 		);
 
@@ -59,13 +62,11 @@ describe('RBACLink Component', () => {
 	it('should call logout and remove token when logout button is clicked', () => {
 		useLocationMock.mockReturnValue({ pathname: '/' });
 
-		render(
+		renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<RBACLink>
-						<div>Child Component</div>
-					</RBACLink>
-				</MemoryRouter>
+				<RBACLink>
+					<div>Child Component</div>
+				</RBACLink>
 			</Provider>
 		);
 
@@ -79,13 +80,11 @@ describe('RBACLink Component', () => {
 		useLocationMock.mockReturnValue({ pathname: '/' });
 		Auth.AuthGuard = ({ children }) => children; // Mock AuthGuard to always render children
 
-		render(
+		renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<RBACLink>
-						<div>Child Component</div>
-					</RBACLink>
-				</MemoryRouter>
+				<RBACLink>
+					<div>Child Component</div>
+				</RBACLink>
 			</Provider>
 		);
 
@@ -96,13 +95,11 @@ describe('RBACLink Component', () => {
 		useLocationMock.mockReturnValue({ pathname: '/not-home' });
 		Auth.AuthGuard = ({ children }) => children; // Mock AuthGuard to always render children
 
-		render(
+		renderWithRouter(
 			<Provider store={store}>
-				<MemoryRouter>
-					<RBACLink>
-						<div>Child Component</div>
-					</RBACLink>
-				</MemoryRouter>
+				<RBACLink>
+					<div>Child Component</div>
+				</RBACLink>
 			</Provider>
 		);
 

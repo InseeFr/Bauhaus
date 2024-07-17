@@ -1,6 +1,6 @@
-import D, { D1, D2 } from 'js/i18n';
-import { formatValidation } from 'js/utils/validation';
+import D, { D1, D2 } from '../../../i18n';
 import { z } from 'zod';
+import { formatValidation } from '../../../new-architecture/utils/validation';
 
 const Structure = z.object({
 	identifiant: z.string().min(1, { message: D.mandatoryProperty(D.idTitle) }),

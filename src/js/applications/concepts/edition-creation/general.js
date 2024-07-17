@@ -1,13 +1,14 @@
-import D, { D1, D2 } from 'js/i18n';
-import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
-import InputRmes from 'js/applications/shared/input-rmes';
-import InputMultiRmes from 'js/applications/shared/input-multi-rmes';
-import { fields as generalFields } from 'js/utils/concepts/general';
+import D, { D1, D2 } from '../../../i18n';
+import DatePickerRmes from '../../../applications/shared/date-picker-rmes';
+import InputRmes from '../../../applications/shared/input-rmes';
+import InputMultiRmes from '../../../applications/shared/input-multi-rmes';
+import { fields as generalFields } from '../../../utils/concepts/general';
+import { RequiredIcon, ClientSideError } from '../../../utils';
 import { LabelRequired } from '@inseefr/wilco';
-import { RequiredIcon, ClientSideError } from 'js/utils';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
 import { TextInput } from '../../../new-architecture/components';
-import Select from 'js/utils/components/select-rmes';
+import Select from './../../../utils/components/select-rmes';
+
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {
 		handlers[fieldName] = (value) => handleChange({ [fieldName]: value });

@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 import Compare from './home';
-import * as mainSelect from 'js/reducers';
-import { Stores } from 'js/utils';
+import * as mainSelect from '../../../../reducers';
+import { Stores } from '../../../../utils';
 import useClassificationItem from '../hook';
 
 const CompareContainer = () => {

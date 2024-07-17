@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
-import { D1, D2 } from 'js/i18n';
-import { Row } from 'js/new-architecture/components';
-export default ({ members, secondLang }) => {
+import { D1, D2 } from '../../../../i18n';
+import { Row } from './../../../../new-architecture/components';
+
+const Members = ({ members, secondLang }) => {
 	const membersLg1 = members.map((m, i) => (
 		<li key={i}>
 			<Link to={`/classifications/classification/${m.id}`}>{m.labelLg1}</Link>
@@ -37,3 +38,5 @@ export default ({ members, secondLang }) => {
 		</Row>
 	);
 };
+
+export default Members;

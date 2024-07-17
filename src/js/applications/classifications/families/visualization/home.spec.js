@@ -1,11 +1,9 @@
-import { render } from '@testing-library/react';
 import Home from './home';
-import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
+import configureStore from '../../../../store/configure-store';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
-const mockStore = configureStore([]);
-const store = mockStore({
+const store = configureStore({
 	app: {
 		secondLang: true,
 	},
@@ -18,13 +16,10 @@ const family = {
 
 describe('classification-family-home', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<Provider store={store}>
 				<Home family={family} secondLang={true} />
-			</Provider>,
-			{
-				wrapper: MemoryRouter,
-			}
+			</Provider>
 		);
 	});
 });

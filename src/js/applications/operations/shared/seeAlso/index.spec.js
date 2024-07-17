@@ -1,6 +1,6 @@
 import SeeAlso from './index';
 import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 const langs = {
 	lg1: 'fr',
@@ -24,10 +24,8 @@ describe('SeeAlso', () => {
 		const seeAlso = {
 			indicator: [{ id: 1, label: 'indicators' }],
 		};
-		const { container } = render(
-			<MemoryRouter>
-				<SeeAlso links={seeAlso} langs={langs} />
-			</MemoryRouter>
+		const { container } = renderWithRouter(
+			<SeeAlso links={seeAlso} langs={langs} />
 		);
 		expect(container.innerHTML).toContain('href="/operations/indicator/1"');
 	});
@@ -35,10 +33,8 @@ describe('SeeAlso', () => {
 		const seeAlso = {
 			series: [{ id: 1, label: 'indicators' }],
 		};
-		const { container } = render(
-			<MemoryRouter>
-				<SeeAlso links={seeAlso} langs={langs} />
-			</MemoryRouter>
+		const { container } = renderWithRouter(
+			<SeeAlso links={seeAlso} langs={langs} />
 		);
 		expect(container.innerHTML).toContain('href="/operations/series/1"');
 	});
@@ -46,10 +42,8 @@ describe('SeeAlso', () => {
 		const seeAlso = {
 			family: [{ id: 1, label: 'indicators' }],
 		};
-		const { container } = render(
-			<MemoryRouter>
-				<SeeAlso links={seeAlso} langs={langs} />
-			</MemoryRouter>
+		const { container } = renderWithRouter(
+			<SeeAlso links={seeAlso} langs={langs} />
 		);
 		expect(container.innerHTML).toContain('href="/operations/family/1"');
 	});
@@ -57,10 +51,8 @@ describe('SeeAlso', () => {
 		const seeAlso = {
 			operation: [{ id: 1, label: 'indicators' }],
 		};
-		const { container } = render(
-			<MemoryRouter>
-				<SeeAlso links={seeAlso} langs={langs} />
-			</MemoryRouter>
+		const { container } = renderWithRouter(
+			<SeeAlso links={seeAlso} langs={langs} />
 		);
 		expect(container.innerHTML).toContain('href="/operations/operation/1"');
 	});

@@ -1,9 +1,9 @@
 import reducerCorrespondenceAssociation, {
 	getAssociation,
 } from './association';
-import * as A from 'js/actions/constants';
-import { LOADING, LOADED } from 'js/constants';
-import * as associationUtils from 'js/applications/classifications/utils/correspondence/association';
+import * as A from '../../../actions/constants';
+import { LOADING, LOADED } from '../../../constants';
+import * as associationUtils from '../../../applications/classifications/utils/correspondence/association';
 
 describe('reducerCorrespondenceAssociation', () => {
 	test('action LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION', () => {

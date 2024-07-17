@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import D, { D1, D2 } from 'js/i18n';
+import D, { D1, D2 } from '../../../../i18n';
 import {
 	EditorMarkdown,
 	PageTitleBlock,
@@ -7,27 +7,27 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	useTitle,
-} from 'js/utils';
-import { validate } from 'js/applications/operations/document/edition/validation';
+} from '../../../../utils';
+import { validate } from '../../../../applications/operations/document/edition/validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
-import { useGoBack } from 'js/hooks/hooks';
+import { useGoBack } from '../../../../hooks/hooks';
 
 import {
 	CancelButton,
 	SaveButton,
 	ActionToolbar,
 	LabelRequired,
-	Select,
 } from '@inseefr/wilco';
-import DatePickerRmes from 'js/applications/shared/date-picker-rmes';
-import api from 'js/remote-api/api';
+import DatePickerRmes from '../../../../applications/shared/date-picker-rmes';
+import api from '../../../../remote-api/api';
 import Modal from 'react-modal';
 import {
 	TextInput,
 	Row,
 	Loading,
 } from '../../../../new-architecture/components';
+import Select from '../../../../utils/components/select-rmes';
 
 const initDocument = {
 	labelLg1: '',

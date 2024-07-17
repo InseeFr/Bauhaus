@@ -1,11 +1,11 @@
-import D from 'js/i18n';
+import D from '../../../../i18n';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useDataset } from '../../hooks';
 import api from '../../api/datasets-api';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import {
 	ActionToolbar,
@@ -19,7 +19,7 @@ import {
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
 	useTitle,
-} from 'js/utils';
+} from '../../../../utils';
 import { GlobalInformation } from './tabs/global-information';
 import { InternalManagement } from './tabs/internal-management';
 import { Notes } from './tabs/notes';
@@ -147,25 +147,24 @@ export const DatasetEdit = (props) => {
 
 	const queryClient = useQueryClient();
 
-	const { isLoading: isSaving, mutate: save } = useMutation(
-		() => {
+	const { isLoading: isSaving, mutate: save } = useMutation({
+		mutationFn: () => {
 			const formattedDataset = { themes: [], ...editingDataset };
 			if (isEditing) {
 				return api.putDataset(formattedDataset);
 			}
 			return api.postDataset(formattedDataset);
 		},
-		{
-			onSuccess: (id) => {
-				if (isEditing) {
-					queryClient.invalidateQueries(['datasets', id]);
-				}
-				queryClient.invalidateQueries(['datasets']);
 
-				goBackOrReplace(props, `/datasets/${id}`, !isEditing);
-			},
-		}
-	);
+		onSuccess: (id) => {
+			if (isEditing) {
+				queryClient.invalidateQueries(['datasets', id]);
+			}
+			queryClient.invalidateQueries(['datasets']);
+
+			goBackOrReplace(props, `/datasets/${id}`, !isEditing);
+		},
+	});
 
 	useTitle(D.datasetsTitle, editingDataset?.labelLg1 || D.datasetsCreateTitle);
 

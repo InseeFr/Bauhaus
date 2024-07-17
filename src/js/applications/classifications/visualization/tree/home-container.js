@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import ClassificationTree from './home';
 import { buildExtract } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
-import loadClassificationGeneral from 'js/actions/classifications/general';
-import * as selectG from 'js/reducers/classifications/classification/general';
+import loadClassificationGeneral from '../../../../actions/classifications/general';
+import * as selectG from '../../../../reducers/classifications/classification/general';
 import { getTreeFromFlatData } from 'react-sortable-tree';
-import { Stores } from 'js/utils';
-import api from 'js/remote-api/classifications-api';
+import { Stores } from '../../../../utils';
+import api from '../../../../remote-api/classifications-api';
 import { useQuery } from '@tanstack/react-query';
 
 const extractId = buildExtract('id');
@@ -19,10 +19,10 @@ const ClassificationTreeContainer = ({
 	general,
 	secondLang,
 }) => {
-	const { isLoading, data: flatTree } = useQuery(
-		['classification-items', id],
-		() => api.getClassificationItems(id)
-	);
+	const { isLoading, data: flatTree } = useQuery({
+		queryKey: ['classification-items', id],
+		queryFn: () => api.getClassificationItems(id),
+	});
 
 	useEffect(() => {
 		loadClassificationGeneral(id);

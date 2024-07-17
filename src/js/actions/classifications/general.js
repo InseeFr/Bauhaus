@@ -1,7 +1,7 @@
-import api from 'js/remote-api/classifications-api';
-import * as A from 'js/actions/constants';
+import api from '../../remote-api/classifications-api';
+import * as A from '../../actions/constants';
 
-export default id => dispatch => {
+const fetchClassificationGeneral = (id) => (dispatch) => {
 	dispatch({
 		type: A.LOAD_CLASSIFICATION_GENERAL,
 		payload: {
@@ -9,17 +9,19 @@ export default id => dispatch => {
 		},
 	});
 	return api.getClassificationGeneral(id).then(
-		results => {
+		(results) => {
 			dispatch({
 				type: A.LOAD_CLASSIFICATION_GENERAL_SUCCESS,
 				payload: { id, results },
 			});
 			return results;
 		},
-		err =>
+		(err) =>
 			dispatch({
 				type: A.LOAD_CLASSIFICATION_GENERAL_FAILURE,
 				payload: { err, id },
 			})
 	);
 };
+
+export default fetchClassificationGeneral;

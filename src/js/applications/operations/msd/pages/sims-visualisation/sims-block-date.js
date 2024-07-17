@@ -1,4 +1,4 @@
-import { DateUtils } from 'js/utils';
+import { DateUtils } from '../../../../../utils';
 
 const SimsBlockDate = ({ currentSection }) => {
 	return DateUtils.stringToDate(currentSection.value);

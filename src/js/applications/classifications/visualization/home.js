@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { PageSubtitle } from '@inseefr/wilco';
-import { PageTitle, Row } from 'js/new-architecture/components';
+import { PageTitle, Row } from '../../../new-architecture/components';
 import Menu from './menu';
 import General from './general';
 import Notes from './notes';
 import Levels from './levels';
-import D from 'js/i18n';
-import { CheckSecondLang, useTitle, ErrorBloc } from 'js/utils';
+import D from '../../../i18n';
+import { CheckSecondLang, useTitle, ErrorBloc } from '../../../utils';
 
 const ClassificationVisualization = (props) => {
 	const {

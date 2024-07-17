@@ -1,6 +1,8 @@
 import { emptyWithContributor as emptyGeneral } from './general';
 
-export default defaultContributor => ({
+const emptyCollection = (defaultContributor) => ({
 	general: emptyGeneral(defaultContributor),
 	members: [],
 });
+
+export default emptyCollection;

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Picker from '../../shared/picker-page';
-import { useTitle } from 'js/utils';
-import D from 'js/i18n';
-import ExportButtons from 'js/applications/collections/export-buttons';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { useTitle } from '../../../utils';
+import D from '../../../i18n';
+import ExportButtons from '../../../applications/collections/export-buttons';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 import {
 	useConceptExporter,
 	useConcepts,

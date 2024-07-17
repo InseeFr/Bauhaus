@@ -1,6 +1,6 @@
 import { Button, ActionToolbar } from '@inseefr/wilco';
-import D from 'js/i18n';
-import { Auth } from 'js/utils';
+import D from '../../../i18n';
+import { Auth } from '../../../utils';
 import { useGoBack } from '../../../hooks/hooks';
 
 const ItemControls = ({ classificationId, itemId, version }) => {

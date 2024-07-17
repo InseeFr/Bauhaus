@@ -1,5 +1,5 @@
-import D from 'js/i18n';
-import { ArrayUtils } from 'js/utils';
+import D from '../../../i18n';
+import { ArrayUtils } from '../../../utils';
 
 export const validate = (
 	{ id, prefLabelLg1, creator },

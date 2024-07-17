@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { Menu } from './menu';
-import { Auth, RBACMock } from '../../utils';
+import { Auth } from '../../utils';
+import { RBACMock } from '../../utils/utils/testing';
 
 describe('Concepts Home Page Menu', () => {
 	it('an admin can create a new concept ', () => {

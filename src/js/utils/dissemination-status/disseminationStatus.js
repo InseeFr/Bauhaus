@@ -1,7 +1,7 @@
-import D from 'js/i18n';
-import { Stores } from 'js/utils';
+import D from '../../i18n';
 import { LabelRequired } from '@inseefr/wilco';
-import Select from 'js/utils/components/select-rmes';
+import Select from '../../utils/components/select-rmes';
+import { useDisseminationStatusOptions } from '../../new-architecture/utils/hooks/disseminationStatus';
 
 export const getDisseminationStatus = (disseminationStatus) => {
 	if (!disseminationStatus) {
@@ -25,21 +25,19 @@ export const DisseminationStatusVisualisation = ({ disseminationStatus }) => {
 	);
 };
 
-export const DisseminationStatusInput =
-	Stores.DisseminationStatus.withDisseminationStatusListOptions(
-		({ disseminationStatusListOptions = [], value, handleChange }) => {
-			return (
-				<>
-					<LabelRequired>{D.disseminationStatusTitle}</LabelRequired>
-					<Select
-						placeholder={D.disseminationStatusPlaceholder}
-						value={disseminationStatusListOptions.find(
-							({ value: v }) => v === value
-						)}
-						options={disseminationStatusListOptions}
-						onChange={handleChange}
-					/>
-				</>
-			);
-		}
+export const DisseminationStatusInput = ({ value, handleChange }) => {
+	const disseminationStatusListOptions = useDisseminationStatusOptions();
+	return (
+		<>
+			<LabelRequired>{D.disseminationStatusTitle}</LabelRequired>
+			<Select
+				placeholder={D.disseminationStatusPlaceholder}
+				value={disseminationStatusListOptions.find(
+					({ value: v }) => v === value
+				)}
+				options={disseminationStatusListOptions}
+				onChange={handleChange}
+			/>
+		</>
 	);
+};

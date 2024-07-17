@@ -1,13 +1,10 @@
-import { render } from '@testing-library/react';
 import Members from './members';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 const members = [{ id: '1', label: 'Member 1' }];
 
 describe('classification-series-members', () => {
 	it('renders without crashing', () => {
-		render(<Members members={members} secondLang={true} />, {
-			wrapper: MemoryRouter,
-		});
+		renderWithRouter(<Members members={members} secondLang={true} />);
 	});
 });

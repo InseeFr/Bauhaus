@@ -1,14 +1,13 @@
-
 import { useState } from 'react';
-import { useTitle } from 'js/utils';
+import { useTitle } from '../../../utils';
 import D from '../../../i18n/build-dictionary';
 import Picker from '../../shared/picker-page';
 import ExportButtons from '../export-buttons';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 import {
 	useCollectionExporter,
 	useCollections,
-} from 'js/new-architecture/utils/hooks/collections';
+} from '../../../new-architecture/utils/hooks/collections';
 
 const CollectionsToExportContainer = () => {
 	useTitle(D.collectionsTitle, D.exportTitle);
@@ -17,7 +16,6 @@ const CollectionsToExportContainer = () => {
 	const { data: collections, isLoading } = useCollections();
 	const { mutate: exportCollection, isLoading: isExporting } =
 		useCollectionExporter();
-
 
 	if (isExporting) return <Loading textType="exporting" />;
 	if (isLoading) return <Loading />;

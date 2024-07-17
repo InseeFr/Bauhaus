@@ -1,8 +1,8 @@
 import { Button, VerticalMenu } from '@inseefr/wilco';
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../../new-architecture/components';
 
-import { Auth, SearchableList } from 'js/utils';
-import D from 'js/i18n';
+import { Auth, SearchableList } from '../../../../utils';
+import D from '../../../../i18n';
 
 function OperationsObjectHome({
 	items,

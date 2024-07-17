@@ -1,7 +1,7 @@
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../../new-architecture/components';
 import Controls from './controls';
 import Members from './members';
-import { CheckSecondLang, useTitle } from 'js/utils';
+import { CheckSecondLang, useTitle } from '../../../../utils';
 import D from '../../../../i18n/build-dictionary';
 
 const FamilyVisualization = ({

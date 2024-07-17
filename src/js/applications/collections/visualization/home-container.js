@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import * as select from 'js/reducers';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import * as select from '../../../reducers';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 import CollectionVisualization from './home';
-import { Auth, Stores } from 'js/utils';
+import { Auth, Stores } from '../../../utils';
 import { useParams } from 'react-router-dom';
 import api from '../../../remote-api/concepts-api';
 

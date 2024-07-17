@@ -1,4 +1,4 @@
-import { Stores } from '../utils';
+import { SAVE_SECOND_LANG } from '../utils/stores/second-lang';
 
 export const CHECK_AUTH = 'CHECK_AUTH';
 export const SAVE_USER_PROPS = 'SAVE_USER_PROPS';
@@ -15,10 +15,10 @@ export const checkAuth = (body) => ({
 	payload: body,
 });
 
-export default function (state = {}, action) {
+const UserReducer = (state = {}, action) => {
 	const { type, payload } = action;
 	switch (type) {
-		case Stores.SecondLang.SAVE_SECOND_LANG: {
+		case SAVE_SECOND_LANG: {
 			return {
 				...state,
 				secondLang: payload,
@@ -39,4 +39,6 @@ export default function (state = {}, action) {
 		default:
 			return state;
 	}
-}
+};
+
+export default UserReducer;

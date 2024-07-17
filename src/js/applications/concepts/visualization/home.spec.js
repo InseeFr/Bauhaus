@@ -1,12 +1,10 @@
-import { render } from '@testing-library/react';
 import ConceptVisualization from './home';
-import { empty } from 'js/utils/concepts/general';
-import { MemoryRouter } from 'react-router-dom';
+import { empty } from '../../../utils/concepts/general';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
+import configureStore from '../../../store/configure-store';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
-const mockStore = configureStore([]);
-const store = mockStore({
+const store = configureStore({
 	app: {
 		secondLang: true,
 	},
@@ -14,7 +12,7 @@ const store = mockStore({
 
 describe('concept-visualization', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<Provider store={store}>
 				<ConceptVisualization
 					id="id"
@@ -28,8 +26,7 @@ describe('concept-visualization', () => {
 					langs={{ lg1: 'fr', lg2: 'en' }}
 					permission={{ authType: '', roles: [''] }}
 				/>
-			</Provider>,
-			{ wrapper: MemoryRouter }
+			</Provider>
 		);
 	});
 });

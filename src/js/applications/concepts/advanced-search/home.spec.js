@@ -1,15 +1,13 @@
-import { render } from '@testing-library/react';
 import AdvancedSearch from './home';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 describe('concepts-advanced-search', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<AdvancedSearch
 				conceptSearchList={[]}
 				stampList={[]}
 				disseminationStatusList={[]}
-			/>,
-			{ wrapper: MemoryRouter }
+			/>
 		);
 	});
 });

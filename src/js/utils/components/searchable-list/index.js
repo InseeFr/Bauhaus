@@ -20,7 +20,10 @@ const SearchableList = ({
 	autoFocus = false,
 	itemFormatter = (content, _object) => content,
 }) => {
-	const [{ search }, handleSearch] = useUrlQueryParameters(defautState);
+	const {
+		form: { search },
+		setForm: handleSearch,
+	} = useUrlQueryParameters(defautState);
 
 	const filter = filterKeyDeburr(
 		Object.keys(items[0] || {}).filter((k) => k !== 'id')

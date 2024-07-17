@@ -1,18 +1,10 @@
-import { SelectRmes, StampsApi } from 'js/utils';
+import { SelectRmes } from '../../utils';
 import { D1 } from '../i18n/build-dictionary';
-import { useQuery } from '@tanstack/react-query';
 import { LabelRequired } from '@inseefr/wilco';
+import { useStampsOptions } from '../../new-architecture/utils/hooks/stamps';
 
 const CreatorsInput = ({ value, onChange, multi }) => {
-	const { data: stampsOptions = [] } = useQuery(['stamps'], () => {
-		return StampsApi.getStamps().then((stamps) =>
-			stamps.map((stamp) => ({
-				value: stamp,
-				label: stamp,
-			}))
-		);
-	});
-
+	const stampsOptions = useStampsOptions();
 	let creatorsArray = value;
 	if (multi !== false && !Array.isArray(value)) {
 		creatorsArray = [value];

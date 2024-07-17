@@ -12,18 +12,18 @@ const computeFromUrl = (defaultValue) => {
 	return values;
 };
 
-export default (defaultValue) => {
+const useUrlQueryParameters = (defaultValue) => {
 	const history = useHistory();
 	const location = useLocation();
 
-	const [search, setSearch] = useState(computeFromUrl(defaultValue));
+	const [form, setSearch] = useState(computeFromUrl(defaultValue));
 
 	const handleChange = (property, stateChange) => {
 		const newForm = {
-			...search,
+			...form,
 			[property]: stateChange,
 		};
-		setValuesToQueryParameters(newForm);
+		setForm(newForm);
 	};
 
 	const reset = () => {
@@ -31,7 +31,7 @@ export default (defaultValue) => {
 		history.replace(location.pathname);
 	};
 
-	const setValuesToQueryParameters = (values) => {
+	const setForm = (values) => {
 		setSearch(values);
 		const searchParams = new URLSearchParams(window.location.search);
 		Object.entries(values).forEach(([key, value]) => {
@@ -39,5 +39,7 @@ export default (defaultValue) => {
 		});
 		history.replace(location.pathname + '?' + searchParams.toString());
 	};
-	return [search, setValuesToQueryParameters, reset, handleChange];
+	return { form, setForm, reset, handleChange };
 };
+
+export default useUrlQueryParameters;

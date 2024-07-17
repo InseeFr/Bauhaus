@@ -12,7 +12,7 @@ import {
 	STRUCTURE_CONTRIBUTOR,
 } from '../js/utils/auth/roles';
 import Select from 'react-select';
-import D from 'js/i18n';
+import D from '../js/i18n';
 import { createRoot } from 'react-dom/client';
 import { CHECK_AUTH } from '../js/store/users';
 

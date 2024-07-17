@@ -1,7 +1,7 @@
-import NoteVisualization from 'js/applications/shared/note-visualization';
-import { buildNotes } from 'js/applications/classifications/utils/classification/notes';
-import D, { D2 } from 'js/i18n';
-import { HTMLUtils, DateUtils } from 'js/utils';
+import NoteVisualization from '../../../applications/shared/note-visualization';
+import { buildNotes } from '../../../applications/classifications/utils/classification/notes';
+import D, { D2 } from '../../../i18n';
+import { HTMLUtils, DateUtils } from '../../../utils';
 function ClassificationNotes({ secondLang, notes, langs }) {
 	const noteValues = buildNotes(notes).map((note) => {
 		if (note.title === 'classificationsChangeNote') {

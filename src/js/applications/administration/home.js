@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import dashBoardLogo from 'img/dashboard.png';
-import { PageTitle } from 'js/new-architecture/components';
-import D from 'js/i18n';
+import dashBoardLogo from '../../../img/dashboard.png';
+import { PageTitle } from '../../new-architecture/components';
+import D from '../../i18n';
 import './home.scss';
 import { useTitle } from '../../utils';
 

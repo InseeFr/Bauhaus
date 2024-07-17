@@ -5,16 +5,16 @@ runs:
     - uses: actions/setup-node@v4
       with:
         node-version: 22
-        cache: yarn
+        cache: npm
     - name: 🏗️ Generate Bauhaus
       shell: bash
-      run: yarn
+      run: npm i --force
     - name: 🧪 Running ESLint
       shell: bash
-      run: yarn lint
+      run: npm run lint
     - name: 🧪 Running unit tests
       shell: bash
-      run: yarn test:coverage
+      run: npm run test:coverage
     - name: 🧪 Building the application
       shell: bash
-      run: yarn build-insee
+      run: npm run build-insee

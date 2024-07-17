@@ -1,4 +1,4 @@
-import { API } from 'js/utils';
+import { buildApi } from '../../../new-architecture/sdk';
 
 const api = {
 	getAll: () => [''],
@@ -28,4 +28,4 @@ const api = {
 	deleteDataset: (id) => [`${id}`, (res) => res.text()],
 };
 
-export default API.buildApi('datasets', api);
+export default buildApi('datasets', api);

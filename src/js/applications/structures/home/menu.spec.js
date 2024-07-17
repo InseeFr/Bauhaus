@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { HomePageMenu } from './menu';
-import { Auth, RBACMock } from 'js/utils';
+import { Auth } from '../../../utils';
+import { RBACMock } from '../../../utils/utils/testing';
 
 describe('Structures Home Page Menu', () => {
 	it('an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role', () => {

@@ -1,7 +1,6 @@
-import { render } from '@testing-library/react';
 import Outline from './index';
-import { MemoryRouter } from 'react-router-dom';
-jest.mock('js/applications/operations/msd/utils');
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
+jest.mock('../../../../applications/operations/msd/utils');
 
 const metadataStructureOpened = {
 	idMas: '1',
@@ -17,12 +16,8 @@ const metadataStructureClosed = {
 
 describe('Outline', () => {
 	it('should displayed a collapsed block', () => {
-		const { container } = render(
-			<Outline
-				metadataStructure={metadataStructureClosed}
-				storeCollapseState
-			/>,
-			{ wrapper: MemoryRouter }
+		const { container } = renderWithRouter(
+			<Outline metadataStructure={metadataStructureClosed} storeCollapseState />
 		);
 		expect(container.querySelectorAll('.glyphicon-chevron-down')).toHaveLength(
 			1
@@ -31,21 +26,16 @@ describe('Outline', () => {
 	});
 
 	it('should display a expanded block', () => {
-		const { container } = render(
-			<Outline
-				metadataStructure={metadataStructureOpened}
-				storeCollapseState
-			/>,
-			{ wrapper: MemoryRouter }
+		const { container } = renderWithRouter(
+			<Outline metadataStructure={metadataStructureOpened} storeCollapseState />
 		);
 		expect(container.querySelectorAll('.glyphicon-chevron-up')).toHaveLength(1);
 		expect(container.querySelectorAll('.msd__item')).toHaveLength(1);
 	});
 
 	it('should not store the collapse status', () => {
-		const { container } = render(
-			<Outline metadataStructure={metadataStructureOpened} />,
-			{ wrapper: MemoryRouter }
+		const { container } = renderWithRouter(
+			<Outline metadataStructure={metadataStructureOpened} />
 		);
 		expect(container.querySelectorAll('.glyphicon-chevron-up')).toHaveLength(0);
 		expect(container.querySelectorAll('.msd__item')).toHaveLength(0);

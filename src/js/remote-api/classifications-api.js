@@ -1,4 +1,4 @@
-import { API } from 'js/utils';
+import { buildApi } from '../new-architecture/sdk';
 
 const api = {
 	getFamiliesList: () => ['families'],
@@ -63,4 +63,4 @@ const api = {
 	],
 };
 
-export default API.buildApi('classifications', api);
+export default buildApi('classifications', api);

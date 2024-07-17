@@ -4,9 +4,9 @@ import MSDContainer, {
 	VIEW,
 	UPDATE,
 	DUPLICATE,
-} from 'js/applications/operations/msd/';
+} from '../../../applications/operations/msd/';
 
-export default () => {
+const Sims = () => {
 	return (
 		<Switch>
 			<Route exact path="/operations/msd" component={MSDContainer} />
@@ -73,3 +73,5 @@ export default () => {
 		</Switch>
 	);
 };
+
+export default Sims;

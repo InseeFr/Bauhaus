@@ -1,15 +1,15 @@
-import D from 'js/i18n';
-import * as select from 'js/reducers';
+import D from '../../../../i18n';
+import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components';
 
-import { useGoBack } from 'js/hooks/hooks';
-import api from 'js/remote-api/operations-api';
+import { useGoBack } from '../../../../hooks/hooks';
+import api from '../../../../remote-api/operations-api';
 
 import { useCallback, useEffect, useState } from 'react';
-import OperationsFamilyVisualization from 'js/applications/operations/families/visualization/visualization';
+import OperationsFamilyVisualization from '../../../../applications/operations/families/visualization/visualization';
 import {
 	Auth,
 	Stores,
@@ -18,7 +18,7 @@ import {
 	CheckSecondLang,
 	PageTitleBlock,
 	ErrorBloc,
-} from 'js/utils';
+} from '../../../../utils';
 
 const Family = () => {
 	const { id } = useParams();

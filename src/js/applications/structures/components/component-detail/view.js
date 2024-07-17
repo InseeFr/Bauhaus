@@ -9,7 +9,12 @@ import {
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { HTMLUtils, CreationUpdateItems, useTitle, ErrorBloc } from 'js/utils';
+import {
+	HTMLUtils,
+	CreationUpdateItems,
+	useTitle,
+	ErrorBloc,
+} from '../../../../utils';
 import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from '../../../codelists/apis';

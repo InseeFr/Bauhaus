@@ -1,11 +1,11 @@
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../../new-architecture/components';
 import Controls from './controls';
-import TabsRmes from 'js/applications/shared/tabs-rmes/tabs-rmes';
+import TabsRmes from '../../../../applications/shared/tabs-rmes/tabs-rmes';
 import ConceptsSummary from './concepts/summary';
 import ConceptsCreationsModifications from './concepts/creations-modifications';
 import CollectionsSummary from './collections/summary';
 import CollectionsCreationsModifications from './collections/creations-modifications';
-import D from 'js/i18n';
+import D from '../../../../i18n';
 import { useTitle } from '../../../../utils';
 
 function ConceptsDashboard({ conceptsData, collectionsData }) {

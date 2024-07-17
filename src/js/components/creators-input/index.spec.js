@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react';
 import CreatorsInput from './index';
 
 jest.mock('@tanstack/react-query', () => ({
-	useQuery: ([_key]) => {
+	useQuery: () => {
 		return {
 			data: [
 				{ value: 'VALUE', label: 'LABEL' },
@@ -12,7 +12,7 @@ jest.mock('@tanstack/react-query', () => ({
 	},
 }));
 
-jest.mock('js/utils', () => ({
+jest.mock('../../utils', () => ({
 	SelectRmes: ({ value, onChange, multi }) => {
 		return (
 			<ul>

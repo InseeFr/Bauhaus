@@ -1,4 +1,4 @@
-import { API } from 'js/utils';
+import { buildApi } from '../../../new-architecture/sdk';
 
 const api = {
 	getStructures: () => [''],
@@ -76,4 +76,4 @@ const api = {
 	],
 };
 
-export default API.buildApi('structures', api);
+export default buildApi('structures', api);

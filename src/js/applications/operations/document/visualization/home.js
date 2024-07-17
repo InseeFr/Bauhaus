@@ -1,9 +1,10 @@
 import { Note } from '@inseefr/wilco';
-import D, { D1, D2 } from 'js/i18n';
+import D, { D1, D2 } from '../../../../i18n';
 import { useEffect, useState } from 'react';
 import { LINK, isDocument, isLink } from '../utils';
-import { API, useTitle } from 'js/utils';
+import { useTitle } from '../../../../utils';
 import RelationsView from '../../shared/relations';
+import { getBaseURI } from '../../../../new-architecture/sdk';
 
 function formatSims(sims) {
 	const simsObject = sims.reduce((acc, s) => {
@@ -54,7 +55,7 @@ function OperationsDocumentationVisualization({
 	const sims = formatSims(attr.sims);
 	const [baseURI, setBaseURI] = useState('');
 	useEffect(() => {
-		API.getBaseURI().then((uri) => setBaseURI(uri));
+		getBaseURI().then((uri) => setBaseURI(uri));
 	});
 	return (
 		<>

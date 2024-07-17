@@ -1,6 +1,6 @@
 import { Menu } from '@inseefr/wilco';
 import D from '../i18n/build-dictionary';
-import { Auth } from 'js/utils';
+import { Auth } from '../../../utils';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 

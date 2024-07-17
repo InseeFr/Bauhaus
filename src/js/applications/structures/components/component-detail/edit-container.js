@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import { goBack, goBackOrReplace } from '@inseefr/wilco';
 import { DumbComponentDetailEdit } from './edit';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis';
-import { ConceptsAPI, Stores } from 'js/utils';
+import { ConceptsAPI } from '../../../../utils';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 
 const EditContainer = (props) => {
 	const { id } = useParams();
@@ -21,9 +21,7 @@ const EditContainer = (props) => {
 	const [serverSideError, setServerSideError] = useState('');
 	const [attributes, setAttributes] = useState([]);
 
-	const stampListOptions = useSelector((state) =>
-		Stores.Stamps.getStampListOptions(state)
-	);
+	const stampListOptions = useStampsOptions();
 
 	const handleBack = useCallback(() => {
 		goBack(props, '/structures/components')();

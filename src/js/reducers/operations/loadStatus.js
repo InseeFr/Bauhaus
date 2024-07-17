@@ -1,10 +1,10 @@
-import * as A from 'js/actions/constants';
-import { LOADING, NOT_LOADED, LOADED } from 'js/constants';
+import * as A from '../../actions/constants';
+import { LOADING, NOT_LOADED, LOADED } from '../../constants';
 
 /**
  * Track the loading of a SIMS. Used to avoid sending multiple request simultaneously
  */
-export const operationsSimsCurrentStatus = function(
+export const operationsSimsCurrentStatus = function (
 	state = NOT_LOADED,
 	action
 ) {

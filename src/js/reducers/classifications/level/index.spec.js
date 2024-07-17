@@ -1,5 +1,5 @@
 import { getLevel } from './';
-import { LOADED } from 'js/constants';
+import { LOADED } from '../../../constants';
 
 describe('getLevel', () => {
 	test('getLevel selector should extract results', () => {

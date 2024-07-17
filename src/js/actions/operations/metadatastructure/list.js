@@ -1,9 +1,9 @@
-import api from 'js/remote-api/operations-api';
-import * as A from 'js/actions/constants';
-import { loadCodesList } from 'js/actions/operations/utils/setup';
-import { getTree } from 'js/utils/msd';
+import api from '../../../remote-api/operations-api';
+import * as A from '../../../actions/constants';
+import { loadCodesList } from '../../../actions/operations/utils/setup';
+import { getTree } from '../../../utils/msd';
 
-export default () => (dispatch, getState) => {
+const fetchMsd = () => (dispatch, getState) => {
 	dispatch({
 		type: A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
 		payload: {},
@@ -32,14 +32,14 @@ export default () => (dispatch, getState) => {
 
 			const codesList = new Set();
 			metadataAttributes
-				.filter(attr => attr.codeList)
-				.map(attr => attr.codeList)
+				.filter((attr) => attr.codeList)
+				.map((attr) => attr.codeList)
 				.filter(
-					code =>
+					(code) =>
 						Object.keys(getState().operationsCodesList.results).indexOf(code) <
 						0
 				)
-				.forEach(code => codesList.add(code));
+				.forEach((code) => codesList.add(code));
 			loadCodesList(codesList, dispatch);
 
 			dispatch({
@@ -47,10 +47,11 @@ export default () => (dispatch, getState) => {
 				payload: { results: metaDataStructureTree },
 			});
 		},
-		err =>
+		(err) =>
 			dispatch({
 				type: A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
 				payload: { err },
 			})
 	);
 };
+export default fetchMsd;

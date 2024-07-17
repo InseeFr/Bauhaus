@@ -1,11 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { LabelRequired, ActionToolbar } from '@inseefr/wilco';
 import {
-	Stores,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-} from 'js/utils';
+} from '../../../../utils';
 import { validateCode } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { emptyCode } from './empty-code';
@@ -13,7 +12,7 @@ import './edit.scss';
 import { TextInput, Row } from '../../../../new-architecture/components';
 import Select from 'js/utils/components/select-rmes';
 
-const DumbCodeDetailEdit = ({
+export const CodeDetailEdit = ({
 	code: initialCode,
 	codes,
 	serverSideError,
@@ -266,8 +265,3 @@ const DumbCodeDetailEdit = ({
 		</>
 	);
 };
-
-export const CodeDetailEdit =
-	Stores.DisseminationStatus.withDisseminationStatusListOptions(
-		DumbCodeDetailEdit
-	);

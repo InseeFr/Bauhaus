@@ -1,21 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Select from 'react-select';
-import { useSelector } from 'react-redux';
 import {
 	ArrayUtils,
 	AdvancedSearchList,
-	Stores,
 	useTitle,
 	useUrlQueryParameters,
-} from 'js/utils';
+} from '../../../../utils';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
-import { Loading } from 'js/new-architecture/components/loading/loading';
 import { Column } from '../../../../new-architecture/components/layout';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import { TextInput, Loading } from '../../../../new-architecture/components';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
+import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 
 const filterId = ArrayUtils.filterKeyDeburr(['id']);
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
@@ -34,8 +32,7 @@ const defaultFormState = {
 };
 
 const SearchFormList = ({ stampListOptions, data }) => {
-	const [form, _setForm, reset, handleChange] =
-		useUrlQueryParameters(defaultFormState);
+	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const { id, labelLg1, creator, validationState, code, codeLabel } = form;
 
@@ -153,9 +150,7 @@ const SearchListContainer = () => {
 
 	const [loading, setLoading] = useState(true);
 	const [items, setItems] = useState([]);
-	const stampListOptions = useSelector((state) =>
-		Stores.Stamps.getStampListOptions(state)
-	);
+	const stampListOptions = useStampsOptions();
 
 	useEffect(() => {
 		API.getCodelistsForSearch()

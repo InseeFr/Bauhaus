@@ -1,6 +1,6 @@
-import * as A from 'js/actions/constants';
-import { LOADED, ERROR } from 'js/constants';
-import { ArrayUtils } from 'js/utils';
+import * as A from '../../actions/constants';
+import { LOADED, ERROR } from '../../constants';
+import { ArrayUtils } from '../../utils';
 
 const defaultState = {
 	results: [],
@@ -22,6 +22,8 @@ const operationsOrganisations = function (state = defaultState, action) {
 	}
 };
 
-export default {
+const organisations = {
 	operationsOrganisations,
 };
+
+export default organisations;

@@ -1,10 +1,9 @@
-import { render } from '@testing-library/react';
 import ConceptsDashboardEdition from './';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../../../../new-architecture/tests-utils/render';
 describe('dashboard-concepts-edition', () => {
 	it('renders without crashing', () => {
-		render(<ConceptsDashboardEdition conceptsData={[]} type="creations" />, {
-			wrapper: MemoryRouter,
-		});
+		renderWithRouter(
+			<ConceptsDashboardEdition conceptsData={[]} type="creations" />
+		);
 	});
 });

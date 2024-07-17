@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { D1, D2 } from 'js/i18n';
+import { D1, D2 } from '../../../../i18n';
 import {
 	EditorMarkdown,
 	PageTitleBlock,
@@ -7,7 +7,7 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-} from 'js/utils';
+} from '../../../../utils';
 
 import {
 	CancelButton,

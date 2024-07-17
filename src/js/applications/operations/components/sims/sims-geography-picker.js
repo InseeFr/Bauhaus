@@ -2,12 +2,12 @@ import { useCallback, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import ReactSelect from 'react-select';
 import D from '../../i18n/build-dictionary';
-import { Stores, Auth } from 'js/utils';
+import { Stores, Auth } from '../../../../utils';
 import SlidingPanel from 'react-sliding-side-panel';
 import SimsGeographyField from './sims-geography-field';
 
 import './sims-geography-picker.scss';
-import SimsGeographyI18NLabel from 'js/applications/operations/components/sims/sims-geography-i18n-label';
+import SimsGeographyI18NLabel from '../../../../applications/operations/components/sims/sims-geography-i18n-label';
 
 const accentsMap = new Map([
 	['A', 'Á|À|Ã|Â|Ä'],

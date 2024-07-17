@@ -1,18 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import * as select from 'js/reducers';
+import * as select from '../../../reducers';
 import ConceptEditionCreation from './home';
-import buildPayloadUpdate from 'js/utils/concepts/build-payload-creation-update/build-payload-update';
-import { mergeWithAllConcepts } from 'js/utils/concepts/links';
-import D from 'js/i18n';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import { CLOSE_MATCH } from 'js/constants';
-import { HTMLUtils } from 'js/utils';
+import buildPayloadUpdate from '../../../utils/concepts/build-payload-creation-update/build-payload-update';
+import { mergeWithAllConcepts } from '../../../utils/concepts/links';
+import D from '../../../i18n';
+import { Loading } from '../../../new-architecture/components/loading/loading';
+import { CLOSE_MATCH } from '../../../constants';
+import { HTMLUtils } from '../../../utils';
 import api from '../../../remote-api/concepts-api';
-import globalApi from '../../../remote-api/api';
 import { emptyNotes } from '../../../utils/concepts/notes';
 import * as generalUtils from '../../../utils/concepts/general';
+import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 
 const formatNotes = (notes) => {
 	return Object.assign(
@@ -35,11 +35,12 @@ const EditionContainer = () => {
 
 	const [concept, setConcept] = useState({});
 	const [concepts, setConcepts] = useState([]);
-	const [stamps, setStamps] = useState([]);
 
 	const [loading, setLoading] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
 	const [saving, setSaving] = useState(false);
+
+	const { data: stamps = [] } = useStamps();
 
 	useEffect(() => {
 		api
@@ -61,11 +62,9 @@ const EditionContainer = () => {
 	}, [id]);
 
 	useEffect(() => {
-		Promise.all([api.getConceptList(), globalApi.getStampList()])
-			.then(([conceptsList, stampsList]) => {
-				setConcepts(conceptsList);
-				setStamps(stampsList);
-			})
+		api
+			.getConceptList()
+			.then(setConcepts)
 			.finally(() => setLoadingExtraData(false));
 	}, []);
 

@@ -1,4 +1,4 @@
-export default {
+const messages = {
 	btnReturn: {
 		fr: 'Retour',
 		en: 'Back',
@@ -66,5 +66,7 @@ export default {
 	btnSave: {
 		fr: 'Sauvegarder',
 		en: 'Save',
-	}
+	},
 };
+
+export default messages;

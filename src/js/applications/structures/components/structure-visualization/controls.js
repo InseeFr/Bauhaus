@@ -7,7 +7,7 @@ import {
 	DeleteButton,
 	DuplicateButton,
 } from '@inseefr/wilco';
-import { Auth, ValidationButton } from 'js/utils';
+import { Auth, ValidationButton } from '../../../../utils';
 import StructureAPI from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';

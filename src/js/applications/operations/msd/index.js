@@ -1,35 +1,35 @@
 import { Component, useEffect, useState } from 'react';
-import MSDLayout from 'js/applications/operations/msd/layout/';
+import MSDLayout from '../../../applications/operations/msd/layout/';
 import { connect } from 'react-redux';
 import { buildExtract } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 
-import { NOT_LOADED, LOADED } from 'js/constants';
-import loadMetadataStructure from 'js/actions/operations/metadatastructure/list';
-import { D1, D2 } from 'js/i18n';
-import globalApi from 'js/remote-api/api';
+import { NOT_LOADED, LOADED } from '../../../constants';
+import loadMetadataStructure from '../../../actions/operations/metadatastructure/list';
+import { D1, D2 } from '../../../i18n';
+import globalApi from '../../../remote-api/api';
 
 import {
 	getOperationsOrganisations,
 	getOperationsCodesList,
-} from 'js/reducers/operations/selector';
+} from '../../../reducers/operations/selector';
 import loadSIMS, {
 	saveSims,
 	publishSims,
-} from 'js/actions/operations/sims/item';
+} from '../../../actions/operations/sims/item';
 import { withRouter } from 'react-router-dom';
-import MSDHelp from 'js/applications/operations/msd/pages/help';
-import SimsVisualisation from 'js/applications/operations/msd/pages/sims-visualisation/';
-import SimsCreation from 'js/applications/operations/msd/pages/sims-creation/';
-import * as select from 'js/reducers';
-import { Stores, PageTitleBlock, ArrayUtils } from 'js/utils';
-import api from 'js/remote-api/operations-api';
+import MSDHelp from '../../../applications/operations/msd/pages/help';
+import SimsVisualisation from '../../../applications/operations/msd/pages/sims-visualisation/';
+import SimsCreation from '../../../applications/operations/msd/pages/sims-creation/';
+import * as select from '../../../reducers';
+import { Stores, PageTitleBlock, ArrayUtils } from '../../../utils';
+import api from '../../../remote-api/operations-api';
 
 import { getParentType, getParentId } from './utils';
 import './msd.scss';
 import { isEssentialRubricKo } from './sims-field-title';
 import { SimsContextProvider } from './context';
-import { useGoBack } from 'js/hooks/hooks';
+import { useGoBack } from '../../../hooks/hooks';
 
 const extractId = buildExtract('id');
 const extractIdParent = buildExtract('idParent');

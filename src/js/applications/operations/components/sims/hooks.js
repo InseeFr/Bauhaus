@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useState, useMemo } from 'react';
-import { Stores } from 'js/utils';
+import { Stores } from '../../../../utils';
 
 export const useGeographies = (territory = {}) => {
 	const allGeographies = useSelector(Stores.Geographies.getAllOptions);

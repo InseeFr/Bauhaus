@@ -1,8 +1,8 @@
-import * as A from 'js/actions/constants';
-import { LOADED } from 'js/constants';
-import * as generalUtils from 'js/applications/classifications/utils/correspondence/general';
+import * as A from '../../../actions/constants';
+import { LOADED } from '../../../constants';
+import * as generalUtils from '../../../applications/classifications/utils/correspondence/general';
 
-export default function(state = {}, action) {
+const reducers = (state = {}, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case A.LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS: {
@@ -20,8 +20,9 @@ export default function(state = {}, action) {
 		default:
 			return state;
 	}
-}
+};
 
+export default reducers;
 export function getGeneral(state, id) {
 	return state[id] && state[id].results;
 }

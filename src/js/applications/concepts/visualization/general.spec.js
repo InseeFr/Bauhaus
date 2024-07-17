@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import ConceptGeneralVisualization from './general';
-import { empty } from 'js/utils/concepts/general';
+import { empty } from '../../../utils/concepts/general';
 
 describe('concept-visualization-general', () => {
 	it('renders without crashing', () => {

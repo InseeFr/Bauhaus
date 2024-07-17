@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import CollectionMembers from './members';
-import { renderWithRouter } from 'js/new-architecture/tests-utils/render';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 const members = [
 	{

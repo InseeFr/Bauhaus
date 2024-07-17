@@ -1,6 +1,6 @@
-import * as A from 'js/actions/constants';
-import { LOADED, LOADING, ERROR } from 'js/constants';
-import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
+import * as A from '../../actions/constants';
+import { LOADED, LOADING, ERROR } from '../../constants';
+import { CL_SOURCE_CATEGORY, CL_FREQ } from '../../actions/constants/codeList';
 
 const defaultState = {
 	results: {
@@ -8,7 +8,7 @@ const defaultState = {
 		[CL_FREQ]: { codes: [] },
 	},
 };
-const operationsCodesList = function(state = defaultState, action) {
+const operationsCodesList = function (state = defaultState, action) {
 	switch (action.type) {
 		case A.LOAD_OPERATIONS_CODES_LIST:
 			return {
@@ -33,6 +33,8 @@ const operationsCodesList = function(state = defaultState, action) {
 	}
 };
 
-export default {
+const codesList = {
 	operationsCodesList,
 };
+
+export default codesList;

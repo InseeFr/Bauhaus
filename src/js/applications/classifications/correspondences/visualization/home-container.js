@@ -1,23 +1,23 @@
 import { useSelector } from 'react-redux';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 import HomeGeneral from './home-general';
 import HomeAssociations from './home-associations';
-import * as select from 'js/reducers';
-import { Stores } from 'js/utils';
+import * as select from '../../../../reducers';
+import { Stores } from '../../../../utils';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import api from 'js/remote-api/classifications-api';
+import api from '../../../../remote-api/classifications-api';
 
 const CorrespondencesHomeContainer = () => {
 	const { id } = useParams();
-	const { data: correspondence, isLoading } = useQuery(
-		['correspondance-general', id],
-		() => api.getCorrespondenceGeneral(id)
-	);
-	const { data: associations } = useQuery(
-		['correspondance-associations', id],
-		() => api.getCorrespondenceAssociations(id)
-	);
+	const { data: correspondence, isLoading } = useQuery({
+		queryKey: ['correspondance-general', id],
+		queryFn: () => api.getCorrespondenceGeneral(id),
+	});
+	const { data: associations } = useQuery({
+		queryKey: ['correspondance-associations', id],
+		queryFn: () => api.getCorrespondenceAssociations(id),
+	});
 
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)

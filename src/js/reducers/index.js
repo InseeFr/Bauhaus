@@ -1,22 +1,19 @@
 import { combineReducers } from 'redux';
 import app from '../store/users';
-import sharedReducers from './shared';
 import classificationsReducers from './classifications';
 import operationsReducers from './operations';
 import codesListReducers from './operations/codesList';
 import organisationsReducers from './operations/organisations';
-import { Stores } from 'js/utils';
+import { Stores } from '../utils';
 import remoteCalls from './remote-calls';
 
 export default combineReducers({
 	app,
-	...sharedReducers,
 	...classificationsReducers,
 	...operationsReducers,
 	...codesListReducers,
 	...organisationsReducers,
 	geographies: Stores.Geographies.reducer,
-	disseminationStatus: Stores.DisseminationStatus.reducer,
 	users: Stores.UsersAction.reducer,
 	remoteCalls,
 });

@@ -6,17 +6,18 @@ import {
 	EditorMarkdown,
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
-	Stores,
 	useTitle,
-} from 'js/utils';
+} from '../../../utils';
 import { useForm, Controller } from 'react-hook-form';
-import { default as ReactSelect } from 'react-select';
-import organisationApi from '../../../remote-api/organisations-api';
-import D, { D1, D2 } from 'js/i18n';
+import SelectRmes from '../../../utils/components/select-rmes';
+import D, { D1, D2 } from '../../../i18n';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../remote-api/classifications-api';
-import generalApi from '../../../remote-api/api';
 import { TextInput, Row, Loading } from '../../../new-architecture/components';
+import { useStampsOptions } from '../../../new-architecture/utils/hooks/stamps';
+import { useOrganizationsOptions } from '../../../new-architecture/utils/hooks/organizations';
+import { transformModelToSelectOptions } from '../../../new-architecture/utils/transformer';
+import { useDisseminationStatusOptions } from '../../../new-architecture/utils/hooks/disseminationStatus';
 
 export const ClassificationEdition = () => {
 	const history = useHistory();
@@ -36,34 +37,22 @@ export const ClassificationEdition = () => {
 
 	const { save, isSavingSuccess, isSaving } = useUpdateClassification(id);
 
-	const { data: series } = useQuery(['classifications-series'], () => {
-		return api.getSeriesList();
+	const { data: series } = useQuery({
+		queryKey: ['classifications-series'],
+		queryFn: () => {
+			return api.getSeriesList();
+		},
 	});
-	const seriesOptions =
-		series?.map(({ id, label }) => ({ value: id, label })) ?? [];
+	const seriesOptions = transformModelToSelectOptions(series ?? []);
 
-	const { data: disseminationStatus } = useQuery(
-		['dissemination-status'],
-		() => {
-			return Stores.DisseminationStatus.api.getDisseminationStatus();
-		}
-	);
-	const disseminationStatusOptions =
-		disseminationStatus?.map(({ url, label }) => ({ value: url, label })) ?? [];
+	const disseminationStatusOptions = useDisseminationStatusOptions();
+	const organisationsOptions = useOrganizationsOptions();
 
-	const { data: organisations } = useQuery(['organization'], () => {
-		return organisationApi.getOrganisations();
+	const stampsOptions = useStampsOptions();
+	const { data: classifications } = useQuery({
+		queryKey: ['classifications'],
+		queryFn: api.getList,
 	});
-	const organisationsOptions =
-		organisations?.map(({ id, label }) => ({ value: id, label })) ?? [];
-
-	const { data: stamps } = useQuery(['stamps'], () => {
-		return generalApi.getStampList();
-	});
-	const stampsOptions =
-		stamps?.map((stamp) => ({ value: stamp, label: stamp })) ?? [];
-
-	const { data: classifications } = useQuery(['classifications'], api.getList);
 	const classificationsOptions =
 		classifications
 			?.filter((classification) => classification.id !== id)
@@ -128,7 +117,9 @@ export const ClassificationEdition = () => {
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
-						<TextInput
+						<input
+							type="text"
+							className="form-control"
 							id="prefLabelLg1"
 							{...register('prefLabelLg1', { required: D.requiredPrefLabel })}
 							defaultValue={classification.general.prefLabelLg1}
@@ -142,8 +133,10 @@ export const ClassificationEdition = () => {
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
-						<TextInput
+						<input
 							id="prefLabelLg2"
+							className="form-control"
+							type="text"
 							{...register('prefLabelLg2', { required: D.requiredPrefLabel })}
 							defaultValue={classification.general.prefLabelLg2}
 							aria-describedby="prefLabelLg2-error"
@@ -205,10 +198,10 @@ export const ClassificationEdition = () => {
 						defaultValue={classification.general.idSeries}
 						render={({ field: { onChange, value } }) => {
 							return (
-								<ReactSelect
+								<SelectRmes
 									value={seriesOptions.find((option) => option.value === value)}
 									options={seriesOptions}
-									onChange={(option) => onChange(option.value)}
+									onChange={onChange}
 								/>
 							);
 						}}
@@ -222,12 +215,12 @@ export const ClassificationEdition = () => {
 						defaultValue={classification.general.idBefore}
 						render={({ field: { onChange, value } }) => {
 							return (
-								<ReactSelect
+								<SelectRmes
 									value={classificationsOptions.find(
 										(option) => option.value === value
 									)}
 									options={classificationsOptions}
-									onChange={(option) => onChange(option.value)}
+									onChange={onChange}
 								/>
 							);
 						}}
@@ -241,12 +234,12 @@ export const ClassificationEdition = () => {
 						defaultValue={classification.general.idAfter}
 						render={({ field: { onChange, value } }) => {
 							return (
-								<ReactSelect
+								<SelectRmes
 									value={classificationsOptions.find(
 										(option) => option.value === value
 									)}
 									options={classificationsOptions}
-									onChange={(option) => onChange(option.value)}
+									onChange={onChange}
 								/>
 							);
 						}}
@@ -260,12 +253,12 @@ export const ClassificationEdition = () => {
 						defaultValue={classification.general.idVariant}
 						render={({ field: { onChange, value } }) => {
 							return (
-								<ReactSelect
+								<SelectRmes
 									value={classificationsOptions.find(
 										(option) => option.value === value
 									)}
 									options={classificationsOptions}
-									onChange={(option) => onChange(option.value)}
+									onChange={onChange}
 								/>
 							);
 						}}
@@ -280,12 +273,12 @@ export const ClassificationEdition = () => {
 							defaultValue={classification.general.creator}
 							render={({ field: { onChange, value } }) => {
 								return (
-									<ReactSelect
+									<SelectRmes
 										value={organisationsOptions.find(
 											(option) => option.value === value
 										)}
 										options={organisationsOptions}
-										onChange={(option) => onChange(option.value)}
+										onChange={onChange}
 									/>
 								);
 							}}
@@ -301,12 +294,12 @@ export const ClassificationEdition = () => {
 							defaultValue={classification.general.contributor}
 							render={({ field: { onChange, value } }) => {
 								return (
-									<ReactSelect
+									<SelectRmes
 										value={stampsOptions.find(
 											(option) => option.value === value
 										)}
 										options={stampsOptions}
-										onChange={(option) => onChange(option.value)}
+										onChange={onChange}
 									/>
 								);
 							}}
@@ -322,12 +315,12 @@ export const ClassificationEdition = () => {
 						defaultValue={classification.general.disseminationStatus}
 						render={({ field: { onChange, value } }) => {
 							return (
-								<ReactSelect
+								<SelectRmes
 									value={disseminationStatusOptions.find(
 										(option) => option.value === value
 									)}
 									options={disseminationStatusOptions}
-									onChange={(option) => onChange(option.value)}
+									onChange={onChange}
 								/>
 							);
 						}}

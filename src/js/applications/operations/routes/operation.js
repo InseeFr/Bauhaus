@@ -1,11 +1,11 @@
 import { Switch, Route } from 'react-router-dom';
 
-import OperationsContainer from 'js/applications/operations/operations/';
-import OperationVisualizationContainer from 'js/applications/operations/operations/visualization/';
+import OperationsContainer from '../../../applications/operations/operations/';
+import OperationVisualizationContainer from '../../../applications/operations/operations/visualization/';
 
-import OperationEditionContainer from 'js/applications/operations/operations/edition';
+import OperationEditionContainer from '../../../applications/operations/operations/edition';
 
-export default () => {
+const Routes = () => {
 	return (
 		<Switch>
 			<Route exact path="/operations" component={OperationsContainer} />
@@ -28,3 +28,5 @@ export default () => {
 		</Switch>
 	);
 };
+
+export default Routes;

@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { Button, ActionToolbar } from '@inseefr/wilco';
-import D from 'js/i18n';
+import D from '../../../../i18n';
 
 function Controls() {
 	const location = useLocation();

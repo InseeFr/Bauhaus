@@ -1,5 +1,6 @@
-import { Auth, MasculineButton } from 'js/utils';
+import { Auth } from '../../../../utils';
 import { VerticalMenu } from '@inseefr/wilco';
+import { MasculineButton } from '../../../../new-architecture/components/new-button';
 export const HomePageMenu = ({ filter }) => {
 	return (
 		<VerticalMenu>

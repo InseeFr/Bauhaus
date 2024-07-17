@@ -1,4 +1,4 @@
-import D from 'js/i18n';
+import D from '../../i18n';
 import { convertToArrayIfDefined } from '../array-utils';
 import { D1 } from '../../applications/structures/i18n/build-dictionary';
 import { SelectRmes } from '../index';

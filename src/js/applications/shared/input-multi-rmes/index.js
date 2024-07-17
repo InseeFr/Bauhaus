@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import Modal from 'js/applications/shared/input-multi-modal-rmes/input-multi-modal-rmes';
-import D, { D1, D2 } from 'js/i18n';
+import Modal from '../../../applications/shared/input-multi-modal-rmes/input-multi-modal-rmes';
+import D, { D1, D2 } from '../../../i18n';
 
 class InputMultiRmes extends Component {
 	constructor(props) {

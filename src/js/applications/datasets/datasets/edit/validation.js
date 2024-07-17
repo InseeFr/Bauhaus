@@ -1,6 +1,6 @@
-import D, { D1, D2 } from 'js/i18n';
-import { formatValidation } from 'js/utils/validation';
+import D, { D1, D2 } from '../../../../i18n';
 import { z } from 'zod';
+import { formatValidation } from '../../../../new-architecture/utils/validation';
 
 const Dataset = z.object({
 	labelLg1: z

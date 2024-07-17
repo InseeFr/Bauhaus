@@ -1,6 +1,6 @@
-import { D1, D2 } from 'js/i18n';
-import { EditorMarkdown } from 'js/utils';
-import { Row } from 'js/new-architecture/components';
+import { D1, D2 } from '../../../../../i18n';
+import { EditorMarkdown } from '../../../../../utils';
+import { Row } from '../../../../../new-architecture/components';
 export const Notes = ({ editingDataset, setEditingDataset }) => {
 	return (
 		<>

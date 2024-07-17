@@ -2,9 +2,9 @@ import { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Menu } from '@inseefr/wilco';
-import D from 'js/i18n';
+import D from '../../../i18n';
 
-import { getOperationsSimsCurrent } from 'js/reducers';
+import { getOperationsSimsCurrent } from '../../../reducers';
 
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };

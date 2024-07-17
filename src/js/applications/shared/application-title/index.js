@@ -1,5 +1,5 @@
-import bauhausLogo from 'img/logo.svg';
-import D from 'js/i18n';
+import bauhausLogo from '../../../../img/logo.svg';
+import D from '../../../i18n';
 import './index.scss';
 
 export default function ApplicationTitle() {

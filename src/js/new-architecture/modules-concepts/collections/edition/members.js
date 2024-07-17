@@ -9,9 +9,13 @@ import {
 	PickerItem,
 } from '@inseefr/wilco';
 
-import MainDictonary from 'js/i18n';
-import { D1 } from 'js/new-architecture/modules-concepts/i18n';
-import { Column, TextInput, Row } from 'js/new-architecture/components';
+import MainDictonary from '../../../../i18n';
+import { D1 } from '../../../../new-architecture/modules-concepts/i18n';
+import {
+	Column,
+	TextInput,
+	Row,
+} from '../../../../new-architecture/components';
 
 const extractMembers = (concepts) => {
 	return concepts.reduce((members, { id, label, isAdded }) => {

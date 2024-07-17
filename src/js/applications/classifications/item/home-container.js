@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 import ItemVisualization from './home';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import * as mainSelect from 'js/reducers';
-import { Stores } from 'js/utils';
+import { Loading } from '../../../new-architecture/components/loading/loading';
+import * as mainSelect from '../../../reducers';
+import { Stores } from '../../../utils';
 import { useParams } from 'react-router-dom';
 import useClassificationItem from './hook';
 import { useQueryClient } from '@tanstack/react-query';

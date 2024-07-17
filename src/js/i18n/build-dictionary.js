@@ -12,7 +12,7 @@ import {
 	firstLang,
 	secondLang,
 	getLang,
-} from 'js/new-architecture/utils/dictionnary';
+} from '../new-architecture/utils/dictionnary';
 
 const dictionary = {
 	...appD,

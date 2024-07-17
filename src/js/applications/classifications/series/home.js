@@ -1,6 +1,6 @@
-import { PageTitle, Row } from 'js/new-architecture/components';
-import D from 'js/i18n';
-import { useTitle, SearchableList } from 'js/utils';
+import D from '../../../i18n';
+import { useTitle, SearchableList } from '../../../utils';
+import { PageTitle, Row } from '../../../new-architecture/components';
 
 const SeriesHome = ({ series }) => {
 	useTitle(D.classificationsTitle, D.seriesTitle);

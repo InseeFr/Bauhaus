@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../new-architecture/components';
 import StructureAPI from '../apis/structure-api';
-import D from 'js/i18n';
-import { useTitle, SearchableList } from 'js/utils';
+import D from '../../../i18n';
+import { useTitle, SearchableList } from '../../../utils';
 import { HomePageMenu } from './menu';
 const Home = () => {
 	useTitle(D.structuresTitle, D.structuresTitle);

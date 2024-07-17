@@ -1,14 +1,15 @@
-import { D1 } from 'js/i18n';
+import { D1 } from '../../../../../i18n';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { withCodesLists } from 'js/hooks/hooks';
+import { withCodesLists } from '../../../../../hooks/hooks';
 import api from '../../../api/datasets-api';
-import operationSeries from 'js/remote-api/operations-api';
+import operationSeries from '../../../../../remote-api/operations-api';
 import { LabelRequired } from '@inseefr/wilco';
-import { ClientSideError, StampsApi, SelectRmes } from 'js/utils';
-import { convertCodesListsToSelectOption } from 'js/utils/datasets/codelist-to-select-options';
+import { ClientSideError, SelectRmes } from '../../../../../utils';
+import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
 import { DisseminationStatusInput } from '../../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsInput } from '../../../../../utils/contributors/contributors';
+import { useStampsOptions } from '../../../../../new-architecture/utils/hooks/stamps';
 import { TextInput, Row } from '../../../../../new-architecture/components';
 
 const InternalManagementTab = ({
@@ -18,22 +19,18 @@ const InternalManagementTab = ({
 	setClientSideErrors,
 	...props
 }) => {
-	const { data: stampsOptions = [] } = useQuery(['stamps'], () => {
-		return StampsApi.getStamps().then((stamps) =>
-			stamps.map((stamp) => ({
-				value: stamp,
-				label: stamp,
-			}))
-		);
-	});
+	const stampsOptions = useStampsOptions();
 
-	const { data: seriesOptions = [] } = useQuery(['series'], () => {
-		return operationSeries.getSeriesList().then((stamps) =>
-			stamps.map((serie) => ({
-				value: serie.id,
-				label: serie.label,
-			}))
-		);
+	const { data: seriesOptions = [] } = useQuery({
+		queryKey: ['series'],
+		queryFn: () => {
+			return operationSeries.getSeriesList().then((stamps) =>
+				stamps.map((serie) => ({
+					value: serie.id,
+					label: serie.label,
+				}))
+			);
+		},
 	});
 
 	const clAccessRightsOptions = convertCodesListsToSelectOption(

@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { ReturnButton, Button, ActionToolbar } from '@inseefr/wilco';
-import { ValidationButton, Auth } from 'js/utils';
-import D from 'js/i18n';
+import { ValidationButton, Auth } from '../../../utils';
+import D from '../../../i18n';
 import { useGoBack } from '../../../hooks/hooks';
 
 const ClassificationControls = ({ classification, publish }) => {

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { LabelRequired } from '@inseefr/wilco';
-import { Loading, TextInput, Row } from 'js/new-architecture/components';
+import { Loading, TextInput, Row } from '../../../new-architecture/components';
 
 import Controls from './controls';
 import Components from './components';
@@ -12,16 +12,16 @@ import {
 	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-	Stores,
 	Auth,
 	SelectRmes,
-} from 'js/utils';
-import D, { D1, D2 } from 'js/i18n';
+} from '../../../utils';
+import D, { D1, D2 } from '../../../i18n';
 import { useSelector } from 'react-redux';
 import 'react-select/dist/react-select.css';
 import { validate } from './validation';
 import { ContributorsInput } from '../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
+import { useStampsOptions } from '../../../new-architecture/utils/hooks/stamps';
 
 const defaultDSD = {
 	identifiant: '',
@@ -36,9 +36,7 @@ const defaultDSD = {
 };
 
 const Edition = ({ creation, initialStructure }) => {
-	const stampListOptions = useSelector((state) =>
-		Stores.Stamps.getStampListOptions(state)
-	);
+	const stampListOptions = useStampsOptions();
 
 	const { lg1, lg2 } = useContext(AppContext);
 
@@ -67,7 +65,6 @@ const Edition = ({ creation, initialStructure }) => {
 		creator,
 		contributor,
 		disseminationStatus,
-		isRequiredBy,
 	} = structure;
 
 	const permission = useSelector(Auth.getPermission);

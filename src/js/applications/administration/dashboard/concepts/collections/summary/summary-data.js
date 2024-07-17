@@ -1,4 +1,4 @@
-import D from 'js/i18n';
+import D from '../../../../../../i18n';
 
 export const rowParams = [
 	{
@@ -10,7 +10,7 @@ export const rowParams = [
 	{ dataField: 'total', text: D.totalTitle, width: '34%' },
 ];
 
-export const buildData = d => [
+export const buildData = (d) => [
 	{
 		id: 1,
 		type: D.collectionsNumberTitle,
@@ -19,6 +19,6 @@ export const buildData = d => [
 	{
 		id: 2,
 		type: D.provisionalConceptsNumberTitle,
-		total: d.filter(c => c.isValidated === 'false').length,
+		total: d.filter((c) => c.isValidated === 'false').length,
 	},
 ];

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
 
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import { Link, Redirect } from 'react-router-dom';
 import api from '../../apis/structure-api';
@@ -12,14 +12,13 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	Stores,
-	withTitle,
 	useUrlQueryParameters,
-} from 'js/utils';
-import { useSelector } from 'react-redux';
+	withTitle,
+} from '../../../../utils';
 import { Column } from '../../../../new-architecture/components/layout';
 import { TextInput } from '../../../../new-architecture/components/form/input';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
+import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['concept']);
@@ -34,8 +33,7 @@ const defaultFormState = {
 };
 
 export const SearchFormList = ({ concepts, stampListOptions, data }) => {
-	const [form, _setForm, reset, handleChange] =
-		useUrlQueryParameters(defaultFormState);
+	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const { labelLg1, concept, creator, validationState } = form;
 
@@ -132,9 +130,7 @@ const SearchListContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [items, setItems] = useState([]);
 	const [concepts, setConcepts] = useState([]);
-	const stampListOptions = useSelector((state) =>
-		Stores.Stamps.getStampListOptions(state)
-	);
+	const stampListOptions = useStampsOptions();
 	useEffect(() => {
 		Promise.all([
 			api.getMutualizedComponentsForSearch(),

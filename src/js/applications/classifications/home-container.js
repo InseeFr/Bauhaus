@@ -1,13 +1,13 @@
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../new-architecture/components/loading/loading';
 import ClassificationsHome from './home';
-import api from 'js/remote-api/classifications-api';
+import api from '../../remote-api/classifications-api';
 import { useQuery } from '@tanstack/react-query';
 
 const ClassificationsHomeContainer = () => {
-	const { isLoading, data: classifications } = useQuery(
-		['classifications'],
-		api.getList
-	);
+	const { isLoading, data: classifications } = useQuery({
+		queryKey: ['classifications'],
+		queryFn: api.getList,
+	});
 
 	if (isLoading) return <Loading />;
 	return <ClassificationsHome classifications={classifications} />;

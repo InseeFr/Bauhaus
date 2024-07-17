@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import D, { D1, D2 } from 'js/i18n';
+import D, { D1, D2 } from '../../../i18n';
 import { DSURLToLabel, Note } from '@inseefr/wilco';
-import { DateUtils, HTMLUtils } from 'js/utils';
-import { Row } from 'js/new-architecture/components';
-export default ({ general, secondLang, langs }) => {
+import { DateUtils, HTMLUtils } from '../../../utils';
+import { Row } from '../../../new-architecture/components';
+
+const General = ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
 	let mapping = {};
 	mapping = {
@@ -217,3 +218,5 @@ export default ({ general, secondLang, langs }) => {
 		</>
 	);
 };
+
+export default General;

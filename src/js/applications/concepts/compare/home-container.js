@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 import ConceptCompare from './home';
-import * as select from 'js/reducers';
-import { ArrayUtils, HTMLUtils, Stores } from 'js/utils';
+import * as select from '../../../reducers';
+import { ArrayUtils, HTMLUtils, Stores } from '../../../utils';
 import api from '../../../remote-api/concepts-api';
 import { emptyNotes } from '../../../utils/concepts/notes';
 

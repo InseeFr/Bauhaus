@@ -1,5 +1,5 @@
 import NoteOneLangEdition from './note-one-lang-edition';
-import D from 'js/i18n';
+import D from '../../../i18n';
 
 function NoteEdition({
 	noteLg1,

@@ -1,9 +1,9 @@
 import reducerClassificationCorrespondenceGeneral, {
 	getGeneral,
 } from './general';
-import * as A from 'js/actions/constants';
-import { LOADED } from 'js/constants';
-import * as generalUtils from 'js/applications/classifications/utils/correspondence/general';
+import * as A from '../../../actions/constants';
+import { LOADED } from '../../../constants';
+import * as generalUtils from '../../../applications/classifications/utils/correspondence/general';
 
 describe('reducerClassificationCorrespondenceGeneral', () => {
 	test('action LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS', () => {

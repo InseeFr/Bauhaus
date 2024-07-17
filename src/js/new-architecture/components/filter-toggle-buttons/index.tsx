@@ -1,6 +1,16 @@
 import './filter-toggle-buttons.scss';
 
-const FilterToggleButtons = ({ options, currentValue, handleSelection }) => {
+type FilterToggleButtonsTypes = {
+	options: [string, string][];
+	currentValue: string;
+	handleSelection: (value: string) => void;
+};
+
+const FilterToggleButtons = ({
+	options,
+	currentValue,
+	handleSelection,
+}: FilterToggleButtonsTypes) => {
 	return (
 		<div
 			className="bauhaus-filter-toggle-buttons btn-group btn-group-justified"

@@ -1,9 +1,9 @@
 import { PageSubtitle } from '@inseefr/wilco';
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../new-architecture/components';
 import Controls from './controls';
 import General from './general';
 import Members from './members';
-import { CheckSecondLang } from 'js/utils';
+import { CheckSecondLang } from '../../../utils';
 
 const LevelVisualization = ({ level: { general, members }, secondLang }) => {
 	const { classificationId } = general;

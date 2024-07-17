@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { API } from '../../apis';
-import { ClientSideError, GlobalClientSideErrorBloc } from 'js/utils';
+import { ClientSideError, GlobalClientSideErrorBloc } from '../../../../utils';
 import { CollapsiblePanel } from '../collapsible-panel';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { rowParams } from '../code-detail/code-columns';

@@ -1,12 +1,12 @@
 import { Note } from '@inseefr/wilco';
-import { D1, D2 } from 'js/i18n';
-import RelationsView from 'js/applications/operations/shared/relations';
-import DisplayLinks from 'js/applications/operations/shared/links/';
-import SeeAlso from 'js/applications/operations/shared/seeAlso';
-import { getSeeAlsoByType } from 'js/applications/operations/shared/links/utils';
-import { CreationUpdateItems, HTMLUtils, withTitle } from 'js/utils';
-import CreatorsView from 'js/applications/operations/components/creators-view';
-import PublishersView from 'js/applications/operations/components/publishers-view';
+import { D1, D2 } from '../../../../i18n';
+import RelationsView from '../../../../applications/operations/shared/relations';
+import DisplayLinks from '../../../../applications/operations/shared/links/';
+import SeeAlso from '../../../../applications/operations/shared/seeAlso';
+import { getSeeAlsoByType } from '../../../../applications/operations/shared/links/utils';
+import { CreationUpdateItems, HTMLUtils, withTitle } from '../../../../utils';
+import CreatorsView from '../../../../applications/operations/components/creators-view';
+import PublishersView from '../../../../applications/operations/components/publishers-view';
 import D from '../../../../i18n/build-dictionary';
 import {
 	PublicationFemale,

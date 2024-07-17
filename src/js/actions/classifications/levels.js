@@ -1,7 +1,7 @@
-import api from 'js/remote-api/classifications-api';
-import * as A from 'js/actions/constants';
+import api from '../../remote-api/classifications-api';
+import * as A from '../../actions/constants';
 
-export default id => dispatch => {
+const loadClassificationLevels = (id) => (dispatch) => {
 	dispatch({
 		type: A.LOAD_CLASSIFICATION_LEVELS,
 		payload: {
@@ -9,17 +9,19 @@ export default id => dispatch => {
 		},
 	});
 	return api.getClassificationLevels(id).then(
-		results => {
+		(results) => {
 			dispatch({
 				type: A.LOAD_CLASSIFICATION_LEVELS_SUCCESS,
 				payload: { id, results },
 			});
 			return results;
 		},
-		err =>
+		(err) =>
 			dispatch({
 				type: A.LOAD_CLASSIFICATION_LEVELS_FAILURE,
 				payload: { err, id },
 			})
 	);
 };
+
+export default loadClassificationLevels;

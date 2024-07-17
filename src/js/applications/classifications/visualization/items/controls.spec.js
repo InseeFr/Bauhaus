@@ -1,9 +1,8 @@
-import { render } from '@testing-library/react';
 import Controls from './controls';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 describe('classification-items-controls', () => {
 	it('renders without crashing', () => {
-		render(<Controls />, { wrapper: MemoryRouter });
+		renderWithRouter(<Controls />);
 	});
 });

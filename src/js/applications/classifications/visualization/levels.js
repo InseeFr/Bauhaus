@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Note } from '@inseefr/wilco';
-import { D1, D2 } from 'js/i18n';
-import { Row } from 'js/new-architecture/components';
-export default ({ levels, classificationId, secondLang }) => {
+import { D1, D2 } from '../../../i18n';
+import { Row } from '../../../new-architecture/components';
+
+const Levels = ({ levels, classificationId, secondLang }) => {
 	const levelsLg1 = levels.map((m, i) => (
 		<li key={i}>
 			<Link
@@ -43,3 +44,5 @@ export default ({ levels, classificationId, secondLang }) => {
 		</Row>
 	);
 };
+
+export default Levels;

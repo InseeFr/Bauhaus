@@ -15,7 +15,8 @@ import {
 	ConfirmationDelete,
 	CreationUpdateItems,
 	Auth,
-} from 'js/utils';
+} from '../../../../utils';
+
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { rowParams } from '../code-detail/code-columns';

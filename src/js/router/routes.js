@@ -1,12 +1,12 @@
 import { Suspense, lazy, useEffect, useMemo, memo } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../new-architecture/components/loading/loading';
 
-import auth from 'js/applications/auth/hoc';
+import auth from '../applications/auth/hoc';
 
-import NotFound, { UnderMaintenance } from 'js/applications/shared/not-found/';
+import NotFound, { UnderMaintenance } from '../applications/shared/not-found/';
 
-import App from 'js/app';
+import App from '../app';
 import { useSelector } from 'react-redux';
 
 const getComponent = (pageName, pages, activeModules) => {
@@ -47,7 +47,7 @@ export default auth(() => {
 			const app = appName.trim();
 			return {
 				...acc,
-				[app]: lazy(() => import('js/applications/' + app + '/routes')),
+				[app]: lazy(() => import('../applications/' + app + '/routes')),
 			};
 		}, []);
 	}, [modules]);

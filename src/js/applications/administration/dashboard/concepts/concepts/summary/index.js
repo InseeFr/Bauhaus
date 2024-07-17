@@ -1,8 +1,8 @@
 import { Table } from '@inseefr/wilco';
-import D from 'js/i18n';
+import D from '../../../../../../i18n';
 import { rowParams, buildData } from './summary-data';
 import { rowParamsStamps, buildDataStamps } from './stamps-data';
-import { DateUtils } from 'js/utils';
+import { DateUtils } from '../../../../../../utils';
 
 function ConceptsSummary({ conceptsData }) {
 	const data = buildData(conceptsData);

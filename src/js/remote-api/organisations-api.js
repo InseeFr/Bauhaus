@@ -1,6 +1,6 @@
-import { API } from 'js/utils';
+import { buildApi } from '../new-architecture/sdk';
 
 const api = {
 	getOrganisations: () => [''],
 };
-export default API.buildApi('organizations', api);
+export default buildApi('organizations', api);

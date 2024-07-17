@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { ActionToolbar, Button } from '@inseefr/wilco';
-import check from 'js/utils/auth';
-import D from 'js/i18n';
+import check from '../../../utils/auth';
+import D from '../../../i18n';
 import api from '../../../remote-api/concepts-collection-api';
 import { CollectionExportModal } from '../modal';
 import { useSelector } from 'react-redux';
-import { Auth } from 'js/utils';
+import { Auth } from '../../../utils';
 import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
 
 const CollectionVisualizationControls = ({

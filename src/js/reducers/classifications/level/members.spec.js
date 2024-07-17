@@ -1,6 +1,6 @@
 import reducerLevelMembers, { getMembers } from './members';
-import * as A from 'js/actions/constants';
-import { LOADING, LOADED } from 'js/constants';
+import * as A from '../../../actions/constants';
+import { LOADING, LOADED } from '../../../constants';
 
 describe('reducerLevelMembers', () => {
 	test('action LOAD_CLASSIFICATION_LEVEL_MEMBERS', () => {

@@ -2,17 +2,17 @@ import { useState, useCallback } from 'react';
 import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
-import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
-import D from 'js/i18n';
-import { buildNotes } from 'js/utils/concepts/notes';
-import { getModalMessage } from 'js/utils/concepts/build-validation-message';
+import ModalRmes from '../../../applications/shared/modal-rmes/modal-rmes';
+import D from '../../../i18n';
+import { buildNotes } from '../../../utils/concepts/notes';
+import { getModalMessage } from '../../../utils/concepts/build-validation-message';
 import {
 	CheckSecondLang,
 	DateUtils,
 	PageTitleBlock,
 	useTitle,
 	ErrorBloc,
-} from 'js/utils';
+} from '../../../utils';
 import NoteVisualization from '../../shared/note-visualization';
 
 const ConceptVisualization = ({

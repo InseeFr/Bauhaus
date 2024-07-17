@@ -1,8 +1,8 @@
-import api from 'js/remote-api/operations-api';
+import api from '../../remote-api/operations-api';
 import * as A from '../constants';
 import { saveFileFromHttpResponse } from '../../new-architecture/utils/files';
 
-export default (id, MimeType) => (dispatch) => {
+const exportVarbook = (id, MimeType) => (dispatch) => {
 	dispatch({
 		type: A.EXPORT_VARBOOK,
 		payload: { id, MimeType },
@@ -25,3 +25,5 @@ export default (id, MimeType) => (dispatch) => {
 			dispatch({ type: A.EXPORT_VARBOOK_FAILURE, payload: { errorMessage } });
 		});
 };
+
+export default exportVarbook;

@@ -1,6 +1,6 @@
 import D, { D1, D2 } from '../../../i18n/build-dictionary';
-import { formatValidation } from 'js/utils/validation';
 import { z } from 'zod';
+import { formatValidation } from '../../../new-architecture/utils/validation';
 
 const Distribution = z.object({
 	labelLg1: z

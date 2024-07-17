@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import D from 'js/i18n';
+import D from '../../../../i18n';
 import { CLOSE_MATCH } from '../../../../constants';
 import './equivalentLinks.scss';
 export const EquivalentLinks = ({ links = [], updateEquivalentLinks }) => {

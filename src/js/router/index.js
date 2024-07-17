@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import Routes from './routes';
-import bauhausLogo from 'img/logo_noir.svg';
-import { getEnvVar } from 'js/utils/env';
-import D from 'js/new-architecture/i18n';
+import bauhausLogo from '../../img/logo_noir.svg';
+import { getEnvVar } from '../utils/env';
+import D from '../new-architecture/i18n';
 import 'react-app-polyfill/stable';
 import { useSelector } from 'react-redux';
-import { Auth } from 'js/utils';
+import { Auth } from '../utils';
 import { removeToken } from '../utils/auth/open-id-connect-auth/token-utils';
 
 const logout = () => {
@@ -34,9 +34,7 @@ export const RBACLink = ({ children }) => {
 					<img width="100" src={bauhausLogo} alt="application logo" />
 					{footer}
 				</p>
-				<div
-					style={{ display: 'flex', 'justify-content': 'center', gap: '5px' }}
-				>
+				<div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
 					<button onClick={logout} className="btn btn-primary">
 						{D.authentication.logout}
 					</button>

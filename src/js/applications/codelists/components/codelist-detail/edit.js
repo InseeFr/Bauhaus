@@ -5,7 +5,6 @@ import {
 	SaveButton,
 	ActionToolbar,
 	LabelRequired,
-	Select,
 } from '@inseefr/wilco';
 import {
 	useTitle,
@@ -13,7 +12,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	Auth,
-} from 'js/utils';
+} from '../../../../utils';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
@@ -23,6 +22,7 @@ import { useSelector } from 'react-redux';
 import { ContributorsInput } from '../../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
 import { TextInput, Row } from '../../../../new-architecture/components';
+import Select from '../../../../utils/components/select-rmes';
 
 const defaultCodelist = {
 	created: dayjs(),
@@ -234,7 +234,6 @@ export const DumbCodelistDetailEdit = ({
 				<div className="form-group">
 					<LabelRequired htmlFor="creator">{D1.creator}</LabelRequired>
 					<Select
-						className="form-control"
 						placeholder={D1.stampsPlaceholder}
 						value={stampListOptions.find(
 							({ value }) => value === codelist.creator

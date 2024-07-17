@@ -1,15 +1,15 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import D from 'js/i18n';
+import D from '../../../../i18n';
 import { useSelector } from 'react-redux';
-import * as select from 'js/reducers';
-import OperationsIndicatorVisualization from 'js/applications/operations/indicators/visualization/general';
+import * as select from '../../../../reducers';
+import OperationsIndicatorVisualization from '../../../../applications/operations/indicators/visualization/general';
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import { useGoBack } from 'js/hooks/hooks';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { useGoBack } from '../../../../hooks/hooks';
 import api from '../../../../remote-api/operations-api';
 
-import { CL_FREQ } from 'js/actions/constants/codeList';
+import { CL_FREQ } from '../../../../actions/constants/codeList';
 import {
 	Auth,
 	HTMLUtils,
@@ -18,7 +18,7 @@ import {
 	CheckSecondLang,
 	PageTitleBlock,
 	ErrorBloc,
-} from 'js/utils';
+} from '../../../../utils';
 import { useCodesList } from '../../../../hooks/hooks';
 
 const IndicatorVisualizationContainer = () => {

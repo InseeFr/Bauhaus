@@ -1,8 +1,6 @@
-import * as A from 'js/actions/constants';
-import { LOADED, NOT_LOADED, LOADING } from 'js/constants';
-import {
-	operationsSimsCurrentStatus,
-} from './loadStatus';
+import * as A from '../../actions/constants';
+import { LOADED, NOT_LOADED, LOADING } from '../../constants';
+import { operationsSimsCurrentStatus } from './loadStatus';
 
 describe('operationsSimsCurrentStatus reducer', () => {
 	it('should return the previous state', () => {

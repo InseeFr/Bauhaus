@@ -1,10 +1,10 @@
 import { Component } from 'react';
-import D from 'js/i18n';
-import { ExplanatoryNote } from 'js/applications/shared/explanatory-note';
+import D from '../../../i18n';
+import { ExplanatoryNote } from '../../../applications/shared/explanatory-note';
 import {
 	creatSelectList,
 	creatSelectListSelectedLast,
-} from 'js/utils/array-utils';
+} from '../../../utils/array-utils';
 
 class CompareNotes extends Component {
 	constructor(props) {

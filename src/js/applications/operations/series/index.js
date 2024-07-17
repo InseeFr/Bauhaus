@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components/loading/loading';
 import SeriesHome from './home';
 import api from '../../../remote-api/operations-api';
-import { ArrayUtils } from 'js/utils';
+import { ArrayUtils } from '../../../utils';
 
 function SeriesHomeContainer() {
 	const [series, setSeries] = useState([]);

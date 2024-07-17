@@ -1,5 +1,5 @@
 import { ActionToolbar, CancelButton, SaveButton } from '@inseefr/wilco';
-import { useGoBack } from 'js/hooks/hooks';
+import { useGoBack } from '../../../../hooks/hooks';
 
 function Control({ onSubmit, disabled }) {
 	const goBack = useGoBack();

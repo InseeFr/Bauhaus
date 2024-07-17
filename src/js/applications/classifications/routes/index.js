@@ -1,24 +1,24 @@
 import { Switch, Route } from 'react-router-dom';
 
-import ClassificationsFamiliesContainer from 'js/applications/classifications/families/home-container';
-import ClassificationsFamilyContainer from 'js/applications/classifications/families/visualization/home-container';
-import ClassificationsSeriesContainer from 'js/applications/classifications/series/home-container';
-import ClassificationsOneSeriesContainer from 'js/applications/classifications/series/visualization/home-container';
-import ClassificationsContainer from 'js/applications/classifications/home-container';
-import ClassificationContainer from 'js/applications/classifications/visualization/home-container';
-import ClassificationItemsContainer from 'js/applications/classifications/visualization/items/home-container';
-import ClassificationTreeContainer from 'js/applications/classifications/visualization/tree/home-container';
-import ClassificationLevelContainer from 'js/applications/classifications/level/home-container';
-import ClassificationItemContainer from 'js/applications/classifications/item/home-container';
-import ClassificationItemEdition from 'js/applications/classifications/item/edition';
-import ClassificationItemCompareContainer from 'js/applications/classifications/item/compare/home-container';
-import ClassificationsCorrespondencesContainer from 'js/applications/classifications/correspondences/home-container';
-import ClassificationsCorrespondenceContainer from 'js/applications/classifications/correspondences/visualization/home-container';
-import ClassificationsCorrespondenceAssociationContainer from 'js/applications/classifications/correspondences/association/home-container';
-import Menu from 'js/applications/classifications/menu';
+import ClassificationsFamiliesContainer from '../../../applications/classifications/families/home-container';
+import ClassificationsFamilyContainer from '../../../applications/classifications/families/visualization/home-container';
+import ClassificationsSeriesContainer from '../../../applications/classifications/series/home-container';
+import ClassificationsOneSeriesContainer from '../../../applications/classifications/series/visualization/home-container';
+import ClassificationsContainer from '../../../applications/classifications/home-container';
+import ClassificationContainer from '../../../applications/classifications/visualization/home-container';
+import ClassificationItemsContainer from '../../../applications/classifications/visualization/items/home-container';
+import ClassificationTreeContainer from '../../../applications/classifications/visualization/tree/home-container';
+import ClassificationLevelContainer from '../../../applications/classifications/level/home-container';
+import ClassificationItemContainer from '../../../applications/classifications/item/home-container';
+import ClassificationItemEdition from '../../../applications/classifications/item/edition';
+import ClassificationItemCompareContainer from '../../../applications/classifications/item/compare/home-container';
+import ClassificationsCorrespondencesContainer from '../../../applications/classifications/correspondences/home-container';
+import ClassificationsCorrespondenceContainer from '../../../applications/classifications/correspondences/visualization/home-container';
+import ClassificationsCorrespondenceAssociationContainer from '../../../applications/classifications/correspondences/association/home-container';
+import Menu from '../../../applications/classifications/menu';
 import { ClassificationEdition } from '../edition';
 
-export default () => {
+const Routes = () => {
 	return (
 		<>
 			<Menu />
@@ -107,3 +107,5 @@ export default () => {
 		</>
 	);
 };
+
+export default Routes;

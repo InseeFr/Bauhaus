@@ -1,5 +1,5 @@
 import { Pagination } from '@inseefr/wilco';
-import D from 'js/i18n';
+import D from '../../../../i18n';
 import { TextInput } from '../../../../new-architecture/components/form/input';
 
 const SearchConceptsByLabel = ({ searchLabel, handleSearch, hitEls }) => {

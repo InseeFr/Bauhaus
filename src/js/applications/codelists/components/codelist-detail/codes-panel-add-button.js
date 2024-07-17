@@ -1,4 +1,4 @@
-import { Auth } from 'js/utils';
+import { Auth } from '../../../../utils';
 import D from '../../i18n/build-dictionary';
 import { useSelector } from 'react-redux';
 

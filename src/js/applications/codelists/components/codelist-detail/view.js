@@ -4,7 +4,7 @@ import {
 	CreationUpdateItems,
 	useTitle,
 	ConfirmationDelete,
-} from 'js/utils';
+} from '../../../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 
 import './view.scss';

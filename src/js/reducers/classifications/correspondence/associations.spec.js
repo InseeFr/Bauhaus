@@ -1,8 +1,8 @@
 import reducerClassificationCorrespondenceAssociations, {
 	getAssociations,
 } from './associations';
-import * as A from 'js/actions/constants';
-import { LOADED } from 'js/constants';
+import * as A from '../../../actions/constants';
+import { LOADED } from '../../../constants';
 
 describe('reducerSeriesMembers', () => {
 	test('action LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATIONS_SUCCESS', () => {

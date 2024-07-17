@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import D from 'js/i18n';
+import D from '../js/i18n';
 import 'bootstrap/dist/css/bootstrap.css';
 import './app.scss';
 import { useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ function App() {
 					<h2 className="items page-title page-title-link">
 						{D[app + 'Title']}
 					</h2>
-					<img src={require(`img/${app}_blanc.svg`).default} alt={app} />
+					<img src={`/img/${app}_blanc.svg`} alt={app} />
 				</Link>
 			</div>
 		);

@@ -1,6 +1,6 @@
 import { ArrayUtils } from '../../../utils';
 
-export default (remoteCall, LOADING, SUCCESS, FAILURE) => (dispatch) => {
+const call = (remoteCall, LOADING, SUCCESS, FAILURE) => (dispatch) => {
 	dispatch({
 		type: LOADING,
 		payload: {},
@@ -18,7 +18,7 @@ export default (remoteCall, LOADING, SUCCESS, FAILURE) => (dispatch) => {
 			})
 	);
 };
-
+export default call;
 /**
  * This is a factory we use to create actions related to the publish action.
  * The callback paramter is used only if we need to display server-side error

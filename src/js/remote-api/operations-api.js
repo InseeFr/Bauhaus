@@ -1,13 +1,13 @@
-import { API } from 'js/utils';
 import simsApi from './operations/sims';
 import indicatorApi from './operations/indicator';
 import seriesApi from './operations/series';
 import operationsApi from './operations/operation';
+import { buildApi, generateGenericApiEndpoints } from '../new-architecture/sdk';
 
 const api = {
 	...simsApi,
 	...indicatorApi,
-	...API.generateGenericApiEndpoints('families', 'family'),
+	...generateGenericApiEndpoints('families', 'family'),
 	...seriesApi,
 	...operationsApi,
 
@@ -26,4 +26,4 @@ const api = {
 	],
 };
 
-export default API.buildApi('operations', api);
+export default buildApi('operations', api);

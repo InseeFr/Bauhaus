@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { PageTitle, Loading, Row } from 'js/new-architecture/components';
-import D from 'js/i18n';
+import { PageTitle, Loading, Row } from '../../new-architecture/components';
+import D from '../../i18n';
 import api from '../../remote-api/concepts-api';
 import { Menu } from './menu';
 import { SearchableList, useTitle } from '../../utils';

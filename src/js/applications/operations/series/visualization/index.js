@@ -1,14 +1,17 @@
 import { useEffect, useState, useCallback } from 'react';
-import D from 'js/i18n';
-import * as select from 'js/reducers';
+import D from '../../../../i18n';
+import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import OperationsSerieVisualization from 'js/applications/operations/series/visualization/home';
-import { useGoBack } from 'js/hooks/hooks';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import OperationsSerieVisualization from '../../../../applications/operations/series/visualization/home';
+import { useGoBack } from '../../../../hooks/hooks';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
-import { CL_SOURCE_CATEGORY, CL_FREQ } from 'js/actions/constants/codeList';
+import {
+	CL_SOURCE_CATEGORY,
+	CL_FREQ,
+} from '../../../../actions/constants/codeList';
 
 import {
 	Auth,
@@ -18,7 +21,7 @@ import {
 	CheckSecondLang,
 	PageTitleBlock,
 	ErrorBloc,
-} from 'js/utils';
+} from '../../../../utils';
 import api from '../../../../remote-api/operations-api';
 import { useCodesList } from '../../../../hooks/hooks';
 

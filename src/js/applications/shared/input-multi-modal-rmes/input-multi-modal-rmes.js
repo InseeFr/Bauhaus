@@ -1,5 +1,5 @@
 import Modal from 'react-modal';
-import D from 'js/i18n';
+import D from '../../../i18n';
 
 function InputMultiModal({ body, close }) {
 	return (

@@ -1,16 +1,21 @@
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
-import { Loading } from 'js/new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components/loading/loading';
 
-import { useGoBack } from 'js/hooks/hooks';
-import { Auth, CheckSecondLang, Stores, PageTitleBlock } from 'js/utils';
-import { loadCodesList } from 'js/actions/operations/utils/setup';
+import { useGoBack } from '../../../../hooks/hooks';
+import {
+	Auth,
+	CheckSecondLang,
+	Stores,
+	PageTitleBlock,
+} from '../../../../utils';
+import { loadCodesList } from '../../../../actions/operations/utils/setup';
 
-import D from 'js/i18n';
+import D from '../../../../i18n';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
-import { ADMIN } from 'js/utils/auth/roles';
+import { ADMIN } from '../../../../utils/auth/roles';
 import api from '../../../../remote-api/api';
 import * as select from '../../../../reducers';
 

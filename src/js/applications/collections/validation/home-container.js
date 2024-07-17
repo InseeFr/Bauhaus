@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CollectionsToValidate from './home';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import { Auth, useTitle } from 'js/utils';
-import D from 'js/i18n';
+import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Auth, useTitle } from '../../../utils';
+import D from '../../../i18n';
 import api from '../../../remote-api/concepts-api';
 
 const CollectionsToValidateContainer = () => {

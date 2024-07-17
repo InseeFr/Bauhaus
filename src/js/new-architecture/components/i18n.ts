@@ -3,10 +3,20 @@ import {
 	firstLang,
 	getLang,
 	secondLang,
-} from 'js/new-architecture/utils/dictionnary';
-import { Dictionary } from 'js/new-architecture/utils/types';
+} from '../../new-architecture/utils/dictionnary';
+import { Dictionary } from '../../new-architecture/utils/types';
 
 const dictionary = {
+	btnNew: {
+		masculine: {
+			fr: 'Nouveau',
+			en: 'New',
+		},
+		feminine: {
+			fr: 'Nouvelle',
+			en: 'New',
+		},
+	},
 	loading: {
 		auth: {
 			fr: 'Authentification en cours...',

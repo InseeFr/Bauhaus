@@ -8,7 +8,7 @@ import {
 	PageTitleBlock,
 	Stores,
 	useTitle,
-} from 'js/utils';
+} from '../../../../utils';
 import { useEffect, useState } from 'react';
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
@@ -28,7 +28,7 @@ import {
 	ConditionalDisplay,
 	Organization,
 	Organizations,
-} from 'js/new-architecture/components';
+} from '../../../../new-architecture/components';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
@@ -65,30 +65,27 @@ const Dataset = (props) => {
 	);
 	const queryClient = useQueryClient();
 
-	const { isLoading: isPublishing, mutate: publish } = useMutation(
-		() => {
+	const { isLoading: isPublishing, mutate: publish } = useMutation({
+		mutationFn: () => {
 			return api.publish(id);
 		},
-		{
-			onSuccess: (id) => {
-				queryClient.invalidateQueries(['datasets', id]);
-			},
-		}
-	);
 
-	const { isLoading: isDeleting, mutate: remove } = useMutation(
-		() => {
+		onSuccess: (id) => {
+			queryClient.invalidateQueries(['datasets', id]);
+		},
+	});
+
+	const { isLoading: isDeleting, mutate: remove } = useMutation({
+		mutationFn: () => {
 			return api.deleteDataset(id);
 		},
-		{
-			onSuccess: (id) => {
-				return Promise.all([
-					queryClient.invalidateQueries(['dataset', id]),
-					queryClient.invalidateQueries(['dataset']),
-				]).then(() => history.push('/datasets'));
-			},
-		}
-	);
+		onSuccess: (id) => {
+			return Promise.all([
+				queryClient.invalidateQueries(['dataset', id]),
+				queryClient.invalidateQueries(['dataset']),
+			]).then(() => history.push('/datasets'));
+		},
+	});
 
 	useTitle(D.datasetsTitle, dataset?.labelLg1);
 

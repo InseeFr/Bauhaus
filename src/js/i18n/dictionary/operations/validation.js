@@ -1,4 +1,4 @@
-export default {
+const messages = {
 	requiredPrefLabel: {
 		fr: "L'intitulé est obligatoire",
 		en: 'The title is required',
@@ -32,3 +32,5 @@ export default {
 		},
 	},
 };
+
+export default messages;

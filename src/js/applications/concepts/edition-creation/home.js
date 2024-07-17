@@ -1,19 +1,19 @@
 import { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import { goBack } from '@inseefr/wilco';
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../new-architecture/components';
 
 import ConceptCreateControl from './controls';
 import GeneralEdition from './general';
 import NotesEdition from './notes';
 import LinksEdition from './links';
-import ModalRmes from 'js/applications/shared/modal-rmes/modal-rmes';
-import { areNotesImpactingVersionChanged } from 'js/utils/concepts/notes';
-import D from 'js/i18n';
-import isVersioningPossible from 'js/utils/concepts/is-versioning-possible';
-import { VERSIONING, NO_VERSIONING } from 'js/constants';
+import ModalRmes from '../../../applications/shared/modal-rmes/modal-rmes';
+import { areNotesImpactingVersionChanged } from '../../../utils/concepts/notes';
+import D from '../../../i18n';
+import isVersioningPossible from '../../../utils/concepts/is-versioning-possible';
+import { VERSIONING, NO_VERSIONING } from '../../../constants';
 import { withRouter } from 'react-router-dom';
-import { withTitle } from 'js/utils';
+import { withTitle } from '../../../utils';
 import validate from './controls/validation';
 
 class ConceptEditionCreation extends Component {

@@ -1,10 +1,10 @@
 import { PageSubtitle } from '@inseefr/wilco';
-import { PageTitle } from 'js/new-architecture/components';
+import { PageTitle } from '../../../new-architecture/components';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Narrowers from './narrowers';
-import { CheckSecondLang } from 'js/utils';
+import { CheckSecondLang } from '../../../utils';
 
 const ItemVisualization = ({
 	item: { general, notes, narrowers },

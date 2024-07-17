@@ -1,4 +1,4 @@
-import { buildApi } from 'js/new-architecture/utils/build-api';
+import { buildApi } from '../../new-architecture/sdk';
 
 export const api = {
 	getConceptList: () => [''],

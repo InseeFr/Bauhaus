@@ -1,4 +1,4 @@
-import { CodesList, ArrayUtils } from 'js/utils';
+import { CodesList, ArrayUtils } from '../../../utils';
 const sortByLabel = ArrayUtils.sortArray('labelLg1');
 
 export const getCodeList = () =>

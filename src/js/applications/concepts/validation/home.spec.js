@@ -1,16 +1,14 @@
-import { render } from '@testing-library/react';
 import ConceptValidation from './home';
-import { MemoryRouter } from 'react-router-dom';
+import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('concept-validation', () => {
 	it('renders without crashing', () => {
-		render(
+		renderWithRouter(
 			<ConceptValidation
 				concepts={[]}
 				permission={{ authType: '', roles: [''] }}
 				handleValidateConceptList={jest.fn()}
-			/>,
-			{ wrapper: MemoryRouter }
+			/>
 		);
 	});
 });

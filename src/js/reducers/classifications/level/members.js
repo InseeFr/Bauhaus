@@ -1,7 +1,7 @@
-import * as A from 'js/actions/constants';
-import { LOADING, LOADED } from 'js/constants';
+import * as A from '../../../actions/constants';
+import { LOADING, LOADED } from '../../../constants';
 
-export default function(state = {}, action) {
+const membersReducer = (state = {}, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case A.LOAD_CLASSIFICATION_LEVEL_MEMBERS:
@@ -33,7 +33,9 @@ export default function(state = {}, action) {
 		default:
 			return state;
 	}
-}
+};
+
+export default membersReducer;
 
 export function getMembers(state, classificationId, levelId) {
 	return (

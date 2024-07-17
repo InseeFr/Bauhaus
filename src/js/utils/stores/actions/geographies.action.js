@@ -1,6 +1,6 @@
-import * as API from 'js/new-architecture/utils/build-api';
 import { LOADING, LOADED, ERROR } from '../constants';
 import { D1, D2 } from '../../i18n/build-dictionary';
+import { buildApi } from '../../../new-architecture/sdk';
 
 // Constants
 const LOAD_GEOGRAPHIES = 'LOAD_GEOGRAPHIES';
@@ -31,7 +31,7 @@ const apiConfig = {
 		(res) => res.text(),
 	],
 };
-export const api = API.buildApi('geo', apiConfig);
+export const api = buildApi('geo', apiConfig);
 
 // Action creators
 const loadGeographiesPending = () => {

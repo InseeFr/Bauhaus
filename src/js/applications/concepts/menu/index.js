@@ -1,4 +1,4 @@
-import D from 'js/i18n';
+import D from '../../../i18n';
 import { getLang, Menu } from '@inseefr/wilco';
 import { useLocation } from 'react-router-dom';
 const defaultAttrs = { 'aria-current': 'page' };
@@ -46,18 +46,22 @@ const MenuConcepts = () => {
 	const activePath = location.pathname;
 	if (activePath === '/') return null;
 
-	const currentPath = paths.find((path) => {
-		return location.pathname.includes(path.pathKey);
-	});
-	if (currentPath) {
-		currentPath.className = 'active';
-		currentPath.attrs = {
-			...currentPath.attrs,
-			...defaultAttrs,
-		};
-	}
+	const currentPaths = paths.map((path) => {
+		if (!location.pathname.includes(path.pathKey)) {
+			return path;
+		}
 
-	return <Menu paths={paths} />;
+		return {
+			...path,
+			className: 'active',
+			attrs: {
+				...path.attrs,
+				...defaultAttrs,
+			},
+		};
+	});
+
+	return <Menu paths={currentPaths} />;
 };
 
 export default MenuConcepts;

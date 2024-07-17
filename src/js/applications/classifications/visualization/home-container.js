@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ClassificationVisualization from './home';
-import { Loading } from 'js/new-architecture/components/loading/loading';
-import * as mainSelect from 'js/reducers';
-import { Stores, Auth } from 'js/utils';
+import { Loading } from '../../../new-architecture/components/loading/loading';
+import * as mainSelect from '../../../reducers';
+import { Stores, Auth } from '../../../utils';
 import { useClassification, usePublishClassification } from '../hooks';
 
 const ClassificationVisualizationContainer = () => {

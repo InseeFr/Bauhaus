@@ -1,15 +1,15 @@
-export default {
+const api = {
 	getSeriesList: () => ['series/withSims'],
 	getUserSeriesList: (stamp) => ['series/seriesWithStamp/' + stamp],
 	getSeriesSearchList: () => ['series/advanced-search'],
-	getSerie: id => [`series/${id}`],
-	getSeriesWithReport: id => [`families/${id}/seriesWithReport`],
-	publishSeries: series => [
+	getSerie: (id) => [`series/${id}`],
+	getSeriesWithReport: (id) => [`families/${id}/seriesWithReport`],
+	publishSeries: (series) => [
 		`series/validate/${series.id}`,
 		{ method: 'PUT' },
-		res => res.text(),
+		(res) => res.text(),
 	],
-	putSeries: series => [
+	putSeries: (series) => [
 		`series/${series.id}`,
 		{
 			headers: {
@@ -19,7 +19,7 @@ export default {
 		},
 		() => Promise.resolve(series.id),
 	],
-	postSeries: series => [
+	postSeries: (series) => [
 		`series`,
 		{
 			headers: {
@@ -27,6 +27,8 @@ export default {
 			},
 			body: JSON.stringify(series),
 		},
-		res => res.text(),
+		(res) => res.text(),
 	],
 };
+
+export default api;
