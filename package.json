@@ -11,13 +11,13 @@
 	"private": true,
 	"scripts": {
 		"pre-script": "cross-env NODE_OPTIONS=--openssl-legacy-provider REACT_APP_VERSION=$(node ./scripts/getVersion.js) REACT_APP_NAME=$npm_package_name",
-		"build-insee": "yarn pre-script cross-env REACT_APP_INSEE=true react-scripts build && yarn create-zip",
+		"build-insee": "npm run pre-script cross-env REACT_APP_INSEE=true react-scripts build && npm run create-zip",
 		"create-zip": "cd build && bestzip build.zip *",
 		"lint": "npx eslint src",
-		"start": "yarn pre-script react-scripts start",
+		"start": "npm run pre-script react-scripts start",
 		"test": "react-scripts test",
 		"test:coverage": "cross-env CI=true react-scripts test --coverage",
-		"pre-push": "yarn lint && yarn test:coverage",
+		"pre-push": "npm run lint && npm run test:coverage",
 		"generate-entrypoint": "node scripts/generate-entrypoint.js",
 		"prepare": "husky",
 		"postinstall": "patch-package"

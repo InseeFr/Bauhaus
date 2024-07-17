@@ -5,9 +5,9 @@ WORKDIR /bauhaus
 
 COPY ./ ./
 
-RUN yarn
+RUN npm install
 
-RUN yarn build-insee
+RUN npm run build-insee
 
 # Étape d'exécution
 FROM nginxinc/nginx-unprivileged:1.25-alpine
