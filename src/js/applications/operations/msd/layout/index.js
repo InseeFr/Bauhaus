@@ -1,14 +1,11 @@
-import { useState } from 'react';
 import Outline from '../../../../applications/operations/msd/outline/';
 import D from '../../../../i18n';
 
 import './style.scss';
-
-const STATUS = {
-	BOTH: 'BOTH',
-	SUMMARY: 'SUMMARY',
-	CONTENT: 'CONTENT',
-};
+import {
+	Status,
+	useLayout,
+} from '../../../../new-architecture/modules-operations/useLayout';
 
 const MSDComponent = ({
 	storeCollapseState,
@@ -17,26 +14,19 @@ const MSDComponent = ({
 	baseUrl,
 	disableSectionAnchor,
 }) => {
-	const [status, setStatus] = useState(
-		localStorage.getItem('HELP_VIEW') || STATUS.BOTH
-	);
+	const [status, changeStatus] = useLayout();
 
-	const changeStatus = (status) => {
-		localStorage.setItem('HELP_VIEW', status);
-		setStatus(status);
-	};
-
-	const changeStatusToBoth = changeStatus(STATUS.BOTH);
-	const changeStatusToContent = changeStatus(STATUS.CONTENT);
-	const changeStatusToSummary = changeStatus(STATUS.SUMMARY);
+	const changeStatusToBoth = () => changeStatus(Status.BOTH);
+	const changeStatusToContent = () => changeStatus(Status.CONTENT);
+	const changeStatusToSummary = () => changeStatus(Status.SUMMARY);
 
 	const styleSummary = {
-		width: status === STATUS.BOTH ? '30%' : '100%',
-		display: status === STATUS.CONTENT ? 'none' : 'block',
+		width: status === Status.BOTH ? '30%' : '100%',
+		display: status === Status.CONTENT ? 'none' : 'block',
 	};
 	const styleContent = {
-		width: status === STATUS.BOTH ? '70%' : '100%',
-		display: status === STATUS.SUMMARY ? 'none' : 'block',
+		width: status === Status.BOTH ? '70%' : '100%',
+		display: status === Status.SUMMARY ? 'none' : 'block',
 	};
 
 	return (
@@ -58,7 +48,7 @@ const MSDComponent = ({
 				</nav>
 			</section>
 
-			{status === STATUS.CONTENT && (
+			{status === Status.CONTENT && (
 				<button
 					className="msd__panel-trigger_left"
 					onClick={changeStatusToBoth}
@@ -67,7 +57,7 @@ const MSDComponent = ({
 					<span className="glyphicon glyphicon-chevron-right" />
 				</button>
 			)}
-			{status === STATUS.BOTH && (
+			{status === Status.BOTH && (
 				<div className="msd__panel-trigger_middle">
 					<div>
 						<button onClick={changeStatusToContent} title="open content">
@@ -81,7 +71,7 @@ const MSDComponent = ({
 					</div>
 				</div>
 			)}
-			{status === STATUS.SUMMARY && (
+			{status === Status.SUMMARY && (
 				<button
 					className="msd__panel-trigger_right"
 					onClick={changeStatusToBoth}
@@ -93,7 +83,7 @@ const MSDComponent = ({
 			<section
 				style={styleContent}
 				className={
-					status === STATUS.CONTENT ? 'msd__content_alone' : 'msd__content'
+					status === Status.CONTENT ? 'msd__content_alone' : 'msd__content'
 				}
 			>
 				{children}

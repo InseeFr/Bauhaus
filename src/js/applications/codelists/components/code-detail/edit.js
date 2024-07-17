@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { LabelRequired, ActionToolbar } from '@inseefr/wilco';
 import {
-	Stores,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
@@ -13,7 +12,7 @@ import './edit.scss';
 import { TextInput, Row } from '../../../../new-architecture/components';
 import Select from 'js/utils/components/select-rmes';
 
-const DumbCodeDetailEdit = ({
+export const CodeDetailEdit = ({
 	code: initialCode,
 	codes,
 	serverSideError,
@@ -266,8 +265,3 @@ const DumbCodeDetailEdit = ({
 		</>
 	);
 };
-
-export const CodeDetailEdit =
-	Stores.DisseminationStatus.withDisseminationStatusListOptions(
-		DumbCodeDetailEdit
-	);

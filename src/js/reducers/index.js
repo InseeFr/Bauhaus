@@ -14,7 +14,6 @@ export default combineReducers({
 	...codesListReducers,
 	...organisationsReducers,
 	geographies: Stores.Geographies.reducer,
-	disseminationStatus: Stores.DisseminationStatus.reducer,
 	users: Stores.UsersAction.reducer,
 	remoteCalls,
 });

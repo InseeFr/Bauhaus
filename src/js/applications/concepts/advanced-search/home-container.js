@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { Loading } from '../../../new-architecture/components/loading/loading';
 import ConceptSearchList from './home';
-import { Stores } from '../../../utils';
 import api from '../../../remote-api/concepts-api';
 import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
+import { useDisseminationStatus } from '../../../new-architecture/utils/hooks/disseminationStatus';
 
 const emptyItem = {
 	id: '',
@@ -23,20 +23,18 @@ const emptyItem = {
 const ConceptSearchListContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [conceptSearchList, setConceptSearchList] = useState([]);
-	const [disseminationStatusList, setDisseminationStatusList] = useState([]);
 	const [exporting, setExporting] = useState(false);
 	const { data: stampList = [] } = useStamps();
 
+	const { data: disseminationStatusList = [] } = useDisseminationStatus();
+
 	useEffect(() => {
-		Promise.all([
-			api.getConceptSearchList(),
-			Stores.DisseminationStatus.api.getDisseminationStatus(),
-		])
-			.then(([concepts, disseminations]) => {
+		api
+			.getConceptSearchList()
+			.then((concepts) => {
 				setConceptSearchList(
 					concepts.map((concept) => Object.assign({}, emptyItem, concept))
 				);
-				setDisseminationStatusList(disseminations);
 			})
 			.finally(() => setLoading(false));
 	}, []);
