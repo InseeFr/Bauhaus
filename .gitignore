@@ -1,23 +1,23 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
-dist
-
-.deploy
-deploy.sh
-.firebase
 
 # dependencies
 node_modules
 
+# testing
+coverage
+
+# production
+build
+dist
+
+.deploy
+deploy.sh
+
 # styles
 *.css
-!packages/**/*.css
-
 
 # storybook building files
-built-storybook
 /website
-_book
-
 
 # misc
 .DS_Store
@@ -32,11 +32,6 @@ yarn-error.log*
 
 /swagger
 .cache
-cypress/videos
-cypress/screenshots
-
-coverage
-build
 
 *.mp4
 .sonar_lock

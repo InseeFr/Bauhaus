@@ -18,25 +18,21 @@ The application is tested on Node.js 20.
 ```
 git clone git@github.com:InseeFr/Bauhaus.git
 cd Bauhaus
-yarn
-yarn build-insee
-yarn start
+npm install
+npm run build-insee
+npm run start
 ```
 
-You can run all tests suites for all modules with this command. You need to run at least once `yarn build-insee`.
+You can run all tests suites for all modules with this command. You need to run at least once `npm run build-insee`.
 
 ```shell
-yarn test:coverage
+npm run test:coverage
 ```
 
-Or if you want to run tests for a specific module, you can run one of the following commands. These commands will activate the `watch` mode, and you will be able to selecta a subset of tests you want to run.
+The following command will activate the `watch` mode, and you will be able to selecta a subset of tests you want to run.
 
 ```shell
-yarn workspace Bauhaus run test --watchAll   
-yarn workspace bauhaus-codelists run test --watchAll
-yarn workspace bauhaus-operations run test --watchAll 
-yarn workspace bauhaus-structures run test --watchAll 
-yarn workspace bauhaus-utilities run test --watchAll 
+npm run test --watchAll
 ```
 
 ## Docker
@@ -50,9 +46,9 @@ docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3000:3000 bauhaus:fro
 
 ## Issues
 
-If you are using, you should install the following dependency. 
+If you are using, you should install the following dependency.
 
 ```
-yarn global add windows-build-tools
+npm install --global windows-build-tools
 
 ```
