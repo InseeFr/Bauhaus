@@ -2,7 +2,6 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useOperations } from './operations';
 import operationSeries from '../../../remote-api/operations-api';
-import { Series } from '../../model/Series';
 import { Operation } from '../../model/Operation';
 
 jest.mock('../../../remote-api/operations-api');
