@@ -60,6 +60,7 @@ const PartialCodesList = z.object({
 		.string({
 			required_error: D.mandatoryProperty(D.idTitle),
 		})
+		.trim()
 		.min(1, { message: D.mandatoryProperty(D.idTitle) })
 		.regex(/^[a-zA-Z0-9_]*$/, D.validCharactersProperty(D1.idTitle)),
 	parentCode: z

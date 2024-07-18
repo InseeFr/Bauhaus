@@ -14,7 +14,7 @@ const Dataset = z.object({
 	altIdentifier: z
 		.string()
 		.regex(/^[a-zA-Z0-9-_]+$/, { message: D.altIdError })
-		.or(z.literal(''))
+		.or(z.string().trim().length(0))
 		.optional(),
 	creator: z
 		.string({ required_error: D.mandatoryProperty(D1.creatorTitle) })

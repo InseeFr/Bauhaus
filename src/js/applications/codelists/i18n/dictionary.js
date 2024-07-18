@@ -264,7 +264,7 @@ const dictionary = {
 	},
 	validCharactersProperty: {
 		fr: (propertyName) =>
-			`La propriété <strong>${propertyName}</strong> possède des caractères invalid.`,
+			`La propriété <strong>${propertyName}</strong> possède des caractères invalides.`,
 		en: (propertyName) =>
 			`The property <strong>${propertyName}</strong> has invalid characters.`,
 	},
