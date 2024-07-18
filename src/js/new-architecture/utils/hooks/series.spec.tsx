@@ -15,10 +15,10 @@ const wrapper = ({ children }) => (
 describe('useSeries', () => {
 	it('fetches and returns series data', async () => {
 		const seriesMock: Series[] = [
-			{ id: 1, label: 'Series 1', iri: 'iri', altLabel: 'altLabel 1' },
+			{ id: '1', label: 'Series 1', iri: 'iri', altLabel: 'altLabel 1' },
 		];
 
-		operationSeries.getSeriesList.mockResolvedValueOnce(seriesMock);
+		(operationSeries.getSeriesList as any).mockResolvedValueOnce(seriesMock);
 
 		const { result } = renderHook(() => useSeries(), { wrapper });
 
