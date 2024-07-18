@@ -22,7 +22,9 @@ const Dataset = z.object({
 	disseminationStatus: z.string({
 		required_error: D.mandatoryProperty(D1.disseminationStatusTitle),
 	}),
-	idSerie: z.string({ required_error: D.mandatoryProperty(D1.generatedBy) }),
+	wasGeneratedIRIs: z
+		.array(z.string(), { required_error: D.mandatoryProperty(D1.generatedBy) })
+		.min(1, D.mandatoryProperty(D1.generatedBy)),
 });
 
 export const validate = ({ catalogRecord, ...otherFields }) =>
