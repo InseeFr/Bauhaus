@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import datasetApi from './api/datasets-api';
-import operationApi from '../../remote-api/operations-api';
 import distributionApi from './api/distributions-api';
 
 export const useDatasets = () => {
@@ -36,18 +35,6 @@ export const useDataset = (id) => {
 	return useQuery({
 		enabled: !!id,
 		queryKey: ['datasets', id],
-		queryFn: () =>
-			datasetApi.getById(id).then((dataset) => {
-				if (!!dataset.idSerie) {
-					return operationApi.getSerie(dataset.idSerie).then((serie) => {
-						return {
-							...dataset,
-							serie,
-						};
-					});
-				}
-
-				return dataset;
-			}),
+		queryFn: () => datasetApi.getById(id),
 	});
 };
