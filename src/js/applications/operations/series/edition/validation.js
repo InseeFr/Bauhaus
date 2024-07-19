@@ -3,16 +3,6 @@ import { z } from 'zod';
 import { formatValidation } from '../../../../new-architecture/utils/validation';
 
 let Serie = z.object({
-	prefLabelLg1: z.string().min(1, { message: D.mandatoryProperty(D1.title) }),
-	prefLabelLg2: z.string().min(1, { message: D.mandatoryProperty(D2.title) }),
-	creators: z
-		.string({
-			required_error: D.mandatoryProperty(D.creatorTitle),
-		})
-		.array()
-		.nonempty({
-			message: D.mandatoryProperty(D.creatorTitle),
-		}),
 	family: z.object(
 		{
 			id: z.string(),
@@ -21,6 +11,22 @@ let Serie = z.object({
 			required_error: D.mandatoryProperty(D1.familyTitle),
 		}
 	),
+	prefLabelLg1: z
+		.string({ required_error: D.mandatoryProperty(D1.title) })
+		.trim()
+		.min(1, { message: D.mandatoryProperty(D1.title) }),
+	prefLabelLg2: z
+		.string({ required_error: D.mandatoryProperty(D2.title) })
+		.trim()
+		.min(1, { message: D.mandatoryProperty(D2.title) }),
+	creators: z
+		.string({
+			required_error: D.mandatoryProperty(D.creatorTitle),
+		})
+		.array()
+		.nonempty({
+			message: D.mandatoryProperty(D.creatorTitle),
+		}),
 });
 
 export const listOfExtraMandatoryFields = (
