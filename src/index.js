@@ -13,6 +13,7 @@ import loadDevTools from './dev-tools/load';
 import * as Sentry from '@sentry/react';
 
 import './main.scss';
+import { OidcProvider } from './js/new-architecture/auth/createReactOidc';
 
 Sentry.init({
 	dsn: 'https://57eb7cf936ad4c9198267ec7cd0031aa@o364590.ingest.sentry.io/4505557438169088',
@@ -67,19 +68,21 @@ const renderApp = (Component, initState, props) => {
 		const container = document.getElementById('root');
 		const root = createRoot(container);
 		root.render(
-			<QueryClientProvider client={queryClient}>
-				<Provider store={store}>
-					<AppContext.Provider value={{ lg1, lg2 }}>
-						<I18NContext.Provider value={D}>
-							<ApplicationTitle />
-							<main>
-								<Component {...props} />
-								<BackToTop />
-							</main>
-						</I18NContext.Provider>
-					</AppContext.Provider>
-				</Provider>
-			</QueryClientProvider>
+			<OidcProvider fallback={<>Checking authentication ⌛️</>}>
+				<QueryClientProvider client={queryClient}>
+					<Provider store={store}>
+						<AppContext.Provider value={{ lg1, lg2 }}>
+							<I18NContext.Provider value={D}>
+								<ApplicationTitle />
+								<main>
+									<Component {...props} />
+									<BackToTop />
+								</main>
+							</I18NContext.Provider>
+						</AppContext.Provider>
+					</Provider>
+				</QueryClientProvider>
+			</OidcProvider>
 		);
 	});
 };

@@ -14,7 +14,6 @@ export default combineReducers({
 	...codesListReducers,
 	...organisationsReducers,
 	geographies: Stores.Geographies.reducer,
-	users: Stores.UsersAction.reducer,
 	remoteCalls,
 });
 
@@ -22,16 +21,6 @@ export const getLangs = (state) => {
 	const { lg1, lg2 } = state.app;
 	return { lg1, lg2 };
 };
-
-export const getStatus = (state, op) =>
-	Stores.RemoteCalls.getStatus(state.remoteCalls, op);
-
-export const getError = (state, op) =>
-	Stores.RemoteCalls.getError(state.remoteCalls, op);
-
-export const getNewlyCreatedId = (state) =>
-	Stores.RemoteCalls.getNewlyCreatedId(state.remoteCalls);
-
 export const getSerie = (state) => {
 	return state.operationsSeriesCurrent || {};
 };
