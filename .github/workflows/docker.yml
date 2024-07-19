@@ -3,7 +3,7 @@ on:
   release:
     types: [created]
     branches:
-      - main
+      - fix/rview-stamp
     paths-ignore:
       - documentation/**
 jobs:

@@ -7,13 +7,16 @@ import 'react-app-polyfill/stable';
 import { useSelector } from 'react-redux';
 import { Auth } from '../utils';
 import { removeToken } from '../utils/auth/open-id-connect-auth/token-utils';
-
-const logout = () => {
-	removeToken();
-	window.location = window.location.origin;
-};
+import { useOidc } from '../new-architecture/auth/createReactOidc';
 
 export const RBACLink = ({ children }) => {
+	const { logout } = useOidc();
+
+	const logoutAndRemoveFromStorage = () => {
+		removeToken();
+		logout({ redirectTo: 'home' });
+	};
+
 	const location = useLocation();
 	const authorizationHost = useSelector(
 		(state) => state.app.properties.authorizationHost
@@ -35,7 +38,10 @@ export const RBACLink = ({ children }) => {
 					{footer}
 				</p>
 				<div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
-					<button onClick={logout} className="btn btn-primary">
+					<button
+						onClick={logoutAndRemoveFromStorage}
+						className="btn btn-primary"
+					>
 						{D.authentication.logout}
 					</button>
 					<Auth.AuthGuard roles={[Auth.ADMIN]}>

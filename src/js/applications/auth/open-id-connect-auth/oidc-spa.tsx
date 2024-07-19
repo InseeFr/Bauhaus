@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { saveUserProps } from '../../../store/users';
 import { useOidc } from '../../../new-architecture/auth/createReactOidc';

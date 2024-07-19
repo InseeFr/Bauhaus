@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import LoginNoAuth from '../../applications/auth/no-auth/login';
-import LoginOpenIDConnect from '../../applications/auth/open-id-connect-auth/login-container';
 import * as Impl from '../../utils/auth/auth-impl';
 import { Auth } from '../../utils';
+import LoginOidcComponent from './open-id-connect-auth/oidc-spa';
 
 const auth = (WrappedComponent) => {
 	const AuthComponent = ({ authType, roles }) => {
 		if (authType === Impl.OPEN_ID_CONNECT_AUTH)
-			return <LoginOpenIDConnect WrappedComponent={WrappedComponent} />;
+			return <LoginOidcComponent WrappedComponent={WrappedComponent} />;
 
 		if (roles) return <WrappedComponent />;
 		switch (authType) {
