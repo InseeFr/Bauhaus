@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import Select from 'react-select';
+import Select from '../../../../utils/components/select-rmes';
 import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import D from '../../i18n/build-dictionary';
@@ -107,8 +107,8 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 								COMPONENT_TYPES.find((option) => option.value === type) || ''
 							}
 							options={COMPONENT_TYPES}
-							onChange={(option) => {
-								handleChange('type', option?.value ?? '');
+							onChange={(value) => {
+								handleChange('type', value);
 							}}
 						/>
 					</label>
@@ -122,8 +122,8 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 								conceptsOptions.find((option) => option.value === concept) || ''
 							}
 							options={conceptsOptions}
-							onChange={(option) => {
-								handleChange('concept', option?.value ?? '');
+							onChange={(value) => {
+								handleChange('concept', value);
 							}}
 						/>
 					</label>
@@ -140,8 +140,8 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 								''
 							}
 							options={stampListOptions}
-							onChange={(option) => {
-								handleChange('creator', option?.value ?? '');
+							onChange={(value) => {
+								handleChange('creator', value);
 							}}
 						/>
 					</label>
@@ -157,7 +157,7 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 								) || ''
 							}
 							options={validateStateOptions}
-							onChange={({ value }) => {
+							onChange={(value) => {
 								handleChange('validationState', value);
 							}}
 						/>

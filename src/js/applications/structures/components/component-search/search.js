@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Select from 'react-select';
+import Select from '../../../../utils/components/select-rmes';
 
 import { Loading } from '../../../../new-architecture/components/loading/loading';
 
@@ -80,8 +80,8 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 								conceptsOptions.find((option) => option.value === concept) || ''
 							}
 							options={conceptsOptions}
-							onChange={(option) => {
-								handleChange('concept', option?.value ?? '');
+							onChange={(value) => {
+								handleChange('concept', value);
 							}}
 						/>
 					</label>
@@ -98,8 +98,8 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 								''
 							}
 							options={stampListOptions}
-							onChange={(option) => {
-								handleChange('creator', option?.value ?? '');
+							onChange={(value) => {
+								handleChange('creator', value);
 							}}
 						/>
 					</label>
@@ -115,8 +115,8 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 								) || ''
 							}
 							options={validateStateOptions}
-							onChange={(option) => {
-								handleChange('validationState', option?.value ?? '');
+							onChange={(value) => {
+								handleChange('validationState', value);
 							}}
 						/>
 					</label>

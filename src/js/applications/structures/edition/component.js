@@ -17,7 +17,6 @@ import {
 } from '../../../utils';
 import D, { D1, D2 } from '../../../i18n';
 import { useSelector } from 'react-redux';
-import 'react-select/dist/react-select.css';
 import { validate } from './validation';
 import { ContributorsInput } from '../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';

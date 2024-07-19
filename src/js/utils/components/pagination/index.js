@@ -4,7 +4,7 @@ import Link from '../link';
 import queryString from 'query-string';
 import './pagination.scss';
 import D from '../../i18n/build-dictionary';
-import { default as ReactSelect } from 'react-select';
+import Select from '../select-rmes';
 import { D1 } from '../../../applications/codelists/i18n/build-dictionary';
 
 function checkInvalidPage(targetPage, listSize) {
@@ -68,9 +68,9 @@ export const Index = ({ itemEls }) => {
 	if (queryParameters !== '') {
 		pathnamePrefix += queryParameters + '&';
 	}
-	const onItemPerPageChange = (option) => {
+	const onItemPerPageChange = (value) => {
 		const searchParams = new URLSearchParams(window.location.search);
-		searchParams.set('perPage', option?.value);
+		searchParams.set('perPage', value);
 		history.replace(pathname + '?' + searchParams.toString());
 	};
 
@@ -96,14 +96,14 @@ export const Index = ({ itemEls }) => {
 			{pageNumbers.length > 1 && (
 				<div>
 					<div className="col-md-3 pull-left wilco-pagination">
-						<ReactSelect
+						<Select
 							placeholder={D1.itemPerPagePlaceholder}
 							value={numberPerPageOptions.find(
 								({ value }) => value === numberPerPage
 							)}
 							options={numberPerPageOptions}
 							onChange={onItemPerPageChange}
-							clearable={false}
+							unclearable
 						/>
 					</div>
 					<div className="col-md-9" style={{ padding: 0 }}>
