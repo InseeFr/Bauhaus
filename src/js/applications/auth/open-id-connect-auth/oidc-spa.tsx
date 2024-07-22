@@ -18,23 +18,17 @@ const LoginOidcComponent = ({
 	});
 
 	if (!isUserLoggedIn) {
-		const redirectUrl = window.location.href.replace(
-			window.location.search,
-			''
-		);
-
 		login({
-			redirectUrl,
 			doesCurrentHrefRequiresAuth: true,
+			extraQueryParams: { scope: 'openid timbre' },
 		});
 
-		return <></>;
+		return null;
 	}
 
 	const roles = (oidcTokens?.decodedIdToken.realm_access as any).roles;
 	const stamp = oidcTokens?.decodedIdToken.timbre as string;
 
-	console.log({ roles, stamp });
 	Auth.setToken(oidcTokens?.accessToken);
 	saveUserProps({ roles, stamp });
 

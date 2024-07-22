@@ -7,14 +7,17 @@ import 'react-app-polyfill/stable';
 import { useSelector } from 'react-redux';
 import { Auth } from '../utils';
 import { removeToken } from '../utils/auth/open-id-connect-auth/token-utils';
-import { useOidc } from '../new-architecture/auth/createReactOidc';
+import {
+	useOidc,
+	OidcProvider,
+} from '../new-architecture/auth/createReactOidc';
 
 export const RBACLink = ({ children }) => {
-	const { logout } = useOidc();
+	const { isUserLoggedIn, logout } = useOidc();
 
 	const logoutAndRemoveFromStorage = () => {
 		removeToken();
-		logout({ redirectTo: 'home' });
+		if (isUserLoggedIn) logout({ redirectTo: 'home' });
 	};
 
 	const location = useLocation();
@@ -64,9 +67,11 @@ export const RBACLink = ({ children }) => {
 const Root = () => {
 	return (
 		<Router>
-			<RBACLink>
-				<Routes />
-			</RBACLink>
+			<OidcProvider>
+				<RBACLink>
+					<Routes />
+				</RBACLink>
+			</OidcProvider>
 		</Router>
 	);
 };
