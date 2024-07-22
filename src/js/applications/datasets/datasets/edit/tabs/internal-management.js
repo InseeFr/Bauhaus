@@ -120,6 +120,7 @@ const InternalManagementTab = ({
 								errorMessage: [],
 							}));
 						}}
+						required
 					/>
 					<ClientSideError
 						error={clientSideErrors?.fields?.contributor}
@@ -141,6 +142,7 @@ const InternalManagementTab = ({
 								errorMessage: [],
 							}));
 						}}
+						required
 					/>
 					<ClientSideError
 						error={clientSideErrors?.fields?.disseminationStatus}

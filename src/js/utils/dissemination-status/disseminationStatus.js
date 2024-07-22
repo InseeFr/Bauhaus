@@ -25,11 +25,19 @@ export const DisseminationStatusVisualisation = ({ disseminationStatus }) => {
 	);
 };
 
-export const DisseminationStatusInput = ({ value, handleChange }) => {
+export const DisseminationStatusInput = ({
+	value,
+	handleChange,
+	required = false,
+}) => {
 	const disseminationStatusListOptions = useDisseminationStatusOptions();
 	return (
 		<>
-			<LabelRequired>{D.disseminationStatusTitle}</LabelRequired>
+			{required ? (
+				<LabelRequired>{D.disseminationStatusTitle}</LabelRequired>
+			) : (
+				<label>{D.disseminationStatusTitle}</label>
+			)}
 			<Select
 				placeholder={D.disseminationStatusPlaceholder}
 				value={disseminationStatusListOptions.find(

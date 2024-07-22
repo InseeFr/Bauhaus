@@ -304,6 +304,7 @@ export const DumbCodelistPartialDetailEdit = ({
 								errorMessage: [],
 							});
 						}}
+						required
 					/>
 
 					<ClientSideError

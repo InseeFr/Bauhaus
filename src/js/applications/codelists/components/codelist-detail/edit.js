@@ -272,6 +272,7 @@ export const DumbCodelistDetailEdit = ({
 								errorMessage: [],
 							});
 						}}
+						required
 					/>
 
 					<ClientSideError
