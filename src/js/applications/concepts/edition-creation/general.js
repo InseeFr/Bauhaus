@@ -101,6 +101,7 @@ function ConceptGeneralEdition({
 				<DisseminationStatusInput
 					value={disseminationStatus}
 					handleChange={handlers.disseminationStatus}
+					required
 				></DisseminationStatusInput>
 
 				<ClientSideError

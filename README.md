@@ -23,13 +23,13 @@ npm run build-insee
 npm run start
 ```
 
-You can run all tests suites for all modules with this command. You need to run at least once `npm run build-insee`.
+You can run all tests suites with this command. You need to run at least once `npm run build-insee`.
 
 ```shell
 npm run test:coverage
 ```
 
-The following command will activate the `watch` mode, and you will be able to selecta a subset of tests you want to run.
+The following command will activate the `watch` mode, and you will be able to select a subset of tests you want to run.
 
 ```shell
 npm run test --watchAll

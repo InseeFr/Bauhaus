@@ -21,10 +21,15 @@ export const ContributorsInput = ({
 	value,
 	handleChange,
 	stampListOptions,
+	required = false,
 }) => {
 	return (
 		<>
-			<LabelRequired>{D.contributorTitle}</LabelRequired>
+			{required ? (
+				<LabelRequired>{D.contributorTitle}</LabelRequired>
+			) : (
+				<label>{D.contributorTitle}</label>
+			)}
 			<SelectRmes
 				placeholder={D1.stampsPlaceholder}
 				value={stampListOptions?.filter((c) =>
