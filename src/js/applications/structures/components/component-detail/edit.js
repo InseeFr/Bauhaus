@@ -28,7 +28,7 @@ import {
 	XSD_TYPES,
 	IGEO_PAYS_OU_TERRITOIRE,
 } from '../../utils/constants';
-
+import { CodesList } from '../../../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
@@ -693,21 +693,26 @@ const AttributeCodeList = ({
 	codesLists,
 	label,
 }) => {
-	const [codesList, setCodesList] = useState();
+	const [codes, setCodes] = useState();
+
 	const codeListNotation = codesLists.find(
 		(cl) => cl.id === codeListIri
 	)?.notation;
 
 	useEffect(() => {
-		API.getCodelist(codeListNotation).then((cl) => setCodesList(cl));
+		CodesList.getCodesListCodes(codeListNotation, 1, 0).then((codes) =>
+			setCodes(codes)
+		);
 	}, [codeListNotation]);
 
-	if (!codesList) {
+	if (!codes) {
 		return null;
 	}
+
 	const codesOptions = sortByLabel(
-		codesList?.codes?.map((code) => ({ value: code.iri, label: code.labelLg1 }))
+		codes?.codes?.map((code) => ({ value: code.iri, label: code.labelLg1 }))
 	);
+
 	return (
 		<div className="col-md-6 form-group">
 			<label htmlFor="attributeValue">{label ?? D1.Value}</label>
