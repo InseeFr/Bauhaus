@@ -31,6 +31,7 @@ const Components = ({ componentDefinitions = [] }) => {
 		setSelectedComponent(component);
 		setModalOpened(true);
 	}, []);
+
 	return (
 		<div className="row text-left">
 			{modalOpened && (

@@ -56,9 +56,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 	const [codesPartialListPanelOpened, setPartialCodesListPanelOpened] =
 		useState(false);
 	const [partials, setPartials] = useState([]);
-	const fullCodeListValue = component.fullCodeListValue
-		? component.fullCodeListValue
-		: component.codeList;
+	const fullCodeListValue = component.fullCodeListValue || component.codeList;
 	const currentCodeList = component.codeList;
 
 	const [partialCodesLists, setPartialCodesLists] = useState([]);
@@ -150,15 +148,14 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 				</div>
 			)}
 			<CodesListPanel
-				codesList={codesLists.find((c) =>
-					(fullCodeListValue?.id || fullCodeListValue)
-						?.toString()
-						.includes(c.id?.toString())
+				codesList={codesLists.find(
+					(c) =>
+						(fullCodeListValue?.id || fullCodeListValue)?.toString() ===
+						c.id?.toString()
 				)}
 				isOpen={codesFullListPanelOpened}
 				handleBack={() => setFullCodesListPanelOpened(false)}
 			/>
-
 			<CodesListPanel
 				codesList={{
 					notation: partials.find((c) =>
