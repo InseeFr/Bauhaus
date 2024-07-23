@@ -83,6 +83,7 @@ export const ComponentDetailView = ({
 	const publish = () => {
 		publishComponent();
 	};
+
 	return (
 		<>
 			<ViewMenu

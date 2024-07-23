@@ -14,7 +14,7 @@ export const CodesListPanel = ({ isOpen, handleBack, codesList }) => {
 	useEffect(() => {
 		if (notation && isOpen) {
 			CodesList.getCodesListCodes(notation, 1, 0).then((codes) => {
-				setCodes(sortByLabel(codes?.items || []));
+				setCodes(sortByLabel(codes?.codes || []));
 			});
 		}
 	}, [notation, isOpen]);
