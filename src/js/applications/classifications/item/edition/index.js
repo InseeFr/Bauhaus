@@ -1,15 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../../../../remote-api/classifications-api';
-import {
-	ActionToolbar,
-	ErrorBloc,
-	goBack,
-	LabelRequired,
-} from '@inseefr/wilco';
-
-import { Redirect, useHistory, useParams } from 'react-router-dom';
+import { ActionToolbar, ErrorBloc, LabelRequired } from '@inseefr/wilco';
+import { Redirect, useParams } from 'react-router-dom';
 import { EditorMarkdown, PageTitleBlock } from '../../../../utils';
-
 import { Controller, useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import useClassificationItem from '../hook';
@@ -20,6 +13,7 @@ import {
 	Loading,
 	Row,
 } from '../../../../new-architecture/components';
+import { useGoBack } from '../../../../hooks/hooks';
 
 const titleMapping = {
 	definition: 'classificationsDefinition',
@@ -31,7 +25,7 @@ const titleMapping = {
 };
 
 const ClassificationItemEdition = () => {
-	const history = useHistory();
+	const goBack = useGoBack();
 	const queryClient = useQueryClient();
 	const { classificationId, itemId } = useParams();
 
@@ -165,7 +159,7 @@ const ClassificationItemEdition = () => {
 				<ActionToolbar>
 					<div className="col-md-2">
 						<button
-							onClick={goBack({ history }, '/classifications')}
+							onClick={() => goBack('/classifications')}
 							className="btn wilco-btn btn-lg col-md-12"
 							type="button"
 						>
