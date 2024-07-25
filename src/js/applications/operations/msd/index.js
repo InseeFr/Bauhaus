@@ -57,14 +57,14 @@ class MSDContainer extends Component {
 			(this.props.mode === UPDATE || this.props.mode === VIEW) &&
 			!this.props.currentSims.id
 		) {
-			this.props.loadSIMS(this.props.id);
+			this.props.loadSIMS(this.props.params.id);
 		}
 
 		if (!this.props.geographiesLoaded) {
 			this.props.loadGeographies();
 		}
 
-		this._loadOwnersList(this.props.id);
+		this._loadOwnersList(this.props.params.id);
 	}
 
 	_loadOwnersList(id) {
@@ -82,7 +82,7 @@ class MSDContainer extends Component {
 	};
 
 	componentWillReceiveProps(nextProps) {
-		if (!nextProps.currentSims.id || this.props.id !== nextProps.id) {
+		if (!nextProps.currentSims.id || this.props.params.id !== nextProps.id) {
 			this.props.loadSIMS(nextProps.id);
 		}
 		if (this.props.mode === CREATE && nextProps.mode === VIEW) {
@@ -253,7 +253,7 @@ export const mapStateToProps = (state, ownProps) => {
 		secondLang: Stores.SecondLang.getSecondLang(state),
 		metadataStructure,
 		metadataStructureStatus,
-		currentSims: currentSims ?? {},
+		currentSims: currentSims || {},
 		codesLists: getOperationsCodesList(state),
 		organisations: getOperationsOrganisations(state),
 	};
