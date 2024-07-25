@@ -14,7 +14,7 @@ import loadSIMS, {
 	saveSims,
 	publishSims,
 } from '../../../actions/operations/sims/item';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import MSDHelp from '../../../applications/operations/msd/pages/help';
 import SimsVisualisation from '../../../applications/operations/msd/pages/sims-visualisation/';
 import SimsCreation from '../../../applications/operations/msd/pages/sims-creation/';
@@ -110,6 +110,7 @@ class MSDContainer extends Component {
 			documentStores,
 			goBack,
 			params,
+			history,
 		} = this.props;
 
 		if (
@@ -218,6 +219,7 @@ class MSDContainer extends Component {
 							parentType={params.parentType}
 							documentStores={documentStores}
 							defaultSimsRubrics={this.state.defaultSimsRubrics}
+							history={history}
 						/>
 					</SimsContextProvider>
 				)}
@@ -276,6 +278,7 @@ const MSDContainerWithParent = (props) => {
 	const [documentStores, setDocumentStores] = useState([]);
 
 	const goBack = useGoBack();
+	const history = useHistory();
 
 	const currentSims =
 		props.mode === CREATE
@@ -330,6 +333,7 @@ const MSDContainerWithParent = (props) => {
 			parent={parent}
 			goBack={goBack}
 			params={params}
+			history={history}
 		/>
 	);
 };
