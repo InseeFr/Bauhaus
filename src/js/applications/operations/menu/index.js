@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Menu } from '@inseefr/wilco';
 import D from '../../../i18n';
@@ -72,7 +71,7 @@ export class MenuOperations extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (this.props !== nextProps) {
 			this.setState({
-				paths: nextProps.location.pathname, // withRouter utile
+				paths: nextProps.location.pathname,
 			});
 
 			const paths = this.setActiveItem(nextProps, this.state.paths);
@@ -106,19 +105,19 @@ export class MenuOperations extends Component {
 		if (nextProps.location.pathname.includes('sims')) {
 			if (
 				nextProps.sims.idSeries ||
-				paths.series.pathKey.test(this.props.location.pathname) // withRouter utile
+				paths.series.pathKey.test(this.props.location.pathname)
 			) {
 				paths['series']['className'] = ACTIVE;
 				paths['series']['attrs'] = defaultAttrs;
 			} else if (
 				nextProps.sims.idIndicator ||
-				paths.indicators.pathKey.test(this.props.location.pathname) // withRouter utile
+				paths.indicators.pathKey.test(this.props.location.pathname)
 			) {
 				paths['indicators']['className'] = ACTIVE;
 				paths['indicators']['attrs'] = defaultAttrs;
 			} else if (
 				nextProps.sims.idOperation ||
-				paths.operations.pathKey.test(this.props.location.pathname) // withRouter utile
+				paths.operations.pathKey.test(this.props.location.pathname)
 			) {
 				paths['operations']['className'] = ACTIVE;
 				paths['operations']['attrs'] = defaultAttrs;
@@ -126,7 +125,6 @@ export class MenuOperations extends Component {
 		} else {
 			for (let key in paths) {
 				if (paths[key]['pathKey'].test(nextProps.location.pathname)) {
-					// withRouter utile
 					paths[key]['className'] = ACTIVE;
 					paths[key]['attrs'] = defaultAttrs;
 
@@ -145,8 +143,6 @@ export class MenuOperations extends Component {
 	}
 }
 
-export default withRouter(
-	connect((state) => {
-		return { sims: getOperationsSimsCurrent(state) };
-	})(MenuOperations)
-);
+export default connect((state) => {
+	return { sims: getOperationsSimsCurrent(state) };
+})(MenuOperations);
