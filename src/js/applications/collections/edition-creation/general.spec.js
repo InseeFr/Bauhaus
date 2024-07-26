@@ -2,9 +2,10 @@ import { render } from '@testing-library/react';
 import CollectionGeneral from './general';
 import { empty } from '../../../utils/collections/general';
 
-jest.mock('../../../components/creators-input', () => ({
-	__esModule: true,
-	default: () => <></>,
+jest.mock('../../../new-architecture/components', () => ({
+	TextInput: () => <></>,
+	Row: () => <></>,
+	CreatorsInput: () => <></>,
 }));
 describe('collection-edition-creation-general', () => {
 	it('renders without crashing', () => {

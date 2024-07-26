@@ -47,6 +47,16 @@ const dictionary = {
 			en: 'Deleting in progress...',
 		},
 	},
+	creatorsInput: {
+		creatorsTitle: {
+			fr: 'Propriétaires',
+			en: 'Owners',
+		},
+		creatorTitle: {
+			fr: 'Propriétaire',
+			en: 'Owner',
+		},
+	},
 };
 
 export const D1: Dictionary = createDictionary(firstLang, dictionary);

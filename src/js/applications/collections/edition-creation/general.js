@@ -2,8 +2,11 @@ import D, { D1, D2 } from '../../../i18n';
 import InputRmes from '../../../applications/shared/input-rmes';
 import { fields as generalFields } from '../../../utils/collections/general';
 import { RequiredIcon } from '../../../utils';
-import CreatorsInput from '../../../components/creators-input';
-import { TextInput, Row } from '../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	CreatorsInput,
+} from '../../../new-architecture/components';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {

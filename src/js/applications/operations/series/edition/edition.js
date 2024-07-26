@@ -23,11 +23,13 @@ import {
 	ClientSideError,
 } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
-import CreatorsInput from '../../../../components/creators-input';
 
 import { isMandatoryField, validate } from './validation';
 import api from '../../../../remote-api/operations-api';
-import { TextInput } from '../../../../new-architecture/components';
+import {
+	TextInput,
+	CreatorsInput,
+} from '../../../../new-architecture/components';
 
 const defaultSerie = {
 	id: '',
