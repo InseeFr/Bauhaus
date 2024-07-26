@@ -1,7 +1,7 @@
 import { Auth } from '../../../utils';
 import { ExportButton, ImportButton, VerticalMenu } from '@inseefr/wilco';
 import D from '../../../i18n/build-dictionary';
-import { getEnvVar } from '../../../utils/env';
+import { getEnvVar } from '../../../new-architecture/utils/env';
 import { FeminineButton } from '../../../new-architecture/components/new-button';
 
 export const HomePageMenu = () => {

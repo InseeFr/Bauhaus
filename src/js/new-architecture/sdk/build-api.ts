@@ -2,7 +2,7 @@ import {
 	getToken,
 	isTokenValid,
 } from '../../utils/auth/open-id-connect-auth/token-utils';
-import { getEnvVar } from '../../utils/env';
+import { getEnvVar } from '../utils/env';
 
 export const generateGenericApiEndpoints = (
 	pluralPrefix = '',
