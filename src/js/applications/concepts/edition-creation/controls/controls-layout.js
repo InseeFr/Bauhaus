@@ -1,13 +1,15 @@
-import { withRouter } from 'react-router-dom';
 import { CancelButton, ActionToolbar, SaveButton } from '@inseefr/wilco';
 import { GlobalClientSideErrorBloc } from '../../../../utils';
 import D from '../../../../i18n/build-dictionary';
+import { useGoBack } from '../../../../hooks/hooks';
 
-const ConceptCreateControlLayout = ({ errors, handleSave, redirectCancel }) => {
+const ConceptCreateControlLayout = ({ errors, handleSave }) => {
+	const goBack = useGoBack();
+
 	return (
 		<>
 			<ActionToolbar>
-				<CancelButton action={redirectCancel} />
+				<CancelButton action={() => goBack('concepts')} />
 				<SaveButton
 					action={handleSave}
 					disabled={errors?.errorMessage?.length > 0}
@@ -23,4 +25,4 @@ const ConceptCreateControlLayout = ({ errors, handleSave, redirectCancel }) => {
 	);
 };
 
-export default withRouter(ConceptCreateControlLayout);
+export default ConceptCreateControlLayout;

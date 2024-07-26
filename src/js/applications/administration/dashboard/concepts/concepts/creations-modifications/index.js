@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Table, NumberResult } from '@inseefr/wilco';
 import DatePickerRmes from '../../../../../../applications/shared/date-picker-rmes';
 import D from '../../../../../../i18n';
@@ -60,4 +60,4 @@ const ConceptsCreationsModifications = ({ conceptsData, type }) => {
 	);
 };
 
-export default withRouter(ConceptsCreationsModifications);
+export default ConceptsCreationsModifications;

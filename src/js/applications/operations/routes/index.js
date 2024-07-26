@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { loadSetup } from '../../../actions/operations/utils/setup';
@@ -19,9 +19,11 @@ const RootComponent = () => {
 		dispatch(loadSetup());
 	}, [dispatch]);
 
+	const location = useLocation();
+
 	return (
 		<>
-			<Menu />
+			<Menu location={location} />
 			<FamilyRoutes />
 			<SeriesRoutes />
 			<OperationsRoutes />
