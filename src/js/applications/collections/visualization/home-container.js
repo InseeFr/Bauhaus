@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import * as select from '../../../reducers';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import CollectionVisualization from './home';
 import { Auth, Stores } from '../../../utils';
 import { useParams } from 'react-router-dom';
-import api from '../../../remote-api/concepts-api';
+import { ConceptsApi } from '../../../new-architecture/sdk';
 
 const CollectionVisualizationContainer = () => {
 	const { id } = useParams();
@@ -21,8 +21,8 @@ const CollectionVisualizationContainer = () => {
 
 	const fetchData = useCallback(() => {
 		Promise.all([
-			api.getCollectionGeneral(id),
-			api.getCollectionMembersList(id),
+			ConceptsApi.getCollectionGeneral(id),
+			ConceptsApi.getCollectionMembersList(id),
 		])
 			.then(([generalValue, membersValue]) => {
 				setCollection({ general: generalValue, members: membersValue });
@@ -36,8 +36,7 @@ const CollectionVisualizationContainer = () => {
 
 	const handleCollectionValidation = (id) => {
 		setSaving(true);
-		api
-			.putCollectionValidList([id])
+		ConceptsApi.putCollectionValidList([id])
 			.then(() => fetchData())
 			.finally(() => setSaving(false));
 	};

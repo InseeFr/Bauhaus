@@ -57,6 +57,16 @@ const dictionary = {
 			en: 'Owner',
 		},
 	},
+	contributors: {
+		title: {
+			fr: 'Gestionnaire',
+			en: 'Contributor',
+		},
+		stampsPlaceholder: {
+			fr: 'Sélectionnez un timbre...',
+			en: 'Select stamp...',
+		},
+	},
 };
 
 export const D1: Dictionary = createDictionary(firstLang, dictionary);

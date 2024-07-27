@@ -1,11 +1,12 @@
-import { CodesList, ArrayUtils } from '../../../utils';
+import { ArrayUtils } from '../../../utils';
+import { CodeListApi } from '../../../new-architecture/sdk';
 const sortByLabel = ArrayUtils.sortArray('labelLg1');
 
 export const getCodeList = () =>
-	CodesList.getCodesLists().then((response) => sortByLabel(response));
+	CodeListApi.getCodesLists().then((response) => sortByLabel(response));
 
 export const getPartialCodeLists = () =>
-	CodesList.getPartialCodesLists().then((response) => sortByLabel(response));
+	CodeListApi.getPartialCodesLists().then((response) => sortByLabel(response));
 
 export const getFormattedCodeList = () => {
 	return Promise.all([getCodeList(), getPartialCodeLists()]).then(

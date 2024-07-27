@@ -7,9 +7,9 @@ import CollectionEditionCreation from './home';
 import D from '../../../i18n';
 import emptyCollection from '../../../utils/collections/empty-collection';
 import { cleanId } from '@inseefr/wilco';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 
-import api from '../../../remote-api/concepts-api';
+import { ConceptsApi } from '../../../new-architecture/sdk';
 import apiCollections from '../../../remote-api/concepts-collection-api';
 
 const CreationContainer = () => {
@@ -26,7 +26,10 @@ const CreationContainer = () => {
 	const [conceptList, setConceptList] = useState([]);
 
 	useEffect(() => {
-		Promise.all([api.getConceptList(), apiCollections.getCollectionList()])
+		Promise.all([
+			ConceptsApi.getConceptList(),
+			apiCollections.getCollectionList(),
+		])
 			.then(([conceptsList, collectionsList]) => {
 				setConceptList(conceptsList);
 				setCollectionList(collectionsList);
@@ -37,8 +40,7 @@ const CreationContainer = () => {
 	const handleCreation = useCallback(
 		(data) => {
 			setSaving(true);
-			api
-				.postCollection(buildPayload(data, 'CREATE'))
+			ConceptsApi.postCollection(buildPayload(data, 'CREATE'))
 				.then(() => {
 					history.push(`/collection/${cleanId(data.general.id)}`);
 				})

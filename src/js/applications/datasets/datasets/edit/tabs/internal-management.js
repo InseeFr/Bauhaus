@@ -8,9 +8,12 @@ import { LabelRequired } from '@inseefr/wilco';
 import { ClientSideError, SelectRmes } from '../../../../../utils';
 import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
 import { DisseminationStatusInput } from '../../../../../utils/dissemination-status/disseminationStatus';
-import { ContributorsInput } from '../../../../../utils/contributors/contributors';
 import { useStampsOptions } from '../../../../../new-architecture/utils/hooks/stamps';
-import { TextInput, Row } from '../../../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	ContributorsInput,
+} from '../../../../../new-architecture/components';
 
 const InternalManagementTab = ({
 	editingDataset,

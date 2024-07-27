@@ -1,10 +1,10 @@
-import apiOrganisations from '../../../remote-api/organisations-api';
+import { OrganisationsApi } from '../../../new-architecture/sdk';
 import {
 	CL_SOURCE_CATEGORY,
 	CL_FREQ,
 } from '../../../actions/constants/codeList';
 import * as A from '../../../actions/constants';
-import { CodesList } from '../../../utils';
+import { CodeListApi } from '../../../new-architecture/sdk';
 
 export const loadSetup = () => (dispatch) => {
 	loadCodesList([CL_SOURCE_CATEGORY, CL_FREQ], dispatch);
@@ -13,8 +13,8 @@ export const loadSetup = () => (dispatch) => {
 export function loadCodesList(notations, dispatch) {
 	notations.forEach((notation) => {
 		return Promise.all([
-			CodesList.getCodesList(notation),
-			CodesList.getCodesListCodes(notation, 1, 0),
+			CodeListApi.getCodesList(notation),
+			CodeListApi.getCodesListCodes(notation, 1, 0),
 		]).then(
 			([codesList, codes]) =>
 				dispatch({
@@ -34,7 +34,7 @@ export function loadCodesList(notations, dispatch) {
 }
 
 export function loadOrganisations(dispatch) {
-	return apiOrganisations.getOrganisations().then(
+	return OrganisationsApi.getOrganisations().then(
 		(results) =>
 			dispatch({
 				type: A.LOAD_OPERATIONS_ORGANISATIONS_SUCCESS,

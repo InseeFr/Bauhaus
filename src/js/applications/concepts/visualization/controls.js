@@ -3,11 +3,10 @@ import { Button, ActionToolbar } from '@inseefr/wilco';
 import check from '../../../utils/auth';
 import D from '../../../i18n';
 import { ConfirmationDelete } from '../../../utils';
-import api from '../../../remote-api/concepts-api';
 import { useLoading } from './loading';
 import { useGoBack } from '../../../hooks/hooks';
 import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
-
+import { ConceptsApi } from '../../../new-architecture/sdk';
 const ConceptVisualizationControls = ({
 	isValidated,
 	isValidOutOfDate,
@@ -50,8 +49,10 @@ const ConceptVisualizationControls = ({
 	const exportConcept = [
 		() => {
 			setLoading('exporting');
-			return api
-				.getConceptExport(id, 'application/vnd.oasis.opendocument.text')
+			return ConceptsApi.getConceptExport(
+				id,
+				'application/vnd.oasis.opendocument.text'
+			)
 				.then(saveFileFromHttpResponse)
 				.finally(() => setLoading());
 		},

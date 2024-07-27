@@ -10,11 +10,11 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './view.scss';
 import { CodesCollapsiblePanel } from './codes-panel';
 import { ViewMenu } from './menu';
-import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import {
 	PublicationFemale,
 	Row,
+	ContributorsVisualisation,
 } from '../../../../new-architecture/components';
 
 export const CodeListDetailView = ({

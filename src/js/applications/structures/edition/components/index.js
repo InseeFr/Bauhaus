@@ -7,7 +7,7 @@ import {
 } from '../../utils/constants';
 import StructureAPI from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI } from '../../../../utils';
+import { ConceptsApi } from '../../../../new-architecture/sdk';
 import D from '../../../../i18n';
 
 const Components = ({ componentDefinitions, onChange, structure = {} }) => {
@@ -16,7 +16,7 @@ const Components = ({ componentDefinitions, onChange, structure = {} }) => {
 	const [mutualizedComponents, setMutualizedComponents] = useState([]);
 
 	useEffect(() => {
-		ConceptsAPI.getConceptList().then((res) => setConcepts(res));
+		ConceptsApi.getConceptList().then((res) => setConcepts(res));
 	}, []);
 
 	useEffect(() => {

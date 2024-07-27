@@ -1,5 +1,6 @@
 export * from './data/conditional-display';
 export * from './data/creators';
+export * from './contributors/contributors';
 export * from './creators-input';
 export * from './form/input';
 export * from './layout/';

@@ -4,6 +4,7 @@ import { Note } from '@inseefr/wilco';
 import {
 	Loading,
 	PublicationFemale,
+	ContributorsVisualisation,
 } from '../../../new-architecture/components';
 import { useSelector } from 'react-redux';
 import {
@@ -21,7 +22,6 @@ import D from '../i18n/build-dictionary';
 import StructureAPI from '../apis/structure-api';
 import MainDictionary from '../../../i18n/build-dictionary';
 import { DisseminationStatusVisualisation } from '../../../utils/dissemination-status/disseminationStatus';
-import { ContributorsVisualisation } from '../../../utils/contributors/contributors';
 
 export const StructureView = ({
 	secondLang,

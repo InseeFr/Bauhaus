@@ -1,22 +1,24 @@
 import { useState, useEffect } from 'react';
 import Select from '../../../../utils/components/select-rmes';
 
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import {
+	Loading,
+	Column,
+	TextInput,
+} from '../../../../new-architecture/components';
 
 import { Link, Redirect } from 'react-router-dom';
 import api from '../../apis/structure-api';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
 import {
-	ConceptsAPI,
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
 	useUrlQueryParameters,
 	withTitle,
 } from '../../../../utils';
-import { Column } from '../../../../new-architecture/components/layout';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import { ConceptsApi } from '../../../../new-architecture/sdk';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 
@@ -134,7 +136,7 @@ const SearchListContainer = () => {
 	useEffect(() => {
 		Promise.all([
 			api.getMutualizedComponentsForSearch(),
-			ConceptsAPI.getConceptList(),
+			ConceptsApi.getConceptList(),
 		])
 			.then(([components, concepts]) => {
 				setItems(components);

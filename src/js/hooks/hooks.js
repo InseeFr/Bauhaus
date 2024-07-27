@@ -1,11 +1,11 @@
 import { useHistory } from 'react-router-dom';
 import { useQueries, useQuery } from '@tanstack/react-query';
-import { CodesList } from '../utils';
+import { CodeListApi } from '../new-architecture/sdk';
 
 const fetchCodeList = (notation) => {
 	return Promise.all([
-		CodesList.getCodesList(notation),
-		CodesList.getCodesListCodes(notation, 1, 0),
+		CodeListApi.getCodesList(notation),
+		CodeListApi.getCodesListCodes(notation, 1, 0),
 	]).then(([codesList, codes]) => ({
 		codes: codes.items ?? [],
 		...codesList,

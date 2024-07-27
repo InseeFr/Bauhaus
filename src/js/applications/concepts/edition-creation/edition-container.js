@@ -6,10 +6,10 @@ import ConceptEditionCreation from './home';
 import buildPayloadUpdate from '../../../utils/concepts/build-payload-creation-update/build-payload-update';
 import { mergeWithAllConcepts } from '../../../utils/concepts/links';
 import D from '../../../i18n';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import { CLOSE_MATCH } from '../../../constants';
 import { HTMLUtils } from '../../../utils';
-import api from '../../../remote-api/concepts-api';
+import { ConceptsApi } from '../../../new-architecture/sdk';
 import { emptyNotes } from '../../../utils/concepts/notes';
 import * as generalUtils from '../../../utils/concepts/general';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
@@ -43,13 +43,12 @@ const EditionContainer = () => {
 	const { data: stamps = [] } = useStamps();
 
 	useEffect(() => {
-		api
-			.getConceptGeneral(id)
+		ConceptsApi.getConceptGeneral(id)
 			.then((general) => {
 				const { conceptVersion } = general;
 				return Promise.all([
-					api.getNoteVersionList(id, conceptVersion),
-					api.getConceptLinkList(id),
+					ConceptsApi.getNoteVersionList(id, conceptVersion),
+					ConceptsApi.getConceptLinkList(id),
 				]).then(([notes, links]) => {
 					setConcept({
 						general: Object.assign(generalUtils.empty(), general),
@@ -62,8 +61,7 @@ const EditionContainer = () => {
 	}, [id]);
 
 	useEffect(() => {
-		api
-			.getConceptList()
+		ConceptsApi.getConceptList()
 			.then(setConcepts)
 			.finally(() => setLoadingExtraData(false));
 	}, []);
@@ -71,8 +69,7 @@ const EditionContainer = () => {
 	const handleUpdate = useCallback(
 		(id, versioning, oldData, data) => {
 			setSaving(true);
-			api
-				.putConcept(id, buildPayloadUpdate(versioning, oldData, data))
+			ConceptsApi.putConcept(id, buildPayloadUpdate(versioning, oldData, data))
 				.then(() => history.push(`/concept/${id}`))
 				.finally(() => setSaving(false));
 		},

@@ -1,14 +1,15 @@
-import { ConceptsAPIRoutes } from '../utils';
-import { buildApi } from '../new-architecture/sdk';
+import { buildApi } from './build-api';
 
 const api = {
-	...ConceptsAPIRoutes,
+	getConceptList: () => [''],
 	getConceptSearchList: () => ['advanced-search'],
 	getConceptValidateList: () => ['toValidate'],
-	getConceptGeneral: (id) => [`concept/${id}`],
-	getConceptLinkList: (id) => [`concept/${id}/links`],
-	getNoteVersionList: (id, version) => [`concept/${id}/notes/${version}`],
-	postConcept: (concept) => [
+	getConceptGeneral: (id: string) => [`concept/${id}`],
+	getConceptLinkList: (id: string) => [`concept/${id}/links`],
+	getNoteVersionList: (id: string, version: string) => [
+		`concept/${id}/notes/${version}`,
+	],
+	postConcept: (concept: unknown) => [
 		'concept',
 		{
 			headers: {
@@ -17,13 +18,13 @@ const api = {
 			},
 			body: JSON.stringify(concept),
 		},
-		(res) =>
-			res.text((id) => ({
+		(res: any) =>
+			res.text((id: string) => ({
 				id,
 				concept,
 			})),
 	],
-	putConcept: (id, concept) => [
+	putConcept: (id: string, concept: unknown) => [
 		`concept/${id}`,
 		{
 			headers: {
@@ -33,7 +34,7 @@ const api = {
 		},
 		() => {},
 	],
-	deleteConcept: (id) => [
+	deleteConcept: (id: string) => [
 		`${id}`,
 		{
 			headers: {
@@ -43,7 +44,7 @@ const api = {
 		},
 		() => {},
 	],
-	putConceptValidList: (ids) => [
+	putConceptValidList: (ids: string[]) => [
 		`validate/${ids}`,
 		{
 			body: JSON.stringify(ids),
@@ -51,7 +52,12 @@ const api = {
 		//do not process response
 		() => {},
 	],
-	getConceptExportZipType: (ids, type, lang, withConcepts) => [
+	getConceptExportZipType: (
+		ids: string[],
+		type: string,
+		lang: string,
+		withConcepts: boolean
+	) => [
 		`concept/export-zip/${ids.join(
 			'_AND_'
 		)}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
@@ -61,9 +67,9 @@ const api = {
 				'Content-Type': 'text/plain',
 			},
 		},
-		(res) => res,
+		(res: Response) => res,
 	],
-	getConceptExportZip: (ids) => [
+	getConceptExportZip: (ids: string[]) => [
 		`concept/export-zip/${ids.join(',')}`,
 		{
 			headers: {
@@ -71,9 +77,9 @@ const api = {
 				'Content-Type': 'text/plain',
 			},
 		},
-		(res) => res,
+		(res: Response) => res,
 	],
-	getConceptExport: (id) => [
+	getConceptExport: (id: string) => [
 		`concept/export/${id}`,
 		{
 			headers: {
@@ -81,9 +87,9 @@ const api = {
 				'Content-Type': 'text/plain',
 			},
 		},
-		(res) => res,
+		(res: Response) => res,
 	],
-	postConceptSend: (id, mailInfo) => [
+	postConceptSend: (id: string, mailInfo: unknown) => [
 		`concept/send/${id}`,
 		{
 			headers: {
@@ -96,7 +102,7 @@ const api = {
 	// Collections
 	getCollectionDashboardList: () => ['collections/dashboard'],
 	getCollectionValidateList: () => ['collections/toValidate'],
-	postCollection: (collection) => [
+	postCollection: (collection: unknown) => [
 		'collection',
 		{
 			headers: {
@@ -107,7 +113,7 @@ const api = {
 		},
 		() => {},
 	],
-	putCollection: (id, collection) => [
+	putCollection: (id: string, collection: unknown) => [
 		`collection/${id}`,
 		{
 			headers: {
@@ -117,7 +123,7 @@ const api = {
 		},
 		() => {},
 	],
-	putCollectionValidList: (ids) => [
+	putCollectionValidList: (ids: string[]) => [
 		`collections/validate/${ids}`,
 		{
 			body: JSON.stringify(ids),
@@ -125,8 +131,8 @@ const api = {
 		//do not process resspoonse
 		() => {},
 	],
-	getCollectionGeneral: (id) => [`collection/${id}`],
-	getCollectionMembersList: (id) => [`collection/${id}/members`],
+	getCollectionGeneral: (id: string) => [`collection/${id}`],
+	getCollectionMembersList: (id: string) => [`collection/${id}/members`],
 };
 
-export default buildApi('concepts', api);
+export const ConceptsApi = buildApi('concepts', api);

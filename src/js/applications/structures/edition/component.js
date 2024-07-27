@@ -1,7 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { LabelRequired } from '@inseefr/wilco';
-import { Loading, TextInput, Row } from '../../../new-architecture/components';
+import {
+	Loading,
+	TextInput,
+	Row,
+	ContributorsInput,
+} from '../../../new-architecture/components';
 
 import Controls from './controls';
 import Components from './components';
@@ -18,7 +23,6 @@ import {
 import D, { D1, D2 } from '../../../i18n';
 import { useSelector } from 'react-redux';
 import { validate } from './validation';
-import { ContributorsInput } from '../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
 import { useStampsOptions } from '../../../new-architecture/utils/hooks/stamps';
 

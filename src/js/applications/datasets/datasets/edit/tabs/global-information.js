@@ -1,14 +1,13 @@
 import { D1, D2 } from '../../../../../i18n';
-import { useQuery } from '@tanstack/react-query';
 import { useThemes } from '../../useThemes';
 import { withCodesLists } from '../../../../../hooks/hooks';
-import apiOrganisations from '../../../../../remote-api/organisations-api';
 import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
 import { ClientSideError } from '../../../../../utils';
 import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
 import { CL_FREQ } from '../../../../../actions/constants/codeList';
 import { TextInput, Row } from '../../../../../new-architecture/components';
+import { useOrganizations } from '../../../../../new-architecture/utils/hooks/organizations';
 
 const GlobalInformationTab = ({
 	editingDataset,
@@ -19,12 +18,7 @@ const GlobalInformationTab = ({
 }) => {
 	const clFreqOptions = convertCodesListsToSelectOption(props[CL_FREQ]);
 
-	const { data: organisations } = useQuery({
-		queryFn: () => {
-			return apiOrganisations.getOrganisations();
-		},
-		queryKey: ['organisations'],
-	});
+	const { data: organisations } = useOrganizations();
 	const organisationsOptions =
 		organisations?.map(({ iri, label }) => ({ value: iri, label })) ?? [];
 

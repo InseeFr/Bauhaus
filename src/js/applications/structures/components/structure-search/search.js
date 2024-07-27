@@ -1,22 +1,24 @@
 import { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Select from '../../../../utils/components/select-rmes';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
 
 import D from '../../i18n/build-dictionary';
 import { COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import api from '../../apis/structure-api';
 
 import {
-	ConceptsAPI,
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
 	withTitle,
 	useUrlQueryParameters,
 } from '../../../../utils';
-import { Column } from '../../../../new-architecture/components/layout';
-import { TextInput } from '../../../../new-architecture/components/form/input';
+import {
+	Column,
+	TextInput,
+	Loading,
+} from '../../../../new-architecture/components';
+import { ConceptsApi } from '../../../../new-architecture/sdk';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 
@@ -175,7 +177,7 @@ const SearchListContainer = () => {
 	const stampListOptions = useStampsOptions();
 
 	useEffect(() => {
-		Promise.all([api.getStructuresForSearch(), ConceptsAPI.getConceptList()])
+		Promise.all([api.getStructuresForSearch(), ConceptsApi.getConceptList()])
 			.then(([structures, concepts]) => {
 				setItems(structures);
 				setConcepts(concepts);

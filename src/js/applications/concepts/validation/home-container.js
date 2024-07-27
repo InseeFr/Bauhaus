@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import ConceptsToValidate from './home';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import { OK, PENDING } from '../../../constants';
 import { ArrayUtils, Auth, useTitle } from '../../../utils';
 import D from '../../../i18n';
-import api from '../../../remote-api/concepts-api';
+import { ConceptsApi } from '../../../new-architecture/sdk';
 
 const ConceptsToValidateContainer = () => {
 	useTitle(D.conceptsTitle, D.btnValid);
@@ -17,12 +17,11 @@ const ConceptsToValidateContainer = () => {
 
 	const handleValidateConceptList = (ids) => {
 		setExporting(PENDING);
-		api.putConceptValidList(ids).finally(() => setExporting(OK));
+		ConceptsApi.putConceptValidList(ids).finally(() => setExporting(OK));
 	};
 
 	useEffect(() => {
-		api
-			.getConceptValidateList()
+		ConceptsApi.getConceptValidateList()
 			.then((body) => {
 				setConcepts(ArrayUtils.sortArrayByLabel(body));
 			})

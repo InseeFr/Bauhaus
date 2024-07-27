@@ -28,7 +28,7 @@ import {
 	XSD_TYPES,
 	IGEO_PAYS_OU_TERRITOIRE,
 } from '../../utils/constants';
-import { CodesList } from '../../../../utils';
+import { CodeListApi } from '../../../../new-architecture/sdk';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
@@ -37,8 +37,11 @@ import api from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
 import { convertToArrayIfDefined } from '../../../../utils/array-utils';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
-import { ContributorsInput } from '../../../../utils/contributors/contributors';
-import { TextInput, Row } from '../../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	ContributorsInput,
+} from '../../../../new-architecture/components';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -700,7 +703,7 @@ const AttributeCodeList = ({
 	)?.notation;
 
 	useEffect(() => {
-		CodesList.getCodesListCodes(codeListNotation, 1, 0).then((codes) =>
+		CodeListApi.getCodesListCodes(codeListNotation, 1, 0).then((codes) =>
 			setCodes(codes)
 		);
 	}, [codeListNotation]);

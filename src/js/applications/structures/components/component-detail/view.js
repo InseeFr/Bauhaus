@@ -22,8 +22,11 @@ import MainDictionary from '../../../../i18n/build-dictionary';
 import { ViewMenu } from './menu';
 import { MeasureAttributes } from './visualisation/measureAttributes';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
-import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
-import { PublicationMale, Row } from '../../../../new-architecture/components';
+import {
+	PublicationMale,
+	Row,
+	ContributorsVisualisation,
+} from '../../../../new-architecture/components';
 
 export const ComponentDetailView = ({
 	component,

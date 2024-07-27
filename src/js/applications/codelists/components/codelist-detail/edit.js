@@ -19,9 +19,12 @@ import './edit.scss';
 import MainDictionary from '../../../../i18n/build-dictionary';
 import { CodesCollapsiblePanel } from './codes-panel';
 import { useSelector } from 'react-redux';
-import { ContributorsInput } from '../../../../utils/contributors/contributors';
 import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
-import { TextInput, Row } from '../../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	ContributorsInput,
+} from '../../../../new-architecture/components';
 import Select from '../../../../utils/components/select-rmes';
 
 const defaultCodelist = {

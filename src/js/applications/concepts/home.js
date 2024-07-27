@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { PageTitle, Loading, Row } from '../../new-architecture/components';
 import D from '../../i18n';
-import api from '../../remote-api/concepts-api';
+import { ConceptsApi } from '../../new-architecture/sdk';
 import { Menu } from './menu';
 import { SearchableList, useTitle } from '../../utils';
 
@@ -11,8 +11,7 @@ const ConceptsHome = () => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		api
-			.getConceptList()
+		ConceptsApi.getConceptList()
 			.then(setConcepts)
 			.finally(() => setLoading(false));
 	}, []);

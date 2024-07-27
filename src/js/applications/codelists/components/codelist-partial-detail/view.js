@@ -21,7 +21,7 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { rowParams } from '../code-detail/code-columns';
 import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
-import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
+import { ContributorsVisualisation } from '../../../../new-architecture/components';
 import {
 	PublicationFemale,
 	Row,
