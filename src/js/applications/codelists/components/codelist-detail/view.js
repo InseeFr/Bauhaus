@@ -1,6 +1,5 @@
 import { Note, ErrorBloc } from '@inseefr/wilco';
 import {
-	HTMLUtils,
 	CreationUpdateItems,
 	useTitle,
 	ConfirmationDelete,
@@ -10,13 +9,13 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './view.scss';
 import { CodesCollapsiblePanel } from './codes-panel';
 import { ViewMenu } from './menu';
-import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import {
 	PublicationFemale,
 	Row,
 	ContributorsVisualisation,
+	DisseminationStatusVisualisation,
 } from '../../../../new-architecture/components';
-
+import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
 export const CodeListDetailView = ({
 	codelist,
 	handleUpdate,
@@ -35,12 +34,8 @@ export const CodeListDetailView = ({
 }) => {
 	useTitle(D.codelistsTitle, codelist?.labelLg1);
 
-	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
-		codelist.descriptionLg1
-	);
-	const descriptionLg2 = HTMLUtils.renderMarkdownElement(
-		codelist.descriptionLg2
-	);
+	const descriptionLg1 = renderMarkdownElement(codelist.descriptionLg1);
+	const descriptionLg2 = renderMarkdownElement(codelist.descriptionLg2);
 
 	const publish = () => {
 		publishComponent();

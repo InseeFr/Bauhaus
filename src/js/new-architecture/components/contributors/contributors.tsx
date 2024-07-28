@@ -4,7 +4,6 @@ import { SelectRmes } from '../../../utils/index';
 import { LabelRequired } from '@inseefr/wilco';
 import { Options } from '../../model/SelectOption';
 
-console.log(D);
 export const ContributorsVisualisation = ({
 	contributors,
 }: {

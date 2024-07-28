@@ -9,25 +9,21 @@ import {
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import {
-	HTMLUtils,
-	CreationUpdateItems,
-	useTitle,
-	ErrorBloc,
-} from '../../../../utils';
+import { CreationUpdateItems, useTitle } from '../../../../utils';
 import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from '../../../codelists/apis';
 import MainDictionary from '../../../../i18n/build-dictionary';
 import { ViewMenu } from './menu';
 import { MeasureAttributes } from './visualisation/measureAttributes';
-import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
 import {
 	PublicationMale,
 	Row,
 	ContributorsVisualisation,
+	DisseminationStatusVisualisation,
+	ErrorBloc,
 } from '../../../../new-architecture/components';
-
+import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
 export const ComponentDetailView = ({
 	component,
 	concepts = [],
@@ -71,12 +67,8 @@ export const ComponentDetailView = ({
 		(codelist) => component.codeList?.toString() === codelist.id?.toString()
 	)?.label;
 
-	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
-		component.descriptionLg1
-	);
-	const descriptionLg2 = HTMLUtils.renderMarkdownElement(
-		component.descriptionLg2
-	);
+	const descriptionLg1 = renderMarkdownElement(component.descriptionLg1);
+	const descriptionLg2 = renderMarkdownElement(component.descriptionLg2);
 	const [attachments, setAttachments] = useState([]);
 
 	useEffect(() => {

@@ -4,7 +4,10 @@ import './editor-html.scss';
 import { getLang } from '@inseefr/wilco';
 import { EditorState } from 'draft-js';
 
-import * as HTMLUtils from '../../utils/html-utils';
+import {
+	mdFromEditorState,
+	editorStateFromMd,
+} from '../../../new-architecture/utils/html-utils';
 
 export const DeleteButton = ({ onChange }) => {
 	const erease = () => {
@@ -37,17 +40,15 @@ export const toolbar = {
 };
 
 const EditorMarkdown = ({ text, handleChange }) => {
-	const [editorState, setEditorState] = useState(
-		HTMLUtils.editorStateFromMd('')
-	);
+	const [editorState, setEditorState] = useState(editorStateFromMd(''));
 	const editorRef = useRef();
 
 	useEffect(() => {
-		setEditorState(HTMLUtils.editorStateFromMd(text || ''));
+		setEditorState(editorStateFromMd(text || ''));
 	}, [text]);
 
 	const handleLeave = () => {
-		handleChange(HTMLUtils.mdFromEditorState(editorState));
+		handleChange(mdFromEditorState(editorState));
 	};
 
 	return (

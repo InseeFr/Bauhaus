@@ -4,7 +4,7 @@ import Field from '../../../../../applications/operations/msd/pages/sims-creatio
 import { flattenTree } from '../../../../../utils/msd';
 import SimsDocumentField from '../../../../../applications/operations/msd/pages/sims-creation/sims-document-field';
 import { withRouter } from 'react-router-dom';
-import { Loading } from '../../../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../../../new-architecture/components';
 
 import {
 	CancelButton,
@@ -23,7 +23,8 @@ import {
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
 } from '../../../../../applications/operations/msd/utils';
-import { HTMLUtils, ArrayUtils } from '../../../../../utils';
+import { ArrayUtils } from '../../../../../utils';
+import { mdFromEditorState } from '../../../../../new-architecture/utils/html-utils';
 import './sims-creation.scss';
 import { rangeType } from '../../../../../utils/msd/';
 import api from '../../../../../remote-api/operations-api';
@@ -150,10 +151,10 @@ class SimsCreation extends Component {
 			return {
 				...rubric,
 				labelLg1: rubric.labelLg1
-					? HTMLUtils.mdFromEditorState(rubric.labelLg1)
+					? mdFromEditorState(rubric.labelLg1)
 					: rubric.labelLg1,
 				labelLg2: rubric.labelLg2
-					? HTMLUtils.mdFromEditorState(rubric.labelLg2)
+					? mdFromEditorState(rubric.labelLg2)
 					: rubric.labelLg2,
 			};
 		}

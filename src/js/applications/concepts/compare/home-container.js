@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom';
 import { Loading } from '../../../new-architecture/components';
 import ConceptCompare from './home';
 import * as select from '../../../reducers';
-import { ArrayUtils, HTMLUtils, Stores } from '../../../utils';
+import { ArrayUtils, Stores } from '../../../utils';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import { emptyNotes } from '../../../utils/concepts/notes';
-
+import { rmesHtmlToRawHtml } from '../../../new-architecture/utils/html-utils';
 const ConceptCompareContainer = () => {
 	const { id } = useParams();
 	const langs = useSelector((state) => select.getLangs(state));
@@ -44,7 +44,7 @@ const ConceptCompareContainer = () => {
 										{},
 										emptyNotes,
 										Object.keys(notes[1]).reduce((formatted, noteName) => {
-											formatted[noteName] = HTMLUtils.rmesHtmlToRawHtml(
+											formatted[noteName] = rmesHtmlToRawHtml(
 												notes[1][noteName]
 											);
 											return formatted;

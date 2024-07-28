@@ -1,6 +1,11 @@
 import D, { D1, D2 } from '../../../../i18n';
 import { Component } from 'react';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import {
+	Loading,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+} from '../../../../new-architecture/components';
 
 import {
 	CancelButton,
@@ -18,9 +23,6 @@ import {
 	PageTitleBlock,
 	withTitle,
 	SelectRmes,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
 } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
 

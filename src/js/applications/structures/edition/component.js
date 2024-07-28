@@ -6,24 +6,20 @@ import {
 	TextInput,
 	Row,
 	ContributorsInput,
+	DisseminationStatusInput,
+	ClientSideError,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
 } from '../../../new-architecture/components';
 
 import Controls from './controls';
 import Components from './components';
 import StructureAPI from '../apis/structure-api';
 import { DISSEMINATION_STATUS } from '../utils/constants';
-import {
-	AppContext,
-	ClientSideError,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	Auth,
-	SelectRmes,
-} from '../../../utils';
+import { AppContext, Auth, SelectRmes } from '../../../utils';
 import D, { D1, D2 } from '../../../i18n';
 import { useSelector } from 'react-redux';
 import { validate } from './validation';
-import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
 import { useStampsOptions } from '../../../new-architecture/utils/hooks/stamps';
 
 const defaultDSD = {

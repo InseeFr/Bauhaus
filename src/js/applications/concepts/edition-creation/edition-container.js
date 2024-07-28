@@ -8,7 +8,7 @@ import { mergeWithAllConcepts } from '../../../utils/concepts/links';
 import D from '../../../i18n';
 import { Loading } from '../../../new-architecture/components';
 import { CLOSE_MATCH } from '../../../constants';
-import { HTMLUtils } from '../../../utils';
+import { rmesHtmlToRawHtml } from '../../../new-architecture/utils/html-utils';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import { emptyNotes } from '../../../utils/concepts/notes';
 import * as generalUtils from '../../../utils/concepts/general';
@@ -19,7 +19,7 @@ const formatNotes = (notes) => {
 		{},
 		emptyNotes,
 		Object.keys(notes).reduce((formatted, noteName) => {
-			formatted[noteName] = HTMLUtils.rmesHtmlToRawHtml(notes[noteName]);
+			formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
 			return formatted;
 		}, {})
 	);

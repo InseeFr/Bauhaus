@@ -6,7 +6,6 @@ import * as utils from './auth/open-id-connect-auth/token-utils';
 import { createContext } from 'react';
 
 export * as ArrayUtils from './utils/array-utils';
-export * as HTMLUtils from './utils/html-utils';
 export * as DateUtils from './utils/date-utils';
 
 export const Auth = {
@@ -23,7 +22,6 @@ export {
 } from './components/editor-html/editor-markdown';
 export { default as AdvancedSearchList } from './components/advanced-search/home';
 export * as ItemToSelectModel from './utils/item-to-select-model';
-export { default as ValidationButton } from './components/validationButton';
 export { default as SearchableList } from './components/searchable-list';
 export {
 	DateItem,
@@ -44,9 +42,3 @@ export { useTitle, withTitle, setDocumentTitle } from './utils/useTitle';
 export { default as SelectRmes } from './components/select-rmes';
 
 export { default as useUrlQueryParameters } from './hooks/useUrlQueryParameters';
-export {
-	default as ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
-} from './components/errors-bloc';
-export { default as RequiredIcon } from './components/required-icon';

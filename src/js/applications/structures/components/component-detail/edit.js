@@ -9,9 +9,6 @@ import {
 	AppContext,
 	useTitle,
 	ArrayUtils,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
 	Auth,
 	SelectRmes,
 } from '../../../../utils';
@@ -36,11 +33,14 @@ import { API } from '../../../codelists/apis';
 import api from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
 import { convertToArrayIfDefined } from '../../../../utils/array-utils';
-import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
 import {
 	TextInput,
 	Row,
 	ContributorsInput,
+	DisseminationStatusInput,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
 } from '../../../../new-architecture/components';
 
 const linkedAttributeLabelMapping = {

@@ -1,6 +1,6 @@
 import { withRouter } from 'react-router-dom';
 import { CancelButton, ActionToolbar, SaveButton } from '@inseefr/wilco';
-import { GlobalClientSideErrorBloc } from '../../../../utils';
+import { GlobalClientSideErrorBloc } from '../../../../new-architecture/components';
 import D from '../../../../i18n/build-dictionary';
 
 const ConceptCreateControlLayout = ({ errors, handleSave, redirectCancel }) => {

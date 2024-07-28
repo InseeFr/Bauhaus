@@ -3,10 +3,13 @@ import DatePickerRmes from '../../../applications/shared/date-picker-rmes';
 import InputRmes from '../../../applications/shared/input-rmes';
 import InputMultiRmes from '../../../applications/shared/input-multi-rmes';
 import { fields as generalFields } from '../../../utils/concepts/general';
-import { RequiredIcon, ClientSideError } from '../../../utils';
 import { LabelRequired } from '@inseefr/wilco';
-import { DisseminationStatusInput } from '../../../utils/dissemination-status/disseminationStatus';
-import { TextInput } from '../../../new-architecture/components';
+import {
+	TextInput,
+	DisseminationStatusInput,
+	ClientSideError,
+	RequiredIcon,
+} from '../../../new-architecture/components';
 import Select from './../../../utils/components/select-rmes';
 
 const handleFieldChange = (handleChange) =>

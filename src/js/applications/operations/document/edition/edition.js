@@ -1,13 +1,6 @@
 import { useMemo, useState } from 'react';
 import D, { D1, D2 } from '../../../../i18n';
-import {
-	EditorMarkdown,
-	PageTitleBlock,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
-	useTitle,
-} from '../../../../utils';
+import { EditorMarkdown, PageTitleBlock, useTitle } from '../../../../utils';
 import { validate } from '../../../../applications/operations/document/edition/validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -26,6 +19,9 @@ import {
 	TextInput,
 	Row,
 	Loading,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
 } from '../../../../new-architecture/components';
 import Select from '../../../../utils/components/select-rmes';
 

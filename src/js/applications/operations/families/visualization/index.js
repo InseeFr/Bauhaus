@@ -3,7 +3,11 @@ import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
-import { Loading } from '../../../../new-architecture/components';
+import {
+	Loading,
+	ErrorBloc,
+	ValidationButton,
+} from '../../../../new-architecture/components';
 
 import { useGoBack } from '../../../../hooks/hooks';
 import api from '../../../../remote-api/operations-api';
@@ -13,13 +17,10 @@ import OperationsFamilyVisualization from '../../../../applications/operations/f
 import {
 	Auth,
 	Stores,
-	HTMLUtils,
-	ValidationButton,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc,
 } from '../../../../utils';
-
+import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
 const Family = () => {
 	const { id } = useParams();
 	const langs = useSelector((state) => select.getLangs(state));
@@ -55,7 +56,7 @@ const Family = () => {
 	 * The publication button should be enabled only if RICH_TEXT value do not
 	 * have unsupported styles like STRIKETHROUGH, color or background color
 	 */
-	const publicationDisabled = HTMLUtils.containUnsupportedStyles(family);
+	const publicationDisabled = containUnsupportedStyles(family);
 	return (
 		<div className="container">
 			<PageTitleBlock

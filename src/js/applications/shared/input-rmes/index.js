@@ -1,4 +1,4 @@
-import { RequiredIcon } from '../../../utils';
+import { RequiredIcon } from '../../../new-architecture/components';
 
 function InputRmes({
 	colMd,

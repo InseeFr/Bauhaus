@@ -3,10 +3,13 @@ import { useThemes } from '../../useThemes';
 import { withCodesLists } from '../../../../../hooks/hooks';
 import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
-import { ClientSideError } from '../../../../../utils';
 import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
 import { CL_FREQ } from '../../../../../actions/constants/codeList';
-import { TextInput, Row } from '../../../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	ClientSideError,
+} from '../../../../../new-architecture/components';
 import { useOrganizations } from '../../../../../new-architecture/utils/hooks/organizations';
 
 const GlobalInformationTab = ({

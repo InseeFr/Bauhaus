@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import D, { D1, D2 } from '../../../i18n';
 import { DSURLToLabel, Note } from '@inseefr/wilco';
-import { DateUtils, HTMLUtils } from '../../../utils';
+import { DateUtils } from '../../../utils';
 import { Row } from '../../../new-architecture/components';
-
+import { renderMarkdownElement } from '../../../new-architecture/utils/html-utils';
 const General = ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
 	let mapping = {};
@@ -202,14 +202,14 @@ const General = ({ general, secondLang, langs }) => {
 			<Row>
 				<Note
 					title={D1.descriptionTitle}
-					text={HTMLUtils.renderMarkdownElement(general.descriptionLg1)}
+					text={renderMarkdownElement(general.descriptionLg1)}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
 				{secondLang && (
 					<Note
 						title={D2.descriptionTitle}
-						text={HTMLUtils.renderMarkdownElement(general.descriptionLg2)}
+						text={renderMarkdownElement(general.descriptionLg2)}
 						alone={false}
 						allowEmpty={true}
 					/>

@@ -6,6 +6,7 @@ jest.mock('../../../new-architecture/components', () => ({
 	TextInput: () => <></>,
 	Row: () => <></>,
 	CreatorsInput: () => <></>,
+	RequiredIcon: () => <></>,
 }));
 describe('collection-edition-creation-general', () => {
 	it('renders without crashing', () => {

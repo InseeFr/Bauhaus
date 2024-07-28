@@ -4,16 +4,18 @@ import { useHistory, useParams } from 'react-router-dom';
 import * as select from '../../../reducers';
 import { Loading } from '../../../new-architecture/components';
 import ConceptVisualization from './home';
-import { Auth, HTMLUtils, Stores } from '../../../utils';
+import { Auth, Stores } from '../../../utils';
 import { emptyNotes } from '../../../utils/concepts/notes';
 import { LoadingProvider } from './loading';
 import { ConceptsApi } from '../../../new-architecture/sdk';
+import { rmesHtmlToRawHtml } from '../../../new-architecture/utils/html-utils';
+
 const formatNotes = (notes) => {
 	return Object.assign(
 		{},
 		emptyNotes,
 		Object.keys(notes).reduce((formatted, noteName) => {
-			formatted[noteName] = HTMLUtils.rmesHtmlToRawHtml(notes[noteName]);
+			formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
 			return formatted;
 		}, {})
 	);

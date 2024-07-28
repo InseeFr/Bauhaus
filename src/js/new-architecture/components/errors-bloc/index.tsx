@@ -1,6 +1,12 @@
 import './errors-bloc.scss';
 
-export const ClientSideError = ({ error, id }) => {
+export const ClientSideError = ({
+	error,
+	id,
+}: {
+	error: string;
+	id: string;
+}) => {
 	return error ? (
 		<div
 			id={id}
@@ -9,7 +15,13 @@ export const ClientSideError = ({ error, id }) => {
 		></div>
 	) : null;
 };
-export const GlobalClientSideErrorBloc = ({ clientSideErrors, D }) => {
+export const GlobalClientSideErrorBloc = ({
+	clientSideErrors,
+	D,
+}: {
+	clientSideErrors: string[];
+	D: any;
+}) => {
 	return clientSideErrors?.length > 0 ? (
 		<div className="bauhaus-error-bloc alert alert-danger" role="alert">
 			{(
@@ -22,7 +34,13 @@ export const GlobalClientSideErrorBloc = ({ clientSideErrors, D }) => {
 		</div>
 	) : null;
 };
-const ErrorBloc = ({ error, D }) => {
+export const ErrorBloc = ({
+	error,
+	D,
+}: {
+	error: string[] | string;
+	D: any;
+}) => {
 	const errors = Array.isArray(error) ? error : [error];
 
 	const formattedErrors = errors.map((e) => {
@@ -55,5 +73,3 @@ const ErrorBloc = ({ error, D }) => {
 		</div>
 	));
 };
-
-export default ErrorBloc;

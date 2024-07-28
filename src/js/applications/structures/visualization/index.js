@@ -5,6 +5,8 @@ import {
 	Loading,
 	PublicationFemale,
 	ContributorsVisualisation,
+	DisseminationStatusVisualisation,
+	ErrorBloc,
 } from '../../../new-architecture/components';
 import { useSelector } from 'react-redux';
 import {
@@ -13,7 +15,6 @@ import {
 	PageTitleBlock,
 	useTitle,
 	CreationUpdateItems,
-	ErrorBloc,
 } from '../../../utils';
 import Components from './components';
 import { D1, D2 } from '../../../i18n';
@@ -21,7 +22,6 @@ import StructureVisualizationControl from '../components/structure-visualization
 import D from '../i18n/build-dictionary';
 import StructureAPI from '../apis/structure-api';
 import MainDictionary from '../../../i18n/build-dictionary';
-import { DisseminationStatusVisualisation } from '../../../utils/dissemination-status/disseminationStatus';
 
 export const StructureView = ({
 	secondLang,

@@ -1,8 +1,11 @@
-import { HTMLUtils } from '../../../../utils';
+import {
+	htmlIsEmpty,
+	htmlLength,
+} from '../../../../new-architecture/utils/html-utils';
 import D, { D1 } from '../../../../i18n';
 
 export const scndWithoutFirst = (first, second) => {
-	return !HTMLUtils.htmlIsEmpty(second) && HTMLUtils.htmlIsEmpty(first);
+	return !htmlIsEmpty(second) && htmlIsEmpty(first);
 };
 
 export const checkPrefLabelLg1Existing = (
@@ -52,14 +55,14 @@ const validate = (
 		);
 	}
 
-	if (HTMLUtils.htmlIsEmpty(notes.definitionLg1)) {
+	if (htmlIsEmpty(notes.definitionLg1)) {
 		errorMessage.push(D.emptyDefinitionLg1);
 		fields.definitionLg1 = D.emptyDefinitionLg1;
 	}
 
 	const isStatusPublicAndEmptyScopeNote =
 		newGeneral.disseminationStatus.includes('Public') &&
-		HTMLUtils.htmlIsEmpty(notes.scopeNoteLg1);
+		htmlIsEmpty(notes.scopeNoteLg1);
 
 	if (isStatusPublicAndEmptyScopeNote) {
 		errorMessage.push(D.emptyScopeNoteLg1);
@@ -76,11 +79,11 @@ const validate = (
 		fields.scopeNoteLg1 = D.hasScopeNoteLg2NotLg1;
 	}
 
-	if (HTMLUtils.htmlLength(notes.scopeNoteLg1) > maxLengthScopeNote) {
+	if (htmlLength(notes.scopeNoteLg1) > maxLengthScopeNote) {
 		errorMessage.push(D.tooLongScopeNote(maxLengthScopeNote));
 		fields.scopeNoteLg1 = D.tooLongScopeNote(maxLengthScopeNote);
 	}
-	if (HTMLUtils.htmlLength(notes.scopeNoteLg2) > maxLengthScopeNote) {
+	if (htmlLength(notes.scopeNoteLg2) > maxLengthScopeNote) {
 		errorMessage.push(D.tooLongScopeNote(maxLengthScopeNote));
 		fields.scopeNoteLg2 = D.tooLongScopeNote(maxLengthScopeNote);
 	}
