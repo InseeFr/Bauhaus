@@ -18,6 +18,7 @@ import { useStampsOptions } from '../../../new-architecture/utils/hooks/stamps';
 import { useOrganizationsOptions } from '../../../new-architecture/utils/hooks/organizations';
 import { transformModelToSelectOptions } from '../../../new-architecture/utils/transformer';
 import { useDisseminationStatusOptions } from '../../../new-architecture/utils/hooks/disseminationStatus';
+import { useGoBack } from '../../../hooks/hooks';
 
 export const ClassificationEdition = () => {
 	const goBack = useGoBack();
