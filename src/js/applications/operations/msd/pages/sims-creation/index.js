@@ -3,7 +3,6 @@ import D from '../../../../../i18n';
 import Field from '../../../../../applications/operations/msd/pages/sims-creation/sims-field';
 import { flattenTree } from '../../../../../utils/msd';
 import SimsDocumentField from '../../../../../applications/operations/msd/pages/sims-creation/sims-document-field';
-import { withRouter } from 'react-router-dom';
 import { Loading } from '../../../../../new-architecture/components/loading/loading';
 
 import {
@@ -36,9 +35,7 @@ class SimsCreation extends Component {
 		super(props);
 
 		this.unblock = this.props.history.block((location) => {
-			// withRouter utile
 			if (this.props.history.location?.pathname === location?.pathname) {
-				// withRouter utile
 				return true;
 			}
 
@@ -388,4 +385,4 @@ const withParentWithSims = (Component) => {
 };
 
 const AdvancedSimsCreation = withParentWithSims(SimsCreation);
-export default withRouter(AdvancedSimsCreation);
+export default AdvancedSimsCreation;
