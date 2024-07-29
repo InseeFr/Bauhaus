@@ -35,8 +35,6 @@ export { default as PageTitleBlock } from './components/page-title-block';
 export { default as ConfirmationDelete } from './components/confirmation-delete';
 export { default as Pagination } from './components/pagination';
 
-export { useQueryParam } from './utils/hooks';
-
 export const AppContext = createContext({});
 export { useTitle, withTitle, setDocumentTitle } from './utils/useTitle';
 export { default as SelectRmes } from './components/select-rmes';
