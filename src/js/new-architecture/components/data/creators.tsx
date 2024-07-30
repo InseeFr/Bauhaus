@@ -28,6 +28,9 @@ type OrganizationTypes = {
 };
 
 export const Organization = ({ creator, organizations }: OrganizationTypes) => {
+	if (!organizations) {
+		return <></>;
+	}
 	const organization = organizations.find((o) => o.iri === creator);
 	return <>{organization?.label}</>;
 };

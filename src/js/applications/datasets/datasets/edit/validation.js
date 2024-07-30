@@ -20,21 +20,18 @@ const Dataset = z.object({
 		.string({ required_error: D.mandatoryProperty(D1.creatorTitle) })
 		.min(1, { message: D.mandatoryProperty(D1.creatorTitle) }),
 	contributor: z
-		.string({
-			required_error: D.mandatoryProperty(D1.contributorTitle),
-		})
+		.string({ required_error: D.mandatoryProperty(D1.contributorTitle) })
 		.array()
-		.nonempty({
-			message: D.mandatoryProperty(D1.contributorTitle),
-		}),
+		.nonempty({ ssage: D.mandatoryProperty(D1.contributorTitle) }),
 	disseminationStatus: z
 		.string({
 			required_error: D.mandatoryProperty(D1.disseminationStatusTitle),
 		})
 		.min(1, { message: D.mandatoryProperty(D1.disseminationStatusTitle) }),
-	idSerie: z
+	wasGeneratedIRIs: z
 		.string({ required_error: D.mandatoryProperty(D1.generatedBy) })
-		.min(1, { message: D.mandatoryProperty(D1.generatedBy) }),
+		.array()
+		.nonempty({ message: D.mandatoryProperty(D1.generatedBy) }),
 });
 
 export const validate = ({ catalogRecord, ...otherFields }) =>

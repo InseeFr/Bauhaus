@@ -10,7 +10,7 @@ describe('validation', function () {
 					contributor: ['contributor'],
 				},
 				disseminationStatus: 'status',
-				idSerie: 'id',
+				wasGeneratedIRIs: ['id'],
 			})
 		).toEqual({
 			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
@@ -21,7 +21,7 @@ describe('validation', function () {
 				creator: '',
 				contributor: '',
 				disseminationStatus: '',
-				idSerie: '',
+				wasGeneratedIRIs: '',
 			},
 		});
 	});
@@ -34,7 +34,7 @@ describe('validation', function () {
 					contributor: ['contributor'],
 				},
 				disseminationStatus: 'status',
-				idSerie: 'id',
+				wasGeneratedIRIs: ['id'],
 			})
 		).toEqual({
 			errorMessage: ['The property <strong>Title</strong> is required.'],
@@ -45,11 +45,11 @@ describe('validation', function () {
 				creator: '',
 				contributor: '',
 				disseminationStatus: '',
-				idSerie: '',
+				wasGeneratedIRIs: '',
 			},
 		});
 	});
-	it('should return an error for creator, contributor, disseminationStatus and idSerie', function () {
+	it('should return an error for creator, contributor, disseminationStatus and wasGeneratedIRIs', function () {
 		expect(
 			validate({
 				labelLg1: 'labelLg2',
@@ -71,7 +71,34 @@ describe('validation', function () {
 				contributor: 'The property <strong>Gestionnaire</strong> is required.',
 				disseminationStatus:
 					'The property <strong>Statut de diffusion</strong> is required.',
-				idSerie: 'The property <strong>Produit de</strong> is required.',
+				wasGeneratedIRIs:
+					'The property <strong>Produit de</strong> is required.',
+			},
+		});
+	});
+	it('should return an error if wasGeneratedIRIs is an empty array', function () {
+		expect(
+			validate({
+				labelLg1: 'labelLg2',
+				labelLg2: 'labelLg2',
+				catalogRecord: {
+					creator: 'creator',
+					contributor: ['contributor'],
+				},
+				disseminationStatus: 'status',
+				wasGeneratedIRIs: [],
+			})
+		).toEqual({
+			errorMessage: ['The property <strong>Produit de</strong> is required.'],
+			fields: {
+				labelLg1: '',
+				labelLg2: '',
+				altIdentifier: '',
+				creator: '',
+				contributor: '',
+				disseminationStatus: '',
+				wasGeneratedIRIs:
+					'The property <strong>Produit de</strong> is required.',
 			},
 		});
 	});
@@ -85,7 +112,7 @@ describe('validation', function () {
 					contributor: ['contributor'],
 				},
 				disseminationStatus: 'status',
-				idSerie: 'id',
+				wasGeneratedIRIs: ['id'],
 			})
 		).toEqual({
 			errorMessage: [],
@@ -96,7 +123,7 @@ describe('validation', function () {
 				creator: '',
 				contributor: '',
 				disseminationStatus: '',
-				idSerie: '',
+				wasGeneratedIRIs: '',
 			},
 		});
 	});

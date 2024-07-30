@@ -1,13 +1,12 @@
 import { D1 } from '../../../../../i18n';
 import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { withCodesLists } from '../../../../../hooks/hooks';
 import api from '../../../api/datasets-api';
-import operationSeries from '../../../../../remote-api/operations-api';
 import { LabelRequired } from '@inseefr/wilco';
 import { SelectRmes } from '../../../../../utils';
 import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
 import { useStampsOptions } from '../../../../../new-architecture/utils/hooks/stamps';
+import { useSeriesOperationsOptions } from './useSeriesOperationsOptions';
 import {
 	TextInput,
 	Row,
@@ -25,17 +24,7 @@ const InternalManagementTab = ({
 }) => {
 	const stampsOptions = useStampsOptions();
 
-	const { data: seriesOptions = [] } = useQuery({
-		queryKey: ['series'],
-		queryFn: () => {
-			return operationSeries.getSeriesList().then((stamps) =>
-				stamps.map((serie) => ({
-					value: serie.id,
-					label: serie.label,
-				}))
-			);
-		},
-	});
+	const seriesOperationsOptions = useSeriesOperationsOptions();
 
 	const clAccessRightsOptions = convertCodesListsToSelectOption(
 		props['CL_ACCESS_RIGHTS']
@@ -158,13 +147,19 @@ const InternalManagementTab = ({
 				<div className="col-md-12 form-group">
 					<LabelRequired>{D1.generatedBy}</LabelRequired>
 					<SelectRmes
-						unclearable
-						value={editingDataset.idSerie}
-						options={seriesOptions}
-						onChange={(option) => {
+						multi={true}
+						value={editingDataset.wasGeneratedIRIs}
+						options={seriesOperationsOptions}
+						optionRenderer={(v) => {
+							if (!v.value.includes('/serie/')) {
+								return <span className="padding">{v.label}</span>;
+							}
+							return `${v.label}`;
+						}}
+						onChange={(values) => {
 							setEditingDataset({
 								...editingDataset,
-								idSerie: option,
+								wasGeneratedIRIs: values.map(({ value }) => value),
 							});
 							setClientSideErrors((clientSideErrors) => ({
 								...clientSideErrors,
@@ -173,7 +168,7 @@ const InternalManagementTab = ({
 						}}
 					/>
 					<ClientSideError
-						error={clientSideErrors?.fields?.idSerie}
+						error={clientSideErrors?.fields?.wasGeneratedIRIs}
 					></ClientSideError>
 				</div>
 			</Row>

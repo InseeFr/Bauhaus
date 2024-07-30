@@ -1,4 +1,4 @@
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import * as select from '../../../../reducers';
 import {
@@ -32,6 +32,7 @@ import {
 } from '../../../../new-architecture/components';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
 import { useOrganizations } from '../../../../new-architecture/utils/hooks/organizations';
+import { WasGeneratedByBlock } from './wasGeneratedByBlock';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -174,9 +175,9 @@ const Dataset = (props) => {
 							)}
 							<li>
 								{D.generatedBy} :{' '}
-								<Link to={`/operations/series/${dataset.idSerie}`}>
-									{dataset?.serie?.prefLabelLg1}
-								</Link>
+								<WasGeneratedByBlock
+									iris={dataset.wasGeneratedIRIs}
+								></WasGeneratedByBlock>
 							</li>
 							<ConditionalDisplay data={dataset.themes}>
 								<li>
