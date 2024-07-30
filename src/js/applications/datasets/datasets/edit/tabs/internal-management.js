@@ -151,7 +151,6 @@ const InternalManagementTab = ({
 							return `${v.label}`;
 						}}
 						onChange={(values) => {
-							console.log(values);
 							setEditingDataset({
 								...editingDataset,
 								wasGeneratedIRIs: values.map(({ value }) => value),
