@@ -17,6 +17,28 @@ const dictionary = {
 			en: 'New',
 		},
 	},
+	disseminationStatus: {
+		DSPublicGeneriqueTitle: {
+			fr: 'Public générique',
+			en: 'Public generic',
+		},
+		DSPublicSpecifiqueTitle: {
+			fr: 'Public spécifique',
+			en: 'Public specific',
+		},
+		DSPrivateTitle: {
+			fr: 'Privé',
+			en: 'Private',
+		},
+		title: {
+			fr: 'Statut de diffusion',
+			en: 'Dissemination status',
+		},
+		placeholder: {
+			fr: 'Sélectionnez un statut de diffusion...',
+			en: 'Select dissemination status...',
+		},
+	},
 	loading: {
 		auth: {
 			fr: 'Authentification en cours...',
@@ -55,6 +77,16 @@ const dictionary = {
 		creatorTitle: {
 			fr: 'Propriétaire',
 			en: 'Owner',
+		},
+	},
+	contributors: {
+		title: {
+			fr: 'Gestionnaire',
+			en: 'Contributor',
+		},
+		stampsPlaceholder: {
+			fr: 'Sélectionnez un timbre...',
+			en: 'Select stamp...',
 		},
 	},
 };

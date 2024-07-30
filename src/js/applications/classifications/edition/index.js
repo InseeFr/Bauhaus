@@ -1,24 +1,24 @@
 import { useClassification, useUpdateClassification } from '../hooks';
 import { useParams, Redirect } from 'react-router-dom';
 import { ActionToolbar, LabelRequired } from '@inseefr/wilco';
-import { useGoBack } from '../../../hooks/hooks';
-import {
-	ClientSideError,
-	EditorMarkdown,
-	GlobalClientSideErrorBloc,
-	PageTitleBlock,
-	useTitle,
-} from '../../../utils';
+import { EditorMarkdown, PageTitleBlock, useTitle } from '../../../utils';
 import { useForm, Controller } from 'react-hook-form';
 import SelectRmes from '../../../utils/components/select-rmes';
 import D, { D1, D2 } from '../../../i18n';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../../remote-api/classifications-api';
-import { TextInput, Row, Loading } from '../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	Loading,
+	ClientSideError,
+	GlobalClientSideErrorBloc,
+} from '../../../new-architecture/components';
 import { useStampsOptions } from '../../../new-architecture/utils/hooks/stamps';
 import { useOrganizationsOptions } from '../../../new-architecture/utils/hooks/organizations';
 import { transformModelToSelectOptions } from '../../../new-architecture/utils/transformer';
 import { useDisseminationStatusOptions } from '../../../new-architecture/utils/hooks/disseminationStatus';
+import { useGoBack } from '../../../hooks/hooks';
 
 export const ClassificationEdition = () => {
 	const goBack = useGoBack();

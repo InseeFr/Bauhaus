@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
-import ValidationButton from './';
+import { ValidationButton } from './';
 
 describe('<ValidationButton', () => {
 	it('should return nothing if the object is already validated', () => {

@@ -1,7 +1,7 @@
 import ConceptVisualizationControls from './controls';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
-jest.mock('../../../remote-api/concepts-api');
+jest.mock('../../../new-architecture/sdk');
 
 describe('concept-visualization-controls', () => {
 	it('renders without crashing', () => {

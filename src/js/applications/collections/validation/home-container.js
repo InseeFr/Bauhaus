@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CollectionsToValidate from './home';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import { Auth, useTitle } from '../../../utils';
 import D from '../../../i18n';
-import api from '../../../remote-api/concepts-api';
+import { ConceptsApi } from '../../../new-architecture/sdk';
 
 const CollectionsToValidateContainer = () => {
 	useTitle(D.collectionsTitle, D.btnValid);
@@ -18,15 +18,13 @@ const CollectionsToValidateContainer = () => {
 
 	const handleValidateCollectionList = (ids) => {
 		setSaving(true);
-		api
-			.putCollectionValidList(ids)
+		ConceptsApi.putCollectionValidList(ids)
 			.then(() => setSaving(false))
 			.finally(() => history.push('/collections'));
 	};
 
 	useEffect(() => {
-		api
-			.getCollectionValidateList()
+		ConceptsApi.getCollectionValidateList()
 			.then(setCollections)
 			.then(() => setLoading(false));
 	}, []);

@@ -5,22 +5,23 @@ import { useSelector } from 'react-redux';
 import * as select from '../../../../reducers';
 import OperationsIndicatorVisualization from '../../../../applications/operations/indicators/visualization/general';
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import {
+	Loading,
+	ErrorBloc,
+	ValidationButton,
+} from '../../../../new-architecture/components';
 import { useGoBack } from '../../../../hooks/hooks';
 import api from '../../../../remote-api/operations-api';
 
 import { CL_FREQ } from '../../../../actions/constants/codeList';
 import {
 	Auth,
-	HTMLUtils,
-	ValidationButton,
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc,
 } from '../../../../utils';
 import { useCodesList } from '../../../../hooks/hooks';
-
+import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
 const IndicatorVisualizationContainer = () => {
 	const { id } = useParams();
 
@@ -62,7 +63,7 @@ const IndicatorVisualizationContainer = () => {
 	 * The publication button should be enabled only if RICH_TEXT value do not
 	 * have unsupported styles like STRIKETHROUGH, color or background color
 	 */
-	const publicationDisabled = HTMLUtils.containUnsupportedStyles(indicator);
+	const publicationDisabled = containUnsupportedStyles(indicator);
 	const checkStamp = (stamp) => indicator.creators.includes(stamp);
 
 	return (

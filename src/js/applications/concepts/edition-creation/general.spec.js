@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import ConceptGeneral from './general';
 import { empty } from '../../../utils/concepts/general';
 
-jest.mock('../../../utils/dissemination-status/disseminationStatus');
+jest.mock('../../../new-architecture/components');
 
 describe('concept-edition-creation-general', () => {
 	it('renders without crashing', () => {

@@ -8,9 +8,8 @@ import {
 	ErrorBloc,
 	Table,
 } from '@inseefr/wilco';
+import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
 import {
-	HTMLUtils,
-	ValidationButton,
 	useTitle,
 	ConfirmationDelete,
 	CreationUpdateItems,
@@ -20,11 +19,12 @@ import {
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { rowParams } from '../code-detail/code-columns';
-import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
-import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import {
 	PublicationFemale,
 	Row,
+	ValidationButton,
+	ContributorsVisualisation,
+	DisseminationStatusVisualisation,
 } from '../../../../new-architecture/components';
 
 export const CodeListPartialDetailView = ({
@@ -45,12 +45,8 @@ export const CodeListPartialDetailView = ({
 }) => {
 	useTitle(D.codelistsPartialTitle, codelist?.labelLg1);
 
-	const descriptionLg1 = HTMLUtils.renderMarkdownElement(
-		codelist.descriptionLg1
-	);
-	const descriptionLg2 = HTMLUtils.renderMarkdownElement(
-		codelist.descriptionLg2
-	);
+	const descriptionLg1 = renderMarkdownElement(codelist.descriptionLg1);
+	const descriptionLg2 = renderMarkdownElement(codelist.descriptionLg2);
 
 	const publish = () => {
 		publishComponent();

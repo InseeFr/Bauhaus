@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import D from '../../../i18n';
-import { ErrorBloc } from '../../../utils';
 import {
 	ExportButton,
 	Pagination,
@@ -12,7 +11,11 @@ import {
 	filterDeburr,
 	ReturnButton,
 } from '@inseefr/wilco';
-import { TextInput, PageTitle } from '../../../new-architecture/components';
+import {
+	TextInput,
+	PageTitle,
+	ErrorBloc,
+} from '../../../new-architecture/components';
 
 const trackItems = (items) => {
 	return (

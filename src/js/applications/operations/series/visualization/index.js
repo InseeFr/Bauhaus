@@ -5,7 +5,11 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import OperationsSerieVisualization from '../../../../applications/operations/series/visualization/home';
 import { useGoBack } from '../../../../hooks/hooks';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import {
+	Loading,
+	ErrorBloc,
+	ValidationButton,
+} from '../../../../new-architecture/components';
 
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import {
@@ -15,13 +19,11 @@ import {
 
 import {
 	Auth,
-	HTMLUtils,
-	ValidationButton,
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc,
 } from '../../../../utils';
+import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
 import api from '../../../../remote-api/operations-api';
 import { useCodesList } from '../../../../hooks/hooks';
 
@@ -71,7 +73,7 @@ const SeriesVisualizationContainer = () => {
 	 * The publication button should be enabled only if RICH_TEXT value do not
 	 * have unsupported styles like STRIKETHROUGH, color or background color
 	 */
-	const publicationDisabled = HTMLUtils.containUnsupportedStyles(series);
+	const publicationDisabled = containUnsupportedStyles(series);
 	const checkStamp = (stamp) => series.creators.includes(stamp);
 	return (
 		<div className="container">

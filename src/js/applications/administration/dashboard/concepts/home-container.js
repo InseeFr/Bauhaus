@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components';
 import Dashboard from './home';
-import api from '../../../../remote-api/concepts-api';
+import { ConceptsApi } from '../../../../new-architecture/sdk';
 
 const emptyItem = {
 	id: '',
@@ -22,7 +22,10 @@ const DashboardContainer = () => {
 	const [collections, setCollections] = useState([]);
 
 	useEffect(() => {
-		Promise.all([api.getConceptSearchList(), api.getCollectionDashboardList()])
+		Promise.all([
+			ConceptsApi.getConceptSearchList(),
+			ConceptsApi.getCollectionDashboardList(),
+		])
 			.then(([conceptsList, collectionsList]) => {
 				setConcepts(
 					conceptsList.map((concept) => Object.assign({}, emptyItem, concept))

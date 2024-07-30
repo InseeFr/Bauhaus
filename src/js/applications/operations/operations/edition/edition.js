@@ -8,15 +8,15 @@ import {
 	LabelRequired,
 } from '@inseefr/wilco';
 import { validate } from './validation';
+import { PageTitleBlock, withTitle } from '../../../../utils';
+import api from '../../../../remote-api/operations-api';
 import {
-	PageTitleBlock,
-	withTitle,
+	TextInput,
+	Loading,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-} from '../../../../utils';
-import api from '../../../../remote-api/operations-api';
-import { TextInput, Loading } from '../../../../new-architecture/components';
+} from '../../../../new-architecture/components';
 import Select from '../../../../utils/components/select-rmes';
 
 const defaultOperation = {

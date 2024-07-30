@@ -6,9 +6,9 @@ import CollectionEditionCreation from './home';
 import buildPayload from '../../../utils/collections/build-payload/build-payload';
 import D from '../../../i18n';
 import { cleanId } from '@inseefr/wilco';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 
-import api from '../../../remote-api/concepts-api';
+import { ConceptsApi } from '../../../new-architecture/sdk';
 import apiCollections from '../../../remote-api/concepts-collection-api';
 
 const EditionContainer = () => {
@@ -26,8 +26,8 @@ const EditionContainer = () => {
 
 	useEffect(() => {
 		Promise.all([
-			api.getCollectionGeneral(id),
-			api.getCollectionMembersList(id),
+			ConceptsApi.getCollectionGeneral(id),
+			ConceptsApi.getCollectionMembersList(id),
 		])
 			.then(([general, members]) => {
 				setCollection({ general, members });
@@ -36,7 +36,10 @@ const EditionContainer = () => {
 	}, [id]);
 
 	useEffect(() => {
-		Promise.all([api.getConceptList(), apiCollections.getCollectionList()])
+		Promise.all([
+			ConceptsApi.getConceptList(),
+			apiCollections.getCollectionList(),
+		])
 			.then(([conceptsList, collectionsList]) => {
 				setConceptList(conceptsList);
 				setCollectionList(collectionsList);
@@ -47,8 +50,7 @@ const EditionContainer = () => {
 	const handleUpdate = useCallback(
 		(data) => {
 			setSaving(true);
-			api
-				.putCollection(data.general.id, buildPayload(data, 'UPDATE'))
+			ConceptsApi.putCollection(data.general.id, buildPayload(data, 'UPDATE'))
 				.then(() => {
 					history.push(`/collection/${cleanId(id)}`);
 				})

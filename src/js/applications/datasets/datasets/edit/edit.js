@@ -5,7 +5,10 @@ import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useDataset } from '../../hooks';
 import api from '../../api/datasets-api';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import {
+	Loading,
+	GlobalClientSideErrorBloc,
+} from '../../../../new-architecture/components';
 
 import {
 	ActionToolbar,
@@ -14,12 +17,7 @@ import {
 	goBackOrReplace,
 	SaveButton,
 } from '@inseefr/wilco';
-import {
-	Auth,
-	GlobalClientSideErrorBloc,
-	PageTitleBlock,
-	useTitle,
-} from '../../../../utils';
+import { Auth, PageTitleBlock, useTitle } from '../../../../utils';
 import { GlobalInformation } from './tabs/global-information';
 import { InternalManagement } from './tabs/internal-management';
 import { Notes } from './tabs/notes';

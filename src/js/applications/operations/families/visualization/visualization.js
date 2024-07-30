@@ -1,13 +1,13 @@
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from '../../../../i18n';
 import RelationsView from '../../../../applications/operations/shared/relations';
-import { HTMLUtils, withTitle, CreationUpdateItems } from '../../../../utils';
+import { withTitle, CreationUpdateItems } from '../../../../utils';
 import D from '../../../../i18n/build-dictionary';
 import {
 	PublicationFemale,
 	Row,
 } from '../../../../new-architecture/components';
-
+import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
 function OperationsFamilyVisualization({
 	attr,
 	langs: { lg1, lg2 },
@@ -52,7 +52,7 @@ function OperationsFamilyVisualization({
 
 			<Row>
 				<Note
-					text={HTMLUtils.renderMarkdownElement(attr.abstractLg1)}
+					text={renderMarkdownElement(attr.abstractLg1)}
 					title={D1.summary}
 					lang={lg1}
 					alone={!secondLang}
@@ -60,7 +60,7 @@ function OperationsFamilyVisualization({
 				/>
 				{secondLang && (
 					<Note
-						text={HTMLUtils.renderMarkdownElement(attr.abstractLg2)}
+						text={renderMarkdownElement(attr.abstractLg2)}
 						title={D2.summary}
 						lang={lg2}
 						alone={false}

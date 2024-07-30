@@ -19,11 +19,9 @@ import * as A from '../../../../../actions/constants';
 
 import {
 	Auth,
-	ValidationButton,
 	CheckSecondLang,
 	ConfirmationDelete,
 	CreationUpdateItems,
-	ErrorBloc,
 } from '../../../../../utils';
 import {
 	hasLabelLg2,
@@ -39,6 +37,8 @@ import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import {
 	PublicationFemale,
 	Row,
+	ErrorBloc,
+	ValidationButton,
 } from '../../../../../new-architecture/components';
 
 export default function SimsVisualisation({

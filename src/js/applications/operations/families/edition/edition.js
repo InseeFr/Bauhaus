@@ -1,13 +1,6 @@
 import { Component } from 'react';
 import { D1, D2 } from '../../../../i18n';
-import {
-	EditorMarkdown,
-	PageTitleBlock,
-	withTitle,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
-} from '../../../../utils';
+import { EditorMarkdown, PageTitleBlock, withTitle } from '../../../../utils';
 
 import {
 	CancelButton,
@@ -22,6 +15,9 @@ import {
 	TextInput,
 	Row,
 	Loading,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
 } from '../../../../new-architecture/components';
 
 const defaultFamily = {

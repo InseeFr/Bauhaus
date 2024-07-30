@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
-import { CodesList } from '../../../../utils';
+import { Loading } from '../../../../new-architecture/components';
+import { CodeListApi } from '../../../../new-architecture/sdk';
 import { API } from '../../apis';
 import { formatPartialCodeList } from '../../utils';
 import { DumbCodelistPartialDetailEdit } from './edit';
@@ -93,7 +93,7 @@ const CodelistPartialEdit = (props) => {
 					const idParent = globalCodeListOptions.find(
 						(parent) => parent.iriParent === cl.iriParent
 					).value;
-					return CodesList.getCodesListCodes(idParent, 1, 0).then((codes) => {
+					return CodeListApi.getCodesListCodes(idParent, 1, 0).then((codes) => {
 						setCodelist(formatPartialCodeList(cl, codes.items));
 					});
 				})

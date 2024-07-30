@@ -1,11 +1,11 @@
 import D, { D1, D2 } from '../../../i18n';
 import InputRmes from '../../../applications/shared/input-rmes';
 import { fields as generalFields } from '../../../utils/collections/general';
-import { RequiredIcon } from '../../../utils';
 import {
 	TextInput,
 	Row,
 	CreatorsInput,
+	RequiredIcon,
 } from '../../../new-architecture/components';
 
 const handleFieldChange = (handleChange) =>

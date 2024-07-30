@@ -1,12 +1,12 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import api from '../../../remote-api/concepts-api';
+import { ConceptsApi } from '../../../new-architecture/sdk';
 import { saveFileFromHttpResponse } from '../files';
 
 export const useConcepts = () => {
 	return useQuery({
 		queryKey: ['concepts'],
 		queryFn: () => {
-			return api.getConceptList();
+			return ConceptsApi.getConceptList();
 		},
 	});
 };
@@ -14,9 +14,12 @@ export const useConcepts = () => {
 export const useConceptExporter = () => {
 	return useMutation({
 		mutationFn: ({ ids, type, lang, withConcepts }) => {
-			return api
-				.getConceptExportZipType(ids, type, lang, withConcepts)
-				.then(saveFileFromHttpResponse);
+			return ConceptsApi.getConceptExportZipType(
+				ids,
+				type,
+				lang,
+				withConcepts
+			).then(saveFileFromHttpResponse);
 		},
 	});
 };

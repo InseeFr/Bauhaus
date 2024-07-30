@@ -6,10 +6,6 @@ import {
 	PageTitleBlock,
 	withTitle,
 	SelectRmes,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
-	RequiredIcon,
 } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
@@ -19,6 +15,10 @@ import { validate } from '../../../../applications/operations/indicators/edition
 import {
 	Loading,
 	CreatorsInput,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+	RequiredIcon,
 } from '../../../../new-architecture/components';
 import api from '../../../../remote-api/operations-api';
 

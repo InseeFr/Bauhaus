@@ -1,7 +1,10 @@
 import { Component } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import './editor-html.scss';
-import * as HTMLUtils from '../../utils/html-utils';
+import {
+	editorStateFromHtml,
+	htmlFromEditorState,
+} from '../../../new-architecture/utils/html-utils';
 import { DeleteButton } from './editor-markdown';
 
 const toolbar = {
@@ -21,28 +24,26 @@ class EditorHTML extends Component {
 		super(props);
 		const { text } = props;
 		this.state = {
-			editorState: HTMLUtils.editorStateFromHtml(text || ''),
+			editorState: editorStateFromHtml(text || ''),
 		};
 		this.handleChange = (editorState) => {
 			this.setState({
 				editorState,
 			});
-			this.props.handleChange(HTMLUtils.htmlFromEditorState(editorState));
+			this.props.handleChange(htmlFromEditorState(editorState));
 		};
 		//If we only update the parent props when we leave the editor,
 		//some controls appear as disabled even if the editor has some content.
 		//Hence this approach (with `onBlur`) has been desactivated and we give
 		//back the `html` to the parent component every time a key is pressed.
 		this.handleLeave = () =>
-			this.props.handleChange(
-				HTMLUtils.htmlFromEditorState(this.state.editorState)
-			);
+			this.props.handleChange(htmlFromEditorState(this.state.editorState));
 	}
 
 	componentWillReceiveProps({ text }) {
 		if (this.props.smart) return;
 		this.setState({
-			editorState: HTMLUtils.editorStateFromHtml(text || ''),
+			editorState: editorStateFromHtml(text || ''),
 		});
 	}
 
