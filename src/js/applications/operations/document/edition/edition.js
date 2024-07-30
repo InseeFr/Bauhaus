@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 import D, { D1, D2 } from '../../../../i18n';
 import { EditorMarkdown, PageTitleBlock, useTitle } from '../../../../utils';
-import { validate } from '../../../../applications/operations/document/edition/validation';
+import { validate } from './validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
-import { useGoBack } from '../../../../hooks/hooks';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 
 import {
 	CancelButton,

@@ -1,7 +1,7 @@
 import { Button, ActionToolbar } from '@inseefr/wilco';
 import D from '../../../i18n';
 import { Auth } from '../../../utils';
-import { useGoBack } from '../../../hooks/hooks';
+import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
 
 const ItemControls = ({ classificationId, itemId, version }) => {
 	const goBack = useGoBack();

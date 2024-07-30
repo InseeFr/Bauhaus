@@ -1,7 +1,7 @@
 import { Component, useEffect, useState } from 'react';
 import MSDLayout from '../../../applications/operations/msd/layout/';
 import { connect } from 'react-redux';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import { NOT_LOADED, LOADED } from '../../../constants';
 import loadMetadataStructure from '../../../actions/operations/metadatastructure/list';
 import { D1, D2 } from '../../../i18n';
@@ -24,7 +24,7 @@ import api from '../../../remote-api/operations-api';
 import './msd.scss';
 import { isEssentialRubricKo } from './sims-field-title';
 import { SimsContextProvider } from './context';
-import { useGoBack } from '../../../hooks/hooks';
+import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
 
 export const HELP = 'HELP';
 export const CREATE = 'CREATE';

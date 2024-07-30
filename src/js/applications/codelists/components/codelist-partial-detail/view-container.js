@@ -9,7 +9,7 @@ import D from '../../i18n/build-dictionary';
 import ComponentTitle from '../codelist-detail/title';
 import { CodeListPartialDetailView } from './view';
 import { useQuery } from '@tanstack/react-query';
-import { useGoBack } from '../../../../hooks/hooks';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import {
 	Deleting,
 	Publishing,

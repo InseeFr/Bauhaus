@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
-import { useGoBack } from '../../../../hooks/hooks';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 
 function ClassificationControls() {
 	const location = useLocation();

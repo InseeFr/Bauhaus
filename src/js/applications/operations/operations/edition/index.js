@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components';
 import OperationsOperationEdition from '../../../../applications/operations/operations/edition/edition';
 import api from '../../../../remote-api/operations-api';
-import { useGoBack } from '../../../../hooks/hooks';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 
 const OperationEditionContainer = (props) => {
 	const { id } = useParams();

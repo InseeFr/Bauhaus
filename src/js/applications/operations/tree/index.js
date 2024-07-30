@@ -7,7 +7,7 @@ import D from '../../../i18n';
 import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
 import { PageTitle, Row } from '../../../new-architecture/components';
 
-import { useGoBack } from '../../../hooks/hooks';
+import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
 
 import './tree.scss';
 import { useTitle } from '../../../utils';

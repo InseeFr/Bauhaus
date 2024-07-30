@@ -13,7 +13,7 @@ import {
 	Loading,
 	Row,
 } from '../../../../new-architecture/components';
-import { useGoBack } from '../../../../hooks/hooks';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 
 const titleMapping = {
 	definition: 'classificationsDefinition',

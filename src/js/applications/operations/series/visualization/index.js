@@ -4,7 +4,7 @@ import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import OperationsSerieVisualization from '../../../../applications/operations/series/visualization/home';
-import { useGoBack } from '../../../../hooks/hooks';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import {
 	Loading,
 	ErrorBloc,

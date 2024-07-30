@@ -8,6 +8,6 @@ const api = {
 		`${notation}/codes?page=${page}&per_page=${perPage}`,
 	],
 	getPartialCodesList: (notation: string) => [`partial/${notation}`],
-} as const;
+};
 
 export const CodeListApi = buildApi('codeList', api);

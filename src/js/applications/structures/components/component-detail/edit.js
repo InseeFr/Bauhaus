@@ -32,7 +32,7 @@ import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from '../../../codelists/apis';
 import api from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
-import { convertToArrayIfDefined } from '../../../../utils/array-utils';
+import { convertToArrayIfDefined } from '../../../../new-architecture/utils/array-utils';
 import {
 	TextInput,
 	Row,

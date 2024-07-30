@@ -1,7 +1,7 @@
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components';
 
-import { useGoBack } from '../../../../hooks/hooks';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import {
 	Auth,
 	CheckSecondLang,

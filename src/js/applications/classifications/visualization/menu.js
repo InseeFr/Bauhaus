@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { ReturnButton, Button, ActionToolbar } from '@inseefr/wilco';
 import { Auth } from '../../../utils';
 import D from '../../../i18n';
-import { useGoBack } from '../../../hooks/hooks';
+import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
 import { ValidationButton } from '../../../new-architecture/components';
 const ClassificationControls = ({ classification, publish }) => {
 	const goBack = useGoBack();
