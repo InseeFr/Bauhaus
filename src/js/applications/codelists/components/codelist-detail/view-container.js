@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { goBack } from '@inseefr/wilco';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import { Loading } from '../../../../new-architecture/components/loading/loading';
 import { Stores } from '../../../../utils';
 import { formatCodeList } from '../../utils';
@@ -11,6 +11,8 @@ import ComponentTitle from './title';
 import { CodeListDetailView } from './view';
 
 const CodelistComponentView = (props) => {
+	const goBack = useGoBack();
+
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
@@ -19,9 +21,7 @@ const CodelistComponentView = (props) => {
 	const [modalOpened, setModalOpened] = useState(false);
 	const [serverSideError, setServerSideError] = useState('');
 
-	const handleBack = useCallback(() => {
-		goBack(props, '/codelists')();
-	}, [props]);
+	const handleBack = useCallback(() => goBack('/codelists'), [goBack]);
 
 	const publish = () => {
 		setPublishing(true);
@@ -44,14 +44,14 @@ const CodelistComponentView = (props) => {
 			.then(() => {
 				setLoading(false);
 				setModalOpened(false);
-				goBack(props, '/codelists')();
+				goBack('/codelists');
 			})
 			.catch((error) => {
 				setServerSideError(D['errors_' + JSON.parse(error).code]);
 				setLoading(false);
 				setModalOpened(false);
 			});
-	}, [id, props]);
+	}, [id, goBack]);
 
 	useEffect(() => {
 		API.getDetailedCodelist(id)
