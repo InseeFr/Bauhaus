@@ -9,7 +9,7 @@ import {
 	ValidationButton,
 } from '../../../../new-architecture/components';
 
-import { useGoBack } from '../../../../hooks/hooks';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import api from '../../../../remote-api/operations-api';
 
 import { useCallback, useEffect, useState } from 'react';

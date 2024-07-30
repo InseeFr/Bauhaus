@@ -1,5 +1,5 @@
 import D, { D1 } from '../i18n';
-import { convertToArrayIfDefined } from '../../../utils/array-utils';
+import { convertToArrayIfDefined } from '../../utils/array-utils';
 import { SelectRmes } from '../../../utils/index';
 import { LabelRequired } from '@inseefr/wilco';
 import { Options } from '../../model/SelectOption';

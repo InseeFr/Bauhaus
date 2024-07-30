@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Loading } from '../../../../new-architecture/components';
 import OperationsFamilyEdition from '../../../../applications/operations/families/edition/edition';
 import api from '../../../../remote-api/operations-api';
-import { useGoBack } from '../../../../hooks/hooks';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 
 const OperationsFamilyEditionContainer = () => {
 	const { id } = useParams();

@@ -4,7 +4,7 @@ import { ExplanatoryNote } from '../../../applications/shared/explanatory-note';
 import {
 	creatSelectList,
 	creatSelectListSelectedLast,
-} from '../../../utils/array-utils';
+} from '../../../new-architecture/utils/array-utils';
 
 class CompareNotes extends Component {
 	constructor(props) {

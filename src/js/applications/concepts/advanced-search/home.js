@@ -1,19 +1,18 @@
 import { Link, useHistory } from 'react-router-dom';
 import { NumberResult } from '@inseefr/wilco';
-import { PageTitle } from '../../../new-architecture/components';
+import { PageTitle, TextInput } from '../../../new-architecture/components';
 
 import Select from 'react-select';
 import Controls from './controls';
 import DatePickerRmes from '../../../applications/shared/date-picker-rmes';
 import D from '../../../i18n';
-import { filterKeyDate } from '../../../utils/array-utils';
+import { filterKeyDate } from '../../../new-architecture/utils/array-utils';
 import {
 	ArrayUtils,
 	withTitle,
 	Pagination,
 	useUrlQueryParameters,
 } from '../../../utils';
-import { TextInput } from '../../../new-architecture/components/form/input';
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
 const filterAltLabel = ArrayUtils.filterKeyDeburr(['altLabel']);
 const filterDefinition = ArrayUtils.filterKeyDeburr(['definition']);

@@ -4,7 +4,7 @@ import check from '../../../utils/auth';
 import D from '../../../i18n';
 import { ConfirmationDelete } from '../../../utils';
 import { useLoading } from './loading';
-import { useGoBack } from '../../../hooks/hooks';
+import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
 import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 const ConceptVisualizationControls = ({
