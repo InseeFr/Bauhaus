@@ -60,11 +60,12 @@ Si vous débutez avec ces technologies, vous aurez vraisemblablement besoin d'in
 
 Dans ce paragraphe, nous allons définir les quelques règles que nous essayons de suivre concernant la structure du projet.
 
-### Mixin SCSS
-
-Si vous devez définir des mixins SCSS, vous devez les implémenter dans le fichier `src/styles/mixin.scss` et ensuite importer ce fichier lorsque vous souhaitez l'utiliser.
 
 ### I18N
 
 Dans le but d'éviter d'avoir un fichier d'i18n trop gros, nous avons commencer à découper ce fichier par `page` ou `fontionnalité`. Il y a par exemple un fichier `src/js/i18n/dictionary/operations/documents.js` pour tous les messages utilisés dans la fonctionnalité de gestions des documents.
 Ces fichiers doivent ensuite être importés directement ou indirectement dans le fichier principal `js/i18n/dictionary/app.js`
+
+### Validation de formulaires
+
+Pour la validation des données définies dans un formulaire, nous préconisons l'utilisation de la librairie opensource **zod**.
