@@ -1,4 +1,4 @@
-import { Auth, ValidationButton } from '../../../../utils';
+import { Auth } from '../../../../utils';
 import {
 	ActionToolbar,
 	DeleteButton,
@@ -7,7 +7,7 @@ import {
 } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
-
+import { ValidationButton } from '../../../../new-architecture/components';
 export const ViewMenu = ({
 	col,
 	handleUpdate,

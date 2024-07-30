@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import ConceptSearchList from './home';
-import api from '../../../remote-api/concepts-api';
+import { ConceptsApi } from '../../../new-architecture/sdk';
 import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 import { useDisseminationStatus } from '../../../new-architecture/utils/hooks/disseminationStatus';
@@ -29,8 +29,7 @@ const ConceptSearchListContainer = () => {
 	const { data: disseminationStatusList = [] } = useDisseminationStatus();
 
 	useEffect(() => {
-		api
-			.getConceptSearchList()
+		ConceptsApi.getConceptSearchList()
 			.then((concepts) => {
 				setConceptSearchList(
 					concepts.map((concept) => Object.assign({}, emptyItem, concept))
@@ -41,7 +40,12 @@ const ConceptSearchListContainer = () => {
 
 	const exportHandler = (ids, type, withConcepts, lang = 'lg1') => {
 		setExporting(true);
-		const promise = api.getConceptExportZipType(ids, type, lang, withConcepts);
+		const promise = ConceptsApi.getConceptExportZipType(
+			ids,
+			type,
+			lang,
+			withConcepts
+		);
 
 		return promise
 			.then(saveFileFromHttpResponse)

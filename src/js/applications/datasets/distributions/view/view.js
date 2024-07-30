@@ -4,13 +4,12 @@ import * as select from '../../../../reducers';
 import {
 	CheckSecondLang,
 	DateUtils,
-	HTMLUtils,
 	PageTitleBlock,
 	Stores,
 	useTitle,
 } from '../../../../utils';
 import { Loading, Row } from '../../../../new-architecture/components';
-
+import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import { useDataset, useDistribution } from '../../hooks';
@@ -117,7 +116,7 @@ export const DistributionView = (props) => {
 			</Row>
 			<Row>
 				<Note
-					text={HTMLUtils.renderMarkdownElement(distribution.descriptionLg1)}
+					text={renderMarkdownElement(distribution.descriptionLg1)}
 					title={D1.descriptionTitle}
 					lang={lg1}
 					alone={!secondLang}
@@ -125,7 +124,7 @@ export const DistributionView = (props) => {
 				/>
 				{secondLang && (
 					<Note
-						text={HTMLUtils.renderMarkdownElement(distribution.descriptionLg1)}
+						text={renderMarkdownElement(distribution.descriptionLg1)}
 						title={D2.descriptionTitle}
 						lang={lg2}
 						alone={false}

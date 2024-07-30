@@ -2,19 +2,20 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import * as select from '../../../reducers';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import ConceptVisualization from './home';
-import { Auth, HTMLUtils, Stores } from '../../../utils';
-import api from '../../../remote-api/concepts-api';
+import { Auth, Stores } from '../../../utils';
 import { emptyNotes } from '../../../utils/concepts/notes';
 import { LoadingProvider } from './loading';
+import { ConceptsApi } from '../../../new-architecture/sdk';
+import { rmesHtmlToRawHtml } from '../../../new-architecture/utils/html-utils';
 
 const formatNotes = (notes) => {
 	return Object.assign(
 		{},
 		emptyNotes,
 		Object.keys(notes).reduce((formatted, noteName) => {
-			formatted[noteName] = HTMLUtils.rmesHtmlToRawHtml(notes[noteName]);
+			formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
 			return formatted;
 		}, {})
 	);
@@ -34,13 +35,12 @@ const ConceptVisualizationContainer = () => {
 	const [error, setError] = useState();
 
 	const fetchConcept = (id) => {
-		return api
-			.getConceptGeneral(id)
+		return ConceptsApi.getConceptGeneral(id)
 			.then((general) => {
 				const { conceptVersion } = general;
 				return Promise.all([
-					api.getNoteVersionList(id, conceptVersion),
-					api.getConceptLinkList(id),
+					ConceptsApi.getNoteVersionList(id, conceptVersion),
+					ConceptsApi.getConceptLinkList(id),
 				]).then(([notes, links]) => {
 					setConcept({
 						general,
@@ -58,8 +58,7 @@ const ConceptVisualizationContainer = () => {
 	const handleConceptValidation = useCallback((id) => {
 		setLoading('validating');
 
-		api
-			.putConceptValidList([id])
+		ConceptsApi.putConceptValidList([id])
 			.then(() => fetchConcept(id))
 			.catch((e) => setError(e))
 			.finally(() => {
@@ -69,8 +68,7 @@ const ConceptVisualizationContainer = () => {
 
 	const handleConceptDeletion = useCallback(() => {
 		setLoading('deleting');
-		api
-			.deleteConcept(id)
+		ConceptsApi.deleteConcept(id)
 			.then(() => history.push(`/concepts`))
 			.catch((e) => setError(e))
 			.finally(() => setLoading());

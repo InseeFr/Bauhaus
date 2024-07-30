@@ -6,18 +6,20 @@ import {
 	PageTitleBlock,
 	withTitle,
 	SelectRmes,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
-	RequiredIcon,
 } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
-import CreatorsInput from '../../../../components/creators-input';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
 import InputRmes from '../../../../applications/shared/input-rmes';
 import Control from '../../../../applications/operations/indicators/edition/control';
 import { validate } from '../../../../applications/operations/indicators/edition/validation';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import {
+	Loading,
+	CreatorsInput,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+	RequiredIcon,
+} from '../../../../new-architecture/components';
 import api from '../../../../remote-api/operations-api';
 
 const defaultIndicator = {

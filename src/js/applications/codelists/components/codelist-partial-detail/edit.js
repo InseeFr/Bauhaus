@@ -6,23 +6,23 @@ import {
 	ActionToolbar,
 	LabelRequired,
 } from '@inseefr/wilco';
-import {
-	useTitle,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
-	CodesList,
-	Auth,
-} from '../../../../utils';
+import { useTitle, Auth } from '../../../../utils';
 import Picker from './picker';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import '../codelist-detail/edit.scss';
 import MainDictionary from '../../../../i18n/build-dictionary';
 import { useSelector } from 'react-redux';
-import { ContributorsInput } from '../../../../utils/contributors/contributors';
-import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
-import { TextInput, Row } from '../../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	ContributorsInput,
+	DisseminationStatusInput,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+} from '../../../../new-architecture/components';
+import { CodeListApi } from '../../../../new-architecture/sdk';
 import Select from '../../../../utils/components/select-rmes';
 
 const defaultCodelist = {
@@ -49,7 +49,7 @@ export const DumbCodelistPartialDetailEdit = ({
 
 	const handleParentCode = useCallback(
 		(code) => {
-			CodesList.getCodesListCodes(code, 1, 0).then((codes) => {
+			CodeListApi.getCodesListCodes(code, 1, 0).then((codes) => {
 				const globalWithPartialCodes =
 					partialInGlobalCodes(
 						Object.values(codes.items || {}),
@@ -304,6 +304,7 @@ export const DumbCodelistPartialDetailEdit = ({
 								errorMessage: [],
 							});
 						}}
+						required
 					/>
 
 					<ClientSideError

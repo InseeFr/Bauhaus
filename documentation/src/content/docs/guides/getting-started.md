@@ -60,12 +60,12 @@ If you're new to JavaScript, you might need to first install [node](https://node
 
 In this paragraph, we will try to explain the rules we defined and try to follow when talking about the structure of the project.
 
-### SCSS Mixin
-
-If you have to define SCSS mixin, you have to define them in the `src/styles/mixin.scss` file, and import them in the stylesheet of the React component.
 
 ### I18N
 
 In order to avoid big i18n file, we try to split this file in smaller files, based on `page` or `feature`. For example, we have a `src/js/i18n/dictionary/operations/documents.js` file for all messages dedicated to the documents feature.
 This files have to be imported directly or not in the main file `js/i18n/dictionary/app.js`.
 
+### Form Validation
+
+For validating data defined in a form, we recommend using the open-source library **zod**.

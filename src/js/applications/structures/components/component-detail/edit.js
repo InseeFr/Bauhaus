@@ -9,9 +9,6 @@ import {
 	AppContext,
 	useTitle,
 	ArrayUtils,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
 	Auth,
 	SelectRmes,
 } from '../../../../utils';
@@ -28,7 +25,7 @@ import {
 	XSD_TYPES,
 	IGEO_PAYS_OU_TERRITOIRE,
 } from '../../utils/constants';
-
+import { CodeListApi } from '../../../../new-architecture/sdk';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
@@ -36,9 +33,15 @@ import { API } from '../../../codelists/apis';
 import api from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
 import { convertToArrayIfDefined } from '../../../../utils/array-utils';
-import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
-import { ContributorsInput } from '../../../../utils/contributors/contributors';
-import { TextInput, Row } from '../../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	ContributorsInput,
+	DisseminationStatusInput,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+} from '../../../../new-architecture/components';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -56,9 +59,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 	const [codesPartialListPanelOpened, setPartialCodesListPanelOpened] =
 		useState(false);
 	const [partials, setPartials] = useState([]);
-	const fullCodeListValue = component.fullCodeListValue
-		? component.fullCodeListValue
-		: component.codeList;
+	const fullCodeListValue = component.fullCodeListValue || component.codeList;
 	const currentCodeList = component.codeList;
 
 	const [partialCodesLists, setPartialCodesLists] = useState([]);
@@ -150,15 +151,14 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 				</div>
 			)}
 			<CodesListPanel
-				codesList={codesLists.find((c) =>
-					(fullCodeListValue?.id || fullCodeListValue)
-						?.toString()
-						.includes(c.id?.toString())
+				codesList={codesLists.find(
+					(c) =>
+						(fullCodeListValue?.id || fullCodeListValue)?.toString() ===
+						c.id?.toString()
 				)}
 				isOpen={codesFullListPanelOpened}
 				handleBack={() => setFullCodesListPanelOpened(false)}
 			/>
-
 			<CodesListPanel
 				codesList={{
 					notation: partials.find((c) =>
@@ -696,21 +696,26 @@ const AttributeCodeList = ({
 	codesLists,
 	label,
 }) => {
-	const [codesList, setCodesList] = useState();
+	const [codes, setCodes] = useState();
+
 	const codeListNotation = codesLists.find(
 		(cl) => cl.id === codeListIri
 	)?.notation;
 
 	useEffect(() => {
-		API.getCodelist(codeListNotation).then((cl) => setCodesList(cl));
+		CodeListApi.getCodesListCodes(codeListNotation, 1, 0).then((codes) =>
+			setCodes(codes)
+		);
 	}, [codeListNotation]);
 
-	if (!codesList) {
+	if (!codes) {
 		return null;
 	}
+
 	const codesOptions = sortByLabel(
-		codesList?.codes?.map((code) => ({ value: code.iri, label: code.labelLg1 }))
+		codes?.codes?.map((code) => ({ value: code.iri, label: code.labelLg1 }))
 	);
+
 	return (
 		<div className="col-md-6 form-group">
 			<label htmlFor="attributeValue">{label ?? D1.Value}</label>

@@ -1,6 +1,11 @@
 import D, { D1, D2 } from '../../../../i18n';
 import { Component } from 'react';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import {
+	Loading,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+} from '../../../../new-architecture/components';
 
 import {
 	CancelButton,
@@ -18,16 +23,15 @@ import {
 	PageTitleBlock,
 	withTitle,
 	SelectRmes,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
 } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
-import CreatorsInput from '../../../../components/creators-input';
 
 import { isMandatoryField, validate } from './validation';
 import api from '../../../../remote-api/operations-api';
-import { TextInput } from '../../../../new-architecture/components';
+import {
+	TextInput,
+	CreatorsInput,
+} from '../../../../new-architecture/components';
 
 const defaultSerie = {
 	id: '',

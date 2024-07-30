@@ -1,8 +1,6 @@
 import { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import { goBack } from '@inseefr/wilco';
 import { PageTitle } from '../../../new-architecture/components';
-
 import ConceptCreateControl from './controls';
 import GeneralEdition from './general';
 import NotesEdition from './notes';
@@ -12,7 +10,6 @@ import { areNotesImpactingVersionChanged } from '../../../utils/concepts/notes';
 import D from '../../../i18n';
 import isVersioningPossible from '../../../utils/concepts/is-versioning-possible';
 import { VERSIONING, NO_VERSIONING } from '../../../constants';
-import { withRouter } from 'react-router-dom';
 import { withTitle } from '../../../utils';
 import validate from './controls/validation';
 
@@ -190,7 +187,6 @@ class ConceptEditionCreation extends Component {
 						<ConceptCreateControl
 							errorMessage={errorMessage}
 							handleSave={this.handleSave}
-							redirectCancel={goBack(this.props, 'concepts')}
 						/>
 					)}
 					<ul className="nav nav-tabs nav-justified">
@@ -259,10 +255,8 @@ class ConceptEditionCreation extends Component {
 	}
 }
 
-export default withRouter(
-	withTitle(
-		ConceptEditionCreation,
-		D.conceptsTitle,
-		(props) => props?.general?.prefLabelLg1 || D.createConceptTitle
-	)
+export default withTitle(
+	ConceptEditionCreation,
+	D.conceptsTitle,
+	(props) => props?.general?.prefLabelLg1 || D.createConceptTitle
 );

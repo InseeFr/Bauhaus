@@ -5,10 +5,11 @@ import {
 	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
-import { Auth, ValidationButton } from '../../../../utils';
+import { Auth } from '../../../../utils';
 import D from '../../../../i18n/build-dictionary';
 import { useSelector } from 'react-redux';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
+import { ValidationButton } from '../../../../new-architecture/components';
 
 export const ViewMenu = ({ dataset, onPublish, onDelete, ...props }) => {
 	const permission = useSelector(Auth.getPermission);

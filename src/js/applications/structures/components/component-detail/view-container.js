@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { goBack } from '@inseefr/wilco';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components';
 
 import { ComponentDetailView } from './view';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI, Stores } from '../../../../utils';
+import { Stores } from '../../../../utils';
+import { ConceptsApi } from '../../../../new-architecture/sdk';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -39,7 +40,7 @@ const ViewContainer = (props) => {
 		Promise.all([
 			api.getMutualizedComponent(id),
 			api.getMutualizedAttributes(),
-			ConceptsAPI.getConceptList(),
+			ConceptsApi.getConceptList(),
 			getFormattedCodeList(),
 		])
 			.then(([component, attributes, concepts, codesLists]) => {

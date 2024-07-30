@@ -7,9 +7,9 @@ import ConceptEditionCreation from './home';
 import { mergeWithAllConcepts } from '../../../utils/concepts/links';
 import D from '../../../i18n';
 import emptyConcept from '../../../utils/concepts/empty-concept';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import { ArrayUtils } from '../../../utils';
-import api from '../../../remote-api/concepts-api';
+import { ConceptsApi } from '../../../new-architecture/sdk';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 
 const CreationContainer = () => {
@@ -27,7 +27,7 @@ const CreationContainer = () => {
 	const { data: stamps = [] } = useStamps();
 
 	useEffect(() => {
-		Promise.all([api.getConceptList()])
+		Promise.all([ConceptsApi.getConceptList()])
 			.then(([conceptsList, stampsList]) => {
 				setConcepts(ArrayUtils.sortArrayByLabel(conceptsList));
 			})
@@ -41,8 +41,7 @@ const CreationContainer = () => {
 	const handleCreation = useCallback(
 		(data) => {
 			setSaving(true);
-			api
-				.postConcept(buildPayloadCreation(data))
+			ConceptsApi.postConcept(buildPayloadCreation(data))
 				.then((id) => history.push(`/concept/${id}`))
 				.finally(() => setSaving(false));
 		},

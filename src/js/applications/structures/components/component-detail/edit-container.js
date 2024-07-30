@@ -5,7 +5,7 @@ import { goBack, goBackOrReplace } from '@inseefr/wilco';
 import { DumbComponentDetailEdit } from './edit';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis';
-import { ConceptsAPI } from '../../../../utils';
+import { ConceptsApi } from '../../../../new-architecture/sdk';
 import { useParams } from 'react-router-dom';
 import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 
@@ -64,7 +64,7 @@ const EditContainer = (props) => {
 		Promise.all([
 			getComponent,
 			api.getMutualizedAttributes(),
-			ConceptsAPI.getConceptList(),
+			ConceptsApi.getConceptList(),
 			getFormattedCodeList(),
 		])
 			.then(([component, attributes, concepts, codesLists]) => {

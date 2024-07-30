@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import organisationApi from '../../../remote-api/organisations-api';
+import { OrganisationsApi } from '../../sdk';
 import { Organization } from '../../model/organization';
 import { Options } from '../../model/SelectOption';
 import { transformModelToSelectOptions } from '../transformer';
@@ -8,7 +8,7 @@ export const useOrganizations = () => {
 	return useQuery({
 		queryKey: ['organization'],
 		queryFn: (): Promise<Organization[]> => {
-			return organisationApi.getOrganisations() as Promise<Organization[]>;
+			return OrganisationsApi.getOrganisations() as Promise<Organization[]>;
 		},
 	});
 };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import SlidingPanel from 'react-sliding-side-panel';
-import { CodesList, ArrayUtils } from '../../../../utils';
+import { ArrayUtils } from '../../../../utils';
+import { CodeListApi } from '../../../../new-architecture/sdk';
 import './codes-list-panel.scss';
 import { ActionToolbar } from '@inseefr/wilco';
 import D from '../../i18n/build-dictionary';
@@ -13,8 +14,8 @@ export const CodesListPanel = ({ isOpen, handleBack, codesList }) => {
 
 	useEffect(() => {
 		if (notation && isOpen) {
-			CodesList.getCodesListCodes(notation, 1, 0).then((codes) => {
-				setCodes(sortByLabel(codes?.items || []));
+			CodeListApi.getCodesListCodes(notation, 1, 0).then((codes) => {
+				setCodes(sortByLabel(codes?.codes || []));
 			});
 		}
 	}, [notation, isOpen]);

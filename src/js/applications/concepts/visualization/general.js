@@ -1,7 +1,7 @@
 import { D1 } from '../../../i18n';
 import { Note } from '@inseefr/wilco';
 import { ArrayUtils, DateUtils } from '../../../utils';
-import { DisseminationStatusVisualisation } from '../../../utils/dissemination-status/disseminationStatus';
+import { DisseminationStatusVisualisation } from '../../../new-architecture/components';
 
 function ConceptGeneral({ attr, secondLang, langs }) {
 	const { lg1, lg2 } = langs;

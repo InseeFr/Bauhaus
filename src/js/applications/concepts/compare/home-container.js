@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import ConceptCompare from './home';
 import * as select from '../../../reducers';
-import { ArrayUtils, HTMLUtils, Stores } from '../../../utils';
-import api from '../../../remote-api/concepts-api';
+import { ArrayUtils, Stores } from '../../../utils';
+import { ConceptsApi } from '../../../new-architecture/sdk';
 import { emptyNotes } from '../../../utils/concepts/notes';
-
+import { rmesHtmlToRawHtml } from '../../../new-architecture/utils/html-utils';
 const ConceptCompareContainer = () => {
 	const { id } = useParams();
 	const langs = useSelector((state) => select.getLangs(state));
@@ -20,8 +20,7 @@ const ConceptCompareContainer = () => {
 	const [notes, setNotes] = useState({});
 
 	useEffect(() => {
-		api
-			.getConceptGeneral(id)
+		ConceptsApi.getConceptGeneral(id)
 			.then((results) => {
 				setGeneral(results);
 				return results;
@@ -30,9 +29,10 @@ const ConceptCompareContainer = () => {
 				const { conceptVersion } = general;
 				return Promise.all(
 					ArrayUtils.range(1, +conceptVersion + 1).map((version) =>
-						api
-							.getNoteVersionList(id, version)
-							.then((notes) => [version, notes])
+						ConceptsApi.getNoteVersionList(id, version).then((notes) => [
+							version,
+							notes,
+						])
 					)
 				)
 					.then((notesAndVersions) => {
@@ -44,7 +44,7 @@ const ConceptCompareContainer = () => {
 										{},
 										emptyNotes,
 										Object.keys(notes[1]).reduce((formatted, noteName) => {
-											formatted[noteName] = HTMLUtils.rmesHtmlToRawHtml(
+											formatted[noteName] = rmesHtmlToRawHtml(
 												notes[1][noteName]
 											);
 											return formatted;

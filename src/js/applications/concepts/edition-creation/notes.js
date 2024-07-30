@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import NoteEdition from '../../../applications/shared/note-edition';
 import { D1 } from '../../../i18n';
-import { HTMLUtils } from '../../../utils';
+import { htmlIsEmpty } from '../../../new-architecture/utils/html-utils';
 
 const noteTypes = (maxLengthScopeNote) => [
 	{
@@ -74,7 +74,7 @@ const NotesEdition = ({
 						let noteEdition;
 						const highlight =
 							redLg1Empty &&
-							HTMLUtils.htmlIsEmpty(noteLg1) &&
+							htmlIsEmpty(noteLg1) &&
 							redLg1Empty(disseminationStatus);
 						const title = highlight ? (
 							<div className="red">{D1[rawTitle]}</div>

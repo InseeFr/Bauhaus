@@ -1,5 +1,5 @@
 import { buildEmptyNotes } from '@inseefr/wilco';
-import { HTMLUtils } from '../../utils';
+import { rawHtmlToRmesHtml } from '../../new-architecture/utils/html-utils';
 
 export const versionableNotes = [
 	'scopeNoteLg1',
@@ -41,7 +41,7 @@ export const processChanges = (oldNotes, notes, fields) =>
 				noteType,
 				//format the note the `rmes` way (with a wrapping div and a
 				//namespace attribte).
-				content: HTMLUtils.rawHtmlToRmesHtml(content),
+				content: rawHtmlToRmesHtml(content),
 			});
 		return changes;
 	}, []);
@@ -54,7 +54,7 @@ export const processNotes = (notesToKeep, fields) =>
 				noteType,
 				//format the note the `rmes` way (with a wrapping div and a
 				//namespace attribte).
-				content: HTMLUtils.rawHtmlToRmesHtml(content),
+				content: rawHtmlToRmesHtml(content),
 			});
 		return notes;
 	}, []);

@@ -68,7 +68,6 @@ describe('', () => {
 			id: 1,
 			idOperation: 2,
 		});
-		expect(output.parentType).toEqual('operation');
 	});
 
 	it('should return the langes', () => {

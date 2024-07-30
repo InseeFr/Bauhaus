@@ -3,13 +3,17 @@ import { useEffect, useState } from 'react';
 import { withCodesLists } from '../../../../../hooks/hooks';
 import api from '../../../api/datasets-api';
 import { LabelRequired } from '@inseefr/wilco';
-import { ClientSideError, SelectRmes } from '../../../../../utils';
+import { SelectRmes } from '../../../../../utils';
 import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
-import { DisseminationStatusInput } from '../../../../../utils/dissemination-status/disseminationStatus';
-import { ContributorsInput } from '../../../../../utils/contributors/contributors';
 import { useStampsOptions } from '../../../../../new-architecture/utils/hooks/stamps';
-import { TextInput, Row } from '../../../../../new-architecture/components';
 import { useSeriesOperationsOptions } from './useSeriesOperationsOptions';
+import {
+	TextInput,
+	Row,
+	ContributorsInput,
+	DisseminationStatusInput,
+	ClientSideError,
+} from '../../../../../new-architecture/components';
 
 const InternalManagementTab = ({
 	editingDataset,
@@ -109,6 +113,7 @@ const InternalManagementTab = ({
 								errorMessage: [],
 							}));
 						}}
+						required
 					/>
 					<ClientSideError
 						error={clientSideErrors?.fields?.contributor}
@@ -130,6 +135,7 @@ const InternalManagementTab = ({
 								errorMessage: [],
 							}));
 						}}
+						required
 					/>
 					<ClientSideError
 						error={clientSideErrors?.fields?.disseminationStatus}

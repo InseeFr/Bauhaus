@@ -6,22 +6,22 @@ import {
 	ActionToolbar,
 	LabelRequired,
 } from '@inseefr/wilco';
-import {
-	useTitle,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
-	Auth,
-} from '../../../../utils';
+import { useTitle, Auth } from '../../../../utils';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 import MainDictionary from '../../../../i18n/build-dictionary';
 import { CodesCollapsiblePanel } from './codes-panel';
 import { useSelector } from 'react-redux';
-import { ContributorsInput } from '../../../../utils/contributors/contributors';
-import { DisseminationStatusInput } from '../../../../utils/dissemination-status/disseminationStatus';
-import { TextInput, Row } from '../../../../new-architecture/components';
+import {
+	TextInput,
+	Row,
+	ContributorsInput,
+	DisseminationStatusInput,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	ClientSideError,
+} from '../../../../new-architecture/components';
 import Select from '../../../../utils/components/select-rmes';
 
 const defaultCodelist = {
@@ -272,6 +272,7 @@ export const DumbCodelistDetailEdit = ({
 								errorMessage: [],
 							});
 						}}
+						required
 					/>
 
 					<ClientSideError

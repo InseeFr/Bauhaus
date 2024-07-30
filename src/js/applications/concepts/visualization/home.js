@@ -11,10 +11,9 @@ import {
 	DateUtils,
 	PageTitleBlock,
 	useTitle,
-	ErrorBloc,
 } from '../../../utils';
 import NoteVisualization from '../../shared/note-visualization';
-
+import { ErrorBloc } from '../../../new-architecture/components';
 const ConceptVisualization = ({
 	id,
 	permission,

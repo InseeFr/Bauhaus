@@ -4,7 +4,7 @@ import { CodesListPanel } from '../../components/codes-list-panel/codes-list-pan
 import { StructureComponentsSelector } from '../../components/structure-component-selector/index';
 import ComponentSpecificationModal from '../../components/component-specification-modal/index';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsAPI } from '../../../../utils';
+import { ConceptsApi } from '../../../../new-architecture/sdk';
 
 const Components = ({ componentDefinitions = [] }) => {
 	const [concepts, setConcepts] = useState([]);
@@ -18,7 +18,7 @@ const Components = ({ componentDefinitions = [] }) => {
 	}, []);
 
 	useEffect(() => {
-		ConceptsAPI.getConceptList().then((res) => setConcepts(res));
+		ConceptsApi.getConceptList().then((res) => setConcepts(res));
 	}, []);
 
 	useEffect(() => {
@@ -31,6 +31,7 @@ const Components = ({ componentDefinitions = [] }) => {
 		setSelectedComponent(component);
 		setModalOpened(true);
 	}, []);
+
 	return (
 		<div className="row text-left">
 			{modalOpened && (

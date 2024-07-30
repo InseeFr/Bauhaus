@@ -7,11 +7,11 @@ import {
 	DeleteButton,
 	DuplicateButton,
 } from '@inseefr/wilco';
-import { Auth, ValidationButton } from '../../../../utils';
+import { Auth } from '../../../../utils';
 import StructureAPI from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
-
+import { ValidationButton } from '../../../../new-architecture/components';
 const Controls = ({ structure, publish }) => {
 	const permission = useSelector(Auth.getPermission);
 

@@ -3,18 +3,20 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import * as select from '../../../../reducers';
 import { useGoBack } from '../../../../hooks/hooks';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import {
+	Loading,
+	ErrorBloc,
+	ValidationButton,
+} from '../../../../new-architecture/components';
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import OperationsOperationVisualization from './home';
 import D from '../../../../i18n';
 
 import {
 	Auth,
-	ValidationButton,
 	Stores,
 	CheckSecondLang,
 	PageTitleBlock,
-	ErrorBloc,
 } from '../../../../utils';
 import api from '../../../../remote-api/operations-api';
 

@@ -4,11 +4,11 @@ import * as select from '../../../../reducers';
 import {
 	CheckSecondLang,
 	DateUtils,
-	HTMLUtils,
 	PageTitleBlock,
 	Stores,
 	useTitle,
 } from '../../../../utils';
+import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
 import { useEffect, useState } from 'react';
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
@@ -27,9 +27,9 @@ import {
 	ConditionalDisplay,
 	Organization,
 	Organizations,
+	ContributorsVisualisation,
+	DisseminationStatusVisualisation,
 } from '../../../../new-architecture/components';
-import { DisseminationStatusVisualisation } from '../../../../utils/dissemination-status/disseminationStatus';
-import { ContributorsVisualisation } from '../../../../utils/contributors/contributors';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
 import { useOrganizations } from '../../../../new-architecture/utils/hooks/organizations';
 import { WasGeneratedByBlock } from './wasGeneratedByBlock';
@@ -280,7 +280,7 @@ const Dataset = (props) => {
 
 			<Row>
 				<Note
-					text={HTMLUtils.renderMarkdownElement(dataset.descriptionLg1)}
+					text={renderMarkdownElement(dataset.descriptionLg1)}
 					title={D1.descriptionTitle}
 					lang={lg1}
 					alone={!secondLang}
@@ -288,7 +288,7 @@ const Dataset = (props) => {
 				/>
 				{secondLang && (
 					<Note
-						text={HTMLUtils.renderMarkdownElement(dataset.descriptionLg1)}
+						text={renderMarkdownElement(dataset.descriptionLg1)}
 						title={D2.descriptionTitle}
 						lang={lg2}
 						alone={false}
@@ -298,7 +298,7 @@ const Dataset = (props) => {
 			</Row>
 			<Row>
 				<Note
-					text={HTMLUtils.renderMarkdownElement(dataset.abstractLg1)}
+					text={renderMarkdownElement(dataset.abstractLg1)}
 					title={D1.datasetsAbstract}
 					lang={lg1}
 					alone={!secondLang}
@@ -306,7 +306,7 @@ const Dataset = (props) => {
 				/>
 				{secondLang && (
 					<Note
-						text={HTMLUtils.renderMarkdownElement(dataset.abstractLg2)}
+						text={renderMarkdownElement(dataset.abstractLg2)}
 						title={D2.datasetsAbstract}
 						lang={lg2}
 						alone={false}
@@ -316,7 +316,7 @@ const Dataset = (props) => {
 			</Row>
 			<Row>
 				<Note
-					text={HTMLUtils.renderMarkdownElement(dataset.cautionLg1)}
+					text={renderMarkdownElement(dataset.cautionLg1)}
 					title={D1.datasetsCaution}
 					lang={lg1}
 					alone={!secondLang}
@@ -324,7 +324,7 @@ const Dataset = (props) => {
 				/>
 				{secondLang && (
 					<Note
-						text={HTMLUtils.renderMarkdownElement(dataset.cautionLg2)}
+						text={renderMarkdownElement(dataset.cautionLg2)}
 						title={D2.datasetsCaution}
 						lang={lg2}
 						alone={false}

@@ -3,11 +3,12 @@ import { D1, D2 } from '../../../../i18n';
 import { getSeeAlsoByType } from '../../../../applications/operations/shared/links/utils';
 import DisplayLinks from '../../../../applications/operations/shared/links/';
 import SeeAlso from '../../../../applications/operations/shared/seeAlso';
-import { CreationUpdateItems, HTMLUtils, withTitle } from '../../../../utils';
+import { CreationUpdateItems, withTitle } from '../../../../utils';
 import PublishersView from '../../../../applications/operations/components/publishers-view';
 import CreatorsView from '../../../../applications/operations/components/creators-view';
 import D from '../../../../i18n/build-dictionary';
 import { PublicationMale, Row } from '../../../../new-architecture/components';
+import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
 
 function DisplayMultiLangNote({
 	value1,
@@ -17,9 +18,9 @@ function DisplayMultiLangNote({
 	secondLang,
 	md = false,
 }) {
-	const body1 = md ? HTMLUtils.renderMarkdownElement(value1) : value1;
+	const body1 = md ? renderMarkdownElement(value1) : value1;
 
-	const body2 = md ? HTMLUtils.renderMarkdownElement(value2) : value2;
+	const body2 = md ? renderMarkdownElement(value2) : value2;
 
 	return (
 		<Row>
