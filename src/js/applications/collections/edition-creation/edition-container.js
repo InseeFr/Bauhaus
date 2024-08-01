@@ -10,6 +10,7 @@ import { Loading } from '../../../new-architecture/components';
 
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import apiCollections from '../../../remote-api/concepts-collection-api';
+import { useTitle } from '../../../utils';
 
 const EditionContainer = () => {
 	const { id } = useParams();
@@ -59,14 +60,18 @@ const EditionContainer = () => {
 		[history, id]
 	);
 
+	const { general, members } = collection;
+	useTitle(
+		D.collectionsTitle,
+		general?.prefLabelLg1 || D.createCollectionTitle
+	);
+
 	if (saving) {
 		return <Loading textType="saving" />;
 	}
 	if (loadingCollection || loadingExtraData) {
 		return <Loading />;
 	}
-
-	const { general, members } = collection;
 
 	return (
 		<CollectionEditionCreation

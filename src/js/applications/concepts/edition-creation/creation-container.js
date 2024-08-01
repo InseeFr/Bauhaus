@@ -8,7 +8,7 @@ import { mergeWithAllConcepts } from '../../../utils/concepts/links';
 import D from '../../../i18n';
 import emptyConcept from '../../../utils/concepts/empty-concept';
 import { Loading } from '../../../new-architecture/components';
-import { ArrayUtils } from '../../../utils';
+import { ArrayUtils, useTitle } from '../../../utils';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 
@@ -48,6 +48,11 @@ const CreationContainer = () => {
 		[history]
 	);
 
+	const { general, notes, links } = concept;
+	useTitle(D.conceptsTitle, general?.prefLabelLg1 || D.createConceptTitle);
+
+	const conceptsWithLinks = mergeWithAllConcepts(concepts, links);
+
 	if (loading) {
 		return <Loading />;
 	}
@@ -55,8 +60,6 @@ const CreationContainer = () => {
 		return <Loading textType="saving" />;
 	}
 
-	const { general, notes, links } = concept;
-	const conceptsWithLinks = mergeWithAllConcepts(concepts, links);
 	return (
 		<ConceptEditionCreation
 			creation
