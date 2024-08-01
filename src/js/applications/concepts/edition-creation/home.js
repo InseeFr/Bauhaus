@@ -10,7 +10,6 @@ import { areNotesImpactingVersionChanged } from '../../../utils/concepts/notes';
 import D from '../../../i18n';
 import isVersioningPossible from '../../../utils/concepts/is-versioning-possible';
 import { VERSIONING, NO_VERSIONING } from '../../../constants';
-import { withTitle } from '../../../utils';
 import validate from './controls/validation';
 
 class ConceptEditionCreation extends Component {
@@ -255,8 +254,4 @@ class ConceptEditionCreation extends Component {
 	}
 }
 
-export default withTitle(
-	ConceptEditionCreation,
-	D.conceptsTitle,
-	(props) => props?.general?.prefLabelLg1 || D.createConceptTitle
-);
+export default ConceptEditionCreation;

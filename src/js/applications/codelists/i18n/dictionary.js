@@ -1,7 +1,7 @@
 const dictionary = {
 	advancedSearch: {
-		fr: 'Recherche Avancée',
-		en: 'Advanced Search',
+		fr: 'Recherche avancée',
+		en: 'Advanced search',
 	},
 	codelistBroader: {
 		fr: 'Parents',

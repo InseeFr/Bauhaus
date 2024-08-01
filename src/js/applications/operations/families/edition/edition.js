@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { D1, D2 } from '../../../../i18n';
-import { EditorMarkdown, PageTitleBlock, withTitle } from '../../../../utils';
+import { EditorMarkdown, PageTitleBlock } from '../../../../utils';
 
 import {
 	CancelButton,
@@ -214,10 +214,4 @@ class OperationsFamilyEdition extends Component {
 	}
 }
 
-export default withTitle(
-	OperationsFamilyEdition,
-	D.familiesTitle + ' - ' + D.operationsTitle,
-	(props) => {
-		return props.family.prefLabelLg1 || D.familiesCreateTitle;
-	}
-);
+export default OperationsFamilyEdition;

@@ -3,8 +3,6 @@ import { PageTitle } from '../../../new-architecture/components';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
 import MembersEdition from '../../../new-architecture/modules-concepts/collections/edition/members';
-import { withTitle } from '../../../utils';
-import D from '../../../i18n/build-dictionary';
 
 class CollectionEditionCreation extends Component {
 	constructor(props) {
@@ -117,8 +115,4 @@ class CollectionEditionCreation extends Component {
 	}
 }
 
-export default withTitle(
-	CollectionEditionCreation,
-	D.collectionsTitle,
-	(props) => props.general.prefLabelLg1 || D.createCollectionTitle
-);
+export default CollectionEditionCreation;

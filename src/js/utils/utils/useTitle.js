@@ -13,13 +13,3 @@ export const useTitle = (application, page) => {
 		setDocumentTitle(application, page);
 	}, [application, page]);
 };
-
-export const withTitle =
-	(WrappedComponent, application, getPage = () => '') =>
-	(props) => {
-		const title = getPage(props);
-		useEffect(() => {
-			setDocumentTitle(application, title);
-		}, [title]);
-		return <WrappedComponent {...props} />;
-	};

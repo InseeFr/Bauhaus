@@ -273,7 +273,7 @@ const dictionary = {
 		en: 'Temporary, already published',
 	},
 	structuresTitle: { fr: 'Structures', en: 'Structures' },
-	structuresAdvancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
+	structuresAdvancedSearch: { fr: 'Recherche avancée', en: 'Advanced search' },
 	componentsCreateTitle: {
 		fr: 'Créer un nouveau composant',
 		en: 'Create a new component',

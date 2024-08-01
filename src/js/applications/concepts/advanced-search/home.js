@@ -9,9 +9,9 @@ import D from '../../../i18n';
 import { filterKeyDate } from '../../../new-architecture/utils/array-utils';
 import {
 	ArrayUtils,
-	withTitle,
 	Pagination,
 	useUrlQueryParameters,
+	useTitle,
 } from '../../../utils';
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
 const filterAltLabel = ArrayUtils.filterKeyDeburr(['altLabel']);
@@ -43,6 +43,8 @@ const ConceptSearchList = ({
 	disseminationStatusList,
 	onExport,
 }) => {
+	useTitle(D.conceptsTitle, D.advancedSearch);
+
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 	const history = useHistory();
 
@@ -228,8 +230,4 @@ const ConceptSearchList = ({
 	);
 };
 
-export default withTitle(
-	ConceptSearchList,
-	D.conceptsTitle,
-	() => D.advancedSearch
-);
+export default ConceptSearchList;

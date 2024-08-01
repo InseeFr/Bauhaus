@@ -1,7 +1,7 @@
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from '../../../../i18n';
 import RelationsView from '../../../../applications/operations/shared/relations';
-import { CreationUpdateItems, withTitle } from '../../../../utils';
+import { CreationUpdateItems, useTitle } from '../../../../utils';
 import D from '../../../../i18n/build-dictionary';
 import {
 	PublicationFemale,
@@ -13,6 +13,8 @@ function OperationsOperationVisualization({
 	secondLang,
 	langs: { lg1, lg2 },
 }) {
+	useTitle(D.operationsTitle, attr?.prefLabelLg1);
+
 	return (
 		<>
 			<Row>
@@ -62,10 +64,4 @@ function OperationsOperationVisualization({
 	);
 }
 
-export default withTitle(
-	OperationsOperationVisualization,
-	D.operationsTitle,
-	(props) => {
-		return props.attr?.prefLabelLg1;
-	}
-);
+export default OperationsOperationVisualization;

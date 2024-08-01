@@ -5,7 +5,7 @@ import { PageTitle, Loading } from '../../../new-architecture/components';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 import CollectionMembers from '../../../new-architecture/modules-concepts/collections/visualisation/members';
-import { CheckSecondLang, withTitle } from '../../../utils';
+import { CheckSecondLang, useTitle } from '../../../utils';
 import D from '../../../i18n';
 
 const CollectionVisualization = ({
@@ -17,6 +17,8 @@ const CollectionVisualization = ({
 	langs,
 	validateCollection,
 }) => {
+	useTitle(D.collectionsTitle, general.prefLabelLg1);
+
 	const { isValidated, creator } = general;
 	const [exporting, setExporting] = useState(false);
 
@@ -53,8 +55,4 @@ const CollectionVisualization = ({
 	);
 };
 
-export default withTitle(
-	CollectionVisualization,
-	D.collectionsTitle,
-	(props) => props.general.prefLabelLg1
-);
+export default CollectionVisualization;

@@ -13,6 +13,7 @@ import { ConceptsApi } from '../../../new-architecture/sdk';
 import { emptyNotes } from '../../../utils/concepts/notes';
 import * as generalUtils from '../../../utils/concepts/general';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
+import { useTitle } from '../../../utils';
 
 const formatNotes = (notes) => {
 	return Object.assign(
@@ -76,6 +77,11 @@ const EditionContainer = () => {
 		[history]
 	);
 
+	const { general, notes, links } = concept;
+	useTitle(D.conceptsTitle, general?.prefLabelLg1 || D.createConceptTitle);
+
+	const conceptsWithLinks = mergeWithAllConcepts(concepts, links ?? []);
+
 	if (loading || loadingExtraData) {
 		return <Loading />;
 	}
@@ -83,8 +89,6 @@ const EditionContainer = () => {
 		return <Loading textType="saving" />;
 	}
 
-	const { general, notes, links } = concept;
-	const conceptsWithLinks = mergeWithAllConcepts(concepts, links ?? []);
 	return (
 		<ConceptEditionCreation
 			id={id}
