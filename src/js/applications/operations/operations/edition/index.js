@@ -6,6 +6,8 @@ import { Loading } from '../../../../new-architecture/components';
 import OperationsOperationEdition from '../../../../applications/operations/operations/edition/edition';
 import api from '../../../../remote-api/operations-api';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
+import D from '../../../../i18n';
+import { useTitle } from '../../../../utils';
 
 const OperationEditionContainer = (props) => {
 	const { id } = useParams();
@@ -27,6 +29,11 @@ const OperationEditionContainer = (props) => {
 	useEffect(() => {
 		api.getUserSeriesList(stamp).then((series) => setSeries(series));
 	}, [stamp]);
+
+	useTitle(
+		D.operationsTitle,
+		operation?.prefLabelLg1 || D.operationsCreateTitle
+	);
 
 	if (!operation.id && id) return <Loading />;
 

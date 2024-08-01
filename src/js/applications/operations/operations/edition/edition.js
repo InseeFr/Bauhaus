@@ -8,7 +8,7 @@ import {
 	LabelRequired,
 } from '@inseefr/wilco';
 import { validate } from './validation';
-import { PageTitleBlock, withTitle } from '../../../../utils';
+import { PageTitleBlock } from '../../../../utils';
 import api from '../../../../remote-api/operations-api';
 import {
 	TextInput,
@@ -231,10 +231,4 @@ class OperationsOperationEdition extends Component {
 	}
 }
 
-export default withTitle(
-	OperationsOperationEdition,
-	D.operationsTitle,
-	(props) => {
-		return props.operation?.prefLabelLg1 || D.operationsCreateTitle;
-	}
-);
+export default OperationsOperationEdition;
