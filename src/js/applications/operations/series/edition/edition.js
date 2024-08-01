@@ -21,7 +21,6 @@ import {
 	EditorMarkdown,
 	ItemToSelectModel,
 	PageTitleBlock,
-	withTitle,
 	SelectRmes,
 } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
@@ -46,6 +45,7 @@ const defaultSerie = {
 	accrualPeriodicityList: CL_FREQ,
 	typeList: CL_SOURCE_CATEGORY,
 };
+
 class OperationsSerieEdition extends Component {
 	static defaultProps = {
 		organisation: [],
@@ -565,10 +565,4 @@ class OperationsSerieEdition extends Component {
 	}
 }
 
-export default withTitle(
-	OperationsSerieEdition,
-	D.seriesTitle + ' - ' + D.operationsTitle,
-	(props) => {
-		return props.serie?.prefLabelLg1 || D.seriesCreateTitle;
-	}
-);
+export default OperationsSerieEdition;
