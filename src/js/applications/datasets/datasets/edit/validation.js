@@ -22,7 +22,7 @@ const Dataset = z.object({
 	contributor: z
 		.string({ required_error: D.mandatoryProperty(D1.contributorTitle) })
 		.array()
-		.nonempty({ ssage: D.mandatoryProperty(D1.contributorTitle) }),
+		.nonempty({ message: D.mandatoryProperty(D1.contributorTitle) }),
 	disseminationStatus: z
 		.string({
 			required_error: D.mandatoryProperty(D1.disseminationStatusTitle),
