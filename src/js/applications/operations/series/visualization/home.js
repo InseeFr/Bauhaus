@@ -4,7 +4,7 @@ import RelationsView from '../../../../applications/operations/shared/relations'
 import DisplayLinks from '../../../../applications/operations/shared/links/';
 import SeeAlso from '../../../../applications/operations/shared/seeAlso';
 import { getSeeAlsoByType } from '../../../../applications/operations/shared/links/utils';
-import { CreationUpdateItems, withTitle } from '../../../../utils';
+import { CreationUpdateItems, useTitle } from '../../../../utils';
 import CreatorsView from '../../../../applications/operations/components/creators-view';
 import PublishersView from '../../../../applications/operations/components/publishers-view';
 import D from '../../../../i18n/build-dictionary';
@@ -22,6 +22,8 @@ function OperationsSerieVisualization({
 	category = {},
 	organisations = [],
 }) {
+	useTitle(D.seriesTitle + ' - ' + D.operationsTitle, attr?.prefLabelLg1);
+
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
 	const dataCollectors = (attr.dataCollectors || []).map(
@@ -206,10 +208,4 @@ function OperationsSerieVisualization({
 	);
 }
 
-export default withTitle(
-	OperationsSerieVisualization,
-	D.seriesTitle + ' - ' + D.operationsTitle,
-	(props) => {
-		return props.attr?.prefLabelLg1;
-	}
-);
+export default OperationsSerieVisualization;

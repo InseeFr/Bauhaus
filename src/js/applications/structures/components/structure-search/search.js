@@ -10,8 +10,8 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	withTitle,
 	useUrlQueryParameters,
+	useTitle,
 } from '../../../../utils';
 import {
 	Column,
@@ -171,6 +171,8 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 };
 
 const SearchListContainer = () => {
+	useTitle(D.structuresTitle, D.structuresAdvancedSearch);
+
 	const [loading, setLoading] = useState(true);
 	const [items, setItems] = useState([]);
 	const [concepts, setConcepts] = useState([]);
@@ -197,8 +199,4 @@ const SearchListContainer = () => {
 	);
 };
 
-export default withTitle(
-	SearchListContainer,
-	D.structuresTitle,
-	() => D.structuresAdvancedSearch
-);
+export default SearchListContainer;

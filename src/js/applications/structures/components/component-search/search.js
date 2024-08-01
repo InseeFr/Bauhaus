@@ -16,7 +16,7 @@ import {
 	AdvancedSearchList,
 	ItemToSelectModel,
 	useUrlQueryParameters,
-	withTitle,
+	useTitle,
 } from '../../../../utils';
 import { ConceptsApi } from '../../../../new-architecture/sdk';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
@@ -129,6 +129,8 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 };
 
 const SearchListContainer = () => {
+	useTitle(D.componentTitle, D.structuresAdvancedSearch);
+
 	const [loading, setLoading] = useState(true);
 	const [items, setItems] = useState([]);
 	const [concepts, setConcepts] = useState([]);
@@ -156,8 +158,4 @@ const SearchListContainer = () => {
 	);
 };
 
-export default withTitle(
-	SearchListContainer,
-	D.componentTitle,
-	() => D.structuresAdvancedSearch
-);
+export default SearchListContainer;

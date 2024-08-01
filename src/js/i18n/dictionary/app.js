@@ -451,7 +451,7 @@ const dictionary = {
 		fr: 'Exporter',
 		en: 'Export',
 	},
-	advancedSearch: { fr: 'Recherche Avancée', en: 'Advanced Search' },
+	advancedSearch: { fr: 'Recherche avancée', en: 'Advanced search' },
 	type: {
 		fr: 'Type',
 		en: 'Type',

@@ -3,7 +3,7 @@ import { D1, D2 } from '../../../../i18n';
 import { getSeeAlsoByType } from '../../../../applications/operations/shared/links/utils';
 import DisplayLinks from '../../../../applications/operations/shared/links/';
 import SeeAlso from '../../../../applications/operations/shared/seeAlso';
-import { CreationUpdateItems, withTitle } from '../../../../utils';
+import { CreationUpdateItems, useTitle } from '../../../../utils';
 import PublishersView from '../../../../applications/operations/components/publishers-view';
 import CreatorsView from '../../../../applications/operations/components/creators-view';
 import D from '../../../../i18n/build-dictionary';
@@ -44,8 +44,15 @@ function DisplayMultiLangNote({
 	);
 }
 
-function OperationsIndicatorVisualization(props) {
-	const { attr, langs, secondLang, frequency = {}, organisations = [] } = props;
+function OperationsIndicatorVisualization({
+	attr,
+	langs,
+	secondLang,
+	frequency = {},
+	organisations = [],
+}) {
+	useTitle(D.indicatorsTitle, attr?.prefLabelLg1);
+
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
 	const contributors = (attr.contributors || []).map(
@@ -142,10 +149,4 @@ function OperationsIndicatorVisualization(props) {
 	);
 }
 
-export default withTitle(
-	OperationsIndicatorVisualization,
-	D.indicatorsTitle,
-	(props) => {
-		return props.attr?.prefLabelLg1;
-	}
-);
+export default OperationsIndicatorVisualization;
