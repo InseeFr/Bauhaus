@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Table, NumberResult } from '@inseefr/wilco';
-import DatePickerRmes from '../../../../../../applications/shared/date-picker-rmes';
+import { DatePicker } from '../../../../../../new-architecture/components';
 import D from '../../../../../../i18n';
 import { rowParams } from './data';
 import dayjs from 'dayjs';
@@ -36,7 +36,7 @@ const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 			<div className="row" style={{ marginTop: '2%' }}>
 				<div className="form-group col-md-4 col-md-offset-4 text-center">
 					<label>{D.dashboardConceptsListPickerTitle(typeByLang)}</label>
-					<DatePickerRmes
+					<DatePicker
 						value={dateFilter}
 						onChange={setDateFilter}
 						placement="top"

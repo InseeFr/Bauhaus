@@ -1,30 +1,32 @@
 import { useId, useState } from 'react';
-import { Tabs, Tab } from 'react-bootstrap';
+import { Tabs as BootstrapTabs, Tab as BootstrapTab } from 'react-bootstrap';
 
-const TabsRmes = ({ tabs }) => {
+export const Tabs = ({
+	tabs,
+}: {
+	tabs: { title: string; disabled: boolean; content: unknown }[];
+}) => {
 	const [activeTab, setActiveTab] = useState(0);
 	const id = useId();
 	return (
 		<ul className="nav nav-tabs nav-justified">
-			<Tabs
+			<BootstrapTabs
 				id={id}
 				defaultActiveKey={0}
-				onSelect={(index) => setActiveTab(index)}
+				onSelect={(index: number) => setActiveTab(index)}
 				justified
 			>
 				{tabs.map((t, i) => (
-					<Tab
+					<BootstrapTab
 						key={`tab${i}`}
 						eventKey={i}
 						title={t.title}
 						disabled={t.disabled}
 					>
 						{activeTab === i && t.content}
-					</Tab>
+					</BootstrapTab>
 				))}
-			</Tabs>
+			</BootstrapTabs>
 		</ul>
 	);
 };
-
-export default TabsRmes;

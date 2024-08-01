@@ -1,6 +1,5 @@
-import { PageTitle } from '../../../../new-architecture/components';
+import { PageTitle, Tabs } from '../../../../new-architecture/components';
 import Controls from './controls';
-import TabsRmes from '../../../../applications/shared/tabs-rmes/tabs-rmes';
 import ConceptsSummary from './concepts/summary';
 import ConceptsCreationsModifications from './concepts/creations-modifications';
 import CollectionsSummary from './collections/summary';
@@ -59,14 +58,14 @@ function ConceptsDashboard({ conceptsData, collectionsData }) {
 		},
 	];
 	const tabs = [
-		{ title: D.conceptsTitle, content: <TabsRmes tabs={tabsConcepts} /> },
-		{ title: D.collectionsTitle, content: <TabsRmes tabs={tabsCollections} /> },
+		{ title: D.conceptsTitle, content: <Tabs tabs={tabsConcepts} /> },
+		{ title: D.collectionsTitle, content: <Tabs tabs={tabsCollections} /> },
 	];
 	return (
 		<div className="container">
 			<PageTitle title={D.dashboardConceptsTitle} />
 			<Controls />
-			<TabsRmes tabs={tabs} />
+			<Tabs tabs={tabs} />
 		</div>
 	);
 }

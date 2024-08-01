@@ -1,6 +1,6 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import TabsRmes from './tabs-rmes';
+import TabsRmes from './tabs';
 
 describe('TabsRmes Component', () => {
 	const tabsMock = [
