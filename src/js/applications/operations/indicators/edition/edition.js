@@ -4,7 +4,6 @@ import {
 	EditorMarkdown,
 	ItemToSelectModel,
 	PageTitleBlock,
-	withTitle,
 	SelectRmes,
 } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
@@ -424,10 +423,4 @@ class OperationsIndicatorEdition extends Component {
 	}
 }
 
-export default withTitle(
-	OperationsIndicatorEdition,
-	D.indicatorsTitle,
-	(props) => {
-		return props.indicator?.prefLabelLg1 || D.indicatorsCreateTitle;
-	}
-);
+export default OperationsIndicatorEdition;

@@ -8,6 +8,8 @@ import { CL_FREQ } from '../../../../actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import { useCodesList } from '../../../../hooks/hooks';
+import D from '../../../../i18n';
+import { useTitle } from '../../../../utils';
 
 const OperationsIndicatorsEditionContainer = (props) => {
 	const { id } = useParams();
@@ -38,6 +40,11 @@ const OperationsIndicatorsEditionContainer = (props) => {
 	useEffect(() => {
 		api.getSeriesList().then((payload) => setSeries(payload));
 	}, []);
+
+	useTitle(
+		D.indicatorsTitle,
+		indicator?.prefLabelLg1 || D.indicatorsCreateTitle
+	);
 
 	if (!indicator.id && id) return <Loading />;
 
