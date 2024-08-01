@@ -6,6 +6,8 @@ import { Loading } from '../../../../new-architecture/components';
 import OperationsFamilyEdition from '../../../../applications/operations/families/edition/edition';
 import api from '../../../../remote-api/operations-api';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
+import D from '../../../../i18n/build-dictionary';
+import { useTitle } from '../../../../utils';
 
 const OperationsFamilyEditionContainer = () => {
 	const { id } = useParams();
@@ -19,6 +21,11 @@ const OperationsFamilyEditionContainer = () => {
 			api.getFamilyById(id).then(setFamily);
 		}
 	}, [id]);
+
+	useTitle(
+		D.familiesTitle + ' - ' + D.operationsTitle,
+		family?.prefLabelLg1 || D.familiesCreateTitle
+	);
 
 	if (!family.id && id) return <Loading />;
 	return (
