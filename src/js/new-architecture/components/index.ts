@@ -1,6 +1,7 @@
 export * from './data/conditional-display';
 export * from './data/creators';
 export * from './contributors/contributors';
+export * from './date-picker';
 export * from './dissemination-status/disseminationStatus';
 export * from './errors-bloc/index';
 export * from './creators-input';
@@ -10,5 +11,6 @@ export * from './loading/loading';
 export * from './new-button';
 export * from './required-icon';
 export * from './status';
+export * from './tabs/tabs';
 export * from './page-title';
 export * from './validationButton';

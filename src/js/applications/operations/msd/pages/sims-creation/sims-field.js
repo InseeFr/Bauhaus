@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import D from '../../../../../i18n';
 import { rangeType } from '../../../../../utils/msd/';
-import DatePickerRmes from '../../../../../applications/shared/date-picker-rmes';
+import { DatePicker } from '../../../../../new-architecture/components';
 import InputRmes from '../../../../../applications/shared/input-rmes';
 import {
 	EditorMarkdownToolbar,
@@ -162,7 +162,7 @@ class SimsField extends PureComponent {
 								/>
 							)}
 							{msd.rangeType === DATE && (
-								<DatePickerRmes
+								<DatePicker
 									aria-label={D.simsValue}
 									id={msd.idMas}
 									colMd={12}

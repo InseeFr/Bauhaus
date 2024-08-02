@@ -12,7 +12,6 @@ import {
 	ActionToolbar,
 	LabelRequired,
 } from '@inseefr/wilco';
-import DatePickerRmes from '../../../../applications/shared/date-picker-rmes';
 import api from '../../../../remote-api/api';
 import Modal from 'react-modal';
 import {
@@ -22,6 +21,7 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
+	DatePicker,
 } from '../../../../new-architecture/components';
 import Select from '../../../../utils/components/select-rmes';
 
@@ -338,7 +338,7 @@ const OperationsDocumentationEdition = (props) => {
 					<Row>
 						<div className="col-md-12 form-group">
 							<LabelRequired>{D1.titleUpdatedDate}</LabelRequired>
-							<DatePickerRmes
+							<DatePicker
 								value={updatedDate}
 								onChange={(date) => {
 									const value = date && date.split('T')[0];

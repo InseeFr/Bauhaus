@@ -1,6 +1,6 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import TabsRmes from './tabs-rmes';
+import { Tabs } from './tabs';
 
 describe('TabsRmes Component', () => {
 	const tabsMock = [
@@ -10,19 +10,19 @@ describe('TabsRmes Component', () => {
 	];
 
 	it('should render correctly with initial active tab', () => {
-		render(<TabsRmes tabs={tabsMock} />);
+		render(<Tabs tabs={tabsMock} />);
 		expect(screen.getByText('Content 1')).toBeVisible();
 	});
 
 	it('should switch tabs on click', () => {
-		render(<TabsRmes tabs={tabsMock} />);
+		render(<Tabs tabs={tabsMock} />);
 		const secondTab = screen.getByRole('tab', { name: 'Tab 2' });
 		fireEvent.click(secondTab);
 		expect(screen.getByText('Content 2')).toBeVisible();
 	});
 
 	it('should not switch to disabled tab', () => {
-		render(<TabsRmes tabs={tabsMock} />);
+		render(<Tabs tabs={tabsMock} />);
 		const disabledTab = screen.getByRole('tab', { name: 'Tab 3' });
 		fireEvent.click(disabledTab);
 		expect(screen.getByText('Content 1')).toBeVisible();

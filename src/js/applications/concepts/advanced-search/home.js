@@ -1,10 +1,13 @@
 import { Link, useHistory } from 'react-router-dom';
 import { NumberResult } from '@inseefr/wilco';
-import { PageTitle, TextInput } from '../../../new-architecture/components';
+import {
+	PageTitle,
+	TextInput,
+	DatePicker,
+} from '../../../new-architecture/components';
 
 import Select from 'react-select';
 import Controls from './controls';
-import DatePickerRmes from '../../../applications/shared/date-picker-rmes';
 import D from '../../../i18n';
 import { filterKeyDate } from '../../../new-architecture/utils/array-utils';
 import {
@@ -176,7 +179,7 @@ const ConceptSearchList = ({
 						<label>{D.conceptsCreationDateMessage}</label>
 					</div>
 					<div className="col-md-4">
-						<DatePickerRmes
+						<DatePicker
 							value={dateCreatedStart}
 							onChange={(value) => handleChange('dateCreatedStart', value)}
 							placement="bottom"
@@ -186,7 +189,7 @@ const ConceptSearchList = ({
 						<label>{D.conceptsTransitionDateMessage}</label>
 					</div>
 					<div className="col-md-4">
-						<DatePickerRmes
+						<DatePicker
 							value={dateCreatedEnd}
 							onChange={(value) => handleChange('dateCreatedEnd', value)}
 							placement="bottom"
@@ -198,7 +201,7 @@ const ConceptSearchList = ({
 						<label>{D.conceptsUpdateDateMessage}</label>
 					</div>
 					<div className="col-md-4">
-						<DatePickerRmes
+						<DatePicker
 							value={dateModifiedStart}
 							onChange={(value) => handleChange('dateModifiedStart', value)}
 							placement="bottom"
@@ -208,7 +211,7 @@ const ConceptSearchList = ({
 						<label>{D.conceptsTransitionDateMessage}</label>
 					</div>
 					<div className="col-md-4">
-						<DatePickerRmes
+						<DatePicker
 							value={dateModifiedEnd}
 							onChange={(value) => handleChange('dateModifiedEnd', value)}
 							placement="bottom"

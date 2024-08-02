@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
-import DatePickerRmes from './';
+import { DatePicker } from './';
 
 describe('date-picker', () => {
 	it('renders without crashing', () => {
-		render(<DatePickerRmes />);
+		render(<DatePicker />);
 	});
 });
