@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Loading } from '../../../../new-architecture/components/loading/loading';
-
-import { goBack, goBackOrReplace } from '@inseefr/wilco';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import { DumbComponentDetailEdit } from './edit';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis';
@@ -10,6 +9,8 @@ import { useParams } from 'react-router-dom';
 import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 
 const EditContainer = (props) => {
+	const goBack = useGoBack();
+
 	const { id } = useParams();
 	const urlParams = new URLSearchParams(window.location.search);
 	const type = urlParams.get('type');
@@ -23,9 +24,10 @@ const EditContainer = (props) => {
 
 	const stampListOptions = useStampsOptions();
 
-	const handleBack = useCallback(() => {
-		goBack(props, '/structures/components')();
-	}, [props]);
+	const handleBack = useCallback(
+		() => goBack('/structures/components'),
+		[goBack]
+	);
 
 	const handleSave = useCallback(
 		(component) => {
@@ -41,20 +43,16 @@ const EditContainer = (props) => {
 			}
 
 			request
-				.then((id = component.id) => {
-					return goBackOrReplace(
-						props,
-						`/structures/components/${id}`,
-						!component.id
-					);
-				})
+				.then((id = component.id) =>
+					goBack(`/structures/components/${id}`, !component.id)
+				)
 				.catch((error) => {
 					setComponent(component);
 					setServerSideError(error);
 				})
 				.finally(() => setSaving(false));
 		},
-		[props]
+		[goBack]
 	);
 
 	useEffect(() => {

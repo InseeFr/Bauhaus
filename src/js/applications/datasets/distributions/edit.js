@@ -2,12 +2,9 @@ import { EditorMarkdown, PageTitleBlock, useTitle } from '../../../utils';
 import {
 	ActionToolbar,
 	CancelButton,
-	goBack,
-	goBackOrReplace,
 	LabelRequired,
 	SaveButton,
 } from '@inseefr/wilco';
-
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -24,10 +21,13 @@ import {
 	ClientSideError,
 	GlobalClientSideErrorBloc,
 } from '../../../new-architecture/components';
+import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
 
 export const DistributionEdit = (props) => {
 	const { id } = useParams();
 	const isEditing = !!id;
+
+	const goBack = useGoBack();
 
 	const [editingDistribution, setEditingDistribution] = useState({});
 	const [clientSideErrors, setClientSideErrors] = useState({});
@@ -64,7 +64,7 @@ export const DistributionEdit = (props) => {
 			}
 			queryClient.invalidateQueries(['distributions']);
 
-			goBackOrReplace(props, `/datasets/distributions/${id}`, !isEditing);
+			goBack(`/datasets/distributions/${id}`, !isEditing);
 		},
 	});
 
@@ -102,7 +102,7 @@ export const DistributionEdit = (props) => {
 			)}
 
 			<ActionToolbar>
-				<CancelButton action={goBack(props, '/datasets/distributions')} />
+				<CancelButton action={() => goBack('/datasets/distributions')} />
 				<SaveButton
 					action={onSubmit}
 					disabled={clientSideErrors.errorMessage?.length > 0}

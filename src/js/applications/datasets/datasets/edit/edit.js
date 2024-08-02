@@ -10,13 +10,7 @@ import {
 	GlobalClientSideErrorBloc,
 } from '../../../../new-architecture/components';
 
-import {
-	ActionToolbar,
-	CancelButton,
-	goBack,
-	goBackOrReplace,
-	SaveButton,
-} from '@inseefr/wilco';
+import { ActionToolbar, CancelButton, SaveButton } from '@inseefr/wilco';
 import { Auth, PageTitleBlock, useTitle } from '../../../../utils';
 import { GlobalInformation } from './tabs/global-information';
 import { InternalManagement } from './tabs/internal-management';
@@ -25,10 +19,13 @@ import { StatisticalInformation } from './tabs/statistical-information';
 import { LayoutWithLateralMenu } from './layout-with-lateral-menu';
 import { validate } from './validation';
 import './edit.scss';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 
 export const DatasetEdit = (props) => {
 	const { id } = useParams();
 	const isEditing = !!id;
+
+	const goBack = useGoBack();
 
 	const [editingDataset, setEditingDataset] = useState({});
 	const [clientSideErrors, setClientSideErrors] = useState({});
@@ -160,7 +157,7 @@ export const DatasetEdit = (props) => {
 			}
 			queryClient.invalidateQueries(['datasets']);
 
-			goBackOrReplace(props, `/datasets/${id}`, !isEditing);
+			goBack(`/datasets/${id}`, !isEditing);
 		},
 	});
 
@@ -205,7 +202,7 @@ export const DatasetEdit = (props) => {
 			)}
 
 			<ActionToolbar>
-				<CancelButton action={goBack(props, '/datasets')} />
+				<CancelButton action={() => goBack('/datasets')} />
 				<SaveButton
 					action={onSubmit}
 					disabled={clientSideErrors.errorMessage?.length > 0}

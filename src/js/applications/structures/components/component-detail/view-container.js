@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { goBack } from '@inseefr/wilco';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import { Loading } from '../../../../new-architecture/components';
-
 import { ComponentDetailView } from './view';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
@@ -12,6 +11,8 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 const ViewContainer = (props) => {
+	const goBack = useGoBack();
+
 	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
@@ -25,16 +26,17 @@ const ViewContainer = (props) => {
 		return { lg1, lg2 };
 	});
 
-	const handleBack = useCallback(() => {
-		goBack(props, '/structures/components')();
-	}, [props]);
+	const handleBack = useCallback(
+		() => goBack('/structures/components'),
+		[goBack]
+	);
 
 	const handleDelete = useCallback(() => {
 		setLoading(true);
-		api.deleteMutualizedComponent(id).then(() => {
-			goBack(props, '/structures/components')();
-		});
-	}, [id, props]);
+		api
+			.deleteMutualizedComponent(id)
+			.then(() => goBack('/structures/components'));
+	}, [id, goBack]);
 
 	useEffect(() => {
 		Promise.all([

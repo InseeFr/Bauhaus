@@ -2,7 +2,6 @@ import {
 	ActionToolbar,
 	Button,
 	DeleteButton,
-	goBack,
 	ReturnButton,
 } from '@inseefr/wilco';
 import { Auth } from '../../../../utils';
@@ -10,8 +9,11 @@ import D from '../../../../i18n/build-dictionary';
 import { useSelector } from 'react-redux';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
 import { ValidationButton } from '../../../../new-architecture/components';
+import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 
 export const ViewMenu = ({ dataset, onPublish, onDelete, ...props }) => {
+	const goBack = useGoBack();
+
 	const permission = useSelector(Auth.getPermission);
 
 	const hasDatasetRightsBasedOnStamp =
@@ -21,7 +23,7 @@ export const ViewMenu = ({ dataset, onPublish, onDelete, ...props }) => {
 
 	return (
 		<ActionToolbar>
-			<ReturnButton action={goBack(props, '/datasets')} />
+			<ReturnButton action={() => goBack('/datasets')} />
 
 			{(isAdmin || hasDatasetRightsBasedOnStamp) && (
 				<ValidationButton object={dataset} callback={onPublish} />
