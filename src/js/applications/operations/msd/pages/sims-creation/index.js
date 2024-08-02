@@ -4,17 +4,13 @@ import Field from '../../../../../applications/operations/msd/pages/sims-creatio
 import { flattenTree } from '../../../../../utils/msd';
 import SimsDocumentField from '../../../../../applications/operations/msd/pages/sims-creation/sims-document-field';
 import { Loading } from '../../../../../new-architecture/components';
-
-
 import {
 	CancelButton,
 	ActionToolbar,
 	SaveButton,
-	Select,
 	CheckSecondLang,
 } from '@inseefr/wilco';
-import { default as ReactSelect } from 'react-select';
-
+import { SelectRmes } from '../../../../../utils';
 import { DUPLICATE } from '../../../../../applications/operations/msd';
 import {
 	hasLabelLg2,
@@ -303,19 +299,18 @@ class SimsCreation extends Component {
 										}}
 									/>
 									{mode === DUPLICATE && (
-										<Select
+										<SelectRmes
+											placeholder={D.operationsTitle}
 											value={operationsOptions.find(
 												({ value }) => value === idParent
 											)}
-											placeholder={D.operationsTitle}
 											options={operationsOptions}
 											onChange={this.updateIdParent}
-											searchable
 										/>
 									)}
 
 									{mode !== DUPLICATE && (
-										<ReactSelect
+										<SelectRmes
 											className="bauhaus-sims-duplicate"
 											placeholder={D.createFromAnExistingReport}
 											value={operationsWithSimsOptions.find(
@@ -324,7 +319,6 @@ class SimsCreation extends Component {
 											options={operationsWithSimsOptions}
 											onChange={this.onSiblingSimsChange()}
 											disabled={this.state.changed}
-											searchable
 											autofocus
 										/>
 									)}
@@ -339,9 +333,9 @@ class SimsCreation extends Component {
 	}
 
 	onSiblingSimsChange() {
-		return (sims) => {
+		return (value) => {
 			this.setState({ loading: true }, () => {
-				const id = sims.value;
+				const id = value;
 				api.getSims(id).then((result) => {
 					this.setState({
 						loading: false,

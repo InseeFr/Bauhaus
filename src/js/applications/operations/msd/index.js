@@ -216,7 +216,7 @@ class MSDContainer extends Component {
 							goBack={goBack}
 							mode={mode}
 							organisations={organisations}
-							parentType={params.parentType}
+							parentType={params[0]}
 							documentStores={documentStores}
 							defaultSimsRubrics={this.state.defaultSimsRubrics}
 							history={history}
