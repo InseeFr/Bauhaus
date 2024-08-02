@@ -10,7 +10,7 @@ RUN npm install --force
 RUN npm run build-insee
 
 # Étape d'exécution
-FROM nginxinc/nginx-unprivileged:1.25-alpine
+FROM nginxinc/nginx-unprivileged:mainline-alpine
 
 # Non root user
 ENV NGINX_USER_ID=101
