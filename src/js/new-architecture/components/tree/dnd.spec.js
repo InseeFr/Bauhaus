@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
-import DND from './';
+import { Tree } from './';
 
 describe('tree-dnd', () => {
 	it('renders without crashing', () => {
-		render(<DND treeData={[]} linkPath={(l) => l} />);
+		render(<Tree treeData={[]} linkPath={(l) => l} />);
 	});
 });

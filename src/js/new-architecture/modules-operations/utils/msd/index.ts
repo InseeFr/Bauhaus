@@ -7,9 +7,13 @@ import { isLang2 } from '@inseefr/wilco';
  * @param {string} idParent
  * @param {object} objectToMerge
  */
-export function getTree(input, idParent, objectToMerge) {
+export function getTree(
+	input: any[],
+	idParent: string,
+	objectToMerge: any
+): any {
 	return input
-		.filter(msd => msd.idParent === idParent)
+		.filter((msd) => msd.idParent === idParent)
 		.sort((msd1, msd2) => {
 			const msdId1 = parseInt(msd1.idMas.substr(2).replace('.', ''), 10);
 			const msdId2 = parseInt(msd2.idMas.substr(2).replace('.', ''), 10);
@@ -39,7 +43,7 @@ export function getTree(input, idParent, objectToMerge) {
  * ID of the element as a key
  * @param {Object} tree
  */
-export function flattenTree(tree) {
+export function flattenTree(tree: any): any {
 	if (!tree) {
 		return null;
 	}

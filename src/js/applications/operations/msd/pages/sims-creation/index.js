@@ -1,7 +1,7 @@
 import { Component, Fragment, useEffect, useState } from 'react';
 import D from '../../../../../i18n';
 import Field from '../../../../../applications/operations/msd/pages/sims-creation/sims-field';
-import { flattenTree } from '../../../../../utils/msd';
+import { flattenTree } from '../../../../../new-architecture/modules-operations/utils/msd';
 import SimsDocumentField from '../../../../../applications/operations/msd/pages/sims-creation/sims-document-field';
 import { Loading } from '../../../../../new-architecture/components';
 import {
@@ -22,7 +22,7 @@ import {
 import { ArrayUtils } from '../../../../../utils';
 import { mdFromEditorState } from '../../../../../new-architecture/utils/html-utils';
 import './sims-creation.scss';
-import { rangeType } from '../../../../../utils/msd/';
+import { rangeType } from '../../../../../new-architecture/modules-operations/utils/msd';
 import api from '../../../../../remote-api/operations-api';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 

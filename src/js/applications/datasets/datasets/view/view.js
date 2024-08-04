@@ -4,7 +4,6 @@ import * as select from '../../../../reducers';
 import {
 	CheckSecondLang,
 	DateUtils,
-	PageTitleBlock,
 	Stores,
 	useTitle,
 } from '../../../../utils';
@@ -16,7 +15,7 @@ import api from '../../api/datasets-api';
 import StructureAPI from '../../../structures/apis/structure-api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useThemes } from '../useThemes';
-import { withCodesLists } from '../../../../hooks/hooks';
+import { withCodesLists } from '../../../../new-architecture/utils/hoc/withCodesLists';
 import { useDataset } from '../../hooks';
 import { ViewMenu } from './menu';
 import {
@@ -29,6 +28,7 @@ import {
 	Organizations,
 	ContributorsVisualisation,
 	DisseminationStatusVisualisation,
+	PageTitleBlock,
 } from '../../../../new-architecture/components';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
 import { useOrganizations } from '../../../../new-architecture/utils/hooks/organizations';

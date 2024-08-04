@@ -1,6 +1,6 @@
 import { D1, D2 } from '../../../../../i18n';
 import { useThemes } from '../../useThemes';
-import { withCodesLists } from '../../../../../hooks/hooks';
+import { withCodesLists } from '../../../../../new-architecture/utils/hoc/withCodesLists';
 import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
 import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';

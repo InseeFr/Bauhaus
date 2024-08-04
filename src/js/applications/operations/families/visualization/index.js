@@ -7,6 +7,7 @@ import {
 	Loading,
 	ErrorBloc,
 	ValidationButton,
+	PageTitleBlock,
 } from '../../../../new-architecture/components';
 
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
@@ -14,12 +15,7 @@ import api from '../../../../remote-api/operations-api';
 
 import { useCallback, useEffect, useState } from 'react';
 import OperationsFamilyVisualization from '../../../../applications/operations/families/visualization/visualization';
-import {
-	Auth,
-	Stores,
-	CheckSecondLang,
-	PageTitleBlock,
-} from '../../../../utils';
+import { Auth, Stores, CheckSecondLang } from '../../../../utils';
 import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
 const Family = () => {
 	const { id } = useParams();

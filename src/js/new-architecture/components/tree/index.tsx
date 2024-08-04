@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import SortableTree from 'react-sortable-tree';
+import SortableTree, { TreeItem } from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 import './dnd.scss';
 
-const RmesTree = ({ treeData, canDrag, linkPath }) => {
-	const [tree, setTree] = useState(treeData);
+type TreeTypes = {
+	treeData: Array<TreeItem<any>>;
+	canDrag?: boolean;
+	linkPath: (id: string) => string;
+};
+export const Tree = ({ treeData, canDrag, linkPath }: TreeTypes) => {
+	const [tree, setTree] = useState<Array<TreeItem<any>>>(treeData);
 
 	return (
 		<div style={{ width: '100%', height: '80vh' }}>
@@ -23,5 +28,3 @@ const RmesTree = ({ treeData, canDrag, linkPath }) => {
 		</div>
 	);
 };
-
-export default RmesTree;

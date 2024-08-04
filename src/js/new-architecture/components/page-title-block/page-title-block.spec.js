@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import PageTitleBlock from './';
+import { PageTitleBlock } from './';
 
 describe('page-title-bloc', () => {
 	it('renders one PageTitle only is secondLang is false', () => {

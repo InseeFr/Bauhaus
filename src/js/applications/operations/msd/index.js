@@ -1,7 +1,7 @@
 import { Component, useEffect, useState } from 'react';
 import MSDLayout from '../../../applications/operations/msd/layout/';
 import { connect } from 'react-redux';
-import { Loading } from '../../../new-architecture/components';
+import { Loading, PageTitleBlock } from '../../../new-architecture/components';
 import { NOT_LOADED, LOADED } from '../../../constants';
 import loadMetadataStructure from '../../../actions/operations/metadatastructure/list';
 import { D1, D2 } from '../../../i18n';
@@ -19,7 +19,7 @@ import MSDHelp from '../../../applications/operations/msd/pages/help';
 import SimsVisualisation from '../../../applications/operations/msd/pages/sims-visualisation/';
 import SimsCreation from '../../../applications/operations/msd/pages/sims-creation/';
 import * as select from '../../../reducers';
-import { Stores, PageTitleBlock, ArrayUtils } from '../../../utils';
+import { Stores, ArrayUtils } from '../../../utils';
 import api from '../../../remote-api/operations-api';
 import './msd.scss';
 import { isEssentialRubricKo } from './sims-field-title';

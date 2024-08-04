@@ -1,8 +1,19 @@
 import { Note } from '@inseefr/wilco';
 import DOMPurify from 'dompurify';
-import { markdownToHtml } from '../../../new-architecture/utils/html-utils';
+import { markdownToHtml } from '../../utils/html-utils';
 
-export const ExplanatoryNote = ({ text, title, alone, md }) => {
+type ExplanatoryNoteTypes = {
+	text: string;
+	title: string;
+	alone?: boolean;
+	md?: boolean;
+};
+export const ExplanatoryNote = ({
+	text,
+	title,
+	alone,
+	md,
+}: ExplanatoryNoteTypes) => {
 	const cl = alone ? 'col-md-12' : 'col-md-6';
 	if (!text) return <div className={cl} />;
 

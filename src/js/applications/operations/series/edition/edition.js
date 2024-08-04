@@ -5,6 +5,9 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
+	TextInput,
+	CreatorsInput,
+	PageTitleBlock,
 } from '../../../../new-architecture/components';
 
 import {
@@ -20,17 +23,12 @@ import {
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
-	PageTitleBlock,
 	SelectRmes,
 } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
 
 import { isMandatoryField, validate } from './validation';
 import api from '../../../../remote-api/operations-api';
-import {
-	TextInput,
-	CreatorsInput,
-} from '../../../../new-architecture/components';
 
 const defaultSerie = {
 	id: '',

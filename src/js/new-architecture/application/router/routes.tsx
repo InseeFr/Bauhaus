@@ -1,15 +1,21 @@
 import { Suspense, lazy, useEffect, useMemo, memo } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { Loading } from '../new-architecture/components/loading/loading';
 
-import auth from '../applications/auth/hoc';
+import auth from '../../../applications/auth/hoc';
 
-import NotFound, { UnderMaintenance } from '../applications/shared/not-found/';
+import NotFound, {
+	UnderMaintenance,
+} from '../../../applications/shared/not-found/';
 
-import App from '../app';
+import App from '../../../app';
 import { useSelector } from 'react-redux';
+import { Loading } from '../../components';
 
-const getComponent = (pageName, pages, activeModules) => {
+const getComponent = (
+	pageName: string,
+	pages: Record<string, any>,
+	activeModules: string[]
+) => {
 	if (!activeModules.includes(pageName)) {
 		return UnderMaintenance;
 	}
@@ -19,13 +25,16 @@ const getComponent = (pageName, pages, activeModules) => {
 	const Component = pages[pageName];
 	return memo(() => {
 		useEffect(() => {
-			document.getElementById('root-app').classList = [pageName];
+			// @ts-ignore
+			document.getElementById('root-app').removeAttribute('class');
+			// @ts-ignore
+			document.getElementById('root-app').classList.add(pageName);
 		}, []);
 		return <Component />;
 	});
 };
 
-const getHomePage = (pages) => {
+const getHomePage = (pages: Record<string, string>) => {
 	if (!pages) {
 		return null;
 	}
@@ -39,15 +48,15 @@ const getHomePage = (pages) => {
 };
 export default auth(() => {
 	const activeModules = useSelector(
-		(state) => state.app.properties.activeModules
+		(state) => (state as any).app.properties.activeModules
 	);
-	const modules = useSelector((state) => state.app.properties.modules);
+	const modules = useSelector((state) => (state as any).app.properties.modules);
 	const pages = useMemo(() => {
-		return modules.reduce((acc, appName) => {
+		return modules.reduce((acc: Record<string, any>, appName: string) => {
 			const app = appName.trim();
 			return {
 				...acc,
-				[app]: lazy(() => import('../applications/' + app + '/routes')),
+				[app]: lazy(() => import('../../../applications/' + app + '/routes')),
 			};
 		}, []);
 	}, [modules]);

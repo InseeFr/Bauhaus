@@ -7,12 +7,12 @@ import {
 	ContributorsVisualisation,
 	DisseminationStatusVisualisation,
 	ErrorBloc,
+	PageTitleBlock,
 } from '../../../new-architecture/components';
 import { useSelector } from 'react-redux';
 import {
 	CheckSecondLang,
 	Stores,
-	PageTitleBlock,
 	useTitle,
 	CreationUpdateItems,
 } from '../../../utils';

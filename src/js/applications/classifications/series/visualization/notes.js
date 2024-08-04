@@ -1,6 +1,5 @@
-import { ExplanatoryNote } from '../../../shared/explanatory-note';
 import { D1, D2 } from '../../../../i18n';
-import { Row } from '../../../../new-architecture/components';
+import { Row, ExplanatoryNote } from '../../../../new-architecture/components';
 
 const Notes = ({
 	notes: { scopeNoteLg1, scopeNoteLg2 },

@@ -1,4 +1,14 @@
-function PageTitleBlock({ titleLg1, titleLg2, secondLang }) {
+type PageTitleBlockTypes = {
+	titleLg1: string;
+	titleLg2: string;
+	secondLang: boolean;
+};
+
+export const PageTitleBlock = ({
+	titleLg1,
+	titleLg2,
+	secondLang,
+}: PageTitleBlockTypes) => {
 	return (
 		<>
 			<div className="row wilco-page-title">
@@ -11,6 +21,4 @@ function PageTitleBlock({ titleLg1, titleLg2, secondLang }) {
 			</div>
 		</>
 	);
-}
-
-export default PageTitleBlock;
+};

@@ -2,21 +2,21 @@ import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { RBACLink } from '.';
-import { removeToken } from '../utils/auth/open-id-connect-auth/token-utils';
-import D from '../new-architecture/i18n';
-import { Auth } from '../utils';
-import configureStore from '../store/configure-store';
-import { renderWithRouter } from '../new-architecture/tests-utils/render';
+import { removeToken } from '../../../utils/auth/open-id-connect-auth/token-utils';
+import D from '../../i18n';
+import { Auth } from '../../../utils';
+import configureStore from '../../../store/configure-store';
+import { renderWithRouter } from '../../tests-utils/render';
 
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'),
 	useLocation: jest.fn(),
 }));
-jest.mock('../new-architecture/utils/env', () => ({
+jest.mock('../../utils/env', () => ({
 	getEnvVar: (key) => (key === 'NAME' ? 'TestApp' : '1.0.0'),
 }));
 
-jest.mock('../utils/auth/open-id-connect-auth/token-utils', () => ({
+jest.mock('../../../utils/auth/open-id-connect-auth/token-utils', () => ({
 	removeToken: jest.fn(),
 }));
 

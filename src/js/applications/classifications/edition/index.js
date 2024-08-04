@@ -1,7 +1,7 @@
 import { useClassification, useUpdateClassification } from '../hooks';
 import { useParams, Redirect } from 'react-router-dom';
 import { ActionToolbar, LabelRequired } from '@inseefr/wilco';
-import { EditorMarkdown, PageTitleBlock, useTitle } from '../../../utils';
+import { EditorMarkdown, useTitle } from '../../../utils';
 import { useForm, Controller } from 'react-hook-form';
 import SelectRmes from '../../../utils/components/select-rmes';
 import D, { D1, D2 } from '../../../i18n';
@@ -13,6 +13,7 @@ import {
 	Loading,
 	ClientSideError,
 	GlobalClientSideErrorBloc,
+	PageTitleBlock,
 } from '../../../new-architecture/components';
 import { useStampsOptions } from '../../../new-architecture/utils/hooks/stamps';
 import { useOrganizationsOptions } from '../../../new-architecture/utils/hooks/organizations';

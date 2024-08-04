@@ -1,5 +1,5 @@
-import { CheckSecondLang, PageTitleBlock } from '../../../../utils';
-
+import { CheckSecondLang } from '../../../../utils';
+import { PageTitleBlock } from '../../../../new-architecture/components';
 const ComponentTitle = ({ component, secondLang }) => {
 	return (
 		<>

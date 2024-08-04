@@ -9,18 +9,14 @@ import {
 	Loading,
 	ErrorBloc,
 	ValidationButton,
+	PageTitleBlock,
 } from '../../../../new-architecture/components';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import api from '../../../../remote-api/operations-api';
 
 import { CL_FREQ } from '../../../../actions/constants/codeList';
-import {
-	Auth,
-	Stores,
-	CheckSecondLang,
-	PageTitleBlock,
-} from '../../../../utils';
-import { useCodesList } from '../../../../hooks/hooks';
+import { Auth, Stores, CheckSecondLang } from '../../../../utils';
+import { useCodesList } from '../../../../new-architecture/utils/hooks/codeslist';
 import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
 const IndicatorVisualizationContainer = () => {
 	const { id } = useParams();

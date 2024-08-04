@@ -7,17 +7,13 @@ import {
 	Loading,
 	ErrorBloc,
 	ValidationButton,
+	PageTitleBlock,
 } from '../../../../new-architecture/components';
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import OperationsOperationVisualization from './home';
 import D from '../../../../i18n';
 
-import {
-	Auth,
-	Stores,
-	CheckSecondLang,
-	PageTitleBlock,
-} from '../../../../utils';
+import { Auth, Stores, CheckSecondLang } from '../../../../utils';
 import api from '../../../../remote-api/operations-api';
 
 const OperationVisualizationContainer = () => {

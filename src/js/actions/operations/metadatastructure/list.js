@@ -1,7 +1,7 @@
 import api from '../../../remote-api/operations-api';
 import * as A from '../../../actions/constants';
 import { loadCodesList } from '../../../actions/operations/utils/setup';
-import { getTree } from '../../../utils/msd';
+import { getTree } from '../../../new-architecture/modules-operations/utils/msd';
 
 const fetchMsd = () => (dispatch, getState) => {
 	dispatch({

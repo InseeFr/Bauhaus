@@ -6,14 +6,12 @@ import ModalRmes from '../../../applications/shared/modal-rmes/modal-rmes';
 import D from '../../../i18n';
 import { buildNotes } from '../../../utils/concepts/notes';
 import { getModalMessage } from '../../../utils/concepts/build-validation-message';
-import {
-	CheckSecondLang,
-	DateUtils,
-	PageTitleBlock,
-	useTitle,
-} from '../../../utils';
+import { CheckSecondLang, DateUtils, useTitle } from '../../../utils';
 import NoteVisualization from '../../shared/note-visualization';
-import { ErrorBloc } from '../../../new-architecture/components';
+import {
+	ErrorBloc,
+	PageTitleBlock,
+} from '../../../new-architecture/components';
 const ConceptVisualization = ({
 	id,
 	permission,

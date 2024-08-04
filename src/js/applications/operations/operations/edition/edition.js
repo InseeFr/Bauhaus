@@ -8,7 +8,6 @@ import {
 	LabelRequired,
 } from '@inseefr/wilco';
 import { validate } from './validation';
-import { PageTitleBlock } from '../../../../utils';
 import api from '../../../../remote-api/operations-api';
 import {
 	TextInput,
@@ -16,6 +15,7 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
+	PageTitleBlock,
 } from '../../../../new-architecture/components';
 import Select from '../../../../utils/components/select-rmes';
 

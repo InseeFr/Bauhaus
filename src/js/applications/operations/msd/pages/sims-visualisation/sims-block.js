@@ -1,4 +1,4 @@
-import { rangeType } from '../../../../../utils/msd/';
+import { rangeType } from '../../../../../new-architecture/modules-operations/utils/msd';
 
 import SimsBlockText from './sims-block-text';
 import SimsBlockDate from './sims-block-date';

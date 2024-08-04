@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '../../../../remote-api/classifications-api';
 import { ActionToolbar, ErrorBloc, LabelRequired } from '@inseefr/wilco';
 import { Redirect, useParams } from 'react-router-dom';
-import { EditorMarkdown, PageTitleBlock } from '../../../../utils';
+import { EditorMarkdown } from '../../../../utils';
 import { Controller, useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';
 import useClassificationItem from '../hook';
@@ -12,6 +12,7 @@ import {
 	TextInput,
 	Loading,
 	Row,
+	PageTitleBlock,
 } from '../../../../new-architecture/components';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 

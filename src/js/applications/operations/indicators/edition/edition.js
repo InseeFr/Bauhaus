@@ -3,7 +3,6 @@ import D, { D1, D2 } from '../../../../i18n';
 import {
 	EditorMarkdown,
 	ItemToSelectModel,
-	PageTitleBlock,
 	SelectRmes,
 } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
@@ -17,6 +16,7 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
+	PageTitleBlock,
 	RequiredIcon,
 } from '../../../../new-architecture/components';
 import api from '../../../../remote-api/operations-api';
