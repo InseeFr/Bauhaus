@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import D from '../../../../i18n';
-import { CLOSE_MATCH } from '../../../../constants';
+import { CLOSE_MATCH } from '../../../../new-architecture/sdk/constants';
 import './equivalentLinks.scss';
 export const EquivalentLinks = ({ links = [], updateEquivalentLinks }) => {
 	const [value, setValue] = useState('');

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import app from '../store/users';
+import app from '../new-architecture/redux/users';
 import classificationsReducers from './classifications';
 import operationsReducers from './operations';
 import codesListReducers from './operations/codesList';

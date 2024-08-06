@@ -1,4 +1,4 @@
-import { NONE } from '../../../constants';
+import { NONE } from '../../../new-architecture/sdk/constants';
 import { takeKeys, prefixWithHttp } from '@inseefr/wilco';
 
 export function processLinks(conceptsWithLinks) {

@@ -1,22 +1,22 @@
-import { SAVE_SECOND_LANG } from '../utils/stores/second-lang';
+import { SAVE_SECOND_LANG } from '../../utils/stores/second-lang';
 
 export const CHECK_AUTH = 'CHECK_AUTH';
 export const SAVE_USER_PROPS = 'SAVE_USER_PROPS';
 
-export const saveUserProps = (props) => {
+export const saveUserProps = (props: unknown) => {
 	return {
 		type: SAVE_USER_PROPS,
 		payload: props,
 	};
 };
 
-export const checkAuth = (body) => ({
+export const checkAuth = (body: unknown) => ({
 	type: CHECK_AUTH,
 	payload: body,
 });
 
-const UserReducer = (state = {}, action) => {
-	const { type, payload } = action;
+const UserReducer = (state: any = {}, action: unknown) => {
+	const { type, payload } = action as any;
 	switch (type) {
 		case SAVE_SECOND_LANG: {
 			return {

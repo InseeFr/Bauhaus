@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
 import Root from './js/new-architecture/application/router';
-import configureStore from './js/store/configure-store';
+import configureStore from './js/new-architecture/redux/configure-store';
 import Api from './js/remote-api/api';
 import { I18NContext, BackToTop, getLang } from '@inseefr/wilco';
 import D from './js/i18n';

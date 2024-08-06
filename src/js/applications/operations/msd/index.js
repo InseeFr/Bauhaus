@@ -2,7 +2,7 @@ import { Component, useEffect, useState } from 'react';
 import MSDLayout from '../../../applications/operations/msd/layout/';
 import { connect } from 'react-redux';
 import { Loading, PageTitleBlock } from '../../../new-architecture/components';
-import { NOT_LOADED, LOADED } from '../../../constants';
+import { NOT_LOADED, LOADED } from '../../../new-architecture/sdk/constants';
 import loadMetadataStructure from '../../../actions/operations/metadatastructure/list';
 import { D1, D2 } from '../../../i18n';
 import globalApi from '../../../remote-api/api';

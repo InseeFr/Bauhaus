@@ -2,7 +2,7 @@ import reducerCorrespondenceAssociation, {
 	getAssociation,
 } from './association';
 import * as A from '../../../actions/constants';
-import { LOADING, LOADED } from '../../../constants';
+import { LOADING, LOADED } from '../../../new-architecture/sdk/constants';
 import * as associationUtils from '../../../applications/classifications/utils/correspondence/association';
 
 describe('reducerCorrespondenceAssociation', () => {

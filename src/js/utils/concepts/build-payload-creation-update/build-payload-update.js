@@ -4,7 +4,10 @@ import {
 	processVersionableChanges,
 	keepDatableNotes,
 } from '../../../utils/concepts/notes';
-import { CLOSE_MATCH, VERSIONING } from '../../../constants';
+import {
+	CLOSE_MATCH,
+	VERSIONING,
+} from '../../../new-architecture/sdk/constants';
 
 //only `isValidated` is not sent
 const generalFieldsToKeep = [

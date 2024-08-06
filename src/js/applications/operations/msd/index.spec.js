@@ -1,5 +1,5 @@
 import { mapStateToProps, HELP, VIEW } from './index';
-import { NOT_LOADED, LOADED } from '../../../constants';
+import { NOT_LOADED, LOADED } from '../../../new-architecture/sdk/constants';
 
 describe('', () => {
 	it('should return NOT_LOADED for the metadataStructureStatus', () => {

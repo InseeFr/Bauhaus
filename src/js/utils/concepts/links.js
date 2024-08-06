@@ -7,7 +7,7 @@ import {
 	NONE,
 	CLOSE_MATCH,
 	IS_REPLACED_BY,
-} from '../../constants';
+} from '../../new-architecture/sdk/constants';
 
 const linkTypes = {
 	[BROADER]: BROADER,

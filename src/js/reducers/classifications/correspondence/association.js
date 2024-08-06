@@ -1,5 +1,5 @@
 import * as A from '../../../actions/constants';
-import { LOADED, LOADING } from '../../../constants';
+import { LOADED, LOADING } from '../../../new-architecture/sdk/constants';
 import * as associationUtils from '../../../applications/classifications/utils/correspondence/association';
 
 const reducers = (state = {}, action) => {

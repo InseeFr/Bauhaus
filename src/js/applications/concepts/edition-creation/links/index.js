@@ -13,7 +13,7 @@ import {
 	REFERENCES,
 	RELATED,
 	SUCCEED,
-} from '../../../../constants';
+} from '../../../../new-architecture/sdk/constants';
 import { EquivalentLinks } from './equivalentLinks';
 
 const linkTypes = [

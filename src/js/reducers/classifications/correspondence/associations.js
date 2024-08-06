@@ -1,5 +1,5 @@
 import * as A from '../../../actions/constants';
-import { LOADED } from '../../../constants';
+import { LOADED } from '../../../new-architecture/sdk/constants';
 
 const reducers = (state = {}, action) => {
 	const { type, payload } = action;

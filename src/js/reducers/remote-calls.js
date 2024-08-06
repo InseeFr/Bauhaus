@@ -1,4 +1,4 @@
-import { PENDING, OK, KO } from '../constants';
+import { PENDING, OK, KO } from '../new-architecture/sdk/constants';
 import * as A from '../actions/constants';
 
 const trackResetReducer = (state = {}, actions) => {

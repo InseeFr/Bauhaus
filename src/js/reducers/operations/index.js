@@ -1,5 +1,5 @@
 import * as A from '../../actions/constants';
-import { LOADED, LOADING, ERROR } from '../../constants';
+import { LOADED, LOADING, ERROR } from '../../new-architecture/sdk/constants';
 import * as currentReducers from '../../reducers/operations/current';
 import { ArrayUtils } from '../../utils';
 

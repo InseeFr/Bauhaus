@@ -14,7 +14,7 @@ import {
 import Select from 'react-select';
 import D from '../js/i18n';
 import { createRoot } from 'react-dom/client';
-import { CHECK_AUTH } from '../js/store/users';
+import { CHECK_AUTH } from '../js/new-architecture/redux/users';
 
 const options = [
 	ADMIN,

@@ -7,7 +7,7 @@ import buildPayloadUpdate from '../../../utils/concepts/build-payload-creation-u
 import { mergeWithAllConcepts } from '../../../utils/concepts/links';
 import D from '../../../i18n';
 import { Loading } from '../../../new-architecture/components';
-import { CLOSE_MATCH } from '../../../constants';
+import { CLOSE_MATCH } from '../../../new-architecture/sdk/constants';
 import { rmesHtmlToRawHtml } from '../../../new-architecture/utils/html-utils';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import { emptyNotes } from '../../../utils/concepts/notes';

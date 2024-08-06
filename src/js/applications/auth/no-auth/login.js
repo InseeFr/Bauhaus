@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import {
 	ADMIN,
 	CODELIST_CONTRIBUTOR,
@@ -9,7 +9,7 @@ import {
 	SERIES_CONTRIBUTOR,
 	STRUCTURE_CONTRIBUTOR,
 } from '../../../utils/auth/roles';
-import { checkAuth } from '../../../store/users';
+import { checkAuth } from '../../../new-architecture/redux/users';
 
 const LoginNoAuth = ({ checkAuth }) => {
 	useEffect(() => {
