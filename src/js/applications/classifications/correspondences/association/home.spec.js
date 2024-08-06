@@ -2,7 +2,7 @@ import Home from './home';
 import * as associationUtils from '../../../../applications/classifications/utils/correspondence/association';
 
 import { Provider } from 'react-redux';
-import configureStore from '../../../../store/configure-store';
+import configureStore from '../../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 
 const store = configureStore({

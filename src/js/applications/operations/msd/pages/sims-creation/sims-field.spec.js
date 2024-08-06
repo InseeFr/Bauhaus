@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import Field from './sims-field';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import configureStore from '../../../../../store/configure-store';
+import configureStore from '../../../../../new-architecture/redux/configure-store';
 import { rangeType } from '../../../../../new-architecture/modules-operations/utils/msd';
 
 const store = configureStore({ operationsDocuments: {} });

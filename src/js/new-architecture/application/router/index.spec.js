@@ -5,7 +5,7 @@ import { RBACLink } from '.';
 import { removeToken } from '../../../utils/auth/open-id-connect-auth/token-utils';
 import D from '../../i18n';
 import { Auth } from '../../../utils';
-import configureStore from '../../../store/configure-store';
+import configureStore from '../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../tests-utils/render';
 
 jest.mock('react-router-dom', () => ({

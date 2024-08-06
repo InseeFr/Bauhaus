@@ -3,7 +3,7 @@ import ConceptVisualizationContainer from './home-container';
 import { Provider } from 'react-redux';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import * as R from '../../../utils/auth/roles';
-import configureStore from '../../../store/configure-store';
+import configureStore from '../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 jest.mock('../../../new-architecture/sdk');

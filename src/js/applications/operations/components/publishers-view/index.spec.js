@@ -2,7 +2,7 @@ import PublishersView from './';
 import { render } from '@testing-library/react';
 
 import { Provider } from 'react-redux';
-import configureStore from '../../../../store/configure-store';
+import configureStore from '../../../../new-architecture/redux/configure-store';
 
 const store = configureStore({
 	operationsOrganisations: {
