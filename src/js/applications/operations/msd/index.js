@@ -9,7 +9,7 @@ import globalApi from '../../../remote-api/api';
 import {
 	getOperationsOrganisations,
 	getOperationsCodesList,
-} from '../../../reducers/operations/selector';
+} from '../../../new-architecture/redux/operations/selector';
 import loadSIMS, {
 	saveSims,
 	publishSims,

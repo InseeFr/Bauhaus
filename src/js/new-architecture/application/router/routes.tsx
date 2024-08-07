@@ -3,11 +3,12 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import auth from '../../../applications/auth/hoc';
 
-import NotFound, {
+import {
+	NotFound,
 	UnderMaintenance,
 } from '../../../applications/shared/not-found/';
 
-import App from '../../../app';
+import App from '../app';
 import { useSelector } from 'react-redux';
 import { Loading } from '../../components';
 
