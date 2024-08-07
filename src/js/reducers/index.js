@@ -5,7 +5,6 @@ import operationsReducers from './operations';
 import codesListReducers from './operations/codesList';
 import organisationsReducers from './operations/organisations';
 import { Stores } from '../utils';
-import remoteCalls from './remote-calls';
 
 export default combineReducers({
 	app,
@@ -15,7 +14,6 @@ export default combineReducers({
 	...organisationsReducers,
 	geographies: Stores.Geographies.reducer,
 	users: Stores.UsersAction.reducer,
-	remoteCalls,
 });
 
 export const getLangs = (state) => {

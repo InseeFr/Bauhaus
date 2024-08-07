@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import FamilyVisualization from './home';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components';
 import { Stores } from '../../../../utils';
 import { useParams } from 'react-router-dom';
-import api from '../../../../remote-api/classifications-api';
+import { ClassificationsApi } from '../../../../new-architecture/sdk/classification';
 
 const FamilyVisualizationContainer = () => {
 	const { id } = useParams();
@@ -13,14 +13,15 @@ const FamilyVisualizationContainer = () => {
 	);
 	const [family, setFamily] = useState();
 	useEffect(() => {
-		Promise.all([api.getFamilyGeneral(id), api.getFamilyMembers(id)]).then(
-			([general, members]) => {
-				setFamily({
-					general: general ?? {},
-					members: members ?? [],
-				});
-			}
-		);
+		Promise.all([
+			ClassificationsApi.getFamilyGeneral(id),
+			ClassificationsApi.getFamilyMembers(id),
+		]).then(([general, members]) => {
+			setFamily({
+				general: general ?? {},
+				members: members ?? [],
+			});
+		});
 	}, [id]);
 
 	if (!family) return <Loading />;

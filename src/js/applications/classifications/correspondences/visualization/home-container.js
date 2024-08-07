@@ -1,22 +1,22 @@
 import { useSelector } from 'react-redux';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components';
 import HomeGeneral from './home-general';
 import HomeAssociations from './home-associations';
 import * as select from '../../../../reducers';
 import { Stores } from '../../../../utils';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import api from '../../../../remote-api/classifications-api';
+import { ClassificationsApi } from '../../../../new-architecture/sdk/classification';
 
 const CorrespondencesHomeContainer = () => {
 	const { id } = useParams();
 	const { data: correspondence, isLoading } = useQuery({
 		queryKey: ['correspondance-general', id],
-		queryFn: () => api.getCorrespondenceGeneral(id),
+		queryFn: () => ClassificationsApi.getCorrespondenceGeneral(id),
 	});
 	const { data: associations } = useQuery({
 		queryKey: ['correspondance-associations', id],
-		queryFn: () => api.getCorrespondenceAssociations(id),
+		queryFn: () => ClassificationsApi.getCorrespondenceAssociations(id),
 	});
 
 	const secondLang = useSelector((state) =>

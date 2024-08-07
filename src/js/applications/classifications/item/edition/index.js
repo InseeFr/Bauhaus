@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import api from '../../../../remote-api/classifications-api';
 import { ActionToolbar, ErrorBloc, LabelRequired } from '@inseefr/wilco';
 import { Redirect, useParams } from 'react-router-dom';
 import { EditorMarkdown } from '../../../../utils';
@@ -15,6 +14,7 @@ import {
 	PageTitleBlock,
 } from '../../../../new-architecture/components';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
+import { ClassificationsApi } from '../../../../new-architecture/sdk/classification';
 
 const titleMapping = {
 	definition: 'classificationsDefinition',
@@ -46,7 +46,7 @@ const ClassificationItemEdition = () => {
 		isSuccess: isSavingSuccess,
 	} = useMutation({
 		mutationFn: (general) => {
-			return api.putClassificationItemGeneral(
+			return ClassificationsApi.putClassificationItemGeneral(
 				classificationId,
 				itemId,
 				general

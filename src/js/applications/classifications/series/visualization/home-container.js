@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import SeriesVisualization from './home';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components';
 import * as select from '../../../../reducers';
 import { Stores } from '../../../../utils';
 import { useParams } from 'react-router-dom';
-import api from '../../../../remote-api/classifications-api';
+import { ClassificationsApi } from '../../../../new-architecture/sdk/classification';
 
 const SeriesVisualizationContainer = () => {
 	const { id } = useParams();
@@ -16,14 +16,15 @@ const SeriesVisualizationContainer = () => {
 	);
 	const langs = useSelector((state) => select.getLangs(state));
 	useEffect(() => {
-		Promise.all([api.getSeriesGeneral(id), api.getSeriesMembers(id)]).then(
-			([general, members]) => {
-				setSeries({
-					general: general ?? {},
-					members: members ?? [],
-				});
-			}
-		);
+		Promise.all([
+			ClassificationsApi.getSeriesGeneral(id),
+			ClassificationsApi.getSeriesMembers(id),
+		]).then(([general, members]) => {
+			setSeries({
+				general: general ?? {},
+				members: members ?? [],
+			});
+		});
 	}, [id]);
 
 	if (!series) return <Loading />;

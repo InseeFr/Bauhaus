@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import CorrespondencesHome from './home';
-import api from '../../../remote-api/classifications-api';
+import { ClassificationsApi } from '../../../new-architecture/sdk/classification';
 
 const CorrespondencesHomeContainer = () => {
 	const [correspondences, setCorrespondences] = useState();
 
 	useEffect(() => {
-		api.getCorrespondencesList().then(setCorrespondences);
+		ClassificationsApi.getCorrespondencesList().then(setCorrespondences);
 	}, []);
 
 	if (!correspondences) return <Loading />;

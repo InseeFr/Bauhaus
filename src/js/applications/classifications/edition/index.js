@@ -6,7 +6,6 @@ import { useForm, Controller } from 'react-hook-form';
 import SelectRmes from '../../../utils/components/select-rmes';
 import D, { D1, D2 } from '../../../i18n';
 import { useQuery } from '@tanstack/react-query';
-import api from '../../../remote-api/classifications-api';
 import {
 	TextInput,
 	Row,
@@ -20,6 +19,7 @@ import { useOrganizationsOptions } from '../../../new-architecture/utils/hooks/o
 import { transformModelToSelectOptions } from '../../../new-architecture/utils/transformer';
 import { useDisseminationStatusOptions } from '../../../new-architecture/utils/hooks/disseminationStatus';
 import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
+import { ClassificationsApi } from '../../../new-architecture/sdk/classification';
 
 export const ClassificationEdition = () => {
 	const goBack = useGoBack();
@@ -42,7 +42,7 @@ export const ClassificationEdition = () => {
 	const { data: series } = useQuery({
 		queryKey: ['classifications-series'],
 		queryFn: () => {
-			return api.getSeriesList();
+			return ClassificationsApi.getSeriesList();
 		},
 	});
 	const seriesOptions = transformModelToSelectOptions(series ?? []);
@@ -53,7 +53,7 @@ export const ClassificationEdition = () => {
 	const stampsOptions = useStampsOptions();
 	const { data: classifications } = useQuery({
 		queryKey: ['classifications'],
-		queryFn: api.getList,
+		queryFn: ClassificationsApi.getList,
 	});
 	const classificationsOptions =
 		classifications
