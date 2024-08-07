@@ -9,8 +9,8 @@ import { cleanId } from '@inseefr/wilco';
 import { Loading } from '../../../new-architecture/components';
 
 import { ConceptsApi } from '../../../new-architecture/sdk';
-import apiCollections from '../../../remote-api/concepts-collection-api';
 import { useTitle } from '../../../utils';
+import { CollectionApi } from '../../../new-architecture/sdk/collection-api';
 
 const EditionContainer = () => {
 	const { id } = useParams();
@@ -39,7 +39,7 @@ const EditionContainer = () => {
 	useEffect(() => {
 		Promise.all([
 			ConceptsApi.getConceptList(),
-			apiCollections.getCollectionList(),
+			CollectionApi.getCollectionList(),
 		])
 			.then(([conceptsList, collectionsList]) => {
 				setConceptList(conceptsList);

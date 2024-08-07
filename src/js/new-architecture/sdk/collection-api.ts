@@ -1,10 +1,10 @@
-import { buildApi } from '../new-architecture/sdk';
+import { buildApi } from './build-api';
 
 const api = {
 	getCollectionList: () => ['collections'],
 	getCollectionExportZipByType: (
-		ids,
-		type,
+		ids: string[],
+		type: string,
 		lang = 'lg1',
 		withConcepts = false
 	) => [
@@ -17,12 +17,12 @@ const api = {
 				'Content-Type': 'text/plain',
 			},
 		},
-		(res) => res,
+		(res: Response) => res,
 	],
 	getCollectionExportByType: (
-		id,
-		MimeType,
-		type,
+		id: string,
+		MimeType: string,
+		type: string,
 		lang = 'lg1',
 		withConcepts = false
 	) => [
@@ -33,8 +33,8 @@ const api = {
 				'Content-Type': 'text/plain',
 			},
 		},
-		(res) => res,
+		(res: Response) => res,
 	],
 };
 
-export default buildApi('concepts-collections', api);
+export const CollectionApi = buildApi('concepts-collections', api);

@@ -1,11 +1,11 @@
 import { Options } from '../../model/SelectOption';
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../../../utils/stores/actions/dissemination-status.action';
+import { DisseminationStatus } from '../../sdk/dissemination-status';
 export const useDisseminationStatus = () => {
 	return useQuery({
 		queryKey: ['dissemination-status'],
 		queryFn: () => {
-			return api.getDisseminationStatus() as Promise<any[]>;
+			return DisseminationStatus.getDisseminationStatus() as Promise<any[]>;
 		},
 	});
 };

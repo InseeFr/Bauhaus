@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { ActionToolbar, Button } from '@inseefr/wilco';
 import check from '../../../utils/auth';
 import D from '../../../i18n';
-import api from '../../../remote-api/concepts-collection-api';
 import { CollectionExportModal } from '../modal';
 import { useSelector } from 'react-redux';
 import { Auth } from '../../../utils';
 import { saveFileFromHttpResponse } from '../../../new-architecture/utils/files';
+import { CollectionApi } from '../../../new-architecture/sdk/collection-api';
 
 const CollectionVisualizationControls = ({
 	isValidated,
@@ -45,7 +45,7 @@ const CollectionVisualizationControls = ({
 	const handleExportCollectionList = (type) => {
 		return (ids, MimeType, lang = 'lg1', withConcepts) => {
 			setExporting(true);
-			const promise = api.getCollectionExportByType(
+			const promise = CollectionApi.getCollectionExportByType(
 				ids[0],
 				MimeType,
 				type,

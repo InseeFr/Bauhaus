@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '../../new-architecture/components/loading/loading';
+import { Loading } from '../../new-architecture/components';
 import CollectionsHome from './home';
-import api from '../../remote-api/concepts-collection-api';
+import { CollectionApi } from '../../new-architecture/sdk/collection-api';
 
 const CollectionsHomeContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [collections, setCollections] = useState([]);
 	useEffect(() => {
-		api
-			.getCollectionList()
+		CollectionApi.getCollectionList()
 			.then(setCollections)
 			.finally(() => setLoading(false));
 	}, []);

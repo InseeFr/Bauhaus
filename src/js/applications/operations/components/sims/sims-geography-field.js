@@ -12,8 +12,8 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import SimsGeographySelector from './sims-geography-selector';
 import { useGeographies } from './hooks';
-import { Stores } from '../../../../utils';
 import { Row } from '../../../../new-architecture/components';
+import { GeographieApi } from '../../../../new-architecture/sdk/geographie';
 
 const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 	const [name, setName] = useState(territory.labelLg1 ?? '');
@@ -63,8 +63,8 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 			difference: excludes.map((i) => ({ uri: i.value })),
 		};
 		const method = formatted.id
-			? Stores.Geographies.api.putTerritory(formatted.id, formatted)
-			: Stores.Geographies.api.postTerritory(formatted);
+			? GeographieApi.putTerritory(formatted.id, formatted)
+			: GeographieApi.postTerritory(formatted);
 		method
 			.then((uri) => {
 				onSave(territory.uri ?? uri);

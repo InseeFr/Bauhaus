@@ -1,37 +1,11 @@
 import { LOADING, LOADED, ERROR } from '../constants';
 import { D1, D2 } from '../../i18n/build-dictionary';
-import { buildApi } from '../../../new-architecture/sdk';
+import { GeographieApi } from '../../../new-architecture/sdk/geographie';
 
 // Constants
 const LOAD_GEOGRAPHIES = 'LOAD_GEOGRAPHIES';
 const LOAD_GEOGRAPHIES_SUCCESS = 'LOAD_GEOGRAPHIES_SUCCESS';
 const LOAD_GEOGRAPHIES_ERROR = 'LOAD_GEOGRAPHIES_ERROR';
-
-// API
-const apiConfig = {
-	getAll: () => ['territories'],
-	postTerritory: (territory) => [
-		`territory`,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(territory),
-		},
-		(res) => res.text(),
-	],
-	putTerritory: (id, territory) => [
-		`territory/` + id,
-		{
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(territory),
-		},
-		(res) => res.text(),
-	],
-};
-export const api = buildApi('geo', apiConfig);
 
 // Action creators
 const loadGeographiesPending = () => {
@@ -78,7 +52,7 @@ export const reducer = (state = {}, { type, payload }) => {
 // loader
 export const loadGeographies = () => (dispatch) => {
 	dispatch(loadGeographiesPending());
-	return api.getAll().then(
+	return GeographieApi.getAll().then(
 		(results) => {
 			dispatch(loadGeographiesSuccess(results));
 		},
