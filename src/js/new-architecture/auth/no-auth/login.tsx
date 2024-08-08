@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Loading } from '../../../new-architecture/components';
+import { Loading } from '../../components';
 import {
 	ADMIN,
 	CODELIST_CONTRIBUTOR,
@@ -9,9 +9,12 @@ import {
 	SERIES_CONTRIBUTOR,
 	STRUCTURE_CONTRIBUTOR,
 } from '../../../utils/auth/roles';
-import { checkAuth } from '../../../new-architecture/redux/users';
+import { checkAuth } from '../../redux/users';
 
-const LoginNoAuth = ({ checkAuth }) => {
+type LoginNoAuthTypes = {
+	checkAuth: (option: { stamp: string; roles: string[] }) => void;
+};
+const LoginNoAuth = ({ checkAuth }: LoginNoAuthTypes) => {
 	useEffect(() => {
 		checkAuth({
 			stamp: 'DG33-C990',

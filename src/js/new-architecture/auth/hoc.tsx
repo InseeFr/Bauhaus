@@ -1,11 +1,17 @@
 import { connect } from 'react-redux';
-import LoginNoAuth from '../../applications/auth/no-auth/login';
-import LoginOpenIDConnect from '../../applications/auth/open-id-connect-auth/login-container';
 import * as Impl from '../../utils/auth/auth-impl';
 import { Auth } from '../../utils';
+import LoginNoAuth from './no-auth/login';
+import LoginOpenIDConnect from './open-id-connect-auth/login-container';
 
-const auth = (WrappedComponent) => {
-	const AuthComponent = ({ authType, roles }) => {
+const auth = (WrappedComponent: any) => {
+	const AuthComponent = ({
+		authType,
+		roles,
+	}: {
+		authType: string;
+		roles: string[];
+	}) => {
 		if (authType === Impl.OPEN_ID_CONNECT_AUTH)
 			return <LoginOpenIDConnect WrappedComponent={WrappedComponent} />;
 
@@ -21,7 +27,7 @@ const auth = (WrappedComponent) => {
 	return connect(mapStateToProps)(AuthComponent);
 };
 
-export const mapStateToProps = (state) => {
+export const mapStateToProps = (state: any) => {
 	const { authType, roles, stamp } = Auth.getPermission(state);
 	if (stamp) return { authType, roles };
 	return { authType, roles: null };

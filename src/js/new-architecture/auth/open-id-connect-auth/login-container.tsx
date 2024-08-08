@@ -2,25 +2,31 @@ import { useEffect, useCallback, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Keycloak from 'keycloak';
-import { Loading } from '../../../new-architecture/components';
+import { Loading } from '../../components';
 import { Auth } from '../../../utils';
-import { saveUserProps } from '../../../new-architecture/redux/users';
+import { saveUserProps } from '../../redux/users';
 
 const kcConfig = `${window.location.origin}/keycloak.json`;
 
 const kc = Keycloak(kcConfig);
+
+type LoginOpenIDConnectTypes = {
+	saveUserProps: (props: any) => void;
+	authenticated: boolean;
+	WrappedComponent: any;
+};
 const LoginOpenIDConnect = ({
 	saveUserProps,
 	authenticated,
 	WrappedComponent,
-}) => {
+}: LoginOpenIDConnectTypes) => {
 	const [token, setToken] = useState(Auth.getToken());
 	const history = useHistory();
 
 	const initLogin = useCallback(() => {
 		const refreshToken = () => {
 			kc.updateToken(30)
-				.success((isUpdated) => {
+				.success((isUpdated: boolean) => {
 					if (isUpdated) {
 						kc.token && Auth.setToken(kc.token);
 						saveUserProps(Auth.getAuthPropsFromToken(kc.tokenParsed));
@@ -48,7 +54,7 @@ const LoginOpenIDConnect = ({
 				setInterval(() => refreshToken(), 20000);
 				history.push({ pathname: history.location.pathname, state: 'init' });
 			})
-			.error((e) => console.log('erreur initLogin', e));
+			.error((e: any) => console.log('erreur initLogin', e));
 	}, [history, saveUserProps]);
 
 	useEffect(() => {
@@ -60,7 +66,7 @@ const LoginOpenIDConnect = ({
 	return <Loading textType="authentification" />;
 };
 
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = (state: any) => ({
 	authenticated: Auth.getPermission(state).stamp,
 });
 

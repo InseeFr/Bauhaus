@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect, useMemo, memo } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import auth from '../../../applications/auth/hoc';
+import auth from '../../../new-architecture/auth/hoc';
 
 import {
 	NotFound,
