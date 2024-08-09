@@ -1,4 +1,6 @@
-export const getPermission = state => {
+import { ReduxModel } from './model';
+
+export const getPermission = (state: ReduxModel) => {
 	const {
 		type: authType,
 		user: { roles, stamp },

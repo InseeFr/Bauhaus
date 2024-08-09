@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import General from './general';
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 const general = {};
-const langs = { lg1: 'fr', lg2: 'en' };
 
 describe('classification-level-general', () => {
 	it('renders without crashing', () => {
@@ -12,7 +12,7 @@ describe('classification-level-general', () => {
 				classificationId="id"
 				itemId="id"
 				secondLang={false}
-				langs={langs}
+				langs={locales}
 			/>
 		);
 	});

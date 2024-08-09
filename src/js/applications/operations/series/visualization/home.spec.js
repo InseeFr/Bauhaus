@@ -7,6 +7,7 @@ import {
 } from '../../../../actions/constants/codeList';
 import configureStore from '../../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
+import { locales } from '../../../../new-architecture/tests-utils/default-values';
 
 const organisations = [
 	{
@@ -22,10 +23,6 @@ const store = configureStore({
 		results: organisations,
 	},
 });
-const langs = {
-	lg1: 'fr',
-	lg2: 'en',
-};
 
 const attr = {
 	publishers: [{ id: 'GF3C' }],
@@ -101,7 +98,7 @@ describe('SerieInformation', () => {
 			<Provider store={store}>
 				<OperationsSerieVisualization
 					attr={attr}
-					langs={langs}
+					langs={locales}
 					secondLang={false}
 					organisations={organisations}
 				/>
@@ -116,7 +113,7 @@ describe('SerieInformation', () => {
 				<OperationsSerieVisualization
 					attr={attr}
 					secondLang={true}
-					langs={langs}
+					langs={locales}
 					organisations={organisations}
 				/>
 			</Provider>
@@ -129,7 +126,7 @@ describe('SerieInformation', () => {
 				<OperationsSerieVisualization
 					attr={attr}
 					secondLang={true}
-					langs={langs}
+					langs={locales}
 					organisations={organisations}
 				/>
 			</Provider>
@@ -149,7 +146,7 @@ describe('SerieInformation', () => {
 				<OperationsSerieVisualization
 					attr={attr2}
 					secondLang={true}
-					langs={langs}
+					langs={locales}
 					organisations={organisations}
 				/>
 			</Provider>
@@ -163,7 +160,7 @@ describe('SerieInformation', () => {
 				<OperationsSerieVisualization
 					attr={attr}
 					secondLang={true}
-					langs={langs}
+					langs={locales}
 					organisations={organisations}
 				/>
 			</Provider>

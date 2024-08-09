@@ -1,10 +1,11 @@
 import { render } from '@testing-library/react';
 import NoteVisualization from './';
-
-const langs = { lg1: 'fr', lg2: 'en' };
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 describe('note-visualization', () => {
 	it('renders without crashing', () => {
-		render(<NoteVisualization params={[]} langs={langs} secondLang={false} />);
+		render(
+			<NoteVisualization params={[]} langs={locales} secondLang={false} />
+		);
 	});
 });

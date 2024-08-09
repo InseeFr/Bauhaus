@@ -2,6 +2,7 @@ import Home from './home';
 import { Provider } from 'react-redux';
 import configureStore from '../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 const store = configureStore({
 	users: { results: { stamp: 'stamp' } },
@@ -19,8 +20,6 @@ const classification = {
 	},
 };
 
-const langs = { lg1: 'fr', lg2: 'en' };
-
 describe('classification-home', () => {
 	it('renders without crashing', async () => {
 		renderWithRouter(
@@ -28,7 +27,7 @@ describe('classification-home', () => {
 				<Home
 					classification={classification}
 					classificationId={'classificationId'}
-					langs={langs}
+					langs={locales}
 					secondLang={false}
 					publish={jest.fn()}
 					serverSideError={''}

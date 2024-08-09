@@ -21,16 +21,16 @@ const generalFieldsToKeepUpdate = [
 	'descriptionLg2',
 ];
 
-function processGeneral(general, keys) {
+function processGeneral(general: any, keys: string[]) {
 	const extract = takeKeys(keys);
 	return extract(general);
 }
 
-function processMembers(members) {
+function processMembers(members: { id: string }[]) {
 	return members.map(({ id }) => id);
 }
 
-export default function buildPayload(collection, action) {
+export default function buildPayload(collection: any, action: string) {
 	let general;
 	if (action === 'CREATE')
 		general = processGeneral(collection.general, generalFieldsToKeepCreate);

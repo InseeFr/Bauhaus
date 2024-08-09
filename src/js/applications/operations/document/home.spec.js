@@ -5,7 +5,7 @@ import {
 	ADMIN,
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
-} from '../../../utils/auth/roles';
+} from '../../../new-architecture/auth/roles';
 import configureStore from '../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 

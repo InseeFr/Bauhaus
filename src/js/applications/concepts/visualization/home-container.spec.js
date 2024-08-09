@@ -2,9 +2,10 @@ import { fireEvent, screen } from '@testing-library/react';
 import ConceptVisualizationContainer from './home-container';
 import { Provider } from 'react-redux';
 import { ConceptsApi } from '../../../new-architecture/sdk';
-import * as R from '../../../utils/auth/roles';
+import * as R from '../../../new-architecture/auth/roles';
 import configureStore from '../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 jest.mock('../../../new-architecture/sdk');
 
@@ -17,8 +18,7 @@ const store = configureStore({
 				stamp: 'stamp',
 			},
 		},
-		lg1: 'fr',
-		lg2: 'en',
+		...locales,
 	},
 });
 

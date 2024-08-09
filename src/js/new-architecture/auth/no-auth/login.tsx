@@ -8,7 +8,7 @@ import {
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
 	STRUCTURE_CONTRIBUTOR,
-} from '../../../utils/auth/roles';
+} from '../roles';
 import { checkAuth } from '../../redux/users';
 
 type LoginNoAuthTypes = {

@@ -11,16 +11,12 @@ import { Link, Redirect } from 'react-router-dom';
 import api from '../../apis/structure-api';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
-import {
-	ArrayUtils,
-	AdvancedSearchList,
-	ItemToSelectModel,
-	useTitle,
-} from '../../../../utils';
+import { ArrayUtils, AdvancedSearchList, useTitle } from '../../../../utils';
 import { ConceptsApi } from '../../../../new-architecture/sdk';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 import useUrlQueryParameters from '../../../../new-architecture/utils/hooks/useUrlQueryParameters';
+import * as ItemToSelectModel from '../../../../new-architecture/utils/item-to-select-model';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['concept']);

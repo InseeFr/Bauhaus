@@ -2,6 +2,7 @@ import Compare from './home';
 import { Provider } from 'react-redux';
 import configureStore from '../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 const store = configureStore({
 	app: {
@@ -18,7 +19,7 @@ describe('concepts-compare', () => {
 					conceptGeneral={{ conceptVersion: '2' }}
 					notes={{ 2: {}, 1: {} }}
 					secondLang={false}
-					langs={{ lg1: 'fr', lg2: 'en' }}
+					langs={locales}
 				/>
 			</Provider>
 		);

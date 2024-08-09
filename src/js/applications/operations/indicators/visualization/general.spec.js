@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
 import configureStore from '../../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
+import { locales } from '../../../../new-architecture/tests-utils/default-values';
 
 const store = configureStore({
 	operationsOrganisations: {
@@ -11,10 +12,6 @@ const store = configureStore({
 	},
 });
 
-const langs = {
-	lg1: 'fr',
-	lg2: 'en',
-};
 const organisations = [
 	{ id: 'CNAMTS', label: 'Agence centrale des organismes de sécurité sociale' },
 	{ id: 'DG75-F110', label: "Banque Publique d'Investissement" },
@@ -90,7 +87,7 @@ describe('IndicatorInformation', () => {
 	it('should renderer all informations for the main lang', () => {
 		const { container } = renderWithRouter(
 			<Provider store={store}>
-				<OperationsIndicatorVisualization attr={indicator} langs={langs} />
+				<OperationsIndicatorVisualization attr={indicator} langs={locales} />
 			</Provider>
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
@@ -105,7 +102,7 @@ describe('IndicatorInformation', () => {
 				<OperationsIndicatorVisualization
 					attr={indicator}
 					secondLang={true}
-					langs={langs}
+					langs={locales}
 				/>
 			</Provider>
 		);
@@ -119,7 +116,7 @@ describe('IndicatorInformation', () => {
 				<OperationsIndicatorVisualization
 					attr={indicator}
 					secondLang={true}
-					langs={langs}
+					langs={locales}
 					organisations={organisations}
 				/>
 			</Provider>
@@ -152,7 +149,7 @@ describe('IndicatorInformation', () => {
 				<OperationsIndicatorVisualization
 					attr={indicator}
 					secondLang={true}
-					langs={langs}
+					langs={locales}
 				/>
 			</Provider>
 		);

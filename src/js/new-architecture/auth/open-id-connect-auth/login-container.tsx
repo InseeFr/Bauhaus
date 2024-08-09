@@ -12,7 +12,7 @@ const kc = Keycloak(kcConfig);
 
 type LoginOpenIDConnectTypes = {
 	saveUserProps: (props: any) => void;
-	authenticated: boolean;
+	authenticated: string;
 	WrappedComponent: any;
 };
 const LoginOpenIDConnect = ({

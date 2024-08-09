@@ -1,6 +1,7 @@
 import Collection from './home';
-import { empty } from '../../../utils/collections/general';
+import { empty } from '../../../new-architecture/modules-concepts/collections/utils/general';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 jest.mock('./general', () => () => <></>);
 
@@ -14,7 +15,7 @@ describe('collection-edition-creation', () => {
 				collectionList={[]}
 				conceptList={[]}
 				save={jest.fn()}
-				langs={{ lg1: 'fr', lg2: 'en' }}
+				langs={locales}
 			/>
 		);
 	});

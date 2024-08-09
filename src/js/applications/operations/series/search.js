@@ -10,16 +10,12 @@ import Select from '../../../utils/components/select-rmes';
 
 import api from '../../../remote-api/operations-api';
 import { useSelector } from 'react-redux';
-import {
-	ArrayUtils,
-	AdvancedSearchList,
-	ItemToSelectModel,
-	useTitle,
-} from '../../../utils';
+import { ArrayUtils, AdvancedSearchList, useTitle } from '../../../utils';
 import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
 import { CL_SOURCE_CATEGORY } from '../../../actions/constants/codeList';
 import { useCodesList } from '../../../new-architecture/utils/hooks/codeslist';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
+import * as ItemToSelectModel from '../../../new-architecture/utils/item-to-select-model';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);

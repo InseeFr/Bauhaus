@@ -1,6 +1,7 @@
 import ConceptEditionCreation from './home';
 import { empty } from '../../../utils/concepts/general';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 jest.mock('./general');
 
@@ -16,7 +17,7 @@ describe('concept-edition-creation', () => {
 				conceptsWithLinks={[]}
 				stampList={[]}
 				save={jest.fn()}
-				langs={{ lg1: 'fr', lg2: 'en' }}
+				langs={locales}
 			/>
 		);
 	});

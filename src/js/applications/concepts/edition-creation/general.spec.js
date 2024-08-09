@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import ConceptGeneral from './general';
 import { empty } from '../../../utils/concepts/general';
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 jest.mock('../../../new-architecture/components');
 
@@ -11,7 +12,7 @@ describe('concept-edition-creation-general', () => {
 				general={empty()}
 				stampList={[]}
 				handleChange={jest.fn()}
-				langs={{ lg1: 'fr', lg2: 'en' }}
+				langs={locales}
 			/>
 		);
 	});

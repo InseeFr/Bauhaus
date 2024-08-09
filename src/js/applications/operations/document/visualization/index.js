@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
-import { ADMIN } from '../../../../utils/auth/roles';
+import { ADMIN } from '../../../../new-architecture/auth/roles';
 import api from '../../../../remote-api/api';
 import * as select from '../../../../reducers';
 

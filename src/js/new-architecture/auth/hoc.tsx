@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import * as Impl from '../../utils/auth/auth-impl';
 import { Auth } from '../../utils';
 import LoginNoAuth from './no-auth/login';
 import LoginOpenIDConnect from './open-id-connect-auth/login-container';
+import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from './constants';
 
 const auth = (WrappedComponent: any) => {
 	const AuthComponent = ({
@@ -10,14 +10,14 @@ const auth = (WrappedComponent: any) => {
 		roles,
 	}: {
 		authType: string;
-		roles: string[];
+		roles: string[] | null;
 	}) => {
-		if (authType === Impl.OPEN_ID_CONNECT_AUTH)
+		if (authType === OPEN_ID_CONNECT_AUTH)
 			return <LoginOpenIDConnect WrappedComponent={WrappedComponent} />;
 
 		if (roles) return <WrappedComponent />;
 		switch (authType) {
-			case Impl.NO_AUTH:
+			case NO_AUTH:
 				return <LoginNoAuth />;
 			default:
 				return <div>Error</div>;

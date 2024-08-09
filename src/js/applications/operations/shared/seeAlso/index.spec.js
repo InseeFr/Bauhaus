@@ -1,22 +1,18 @@
 import SeeAlso from './index';
 import { render } from '@testing-library/react';
 import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
-
-const langs = {
-	lg1: 'fr',
-	lg2: 'en',
-};
+import { locales } from '../../../../new-architecture/tests-utils/default-values';
 
 describe('SeeAlso', () => {
 	it('should display one Note if the second lang is not selected', () => {
 		const seeAlso = {};
-		const { container } = render(<SeeAlso links={seeAlso} langs={langs} />);
+		const { container } = render(<SeeAlso links={seeAlso} langs={locales} />);
 		expect(container.querySelector('.wilco-note')).toBeDefined();
 	});
 	it('should display two Note if the second lang is selected', () => {
 		const seeAlso = {};
 		const { container } = render(
-			<SeeAlso links={seeAlso} langs={langs} secondLang />
+			<SeeAlso links={seeAlso} langs={locales} secondLang />
 		);
 		expect(container.querySelectorAll('.wilco-note')).toHaveLength(2);
 	});
@@ -25,7 +21,7 @@ describe('SeeAlso', () => {
 			indicator: [{ id: 1, label: 'indicators' }],
 		};
 		const { container } = renderWithRouter(
-			<SeeAlso links={seeAlso} langs={langs} />
+			<SeeAlso links={seeAlso} langs={locales} />
 		);
 		expect(container.innerHTML).toContain('href="/operations/indicator/1"');
 	});
@@ -34,7 +30,7 @@ describe('SeeAlso', () => {
 			series: [{ id: 1, label: 'indicators' }],
 		};
 		const { container } = renderWithRouter(
-			<SeeAlso links={seeAlso} langs={langs} />
+			<SeeAlso links={seeAlso} langs={locales} />
 		);
 		expect(container.innerHTML).toContain('href="/operations/series/1"');
 	});
@@ -43,7 +39,7 @@ describe('SeeAlso', () => {
 			family: [{ id: 1, label: 'indicators' }],
 		};
 		const { container } = renderWithRouter(
-			<SeeAlso links={seeAlso} langs={langs} />
+			<SeeAlso links={seeAlso} langs={locales} />
 		);
 		expect(container.innerHTML).toContain('href="/operations/family/1"');
 	});
@@ -52,7 +48,7 @@ describe('SeeAlso', () => {
 			operation: [{ id: 1, label: 'indicators' }],
 		};
 		const { container } = renderWithRouter(
-			<SeeAlso links={seeAlso} langs={langs} />
+			<SeeAlso links={seeAlso} langs={locales} />
 		);
 		expect(container.innerHTML).toContain('href="/operations/operation/1"');
 	});

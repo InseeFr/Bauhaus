@@ -1,5 +1,5 @@
-import * as selectors from './auth/selectors';
-import * as roles from './auth/roles';
+import * as selectors from './../new-architecture/redux/selectors';
+import * as roles from './../new-architecture/auth/roles';
 import AuthGuard from './auth/components/auth';
 
 import * as utils from './auth/open-id-connect-auth/token-utils';
@@ -21,7 +21,6 @@ export {
 	DeleteButton as EditorDeleteButton,
 } from './components/editor-html/editor-markdown';
 export { default as AdvancedSearchList } from './components/advanced-search/home';
-export * as ItemToSelectModel from './utils/item-to-select-model';
 export { default as SearchableList } from './components/searchable-list';
 export {
 	DateItem,

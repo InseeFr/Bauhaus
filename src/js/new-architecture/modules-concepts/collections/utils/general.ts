@@ -21,5 +21,5 @@ export const fields = buildFields(fieldsWithRequired);
 
 export const empty = () => buildEmpty(fieldsWithRequired);
 
-export const emptyWithContributor = (defaultContributor) =>
+export const emptyWithContributor = (defaultContributor: string) =>
 	buildEmptyWithContributor(fieldsWithRequired, defaultContributor);

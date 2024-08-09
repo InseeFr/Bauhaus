@@ -1,4 +1,4 @@
-import * as R from '../roles';
+import * as R from '../../../new-architecture/auth/roles';
 
 export const isAdmin = (roles) => roles.includes(R.ADMIN);
 

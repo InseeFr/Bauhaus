@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import CollectionGeneralVisualization from './general';
-import { empty } from '../../../utils/collections/general';
+import { empty } from '../../../new-architecture/modules-concepts/collections/utils/general';
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 describe('collection-visualization-general', () => {
 	it('renders without crashing', () => {
@@ -8,7 +9,7 @@ describe('collection-visualization-general', () => {
 			<CollectionGeneralVisualization
 				attr={empty()}
 				secondLang={false}
-				langs={{ lg1: 'fr', lg2: 'en' }}
+				langs={locales}
 			/>
 		);
 	});

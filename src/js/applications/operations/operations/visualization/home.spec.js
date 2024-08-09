@@ -1,10 +1,7 @@
 import { render } from '@testing-library/react';
 import OperationsOperationVisualization from './home';
+import { locales } from '../../../../new-architecture/tests-utils/default-values';
 
-const langs = {
-	lg1: 'fr',
-	lg2: 'en',
-};
 describe('OperationVisualization', () => {
 	it('should renderer all informations for the main lang', () => {
 		const attr = {
@@ -16,7 +13,7 @@ describe('OperationVisualization', () => {
 			<OperationsOperationVisualization
 				attr={attr}
 				exportVarBook={jest.fn()}
-				langs={langs}
+				langs={locales}
 				secondLang={false}
 				isModalOpen={false}
 				closeModal={jest.fn()}
@@ -39,7 +36,7 @@ describe('OperationVisualization', () => {
 				attr={attr}
 				secondLang={true}
 				exportVarBook={jest.fn()}
-				langs={langs}
+				langs={locales}
 				isModalOpen={false}
 				closeModal={jest.fn()}
 			/>

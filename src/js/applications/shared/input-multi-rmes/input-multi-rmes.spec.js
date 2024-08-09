@@ -1,9 +1,9 @@
 import { render, fireEvent } from '@testing-library/react';
 import InputMultiRmes from './';
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 const handleChangeLg1 = () => '';
 const handleChangeLg2 = () => '';
-const langs = { lg1: 'fr', lg2: 'en' };
 const component = (
 	<InputMultiRmes
 		inputLg1={['altLg1', 'altLg1Bis']}
@@ -11,7 +11,7 @@ const component = (
 		label="Input Label"
 		handleChangeLg1={handleChangeLg1}
 		handleChangeLg2={handleChangeLg2}
-		langs={langs}
+		langs={locales}
 	/>
 );
 

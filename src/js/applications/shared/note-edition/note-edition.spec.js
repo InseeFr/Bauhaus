@@ -1,13 +1,12 @@
 import { render } from '@testing-library/react';
 import NoteEdition from './';
-
-const langs = { lg1: 'fr', lg2: 'en' };
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 describe('note-edition', () => {
 	it('renders without crashing', () => {
 		render(
 			<NoteEdition
-				langs={langs}
+				langs={locales}
 				handleChangeLg1={jest.fn()}
 				handleChangeLg2={jest.fn()}
 			/>
