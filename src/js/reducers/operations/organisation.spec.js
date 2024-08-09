@@ -1,6 +1,6 @@
 import reducer from './organisations';
 import * as A from '../../actions/constants';
-import { LOADED, ERROR } from '../../constants';
+import { LOADED, ERROR } from '../../new-architecture/sdk/constants';
 
 describe('operationsOrganisations reducer', () => {
 	it('LOAD_OPERATIONS_ORGANISATIONS_SUCCESS', () => {

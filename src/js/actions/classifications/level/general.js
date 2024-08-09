@@ -1,5 +1,5 @@
-import api from '../../../remote-api/classifications-api';
 import * as A from '../../../actions/constants';
+import { ClassificationsApi } from '../../../new-architecture/sdk/classification';
 
 const fetchClassificationLevelGeneral =
 	(classificationId, levelId) => (dispatch) => {
@@ -10,7 +10,10 @@ const fetchClassificationLevelGeneral =
 				levelId,
 			},
 		});
-		return api.getClassificationLevelGeneral(classificationId, levelId).then(
+		return ClassificationsApi.getClassificationLevelGeneral(
+			classificationId,
+			levelId
+		).then(
 			(results) => {
 				dispatch({
 					type: A.LOAD_CLASSIFICATION_LEVEL_GENERAL_SUCCESS,

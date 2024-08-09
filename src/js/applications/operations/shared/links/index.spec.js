@@ -1,16 +1,12 @@
 import DisplayLinks from './index';
 import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
-
-const langs = {
-	lg1: 'fr',
-	lg2: 'en',
-};
+import { locales } from '../../../../new-architecture/tests-utils/default-values';
 
 describe('DisplayLinks', () => {
 	it('should display a list if we have multiple item', () => {
 		const links = [{ id: 1 }, { id: 2 }];
 		const { container } = renderWithRouter(
-			<DisplayLinks links={links} langs={langs} path="series/" title="home" />
+			<DisplayLinks links={links} langs={locales} path="series/" title="home" />
 		);
 		expect(container.innerHTML).toContain('<li><a href="/series/1">');
 		expect(container.innerHTML).toContain('<li><a href="/series/2">');
@@ -18,7 +14,7 @@ describe('DisplayLinks', () => {
 	it('should display a paragraph if we have only one item', () => {
 		const links = [{ id: 1 }];
 		const { container } = renderWithRouter(
-			<DisplayLinks links={links} langs={langs} path="series/" title="home" />
+			<DisplayLinks links={links} langs={locales} path="series/" title="home" />
 		);
 
 		expect(container.innerHTML).toContain(
@@ -30,7 +26,7 @@ describe('DisplayLinks', () => {
 		const { container } = renderWithRouter(
 			<DisplayLinks
 				links={links}
-				langs={langs}
+				langs={locales}
 				path="series/"
 				displayLink={false}
 				title="home"

@@ -1,6 +1,6 @@
 import { D1 } from '../../../../../i18n';
 import { useQuery } from '@tanstack/react-query';
-import { withCodesLists } from '../../../../../hooks/hooks';
+import { withCodesLists } from '../../../../../new-architecture/utils/hoc/withCodesLists';
 import ReactSelect from 'react-select';
 import StructureAPI from '../../../../structures/apis/structure-api';
 import { TemporalField } from '../../components/temporalField';

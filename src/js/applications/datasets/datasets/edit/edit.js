@@ -8,10 +8,11 @@ import api from '../../api/datasets-api';
 import {
 	Loading,
 	GlobalClientSideErrorBloc,
+	PageTitleBlock,
 } from '../../../../new-architecture/components';
 
 import { ActionToolbar, CancelButton, SaveButton } from '@inseefr/wilco';
-import { Auth, PageTitleBlock, useTitle } from '../../../../utils';
+import { Auth, useTitle } from '../../../../utils';
 import { GlobalInformation } from './tabs/global-information';
 import { InternalManagement } from './tabs/internal-management';
 import { Notes } from './tabs/notes';

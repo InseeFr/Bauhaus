@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { ClassificationEdition } from './index';
 import { Provider } from 'react-redux';
-import configureStore from '../../../store/configure-store';
+import configureStore from '../../../new-architecture/redux/configure-store';
 import { MemoryRouter } from 'react-router-dom';
 
 const classification = {

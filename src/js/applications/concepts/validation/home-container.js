@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import ConceptsToValidate from './home';
 import { Loading } from '../../../new-architecture/components';
-import { OK, PENDING } from '../../../constants';
+import { OK, PENDING } from '../../../new-architecture/sdk/constants';
 import { ArrayUtils, Auth, useTitle } from '../../../utils';
 import D from '../../../i18n';
 import { ConceptsApi } from '../../../new-architecture/sdk';

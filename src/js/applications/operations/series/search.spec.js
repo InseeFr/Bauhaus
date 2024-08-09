@@ -3,7 +3,7 @@ import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../actions/constants/codeList';
-import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
+import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 const data = [
@@ -128,7 +128,7 @@ const categories = {
 	codes: [{ code: 'S', labelLg2: 'Survey', labelLg1: 'Enquete' }],
 };
 
-jest.mock('../../../utils/hooks/useUrlQueryParameters');
+jest.mock('../../../new-architecture/utils/hooks/useUrlQueryParameters');
 
 describe('<SearchFormList />', () => {
 	it('should return all data when the form is empty', () => {

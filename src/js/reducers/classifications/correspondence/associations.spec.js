@@ -2,7 +2,7 @@ import reducerClassificationCorrespondenceAssociations, {
 	getAssociations,
 } from './associations';
 import * as A from '../../../actions/constants';
-import { LOADED } from '../../../constants';
+import { LOADED } from '../../../new-architecture/sdk/constants';
 
 describe('reducerSeriesMembers', () => {
 	test('action LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATIONS_SUCCESS', () => {

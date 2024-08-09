@@ -1,5 +1,5 @@
-import api from '../../../remote-api/classifications-api';
 import { ArrayUtils } from '../../../utils';
+import { ClassificationsApi } from '../../../new-architecture/sdk/classification';
 
 export const fetchingPreviousLevels = (classificationId, general) => {
 	const levels = ['sections', 'divisions', 'groupes', 'classes', 'categories'];
@@ -16,9 +16,10 @@ export const fetchingPreviousLevels = (classificationId, general) => {
 		levels[levels.findIndex((level) => level.indexOf(currentLevel) === 0)];
 
 	if (!!previousLevel) {
-		return api
-			.getClassificationLevelMembers(classificationId, previousLevel)
-			.then((data) => ArrayUtils.sortArray('labelLg1')(data));
+		return ClassificationsApi.getClassificationLevelMembers(
+			classificationId,
+			previousLevel
+		).then((data) => ArrayUtils.sortArray('labelLg1')(data));
 	}
 
 	return Promise.resolve([]);

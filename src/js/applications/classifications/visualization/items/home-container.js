@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ClassificationItems from './home';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components';
 import { Stores } from '../../../../utils';
 import { useParams } from 'react-router-dom';
-import api from '../../../../remote-api/classifications-api';
+import { ClassificationsApi } from '../../../../new-architecture/sdk/classification';
 
 const ClassificationItemsContainer = () => {
 	const { id } = useParams();
@@ -16,8 +16,8 @@ const ClassificationItemsContainer = () => {
 
 	useEffect(() => {
 		Promise.all([
-			api.getClassificationItems(id),
-			api.getClassificationGeneral(id),
+			ClassificationsApi.getClassificationItems(id),
+			ClassificationsApi.getClassificationGeneral(id),
 		]).then(([items, general]) => {
 			setItems(items);
 			setGeneral(general);

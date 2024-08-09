@@ -1,10 +1,13 @@
 import { Note } from '@inseefr/wilco';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
-import { ExplanatoryNote } from '../../../../applications/shared/explanatory-note';
 import { D2, D1 } from '../../../../i18n';
 import { CheckSecondLang } from '../../../../utils';
-import { PageTitle, Row } from '../../../../new-architecture/components';
+import {
+	PageTitle,
+	Row,
+	ExplanatoryNote,
+} from '../../../../new-architecture/components';
 
 const Home = ({ association, secondLang, langs }) => {
 	const {

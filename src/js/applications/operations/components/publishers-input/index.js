@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
-import { ItemToSelectModel, SelectRmes } from '../../../../utils';
 import { D1 } from '../../i18n/build-dictionary';
+import * as ItemToSelectModel from '../../../../new-architecture/utils/item-to-select-model';
+import { SelectRmes } from '../../../../utils';
 
 const PublishersInput = ({ value, onChange }) => {
 	const organisations = useSelector(

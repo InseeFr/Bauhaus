@@ -1,5 +1,9 @@
 import * as A from '../../actions/constants';
-import { LOADING, NOT_LOADED, LOADED } from '../../constants';
+import {
+	LOADING,
+	NOT_LOADED,
+	LOADED,
+} from '../../new-architecture/sdk/constants';
 
 /**
  * Track the loading of a SIMS. Used to avoid sending multiple request simultaneously

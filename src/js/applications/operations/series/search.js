@@ -1,23 +1,21 @@
 import D from '../../../i18n';
 import { Link, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import {
+	Loading,
+	Column,
+	TextInput,
+} from '../../../new-architecture/components';
 import Select from '../../../utils/components/select-rmes';
 
 import api from '../../../remote-api/operations-api';
 import { useSelector } from 'react-redux';
-import {
-	ArrayUtils,
-	AdvancedSearchList,
-	ItemToSelectModel,
-	useTitle,
-} from '../../../utils';
-import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
+import { ArrayUtils, AdvancedSearchList, useTitle } from '../../../utils';
+import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
 import { CL_SOURCE_CATEGORY } from '../../../actions/constants/codeList';
-import { useCodesList } from '../../../hooks/hooks';
-import { Column } from '../../../new-architecture/components/layout';
-import { TextInput } from '../../../new-architecture/components/form/input';
+import { useCodesList } from '../../../new-architecture/utils/hooks/codeslist';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
+import * as ItemToSelectModel from '../../../new-architecture/utils/item-to-select-model';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);

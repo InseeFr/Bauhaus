@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import D from '../../../i18n';
-import { ExplanatoryNote } from '../../../applications/shared/explanatory-note';
+import { ExplanatoryNote } from '../../../new-architecture/components';
 import {
 	creatSelectList,
 	creatSelectListSelectedLast,

@@ -1,4 +1,4 @@
-import * as R from '../roles';
+import * as R from '../../../new-architecture/auth/roles';
 import * as U from './utils';
 
 const emptyRole = [];

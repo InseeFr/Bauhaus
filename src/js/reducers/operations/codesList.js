@@ -1,5 +1,5 @@
 import * as A from '../../actions/constants';
-import { LOADED, LOADING, ERROR } from '../../constants';
+import { LOADED, LOADING, ERROR } from '../../new-architecture/sdk/constants';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from '../../actions/constants/codeList';
 
 const defaultState = {

@@ -2,16 +2,16 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as select from '../../../reducers';
-import buildPayload from '../../../utils/collections/build-payload/build-payload';
+import buildPayload from '../../../new-architecture/modules-concepts/collections/utils/build-payload/build-payload';
 import CollectionEditionCreation from './home';
 import D from '../../../i18n';
-import emptyCollection from '../../../utils/collections/empty-collection';
+import emptyCollection from '../../../new-architecture/modules-concepts/collections/utils/empty-collection';
 import { cleanId } from '@inseefr/wilco';
 import { Loading } from '../../../new-architecture/components';
 
 import { ConceptsApi } from '../../../new-architecture/sdk';
-import apiCollections from '../../../remote-api/concepts-collection-api';
 import { useTitle } from '../../../utils';
+import { CollectionApi } from '../../../new-architecture/sdk/collection-api';
 
 const CreationContainer = () => {
 	const history = useHistory();
@@ -29,7 +29,7 @@ const CreationContainer = () => {
 	useEffect(() => {
 		Promise.all([
 			ConceptsApi.getConceptList(),
-			apiCollections.getCollectionList(),
+			CollectionApi.getCollectionList(),
 		])
 			.then(([conceptsList, collectionsList]) => {
 				setConceptList(conceptsList);

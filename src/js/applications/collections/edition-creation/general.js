@@ -1,6 +1,6 @@
 import D, { D1, D2 } from '../../../i18n';
 import InputRmes from '../../../applications/shared/input-rmes';
-import { fields as generalFields } from '../../../utils/collections/general';
+import { fields as generalFields } from '../../../new-architecture/modules-concepts/collections/utils/general';
 import {
 	TextInput,
 	Row,

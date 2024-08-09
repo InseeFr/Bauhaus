@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import Pagination from '../pagination';
 import { filterKeyDeburr, nbResults } from '../../utils/array-utils';
 import D from '../../i18n/build-dictionary';
-import { TextInput } from '../../../new-architecture/components/form/input';
-import useUrlQueryParameters from '../../hooks/useUrlQueryParameters';
+import { TextInput } from '../../../new-architecture/components';
+import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
 
 const defautState = {
 	search: '',

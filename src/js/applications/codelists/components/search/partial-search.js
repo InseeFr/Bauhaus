@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { Link, Redirect } from 'react-router-dom';
-import {
-	ArrayUtils,
-	AdvancedSearchList,
-	useTitle,
-	useUrlQueryParameters,
-} from '../../../../utils';
+import { ArrayUtils, AdvancedSearchList, useTitle } from '../../../../utils';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
-import { Loading, TextInput } from '../../../../new-architecture/components';
-import { Column } from '../../../../new-architecture/components/layout';
+import {
+	Loading,
+	TextInput,
+	Column,
+} from '../../../../new-architecture/components';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
+import useUrlQueryParameters from '../../../../new-architecture/utils/hooks/useUrlQueryParameters';
 
 const filterId = ArrayUtils.filterKeyDeburr(['id']);
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);

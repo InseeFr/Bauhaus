@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import ConceptNotes from './notes';
 import { emptyNotes } from '../../../utils/concepts/notes';
+import { locales } from '../../../new-architecture/tests-utils/default-values';
 
 describe('concept-edition-creation-notes', () => {
 	it('renders without crashing', () => {
@@ -9,7 +10,7 @@ describe('concept-edition-creation-notes', () => {
 				notes={emptyNotes}
 				disseminationStatus=""
 				handleChange={jest.fn()}
-				langs={{ lg1: 'fr', lg2: 'en' }}
+				langs={locales}
 			/>
 		);
 	});

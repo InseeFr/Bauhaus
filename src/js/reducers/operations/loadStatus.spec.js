@@ -1,5 +1,9 @@
 import * as A from '../../actions/constants';
-import { LOADED, NOT_LOADED, LOADING } from '../../constants';
+import {
+	LOADED,
+	NOT_LOADED,
+	LOADING,
+} from '../../new-architecture/sdk/constants';
 import { operationsSimsCurrentStatus } from './loadStatus';
 
 describe('operationsSimsCurrentStatus reducer', () => {

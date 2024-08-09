@@ -1,5 +1,5 @@
 import * as A from '../../actions/constants';
-import { LOADED, ERROR } from '../../constants';
+import { LOADED, ERROR } from '../../new-architecture/sdk/constants';
 import { ArrayUtils } from '../../utils';
 
 const defaultState = {

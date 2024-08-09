@@ -9,6 +9,7 @@ import {
 	Loading,
 	ErrorBloc,
 	ValidationButton,
+	PageTitleBlock,
 } from '../../../../new-architecture/components';
 
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
@@ -17,15 +18,10 @@ import {
 	CL_FREQ,
 } from '../../../../actions/constants/codeList';
 
-import {
-	Auth,
-	Stores,
-	CheckSecondLang,
-	PageTitleBlock,
-} from '../../../../utils';
+import { Auth, Stores, CheckSecondLang } from '../../../../utils';
 import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
 import api from '../../../../remote-api/operations-api';
-import { useCodesList } from '../../../../hooks/hooks';
+import { useCodesList } from '../../../../new-architecture/utils/hooks/codeslist';
 
 const SeriesVisualizationContainer = () => {
 	const { id } = useParams();

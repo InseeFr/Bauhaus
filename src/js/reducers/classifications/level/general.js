@@ -1,5 +1,5 @@
 import * as A from '../../../actions/constants';
-import { LOADING, LOADED } from '../../../constants';
+import { LOADING, LOADED } from '../../../new-architecture/sdk/constants';
 import * as generalUtils from '../../../applications/classifications/utils/level/general';
 
 const reducers = (state = {}, action) => {

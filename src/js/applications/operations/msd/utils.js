@@ -1,4 +1,4 @@
-import { rangeType } from '../../../utils/msd/';
+import { rangeType } from '../../../new-architecture/modules-operations/utils/msd';
 import { DUPLICATE } from '../../../applications/operations/msd';
 import { editorStateFromMd } from '../../../new-architecture/utils/html-utils';
 

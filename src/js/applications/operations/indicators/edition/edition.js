@@ -1,11 +1,6 @@
 import { Component } from 'react';
 import D, { D1, D2 } from '../../../../i18n';
-import {
-	EditorMarkdown,
-	ItemToSelectModel,
-	PageTitleBlock,
-	SelectRmes,
-} from '../../../../utils';
+import { EditorMarkdown, SelectRmes } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
 import { CL_FREQ } from '../../../../actions/constants/codeList';
 import InputRmes from '../../../../applications/shared/input-rmes';
@@ -17,9 +12,11 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
+	PageTitleBlock,
 	RequiredIcon,
 } from '../../../../new-architecture/components';
 import api from '../../../../remote-api/operations-api';
+import * as ItemToSelectModel from '../../../../new-architecture/utils/item-to-select-model';
 
 const defaultIndicator = {
 	prefLabelLg1: '',

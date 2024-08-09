@@ -5,7 +5,7 @@ import {
 	HELP_COLLAPSED,
 	getParentUri,
 } from './utils';
-import { rangeType } from '../../../utils/msd/';
+import { rangeType } from '../../../new-architecture/modules-operations/utils/msd';
 const { RICH_TEXT, TEXT, REPORTED_ATTRIBUTE } = rangeType;
 
 describe('isOpen', () => {

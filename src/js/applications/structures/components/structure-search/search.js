@@ -6,13 +6,7 @@ import D from '../../i18n/build-dictionary';
 import { COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import api from '../../apis/structure-api';
 
-import {
-	ArrayUtils,
-	AdvancedSearchList,
-	ItemToSelectModel,
-	useUrlQueryParameters,
-	useTitle,
-} from '../../../../utils';
+import { ArrayUtils, AdvancedSearchList, useTitle } from '../../../../utils';
 import {
 	Column,
 	TextInput,
@@ -21,6 +15,8 @@ import {
 import { ConceptsApi } from '../../../../new-architecture/sdk';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
+import useUrlQueryParameters from '../../../../new-architecture/utils/hooks/useUrlQueryParameters';
+import * as ItemToSelectModel from '../../../../new-architecture/utils/item-to-select-model';
 
 const filterLabelLg1 = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);

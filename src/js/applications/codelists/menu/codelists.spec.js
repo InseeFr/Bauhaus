@@ -2,7 +2,7 @@ import MenuCodelists from '.';
 
 import { Provider } from 'react-redux';
 import { Auth } from '../../../utils';
-import configureStore from '../../../store/configure-store';
+import configureStore from '../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('Menu Code List', () => {

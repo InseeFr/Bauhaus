@@ -9,7 +9,10 @@ import ModalRmes from '../../../applications/shared/modal-rmes/modal-rmes';
 import { areNotesImpactingVersionChanged } from '../../../utils/concepts/notes';
 import D from '../../../i18n';
 import isVersioningPossible from '../../../utils/concepts/is-versioning-possible';
-import { VERSIONING, NO_VERSIONING } from '../../../constants';
+import {
+	VERSIONING,
+	NO_VERSIONING,
+} from '../../../new-architecture/sdk/constants';
 import validate from './controls/validation';
 
 class ConceptEditionCreation extends Component {

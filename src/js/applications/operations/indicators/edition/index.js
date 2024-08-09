@@ -7,7 +7,7 @@ import OperationsIndicatorEdition from '../../../../applications/operations/indi
 import { CL_FREQ } from '../../../../actions/constants/codeList';
 import api from '../../../../remote-api/operations-api';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
-import { useCodesList } from '../../../../hooks/hooks';
+import { useCodesList } from '../../../../new-architecture/utils/hooks/codeslist';
 import D from '../../../../i18n';
 import { useTitle } from '../../../../utils';
 

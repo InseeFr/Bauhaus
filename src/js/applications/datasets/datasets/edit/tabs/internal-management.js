@@ -1,6 +1,6 @@
 import { D1 } from '../../../../../i18n';
 import { useEffect, useState } from 'react';
-import { withCodesLists } from '../../../../../hooks/hooks';
+import { withCodesLists } from '../../../../../new-architecture/utils/hoc/withCodesLists';
 import api from '../../../api/datasets-api';
 import { LabelRequired } from '@inseefr/wilco';
 import { SelectRmes } from '../../../../../utils';

@@ -5,8 +5,8 @@ import {
 	ADMIN,
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
-} from '../../../utils/auth/roles';
-import configureStore from '../../../store/configure-store';
+} from '../../../new-architecture/auth/roles';
+import configureStore from '../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 
 describe('DocumentHome', () => {

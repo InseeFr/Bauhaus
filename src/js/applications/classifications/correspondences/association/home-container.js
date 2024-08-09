@@ -1,11 +1,11 @@
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components';
 import AssociationHome from './home';
 import * as mainSelect from '../../../../reducers';
 import { Stores } from '../../../../utils';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import api from '../../../../remote-api/classifications-api';
 import { useSelector } from 'react-redux';
+import { ClassificationsApi } from '../../../../new-architecture/sdk/classification';
 
 const AssociationHomeContainer = () => {
 	const { correspondenceId, associationId } = useParams();
@@ -17,7 +17,10 @@ const AssociationHomeContainer = () => {
 	const { isLoading, data: association } = useQuery({
 		queryKey: ['correspondences-association', correspondenceId, associationId],
 		queryFn: () =>
-			api.getCorrespondenceAssociation(correspondenceId, associationId),
+			ClassificationsApi.getCorrespondenceAssociation(
+				correspondenceId,
+				associationId
+			),
 	});
 
 	if (isLoading) return <Loading />;

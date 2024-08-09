@@ -1,5 +1,5 @@
 import { getLevel } from './';
-import { LOADED } from '../../../constants';
+import { LOADED } from '../../../new-architecture/sdk/constants';
 
 describe('getLevel', () => {
 	test('getLevel selector should extract results', () => {

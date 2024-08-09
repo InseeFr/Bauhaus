@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import FamiliesHome from './home';
-import api from '../../../remote-api/classifications-api';
+import { ClassificationsApi } from '../../../new-architecture/sdk/classification';
 
 export const FamiliesHomeContainer = () => {
 	const [families, setFamilies] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		api
-			.getFamiliesList()
+		ClassificationsApi.getFamiliesList()
 			.then((result) => setFamilies(result))
 			.finally(() => setLoading(false));
 	}, []);

@@ -1,10 +1,7 @@
 import { render } from '@testing-library/react';
 import OperationsFamilyVisualization from './visualization';
+import { locales } from '../../../../new-architecture/tests-utils/default-values';
 
-const langs = {
-	lg1: 'fr',
-	lg2: 'en',
-};
 describe('FamilyInformation', () => {
 	it('should renderer all informations for the main lang', () => {
 		const attr = {
@@ -13,7 +10,7 @@ describe('FamilyInformation', () => {
 			abstractLg1: 'descriptionLg1',
 		};
 		const { container } = render(
-			<OperationsFamilyVisualization attr={attr} langs={langs} />
+			<OperationsFamilyVisualization attr={attr} langs={locales} />
 		);
 		expect(container.querySelectorAll('.wilco-note')).toHaveLength(4);
 	});
@@ -31,7 +28,7 @@ describe('FamilyInformation', () => {
 			<OperationsFamilyVisualization
 				attr={attr}
 				secondLang={true}
-				langs={langs}
+				langs={locales}
 			/>
 		);
 		expect(container.querySelectorAll('.wilco-note')).toHaveLength(7);

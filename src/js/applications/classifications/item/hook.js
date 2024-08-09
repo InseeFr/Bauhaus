@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import api from '../../../remote-api/classifications-api';
 import { ArrayUtils } from '../../../utils';
 import { emptyNotes } from '../utils/item/notes';
+import { ClassificationsApi } from '../../../new-architecture/sdk/classification';
 
 const useClassificationItem = (classificationId, itemId, current) => {
 	const {
@@ -12,8 +12,14 @@ const useClassificationItem = (classificationId, itemId, current) => {
 		queryKey: ['classifications-item', classificationId, itemId],
 		queryFn: async () => {
 			const [general, narrowers] = await Promise.all([
-				api.getClassificationItemGeneral(classificationId, itemId),
-				api.getClassificationItemNarrowers(classificationId, itemId),
+				ClassificationsApi.getClassificationItemGeneral(
+					classificationId,
+					itemId
+				),
+				ClassificationsApi.getClassificationItemNarrowers(
+					classificationId,
+					itemId
+				),
 			]);
 
 			let notes = [];
@@ -21,15 +27,17 @@ const useClassificationItem = (classificationId, itemId, current) => {
 				notes = await Promise.all(
 					ArrayUtils.range(1, Number(general.conceptVersion) + 1).map(
 						(version) => {
-							return api
-								.getClassificationItemNotes(classificationId, itemId, version)
-								.then((note) => {
-									return {
-										version,
-										...emptyNotes,
-										...note,
-									};
-								});
+							return ClassificationsApi.getClassificationItemNotes(
+								classificationId,
+								itemId,
+								version
+							).then((note) => {
+								return {
+									version,
+									...emptyNotes,
+									...note,
+								};
+							});
 						}
 					)
 				);

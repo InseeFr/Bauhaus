@@ -5,6 +5,9 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
+	TextInput,
+	CreatorsInput,
+	PageTitleBlock,
 } from '../../../../new-architecture/components';
 
 import {
@@ -17,20 +20,12 @@ import {
 	CL_SOURCE_CATEGORY,
 	CL_FREQ,
 } from '../../../../actions/constants/codeList';
-import {
-	EditorMarkdown,
-	ItemToSelectModel,
-	PageTitleBlock,
-	SelectRmes,
-} from '../../../../utils';
+import { EditorMarkdown, SelectRmes } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
 
 import { isMandatoryField, validate } from './validation';
 import api from '../../../../remote-api/operations-api';
-import {
-	TextInput,
-	CreatorsInput,
-} from '../../../../new-architecture/components';
+import * as ItemToSelectModel from '../../../../new-architecture/utils/item-to-select-model';
 
 const defaultSerie = {
 	id: '',

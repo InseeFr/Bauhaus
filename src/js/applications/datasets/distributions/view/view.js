@@ -4,11 +4,14 @@ import * as select from '../../../../reducers';
 import {
 	CheckSecondLang,
 	DateUtils,
-	PageTitleBlock,
 	Stores,
 	useTitle,
 } from '../../../../utils';
-import { Loading, Row } from '../../../../new-architecture/components';
+import {
+	Loading,
+	Row,
+	PageTitleBlock,
+} from '../../../../new-architecture/components';
 import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n/build-dictionary';

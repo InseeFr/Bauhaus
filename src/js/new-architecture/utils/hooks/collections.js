@@ -1,12 +1,12 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
-import api from '../../../remote-api/concepts-collection-api';
 import { saveFileFromHttpResponse } from '../files';
+import { CollectionApi } from '../../sdk/collection-api';
 
 export const useCollections = () => {
 	return useQuery({
 		queryKey: ['collections'],
 		queryFn: () => {
-			return api.getCollectionList();
+			return CollectionApi.getCollectionList();
 		},
 	});
 };
@@ -17,14 +17,14 @@ export const useCollectionExporter = () => {
 			let promise;
 
 			if (ids.length > 1) {
-				promise = api.getCollectionExportZipByType(
+				promise = CollectionApi.getCollectionExportZipByType(
 					ids,
 					type,
 					lang,
 					withConcepts
 				);
 			} else if (ids.length === 1) {
-				promise = api.getCollectionExportByType(
+				promise = CollectionApi.getCollectionExportByType(
 					ids[0],
 					'application/vnd.oasis.opendocument.text',
 					type,

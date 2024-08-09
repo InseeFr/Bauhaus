@@ -3,7 +3,7 @@ import { useTitle } from '../../../utils';
 import D from '../../../i18n/build-dictionary';
 import Picker from '../../shared/picker-page';
 import ExportButtons from '../export-buttons';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import {
 	useCollectionExporter,
 	useCollections,

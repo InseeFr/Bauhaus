@@ -1,5 +1,5 @@
 import spinner from '../../../../../../img/spinner.svg';
-import { LOADING } from '../../../../../constants';
+import { LOADING } from '../../../../../new-architecture/sdk/constants';
 import D, { D1, D2 } from '../../../../../i18n';
 import { getLang } from '@inseefr/wilco';
 import { useState, useEffect } from 'react';

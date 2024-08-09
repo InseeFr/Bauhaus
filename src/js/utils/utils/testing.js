@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import configureStore from '../../store/configure-store';
+import configureStore from '../../new-architecture/redux/configure-store';
 
 export const RBACMock = ({ roles = [], stamp = 'stamp', children }) => {
 	const store = configureStore({

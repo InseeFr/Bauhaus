@@ -1,6 +1,6 @@
 import api from '../../../remote-api/operations-api';
 import * as A from '../../../actions/constants';
-import { LOADING } from '../../../constants';
+import { LOADING } from '../../../new-architecture/sdk/constants';
 import { D1, D2 } from '../../../i18n';
 
 import { getPublishFactory } from '../utils';

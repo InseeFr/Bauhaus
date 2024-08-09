@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { getPermission } from '../selectors';
+import { getPermission } from '../../../new-architecture/redux/selectors';
 import { connect } from 'react-redux';
 import { UsersAction } from '../../stores';
 

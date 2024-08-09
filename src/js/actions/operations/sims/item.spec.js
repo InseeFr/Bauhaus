@@ -1,7 +1,7 @@
 import get, { saveSims } from './item';
 import * as A from '../../../actions/constants';
 import api from '../../../remote-api/operations-api';
-import { LOADING, NOT_LOADED } from '../../../constants';
+import { LOADING, NOT_LOADED } from '../../../new-architecture/sdk/constants';
 
 const dispatch = jest.fn();
 jest.mock('../../../remote-api/operations-api');

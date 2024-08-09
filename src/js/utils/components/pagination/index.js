@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import Link from '../link';
+import { Link } from '../../../new-architecture/components';
 import queryString from 'query-string';
 import './pagination.scss';
 import D from '../../i18n/build-dictionary';

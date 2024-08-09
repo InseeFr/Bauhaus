@@ -1,5 +1,5 @@
 import D from '../../../../i18n/build-dictionary';
-import { rangeType } from '../../../../utils/msd/';
+import { rangeType } from '../../../../new-architecture/modules-operations/utils/msd';
 const { RICH_TEXT, TEXT, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 
 export const SimsFieldTitle = ({ msd, secondLang, currentSection }) => {

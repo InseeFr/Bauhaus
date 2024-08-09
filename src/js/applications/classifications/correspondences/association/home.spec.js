@@ -2,8 +2,9 @@ import Home from './home';
 import * as associationUtils from '../../../../applications/classifications/utils/correspondence/association';
 
 import { Provider } from 'react-redux';
-import configureStore from '../../../../store/configure-store';
+import configureStore from '../../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
+import { locales } from '../../../../new-architecture/tests-utils/default-values';
 
 const store = configureStore({
 	app: {
@@ -18,7 +19,7 @@ describe('association-home', () => {
 				<Home
 					association={associationUtils.empty()}
 					secondLang={false}
-					langs={{ lg1: 'fr', lg2: 'en' }}
+					langs={locales}
 				/>
 			</Provider>
 		);

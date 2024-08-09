@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import api from '../../remote-api/classifications-api';
+import { ClassificationsApi } from '../../new-architecture/sdk/classification';
 
 export const useClassification = (id) => {
 	const { isLoading, data: classification } = useQuery({
 		queryKey: ['classifications', id],
 		queryFn: () => {
 			return Promise.all([
-				api.getClassificationGeneral(id),
-				api.getClassificationLevels(id),
+				ClassificationsApi.getClassificationGeneral(id),
+				ClassificationsApi.getClassificationLevels(id),
 			]).then(([general, levels]) => {
 				return { general, levels };
 			});
@@ -24,7 +24,7 @@ export const usePublishClassification = (id) => {
 		error,
 	} = useMutation({
 		mutationFn: (id) => {
-			return api.publishClassification(id);
+			return ClassificationsApi.publishClassification(id);
 		},
 
 		onSuccess: () => {
@@ -44,7 +44,7 @@ export const useUpdateClassification = (id) => {
 		status,
 	} = useMutation({
 		mutationFn: (classification) => {
-			return api.putClassification(classification.general);
+			return ClassificationsApi.putClassification(classification.general);
 		},
 
 		onSuccess: () => {
