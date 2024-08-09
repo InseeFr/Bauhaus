@@ -1,8 +1,5 @@
 import { OrganisationsApi } from '../../../new-architecture/sdk';
-import {
-	CL_SOURCE_CATEGORY,
-	CL_FREQ,
-} from '../../../actions/constants/codeList';
+import { CL_SOURCE_CATEGORY, CL_FREQ } from '../../constants/codeList';
 import * as A from '../../../actions/constants';
 import { CodeListApi } from '../../../new-architecture/sdk';
 

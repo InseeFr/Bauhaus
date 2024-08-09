@@ -15,12 +15,12 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	useUrlQueryParameters,
 	useTitle,
 } from '../../../../utils';
 import { ConceptsApi } from '../../../../new-architecture/sdk';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
+import useUrlQueryParameters from '../../../../new-architecture/utils/hooks/useUrlQueryParameters';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterConcept = ArrayUtils.filterKeyDeburr(['concept']);

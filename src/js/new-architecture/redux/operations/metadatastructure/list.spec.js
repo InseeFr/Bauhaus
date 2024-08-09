@@ -1,9 +1,12 @@
-import get from './list';
-import * as A from '../../../actions/constants';
-import api from '../../../remote-api/operations-api';
+import get, {
+	LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
+	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
+	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
+} from './list';
+import api from '../../../../remote-api/operations-api';
 
 const dispatch = jest.fn();
-jest.mock('../../../remote-api/operations-api');
+jest.mock('../../../../remote-api/operations-api');
 
 describe('MSD actions', () => {
 	it('should call dispatch LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS action with the sorted array', async () => {
@@ -21,11 +24,11 @@ describe('MSD actions', () => {
 		};
 		await get()(dispatch);
 		expect(dispatch).toHaveBeenCalledWith({
-			type: A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
+			type: LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
 			payload: {},
 		});
 		expect(dispatch).toHaveBeenLastCalledWith({
-			type: A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
+			type: LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
 			payload: {
 				results: {
 					's-1': {
@@ -55,11 +58,11 @@ describe('MSD actions', () => {
 		};
 		await get()(dispatch);
 		expect(dispatch).toHaveBeenCalledWith({
-			type: A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
+			type: LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
 			payload: {},
 		});
 		expect(dispatch).toHaveBeenLastCalledWith({
-			type: A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
+			type: LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
 			payload: { err: 'error' },
 		});
 	});

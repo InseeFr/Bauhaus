@@ -3,13 +3,9 @@ import { Link, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import api from '../../../remote-api/operations-api';
 
-import {
-	ArrayUtils,
-	AdvancedSearchList,
-	useTitle,
-	useUrlQueryParameters,
-} from '../../../utils';
+import { ArrayUtils, AdvancedSearchList, useTitle } from '../../../utils';
 import { Loading, TextInput } from '../../../new-architecture/components';
+import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 

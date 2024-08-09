@@ -9,8 +9,8 @@ import { isLang2 } from '@inseefr/wilco';
  */
 export function getTree(
 	input: any[],
-	idParent: string,
-	objectToMerge: any
+	idParent?: string,
+	objectToMerge?: any
 ): any {
 	return input
 		.filter((msd) => msd.idParent === idParent)

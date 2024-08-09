@@ -16,7 +16,7 @@ import {
 	ItemToSelectModel,
 	useTitle,
 } from '../../../utils';
-import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
+import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
 import { CL_SOURCE_CATEGORY } from '../../../actions/constants/codeList';
 import { useCodesList } from '../../../new-architecture/utils/hooks/codeslist';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';

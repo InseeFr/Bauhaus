@@ -10,7 +10,6 @@ import {
 	ArrayUtils,
 	AdvancedSearchList,
 	ItemToSelectModel,
-	useUrlQueryParameters,
 	useTitle,
 } from '../../../../utils';
 import {
@@ -21,6 +20,7 @@ import {
 import { ConceptsApi } from '../../../../new-architecture/sdk';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
+import useUrlQueryParameters from '../../../../new-architecture/utils/hooks/useUrlQueryParameters';
 
 const filterLabelLg1 = ArrayUtils.filterKeyDeburr(['labelLg1']);
 const filterCreator = ArrayUtils.filterKeyDeburr(['creator']);

@@ -10,12 +10,8 @@ import Select from 'react-select';
 import Controls from './controls';
 import D from '../../../i18n';
 import { filterKeyDate } from '../../../new-architecture/utils/array-utils';
-import {
-	ArrayUtils,
-	Pagination,
-	useUrlQueryParameters,
-	useTitle,
-} from '../../../utils';
+import { ArrayUtils, Pagination, useTitle } from '../../../utils';
+import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);
 const filterAltLabel = ArrayUtils.filterKeyDeburr(['altLabel']);
 const filterDefinition = ArrayUtils.filterKeyDeburr(['definition']);

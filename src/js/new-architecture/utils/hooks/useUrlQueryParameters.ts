@@ -1,24 +1,25 @@
 import { useHistory, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
-const computeFromUrl = (defaultValue) => {
+const computeFromUrl = (defaultValue: any) => {
 	const url = document.URL;
 	const searchQuery = new URL(url).searchParams;
 
 	const values = { ...defaultValue };
+	//@ts-ignore
 	for (let [key, value] of searchQuery.entries()) {
 		values[key] = value;
 	}
 	return values;
 };
 
-const useUrlQueryParameters = (defaultValue) => {
+const useUrlQueryParameters = (defaultValue: string) => {
 	const history = useHistory();
 	const location = useLocation();
 
 	const [form, setSearch] = useState(computeFromUrl(defaultValue));
 
-	const handleChange = (property, stateChange) => {
+	const handleChange = (property: string, stateChange: string) => {
 		const newForm = {
 			...form,
 			[property]: stateChange,
@@ -31,7 +32,7 @@ const useUrlQueryParameters = (defaultValue) => {
 		history.replace(location.pathname);
 	};
 
-	const setForm = (values) => {
+	const setForm = (values: Record<string, string>) => {
 		setSearch(values);
 		const searchParams = new URLSearchParams(window.location.search);
 		Object.entries(values).forEach(([key, value]) => {

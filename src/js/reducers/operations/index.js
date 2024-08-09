@@ -1,7 +1,11 @@
-import * as A from '../../actions/constants';
 import { LOADED, LOADING, ERROR } from '../../new-architecture/sdk/constants';
 import * as currentReducers from '../../reducers/operations/current';
 import { ArrayUtils } from '../../utils';
+import {
+	LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
+	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
+	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
+} from '../../new-architecture/redux/operations/metadatastructure/list';
 
 /**
  *
@@ -59,9 +63,9 @@ function makeReducers([
 }
 
 const operationsMetadataStructureList = makeReducers([
-	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
-	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
-	A.LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
+	LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
+	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
+	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
 ]);
 
 const operations = {
