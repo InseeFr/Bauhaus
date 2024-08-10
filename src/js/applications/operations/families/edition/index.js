@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
 import { Loading } from '../../../../new-architecture/components';
 import OperationsFamilyEdition from '../../../../applications/operations/families/edition/edition';
@@ -8,10 +7,11 @@ import api from '../../../../remote-api/operations-api';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import D from '../../../../i18n/build-dictionary';
 import { useTitle } from '../../../../utils';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 
 const OperationsFamilyEditionContainer = () => {
 	const { id } = useParams();
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 	const goBack = useGoBack();
 
 	const [family, setFamily] = useState({});

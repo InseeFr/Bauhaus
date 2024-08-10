@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import * as select from '../../../reducers';
 import ConceptEditionCreation from './home';
 import buildPayloadUpdate from '../../../utils/concepts/build-payload-creation-update/build-payload-update';
 import { mergeWithAllConcepts } from '../../../utils/concepts/links';
@@ -14,6 +13,7 @@ import { emptyNotes } from '../../../utils/concepts/notes';
 import * as generalUtils from '../../../utils/concepts/general';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 import { useTitle } from '../../../utils';
+import { getLocales } from '../../../new-architecture/redux/selectors';
 
 const formatNotes = (notes) => {
 	return Object.assign(
@@ -29,7 +29,7 @@ const EditionContainer = () => {
 	const { id } = useParams();
 	const history = useHistory();
 
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 	const maxLengthScopeNote = useSelector((state) =>
 		Number(state.app.properties.maxLengthScopeNote)
 	);

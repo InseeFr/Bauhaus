@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import * as select from '../../../reducers';
 import { Loading } from '../../../new-architecture/components';
 import CollectionVisualization from './home';
 import { Auth, Stores } from '../../../utils';
 import { useParams } from 'react-router-dom';
 import { ConceptsApi } from '../../../new-architecture/sdk';
+import { getLocales } from '../../../new-architecture/redux/selectors';
 
 const CollectionVisualizationContainer = () => {
 	const { id } = useParams();
@@ -17,7 +17,7 @@ const CollectionVisualizationContainer = () => {
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 
 	const fetchData = useCallback(() => {
 		Promise.all([

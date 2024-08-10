@@ -1,6 +1,10 @@
-import { LOADING, LOADED, ERROR } from '../constants';
 import { D1, D2 } from '../../i18n/build-dictionary';
 import { GeographieApi } from '../../../new-architecture/sdk/geographie';
+import {
+	ERROR,
+	LOADED,
+	LOADING,
+} from '../../../new-architecture/sdk/constants';
 
 // Constants
 const LOAD_GEOGRAPHIES = 'LOAD_GEOGRAPHIES';

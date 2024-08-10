@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import * as select from '../../../../reducers';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import {
 	Loading,
@@ -15,11 +14,12 @@ import D from '../../../../i18n';
 
 import { Auth, Stores, CheckSecondLang } from '../../../../utils';
 import api from '../../../../remote-api/operations-api';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 
 const OperationVisualizationContainer = () => {
 	const { id } = useParams();
 	const [operation, setOperation] = useState({});
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);

@@ -1,14 +1,14 @@
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ClassificationVisualization from './home';
-import { Loading } from '../../../new-architecture/components/loading/loading';
-import * as mainSelect from '../../../reducers';
+import { Loading } from '../../../new-architecture/components';
 import { Stores, Auth } from '../../../utils';
 import { useClassification, usePublishClassification } from '../hooks';
+import { getLocales } from '../../../new-architecture/redux/selectors';
 
 const ClassificationVisualizationContainer = () => {
 	const { id } = useParams();
-	const langs = useSelector((state) => mainSelect.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);

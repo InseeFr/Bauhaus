@@ -1,5 +1,9 @@
-import { LOADING, LOADED, ERROR } from '../constants';
 import { buildApi } from '../../../new-architecture/sdk';
+import {
+	ERROR,
+	LOADED,
+	LOADING,
+} from '../../../new-architecture/sdk/constants';
 
 // Constants
 const LOAD_USER_STAMP = 'LOAD_USER_STAMP';

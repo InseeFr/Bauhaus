@@ -1,6 +1,5 @@
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import * as select from '../../../../reducers';
 import {
 	CheckSecondLang,
 	DateUtils,
@@ -19,6 +18,7 @@ import { useDataset, useDistribution } from '../../hooks';
 import { ViewMenu } from './menu';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import distributionApi from '../../api/distributions-api';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 
 export const DistributionView = (props) => {
 	const { id } = useParams();
@@ -30,7 +30,7 @@ export const DistributionView = (props) => {
 		distribution?.idDataset
 	);
 
-	const { lg1, lg2 } = useSelector((state) => select.getLangs(state));
+	const { lg1, lg2 } = useSelector((state) => getLocales(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);

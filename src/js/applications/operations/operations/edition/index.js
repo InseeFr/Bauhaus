@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
 import { Loading } from '../../../../new-architecture/components';
 import OperationsOperationEdition from '../../../../applications/operations/operations/edition/edition';
@@ -8,13 +7,14 @@ import api from '../../../../remote-api/operations-api';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import D from '../../../../i18n';
 import { useTitle } from '../../../../utils';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 
 const OperationEditionContainer = (props) => {
 	const { id } = useParams();
 	const [series, setSeries] = useState([]);
 	const [operation, setOperation] = useState({});
 	const stamp = useSelector((state) => state.app.auth.user.stamp);
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 
 	const goBack = useGoBack();
 

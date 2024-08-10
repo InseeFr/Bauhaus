@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
 import ItemVisualization from './home';
-import { Loading } from '../../../new-architecture/components/loading/loading';
-import * as mainSelect from '../../../reducers';
+import { Loading } from '../../../new-architecture/components';
 import { Stores } from '../../../utils';
 import { useParams } from 'react-router-dom';
 import useClassificationItem from './hook';
 import { useQueryClient } from '@tanstack/react-query';
 import { fetchingPreviousLevels } from './client';
+import { getLocales } from '../../../new-architecture/redux/selectors';
 
 const ItemVisualizationContainer = () => {
 	const queryClient = useQueryClient();
@@ -14,7 +14,7 @@ const ItemVisualizationContainer = () => {
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);
-	const langs = useSelector((state) => mainSelect.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 
 	const { isLoading, item } = useClassificationItem(
 		classificationId,

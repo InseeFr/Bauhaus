@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import D from '../../../../i18n';
 import { useSelector } from 'react-redux';
-import * as select from '../../../../reducers';
 import OperationsIndicatorVisualization from '../../../../applications/operations/indicators/visualization/general';
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import {
@@ -18,10 +17,11 @@ import { CL_FREQ } from '../../../../actions/constants/codeList';
 import { Auth, Stores, CheckSecondLang } from '../../../../utils';
 import { useCodesList } from '../../../../new-architecture/utils/hooks/codeslist';
 import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 const IndicatorVisualizationContainer = () => {
 	const { id } = useParams();
 
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);

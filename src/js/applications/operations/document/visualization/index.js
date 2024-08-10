@@ -15,7 +15,7 @@ import { useParams, useRouteMatch } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
 import { ADMIN } from '../../../../new-architecture/auth/roles';
 import api from '../../../../remote-api/api';
-import * as select from '../../../../reducers';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 
 function getPath(path) {
 	return path.includes('document') ? 'document' : 'link';
@@ -48,7 +48,7 @@ const DocumentationVisualizationContainer = () => {
 	const { id } = useParams();
 	const { path } = useRouteMatch();
 	const type = getPath(path);
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);

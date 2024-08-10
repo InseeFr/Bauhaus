@@ -1,6 +1,5 @@
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import * as select from '../../../../reducers';
 import {
 	CheckSecondLang,
 	DateUtils,
@@ -33,6 +32,7 @@ import {
 import { CL_FREQ } from '../../../../actions/constants/codeList';
 import { useOrganizations } from '../../../../new-architecture/utils/hooks/organizations';
 import { WasGeneratedByBlock } from './wasGeneratedByBlock';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -55,7 +55,7 @@ const Dataset = (props) => {
 
 	const { data: themesOptions = [] } = useThemes();
 
-	const { lg1, lg2 } = useSelector((state) => select.getLangs(state));
+	const { lg1, lg2 } = useSelector((state) => getLocales(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);

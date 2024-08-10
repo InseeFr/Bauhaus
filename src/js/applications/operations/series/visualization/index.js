@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
 import D from '../../../../i18n';
-import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import OperationsSerieVisualization from '../../../../applications/operations/series/visualization/home';
@@ -22,6 +21,7 @@ import { Auth, Stores, CheckSecondLang } from '../../../../utils';
 import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
 import api from '../../../../remote-api/operations-api';
 import { useCodesList } from '../../../../new-architecture/utils/hooks/codeslist';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 
 const SeriesVisualizationContainer = () => {
 	const { id } = useParams();
@@ -34,7 +34,7 @@ const SeriesVisualizationContainer = () => {
 		(state) => state.operationsOrganisations.results || []
 	);
 	const categories = useCodesList(CL_SOURCE_CATEGORY);
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);

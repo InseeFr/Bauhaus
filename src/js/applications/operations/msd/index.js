@@ -18,13 +18,16 @@ import { useHistory, useParams } from 'react-router-dom';
 import MSDHelp from '../../../applications/operations/msd/pages/help';
 import SimsVisualisation from '../../../applications/operations/msd/pages/sims-visualisation/';
 import SimsCreation from '../../../applications/operations/msd/pages/sims-creation/';
-import * as select from '../../../reducers';
 import { Stores, ArrayUtils } from '../../../utils';
 import api from '../../../remote-api/operations-api';
 import './msd.scss';
 import { isEssentialRubricKo } from './sims-field-title';
 import { SimsContextProvider } from './context';
 import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
+import {
+	getLocales,
+	getOperationsSimsCurrent,
+} from '../../../new-architecture/redux/selectors';
 
 export const HELP = 'HELP';
 export const CREATE = 'CREATE';
@@ -245,13 +248,13 @@ export const mapStateToProps = (state, ownProps) => {
 			currentSims = {};
 			break;
 		default:
-			currentSims = select.getOperationsSimsCurrent(state);
+			currentSims = getOperationsSimsCurrent(state);
 			break;
 	}
 
 	return {
 		geographiesLoaded: Stores.Geographies.isLoaded(state),
-		langs: select.getLangs(state),
+		langs: getLocales(state),
 		secondLang: Stores.SecondLang.getSecondLang(state),
 		metadataStructure,
 		metadataStructureStatus,

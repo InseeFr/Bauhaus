@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import * as select from '../../../../reducers';
 import { useDispatch, useSelector } from 'react-redux';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../../new-architecture/components';
 import DocumentationEdition from '../../../../applications/operations/document/edition/edition';
 import { loadCodesList } from '../../../../actions/operations/utils/setup';
 import api from '../../../../remote-api/api';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 
 const OperationsDocumentationEditionContainer = (props) => {
 	const { id } = useParams();
 	const { pathname } = useLocation();
 	const type = /(link|document)/.exec(pathname)[1];
 
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 	const langOptions = useSelector(
 		(state) => state.operationsCodesList.results['ISO-639'] || {}
 	);

@@ -1,6 +1,6 @@
 import { AuthDumb, mapStateToProps } from './auth';
-import { LOADING } from '../../stores/constants';
 import { render } from '@testing-library/react';
+import { LOADING } from '../../../new-architecture/sdk/constants';
 
 describe('AuthDumb', () => {
 	it('should return the fallback if the user is not authorized', () => {

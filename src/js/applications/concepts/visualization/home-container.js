@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import * as select from '../../../reducers';
 import { Loading } from '../../../new-architecture/components';
 import ConceptVisualization from './home';
 import { Auth, Stores } from '../../../utils';
@@ -9,6 +8,7 @@ import { emptyNotes } from '../../../utils/concepts/notes';
 import { LoadingProvider } from './loading';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import { rmesHtmlToRawHtml } from '../../../new-architecture/utils/html-utils';
+import { getLocales } from '../../../new-architecture/redux/selectors';
 
 const formatNotes = (notes) => {
 	return Object.assign(
@@ -24,7 +24,7 @@ const ConceptVisualizationContainer = () => {
 	const { id } = useParams();
 	const history = useHistory();
 
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 	const permission = useSelector((state) => Auth.getPermission(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import * as select from '../../../reducers';
 import CollectionEditionCreation from './home';
 import buildPayload from '../../../new-architecture/modules-concepts/collections/utils/build-payload/build-payload';
 import D from '../../../i18n';
@@ -11,11 +10,12 @@ import { Loading } from '../../../new-architecture/components';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import { useTitle } from '../../../utils';
 import { CollectionApi } from '../../../new-architecture/sdk/collection-api';
+import { getLocales } from '../../../new-architecture/redux/selectors';
 
 const EditionContainer = () => {
 	const { id } = useParams();
 	const history = useHistory();
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 
 	const [loadingCollection, setLoadingCollection] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);

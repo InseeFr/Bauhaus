@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
 import { Loading } from '../../../../new-architecture/components';
 import OperationsSerieEdition from '../../../../applications/operations/series/edition/edition';
@@ -13,6 +12,7 @@ import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import { useCodesList } from '../../../../new-architecture/utils/hooks/codeslist';
 import D from '../../../../i18n';
 import { useTitle } from '../../../../utils';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 
 const OperationsSeriesEditionContainer = (props) => {
 	const { id } = useParams();
@@ -27,7 +27,7 @@ const OperationsSeriesEditionContainer = (props) => {
 	const organisations = useSelector(
 		(state) => state.operationsOrganisations.results || []
 	);
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 
 	const goBack = useGoBack();
 

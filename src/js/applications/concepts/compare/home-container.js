@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../../new-architecture/components';
 import ConceptCompare from './home';
-import * as select from '../../../reducers';
 import { ArrayUtils, Stores } from '../../../utils';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import { emptyNotes } from '../../../utils/concepts/notes';
 import { rmesHtmlToRawHtml } from '../../../new-architecture/utils/html-utils';
+import { getLocales } from '../../../new-architecture/redux/selectors';
 const ConceptCompareContainer = () => {
 	const { id } = useParams();
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);

@@ -2,11 +2,11 @@ import { useSelector } from 'react-redux';
 import { Loading } from '../../../../new-architecture/components';
 import HomeGeneral from './home-general';
 import HomeAssociations from './home-associations';
-import * as select from '../../../../reducers';
 import { Stores } from '../../../../utils';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ClassificationsApi } from '../../../../new-architecture/sdk/classification';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 
 const CorrespondencesHomeContainer = () => {
 	const { id } = useParams();
@@ -22,7 +22,7 @@ const CorrespondencesHomeContainer = () => {
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 
 	if (isLoading) return <Loading />;
 

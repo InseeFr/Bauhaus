@@ -1,5 +1,4 @@
 import D from '../../../../i18n';
-import * as select from '../../../../reducers';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
@@ -17,9 +16,10 @@ import { useCallback, useEffect, useState } from 'react';
 import OperationsFamilyVisualization from '../../../../applications/operations/families/visualization/visualization';
 import { Auth, Stores, CheckSecondLang } from '../../../../utils';
 import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
+import { getLocales } from '../../../../new-architecture/redux/selectors';
 const Family = () => {
 	const { id } = useParams();
-	const langs = useSelector((state) => select.getLangs(state));
+	const langs = useSelector((state) => getLocales(state));
 	const secondLang = useSelector((state) =>
 		Stores.SecondLang.getSecondLang(state)
 	);

@@ -2,8 +2,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Menu } from '@inseefr/wilco';
 import D from '../../../i18n';
-
-import { getOperationsSimsCurrent } from '../../../reducers';
+import { getOperationsSimsCurrent } from '../../../new-architecture/redux/selectors';
 
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };
