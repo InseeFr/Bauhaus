@@ -11,20 +11,21 @@ import {
 	CheckSecondLang,
 } from '@inseefr/wilco';
 import { SelectRmes } from '../../../../../utils';
-import { DUPLICATE } from '../../../../../applications/operations/msd';
+import { DUPLICATE } from '../../index';
 import {
 	hasLabelLg2,
 	getParentId,
 	getParentIdName,
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
-} from '../../../../../applications/operations/msd/utils';
+} from '../../utils';
 import { ArrayUtils } from '../../../../../utils';
 import { mdFromEditorState } from '../../../../../new-architecture/utils/html-utils';
 import './sims-creation.scss';
 import { rangeType } from '../../../../../utils/msd/';
 import api from '../../../../../remote-api/operations-api';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
+import { useHistory } from 'react-router-dom';
 
 const { RICH_TEXT } = rangeType;
 
@@ -357,6 +358,7 @@ class SimsCreation extends Component {
 
 const withParentWithSims = (Component) => {
 	return (props) => {
+		const history = useHistory();
 		const [parentWithSims, setParentWithSims] = useState([]);
 		const parentType = props.parentType;
 		const seriesId = props.parent?.series?.id;
@@ -376,7 +378,7 @@ const withParentWithSims = (Component) => {
 				});
 			}
 		}, [seriesId, parentType, familyId]);
-		return <Component {...props} parentWithSims={parentWithSims} />;
+		return <Component {...props} parentWithSims={parentWithSims} history={history}/>;
 	};
 };
 

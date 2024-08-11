@@ -1,11 +1,14 @@
 import { Component, useEffect, useState } from 'react';
 import MSDLayout from '../../../applications/operations/msd/layout/';
 import { connect } from 'react-redux';
+import { buildExtract } from '@inseefr/wilco';
 import { Loading } from '../../../new-architecture/components';
+
 import { NOT_LOADED, LOADED } from '../../../constants';
 import loadMetadataStructure from '../../../actions/operations/metadatastructure/list';
 import { D1, D2 } from '../../../i18n';
 import globalApi from '../../../remote-api/api';
+
 import {
 	getOperationsOrganisations,
 	getOperationsCodesList,
@@ -14,24 +17,28 @@ import loadSIMS, {
 	saveSims,
 	publishSims,
 } from '../../../actions/operations/sims/item';
-import { useHistory, useParams } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import MSDHelp from '../../../applications/operations/msd/pages/help';
 import SimsVisualisation from '../../../applications/operations/msd/pages/sims-visualisation/';
 import SimsCreation from '../../../applications/operations/msd/pages/sims-creation/';
 import * as select from '../../../reducers';
 import { Stores, PageTitleBlock, ArrayUtils } from '../../../utils';
 import api from '../../../remote-api/operations-api';
+
+import { getParentType, getParentId } from './utils';
 import './msd.scss';
 import { isEssentialRubricKo } from './sims-field-title';
 import { SimsContextProvider } from './context';
 import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
+
+const extractId = buildExtract('id');
+const extractIdParent = buildExtract('idParent');
 
 export const HELP = 'HELP';
 export const CREATE = 'CREATE';
 export const VIEW = 'VIEW';
 export const UPDATE = 'UPDATE';
 export const DUPLICATE = 'DUPLICATE';
-
 const sortByLabel = ArrayUtils.sortArray('labelLg1');
 
 class MSDContainer extends Component {
@@ -57,14 +64,14 @@ class MSDContainer extends Component {
 			(this.props.mode === UPDATE || this.props.mode === VIEW) &&
 			!this.props.currentSims.id
 		) {
-			this.props.loadSIMS(this.props.params.id);
+			this.props.loadSIMS(this.props.id);
 		}
 
 		if (!this.props.geographiesLoaded) {
 			this.props.loadGeographies();
 		}
 
-		this._loadOwnersList(this.props.params.id);
+		this._loadOwnersList(this.props.id);
 	}
 
 	_loadOwnersList(id) {
@@ -82,7 +89,7 @@ class MSDContainer extends Component {
 	};
 
 	componentWillReceiveProps(nextProps) {
-		if (!nextProps.currentSims.id || this.props.params.id !== nextProps.id) {
+		if (!nextProps.currentSims.id || this.props.id !== nextProps.id) {
 			this.props.loadSIMS(nextProps.id);
 		}
 		if (this.props.mode === CREATE && nextProps.mode === VIEW) {
@@ -101,16 +108,16 @@ class MSDContainer extends Component {
 			mode = HELP,
 			baseUrl,
 			saveSims,
+			idParent,
 			disableSectionAnchor,
 			langs,
 			secondLang,
 			currentSims,
 			organisations,
+			parentType,
 			parent,
 			documentStores,
 			goBack,
-			params,
-			history,
 		} = this.props;
 
 		if (
@@ -162,7 +169,7 @@ class MSDContainer extends Component {
 		return (
 			<MSDLayout
 				metadataStructure={metadataStructure}
-				currentSection={params.idSection}
+				currentSection={this.props.match.params.idSection}
 				storeCollapseState={mode === HELP}
 				baseUrl={baseUrl}
 				disableSectionAnchor={disableSectionAnchor}
@@ -178,7 +185,7 @@ class MSDContainer extends Component {
 					<MSDHelp
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
-						currentSection={params.idSection}
+						currentSection={this.props.match.params.idSection}
 						langs={langs}
 						organisations={organisations}
 					/>
@@ -191,7 +198,7 @@ class MSDContainer extends Component {
 							metadataStructure={metadataStructure}
 							codesLists={codesLists}
 							organisations={organisations}
-							currentSection={params.idSection}
+							currentSection={this.props.match.params.idSection}
 							langs={langs}
 							secondLang={secondLang}
 							goBack={goBack}
@@ -211,15 +218,14 @@ class MSDContainer extends Component {
 							metadataStructure={metadataStructure}
 							codesLists={codesLists}
 							onSubmit={saveSims}
-							idParent={params.idParent}
+							idParent={idParent}
 							langs={langs}
 							goBack={goBack}
 							mode={mode}
 							organisations={organisations}
-							parentType={params[0]}
+							parentType={parentType}
 							documentStores={documentStores}
 							defaultSimsRubrics={this.state.defaultSimsRubrics}
-							history={history}
 						/>
 					</SimsContextProvider>
 				)}
@@ -239,13 +245,23 @@ export const mapStateToProps = (state, ownProps) => {
 	const { results: metadataStructure, status: metadataStructureStatus } =
 		state.operationsMetadataStructureList;
 
+	const id = extractId(ownProps);
+
+	let idParent;
 	let currentSims = {};
+	let parentType;
 	switch (ownProps.mode) {
 		case HELP:
 			currentSims = {};
 			break;
+		case CREATE:
+			idParent = extractIdParent(ownProps);
+			parentType = ownProps.match?.params[0];
+			break;
 		default:
 			currentSims = select.getOperationsSimsCurrent(state);
+			parentType = getParentType(currentSims);
+			idParent = getParentId(currentSims);
 			break;
 	}
 
@@ -255,9 +271,12 @@ export const mapStateToProps = (state, ownProps) => {
 		secondLang: Stores.SecondLang.getSecondLang(state),
 		metadataStructure,
 		metadataStructureStatus,
-		currentSims: currentSims || {},
+		currentSims: !id || currentSims.id === id ? currentSims : {},
+		id,
+		idParent,
 		codesLists: getOperationsCodesList(state),
 		organisations: getOperationsOrganisations(state),
+		parentType,
 	};
 };
 
@@ -270,22 +289,21 @@ const mapDispatchToProps = {
 };
 
 const MSDContainerWithParent = (props) => {
-	const params = useParams();
-	const parentType = params[0];
-	const idParent = params.idParent;
+	const match = useRouteMatch()
+	const { idParent } = props;
+	const parentType = match.params[0]; // withRouter utile
 	const [parent, setParent] = useState(props.parent);
 	const [loading, setLoading] = useState(true);
 	const [documentStores, setDocumentStores] = useState([]);
 
 	const goBack = useGoBack();
-	const history = useHistory();
 
 	const currentSims =
 		props.mode === CREATE
 			? {
-					labelLg1: D1.simsTitle + parent?.prefLabelLg1,
-					labelLg2: D2.simsTitle + parent?.prefLabelLg2,
-			  }
+				labelLg1: D1.simsTitle + parent?.prefLabelLg1,
+				labelLg2: D2.simsTitle + parent?.prefLabelLg2,
+			}
 			: props.currentSims;
 
 	useEffect(() => {
@@ -332,13 +350,17 @@ const MSDContainerWithParent = (props) => {
 			currentSims={currentSims}
 			parent={parent}
 			goBack={goBack}
-			params={params}
-			history={history}
+			match={match}
 		/>
 	);
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(MSDContainerWithParent);
+const withMatch = (Component) => {
+	return (...props) => {
+		const match = useRouteMatch();
+		return <Component {...props} match={match} />
+	}
+}
+export default withMatch(
+	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)
+);
