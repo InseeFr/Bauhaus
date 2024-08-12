@@ -356,7 +356,7 @@ const MSDContainerWithParent = (props) => {
 };
 
 const withMatch = (Component) => {
-	return (...props) => {
+	return (props) => {
 		const match = useRouteMatch();
 		return <Component {...props} match={match} />
 	}
