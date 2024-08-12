@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { Auth } from '../../../../utils';
 import Controls from './controls';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
-import { RBACMock } from '../../../../utils/utils/testing';
+import { RBACMock } from '../../../../new-architecture/tests-utils/rbac';
+
 describe('Structure View Menu', () => {
 	it('a user can only see the go back button', () => {
 		const structure = { id: '1' };

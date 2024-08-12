@@ -4,13 +4,14 @@ import {
 	PageTitle,
 	Loading,
 	Row,
+	FeminineButton,
 } from '../../../../new-architecture/components';
 
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import { useTitle, SearchableList, Auth } from '../../../../utils';
-import { FeminineButton } from '../../../../new-architecture/components/new-button';
+import { SearchableList, Auth } from '../../../../utils';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 function CodeListsPartialHome() {
 	useTitle(D.codelistsTitle, D.codelistsPartialTitle);

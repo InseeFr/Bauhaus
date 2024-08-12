@@ -3,7 +3,7 @@ import D from '../../i18n';
 import 'bootstrap/dist/css/bootstrap.css';
 import './app.scss';
 import { useSelector } from 'react-redux';
-import { useTitle } from '../../utils';
+import { useTitle } from '../utils/hooks/useTitle';
 
 function App() {
 	useTitle();

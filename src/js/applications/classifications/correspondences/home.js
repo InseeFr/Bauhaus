@@ -1,6 +1,7 @@
 import D from '../../../i18n';
-import { useTitle, SearchableList } from '../../../utils';
+import { SearchableList } from '../../../utils';
 import { PageTitle, Row } from '../../../new-architecture/components';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const CorrespondencesHome = ({ correspondences }) => {
 	useTitle(D.classificationsTitle, D.correspondencesTitle);

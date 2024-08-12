@@ -1,11 +1,6 @@
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {
-	CheckSecondLang,
-	DateUtils,
-	Stores,
-	useTitle,
-} from '../../../../utils';
+import { CheckSecondLang, Stores } from '../../../../utils';
 import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
 import { useEffect, useState } from 'react';
 import { Note } from '@inseefr/wilco';
@@ -33,6 +28,8 @@ import { CL_FREQ } from '../../../../actions/constants/codeList';
 import { useOrganizations } from '../../../../new-architecture/utils/hooks/organizations';
 import { WasGeneratedByBlock } from './wasGeneratedByBlock';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
+import { stringToDate } from '../../../../new-architecture/utils/date-utils';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -111,16 +108,15 @@ const Dataset = (props) => {
 						<ul>
 							<li>
 								{D.createdDateTitle} :{' '}
-								{DateUtils.stringToDate(dataset.catalogRecord?.created)}{' '}
+								{stringToDate(dataset.catalogRecord?.created)}{' '}
 							</li>
 							<li>
 								{D.modifiedDateTitle} :{' '}
-								{DateUtils.stringToDate(dataset.catalogRecord?.updated)}{' '}
+								{stringToDate(dataset.catalogRecord?.updated)}{' '}
 							</li>
 							<ConditionalDisplay data={dataset?.issued}>
 								<li>
-									{D.datasetsFirstDiffusion} :{' '}
-									{DateUtils.stringToDate(dataset?.issued)}{' '}
+									{D.datasetsFirstDiffusion} : {stringToDate(dataset?.issued)}{' '}
 								</li>
 							</ConditionalDisplay>
 
@@ -376,8 +372,8 @@ const Dataset = (props) => {
 							{dataset.temporalCoverageDataType && (
 								<li>
 									{D.datasetsTemporalCoverage} :{' '}
-									{DateUtils.stringToDate(dataset.temporalCoverageStartDate)}{' '}
-									{DateUtils.stringToDate(dataset.temporalCoverageEndDate)}
+									{stringToDate(dataset.temporalCoverageStartDate)}{' '}
+									{stringToDate(dataset.temporalCoverageEndDate)}
 								</li>
 							)}
 
@@ -405,7 +401,7 @@ const Dataset = (props) => {
 							{dataset.spacialTemporal && (
 								<li>
 									{D.datasetsSpacialTemporal} :{' '}
-									{DateUtils.stringToDate(dataset.spacialTemporal)}
+									{stringToDate(dataset.spacialTemporal)}
 								</li>
 							)}
 

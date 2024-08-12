@@ -1,6 +1,7 @@
 import D from '../../../../../../i18n';
 import { DSURLToLabel } from '@inseefr/wilco';
-import { DateItem, DateUtils } from '../../../../../../utils';
+import { DateItem } from '../../../../../../utils';
+import { stringToDate } from '../../../../../../new-architecture/utils/date-utils';
 
 export const rowParams = {
 	creations: [
@@ -64,7 +65,7 @@ export const rowParams = {
 			text: D.modifiedDateTitle,
 			width: '17%',
 			sort: true,
-			formatter: (d) => DateUtils.stringToDate(d),
+			formatter: (d) => stringToDate(d),
 		},
 		{
 			dataField: 'validationStatus',

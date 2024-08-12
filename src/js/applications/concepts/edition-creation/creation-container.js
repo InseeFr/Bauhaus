@@ -7,10 +7,11 @@ import { mergeWithAllConcepts } from '../../../utils/concepts/links';
 import D from '../../../i18n';
 import emptyConcept from '../../../utils/concepts/empty-concept';
 import { Loading } from '../../../new-architecture/components';
-import { ArrayUtils, useTitle } from '../../../utils';
+import { ArrayUtils } from '../../../utils';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 import { getLocales } from '../../../new-architecture/redux/selectors';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const CreationContainer = () => {
 	const langs = useSelector((state) => getLocales(state));

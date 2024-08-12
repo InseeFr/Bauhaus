@@ -1,12 +1,13 @@
-import { DateUtils } from '../../utils';
+import {
+	isOutOfDate,
+	stringToDate,
+} from '../../new-architecture/utils/date-utils';
 
 export const getModalMessage = (array) =>
 	array.reduce((message, { prefLabelLg1, valid }) => {
-		message += `<p>Le concept " <b>${prefLabelLg1}</b> " ayant une date de fin de validité au <b>${DateUtils.stringToDate(
+		message += `<p>Le concept " <b>${prefLabelLg1}</b> " ayant une date de fin de validité au <b>${stringToDate(
 			valid
 		)}</b>, vous ne pourrez plus le modifier`;
-		message += DateUtils.isOutOfDate(valid)
-			? `.</p>`
-			: ` après cette date.</p>`;
+		message += isOutOfDate(valid) ? `.</p>` : ` après cette date.</p>`;
 		return message;
 	}, '');

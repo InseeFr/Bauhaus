@@ -12,8 +12,8 @@ import { ConceptsApi } from '../../../new-architecture/sdk';
 import { emptyNotes } from '../../../utils/concepts/notes';
 import * as generalUtils from '../../../utils/concepts/general';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
-import { useTitle } from '../../../utils';
 import { getLocales } from '../../../new-architecture/redux/selectors';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const formatNotes = (notes) => {
 	return Object.assign(

@@ -1,7 +1,8 @@
 import D from '../../i18n';
-import { SearchableList, useTitle } from '../../utils';
+import { SearchableList } from '../../utils';
 import { PageTitle, Row } from '../../new-architecture/components';
 import { Menu } from './menu';
+import { useTitle } from '../../new-architecture/utils/hooks/useTitle';
 
 const CollectionsHome = ({ collections }) => {
 	useTitle(D.conceptsTitle, D.collectionsTitle);

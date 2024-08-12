@@ -5,8 +5,9 @@ import { PageTitle, Loading } from '../../../new-architecture/components';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 import CollectionMembers from '../../../new-architecture/modules-concepts/collections/visualisation/members';
-import { CheckSecondLang, useTitle } from '../../../utils';
+import { CheckSecondLang } from '../../../utils';
 import D from '../../../i18n';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const CollectionVisualization = ({
 	id,

@@ -3,7 +3,7 @@ import dashBoardLogo from '../../../img/dashboard.png';
 import { PageTitle } from '../../new-architecture/components';
 import D from '../../i18n';
 import './home.scss';
-import { useTitle } from '../../utils';
+import { useTitle } from '../../new-architecture/utils/hooks/useTitle';
 
 function AdministrationHome() {
 	useTitle(D.conceptsTitle, D.administrationTitle);

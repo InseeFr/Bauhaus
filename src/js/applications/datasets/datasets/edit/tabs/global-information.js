@@ -3,7 +3,6 @@ import { useThemes } from '../../useThemes';
 import { withCodesLists } from '../../../../../new-architecture/utils/hoc/withCodesLists';
 import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
-import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
 import { CL_FREQ } from '../../../../../actions/constants/codeList';
 import {
 	TextInput,
@@ -11,6 +10,7 @@ import {
 	ClientSideError,
 } from '../../../../../new-architecture/components';
 import { useOrganizations } from '../../../../../new-architecture/utils/hooks/organizations';
+import { convertCodesListsToSelectOption } from '../../../../../new-architecture/modules-datasets/utils/codelist-to-select-options';
 
 const GlobalInformationTab = ({
 	editingDataset,

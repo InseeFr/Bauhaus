@@ -4,9 +4,9 @@ import { withCodesLists } from '../../../../../new-architecture/utils/hoc/withCo
 import ReactSelect from 'react-select';
 import StructureAPI from '../../../../structures/apis/structure-api';
 import { TemporalField } from '../../components/temporalField';
-import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
 import { CL_FREQ } from '../../../../../actions/constants/codeList';
 import { Row } from '../../../../../new-architecture/components';
+import { convertCodesListsToSelectOption } from '../../../../../new-architecture/modules-datasets/utils/codelist-to-select-options';
 const StatisticalInformationTab = ({
 	editingDataset,
 	setEditingDataset,

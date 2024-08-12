@@ -6,8 +6,8 @@ import OperationsFamilyEdition from '../../../../applications/operations/familie
 import api from '../../../../remote-api/operations-api';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import D from '../../../../i18n/build-dictionary';
-import { useTitle } from '../../../../utils';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 const OperationsFamilyEditionContainer = () => {
 	const { id } = useParams();

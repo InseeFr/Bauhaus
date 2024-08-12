@@ -5,13 +5,7 @@ import {
 	ActionToolbar,
 	LabelRequired,
 } from '@inseefr/wilco';
-import {
-	AppContext,
-	useTitle,
-	ArrayUtils,
-	Auth,
-	SelectRmes,
-} from '../../../../utils';
+import { AppContext, ArrayUtils, Auth, SelectRmes } from '../../../../utils';
 import { validate } from '../edition/validation';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
@@ -42,6 +36,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 } from '../../../../new-architecture/components';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,

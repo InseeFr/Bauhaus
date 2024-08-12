@@ -2,9 +2,9 @@ import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../../i18n';
 import { useEffect, useState } from 'react';
 import { LINK, isDocument, isLink } from '../utils';
-import { useTitle } from '../../../../utils';
 import RelationsView from '../../shared/relations';
 import { getBaseURI } from '../../../../new-architecture/sdk';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 function formatSims(sims) {
 	const simsObject = sims.reduce((acc, s) => {

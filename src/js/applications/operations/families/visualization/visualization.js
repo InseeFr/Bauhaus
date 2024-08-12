@@ -1,13 +1,14 @@
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from '../../../../i18n';
 import RelationsView from '../../../../applications/operations/shared/relations';
-import { CreationUpdateItems, useTitle } from '../../../../utils';
+import { CreationUpdateItems } from '../../../../utils';
 import D from '../../../../i18n/build-dictionary';
 import {
 	PublicationFemale,
 	Row,
 } from '../../../../new-architecture/components';
 import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 function OperationsFamilyVisualization({
 	attr,
 	langs: { lg1, lg2 },

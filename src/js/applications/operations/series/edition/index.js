@@ -11,8 +11,8 @@ import api from '../../../../remote-api/operations-api';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import { useCodesList } from '../../../../new-architecture/utils/hooks/codeslist';
 import D from '../../../../i18n';
-import { useTitle } from '../../../../utils';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 const OperationsSeriesEditionContainer = (props) => {
 	const { id } = useParams();

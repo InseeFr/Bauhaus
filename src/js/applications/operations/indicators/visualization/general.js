@@ -1,14 +1,15 @@
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from '../../../../i18n';
-import { getSeeAlsoByType } from '../../../../applications/operations/shared/links/utils';
+import { getSeeAlsoByType } from '../../shared/links/utils';
 import DisplayLinks from '../../../../applications/operations/shared/links/';
 import SeeAlso from '../../../../applications/operations/shared/seeAlso';
-import { CreationUpdateItems, useTitle } from '../../../../utils';
+import { CreationUpdateItems } from '../../../../utils';
 import PublishersView from '../../../../applications/operations/components/publishers-view';
 import CreatorsView from '../../../../applications/operations/components/creators-view';
 import D from '../../../../i18n/build-dictionary';
 import { PublicationMale, Row } from '../../../../new-architecture/components';
 import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 function DisplayMultiLangNote({
 	value1,

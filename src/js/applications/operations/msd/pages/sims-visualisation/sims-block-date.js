@@ -1,7 +1,7 @@
-import { DateUtils } from '../../../../../utils';
+import { stringToDate } from '../../../../../new-architecture/utils/date-utils';
 
 const SimsBlockDate = ({ currentSection }) => {
-	return DateUtils.stringToDate(currentSection.value);
+	return stringToDate(currentSection.value);
 };
 
 export default SimsBlockDate;

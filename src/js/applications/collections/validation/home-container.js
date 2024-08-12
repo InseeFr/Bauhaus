@@ -3,9 +3,10 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CollectionsToValidate from './home';
 import { Loading } from '../../../new-architecture/components';
-import { Auth, useTitle } from '../../../utils';
+import { Auth } from '../../../utils';
 import D from '../../../i18n';
 import { ConceptsApi } from '../../../new-architecture/sdk';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const CollectionsToValidateContainer = () => {
 	useTitle(D.collectionsTitle, D.btnValid);

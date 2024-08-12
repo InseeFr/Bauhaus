@@ -4,7 +4,6 @@ import { withCodesLists } from '../../../../../new-architecture/utils/hoc/withCo
 import api from '../../../api/datasets-api';
 import { LabelRequired } from '@inseefr/wilco';
 import { SelectRmes } from '../../../../../utils';
-import { convertCodesListsToSelectOption } from '../../../../../utils/datasets/codelist-to-select-options';
 import { useStampsOptions } from '../../../../../new-architecture/utils/hooks/stamps';
 import { useSeriesOperationsOptions } from './useSeriesOperationsOptions';
 import {
@@ -14,6 +13,7 @@ import {
 	DisseminationStatusInput,
 	ClientSideError,
 } from '../../../../../new-architecture/components';
+import { convertCodesListsToSelectOption } from '../../../../../new-architecture/modules-datasets/utils/codelist-to-select-options';
 
 const InternalManagementTab = ({
 	editingDataset,

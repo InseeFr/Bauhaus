@@ -4,8 +4,9 @@ import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Members from './members';
-import { CheckSecondLang, useTitle } from '../../../../utils';
+import { CheckSecondLang } from '../../../../utils';
 import D from '../../../../i18n/build-dictionary';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 const SeriesVisualization = ({
 	series: { general, members },

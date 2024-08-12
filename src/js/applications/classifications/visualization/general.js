@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import D, { D1, D2 } from '../../../i18n';
 import { DSURLToLabel, Note } from '@inseefr/wilco';
-import { DateUtils } from '../../../utils';
 import { Row } from '../../../new-architecture/components';
 import { renderMarkdownElement } from '../../../new-architecture/utils/html-utils';
+import { stringToDate } from '../../../new-architecture/utils/date-utils';
 const General = ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
 	let mapping = {};
@@ -181,7 +181,7 @@ const General = ({ general, secondLang, langs }) => {
 									) {
 										return (
 											<li key={fieldName}>
-												{`${mapping[fieldName]} : ${DateUtils.stringToDate(
+												{`${mapping[fieldName]} : ${stringToDate(
 													general[fieldName]
 												)}`}
 											</li>

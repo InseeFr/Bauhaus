@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { Link, Redirect } from 'react-router-dom';
-import { ArrayUtils, AdvancedSearchList, useTitle } from '../../../../utils';
+import { ArrayUtils, AdvancedSearchList } from '../../../../utils';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
@@ -13,6 +13,7 @@ import {
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';
 import { useStampsOptions } from '../../../../new-architecture/utils/hooks/stamps';
 import useUrlQueryParameters from '../../../../new-architecture/utils/hooks/useUrlQueryParameters';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 const filterId = ArrayUtils.filterKeyDeburr(['id']);
 const filterLabel = ArrayUtils.filterKeyDeburr(['labelLg1']);

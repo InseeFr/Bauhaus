@@ -9,9 +9,9 @@ import { cleanId } from '@inseefr/wilco';
 import { Loading } from '../../../new-architecture/components';
 
 import { ConceptsApi } from '../../../new-architecture/sdk';
-import { useTitle } from '../../../utils';
 import { CollectionApi } from '../../../new-architecture/sdk/collection-api';
 import { getLocales } from '../../../new-architecture/redux/selectors';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const CreationContainer = () => {
 	const history = useHistory();

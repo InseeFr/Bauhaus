@@ -6,7 +6,6 @@ import * as utils from './auth/open-id-connect-auth/token-utils';
 import { createContext } from 'react';
 
 export * as ArrayUtils from './utils/array-utils';
-export * as DateUtils from './utils/date-utils';
 
 export const Auth = {
 	...utils,
@@ -34,5 +33,4 @@ export { default as ConfirmationDelete } from './components/confirmation-delete'
 export { default as Pagination } from './components/pagination';
 
 export const AppContext = createContext({});
-export { useTitle, setDocumentTitle } from './utils/useTitle';
 export { default as SelectRmes } from './components/select-rmes';

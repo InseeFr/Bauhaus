@@ -2,7 +2,7 @@ import { Table } from '@inseefr/wilco';
 import D from '../../../../../../i18n';
 import { rowParams, buildData } from './summary-data';
 import { rowParamsStamps, buildDataStamps } from './stamps-data';
-import { DateUtils } from '../../../../../../utils';
+import { today } from '../../../../../../new-architecture/utils/date-utils';
 
 function ConceptsSummary({ conceptsData }) {
 	const data = buildData(conceptsData);
@@ -10,7 +10,7 @@ function ConceptsSummary({ conceptsData }) {
 	return (
 		<div>
 			<h3 className="text-center">
-				{D.dashboardConceptsSummaryTitle} {DateUtils.today()}
+				{D.dashboardConceptsSummaryTitle} {today()}
 			</h3>
 			<Table rowParams={rowParams} data={data} />
 			<Table

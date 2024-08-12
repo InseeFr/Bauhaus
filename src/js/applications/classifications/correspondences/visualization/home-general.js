@@ -2,13 +2,14 @@ import { Note } from '@inseefr/wilco';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { D1, D2 } from '../../../../i18n';
-import { CheckSecondLang, useTitle } from '../../../../utils';
+import { CheckSecondLang } from '../../../../utils';
 import {
 	PageTitle,
 	Row,
 	ExplanatoryNote,
 } from '../../../../new-architecture/components';
 import D from '../../../../i18n/build-dictionary';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 const HomeGeneral = ({ correspondence, secondLang, langs: { lg1, lg2 } }) => {
 	const { labelLg1, labelLg2, firstClassLabelLg2, secondClassLabelLg2 } =

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTitle } from '../../../utils';
 import D from '../../../i18n/build-dictionary';
 import Picker from '../../shared/picker-page';
 import ExportButtons from '../export-buttons';
@@ -8,6 +7,7 @@ import {
 	useCollectionExporter,
 	useCollections,
 } from '../../../new-architecture/utils/hooks/collections';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const CollectionsToExportContainer = () => {
 	useTitle(D.collectionsTitle, D.exportTitle);

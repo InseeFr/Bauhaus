@@ -6,12 +6,14 @@ import ModalRmes from '../../../applications/shared/modal-rmes/modal-rmes';
 import D from '../../../i18n';
 import { buildNotes } from '../../../utils/concepts/notes';
 import { getModalMessage } from '../../../utils/concepts/build-validation-message';
-import { CheckSecondLang, DateUtils, useTitle } from '../../../utils';
+import { CheckSecondLang } from '../../../utils';
 import NoteVisualization from '../../shared/note-visualization';
 import {
 	ErrorBloc,
 	PageTitleBlock,
 } from '../../../new-architecture/components';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
+import { isOutOfDate } from '../../../new-architecture/utils/date-utils';
 const ConceptVisualization = ({
 	id,
 	permission,
@@ -70,7 +72,7 @@ const ConceptVisualization = ({
 					permission={permission}
 					creator={general.creator}
 					isValidated={general.isValidated === 'true'}
-					isValidOutOfDate={DateUtils.isOutOfDate(general.valid)}
+					isValidOutOfDate={isOutOfDate(general.valid)}
 					conceptVersion={general.conceptVersion}
 					handleValidation={handleClickValidation}
 					handleDeletion={handleClickDeletion}

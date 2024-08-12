@@ -2,7 +2,7 @@ import { Table } from '@inseefr/wilco';
 import D from '../../../../../../i18n';
 import { rowParams, buildData } from './summary-data';
 import { rowParamsStamps, buildDataStamps } from './stamps-data';
-import { DateUtils } from '../../../../../../utils';
+import { today } from '../../../../../../new-architecture/utils/date-utils';
 
 function CollectionsSummary({ collectionsData }) {
 	const data = buildData(collectionsData);
@@ -10,7 +10,7 @@ function CollectionsSummary({ collectionsData }) {
 	return (
 		<div>
 			<h3 className="text-center">
-				{D.dashboardCollectionsSummaryTitle} {DateUtils.today()}
+				{D.dashboardCollectionsSummaryTitle} {today()}
 			</h3>
 			<div className="col-md-8 col-md-offset-2">
 				<Table rowParams={rowParams} data={data} />

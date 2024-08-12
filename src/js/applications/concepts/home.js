@@ -3,7 +3,8 @@ import { PageTitle, Loading, Row } from '../../new-architecture/components';
 import D from '../../i18n';
 import { ConceptsApi } from '../../new-architecture/sdk';
 import { Menu } from './menu';
-import { SearchableList, useTitle } from '../../utils';
+import { SearchableList } from '../../utils';
+import { useTitle } from '../../new-architecture/utils/hooks/useTitle';
 
 const ConceptsHome = () => {
 	useTitle(D.conceptsTitle, D.conceptsTitle);

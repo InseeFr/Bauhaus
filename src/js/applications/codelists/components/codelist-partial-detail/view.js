@@ -10,7 +10,6 @@ import {
 } from '@inseefr/wilco';
 import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
 import {
-	useTitle,
 	ConfirmationDelete,
 	CreationUpdateItems,
 	Auth,
@@ -26,6 +25,7 @@ import {
 	ContributorsVisualisation,
 	DisseminationStatusVisualisation,
 } from '../../../../new-architecture/components';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 export const CodeListPartialDetailView = ({
 	codelist,

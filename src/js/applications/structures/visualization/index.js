@@ -10,18 +10,14 @@ import {
 	PageTitleBlock,
 } from '../../../new-architecture/components';
 import { useSelector } from 'react-redux';
-import {
-	CheckSecondLang,
-	Stores,
-	useTitle,
-	CreationUpdateItems,
-} from '../../../utils';
+import { CheckSecondLang, Stores, CreationUpdateItems } from '../../../utils';
 import Components from './components';
 import { D1, D2 } from '../../../i18n';
 import StructureVisualizationControl from '../components/structure-visualization/controls';
 import D from '../i18n/build-dictionary';
 import StructureAPI from '../apis/structure-api';
 import MainDictionary from '../../../i18n/build-dictionary';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 export const StructureView = ({
 	secondLang,

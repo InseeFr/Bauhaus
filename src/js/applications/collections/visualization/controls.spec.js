@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import CollectionVisualizationControls from './controls';
 import { Auth } from '../../../utils';
-import { RBACMock } from '../../../utils/utils/testing';
+import { RBACMock } from '../../../new-architecture/tests-utils/rbac';
 
 describe('collection-visualization-controls', () => {
 	it('a user can go back ', () => {

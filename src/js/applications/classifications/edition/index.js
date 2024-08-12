@@ -1,7 +1,7 @@
 import { useClassification, useUpdateClassification } from '../hooks';
 import { useParams, Redirect } from 'react-router-dom';
 import { ActionToolbar, LabelRequired } from '@inseefr/wilco';
-import { EditorMarkdown, useTitle } from '../../../utils';
+import { EditorMarkdown } from '../../../utils';
 import { useForm, Controller } from 'react-hook-form';
 import SelectRmes from '../../../utils/components/select-rmes';
 import D, { D1, D2 } from '../../../i18n';
@@ -20,6 +20,7 @@ import { transformModelToSelectOptions } from '../../../new-architecture/utils/t
 import { useDisseminationStatusOptions } from '../../../new-architecture/utils/hooks/disseminationStatus';
 import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
 import { ClassificationsApi } from '../../../new-architecture/sdk/classification';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 export const ClassificationEdition = () => {
 	const goBack = useGoBack();

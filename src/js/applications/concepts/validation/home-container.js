@@ -4,9 +4,10 @@ import { Redirect } from 'react-router-dom';
 import ConceptsToValidate from './home';
 import { Loading } from '../../../new-architecture/components';
 import { OK, PENDING } from '../../../new-architecture/sdk/constants';
-import { ArrayUtils, Auth, useTitle } from '../../../utils';
+import { ArrayUtils, Auth } from '../../../utils';
 import D from '../../../i18n';
 import { ConceptsApi } from '../../../new-architecture/sdk';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const ConceptsToValidateContainer = () => {
 	useTitle(D.conceptsTitle, D.btnValid);

@@ -1,8 +1,16 @@
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from '../../new-architecture/redux/configure-store';
+import { PropsWithChildren } from 'react';
 
-export const RBACMock = ({ roles = [], stamp = 'stamp', children }) => {
+export const RBACMock = ({
+	roles = [],
+	stamp = 'stamp',
+	children,
+}: PropsWithChildren<{
+	roles: string[];
+	stamp: string;
+}>) => {
 	const store = configureStore({
 		users: {
 			status: 'LOADED',

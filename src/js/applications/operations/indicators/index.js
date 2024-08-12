@@ -3,9 +3,10 @@ import { VerticalMenu } from '@inseefr/wilco';
 import { PageTitle, Loading } from '../../../new-architecture/components';
 
 import D from '../../../i18n';
-import { Auth, useTitle, SearchableList, ArrayUtils } from '../../../utils';
+import { Auth, SearchableList, ArrayUtils } from '../../../utils';
 import api from '../../../remote-api/operations-api';
-import { MasculineButton } from '../../../new-architecture/components/new-button';
+import { MasculineButton } from '../../../new-architecture/components';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 function IndicatorsHome() {
 	useTitle(D.operationsTitle, D.indicatorsTitle);

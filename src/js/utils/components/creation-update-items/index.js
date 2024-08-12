@@ -1,5 +1,5 @@
-import { stringToDate } from '../../utils/date-utils';
 import D from '../../i18n/build-dictionary';
+import { stringToDate } from '../../../new-architecture/utils/date-utils';
 
 export const DateItem = ({ date }) => {
 	if (!date || date === '') {

@@ -6,7 +6,7 @@ import {
 	ActionToolbar,
 	LabelRequired,
 } from '@inseefr/wilco';
-import { useTitle, Auth } from '../../../../utils';
+import { Auth } from '../../../../utils';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
@@ -23,6 +23,7 @@ import {
 	ClientSideError,
 } from '../../../../new-architecture/components';
 import Select from '../../../../utils/components/select-rmes';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 const defaultCodelist = {
 	created: dayjs(),

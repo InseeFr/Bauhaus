@@ -1,14 +1,14 @@
 import NoteVisualization from '../../../applications/shared/note-visualization';
 import { buildNotes } from '../../../applications/classifications/utils/classification/notes';
 import D, { D2 } from '../../../i18n';
-import { DateUtils } from '../../../utils';
 import { delPTags } from '../../../new-architecture/utils/html-utils';
+import { stringToDate } from '../../../new-architecture/utils/date-utils';
 function ClassificationNotes({ secondLang, notes, langs }) {
 	const noteValues = buildNotes(notes).map((note) => {
 		if (note.title === 'classificationsChangeNote') {
 			const Dictionnary = secondLang ? D2 : D;
 			return Dictionnary.classificationsChangeNote(
-				DateUtils.stringToDate(delPTags(notes.changeNoteDate))
+				stringToDate(delPTags(notes.changeNoteDate))
 			);
 		}
 		return note;

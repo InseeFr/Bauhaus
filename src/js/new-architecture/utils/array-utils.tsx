@@ -1,4 +1,4 @@
-import { DateUtils } from '../../utils';
+import { isDateIn } from './date-utils';
 
 /**
  * This is function is used to manage old version of our data. The main case
@@ -14,7 +14,7 @@ export const convertToArrayIfDefined = (
 
 export const filterKeyDate =
 	(key: string) => (start: Date, end: Date) => (item: any) => {
-		return !item[key] || DateUtils.isDateIn(item[key], start, end);
+		return !item[key] || isDateIn(item[key], start, end);
 	};
 
 export const creatSelectList = (max: number) => {

@@ -1,9 +1,5 @@
 import { Note, ErrorBloc } from '@inseefr/wilco';
-import {
-	CreationUpdateItems,
-	useTitle,
-	ConfirmationDelete,
-} from '../../../../utils';
+import { CreationUpdateItems, ConfirmationDelete } from '../../../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 
 import './view.scss';
@@ -16,6 +12,7 @@ import {
 	DisseminationStatusVisualisation,
 } from '../../../../new-architecture/components';
 import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 export const CodeListDetailView = ({
 	codelist,
 	handleUpdate,

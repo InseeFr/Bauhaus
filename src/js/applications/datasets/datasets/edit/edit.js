@@ -12,7 +12,7 @@ import {
 } from '../../../../new-architecture/components';
 
 import { ActionToolbar, CancelButton, SaveButton } from '@inseefr/wilco';
-import { Auth, useTitle } from '../../../../utils';
+import { Auth } from '../../../../utils';
 import { GlobalInformation } from './tabs/global-information';
 import { InternalManagement } from './tabs/internal-management';
 import { Notes } from './tabs/notes';
@@ -21,6 +21,7 @@ import { LayoutWithLateralMenu } from './layout-with-lateral-menu';
 import { validate } from './validation';
 import './edit.scss';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 export const DatasetEdit = (props) => {
 	const { id } = useParams();

@@ -1,7 +1,8 @@
 import Controls from './controls';
 import D from '../../../../i18n';
-import { CheckSecondLang, useTitle } from '../../../../utils';
+import { CheckSecondLang } from '../../../../utils';
 import { PageTitle, Row, Tree } from '../../../../new-architecture/components';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 const ClassificationTree = ({ data, prefLabel }) => {
 	useTitle(

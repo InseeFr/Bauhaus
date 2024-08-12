@@ -9,7 +9,7 @@ import {
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { CreationUpdateItems, useTitle } from '../../../../utils';
+import { CreationUpdateItems } from '../../../../utils';
 import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from '../../../codelists/apis';
@@ -24,6 +24,7 @@ import {
 	ErrorBloc,
 } from '../../../../new-architecture/components';
 import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 export const ComponentDetailView = ({
 	component,
 	concepts = [],

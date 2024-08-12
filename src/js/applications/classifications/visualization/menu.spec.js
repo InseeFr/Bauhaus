@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import Menu from './menu';
 import { Auth } from '../../../utils';
-import { RBACMock } from '../../../utils/utils/testing';
+import { RBACMock } from '../../../new-architecture/tests-utils/rbac';
 
 const classification = { id: 'pcs2020' };
 

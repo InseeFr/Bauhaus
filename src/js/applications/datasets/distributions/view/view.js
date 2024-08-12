@@ -1,11 +1,6 @@
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {
-	CheckSecondLang,
-	DateUtils,
-	Stores,
-	useTitle,
-} from '../../../../utils';
+import { CheckSecondLang, Stores } from '../../../../utils';
 import {
 	Loading,
 	Row,
@@ -19,6 +14,8 @@ import { ViewMenu } from './menu';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import distributionApi from '../../api/distributions-api';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
+import { stringToDate } from '../../../../new-architecture/utils/date-utils';
 
 export const DistributionView = (props) => {
 	const { id } = useParams();
@@ -88,12 +85,10 @@ export const DistributionView = (props) => {
 					text={
 						<ul>
 							<li>
-								{D.createdDateTitle} :{' '}
-								{DateUtils.stringToDate(distribution.created)}{' '}
+								{D.createdDateTitle} : {stringToDate(distribution.created)}{' '}
 							</li>
 							<li>
-								{D.modifiedDateTitle} :{' '}
-								{DateUtils.stringToDate(distribution.updated)}{' '}
+								{D.modifiedDateTitle} : {stringToDate(distribution.updated)}{' '}
 							</li>
 							<li>
 								{D.formatTitle} : {distribution.format}{' '}

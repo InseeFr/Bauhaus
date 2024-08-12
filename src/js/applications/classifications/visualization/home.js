@@ -10,7 +10,8 @@ import General from './general';
 import Notes from './notes';
 import Levels from './levels';
 import D from '../../../i18n';
-import { CheckSecondLang, useTitle } from '../../../utils';
+import { CheckSecondLang } from '../../../utils';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const ClassificationVisualization = (props) => {
 	const {

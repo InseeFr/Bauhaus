@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import api from '../../../remote-api/operations-api';
-import { ArrayUtils, Auth, useTitle } from '../../../utils';
+import { ArrayUtils, Auth } from '../../../utils';
 import D from '../../../i18n/build-dictionary';
 import OperationsObjectHome from '../shared/list';
 import { FeminineButton, Loading } from '../../../new-architecture/components';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 export const FamiliesHomeContainer = () => {
 	const [loading, setLoading] = useState(true);

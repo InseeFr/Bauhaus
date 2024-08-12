@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import Picker from '../../shared/picker-page';
-import { useTitle } from '../../../utils';
 import D from '../../../i18n';
 import ExportButtons from '../../../applications/collections/export-buttons';
-import { Loading } from '../../../new-architecture/components/loading/loading';
+import { Loading } from '../../../new-architecture/components';
 import {
 	useConceptExporter,
 	useConcepts,
 } from '../../../new-architecture/utils/hooks/concepts';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const ConceptsToExportContainer = () => {
 	useTitle(D.conceptsTitle, D.exportTitle);

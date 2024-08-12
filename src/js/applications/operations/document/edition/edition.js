@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import D, { D1, D2 } from '../../../../i18n';
-import { EditorMarkdown, useTitle } from '../../../../utils';
+import { EditorMarkdown } from '../../../../utils';
 import { validate } from './validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -25,6 +25,7 @@ import {
 	PageTitleBlock,
 } from '../../../../new-architecture/components';
 import Select from '../../../../utils/components/select-rmes';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 const initDocument = {
 	labelLg1: '',

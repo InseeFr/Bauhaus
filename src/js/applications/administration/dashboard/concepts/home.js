@@ -5,7 +5,7 @@ import ConceptsCreationsModifications from './concepts/creations-modifications';
 import CollectionsSummary from './collections/summary';
 import CollectionsCreationsModifications from './collections/creations-modifications';
 import D from '../../../../i18n';
-import { useTitle } from '../../../../utils';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 function ConceptsDashboard({ conceptsData, collectionsData }) {
 	useTitle(D.conceptsTitle, D.administrationTitle);

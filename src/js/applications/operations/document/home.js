@@ -1,13 +1,17 @@
 import { useState, useCallback, useEffect } from 'react';
 import { VerticalMenu, filterKeyDeburr, nbResults } from '@inseefr/wilco';
-import { PageTitle, TextInput } from '../../../new-architecture/components';
+import {
+	PageTitle,
+	TextInput,
+	MasculineButton,
+} from '../../../new-architecture/components';
 
 import D from '../../../i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
-import { Auth, useTitle, Pagination } from '../../../utils';
+import { Auth, Pagination } from '../../../utils';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { MasculineButton } from '../../../new-architecture/components/new-button';
 import FilterToggleButtons from '../../../new-architecture/components/filter-toggle-buttons';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const formatter = (content, label) => {
 	const extraInformations = [];

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { Auth } from '../../../../utils';
 import { ViewMenu } from './menu';
 import { UNPUBLISHED } from '../../../../new-architecture/model/ValidationState';
-import { RBACMock } from '../../../../utils/utils/testing';
+import { RBACMock } from '../../../../new-architecture/tests-utils/rbac';
 describe('Codes List View Menu', () => {
 	it('a user can only see the go back button', () => {
 		const codesList = { id: '1' };

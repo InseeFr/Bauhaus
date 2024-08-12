@@ -10,7 +10,7 @@ import { PageTitle, Row } from '../../../new-architecture/components';
 import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
 
 import './tree.scss';
-import { useTitle } from '../../../utils';
+import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 export const formatLeaf = (
 	leaf,

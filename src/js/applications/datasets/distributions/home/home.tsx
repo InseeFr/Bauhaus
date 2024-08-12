@@ -1,10 +1,11 @@
 import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
-import { SearchableList, useTitle } from '../../../../utils';
+import { SearchableList } from '../../../../utils';
 import D from '../../../../i18n/build-dictionary';
 import { useDistributions } from '../../hooks';
 import { HomePageMenu } from './menu';
 import { Loading, Row } from '../../../../new-architecture/components';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 export const DistributionHome = () => {
 	const { data, isLoading } = useDistributions();

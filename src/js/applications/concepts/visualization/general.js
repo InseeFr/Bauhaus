@@ -1,7 +1,8 @@
 import { D1 } from '../../../i18n';
 import { Note } from '@inseefr/wilco';
-import { ArrayUtils, DateUtils } from '../../../utils';
+import { ArrayUtils } from '../../../utils';
 import { DisseminationStatusVisualisation } from '../../../new-architecture/components';
+import { stringToDate } from '../../../new-architecture/utils/date-utils';
 
 function ConceptGeneral({ attr, secondLang, langs }) {
 	const { lg1, lg2 } = langs;
@@ -71,7 +72,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 									}
 									return (
 										<li key={fieldName}>
-											{`${mapping[fieldName]} : ${DateUtils.stringToDate(
+											{`${mapping[fieldName]} : ${stringToDate(
 												attr[fieldName]
 											)}`}
 										</li>
@@ -80,7 +81,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 								if (['valid'].includes(fieldName)) {
 									return (
 										<li key={fieldName}>
-											{`${mapping[fieldName]} : ${DateUtils.stringToDate(
+											{`${mapping[fieldName]} : ${stringToDate(
 												attr[fieldName]
 											)}`}
 										</li>

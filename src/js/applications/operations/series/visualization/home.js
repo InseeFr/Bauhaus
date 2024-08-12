@@ -3,8 +3,8 @@ import { D1, D2 } from '../../../../i18n';
 import RelationsView from '../../../../applications/operations/shared/relations';
 import DisplayLinks from '../../../../applications/operations/shared/links/';
 import SeeAlso from '../../../../applications/operations/shared/seeAlso';
-import { getSeeAlsoByType } from '../../../../applications/operations/shared/links/utils';
-import { CreationUpdateItems, useTitle } from '../../../../utils';
+import { getSeeAlsoByType } from '../../shared/links/utils';
+import { CreationUpdateItems } from '../../../../utils';
 import CreatorsView from '../../../../applications/operations/components/creators-view';
 import PublishersView from '../../../../applications/operations/components/publishers-view';
 import D from '../../../../i18n/build-dictionary';
@@ -13,6 +13,7 @@ import {
 	Row,
 } from '../../../../new-architecture/components';
 import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
+import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 function OperationsSerieVisualization({
 	attr,
 	langs: { lg1, lg2 },
