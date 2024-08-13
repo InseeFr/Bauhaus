@@ -1,5 +1,5 @@
 import ConceptVisualization from './home';
-import { empty } from '../../../utils/concepts/general';
+import { empty } from '../../../new-architecture/modules-concepts/utils/general';
 import { Provider } from 'react-redux';
 import configureStore from '../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';

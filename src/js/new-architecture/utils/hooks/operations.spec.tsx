@@ -1,10 +1,10 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useOperations } from './operations';
-import operationSeries from '../../../remote-api/operations-api';
 import { Operation } from '../../model/Operation';
+import { OperationsApi } from '../../sdk/operations-api';
 
-jest.mock('../../../remote-api/operations-api');
+jest.mock('../../sdk/operations-api');
 
 const queryClient = new QueryClient();
 
@@ -24,15 +24,13 @@ describe('useSeries', () => {
 			},
 		];
 
-		(operationSeries.getOperationsList as any).mockResolvedValueOnce(
-			seriesMock
-		);
+		(OperationsApi.getOperationsList as any).mockResolvedValueOnce(seriesMock);
 
 		const { result } = renderHook(() => useOperations(), { wrapper });
 
 		await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
 		expect(result.current.data).toEqual(seriesMock);
-		expect(operationSeries.getOperationsList).toHaveBeenCalledTimes(1);
+		expect(OperationsApi.getOperationsList).toHaveBeenCalledTimes(1);
 	});
 });

@@ -75,4 +75,4 @@ const api = {
 	],
 };
 
-export const ClassificationsApi = buildApi('classifications', api);
+export const ClassificationsApi = buildApi('classifications', api) as any;

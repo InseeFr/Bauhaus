@@ -1,7 +1,7 @@
 import OperationsIndicatorVisualization from './general';
 
 import { Provider } from 'react-redux';
-import { CL_FREQ } from '../../../../actions/constants/codeList';
+import { CL_FREQ } from '../../../../new-architecture/redux/actions/constants/codeList';
 import configureStore from '../../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 import { locales } from '../../../../new-architecture/tests-utils/default-values';

@@ -1,8 +1,8 @@
 import * as selectors from './../new-architecture/redux/selectors';
 import * as roles from './../new-architecture/auth/roles';
-import AuthGuard from './auth/components/auth';
+import AuthGuard from './../new-architecture/auth/components/auth';
 
-import * as utils from './auth/open-id-connect-auth/token-utils';
+import * as utils from './../new-architecture/auth/open-id-connect-auth/token-utils';
 import { createContext } from 'react';
 
 export * as ArrayUtils from './utils/array-utils';
@@ -28,7 +28,6 @@ export {
 
 export { default as CheckSecondLang } from './components/check-second-lang';
 
-export * as Stores from './stores';
 export { default as ConfirmationDelete } from './components/confirmation-delete';
 export { default as Pagination } from './components/pagination';
 

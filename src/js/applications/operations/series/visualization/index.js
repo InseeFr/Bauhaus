@@ -12,16 +12,17 @@ import {
 } from '../../../../new-architecture/components';
 
 import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
-import {
-	CL_SOURCE_CATEGORY,
-	CL_FREQ,
-} from '../../../../actions/constants/codeList';
 
-import { Auth, Stores, CheckSecondLang } from '../../../../utils';
+import { Auth, CheckSecondLang } from '../../../../utils';
 import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
-import api from '../../../../remote-api/operations-api';
 import { useCodesList } from '../../../../new-architecture/utils/hooks/codeslist';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
+import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
+import {
+	CL_FREQ,
+	CL_SOURCE_CATEGORY,
+} from '../../../../new-architecture/redux/actions/constants/codeList';
 
 const SeriesVisualizationContainer = () => {
 	const { id } = useParams();
@@ -35,9 +36,7 @@ const SeriesVisualizationContainer = () => {
 	);
 	const categories = useCodesList(CL_SOURCE_CATEGORY);
 	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
+	const secondLang = useSelector((state) => getSecondLang(state));
 
 	const goBack = useGoBack();
 
@@ -46,16 +45,15 @@ const SeriesVisualizationContainer = () => {
 	);
 	const category = categories.codes.find((c) => c.code === series.typeCode);
 	useEffect(() => {
-		api.getSerie(id).then((result) => setSeries(result));
+		OperationsApi.getSerie(id).then((result) => setSeries(result));
 	}, [id]);
 
 	const publish = useCallback(() => {
 		setPublishing(true);
 
-		api
-			.publishSeries(series)
+		OperationsApi.publishSeries(series)
 			.then(() => {
-				return api.getSerie(id).then(setSeries);
+				return OperationsApi.getSerie(id).then(setSeries);
 			})
 			.catch((error) => setServerSideError(error))
 			.finally(() => setPublishing(false));

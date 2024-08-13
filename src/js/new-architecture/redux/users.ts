@@ -1,4 +1,4 @@
-import { SAVE_SECOND_LANG } from '../../utils/stores/second-lang';
+import { SAVE_SECOND_LANG } from './second-lang';
 
 export const CHECK_AUTH = 'CHECK_AUTH';
 export const SAVE_USER_PROPS = 'SAVE_USER_PROPS';

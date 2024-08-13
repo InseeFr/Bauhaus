@@ -2,7 +2,7 @@ import reducer from './organisations';
 import {
 	LOAD_OPERATIONS_ORGANISATIONS_FAILURE,
 	LOAD_OPERATIONS_ORGANISATIONS_SUCCESS,
-} from '../../../actions/constants';
+} from '../actions/constants';
 import { ERROR, LOADED } from '../../sdk/constants';
 
 describe('operationsOrganisations reducer', () => {

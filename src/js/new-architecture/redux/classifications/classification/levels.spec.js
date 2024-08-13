@@ -1,5 +1,5 @@
 import reducerClassificationLevels, { getLevels } from './levels';
-import { LOAD_CLASSIFICATION_LEVELS_SUCCESS } from '../../../../actions/constants';
+import { LOAD_CLASSIFICATION_LEVELS_SUCCESS } from '../../actions/constants';
 import { LOADED } from '../../../sdk/constants';
 
 describe('reducerSeriesMembers', () => {

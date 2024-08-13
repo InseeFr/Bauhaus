@@ -1,5 +1,5 @@
 import ConceptEditionCreation from './home';
-import { empty } from '../../../utils/concepts/general';
+import { empty } from '../../../new-architecture/modules-concepts/utils/general';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 import { locales } from '../../../new-architecture/tests-utils/default-values';
 

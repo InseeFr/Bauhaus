@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Stores } from '../../../../utils';
 import { CodeListApi } from '../../../../new-architecture/sdk';
 import { formatPartialCodeList } from '../../utils';
 import { API } from '../../apis';
@@ -15,10 +14,11 @@ import {
 	Publishing,
 	Loading,
 } from '../../../../new-architecture/components';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
 
 const CodelistPartialComponentView = (props) => {
 	const goBack = useGoBack();
-	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
+	const secondLang = useSelector(getSecondLang);
 	const { id } = useParams();
 	const [deleting, setDeleting] = useState(false);
 	const [publishing, setPublishing] = useState(false);

@@ -12,7 +12,6 @@ import {
 	ActionToolbar,
 	LabelRequired,
 } from '@inseefr/wilco';
-import api from '../../../../remote-api/api';
 import Modal from 'react-modal';
 import {
 	TextInput,
@@ -26,6 +25,7 @@ import {
 } from '../../../../new-architecture/components';
 import Select from '../../../../utils/components/select-rmes';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
+import { GeneralApi } from '../../../../new-architecture/sdk/general-api';
 
 const initDocument = {
 	labelLg1: '',
@@ -60,9 +60,11 @@ const saveDocument = (document, type, files) => {
 	if (type === DOCUMENT && document.id && files[0] && files[0].size) {
 		const formData = new FormData();
 		formData.append('file', files[0], files[0].name);
-		promise = (api.putDocumentFile(document, formData), api[method](body));
+		promise =
+			(GeneralApi.putDocumentFile(document, formData),
+			GeneralApi[method](body));
 	} else {
-		promise = api[method](body);
+		promise = GeneralApi[method](body);
 	}
 	return promise;
 };

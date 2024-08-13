@@ -4,7 +4,7 @@ import {
 	LOAD_OPERATIONS_SIMS_SUCCESS,
 	SAVE_OPERATIONS_SIMS,
 	SAVE_OPERATIONS_SIMS_SUCCESS,
-} from '../../../actions/constants';
+} from '../actions/constants';
 import { LOADED, LOADING, NOT_LOADED } from '../../sdk/constants';
 
 describe('operationsSimsCurrentStatus reducer', () => {

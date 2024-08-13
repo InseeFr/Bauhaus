@@ -10,7 +10,6 @@ import {
 } from '@inseefr/wilco';
 import { validate } from './validation';
 import D from '../../../../i18n/build-dictionary';
-import api from '../../../../remote-api/operations-api';
 import {
 	TextInput,
 	Row,
@@ -20,6 +19,7 @@ import {
 	ClientSideError,
 	PageTitleBlock,
 } from '../../../../new-architecture/components';
+import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -80,7 +80,7 @@ class OperationsFamilyEdition extends Component {
 			const isCreation = !this.state.family.id;
 
 			const method = isCreation ? 'createFamily' : 'updateFamily';
-			return api[method](this.state.family)
+			return OperationsApi[method](this.state.family)
 				.then(
 					(id = this.state.family.id) => {
 						this.props.goBack(`/operations/family/${id}`, isCreation);

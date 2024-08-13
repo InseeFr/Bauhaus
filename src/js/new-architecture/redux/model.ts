@@ -1,8 +1,19 @@
 export type ReduxModel = {
-	operationsSeriesCurrent: any;
-	operationsIndicatorsCurrent: any;
-	operationsSimsCurrent: any;
-	app: {
+	operationsSeriesCurrent?: any;
+	operationsIndicatorsCurrent?: any;
+	operationsSimsCurrent?: any;
+	users?: {
+		status: string;
+		results: {
+			stamp: string;
+		};
+	};
+	geographies?: {
+		status: string;
+		results: any[];
+	};
+	app?: {
+		secondLang: boolean;
 		lg1: string;
 		lg2: string;
 		auth: {

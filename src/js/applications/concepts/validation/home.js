@@ -1,10 +1,10 @@
 import { Component } from 'react';
 import ModalRmes from '../../../applications/shared/modal-rmes/modal-rmes';
 import Picker from '../../../applications/shared/picker-page';
-import check from '../../../utils/auth';
+import check from '../../../new-architecture/auth/auth';
 import D from '../../../i18n';
-import { getModalMessage } from '../../../utils/concepts/build-validation-message';
 import { PublishButton } from '@inseefr/wilco';
+import { getModalMessage } from '../../../new-architecture/modules-concepts/utils/build-validation-message';
 
 class ConceptsToValidate extends Component {
 	constructor(props) {

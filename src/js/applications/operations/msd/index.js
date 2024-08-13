@@ -5,7 +5,6 @@ import { Loading, PageTitleBlock } from '../../../new-architecture/components';
 import { NOT_LOADED, LOADED } from '../../../new-architecture/sdk/constants';
 import loadMetadataStructure from '../../../new-architecture/redux/operations/metadatastructure/list';
 import { D1, D2 } from '../../../i18n';
-import globalApi from '../../../remote-api/api';
 import {
 	getOperationsOrganisations,
 	getOperationsCodesList,
@@ -13,13 +12,12 @@ import {
 import loadSIMS, {
 	saveSims,
 	publishSims,
-} from '../../../actions/operations/sims/item';
+} from '../../../new-architecture/redux/actions/operations/sims/item';
 import { useHistory, useParams } from 'react-router-dom';
 import MSDHelp from '../../../applications/operations/msd/pages/help';
 import SimsVisualisation from '../../../applications/operations/msd/pages/sims-visualisation/';
 import SimsCreation from '../../../applications/operations/msd/pages/sims-creation/';
-import { Stores, ArrayUtils } from '../../../utils';
-import api from '../../../remote-api/operations-api';
+import { ArrayUtils } from '../../../utils';
 import './msd.scss';
 import { isEssentialRubricKo } from './sims-field-title';
 import { SimsContextProvider } from './context';
@@ -28,6 +26,13 @@ import {
 	getLocales,
 	getOperationsSimsCurrent,
 } from '../../../new-architecture/redux/selectors';
+import { getSecondLang } from '../../../new-architecture/redux/second-lang';
+import {
+	isLoaded,
+	loadGeographies,
+} from '../../../new-architecture/redux/geographies.action';
+import { GeneralApi } from '../../../new-architecture/sdk/general-api';
+import { OperationsApi } from '../../../new-architecture/sdk/operations-api';
 
 export const HELP = 'HELP';
 export const CREATE = 'CREATE';
@@ -72,14 +77,14 @@ class MSDContainer extends Component {
 
 	_loadOwnersList(id) {
 		if (id) {
-			api.getOwners(id).then((owners) => {
+			OperationsApi.getOwners(id).then((owners) => {
 				this.setState({ owners });
 			});
 		}
 	}
 	exportCallback = (id, config, sims) => {
 		this.setState(() => ({ exportPending: true, missingDocuments: new Set() }));
-		api.exportSims(id, config, sims).then((missingDocuments) => {
+		OperationsApi.exportSims(id, config, sims).then((missingDocuments) => {
 			this.setState(() => ({ exportPending: false, missingDocuments }));
 		});
 	};
@@ -253,9 +258,9 @@ export const mapStateToProps = (state, ownProps) => {
 	}
 
 	return {
-		geographiesLoaded: Stores.Geographies.isLoaded(state),
+		geographiesLoaded: isLoaded(state),
 		langs: getLocales(state),
-		secondLang: Stores.SecondLang.getSecondLang(state),
+		secondLang: getSecondLang(state),
 		metadataStructure,
 		metadataStructureStatus,
 		currentSims: currentSims || {},
@@ -269,7 +274,7 @@ const mapDispatchToProps = {
 	loadSIMS,
 	saveSims,
 	publishSims,
-	loadGeographies: Stores.Geographies.loadGeographies,
+	loadGeographies: loadGeographies,
 };
 
 const MSDContainerWithParent = (props) => {
@@ -294,18 +299,15 @@ const MSDContainerWithParent = (props) => {
 	useEffect(() => {
 		// TO BE REMOVED when all cache will be deleted
 		if (parentType === 'indicator') {
-			api
-				.getIndicatorById(idParent)
+			OperationsApi.getIndicatorById(idParent)
 				.then((payload) => setParent(payload))
 				.finally(() => setLoading(false));
 		} else if (parentType === 'operation') {
-			api
-				.getOperation(idParent)
+			OperationsApi.getOperation(idParent)
 				.then((payload) => setParent(payload))
 				.finally(() => setLoading(false));
 		} else if (parentType === 'series') {
-			api
-				.getSerie(idParent)
+			OperationsApi.getSerie(idParent)
 				.then((payload) => setParent(payload))
 				.finally(() => setLoading(false));
 		} else {
@@ -314,7 +316,7 @@ const MSDContainerWithParent = (props) => {
 	}, [idParent, parentType]);
 
 	useEffect(() => {
-		globalApi.getDocumentsList().then((results) => {
+		GeneralApi.getDocumentsList().then((results) => {
 			setDocumentStores(
 				sortByLabel(
 					results.map((document) => {

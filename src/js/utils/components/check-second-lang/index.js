@@ -1,6 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { getSecondLang, saveSecondLang } from '../../stores/second-lang';
 import { CheckSecondLang } from '@inseefr/wilco';
+import {
+	getSecondLang,
+	saveSecondLang,
+} from '../../../new-architecture/redux/second-lang';
 
 const CheckSecondLangContainer = () => {
 	const secondLang = useSelector(getSecondLang);

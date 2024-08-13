@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
-} from '../../../../actions/constants/codeList';
+} from '../../../../new-architecture/redux/actions/constants/codeList';
 import configureStore from '../../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 import { locales } from '../../../../new-architecture/tests-utils/default-values';

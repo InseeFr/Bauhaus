@@ -3,7 +3,7 @@ import {
 	LOAD_OPERATIONS_SIMS_SUCCESS,
 	SAVE_OPERATIONS_SIMS,
 	SAVE_OPERATIONS_SIMS_SUCCESS,
-} from '../../../actions/constants';
+} from '../actions/constants';
 
 describe('current reducer', () => {
 	[

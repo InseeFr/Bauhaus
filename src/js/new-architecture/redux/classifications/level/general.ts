@@ -1,9 +1,10 @@
 import * as generalUtils from '../../../../applications/classifications/utils/level/general';
+
+import { LOADED, LOADING } from '../../../sdk/constants';
 import {
 	LOAD_CLASSIFICATION_LEVEL_GENERAL,
 	LOAD_CLASSIFICATION_LEVEL_GENERAL_SUCCESS,
-} from '../../../../actions/constants';
-import { LOADED, LOADING } from '../../../sdk/constants';
+} from '../../actions/constants';
 
 const reducers = (state: any = {}, action: any) => {
 	const { type, payload } = action;

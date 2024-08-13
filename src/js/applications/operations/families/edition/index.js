@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Loading } from '../../../../new-architecture/components';
 import OperationsFamilyEdition from '../../../../applications/operations/families/edition/edition';
-import api from '../../../../remote-api/operations-api';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import D from '../../../../i18n/build-dictionary';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
+import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
 
 const OperationsFamilyEditionContainer = () => {
 	const { id } = useParams();
@@ -18,7 +18,7 @@ const OperationsFamilyEditionContainer = () => {
 
 	useEffect(() => {
 		if (id) {
-			api.getFamilyById(id).then(setFamily);
+			OperationsApi.getFamilyById(id).then(setFamily);
 		}
 	}, [id]);
 

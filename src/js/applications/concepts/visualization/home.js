@@ -4,8 +4,6 @@ import ConceptGeneral from './general';
 import ConceptLinks from './links';
 import ModalRmes from '../../../applications/shared/modal-rmes/modal-rmes';
 import D from '../../../i18n';
-import { buildNotes } from '../../../utils/concepts/notes';
-import { getModalMessage } from '../../../utils/concepts/build-validation-message';
 import { CheckSecondLang } from '../../../utils';
 import NoteVisualization from '../../shared/note-visualization';
 import {
@@ -14,6 +12,8 @@ import {
 } from '../../../new-architecture/components';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 import { isOutOfDate } from '../../../new-architecture/utils/date-utils';
+import { getModalMessage } from '../../../new-architecture/modules-concepts/utils/build-validation-message';
+import { buildNotes } from '../../classifications/utils/classification/notes';
 const ConceptVisualization = ({
 	id,
 	permission,

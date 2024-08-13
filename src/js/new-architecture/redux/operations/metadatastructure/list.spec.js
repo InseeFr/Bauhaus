@@ -3,20 +3,20 @@ import get, {
 	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
 	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
 } from './list';
-import api from '../../../../remote-api/operations-api';
+import { OperationsApi } from '../../../sdk/operations-api';
 
 const dispatch = jest.fn();
-jest.mock('../../../../remote-api/operations-api');
+jest.mock('../../../sdk/operations-api');
 
 describe('MSD actions', () => {
 	it('should call dispatch LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS action with the sorted array', async () => {
-		api.getMetadataStructureList = function () {
+		OperationsApi.getMetadataStructureList = function () {
 			return Promise.resolve([
 				{ idMas: 's-1', label: 'bbb' },
 				{ idMas: 's-2', label: 'aaa' },
 			]);
 		};
-		api.getMetadataAttributesList = function () {
+		OperationsApi.getMetadataAttributesList = function () {
 			return Promise.resolve([
 				{ id: 's-1', rangeType: 'rangeType1' },
 				{ id: 's-2', rangeType: 'rangeType2' },
@@ -53,7 +53,7 @@ describe('MSD actions', () => {
 	});
 
 	it('should call dispatch LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE action with an error object', async () => {
-		api.getMetadataAttributesList = function () {
+		OperationsApi.getMetadataAttributesList = function () {
 			return Promise.reject('error');
 		};
 		await get()(dispatch);

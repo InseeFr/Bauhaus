@@ -1,12 +1,12 @@
 import D from '../../../i18n';
 import { Link, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import api from '../../../remote-api/operations-api';
 
 import { ArrayUtils, AdvancedSearchList } from '../../../utils';
 import { Loading, TextInput } from '../../../new-architecture/components';
 import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
+import { OperationsApi } from '../../../new-architecture/sdk/operations-api';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 
@@ -53,7 +53,7 @@ const SearchListContainer = () => {
 	const [data, setData] = useState();
 
 	useEffect(() => {
-		api.getAllFamiliesForAdvancedSearch().then(setData);
+		OperationsApi.getAllFamiliesForAdvancedSearch().then(setData);
 	}, []);
 
 	if (!data) {

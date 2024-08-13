@@ -1,5 +1,5 @@
-import { LOAD_CLASSIFICATION_LEVELS_SUCCESS } from '../../../../actions/constants';
 import { LOADED } from '../../../sdk/constants';
+import { LOAD_CLASSIFICATION_LEVELS_SUCCESS } from '../../actions/constants';
 
 const reducers = (state: any = {}, action: any) => {
 	const { type, payload } = action;

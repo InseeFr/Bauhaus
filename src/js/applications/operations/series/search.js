@@ -8,15 +8,15 @@ import {
 } from '../../../new-architecture/components';
 import Select from '../../../utils/components/select-rmes';
 
-import api from '../../../remote-api/operations-api';
 import { useSelector } from 'react-redux';
 import { ArrayUtils, AdvancedSearchList } from '../../../utils';
 import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
-import { CL_SOURCE_CATEGORY } from '../../../actions/constants/codeList';
 import { useCodesList } from '../../../new-architecture/utils/hooks/codeslist';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 import * as ItemToSelectModel from '../../../new-architecture/utils/item-to-select-model';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
+import { OperationsApi } from '../../../new-architecture/sdk/operations-api';
+import { CL_SOURCE_CATEGORY } from '../../../new-architecture/redux/actions/constants/codeList';
 
 const filterLabel = ArrayUtils.filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = ArrayUtils.filterKeyDeburr(['typeCode']);
@@ -185,7 +185,7 @@ const SearchListContainer = () => {
 	const { data: stamps = [] } = useStamps();
 
 	useEffect(() => {
-		api.getSeriesSearchList().then(setData);
+		OperationsApi.getSeriesSearchList().then(setData);
 	}, []);
 
 	if (!data) return <Loading />;

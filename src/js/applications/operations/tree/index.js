@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 import { Link } from 'react-router-dom';
-import api from '../../../remote-api/operations-api';
 import D from '../../../i18n';
 import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
 import { PageTitle, Row } from '../../../new-architecture/components';
@@ -11,6 +10,7 @@ import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
 
 import './tree.scss';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
+import { OperationsApi } from '../../../new-architecture/sdk/operations-api';
 
 export const formatLeaf = (
 	leaf,
@@ -75,7 +75,7 @@ const TreeComponent = () => {
 	const goBack = useGoBack();
 
 	useEffect(() => {
-		api.getAllFamilies().then((data) => {
+		OperationsApi.getAllFamilies().then((data) => {
 			setTreeData(
 				data.map((d, index) =>
 					formatLeaf(d, index, undefined, '/operations/family/')
@@ -95,7 +95,7 @@ const TreeComponent = () => {
 
 			if (expanded && !node.childrenFetched) {
 				if (isFamily) {
-					api.getFamilyById(node.id).then(({ series = [] }) => {
+					OperationsApi.getFamilyById(node.id).then(({ series = [] }) => {
 						setTreeData(
 							updateTree(
 								treeData,
@@ -106,7 +106,7 @@ const TreeComponent = () => {
 						);
 					});
 				} else if (isSeries) {
-					api.getSerie(node.id).then(({ operations = [] }) => {
+					OperationsApi.getSerie(node.id).then(({ operations = [] }) => {
 						const updateNode = updateParent(
 							node,
 							operations,

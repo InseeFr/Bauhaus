@@ -3,7 +3,7 @@ import * as generalUtils from '../../../../applications/classifications/utils/le
 import {
 	LOAD_CLASSIFICATION_LEVEL_GENERAL,
 	LOAD_CLASSIFICATION_LEVEL_GENERAL_SUCCESS,
-} from '../../../../actions/constants';
+} from '../../actions/constants';
 import { LOADED, LOADING } from '../../../sdk/constants';
 
 describe('reducerLevelGeneral', () => {

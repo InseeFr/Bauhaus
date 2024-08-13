@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 import { useState, useMemo } from 'react';
-import { Stores } from '../../../../utils';
+import { getAllOptions } from '../../../../new-architecture/redux/geographies.action';
 
 export const useGeographies = (territory = {}) => {
-	const allGeographies = useSelector(Stores.Geographies.getAllOptions);
+	const allGeographies = useSelector(getAllOptions);
 
 	const [excludes, setExcludes] = useState(
 		territory?.difference?.map(({ uri }) =>

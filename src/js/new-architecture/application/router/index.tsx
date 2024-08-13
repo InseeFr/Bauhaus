@@ -1,13 +1,14 @@
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import Routes from './routes';
+//@ts-ignore
 import bauhausLogo from '../../../../img/logo_noir.svg';
 import { getEnvVar } from '../../utils/env';
 import D from '../../i18n';
 import 'react-app-polyfill/stable';
 import { useSelector } from 'react-redux';
-import { removeToken } from '../../../utils/auth/open-id-connect-auth/token-utils';
 import { PropsWithChildren } from 'react';
 import { Auth } from '../../../utils';
+import { removeToken } from '../../auth/open-id-connect-auth/token-utils';
 
 const logout = () => {
 	removeToken();

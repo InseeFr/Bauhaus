@@ -2,8 +2,6 @@ import { useEffect } from 'react';
 import { Route, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { loadSetup } from '../../../actions/operations/utils/setup';
-
 import FamilyRoutes from '../../../applications/operations/routes/family';
 import SeriesRoutes from '../../../applications/operations/routes/series';
 import OperationsRoutes from '../../../applications/operations/routes/operation';
@@ -12,6 +10,7 @@ import IndicatorRoutes from '../../../applications/operations/routes/indicator';
 import SimsRoutes from '../../../applications/operations/routes/sims';
 import Menu from '../../../applications/operations/menu';
 import OperationsTreeContainer from '../../../applications/operations/tree';
+import { loadSetup } from '../../../new-architecture/redux/actions/operations/utils/setup';
 
 const RootComponent = () => {
 	const dispatch = useDispatch();

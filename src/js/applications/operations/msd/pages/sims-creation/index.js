@@ -25,8 +25,8 @@ import {
 import { ArrayUtils } from '../../../../../utils';
 import { mdFromEditorState } from '../../../../../new-architecture/utils/html-utils';
 import './sims-creation.scss';
-import api from '../../../../../remote-api/operations-api';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
+import { OperationsApi } from '../../../../../new-architecture/sdk/operations-api';
 
 const { RICH_TEXT } = rangeType;
 
@@ -338,7 +338,7 @@ class SimsCreation extends Component {
 		return (value) => {
 			this.setState({ loading: true }, () => {
 				const id = value;
-				api.getSims(id).then((result) => {
+				OperationsApi.getSims(id).then((result) => {
 					this.setState({
 						loading: false,
 						sims: this.getDefaultSims(
@@ -365,15 +365,15 @@ const withParentWithSims = (Component) => {
 		const familyId = props.parent?.family?.id;
 		useEffect(() => {
 			if (parentType === 'operation' && seriesId) {
-				api.getOperationsWithReport(seriesId).then((result) => {
+				OperationsApi.getOperationsWithReport(seriesId).then((result) => {
 					setParentWithSims(result);
 				});
 			} else if (parentType === 'series' && familyId) {
-				api.getSeriesWithReport(familyId).then((result) => {
+				OperationsApi.getSeriesWithReport(familyId).then((result) => {
 					setParentWithSims(result);
 				});
 			} else if (parentType === 'indicator') {
-				api.getIndicatorsListWithSims().then((result) => {
+				OperationsApi.getIndicatorsListWithSims().then((result) => {
 					setParentWithSims(result);
 				});
 			}

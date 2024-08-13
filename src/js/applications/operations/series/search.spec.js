@@ -2,7 +2,7 @@ import { SearchFormList } from './search';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
-} from '../../../actions/constants/codeList';
+} from '../../../new-architecture/redux/actions/constants/codeList';
 import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
 import { renderWithRouter } from '../../../new-architecture/tests-utils/render';
 

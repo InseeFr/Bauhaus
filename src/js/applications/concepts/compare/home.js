@@ -2,8 +2,8 @@ import { PageTitle } from '../../../new-architecture/components';
 import Controls from './controls';
 import ConceptGeneral from '../visualization/general';
 import CompareNotes from '../../../applications/shared/note-compare';
-import { buildNotes } from '../../../utils/concepts/notes';
 import { CheckSecondLang } from '../../../utils';
+import { buildNotes } from '../../../new-architecture/modules-concepts/utils/notes';
 
 const ConceptCompare = ({ conceptGeneral, notes, secondLang, langs }) => {
 	const { prefLabelLg1, prefLabelLg2 } = conceptGeneral;

@@ -4,9 +4,9 @@ import { PageTitle, Loading } from '../../../new-architecture/components';
 
 import D from '../../../i18n';
 import { Auth, SearchableList, ArrayUtils } from '../../../utils';
-import api from '../../../remote-api/operations-api';
 import { MasculineButton } from '../../../new-architecture/components';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
+import { OperationsApi } from '../../../new-architecture/sdk/operations-api';
 
 function IndicatorsHome() {
 	useTitle(D.operationsTitle, D.indicatorsTitle);
@@ -14,8 +14,7 @@ function IndicatorsHome() {
 	const [indicators, setIndicators] = useState([]);
 
 	useEffect(() => {
-		api
-			.getAllIndicators()
+		OperationsApi.getAllIndicators()
 			.then((payload) => setIndicators(ArrayUtils.sortArray('label')(payload)))
 			.finally(() => setLoading(false));
 	}, []);

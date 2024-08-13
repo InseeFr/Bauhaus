@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import DocumentHome from './home';
 import { ArrayUtils } from '../../../utils';
-import api from '../../../remote-api/api';
 import { Loading } from '../../../new-architecture/components';
+import { GeneralApi } from '../../../new-architecture/sdk/general-api';
 const sortByLabel = ArrayUtils.sortArray('label');
 
 const OperationsDocumentsContainer = () => {
@@ -10,8 +10,7 @@ const OperationsDocumentsContainer = () => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		api
-			.getDocumentsList()
+		GeneralApi.getDocumentsList()
 			.then((results) => {
 				const sortedDocuments = sortByLabel(
 					results.map((document) => {

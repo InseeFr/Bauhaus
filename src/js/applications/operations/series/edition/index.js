@@ -3,16 +3,17 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Loading } from '../../../../new-architecture/components';
 import OperationsSerieEdition from '../../../../applications/operations/series/edition/edition';
-import {
-	CL_SOURCE_CATEGORY,
-	CL_FREQ,
-} from '../../../../actions/constants/codeList';
-import api from '../../../../remote-api/operations-api';
+
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import { useCodesList } from '../../../../new-architecture/utils/hooks/codeslist';
 import D from '../../../../i18n';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
+import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
+import {
+	CL_FREQ,
+	CL_SOURCE_CATEGORY,
+} from '../../../../new-architecture/redux/actions/constants/codeList';
 
 const OperationsSeriesEditionContainer = (props) => {
 	const { id } = useParams();
@@ -33,20 +34,20 @@ const OperationsSeriesEditionContainer = (props) => {
 
 	useEffect(() => {
 		if (id) {
-			api.getSerie(id).then((results) => setSerie(results));
+			OperationsApi.getSerie(id).then((results) => setSerie(results));
 		}
 	}, [id]);
 
 	useEffect(() => {
-		api.getAllFamilies().then((results) => setFamilies(results));
+		OperationsApi.getAllFamilies().then((results) => setFamilies(results));
 	}, []);
 
 	useEffect(() => {
-		api.getAllIndicators().then((results) => setIndicators(results));
+		OperationsApi.getAllIndicators().then((results) => setIndicators(results));
 	}, []);
 
 	useEffect(() => {
-		api.getSeriesList().then((results) => setSeries(results));
+		OperationsApi.getSeriesList().then((results) => setSeries(results));
 	}, []);
 
 	useTitle(

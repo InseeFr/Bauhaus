@@ -10,19 +10,18 @@ import {
 } from '../../../../new-architecture/components';
 
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
-import api from '../../../../remote-api/operations-api';
 
 import { useCallback, useEffect, useState } from 'react';
 import OperationsFamilyVisualization from '../../../../applications/operations/families/visualization/visualization';
-import { Auth, Stores, CheckSecondLang } from '../../../../utils';
+import { Auth, CheckSecondLang } from '../../../../utils';
 import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
+import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
 const Family = () => {
 	const { id } = useParams();
 	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
+	const secondLang = useSelector((state) => getSecondLang(state));
 	const goBack = useGoBack();
 
 	const [family, setFamily] = useState({});
@@ -30,16 +29,15 @@ const Family = () => {
 	const [publishing, setPublishing] = useState(false);
 
 	useEffect(() => {
-		api.getFamilyById(id).then(setFamily);
+		OperationsApi.getFamilyById(id).then(setFamily);
 	}, [id]);
 
 	const publish = useCallback(() => {
 		setPublishing(true);
 
-		api
-			.publishFamily(family)
+		OperationsApi.publishFamily(family)
 			.then(() => {
-				return api.getFamilyById(id).then(setFamily);
+				return OperationsApi.getFamilyById(id).then(setFamily);
 			})
 			.catch((error) => setServerSideError(error))
 			.finally(() => setPublishing(false));

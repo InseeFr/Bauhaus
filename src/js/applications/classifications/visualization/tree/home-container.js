@@ -4,12 +4,12 @@ import ClassificationTree from './home';
 import { buildExtract } from '@inseefr/wilco';
 import { Loading } from '../../../../new-architecture/components';
 
-import loadClassificationGeneral from '../../../../actions/classifications/general';
+import loadClassificationGeneral from '../../../../new-architecture/redux/actions/classifications/general';
 import { getGeneral } from '../../../../new-architecture/redux/classifications/classification/general';
 import { getTreeFromFlatData } from 'react-sortable-tree';
-import { Stores } from '../../../../utils';
 import { useQuery } from '@tanstack/react-query';
 import { ClassificationsApi } from '../../../../new-architecture/sdk/classification';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
 
 const extractId = buildExtract('id');
 
@@ -59,7 +59,7 @@ const ClassificationTreeContainer = ({
 const mapStateToProps = (state, ownProps) => {
 	const id = extractId(ownProps);
 	const general = getGeneral(state.classificationGeneral, id);
-	const secondLang = Stores.SecondLang.getSecondLang(state);
+	const secondLang = getSecondLang(state);
 	return {
 		id,
 		general,

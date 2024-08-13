@@ -12,24 +12,23 @@ import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import OperationsOperationVisualization from './home';
 import D from '../../../../i18n';
 
-import { Auth, Stores, CheckSecondLang } from '../../../../utils';
-import api from '../../../../remote-api/operations-api';
+import { Auth, CheckSecondLang } from '../../../../utils';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
+import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
 
 const OperationVisualizationContainer = () => {
 	const { id } = useParams();
 	const [operation, setOperation] = useState({});
 	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
+	const secondLang = useSelector((state) => getSecondLang(state));
 	const [serverSideError, setServerSideError] = useState();
 	const [publishing, setPublishing] = useState(false);
 	const goBack = useGoBack();
 
 	useEffect(() => {
 		if (id) {
-			api.getOperation(id).then((result) => {
+			OperationsApi.getOperation(id).then((result) => {
 				setOperation(result);
 			});
 		}
@@ -38,10 +37,9 @@ const OperationVisualizationContainer = () => {
 	const publish = useCallback(() => {
 		setPublishing(true);
 
-		api
-			.publishOperation(operation)
+		OperationsApi.publishOperation(operation)
 			.then(() => {
-				return api.getOperation(id).then(setOperation);
+				return OperationsApi.getOperation(id).then(setOperation);
 			})
 			.catch((error) => setServerSideError(error))
 			.finally(() => setPublishing(false));

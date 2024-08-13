@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ActionToolbar, Button } from '@inseefr/wilco';
-import check from '../../../utils/auth';
+import check from '../../../new-architecture/auth/auth';
 import D from '../../../i18n';
 import { CollectionExportModal } from '../modal';
 import { useSelector } from 'react-redux';

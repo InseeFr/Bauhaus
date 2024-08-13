@@ -11,20 +11,19 @@ import {
 	PageTitleBlock,
 } from '../../../../new-architecture/components';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
-import api from '../../../../remote-api/operations-api';
 
-import { CL_FREQ } from '../../../../actions/constants/codeList';
-import { Auth, Stores, CheckSecondLang } from '../../../../utils';
+import { CL_FREQ } from '../../../../new-architecture/redux/actions/constants/codeList';
+import { Auth, CheckSecondLang } from '../../../../utils';
 import { useCodesList } from '../../../../new-architecture/utils/hooks/codeslist';
 import { containUnsupportedStyles } from '../../../../new-architecture/utils/html-utils';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
+import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
 const IndicatorVisualizationContainer = () => {
 	const { id } = useParams();
 
 	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
+	const secondLang = useSelector((state) => getSecondLang(state));
 	const frequency = useCodesList(CL_FREQ);
 	const organisations = useSelector(
 		(state) => state.operationsOrganisations.results || []
@@ -39,17 +38,16 @@ const IndicatorVisualizationContainer = () => {
 
 	const publish = useCallback(() => {
 		setPublishing(true);
-		api
-			.publishIndicator(indicator)
+		OperationsApi.publishIndicator(indicator)
 			.then(() => {
-				return api.getIndicatorById(id).then(setIndicator);
+				return OperationsApi.getIndicatorById(id).then(setIndicator);
 			})
 			.catch((error) => setServerSideError(error))
 			.finally(() => setPublishing(false));
 	}, [indicator, id]);
 
 	useEffect(() => {
-		api.getIndicatorById(id).then((payload) => setIndicator(payload));
+		OperationsApi.getIndicatorById(id).then((payload) => setIndicator(payload));
 	}, [id]);
 
 	if (!indicator.id) return <Loading />;

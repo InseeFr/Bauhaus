@@ -3,7 +3,7 @@ import {
 	PUBLISH_OPERATIONS_SIMS_SUCCESS,
 	SAVE_OPERATIONS_SIMS,
 	SAVE_OPERATIONS_SIMS_SUCCESS,
-} from '../../../actions/constants';
+} from '../actions/constants';
 
 /**
  * Reducer for fetching the current indicator displayed during the visualisation or the edition

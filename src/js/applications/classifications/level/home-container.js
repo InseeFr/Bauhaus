@@ -2,19 +2,17 @@ import { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import LevelVisualization from './home';
 import { Loading } from '../../../new-architecture/components';
-import loadLevel from '../../../actions/classifications/level';
+import loadLevel from '../../../new-architecture/redux/actions/classifications/level';
 import { getLevel } from '../../../new-architecture/redux/classifications/level';
-import { Stores } from '../../../utils';
 import { useParams } from 'react-router-dom';
+import { getSecondLang } from '../../../new-architecture/redux/second-lang';
 
 const LevelVisualizationContainer = ({ loadLevel }) => {
 	const { classificationId, levelId } = useParams();
 	const level = useSelector((state) =>
 		getLevel(state, classificationId, levelId)
 	);
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
+	const secondLang = useSelector((state) => getSecondLang(state));
 
 	const currentLevelId = level?.id;
 	useEffect(() => {

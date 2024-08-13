@@ -2,18 +2,18 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import ConceptEditionCreation from './home';
-import buildPayloadUpdate from '../../../utils/concepts/build-payload-creation-update/build-payload-update';
-import { mergeWithAllConcepts } from '../../../utils/concepts/links';
 import D from '../../../i18n';
 import { Loading } from '../../../new-architecture/components';
 import { CLOSE_MATCH } from '../../../new-architecture/sdk/constants';
 import { rmesHtmlToRawHtml } from '../../../new-architecture/utils/html-utils';
 import { ConceptsApi } from '../../../new-architecture/sdk';
-import { emptyNotes } from '../../../utils/concepts/notes';
-import * as generalUtils from '../../../utils/concepts/general';
+import * as generalUtils from '../../../new-architecture/modules-concepts/utils/general';
 import { useStamps } from '../../../new-architecture/utils/hooks/stamps';
 import { getLocales } from '../../../new-architecture/redux/selectors';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
+import buildPayloadUpdate from '../../../new-architecture/modules-concepts/utils/build-payload-creation-update/build-payload-update';
+import { mergeWithAllConcepts } from '../../../new-architecture/modules-concepts/utils/links';
+import { emptyNotes } from '../../../new-architecture/modules-concepts/utils/notes';
 
 const formatNotes = (notes) => {
 	return Object.assign(

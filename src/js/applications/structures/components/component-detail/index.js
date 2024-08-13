@@ -3,10 +3,10 @@ import { DumbComponentDetailEdit } from './edit';
 import { ComponentDetailView } from './view';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
-import { Stores } from '../../../../utils';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
 
 export const ComponentDetail = (props) => {
-	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
+	const secondLang = useSelector(getSecondLang);
 	const langs = useSelector((state) => {
 		const { lg1, lg2 } = state.app;
 		return { lg1, lg2 };

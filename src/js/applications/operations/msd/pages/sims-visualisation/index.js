@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import D from '../../../../../i18n';
-import api from '../../../../../remote-api/operations-api';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
@@ -15,7 +14,7 @@ import {
 	CancelButton,
 } from '@inseefr/wilco';
 
-import * as A from '../../../../../actions/constants';
+import * as A from '../../../../../new-architecture/redux/actions/constants';
 
 import {
 	Auth,
@@ -40,6 +39,7 @@ import {
 	ErrorBloc,
 	ValidationButton,
 } from '../../../../../new-architecture/components';
+import { OperationsApi } from '../../../../../new-architecture/sdk/operations-api';
 
 export default function SimsVisualisation({
 	metadataStructure,
@@ -149,7 +149,7 @@ export default function SimsVisualisation({
 		setModalOpened(false);
 	};
 	const handleYes = () => {
-		api.deleteSims(sims).finally(() => {
+		OperationsApi.deleteSims(sims).finally(() => {
 			dispatch({ type: A.DELETE_SIMS_SUCCESS });
 			setModalOpened(false);
 			history.push(`/operations/series/${sims.idSeries}`);

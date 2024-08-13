@@ -2,7 +2,7 @@ import reducerLevelMembers, { getMembers } from './members';
 import {
 	LOAD_CLASSIFICATION_LEVEL_MEMBERS,
 	LOAD_CLASSIFICATION_LEVEL_MEMBERS_SUCCESS,
-} from '../../../../actions/constants';
+} from '../../actions/constants';
 import { LOADED, LOADING } from '../../../sdk/constants';
 
 describe('reducerLevelMembers', () => {

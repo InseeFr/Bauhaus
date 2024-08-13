@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { Loading } from '../../../new-architecture/components';
 import ConceptVisualization from './home';
-import { Auth, Stores } from '../../../utils';
-import { emptyNotes } from '../../../utils/concepts/notes';
+import { Auth } from '../../../utils';
 import { LoadingProvider } from './loading';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import { rmesHtmlToRawHtml } from '../../../new-architecture/utils/html-utils';
 import { getLocales } from '../../../new-architecture/redux/selectors';
+import { getSecondLang } from '../../../new-architecture/redux/second-lang';
+import { emptyNotes } from '../../../new-architecture/modules-concepts/utils/notes';
 
 const formatNotes = (notes) => {
 	return Object.assign(
@@ -26,9 +27,7 @@ const ConceptVisualizationContainer = () => {
 
 	const langs = useSelector((state) => getLocales(state));
 	const permission = useSelector((state) => Auth.getPermission(state));
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
+	const secondLang = useSelector((state) => getSecondLang(state));
 
 	const [loading, setLoading] = useState('loading');
 	const [concept, setConcept] = useState({});

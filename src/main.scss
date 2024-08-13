@@ -2,13 +2,13 @@
 * we tried to respect the ITCSS architecture for our stylessheets
 */
 
-@import 'src/styles/settings.scss';
-@import 'src/styles/tools.scss';
-@import 'src/styles/generic.scss';
-@import 'src/styles/elements.scss';
-@import 'src/styles/objects.scss';
-@import 'src/styles/components.scss';
-@import 'src/styles/utilities.scss';
+@import 'src/js/new-architecture/styles/settings.scss';
+@import 'src/js/new-architecture/styles/tools.scss';
+@import 'src/js/new-architecture/styles/generic.scss';
+@import 'src/js/new-architecture/styles/elements.scss';
+@import 'src/js/new-architecture/styles/objects.scss';
+@import 'src/js/new-architecture/styles/components.scss';
+@import 'src/js/new-architecture/styles/utilities.scss';
 
 .items {
 	display: inline-block;

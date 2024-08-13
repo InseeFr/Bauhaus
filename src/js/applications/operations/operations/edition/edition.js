@@ -8,7 +8,6 @@ import {
 	LabelRequired,
 } from '@inseefr/wilco';
 import { validate } from './validation';
-import api from '../../../../remote-api/operations-api';
 import {
 	TextInput,
 	Loading,
@@ -18,6 +17,7 @@ import {
 	PageTitleBlock,
 } from '../../../../new-architecture/components';
 import Select from '../../../../utils/components/select-rmes';
+import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
 
 const defaultOperation = {
 	prefLabelLg1: '',
@@ -85,7 +85,7 @@ class OperationsOperationEdition extends Component {
 			const isCreation = !this.state.operation.id;
 
 			const method = isCreation ? 'postOperation' : 'putOperation';
-			return api[method](this.state.operation)
+			return OperationsApi[method](this.state.operation)
 				.then(
 					(id = this.state.operation.id) => {
 						this.props.goBack(`/operations/operation/${id}`, isCreation);

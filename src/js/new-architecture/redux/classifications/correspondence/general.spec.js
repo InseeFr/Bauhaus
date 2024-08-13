@@ -2,7 +2,7 @@ import reducerClassificationCorrespondenceGeneral, {
 	getGeneral,
 } from './general';
 import * as generalUtils from '../../../../applications/classifications/utils/correspondence/general';
-import { LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS } from '../../../../actions/constants';
+import { LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS } from '../../actions/constants';
 import { LOADED } from '../../../sdk/constants';
 
 describe('reducerClassificationCorrespondenceGeneral', () => {

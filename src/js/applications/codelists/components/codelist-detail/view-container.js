@@ -2,18 +2,18 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
-import { Loading } from '../../../../new-architecture/components/loading/loading';
-import { Stores } from '../../../../utils';
+import { Loading } from '../../../../new-architecture/components';
 import { formatCodeList } from '../../utils';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import ComponentTitle from './title';
 import { CodeListDetailView } from './view';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
 
 const CodelistComponentView = (props) => {
 	const goBack = useGoBack();
 
-	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
+	const secondLang = useSelector(getSecondLang);
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [publishing, setPublishing] = useState(false);

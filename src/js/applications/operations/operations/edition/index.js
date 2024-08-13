@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Loading } from '../../../../new-architecture/components';
 import OperationsOperationEdition from '../../../../applications/operations/operations/edition/edition';
-import api from '../../../../remote-api/operations-api';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import D from '../../../../i18n';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
+import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
 
 const OperationEditionContainer = (props) => {
 	const { id } = useParams();
@@ -20,14 +20,14 @@ const OperationEditionContainer = (props) => {
 
 	useEffect(() => {
 		if (id) {
-			api.getOperation(id).then((result) => {
+			OperationsApi.getOperation(id).then((result) => {
 				setOperation(result);
 			});
 		}
 	}, [id]);
 
 	useEffect(() => {
-		api.getUserSeriesList(stamp).then((series) => setSeries(series));
+		OperationsApi.getUserSeriesList(stamp).then((series) => setSeries(series));
 	}, [stamp]);
 
 	useTitle(

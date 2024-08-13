@@ -6,14 +6,14 @@ import GeneralEdition from './general';
 import NotesEdition from './notes';
 import LinksEdition from './links';
 import ModalRmes from '../../../applications/shared/modal-rmes/modal-rmes';
-import { areNotesImpactingVersionChanged } from '../../../utils/concepts/notes';
 import D from '../../../i18n';
-import isVersioningPossible from '../../../utils/concepts/is-versioning-possible';
 import {
 	VERSIONING,
 	NO_VERSIONING,
 } from '../../../new-architecture/sdk/constants';
 import validate from './controls/validation';
+import { areNotesImpactingVersionChanged } from '../../../new-architecture/modules-concepts/utils/notes';
+import isVersioningPossible from '../../../new-architecture/modules-concepts/utils/is-versioning-possible';
 
 class ConceptEditionCreation extends Component {
 	constructor(props) {

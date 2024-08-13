@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Button, ActionToolbar } from '@inseefr/wilco';
-import check from '../../../utils/auth';
+import check from '../../../new-architecture/auth/auth';
 import D from '../../../i18n';
 import { ConfirmationDelete } from '../../../utils';
 import { useLoading } from './loading';

@@ -1,8 +1,10 @@
 import { PureComponent } from 'react';
 import D from '../../../../../i18n';
 import { rangeType } from '../../../../../new-architecture/modules-operations/utils/msd';
-import { DatePicker } from '../../../../../new-architecture/components';
-import InputRmes from '../../../../../applications/shared/input-rmes';
+import {
+	DatePicker,
+	InputRmes,
+} from '../../../../../new-architecture/components';
 import {
 	EditorMarkdownToolbar,
 	ArrayUtils,

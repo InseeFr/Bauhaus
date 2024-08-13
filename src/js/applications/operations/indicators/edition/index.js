@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Loading } from '../../../../new-architecture/components';
 import OperationsIndicatorEdition from '../../../../applications/operations/indicators/edition/edition';
-import { CL_FREQ } from '../../../../actions/constants/codeList';
-import api from '../../../../remote-api/operations-api';
+import { CL_FREQ } from '../../../../new-architecture/redux/actions/constants/codeList';
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
 import { useCodesList } from '../../../../new-architecture/utils/hooks/codeslist';
 import D from '../../../../i18n';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
+import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
 
 const OperationsIndicatorsEditionContainer = (props) => {
 	const { id } = useParams();
@@ -27,18 +27,20 @@ const OperationsIndicatorsEditionContainer = (props) => {
 
 	useEffect(() => {
 		if (id) {
-			api.getIndicatorById(id).then((payload) => setIndicator(payload));
+			OperationsApi.getIndicatorById(id).then((payload) =>
+				setIndicator(payload)
+			);
 		}
 	}, [id]);
 
 	const [indicators, setIndicators] = useState([]);
 
 	useEffect(() => {
-		api.getAllIndicators().then((payload) => setIndicators(payload));
+		OperationsApi.getAllIndicators().then((payload) => setIndicators(payload));
 	}, []);
 
 	useEffect(() => {
-		api.getSeriesList().then((payload) => setSeries(payload));
+		OperationsApi.getSeriesList().then((payload) => setSeries(payload));
 	}, []);
 
 	useTitle(

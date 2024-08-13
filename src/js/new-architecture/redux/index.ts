@@ -4,7 +4,8 @@ import classificationsReducers from './classifications';
 import operationsReducers from './operations';
 import codesListReducers from './operations/codesList';
 import organisationsReducers from './operations/organisations';
-import { Stores } from '../../utils';
+import { reducer } from './users.action';
+import { reducer as geographiesReducer } from './geographies.action';
 
 export default combineReducers({
 	app,
@@ -12,6 +13,6 @@ export default combineReducers({
 	...operationsReducers,
 	...codesListReducers,
 	...organisationsReducers,
-	geographies: Stores.Geographies.reducer,
-	users: Stores.UsersAction.reducer,
+	geographies: geographiesReducer,
+	users: reducer,
 });

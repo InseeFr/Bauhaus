@@ -16,16 +16,16 @@ import {
 	ActionToolbar,
 	LabelRequired,
 } from '@inseefr/wilco';
-import {
-	CL_SOURCE_CATEGORY,
-	CL_FREQ,
-} from '../../../../actions/constants/codeList';
 import { EditorMarkdown, SelectRmes } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
 
 import { isMandatoryField, validate } from './validation';
-import api from '../../../../remote-api/operations-api';
 import * as ItemToSelectModel from '../../../../new-architecture/utils/item-to-select-model';
+import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
+import {
+	CL_FREQ,
+	CL_SOURCE_CATEGORY,
+} from '../../../../new-architecture/redux/actions/constants/codeList';
 
 const defaultSerie = {
 	id: '',
@@ -108,7 +108,7 @@ class OperationsSerieEdition extends Component {
 			const isCreation = !this.state.serie.id;
 
 			const method = isCreation ? 'postSeries' : 'putSeries';
-			return api[method](this.state.serie)
+			return OperationsApi[method](this.state.serie)
 				.then(
 					(id = this.state.serie.id) => {
 						this.props.goBack(`/operations/series/${id}`, isCreation);

@@ -3,7 +3,7 @@ import { ArrayUtils } from '../../../utils';
 import {
 	LOAD_OPERATIONS_ORGANISATIONS_FAILURE,
 	LOAD_OPERATIONS_ORGANISATIONS_SUCCESS,
-} from '../../../actions/constants';
+} from '../actions/constants';
 
 const defaultState = {
 	results: [],

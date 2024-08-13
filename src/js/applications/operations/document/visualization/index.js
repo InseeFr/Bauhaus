@@ -5,8 +5,8 @@ import {
 } from '../../../../new-architecture/components';
 
 import { useGoBack } from '../../../../new-architecture/utils/hooks/useGoBack';
-import { Auth, CheckSecondLang, Stores } from '../../../../utils';
-import { loadCodesList } from '../../../../actions/operations/utils/setup';
+import { Auth, CheckSecondLang } from '../../../../utils';
+import { loadCodesList } from '../../../../new-architecture/redux/actions/operations/utils/setup';
 
 import D from '../../../../i18n';
 import { useEffect, useState } from 'react';
@@ -14,8 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
 import { ADMIN } from '../../../../new-architecture/auth/roles';
-import api from '../../../../remote-api/api';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
+import { GeneralApi } from '../../../../new-architecture/sdk/general-api';
 
 function getPath(path) {
 	return path.includes('document') ? 'document' : 'link';
@@ -49,9 +50,7 @@ const DocumentationVisualizationContainer = () => {
 	const { path } = useRouteMatch();
 	const type = getPath(path);
 	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
+	const secondLang = useSelector((state) => getSecondLang(state));
 	const langOptions = useSelector(
 		(state) => state.operationsCodesList.results['ISO-639']
 	);
@@ -60,7 +59,7 @@ const DocumentationVisualizationContainer = () => {
 
 	const [document, setDocument] = useState({});
 	useEffect(() => {
-		api.getDocument(id, type).then((results) => {
+		GeneralApi.getDocument(id, type).then((results) => {
 			setDocument({
 				...results,
 				id: results.uri.substr(results.uri.lastIndexOf('/') + 1),

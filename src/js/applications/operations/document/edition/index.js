@@ -3,9 +3,9 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Loading } from '../../../../new-architecture/components';
 import DocumentationEdition from '../../../../applications/operations/document/edition/edition';
-import { loadCodesList } from '../../../../actions/operations/utils/setup';
-import api from '../../../../remote-api/api';
+import { loadCodesList } from '../../../../new-architecture/redux/actions/operations/utils/setup';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
+import { GeneralApi } from '../../../../new-architecture/sdk/general-api';
 
 const OperationsDocumentationEditionContainer = (props) => {
 	const { id } = useParams();
@@ -22,7 +22,7 @@ const OperationsDocumentationEditionContainer = (props) => {
 
 	useEffect(() => {
 		if (id && type) {
-			api.getDocument(id, type).then((results) => {
+			GeneralApi.getDocument(id, type).then((results) => {
 				setDocument({
 					...results,
 					id: results.uri.substr(results.uri.lastIndexOf('/') + 1),

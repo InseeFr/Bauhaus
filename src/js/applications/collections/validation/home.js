@@ -1,6 +1,6 @@
 import Picker from '../../../applications/shared/picker-page';
 import D from '../../../i18n';
-import check from '../../../utils/auth';
+import check from '../../../new-architecture/auth/auth';
 import { PublishButton } from '@inseefr/wilco';
 
 const CollectionsToValidate = ({

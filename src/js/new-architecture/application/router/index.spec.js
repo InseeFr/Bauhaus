@@ -2,11 +2,11 @@ import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { RBACLink } from '.';
-import { removeToken } from '../../../utils/auth/open-id-connect-auth/token-utils';
 import D from '../../i18n';
 import { Auth } from '../../../utils';
 import configureStore from '../../../new-architecture/redux/configure-store';
 import { renderWithRouter } from '../../tests-utils/render';
+import { removeToken } from '../../auth/open-id-connect-auth/token-utils';
 
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'),
@@ -16,7 +16,7 @@ jest.mock('../../utils/env', () => ({
 	getEnvVar: (key) => (key === 'NAME' ? 'TestApp' : '1.0.0'),
 }));
 
-jest.mock('../../../utils/auth/open-id-connect-auth/token-utils', () => ({
+jest.mock('../../auth/open-id-connect-auth/token-utils', () => ({
 	removeToken: jest.fn(),
 }));
 

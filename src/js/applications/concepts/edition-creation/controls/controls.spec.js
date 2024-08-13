@@ -1,4 +1,4 @@
-import { empty } from '../../../../utils/concepts/general';
+import { empty } from '../../../../new-architecture/modules-concepts/utils/general';
 import Controls from './';
 import { renderWithRouter } from '../../../../new-architecture/tests-utils/render';
 

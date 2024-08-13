@@ -3,7 +3,7 @@ import { useThemes } from '../../useThemes';
 import { withCodesLists } from '../../../../../new-architecture/utils/hoc/withCodesLists';
 import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
-import { CL_FREQ } from '../../../../../actions/constants/codeList';
+import { CL_FREQ } from '../../../../../new-architecture/redux/actions/constants/codeList';
 import {
 	TextInput,
 	Row,

@@ -7,6 +7,7 @@ export * from './errors-bloc/index';
 export * from './explanatory-note';
 export * from './creators-input';
 export * from './form/input';
+export * from './input-rmes';
 export * from './layout/';
 export * from './link/';
 export * from './loading/loading';

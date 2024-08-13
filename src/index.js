@@ -1,7 +1,6 @@
 import { Provider } from 'react-redux';
 import Root from './js/new-architecture/application/router';
 import configureStore from './js/new-architecture/redux/configure-store';
-import Api from './js/remote-api/api';
 import { I18NContext, BackToTop, getLang } from '@inseefr/wilco';
 import D from './js/i18n';
 import ApplicationTitle from './js/applications/shared/application-title';
@@ -13,6 +12,7 @@ import loadDevTools from './dev-tools/load';
 import * as Sentry from '@sentry/react';
 
 import './main.scss';
+import { GeneralApi } from './js/new-architecture/sdk/general-api';
 
 Sentry.init({
 	dsn: 'https://57eb7cf936ad4c9198267ec7cd0031aa@o364590.ingest.sentry.io/4505557438169088',
@@ -37,7 +37,7 @@ const Error = () => {
 	);
 };
 
-Api.getInit()
+GeneralApi.getInit()
 	.then(
 		(res) => (res.ok ? res.json() : Promise.reject(res.statusText)),
 		(err) => {

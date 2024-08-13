@@ -2,10 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Loading } from '../../../new-architecture/components';
 import CollectionVisualization from './home';
-import { Auth, Stores } from '../../../utils';
+import { Auth } from '../../../utils';
 import { useParams } from 'react-router-dom';
 import { ConceptsApi } from '../../../new-architecture/sdk';
 import { getLocales } from '../../../new-architecture/redux/selectors';
+import { getSecondLang } from '../../../new-architecture/redux/second-lang';
 
 const CollectionVisualizationContainer = () => {
 	const { id } = useParams();
@@ -14,9 +15,7 @@ const CollectionVisualizationContainer = () => {
 	const [saving, setSaving] = useState(false);
 
 	const permission = useSelector((state) => Auth.getPermission(state));
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
+	const secondLang = useSelector((state) => getSecondLang(state));
 	const langs = useSelector((state) => getLocales(state));
 
 	const fetchData = useCallback(() => {

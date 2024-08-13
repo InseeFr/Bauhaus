@@ -1,6 +1,6 @@
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { CheckSecondLang, Stores } from '../../../../utils';
+import { CheckSecondLang } from '../../../../utils';
 import {
 	Loading,
 	Row,
@@ -16,6 +16,7 @@ import distributionApi from '../../api/distributions-api';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 import { stringToDate } from '../../../../new-architecture/utils/date-utils';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
 
 export const DistributionView = (props) => {
 	const { id } = useParams();
@@ -28,9 +29,7 @@ export const DistributionView = (props) => {
 	);
 
 	const { lg1, lg2 } = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
+	const secondLang = useSelector((state) => getSecondLang(state));
 
 	const queryClient = useQueryClient();
 

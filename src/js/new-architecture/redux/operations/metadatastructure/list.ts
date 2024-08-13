@@ -1,6 +1,6 @@
-import api from '../../../../remote-api/operations-api';
-import { loadCodesList } from '../../../../actions/operations/utils/setup';
 import { getTree } from '../../../modules-operations/utils/msd';
+import { OperationsApi } from '../../../sdk/operations-api';
+import { loadCodesList } from '../../actions/operations/utils/setup';
 
 export const LOAD_OPERATIONS_METADATASTRUCTURE_LIST =
 	'LOAD_OPERATIONS_METADATASTRUCTURE_LIST';
@@ -15,8 +15,8 @@ const fetchMsd = () => (dispatch: any, getState: any) => {
 		payload: {},
 	});
 	return Promise.all([
-		api.getMetadataStructureList(),
-		api.getMetadataAttributesList(),
+		OperationsApi.getMetadataStructureList(),
+		OperationsApi.getMetadataAttributesList(),
 	]).then(
 		([metaDataStructure, metadataAttributes]: [any, any]) => {
 			const metadataAttributesObject = metadataAttributes.reduce(

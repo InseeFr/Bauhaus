@@ -1,12 +1,12 @@
 import D, { D1, D2 } from '../../../i18n';
-import InputRmes from '../../../applications/shared/input-rmes';
 import InputMultiRmes from '../../../applications/shared/input-multi-rmes';
-import { fields as generalFields } from '../../../utils/concepts/general';
+import { fields as generalFields } from '../../../new-architecture/modules-concepts/utils/general';
 import { LabelRequired } from '@inseefr/wilco';
 import {
 	TextInput,
 	DisseminationStatusInput,
 	ClientSideError,
+	InputRmes,
 	RequiredIcon,
 	DatePicker,
 } from '../../../new-architecture/components';

@@ -4,7 +4,7 @@ import { LOADED } from '../../../sdk/constants';
 import {
 	LOAD_CLASSIFICATION_GENERAL_SUCCESS,
 	UPDATE_CLASSIFICATION_SUCCESS,
-} from '../../../../actions/constants';
+} from '../../actions/constants';
 
 describe('reducerClassificationGeneral', () => {
 	test('action UPDATE_CLASSIFICATION_SUCCESS', () => {

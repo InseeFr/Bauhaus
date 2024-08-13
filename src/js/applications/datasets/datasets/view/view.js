@@ -1,6 +1,6 @@
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { CheckSecondLang, Stores } from '../../../../utils';
+import { CheckSecondLang } from '../../../../utils';
 import { renderMarkdownElement } from '../../../../new-architecture/utils/html-utils';
 import { useEffect, useState } from 'react';
 import { Note } from '@inseefr/wilco';
@@ -24,12 +24,13 @@ import {
 	DisseminationStatusVisualisation,
 	PageTitleBlock,
 } from '../../../../new-architecture/components';
-import { CL_FREQ } from '../../../../actions/constants/codeList';
+import { CL_FREQ } from '../../../../new-architecture/redux/actions/constants/codeList';
 import { useOrganizations } from '../../../../new-architecture/utils/hooks/organizations';
 import { WasGeneratedByBlock } from './wasGeneratedByBlock';
 import { getLocales } from '../../../../new-architecture/redux/selectors';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 import { stringToDate } from '../../../../new-architecture/utils/date-utils';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -53,9 +54,7 @@ const Dataset = (props) => {
 	const { data: themesOptions = [] } = useThemes();
 
 	const { lg1, lg2 } = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) =>
-		Stores.SecondLang.getSecondLang(state)
-	);
+	const secondLang = useSelector((state) => getSecondLang(state));
 	const queryClient = useQueryClient();
 
 	const { isLoading: isPublishing, mutate: publish } = useMutation({

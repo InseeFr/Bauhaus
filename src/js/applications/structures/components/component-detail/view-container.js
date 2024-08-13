@@ -4,16 +4,16 @@ import { Loading } from '../../../../new-architecture/components';
 import { ComponentDetailView } from './view';
 import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis/code-list';
-import { Stores } from '../../../../utils';
 import { ConceptsApi } from '../../../../new-architecture/sdk';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { getSecondLang } from '../../../../new-architecture/redux/second-lang';
 
 const ViewContainer = (props) => {
 	const goBack = useGoBack();
 
-	const secondLang = useSelector(Stores.SecondLang.getSecondLang);
+	const secondLang = useSelector(getSecondLang);
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [component, setComponent] = useState({});

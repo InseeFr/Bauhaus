@@ -1,9 +1,9 @@
 import { Auth } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import check from '../../utils/auth';
+import check from '../../new-architecture/auth/auth';
 import { Button, VerticalMenu, ExportButton } from '@inseefr/wilco';
 import { useSelector } from 'react-redux';
-import { FeminineButton } from '../../new-architecture/components/new-button';
+import { FeminineButton } from '../../new-architecture/components';
 
 export const Menu = () => {
 	const { authType, roles } = useSelector((state) => Auth.getPermission(state));
