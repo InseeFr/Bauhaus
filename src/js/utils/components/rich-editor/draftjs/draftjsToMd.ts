@@ -21,7 +21,7 @@ const wrappingBlockStyleDict = {
 	'code-block': '```',
 };
 
-const getBlockStyle = (currentStyle, appliedBlockStyles) => {
+const getBlockStyle = (currentStyle: string, appliedBlockStyles: string[]) => {
 	if (currentStyle === 'ordered-list-item') {
 		const counter = appliedBlockStyles.reduce((prev, style) => {
 			if (style === 'ordered-list-item') {
@@ -31,11 +31,14 @@ const getBlockStyle = (currentStyle, appliedBlockStyles) => {
 		}, 1);
 		return `${counter}. `;
 	}
+
+	//@ts-ignore
 	return blockStyleDict[currentStyle] || '';
 };
 
-const applyWrappingBlockStyle = (currentStyle, content) => {
+const applyWrappingBlockStyle = (currentStyle: string, content: string) => {
 	if (currentStyle in wrappingBlockStyleDict) {
+		//@ts-ignore
 		const wrappingSymbol = wrappingBlockStyleDict[currentStyle];
 		return `${wrappingSymbol}\n${content}\n${wrappingSymbol}`;
 	}
@@ -43,7 +46,7 @@ const applyWrappingBlockStyle = (currentStyle, content) => {
 	return content;
 };
 
-const applyAtomicStyle = (block, entityMap, content) => {
+const applyAtomicStyle = (block: any, entityMap: any, content: string) => {
 	if (block.type !== 'atomic') return content;
 	// strip the test that was added in the media block
 	const strippedContent = content.substring(
@@ -59,7 +62,7 @@ const applyAtomicStyle = (block, entityMap, content) => {
 	return `${strippedContent}![${data.fileName || ''}](${data.url || data.src})`;
 };
 
-const getEntityStart = entity => {
+const getEntityStart = (entity: any) => {
 	switch (entity.type) {
 		case 'LINK':
 			return '[';
@@ -68,7 +71,7 @@ const getEntityStart = entity => {
 	}
 };
 
-const getEntityEnd = entity => {
+const getEntityEnd = (entity: any) => {
 	switch (entity.type) {
 		case 'LINK':
 			return `](${entity.data.url})`;
@@ -77,7 +80,7 @@ const getEntityEnd = entity => {
 	}
 };
 
-function fixWhitespacesInsideStyle(text, style) {
+function fixWhitespacesInsideStyle(text: any, style: any) {
 	const { symbol } = style;
 
 	// Text before style-opening marker (including the marker)
@@ -108,16 +111,16 @@ function fixWhitespacesInsideStyle(text, style) {
 	);
 }
 
-function getInlineStyleRangesByLength(inlineStyleRanges) {
+function getInlineStyleRangesByLength(inlineStyleRanges: any) {
 	return [...inlineStyleRanges].sort((a, b) => b.length - a.length);
 }
 
-export function draftjsToMd(raw, extraMarkdownDict) {
+export function draftjsToMd(raw: any, extraMarkdownDict: any) {
 	const markdownDict = { ...defaultMarkdownDict, ...extraMarkdownDict };
-	const appliedBlockStyles = [];
+	const appliedBlockStyles: string[] = [];
 
 	return raw.blocks
-		.map(block => {
+		.map((block: any) => {
 			// totalOffset is a difference of index position between raw string and enhanced ones
 			let totalOffset = 0;
 			let returnString = '';
@@ -126,10 +129,10 @@ export function draftjsToMd(raw, extraMarkdownDict) {
 			returnString += getBlockStyle(block.type, appliedBlockStyles);
 			appliedBlockStyles.push(block.type);
 
-			const appliedStyles = [];
+			const appliedStyles: any[] = [];
 			returnString += block.text
 				.split('')
-				.reduce((text, currentChar, index) => {
+				.reduce((text: any, currentChar: any, index: any) => {
 					let newText = text;
 
 					const sortedInlineStyleRanges = getInlineStyleRangesByLength(
@@ -138,11 +141,12 @@ export function draftjsToMd(raw, extraMarkdownDict) {
 
 					// find all styled at this character
 					sortedInlineStyleRanges
-						.filter(range => range.offset === index)
+						.filter((range) => range.offset === index)
 						.filter(
-							range => markdownDict[range.style] || RGB_REGEXP.test(range.style)
+							(range) =>
+								markdownDict[range.style] || RGB_REGEXP.test(range.style)
 						)
-						.forEach(currentStyle => {
+						.forEach((currentStyle) => {
 							let symbol;
 							let symbolLength;
 							if (RGB_REGEXP.test(currentStyle.style)) {
@@ -169,9 +173,9 @@ export function draftjsToMd(raw, extraMarkdownDict) {
 
 					// check for entityRanges starting and add if existing
 					const entitiesStartAtChar = block.entityRanges.filter(
-						range => range.offset === index
+						(range: any) => range.offset === index
 					);
-					entitiesStartAtChar.forEach(entity => {
+					entitiesStartAtChar.forEach((entity: any) => {
 						newText += getEntityStart(raw.entityMap[entity.key]);
 					});
 
@@ -180,9 +184,9 @@ export function draftjsToMd(raw, extraMarkdownDict) {
 
 					// check for entityRanges ending and add if existing
 					const entitiesEndAtChar = block.entityRanges.filter(
-						range => range.offset + range.length - 1 === index
+						(range: any) => range.offset + range.length - 1 === index
 					);
-					entitiesEndAtChar.forEach(entity => {
+					entitiesEndAtChar.forEach((entity: any) => {
 						newText += getEntityEnd(raw.entityMap[entity.key]);
 					});
 
