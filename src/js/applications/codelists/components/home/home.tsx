@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { PageTitle } from '@inseefr/wilco';
-import { Loading, Row } from '../../../../new-architecture/components/';
+import {
+	Loading,
+	Row,
+	SearchableList,
+} from '../../../../new-architecture/components/';
 
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import { SearchableList } from '../../../../utils';
 import { HomePageMenu } from './menu';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
@@ -38,7 +41,7 @@ function CodeListsList() {
 						advancedSearch={true}
 						label="label"
 						autoFocus={true}
-						itemFormatter={(_, codelist) => formatLabel(codelist)}
+						itemFormatter={(_: any, codelist: any) => formatLabel(codelist)}
 					/>
 				</div>
 			</Row>

@@ -10,13 +10,14 @@ import {
 	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
+	Select,
 } from '../../../new-architecture/components';
 
 import Controls from './controls';
 import Components from './components';
 import StructureAPI from '../apis/structure-api';
 import { DISSEMINATION_STATUS } from '../utils/constants';
-import { AppContext, Auth, SelectRmes } from '../../../utils';
+import { AppContext, Auth } from '../../../utils';
 import D, { D1, D2 } from '../../../i18n';
 import { useSelector } from 'react-redux';
 import { validate } from './validation';
@@ -193,7 +194,7 @@ const Edition = ({ creation, initialStructure }) => {
 			</Row>
 			<div className="form-group">
 				<label>{D1.creatorTitle}</label>
-				<SelectRmes
+				<Select
 					placeholder={D1.stampsPlaceholder}
 					value={stampListOptions.find(({ value }) => value === creator)}
 					options={stampListOptions}

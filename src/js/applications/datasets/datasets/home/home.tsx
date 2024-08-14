@@ -1,10 +1,13 @@
 import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import D from '../../../../i18n/build-dictionary';
-import { SearchableList } from '../../../../utils';
 import { useDatasets } from '../../hooks';
 import { HomePageMenu } from './menu';
-import { Loading, Row } from '../../../../new-architecture/components';
+import {
+	Loading,
+	Row,
+	SearchableList,
+} from '../../../../new-architecture/components';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 export const DatasetHome = () => {

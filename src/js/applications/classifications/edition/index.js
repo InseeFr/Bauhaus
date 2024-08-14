@@ -1,9 +1,7 @@
 import { useClassification, useUpdateClassification } from '../hooks';
 import { useParams, Redirect } from 'react-router-dom';
 import { ActionToolbar, LabelRequired } from '@inseefr/wilco';
-import { EditorMarkdown } from '../../../utils';
 import { useForm, Controller } from 'react-hook-form';
-import SelectRmes from '../../../utils/components/select-rmes';
 import D, { D1, D2 } from '../../../i18n';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -13,6 +11,8 @@ import {
 	ClientSideError,
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
+	EditorMarkdown,
+	Select,
 } from '../../../new-architecture/components';
 import { useStampsOptions } from '../../../new-architecture/utils/hooks/stamps';
 import { useOrganizationsOptions } from '../../../new-architecture/utils/hooks/organizations';
@@ -201,7 +201,7 @@ export const ClassificationEdition = () => {
 						defaultValue={classification.general.idSeries}
 						render={({ field: { onChange, value } }) => {
 							return (
-								<SelectRmes
+								<Select
 									value={seriesOptions.find((option) => option.value === value)}
 									options={seriesOptions}
 									onChange={onChange}
@@ -218,7 +218,7 @@ export const ClassificationEdition = () => {
 						defaultValue={classification.general.idBefore}
 						render={({ field: { onChange, value } }) => {
 							return (
-								<SelectRmes
+								<Select
 									value={classificationsOptions.find(
 										(option) => option.value === value
 									)}
@@ -237,7 +237,7 @@ export const ClassificationEdition = () => {
 						defaultValue={classification.general.idAfter}
 						render={({ field: { onChange, value } }) => {
 							return (
-								<SelectRmes
+								<Select
 									value={classificationsOptions.find(
 										(option) => option.value === value
 									)}
@@ -256,7 +256,7 @@ export const ClassificationEdition = () => {
 						defaultValue={classification.general.idVariant}
 						render={({ field: { onChange, value } }) => {
 							return (
-								<SelectRmes
+								<Select
 									value={classificationsOptions.find(
 										(option) => option.value === value
 									)}
@@ -276,7 +276,7 @@ export const ClassificationEdition = () => {
 							defaultValue={classification.general.creator}
 							render={({ field: { onChange, value } }) => {
 								return (
-									<SelectRmes
+									<Select
 										value={organisationsOptions.find(
 											(option) => option.value === value
 										)}
@@ -297,7 +297,7 @@ export const ClassificationEdition = () => {
 							defaultValue={classification.general.contributor}
 							render={({ field: { onChange, value } }) => {
 								return (
-									<SelectRmes
+									<Select
 										value={stampsOptions.find(
 											(option) => option.value === value
 										)}
@@ -318,7 +318,7 @@ export const ClassificationEdition = () => {
 						defaultValue={classification.general.disseminationStatus}
 						render={({ field: { onChange, value } }) => {
 							return (
-								<SelectRmes
+								<Select
 									value={disseminationStatusOptions.find(
 										(option) => option.value === value
 									)}

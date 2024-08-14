@@ -1,3 +1,14 @@
+export const createAllDictionary = (dict) => {
+	const D1 = createDictionary(firstLang, dict);
+	const D2 = createDictionary(secondLang, dict);
+
+	return {
+		D1,
+		D2,
+		D: getLang() === firstLang ? D1 : D2,
+	};
+};
+
 /**
  * Based on the locale passed as a paremeter, this function will return
  * the corresponding dictionary.

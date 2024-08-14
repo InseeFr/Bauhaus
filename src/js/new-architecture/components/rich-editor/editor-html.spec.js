@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import EditorHTML from '.';
+import { EditorHTML } from '.';
 
 describe('editor-html', () => {
 	it('renders without crashing', () => {

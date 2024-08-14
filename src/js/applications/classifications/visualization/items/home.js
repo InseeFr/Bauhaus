@@ -1,6 +1,10 @@
 import D from '../../../../i18n';
-import { CheckSecondLang, SearchableList } from '../../../../utils';
-import { PageTitle, Row } from '../../../../new-architecture/components';
+import { CheckSecondLang } from '../../../../utils';
+import {
+	PageTitle,
+	Row,
+	SearchableList,
+} from '../../../../new-architecture/components';
 import Controls from './controls';
 
 const ClassificationTree = ({ items, subtitle, classificationId }) => {

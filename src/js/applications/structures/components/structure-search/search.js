@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import Select from '../../../../utils/components/select-rmes';
 
 import D from '../../i18n/build-dictionary';
 import { COMPONENT_TYPES } from '../../utils/constants/dsd-components';
@@ -11,6 +10,7 @@ import {
 	Column,
 	TextInput,
 	Loading,
+	Select,
 } from '../../../../new-architecture/components';
 import { ConceptsApi } from '../../../../new-architecture/sdk';
 import { validateStateOptions } from '../../../../new-architecture/model/ValidationState';

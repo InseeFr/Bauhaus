@@ -5,7 +5,7 @@ import {
 	ActionToolbar,
 	LabelRequired,
 } from '@inseefr/wilco';
-import { AppContext, ArrayUtils, Auth, SelectRmes } from '../../../../utils';
+import { AppContext, ArrayUtils, Auth } from '../../../../utils';
 import { validate } from '../edition/validation';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
@@ -35,6 +35,7 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
+	Select,
 } from '../../../../new-architecture/components';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
@@ -98,7 +99,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 			<div className="row">
 				<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
 					<label>{D1.codesListTitle}</label>
-					<SelectRmes
+					<Select
 						placeholder={D1.codesListTitle}
 						options={codeListOptions}
 						value={codeListOptions.find(
@@ -125,7 +126,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 				<div className="row">
 					<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
 						<label>{D1.codelistsPartialTitle}</label>
-						<SelectRmes
+						<Select
 							placeholder={D1.codelistsPartialTitle}
 							options={partialsOptions}
 							value={partialsOptions.find(
@@ -384,7 +385,7 @@ export const DumbComponentDetailEdit = ({
 				<Row>
 					<div className="col-md-12 form-group">
 						<LabelRequired>{D1.type}</LabelRequired>
-						<SelectRmes
+						<Select
 							placeholder={D1.type}
 							value={MUTUALIZED_COMPONENT_TYPES.find(
 								(c) => c.value === component.type
@@ -402,7 +403,7 @@ export const DumbComponentDetailEdit = ({
 				<Row>
 					<div className="col-md-12">
 						<label>{D1.conceptTitle}</label>
-						<SelectRmes
+						<Select
 							placeholder={D1.conceptTitle}
 							options={conceptOptions}
 							value={conceptOptions.find(
@@ -417,7 +418,7 @@ export const DumbComponentDetailEdit = ({
 				<Row>
 					<div className="col-md-12">
 						<label>{D1.rangeTitle}</label>
-						<SelectRmes
+						<Select
 							placeholder={D1.rangeTitle}
 							value={XSD_TYPES.find((c) => c.value === component.range)}
 							options={XSD_TYPES}
@@ -552,7 +553,7 @@ export const DumbComponentDetailEdit = ({
 				)}
 				<div className="form-group">
 					<label>{D1.creatorTitle}</label>
-					<SelectRmes
+					<Select
 						placeholder={D1.stampsPlaceholder}
 						value={stampListOptions.find(
 							({ value }) => value === component.creator
@@ -643,7 +644,7 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
 			<Row key={index}>
 				<div className="col-md-6 form-group">
 					<label htmlFor="attribute">{D1.Attribute}</label>
-					<SelectRmes
+					<Select
 						placeholder={D1.attributePlaceholder}
 						value={attributesListOptions.find(
 							({ value }) => value === component['attribute_' + index]
@@ -714,7 +715,7 @@ const AttributeCodeList = ({
 	return (
 		<div className="col-md-6 form-group">
 			<label htmlFor="attributeValue">{label ?? D1.Value}</label>
-			<SelectRmes
+			<Select
 				placeholder={D1.Value}
 				value={codesOptions.find((option) => option.value === value)}
 				options={codesOptions}

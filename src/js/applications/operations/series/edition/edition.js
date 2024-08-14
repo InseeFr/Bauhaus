@@ -8,6 +8,8 @@ import {
 	TextInput,
 	CreatorsInput,
 	PageTitleBlock,
+	EditorMarkdown,
+	Select,
 } from '../../../../new-architecture/components';
 
 import {
@@ -16,7 +18,6 @@ import {
 	ActionToolbar,
 	LabelRequired,
 } from '@inseefr/wilco';
-import { EditorMarkdown, SelectRmes } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
 
 import { isMandatoryField, validate } from './validation';
@@ -204,7 +205,7 @@ class OperationsSerieEdition extends Component {
 						<div className="row">
 							<div className="form-group col-md-12">
 								<LabelRequired>{D.familyTitle}</LabelRequired>
-								<SelectRmes
+								<Select
 									placeholder={D.familiesTitle}
 									unclearable
 									value={family.id}
@@ -333,7 +334,7 @@ class OperationsSerieEdition extends Component {
 									{D1.operationType}
 								</label>
 							)}
-							<SelectRmes
+							<Select
 								placeholder=""
 								unclearable
 								value={serie.typeCode}
@@ -363,7 +364,7 @@ class OperationsSerieEdition extends Component {
 									{D1.dataCollectFrequency}
 								</label>
 							)}
-							<SelectRmes
+							<Select
 								placeholder=""
 								unclearable
 								value={serie.accrualPeriodicityCode}
@@ -403,7 +404,7 @@ class OperationsSerieEdition extends Component {
 						<div className="form-group col-md-12">
 							<label className="w-100">
 								{D1.stakeholders}
-								<SelectRmes
+								<Select
 									placeholder=""
 									unclearable
 									value={serie.contributors}
@@ -427,7 +428,7 @@ class OperationsSerieEdition extends Component {
 						<div className="form-group col-md-12">
 							<label htmlFor="dataCollector" className="w-100">
 								{D1.dataCollector}
-								<SelectRmes
+								<Select
 									placeholder=""
 									unclearable
 									value={serie.dataCollectors}
@@ -470,7 +471,7 @@ class OperationsSerieEdition extends Component {
 						<div className="form-group col-md-12">
 							<label htmlFor="replaces" className="w-100">
 								{D1.replaces}
-								<SelectRmes
+								<Select
 									placeholder=""
 									unclearable
 									value={serie.replaces}
@@ -494,7 +495,7 @@ class OperationsSerieEdition extends Component {
 						<div className="form-group col-md-12">
 							<label htmlFor="replacedBy" className="w-100">
 								{D1.replacedBy}
-								<SelectRmes
+								<Select
 									placeholder=""
 									unclearable
 									value={serie.replacedBy}
@@ -518,7 +519,7 @@ class OperationsSerieEdition extends Component {
 						<div className="form-group col-md-12">
 							<label htmlFor="indicators" className="w-100">
 								{D1.indicators}
-								<SelectRmes
+								<Select
 									placeholder=""
 									unclearable
 									value={serie.generate}
@@ -534,7 +535,7 @@ class OperationsSerieEdition extends Component {
 						<div className="form-group col-md-12">
 							<label htmlFor="seeAlso" className="w-100">
 								{D1.seeAlso}
-								<SelectRmes
+								<Select
 									unclearable
 									placeholder=""
 									value={serie.seeAlso}

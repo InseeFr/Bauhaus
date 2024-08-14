@@ -2,10 +2,10 @@ import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
 import {
-	REGEXPS,
 	mdToDraftjs,
-} from '../../utils/components/rich-editor/draftjs/mdToDraftjs';
-import { draftjsToMd } from '../../utils/components/rich-editor/draftjs/draftjsToMd';
+	REGEXPS,
+} from '../components/rich-editor/draftjs/mdToDraftjs';
+import { draftjsToMd } from '../components/rich-editor/draftjs/draftjsToMd';
 
 export const containUnsupportedStyles = (attr = {}) => {
 	return !!REGEXPS.map((r) => r.regexp).find(

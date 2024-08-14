@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import Select from '../../../../utils/components/select-rmes';
 
 import {
 	Loading,
 	Column,
 	TextInput,
+	Select,
 } from '../../../../new-architecture/components';
 
 import { Link, Redirect } from 'react-router-dom';

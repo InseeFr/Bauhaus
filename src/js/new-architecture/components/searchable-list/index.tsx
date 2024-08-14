@@ -1,14 +1,49 @@
 import { Link } from 'react-router-dom';
-import Pagination from '../pagination';
-import { filterKeyDeburr, nbResults } from '../../utils/array-utils';
-import D from '../../i18n/build-dictionary';
-import { TextInput } from '../../../new-architecture/components';
+import { filterKeyDeburr, nbResults } from '../../../utils/utils/array-utils';
+import { TextInput, Pagination } from '../../../new-architecture/components';
 import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
+import { createAllDictionary } from '../../utils/dictionnary';
+
+const { D } = createAllDictionary({
+	searchLabelPlaceholder: {
+		fr: 'Libellé...',
+		en: 'Label...',
+	},
+	search: {
+		fr: 'Recherchez...',
+		en: 'Search...',
+	},
+	advancedSearchTitle: {
+		fr: 'Recherche avancée',
+		en: 'Advanced search',
+	},
+	result: {
+		fr: 'résultat',
+		en: 'result',
+	},
+	results: {
+		fr: 'résultats',
+		en: 'results',
+	},
+});
 
 const defautState = {
 	search: '',
 };
-const SearchableList = ({
+
+type SearchableListTypes = {
+	items: any[];
+	advancedSearch?: boolean;
+	searchUrl?: string;
+	placeholder?: string;
+	childPath?: any;
+	col?: number;
+	colOff?: number;
+	label?: string;
+	autoFocus?: boolean;
+	itemFormatter: any;
+};
+export const SearchableList = ({
 	items = [],
 	advancedSearch = false,
 	searchUrl = '',
@@ -18,8 +53,8 @@ const SearchableList = ({
 	colOff = undefined,
 	label = 'label',
 	autoFocus = false,
-	itemFormatter = (content, _object) => content,
-}) => {
+	itemFormatter = (content: any, _object: any) => content,
+}: SearchableListTypes) => {
 	const {
 		form: { search },
 		setForm: handleSearch,
@@ -31,7 +66,7 @@ const SearchableList = ({
 
 	const hits = items.filter(filter(search));
 
-	const hitEls = hits.map((item) => (
+	const hitEls = hits.map((item: any) => (
 		<li key={item.id} className="list-group-item">
 			<Link to={`/${childPath}/${item.id}`}>
 				{itemFormatter(item[label], item)}
@@ -73,8 +108,7 @@ const SearchableList = ({
 				</div>
 			)}
 			<p aria-live="assertive">{nbResults(hits, D.results, D.result)}</p>
-			<Pagination itemEls={hitEls} itemsPerPage="10" />
+			<Pagination itemEls={hitEls} />
 		</div>
 	);
 };
-export default SearchableList;

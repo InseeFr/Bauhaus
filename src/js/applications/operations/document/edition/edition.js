@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import D, { D1, D2 } from '../../../../i18n';
-import { EditorMarkdown } from '../../../../utils';
 import { validate } from './validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
@@ -22,8 +21,9 @@ import {
 	ClientSideError,
 	DatePicker,
 	PageTitleBlock,
+	EditorMarkdown,
+	Select,
 } from '../../../../new-architecture/components';
-import Select from '../../../../utils/components/select-rmes';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 import { GeneralApi } from '../../../../new-architecture/sdk/general-api';
 

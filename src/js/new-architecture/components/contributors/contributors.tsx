@@ -1,8 +1,8 @@
 import D, { D1 } from '../i18n';
 import { convertToArrayIfDefined } from '../../utils/array-utils';
-import { SelectRmes } from '../../../utils/index';
 import { LabelRequired } from '@inseefr/wilco';
 import { Options } from '../../model/SelectOption';
+import { Select } from '../select-rmes';
 
 export const ContributorsVisualisation = ({
 	contributors,
@@ -40,7 +40,7 @@ export const ContributorsInput = ({
 			) : (
 				<label>{D.contributors.title}</label>
 			)}
-			<SelectRmes
+			<Select
 				placeholder={D1.contributors.stampsPlaceholder}
 				value={stampListOptions?.filter((c) =>
 					convertToArrayIfDefined(value)?.some((a: string) =>

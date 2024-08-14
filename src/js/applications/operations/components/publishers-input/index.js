@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { D1 } from '../../i18n/build-dictionary';
 import * as ItemToSelectModel from '../../../../new-architecture/utils/item-to-select-model';
-import { SelectRmes } from '../../../../utils';
+import { Select } from '../../../../new-architecture/components';
 
 const PublishersInput = ({ value, onChange }) => {
 	const organisations = useSelector(
@@ -15,7 +15,7 @@ const PublishersInput = ({ value, onChange }) => {
 		<label htmlFor="creator" className="w-100">
 			{D1.organisation}
 
-			<SelectRmes
+			<Select
 				unclearable
 				value={publishersArray}
 				options={organisationsOptions}

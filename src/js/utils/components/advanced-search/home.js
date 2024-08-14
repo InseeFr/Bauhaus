@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { NumberResult } from '@inseefr/wilco';
-import { PageTitle } from '../../../new-architecture/components';
-import Pagination from '../pagination';
+import { PageTitle, Pagination } from '../../../new-architecture/components';
 import AdvancedSearchControls from '../advanced-search/controls';
 const AdvancedSearchList = ({
 	title,

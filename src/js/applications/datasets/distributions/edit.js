@@ -1,4 +1,3 @@
-import { EditorMarkdown } from '../../../utils';
 import {
 	ActionToolbar,
 	CancelButton,
@@ -21,6 +20,7 @@ import {
 	ClientSideError,
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
+	EditorMarkdown,
 } from '../../../new-architecture/components';
 import { useGoBack } from '../../../new-architecture/utils/hooks/useGoBack';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';

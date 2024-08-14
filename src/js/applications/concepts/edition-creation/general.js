@@ -9,8 +9,8 @@ import {
 	InputRmes,
 	RequiredIcon,
 	DatePicker,
+	Select,
 } from '../../../new-architecture/components';
-import Select from './../../../utils/components/select-rmes';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {

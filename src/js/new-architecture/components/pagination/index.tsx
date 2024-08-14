@@ -1,13 +1,26 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Link } from '../../../new-architecture/components';
+import { Link } from '../link';
+//@ts-ignore
 import queryString from 'query-string';
 import './pagination.scss';
-import D from '../../i18n/build-dictionary';
-import Select from '../select-rmes';
-import { D1 } from '../../../applications/codelists/i18n/build-dictionary';
+import { createAllDictionary } from '../../utils/dictionnary';
+import { Select } from '../select-rmes';
 
-function checkInvalidPage(targetPage, listSize) {
+const { D1, D } = createAllDictionary({
+	itemPerPagePlaceholder: {
+		fr: "Nombre d'éléments par page",
+		en: 'Number of elements per page',
+	},
+	pagination: {
+		goTo: {
+			en: 'Go to page',
+			fr: 'Allez à la page',
+		},
+	},
+});
+
+function checkInvalidPage(targetPage: number, listSize: number) {
 	return targetPage === 0 || targetPage > listSize;
 }
 
@@ -20,23 +33,23 @@ const numberPerPageOptions = [
  * Component used to display a pagination block for a list.
  *	itemEls: The list of item we want to paginate
  */
-export const Index = ({ itemEls }) => {
+export const Pagination = ({ itemEls }: { itemEls: any }) => {
 	const history = useHistory();
 	const { pathname, search } = useLocation();
 
 	const [numberPerPage, setNumberPerPage] = useState(10);
 	const paginationD = D.pagination || {};
-	const ariaLabel = (number) => `${paginationD.goTo} ${number}`;
+	const ariaLabel = (number: number) => `${paginationD.goTo} ${number}`;
 
 	const queryParams = queryString.parse(search);
-	let currentPage = parseInt(queryParams.page || '1', 10);
+	let currentPage = parseInt((queryParams.page as string) || '1', 10);
 
 	const url = document.URL;
 	useEffect(() => {
 		const search = new URL(url).searchParams;
 
 		if (search.has('perPage')) {
-			setNumberPerPage(parseInt(search.get('perPage'), 10));
+			setNumberPerPage(parseInt(search.get('perPage') as string, 10));
 		}
 	}, [url]);
 
@@ -53,11 +66,11 @@ export const Index = ({ itemEls }) => {
 		pageNumbers.push(i);
 	}
 
-	function isActivePage(page) {
+	function isActivePage(page: number) {
 		return page === currentPage;
 	}
 
-	function isDisabled(targetPage) {
+	function isDisabled(targetPage: number) {
 		return checkInvalidPage(targetPage, pageNumbers.length);
 	}
 
@@ -68,7 +81,7 @@ export const Index = ({ itemEls }) => {
 	if (queryParameters !== '') {
 		pathnamePrefix += queryParameters + '&';
 	}
-	const onItemPerPageChange = (value) => {
+	const onItemPerPageChange = (value: string) => {
 		const searchParams = new URLSearchParams(window.location.search);
 		searchParams.set('perPage', value);
 		history.replace(pathname + '?' + searchParams.toString());
@@ -158,5 +171,3 @@ export const Index = ({ itemEls }) => {
 		</Fragment>
 	);
 };
-
-export default Index;

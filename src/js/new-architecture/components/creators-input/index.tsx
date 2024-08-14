@@ -1,7 +1,7 @@
-import { SelectRmes } from '../../../utils';
 import { D1 } from '../i18n';
 import { LabelRequired } from '@inseefr/wilco';
 import { useStampsOptions } from '../../utils/hooks/stamps';
+import { Select } from '../select-rmes';
 
 export const CreatorsInput = ({
 	value,
@@ -25,7 +25,7 @@ export const CreatorsInput = ({
 					? D1.creatorsInput.creatorTitle
 					: D1.creatorsInput.creatorsTitle}
 			</LabelRequired>
-			<SelectRmes
+			<Select
 				placeholder={D1.stampsPlaceholder}
 				unclearable
 				multi={multi ?? true}

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import Select from '../../../../utils/components/select-rmes';
 import { getAllAttachment } from '../../utils';
 import './component-specification-form.scss';
 import {
@@ -12,6 +11,7 @@ import {
 	TextInput,
 	Column,
 	Row,
+	Select,
 } from '../../../../new-architecture/components';
 
 export const ComponentSpecificationForm = ({

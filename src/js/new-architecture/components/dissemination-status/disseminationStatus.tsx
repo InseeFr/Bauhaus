@@ -1,7 +1,7 @@
 import D from '../i18n';
 import { LabelRequired } from '@inseefr/wilco';
-import Select from '../../../utils/components/select-rmes';
 import { useDisseminationStatusOptions } from '../../utils/hooks/disseminationStatus';
+import { Select } from '../select-rmes';
 
 export const getDisseminationStatus = (disseminationStatus: string): string => {
 	if (!disseminationStatus) {

@@ -5,8 +5,8 @@ import {
 	Loading,
 	Column,
 	TextInput,
+	Select,
 } from '../../../new-architecture/components';
-import Select from '../../../utils/components/select-rmes';
 
 import { useSelector } from 'react-redux';
 import { ArrayUtils, AdvancedSearchList } from '../../../utils';

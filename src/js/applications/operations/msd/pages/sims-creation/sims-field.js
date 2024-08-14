@@ -4,18 +4,16 @@ import { rangeType } from '../../../../../new-architecture/modules-operations/ut
 import {
 	DatePicker,
 	InputRmes,
-} from '../../../../../new-architecture/components';
-import {
 	EditorMarkdownToolbar,
-	ArrayUtils,
 	EditorDeleteButton,
-} from '../../../../../utils';
+	Select,
+} from '../../../../../new-architecture/components';
+import { ArrayUtils } from '../../../../../utils';
 import SimsGeographyPicker from '../../../../../applications/operations/components/sims/sims-geography-picker';
 import { Editor } from 'react-draft-wysiwyg';
 import { Note, getLang } from '@inseefr/wilco';
 import './sims-field.scss';
 import { SimsFieldTitle } from '../../sims-field-title';
-import Select from '../../../../../utils/components/select-rmes';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 const SimsCodeListSelect = (props) => {

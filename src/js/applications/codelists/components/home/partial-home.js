@@ -5,12 +5,13 @@ import {
 	Loading,
 	Row,
 	FeminineButton,
+	SearchableList,
 } from '../../../../new-architecture/components';
 
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
-import { SearchableList, Auth } from '../../../../utils';
+import { Auth } from '../../../../utils';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 function CodeListsPartialHome() {

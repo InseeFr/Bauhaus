@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { PageTitle } from '../../../new-architecture/components';
+import {
+	PageTitle,
+	SearchableList,
+} from '../../../new-architecture/components';
 import StructureAPI from '../apis/structure-api';
 import D from '../../../i18n';
-import { SearchableList } from '../../../utils';
 import { HomePageMenu } from './menu';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 const Home = () => {

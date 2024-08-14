@@ -1,10 +1,13 @@
 import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
-import { SearchableList } from '../../../../utils';
 import D from '../../../../i18n/build-dictionary';
 import { useDistributions } from '../../hooks';
 import { HomePageMenu } from './menu';
-import { Loading, Row } from '../../../../new-architecture/components';
+import {
+	Loading,
+	Row,
+	SearchableList,
+} from '../../../../new-architecture/components';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 export const DistributionHome = () => {
@@ -26,7 +29,7 @@ export const DistributionHome = () => {
 						childPath="datasets/distributions"
 						autoFocus={true}
 						advancedSearch={false}
-						itemFormatter={(_, dataset) => dataset.labelLg1}
+						itemFormatter={(_: any, dataset: any) => dataset.labelLg1}
 					/>
 				</div>
 			</Row>

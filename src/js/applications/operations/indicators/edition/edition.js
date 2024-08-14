@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import D, { D1, D2 } from '../../../../i18n';
-import { EditorMarkdown, SelectRmes } from '../../../../utils';
 import PublishersInput from '../../../../applications/operations/components/publishers-input';
 import { CL_FREQ } from '../../../../new-architecture/redux/actions/constants/codeList';
 import Control from '../../../../applications/operations/indicators/edition/control';
@@ -14,6 +13,8 @@ import {
 	PageTitleBlock,
 	InputRmes,
 	RequiredIcon,
+	EditorMarkdown,
+	Select,
 } from '../../../../new-architecture/components';
 import * as ItemToSelectModel from '../../../../new-architecture/utils/item-to-select-model';
 import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
@@ -275,7 +276,7 @@ class OperationsIndicatorEdition extends Component {
 						<div className="form-group col-md-12">
 							<label htmlFor="accrualPeriodicity" className="w-100">
 								{D1.indicatorDataCollectFrequency}
-								<SelectRmes
+								<Select
 									placeholder=""
 									unclearable
 									value={indicator.accrualPeriodicityCode}
@@ -312,7 +313,7 @@ class OperationsIndicatorEdition extends Component {
 						<div className="form-group col-md-12">
 							<label className="w-100">
 								{D1.stakeholders}
-								<SelectRmes
+								<Select
 									unclearable
 									value={indicator.contributors}
 									options={organisationsOptions}
@@ -334,7 +335,7 @@ class OperationsIndicatorEdition extends Component {
 						<div className="form-group col-md-12">
 							<label className="w-100">
 								{D1.replaces}
-								<SelectRmes
+								<Select
 									unclearable
 									value={indicator.replaces}
 									options={indicatorsOptions}
@@ -355,7 +356,7 @@ class OperationsIndicatorEdition extends Component {
 						<div className="form-group col-md-12">
 							<label className="w-100">
 								{D1.replacedBy}
-								<SelectRmes
+								<Select
 									unclearable
 									value={indicator.replacedBy}
 									options={indicatorsOptions}
@@ -376,7 +377,7 @@ class OperationsIndicatorEdition extends Component {
 						<div className="form-group col-md-12">
 							<label className="w-100">
 								{D1.generatedBy}
-								<SelectRmes
+								<Select
 									unclearable
 									value={indicator.wasGeneratedBy}
 									options={seriesOptions}
@@ -397,7 +398,7 @@ class OperationsIndicatorEdition extends Component {
 						<div className="form-group col-md-12">
 							<label htmlFor="seeAlso" className="w-100">
 								{D1.seeAlso}
-								<SelectRmes
+								<Select
 									unclearable
 									value={indicator.seeAlso}
 									options={seriesAndIndicatorsOptions}

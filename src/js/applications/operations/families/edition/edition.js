@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import { D1, D2 } from '../../../../i18n';
-import { EditorMarkdown } from '../../../../utils';
 
 import {
 	CancelButton,
@@ -18,6 +17,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	PageTitleBlock,
+	EditorMarkdown,
 } from '../../../../new-architecture/components';
 import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
 

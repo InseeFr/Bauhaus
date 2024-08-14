@@ -1,6 +1,9 @@
 import D from '../../../i18n';
-import { SearchableList } from '../../../utils';
-import { PageTitle, Row } from '../../../new-architecture/components';
+import {
+	PageTitle,
+	Row,
+	SearchableList,
+} from '../../../new-architecture/components';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 
 const SeriesHome = ({ series }) => {

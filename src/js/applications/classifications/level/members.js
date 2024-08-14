@@ -1,6 +1,7 @@
 import { Note } from '@inseefr/wilco';
 import { D1, D2 } from '../../../i18n';
-import { SearchableList } from '../../../utils';
+import { SearchableList } from '../../../new-architecture/components';
+
 const Members = ({ members, classificationId, secondLang }) => {
 	const membersLg1 = members.map(({ id, labelLg1 }) => ({
 		id,

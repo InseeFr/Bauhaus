@@ -4,11 +4,12 @@ import {
 	PageTitle,
 	TextInput,
 	MasculineButton,
+	Pagination,
 } from '../../../new-architecture/components';
 
 import D from '../../../i18n';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
-import { Auth, Pagination } from '../../../utils';
+import { Auth } from '../../../utils';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import FilterToggleButtons from '../../../new-architecture/components/filter-toggle-buttons';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';

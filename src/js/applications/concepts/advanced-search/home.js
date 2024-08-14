@@ -4,13 +4,14 @@ import {
 	PageTitle,
 	TextInput,
 	DatePicker,
+	Pagination,
 } from '../../../new-architecture/components';
 
 import Select from 'react-select';
 import Controls from './controls';
 import D from '../../../i18n';
 import { filterKeyDate } from '../../../new-architecture/utils/array-utils';
-import { ArrayUtils, Pagination } from '../../../utils';
+import { ArrayUtils } from '../../../utils';
 import useUrlQueryParameters from '../../../new-architecture/utils/hooks/useUrlQueryParameters';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 const filterLabel = ArrayUtils.filterKeyDeburr(['label']);

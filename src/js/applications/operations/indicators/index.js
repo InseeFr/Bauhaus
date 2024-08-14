@@ -3,8 +3,11 @@ import { VerticalMenu } from '@inseefr/wilco';
 import { PageTitle, Loading } from '../../../new-architecture/components';
 
 import D from '../../../i18n';
-import { Auth, SearchableList, ArrayUtils } from '../../../utils';
-import { MasculineButton } from '../../../new-architecture/components';
+import { Auth, ArrayUtils } from '../../../utils';
+import {
+	MasculineButton,
+	SearchableList,
+} from '../../../new-architecture/components';
 import { useTitle } from '../../../new-architecture/utils/hooks/useTitle';
 import { OperationsApi } from '../../../new-architecture/sdk/operations-api';
 

@@ -15,8 +15,8 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	PageTitleBlock,
+	Select,
 } from '../../../../new-architecture/components';
-import Select from '../../../../utils/components/select-rmes';
 import { OperationsApi } from '../../../../new-architecture/sdk/operations-api';
 
 const defaultOperation = {

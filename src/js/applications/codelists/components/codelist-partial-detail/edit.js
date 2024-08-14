@@ -21,9 +21,9 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
+	Select,
 } from '../../../../new-architecture/components';
 import { CodeListApi } from '../../../../new-architecture/sdk';
-import Select from '../../../../utils/components/select-rmes';
 import { useTitle } from '../../../../new-architecture/utils/hooks/useTitle';
 
 const defaultCodelist = {

@@ -13,7 +13,7 @@ const computeFromUrl = (defaultValue: any) => {
 	return values;
 };
 
-const useUrlQueryParameters = (defaultValue: string) => {
+const useUrlQueryParameters = (defaultValue: any) => {
 	const history = useHistory();
 	const location = useLocation();
 

@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import Select from './';
+import { Select } from './';
 
 const options = Array.apply(null, Array(5)).map((a, i) => ({
 	value: `${i + 1}`,

@@ -6,14 +6,13 @@ import {
 	rangeType,
 } from '../../../../../new-architecture/modules-operations/utils/msd';
 import SimsDocumentField from '../../../../../applications/operations/msd/pages/sims-creation/sims-document-field';
-import { Loading } from '../../../../../new-architecture/components';
+import { Loading, Select } from '../../../../../new-architecture/components';
 import {
 	CancelButton,
 	ActionToolbar,
 	SaveButton,
 	CheckSecondLang,
 } from '@inseefr/wilco';
-import { SelectRmes } from '../../../../../utils';
 import { DUPLICATE } from '../../../../../applications/operations/msd';
 import {
 	hasLabelLg2,
@@ -301,7 +300,7 @@ class SimsCreation extends Component {
 										}}
 									/>
 									{mode === DUPLICATE && (
-										<SelectRmes
+										<Select
 											placeholder={D.operationsTitle}
 											value={operationsOptions.find(
 												({ value }) => value === idParent
@@ -312,7 +311,7 @@ class SimsCreation extends Component {
 									)}
 
 									{mode !== DUPLICATE && (
-										<SelectRmes
+										<Select
 											className="bauhaus-sims-duplicate"
 											placeholder={D.createFromAnExistingReport}
 											value={operationsWithSimsOptions.find(

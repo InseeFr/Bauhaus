@@ -4,8 +4,8 @@ import './editor-html.scss';
 import {
 	editorStateFromHtml,
 	htmlFromEditorState,
-} from '../../../new-architecture/utils/html-utils';
-import { DeleteButton } from './editor-markdown';
+} from '../../utils/html-utils';
+import { EditorDeleteButton } from './editor-markdown';
 
 const toolbar = {
 	options: ['list', 'inline'],
@@ -19,7 +19,7 @@ const toolbar = {
 	},
 };
 
-class EditorHTML extends Component {
+export class EditorHTML extends Component {
 	constructor(props) {
 		super(props);
 		const { text } = props;
@@ -54,7 +54,7 @@ class EditorHTML extends Component {
 	render() {
 		return (
 			<Editor
-				toolbarCustomButtons={[<DeleteButton />]}
+				toolbarCustomButtons={[<EditorDeleteButton />]}
 				ariaLabel={this.props.ariaLabel}
 				editorState={this.state.editorState}
 				id={this.props.id}
@@ -67,5 +67,3 @@ class EditorHTML extends Component {
 		);
 	}
 }
-
-export default EditorHTML;

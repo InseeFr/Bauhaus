@@ -1,7 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { PageTitle, Loading } from '../../../../new-architecture/components';
+import {
+	PageTitle,
+	Loading,
+	SearchableList,
+} from '../../../../new-architecture/components';
 import './component-list.scss';
-import { SearchableList } from '../../../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants/dsd-components';
 import { useHistory } from 'react-router-dom';
 

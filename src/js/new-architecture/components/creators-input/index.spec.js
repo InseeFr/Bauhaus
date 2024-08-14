@@ -12,8 +12,8 @@ jest.mock('@tanstack/react-query', () => ({
 	},
 }));
 
-jest.mock('../../../utils', () => ({
-	SelectRmes: ({ value, onChange, multi }) => {
+jest.mock('../select-rmes', () => ({
+	Select: ({ value, onChange, multi }) => {
 		return (
 			<ul>
 				<li>

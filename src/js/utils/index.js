@@ -13,14 +13,8 @@ export const Auth = {
 	...roles,
 	AuthGuard,
 };
-export { default as EditorHTML } from './components/editor-html';
-export {
-	default as EditorMarkdown,
-	toolbar as EditorMarkdownToolbar,
-	DeleteButton as EditorDeleteButton,
-} from './components/editor-html/editor-markdown';
+
 export { default as AdvancedSearchList } from './components/advanced-search/home';
-export { default as SearchableList } from './components/searchable-list';
 export {
 	DateItem,
 	default as CreationUpdateItems,
@@ -29,7 +23,5 @@ export {
 export { default as CheckSecondLang } from './components/check-second-lang';
 
 export { default as ConfirmationDelete } from './components/confirmation-delete';
-export { default as Pagination } from './components/pagination';
 
 export const AppContext = createContext({});
-export { default as SelectRmes } from './components/select-rmes';

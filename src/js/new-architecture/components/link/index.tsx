@@ -4,7 +4,7 @@ type LinkTypes = {
 	to: string;
 	disabled?: boolean;
 	children: any;
-	className: string;
+	className?: string;
 } & Record<string, any>;
 export const Link = ({
 	to,

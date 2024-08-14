@@ -4,12 +4,9 @@ import './editor-html.scss';
 import { getLang } from '@inseefr/wilco';
 import { EditorState } from 'draft-js';
 
-import {
-	mdFromEditorState,
-	editorStateFromMd,
-} from '../../../new-architecture/utils/html-utils';
+import { mdFromEditorState, editorStateFromMd } from '../../utils/html-utils';
 
-export const DeleteButton = ({ onChange }) => {
+export const EditorDeleteButton = ({ onChange }) => {
 	const erease = () => {
 		onChange(EditorState.createEmpty());
 	};
@@ -27,7 +24,7 @@ export const DeleteButton = ({ onChange }) => {
 		</div>
 	);
 };
-export const toolbar = {
+export const EditorMarkdownToolbar = {
 	options: ['list', 'inline'],
 	list: {
 		inDropdown: false,
@@ -39,7 +36,7 @@ export const toolbar = {
 	},
 };
 
-const EditorMarkdown = ({ text, handleChange }) => {
+export const EditorMarkdown = ({ text, handleChange }) => {
 	const [editorState, setEditorState] = useState(editorStateFromMd(''));
 	const editorRef = useRef();
 
@@ -53,7 +50,7 @@ const EditorMarkdown = ({ text, handleChange }) => {
 
 	return (
 		<Editor
-			toolbarCustomButtons={[<DeleteButton />]}
+			toolbarCustomButtons={[<EditorDeleteButton />]}
 			ref={editorRef}
 			editorState={editorState}
 			toolbar={toolbar}
@@ -69,5 +66,3 @@ const EditorMarkdown = ({ text, handleChange }) => {
 		/>
 	);
 };
-
-export default EditorMarkdown;

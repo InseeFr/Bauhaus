@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { withCodesLists } from '../../../../../new-architecture/utils/hoc/withCodesLists';
 import api from '../../../api/datasets-api';
 import { LabelRequired } from '@inseefr/wilco';
-import { SelectRmes } from '../../../../../utils';
 import { useStampsOptions } from '../../../../../new-architecture/utils/hooks/stamps';
 import { useSeriesOperationsOptions } from './useSeriesOperationsOptions';
 import {
@@ -12,6 +11,7 @@ import {
 	ContributorsInput,
 	DisseminationStatusInput,
 	ClientSideError,
+	Select,
 } from '../../../../../new-architecture/components';
 import { convertCodesListsToSelectOption } from '../../../../../new-architecture/modules-datasets/utils/codelist-to-select-options';
 
@@ -71,7 +71,7 @@ const InternalManagementTab = ({
 			<Row>
 				<div className="col-md-12 form-group">
 					<LabelRequired>{D1.creatorTitle}</LabelRequired>
-					<SelectRmes
+					<Select
 						unclearable
 						value={editingDataset.catalogRecord?.creator}
 						options={stampsOptions}
@@ -146,7 +146,7 @@ const InternalManagementTab = ({
 			<Row>
 				<div className="col-md-12 form-group">
 					<LabelRequired>{D1.generatedBy}</LabelRequired>
-					<SelectRmes
+					<Select
 						multi={true}
 						value={editingDataset.wasGeneratedIRIs}
 						options={seriesOperationsOptions}
@@ -178,7 +178,7 @@ const InternalManagementTab = ({
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsAccessRights}
 					</label>
-					<SelectRmes
+					<Select
 						value={editingDataset.accessRights}
 						options={clAccessRightsOptions}
 						onChange={(option) => {
@@ -196,7 +196,7 @@ const InternalManagementTab = ({
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsConfidentialityStatus}
 					</label>
-					<SelectRmes
+					<Select
 						value={editingDataset.confidentialityStatus}
 						options={clConfStatusOptions}
 						onChange={(option) => {
@@ -214,7 +214,7 @@ const InternalManagementTab = ({
 					<label className="w-100 wilco-label-required">
 						{D1.datasetProcessStep}
 					</label>
-					<SelectRmes
+					<Select
 						unclearable
 						value={editingDataset.processStep}
 						options={clProcessStep}
@@ -232,7 +232,7 @@ const InternalManagementTab = ({
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsArchiveUnit}
 					</label>
-					<SelectRmes
+					<Select
 						unclearable
 						value={editingDataset.archiveUnit}
 						options={archivageUnits}
