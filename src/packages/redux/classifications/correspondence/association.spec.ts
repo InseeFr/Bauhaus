@@ -79,7 +79,7 @@ describe('getAssociation', () => {
 			'nafr2-cpfr21',
 			'B-B'
 		);
-		expect(result).toEqual();
+		expect(result).toEqual(undefined);
 	});
 	test('getAssociation selector should extract results', () => {
 		const result = getAssociation(

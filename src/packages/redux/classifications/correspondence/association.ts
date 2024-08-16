@@ -47,10 +47,6 @@ export const getAssociation = (
 	correspondenceId: string,
 	associationId: string
 ) =>
-	state.classificationsCorrespondenceAssociation[correspondenceId] &&
-	state.classificationsCorrespondenceAssociation[correspondenceId][
+	state.classificationsCorrespondenceAssociation[correspondenceId]?.[
 		associationId
-	] &&
-	state.classificationsCorrespondenceAssociation[correspondenceId][
-		associationId
-	].results;
+	]?.results;

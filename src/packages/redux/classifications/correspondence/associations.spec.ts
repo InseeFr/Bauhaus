@@ -27,7 +27,7 @@ describe('reducerSeriesMembers', () => {
 describe('getAssociations', () => {
 	test('getAssociations selector should extract nothing', () => {
 		const result = getAssociations({ id1: { results: 'associations' } }, 'id2');
-		expect(result).toEqual();
+		expect(result).toEqual(undefined);
 	});
 	test('getAssociations selector should extract results', () => {
 		const result = getAssociations({ id1: { results: 'associations' } }, 'id1');

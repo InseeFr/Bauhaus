@@ -41,7 +41,7 @@ describe('reducerClassificationCorrespondenceGeneral', () => {
 describe('getGeneral', () => {
 	test('getGeneral selector should extract nothing', () => {
 		const result = getGeneral({ id1: { results: 'results' } }, 'id2');
-		expect(result).toEqual();
+		expect(result).toEqual(undefined);
 	});
 	test('getGeneral selector should extract results', () => {
 		const result = getGeneral({ id1: { results: 'results' } }, 'id1');
