@@ -5,3 +5,4 @@ declare module 'react-bootstrap';
 declare module 'keycloak';
 declare module 'react-select';
 declare module '@inseefr/wilco';
+declare module 'react-modal';

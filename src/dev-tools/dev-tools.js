@@ -10,11 +10,11 @@ import {
 	DATASET_CONTRIBUTOR,
 	CODELIST_CONTRIBUTOR,
 	STRUCTURE_CONTRIBUTOR,
-} from '../js/new-architecture/auth/roles';
+} from '../packages/auth/roles';
 import Select from 'react-select';
-import D from '../js/i18n';
+import D from '../packages/deprecated-locales';
 import { createRoot } from 'react-dom/client';
-import { CHECK_AUTH } from '../js/new-architecture/redux/users';
+import { CHECK_AUTH } from '../packages/redux/users';
 
 const options = [
 	ADMIN,
