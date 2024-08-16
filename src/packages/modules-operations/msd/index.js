@@ -6,9 +6,6 @@ import { NOT_LOADED, LOADED } from '../../sdk/constants';
 import loadMetadataStructure from '../../redux/operations/metadatastructure/list';
 import { D1, D2 } from '../../deprecated-locales';
 import { buildExtract } from '@inseefr/wilco';
-import { Loading } from '../../../new-architecture/components';
-
-import { D1, D2 } from '../../../i18n';
 
 import {
 	getOperationsOrganisations,
