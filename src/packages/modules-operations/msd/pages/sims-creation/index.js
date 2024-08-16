@@ -18,11 +18,13 @@ import {
 	shouldDisplayTitleForPrimaryItem,
 } from '../../utils';
 import { mdFromEditorState } from '../../../../utils/html-utils';
+
 import './sims-creation.scss';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import { OperationsApi } from '../../../../sdk/operations-api';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
 import { rangeType, flattenTree } from '../../../utils/msd';
+import { useHistory } from 'react-router-dom';
 
 const { RICH_TEXT } = rangeType;
 
@@ -355,6 +357,7 @@ class SimsCreation extends Component {
 
 const withParentWithSims = (Component) => {
 	return (props) => {
+		const history = useHistory();
 		const [parentWithSims, setParentWithSims] = useState([]);
 		const parentType = props.parentType;
 		const seriesId = props.parent?.series?.id;
@@ -374,7 +377,9 @@ const withParentWithSims = (Component) => {
 				});
 			}
 		}, [seriesId, parentType, familyId]);
-		return <Component {...props} parentWithSims={parentWithSims} />;
+		return (
+			<Component {...props} parentWithSims={parentWithSims} history={history} />
+		);
 	};
 };
 
