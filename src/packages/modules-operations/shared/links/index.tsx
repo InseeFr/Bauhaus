@@ -2,6 +2,16 @@ import { Note } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
 import { D1, D2 } from '../../../deprecated-locales';
 
+type DisplayLinksTypes = {
+	links: any[];
+	path: string;
+	title: string;
+	langs: { lg1: string; lg2: string };
+	secondLang?: boolean;
+	displayLink?: boolean;
+	labelLg1?: string;
+	labelLg2?: string;
+};
 function DisplayLinks({
 	links = [],
 	path,
@@ -11,15 +21,15 @@ function DisplayLinks({
 	displayLink = true,
 	labelLg1 = 'labelLg1',
 	labelLg2 = 'labelLg2',
-}) {
-	function displayBlock(link, label) {
+}: DisplayLinksTypes) {
+	function displayBlock(link: Record<string, string>, label: string) {
 		if (displayLink) {
 			return <Link to={`${path}${link.id}`}>{link[label]}</Link>;
 		}
 		return <p>{link[label]}</p>;
 	}
 
-	function displayList(label) {
+	function displayList(label: string) {
 		return (
 			<ul>
 				{links.sort().map((link, index) => (
@@ -28,7 +38,7 @@ function DisplayLinks({
 			</ul>
 		);
 	}
-	function displayItem(label) {
+	function displayItem(label: string) {
 		return displayBlock(links[0], label);
 	}
 	return (

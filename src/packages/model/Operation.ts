@@ -8,3 +8,7 @@ export type Operation = {
 	iri: string;
 	seriesIri: string;
 };
+
+export type SeeAlso = {
+	type: string;
+};

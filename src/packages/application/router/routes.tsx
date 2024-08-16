@@ -64,37 +64,35 @@ export default auth(() => {
 	}
 
 	return (
-		<>
-			<Suspense fallback={<Loading />}>
-				<Switch>
-					<Route exact path="/" render={() => homePage} />
-					<Route
-						path="/(concept|concepts|collections|collection)"
-						component={getComponent('concepts', pages, activeModules)}
-					/>
-					<Route
-						path="/classifications"
-						component={getComponent('classifications', pages, activeModules)}
-					/>
-					<Route
-						path="/operations"
-						component={getComponent('operations', pages, activeModules)}
-					/>
-					<Route
-						path="/structures"
-						component={getComponent('structures', pages, activeModules)}
-					/>
-					<Route
-						path="/datasets"
-						component={getComponent('datasets', pages, activeModules)}
-					/>
-					<Route
-						path="/(codelists|codelists-partial)"
-						component={getComponent('codelists', pages, activeModules)}
-					/>
-					<Route path="*" component={NotFound} />
-				</Switch>
-			</Suspense>
-		</>
+		<Suspense fallback={<Loading />}>
+			<Switch>
+				<Route exact path="/" render={() => homePage} />
+				<Route
+					path="/(concept|concepts|collections|collection)"
+					component={getComponent('concepts', pages, activeModules)}
+				/>
+				<Route
+					path="/classifications"
+					component={getComponent('classifications', pages, activeModules)}
+				/>
+				<Route
+					path="/operations"
+					component={getComponent('operations', pages, activeModules)}
+				/>
+				<Route
+					path="/structures"
+					component={getComponent('structures', pages, activeModules)}
+				/>
+				<Route
+					path="/datasets"
+					component={getComponent('datasets', pages, activeModules)}
+				/>
+				<Route
+					path="/(codelists|codelists-partial)"
+					component={getComponent('codelists', pages, activeModules)}
+				/>
+				<Route path="*" component={NotFound} />
+			</Switch>
+		</Suspense>
 	);
 });

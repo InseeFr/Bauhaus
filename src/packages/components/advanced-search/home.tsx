@@ -15,7 +15,7 @@ export const AdvancedSearchList = ({
 	data,
 	initializeState,
 	redirect,
-}: PropsWithChildren<AdvancedSearchListTypes>) => {
+}: Readonly<PropsWithChildren<AdvancedSearchListTypes>>) => {
 	const [askForReturn, askForReturnChange] = useState(false);
 
 	if (askForReturn) return redirect;
