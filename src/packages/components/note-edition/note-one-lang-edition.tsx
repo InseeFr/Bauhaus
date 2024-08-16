@@ -6,11 +6,11 @@ function NoteOneLangEdition({
 	note,
 	handleChange,
 	maxLength,
-}: {
+}: Readonly<{
 	note: any;
 	handleChange: any;
 	maxLength: number;
-}) {
+}>) {
 	const noteLength = htmlLength(note);
 	const checkLength = maxLength && (
 		<div>

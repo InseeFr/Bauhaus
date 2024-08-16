@@ -4,6 +4,7 @@ import { D1, D2 } from '../../../../deprecated-locales';
 import { getPublishFactory } from '../utils';
 import { OperationsApi } from '../../../../sdk/operations-api';
 import { LOADING } from '../../../../sdk/constants';
+import { Rubric } from '../../../../model/Sims';
 
 export const publishSims = getPublishFactory(
 	OperationsApi.publishSims,
@@ -93,7 +94,32 @@ function getParentsWithoutSims(idOperation: string) {
 	return Promise.resolve([]);
 }
 
+const computeRubrics = (
+	rubrics: Rubric[]
+): Record<string, Rubric & { idMas: string }> => {
+	return (rubrics || []).reduce((acc: any, rubric: any) => {
+		return {
+			...acc,
+			[rubric.idAttribute]: {
+				...rubric,
+				idMas: rubric.idAttribute,
+			},
+		};
+	}, {});
+};
+
 const fetchSims = (id: string) => (dispatch: any, getState: any) => {
+	const dispatchSimsSuccess = (results: any, parentsWithoutSims: any[]) => {
+		dispatch({
+			type: A.LOAD_OPERATIONS_SIMS_SUCCESS,
+			payload: {
+				...results,
+				parentsWithoutSims,
+				rubrics: computeRubrics(results.rubrics),
+			},
+		});
+	};
+
 	if (!id || getState().operationsSimsCurrentStatus === LOADING) {
 		return;
 	}
@@ -106,25 +132,9 @@ const fetchSims = (id: string) => (dispatch: any, getState: any) => {
 
 	return OperationsApi.getSims(id).then(
 		(results: any) => {
-			const rubrics = results.rubrics || [];
 			return getParentsWithoutSims(results.idOperation).then(
 				(parentsWithoutSims = []) => {
-					dispatch({
-						type: A.LOAD_OPERATIONS_SIMS_SUCCESS,
-						payload: {
-							...results,
-							parentsWithoutSims,
-							rubrics: rubrics.reduce((acc: any, rubric: any) => {
-								return {
-									...acc,
-									[rubric.idAttribute]: {
-										...rubric,
-										idMas: rubric.idAttribute,
-									},
-								};
-							}, {}),
-						},
-					});
+					dispatchSimsSuccess(results, parentsWithoutSims);
 				}
 			);
 		},
