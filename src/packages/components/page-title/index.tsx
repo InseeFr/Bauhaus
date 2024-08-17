@@ -13,7 +13,7 @@ export const PageTitle = ({
 	subtitle,
 	col = 10,
 	offset = 1,
-}: PageTitleTypes) => {
+}: Readonly<PageTitleTypes>) => {
 	return (
 		<div className="row wilco-page-title">
 			<div

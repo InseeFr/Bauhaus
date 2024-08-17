@@ -4,13 +4,13 @@ import { Row, ExplanatoryNote } from '../../components';
 type NoteVizualizationTypes = {
 	params: any[];
 	secondLang: boolean;
-	md: boolean;
+	md?: boolean;
 };
 export const NoteVisualization = ({
 	params,
 	secondLang,
 	md,
-}: NoteVizualizationTypes) => (
+}: Readonly<NoteVizualizationTypes>) => (
 	<>
 		{params
 			.filter((note) => !!note.lg1)

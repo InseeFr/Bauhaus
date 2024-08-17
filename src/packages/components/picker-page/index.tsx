@@ -35,8 +35,8 @@ type PickerTypes = {
 	labelWarning: string;
 	context: any;
 	ValidationButton: any;
-	disabled: boolean;
-	disabledWarningMessage: string;
+	disabled?: boolean;
+	disabledWarningMessage?: string;
 };
 export const Picker = ({
 	items: itemsProps,
