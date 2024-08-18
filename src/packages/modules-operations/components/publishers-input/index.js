@@ -12,7 +12,7 @@ const PublishersInput = ({ value, onChange }) => {
 	const publishersArray = Array.isArray(value) ? value : [value];
 
 	return (
-		<label htmlFor="creator" className="w-100">
+		<label className="w-100">
 			{D1.organisation}
 
 			<Select
