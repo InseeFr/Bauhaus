@@ -3,10 +3,10 @@ import './errors-bloc.scss';
 export const ClientSideError = ({
 	error,
 	id,
-}: {
+}: Readonly<{
 	error: string;
 	id: string;
-}) => {
+}>) => {
 	return error ? (
 		<div
 			id={id}
@@ -18,10 +18,10 @@ export const ClientSideError = ({
 export const GlobalClientSideErrorBloc = ({
 	clientSideErrors,
 	D,
-}: {
+}: Readonly<{
 	clientSideErrors: string[];
 	D: any;
-}) => {
+}>) => {
 	return clientSideErrors?.length > 0 ? (
 		<div className="bauhaus-error-bloc alert alert-danger" role="alert">
 			{(

@@ -4,7 +4,7 @@ import { ExplanatoryNote } from './';
 
 describe('explanatory-note', () => {
 	it('renders without crashing', () => {
-		render(<ExplanatoryNote title={'title'} />);
+		render(<ExplanatoryNote title="title" text="text" />);
 	});
 
 	it('renders null component', () => {

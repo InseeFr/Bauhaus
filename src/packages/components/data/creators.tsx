@@ -1,4 +1,3 @@
-import React from 'react';
 import { Organization as OrganizationType } from '../../model/organization';
 
 type OrganizationsTypes = {
@@ -8,7 +7,7 @@ type OrganizationsTypes = {
 export const Organizations = ({
 	creators,
 	organizations,
-}: OrganizationsTypes) => {
+}: Readonly<OrganizationsTypes>) => {
 	return (
 		<ul>
 			{creators?.map((creator) => {
@@ -27,7 +26,10 @@ type OrganizationTypes = {
 	organizations: OrganizationType[];
 };
 
-export const Organization = ({ creator, organizations }: OrganizationTypes) => {
+export const Organization = ({
+	creator,
+	organizations,
+}: Readonly<OrganizationTypes>) => {
 	if (!organizations) {
 		return <></>;
 	}

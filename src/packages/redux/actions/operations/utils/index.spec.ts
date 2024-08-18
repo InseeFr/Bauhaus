@@ -6,10 +6,10 @@ describe('getItemFactory', () => {
 	beforeEach(() => dispatch.mockClear());
 
 	it('should call dispatch SUCCESS action with the right operation', async () => {
-		const remoteCall = function() {
+		const remoteCall = function () {
 			return Promise.resolve('result');
 		};
-		const id = 1;
+		const id = '1';
 		await getItemFactory(remoteCall, 'LOADING', 'SUCCESS', 'FAILURE')(id)(
 			dispatch,
 			() => ({})
@@ -24,10 +24,10 @@ describe('getItemFactory', () => {
 		});
 	});
 	it('should call dispatch FAILURE action with the error', async () => {
-		const remoteCall = function() {
+		const remoteCall = function () {
 			return Promise.reject('error');
 		};
-		const id = 1;
+		const id = '1';
 		await getItemFactory(remoteCall, 'LOADING', 'SUCCESS', 'FAILURE')(id)(
 			dispatch,
 			() => ({})
@@ -47,11 +47,16 @@ describe('getPublishFactory', () => {
 	beforeEach(() => dispatch.mockClear());
 
 	it('should call dispatch SUCCESS action with the right operation', async () => {
-		const remoteCall = function() {
+		const remoteCall = function () {
 			return Promise.resolve('result');
 		};
 		const id = 1;
-		await getPublishFactory(remoteCall, 'LOADING', 'SUCCESS', 'FAILURE')({
+		await getPublishFactory(
+			remoteCall,
+			'LOADING',
+			'SUCCESS',
+			'FAILURE'
+		)({
 			id,
 		})(dispatch);
 		expect(dispatch).toHaveBeenCalledWith({
@@ -64,11 +69,16 @@ describe('getPublishFactory', () => {
 		});
 	});
 	it('should call dispatch FAILURE action with the error', async () => {
-		const remoteCall = function() {
+		const remoteCall = function () {
 			return Promise.reject('error');
 		};
 		const id = 1;
-		await getPublishFactory(remoteCall, 'LOADING', 'SUCCESS', 'FAILURE')({
+		await getPublishFactory(
+			remoteCall,
+			'LOADING',
+			'SUCCESS',
+			'FAILURE'
+		)({
 			id,
 		})(dispatch);
 		expect(dispatch).toHaveBeenCalledWith({

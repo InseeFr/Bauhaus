@@ -3,6 +3,6 @@ import { DatePicker } from './';
 
 describe('date-picker', () => {
 	it('renders without crashing', () => {
-		render(<DatePicker />);
+		render(<DatePicker value="2024-01-01" onChange={jest.fn()} />);
 	});
 });

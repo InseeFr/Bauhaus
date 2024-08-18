@@ -3,6 +3,6 @@ import ModifyNotes from './modify-notes';
 
 describe('modify-notes', () => {
 	it('renders without crashing', () => {
-		render(<ModifyNotes handleChange={jest.fn()} />);
+		render(<ModifyNotes handleChange={jest.fn()} note="note" />);
 	});
 });

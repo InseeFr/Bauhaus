@@ -3,9 +3,9 @@ import D from '../../deprecated-locales';
 
 type NoteEditionTypes = {
 	noteLg1: string;
-	handleChangeLg1: string;
+	handleChangeLg1: (value: string) => void;
 	noteLg2: string;
-	handleChangeLg2: string;
+	handleChangeLg2: (value: string) => void;
 	maxLength: number;
 };
 export const NoteEdition = ({
@@ -14,7 +14,7 @@ export const NoteEdition = ({
 	noteLg2,
 	handleChangeLg2,
 	maxLength,
-}: NoteEditionTypes) => {
+}: Readonly<NoteEditionTypes>) => {
 	return (
 		<div>
 			<div className="row">

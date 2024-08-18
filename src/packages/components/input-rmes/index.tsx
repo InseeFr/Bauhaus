@@ -1,17 +1,17 @@
 import { RequiredIcon } from '../required-icon';
 
 type InputRmesTypes = {
-	colMd: number;
-	value: any;
+	colMd?: number;
+	value: string;
 	label: string;
-	star: boolean;
-	hiddenStar: boolean;
-	disabled: boolean;
-	password: boolean;
-	handleChange: any;
-	arias: any;
-	className: string;
-	errorBlock: any;
+	star?: boolean;
+	hiddenStar?: boolean;
+	disabled?: boolean;
+	password?: boolean;
+	handleChange: (value: string) => void;
+	arias?: any;
+	className?: string;
+	errorBlock?: any;
 };
 export const InputRmes = ({
 	colMd,
@@ -25,7 +25,7 @@ export const InputRmes = ({
 	arias,
 	className = '',
 	errorBlock = <></>,
-}: InputRmesTypes) => {
+}: Readonly<InputRmesTypes>) => {
 	return (
 		<div className={`form-group col-md-${colMd || 12}`}>
 			<label className={`form-label ${className}`}>

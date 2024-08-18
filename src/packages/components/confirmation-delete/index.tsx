@@ -26,12 +26,12 @@ export const ConfirmationDelete = ({
 	handleNo,
 	handleYes,
 	message = D.confirmationConceptDelete,
-}: {
+}: Readonly<{
 	className?: string;
 	handleNo: any;
 	handleYes: any;
 	message?: string;
-}) => {
+}>) => {
 	return (
 		<Modal
 			className={`Modal__Bootstrap modal-dialog ${className}`}

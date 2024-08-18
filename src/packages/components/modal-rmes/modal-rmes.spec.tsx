@@ -1,16 +1,15 @@
 import { render } from '@testing-library/react';
 import { ModalRmes } from './modal-rmes';
 
-const onClick = () => '';
 const modalButtons = [
 	{
 		label: 'primary',
-		action: onClick,
+		action: jest.fn(),
 		style: 'primary',
 	},
 	{
 		label: 'default',
-		action: onClick,
+		action: jest.fn(),
 		style: 'default',
 	},
 ];
@@ -22,7 +21,7 @@ describe('modal', () => {
 				id="id"
 				isOpen={true}
 				title="title"
-				closeCancel={onClick}
+				closeCancel={jest.fn()}
 				modalButtons={modalButtons}
 			/>
 		);

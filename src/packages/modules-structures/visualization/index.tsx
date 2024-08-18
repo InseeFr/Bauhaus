@@ -27,7 +27,7 @@ type StructureViewTypes = {
 	secondLang: boolean;
 	structure: Structure;
 	publish: (id: string) => void;
-	serverSideError: string | undefined;
+	serverSideError?: string;
 };
 export const StructureView = ({
 	secondLang,

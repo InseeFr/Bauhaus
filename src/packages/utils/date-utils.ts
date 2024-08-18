@@ -11,14 +11,18 @@ import 'dayjs/locale/fr';
 dayjs.extend(isBetween);
 dayjs.extend(LocalizedFormat);
 
-export const isDateIn = (date: Date, start: Date, end: Date): boolean => {
+export const isDateIn = (
+	date: Date | string,
+	start: Date | string,
+	end: Date | string
+): boolean => {
 	if (!start || !end) {
 		return true;
 	}
 	return dayjs(date).isBetween(start, end);
 };
 
-export const isOutOfDate = (end: Date) => dayjs().isAfter(end);
+export const isOutOfDate = (end: Date | string) => dayjs().isAfter(end);
 
 export const today = () => dayjs().locale(getLang()).format('L');
 

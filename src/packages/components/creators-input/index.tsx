@@ -7,11 +7,11 @@ export const CreatorsInput = ({
 	value,
 	onChange,
 	multi,
-}: {
+}: Readonly<{
 	value: string | string[];
 	onChange: (value: string | string[]) => void;
 	multi: boolean;
-}) => {
+}>) => {
 	const stampsOptions = useStampsOptions();
 	let creatorsArray = value;
 	if (multi && !Array.isArray(value)) {

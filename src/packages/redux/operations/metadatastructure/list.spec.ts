@@ -22,7 +22,7 @@ describe('MSD actions', () => {
 				{ id: 's-2', rangeType: 'rangeType2' },
 			]);
 		};
-		await get()(dispatch);
+		await get()(dispatch, null);
 		expect(dispatch).toHaveBeenCalledWith({
 			type: LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
 			payload: {},
@@ -56,7 +56,7 @@ describe('MSD actions', () => {
 		OperationsApi.getMetadataAttributesList = function () {
 			return Promise.reject('error');
 		};
-		await get()(dispatch);
+		await get()(dispatch, null);
 		expect(dispatch).toHaveBeenCalledWith({
 			type: LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
 			payload: {},

@@ -5,7 +5,7 @@ import { D1, D2 } from '../../deprecated-locales';
 type DatePickerTypes = {
 	value: string;
 	onChange: (value: string) => void;
-	placement: string;
+	placement?: string;
 	secondLang?: boolean;
 };
 export const DatePicker = ({
@@ -13,7 +13,7 @@ export const DatePicker = ({
 	onChange,
 	placement,
 	secondLang = false,
-}: DatePickerTypes) => {
+}: Readonly<DatePickerTypes>) => {
 	const days = secondLang ? D2.calendarDays : D1.calendarDays;
 	const months = secondLang ? D2.calendarMonths : D1.calendarMonths;
 

@@ -14,7 +14,7 @@ import { checkAuth } from '../../redux/users';
 type LoginNoAuthTypes = {
 	checkAuth: (option: { stamp: string; roles: string[] }) => void;
 };
-const LoginNoAuth = ({ checkAuth }: LoginNoAuthTypes) => {
+const LoginNoAuth = ({ checkAuth }: Readonly<LoginNoAuthTypes>) => {
 	useEffect(() => {
 		checkAuth({
 			stamp: 'DG33-C990',

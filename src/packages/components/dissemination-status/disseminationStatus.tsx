@@ -20,9 +20,9 @@ export const getDisseminationStatus = (disseminationStatus: string): string => {
 
 export const DisseminationStatusVisualisation = ({
 	disseminationStatus,
-}: {
+}: Readonly<{
 	disseminationStatus: string;
-}) => {
+}>) => {
 	return (
 		<>
 			{D.disseminationStatus.title} :{' '}
@@ -40,7 +40,7 @@ export const DisseminationStatusInput = ({
 	value,
 	handleChange,
 	required = false,
-}: DisseminationStatusInputTypes) => {
+}: Readonly<DisseminationStatusInputTypes>) => {
 	const disseminationStatusListOptions = useDisseminationStatusOptions();
 	return (
 		<>

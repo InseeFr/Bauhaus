@@ -16,7 +16,7 @@ describe('<ValidationButton', () => {
 
 	it('should contain a enabled button if the validationStateis not defined', () => {
 		const { container } = render(
-			<ValidationButton callback={jest.fn()} disabled={false} />
+			<ValidationButton object={{}} callback={jest.fn()} disabled={false} />
 		);
 		expect(container.querySelector('button')).toBeEnabled();
 	});

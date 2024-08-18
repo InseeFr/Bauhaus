@@ -3,8 +3,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
 import { StructureComponentsSelector } from '../../components/structure-component-selector/index';
 import ComponentSpecificationModal from '../../components/component-specification-modal/index';
-import { getFormattedCodeList } from '../../apis/code-list';
-import { ConceptsApi } from '../../..//sdk';
+import { getFormattedCodeList } from '../../apis';
+import { ConceptsApi } from '../../../sdk';
 
 const Components = ({ componentDefinitions = [] }) => {
 	const [concepts, setConcepts] = useState([]);

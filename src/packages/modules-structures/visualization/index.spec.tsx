@@ -2,6 +2,7 @@ import { StructureView } from './index';
 import { Provider } from 'react-redux';
 import configureStore from '../../redux/configure-store';
 import { renderWithRouter } from '../../tests-utils/render';
+import { Structure } from '../../model/structures/Structure';
 
 jest.mock('./components');
 
@@ -29,9 +30,13 @@ describe('<StructureView />', () => {
 		const { container } = renderWithRouter(
 			<Provider store={store}>
 				<StructureView
-					structure={{
-						labelLg1: 'labelLg1',
-					}}
+					publish={jest.fn()}
+					secondLang={false}
+					structure={
+						{
+							labelLg1: 'labelLg1',
+						} as Structure
+					}
 				></StructureView>
 			</Provider>
 		);
@@ -42,16 +47,20 @@ describe('<StructureView />', () => {
 		const { container } = renderWithRouter(
 			<Provider store={store}>
 				<StructureView
-					structure={{
-						identifiant: '1234',
-						created: new Date('2020-01-01'),
-						modified: new Date('2020-01-01'),
-						validationState: 'Validated',
-						contributor: 'STAMP CONTRIBUTOR',
-						creator: 'STAMP CREATOR',
-						disseminationStatus:
-							'http:/id.insee.fr/codes/base/statutDiffusion/PublicGenerique',
-					}}
+					publish={jest.fn()}
+					secondLang={false}
+					structure={
+						{
+							identifiant: '1234',
+							created: new Date('2020-01-01'),
+							modified: new Date('2020-01-01'),
+							validationState: 'Validated',
+							contributor: ['STAMP CONTRIBUTOR'],
+							creator: 'STAMP CREATOR',
+							disseminationStatus:
+								'http:/id.insee.fr/codes/base/statutDiffusion/PublicGenerique',
+						} as Structure
+					}
 				></StructureView>
 			</Provider>
 		);

@@ -10,8 +10,8 @@ export type Structure = {
 	disseminationStatus: string;
 	creator: string;
 	identifiant: string;
-	created: string;
-	modified: string;
+	created: string | Date;
+	modified: string | Date;
 	contributor: string[];
 	validationState: ValidationState;
 };

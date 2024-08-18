@@ -12,7 +12,10 @@ const { D } = createAllDictionary({
 		en: 'Alternative label',
 	},
 });
-export const InputMultiModal = ({ body, close }: { body: any; close: any }) => {
+export const InputMultiModal = ({
+	body,
+	close,
+}: Readonly<{ body: any; close: any }>) => {
 	return (
 		<Modal
 			className="Modal__Bootstrap modal-dialog"

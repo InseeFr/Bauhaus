@@ -4,7 +4,7 @@ import DOMPurify from 'dompurify';
 import { markdownToHtml } from '../../utils/html-utils';
 
 type ExplanatoryNoteTypes = {
-	text: string;
+	text?: string;
 	title: string;
 	alone?: boolean;
 	md?: boolean;
@@ -14,7 +14,7 @@ export const ExplanatoryNote = ({
 	title,
 	alone,
 	md,
-}: ExplanatoryNoteTypes) => {
+}: Readonly<ExplanatoryNoteTypes>) => {
 	const cl = alone ? 'col-md-12' : 'col-md-6';
 	if (!text) return <div className={cl} />;
 

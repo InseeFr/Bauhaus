@@ -6,9 +6,9 @@ import { Select } from '../select-rmes';
 
 export const ContributorsVisualisation = ({
 	contributors,
-}: {
+}: Readonly<{
 	contributors: string[];
-}) => {
+}>) => {
 	return (
 		<>
 			{D.contributors.title} :
@@ -32,7 +32,7 @@ export const ContributorsInput = ({
 	handleChange,
 	stampListOptions,
 	required = false,
-}: ContributorsInputType) => {
+}: Readonly<ContributorsInputType>) => {
 	return (
 		<>
 			{required ? (

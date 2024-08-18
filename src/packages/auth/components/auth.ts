@@ -40,7 +40,7 @@ export function AuthDumb({
 	complementaryCheck = true,
 	loadUserStamp,
 	isLoading,
-}: PropsWithChildren<AuthDumbTypes>) {
+}: Readonly<PropsWithChildren<AuthDumbTypes>>) {
 	useEffect(() => {
 		if (userStamp === undefined && !isLoading) {
 			loadUserStamp(userStamp);

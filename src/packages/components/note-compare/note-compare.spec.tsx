@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import { CompareNotes } from './';
-import { locales } from '../../tests-utils/default-values';
 
 const builder = () => [{ lg1: 'noteLg1', lg2: 'noteLg2', title: 'title' }];
 
@@ -10,7 +9,6 @@ describe('visualization-compare-notes', () => {
 			<CompareNotes
 				notes={{ 1: {}, 2: {} }}
 				secondLang={false}
-				langs={locales}
 				version={2}
 				buildNotes={builder}
 			/>

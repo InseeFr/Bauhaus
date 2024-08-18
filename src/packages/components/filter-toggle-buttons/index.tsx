@@ -10,7 +10,7 @@ const FilterToggleButtons = ({
 	options,
 	currentValue,
 	handleSelection,
-}: FilterToggleButtonsTypes) => {
+}: Readonly<FilterToggleButtonsTypes>) => {
 	return (
 		<div
 			className="bauhaus-filter-toggle-buttons btn-group btn-group-justified"
