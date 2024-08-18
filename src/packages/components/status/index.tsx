@@ -10,11 +10,11 @@ type PublicationType = {
 		validationState: ValidationState;
 	};
 };
-export function PublicationMale({ object }: PublicationType) {
+export function PublicationMale({ object }: Readonly<PublicationType>) {
 	return <PublicationStatus object={object} />;
 }
 
-export function PublicationFemale({ object }: PublicationType) {
+export function PublicationFemale({ object }: Readonly<PublicationType>) {
 	return (
 		<PublicationStatus
 			object={object}
@@ -38,7 +38,7 @@ function PublicationStatus({
 		Modified: D.validationState.modified.m,
 	},
 	object: { validationState = UNPUBLISHED },
-}: PublicationStatusType) {
+}: Readonly<PublicationStatusType>) {
 	const status = dictionary[validationState];
 	return <>{status}</>;
 }
