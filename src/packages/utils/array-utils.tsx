@@ -13,7 +13,9 @@ export const convertToArrayIfDefined = (
 };
 
 export const filterKeyDate =
-	(key: string) => (start: Date, end: Date) => (item: any) => {
+	(key: string) =>
+	(start: Date | string, end: Date | string) =>
+	(item: any) => {
 		return !item[key] || isDateIn(item[key], start, end);
 	};
 
@@ -82,7 +84,7 @@ export const sortArray =
 
 export const sortArrayByLabel = sortArray('label');
 
-export const nbResults = (array: any[], many: any, one: any) =>
+export const nbResults = (array: any[], many?: any, one?: any) =>
 	`${array.length} ${array.length > 1 ? many : one}`;
 
 export const filterKeyDeburr = (keys: any) => (rawStr: string) => {

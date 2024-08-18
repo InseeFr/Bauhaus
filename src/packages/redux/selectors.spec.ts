@@ -1,4 +1,5 @@
 import * as selector from './selectors';
+import { ReduxModel } from './model';
 
 describe('getPermission', () => {
 	it('should return the permission object', () => {
@@ -13,11 +14,14 @@ describe('getPermission', () => {
 				},
 			},
 		};
+
 		const output = {
 			authType: 'authType',
 			roles: 'roles',
 			stamp: 'stamp',
 		};
-		expect(selector.getPermission(input)).toEqual(output);
+		expect(selector.getPermission(input as unknown as ReduxModel)).toEqual(
+			output
+		);
 	});
 });

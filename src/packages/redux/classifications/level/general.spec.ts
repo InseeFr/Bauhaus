@@ -73,7 +73,7 @@ describe('getGeneral', () => {
 			'nafr2',
 			'divisions'
 		);
-		expect(result).toEqual();
+		expect(result).toEqual(undefined);
 	});
 	test('getGeneral selector should extract results', () => {
 		const result = getGeneral(

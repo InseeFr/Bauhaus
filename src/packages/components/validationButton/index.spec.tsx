@@ -38,7 +38,7 @@ describe('<ValidationButton', () => {
 		const { container } = render(
 			<ValidationButton object={object} callback={callback} disabled={false} />
 		);
-		fireEvent.click(container.querySelector('button'));
+		fireEvent.click(container.querySelector('button')!);
 
 		expect(callback).toHaveBeenCalledWith(object);
 	});

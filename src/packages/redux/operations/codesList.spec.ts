@@ -8,12 +8,9 @@ import { ERROR, LOADED, LOADING } from '../../sdk/constants';
 
 describe('operationsCodesList reducer', () => {
 	it('LOAD_OPERATIONS_CODES_LIST', () => {
-		const result = reducer.operationsCodesList(
-			{ old: 'old' },
-			{
-				type: LOAD_OPERATIONS_CODES_LIST,
-			}
-		);
+		const result = reducer.operationsCodesList({ old: 'old' } as any, {
+			type: LOAD_OPERATIONS_CODES_LIST,
+		});
 		expect(result).toEqual({
 			results: {
 				CL_FREQ: { codes: [] },
@@ -24,7 +21,7 @@ describe('operationsCodesList reducer', () => {
 	});
 	it('LOAD_OPERATIONS_CODES_LIST_SUCCESS', () => {
 		const result = reducer.operationsCodesList(
-			{ results: { old: 'old' } },
+			{ results: { old: 'old' } } as any,
 			{
 				type: LOAD_OPERATIONS_CODES_LIST_SUCCESS,
 				payload: {
@@ -38,25 +35,19 @@ describe('operationsCodesList reducer', () => {
 		});
 	});
 	it('LOAD_OPERATIONS_CODES_LIST_FAILURE', () => {
-		const result = reducer.operationsCodesList(
-			{ old: 'old' },
-			{
-				type: LOAD_OPERATIONS_CODES_LIST_FAILURE,
-				payload: {
-					err: 'err',
-				},
-			}
-		);
+		const result = reducer.operationsCodesList({ old: 'old' } as any, {
+			type: LOAD_OPERATIONS_CODES_LIST_FAILURE,
+			payload: {
+				err: 'err',
+			},
+		});
 		expect(result).toEqual({ err: 'err', status: ERROR });
 	});
 	it('OTHER', () => {
-		const result = reducer.operationsCodesList(
-			{ old: 'old' },
-			{
-				type: 'OTHER',
-				payload: {},
-			}
-		);
+		const result = reducer.operationsCodesList({ old: 'old' } as any, {
+			type: 'OTHER',
+			payload: {},
+		});
 		expect(result).toEqual({ old: 'old' });
 	});
 });

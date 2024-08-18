@@ -5,15 +5,15 @@ import {
 describe('toSelectModel', () => {
 	it('should return the right select model', () => {
 		const items = [
-			{ id: 1, label: 'label1' },
-			{ id: 2, label: 'label2' },
-			{ id: 3, label: 'label3' },
+			{ id: '1', label: 'label1' },
+			{ id: '2', label: 'label2' },
+			{ id: '3', label: 'label3' },
 		];
 		const type = 'series';
 		const output = [
-			{ id: 1, label: 'label1', type: 'series', value: 1 },
-			{ id: 2, label: 'label2', type: 'series', value: 2 },
-			{ id: 3, label: 'label3', type: 'series', value: 3 },
+			{ id: '1', label: 'label1', type: 'series', value: 1 },
+			{ id: '2', label: 'label2', type: 'series', value: 2 },
+			{ id: '3', label: 'label3', type: 'series', value: 3 },
 		];
 		expect(toSelectModel(items, type)).toEqual(output);
 	});

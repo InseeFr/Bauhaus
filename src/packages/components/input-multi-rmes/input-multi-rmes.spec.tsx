@@ -11,7 +11,6 @@ const component = (
 		label="Input Label"
 		handleChangeLg1={handleChangeLg1}
 		handleChangeLg2={handleChangeLg2}
-		langs={locales}
 	/>
 );
 
@@ -23,7 +22,9 @@ describe('inputMulti', () => {
 	it('returns arrayLg1 from component state', () => {
 		const { container } = render(component);
 
-		const inputs = container.querySelectorAll('.form-group:first-child input');
+		const inputs = container.querySelectorAll<HTMLInputElement>(
+			'.form-group:first-child input'
+		)!;
 
 		expect(inputs[0].value).toBe('altLg1');
 		expect(inputs[1].value).toBe('altLg1Bis');
@@ -32,8 +33,10 @@ describe('inputMulti', () => {
 	it('should add an empty string when clicking on the Lg1/plus button', () => {
 		const { container } = render(component);
 
-		fireEvent.click(container.querySelector('.glyphicon-plus'));
-		const inputs = container.querySelectorAll('.form-group:first-child input');
+		fireEvent.click(container.querySelector('.glyphicon-plus')!);
+		const inputs = container.querySelectorAll<HTMLInputElement>(
+			'.form-group:first-child input'
+		)!;
 
 		expect(inputs[0].value).toBe('altLg1');
 		expect(inputs[1].value).toBe('altLg1Bis');

@@ -10,8 +10,6 @@ describe('saveSecondLang', () => {
 });
 describe('getSecondLang', () => {
 	test('should return the secondLang', () => {
-		expect(getSecondLang({ app: { secondLang: 'secondLang' } })).toEqual(
-			'secondLang'
-		);
+		expect(getSecondLang({ app: { secondLang: true } } as any)).toEqual(true);
 	});
 });

@@ -8,7 +8,7 @@ describe('getLevel', () => {
 			'id1',
 			'id1'
 		);
-		expect(result).toEqual();
+		expect(result).toEqual(undefined);
 	});
 	test('getConcept selector should extract results', () => {
 		const result = getLevel(

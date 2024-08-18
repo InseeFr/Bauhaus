@@ -36,14 +36,14 @@ describe('build rmes version of html from raw html', () => {
 describe('html length', () => {
 	it('returns 0 for empty string', () => {
 		expect(htmlUtils.htmlLength('')).toEqual(0);
-		expect(htmlUtils.htmlLength(undefined)).toEqual(0);
+		expect(htmlUtils.htmlLength(undefined as any)).toEqual(0);
 	});
 });
 
 describe('html to raw text', () => {
 	it('returns an empty string for empty html', () => {
 		expect(htmlUtils.htmlToRawText('')).toEqual('');
-		expect(htmlUtils.htmlToRawText(undefined)).toEqual('');
+		expect(htmlUtils.htmlToRawText(undefined as any)).toEqual('');
 	});
 
 	it('returns the text content', () => {
@@ -74,7 +74,7 @@ describe('delete p tags', () => {
 describe('is empty', () => {
 	it('returns true if there is not text content', () => {
 		expect(htmlUtils.htmlIsEmpty('')).toBe(true);
-		expect(htmlUtils.htmlIsEmpty(undefined)).toBe(true);
+		expect(htmlUtils.htmlIsEmpty(undefined as any)).toBe(true);
 	});
 });
 

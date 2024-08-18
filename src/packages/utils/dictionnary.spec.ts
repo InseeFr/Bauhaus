@@ -63,8 +63,9 @@ import { createDictionary, getLang } from './dictionnary';
 	test('should handle function', () => {
 		const dictionary = {
 			classificationsChangeNote: {
-				fr: (d) => (d ? `Note de changement - ${d}` : `Note de changement`),
-				en: (d) => (d ? `Change note - ${d}` : `Change note`),
+				fr: (d: string) =>
+					d ? `Note de changement - ${d}` : `Note de changement`,
+				en: (d: string) => (d ? `Change note - ${d}` : `Change note`),
 			},
 		};
 		expect(createDictionary('en', dictionary).classificationsChangeNote()).toBe(

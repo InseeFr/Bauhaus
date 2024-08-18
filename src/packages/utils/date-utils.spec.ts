@@ -3,7 +3,7 @@ import { isDateIn, isOutOfDate, stringToDate } from './date-utils';
 describe('is date in', () => {
 	it('returns true if the start and end dates are null', () => {
 		const toTest = '2017-06-25T10:51:47.812';
-		expect(isDateIn(toTest, null, null)).toBe(true);
+		expect(isDateIn(toTest, null as any, null as any)).toBe(true);
 	});
 
 	it('returns true if the dates match', () => {
@@ -23,7 +23,7 @@ describe('is date in', () => {
 
 describe('has date passed', () => {
 	it('returns false if the end date is null', () => {
-		expect(isOutOfDate(null)).toBe(false);
+		expect(isOutOfDate(null as any)).toBe(false);
 	});
 
 	it('returns false if the date has not passed', () => {
@@ -37,7 +37,7 @@ describe('has date passed', () => {
 	});
 });
 
-['browserLanguage', 'language'].forEach(property => {
+['browserLanguage', 'language'].forEach((property) => {
 	test(`should return the french version when the navigator.${property} is FR`, () => {
 		expect(stringToDate('1988-02-28T10:51:47.812', 'fr')).toEqual('28/02/1988');
 	});

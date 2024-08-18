@@ -13,7 +13,15 @@ jest.mock('@tanstack/react-query', () => ({
 }));
 
 jest.mock('../select-rmes', () => ({
-	Select: ({ value, onChange, multi }) => {
+	Select: ({
+		value,
+		onChange,
+		multi,
+	}: {
+		value: string;
+		onChange: (value: any) => void;
+		multi: boolean;
+	}) => {
 		return (
 			<ul>
 				<li>
@@ -33,21 +41,21 @@ describe('CreatorsInput', () => {
 		const { container } = render(
 			<CreatorsInput value="VALUE" onChange={jest.fn()} multi />
 		);
-		expect(container.querySelector('button').innerHTML).toBe('VALUE');
+		expect(container.querySelector('button')!.innerHTML).toBe('VALUE');
 	});
 
 	it('should have a hidden input with the current value with multi=false', () => {
 		const { container } = render(
 			<CreatorsInput value="VALUE" onChange={jest.fn()} multi />
 		);
-		expect(container.querySelector('button').innerHTML).toBe('VALUE');
+		expect(container.querySelector('button')!.innerHTML).toBe('VALUE');
 	});
 
 	it('should set multi=true if not defined', () => {
 		const { container } = render(
 			<CreatorsInput value="VALUE" onChange={jest.fn()} multi />
 		);
-		expect(container.querySelector('button').innerHTML).toBe('VALUE');
+		expect(container.querySelector('button')!.innerHTML).toBe('VALUE');
 	});
 
 	it('should call onChange if multi=true', () => {
@@ -55,7 +63,7 @@ describe('CreatorsInput', () => {
 		const { container } = render(
 			<CreatorsInput value="VALUE" onChange={onChange} multi />
 		);
-		fireEvent.click(container.querySelector('button'));
+		fireEvent.click(container.querySelector('button')!);
 		expect(onChange).toHaveBeenCalledWith([['VALUE']]);
 	});
 
@@ -64,7 +72,7 @@ describe('CreatorsInput', () => {
 		const { container } = render(
 			<CreatorsInput value="VALUE" onChange={onChange} multi={false} />
 		);
-		fireEvent.click(container.querySelector('button'));
+		fireEvent.click(container.querySelector('button')!);
 		expect(onChange).toHaveBeenCalledWith('VALUE');
 	});
 });

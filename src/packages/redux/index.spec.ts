@@ -1,4 +1,5 @@
 import * as selector from './selectors';
+import { ReduxModel } from './model';
 
 describe('getLocales', () => {
 	it('should return the langs object', () => {
@@ -12,7 +13,7 @@ describe('getLocales', () => {
 			lg1: 'lg1',
 			lg2: 'lg2',
 		};
-		expect(selector.getLocales(input)).toEqual(output);
+		expect(selector.getLocales(input as ReduxModel)).toEqual(output);
 	});
 });
 

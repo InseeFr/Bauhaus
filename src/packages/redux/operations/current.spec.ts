@@ -17,6 +17,7 @@ describe('current reducer', () => {
 			configuration.returnPayload.forEach((action) => {
 				it(action, () => {
 					expect(
+						//@ts-ignore
 						reducer[configuration.method]('state', {
 							type: action,
 							payload: 'payload',
@@ -27,6 +28,7 @@ describe('current reducer', () => {
 			configuration.returnEmpty.forEach((action) => {
 				it(action, () => {
 					expect(
+						//@ts-ignore
 						reducer[configuration.method]('state', {
 							type: action,
 							payload: 'payload',

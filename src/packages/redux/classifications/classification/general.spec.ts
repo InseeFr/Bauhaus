@@ -38,7 +38,7 @@ describe('reducerClassificationGeneral', () => {
 describe('getGeneral', () => {
 	test('should extract nothing', () => {
 		const result = getGeneral({ id1: { results: 'results' } }, 'id2');
-		expect(result).toEqual();
+		expect(result).toEqual(undefined);
 	});
 	test('should extract results', () => {
 		const result = getGeneral({ id1: { results: 'results' } }, 'id1');

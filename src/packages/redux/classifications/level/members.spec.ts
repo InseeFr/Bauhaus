@@ -59,7 +59,7 @@ describe('getMembers', () => {
 			'nafr2',
 			'divisions'
 		);
-		expect(result).toBe();
+		expect(result).toBe(undefined);
 	});
 	test('getMembers selector should extract results', () => {
 		const result = getMembers(

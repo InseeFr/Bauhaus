@@ -34,7 +34,7 @@ describe('inputMulti', () => {
 		const { container } = render(
 			<InputRmes label="label" value="value" handleChange={handleChange} star />
 		);
-		expect(container.querySelector('.required-icon').innerHTML).toBe('*');
+		expect(container.querySelector('.required-icon')!.innerHTML).toBe('*');
 	});
 
 	it('returns non-starry component', () => {
@@ -48,7 +48,7 @@ describe('inputMulti', () => {
 		const { container } = render(
 			<InputRmes label="label" value="value" handleChange={handleChange} />
 		);
-		fireEvent.change(container.querySelector('input'), {
+		fireEvent.change(container.querySelector('input')!, {
 			target: {
 				value: 'value2',
 			},

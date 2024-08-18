@@ -9,7 +9,7 @@ describe('page-title', () => {
 	it('returns component title', () => {
 		const { container } = render(<PageTitle title="title" />);
 		expect(
-			container.querySelector('.wilco-page-title__title').innerHTML
+			container.querySelector('.wilco-page-title__title')!.innerHTML
 		).toEqual('title');
 	});
 
@@ -18,7 +18,7 @@ describe('page-title', () => {
 			<PageTitle title="title" subtitle="subtitle" />
 		);
 		expect(
-			container.querySelector('.wilco-page-title__title').innerHTML
+			container.querySelector('.wilco-page-title__title')!.innerHTML
 		).toEqual('title<div>" subtitle "</div>');
 	});
 

@@ -25,7 +25,7 @@ describe('reducerSeriesMembers', () => {
 describe('getLevels', () => {
 	test('getLevels selector should extract nothing', () => {
 		const result = getLevels({ id1: { results: 'levels' } }, 'id2');
-		expect(result).toEqual();
+		expect(result).toEqual(undefined);
 	});
 	test('getLevels selector should extract results', () => {
 		const result = getLevels({ id1: { results: 'levels' } }, 'id1');

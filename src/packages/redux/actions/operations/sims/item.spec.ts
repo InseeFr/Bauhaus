@@ -12,7 +12,7 @@ describe('SIMS actions', () => {
 		const getState = () => {
 			return { operationsSimsCurrentStatus: LOADING };
 		};
-		await get(1)(dispatch, getState);
+		await get('1')(dispatch, getState);
 
 		expect(dispatch).not.toHaveBeenCalledWith();
 	});
@@ -37,7 +37,7 @@ describe('SIMS actions', () => {
 			const getState = () => {
 				return { operationsSimsCurrentStatus: NOT_LOADED };
 			};
-			const id = 1;
+			const id = '1';
 			await get(id)(dispatch, getState);
 
 			expect(OperationsApi.getSims).toHaveBeenCalledWith(1);
@@ -69,7 +69,7 @@ describe('SIMS actions', () => {
 			const getState = () => {
 				return { operationsSimsCurrentStatus: NOT_LOADED };
 			};
-			const id = 1;
+			const id = '1';
 			await get(id)(dispatch, getState);
 
 			expect(dispatch).toHaveBeenLastCalledWith({
@@ -96,7 +96,7 @@ describe('SIMS actions', () => {
 			const getState = () => {
 				return { operationsSimsCurrentStatus: NOT_LOADED };
 			};
-			const id = 1;
+			const id = '1';
 			await get(id)(dispatch, getState);
 
 			expect(OperationsApi.getSims).toHaveBeenCalledWith(1);
@@ -126,7 +126,7 @@ describe('SIMS actions', () => {
 			const getState = () => {
 				return { operationsSimsCurrentStatus: NOT_LOADED };
 			};
-			const id = 1;
+			const id = '1';
 			await get(id)(dispatch, getState);
 			expect(dispatch).toHaveBeenCalledWith({
 				type: A.LOAD_OPERATIONS_SIMS,
