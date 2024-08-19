@@ -2,6 +2,9 @@ export type ReduxModel = {
 	operationsSeriesCurrent?: any;
 	operationsIndicatorsCurrent?: any;
 	operationsSimsCurrent?: any;
+	operationsOrganisations: {
+		results: any[];
+	};
 	users?: {
 		status: string;
 		results: {

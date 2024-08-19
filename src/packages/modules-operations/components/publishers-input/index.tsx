@@ -2,10 +2,16 @@ import { useSelector } from 'react-redux';
 import { D1 } from '../../i18n/build-dictionary';
 import * as ItemToSelectModel from '../../../utils/item-to-select-model';
 import { Select } from '../../../components';
+import { ReduxModel } from '../../../redux/model';
+import { Option } from '../../../model/SelectOption';
 
-const PublishersInput = ({ value, onChange }) => {
+type PublishersInputTypes = {
+	value: string;
+	onChange: (value: string) => void;
+};
+const PublishersInput = ({ value, onChange }: PublishersInputTypes) => {
 	const organisations = useSelector(
-		(state) => state.operationsOrganisations.results
+		(state: ReduxModel) => state.operationsOrganisations.results
 	);
 	const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 
@@ -23,7 +29,7 @@ const PublishersInput = ({ value, onChange }) => {
 				multi
 				onChange={(value) => {
 					onChange(
-						value.map((v) => {
+						value.map((v: Option) => {
 							return { id: v.value };
 						})
 					);

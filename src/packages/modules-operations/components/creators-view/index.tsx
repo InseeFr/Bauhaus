@@ -1,7 +1,11 @@
 import { Note } from '@inseefr/wilco';
 import { D1 } from '../../i18n/build-dictionary';
 
-const CreatorsView = ({ creators, lg1 }) => {
+type CreatorsViewTypes = {
+	lg1: string;
+	creators: string | string[];
+};
+const CreatorsView = ({ creators, lg1 }: CreatorsViewTypes) => {
 	const creatorsArray = Array.isArray(creators) ? creators : [creators];
 	return (
 		<Note

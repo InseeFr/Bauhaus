@@ -7,7 +7,7 @@ import { sortArrayByLabel } from './array-utils';
  */
 export function toSelectModel(
 	items: { id: string; label: string }[],
-	type: string
+	type?: string
 ) {
 	return items.map((item) => {
 		return {

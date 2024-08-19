@@ -43,7 +43,10 @@ const loadGeographiesError = (error: any) => {
 };
 
 // Reducer
-export const reducer = (state: ReduxModel = {}, { type, payload }: any) => {
+export const reducer = (
+	state: ReduxModel = {} as ReduxModel,
+	{ type, payload }: any
+) => {
 	switch (type) {
 		case LOAD_GEOGRAPHIES:
 			return {
