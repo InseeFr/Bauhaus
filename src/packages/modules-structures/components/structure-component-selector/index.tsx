@@ -10,7 +10,25 @@ import Representation from '../representation';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { useStampsOptions } from '../../../utils/hooks/stamps';
 import { ADMIN } from '../../../auth/roles';
+import { ComponentDefinition } from '../../../model/structures/Component';
+import { Structure } from '../../../model/structures/Structure';
+import { CodesList } from '../../../model/CodesList';
 
+type StructureComponentsSelectorTypes = {
+	hidden?: boolean;
+	componentDefinitions: ComponentDefinition[];
+	handleRemove?: (value: ComponentDefinition) => void;
+	handleUp?: (value: ComponentDefinition) => void;
+	handleDown?: (value: ComponentDefinition) => void;
+	handleCreateOrUpdate?: any;
+	handleSpecificationClick?: any;
+	concepts: any;
+	codesLists: any;
+	readOnly: boolean;
+	type?: string;
+	handleCodesListDetail: any;
+	structure?: Structure;
+};
 export const StructureComponentsSelector = ({
 	hidden = false,
 	componentDefinitions: defaultComponents,
@@ -25,10 +43,10 @@ export const StructureComponentsSelector = ({
 	type,
 	handleCodesListDetail,
 	structure,
-}) => {
+}: Readonly<StructureComponentsSelectorTypes>) => {
 	const removeClickHandler = useCallback(
-		(e) => {
-			handleRemove(e.target.parentElement.dataset.componentId);
+		(e: any) => {
+			handleRemove!(e.target.parentElement.dataset.componentId);
 		},
 		[handleRemove]
 	);
@@ -39,10 +57,10 @@ export const StructureComponentsSelector = ({
 		setComponents(defaultComponents);
 	}, [defaultComponents]);
 
-	const [selectedComponent, setSelectedComponent] = useState(null);
+	const [selectedComponent, setSelectedComponent] = useState<any>(null);
 
 	const specificationClickHandler = useCallback(
-		(e) => {
+		(e: any) => {
 			if (e.target.parentElement.dataset.componentId) {
 				const component = components.find(
 					(c) =>
@@ -55,7 +73,7 @@ export const StructureComponentsSelector = ({
 		[components, handleSpecificationClick]
 	);
 	const handleSave = useCallback(
-		(component) => {
+		(component: ComponentDefinition) => {
 			let newComponent = component;
 			let newComponents;
 			if (!component.id) {
@@ -84,14 +102,14 @@ export const StructureComponentsSelector = ({
 	);
 
 	const seeClickHandler = useCallback(
-		(e) => {
+		(e: any) => {
 			if (e.target.parentElement.dataset.componentId) {
 				const cs = components.find(
 					(c) =>
 						c.component.identifiant ===
 						e.target.parentElement.dataset.componentId
 				);
-				setSelectedComponent(cs.component);
+				setSelectedComponent(cs!.component);
 				setOpenPanel(true);
 			}
 		},
@@ -99,27 +117,27 @@ export const StructureComponentsSelector = ({
 	);
 
 	const goingUp = useCallback(
-		(e) => {
+		(e: any) => {
 			if (e.target.parentElement.dataset.componentId) {
-				handleUp(e.target.parentElement.dataset.componentId);
+				handleUp!(e.target.parentElement.dataset.componentId);
 			}
 		},
 		[handleUp]
 	);
 	const goingDown = useCallback(
-		(e) => {
+		(e: any) => {
 			if (e.target.parentElement.dataset.componentId) {
-				handleDown(e.target.parentElement.dataset.componentId);
+				handleDown!(e.target.parentElement.dataset.componentId);
 			}
 		},
 		[handleDown]
 	);
 
 	const handleCreateComponent = useCallback(
-		(e) => {
+		(e: any) => {
 			e.stopPropagation();
 			setSelectedComponent({
-				disseminationStatus: structure.disseminationStatus,
+				disseminationStatus: structure?.disseminationStatus,
 				contributor: 'DG75-H250',
 			});
 			setOpenPanel(true);
@@ -129,8 +147,8 @@ export const StructureComponentsSelector = ({
 
 	const componentsWithActions = components
 		.sort((cd1, cd2) => {
-			const order1 = parseInt(cd1.order || '1');
-			const order2 = parseInt(cd2.order || '1');
+			const order1 = parseInt(`${cd1.order}` || '1');
+			const order2 = parseInt(`${cd2.order}` || '1');
 			return order1 - order2;
 		})
 		.map((componentDefinition, i) => {
@@ -150,7 +168,7 @@ export const StructureComponentsSelector = ({
 						<></>
 					),
 				concept: concepts.find(
-					({ id }) => id?.toString() === component.concept?.toString()
+					({ id }: any) => id?.toString() === component.concept?.toString()
 				)?.label,
 				representation: (
 					<Representation
@@ -158,7 +176,8 @@ export const StructureComponentsSelector = ({
 						codesLists={codesLists}
 						handleCodesListDetail={() => {
 							const codesList = codesLists.find(
-								({ id }) => id?.toString() === component.codeList?.toString()
+								({ id }: CodesList) =>
+									id?.toString() === component.codeList?.toString()
 							);
 							handleCodesListDetail(codesList);
 						}}

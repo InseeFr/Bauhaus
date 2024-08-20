@@ -1,37 +1,40 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
-import { StructureComponentsSelector } from '../../components/structure-component-selector/index';
+import { StructureComponentsSelector } from '../../components/structure-component-selector';
 import ComponentSpecificationModal from '../../components/component-specification-modal/index';
 import { getFormattedCodeList } from '../../apis';
 import { ConceptsApi } from '../../../sdk';
+import { Component } from '../../../model/structures/Component';
+import { CodesList, CodesLists } from '../../../model/CodesList';
 
 const Components = ({ componentDefinitions = [] }) => {
 	const [concepts, setConcepts] = useState([]);
-	const [codesLists, setCodesLists] = useState([]);
+	const [codesLists, setCodesLists] = useState<CodesLists>([]);
 	const [modalOpened, setModalOpened] = useState(false);
-	const [selectedComponent, setSelectedComponent] = useState({});
+	const [selectedComponent, setSelectedComponent] = useState<Component>();
 
-	const [codesListNotation, setCodesListNotation] = useState(undefined);
-	const handleCodesListDetail = useCallback((notation) => {
-		setCodesListNotation(notation);
+	const [codesList, setCodesList] = useState<CodesList | undefined>(undefined);
+	const handleCodesListDetail = useCallback((codesList: CodesList) => {
+		setCodesList(codesList);
 	}, []);
 
 	useEffect(() => {
-		ConceptsApi.getConceptList().then((res) => setConcepts(res));
+		ConceptsApi.getConceptList().then(setConcepts);
 	}, []);
 
 	useEffect(() => {
-		getFormattedCodeList().then((res) => {
-			setCodesLists(res);
-		});
+		getFormattedCodeList().then((lists) => setCodesLists(lists));
 	}, []);
 
-	const handleSpecificationClick = useCallback((component) => {
+	const handleSpecificationClick = useCallback((component: Component) => {
 		setSelectedComponent(component);
 		setModalOpened(true);
 	}, []);
 
+	if (!selectedComponent) {
+		return null;
+	}
 	return (
 		<div className="row text-left">
 			{modalOpened && (
@@ -58,9 +61,9 @@ const Components = ({ componentDefinitions = [] }) => {
 				handleCodesListDetail={handleCodesListDetail}
 			/>
 			<CodesListPanel
-				codesList={codesListNotation}
-				isOpen={!!codesListNotation}
-				handleBack={() => setCodesListNotation(undefined)}
+				codesList={codesList}
+				isOpen={!!codesList}
+				handleBack={() => setCodesList(undefined)}
 			/>
 		</div>
 	);

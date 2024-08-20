@@ -1,6 +1,6 @@
 import { CodeListApi } from '../../sdk';
 import { sortArray } from '../../utils/array-utils';
-import { CodesList } from '../../model/CodesList';
+import { CodesList, CodesLists } from '../../model/CodesList';
 const sortByLabel = sortArray('labelLg1');
 
 export const getCodeList = () =>
@@ -13,7 +13,7 @@ export const getPartialCodeLists = () =>
 		sortByLabel(response)
 	);
 
-export const getFormattedCodeList = () => {
+export const getFormattedCodeList = (): Promise<CodesLists> => {
 	return Promise.all([getCodeList(), getPartialCodeLists()]).then(
 		([codelist, partialCodeList]) => {
 			return [...codelist, ...partialCodeList]?.map(({ uri, labelLg1, id }) => {

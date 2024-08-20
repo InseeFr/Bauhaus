@@ -13,7 +13,7 @@ const sortByLabel = sortArray('labelLg1');
 type CodesListPanelTypes = {
 	isOpen: boolean;
 	handleBack: () => void;
-	codesList: CodesList;
+	codesList?: CodesList;
 };
 export const CodesListPanel = ({
 	isOpen,
