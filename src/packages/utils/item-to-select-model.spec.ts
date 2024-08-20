@@ -11,9 +11,9 @@ describe('toSelectModel', () => {
 		];
 		const type = 'series';
 		const output = [
-			{ id: '1', label: 'label1', type: 'series', value: 1 },
-			{ id: '2', label: 'label2', type: 'series', value: 2 },
-			{ id: '3', label: 'label3', type: 'series', value: 3 },
+			{ id: '1', label: 'label1', type: 'series', value: '1' },
+			{ id: '2', label: 'label2', type: 'series', value: '2' },
+			{ id: '3', label: 'label3', type: 'series', value: '3' },
 		];
 		expect(toSelectModel(items, type)).toEqual(output);
 	});

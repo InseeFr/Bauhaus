@@ -40,7 +40,7 @@ describe('SIMS actions', () => {
 			const id = '1';
 			await get(id)(dispatch, getState);
 
-			expect(OperationsApi.getSims).toHaveBeenCalledWith(1);
+			expect(OperationsApi.getSims).toHaveBeenCalledWith('1');
 			expect(OperationsApi.getOperation).toHaveBeenCalledWith(3);
 			expect(OperationsApi.getOperationsWithoutReport).toHaveBeenCalledWith(2);
 			expect(dispatch).toHaveBeenCalledWith({
@@ -99,7 +99,7 @@ describe('SIMS actions', () => {
 			const id = '1';
 			await get(id)(dispatch, getState);
 
-			expect(OperationsApi.getSims).toHaveBeenCalledWith(1);
+			expect(OperationsApi.getSims).toHaveBeenCalledWith('1');
 			expect(OperationsApi.getOperation).not.toHaveBeenCalledWith(3);
 			expect(OperationsApi.getOperationsWithoutReport).not.toHaveBeenCalledWith(
 				2
