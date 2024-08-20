@@ -1,12 +1,24 @@
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import D from '../../i18n/build-dictionary';
 
+export type Geography = {
+	value: string;
+	label: string;
+	labelLg2: string;
+	typeTerritory: string;
+};
+type SimsGeographySelectorTypes = {
+	excludes: Geography[];
+	includes: Geography[];
+	onRemoveExclude: (value: Geography) => void;
+	onRemoveInclude: (value: Geography) => void;
+};
 const SimsGeographySelector = ({
 	includes,
 	excludes,
 	onRemoveExclude,
 	onRemoveInclude,
-}) => {
+}: Readonly<SimsGeographySelectorTypes>) => {
 	const excludedItems = excludes.map((geography) => (
 		<li className="list-group-item" key={geography.value}>
 			<>

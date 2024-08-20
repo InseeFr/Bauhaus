@@ -13,7 +13,7 @@ import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import SimsGeographySelector from './sims-geography-selector';
 import { useGeographies } from './hooks';
 import { Row } from '../../../components';
-import { GeographieApi } from '../../..//sdk/geographie';
+import { GeographieApi } from '../../../sdk/geographie';
 
 const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 	const [name, setName] = useState(territory.labelLg1 ?? '');

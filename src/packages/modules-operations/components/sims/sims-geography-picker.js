@@ -6,7 +6,7 @@ import SlidingPanel from 'react-sliding-side-panel';
 import SimsGeographyField from './sims-geography-field';
 
 import './sims-geography-picker.scss';
-import SimsGeographyI18NLabel from '../../../modules-operations/components/sims/sims-geography-i18n-label';
+import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import {
 	getAllOptions,
 	loadGeographies,
