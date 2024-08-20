@@ -6,7 +6,7 @@ type CorrespondenceControlsTypes = {
 };
 function CorrespondenceControls({
 	correspondenceId,
-}: CorrespondenceControlsTypes) {
+}: Readonly<CorrespondenceControlsTypes>) {
 	const goBack = useGoBack();
 	return (
 		<ActionToolbar>

@@ -21,7 +21,7 @@ function DisplayLinks({
 	displayLink = true,
 	labelLg1 = 'labelLg1',
 	labelLg2 = 'labelLg2',
-}: DisplayLinksTypes) {
+}: Readonly<DisplayLinksTypes>) {
 	function displayBlock(link: Record<string, string>, label: string) {
 		if (displayLink) {
 			return <Link to={`${path}${link.id}`}>{link[label]}</Link>;
