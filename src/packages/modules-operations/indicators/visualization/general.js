@@ -3,11 +3,10 @@ import { D1, D2 } from '../../../deprecated-locales';
 import { getSeeAlsoByType } from '../../shared/links/utils';
 import DisplayLinks from '../../../modules-operations/shared/links/';
 import SeeAlso from '../../../modules-operations/shared/seeAlso';
-import { CreationUpdateItems } from '../../../components';
 import PublishersView from '../../../modules-operations/components/publishers-view';
 import CreatorsView from '../../../modules-operations/components/creators-view';
 import D from '../../../deprecated-locales/build-dictionary';
-import { PublicationMale, Row } from '../../../components';
+import { PublicationMale, Row, CreationUpdateItems } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
 

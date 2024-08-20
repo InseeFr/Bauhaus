@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { VerticalMenu } from '@inseefr/wilco';
-import { PageTitle, Loading } from '../../components';
 
 import D from '../../deprecated-locales';
-import { MasculineButton, SearchableList } from '../../components';
+import {
+	MasculineButton,
+	SearchableList,
+	PageTitle,
+	Loading,
+} from '../../components';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { OperationsApi } from '../../sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
