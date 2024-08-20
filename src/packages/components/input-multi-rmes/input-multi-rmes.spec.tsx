@@ -1,6 +1,5 @@
 import { render, fireEvent } from '@testing-library/react';
 import { InputMultiRmes } from './';
-import { locales } from '../../tests-utils/default-values';
 
 const handleChangeLg1 = () => '';
 const handleChangeLg2 = () => '';
