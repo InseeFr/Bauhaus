@@ -72,12 +72,10 @@ const IndicatorVisualizationContainer = () => {
 			<ActionToolbar>
 				<ReturnButton action={() => goBack('/operations/indicators')} />
 				{indicator.idSims && (
-					<>
-						<Button
-							action={`/operations/sims/${indicator.idSims}`}
-							label={D.btnSimsVisu}
-						/>
-					</>
+					<Button
+						action={`/operations/sims/${indicator.idSims}`}
+						label={D.btnSimsVisu}
+					/>
 				)}
 				{!indicator.idSims && (
 					<Auth roles={[ADMIN, [INDICATOR_CONTRIBUTOR, checkStamp]]}>

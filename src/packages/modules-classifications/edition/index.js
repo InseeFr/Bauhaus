@@ -396,105 +396,89 @@ export const ClassificationEdition = () => {
 				</div>
 				{(classification.general.scopeNoteUriLg1 ||
 					classification.general.scopeNoteUriLg2) && (
-					<>
-						<Row>
-							<div className="col-md-6 form-group">
-								{classification.general.scopeNoteUriLg1 && (
-									<>
-										<LabelRequired htmlFor="scopeNoteLg1">
-											{D1.classificationsScopeNote}
-										</LabelRequired>
-										<Controller
-											name="scopeNoteLg1"
-											control={control}
-											defaultValue={classification.general.scopeNoteLg1}
-											render={({ field: { onChange, value } }) => {
-												return (
-													<EditorMarkdown
-														text={value}
-														handleChange={onChange}
-													/>
-												);
-											}}
-										/>
-									</>
-								)}
-							</div>
-							<div className="col-md-6 form-group">
-								{classification.general.scopeNoteUriLg2 && (
-									<>
-										<LabelRequired htmlFor="scopeNoteLg2">
-											{D2.classificationsScopeNote}
-										</LabelRequired>
-										<Controller
-											name="scopeNoteLg2"
-											control={control}
-											defaultValue={classification.general.scopeNoteLg2}
-											render={({ field: { onChange, value } }) => {
-												return (
-													<EditorMarkdown
-														text={value}
-														handleChange={onChange}
-													/>
-												);
-											}}
-										/>
-									</>
-								)}
-							</div>
-						</Row>
-					</>
+					<Row>
+						<div className="col-md-6 form-group">
+							{classification.general.scopeNoteUriLg1 && (
+								<>
+									<LabelRequired htmlFor="scopeNoteLg1">
+										{D1.classificationsScopeNote}
+									</LabelRequired>
+									<Controller
+										name="scopeNoteLg1"
+										control={control}
+										defaultValue={classification.general.scopeNoteLg1}
+										render={({ field: { onChange, value } }) => {
+											return (
+												<EditorMarkdown text={value} handleChange={onChange} />
+											);
+										}}
+									/>
+								</>
+							)}
+						</div>
+						<div className="col-md-6 form-group">
+							{classification.general.scopeNoteUriLg2 && (
+								<>
+									<LabelRequired htmlFor="scopeNoteLg2">
+										{D2.classificationsScopeNote}
+									</LabelRequired>
+									<Controller
+										name="scopeNoteLg2"
+										control={control}
+										defaultValue={classification.general.scopeNoteLg2}
+										render={({ field: { onChange, value } }) => {
+											return (
+												<EditorMarkdown text={value} handleChange={onChange} />
+											);
+										}}
+									/>
+								</>
+							)}
+						</div>
+					</Row>
 				)}
 				{(classification.general.changeNoteUriLg1 ||
 					classification.general.changeNoteUriLg2) && (
-					<>
-						<Row>
-							<div className="col-md-6 form-group">
-								{classification.general.changeNoteUriLg1 && (
-									<>
-										<LabelRequired htmlFor="scopeNoteLg1">
-											{D1.classificationsChangeNote()}
-										</LabelRequired>
-										<Controller
-											name="changeNoteLg1"
-											control={control}
-											defaultValue={classification.general.changeNoteLg1}
-											render={({ field: { onChange, value } }) => {
-												return (
-													<EditorMarkdown
-														text={value}
-														handleChange={onChange}
-													/>
-												);
-											}}
-										/>
-									</>
-								)}
-							</div>
-							<div className="col-md-6 form-group">
-								{classification.general.changeNoteUriLg2 && (
-									<>
-										<LabelRequired htmlFor="scopeNoteLg2">
-											{D2.classificationsChangeNote()}
-										</LabelRequired>
-										<Controller
-											name="changeNoteLg2"
-											control={control}
-											defaultValue={classification.general.changeNoteLg2}
-											render={({ field: { onChange, value } }) => {
-												return (
-													<EditorMarkdown
-														text={value}
-														handleChange={onChange}
-													/>
-												);
-											}}
-										/>
-									</>
-								)}
-							</div>
-						</Row>
-					</>
+					<Row>
+						<div className="col-md-6 form-group">
+							{classification.general.changeNoteUriLg1 && (
+								<>
+									<LabelRequired htmlFor="scopeNoteLg1">
+										{D1.classificationsChangeNote()}
+									</LabelRequired>
+									<Controller
+										name="changeNoteLg1"
+										control={control}
+										defaultValue={classification.general.changeNoteLg1}
+										render={({ field: { onChange, value } }) => {
+											return (
+												<EditorMarkdown text={value} handleChange={onChange} />
+											);
+										}}
+									/>
+								</>
+							)}
+						</div>
+						<div className="col-md-6 form-group">
+							{classification.general.changeNoteUriLg2 && (
+								<>
+									<LabelRequired htmlFor="scopeNoteLg2">
+										{D2.classificationsChangeNote()}
+									</LabelRequired>
+									<Controller
+										name="changeNoteLg2"
+										control={control}
+										defaultValue={classification.general.changeNoteLg2}
+										render={({ field: { onChange, value } }) => {
+											return (
+												<EditorMarkdown text={value} handleChange={onChange} />
+											);
+										}}
+									/>
+								</>
+							)}
+						</div>
+					</Row>
 				)}
 			</form>
 		</div>

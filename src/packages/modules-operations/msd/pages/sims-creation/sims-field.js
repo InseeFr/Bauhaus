@@ -173,21 +173,19 @@ class SimsField extends PureComponent {
 							)}
 
 							{msd.rangeType === RICH_TEXT && (
-								<>
-									<Editor
-										editorState={value}
-										toolbarCustomButtons={[<EditorDeleteButton />]}
-										toolbar={currentToolbar}
-										toolbarClassName="home-toolbar"
-										wrapperClassName="home-wrapper"
-										editorClassName="home-editor"
-										onEditorStateChange={this.handleTextInput}
-										onBlur={this.handleLeave}
-										localization={{
-											locale: getLang(),
-										}}
-									/>
-								</>
+								<Editor
+									editorState={value}
+									toolbarCustomButtons={[<EditorDeleteButton />]}
+									toolbar={currentToolbar}
+									toolbarClassName="home-toolbar"
+									wrapperClassName="home-wrapper"
+									editorClassName="home-editor"
+									onEditorStateChange={this.handleTextInput}
+									onBlur={this.handleLeave}
+									localization={{
+										locale: getLang(),
+									}}
+								/>
 							)}
 
 							{msd.rangeType === CODE_LIST && codesList && (
