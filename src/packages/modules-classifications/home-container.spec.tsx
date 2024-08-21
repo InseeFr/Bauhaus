@@ -10,9 +10,9 @@ jest.mock('../components', () => ({
 
 jest.mock('./home', () => ({
 	__esModule: true,
-	default: ({ classifications }) => (
+	default: ({ classifications }: any) => (
 		<div data-testid="classifications-home">
-			{classifications.map((classification) => (
+			{classifications.map((classification: any) => (
 				<div key={classification.id}>{classification.name}</div>
 			))}
 		</div>
