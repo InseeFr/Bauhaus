@@ -1,9 +1,13 @@
 import D from '../i18n/build-dictionary';
 import { MUTUALIZED_COMPONENT_TYPES, ATTACHMENTS } from './constants/';
+import { Component } from '../../model/structures/Component';
 
-export const getAllAttachment = (measures = [], specification) => {
+export const getAllAttachment = (
+	measures: Component[] = [],
+	specification: any
+) => {
 	// We find one measure linked to the attribute
-	const measureWithThisAttribute = measures.find((measure) => {
+	const measureWithThisAttribute = measures.find((measure: any) => {
 		return !!Object.keys(measure)
 			.filter((key) => key.indexOf('attribute_') === 0)
 			.find((key) => {
@@ -11,7 +15,7 @@ export const getAllAttachment = (measures = [], specification) => {
 			});
 	});
 
-	const measuresOptions = measures.map((c) => ({
+	const measuresOptions = measures.map((c: Component) => ({
 		value: c.id,
 		label: c.labelLg1,
 	}));
@@ -23,7 +27,7 @@ export const getAllAttachment = (measures = [], specification) => {
 
 	return [...ATTACHMENTS, ...measuresOptions];
 };
-export const formatLabel = (component) => {
+export const formatLabel = (component: Component) => {
 	return (
 		<>
 			{component.labelLg1}

@@ -1,10 +1,10 @@
 import { Provider } from 'react-redux';
-import Root from './packages//application/router';
+import Root from './packages/application/router';
 import configureStore from './packages/redux/configure-store';
 import { I18NContext, BackToTop, getLang } from '@inseefr/wilco';
 import D from './packages/deprecated-locales';
 import { ApplicationTitle } from './packages/components';
-import { AppContext } from './packages//application/app-context';
+import { AppContext } from './packages/application/app-context';
 import '@inseefr/wilco/dist/index.css';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

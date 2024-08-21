@@ -17,4 +17,4 @@ export const XSD_TYPES = [
 	{ value: XSD_CODE_LIST, label: D.codesListTitle },
 	{ value: IGEO_PAYS_OU_TERRITOIRE, label: D.paysOuTerritoire },
 	{ value: XSD_STRING, label: D.stringType },
-];
+] as const;

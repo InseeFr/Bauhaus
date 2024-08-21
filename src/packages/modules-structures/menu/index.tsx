@@ -6,7 +6,19 @@ import { useLocation } from 'react-router-dom';
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };
 
-const structureMenuItems = {
+type RouterConfig = Record<
+	string,
+	{
+		pathKey: RegExp;
+		path: string;
+		order: number;
+		label: string;
+		className: string | null;
+		attrs: any | null;
+	}
+>;
+
+const structureMenuItems: RouterConfig = {
 	components: {
 		path: '/structures/components',
 		pathKey: /structures\/component/,
@@ -23,23 +35,26 @@ const structureMenuItems = {
 		order: 1,
 		label: D.structuresTitle,
 	},
-};
+} as const;
 
 const MenuDSDs = () => {
 	const location = useLocation();
 	const pathname = location.pathname;
 
-	const paths = useMemo(() => {
-		const paths = Object.keys(structureMenuItems).reduce((acc, key) => {
-			return {
-				...acc,
-				[key]: {
-					...structureMenuItems[key],
-					className: '',
-					attrs: {},
-				},
-			};
-		}, {});
+	const paths: RouterConfig = useMemo(() => {
+		const paths = Object.keys(structureMenuItems).reduce(
+			(acc: RouterConfig, key) => {
+				return {
+					...acc,
+					[key]: {
+						...structureMenuItems[key],
+						className: '',
+						attrs: {},
+					},
+				};
+			},
+			{}
+		);
 
 		for (let key in paths) {
 			if (paths[key]['pathKey'].test(pathname)) {
