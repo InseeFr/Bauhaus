@@ -302,6 +302,7 @@ class OperationsIndicatorEdition extends Component {
 							<CreatorsInput
 								value={indicator.creators}
 								onChange={(value) => this.onChange('creators')(value)}
+								multi
 							/>
 							<ClientSideError
 								id="creators-error"

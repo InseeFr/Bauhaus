@@ -6,11 +6,11 @@ import { Select } from '../select-rmes';
 export const CreatorsInput = ({
 	value,
 	onChange,
-	multi,
+	multi = false,
 }: Readonly<{
 	value: string | string[];
 	onChange: (value: string | string[]) => void;
-	multi: boolean;
+	multi?: boolean;
 }>) => {
 	const stampsOptions = useStampsOptions();
 	let creatorsArray = value;
@@ -28,7 +28,7 @@ export const CreatorsInput = ({
 			<Select
 				placeholder={D1.stampsPlaceholder}
 				unclearable
-				multi={multi ?? true}
+				multi={multi}
 				value={creatorsArray}
 				options={stampsOptions}
 				onChange={(value: string | string[]) => {

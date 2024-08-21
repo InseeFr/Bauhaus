@@ -1,78 +1,76 @@
-import { fireEvent, render } from '@testing-library/react';
-import { CreatorsInput } from './index';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { CreatorsInput } from '.';
+import { useStampsOptions } from '../../utils/hooks/stamps';
 
-jest.mock('@tanstack/react-query', () => ({
-	useQuery: () => {
-		return {
-			data: [
-				{ value: 'VALUE', label: 'LABEL' },
-				{ value: 'VALUE 2', label: 'LABEL 2' },
-			],
-		};
-	},
+// Mock du hook useStampsOptions
+jest.mock('../../utils/hooks/stamps', () => ({
+	useStampsOptions: jest.fn(),
 }));
 
+// Mock du composant Select
 jest.mock('../select-rmes', () => ({
-	Select: ({
-		value,
-		onChange,
-		multi,
-	}: {
-		value: string;
-		onChange: (value: any) => void;
-		multi: boolean;
-	}) => {
-		return (
-			<ul>
-				<li>
-					<button
-						onClick={() => (multi ? onChange([{ value }]) : onChange(value))}
-					>
-						{value}
-					</button>
-				</li>
-			</ul>
-		);
-	},
+	Select: ({ onChange }: any) => (
+		<select
+			data-testid="select-mock"
+			onChange={(e) => onChange(e.target.value)}
+		>
+			<option value="option1">Option 1</option>
+			<option value="option2">Option 2</option>
+		</select>
+	),
 }));
 
 describe('CreatorsInput', () => {
-	it('should have a hidden input with the current value with multi=true', () => {
-		const { container } = render(
-			<CreatorsInput value="VALUE" onChange={jest.fn()} multi />
-		);
-		expect(container.querySelector('button')!.innerHTML).toBe('VALUE');
+	const mockOnChange = jest.fn();
+
+	beforeEach(() => {
+		jest.clearAllMocks();
 	});
 
-	it('should have a hidden input with the current value with multi=false', () => {
-		const { container } = render(
-			<CreatorsInput value="VALUE" onChange={jest.fn()} multi />
+	it('should render with single select and label for single creator', () => {
+		(useStampsOptions as jest.Mock).mockReturnValue([
+			{ value: 'option1', label: 'Option 1' },
+		]);
+
+		render(
+			<CreatorsInput value="option1" onChange={mockOnChange} multi={false} />
 		);
-		expect(container.querySelector('button')!.innerHTML).toBe('VALUE');
+
+		screen.getByText(/Propriétaire/i);
+		screen.getByTestId('select-mock');
 	});
 
-	it('should set multi=true if not defined', () => {
-		const { container } = render(
-			<CreatorsInput value="VALUE" onChange={jest.fn()} multi />
+	it('should render with multi select and label for multiple creators', () => {
+		(useStampsOptions as jest.Mock).mockReturnValue([
+			{ value: 'option1', label: 'Option 1' },
+			{ value: 'option2', label: 'Option 2' },
+		]);
+
+		render(
+			<CreatorsInput
+				value={['option1', 'option2']}
+				onChange={mockOnChange}
+				multi={true}
+			/>
 		);
-		expect(container.querySelector('button')!.innerHTML).toBe('VALUE');
+
+		screen.getByText(/Propriétaires/i);
+		screen.getByTestId('select-mock');
 	});
 
-	it('should call onChange if multi=true', () => {
-		const onChange = jest.fn();
-		const { container } = render(
-			<CreatorsInput value="VALUE" onChange={onChange} multi />
-		);
-		fireEvent.click(container.querySelector('button')!);
-		expect(onChange).toHaveBeenCalledWith([['VALUE']]);
-	});
+	it('should call onChange with correct value when single select changes', () => {
+		(useStampsOptions as jest.Mock).mockReturnValue([
+			{ value: 'option1', label: 'Option 1' },
+		]);
 
-	it('should call onChange if multi=false', () => {
-		const onChange = jest.fn();
-		const { container } = render(
-			<CreatorsInput value="VALUE" onChange={onChange} multi={false} />
+		render(
+			<CreatorsInput value="option1" onChange={mockOnChange} multi={false} />
 		);
-		fireEvent.click(container.querySelector('button')!);
-		expect(onChange).toHaveBeenCalledWith('VALUE');
+
+		fireEvent.change(screen.getByTestId('select-mock'), {
+			target: { value: 'option2' },
+		});
+
+		expect(mockOnChange).toHaveBeenCalledWith('option2');
 	});
 });

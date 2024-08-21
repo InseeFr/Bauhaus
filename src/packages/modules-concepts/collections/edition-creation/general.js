@@ -66,11 +66,7 @@ function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 			</Row>
 
 			<div className="form-group">
-				<CreatorsInput
-					multi={false}
-					value={creator}
-					onChange={handlers.creator}
-				/>
+				<CreatorsInput value={creator} onChange={handlers.creator} />
 			</div>
 			<div className="form-group">
 				<label>{D1.contributorTitle}</label>
