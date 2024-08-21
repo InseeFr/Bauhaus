@@ -6,7 +6,7 @@ jest.mock('@tanstack/react-query', () => ({
 }));
 
 describe('useClassifications', () => {
-	fit('should call useQuery', () => {
+	it('should call useQuery', () => {
 		require('@tanstack/react-query').useQuery.mockReturnValue({
 			isLoading: true,
 			data: ['data'],
