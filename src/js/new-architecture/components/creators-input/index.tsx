@@ -6,7 +6,7 @@ import { useStampsOptions } from '../../utils/hooks/stamps';
 export const CreatorsInput = ({
 	value,
 	onChange,
-	multi,
+	multi = false,
 }: {
 	value: string | string[];
 	onChange: (value: string | string[]) => void;
@@ -28,7 +28,7 @@ export const CreatorsInput = ({
 			<SelectRmes
 				placeholder={D1.stampsPlaceholder}
 				unclearable
-				multi={multi ?? true}
+				multi={multi}
 				value={creatorsArray}
 				options={stampsOptions}
 				onChange={(value: string | string[]) => {

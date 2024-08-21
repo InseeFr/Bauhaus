@@ -464,6 +464,7 @@ class OperationsSerieEdition extends Component {
 										},
 									})
 								}
+								multi
 							/>
 							<ClientSideError
 								id="creators-error"
