@@ -1,0 +1,25 @@
+@import 'src/packages/styles/tools.scss';
+
+.documentsbloc {
+	i {
+		margin-left: 10px;
+	}
+
+	&__btn {
+		@include reset-btn();
+	}
+	&__delete {
+		float: right;
+	}
+	&__filepicker {
+		padding-left: 0;
+	}
+}
+
+.documentbloc__item {
+	display: flex;
+
+	span {
+		flex: 2 1 auto;
+	}
+}
