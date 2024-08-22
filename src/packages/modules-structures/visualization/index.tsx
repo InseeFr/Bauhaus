@@ -17,11 +17,11 @@ import Components from './components';
 import { D1, D2 } from '../../deprecated-locales';
 import StructureVisualizationControl from '../components/structure-visualization/controls';
 import D from '../i18n/build-dictionary';
-import StructureAPI from '../apis/structure-api';
 import MainDictionary from '../../deprecated-locales/build-dictionary';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { getSecondLang } from '../../redux/second-lang';
 import { Structure } from '../../model/structures/Structure';
+import { StructureApi } from '../../sdk';
 
 type StructureViewTypes = {
 	secondLang: boolean;
@@ -118,7 +118,7 @@ const StructureContainer = () => {
 	const secondLang = useSelector((state) => getSecondLang(state));
 
 	useEffect(() => {
-		StructureAPI.getStructure(structureId)
+		StructureApi.getStructure(structureId)
 			.then((res: Structure) => setStructure(res))
 			.finally(() => setLoading(false));
 	}, [structureId]);
@@ -126,7 +126,7 @@ const StructureContainer = () => {
 	const publish = () => {
 		setLoading(true);
 		setServerSideError(undefined);
-		return StructureAPI.publishStructure(structure)
+		return StructureApi.publishStructure(structure)
 			.then(() => StructureAPI.getStructure(structure.id))
 			.then((structure: Structure) => setStructure(structure))
 			.finally(() => setLoading(false))

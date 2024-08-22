@@ -7,12 +7,12 @@ import {
 	DeleteButton,
 	DuplicateButton,
 } from '@inseefr/wilco';
-import StructureAPI from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { ValidationButton } from '../../../components';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { getPermission } from '../../../redux/selectors';
+import { StructureApi } from '../../../sdk';
 const Controls = ({ structure, publish }) => {
 	const permission = useSelector(getPermission);
 
@@ -20,7 +20,7 @@ const Controls = ({ structure, publish }) => {
 	let history = useHistory();
 
 	const handleDelete = useCallback(() => {
-		StructureAPI.deleteStructure(id).finally(() => {
+		StructureApi.deleteStructure(id).finally(() => {
 			history.push('/structures');
 		});
 	}, [id, history]);

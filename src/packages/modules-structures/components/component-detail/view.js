@@ -22,6 +22,7 @@ import {
 	DisseminationStatusVisualisation,
 	ErrorBloc,
 	CreationUpdateItems,
+	SeeButton,
 } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
@@ -203,12 +204,9 @@ export const ComponentDetailView = ({
 						text={
 							<div className="code-list-zone-view">
 								{codeListValue}
-								<button
-									type="button"
+								<SeeButton
 									onClick={() => setCodesListPanelOpened(true)}
-								>
-									{D.see}
-								</button>
+								></SeeButton>
 							</div>
 						}
 						title={D1.codesListTitle}

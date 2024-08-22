@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
 import D from '../../i18n/build-dictionary';
-import api from '../../apis/structure-api';
 
 import {
 	Column,
@@ -11,7 +10,7 @@ import {
 	Select,
 	AdvancedSearchList,
 } from '../../../components';
-import { ConceptsApi } from '../../../sdk';
+import { ConceptsApi, StructureApi } from '../../../sdk';
 import { validateStateOptions } from '../../../model/ValidationState';
 import { useStampsOptions } from '../../../utils/hooks/stamps';
 import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
@@ -175,7 +174,10 @@ const SearchListContainer = () => {
 	const stampListOptions = useStampsOptions();
 
 	useEffect(() => {
-		Promise.all([api.getStructuresForSearch(), ConceptsApi.getConceptList()])
+		Promise.all([
+			StructureApi.getStructuresForSearch(),
+			ConceptsApi.getConceptList(),
+		])
 			.then(([structures, concepts]) => {
 				setItems(structures);
 				setConcepts(concepts);

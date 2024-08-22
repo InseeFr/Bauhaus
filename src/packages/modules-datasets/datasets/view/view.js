@@ -5,8 +5,7 @@ import { useEffect, useState } from 'react';
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import api from '../../api/datasets-api';
-import StructureAPI from '../../../modules-structures/apis/structure-api';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useThemes } from '../useThemes';
 import { withCodesLists } from '../../../utils/hoc/withCodesLists';
 import { useDataset } from '../../hooks';
@@ -31,16 +30,13 @@ import { getLocales } from '../../../redux/selectors';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { stringToDate } from '../../../utils/date-utils';
 import { getSecondLang } from '../../../redux/second-lang';
+import { useStructures } from '../../../utils/hooks/structures';
 
 const Dataset = (props) => {
 	const { id } = useParams();
 	const history = useHistory();
-	const { data: structures } = useQuery({
-		queryKey: ['structures'],
-		queryFn: () => {
-			return StructureAPI.getStructures();
-		},
-	});
+	const { data: structures } = useStructures();
+
 	const [archivageUnits, setArchivageUnits] = useState([]);
 
 	useEffect(() => {

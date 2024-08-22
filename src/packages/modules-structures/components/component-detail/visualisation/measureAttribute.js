@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import api from '../../../apis/structure-api';
 import { MeasureAttributeValue } from './measureAttributeValue';
+import { StructureApi } from '../../../../sdk';
 
 export const MeasureAttribute = ({
 	attribute,
@@ -12,9 +12,9 @@ export const MeasureAttribute = ({
 	const [fullAttribute, setFullAttribute] = useState();
 
 	useEffect(() => {
-		api
-			.getMutualizedComponent(attributeId)
-			.then((body) => setFullAttribute(body));
+		StructureApi.getMutualizedComponent(attributeId).then((body) =>
+			setFullAttribute(body)
+		);
 	}, [attributeId]);
 
 	if (!fullAttribute) {

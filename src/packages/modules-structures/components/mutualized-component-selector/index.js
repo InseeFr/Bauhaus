@@ -8,6 +8,7 @@ import { ComponentDetail } from '../component-detail';
 
 import Representation from '../representation';
 import { UNPUBLISHED } from '../../..//model/ValidationState';
+import { SeeButton } from '../../../components';
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,
@@ -67,13 +68,10 @@ export const MutualizedComponentsSelector = ({
 		),
 		actions: (
 			<>
-				<button
+				<SeeButton
 					data-component-id={component.identifiant}
 					onClick={seeClickHandler}
-					aria-label={D.see}
-				>
-					<span className="glyphicon glyphicon-eye-open"></span>
-				</button>
+				></SeeButton>
 				<button
 					data-component-id={component.identifiant}
 					onClick={addClickHandler}

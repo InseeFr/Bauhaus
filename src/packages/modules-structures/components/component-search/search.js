@@ -9,10 +9,9 @@ import {
 } from '../../../components';
 
 import { Link, Redirect } from 'react-router-dom';
-import api from '../../apis/structure-api';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
-import { ConceptsApi } from '../../../sdk';
+import { ConceptsApi, StructureApi } from '../../../sdk';
 import { validateStateOptions } from '../../../model/ValidationState';
 import { useStampsOptions } from '../../../utils/hooks/stamps';
 import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
@@ -135,7 +134,7 @@ const SearchListContainer = () => {
 	const stampListOptions = useStampsOptions();
 	useEffect(() => {
 		Promise.all([
-			api.getMutualizedComponentsForSearch(),
+			StructureApi.getMutualizedComponentsForSearch(),
 			ConceptsApi.getConceptList(),
 		])
 			.then(([components, concepts]) => {

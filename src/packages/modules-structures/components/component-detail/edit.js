@@ -18,12 +18,11 @@ import {
 	XSD_TYPES,
 	IGEO_PAYS_OU_TERRITOIRE,
 } from '../../utils/constants';
-import { CodeListApi } from '../../../sdk';
+import { CodeListApi, StructureApi } from '../../../sdk';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from '../../../modules-codelists/apis';
-import api from '../../apis/structure-api';
 import { useSelector } from 'react-redux';
 import { convertToArrayIfDefined, sortArray } from '../../../utils/array-utils';
 import {
@@ -35,6 +34,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	Select,
+	SeeButton,
 } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { AppContext } from '../../../application/app-context';
@@ -98,7 +98,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 
 	return (
 		<>
-			<div className="row">
+			<Row>
 				<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
 					<label>{D1.codesListTitle}</label>
 					<Select
@@ -115,17 +115,14 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 							})
 						}
 					/>
-					<button
-						type="button"
+					<SeeButton
 						disabled={!fullCodeListValue}
 						onClick={() => setFullCodesListPanelOpened(true)}
-					>
-						{D.see}
-					</button>
+					></SeeButton>
 				</div>
-			</div>
+			</Row>
 			{partials.length > 0 && (
-				<div className="row">
+				<Row>
 					<div className="col-md-offset-2 col-md-10 form-group code-list-zone">
 						<label>{D1.codelistsPartialTitle}</label>
 						<Select
@@ -138,15 +135,12 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 								setComponent({ ...component, codeList: value })
 							}
 						/>
-						<button
-							type="button"
+						<SeeButton
 							disabled={!currentCodeList}
 							onClick={() => setPartialCodesListPanelOpened(true)}
-						>
-							{D.see}
-						</button>
+						></SeeButton>
 					</div>
-				</div>
+				</Row>
 			)}
 			<CodesListPanel
 				codesList={codesLists.find(
@@ -294,7 +288,7 @@ export const DumbComponentDetailEdit = ({
 			)}
 			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 			<form>
-				<div className="row">
+				<Row>
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="identifiant">{D1.idTitle}</LabelRequired>
 						<TextInput
@@ -314,9 +308,9 @@ export const DumbComponentDetailEdit = ({
 							error={clientSideErrors?.fields?.identifiant}
 						></ClientSideError>
 					</div>
-				</div>
+				</Row>
 				<Row>
-					<div className={`col-md-6 form-group`}>
+					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="labelLg1">
 							{D1.label} ({lg1})
 						</LabelRequired>
@@ -492,7 +486,7 @@ export const DumbComponentDetailEdit = ({
 				)}
 				{(component.range === XSD_INTEGER || component.range === XSD_FLOAT) && (
 					<>
-						<div className="row">
+						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="minLength">{D1.minLength}</label>
 								<input
@@ -504,8 +498,8 @@ export const DumbComponentDetailEdit = ({
 									onChange={handleChange}
 								/>
 							</div>
-						</div>
-						<div className="row">
+						</Row>
+						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="maxLength">{D1.maxLength}</label>
 								<input
@@ -517,8 +511,8 @@ export const DumbComponentDetailEdit = ({
 									onChange={handleChange}
 								/>
 							</div>
-						</div>
-						<div className="row">
+						</Row>
+						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="minInclusive">{D1.minInclusive}</label>
 								<input
@@ -530,8 +524,8 @@ export const DumbComponentDetailEdit = ({
 									onChange={handleChange}
 								/>
 							</div>
-						</div>
-						<div className="row">
+						</Row>
+						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="maxInclusive">{D1.maxInclusive}</label>
 								<input
@@ -543,7 +537,7 @@ export const DumbComponentDetailEdit = ({
 									onChange={handleChange}
 								/>
 							</div>
-						</div>
+						</Row>
 					</>
 				)}
 				{component.range === XSD_CODE_LIST && (
@@ -731,7 +725,9 @@ const AttributeCodeList = ({
 const AttributeValue = ({ onChange, value, codesLists, attributeId }) => {
 	const [attribute, setAttribute] = useState();
 	useEffect(() => {
-		api.getMutualizedComponent(attributeId).then((body) => setAttribute(body));
+		StructureApi.getMutualizedComponent(attributeId).then((body) =>
+			setAttribute(body)
+		);
 	}, [attributeId]);
 
 	if (!attribute) {

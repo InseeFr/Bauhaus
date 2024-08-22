@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { PageTitle, SearchableList } from '../../components';
-import StructureAPI from '../apis/structure-api';
 import D from '../../deprecated-locales';
 import { HomePageMenu } from './menu';
 import { useTitle } from '../../utils/hooks/useTitle';
+import { StructureApi } from '../../sdk';
 const Home = () => {
 	useTitle(D.structuresTitle, D.structuresTitle);
 	const [DSDs, setDSDs] = useState([]);
 
 	useEffect(() => {
-		StructureAPI.getStructures().then((res) => {
+		StructureApi.getStructures().then((res) => {
 			setDSDs(res);
 		});
 	}, []);
