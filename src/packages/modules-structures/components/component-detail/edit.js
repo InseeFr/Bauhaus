@@ -34,6 +34,7 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	Select,
+	SeeButton,
 } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { AppContext } from '../../../application/app-context';
@@ -114,13 +115,10 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 							})
 						}
 					/>
-					<button
-						type="button"
+					<SeeButton
 						disabled={!fullCodeListValue}
 						onClick={() => setFullCodesListPanelOpened(true)}
-					>
-						{D.see}
-					</button>
+					></SeeButton>
 				</div>
 			</Row>
 			{partials.length > 0 && (
@@ -137,13 +135,10 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 								setComponent({ ...component, codeList: value })
 							}
 						/>
-						<button
-							type="button"
+						<SeeButton
 							disabled={!currentCodeList}
 							onClick={() => setPartialCodesListPanelOpened(true)}
-						>
-							{D.see}
-						</button>
+						></SeeButton>
 					</div>
 				</Row>
 			)}

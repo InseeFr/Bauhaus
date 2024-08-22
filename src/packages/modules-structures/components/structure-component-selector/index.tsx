@@ -13,6 +13,7 @@ import { ADMIN } from '../../../auth/roles';
 import { ComponentDefinition } from '../../../model/structures/Component';
 import { Structure } from '../../../model/structures/Structure';
 import { CodesList } from '../../../model/CodesList';
+import { SeeButton } from '../../../components';
 
 type StructureComponentsSelectorTypes = {
 	hidden?: boolean;
@@ -185,14 +186,11 @@ export const StructureComponentsSelector = ({
 				),
 				actions: (
 					<>
-						<button
+						<SeeButton
 							data-component-id={component.identifiant}
 							onClick={seeClickHandler}
-							aria-label={D.see}
-							title={D.see}
-						>
-							<span className="glyphicon glyphicon-eye-open"></span>
-						</button>
+						></SeeButton>
+
 						<button
 							data-component-id={component.identifiant}
 							onClick={specificationClickHandler}

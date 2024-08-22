@@ -3,6 +3,7 @@ export * from './data/creators';
 export * from './advanced-search/home';
 export * from './advanced-search/controls';
 export * from './application-title';
+export * from './buttons/see';
 export * from './check-second-lang';
 export * from './confirmation-delete';
 export * from './contributors/contributors';

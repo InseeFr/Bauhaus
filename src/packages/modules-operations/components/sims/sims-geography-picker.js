@@ -13,6 +13,7 @@ import {
 } from '../../../redux/geographies.action';
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
+import { SeeButton } from '../../../components';
 
 const accentsMap = new Map([
 	['A', 'Á|À|Ã|Â|Ä'],
@@ -127,14 +128,10 @@ const SimsGeographyPicker = ({
 						{D.btnNew}
 					</button>
 				</Auth>
-				<button
+				<SeeButton
 					disabled={!shouldSeeViewButton}
-					type="button"
-					className="btn btn-default"
 					onClick={openViewPanel}
-				>
-					{D.btnSee}
-				</button>
+				></SeeButton>
 			</div>
 			<SlidingPanel
 				type={'right'}

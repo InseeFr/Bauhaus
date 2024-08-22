@@ -84,10 +84,6 @@ const dictionary = {
 		fr: 'Ajouter',
 		en: 'Add',
 	},
-	see: {
-		fr: 'Voir',
-		en: 'See',
-	},
 	remove: {
 		fr: 'Supprimer',
 		en: 'Remove',
