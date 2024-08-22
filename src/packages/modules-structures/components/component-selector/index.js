@@ -11,7 +11,7 @@ import {
 } from '../../utils/constants/dsd-components';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { OBSERVATION } from '../../utils/constants';
-import Api from '../../apis/structure-api';
+import { StructureApi } from '../../../sdk';
 
 const filterComponentDefinition = (type) => (componentDefinition) =>
 	componentDefinition?.component?.type === type;
@@ -200,19 +200,21 @@ const ComponentSelector = ({
 		(id) => {
 			const component = mutualizedComponents.find((c) => c.identifiant === id);
 			if (component.type === MEASURE_PROPERTY_TYPE) {
-				Api.getMutualizedComponent(component.id).then((fullComponent) => {
-					const componentsToAdd = [component];
-					Object.keys(fullComponent)
-						.filter((key) => key.indexOf('attribute_') === 0)
-						.forEach((iri) => {
-							const attribute = mutualizedComponents.find(
-								(c) => c.iri === fullComponent[iri]
-							);
+				StructureApi.getMutualizedComponent(component.id).then(
+					(fullComponent) => {
+						const componentsToAdd = [component];
+						Object.keys(fullComponent)
+							.filter((key) => key.indexOf('attribute_') === 0)
+							.forEach((iri) => {
+								const attribute = mutualizedComponents.find(
+									(c) => c.iri === fullComponent[iri]
+								);
 
-							componentsToAdd.push(attribute);
-						});
-					addComponent(structureComponents, componentsToAdd);
-				});
+								componentsToAdd.push(attribute);
+							});
+						addComponent(structureComponents, componentsToAdd);
+					}
+				);
 			} else {
 				addComponent(structureComponents, component);
 			}

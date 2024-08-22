@@ -5,9 +5,8 @@ import {
 	DIMENSION_PROPERTY_TYPE,
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
-import StructureAPI from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis';
-import { ConceptsApi } from '../../../sdk';
+import { ConceptsApi, StructureApi } from '../../../sdk';
 import D from '../../../deprecated-locales';
 
 const Components = ({ componentDefinitions, onChange, structure = {} }) => {
@@ -23,7 +22,7 @@ const Components = ({ componentDefinitions, onChange, structure = {} }) => {
 		getFormattedCodeList().then((res) => setCodesLists(res));
 	}, []);
 	useEffect(() => {
-		StructureAPI.getMutualizedComponents().then((res) =>
+		StructureApi.getMutualizedComponents().then((res) =>
 			setMutualizedComponents(res)
 		);
 	}, []);

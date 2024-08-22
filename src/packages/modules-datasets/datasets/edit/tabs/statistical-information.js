@@ -1,12 +1,12 @@
 import { D1 } from '../../../../deprecated-locales';
-import { useQuery } from '@tanstack/react-query';
 import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
 import ReactSelect from 'react-select';
-import StructureAPI from '../../../../modules-structures/apis/structure-api';
 import { TemporalField } from '../../components/temporalField';
 import { CL_FREQ } from '../../../../redux/actions/constants/codeList';
 import { Row } from '../../../../components';
 import { convertCodesListsToSelectOption } from '../../../../modules-datasets/utils/codelist-to-select-options';
+
+import { useStructures } from '../../../../utils/hooks/structures';
 const StatisticalInformationTab = ({
 	editingDataset,
 	setEditingDataset,
@@ -14,12 +14,8 @@ const StatisticalInformationTab = ({
 }) => {
 	const clDataTypes = convertCodesListsToSelectOption(props['CL_DATA_TYPES']);
 
-	const { data: structures } = useQuery({
-		queryKey: ['structures'],
-		queryFn: () => {
-			return StructureAPI.getStructures();
-		},
-	});
+	const { data: structures } = useStructures();
+
 	const structuresOptions =
 		structures?.map(({ iri, labelLg1 }) => ({ value: iri, label: labelLg1 })) ??
 		[];

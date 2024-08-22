@@ -11,6 +11,7 @@ export type Component = {
 	required?: boolean;
 	attachment?: string;
 	codeList?: string;
+	fullCodeListValue?: string;
 	concept?: string;
 };
 

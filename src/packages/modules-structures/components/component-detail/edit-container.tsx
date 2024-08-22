@@ -2,24 +2,25 @@ import { useState, useEffect, useCallback } from 'react';
 import { Loading } from '../../../components';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { DumbComponentDetailEdit } from './edit';
-import api from '../../apis/structure-api';
 import { getFormattedCodeList } from '../../apis';
-import { ConceptsApi } from '../../../sdk';
+import { ConceptsApi, saveComponent, StructureApi } from '../../../sdk';
 import { useParams } from 'react-router-dom';
 import { useStampsOptions } from '../../../utils/hooks/stamps';
+import { Component } from '../../../model/structures/Component';
+import { CodesLists } from '../../../model/CodesList';
 
-const EditContainer = (props) => {
+const EditContainer = (props: any) => {
 	const goBack = useGoBack();
 
-	const { id } = useParams();
+	const { id } = useParams<{ id: string }>();
 	const urlParams = new URLSearchParams(window.location.search);
 	const type = urlParams.get('type');
-	const [loading, setLoading] = useState(true);
-	const [saving, setSaving] = useState(false);
+	const [loading, setLoading] = useState<boolean>(true);
+	const [saving, setSaving] = useState<boolean>(false);
 	const [component, setComponent] = useState({});
 	const [concepts, setConcepts] = useState([]);
-	const [codesLists, setCodesLists] = useState([]);
-	const [serverSideError, setServerSideError] = useState('');
+	const [codesLists, setCodesLists] = useState<CodesLists>([]);
+	const [serverSideError, setServerSideError] = useState<string>('');
 	const [attributes, setAttributes] = useState([]);
 
 	const stampListOptions = useStampsOptions();
@@ -30,23 +31,15 @@ const EditContainer = (props) => {
 	);
 
 	const handleSave = useCallback(
-		(component) => {
+		(component: Component) => {
 			setSaving(true);
 			setServerSideError('');
 
-			let request;
-
-			if (component.id) {
-				request = api.putMutualizedComponent(component);
-			} else {
-				request = api.postMutualizedComponent(component);
-			}
-
-			request
+			saveComponent(component)
 				.then((id = component.id) =>
 					goBack(`/structures/components/${id}`, !component.id)
 				)
-				.catch((error) => {
+				.catch((error: string) => {
 					setComponent(component);
 					setServerSideError(error);
 				})
@@ -57,11 +50,11 @@ const EditContainer = (props) => {
 
 	useEffect(() => {
 		const getComponent = id
-			? api.getMutualizedComponent(id)
+			? StructureApi.getMutualizedComponent(id)
 			: Promise.resolve({});
 		Promise.all([
 			getComponent,
-			api.getMutualizedAttributes(),
+			StructureApi.getMutualizedAttributes(),
 			ConceptsApi.getConceptList(),
 			getFormattedCodeList(),
 		])

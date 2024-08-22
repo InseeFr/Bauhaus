@@ -6,8 +6,8 @@ import {
 	ATTRIBUTE_PROPERTY_TYPE,
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
-import Api from '../../apis/structure-api';
 import { TextInput, Column, Row, Select } from '../../../components';
+import { StructureApi } from '../../../sdk';
 
 export const ComponentSpecificationForm = ({
 	structureComponents,
@@ -21,7 +21,9 @@ export const ComponentSpecificationForm = ({
 		Promise.all(
 			structureComponents
 				.filter((c) => c.component.type === MEASURE_PROPERTY_TYPE)
-				.map((measure) => Api.getMutualizedComponent(measure.component.id))
+				.map((measure) =>
+					StructureApi.getMutualizedComponent(measure.component.id)
+				)
 		).then((measures) => {
 			setAttachments(getAllAttachment(measures, selectedComponent));
 		});

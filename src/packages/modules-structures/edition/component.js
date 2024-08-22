@@ -15,7 +15,6 @@ import {
 
 import Controls from './controls';
 import Components from './components';
-import StructureAPI from '../apis/structure-api';
 import { DISSEMINATION_STATUS } from '../utils/constants';
 import D, { D1, D2 } from '../../deprecated-locales';
 import { useSelector } from 'react-redux';
@@ -24,6 +23,7 @@ import { useStampsOptions } from '../../utils/hooks/stamps';
 import { AppContext } from '../../application/app-context';
 import { getPermission } from '../../redux/selectors';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
+import { StructureApi } from '../../sdk';
 
 const defaultDSD = {
 	identifiant: '',
@@ -96,8 +96,8 @@ const Edition = ({ creation, initialStructure }) => {
 		} else {
 			setLoading(true);
 			(creation
-				? StructureAPI.postStructure(structure)
-				: StructureAPI.putStructure(structure)
+				? StructureApi.postStructure(structure)
+				: StructureApi.putStructure(structure)
 			)
 				.then((id) => {
 					setRedirectId(id);

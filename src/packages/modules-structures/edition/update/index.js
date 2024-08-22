@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import Edition from '../component';
 import { Loading } from '../../../components';
-import StructureAPI from '../../apis/structure-api';
 import { useLocation, useParams } from 'react-router-dom';
 import D from '../../../deprecated-locales';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { StructureApi } from '../../../sdk';
 
 const Update = () => {
 	const location = useLocation();
@@ -15,7 +15,7 @@ const Update = () => {
 	useTitle(D.structuresTitle, structure?.labelLg1);
 
 	useEffect(() => {
-		StructureAPI.getStructure(structureId)
+		StructureApi.getStructure(structureId)
 			.then((res) => setStructure(res))
 			.finally(() => {
 				setLoading(false);

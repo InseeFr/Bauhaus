@@ -1,6 +1,6 @@
-import { buildApi } from '../../sdk';
-import { Structure } from '../../model/structures/Structure';
-import { Component } from '../../model/structures/Component';
+import { Structure } from '../model/structures/Structure';
+import { Component } from '../model/structures/Component';
+import { buildApi } from './build-api';
 
 const api = {
 	getStructures: () => [''],
@@ -78,4 +78,6 @@ const api = {
 	],
 };
 
-export default buildApi('structures', api) as any;
+export const StructureApi = buildApi('structures', api) as any;
+
+export * from './structures/saveComponent';

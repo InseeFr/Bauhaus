@@ -2,8 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { Loading } from '../../../components';
 import { ComponentDetailView } from './view';
-import api from '../../apis/structure-api';
-import { ConceptsApi } from '../../../sdk';
+import { ConceptsApi, StructureApi } from '../../../sdk';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -33,15 +32,15 @@ const ViewContainer = (props) => {
 
 	const handleDelete = useCallback(() => {
 		setLoading(true);
-		api
-			.deleteMutualizedComponent(id)
-			.then(() => goBack('/structures/components'));
+		StructureApi.deleteMutualizedComponent(id).then(() =>
+			goBack('/structures/components')
+		);
 	}, [id, goBack]);
 
 	useEffect(() => {
 		Promise.all([
-			api.getMutualizedComponent(id),
-			api.getMutualizedAttributes(),
+			StructureApi.getMutualizedComponent(id),
+			StructureApi.getMutualizedAttributes(),
 			ConceptsApi.getConceptList(),
 			getFormattedCodeList(),
 		])
@@ -62,9 +61,8 @@ const ViewContainer = (props) => {
 
 	const publishComponent = () => {
 		setLoading(true);
-		return api
-			.publishMutualizedComponent(component)
-			.then(() => api.getMutualizedComponent(component.id))
+		return StructureApi.publishMutualizedComponent(component)
+			.then(() => StructureApi.getMutualizedComponent(component.id))
 			.then((component) => setComponent(component))
 			.finally(() => setLoading(false))
 			.catch(setServerSideError);

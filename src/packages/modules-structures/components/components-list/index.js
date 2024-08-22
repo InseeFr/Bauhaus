@@ -4,12 +4,12 @@ import './component-list.scss';
 import { useHistory } from 'react-router-dom';
 
 import { formatLabel } from '../../utils';
-import api from '../../apis/structure-api';
 import D from '../../i18n/build-dictionary';
 import { HomePageMenu } from './menu';
 import FilterToggleButtons from '../../../components/filter-toggle-buttons';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants';
+import { StructureApi } from '../../../sdk';
 
 const ALL = 'ALL';
 const sessionStorageKey = 'components-displayMode';
@@ -43,8 +43,7 @@ function ComponentsList() {
 		.map(({ id, labelLg1, labelLg2 }) => ({ id, labelLg1, labelLg2 }));
 
 	useEffect(() => {
-		api
-			.getMutualizedComponents()
+		StructureApi.getMutualizedComponents()
 			.then((components) => {
 				setItems(components);
 			})
