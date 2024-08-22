@@ -21,7 +21,9 @@ export const Tree = ({ treeData, canDrag, linkPath }: TreeTypes) => {
 				canDrop={() => false}
 				generateNodeProps={(rowInfo) => ({
 					buttons: [
-						<Link to={linkPath(rowInfo.node.id)}>{rowInfo.node.label}</Link>,
+						<Link key={rowInfo.node.id} to={linkPath(rowInfo.node.id)}>
+							{rowInfo.node.label}
+						</Link>,
 					],
 				})}
 			/>
