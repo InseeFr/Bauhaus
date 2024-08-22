@@ -1,9 +1,20 @@
 import '@testing-library/jest-dom';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 
 import { CollapsiblePanel } from '.';
 
 describe('Collapsible Panel', () => {
+	it('should display children content', () => {
+		render(
+			<CollapsiblePanel id="id" title="title" collapsible={false}>
+				Children
+			</CollapsiblePanel>
+		);
+		const div = screen.getByText('Children');
+		expect(div.getAttribute('hidden')).toBeFalsy();
+		expect(div.getAttribute('aria-labelledby')).toBe('idbutton');
+		expect(div.id).toBe('idbody');
+	});
 	it('should not be collapsible', () => {
 		const { container } = render(
 			<CollapsiblePanel id="id" title="title" collapsible={false}>
