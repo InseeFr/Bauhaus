@@ -16,7 +16,6 @@ export const SeeButton = ({ onClick, ...props }: Readonly<SeeButtonTypes>) => {
 			{...props}
 			type="button"
 			className="btn btn-default"
-			onClick={onClick}
 			aria-label={D.see}
 			title={D.see}
 		>
