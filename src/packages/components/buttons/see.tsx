@@ -10,7 +10,7 @@ const { D } = createAllDictionary({
 type SeeButtonTypes = {
 	onClick: (e: any) => void;
 };
-export const SeeButton = ({ onClick, ...props }: Readonly<SeeButtonTypes>) => {
+export const SeeButton = (props: Readonly<SeeButtonTypes>) => {
 	return (
 		<button
 			{...props}
