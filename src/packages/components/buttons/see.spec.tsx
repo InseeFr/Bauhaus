@@ -15,7 +15,7 @@ describe('SeeButton', () => {
 		expect(button.getAttribute('title')).toBe('See');
 		expect(button.getAttribute('type')).toBe('button');
 
-		const icon = button.querySelector('span');
+		const icon = button.querySelector('span')!;
 		expect(icon.classList.contains('glyphicon')).toBeTruthy();
 		expect(icon.classList.contains('glyphicon-eye-open')).toBeTruthy();
 	});
