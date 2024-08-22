@@ -1,13 +1,19 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, PropsWithChildren } from 'react';
 import { Note } from '@inseefr/wilco';
 
+type CollapsiblePanelTypes = {
+	id: string;
+	title: any;
+	hidden?: boolean;
+	collapsible?: boolean;
+};
 export const CollapsiblePanel = ({
 	id,
 	title,
 	children,
 	hidden: hiddenProps,
 	collapsible = true,
-}) => {
+}: Readonly<PropsWithChildren<CollapsiblePanelTypes>>) => {
 	const [hidden, setHidden] = useState(hiddenProps);
 	const clickTitleHandler = useCallback(() => {
 		setHidden(!hidden);
