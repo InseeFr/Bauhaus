@@ -1,19 +1,18 @@
-import { useSelector } from 'react-redux';
 import {
 	ActionToolbar,
 	ReturnButton,
 	SaveButton,
 	UpdateButton,
 } from '@inseefr/wilco';
-import { getPermission } from '../../../redux/selectors';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
+import { usePermission } from '../../../redux/hooks/usePermission';
 export const CodeSlidingPanelMenu = ({
 	codelist,
 	handleSubmit,
 	handleBack,
 	creation,
 }) => {
-	const permission = useSelector(getPermission);
+	const permission = usePermission();
 
 	const hasRightsBasedOnStamp =
 		permission?.stamp === codelist?.contributor &&

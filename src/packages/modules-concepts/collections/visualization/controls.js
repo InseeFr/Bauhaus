@@ -3,10 +3,9 @@ import { ActionToolbar, Button } from '@inseefr/wilco';
 import check from '../../../auth/auth';
 import D from '../../../deprecated-locales';
 import { CollectionExportModal } from '../modal';
-import { useSelector } from 'react-redux';
 import { saveFileFromHttpResponse } from '../../../utils/files';
 import { CollectionApi } from '../../../sdk/collection-api';
-import { getPermission } from '../../../redux/selectors';
+import { usePermission } from '../../../redux/hooks/usePermission';
 
 const CollectionVisualizationControls = ({
 	isValidated,
@@ -15,9 +14,7 @@ const CollectionVisualizationControls = ({
 	handleValidation,
 	setExporting,
 }) => {
-	const { authType, roles, stamp } = useSelector((state) =>
-		getPermission(state)
-	);
+	const { authType, roles, stamp } = usePermission();
 
 	const [displayModal, setDisplayModal] = useState(false);
 

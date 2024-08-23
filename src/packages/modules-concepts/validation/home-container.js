@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import ConceptsToValidate from './home';
 import { Loading } from '../../components';
@@ -8,11 +7,11 @@ import D from '../../deprecated-locales';
 import { ConceptsApi } from '../../sdk';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { sortArrayByLabel } from '../../utils/array-utils';
-import { getPermission } from '../../redux/selectors';
+import { usePermission } from '../../redux/hooks/usePermission';
 
 const ConceptsToValidateContainer = () => {
 	useTitle(D.conceptsTitle, D.btnValid);
-	const permission = useSelector((state) => getPermission(state));
+	const permission = usePermission();
 	const [loading, setLoading] = useState(true);
 	const [exporting, setExporting] = useState();
 	const [concepts, setConcepts] = useState([]);

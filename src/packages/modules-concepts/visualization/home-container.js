@@ -6,9 +6,10 @@ import ConceptVisualization from './home';
 import { LoadingProvider } from './loading';
 import { ConceptsApi } from '../../sdk';
 import { rmesHtmlToRawHtml } from '../../utils/html-utils';
-import { getLocales, getPermission } from '../../redux/selectors';
+import { getLocales } from '../../redux/selectors';
 import { getSecondLang } from '../../redux/second-lang';
 import { emptyNotes } from '../utils/notes';
+import { usePermission } from '../../redux/hooks/usePermission';
 
 const formatNotes = (notes) => {
 	return Object.assign(
@@ -25,7 +26,7 @@ const ConceptVisualizationContainer = () => {
 	const history = useHistory();
 
 	const langs = useSelector((state) => getLocales(state));
-	const permission = useSelector((state) => getPermission(state));
+	const permission = usePermission();
 	const secondLang = useSelector((state) => getSecondLang(state));
 
 	const [loading, setLoading] = useState('loading');

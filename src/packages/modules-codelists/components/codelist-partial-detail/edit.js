@@ -11,7 +11,6 @@ import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import '../codelist-detail/edit.scss';
 import MainDictionary from '../../../deprecated-locales/build-dictionary';
-import { useSelector } from 'react-redux';
 import {
 	TextInput,
 	Row,
@@ -24,8 +23,8 @@ import {
 } from '../../../components';
 import { CodeListApi } from '../../../sdk';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { getPermission } from '../../../redux/selectors';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
+import { usePermission } from '../../../redux/hooks/usePermission';
 
 const defaultCodelist = {
 	created: dayjs(),
@@ -77,7 +76,7 @@ export const DumbCodelistPartialDetailEdit = ({
 		[codelist, handleParentCode, globalCodeListOptions]
 	);
 
-	const permission = useSelector(getPermission);
+	const permission = usePermission();
 	const stamp = permission?.stamp;
 	const isContributor =
 		permission?.roles?.includes(CODELIST_CONTRIBUTOR) &&

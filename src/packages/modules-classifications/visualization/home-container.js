@@ -3,14 +3,15 @@ import { useSelector } from 'react-redux';
 import ClassificationVisualization from './home';
 import { Loading } from '../../components';
 import { useClassification, usePublishClassification } from '../hooks';
-import { getLocales, getPermission } from '../../redux/selectors';
+import { getLocales } from '../../redux/selectors';
 import { getSecondLang } from '../../redux/second-lang';
+import { usePermission } from '../../redux/hooks/usePermission';
 
 const ClassificationVisualizationContainer = () => {
 	const { id } = useParams();
 	const langs = useSelector((state) => getLocales(state));
 	const secondLang = useSelector((state) => getSecondLang(state));
-	const permission = useSelector((state) => getPermission(state));
+	const permission = usePermission();
 
 	const { isLoading, classification } = useClassification(id);
 	const { isPublishing, publish, error } = usePublishClassification();

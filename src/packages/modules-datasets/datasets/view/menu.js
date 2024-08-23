@@ -5,17 +5,16 @@ import {
 	ReturnButton,
 } from '@inseefr/wilco';
 import D from '../../../deprecated-locales/build-dictionary';
-import { useSelector } from 'react-redux';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { ValidationButton } from '../../../components';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { getPermission } from '../../../redux/selectors';
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
+import { usePermission } from '../../../redux/hooks/usePermission';
 
-export const ViewMenu = ({ dataset, onPublish, onDelete, ...props }) => {
+export const ViewMenu = ({ dataset, onPublish, onDelete }) => {
 	const goBack = useGoBack();
 
-	const permission = useSelector(getPermission);
+	const permission = usePermission();
 
 	const hasDatasetRightsBasedOnStamp =
 		permission?.stamp === dataset?.catalogRecord?.contributor &&

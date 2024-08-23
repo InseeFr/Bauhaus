@@ -2,7 +2,7 @@
 import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import D from '../../../deprecated-locales/build-dictionary';
-import { useDistributions } from '../../hooks';
+import { useDistributions } from '../../datasets';
 import { HomePageMenu } from './menu';
 import { Loading, Row, SearchableList } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';

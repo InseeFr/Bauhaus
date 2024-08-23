@@ -1,40 +1,39 @@
 import { useQuery } from '@tanstack/react-query';
-import datasetApi from './api/datasets-api';
-import distributionApi from './api/distributions-api';
+import { DatasetsApi, DistributionApi } from '../sdk';
 
 export const useDatasets = () => {
 	return useQuery({
-		queryFn: () => datasetApi.getAll(),
+		queryFn: () => DatasetsApi.getAll(),
 		queryKey: ['datasets'],
 	});
 };
 
 export const useDatasetsForDistributions = () => {
 	return useQuery({
-		queryFn: () => distributionApi.getDatasets(),
+		queryFn: () => DistributionApi.getDatasets(),
 		queryKey: ['datasets-distributions'],
 	});
 };
 
 export const useDistributions = () => {
 	return useQuery({
-		queryFn: () => distributionApi.getAll(),
+		queryFn: () => DistributionApi.getAll(),
 		queryKey: ['distributions'],
 	});
 };
 
-export const useDistribution = (id) => {
+export const useDistribution = (id: string) => {
 	return useQuery({
 		enabled: !!id,
 		queryKey: ['distributions', id],
-		queryFn: () => distributionApi.getById(id),
+		queryFn: () => DistributionApi.getById(id),
 	});
 };
 
-export const useDataset = (id) => {
+export const useDataset = (id: string) => {
 	return useQuery({
 		enabled: !!id,
 		queryKey: ['datasets', id],
-		queryFn: () => datasetApi.getById(id),
+		queryFn: () => DatasetsApi.getById(id),
 	});
 };

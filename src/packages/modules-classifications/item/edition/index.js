@@ -68,7 +68,7 @@ const ClassificationItemEdition = () => {
 		true
 	);
 
-	const { data: previousLevels = [], isLoading: isPreviousLevelsLoading } =
+	const { data: previousLevels = [], isPending: isPreviousLevelsLoading } =
 		useQuery({
 			queryKey: ['classification-parent-levels', classificationId, itemId],
 			queryFn: () => {

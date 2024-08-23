@@ -9,7 +9,7 @@ const ConceptsToExportContainer = () => {
 	useTitle(D.conceptsTitle, D.exportTitle);
 	const [ids, setIds] = useState([]);
 
-	const { mutate: exportConcept, isLoading: isExporting } =
+	const { mutate: exportConcept, isPending: isExporting } =
 		useConceptExporter();
 	const { isLoading, data: concepts } = useConcepts();
 

@@ -1,15 +1,14 @@
 import { Menu } from '@inseefr/wilco';
 import D from '../i18n/build-dictionary';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { getPermission } from '../../redux/selectors';
 import { ADMIN } from '../../auth/roles';
+import { usePermission } from '../../redux/hooks/usePermission';
 
 const defaultAttrs = { 'aria-current': 'page' };
 
 const MenuCodelists = () => {
 	const location = useLocation();
-	const permission = useSelector((state) => getPermission(state));
+	const permission = usePermission();
 
 	const activePath = location.pathname;
 	if (activePath === '/') return null;

@@ -7,14 +7,13 @@ import {
 	DeleteButton,
 	DuplicateButton,
 } from '@inseefr/wilco';
-import { useSelector } from 'react-redux';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { ValidationButton } from '../../../components';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
-import { getPermission } from '../../../redux/selectors';
 import { StructureApi } from '../../../sdk';
+import { usePermission } from '../../../redux/hooks/usePermission';
 const Controls = ({ structure, publish }) => {
-	const permission = useSelector(getPermission);
+	const permission = usePermission();
 
 	const { id } = structure;
 	let history = useHistory();

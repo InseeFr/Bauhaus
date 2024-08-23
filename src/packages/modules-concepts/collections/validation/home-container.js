@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CollectionsToValidate from './home';
 import { Loading } from '../../../components';
 import D from '../../../deprecated-locales';
 import { ConceptsApi } from '../../../sdk';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { getPermission } from '../../../redux/selectors';
+import { usePermission } from '../../../redux/hooks/usePermission';
 
 const CollectionsToValidateContainer = () => {
 	useTitle(D.collectionsTitle, D.btnValid);
 
-	const permission = useSelector((state) => getPermission(state));
+	const permission = usePermission();
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [collections, setCollections] = useState([]);

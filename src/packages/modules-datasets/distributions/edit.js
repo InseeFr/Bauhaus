@@ -7,11 +7,10 @@ import {
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import api from '../api/distributions-api';
 import { D1, D2 } from '../../deprecated-locales';
 import { default as ReactSelect } from 'react-select';
 import D from '../../deprecated-locales/build-dictionary';
-import { useDatasetsForDistributions, useDistribution } from '../hooks';
+import { useDatasetsForDistributions, useDistribution } from '../datasets';
 import { validate } from './validation';
 import {
 	TextInput,
@@ -24,6 +23,7 @@ import {
 } from '../../components';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { useTitle } from '../../utils/hooks/useTitle';
+import { DistributionApi } from '../../sdk';
 
 export const DistributionEdit = (props) => {
 	const { id } = useParams();
@@ -52,12 +52,12 @@ export const DistributionEdit = (props) => {
 
 	const queryClient = useQueryClient();
 
-	const { isLoading: isSaving, mutate: save } = useMutation({
+	const { isPending: isSaving, mutate: save } = useMutation({
 		mutationFn: () => {
 			if (isEditing) {
-				return api.putDistribution(editingDistribution);
+				return DistributionApi.putDistribution(editingDistribution);
 			}
-			return api.postDistribution(editingDistribution);
+			return DistributionApi.postDistribution(editingDistribution);
 		},
 
 		onSuccess: (id) => {

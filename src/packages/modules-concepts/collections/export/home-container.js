@@ -13,7 +13,7 @@ const CollectionsToExportContainer = () => {
 	const [ids, setIds] = useState([]);
 
 	const { data: collections, isLoading } = useCollections();
-	const { mutate: exportCollection, isLoading: isExporting } =
+	const { mutate: exportCollection, isPending: isExporting } =
 		useCollectionExporter();
 
 	if (isExporting) return <Loading textType="exporting" />;

@@ -1,13 +1,12 @@
 import { ExportButton, PublishButton, VerticalMenu } from '@inseefr/wilco';
-import { useSelector } from 'react-redux';
 import check from '../auth/auth';
 import { MasculineButton } from '../components';
 import { ADMIN } from '../auth/roles';
-import { getPermission } from '../redux/selectors';
 import Auth from '../auth/components/auth';
+import { usePermission } from '../redux/hooks/usePermission';
 
 export const Menu = () => {
-	const permission = useSelector((state) => getPermission(state));
+	const permission = usePermission();
 	const { authType, roles } = permission;
 	const authImpl = check(authType);
 	const adminOrCreator = authImpl.isAdminOrConceptCreator(roles);

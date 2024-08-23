@@ -1,10 +1,9 @@
 import D from '../../i18n/build-dictionary';
-import { useSelector } from 'react-redux';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
-import { getPermission } from '../../../redux/selectors';
+import { usePermission } from '../../../redux/hooks/usePermission';
 
 export const CodesPanelAddButton = ({ codelist, onHandlePanel }) => {
-	const permission = useSelector(getPermission);
+	const permission = usePermission();
 
 	if (!codelist.lastCodeUriSegment) {
 		return null;
