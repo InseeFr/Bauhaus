@@ -22,7 +22,7 @@ export const DistributionHome = () => {
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.distributionsHomePageTitle} col={12} offset={0} />
 					<SearchableList
-						items={(data as any) ?? []}
+						items={data ?? []}
 						childPath="datasets/distributions"
 						advancedSearch={false}
 						itemFormatter={(_: any, dataset: any) => dataset.labelLg1}
