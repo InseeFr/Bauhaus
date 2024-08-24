@@ -26,7 +26,7 @@ const queryClient = new QueryClient({
 	},
 });
 
-const Error = () => {
+const ErrorBlock = () => {
 	return (
 		<div>
 			<div className="container">
@@ -41,7 +41,7 @@ GeneralApi.getInit()
 	.then(
 		(res: any) => (res.ok ? res.json() : Promise.reject(res.statusText)),
 		(err: any) => {
-			renderApp(Error, {}, { home: true });
+			renderApp(ErrorBlock, {}, { home: true });
 			return Promise.reject(err.toString());
 		}
 	)

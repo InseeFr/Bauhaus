@@ -7,16 +7,24 @@ import Notes from './notes';
 import Levels from './levels';
 import D from '../../deprecated-locales';
 import { useTitle } from '../../utils/hooks/useTitle';
+import { Classification } from '../../model/Classification';
 
-const ClassificationVisualization = (props) => {
-	const {
-		classification: { general, levels },
-		classificationId,
-		secondLang,
-		langs,
-		publish,
-		serverSideError,
-	} = props;
+type ClassificationVisualizationTypes = {
+	classification: Classification;
+	classificationId: string;
+	secondLang?: boolean;
+	langs: { lg1: string; lg2: string };
+	publish: () => void;
+	serverSideError?: any;
+};
+const ClassificationVisualization = ({
+	classification: { general, levels },
+	classificationId,
+	secondLang,
+	langs,
+	publish,
+	serverSideError,
+}: ClassificationVisualizationTypes) => {
 	useTitle(D.classificationsTitle, general?.prefLabelLg1);
 
 	const notes = {

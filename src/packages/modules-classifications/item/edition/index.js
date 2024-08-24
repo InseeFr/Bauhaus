@@ -117,10 +117,7 @@ const ClassificationItemEdition = () => {
 		});
 
 		Object.entries(value).forEach(([key]) => {
-			if (
-				key.indexOf('altLabelsLg1_') === 0 ||
-				key.indexOf('altLabelsLg2_') === 0
-			) {
+			if (key.startsWith('altLabelsLg1_') || key.startsWith('altLabelsLg2_')) {
 				delete value[key];
 			}
 		});

@@ -23,7 +23,7 @@ export const usePublishClassification = (id) => {
 		mutate: publish,
 		error,
 	} = useMutation({
-		mutationFn: (id) => {
+		mutationFn: () => {
 			return ClassificationsApi.publishClassification(id);
 		},
 

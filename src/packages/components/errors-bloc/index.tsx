@@ -61,15 +61,19 @@ export const ErrorBloc = ({
 		return errorMsg;
 	});
 
-	return formattedErrors.map((e, index) => (
-		<div
-			key={index}
-			className="bauhaus-error-bloc alert alert-danger"
-			role="alert"
-		>
-			{<div dangerouslySetInnerHTML={{ __html: e }} /> || (
-				<span style={{ whiteSpace: 'pre-wrap' }}> </span>
-			)}
-		</div>
-	));
+	return (
+		<>
+			{formattedErrors.map((e, index) => (
+				<div
+					key={index}
+					className="bauhaus-error-bloc alert alert-danger"
+					role="alert"
+				>
+					{<div dangerouslySetInnerHTML={{ __html: e }} /> || (
+						<span style={{ whiteSpace: 'pre-wrap' }}> </span>
+					)}
+				</div>
+			))}
+		</>
+	);
 };

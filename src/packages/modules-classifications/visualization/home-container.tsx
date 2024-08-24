@@ -5,16 +5,15 @@ import { Loading } from '../../components';
 import { useClassification, usePublishClassification } from '../hooks';
 import { getLocales } from '../../redux/selectors';
 import { getSecondLang } from '../../redux/second-lang';
-import { usePermission } from '../../redux/hooks/usePermission';
+import { ReduxModel } from '../../redux/model';
 
 const ClassificationVisualizationContainer = () => {
-	const { id } = useParams();
-	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) => getSecondLang(state));
-	const permission = usePermission();
+	const { id } = useParams<{ id: string }>();
+	const langs = useSelector((state: ReduxModel) => getLocales(state));
+	const secondLang = useSelector((state: ReduxModel) => getSecondLang(state));
 
 	const { isLoading, classification } = useClassification(id);
-	const { isPublishing, publish, error } = usePublishClassification();
+	const { isPublishing, publish, error } = usePublishClassification(id);
 
 	if (isLoading) {
 		return <Loading />;
@@ -29,8 +28,7 @@ const ClassificationVisualizationContainer = () => {
 			classificationId={id}
 			secondLang={secondLang}
 			langs={langs}
-			permission={permission}
-			publish={() => publish(id)}
+			publish={publish}
 			serverSideError={error}
 		/>
 	);
