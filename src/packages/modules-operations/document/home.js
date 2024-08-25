@@ -1,23 +1,13 @@
 import { useState, useCallback, useEffect } from 'react';
-import { VerticalMenu, filterKeyDeburr, nbResults } from '@inseefr/wilco';
-import {
-	PageTitle,
-	TextInput,
-	MasculineButton,
-	Pagination,
-} from '../../components';
+import { filterKeyDeburr, nbResults } from '@inseefr/wilco';
+import { PageTitle, TextInput, Pagination, Row } from '../../components';
 
 import D from '../../deprecated-locales';
 import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import FilterToggleButtons from '../../components/filter-toggle-buttons';
 import { useTitle } from '../../utils/hooks/useTitle';
-import Auth from '../../auth/components/auth';
-import {
-	ADMIN,
-	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR,
-} from '../../auth/roles';
+import { Menu } from './menu';
 
 const formatter = (content, label) => {
 	const extraInformations = [];
@@ -130,22 +120,8 @@ function DocumentHome({ documents }) {
 
 	return (
 		<div className="container documents-home">
-			<div className="row">
-				<Auth roles={[ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]}>
-					<VerticalMenu>
-						{[
-							['/operations/document/create', D.document],
-							['/operations/link/create', D.link],
-						].map(([url, title], index) => (
-							<MasculineButton
-								key={index}
-								action={url}
-								wrapper={false}
-								suffix={title}
-							/>
-						))}
-					</VerticalMenu>
-				</Auth>
+			<Row>
+				<Menu></Menu>
 
 				<div className="col-md-8 text-center pull-right operations-list">
 					<PageTitle title={D.documentsSearchTitle} col={12} offset={0} />
@@ -170,7 +146,7 @@ function DocumentHome({ documents }) {
 						autoFocus={true}
 					/>
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 }
