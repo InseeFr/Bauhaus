@@ -7,9 +7,9 @@ const messages = {
 	},
 	//TODO find a solution in order to avoid this duplicated key
 	mandatoryProperty: {
-		fr: (propertyName) =>
+		fr: (propertyName: string) =>
 			`La propriété <strong>${propertyName}</strong> est obligatoire.`,
-		en: (propertyName) =>
+		en: (propertyName: string) =>
 			`The property <strong>${propertyName}</strong> is required.`,
 	},
 };
