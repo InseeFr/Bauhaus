@@ -13,7 +13,8 @@ import {
 import { useTitle } from '../../utils/hooks/useTitle';
 import { isOutOfDate } from '../../utils/date-utils';
 import { getModalMessage } from '../../modules-concepts/utils/build-validation-message';
-import { buildNotes } from '../../modules-classifications/utils/classification/notes';
+import { buildNotes } from '../../modules-concepts/utils/notes';
+
 const ConceptVisualization = ({
 	id,
 	permission,

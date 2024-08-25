@@ -22,6 +22,7 @@ export const ExplanatoryNote = ({
 		/href="http:\/\/.+?\/codes\/(.+?)\/.+?\/(.+?)"/g,
 		`href="${window.location.origin}/classifications/classification/$1/item/$2"`
 	);
+
 	return (
 		<Note
 			title={title}
