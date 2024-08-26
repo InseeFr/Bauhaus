@@ -4,11 +4,10 @@ import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useEffect, useState } from 'react';
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
-import api from '../../api/datasets-api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useThemes } from '../useThemes';
 import { withCodesLists } from '../../../utils/hoc/withCodesLists';
-import { useDataset } from '../../hooks';
+import { useDataset } from '../../datasets';
 import { ViewMenu } from './menu';
 import {
 	Deleting,
@@ -22,6 +21,7 @@ import {
 	DisseminationStatusVisualisation,
 	PageTitleBlock,
 	CheckSecondLang,
+	ErrorBloc,
 } from '../../../components';
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
 import { useOrganizations } from '../../../utils/hooks/organizations';
@@ -31,8 +31,12 @@ import { useTitle } from '../../../utils/hooks/useTitle';
 import { stringToDate } from '../../../utils/date-utils';
 import { getSecondLang } from '../../../redux/second-lang';
 import { useStructures } from '../../../utils/hooks/structures';
+import { DatasetsApi } from '../../../sdk';
+
+import { D as DatasetDictionary } from '../../i18n';
 
 const Dataset = (props) => {
+	const [serverSideError, setServerSideError] = useState();
 	const { id } = useParams();
 	const history = useHistory();
 	const { data: structures } = useStructures();
@@ -40,7 +44,7 @@ const Dataset = (props) => {
 	const [archivageUnits, setArchivageUnits] = useState([]);
 
 	useEffect(() => {
-		api.getArchivageUnits().then(setArchivageUnits);
+		DatasetsApi.getArchivageUnits().then(setArchivageUnits);
 	}, []);
 
 	const { data: organisations } = useOrganizations();
@@ -53,9 +57,9 @@ const Dataset = (props) => {
 	const secondLang = useSelector((state) => getSecondLang(state));
 	const queryClient = useQueryClient();
 
-	const { isLoading: isPublishing, mutate: publish } = useMutation({
+	const { isPending: isPublishing, mutate: publish } = useMutation({
 		mutationFn: () => {
-			return api.publish(id);
+			return DatasetsApi.publish(id);
 		},
 
 		onSuccess: (id) => {
@@ -63,14 +67,17 @@ const Dataset = (props) => {
 		},
 	});
 
-	const { isLoading: isDeleting, mutate: remove } = useMutation({
+	const { isPending: isDeleting, mutate: remove } = useMutation({
 		mutationFn: () => {
-			return api.deleteDataset(id);
+			return DatasetsApi.deleteDataset(id);
+		},
+		onError: (error) => {
+			setServerSideError(error);
 		},
 		onSuccess: (id) => {
 			return Promise.all([
-				queryClient.invalidateQueries(['dataset', id]),
-				queryClient.invalidateQueries(['dataset']),
+				queryClient.invalidateQueries(['datasets', id]),
+				queryClient.invalidateQueries(['datasets']),
 			]).then(() => history.push('/datasets'));
 		},
 	});
@@ -95,6 +102,10 @@ const Dataset = (props) => {
 				onPublish={publish}
 				onDelete={remove}
 			/>
+			{serverSideError && (
+				<ErrorBloc error={[serverSideError]} D={DatasetDictionary} />
+			)}
+
 			<CheckSecondLang />
 
 			<Row>

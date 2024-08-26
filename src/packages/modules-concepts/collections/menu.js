@@ -1,12 +1,11 @@
 import D from '../../deprecated-locales/build-dictionary';
 import check from '../../auth/auth';
 import { Button, VerticalMenu, ExportButton } from '@inseefr/wilco';
-import { useSelector } from 'react-redux';
 import { FeminineButton } from '../../components';
-import { getPermission } from '../../redux/selectors';
+import { usePermission } from '../../redux/hooks/usePermission';
 
 export const Menu = () => {
-	const { authType, roles } = useSelector((state) => getPermission(state));
+	const { authType, roles } = usePermission();
 
 	const authImpl = check(authType);
 	const adminOrCreator = authImpl.isAdminOrCollectionCreator(roles);

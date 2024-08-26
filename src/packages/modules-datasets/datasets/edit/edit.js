@@ -1,10 +1,8 @@
 import D from '../../../deprecated-locales';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useDataset } from '../../hooks';
-import api from '../../api/datasets-api';
+import { useDataset } from '../../datasets';
 import {
 	Loading,
 	GlobalClientSideErrorBloc,
@@ -21,8 +19,9 @@ import { validate } from './validation';
 import './edit.scss';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { getPermission } from '../../../redux/selectors';
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import { DatasetsApi } from '../../../sdk';
 
 export const DatasetEdit = (props) => {
 	const { id } = useParams();
@@ -125,7 +124,8 @@ export const DatasetEdit = (props) => {
 
 	const { data: dataset, status } = useDataset(id);
 
-	const permission = useSelector(getPermission);
+	const permission = usePermission();
+
 	const stamp = permission?.stamp;
 	const isContributor =
 		permission?.roles?.includes(DATASET_CONTRIBUTOR) &&
@@ -145,13 +145,13 @@ export const DatasetEdit = (props) => {
 
 	const queryClient = useQueryClient();
 
-	const { isLoading: isSaving, mutate: save } = useMutation({
+	const { isPending: isSaving, mutate: save } = useMutation({
 		mutationFn: () => {
 			const formattedDataset = { themes: [], ...editingDataset };
 			if (isEditing) {
-				return api.putDataset(formattedDataset);
+				return DatasetsApi.putDataset(formattedDataset);
 			}
-			return api.postDataset(formattedDataset);
+			return DatasetsApi.postDataset(formattedDataset);
 		},
 
 		onSuccess: (id) => {

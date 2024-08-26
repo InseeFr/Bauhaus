@@ -13,12 +13,12 @@ export const Tabs = ({
 			<BootstrapTabs
 				id={id}
 				defaultActiveKey={0}
-				onSelect={(index: number) => setActiveTab(index)}
+				onSelect={setActiveTab}
 				justified
 			>
 				{tabs.map((t, i) => (
 					<BootstrapTab
-						key={`tab${i}`}
+						key={t.title}
 						eventKey={i}
 						title={t.title}
 						disabled={t.disabled}

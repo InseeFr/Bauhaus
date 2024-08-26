@@ -9,14 +9,14 @@ import {
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
-import { useDataset, useDistribution } from '../../hooks';
+import { useDataset, useDistribution } from '../../datasets';
 import { ViewMenu } from './menu';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import distributionApi from '../../api/distributions-api';
 import { getLocales } from '../../../redux/selectors';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { stringToDate } from '../../../utils/date-utils';
 import { getSecondLang } from '../../../redux/second-lang';
+import { DistributionApi } from '../../../sdk';
 
 export const DistributionView = (props) => {
 	const { id } = useParams();
@@ -33,9 +33,9 @@ export const DistributionView = (props) => {
 
 	const queryClient = useQueryClient();
 
-	const { isLoading: isPublishing, mutate: publish } = useMutation({
+	const { isPending: isPublishing, mutate: publish } = useMutation({
 		mutationFn: () => {
-			return distributionApi.publish(id);
+			return DistributionApi.publish(id);
 		},
 
 		onSuccess: (id) => {
@@ -43,9 +43,9 @@ export const DistributionView = (props) => {
 		},
 	});
 
-	const { isLoading: isDeleting, mutate: remove } = useMutation({
+	const { isPending: isDeleting, mutate: remove } = useMutation({
 		mutationFn: () => {
-			return distributionApi.deleteDistribution(id);
+			return DistributionApi.deleteDistribution(id);
 		},
 
 		onSuccess: (id) => {

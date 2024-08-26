@@ -19,11 +19,11 @@ export const useClassification = (id) => {
 export const usePublishClassification = (id) => {
 	const queryClient = useQueryClient();
 	const {
-		isLoading: isPublishing,
+		isPending: isPublishing,
 		mutate: publish,
 		error,
 	} = useMutation({
-		mutationFn: (id) => {
+		mutationFn: () => {
 			return ClassificationsApi.publishClassification(id);
 		},
 
@@ -37,7 +37,7 @@ export const usePublishClassification = (id) => {
 export const useUpdateClassification = (id) => {
 	const queryClient = useQueryClient();
 	const {
-		isLoading: isSaving,
+		isPending: isSaving,
 		mutate: save,
 		error,
 		isSuccess: isSavingSuccess,

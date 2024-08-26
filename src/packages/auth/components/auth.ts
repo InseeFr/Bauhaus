@@ -19,7 +19,7 @@ const mapDispatchToProps = {
 type AuthDumbTypes = {
 	userRoles?: string[];
 	userStamp?: string;
-	roles: string[];
+	roles: Array<string | [string, (value: string) => boolean]>;
 	fallback?: any;
 	complementaryCheck?: boolean;
 	loadUserStamp?: any;
@@ -49,7 +49,7 @@ export function AuthDumb({
 	const isAuthorized = !!roles.find((role) => {
 		if (Array.isArray(role)) {
 			const [r, check] = role;
-			return userRoles?.includes(r) && check(userStamp);
+			return userRoles?.includes(r) && check(userStamp!);
 		}
 		return userRoles?.includes(role);
 	});

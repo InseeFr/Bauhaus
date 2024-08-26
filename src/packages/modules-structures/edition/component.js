@@ -17,13 +17,12 @@ import Controls from './controls';
 import Components from './components';
 import { DISSEMINATION_STATUS } from '../utils/constants';
 import D, { D1, D2 } from '../../deprecated-locales';
-import { useSelector } from 'react-redux';
 import { validate } from './validation';
 import { useStampsOptions } from '../../utils/hooks/stamps';
 import { AppContext } from '../../application/app-context';
-import { getPermission } from '../../redux/selectors';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
 import { StructureApi } from '../../sdk';
+import { usePermission } from '../../redux/hooks/usePermission';
 
 const defaultDSD = {
 	identifiant: '',
@@ -69,7 +68,7 @@ const Edition = ({ creation, initialStructure }) => {
 		disseminationStatus,
 	} = structure;
 
-	const permission = useSelector(getPermission);
+	const permission = usePermission();
 	const stamp = permission?.stamp;
 	const isContributor =
 		permission?.roles?.includes(STRUCTURE_CONTRIBUTOR) &&

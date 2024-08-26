@@ -23,7 +23,6 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { API } from '../../../modules-codelists/apis';
-import { useSelector } from 'react-redux';
 import { convertToArrayIfDefined, sortArray } from '../../../utils/array-utils';
 import {
 	TextInput,
@@ -38,8 +37,8 @@ import {
 } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { AppContext } from '../../../application/app-context';
-import { getPermission } from '../../../redux/selectors';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
+import { usePermission } from '../../../redux/hooks/usePermission';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -184,7 +183,7 @@ export const DumbComponentDetailEdit = ({
 	const { lg1, lg2 } = useContext(AppContext);
 	useTitle(D.componentTitle, component?.labelLg1 || D.componentsCreateTitle);
 
-	const permission = useSelector(getPermission);
+	const permission = usePermission();
 	const stamp = permission?.stamp;
 	const isContributor =
 		permission?.roles?.includes(STRUCTURE_CONTRIBUTOR) &&

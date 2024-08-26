@@ -1,7 +1,6 @@
 import { D1 } from '../../../../deprecated-locales';
 import { useEffect, useState } from 'react';
 import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
-import api from '../../../api/datasets-api';
 import { LabelRequired } from '@inseefr/wilco';
 import { useStampsOptions } from '../../../../utils/hooks/stamps';
 import { useSeriesOperationsOptions } from './useSeriesOperationsOptions';
@@ -14,6 +13,7 @@ import {
 	Select,
 } from '../../../../components';
 import { convertCodesListsToSelectOption } from '../../../../modules-datasets/utils/codelist-to-select-options';
+import { DatasetsApi } from '../../../../sdk';
 
 const InternalManagementTab = ({
 	editingDataset,
@@ -40,7 +40,7 @@ const InternalManagementTab = ({
 
 	const [archivageUnits, setArchivageUnits] = useState([]);
 	useEffect(() => {
-		api.getArchivageUnits().then(setArchivageUnits);
+		DatasetsApi.getArchivageUnits().then(setArchivageUnits);
 	}, []);
 
 	return (
