@@ -1,4 +1,4 @@
-import { act, renderHook, waitFor } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 import { useQuery } from '@tanstack/react-query';
 import { useThemes } from './useThemes';
 import { ThemesApi } from '../../sdk';
@@ -27,14 +27,14 @@ describe('useThemes Hook', () => {
 
 		(ThemesApi.getThemes as jest.Mock).mockResolvedValue(mockThemes);
 
-		const { result, rerender } = renderHook(() => useThemes());
+		const { result } = renderHook(() => useThemes());
 
 		expect(useQuery).toHaveBeenCalledWith({
 			queryKey: ['themes'],
 			queryFn: expect.any(Function),
 		});
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current?.data).toEqual([
 				{
 					value: 'theme1',
@@ -63,7 +63,7 @@ describe('useThemes Hook', () => {
 
 		const { result } = renderHook(() => useThemes());
 
-		waitFor(() => {
+		await waitFor(() => {
 			expect(result.current?.error).toBe(mockError);
 		});
 	});
