@@ -48,8 +48,11 @@ export function AuthDumb({
 	}, [userStamp, isLoading, loadUserStamp]);
 	const isAuthorized = !!roles.find((role) => {
 		if (Array.isArray(role)) {
-			const [r, check] = role;
-			return userRoles?.includes(r) && check(userStamp!);
+			if (!!userStamp) {
+				const [r, check] = role;
+				return userRoles?.includes(r) && check(userStamp);
+			}
+			return false;
 		}
 		return userRoles?.includes(role);
 	});
