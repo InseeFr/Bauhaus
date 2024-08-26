@@ -7,7 +7,7 @@ import {
 	SERIES_CONTRIBUTOR,
 } from '../../auth/roles';
 
-describe('Structures Home Page Menu', () => {
+describe('Document Home Page Menu', () => {
 	it('an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
@@ -19,7 +19,7 @@ describe('Structures Home Page Menu', () => {
 		screen.getByText('New Document');
 	});
 
-	it('a user with INDICATOR_CONTRIBUTOR role can create a structure', () => {
+	it('a user with INDICATOR_CONTRIBUTOR role can create a document', () => {
 		render(
 			<RBACMock roles={[INDICATOR_CONTRIBUTOR]}>
 				<Menu />
@@ -30,7 +30,7 @@ describe('Structures Home Page Menu', () => {
 		screen.getByText('New Document');
 	});
 
-	it('a user with SERIES_CONTRIBUTOR role can create a structure', () => {
+	it('a user with SERIES_CONTRIBUTOR role can create a document', () => {
 		render(
 			<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 				<Menu />
@@ -41,7 +41,7 @@ describe('Structures Home Page Menu', () => {
 		screen.getByText('New Document');
 	});
 
-	it('a user without Admin or  INDICATOR_CONTRIBUTOR or SERIES_CONTRIBUTOR role cannot create a structure', () => {
+	it('a user without Admin or  INDICATOR_CONTRIBUTOR or SERIES_CONTRIBUTOR role cannot create a document', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu />
