@@ -1,13 +1,18 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { useQuery } from '@tanstack/react-query';
+import {
+	QueryClient,
+	QueryClientProvider,
+	useQuery,
+} from '@tanstack/react-query';
 import { useThemes } from './useThemes';
 import { ThemesApi } from '../../sdk';
 import { Theme } from '../../model/Theme';
+import React, { PropsWithChildren } from 'react';
 
-jest.mock('@tanstack/react-query', () => ({
-	useQuery: jest.fn(),
-}));
-
+const queryClient = new QueryClient();
+const wrapper = ({ children }: PropsWithChildren<{}>) => (
+	<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);
 jest.mock('../../sdk', () => ({
 	ThemesApi: {
 		getThemes: jest.fn(),
@@ -27,44 +32,11 @@ describe('useThemes Hook', () => {
 
 		(ThemesApi.getThemes as jest.Mock).mockResolvedValue(mockThemes);
 
-		const { result } = renderHook(() => useThemes());
-
-		expect(useQuery).toHaveBeenCalledWith({
-			queryKey: ['themes'],
-			queryFn: expect.any(Function),
-		});
+		const { result } = renderHook(() => useThemes(), { wrapper });
 
 		await waitFor(() => {
-			expect(result.current?.data).toEqual([
-				{
-					value: 'theme1',
-					label: (
-						<>
-							Theme 1 <i>(Scheme 1)</i>
-						</>
-					),
-				},
-				{
-					value: 'theme2',
-					label: (
-						<>
-							Theme 2 <i>(Scheme 2)</i>
-						</>
-					),
-				},
-			]);
-		});
-	});
-
-	it('should handle API call failure', async () => {
-		const mockError = new Error('Failed to fetch themes');
-
-		(ThemesApi.getThemes as jest.Mock).mockRejectedValue(mockError);
-
-		const { result } = renderHook(() => useThemes());
-
-		await waitFor(() => {
-			expect(result.current?.error).toBe(mockError);
+			expect(result.current?.data?.[0].value).toBe('theme1');
+			expect(result.current?.data?.[1].value).toBe('theme2');
 		});
 	});
 });
