@@ -78,10 +78,9 @@ function ConceptGeneralEdition({
 			<InputMultiRmes
 				inputLg1={altLabelLg1}
 				inputLg2={altLabelLg2}
-				label={'altLabelTitle'}
+				label="altLabelTitle"
 				handleChangeLg1={handlers.altLabelLg1}
 				handleChangeLg2={handlers.altLabelLg2}
-				langs={langs}
 			/>
 			<div className="form-group">
 				<LabelRequired>{D1.creatorTitle}</LabelRequired>

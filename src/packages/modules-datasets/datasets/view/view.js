@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useThemes } from '../useThemes';
 import { withCodesLists } from '../../../utils/hoc/withCodesLists';
 import { useDataset } from '../../datasets';
 import { ViewMenu } from './menu';
@@ -14,32 +13,28 @@ import {
 	Publishing,
 	Loading,
 	Row,
-	ConditionalDisplay,
-	Organization,
-	Organizations,
 	ContributorsVisualisation,
 	DisseminationStatusVisualisation,
 	PageTitleBlock,
 	CheckSecondLang,
 	ErrorBloc,
 } from '../../../components';
-import { CL_FREQ } from '../../../redux/actions/constants/codeList';
-import { useOrganizations } from '../../../utils/hooks/organizations';
-import { WasGeneratedByBlock } from './wasGeneratedByBlock';
+import { CL_PROCESS_STEP } from '../../../redux/actions/constants/codeList';
 import { getLocales } from '../../../redux/selectors';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { stringToDate } from '../../../utils/date-utils';
 import { getSecondLang } from '../../../redux/second-lang';
-import { useStructures } from '../../../utils/hooks/structures';
 import { DatasetsApi } from '../../../sdk';
 
 import { D as DatasetDictionary } from '../../i18n';
+import { GlobalInformationBlock } from './GlobalInformationBlock';
+import { List } from '../../../components/list';
+import { CodeDisplay } from '../../../components/code-display';
+import { StatisticalInformations } from './StatisticalInformations';
 
 const Dataset = (props) => {
 	const [serverSideError, setServerSideError] = useState();
 	const { id } = useParams();
 	const history = useHistory();
-	const { data: structures } = useStructures();
 
 	const [archivageUnits, setArchivageUnits] = useState([]);
 
@@ -47,11 +42,7 @@ const Dataset = (props) => {
 		DatasetsApi.getArchivageUnits().then(setArchivageUnits);
 	}, []);
 
-	const { data: organisations } = useOrganizations();
-
 	const { data: dataset, isLoading } = useDataset(id);
-
-	const { data: themesOptions = [] } = useThemes();
 
 	const { lg1, lg2 } = useSelector((state) => getLocales(state));
 	const secondLang = useSelector((state) => getSecondLang(state));
@@ -108,97 +99,7 @@ const Dataset = (props) => {
 
 			<CheckSecondLang />
 
-			<Row>
-				<Note
-					text={
-						<ul>
-							<li>
-								{D.createdDateTitle} :{' '}
-								{stringToDate(dataset.catalogRecord?.created)}{' '}
-							</li>
-							<li>
-								{D.modifiedDateTitle} :{' '}
-								{stringToDate(dataset.catalogRecord?.updated)}{' '}
-							</li>
-							<ConditionalDisplay data={dataset?.issued}>
-								<li>
-									{D.datasetsFirstDiffusion} : {stringToDate(dataset?.issued)}{' '}
-								</li>
-							</ConditionalDisplay>
-
-							{dataset.accessRights && (
-								<li>
-									{D.datasetsAccessRights} :{' '}
-									{
-										props['CL_ACCESS_RIGHTS']?.codes?.find(
-											(t) => t.iri === dataset.accessRights
-										)?.labelLg1
-									}
-								</li>
-							)}
-							{dataset.accrualPeriodicity && (
-								<li>
-									{D.datasetsUpdateFrequency} :{' '}
-									{
-										props[CL_FREQ]?.codes?.find(
-											(t) => t.iri === dataset.accrualPeriodicity
-										)?.labelLg1
-									}
-								</li>
-							)}
-							{dataset.confidentialityStatus && (
-								<li>
-									{D.datasetsConfidentialityStatus} :{' '}
-									{
-										props['CL_CONF_STATUS']?.codes?.find(
-											(t) => t.iri === dataset.confidentialityStatus
-										)?.labelLg1
-									}
-								</li>
-							)}
-							<ConditionalDisplay data={dataset.creators}>
-								<li>
-									{D.datasetsDataProvider} :
-									<Organizations
-										creators={dataset.creators}
-										organizations={organisations}
-									/>
-								</li>
-							</ConditionalDisplay>
-
-							{dataset.publisher && (
-								<li>
-									{D.datasetsPublicationProvider} :{' '}
-									<Organization
-										creator={dataset.publisher}
-										organizations={organisations}
-									/>
-								</li>
-							)}
-							<li>
-								{D.generatedBy} :{' '}
-								<WasGeneratedByBlock
-									iris={dataset.wasGeneratedIRIs}
-								></WasGeneratedByBlock>
-							</li>
-							<ConditionalDisplay data={dataset.themes}>
-								<li>
-									{D.theme} :
-									<ul>
-										{dataset.themes.map((theme) => (
-											<li key={theme}>
-												{themesOptions?.find((t) => t.value === theme)?.label}
-											</li>
-										))}
-									</ul>
-								</li>
-							</ConditionalDisplay>
-						</ul>
-					}
-					title={D1.globalInformationsTitle}
-					alone={true}
-				/>
-			</Row>
+			<GlobalInformationBlock dataset={dataset}></GlobalInformationBlock>
 
 			<Row>
 				<Note
@@ -239,6 +140,22 @@ const Dataset = (props) => {
 			<Row>
 				<Note
 					text={
+						<List
+							items={dataset.linkedDocuments}
+							getContent={(linkedDocument) => (
+								<a href={linkedDocument}>{linkedDocument}</a>
+							)}
+						></List>
+					}
+					title={DatasetDictionary.datasets.linkedDocuments}
+					lang={lg1}
+					alone={true}
+					allowEmpty={true}
+				></Note>
+			</Row>
+			<Row>
+				<Note
+					text={
 						<ul>
 							<li>
 								{D.creatorTitle} : {dataset.catalogRecord?.creator}{' '}
@@ -257,11 +174,10 @@ const Dataset = (props) => {
 							{dataset.processStep && (
 								<li>
 									{D.datasetProcessStep} :{' '}
-									{
-										props['CL_PROCESS_STEP']?.codes?.find(
-											(t) => t.iri === dataset.processStep
-										)?.labelLg1
-									}
+									<CodeDisplay
+										codesList={props[CL_PROCESS_STEP]}
+										value={dataset.processStep}
+									></CodeDisplay>
 								</li>
 							)}
 							{dataset.archiveUnit && (
@@ -334,129 +250,9 @@ const Dataset = (props) => {
 					/>
 				)}
 			</Row>
-			<Row>
-				<Note
-					text={
-						<ul>
-							{dataset.type && (
-								<li>
-									{D.datasetsType} :{' '}
-									{
-										props['CL_DATA_TYPES']?.codes?.find(
-											(t) => t.iri === dataset.type
-										)?.labelLg1
-									}
-								</li>
-							)}
-							<ConditionalDisplay data={dataset.statisticalUnit}>
-								<li>
-									{D.datasetsStatisticalUnits} :{' '}
-									{
-										<ul>
-											{dataset.statisticalUnit.map((unit) => (
-												<li>
-													{
-														props['CL_STAT_UNIT']?.codes?.find(
-															(t) => t.iri === unit
-														)?.labelLg1
-													}
-												</li>
-											))}
-										</ul>
-									}
-								</li>
-							</ConditionalDisplay>
-							{dataset.dataStructure && (
-								<li>
-									{D.datasetsDataStructure} :{' '}
-									{
-										structures?.find((t) => dataset.dataStructure === t.iri)
-											?.labelLg1
-									}
-								</li>
-							)}
-							{dataset.temporalCoverageDataType && (
-								<li>
-									{D.datasetsTemporalCoverage} :{' '}
-									{stringToDate(dataset.temporalCoverageStartDate)}{' '}
-									{stringToDate(dataset.temporalCoverageEndDate)}
-								</li>
-							)}
-
-							{dataset.temporalResolution && (
-								<li>
-									{D.datasetsTemporalResolution} :{' '}
-									{
-										props[CL_FREQ]?.codes?.find(
-											(t) => t.iri === dataset.temporalResolution
-										)?.labelLg1
-									}
-								</li>
-							)}
-
-							{dataset.spacialCoverage && (
-								<li>
-									{D.datasetsSpacialCoverage} :{' '}
-									{
-										props['CL_GEO']?.codes?.find(
-											(t) => t.iri === dataset.spacialCoverage
-										)?.labelLg1
-									}
-								</li>
-							)}
-							{dataset.spacialTemporal && (
-								<li>
-									{D.datasetsSpacialTemporal} :{' '}
-									{stringToDate(dataset.spacialTemporal)}
-								</li>
-							)}
-
-							<ConditionalDisplay data={dataset.spacialResolutions}>
-								<li>
-									{D.datasetsSpacialResolutions} :{' '}
-									<ul>
-										{dataset.spacialResolutions?.map((spacialResolution) => {
-											return (
-												<li>
-													{
-														props['CL_TYPE_GEO']?.codes?.find(
-															(t) => t.iri === spacialResolution
-														)?.labelLg1
-													}
-												</li>
-											);
-										})}
-									</ul>
-								</li>
-							</ConditionalDisplay>
-
-							{dataset.observationNumber && (
-								<li>
-									{D.datasetsNumberObservations} : {dataset.observationNumber}
-								</li>
-							)}
-							{dataset.timeSeriesNumber && (
-								<li>
-									{D.datasetsNumberTimeSeries} : {dataset.timeSeriesNumber}
-								</li>
-							)}
-						</ul>
-					}
-					title={D1.statisticalInformation}
-					alone={true}
-				/>
-			</Row>
+			<StatisticalInformations dataset={dataset}></StatisticalInformations>
 		</div>
 	);
 };
 
-export const DatasetView = withCodesLists([
-	'CL_ACCESS_RIGHTS',
-	CL_FREQ,
-	'CL_CONF_STATUS',
-	'CL_DATA_TYPES',
-	'CL_STAT_UNIT',
-	'CL_PROCESS_STEP',
-	'CL_GEO',
-	'CL_TYPE_GEO',
-])(Dataset);
+export const DatasetView = withCodesLists([CL_PROCESS_STEP])(Dataset);

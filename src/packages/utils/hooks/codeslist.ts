@@ -1,11 +1,11 @@
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { CodeListApi, fetchCodeList } from '../../sdk';
-import { Code } from '../../model/CodesList';
+import { Code, CodesList } from '../../model/CodesList';
 import { sortArray } from '../array-utils';
 
-const defaultCodesList = { codes: [] };
+const defaultCodesList = { codes: [] } as unknown as CodesList;
 export const useCodesList = (notation: string) => {
-	const { data } = useQuery({
+	const { data } = useQuery<CodesList>({
 		queryKey: ['codelist', notation],
 		queryFn: () => fetchCodeList(notation),
 	});
