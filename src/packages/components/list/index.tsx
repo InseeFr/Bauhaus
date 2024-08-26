@@ -11,7 +11,7 @@ export const List = <T extends unknown>({
 	getContent = (value: any) => value.toString(),
 	getKey = (value: any) => value.toString(),
 }: Readonly<ListTypes<T>>) => {
-	if (!items) {
+	if (!items || items.length === 0) {
 		return null;
 	}
 	return (
