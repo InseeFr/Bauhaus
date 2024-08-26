@@ -121,12 +121,12 @@ export const StatisticalInformations = ({
 							</li>
 						</ConditionalDisplay>
 
-						{dataset.observationNumber && (
+						{dataset.observationNumber > 0 && (
 							<li>
 								{D.datasetsNumberObservations} : {dataset.observationNumber}
 							</li>
 						)}
-						{dataset.timeSeriesNumber && (
+						{dataset.timeSeriesNumber > 0 && (
 							<li>
 								{D.datasetsNumberTimeSeries} : {dataset.timeSeriesNumber}
 							</li>
