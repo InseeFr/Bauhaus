@@ -1,6 +1,9 @@
+import { ValidationState } from '../components';
+
 export type CatalogRecord = {
 	created: string;
 	updated: string;
+	contributor: string;
 };
 
 export type Dataset = {
@@ -31,6 +34,7 @@ export type Dataset = {
 	spacialResolutions: string[];
 	observationNumber: number;
 	timeSeriesNumber: number;
+	validationState: ValidationState;
 };
 export type Distribution = {
 	id?: string;

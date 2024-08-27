@@ -12,7 +12,7 @@ import {
 } from '../../../../components';
 import { useOrganizations } from '../../../../utils/hooks/organizations';
 import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
-import { D1 as DatasetDictionary, lg1, lg2 } from '../../../i18n';
+import { D1 as DatasetDictionary } from '../../../i18n';
 
 const GlobalInformationTab = ({
 	editingDataset,
@@ -211,25 +211,6 @@ const GlobalInformationTab = ({
 					</label>
 				</div>
 			</Row>
-			<Row>
-				<div className="col-md-12 form-group">
-					<label className="w-100">
-						{DatasetDictionary.datasets.keywords}
-						<ReactSelect
-							unclearable
-							multi={true}
-							value={editingDataset.themes}
-							options={themesOptions}
-							onChange={(values) => {
-								setEditingDataset({
-									...editingDataset,
-									themes: values.map(({ value }) => value),
-								});
-							}}
-						/>
-					</label>
-				</div>
-			</Row>
 			<InputMultiRmes
 				inputLg1={editingDataset.keywords?.lg1}
 				inputLg2={editingDataset.keywords?.lg2}
@@ -239,7 +220,7 @@ const GlobalInformationTab = ({
 						...editingDataset,
 						keywords: {
 							...editingDataset.keywords,
-							[lg1]: keywords,
+							lg1: keywords,
 						},
 					});
 				}}
@@ -248,7 +229,7 @@ const GlobalInformationTab = ({
 						...editingDataset,
 						keywords: {
 							...editingDataset.keywords,
-							[lg2]: keywords,
+							lg2: keywords,
 						},
 					});
 				}}
