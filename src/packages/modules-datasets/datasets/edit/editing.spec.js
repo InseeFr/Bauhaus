@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { DatasetEdit } from './edit';
 import { useDataset } from '../../datasets';
-import { MemoryRouter, Route, useParams } from 'react-router-dom';
+import { MemoryRouter, Route } from 'react-router-dom';
 import configureStore from '../../../redux/configure-store';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
