@@ -10,6 +10,7 @@ type InputMultiRmesTypes = {
 	handleChangeLg2?: (value: string[]) => void;
 	type?: 'text' | 'url';
 };
+
 export class InputMultiRmes extends Component<
 	Readonly<InputMultiRmesTypes>,
 	{
@@ -22,7 +23,6 @@ export class InputMultiRmes extends Component<
 > {
 	constructor(props: InputMultiRmesTypes) {
 		super(props);
-
 		const { inputLg1 = [], inputLg2 = [] } = props;
 
 		this.state = {

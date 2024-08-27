@@ -1,9 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import {
-	QueryClient,
-	QueryClientProvider,
-	useQuery,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useThemes } from './useThemes';
 import { ThemesApi } from '../../sdk';
 import { Theme } from '../../model/Theme';

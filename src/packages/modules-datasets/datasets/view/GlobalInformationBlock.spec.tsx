@@ -5,7 +5,6 @@ import * as useThemesHook from '../useThemes';
 import * as useOrganizationsHook from '../../../utils/hooks/organizations';
 import * as useCodesListHook from '../../../utils/hooks/codeslist';
 import { Dataset } from '../../../model/Dataset';
-import { Organization } from '../../../model/organization';
 import { CodesList } from '../../../model/CodesList';
 
 jest.mock('../useThemes');
