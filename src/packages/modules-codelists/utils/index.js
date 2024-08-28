@@ -105,9 +105,8 @@ const Code = (shouldCheckDuplicate, codes) =>
 			.trim()
 			.min(1, { message: D.mandatoryProperty(D.idTitle) })
 			.refine(
-				(value) => {
-					return !shouldCheckDuplicate || !codes.find((c) => c.code === value);
-				},
+				(value) =>
+					!shouldCheckDuplicate || !codes.find((c) => c.code === value),
 				{
 					message: D.ErrorDoubleCode,
 				}
