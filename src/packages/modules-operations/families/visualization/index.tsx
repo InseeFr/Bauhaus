@@ -13,14 +13,15 @@ import OperationsFamilyVisualization from '../../../modules-operations/families/
 import { getLocales } from '../../../redux/selectors';
 import { getSecondLang } from '../../../redux/second-lang';
 import { OperationsApi } from '../../../sdk/operations-api';
-
 import { Menu } from './menu';
-const Family = () => {
-	const { id } = useParams();
-	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) => getSecondLang(state));
+import { Family } from '../../../model/operations/family';
 
-	const [family, setFamily] = useState({});
+const FamilyView = () => {
+	const { id } = useParams<{ id: string }>();
+	const langs = useSelector(getLocales);
+	const secondLang = useSelector(getSecondLang);
+
+	const [family, setFamily] = useState<Family>();
 	const [serverSideError, setServerSideError] = useState();
 	const [publishing, setPublishing] = useState(false);
 
@@ -35,11 +36,11 @@ const Family = () => {
 			.then(() => {
 				return OperationsApi.getFamilyById(id).then(setFamily);
 			})
-			.catch((error) => setServerSideError(error))
+			.catch((error: any) => setServerSideError(error))
 			.finally(() => setPublishing(false));
 	}, [family, id]);
 
-	if (!family.id) return <Loading />;
+	if (!family) return <Loading />;
 	if (publishing) return <Loading text="publishing" />;
 
 	return (
@@ -61,4 +62,4 @@ const Family = () => {
 		</div>
 	);
 };
-export default Family;
+export default FamilyView;

@@ -1,5 +1,5 @@
 type PageTitleBlockTypes = {
-	titleLg1: string;
+	titleLg1?: string;
 	titleLg2?: string;
 	secondLang?: boolean;
 };
