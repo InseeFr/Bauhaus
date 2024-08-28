@@ -1,11 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { Menu } from './menu';
 import { RBACMock } from '../../../tests-utils/rbac';
-import {
-	ADMIN,
-	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR,
-} from '../../../auth/roles';
+import { ADMIN } from '../../../auth/roles';
 import { Family } from '../../../model/operations/family';
 
 describe('Family Home Page Menu', () => {
