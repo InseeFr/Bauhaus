@@ -13,7 +13,7 @@ export const fetchingPreviousLevels = (classificationId, general) => {
 		general.broaderURI.lastIndexOf('/')
 	);
 	const previousLevel =
-		levels[levels.findIndex((level) => level.indexOf(currentLevel) === 0)];
+		levels[levels.findIndex((level) => level.startsWith(currentLevel))];
 
 	if (!!previousLevel) {
 		return ClassificationsApi.getClassificationLevelMembers(
