@@ -6,7 +6,7 @@ runs:
       with:
         node-version: 22
         cache: npm
-    - name: 🏗️ Generate Bauhaus
+    - name: 🏗️ Installing Dependencies
       shell: bash
       run: npm i --force
     - name: 🧪 Running ESLint
