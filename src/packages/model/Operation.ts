@@ -1,3 +1,6 @@
+import { Series } from './operations/series';
+import { ValidationState } from '../components';
+
 /**
  * Type used when fetching all Series
  */
@@ -7,6 +10,9 @@ export type Operation = {
 	altLabel: string;
 	iri: string;
 	seriesIri: string;
+	idSims?: string;
+	series: Series;
+	validationState: ValidationState;
 };
 
 export type SeeAlso = {
