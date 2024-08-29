@@ -39,11 +39,16 @@ const Concept = (oldLabelLg1, conceptsWithLinks, maxLengthScopeNote) =>
 		}),
 	});
 
-const MandatoryScopeNote = {
-	scopeNoteLg1: z.string().refine((value) => !htmlIsEmpty(value), {
-		message: D.emptyScopeNoteLg1,
-	}),
-};
+const MandatoryScopeNote = (maxLengthScopeNote) => ({
+	scopeNoteLg1: z
+		.string()
+		.refine((value) => htmlLength(value) <= maxLengthScopeNote, {
+			message: D.tooLongScopeNote(maxLengthScopeNote),
+		})
+		.refine((value) => !htmlIsEmpty(value), {
+			message: D.emptyScopeNoteLg1,
+		}),
+});
 
 export const validate = (
 	general,
@@ -54,7 +59,7 @@ export const validate = (
 ) => {
 	const ConceptToValidate = general.disseminationStatus.includes('Public')
 		? Concept(oldLabelLg1, conceptsWithLinks, maxLengthScopeNote).extend(
-				MandatoryScopeNote
+				MandatoryScopeNote(maxLengthScopeNote)
 		  )
 		: Concept(oldLabelLg1, conceptsWithLinks, maxLengthScopeNote);
 
