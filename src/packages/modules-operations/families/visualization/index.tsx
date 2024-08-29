@@ -1,32 +1,27 @@
 import D from '../../../deprecated-locales';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import {
 	Loading,
 	ErrorBloc,
-	ValidationButton,
 	PageTitleBlock,
 	CheckSecondLang,
 } from '../../../components';
 
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-
 import { useCallback, useEffect, useState } from 'react';
 import OperationsFamilyVisualization from '../../../modules-operations/families/visualization/visualization';
-import { containUnsupportedStyles } from '../../../utils/html-utils';
 import { getLocales } from '../../../redux/selectors';
 import { getSecondLang } from '../../../redux/second-lang';
 import { OperationsApi } from '../../../sdk/operations-api';
-import Auth from '../../../auth/components/auth';
-import { ADMIN } from '../../../auth/roles';
-const Family = () => {
-	const { id } = useParams();
-	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) => getSecondLang(state));
-	const goBack = useGoBack();
+import { Menu } from './menu';
+import { Family } from '../../../model/operations/family';
 
-	const [family, setFamily] = useState({});
+const FamilyView = () => {
+	const { id } = useParams<{ id: string }>();
+	const langs = useSelector(getLocales);
+	const secondLang = useSelector(getSecondLang);
+
+	const [family, setFamily] = useState<Family>();
 	const [serverSideError, setServerSideError] = useState();
 	const [publishing, setPublishing] = useState(false);
 
@@ -41,18 +36,13 @@ const Family = () => {
 			.then(() => {
 				return OperationsApi.getFamilyById(id).then(setFamily);
 			})
-			.catch((error) => setServerSideError(error))
+			.catch((error: any) => setServerSideError(error))
 			.finally(() => setPublishing(false));
 	}, [family, id]);
 
-	if (!family.id) return <Loading />;
-	if (publishing) return <Loading text={'publishing'} />;
+	if (!family) return <Loading />;
+	if (publishing) return <Loading text="publishing" />;
 
-	/*
-	 * The publication button should be enabled only if RICH_TEXT value do not
-	 * have unsupported styles like STRIKETHROUGH, color or background color
-	 */
-	const publicationDisabled = containUnsupportedStyles(family);
 	return (
 		<div className="container">
 			<PageTitleBlock
@@ -60,23 +50,7 @@ const Family = () => {
 				titleLg2={family.prefLabelLg2}
 				secondLang={secondLang}
 			/>
-			<ActionToolbar>
-				<ReturnButton action={() => goBack('/operations/families')} />
-
-				<Auth roles={[ADMIN]}>
-					<ValidationButton
-						object={family}
-						callback={publish}
-						disabled={publicationDisabled}
-					/>
-				</Auth>
-				<Auth roles={[ADMIN]}>
-					<Button
-						action={`/operations/family/${family.id}/modify`}
-						label={D.btnUpdate}
-					/>
-				</Auth>
-			</ActionToolbar>
+			<Menu family={family} publish={publish} />
 			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 			`
 			<CheckSecondLang />
@@ -88,4 +62,4 @@ const Family = () => {
 		</div>
 	);
 };
-export default Family;
+export default FamilyView;
