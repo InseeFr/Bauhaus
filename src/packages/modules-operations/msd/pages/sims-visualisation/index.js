@@ -2,25 +2,11 @@ import { useState, useCallback } from 'react';
 import D from '../../../../deprecated-locales';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {
-	Button,
-	DuplicateButton,
-	Note,
-	ActionToolbar,
-	ReturnButton,
-	Panel,
-	ExportButton,
-	DeleteButton,
-	CancelButton,
-} from '@inseefr/wilco';
+import { Button, Note, Panel, CancelButton } from '@inseefr/wilco';
 
 import * as A from '../../../../redux/actions/constants';
 
-import {
-	hasLabelLg2,
-	shouldDisplayDuplicateButton,
-	getParentUri,
-} from '../../utils';
+import { hasLabelLg2 } from '../../utils';
 
 import SimsBlock from './sims-block';
 import './sims-visualisation.scss';
@@ -31,25 +17,18 @@ import {
 	PublicationFemale,
 	Row,
 	ErrorBloc,
-	ValidationButton,
 	CheckSecondLang,
 	ConfirmationDelete,
 	CreationUpdateItems,
 } from '../../../../components';
 import { OperationsApi } from '../../../../sdk/operations-api';
-import {
-	ADMIN,
-	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR,
-} from '../../../../auth/roles';
-import Auth from '../../../../auth/components/auth';
+import { Menu } from './menu';
 
 export default function SimsVisualisation({
 	metadataStructure,
 	codesLists,
 	sims = {},
 	secondLang,
-	goBack,
 	organisations,
 	publishSims,
 	exportCallback,
@@ -57,7 +36,6 @@ export default function SimsVisualisation({
 	documentStores,
 	owners = [],
 }) {
-	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 	const [modalOpened, setModalOpened] = useState(false);
 	const [exportModalOpened, setExportModalOpened] = useState(false);
 	const [exportConfig, setExportConfig] = useState({
@@ -124,12 +102,6 @@ export default function SimsVisualisation({
 		);
 	}
 
-	/*
-	 * The publication button should be enabled only if RICH_TEXT value do not
-	 * have unsupported styles like STRIKETHROUGH, color or background color
-	 */
-	const publicationDisabled = false;
-
 	const [serverSideError, setServerSideError] = useState();
 	const publish = useCallback(
 		(object) => {
@@ -142,7 +114,6 @@ export default function SimsVisualisation({
 		[publishSims]
 	);
 
-	const checkStamp = (stamp) => owners.includes(stamp);
 	/**
 	 * Handle the deletion of a SIMS.
 	 */
@@ -158,9 +129,6 @@ export default function SimsVisualisation({
 			history.push(`/operations/series/${sims.idSeries}`);
 		});
 	};
-	const CREATOR = !sims.idIndicator
-		? [SERIES_CONTRIBUTOR, checkStamp]
-		: [INDICATOR_CONTRIBUTOR, checkStamp];
 
 	return (
 		<>
@@ -276,42 +244,14 @@ export default function SimsVisualisation({
 					</div>
 				</Modal>
 			)}
-			<ActionToolbar>
-				<ReturnButton action={() => goBack(getParentUri(sims))} />
-				<Auth
-					roles={[ADMIN, CREATOR]}
-					complementaryCheck={shouldDisplayDuplicateButtonFlag}
-				>
-					<DuplicateButton
-						action={`/operations/sims/${sims.id}/duplicate`}
-						col={3}
-					/>
-				</Auth>
-				<Auth roles={[ADMIN]} complementaryCheck={!!sims.idSeries}>
-					<DeleteButton action={() => setModalOpened(true)} />
-				</Auth>
-				<Auth roles={[ADMIN, CREATOR]}>
-					<ValidationButton
-						object={sims}
-						callback={(object) => publish(object)}
-						disabled={publicationDisabled}
-					/>
-					<Button
-						action={`/operations/sims/${sims.id}/modify`}
-						label={
-							<>
-								<span
-									className="glyphicon glyphicon-floppy-disk"
-									aria-hidden="true"
-								/>
-								<span> {D.btnUpdate}</span>
-							</>
-						}
-					/>
-				</Auth>
-				<ExportButton action={() => setExportModalOpened(true)} />
-			</ActionToolbar>
 
+			<Menu
+				sims={sims}
+				owners={owners}
+				onExport={() => setExportModalOpened(true)}
+				onDelete={() => setModalOpened(true)}
+				onPublish={() => publish(sims)}
+			/>
 			<Row>
 				{missingDocuments?.size > 0 && (
 					<ErrorBloc

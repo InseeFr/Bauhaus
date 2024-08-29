@@ -203,7 +203,6 @@ class MSDContainer extends Component {
 							currentSection={this.props.match.params.idSection}
 							langs={langs}
 							secondLang={secondLang}
-							goBack={goBack}
 							publishSims={this.props.publishSims}
 							exportCallback={this.exportCallback}
 							missingDocuments={this.state.missingDocuments}
