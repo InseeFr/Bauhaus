@@ -15,11 +15,12 @@ export const mapStateToProps = (state: ReduxModel) => {
 const mapDispatchToProps = {
 	loadUserStamp: loadUserStamp,
 };
-
+export type RoleCheck = string | [string, (value: string) => boolean];
+export type RoleChecks = Array<RoleCheck>;
 type AuthDumbTypes = {
 	userRoles?: string[];
 	userStamp?: string;
-	roles: Array<string | [string, (value: string) => boolean]>;
+	roles: RoleChecks;
 	fallback?: any;
 	complementaryCheck?: boolean;
 	loadUserStamp?: any;
