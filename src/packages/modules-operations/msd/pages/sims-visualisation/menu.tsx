@@ -59,7 +59,7 @@ export const Menu = ({
 			<Auth roles={[ADMIN, CREATOR]}>
 				<ValidationButton
 					object={sims}
-					callback={(object) => onPublish()}
+					callback={() => onPublish()}
 					disabled={false}
 				/>
 				<Button
