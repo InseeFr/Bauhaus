@@ -3,24 +3,19 @@ import { useParams } from 'react-router-dom';
 import D from '../../../deprecated-locales';
 import { useSelector } from 'react-redux';
 import OperationsIndicatorVisualization from '../../../modules-operations/indicators/visualization/general';
-import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
 import {
 	Loading,
 	ErrorBloc,
-	ValidationButton,
 	PageTitleBlock,
 	CheckSecondLang,
 } from '../../../components';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
 
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
 import { useCodesList } from '../../../utils/hooks/codeslist';
-import { containUnsupportedStyles } from '../../../utils/html-utils';
 import { getLocales } from '../../../redux/selectors';
 import { getSecondLang } from '../../../redux/second-lang';
 import { OperationsApi } from '../../../sdk/operations-api';
-import Auth from '../../../auth/components/auth';
-import { ADMIN, INDICATOR_CONTRIBUTOR } from '../../../auth/roles';
+import { Menu } from './menu';
 const IndicatorVisualizationContainer = () => {
 	const { id } = useParams();
 
@@ -30,8 +25,6 @@ const IndicatorVisualizationContainer = () => {
 	const organisations = useSelector(
 		(state) => state.operationsOrganisations.results || []
 	);
-
-	const goBack = useGoBack();
 
 	const [indicator, setIndicator] = useState({});
 
@@ -55,13 +48,6 @@ const IndicatorVisualizationContainer = () => {
 	if (!indicator.id) return <Loading />;
 	if (publishing) return <Loading text={'publishing'} />;
 
-	/*
-	 * The publication button should be enabled only if RICH_TEXT value do not
-	 * have unsupported styles like STRIKETHROUGH, color or background color
-	 */
-	const publicationDisabled = containUnsupportedStyles(indicator);
-	const checkStamp = (stamp) => indicator.creators.includes(stamp);
-
 	return (
 		<div className="container">
 			<PageTitleBlock
@@ -69,34 +55,8 @@ const IndicatorVisualizationContainer = () => {
 				titleLg2={indicator.prefLabelLg2}
 				secondLang={secondLang}
 			/>
-			<ActionToolbar>
-				<ReturnButton action={() => goBack('/operations/indicators')} />
-				{indicator.idSims && (
-					<Button
-						action={`/operations/sims/${indicator.idSims}`}
-						label={D.btnSimsVisu}
-					/>
-				)}
-				{!indicator.idSims && (
-					<Auth roles={[ADMIN, [INDICATOR_CONTRIBUTOR, checkStamp]]}>
-						<Button
-							action={`/operations/indicator/${indicator.id}/sims/create`}
-							label={D.btnSimsCreate}
-						/>
-					</Auth>
-				)}
-				<Auth roles={[ADMIN, [INDICATOR_CONTRIBUTOR, checkStamp]]}>
-					<ValidationButton
-						object={indicator}
-						callback={publish}
-						disabled={publicationDisabled}
-					/>
-					<Button
-						action={`/operations/indicator/${indicator.id}/modify`}
-						label={D.btnUpdate}
-					/>
-				</Auth>
-			</ActionToolbar>
+			<Menu indicator={indicator} publish={publish} />
+
 			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 
 			<CheckSecondLang />
