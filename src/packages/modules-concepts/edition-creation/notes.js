@@ -2,22 +2,17 @@ import { useState } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import { NoteEdition } from '../../components';
 import { D1 } from '../../deprecated-locales';
-import { htmlIsEmpty } from '../../utils/html-utils';
+import { htmlIsEmpty, htmlLength } from '../../utils/html-utils';
 
 const noteTypes = (maxLengthScopeNote) => [
 	{
 		rawTitle: 'conceptsScopeNote',
-		// should be highlighted only if `scopeNoteLg1` is empty and
-		//`disseminationStatus.includes('Public')`
-		redLg1Empty: (disseminationStatus) =>
-			disseminationStatus.includes('Public'),
 		noteLg1Name: 'scopeNoteLg1',
 		noteLg2Name: 'scopeNoteLg2',
 		maxLength: maxLengthScopeNote,
 	},
 	{
 		rawTitle: 'conceptsDefinition',
-		redLg1Empty: () => true,
 		noteLg1Name: 'definitionLg1',
 		noteLg2Name: 'definitionLg2',
 	},
@@ -50,6 +45,7 @@ const NotesEdition = ({
 	maxLengthScopeNote,
 	langs,
 	handleChange,
+	errorMessage,
 }) => {
 	const [activeTab, setActiveTab] = useState(0);
 	const handlers = handleFieldChange(handleChange, maxLengthScopeNote);
@@ -63,33 +59,36 @@ const NotesEdition = ({
 				justified
 			>
 				{noteTypes(maxLengthScopeNote).map(
-					(
-						{ rawTitle, noteLg1Name, noteLg2Name, redLg1Empty, maxLength },
-						i
-					) => {
+					({ rawTitle, noteLg1Name, noteLg2Name, maxLength }, i) => {
 						const noteLg1 = notes[noteLg1Name];
 						const noteLg2 = notes[noteLg2Name];
-						//note fr empty and we value the `redFrEmptpy` function to know if
-						//given the dissemination status, it should be highlighted or not
-						let noteEdition;
+
+						//we value the note to know if the title should be highlighted or not
 						const highlight =
-							redLg1Empty &&
-							htmlIsEmpty(noteLg1) &&
-							redLg1Empty(disseminationStatus);
+							(noteLg1Name === 'definitionLg1' && htmlIsEmpty(noteLg1)) ||
+							(noteLg1Name === 'scopeNoteLg1' &&
+								htmlIsEmpty(noteLg1) &&
+								disseminationStatus.includes('Public')) ||
+							(noteLg1Name === 'scopeNoteLg1' &&
+								(htmlLength(noteLg1) > 100 || htmlLength(noteLg2) > 100));
 						const title = highlight ? (
 							<div className="red">{D1[rawTitle]}</div>
 						) : (
 							D1[rawTitle]
 						);
+
+						let noteEdition;
 						if (activeTab === i) {
 							noteEdition = (
 								<NoteEdition
-									noteLg1={noteLg1}
-									noteLg2={noteLg2}
+									notes={notes}
+									noteLg1Name={noteLg1Name}
+									noteLg2Name={noteLg2Name}
 									handleChangeLg1={handlers[noteLg1Name]}
 									handleChangeLg2={handlers[noteLg2Name]}
 									maxLength={maxLength}
 									langs={langs}
+									errorMessage={errorMessage}
 								/>
 							);
 						}

@@ -59,7 +59,7 @@ export const validate = (
 			oldLabelLg1,
 			conceptsWithLinks,
 			maxLengthScopeNote,
-			general.disseminationStatus.includes('Prive')
+			!general.disseminationStatus.includes('Public')
 		)
 	)({
 		...general,
