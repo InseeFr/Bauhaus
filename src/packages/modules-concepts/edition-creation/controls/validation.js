@@ -16,6 +16,7 @@ const Concept = (oldLabelLg1, conceptsWithLinks, maxLengthScopeNote) =>
 
 				{ message: D.duplicatedLabel }
 			),
+
 		creator: z
 			.string({ required_error: D.mandatoryProperty(D.creatorTitle) })
 			.min(1, { message: D.mandatoryProperty(D.creatorTitle) }),
@@ -24,11 +25,6 @@ const Concept = (oldLabelLg1, conceptsWithLinks, maxLengthScopeNote) =>
 				required_error: D.mandatoryProperty(D.disseminationStatusTitle),
 			})
 			.min(1, { message: D.mandatoryProperty(D.disseminationStatusTitle) }),
-		scopeNoteLg1: z
-			.string()
-			.refine((value) => htmlLength(value) <= maxLengthScopeNote, {
-				message: D.tooLongScopeNote(maxLengthScopeNote),
-			}),
 		scopeNoteLg2: z
 			.string()
 			.refine((value) => htmlLength(value) <= maxLengthScopeNote, {
@@ -39,16 +35,21 @@ const Concept = (oldLabelLg1, conceptsWithLinks, maxLengthScopeNote) =>
 		}),
 	});
 
-const MandatoryScopeNote = (maxLengthScopeNote) => ({
-	scopeNoteLg1: z
+const getScopeNoteLg1ZodConfig = (maxLengthScopeNote, notEmpty) => {
+	const scopeNoteLg1ZodBasedConfig = z
 		.string()
 		.refine((value) => htmlLength(value) <= maxLengthScopeNote, {
 			message: D.tooLongScopeNote(maxLengthScopeNote),
-		})
-		.refine((value) => !htmlIsEmpty(value), {
+		});
+
+	if (notEmpty) {
+		return scopeNoteLg1ZodBasedConfig.refine((value) => !htmlIsEmpty(value), {
 			message: D.emptyScopeNoteLg1,
-		}),
-});
+		});
+	}
+
+	return scopeNoteLg1ZodBasedConfig;
+};
 
 export const validate = (
 	general,
@@ -57,11 +58,16 @@ export const validate = (
 	conceptsWithLinks,
 	maxLengthScopeNote
 ) => {
-	const ConceptToValidate = general.disseminationStatus.includes('Public')
-		? Concept(oldLabelLg1, conceptsWithLinks, maxLengthScopeNote).extend(
-				MandatoryScopeNote(maxLengthScopeNote)
-		  )
-		: Concept(oldLabelLg1, conceptsWithLinks, maxLengthScopeNote);
+	const ConceptToValidate = Concept(
+		oldLabelLg1,
+		conceptsWithLinks,
+		maxLengthScopeNote
+	).extend({
+		scopeNoteLg1: getScopeNoteLg1ZodConfig(
+			maxLengthScopeNote,
+			general.disseminationStatus.includes('Public')
+		),
+	});
 
 	return formatValidation(ConceptToValidate)({
 		...general,
