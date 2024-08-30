@@ -11,22 +11,22 @@ export const formatLabel = (component) => {
 const CodesList = z.object({
 	lastListUriSegment: z
 		.string({
-			required_error: D.mandatoryProperty(D.lastListUriSegmentTitle),
+			required_error: D.mandatoryProperty(D.lastListUriSegmentTitleShort),
 		})
 		.trim()
-		.min(1, { message: D.mandatoryProperty(D.lastListUriSegmentTitle) }),
+		.min(1, { message: D.mandatoryProperty(D.lastListUriSegmentTitleShort) }),
 	lastCodeUriSegment: z
 		.string({
-			required_error: D.mandatoryProperty(D.lastCodeUriSegmentTitle),
+			required_error: D.mandatoryProperty(D.lastCodeUriSegmentTitleShort),
 		})
 		.trim()
-		.min(1, { message: D.mandatoryProperty(D.lastCodeUriSegmentTitle) }),
+		.min(1, { message: D.mandatoryProperty(D.lastCodeUriSegmentTitleShort) }),
 	lastClassUriSegment: z
 		.string({
-			required_error: D.mandatoryProperty(D.lastClassUriSegmentTitle),
+			required_error: D.mandatoryProperty(D.lastClassUriSegmentTitleShort),
 		})
 		.trim()
-		.min(1, { message: D.mandatoryProperty(D.lastClassUriSegmentTitle) }),
+		.min(1, { message: D.mandatoryProperty(D.lastClassUriSegmentTitleShort) }),
 	id: z
 		.string({ required_error: D.mandatoryProperty(D.idTitle) })
 		.trim()

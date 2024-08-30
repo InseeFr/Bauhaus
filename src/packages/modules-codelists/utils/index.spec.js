@@ -13,13 +13,13 @@ describe('validateCodelist', () => {
 		const result = validateCodelist(codelist);
 
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(D.lastListUriSegmentTitle)
+			D.mandatoryProperty(D.lastListUriSegmentTitleShort)
 		);
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(D.lastCodeUriSegmentTitle)
+			D.mandatoryProperty(D.lastCodeUriSegmentTitleShort)
 		);
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(D.lastClassUriSegmentTitle)
+			D.mandatoryProperty(D.lastClassUriSegmentTitleShort)
 		);
 		expect(result.errorMessage).toContain(D.mandatoryProperty(D.idTitle));
 		expect(result.errorMessage).toContain(D.mandatoryProperty(D1.labelTitle));
@@ -30,13 +30,13 @@ describe('validateCodelist', () => {
 		);
 
 		expect(result.fields.lastListUriSegment).toBe(
-			D.mandatoryProperty(D.lastListUriSegmentTitle)
+			D.mandatoryProperty(D.lastListUriSegmentTitleShort)
 		);
 		expect(result.fields.lastCodeUriSegment).toBe(
-			D.mandatoryProperty(D.lastCodeUriSegmentTitle)
+			D.mandatoryProperty(D.lastCodeUriSegmentTitleShort)
 		);
 		expect(result.fields.lastClassUriSegment).toBe(
-			D.mandatoryProperty(D.lastClassUriSegmentTitle)
+			D.mandatoryProperty(D.lastClassUriSegmentTitleShort)
 		);
 		expect(result.fields.id).toBe(D.mandatoryProperty(D.idTitle));
 		expect(result.fields.labelLg1).toBe(D.mandatoryProperty(D1.labelTitle));
