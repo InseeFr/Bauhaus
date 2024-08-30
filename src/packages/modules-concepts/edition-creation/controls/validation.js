@@ -3,7 +3,12 @@ import D, { D1 } from '../../../deprecated-locales';
 import { z } from 'zod';
 import { formatValidation } from '../../../utils/validation';
 
-const Concept = (oldLabelLg1, conceptsWithLinks, maxLengthScopeNote) =>
+const Concept = (
+	oldLabelLg1,
+	conceptsWithLinks,
+	maxLengthScopeNote,
+	scopeNoteLg1CanBeEmpty
+) =>
 	z.object({
 		prefLabelLg1: z
 			.string({ required_error: D.mandatoryProperty(D1.labelTitle) })
@@ -16,7 +21,6 @@ const Concept = (oldLabelLg1, conceptsWithLinks, maxLengthScopeNote) =>
 
 				{ message: D.duplicatedLabel }
 			),
-
 		creator: z
 			.string({ required_error: D.mandatoryProperty(D.creatorTitle) })
 			.min(1, { message: D.mandatoryProperty(D.creatorTitle) }),
@@ -25,6 +29,14 @@ const Concept = (oldLabelLg1, conceptsWithLinks, maxLengthScopeNote) =>
 				required_error: D.mandatoryProperty(D.disseminationStatusTitle),
 			})
 			.min(1, { message: D.mandatoryProperty(D.disseminationStatusTitle) }),
+		scopeNoteLg1: z
+			.string()
+			.refine((value) => htmlLength(value) <= maxLengthScopeNote, {
+				message: D.tooLongScopeNote(maxLengthScopeNote),
+			})
+			.refine((value) => scopeNoteLg1CanBeEmpty || !htmlIsEmpty(value), {
+				message: D.emptyScopeNoteLg1,
+			}),
 		scopeNoteLg2: z
 			.string()
 			.refine((value) => htmlLength(value) <= maxLengthScopeNote, {
@@ -35,42 +47,21 @@ const Concept = (oldLabelLg1, conceptsWithLinks, maxLengthScopeNote) =>
 		}),
 	});
 
-const getScopeNoteLg1ZodConfig = (maxLengthScopeNote, notEmpty) => {
-	const scopeNoteLg1ZodBasedConfig = z
-		.string()
-		.refine((value) => htmlLength(value) <= maxLengthScopeNote, {
-			message: D.tooLongScopeNote(maxLengthScopeNote),
-		});
-
-	if (notEmpty) {
-		return scopeNoteLg1ZodBasedConfig.refine((value) => !htmlIsEmpty(value), {
-			message: D.emptyScopeNoteLg1,
-		});
-	}
-
-	return scopeNoteLg1ZodBasedConfig;
-};
-
 export const validate = (
 	general,
 	notes,
 	oldLabelLg1,
 	conceptsWithLinks,
 	maxLengthScopeNote
-) => {
-	const ConceptToValidate = Concept(
-		oldLabelLg1,
-		conceptsWithLinks,
-		maxLengthScopeNote
-	).extend({
-		scopeNoteLg1: getScopeNoteLg1ZodConfig(
+) =>
+	formatValidation(
+		Concept(
+			oldLabelLg1,
+			conceptsWithLinks,
 			maxLengthScopeNote,
-			general.disseminationStatus.includes('Public')
-		),
-	});
-
-	return formatValidation(ConceptToValidate)({
+			general.disseminationStatus.includes('Prive')
+		)
+	)({
 		...general,
 		...notes,
 	});
-};
