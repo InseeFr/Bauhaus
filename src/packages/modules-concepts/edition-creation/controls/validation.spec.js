@@ -15,7 +15,7 @@ describe('validation', function () {
 
 		const oldLabelLg1 = 'oldLabelLg1';
 
-		const conceptsWithLinks = [{ label: 'prefLabelLg1' }];
+		const conceptsWithLinks = [{ label: 'existingLabel' }];
 
 		const maxLengthScopeNote = 350;
 
@@ -95,7 +95,7 @@ describe('validation', function () {
 
 		const oldLabelLg1 = 'oldLabelLg1';
 
-		const conceptsWithLinks = [{ label: 'prefLabelLg1' }];
+		const conceptsWithLinks = [{ label: 'existingLabel' }];
 
 		const maxLengthScopeNote = 350;
 
@@ -138,7 +138,7 @@ describe('validation', function () {
 
 		const oldLabelLg1 = 'oldLabelLg1';
 
-		const conceptsWithLinks = [{ label: 'prefLabelLg1' }];
+		const conceptsWithLinks = [{ label: 'existingLabel' }];
 
 		const maxLengthScopeNote = 350;
 
