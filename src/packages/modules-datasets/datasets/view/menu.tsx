@@ -10,8 +10,18 @@ import { ValidationButton } from '../../../components';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
+import { Dataset } from '../../../model/Dataset';
 
-export const ViewMenu = ({ dataset, onPublish, onDelete }) => {
+type ViewMenuTypes = {
+	dataset: Dataset;
+	onPublish: () => void;
+	onDelete: () => void;
+};
+export const ViewMenu = ({
+	dataset,
+	onPublish,
+	onDelete,
+}: Readonly<ViewMenuTypes>) => {
 	const goBack = useGoBack();
 
 	const permission = usePermission();
@@ -26,7 +36,11 @@ export const ViewMenu = ({ dataset, onPublish, onDelete }) => {
 			<ReturnButton action={() => goBack('/datasets')} />
 
 			{(isAdmin || hasDatasetRightsBasedOnStamp) && (
-				<ValidationButton object={dataset} callback={onPublish} />
+				<ValidationButton
+					object={dataset}
+					callback={onPublish}
+					disabled={false}
+				/>
 			)}
 			{(isAdmin ||
 				(hasDatasetRightsBasedOnStamp &&
