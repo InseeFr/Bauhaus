@@ -70,7 +70,8 @@ const NotesEdition = ({
 								htmlIsEmpty(noteLg1) &&
 								disseminationStatus.includes('Public')) ||
 							(noteLg1Name === 'scopeNoteLg1' &&
-								(htmlLength(noteLg1) > 100 || htmlLength(noteLg2) > 100));
+								(htmlLength(noteLg1) > maxLength ||
+									htmlLength(noteLg2) > maxLength));
 						const title = highlight ? (
 							<div className="red">{D1[rawTitle]}</div>
 						) : (
