@@ -14,6 +14,10 @@ import {
 } from '../../../../components';
 import { convertCodesListsToSelectOption } from '../../../../modules-datasets/utils/codelist-to-select-options';
 import { DatasetsApi } from '../../../../sdk';
+import {
+	CL_ACCESS_RIGHTS,
+	CL_CONF_STATUS,
+} from '../../../../redux/actions/constants/codeList';
 
 const InternalManagementTab = ({
 	editingDataset,
@@ -27,11 +31,11 @@ const InternalManagementTab = ({
 	const seriesOperationsOptions = useSeriesOperationsOptions();
 
 	const clAccessRightsOptions = convertCodesListsToSelectOption(
-		props['CL_ACCESS_RIGHTS']
+		props[CL_ACCESS_RIGHTS]
 	);
 
 	const clConfStatusOptions = convertCodesListsToSelectOption(
-		props['CL_CONF_STATUS']
+		props[CL_CONF_STATUS]
 	);
 
 	const clProcessStep = convertCodesListsToSelectOption(
@@ -250,7 +254,7 @@ const InternalManagementTab = ({
 };
 
 export const InternalManagement = withCodesLists([
-	'CL_ACCESS_RIGHTS',
-	'CL_CONF_STATUS',
+	CL_ACCESS_RIGHTS,
+	CL_CONF_STATUS,
 	'CL_PROCESS_STEP',
 ])(InternalManagementTab);

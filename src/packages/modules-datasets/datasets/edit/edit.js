@@ -23,7 +23,7 @@ import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { DatasetsApi } from '../../../sdk';
 
-export const DatasetEdit = (props) => {
+export const DatasetEdit = () => {
 	const { id } = useParams();
 	const isEditing = !!id;
 
@@ -37,6 +37,57 @@ export const DatasetEdit = (props) => {
 		const fieldsInError = keys.filter((key) => clientSideErrors.fields?.[key]);
 		return fieldsInError.length > 0;
 	};
+
+	const { data: dataset, status } = useDataset(id);
+
+	const permission = usePermission();
+
+	const stamp = permission?.stamp;
+	const isContributor =
+		permission?.roles?.includes(DATASET_CONTRIBUTOR) &&
+		!permission?.roles?.includes(ADMIN);
+
+	useEffect(() => {
+		if (status === 'success') {
+			setEditingDataset(dataset);
+		} else if (isContributor && !id) {
+			setEditingDataset({
+				catalogRecord: {
+					contributor: stamp,
+				},
+			});
+		}
+	}, [status, dataset, id, isContributor, stamp]);
+
+	const queryClient = useQueryClient();
+
+	const { isPending: isSaving, mutate: save } = useMutation({
+		mutationFn: () => {
+			const formattedDataset = { themes: [], ...editingDataset };
+			if (isEditing) {
+				return DatasetsApi.putDataset(formattedDataset);
+			}
+			return DatasetsApi.postDataset(formattedDataset);
+		},
+
+		onSuccess: (id) => {
+			if (isEditing) {
+				queryClient.invalidateQueries(['datasets', id]);
+			}
+			queryClient.invalidateQueries(['datasets']);
+
+			goBack(`/datasets/${id}`, !isEditing);
+		},
+	});
+
+	useTitle(D.datasetsTitle, editingDataset?.labelLg1 || D.datasetsCreateTitle);
+
+	if (!editingDataset.id && isEditing) {
+		return <Loading />;
+	}
+	if (isSaving) {
+		return <Loading textType="saving" />;
+	}
 
 	const layoutConfiguration = {
 		globalInformation: {
@@ -121,57 +172,6 @@ export const DatasetEdit = (props) => {
 			},
 		},
 	};
-
-	const { data: dataset, status } = useDataset(id);
-
-	const permission = usePermission();
-
-	const stamp = permission?.stamp;
-	const isContributor =
-		permission?.roles?.includes(DATASET_CONTRIBUTOR) &&
-		!permission?.roles?.includes(ADMIN);
-
-	useEffect(() => {
-		if (status === 'success') {
-			setEditingDataset(dataset);
-		} else if (isContributor && !id) {
-			setEditingDataset({
-				catalogRecord: {
-					contributor: stamp,
-				},
-			});
-		}
-	}, [status, dataset, id, isContributor, stamp]);
-
-	const queryClient = useQueryClient();
-
-	const { isPending: isSaving, mutate: save } = useMutation({
-		mutationFn: () => {
-			const formattedDataset = { themes: [], ...editingDataset };
-			if (isEditing) {
-				return DatasetsApi.putDataset(formattedDataset);
-			}
-			return DatasetsApi.postDataset(formattedDataset);
-		},
-
-		onSuccess: (id) => {
-			if (isEditing) {
-				queryClient.invalidateQueries(['datasets', id]);
-			}
-			queryClient.invalidateQueries(['datasets']);
-
-			goBack(`/datasets/${id}`, !isEditing);
-		},
-	});
-
-	useTitle(D.datasetsTitle, editingDataset?.labelLg1 || D.datasetsCreateTitle);
-
-	if (!dataset && isEditing) {
-		return <Loading />;
-	}
-	if (isSaving) {
-		return <Loading textType="saving" />;
-	}
 
 	const onSubmit = () => {
 		const clientSideErrors = validate(editingDataset);

@@ -1,6 +1,6 @@
 import { createAllDictionary } from '../utils/dictionnary';
 
-export const { D, D1, D2 } = createAllDictionary({
+export const { D, D1, D2, lg1, lg2 } = createAllDictionary({
 	errors: {
 		1203: {
 			fr: () => 'Seules les datasets non publiées peuvent être supprimées',
@@ -15,6 +15,16 @@ export const { D, D1, D2 } = createAllDictionary({
 			fr: () =>
 				'Seules les datasets sans distributions dérivées peuvent être supprimées',
 			en: () => 'Only dataset without any derived dataset can be deleted',
+		},
+	},
+	datasets: {
+		linkedDocuments: {
+			fr: 'Documents liés',
+			en: 'Linked documents',
+		},
+		keywords: {
+			fr: 'Mots clés',
+			en: 'Keywords',
 		},
 	},
 });
