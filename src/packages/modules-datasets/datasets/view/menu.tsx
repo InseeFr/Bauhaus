@@ -36,7 +36,11 @@ export const ViewMenu = ({
 			<ReturnButton action={() => goBack('/datasets')} />
 
 			{(isAdmin || hasDatasetRightsBasedOnStamp) && (
-				<ValidationButton object={dataset} callback={onPublish} />
+				<ValidationButton
+					object={dataset}
+					callback={onPublish}
+					disabled={false}
+				/>
 			)}
 			{(isAdmin ||
 				(hasDatasetRightsBasedOnStamp &&
