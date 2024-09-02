@@ -21,7 +21,7 @@ describe('useSeries', () => {
 				iri: 'iri',
 				altLabel: 'altLabel 1',
 				seriesIri: 'seriesIri',
-			},
+			} as Operation,
 		];
 
 		(OperationsApi.getOperationsList as any).mockResolvedValueOnce(seriesMock);
