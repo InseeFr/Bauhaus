@@ -4,4 +4,4 @@ const api = {
 	getThemes: () => [''],
 } as const;
 
-export const ThemesApi = buildApi('themes', api);
+export const ThemesApi = buildApi('themes', api) as any;

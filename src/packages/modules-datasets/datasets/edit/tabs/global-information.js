@@ -4,9 +4,15 @@ import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
 import ReactSelect from 'react-select';
 import { LabelRequired } from '@inseefr/wilco';
 import { CL_FREQ } from '../../../../redux/actions/constants/codeList';
-import { TextInput, Row, ClientSideError } from '../../../../components';
+import {
+	TextInput,
+	Row,
+	ClientSideError,
+	InputMultiRmes,
+} from '../../../../components';
 import { useOrganizations } from '../../../../utils/hooks/organizations';
 import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
+import { D1 as DatasetDictionary } from '../../../i18n';
 
 const GlobalInformationTab = ({
 	editingDataset,
@@ -16,12 +22,11 @@ const GlobalInformationTab = ({
 	...props
 }) => {
 	const clFreqOptions = convertCodesListsToSelectOption(props[CL_FREQ]);
+	const { data: themesOptions = [] } = useThemes();
 
 	const { data: organisations } = useOrganizations();
 	const organisationsOptions =
 		organisations?.map(({ iri, label }) => ({ value: iri, label })) ?? [];
-
-	const { data: themesOptions = [] } = useThemes();
 
 	return (
 		<>
@@ -206,6 +211,29 @@ const GlobalInformationTab = ({
 					</label>
 				</div>
 			</Row>
+			<InputMultiRmes
+				inputLg1={editingDataset.keywords?.lg1}
+				inputLg2={editingDataset.keywords?.lg2}
+				label={DatasetDictionary.datasets.keywords}
+				handleChangeLg1={(keywords) => {
+					setEditingDataset({
+						...editingDataset,
+						keywords: {
+							...editingDataset.keywords,
+							lg1: keywords,
+						},
+					});
+				}}
+				handleChangeLg2={(keywords) => {
+					setEditingDataset({
+						...editingDataset,
+						keywords: {
+							...editingDataset.keywords,
+							lg2: keywords,
+						},
+					});
+				}}
+			/>
 			<Row>
 				<div className="col-md-6 form-group">
 					<label htmlFor="landingPageLg1">{D1.datasetsLandingPage}</label>
@@ -234,6 +262,16 @@ const GlobalInformationTab = ({
 					/>
 				</div>
 			</Row>
+			<InputMultiRmes
+				inputLg1={editingDataset.linkedDocuments}
+				label={DatasetDictionary.datasets.linkedDocuments}
+				handleChangeLg1={(linkedDocuments) => {
+					setEditingDataset({
+						...editingDataset,
+						linkedDocuments,
+					});
+				}}
+			/>
 		</>
 	);
 };

@@ -6,7 +6,7 @@ type ValidationButtonTypes = {
 		validationState?: string;
 	};
 	callback: (value: { validationState?: string }) => void;
-	disabled: boolean;
+	disabled?: boolean;
 };
 export const ValidationButton = ({
 	object = {},

@@ -73,9 +73,9 @@ describe('validation', function () {
 	it('should return no error', function () {
 		expect(
 			validate({
-				prefLabelLg1: 'prefLabelLg2',
-				prefLabelLg2: 'prefLabelLg2',
 				family: { id: 'i' },
+				prefLabelLg1: 'prefLabelLg1',
+				prefLabelLg2: 'prefLabelLg2',
 				creators: ['creator'],
 				accrualPeriodicityCode: 'accrualPeriodicityCode',
 				typeCode: 'typeCode',

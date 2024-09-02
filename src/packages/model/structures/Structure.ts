@@ -1,5 +1,10 @@
 import { ValidationState } from '../../components';
 
+export type StructuresList = {
+	iri: string;
+	labelLg1: string;
+}[];
+
 export type Structure = {
 	id: string;
 	labelLg1: string;

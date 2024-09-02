@@ -1,35 +1,35 @@
 import { validate } from './validation';
 
-describe('validate', function () {
+describe('validation', function () {
 	it('should return an error for prefLabelLg1', function () {
 		expect(
 			validate({
+				series: { id: 'i' },
 				prefLabelLg1: '',
 				prefLabelLg2: 'prefLabelLg2',
-				series: { id: 'i' },
 			})
 		).toEqual({
 			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
 			fields: {
+				series: '',
 				prefLabelLg1: 'The property <strong>Intitulé</strong> is required.',
 				prefLabelLg2: '',
-				series: '',
 			},
 		});
 	});
 	it('should return an error for prefLabelLg2', function () {
 		expect(
 			validate({
+				series: { id: 'i' },
 				prefLabelLg1: 'prefLabelLg1',
 				prefLabelLg2: '',
-				series: { id: 'i' },
 			})
 		).toEqual({
 			errorMessage: ['The property <strong>Title</strong> is required.'],
 			fields: {
+				series: '',
 				prefLabelLg1: '',
 				prefLabelLg2: 'The property <strong>Title</strong> is required.',
-				series: '',
 			},
 		});
 	});
@@ -51,16 +51,16 @@ describe('validate', function () {
 	it('should return no error', function () {
 		expect(
 			validate({
+				series: { id: 'i' },
 				prefLabelLg1: 'prefLabelLg1',
 				prefLabelLg2: 'prefLabelLg2',
-				series: { id: 'i' },
 			})
 		).toEqual({
 			errorMessage: [],
 			fields: {
+				series: '',
 				prefLabelLg1: '',
 				prefLabelLg2: '',
-				series: '',
 			},
 		});
 	});

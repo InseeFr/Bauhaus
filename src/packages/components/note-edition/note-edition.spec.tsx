@@ -5,11 +5,20 @@ describe('note-edition', () => {
 	it('renders without crashing', () => {
 		render(
 			<NoteEdition
-				noteLg1="noteLg1"
-				noteLg2="noteLg2"
+				notes={{
+					scopeNoteLg1: 'scopeNote1',
+					scopeNoteLg2: 'scopeNote2',
+					definitionLg1: 'definitionLg1',
+				}}
+				noteLg1Name="noteLg1Name"
+				noteLg2Name="noteLg2Name"
 				handleChangeLg1={jest.fn()}
 				handleChangeLg2={jest.fn()}
 				maxLength={0}
+				errorMessage={{
+					errorMessage: ['error'],
+					fields: { field: 'error' },
+				}}
 			/>
 		);
 	});

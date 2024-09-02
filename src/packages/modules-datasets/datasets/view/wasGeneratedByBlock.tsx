@@ -3,6 +3,7 @@ import { useSeries } from '../../../utils/hooks/series';
 import { useOperations } from '../../../utils/hooks/operations';
 import { Operation } from '../../../model/Operation';
 import { Series } from '../../../model/Series';
+import { List } from '../../../components/list';
 
 type WasGeneratedByBlockTypes = {
 	iris: string[];
@@ -47,16 +48,10 @@ export const WasGeneratedByBlock = ({
 	}
 
 	return (
-		<ul>
-			{wasGeneratedBys?.map(({ url, label }) => {
-				return (
-					<li>
-						<Link key={url} to={url}>
-							{label}
-						</Link>
-					</li>
-				);
-			})}
-		</ul>
+		<List
+			items={wasGeneratedBys}
+			getContent={({ url, label }) => <Link to={url}>{label}</Link>}
+			getKey={({ url }) => url}
+		></List>
 	);
 };

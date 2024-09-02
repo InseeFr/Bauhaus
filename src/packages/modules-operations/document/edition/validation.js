@@ -27,7 +27,9 @@ const Link = Base.extend({
 		})
 		.startsWith('http', {
 			message: D.badUrl,
-		}),
+		})
+		.trim()
+		.min(1, { message: D.mandatoryProperty(D.titleLink) }),
 });
 
 const File = z.object({
