@@ -1,7 +1,7 @@
 import { validate } from './validation';
 
 describe('validation', function () {
-	it('message should say incomplete collection', function () {
+	it('should return an error for creator', function () {
 		expect(
 			validate(
 				{
@@ -12,9 +12,19 @@ describe('validation', function () {
 				'id',
 				'prefLabelLg1'
 			)
-		).toEqual('Complete required fields in order to save this collection');
+		).toEqual({
+			errorMessage: [
+				'Complete required fields in order to save this collection',
+			],
+			fields: {
+				id: '',
+				prefLabelLg1: '',
+				creator: 'Complete required fields in order to save this collection',
+			},
+		});
 	});
-	it('message should say duplicated id', function () {
+
+	it('should return an error if id already exists', function () {
 		expect(
 			validate(
 				{
@@ -26,9 +36,17 @@ describe('validation', function () {
 				'id',
 				'prefLabelLg1'
 			)
-		).toEqual('This identifier already exists');
+		).toEqual({
+			errorMessage: ['This identifier already exists'],
+			fields: {
+				id: 'This identifier already exists',
+				prefLabelLg1: '',
+				creator: '',
+			},
+		});
 	});
-	it('message should say duplicated label', function () {
+
+	it('should return an error if prefLabelLg1 already exists', function () {
 		expect(
 			validate(
 				{
@@ -40,9 +58,17 @@ describe('validation', function () {
 				'id',
 				'prefLabelLg1'
 			)
-		).toEqual('This label already exists');
+		).toEqual({
+			errorMessage: ['This label already exists'],
+			fields: {
+				id: '',
+				prefLabelLg1: 'This label already exists',
+				creator: '',
+			},
+		});
 	});
-	it('message should be empty', function () {
+
+	it('should return no error', function () {
 		expect(
 			validate(
 				{
@@ -54,6 +80,13 @@ describe('validation', function () {
 				'id',
 				'prefLabelLg1'
 			)
-		).toEqual();
+		).toEqual({
+			errorMessage: [],
+			fields: {
+				id: '',
+				prefLabelLg1: '',
+				creator: '',
+			},
+		});
 	});
 });

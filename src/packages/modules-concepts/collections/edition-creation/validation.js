@@ -1,37 +1,52 @@
 import D from '../../../deprecated-locales';
 import { arrayKeepUniqueField } from '../../../utils/array-utils';
+import { z } from 'zod';
+import { formatValidation } from '../../../utils/validation';
+
+const Collection = (collectionList, initialId, initialPrefLabelLg1) =>
+	z.object({
+		id: z
+			.string({ required_error: D.incompleteCollection })
+			.trim()
+			.min(1, { message: D.incompleteCollection })
+			.refine(
+				(value) =>
+					value === initialId ||
+					!arrayKeepUniqueField(collectionList, 'id').includes(
+						value
+							.toLowerCase()
+							.normalize('NFD')
+							.replace(/\p{Diacritic}/gu, '')
+					),
+				{ message: D.duplicatedId }
+			),
+		prefLabelLg1: z
+			.string({ required_error: D.incompleteCollection })
+			.trim()
+			.min(1, { message: D.incompleteCollection })
+			.refine(
+				(value) =>
+					value === initialPrefLabelLg1 ||
+					!arrayKeepUniqueField(collectionList, 'label').includes(
+						value
+							.toLowerCase()
+							.normalize('NFD')
+							.replace(/\p{Diacritic}/gu, '')
+					),
+				{ message: D.duplicatedLabel }
+			),
+		creator: z
+			.string({ required_error: D.incompleteCollection })
+			.trim()
+			.min(1, { message: D.incompleteCollection }),
+	});
 
 export const validate = (
-	{ id, prefLabelLg1, creator },
+	general,
 	collectionList,
 	initialId,
 	initialPrefLabelLg1
-) => {
-	if (
-		id !== initialId &&
-		arrayKeepUniqueField(collectionList, 'id').includes(
-			id
-				.toLowerCase()
-				.normalize('NFD')
-				.replace(/\p{Diacritic}/gu, '')
-		)
-	) {
-		return D.duplicatedId;
-	}
-
-	if (
-		prefLabelLg1 !== initialPrefLabelLg1 &&
-		arrayKeepUniqueField(collectionList, 'label').includes(
-			prefLabelLg1
-				.toLowerCase()
-				.normalize('NFD')
-				.replace(/\p{Diacritic}/gu, '')
-		)
-	) {
-		return D.duplicatedLabel;
-	}
-
-	if (!id || !prefLabelLg1 || !creator) {
-		return D.incompleteCollection;
-	}
-};
+) =>
+	formatValidation(Collection(collectionList, initialId, initialPrefLabelLg1))(
+		general
+	);

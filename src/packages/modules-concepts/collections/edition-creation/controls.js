@@ -20,6 +20,7 @@ function Controls({
 		initialId,
 		initialPrefLabelLg1
 	);
+	console.log(message);
 
 	return (
 		<>
@@ -27,7 +28,7 @@ function Controls({
 				<CancelButton action={redirectCancel()} />
 				<SaveButton action={handleSave} disabled={message} />
 			</ActionToolbar>
-			<ErrorBloc error={message} />
+			<ErrorBloc error={message?.errorMessage[0]} />
 		</>
 	);
 }

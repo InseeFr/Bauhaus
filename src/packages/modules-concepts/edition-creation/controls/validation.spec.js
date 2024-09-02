@@ -166,7 +166,7 @@ describe('validation', function () {
 		});
 	});
 
-	it('should no error', function () {
+	it('should return no error', function () {
 		const general = {
 			prefLabelLg1: 'prefLabelLg1',
 			creator: 'creator',
