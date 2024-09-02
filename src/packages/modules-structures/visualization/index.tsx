@@ -12,14 +12,13 @@ import {
 	CheckSecondLang,
 	CreationUpdateItems,
 } from '../../components';
-import { useSelector } from 'react-redux';
 import Components from './components';
 import { D1, D2 } from '../../deprecated-locales';
 import StructureVisualizationControl from '../components/structure-visualization/controls';
 import D from '../i18n/build-dictionary';
 import MainDictionary from '../../deprecated-locales/build-dictionary';
 import { useTitle } from '../../utils/hooks/useTitle';
-import { getSecondLang } from '../../redux/second-lang';
+import { useSecondLang } from '../../redux/second-lang';
 import { Structure } from '../../model/structures/Structure';
 import { StructureApi } from '../../sdk';
 
@@ -115,7 +114,7 @@ const StructureContainer = () => {
 	const [structure, setStructure] = useState<Structure>({} as Structure);
 	const [loading, setLoading] = useState(true);
 	const [serverSideError, setServerSideError] = useState<string | undefined>();
-	const secondLang = useSelector((state) => getSecondLang(state));
+	const secondLang = useSecondLang();
 
 	useEffect(() => {
 		StructureApi.getStructure(structureId)

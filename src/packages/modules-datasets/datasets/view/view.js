@@ -22,7 +22,7 @@ import {
 import { CL_PROCESS_STEP } from '../../../redux/actions/constants/codeList';
 import { getLocales } from '../../../redux/selectors';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { getSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../redux/second-lang';
 import { DatasetsApi } from '../../../sdk';
 
 import { D as DatasetDictionary } from '../../i18n';
@@ -45,7 +45,7 @@ const Dataset = (props) => {
 	const { data: dataset, isLoading } = useDataset(id);
 
 	const { lg1, lg2 } = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) => getSecondLang(state));
+	const secondLang = useSecondLang();
 	const queryClient = useQueryClient();
 
 	const { isPending: isPublishing, mutate: publish } = useMutation({

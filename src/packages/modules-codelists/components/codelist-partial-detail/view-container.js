@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { CodeListApi } from '../../../sdk';
 import { formatPartialCodeList } from '../../utils';
@@ -10,11 +9,11 @@ import { CodeListPartialDetailView } from './view';
 import { useQuery } from '@tanstack/react-query';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { Deleting, Publishing, Loading } from '../../../components';
-import { getSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../redux/second-lang';
 
 const CodelistPartialComponentView = (props) => {
 	const goBack = useGoBack();
-	const secondLang = useSelector(getSecondLang);
+	const secondLang = useSecondLang();
 	const { id } = useParams();
 	const [deleting, setDeleting] = useState(false);
 	const [publishing, setPublishing] = useState(false);

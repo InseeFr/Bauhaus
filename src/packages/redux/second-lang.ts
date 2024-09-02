@@ -1,4 +1,5 @@
 import { ReduxModel } from './model';
+import { useSelector } from 'react-redux';
 
 export const SAVE_SECOND_LANG = 'SAVE_SECOND_LANG';
 
@@ -17,3 +18,7 @@ export const saveSecondLang = (secondLang: any) => {
 export function getSecondLang(state: ReduxModel) {
 	return state.app?.secondLang;
 }
+
+export const useSecondLang = (): boolean => {
+	return useSelector((state: ReduxModel) => getSecondLang(state) ?? false);
+};

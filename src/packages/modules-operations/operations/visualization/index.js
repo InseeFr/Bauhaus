@@ -11,7 +11,7 @@ import OperationsOperationVisualization from './home';
 import D from '../../../deprecated-locales';
 
 import { getLocales } from '../../../redux/selectors';
-import { getSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../redux/second-lang';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
 
@@ -19,7 +19,7 @@ const OperationVisualizationContainer = () => {
 	const { id } = useParams();
 	const [operation, setOperation] = useState({});
 	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) => getSecondLang(state));
+	const secondLang = useSecondLang();
 	const [serverSideError, setServerSideError] = useState();
 	const [publishing, setPublishing] = useState(false);
 
