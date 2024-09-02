@@ -1,7 +1,7 @@
-import { validate } from "./validation";
+import { validate } from './validation';
 
-describe('validation', function() {
-	it('should return an error for identifiant', function() {
+describe('validation', function () {
+	it('should return an error for identifiant', function () {
 		expect(
 			validate({
 				labelLg1: 'labelLg1',
@@ -9,9 +9,7 @@ describe('validation', function() {
 				type: 'type',
 			})
 		).toEqual({
-			errorMessage: [
-				'The property <strong>Notation</strong> is required.',
-			],
+			errorMessage: ['The property <strong>Notation</strong> is required.'],
 			fields: {
 				identifiant: 'The property <strong>Notation</strong> is required.',
 				labelLg1: '',
@@ -20,7 +18,7 @@ describe('validation', function() {
 			},
 		});
 	});
-	it('should return an error for labelLg1 and labelLg2', function() {
+	it('should return an error for labelLg1 and labelLg2', function () {
 		expect(
 			validate({
 				identifiant: 'id',
@@ -39,7 +37,7 @@ describe('validation', function() {
 			},
 		});
 	});
-	it('should return an error for type', function() {
+	it('should return an error for type', function () {
 		expect(
 			validate({
 				identifiant: 'id',
@@ -47,9 +45,7 @@ describe('validation', function() {
 				labelLg2: 'labelLg2',
 			})
 		).toEqual({
-			errorMessage: [
-				'The property <strong>Type</strong> is required.',
-			],
+			errorMessage: ['The property <strong>Type</strong> is required.'],
 			fields: {
 				identifiant: '',
 				labelLg1: '',
@@ -58,7 +54,7 @@ describe('validation', function() {
 			},
 		});
 	});
-	it('should return no error', function() {
+	it('should return no error', function () {
 		expect(
 			validate({
 				identifiant: 'id',

@@ -1,7 +1,7 @@
 import { validate } from './validation';
 
-describe('validation', function() {
-	it('should return an error for id', function()  {
+describe('validation', function () {
+	it('should return an error for id', function () {
 		expect(
 			validate({
 				identifiant: '',
@@ -9,9 +9,7 @@ describe('validation', function() {
 				labelLg2: 'labelLg2',
 			})
 		).toEqual({
-			errorMessage: [
-				'The property <strong>Notation</strong> is required.',
-			],
+			errorMessage: ['The property <strong>Notation</strong> is required.'],
 			fields: {
 				identifiant: 'The property <strong>Notation</strong> is required.',
 				labelLg1: '',
@@ -19,7 +17,7 @@ describe('validation', function() {
 			},
 		});
 	});
-	it('should return an error for labelLg1', function() {
+	it('should return an error for labelLg1', function () {
 		expect(
 			validate({
 				identifiant: 'id',
@@ -27,9 +25,7 @@ describe('validation', function() {
 				labelLg2: 'labelLg2',
 			})
 		).toEqual({
-			errorMessage: [
-				'The property <strong>Libellé</strong> is required.',
-			],
+			errorMessage: ['The property <strong>Libellé</strong> is required.'],
 			fields: {
 				identifiant: '',
 				labelLg1: 'The property <strong>Libellé</strong> is required.',
@@ -37,7 +33,7 @@ describe('validation', function() {
 			},
 		});
 	});
-	it('should return an error for labelLg2', function() {
+	it('should return an error for labelLg2', function () {
 		expect(
 			validate({
 				identifiant: 'id',
@@ -45,9 +41,7 @@ describe('validation', function() {
 				labelLg2: '',
 			})
 		).toEqual({
-			errorMessage: [
-				'The property <strong>Label</strong> is required.',
-			],
+			errorMessage: ['The property <strong>Label</strong> is required.'],
 			fields: {
 				identifiant: '',
 				labelLg1: '',
@@ -55,7 +49,7 @@ describe('validation', function() {
 			},
 		});
 	});
-	it('should not return any error', function() {
+	it('should return no error', function () {
 		expect(
 			validate({
 				identifiant: 'id',
@@ -68,7 +62,7 @@ describe('validation', function() {
 				identifiant: '',
 				labelLg1: '',
 				labelLg2: '',
-			}
+			},
 		});
 	});
 });
