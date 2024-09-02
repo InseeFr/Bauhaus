@@ -7,7 +7,7 @@ import NotesEdition from './notes';
 import LinksEdition from './links';
 import D from '../../deprecated-locales';
 import { VERSIONING, NO_VERSIONING } from '../../sdk/constants';
-import validate from './controls/validation';
+import { validate } from './controls/validation';
 import { areNotesImpactingVersionChanged } from '../utils/notes';
 import isVersioningPossible from '../../modules-concepts/utils/is-versioning-possible';
 
@@ -170,9 +170,9 @@ class ConceptEditionCreation extends Component {
 		];
 
 		const errorMessage = validate(
-			this.getOriginalData().general,
 			general,
 			notes,
+			this.getOriginalData().general.prefLabelLg1,
 			conceptsWithLinks,
 			maxLengthScopeNote
 		);

@@ -1,4 +1,3 @@
-import { WarningLogo } from '@inseefr/wilco';
 import ModifyNotes from './modify-notes';
 import { htmlLength } from '../../utils/html-utils';
 
@@ -14,10 +13,7 @@ function NoteOneLangEdition({
 	const noteLength = htmlLength(note);
 	const checkLength = maxLength && (
 		<div>
-			<div>
-				{noteLength} / {maxLength}
-			</div>
-			<div>{noteLength > maxLength && <WarningLogo />}</div>
+			{noteLength} / {maxLength}
 		</div>
 	);
 

@@ -6,6 +6,8 @@ export const createAllDictionary = (dict: any) => {
 		D1,
 		D2,
 		D: getLang() === firstLang ? D1 : D2,
+		lg1: firstLang,
+		lg2: secondLang,
 	};
 };
 
