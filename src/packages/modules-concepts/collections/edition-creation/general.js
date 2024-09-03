@@ -6,6 +6,7 @@ import {
 	CreatorsInput,
 	RequiredIcon,
 	InputRmes,
+	ClientSideError,
 } from '../../../components';
 
 const handleFieldChange = (handleChange) =>
@@ -14,7 +15,13 @@ const handleFieldChange = (handleChange) =>
 		return handlers;
 	}, {});
 
-function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
+function CollectionGeneralEdition({
+	general,
+	creation,
+	handleChange,
+	langs,
+	errors,
+}) {
 	const {
 		id,
 		prefLabelLg1,
@@ -27,6 +34,7 @@ function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 	const { lg1, lg2 } = langs;
 
 	const handlers = handleFieldChange(handleChange);
+
 	return (
 		<div>
 			<h4 className="text-center">
@@ -42,6 +50,12 @@ function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 					disabled={!creation}
 					handleChange={handlers.id}
 					className="w-100"
+					errorBlock={
+						<ClientSideError
+							id="id-error"
+							error={errors?.fields?.id}
+						></ClientSideError>
+					}
 				/>
 			</Row>
 			<Row>
@@ -53,6 +67,12 @@ function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 					value={prefLabelLg1}
 					handleChange={handlers.prefLabelLg1}
 					className="w-100"
+					errorBlock={
+						<ClientSideError
+							id="labelLg1-error"
+							error={errors?.fields?.prefLabelLg1}
+						></ClientSideError>
+					}
 				/>
 				<InputRmes
 					colMd={6}
@@ -67,6 +87,10 @@ function CollectionGeneralEdition({ general, creation, handleChange, langs }) {
 
 			<div className="form-group">
 				<CreatorsInput value={creator} onChange={handlers.creator} />
+				<ClientSideError
+					id="creator-error"
+					error={errors?.fields?.creator}
+				></ClientSideError>
 			</div>
 			<div className="form-group">
 				<label>{D1.contributorTitle}</label>

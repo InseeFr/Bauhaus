@@ -4,7 +4,8 @@ describe('validation', function () {
 	it('should return an error for creator', function () {
 		const general = {
 			prefLabelLg1: 'prefLabelLg1',
-			disseminationStatus: 'Public',
+			creator: '',
+			disseminationStatus: 'Privé',
 		};
 
 		const notes = {
@@ -15,7 +16,7 @@ describe('validation', function () {
 
 		const oldLabelLg1 = 'oldLabelLg1';
 
-		const conceptsWithLinks = [{ label: 'existingLabel' }];
+		const conceptsWithLinks = [{ id: 'c0', label: 'existingLabel' }];
 
 		const maxLengthScopeNote = 350;
 
@@ -44,7 +45,7 @@ describe('validation', function () {
 		const general = {
 			prefLabelLg1: 'prefLabelLg1',
 			creator: 'creator',
-			disseminationStatus: 'Public',
+			disseminationStatus: 'Privé',
 		};
 
 		const notes = {
@@ -55,7 +56,7 @@ describe('validation', function () {
 
 		const oldLabelLg1 = 'oldLabelLg1';
 
-		const conceptsWithLinks = [{ label: 'prefLabelLg1' }];
+		const conceptsWithLinks = [{ id: 'c0', label: 'prefLabelLg1' }];
 
 		const maxLengthScopeNote = 350;
 
@@ -84,7 +85,7 @@ describe('validation', function () {
 		const general = {
 			prefLabelLg1: 'prefLabelLg1',
 			creator: 'creator',
-			disseminationStatus: 'Public',
+			disseminationStatus: 'Privé',
 		};
 
 		const notes = {
@@ -95,7 +96,7 @@ describe('validation', function () {
 
 		const oldLabelLg1 = 'oldLabelLg1';
 
-		const conceptsWithLinks = [{ label: 'existingLabel' }];
+		const conceptsWithLinks = [{ id: 'c0', label: 'existingLabel' }];
 
 		const maxLengthScopeNote = 350;
 
@@ -138,7 +139,7 @@ describe('validation', function () {
 
 		const oldLabelLg1 = 'oldLabelLg1';
 
-		const conceptsWithLinks = [{ label: 'existingLabel' }];
+		const conceptsWithLinks = [{ id: 'c0', label: 'existingLabel' }];
 
 		const maxLengthScopeNote = 350;
 
@@ -166,11 +167,11 @@ describe('validation', function () {
 		});
 	});
 
-	it('should no error', function () {
+	it('should return no error', function () {
 		const general = {
 			prefLabelLg1: 'prefLabelLg1',
 			creator: 'creator',
-			disseminationStatus: 'Public',
+			disseminationStatus: 'Privé',
 		};
 
 		const notes = {
@@ -181,7 +182,7 @@ describe('validation', function () {
 
 		const oldLabelLg1 = 'oldLabelLg1';
 
-		const conceptsWithLinks = [{ label: 'existingLabel' }];
+		const conceptsWithLinks = [{ id: 'c0', label: 'existingLabel' }];
 
 		const maxLengthScopeNote = 350;
 
