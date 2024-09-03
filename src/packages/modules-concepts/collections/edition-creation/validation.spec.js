@@ -13,13 +13,11 @@ describe('validation', function () {
 				'prefLabelLg1'
 			)
 		).toEqual({
-			errorMessage: [
-				'Complete required fields in order to save this collection',
-			],
+			errorMessage: ['The property <strong>Owner</strong> is required.'],
 			fields: {
 				id: '',
 				prefLabelLg1: '',
-				creator: 'Complete required fields in order to save this collection',
+				creator: 'The property <strong>Owner</strong> is required.',
 			},
 		});
 	});

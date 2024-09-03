@@ -1,4 +1,4 @@
-import D from '../../../deprecated-locales';
+import D, { D1 } from '../../../deprecated-locales';
 import { arrayKeepUniqueField } from '../../../utils/array-utils';
 import { z } from 'zod';
 import { formatValidation } from '../../../utils/validation';
@@ -6,9 +6,9 @@ import { formatValidation } from '../../../utils/validation';
 const Collection = (collectionList, initialId, initialPrefLabelLg1) =>
 	z.object({
 		id: z
-			.string({ required_error: D.incompleteCollection })
+			.string({ required_error: D.mandatoryProperty(D.idTitle) })
 			.trim()
-			.min(1, { message: D.incompleteCollection })
+			.min(1, { message: D.mandatoryProperty(D.idTitle) })
 			.refine(
 				(value) =>
 					value === initialId ||
@@ -21,9 +21,9 @@ const Collection = (collectionList, initialId, initialPrefLabelLg1) =>
 				{ message: D.duplicatedId }
 			),
 		prefLabelLg1: z
-			.string({ required_error: D.incompleteCollection })
+			.string({ required_error: D.mandatoryProperty(D1.labelTitle) })
 			.trim()
-			.min(1, { message: D.incompleteCollection })
+			.min(1, { message: D.mandatoryProperty(D1.labelTitle) })
 			.refine(
 				(value) =>
 					value === initialPrefLabelLg1 ||
@@ -36,9 +36,9 @@ const Collection = (collectionList, initialId, initialPrefLabelLg1) =>
 				{ message: D.duplicatedLabel }
 			),
 		creator: z
-			.string({ required_error: D.incompleteCollection })
+			.string({ required_error: D.mandatoryProperty(D.creatorTitle) })
 			.trim()
-			.min(1, { message: D.incompleteCollection }),
+			.min(1, { message: D.mandatoryProperty(D.creatorTitle) }),
 	});
 
 export const validate = (

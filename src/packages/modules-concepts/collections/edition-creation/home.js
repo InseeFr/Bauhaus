@@ -3,6 +3,7 @@ import { PageTitle } from '../../../components';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
 import MembersEdition from '../../../modules-concepts/collections/edition/members';
+import { validate } from './validation';
 
 class CollectionEditionCreation extends Component {
 	constructor(props) {
@@ -69,40 +70,36 @@ class CollectionEditionCreation extends Component {
 	render() {
 		const { title, subtitle, collectionList, conceptList, creation, langs } =
 			this.props;
+
 		const {
 			data: { general, members },
 		} = this.state;
+
 		const { id: initialId, prefLabelLg1: initialPrefLabelLg1 } =
 			this.props.general;
+
+		const errors = validate(
+			general,
+			collectionList,
+			initialId,
+			initialPrefLabelLg1
+		);
 
 		return (
 			<div>
 				<div className="container">
 					<PageTitle title={title} subtitle={subtitle} />
-					{creation && (
-						<CollectionEditionCreationControls
-							general={general}
-							collectionList={collectionList}
-							creation
-							handleSave={this.handleSave}
-							redirectCancel={this.redirectCancel}
-						/>
-					)}
-					{!creation && (
-						<CollectionEditionCreationControls
-							general={general}
-							collectionList={collectionList}
-							initialId={initialId}
-							initialPrefLabelLg1={initialPrefLabelLg1}
-							handleSave={this.handleSave}
-							redirectCancel={this.redirectCancel}
-						/>
-					)}
+					<CollectionEditionCreationControls
+						handleSave={this.handleSave}
+						redirectCancel={this.redirectCancel}
+						errors={errors}
+					/>
 					<GeneralEdition
 						general={general}
 						creation={creation}
 						handleChange={this.handleChangeGeneral}
 						langs={langs}
+						errors={errors}
 					/>
 					<MembersEdition
 						members={members}

@@ -4,11 +4,14 @@ import { empty } from '../../../modules-concepts/collections/utils/general';
 import { locales } from '../../../tests-utils/default-values';
 
 jest.mock('../../../components', () => ({
+	InputRmes: () => <></>,
+	ClientSideError: () => <></>,
 	TextInput: () => <></>,
 	Row: () => <></>,
 	CreatorsInput: () => <></>,
 	RequiredIcon: () => <></>,
 }));
+
 describe('collection-edition-creation-general', () => {
 	it('renders without crashing', () => {
 		render(
@@ -16,6 +19,7 @@ describe('collection-edition-creation-general', () => {
 				general={empty()}
 				handleChange={jest.fn()}
 				langs={locales}
+				errors={{ errorMessage: [], fields: {} }}
 			/>
 		);
 	});

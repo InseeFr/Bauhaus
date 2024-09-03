@@ -1,34 +1,21 @@
-import {
-	CancelButton,
-	ErrorBloc,
-	ActionToolbar,
-	SaveButton,
-} from '@inseefr/wilco';
-import { validate } from './validation';
+import { CancelButton, ActionToolbar, SaveButton } from '@inseefr/wilco';
+import { GlobalClientSideErrorBloc } from '../../../components';
+import D from '../../../deprecated-locales/build-dictionary';
 
-function Controls({
-	general,
-	collectionList,
-	initialId,
-	initialPrefLabelLg1,
-	handleSave,
-	redirectCancel,
-}) {
-	const message = validate(
-		general,
-		collectionList,
-		initialId,
-		initialPrefLabelLg1
-	);
-	console.log(message);
-
+function Controls({ handleSave, redirectCancel, errors }) {
 	return (
 		<>
 			<ActionToolbar>
 				<CancelButton action={redirectCancel()} />
-				<SaveButton action={handleSave} disabled={message} />
+				<SaveButton
+					action={handleSave}
+					disabled={errors?.errorMessage?.length > 0}
+				/>
 			</ActionToolbar>
-			<ErrorBloc error={message?.errorMessage[0]} />
+			<GlobalClientSideErrorBloc
+				clientSideErrors={errors?.errorMessage}
+				D={D}
+			/>
 		</>
 	);
 }
