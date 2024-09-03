@@ -5,13 +5,13 @@ import { Loading } from '../../../components';
 import { useParams } from 'react-router-dom';
 import { ClassificationsApi } from '../../..//sdk/classification';
 import { getLocales } from '../../../redux/selectors';
-import { getSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../redux/second-lang';
 
 const SeriesVisualizationContainer = () => {
 	const { id } = useParams();
 	const [series, setSeries] = useState();
 
-	const secondLang = useSelector((state) => getSecondLang(state));
+	const secondLang = useSecondLang();
 	const langs = useSelector((state) => getLocales(state));
 	useEffect(() => {
 		Promise.all([

@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { Loading } from '../../../components';
@@ -8,12 +7,12 @@ import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import ComponentTitle from './title';
 import { CodeListDetailView } from './view';
-import { getSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../redux/second-lang';
 
 const CodelistComponentView = (props) => {
 	const goBack = useGoBack();
 
-	const secondLang = useSelector(getSecondLang);
+	const secondLang = useSecondLang();
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [publishing, setPublishing] = useState(false);

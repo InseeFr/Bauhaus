@@ -11,7 +11,7 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import OperationsFamilyVisualization from '../../../modules-operations/families/visualization/visualization';
 import { getLocales } from '../../../redux/selectors';
-import { getSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../redux/second-lang';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
 import { Family } from '../../../model/operations/family';
@@ -19,7 +19,7 @@ import { Family } from '../../../model/operations/family';
 const FamilyView = () => {
 	const { id } = useParams<{ id: string }>();
 	const langs = useSelector(getLocales);
-	const secondLang = useSelector(getSecondLang);
+	const secondLang = useSecondLang();
 
 	const [family, setFamily] = useState<Family>();
 	const [serverSideError, setServerSideError] = useState();

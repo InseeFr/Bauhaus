@@ -6,13 +6,13 @@ import { ConceptsApi, StructureApi } from '../../../sdk';
 import ComponentTitle from './title';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../redux/second-lang';
 import { getFormattedCodeList } from '../../apis';
 
 const ViewContainer = (props) => {
 	const goBack = useGoBack();
 
-	const secondLang = useSelector(getSecondLang);
+	const secondLang = useSecondLang();
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [component, setComponent] = useState({});

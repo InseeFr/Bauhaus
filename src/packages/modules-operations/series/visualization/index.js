@@ -12,7 +12,7 @@ import {
 
 import { useCodesList } from '../../../utils/hooks/codeslist';
 import { getLocales } from '../../../redux/selectors';
-import { getSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../redux/second-lang';
 import { OperationsApi } from '../../../sdk/operations-api';
 import {
 	CL_FREQ,
@@ -32,7 +32,7 @@ const SeriesVisualizationContainer = () => {
 	);
 	const categories = useCodesList(CL_SOURCE_CATEGORY);
 	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) => getSecondLang(state));
+	const secondLang = useSecondLang();
 
 	const frequency = frequencies.codes.find(
 		(c) => c.code === series.accrualPeriodicityCode

@@ -8,7 +8,7 @@ import { useParams, useRouteMatch } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
 
 import { getLocales } from '../../../redux/selectors';
-import { getSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../redux/second-lang';
 import { GeneralApi } from '../../../sdk/general-api';
 import { Menu } from './Menu';
 
@@ -21,7 +21,7 @@ const DocumentationVisualizationContainer = () => {
 	const { path } = useRouteMatch();
 	const type = getPath(path);
 	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSelector((state) => getSecondLang(state));
+	const secondLang = useSecondLang();
 	const langOptions = useSelector(
 		(state) => state.operationsCodesList.results['ISO-639']
 	);

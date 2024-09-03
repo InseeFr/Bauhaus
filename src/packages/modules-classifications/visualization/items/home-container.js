@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import ClassificationItems from './home';
 import { Loading } from '../../../components';
 import { useParams } from 'react-router-dom';
 import { ClassificationsApi } from '../../..//sdk/classification';
-import { getSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../redux/second-lang';
 
 const ClassificationItemsContainer = () => {
 	const { id } = useParams();
 	const [items, setItems] = useState();
 	const [general, setGeneral] = useState();
-	const secondLang = useSelector((state) => getSecondLang(state));
+	const secondLang = useSecondLang();
 
 	useEffect(() => {
 		Promise.all([

@@ -5,7 +5,7 @@ import CollectionVisualization from './home';
 import { useParams } from 'react-router-dom';
 import { ConceptsApi } from '../../..//sdk';
 import { getLocales, getPermission } from '../../../redux/selectors';
-import { getSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../redux/second-lang';
 
 const CollectionVisualizationContainer = () => {
 	const { id } = useParams();
@@ -14,7 +14,7 @@ const CollectionVisualizationContainer = () => {
 	const [saving, setSaving] = useState(false);
 
 	const permission = useSelector((state) => getPermission(state));
-	const secondLang = useSelector((state) => getSecondLang(state));
+	const secondLang = useSecondLang();
 	const langs = useSelector((state) => getLocales(state));
 
 	const fetchData = useCallback(() => {
