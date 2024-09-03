@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
 	ActionToolbar,
@@ -12,21 +11,27 @@ import { ValidationButton } from '../../../components';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { StructureApi } from '../../../sdk';
 import { usePermission } from '../../../redux/hooks/usePermission';
-const Controls = ({ structure, publish }) => {
+import { Structure } from '../../../model/structures/Structure';
+
+type ControlsTypes = {
+	structure: Structure,
+	publish: () => void
+}
+const Controls = ({ structure, publish }: ControlsTypes) => {
+
 	const permission = usePermission();
+	const contributors  = Array.isArray(structure.contributor) ? structure.contributor : [structure.contributor]
 
 	const { id } = structure;
 	let history = useHistory();
 
-	const handleDelete = useCallback(() => {
+	const handleDelete = () => {
 		StructureApi.deleteStructure(id).finally(() => {
 			history.push('/structures');
 		});
-	}, [id, history]);
+	};
 
-	const hasRightsBasedOnStamp =
-		permission?.stamp === structure?.contributor &&
-		permission?.roles?.includes(STRUCTURE_CONTRIBUTOR);
+	const hasRightsBasedOnStamp = contributors.find(contributor => contributor === permission.stamp) && permission?.roles?.includes(STRUCTURE_CONTRIBUTOR);
 	const isAdmin = permission?.roles?.includes(ADMIN);
 	return (
 		<ActionToolbar>

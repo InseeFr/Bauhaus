@@ -6,8 +6,13 @@ import {
 	SaveButton,
 } from '@inseefr/wilco';
 
-const Controls = ({ creation, save, disabledSave }) => {
-	const { structureId } = useParams();
+type ControlsTypes = {
+	creation: boolean;
+	save: () => void;
+	disabledSave?: boolean
+}
+const Controls = ({ creation, save, disabledSave }: ControlsTypes) => {
+	const { structureId } = useParams<{ structureId: string }>();
 	return (
 		<ActionToolbar>
 			<ReturnButton

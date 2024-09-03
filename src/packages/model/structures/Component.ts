@@ -13,6 +13,7 @@ export type Component = {
 	codeList?: string;
 	fullCodeListValue?: string;
 	concept?: string;
+	contributor: string[];
 };
 
 export type ComponentDefinition = {

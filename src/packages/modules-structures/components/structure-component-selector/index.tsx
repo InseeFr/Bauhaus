@@ -10,10 +10,11 @@ import Representation from '../representation';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { useStampsOptions } from '../../../utils/hooks/stamps';
 import { ADMIN } from '../../../auth/roles';
-import { ComponentDefinition } from '../../../model/structures/Component';
+import { Component, ComponentDefinition } from '../../../model/structures/Component';
 import { Structure } from '../../../model/structures/Structure';
 import { CodesList } from '../../../model/CodesList';
 import { SeeButton } from '../../../components';
+import { convertToArrayIfDefined } from '../../../utils/array-utils';
 
 type StructureComponentsSelectorTypes = {
 	hidden?: boolean;
@@ -73,17 +74,27 @@ export const StructureComponentsSelector = ({
 		},
 		[components, handleSpecificationClick]
 	);
+
+
+
+
+
 	const handleSave = useCallback(
 		(component: ComponentDefinition) => {
+			const generateComponentDefinitionForNewlyCreateComponent = (component: Component): ComponentDefinition => {
+				return {
+					component: {
+						...component,
+						contributor: convertToArrayIfDefined(component.contributor) ?? []
+					},
+					order: components.length + 1
+				};
+			}
+
 			let newComponent = component;
 			let newComponents;
 			if (!component.id) {
-				newComponent = {
-					component: {
-						...component,
-					},
-					order: components.length + 1,
-				};
+				newComponent = generateComponentDefinitionForNewlyCreateComponent(component as unknown as  Component)
 				newComponents = [...components, newComponent];
 				setOpenPanel(false);
 			} else {
