@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { formatValidation } from '../../../utils/validation';
 import { Collection } from '../../../model/concepts/collection';
 
-type CollectionList = {
+type CollectionsList = {
 	id: string;
 	label: string;
 }[];
@@ -23,7 +23,7 @@ const deburr = (value: string) =>
 		.replace(/\p{Diacritic}/gu, '');
 
 const CollectionZod = (
-	collectionList: CollectionList,
+	collectionList: CollectionsList,
 	initialId: string,
 	initialPrefLabelLg1: string
 ) =>
@@ -45,7 +45,7 @@ const CollectionZod = (
 
 export const validate = (
 	general: Collection,
-	collectionList: CollectionList,
+	collectionList: CollectionsList,
 	initialId: string,
 	initialPrefLabelLg1: string
 ) =>

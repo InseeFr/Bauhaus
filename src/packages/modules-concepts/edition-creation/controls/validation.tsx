@@ -2,12 +2,20 @@ import { htmlIsEmpty, htmlLength } from '../../../utils/html-utils';
 import D, { D1 } from '../../../deprecated-locales';
 import { z } from 'zod';
 import { formatValidation } from '../../../utils/validation';
+import { ConceptGeneral, ConceptNotes } from '../../../model/concepts/concept';
 
-const Concept = (
-	oldLabelLg1,
-	conceptsWithLinks,
-	maxLengthScopeNote,
-	scopeNoteLg1CanBeEmpty
+type Concept = {
+	id: string;
+	label: string;
+};
+
+type ConceptsList = Concept[];
+
+const ConceptZod = (
+	oldLabelLg1: string,
+	conceptsWithLinks: ConceptsList,
+	maxLengthScopeNote: number,
+	scopeNoteLg1CanBeEmpty: boolean
 ) =>
 	z.object({
 		prefLabelLg1: z
@@ -17,7 +25,9 @@ const Concept = (
 			.refine(
 				(value) =>
 					value === oldLabelLg1 ||
-					!conceptsWithLinks.map((concept) => concept.label).includes(value),
+					!conceptsWithLinks
+						.map((concept: Concept) => concept.label)
+						.includes(value),
 
 				{ message: D.duplicatedLabel }
 			),
@@ -48,14 +58,14 @@ const Concept = (
 	});
 
 export const validate = (
-	general,
-	notes,
-	oldLabelLg1,
-	conceptsWithLinks,
-	maxLengthScopeNote
+	general: ConceptGeneral,
+	notes: ConceptNotes,
+	oldLabelLg1: string,
+	conceptsWithLinks: ConceptsList,
+	maxLengthScopeNote: number
 ) =>
 	formatValidation(
-		Concept(
+		ConceptZod(
 			oldLabelLg1,
 			conceptsWithLinks,
 			maxLengthScopeNote,
