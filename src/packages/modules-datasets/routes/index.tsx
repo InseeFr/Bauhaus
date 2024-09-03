@@ -11,7 +11,7 @@ import DatasetsMenu from './menu';
 const rootApp = document.getElementById('root-app');
 const DatasetsComponent = () => {
 	if (rootApp) {
-		rootApp.classList = ['datasets'];
+		rootApp.className = 'datasets';
 	}
 	return (
 		<>
