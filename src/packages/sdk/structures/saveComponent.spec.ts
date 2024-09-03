@@ -25,7 +25,7 @@ describe('saveComponent', () => {
 			codeList: 'codeList',
 			fullCodeListValue: '',
 			// ajoutez d'autres propriétés nécessaires
-		};
+		} as Component;
 		mockPutMutualizedComponent.mockResolvedValue('123');
 
 		const result = await saveComponent(mockComponent);
@@ -42,7 +42,7 @@ describe('saveComponent', () => {
 			codeList: 'codeList',
 			fullCodeListValue: '',
 			// ajoutez d'autres propriétés nécessaires
-		};
+		} as Component;
 		mockPostMutualizedComponent.mockResolvedValue('456');
 
 		const result = await saveComponent(mockComponent);
@@ -59,7 +59,7 @@ describe('saveComponent', () => {
 			codeList: 'codeList',
 			fullCodeListValue: 'alreadySetValue',
 			// ajoutez d'autres propriétés nécessaires
-		};
+		} as Component;
 		mockPutMutualizedComponent.mockResolvedValue('123');
 
 		const result = await saveComponent(mockComponent);

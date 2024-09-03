@@ -17,6 +17,6 @@ export type Structure = {
 	identifiant: string;
 	created: string | Date;
 	modified: string | Date;
-	contributor: string[];
+	contributor: string[] | string;
 	validationState: ValidationState;
 };
