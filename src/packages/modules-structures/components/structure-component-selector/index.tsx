@@ -90,7 +90,7 @@ export const StructureComponentsSelector = ({
 					order: components.length + 1
 				};
 			}
-			
+
 			let newComponent = component;
 			let newComponents;
 			if (!component.id) {

@@ -2,7 +2,7 @@ import D, { D1, D2 } from '../../deprecated-locales';
 import { z } from 'zod';
 import { formatValidation } from '../../utils/validation';
 
-const Structure = z.object({
+export const StructureZod = z.object({
 	identifiant: z
 		.string({ required_error: D.mandatoryProperty(D.idTitle) })
 		.trim()
@@ -17,4 +17,4 @@ const Structure = z.object({
 		.min(1, { message: D.mandatoryProperty(D2.labelTitle) }),
 });
 
-export const validate = formatValidation(Structure);
+export const validate = formatValidation(StructureZod);
