@@ -7,6 +7,7 @@ describe('validation', function () {
 				{
 					id: 'id',
 					prefLabelLg1: 'prefLabelLg1',
+					creator: '',
 				},
 				[],
 				'id',
@@ -30,7 +31,7 @@ describe('validation', function () {
 					prefLabelLg1: 'prefLabelLg1',
 					creator: 'creator',
 				},
-				[{ id: 'exemple' }],
+				[{ id: 'exemple', label: 'other' }],
 				'id',
 				'prefLabelLg1'
 			)
@@ -52,7 +53,7 @@ describe('validation', function () {
 					prefLabelLg1: 'éXèmplê',
 					creator: 'creator',
 				},
-				[{ label: 'exemple' }],
+				[{ id: 'other', label: 'exemple' }],
 				'id',
 				'prefLabelLg1'
 			)
