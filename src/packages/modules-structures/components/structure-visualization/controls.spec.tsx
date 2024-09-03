@@ -1,11 +1,44 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Controls from './controls';
 import { MODIFIED, UNPUBLISHED } from '../../../model/ValidationState';
 import { RBACMock } from '../../../tests-utils/rbac';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { Structure } from '../../../model/structures/Structure';
+import { StructureApi } from '../../../sdk';
+
+jest.mock('../../../sdk', () => ({
+	StructureApi: {
+		deleteStructure: jest.fn()
+	},
+}));
+
+
 
 describe('Structure View Menu', () => {
+	fit('should call handleDelete when DeleteButton is clicked', () => {
+		const structure = {
+			id: '1',
+			contributor: 'someStamp',
+			validationState: UNPUBLISHED,
+		} as Structure;
+
+
+		StructureApi.deleteStructure.mockReturnValue(
+			Promise.resolve()
+		);
+
+		render(
+			<RBACMock roles={[ADMIN]}>
+				<Controls structure={structure} publish={jest.fn()}></Controls>
+			</RBACMock>
+		);
+
+		const deleteButton = screen.getByRole('button', { name: /delete/i });
+		fireEvent.click(deleteButton);
+
+		expect(StructureApi.deleteStructure).toHaveBeenCalledWith('1');
+	});
+
 	it('a user can only see the go back button', () => {
 		const structure = { id: '1' } as Structure;
 		render(
