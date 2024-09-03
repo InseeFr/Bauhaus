@@ -15,12 +15,10 @@ const ConceptCreateControlLayout = ({ errors, handleSave }) => {
 					disabled={errors?.errorMessage?.length > 0}
 				/>
 			</ActionToolbar>
-			{
-				<GlobalClientSideErrorBloc
-					clientSideErrors={errors?.errorMessage}
-					D={D}
-				/>
-			}
+			<GlobalClientSideErrorBloc
+				clientSideErrors={errors?.errorMessage}
+				D={D}
+			/>
 		</>
 	);
 };
