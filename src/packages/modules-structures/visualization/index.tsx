@@ -7,7 +7,6 @@ import {
 	PageTitleBlock,
 	CheckSecondLang,
 } from '../../components';
-import { ComponentsPanel } from './components/components-panel';
 import StructureVisualizationControl from '../components/structure-visualization/controls';
 import D from '../i18n/build-dictionary';
 import MainDictionary from '../../deprecated-locales/build-dictionary';
@@ -17,6 +16,7 @@ import { Structure } from '../../model/structures/Structure';
 import { StructureApi } from '../../sdk';
 import { DescriptionsPanel } from './components/descriptions-panel';
 import { GlobalInformationsPanel } from './components/global-informations-panel';
+import { ComponentsPanel } from './components/components-panel';
 
 type StructureViewTypes = {
 	structure: Structure;
