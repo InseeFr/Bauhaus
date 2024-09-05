@@ -162,11 +162,19 @@ const OperationsDocumentationEdition = (props) => {
 
 	const uploadFile = (files) => {
 		setServerSideError('');
+		setClientSideErrors({
+			...clientSideErrors,
+			errorMessage: [],
+		});
 		setFiles(files);
 	};
 
 	const removeFile = () => {
 		setServerSideError('');
+		setClientSideErrors({
+			...clientSideErrors,
+			errorMessage: [],
+		});
 		setFiles([]);
 	};
 
