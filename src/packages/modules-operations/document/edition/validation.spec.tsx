@@ -24,11 +24,11 @@ describe('validation', function () {
 			)
 		).toEqual({
 			errorMessage: [
-				'This label already exists',
+				'This title already exists',
 				'The property <strong>Title</strong> is required.',
 			],
 			fields: {
-				labelLg1: 'This label already exists',
+				labelLg1: 'This title already exists',
 				labelLg2: 'The property <strong>Title</strong> is required.',
 				lang: '',
 				url: '',
