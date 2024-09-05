@@ -4,7 +4,7 @@ import configureStore from '../../redux/configure-store';
 import { renderWithRouter } from '../../tests-utils/render';
 import { Structure } from '../../model/structures/Structure';
 
-jest.mock('./components');
+jest.mock('./components/components-panel');
 
 const store = configureStore({
 	users: {
@@ -20,9 +20,6 @@ const store = configureStore({
 			},
 		},
 	},
-	stampList: {
-		results: [],
-	},
 });
 
 describe('<StructureView />', () => {
@@ -31,7 +28,6 @@ describe('<StructureView />', () => {
 			<Provider store={store}>
 				<StructureView
 					publish={jest.fn()}
-					secondLang={false}
 					structure={
 						{
 							labelLg1: 'labelLg1',
@@ -48,12 +44,11 @@ describe('<StructureView />', () => {
 			<Provider store={store}>
 				<StructureView
 					publish={jest.fn()}
-					secondLang={false}
 					structure={
 						{
 							identifiant: '1234',
-							created: new Date('2020-01-01'),
-							modified: new Date('2020-01-01'),
+							created: '2020-01-01',
+							modified: '2020-01-01',
 							validationState: 'Validated',
 							contributor: ['STAMP CONTRIBUTOR'],
 							creator: 'STAMP CREATOR',

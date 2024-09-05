@@ -1,19 +1,13 @@
 //@ts-nocheck
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Note } from '@inseefr/wilco';
 import {
 	Loading,
-	PublicationFemale,
-	ContributorsVisualisation,
-	DisseminationStatusVisualisation,
 	ErrorBloc,
 	PageTitleBlock,
 	CheckSecondLang,
-	CreationUpdateItems,
 } from '../../components';
-import Components from './components';
-import { D1, D2 } from '../../deprecated-locales';
+import { ComponentsPanel } from './components/components-panel';
 import StructureVisualizationControl from '../components/structure-visualization/controls';
 import D from '../i18n/build-dictionary';
 import MainDictionary from '../../deprecated-locales/build-dictionary';
@@ -21,20 +15,22 @@ import { useTitle } from '../../utils/hooks/useTitle';
 import { useSecondLang } from '../../redux/second-lang';
 import { Structure } from '../../model/structures/Structure';
 import { StructureApi } from '../../sdk';
+import { DescriptionsPanel } from './components/descriptions-panel';
+import { GlobalInformationsPanel } from './components/global-informations-panel';
 
 type StructureViewTypes = {
-	secondLang: boolean;
 	structure: Structure;
 	publish: (id: string) => void;
 	serverSideError?: string;
 };
 export const StructureView = ({
-	secondLang,
 	structure,
 	publish,
 	serverSideError,
 }: StructureViewTypes) => {
 	useTitle(D.structuresTitle, structure?.labelLg1);
+	const secondLang = useSecondLang();
+
 	const {
 		labelLg1,
 		labelLg2,
@@ -55,57 +51,12 @@ export const StructureView = ({
 			{serverSideError && (
 				<ErrorBloc error={serverSideError} D={MainDictionary} />
 			)}
-			<div className="row">
-				<Note
-					text={
-						<ul>
-							<li>
-								{D1.idTitle} : {structure.identifiant}
-							</li>
-							<CreationUpdateItems
-								creation={structure.created}
-								update={structure.modified}
-							/>
-							<li>
-								{D.componentValididationStatusTitle} :{' '}
-								<PublicationFemale object={structure} />
-							</li>
-							<li>
-								{D.creator} : {structure.creator}
-							</li>
-							<li>
-								<ContributorsVisualisation
-									contributors={structure.contributor}
-								/>
-							</li>
-							<li>
-								<DisseminationStatusVisualisation
-									disseminationStatus={structure.disseminationStatus}
-								/>
-							</li>
-						</ul>
-					}
-					title={D1.globalInformationsTitle}
-					alone={true}
-				/>
-			</div>
-			<div className="row">
-				<Note
-					title={D1.descriptionTitle}
-					text={descriptionLg1}
-					alone={!secondLang}
-					allowEmpty={true}
-				/>
-				{secondLang && (
-					<Note
-						title={D2.descriptionTitle}
-						text={descriptionLg2}
-						alone={false}
-						allowEmpty={true}
-					/>
-				)}
-			</div>
-			<Components componentDefinitions={componentDefinitions} />
+			<GlobalInformationsPanel structure={structure} />
+			<DescriptionsPanel
+				descriptionLg1={descriptionLg1}
+				descriptionLg2={descriptionLg2}
+			/>
+			<ComponentsPanel componentDefinitions={componentDefinitions} />
 		</>
 	);
 };
@@ -114,7 +65,6 @@ const StructureContainer = () => {
 	const [structure, setStructure] = useState<Structure>({} as Structure);
 	const [loading, setLoading] = useState(true);
 	const [serverSideError, setServerSideError] = useState<string | undefined>();
-	const secondLang = useSecondLang();
 
 	useEffect(() => {
 		StructureApi.getStructure(structureId)
@@ -141,7 +91,6 @@ const StructureContainer = () => {
 	return (
 		<StructureView
 			structure={structure}
-			secondLang={secondLang!}
 			publish={publish}
 			serverSideError={serverSideError}
 		/>

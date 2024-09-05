@@ -7,7 +7,7 @@ import { Select } from '../select-rmes';
 export const ContributorsVisualisation = ({
 	contributors,
 }: Readonly<{
-	contributors: string[];
+	contributors: string[] | string;
 }>) => {
 	return (
 		<>
