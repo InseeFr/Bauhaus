@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 
 export const setDocumentTitle = (application?: string, page?: string) => {
-	if (!application && !page) {
-		document.title = 'Bauhaus';
-		return;
-	}
-	document.title = page + ' - ' + application + ' - Bauhaus';
+	document.title = [page, application, 'Bauhaus']
+		.filter((item) => !!item)
+		.join(' - ');
 };
 
 export const useTitle = (application?: string, page?: string) => {
