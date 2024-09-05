@@ -24,7 +24,7 @@ const Base = (
 					.map((document: Document) => document.labelLg1)
 					.includes(value),
 
-			{ message: D1.duplicatedTitle }
+			{ message: D.duplicatedTitle }
 		),
 		labelLg2: generateMandatoryAndNotEmptyField(D2.title).refine(
 			(value) =>
@@ -33,7 +33,7 @@ const Base = (
 					.map((document: Document) => document.labelLg2)
 					.includes(value),
 
-			{ message: D2.duplicatedTitle }
+			{ message: D.duplicatedTitle }
 		),
 		lang: z
 			.string({ required_error: D.requiredLang })

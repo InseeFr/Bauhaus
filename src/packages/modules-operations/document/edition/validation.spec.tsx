@@ -5,13 +5,19 @@ describe('validation', function () {
 		expect(
 			validate(
 				{
-					labelLg1: 'currentLabelLg1',
+					labelLg1: 'existingLabel',
 					labelLg2: '',
 					lang: 'l',
 					url: 'http:/u',
 				},
 				'link',
-				[],
+				[
+					{
+						labelLg1: 'existingLabel',
+						labelLg2: 'existingLabel',
+						lang: '',
+					},
+				],
 				'currentLabelLg1',
 				'currentLabelLg2',
 				'currentFile'
