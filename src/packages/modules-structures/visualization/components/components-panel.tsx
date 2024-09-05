@@ -8,7 +8,7 @@ import { ConceptsApi } from '../../../sdk';
 import { Component } from '../../../model/structures/Component';
 import { CodesList, CodesLists } from '../../../model/CodesList';
 
-const Components = ({ componentDefinitions = [] }) => {
+export const ComponentsPanel = ({ componentDefinitions = [] }) => {
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState<CodesLists>([]);
 	const [modalOpened, setModalOpened] = useState(false);
@@ -32,12 +32,9 @@ const Components = ({ componentDefinitions = [] }) => {
 		setModalOpened(true);
 	}, []);
 
-	if (!selectedComponent) {
-		return null;
-	}
 	return (
 		<div className="row text-left">
-			{modalOpened && (
+			{modalOpened && selectedComponent && (
 				<ComponentSpecificationModal
 					onClose={() => setModalOpened(false)}
 					selectedComponent={selectedComponent}
@@ -68,5 +65,3 @@ const Components = ({ componentDefinitions = [] }) => {
 		</div>
 	);
 };
-
-export default Components;
