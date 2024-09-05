@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { DescriptionsPanel } from './descriptions-panel';
-import { D1, D2 } from '../../../deprecated-locales';
+import { D1 } from '../../../deprecated-locales';
 
 // Mock de useSecondLang
 jest.mock('../../../redux/second-lang', () => ({
