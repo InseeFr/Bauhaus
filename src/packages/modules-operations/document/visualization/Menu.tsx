@@ -16,7 +16,7 @@ type MenuTypes = {
 
 const checkContributorRight = (document: Document) => {
 	return (stamp: string) => {
-		const sims = document.sims;
+		const sims = document?.sims ?? [];
 		if (sims?.length === 0) {
 			return true;
 		}

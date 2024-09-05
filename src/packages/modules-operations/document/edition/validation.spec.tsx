@@ -1,30 +1,35 @@
 import { validate } from './validation';
 
 describe('validation', function () {
-	it('should return an error for labelLg1 and labelLg2', function () {
+	it('should return an error if labelLg1 already exists and labelLg2 is empty', function () {
 		expect(
 			validate(
 				{
-					labelLg1: '',
+					labelLg1: 'currentLabelLg1',
 					labelLg2: '',
 					lang: 'l',
 					url: 'http:/u',
 				},
-				'link'
+				'link',
+				[],
+				'currentLabelLg1',
+				'currentLabelLg2',
+				'currentFile'
 			)
 		).toEqual({
 			errorMessage: [
-				'The property <strong>Intitulé</strong> is required.',
+				'This label already exists',
 				'The property <strong>Title</strong> is required.',
 			],
 			fields: {
-				labelLg1: 'The property <strong>Intitulé</strong> is required.',
+				labelLg1: 'This label already exists',
 				labelLg2: 'The property <strong>Title</strong> is required.',
 				lang: '',
 				url: '',
 			},
 		});
 	});
+
 	it('should return an error for url', function () {
 		expect(
 			validate(
@@ -34,7 +39,11 @@ describe('validation', function () {
 					lang: 'l',
 					url: 'mailto:you',
 				},
-				'link'
+				'link',
+				[],
+				'currentLabelLg1',
+				'currentLabelLg2',
+				'currentFile'
 			)
 		).toEqual({
 			errorMessage: ['The link is not valid'],
@@ -46,6 +55,7 @@ describe('validation', function () {
 			},
 		});
 	});
+
 	it('should return an error for lang', function () {
 		expect(
 			validate(
@@ -56,7 +66,11 @@ describe('validation', function () {
 					updatedDate: 'd',
 					files: [{ name: 'path/correct-file_name.123' }],
 				},
-				'document'
+				'document',
+				[],
+				'currentLabelLg1',
+				'currentLabelLg2',
+				'currentFile'
 			)
 		).toEqual({
 			errorMessage: ['The language is required'],
@@ -69,6 +83,7 @@ describe('validation', function () {
 			},
 		});
 	});
+
 	it('should return an error for updateDate', function () {
 		expect(
 			validate(
@@ -78,7 +93,11 @@ describe('validation', function () {
 					lang: 'l',
 					files: [{ name: 'path/correct-file_name.123' }],
 				},
-				'document'
+				'document',
+				[],
+				'currentLabelLg1',
+				'currentLabelLg2',
+				'currentFile'
 			)
 		).toEqual({
 			errorMessage: ['The update date is required'],
@@ -91,6 +110,7 @@ describe('validation', function () {
 			},
 		});
 	});
+
 	it('should return an error for file', function () {
 		expect(
 			validate(
@@ -101,7 +121,11 @@ describe('validation', function () {
 					updatedDate: 'd',
 					files: [{ name: 'path/wrong&file@name!.png' }],
 				},
-				'document'
+				'document',
+				[],
+				'currentLabelLg1',
+				'currentLabelLg2',
+				'currentFile'
 			)
 		).toEqual({
 			errorMessage: [
@@ -117,6 +141,7 @@ describe('validation', function () {
 			},
 		});
 	});
+
 	it('should return no error', function () {
 		expect(
 			validate(
@@ -126,7 +151,11 @@ describe('validation', function () {
 					lang: 'l',
 					url: 'http:/u',
 				},
-				'link'
+				'link',
+				[],
+				'currentLabelLg1',
+				'currentLabelLg2',
+				'currentFile'
 			)
 		).toEqual({
 			errorMessage: [],
@@ -138,6 +167,7 @@ describe('validation', function () {
 			},
 		});
 	});
+
 	it('should return no error either', function () {
 		expect(
 			validate(
@@ -148,7 +178,11 @@ describe('validation', function () {
 					updatedDate: 'd',
 					files: [{ name: 'correct-file_name.123' }],
 				},
-				'document'
+				'document',
+				[],
+				'currentLabelLg1',
+				'currentLabelLg2',
+				'currentFile'
 			)
 		).toEqual({
 			errorMessage: [],

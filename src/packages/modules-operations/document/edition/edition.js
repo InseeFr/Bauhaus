@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { validate } from './validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
@@ -26,6 +26,7 @@ import {
 } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { GeneralApi } from '../../../sdk/general-api';
+import { useDocumentsAndLinks } from '../../../utils/hooks/documents';
 
 const initDocument = {
 	labelLg1: '',
@@ -160,6 +161,22 @@ const OperationsDocumentationEdition = (props) => {
 	const [validationModalDisplayed, setValidationModalDisplayed] =
 		useState(false);
 
+	const { data: documentsAndLinksList } = useDocumentsAndLinks();
+
+	const [currentDocument, setCurrentDocument] = useState();
+
+	useEffect(() => {
+		if (documentsAndLinksList) {
+			setCurrentDocument(
+				documentsAndLinksList.find((doc) => doc.id === document?.id)
+			);
+		}
+	}, [documentsAndLinksList, document]);
+
+	const currentLabelLg1 = currentDocument?.labelLg1;
+	const currentLabelLg2 = currentDocument?.labelLg2;
+	const currentFile = currentDocument?.url;
+
 	const uploadFile = (files) => {
 		setServerSideError('');
 		setClientSideErrors({
@@ -211,7 +228,14 @@ const OperationsDocumentationEdition = (props) => {
 			...document,
 			files,
 		};
-		const clientSideErrors = validate(newdocument, type);
+		const clientSideErrors = validate(
+			newdocument,
+			type,
+			documentsAndLinksList,
+			currentLabelLg1,
+			currentLabelLg2,
+			currentFile
+		);
 
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
