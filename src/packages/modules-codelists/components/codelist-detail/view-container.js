@@ -7,12 +7,12 @@ import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import ComponentTitle from './title';
 import { CodeListDetailView } from './view';
-import { useSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 
 const CodelistComponentView = (props) => {
 	const goBack = useGoBack();
 
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 	const { id } = useParams();
 	const [loading, setLoading] = useState(true);
 	const [publishing, setPublishing] = useState(false);

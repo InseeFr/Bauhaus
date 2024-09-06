@@ -1,15 +1,6 @@
 import Home from './home';
-
-import { Provider } from 'react-redux';
-import configureStore from '../../../redux/configure-store';
-import { renderWithRouter } from '../../../tests-utils/render';
+import { renderWithAppContext } from '../../../tests-utils/render';
 import { locales } from '../../../tests-utils/default-values';
-
-const store = configureStore({
-	app: {
-		secondLang: true,
-	},
-});
 
 const series = {
 	general: { prefLabelLg1: 'Label' },
@@ -22,10 +13,8 @@ const series = {
 
 describe('classification-series-home', () => {
 	it('renders without crashing', () => {
-		renderWithRouter(
-			<Provider store={store}>
-				<Home series={series} langs={locales} secondLang={true} />
-			</Provider>
+		renderWithAppContext(
+			<Home series={series} langs={locales} secondLang={true} />
 		);
 	});
 });

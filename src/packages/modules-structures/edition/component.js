@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { LabelRequired } from '@inseefr/wilco';
 import {
@@ -19,10 +19,10 @@ import { DISSEMINATION_STATUS } from '../utils/constants';
 import D, { D1, D2 } from '../../deprecated-locales';
 import { validate } from './validation';
 import { useStampsOptions } from '../../utils/hooks/stamps';
-import { AppContext } from '../../application/app-context';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
 import { StructureApi } from '../../sdk';
 import { usePermission } from '../../redux/hooks/usePermission';
+import { useAppContext } from '../../application/app-context';
 
 const defaultDSD = {
 	identifiant: '',
@@ -39,7 +39,7 @@ const defaultDSD = {
 const Edition = ({ creation, initialStructure }) => {
 	const stampListOptions = useStampsOptions();
 
-	const { lg1, lg2 } = useContext(AppContext);
+	const { lg1, lg2 } = useAppContext();
 
 	const [structure, setStructure] = useState(defaultDSD);
 	const [loading, setLoading] = useState(false);

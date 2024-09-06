@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ConceptsApi } from '../../sdk';
 import * as R from '../../auth/roles';
 import configureStore from '../../redux/configure-store';
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithAppContext } from '../../tests-utils/render';
 import { locales } from '../../tests-utils/default-values';
 
 jest.mock('../../sdk');
@@ -35,7 +35,7 @@ describe('ConceptVisualizationContainer', () => {
 		ConceptsApi.getConceptLinkList = jest.fn().mockImplementation(() => {
 			return Promise.resolve([]);
 		});
-		renderWithRouter(
+		renderWithAppContext(
 			<Provider store={store}>
 				<ConceptVisualizationContainer />
 			</Provider>
@@ -61,7 +61,7 @@ describe('ConceptVisualizationContainer', () => {
 			return Promise.resolve();
 		});
 
-		renderWithRouter(
+		renderWithAppContext(
 			<Provider store={store}>
 				<ConceptVisualizationContainer />
 			</Provider>
@@ -90,7 +90,7 @@ describe('ConceptVisualizationContainer', () => {
 			return Promise.resolve();
 		});
 
-		renderWithRouter(
+		renderWithAppContext(
 			<Provider store={store}>
 				<ConceptVisualizationContainer />
 			</Provider>

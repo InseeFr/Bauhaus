@@ -4,7 +4,7 @@ import { DescriptionsPanel } from './descriptions-panel';
 import { D1 } from '../../../deprecated-locales';
 
 // Mock de useSecondLang
-jest.mock('../../../redux/second-lang', () => ({
+jest.mock('../../../utils/hooks/second-lang', () => ({
 	useSecondLang: jest.fn(),
 }));
 
@@ -12,7 +12,7 @@ describe('DescriptionsPanel', () => {
 	const mockDescriptionLg1 = 'Description in first language';
 	const mockDescriptionLg2 = 'Description in second language';
 	const mockUseSecondLang = jest.requireMock(
-		'../../../redux/second-lang'
+		'../../../utils/hooks/second-lang'
 	).useSecondLang;
 
 	beforeEach(() => {
@@ -20,7 +20,7 @@ describe('DescriptionsPanel', () => {
 	});
 
 	it('should display the first language description when secondLang is false', () => {
-		mockUseSecondLang.mockReturnValue(false);
+		mockUseSecondLang.mockReturnValue([false]);
 
 		render(
 			<DescriptionsPanel
@@ -39,7 +39,7 @@ describe('DescriptionsPanel', () => {
 	});
 
 	fit('should display both descriptions when secondLang is true', () => {
-		mockUseSecondLang.mockReturnValue(true);
+		mockUseSecondLang.mockReturnValue([true]);
 
 		render(
 			<DescriptionsPanel

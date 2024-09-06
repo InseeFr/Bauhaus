@@ -1,7 +1,7 @@
 import { StructureView } from './index';
 import { Provider } from 'react-redux';
 import configureStore from '../../redux/configure-store';
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithAppContext } from '../../tests-utils/render';
 import { Structure } from '../../model/structures/Structure';
 import React from 'react';
 import { DescriptionsPanel } from './components/descriptions-panel';
@@ -27,7 +27,6 @@ const store = configureStore({
 		},
 	},
 	app: {
-		secondLang: true,
 		auth: {
 			user: {
 				roles: [],
@@ -38,7 +37,7 @@ const store = configureStore({
 
 describe('<StructureView />', () => {
 	it('should display labelLg1', () => {
-		const { container } = renderWithRouter(
+		const { container } = renderWithAppContext(
 			<Provider store={store}>
 				<StructureView
 					publish={jest.fn()}
@@ -54,7 +53,7 @@ describe('<StructureView />', () => {
 		expect(container.querySelector('h2')!.innerHTML).toEqual('labelLg1');
 	});
 	it('should call sub components properly', () => {
-		renderWithRouter(
+		renderWithAppContext(
 			<Provider store={store}>
 				<StructureView
 					publish={jest.fn()}

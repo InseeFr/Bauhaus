@@ -8,8 +8,8 @@ import loadClassificationGeneral from '../../../redux/actions/classifications/ge
 import { getGeneral } from '../../../redux/classifications/classification/general';
 import { getTreeFromFlatData } from 'react-sortable-tree';
 import { useQuery } from '@tanstack/react-query';
-import { ClassificationsApi } from '../../..//sdk/classification';
-import { useSecondLang } from '../../../redux/second-lang';
+import { ClassificationsApi } from '../../../sdk/classification';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 
 const extractId = buildExtract('id');
 
@@ -18,7 +18,7 @@ const ClassificationTreeContainer = ({
 	loadClassificationGeneral,
 	general,
 }) => {
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 	const { isLoading, data: flatTree } = useQuery({
 		queryKey: ['classification-items', id],
 		queryFn: () => ClassificationsApi.getClassificationItems(id),

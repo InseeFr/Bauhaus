@@ -16,7 +16,6 @@ export type ReduxModel = {
 		results: any[];
 	};
 	app?: {
-		secondLang: boolean;
 		lg1: string;
 		lg2: string;
 		auth: {

@@ -8,9 +8,9 @@ import { useParams, useRouteMatch } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
 
 import { getLocales } from '../../../redux/selectors';
-import { useSecondLang } from '../../../redux/second-lang';
 import { GeneralApi } from '../../../sdk/general-api';
 import { Menu } from './Menu';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 
 function getPath(path) {
 	return path.includes('document') ? 'document' : 'link';
@@ -21,7 +21,7 @@ const DocumentationVisualizationContainer = () => {
 	const { path } = useRouteMatch();
 	const type = getPath(path);
 	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 	const langOptions = useSelector(
 		(state) => state.operationsCodesList.results['ISO-639']
 	);

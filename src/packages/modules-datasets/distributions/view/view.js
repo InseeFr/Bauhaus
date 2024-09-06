@@ -15,8 +15,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getLocales } from '../../../redux/selectors';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { stringToDate } from '../../../utils/date-utils';
-import { useSecondLang } from '../../../redux/second-lang';
 import { DistributionApi } from '../../../sdk';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 
 export const DistributionView = (props) => {
 	const { id } = useParams();
@@ -29,7 +29,7 @@ export const DistributionView = (props) => {
 	);
 
 	const { lg1, lg2 } = useSelector((state) => getLocales(state));
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 
 	const queryClient = useQueryClient();
 

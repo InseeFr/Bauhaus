@@ -3,14 +3,14 @@ import AssociationHome from './home';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ClassificationsApi } from '../../../sdk/classification';
-import { useSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 
 const AssociationHomeContainer = () => {
 	const { correspondenceId, associationId } = useParams<{
 		correspondenceId: string;
 		associationId: string;
 	}>();
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 
 	const { isLoading, data: association } = useQuery({
 		queryKey: ['correspondences-association', correspondenceId, associationId],

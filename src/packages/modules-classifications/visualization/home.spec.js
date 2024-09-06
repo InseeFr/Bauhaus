@@ -1,12 +1,12 @@
 import Home from './home';
 import { Provider } from 'react-redux';
 import configureStore from '../../redux/configure-store';
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithAppContext } from '../../tests-utils/render';
 import { locales } from '../../tests-utils/default-values';
 
 const store = configureStore({
 	users: { results: { stamp: 'stamp' } },
-	app: { secondLang: true, auth: { type: '', user: { roles: [] } } },
+	app: { auth: { type: '', user: { roles: [] } } },
 });
 
 const classification = {
@@ -22,7 +22,7 @@ const classification = {
 
 describe('classification-home', () => {
 	it('renders without crashing', async () => {
-		renderWithRouter(
+		renderWithAppContext(
 			<Provider store={store}>
 				<Home
 					classification={classification}

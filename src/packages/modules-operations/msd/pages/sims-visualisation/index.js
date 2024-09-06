@@ -23,12 +23,12 @@ import {
 } from '../../../../components';
 import { OperationsApi } from '../../../../sdk/operations-api';
 import { Menu } from './menu';
+import { useSecondLang } from '../../../../utils/hooks/second-lang';
 
 export default function SimsVisualisation({
 	metadataStructure,
 	codesLists,
 	sims = {},
-	secondLang,
 	organisations,
 	publishSims,
 	exportCallback,
@@ -36,6 +36,7 @@ export default function SimsVisualisation({
 	documentStores,
 	owners = [],
 }) {
+	const [secondLang] = useSecondLang();
 	const [modalOpened, setModalOpened] = useState(false);
 	const [exportModalOpened, setExportModalOpened] = useState(false);
 	const [exportConfig, setExportConfig] = useState({

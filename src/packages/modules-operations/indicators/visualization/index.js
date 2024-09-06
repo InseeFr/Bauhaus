@@ -13,14 +13,14 @@ import {
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
 import { useCodesList } from '../../../utils/hooks/codeslist';
 import { getLocales } from '../../../redux/selectors';
-import { useSecondLang } from '../../../redux/second-lang';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 const IndicatorVisualizationContainer = () => {
 	const { id } = useParams();
 
 	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 	const frequency = useCodesList(CL_FREQ);
 	const organisations = useSelector(
 		(state) => state.operationsOrganisations.results || []

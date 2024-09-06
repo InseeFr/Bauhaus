@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useContext } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
 	CancelButton,
 	SaveButton,
@@ -36,9 +36,9 @@ import {
 	SeeButton,
 } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { AppContext } from '../../../application/app-context';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
+import { useAppContext } from '../../../application/app-context';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -180,7 +180,7 @@ export const DumbComponentDetailEdit = ({
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
 
-	const { lg1, lg2 } = useContext(AppContext);
+	const { lg1, lg2 } = useAppContext();
 	useTitle(D.componentTitle, component?.labelLg1 || D.componentsCreateTitle);
 
 	const permission = usePermission();

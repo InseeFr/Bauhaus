@@ -1,20 +1,20 @@
 import ViewContainer from './view-container';
-import { Provider } from 'react-redux';
+import { renderWithAppContext } from '../../../tests-utils/render';
 import configureStore from '../../../redux/configure-store';
-import { renderWithRouter } from '../../../tests-utils/render';
+import { Provider } from 'react-redux';
 
 const store = configureStore({
 	app: {
-		secondLang: true,
+		lg1: 'fr',
+		lg2: 'en',
 	},
 });
-
 jest.mock('./view', () => ({
 	ComponentDetailView: () => <></>,
 }));
 describe('ViewContainer', () => {
 	it('should display altLabel label', () => {
-		renderWithRouter(
+		renderWithAppContext(
 			<Provider store={store}>
 				<ViewContainer />
 			</Provider>

@@ -1,13 +1,5 @@
 import Home from './home';
-import { Provider } from 'react-redux';
-import configureStore from '../../../redux/configure-store';
-import { renderWithRouter } from '../../../tests-utils/render';
-
-const store = configureStore({
-	app: {
-		secondLang: true,
-	},
-});
+import { renderWithAppContext } from '../../../tests-utils/render';
 
 const family = {
 	general: { prefLabelLg1: 'Label' },
@@ -16,10 +8,6 @@ const family = {
 
 describe('classification-family-home', () => {
 	it('renders without crashing', () => {
-		renderWithRouter(
-			<Provider store={store}>
-				<Home family={family} secondLang={true} />
-			</Provider>
-		);
+		renderWithAppContext(<Home family={family} secondLang={true} />);
 	});
 });

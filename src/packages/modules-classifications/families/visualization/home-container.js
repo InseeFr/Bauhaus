@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import FamilyVisualization from './home';
 import { Loading } from '../../../components';
 import { useParams } from 'react-router-dom';
-import { ClassificationsApi } from '../../..//sdk/classification';
-import { useSecondLang } from '../../../redux/second-lang';
+import { ClassificationsApi } from '../../../sdk/classification';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 
 const FamilyVisualizationContainer = () => {
 	const { id } = useParams();
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 	const [family, setFamily] = useState();
 	useEffect(() => {
 		Promise.all([

@@ -6,13 +6,13 @@ import ConceptCompare from './home';
 import { ConceptsApi } from '../../sdk';
 import { rmesHtmlToRawHtml } from '../../utils/html-utils';
 import { getLocales } from '../../redux/selectors';
-import { useSecondLang } from '../../redux/second-lang';
 import { emptyNotes } from '../utils/notes';
 import { range } from '../../utils/array-utils';
+import { useSecondLang } from '../../utils/hooks/second-lang';
 const ConceptCompareContainer = () => {
 	const { id } = useParams();
 	const langs = useSelector((state) => getLocales(state));
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 	const [loading, setLoading] = useState(true);
 
 	const [general, setGeneral] = useState({});

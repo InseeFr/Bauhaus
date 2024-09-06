@@ -3,15 +3,15 @@ import { useSelector } from 'react-redux';
 import SeriesVisualization from './home';
 import { Loading } from '../../../components';
 import { useParams } from 'react-router-dom';
-import { ClassificationsApi } from '../../..//sdk/classification';
+import { ClassificationsApi } from '../../../sdk/classification';
 import { getLocales } from '../../../redux/selectors';
-import { useSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 
 const SeriesVisualizationContainer = () => {
 	const { id } = useParams();
 	const [series, setSeries] = useState();
 
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 	const langs = useSelector((state) => getLocales(state));
 	useEffect(() => {
 		Promise.all([

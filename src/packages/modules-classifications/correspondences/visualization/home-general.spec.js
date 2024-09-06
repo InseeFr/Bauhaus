@@ -1,14 +1,6 @@
 import HomeGeneral from './home-general';
-import { Provider } from 'react-redux';
-import configureStore from '../../../redux/configure-store';
-import { renderWithRouter } from '../../../tests-utils/render';
+import { renderWithAppContext } from '../../../tests-utils/render';
 import { locales } from '../../../tests-utils/default-values';
-
-const store = configureStore({
-	app: {
-		secondLang: true,
-	},
-});
 
 const correspondence = {
 	id: '1',
@@ -21,14 +13,12 @@ const correspondence = {
 
 describe('correspondence-home-general', () => {
 	it('renders without crashing', () => {
-		renderWithRouter(
-			<Provider store={store}>
-				<HomeGeneral
-					correspondence={correspondence}
-					secondLang={true}
-					langs={locales}
-				/>
-			</Provider>
+		renderWithAppContext(
+			<HomeGeneral
+				correspondence={correspondence}
+				secondLang={true}
+				langs={locales}
+			/>
 		);
 	});
 });
