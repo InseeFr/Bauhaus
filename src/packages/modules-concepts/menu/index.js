@@ -21,7 +21,7 @@ const MenuConcepts = () => {
 			alignToRight: true,
 		},
 		{
-			path: `//inseefr.github.io/Bauhaus/${getLang()}/user-guide/concept.html`,
+			path: `//inseefr.github.io/Bauhaus/${getLang()}/guides/user-guide/concept/`,
 			pathKey: 'help',
 			className: null,
 			order: 4,
