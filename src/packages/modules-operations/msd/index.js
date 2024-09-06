@@ -26,7 +26,6 @@ import { isEssentialRubricKo } from './sims-field-title';
 import { SimsContextProvider } from './context';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { getLocales, getOperationsSimsCurrent } from '../../redux/selectors';
-import { getSecondLang } from '../../redux/second-lang';
 import { isLoaded, loadGeographies } from '../../redux/geographies.action';
 import { GeneralApi } from '../../sdk/general-api';
 import { OperationsApi } from '../../sdk/operations-api';
@@ -113,7 +112,6 @@ class MSDContainer extends Component {
 			idParent,
 			disableSectionAnchor,
 			langs,
-			secondLang,
 			currentSims,
 			organisations,
 			parentType,
@@ -180,7 +178,6 @@ class MSDContainer extends Component {
 					<PageTitleBlock
 						titleLg1={currentSims.labelLg1}
 						titleLg2={currentSims.labelLg2}
-						secondLang={secondLang || mode !== VIEW}
 					/>
 				)}
 				{mode === HELP && (
@@ -202,7 +199,6 @@ class MSDContainer extends Component {
 							organisations={organisations}
 							currentSection={this.props.match.params.idSection}
 							langs={langs}
-							secondLang={secondLang}
 							publishSims={this.props.publishSims}
 							exportCallback={this.exportCallback}
 							missingDocuments={this.state.missingDocuments}
@@ -269,7 +265,6 @@ export const mapStateToProps = (state, ownProps) => {
 	return {
 		geographiesLoaded: isLoaded(state),
 		langs: getLocales(state),
-		secondLang: getSecondLang(state),
 		metadataStructure,
 		metadataStructureStatus,
 		currentSims: !id || currentSims.id === id ? currentSims : {},

@@ -5,14 +5,14 @@ import { Loading } from '../../components';
 import loadLevel from '../../redux/actions/classifications/level';
 import { getLevel } from '../../redux/classifications/level';
 import { useParams } from 'react-router-dom';
-import { useSecondLang } from '../../redux/second-lang';
+import { useSecondLang } from '../../utils/hooks/second-lang';
 
 const LevelVisualizationContainer = ({ loadLevel }) => {
 	const { classificationId, levelId } = useParams();
 	const level = useSelector((state) =>
 		getLevel(state, classificationId, levelId)
 	);
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 
 	const currentLevelId = level?.id;
 	useEffect(() => {

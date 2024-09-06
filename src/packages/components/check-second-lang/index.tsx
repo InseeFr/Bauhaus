@@ -1,14 +1,12 @@
-import { useDispatch } from 'react-redux';
 import { CheckSecondLang as WilcoCheckSecondLang } from '@inseefr/wilco';
-import { saveSecondLang, useSecondLang } from '../../redux/second-lang';
+import { useSecondLang } from '../../utils/hooks/second-lang';
 
 export const CheckSecondLang = () => {
-	const secondLang = useSecondLang();
-	const dispatch = useDispatch();
+	const [secondLang, toggleSecondLang] = useSecondLang();
 	return (
 		<WilcoCheckSecondLang
 			secondLang={secondLang}
-			onChange={(e: any) => dispatch(saveSecondLang(e))}
+			onChange={() => toggleSecondLang()}
 		/>
 	);
 };

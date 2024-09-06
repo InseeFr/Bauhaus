@@ -4,7 +4,7 @@ import HomeAssociations from './home-associations';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ClassificationsApi } from '../../../sdk/classification';
-import { useSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 
 const CorrespondencesHomeContainer = () => {
 	const { id } = useParams<{ id: string }>();
@@ -17,7 +17,7 @@ const CorrespondencesHomeContainer = () => {
 		queryFn: () => ClassificationsApi.getCorrespondenceAssociations(id),
 	});
 
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 
 	if (isLoading) return <Loading />;
 

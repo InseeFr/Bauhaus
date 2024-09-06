@@ -11,12 +11,12 @@ import StructureVisualizationControl from '../components/structure-visualization
 import D from '../i18n/build-dictionary';
 import MainDictionary from '../../deprecated-locales/build-dictionary';
 import { useTitle } from '../../utils/hooks/useTitle';
-import { useSecondLang } from '../../redux/second-lang';
 import { Structure } from '../../model/structures/Structure';
 import { StructureApi } from '../../sdk';
 import { DescriptionsPanel } from './components/descriptions-panel';
 import { GlobalInformationsPanel } from './components/global-informations-panel';
 import { ComponentsPanel } from './components/components-panel';
+import { useSecondLang } from '../../utils/hooks/second-lang';
 
 type StructureViewTypes = {
 	structure: Structure;
@@ -29,7 +29,7 @@ export const StructureView = ({
 	serverSideError,
 }: StructureViewTypes) => {
 	useTitle(D.structuresTitle, structure?.labelLg1);
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 
 	const {
 		labelLg1,

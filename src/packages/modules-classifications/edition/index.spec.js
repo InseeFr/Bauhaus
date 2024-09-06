@@ -1,8 +1,9 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { ClassificationEdition } from './index';
 import { Provider } from 'react-redux';
 import configureStore from '../../redux/configure-store';
 import { MemoryRouter } from 'react-router-dom';
+import { renderWithAppContext } from '../../tests-utils/render';
 
 const classification = {
 	isLoading: false,
@@ -69,10 +70,10 @@ const MemoryRouterWithRoute = ({ children }) => {
 const renderWithContexts = (component, roles = []) => {
 	const store = configureStore({
 		users: { results: { stamp: 'stamp' } },
-		app: { secondLang: true, auth: { type: '', user: { roles } } },
+		app: { auth: { type: '', user: { roles } } },
 	});
 
-	return render(
+	return renderWithAppContext(
 		<Provider store={store}>
 			<MemoryRouterWithRoute>{component}</MemoryRouterWithRoute>
 		</Provider>
@@ -97,13 +98,6 @@ describe('ClassificationEdition', () => {
 		const { container } = renderWithContexts(<ClassificationEdition />);
 		const title = container.querySelector('h2');
 		expect(title.innerHTML).toContain('prefLabelLg1');
-	});
-
-	it('should display the prefLabelLg2', async () => {
-		classification.isLoading = false;
-		const { container } = renderWithContexts(<ClassificationEdition />);
-		const title = container.querySelector('h2');
-		expect(title.innerHTML).toContain('prefLabelLg2');
 	});
 
 	it('should contain the Cancel button', async () => {

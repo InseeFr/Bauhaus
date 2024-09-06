@@ -9,11 +9,11 @@ import { CodeListPartialDetailView } from './view';
 import { useQuery } from '@tanstack/react-query';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { Deleting, Publishing, Loading } from '../../../components';
-import { useSecondLang } from '../../../redux/second-lang';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 
 const CodelistPartialComponentView = (props) => {
 	const goBack = useGoBack();
-	const secondLang = useSecondLang();
+	const [secondLang] = useSecondLang();
 	const { id } = useParams();
 	const [deleting, setDeleting] = useState(false);
 	const [publishing, setPublishing] = useState(false);
