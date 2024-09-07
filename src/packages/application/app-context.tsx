@@ -3,6 +3,7 @@ import { createContext, PropsWithChildren, useContext, useState } from 'react';
 type AppContextTypes = {
 	lg1: string;
 	lg2: string;
+	version?: string;
 	secondLang: {
 		value: boolean;
 		toggle: () => void;
@@ -14,8 +15,9 @@ const AppContext = createContext<AppContextTypes | undefined>(undefined);
 export const AppContextProvider = ({
 	lg1,
 	lg2,
+	version,
 	children,
-}: PropsWithChildren<Pick<AppContextTypes, 'lg1' | 'lg2'>>) => {
+}: PropsWithChildren<Pick<AppContextTypes, 'lg1' | 'lg2' | 'version'>>) => {
 	const [secondLang, setSecondLang] = useState(false);
 
 	return (

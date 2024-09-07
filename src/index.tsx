@@ -52,9 +52,7 @@ const renderApp = (Component: any, initState: any, props?: any) => {
 	const store = configureStore({
 		app: {
 			auth: { type, user: { roles: [], stamp: '' } },
-			version,
 			properties,
-			error: false,
 		},
 	});
 
@@ -67,7 +65,7 @@ const renderApp = (Component: any, initState: any, props?: any) => {
 		root.render(
 			<QueryClientProvider client={queryClient}>
 				<Provider store={store}>
-					<AppContextProvider lg1={lg1} lg2={lg2}>
+					<AppContextProvider lg1={lg1} lg2={lg2} version={version}>
 						<I18NContext.Provider value={D}>
 							<ApplicationTitle />
 							<main>

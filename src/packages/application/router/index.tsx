@@ -10,6 +10,7 @@ import { PropsWithChildren } from 'react';
 import Auth from '../../auth/components/auth';
 import { removeToken } from '../../auth/open-id-connect-auth/token-utils';
 import { ADMIN } from '../../auth/roles';
+import { useAppContext } from '../app-context';
 
 const logout = () => {
 	removeToken();
@@ -22,7 +23,7 @@ export const RBACLink = ({ children }: PropsWithChildren<{}>) => {
 	const authorizationHost = useSelector(
 		(state) => (state as any).app.properties.authorizationHost
 	);
-	const version = useSelector((state) => (state as any).app.version);
+	const { version } = useAppContext();
 	const footer = `${getEnvVar('NAME')} - Front ${getEnvVar(
 		'VERSION'
 	)} - API ${version}`;
