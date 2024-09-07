@@ -52,8 +52,6 @@ const renderApp = (Component: any, initState: any, props?: any) => {
 	const store = configureStore({
 		app: {
 			auth: { type, user: { roles: [], stamp: '' } },
-			lg1,
-			lg2,
 			version,
 			properties,
 			error: false,
