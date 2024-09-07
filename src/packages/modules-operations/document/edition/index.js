@@ -4,15 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Loading } from '../../../components';
 import DocumentationEdition from '../../../modules-operations/document/edition/edition';
 import { loadCodesList } from '../../../redux/actions/operations/utils/setup';
-import { getLocales } from '../../../redux/selectors';
 import { GeneralApi } from '../../../sdk/general-api';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const OperationsDocumentationEditionContainer = (props) => {
 	const { id } = useParams();
 	const { pathname } = useLocation();
 	const type = /(link|document)/.exec(pathname)[1];
 
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 	const langOptions = useSelector(
 		(state) => state.operationsCodesList.results['ISO-639'] || {}
 	);

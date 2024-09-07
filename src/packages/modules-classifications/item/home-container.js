@@ -1,18 +1,17 @@
-import { useSelector } from 'react-redux';
 import ItemVisualization from './home';
 import { Loading } from '../../components';
 import { useParams } from 'react-router-dom';
 import useClassificationItem from './hook';
 import { useQueryClient } from '@tanstack/react-query';
 import { fetchingPreviousLevels } from './client';
-import { getLocales } from '../../redux/selectors';
 import { useSecondLang } from '../../utils/hooks/second-lang';
+import { useLocales } from '../../utils/hooks/useLocales';
 
 const ItemVisualizationContainer = () => {
 	const queryClient = useQueryClient();
 	const { classificationId, itemId } = useParams();
 	const [secondLang] = useSecondLang();
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 
 	const { isLoading, item } = useClassificationItem(
 		classificationId,

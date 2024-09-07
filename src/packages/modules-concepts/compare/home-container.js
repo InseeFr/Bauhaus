@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../components';
 import ConceptCompare from './home';
 import { ConceptsApi } from '../../sdk';
 import { rmesHtmlToRawHtml } from '../../utils/html-utils';
-import { getLocales } from '../../redux/selectors';
 import { emptyNotes } from '../utils/notes';
 import { range } from '../../utils/array-utils';
 import { useSecondLang } from '../../utils/hooks/second-lang';
+import { useLocales } from '../../utils/hooks/useLocales';
+
 const ConceptCompareContainer = () => {
 	const { id } = useParams();
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 	const [loading, setLoading] = useState(true);
 

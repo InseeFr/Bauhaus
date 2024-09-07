@@ -1,4 +1,4 @@
-import { Loading, PageTitleBlock, CheckSecondLang } from '../../../components';
+import { CheckSecondLang, Loading, PageTitleBlock } from '../../../components';
 
 import { loadCodesList } from '../../../redux/actions/operations/utils/setup';
 
@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
 
-import { getLocales } from '../../../redux/selectors';
 import { GeneralApi } from '../../../sdk/general-api';
 import { Menu } from './Menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 function getPath(path) {
 	return path.includes('document') ? 'document' : 'link';
@@ -20,7 +20,7 @@ const DocumentationVisualizationContainer = () => {
 	const { id } = useParams();
 	const { path } = useRouteMatch();
 	const type = getPath(path);
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 	const langOptions = useSelector(
 		(state) => state.operationsCodesList.results['ISO-639']

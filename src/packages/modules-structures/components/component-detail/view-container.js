@@ -1,13 +1,13 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { Loading } from '../../../components';
 import { ComponentDetailView } from './view';
 import { ConceptsApi, StructureApi } from '../../../sdk';
 import ComponentTitle from './title';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getFormattedCodeList } from '../../apis';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const ViewContainer = (props) => {
 	const goBack = useGoBack();
@@ -20,10 +20,7 @@ const ViewContainer = (props) => {
 	const [codesLists, setCodesLists] = useState([]);
 	const [serverSideError, setServerSideError] = useState();
 	const [attributes, setAttributes] = useState([]);
-	const langs = useSelector((state) => {
-		const { lg1, lg2 } = state.app;
-		return { lg1, lg2 };
-	});
+	const langs = useLocales();
 
 	const handleBack = useCallback(
 		() => goBack('/structures/components'),

@@ -10,12 +10,12 @@ import { Loading } from '../../../components';
 
 import { ConceptsApi } from '../../../sdk';
 import { CollectionApi } from '../../../sdk/collection-api';
-import { getLocales } from '../../../redux/selectors';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const CreationContainer = () => {
 	const history = useHistory();
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 	const collection = useSelector((state) =>
 		emptyCollection(state.app.properties.defaultContributor)
 	);

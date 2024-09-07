@@ -2,15 +2,12 @@ import { useCallback, useState } from 'react';
 import { DumbComponentDetailEdit } from './edit';
 import { ComponentDetailView } from './view';
 import ComponentTitle from './title';
-import { useSelector } from 'react-redux';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 export const ComponentDetail = (props) => {
 	const [secondLang] = useSecondLang();
-	const langs = useSelector((state) => {
-		const { lg1, lg2 } = state.app;
-		return { lg1, lg2 };
-	});
+	const langs = useLocales();
 
 	const [mode, setMode] = useState(
 		!props.component?.labelLg1 ? 'EDIT' : 'VIEW'

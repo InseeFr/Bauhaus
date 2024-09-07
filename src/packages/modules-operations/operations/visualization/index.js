@@ -1,24 +1,23 @@
-import { useEffect, useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-	Loading,
-	ErrorBloc,
-	PageTitleBlock,
 	CheckSecondLang,
+	ErrorBloc,
+	Loading,
+	PageTitleBlock,
 } from '../../../components';
 import OperationsOperationVisualization from './home';
 import D from '../../../deprecated-locales';
 
-import { getLocales } from '../../../redux/selectors';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const OperationVisualizationContainer = () => {
 	const { id } = useParams();
 	const [operation, setOperation] = useState({});
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 	const [serverSideError, setServerSideError] = useState();
 	const [publishing, setPublishing] = useState(false);

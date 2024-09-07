@@ -1,15 +1,13 @@
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import ClassificationVisualization from './home';
 import { Loading } from '../../components';
 import { useClassification, usePublishClassification } from '../hooks';
-import { getLocales } from '../../redux/selectors';
-import { ReduxModel } from '../../redux/model';
 import { useSecondLang } from '../../utils/hooks/second-lang';
+import { useLocales } from '../../utils/hooks/useLocales';
 
 const ClassificationVisualizationContainer = () => {
 	const { id } = useParams<{ id: string }>();
-	const langs = useSelector((state: ReduxModel) => getLocales(state));
+	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 
 	const { isLoading, classification } = useClassification(id);

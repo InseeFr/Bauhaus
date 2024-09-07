@@ -1,13 +1,14 @@
 import HelpInformation from '../../../../modules-operations/msd/help-information';
 import { Note } from '@inseefr/wilco';
+import { useLocales } from '../../../../utils/hooks/useLocales';
 
 export default function MSDHelp({
 	metadataStructure,
 	currentSection,
 	codesLists,
-	langs: { lg1 },
 	organisations,
 }) {
+	const { lg1 } = useLocales();
 	function MSDInformations({ msd }) {
 		return (
 			<>

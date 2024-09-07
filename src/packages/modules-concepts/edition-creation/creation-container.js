@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ConceptEditionCreation from './home';
@@ -6,15 +6,15 @@ import D from '../../deprecated-locales';
 import { Loading } from '../../components';
 import { ConceptsApi } from '../../sdk';
 import { useStamps } from '../../utils/hooks/stamps';
-import { getLocales } from '../../redux/selectors';
 import { useTitle } from '../../utils/hooks/useTitle';
 import buildPayloadCreation from '../../modules-concepts/utils/build-payload-creation-update/build-payload-creation';
 import emptyConcept from '../../modules-concepts/utils/empty-concept';
 import { mergeWithAllConcepts } from '../utils/links';
 import { sortArrayByLabel } from '../../utils/array-utils';
+import { useLocales } from '../../utils/hooks/useLocales';
 
 const CreationContainer = () => {
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 	const maxLengthScopeNote = useSelector((state) =>
 		Number(state.app.properties.maxLengthScopeNote)
 	);
