@@ -5,7 +5,7 @@ import { AppContextProvider } from '../../application/app-context';
 describe('useLocales', () => {
 	it('returns the correct initial value and toggle function', () => {
 		const wrapper = ({ children }: { children: React.ReactNode }) => (
-			<AppContextProvider lg1="English" lg2="French">
+			<AppContextProvider lg1="English" lg2="French" properties={{} as any}>
 				{children}
 			</AppContextProvider>
 		);

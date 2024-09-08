@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import ConceptEditionCreation from './home';
 import D from '../../deprecated-locales';
@@ -14,6 +13,7 @@ import buildPayloadUpdate from '../../modules-concepts/utils/build-payload-creat
 import { mergeWithAllConcepts } from '../utils/links';
 import { emptyNotes } from '../utils/notes';
 import { useLocales } from '../../utils/hooks/useLocales';
+import { useAppContext } from '../../application/app-context';
 
 const formatNotes = (notes) => {
 	return Object.assign(
@@ -30,9 +30,10 @@ const EditionContainer = () => {
 	const history = useHistory();
 
 	const langs = useLocales();
-	const maxLengthScopeNote = useSelector((state) =>
-		Number(state.app.properties.maxLengthScopeNote)
-	);
+	const maxLengthScopeNoteString =
+		useAppContext().properties.maxLengthScopeNote;
+
+	const maxLengthScopeNote = Number(maxLengthScopeNoteString);
 
 	const [concept, setConcept] = useState({});
 	const [concepts, setConcepts] = useState([]);

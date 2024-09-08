@@ -282,7 +282,7 @@ const mapDispatchToProps = {
 const MSDContainerWithParent = (props) => {
 	const match = useRouteMatch();
 	const { idParent } = props;
-	const parentType = match.params[0]; // withRouter utile
+	const parentType = match.params[0];
 	const [parent, setParent] = useState(props.parent);
 	const [loading, setLoading] = useState(true);
 	const [documentStores, setDocumentStores] = useState([]);

@@ -8,6 +8,13 @@ type AppContextTypes = {
 		value: boolean;
 		toggle: () => void;
 	};
+	properties: {
+		authorizationHost: string;
+		modules: string[];
+		activeModules: string[];
+		defaultContributor: string;
+		maxLengthScopeNote: string;
+	};
 };
 
 const AppContext = createContext<AppContextTypes | undefined>(undefined);
@@ -16,8 +23,11 @@ export const AppContextProvider = ({
 	lg1,
 	lg2,
 	version,
+	properties,
 	children,
-}: PropsWithChildren<Pick<AppContextTypes, 'lg1' | 'lg2' | 'version'>>) => {
+}: PropsWithChildren<
+	Pick<AppContextTypes, 'lg1' | 'lg2' | 'version' | 'properties'>
+>) => {
 	const [secondLang, setSecondLang] = useState(false);
 
 	return (
@@ -25,6 +35,8 @@ export const AppContextProvider = ({
 			value={{
 				lg1,
 				lg2,
+				version,
+				properties,
 				secondLang: {
 					value: secondLang,
 					toggle: () => setSecondLang((value) => !value),

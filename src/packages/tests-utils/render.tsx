@@ -9,7 +9,12 @@ export const renderWithRouter = (component: React.ReactNode) => {
 
 export const renderWithAppContext = (component: React.ReactNode) => {
 	return renderWithRouter(
-		<AppContextProvider lg1="fr" lg2="lg2">
+		<AppContextProvider
+			lg1="fr"
+			lg2="lg2"
+			version={'2.0.0'}
+			properties={{} as any}
+		>
 			{component}
 		</AppContextProvider>
 	);

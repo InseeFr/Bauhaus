@@ -2,14 +2,12 @@ import { Link } from 'react-router-dom';
 import D from '../deprecated-locales';
 import 'bootstrap/dist/css/bootstrap.css';
 import './app.scss';
-import { useSelector } from 'react-redux';
 import { useTitle } from '../utils/hooks/useTitle';
+import { useAppContext } from './app-context';
 
 function App() {
 	useTitle();
-	const modules = useSelector((state) => {
-		return (state as any).app.properties?.modules ?? [];
-	});
+	const { properties: { modules = [] } = {} } = useAppContext();
 
 	const apps = modules.map((appName: string) => {
 		const app = appName.trim();

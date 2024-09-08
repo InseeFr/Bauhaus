@@ -19,7 +19,7 @@ const TestComponent = () => {
 describe('AppContext', () => {
 	it('provides the correct context values', () => {
 		render(
-			<AppContextProvider lg1="English" lg2="French">
+			<AppContextProvider lg1="English" lg2="French" properties={{} as any}>
 				<TestComponent />
 			</AppContextProvider>
 		);

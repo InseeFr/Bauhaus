@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
 import CollectionEditionCreation from './home';
@@ -12,13 +11,15 @@ import { ConceptsApi } from '../../../sdk';
 import { CollectionApi } from '../../../sdk/collection-api';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { useLocales } from '../../../utils/hooks/useLocales';
+import { useAppContext } from '../../../application/app-context';
 
 const CreationContainer = () => {
 	const history = useHistory();
 	const langs = useLocales();
-	const collection = useSelector((state) =>
-		emptyCollection(state.app.properties.defaultContributor)
-	);
+	const {
+		properties: { defaultContributor },
+	} = useAppContext();
+	const collection = emptyCollection(defaultContributor);
 
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
