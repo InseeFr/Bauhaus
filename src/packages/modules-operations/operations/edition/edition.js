@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import D, { D1, D2 } from '../../../deprecated-locales';
-
 import {
 	CancelButton,
 	SaveButton,
@@ -25,11 +24,13 @@ const defaultOperation = {
 	altLabelLg1: '',
 	altLabelLg2: '',
 };
+
 class OperationsOperationEdition extends Component {
 	constructor(props) {
 		super(props);
 		this.state = this.setInitialState(props);
 	}
+
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.operation.id !== this.props.operation.id) {
 			this.setState(this.setInitialState(nextProps));
@@ -73,6 +74,7 @@ class OperationsOperationEdition extends Component {
 			},
 		}));
 	};
+
 	onSubmit = () => {
 		const clientSideErrors = validate(this.state.operation);
 		if (clientSideErrors.errorMessage?.length > 0) {
@@ -108,8 +110,11 @@ class OperationsOperationEdition extends Component {
 			.map(({ id, label }) => {
 				return { value: id, label: label };
 			});
+
 		const { operation, serverSideError } = this.state;
+
 		const series = operation.series || { id: '' };
+
 		const isEditing = !!operation.id;
 
 		const { goBack } = this.props;
@@ -123,7 +128,6 @@ class OperationsOperationEdition extends Component {
 						secondLang={true}
 					/>
 				)}
-
 				<ActionToolbar>
 					<CancelButton action={() => goBack('/operations/operations')} />
 
@@ -132,7 +136,6 @@ class OperationsOperationEdition extends Component {
 						disabled={this.state.clientSideErrors.errorMessage?.length > 0}
 					/>
 				</ActionToolbar>
-
 				{this.state.submitting && this.state.clientSideErrors && (
 					<GlobalClientSideErrorBloc
 						clientSideErrors={this.state.clientSideErrors.errorMessage}
@@ -140,7 +143,6 @@ class OperationsOperationEdition extends Component {
 					/>
 				)}
 				{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
-
 				<form>
 					{!isEditing && (
 						<div className="row">
@@ -148,7 +150,6 @@ class OperationsOperationEdition extends Component {
 								<LabelRequired>{D.serieTitle}</LabelRequired>
 								<Select
 									placeholder={D.seriesTitle}
-									unclearable
 									value={seriesOptions.find(({ value }) => value === series.id)}
 									options={seriesOptions}
 									onChange={(value) =>
@@ -164,7 +165,6 @@ class OperationsOperationEdition extends Component {
 							</div>
 						</div>
 					)}
-
 					<div className="row">
 						<div className="form-group col-md-6">
 							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
