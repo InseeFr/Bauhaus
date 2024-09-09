@@ -9,11 +9,17 @@ import {
 } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
+
+type OperationsFamilyVisualizationTypes = {
+	attr: any;
+	langs: { lg1: string; lg2: string };
+	secondLang: boolean;
+};
 function OperationsFamilyVisualization({
 	attr,
 	langs: { lg1, lg2 },
 	secondLang,
-}) {
+}: Readonly<OperationsFamilyVisualizationTypes>) {
 	useTitle(D.familiesTitle + ' - ' + D.operationsTitle, attr?.prefLabelLg1);
 
 	return (
@@ -73,9 +79,9 @@ function OperationsFamilyVisualization({
 			</Row>
 			<RelationsView
 				children={attr.series}
-				childrenTitle={'childrenSeries'}
+				childrenTitle="childrenSeries"
 				childrenPath="series"
-				title={'linksTitle'}
+				title="linksTitle"
 				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>

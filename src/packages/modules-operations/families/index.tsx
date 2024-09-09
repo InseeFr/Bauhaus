@@ -6,15 +6,16 @@ import { useTitle } from '../../utils/hooks/useTitle';
 import { OperationsApi } from '../../sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
 import { ADMIN } from '../../auth/roles';
+import { FamilyHome } from '../../model/operations/family';
 
 export const FamiliesHomeContainer = () => {
 	const [loading, setLoading] = useState(true);
-	const [families, setFamilies] = useState([]);
+	const [families, setFamilies] = useState<FamilyHome[]>([]);
 	useTitle(D.operationsTitle, D.familiesTitle);
 
 	useEffect(() => {
 		OperationsApi.getAllFamilies()
-			.then((results) => setFamilies(sortArray('label')(results)))
+			.then((results: FamilyHome[]) => setFamilies(sortArray('label')(results)))
 			.finally(() => setLoading(false));
 	}, []);
 
