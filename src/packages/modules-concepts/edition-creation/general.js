@@ -1,6 +1,5 @@
 import D, { D1, D2 } from '../../deprecated-locales';
 import { fields as generalFields } from '../../modules-concepts/utils/general';
-import { LabelRequired } from '@inseefr/wilco';
 import {
 	TextInput,
 	DisseminationStatusInput,
@@ -8,8 +7,8 @@ import {
 	InputRmes,
 	RequiredIcon,
 	DatePicker,
-	Select,
 	InputMultiRmes,
+	CreatorsInput,
 } from '../../components';
 
 const handleFieldChange = (handleChange) =>
@@ -18,13 +17,7 @@ const handleFieldChange = (handleChange) =>
 		return handlers;
 	}, {});
 
-function ConceptGeneralEdition({
-	general,
-	stampList,
-	handleChange,
-	langs,
-	errorMessage,
-}) {
+function ConceptGeneralEdition({ general, handleChange, langs, errorMessage }) {
 	const {
 		prefLabelLg1,
 		prefLabelLg2,
@@ -38,10 +31,6 @@ function ConceptGeneralEdition({
 	} = general;
 
 	const handlers = handleFieldChange(handleChange);
-	const stampListOptions = stampList.map((stamp) => ({
-		label: stamp,
-		value: stamp,
-	}));
 
 	return (
 		<div>
@@ -64,7 +53,6 @@ function ConceptGeneralEdition({
 						></ClientSideError>
 					}
 				/>
-
 				<InputRmes
 					colMd={6}
 					label={D2.labelTitle}
@@ -83,13 +71,7 @@ function ConceptGeneralEdition({
 				handleChangeLg2={handlers.altLabelLg2}
 			/>
 			<div className="form-group">
-				<LabelRequired>{D1.creatorTitle}</LabelRequired>
-				<Select
-					placeholder={D.stampsPlaceholder}
-					value={stampListOptions.find(({ value }) => value === creator)}
-					options={stampListOptions}
-					onChange={handlers.creator}
-				/>
+				<CreatorsInput value={creator} onChange={handlers.creator} />
 				<ClientSideError
 					id="creator-error"
 					error={errorMessage?.fields?.creator}
@@ -105,7 +87,6 @@ function ConceptGeneralEdition({
 					handleChange={handlers.disseminationStatus}
 					required
 				></DisseminationStatusInput>
-
 				<ClientSideError
 					id="disseminationStatus-error"
 					error={errorMessage?.fields?.disseminationStatus}
@@ -115,7 +96,6 @@ function ConceptGeneralEdition({
 				<label>{D1.additionalMaterialTitle}</label>
 				<div className="input-group">
 					<span className="input-group-addon">http://</span>
-
 					<TextInput
 						value={additionalMaterial.replace('http://', '')}
 						onChange={(e) => handlers.additionalMaterial(e.target.value)}
