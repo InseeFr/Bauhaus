@@ -5,7 +5,7 @@ import { formatValidation } from '../../../utils/validation';
 let Serie = z.object({
 	family: z.object(
 		{
-			id: z.string(),
+			id: z.string({ required_error: D.mandatoryProperty(D1.familyTitle) }),
 		},
 		{
 			required_error: D.mandatoryProperty(D1.familyTitle),

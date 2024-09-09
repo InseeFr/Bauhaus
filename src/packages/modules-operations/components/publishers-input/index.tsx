@@ -22,7 +22,6 @@ const PublishersInput = ({ value, onChange }: PublishersInputTypes) => {
 			{D1.organisation}
 
 			<Select
-				unclearable
 				value={publishersArray}
 				options={organisationsOptions}
 				placeholder=""
