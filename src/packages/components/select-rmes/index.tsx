@@ -21,7 +21,7 @@ type SelectRmesTypes = {
 
 export const Select = ({
 	onChange,
-	unclearable,
+	unclearable = false,
 	multi = false,
 	searchable = true,
 	disabled = false,
