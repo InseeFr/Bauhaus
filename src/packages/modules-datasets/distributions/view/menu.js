@@ -11,13 +11,7 @@ import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 
-export const ViewMenu = ({
-	distribution,
-	dataset,
-	onPublish,
-	onDelete,
-	...props
-}) => {
+export const ViewMenu = ({ distribution, dataset, onPublish, onDelete }) => {
 	const goBack = useGoBack();
 
 	const permission = usePermission();

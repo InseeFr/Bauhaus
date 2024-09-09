@@ -30,7 +30,7 @@ const CreationContainer = () => {
 
 	useEffect(() => {
 		Promise.all([ConceptsApi.getConceptList()])
-			.then(([conceptsList, stampsList]) => {
+			.then(([conceptsList]) => {
 				setConcepts(sortArrayByLabel(conceptsList));
 			})
 			.finally(() => setLoading(false));

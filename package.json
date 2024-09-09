@@ -106,6 +106,7 @@
 			"react-app/jest"
 		],
 		"rules": {
+			"@typescript-eslint/no-unused-vars": "error",
 			"jest-dom/prefer-to-have-attribute": "off",
 			"jest/valid-title": "off",
 			"testing-library/no-container": "off",
