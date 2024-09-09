@@ -8,10 +8,6 @@ export const getPermission = (state: ReduxModel) => {
 	return { authType, roles, stamp };
 };
 
-export const getLocales = (state: ReduxModel) => {
-	const { lg1, lg2 } = state.app!;
-	return { lg1, lg2 };
-};
 export const getSerie = (state: ReduxModel) => {
 	return state.operationsSeriesCurrent || {};
 };

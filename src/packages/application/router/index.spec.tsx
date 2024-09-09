@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { RBACLink } from '.';
 import D from '../../i18n';
 import configureStore from '../../redux/configure-store';
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithAppContext } from '../../tests-utils/render';
 import { removeToken } from '../../auth/open-id-connect-auth/token-utils';
 
 jest.mock('react-router-dom', () => ({
@@ -27,10 +27,6 @@ const store = configureStore({
 				stamp: 'stamp',
 			},
 		},
-		properties: {
-			authorizationHost: 'http:/auth-host.com',
-		},
-		version: '2.0.0',
 	},
 });
 
@@ -44,7 +40,7 @@ describe('RBACLink Component', () => {
 	it('should render children and footer correctly', () => {
 		useLocationMock.mockReturnValue({ pathname: '/' });
 
-		renderWithRouter(
+		renderWithAppContext(
 			<Provider store={store}>
 				<RBACLink>
 					<div>Child Component</div>
@@ -60,7 +56,7 @@ describe('RBACLink Component', () => {
 	it('should call logout and remove token when logout button is clicked', () => {
 		useLocationMock.mockReturnValue({ pathname: '/' });
 
-		renderWithRouter(
+		renderWithAppContext(
 			<Provider store={store}>
 				<RBACLink>
 					<div>Child Component</div>

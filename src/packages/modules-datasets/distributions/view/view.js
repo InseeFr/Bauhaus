@@ -1,10 +1,9 @@
 import { useHistory, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import {
-	Loading,
-	Row,
-	PageTitleBlock,
 	CheckSecondLang,
+	Loading,
+	PageTitleBlock,
+	Row,
 } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { Note } from '@inseefr/wilco';
@@ -12,11 +11,11 @@ import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { useDataset, useDistribution } from '../../datasets';
 import { ViewMenu } from './menu';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { getLocales } from '../../../redux/selectors';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { stringToDate } from '../../../utils/date-utils';
 import { DistributionApi } from '../../../sdk';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 export const DistributionView = (props) => {
 	const { id } = useParams();
@@ -28,7 +27,7 @@ export const DistributionView = (props) => {
 		distribution?.idDataset
 	);
 
-	const { lg1, lg2 } = useSelector((state) => getLocales(state));
+	const { lg1, lg2 } = useLocales();
 	const [secondLang] = useSecondLang();
 
 	const queryClient = useQueryClient();

@@ -1,5 +1,4 @@
 import { useHistory, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useEffect, useState } from 'react';
 import { Note } from '@inseefr/wilco';
@@ -9,18 +8,17 @@ import { withCodesLists } from '../../../utils/hoc/withCodesLists';
 import { useDataset } from '../../datasets';
 import { ViewMenu } from './menu';
 import {
-	Deleting,
-	Publishing,
-	Loading,
-	Row,
-	ContributorsVisualisation,
-	DisseminationStatusVisualisation,
-	PageTitleBlock,
 	CheckSecondLang,
+	ContributorsVisualisation,
+	Deleting,
+	DisseminationStatusVisualisation,
 	ErrorBloc,
+	Loading,
+	PageTitleBlock,
+	Publishing,
+	Row,
 } from '../../../components';
 import { CL_PROCESS_STEP } from '../../../redux/actions/constants/codeList';
-import { getLocales } from '../../../redux/selectors';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { DatasetsApi } from '../../../sdk';
 
@@ -30,6 +28,7 @@ import { List } from '../../../components/list';
 import { CodeDisplay } from '../../../components/code-display';
 import { StatisticalInformations } from './StatisticalInformations';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const Dataset = (props) => {
 	const [serverSideError, setServerSideError] = useState();
@@ -44,7 +43,7 @@ const Dataset = (props) => {
 
 	const { data: dataset, isLoading } = useDataset(id);
 
-	const { lg1, lg2 } = useSelector((state) => getLocales(state));
+	const { lg1, lg2 } = useLocales();
 	const [secondLang] = useSecondLang();
 	const queryClient = useQueryClient();
 

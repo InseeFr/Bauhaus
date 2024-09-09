@@ -4,8 +4,8 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import auth from '../../auth/hoc';
 
 import App from '../app';
-import { useSelector } from 'react-redux';
 import { Loading, NotFound, UnderMaintenance } from '../../components';
+import { useAppContext } from '../app-context';
 
 const getComponent = (
 	pageName: string,
@@ -43,10 +43,12 @@ const getHomePage = (pages: Record<string, string>) => {
 	);
 };
 export default auth(() => {
-	const activeModules = useSelector(
-		(state) => (state as any).app.properties.activeModules
-	);
-	const modules = useSelector((state) => (state as any).app.properties.modules);
+	const {
+		properties: { activeModules },
+	} = useAppContext();
+	const {
+		properties: { modules },
+	} = useAppContext();
 	const pages = useMemo(() => {
 		return modules.reduce((acc: Record<string, any>, appName: string) => {
 			const app = appName.trim();

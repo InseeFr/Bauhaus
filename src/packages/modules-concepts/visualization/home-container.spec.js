@@ -5,7 +5,6 @@ import { ConceptsApi } from '../../sdk';
 import * as R from '../../auth/roles';
 import configureStore from '../../redux/configure-store';
 import { renderWithAppContext } from '../../tests-utils/render';
-import { locales } from '../../tests-utils/default-values';
 
 jest.mock('../../sdk');
 
@@ -18,7 +17,6 @@ const store = configureStore({
 				stamp: 'stamp',
 			},
 		},
-		...locales,
 	},
 });
 

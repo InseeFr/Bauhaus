@@ -7,13 +7,13 @@ import OperationsSerieEdition from '../../../modules-operations/series/edition/e
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { useCodesList } from '../../../utils/hooks/codeslist';
 import D from '../../../deprecated-locales';
-import { getLocales } from '../../../redux/selectors';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { OperationsApi } from '../../../sdk/operations-api';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const OperationsSeriesEditionContainer = (props) => {
 	const { id } = useParams();
@@ -28,7 +28,7 @@ const OperationsSeriesEditionContainer = (props) => {
 	const organisations = useSelector(
 		(state) => state.operationsOrganisations.results || []
 	);
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 
 	const goBack = useGoBack();
 

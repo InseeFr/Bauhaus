@@ -1,5 +1,5 @@
-import { mapStateToProps, HELP, VIEW } from './index';
-import { NOT_LOADED, LOADED } from '../../sdk/constants';
+import { HELP, mapStateToProps, VIEW } from './index';
+import { LOADED, NOT_LOADED } from '../../sdk/constants';
 
 describe('', () => {
 	it('should return NOT_LOADED for the metadataStructureStatus', () => {
@@ -16,10 +16,6 @@ describe('', () => {
 			operationsMetadataStructureList: {
 				results: 'operationsMetadataStructureList',
 				status: LOADED,
-			},
-			app: {
-				lg1: 'lg1',
-				lg2: 'lg2',
 			},
 			geographies: {},
 			operationsDocuments: {},
@@ -43,10 +39,6 @@ describe('', () => {
 				results: 'operationsMetadataStructureList',
 				status: LOADED,
 			},
-			app: {
-				lg1: 'lg1',
-				lg2: 'lg2',
-			},
 			operationsDocuments: {},
 			operationsSimsCurrent: {
 				id: 1,
@@ -67,34 +59,6 @@ describe('', () => {
 		expect(output.currentSims).toEqual({
 			id: 1,
 			idOperation: 2,
-		});
-	});
-
-	it('should return the langes', () => {
-		const input = {
-			operationsMetadataStructureList: {
-				results: 'operationsMetadataStructureList',
-				status: LOADED,
-			},
-			operationsDocuments: {},
-			app: {
-				lg1: 'lg1',
-				lg2: 'lg2',
-			},
-			geographies: {},
-		};
-
-		const props = {
-			mode: HELP,
-			match: {
-				params: {
-					id: 1,
-				},
-			},
-		};
-		expect(mapStateToProps(input, props).langs).toEqual({
-			lg1: 'lg1',
-			lg2: 'lg2',
 		});
 	});
 });

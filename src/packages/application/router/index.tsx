@@ -5,11 +5,11 @@ import bauhausLogo from '../../../img/logo_noir.svg';
 import { getEnvVar } from '../../utils/env';
 import D from '../../i18n';
 import 'react-app-polyfill/stable';
-import { useSelector } from 'react-redux';
 import { PropsWithChildren } from 'react';
 import Auth from '../../auth/components/auth';
 import { removeToken } from '../../auth/open-id-connect-auth/token-utils';
 import { ADMIN } from '../../auth/roles';
+import { useAppContext } from '../app-context';
 
 const logout = () => {
 	removeToken();
@@ -19,10 +19,10 @@ const logout = () => {
 
 export const RBACLink = ({ children }: PropsWithChildren<{}>) => {
 	const location = useLocation();
-	const authorizationHost = useSelector(
-		(state) => (state as any).app.properties.authorizationHost
-	);
-	const version = useSelector((state) => (state as any).app.version);
+	const {
+		properties: { authorizationHost },
+	} = useAppContext();
+	const { version } = useAppContext();
 	const footer = `${getEnvVar('NAME')} - Front ${getEnvVar(
 		'VERSION'
 	)} - API ${version}`;

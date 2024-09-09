@@ -1,25 +1,26 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import D from '../../../deprecated-locales';
 import { useSelector } from 'react-redux';
 import OperationsIndicatorVisualization from '../../../modules-operations/indicators/visualization/general';
 import {
-	Loading,
-	ErrorBloc,
-	PageTitleBlock,
 	CheckSecondLang,
+	ErrorBloc,
+	Loading,
+	PageTitleBlock,
 } from '../../../components';
 
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
 import { useCodesList } from '../../../utils/hooks/codeslist';
-import { getLocales } from '../../../redux/selectors';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useLocales } from '../../../utils/hooks/useLocales';
+
 const IndicatorVisualizationContainer = () => {
 	const { id } = useParams();
 
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 	const frequency = useCodesList(CL_FREQ);
 	const organisations = useSelector(

@@ -1,16 +1,15 @@
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../../components';
 import Compare from './home';
 import useClassificationItem from '../hook';
-import { getLocales } from '../../../redux/selectors';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const CompareContainer = () => {
 	const { classificationId, itemId } = useParams();
 
 	const [secondLang] = useSecondLang();
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 
 	const { isLoading, item } = useClassificationItem(classificationId, itemId);
 

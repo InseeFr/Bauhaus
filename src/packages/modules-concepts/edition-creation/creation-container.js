@@ -1,24 +1,25 @@
-import { useCallback, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import ConceptEditionCreation from './home';
 import D from '../../deprecated-locales';
 import { Loading } from '../../components';
 import { ConceptsApi } from '../../sdk';
 import { useStamps } from '../../utils/hooks/stamps';
-import { getLocales } from '../../redux/selectors';
 import { useTitle } from '../../utils/hooks/useTitle';
 import buildPayloadCreation from '../../modules-concepts/utils/build-payload-creation-update/build-payload-creation';
 import emptyConcept from '../../modules-concepts/utils/empty-concept';
 import { mergeWithAllConcepts } from '../utils/links';
 import { sortArrayByLabel } from '../../utils/array-utils';
+import { useLocales } from '../../utils/hooks/useLocales';
+import { useAppContext } from '../../application/app-context';
 
 const CreationContainer = () => {
-	const langs = useSelector((state) => getLocales(state));
-	const maxLengthScopeNote = useSelector((state) =>
-		Number(state.app.properties.maxLengthScopeNote)
-	);
+	const langs = useLocales();
+	const maxLengthScopeNoteString =
+		useAppContext().properties.maxLengthScopeNote;
 
+	const maxLengthScopeNote = Number(maxLengthScopeNoteString);
+	const defaultContributor = useAppContext().properties.defaultContributor;
 	const history = useHistory();
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
@@ -35,9 +36,7 @@ const CreationContainer = () => {
 			.finally(() => setLoading(false));
 	}, []);
 
-	const concept = useSelector((state) =>
-		emptyConcept(state.app.properties.defaultContributor)
-	);
+	const concept = emptyConcept(defaultContributor);
 
 	const handleCreation = useCallback(
 		(data) => {

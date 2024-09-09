@@ -4,16 +4,16 @@ import Field from '../../../../modules-operations/msd/pages/sims-creation/sims-f
 import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
 import { Loading, Select } from '../../../../components';
 import {
-	CancelButton,
 	ActionToolbar,
-	SaveButton,
+	CancelButton,
 	CheckSecondLang,
+	SaveButton,
 } from '@inseefr/wilco';
 import { DUPLICATE } from '../../index';
 import {
-	hasLabelLg2,
 	getParentId,
 	getParentIdName,
+	hasLabelLg2,
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
 } from '../../utils';
@@ -23,8 +23,9 @@ import './sims-creation.scss';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import { OperationsApi } from '../../../../sdk/operations-api';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
-import { rangeType, flattenTree } from '../../../utils/msd';
+import { flattenTree, rangeType } from '../../../utils/msd';
 import { useHistory } from 'react-router-dom';
+import { useLocales } from '../../../../utils/hooks/useLocales';
 
 const { RICH_TEXT } = rangeType;
 
@@ -357,6 +358,7 @@ class SimsCreation extends Component {
 
 const withParentWithSims = (Component) => {
 	return (props) => {
+		const langs = useLocales();
 		const history = useHistory();
 		const [parentWithSims, setParentWithSims] = useState([]);
 		const parentType = props.parentType;
@@ -378,7 +380,12 @@ const withParentWithSims = (Component) => {
 			}
 		}, [seriesId, parentType, familyId]);
 		return (
-			<Component {...props} parentWithSims={parentWithSims} history={history} />
+			<Component
+				{...props}
+				langs={langs}
+				parentWithSims={parentWithSims}
+				history={history}
+			/>
 		);
 	};
 };

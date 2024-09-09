@@ -16,8 +16,6 @@ export type ReduxModel = {
 		results: any[];
 	};
 	app?: {
-		lg1: string;
-		lg2: string;
 		auth: {
 			type: string;
 			user: {

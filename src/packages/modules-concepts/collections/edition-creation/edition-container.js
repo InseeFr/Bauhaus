@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import CollectionEditionCreation from './home';
 import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
@@ -9,13 +8,13 @@ import { Loading } from '../../../components';
 
 import { ConceptsApi } from '../../../sdk';
 import { CollectionApi } from '../../../sdk/collection-api';
-import { getLocales } from '../../../redux/selectors';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const EditionContainer = () => {
 	const { id } = useParams();
 	const history = useHistory();
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 
 	const [loadingCollection, setLoadingCollection] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);

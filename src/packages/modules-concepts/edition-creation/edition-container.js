@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import ConceptEditionCreation from './home';
 import D from '../../deprecated-locales';
@@ -9,11 +8,12 @@ import { rmesHtmlToRawHtml } from '../../utils/html-utils';
 import { ConceptsApi } from '../../sdk';
 import * as generalUtils from '../../modules-concepts/utils/general';
 import { useStamps } from '../../utils/hooks/stamps';
-import { getLocales } from '../../redux/selectors';
 import { useTitle } from '../../utils/hooks/useTitle';
 import buildPayloadUpdate from '../../modules-concepts/utils/build-payload-creation-update/build-payload-update';
 import { mergeWithAllConcepts } from '../utils/links';
 import { emptyNotes } from '../utils/notes';
+import { useLocales } from '../../utils/hooks/useLocales';
+import { useAppContext } from '../../application/app-context';
 
 const formatNotes = (notes) => {
 	return Object.assign(
@@ -29,10 +29,11 @@ const EditionContainer = () => {
 	const { id } = useParams();
 	const history = useHistory();
 
-	const langs = useSelector((state) => getLocales(state));
-	const maxLengthScopeNote = useSelector((state) =>
-		Number(state.app.properties.maxLengthScopeNote)
-	);
+	const langs = useLocales();
+	const maxLengthScopeNoteString =
+		useAppContext().properties.maxLengthScopeNote;
+
+	const maxLengthScopeNote = Number(maxLengthScopeNoteString);
 
 	const [concept, setConcept] = useState({});
 	const [concepts, setConcepts] = useState([]);

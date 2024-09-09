@@ -1,24 +1,23 @@
 import D from '../../../deprecated-locales';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
-	Loading,
-	ErrorBloc,
-	PageTitleBlock,
 	CheckSecondLang,
+	ErrorBloc,
+	Loading,
+	PageTitleBlock,
 } from '../../../components';
 
 import { useCallback, useEffect, useState } from 'react';
 import OperationsFamilyVisualization from '../../../modules-operations/families/visualization/visualization';
-import { getLocales } from '../../../redux/selectors';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
 import { Family } from '../../../model/operations/family';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const FamilyView = () => {
 	const { id } = useParams<{ id: string }>();
-	const langs = useSelector(getLocales);
+	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 
 	const [family, setFamily] = useState<Family>();

@@ -1,17 +1,16 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import D from '../../../deprecated-locales';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import OperationsSerieVisualization from '../../../modules-operations/series/visualization/home';
 import {
-	Loading,
-	ErrorBloc,
-	PageTitleBlock,
 	CheckSecondLang,
+	ErrorBloc,
+	Loading,
+	PageTitleBlock,
 } from '../../../components';
 
 import { useCodesList } from '../../../utils/hooks/codeslist';
-import { getLocales } from '../../../redux/selectors';
 import { OperationsApi } from '../../../sdk/operations-api';
 import {
 	CL_FREQ,
@@ -19,6 +18,7 @@ import {
 } from '../../../redux/actions/constants/codeList';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const SeriesVisualizationContainer = () => {
 	const { id } = useParams();
@@ -31,7 +31,7 @@ const SeriesVisualizationContainer = () => {
 		(state) => state.operationsOrganisations.results || []
 	);
 	const categories = useCodesList(CL_SOURCE_CATEGORY);
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 
 	const frequency = frequencies.codes.find(

@@ -14,7 +14,7 @@ jest.mock('../../datasets', () => ({
 }));
 
 const store = configureStore({
-	app: { secondLang: true, auth: { type: '', user: { roles: [] } } },
+	app: { auth: { type: '', user: { roles: [] } } },
 });
 
 describe('DatasetEdit Component', () => {

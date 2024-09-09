@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import SeriesVisualization from './home';
 import { Loading } from '../../../components';
 import { useParams } from 'react-router-dom';
 import { ClassificationsApi } from '../../../sdk/classification';
-import { getLocales } from '../../../redux/selectors';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const SeriesVisualizationContainer = () => {
 	const { id } = useParams();
 	const [series, setSeries] = useState();
 
 	const [secondLang] = useSecondLang();
-	const langs = useSelector((state) => getLocales(state));
+	const langs = useLocales();
 	useEffect(() => {
 		Promise.all([
 			ClassificationsApi.getSeriesGeneral(id),
