@@ -10,7 +10,11 @@ describe('FamilyInformation', () => {
 			abstractLg1: 'descriptionLg1',
 		};
 		const { container } = render(
-			<OperationsFamilyVisualization attr={attr} langs={locales} />
+			<OperationsFamilyVisualization
+				attr={attr}
+				langs={locales}
+				secondLang={false}
+			/>
 		);
 		expect(container.querySelectorAll('.wilco-note')).toHaveLength(4);
 	});

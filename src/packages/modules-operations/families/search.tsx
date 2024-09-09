@@ -7,6 +7,7 @@ import useUrlQueryParameters from '../..//utils/hooks/useUrlQueryParameters';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { OperationsApi } from '../../sdk/operations-api';
 import { filterKeyDeburr } from '../../utils/array-utils';
+import { FamilyAdvancedSearch } from '../../model/operations/family';
 
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);
 
@@ -14,7 +15,9 @@ const defaultFormState = {
 	prefLabelLg1: '',
 };
 
-const SearchFormList = ({ data }) => {
+const SearchFormList = ({
+	data,
+}: Readonly<{ data: FamilyAdvancedSearch[] }>) => {
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const { prefLabelLg1 } = form;
@@ -50,7 +53,7 @@ const SearchFormList = ({ data }) => {
 
 const SearchListContainer = () => {
 	useTitle(D.familiesTitle + ' - ' + D.operationsTitle, D.advancedSearch);
-	const [data, setData] = useState();
+	const [data, setData] = useState<FamilyAdvancedSearch[]>();
 
 	useEffect(() => {
 		OperationsApi.getAllFamiliesForAdvancedSearch().then(setData);

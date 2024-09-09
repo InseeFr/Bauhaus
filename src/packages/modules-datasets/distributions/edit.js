@@ -25,7 +25,7 @@ import { useGoBack } from '../../utils/hooks/useGoBack';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { DistributionApi } from '../../sdk';
 
-export const DistributionEdit = (props) => {
+export const DistributionEdit = () => {
 	const { id } = useParams();
 	const isEditing = !!id;
 
