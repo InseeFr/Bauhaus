@@ -16,49 +16,41 @@ const StructureComponent = () => {
 			<Menu />
 			<div className="container">
 				<Switch>
-					<Route exact path="/structures" component={Home} />
+					<Route exact path="/structures"><Home /></Route>
 					<Route
 						exact
 						path="/structures/components"
-						component={StructuresComponentsList}
-					/>
-					<Route exact path="/structures/search" component={StructuresSearch} />
+					><StructuresComponentsList /></Route>
+					<Route exact path="/structures/search"><StructuresSearch /></Route>
 					<Route
 						exact
 						path="/structures/components/search"
-						component={StructuresComponentsSearch}
-					/>
+					><StructuresComponentsSearch /></Route>
 					<Route
 						exact
 						path="/structures/components/create"
-						component={StructuresComponentEdit}
-					/>
+					><StructuresComponentEdit /></Route>
 					<Route
 						exact
 						path="/structures/components/:id"
-						component={StructuresComponentView}
-					/>
+					><StructuresComponentView /></Route>
 					<Route
 						exact
 						path="/structures/components/:id/modify"
-						component={StructuresComponentEdit}
-					/>
-					<Route exact path="/structures/create" component={Create} />
+					><StructuresComponentEdit /></Route>
+					<Route exact path="/structures/create"><Create /></Route>
 					<Route
 						exact
 						path="/structures/:structureId/update"
-						component={Update}
-					/>
+					><Update /></Route>
 					<Route
 						exact
 						path="/structures/:structureId/duplicate"
-						component={Update}
-					/>
+					><Update /></Route>
 					<Route
 						exact
 						path="/structures/:structureId"
-						component={Visualization}
-					/>
+					><Visualization /></Route>
 				</Switch>
 			</div>
 		</>

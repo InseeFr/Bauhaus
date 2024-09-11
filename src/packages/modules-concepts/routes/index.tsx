@@ -24,79 +24,65 @@ const Routes = () => {
 		<>
 			<Menu />
 			<Switch>
-				<Route exact path="/concepts" component={Concepts} />
+				<Route exact path="/concepts"><Concepts /></Route>
 				<Route
 					exact
 					path="/concepts/search"
-					component={ConceptsSearchListContainer}
-				/>
+				><ConceptsSearchListContainer /></Route>
 				<Route
 					exact
 					path="/concept/create"
-					component={ConceptCreationContainer}
-				/>
+				><ConceptCreationContainer /></Route>
 				<Route
 					exact
 					path="/concept/:id"
-					component={ConceptVisualizationContainer}
-				/>
+				><ConceptVisualizationContainer /></Route>
 				<Route
 					exact
 					path="/concept/:id/compare"
-					component={ConceptCompareContainer}
-				/>
+				><ConceptCompareContainer /></Route>
 				<Route
 					exact
 					path="/concept/:id/modify"
-					component={ConceptEditionContainer}
-				/>
+				><ConceptEditionContainer /></Route>
 				<Route
 					exact
 					path="/concepts/validation"
-					component={ConceptsToValidateContainer}
-				/>
+				><ConceptsToValidateContainer /></Route>
 				<Route
 					exact
 					path="/concepts/export"
-					component={ConceptsToExportContainer}
-				/>
-				<Route exact path="/collections" component={CollectionsContainer} />
+				><ConceptsToExportContainer /></Route>
+				<Route exact path="/collections"><CollectionsContainer /></Route>
 				<Route
 					exact
 					path="/collection/create"
-					component={CollectionCreationContainer}
-				/>
+				><CollectionCreationContainer /></Route>
 				<Route
 					exact
 					path="/collection/:id"
-					component={CollectionVisualizationContainer}
-				/>
+				><CollectionVisualizationContainer /></Route>
 				<Route
 					exact
 					path="/collection/:id/modify"
-					component={CollectionEditionContainer}
-				/>
+				><CollectionEditionContainer /></Route>
 				<Route
 					exact
 					path="/collections/validation"
-					component={CollectionsToValidateContainer}
-				/>
+				><CollectionsToValidateContainer /></Route>
 				<Route
 					exact
 					path="/collections/export"
-					component={CollectionsToExportContainer}
-				/>
+				><CollectionsToExportContainer /></Route>
 				<Route
 					exact
 					path="/concepts/administration"
-					component={Administration}
-				/>
+				><Administration /></Route>
 
 				<Route
 					exact
 					path="/concepts/administration/dashboard"
-					component={ConceptsDashboard}
-				/>
+				><ConceptsDashboard /></Route>
 			</Switch>
 		</>
 	);

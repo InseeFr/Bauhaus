@@ -18,36 +18,31 @@ const CodesListComponent = () => {
 			<Menu />
 			<div className="container">
 				<Switch>
-					<Route exact path="/codelists" component={Home} />
-					<Route exact path="/codelists/create" component={CodesListEdit} />
-					<Route exact path="/codelists/search" component={SearchFormList} />
-					<Route exact path="/codelists/:id" component={CodesListView} />
-					<Route exact path="/codelists/:id/modify" component={CodesListEdit} />
+					<Route exact path="/codelists"><Home /></Route>
+					<Route exact path="/codelists/create"><CodesListEdit /></Route>
+					<Route exact path="/codelists/search"><SearchFormList /></Route>
+					<Route exact path="/codelists/:id"><CodesListView /></Route>
+					<Route exact path="/codelists/:id/modify"><CodesListEdit /></Route>
 					<Route
 						exact
 						path="/codelists-partial"
-						component={CodeListsPartialHome}
-					/>
+					><CodeListsPartialHome /></Route>
 					<Route
 						exact
 						path="/codelists-partial/create"
-						component={PartialCodesListEdit}
-					/>
+					><PartialCodesListEdit /></Route>
 					<Route
 						exact
 						path="/codelists-partial/search"
-						component={SearchFormPartialList}
-					/>
+					><SearchFormPartialList /></Route>
 					<Route
 						exact
 						path="/codelists-partial/:id"
-						component={PartialCodesListView}
-					/>
+					><PartialCodesListView /></Route>
 					<Route
 						exact
 						path="/codelists-partial/:id/modify"
-						component={PartialCodesListEdit}
-					/>
+					><PartialCodesListEdit /></Route>
 				</Switch>
 			</div>
 		</>

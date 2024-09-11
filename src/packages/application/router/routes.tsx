@@ -7,11 +7,13 @@ import App from '../app';
 import { Loading, NotFound, UnderMaintenance } from '../../components';
 import { useAppContext } from '../app-context';
 
-const getComponent = (
-	pageName: string,
+
+type ModuleHomePage = {
+	pageName: string;
 	pages: Record<string, any>,
 	activeModules: string[]
-) => {
+}
+const ModuleHomePage = ({ pageName, pages, activeModules}: Readonly<ModuleHomePage>) => {
 	if (!activeModules.includes(pageName)) {
 		return UnderMaintenance;
 	}
@@ -19,15 +21,14 @@ const getComponent = (
 		return NotFound;
 	}
 	const Component = pages[pageName];
-	return memo(() => {
-		useEffect(() => {
-			// @ts-ignore
-			document.getElementById('root-app').removeAttribute('class');
-			// @ts-ignore
-			document.getElementById('root-app').classList.add(pageName);
-		}, []);
-		return <Component />;
-	});
+
+	useEffect(() => {
+		// @ts-ignore
+		document.getElementById('root-app').removeAttribute('class');
+		// @ts-ignore
+		document.getElementById('root-app').classList.add(pageName);
+	}, []);
+	return <Component />;
 };
 
 const getHomePage = (pages: Record<string, string>) => {
@@ -68,32 +69,46 @@ export default auth(() => {
 	return (
 		<Suspense fallback={<Loading />}>
 			<Switch>
-				<Route exact path="/" render={() => homePage} />
+				<Route exact path="/">
+
+					{homePage}
+				</Route>
+
+
 				<Route
 					path="/(concept|concepts|collections|collection)"
-					component={getComponent('concepts', pages, activeModules)}
-				/>
+				>
+					<ModuleHomePage pageName="concepts" pages={pages} activeModules={activeModules} />
+				</Route>
 				<Route
 					path="/classifications"
-					component={getComponent('classifications', pages, activeModules)}
-				/>
+				>
+					<ModuleHomePage pageName="classifications" pages={pages} activeModules={activeModules} />
+				</Route>
 				<Route
 					path="/operations"
-					component={getComponent('operations', pages, activeModules)}
-				/>
+				>
+
+					<ModuleHomePage pageName="operations" pages={pages} activeModules={activeModules} />
+				</Route>
 				<Route
 					path="/structures"
-					component={getComponent('structures', pages, activeModules)}
-				/>
+				>
+					<ModuleHomePage pageName="structures" pages={pages} activeModules={activeModules} />
+				</Route>
+
 				<Route
 					path="/datasets"
-					component={getComponent('datasets', pages, activeModules)}
-				/>
+				>
+					<ModuleHomePage pageName="datasets" pages={pages} activeModules={activeModules} />
+				</Route>
 				<Route
 					path="/(codelists|codelists-partial)"
-					component={getComponent('codelists', pages, activeModules)}
-				/>
-				<Route path="*" component={NotFound} />
+				>
+					<ModuleHomePage pageName="codelists" pages={pages} activeModules={activeModules} />
+				</Route>
+
+				<Route path="*"><NotFound /></Route>
 			</Switch>
 		</Suspense>
 	);

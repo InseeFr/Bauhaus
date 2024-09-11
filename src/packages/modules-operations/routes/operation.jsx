@@ -7,23 +7,20 @@ import OperationEditionContainer from '../../modules-operations/operations/editi
 const Routes = () => {
 	return (
 		<Switch>
-			<Route exact path="/operations/operations" component={OperationsContainer} />
+			<Route exact path="/operations/operations"><OperationsContainer /></Route>
 
 			<Route
 				exact
 				path="/operations/operation/create"
-				component={OperationEditionContainer}
-			/>
+			><OperationEditionContainer /></Route>
 			<Route
 				exact
 				path="/operations/operation/:id"
-				component={OperationVisualizationContainer}
-			/>
+			><OperationVisualizationContainer /></Route>
 			<Route
 				exact
 				path="/operations/operation/:id/modify"
-				component={OperationEditionContainer}
-			/>
+			><OperationEditionContainer /></Route>
 		</Switch>
 	);
 };

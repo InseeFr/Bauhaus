@@ -18,31 +18,27 @@ const DatasetsComponent = () => {
 			<DatasetsMenu />
 			<div className="container">
 				<Switch>
-					<Route exact path="/datasets" component={DatasetHome} />
+					<Route exact path="/datasets"><DatasetHome /></Route>
 					<Route
 						exact
 						path="/datasets/distributions"
-						component={DistributionHome}
-					/>
+					><DistributionHome /></Route>
 
-					<Route exact path="/datasets/create" component={DatasetEdit} />
-					<Route exact path="/datasets/:id" component={DatasetView} />
-					<Route exact path="/datasets/:id/modify" component={DatasetEdit} />
+					<Route exact path="/datasets/create"><DatasetEdit /></Route>
+					<Route exact path="/datasets/:id"><DatasetView /></Route>
+					<Route exact path="/datasets/:id/modify"><DatasetEdit /></Route>
 					<Route
 						exact
 						path="/datasets/distributions/create"
-						component={DistributionEdit}
-					/>
+					><DistributionEdit /></Route>
 					<Route
 						exact
 						path="/datasets/distributions/:id"
-						component={DistributionView}
-					/>
+					><DistributionView /></Route>
 					<Route
 						exact
 						path="/datasets/distributions/:id/modify"
-						component={DistributionEdit}
-					/>
+					><DistributionEdit /></Route>
 				</Switch>
 			</div>
 		</>
