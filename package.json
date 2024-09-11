@@ -11,7 +11,7 @@
 	"private": true,
 	"scripts": {
 		"pre-script": "cross-env NODE_OPTIONS=--openssl-legacy-provider VITE_VERSION=$(node ./scripts/getVersion.js) VITE_NAME=$npm_package_name",
-		"lint": "npx eslint src",
+		"lint": "npx eslint src/**/*.*",
 		"test": "vitest",
 		"test:coverage": "cross-env CI=true vitest run --coverage",
 		"start": "npm run pre-script vite",
@@ -109,14 +109,8 @@
 		"useTabs": true
 	},
 	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		],
 		"rules": {
 			"@typescript-eslint/no-unused-vars": "error",
-			"jest-dom/prefer-to-have-attribute": "off",
-			"jest/valid-title": "off",
 			"testing-library/no-container": "off",
 			"testing-library/no-node-access": "off",
 			"testing-library/no-unnecessary-act": "off",
