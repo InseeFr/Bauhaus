@@ -1,34 +1,28 @@
-import { useState } from 'react';
 import { ActionToolbar, Button } from '@inseefr/wilco';
 import check from '../../../auth/auth';
 import D from '../../../deprecated-locales';
-import { CollectionExportModal } from '../modal';
-import { saveFileFromHttpResponse } from '../../../utils/files';
-import { CollectionApi } from '../../../sdk/collection-api';
 import { usePermission } from '../../../redux/hooks/usePermission';
+import ExportButtons from '../export-buttons';
 
 const CollectionVisualizationControls = ({
 	isValidated,
 	creator: collectionCreator,
 	id,
 	handleValidation,
-	setExporting,
+	exportCollection,
 }) => {
 	const { authType, roles, stamp } = usePermission();
-
-	const [displayModal, setDisplayModal] = useState(false);
 
 	const authImpl = check(authType);
 	const admin = authImpl.isAdmin(roles);
 	const contributor = authImpl.isContributor(roles, stamp, collectionCreator);
 	const creator = authImpl.isCollectionCreator(roles, stamp, collectionCreator);
 
-	const exportConcept = [() => setDisplayModal(true), D.btnExporter];
-	const cancel = [`/collections`, D.btnReturn];
+
 	const validate = [handleValidation, D.btnValid];
 	const update = [`/collection/${id}/modify`, D.btnUpdate];
 
-	const btns = [cancel, exportConcept];
+	const btns = [];
 	if (admin || creator) {
 		btns.push(update);
 
@@ -39,34 +33,18 @@ const CollectionVisualizationControls = ({
 		btns.push(update);
 	}
 
-	const handleExportCollectionList = (type) => {
-		return (ids, MimeType, lang = 'lg1', withConcepts) => {
-			setExporting(true);
-			const promise = CollectionApi.getCollectionExportByType(
-				ids[0],
-				MimeType,
-				type,
-				lang,
-				withConcepts
-			);
-
-			return promise
-				.then(saveFileFromHttpResponse)
-				.finally(() => setExporting(false));
-		};
-	};
 
 	return (
 		<>
-			{displayModal && (
-				<CollectionExportModal
-					ids={[id]}
-					exportOds={handleExportCollectionList('ods')}
-					exportOdt={handleExportCollectionList('odt')}
-					close={() => setDisplayModal(false)}
-				></CollectionExportModal>
-			)}
 			<ActionToolbar>
+				<Button  action={`/collections`} label={D.btnReturn} />
+				<ExportButtons
+					ids={[id]}
+					exportHandler={(type, withConcepts, lang = 'lg1') =>
+						exportCollection({ ids: [id], type, withConcepts, lang })
+					}
+				/>
+
 				{btns.map((btn) => {
 					if (!btn) return null;
 					const [action, label] = btn;

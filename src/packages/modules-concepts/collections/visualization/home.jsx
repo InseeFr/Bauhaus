@@ -7,6 +7,7 @@ import CollectionGeneral from './general';
 import CollectionMembers from '../../../modules-concepts/collections/visualisation/members';
 import D from '../../../deprecated-locales';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { useCollectionExporter } from '../../../utils/hooks/collections';
 
 const CollectionVisualization = ({
 	id,
@@ -20,13 +21,13 @@ const CollectionVisualization = ({
 	useTitle(D.collectionsTitle, general.prefLabelLg1);
 
 	const { isValidated, creator } = general;
-	const [exporting, setExporting] = useState(false);
-
+	const { mutate: exportCollection, isPending: isExporting } =
+		useCollectionExporter();
 	const handleClickValid = () => {
 		validateCollection(id);
 	};
 
-	if (exporting) return <Loading textType="exporting" />;
+	if (isExporting) return <Loading textType="exporting" />;
 
 	return (
 		<div>
@@ -41,7 +42,7 @@ const CollectionVisualization = ({
 					creator={creator}
 					isValidated={isValidated === 'true'}
 					handleValidation={handleClickValid}
-					setExporting={setExporting}
+					exportCollection={exportCollection}
 				/>
 				<CheckSecondLang />
 				<CollectionGeneral
