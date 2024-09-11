@@ -11,7 +11,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -23,7 +23,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						series={{ creators: [], idSims: '1' } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -35,7 +35,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -47,7 +47,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -59,7 +59,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						series={{ creators: [], idSims: '1' } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -72,7 +72,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -85,7 +85,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -100,7 +100,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -112,7 +112,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						series={{ creators: [], idSims: '1' } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -124,7 +124,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -137,7 +137,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						series={{ creators: ['stamp'] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -150,7 +150,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						series={{ creators: [], idSims: '1' } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -163,7 +163,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						series={{ creators: ['fake'], idSims: '1' } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -176,7 +176,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						series={{ creators: ['stamp'] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -189,7 +189,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						series={{ creators: ['fake'] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -202,7 +202,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						series={{ creators: ['stamp'] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -215,7 +215,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						series={{ creators: ['fake'] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -229,7 +229,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -241,7 +241,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						series={{ creators: [], idSims: '1' } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -253,7 +253,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -266,7 +266,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -278,7 +278,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						series={{ creators: [], idSims: '1' } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -290,7 +290,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -302,7 +302,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						series={{ creators: [] } as unknown as Series}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);

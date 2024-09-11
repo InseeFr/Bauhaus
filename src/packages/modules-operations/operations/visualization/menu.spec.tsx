@@ -11,7 +11,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -25,7 +25,7 @@ describe('Family Home Page Menu', () => {
 						operation={
 							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -37,7 +37,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -49,7 +49,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -63,7 +63,7 @@ describe('Family Home Page Menu', () => {
 						operation={
 							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -76,7 +76,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -89,7 +89,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[ADMIN]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -104,7 +104,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -118,7 +118,7 @@ describe('Family Home Page Menu', () => {
 						operation={
 							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -130,7 +130,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -145,7 +145,7 @@ describe('Family Home Page Menu', () => {
 						operation={
 							{ series: { creators: ['stamp'] } } as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -160,7 +160,7 @@ describe('Family Home Page Menu', () => {
 						operation={
 							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -178,7 +178,7 @@ describe('Family Home Page Menu', () => {
 								idSims: '1',
 							} as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -193,7 +193,7 @@ describe('Family Home Page Menu', () => {
 						operation={
 							{ series: { creators: ['stamp'] } } as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -208,7 +208,7 @@ describe('Family Home Page Menu', () => {
 						operation={
 							{ series: { creators: ['fake'] } } as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -223,7 +223,7 @@ describe('Family Home Page Menu', () => {
 						operation={
 							{ series: { creators: ['stamp'] } } as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -238,7 +238,7 @@ describe('Family Home Page Menu', () => {
 						operation={
 							{ series: { creators: ['fake'] } } as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -252,7 +252,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -266,7 +266,7 @@ describe('Family Home Page Menu', () => {
 						operation={
 							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -278,7 +278,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -291,7 +291,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -305,7 +305,7 @@ describe('Family Home Page Menu', () => {
 						operation={
 							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
 						}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -317,7 +317,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);
@@ -329,7 +329,7 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[]}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={jest.fn()}
+						onPublish={vi.fn()}
 					/>
 				</RBACMock>
 			);

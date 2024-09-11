@@ -6,12 +6,13 @@ import * as useOrganizationsHook from '../../../utils/hooks/organizations';
 import * as useCodesListHook from '../../../utils/hooks/codeslist';
 import { Dataset } from '../../../model/Dataset';
 import { CodesList } from '../../../model/CodesList';
+import { vi } from 'vitest';
 
-jest.mock('../useThemes');
-jest.mock('../../../utils/hooks/organizations');
-jest.mock('../../../utils/hooks/codeslist');
+vi.mock('../useThemes');
+vi.mock('../../../utils/hooks/organizations');
+vi.mock('../../../utils/hooks/codeslist');
 
-jest.mock('./wasGeneratedByBlock', () => ({
+vi.mock('./wasGeneratedByBlock', () => ({
 	WasGeneratedByBlock: () => <div>Mocked WasGeneratedByBlock</div>,
 }));
 
@@ -36,14 +37,14 @@ describe('GlobalInformationBlock', () => {
 	} as unknown as Dataset;
 
 	beforeEach(() => {
-		jest.spyOn(useThemesHook, 'useThemes').mockReturnValue({
+		vi.spyOn(useThemesHook, 'useThemes').mockReturnValue({
 			data: [
 				{ value: 'theme1', label: 'Theme 1' },
 				{ value: 'theme2', label: 'Theme 2' },
 			],
 		} as any);
 
-		jest.spyOn(useOrganizationsHook, 'useOrganizations').mockReturnValue({
+		vi.spyOn(useOrganizationsHook, 'useOrganizations').mockReturnValue({
 			data: [
 				{ id: 'org1', label: 'Organization 1' },
 				{ id: 'org2', label: 'Organization 2' },
@@ -51,7 +52,7 @@ describe('GlobalInformationBlock', () => {
 			],
 		} as any);
 
-		jest
+		vi
 			.spyOn(useCodesListHook, 'useCodesList')
 			.mockImplementation((notation) => {
 				switch (notation) {
@@ -87,7 +88,7 @@ describe('GlobalInformationBlock', () => {
 	});
 
 	it('should return null if organizations data is not available', () => {
-		jest
+		vi
 			.spyOn(useOrganizationsHook, 'useOrganizations')
 			.mockReturnValue({ data: undefined } as any);
 

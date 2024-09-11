@@ -1,3 +1,4 @@
+import {vi} from 'vitest';
 import { StructureView } from './index';
 import { Provider } from 'react-redux';
 import configureStore from '../../redux/configure-store';
@@ -8,16 +9,16 @@ import { DescriptionsPanel } from './components/descriptions-panel';
 import { GlobalInformationsPanel } from './components/global-informations-panel';
 import { ComponentsPanel } from './components/components-panel';
 
-jest.mock('./components/global-informations-panel', () => ({
-	GlobalInformationsPanel: jest.fn(() => <div></div>),
+vi.mock('./components/global-informations-panel', () => ({
+	GlobalInformationsPanel: vi.fn(() => <div></div>),
 }));
 
-jest.mock('./components/descriptions-panel', () => ({
-	DescriptionsPanel: jest.fn(() => <div></div>),
+vi.mock('./components/descriptions-panel', () => ({
+	DescriptionsPanel: vi.fn(() => <div></div>),
 }));
 
-jest.mock('./components/components-panel', () => ({
-	ComponentsPanel: jest.fn(() => <div></div>),
+vi.mock('./components/components-panel', () => ({
+	ComponentsPanel: vi.fn(() => <div></div>),
 }));
 
 const store = configureStore({
@@ -36,11 +37,14 @@ const store = configureStore({
 });
 
 describe('<StructureView />', () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
 	it('should display labelLg1', () => {
 		const { container } = renderWithAppContext(
 			<Provider store={store}>
 				<StructureView
-					publish={jest.fn()}
+					publish={vi.fn()}
 					structure={
 						{
 							labelLg1: 'labelLg1',
@@ -56,7 +60,7 @@ describe('<StructureView />', () => {
 		renderWithAppContext(
 			<Provider store={store}>
 				<StructureView
-					publish={jest.fn()}
+					publish={vi.fn()}
 					structure={
 						{
 							labelLg1: 'labelLg1',

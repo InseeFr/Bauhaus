@@ -5,17 +5,22 @@ import D from '../../i18n';
 import configureStore from '../../redux/configure-store';
 import { renderWithAppContext } from '../../tests-utils/render';
 import { removeToken } from '../../auth/open-id-connect-auth/token-utils';
+import {vi} from 'vitest';
+import { useLocation } from 'react-router-dom';
 
-jest.mock('react-router-dom', () => ({
-	...jest.requireActual('react-router-dom'),
-	useLocation: jest.fn(),
-}));
-jest.mock('../../utils/env', () => ({
+vi.mock('react-router-dom', async () => {
+	const originalModule = await vi.importActual('react-router-dom');
+	return {
+		...originalModule,
+		useLocation: vi.fn(),
+	}
+});
+vi.mock('../../utils/env', () => ({
 	getEnvVar: (key: string) => (key === 'NAME' ? 'TestApp' : '1.0.0'),
 }));
 
-jest.mock('../../auth/open-id-connect-auth/token-utils', () => ({
-	removeToken: jest.fn(),
+vi.mock('../../auth/open-id-connect-auth/token-utils', () => ({
+	removeToken: vi.fn(),
 }));
 
 const store = configureStore({
@@ -31,14 +36,13 @@ const store = configureStore({
 });
 
 describe('RBACLink Component', () => {
-	let useLocationMock: any;
 
 	beforeEach(() => {
-		useLocationMock = require('react-router-dom').useLocation;
+		vi.clearAllMocks();
 	});
 
 	it('should render children and footer correctly', () => {
-		useLocationMock.mockReturnValue({ pathname: '/' });
+		useLocation.mockReturnValue({ pathname: '/' });
 
 		renderWithAppContext(
 			<Provider store={store}>
@@ -54,7 +58,7 @@ describe('RBACLink Component', () => {
 	});
 
 	it('should call logout and remove token when logout button is clicked', () => {
-		useLocationMock.mockReturnValue({ pathname: '/' });
+		useLocation.mockReturnValue({ pathname: '/' });
 
 		renderWithAppContext(
 			<Provider store={store}>

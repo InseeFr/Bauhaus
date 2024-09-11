@@ -1,14 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { CreatorsInput } from '.';
 import { useStampsOptions } from '../../utils/hooks/stamps';
+import { vi } from 'vitest';
 
 // Mock du hook useStampsOptions
-jest.mock('../../utils/hooks/stamps', () => ({
-	useStampsOptions: jest.fn(),
+vi.mock('../../utils/hooks/stamps', () => ({
+	useStampsOptions: vi.fn(),
 }));
 
 // Mock du composant Select
-jest.mock('../select-rmes', () => ({
+vi.mock('../select-rmes', () => ({
 	Select: ({ onChange }: any) => (
 		<select
 			data-testid="select-mock"
@@ -21,10 +22,10 @@ jest.mock('../select-rmes', () => ({
 }));
 
 describe('CreatorsInput', () => {
-	const mockOnChange = jest.fn();
+	const mockOnChange = vi.fn();
 
 	beforeEach(() => {
-		jest.clearAllMocks();
+		vi.clearAllMocks();
 	});
 
 	it('should render with single select and label for single creator', () => {

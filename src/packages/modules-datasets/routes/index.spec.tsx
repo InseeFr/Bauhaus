@@ -1,14 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import DatasetsComponent from './index';
+import { vi } from 'vitest';
 
-jest.mock('./menu', () => () => 'Menu');
-jest.mock('../datasets/home/home', () => () => 'DatasetHome');
-jest.mock('../datasets/edit/edit', () => () => 'DatasetEdit');
-jest.mock('../datasets/view/view', () => () => 'DatasetView');
-jest.mock('../distributions/home/home', () => () => 'DistributionHome');
-jest.mock('../distributions/edit', () => () => 'DistributionEdit');
-jest.mock('../distributions/view/view', () => () => 'DistributionView');
+
+vi.mock('./menu', () => {
+	return { default: () => 'Menu'}
+});
+vi.mock('../datasets/home/home', () => ({DatasetHome: () => 'DatasetHome'}));
+vi.mock('../datasets/edit/edit', () => ({DatasetEdit:() => 'DatasetEdit'}));
+vi.mock('../datasets/view/view', () => ({DatasetView:() => 'DatasetView'}));
+vi.mock('../distributions/home/home', () => ({DistributionHome: () => 'DistributionHome'}));
+vi.mock('../distributions/edit', () => ({DistributionEdit: () => 'DistributionEdit'}));
+vi.mock('../distributions/view/view', () => ({DistributionView: () => 'DistributionView'}));
 
 describe('Router', () => {
 	it('should display the menu', () => {

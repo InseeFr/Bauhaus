@@ -2,6 +2,7 @@ import { AuthDumb, mapStateToProps } from './auth';
 import { render } from '@testing-library/react';
 import { LOADING } from '../../sdk/constants';
 import { ReduxModel } from '../../redux/model';
+import {vi} from 'vitest';
 
 describe('AuthDumb', () => {
 	it('should return the fallback if the user is not authorized', () => {
@@ -10,7 +11,7 @@ describe('AuthDumb', () => {
 				fallback="fallback"
 				userRoles={['roles']}
 				roles={['roles1']}
-				loadUserStamp={jest.fn()}
+				loadUserStamp={vi.fn()}
 			>
 				Children
 			</AuthDumb>
@@ -23,7 +24,7 @@ describe('AuthDumb', () => {
 				fallback="fallback"
 				userRoles={['roles']}
 				roles={['roles']}
-				loadUserStamp={jest.fn()}
+				loadUserStamp={vi.fn()}
 			>
 				Children
 			</AuthDumb>
@@ -37,7 +38,7 @@ describe('AuthDumb', () => {
 				fallback="fallback"
 				userRoles={['roles']}
 				roles={[['roles', () => true]]}
-				loadUserStamp={jest.fn()}
+				loadUserStamp={vi.fn()}
 				userStamp="stamp"
 			>
 				Children
@@ -52,7 +53,7 @@ describe('AuthDumb', () => {
 				fallback="fallback"
 				userRoles={['roles']}
 				roles={[['roles', () => false]]}
-				loadUserStamp={jest.fn()}
+				loadUserStamp={vi.fn()}
 			>
 				Children
 			</AuthDumb>
@@ -66,7 +67,7 @@ describe('AuthDumb', () => {
 				fallback="fallback"
 				userRoles={['roles']}
 				roles={[['roles', () => true]]}
-				loadUserStamp={jest.fn()}
+				loadUserStamp={vi.fn()}
 			>
 				Children
 			</AuthDumb>

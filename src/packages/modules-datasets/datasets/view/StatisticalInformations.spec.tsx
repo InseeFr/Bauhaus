@@ -4,14 +4,12 @@ import { StatisticalInformations } from './StatisticalInformations'; // Assurez-
 import { Dataset } from '../../../model/Dataset';
 import * as hooks from '../../../utils/hooks/codeslist';
 import * as structureHooks from '../../../utils/hooks/structures';
+import { vi } from 'vitest';
 
-jest.mock('../../../utils/hooks/codeslist');
-jest.mock('../../../utils/hooks/structures');
+vi.mock('../../../utils/hooks/codeslist');
+vi.mock('../../../utils/hooks/structures');
 
 describe('StatisticalInformations Component', () => {
-	beforeEach(() => {
-		jest.clearAllMocks();
-	});
 
 	const mockDataset = {
 		type: 'type1',
@@ -46,8 +44,8 @@ describe('StatisticalInformations Component', () => {
 	});
 
 	it('renders conditional fields correctly', () => {
-		(hooks.useCodesList as jest.Mock).mockReturnValue([]);
-		(structureHooks.useStructures as jest.Mock).mockReturnValue({
+		hooks.useCodesList.mockReturnValue([]);
+		structureHooks.useStructures.mockReturnValue({
 			data: mockStructures,
 		});
 

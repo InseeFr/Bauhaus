@@ -1,5 +1,5 @@
 import { buildApi, computeDscr, guessMethod, buildCall } from './build-api';
-
+import {vi} from 'vitest'
 describe('guess method from end point', () => {
 	it('should return GET', () => {
 		expect(guessMethod('getSomething')).toEqual('GET');
@@ -27,7 +27,7 @@ const postCommentFn = (username: string, info: unknown) => [
 
 describe('compute api call description', () => {
 	it('should fetch an url with some options and chain the given then handler', () => {
-		global.fetch = jest.fn();
+		global.fetch = vi.fn();
 		const [url, options, thenHandler] = computeDscr(postCommentFn, [
 			'john',
 			'some raw text',
@@ -41,7 +41,7 @@ describe('compute api call description', () => {
 describe('build call', () => {
 	it('returns a function which calls fetch with the computed body and chains it with the given handler', () => {
 		const resPromise = () => Promise.resolve(42);
-		const fetch = jest.fn(() =>
+		const fetch = vi.fn(() =>
 			Promise.resolve({
 				ok: true,
 				text: resPromise,
@@ -57,7 +57,7 @@ describe('build call', () => {
 describe('build api', () => {
 	it('takes an object and returns an object with the same properties', () => {
 		expect(
-			buildApi('http://localhost:8080', { getSomething: jest.fn() })
+			buildApi('http://localhost:8080', { getSomething: vi.fn() })
 		).toHaveProperty('getSomething');
 	});
 	buildApi('http://localhost:8080', { getSomething: () => ['people'] });

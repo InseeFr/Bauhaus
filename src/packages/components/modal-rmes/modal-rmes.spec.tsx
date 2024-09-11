@@ -4,12 +4,12 @@ import { ModalRmes } from './modal-rmes';
 const modalButtons = [
 	{
 		label: 'primary',
-		action: jest.fn(),
+		action: vi.fn(),
 		style: 'primary',
 	},
 	{
 		label: 'default',
-		action: jest.fn(),
+		action: vi.fn(),
 		style: 'default',
 	},
 ];
@@ -21,7 +21,7 @@ describe('modal', () => {
 				id="id"
 				isOpen={true}
 				title="title"
-				closeCancel={jest.fn()}
+				closeCancel={vi.fn()}
 				modalButtons={modalButtons}
 			/>
 		);

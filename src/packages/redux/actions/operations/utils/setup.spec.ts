@@ -2,7 +2,7 @@ import { loadOrganisations } from './setup';
 import * as A from '../../../actions/constants';
 import { OrganisationsApi } from '../../../../sdk';
 
-const dispatch = jest.fn();
+const dispatch = vi.fn();
 describe('setup operations', () => {
 	describe('loadOrganisations', () => {
 		it('should call dispatch LOAD_OPERATIONS_ORGANISATIONS_SUCCESS action with the right operation', async () => {

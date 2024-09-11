@@ -54,7 +54,7 @@ export default auth(() => {
 			const app = appName.trim();
 			return {
 				...acc,
-				[app]: lazy(() => import('../../modules-' + app + '/routes')),
+				[app]: lazy(() => import(`../../modules-${app}/routes/index.tsx`)),
 			};
 		}, []);
 	}, [modules]);

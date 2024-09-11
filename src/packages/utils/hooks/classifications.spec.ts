@@ -1,16 +1,17 @@
 import { useClassifications } from './classifications';
 import { renderHook } from '@testing-library/react';
+import { vi } from 'vitest';
 
-jest.mock('@tanstack/react-query', () => ({
-	useQuery: jest.fn(),
+vi.mock('@tanstack/react-query', () => ({
+	useQuery: vi.fn().mockReturnValue({
+		isLoading: true,
+		data: ['data'],
+	})
 }));
 
 describe('useClassifications', () => {
 	it('should call useQuery', () => {
-		require('@tanstack/react-query').useQuery.mockReturnValue({
-			isLoading: true,
-			data: ['data'],
-		});
+		require('@tanstack/react-query')
 
 		const { result } = renderHook(() => useClassifications());
 

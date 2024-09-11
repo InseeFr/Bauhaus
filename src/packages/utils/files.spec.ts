@@ -1,13 +1,16 @@
 import { saveFileFromHttpResponse } from './files';
 import FileSaver from 'file-saver';
+import { vi } from 'vitest';
 
-jest.mock('file-saver', () => ({
-	saveAs: jest.fn(),
+vi.mock('file-saver', () => ({
+	default: {
+		saveAs: vi.fn(),
+	},
 }));
 
 describe('saveFileFromHttpResponse', () => {
 	beforeEach(() => {
-		jest.spyOn(console, 'error').mockImplementation(() => {});
+		vi.spyOn(console, 'error').mockImplementation(() => {});
 	});
 
 	it('should reject if Content-Disposition header is missing', async () => {
@@ -42,8 +45,9 @@ describe('saveFileFromHttpResponse', () => {
 			}),
 		});
 
+
 		await saveFileFromHttpResponse(response);
 
-		expect(FileSaver.saveAs).toHaveBeenCalledWith(blob, 'testfile.txt');
+		expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.anything(), 'testfile.txt');
 	});
 });

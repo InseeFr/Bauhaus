@@ -2,13 +2,13 @@ import { render, screen } from '@testing-library/react';
 import { useClassifications } from '../utils/hooks/classifications';
 import ClassificationsHomeContainer from './home-container';
 
-jest.mock('../utils/hooks/classifications');
+vi.mock('../utils/hooks/classifications');
 
-jest.mock('../components', () => ({
+vi.mock('../components', () => ({
 	Loading: () => <div data-testid="loading">Loading...</div>,
 }));
 
-jest.mock('./home', () => ({
+vi.mock('./home', () => ({
 	__esModule: true,
 	default: ({ classifications }: any) => (
 		<div data-testid="classifications-home">

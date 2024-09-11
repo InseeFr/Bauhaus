@@ -1,20 +1,18 @@
 import { renderHook } from '@testing-library/react';
 import { useStructures } from './structures';
+import { vi } from 'vitest';
 
-jest.mock('@tanstack/react-query', () => ({
-	useQuery: jest.fn(),
+vi.mock('@tanstack/react-query', () => ({
+	useQuery: vi.fn().mockReturnValue({
+		isLoading: false,
+		data: ['data'],
+	}),
 }));
 
 describe('useStructures', () => {
 	it('should call useQuery', () => {
-		require('@tanstack/react-query').useQuery.mockReturnValue({
-			isLoading: true,
-			data: ['data'],
-		});
-
 		const { result } = renderHook(() => useStructures());
-
-		expect(result.current.isLoading).toBe(true);
+		expect(result.current.isLoading).toBe(false);
 		expect(result.current.data).toEqual(['data']);
 	});
 });

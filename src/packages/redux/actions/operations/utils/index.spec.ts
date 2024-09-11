@@ -1,6 +1,6 @@
 import { getItemFactory, getPublishFactory } from './index';
 
-const dispatch = jest.fn();
+const dispatch = vi.fn();
 
 describe('getItemFactory', () => {
 	beforeEach(() => dispatch.mockClear());

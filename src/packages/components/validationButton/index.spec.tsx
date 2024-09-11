@@ -7,7 +7,7 @@ describe('<ValidationButton', () => {
 		const { container } = render(
 			<ValidationButton
 				object={{ validationState: 'Validated' }}
-				callback={jest.fn()}
+				callback={vi.fn()}
 				disabled={false}
 			/>
 		);
@@ -16,7 +16,7 @@ describe('<ValidationButton', () => {
 
 	it('should contain a enabled button if the validationStateis not defined', () => {
 		const { container } = render(
-			<ValidationButton object={{}} callback={jest.fn()} disabled={false} />
+			<ValidationButton object={{}} callback={vi.fn()} disabled={false} />
 		);
 		expect(container.querySelector('button')).toBeEnabled();
 	});
@@ -25,7 +25,7 @@ describe('<ValidationButton', () => {
 		const { container } = render(
 			<ValidationButton
 				object={{ validationState: 'updated' }}
-				callback={jest.fn()}
+				callback={vi.fn()}
 				disabled={false}
 			/>
 		);
@@ -33,7 +33,7 @@ describe('<ValidationButton', () => {
 	});
 
 	it('should call the callback if we click on the button', () => {
-		const callback = jest.fn();
+		const callback = vi.fn();
 		const object = { validationState: 'updated' };
 		const { container } = render(
 			<ValidationButton object={object} callback={callback} disabled={false} />
@@ -44,7 +44,7 @@ describe('<ValidationButton', () => {
 	});
 
 	it('should be disabled if the property disabled is set to true', () => {
-		const callback = jest.fn();
+		const callback = vi.fn();
 		const object = { validationState: 'updated' };
 		const { container } = render(
 			<ValidationButton object={object} callback={callback} disabled={true} />
