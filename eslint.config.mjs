@@ -13,8 +13,8 @@ export default [
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
   {
+    settings: { react: { version: '18.3' } },
     rules: {
-      "react/react-in-jsx-scope": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "react/prop-types": "off",
       "no-extra-boolean-cast": "off",
