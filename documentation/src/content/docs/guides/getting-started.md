@@ -28,7 +28,7 @@ Unit tests are launched each time a `git push` is executed.
 
 To build the application, run `yarn build`. You can now serve the content of the `dist` folder with the HTTP server of your choice. 
 
-For the deployment needs at INSEE, the CI will need to use the yarn build-insee command. This command will also create an archive (zip) containing the project in order to deploy it.
+For the deployment needs at INSEE, the CI will need to use the yarn build command. This command will also create an archive (zip) containing the project in order to deploy it.
 
 ### Docker
 

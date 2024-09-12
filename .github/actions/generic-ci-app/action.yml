@@ -17,4 +17,4 @@ runs:
       run: npm run test:coverage
     - name: 🧪 Building the application
       shell: bash
-      run: npm run build-insee
+      run: npm run build

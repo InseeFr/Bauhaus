@@ -7,7 +7,7 @@ COPY ./ ./
 
 RUN npm install --force
 
-RUN npm run build-insee
+RUN npm run build
 
 # Étape d'exécution
 FROM nginxinc/nginx-unprivileged:mainline-alpine
