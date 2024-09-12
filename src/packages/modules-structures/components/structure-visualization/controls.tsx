@@ -14,16 +14,17 @@ import { usePermission } from '../../../redux/hooks/usePermission';
 import { Structure } from '../../../model/structures/Structure';
 
 type ControlsTypes = {
-	structure: Structure,
-	publish: () => void
-}
+	structure: Structure;
+	publish: () => void;
+};
 const Controls = ({ structure, publish }: ControlsTypes) => {
-
 	const permission = usePermission();
-	const contributors  = Array.isArray(structure.contributor) ? structure.contributor : [structure.contributor]
+	const contributors = Array.isArray(structure.contributor)
+		? structure.contributor
+		: [structure.contributor];
 
 	const { id } = structure;
-	let history = useHistory();
+	const history = useHistory();
 
 	const handleDelete = () => {
 		StructureApi.deleteStructure(id).finally(() => {
@@ -31,7 +32,9 @@ const Controls = ({ structure, publish }: ControlsTypes) => {
 		});
 	};
 
-	const hasRightsBasedOnStamp = contributors.find(contributor => contributor === permission.stamp) && permission?.roles?.includes(STRUCTURE_CONTRIBUTOR);
+	const hasRightsBasedOnStamp =
+		contributors.find((contributor) => contributor === permission.stamp) &&
+		permission?.roles?.includes(STRUCTURE_CONTRIBUTOR);
 	const isAdmin = permission?.roles?.includes(ADMIN);
 	return (
 		<ActionToolbar>

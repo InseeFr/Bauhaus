@@ -11,8 +11,9 @@ export default [
   {languageOptions: { globals: globals.browser }},
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
+  pluginReact.configs.flat['jsx-runtime'],
   {
+
     settings: { react: { version: '18.3' } },
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
@@ -20,7 +21,6 @@ export default [
       "no-extra-boolean-cast": "off",
       '@typescript-eslint/ban-ts-comment': 'off',
       "react/no-deprecated": "off",
-      "prefer-const": "off",
       "@typescript-eslint/no-require-imports": "off",
       "no-case-declarations": "off",
       "react/no-unknown-property": "off",
@@ -33,9 +33,8 @@ export default [
       "no-irregular-whitespace": "off",
       "@typescript-eslint/no-empty-object-type": "off",
       "@typescript-eslint/no-unnecessary-type-constraint": "off",
-      "prefer-spread": "off",
       "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
-      "no-prototype-builtins": "off",
+      "no-prototype-builtins": "off"
     },
     languageOptions: {
       globals: {
@@ -48,5 +47,9 @@ export default [
       }
     },
 
+  },
+  {
+
+    ignores: ["**/*.svg"],
   }
 ];

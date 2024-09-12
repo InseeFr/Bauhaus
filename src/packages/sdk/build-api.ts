@@ -85,7 +85,7 @@ export const computeDscr = (fn: any, [...args]) => {
 				`\`${dscr}\`.`
 		);
 	}
-	let [url, options, thenHandler] = dscr;
+	const [url, options, thenHandler] = dscr;
 	//We don't deep merge: all nested properties in default options (ie.
 	//headers.Accept) are lost. Hence, if a prop option is overriden (ie.
 	//headers), all relevant options should be present.
@@ -119,7 +119,7 @@ export const getBaseURI = () => {
 
 export const buildCall = (context: string, resource: string, fn: any) => {
 	return async (...args: any[]) => {
-		let [path, options, thenHandler] = computeDscr(fn, args);
+		const [path, options, thenHandler] = computeDscr(fn, args);
 		if (!options.method) {
 			options.method = guessMethod(resource);
 		}

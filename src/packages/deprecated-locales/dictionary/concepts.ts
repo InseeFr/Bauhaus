@@ -232,9 +232,9 @@ const dictionary = {
 	},
 	conceptMailDefault: {
 		fr: (params: any[]) => {
-			let prefLabelLg1 = params[1],
+			let validText = '';
+			const prefLabelLg1 = params[1],
 				id = params[2],
-				validText = '',
 				href = params[0] + 'concept/' + id,
 				inseeText = ` (<a href=${href}>Lien vers le concept</a>)`;
 			if (params.includes('false'))
@@ -249,9 +249,9 @@ const dictionary = {
           DMCSI - Unité Qualité</p>`;
 		},
 		en: (params: any[]) => {
-			let prefLabelLg1 = params[1],
+			let validText = '';
+			const prefLabelLg1 = params[1],
 				id = params[2],
-				validText = '',
 				href = params[0] + 'concept/' + id,
 				inseeText = ` (<a href=${href}>Concept link</a>)`;
 			if (params.includes('false'))
@@ -282,9 +282,9 @@ const dictionary = {
 	},
 	collectionMailDefault: {
 		fr: (params: any[]) => {
-			let prefLabelLg1 = params[1],
+			let validText = '';
+			const prefLabelLg1 = params[1],
 				id = params[2],
-				validText = '',
 				href = params[0] + 'collection/' + id,
 				inseeText = ` (<a href=${href}>Lien vers la collection</a>)`;
 			if (params.includes('false'))
@@ -299,9 +299,10 @@ const dictionary = {
 	          DMCSI - Unité Qualité</p>`;
 		},
 		en: (params: any[]) => {
-			let prefLabelLg1 = params[1],
+			let validText = '';
+
+			const prefLabelLg1 = params[1],
 				id = params[2],
-				validText = '',
 				href = params[0] + 'collection/' + id,
 				inseeText = ` (<a href=${href}>Collection link</a>)`;
 			if (params.includes('false'))

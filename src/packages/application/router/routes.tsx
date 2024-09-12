@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useMemo, memo } from 'react';
+import { Suspense, lazy, useEffect, useMemo } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import auth from '../../auth/hoc';
@@ -7,13 +7,16 @@ import App from '../app';
 import { Loading, NotFound, UnderMaintenance } from '../../components';
 import { useAppContext } from '../app-context';
 
-
 type ModuleHomePage = {
 	pageName: string;
-	pages: Record<string, any>,
-	activeModules: string[]
-}
-const ModuleHomePage = ({ pageName, pages, activeModules}: Readonly<ModuleHomePage>) => {
+	pages: Record<string, any>;
+	activeModules: string[];
+};
+const ModuleHomePage = ({
+	pageName,
+	pages,
+	activeModules,
+}: Readonly<ModuleHomePage>) => {
 	if (!activeModules.includes(pageName)) {
 		return UnderMaintenance;
 	}
@@ -70,45 +73,56 @@ export default auth(() => {
 		<Suspense fallback={<Loading />}>
 			<Switch>
 				<Route exact path="/">
-
 					{homePage}
 				</Route>
 
-
-				<Route
-					path="/(concept|concepts|collections|collection)"
-				>
-					<ModuleHomePage pageName="concepts" pages={pages} activeModules={activeModules} />
+				<Route path="/(concept|concepts|collections|collection)">
+					<ModuleHomePage
+						pageName="concepts"
+						pages={pages}
+						activeModules={activeModules}
+					/>
 				</Route>
-				<Route
-					path="/classifications"
-				>
-					<ModuleHomePage pageName="classifications" pages={pages} activeModules={activeModules} />
+				<Route path="/classifications">
+					<ModuleHomePage
+						pageName="classifications"
+						pages={pages}
+						activeModules={activeModules}
+					/>
 				</Route>
-				<Route
-					path="/operations"
-				>
-
-					<ModuleHomePage pageName="operations" pages={pages} activeModules={activeModules} />
+				<Route path="/operations">
+					<ModuleHomePage
+						pageName="operations"
+						pages={pages}
+						activeModules={activeModules}
+					/>
 				</Route>
-				<Route
-					path="/structures"
-				>
-					<ModuleHomePage pageName="structures" pages={pages} activeModules={activeModules} />
-				</Route>
-
-				<Route
-					path="/datasets"
-				>
-					<ModuleHomePage pageName="datasets" pages={pages} activeModules={activeModules} />
-				</Route>
-				<Route
-					path="/(codelists|codelists-partial)"
-				>
-					<ModuleHomePage pageName="codelists" pages={pages} activeModules={activeModules} />
+				<Route path="/structures">
+					<ModuleHomePage
+						pageName="structures"
+						pages={pages}
+						activeModules={activeModules}
+					/>
 				</Route>
 
-				<Route path="*"><NotFound /></Route>
+				<Route path="/datasets">
+					<ModuleHomePage
+						pageName="datasets"
+						pages={pages}
+						activeModules={activeModules}
+					/>
+				</Route>
+				<Route path="/(codelists|codelists-partial)">
+					<ModuleHomePage
+						pageName="codelists"
+						pages={pages}
+						activeModules={activeModules}
+					/>
+				</Route>
+
+				<Route path="*">
+					<NotFound />
+				</Route>
 			</Switch>
 		</Suspense>
 	);
