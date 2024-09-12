@@ -85,7 +85,9 @@ export const computeDscr = (fn: any, [...args]) => {
 				`\`${dscr}\`.`
 		);
 	}
-	const [url, options, thenHandler] = dscr;
+	const [url] = dscr as any;
+	let options = dscr[1];
+	let thenHandler = dscr[2];
 	//We don't deep merge: all nested properties in default options (ie.
 	//headers.Accept) are lost. Hence, if a prop option is overriden (ie.
 	//headers), all relevant options should be present.
