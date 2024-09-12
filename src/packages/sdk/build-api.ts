@@ -154,9 +154,10 @@ const patterns = {
  * Takes a string and returns an HTTP verb
  */
 export const guessMethod = (name: string) => {
-	const matchPattern = Object.entries(patterns).find(([_method, pattern]) =>
-		pattern.test(name)
-	);
+	const matchPattern = Object.entries(patterns).find((config) => {
+		const pattern = config[1];
+		return pattern.test(name);
+	});
 	if (!matchPattern)
 		throw new Error(`Could not guess http method from \`${name}\``);
 	const [method] = matchPattern;

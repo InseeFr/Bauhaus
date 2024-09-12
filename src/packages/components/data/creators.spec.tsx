@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { Organizations, Organization } from './creators';
 import { Organization as OrganizationType } from '../../model/organization';

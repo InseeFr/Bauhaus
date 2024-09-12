@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { PageSubtitle } from '@inseefr/wilco';
 import { PageTitle, Loading, CheckSecondLang } from '../../../components';
 

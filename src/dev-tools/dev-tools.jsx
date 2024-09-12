@@ -1,4 +1,3 @@
-import React from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import {
 	ADMIN,
@@ -33,7 +32,6 @@ const options = [
 function install(store) {
 	import('./dev-tools.scss');
 	window.devToolsEnabled = true;
-
 
 	function AdminTool() {
 		const rolesAndStamps = useSelector((state) => state.app.auth.user);

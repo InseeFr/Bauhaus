@@ -1,10 +1,9 @@
-import {vi} from 'vitest';
+import { vi } from 'vitest';
 import { StructureView } from './index';
 import { Provider } from 'react-redux';
 import configureStore from '../../redux/configure-store';
 import { renderWithAppContext } from '../../tests-utils/render';
 import { Structure } from '../../model/structures/Structure';
-import React from 'react';
 import { DescriptionsPanel } from './components/descriptions-panel';
 import { GlobalInformationsPanel } from './components/global-informations-panel';
 import { ComponentsPanel } from './components/components-panel';

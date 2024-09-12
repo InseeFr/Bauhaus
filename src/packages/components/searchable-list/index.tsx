@@ -53,7 +53,7 @@ export const SearchableList = ({
 	colOff = undefined,
 	label = 'label',
 	autoFocus = false,
-	itemFormatter = (content: any, _object: any) => content,
+	itemFormatter = (content: any) => content,
 }: SearchableListTypes) => {
 	const {
 		form: { search },

@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { StatisticalInformations } from './StatisticalInformations'; // Assurez-vous que le chemin vers le composant est correct
 import { Dataset } from '../../../model/Dataset';
@@ -10,7 +9,6 @@ vi.mock('../../../utils/hooks/codeslist');
 vi.mock('../../../utils/hooks/structures');
 
 describe('StatisticalInformations Component', () => {
-
 	const mockDataset = {
 		type: 'type1',
 		statisticalUnit: ['unit1'],

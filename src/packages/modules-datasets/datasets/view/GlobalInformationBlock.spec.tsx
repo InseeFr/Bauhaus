@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { GlobalInformationBlock } from './GlobalInformationBlock';
 import * as useThemesHook from '../useThemes';
@@ -52,9 +51,8 @@ describe('GlobalInformationBlock', () => {
 			],
 		} as any);
 
-		vi
-			.spyOn(useCodesListHook, 'useCodesList')
-			.mockImplementation((notation) => {
+		vi.spyOn(useCodesListHook, 'useCodesList').mockImplementation(
+			(notation) => {
 				switch (notation) {
 					case 'CL_ACCESS_RIGHTS':
 						return {
@@ -73,7 +71,8 @@ describe('GlobalInformationBlock', () => {
 					default:
 						return {} as CodesList;
 				}
-			});
+			}
+		);
 	});
 
 	it('should render the GlobalInformationBlock with correct data', () => {
@@ -88,9 +87,9 @@ describe('GlobalInformationBlock', () => {
 	});
 
 	it('should return null if organizations data is not available', () => {
-		vi
-			.spyOn(useOrganizationsHook, 'useOrganizations')
-			.mockReturnValue({ data: undefined } as any);
+		vi.spyOn(useOrganizationsHook, 'useOrganizations').mockReturnValue({
+			data: undefined,
+		} as any);
 
 		const { container } = render(
 			<GlobalInformationBlock dataset={mockDataset} />

@@ -1,5 +1,4 @@
 // @ts-ignore
-import React from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import D from '../../../deprecated-locales/build-dictionary';
 import { useDatasets } from '../../datasets';

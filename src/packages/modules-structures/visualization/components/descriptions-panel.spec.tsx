@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { DescriptionsPanel } from './descriptions-panel';
 import { D1 } from '../../../deprecated-locales';
@@ -12,7 +11,6 @@ vi.mock('../../../utils/hooks/second-lang', () => ({
 describe('DescriptionsPanel', async () => {
 	const mockDescriptionLg1 = 'Description in first language';
 	const mockDescriptionLg2 = 'Description in second language';
-
 
 	beforeEach(() => {
 		vi.clearAllMocks();

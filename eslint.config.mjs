@@ -24,7 +24,6 @@ export default [
       "@typescript-eslint/no-require-imports": "off",
       "no-case-declarations": "off",
       "react/no-unknown-property": "off",
-      "@typescript-eslint/no-unused-vars": "off",
       "react/no-children-prop": "off",
       "react/jsx-key": "off",
       "react/display-name": "off",

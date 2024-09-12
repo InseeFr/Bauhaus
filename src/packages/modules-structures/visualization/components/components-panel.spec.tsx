@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { ComponentsPanel } from './components-panel';
 import { getFormattedCodeList } from '../../apis';
@@ -51,9 +50,7 @@ describe('ComponentsPanel', () => {
 	it('should render StructureComponentsSelector and CodesListPanel', async () => {
 		render(<ComponentsPanel componentDefinitions={[]} />);
 
-		expect((StructureComponentsSelector as Mock).mock.calls).toHaveLength(
-			1
-		);
+		expect((StructureComponentsSelector as Mock).mock.calls).toHaveLength(1);
 		expect((CodesListPanel as jest.Mock).mock.calls).toHaveLength(1);
 	});
 });
