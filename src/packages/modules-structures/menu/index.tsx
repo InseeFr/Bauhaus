@@ -56,7 +56,7 @@ const MenuDSDs = () => {
 			{}
 		);
 
-		for (let key in paths) {
+		for (const key in paths) {
 			if (paths[key]['pathKey'].test(pathname)) {
 				paths[key]['className'] = ACTIVE;
 				paths[key]['attrs'] = defaultAttrs;
