@@ -6,7 +6,12 @@ import pluginReact from "eslint-plugin-react";
 
 export default [
   {
-    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"]
+
+    ignores: ["**/*.svg", "documentation/", "website/", "build/", "scripts"],
+  },
+  {
+
+    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
   },
   {languageOptions: { globals: globals.browser }},
   pluginJs.configs.recommended,
@@ -17,14 +22,11 @@ export default [
     settings: { react: { version: '18.3' } },
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
-      "react/prop-types": "off",
       "no-extra-boolean-cast": "off",
       '@typescript-eslint/ban-ts-comment': 'off',
-      "react/no-deprecated": "off",
       "@typescript-eslint/no-require-imports": "off",
       "no-case-declarations": "off",
       "react/no-unknown-property": "off",
-      "react/no-children-prop": "off",
       "react/jsx-key": "off",
       "react/display-name": "off",
       "@typescript-eslint/no-unused-expressions": "off",
@@ -45,10 +47,5 @@ export default [
         global: "readonly"
       }
     },
-
-  },
-  {
-
-    ignores: ["**/*.svg"],
   }
 ];

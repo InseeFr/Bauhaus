@@ -209,14 +209,10 @@ const dictionary = {
 		en: 'Please select versioning type',
 	},
 	conceptVersioningBody: {
-		fr: (
-			label: string
-		) => `<p>Les notes du concept « <b>${label}</b> » ont été modifiées.</p>
-            <p>Voulez-vous créer une nouvelle version, ou écraser les données précédentes ?</p>`,
-		en: (
-			label: string
-		) => `<p>Concept “<b>${label}</b>” notes have been modified.</p>
-            <p>Would you like to create a new version, or update the previous one?</p>`,
+		fr: (label: string) =>
+			`<p>Les notes du concept « <b>${label}</b> » ont été modifiées.</p><p>Voulez-vous créer une nouvelle version, ou écraser les données précédentes ?</p>`,
+		en: (label: string) =>
+			`<p>Concept “<b>${label}</b>” notes have been modified.</p><p>Would you like to create a new version, or update the previous one?</p>`,
 	},
 	conceptVersioningFooter: {
 		fr: `<p>Pour créer une nouvelle version, la note de changement doit être documentée :</p>

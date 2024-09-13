@@ -1,5 +1,5 @@
 import { buildApi, computeDscr, guessMethod, buildCall } from './build-api';
-import {vi} from 'vitest'
+import { vi } from 'vitest';
 describe('guess method from end point', () => {
 	it('should return GET', () => {
 		expect(guessMethod('getSomething')).toEqual('GET');
