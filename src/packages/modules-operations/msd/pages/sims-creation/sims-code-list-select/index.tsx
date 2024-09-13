@@ -37,7 +37,7 @@ export const SimsCodeListSelect = ({
 			placeholder=""
 			value={value}
 			options={options}
-			onChange={onChange}
+			onChange={onChangeHandler}
 			multi={multi}
 		/>
 	);

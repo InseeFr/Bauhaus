@@ -41,8 +41,6 @@ export const VIEW = 'VIEW';
 export const UPDATE = 'UPDATE';
 export const DUPLICATE = 'DUPLICATE';
 
-const sortByLabel = sortArray('labelLg1');
-
 class MSDContainer extends Component {
 	static defaultProps = {
 		currentSims: {},
