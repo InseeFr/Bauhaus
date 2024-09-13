@@ -1,8 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import D from '../../../../deprecated-locales';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Button, Note, Panel, CancelButton } from '@inseefr/wilco';
+import { Button, CancelButton, Note, Panel } from '@inseefr/wilco';
 
 import * as A from '../../../../redux/actions/constants';
 
@@ -14,16 +14,17 @@ import Modal from 'react-modal';
 import { SimsFieldTitle } from '../../sims-field-title';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import {
-	PublicationFemale,
-	Row,
-	ErrorBloc,
 	CheckSecondLang,
 	ConfirmationDelete,
 	CreationUpdateItems,
+	ErrorBloc,
+	PublicationFemale,
+	Row,
 } from '../../../../components';
 import { OperationsApi } from '../../../../sdk/operations-api';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../../utils/hooks/second-lang';
+import { useDocumentsStoreContext } from '../sims-creation/documents-store-context';
 
 export default function SimsVisualisation({
 	metadataStructure,
@@ -33,9 +34,9 @@ export default function SimsVisualisation({
 	publishSims,
 	exportCallback,
 	missingDocuments,
-	documentStores,
 	owners = [],
 }) {
+	const documentStores = useDocumentsStoreContext();
 	const [secondLang] = useSecondLang();
 	const [modalOpened, setModalOpened] = useState(false);
 	const [exportModalOpened, setExportModalOpened] = useState(false);

@@ -30,6 +30,7 @@ import { isLoaded, loadGeographies } from '../../redux/geographies.action';
 import { GeneralApi } from '../../sdk/general-api';
 import { OperationsApi } from '../../sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
+import { DocumentsStoreProvider } from './pages/sims-creation/documents-store-context';
 
 const extractId = buildExtract('id');
 const extractIdParent = buildExtract('idParent');
@@ -115,7 +116,6 @@ class MSDContainer extends Component {
 			organisations,
 			parentType,
 			parent,
-			documentStores,
 			goBack,
 		} = this.props;
 
@@ -199,7 +199,6 @@ class MSDContainer extends Component {
 							publishSims={this.props.publishSims}
 							exportCallback={this.exportCallback}
 							missingDocuments={this.state.missingDocuments}
-							documentStores={documentStores}
 							owners={this.state.owners}
 						/>
 					</SimsContextProvider>
@@ -217,7 +216,6 @@ class MSDContainer extends Component {
 							mode={mode}
 							organisations={organisations}
 							parentType={parentType}
-							documentStores={documentStores}
 							defaultSimsRubrics={this.state.defaultSimsRubrics}
 						/>
 					</SimsContextProvider>
@@ -285,7 +283,10 @@ const MSDContainerWithParent = (props) => {
 	const parentType = match.params[0];
 	const [parent, setParent] = useState(props.parent);
 	const [loading, setLoading] = useState(true);
-	const [documentStores, setDocumentStores] = useState([]);
+	const [documentStores, setDocumentStores] = useState({
+		lg1: [],
+		lg2: [],
+	});
 
 	const goBack = useGoBack();
 
@@ -318,28 +319,29 @@ const MSDContainerWithParent = (props) => {
 
 	useEffect(() => {
 		GeneralApi.getDocumentsList().then((results) => {
-			setDocumentStores(
-				sortByLabel(
-					results.map((document) => {
-						return {
-							...document,
-							id: document.uri.substr(document.uri.lastIndexOf('/') + 1),
-						};
-					})
-				)
-			);
+			const unSortedDocuments = results.map((document) => {
+				return {
+					...document,
+					id: document.uri.substr(document.uri.lastIndexOf('/') + 1),
+				};
+			});
+			setDocumentStores({
+				lg1: sortArray('labelLg1')(unSortedDocuments),
+				lg2: sortArray('labelLg2')(unSortedDocuments),
+			});
 		});
 	}, []);
 	if (loading) return <Loading textType="loadableLoading" />;
 	return (
-		<MSDContainer
-			{...props}
-			documentStores={documentStores}
-			currentSims={currentSims}
-			parent={parent}
-			goBack={goBack}
-			match={match}
-		/>
+		<DocumentsStoreProvider value={documentStores}>
+			<MSDContainer
+				{...props}
+				currentSims={currentSims}
+				parent={parent}
+				goBack={goBack}
+				match={match}
+			/>
+		</DocumentsStoreProvider>
 	);
 };
 

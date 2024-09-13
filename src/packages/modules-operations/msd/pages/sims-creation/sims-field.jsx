@@ -3,52 +3,20 @@ import D from '../../../../deprecated-locales';
 import { rangeType } from '../../../utils/msd';
 import {
 	DatePicker,
-	InputRmes,
-	EditorMarkdownToolbar,
 	EditorDeleteButton,
+	EditorMarkdownToolbar,
+	InputRmes,
 	Select,
 } from '../../../../components';
 import SimsGeographyPicker from '../../../../modules-operations/components/sims/sims-geography-picker';
 import { Editor } from 'react-draft-wysiwyg';
-import { Note, getLang } from '@inseefr/wilco';
+import { getLang, Note } from '@inseefr/wilco';
 import './sims-field.scss';
 import { SimsFieldTitle } from '../../sims-field-title';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
+import { SimsCodeListSelect } from './sims-code-list-select';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
-const SimsCodeListSelect = (props) => {
-	let value;
-	let onChange;
-
-	if (!props.multi) {
-		value = props.options.find(
-			({ value }) => value === props.currentSection.value
-		);
-		onChange = props.onChange;
-	} else {
-		const currentSectionValue = Array.isArray(props.currentSection.value)
-			? props.currentSection.value
-			: [props.currentSection.value];
-
-		value = props.options.filter(({ value }) =>
-			currentSectionValue.includes(value)
-		);
-		onChange = (values) => {
-			props.onChange((values || []).map(({ value }) => value));
-		};
-	}
-
-	return (
-		<Select
-			placeholder=""
-			aria-label={props['aria-label']}
-			value={value}
-			options={props.options}
-			onChange={onChange}
-			multi={props.multi}
-		/>
-	);
-};
 
 class SimsField extends PureComponent {
 	_handleChange(override) {
