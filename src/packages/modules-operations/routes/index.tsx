@@ -38,5 +38,4 @@ const RootComponent = () => {
 	);
 };
 
-const Routes = () => <Route path="/"><RootComponent /></Route>;
-export default Routes;
+export default RootComponent;

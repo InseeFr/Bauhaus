@@ -9,12 +9,12 @@ import MSDContainer, {
 const Sims = () => {
 	return (
 		<Switch>
-			<Route exact path="/operations/msd" component={MSDContainer} />
-			<Route
-				exact
-				path="/operations/help/:idSection"
-				component={MSDContainer}
-			/>
+			<Route exact path="/operations/msd">
+				<MSDContainer />
+			</Route>
+			<Route exact path="/operations/help/:idSection">
+				<MSDContainer />
+			</Route>
 			<Route
 				exact
 				path="/operations/(operation|series|indicator)/:idParent/sims/create"
