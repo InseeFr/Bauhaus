@@ -5,7 +5,10 @@ import { formatValidation } from '../../../utils/validation';
 const Operation = z.object({
 	series: z.object(
 		{
-			id: z.string(),
+			id: z
+				.string({ required_error: D.mandatoryProperty(D1.seriesTitle) })
+				.trim()
+				.min(1, { message: D.mandatoryProperty(D1.seriesTitle) }),
 		},
 		{
 			required_error: D.mandatoryProperty(D1.seriesTitle),

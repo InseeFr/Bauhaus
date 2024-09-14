@@ -13,6 +13,7 @@ export const CreatorsInput = ({
 	multi?: boolean;
 }>) => {
 	const stampsOptions = useStampsOptions();
+
 	let creatorsArray = value;
 	if (multi && !Array.isArray(value)) {
 		creatorsArray = [value];
@@ -27,8 +28,6 @@ export const CreatorsInput = ({
 			</LabelRequired>
 			<Select
 				placeholder={D1.stampsPlaceholder}
-				unclearable
-				multi={multi}
 				value={creatorsArray}
 				options={stampsOptions}
 				onChange={(value: string | string[]) => {
@@ -38,6 +37,7 @@ export const CreatorsInput = ({
 						onChange((value as any[]).map((v) => v.value));
 					}
 				}}
+				multi={multi}
 			/>
 		</div>
 	);

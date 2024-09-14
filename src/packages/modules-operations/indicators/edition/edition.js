@@ -30,11 +30,11 @@ const defaultIndicator = {
 	historyNoteLg2: '',
 	accrualPeriodicityList: CL_FREQ,
 };
+
 class OperationsIndicatorEdition extends Component {
 	constructor(props) {
 		super(props);
 		this.state = this.setInitialState(props);
-
 		this.onChanges = [
 			'prefLabelLg1',
 			'prefLabelLg2',
@@ -53,6 +53,7 @@ class OperationsIndicatorEdition extends Component {
 			{}
 		);
 	}
+
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.indicator.id !== this.props.indicator.id) {
 			this.setState(this.setInitialState(nextProps));
@@ -99,7 +100,6 @@ class OperationsIndicatorEdition extends Component {
 		} else {
 			this.setState({ saving: true });
 			const isCreation = !this.state.indicator.id;
-
 			const method = isCreation ? 'createIndicator' : 'updateIndicator';
 			return OperationsApi[method](this.state.indicator)
 				.then(
@@ -120,7 +120,9 @@ class OperationsIndicatorEdition extends Component {
 		if (this.state.saving) return <Loading textType="saving" />;
 
 		const { frequencies, organisations, indicators, series } = this.props;
+
 		const isUpdate = !!this.state.indicator.id;
+
 		const indicator = {
 			...this.state.indicator,
 			seeAlso: (this.state.indicator.seeAlso || []).map((link) => link.id),
@@ -140,11 +142,14 @@ class OperationsIndicatorEdition extends Component {
 		};
 
 		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
+
 		const seriesOptions = ItemToSelectModel.toSelectModel(series, 'series');
+
 		const indicatorsOptions = ItemToSelectModel.toSelectModel(
 			indicators.filter((s) => s.id !== indicator.id),
 			'indicator'
 		);
+
 		const seriesAndIndicatorsOptions =
 			ItemToSelectModel.mergedItemsToSelectModels(
 				indicatorsOptions,
@@ -173,7 +178,6 @@ class OperationsIndicatorEdition extends Component {
 				{this.state.serverSideError && (
 					<ErrorBloc error={this.state.serverSideError} D={D} />
 				)}
-
 				<form>
 					<h4 className="text-center">
 						( <RequiredIcon /> : {D.requiredFields})
@@ -278,7 +282,6 @@ class OperationsIndicatorEdition extends Component {
 								{D1.indicatorDataCollectFrequency}
 								<Select
 									placeholder=""
-									unclearable
 									value={indicator.accrualPeriodicityCode}
 									options={frequencies?.codes?.map((cat) => {
 										return { value: cat.code, label: cat.labelLg1 };
@@ -288,7 +291,6 @@ class OperationsIndicatorEdition extends Component {
 							</label>
 						</div>
 					</div>
-
 					<div className="row">
 						<div className="form-group col-md-12">
 							<PublishersInput
@@ -315,7 +317,6 @@ class OperationsIndicatorEdition extends Component {
 							<label className="w-100">
 								{D1.stakeholders}
 								<Select
-									unclearable
 									value={indicator.contributors}
 									options={organisationsOptions}
 									placeholder=""
@@ -331,13 +332,11 @@ class OperationsIndicatorEdition extends Component {
 							</label>
 						</div>
 					</div>
-
 					<div className="row">
 						<div className="form-group col-md-12">
 							<label className="w-100">
 								{D1.replaces}
 								<Select
-									unclearable
 									value={indicator.replaces}
 									options={indicatorsOptions}
 									placeholder=""
@@ -358,7 +357,6 @@ class OperationsIndicatorEdition extends Component {
 							<label className="w-100">
 								{D1.replacedBy}
 								<Select
-									unclearable
 									value={indicator.replacedBy}
 									options={indicatorsOptions}
 									placeholder=""
@@ -379,7 +377,6 @@ class OperationsIndicatorEdition extends Component {
 							<label className="w-100">
 								{D1.generatedBy}
 								<Select
-									unclearable
 									value={indicator.wasGeneratedBy}
 									options={seriesOptions}
 									multi
@@ -400,7 +397,6 @@ class OperationsIndicatorEdition extends Component {
 							<label htmlFor="seeAlso" className="w-100">
 								{D1.seeAlso}
 								<Select
-									unclearable
 									value={indicator.seeAlso}
 									options={seriesAndIndicatorsOptions}
 									placeholder=""
