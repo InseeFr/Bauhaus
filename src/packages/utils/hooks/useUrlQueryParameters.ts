@@ -2,7 +2,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
 const computeFromUrl = (defaultValue: any) => {
-	const url = document.URL;
+	const url = encodeURI(document.URL);
+	console.log(url);
 	const searchQuery = new URL(url).searchParams;
 
 	const values = { ...defaultValue };
