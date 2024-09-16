@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import './index.scss';
 import { createAllDictionary } from '../../utils/dictionnary';
 
@@ -13,7 +13,7 @@ const { D } = createAllDictionary({
 window.onload = function () {
 	document.addEventListener(
 		'scroll',
-		function (e) {
+		function () {
 			const element = document.querySelector('.' + className);
 			if (!element) {
 				return;

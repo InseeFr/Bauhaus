@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { D1, D2 } from '../../../deprecated-locales';
-import React from 'react';
 import { Note } from '../../../components/note';
 
 type DisplayLinksTypes = {
@@ -49,7 +48,6 @@ function DisplayLinks({
 					links.length === 1 ? displayItem(labelLg1) : displayList(labelLg1)
 				}
 				title={D1[title]}
-				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
 			/>
@@ -59,7 +57,6 @@ function DisplayLinks({
 						links.length === 1 ? displayItem(labelLg2) : displayList(labelLg2)
 					}
 					title={D2[title]}
-					lang={lg2}
 					alone={false}
 					allowEmpty={true}
 				/>

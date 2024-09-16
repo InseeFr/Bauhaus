@@ -1,7 +1,6 @@
 import { D1, D2 } from '../../../deprecated-locales';
 import { Row } from '../../../components';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
-import React from 'react';
 import { Note } from '../../../components/note';
 
 type DescriptionsPanelTypes = {

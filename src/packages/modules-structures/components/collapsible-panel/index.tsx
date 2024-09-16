@@ -1,4 +1,4 @@
-import React, { useState, useCallback, PropsWithChildren } from 'react';
+import { useState, useCallback, PropsWithChildren } from 'react';
 
 type CollapsiblePanelTypes = {
 	id: string;

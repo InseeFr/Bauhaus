@@ -8,7 +8,6 @@ import {
 } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import React from 'react';
 
 type OperationsFamilyVisualizationTypes = {
 	attr: any;

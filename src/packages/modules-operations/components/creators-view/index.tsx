@@ -1,5 +1,5 @@
 import { D1 } from '../../i18n/build-dictionary';
-import React from 'react';
+import { Note } from '../../../components/note';
 
 type CreatorsViewTypes = {
 	lg1: string;
