@@ -155,7 +155,7 @@ function OperationsSerieVisualization({
 			/>
 
 			<div id="creators" className="row">
-				<CreatorsView creators={attr.creators} lg1={lg1} />
+				<CreatorsView creators={attr.creators} />
 			</div>
 			<DisplayLinks
 				links={attr.replaces}

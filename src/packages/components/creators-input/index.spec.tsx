@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { CreatorsInput } from '.';
 import { useStampsOptions } from '../../utils/hooks/stamps';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 // Mock du hook useStampsOptions
 vi.mock('../../utils/hooks/stamps', () => ({
@@ -29,7 +29,7 @@ describe('CreatorsInput', () => {
 	});
 
 	it('should render with single select and label for single creator', () => {
-		(useStampsOptions as jest.Mock).mockReturnValue([
+		(useStampsOptions as Mock).mockReturnValue([
 			{ value: 'option1', label: 'Option 1' },
 		]);
 
@@ -42,7 +42,7 @@ describe('CreatorsInput', () => {
 	});
 
 	it('should render with multi select and label for multiple creators', () => {
-		(useStampsOptions as jest.Mock).mockReturnValue([
+		(useStampsOptions as Mock).mockReturnValue([
 			{ value: 'option1', label: 'Option 1' },
 			{ value: 'option2', label: 'Option 2' },
 		]);
@@ -60,7 +60,7 @@ describe('CreatorsInput', () => {
 	});
 
 	it('should call onChange with correct value when single select changes', () => {
-		(useStampsOptions as jest.Mock).mockReturnValue([
+		(useStampsOptions as Mock).mockReturnValue([
 			{ value: 'option1', label: 'Option 1' },
 		]);
 
