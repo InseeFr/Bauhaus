@@ -10,13 +10,9 @@ describe('FamilyInformation', () => {
 			abstractLg1: 'descriptionLg1',
 		};
 		const { container } = render(
-			<OperationsFamilyVisualization
-				attr={attr}
-				langs={locales}
-				secondLang={false}
-			/>
+			<OperationsFamilyVisualization attr={attr} secondLang={false} />
 		);
-		expect(container.querySelectorAll('.wilco-note')).toHaveLength(4);
+		expect(container.querySelectorAll('.note')).toHaveLength(4);
 	});
 
 	it('should renderer all informations for the second lang', () => {
@@ -29,12 +25,8 @@ describe('FamilyInformation', () => {
 			abstractLg2: 'descriptionLg2',
 		};
 		const { container } = render(
-			<OperationsFamilyVisualization
-				attr={attr}
-				secondLang={true}
-				langs={locales}
-			/>
+			<OperationsFamilyVisualization attr={attr} secondLang={true} />
 		);
-		expect(container.querySelectorAll('.wilco-note')).toHaveLength(7);
+		expect(container.querySelectorAll('.note')).toHaveLength(7);
 	});
 });

@@ -2,7 +2,14 @@
   height: 100%;
 
   .card-title {
-    margin-bottom: 0;
+    padding: 1rem;
+    margin: 0 !important;
+    font-size: 1em;
+
+    button {
+      background: transparent;
+      border: none;
+    }
   }
 
   .card-header {
@@ -16,6 +23,6 @@
 
   .card-body {
     background: white;
-    box-shadow: 1px 2px #b4b4b4;
+    margin: 1em;
   }
 }

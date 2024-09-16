@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import OperationsOperationVisualization from './home';
-import { locales } from '../../../tests-utils/default-values';
 
 describe('OperationVisualization', () => {
 	it('should renderer all informations for the main lang', () => {
@@ -13,15 +12,14 @@ describe('OperationVisualization', () => {
 			<OperationsOperationVisualization
 				attr={attr}
 				exportVarBook={vi.fn()}
-				langs={locales}
 				secondLang={false}
 				isModalOpen={false}
 				closeModal={vi.fn()}
 			/>
 		);
-		expect(
-			container.querySelectorAll('.row:first-child .wilco-note')
-		).toHaveLength(1);
+		expect(container.querySelectorAll('.row:first-child .note')).toHaveLength(
+			1
+		);
 	});
 
 	it('should renderer all informations for the second lang', () => {
@@ -36,12 +34,11 @@ describe('OperationVisualization', () => {
 				attr={attr}
 				secondLang={true}
 				exportVarBook={vi.fn()}
-				langs={locales}
 				isModalOpen={false}
 				closeModal={vi.fn()}
 			/>
 		);
 
-		expect(container.querySelectorAll('.wilco-note')).toHaveLength(5);
+		expect(container.querySelectorAll('.note')).toHaveLength(5);
 	});
 });

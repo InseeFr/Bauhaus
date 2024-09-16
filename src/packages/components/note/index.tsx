@@ -15,11 +15,11 @@ export const Note = ({
 	allowEmpty = false,
 	alt = '',
 }: Readonly<NoteTypes>) => {
-	const cl = alone ? 'col-md-12' : 'col-md-6';
 	if (!text && !allowEmpty) return null;
+	const cl = alone ? 'col-md-12' : 'col-md-6';
 
 	return (
-		<div className={`${cl}`} title={alt}>
+		<div className={`note ${cl}`} title={alt}>
 			<Panel title={title}>{text}</Panel>
 		</div>
 	);

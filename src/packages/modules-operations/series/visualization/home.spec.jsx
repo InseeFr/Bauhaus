@@ -99,10 +99,11 @@ describe('SerieInformation', () => {
 					attr={attr}
 					secondLang={false}
 					organisations={organisations}
+					langs={{ lg1: 'fr' }}
 				/>
 			</Provider>
 		);
-		expect(container.querySelectorAll('.wilco-note')).toHaveLength(15);
+		expect(container.querySelectorAll('.note')).toHaveLength(15);
 	});
 
 	it('should show the right number of Note component when the second lang is selected', () => {
@@ -112,10 +113,11 @@ describe('SerieInformation', () => {
 					attr={attr}
 					secondLang={true}
 					organisations={organisations}
+					langs={{ lg1: 'fr' }}
 				/>
 			</Provider>
 		);
-		expect(container.querySelectorAll('.wilco-note')).toHaveLength(25);
+		expect(container.querySelectorAll('.note')).toHaveLength(25);
 	});
 	it('should show the right number of DisplayLinks component', () => {
 		const { container } = renderWithRouter(
@@ -124,6 +126,7 @@ describe('SerieInformation', () => {
 					attr={attr}
 					secondLang={true}
 					organisations={organisations}
+					langs={{ lg1: 'fr' }}
 				/>
 			</Provider>
 		);
@@ -143,6 +146,7 @@ describe('SerieInformation', () => {
 					attr={attr2}
 					secondLang={true}
 					organisations={organisations}
+					langs={{ lg1: 'fr' }}
 				/>
 			</Provider>
 		);
@@ -156,6 +160,7 @@ describe('SerieInformation', () => {
 					attr={attr}
 					secondLang={true}
 					organisations={organisations}
+					langs={{ lg1: 'fr' }}
 				/>
 			</Provider>
 		);

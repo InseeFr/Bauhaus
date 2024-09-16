@@ -17,10 +17,9 @@ describe('OperationsDocumentationVisualization', () => {
 			<OperationsDocumentationVisualization
 				secondLang={false}
 				attr={document}
-				langs={langs}
 			/>
 		);
-		const notes = container.querySelectorAll('.wilco-note');
+		const notes = container.querySelectorAll('.note');
 		expect(notes).toHaveLength(4);
 
 		expect(notes[0].innerHTML).toContain(document.descriptionLg1);
@@ -35,13 +34,9 @@ describe('OperationsDocumentationVisualization', () => {
 
 	it('should display a note if the secondLang flag is true', () => {
 		const { container } = render(
-			<OperationsDocumentationVisualization
-				attr={document}
-				langs={langs}
-				secondLang={true}
-			/>
+			<OperationsDocumentationVisualization attr={document} secondLang={true} />
 		);
-		const notes = container.querySelectorAll('.wilco-note');
+		const notes = container.querySelectorAll('.note');
 
 		expect(notes).toHaveLength(6);
 
@@ -54,13 +49,9 @@ describe('OperationsDocumentationVisualization', () => {
 			uri: '/document/uri',
 		};
 		const { container } = render(
-			<OperationsDocumentationVisualization
-				attr={d}
-				langs={langs}
-				secondLang={true}
-			/>
+			<OperationsDocumentationVisualization attr={d} secondLang={true} />
 		);
-		const notes = container.querySelectorAll('.wilco-note');
+		const notes = container.querySelectorAll('.note');
 		expect(notes).toHaveLength(7);
 	});
 
@@ -71,13 +62,9 @@ describe('OperationsDocumentationVisualization', () => {
 			updatedDate: undefined,
 		};
 		const { container } = render(
-			<OperationsDocumentationVisualization
-				attr={d}
-				langs={langs}
-				secondLang={true}
-			/>
+			<OperationsDocumentationVisualization attr={d} secondLang={true} />
 		);
-		const date = container.querySelector('.row:nth-child(2) .panel-body');
+		const date = container.querySelector('.row:nth-child(2) .card-body');
 		expect(date).toBeEmptyDOMElement();
 	});
 });

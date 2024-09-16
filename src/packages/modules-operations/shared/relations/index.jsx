@@ -54,7 +54,6 @@ export function RelationsViewPerLg(props) {
 		<Note
 			text={<RelationsViewPerLgContent {...props} />}
 			title={props.title}
-			lang={props.currentLang}
 			alone={!props.secondLang}
 			allowEmpty={true}
 		/>
@@ -64,18 +63,12 @@ export function RelationsViewPerLg(props) {
 function RelationsView(props) {
 	return (
 		<div className="row">
-			<RelationsViewPerLg
-				{...props}
-				title={D1[props.title]}
-				langSuffix="Lg1"
-				currentLang={props.langs.lg1}
-			/>
+			<RelationsViewPerLg {...props} title={D1[props.title]} langSuffix="Lg1" />
 			{props.secondLang && (
 				<RelationsViewPerLg
 					{...props}
 					title={D2[props.title]}
 					langSuffix="Lg2"
-					currentLang={props.langs.lg2}
 				/>
 			)}
 		</div>

@@ -13,11 +13,11 @@ describe('DisplayLinks', () => {
 	it('should display a paragraph if we have only one item', () => {
 		const links = [{ id: 1 }];
 		const { container } = renderWithRouter(
-			<DisplayLinks links={links} langs={locales} path="series/" title="home" />
+			<DisplayLinks links={links} path="series/" title="home" />
 		);
 
 		expect(container.innerHTML).toContain(
-			'<div class="panel-body"><a href="/series/1">'
+			'<div class="card-body"><a href="/series/1">'
 		);
 	});
 	it('should not display a link', () => {
