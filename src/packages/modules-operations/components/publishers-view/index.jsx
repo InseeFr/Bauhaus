@@ -1,6 +1,6 @@
-import { Note } from '@inseefr/wilco';
 import { D1 } from '../../i18n/build-dictionary';
 import { useSelector } from 'react-redux';
+import { Note } from '../../../components/note';
 
 const PublishersView = ({ publishers, lg1 }) => {
 	const publishersIdArray = Array.isArray(publishers)

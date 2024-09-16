@@ -1,7 +1,7 @@
 import { D1 } from '../i18n';
-import { LabelRequired } from '@inseefr/wilco';
 import { useStampsOptions } from '../../utils/hooks/stamps';
 import { Select } from '../select-rmes';
+import LabelRequired from '../label-required';
 
 export const CreatorsInput = ({
 	value,

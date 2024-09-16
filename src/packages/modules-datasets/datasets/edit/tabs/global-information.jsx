@@ -2,7 +2,6 @@ import { D1, D2 } from '../../../../deprecated-locales';
 import { useThemes } from '../../useThemes';
 import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
 import ReactSelect from 'react-select';
-import { LabelRequired } from '@inseefr/wilco';
 import { CL_FREQ } from '../../../../redux/actions/constants/codeList';
 import {
 	TextInput,
@@ -13,6 +12,7 @@ import {
 import { useOrganizations } from '../../../../utils/hooks/organizations';
 import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
 import { D1 as DatasetDictionary } from '../../../i18n';
+import LabelRequired from '../../../../components/label-required';
 
 const GlobalInformationTab = ({
 	editingDataset,

@@ -3,7 +3,7 @@ import { API } from '../../apis';
 import { CollapsiblePanel } from '../collapsible-panel';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { rowParams } from '../code-detail/code-columns';
-import { LabelRequired, Table } from '@inseefr/wilco';
+import { Table } from '@inseefr/wilco';
 import SlidingPanel from 'react-sliding-side-panel';
 import './codes-panel.scss';
 import { validateCode } from '../../utils';
@@ -15,6 +15,7 @@ import {
 	ClientSideError,
 	GlobalClientSideErrorBloc,
 } from '../../../components';
+import LabelRequired from '../../../components/label-required';
 const CodeSlidingPanel = ({
 	code: initialCode,
 	handleBack,

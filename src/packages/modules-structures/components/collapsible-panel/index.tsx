@@ -1,5 +1,4 @@
-import { useState, useCallback, PropsWithChildren } from 'react';
-import { Note } from '@inseefr/wilco';
+import React, { useState, useCallback, PropsWithChildren } from 'react';
 
 type CollapsiblePanelTypes = {
 	id: string;

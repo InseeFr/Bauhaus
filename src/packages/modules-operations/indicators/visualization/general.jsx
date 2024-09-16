@@ -1,4 +1,3 @@
-import { Note } from '@inseefr/wilco';
 import { D1, D2 } from '../../../deprecated-locales';
 import { getSeeAlsoByType } from '../../shared/links/utils';
 import DisplayLinks from '../../../modules-operations/shared/links/';
@@ -9,6 +8,7 @@ import D from '../../../deprecated-locales/build-dictionary';
 import { PublicationMale, Row, CreationUpdateItems } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
 
 function DisplayMultiLangNote({
 	value1,

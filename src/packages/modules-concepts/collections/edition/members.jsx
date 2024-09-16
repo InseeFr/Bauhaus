@@ -5,13 +5,13 @@ import {
 	DelLogo,
 	filterDeburr,
 	Pagination,
-	Panel,
 	PickerItem,
 } from '@inseefr/wilco';
 
 import MainDictonary from '../../../deprecated-locales';
 import { D1 } from '../../../modules-concepts/i18n';
 import { Column, TextInput, Row } from '../../../components';
+import { Panel } from '../../../components/panel';
 
 const extractMembers = (concepts) => {
 	return concepts.reduce((members, { id, label, isAdded }) => {

@@ -1,6 +1,6 @@
 import { D1, D2 } from '../../../deprecated-locales';
-import { Note } from '@inseefr/wilco';
 import { CreationUpdateItems } from '../../../components';
+import { Note } from '../../../components/note';
 
 function CollectionGeneral({ attr, secondLang, langs }) {
 	const mapping = {

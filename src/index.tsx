@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import Root from './packages/application/router';
 import configureStore from './packages/redux/configure-store';
-import { I18NContext, BackToTop, getLang } from '@inseefr/wilco';
+import { I18NContext } from '@inseefr/wilco';
 import D from './packages/deprecated-locales';
 import { ApplicationTitle } from './packages/components';
 import { AppContextProvider } from './packages/application/app-context';
@@ -13,6 +13,8 @@ import * as Sentry from '@sentry/react';
 
 import './packages/styles/main.scss';
 import { GeneralApi } from './packages/sdk/general-api';
+import { getLang } from './packages/utils/dictionnary';
+import BackToTop from './packages/components/back-to-top';
 
 Sentry.init({
 	dsn: 'https://57eb7cf936ad4c9198267ec7cd0031aa@o364590.ingest.sentry.io/4505557438169088',

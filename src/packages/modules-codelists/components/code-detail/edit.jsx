@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { LabelRequired, ActionToolbar } from '@inseefr/wilco';
+import { ActionToolbar } from '@inseefr/wilco';
 import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
@@ -11,6 +11,7 @@ import { emptyCode } from './empty-code';
 import './edit.scss';
 import { TextInput, Row } from '../../../components';
 import Select from 'js/utils/components/select-rmes';
+import LabelRequired from '../../../components/label-required';
 
 export const CodeDetailEdit = ({
 	code: initialCode,

@@ -1,4 +1,3 @@
-import { Note } from '@inseefr/wilco';
 import { D1, D2 } from '../../../deprecated-locales';
 import RelationsView from '../../../modules-operations/shared/relations';
 import D from '../../../deprecated-locales/build-dictionary';
@@ -8,6 +7,7 @@ import {
 	CreationUpdateItems,
 } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
 
 function OperationsOperationVisualization({
 	attr,

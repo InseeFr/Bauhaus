@@ -1,6 +1,6 @@
 import { useClassification, useUpdateClassification } from '../hooks';
 import { useParams, Redirect } from 'react-router-dom';
-import { ActionToolbar, LabelRequired } from '@inseefr/wilco';
+import { ActionToolbar } from '@inseefr/wilco';
 import { useForm, Controller } from 'react-hook-form';
 import D, { D1, D2 } from '../../deprecated-locales';
 import { useQuery } from '@tanstack/react-query';
@@ -21,6 +21,7 @@ import { useDisseminationStatusOptions } from '../../utils/hooks/disseminationSt
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { ClassificationsApi } from '../../sdk/classification';
 import { useTitle } from '../../utils/hooks/useTitle';
+import LabelRequired from '../../components/label-required';
 
 export const ClassificationEdition = () => {
 	const goBack = useGoBack();

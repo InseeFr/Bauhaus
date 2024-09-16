@@ -1,11 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import dayjs from 'dayjs';
-import {
-	CancelButton,
-	SaveButton,
-	ActionToolbar,
-	LabelRequired,
-} from '@inseefr/wilco';
+import { CancelButton, SaveButton, ActionToolbar } from '@inseefr/wilco';
 import Picker from './picker';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
@@ -25,6 +20,7 @@ import { CodeListApi } from '../../../sdk';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
+import LabelRequired from '../../../components/label-required';
 
 const defaultCodelist = {
 	created: dayjs(),

@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 const computeFromUrl = (defaultValue: any) => {
 	const url = encodeURI(document.URL);
-	console.log(url);
 	const searchQuery = new URL(url).searchParams;
 
 	const values = { ...defaultValue };

@@ -1,5 +1,5 @@
-import { Note } from '@inseefr/wilco';
 import { D1 } from '../../i18n/build-dictionary';
+import React from 'react';
 
 type CreatorsViewTypes = {
 	lg1: string;

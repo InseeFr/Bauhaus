@@ -1,10 +1,10 @@
-import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { useEffect, useState } from 'react';
 import { LINK, isDocument, isLink } from '../utils';
 import RelationsView from '../../shared/relations';
 import { getBaseURI } from '../../../sdk';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
 
 function formatSims(sims) {
 	const simsObject = sims.reduce((acc, s) => {

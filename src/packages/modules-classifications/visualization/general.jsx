@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import D, { D1, D2 } from '../../deprecated-locales';
-import { DSURLToLabel, Note } from '@inseefr/wilco';
-import { Row } from '../../components';
+import { getDisseminationStatus, Row } from '../../components';
 import { renderMarkdownElement } from '../../utils/html-utils';
 import { stringToDate } from '../../utils/date-utils';
+import { Note } from '../../components/note';
 const General = ({ general, secondLang, langs }) => {
 	const { lg1, lg2 } = langs;
 	let mapping = {};
@@ -158,7 +158,7 @@ const General = ({ general, secondLang, langs }) => {
 									if (fieldName === 'disseminationStatus') {
 										return (
 											<li key={fieldName}>
-												{`${mapping[fieldName]} : ${DSURLToLabel(
+												{`${mapping[fieldName]} : ${getDisseminationStatus(
 													general[fieldName]
 												)}`}
 											</li>

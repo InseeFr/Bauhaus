@@ -1,6 +1,6 @@
-import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { Link } from 'react-router-dom';
+import { Note } from '../../../components/note';
 
 function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 	function displaySeeAlsos(label) {

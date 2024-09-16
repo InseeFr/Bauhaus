@@ -1,6 +1,5 @@
 import D from '../../../../../../deprecated-locales';
-import { DSURLToLabel } from '@inseefr/wilco';
-import { DateItem } from '../../../../../../components';
+import { DateItem, getDisseminationStatus } from '../../../../../../components';
 import { stringToDate } from '../../../../../../utils/date-utils';
 
 export const rowParams = {
@@ -23,7 +22,7 @@ export const rowParams = {
 			text: D.disseminationStatusTitle,
 			width: '17%',
 			sort: true,
-			formatter: DSURLToLabel,
+			formatter: getDisseminationStatus,
 		},
 		{
 			dataField: 'created',
@@ -58,7 +57,7 @@ export const rowParams = {
 			text: D.disseminationStatusTitle,
 			width: '17%',
 			sort: true,
-			formatter: DSURLToLabel,
+			formatter: getDisseminationStatus,
 		},
 		{
 			dataField: 'modified',

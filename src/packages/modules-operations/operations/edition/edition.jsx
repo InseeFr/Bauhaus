@@ -1,12 +1,7 @@
 import { Component } from 'react';
 import D, { D1, D2 } from '../../../deprecated-locales';
 
-import {
-	CancelButton,
-	SaveButton,
-	ActionToolbar,
-	LabelRequired,
-} from '@inseefr/wilco';
+import { CancelButton, SaveButton, ActionToolbar } from '@inseefr/wilco';
 import { validate } from './validation';
 import {
 	TextInput,
@@ -18,6 +13,7 @@ import {
 	Select,
 } from '../../../components';
 import { OperationsApi } from '../../../sdk/operations-api';
+import LabelRequired from '../../../components/label-required';
 
 const defaultOperation = {
 	prefLabelLg1: '',

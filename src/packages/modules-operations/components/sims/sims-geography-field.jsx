@@ -4,7 +4,6 @@ import {
 	SaveButton,
 	ActionToolbar,
 	ErrorBloc,
-	LabelRequired,
 } from '@inseefr/wilco';
 import ReactSelect from 'react-select';
 
@@ -14,6 +13,7 @@ import SimsGeographySelector from './sims-geography-selector';
 import { useGeographies } from './hooks';
 import { Row } from '../../../components';
 import { GeographieApi } from '../../../sdk/geographie';
+import LabelRequired from '../../../components/label-required';
 
 const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 	const [name, setName] = useState(territory.labelLg1 ?? '');

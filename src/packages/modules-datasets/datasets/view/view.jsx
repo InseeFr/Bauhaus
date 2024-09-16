@@ -1,7 +1,6 @@
 import { useHistory, useParams } from 'react-router-dom';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useEffect, useState } from 'react';
-import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { withCodesLists } from '../../../utils/hoc/withCodesLists';
@@ -29,6 +28,7 @@ import { CodeDisplay } from '../../../components/code-display';
 import { StatisticalInformations } from './StatisticalInformations';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 import { useLocales } from '../../../utils/hooks/useLocales';
+import { Note } from '../../../components/note';
 
 const Dataset = (props) => {
 	const [serverSideError, setServerSideError] = useState();

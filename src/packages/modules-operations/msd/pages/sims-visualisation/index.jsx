@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import D from '../../../../deprecated-locales';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Button, Note, Panel, CancelButton } from '@inseefr/wilco';
+import { Button, CancelButton } from '@inseefr/wilco';
 
 import * as A from '../../../../redux/actions/constants';
 
@@ -24,6 +24,8 @@ import {
 import { OperationsApi } from '../../../../sdk/operations-api';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../../utils/hooks/second-lang';
+import { Panel } from '../../../../components/panel';
+import { Note } from '../../../../components/note';
 
 export default function SimsVisualisation({
 	metadataStructure,

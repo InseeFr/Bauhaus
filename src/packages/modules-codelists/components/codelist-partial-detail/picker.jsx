@@ -2,7 +2,6 @@ import { useState } from 'react';
 import D from '../../i18n/build-dictionary';
 import {
 	Pagination,
-	Panel,
 	AddLogo,
 	DelLogo,
 	filterDeburr,
@@ -11,6 +10,7 @@ import {
 } from '@inseefr/wilco';
 import '../codelist-detail/edit.scss';
 import { TextInput, Row } from '../../../components';
+import { Panel } from '../../../components/panel';
 
 const Picker = ({
 	panelTitle,

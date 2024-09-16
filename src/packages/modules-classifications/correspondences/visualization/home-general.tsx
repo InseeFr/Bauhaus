@@ -1,4 +1,3 @@
-import { Note } from '@inseefr/wilco';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { D1, D2 } from '../../../deprecated-locales';
@@ -10,6 +9,7 @@ import {
 } from '../../../components';
 import D from '../../../deprecated-locales/build-dictionary';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
 
 const HomeGeneral = ({
 	correspondence,

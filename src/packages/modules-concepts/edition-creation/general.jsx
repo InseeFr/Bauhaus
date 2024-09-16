@@ -1,6 +1,5 @@
 import D, { D1, D2 } from '../../deprecated-locales';
 import { fields as generalFields } from '../../modules-concepts/utils/general';
-import { LabelRequired } from '@inseefr/wilco';
 import {
 	TextInput,
 	DisseminationStatusInput,
@@ -11,6 +10,7 @@ import {
 	Select,
 	InputMultiRmes,
 } from '../../components';
+import LabelRequired from '../../components/label-required';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {

@@ -1,6 +1,6 @@
-import { Note } from '@inseefr/wilco';
 import D, { D2 } from '../../deprecated-locales/build-dictionary';
 import { useSimsContext } from './context';
+import { Note } from '../../components/note';
 
 export const RubricEssentialMsg = ({ secondLang }) => {
 	const simsContext = useSimsContext();

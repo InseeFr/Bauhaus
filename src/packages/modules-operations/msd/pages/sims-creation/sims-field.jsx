@@ -10,10 +10,11 @@ import {
 } from '../../../../components';
 import SimsGeographyPicker from '../../../../modules-operations/components/sims/sims-geography-picker';
 import { Editor } from 'react-draft-wysiwyg';
-import { Note, getLang } from '@inseefr/wilco';
 import './sims-field.scss';
 import { SimsFieldTitle } from '../../sims-field-title';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
+import { Note } from '../../../../components/note';
+import { getLang } from '../../../../utils/dictionnary';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 const SimsCodeListSelect = (props) => {

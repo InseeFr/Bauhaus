@@ -5,7 +5,6 @@ import D from '../../deprecated-locales';
 import {
 	ExportButton,
 	Pagination,
-	Panel,
 	AddLogo,
 	DelLogo,
 	PickerItem,
@@ -14,6 +13,7 @@ import {
 	ReturnButton,
 } from '@inseefr/wilco';
 import { TextInput, PageTitle, ErrorBloc } from '../../components';
+import { Panel } from '../panel';
 
 type Item = { id: string; label: string };
 const trackItems = (items: Item[]) => {

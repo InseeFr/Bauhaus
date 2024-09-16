@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ActionToolbar, ErrorBloc, LabelRequired } from '@inseefr/wilco';
+import { ActionToolbar, ErrorBloc } from '@inseefr/wilco';
 import { Redirect, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
@@ -15,6 +15,7 @@ import {
 } from '../../../components';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { ClassificationsApi } from '../../../sdk/classification';
+import LabelRequired from '../../../components/label-required';
 
 const titleMapping = {
 	definition: 'classificationsDefinition',

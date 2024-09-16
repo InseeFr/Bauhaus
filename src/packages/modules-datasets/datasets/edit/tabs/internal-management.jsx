@@ -1,7 +1,6 @@
 import { D1 } from '../../../../deprecated-locales';
 import { useEffect, useState } from 'react';
 import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
-import { LabelRequired } from '@inseefr/wilco';
 import { useStampsOptions } from '../../../../utils/hooks/stamps';
 import { useSeriesOperationsOptions } from './useSeriesOperationsOptions';
 import {
@@ -18,6 +17,7 @@ import {
 	CL_ACCESS_RIGHTS,
 	CL_CONF_STATUS,
 } from '../../../../redux/actions/constants/codeList';
+import LabelRequired from '../../../../components/label-required';
 
 const InternalManagementTab = ({
 	editingDataset,

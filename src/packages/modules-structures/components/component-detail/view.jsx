@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Note } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
 import { typeUriToLabel, getAllAttachment } from '../../utils';
 import {
@@ -26,6 +25,7 @@ import {
 } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
 export const ComponentDetailView = ({
 	component,
 	concepts = [],

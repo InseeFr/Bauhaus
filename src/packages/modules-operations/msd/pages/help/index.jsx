@@ -1,6 +1,6 @@
 import HelpInformation from '../../../../modules-operations/msd/help-information';
-import { Note } from '@inseefr/wilco';
 import { useLocales } from '../../../../utils/hooks/useLocales';
+import { Note } from '../../../../components/note';
 
 export default function MSDHelp({
 	metadataStructure,

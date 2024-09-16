@@ -1,6 +1,7 @@
-import { Note } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
 import { D1, D2 } from '../../../deprecated-locales';
+import React from 'react';
+import { Note } from '../../../components/note';
 
 type DisplayLinksTypes = {
 	links: any[];

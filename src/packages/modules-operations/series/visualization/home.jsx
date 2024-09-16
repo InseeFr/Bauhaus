@@ -1,4 +1,3 @@
-import { Note } from '@inseefr/wilco';
 import { D1, D2 } from '../../../deprecated-locales';
 import RelationsView from '../../../modules-operations/shared/relations';
 import DisplayLinks from '../../../modules-operations/shared/links/';
@@ -14,6 +13,7 @@ import {
 } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
 function OperationsSerieVisualization({
 	attr,
 	langs: { lg1, lg2 },

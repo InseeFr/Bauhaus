@@ -1,4 +1,3 @@
-import { Note } from '@inseefr/wilco';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { D2, D1 } from '../../../deprecated-locales';
@@ -8,6 +7,7 @@ import {
 	ExplanatoryNote,
 	CheckSecondLang,
 } from '../../../components';
+import { Note } from '../../../components/note';
 
 const Home = ({
 	association,

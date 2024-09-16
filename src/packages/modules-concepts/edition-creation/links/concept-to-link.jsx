@@ -1,4 +1,4 @@
-import { Panel } from '@inseefr/wilco';
+import { Panel } from '../../../components/panel';
 
 function ConceptToLink({ title, memberEls, searchComponent }) {
 	return (

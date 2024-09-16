@@ -1,8 +1,8 @@
 import { D1 } from '../../deprecated-locales';
-import { Note } from '@inseefr/wilco';
 import { DisseminationStatusVisualisation } from '../../components';
 import { stringToDate } from '../../utils/date-utils';
 import { arrayToString } from '../../utils/array-utils';
+import { Note } from '../../components/note';
 
 function ConceptGeneral({ attr, secondLang, langs }) {
 	const { lg1, lg2 } = langs;
