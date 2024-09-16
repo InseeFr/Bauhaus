@@ -1,5 +1,4 @@
 import { D1 } from '../../i18n/build-dictionary';
-import { useSelector } from 'react-redux';
 import { Note } from '../../../components/note';
 import { useOrganizations } from '../../../utils/hooks/organizations';
 

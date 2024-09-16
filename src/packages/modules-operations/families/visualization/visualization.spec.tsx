@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import OperationsFamilyVisualization from './visualization';
-import { locales } from '../../../tests-utils/default-values';
 
 describe('FamilyInformation', () => {
 	it('should renderer all informations for the main lang', () => {

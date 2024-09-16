@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Loading } from '../../../components';
 import OperationsSerieEdition from '../../../modules-operations/series/edition/edition';
 

@@ -2,7 +2,6 @@ import '@testing-library/jest-dom';
 import OperationsDocumentationVisualization from './home';
 import { render } from '@testing-library/react';
 
-const langs = { lg1: 'lg1', lg2: 'lg2' };
 const document = {
 	descriptionLg1: 'descriptionLg1',
 	descriptionLg2: 'descriptionLg2',

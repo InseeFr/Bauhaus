@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import D from '../../../deprecated-locales';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import OperationsSerieVisualization from '../../../modules-operations/series/visualization/home';
 import {
