@@ -1,7 +1,6 @@
 import OperationsIndicatorVisualization from './general';
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
 import { renderWithRouter } from '../../../tests-utils/render';
-import { locales } from '../../../tests-utils/default-values';
 import { vi } from 'vitest';
 import * as useOrganizationsHook from '../../../utils/hooks/organizations';
 
@@ -85,7 +84,7 @@ const indicator = {
 describe('IndicatorInformation', () => {
 	it('should renderer all informations for the main lang', () => {
 		const { container } = renderWithRouter(
-			<OperationsIndicatorVisualization attr={indicator} langs={locales} />
+			<OperationsIndicatorVisualization attr={indicator} />
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
 			4
@@ -95,11 +94,7 @@ describe('IndicatorInformation', () => {
 
 	it('should show the right number of DisplayLinks component', () => {
 		const { container } = renderWithRouter(
-			<OperationsIndicatorVisualization
-				attr={indicator}
-				secondLang={true}
-				langs={locales}
-			/>
+			<OperationsIndicatorVisualization attr={indicator} secondLang={true} />
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
 			4
@@ -107,11 +102,7 @@ describe('IndicatorInformation', () => {
 	});
 	it('should show the right data in the DisplayLinks component', () => {
 		const { container } = renderWithRouter(
-			<OperationsIndicatorVisualization
-				attr={indicator}
-				secondLang={true}
-				langs={locales}
-			/>
+			<OperationsIndicatorVisualization attr={indicator} secondLang={true} />
 		);
 		const displayLinks = container.querySelectorAll('.bauhaus-display-links');
 
@@ -137,11 +128,7 @@ describe('IndicatorInformation', () => {
 	});
 	it('should show the right number of SeeAlso component', () => {
 		const { container } = renderWithRouter(
-			<OperationsIndicatorVisualization
-				attr={indicator}
-				secondLang={true}
-				langs={locales}
-			/>
+			<OperationsIndicatorVisualization attr={indicator} secondLang={true} />
 		);
 		const seeAlso = container.querySelector('.bauhaus-see-also');
 
