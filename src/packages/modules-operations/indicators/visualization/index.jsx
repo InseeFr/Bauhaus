@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import D from '../../../deprecated-locales';
-import { useSelector } from 'react-redux';
 import OperationsIndicatorVisualization from '../../../modules-operations/indicators/visualization/general';
 import {
 	CheckSecondLang,
@@ -15,15 +14,14 @@ import { useCodesList } from '../../../utils/hooks/codeslist';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useOrganizations } from '../../../utils/hooks/organizations';
 
 const IndicatorVisualizationContainer = () => {
 	const { id } = useParams();
 
 	const [secondLang] = useSecondLang();
 	const frequency = useCodesList(CL_FREQ);
-	const organisations = useSelector(
-		(state) => state.operationsOrganisations.results || []
-	);
+	const { data: organisations } = useOrganizations();
 
 	const [indicator, setIndicator] = useState({});
 
@@ -63,7 +61,6 @@ const IndicatorVisualizationContainer = () => {
 				secondLang={secondLang}
 				attr={indicator}
 				frequency={frequency}
-				organisations={organisations}
 			/>
 		</div>
 	);

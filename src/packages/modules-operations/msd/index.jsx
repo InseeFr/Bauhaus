@@ -7,10 +7,7 @@ import loadMetadataStructure from '../../redux/operations/metadatastructure/list
 import { D1, D2 } from '../../deprecated-locales';
 import { buildExtract } from '@inseefr/wilco';
 
-import {
-	getOperationsCodesList,
-	getOperationsOrganisations,
-} from '../../redux/operations/selector';
+import { getOperationsCodesList } from '../../redux/operations/selector';
 import loadSIMS, {
 	publishSims,
 	saveSims,
@@ -30,6 +27,7 @@ import { isLoaded, loadGeographies } from '../../redux/geographies.action';
 import { GeneralApi } from '../../sdk/general-api';
 import { OperationsApi } from '../../sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
+import { useOrganizations } from '../../utils/hooks/organizations';
 
 const extractId = buildExtract('id');
 const extractIdParent = buildExtract('idParent');
@@ -266,7 +264,6 @@ export const mapStateToProps = (state, ownProps) => {
 		id,
 		idParent,
 		codesLists: getOperationsCodesList(state),
-		organisations: getOperationsOrganisations(state),
 		parentType,
 	};
 };
@@ -280,6 +277,7 @@ const mapDispatchToProps = {
 };
 
 const MSDContainerWithParent = (props) => {
+	const { data: organisations } = useOrganizations();
 	const match = useRouteMatch();
 	const { idParent } = props;
 	const parentType = match.params[0];
@@ -334,6 +332,7 @@ const MSDContainerWithParent = (props) => {
 	return (
 		<MSDContainer
 			{...props}
+			organisations={organisations}
 			documentStores={documentStores}
 			currentSims={currentSims}
 			parent={parent}

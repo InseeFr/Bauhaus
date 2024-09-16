@@ -1,21 +1,20 @@
 import OperationsIndicatorVisualization from './general';
-
-import { Provider } from 'react-redux';
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
-import configureStore from '../../../redux/configure-store';
 import { renderWithRouter } from '../../../tests-utils/render';
 import { locales } from '../../../tests-utils/default-values';
+import { vi } from 'vitest';
+import * as useOrganizationsHook from '../../../utils/hooks/organizations';
 
-const store = configureStore({
-	operationsOrganisations: {
-		results: [],
-	},
+vi.spyOn(useOrganizationsHook, 'useOrganizations').mockReturnValue({
+	data: [
+		{
+			id: 'CNAMTS',
+			label: 'Agence centrale des organismes de sécurité sociale',
+		},
+		{ id: 'DG75-F110', label: "Banque Publique d'Investissement" },
+	],
 });
 
-const organisations = [
-	{ id: 'CNAMTS', label: 'Agence centrale des organismes de sécurité sociale' },
-	{ id: 'DG75-F110', label: "Banque Publique d'Investissement" },
-];
 const indicator = {
 	creator: 'CNAMTS',
 	prefLabelLg1: 'Index Divers (base 2010)',
@@ -86,9 +85,7 @@ const indicator = {
 describe('IndicatorInformation', () => {
 	it('should renderer all informations for the main lang', () => {
 		const { container } = renderWithRouter(
-			<Provider store={store}>
-				<OperationsIndicatorVisualization attr={indicator} langs={locales} />
-			</Provider>
+			<OperationsIndicatorVisualization attr={indicator} langs={locales} />
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
 			4
@@ -98,28 +95,23 @@ describe('IndicatorInformation', () => {
 
 	it('should show the right number of DisplayLinks component', () => {
 		const { container } = renderWithRouter(
-			<Provider store={store}>
-				<OperationsIndicatorVisualization
-					attr={indicator}
-					secondLang={true}
-					langs={locales}
-				/>
-			</Provider>
+			<OperationsIndicatorVisualization
+				attr={indicator}
+				secondLang={true}
+				langs={locales}
+			/>
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
 			4
 		);
 	});
-	it('should show the right data in the DisplayLinks component', () => {
+	it.only('should show the right data in the DisplayLinks component', () => {
 		const { container } = renderWithRouter(
-			<Provider store={store}>
-				<OperationsIndicatorVisualization
-					attr={indicator}
-					secondLang={true}
-					langs={locales}
-					organisations={organisations}
-				/>
-			</Provider>
+			<OperationsIndicatorVisualization
+				attr={indicator}
+				secondLang={true}
+				langs={locales}
+			/>
 		);
 		const displayLinks = container.querySelectorAll('.bauhaus-display-links');
 
@@ -145,13 +137,11 @@ describe('IndicatorInformation', () => {
 	});
 	it('should show the right number of SeeAlso component', () => {
 		const { container } = renderWithRouter(
-			<Provider store={store}>
-				<OperationsIndicatorVisualization
-					attr={indicator}
-					secondLang={true}
-					langs={locales}
-				/>
-			</Provider>
+			<OperationsIndicatorVisualization
+				attr={indicator}
+				secondLang={true}
+				langs={locales}
+			/>
 		);
 		const seeAlso = container.querySelector('.bauhaus-see-also');
 

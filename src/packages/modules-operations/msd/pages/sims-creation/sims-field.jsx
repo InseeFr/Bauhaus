@@ -134,7 +134,6 @@ class SimsField extends PureComponent {
 						currentSection={currentSection}
 						msd={msd}
 						secondLang={secondLang}
-						organisationsOptions={organisationsOptions}
 					/>
 				}
 				alone={alone}

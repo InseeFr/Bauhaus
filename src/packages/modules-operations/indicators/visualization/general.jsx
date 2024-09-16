@@ -9,6 +9,7 @@ import { PublicationMale, Row, CreationUpdateItems } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { Note } from '../../../components/note';
+import { useOrganizations } from '../../../utils/hooks/organizations';
 
 function DisplayMultiLangNote({
 	value1,
@@ -40,16 +41,17 @@ function OperationsIndicatorVisualization({
 	attr,
 	secondLang,
 	frequency = {},
-	organisations = [],
 }) {
 	useTitle(D.indicatorsTitle, attr?.prefLabelLg1);
 
+	const { data: organisations } = useOrganizations();
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
 	const contributors = (attr.contributors || []).map(
 		(d) => organisations.find((orga) => orga.id === d.id) || {}
 	);
 
+	console.log(contributors, organisations);
 	return (
 		<>
 			<Row>

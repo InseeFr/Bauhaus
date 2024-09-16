@@ -18,6 +18,7 @@ import {
 } from '../../../redux/actions/constants/codeList';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useOrganizations } from '../../../utils/hooks/organizations';
 
 const SeriesVisualizationContainer = () => {
 	const { id } = useParams();
@@ -26,9 +27,7 @@ const SeriesVisualizationContainer = () => {
 	const [serverSideError, setServerSideError] = useState();
 
 	const frequencies = useCodesList(CL_FREQ);
-	const organisations = useSelector(
-		(state) => state.operationsOrganisations.results || []
-	);
+	const { data: organisations } = useOrganizations();
 	const categories = useCodesList(CL_SOURCE_CATEGORY);
 	const [secondLang] = useSecondLang();
 

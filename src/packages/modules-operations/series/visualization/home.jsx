@@ -14,16 +14,16 @@ import {
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { Note } from '../../../components/note';
+import { useOrganizations } from '../../../utils/hooks/organizations';
 function OperationsSerieVisualization({
 	attr,
 	langs: { lg1 },
 	secondLang,
 	frequency = {},
 	category = {},
-	organisations = [],
 }) {
 	useTitle(D.seriesTitle + ' - ' + D.operationsTitle, attr?.prefLabelLg1);
-
+	const { data: organisations } = useOrganizations();
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
 	const dataCollectors = (attr.dataCollectors || []).map(

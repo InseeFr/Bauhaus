@@ -1,14 +1,13 @@
 import { D1 } from '../../i18n/build-dictionary';
 import { useSelector } from 'react-redux';
 import { Note } from '../../../components/note';
+import { useOrganizations } from '../../../utils/hooks/organizations';
 
 const PublishersView = ({ publishers, lg1 }) => {
 	const publishersIdArray = Array.isArray(publishers)
 		? publishers
 		: [publishers];
-	const organisations = useSelector(
-		(state) => state.operationsOrganisations.results
-	);
+	const { data: organisations } = useOrganizations();
 	const publishersArray = publishersIdArray.map(
 		({ id }) => organisations.find((orga) => orga.id === id) || {}
 	);
