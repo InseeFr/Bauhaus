@@ -14,7 +14,6 @@ const CollectionVisualization = ({
 	general,
 	members,
 	secondLang,
-	langs,
 	validateCollection,
 }) => {
 	useTitle(D.collectionsTitle, general.prefLabelLg1);
@@ -44,11 +43,7 @@ const CollectionVisualization = ({
 					exportCollection={exportCollection}
 				/>
 				<CheckSecondLang />
-				<CollectionGeneral
-					attr={general}
-					secondLang={secondLang}
-					langs={langs}
-				/>
+				<CollectionGeneral attr={general} secondLang={secondLang} />
 				<CollectionMembers members={members} secondLang={secondLang} />
 			</div>
 		</div>

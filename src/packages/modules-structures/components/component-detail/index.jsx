@@ -3,11 +3,9 @@ import { DumbComponentDetailEdit } from './edit';
 import { ComponentDetailView } from './view';
 import ComponentTitle from './title';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 export const ComponentDetail = (props) => {
 	const [secondLang] = useSecondLang();
-	const langs = useLocales();
 
 	const [mode, setMode] = useState(
 		!props.component?.labelLg1 ? 'EDIT' : 'VIEW'
@@ -38,7 +36,6 @@ export const ComponentDetail = (props) => {
 						handleUpdate={handleViewUpdate}
 						handleBack={props.handleBack}
 						updatable={!props.readOnly}
-						langs={langs}
 					/>
 				</>
 			)}

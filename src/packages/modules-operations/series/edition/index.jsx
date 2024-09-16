@@ -13,7 +13,6 @@ import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 const OperationsSeriesEditionContainer = (props) => {
 	const { id } = useParams();
@@ -28,7 +27,6 @@ const OperationsSeriesEditionContainer = (props) => {
 	const organisations = useSelector(
 		(state) => state.operationsOrganisations.results || []
 	);
-	const langs = useLocales();
 
 	const goBack = useGoBack();
 
@@ -67,7 +65,6 @@ const OperationsSeriesEditionContainer = (props) => {
 			series={series}
 			families={families}
 			indicators={indicators}
-			langs={langs}
 			frequencies={frequencies}
 			goBack={goBack}
 		/>

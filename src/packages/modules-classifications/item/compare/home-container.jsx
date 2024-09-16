@@ -3,13 +3,11 @@ import { Loading } from '../../../components';
 import Compare from './home';
 import useClassificationItem from '../hook';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 const CompareContainer = () => {
 	const { classificationId, itemId } = useParams();
 
 	const [secondLang] = useSecondLang();
-	const langs = useLocales();
 
 	const { isLoading, item } = useClassificationItem(classificationId, itemId);
 
@@ -22,7 +20,6 @@ const CompareContainer = () => {
 			general={item.general}
 			notes={item.notes}
 			secondLang={secondLang}
-			langs={langs}
 		/>
 	);
 };

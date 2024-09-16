@@ -6,11 +6,9 @@ import { useGoBack } from '../../../utils/hooks/useGoBack';
 import D from '../../../deprecated-locales/build-dictionary';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { OperationsApi } from '../../../sdk/operations-api';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 const OperationsFamilyEditionContainer = () => {
 	const { id } = useParams();
-	const langs = useLocales();
 	const goBack = useGoBack();
 
 	const [family, setFamily] = useState({});
@@ -27,14 +25,7 @@ const OperationsFamilyEditionContainer = () => {
 	);
 
 	if (!family.id && id) return <Loading />;
-	return (
-		<OperationsFamilyEdition
-			id={id}
-			family={family}
-			langs={langs}
-			goBack={goBack}
-		/>
-	);
+	return <OperationsFamilyEdition id={id} family={family} goBack={goBack} />;
 };
 
 export default OperationsFamilyEditionContainer;

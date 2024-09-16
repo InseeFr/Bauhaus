@@ -3,7 +3,7 @@ import { buildNotes } from '../utils/classification/notes';
 import D, { D2 } from '../../deprecated-locales';
 import { delPTags } from '../../utils/html-utils';
 import { stringToDate } from '../../utils/date-utils';
-function ClassificationNotes({ secondLang, notes, langs }) {
+function ClassificationNotes({ secondLang, notes }) {
 	const noteValues = buildNotes(notes).map((note) => {
 		if (note.title === 'classificationsChangeNote') {
 			const Dictionnary = secondLang ? D2 : D;
@@ -13,15 +13,7 @@ function ClassificationNotes({ secondLang, notes, langs }) {
 		}
 		return note;
 	});
-	return (
-		<NoteVisualization
-			params={noteValues}
-			langs={langs}
-			secondLang={secondLang}
-			context="classifications"
-			md
-		/>
-	);
+	return <NoteVisualization params={noteValues} secondLang={secondLang} md />;
 }
 
 export default ClassificationNotes;

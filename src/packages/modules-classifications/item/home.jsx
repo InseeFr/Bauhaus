@@ -8,7 +8,6 @@ import Narrowers from './narrowers';
 const ItemVisualization = ({
 	item: { general, notes, narrowers },
 	secondLang,
-	langs,
 }) => {
 	const { classificationId, itemId, conceptVersion: version } = general;
 	return (
@@ -28,9 +27,8 @@ const ItemVisualization = ({
 				classificationId={classificationId}
 				itemId={itemId}
 				secondLang={secondLang}
-				langs={langs}
 			/>
-			{notes && <Notes secondLang={secondLang} notes={notes} langs={langs} />}
+			{notes && <Notes secondLang={secondLang} notes={notes} />}
 
 			<Narrowers
 				narrowers={narrowers}

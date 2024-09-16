@@ -2,13 +2,12 @@ import { D1, D2 } from '../../../deprecated-locales';
 import { CreationUpdateItems } from '../../../components';
 import { Note } from '../../../components/note';
 
-function CollectionGeneral({ attr, secondLang, langs }) {
+function CollectionGeneral({ attr, secondLang }) {
 	const mapping = {
 		creator: D1.creatorTitle,
 		contributor: D1.contributorTitle,
 		isValidated: D1.isCollectionValidTitle,
 	};
-	const { lg1, lg2 } = langs;
 	return (
 		<>
 			<div className="row">
@@ -49,14 +48,12 @@ function CollectionGeneral({ attr, secondLang, langs }) {
 					<Note
 						text={attr.descriptionLg1}
 						title={D1.descriptionTitle}
-						lang={lg1}
 						alone={!secondLang}
 					/>
 					{secondLang && (
 						<Note
 							text={attr.descriptionLg2}
 							title={D2.descriptionTitle}
-							lang={lg2}
 							alone={false}
 						/>
 					)}

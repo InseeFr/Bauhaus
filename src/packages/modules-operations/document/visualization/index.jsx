@@ -10,7 +10,6 @@ import OperationsDocumentVisualization from './home';
 import { GeneralApi } from '../../../sdk/general-api';
 import { Menu } from './Menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 function getPath(path) {
 	return path.includes('document') ? 'document' : 'link';
@@ -20,7 +19,6 @@ const DocumentationVisualizationContainer = () => {
 	const { id } = useParams();
 	const { path } = useRouteMatch();
 	const type = getPath(path);
-	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 	const langOptions = useSelector(
 		(state) => state.operationsCodesList.results['ISO-639']
@@ -59,7 +57,6 @@ const DocumentationVisualizationContainer = () => {
 			<OperationsDocumentVisualization
 				id={id}
 				attr={document}
-				langs={langs}
 				secondLang={secondLang}
 				langOptions={langOptions}
 				type={type}

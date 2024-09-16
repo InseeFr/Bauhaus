@@ -14,7 +14,6 @@ function DisplayMultiLangNote({
 	value1,
 	value2,
 	title,
-	langs: { lg1, lg2 },
 	secondLang,
 	md = false,
 }) {
@@ -27,18 +26,11 @@ function DisplayMultiLangNote({
 			<Note
 				text={body1}
 				title={D1[title]}
-				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
 			/>
 			{secondLang && (
-				<Note
-					text={body2}
-					title={D2[title]}
-					lang={lg2}
-					alone={false}
-					allowEmpty={true}
-				/>
+				<Note text={body2} title={D2[title]} alone={false} allowEmpty={true} />
 			)}
 		</Row>
 	);
@@ -46,7 +38,6 @@ function DisplayMultiLangNote({
 
 function OperationsIndicatorVisualization({
 	attr,
-	langs,
 	secondLang,
 	frequency = {},
 	organisations = [],
@@ -82,14 +73,12 @@ function OperationsIndicatorVisualization({
 				value1={attr.altLabelLg1}
 				value2={attr.altLabelLg2}
 				title={'altLabel'}
-				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayMultiLangNote
 				value1={attr.abstractLg1}
 				value2={attr.abstractLg2}
 				title={'summary'}
-				langs={langs}
 				secondLang={secondLang}
 				md
 			/>
@@ -97,14 +86,12 @@ function OperationsIndicatorVisualization({
 				value1={attr.historyNoteLg1}
 				value2={attr.historyNoteLg2}
 				title={'history'}
-				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayMultiLangNote
 				value1={frequency.labelLg1}
 				value2={frequency.labelLg2}
 				title={'indicatorDataCollectFrequency'}
-				langs={langs}
 				secondLang={secondLang}
 			/>
 			<Row>
@@ -116,7 +103,6 @@ function OperationsIndicatorVisualization({
 			<DisplayLinks
 				links={contributors}
 				title={'stakeholders'}
-				langs={langs}
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
@@ -126,25 +112,22 @@ function OperationsIndicatorVisualization({
 				links={attr.replaces}
 				path={'/operations/indicator/'}
 				title={'replaces'}
-				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.isReplacedBy}
 				path={'/operations/indicator/'}
 				title={'replacedBy'}
-				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.wasGeneratedBy}
 				path={'/operations/series/'}
 				title={'generatedBy'}
-				langs={langs}
 				secondLang={secondLang}
 			/>
 
-			<SeeAlso links={seeAlso} langs={langs} secondLang={secondLang} />
+			<SeeAlso links={seeAlso} secondLang={secondLang} />
 		</>
 	);
 }

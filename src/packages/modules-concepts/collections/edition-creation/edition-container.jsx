@@ -9,12 +9,10 @@ import { Loading } from '../../../components';
 import { ConceptsApi } from '../../../sdk';
 import { CollectionApi } from '../../../sdk/collection-api';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 const EditionContainer = () => {
 	const { id } = useParams();
 	const history = useHistory();
-	const langs = useLocales();
 
 	const [loadingCollection, setLoadingCollection] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
@@ -81,7 +79,6 @@ const EditionContainer = () => {
 			collectionList={collectionList}
 			conceptList={conceptList}
 			save={handleUpdate}
-			langs={langs}
 		/>
 	);
 };

@@ -25,7 +25,6 @@ import { OperationsApi } from '../../../../sdk/operations-api';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
 import { flattenTree, rangeType } from '../../../utils/msd';
 import { useHistory } from 'react-router-dom';
-import { useLocales } from '../../../../utils/hooks/useLocales';
 
 const { RICH_TEXT } = rangeType;
 
@@ -160,7 +159,6 @@ class SimsCreation extends Component {
 			metadataStructure,
 			codesLists = {},
 			mode,
-			langs: { lg1, lg2 },
 			organisations = [],
 			geographiesOptions = [],
 			documentStores,
@@ -221,7 +219,6 @@ class SimsCreation extends Component {
 									handleChange={handleChange}
 									codesLists={codesLists}
 									secondLang={false}
-									lang={lg1}
 									alone={!hasLabelLg2(msd) || !secondLang}
 									organisationsOptions={organisationsOptions}
 									geographiesOptions={geographiesOptions}
@@ -235,7 +232,6 @@ class SimsCreation extends Component {
 									handleChange={handleChange}
 									codesLists={codesLists}
 									secondLang={true}
-									lang={lg2}
 									alone={false}
 									organisationsOptions={organisationsOptionsLg2}
 									geographiesOptions={geographiesOptions}
@@ -358,7 +354,6 @@ class SimsCreation extends Component {
 
 const withParentWithSims = (Component) => {
 	return (props) => {
-		const langs = useLocales();
 		const history = useHistory();
 		const [parentWithSims, setParentWithSims] = useState([]);
 		const parentType = props.parentType;
@@ -380,12 +375,7 @@ const withParentWithSims = (Component) => {
 			}
 		}, [seriesId, parentType, familyId]);
 		return (
-			<Component
-				{...props}
-				langs={langs}
-				parentWithSims={parentWithSims}
-				history={history}
-			/>
+			<Component {...props} parentWithSims={parentWithSims} history={history} />
 		);
 	};
 };

@@ -83,11 +83,7 @@ const ConceptVisualization = ({
 
 				<ConceptGeneral secondLang={secondLang} attr={general} langs={langs} />
 				<ConceptLinks secondLang={secondLang} links={links} />
-				<NoteVisualization
-					params={buildNotes(notes)}
-					langs={langs}
-					secondLang={secondLang}
-				/>
+				<NoteVisualization params={buildNotes(notes)} secondLang={secondLang} />
 			</div>
 			<ModalRmes
 				id="validation-concept-modal"

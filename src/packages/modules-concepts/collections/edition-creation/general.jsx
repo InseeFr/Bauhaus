@@ -15,13 +15,7 @@ const handleFieldChange = (handleChange) =>
 		return handlers;
 	}, {});
 
-function CollectionGeneralEdition({
-	general,
-	creation,
-	handleChange,
-	langs,
-	errors,
-}) {
+function CollectionGeneralEdition({ general, creation, handleChange, errors }) {
 	const {
 		id,
 		prefLabelLg1,
@@ -31,7 +25,6 @@ function CollectionGeneralEdition({
 		descriptionLg1,
 		descriptionLg2,
 	} = general;
-	const { lg1, lg2 } = langs;
 
 	const handlers = handleFieldChange(handleChange);
 
@@ -44,7 +37,6 @@ function CollectionGeneralEdition({
 				<InputRmes
 					colMd={12}
 					label={D1.idTitle}
-					lang={lg1}
 					star
 					value={id}
 					disabled={!creation}
@@ -62,7 +54,6 @@ function CollectionGeneralEdition({
 				<InputRmes
 					colMd={6}
 					label={D1.labelTitle}
-					lang={lg1}
 					star
 					value={prefLabelLg1}
 					handleChange={handlers.prefLabelLg1}
@@ -77,7 +68,6 @@ function CollectionGeneralEdition({
 				<InputRmes
 					colMd={6}
 					label={D2.labelTitle}
-					lang={lg2}
 					hiddenStar
 					value={prefLabelLg2}
 					handleChange={handlers.prefLabelLg2}
@@ -100,7 +90,6 @@ function CollectionGeneralEdition({
 				<InputRmes
 					colMd={6}
 					label={D1.descriptionTitle}
-					lang={lg1}
 					value={descriptionLg1}
 					handleChange={handlers.descriptionLg1}
 					className="w-100"
@@ -108,7 +97,6 @@ function CollectionGeneralEdition({
 				<InputRmes
 					colMd={6}
 					label={D2.descriptionTitle}
-					lang={lg2}
 					value={descriptionLg2}
 					handleChange={handlers.descriptionLg2}
 					className="w-100"

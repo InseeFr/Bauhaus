@@ -13,7 +13,6 @@ type ClassificationVisualizationTypes = {
 	classification: Classification;
 	classificationId: string;
 	secondLang?: boolean;
-	langs: { lg1: string; lg2: string };
 	publish: () => void;
 	serverSideError?: any;
 };
@@ -21,7 +20,6 @@ const ClassificationVisualization = ({
 	classification: { general, levels },
 	classificationId,
 	secondLang,
-	langs,
 	publish,
 	serverSideError,
 }: ClassificationVisualizationTypes) => {
@@ -55,10 +53,8 @@ const ClassificationVisualization = ({
 			<Menu classification={general} publish={publish} />
 			<CheckSecondLang />
 			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
-			<General general={general} secondLang={secondLang} langs={langs} />
-			{notes.scopeNoteLg1 && (
-				<Notes notes={notes} secondLang={secondLang} langs={langs} />
-			)}
+			<General general={general} secondLang={secondLang} />
+			{notes.scopeNoteLg1 && <Notes notes={notes} secondLang={secondLang} />}
 			{levels.length !== 0 && (
 				<Levels
 					levels={levels}

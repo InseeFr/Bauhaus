@@ -11,7 +11,6 @@ const Notes = ({
 		descriptionLg2,
 	},
 	secondLang,
-	langs: { lg1, lg2 },
 }) => (
 	<div>
 		<span>
@@ -20,7 +19,6 @@ const Notes = ({
 					<ExplanatoryNote
 						text={descriptionLg1}
 						title={D1.classificationsDescription}
-						lang={lg1}
 						alone={!secondLang}
 						md
 					/>
@@ -28,7 +26,6 @@ const Notes = ({
 						<ExplanatoryNote
 							text={descriptionLg2}
 							title={D2.classificationsDescription}
-							lang={lg2}
 							alone={false}
 							md
 						/>
@@ -42,7 +39,6 @@ const Notes = ({
 					<ExplanatoryNote
 						text={scopeNoteLg1}
 						title={D1.classificationsScopeNote}
-						lang={lg1}
 						alone={!secondLang}
 						md
 					/>
@@ -50,7 +46,6 @@ const Notes = ({
 						<ExplanatoryNote
 							text={scopeNoteLg2}
 							title={D2.classificationsScopeNote}
-							lang={lg2}
 							alone={false}
 							md
 						/>
@@ -64,7 +59,6 @@ const Notes = ({
 					<ExplanatoryNote
 						text={changeNoteLg1}
 						title={D1.classificationsChangeNote()}
-						lang={lg1}
 						alone={!secondLang}
 						md
 					/>
@@ -72,7 +66,6 @@ const Notes = ({
 						<ExplanatoryNote
 							text={changeNoteLg2}
 							title={D2.classificationsChangeNote()}
-							lang={lg2}
 							alone={false}
 							md
 						/>

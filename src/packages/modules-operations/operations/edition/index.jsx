@@ -7,14 +7,12 @@ import { useGoBack } from '../../../utils/hooks/useGoBack';
 import D from '../../../deprecated-locales';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { OperationsApi } from '../../../sdk/operations-api';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 const OperationEditionContainer = (props) => {
 	const { id } = useParams();
 	const [series, setSeries] = useState([]);
 	const [operation, setOperation] = useState({});
 	const stamp = useSelector((state) => state.app.auth.user.stamp);
-	const langs = useLocales();
 
 	const goBack = useGoBack();
 
@@ -40,7 +38,6 @@ const OperationEditionContainer = (props) => {
 	return (
 		<OperationsOperationEdition
 			series={series}
-			langs={langs}
 			id={id}
 			operation={operation}
 			goBack={goBack}

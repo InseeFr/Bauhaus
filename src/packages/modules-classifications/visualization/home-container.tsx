@@ -3,11 +3,9 @@ import ClassificationVisualization from './home';
 import { Loading } from '../../components';
 import { useClassification, usePublishClassification } from '../hooks';
 import { useSecondLang } from '../../utils/hooks/second-lang';
-import { useLocales } from '../../utils/hooks/useLocales';
 
 const ClassificationVisualizationContainer = () => {
 	const { id } = useParams<{ id: string }>();
-	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 
 	const { isLoading, classification } = useClassification(id);
@@ -25,7 +23,6 @@ const ClassificationVisualizationContainer = () => {
 			classification={classification}
 			classificationId={id}
 			secondLang={secondLang}
-			langs={langs}
 			publish={publish}
 			serverSideError={error}
 		/>

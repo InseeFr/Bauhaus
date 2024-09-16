@@ -6,7 +6,6 @@ type DisplayLinksTypes = {
 	links: any[];
 	path: string;
 	title: string;
-	langs: { lg1: string; lg2: string };
 	secondLang?: boolean;
 	displayLink?: boolean;
 	labelLg1?: string;
@@ -16,7 +15,6 @@ function DisplayLinks({
 	links = [],
 	path,
 	title,
-	langs: { lg1, lg2 },
 	secondLang,
 	displayLink = true,
 	labelLg1 = 'labelLg1',

@@ -10,12 +10,10 @@ import { Loading } from '../../../components';
 import { ConceptsApi } from '../../../sdk';
 import { CollectionApi } from '../../../sdk/collection-api';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { useLocales } from '../../../utils/hooks/useLocales';
 import { useAppContext } from '../../../application/app-context';
 
 const CreationContainer = () => {
 	const history = useHistory();
-	const langs = useLocales();
 	const {
 		properties: { defaultContributor },
 	} = useAppContext();
@@ -73,7 +71,6 @@ const CreationContainer = () => {
 			collectionList={collectionList}
 			conceptList={conceptList}
 			save={handleCreation}
-			langs={langs}
 		/>
 	);
 };

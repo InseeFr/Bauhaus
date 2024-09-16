@@ -7,11 +7,7 @@ import Members from './members';
 import D from '../../../deprecated-locales/build-dictionary';
 import { useTitle } from '../../../utils/hooks/useTitle';
 
-const SeriesVisualization = ({
-	series: { general, members },
-	secondLang,
-	langs,
-}) => {
+const SeriesVisualization = ({ series: { general, members }, secondLang }) => {
 	useTitle(
 		D.seriesTitle + ' - ' + D.classificationsTitle,
 		general?.prefLabelLg1
@@ -27,10 +23,8 @@ const SeriesVisualization = ({
 			{general.prefLabelLg2 && <PageSubtitle subTitle={general.prefLabelLg2} />}
 			<Controls />
 			<CheckSecondLang />
-			<General general={general} secondLang={secondLang} langs={langs} />
-			{notes.scopeNoteLg1 && (
-				<Notes notes={notes} secondLang={secondLang} langs={langs} />
-			)}
+			<General general={general} secondLang={secondLang} />
+			{notes.scopeNoteLg1 && <Notes notes={notes} secondLang={secondLang} />}
 			{members.length !== 0 && (
 				<Members members={members} secondLang={secondLang} />
 			)}

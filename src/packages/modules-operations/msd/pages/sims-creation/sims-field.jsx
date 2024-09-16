@@ -77,7 +77,6 @@ class SimsField extends PureComponent {
 			msd,
 			currentSection = {},
 			secondLang,
-			lang,
 			alone,
 			organisationsOptions = [],
 			unbounded,
@@ -139,7 +138,6 @@ class SimsField extends PureComponent {
 					/>
 				}
 				alone={alone}
-				lang={lang}
 				text={
 					!msd.isPresentational && (
 						<span className="simsField">

@@ -141,7 +141,7 @@ class ConceptEditionCreation extends Component {
 	}
 
 	render() {
-		const { stampList, maxLengthScopeNote, title, subtitle, creation, langs } =
+		const { stampList, maxLengthScopeNote, title, subtitle, creation } =
 			this.props;
 
 		const {
@@ -200,7 +200,6 @@ class ConceptEditionCreation extends Component {
 										general={general}
 										handleChange={this.handleChangeGeneral}
 										stampList={stampList}
-										langs={langs}
 										errorMessage={errorMessage}
 									/>
 								)}
@@ -212,7 +211,6 @@ class ConceptEditionCreation extends Component {
 										handleChange={this.handleChangeNotes}
 										maxLengthScopeNote={maxLengthScopeNote}
 										disseminationStatus={general.disseminationStatus}
-										langs={langs}
 										errorMessage={errorMessage}
 									/>
 								)}

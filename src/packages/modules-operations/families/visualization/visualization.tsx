@@ -8,15 +8,14 @@ import {
 } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
 
 type OperationsFamilyVisualizationTypes = {
 	attr: any;
-	langs: { lg1: string; lg2: string };
 	secondLang: boolean;
 };
 function OperationsFamilyVisualization({
 	attr,
-	langs: { lg1, lg2 },
 	secondLang,
 }: Readonly<OperationsFamilyVisualizationTypes>) {
 	useTitle(D.familiesTitle + ' - ' + D.operationsTitle, attr?.prefLabelLg1);
@@ -62,7 +61,6 @@ function OperationsFamilyVisualization({
 				<Note
 					text={renderMarkdownElement(attr.abstractLg1)}
 					title={D1.summary}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -70,7 +68,6 @@ function OperationsFamilyVisualization({
 					<Note
 						text={renderMarkdownElement(attr.abstractLg2)}
 						title={D2.summary}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -81,7 +78,6 @@ function OperationsFamilyVisualization({
 				childrenTitle="childrenSeries"
 				childrenPath="series"
 				title="linksTitle"
-				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>
 		</>

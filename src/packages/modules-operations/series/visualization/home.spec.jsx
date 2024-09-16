@@ -7,7 +7,6 @@ import {
 } from '../../../redux/actions/constants/codeList';
 import configureStore from '../../../redux/configure-store';
 import { renderWithRouter } from '../../../tests-utils/render';
-import { locales } from '../../../tests-utils/default-values';
 
 const organisations = [
 	{
@@ -98,7 +97,6 @@ describe('SerieInformation', () => {
 			<Provider store={store}>
 				<OperationsSerieVisualization
 					attr={attr}
-					langs={locales}
 					secondLang={false}
 					organisations={organisations}
 				/>
@@ -113,7 +111,6 @@ describe('SerieInformation', () => {
 				<OperationsSerieVisualization
 					attr={attr}
 					secondLang={true}
-					langs={locales}
 					organisations={organisations}
 				/>
 			</Provider>
@@ -126,7 +123,6 @@ describe('SerieInformation', () => {
 				<OperationsSerieVisualization
 					attr={attr}
 					secondLang={true}
-					langs={locales}
 					organisations={organisations}
 				/>
 			</Provider>
@@ -146,7 +142,6 @@ describe('SerieInformation', () => {
 				<OperationsSerieVisualization
 					attr={attr2}
 					secondLang={true}
-					langs={locales}
 					organisations={organisations}
 				/>
 			</Provider>
@@ -160,7 +155,6 @@ describe('SerieInformation', () => {
 				<OperationsSerieVisualization
 					attr={attr}
 					secondLang={true}
-					langs={locales}
 					organisations={organisations}
 				/>
 			</Provider>

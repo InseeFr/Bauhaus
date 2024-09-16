@@ -21,7 +21,6 @@ const ConceptCompare = ({ conceptGeneral, notes, secondLang, langs }) => {
 				<CompareNotes
 					secondLang={secondLang}
 					notes={notes}
-					langs={langs}
 					version={version}
 					buildNotes={buildNotes}
 				/>

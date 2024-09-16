@@ -15,12 +15,10 @@ import { useCodesList } from '../../../utils/hooks/codeslist';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 const IndicatorVisualizationContainer = () => {
 	const { id } = useParams();
 
-	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 	const frequency = useCodesList(CL_FREQ);
 	const organisations = useSelector(
@@ -64,7 +62,6 @@ const IndicatorVisualizationContainer = () => {
 			<OperationsIndicatorVisualization
 				secondLang={secondLang}
 				attr={indicator}
-				langs={langs}
 				frequency={frequency}
 				organisations={organisations}
 			/>

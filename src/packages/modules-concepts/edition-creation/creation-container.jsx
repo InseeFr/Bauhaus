@@ -10,11 +10,9 @@ import buildPayloadCreation from '../../modules-concepts/utils/build-payload-cre
 import emptyConcept from '../../modules-concepts/utils/empty-concept';
 import { mergeWithAllConcepts } from '../utils/links';
 import { sortArrayByLabel } from '../../utils/array-utils';
-import { useLocales } from '../../utils/hooks/useLocales';
 import { useAppContext } from '../../application/app-context';
 
 const CreationContainer = () => {
-	const langs = useLocales();
 	const maxLengthScopeNoteString =
 		useAppContext().properties.maxLengthScopeNote;
 
@@ -70,7 +68,6 @@ const CreationContainer = () => {
 			maxLengthScopeNote={maxLengthScopeNote}
 			stampList={stamps}
 			save={handleCreation}
-			langs={langs}
 		/>
 	);
 };

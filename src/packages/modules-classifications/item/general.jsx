@@ -3,8 +3,7 @@ import D from '../../deprecated-locales';
 import { Row } from '../../components';
 import { Note } from '../../components/note';
 
-const General = ({ general, classificationId, secondLang, langs }) => {
-	const { lg1, lg2 } = langs;
+const General = ({ general, classificationId, secondLang }) => {
 	const mapping = {
 		broaderLg1: D.classificationsBroaderLevel,
 		itemId: D.classificationsNotationTitle,
@@ -72,14 +71,14 @@ const General = ({ general, classificationId, secondLang, langs }) => {
 								if (fieldName === 'altLabelLg1') {
 									return (
 										<li key={fieldName}>
-											{mapping[fieldName]} ({lg1}) :{general.altLabelLg1}
+											{mapping[fieldName]} : {general.altLabelLg1}
 										</li>
 									);
 								}
 								if (fieldName === 'altLabelLg2') {
 									return (
 										<li key={fieldName}>
-											{mapping[fieldName]} ({lg2}) :{general.altLabelLg2}
+											{mapping[fieldName]} : {general.altLabelLg2}
 										</li>
 									);
 								} else {

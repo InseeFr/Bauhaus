@@ -1,5 +1,4 @@
 import HelpInformation from '../../../../modules-operations/msd/help-information';
-import { useLocales } from '../../../../utils/hooks/useLocales';
 import { Note } from '../../../../components/note';
 
 export default function MSDHelp({
@@ -8,7 +7,6 @@ export default function MSDHelp({
 	codesLists,
 	organisations,
 }) {
-	const { lg1 } = useLocales();
 	function MSDInformations({ msd }) {
 		return (
 			<>
@@ -23,7 +21,6 @@ export default function MSDHelp({
 							/>
 						}
 						alone
-						lang={lg1}
 					/>
 				</div>
 				{Object.values(msd.children).map((child) => (

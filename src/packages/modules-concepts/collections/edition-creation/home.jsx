@@ -68,7 +68,7 @@ class CollectionEditionCreation extends Component {
 	}
 
 	render() {
-		const { title, subtitle, collectionList, conceptList, creation, langs } =
+		const { title, subtitle, collectionList, conceptList, creation } =
 			this.props;
 
 		const {
@@ -98,7 +98,6 @@ class CollectionEditionCreation extends Component {
 						general={general}
 						creation={creation}
 						handleChange={this.handleChangeGeneral}
-						langs={langs}
 						errors={errors}
 					/>
 					<MembersEdition

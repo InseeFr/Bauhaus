@@ -9,12 +9,10 @@ import { useCodesList } from '../../../utils/hooks/codeslist';
 import D from '../../../deprecated-locales';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { OperationsApi } from '../../../sdk/operations-api';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 const OperationsIndicatorsEditionContainer = (props) => {
 	const { id } = useParams();
 
-	const langs = useLocales();
 	const frequencies = useCodesList(CL_FREQ);
 	const organisations = useSelector(
 		(state) => state.operationsOrganisations.results || []
@@ -53,7 +51,6 @@ const OperationsIndicatorsEditionContainer = (props) => {
 	return (
 		<OperationsIndicatorEdition
 			series={series}
-			langs={langs}
 			indicators={indicators}
 			organisations={organisations}
 			frequencies={frequencies}

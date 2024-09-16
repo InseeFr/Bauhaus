@@ -41,7 +41,6 @@ export const ComponentDetailView = ({
 	publishComponent,
 	serverSideError,
 	attributes,
-	langs: { lg1, lg2 },
 }) => {
 	useTitle(D.componentTitle, component?.labelLg1);
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
@@ -137,7 +136,6 @@ export const ComponentDetailView = ({
 				<Note
 					text={component.altLabelLg1}
 					title={D1.altLabel}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -145,7 +143,6 @@ export const ComponentDetailView = ({
 					<Note
 						text={component.altLabelLg2}
 						title={D2.altLabel}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>

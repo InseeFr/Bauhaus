@@ -3,14 +3,7 @@ import Controls from './controls';
 import General from '../general';
 import { buildNotes } from '../../utils/classification/notes';
 
-const Compare = ({
-	classificationId,
-	itemId,
-	general,
-	notes,
-	secondLang,
-	langs,
-}) => {
+const Compare = ({ classificationId, itemId, general, notes, secondLang }) => {
 	const { prefLabelLg1, prefLabelLg2 } = general;
 	const version = Number(general.conceptVersion);
 	return (
@@ -25,12 +18,10 @@ const Compare = ({
 					classificationId={classificationId}
 					itemId={itemId}
 					secondLang={secondLang}
-					langs={langs}
 				/>
 				<CompareNotes
 					secondLang={secondLang}
 					notes={notes}
-					langs={langs}
 					version={version}
 					buildNotes={buildNotes}
 				/>

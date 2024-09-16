@@ -22,7 +22,6 @@ function ConceptGeneralEdition({
 	general,
 	stampList,
 	handleChange,
-	langs,
 	errorMessage,
 }) {
 	const {
@@ -52,7 +51,6 @@ function ConceptGeneralEdition({
 				<InputRmes
 					colMd={6}
 					label={D1.labelTitle}
-					lang={langs.lg1}
 					star
 					value={prefLabelLg1}
 					handleChange={handlers.prefLabelLg1}
@@ -68,7 +66,6 @@ function ConceptGeneralEdition({
 				<InputRmes
 					colMd={6}
 					label={D2.labelTitle}
-					lang={langs.lg2}
 					hiddenStar
 					value={prefLabelLg2}
 					handleChange={handlers.prefLabelLg2}

@@ -43,7 +43,6 @@ const NotesEdition = ({
 	notes,
 	disseminationStatus,
 	maxLengthScopeNote,
-	langs,
 	handleChange,
 	errorMessage,
 }) => {
@@ -88,7 +87,6 @@ const NotesEdition = ({
 									handleChangeLg1={handlers[noteLg1Name]}
 									handleChangeLg2={handlers[noteLg2Name]}
 									maxLength={maxLength}
-									langs={langs}
 									errorMessage={errorMessage}
 								/>
 							);

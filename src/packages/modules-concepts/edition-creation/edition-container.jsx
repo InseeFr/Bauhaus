@@ -12,7 +12,6 @@ import { useTitle } from '../../utils/hooks/useTitle';
 import buildPayloadUpdate from '../../modules-concepts/utils/build-payload-creation-update/build-payload-update';
 import { mergeWithAllConcepts } from '../utils/links';
 import { emptyNotes } from '../utils/notes';
-import { useLocales } from '../../utils/hooks/useLocales';
 import { useAppContext } from '../../application/app-context';
 
 const formatNotes = (notes) => {
@@ -29,7 +28,6 @@ const EditionContainer = () => {
 	const { id } = useParams();
 	const history = useHistory();
 
-	const langs = useLocales();
 	const maxLengthScopeNoteString =
 		useAppContext().properties.maxLengthScopeNote;
 
@@ -104,7 +102,6 @@ const EditionContainer = () => {
 			maxLengthScopeNote={maxLengthScopeNote}
 			stampList={stamps}
 			save={handleUpdate}
-			langs={langs}
 		/>
 	);
 };

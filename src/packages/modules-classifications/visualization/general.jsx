@@ -4,8 +4,7 @@ import { getDisseminationStatus, Row } from '../../components';
 import { renderMarkdownElement } from '../../utils/html-utils';
 import { stringToDate } from '../../utils/date-utils';
 import { Note } from '../../components/note';
-const General = ({ general, secondLang, langs }) => {
-	const { lg1, lg2 } = langs;
+const General = ({ general, secondLang }) => {
 	let mapping = {};
 	mapping = {
 		...mapping,
@@ -17,13 +16,13 @@ const General = ({ general, secondLang, langs }) => {
 	if (general.altLabelLg1) {
 		mapping = {
 			...mapping,
-			altLabelLg1: `${D.altLabelTitle} (${lg1})`,
+			altLabelLg1: `${D.altLabelTitle}`,
 		};
 	}
 	if (general.altLabelLg2) {
 		mapping = {
 			...mapping,
-			altLabelLg2: `${D.altLabelTitle} (${lg2})`,
+			altLabelLg2: `${D.altLabelTitle}`,
 		};
 	}
 	mapping = {
