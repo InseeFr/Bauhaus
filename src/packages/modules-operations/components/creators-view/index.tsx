@@ -21,7 +21,6 @@ const CreatorsView = ({ creators, lg1 }: CreatorsViewTypes) => {
 				)
 			}
 			title={D1.creatorTitle}
-			lang={lg1}
 			alone={true}
 			allowEmpty={true}
 		/>
