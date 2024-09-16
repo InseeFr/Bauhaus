@@ -105,7 +105,7 @@ describe('IndicatorInformation', () => {
 			4
 		);
 	});
-	it.only('should show the right data in the DisplayLinks component', () => {
+	it('should show the right data in the DisplayLinks component', () => {
 		const { container } = renderWithRouter(
 			<OperationsIndicatorVisualization
 				attr={indicator}
