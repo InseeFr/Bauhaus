@@ -8,12 +8,12 @@ import {
 	AddLogo,
 	DelLogo,
 	PickerItem,
-	ActionToolbar,
 	filterDeburr,
 	ReturnButton,
 } from '@inseefr/wilco';
 import { TextInput, PageTitle, ErrorBloc } from '../../components';
 import { Panel } from '../panel';
+import { ActionToolbar } from '../action-toolbar';
 
 type Item = { id: string; label: string };
 const trackItems = (items: Item[]) => {

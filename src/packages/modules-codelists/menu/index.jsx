@@ -1,8 +1,8 @@
-import { Menu } from '@inseefr/wilco';
 import D from '../i18n/build-dictionary';
 import { useLocation } from 'react-router-dom';
 import { ADMIN } from '../../auth/roles';
 import { usePermission } from '../../redux/hooks/usePermission';
+import { MainMenu } from '../../components/menu';
 
 const defaultAttrs = { 'aria-current': 'page' };
 
@@ -43,7 +43,7 @@ const MenuCodelists = () => {
 		currentPath.attrs = defaultAttrs;
 	}
 
-	return <Menu paths={paths} />;
+	return <MainMenu paths={paths} />;
 };
 
 export default MenuCodelists;

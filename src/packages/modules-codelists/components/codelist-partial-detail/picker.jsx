@@ -6,11 +6,11 @@ import {
 	DelLogo,
 	filterDeburr,
 	PickerItem,
-	ActionToolbar,
 } from '@inseefr/wilco';
 import '../codelist-detail/edit.scss';
 import { TextInput, Row } from '../../../components';
 import { Panel } from '../../../components/panel';
+import { ActionToolbar } from '../../../components/action-toolbar';
 
 const Picker = ({
 	panelTitle,

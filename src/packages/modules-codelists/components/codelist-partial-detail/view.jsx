@@ -3,7 +3,6 @@ import {
 	Note,
 	UpdateButton,
 	DeleteButton,
-	ActionToolbar,
 	ReturnButton,
 	ErrorBloc,
 	Table,
@@ -25,6 +24,7 @@ import {
 import { useTitle } from '../../../utils/hooks/useTitle';
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
+import { ActionToolbar } from '../../../components/action-toolbar';
 
 export const CodeListPartialDetailView = ({
 	codelist,

@@ -5,7 +5,7 @@ import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 
-import { CancelButton, SaveButton, ActionToolbar } from '@inseefr/wilco';
+import { CancelButton, SaveButton } from '@inseefr/wilco';
 import Modal from 'react-modal';
 import {
 	TextInput,
@@ -23,6 +23,7 @@ import { useTitle } from '../../../utils/hooks/useTitle';
 import { GeneralApi } from '../../../sdk/general-api';
 import { useDocumentsAndLinks } from '../../../utils/hooks/documents';
 import LabelRequired from '../../../components/label-required';
+import { ActionToolbar } from '../../../components/action-toolbar';
 
 const initDocument = {
 	labelLg1: '',

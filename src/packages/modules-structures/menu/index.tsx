@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import D from '../../deprecated-locales';
-import { Menu } from '@inseefr/wilco';
 import { useLocation } from 'react-router-dom';
+import { MainMenu } from '../../components/menu';
 
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };
@@ -67,7 +67,7 @@ const MenuDSDs = () => {
 		return paths;
 	}, [pathname]);
 
-	return <Menu paths={Object.values(paths)} />;
+	return <MainMenu paths={Object.values(paths)} />;
 };
 
 export default MenuDSDs;

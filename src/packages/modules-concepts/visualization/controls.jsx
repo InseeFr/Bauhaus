@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Button, ActionToolbar } from '@inseefr/wilco';
+import { Button } from '@inseefr/wilco';
 import check from '../../auth/auth';
 import D from '../../deprecated-locales';
 import { ConfirmationDelete } from '../../components';
@@ -7,6 +7,7 @@ import { useLoading } from './loading';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { saveFileFromHttpResponse } from '../../utils/files';
 import { ConceptsApi } from '../../sdk';
+import { ActionToolbar } from '../../components/action-toolbar';
 const ConceptVisualizationControls = ({
 	isValidated,
 	isValidOutOfDate,

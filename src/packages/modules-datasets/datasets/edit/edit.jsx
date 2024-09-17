@@ -9,7 +9,7 @@ import {
 	PageTitleBlock,
 } from '../../../components';
 
-import { ActionToolbar, CancelButton, SaveButton } from '@inseefr/wilco';
+import { CancelButton, SaveButton } from '@inseefr/wilco';
 import { GlobalInformation } from './tabs/global-information';
 import { InternalManagement } from './tabs/internal-management';
 import { Notes } from './tabs/notes';
@@ -22,6 +22,7 @@ import { useTitle } from '../../../utils/hooks/useTitle';
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { DatasetsApi } from '../../../sdk';
+import { ActionToolbar } from '../../../components/action-toolbar';
 
 export const DatasetEdit = () => {
 	const { id } = useParams();

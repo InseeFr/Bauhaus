@@ -1,7 +1,8 @@
-import { CancelButton, ActionToolbar, SaveButton } from '@inseefr/wilco';
+import { CancelButton, SaveButton } from '@inseefr/wilco';
 import { GlobalClientSideErrorBloc } from '../../../components';
 import D from '../../../deprecated-locales/build-dictionary';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
+import { ActionToolbar } from '../../../components/action-toolbar';
 
 const ConceptCreateControlLayout = ({ errors, handleSave }) => {
 	const goBack = useGoBack();

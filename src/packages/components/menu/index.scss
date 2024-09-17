@@ -1,0 +1,61 @@
+@mixin list-item-separator($color) {
+  content: '';
+  height: 90%;
+  width: 1px;
+  position: relative;
+  right: -0.5em;
+  background-color: $color;
+  display: inline-block;
+}
+
+@media screen and (max-width: 767px) {
+  .bauhaus-main-menu {
+    .container-fluid {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+  .navbar-nav {
+    margin: 0;
+  }
+}
+@media screen and (min-width: 767px) {
+  .bauhaus-main-menu {
+    .with-separator::after {
+      @include list-item-separator(white);
+    }
+  }
+}
+
+.bauhaus-main-menu {
+  background: var(--color-3);
+  font-size: 15.3pt;
+  color: #cccfd9;
+  line-height: 20px;
+  margin-bottom: 0;
+  border-radius: 0;
+  border: 0;
+
+  .collapse {
+    display: block;
+  }
+
+  .navbar-nav {
+    align-items: center;
+    > li {
+      padding: 0 10px;
+      &:hover,
+      &.active {
+        > a,
+        > button {
+          text-decoration: underline;
+        }
+      }
+      a {
+        color: white !important;
+        border: 0;
+        text-decoration: none;
+      }
+    }
+  }
+}

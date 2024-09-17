@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton } from '@inseefr/wilco';
+import { ActionToolbar } from '../../components/action-toolbar';
 
 const Controls = () => {
 	const location = useLocation();

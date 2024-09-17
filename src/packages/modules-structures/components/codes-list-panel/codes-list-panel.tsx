@@ -1,10 +1,10 @@
 //@ts-nocheck
 import SlidingPanel from 'react-sliding-side-panel';
 import './codes-list-panel.scss';
-import { ActionToolbar } from '@inseefr/wilco';
 import D from '../../i18n/build-dictionary';
 import { CodesList } from '../../../model/CodesList';
 import { useAllCodes } from '../../../utils/hooks/codeslist';
+import { ActionToolbar } from '../../../components/action-toolbar';
 
 type CodesListPanelTypes = {
 	isOpen: boolean;

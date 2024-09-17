@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { Menu } from '@inseefr/wilco';
 import D from '../../deprecated-locales';
 import { getOperationsSimsCurrent } from '../../redux/selectors';
+import { MainMenu } from '../../components/menu';
 
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };
@@ -138,7 +138,7 @@ export class MenuOperations extends Component {
 
 		if (activePath === '/') return null;
 
-		return <Menu paths={Object.values(paths)} />;
+		return <MainMenu paths={Object.values(paths)} />;
 	}
 }
 

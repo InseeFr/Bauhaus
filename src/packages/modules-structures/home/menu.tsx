@@ -1,9 +1,10 @@
 import Auth from '../../auth/components/auth';
-import { ExportButton, ImportButton, VerticalMenu } from '@inseefr/wilco';
+import { ExportButton, ImportButton } from '@inseefr/wilco';
 import D from '../../deprecated-locales/build-dictionary';
 import { getEnvVar } from '../../utils/env';
 import { FeminineButton } from '../../components';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
+import { VerticalMenu } from '../../components/vertical-menu';
 
 export const HomePageMenu = () => {
 	const isLocal = getEnvVar('API_MODE') === 'local';

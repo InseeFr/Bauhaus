@@ -1,4 +1,4 @@
-import { ActionToolbar, CancelButton, SaveButton } from '@inseefr/wilco';
+import { CancelButton, SaveButton } from '@inseefr/wilco';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -20,6 +20,7 @@ import { useGoBack } from '../../utils/hooks/useGoBack';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { DistributionApi } from '../../sdk';
 import LabelRequired from '../../components/label-required';
+import { ActionToolbar } from '../../components/action-toolbar';
 
 export const DistributionEdit = () => {
 	const { id } = useParams();

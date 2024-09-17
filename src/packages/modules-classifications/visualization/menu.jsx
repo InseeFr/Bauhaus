@@ -1,10 +1,11 @@
 import { useLocation } from 'react-router-dom';
-import { ReturnButton, Button, ActionToolbar } from '@inseefr/wilco';
+import { ReturnButton, Button } from '@inseefr/wilco';
 import D from '../../deprecated-locales';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { ValidationButton } from '../../components';
 import Auth from '../../auth/components/auth';
 import { ADMIN } from '../../auth/roles';
+import { ActionToolbar } from '../../components/action-toolbar';
 const ClassificationControls = ({ classification, publish }) => {
 	const goBack = useGoBack();
 	const location = useLocation();

@@ -1,6 +1,7 @@
-import { Button, ActionToolbar, ReturnButton } from '@inseefr/wilco';
+import { Button, ReturnButton } from '@inseefr/wilco';
 import D from '../../deprecated-locales';
 import ExportButtons from '../collections/export-buttons';
+import { ActionToolbar } from '../../components/action-toolbar';
 
 const Controls = ({
 	onClickReturn,

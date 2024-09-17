@@ -7,7 +7,7 @@ import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 
 import Representation from '../representation';
-import { UNPUBLISHED } from '../../..//model/ValidationState';
+import { UNPUBLISHED } from '../../../model/ValidationState';
 import { SeeButton } from '../../../components';
 
 export const MutualizedComponentsSelector = ({

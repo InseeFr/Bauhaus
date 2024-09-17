@@ -1,8 +1,9 @@
-import { Button, VerticalMenu } from '@inseefr/wilco';
+import { Button } from '@inseefr/wilco';
 import { PageTitle, SearchableList } from '../../../components';
 
 import D from '../../../deprecated-locales';
 import Auth from '../../../auth/components/auth';
+import { VerticalMenu } from '../../../components/vertical-menu';
 
 function OperationsObjectHome({
 	items,

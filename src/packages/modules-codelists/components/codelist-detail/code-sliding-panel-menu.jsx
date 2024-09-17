@@ -1,11 +1,7 @@
-import {
-	ActionToolbar,
-	ReturnButton,
-	SaveButton,
-	UpdateButton,
-} from '@inseefr/wilco';
+import { ReturnButton, SaveButton, UpdateButton } from '@inseefr/wilco';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
+import { ActionToolbar } from '../../../components/action-toolbar';
 export const CodeSlidingPanelMenu = ({
 	codelist,
 	handleSubmit,

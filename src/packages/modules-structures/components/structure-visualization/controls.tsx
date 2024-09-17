@@ -1,6 +1,5 @@
 import { useHistory } from 'react-router-dom';
 import {
-	ActionToolbar,
 	ReturnButton,
 	UpdateButton,
 	DeleteButton,
@@ -12,6 +11,7 @@ import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { StructureApi } from '../../../sdk';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { Structure } from '../../../model/structures/Structure';
+import { ActionToolbar } from '../../../components/action-toolbar';
 
 type ControlsTypes = {
 	structure: Structure;

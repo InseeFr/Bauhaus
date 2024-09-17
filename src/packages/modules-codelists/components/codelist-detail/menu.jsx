@@ -1,13 +1,9 @@
-import {
-	ActionToolbar,
-	DeleteButton,
-	ReturnButton,
-	UpdateButton,
-} from '@inseefr/wilco';
+import { DeleteButton, ReturnButton, UpdateButton } from '@inseefr/wilco';
 import { UNPUBLISHED } from '../../..//model/ValidationState';
 import { ValidationButton } from '../../../components';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
+import { ActionToolbar } from '../../../components/action-toolbar';
 export const ViewMenu = ({
 	col,
 	handleUpdate,

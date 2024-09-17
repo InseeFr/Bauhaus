@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import D from '../../../../deprecated-locales';
-import { ActionToolbar } from '@inseefr/wilco';
+import { ActionToolbar } from '../../../../components/action-toolbar';
 
 function Controls() {
 	return (

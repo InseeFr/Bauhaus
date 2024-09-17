@@ -1,5 +1,4 @@
 import {
-	ActionToolbar,
 	Button,
 	DeleteButton,
 	DuplicateButton,
@@ -17,6 +16,7 @@ import { ValidationButton } from '../../../../components';
 import D from '../../../../deprecated-locales/build-dictionary';
 import { Sims } from '../../../../model/Sims';
 import { useGoBack } from '../../../../utils/hooks/useGoBack';
+import { ActionToolbar } from '../../../../components/action-toolbar';
 
 type MenuTypes = {
 	sims: Sims;

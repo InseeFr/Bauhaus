@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { VerticalMenu } from '@inseefr/wilco';
 import {
 	PageTitle,
 	Loading,
@@ -14,6 +13,7 @@ import D from '../../i18n/build-dictionary';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
+import { VerticalMenu } from '../../../components/vertical-menu';
 
 function CodeListsPartialHome() {
 	useTitle(D.codelistsTitle, D.codelistsPartialTitle);

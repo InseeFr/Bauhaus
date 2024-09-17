@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import { Menu } from '@inseefr/wilco';
 import D from '../../deprecated-locales/build-dictionary';
+import { MainMenu } from '../../components/menu';
 
 const defaultAttrs = { 'aria-current': 'page' };
 
@@ -37,7 +37,7 @@ const DatasetsMenu = () => {
 		currentPath.attrs = defaultAttrs;
 	}
 
-	return <Menu paths={paths} />;
+	return <MainMenu paths={paths} />;
 };
 
 export default DatasetsMenu;

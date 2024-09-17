@@ -1,9 +1,10 @@
-import { ActionToolbar, ReturnButton, ErrorBloc } from '@inseefr/wilco';
+import { ReturnButton, ErrorBloc } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { HTMLUtils } from '../../../../utils';
 import './view.scss';
 import { Row } from '../../../components';
 import { Note } from '../../../components/note';
+import { ActionToolbar } from '../../../components/action-toolbar';
 
 export const CodeDetailView = ({
 	code,
