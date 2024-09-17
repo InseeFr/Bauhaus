@@ -18,13 +18,14 @@ import {
 import { Menu } from './menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 import { useOrganizations } from '../../../utils/hooks/organizations';
+import { useLocales } from '../../../utils/hooks/useLocales';
 
 const SeriesVisualizationContainer = () => {
 	const { id } = useParams();
 	const [series, setSeries] = useState({});
 	const [publishing, setPublishing] = useState(false);
 	const [serverSideError, setServerSideError] = useState();
-
+	const langs = useLocales();
 	const frequencies = useCodesList(CL_FREQ);
 	const { data: organisations } = useOrganizations();
 	const categories = useCodesList(CL_SOURCE_CATEGORY);
@@ -71,6 +72,7 @@ const SeriesVisualizationContainer = () => {
 				frequency={frequency}
 				category={category}
 				organisations={organisations}
+				langs={langs}
 			/>
 		</div>
 	);
