@@ -3,12 +3,12 @@ import { useHistory, useParams } from 'react-router-dom';
 import CollectionEditionCreation from './home';
 import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
 import D from '../../../deprecated-locales';
-import { cleanId } from '@inseefr/wilco';
 import { Loading } from '../../../components';
 
 import { ConceptsApi } from '../../../sdk';
 import { CollectionApi } from '../../../sdk/collection-api';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { cleanId } from '../../../utils/string-utils';
 
 const EditionContainer = () => {
 	const { id } = useParams();

@@ -1,12 +1,12 @@
 import spinner from '../../../../../img/spinner.svg';
 import { LOADING } from '../../../../sdk/constants';
 import D, { D1, D2 } from '../../../../deprecated-locales';
-import { getLang } from '@inseefr/wilco';
 import { useState, useEffect } from 'react';
 import './style.scss';
 import { isLink, isDocument } from '../../../document/utils';
 import { getBaseURI } from '../../../../sdk';
 import { sortArray } from '../../../../utils/array-utils';
+import { getLang } from '../../../../utils/dictionnary';
 
 function getAsideToTheDocument(document) {
 	let updatedDate;

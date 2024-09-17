@@ -1,4 +1,3 @@
-import { PageSubtitle } from '@inseefr/wilco';
 import { PageTitle, CheckSecondLang } from '../../../components';
 import Controls from './controls';
 import General from './general';
@@ -6,6 +5,7 @@ import Notes from './notes';
 import Members from './members';
 import D from '../../../deprecated-locales/build-dictionary';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { PageSubtitle } from '../../../components/page-sub-title';
 
 const SeriesVisualization = ({ series: { general, members }, secondLang }) => {
 	useTitle(

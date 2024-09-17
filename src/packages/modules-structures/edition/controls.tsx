@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { cleanId } from '@inseefr/wilco';
 import { ActionToolbar } from '../../components/action-toolbar';
 import {
 	ReturnButton,
 	SaveButton,
 } from '../../components/buttons/buttons-with-icons';
+import { cleanId } from '../../utils/string-utils';
 
 type ControlsTypes = {
 	creation: boolean;

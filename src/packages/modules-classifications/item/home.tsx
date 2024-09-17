@@ -1,9 +1,9 @@
-import { PageSubtitle } from '@inseefr/wilco';
 import { PageTitle, CheckSecondLang } from '../../components';
 import Controls from './controls';
 import General from './general';
 import Notes from './notes';
 import Narrowers from './narrowers';
+import { PageSubtitle } from '../../components/page-sub-title';
 
 const ItemVisualization = ({
 	item: { general, notes, narrowers },

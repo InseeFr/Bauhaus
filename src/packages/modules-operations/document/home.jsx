@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { filterKeyDeburr, nbResults } from '@inseefr/wilco';
+import { nbResults } from '@inseefr/wilco';
 import { PageTitle, TextInput, Pagination, Row } from '../../components';
 
 import D from '../../deprecated-locales';
@@ -8,6 +8,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import FilterToggleButtons from '../../components/filter-toggle-buttons';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { Menu } from './menu';
+import { filterKeyDeburr } from '../../utils/array-utils';
 
 const formatter = (content, label) => {
 	const extraInformations = [];

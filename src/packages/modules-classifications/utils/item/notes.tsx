@@ -1,4 +1,4 @@
-import { buildEmptyNotes } from '@inseefr/wilco';
+import { buildEmptyNotes } from '../../../utils/build-empty-notes';
 
 export const versionableNotes = [
 	'scopeNoteLg1',

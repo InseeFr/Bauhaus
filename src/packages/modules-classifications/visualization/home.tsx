@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { PageSubtitle } from '@inseefr/wilco';
 import { PageTitle, Row, ErrorBloc, CheckSecondLang } from '../../components';
 import Menu from './menu';
 import General from './general';
@@ -8,6 +7,7 @@ import Levels from './levels';
 import D from '../../deprecated-locales';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { Classification } from '../../model/Classification';
+import { PageSubtitle } from '../../components/page-sub-title';
 
 type ClassificationVisualizationTypes = {
 	classification: Classification;

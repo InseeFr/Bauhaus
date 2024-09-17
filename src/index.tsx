@@ -1,7 +1,6 @@
 import { Provider } from 'react-redux';
 import Root from './packages/application/router';
 import configureStore from './packages/redux/configure-store';
-import { I18NContext } from '@inseefr/wilco';
 import D from './packages/deprecated-locales';
 import { ApplicationTitle } from './packages/components';
 import { AppContextProvider } from './packages/application/app-context';
@@ -72,13 +71,11 @@ const renderApp = (Component: any, initState: any, props?: any) => {
 						version={version}
 						properties={properties}
 					>
-						<I18NContext.Provider value={D}>
-							<ApplicationTitle />
-							<main>
-								<Component {...props} />
-								<BackToTop />
-							</main>
-						</I18NContext.Provider>
+						<ApplicationTitle />
+						<main>
+							<Component {...props} />
+							<BackToTop />
+						</main>
 					</AppContextProvider>
 				</Provider>
 			</QueryClientProvider>

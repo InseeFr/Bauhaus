@@ -1,9 +1,8 @@
 // @ts-ignore
-import { PageTitle } from '@inseefr/wilco';
 import D from '../../../deprecated-locales/build-dictionary';
 import { useDatasets } from '../../datasets';
 import { HomePageMenu } from './menu';
-import { Loading, Row, SearchableList } from '../../../components';
+import { Loading, PageTitle, Row, SearchableList } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
 
 export const DatasetHome = () => {

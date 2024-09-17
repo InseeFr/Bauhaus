@@ -1,10 +1,10 @@
+import { Dictionary } from '../utils/types';
 import {
 	createDictionary,
 	firstLang,
 	getLang,
 	secondLang,
-} from '@inseefr/wilco';
-import { Dictionary } from '../utils/types';
+} from '../utils/dictionnary';
 
 const dictionary = {
 	collectionMembersPanelTitle: {

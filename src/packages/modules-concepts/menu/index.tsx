@@ -1,7 +1,7 @@
 import D from '../../deprecated-locales';
-import { getLang } from '@inseefr/wilco';
 import { useLocation } from 'react-router-dom';
 import { MainMenu } from '../../components/menu';
+import { getLang } from '../../utils/dictionnary';
 
 const defaultAttrs = { 'aria-current': 'page' };
 

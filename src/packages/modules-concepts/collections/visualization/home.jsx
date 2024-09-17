@@ -1,4 +1,3 @@
-import { PageSubtitle } from '@inseefr/wilco';
 import { PageTitle, Loading, CheckSecondLang } from '../../../components';
 
 import CollectionVisualizationControls from './controls';
@@ -7,6 +6,7 @@ import CollectionMembers from '../../../modules-concepts/collections/visualisati
 import D from '../../../deprecated-locales';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { useCollectionExporter } from '../../../utils/hooks/collections';
+import { PageSubtitle } from '../../../components/page-sub-title';
 
 const CollectionVisualization = ({
 	id,

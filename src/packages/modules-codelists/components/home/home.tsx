@@ -1,7 +1,6 @@
 // @ts-ignore
 import { useState, useEffect } from 'react';
-import { PageTitle } from '@inseefr/wilco';
-import { Loading, Row, SearchableList } from '../../../components/';
+import { Loading, PageTitle, Row, SearchableList } from '../../../components/';
 
 import { API } from '../../apis';
 import { formatLabel } from '../../utils';
