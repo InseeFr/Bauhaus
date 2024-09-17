@@ -4,7 +4,6 @@ import ConceptEditionCreation from './home';
 import D from '../../deprecated-locales';
 import { Loading } from '../../components';
 import { ConceptsApi } from '../../sdk';
-import { useStamps } from '../../utils/hooks/stamps';
 import { useTitle } from '../../utils/hooks/useTitle';
 import buildPayloadCreation from '../../modules-concepts/utils/build-payload-creation-update/build-payload-creation';
 import emptyConcept from '../../modules-concepts/utils/empty-concept';
@@ -15,18 +14,19 @@ import { useAppContext } from '../../application/app-context';
 
 const CreationContainer = () => {
 	const langs = useLocales();
+
 	const maxLengthScopeNoteString =
 		useAppContext().properties.maxLengthScopeNote;
-
 	const maxLengthScopeNote = Number(maxLengthScopeNoteString);
+
 	const defaultContributor = useAppContext().properties.defaultContributor;
+
 	const history = useHistory();
+
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 
 	const [concepts, setConcepts] = useState([]);
-
-	const { data: stamps = [] } = useStamps();
 
 	useEffect(() => {
 		Promise.all([ConceptsApi.getConceptList()])
@@ -49,6 +49,7 @@ const CreationContainer = () => {
 	);
 
 	const { general, notes, links } = concept;
+
 	useTitle(D.conceptsTitle, general?.prefLabelLg1 || D.createConceptTitle);
 
 	const conceptsWithLinks = mergeWithAllConcepts(concepts, links);
@@ -56,6 +57,7 @@ const CreationContainer = () => {
 	if (loading) {
 		return <Loading />;
 	}
+
 	if (saving) {
 		return <Loading textType="saving" />;
 	}
@@ -68,10 +70,10 @@ const CreationContainer = () => {
 			notes={notes}
 			conceptsWithLinks={conceptsWithLinks}
 			maxLengthScopeNote={maxLengthScopeNote}
-			stampList={stamps}
 			save={handleCreation}
 			langs={langs}
 		/>
 	);
 };
+
 export default CreationContainer;

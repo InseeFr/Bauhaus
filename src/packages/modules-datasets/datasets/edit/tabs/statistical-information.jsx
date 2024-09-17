@@ -2,17 +2,23 @@ import { D1 } from '../../../../deprecated-locales';
 import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
 import ReactSelect from 'react-select';
 import { TemporalField } from '../../components/temporalField';
-import { CL_FREQ } from '../../../../redux/actions/constants/codeList';
+import {
+	CL_DATA_TYPES,
+	CL_FREQ,
+	CL_GEO,
+	CL_STAT_UNIT,
+	CL_TYPE_GEO,
+} from '../../../../redux/actions/constants/codeList';
 import { Row } from '../../../../components';
 import { convertCodesListsToSelectOption } from '../../../../modules-datasets/utils/codelist-to-select-options';
-
 import { useStructures } from '../../../../utils/hooks/structures';
+
 const StatisticalInformationTab = ({
 	editingDataset,
 	setEditingDataset,
 	...props
 }) => {
-	const clDataTypes = convertCodesListsToSelectOption(props['CL_DATA_TYPES']);
+	const clDataTypes = convertCodesListsToSelectOption(props[CL_DATA_TYPES]);
 
 	const { data: structures } = useStructures();
 
@@ -20,13 +26,13 @@ const StatisticalInformationTab = ({
 		structures?.map(({ iri, labelLg1 }) => ({ value: iri, label: labelLg1 })) ??
 		[];
 
-	const clStatUnit = convertCodesListsToSelectOption(props['CL_STAT_UNIT']);
+	const clStatUnit = convertCodesListsToSelectOption(props[CL_STAT_UNIT]);
 
 	const clFreqOptions = convertCodesListsToSelectOption(props[CL_FREQ]);
 
-	const clGeo = convertCodesListsToSelectOption(props['CL_GEO']);
+	const clGeo = convertCodesListsToSelectOption(props[CL_GEO]);
 
-	const clGeoType = convertCodesListsToSelectOption(props['CL_TYPE_GEO']);
+	const clGeoType = convertCodesListsToSelectOption(props[CL_TYPE_GEO]);
 
 	return (
 		<>
@@ -47,7 +53,6 @@ const StatisticalInformationTab = ({
 					</label>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
@@ -96,7 +101,6 @@ const StatisticalInformationTab = ({
 					}}
 				/>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
@@ -114,7 +118,6 @@ const StatisticalInformationTab = ({
 					</label>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
@@ -132,7 +135,6 @@ const StatisticalInformationTab = ({
 					</label>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
@@ -151,7 +153,6 @@ const StatisticalInformationTab = ({
 					</label>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
@@ -213,9 +214,9 @@ const StatisticalInformationTab = ({
 };
 
 export const StatisticalInformation = withCodesLists([
-	'CL_DATA_TYPES',
-	'CL_STAT_UNIT',
+	CL_DATA_TYPES,
+	CL_STAT_UNIT,
 	CL_FREQ,
-	'CL_GEO',
-	'CL_TYPE_GEO',
+	CL_GEO,
+	CL_TYPE_GEO,
 ])(StatisticalInformationTab);

@@ -4,7 +4,6 @@ import { validate } from './validation';
 import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
-
 import {
 	CancelButton,
 	SaveButton,
@@ -40,8 +39,8 @@ const initDocument = {
 const saveDocument = (document, type, files) => {
 	const method =
 		(document.id ? 'put' : 'post') + (type === LINK ? 'Link' : 'Document');
-	let body = document;
 
+	let body = document;
 	/**
 	 * If the document has no id, this is a creation
 	 * We have to send FormData kind of HTTP request.
@@ -50,7 +49,6 @@ const saveDocument = (document, type, files) => {
 	if (!document.id) {
 		const formData = new FormData();
 		formData.append('body', JSON.stringify(document));
-
 		if (type === DOCUMENT && files[0]) {
 			formData.append('file', files[0], files[0].name);
 		}
@@ -131,10 +129,9 @@ export const ConfirmationModal = ({ document, isOpen, onYes, onNo }) => {
 	);
 };
 
-//	<!--div className="text-center">{modalButtons}</div-->
-
 const OperationsDocumentationEdition = (props) => {
 	const { document: documentProps, type, langOptions } = props;
+
 	useTitle(
 		type === LINK ? D.titleLink : D.titleDocument,
 		props.document.labelLg1 || type === LINK
@@ -150,14 +147,21 @@ const OperationsDocumentationEdition = (props) => {
 			...documentProps,
 		};
 	}, [documentProps]);
+
 	const [serverSideError, setServerSideError] = useState('');
+
 	const [clientSideErrors, setClientSideErrors] = useState({});
+
 	const [saving, setSaving] = useState(false);
+
 	const [submitting, setSubmitting] = useState(false);
+
 	const [document, setDocument] = useState(defaultDocument);
+
 	const [files, setFiles] = useState(
 		document.url ? [{ name: document.url }] : []
 	);
+
 	const [validationModalDisplayed, setValidationModalDisplayed] =
 		useState(false);
 
@@ -210,7 +214,6 @@ const OperationsDocumentationEdition = (props) => {
 	const saveDocumentOrLink = () => {
 		setSaving(true);
 		const isCreation = !document.id;
-
 		saveDocument(document, type, files)
 			.then(
 				(id = document.id) => {
@@ -236,7 +239,6 @@ const OperationsDocumentationEdition = (props) => {
 			currentLabelLg2,
 			currentFile
 		);
-
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
@@ -279,7 +281,6 @@ const OperationsDocumentationEdition = (props) => {
 					secondLang={true}
 				/>
 			)}
-
 			<ActionToolbar>
 				<CancelButton action={() => goBack('/operations/documents')} />
 				<SaveButton
@@ -294,7 +295,6 @@ const OperationsDocumentationEdition = (props) => {
 				/>
 			)}
 			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
-
 			<form>
 				<Row>
 					<div className="col-md-6 form-group">
@@ -418,7 +418,6 @@ const OperationsDocumentationEdition = (props) => {
 						</div>
 					</Row>
 				)}
-
 				{type === DOCUMENT && files.length > 0 && (
 					<div>
 						<LabelRequired>{D.file}</LabelRequired>
@@ -446,10 +445,8 @@ const OperationsDocumentationEdition = (props) => {
 				<Row>
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="lang">{D1.langTitle}</LabelRequired>
-
 						<Select
 							placeholder=""
-							unclearable
 							value={langSelectOptions.find(
 								({ value }) => value === document.lang
 							)}

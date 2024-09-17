@@ -31,6 +31,7 @@ class ConceptEditionCreation extends Component {
 			this.setState({
 				activeTab: tabIndex,
 			});
+
 		//update should look like `{ prefLabelLg2: 'something new' }` (we can
 		//set mutliple properties at the same time)
 		this.handleChangeGeneral = (update) => {
@@ -141,8 +142,7 @@ class ConceptEditionCreation extends Component {
 	}
 
 	render() {
-		const { stampList, maxLengthScopeNote, title, subtitle, creation, langs } =
-			this.props;
+		const { maxLengthScopeNote, title, subtitle, creation, langs } = this.props;
 
 		const {
 			activeTab,
@@ -199,7 +199,6 @@ class ConceptEditionCreation extends Component {
 									<GeneralEdition
 										general={general}
 										handleChange={this.handleChangeGeneral}
-										stampList={stampList}
 										langs={langs}
 										errorMessage={errorMessage}
 									/>
