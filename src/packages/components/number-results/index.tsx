@@ -14,5 +14,6 @@ const { D } = createAllDictionary({
 
 const { result, results } = D;
 
-export const NumberResults = ({ results }: Readonly<{ results: any[] }>) =>
-	nbResults(results, results, result);
+export const NumberResults = ({
+	results: data,
+}: Readonly<{ results: any[] }>) => nbResults(data, results, result);

@@ -10,7 +10,6 @@ const { D } = createAllDictionary({
 });
 
 const WITH_SEPARATOR_CLASS = 'with-separator';
-const defaultHome = { label: D.home, path: '/' };
 
 type Path = {
 	path: string;
@@ -32,13 +31,9 @@ function getClasses(path: Path, index: number, paths: Path[]) {
 
 type MainMenuTypes = {
 	paths: any[];
-	home?: any;
 };
 
-export const MainMenu = ({
-	paths,
-	home = defaultHome,
-}: Readonly<MainMenuTypes>) => {
+export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
 	const orderedPaths = paths
 		.filter((path) => path.shouldBeDisplayed !== false)
 		.sort((p1, p2) => p1.order - p2.order);

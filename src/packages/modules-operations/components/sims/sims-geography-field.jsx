@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import ReactSelect from 'react-select';
-
+import { ErrorBloc } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import SimsGeographySelector from './sims-geography-selector';
